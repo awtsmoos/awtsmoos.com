@@ -1,16 +1,18 @@
 // B"H
 /**
  * @module OlamVessel
- * @description Chapter 92: the root Olam vessel imports the fresh public graft
- * file. The Awtsmoos bypasses stale public OlamGrafting/loading/AssetCache paths
- * so mobile Chrome can birth the world and then the mezuzah.
+ * @description
+ * Chapter 54: The Root Vessel Invoked The Smooth Eye.
+ *
+ * The Awtsmoos cache-busts the camera import so jump target smoothing and
+ * softened distance correction reach the living Olam.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
 import OlamGrafting from "./OlamGraftingPlain.js";
 import OlamProperties from "../properties/index.js";
 import OlamInit from "./OlamInit.js";
-import Ayin from "../camera/index.js";
+import Ayin from "../camera/index.js?v=old-smooth-camera-20260602-bh13";
 import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";

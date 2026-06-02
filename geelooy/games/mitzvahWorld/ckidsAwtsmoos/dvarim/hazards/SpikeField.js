@@ -1,4 +1,13 @@
 // B"H
+/**
+ * @file SpikeField.js
+ * @description
+ * Chapter 79: Lava Reset Counted First, Coins Returned Later.
+ *
+ * The Awtsmoos splits the death breath from the rebirth breath. Lava impact
+ * resets the counter immediately, but coins do not visually return until the
+ * worker has moved the player back to the start platform.
+ */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 import { SpikeParticleFactory, animateSpikeParticles } from "./spikeField/SpikeParticles.js";
@@ -9,13 +18,6 @@ const RESET_DELAY_MS = 3000;
 const EXPLOSION_DELAY_MS = 240;
 const now = () => (globalThis.performance?.now?.() || Date.now()) / 1000;
 
-/**
- * @file SpikeField.js
- * @description Chapter 86: Lava waits for the final touch before it sings. The
- * Awtsmoos delays the burst a breath, anchors it to the actual lava landing
- * point, preserves mezuzah vessels during reset, and lets the player reset
- * without the doorway forgetting its clickable covenant.
- */
 function makeLavaTexture() {
   const size = 64;
   const data = new Uint8Array(size * size * 4);
@@ -120,6 +122,7 @@ export default class SpikeField extends Domem {
   hit(player) {
     this._triggered = true;
     this.olam.__spikeDeathActive = true;
+    this.olam.__perutahResetLock = true;
     const token = (this.olam.__spikeDeathToken || 0) + 1;
     this.olam.__spikeDeathToken = token;
     const origin = this.finalExplosionOrigin(player);
@@ -143,6 +146,7 @@ export default class SpikeField extends Domem {
     const mezuzahs = this.olam.__insideRightPostMezuzahs || [];
     for (const mezuzah of mezuzahs) mezuzah?.awakenColor?.(0x72fff4);
     this.olam?.ayshPeula?.("ui event", "perutahProgress", { collected: 0, requiredPerutos: this.olam.requiredPerutos || 0, reset: true });
+    this.olam?.ayshPeula?.("ui event", "gameHUD", { perutahProgress: { collected: 0, requiredPerutos: this.olam.requiredPerutos || 0, reset: true } });
   }
 
   hidePlayer(player, token) {

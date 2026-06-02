@@ -1,30 +1,12 @@
-
+// B"H
 /**
- * B"H
  * @file index.js
  * @description
- * The permanent compatibility gate for the Olam class.
+ * Chapter 55: The Compatibility Gate Let The Smooth Camera Through.
  *
- * The previous broken version imported:
- *
- * ./core.js
- *
- * but that file only exports a named function called heescheel.
- * It does NOT default-export the Olam class.
- *
- * That caused:
- *
- * The requested module './core.js' does not provide an export named 'default'
- *
- * This file now points forever to the real Olam vessel:
- *
- * ./core/OlamVessel.js
+ * This public Olam entry still points to the true vessel, now cache-busted so
+ * the updated camera follow and jump-smooth physics enter old import paths too.
  */
+import OlamVessel from "./core/OlamVessel.js?v=old-smooth-camera-20260602-bh13";
 
-import OlamVessel from "./core/OlamVessel.js";
-
-/**
- * B"H
- * Default Olam class export consumed by Worker boot code.
- */
 export default OlamVessel;

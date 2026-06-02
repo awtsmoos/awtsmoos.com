@@ -2,18 +2,18 @@
 /**
  * @file index.js
  * @description
- * Chapter 39: The Chai Received Tunable Breath.
+ * Chapter 68: The Chai Was Given Two True Strides.
  *
- * The Awtsmoos gives the player a feet-based capsule, a measured visual robe,
- * smoothed horizontal motion, and level-authored turning knobs. Nothing about
- * the GLB can mutate the collider; movement is practical, responsive, and calm.
+ * Run is run. Walk is walk. The Awtsmoos no longer hides one mode inside the
+ * other: animation names and physics multipliers are both authored as real
+ * player state.
  */
 import Tzomayach from "../tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
 import visualMethods from "./methods/visuals.js?v=measured-visual-lift-20260602-bh6";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=smooth-velocity-turn-20260602-bh9";
+import physicsMethods from "./methods/physics.js?v=smooth-jump-restored-20260602-bh14";
 import raycastingMethods from "./methods/raycasting.js";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
@@ -26,6 +26,8 @@ export default class Chai extends Tzomayach {
   distanceFromRay = 5;
   placementRotation = 0;
   speedScale = 1.4;
+  runModeScale = 1;
+  walkModeScale = 0.58;
   defaultSpeed = PHYSICS_CONSTANTS.DEFAULT_SPEED;
   rayAnchor = null;
   _speed = this.defaultSpeed;
@@ -60,7 +62,7 @@ export default class Chai extends Tzomayach {
   rays = [];
   spheres = [];
   particles = [];
-  moving = { stridingLeft: false, stridingRight: false, forward: false, backward: false, turningLeft: false, turningRight: false, running: false, jump: false };
+  moving = { stridingLeft: false, stridingRight: false, forward: false, backward: false, turningLeft: false, turningRight: false, running: true, jump: false };
   movingAutomatically = false;
   isDancing = false;
   chaweeyoosMap = {
@@ -89,6 +91,10 @@ export default class Chai extends Tzomayach {
     this.lerpTurnSpeed = numberOr(options.lerpTurnSpeed, this.lerpTurnSpeed);
     this.movementResponsiveness = numberOr(options.movementResponsiveness, this.movementResponsiveness);
     this.stopResponsiveness = numberOr(options.stopResponsiveness, this.stopResponsiveness);
+    this.animationBlendDuration = numberOr(options.animationBlendDuration, this.animationBlendDuration || 0.075);
+    this.animationActionTimeScale = numberOr(options.animationActionTimeScale, this.animationActionTimeScale || 1);
+    this.runModeScale = numberOr(options.runModeScale, this.runModeScale);
+    this.walkModeScale = numberOr(options.walkModeScale, this.walkModeScale);
     this.dynamicSolidRadius = options.dynamicSolidRadius || options.movingSolidRadius || this.radius * 0.62;
     const start = new THREE.Vector3(0, this.radius, 0);
     const end = new THREE.Vector3(0, Math.max(this.radius, this.height - this.radius), 0);
@@ -111,6 +117,7 @@ export default class Chai extends Tzomayach {
     if (this.olam) this.olam.scene.add(this.rayAnchor);
     this.speed = this.speed;
     this.animationSpeed = this.speed;
+    if (Number.isFinite(Number(this.originalOptions?.animationSpeedScale))) this.animationSpeedScale = Number(this.originalOptions.animationSpeedScale);
     this.empty = new THREE.Group();
     if (this.olam) this.olam.scene.add(this.empty);
     const pos = this.mesh?.position;

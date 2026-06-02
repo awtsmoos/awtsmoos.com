@@ -1,24 +1,24 @@
-
+// B"H
 /**
- * B"H
  * @file index.js
  * @class Domem
- * @description The foundational element of existence in the game world.
- * Represents inanimate matter, but holds the potential for all spiritual elevation.
+ * @description
+ * Chapter 61: The Still Stone Learned A Faster Breath.
+ *
+ * Every visible body begins here. The Awtsmoos now gives animation blending
+ * knobs to every entity so platformer bodies can leave idle instantly while
+ * slower decorative vessels may still drift if they choose.
  */
 import Nivra from "../nivra.js";
-import {Kav} from "../roochney.js";
-import * as THREE from '/games/scripts/build/three.module.js';
-import Utils from '../../utils.js';
-
+import { Kav } from "../roochney.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-
-// Import Faculties
 import lifecycleMethods from "./methods/lifecycle.js";
 import graphicsMethods from "./methods/graphics.js";
 import audioMethods from "./methods/audio.js";
-import animationMethods from "./methods/animation.js";
+import animationMethods from "./methods/animation.js?v=fast-platformer-blend-20260602-bh15";
 import serializationMethods from "./methods/serialization.js";
+
+const numberOr = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 
 export default class Domem extends Nivra {
     type = "domem";
@@ -37,58 +37,36 @@ export default class Domem extends Nivra {
     shaym = "BH_" + Math.floor(Math.random() * 827231) + 12312 + "_" + Date.now();
     removed = false;
     entityData = {};
-
+    animationBlendDuration = 0.075;
+    animationActionTimeScale = 1;
     _animationSpeedScale = 1.4;
 
-    get animationSpeedScale() {
-        return this._animationSpeedScale;
-    }
-
+    get animationSpeedScale() { return this._animationSpeedScale; }
     set animationSpeedScale(v) {
-        if(this.animationMixer) {
-            this.animationMixer.timeScale = v;
-        }
-        this._animationSpeedScale = v;
+        const speed = numberOr(v, this._animationSpeedScale || 1);
+        if (this.animationMixer) this.animationMixer.timeScale = speed;
+        this._animationSpeedScale = speed;
     }
 
     _visible = true;
-    set visible(v) {
-        this._visible = v;
-        if(!this.mesh) return;
-        this.mesh.visible = v;
-    }
+    set visible(v) { this._visible = v; if (this.mesh) this.mesh.visible = v; }
+    get visible() { return this._visible; }
 
-    get visible() {
-        return this._visible;
-    }
-
-    constructor(options, olam) {
+    /** @param {object} options Entity options. @param {object} olam World. */
+    constructor(options = {}, olam) {
         super(options);
         this.olam = olam;
         this.originalOptions = options;
         this.path = options.path;
         this.golem = options.golem;
-        
         this.position.set(options?.position);
-        
-        var rot = options?.rotation;
-        var rotX = {};
-        rotX.x = rot?.x;
-        rotX.y = rot?.y;
-        rotX.z = rot?.z;
-        this.rotation.set(rotX);
-        
+        const rot = options?.rotation || {};
+        this.rotation.set({ x: rot.x, y: rot.y, z: rot.z });
         this.methodsToCall = options?.methods || options?.methodsToCall;
-        
-        var scale = options.scale;
-        if(!scale) scale = {x:1,y:1,z:1};
-        this.scale.set(scale);
-        
+        this.scale.set(options.scale || { x: 1, y: 1, z: 1 });
         this.isSolid = !!options.isSolid;
         this.interactable = options.interactable;
-        if(this.interactable) {
-            this.isInteractive = true;
-        }
+        if (this.interactable) this.isInteractive = true;
         this.proximity = options.proximity;
         this.heesHawveh = options.heesHawveh;
         this.height = options.height;
@@ -96,66 +74,36 @@ export default class Domem extends Nivra {
         this.entityName = options.entityName;
         this.playAll = !!options.playAll;
         this.environment = options.environment;
-        
-        if(typeof(this.entityName) == "string") {
-            this.isTemplate = true;
-        }
-        this.itemData = options.itemData; 
-        this.isTemplate = options.isTemplate;
+        this.itemData = options.itemData;
+        this.isTemplate = options.isTemplate || typeof this.entityName === "string";
+        this.animationBlendDuration = numberOr(options.animationBlendDuration, this.animationBlendDuration);
+        this.animationActionTimeScale = numberOr(options.animationActionTimeScale, this.animationActionTimeScale);
+        this._animationSpeedScale = numberOr(options.animationSpeedScale, this._animationSpeedScale);
+        if (options.entities) this.entityData = options.entities;
+        if (typeof this.instanced !== "number" || !this.instanced) this.instanced = false;
 
-        if(options.entities) {
-            this.entityData = options.entities;
-        }
-        if(typeof(this.instanced) != "number" || !this.instanced) {
-            this.instanced = false;
-        }
-
-        // Event Listeners
-        this.on("madeAll", async (olam) => {
-            // Post-creation logic if needed
-        });
-
+        this.on("madeAll", async olamRef => {});
         this.on("opacity", amount => {
-            var m = Array.isArray(this.materials);
-            if(!m) return;
-            this.materials.forEach(q => {
-                if(!q.transparent) {
-                    q.transparent = true;
-                }
-                q.opacity = amount;
-            });
+            if (!Array.isArray(this.materials)) return;
+            this.materials.forEach(mat => { if (!mat.transparent) mat.transparent = true; mat.opacity = amount; });
         });
-
         this.locationsChanged = [];
-        
         this.on("reset position", () => {
-            var mostRecent = this.locationsChanged[0];
-            if(!mostRecent) return;
-            this.ayshPeula("change transformation", mostRecent);
+            const mostRecent = this.locationsChanged[0];
+            if (mostRecent) this.ayshPeula("change transformation", mostRecent);
         });
-
         this.on("change transformation", ({ position, rotation, scale }) => {
-            if(this.mesh) {
-                if(position) this.mesh.position.copy(position);
-                if(this.setPosition) this.setPosition(position);
-                if(rotation) this.mesh.rotation.copy(rotation);
-                if(scale) this.mesh.scale.copy(scale);
+            if (this.mesh) {
+                if (position) this.mesh.position.copy(position);
+                if (this.setPosition) this.setPosition(position);
+                if (rotation) this.mesh.rotation.copy(rotation);
+                if (scale) this.mesh.scale.copy(scale);
             }
-            
             this.ayshPeula("collider transform update", { position, rotation, scale });
             this.locationsChanged.push({ position, rotation, scale });
         });
-        // B"H: Sealayk is controlled by Olam.sealayk; no recursive self-listener.
-
         this.ayshPeula("varructed", this);
     }
 }
 
-// B"H - Aggregating the Faculties with Divine Emanation
-ChasveiAwtsmoos.emanate(Domem.prototype, [
-    lifecycleMethods,
-    graphicsMethods,
-    audioMethods,
-    animationMethods,
-    serializationMethods
-]);
+ChasveiAwtsmoos.emanate(Domem.prototype, [lifecycleMethods, graphicsMethods, audioMethods, animationMethods, serializationMethods]);

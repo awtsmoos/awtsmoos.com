@@ -1,18 +1,21 @@
 // B"H
+/**
+ * @file TzedakahBox.js
+ * @description
+ * Chapter 83: The Pushkuh Waited For Every Perutah.
+ *
+ * The Awtsmoos forbids the box from guessing that zero required means ready.
+ * It derives a real goal from the level, coins, or JSON, gates blessing until
+ * every copper perutah is gathered, and speaks one clear Hebrew/English line.
+ */
 import Domem from "../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 
-/**
- * @file TzedakahBox.js
- * @description Chapter 64: the pushkuh is a blue box of deed becoming gold.
- * When the player brings every perutah, the Awtsmoos shows the coin-slot ready;
- * when clicked, the box blesses every inside-right-post mezuzah so it turns
- * gold and becomes the only proper gate to the next level.
- */
 const clamp = n => Math.max(0, Math.min(255, Math.round(n)));
 const COLORS = Object.freeze({ waiting: 0xffffff, ready: 0x3cff86, given: 0xffd54a });
+const WAIT_TEXT = "אסוף את כל הפרוטות קודם — Collect all perutos first.";
+const READY_TEXT = "צדקה ניתנה — Tzedakah given. The mezuzah is ready.";
 
-/** @param {number} base Base RGB. @returns {THREE.DataTexture} */
 function boxTexture(base = 0x2f79a8) {
   const size = 48;
   const data = new Uint8Array(size * size * 4);
@@ -26,9 +29,20 @@ function boxTexture(base = 0x2f79a8) {
     data[i + 3] = 255;
   }
   const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
-  tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping;
-  tex.magFilter = THREE.NearestFilter; tex.minFilter = THREE.NearestFilter; tex.needsUpdate = true;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.magFilter = THREE.NearestFilter;
+  tex.minFilter = THREE.NearestFilter;
+  tex.needsUpdate = true;
   return tex;
+}
+
+function levelCoinGoal(olam) {
+  const fromWorld = Number(olam?.requiredPerutos);
+  if (Number.isFinite(fromWorld) && fromWorld > 0) return fromWorld;
+  const coins = Array.isArray(olam?.nivrayim) ? olam.nivrayim.filter(n => n?.type === "coin") : [];
+  const fromCoins = coins.reduce((sum, coin) => sum + (Number(coin?.value) || 0), 0);
+  return fromCoins > 0 ? fromCoins : 9;
 }
 
 export default class TzedakahBox extends Domem {
@@ -36,15 +50,15 @@ export default class TzedakahBox extends Domem {
   heesHawveh = true;
   static itemName = "Pushkuh";
 
-  /** @param {object} op JSON data. @param {object} olam Runtime world. */
   constructor(op = {}, olam) {
     super({ ...op, golem: null, isSolid: false, interactable: true }, olam);
     this.requiresAllCoins = op.requiresAllCoins !== false;
+    this.requiredPerutos = Number(op.requiredPerutos || 0);
     this._color = 0;
     this._given = false;
+    this._lastSayAt = 0;
   }
 
-  /** @param {object} olam Runtime world. */
   async heescheel(olam) {
     this.olam = olam;
     this.mesh = this.makeBox();
@@ -55,7 +69,6 @@ export default class TzedakahBox extends Domem {
     this.isReady = true;
   }
 
-  /** @returns {THREE.Group} Clickable charity box. */
   makeBox() {
     const root = new THREE.Group();
     root.name = `${this.name || "TzedakahBox"}_Root`;
@@ -70,7 +83,6 @@ export default class TzedakahBox extends Domem {
     return root;
   }
 
-  /** @param {THREE.Group} root Root. @param {string} name Name. @param {number[]} pos Pos. @param {number[]} size Size. @param {THREE.Material} mat Mat. */
   addPart(root, name, pos, size, mat) {
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat);
     mesh.name = `${this.name || "TzedakahBox"}_${name}`;
@@ -79,7 +91,6 @@ export default class TzedakahBox extends Domem {
     root.add(mesh);
   }
 
-  /** @returns {void} Color changes when coins are ready, final gold after checked. */
   heesHawvoos() {
     const color = this._given ? COLORS.given : this.hasAllCoins() ? COLORS.ready : COLORS.waiting;
     if (this.caseMaterial && color !== this._color) {
@@ -89,39 +100,44 @@ export default class TzedakahBox extends Domem {
     if (this.mesh) this.mesh.rotation.y = this._given ? Math.sin(Date.now() / 190) * 0.1 : 0;
   }
 
-  /** @returns {boolean} True when all level coins are collected. */
-  hasAllCoins() {
-    const required = Number(this.olam?.requiredPerutos || 0);
-    const collected = Number(this.olam?.__levelPerutosCollected || 0);
-    return !this.requiresAllCoins || collected >= required;
+  requiredGoal() {
+    return this.requiredPerutos > 0 ? this.requiredPerutos : levelCoinGoal(this.olam);
   }
 
-  /** @param {string} peula Interaction. @param {object} actor Player. */
+  collectedCount() {
+    return Number(this.olam?.__levelPerutosCollected || 0);
+  }
+
+  hasAllCoins() {
+    if (!this.requiresAllCoins) return true;
+    const required = this.requiredGoal();
+    const collected = this.collectedCount();
+    return required > 0 && collected >= required;
+  }
+
   ayshPeula(peula, actor) {
     if (peula !== "accepted interaction") return super.ayshPeula?.(peula, actor);
-    if (!this.hasAllCoins()) return this.say("אסוף כל פרוטה ואז שים צדקה", "#72fff4");
+    if (!this.hasAllCoins()) return this.say(`${WAIT_TEXT} (${this.collectedCount()}/${this.requiredGoal()})`, "#72fff4");
+    if (this._given) return this.say(READY_TEXT, "#ffd54a");
     this._given = true;
     this.olam.__tzedakahBlessed = true;
     this.awakenAllMezuzahs();
-    this.olam?.ayshPeula?.("ui event", "effectsOverlay", {
-      effect: "tzedakahBlessing",
-      text: "צדקה ניתנה — המזוזה זהובה ומוכנה",
-      color: "#ffd54a"
-    });
+    this.say(READY_TEXT, "#ffd54a");
     actor?.ayshPeula?.("tzedakah given", { source: this.name });
     return true;
   }
 
-  /** @returns {void} Pushes gold into every registered mezuzah vessel. */
   awakenAllMezuzahs() {
     const mezuzahs = this.olam?.__insideRightPostMezuzahs || [];
     for (const mezuzah of mezuzahs) mezuzah?.awakenColor?.(COLORS.given);
   }
 
-  /** @param {string} text Message. @param {string} color Color. */
   say(text, color) {
-    this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color });
-    this.olam?.ayshPeula?.("ui event", "toast", { message: text, type: "info" });
+    const now = Date.now();
+    if (now - this._lastSayAt < 700 && this._lastText === text) return false;
+    this._lastSayAt = now;
+    this._lastText = text;
+    this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color, replace: true, bilingual: true });
     return false;
   }
 }

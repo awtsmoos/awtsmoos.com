@@ -1,0 +1,17 @@
+{
+  "file": "AI_THOUGHTS/runtime-stress/local-action-sandbox/merkava-advanced-vision/actual-merkava-picture.png",
+  "bytes": 21337,
+  "sha256": "e3ba0c362d547994036807b41875f366ee22276070a6c5a3f3e664bae0079ce5",
+  "pngSignature": [
+    137,
+    80,
+    78,
+    71,
+    13,
+    10,
+    26,
+    10
+  ],
+  "hasPngSignature": true,
+  "note": "PNG regenerated after cssText extraction, visible OffscreenCanvas/Worker/Path2D/ImageData/drawImageTexture/WebGL scene rewrite."
+}

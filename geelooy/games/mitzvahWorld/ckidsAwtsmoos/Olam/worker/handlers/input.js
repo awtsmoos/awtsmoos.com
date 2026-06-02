@@ -2,23 +2,38 @@
 /**
  * @file input.js
  * @description
- * Chapter 30: Legacy Reset Also Learned Feet.
+ * Chapter 89: Legacy Reset Also Stamped The Epoch.
  *
- * Some routes still carry older input-handler messages. If they receive a lava
- * reset, they now use feet-on-ground Y and call the player's own setPosition so
- * the capsule does not come back as a center-based ghost.
+ * Older reset messages now zero the counter, restore perutos, and stamp the HUD
+ * with the same perutah epoch used by the modern continuous event router.
  */
 const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
+const MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_ROTATE", "RIGHT_ROTATE", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"]);
 
-/** @param {object} obj Object3D-like root. */
 function showTree(obj) {
   if (!obj) return;
   obj.visible = true;
   if (obj.scale?.setScalar) obj.scale.setScalar(1);
-  if (obj.traverse) obj.traverse(child => { child.visible = true; if (child.scale?.setScalar) child.scale.setScalar(1); });
+  obj.traverse?.(child => { child.visible = true; if (child.scale?.setScalar) child.scale.setScalar(1); });
 }
 
-/** @param {object} player Player entity. @param {{x:number,y:number,z:number}} pos Feet position. */
+function currentRunMode(olam) {
+  if (olam?.runMode === "walk") return false;
+  if (olam?.runMode === "run") return true;
+  if (olam?.inputs && Object.prototype.hasOwnProperty.call(olam.inputs, "RUNNING")) return olam.inputs.RUNNING === true;
+  return true;
+}
+
+function clearMovementButKeepGait(olam, player) {
+  const running = currentRunMode(olam);
+  player.moving = { stridingLeft: false, stridingRight: false, forward: false, backward: false, turningLeft: false, turningRight: false, running, jump: false };
+  if (olam?.keyStates) Object.keys(olam.keyStates).forEach(key => { olam.keyStates[key] = false; });
+  olam.inputs = { ...(olam.inputs || {}) };
+  MOVE_FLAGS.forEach(key => { olam.inputs[key] = false; });
+  olam.inputs.RUNNING = running;
+  olam.runMode = running ? "run" : "walk";
+}
+
 function setPlayerFeet(player, pos) {
   if (typeof player.setPosition === "function") player.setPosition(pos);
   else if (player.mesh?.position?.set) player.mesh.position.set(pos.x, pos.y, pos.z);
@@ -29,22 +44,38 @@ function setPlayerFeet(player, pos) {
   }
 }
 
-/** @param {object} olam World. @param {object} data Reset payload. @returns {boolean} */
+function resetLevelCollectibles(olam) {
+  olam.__perutahResetLock = true;
+  olam.__perutahResetEpoch = Number(olam.__perutahResetEpoch || 0) + 1;
+  olam.__levelPerutosCollected = 0;
+  olam.__tzedakahBlessed = false;
+  let restoredPerutos = 0;
+  olam?.nivrayim?.forEach?.(nivra => {
+    if (nivra?.type !== "coin") return;
+    nivra.resetForLevelRestart?.();
+    restoredPerutos += 1;
+  });
+  const payload = { collected: 0, requiredPerutos: olam.requiredPerutos || 0, reset: true, restoredPerutos, silent: true, perutahEpoch: olam.__perutahResetEpoch };
+  olam?.ayshPeula?.("ui event", "perutahProgress", payload);
+  olam?.ayshPeula?.("ui event", "gameHUD", { perutahProgress: payload });
+  setTimeout(() => { olam.__perutahResetLock = false; }, 220);
+  return restoredPerutos;
+}
+
 function resetChossid(olam, data = {}) {
   const player = olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
   if (!player) return false;
   const pos = { ...START_FEET, ...(data.position || {}) };
   Object.assign(player, { __spikeDefeated: false, __spikeDeathControlsFrozen: false, __spikeColliderDisabled: false, movingAutomatically: false, onFloor: true });
-  player.moving = {};
+  clearMovementButKeepGait(olam, player);
   player.velocity?.set?.(0, 0, 0);
   player.acceleration?.set?.(0, 0, 0);
   setPlayerFeet(player, pos);
+  const restoredPerutos = resetLevelCollectibles(olam);
   [player.mesh, player.modelMesh, player.guf, player.visualObject].forEach(showTree);
   olam.chossid = player;
   olam.player = player;
-  olam.keyStates = {};
-  olam.inputs = { ...(olam.inputs || {}) };
-  console.info('B"H | SPIKE_RESET_TRACE', { stage: 'legacy-worker-reset-complete', pos });
+  console.info('B"H | SPIKE_RESET_TRACE', { stage: 'legacy-worker-reset-complete', pos, restoredPerutos, perutahEpoch: olam.__perutahResetEpoch, runMode: olam.runMode, running: olam.inputs?.RUNNING });
   return true;
 }
 
@@ -60,7 +91,7 @@ export default function inputHandlers(me) {
     wheel(e) { if (me.olam?.ayin) me.olam.ayshPeula("wheel", e); },
     mousemove(e) { if (me.olam) me.olam.ayshPeula("mousemove", e); },
     resize(e) { if (me.olam) me.olam.ayshPeula("resize", e); },
-    resetAfterSpikeDeath(data) { const ok = resetChossid(me.olam, data || {}); me.eved?.postMessage?.({ type: "spikeResetComplete", payload: { ok } }); },
+    resetAfterSpikeDeath(data) { const ok = resetChossid(me.olam, data || {}); me.eved?.postMessage?.({ type: "spikeResetComplete", payload: { ok, perutahEpoch: me.olam?.__perutahResetEpoch, running: me.olam?.inputs?.RUNNING, runMode: me.olam?.runMode } }); },
     cameraDrag(data) { if (me.olam?.ayin && typeof me.olam.ayin.rotateAroundTarget === 'function') me.olam.ayin.rotateAroundTarget(data.dx, data.dy); }
   };
 }

@@ -1,8 +1,8 @@
 {
   "format": "png",
   "fullPage": true,
-  "html": "<html>B'H Merkava Advanced VisionNested CSS, 2D canvas, and WebGL canvas should all be visible.Repair SurfaceInner vesselCanvas below paints red, green, blue, and text.WebGL VesselVirtual WebGL records clearColor and draw calls.\nconst c=document.getElementById('two'); const ctx=c.getContext('2d');\nctx.fillStyle='red'; ctx.fillRect(10,10,80,45); ctx.fillStyle='green'; ctx.fillRect(105,20,90,60); ctx.fillStyle='blue'; ctx.fillRect(205,30,70,80);\nctx.fillStyle='yellow'; ctx.font='20px sans-serif'; ctx.fillText('B\"H 2D Canvas',30,135); ctx.beginPath(); ctx.moveTo(20,80); ctx.lineTo(140,70); ctx.lineTo(190,120); ctx.fillStyle='purple'; ctx.fill();\nconst gl=document.getElementById('gl').getContext('webgl'); gl.clearColor(0.2,0.1,0.6,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState={ready:true,canvas2d:true,webgl:true,nested:true};\n<head></head><body>B'H Merkava Advanced VisionNested CSS, 2D canvas, and WebGL canvas should all be visible.Repair SurfaceInner vesselCanvas below paints red, green, blue, and text.WebGL VesselVirtual WebGL records clearColor and draw calls.\nconst c=document.getElementById('two'); const ctx=c.getContext('2d');\nctx.fillStyle='red'; ctx.fillRect(10,10,80,45); ctx.fillStyle='green'; ctx.fillRect(105,20,90,60); ctx.fillStyle='blue'; ctx.fillRect(205,30,70,80);\nctx.fillStyle='yellow'; ctx.font='20px sans-serif'; ctx.fillText('B\"H 2D Canvas',30,135); ctx.beginPath(); ctx.moveTo(20,80); ctx.lineTo(140,70); ctx.lineTo(190,120); ctx.fillStyle='purple'; ctx.fill();\nconst gl=document.getElementById('gl').getContext('webgl'); gl.clearColor(0.2,0.1,0.6,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState={ready:true,canvas2d:true,webgl:true,nested:true};\n<main class=\"shell\">B'H Merkava Advanced VisionNested CSS, 2D canvas, and WebGL canvas should all be visible.Repair SurfaceInner vesselCanvas below paints red, green, blue, and text.WebGL VesselVirtual WebGL records clearColor and draw calls.<section class=\"card glow\">B'H Merkava Advanced VisionNested CSS, 2D canvas, and WebGL canvas should all be visible.Repair SurfaceInner vesselCanvas below paints red, green, blue, and text.<h1 class=\"hero\">B'H Merkava Advanced VisionB'H Merkava Advanced Vision</h1><p class=\"warn\">Nested CSS, 2D canvas, and WebGL canvas should all be visible.Nested CSS, 2D canvas, and WebGL canvas should all be visible.</p><span class=\"pill\">Repair SurfaceRepair Surface</span><div class=\"nested\">Inner vesselCanvas below paints red, green, blue, and text.<strong>Inner vesselInner vessel</strong><p>Canvas below paints red, green, blue, and text.Canvas below paints red, green, blue, and text.</p><canvas width=\"300\" height=\"160\" id=\"two\"></canvas></div></section><section class=\"card\">WebGL VesselVirtual WebGL records clearColor and draw calls.<h2>WebGL VesselWebGL Vessel</h2><p>Virtual WebGL records clearColor and draw calls.Virtual WebGL records clearColor and draw calls.</p><canvas width=\"300\" height=\"160\" id=\"gl\"></canvas></section></main><script>\nconst c=document.getElementById('two'); const ctx=c.getContext('2d');\nctx.fillStyle='red'; ctx.fillRect(10,10,80,45); ctx.fillStyle='green'; ctx.fillRect(105,20,90,60); ctx.fillStyle='blue'; ctx.fillRect(205,30,70,80);\nctx.fillStyle='yellow'; ctx.font='20px sans-serif'; ctx.fillText('B\"H 2D Canvas',30,135); ctx.beginPath(); ctx.moveTo(20,80); ctx.lineTo(140,70); ctx.lineTo(190,120); ctx.fillStyle='purple'; ctx.fill();\nconst gl=document.getElementById('gl').getContext('webgl'); gl.clearColor(0.2,0.1,0.6,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState={ready:true,canvas2d:true,webgl:true,nested:true};\n</script></body></html>",
-  "text": "B'H Merkava Advanced VisionNested CSS, 2D canvas, and WebGL canvas should all be visible.Repair SurfaceInner vesselCanvas below paints red, green, blue, and text.WebGL VesselVirtual WebGL records clearColor and draw calls.\nconst c=document.getElementById('two'); const ctx=c.getContext('2d');\nctx.fillStyle='red'; ctx.fillRect(10,10,80,45); ctx.fillStyle='green'; ctx.fillRect(105,20,90,60); ctx.fillStyle='blue'; ctx.fillRect(205,30,70,80);\nctx.fillStyle='yellow'; ctx.font='20px sans-serif'; ctx.fillText('B\"H 2D Canvas',30,135); ctx.beginPath(); ctx.moveTo(20,80); ctx.lineTo(140,70); ctx.lineTo(190,120); ctx.fillStyle='purple'; ctx.fill();\nconst gl=document.getElementById('gl').getContext('webgl'); gl.clearColor(0.2,0.1,0.6,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState={ready:true,canvas2d:true,webgl:true,nested:true};\n",
+  "html": "<html>B'H Merkava Canvas EngineDOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.Worker + Offscreen + 2DComposite vesselLeft: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.WebGL + Offscreen VesselVirtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.\nwindow.appState={ready:false};\nconst c=document.getElementById('two');\nconst ctx=c.getContext('2d');\nctx.fillStyle='rgb(16,46,50)'; ctx.fillRect(0,0,420,260);\nctx.fillStyle='red'; ctx.fillRect(18,24,78,54);\nctx.fillStyle='green'; ctx.fillRect(116,34,82,70);\nctx.fillStyle='blue'; ctx.fillRect(220,44,72,92);\nctx.strokeStyle='white'; ctx.lineWidth=3; ctx.strokeRect(12,18,290,130);\nctx.fillStyle='yellow'; ctx.font='18px sans-serif'; ctx.fillText('DOM 2D COMMANDS',22,168);\n\nconst off = new OffscreenCanvas(180,120);\nconst ox = off.getContext('2d');\nconst grad = ox.createLinearGradient(0,0,180,0); grad.addColorStop(0,'orange'); grad.addColorStop(1,'magenta');\nox.fillStyle=grad; ox.fillRect(0,0,180,120);\nox.globalAlpha=.8; ox.strokeStyle='cyan'; ox.lineWidth=5; ox.setLineDash([7,4]);\nconst path = new Path2D(); path.moveTo(12,88); path.bezierCurveTo(55,15,125,16,166,88); path.lineTo(12,88); path.closePath();\nox.stroke(path); ox.clip(path); ox.fillStyle='purple'; ox.fillRect(15,35,150,65);\nox.fillStyle='white'; ox.font='16px sans-serif'; ox.fillText('OFFSCREEN',26,65);\nconst id = ox.getImageData(0,0,4,4); ox.putImageData(id,8,8);\nconst offBitmap = off.transferToImageBitmap();\nctx.drawImage(offBitmap, 26, 184, 158, 60);\n\nconst worker = new Worker('worker-canvas.js');\nworker.onmessage = e =&gt; {\n  ctx.drawImage(e.data.bitmap, 216, 176, 150, 72);\n  ctx.fillStyle='white'; ctx.font='14px sans-serif'; ctx.fillText('WORKER BITMAP '+e.data.status,220,250);\n  window.appState.worker=e.data.status;\n};\nworker.postMessage({label:'BH'});\n\nconst glCanvas=document.getElementById('gl');\nconst gl=glCanvas.getContext('webgl');\ngl.clearColor(0.12,0.08,0.48,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState.ready=true;\nwindow.appState.metrics=ctx.measureText('Merkava').width;\nwindow.appState.commands=document.textureArena.snapshot().commands.length;\n<head></head><body>B'H Merkava Canvas EngineDOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.Worker + Offscreen + 2DComposite vesselLeft: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.WebGL + Offscreen VesselVirtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.\nwindow.appState={ready:false};\nconst c=document.getElementById('two');\nconst ctx=c.getContext('2d');\nctx.fillStyle='rgb(16,46,50)'; ctx.fillRect(0,0,420,260);\nctx.fillStyle='red'; ctx.fillRect(18,24,78,54);\nctx.fillStyle='green'; ctx.fillRect(116,34,82,70);\nctx.fillStyle='blue'; ctx.fillRect(220,44,72,92);\nctx.strokeStyle='white'; ctx.lineWidth=3; ctx.strokeRect(12,18,290,130);\nctx.fillStyle='yellow'; ctx.font='18px sans-serif'; ctx.fillText('DOM 2D COMMANDS',22,168);\n\nconst off = new OffscreenCanvas(180,120);\nconst ox = off.getContext('2d');\nconst grad = ox.createLinearGradient(0,0,180,0); grad.addColorStop(0,'orange'); grad.addColorStop(1,'magenta');\nox.fillStyle=grad; ox.fillRect(0,0,180,120);\nox.globalAlpha=.8; ox.strokeStyle='cyan'; ox.lineWidth=5; ox.setLineDash([7,4]);\nconst path = new Path2D(); path.moveTo(12,88); path.bezierCurveTo(55,15,125,16,166,88); path.lineTo(12,88); path.closePath();\nox.stroke(path); ox.clip(path); ox.fillStyle='purple'; ox.fillRect(15,35,150,65);\nox.fillStyle='white'; ox.font='16px sans-serif'; ox.fillText('OFFSCREEN',26,65);\nconst id = ox.getImageData(0,0,4,4); ox.putImageData(id,8,8);\nconst offBitmap = off.transferToImageBitmap();\nctx.drawImage(offBitmap, 26, 184, 158, 60);\n\nconst worker = new Worker('worker-canvas.js');\nworker.onmessage = e =&gt; {\n  ctx.drawImage(e.data.bitmap, 216, 176, 150, 72);\n  ctx.fillStyle='white'; ctx.font='14px sans-serif'; ctx.fillText('WORKER BITMAP '+e.data.status,220,250);\n  window.appState.worker=e.data.status;\n};\nworker.postMessage({label:'BH'});\n\nconst glCanvas=document.getElementById('gl');\nconst gl=glCanvas.getContext('webgl');\ngl.clearColor(0.12,0.08,0.48,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState.ready=true;\nwindow.appState.metrics=ctx.measureText('Merkava').width;\nwindow.appState.commands=document.textureArena.snapshot().commands.length;\n<main class=\"shell\">B'H Merkava Canvas EngineDOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.Worker + Offscreen + 2DComposite vesselLeft: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.WebGL + Offscreen VesselVirtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.<section class=\"card glow\">B'H Merkava Canvas EngineDOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.Worker + Offscreen + 2DComposite vesselLeft: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.<h1 class=\"hero\">B'H Merkava Canvas EngineB'H Merkava Canvas Engine</h1><p class=\"warn\">DOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.DOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.</p><span class=\"pill\">Worker + Offscreen + 2DWorker + Offscreen + 2D</span><div class=\"nested\">Composite vesselLeft: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.<strong>Composite vesselComposite vessel</strong><p>Left: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.Left: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.</p><canvas width=\"420\" height=\"260\" id=\"two\"></canvas></div></section><section class=\"card\">WebGL + Offscreen VesselVirtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.<h2>WebGL + Offscreen VesselWebGL + Offscreen Vessel</h2><p>Virtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.Virtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.</p><canvas width=\"420\" height=\"260\" id=\"gl\"></canvas></section></main><script>\nwindow.appState={ready:false};\nconst c=document.getElementById('two');\nconst ctx=c.getContext('2d');\nctx.fillStyle='rgb(16,46,50)'; ctx.fillRect(0,0,420,260);\nctx.fillStyle='red'; ctx.fillRect(18,24,78,54);\nctx.fillStyle='green'; ctx.fillRect(116,34,82,70);\nctx.fillStyle='blue'; ctx.fillRect(220,44,72,92);\nctx.strokeStyle='white'; ctx.lineWidth=3; ctx.strokeRect(12,18,290,130);\nctx.fillStyle='yellow'; ctx.font='18px sans-serif'; ctx.fillText('DOM 2D COMMANDS',22,168);\n\nconst off = new OffscreenCanvas(180,120);\nconst ox = off.getContext('2d');\nconst grad = ox.createLinearGradient(0,0,180,0); grad.addColorStop(0,'orange'); grad.addColorStop(1,'magenta');\nox.fillStyle=grad; ox.fillRect(0,0,180,120);\nox.globalAlpha=.8; ox.strokeStyle='cyan'; ox.lineWidth=5; ox.setLineDash([7,4]);\nconst path = new Path2D(); path.moveTo(12,88); path.bezierCurveTo(55,15,125,16,166,88); path.lineTo(12,88); path.closePath();\nox.stroke(path); ox.clip(path); ox.fillStyle='purple'; ox.fillRect(15,35,150,65);\nox.fillStyle='white'; ox.font='16px sans-serif'; ox.fillText('OFFSCREEN',26,65);\nconst id = ox.getImageData(0,0,4,4); ox.putImageData(id,8,8);\nconst offBitmap = off.transferToImageBitmap();\nctx.drawImage(offBitmap, 26, 184, 158, 60);\n\nconst worker = new Worker('worker-canvas.js');\nworker.onmessage = e =&gt; {\n  ctx.drawImage(e.data.bitmap, 216, 176, 150, 72);\n  ctx.fillStyle='white'; ctx.font='14px sans-serif'; ctx.fillText('WORKER BITMAP '+e.data.status,220,250);\n  window.appState.worker=e.data.status;\n};\nworker.postMessage({label:'BH'});\n\nconst glCanvas=document.getElementById('gl');\nconst gl=glCanvas.getContext('webgl');\ngl.clearColor(0.12,0.08,0.48,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState.ready=true;\nwindow.appState.metrics=ctx.measureText('Merkava').width;\nwindow.appState.commands=document.textureArena.snapshot().commands.length;\n</script></body></html>",
+  "text": "B'H Merkava Canvas EngineDOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.Worker + Offscreen + 2DComposite vesselLeft: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.WebGL + Offscreen VesselVirtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.\nwindow.appState={ready:false};\nconst c=document.getElementById('two');\nconst ctx=c.getContext('2d');\nctx.fillStyle='rgb(16,46,50)'; ctx.fillRect(0,0,420,260);\nctx.fillStyle='red'; ctx.fillRect(18,24,78,54);\nctx.fillStyle='green'; ctx.fillRect(116,34,82,70);\nctx.fillStyle='blue'; ctx.fillRect(220,44,72,92);\nctx.strokeStyle='white'; ctx.lineWidth=3; ctx.strokeRect(12,18,290,130);\nctx.fillStyle='yellow'; ctx.font='18px sans-serif'; ctx.fillText('DOM 2D COMMANDS',22,168);\n\nconst off = new OffscreenCanvas(180,120);\nconst ox = off.getContext('2d');\nconst grad = ox.createLinearGradient(0,0,180,0); grad.addColorStop(0,'orange'); grad.addColorStop(1,'magenta');\nox.fillStyle=grad; ox.fillRect(0,0,180,120);\nox.globalAlpha=.8; ox.strokeStyle='cyan'; ox.lineWidth=5; ox.setLineDash([7,4]);\nconst path = new Path2D(); path.moveTo(12,88); path.bezierCurveTo(55,15,125,16,166,88); path.lineTo(12,88); path.closePath();\nox.stroke(path); ox.clip(path); ox.fillStyle='purple'; ox.fillRect(15,35,150,65);\nox.fillStyle='white'; ox.font='16px sans-serif'; ox.fillText('OFFSCREEN',26,65);\nconst id = ox.getImageData(0,0,4,4); ox.putImageData(id,8,8);\nconst offBitmap = off.transferToImageBitmap();\nctx.drawImage(offBitmap, 26, 184, 158, 60);\n\nconst worker = new Worker('worker-canvas.js');\nworker.onmessage = e => {\n  ctx.drawImage(e.data.bitmap, 216, 176, 150, 72);\n  ctx.fillStyle='white'; ctx.font='14px sans-serif'; ctx.fillText('WORKER BITMAP '+e.data.status,220,250);\n  window.appState.worker=e.data.status;\n};\nworker.postMessage({label:'BH'});\n\nconst glCanvas=document.getElementById('gl');\nconst gl=glCanvas.getContext('webgl');\ngl.clearColor(0.12,0.08,0.48,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState.ready=true;\nwindow.appState.metrics=ctx.measureText('Merkava').width;\nwindow.appState.commands=document.textureArena.snapshot().commands.length;\n",
   "dom": {
     "tagName": "HTML",
     "localName": "html",
@@ -88,7 +88,7 @@
                         "nodeType": 3,
                         "id": "",
                         "className": "",
-                        "textContent": "B'H Merkava Advanced Vision",
+                        "textContent": "B'H Merkava Canvas Engine",
                         "width": 0,
                         "height": 0,
                         "attributes": {},
@@ -117,7 +117,7 @@
                         "nodeType": 3,
                         "id": "",
                         "className": "",
-                        "textContent": "Nested CSS, 2D canvas, and WebGL canvas should all be visible.",
+                        "textContent": "DOM canvas below includes OffscreenCanvas, Worker bitmap, Path2D, ImageData, gradients, and text metrics.",
                         "width": 0,
                         "height": 0,
                         "attributes": {},
@@ -146,7 +146,7 @@
                         "nodeType": 3,
                         "id": "",
                         "className": "",
-                        "textContent": "Repair Surface",
+                        "textContent": "Worker + Offscreen + 2D",
                         "width": 0,
                         "height": 0,
                         "attributes": {},
@@ -187,7 +187,7 @@
                             "nodeType": 3,
                             "id": "",
                             "className": "",
-                            "textContent": "Inner vessel",
+                            "textContent": "Composite vessel",
                             "width": 0,
                             "height": 0,
                             "attributes": {},
@@ -214,7 +214,7 @@
                             "nodeType": 3,
                             "id": "",
                             "className": "",
-                            "textContent": "Canvas below paints red, green, blue, and text.",
+                            "textContent": "Left: direct 2D. Middle: Offscreen drawImage. Right: Worker bitmap.",
                             "width": 0,
                             "height": 0,
                             "attributes": {},
@@ -230,11 +230,11 @@
                         "id": "two",
                         "className": "",
                         "textContent": "",
-                        "width": 300,
-                        "height": 160,
+                        "width": 420,
+                        "height": 260,
                         "attributes": {
-                          "width": "300",
-                          "height": "160",
+                          "width": "420",
+                          "height": "260",
                           "id": "two"
                         },
                         "style": {},
@@ -276,7 +276,7 @@
                         "nodeType": 3,
                         "id": "",
                         "className": "",
-                        "textContent": "WebGL Vessel",
+                        "textContent": "WebGL + Offscreen Vessel",
                         "width": 0,
                         "height": 0,
                         "attributes": {},
@@ -303,7 +303,7 @@
                         "nodeType": 3,
                         "id": "",
                         "className": "",
-                        "textContent": "Virtual WebGL records clearColor and draw calls.",
+                        "textContent": "Virtual WebGL records clearColor and draw calls; worker/offscreen data is in snapshot metadata.",
                         "width": 0,
                         "height": 0,
                         "attributes": {},
@@ -319,11 +319,11 @@
                     "id": "gl",
                     "className": "",
                     "textContent": "",
-                    "width": 300,
-                    "height": 160,
+                    "width": 420,
+                    "height": 260,
                     "attributes": {
-                      "width": "300",
-                      "height": "160",
+                      "width": "420",
+                      "height": "260",
                       "id": "gl"
                     },
                     "style": {},
@@ -339,7 +339,7 @@
             "nodeType": 1,
             "id": "",
             "className": "",
-            "textContent": "\nconst c=document.getElementById('two'); const ctx=c.getContext('2d');\nctx.fillStyle='red'; ctx.fillRect(10,10,80,45); ctx.fillStyle='green'; ctx.fillRect(105,20,90,60); ctx.fillStyle='blue'; ctx.fillRect(205,30,70,80);\nctx.fillStyle='yellow'; ctx.font='20px sans-serif'; ctx.fillText('B\"H 2D Canvas',30,135); ctx.beginPath(); ctx.moveTo(20,80); ctx.lineTo(140,70); ctx.lineTo(190,120); ctx.fillStyle='purple'; ctx.fill();\nconst gl=document.getElementById('gl').getContext('webgl'); gl.clearColor(0.2,0.1,0.6,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState={ready:true,canvas2d:true,webgl:true,nested:true};\n",
+            "textContent": "\nwindow.appState={ready:false};\nconst c=document.getElementById('two');\nconst ctx=c.getContext('2d');\nctx.fillStyle='rgb(16,46,50)'; ctx.fillRect(0,0,420,260);\nctx.fillStyle='red'; ctx.fillRect(18,24,78,54);\nctx.fillStyle='green'; ctx.fillRect(116,34,82,70);\nctx.fillStyle='blue'; ctx.fillRect(220,44,72,92);\nctx.strokeStyle='white'; ctx.lineWidth=3; ctx.strokeRect(12,18,290,130);\nctx.fillStyle='yellow'; ctx.font='18px sans-serif'; ctx.fillText('DOM 2D COMMANDS',22,168);\n\nconst off = new OffscreenCanvas(180,120);\nconst ox = off.getContext('2d');\nconst grad = ox.createLinearGradient(0,0,180,0); grad.addColorStop(0,'orange'); grad.addColorStop(1,'magenta');\nox.fillStyle=grad; ox.fillRect(0,0,180,120);\nox.globalAlpha=.8; ox.strokeStyle='cyan'; ox.lineWidth=5; ox.setLineDash([7,4]);\nconst path = new Path2D(); path.moveTo(12,88); path.bezierCurveTo(55,15,125,16,166,88); path.lineTo(12,88); path.closePath();\nox.stroke(path); ox.clip(path); ox.fillStyle='purple'; ox.fillRect(15,35,150,65);\nox.fillStyle='white'; ox.font='16px sans-serif'; ox.fillText('OFFSCREEN',26,65);\nconst id = ox.getImageData(0,0,4,4); ox.putImageData(id,8,8);\nconst offBitmap = off.transferToImageBitmap();\nctx.drawImage(offBitmap, 26, 184, 158, 60);\n\nconst worker = new Worker('worker-canvas.js');\nworker.onmessage = e => {\n  ctx.drawImage(e.data.bitmap, 216, 176, 150, 72);\n  ctx.fillStyle='white'; ctx.font='14px sans-serif'; ctx.fillText('WORKER BITMAP '+e.data.status,220,250);\n  window.appState.worker=e.data.status;\n};\nworker.postMessage({label:'BH'});\n\nconst glCanvas=document.getElementById('gl');\nconst gl=glCanvas.getContext('webgl');\ngl.clearColor(0.12,0.08,0.48,1); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3);\nwindow.appState.ready=true;\nwindow.appState.metrics=ctx.measureText('Merkava').width;\nwindow.appState.commands=document.textureArena.snapshot().commands.length;\n",
             "width": 0,
             "height": 0,
             "attributes": {},
@@ -353,9 +353,9 @@
   "values": {
     "window.appState": {
       "ready": true,
-      "canvas2d": true,
-      "webgl": true,
-      "nested": true
+      "metrics": 75.60000000000001,
+      "commands": 21,
+      "worker": "OK"
     }
   },
   "console": {
@@ -368,15 +368,54 @@
         "id": 0,
         "kind": "canvas-2d",
         "ownerTag": "CANVAS",
-        "width": 300,
-        "height": 160,
+        "width": 420,
+        "height": 260,
         "commands": [
           {
             "op": "fillRect",
-            "x": 10,
-            "y": 10,
-            "width": 80,
-            "height": 45,
+            "x": 0,
+            "y": 0,
+            "width": 420,
+            "height": 260,
+            "fillStyle": "rgb(16,46,50)",
+            "state": {
+              "fillStyle": "rgb(16,46,50)",
+              "strokeStyle": "#000000",
+              "font": "10px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 1,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "fillRect",
+            "x": 18,
+            "y": 24,
+            "width": 78,
+            "height": 54,
             "fillStyle": "red",
             "state": {
               "fillStyle": "red",
@@ -412,10 +451,10 @@
           },
           {
             "op": "fillRect",
-            "x": 105,
-            "y": 20,
-            "width": 90,
-            "height": 60,
+            "x": 116,
+            "y": 34,
+            "width": 82,
+            "height": 70,
             "fillStyle": "green",
             "state": {
               "fillStyle": "green",
@@ -451,10 +490,10 @@
           },
           {
             "op": "fillRect",
-            "x": 205,
-            "y": 30,
-            "width": 70,
-            "height": 80,
+            "x": 220,
+            "y": 44,
+            "width": 72,
+            "height": 92,
             "fillStyle": "blue",
             "state": {
               "fillStyle": "blue",
@@ -489,32 +528,71 @@
             }
           },
           {
+            "op": "strokeRect",
+            "x": 12,
+            "y": 18,
+            "width": 290,
+            "height": 130,
+            "strokeStyle": "white",
+            "state": {
+              "fillStyle": "blue",
+              "strokeStyle": "white",
+              "font": "10px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 3,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
             "op": "fillTextPlaceholder",
-            "text": "B\"H 2D Canvas",
-            "x": 30,
-            "y": 135,
+            "text": "DOM 2D COMMANDS",
+            "x": 22,
+            "y": 168,
             "maxWidth": null,
-            "font": "20px sans-serif",
+            "font": "18px sans-serif",
             "mode": "fill",
             "fillStyle": "yellow",
-            "strokeStyle": "#000000",
+            "strokeStyle": "white",
             "metrics": {
-              "width": 148,
-              "actualBoundingBoxAscent": 16.4,
-              "actualBoundingBoxDescent": 4.4,
-              "emHeightAscent": 16.4,
-              "emHeightDescent": 4.4,
-              "font": "20px sans-serif",
+              "width": 154.8,
+              "actualBoundingBoxAscent": 14.76,
+              "actualBoundingBoxDescent": 3.96,
+              "emHeightAscent": 14.76,
+              "emHeightDescent": 3.96,
+              "font": "18px sans-serif",
               "source": "merkava-oversampled-glyph-atlas"
             },
             "state": {
               "fillStyle": "yellow",
-              "strokeStyle": "#000000",
-              "font": "20px sans-serif",
+              "strokeStyle": "white",
+              "font": "18px sans-serif",
               "globalAlpha": 1,
               "globalCompositeOperation": "source-over",
               "filter": "none",
-              "lineWidth": 1,
+              "lineWidth": 3,
               "lineCap": "butt",
               "lineJoin": "miter",
               "miterLimit": 10,
@@ -540,15 +618,22 @@
             }
           },
           {
-            "op": "beginPath",
+            "op": "drawImageTexture",
+            "sourceTexture": 1,
+            "imageWidth": 180,
+            "imageHeight": 120,
+            "x": 26,
+            "y": 184,
+            "width": 158,
+            "height": 60,
             "state": {
               "fillStyle": "yellow",
-              "strokeStyle": "#000000",
-              "font": "20px sans-serif",
+              "strokeStyle": "white",
+              "font": "18px sans-serif",
               "globalAlpha": 1,
               "globalCompositeOperation": "source-over",
               "filter": "none",
-              "lineWidth": 1,
+              "lineWidth": 3,
               "lineCap": "butt",
               "lineJoin": "miter",
               "miterLimit": 10,
@@ -574,17 +659,22 @@
             }
           },
           {
-            "op": "moveTo",
-            "x": 20,
-            "y": 80,
+            "op": "drawImageTexture",
+            "sourceTexture": 3,
+            "imageWidth": 160,
+            "imageHeight": 80,
+            "x": 216,
+            "y": 176,
+            "width": 150,
+            "height": 72,
             "state": {
               "fillStyle": "yellow",
-              "strokeStyle": "#000000",
-              "font": "20px sans-serif",
+              "strokeStyle": "white",
+              "font": "18px sans-serif",
               "globalAlpha": 1,
               "globalCompositeOperation": "source-over",
               "filter": "none",
-              "lineWidth": 1,
+              "lineWidth": 3,
               "lineCap": "butt",
               "lineJoin": "miter",
               "miterLimit": 10,
@@ -610,105 +700,32 @@
             }
           },
           {
-            "op": "lineTo",
-            "x": 140,
-            "y": 70,
+            "op": "fillTextPlaceholder",
+            "text": "WORKER BITMAP OK",
+            "x": 220,
+            "y": 250,
+            "maxWidth": null,
+            "font": "14px sans-serif",
+            "mode": "fill",
+            "fillStyle": "white",
+            "strokeStyle": "white",
+            "metrics": {
+              "width": 128.79999999999998,
+              "actualBoundingBoxAscent": 11.479999999999999,
+              "actualBoundingBoxDescent": 3.08,
+              "emHeightAscent": 11.479999999999999,
+              "emHeightDescent": 3.08,
+              "font": "14px sans-serif",
+              "source": "merkava-oversampled-glyph-atlas"
+            },
             "state": {
-              "fillStyle": "yellow",
-              "strokeStyle": "#000000",
-              "font": "20px sans-serif",
+              "fillStyle": "white",
+              "strokeStyle": "white",
+              "font": "14px sans-serif",
               "globalAlpha": 1,
               "globalCompositeOperation": "source-over",
               "filter": "none",
-              "lineWidth": 1,
-              "lineCap": "butt",
-              "lineJoin": "miter",
-              "miterLimit": 10,
-              "lineDash": [],
-              "lineDashOffset": 0,
-              "textAlign": "start",
-              "textBaseline": "alphabetic",
-              "direction": "inherit",
-              "shadowColor": "rgba(0,0,0,0)",
-              "shadowBlur": 0,
-              "shadowOffsetX": 0,
-              "shadowOffsetY": 0,
-              "imageSmoothingEnabled": true,
-              "imageSmoothingQuality": "low",
-              "transform": [
-                1,
-                0,
-                0,
-                1,
-                0,
-                0
-              ]
-            }
-          },
-          {
-            "op": "lineTo",
-            "x": 190,
-            "y": 120,
-            "state": {
-              "fillStyle": "yellow",
-              "strokeStyle": "#000000",
-              "font": "20px sans-serif",
-              "globalAlpha": 1,
-              "globalCompositeOperation": "source-over",
-              "filter": "none",
-              "lineWidth": 1,
-              "lineCap": "butt",
-              "lineJoin": "miter",
-              "miterLimit": 10,
-              "lineDash": [],
-              "lineDashOffset": 0,
-              "textAlign": "start",
-              "textBaseline": "alphabetic",
-              "direction": "inherit",
-              "shadowColor": "rgba(0,0,0,0)",
-              "shadowBlur": 0,
-              "shadowOffsetX": 0,
-              "shadowOffsetY": 0,
-              "imageSmoothingEnabled": true,
-              "imageSmoothingQuality": "low",
-              "transform": [
-                1,
-                0,
-                0,
-                1,
-                0,
-                0
-              ]
-            }
-          },
-          {
-            "op": "fillPath",
-            "path": [
-              [
-                "moveTo",
-                20,
-                80
-              ],
-              [
-                "lineTo",
-                140,
-                70
-              ],
-              [
-                "lineTo",
-                190,
-                120
-              ]
-            ],
-            "fillRule": "nonzero",
-            "state": {
-              "fillStyle": "purple",
-              "strokeStyle": "#000000",
-              "font": "20px sans-serif",
-              "globalAlpha": 1,
-              "globalCompositeOperation": "source-over",
-              "filter": "none",
-              "lineWidth": 1,
+              "lineWidth": 3,
               "lineCap": "butt",
               "lineJoin": "miter",
               "miterLimit": 10,
@@ -737,17 +754,449 @@
       },
       {
         "id": 1,
+        "kind": "canvas-2d",
+        "ownerTag": "OFFSCREENCANVAS",
+        "width": 180,
+        "height": 120,
+        "commands": [
+          {
+            "op": "fillRect",
+            "x": 0,
+            "y": 0,
+            "width": 180,
+            "height": 120,
+            "fillStyle": {
+              "kind": "linear",
+              "stops": [
+                "[DepthLimit]",
+                "[DepthLimit]"
+              ],
+              "x0": 0,
+              "y0": 0,
+              "x1": 180,
+              "y1": 0
+            },
+            "state": {
+              "fillStyle": {
+                "kind": "linear",
+                "stops": "[Circular]",
+                "x0": 0,
+                "y0": 0,
+                "x1": 180,
+                "y1": 0
+              },
+              "strokeStyle": "#000000",
+              "font": "10px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 1,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "setLineDash",
+            "value": [
+              7,
+              4
+            ],
+            "state": {
+              "fillStyle": {
+                "kind": "linear",
+                "stops": "[Circular]",
+                "x0": 0,
+                "y0": 0,
+                "x1": 180,
+                "y1": 0
+              },
+              "strokeStyle": "cyan",
+              "font": "10px sans-serif",
+              "globalAlpha": 0.8,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 5,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [
+                7,
+                4
+              ],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "strokePath",
+            "path": [
+              [
+                "moveTo",
+                12,
+                88
+              ],
+              [
+                "bezierCurveTo",
+                55,
+                15,
+                125,
+                16,
+                166,
+                88
+              ],
+              [
+                "lineTo",
+                12,
+                88
+              ],
+              [
+                "closePath"
+              ]
+            ],
+            "state": {
+              "fillStyle": {
+                "kind": "linear",
+                "stops": "[Circular]",
+                "x0": 0,
+                "y0": 0,
+                "x1": 180,
+                "y1": 0
+              },
+              "strokeStyle": "cyan",
+              "font": "10px sans-serif",
+              "globalAlpha": 0.8,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 5,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [
+                7,
+                4
+              ],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "clip",
+            "path": [
+              [
+                "moveTo",
+                12,
+                88
+              ],
+              [
+                "bezierCurveTo",
+                55,
+                15,
+                125,
+                16,
+                166,
+                88
+              ],
+              [
+                "lineTo",
+                12,
+                88
+              ],
+              [
+                "closePath"
+              ]
+            ],
+            "fillRule": "nonzero",
+            "state": {
+              "fillStyle": {
+                "kind": "linear",
+                "stops": "[Circular]",
+                "x0": 0,
+                "y0": 0,
+                "x1": 180,
+                "y1": 0
+              },
+              "strokeStyle": "cyan",
+              "font": "10px sans-serif",
+              "globalAlpha": 0.8,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 5,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [
+                7,
+                4
+              ],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "fillRect",
+            "x": 15,
+            "y": 35,
+            "width": 150,
+            "height": 65,
+            "fillStyle": "purple",
+            "state": {
+              "fillStyle": "purple",
+              "strokeStyle": "cyan",
+              "font": "10px sans-serif",
+              "globalAlpha": 0.8,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 5,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [
+                7,
+                4
+              ],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "fillTextPlaceholder",
+            "text": "OFFSCREEN",
+            "x": 26,
+            "y": 65,
+            "maxWidth": null,
+            "font": "16px sans-serif",
+            "mode": "fill",
+            "fillStyle": "white",
+            "strokeStyle": "cyan",
+            "metrics": {
+              "width": 86.4,
+              "actualBoundingBoxAscent": 13.12,
+              "actualBoundingBoxDescent": 3.52,
+              "emHeightAscent": 13.12,
+              "emHeightDescent": 3.52,
+              "font": "16px sans-serif",
+              "source": "merkava-oversampled-glyph-atlas"
+            },
+            "state": {
+              "fillStyle": "white",
+              "strokeStyle": "cyan",
+              "font": "16px sans-serif",
+              "globalAlpha": 0.8,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 5,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [
+                7,
+                4
+              ],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "getImageData",
+            "x": 0,
+            "y": 0,
+            "width": 4,
+            "height": 4,
+            "settings": {},
+            "state": {
+              "fillStyle": "white",
+              "strokeStyle": "cyan",
+              "font": "16px sans-serif",
+              "globalAlpha": 0.8,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 5,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [
+                7,
+                4
+              ],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "putImageData",
+            "dx": 8,
+            "dy": 8,
+            "dirtyX": 0,
+            "dirtyY": 0,
+            "dirtyWidth": 4,
+            "dirtyHeight": 4,
+            "bytes": 64,
+            "state": {
+              "fillStyle": "white",
+              "strokeStyle": "cyan",
+              "font": "16px sans-serif",
+              "globalAlpha": 0.8,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 5,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [
+                7,
+                4
+              ],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
         "kind": "canvas-webgl",
         "ownerTag": "CANVAS",
-        "width": 300,
-        "height": 160,
+        "width": 420,
+        "height": 260,
         "commands": [
           {
             "op": "webgl.clearColor",
             "value": [
-              0.2,
-              0.1,
-              0.6,
+              0.12,
+              0.08,
+              0.48,
               1
             ]
           },
@@ -763,6 +1212,228 @@
             "program": null
           }
         ]
+      },
+      {
+        "id": 3,
+        "kind": "canvas-2d",
+        "ownerTag": "OFFSCREENCANVAS",
+        "width": 160,
+        "height": 80,
+        "commands": [
+          {
+            "op": "fillRect",
+            "x": 0,
+            "y": 0,
+            "width": 160,
+            "height": 80,
+            "fillStyle": "black",
+            "state": {
+              "fillStyle": "black",
+              "strokeStyle": "#000000",
+              "font": "10px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 1,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "fillRect",
+            "x": 12,
+            "y": 12,
+            "width": 55,
+            "height": 45,
+            "fillStyle": "lime",
+            "state": {
+              "fillStyle": "lime",
+              "strokeStyle": "#000000",
+              "font": "10px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 1,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "fillRect",
+            "x": 78,
+            "y": 22,
+            "width": 62,
+            "height": 35,
+            "fillStyle": "cyan",
+            "state": {
+              "fillStyle": "cyan",
+              "strokeStyle": "#000000",
+              "font": "10px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 1,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "strokePath",
+            "path": [
+              [
+                "arc",
+                82,
+                40,
+                28,
+                0,
+                6.283,
+                false
+              ]
+            ],
+            "state": {
+              "fillStyle": "cyan",
+              "strokeStyle": "white",
+              "font": "10px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 3,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "op": "fillTextPlaceholder",
+            "text": "WORKER",
+            "x": 36,
+            "y": 70,
+            "maxWidth": null,
+            "font": "16px sans-serif",
+            "mode": "fill",
+            "fillStyle": "yellow",
+            "strokeStyle": "white",
+            "metrics": {
+              "width": 57.6,
+              "actualBoundingBoxAscent": 13.12,
+              "actualBoundingBoxDescent": 3.52,
+              "emHeightAscent": 13.12,
+              "emHeightDescent": 3.52,
+              "font": "16px sans-serif",
+              "source": "merkava-oversampled-glyph-atlas"
+            },
+            "state": {
+              "fillStyle": "yellow",
+              "strokeStyle": "white",
+              "font": "16px sans-serif",
+              "globalAlpha": 1,
+              "globalCompositeOperation": "source-over",
+              "filter": "none",
+              "lineWidth": 3,
+              "lineCap": "butt",
+              "lineJoin": "miter",
+              "miterLimit": 10,
+              "lineDash": [],
+              "lineDashOffset": 0,
+              "textAlign": "start",
+              "textBaseline": "alphabetic",
+              "direction": "inherit",
+              "shadowColor": "rgba(0,0,0,0)",
+              "shadowBlur": 0,
+              "shadowOffsetX": 0,
+              "shadowOffsetY": 0,
+              "imageSmoothingEnabled": true,
+              "imageSmoothingQuality": "low",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          }
+        ]
       }
     ],
     "commands": [
@@ -770,113 +1441,278 @@
         "op": "createTexture",
         "id": 0,
         "kind": "canvas-2d",
-        "width": 300,
-        "height": 160
+        "width": 420,
+        "height": 260
       },
       {
         "texture": 0,
         "op": "fillRect",
-        "x": 10,
-        "y": 10,
-        "width": 80,
-        "height": 45,
+        "x": 0,
+        "y": 0,
+        "width": 420,
+        "height": 260,
+        "fillStyle": "rgb(16,46,50)",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 0,
+        "op": "fillRect",
+        "x": 18,
+        "y": 24,
+        "width": 78,
+        "height": 54,
         "fillStyle": "red",
         "state": "[Circular]"
       },
       {
         "texture": 0,
         "op": "fillRect",
-        "x": 105,
-        "y": 20,
-        "width": 90,
-        "height": 60,
+        "x": 116,
+        "y": 34,
+        "width": 82,
+        "height": 70,
         "fillStyle": "green",
         "state": "[Circular]"
       },
       {
         "texture": 0,
         "op": "fillRect",
-        "x": 205,
-        "y": 30,
-        "width": 70,
-        "height": 80,
+        "x": 220,
+        "y": 44,
+        "width": 72,
+        "height": 92,
         "fillStyle": "blue",
         "state": "[Circular]"
       },
       {
         "texture": 0,
+        "op": "strokeRect",
+        "x": 12,
+        "y": 18,
+        "width": 290,
+        "height": 130,
+        "strokeStyle": "white",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 0,
         "op": "fillTextPlaceholder",
-        "text": "B\"H 2D Canvas",
-        "x": 30,
-        "y": 135,
+        "text": "DOM 2D COMMANDS",
+        "x": 22,
+        "y": 168,
         "maxWidth": null,
-        "font": "20px sans-serif",
+        "font": "18px sans-serif",
         "mode": "fill",
         "fillStyle": "yellow",
-        "strokeStyle": "#000000",
+        "strokeStyle": "white",
         "metrics": "[Circular]",
-        "state": "[Circular]"
-      },
-      {
-        "texture": 0,
-        "op": "beginPath",
-        "state": "[Circular]"
-      },
-      {
-        "texture": 0,
-        "op": "moveTo",
-        "x": 20,
-        "y": 80,
-        "state": "[Circular]"
-      },
-      {
-        "texture": 0,
-        "op": "lineTo",
-        "x": 140,
-        "y": 70,
-        "state": "[Circular]"
-      },
-      {
-        "texture": 0,
-        "op": "lineTo",
-        "x": 190,
-        "y": 120,
-        "state": "[Circular]"
-      },
-      {
-        "texture": 0,
-        "op": "fillPath",
-        "path": "[Circular]",
-        "fillRule": "nonzero",
         "state": "[Circular]"
       },
       {
         "op": "createTexture",
         "id": 1,
-        "kind": "canvas-webgl",
-        "width": 300,
-        "height": 160
+        "kind": "canvas-2d",
+        "width": 180,
+        "height": 120
       },
       {
         "texture": 1,
+        "op": "fillRect",
+        "x": 0,
+        "y": 0,
+        "width": 180,
+        "height": 120,
+        "fillStyle": "[Circular]",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 1,
+        "op": "setLineDash",
+        "value": "[Circular]",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 1,
+        "op": "strokePath",
+        "path": "[Circular]",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 1,
+        "op": "clip",
+        "path": "[Circular]",
+        "fillRule": "nonzero",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 1,
+        "op": "fillRect",
+        "x": 15,
+        "y": 35,
+        "width": 150,
+        "height": 65,
+        "fillStyle": "purple",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 1,
+        "op": "fillTextPlaceholder",
+        "text": "OFFSCREEN",
+        "x": 26,
+        "y": 65,
+        "maxWidth": null,
+        "font": "16px sans-serif",
+        "mode": "fill",
+        "fillStyle": "white",
+        "strokeStyle": "cyan",
+        "metrics": "[Circular]",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 1,
+        "op": "getImageData",
+        "x": 0,
+        "y": 0,
+        "width": 4,
+        "height": 4,
+        "settings": "[Circular]",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 1,
+        "op": "putImageData",
+        "dx": 8,
+        "dy": 8,
+        "dirtyX": 0,
+        "dirtyY": 0,
+        "dirtyWidth": 4,
+        "dirtyHeight": 4,
+        "bytes": 64,
+        "state": "[Circular]"
+      },
+      {
+        "texture": 0,
+        "op": "drawImageTexture",
+        "sourceTexture": 1,
+        "imageWidth": 180,
+        "imageHeight": 120,
+        "x": 26,
+        "y": 184,
+        "width": 158,
+        "height": 60,
+        "state": "[Circular]"
+      },
+      {
+        "op": "createTexture",
+        "id": 2,
+        "kind": "canvas-webgl",
+        "width": 420,
+        "height": 260
+      },
+      {
+        "texture": 2,
         "op": "webgl.clearColor",
         "value": "[Circular]"
       },
       {
-        "texture": 1,
+        "texture": 2,
         "op": "webgl.clear",
         "mask": 16384
       },
       {
-        "texture": 1,
+        "texture": 2,
         "op": "webgl.drawArrays",
         "mode": 4,
         "first": 0,
         "count": 3,
         "program": null
+      },
+      {
+        "op": "createTexture",
+        "id": 3,
+        "kind": "canvas-2d",
+        "width": 160,
+        "height": 80
+      },
+      {
+        "texture": 3,
+        "op": "fillRect",
+        "x": 0,
+        "y": 0,
+        "width": 160,
+        "height": 80,
+        "fillStyle": "black",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 3,
+        "op": "fillRect",
+        "x": 12,
+        "y": 12,
+        "width": 55,
+        "height": 45,
+        "fillStyle": "lime",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 3,
+        "op": "fillRect",
+        "x": 78,
+        "y": 22,
+        "width": 62,
+        "height": 35,
+        "fillStyle": "cyan",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 3,
+        "op": "strokePath",
+        "path": "[Circular]",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 3,
+        "op": "fillTextPlaceholder",
+        "text": "WORKER",
+        "x": 36,
+        "y": 70,
+        "maxWidth": null,
+        "font": "16px sans-serif",
+        "mode": "fill",
+        "fillStyle": "yellow",
+        "strokeStyle": "white",
+        "metrics": "[Circular]",
+        "state": "[Circular]"
+      },
+      {
+        "texture": 0,
+        "op": "drawImageTexture",
+        "sourceTexture": 3,
+        "imageWidth": 160,
+        "imageHeight": 80,
+        "x": 216,
+        "y": 176,
+        "width": 150,
+        "height": 72,
+        "state": "[Circular]"
+      },
+      {
+        "texture": 0,
+        "op": "fillTextPlaceholder",
+        "text": "WORKER BITMAP OK",
+        "x": 220,
+        "y": 250,
+        "maxWidth": null,
+        "font": "14px sans-serif",
+        "mode": "fill",
+        "fillStyle": "white",
+        "strokeStyle": "white",
+        "metrics": "[Circular]",
+        "state": "[Circular]"
       }
     ]
   },
+  "cssText": "body{margin:0;background:#090b12;color:#f6f6fa;font-family:system-ui,sans-serif}.shell{padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:linear-gradient(135deg,#202333,#141721);border:2px solid #58627f;border-radius:22px;padding:18px}.glow{border-color:#4ad2f0}.hero{font-size:28px;font-weight:800}.warn{color:#ffcf5a}.pill{display:inline-block;background:#586fff;color:white;padding:10px 18px;border-radius:999px}.nested{margin-top:16px;background:#0f1320;border-radius:16px;padding:16px}canvas{border:2px solid #4ad2f0;border-radius:12px}",
   "runtime": {
     "kind": "browser",
     "errors": []
@@ -892,14 +1728,14 @@
     "mimeType": "image/png",
     "width": 960,
     "height": 640,
-    "bytes": 18377,
+    "bytes": 21337,
     "dataUrl": "[omitted-data-url]",
     "note": "Rendered from Merkava DOM layout + source CSS + supersampled software framebuffer + 2D/WebGL command painters.",
     "proof": {
       "nonBackgroundPixels": 614400,
-      "canvasTextures": 2,
-      "canvasCommands": 14,
-      "cssBytes": 0,
+      "canvasTextures": 4,
+      "canvasCommands": 29,
+      "cssBytes": 572,
       "sampleTopLeft": [
         9,
         11,

@@ -44,7 +44,7 @@
         "speed": 6.9,
         "speedScale": 1.12,
         "jumpHeight": 13.5,
-        "visualGroundBiasY": -0.22,
+        "visualGroundBiasY": -0.34,
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
@@ -54,8 +54,22 @@
         },
         "rotationSpeed": 5.2,
         "lerpTurnSpeed": 0.42,
-        "movementResponsiveness": 16,
-        "stopResponsiveness": 30
+        "movementResponsiveness": 24,
+        "stopResponsiveness": 34,
+        "animationBlendDuration": 0.055,
+        "animationActionTimeScale": 1.18,
+        "animationSpeedScale": 1.2,
+        "chaweeyoosMap": {
+          "run": "run",
+          "walk": "walk",
+          "idle": "stand",
+          "jump": "jump",
+          "falling": "falling",
+          "right turn": "right turn",
+          "left turn": "left turn"
+        },
+        "runModeScale": 1,
+        "walkModeScale": 0.56
       }
     ],
     "SolidBlock": [
@@ -295,6 +309,24 @@
           "x": -9.6,
           "y": 2.7,
           "z": 1.1
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -306,6 +338,24 @@
           "x": -4.1,
           "y": 2.7,
           "z": -0.45
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -317,6 +367,24 @@
           "x": 1.8,
           "y": 2.7,
           "z": 0.65
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -328,6 +396,24 @@
           "x": 4.6,
           "y": 2.7,
           "z": 0
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -339,6 +425,24 @@
           "x": 7.4,
           "y": 2.7,
           "z": -0.25
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -350,6 +454,24 @@
           "x": 17.6,
           "y": 2.7,
           "z": -0.2
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -361,6 +483,24 @@
           "x": 21,
           "y": 2.7,
           "z": -0.45
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -372,6 +512,24 @@
           "x": 27.1,
           "y": 2.7,
           "z": 1.35
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       },
       {
@@ -383,6 +541,24 @@
           "x": 30.2,
           "y": 2.7,
           "z": -1.35
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
         }
       }
     ],
@@ -411,9 +587,10 @@
         "manualOnly": true,
         "position": {
           "x": 31.65,
-          "y": 1.55,
+          "y": 3.3,
           "z": 2.15
-        }
+        },
+        "mezuzahPlacement": "upper-third-right-doorpost"
       }
     ],
     "FallResetTrigger": [

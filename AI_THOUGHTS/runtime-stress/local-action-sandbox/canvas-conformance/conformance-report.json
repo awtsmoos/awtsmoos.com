@@ -1,0 +1,548 @@
+{
+  "generatedAt": "2026-06-02T09:32:24.899Z",
+  "cases": 5,
+  "total": 22,
+  "passed": 22,
+  "failed": 0,
+  "failedCases": [],
+  "results": [
+    {
+      "name": "canvas2d-state-and-transform",
+      "ok": true,
+      "pass": true,
+      "assertions": [
+        {
+          "name": "runtime ok",
+          "pass": true
+        },
+        {
+          "name": "restored alpha",
+          "pass": true
+        },
+        {
+          "name": "transform changed",
+          "pass": true
+        },
+        {
+          "name": "save/restore recorded",
+          "pass": true
+        },
+        {
+          "name": "transform recorded",
+          "pass": true
+        }
+      ],
+      "values": {
+        "window.result": {
+          "transform": {
+            "a": 1.7551651237807455,
+            "b": 0.958851077208406,
+            "c": -1.438276615812609,
+            "d": 2.6327476856711183,
+            "e": 10,
+            "f": 20
+          },
+          "restoredAlpha": 1,
+          "commands": 8
+        }
+      },
+      "textureSummary": [
+        {
+          "id": 0,
+          "kind": "canvas-2d",
+          "width": 220,
+          "height": 160,
+          "commands": [
+            "save",
+            "translate",
+            "rotate",
+            "scale",
+            "fillRect",
+            "restore",
+            "fillRect"
+          ]
+        }
+      ],
+      "commandOps": [
+        "createTexture",
+        "save",
+        "translate",
+        "rotate",
+        "scale",
+        "fillRect",
+        "restore",
+        "fillRect"
+      ],
+      "errors": []
+    },
+    {
+      "name": "path2d-curves-clip-and-fill-rules",
+      "ok": true,
+      "pass": true,
+      "assertions": [
+        {
+          "name": "runtime ok",
+          "pass": true
+        },
+        {
+          "name": "clip recorded",
+          "pass": true
+        },
+        {
+          "name": "fill path recorded",
+          "pass": true
+        },
+        {
+          "name": "stroke path recorded",
+          "pass": true
+        },
+        {
+          "name": "curves preserved",
+          "pass": true
+        }
+      ],
+      "values": {
+        "window.result": {
+          "commands": 4
+        }
+      },
+      "textureSummary": [
+        {
+          "id": 0,
+          "kind": "canvas-2d",
+          "width": 260,
+          "height": 180,
+          "commands": [
+            "clip",
+            "fillPath",
+            "strokePath"
+          ]
+        }
+      ],
+      "commandOps": [
+        "createTexture",
+        "clip",
+        "fillPath",
+        "strokePath"
+      ],
+      "errors": []
+    },
+    {
+      "name": "image-data-and-draw-image",
+      "ok": true,
+      "pass": true,
+      "assertions": [
+        {
+          "name": "runtime ok",
+          "pass": true
+        },
+        {
+          "name": "offscreen texture exists",
+          "pass": true
+        },
+        {
+          "name": "image data recorded",
+          "pass": true
+        },
+        {
+          "name": "draw image recorded",
+          "pass": true
+        }
+      ],
+      "values": {
+        "window.result": {
+          "commands": 6
+        }
+      },
+      "textureSummary": [
+        {
+          "id": 0,
+          "kind": "canvas-2d",
+          "width": 260,
+          "height": 180,
+          "commands": [
+            "drawImageTexture"
+          ]
+        },
+        {
+          "id": 1,
+          "kind": "canvas-2d",
+          "width": 80,
+          "height": 60,
+          "commands": [
+            "fillRect",
+            "getImageData",
+            "putImageData"
+          ]
+        }
+      ],
+      "commandOps": [
+        "createTexture",
+        "createTexture",
+        "fillRect",
+        "getImageData",
+        "putImageData",
+        "drawImageTexture"
+      ],
+      "errors": []
+    },
+    {
+      "name": "worker-offscreen-roundtrip",
+      "ok": true,
+      "pass": true,
+      "assertions": [
+        {
+          "name": "runtime ok",
+          "pass": true
+        },
+        {
+          "name": "worker replied",
+          "pass": true
+        },
+        {
+          "name": "worker canvas texture exists",
+          "pass": true
+        },
+        {
+          "name": "worker drawImage recorded",
+          "pass": true
+        }
+      ],
+      "values": {
+        "window.result": {
+          "ok": true,
+          "bitmap": {
+            "width": 40,
+            "height": 30,
+            "__webglCanvasTexture": {
+              "id": 1,
+              "kind": "canvas-2d",
+              "ownerTag": "OFFSCREENCANVAS",
+              "width": 40,
+              "height": 30,
+              "commands": [
+                {
+                  "op": "fillRect",
+                  "x": 0,
+                  "y": 0,
+                  "width": 40,
+                  "height": 30,
+                  "fillStyle": "lime",
+                  "state": {
+                    "fillStyle": "lime",
+                    "strokeStyle": "#000000",
+                    "font": "10px sans-serif",
+                    "globalAlpha": 1,
+                    "globalCompositeOperation": "source-over",
+                    "filter": "none",
+                    "lineWidth": 1,
+                    "lineCap": "butt",
+                    "lineJoin": "miter",
+                    "miterLimit": 10,
+                    "lineDash": [],
+                    "lineDashOffset": 0,
+                    "textAlign": "start",
+                    "textBaseline": "alphabetic",
+                    "direction": "inherit",
+                    "shadowColor": "rgba(0,0,0,0)",
+                    "shadowBlur": 0,
+                    "shadowOffsetX": 0,
+                    "shadowOffsetY": 0,
+                    "imageSmoothingEnabled": true,
+                    "imageSmoothingQuality": "low",
+                    "transform": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                }
+              ]
+            },
+            "snapshot": {
+              "textures": [
+                {
+                  "id": 0,
+                  "kind": "canvas-2d",
+                  "ownerTag": "CANVAS",
+                  "width": 260,
+                  "height": 180,
+                  "commands": [
+                    {
+                      "op": "drawImageTexture",
+                      "sourceTexture": 1,
+                      "imageWidth": 40,
+                      "imageHeight": 30,
+                      "x": 10,
+                      "y": 10,
+                      "width": 80,
+                      "height": 60,
+                      "state": {
+                        "fillStyle": "#000000",
+                        "strokeStyle": "#000000",
+                        "font": "10px sans-serif",
+                        "globalAlpha": 1,
+                        "globalCompositeOperation": "source-over",
+                        "filter": "none",
+                        "lineWidth": 1,
+                        "lineCap": "butt",
+                        "lineJoin": "miter",
+                        "miterLimit": 10,
+                        "lineDash": [],
+                        "lineDashOffset": 0,
+                        "textAlign": "start",
+                        "textBaseline": "alphabetic",
+                        "direction": "inherit",
+                        "shadowColor": "rgba(0,0,0,0)",
+                        "shadowBlur": 0,
+                        "shadowOffsetX": 0,
+                        "shadowOffsetY": 0,
+                        "imageSmoothingEnabled": true,
+                        "imageSmoothingQuality": "low",
+                        "transform": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "kind": "canvas-2d",
+                  "ownerTag": "OFFSCREENCANVAS",
+                  "width": 40,
+                  "height": 30,
+                  "commands": [
+                    {
+                      "op": "fillRect",
+                      "x": 0,
+                      "y": 0,
+                      "width": 40,
+                      "height": 30,
+                      "fillStyle": "lime",
+                      "state": {
+                        "fillStyle": "lime",
+                        "strokeStyle": "#000000",
+                        "font": "10px sans-serif",
+                        "globalAlpha": 1,
+                        "globalCompositeOperation": "source-over",
+                        "filter": "none",
+                        "lineWidth": 1,
+                        "lineCap": "butt",
+                        "lineJoin": "miter",
+                        "miterLimit": 10,
+                        "lineDash": [],
+                        "lineDashOffset": 0,
+                        "textAlign": "start",
+                        "textBaseline": "alphabetic",
+                        "direction": "inherit",
+                        "shadowColor": "rgba(0,0,0,0)",
+                        "shadowBlur": 0,
+                        "shadowOffsetX": 0,
+                        "shadowOffsetY": 0,
+                        "imageSmoothingEnabled": true,
+                        "imageSmoothingQuality": "low",
+                        "transform": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ],
+              "commands": [
+                {
+                  "op": "createTexture",
+                  "id": 0,
+                  "kind": "canvas-2d",
+                  "width": 260,
+                  "height": 180
+                },
+                {
+                  "op": "createTexture",
+                  "id": 1,
+                  "kind": "canvas-2d",
+                  "width": 40,
+                  "height": 30
+                },
+                {
+                  "texture": 1,
+                  "op": "fillRect",
+                  "x": 0,
+                  "y": 0,
+                  "width": 40,
+                  "height": 30,
+                  "fillStyle": "lime",
+                  "state": {
+                    "fillStyle": "lime",
+                    "strokeStyle": "#000000",
+                    "font": "10px sans-serif",
+                    "globalAlpha": 1,
+                    "globalCompositeOperation": "source-over",
+                    "filter": "none",
+                    "lineWidth": 1,
+                    "lineCap": "butt",
+                    "lineJoin": "miter",
+                    "miterLimit": 10,
+                    "lineDash": [],
+                    "lineDashOffset": 0,
+                    "textAlign": "start",
+                    "textBaseline": "alphabetic",
+                    "direction": "inherit",
+                    "shadowColor": "rgba(0,0,0,0)",
+                    "shadowBlur": 0,
+                    "shadowOffsetX": 0,
+                    "shadowOffsetY": 0,
+                    "imageSmoothingEnabled": true,
+                    "imageSmoothingQuality": "low",
+                    "transform": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "texture": 0,
+                  "op": "drawImageTexture",
+                  "sourceTexture": 1,
+                  "imageWidth": 40,
+                  "imageHeight": 30,
+                  "x": 10,
+                  "y": 10,
+                  "width": 80,
+                  "height": 60,
+                  "state": {
+                    "fillStyle": "#000000",
+                    "strokeStyle": "#000000",
+                    "font": "10px sans-serif",
+                    "globalAlpha": 1,
+                    "globalCompositeOperation": "source-over",
+                    "filter": "none",
+                    "lineWidth": 1,
+                    "lineCap": "butt",
+                    "lineJoin": "miter",
+                    "miterLimit": 10,
+                    "lineDash": [],
+                    "lineDashOffset": 0,
+                    "textAlign": "start",
+                    "textBaseline": "alphabetic",
+                    "direction": "inherit",
+                    "shadowColor": "rgba(0,0,0,0)",
+                    "shadowBlur": 0,
+                    "shadowOffsetX": 0,
+                    "shadowOffsetY": 0,
+                    "imageSmoothingEnabled": true,
+                    "imageSmoothingQuality": "low",
+                    "transform": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                }
+              ]
+            },
+            "closed": false
+          },
+          "value": 42,
+          "commands": 4
+        }
+      },
+      "textureSummary": [
+        {
+          "id": 0,
+          "kind": "canvas-2d",
+          "width": 260,
+          "height": 180,
+          "commands": [
+            "drawImageTexture"
+          ]
+        },
+        {
+          "id": 1,
+          "kind": "canvas-2d",
+          "width": 40,
+          "height": 30,
+          "commands": [
+            "fillRect"
+          ]
+        }
+      ],
+      "commandOps": [
+        "createTexture",
+        "createTexture",
+        "fillRect",
+        "drawImageTexture"
+      ],
+      "errors": []
+    },
+    {
+      "name": "webgl-command-capture-baseline",
+      "ok": true,
+      "pass": true,
+      "assertions": [
+        {
+          "name": "runtime ok",
+          "pass": true
+        },
+        {
+          "name": "webgl texture exists",
+          "pass": true
+        },
+        {
+          "name": "webgl clear recorded",
+          "pass": true
+        },
+        {
+          "name": "webgl draw recorded",
+          "pass": true
+        }
+      ],
+      "values": {
+        "window.result": {
+          "commands": 4
+        }
+      },
+      "textureSummary": [
+        {
+          "id": 0,
+          "kind": "canvas-webgl",
+          "width": 200,
+          "height": 160,
+          "commands": [
+            "webgl.clearColor",
+            "webgl.clear",
+            "webgl.drawArrays"
+          ]
+        }
+      ],
+      "commandOps": [
+        "createTexture",
+        "webgl.clearColor",
+        "webgl.clear",
+        "webgl.drawArrays"
+      ],
+      "errors": []
+    }
+  ]
+}

@@ -8,7 +8,7 @@
  * checks interactions, refreshes tiny UI systems, then returns to the cache-
  * busted Chai physics that smooths horizontal velocity.
  */
-import Chai from "../../chai/index.js?v=smooth-velocity-turn-20260602-bh9";
+import Chai from "../../chai/index.js?v=smooth-jump-restored-20260602-bh14";
 
 export default {
     /**

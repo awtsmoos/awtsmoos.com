@@ -8,7 +8,16 @@
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
     "ProceduralSky": [
-      { "name": "quiet_gold_sky", "timeOfDay": 16.8, "timeMultiplier": 0, "position": { "x": 0, "y": 0, "z": 0 } }
+      {
+        "name": "quiet_gold_sky",
+        "timeOfDay": 16.8,
+        "timeMultiplier": 0,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
     ],
     "ProceduralTerrain": [
       {
@@ -19,7 +28,11 @@
         "segments": 1,
         "isSolid": true,
         "textureType": "grass",
-        "position": { "x": 0, "y": -1.05, "z": 0 }
+        "position": {
+          "x": 0,
+          "y": -1.05,
+          "z": 0
+        }
       }
     ],
     "Chossid": [
@@ -33,19 +46,118 @@
         "jumpHeight": 8,
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
-        "position": { "x": -7.5, "y": 1.25, "z": 6.2 }
+        "position": {
+          "x": -7.5,
+          "y": 1.25,
+          "z": 6.2
+        }
       }
     ],
     "VillagePictureProp": [
-      { "name": "small_warm_house", "kind": "gableHouse", "scale": 0.82, "groundY": 0, "groundLift": 0, "position": { "x": 9.5, "z": -7.5 }, "rotation": { "y": -0.25 } },
-      { "name": "low_dirt_path", "kind": "pictureDirtPath", "groundY": 0, "groundLift": 0.01, "position": { "x": -1.5, "z": 4.4 }, "rotation": { "y": -0.05 } },
-      { "name": "tiny_tree_bench", "kind": "bench", "groundY": 0, "groundLift": 0, "position": { "x": -5.8, "z": 7.6 }, "rotation": { "y": 0.3 } },
-      { "name": "front_lantern_grounded", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": -9.5, "z": 6.2 } },
-      { "name": "portal_lantern_grounded", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": 4.2, "z": -2.7 } },
-      { "name": "gentle_flowers_left", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": -4.8, "z": 5.8 } },
-      { "name": "gentle_flowers_right", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": 6.4, "z": -4.4 } },
-      { "name": "short_fence_left", "kind": "fence", "count": 5, "groundY": 0, "groundLift": 0, "position": { "x": -15, "z": 1.7 }, "rotation": { "y": 0.18 } },
-      { "name": "path_rock_grounded", "kind": "rock", "groundY": 0, "groundLift": 0, "position": { "x": -3.4, "z": 4.2 } }
+      {
+        "name": "small_warm_house",
+        "kind": "gableHouse",
+        "scale": 0.82,
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": 9.5,
+          "z": -7.5
+        },
+        "rotation": {
+          "y": -0.25
+        }
+      },
+      {
+        "name": "low_dirt_path",
+        "kind": "pictureDirtPath",
+        "groundY": 0,
+        "groundLift": 0.01,
+        "position": {
+          "x": -1.5,
+          "z": 4.4
+        },
+        "rotation": {
+          "y": -0.05
+        }
+      },
+      {
+        "name": "tiny_tree_bench",
+        "kind": "bench",
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": -5.8,
+          "z": 7.6
+        },
+        "rotation": {
+          "y": 0.3
+        }
+      },
+      {
+        "name": "front_lantern_grounded",
+        "kind": "lantern",
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": -9.5,
+          "z": 6.2
+        }
+      },
+      {
+        "name": "portal_lantern_grounded",
+        "kind": "lantern",
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": 4.2,
+          "z": -2.7
+        }
+      },
+      {
+        "name": "gentle_flowers_left",
+        "kind": "flowerPatch",
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": -4.8,
+          "z": 5.8
+        }
+      },
+      {
+        "name": "gentle_flowers_right",
+        "kind": "flowerPatch",
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": 6.4,
+          "z": -4.4
+        }
+      },
+      {
+        "name": "short_fence_left",
+        "kind": "fence",
+        "count": 5,
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": -15,
+          "z": 1.7
+        },
+        "rotation": {
+          "y": 0.18
+        }
+      },
+      {
+        "name": "path_rock_grounded",
+        "kind": "rock",
+        "groundY": 0,
+        "groundLift": 0,
+        "position": {
+          "x": -3.4,
+          "z": 4.2
+        }
+      }
     ],
     "InteractiveNpc": [
       {
@@ -60,7 +172,11 @@
           "Choose a challenge only when you are ready.",
           "Nothing should pull you into level one by itself."
         ],
-        "position": { "x": -1.8, "y": 0.9, "z": 5.4 }
+        "position": {
+          "x": -1.8,
+          "y": 0.9,
+          "z": 5.4
+        }
       }
     ]
   }

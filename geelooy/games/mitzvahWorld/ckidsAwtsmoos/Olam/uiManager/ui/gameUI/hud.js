@@ -2,9 +2,11 @@
 /**
  * @file hud.js
  * @description
- * Chapter 68: The Perutah tablet obeys the fresh level goal first.
- * The Awtsmoos gives the player breath: progress belongs in the top safe band,
- * not across the middle of the desert where movement and vision must live.
+ * Chapter 90: The HUD Rejected Old Perutah Echoes.
+ *
+ * A reset is an epoch. When the lava returns the Chossid, old coin messages may
+ * still arrive late from the worker river. The HUD stores the newest reset
+ * epoch and refuses any non-reset perutah message from before that epoch.
  */
 const DEFAULT_REQUIRED = 9;
 function readGlobalCoins() { try { return Number(globalThis.localStorage?.getItem("awtsmoosMitzvahGlobalCoins") || 0); } catch { return 0; } }
@@ -13,9 +15,20 @@ function numberFrom(value, fallback = 0) { const n = Number(value); return Numbe
 function find(name) { return document.querySelector(`[shaym="${name}"], [data-shaym="${name}"], #${name}, .${name}`); }
 function datasetOf(host) { return host?.dataset || document.body?.dataset || {}; }
 function pick($, name) { try { return typeof $ === "function" ? $(name) : null; } catch { return null; } }
+function isStalePerutah(ds, data = {}) {
+  const currentEpoch = numberFrom(ds.perutahEpoch, 0);
+  const incomingEpoch = numberFrom(data.perutahEpoch, -1);
+  if (data.reset) return false;
+  return currentEpoch > 0 && incomingEpoch < currentEpoch;
+}
+function rememberEpoch(ds, data = {}) {
+  if (Number.isFinite(Number(data.perutahEpoch))) ds.perutahEpoch = String(Number(data.perutahEpoch));
+}
 function paint(host, $, data = {}) {
   const actualHost = host?.dataset ? host : find("gameHUD") || document.body;
   const ds = datasetOf(actualHost);
+  if (isStalePerutah(ds, data)) return;
+  rememberEpoch(ds, data);
   const required = numberFrom(data.requiredPerutos ?? ds.requiredPerutos, DEFAULT_REQUIRED) || DEFAULT_REQUIRED;
   const oldCollected = numberFrom(ds.collectedPerutos, 0);
   const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : oldCollected + numberFrom(data.added, 0);
@@ -43,10 +56,10 @@ const cardStyle = {
 };
 export default {
   shaym: "gameHUD", className: "game-hud desert-hud",
-  attributes: { "data-required-perutos": String(DEFAULT_REQUIRED), "data-collected-perutos": "0" },
+  attributes: { "data-required-perutos": String(DEFAULT_REQUIRED), "data-collected-perutos": "0", "data-perutah-epoch": "0" },
   on: {
-    awtsmoosRevealed(e, $, ui) { paint(this, $, { requiredPerutos: DEFAULT_REQUIRED, collected: 0, globalCoins: readGlobalCoins() }); },
-    levelGoal(e, $, ui) { paint(this, $, { requiredPerutos: numberFrom(e?.detail?.requiredPerutos, DEFAULT_REQUIRED), collected: 0, globalCoins: readGlobalCoins() }); },
+    awtsmoosRevealed(e, $, ui) { paint(this, $, { requiredPerutos: DEFAULT_REQUIRED, collected: 0, globalCoins: readGlobalCoins(), perutahEpoch: 0 }); },
+    levelGoal(e, $, ui) { paint(this, $, { requiredPerutos: numberFrom(e?.detail?.requiredPerutos, DEFAULT_REQUIRED), collected: 0, globalCoins: readGlobalCoins(), perutahEpoch: 0, reset: true }); },
     perutahProgress(e, $, ui) { paint(this, $, e?.detail || {}); },
     tooltip(e, $, ui) { const tt = pick($, "tooltip") || find("tooltip"); if (tt) { tt.textContent = e?.detail?.text || ""; tt.classList.toggle("hidden", !e?.detail?.show); } }
   },

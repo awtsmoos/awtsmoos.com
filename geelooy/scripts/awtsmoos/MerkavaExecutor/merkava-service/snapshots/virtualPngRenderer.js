@@ -2,9 +2,10 @@
 /**
  * @file virtualPngRenderer.js
  * @description
- * Merkava's native software renderer. It now draws through a supersampled
- * framebuffer so glyphs, borders, WebGL strokes, and 2D canvas edges are softer
- * and less debugger-like before the PNG reaches MiniMax.
+ * Merkava's native software renderer. It accepts explicit snapshot.cssText, but
+ * also extracts <style> blocks from the supplied HTML so proof metadata no
+ * longer says cssBytes: 0 when a source document has real CSS. The Awtsmoos
+ * carries style through the rendered vessel instead of leaving it as rumor.
  */
 import { dataUrlFromPng } from "./pngTools.js";
 import { buildLayoutTree } from "./software/domLayout.js";
@@ -14,11 +15,12 @@ import { makeSupersampledSurface } from "./software/supersample.js";
 export function renderVirtualSnapshotPng(snapshot = {}, options = {}) {
   const width = Number(options.width || 960);
   const height = Number(options.height || 640);
+  const cssText = snapshot.cssText || extractCssText(snapshot.html || "");
   const { surface } = makeSupersampledSurface(width, height, 2, [8, 9, 14, 255]);
-  const layout = buildLayoutTree(snapshot.dom || htmlFallbackDom(snapshot), { width, height }, { cssText: snapshot.cssText || "" });
+  const layout = buildLayoutTree(snapshot.dom || htmlFallbackDom(snapshot), { width, height }, { cssText });
   paintLayout(surface, layout, snapshot.canvas || {});
   const png = surface.toPngBuffer();
-  const proof = analyzePixels(surface, snapshot);
+  const proof = analyzePixels(surface, snapshot, cssText);
   return {
     backend: "merkava-software-webgl-dom",
     width,
@@ -31,16 +33,20 @@ export function renderVirtualSnapshotPng(snapshot = {}, options = {}) {
   };
 }
 
-function analyzePixels(fb, snapshot) {
+function analyzePixels(fb, snapshot, cssText) {
   return {
     nonBackgroundPixels: fb.countNonBackground([8, 9, 14, 255]),
     canvasTextures: snapshot.canvas?.textures?.length || 0,
     canvasCommands: snapshot.canvas?.commands?.length || 0,
-    cssBytes: String(snapshot.cssText || "").length,
+    cssBytes: String(cssText || "").length,
     sampleTopLeft: fb.sample(10, 10),
     sampleCenter: fb.sample(Math.floor(fb.width / 2), Math.floor(fb.height / 2)),
     antialiasing: "2x-supersampled-downsample"
   };
+}
+
+function extractCssText(html) {
+  return [...String(html || "").matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map(match => match[1]).join("\n");
 }
 
 function htmlFallbackDom(snapshot = {}) {

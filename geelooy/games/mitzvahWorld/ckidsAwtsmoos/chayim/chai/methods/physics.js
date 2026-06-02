@@ -2,12 +2,12 @@
 /**
  * @file physics.js
  * @description
- * Chapter 38: The Wrapper Poured The Smooth River.
+ * Chapter 59: The Wrapper Restored Smooth Jumping.
  *
- * The Awtsmoos breaks the stale direct-snap browser stream so the smoothed
- * horizontal velocity core reaches the player in the actual runtime.
+ * The Awtsmoos breaks the previous anti-chop cache so the player receives the
+ * no-ground-lock, continuous-step jump physics.
  */
-import basePhysics from "./physics/index.js?v=smooth-velocity-turn-20260602-bh9";
+import basePhysics from "./physics/index.js?v=smooth-jump-restored-20260602-bh14";
 
 /** @param {object} entity Chossid-like body. @returns {void} */
 function holdVisibleBody(entity) {

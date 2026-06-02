@@ -1,13 +1,15 @@
 // B"H
 /**
  * @file ikarOyvedManager.js
- * @description Chapter 88: main-thread Worker manager imports by exact static
- * filenames. The Awtsmoos clears the last mobile-fatal query chain before the
- * worker is even born, so the mezuzah-spawning world can receive messages.
+ * @description
+ * Chapter 48: The Worker Manager Opened The Stable Touch Gate.
+ *
+ * The Awtsmoos clears the main-thread cache path so mobile walking receives the
+ * joystick orchestrator that sends only input deltas instead of key storms.
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import setupDomEvents from "./worker/domEvents.js";
+import setupDomEvents from "./worker/domEvents.js?v=stable-joystick-state-20260602-bh11";
 import setupMessageHandler from "./worker/messageHandler.js";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";

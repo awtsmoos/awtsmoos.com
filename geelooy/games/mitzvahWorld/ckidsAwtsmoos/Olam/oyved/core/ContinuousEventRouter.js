@@ -2,57 +2,53 @@
 /**
  * @file ContinuousEventRouter.js
  * @description
- * Chapter 29: The Respawn Learned Feet, Not Centers.
+ * Chapter 88: The Reset Epoch Sealed The Counter.
  *
- * The Awtsmoos resets the Chossid to authored feet-on-ground coordinates after
- * the lava countdown. It uses the player's own `setPosition`, restores the
- * visual robe, clears input, resets hazards, and immediately returns control.
+ * The Awtsmoos resets perutos in one breath and stamps that breath with an
+ * epoch. Any old coin message from before the lava reset becomes dust when it
+ * reaches the HUD after the zeroing decree.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import RenderTrace from "../../methods/canvas/RenderTrace.js";
 import { rememberCanvasPayload } from "./CanvasMemory.js";
 
 const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
+const MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_ROTATE", "RIGHT_ROTATE", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"]);
 const findPlayer = olam => olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
 
-/** @param {object} root Object3D root. @param {boolean} visible Visibility. */
 function setTreeVisible(root, visible) {
   if (!root) return;
   root.visible = visible;
   root.traverse?.(child => { child.visible = visible; });
 }
 
-/** @param {object} olam World. @param {object} player Player. */
+function currentRunMode(olam) {
+  if (olam?.runMode === "walk") return false;
+  if (olam?.runMode === "run") return true;
+  if (olam?.inputs && Object.prototype.hasOwnProperty.call(olam.inputs, "RUNNING")) return olam.inputs.RUNNING === true;
+  return true;
+}
+
 function clearInput(olam, player) {
-  player.moving = { stridingLeft: false, stridingRight: false, forward: false, backward: false, turningLeft: false, turningRight: false, running: false, jump: false };
+  const running = currentRunMode(olam);
+  player.moving = { stridingLeft: false, stridingRight: false, forward: false, backward: false, turningLeft: false, turningRight: false, running, jump: false };
   player.velocity?.set?.(0, 0, 0);
   player.acceleration?.set?.(0, 0, 0);
   if (olam?.keyStates) Object.keys(olam.keyStates).forEach(key => { olam.keyStates[key] = false; });
-  if (olam?.inputs) Object.keys(olam.inputs).forEach(key => { olam.inputs[key] = false; });
+  olam.inputs = { ...(olam.inputs || {}) };
+  MOVE_FLAGS.forEach(key => { olam.inputs[key] = false; });
+  olam.inputs.RUNNING = running;
+  olam.runMode = running ? "run" : "walk";
 }
 
-/** @param {object} player Player. @param {boolean} frozen Frozen state. */
 function stablePlayerFlags(player, frozen) {
   Object.assign(player, {
-    __spikeDefeated: frozen,
-    __spikeDeathControlsFrozen: frozen,
-    __spikeColliderDisabled: frozen,
-    __spikeResetCountdown: frozen,
-    onFloor: !frozen,
-    isOnGround: !frozen,
-    onGround: !frozen,
-    grounded: !frozen,
-    jumped: false,
-    didJump: false,
-    fallingFrames: 0,
-    startedWalking: false,
-    isWalking: false,
-    isTurning: false,
-    movingAutomatically: false
+    __spikeDefeated: frozen, __spikeDeathControlsFrozen: frozen, __spikeColliderDisabled: frozen, __spikeResetCountdown: frozen,
+    onFloor: !frozen, isOnGround: !frozen, onGround: !frozen, grounded: !frozen,
+    jumped: false, didJump: false, fallingFrames: 0, startedWalking: false, isWalking: false, isTurning: false, movingAutomatically: false
   });
 }
 
-/** @param {object} player Player. @param {{x:number,y:number,z:number}} pos Feet position. */
 function resetPlayerPhysics(player, pos) {
   const feet = new THREE.Vector3(pos.x, pos.y, pos.z);
   if (typeof player.setPosition === "function") player.setPosition(feet);
@@ -78,7 +74,6 @@ function resetPlayerPhysics(player, pos) {
   player.nonRotatingEmptyForMovement?.position?.copy?.(player.mesh?.position || feet);
 }
 
-/** @param {object} olam World. @returns {number} Reset count. */
 function resetHazards(olam) {
   let resetSpikes = 0;
   olam?.nivrayim?.forEach?.(nivra => {
@@ -89,14 +84,30 @@ function resetHazards(olam) {
   return resetSpikes;
 }
 
-/** @param {object} player Player. */
+function resetLevelCollectibles(olam) {
+  olam.__perutahResetLock = true;
+  olam.__perutahResetEpoch = Number(olam.__perutahResetEpoch || 0) + 1;
+  olam.__levelPerutosCollected = 0;
+  olam.__tzedakahBlessed = false;
+  let restoredPerutos = 0;
+  olam?.nivrayim?.forEach?.(nivra => {
+    if (nivra?.type !== "coin") return;
+    nivra.resetForLevelRestart?.();
+    restoredPerutos += 1;
+  });
+  const payload = { collected: 0, requiredPerutos: olam.requiredPerutos || 0, reset: true, restoredPerutos, silent: true, perutahEpoch: olam.__perutahResetEpoch };
+  olam?.ayshPeula?.("ui event", "perutahProgress", payload);
+  olam?.ayshPeula?.("ui event", "gameHUD", { perutahProgress: payload });
+  setTimeout(() => { olam.__perutahResetLock = false; }, 220);
+  return restoredPerutos;
+}
+
 function revealPlayerRoots(player) {
   [player.mesh, player.modelMesh, player.guf, player.visualObject, player.emptyCopy, player.nonRotatingEmptyForMovement].forEach(root => setTreeVisible(root, true));
   player.updateAppearance?.();
   player.playChaweeyoos?.(player.getChaweeyoos?.("idle"));
 }
 
-/** @param {object} root Object3D. */
 function disposeThreeObject(root) {
   root?.traverse?.(child => {
     child.geometry?.dispose?.();
@@ -105,7 +116,6 @@ function disposeThreeObject(root) {
   });
 }
 
-/** @param {object} olam World. */
 function destroyWorld(olam) {
   let disposed = 0;
   try {
@@ -115,12 +125,9 @@ function destroyWorld(olam) {
     olam?.renderer?.renderLists?.dispose?.();
     olam?.worldOctree?.clear?.();
     if (Array.isArray(olam?.nivrayim)) olam.nivrayim.length = 0;
-  } finally {
-    self.postMessage({ destroyed: true, disposed });
-  }
+  } finally { self.postMessage({ destroyed: true, disposed }); }
 }
 
-/** @param {object} olam World. @param {object} payload Reset payload. */
 function resetAfterSpikeDeath(olam, payload = {}) {
   const player = findPlayer(olam);
   const pos = { ...START_FEET, ...(payload.position || {}) };
@@ -131,23 +138,24 @@ function resetAfterSpikeDeath(olam, payload = {}) {
   stablePlayerFlags(player, false);
   clearInput(olam, player);
   resetPlayerPhysics(player, pos);
+  const restoredPerutos = resetLevelCollectibles(olam);
   revealPlayerRoots(player);
   olam.chossid = player;
   olam.player = player;
   const resetSpikes = resetHazards(olam);
-  self.postMessage({ type: "spikeResetComplete", payload: { ok: true, pos, resetSpikes, colliderDisabled: false, running: false, token: olam.__spikeDeathToken } });
+  self.postMessage({ type: "spikeResetComplete", payload: { ok: true, pos, resetSpikes, restoredPerutos, perutahEpoch: olam.__perutahResetEpoch, colliderDisabled: false, running: olam.inputs?.RUNNING, runMode: olam.runMode, token: olam.__spikeDeathToken } });
 }
 
-/** @param {object} olam World. */
 function enableAfterSpikeReset(olam) {
   const player = findPlayer(olam);
   if (!player) return void self.postMessage({ type: "spikeEnableComplete", payload: { ok: false, reason: "missing-player" } });
   olam.__spikeDeathActive = false;
   stablePlayerFlags(player, false);
   clearInput(olam, player);
+  resetLevelCollectibles(olam);
   resetHazards(olam);
   revealPlayerRoots(player);
-  self.postMessage({ type: "spikeEnableComplete", payload: { ok: true, colliderDisabled: false, running: false, token: olam.__spikeDeathToken } });
+  self.postMessage({ type: "spikeEnableComplete", payload: { ok: true, colliderDisabled: false, perutahEpoch: olam.__perutahResetEpoch, running: olam.inputs?.RUNNING, runMode: olam.runMode, token: olam.__spikeDeathToken } });
 }
 
 export class ContinuousEventRouter {
@@ -175,7 +183,6 @@ export class ContinuousEventRouter {
     wheel: (olam, payload) => olam.ayshPeula("wheel", payload)
   };
 
-  /** @param {object} olam World. @param {string} key Event key. @param {object} payload Payload. @param {Map} promiseMap Promises. */
   static async route(olam, key, payload, promiseMap) {
     if (!olam && key !== "vessel_ready") return;
     const action = this.actionMap[key];

@@ -1,0 +1,182 @@
+{
+  "generatedAt": "2026-06-02T18:06:52.031Z",
+  "pass": true,
+  "image": {
+    "path": "AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/complex-layout/complex-layout.png",
+    "bytes": 45904,
+    "sha256": "c0615c192d85f32c5332aa09a0cd7b906dbb22a226cfadd44efc8c1f10fd9fd1",
+    "width": 960,
+    "height": 640
+  },
+  "checks": {
+    "runtimeOk": true,
+    "workerReply": true,
+    "domCanvas": true,
+    "offscreenTexture": true,
+    "nestedOffscreenTexture": true,
+    "workerTexture": true,
+    "webglTexture": true,
+    "drawImages": true,
+    "textOpsNamed": true,
+    "formsVisibleReadable": true,
+    "rainbowVisible": true,
+    "webglYellowTriangle": true,
+    "fitsViewport": true
+  },
+  "values": {
+    "window.complexState": {
+      "ready": true,
+      "commands": 30,
+      "worker": true
+    }
+  },
+  "colorStats": {
+    "red": 1271,
+    "green": 16072,
+    "blue": 56727,
+    "yellow": 10014,
+    "magenta": 8599,
+    "cyan": 27709,
+    "lime": 11454,
+    "white": 5372,
+    "total": 614400
+  },
+  "textures": [
+    {
+      "id": 0,
+      "kind": "canvas-2d",
+      "width": 230,
+      "height": 150,
+      "ops": [
+        "fillRect",
+        "fillRect",
+        "strokePath",
+        "fillText"
+      ]
+    },
+    {
+      "id": 1,
+      "kind": "canvas-2d",
+      "width": 90,
+      "height": 55,
+      "ops": [
+        "fillRect",
+        "fillRect",
+        "strokePath"
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "canvas-2d",
+      "width": 190,
+      "height": 112,
+      "ops": [
+        "fillRect",
+        "fillRect",
+        "drawImageTexture",
+        "strokePath",
+        "clip",
+        "fillRect"
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "canvas-2d",
+      "width": 230,
+      "height": 150,
+      "ops": [
+        "fillRect",
+        "drawImageTexture",
+        "fillText"
+      ]
+    },
+    {
+      "id": 4,
+      "kind": "canvas-2d",
+      "width": 410,
+      "height": 82,
+      "ops": [
+        "fillRect",
+        "drawImageTexture",
+        "fillRect",
+        "strokePath",
+        "fillText"
+      ]
+    },
+    {
+      "id": 5,
+      "kind": "canvas-webgl",
+      "width": 410,
+      "height": 250,
+      "ops": [
+        "webgl.clearColor",
+        "webgl.clear",
+        "webgl.drawArrays"
+      ]
+    },
+    {
+      "id": 6,
+      "kind": "canvas-2d",
+      "width": 180,
+      "height": 90,
+      "ops": [
+        "fillRect",
+        "fillRect",
+        "fillRect",
+        "strokePath"
+      ]
+    },
+    {
+      "id": 7,
+      "kind": "canvas-2d",
+      "width": 230,
+      "height": 150,
+      "ops": [
+        "fillRect",
+        "drawImageTexture",
+        "fillText"
+      ]
+    }
+  ],
+  "commandOps": [
+    "createTexture",
+    "fillRect",
+    "fillRect",
+    "strokePath",
+    "fillText",
+    "createTexture",
+    "fillRect",
+    "fillRect",
+    "strokePath",
+    "createTexture",
+    "fillRect",
+    "fillRect",
+    "drawImageTexture",
+    "strokePath",
+    "clip",
+    "fillRect",
+    "createTexture",
+    "fillRect",
+    "drawImageTexture",
+    "fillText",
+    "createTexture",
+    "fillRect",
+    "drawImageTexture",
+    "fillRect",
+    "strokePath",
+    "fillText",
+    "createTexture",
+    "webgl.clearColor",
+    "webgl.clear",
+    "webgl.drawArrays",
+    "createTexture",
+    "fillRect",
+    "fillRect",
+    "fillRect",
+    "strokePath",
+    "createTexture",
+    "fillRect",
+    "drawImageTexture",
+    "fillText"
+  ]
+}

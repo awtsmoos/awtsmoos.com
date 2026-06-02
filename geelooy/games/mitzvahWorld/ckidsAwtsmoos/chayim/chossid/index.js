@@ -2,19 +2,19 @@
 /**
  * @module Chossid
  * @description
- * Chapter 43: The Walker Took A Silk Step.
+ * Chapter 65: The Walker Entered Run-Time.
  *
- * The Awtsmoos refreshes every player import: quiet input, smoothed velocity,
- * faster turn, measured visual lift, and the same lava-safe respawn covenant.
+ * The Awtsmoos refreshes Chossid so the fast animation ancestry and platformer
+ * run mapping reach the actual player class.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=smooth-velocity-turn-20260602-bh9";
+import Chai from "../chai/index.js?v=fast-platformer-blend-20260602-bh15";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import controlMethods from './methods/controls.js?v=smooth-velocity-turn-20260602-bh9';
+import controlMethods from './methods/controls.js?v=smooth-jump-restored-20260602-bh14';
 import interactionMethods from './methods/interaction.js?v=lean-l1-20260528-bh36';
-import lifecycleMethods from './methods/lifecycle.js?v=smooth-velocity-turn-20260602-bh9';
+import lifecycleMethods from './methods/lifecycle.js?v=smooth-jump-restored-20260602-bh14';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
-import updateMethods from './methods/update.js?v=smooth-velocity-turn-20260602-bh9';
+import updateMethods from './methods/update.js?v=smooth-jump-restored-20260602-bh14';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 
 /** @returns {object} Small fallback body definition. */
@@ -51,6 +51,9 @@ export default class Chossid extends Chai {
     options.lerpTurnSpeed ||= 0.38;
     options.movementResponsiveness ||= 18;
     options.stopResponsiveness ||= 28;
+    options.animationBlendDuration ||= 0.055;
+    options.animationActionTimeScale ||= 1.18;
+    options.animationSpeedScale ||= 1.2;
     options.isSolid = false;
     super(options, olam);
     this.isLeanPlatformerPlayer = lean;
@@ -101,12 +104,10 @@ export default class Chossid extends Chai {
   resetPreviewRotation() { this.placementRotation = 0; }
   shoot() {}
 
-  /** @param {object} entity Approached entity. @returns {void} */
-  rememberApproach(entity) {
-    if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity);
-  }
+  /** @param {object} entity Approached entity. */
+  rememberApproach(entity) { if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity); }
 
-  /** @param {object} entity Departed entity. @returns {void} */
+  /** @param {object} entity Departed entity. */
   forgetApproach(entity) {
     const idx = this.approachedEntities.indexOf(entity);
     if (idx > -1) this.approachedEntities.splice(idx, 1);

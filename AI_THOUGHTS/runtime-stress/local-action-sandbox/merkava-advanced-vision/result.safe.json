@@ -3,9 +3,9 @@
   "values": {
     "window.appState": {
       "ready": true,
-      "canvas2d": true,
-      "webgl": true,
-      "nested": true
+      "metrics": 75.60000000000001,
+      "commands": 21,
+      "worker": "OK"
     }
   },
   "image": {
@@ -13,14 +13,14 @@
     "mimeType": "image/png",
     "width": 960,
     "height": 640,
-    "bytes": 18377,
+    "bytes": 21337,
     "dataUrl": "[omitted-data-url]",
     "note": "Rendered from Merkava DOM layout + source CSS + supersampled software framebuffer + 2D/WebGL command painters.",
     "proof": {
       "nonBackgroundPixels": 614400,
-      "canvasTextures": 2,
-      "canvasCommands": 14,
-      "cssBytes": 0,
+      "canvasTextures": 4,
+      "canvasCommands": 29,
+      "cssBytes": 572,
       "sampleTopLeft": [
         9,
         11,
@@ -42,16 +42,59 @@
     {
       "id": 0,
       "kind": "canvas-2d",
-      "commands": 9,
-      "width": 300,
-      "height": 160
+      "commands": [
+        "fillRect",
+        "fillRect",
+        "fillRect",
+        "fillRect",
+        "strokeRect",
+        "fillTextPlaceholder",
+        "drawImageTexture",
+        "drawImageTexture",
+        "fillTextPlaceholder"
+      ],
+      "width": 420,
+      "height": 260
     },
     {
       "id": 1,
+      "kind": "canvas-2d",
+      "commands": [
+        "fillRect",
+        "setLineDash",
+        "strokePath",
+        "clip",
+        "fillRect",
+        "fillTextPlaceholder",
+        "getImageData",
+        "putImageData"
+      ],
+      "width": 180,
+      "height": 120
+    },
+    {
+      "id": 2,
       "kind": "canvas-webgl",
-      "commands": 3,
-      "width": 300,
-      "height": 160
+      "commands": [
+        "webgl.clearColor",
+        "webgl.clear",
+        "webgl.drawArrays"
+      ],
+      "width": 420,
+      "height": 260
+    },
+    {
+      "id": 3,
+      "kind": "canvas-2d",
+      "commands": [
+        "fillRect",
+        "fillRect",
+        "fillRect",
+        "strokePath",
+        "fillTextPlaceholder"
+      ],
+      "width": 160,
+      "height": 80
     }
   ]
 }

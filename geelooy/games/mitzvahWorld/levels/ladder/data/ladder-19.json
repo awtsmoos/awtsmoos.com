@@ -37,15 +37,34 @@
         "height": 1.5,
         "radius": 0.45,
         "dynamicSolidRadius": 0.28,
-        "speed": 65,
-        "speedScale": 2,
-        "jumpHeight": 15,
+        "speed": 6.9,
+        "speedScale": 1.12,
+        "jumpHeight": 13.5,
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
           "x": -8,
-          "y": 4,
+          "y": 0.5,
           "z": 0
+        },
+        "visualGroundBiasY": -0.34,
+        "rotationSpeed": 5.2,
+        "lerpTurnSpeed": 0.42,
+        "movementResponsiveness": 24,
+        "stopResponsiveness": 34,
+        "animationBlendDuration": 0.055,
+        "animationActionTimeScale": 1.18,
+        "animationSpeedScale": 1.2,
+        "runModeScale": 1,
+        "walkModeScale": 0.56,
+        "chaweeyoosMap": {
+          "run": "run",
+          "walk": "walk",
+          "idle": "stand",
+          "jump": "jump",
+          "falling": "falling",
+          "right turn": "right turn",
+          "left turn": "left turn"
         }
       }
     ],
@@ -679,21 +698,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_2",
@@ -707,21 +727,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_3",
@@ -735,21 +756,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_4",
@@ -763,21 +785,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_5",
@@ -791,21 +814,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_6",
@@ -819,21 +843,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_7",
@@ -847,21 +872,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_8",
@@ -875,21 +901,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_9",
@@ -903,21 +930,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_10",
@@ -931,21 +959,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_11",
@@ -959,21 +988,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_12",
@@ -987,21 +1017,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_13",
@@ -1015,21 +1046,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_14",
@@ -1043,21 +1075,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_15",
@@ -1071,21 +1104,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_16",
@@ -1099,21 +1133,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_17",
@@ -1127,21 +1162,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_18",
@@ -1155,21 +1191,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_19",
@@ -1183,21 +1220,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_20",
@@ -1211,21 +1249,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_21",
@@ -1239,21 +1278,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_22",
@@ -1267,21 +1307,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_23",
@@ -1295,21 +1336,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_24",
@@ -1323,21 +1365,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "perutah_19_25",
@@ -1351,21 +1394,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       }
     ],
     "InteractiveDoor": [

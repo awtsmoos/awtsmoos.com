@@ -8,7 +8,7 @@
  * class that supports smoothed velocity, faster turn, and measured GLB lift.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Chai from "../../chai/index.js?v=smooth-velocity-turn-20260602-bh9";
+import Chai from "../../chai/index.js?v=smooth-jump-restored-20260602-bh14";
 import { ensureFallbackBody } from './lifecycle/fallbackBody.js';
 import { prepareChossidModel } from './lifecycle/model.js?v=measured-visual-lift-20260602-bh6';
 

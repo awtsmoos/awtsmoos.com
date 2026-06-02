@@ -41,15 +41,34 @@
         "height": 1.5,
         "radius": 0.45,
         "dynamicSolidRadius": 0.28,
-        "speed": 65,
-        "speedScale": 2,
-        "jumpHeight": 15,
+        "speed": 6.9,
+        "speedScale": 1.12,
+        "jumpHeight": 13.5,
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
           "x": -10,
-          "y": 5.4,
+          "y": 0.425,
           "z": 0
+        },
+        "visualGroundBiasY": -0.34,
+        "rotationSpeed": 5.2,
+        "lerpTurnSpeed": 0.42,
+        "movementResponsiveness": 24,
+        "stopResponsiveness": 34,
+        "animationBlendDuration": 0.055,
+        "animationActionTimeScale": 1.18,
+        "animationSpeedScale": 1.2,
+        "runModeScale": 1,
+        "walkModeScale": 0.56,
+        "chaweeyoosMap": {
+          "run": "run",
+          "walk": "walk",
+          "idle": "stand",
+          "jump": "jump",
+          "falling": "falling",
+          "right turn": "right turn",
+          "left turn": "left turn"
         }
       }
     ],
@@ -528,21 +547,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_anchor_one",
@@ -556,21 +576,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_anchor_two",
@@ -584,21 +605,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_bridge_one",
@@ -612,21 +634,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_bridge_two",
@@ -640,21 +663,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_bridge_three",
@@ -668,21 +692,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_safe_breath",
@@ -696,21 +721,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_side_mover",
@@ -724,21 +750,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_blink",
@@ -752,21 +779,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_after_push",
@@ -780,21 +808,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       },
       {
         "name": "gimmel_coin_gate",
@@ -808,21 +837,22 @@
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
+              0.58,
+              0.58,
+              0.13,
+              40
             ]
           },
           "toyr": {
             "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
             }
           }
-        }
+        },
+        "proximity": 1.15
       }
     ],
     "TzedakahBox": [
@@ -850,9 +880,10 @@
         "manualOnly": true,
         "position": {
           "x": 40.25,
-          "y": 9.6,
+          "y": 10.3,
           "z": 2.3
-        }
+        },
+        "mezuzahPlacement": "upper-third-right-doorpost"
       }
     ],
     "FallResetTrigger": [

@@ -2,11 +2,10 @@
 /**
  * @module uiHandlers
  * @description
- * Chapter 28: The Lava Pause Became A Gate.
+ * Chapter 91: The Browser HUD Guarded The Epoch Too.
  *
- * The Awtsmoos no longer flings the player back instantly after lava. The page
- * shows a clear molten veil, waits for any tap/key, counts down three breaths,
- * then asks the worker to return the Chossid to the authored starting platform.
+ * The worker-side HUD fallback mirrors the in-DOM HUD component. Reset stores a
+ * perutah epoch, and late collection messages from before reset are ignored.
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
 
@@ -45,13 +44,24 @@ async function launchLevel(manager, id) {
   return true;
 }
 
+function isStalePerutah(ds, data = {}) {
+  const currentEpoch = n(ds.perutahEpoch, 0);
+  const incomingEpoch = n(data.perutahEpoch, -1);
+  if (data.reset) return false;
+  return currentEpoch > 0 && incomingEpoch < currentEpoch;
+}
+
 function updatePerutahHud(data = {}) {
   const host = hudHost();
   const ds = host.dataset || (host.dataset = {});
+  if (isStalePerutah(ds, data)) return;
+  if (Number.isFinite(Number(data.perutahEpoch))) ds.perutahEpoch = String(Number(data.perutahEpoch));
   const required = n(data.requiredPerutos ?? ds.requiredPerutos, 9) || 9;
   const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : n(ds.collectedPerutos, 0) + n(data.added, 0);
   const globalCoins = Number.isFinite(Number(data.globalCoins)) ? Number(data.globalCoins) : readGlobalCoins() + n(data.globalAdded, 0);
-  ds.requiredPerutos = String(required); ds.collectedPerutos = String(collected); writeGlobalCoins(globalCoins);
+  ds.requiredPerutos = String(required);
+  ds.collectedPerutos = String(collected);
+  writeGlobalCoins(globalCoins);
   const goal = q("hud-perutah-goal"), bar = q("hud-perutah-bar"), status = q("hud-perutah-status"), global = q("hud-global-coins");
   if (goal) goal.textContent = `${collected}/${required}`;
   if (bar) bar.style.width = `${Math.min(100, required ? collected / required * 100 : 0)}%`;
@@ -64,7 +74,8 @@ function setLevelGoal(data = {}) {
   const ds = host.dataset || (host.dataset = {});
   ds.requiredPerutos = String(n(data.requiredPerutos, 9) || 9);
   ds.collectedPerutos = "0";
-  updatePerutahHud({ requiredPerutos: ds.requiredPerutos, collected: 0, globalCoins: readGlobalCoins() });
+  ds.perutahEpoch = "0";
+  updatePerutahHud({ requiredPerutos: ds.requiredPerutos, collected: 0, globalCoins: readGlobalCoins(), perutahEpoch: 0, reset: true });
 }
 
 function openLevelSelect(manager, data = {}) { openNpcChallengeOverlay(manager, { title: data.title || "Choose Levels", lines: ["Pick a challenge."], chooserOpen: true }); }
@@ -82,15 +93,14 @@ function openNpcChallengeOverlay(manager, data = {}) {
   overlay.querySelectorAll("[data-level-id]").forEach(btn => btn.addEventListener("click", async () => { try { closeNpcOverlay(); await launchLevel(manager, btn.dataset.levelId); } catch (error) { console.error('B"H - NPC level launch failed', error); alert("Could not load that level yet."); } }));
 }
 
-function navigateLevel(manager, data = {}) { const next = String(data.next || data.path || "").trim().replace(/\.js$/i, ".json"); if (next) launchLevel(manager, next).catch(error => console.error('B"H - direct level navigation failed', error)); }
-function dispatchInventory(ob = {}) { window.dispatchEvent(new CustomEvent("awtsInventoryUpdate", { detail: ob })); document.getElementById("inventoryScreen")?.dispatchEvent(new CustomEvent("awtsInventoryOpen", { bubbles: true })); }
-function tzedakahLetters(data = {}) { const msg = document.createElement("div"); msg.textContent = data.text || "צדקה תציל ממות — Giving opens the gate"; msg.style.cssText = "position:fixed;left:50%;top:32%;transform:translate(-50%,-50%);z-index:2147483647;font:bold 24px Arial;color:#ffd54a;text-align:center;text-shadow:0 0 18px #3cff86,0 0 10px #000;pointer-events:none;"; document.body.appendChild(msg); setTimeout(() => msg.remove(), 1400); }
-function floatingText(data = {}) { if (!data.text || data.effect === "spikeDeath") return; const el = document.createElement("div"); el.textContent = data.text; el.style.cssText = `position:fixed;left:50%;top:34%;z-index:2147483646;transform:translate(-50%,-50%);font:bold 24px Arial;color:${data.color || "#fff"};text-shadow:0 0 12px #000;pointer-events:none;`; document.body.appendChild(el); setTimeout(() => el.remove(), 900); }
-
-function postSpikeReset(manager) {
-  manager?.eved?.postMessage?.({ resetAfterSpikeDeath: { position: START_FEET, forceRunMode: false, resetLevelCollectibles: true } });
+function navigateLevel(manager, data = {}) {
+  const next = String(data.next || data.path || "").trim().replace(/\.js$/i, ".json");
+  if (next) launchLevel(manager, next).catch(error => console.error('B"H - direct level navigation failed', error));
 }
+function dispatchInventory(ob = {}) { window.dispatchEvent(new CustomEvent("awtsInventoryUpdate", { detail: ob })); document.getElementById("inventoryScreen")?.dispatchEvent(new CustomEvent("awtsInventoryOpen", { bubbles: true })); }
+function tzedakahLetters(data = {}) { const msg = document.createElement("div"); msg.textContent = data.text || "צדקה תציל ממות — Giving opens the gate"; msg.style.cssText = "position:fixed;left:50%;top:32%;transform:translate(-50%,-50%);z-index:2147483647;font:bold 24px Arial;color:#ffd54a;text-align:center;text-shadow:0 0 18px #3cff86,0 0 10px #000;pointer-events:none;white-space:pre-line;"; document.body.appendChild(msg); setTimeout(() => msg.remove(), 1400); }
 
+function postSpikeReset(manager) { manager?.eved?.postMessage?.({ resetAfterSpikeDeath: { position: START_FEET, forceRunMode: false, resetLevelCollectibles: true } }); }
 function showSpikeResetOverlay(manager, data = {}) {
   if (document.getElementById("awtsmoos-spike-reset-overlay")) return;
   const overlay = document.createElement("div");
@@ -107,11 +117,7 @@ function showSpikeResetOverlay(manager, data = {}) {
     text.textContent = "Returning in...";
     let left = 3;
     count.textContent = String(left);
-    const timer = setInterval(() => {
-      left -= 1;
-      if (left <= 0) { clearInterval(timer); overlay.remove(); postSpikeReset(manager); return; }
-      count.textContent = String(left);
-    }, 700);
+    const timer = setInterval(() => { left -= 1; if (left <= 0) { clearInterval(timer); overlay.remove(); postSpikeReset(manager); return; } count.textContent = String(left); }, 700);
   };
   overlay.addEventListener("pointerdown", start, { once: true });
   window.addEventListener("keydown", start, { once: true });
@@ -125,7 +131,8 @@ function directFallback(manager, shaym, ob) {
   if (shaym === "inventoryScreen") dispatchInventory(ob);
   if (shaym === "navigateLevel") navigateLevel(manager, ob);
   if (shaym === "tzedakahBlessing") tzedakahLetters(ob);
-  if (shaym === "effectsOverlay") { if (ob?.effect === "tzedakahBlessing") tzedakahLetters(ob); floatingText(ob); if (ob?.effect === "spikeDeath") showSpikeResetOverlay(manager, ob); }
+  if (shaym === "effectsOverlay" && ob?.effect === "spikeDeath") showSpikeResetOverlay(manager, ob);
+  if (shaym === "effectsOverlay" && ob?.effect === "tzedakahBlessing") tzedakahLetters(ob);
 }
 
 export default function uiHandlers(manager) {
@@ -136,6 +143,15 @@ export default function uiHandlers(manager) {
     hideLoadingScreen() { VeilController.lift(); document.body.style.overflow = "hidden"; },
     increasedOlamLoading(data) { const percent = (data?.amount || 0) + "%"; manager.myUi.htmlAction({ shaym: "loading bar", properties: { style: { width: percent } } }); const bar = document.getElementById("genesisProgressBar"); if (bar) bar.style.width = percent; const text = document.getElementById("genesisActionText") || document.querySelector('[shaym="action loading"]'); if (text && data?.action) text.textContent = data.action; },
     resetPercentage() { const bar = document.getElementById("genesisProgressBar"); if (bar) bar.style.width = "0%"; },
-    sendUiEvent(data) { const { shaym, ob, id } = data || {}; if (DIRECT_EVENTS.has(shaym)) directFallback(manager, shaym, ob); else { try { if (shaym && manager.myUi) manager.myUi.peula(shaym, ob, id); } catch (error) { console.warn('B"H - UI peula fallback engaged', shaym, error); } directFallback(manager, shaym, ob); } if (id && manager.eved) manager.eved.postMessage({ type: "uiEvented", id }); }
+    sendUiEvent(data) {
+      const { shaym, ob, id } = data || {};
+      if (DIRECT_EVENTS.has(shaym)) directFallback(manager, shaym, ob);
+      else {
+        try { if (shaym && manager.myUi) manager.myUi.peula(shaym, ob, id); }
+        catch (error) { console.warn('B"H - UI peula fallback engaged', shaym, error); }
+        directFallback(manager, shaym, ob);
+      }
+      if (id && manager.eved) manager.eved.postMessage({ type: "uiEvented", id });
+    }
   };
 }

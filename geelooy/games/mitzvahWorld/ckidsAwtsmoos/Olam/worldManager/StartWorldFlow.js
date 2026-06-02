@@ -2,12 +2,12 @@
 /**
  * @file StartWorldFlow.js
  * @description
- * Chapter 89: level changes no longer summon a new worker every time. The
- * Awtsmoos keeps one white-hot worker breathing, asks the current world to
- * dissolve, then sends the next `pawsawch` payload into the same thread. The
- * canvas is transferred only once; later levels reuse that vessel.
+ * Chapter 49: The World Flow Opened The Stable Worker Gate.
+ *
+ * The Awtsmoos cache-busts the manager that binds DOM input, ensuring mobile
+ * joystick movement uses stable key-state deltas instead of repeated releases.
  */
-import OlamWorkerManager from "../ikarOyvedManager.js";
+import OlamWorkerManager from "../ikarOyvedManager.js?v=stable-joystick-state-20260602-bh11";
 
 const WORLD_FLOW_PATHS = Object.freeze({
   WORKER_ENTRY: "../oyved/index.js",

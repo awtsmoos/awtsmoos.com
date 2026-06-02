@@ -2,14 +2,13 @@
 /**
  * @file index.js
  * @description
- * Chapter 15: The Ayin lowers from the clouds to the Chossid's shoulders.
+ * Chapter 53: The Ayin Imported The Breath-Smooth Follow.
  *
- * The Awtsmoos gives the camera a calmer mobile vessel: farther back, less
- * buried in the player's hair, and cache-busted into the same bh19 river as the
- * touch controls. The eye now has room to see the ladder before it judges it.
+ * The Awtsmoos gives the camera a calmer mobile vessel and imports the update
+ * loop that smooths target Y, camera distance, and jump collision correction.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import update from "./methods/update/index.js?v=lean-l1-20260528-bh19";
+import update from "./methods/update/index.js?v=old-smooth-camera-20260602-bh13";
 import controls from "./methods/controls.js?v=lean-l1-20260528-bh19";
 import collision from "./methods/collision.js?v=lean-l1-20260528-bh19";
 
@@ -68,6 +67,7 @@ export default class Ayin {
     this.modelMesh = null;
     this.sentToOlam = false;
     this.newMovement = false;
+    this.__smoothTargetPosition = null;
     this.update = update.bind(this);
     Object.keys(controls).forEach(q => { this[q] = controls[q].bind(this); });
     Object.keys(collision).forEach(q => { this[q] = collision[q].bind(this); });
@@ -77,6 +77,7 @@ export default class Ayin {
 
   set target(v) {
     this._target = v;
+    this.__smoothTargetPosition = null;
     if (v && typeof v.height === 'number') this.targetHeight = Math.max(0.8, Math.min(1.15, v.height * 0.62));
   }
 

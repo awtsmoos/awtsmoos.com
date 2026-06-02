@@ -60,7 +60,63 @@ function compactNode(node, depth) {
   };
 }
 function ownText(node) { if (!node) return ""; if (!Array.from(node.children || []).length) return String(node.textContent || ""); return String(node._textContent || ""); }
-function canvasSnapshot(raw) { return safeClone(liveDocument(raw)?.textureArena?.snapshot?.() || null); }
+function canvasSnapshot(raw) { return compactCanvasSnapshot(liveDocument(raw)?.textureArena?.snapshot?.() || null); }
+function compactCanvasSnapshot(snapshot) {
+  if (!snapshot) return null;
+  const commands = Array.isArray(snapshot.commands) ? snapshot.commands.map(compactCanvasCommand) : [];
+  const textures = Array.isArray(snapshot.textures) ? snapshot.textures.map(texture => ({
+    id: texture.id,
+    kind: texture.kind,
+    ownerTag: texture.ownerTag,
+    width: texture.width,
+    height: texture.height,
+    commands: Array.isArray(texture.commands) ? texture.commands.map(compactCanvasCommand) : []
+  })) : [];
+  return { textures, commands };
+}
+function compactCanvasCommand(command = {}) {
+  const out = {};
+  for (const [key, value] of Object.entries(command)) {
+    if (key === 'state') out.state = compactCanvasState(value);
+    else if (key === 'path') out.path = clonePathArray(value);
+    else if (key === 'fillStyle' || key === 'strokeStyle') out[key] = compactPaint(value);
+    else out[key] = clonePlainCanvasValue(value, 0);
+  }
+  return out;
+}
+function compactCanvasState(state = {}) {
+  const out = {};
+  for (const [key, value] of Object.entries(state || {})) out[key] = compactPaint(value);
+  return out;
+}
+function compactPaint(value) {
+  if (!value || typeof value !== 'object') return value;
+  if (Array.isArray(value)) return value.map(item => clonePlainCanvasValue(item, 0));
+  const out = {};
+  for (const [key, inner] of Object.entries(value)) {
+    if (key === 'image') continue;
+    out[key] = clonePlainCanvasValue(inner, 0);
+  }
+  return out;
+}
+function clonePathArray(value) { return Array.isArray(value) ? value.map(step => Array.isArray(step) ? step.map(item => clonePlainCanvasValue(item, 0)) : clonePlainCanvasValue(step, 0)) : []; }
+function clonePlainCanvasValue(value, depth) {
+  if (value == null || typeof value !== 'object') return value;
+  if (depth > 8) return '[DepthLimit]';
+  if (Array.isArray(value)) return value.map(item => clonePlainCanvasValue(item, depth + 1));
+  const out = {};
+  for (const [key, inner] of Object.entries(value)) {
+    if (['window','document','ownerDocument','parentNode','children','childNodes','self','globalThis'].includes(key)) continue;
+    out[key] = clonePlainCanvasValue(inner, depth + 1);
+  }
+  return out;
+}
+function cssTextFromFiles(hydrated = {}) {
+  const files = hydrated.files || {};
+  const entry = hydrated.entry || "index.html";
+  const html = String(files[entry] || files[`/${entry}`] || Object.entries(files).find(([k]) => k.endsWith(".html"))?.[1] || "");
+  return [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map(match => match[1]).join("\n");
+}
 
 async function makeSnapshot(raw, result, hydrated, extracted) {
   const live = liveDomSnapshot(raw);
@@ -76,6 +132,7 @@ async function makeSnapshot(raw, result, hydrated, extracted) {
     console: safeClone(raw.console || result.console || []),
     errors: safeClone(result.errors || raw.result?.errors || []),
     canvas: canvasSnapshot(raw),
+    cssText: cssTextFromFiles(hydrated),
     runtime: runtimeSnapshot,
     result: resultSnapshot
   };

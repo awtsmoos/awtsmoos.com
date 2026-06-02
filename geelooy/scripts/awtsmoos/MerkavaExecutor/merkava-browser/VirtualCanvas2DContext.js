@@ -95,8 +95,8 @@
     fillRect(x, y, width, height) { this.record('fillRect', { ...rectData(x, y, width, height), fillStyle: encodePaint(this.fillStyle) }); }
     strokeRect(x, y, width, height) { this.record('strokeRect', { ...rectData(x, y, width, height), strokeStyle: encodePaint(this.strokeStyle) }); }
 
-    fillText(text, x, y, maxWidth) { const run = this.__textRun(text, x, y, maxWidth, 'fill'); this.canvas.ownerDocument?.fontAtlas?.recordText(run); this.record('fillTextPlaceholder', run); }
-    strokeText(text, x, y, maxWidth) { const run = this.__textRun(text, x, y, maxWidth, 'stroke'); this.record('strokeTextPlaceholder', run); }
+    fillText(text, x, y, maxWidth) { const run = this.__textRun(text, x, y, maxWidth, 'fill'); this.canvas.ownerDocument?.fontAtlas?.recordText(run); this.record('fillText', run); }
+    strokeText(text, x, y, maxWidth) { const run = this.__textRun(text, x, y, maxWidth, 'stroke'); this.record('strokeText', run); }
     measureText(text) { return this.canvas.ownerDocument?.fontAtlas?.measure(text, this.font) || fallbackMeasure(text, this.font); }
 
     drawImage(image, ...args) { this.record('drawImageTexture', { sourceTexture: image?.__webglCanvasTexture?.id ?? image?.__webglBoxTexture?.id ?? null, imageWidth: image?.width || 0, imageHeight: image?.height || 0, ...imageBox(image, args) }); }
@@ -121,7 +121,7 @@
     getLineDash() { return this.__lineDash.slice(); }
     reset() { this.__resetState(); this.beginPath(); this.record('reset'); }
     snapshot() { return this.texture; }
-    __pathArg(path) { return path instanceof VirtualPath2D ? path.commands.map(item => item.slice()) : this.__path.map(item => item.slice()); }
+    __pathArg(path) { return path?.commands ? path.commands.map(item => item.slice()) : this.__path.map(item => item.slice()); }
     __textRun(text, x, y, maxWidth, mode) { return { text:String(text), x:n(x), y:n(y), maxWidth:maxWidth == null ? null : n(maxWidth), font:this.font, mode, fillStyle:encodePaint(this.fillStyle), strokeStyle:encodePaint(this.strokeStyle), metrics:this.measureText(String(text)) }; }
   }
 

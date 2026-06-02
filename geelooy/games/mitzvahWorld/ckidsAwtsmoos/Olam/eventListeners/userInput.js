@@ -2,11 +2,11 @@
 /**
  * @file userInput.js
  * @description
- * Chapter 30: The RUNNING input is a real mode, not a forgotten bit.
+ * Chapter 67: The Mode Toggle Became State, Not A Pulse.
  *
- * The Awtsmoos ties the dock's walk/run moon into the same input vessel used by
- * keyboard and joystick movement. Reset can restore run mode, and the player no
- * longer wakes from spikes walking when the level began running.
+ * The Awtsmoos stores run/walk as a durable mode. Key presses may still move,
+ * jump, or pulse tools, but the dock's setRunMode changes RUNNING until the
+ * player toggles it again.
  */
 import PointerUpdater from "../methods/interaction/PointerUpdater.js";
 
@@ -26,19 +26,23 @@ export default function userInputEvents() {
 
   this.on("setInputOut", peula => {
     c = peula.code;
-    if (this.keyBindings[c]) this.inputs[this.keyBindings[c]] = false;
+    if (this.keyBindings[c] && this.keyBindings[c] !== "RUNNING") this.inputs[this.keyBindings[c]] = false;
   });
 
   this.on("setRunMode", peula => {
     const running = peula?.running !== false;
     this.inputs.RUNNING = running;
-    this.ayshPeula("ui event", "effectsOverlay", { text: running ? "Run Mode" : "Walk Mode", color: running ? "#76ff8a" : "#ffd966" });
+    this.runMode = running ? "run" : "walk";
+    this.ayshPeula("ui event", "effectsOverlay", {
+      text: running ? "Run Mode" : "Walk Mode",
+      color: running ? "#76ff8a" : "#ffd966"
+    });
   });
 
   this.on("keyup", peula => {
     c = peula.code;
     this.keyStates[peula.code] = false;
-    if (this.keyBindings[c]) this.inputs[this.keyBindings[c]] = false;
+    if (this.keyBindings[c] && this.keyBindings[c] !== "RUNNING") this.inputs[this.keyBindings[c]] = false;
   });
 
   this.on("presskey", () => {});

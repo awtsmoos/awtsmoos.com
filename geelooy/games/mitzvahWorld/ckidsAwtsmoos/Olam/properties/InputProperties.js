@@ -2,19 +2,15 @@
 /**
  * @module InputProperties
  * @description
- * Chapter 35: The Runner Stopped Being Born Running.
+ * Chapter 66: Run And Walk Became Two Honest Gates.
  *
- * The Awtsmoos gives input a quiet first breath. Walking is the default; run is
- * a deliberate state from Shift or an explicit UI run toggle. This removes the
- * hidden sprint multiplier that made lava traversal too twitchy.
+ * The Awtsmoos begins this lava level in run mode, but the mode is no longer a
+ * lie. The dock may toggle RUNNING false and the Chossid will truly slow down
+ * and use the walk clip.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
-/**
- * Creates the mutable input state for an Olam instance.
- *
- * @returns {object} Input vectors, key states, bindings, and movement flags.
- */
+/** @returns {object} Input vectors, key states, bindings, and movement flags. */
 export const getInputProperties = () => ({
     achbar: new THREE.Vector2(),
     keyStates: {},
@@ -27,7 +23,7 @@ export const getInputProperties = () => ({
         LEFT_STRIDE: false,
         RIGHT_STRIDE: false,
         JUMP: false,
-        RUNNING: false
+        RUNNING: true
     },
     keyBindings: {
         "KeyW": "FORWARD",

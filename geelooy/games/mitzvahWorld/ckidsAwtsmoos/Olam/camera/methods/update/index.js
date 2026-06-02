@@ -1,8 +1,13 @@
 // B"H
 /**
- * Old working mitzvahWorld camera follow math restored.
- * It follows `target.mesh.position` directly and avoids the newer dynamic height
- * calculator that was pushing the view far away from the player.
+ * @file camera/methods/update/index.js
+ * @description
+ * Chapter 57: The Eye Returned To The Smooth Old River.
+ *
+ * The Awtsmoos restores the old working MitzvahWorld camera follow math: direct
+ * target tracking, stable old collision correction, and distance lerp. The only
+ * tuning is a slightly faster distance blend so it feels less laggy without
+ * becoming granular or jittery.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -10,12 +15,14 @@ function lerpFallback(a, b, t) {
     return a + (b - a) * t;
 }
 
+function normDeg(angle) {
+    return ((angle + 540) % 360) - 180;
+}
+
 export default function update() {
     if (!this.target || !this.target.mesh) return;
 
-    if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z)) {
-        return;
-    }
+    if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z)) return;
 
     this.newMovement = false;
 
@@ -35,7 +42,6 @@ export default function update() {
             this.lastDistance = null;
             const f = this.target.modelMesh || this.target.mesh;
             if (f) f.visible = true;
-
             this.target.rotation.y = this.userInputTheta * THREE.MathUtils.DEG2RAD;
             this.previousTargetRotation = this.target.rotation.y * 180 / Math.PI;
             this.target.rotateOffset = 0;
@@ -49,7 +55,6 @@ export default function update() {
             this.lastDistance = this.desiredDistance;
             const f = this.target.modelMesh || this.target.mesh;
             if (f) f.visible = false;
-
             this.target.rotation.y = this.userInputTheta * THREE.MathUtils.DEG2RAD;
             this.previousTargetRotation = this.target.rotation.y * 180 / Math.PI;
             this.target.rotateOffset = 0;
@@ -59,14 +64,11 @@ export default function update() {
 
     this.targetRotation = this.target.mesh.rotation.y * 180 / Math.PI;
     if (this.previousTargetRotation === undefined) this.previousTargetRotation = this.targetRotation;
-    const rotationDelta = this.targetRotation - this.previousTargetRotation;
+    const rotationDelta = normDeg(this.targetRotation - this.previousTargetRotation);
 
     if (!this.isFPS) {
-        if (this.mouseIsDown || this.rightMouseIsDown) {
-            this.userInputTheta -= this.mouseX * this.xSpeed * this.sensitivity;
-        } else {
-            this.userInputTheta += rotationDelta;
-        }
+        if (this.mouseIsDown || this.rightMouseIsDown) this.userInputTheta -= this.mouseX * this.xSpeed * this.sensitivity;
+        else this.userInputTheta += rotationDelta;
         this.userInputPhi -= this.mouseY * this.ySpeed * this.sensitivity;
         this.previousTargetRotation = this.targetRotation;
     }
@@ -93,7 +95,6 @@ export default function update() {
     if (!this.isFPS) {
         const trueTargetPosition = new THREE.Vector3().copy(this.target.mesh.position).sub(vTargetOffset);
         this.raycaster.set(trueTargetPosition, position.clone().sub(trueTargetPosition).normalize());
-
         const collisionResult = this.olam.worldOctree ? this.olam.worldOctree.rayIntersect(this.raycaster.ray) : null;
         if (collisionResult) {
             const distanceToObject = collisionResult.distance - this.offsetFromWall;
@@ -105,8 +106,9 @@ export default function update() {
     }
 
     const lerp = typeof this.lerp === 'function' ? this.lerp.bind(this) : lerpFallback;
+    const smoothFactor = 0.032 * this.zoomDampening;
     const smoothedDistance = (!isCorrected || this.correctedDistance > this.currentDistance)
-        ? lerp(this.currentDistance, this.correctedDistance, 0.02 * this.zoomDampening)
+        ? lerp(this.currentDistance, this.correctedDistance, smoothFactor)
         : this.correctedDistance;
 
     let minimumAllowedDistance = this.minDistance;
@@ -118,11 +120,9 @@ export default function update() {
         const safetyRadius = collider.radius + this.playerCollisionBuffer;
         const pivotToCameraDir = new THREE.Vector3(0, 0, 1).applyQuaternion(rotation);
         const pivotToSphereCenterVec = sphereCenter.clone().sub(pivotPoint);
-
         const b = -2 * pivotToCameraDir.dot(pivotToSphereCenterVec);
         const c = pivotToSphereCenterVec.lengthSq() - safetyRadius * safetyRadius;
         const discriminant = b * b - 4 * c;
-
         if (discriminant >= 0) {
             const sqrtDiscriminant = Math.sqrt(discriminant);
             const dist1 = (-b - sqrtDiscriminant) / 2;
@@ -134,9 +134,7 @@ export default function update() {
 
     let finalDistance = Math.max(minimumAllowedDistance, smoothedDistance);
     finalDistance = Math.min(this.maxDistance, finalDistance);
-    if (finalDistance === minimumAllowedDistance && smoothedDistance < minimumAllowedDistance) {
-        this.desiredDistance = minimumAllowedDistance;
-    }
+    if (finalDistance === minimumAllowedDistance && smoothedDistance < minimumAllowedDistance) this.desiredDistance = minimumAllowedDistance;
     this.currentDistance = finalDistance;
 
     position = new THREE.Vector3().copy(this.target.mesh.position);
@@ -145,9 +143,8 @@ export default function update() {
 
     let did = false;
     if (this.isFPS) {
-        if (this.mouseIsDown || this.rightMouseIsDown) {
-            this.target.rotation.y = this.euler.y;
-        } else {
+        if (this.mouseIsDown || this.rightMouseIsDown) this.target.rotation.y = this.euler.y;
+        else {
             did = true;
             this.euler.y = this.target.rotation.y;
             rotation = new THREE.Quaternion().setFromEuler(this.euler);
@@ -156,9 +153,7 @@ export default function update() {
             position.sub(new THREE.Vector3(0, 0, this.currentDistance).applyQuaternion(rotation));
             this.userInputTheta = this.euler.y * 180 / Math.PI;
         }
-    } else if (this.rightMouseIsDown) {
-        this.target.rotation.y = this.euler.y;
-    }
+    } else if (this.rightMouseIsDown) this.target.rotation.y = this.euler.y;
 
     this.camera.rotation.copy(this.euler);
     if (position && !isNaN(position.x) && !isNaN(position.y) && !isNaN(position.z)) {
@@ -173,7 +168,5 @@ export default function update() {
         this.cameraFollower.lookAt(pos);
     }
 
-    if (did) {
-        // Kept for old behavior extension point.
-    }
+    if (did) {}
 }
