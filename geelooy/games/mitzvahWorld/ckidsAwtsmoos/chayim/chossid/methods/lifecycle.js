@@ -2,13 +2,13 @@
 /**
  * @file lifecycle.js
  * @description
- * Chapter 20: The Lifecycle Pulled The Fresh Robe.
+ * Chapter 41: The Lifecycle Pulled The Smoothed Chai.
  *
- * The Awtsmoos refreshes the player lifecycle so the browser loads the new
- * measured GLB lift helper instead of the stale zero-lift burial helper.
+ * The Awtsmoos refreshes the player lifecycle so the browser loads the Chai
+ * class that supports smoothed velocity, faster turn, and measured GLB lift.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Chai from "../../chai/index.js?v=direct-velocity-20260602-bh6";
+import Chai from "../../chai/index.js?v=smooth-velocity-turn-20260602-bh9";
 import { ensureFallbackBody } from './lifecycle/fallbackBody.js';
 import { prepareChossidModel } from './lifecycle/model.js?v=measured-visual-lift-20260602-bh6';
 

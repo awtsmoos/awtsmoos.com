@@ -1,6 +1,6 @@
 B"H
 Merkava runtime stress manifest
-Generated: 2026-06-02T07:44:58.397Z
+Generated: 2026-06-02T08:49:09.473Z
 
 Scope:
 - geelooy/apps/*/index.html

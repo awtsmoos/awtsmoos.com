@@ -2,20 +2,23 @@
 /**
  * @file index.js
  * @description
- * Chapter 21: The Chai Opened The Direct Stride Gate.
+ * Chapter 39: The Chai Received Tunable Breath.
  *
  * The Awtsmoos gives the player a feet-based capsule, a measured visual robe,
- * and direct horizontal velocity so walking on brick is no slower than a jump.
+ * smoothed horizontal motion, and level-authored turning knobs. Nothing about
+ * the GLB can mutate the collider; movement is practical, responsive, and calm.
  */
 import Tzomayach from "../tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
 import visualMethods from "./methods/visuals.js?v=measured-visual-lift-20260602-bh6";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=direct-velocity-20260602-bh6";
+import physicsMethods from "./methods/physics.js?v=smooth-velocity-turn-20260602-bh9";
 import raycastingMethods from "./methods/raycasting.js";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
+
+const numberOr = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 
 export default class Chai extends Tzomayach {
   type = "chai";
@@ -42,6 +45,8 @@ export default class Chai extends Tzomayach {
   height = PHYSICS_CONSTANTS.DEFAULT_HEIGHT;
   radius = PHYSICS_CONSTANTS.DEFAULT_RADIUS;
   lerpTurnSpeed = PHYSICS_CONSTANTS.LERP_TURN_SPEED;
+  movementResponsiveness = 18;
+  stopResponsiveness = 28;
   targetRotateOffset = 0;
   empty;
   modelMesh = null;
@@ -75,12 +80,15 @@ export default class Chai extends Tzomayach {
   /** @param {object} options Entity options from level JSON. @param {object} olam Runtime world. */
   constructor(options = {}, olam) {
     super(options, olam);
-    this.rotationSpeed = options.rotationSpeed || 2;
+    this.rotationSpeed = numberOr(options.rotationSpeed, 2);
     this.heesHawveh = true;
     this.rayAnchor = new THREE.Group();
-    this.height = Number.isFinite(Number(options.height)) ? Number(options.height) : this.height;
-    this.radius = Number.isFinite(Number(options.radius)) ? Number(options.radius) : this.radius;
-    this.visualGroundBiasY = Number.isFinite(Number(options.visualGroundBiasY)) ? Number(options.visualGroundBiasY) : 0;
+    this.height = numberOr(options.height, this.height);
+    this.radius = numberOr(options.radius, this.radius);
+    this.visualGroundBiasY = numberOr(options.visualGroundBiasY, 0);
+    this.lerpTurnSpeed = numberOr(options.lerpTurnSpeed, this.lerpTurnSpeed);
+    this.movementResponsiveness = numberOr(options.movementResponsiveness, this.movementResponsiveness);
+    this.stopResponsiveness = numberOr(options.stopResponsiveness, this.stopResponsiveness);
     this.dynamicSolidRadius = options.dynamicSolidRadius || options.movingSolidRadius || this.radius * 0.62;
     const start = new THREE.Vector3(0, this.radius, 0);
     const end = new THREE.Vector3(0, Math.max(this.radius, this.height - this.radius), 0);

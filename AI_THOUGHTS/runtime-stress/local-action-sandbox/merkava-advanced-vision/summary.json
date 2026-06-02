@@ -7,9 +7,9 @@
   "canvasTextureCount": 2,
   "canvasCommandCount": 14,
   "minimax": {
-    "ok": true,
-    "status": 200,
-    "answerLength": 4216
+    "ok": false,
+    "status": 422,
+    "answerLength": 238
   },
   "files": {
     "picture": "AI_THOUGHTS/runtime-stress/local-action-sandbox/merkava-advanced-vision/actual-merkava-picture.png",

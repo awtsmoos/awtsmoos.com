@@ -1,22 +1,22 @@
-
+// B"H
 /**
- * B"H
  * @module OlamProperties
- * @description 
- * 🔯 THE GATHERING OF THE SEFIROT (YESOD) 🔯
- * 
- * Gathering all Sefirot into the central pillar (Yesod).
- * The monolithic properties object has been shattered to reveal the inner
- * specific nature of each domain.
+ * @description
+ * Chapter 40: Yesod Received The Quiet Input Vessel.
+ *
+ * The Awtsmoos gathers camera, scene, physics, input, state, and misc
+ * properties into the living Olam. This import is cache-busted so RUNNING no
+ * longer resurrects as true from an old browser module.
  */
 import { getCameraProperties } from './CameraProperties.js';
 import { getSceneProperties } from './SceneProperties.js';
 import { getPhysicsProperties } from './PhysicsProperties.js';
-import { getInputProperties } from './InputProperties.js';
+import { getInputProperties } from './InputProperties.js?v=smooth-velocity-turn-20260602-bh9';
 import { getStateProperties } from './StateProperties.js';
 import { getMiscProperties } from './MiscProperties.js';
 
 export default class OlamProperties {
+    /** @param {object} olam Olam instance to fill with property vessels. */
     static apply(olam) {
         Object.assign(olam, getCameraProperties());
         Object.assign(olam, getSceneProperties());

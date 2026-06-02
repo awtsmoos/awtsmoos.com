@@ -2,12 +2,11 @@
 /**
  * @file physics/index.js
  * @description
- * Chapter 18: The Feet Stood And The Stride Became A River.
+ * Chapter 37: The Stride Became Silk.
  *
- * The Awtsmoos revealed the connected movement truth: platformer walking must
- * set horizontal velocity directly, not drip tiny acceleration into heavy
- * damping. JSON Y remains feet-on-ground. The GLB garment rides a measured
- * offset above the capsule feet, and only the capsule collides.
+ * The Awtsmoos showed the hidden tremor: instant horizontal velocity made the
+ * player snap frame-to-frame while mobile input pulsed. This core still obeys
+ * feet-on-ground JSON, but horizontal motion now eases toward target velocity.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Tzomayach from "../../../tzomayach.js";
@@ -19,17 +18,12 @@ const steepSlopeY = () => Math.cos(THREE.MathUtils.degToRad(50));
 const finite = value => Number.isFinite(Number(value));
 const numeric = (value, fallback) => finite(value) ? Number(value) : fallback;
 
-/** @param {THREE.Vector3} feet Feet position. @param {number} height Capsule height. @param {number} radius Radius. @returns {{start:THREE.Vector3,end:THREE.Vector3}} */
 function capsuleFromFeet(feet, height, radius) {
   const safeRadius = Math.max(0.01, numeric(radius, 0.45));
   const safeHeight = Math.max(safeRadius * 2, numeric(height, 1.5));
-  return {
-    start: new THREE.Vector3(feet.x, feet.y + safeRadius, feet.z),
-    end: new THREE.Vector3(feet.x, feet.y + safeHeight - safeRadius, feet.z)
-  };
+  return { start: new THREE.Vector3(feet.x, feet.y + safeRadius, feet.z), end: new THREE.Vector3(feet.x, feet.y + safeHeight - safeRadius, feet.z) };
 }
 
-/** @param {object} entity Moving/living entity. @returns {boolean} */
 function needsOctreePhysics(entity) {
   if (!entity) return false;
   if (entity.type === "chossid" || entity.olam?.chossid === entity || entity.olam?.player === entity) return true;
@@ -37,7 +31,6 @@ function needsOctreePhysics(entity) {
   return Boolean(moving.forward || moving.backward || moving.stridingLeft || moving.stridingRight || moving.turningLeft || moving.turningRight || moving.jump || entity.movingAutomatically || entity.navTarget || entity.currentPath || entity._isMoving || ((entity.velocity?.lengthSq?.() || 0) > MOVING_EPSILON_SQ));
 }
 
-/** @param {object} player Chai body. @param {number} dt Frame delta. @returns {void} */
 function syncVisual(player, dt) {
   const visualFeetY = player.collider.start.y - player.collider.radius;
   player.mesh.position.set(player.collider.start.x, visualFeetY, player.collider.start.z);
@@ -48,15 +41,12 @@ function syncVisual(player, dt) {
   if (angularDistance > Math.PI) angularDistance -= 2 * Math.PI;
   else if (angularDistance < -Math.PI) angularDistance += 2 * Math.PI;
   if (Math.abs(angularDistance - Math.PI) < 0.01) angularDistance = -Math.PI;
-  player.rotateOffset += angularDistance * player.lerpTurnSpeed;
+  player.rotateOffset += angularDistance * Math.max(0.01, numeric(player.lerpTurnSpeed, 0.32));
   if (player.rotateOffset > Math.PI) player.rotateOffset -= 2 * Math.PI;
   else if (player.rotateOffset < -Math.PI) player.rotateOffset += 2 * Math.PI;
   if (player.modelMesh) {
     player.modelMesh.rotation.y = player.rotation.y + player.rotateOffset;
-    if (player.lastRotateOffset !== player.rotateOffset) {
-      player.ayshPeula("rotate", player.modelMesh.rotation.y);
-      player.lastRotateOffset = player.rotateOffset;
-    }
+    if (player.lastRotateOffset !== player.rotateOffset) { player.ayshPeula("rotate", player.modelMesh.rotation.y); player.lastRotateOffset = player.rotateOffset; }
     player.modelMesh.position.copy(player.mesh.position);
     player.modelMesh.position.y += numeric(player.modelMesh.userData?.visualGroundOffsetY, 0);
   }
@@ -71,31 +61,24 @@ function syncVisual(player, dt) {
   if (typeof player.updateSpheres === 'function') player.updateSpheres(dt);
 }
 
-/** @param {object} player Player body. @returns {THREE.Vector3} Unit movement direction. */
 function movementDirection(player) {
   const dir = new THREE.Vector3();
   const moving = player.moving || {};
   const rotY = player.rotation?.y || 0;
-  const forwardX = Math.sin(rotY);
-  const forwardZ = Math.cos(rotY);
-  const rightX = -Math.cos(rotY);
-  const rightZ = Math.sin(rotY);
+  const forwardX = Math.sin(rotY), forwardZ = Math.cos(rotY);
+  const rightX = -Math.cos(rotY), rightZ = Math.sin(rotY);
   const forward = moving.forward || player.movingAutomatically;
   const back = moving.backward;
   player.isWalking = false;
   if (forward) { player.isWalking = true; dir.x += forwardX; dir.z += forwardZ; player.targetRotateOffset = 0; }
   else if (back) { player.isWalking = true; dir.x -= forwardX; dir.z -= forwardZ; player.targetRotateOffset = -Math.PI; }
-  if (moving.stridingLeft) {
-    player.isWalking = true; dir.x -= rightX; dir.z -= rightZ; player.targetRotateOffset = forward ? -Math.PI / 4 : back ? Math.PI / 4 : Math.PI / 2;
-  } else if (moving.stridingRight) {
-    player.isWalking = true; dir.x += rightX; dir.z += rightZ; player.targetRotateOffset = forward ? Math.PI / 4 : back ? -Math.PI / 4 : -Math.PI / 2;
-  }
+  if (moving.stridingLeft) { player.isWalking = true; dir.x -= rightX; dir.z -= rightZ; player.targetRotateOffset = forward ? -Math.PI / 4 : back ? Math.PI / 4 : Math.PI / 2; }
+  else if (moving.stridingRight) { player.isWalking = true; dir.x += rightX; dir.z += rightZ; player.targetRotateOffset = forward ? Math.PI / 4 : back ? -Math.PI / 4 : -Math.PI / 2; }
   if (dir.lengthSq() > 0) dir.normalize();
   return dir;
 }
 
 export default {
-  /** @param {THREE.Vector3} vec3 Feet position; y is bottom of capsule. */
   setPosition(vec3) {
     if (!vec3 || !finite(vec3.x) || !finite(vec3.y) || !finite(vec3.z)) return console.warn("B\"H: invalid player feet position ignored.");
     if (!this.collider?.start || !this.collider?.end) return;
@@ -175,8 +158,7 @@ export default {
     if (!this.mesh) return false;
     if (finite(this.mesh.position.x) && finite(this.mesh.position.y) && finite(this.mesh.position.z)) return false;
     console.warn("B\"H: Player position NaN; resetting.", { was: this.mesh.position.clone() });
-    this.velocity.set(0, 0, 0);
-    this.setPosition(new THREE.Vector3(0, 10, 0));
+    this.velocity.set(0, 0, 0); this.setPosition(new THREE.Vector3(0, 10, 0));
     if (this.olam?.ayin) this.olam.ayin.currentDistance = 5;
     return true;
   },
@@ -202,16 +184,21 @@ export default {
       else this.velocity.y = 0;
       this.velocity.x += this.velocity.x * damping * 0.1;
       this.velocity.z += this.velocity.z * damping * 0.1;
-    } else this.velocity.addScaledVector(this.velocity, damping);
+    } else this.velocity.y += this.velocity.y * damping;
     this.velocity.y = Math.max(this.velocity.y, -50);
   },
 
-  _calculateMovementVelocity() {
+  _calculateMovementVelocity(deltaTime = 1 / 60) {
     const dir = movementDirection(this);
     const moving = dir.lengthSq() > 0;
-    const speed = numeric(this.speed, 6) * numeric(this.speedScale, 1) * (this.moving?.running ? 1.25 : 1);
-    if (moving) { this.velocity.x = dir.x * speed; this.velocity.z = dir.z * speed; }
-    else { this.velocity.x = 0; this.velocity.z = 0; }
+    const speed = numeric(this.speed, 6) * numeric(this.speedScale, 1) * (this.moving?.running ? 1.12 : 1);
+    const targetX = moving ? dir.x * speed : 0;
+    const targetZ = moving ? dir.z * speed : 0;
+    const responsiveness = moving ? numeric(this.movementResponsiveness, 18) : numeric(this.stopResponsiveness, 28);
+    const alpha = 1 - Math.exp(-responsiveness * Math.max(0.001, deltaTime));
+    this.velocity.x += (targetX - this.velocity.x) * alpha;
+    this.velocity.z += (targetZ - this.velocity.z) * alpha;
+    if (!moving && Math.abs(this.velocity.x) + Math.abs(this.velocity.z) < 0.02) { this.velocity.x = 0; this.velocity.z = 0; }
   },
 
   _handleJump() {
@@ -224,7 +211,7 @@ export default {
 
   _executeMovement(deltaTime) {
     const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
-    const steps = Math.min(10, Math.ceil(deltaPosition.length() / (this.collider.radius * 0.5)));
+    const steps = Math.min(8, Math.ceil(deltaPosition.length() / (this.collider.radius * 0.6)));
     if (!this.olam?.worldOctree) return this.collider.translate(deltaPosition);
     const stepDelta = steps > 1 ? deltaPosition.clone().divideScalar(steps) : deltaPosition;
     for (let i = 0; i < Math.max(1, steps); i += 1) { this.collider.translate(stepDelta); this.collisions(); }

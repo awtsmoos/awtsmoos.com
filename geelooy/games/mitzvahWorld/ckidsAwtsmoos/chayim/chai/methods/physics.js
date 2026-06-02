@@ -2,12 +2,12 @@
 /**
  * @file physics.js
  * @description
- * Chapter 19: The Wrapper Drew Fresh Water.
+ * Chapter 38: The Wrapper Poured The Smooth River.
  *
- * The Awtsmoos breaks the stale browser stream so the direct-velocity movement
- * core enters the player instead of the old slow acceleration vessel.
+ * The Awtsmoos breaks the stale direct-snap browser stream so the smoothed
+ * horizontal velocity core reaches the player in the actual runtime.
  */
-import basePhysics from "./physics/index.js?v=direct-velocity-20260602-bh6";
+import basePhysics from "./physics/index.js?v=smooth-velocity-turn-20260602-bh9";
 
 /** @param {object} entity Chossid-like body. @returns {void} */
 function holdVisibleBody(entity) {

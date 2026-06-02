@@ -2,12 +2,11 @@
 /**
  * @file controls.js
  * @description
- * Chapter 19: Spike death freezes only intent until a local reset restores it.
+ * Chapter 36: The Hands Became Deliberate.
  *
- * The Awtsmoos lets the burst keep moving while the Chossid cannot. This file
- * honors `__spikeDeathControlsFrozen`, so no joystick/key state sneaks motion
- * back during the overlay. After `resetAfterSpikeDeath`, the flag clears and
- * the same vessel walks again.
+ * The Awtsmoos no longer assumes every mobile breath is a sprint. Movement
+ * reads the current input vessel exactly: forward means forward, Shift means
+ * run, and lava freeze means silence until the countdown completes.
  */
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ";
@@ -16,8 +15,14 @@ const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const DISMOUNT_KEY = "KeyX";
 
+/** @param {object} olam World. @param {...string} codes Key codes. @returns {boolean} */
 function keyOn(olam, ...codes) {
   return codes.some(code => !!olam?.keyStates?.[code]);
+}
+
+/** @param {object} inputs Input flags. @param {string} key Flag name. @returns {boolean} */
+function flag(inputs, key) {
+  return inputs?.[key] === true;
 }
 
 export default {
@@ -32,16 +37,16 @@ export default {
     if (this.olam.showingImportantMessage) return;
 
     const inputs = this.olam.inputs || {};
-    this.moving.running = inputs.RUNNING !== false || keyOn(this.olam, "ShiftLeft", "ShiftRight");
-    this.moving.forward = !!inputs.FORWARD || keyOn(this.olam, "KeyW", "ArrowUp");
-    this.moving.backward = !!inputs.BACKWARD || keyOn(this.olam, "KeyS", "ArrowDown");
-    this.moving.turningLeft = !!inputs.LEFT_ROTATE || keyOn(this.olam, "KeyA", "ArrowLeft");
-    this.moving.turningRight = !!inputs.RIGHT_ROTATE || keyOn(this.olam, "KeyD", "ArrowRight");
-    this.moving.stridingLeft = !!inputs.LEFT_STRIDE || keyOn(this.olam, "KeyQ");
-    this.moving.stridingRight = !!inputs.RIGHT_STRIDE || keyOn(this.olam, "KeyE");
-    this.moving.jump = !!inputs.JUMP || keyOn(this.olam, "Space");
-    this.moving.down = !!inputs.DOWN || keyOn(this.olam, "KeyX");
-    this.moving.up = !!inputs.UP;
+    this.moving.running = flag(inputs, "RUNNING") || keyOn(this.olam, "ShiftLeft", "ShiftRight");
+    this.moving.forward = flag(inputs, "FORWARD") || keyOn(this.olam, "KeyW", "ArrowUp");
+    this.moving.backward = flag(inputs, "BACKWARD") || keyOn(this.olam, "KeyS", "ArrowDown");
+    this.moving.turningLeft = flag(inputs, "LEFT_ROTATE") || keyOn(this.olam, "KeyA", "ArrowLeft");
+    this.moving.turningRight = flag(inputs, "RIGHT_ROTATE") || keyOn(this.olam, "KeyD", "ArrowRight");
+    this.moving.stridingLeft = flag(inputs, "LEFT_STRIDE") || keyOn(this.olam, "KeyQ");
+    this.moving.stridingRight = flag(inputs, "RIGHT_STRIDE") || keyOn(this.olam, "KeyE");
+    this.moving.jump = flag(inputs, "JUMP") || keyOn(this.olam, "Space");
+    this.moving.down = flag(inputs, "DOWN") || keyOn(this.olam, "KeyX");
+    this.moving.up = flag(inputs, "UP");
     this.cameraControls();
   },
 

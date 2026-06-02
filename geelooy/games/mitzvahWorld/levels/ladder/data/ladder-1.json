@@ -41,8 +41,8 @@
         "height": 1.5,
         "radius": 0.45,
         "dynamicSolidRadius": 0.28,
-        "speed": 7.2,
-        "speedScale": 1.18,
+        "speed": 6.9,
+        "speedScale": 1.12,
         "jumpHeight": 13.5,
         "visualGroundBiasY": -0.22,
         "interactable": true,
@@ -51,7 +51,11 @@
           "x": -10.5,
           "y": 0.425,
           "z": 0
-        }
+        },
+        "rotationSpeed": 5.2,
+        "lerpTurnSpeed": 0.42,
+        "movementResponsiveness": 16,
+        "stopResponsiveness": 30
       }
     ],
     "SolidBlock": [

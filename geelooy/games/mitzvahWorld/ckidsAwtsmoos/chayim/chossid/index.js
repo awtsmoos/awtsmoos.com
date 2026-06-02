@@ -2,19 +2,19 @@
 /**
  * @module Chossid
  * @description
- * Chapter 22: The Walker Took The Fresh Stride.
+ * Chapter 43: The Walker Took A Silk Step.
  *
- * The Awtsmoos refreshes the Chossid import chain so the player receives the
- * direct-velocity Chai, measured visual lift, and cache-busted lifecycle.
+ * The Awtsmoos refreshes every player import: quiet input, smoothed velocity,
+ * faster turn, measured visual lift, and the same lava-safe respawn covenant.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=direct-velocity-20260602-bh6";
+import Chai from "../chai/index.js?v=smooth-velocity-turn-20260602-bh9";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import controlMethods from './methods/controls.js?v=lean-l1-20260528-bh36';
+import controlMethods from './methods/controls.js?v=smooth-velocity-turn-20260602-bh9';
 import interactionMethods from './methods/interaction.js?v=lean-l1-20260528-bh36';
-import lifecycleMethods from './methods/lifecycle.js?v=measured-direct-20260602-bh6';
+import lifecycleMethods from './methods/lifecycle.js?v=smooth-velocity-turn-20260602-bh9';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
-import updateMethods from './methods/update.js?v=lean-l1-20260528-bh36';
+import updateMethods from './methods/update.js?v=smooth-velocity-turn-20260602-bh9';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 
 /** @returns {object} Small fallback body definition. */
@@ -47,14 +47,17 @@ export default class Chossid extends Chai {
     options.height ||= 1.5;
     options.radius ||= 0.45;
     options.speed ||= lean ? 16 : 18;
-    options.rotationSpeed ||= 3.25;
+    options.rotationSpeed ||= 4.2;
+    options.lerpTurnSpeed ||= 0.38;
+    options.movementResponsiveness ||= 18;
+    options.stopResponsiveness ||= 28;
     options.isSolid = false;
     super(options, olam);
     this.isLeanPlatformerPlayer = lean;
     this.speed = options.speed;
     this._movementSpeed = options.speed;
     this._originalSpeed = options.speed;
-    this.speedScale = Number.isFinite(options.speedScale) ? options.speedScale : 2.0;
+    this.speedScale = Number.isFinite(options.speedScale) ? options.speedScale : 1.2;
     this.jumpHeight = options.jumpHeight || 13;
     this.baseStats = { chochmah: 10, binah: 10, daas: 10, health: 100, defense: 5, attack: 10, speed: options.speed };
     this.currentStats = { ...this.baseStats };
