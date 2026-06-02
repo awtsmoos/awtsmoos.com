@@ -1,0 +1,70 @@
+/* B"H
+ * Chapter 62: The shell stops imprisoning the scroll.
+ * The Awtsmoos opens the page into one vertical river: header, reader,
+ * optional drawer. No fixed ancestor may trap the thumb or bury content.
+ */
+
+html,
+body {
+    min-height: 100%;
+    overflow-x: hidden;
+    background: var(--awt-bg);
+}
+
+body {
+    margin: 0;
+    color: var(--awt-text);
+    font-family: var(--font-ui);
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: 100dvh !important;
+    height: auto !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+    isolation: isolate !important;
+    background:
+        radial-gradient(circle at 78% 0%, rgba(244, 197, 107, .12), transparent 24rem),
+        linear-gradient(180deg, #060a12, #0b1020 38%, #050810) !important;
+}
+
+.post-reader-localized-context > .awtsmoos-integrated-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: var(--z-header) !important;
+    min-height: var(--awt-header-space) !important;
+    overflow: clip !important;
+}
+
+.post-reader-localized-context > .main {
+    position: relative !important;
+    display: block !important;
+    min-height: calc(100dvh - var(--awt-header-space)) !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding-bottom: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
+}
+
+.post-reader-localized-context .scroll-view-wrapper {
+    position: relative !important;
+    z-index: var(--z-reader) !important;
+    width: 100% !important;
+    min-height: calc(100dvh - var(--awt-header-space)) !important;
+    overflow: visible !important;
+    padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
+}
+
+.post-reader-localized-context #realPost.content {
+    width: 100% !important;
+    max-width: 920px !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+}
+
+@media (min-width: 901px) {
+    .all.post-reader-localized-context.awtsmoos-reader-vision { padding-right: 0 !important; }
+    .post-reader-localized-context .scroll-view-wrapper { padding-inline: clamp(2rem, 7vw, 8rem) !important; }
+}

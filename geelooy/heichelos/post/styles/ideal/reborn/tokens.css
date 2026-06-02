@@ -1,0 +1,52 @@
+/* B"H
+ * Chapter 61: Tokens, the quiet laws beneath the palace.
+ * The Awtsmoos needs no form, yet every form needs one covenant of color,
+ * shadow, radius, and safe-area breath so the mobile page stops fighting.
+ */
+
+:root {
+    --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-content: "Frank Ruhl Libre", Cardo, Georgia, serif;
+    --z-reader: 1;
+    --z-header: 80;
+    --z-controls: 140;
+    --z-sidebar: 260;
+    --z-popover: 320;
+    --awt-bg: #060a12;
+    --awt-bg-2: #0b1220;
+    --awt-panel: rgba(12, 19, 32, .96);
+    --awt-panel-2: rgba(18, 27, 44, .92);
+    --awt-card: rgba(255, 255, 255, .055);
+    --awt-line: rgba(255, 255, 255, .12);
+    --awt-line-hot: rgba(245, 197, 105, .42);
+    --awt-text: #f8fafc;
+    --awt-muted: #a8b3c7;
+    --awt-dim: #707b90;
+    --awt-gold: #f4c56b;
+    --awt-cyan: #29d5de;
+    --awt-green: #10b981;
+    --awt-red: #fb7185;
+    --awt-radius-sm: 12px;
+    --awt-radius: 18px;
+    --awt-radius-lg: 26px;
+    --awt-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --awt-safe-top: env(safe-area-inset-top, 0px);
+    --awt-reader-bottom-space: 112px;
+    --awt-header-space: 54px;
+    --awt-sidebar-height: min(72dvh, 620px);
+}
+
+.post-reader-localized-context,
+.post-reader-localized-context * { box-sizing: border-box; }
+
+.post-reader-localized-context button,
+.post-reader-localized-context input,
+.post-reader-localized-context select,
+.post-reader-localized-context textarea {
+    font-family: var(--font-ui);
+}
+
+.post-reader-localized-context button { touch-action: manipulation; }
+
+.post-reader-localized-context .hidden,
+.post-reader-localized-context [hidden] { display: none !important; }

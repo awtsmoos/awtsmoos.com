@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-02T22:29:11.682Z",
+  "generatedAt": "2026-06-02T22:46:15.684Z",
   "pass": true,
   "image": {
     "path": "AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/mega-layout/mega-layout.png",
-    "bytes": 52627,
-    "sha256": "b7f44a9b3c9612098c3487f48a37c7df50c840617a769811f84b8b33c1ed7e6a",
+    "bytes": 54087,
+    "sha256": "2a492b891e9e81a34e75bad32dc1f0876c85296a57b377d76ebfc35a8ca68374",
     "width": 960,
     "height": 640
   },
@@ -30,20 +30,20 @@
   "values": {
     "window.megaState": {
       "ready": true,
-      "commands": 273,
+      "commands": 271,
       "worker": true
     }
   },
   "colorStats": {
-    "red": 11557,
-    "green": 19679,
-    "blue": 14137,
-    "yellow": 56258,
-    "magenta": 14166,
-    "cyan": 71936,
-    "lime": 14009,
-    "white": 11544,
-    "dark": 329908,
+    "red": 11602,
+    "green": 19421,
+    "blue": 13681,
+    "yellow": 55825,
+    "magenta": 14244,
+    "cyan": 71890,
+    "lime": 14271,
+    "white": 12857,
+    "dark": 329485,
     "total": 614400
   },
   "textures": [
@@ -163,6 +163,10 @@
         "fillRect",
         "fillPath",
         "strokePath",
+        "fillText",
+        "fillRect",
+        "fillRect",
+        "strokeRect",
         "fillText"
       ]
     },
@@ -300,7 +304,8 @@
         "beginPath",
         "moveTo",
         "lineTo",
-        "strokePath"
+        "strokePath",
+        "fillText"
       ]
     },
     {
@@ -327,7 +332,8 @@
         "beginPath",
         "moveTo",
         "lineTo",
-        "strokePath"
+        "strokePath",
+        "fillText"
       ]
     },
     {
@@ -354,7 +360,8 @@
         "beginPath",
         "moveTo",
         "lineTo",
-        "strokePath"
+        "strokePath",
+        "fillText"
       ]
     },
     {
@@ -378,10 +385,7 @@
         "moveTo",
         "lineTo",
         "strokePath",
-        "beginPath",
-        "moveTo",
-        "lineTo",
-        "strokePath"
+        "fillText"
       ]
     },
     {
@@ -405,10 +409,7 @@
         "moveTo",
         "lineTo",
         "strokePath",
-        "beginPath",
-        "moveTo",
-        "lineTo",
-        "strokePath"
+        "fillText"
       ]
     },
     {
@@ -432,10 +433,7 @@
         "moveTo",
         "lineTo",
         "strokePath",
-        "beginPath",
-        "moveTo",
-        "lineTo",
-        "strokePath"
+        "fillText"
       ]
     },
     {
@@ -575,6 +573,10 @@
     "fillText",
     "fillRect",
     "fillRect",
+    "strokeRect",
+    "fillText",
+    "fillRect",
+    "fillRect",
     "fillRect",
     "strokeRect",
     "fillText",
@@ -631,6 +633,7 @@
     "moveTo",
     "lineTo",
     "strokePath",
+    "fillText",
     "createTexture",
     "fillRect",
     "fillRect",
@@ -651,6 +654,7 @@
     "moveTo",
     "lineTo",
     "strokePath",
+    "fillText",
     "createTexture",
     "fillRect",
     "fillRect",
@@ -671,6 +675,7 @@
     "moveTo",
     "lineTo",
     "strokePath",
+    "fillText",
     "createTexture",
     "fillRect",
     "fillRect",
@@ -687,10 +692,7 @@
     "moveTo",
     "lineTo",
     "strokePath",
-    "beginPath",
-    "moveTo",
-    "lineTo",
-    "strokePath",
+    "fillText",
     "createTexture",
     "fillRect",
     "fillRect",
@@ -707,10 +709,7 @@
     "moveTo",
     "lineTo",
     "strokePath",
-    "beginPath",
-    "moveTo",
-    "lineTo",
-    "strokePath",
+    "fillText",
     "createTexture",
     "fillRect",
     "fillRect",
@@ -727,10 +726,7 @@
     "moveTo",
     "lineTo",
     "strokePath",
-    "beginPath",
-    "moveTo",
-    "lineTo",
-    "strokePath",
+    "fillText",
     "createTexture",
     "webgl.viewport",
     "webgl.clearColor",

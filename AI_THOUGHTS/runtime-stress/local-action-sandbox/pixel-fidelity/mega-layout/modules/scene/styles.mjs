@@ -1,7 +1,8 @@
 // B"H
 /**
- * Navy style module: the Awtsmoos gives the stress page a disciplined grid of
- * visible witnesses instead of a single swollen file of anonymous CSS.
+ * Navy style module: the Awtsmoos makes the remaining witnesses explicit.
+ * Flex and grid are no longer implied by colored rectangles; they display
+ * visible cell lattices, nested frames, and readable labels.
  */
 export function sceneCss() {
   return `${base()}${layout()}${tiles()}${overflow()}${controls()}`;
@@ -12,7 +13,7 @@ function base() {
 }
 
 function layout() {
-  return `.hero{display:grid;grid-template-columns:210px 260px 88px 1fr;gap:10px;align-items:center}.body{display:grid;grid-template-columns:316px 316px 300px;gap:8px;min-height:0}.tower{display:flex;flex-direction:column;gap:8px;min-height:0}.gridA{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:110px 110px 110px;gap:7px}.gridB{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:110px 110px 110px;gap:7px}.right{display:grid;grid-template-rows:202px 166px 1fr;gap:8px;min-height:0}.webgl{display:grid;grid-template-rows:18px 1fr}`;
+  return `.hero{display:grid;grid-template-columns:210px 260px 88px 1fr;gap:10px;align-items:center}.hero b{font-size:12px}.body{display:grid;grid-template-columns:316px 316px 300px;gap:8px;min-height:0}.tower{display:flex;flex-direction:column;gap:8px;min-height:0}.gridA{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:110px 110px 110px;gap:7px}.gridB{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:110px 110px 110px;gap:7px}.right{display:grid;grid-template-rows:202px 166px 1fr;gap:8px;min-height:0}.webgl{display:grid;grid-template-rows:18px 1fr}`;
 }
 
 function tiles() {

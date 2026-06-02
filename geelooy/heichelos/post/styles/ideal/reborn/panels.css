@@ -1,0 +1,143 @@
+/* B"H
+ * Chapter 65: Only one chamber speaks.
+ * The Awtsmoos compresses the side-world into one active slide. Inactive
+ * chambers become silent, invisible, and untouchable, ending the overlap war.
+ */
+
+.post-reader-localized-context .awtsmoos-slide-viewport {
+    position: relative !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translate3d(8%, 0, 0) !important;
+    background: var(--awt-panel) !important;
+    transition: opacity 90ms linear, transform 90ms linear, visibility 90ms linear !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view.active-view {
+    z-index: 2 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translate3d(0, 0, 0) !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view.slide-out-left {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translate3d(-8%, 0, 0) !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-header {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-height: 56px !important;
+    padding: 10px 14px !important;
+    border-bottom: 1px solid var(--awt-line) !important;
+    background: rgba(7, 12, 22, .98) !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-title-text {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    color: var(--awt-text) !important;
+    font: 900 1rem/1.15 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-content {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    padding: 14px !important;
+}
+
+.post-reader-localized-context .post-root-menu-grid,
+.post-reader-localized-context .keepers-assembly,
+.post-reader-localized-context .awtsmoos-comments-timeline,
+.post-reader-localized-context .sidebar-comment-list {
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn,
+.post-reader-localized-context .awtsmoos-student-row,
+.post-reader-localized-context .comment-content,
+.post-reader-localized-context .awtsmoos-sidebar-actions,
+.post-reader-localized-context .awtsmoos-list-item {
+    width: 100% !important;
+    border: 1px solid var(--awt-line) !important;
+    border-radius: var(--awt-radius) !important;
+    background: linear-gradient(180deg, var(--awt-panel-2), rgba(11, 18, 32, .92)) !important;
+    color: var(--awt-text) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04) !important;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn {
+    display: grid !important;
+    grid-template-columns: 48px 1fr auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px !important;
+    text-align: left !important;
+}
+
+.post-reader-localized-context .menu-icon-vessel,
+.post-reader-localized-context .awtsmoos-student-avatar {
+    width: 44px !important;
+    height: 44px !important;
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 999px !important;
+    background: radial-gradient(circle at 35% 25%, var(--awt-cyan), #5b5bdc 72%) !important;
+    box-shadow: 0 12px 26px rgba(41, 213, 222, .20) !important;
+}
+
+.post-reader-localized-context .menu-portal-title,
+.post-reader-localized-context .awtsmoos-student-name,
+.post-reader-localized-context .comment-author-link {
+    color: var(--awt-text) !important;
+    font: 900 .95rem/1.15 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .menu-portal-desc,
+.post-reader-localized-context .awtsmoos-student-location,
+.post-reader-localized-context .comment-meta-row,
+.post-reader-localized-context .comment-time {
+    color: var(--awt-muted) !important;
+    font: 650 .78rem/1.25 var(--font-ui) !important;
+}
+
+.post-reader-localized-context input,
+.post-reader-localized-context textarea,
+.post-reader-localized-context select,
+.post-reader-localized-context .awtsmoos-sidebar-search-input {
+    width: 100% !important;
+    border: 1px solid var(--awt-line) !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, .07) !important;
+    color: var(--awt-text) !important;
+    padding: 12px !important;
+    outline: none !important;
+}

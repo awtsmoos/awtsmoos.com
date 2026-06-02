@@ -1,61 +1,12 @@
 /* B"H
- * Chapter 27: Existing Vessels Keep Receiving Light
- *
- * The Awtsmoos gathers only CSS scrolls that already lived in this project.
- * No generated style suite is imported. Every chamber receives an existing
- * garment: reader, sidebar, inline comments, AI, approvals, editor, commands,
- * footnotes, images, settings, cards, actions, post info, markdown, and mobile.
+ * Chapter 60: The old style-cities fall silent.
+ * The Awtsmoos rebuilds the post reader from six clear chambers only.
+ * Nothing legacy is imported here; the mobile portrait is the contract.
  */
 
-/* 1. IDEAL OWNERS */
-@import url("./ideal/tokens.css");
-@import url("./ideal/mobile-desktop-viewport.css");
-@import url("./ideal/mobile-desktop-stabilization.css");
-@import url("./ideal/reader-canvas.css");
-@import url("./ideal/mobile-reader-vision.css");
-@import url("./ideal/reading-focus.css");
-@import url("./ideal/sidebar-shell.css");
-@import url("./ideal/sidebar-chrome.css");
-@import url("./ideal/sidebar-panels.css");
-@import url("./ideal/sidebar-comments.css");
-@import url("./ideal/inline-comments.css");
-@import url("./ideal/global-actions.css");
-@import url("./ideal/floating-rail.css");
-@import url("./ideal/mobile-desktop-overlays.css");
-@import url("./ideal/mobile-main-menu-polish.css");
-
-/* 2. EXISTING FEATURE OWNERS */
-@import url("./aiThread.css");
-@import url("./aiChatStyles.css");
-@import url("./commandPalette.css");
-@import url("./new-style.css");
-@import url("./inlineThreadStyles.css");
-@import url("./reader-runtime-polish.css");
-@import url("./reset/isolation.css");
-
-/* 3. EXISTING COMMENT OWNERS */
-@import url("./comments/reply.css");
-@import url("./comments/editor.css");
-@import url("./comments/inputs.css");
-@import url("./comments/inline-intense.css");
-
-/* 4. EXISTING MODULE OWNERS */
-@import url("./modules/approvals.css");
-@import url("./modules/ai-chat.css");
-@import url("./modules/command-palette.css");
-@import url("./modules/footnotes.css");
-@import url("./modules/image-upload.css");
-@import url("./modules/keepers.css");
-@import url("./modules/comments.css");
-@import url("./modules/settings.css");
-@import url("./modules/info-cards.css");
-
-/* 5. EXISTING COMPONENT AND CONTENT OWNERS */
-@import url("./components/buttons.css");
-@import url("./components/inputs.css");
-@import url("./components/cards.css");
-@import url("./components/verse-menu.css");
-@import url("./content/marginalia.css");
-@import url("./content/paragraphs.css");
-@import url("./content/text.css");
-@import url("./content/polished-sigils.css");
+@import url("./ideal/reborn/tokens.css");
+@import url("./ideal/reborn/shell.css");
+@import url("./ideal/reborn/reader.css");
+@import url("./ideal/reborn/sidebar.css");
+@import url("./ideal/reborn/panels.css");
+@import url("./ideal/reborn/actions.css");

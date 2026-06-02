@@ -1,0 +1,111 @@
+/* B"H
+ * Chapter 64: The drawer becomes a full mobile palace.
+ * The Awtsmoos grants the open area ownership beneath the header. It is no
+ * longer a smoky half-sheet over old cards; it is the active page of context.
+ */
+
+.post-reader-localized-context .sidebar {
+    position: fixed !important;
+    z-index: var(--z-sidebar) !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: var(--awt-header-space) !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: calc(100dvh - var(--awt-header-space)) !important;
+    max-height: calc(100dvh - var(--awt-header-space)) !important;
+    overflow: hidden !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(244, 197, 107, .18) !important;
+    border-radius: 0 !important;
+    background: linear-gradient(180deg, #09111f, #050812 72%) !important;
+    color: var(--awt-text) !important;
+    box-shadow: 0 -22px 70px rgba(0, 0, 0, .62) !important;
+    transform: translate3d(0, 0, 0) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition: transform 120ms linear, opacity 120ms linear !important;
+}
+
+.post-reader-localized-context .sidebar.hidden-comments {
+    transform: translate3d(104%, 0, 0) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-resizer { display: none !important; }
+
+.post-reader-localized-context .awtsmoos-sidebar-shell {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-header-chrome {
+    flex: 0 0 auto !important;
+    padding: 14px 14px 10px !important;
+    border-bottom: 1px solid var(--awt-line) !important;
+    background: rgba(6, 10, 18, .96) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+}
+
+.post-reader-localized-context .awtsmoos-current-view-title {
+    margin: 0 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    color: var(--awt-text) !important;
+    font: 900 1.05rem/1.2 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn,
+.post-reader-localized-context .awtsmoos-back-btn {
+    display: inline-grid !important;
+    place-items: center !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 999px !important;
+    border: 1px solid var(--awt-line) !important;
+    background: rgba(255, 255, 255, .06) !important;
+    color: var(--awt-text) !important;
+    box-shadow: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn.close {
+    color: #fecdd3 !important;
+    background: rgba(244, 63, 94, .13) !important;
+    border-color: rgba(244, 63, 94, .28) !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
+    display: block !important;
+    margin-top: 8px !important;
+    min-height: 18px !important;
+    overflow: hidden !important;
+    color: var(--awt-muted) !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    font: 750 .78rem/1.2 var(--font-ui) !important;
+}
+
+@media (min-width: 901px) {
+    .post-reader-localized-context .sidebar {
+        top: 0 !important;
+        left: auto !important;
+        width: min(440px, 42vw) !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        border-left: 1px solid rgba(244, 197, 107, .18) !important;
+        box-shadow: -22px 0 70px rgba(0, 0, 0, .48) !important;
+    }
+}
