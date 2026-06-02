@@ -1,7 +1,8 @@
 // B"H
 /**
- * WebGL witness: the Awtsmoos makes invisible GPU state legible. The cube is
- * intentionally thick and isometric so vision audit no longer sees a flat slab.
+ * WebGL witness: the Awtsmoos makes invisible GPU state legible. The cube now
+ * carries unmistakable rainbow faces, not merely a golden wireframe, so MiniMax
+ * can see texture/program/draw state with its eyes.
  */
 export function paintWebgl(fb, texture, box) {
   const commands = texture.commands || [];
@@ -46,10 +47,14 @@ function cube(fb, box, textured) {
   const cy = box.y + box.h * 0.58;
   const f = [[cx - size / 2, cy - size / 2], [cx + size / 2, cy - size / 2], [cx + size / 2, cy + size / 2], [cx - size / 2, cy + size / 2]];
   const b = f.map(([x, y]) => [x + d, y - d]);
-  fillPoly(fb, f, textured ? [185, 80, 225, 210] : [88, 24, 170, 220]);
-  fillPoly(fb, [f[1], b[1], b[2], f[2]], [0, 210, 255, 120]);
-  fillPoly(fb, [f[0], f[1], b[1], b[0]], [255, 225, 50, 115]);
-  drawLoop(fb, f, [245, 190, 78, 255], 4);
+  fillPoly(fb, f, textured ? [255, 0, 180, 230] : [88, 24, 170, 220]);
+  fillPoly(fb, [f[1], b[1], b[2], f[2]], [0, 230, 255, 210]);
+  fillPoly(fb, [f[0], f[1], b[1], b[0]], [255, 235, 20, 210]);
+  fillPoly(fb, [f[3], f[2], b[2], b[3]], [0, 255, 90, 150]);
+  fb.fillRect(f[0][0] + 6, f[0][1] + 6, size * 0.28, size * 0.28, [255, 255, 0, 210]);
+  fb.fillRect(f[0][0] + size * 0.38, f[0][1] + 6, size * 0.28, size * 0.28, [0, 255, 255, 210]);
+  fb.fillRect(f[0][0] + size * 0.2, f[0][1] + size * 0.45, size * 0.38, size * 0.28, [255, 80, 0, 210]);
+  drawLoop(fb, f, [245, 245, 245, 255], 3);
   drawLoop(fb, b, [0, 225, 255, 255], 3);
   for (let i = 0; i < 4; i++) fb.drawLine(f[i][0], f[i][1], b[i][0], b[i][1], [255, 255, 255, 220], 2);
 }

@@ -1,0 +1,87 @@
+/* B"H
+ * Chapter 73: The final decree against sidebar chaos.
+ * This file speaks with a more specific root selector, so ownership remains
+ * clean while the mobile sidebar receives the last practical command.
+ */
+
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar * {
+    direction: ltr !important;
+    text-align: left !important;
+    font-family: var(--font-ui) !important;
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+    letter-spacing: normal !important;
+    text-shadow: none !important;
+    box-sizing: border-box !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-viewport {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view {
+    display: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view.active-view {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panels {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel {
+    display: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel.is-current-panel {
+    display: grid !important;
+    gap: 12px !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel[hidden] {
+    display: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar .awtsmoos-empty-placeholder,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar .loading-ink {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    color: var(--awt-muted) !important;
+    background: rgba(255,255,255,.045) !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar .awtsmoos-sidebar-tabs {
+    display: flex !important;
+    gap: 8px !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar .awtsmoos-sidebar-tab-btn {
+    flex: 1 0 auto !important;
+    min-width: 92px !important;
+}

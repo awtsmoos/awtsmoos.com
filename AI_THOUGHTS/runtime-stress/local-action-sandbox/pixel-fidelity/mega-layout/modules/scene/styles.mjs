@@ -1,8 +1,7 @@
 // B"H
 /**
- * Navy style module: the Awtsmoos makes the remaining witnesses explicit.
- * Flex and grid are no longer implied by colored rectangles; they display
- * visible cell lattices, nested frames, and readable labels.
+ * Navy style module: overflow and layout witnesses are made louder. The
+ * Awtsmoos makes every important visual gate readable at phone-screenshot scale.
  */
 export function sceneCss() {
   return `${base()}${layout()}${tiles()}${overflow()}${controls()}`;
@@ -21,7 +20,7 @@ function tiles() {
 }
 
 function overflow() {
-  return `.overflowGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.overflowCase{height:62px;border:2px solid white;border-radius:9px;background:#06101f;position:relative;font-size:9px;color:white;box-sizing:border-box;padding:3px}.hiddenCase{overflow:hidden}.scrollCase{overflow:scroll;--scroll-y:.72;--scroll-y-ratio:.32;--scroll-thumb:#00e5ff;--scroll-track:#10213b;scrollbar-color:#00e5ff #10213b}.xScrollCase{overflow-x:scroll;overflow-y:hidden;--scroll-x:.58;--scroll-x-ratio:.28;--scroll-thumb:#ffdf3a;--scroll-track:#30142a;scrollbar-color:#ffdf3a #30142a}.autoCase{overflow:auto;--scroll-y:.35;--scroll-x:.2;--scroll-y-ratio:.48;--scroll-x-ratio:.42;--scroll-thumb:#ff00a8;--scroll-track:#06101f;scrollbar-color:#ff00a8 #06101f}.slab{position:absolute;left:8px;top:25px;width:210px;height:28px;background:linear-gradient(90deg,red,yellow,lime,cyan,blue,magenta);box-shadow:0 0 14px white}.xScrollCase .slab{width:260px;height:24px}.hiddenCase .slab{transform:rotate(10deg)}`;
+  return `.overflowGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.overflowCase{height:62px;border:2px solid white;border-radius:9px;background:#020810;position:relative;font-size:9px;color:white;box-sizing:border-box;padding:3px}.hiddenCase{overflow:hidden}.scrollCase{overflow:scroll;--scroll-y:.72;--scroll-y-ratio:.32;--scroll-thumb:#00e5ff;--scroll-track:#10213b;scrollbar-color:#00e5ff #10213b}.xScrollCase{overflow-x:scroll;overflow-y:hidden;--scroll-x:.58;--scroll-x-ratio:.28;--scroll-thumb:#ffdf3a;--scroll-track:#30142a;scrollbar-color:#ffdf3a #30142a}.autoCase{overflow:auto;--scroll-y:.35;--scroll-x:.2;--scroll-y-ratio:.48;--scroll-x-ratio:.42;--scroll-thumb:#ff00a8;--scroll-track:#06101f;scrollbar-color:#ff00a8 #06101f}.slab{position:absolute;left:8px;top:25px;width:210px;height:28px;background:linear-gradient(90deg,red,yellow,lime,cyan,blue,magenta);box-shadow:0 0 14px white;border:2px solid white}.xScrollCase .slab{width:260px;height:24px}.hiddenCase .slab{transform:rotate(10deg)}`;
 }
 
 function controls() {

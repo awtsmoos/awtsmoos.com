@@ -1,9 +1,8 @@
 // B"H
 /**
- * CSS transform witness: until the software DOM renderer owns a full affine
- * framebuffer stack, transformed DOM boxes must still confess their intent.
- * The Awtsmoos marks rotate/scale/translate boxes with diagonal covenant lines
- * and a short transform label so vision audits do not miss the state.
+ * CSS transform witness: the Awtsmoos marks transformed DOM boxes without
+ * vandalizing their labels. The geometry mark now lives in the upper/right
+ * portion of each box, leaving the text covenant readable below.
  */
 export function hasTransform(style = {}) {
   const text = String(style.transform || '').trim().toLowerCase();
@@ -13,15 +12,18 @@ export function hasTransform(style = {}) {
 export function paintTransformWitness(fb, item) {
   const style = item.style || {};
   if (!hasTransform(style)) return;
-  const x = item.x;
-  const y = item.y;
-  const w = item.width;
-  const h = item.height;
   const color = transformColor(style.transform);
-  fb.drawLine(x + 2, y + h - 2, x + w - 2, y + 2, color, 3);
-  fb.drawLine(x + 2, y + 2, x + w - 2, y + h - 2, [255, 255, 255, 185], 1);
-  fb.strokeRect(x + 3, y + 3, Math.max(1, w - 6), Math.max(1, h - 6), color, 2);
-  fb.drawText(transformLabel(style.transform), x + 8, y + Math.max(8, h - 14), [255, 255, 255, 255], 1, Math.max(18, w - 16));
+  const mark = markRect(item);
+  fb.strokeRect(item.x + 3, item.y + 3, Math.max(1, item.width - 6), Math.max(1, item.height - 6), color, 2);
+  fb.drawLine(mark.x, mark.y + mark.h, mark.x + mark.w, mark.y, color, 3);
+  fb.drawLine(mark.x, mark.y, mark.x + mark.w, mark.y + mark.h, [255, 255, 255, 150], 1);
+  fb.drawText(transformLabel(style.transform), mark.x + 2, Math.max(item.y + 4, mark.y - 10), color, 1, Math.max(18, mark.w));
+}
+
+function markRect(item) {
+  const w = Math.max(24, Math.min(70, item.width * 0.44));
+  const h = Math.max(10, Math.min(18, item.height * 0.34));
+  return { x: item.x + item.width - w - 8, y: item.y + 6, w, h };
 }
 
 function transformLabel(value = '') {
