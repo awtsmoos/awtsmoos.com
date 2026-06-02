@@ -1,0 +1,99 @@
+/* B"H
+ * Chapter 69b: Student rows regain their faces.
+ * The Awtsmoos removes browser-white masks and gives every keeper a dark,
+ * readable doorway with a clean avatar, text column, and control rail.
+ */
+
+.post-reader-localized-context .awtsmoos-sidebar-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding: 0 0 10px !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tab-btn {
+    border: 1px solid var(--awt-line) !important;
+    border-radius: 14px !important;
+    background: rgba(255,255,255,.055) !important;
+    color: var(--awt-muted) !important;
+    padding: 9px 6px !important;
+    font: 850 .72rem/1.05 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tab-btn.is-active {
+    color: var(--awt-text) !important;
+    background: rgba(41,213,222,.13) !important;
+    border-color: rgba(41,213,222,.35) !important;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn,
+.post-reader-localized-context .awtsmoos-student-row,
+.post-reader-localized-context .comment-content,
+.post-reader-localized-context .awtsmoos-list-item {
+    width: 100% !important;
+    border: 1px solid var(--awt-line) !important;
+    border-radius: var(--awt-radius) !important;
+    background: linear-gradient(180deg, var(--awt-panel-2), rgba(11,18,32,.94)) !important;
+    color: var(--awt-text) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px !important;
+}
+
+.post-reader-localized-context .keeper-portal-trigger,
+.post-reader-localized-context .awtsmoos-student-open {
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    text-align: start !important;
+}
+
+.post-reader-localized-context .menu-icon-vessel,
+.post-reader-localized-context .awtsmoos-student-avatar,
+.post-reader-localized-context .commentator-avatar {
+    width: 44px !important;
+    height: 44px !important;
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 999px !important;
+    background: radial-gradient(circle at 35% 25%, var(--awt-cyan), #5b5bdc 72%) !important;
+    color: #07111f !important;
+    font: 900 1rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-copy,
+.post-reader-localized-context .menu-text-vessel {
+    display: grid !important;
+    min-width: 0 !important;
+    gap: 3px !important;
+}
+
+.post-reader-localized-context .menu-portal-title,
+.post-reader-localized-context .awtsmoos-student-name,
+.post-reader-localized-context .comment-author-link {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    color: var(--awt-text) !important;
+    font: 900 .95rem/1.15 var(--font-ui) !important;
+    text-decoration: none !important;
+}
+
+.post-reader-localized-context .menu-portal-desc,
+.post-reader-localized-context .awtsmoos-student-location,
+.post-reader-localized-context .comment-time {
+    color: var(--awt-muted) !important;
+    font: 650 .78rem/1.25 var(--font-ui) !important;
+}

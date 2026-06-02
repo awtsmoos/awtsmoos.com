@@ -1,6 +1,6 @@
 /* B"H
  * Chapter 60: The old style-cities fall silent.
- * The Awtsmoos rebuilds the post reader from six clear chambers only.
+ * The Awtsmoos rebuilds the post reader from small clear chambers only.
  * Nothing legacy is imported here; the mobile portrait is the contract.
  */
 
@@ -9,4 +9,6 @@
 @import url("./ideal/reborn/reader.css");
 @import url("./ideal/reborn/sidebar.css");
 @import url("./ideal/reborn/panels.css");
+@import url("./ideal/reborn/panel-rows.css");
+@import url("./ideal/reborn/panel-controls.css");
 @import url("./ideal/reborn/actions.css");

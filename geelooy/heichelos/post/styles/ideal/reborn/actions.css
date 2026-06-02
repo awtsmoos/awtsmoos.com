@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 66: Floating actions leave the sacred words alone.
- * The Awtsmoos places A, I, and Scroll into a thumb dock with measured space,
- * not on top of the Hebrew card and not on top of the open sidebar.
+ * Chapter 70: The thumb dock bows beneath the text.
+ * A, I, and Scroll live at the screen edge, never on top of the opened sidebar,
+ * never on top of the Hebrew words, always reachable and always quiet.
  */
 
 .post-reader-localized-context .awtsmoos-floating-controls {
@@ -56,23 +56,13 @@
     text-align: center !important;
 }
 
-.post-reader-localized-context .awtsmoos-auto-scroll-icon {
-    display: block !important;
-    font-size: 1.35rem !important;
-    line-height: 1 !important;
+.post-reader-localized-context:has(.sidebar.awtsmoos-sidebar-open) .awtsmoos-auto-scroll-floating {
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
-.post-reader-localized-context .awtsmoos-auto-scroll-label {
-    display: block !important;
-    margin-top: 3px !important;
-    font-size: .62rem !important;
-    line-height: 1 !important;
-}
-
-.post-reader-localized-context .sidebar.awtsmoos-sidebar-open ~ .awtsmoos-auto-scroll-floating,
-.post-reader-localized-context .sidebar.awtsmoos-sidebar-open + .awtsmoos-auto-scroll-floating {
-    display: none !important;
-}
+.post-reader-localized-context .awtsmoos-auto-scroll-icon { display: block !important; font-size: 1.35rem !important; }
+.post-reader-localized-context .awtsmoos-auto-scroll-label { display: block !important; margin-top: 3px !important; font-size: .62rem !important; }
 
 .post-reader-localized-context .typography-details {
     position: fixed !important;
@@ -92,15 +82,36 @@
 
 .post-reader-localized-context .hidden-details { display: none !important; }
 
-.post-reader-localized-context .comment-chip-action,
-.post-reader-localized-context .reply-toggle-btn,
+.post-reader-localized-context .awtsmoos-comment-entry-monolith,
+.post-reader-localized-context .awtsmoos-scribe-altar {
+    display: grid !important;
+    gap: 10px !important;
+    border: 1px solid var(--awt-line) !important;
+    border-radius: var(--awt-radius) !important;
+    background: rgba(255,255,255,.045) !important;
+    padding: 12px !important;
+}
+
+.post-reader-localized-context .awtsmoos-add-comment-btn,
+.post-reader-localized-context .btn,
+.post-reader-localized-context .btn-ai-draft,
+.post-reader-localized-context .danger-outline,
 .post-reader-localized-context .awtsmoos-action-row {
     min-height: 42px !important;
     border: 1px solid var(--awt-line) !important;
     border-radius: 999px !important;
-    background: rgba(255, 255, 255, .06) !important;
+    background: rgba(255,255,255,.06) !important;
     color: var(--awt-text) !important;
     padding: 9px 13px !important;
+    box-shadow: none !important;
+    font: 800 .9rem/1.1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .ai-draft-bar {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
 }
 
 @media (min-width: 901px) {

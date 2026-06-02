@@ -1,20 +1,31 @@
 /* B"H
- * Chapter 62: The shell stops imprisoning the scroll.
- * The Awtsmoos opens the page into one vertical river: header, reader,
- * optional drawer. No fixed ancestor may trap the thumb or bury content.
+ * Chapter 67: The river is released from the iron throat.
+ * The Awtsmoos opens every ancestor of the reader so the finger may descend,
+ * the page may breathe, and no fixed-height prison can swallow the scroll.
  */
 
 html,
 body {
-    min-height: 100%;
-    overflow-x: hidden;
-    background: var(--awt-bg);
+    width: 100% !important;
+    min-height: 100% !important;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    touch-action: pan-y !important;
+    background: var(--awt-bg) !important;
 }
 
 body {
-    margin: 0;
-    color: var(--awt-text);
-    font-family: var(--font-ui);
+    margin: 0 !important;
+    color: var(--awt-text) !important;
+    font-family: var(--font-ui) !important;
+    overscroll-behavior-y: auto !important;
+}
+
+body.awtsmoos-reader-scroll-repaired,
+html.awtsmoos-reader-scroll-repaired {
+    overflow-y: auto !important;
+    position: static !important;
 }
 
 .all.post-reader-localized-context.awtsmoos-reader-vision {
@@ -23,9 +34,11 @@ body {
     width: 100% !important;
     min-height: 100dvh !important;
     height: auto !important;
+    max-height: none !important;
     overflow-x: clip !important;
     overflow-y: visible !important;
     isolation: isolate !important;
+    touch-action: pan-y !important;
     background:
         radial-gradient(circle at 78% 0%, rgba(244, 197, 107, .12), transparent 24rem),
         linear-gradient(180deg, #060a12, #0b1020 38%, #050810) !important;
@@ -40,12 +53,15 @@ body {
 }
 
 .post-reader-localized-context > .main {
-    position: relative !important;
+    position: static !important;
     display: block !important;
-    min-height: calc(100dvh - var(--awt-header-space)) !important;
     width: 100% !important;
+    min-height: calc(100dvh - var(--awt-header-space)) !important;
+    height: auto !important;
+    max-height: none !important;
     overflow: visible !important;
     padding-bottom: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
+    touch-action: pan-y !important;
 }
 
 .post-reader-localized-context .scroll-view-wrapper {
@@ -53,18 +69,24 @@ body {
     z-index: var(--z-reader) !important;
     width: 100% !important;
     min-height: calc(100dvh - var(--awt-header-space)) !important;
-    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
     padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
+    touch-action: pan-y !important;
 }
 
 .post-reader-localized-context #realPost.content {
+    display: block !important;
     width: 100% !important;
     max-width: 920px !important;
+    min-height: 125dvh !important;
+    height: auto !important;
     margin: 0 auto !important;
     overflow: visible !important;
 }
 
 @media (min-width: 901px) {
-    .all.post-reader-localized-context.awtsmoos-reader-vision { padding-right: 0 !important; }
     .post-reader-localized-context .scroll-view-wrapper { padding-inline: clamp(2rem, 7vw, 8rem) !important; }
 }

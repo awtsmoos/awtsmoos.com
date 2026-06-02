@@ -3,7 +3,7 @@
 Pass: true
 
 Image: AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/mega-layout/mega-layout.png
-SHA256: 2a492b891e9e81a34e75bad32dc1f0876c85296a57b377d76ebfc35a8ca68374
+SHA256: 460e75e3daac98a1b6d4c1ef9caf74d516ed638f98c3d770c776d9ffde96470c
 
 ## Checks
 - PASS runtimeOk

@@ -3,13 +3,13 @@ import { sceneCss } from './styles.mjs';
 import { clientScript } from './script.mjs';
 
 /**
- * Navy markup module: each stress chamber now advertises exactly what it proves.
- * The header uses plain separators so the screenshot does not show replacement
- * glyphs where the vision judge expects readable language.
+ * Navy markup module: each stress chamber advertises what it proves. Header
+ * separators are plain slashes to avoid unsupported glyphs in the software text
+ * painter, while transform/z witnesses remain explicit in the controls card.
  */
 export function html() {
   return `<!doctype html><html><head><style>${sceneCss()}</style></head><body><main class="page">
-<header class="card hero"><h1>MEGA MERKAVA<br>LAYOUT CITADEL</h1><div class="rainbow"></div><div class="sticky">STICKY</div><b>NESTED FLEX/GRID | BEZIERS | WEBGL CUBE | OVERFLOW | Z-STACK</b></header>
+<header class="card hero"><h1>MEGA MERKAVA<br>LAYOUT CITADEL</h1><div class="rainbow"></div><div class="sticky">STICKY</div><b>NESTED FLEX GRID / BEZIERS / WEBGL CUBE / OVERFLOW / Z STACK / TRANSFORMS</b></header>
 <section class="body"><section class="tower"><div class="card gridA">${leftTiles()}</div><div class="card tile nestBand"><b>FLEX ROW: 3 nested grid canvases</b>${rowGridNest()}</div></section><section class="tower"><div class="card gridB">${middleTiles()}</div><div class="card tile nestBand"><b>FLEX COLUMN: 3 stacked grid canvases</b>${columnGridNest()}${zStackWitness()}</div></section><aside class="right"><section class="card webgl"><h2>WEBGL RAINBOW CUBE</h2><canvas id="gl-main" width="280" height="166"></canvas></section><section class="card"><h2>OVERFLOW LAB</h2><div class="overflowGrid">${overflowLab()}</div></section><section class="card"><h2>DARK CONTROLS + Z STACK</h2><div class="controls"><input class="control" value="NAME"><input class="control" value="MODE"><input class="control" value="NOTE"><input class="control" value="OK"></div><div class="zbox"><div class="float z1">ROTATE</div><div class="float z2">SCALE</div><div class="float z3">SHIFT</div></div></section></aside></section>
 <script>${clientScript()}</script></main></body></html>`;
 }
