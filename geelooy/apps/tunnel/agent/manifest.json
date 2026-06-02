@@ -1,7 +1,6 @@
 {
   "BH": "B\"H",
-  "version": "1.5.68",
-  "previousVersion": "1.5.67",
+  "version": "1.5.72",
   "entry": "main.js",
   "files": [
     {
@@ -181,8 +180,8 @@
     },
     {
       "path": "tools/fs/actionGroups/aiAgents/taskRunner.js",
-      "bytes": 3399,
-      "sha256": "5bc5eef7cb3ba08ba5d9b11ed0e83da6c16431b799a5053a9ee8aeb26b9ceb08"
+      "bytes": 3802,
+      "sha256": "63e22a0d6b19b2dc7a3f3110d43eeac910c95929a7ff4178c23d4131d8406fdb"
     },
     {
       "path": "tools/fs/actionGroups/aiAgents/taskStore.js",
@@ -281,8 +280,8 @@
     },
     {
       "path": "tools/fs/actionLedger.js",
-      "bytes": 6970,
-      "sha256": "f5588159b1aa9ae613493270f84b471dbfb219df869138bba23e522d2f61bd27"
+      "bytes": 7067,
+      "sha256": "ebb2ca7ab9e4c3501a9a1a7c7c1941af2db9d24d9138feef79c2ad73b95a9929"
     },
     {
       "path": "tools/fs/actions.js",
@@ -380,14 +379,14 @@
       "sha256": "a5eb537b61ad9efda58b987ba2445d981cfa768bdab7d236ad4c72f751284d99"
     },
     {
-      "path": "tools/fs/jsonTools.js",
-      "bytes": 2225,
-      "sha256": "a141b666357dd2b81ef589682cc57befdd36ca81719165e57896d05886e55f03"
-    },
-    {
       "path": "tools/fs/jsWriteVerifier.js",
       "bytes": 3678,
       "sha256": "5e1402d7a04addbf7a182af50fe4d452d9821374417cc744adedff19418baf76"
+    },
+    {
+      "path": "tools/fs/jsonTools.js",
+      "bytes": 2225,
+      "sha256": "a141b666357dd2b81ef589682cc57befdd36ca81719165e57896d05886e55f03"
     },
     {
       "path": "tools/fs/lineBatch.js",
@@ -516,8 +515,8 @@
     },
     {
       "path": "tools/fs/runtime/sourceRefs/pathRefs.js",
-      "bytes": 3056,
-      "sha256": "f5787123ee8f878446628a57609fbb262d558ab64bafdcce232db06414f3bdd3"
+      "bytes": 3655,
+      "sha256": "8cf5be24ccb76e9d8bf05f38200f113ce03595df53fcac4f7da50948e35595ea"
     },
     {
       "path": "tools/fs/runtimeDetect.js",

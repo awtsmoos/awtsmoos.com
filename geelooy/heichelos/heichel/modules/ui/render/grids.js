@@ -2,9 +2,12 @@
  * B"H
  * @module GridManifest
  * @description
- * The grids organize posts and series into clean cards. The Awtsmoos gives each
- * card a purified title and preview before manifestation, so executable text is
- * swallowed before it reaches the visible library.
+ * Chapter 2: The Awtsmoos folds the noisy market into one silent dot.
+ *
+ * The grids organize posts and series into clean cards. Post social actions
+ * are hidden inside the three-dot menu so the card face remains readable on
+ * mobile and desktop. The menu is click-safe: opening the menu does not open
+ * the post, and social buttons do not bubble into navigation.
  */
 
 import { DOMElements } from "../../dom.js";
@@ -67,27 +70,52 @@ function getCardBlueprint(item, type, navigator, appState) {
         },
         events: { click: event => handleCardSelectionOrNav(event, { id, type, title, index: item.indexInSeries }, navigator, appState) },
         children: [
-            appState.ownsIt ? cardMenuBlueprint(id, type, title, navigator, appState) : null,
+            cardMenuBlueprint(id, type, title, navigator, appState, socialItem),
             {
                 tag: "div",
                 attr: { class: `post-card ${type}` },
                 children: [
                     { tag: "h2", children: [title] },
-                    { tag: "p", children: [desc] },
-                    ...(type === "post" ? socialActionBlueprints(socialItem, appState) : [])
+                    { tag: "p", children: [desc] }
                 ]
             }
-        ].filter(Boolean)
+        ]
     };
 }
 
-function cardMenuBlueprint(id, type, title, navigator, appState) {
+function cardMenuBlueprint(id, type, title, navigator, appState, socialItem) {
+    const socialActions = type === "post" ? socialActionBlueprints(socialItem, appState) : [];
+    const adminAction = appState.ownsIt ? adminMenuAction(id, type, title, navigator, appState) : null;
     return {
         tag: "div",
-        attr: { class: "card-menu-spark" },
-        children: ["⋮"],
+        attr: { class: "card-menu-spark", "data-card-menu": id },
+        children: [
+            { tag: "button", attr: { type: "button", class: "card-menu-trigger", "aria-label": "Open card menu" }, children: ["⋮"] },
+            {
+                tag: "div",
+                attr: { class: "card-menu-panel", role: "menu" },
+                children: [adminAction, ...socialActions].filter(Boolean)
+            }
+        ],
         events: {
             click: event => {
+                event.preventDefault();
+                event.stopPropagation();
+                closeOtherMenus(event.currentTarget);
+                event.currentTarget.classList.toggle("open");
+            }
+        }
+    };
+}
+
+function adminMenuAction(id, type, title, navigator, appState) {
+    return {
+        tag: "button",
+        attr: { type: "button", class: "card-menu-action admin-action", role: "menuitem" },
+        children: ["Manage"],
+        events: {
+            click: event => {
+                event.preventDefault();
                 event.stopPropagation();
                 showContextMenu(event.target, { id, type, parentId: appState.currentSeries, title }, navigator);
             }
@@ -95,7 +123,14 @@ function cardMenuBlueprint(id, type, title, navigator, appState) {
     };
 }
 
+function closeOtherMenus(activeMenu) {
+    document.querySelectorAll(".card-menu-spark.open").forEach(menu => {
+        if (menu !== activeMenu) menu.classList.remove("open");
+    });
+}
+
 function handleCardSelectionOrNav(event, item, navigator, appState) {
+    if (event.target.closest(".card-menu-spark")) return;
     if (appState.isSelectionMode) {
         import("../controls.js").then(module => module.toggleItemSelection(item, appState));
         return;

@@ -1,16 +1,17 @@
 // B"H
 /**
  * @module OlamGraftingPlain
- * @description Chapter 92: a fresh public graft vessel. The Awtsmoos bypasses
- * stale public `OlamGrafting.js` and stale `loading.js` by using a new filename
- * that imports the boot-safe `loadingPlain.js` vessel directly.
+ * @description
+ * Chapter 156: the graft chain carries the indoor-floor grounding seal. The
+ * Awtsmoos makes sure the worker imports the fresh LoadNivrayim vessel, not an
+ * old cached river where indoor NPCs sink or float.
  */
 import loading from "../methods/loadingPlain.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
 import heesHawvoos from "../methods/heesHawvoos.js";
 import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=indoor-floor-lift-20260602-bh156";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";

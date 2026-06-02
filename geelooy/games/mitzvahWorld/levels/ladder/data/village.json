@@ -1,182 +1,60 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "village.json",
-  "shaym": "Quiet_Grounded_Village",
+  "shaym": "Ray_Grounded_Village_Textured_Small_Door_Indoor_Floor",
   "title": "Grounded Village",
   "requiredPerutos": 0,
   "nextLevel": "ladder-1.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
     "ProceduralSky": [
-      {
-        "name": "quiet_gold_sky",
-        "timeOfDay": 16.8,
-        "timeMultiplier": 0,
-        "position": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        }
-      }
+      { "name": "bright_gold_sky", "timeOfDay": 14.5, "timeMultiplier": 0, "sunIntensity": 1.9, "hemiIntensity": 1.25, "ambientIntensity": 0.86, "position": { "x": 0, "y": 0, "z": 0 } }
     ],
     "ProceduralTerrain": [
-      {
-        "name": "single_ground_plane",
-        "width": 58,
-        "depth": 42,
-        "thickness": 2,
-        "segments": 1,
-        "isSolid": true,
-        "textureType": "grass",
-        "position": {
-          "x": 0,
-          "y": -1.05,
-          "z": 0
-        }
-      }
+      { "name": "single_ground_plane", "width": 96, "depth": 78, "thickness": 2, "segments": 1, "isSolid": true, "textureType": "grass", "position": { "x": 0, "y": -1, "z": 0 } }
     ],
     "Chossid": [
-      {
-        "name": "Village Chossid",
-        "height": 1.5,
-        "radius": 0.45,
-        "dynamicSolidRadius": 0.28,
-        "speed": 48,
-        "speedScale": 1.35,
-        "jumpHeight": 8,
-        "interactable": true,
-        "path": "https://models-3122d.web.app/chossid.glb?k=2",
-        "position": {
-          "x": -7.5,
-          "y": 1.25,
-          "z": 6.2
-        }
-      }
+      { "name": "Village Chossid", "height": 1.5, "radius": 0.45, "dynamicSolidRadius": 0.28, "speed": 7.2, "speedScale": 1.08, "jumpHeight": 8, "interactable": true, "path": "https://models-3122d.web.app/chossid.glb?k=2", "position": { "x": -10.0, "y": 0.05, "z": 9.0 }, "visualGroundBiasY": 0, "movementResponsiveness": 18, "stopResponsiveness": 28 }
     ],
     "VillagePictureProp": [
-      {
-        "name": "small_warm_house",
-        "kind": "gableHouse",
-        "scale": 0.82,
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": 9.5,
-          "z": -7.5
-        },
-        "rotation": {
-          "y": -0.25
-        }
-      },
-      {
-        "name": "low_dirt_path",
-        "kind": "pictureDirtPath",
-        "groundY": 0,
-        "groundLift": 0.01,
-        "position": {
-          "x": -1.5,
-          "z": 4.4
-        },
-        "rotation": {
-          "y": -0.05
-        }
-      },
-      {
-        "name": "tiny_tree_bench",
-        "kind": "bench",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -5.8,
-          "z": 7.6
-        },
-        "rotation": {
-          "y": 0.3
-        }
-      },
-      {
-        "name": "front_lantern_grounded",
-        "kind": "lantern",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -9.5,
-          "z": 6.2
-        }
-      },
-      {
-        "name": "portal_lantern_grounded",
-        "kind": "lantern",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": 4.2,
-          "z": -2.7
-        }
-      },
-      {
-        "name": "gentle_flowers_left",
-        "kind": "flowerPatch",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -4.8,
-          "z": 5.8
-        }
-      },
-      {
-        "name": "gentle_flowers_right",
-        "kind": "flowerPatch",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": 6.4,
-          "z": -4.4
-        }
-      },
-      {
-        "name": "short_fence_left",
-        "kind": "fence",
-        "count": 5,
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -15,
-          "z": 1.7
-        },
-        "rotation": {
-          "y": 0.18
-        }
-      },
-      {
-        "name": "path_rock_grounded",
-        "kind": "rock",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -3.4,
-          "z": 4.2
-        }
-      }
+      { "name": "big_warm_house_visual_only", "kind": "gableHouse", "scale": 4.8, "groundY": 0, "groundLift": 0, "position": { "x": 13.0, "z": -11.0 }, "rotation": { "y": -0.25 } },
+      { "name": "low_dirt_path", "kind": "pictureDirtPath", "groundY": 0, "groundLift": 0.01, "position": { "x": -4.0, "z": 7.5 }, "rotation": { "y": -0.05 }, "scale": 1.4 },
+      { "name": "tiny_tree_bench", "kind": "bench", "groundY": 0, "groundLift": 0, "position": { "x": -11.0, "z": 12.0 }, "rotation": { "y": 0.3 }, "scale": 1.2 },
+      { "name": "front_lantern_bright", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": -15.5, "z": 11.5 }, "scale": 1.3 },
+      { "name": "portal_lantern_bright", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": 1.0, "z": 3.6 }, "scale": 1.45 },
+      { "name": "gentle_flowers_left", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": -8.2, "z": 8.0 }, "scale": 1.4 },
+      { "name": "gentle_flowers_right", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": 0.5, "z": 4.5 }, "scale": 1.2 },
+      { "name": "short_fence_left", "kind": "fence", "count": 5, "groundY": 0, "groundLift": 0, "position": { "x": -22, "z": 2.5 }, "rotation": { "y": 0.18 }, "scale": 1.4 },
+      { "name": "path_rock_grounded", "kind": "rock", "groundY": 0, "groundLift": 0, "position": { "x": -7.4, "z": 6.5 }, "scale": 1.1 }
+    ],
+    "VillageHouseCollider": [
+      { "name": "big_warm_house_simple_colliders", "width": 34, "depth": 23, "height": 12.6, "doorWidth": 3.1, "floorTop": 0.4, "thickness": 0.85, "position": { "x": 13.0, "y": 0, "z": -11.0 }, "rotation": { "y": -0.25 } }
+    ],
+    "VillageHouseDoor": [
+      { "name": "cottage_real_hinged_door", "scale": 4.8, "position": { "x": 9.89, "y": 0, "z": 1.18 }, "rotation": { "y": -0.25 }, "openAngle": -1.22, "proximity": 7.2, "interactable": true }
     ],
     "InteractiveNpc": [
       {
         "name": "Village Challenge Guide",
-        "simpleGuide": false,
         "opensLevelSelect": true,
+        "hasShop": true,
         "selectorTitle": "NPC CHALLENGES",
-        "proximity": 5.2,
-        "visualHeight": 1.65,
-        "dialogue": [
-          "Shalom! The village is stable now.",
-          "Choose a challenge only when you are ready.",
-          "Nothing should pull you into level one by itself."
+        "proximity": 6.4,
+        "height": 1.5,
+        "radius": 0.42,
+        "visualHeight": 1.5,
+        "visualGroundBiasY": 0,
+        "groundLift": 0.4,
+        "path": "https://models-3122d.web.app/chossid.glb?k=2",
+        "dialogue": ["Shalom! Choose levels, buy clothes, or sell extras.", "Your bag buys colored clothing.", "Give tzedakah in a level and the mezuzah returns double."],
+        "shopInventory": [
+          { "id": "blue_shirt", "name": "Blue Shirt", "icon": "👕", "equipSlot": "shirt", "price": 3, "sellValue": 1, "customData": { "meshName": ["shirt", "outer-shirt"], "color": "#4db8ff" } },
+          { "id": "gold_shirt", "name": "Gold Shirt", "icon": "👕", "equipSlot": "shirt", "price": 5, "sellValue": 2, "customData": { "meshName": ["shirt", "outer-shirt"], "color": "#ffd54a" } },
+          { "id": "green_coat", "name": "Green Coat", "icon": "🧥", "equipSlot": "jacket", "price": 6, "sellValue": 3, "customData": { "meshName": "jacket", "color": "#2ecc71" } },
+          { "id": "purple_coat", "name": "Purple Coat", "icon": "🧥", "equipSlot": "jacket", "price": 6, "sellValue": 3, "customData": { "meshName": "jacket", "color": "#9b5cff" } },
+          { "id": "brown_shoes", "name": "Brown Shoes", "icon": "👞", "equipSlot": "feet", "price": 4, "sellValue": 2, "customData": { "meshName": "shoes", "color": "#8b5a2b" } }
         ],
-        "position": {
-          "x": -1.8,
-          "y": 0.9,
-          "z": 5.4
-        }
+        "position": { "x": 13.15, "y": 0.4, "z": -10.32 }
       }
     ]
   }

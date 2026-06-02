@@ -2,23 +2,22 @@
 /**
  * @file ikar.js
  * @description
- * Chapter 3: The path gate learns restraint. A bare `?path` is no longer a
- * command to drag the player into a world. The Awtsmoos opens only the named
- * vessel; silence remains silence, and choice remains choice.
+ * Chapter 131: The path gate carries the ray-grounded village seal. The
+ * Awtsmoos fetches fresh village data and imports the fresh manager/UI chain.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=ray-ground-ui-ground0-20260602-bh131";
 
 const scope = window;
+const SEAL = "ray-ground-ui-ground0-20260602-bh131";
 const LEVELS = new Set(["village.json", "ladder-1.json", "ladder-2.json", "ladder-3.json", "ladder-4.json", "ladder-5.json"]);
 
 function markPhase(phase, data = {}) {
   scope.__AWTSMOOS_IKAR_PHASES__ ||= [];
-  const row = { phase, at: new Date().toISOString(), ...data };
+  const row = { phase, at: new Date().toISOString(), seal: SEAL, ...data };
   scope.__AWTSMOOS_IKAR_PHASES__.push(row);
   console.info("B\"H | IKAR_PHASE", JSON.stringify(row));
   return row;
 }
-
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
   if (value == null || ["string", "number", "boolean"].includes(typeof value)) return value;
@@ -31,7 +30,6 @@ function safeClone(value, depth = 0) {
   }
   return String(value);
 }
-
 function renderErrorPanel(details) {
   const root = document.getElementById("ikar") || document.body;
   let panel = document.getElementById("awtsmoosBootErrorPanel");
@@ -43,7 +41,6 @@ function renderErrorPanel(details) {
   }
   panel.textContent = `B\"H — Mitzvah World boot error\n\n${JSON.stringify(details, null, 2)}`;
 }
-
 function reportError(error, context = {}) {
   const details = { context: safeClone(context), thrown: safeClone(error), phases: scope.__AWTSMOOS_IKAR_PHASES__ || [], at: new Date().toISOString() };
   scope.__AWTSMOOS_LAST_ERROR__ = details;
@@ -51,7 +48,6 @@ function reportError(error, context = {}) {
   console.error(`B"H - ${context.label || "Runtime error"} JSON`, scope.__AWTSMOOS_LAST_ERROR_JSON__);
   renderErrorPanel(details);
 }
-
 function normalizeLevelId(raw) {
   const rawText = String(raw ?? "").trim();
   if (!rawText) return null;
@@ -60,7 +56,6 @@ function normalizeLevelId(raw) {
   if (LEVELS.has(json)) return json;
   throw new Error("Only village.json and ladder-N.json level paths are enabled here.");
 }
-
 async function clearOldCaches() {
   markPhase("cache:cleanup:start");
   const cleanup = (async () => {
@@ -73,18 +68,15 @@ async function clearOldCaches() {
   const result = await Promise.race([cleanup, new Promise(resolve => setTimeout(() => resolve("timeout"), 900))]);
   markPhase("cache:cleanup:done", { result: safeClone(result) });
 }
-
 function createManager() {
   markPhase("manager:create:start");
   scope.mana = new ManagerOfAllWorlds(null);
   markPhase("manager:create:done", { hasUi: Boolean(scope.mana?.ui) });
 }
-
 function uiRoots() {
   const ui = scope.mana?.ui;
   return { ikar: ui?.$g?.("ikar") || document.getElementById("ikar"), menu: ui?.$g?.("menu") || ui?.$g?.("main menu"), loading: ui?.$g?.("loading") };
 }
-
 async function waitForGameUi() {
   for (let attempts = 1; attempts <= 160; attempts += 1) {
     const { ikar } = uiRoots();
@@ -93,9 +85,8 @@ async function waitForGameUi() {
   }
   throw new Error("UI readiness timed out before level autoload.");
 }
-
 async function fetchLevel(id) {
-  const url = new URL(`../levels/ladder/data/${id}?bh=grounded-village-3`, import.meta.url);
+  const url = new URL(`../levels/ladder/data/${id}?bh=${SEAL}`, import.meta.url);
   markPhase("level:fetch:start", { id, url: url.href });
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error(`JSON level fetch failed: ${id} (${response.status})`);
@@ -104,7 +95,6 @@ async function fetchLevel(id) {
   markPhase("level:fetch:done", { id, nivraTypes: Object.keys(data.nivrayim).length });
   return data;
 }
-
 async function autoloadFromQuery() {
   const params = new URLSearchParams(location.search);
   const rawPath = params.has("path") ? params.get("path") : null;
@@ -119,7 +109,6 @@ async function autoloadFromQuery() {
   ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh: data, sourcePath: id, gameUiHTML: scope.awtsmoosGameUI } }));
   markPhase("autoload:dispatch:done", { id });
 }
-
 async function boot() {
   markPhase("module:evaluated");
   await clearOldCaches();
@@ -127,7 +116,6 @@ async function boot() {
   await autoloadFromQuery();
   markPhase("boot:done");
 }
-
 window.addEventListener("error", event => reportError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));
 window.addEventListener("unhandledrejection", event => reportError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
 boot().catch(error => reportError(error, { label: "Boot error" }));

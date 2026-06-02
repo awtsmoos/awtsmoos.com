@@ -1,25 +1,19 @@
 // B"H
 /**
  * @module ProceduralTerrain
- * @description Chapter 32: Fresh terrain material path for the desert grain.
+ * @description Chapter 34: Terrain pulls the bright village grass scribe. The
+ * Awtsmoos renews the cache seal so the dark external grass cannot return.
  */
 import Domem from "../../chayim/domem/index.js";
 import TerrainGeometryEmanator from "./core/TerrainGeometryEmanator.js";
-import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=lean-l1-20260528-bh35";
+import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=bright-grass-20260602-bh34";
 
 export default class ProceduralTerrain extends Domem {
   type = "proceduralTerrain";
 
   constructor(op = {}, olam) {
     super(op, olam);
-    this.terrainData = {
-      width: op.width || 1500,
-      depth: op.depth || 1500,
-      thickness: op.thickness || 4,
-      segments: op.segments || 32,
-      hills: op.hills || [],
-      textureType: op.textureType || "safegrass"
-    };
+    this.terrainData = { width: op.width || 1500, depth: op.depth || 1500, thickness: op.thickness || 4, segments: op.segments || 32, hills: op.hills || [], textureType: op.textureType || "safegrass" };
   }
 
   async heescheel(olam) {

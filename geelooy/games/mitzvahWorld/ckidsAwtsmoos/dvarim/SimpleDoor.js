@@ -2,145 +2,33 @@
 /**
  * @file SimpleDoor.js
  * @description
- * Chapter 85: The Mezuzah Gate Waited For Coins And Tzedakah.
- *
- * The Awtsmoos hangs the visible mezuzah on the right doorpost, but it no
- * longer opens from an empty required count. It derives a real coin goal,
- * requires the pushkuh blessing, and speaks one bilingual overlay line.
+ * Chapter 86: The mezuzah pays the doubled tzedakah reward. When the level
+ * opens, the personal purse receives twice the amount recorded by the pushkuh.
  */
 import Domem from "../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 
 const READY_COLORS = Object.freeze({ waiting: 0x00ffe8, coins: 0x3cff86, blessed: 0xffd54a });
 function makeMat(color, options = {}) { return new THREE.MeshBasicMaterial({ color, ...options }); }
-function levelCoinGoal(olam) {
-  const fromWorld = Number(olam?.requiredPerutos);
-  if (Number.isFinite(fromWorld) && fromWorld > 0) return fromWorld;
-  const coins = Array.isArray(olam?.nivrayim) ? olam.nivrayim.filter(n => n?.type === "coin") : [];
-  const fromCoins = coins.reduce((sum, coin) => sum + (Number(coin?.value) || 0), 0);
-  return fromCoins > 0 ? fromCoins : 9;
-}
-function addBox(root, owner, name, pos, size, mat) {
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat);
-  mesh.name = `${owner.name || "DoorMezuzah"}_${name}`;
-  mesh.position.set(...pos);
-  mesh.userData.addToOctree = false;
-  mesh.userData.skipRaycast = false;
-  mesh.nivraAwtsmoos = owner;
-  root.add(mesh);
-  return mesh;
-}
-function addLetterMem(root, owner, mat) {
-  addBox(root, owner, "mem_left_leg", [-0.17, 0.06, -0.33], [0.07, 0.56, 0.07], mat);
-  addBox(root, owner, "mem_right_leg", [0.17, 0.06, -0.33], [0.07, 0.56, 0.07], mat);
-  addBox(root, owner, "mem_roof", [0, 0.32, -0.33], [0.42, 0.07, 0.07], mat);
-  addBox(root, owner, "mem_floor", [0.03, -0.22, -0.33], [0.32, 0.07, 0.07], mat);
-}
+function levelCoinGoal(olam) { const fromWorld = Number(olam?.requiredPerutos); if (fromWorld > 0) return fromWorld; const coins = Array.isArray(olam?.nivrayim) ? olam.nivrayim.filter(n => n?.type === "coin") : []; return coins.reduce((sum, coin) => sum + (Number(coin?.value) || 0), 0) || 9; }
+function addBox(root, owner, name, pos, size, mat) { const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat); mesh.name = `${owner.name || "DoorMezuzah"}_${name}`; mesh.position.set(...pos); mesh.userData.addToOctree = false; mesh.userData.skipRaycast = false; mesh.nivraAwtsmoos = owner; root.add(mesh); return mesh; }
+function addMem(root, owner, mat) { addBox(root, owner, "mem_left", [-0.17, 0.06, -0.33], [0.07, 0.56, 0.07], mat); addBox(root, owner, "mem_right", [0.17, 0.06, -0.33], [0.07, 0.56, 0.07], mat); addBox(root, owner, "mem_roof", [0, 0.32, -0.33], [0.42, 0.07, 0.07], mat); addBox(root, owner, "mem_floor", [0.03, -0.22, -0.33], [0.32, 0.07, 0.07], mat); }
 
 export default class SimpleDoor extends Domem {
-  type = "interactiveDoor";
-  heesHawveh = true;
-  static itemName = "Clickable Mezuzah";
-
-  constructor(op = {}, olam) {
-    super({ ...op, golem: null, isSolid: false, interactable: true }, olam);
-    this.next = String(op.next || op.target || op.destination || "").replace(/\.js$/i, ".json") || null;
-    this.label = op.label || op.name || "Clickable Mezuzah";
-    this.requiresAllCoins = op.requiresAllCoins !== false;
-    this.requiresTzedakah = op.requiresTzedakah !== false;
-    this.requiredPerutos = Number(op.requiredPerutos || 0);
-    this._navigated = false;
-    this._readyColor = 0;
-    this._lastSayAt = 0;
-  }
-
-  async heescheel(olam) {
-    this.olam = olam;
-    this.mesh = this.buildMezuzahTrigger();
-    this.mesh.position.copy(this.position.vector3());
-    this.mesh.userData.skipRaycast = false;
-    this.mesh.userData.addToOctree = false;
-    await olam.hoyseef(this);
-    this.isReady = true;
-    this.registerMezuzahVessel();
-    this.log("spawned", { worldPosition: { x: this.mesh.position.x, y: this.mesh.position.y, z: this.mesh.position.z }, children: this.mesh.children.length, next: this.next, interactable: this.interactable });
-  }
-
-  buildMezuzahTrigger() {
-    const root = new THREE.Group();
-    root.name = `${this.name || "Door"}_VISIBLE_CLICKABLE_MEZUZAH`;
-    root.nivraAwtsmoos = this;
-    this.caseMaterial = makeMat(READY_COLORS.waiting);
-    this.scrollMaterial = makeMat(0x102d2c);
-    this.glowMaterial = makeMat(READY_COLORS.waiting, { transparent: true, opacity: 0.48, depthWrite: false });
-    this.memMaterial = makeMat(0xffffff);
-    addBox(root, this, "bright_outer_case", [0, 0, -0.18], [0.46, 1.85, 0.24], this.caseMaterial);
-    addBox(root, this, "dark_scroll_line", [0, 0, -0.33], [0.16, 1.18, 0.07], this.scrollMaterial);
-    addBox(root, this, "big_click_aura", [0, 0, -0.42], [0.94, 2.35, 0.12], this.glowMaterial);
-    addLetterMem(root, this, this.memMaterial);
-    root.rotation.z = -0.18;
-    root.traverse(child => { child.nivraAwtsmoos = this; child.userData.skipRaycast = false; child.userData.addToOctree = false; child.frustumCulled = false; });
-    return root;
-  }
-
-  registerMezuzahVessel() {
-    const list = this.olam.__insideRightPostMezuzahs || [];
-    if (!list.includes(this)) list.push(this);
-    this.olam.__insideRightPostMezuzahs = list;
-    this.log("registered", { count: list.length });
-  }
-
-  heesHawvoos() {
-    const color = this.canOpen() ? READY_COLORS.blessed : this.hasAllCoins() ? READY_COLORS.coins : READY_COLORS.waiting;
-    if (this.caseMaterial && color !== this._readyColor) this.awakenColor(color);
-    if (!this.mesh) return;
-    this.mesh.rotation.z = -0.18 + (this.canOpen() ? Math.sin(Date.now() / 180) * 0.04 : 0);
-    this.mesh.visible = true;
-    this.mesh.traverse?.(child => { child.visible = true; });
-  }
-
-  awakenColor(color) {
-    this._readyColor = color;
-    this.caseMaterial?.color?.setHex(color);
-    this.glowMaterial?.color?.setHex(color);
-    this.log("color", { color, canOpen: this.canOpen(), coins: this.hasAllCoins(), tzedakah: this.hasTzedakahBlessing() });
-  }
-
+  type = "interactiveDoor"; heesHawveh = true; static itemName = "Clickable Mezuzah";
+  constructor(op = {}, olam) { super({ ...op, golem: null, isSolid: false, interactable: true }, olam); this.next = String(op.next || op.target || op.destination || "").replace(/\.js$/i, ".json") || null; this.label = op.label || op.name || "Clickable Mezuzah"; this.requiresAllCoins = op.requiresAllCoins !== false; this.requiresTzedakah = op.requiresTzedakah !== false; this.requiredPerutos = Number(op.requiredPerutos || 0); this._navigated = false; this._readyColor = 0; this._lastSayAt = 0; }
+  async heescheel(olam) { this.olam = olam; this.mesh = this.buildMezuzahTrigger(); this.mesh.position.copy(this.position.vector3()); this.mesh.userData.skipRaycast = false; this.mesh.userData.addToOctree = false; await olam.hoyseef(this); this.isReady = true; this.registerMezuzahVessel(); }
+  buildMezuzahTrigger() { const root = new THREE.Group(); root.name = `${this.name || "Door"}_VISIBLE_CLICKABLE_MEZUZAH`; root.nivraAwtsmoos = this; this.caseMaterial = makeMat(READY_COLORS.waiting); this.scrollMaterial = makeMat(0x102d2c); this.glowMaterial = makeMat(READY_COLORS.waiting, { transparent: true, opacity: 0.48, depthWrite: false }); this.memMaterial = makeMat(0xffffff); addBox(root, this, "outer_case", [0, 0, -0.18], [0.46, 1.85, 0.24], this.caseMaterial); addBox(root, this, "scroll", [0, 0, -0.33], [0.16, 1.18, 0.07], this.scrollMaterial); addBox(root, this, "click_aura", [0, 0, -0.42], [0.94, 2.35, 0.12], this.glowMaterial); addMem(root, this, this.memMaterial); root.rotation.z = -0.18; root.traverse(child => { child.nivraAwtsmoos = this; child.userData.skipRaycast = false; child.userData.addToOctree = false; child.frustumCulled = false; }); return root; }
+  registerMezuzahVessel() { const list = this.olam.__insideRightPostMezuzahs || []; if (!list.includes(this)) list.push(this); this.olam.__insideRightPostMezuzahs = list; }
+  heesHawvoos() { const color = this.canOpen() ? READY_COLORS.blessed : this.hasAllCoins() ? READY_COLORS.coins : READY_COLORS.waiting; if (this.caseMaterial && color !== this._readyColor) this.awakenColor(color); if (this.mesh) { this.mesh.rotation.z = -0.18 + (this.canOpen() ? Math.sin(Date.now() / 180) * 0.04 : 0); this.mesh.visible = true; this.mesh.traverse?.(child => { child.visible = true; }); } }
+  awakenColor(color) { this._readyColor = color; this.caseMaterial?.color?.setHex(color); this.glowMaterial?.color?.setHex(color); }
   requiredGoal() { return this.requiredPerutos > 0 ? this.requiredPerutos : levelCoinGoal(this.olam); }
   collectedCount() { return Number(this.olam?.__levelPerutosCollected || 0); }
   hasAllCoins() { return !this.requiresAllCoins || (this.requiredGoal() > 0 && this.collectedCount() >= this.requiredGoal()); }
   hasTzedakahBlessing() { return !this.requiresTzedakah || this.olam?.__tzedakahBlessed === true; }
   canOpen() { return this.hasAllCoins() && this.hasTzedakahBlessing(); }
-
-  ayshPeula(peula, actor) {
-    if (peula !== "accepted interaction") return super.ayshPeula?.(peula, actor);
-    this.log("clicked", { collected: this.collectedCount(), required: this.requiredGoal(), coins: this.hasAllCoins(), tzedakah: this.hasTzedakahBlessing(), next: this.next });
-    if (!this.hasAllCoins()) return this.say(`אסוף את כל הפרוטות קודם — Collect all perutos first. (${this.collectedCount()}/${this.requiredGoal()})`, "#72fff4");
-    if (!this.hasTzedakahBlessing()) return this.say("שים צדקה בפושקע — Put tzedakah in the pushkuh first.", "#3cff86");
-    this.openNextLevel(actor);
-    return true;
-  }
-
-  say(text, color) {
-    const now = Date.now();
-    if (now - this._lastSayAt < 700 && this._lastText === text) return false;
-    this._lastSayAt = now;
-    this._lastText = text;
-    this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color, replace: true, bilingual: true });
-    return false;
-  }
-
-  openNextLevel(actor) {
-    if (!this.next || this._navigated) return;
-    this._navigated = true;
-    const payload = { next: this.next, levelId: this.next, id: this.next, label: this.label, source: "inside-right-post-mezuzah" };
-    this.say("המזוזה נפתחה — Mezuzah opened. Going up!", "#ffd54a");
-    this.olam?.ayshPeula?.("ui event", "navigateLevel", payload);
-    this.olam?.ayshPeula?.("navigateLevel", payload);
-    this.olam?.ayshPeula?.("load level", this.next);
-    globalThis.dispatchEvent?.(new CustomEvent("awtsmoos:navigateLevel", { detail: payload }));
-    actor?.ayshPeula?.("entered next level", payload);
-  }
-
-  log(stage, data = {}) { console.info("B\"H | MEZUZAH_TRACE", { stage, name: this.name, ...data }); }
+  ayshPeula(peula, actor) { if (peula !== "accepted interaction") return super.ayshPeula?.(peula, actor); if (!this.hasAllCoins()) return this.say(`Collect all perutos first (${this.collectedCount()}/${this.requiredGoal()})`, "#72fff4"); if (!this.hasTzedakahBlessing()) return this.say("Put tzedakah in the pushkuh first.", "#3cff86"); this.openNextLevel(actor); return true; }
+  say(text, color) { const now = Date.now(); if (now - this._lastSayAt < 700 && this._lastText === text) return false; this._lastSayAt = now; this._lastText = text; this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color, replace: true, bilingual: true }); return false; }
+  rewardPersonalPerutas() { if (this.olam.__personalRewardPaid) return 0; const donation = Number(this.olam.__tzedakahDonation || this.collectedCount() || 0); const reward = Math.max(0, donation * 2); this.olam.__personalRewardPaid = true; if (reward > 0) this.olam?.ayshPeula?.("ui event", "gameHUD", { personalPerutas: { personalDelta: reward, reason: "double tzedakah reward" } }); return reward; }
+  openNextLevel(actor) { if (!this.next || this._navigated) return; this._navigated = true; const reward = this.rewardPersonalPerutas(); const payload = { next: this.next, levelId: this.next, id: this.next, label: this.label, source: "inside-right-post-mezuzah", reward }; this.say(`Mezuzah opened. Personal reward: +${reward}.`, "#ffd54a"); this.olam?.ayshPeula?.("ui event", "navigateLevel", payload); this.olam?.ayshPeula?.("navigateLevel", payload); this.olam?.ayshPeula?.("load level", this.next); globalThis.dispatchEvent?.(new CustomEvent("awtsmoos:navigateLevel", { detail: payload })); actor?.ayshPeula?.("entered next level", payload); }
 }

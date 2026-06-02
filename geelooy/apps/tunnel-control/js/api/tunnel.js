@@ -8,17 +8,19 @@ import { log } from "../logger.js";
 const SESSION_OK_ACTIONS = new Set([
   "configGet", "configSet", "roots", "rootBrowse", "rootSelect", "openRoot",
   "aiAgentList", "aiAgentSetProviderKey", "aiAgentRemoveProviderKey", "aiAgentMessage",
+  "aiAgentSpawnTask", "aiAgentSpawnNovel", "aiAgentTaskStatus", "aiAgentTaskResult",
+  "aiAgentTaskList", "aiAgentConfigSet",
   "chromeFind", "chromeLaunch", "chromeStatus", "chromeNavigate",
   "chromeWaitForSelector", "chromeClick", "chromeType", "chromeEval", "chromeRunScript"
 ]);
 
 /**
  * B"H
- * Chapter 335: The Browser Gate Learned The Names Of The Delegates.
+ * Chapter 357: The URL River Accepted More Names.
  *
- * Query strings are the little rivers by which the dashboard speaks to the
- * local tunnel. Here, AI-agent messages, provider keys, models, systems, and
- * message arrays receive their own encoded vessels.
+ * The Awtsmoos makes speech into worlds, and this module makes options into a
+ * query-string vessel. Provider keys, live model names, task ids, prompts, and
+ * encoded scripts are carried without exposing raw secrets in the visible path.
  */
 function setNum(u, name, value) {
   if (value !== undefined && value !== null && value !== "") u.searchParams.set(name, String(value));
@@ -44,11 +46,13 @@ export function buildFsUrl(tunnelName, opts = {}) {
   setText(u, "find", opts.find); setText(u, "replace", opts.replace);
   if (typeof opts.regex === "boolean") u.searchParams.set("regex", String(opts.regex));
   if (typeof opts.replaceAll === "boolean") u.searchParams.set("replaceAll", String(opts.replaceAll));
-  for (const key of ["root", "local", "relay", "setTunnelName", "shell", "cwd", "url", "selector", "chromePath", "userDataDir", "provider", "providerId", "agent", "agentId", "model"]) if (opts[key]) u.searchParams.set(key, opts[key]);
+  for (const key of ["root", "local", "relay", "setTunnelName", "shell", "cwd", "url", "selector", "chromePath", "userDataDir", "provider", "providerId", "agent", "agentId", "model", "taskId", "kind", "title", "outputDir", "fileName"]) if (opts[key]) u.searchParams.set(key, opts[key]);
   for (const key of ["allowWrite", "allowSecrets", "enableLocalHttpProxy", "allowCommands", "stream"]) if (typeof opts[key] === "boolean") u.searchParams.set(key, String(opts[key]));
   setJson(u, "tools", opts.tools); setJson(u, "chrome", opts.chrome); setJson(u, "commandConfig", opts.commandConfig); setJson(u, "aiAgents", opts.aiAgents); setJson(u, "messages", opts.messages);
   setText(u, "command", opts.command); setText(u, "text", opts.text); setText(u, "expression", opts.expression); setText(u, "apiKey", opts.apiKey); setText(u, "message", opts.message); setText(u, "prompt", opts.prompt); setText(u, "system", opts.system);
   setNum(u, "timeoutMs", opts.timeoutMs); setNum(u, "port", opts.port);
+  setNum(u, "maxDepth", opts.maxDepth); setNum(u, "maxChildrenPerTask", opts.maxChildrenPerTask); setNum(u, "maxTotalTasks", opts.maxTotalTasks);
+  if (opts.allowRecursiveSpawn !== undefined) u.searchParams.set("allowRecursiveSpawn", String(opts.allowRecursiveSpawn));
   if (typeof opts.script === "string") setText(u, "script", opts.script); else setJson(u, "script", opts.script);
   setJson(u, "input", opts.input);
   return u.toString();

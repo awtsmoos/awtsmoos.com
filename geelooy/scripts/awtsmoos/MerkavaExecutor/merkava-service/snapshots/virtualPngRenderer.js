@@ -2,10 +2,10 @@
 /**
  * @file virtualPngRenderer.js
  * @description
- * Merkava's native software renderer. It accepts explicit snapshot.cssText, but
- * also extracts <style> blocks from the supplied HTML so proof metadata no
- * longer says cssBytes: 0 when a source document has real CSS. The Awtsmoos
- * carries style through the rendered vessel instead of leaving it as rumor.
+ * Merkava's native software renderer. For heavy stress pages, the Awtsmoos now
+ * chooses a 1x proof surface by default: correctness first, no gateway timeout
+ * from millions of supersampled rectangle writes. The proof metadata remains,
+ * and callers can still reason from pixels, texture counts, and CSS bytes.
  */
 import { dataUrlFromPng } from "./pngTools.js";
 import { buildLayoutTree } from "./software/domLayout.js";
@@ -16,11 +16,10 @@ export function renderVirtualSnapshotPng(snapshot = {}, options = {}) {
   const width = Number(options.width || 960);
   const height = Number(options.height || 640);
   const cssText = snapshot.cssText || extractCssText(snapshot.html || "");
-  const { surface } = makeSupersampledSurface(width, height, 2, [8, 9, 14, 255]);
+  const { surface } = makeSupersampledSurface(width, height, Number(options.scale || 1), [8, 9, 14, 255]);
   const layout = buildLayoutTree(snapshot.dom || htmlFallbackDom(snapshot), { width, height }, { cssText });
   paintLayout(surface, layout, snapshot.canvas || {});
   const png = surface.toPngBuffer();
-  const proof = analyzePixels(surface, snapshot, cssText);
   return {
     backend: "merkava-software-webgl-dom",
     width,
@@ -28,8 +27,8 @@ export function renderVirtualSnapshotPng(snapshot = {}, options = {}) {
     mimeType: "image/png",
     bytes: png.length,
     dataUrl: dataUrlFromPng(png),
-    note: "Rendered from Merkava DOM layout + source CSS + supersampled software framebuffer + 2D/WebGL command painters.",
-    proof
+    note: "Rendered from Merkava DOM layout + source CSS + software framebuffer + 2D/WebGL command painters.",
+    proof: analyzePixels(surface, snapshot, cssText)
   };
 }
 
@@ -41,7 +40,7 @@ function analyzePixels(fb, snapshot, cssText) {
     cssBytes: String(cssText || "").length,
     sampleTopLeft: fb.sample(10, 10),
     sampleCenter: fb.sample(Math.floor(fb.width / 2), Math.floor(fb.height / 2)),
-    antialiasing: "2x-supersampled-downsample"
+    antialiasing: "1x-stress-proof-mode"
   };
 }
 

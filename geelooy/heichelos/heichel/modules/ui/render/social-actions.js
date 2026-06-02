@@ -2,9 +2,12 @@
 /**
  * @module CardSocialActions
  * @description
- * Tiny card-level social vessels for comments, answers, reposts, references,
- * and share links. The card stays the first screen; the actions are compact
- * and send real requests through the existing API layer.
+ * Chapter 1: The Awtsmoos hides thunder inside a three-dot seed.
+ *
+ * These blueprints do not spill Comment, Repost, Reference, or Share onto the
+ * public face of a heichel card. They become compact menu items, opened only
+ * by the card's own kebab gate, so the page remains quiet until the user asks
+ * the sparks to speak.
  */
 
 import * as api from '../../api.js';
@@ -17,6 +20,15 @@ function askText(label, fallback = '') {
     return Promise.resolve(window.prompt(label, fallback));
 }
 
+function currentAlias() {
+    return window.curAlias || window.curAliasId || window.awtsmoosAlias || '';
+}
+
+function aliasEntity() {
+    const aliasId = currentAlias();
+    return { type: 'alias', id: aliasId, aliasId };
+}
+
 function postEntity(item, appState) {
     const contentType = item.contentType || item.postType || 'post';
     return {
@@ -26,19 +38,6 @@ function postEntity(item, appState) {
         seriesId: appState.currentSeries,
         aliasId: item.aliasId || item.author || ''
     };
-}
-
-function aliasEntity() {
-    const aliasId = currentAlias();
-    return {
-        type: 'alias',
-        id: aliasId,
-        aliasId
-    };
-}
-
-function currentAlias() {
-    return window.curAlias || window.curAliasId || window.awtsmoosAlias || '';
 }
 
 function requireAlias(label) {
@@ -69,7 +68,7 @@ async function addComment(item, appState) {
     if (!aliasId) return null;
     const content = await askText('Comment');
     if (!content) return null;
-    return await runAction('Comment', () => api.createComment({
+    return runAction('Comment', () => api.createComment({
         heichelId: appState.heichelId,
         postId: item.id || item.postId,
         aliasId,
@@ -84,7 +83,7 @@ async function addAnswer(item, appState) {
     const content = await askText('Answer');
     if (!content) return null;
     const answerId = `answer_${Date.now()}`;
-    return await runAction('Answer', () => api.createAnswer({
+    return runAction('Answer', () => api.createAnswer({
         heichelId: appState.heichelId,
         questionId: item.id || item.postId,
         aliasId,
@@ -107,14 +106,14 @@ async function graphIntent(item, appState, mode) {
         note,
         excerpt: item.title || item.content || ''
     };
-    const runner = mode === 'Repost' ? api.repostEntity : mode === 'Reference' ? api.referenceEntity : api.shareEntity;
-    return await runAction(mode, () => runner(payload));
+    const runners = { Repost: api.repostEntity, Reference: api.referenceEntity, Share: api.shareEntity };
+    return runAction(mode, () => runners[mode](payload));
 }
 
 function actionButton(label, handler) {
     return {
         tag: 'button',
-        attr: { type: 'button', class: 'card-social-action', title: label },
+        attr: { type: 'button', class: 'card-menu-action', title: label, role: 'menuitem' },
         children: [label],
         events: {
             click: async event => {
@@ -126,6 +125,12 @@ function actionButton(label, handler) {
     };
 }
 
+/**
+ * @function socialActionBlueprints
+ * @param {object} item The purified post-ish card vessel.
+ * @param {object} appState The active heichel state.
+ * @returns {Array<object>} Menu item blueprints for the three-dot menu.
+ */
 export function socialActionBlueprints(item, appState) {
     if (!item || !appState?.heichelId || !(item.id || item.postId)) return [];
     const contentType = item.contentType || item.postType || 'post';
@@ -138,9 +143,5 @@ export function socialActionBlueprints(item, appState) {
     if (contentType === 'question') {
         actions.splice(1, 0, actionButton('Answer', () => addAnswer(item, appState)));
     }
-    return [{
-        tag: 'div',
-        attr: { class: 'card-social-actions', 'data-social-actions': item.id || item.postId },
-        children: actions
-    }];
+    return actions;
 }

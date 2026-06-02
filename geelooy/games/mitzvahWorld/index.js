@@ -2,11 +2,11 @@
 /**
  * @file index.js
  * @description
- * Chapter 4: The outer gate carries a newer seal so stale modules cannot wear
- * yesterday's body. The Awtsmoos keeps boot truthful: current code, current
- * errors, current village, current ground beneath every foot.
+ * Chapter 130: The outer gate carries the ray-grounded village seal. The
+ * Awtsmoos asks the browser for fresh ikar, fresh UI, and fresh worker grounding.
  */
 let bootStarted = false;
+const SEAL = "ray-ground-ui-ground0-20260602-bh130";
 
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
@@ -50,20 +50,18 @@ function describeAwtsmoosError(error, context = {}) {
 function bootIkarNow() {
   if (bootStarted || typeof window === "undefined" || !window.document) return;
   bootStarted = true;
-  window.__AWTSMOOS_BOOT_STARTED__ = { at: new Date().toISOString(), readyState: document.readyState };
-  const ikarModuleURL = "./ckidsAwtsmoos/ikar.js?bh=auto-ground-realism-4";
+  window.__AWTSMOOS_BOOT_STARTED__ = { at: new Date().toISOString(), readyState: document.readyState, seal: SEAL };
+  const ikarModuleURL = `./ckidsAwtsmoos/ikar.js?bh=${SEAL}`;
   import(ikarModuleURL).then(module => {
-    window.__AWTSMOOS_BOOT_LOADED__ = { at: new Date().toISOString(), keys: Object.keys(module || {}) };
+    window.__AWTSMOOS_BOOT_LOADED__ = { at: new Date().toISOString(), keys: Object.keys(module || {}), seal: SEAL };
     console.log("B\"H - Mitzvah World ikar boot loaded", window.__AWTSMOOS_BOOT_LOADED__);
   }).catch(error => describeAwtsmoosError(error, { label: "Index [Main]: Failed to load UI starter", phase: "dynamic import", moduleURL: new URL(ikarModuleURL, import.meta.url).href }));
 }
 
 window.addEventListener("error", event => describeAwtsmoosError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));
 window.addEventListener("unhandledrejection", event => describeAwtsmoosError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
-
 export async function heescheel(ctx) { console.log("B\"H - Index [Worker]: data-driven level hook.", Boolean(ctx)); }
 export function ready(ctx) { ctx.postMsg({ type: "game started", payload: true }); }
 export function afterBriyah(ctx) { console.log("B\"H - Index [Worker]: afterBriyah() called", Boolean(ctx)); }
-
 if (document.readyState === "loading") window.addEventListener("DOMContentLoaded", bootIkarNow, { once: true });
 else bootIkarNow();

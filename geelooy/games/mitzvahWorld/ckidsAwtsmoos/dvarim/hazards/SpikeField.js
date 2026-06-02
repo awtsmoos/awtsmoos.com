@@ -143,10 +143,13 @@ export default class SpikeField extends Domem {
   resetLevelStateNow() {
     this.olam.__levelPerutosCollected = 0;
     this.olam.__tzedakahBlessed = false;
+    this.olam.__tzedakahDonation = 0;
+    this.olam.__personalRewardPaid = false;
     const mezuzahs = this.olam.__insideRightPostMezuzahs || [];
     for (const mezuzah of mezuzahs) mezuzah?.awakenColor?.(0x72fff4);
-    this.olam?.ayshPeula?.("ui event", "perutahProgress", { collected: 0, requiredPerutos: this.olam.requiredPerutos || 0, reset: true });
-    this.olam?.ayshPeula?.("ui event", "gameHUD", { perutahProgress: { collected: 0, requiredPerutos: this.olam.requiredPerutos || 0, reset: true } });
+    const lossPayload = { collected: 0, requiredPerutos: this.olam.requiredPerutos || 0, reset: true, personalDelta: -1, reason: "lava fall" };
+    this.olam?.ayshPeula?.("ui event", "perutahProgress", lossPayload);
+    this.olam?.ayshPeula?.("ui event", "gameHUD", { perutahProgress: lossPayload, personalPerutas: lossPayload });
   }
 
   hidePlayer(player, token) {

@@ -2,14 +2,13 @@
 /**
  * @module OlamVessel
  * @description
- * Chapter 54: The Root Vessel Invoked The Smooth Eye.
- *
- * The Awtsmoos cache-busts the camera import so jump target smoothing and
- * softened distance correction reach the living Olam.
+ * Chapter 157: The Root Vessel imports the indoor-floor graft chain. The
+ * Awtsmoos carries raised cottage floor grounding and exact coin collision into
+ * the worker-created Olam.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGraftingPlain.js";
+import OlamGrafting from "./OlamGraftingPlain.js?v=indoor-floor-lift-20260602-bh157";
 import OlamProperties from "../properties/index.js";
 import OlamInit from "./OlamInit.js";
 import Ayin from "../camera/index.js?v=old-smooth-camera-20260602-bh13";

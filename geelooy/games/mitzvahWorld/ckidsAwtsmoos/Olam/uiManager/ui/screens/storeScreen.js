@@ -1,201 +1,31 @@
-
 // B"H
 /**
  * @file storeScreen.js
- * @description The grand marketplace of the Olam, where the physical and spiritual exchange value. 
- * Unified into a single self-contained module so the Divine Light of the eval() context does not lose its reference.
+ * @description
+ * Chapter 14: Buy and Sell are no longer offset ghosts. The Awtsmoos gives the
+ * market its own centered vessel, closes dialogue and inventory panels before
+ * opening, speaks Bag instead of purse, and listens to both UI-manager and DOM
+ * events.
  */
-export default {
-    shaym: "storeScreen",
-    className: "store-container hidden",
-    awtsmoosClick: true,
-    activeTab: 'buy',
-    npcId: null,
-    
-    on: {
-        open(e, $, ui) {
-            const data = e.detail; 
-            const store = $("storeScreen");
-            store.classList.remove("hidden");
-            store.npcId = data.entityId;
-            
-            ui.htmlAction({ shaym: "approach npc msg", methods: { classList: { add: "hidden" } } });
-            
-            const title = store.querySelector(".store-title");
-            if(title) title.textContent = data.npcName + "'s Store";
-            
-            store.activeTab = data.mode || 'buy';
-            store.items = data.items;
-            store.playerItems = data.playerInventory;
-            
-            ui.peula(store, { render: true });
-        },
-        
-        update(e, $, ui) {
-             const data = e.detail;
-             const store = $("storeScreen");
-             if(data.items) store.items = data.items;
-             if(data.playerInventory) store.playerItems = data.playerInventory;
-             ui.peula(store, { render: true });
-        },
-        
-        close(e, $, ui) {
-            $("storeScreen").classList.add("hidden");
-        },
-        
-        render(e, $, ui) {
-            const store = $("storeScreen");
-            const items = store.items;
-            const playerItems = store.playerItems;
-            
-            const grid = store.querySelector(".store-grid");
-            const details = store.querySelector(".store-details");
-            const tabs = store.querySelectorAll(".store-tab");
-            
-            tabs.forEach(t => {
-                if(t.dataset.tab === store.activeTab) t.classList.add("active");
-                else t.classList.remove("active");
-            });
-            
-            grid.innerHTML = "";
-            details.innerHTML = "<div style='opacity:0.5; margin-top:50px;'>Select an item to see details</div>";
-
-            let itemsToRender = [];
-            
-            if (store.activeTab === 'buy') {
-                // B"H: Safely pull price from either sellValue or price property, defaulting to 10
-                itemsToRender = (items || []).map((itm, idx) => ({
-                    ...itm, 
-                    price: itm.sellValue || itm.price || 10, 
-                    originalIndex: idx, 
-                    type: 'buy'
-                }));
-            } else if (store.activeTab === 'sell') {
-                if (playerItems) {
-                    playerItems.forEach((itm, idx) => {
-                        if(itm && itm.sellValue > 0 && itm.className !== 'Coin') {
-                            itemsToRender.push({ ...itm, price: itm.sellValue, originalIndex: idx, type: 'sell' });
-                        }
-                    });
-                }
-            }
-
-            if (itemsToRender.length === 0) {
-                    const msg = store.activeTab === 'sell' ? "No valuables found to sell!" : "Nothing here!";
-                    grid.innerHTML = `<div style='grid-column: 1/-1; text-align:center; padding:20px; color:#aaa;'>${msg}</div>`;
-            } else {
-                itemsToRender.forEach(item => {
-                    let iconStyle = {};
-                    let textIcon = null;
-                    
-                    if(!item.icon) item.icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzQ0NCIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtc2l6ZT0iNDAiPj88L3RleHQ+PC9zdmc+";
-
-                    if (item.icon && (item.icon.includes('/') || item.icon.includes('data:'))) {
-                        if (item.isTintable && item.customData && item.customData.color) {
-                            iconStyle = {
-                                backgroundColor: item.customData.color,
-                                maskImage: `url(${item.icon})`, WebkitMaskImage: `url(${item.icon})`,
-                                maskSize: "contain", WebkitMaskSize: "contain",
-                                maskRepeat: "no-repeat", WebkitMaskRepeat: "no-repeat",
-                                maskPosition: "center", WebkitMaskPosition: "center",
-                                width: "100%", height: "100%"
-                            };
-                        } else {
-                            iconStyle = { backgroundImage: `url(${item.icon})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', width: '100%', height: '100%' };
-                        }
-                    } else if (item.icon) {
-                        textIcon = item.icon;
-                        iconStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px' };
-                    } else {
-                        textIcon = (item.name || "?").charAt(0);
-                        iconStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px', background: "#555", borderRadius: "50%", width:"50px", height:"50px", margin: "10px auto" };
-                    }
-
-                    ui.html({
-                        parent: grid,
-                        className: "store-item" + (item.isEquipped ? " locked" : ""),
-                        onclick: () => { if (!item.isEquipped) ui.peula(store, { showDetails: item }); },
-                        children: [
-                            { className: "store-item-icon", style: iconStyle, textContent: textIcon },
-                            { className: "store-item-qty", textContent: item.quantity || 1 },
-                            item.isEquipped ? { className: "locked-icon", textContent: "🔒" } : null
-                        ]
-                    });
-                });
-            }
-        },
-        
-        showDetails(e, $, ui) {
-            const item = e.detail;
-            const storeScreen = $("storeScreen");
-            const details = storeScreen.querySelector(".store-details");
-            details.innerHTML = "";
-            
-            let iconStyle = {};
-            let textIcon = null;
-            if (item.icon && (item.icon.includes('/') || item.icon.includes('data:'))) {
-                if (item.isTintable && item.customData && item.customData.color) {
-                    iconStyle = {
-                        backgroundColor: item.customData.color,
-                        maskImage: `url(${item.icon})`, WebkitMaskImage: `url(${item.icon})`,
-                        maskSize: "contain", WebkitMaskSize: "contain",
-                        maskRepeat: "no-repeat", WebkitMaskRepeat: "no-repeat",
-                        maskPosition: "center", width: "100px", height: "100px", margin:'0 auto'
-                    };
-                } else {
-                    iconStyle = { backgroundImage: `url(${item.icon})`, width:'100px', height:'100px', margin:'0 auto', backgroundSize:'contain', backgroundRepeat:'no-repeat', backgroundPosition:'center' };
-                }
-            } else if (item.icon) {
-                textIcon = item.icon;
-                iconStyle = { fontSize: '60px', textAlign:'center', display:'block', margin:'0 auto' };
-            } else {
-                textIcon = (item.name || "?").charAt(0);
-                iconStyle = { fontSize: '60px', textAlign:'center', display:'flex', justifyContent:'center', alignItems:'center', background:'#444', borderRadius:'50%', width:'100px', height:'100px', margin:'0 auto' };
-            }
-
-            ui.html({
-                parent: details,
-                children: [
-                    { className: "store-item-icon large", style: iconStyle, textContent: textIcon },
-                    { tag: "h3", textContent: item.name },
-                    { textContent: item.description || "No description available." },
-                    { tag: "div", style: { fontSize: "18px", color: "#ffd700", margin: "10px 0" }, textContent: item.type === 'buy' ? `Cost: ${item.price} Perutahs` : `Value: ${item.price} Perutahs` },
-                    {
-                        tag: "button", className: "action-btn", textContent: item.type === 'buy' ? "BUY" : "SELL", disabled: item.isEquipped,
-                        onclick: () => {
-                            if(item.isEquipped) return;
-                            ui.peula("ikar", {
-                                olamPeula: { htmlPeula: { shopAction: { action: item.type, payload: { index: item.originalIndex, originalIndex: item.originalIndex }, entityId: storeScreen.npcId } } }
-                            });
-                        }
-                    }
-                ]
-            });
-        }
-    },
-    
-    children: [
-        {
-            className: "store-header",
-            children: [
-                { className: "store-title", textContent: "Store" },
-                { tag: "button", className: "awtsmoosBtn", textContent: "Close", onclick(e, $) { $("storeScreen").classList.add("hidden"); } }
-            ]
-        },
-        {
-            className: "store-tabs",
-            children: [
-                { className: "store-tab", textContent: "BUY", dataset: { tab: 'buy' }, onclick(e, $, ui) { $("storeScreen").activeTab = 'buy'; ui.peula($("storeScreen"), { render: true }); } },
-                { className: "store-tab", textContent: "SELL", dataset: { tab: 'sell' }, onclick(e, $, ui) { $("storeScreen").activeTab = 'sell'; ui.peula($("storeScreen"), { render: true }); } },
-                { className: "store-tab", textContent: "EXCHANGE", dataset: { tab: 'exchange' }, onclick(e, $, ui) { ui.peula("ikar", { olamPeula: { htmlPeula: { shopAction: { action: 'exchange', entityId: $("storeScreen").npcId } } } }); } }
-            ]
-        },
-        {
-            className: "store-content",
-            children: [
-                { className: "store-grid" },
-                { className: "store-details" }
-            ]
-        }
-    ]
-};
+const KEY = "awtsmoosMitzvahPersonalPerutas";
+const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
+const readBag = () => { try { return num(localStorage.getItem(KEY), 0); } catch { return 0; } };
+const writeBag = v => { try { localStorage.setItem(KEY, String(Math.max(0, Math.floor(v)))); } catch {} };
+function changeBag(delta, reason) { const value = Math.max(0, readBag() + num(delta)); writeBag(value); window.dispatchEvent(new CustomEvent("awtsmoosPersonalPerutas", { detail: { personalPerutas: value, delta, reason } })); return value; }
+function send(inner) { const detail = { olamPeula: inner }; document.querySelector('[shaym="ikar"]')?.dispatchEvent(new CustomEvent("olamPeula", { bubbles: true, detail })); (window.mana?.socket?.eved || window.mana?.eved)?.postMessage?.(detail); }
+function clothing(item = {}) { return { className: "Apparel", quantity: 1, stackSize: 1, sellValue: item.sellValue || Math.max(1, Math.floor((item.price || 2) / 2)), ...item, isTintable: true }; }
+function closeStrays() { document.getElementById("inventoryScreen")?.classList.add("hidden"); document.getElementById("awtsmoos-npc-overlay")?.remove(); document.querySelectorAll(".awtsmoosContextMenu,.bz-panel,.construction-screen").forEach(el => el.classList.add("hidden")); }
+function close(store) { store?.classList.add("hidden"); }
+function rows(store) { return store.activeTab === "sell" ? (store.playerItems || []).map((item, index) => item && { ...item, index, type: "sell", price: item.sellValue || 1 }).filter(Boolean) : (store.items || []).map((item, index) => ({ ...item, index, type: "buy", price: item.price || item.sellValue || 1 })); }
+function render(store) { if (!store) return; const grid = store.querySelector(".store-grid"); const detail = store.querySelector(".store-details"); store.querySelector(".bag").textContent = `Bag: ${readBag()} perutas`; store.querySelectorAll(".store-tab").forEach(tab => tab.classList.toggle("active", tab.dataset.tab === store.activeTab)); grid.innerHTML = ""; detail.innerHTML = "<div class='muted'>Select clothing.</div>"; const list = rows(store); if (!list.length) grid.innerHTML = "<div class='muted wide'>Nothing here yet.</div>"; list.forEach(item => { const btn = document.createElement("button"); btn.className = "store-item"; btn.innerHTML = `<b>${item.icon || "✦"}</b><span>${item.name || "Item"}</span><em>${item.price}p</em>`; btn.onclick = () => showDetails(store, item); grid.appendChild(btn); }); }
+function showDetails(store, item) { const detail = store.querySelector(".store-details"); detail.innerHTML = `<div class='bigIcon'>${item.icon || "✦"}</div><h3>${item.name || "Item"}</h3><p>${item.description || "Colored clothing for your chossid."}</p><p class='price'>${item.type === "buy" ? "Cost" : "Value"}: ${item.price} perutas</p><button class='buyNow'>${item.type === "buy" ? "BUY" : "SELL"}</button>`; detail.querySelector("button").onclick = () => item.type === "buy" ? buy(store, item) : sell(store, item); }
+function buy(store, item) { if (readBag() < item.price) return void (store.querySelector(".store-details .price").textContent = "Not enough bag perutas."); changeBag(-item.price, "buy clothing"); send({ addItem: clothing(item) }); store.querySelector(".store-details .price").textContent = "Bought! Open Bag / Wardrobe to equip."; render(store); }
+function sell(store, item) { changeBag(item.price, "sell clothing"); send({ updateInventoryItem: { sourceType: "inventory", index: item.index, itemData: { ...item, quantity: 0 } } }); store.playerItems[item.index] = null; render(store); }
+function openStore(store, payload = {}) { if (!store) return; const data = payload.open || payload; closeStrays(); store.classList.remove("hidden"); store.activeTab = data.mode || "buy"; store.items = data.items || data.shopInventory || []; store.playerItems = data.playerInventory || store.playerItems || []; store.querySelector(".store-title").textContent = `${data.npcName || "Guide"}'s Market`; render(store); }
+const css = `.store-container{position:fixed!important;left:12px!important;right:12px!important;top:calc(18px + env(safe-area-inset-top))!important;bottom:calc(86px + env(safe-area-inset-bottom))!important;z-index:29000!important;background:linear-gradient(180deg,#211506,#030302)!important;border:2px solid #ffd35b!important;border-radius:24px!important;color:#ffe9a8!important;font-family:Arial,sans-serif!important;padding:14px!important;display:grid!important;grid-template-rows:auto auto minmax(0,1fr)!important;gap:10px!important;pointer-events:auto!important;box-shadow:0 0 28px rgba(0,0,0,.75)!important}.store-container.hidden{display:none!important}.store-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}.store-title{font-size:24px!important;font-weight:900!important;color:#ffd35b!important}.bag{font-size:14px!important;font-weight:900!important;color:#9dff9d!important}.store-tabs{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}.store-tab,.store-header button,.buyNow{border:1px solid #ffd35b!important;border-radius:14px!important;background:#211506!important;color:#ffe9a8!important;font-weight:900!important;padding:12px!important}.store-tab.active,.buyNow{background:linear-gradient(#f5c64b,#9d650e)!important;color:#160b00!important}.store-content{min-height:0!important;display:grid!important;grid-template-rows:minmax(0,1fr) auto!important;gap:10px!important}.store-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;overflow:auto!important}.store-item{min-height:86px!important;border:1px solid #9b741c!important;border-radius:16px!important;background:rgba(255,255,255,.05)!important;color:#fff3c4!important;display:grid!important;gap:4px!important;place-items:center!important;font-weight:900!important}.store-item b{font-size:30px!important}.store-item em{color:#9dff9d!important}.store-details{border-top:1px solid rgba(255,211,91,.35)!important;padding-top:8px!important;text-align:center!important}.bigIcon{font-size:46px!important}.muted{opacity:.7!important;padding:18px!important}.wide{grid-column:1/-1!important}@media(min-width:800px){.store-container{left:50%!important;right:auto!important;width:min(650px,72vw)!important;transform:translateX(-50%)!important}}`;
+export default { shaym: "storeScreen", className: "store-container hidden", awtsmoosClick: true, activeTab: "buy", ready(host) { document.addEventListener("awtsmoosNpcShop", event => openStore(host, event.detail || {})); window.addEventListener("awtsmoosPersonalPerutas", () => render(host)); }, on: { open(e, $, ui) { openStore($("storeScreen"), e.detail || {}); }, close(e, $) { close($("storeScreen")); } }, children: [
+  { className: "store-header", children: [{ className: "store-title", textContent: "Market" }, { className: "bag", textContent: "Bag: 0" }, { tag: "button", textContent: "×", onclick(e, $) { close($("storeScreen")); } }] },
+  { className: "store-tabs", children: [{ tag: "button", className: "store-tab", dataset: { tab: "buy" }, textContent: "BUY", onclick(e, $) { const s = $("storeScreen"); s.activeTab = "buy"; render(s); } }, { tag: "button", className: "store-tab", dataset: { tab: "sell" }, textContent: "SELL", onclick(e, $) { const s = $("storeScreen"); s.activeTab = "sell"; render(s); } }] },
+  { className: "store-content", children: [{ className: "store-grid" }, { className: "store-details" }] },
+  { tag: "style", innerHTML: css }
+] };

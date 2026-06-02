@@ -1,0 +1,51 @@
+/* B"H
+   Chapter 5: The Awtsmoos makes the side chamber bow.
+   The sidebar may assist the reading, but it may not conquer the reading.
+*/
+
+.sidebar,
+.post-reader-localized-context .sidebar {
+    box-sizing: border-box;
+    isolation: isolate;
+    z-index: 20;
+}
+
+.sidebar * { box-sizing: border-box; }
+
+.sidebar button,
+.sidebar a,
+.sidebar input,
+.sidebar textarea,
+.sidebar select {
+    max-width: 100%;
+}
+
+.sidebar .hidden,
+.sidebar[hidden] { display: none !important; }
+
+@media (min-width: 901px) {
+    .sidebar {
+        position: relative;
+        width: var(--sidebar-width, 21rem);
+    }
+}
+
+@media (max-width: 900px) {
+    .sidebar,
+    .post-reader-localized-context .sidebar {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        opacity: 1;
+        pointer-events: auto;
+        margin: 0;
+        padding-bottom: 6rem;
+        background: color-mix(in srgb, var(--bg-surface, #0f172a) 92%, transparent);
+    }
+
+    .sidebar > * {
+        max-width: 100%;
+    }
+}

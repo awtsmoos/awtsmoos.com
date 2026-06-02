@@ -2,14 +2,13 @@
 /**
  * @file messageHandler.js
  * @description
- * Chapter 32: The Browser Handler Carries The Lava Countdown.
- *
- * The Awtsmoos imports fresh UI and input handlers so lava death pauses, waits
- * for any tap/key, counts down, and respawns at feet-on-ground Y.
+ * Chapter 137: The Browser Handler imports the fresh centered NPC UI, enlarged
+ * walk-in-house message path, and old lava reset behavior. Future AI: if NPC UI
+ * looks left-clipped, first check this cache seal before inventing another UI.
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=lava-countdown-feet-20260602-bh8";
+import uiHandlers from "./handlers/ui.js?v=centered-npc-big-house-20260602-bh137";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
 import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
 

@@ -1,191 +1,101 @@
 // B"H
 /**
  * @file ShopManager.js
- * @module ShopManager
- * 
- * ╔══════════════════════════════════════════════════════════════════════════════════╗
- * ║  THE MARKETPLACE OF SOULS — BUYING AND SELLING                                  ║
- * ║                                                                                  ║
- * ║  "Buy truth, and do not sell it; get wisdom, discipline, and understanding."    ║
- * ║  (Mishlei 23:23)                                                                ║
- * ║                                                                                  ║
- * ║  This module manages the commerce between the Chossid and the NPCs.              ║
- * ║  It integrates with the inventory system to allow purchasing of tools,           ║
- * ║  bricks, clothes, and other items.                                               ║
- * ╚══════════════════════════════════════════════════════════════════════════════════╝
+ * @description
+ * Chapter 8: The marketplace no longer collapses when opened without a wallet.
+ * The Awtsmoos guards every coin read, prefers personal perutas / bag values,
+ * and renders a centered mobile-safe panel through the UI bridge.
  */
-
 import AwtsmoosHTMLGenerator from "../../../../utils/ui/AwtsmoosHTMLGenerator.js";
 
+const moneyOf = player => Number(player?.currency ?? player?.personalPerutas ?? player?.inventory?.personalPerutas ?? player?.inventory?.perutas ?? 0) || 0;
+function setMoney(player, value) {
+  if (!player) return;
+  const next = Math.max(0, Number(value) || 0);
+  if ("currency" in player) player.currency = next;
+  else player.personalPerutas = next;
+  if (player.inventory) player.inventory.personalPerutas = next;
+}
+function itemClass(item) { return item.className || (item.equipSlot ? "Clothing" : "Item"); }
+
 export default class ShopManager {
-    constructor(npc, olam) {
-        this.npc = npc;
-        this.olam = olam;
-        this.view = "buy"; // "buy" or "sell"
-        this.shopInventory = npc.options.shopInventory || [];
-    }
+  constructor(npc, olam) {
+    this.npc = npc;
+    this.olam = olam;
+    this.view = "buy";
+    this.shopInventory = npc?.options?.shopInventory || npc?.shopInventory || [];
+  }
 
-    /**
-     * Starts the shopping experience
-     */
-    openShop(chossid) {
-        this.chossid = chossid;
-        // B"H: silent
+  openShop(chossid) {
+    this.chossid = chossid || this.olam?.chossid || this.olam?.player || null;
+    if (!this.chossid) return false;
+    this.renderUI();
+    return true;
+  }
 
-        this.renderUI();
-    }
+  closeShop() {
+    this.olam?.ayshPeula?.("ui event", "shopScreen", { hideShop: true });
+    if (this.npc?.siach) this.npc.siach.render();
+  }
 
-    /**
-     * Closes the shop
-     */
-    closeShop() {
-        // B"H: silent
+  buyItem(itemId) {
+    const item = this.shopInventory.find(i => i.id === itemId);
+    if (!item || !this.chossid) return;
+    const wallet = moneyOf(this.chossid);
+    if (wallet < Number(item.price || 0)) return this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "Not enough bag perutas!", color: "#ff6b6b" });
+    setMoney(this.chossid, wallet - Number(item.price || 0));
+    this.chossid.inventory?.addItem?.({ ...item, className: itemClass(item), price: Number(item.price || 0), sellValue: Number(item.sellValue || Math.floor(Number(item.price || 0) * 0.5)) });
+    this.olam?.ayshPeula?.("ui event", "toast", { message: `Bought ${item.name}` });
+    this.chossid.applyGarments?.();
+    this.renderUI();
+  }
 
-        this.olam.ayshPeula("ui event", "shopScreen", { hideShop: true });
-        if (this.npc.siach) {
-            this.npc.siach.render(); // return to dialogue
-        }
-    }
+  sellItem(itemIndex) {
+    const slots = this.chossid?.inventory?.slots || [];
+    const item = slots[itemIndex];
+    if (!item) return;
+    const sellPrice = Number(item.sellValue || Math.floor((item.price || 2) * 0.6));
+    setMoney(this.chossid, moneyOf(this.chossid) + sellPrice);
+    this.chossid.inventory.removeItem?.(itemIndex);
+    this.olam?.ayshPeula?.("ui event", "toast", { message: `Sold ${item.name} for ${sellPrice}` });
+    this.renderUI();
+  }
 
-    /**
-     * Handles buying an item
-     */
-    buyItem(itemId) {
-        const item = this.shopInventory.find(i => i.id === itemId);
-        if (!item) return;
+  renderUI() {
+    if (!this.chossid) return;
+    const rows = this.view === "buy" ? this.buyRows() : this.sellRows();
+    const html = AwtsmoosHTMLGenerator.emanate(this.blueprint(rows));
+    this.olam?.ayshPeula?.("ui event", "shopScreen", { html, styles: this.styles(), setupListeners: () => this.setupListeners() });
+  }
 
-        const playerMoney = this.chossid.currency || 0;
-        if (playerMoney < item.price) {
-            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Not enough Shekels!", color: "red" });
-            return;
-        }
-        
-        // B"H: silent
+  buyRows() {
+    return this.shopInventory.map(item => this.row(item, item.price, "Buy", "shop-buy-btn", { "data-id": item.id }));
+  }
 
-        this.chossid.currency -= item.price;
-        
-        if (this.chossid.inventory) {
-            this.chossid.inventory.addItem({
-                id: item.id,
-                name: item.name,
-                description: item.description,
-                className: item.className || "Brick",
-                icon: item.icon,
-                price: item.price
-            });
-            this.olam.ayshPeula("ui event", "toast", { message: "Purchased " + item.name + "!" });
-            this.renderUI(); // Refresh UI for money update
-        }
-        if (this.chossid.updateStatsUI) this.chossid.updateStatsUI();
-    }
+  sellRows() {
+    const slots = this.chossid?.inventory?.slots || [];
+    const rows = [];
+    slots.forEach((item, index) => { if (item) rows.push(this.row(item, item.sellValue || Math.floor((item.price || 2) * 0.6), "Sell", "shop-sell-btn", { "data-index": index })); });
+    return rows.length ? rows : [{ tag: "p", style: { textAlign: "center", color: "#4a3512" }, text: "No sellable items yet." }];
+  }
 
-    /**
-     * Handles selling an item
-     */
-    sellItem(itemIndex) {
-        if (!this.chossid.inventory || !this.chossid.inventory.slots) return;
-        const item = this.chossid.inventory.slots[itemIndex];
-        if (!item) return;
+  row(item, price, verb, klass, attrs) {
+    return { className: "shop-item", children: [{ tag: "div", className: "shop-icon", text: item.icon || "📦" }, { tag: "div", className: "shop-info", children: [{ tag: "h3", text: item.name }, { tag: "p", text: item.description || "Holy clothing vessel." }, { tag: "b", text: `${price || 0} perutas` }] }, { tag: "button", className: `shop-action ${klass}`, attributes: attrs, text: verb }] };
+  }
 
-        // Sell price is usually 50% of buy price or a base value
-        const sellPrice = item.sellValue || Math.floor((item.price || 10) * 0.6);
-        
-        // B"H: silent
+  blueprint(rows) {
+    return { className: "shop-container", children: [{ className: "shop-head", children: [{ tag: "h2", text: `${this.npc?.name || "Guide"} Shop` }, { tag: "button", className: "shop-close-btn", text: "×" }] }, { className: "shop-wallet", text: `Bag: ${moneyOf(this.chossid)} perutas` }, { className: "shop-tabs", children: [{ tag: "button", className: "view-buy-btn", text: "Buy" }, { tag: "button", className: "view-sell-btn", text: "Sell" }] }, { className: "shop-items", children: rows }] };
+  }
 
-        this.chossid.currency = (this.chossid.currency || 0) + sellPrice;
-        
-        this.chossid.inventory.removeItem(itemIndex);
-        this.olam.ayshPeula("ui event", "toast", { message: "Sold " + item.name + " for " + sellPrice + " Shekels!" });
-        
-        this.renderUI();
-        if (this.chossid.updateStatsUI) this.chossid.updateStatsUI();
-    }
+  setupListeners() {
+    document.querySelectorAll(".shop-buy-btn").forEach(btn => { btn.onclick = () => this.buyItem(btn.getAttribute("data-id")); });
+    document.querySelectorAll(".shop-sell-btn").forEach(btn => { btn.onclick = () => this.sellItem(Number(btn.getAttribute("data-index"))); });
+    document.querySelector(".view-buy-btn")?.addEventListener("click", () => { this.view = "buy"; this.renderUI(); });
+    document.querySelector(".view-sell-btn")?.addEventListener("click", () => { this.view = "sell"; this.renderUI(); });
+    document.querySelector(".shop-close-btn")?.addEventListener("click", () => this.closeShop());
+  }
 
-    /**
-     * Renders the Shop UI via Malchus
-     */
-    renderUI() {
-        let itemsJson = [];
-
-        if (this.view === "buy") {
-            itemsJson = this.shopInventory.map(item => ({
-                className: "shop-item",
-                style: { padding: "10px", border: "1px solid rgba(255,215,0,0.3)", borderRadius: "10px", marginBottom: "10px", background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center" },
-                children: [
-                    { tag: "div", style: { fontSize: "2em", marginRight: "15px" }, text: item.icon || "📦" },
-                    { tag: "div", style: { flexGrow: "1" }, children: [
-                        { tag: "h3", style: { margin: "0", color: "#ffd700" }, text: item.name },
-                        { tag: "p", style: { margin: "5px 0", color: "#ddd", fontSize: "0.8em" }, text: item.description || "A holy vessel." },
-                        { tag: "div", style: { display: "flex", justifyContent: "space-between", alignItems: "center" }, children: [
-                            { tag: "span", style: { color: "#00e5ff" }, text: item.price + " Coins" },
-                            { tag: "button", className: "mitzvahBtn shop-buy-btn", attributes: { "data-id": item.id }, style: { padding: "5px 15px", fontSize: "0.8em" }, text: "Buy" }
-                        ]}
-                    ]}
-                ]
-            }));
-        } else {
-            // Sell View
-            const slots = this.chossid.inventory.slots || [];
-            slots.forEach((item, index) => {
-                if (!item) return;
-                const sellPrice = item.sellValue || Math.floor((item.price || 10) * 0.6);
-                itemsJson.push({
-                    className: "shop-item",
-                    style: { padding: "10px", border: "1px solid rgba(0,229,255,0.3)", borderRadius: "10px", marginBottom: "10px", background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center" },
-                    children: [
-                        { tag: "div", style: { fontSize: "2em", marginRight: "15px" }, text: item.icon || "📦" },
-                        { tag: "div", style: { flexGrow: "1" }, children: [
-                            { tag: "h3", style: { margin: "0", color: "#00e5ff" }, text: item.name },
-                            { tag: "div", style: { display: "flex", justifyContent: "space-between", alignItems: "center" }, children: [
-                                { tag: "span", style: { color: "#ffd700" }, text: sellPrice + " Coins" },
-                                { tag: "button", className: "mitzvahBtn shop-sell-btn", attributes: { "data-index": index }, style: { padding: "5px 15px", fontSize: "0.8em", background: "linear-gradient(135deg, #00c853, #64dd17)" }, text: "Sell" }
-                            ]}
-                        ]}
-                    ]
-                });
-            });
-            if (itemsJson.length === 0) {
-                itemsJson.push({ tag: "p", style: { textAlign: "center", color: "#999" }, text: "Your inventory is empty of sellable items." });
-            }
-        }
-
-        const uiBlueprint = {
-            className: "shop-container",
-            style: { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "400px", maxHeight: "80vh", overflowY: "auto", background: "var(--glass-bg)", backdropFilter: "blur(20px)", border: "1px solid var(--glass-border)", borderRadius: "20px", padding: "20px", zIndex: "10001", pointerEvents: "auto", color: "white", fontFamily: "'Inter', sans-serif" },
-            children: [
-                { tag: "div", style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }, children: [
-                    { tag: "h2", style: { margin: "0", color: "#ffd700", fontFamily: "'Fredoka One'" }, text: this.npc.name + "'s Shop" },
-                    { tag: "button", className: "shop-close-btn", style: { background: "transparent", border: "none", color: "white", fontSize: "1.5em", cursor: "pointer" }, text: "×" }
-                ]},
-                { tag: "div", style: { color: "#00e5ff", fontWeight: "bold", marginBottom: "15px", textAlign: "center", fontSize: "1.2em" }, text: "Your Wallet: " + (this.chossid.currency || 0) + " Shekels" },
-                { tag: "div", style: { display: "flex", gap: "10px", marginBottom: "20px" }, children: [
-                    { tag: "button", className: "mitzvahBtn view-buy-btn", style: { flex: "1", opacity: this.view === 'buy' ? "1" : "0.5" }, text: "Buy" },
-                    { tag: "button", className: "mitzvahBtn view-sell-btn", style: { flex: "1", opacity: this.view === 'sell' ? "1" : "0.5", background: "linear-gradient(135deg, #00c853, #64dd17)" }, text: "Sell" }
-                ]},
-                { className: "shop-items", children: itemsJson }
-            ]
-        };
-
-        const uiHtml = AwtsmoosHTMLGenerator.emanate(uiBlueprint);
-
-        this.olam.ayshPeula("ui event", "shopScreen", {
-            html: uiHtml,
-            styles: ".shop-container::-webkit-scrollbar { width: 8px; } .shop-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius:10px; } .shop-container::-webkit-scrollbar-thumb { background: #ffd700; border-radius:10px; }",
-            setupListeners: () => {
-                document.querySelectorAll(".shop-buy-btn").forEach(btn => {
-                    btn.onclick = () => this.buyItem(btn.getAttribute("data-id"));
-                });
-                document.querySelectorAll(".shop-sell-btn").forEach(btn => {
-                    btn.onclick = () => this.sellItem(parseInt(btn.getAttribute("data-index")));
-                });
-                const buyBtn = document.querySelector(".view-buy-btn");
-                const sellBtn = document.querySelector(".view-sell-btn");
-                if (buyBtn) buyBtn.onclick = () => { this.view = "buy"; this.renderUI(); };
-                if (sellBtn) sellBtn.onclick = () => { this.view = "sell"; this.renderUI(); };
-                
-                const closeBtn = document.querySelector(".shop-close-btn");
-                if(closeBtn) closeBtn.onclick = () => this.closeShop();
-            }
-        });
-    }
+  styles() {
+    return `.shop-container{position:fixed;inset:auto 12px 86px 12px;max-width:620px;margin:auto;background:#fff5c9;color:#1c1207;border:3px solid #d7aa45;border-radius:22px;padding:14px;z-index:30001;pointer-events:auto;font-family:Arial,sans-serif;box-shadow:0 12px 32px #0008}.shop-head{display:flex;justify-content:space-between;align-items:center}.shop-head h2{margin:0;font-size:24px}.shop-close-btn{font-size:30px;border:0;background:#8a5d17;color:white;border-radius:14px;width:50px;height:50px}.shop-wallet{text-align:center;font-weight:900;margin:8px}.shop-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.shop-tabs button,.shop-action{border:0;border-radius:14px;padding:12px;font-weight:900;background:#c37d0c;color:white}.shop-item{display:grid;grid-template-columns:52px 1fr 76px;gap:10px;align-items:center;background:#fffbe0;border:2px solid #d7aa45;border-radius:16px;padding:10px;margin:8px 0}.shop-icon{font-size:34px}.shop-info h3{margin:0;font-size:18px}.shop-info p{margin:3px 0;font-size:13px}`;
+  }
 }

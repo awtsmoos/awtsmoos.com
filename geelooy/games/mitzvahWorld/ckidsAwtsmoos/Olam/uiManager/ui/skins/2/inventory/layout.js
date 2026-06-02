@@ -1,34 +1,13 @@
-
+// B"H
 /**
- * B"H
  * @module LayoutSkin
  * @description
- * THE SKELETON OF THE SANCTUARY
- * 
- * "And they shall make a sanctuary..."
- * This module defines the macro-structure of the Treasury vessel.
+ * Chapter 9: The old treasury skin bows out of the wardrobe. This file remains
+ * only for legacy Otzar containers. It no longer targets #inventoryScreen or
+ * the generic wardrobe class, so the dedicated inventory stylesheet can rule
+ * its own vessel without being overwritten by ancient global geometry.
  */
 export default /*css*/`
-    .awtsmoosInventoryViewer {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 15000;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(10px);
-        pointer-events: auto !important;
-        transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .awtsmoosInventoryViewer.hidden {
-        opacity: 0;
-        pointer-events: none !important;
-        transform: scale(1.05);
-    }
-
-
     .inventory-container {
         width: 95vw;
         height: 85vh;
@@ -37,10 +16,7 @@ export default /*css*/`
         background: linear-gradient(135deg, rgba(10, 10, 30, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
         border: 1px solid rgba(0, 243, 255, 0.3);
         border-radius: 40px;
-        box-shadow: 
-            0 25px 50px -12px rgba(0, 0, 0, 0.7),
-            0 0 40px rgba(0, 243, 255, 0.1),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 243, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1);
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -70,14 +46,7 @@ export default /*css*/`
         justify-content: center;
         font-size: 24px;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         pointer-events: auto !important;
-    }
-
-    .close-btn:hover {
-        background: rgba(0, 243, 255, 0.1);
-        transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
     }
 
     .inventory-title {
@@ -93,7 +62,7 @@ export default /*css*/`
         filter: drop-shadow(0 0 10px rgba(255, 222, 64, 0.3));
     }
 
-    .inventory-body {
+    .legacy-inventory-body {
         flex: 1;
         display: flex;
         padding: 40px;
@@ -102,13 +71,7 @@ export default /*css*/`
         background: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.02) 0%, transparent 70%);
     }
 
-    /* B"H: Scrollbar for the Grid */
     .slots-grid::-webkit-scrollbar { width: 6px; }
     .slots-grid::-webkit-scrollbar-track { background: transparent; }
-    .slots-grid::-webkit-scrollbar-thumb { 
-        background: rgba(0, 243, 255, 0.2); 
-        border-radius: 10px;
-    }
-    .slots-grid::-webkit-scrollbar-thumb:hover { background: rgba(0, 243, 255, 0.4); }
+    .slots-grid::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.2); border-radius: 10px; }
 `;
-

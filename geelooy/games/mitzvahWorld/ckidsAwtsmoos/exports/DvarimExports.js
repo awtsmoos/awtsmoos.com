@@ -2,12 +2,11 @@
 /**
  * @module DvarimExports
  * @description
- * Chapter 95: the village breathes as actual world-stone, not a painted UI
- * curtain. The Awtsmoos opens the NPC export so a real 3D messenger can stand
- * in the grass and summon the level selector by interaction.
+ * Chapter 153: exact perutah touch reaches lava levels through a fresh coin
+ * import seal. Future AI: tune placement, not giant pickup radius.
  */
-export { default as Coin } from "../dvarim/coin.js";
-export { default as InteractiveNpc } from "../dvarim/npc/InteractiveNpc.js";
+export { default as Coin } from "../dvarim/coin.js?v=exact-perutah-touch-20260602-bh153";
+export { default as InteractiveNpc } from "../dvarim/npc/InteractiveNpc.js?v=clickable-guide-rayproxy-20260602-bh122";
 export { default as InteractiveDoor } from "../dvarim/SimpleDoor.js";
 export { default as SimpleDoor } from "../dvarim/SimpleDoor.js";
 export { default as TzedakahBox } from "../dvarim/TzedakahBox.js";

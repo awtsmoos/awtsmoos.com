@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
   version: 5.6.0-generated
-  description: B"H. Generated from the local tunnel agent action registry. GET-only transport with UTF-8 query parameters. simulateRuntime is Merkava-backed by default: pass url to collect a same-origin page into the synthetic DOM, and pass actions/browserActions/pageActions/actionsJson for Puppeteer-like operations without launching Chromium.
+  description: B"H. Generated from the local tunnel agent action registry. GET-only transport with UTF-8 query parameters. simulateRuntime is Merkava-backed by default; AI-agent spawn tools expose provider, model, prompt, system, taskId, and recursive spawn limits.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. For simulateRuntime, use url/html/files plus actions/browserActions/pageActions/actionsJson to run Puppeteer-like actions in Merkava's synthetic browser. For long autonomous loops, call finishAndContinue after finishing.
+      description: B"H. Run one tunnel action. For simulateRuntime, use url/html/files plus actions/browserActions/pageActions/actionsJson to run Puppeteer-like actions in Merkava's synthetic browser. For AI-agent tools, use provider/agentId/model plus prompt/message/system/taskId and recursive spawn limits. For long autonomous loops, call finishAndContinue after finishing.
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
         - name: action
@@ -445,23 +445,35 @@ paths:
         - { name: cwd, in: query, schema: { type: string, default: "." } }
         - { name: root, in: query, schema: { type: string } }
         - { name: content, in: query, schema: { type: string } }
+        - { name: content64, in: query, schema: { type: string } }
         - { name: find, in: query, schema: { type: string } }
+        - { name: find64, in: query, schema: { type: string } }
         - { name: replace, in: query, schema: { type: string } }
+        - { name: replace64, in: query, schema: { type: string } }
         - { name: query, in: query, schema: { type: string } }
+        - { name: query64, in: query, schema: { type: string } }
         - { name: text, in: query, schema: { type: string } }
+        - { name: text64, in: query, schema: { type: string } }
         - { name: goal, in: query, schema: { type: string } }
+        - { name: goal64, in: query, schema: { type: string } }
         - { name: command, in: query, schema: { type: string } }
+        - { name: command64, in: query, schema: { type: string } }
         - { name: script, in: query, schema: { type: string } }
+        - { name: script64, in: query, schema: { type: string } }
         - { name: scriptText, in: query, schema: { type: string } }
         - { name: expression, in: query, schema: { type: string } }
+        - { name: expression64, in: query, schema: { type: string } }
         - { name: html, in: query, schema: { type: string } }
+        - { name: html64, in: query, schema: { type: string } }
         - { name: testCode, in: query, schema: { type: string } }
+        - { name: testCode64, in: query, schema: { type: string } }
         - { name: workflow, in: query, schema: { type: string } }
         - { name: workflow64, in: query, schema: { type: string } }
         - { name: workflowName, in: query, schema: { type: string } }
         - { name: steps, in: query, schema: { type: string } }
         - { name: steps64, in: query, schema: { type: string } }
         - { name: params, in: query, schema: { type: string } }
+        - { name: params64, in: query, schema: { type: string } }
         - { name: probes, in: query, schema: { type: string } }
         - { name: probes64, in: query, schema: { type: string } }
         - { name: interactions, in: query, schema: { type: string } }
@@ -482,7 +494,9 @@ paths:
         - { name: urlPath, in: query, schema: { type: string } }
         - { name: method, in: query, schema: { type: string, default: "GET" } }
         - { name: headers, in: query, schema: { type: string } }
+        - { name: headers64, in: query, schema: { type: string } }
         - { name: body, in: query, schema: { type: string } }
+        - { name: body64, in: query, schema: { type: string } }
         - { name: bodyEncoding, in: query, schema: { type: string, default: "utf8" } }
         - { name: selector, in: query, schema: { type: string } }
         - { name: chromePath, in: query, schema: { type: string } }
@@ -496,6 +510,30 @@ paths:
         - { name: runtime, in: query, schema: { type: string } }
         - { name: engine, in: query, schema: { type: string } }
         - { name: continuationPrompt, in: query, schema: { type: string } }
+        - { name: continuationPrompt64, in: query, schema: { type: string } }
+        - { name: provider, in: query, schema: { type: string } }
+        - { name: providerId, in: query, schema: { type: string } }
+        - { name: agent, in: query, schema: { type: string } }
+        - { name: agentId, in: query, schema: { type: string } }
+        - { name: model, in: query, schema: { type: string } }
+        - { name: apiKey, in: query, schema: { type: string } }
+        - { name: apiKey64, in: query, schema: { type: string } }
+        - { name: message, in: query, schema: { type: string } }
+        - { name: message64, in: query, schema: { type: string } }
+        - { name: prompt, in: query, schema: { type: string } }
+        - { name: prompt64, in: query, schema: { type: string } }
+        - { name: system, in: query, schema: { type: string } }
+        - { name: system64, in: query, schema: { type: string } }
+        - { name: taskId, in: query, schema: { type: string } }
+        - { name: kind, in: query, schema: { type: string } }
+        - { name: title, in: query, schema: { type: string } }
+        - { name: outputDir, in: query, schema: { type: string } }
+        - { name: fileName, in: query, schema: { type: string } }
+        - { name: summaryAgentId, in: query, schema: { type: string } }
+        - { name: summaryFileName, in: query, schema: { type: string } }
+        - { name: parentTaskId, in: query, schema: { type: string } }
+        - { name: rootTaskId, in: query, schema: { type: string } }
+        - { name: taskKind, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
@@ -514,6 +552,14 @@ paths:
         - { name: maxIterations, in: query, schema: { type: integer, default: 20 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
         - { name: waitMs, in: query, schema: { type: integer, default: 800 } }
+        - { name: maxDepth, in: query, schema: { type: integer, default: 3 } }
+        - { name: maxChildrenPerTask, in: query, schema: { type: integer, default: 8 } }
+        - { name: maxTotalTasks, in: query, schema: { type: integer, default: 80 } }
+        - { name: pollIntervalMs, in: query, schema: { type: integer, default: 7000 } }
+        - { name: promotionCycles, in: query, schema: { type: integer, default: 7 } }
+        - { name: agentCycles, in: query, schema: { type: integer, default: 8 } }
+        - { name: chapterCycles, in: query, schema: { type: integer, default: 8 } }
+        - { name: providerTimeoutMs, in: query, schema: { type: integer, default: 45000 } }
         - { name: checkSyntax, in: query, schema: { type: boolean, default: true } }
         - { name: runtimeCheck, in: query, schema: { type: boolean, default: false } }
         - { name: regex, in: query, schema: { type: boolean, default: false } }
@@ -525,6 +571,12 @@ paths:
         - { name: snapshot, in: query, schema: { type: boolean, default: true } }
         - { name: headless, in: query, schema: { type: boolean, default: false } }
         - { name: fullPage, in: query, schema: { type: boolean, default: true } }
+        - { name: allowWrite, in: query, schema: { type: boolean } }
+        - { name: allowSecrets, in: query, schema: { type: boolean } }
+        - { name: enableLocalHttpProxy, in: query, schema: { type: boolean } }
+        - { name: allowCommands, in: query, schema: { type: boolean } }
+        - { name: stream, in: query, schema: { type: boolean } }
+        - { name: allowRecursiveSpawn, in: query, schema: { type: boolean, default: true } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:

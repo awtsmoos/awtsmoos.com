@@ -1,21 +1,21 @@
-
 /* B"H
-   THE SPATIAL CONTRACT (LAYOUT)
-   "The world is His place, but He is not the place of the world."
+   Chapter 4: The Awtsmoos opens the locked scroll.
+   Desktop remains a sacred app-shell; mobile returns to living document flow
+   so the hand can drag, the eye can descend, and no sidebar buries the verse.
 */
 
 .post-reader-localized-context {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "header header"
         "main sidebar";
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto 1fr;
-    height: 100vh;
-    width: 100vw;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    min-height: 100vh;
+    width: 100%;
     overflow: hidden;
     position: fixed;
-    top: 0; left: 0;
+    inset: 0;
 }
 
 .awtsmoos-integrated-header {
@@ -25,17 +25,25 @@
 
 .scroll-view-wrapper {
     grid-area: main;
+    min-width: 0;
+    min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     scroll-behavior: smooth;
     background: var(--bg-vellum);
     position: relative;
-    padding: 0 10vw;
+    padding: 0 clamp(1rem, 8vw, 10vw) 6rem;
 }
 
 .sidebar {
     grid-area: sidebar;
+    min-width: 0;
+    max-width: min(38vw, 26rem);
     height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     background: var(--bg-surface);
     transition: width 0.4s var(--ease-snap);
     will-change: width;
@@ -43,18 +51,46 @@
 }
 
 @media (max-width: 900px) {
-    .post-reader-localized-context {
-        grid-template-areas: 
-            "header"
-            "main"
-            "sidebar";
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
+    html,
+    body {
+        min-height: 100%;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        touch-action: pan-y;
     }
-    
+
+    .post-reader-localized-context {
+        display: block;
+        position: relative;
+        inset: auto;
+        width: 100%;
+        min-height: 100dvh;
+        height: auto;
+        overflow: visible;
+    }
+
+    .awtsmoos-integrated-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .scroll-view-wrapper {
+        display: block;
+        width: 100%;
+        height: auto;
+        min-height: calc(100dvh - 4.5rem);
+        overflow: visible;
+        overscroll-behavior: auto;
+        padding: 0 clamp(0.85rem, 4vw, 1.25rem) 8rem;
+    }
+
     .sidebar {
-        width: 100vw !important;
-        height: 40vh;
+        width: 100% !important;
+        max-width: none;
+        height: auto;
+        max-height: none;
+        overflow: visible;
         border-left: none;
         border-top: var(--border-ui);
     }

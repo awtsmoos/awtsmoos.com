@@ -1,10 +1,8 @@
 /* B"H
-   Divine Neo-Brutalism - THE REFINED MONOLITH
-   100% Intensity. Unified Clarity.
-   Everything is created from nothingness by the Awtsmoos every instant.
+   Chapter 3: The Awtsmoos tames the gray beast of overlapping UI.
+   The card menu becomes a small revealed chamber, not a storm across the card.
 */
 
-/* Bookmarks List Styling (Unique to this file) */
 .bookmarks-list { list-style: none; padding: 0; margin: 0; }
 .bookmarks-list li { padding: 10px; border-bottom: 1px solid var(--color-ink-secondary); cursor: pointer; position: relative; }
 .bookmarks-list li:hover { background: var(--color-accent); color: #000; }
@@ -12,11 +10,57 @@
 .bookmark-preview { font-size: 0.8em; color: var(--color-ink-secondary); margin-top: 4px; }
 .bookmark-delete-btn { position: absolute; top: 5px; right: 5px; background: transparent; border: none; color: var(--color-danger); cursor: pointer; font-size: 18px; }
 
-/* --- B"H - THE SCRIBE'S INKWELL (Selection Popover) --- */
+.card-wrapper.awtsmoos-card { position: relative; overflow: visible; }
+.post-card { position: relative; z-index: 1; }
+.card-menu-spark { position: absolute; top: 0.85rem; right: 0.85rem; z-index: 30; }
+.card-menu-trigger {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    border: 2px solid rgba(20, 24, 37, 0.75);
+    background: rgba(255, 255, 255, 0.94);
+    color: #111827;
+    font: 900 1.35rem/1 var(--font-heading, system-ui);
+    box-shadow: 0 0.35rem 0 rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+}
+.card-menu-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    right: 0;
+    min-width: 12rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(248, 250, 252, 0.98);
+    box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, 0.24);
+    backdrop-filter: blur(12px);
+}
+.card-menu-spark.open .card-menu-panel,
+.card-menu-spark:focus-within .card-menu-panel { display: grid; gap: 0.45rem; }
+.card-menu-action {
+    width: 100%;
+    min-height: 2.6rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    background: linear-gradient(180deg, #e0f7ff, #d9f4ff);
+    color: #111827;
+    font: 900 0.85rem/1.1 var(--font-heading, system-ui);
+    text-align: left;
+    box-shadow: 0 0.22rem 0 rgba(0, 0, 0, 0.78);
+    cursor: pointer;
+}
+.card-menu-action:hover,
+.card-menu-action:focus-visible { transform: translateY(-1px); outline: 2px solid rgba(14, 165, 233, 0.42); }
+.card-menu-action.admin-action { background: linear-gradient(180deg, #fff7ed, #fed7aa); }
+.card-social-actions { display: none !important; }
+
 .selection-popover {
     position: absolute;
     z-index: 11000;
-    background: #3a2f1b; /* Dark wood color */
+    background: #3a2f1b;
     border: 2px solid #2a1f0b;
     box-shadow: 0 0 0 2px #c5a372, var(--shadow-ui);
     display: flex;
@@ -25,11 +69,7 @@
     transition: opacity 0.2s, transform 0.2s;
     pointer-events: none;
 }
-.selection-popover.visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
-}
+.selection-popover.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
 .popover-btn {
     background: transparent !important;
     color: #eaddc5 !important;
@@ -43,131 +83,28 @@
     cursor: pointer;
 }
 .popover-btn:last-child { border-right: none !important; }
-.popover-btn:hover {
-    background: rgba(255,255,255,0.1) !important;
-    color: #fff !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-/* Highlight Palette (Ink Pots) */
-.highlight-palette {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: #3a2f1b;
-    padding: 8px;
-    border: 2px solid #2a1f0b;
-}
-.palette-color {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #c5a372;
-    margin: 4px;
-    cursor: pointer;
-    border-radius: 50%;
-}
+.popover-btn:hover { background: rgba(255,255,255,0.1) !important; color: #fff !important; transform: none !important; box-shadow: none !important; }
+.highlight-palette { display: none; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #3a2f1b; padding: 8px; border: 2px solid #2a1f0b; }
+.palette-color { width: 24px; height: 24px; border: 2px solid #c5a372; margin: 4px; cursor: pointer; border-radius: 50%; }
 .palette-color.yellow { background-color: #f7b731; }
 .palette-color.pink { background-color: #a44242; }
 .palette-color.cyan { border-color: #88d8b0; background: transparent; }
-
-/* B"H - SCRIBAL ILLUMINATIONS (Highlight Styles) */
 mark { background: none; }
-/* Ochre Wash */
-mark.highlight-yellow {
-    background-color: rgba(247, 183, 49, 0.2);
-    color: inherit;
-}
-/* Carmine Wash */
-mark.highlight-pink {
-    background-color: rgba(164, 66, 66, 0.2);
-    color: inherit;
-}
-/* Underline */
-mark.highlight-cyan {
-    background-image: linear-gradient(120deg, #88d8b0, #88d8b0);
-    background-repeat: no-repeat;
-    background-size: 100% 0.2em;
-    background-position: 0 88%;
-    color: inherit;
-}
+mark.highlight-yellow { background-color: rgba(247, 183, 49, 0.2); color: inherit; }
+mark.highlight-pink { background-color: rgba(164, 66, 66, 0.2); color: inherit; }
+mark.highlight-cyan { background-image: linear-gradient(120deg, #88d8b0, #88d8b0); background-repeat: no-repeat; background-size: 100% 0.2em; background-position: 0 88%; color: inherit; }
+awtsmoos-note { border-bottom: 2px dotted var(--color-primary); cursor: help; }
+.marginal-sigil { position: absolute; top: 5px; right: 100%; margin-right: 10rem; width: 24px; height: 24px; background-color: transparent; border: none; cursor: help; will-change: transform; transition: transform 0.1s linear; font-family: var(--font-ui); text-align: center; font-size: 14px; line-height: 18px; font-weight: 900; }
+.marginal-sigil::before { content: '※'; color: var(--color-primary); font-size: 24px; }
+.heb .marginal-sigil { right: auto; left: 100%; margin-left: 10rem; margin-right: 0; }
+.marginal-sigil:hover, awtsmoos-note:hover + .marginal-sigil { transform: scale(1.3) !important; }
+.marginal-sigil:hover::before { color: var(--color-danger); }
+.note-popover { position: absolute; z-index: 12000; width: 250px; background: var(--bg-surface); border: var(--border-ui); box-shadow: var(--shadow-ui); padding: 16px; font-family: var(--font-content); font-size: 16px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+.post-reader-localized-context.focus-mode-active #scribeLensOverlay { pointer-events: none; position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9999; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, transparent 40%, rgba(0,0,0,0.88) 100%); }
 
-
-/* --- B"H - MARGINALIA & SCRIBE'S MARKS --- */
-awtsmoos-note {
-    border-bottom: 2px dotted var(--color-primary);
-    cursor: help;
-}
-.marginal-sigil {
-    position: absolute;
-    top: 5px;
-    right: 100%;
-    margin-right: 10rem;
-    width: 24px;
-    height: 24px;
-    background-color: transparent;
-    border: none;
-    cursor: help;
-    will-change: transform;
-    transition: transform 0.1s linear;
-    font-family: var(--font-ui);
-    text-align: center;
-    font-size: 14px;
-    line-height: 18px;
-    font-weight: 900;
-}
-.marginal-sigil::before {
-    content: '※'; /* Komejirushi - Reference Mark */
-    color: var(--color-primary);
-    font-size: 24px;
-}
-.heb .marginal-sigil {
-    right: auto;
-    left: 100%;
-    margin-left: 10rem;
-    margin-right: 0;
-}
-.marginal-sigil:hover,
-awtsmoos-note:hover + .marginal-sigil {
-    transform: scale(1.3) !important;
-}
-.marginal-sigil:hover::before {
-    color: var(--color-danger);
-}
-
-.note-popover {
-    position: absolute;
-    z-index: 12000;
-    width: 250px;
-    background: var(--bg-surface);
-    border: var(--border-ui);
-    box-shadow: var(--shadow-ui);
-    padding: 16px;
-    font-family: var(--font-content);
-    font-size: 16px;
-    line-height: 1.4;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-/* B"H - SCRIBE'S LENS BY LIVING FLAME */
-/* Gradient logic kept here as layout.css handles the structure/display but not the visual gradient */
-.post-reader-localized-context.focus-mode-active #scribeLensOverlay {
-    pointer-events: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
-    /* This creates a transparent "hole" for the WebGL candle to shine through */
-    background: radial-gradient(
-        circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        transparent 0%,
-        transparent 40%,
-        rgba(0,0,0,0.88) 100%
-    );
+@media (max-width: 700px) {
+    .card-menu-spark { top: 0.55rem; right: 0.55rem; }
+    .card-menu-trigger { width: 2.25rem; height: 2.25rem; }
+    .card-menu-panel { right: 0; min-width: min(72vw, 14rem); max-width: 78vw; }
+    .selection-popover { position: fixed; left: 0.75rem !important; right: 0.75rem; bottom: 5.25rem; top: auto !important; justify-content: center; flex-wrap: wrap; }
 }

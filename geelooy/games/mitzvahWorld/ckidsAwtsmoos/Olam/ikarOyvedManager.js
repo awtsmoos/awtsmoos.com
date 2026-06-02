@@ -2,15 +2,14 @@
 /**
  * @file ikarOyvedManager.js
  * @description
- * Chapter 48: The Worker Manager Opened The Stable Touch Gate.
- *
- * The Awtsmoos clears the main-thread cache path so mobile walking receives the
- * joystick orchestrator that sends only input deltas instead of key storms.
+ * Chapter 140: The Worker Manager imports the fresh centered NPC UI handler.
+ * The Awtsmoos seals the cache path so the old left-clipped guide card cannot
+ * survive inside a stale worker message handler.
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
 import setupDomEvents from "./worker/domEvents.js?v=stable-joystick-state-20260602-bh11";
-import setupMessageHandler from "./worker/messageHandler.js";
+import setupMessageHandler from "./worker/messageHandler.js?v=centered-npc-big-house-20260602-bh140";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
 import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js";

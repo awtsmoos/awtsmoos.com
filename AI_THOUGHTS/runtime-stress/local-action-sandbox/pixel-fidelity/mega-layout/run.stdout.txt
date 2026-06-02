@@ -1,0 +1,27 @@
+{
+  "pass": false,
+  "image": {
+    "path": "AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/mega-layout/mega-layout.png",
+    "bytes": 83260,
+    "sha256": "3fd004a2837fe15fda1e06baa4a4a464bc275ded5d557c53cfac4d9cb430bc6a",
+    "width": 960,
+    "height": 640
+  },
+  "checks": {
+    "runtimeOk": true,
+    "workerReply": true,
+    "fitsViewport": true,
+    "manyCanvases": true,
+    "offscreenNested": true,
+    "workerTexture": true,
+    "webglTexture": true,
+    "webglStateOps": true,
+    "imageDataOps": true,
+    "transformOps": false,
+    "drawImageDensity": true,
+    "pathAndTextOps": true,
+    "rainbowAndWitnessColors": true,
+    "darkUiReadable": false,
+    "noPlaceholderOps": true
+  }
+}

@@ -2,59 +2,42 @@
 /**
  * @module SoulLoader
  * @description
- * Chapter 24: The Loader Let Authored Heights Live.
- *
- * The Awtsmoos loads explicit level manifests, then grounds only decorative
- * entities that ask for it. Lava platforms, player spawn, moving bridges, and
- * perutos keep their authored Y positions.
+ * Chapter 155: Worker loader imports the indoor-floor grounding seal. The
+ * Awtsmoos measures terrain, then allows explicitly lifted indoor NPCs to stand
+ * on the raised cottage floor instead of sinking into it.
  */
-import { autoGroundNivrayim } from "./AutoGrounder.js?v=respect-authored-y-20260602-bh7";
+import { autoGroundNivrayim } from "./AutoGrounder.js?v=ground-zero-non-village-20260602-bh126";
+import { scheduleVillageGrounding } from "../../../methods/loadNivrayim/villageGrounding.js?v=indoor-floor-lift-20260602-bh155";
 
 export class SoulLoader {
-  /**
-   * Loads only the direct level manifest.
-   *
-   * @param {any} olam Olam instance.
-   * @param {object} payload Worker payload.
-   * @returns {Promise<any[]>} Created Nivrayim.
-   */
+  /** @param {any} olam Olam instance. @param {object} payload Worker payload. @returns {Promise<any[]>} Created Nivrayim. */
   static async load(olam, payload) {
     const worldData = payload.userInfo || payload;
     const nivrayimData = worldData.nivrayim || {};
     const loadStart = performance.now();
+    olam.baseInfo = worldData;
     const nivrayim = await olam.loadNivrayim(nivrayimData);
-    const grounded = autoGroundNivrayim(nivrayim);
+    const grounded = worldData?.id === "village.json" ? { checked: 0, snapped: 0, skipped: nivrayim.length, villageRay: true } : autoGroundNivrayim(nivrayim);
+    if (worldData?.id === "village.json") scheduleVillageGrounding(olam, nivrayim);
     const loadTime = (performance.now() - loadStart).toFixed(2);
-    console.log(`B"H - Souls materialized in ${loadTime}ms. Auto-grounded ${grounded.snapped}/${grounded.checked}; skipped ${grounded.skipped}.`);
+    console.log(`B"H - Souls materialized in ${loadTime}ms. Auto-grounded ${grounded.snapped}/${grounded.checked}; skipped ${grounded.skipped}; villageRay=${Boolean(grounded.villageRay)}.`);
     reportForbiddenIfPresent(nivrayim, worldData);
     return nivrayim;
   }
 }
 
-/** @param {object} nivra Entity. @param {object} worldData Level data. @returns {boolean} */
 function allowedVillageGuide(nivra, worldData) {
   return worldData?.id === "village.json" && nivra?.type === "interactiveNpc" && /Village Challenge Guide/i.test(nivra?.name || "");
 }
 
-/** @param {object} nivra Entity. @param {object} worldData Level data. @returns {boolean} */
 function forbiddenNivra(nivra, worldData) {
   if (allowedVillageGuide(nivra, worldData)) return false;
   if (["customNpc", "medabeir", "mazik", "proceduralBuilding", "ProceduralBuilding"].includes(nivra?.type)) return true;
   return /enemy|husk/i.test(nivra?.name || "");
 }
 
-/**
- * Logs only true forbidden souls after explicit manifest load.
- *
- * @param {any[]} nivrayim Loaded entities.
- * @param {object} worldData Direct level data.
- * @returns {void}
- */
 function reportForbiddenIfPresent(nivrayim = [], worldData = {}) {
   const bad = nivrayim.filter(nivra => forbiddenNivra(nivra, worldData));
   if (!bad.length) return;
-  console.warn('B"H - Forbidden injected Nivrayim detected after load:', {
-    source: worldData?.shaym,
-    bad: bad.map(nivra => ({ name: nivra?.name, type: nivra?.type }))
-  });
+  console.warn('B"H - Forbidden injected Nivrayim detected after load:', { source: worldData?.shaym, bad: bad.map(nivra => ({ name: nivra?.name, type: nivra?.type })) });
 }

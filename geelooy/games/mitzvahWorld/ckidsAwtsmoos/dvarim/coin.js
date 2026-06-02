@@ -2,11 +2,12 @@
 /**
  * @file coin.js
  * @description
- * Chapter 87: The Perutah Spoke Only In The Current Epoch.
+ * Chapter 151: Perutah collection becomes exact again.
  *
- * A reset can outrun an old UI message. Therefore every perutah collection now
- * carries the world's perutah epoch. The HUD can reject stale echoes from the
- * world before lava. The coin also keeps the fresh-entry vow after resets.
+ * The lava levels were using a broad sphere that could grab coins too early.
+ * Now a perutah requires a real capsule-to-coin touch with a smaller radius and
+ * a vertical overlap gate. Future AI: do not inflate `proximity` to make coins
+ * feel easier; tune coin placement instead.
  */
 import Tzomayach from "../chayim/tzomayach.js";
 import Utils from "../utils.js";
@@ -20,26 +21,19 @@ function markCoinVisual(mesh) {
   if (!mesh) return;
   mesh.userData ||= {};
   Object.assign(mesh.userData, { skipRaycast: true, skipOctree: true, noOctree: true, addToOctree: false, isCoinVisual: true });
-  mesh.traverse?.(child => {
-    child.userData ||= {};
-    Object.assign(child.userData, { skipRaycast: true, skipOctree: true, noOctree: true, addToOctree: false, isCoinVisual: true });
-  });
+  mesh.traverse?.(child => { child.userData ||= {}; Object.assign(child.userData, mesh.userData); });
 }
 
 function copperGolem() {
-  return {
-    guf: { CylinderGeometry: [0.58, 0.58, 0.13, 40, 1] },
-    toyr: { MeshStandardMaterial: { color: COPPER.color, emissive: COPPER.emissive, metalness: COPPER.metalness, roughness: COPPER.roughness } }
-  };
+  return { guf: { CylinderGeometry: [0.58, 0.58, 0.13, 40, 1] }, toyr: { MeshStandardMaterial: { color: COPPER.color, emissive: COPPER.emissive, metalness: COPPER.metalness, roughness: COPPER.roughness } } };
 }
 
 function applyCopperMaterial(root) {
   root?.traverse?.(child => {
-    if (!child?.material) return;
-    const materials = Array.isArray(child.material) ? child.material : [child.material];
+    const materials = Array.isArray(child?.material) ? child.material : child?.material ? [child.material] : [];
     materials.forEach(material => {
-      if (material.color?.setHex) material.color.setHex(COPPER.color);
-      if (material.emissive?.setHex) material.emissive.setHex(COPPER.emissive);
+      material.color?.setHex?.(COPPER.color);
+      material.emissive?.setHex?.(COPPER.emissive);
       if ("metalness" in material) material.metalness = COPPER.metalness;
       if ("roughness" in material) material.roughness = COPPER.roughness;
       material.needsUpdate = true;
@@ -51,6 +45,13 @@ function setTreeVisible(root, visible) {
   if (!root) return;
   root.visible = visible;
   root.traverse?.(child => { child.visible = visible; });
+}
+
+function capsuleYRange(capsule) {
+  const a = capsule?.start?.y ?? capsule?.center?.y ?? 0;
+  const b = capsule?.end?.y ?? a;
+  const r = safeNumber(capsule?.radius, 0);
+  return { min: Math.min(a, b) - r, max: Math.max(a, b) + r };
 }
 
 export default class Coin extends Tzomayach {
@@ -71,7 +72,8 @@ export default class Coin extends Tzomayach {
     super(op);
     this.value = safeNumber(op.value, 1) || 1;
     this.globalValue = safeNumber(op.globalValue, 0);
-    this.proximity = safeNumber(op.proximity, 1.15);
+    this.proximity = safeNumber(op.proximity, 0.72);
+    this.verticalGrace = safeNumber(op.verticalGrace, 0.16);
     this.rotationSpeed = safeNumber(op.rotationSpeed, this.rotationSpeed) || this.rotationSpeed;
     this.heesHawveh = true;
     this.__spawnPosition = { ...(op.position || {}) };
@@ -82,43 +84,31 @@ export default class Coin extends Tzomayach {
   bindCoinLife() {
     this.on("ready", () => this.preparePerutah());
     this.on("heesHawvoos", me => this.animatePerutah(me));
-    this.on("nivraNeechnas", nivra => {
-      if (this.cannotCollect(nivra)) return this.clearLockedTouch();
-      this.__collecting = true;
-      this.collectFor(nivra);
-    });
+    this.on("nivraNeechnas", nivra => { if (this.cannotCollect(nivra)) return this.clearLockedTouch(); this.__collecting = true; this.collectFor(nivra); });
     this.on("collected", n => n?.playSound?.("awtsmoos://dingSound", { layerName: "audio effects layer 1", loop: false }));
   }
 
-  isCollectionLocked() {
-    return Boolean(this.olam?.__spikeDeathActive || this.olam?.__perutahResetLock);
-  }
+  isCollectionLocked() { return Boolean(this.olam?.__spikeDeathActive || this.olam?.__perutahResetLock); }
+  cannotCollect(nivra) { return this.__needsFreshEntry || this.__collecting || this.__collected || nivra?.type !== "chossid" || this.isCollectionLocked(); }
+  clearLockedTouch() { if (!this.isCollectionLocked() && !this.__needsFreshEntry) return false; this.objectsCollidingWith = []; return false; }
 
-  cannotCollect(nivra) {
-    return this.__needsFreshEntry || this.__collecting || this.__collected || nivra?.type !== "chossid" || this.isCollectionLocked();
-  }
-
-  clearLockedTouch() {
-    if (!this.isCollectionLocked() && !this.__needsFreshEntry) return false;
-    this.objectsCollidingWith = [];
-    return false;
-  }
-
-  isTouching(nivra, extraRadius = 0) {
+  exactTouch(nivra, extraRadius = 0) {
     if (!this.proximityCollider || !nivra?.collider) return false;
-    const radius = Math.max(0, this.proximityCollider.radius + extraRadius);
-    return Utils.capsuleSphereColliding(nivra.collider, { center: this.proximityCollider.center, radius });
+    const center = this.proximityCollider.center;
+    const range = capsuleYRange(nivra.collider);
+    if (center.y < range.min - this.verticalGrace || center.y > range.max + this.verticalGrace) return false;
+    const radius = Math.max(0.22, this.proximityCollider.radius + extraRadius);
+    return Utils.capsuleSphereColliding(nivra.collider, { center, radius });
   }
 
   checkProximitySoul(nivra) {
     if (this.isCollectionLocked()) { this.objectsCollidingWith = []; return; }
-    if (this.__needsFreshEntry) {
-      this.objectsCollidingWith = [];
-      if (this.isTouching(nivra, 0.05)) return;
-      this.__needsFreshEntry = false;
-      return;
-    }
-    return super.checkProximitySoul(nivra);
+    if (this.__needsFreshEntry) { this.objectsCollidingWith = []; if (this.exactTouch(nivra, 0.04)) return; this.__needsFreshEntry = false; return; }
+    if (nivra === this || !this.isCapsuleOwner(nivra)) return;
+    const already = this.objectsCollidingWith.includes(nivra);
+    const collides = this.exactTouch(nivra, already ? 0.05 : 0);
+    if (collides && !already) return this.enterProximity(nivra);
+    if (!collides && already) this.leaveProximity(nivra);
   }
 
   preparePerutah() {
@@ -133,11 +123,7 @@ export default class Coin extends Tzomayach {
   animatePerutah(me) {
     if (!me?.mesh) return;
     if (this.isCollectionLocked() || this.__needsFreshEntry) this.objectsCollidingWith = [];
-    if (!this.__collecting) {
-      me.mesh.rotation.y += this.rotationSpeed;
-      me.mesh.rotation.x = Math.sin((performance.now?.() || Date.now()) * 0.003) * 0.06;
-      return;
-    }
+    if (!this.__collecting) { me.mesh.rotation.y += this.rotationSpeed; me.mesh.rotation.x = Math.sin((performance.now?.() || Date.now()) * 0.003) * 0.06; return; }
     me.mesh.scale.multiplyScalar(0.84);
     if (me.mesh.scale.x < 0.06) this.hideCollectedPerutah();
   }
@@ -149,26 +135,16 @@ export default class Coin extends Tzomayach {
     this.objectsCollidingWith = [];
     setTreeVisible(this.mesh, false);
     setTreeVisible(this.modelMesh, false);
-    if (this.mesh?.scale?.set) this.mesh.scale.set(0.001, 0.001, 0.001);
+    this.mesh?.scale?.set?.(0.001, 0.001, 0.001);
   }
 
   resetForLevelRestart() {
-    this.__collecting = false;
-    this.__collected = false;
-    this.__needsFreshEntry = true;
-    this.wasSealayked = false;
-    this.__awtsmoosSealayking = false;
-    this.objectsCollidingWith = [];
-    this.proximityCollider = null;
-    this.heesHawveh = true;
+    this.__collecting = false; this.__collected = false; this.__needsFreshEntry = true; this.wasSealayked = false; this.__awtsmoosSealayking = false; this.objectsCollidingWith = []; this.proximityCollider = null; this.heesHawveh = true;
     const p = this.__spawnPosition || this.position || { x: 0, y: 0, z: 0 };
     const s = this.__spawnScale || { x: 1, y: 1, z: 1 };
-    if (this.mesh?.position?.set) this.mesh.position.set(safeNumber(p.x), safeNumber(p.y), safeNumber(p.z));
-    if (this.mesh?.scale?.set) this.mesh.scale.set(safeNumber(s.x, 1), safeNumber(s.y, 1), safeNumber(s.z, 1));
-    setTreeVisible(this.mesh, true);
-    setTreeVisible(this.modelMesh, true);
-    markCoinVisual(this.mesh);
-    applyCopperMaterial(this.mesh);
+    this.mesh?.position?.set?.(safeNumber(p.x), safeNumber(p.y), safeNumber(p.z));
+    this.mesh?.scale?.set?.(safeNumber(s.x, 1), safeNumber(s.y, 1), safeNumber(s.z, 1));
+    setTreeVisible(this.mesh, true); setTreeVisible(this.modelMesh, true); markCoinVisual(this.mesh); applyCopperMaterial(this.mesh);
   }
 
   collectFor(nivra) {
@@ -186,11 +162,6 @@ export default class Coin extends Tzomayach {
     olam?.ayshPeula?.("ui event", "effectsOverlay", { effect: "transaction", text: "+1 Copper Perutah", color: "#e4a15c" });
   }
 
-  readGlobalCoinsSafely() {
-    try { return safeNumber(globalThis.localStorage?.getItem("awtsmoosMitzvahGlobalCoins"), 0); } catch { return 0; }
-  }
-
-  writeGlobalCoinsSafely(globalCoins) {
-    try { globalThis.localStorage?.setItem("awtsmoosMitzvahGlobalCoins", String(globalCoins)); } catch {}
-  }
+  readGlobalCoinsSafely() { try { return safeNumber(globalThis.localStorage?.getItem("awtsmoosMitzvahGlobalCoins"), 0); } catch { return 0; } }
+  writeGlobalCoinsSafely(globalCoins) { try { globalThis.localStorage?.setItem("awtsmoosMitzvahGlobalCoins", String(globalCoins)); } catch {} }
 }
