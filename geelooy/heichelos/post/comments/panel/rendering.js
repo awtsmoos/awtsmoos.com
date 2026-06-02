@@ -26,7 +26,7 @@ function manifest(blueprint) {
 }
 
 function loadingNode(text) {
-    return manifest({ tag: "div", attr: { class: "loading-ink awtsmoos-smooth-loading" }, children: [text] });
+    return manifest({ tag: "div", attr: { class: "loading-ink awtsmoos-smooth-loading awtsmoos-empty-placeholder" }, children: [text] });
 }
 
 function setActivePanel(shell, name) {
@@ -71,9 +71,9 @@ function makeAiRow() {
         tag: "button",
         attr: { class: "awtsmoos-list-item ai-monolith awtsmoos-action-row", type: "button" },
         children: [
-            { tag: "span", attr: { class: "keeper-icon" }, children: ["✨"] },
-            { tag: "span", attr: { class: "keeper-name" }, children: ["Ask Awtsmoos AI"] },
-            { tag: "span", attr: { class: "keeper-arrow" }, children: ["→"] }
+            { tag: "span", attr: { class: "keeper-icon awtsmoos-student-avatar" }, children: ["✨"] },
+            { tag: "span", attr: { class: "keeper-name awtsmoos-student-name" }, children: ["Ask Awtsmoos AI"] },
+            { tag: "span", attr: { class: "keeper-arrow awtsmoos-student-location" }, children: ["→"] }
         ],
         events: { click: async () => {
             const { openAIChat } = await import("../../ai/chat.js");
@@ -97,7 +97,7 @@ function actionRows(keepersWrap) {
 function makeShell(counts) {
     return manifest({ tag: "div", attr: { class: "awtsmoos-ideal-sidebar" }, children: [
         makeTabs(counts),
-        { tag: "div", attr: { class: "awtsmoos-sidebar-panels" }, children: [
+        { tag: "div", attr: { class: "awtsmoos-sidebar-panels awtsmoos-ideal-sidebar" }, children: [
             { tag: "section", attr: { class: "awtsmoos-sidebar-panel", "data-panel": "comments", hidden: "" } },
             { tag: "section", attr: { class: "awtsmoos-sidebar-panel", "data-panel": "students" } },
             { tag: "section", attr: { class: "awtsmoos-sidebar-panel", "data-panel": "favorites", hidden: "" } }
@@ -119,7 +119,7 @@ function setupStudentsPanel(shell, aliases, actualTab) {
     panel.append(search, makeAiRow(), keepersWrap, actionRows(keepersWrap));
     bindSearch(shell);
     if (!aliases.length) {
-        keepersWrap.innerHTML = `<div class="assembly-void-msg">The chambers are currently silent.</div>`;
+        keepersWrap.innerHTML = `<div class="assembly-void-msg awtsmoos-empty-placeholder">The chambers are currently silent.</div>`;
         return Promise.resolve();
     }
     return renderChunked(aliases, alias => {
@@ -171,7 +171,7 @@ function triggerAliasTab(alias) {
     const tabObj = window.tabManager.addTab({
         header: "@" + alias,
         name: "user-" + alias,
-        content: `<div class="loading-ink">Seeking records of @${alias}...</div>`,
+        content: `<div class="loading-ink awtsmoos-empty-placeholder">Seeking records of @${alias}...</div>`,
         async onopen({ actualTab, tab }) {
             tab.awtsmoosType = "specific alias comments";
             window.currentAliasTabContainer = actualTab;

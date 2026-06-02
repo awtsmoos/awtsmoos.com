@@ -173,7 +173,7 @@ async function startItAll() {
                         
                         // Root Action Buttons
                         const actionsArea = document.createElement("div");
-                        actionsArea.className = "post-root-actions";
+                        actionsArea.className = "post-root-actions awtsmoos-sidebar-actions";
                         actionsArea.style.cssText = "margin-top: 2.5rem; display: flex; flex-direction: column; gap: 15px;";
 
                         const createHeroBtn = (txt, icon, onClick) => {
@@ -189,7 +189,7 @@ async function startItAll() {
                                 header: "Insights",
                                 name: "comments",
                                 async onopen({ actualTab: comTab, tab: t }) {
-                                    comTab.innerHTML = "<div class='loading-spinner-placeholder'>B\"H Loading...</div>";
+                                    comTab.innerHTML = "<div class='loading-spinner-placeholder awtsmoos-empty-placeholder'>B\"H Loading...</div>";
                                     await loadRootComments({ post, parent: comTab, tab: t });
                                     await initComments({ post, parent: comTab, tab: t });
                                 }
@@ -237,7 +237,7 @@ async function startItAll() {
     } catch (e) {
         console.error("B\"H - FATAL CORE RUPTURE:", e);
         if (realPost) realPost.innerHTML = `
-            <div class="fatal-error-display" style="padding: 50px; text-align: center; border: 4px solid var(--color-danger); margin: 20px;">
+            <div class="fatal-error-display awtsmoos-empty-placeholder" style="padding: 50px; text-align: center; border: 4px solid var(--color-danger); margin: 20px;">
                 <h2 style="color: var(--color-danger); text-transform: uppercase;">B"H - SYSTEM RUPTURE</h2>
                 <p>The Light could not be manifest in this vessel:</p>
                 <code style="background: #000; color: #fff; padding: 10px; display: block; margin-top: 20px;">${e.message}</code>

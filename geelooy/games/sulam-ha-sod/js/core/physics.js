@@ -12,6 +12,7 @@ import { TrickCoinField } from '../systems/trickCoins.js';
 import { MomentumCurse } from '../systems/momentumCurse.js';
 import { spawnHebrewShatter, stepBursts } from '../systems/deathBursts.js';
 import { calculateDeathPenalty, deathPenaltyReceipt } from '../systems/deathPenalty.js';
+import { nearWindow, viewportWindow } from '../systems/viewportWindow.js';
 
 const GRAVITY = 1700;
 const SPEED = 280;
@@ -34,6 +35,8 @@ export class PhysicsWorld {
     this.soundEvents = [];
     this.visibleCameraX = 0;
     this.visibleCameraY = 0;
+    this.visibleViewportWidth = 960;
+    this.visibleViewportHeight = 540;
     this.previousPlayerY = 0;
     this.cameraResetAfterDeath = false;
     this.platformBodies = [];
@@ -290,8 +293,10 @@ export class PhysicsWorld {
     const dead = { ...this.player };
     const progress = this.runProgress();
     const runShefa = this.runShefaCollected || 0;
-    const lockCameraX = Number.isFinite(this.visibleCameraX) ? this.visibleCameraX : Math.max(0, dead.x - 430);
-    const lockCameraY = Number.isFinite(this.visibleCameraY) ? this.visibleCameraY : dead.y - 360;
+    const viewW = Math.max(360, Number(this.visibleViewportWidth || 960));
+    const viewH = Math.max(320, Number(this.visibleViewportHeight || 540));
+    const lockCameraX = Math.max(0, Math.min(Math.max(0, this.width - viewW), dead.x + dead.w / 2 - viewW * 0.5));
+    const lockCameraY = Math.max(this.cameraLevelTop() - Math.max(96, viewH * 0.2), dead.y + dead.h / 2 - viewH * 0.5);
     this.deathBursts.push(spawnHebrewShatter(dead, reason, this.rng));
     this.deathPause = { reason, t: 0, ready: false, promptAlpha: 0, deathX: dead.x, deathY: dead.y, cameraX: lockCameraX, cameraY: lockCameraY };
     const loss = this.deathLoss();
@@ -311,8 +316,16 @@ export class PhysicsWorld {
     }
   }
 
+  cameraLevelTop() {
+    const candidates = [this.player?.y || 0];
+    for (const list of [this.level?.platforms, this.level?.trickPlatforms, this.level?.rotatingPlatforms, this.level?.spikes, this.level?.coins, this.level?.fakeCoins, this.level?.keys, this.level?.triggers]) for (const item of list || []) if (Number.isFinite(item.y)) candidates.push(item.y);
+    return Math.min(...candidates, -560);
+  }
+
   moveEnemies(dt) {
+    const win = viewportWindow(this, 900);
     for (const enemy of this.enemies) {
+      if (!nearWindow(enemy, win)) continue;
       steerEnemy(enemy, this.player, dt);
       enemy.x += enemy.vx * dt;
       if (enemy.x < enemy.min || enemy.x > enemy.max) { enemy.vx *= -1; enemy.x = Math.max(enemy.min, Math.min(enemy.max, enemy.x)); }

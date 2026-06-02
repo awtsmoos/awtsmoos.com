@@ -1,0 +1,4 @@
+[Probe:afterCollect] {"target":"geelooy/games/scribe-journey/index.html","fileCount":179,"entry":"geelooy/games/scribe-journey/index.html"}
+[MerkavaStep:start] {"type":"classic","inline":true,"resolved":null}
+[MerkavaStep:done] {"type":"classic","inline":true,"resolved":null}
+[MerkavaStep:start] {"type":"module","inline":false,"resolved":"geelooy/games/scribe-journey/js/main.js"}

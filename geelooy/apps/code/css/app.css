@@ -25,6 +25,7 @@
 @import url('./zip-explorer.css');
 @import url('./tab-manager.css');
 @import url('./search.css');
+@import url('./ai-studio.css');
 
 /* FILE COMMANDER */
 @import url('./file-commander/layout.css');

@@ -1,25 +1,7 @@
 /*B"H
-  Chapter 209: The Old Automation Palace Was Cleared.
-  The Awtsmoos leaves no phantom grid behind. This early-layer file now holds
-  only safe shared tokens for automation; real right-panel layout lives in
-  `css/right-panel/*` and is imported later.
+  Chapter 316: The Old Automation Scroll Became Silent.
+
+  The Awtsmoos removes phantom ownership. Automation panel styling now belongs
+  only to `css/right-panel/*`; this file remains as a named historical gate in
+  the cascade so import order stays stable while selector conflict disappears.
 */
-#automation-panel{
-  --automation-gap:14px;
-  --automation-radius:16px;
-  --automation-line:rgba(125,211,252,.22);
-  --automation-surface:rgba(10,24,43,.82);
-  --automation-field:rgba(2,8,20,.82);
-  --automation-text:#eef9ff;
-  --automation-muted:#9fb8c9;
-}
-#automation-panel .automation-status,
-#automation-panel .chat-scope-pill{
-  overflow-wrap:anywhere;
-}
-#automation-panel button,
-#automation-panel input,
-#automation-panel select,
-#automation-panel textarea{
-  font:inherit;
-}

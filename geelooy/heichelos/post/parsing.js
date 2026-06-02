@@ -199,13 +199,13 @@ function parseInline(text) {
     });
 
     // 2. Images ![alt](url)
-    text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="md-img" />');
+    text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="md-img awtsmoos-card" />');
 
     // 3. Links [text](url) - INTELLIGENT ROUTING
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
         // If it starts with #, it's an internal anchor -> No target blank
         if (url.startsWith('#')) {
-            return `<a href="${url}" class="internal-link">${linkText}</a>`;
+            return `<a href="${url}" class="internal-link awtsmoos-hero-btn">${linkText}</a>`;
         }
         // Otherwise, open in new tab
         return `<a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;

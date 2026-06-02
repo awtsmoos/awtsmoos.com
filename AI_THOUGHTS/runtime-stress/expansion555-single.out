@@ -1,0 +1,19 @@
+{
+  "entry": "geelooy/games/scribe-journey/js/data/expansion_555.js",
+  "imports": [],
+  "exportNames": [
+    "features555Items",
+    "features555Beasts",
+    "features555Maps"
+  ],
+  "codeLen": 4064,
+  "head": "\n// B\"H\n// js/data/expansion_555.js\n\n// --- THE 555 GATES OF WISDOM ---\n// A procedural expansion adding 555 collectible sparks and challenges.\n\nconst features555Items = {};\nconst features555Beasts = {};\nconst features555Maps = {};\n\nconst sparkTypes = [\"Chochmah\", \"Binah\", \"Daat\", \"Chesed\", \"Gevurah"
+}
+{
+  "ok": true,
+  "exports": [
+    "features555Items",
+    "features555Beasts",
+    "features555Maps"
+  ]
+}

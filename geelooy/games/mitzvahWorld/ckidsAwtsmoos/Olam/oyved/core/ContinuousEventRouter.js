@@ -2,44 +2,67 @@
 /**
  * @file ContinuousEventRouter.js
  * @description
- * Chapter 89: ongoing worker messages now include a true world-unload decree.
- * The Awtsmoos preserves the worker flame while the active Olam is told to stop,
- * dispose, forget falling memory, and answer `destroyed` before new creation.
+ * Chapter 29: The Respawn Learned Feet, Not Centers.
+ *
+ * The Awtsmoos resets the Chossid to authored feet-on-ground coordinates after
+ * the lava countdown. It uses the player's own `setPosition`, restores the
+ * visual robe, clears input, resets hazards, and immediately returns control.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import RenderTrace from "../../methods/canvas/RenderTrace.js";
 import { rememberCanvasPayload } from "./CanvasMemory.js";
 
-const START = Object.freeze({ x: -8, y: 4.8, z: 0 });
+const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
 const findPlayer = olam => olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
 
+/** @param {object} root Object3D root. @param {boolean} visible Visibility. */
 function setTreeVisible(root, visible) {
   if (!root) return;
   root.visible = visible;
   root.traverse?.(child => { child.visible = visible; });
 }
 
-function clearInput(olam, player, run = true) {
-  player.moving = {};
+/** @param {object} olam World. @param {object} player Player. */
+function clearInput(olam, player) {
+  player.moving = { stridingLeft: false, stridingRight: false, forward: false, backward: false, turningLeft: false, turningRight: false, running: false, jump: false };
   player.velocity?.set?.(0, 0, 0);
   player.acceleration?.set?.(0, 0, 0);
   if (olam?.keyStates) Object.keys(olam.keyStates).forEach(key => { olam.keyStates[key] = false; });
-  if (olam?.inputs) {
-    Object.keys(olam.inputs).forEach(key => { olam.inputs[key] = false; });
-    olam.inputs.RUNNING = run;
-  }
+  if (olam?.inputs) Object.keys(olam.inputs).forEach(key => { olam.inputs[key] = false; });
 }
 
+/** @param {object} player Player. @param {boolean} frozen Frozen state. */
 function stablePlayerFlags(player, frozen) {
-  Object.assign(player, { __spikeDefeated: frozen, __spikeDeathControlsFrozen: frozen, __spikeColliderDisabled: frozen, __spikeResetCountdown: frozen, onFloor: true, isOnGround: true, onGround: true, grounded: true, jumped: false, didJump: false, fallingFrames: 0, startedWalking: false, isWalking: false, isTurning: false });
+  Object.assign(player, {
+    __spikeDefeated: frozen,
+    __spikeDeathControlsFrozen: frozen,
+    __spikeColliderDisabled: frozen,
+    __spikeResetCountdown: frozen,
+    onFloor: !frozen,
+    isOnGround: !frozen,
+    onGround: !frozen,
+    grounded: !frozen,
+    jumped: false,
+    didJump: false,
+    fallingFrames: 0,
+    startedWalking: false,
+    isWalking: false,
+    isTurning: false,
+    movingAutomatically: false
+  });
 }
 
+/** @param {object} player Player. @param {{x:number,y:number,z:number}} pos Feet position. */
 function resetPlayerPhysics(player, pos) {
-  if (player.collider?.start && player.collider?.end) {
-    player.collider.start.set(pos.x, pos.y + player.height / 2, pos.z);
-    player.collider.end.set(pos.x, pos.y + player.height, pos.z);
-    player.collider.radius = player.radius;
-  } else if (typeof player.setPosition === "function") player.setPosition(new THREE.Vector3(pos.x, pos.y, pos.z));
+  const feet = new THREE.Vector3(pos.x, pos.y, pos.z);
+  if (typeof player.setPosition === "function") player.setPosition(feet);
+  else if (player.collider?.start && player.collider?.end) {
+    const radius = Number(player.radius || player.collider.radius || 0.45);
+    const height = Number(player.height || 1.5);
+    player.collider.radius = radius;
+    player.collider.start.set(pos.x, pos.y + radius, pos.z);
+    player.collider.end.set(pos.x, pos.y + height - radius, pos.z);
+  }
   player.isTeleporting = false;
   player.velocity?.set?.(0, 0, 0);
   player.acceleration?.set?.(0, 0, 0);
@@ -51,8 +74,11 @@ function resetPlayerPhysics(player, pos) {
     player.modelMesh.position.y += Number(player.modelMesh.userData?.visualGroundOffsetY || 0);
     player.modelMesh.rotation.y = (player.rotation?.y || 0) + (player.rotateOffset || 0);
   }
+  player.emptyCopy?.position?.copy?.(player.mesh?.position || feet);
+  player.nonRotatingEmptyForMovement?.position?.copy?.(player.mesh?.position || feet);
 }
 
+/** @param {object} olam World. @returns {number} Reset count. */
 function resetHazards(olam) {
   let resetSpikes = 0;
   olam?.nivrayim?.forEach?.(nivra => {
@@ -63,12 +89,14 @@ function resetHazards(olam) {
   return resetSpikes;
 }
 
+/** @param {object} player Player. */
 function revealPlayerRoots(player) {
   [player.mesh, player.modelMesh, player.guf, player.visualObject, player.emptyCopy, player.nonRotatingEmptyForMovement].forEach(root => setTreeVisible(root, true));
   player.updateAppearance?.();
   player.playChaweeyoos?.(player.getChaweeyoos?.("idle"));
 }
 
+/** @param {object} root Object3D. */
 function disposeThreeObject(root) {
   root?.traverse?.(child => {
     child.geometry?.dispose?.();
@@ -77,6 +105,7 @@ function disposeThreeObject(root) {
   });
 }
 
+/** @param {object} olam World. */
 function destroyWorld(olam) {
   let disposed = 0;
   try {
@@ -91,32 +120,34 @@ function destroyWorld(olam) {
   }
 }
 
+/** @param {object} olam World. @param {object} payload Reset payload. */
 function resetAfterSpikeDeath(olam, payload = {}) {
   const player = findPlayer(olam);
-  const pos = { ...START, ...(payload.position || {}) };
-  const forceRun = payload.forceRunMode !== false;
+  const pos = { ...START_FEET, ...(payload.position || {}) };
   if (!player) return void self.postMessage({ type: "spikeResetComplete", payload: { ok: false, reason: "missing-player" } });
-  olam.__spikeDeathActive = true;
+  olam.__spikeDeathActive = false;
   olam.__spikeDeathToken = (olam.__spikeDeathToken || 0) + 1;
   player.__spikeDeathToken = olam.__spikeDeathToken;
-  stablePlayerFlags(player, true);
-  clearInput(olam, player, forceRun);
+  stablePlayerFlags(player, false);
+  clearInput(olam, player);
   resetPlayerPhysics(player, pos);
   revealPlayerRoots(player);
   olam.chossid = player;
+  olam.player = player;
   const resetSpikes = resetHazards(olam);
-  self.postMessage({ type: "spikeResetComplete", payload: { ok: true, pos, resetSpikes, colliderDisabled: true, running: olam.inputs?.RUNNING, token: olam.__spikeDeathToken } });
+  self.postMessage({ type: "spikeResetComplete", payload: { ok: true, pos, resetSpikes, colliderDisabled: false, running: false, token: olam.__spikeDeathToken } });
 }
 
+/** @param {object} olam World. */
 function enableAfterSpikeReset(olam) {
   const player = findPlayer(olam);
   if (!player) return void self.postMessage({ type: "spikeEnableComplete", payload: { ok: false, reason: "missing-player" } });
   olam.__spikeDeathActive = false;
   stablePlayerFlags(player, false);
-  clearInput(olam, player, true);
+  clearInput(olam, player);
   resetHazards(olam);
   revealPlayerRoots(player);
-  self.postMessage({ type: "spikeEnableComplete", payload: { ok: true, colliderDisabled: false, running: olam.inputs?.RUNNING, token: olam.__spikeDeathToken } });
+  self.postMessage({ type: "spikeEnableComplete", payload: { ok: true, colliderDisabled: false, running: false, token: olam.__spikeDeathToken } });
 }
 
 export class ContinuousEventRouter {
@@ -144,6 +175,7 @@ export class ContinuousEventRouter {
     wheel: (olam, payload) => olam.ayshPeula("wheel", payload)
   };
 
+  /** @param {object} olam World. @param {string} key Event key. @param {object} payload Payload. @param {Map} promiseMap Promises. */
   static async route(olam, key, payload, promiseMap) {
     if (!olam && key !== "vessel_ready") return;
     const action = this.actionMap[key];

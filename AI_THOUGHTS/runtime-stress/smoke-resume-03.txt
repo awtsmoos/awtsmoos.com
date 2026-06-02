@@ -1,0 +1,2 @@
+geelooy/apps/video-editor/simpleer.html
+geelooy/apps/wallet/index.html

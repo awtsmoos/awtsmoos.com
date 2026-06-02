@@ -87,12 +87,12 @@ export async function openCommentsPanelToAlias(alias, open = true, searchAll = f
         const tabObj = window.tabManager.addTab({
             header: "@" + alias,
             name: "user-" + alias,
-            content: `<div class="loading-ink">B"H Opening @${alias}...</div>`,
+            content: `<div class="loading-ink awtsmoos-empty-placeholder">B"H Opening @${alias}...</div>`,
             async onopen({ actualTab, tab }) {
                 tab.awtsmoosType = "specific alias comments";
                 window.currentAliasTabContainer = actualTab;
                 window.currentAliasBeingViewed = alias;
-                actualTab.innerHTML = `<div class="loading-ink">B"H Opening @${alias} smoothly...</div>`;
+                actualTab.innerHTML = `<div class="loading-ink awtsmoos-empty-placeholder">B"H Opening @${alias} smoothly...</div>`;
                 await nextFrame();
                 await openCommentsOfAlias({ alias, actualTab, post: window.post, all: searchAll });
                 resolve(actualTab);

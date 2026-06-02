@@ -1,169 +1,111 @@
 // B"H
-const path = require("path");
-const { pathToFileURL } = require("url");
 const { loadConfig, saveConfigPatch } = require("../../../lib/config.js");
+const { listProviders, providerFor } = require("./aiAgents/providers.js");
+const { listAgents } = require("./aiAgents/registry.js");
+const { sendAgentMessage } = require("./aiAgents/client.js");
+const tasks = require("./aiAgents/taskRunner.js");
 
-const PROVIDERS = Object.freeze({
-  minimax: {
-    id: "minimax",
-    name: "MiniMax",
-    endpoint: "https://api.minimax.io/v1/chat/completions",
-    defaultModel: "MiniMax-M2.7",
-    contextWindow: 196000,
-    extraBody: { reasoning_split: true }
-  },
-  openrouter: {
-    id: "openrouter",
-    name: "OpenRouter",
-    endpoint: "https://openrouter.ai/api/v1/chat/completions",
-    defaultModel: "openai/gpt-4o-mini",
-    contextWindow: 128000
-  }
-});
+const NUMERIC_AI_KEYS = ["maxDepth", "maxChildrenPerTask", "maxTotalTasks", "pollIntervalMs", "promotionCycles", "agentCycles", "chapterCycles", "providerTimeoutMs"];
 
 /**
  * B"H
- * Chapter 340: The Council Found The True River Beneath The Palace.
+ * Chapter 374: The Control Gate Learned The Eighth Name.
  *
- * These actions let one agent behold available agent-vessels, place or remove
- * provider keys, and send a message through the same streaming parser used by
- * the browser AI stack. The Awtsmoos breathes through one river, not many
- * drifting copies; this path now climbs to geelooy/shared, the true spring.
- *
- * @param {object} ctx Tunnel action context.
- * @returns {object} Action handlers.
+ * The tunnel-control app may now set the long-breath cycle law. The same GET
+ * gate carries JSON through content/text/body/query/params, and the agent
+ * council exposes the knobs that keep each delegate writing longer.
  */
 function buildAiAgentActions(ctx) {
-  const { payload } = ctx;
+  const raw = actionPayload(ctx.payload);
   return {
-    async aiAgentList() { return { ok: true, action: "aiAgentList", agents: listAgents(loadConfig()), providers: publicProviders(loadConfig()) }; },
-    async aiAgentSetProviderKey() { return setProviderKey(payload); },
-    async aiAgentRemoveProviderKey() { return removeProviderKey(payload); },
-    async aiAgentMessage() { return sendAgentMessage(payload); }
+    async aiAgentList() { return listAll(); },
+    async aiAgentConfigSet() { return setConfig(raw); },
+    async aiAgentSetProviderKey() { return setProviderKey(raw); },
+    async aiAgentRemoveProviderKey() { return removeProviderKey(raw); },
+    async aiAgentMessage() { return sendAgentMessage(loadConfig(), raw); },
+    async aiAgentSpawnTask() { return tasks.spawnTask(loadConfig(), raw); },
+    async aiAgentSpawnNovel() { return tasks.spawnTask(loadConfig(), { ...raw, kind: "novelOrchestra" }); },
+    async aiAgentTaskStatus() { return tasks.status(raw); },
+    async aiAgentTaskResult() { return tasks.result(raw); },
+    async aiAgentTaskList() { return tasks.list(raw); }
   };
 }
 
-function listAgents(config) {
-  return configuredAgents(config).map(agent => ({
-    id: agent.id,
-    name: agent.name,
-    provider: agent.provider,
-    model: agent.model || providerFor(agent.provider).defaultModel,
-    description: agent.description || "Delegated Awtsmoos reasoning vessel",
-    ready: !!providerKey(config, agent.provider),
-    system: agent.system ? "configured" : "default"
-  }));
+function actionPayload(payload = {}) { return { ...payload, ...parsePayloadJson(payload) }; }
+
+function parsePayloadJson(payload = {}) {
+  const fields = [payload.params, payload.content, payload.text, payload.body, payload.query, payload.goal];
+  for (const field of fields) {
+    const parsed = parseOne(field);
+    if (Object.keys(parsed).length) return parsed;
+  }
+  return {};
 }
 
-function configuredAgents(config) {
-  const custom = Array.isArray(config.aiAgents?.agents) ? config.aiAgents.agents : [];
-  const defaults = [agent("openrouter-general", "OpenRouter General", "openrouter"), agent("minimax-deep", "MiniMax Deep Delegate", "minimax")];
-  const seen = new Set(custom.map(x => x.id));
-  return [...custom, ...defaults.filter(x => !seen.has(x.id))];
+function parseOne(value) {
+  if (!value) return {};
+  if (typeof value === "object") return value;
+  const text = String(value || "").trim();
+  if (!text) return {};
+  if (text.startsWith("base64json:")) return parseOne(Buffer.from(text.slice(11), "base64").toString("utf8"));
+  if (!text.startsWith("{")) return {};
+  try { const json = JSON.parse(text); return json && typeof json === "object" ? json : {}; }
+  catch { return {}; }
 }
 
-function agent(id, name, provider) {
-  return { id, name, provider, description: `${name} can brainstorm, critique, and delegate.` };
+function listAll() {
+  const config = loadConfig();
+  return { ok: true, action: "aiAgentList", agents: listAgents(config), providers: listProviders(config), config: publicAiConfig(config), taskActions: taskActions(), paramsJson: true };
 }
 
-function publicProviders(config) {
-  const keys = config.aiAgents?.providerKeys || {};
-  return Object.values(PROVIDERS).map(provider => ({
-    id: provider.id,
-    name: provider.name,
-    endpoint: provider.endpoint,
-    defaultModel: provider.defaultModel,
-    hasKey: !!keys[provider.id],
-    keyMask: maskKey(keys[provider.id])
-  }));
+function setConfig(payload = {}) {
+  const current = loadConfig();
+  const patch = { ...current.aiAgents };
+  for (const key of NUMERIC_AI_KEYS) if (payload[key] !== undefined) patch[key] = Number(payload[key]);
+  if (payload.allowRecursiveSpawn !== undefined) patch.allowRecursiveSpawn = payload.allowRecursiveSpawn !== false && payload.allowRecursiveSpawn !== "false";
+  const next = saveConfigPatch({ aiAgents: patch });
+  return { ok: true, action: "aiAgentConfigSet", config: publicAiConfig(next) };
 }
 
-function setProviderKey(payload) {
+function setProviderKey(payload = {}) {
   const providerId = clean(payload.provider || payload.providerId);
+  if (!knownProvider(providerId)) return failure("unknown_provider", { providerId });
   const apiKey = String(payload.apiKey || "").trim();
-  if (!PROVIDERS[providerId]) return failure("unknown_provider", { providerId });
   if (!apiKey) return failure("missing_api_key", { providerId });
   const current = loadConfig();
   const providerKeys = { ...(current.aiAgents?.providerKeys || {}), [providerId]: apiKey };
   const next = saveConfigPatch({ aiAgents: { ...(current.aiAgents || {}), providerKeys } });
-  return { ok: true, action: "aiAgentSetProviderKey", provider: providerId, providers: publicProviders(next) };
+  return { ok: true, action: "aiAgentSetProviderKey", provider: providerId, providers: listProviders(next) };
 }
 
-function removeProviderKey(payload) {
+function removeProviderKey(payload = {}) {
   const providerId = clean(payload.provider || payload.providerId);
-  if (!PROVIDERS[providerId]) return failure("unknown_provider", { providerId });
+  if (!knownProvider(providerId)) return failure("unknown_provider", { providerId });
   const current = loadConfig();
   const providerKeys = { ...(current.aiAgents?.providerKeys || {}) };
   delete providerKeys[providerId];
   const next = saveConfigPatch({ aiAgents: { ...(current.aiAgents || {}), providerKeys } });
-  return { ok: true, action: "aiAgentRemoveProviderKey", provider: providerId, providers: publicProviders(next) };
+  return { ok: true, action: "aiAgentRemoveProviderKey", provider: providerId, providers: listProviders(next) };
 }
 
-async function sendAgentMessage(payload) {
-  const config = loadConfig();
-  const agentConfig = resolveAgent(config, payload.agentId || payload.agent || "openrouter-general");
-  const provider = providerFor(payload.provider || agentConfig.provider);
-  const apiKey = providerKey(config, provider.id);
-  if (!apiKey) return failure("missing_provider_key", { provider: provider.id, actionHint: "aiAgentSetProviderKey" });
-  const messages = buildMessages(agentConfig, payload);
-  const body = { model: payload.model || agentConfig.model || provider.defaultModel, messages, stream: payload.stream !== false, ...(provider.extraBody || {}) };
-  const response = await fetch(provider.endpoint, { method: "POST", headers: providerHeaders(provider, apiKey), body: JSON.stringify(body) });
-  if (!response.ok) return failure("provider_error", { provider: provider.id, status: response.status, body: await response.text().catch(() => response.statusText) });
-  if (body.stream && response.body) return await readStreamingResponse(response, provider, agentConfig);
-  return await readJsonResponse(response, provider, agentConfig);
+function publicAiConfig(config) {
+  const ai = config.aiAgents || {};
+  return {
+    maxDepth: ai.maxDepth,
+    maxChildrenPerTask: ai.maxChildrenPerTask,
+    maxTotalTasks: ai.maxTotalTasks,
+    pollIntervalMs: ai.pollIntervalMs,
+    promotionCycles: ai.promotionCycles,
+    agentCycles: ai.agentCycles,
+    chapterCycles: ai.chapterCycles,
+    providerTimeoutMs: ai.providerTimeoutMs,
+    allowRecursiveSpawn: ai.allowRecursiveSpawn
+  };
 }
 
-function resolveAgent(config, id) {
-  const found = configuredAgents(config).find(agent => agent.id === id);
-  if (found) return found;
-  throw new Error(`Unknown AI agent: ${id}`);
-}
-
-function providerFor(id) {
-  const provider = PROVIDERS[clean(id)];
-  if (!provider) throw new Error(`Unknown AI provider: ${id}`);
-  return provider;
-}
-
-function providerKey(config, providerId) {
-  return config.aiAgents?.providerKeys?.[providerId] || process.env[`${providerId.toUpperCase()}_API_KEY`] || "";
-}
-
-function buildMessages(agentConfig, payload) {
-  const given = Array.isArray(payload.messages) ? payload.messages : [];
-  const prompt = String(payload.message || payload.prompt || "").trim();
-  const system = payload.system || agentConfig.system || "You are an Awtsmoos delegate agent. Answer clearly, helpfully, and truthfully.";
-  return [{ role: "system", content: system }, ...given, ...(prompt ? [{ role: "user", content: prompt }] : [])];
-}
-
-async function readStreamingResponse(response, provider, agentConfig) {
-  const { readSSEStream } = await import(sharedStreamingUrl());
-  const result = await readSSEStream(response.body.getReader(), provider.id, {});
-  return { ok: true, action: "aiAgentMessage", agent: agentConfig.id, provider: provider.id, text: result.text || "", reasoning: result.reasoning || "", toolCalls: result.tools || [], usage: result.usage || null, finishReason: result.finishReason || null };
-}
-
-async function readJsonResponse(response, provider, agentConfig) {
-  const json = await response.json();
-  const message = json?.choices?.[0]?.message || {};
-  return { ok: true, action: "aiAgentMessage", agent: agentConfig.id, provider: provider.id, text: message.content || "", toolCalls: message.tool_calls || [], usage: json.usage || null, raw: json };
-}
-
-function sharedStreamingUrl() {
-  return pathToFileURL(path.resolve(__dirname, "../../../../../../shared/streaming/index.js")).href;
-}
-
-function providerHeaders(provider, apiKey) {
-  const headers = { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` };
-  if (provider.id === "openrouter") headers["X-Title"] = "Awtsmoos Tunnel Agent Council";
-  return headers;
-}
-
-function maskKey(key = "") {
-  const text = String(key || "");
-  return text ? `${text.slice(0, 6)}...${text.slice(-4)}` : "";
-}
-
+function knownProvider(providerId) { try { providerFor(providerId); return true; } catch (_) { return false; } }
+function taskActions() { return ["aiAgentSpawnTask", "aiAgentSpawnNovel", "aiAgentTaskStatus", "aiAgentTaskResult", "aiAgentTaskList", "aiAgentConfigSet"]; }
 function clean(value) { return String(value || "").trim().toLowerCase(); }
 function failure(error, extra = {}) { return { ok: false, action: "aiAgent", error, ...extra }; }
 
-module.exports = { buildAiAgentActions, PROVIDERS };
+module.exports = { actionPayload, buildAiAgentActions };

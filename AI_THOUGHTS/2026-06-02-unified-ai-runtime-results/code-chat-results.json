@@ -1,0 +1,25 @@
+{
+  "createdAt": "2026-06-02T08:04:57.203Z",
+  "scopes": {
+    "file": {
+      "type": "file",
+      "key": "file:/src/a.js",
+      "label": "File Chat · a.js"
+    },
+    "global": {
+      "type": "global",
+      "key": "global:all-workspaces",
+      "label": "Global Workspace Chat"
+    }
+  },
+  "storage": {
+    "fileCount": 1,
+    "globalCount": 1
+  },
+  "markup": {
+    "htmlLength": 828
+  },
+  "ok": true,
+  "tests": 3,
+  "resultFile": "AI_THOUGHTS/2026-06-02-unified-ai-runtime-results/code-chat-results.json"
+}

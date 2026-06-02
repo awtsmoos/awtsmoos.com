@@ -9,7 +9,8 @@ const { ROOT, assert, test } = require("./assert.cjs");
  * The Awtsmoos asks the cockpit to remember its first duty: before automation,
  * before relay experiments, before glittering side quests, the extension bridge
  * must expose a fetch vessel, list conversations, and leave the shell standing
- * when ChatGPT refuses or delays a response.
+ * when ChatGPT refuses or delays a response. The split-browser relay is now the
+ * Termux-friendly fallback, so stale `38487` memory must heal into `38488`.
  */
 async function run() {
   const ext = path.join(ROOT, "../scripts/tricks/extensions/server");
@@ -37,9 +38,13 @@ async function run() {
   }));
   results.push(await test("chatgpt-page-boot-does-not-call-node-relay-unless-enabled", () => {
     assert(/enabled:\s*false/.test(files.relaySettings), "relay default must be disabled");
+    assert(/url:\s*SPLIT_BROWSER_URL/.test(files.relaySettings), "relay default must point at split-browser control port");
+    assert(/SPLIT_BROWSER_URL\s*=\s*"http:\/\/127\.0\.0\.1:38488"/.test(files.relaySettings), "split-browser default must be 38488");
+    assert(/OLD_COOKIE_RELAY_URL\s*=\s*"http:\/\/127\.0\.0\.1:38487"/.test(files.relaySettings), "old cookie relay port must be recognized as stale");
+    assert(/isOldCookieRelay\(rawUrl\)/.test(files.relaySettings), "stale relay URLs must be healed");
     assert(/if \(!ignoreEnabled && !isNodeRelayEnabled\(\)\) return false/.test(files.relayFetch), "relay health must be gated by explicit selection");
     assert(/if \(!isNodeRelayEnabled\(\)\) throw new Error\("Node relay is not enabled/.test(files.relayFetch), "relay fetch must refuse implicit use");
-    return { relayDefaultOff:true };
+    return { relayDefaultOff:true, splitBrowserPort:38488, stalePortHealed:38487 };
   }));
   results.push(await test("automation-bridge-detection-cannot-block-conversation-list", () => {
     const detection = between(files.backgroundBridge, "export function hasBackgroundAutomationBridge", "export async function getBackgroundAutomationStatus");

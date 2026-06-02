@@ -1,102 +1,105 @@
 /*B"H
-  Chapter 221: The Fields Kept Their Shape And Received Their Beauty Back.
-  This file owns only layout for grids and inputs. Toggles are styled in
-  `toggles.css`, so the checkbox gate is not buried in field rules again.
+  Chapter 321: The Forms Received One Owner And One Rhythm.
+
+  The Awtsmoos gives fields a clear body: grids, labels, inputs, textareas, and
+  selects. Toggle switch visuals live elsewhere; this file owns form structure.
 */
 #automation-panel .automation-grid,
 #automation-panel .timing-grid,
 #automation-panel .event-filter-grid{
-  display:grid!important;
-  grid-template-columns:1fr!important;
-  gap:12px!important;
-  width:100%!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0!important;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  width:100%;
+  min-width:0;
+  margin:0;
+  padding:0;
 }
 #automation-panel .automation-field,
 #automation-panel .event-filter{
-  position:static!important;
-  display:flex!important;
-  flex-direction:column!important;
-  gap:8px!important;
-  width:100%!important;
-  min-width:0!important;
-  height:auto!important;
-  min-height:0!important;
-  max-height:none!important;
-  margin:0!important;
-  padding:12px!important;
-  overflow:visible!important;
-  transform:none!important;
-  border:1px solid var(--rp-line)!important;
-  border-radius:var(--rp-radius-sm)!important;
-  background:var(--rp-surface)!important;
-  white-space:normal!important;
-  line-height:1.35!important;
+  position:static;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  width:100%;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  margin:0;
+  padding:12px;
+  overflow:visible;
+  transform:none;
+  border:1px solid var(--rp-line);
+  border-radius:var(--rp-radius-sm);
+  background:var(--rp-surface);
+  color:var(--rp-text);
+  white-space:normal;
+  line-height:1.35;
 }
 #automation-panel .automation-field::before,
 #automation-panel .automation-field::after,
 #automation-panel .event-filter::before,
 #automation-panel .event-filter::after{
-  content:none!important;
-  display:none!important;
+  content:none;
+  display:none;
 }
 #automation-panel .automation-field input:not([type="checkbox"]),
 #automation-panel .automation-field select,
 #automation-panel .automation-field textarea,
 #automation-panel [data-relay],
 #automation-panel [data-graph-json]{
-  position:static!important;
-  display:block!important;
-  width:100%!important;
-  min-width:0!important;
-  max-width:100%!important;
-  height:auto!important;
-  max-height:none!important;
-  margin:0!important;
-  padding:11px!important;
-  line-height:1.35!important;
-  transform:none!important;
-  border:1px solid var(--rp-line)!important;
-  border-radius:12px!important;
-  background:var(--rp-field)!important;
-  color:var(--rp-text)!important;
+  position:static;
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  height:auto;
+  max-height:none;
+  margin:0;
+  padding:11px;
+  line-height:1.35;
+  transform:none;
+  border:1px solid var(--rp-line);
+  border-radius:12px;
+  background:var(--rp-field);
+  color:var(--rp-text);
 }
 #automation-panel .automation-field input:focus,
 #automation-panel .automation-field select:focus,
 #automation-panel .automation-field textarea:focus,
 #automation-panel [data-relay]:focus,
 #automation-panel [data-graph-json]:focus{
-  outline:2px solid rgba(45,212,191,.35)!important;
-  outline-offset:1px!important;
-  border-color:var(--rp-line-strong)!important;
+  outline:2px solid rgba(45,212,191,.35);
+  outline-offset:1px;
+  border-color:var(--rp-line-strong);
 }
 #automation-panel textarea{
-  min-height:120px!important;
-  resize:vertical!important;
+  min-height:120px;
+  resize:vertical;
 }
 #automation-panel .prompt-list-field textarea{
-  min-height:150px!important;
+  min-height:150px;
 }
 #automation-panel .automation-toggle-row{
-  position:static!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:14px!important;
-  width:100%!important;
-  min-width:0!important;
-  height:auto!important;
-  margin:0!important;
-  padding:12px!important;
-  overflow:visible!important;
-  transform:none!important;
-  border:1px solid var(--rp-line)!important;
-  border-radius:var(--rp-radius-sm)!important;
-  background:var(--rp-surface)!important;
+  position:static;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  width:100%;
+  min-width:0;
+  height:auto;
+  margin:0;
+  padding:12px;
+  overflow:visible;
+  transform:none;
+  border:1px solid var(--rp-line);
+  border-radius:var(--rp-radius-sm);
+  background:var(--rp-surface);
+  color:var(--rp-text);
 }
 #automation-panel .automation-toggle-row>span{
-  min-width:0!important;
-  flex:1 1 auto!important;
+  min-width:0;
+  flex:1 1 auto;
 }

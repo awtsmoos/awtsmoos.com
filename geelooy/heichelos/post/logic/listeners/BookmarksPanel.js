@@ -42,7 +42,7 @@ export async function renderBookmarksPanel(tab) {
 
 function makeBookmarkRow(bm, index, bookmarks, tab) {
     const li = document.createElement("li");
-    li.className = "awtsmoos-bookmark-row";
+    li.className = "awtsmoos-bookmark-row awtsmoos-list-item";
     li.append(makeTextNode("awtsmoos-bookmark-title", bm.title));
     li.append(makeTextNode("awtsmoos-bookmark-preview", bm.textPreview));
 

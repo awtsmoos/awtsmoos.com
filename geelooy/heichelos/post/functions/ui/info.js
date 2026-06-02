@@ -24,14 +24,14 @@ export function makeInfoHTML() {
 
     const blueprint = {
         tag: 'div',
-        attr: { class: 'post-info-container' },
+        attr: { class: 'post-info-container awtsmoos-card' },
         children:[]
     };
 
     // 1. Author Section
     blueprint.children.push(createSectionPlan("Transmitted By", {
         tag: 'a',
-        attr: { href: `/@${alias.id}`, class: 'author-link' },
+        attr: { href: `/@${alias.id}`, class: 'author-link awtsmoos-hero-btn' },
         text: `@${authorIdStr}`
     }));
 
@@ -39,12 +39,12 @@ export function makeInfoHTML() {
     blueprint.children.push(createSectionPlan("Sacred Heichel",[
         {
             tag: 'a',
-            attr: { href: `/heichelos/${heichel.id}`, class: 'heichel-link' },
+            attr: { href: `/heichelos/${heichel.id}`, class: 'heichel-link awtsmoos-hero-btn' },
             text: heichel.name
         },
         {
             tag: 'div',
-            attr: { class: 'heichelDesc', style: 'font-size:12px; margin-top:8px; opacity:0.7; font-style:italic;' },
+            attr: { class: 'heichelDesc comment-content', style: 'font-size:12px; margin-top:8px; opacity:0.7; font-style:italic;' },
             text: heichel.description
         }
     ]));
@@ -53,7 +53,7 @@ export function makeInfoHTML() {
     if (window.breadcrumb && Array.isArray(window.breadcrumb)) {
         const pathChildren = window.breadcrumb.slice(1).map((q, i, a) => ({
             tag: 'a',
-            attr: { href: `/heichelos/${heichel.id}/?series=${q.id}`, class: 'series-link' },
+            attr: { href: `/heichelos/${heichel.id}/?series=${q.id}`, class: 'series-link awtsmoos-hero-btn' },
             text: q.name + (i === a.length - 1 ? "" : " / ")
         }));
 
@@ -144,7 +144,7 @@ function makeChapterNavPlan(posts) {
 
     rowChildren.push({
         tag: 'select',
-        attr: { class: 'series-chapter-select' },
+        attr: { class: 'series-chapter-select font-selector' },
         children: options,
         events: {
             change: (e) => window.location.href = `${basePath}/${e.target.value}`
@@ -161,7 +161,7 @@ function makeChapterNavPlan(posts) {
 
     return {
         tag: 'div',
-        attr: { class: 'post-navigation-container' },
-        children:[{ tag: 'div', attr: { class: 'nav-row' }, children: rowChildren }]
+        attr: { class: 'post-navigation-container awtsmoos-card' },
+        children:[{ tag: 'div', attr: { class: 'nav-row awtsmoos-sidebar-actions' }, children: rowChildren }]
     };
 }

@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "values": {
+    "window.appState": {
+      "ready": true,
+      "issueCount": 1
+    }
+  },
+  "snapshot": {
+    "format": "png",
+    "fullPage": true,
+    "html": "<html>B'H Real Snapshot ProofVisible text from virtual DOM.Repairwindow.appState={ready:true,issueCount:1};<head></head><body>B'H Real Snapshot ProofVisible text from virtual DOM.Repairwindow.appState={ready:true,issueCount:1};<h1>B'H Real Snapshot ProofB'H Real Snapshot Proof</h1><p>Visible text from virtual DOM.Visible text from virtual DOM.</p><button>RepairRepair</button><script>window.appState={ready:true,issueCount:1};</script></body></html>",
+    "text": "B'H Real Snapshot ProofVisible text from virtual DOM.Repairwindow.appState={ready:true,issueCount:1};",
+    "image": {
+      "backend": "merkava-virtual-png",
+      "mimeType": "image/png",
+      "width": 960,
+      "height": 640,
+      "bytes": 5896,
+      "dataUrl": "[omitted]",
+      "note": "Rendered from Merkava virtual DOM/state because no local Chromium screenshot backend was available.",
+      "chrome": null,
+      "fallbackReason": "chrome_not_found"
+    },
+    "hasDataUrl": true
+  }
+}

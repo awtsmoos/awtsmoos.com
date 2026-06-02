@@ -1,0 +1,3 @@
+geelooy/games/Nachash/index.html
+geelooy/games/adventure/index.html
+geelooy/games/brick-blast/index.html

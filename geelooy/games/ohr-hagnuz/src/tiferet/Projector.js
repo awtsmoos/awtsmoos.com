@@ -1,137 +1,182 @@
-//B"H
+// B"H
 import { State } from '../binah/State.js';
 import { WorldData, groundGlyph, tileMeta } from '../data/WorldData.js';
 import { Ground } from './render/Ground.js';
 import { drawGlyphObject } from './render/GlyphRenderer.js';
-import { PlayerRenderer, FootstepParticle } from './render/PlayerRenderer.js';
+import { PlayerRenderer } from './render/PlayerRenderer.js';
 import { PathVisualizer } from '../chochmah/PathVisualizer.js';
 import { renderBattle } from './render/BattleRenderer.js';
 import { drawHud } from './render/HudRenderer.js';
-import { drawWorldAmbience } from './render/world/WorldAmbience.js';
 
 /**
  * B"H
  * @class Projector
+ * @description Hard performance renderer for mobile Ohr HaGnuz.
  *
- * Chapter 47: The world received atmosphere after receiving shape.
- * The Awtsmoos has no body and no form; this projector measures live mobile
- * space, draws ground and objects, then breathes ambience over the generated
- * world before HUD or battle rises above it.
+ * Chapter 116: The camera stopped dragging the whole universe every heartbeat.
+ * The Awtsmoos recreates all existence every instant; this finite canvas must
+ * not imitate Infinity by repainting every tile. Static world art is redrawn
+ * only when the snapped camera, map, or canvas size changes. Each live frame
+ * draws only the hero, path, HUD, and battle surface.
  */
 export class Projector {
   static Caches = {};
-  static camSmooth = { x: 0, y: 0, ready: false };
+  static staticKey = '';
+  static lastSize = { w: 0, h: 0 };
 
+  /** @returns {void} */
   static warmup() {
     ['layer-bg', 'layer-obj', 'layer-over'].forEach(id => {
       const canvas = document.getElementById(id);
       if (!canvas) return;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { alpha: id !== 'layer-bg' });
       ctx.imageSmoothingEnabled = false;
       this.Caches[id] = ctx;
     });
-    this.resizeCanvases();
+    this.resizeCanvases(true);
   }
 
-  static resizeCanvases() {
+  /** @param {boolean} force @returns {boolean} */
+  static resizeCanvases(force = false) {
+    let changed = false;
     Object.values(this.Caches).forEach(ctx => {
-      const box = ctx.canvas.getBoundingClientRect();
-      const w = Math.max(320, Math.round(box.width || window.innerWidth || 390));
-      const h = Math.max(480, Math.round(box.height || window.innerHeight || 844));
-      if (ctx.canvas.width === w && ctx.canvas.height === h) return;
+      const box = ctx.canvas.getBoundingClientRect?.() || {};
+      const w = Math.max(320, Math.round(box.width || ctx.canvas.width || window.innerWidth || 390));
+      const h = Math.max(480, Math.round(box.height || ctx.canvas.height || window.innerHeight || 844));
+      if (!force && ctx.canvas.width === w && ctx.canvas.height === h) return;
       ctx.canvas.width = w;
       ctx.canvas.height = h;
       ctx.imageSmoothingEnabled = false;
+      changed = true;
     });
+    const obj = this.Caches['layer-obj'];
+    if (obj) this.lastSize = { w: obj.canvas.width, h: obj.canvas.height };
+    if (changed) this.staticKey = '';
+    return changed;
   }
 
+  /** @param {CanvasRenderingContext2D} ctx @returns {{w:number,h:number}} */
   static size(ctx) {
     return { w: ctx?.canvas?.width || 390, h: ctx?.canvas?.height || 844 };
   }
 
+  /** @param {{w:number,h:number}} view @returns {{x:number,y:number,w:number,h:number}} */
   static camera(view = { w: 390, h: 844 }) {
     const res = State.Resolution;
-    const target = { x: State.Hero.dx - view.w / 2 + res / 2, y: State.Hero.dy - view.h / 2 + res / 2 };
-    if (!this.camSmooth.ready) this.camSmooth = { ...target, ready: true };
-    this.camSmooth.x += (target.x - this.camSmooth.x) * 0.18;
-    this.camSmooth.y += (target.y - this.camSmooth.y) * 0.18;
-    return { x: Math.floor(this.camSmooth.x), y: Math.floor(this.camSmooth.y), ...view };
+    return {
+      x: Math.floor(State.Hero.cx * res - view.w / 2 + res / 2),
+      y: Math.floor(State.Hero.cy * res - view.h / 2 + res / 2),
+      ...view
+    };
   }
 
+  /** @returns {void} */
   static project() {
     const bg = this.Caches['layer-bg'];
     const obj = this.Caches['layer-obj'];
     const over = this.Caches['layer-over'];
     if (!bg || !obj || !over) return;
-    this.resizeCanvases();
+    this.resizeCanvases(false);
     const cam = this.camera(this.size(obj));
-    this.clear(bg, obj, over);
-    const queue = [];
-    this.drawWorld(bg, obj, queue, cam);
-    queue.sort((a, b) => a.y - b.y).forEach(item => item.draw());
-    PathVisualizer.draw(obj, State.Hero.stepTick || 0, cam);
-    FootstepParticle.update();
-    FootstepParticle.draw(obj);
-    this.drawHero(obj, cam);
-    if (State.ActiveRealm !== 'DEBATE') drawWorldAmbience(over, performance.now());
-    if (State.PathTarget) this.pathTarget(over, cam);
-    if (State.ActiveRealm === 'DEBATE') renderBattle(over);
-    else drawHud(over);
+    if (State.ActiveRealm === 'DEBATE') return this.drawBattle(bg, obj, over);
+    this.drawStaticIfNeeded(bg, obj, cam);
+    this.drawDynamic(over, cam);
   }
 
-  static clear(bg, obj, over) {
-    bg.fillStyle = '#050505';
+  /** @returns {void} */
+  static drawBattle(bg, obj, over) {
+    bg.fillStyle = '#050714';
     bg.fillRect(0, 0, bg.canvas.width, bg.canvas.height);
     obj.clearRect(0, 0, obj.canvas.width, obj.canvas.height);
     over.clearRect(0, 0, over.canvas.width, over.canvas.height);
+    renderBattle(over);
+    this.staticKey = '';
   }
 
+  /** @returns {void} */
+  static drawStaticIfNeeded(bg, obj, cam) {
+    const key = `${State.MapId}:${cam.x}:${cam.y}:${cam.w}:${cam.h}`;
+    if (key === this.staticKey) return;
+    this.staticKey = key;
+    bg.fillStyle = '#05070b';
+    bg.fillRect(0, 0, bg.canvas.width, bg.canvas.height);
+    obj.clearRect(0, 0, obj.canvas.width, obj.canvas.height);
+    const queue = [];
+    this.drawWorld(bg, obj, queue, cam);
+    queue.sort((a, b) => a.y - b.y).forEach(item => item.draw());
+  }
+
+  /** @returns {void} */
+  static drawDynamic(ctx, cam) {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    PathVisualizer.draw(ctx, State.Hero.stepTick || 0, cam);
+    this.drawHero(ctx, cam);
+    if (State.PathTarget) this.pathTarget(ctx, cam);
+    drawHud(ctx);
+  }
+
+  /** @returns {void} */
   static drawHero(ctx, cam) {
     PlayerRenderer.draw(ctx, State.Hero.dx - cam.x, State.Hero.dy - cam.y, State.Resolution, {
       tick: State.Hero.stepTick || 0,
       dir: State.Hero.dir || 'd',
       moving: State.Hero.moving || State.HeroPath.length > 0,
-      hp: State.Stats?.light || 100,
       light: State.Stats?.light || 100
     });
   }
 
+  /** @returns {void} */
   static drawWorld(bg, obj, queue, cam) {
     const res = State.Resolution;
     const map = WorldData[State.MapId] || [];
-    for (let ry = 0; ry < map.length; ry += 1) {
-      const row = [...map[ry]];
-      for (let rx = 0; rx < row.length; rx += 1) this.drawTile(bg, obj, queue, cam, { rx, ry, glyph: row[rx], res });
+    const bounds = this.visibleTileBounds(map, cam, res);
+    for (let ry = bounds.y0; ry <= bounds.y1; ry += 1) {
+      const row = [...(map[ry] || '')];
+      for (let rx = bounds.x0; rx <= bounds.x1; rx += 1) {
+        this.drawTile(bg, obj, queue, cam, { rx, ry, glyph: row[rx] || ' ', res });
+      }
     }
   }
 
+  /** @returns {{x0:number,x1:number,y0:number,y1:number}} */
+  static visibleTileBounds(map, cam, res) {
+    const pad = 1;
+    const width = Math.max(1, ...map.map(row => [...row].length));
+    const height = map.length || 1;
+    return {
+      x0: Math.max(0, Math.floor(cam.x / res) - pad),
+      y0: Math.max(0, Math.floor(cam.y / res) - pad),
+      x1: Math.min(width - 1, Math.ceil((cam.x + cam.w) / res) + pad),
+      y1: Math.min(height - 1, Math.ceil((cam.y + cam.h) / res) + pad)
+    };
+  }
+
+  /** @returns {void} */
   static drawTile(bg, obj, queue, cam, tile) {
     const { rx, ry, glyph, res } = tile;
     const x = rx * res - cam.x;
     const y = ry * res - cam.y;
-    if (x <= -res * 2 || x >= cam.w + res * 2 || y <= -res * 2 || y >= cam.h + res * 2) return;
     const meta = tileMeta(glyph);
     Ground.draw(bg, x, y, res, groundGlyph(glyph), rx * 13 + ry * 7);
     if (meta.kind === 'edge') this.portal(obj, x, y, res, meta.edge);
     else if (!['floor', 'grass', 'road'].includes(meta.kind)) queue.push({ y: y + res, draw: () => drawGlyphObject(obj, { meta, glyph, x, y, rx, ry, seed: rx * ry + 1 }, res) });
   }
 
+  /** @returns {void} */
   static pathTarget(ctx, cam) {
     const res = State.Resolution;
     const x = State.PathTarget.x * res - cam.x;
     const y = State.PathTarget.y * res - cam.y;
-    ctx.save();
     ctx.strokeStyle = State.PathTarget.valid ? '#fff176' : '#ff6b6b';
     ctx.lineWidth = 3;
     ctx.strokeRect(x + 4, y + 4, res - 8, res - 8);
-    ctx.restore();
   }
 
+  /** @returns {void} */
   static portal(ctx, x, y, size, edge) {
     const symbol = { N: '^', S: 'v', E: '>', W: '<' }[edge] || '*';
-    ctx.save();
-    ctx.fillStyle = 'rgba(225,190,231,.25)';
-    ctx.fillRect(x + 6, y + 6, size - 12, size - 12);
+    ctx.fillStyle = '#301f3b';
+    ctx.fillRect(x + 8, y + 8, size - 16, size - 16);
     ctx.strokeStyle = '#ce93d8';
     ctx.strokeRect(x + 8, y + 8, size - 16, size - 16);
     ctx.fillStyle = '#fffde7';
@@ -139,6 +184,5 @@ export class Projector {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(symbol, x + size / 2, y + size / 2);
-    ctx.restore();
   }
 }

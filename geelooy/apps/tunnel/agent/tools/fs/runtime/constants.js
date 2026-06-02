@@ -2,12 +2,16 @@
 /**
  * @file constants.js
  * @description
- * Chapter 1: The Awtsmoos breathed limits into the void so the runner would
- * gather enough light to live, but never so much that the vessel cracked.
+ * Chapter 45: The Vessel Was Enlarged Without Lying.
+ *
+ * Runtime simulation must load real libraries when they are part of the repo.
+ * THREE's checked-in core is larger than one megabyte, so the collector's old
+ * ceiling silently skipped truth. The limits remain finite, but large enough
+ * for the real app/game dependency graph to enter the Merkava chamber.
  */
 
-const MAX_FILES = 180;
-const MAX_BYTES = 1024 * 1024;
+const MAX_FILES = 1200;
+const MAX_BYTES = 6 * 1024 * 1024;
 const ENTRY_CANDIDATES = [
   "index.html",
   "index.htm",

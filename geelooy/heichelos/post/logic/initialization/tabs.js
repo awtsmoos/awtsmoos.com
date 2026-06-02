@@ -39,7 +39,7 @@ export function setupTabs(post, series, hId, pIdx) {
             actualTab.appendChild(makeInfoHTML());
             
             const actions = document.createElement("div");
-            actions.className = "post-root-actions";
+            actions.className = "post-root-actions awtsmoos-sidebar-actions";
             
             const cBtn = document.createElement("button");
             cBtn.className = "awtsmoos-hero-btn";

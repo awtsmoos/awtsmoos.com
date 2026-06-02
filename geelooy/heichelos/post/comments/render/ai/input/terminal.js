@@ -112,12 +112,12 @@ async function submitTerminal({ container, term, input, sendBtn, history, commen
 
 export function renderInlineTerminal(container, history, commentId, fullCommentData) {
     const term = document.createElement("div");
-    term.className = "ai-inline-terminal";
+    term.className = "ai-inline-terminal awtsmoos-card";
     const input = document.createElement("textarea");
     input.placeholder = "Continue conversation...";
     input.rows = 1;
     const sendBtn = document.createElement("button");
-    sendBtn.className = "ai-send-icon-btn";
+    sendBtn.className = "ai-send-icon-btn btn awtsmoos-hero-btn";
     sendBtn.innerText = "➤";
     wireTextarea(input, sendBtn);
     sendBtn.onclick = () => submitTerminal({ container, term, input, sendBtn, history, commentId, fullCommentData });

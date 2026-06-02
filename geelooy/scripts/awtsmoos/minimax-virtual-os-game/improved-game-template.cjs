@@ -1,0 +1,72 @@
+// B"H
+/**
+ * @file improved-game-template.cjs
+ * @description
+ * Chapter 10: The cave learns to breathe under the thumb.
+ *
+ * The first playable proof was born. This second vessel is mobile-first:
+ * responsive canvas, swipe/tap/D-pad controls, level progression, particles,
+ * smarter critters, pause/restart, and stronger instructions. The Awtsmoos
+ * keeps creating the world from nothing, and the loop keeps polishing it.
+ */
+
+function improvedGameHtml(agentLog) {
+  const notes = Object.entries(agentLog || {})
+    .map(([role, text]) => `<h3>${escapeHtml(role)}</h3><pre>${escapeHtml(text)}</pre>`)
+    .join("\n");
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Crystal Critters: Awakened Cave</title>
+<style>
+:root{--bg:#060313;--panel:#160a31ee;--cyan:#6ff6ff;--violet:#a66cff;--pink:#ff4fa3;--gold:#ffd76f;--text:#fff7ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 0%,#1b0b3d 0%,var(--bg) 55%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;touch-action:manipulation;overscroll-behavior:none}
+main{width:min(980px,100vw);margin:auto;padding:clamp(12px,3vw,24px);padding-bottom:calc(20px + env(safe-area-inset-bottom))}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.brand{display:flex;gap:12px;align-items:center}h1{font-size:clamp(2rem,8vw,4rem);margin:.2em 0}.gem{font-size:clamp(2rem,8vw,4rem);filter:drop-shadow(0 0 14px var(--cyan))}.panel{background:var(--panel);border:1px solid #7a47ff88;border-radius:22px;padding:14px;box-shadow:0 0 45px #6f35ff33}.hud{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}.pill{border:1px solid var(--cyan);border-radius:999px;padding:10px;text-align:center;background:#201040cc;font-weight:800}.wrap{position:relative}.scan{position:absolute;inset:0;pointer-events:none;border-radius:22px;background:linear-gradient(180deg,transparent,rgba(111,246,255,.08),transparent);mix-blend-mode:screen;animation:scan 2.8s linear infinite}@keyframes scan{from{transform:translateY(-100%)}to{transform:translateY(100%)}}
+canvas{display:block;width:100%;height:auto;border:2px solid var(--violet);border-radius:22px;background:#05020f;box-shadow:0 0 38px #a66cff77}.controls{display:grid;grid-template-columns:repeat(3,72px);gap:10px;justify-content:center;margin:14px auto 2px;user-select:none}.controls button,.actions button{min-height:58px;border:0;border-radius:18px;background:linear-gradient(180deg,#8df8ff,#5fc7ff);color:#080317;font-weight:1000;font-size:1.15rem;box-shadow:0 7px 0 #27718d}.controls button:active,.actions button:active{transform:translateY(4px);box-shadow:0 3px 0 #27718d}.blank{visibility:hidden}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}.small{font-size:.95rem;opacity:.9}.toast{min-height:32px;text-align:center;color:var(--gold);font-weight:900}.notes{margin-top:16px}pre{white-space:pre-wrap;max-height:130px;overflow:auto;color:#f5eaff}@media(max-width:640px){.hud{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:repeat(3,64px)}.controls button{min-height:54px}main{padding-top:10px}details[open] pre{max-height:90px}}
+</style>
+</head>
+<body>
+<main>
+  <section class="top"><div class="brand"><div class="gem">💎</div><div><h1>Crystal Critters</h1><div class="small">Awakened Cave — mobile edition</div></div></div></section>
+  <p>Swipe, tap D-pad, or use WASD/arrow keys. Collect crystals, dodge critters, chain levels, and keep the cave alive.</p>
+  <section class="hud"><div class="pill" id="level">Level 1</div><div class="pill" id="score">0 / 0</div><div class="pill" id="lives">♥♥♥</div><div class="pill" id="timer">60s</div></section>
+  <div class="toast" id="toast">B'H — the cave is breathing</div>
+  <section class="panel wrap"><canvas id="game" width="800" height="520"></canvas><div class="scan"></div></section>
+  <section class="controls" aria-label="mobile controls"><span class="blank"></span><button data-move="0,-1">▲</button><span class="blank"></span><button data-move="-1,0">◀</button><button id="wait">◆</button><button data-move="1,0">▶</button><span class="blank"></span><button data-move="0,1">▼</button><span class="blank"></span></section>
+  <section class="actions"><button id="restart">Restart</button><button id="pause">Pause</button><button id="next">Next Cave</button></section>
+  <details class="notes"><summary>Recursive sub-agent notes</summary>${notes}</details>
+</main>
+<script>
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const ui={level:gid('level'),score:gid('score'),lives:gid('lives'),timer:gid('timer'),toast:gid('toast')};function gid(id){return document.getElementById(id)}
+const TILE=40, EMO={p:'😊',c:'☠️',x:'✦',h:'💖'};let level=0, paused=false, last=performance.now(), particles=[];
+const maps=[
+['####################','#P....*.....#..h..*#','#.####.####.#.###..#','#....#....#...#....#','#.##.#.##.#####.##.#','#..#...#....*...#..#','##.#####.######.##.#','#..*......C.......*#','#.######.#######.###','#....*............E#','####################'],
+['####################','#P.*.....#....*....#','#.#####..#.######..#','#...C....#......#..#','####.#######.##.#.##','#..h.#.....#..#....#','#.##.#.###.##.####.#','#..#...#....*...C..#','#.#######.########.#','#*...............E.#','####################'],
+['####################','#P...*...C.....*...#','#.###.########.###.#','#...#....h.....#...#','#.#.###.####.###.#.#','#.#.....#..#.....#.#','#.#####.#..#.#####.#','#*......#..#.....*.#','#.########.#######.#','#....C.........E...#','####################']
+];
+function parse(src){const s={p:{x:1,y:1},e:[],cr:[],hearts:[],walls:new Set(),lives:3,time:60,won:false,lost:false,msg:'Collect crystals'};src.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch=='#')s.walls.add(x+','+y);if(ch=='P')s.p={x,y};if(ch=='*')s.cr.push({x,y});if(ch=='h')s.hearts.push({x,y});if(ch=='C'||ch=='E')s.e.push({x,y,dx:ch=='C'?1:-1,dy:0,slow:0})}));return s}let st=parse(maps[level]);
+function blocked(x,y){return st.walls.has(x+','+y)}function same(a,b){return a.x===b.x&&a.y===b.y}function pop(x,y,t){particles.push({x:x*TILE+20,y:y*TILE+20,t,life:28})}
+function move(dx,dy){if(paused||st.won)return;if(st.lost){reset();return}const nx=st.p.x+dx,ny=st.p.y+dy;if(!blocked(nx,ny)){st.p={x:nx,y:ny};pop(nx,ny,'·')}collect();critters();danger();draw()}
+function collect(){const before=st.cr.length;st.cr=st.cr.filter(c=>!same(c,st.p));if(st.cr.length<before){ui.toast.textContent='Crystal claimed ✦';pop(st.p.x,st.p.y,'✦')}const hb=st.hearts.length;st.hearts=st.hearts.filter(h=>!same(h,st.p));if(st.hearts.length<hb){st.lives=Math.min(5,st.lives+1);ui.toast.textContent='Heart restored ♥'}}
+function critters(){for(const e of st.e){e.slow=(e.slow+1)%2;if(e.slow)continue;let dx=e.dx,dy=e.dy;if(Math.random()<.22){dx=Math.sign(st.p.x-e.x)||e.dx;dy=Math.abs(st.p.x-e.x)>Math.abs(st.p.y-e.y)?0:Math.sign(st.p.y-e.y)}let nx=e.x+dx,ny=e.y+dy;if(blocked(nx,ny)){e.dx*=-1;e.dy=dy?0:(Math.random()<.5?1:-1);nx=e.x+e.dx;ny=e.y+e.dy}if(!blocked(nx,ny)){e.x=nx;e.y=ny;e.dx=dx||e.dx;e.dy=dy}}}
+function danger(){if(st.e.some(e=>same(e,st.p))){st.lives--;pop(st.p.x,st.p.y,'!');if(st.lives<=0){st.lost=true;ui.toast.textContent='The critters overwhelmed you — tap to restart'}else{ui.toast.textContent='Ouch. Lives remain.';st.p={x:1,y:1}}}if(!st.cr.length){st.won=true;ui.toast.textContent='Cave cleared. Opening next gate...';setTimeout(nextLevel,900)}}
+function nextLevel(){level=(level+1)%maps.length;st=parse(maps[level]);paused=false;draw()}function reset(){st=parse(maps[level]);paused=false;draw()}
+function drawCell(x,y,color,txt){ctx.fillStyle=color;ctx.fillRect(x*TILE+4,y*TILE+4,TILE-8,TILE-8);if(txt){ctx.font='24px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,x*TILE+20,y*TILE+21)}}
+function draw(){ctx.clearRect(0,0,800,520);ctx.fillStyle='#05020f';ctx.fillRect(0,0,800,520);for(const key of st.walls){const[x,y]=key.split(',').map(Number);drawCell(x,y,'#2d1b55')}for(const c of st.cr)drawCell(c.x,c.y,'#0fe9ff',EMO.x);for(const h of st.hearts)drawCell(h.x,h.y,'#ff6ead',EMO.h);for(const e of st.e)drawCell(e.x,e.y,'#ff3d81',EMO.c);drawCell(st.p.x,st.p.y,'#a66cff',EMO.p);for(const p of particles){ctx.globalAlpha=Math.max(0,p.life/28);ctx.fillStyle='#ffd76f';ctx.font='26px serif';ctx.fillText(p.t,p.x,p.y-p.life);p.life--}ctx.globalAlpha=1;particles=particles.filter(p=>p.life>0);ui.level.textContent='Level '+(level+1);ui.score.textContent=(maps[level].join('').split('*').length-1-st.cr.length)+' / '+(maps[level].join('').split('*').length-1);ui.lives.textContent='♥'.repeat(st.lives);ui.timer.textContent=Math.ceil(st.time)+'s'}
+function frame(now){const dt=(now-last)/1000;last=now;if(!paused&&!st.lost&&!st.won){st.time-=dt;if(st.time<=0){st.lost=true;ui.toast.textContent='Time collapsed — restart the cave'}}draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k===' '){reset()}if(k==='p')paused=!paused;if(k==='arrowup'||k==='w')move(0,-1);if(k==='arrowdown'||k==='s')move(0,1);if(k==='arrowleft'||k==='a')move(-1,0);if(k==='arrowright'||k==='d')move(1,0)});
+document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const[dX,dY]=b.dataset.move.split(',').map(Number);move(dX,dY)});gid('wait').onclick=()=>{critters();danger();draw()};gid('restart').onclick=reset;gid('pause').onclick=()=>{paused=!paused;ui.toast.textContent=paused?'Paused':'The cave moves again'};gid('next').onclick=nextLevel;
+let sx=0,sy=0;canvas.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});canvas.addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<20)return;if(Math.abs(dx)>Math.abs(dy))move(Math.sign(dx),0);else move(0,Math.sign(dy))},{passive:true});
+</script>
+</body></html>`;
+}
+
+function escapeHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+}
+
+module.exports = { improvedGameHtml };

@@ -1,25 +1,38 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "ladder-1.json",
-  "shaym": "Aleph_Garden_Path",
-  "title": "Aleph Garden Path",
-  "requiredPerutos": 7,
+  "shaym": "Aleph_Lava_Crossing",
+  "title": "Aleph Lava Crossing",
+  "requiredPerutos": 9,
   "nextLevel": "ladder-2.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
     "ProceduralSky": [
-      { "name": "aleph_warm_sky", "timeOfDay": 16.5, "timeMultiplier": 0, "position": { "x": 0, "y": 0, "z": 0 } }
+      {
+        "name": "aleph_lava_sky",
+        "timeOfDay": 10,
+        "timeMultiplier": 0,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
     ],
     "ProceduralTerrain": [
       {
-        "name": "aleph_flat_grass",
-        "width": 64,
-        "depth": 36,
-        "thickness": 2,
-        "segments": 1,
-        "isSolid": true,
-        "textureType": "grass",
-        "position": { "x": 0, "y": -1.05, "z": 0 }
+        "name": "aleph_desert_basin",
+        "width": 90,
+        "depth": 48,
+        "thickness": 1.2,
+        "segments": 4,
+        "isSolid": false,
+        "textureType": "desert",
+        "position": {
+          "x": 9,
+          "y": -3.2,
+          "z": 0
+        }
       }
     ],
     "Chossid": [
@@ -28,35 +41,357 @@
         "height": 1.5,
         "radius": 0.45,
         "dynamicSolidRadius": 0.28,
-        "speed": 50,
-        "speedScale": 1.4,
-        "jumpHeight": 8,
+        "speed": 7.2,
+        "speedScale": 1.18,
+        "jumpHeight": 13.5,
+        "visualGroundBiasY": -0.22,
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
-        "position": { "x": -14, "y": 1.25, "z": 5.5 }
+        "position": {
+          "x": -10.5,
+          "y": 0.425,
+          "z": 0
+        }
       }
     ],
-    "VillagePictureProp": [
-      { "name": "aleph_low_path", "kind": "pictureDirtPath", "groundY": 0, "groundLift": 0.01, "position": { "x": -4.2, "z": 4.4 }, "rotation": { "y": -0.06 } },
-      { "name": "aleph_small_house", "kind": "gableHouse", "scale": 0.72, "groundY": 0, "groundLift": 0, "position": { "x": 11, "z": -6.8 }, "rotation": { "y": -0.32 } },
-      { "name": "aleph_short_bench", "kind": "bench", "groundY": 0, "groundLift": 0, "position": { "x": -8.2, "z": 7.1 }, "rotation": { "y": 0.28 } },
-      { "name": "aleph_lamp_left", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": -11.8, "z": 6 } },
-      { "name": "aleph_lamp_goal", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": 7.5, "z": -2.3 } },
-      { "name": "aleph_ground_flowers", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": -5, "z": 6.5 } },
-      { "name": "aleph_goal_flowers", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": 7.2, "z": -4.8 } },
-      { "name": "aleph_path_rock", "kind": "rock", "groundY": 0, "groundLift": 0, "position": { "x": -2.8, "z": 4.1 } }
+    "SolidBlock": [
+      {
+        "name": "aleph_start_platform",
+        "width": 7.2,
+        "height": 0.85,
+        "depth": 4.8,
+        "color": 14070366,
+        "textureSeed": "aleph_start_platform",
+        "isSolid": true,
+        "position": {
+          "x": -10.5,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "name": "aleph_step_one",
+        "width": 2.45,
+        "height": 0.85,
+        "depth": 2,
+        "color": 14070366,
+        "textureSeed": "aleph_step_one",
+        "isSolid": true,
+        "position": {
+          "x": -4.1,
+          "y": 0,
+          "z": -0.45
+        }
+      },
+      {
+        "name": "aleph_step_two",
+        "width": 2.35,
+        "height": 0.85,
+        "depth": 2,
+        "color": 14070366,
+        "textureSeed": "aleph_step_two",
+        "isSolid": true,
+        "position": {
+          "x": 1.8,
+          "y": 0,
+          "z": 0.65
+        }
+      },
+      {
+        "name": "aleph_mid_rest",
+        "width": 3.05,
+        "height": 0.85,
+        "depth": 2.35,
+        "color": 14070366,
+        "textureSeed": "aleph_mid_rest",
+        "isSolid": true,
+        "position": {
+          "x": 7.4,
+          "y": 0,
+          "z": -0.25
+        }
+      },
+      {
+        "name": "aleph_step_three",
+        "width": 2.55,
+        "height": 0.85,
+        "depth": 2,
+        "color": 14070366,
+        "textureSeed": "aleph_step_three",
+        "isSolid": true,
+        "position": {
+          "x": 14.2,
+          "y": 0,
+          "z": 0.7
+        }
+      },
+      {
+        "name": "aleph_gate_approach",
+        "width": 3,
+        "height": 0.85,
+        "depth": 2.2,
+        "color": 14070366,
+        "textureSeed": "aleph_gate_approach",
+        "isSolid": true,
+        "position": {
+          "x": 21,
+          "y": 0,
+          "z": -0.45
+        }
+      },
+      {
+        "name": "aleph_gate_island",
+        "width": 7.8,
+        "height": 0.85,
+        "depth": 5.3,
+        "color": 14797189,
+        "textureSeed": "aleph_gate_island",
+        "isSolid": true,
+        "position": {
+          "x": 28.6,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "name": "aleph_left_post",
+        "width": 0.8,
+        "height": 4.4,
+        "depth": 0.8,
+        "color": 14333018,
+        "textureSeed": "aleph_left_post",
+        "isSolid": true,
+        "position": {
+          "x": 31.2,
+          "y": 2.2,
+          "z": -2.1
+        }
+      },
+      {
+        "name": "aleph_right_post",
+        "width": 0.8,
+        "height": 4.4,
+        "depth": 0.8,
+        "color": 14333018,
+        "textureSeed": "aleph_right_post",
+        "isSolid": true,
+        "position": {
+          "x": 31.2,
+          "y": 2.2,
+          "z": 2.1
+        }
+      },
+      {
+        "name": "aleph_gate_lintel",
+        "width": 0.9,
+        "height": 0.85,
+        "depth": 4.8,
+        "color": 15385710,
+        "textureSeed": "aleph_gate_lintel",
+        "isSolid": true,
+        "position": {
+          "x": 31.2,
+          "y": 4.8,
+          "z": 0
+        }
+      }
+    ],
+    "MovingPlatform": [
+      {
+        "name": "aleph_moving_bridge_one",
+        "width": 2.2,
+        "height": 0.72,
+        "depth": 1.55,
+        "axis": "z",
+        "distance": 1.8,
+        "speed": 0.95,
+        "phase": 0,
+        "isSolid": true,
+        "position": {
+          "x": 4.6,
+          "y": 0.05,
+          "z": 0
+        },
+        "size": {
+          "x": 2.2,
+          "y": 0.72,
+          "z": 1.55
+        },
+        "dimensions": {
+          "x": 2.2,
+          "y": 0.72,
+          "z": 1.55
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "aleph_moving_bridge_two",
+        "width": 2.35,
+        "height": 0.72,
+        "depth": 1.55,
+        "axis": "x",
+        "distance": 2.1,
+        "speed": 0.9,
+        "phase": 1.5,
+        "isSolid": true,
+        "position": {
+          "x": 17.6,
+          "y": 0.05,
+          "z": -0.2
+        },
+        "size": {
+          "x": 2.35,
+          "y": 0.72,
+          "z": 1.55
+        },
+        "dimensions": {
+          "x": 2.35,
+          "y": 0.72,
+          "z": 1.55
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "SpikeField": [
+      {
+        "name": "aleph_lava_crossing_field",
+        "groundY": -1.05,
+        "height": 0.38,
+        "pad": 0.04,
+        "lava": true,
+        "resetDelayMs": 1000,
+        "bounds": {
+          "minX": -18,
+          "maxX": 36,
+          "minZ": -14,
+          "maxZ": 14
+        },
+        "position": {
+          "x": 9,
+          "y": -0.86,
+          "z": 0
+        }
+      }
     ],
     "Coin": [
-      { "name": "aleph_coin_1", "value": 1, "rotationSpeed": 0.03, "position": { "x": -12.2, "y": 1.2, "z": 5.3 } },
-      { "name": "aleph_coin_2", "value": 1, "rotationSpeed": 0.03, "position": { "x": -8.8, "y": 1.2, "z": 5.1 } },
-      { "name": "aleph_coin_3", "value": 1, "rotationSpeed": 0.03, "position": { "x": -5.4, "y": 1.2, "z": 4.8 } },
-      { "name": "aleph_coin_4", "value": 1, "rotationSpeed": 0.03, "position": { "x": -2.1, "y": 1.2, "z": 4.3 } },
-      { "name": "aleph_coin_5", "value": 1, "rotationSpeed": 0.03, "position": { "x": 1.3, "y": 1.2, "z": 3.2 } },
-      { "name": "aleph_coin_6", "value": 1, "rotationSpeed": 0.03, "position": { "x": 4.6, "y": 1.2, "z": 1.2 } },
-      { "name": "aleph_coin_7", "value": 1, "rotationSpeed": 0.03, "position": { "x": 7.4, "y": 1.2, "z": -2.2 } }
+      {
+        "name": "aleph_coin_start",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": -9.6,
+          "y": 2.7,
+          "z": 1.1
+        }
+      },
+      {
+        "name": "aleph_coin_step_one",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": -4.1,
+          "y": 2.7,
+          "z": -0.45
+        }
+      },
+      {
+        "name": "aleph_coin_step_two",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": 1.8,
+          "y": 2.7,
+          "z": 0.65
+        }
+      },
+      {
+        "name": "aleph_coin_mover_one",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": 4.6,
+          "y": 2.7,
+          "z": 0
+        }
+      },
+      {
+        "name": "aleph_coin_mid_rest",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": 7.4,
+          "y": 2.7,
+          "z": -0.25
+        }
+      },
+      {
+        "name": "aleph_coin_mover_two",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": 17.6,
+          "y": 2.7,
+          "z": -0.2
+        }
+      },
+      {
+        "name": "aleph_coin_approach",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": 21,
+          "y": 2.7,
+          "z": -0.45
+        }
+      },
+      {
+        "name": "aleph_coin_gate_left",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": 27.1,
+          "y": 2.7,
+          "z": 1.35
+        }
+      },
+      {
+        "name": "aleph_coin_gate_right",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "proximity": 1.15,
+        "position": {
+          "x": 30.2,
+          "y": 2.7,
+          "z": -1.35
+        }
+      }
     ],
     "TzedakahBox": [
-      { "name": "pushkuh_by_goal_lamp", "requiresAllCoins": true, "position": { "x": 8.2, "y": 0.9, "z": -3.9 } }
+      {
+        "name": "pushkuh_on_gate_island_level_1",
+        "requiresAllCoins": true,
+        "position": {
+          "x": 30.2,
+          "y": 1,
+          "z": 1.65
+        }
+      }
     ],
     "InteractiveDoor": [
       {
@@ -66,16 +401,33 @@
         "destination": "ladder-2.json",
         "isSolid": false,
         "interactable": true,
-        "proximity": 3,
+        "proximity": 2.8,
         "requiresAllCoins": true,
         "requiresTzedakah": true,
         "manualOnly": true,
-        "position": { "x": 9.2, "y": 0.95, "z": -5.1 },
-        "visibleDebug": true
+        "position": {
+          "x": 31.65,
+          "y": 1.55,
+          "z": 2.15
+        }
       }
     ],
     "FallResetTrigger": [
-      { "name": "below_ground_reset", "width": 70, "height": 0.25, "depth": 45, "proximity": 7, "penalty": 0, "color": 3342336, "opacity": 0.01, "resetDelayMs": 1800, "position": { "x": 0, "y": -10, "z": 0 } }
+      {
+        "name": "deep_reset_level_1",
+        "width": 90,
+        "height": 0.4,
+        "depth": 48,
+        "proximity": 7,
+        "penalty": 0,
+        "color": 3342336,
+        "resetDelayMs": 1000,
+        "position": {
+          "x": 9,
+          "y": -8,
+          "z": 0
+        }
+      }
     ]
   }
 }

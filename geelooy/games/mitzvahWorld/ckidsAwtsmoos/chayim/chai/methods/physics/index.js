@@ -1,21 +1,35 @@
 // B"H
 /**
  * @file physics/index.js
- * @description Chapter 85: moving platforms enter the law before jumping.
- * The Awtsmoos revealed the bug: static octree ground is checked before jump,
- * but moving platforms were solved only after movement, too late for `jump` and
- * too late for ordinary grounded acceleration. Now dynamic floors answer right
- * after static ground detection, then again after motion for final correction.
+ * @description
+ * Chapter 18: The Feet Stood And The Stride Became A River.
+ *
+ * The Awtsmoos revealed the connected movement truth: platformer walking must
+ * set horizontal velocity directly, not drip tiny acceleration into heavy
+ * damping. JSON Y remains feet-on-ground. The GLB garment rides a measured
+ * offset above the capsule feet, and only the capsule collides.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Utils from "../../../../utils.js";
 import Tzomayach from "../../../tzomayach.js";
 import { solveMovingSolid } from "../../../../dvarim/movers/runtime/movingSolidSolver.js";
 
 const groundRay = new THREE.Ray();
 const MOVING_EPSILON_SQ = 0.0001;
 const steepSlopeY = () => Math.cos(THREE.MathUtils.degToRad(50));
+const finite = value => Number.isFinite(Number(value));
+const numeric = (value, fallback) => finite(value) ? Number(value) : fallback;
 
+/** @param {THREE.Vector3} feet Feet position. @param {number} height Capsule height. @param {number} radius Radius. @returns {{start:THREE.Vector3,end:THREE.Vector3}} */
+function capsuleFromFeet(feet, height, radius) {
+  const safeRadius = Math.max(0.01, numeric(radius, 0.45));
+  const safeHeight = Math.max(safeRadius * 2, numeric(height, 1.5));
+  return {
+    start: new THREE.Vector3(feet.x, feet.y + safeRadius, feet.z),
+    end: new THREE.Vector3(feet.x, feet.y + safeHeight - safeRadius, feet.z)
+  };
+}
+
+/** @param {object} entity Moving/living entity. @returns {boolean} */
 function needsOctreePhysics(entity) {
   if (!entity) return false;
   if (entity.type === "chossid" || entity.olam?.chossid === entity || entity.olam?.player === entity) return true;
@@ -23,9 +37,10 @@ function needsOctreePhysics(entity) {
   return Boolean(moving.forward || moving.backward || moving.stridingLeft || moving.stridingRight || moving.turningLeft || moving.turningRight || moving.jump || entity.movingAutomatically || entity.navTarget || entity.currentPath || entity._isMoving || ((entity.velocity?.lengthSq?.() || 0) > MOVING_EPSILON_SQ));
 }
 
+/** @param {object} player Chai body. @param {number} dt Frame delta. @returns {void} */
 function syncVisual(player, dt) {
-  player.mesh.position.copy(player.collider.start);
-  player.mesh.position.y -= player.radius;
+  const visualFeetY = player.collider.start.y - player.collider.radius;
+  player.mesh.position.set(player.collider.start.x, visualFeetY, player.collider.start.z);
   player.mesh.rotation.y = player.rotation.y;
   player.emptyCopy?.rotation?.copy?.(player.mesh.rotation);
   player.nonRotatingEmptyForMovement?.rotation?.copy?.(player.mesh.rotation);
@@ -43,8 +58,7 @@ function syncVisual(player, dt) {
       player.lastRotateOffset = player.rotateOffset;
     }
     player.modelMesh.position.copy(player.mesh.position);
-    const offset = player.modelMesh.userData?.visualGroundOffsetY;
-    if (Number.isFinite(offset)) player.modelMesh.position.y += offset;
+    player.modelMesh.position.y += numeric(player.modelMesh.userData?.visualGroundOffsetY, 0);
   }
   player.emptyCopy?.position?.copy?.(player.mesh.position);
   player.nonRotatingEmptyForMovement?.position?.copy?.(player.mesh.position);
@@ -57,13 +71,38 @@ function syncVisual(player, dt) {
   if (typeof player.updateSpheres === 'function') player.updateSpheres(dt);
 }
 
+/** @param {object} player Player body. @returns {THREE.Vector3} Unit movement direction. */
+function movementDirection(player) {
+  const dir = new THREE.Vector3();
+  const moving = player.moving || {};
+  const rotY = player.rotation?.y || 0;
+  const forwardX = Math.sin(rotY);
+  const forwardZ = Math.cos(rotY);
+  const rightX = -Math.cos(rotY);
+  const rightZ = Math.sin(rotY);
+  const forward = moving.forward || player.movingAutomatically;
+  const back = moving.backward;
+  player.isWalking = false;
+  if (forward) { player.isWalking = true; dir.x += forwardX; dir.z += forwardZ; player.targetRotateOffset = 0; }
+  else if (back) { player.isWalking = true; dir.x -= forwardX; dir.z -= forwardZ; player.targetRotateOffset = -Math.PI; }
+  if (moving.stridingLeft) {
+    player.isWalking = true; dir.x -= rightX; dir.z -= rightZ; player.targetRotateOffset = forward ? -Math.PI / 4 : back ? Math.PI / 4 : Math.PI / 2;
+  } else if (moving.stridingRight) {
+    player.isWalking = true; dir.x += rightX; dir.z += rightZ; player.targetRotateOffset = forward ? Math.PI / 4 : back ? -Math.PI / 4 : -Math.PI / 2;
+  }
+  if (dir.lengthSq() > 0) dir.normalize();
+  return dir;
+}
+
 export default {
+  /** @param {THREE.Vector3} vec3 Feet position; y is bottom of capsule. */
   setPosition(vec3) {
-    if (!vec3 || isNaN(vec3.x) || isNaN(vec3.y) || isNaN(vec3.z)) return console.warn("B\"H: invalid player position ignored.");
+    if (!vec3 || !finite(vec3.x) || !finite(vec3.y) || !finite(vec3.z)) return console.warn("B\"H: invalid player feet position ignored.");
     if (!this.collider?.start || !this.collider?.end) return;
-    this.collider.start.set(vec3.x, vec3.y + this.height / 2, vec3.z);
-    this.collider.end.set(vec3.x, vec3.y + this.height, vec3.z);
-    this.collider.radius = this.radius;
+    this.collider.radius = numeric(this.radius, this.collider.radius || 0.45);
+    const capsule = capsuleFromFeet(vec3, this.height, this.collider.radius);
+    this.collider.start.copy(capsule.start);
+    this.collider.end.copy(capsule.end);
     this.isTeleporting = true;
   },
 
@@ -86,13 +125,13 @@ export default {
 
   getCapsule() {
     if (!this.collider) return null;
-    return { radius: this.collider.radius, height: this.collider.end.y - this.collider.start.y };
+    return { radius: this.collider.radius, height: (this.collider.end.y - this.collider.start.y) + (this.collider.radius * 2) };
   },
 
   heesHawvoos(dt) {
     if (!this.mesh || !this.collider || !this.velocity) return;
     const deltaTime = Math.min(dt, 0.1);
-    if (this.isTeleporting) { this.isTeleporting = false; return; }
+    if (this.isTeleporting) { this.isTeleporting = false; this._syncMesh(deltaTime); return; }
     if (this._checkNaNAndReset()) return;
     this._updateSubSystems(deltaTime);
     const isWorldBusy = this.olam?.worldOctree ? this.olam.worldOctree.isProcessing : true;
@@ -134,10 +173,10 @@ export default {
 
   _checkNaNAndReset() {
     if (!this.mesh) return false;
-    if (!isNaN(this.mesh.position.x) && !isNaN(this.mesh.position.y) && !isNaN(this.mesh.position.z)) return false;
+    if (finite(this.mesh.position.x) && finite(this.mesh.position.y) && finite(this.mesh.position.z)) return false;
     console.warn("B\"H: Player position NaN; resetting.", { was: this.mesh.position.clone() });
     this.velocity.set(0, 0, 0);
-    this.setPosition(new THREE.Vector3(0, 15, 0));
+    this.setPosition(new THREE.Vector3(0, 10, 0));
     if (this.olam?.ayin) this.olam.ayin.currentDistance = 5;
     return true;
   },
@@ -152,7 +191,7 @@ export default {
     groundRay.origin.copy(this.collider.start);
     groundRay.direction.set(0, -1, 0);
     const hit = this.olam?.worldOctree?.rayIntersect?.(groundRay) || false;
-    this.onFloor = hit && hit.normal.y > steepSlopeY() && hit.distance <= this.radius + 0.25;
+    this.onFloor = hit && hit.normal.y > steepSlopeY() && hit.distance <= this.collider.radius + 0.25;
     this.groundHitResult = hit;
   },
 
@@ -167,33 +206,18 @@ export default {
     this.velocity.y = Math.max(this.velocity.y, -50);
   },
 
-  _calculateMovementVelocity(deltaTime) {
-    let speedDelta = deltaTime * (this.onFloor ? this.speed * this.speedScale : 8);
-    if (!this.moving.running) speedDelta *= 0.5;
-    const combined = new THREE.Vector3();
-    this.isWalking = false;
-    const forward = this.moving.forward || this.movingAutomatically;
-    const back = this.moving.backward;
-    if (forward) { this.isWalking = true; combined.add(this.getForwardVector().multiplyScalar(speedDelta)); this.targetRotateOffset = 0; }
-    else if (back) { this.isWalking = true; combined.add(this.getForwardVector().multiplyScalar(-speedDelta)); this.targetRotateOffset = -Math.PI; }
-    if (this.moving.stridingLeft || this.moving.stridingRight) {
-      this.isWalking = true;
-      const side = Utils.getSideVector(this.nonRotatingEmptyForMovement || this.mesh, this.worldSideDirectionVector).multiplyScalar(this.moving.stridingLeft ? -speedDelta : speedDelta);
-      combined.add(side);
-      this.targetRotateOffset = this.moving.stridingLeft ? Math.PI / 2 : -Math.PI / 2;
-      if (forward) this.targetRotateOffset += this.moving.stridingLeft ? -Math.PI / 4 : Math.PI / 4;
-      else if (back) this.targetRotateOffset += this.moving.stridingLeft ? Math.PI / 4 : -Math.PI / 4;
-    }
-    const total = combined.length(), max = Math.abs(speedDelta);
-    if (total > max) combined.multiplyScalar(max / total);
-    this.velocity.x += combined.x; this.velocity.z += combined.z;
+  _calculateMovementVelocity() {
+    const dir = movementDirection(this);
+    const moving = dir.lengthSq() > 0;
+    const speed = numeric(this.speed, 6) * numeric(this.speedScale, 1) * (this.moving?.running ? 1.25 : 1);
+    if (moving) { this.velocity.x = dir.x * speed; this.velocity.z = dir.z * speed; }
+    else { this.velocity.x = 0; this.velocity.z = 0; }
   },
 
   _handleJump() {
     if (this.onFloor && this.moving.jump) {
       this.jumped = true; this.velocity.y = this.jumpHeight;
-      this.__supportedByDynamicBody = null;
-      this.__dynamicCarrierFrames = 0;
+      this.__supportedByDynamicBody = null; this.__dynamicCarrierFrames = 0;
       if (!this.didJump) { this.didJump = true; this.ayshPeula("jumped", this); }
     } else if (this.didJump) this.didJump = false;
   },
@@ -207,10 +231,12 @@ export default {
   },
 
   _resolveGroundCollision() {
+    groundRay.origin.copy(this.collider.start);
+    groundRay.direction.set(0, -1, 0);
     const hit = this.olam?.worldOctree?.rayIntersect?.(groundRay) || false;
-    this.onFloor = hit && hit.normal.y > steepSlopeY() && hit.distance <= this.radius + 0.25;
+    this.onFloor = hit && hit.normal.y > steepSlopeY() && hit.distance <= this.collider.radius + 0.25;
     if (!this.onFloor || this.velocity.y > 0) return;
-    const depth = this.radius - hit.distance;
+    const depth = this.collider.radius - hit.distance;
     if (depth > 0) this.collider.translate(hit.normal.clone().multiplyScalar(depth));
     this.velocity.projectOnPlane(hit.normal);
     if (!this.isWalking && !this.moving.jump) { this.velocity.x = 0; this.velocity.z = 0; }

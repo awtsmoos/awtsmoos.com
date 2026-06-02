@@ -1,17 +1,20 @@
 // B"H
 /**
  * @file physics.js
- * @description Chapter 63: the cache gate is repaired. The wrapper installs
- * every base physics limb onto the living player before calling the base loop,
- * so `_solveDynamicBodies` can never vanish from `this` again.
+ * @description
+ * Chapter 19: The Wrapper Drew Fresh Water.
+ *
+ * The Awtsmoos breaks the stale browser stream so the direct-velocity movement
+ * core enters the player instead of the old slow acceleration vessel.
  */
-import basePhysics from "./physics/index.js?v=lean-l1-20260528-bh63";
+import basePhysics from "./physics/index.js?v=direct-velocity-20260602-bh6";
 
-/** @param {object} entity Chossid-like body. */
+/** @param {object} entity Chossid-like body. @returns {void} */
 function holdVisibleBody(entity) {
   if (!entity?.mesh || !entity?.collider?.start) return;
+  const radius = entity.collider.radius || entity.radius || 0;
   entity.mesh.position.copy(entity.collider.start);
-  entity.mesh.position.y -= entity.radius || 0;
+  entity.mesh.position.y -= radius;
   entity.mesh.rotation.y = entity.rotation?.y || 0;
   if (entity.modelMesh) {
     entity.modelMesh.position.copy(entity.mesh.position);
@@ -22,7 +25,7 @@ function holdVisibleBody(entity) {
   entity.nonRotatingEmptyForMovement?.position?.copy?.(entity.mesh.position);
 }
 
-/** @param {object} entity Runtime player instance. */
+/** @param {object} entity Runtime player instance. @returns {void} */
 function ensureBaseLimbs(entity) {
   for (const [key, value] of Object.entries(basePhysics)) {
     if (typeof value === "function" && typeof entity[key] !== "function") entity[key] = value;
@@ -32,7 +35,7 @@ function ensureBaseLimbs(entity) {
 const wrappedPhysics = {
   ...basePhysics,
 
-  /** @param {number} dt Frame delta. */
+  /** @param {number} dt Frame delta. @returns {unknown} */
   heesHawvoos(dt) {
     ensureBaseLimbs(this);
     if (this.__spikeColliderDisabled) {

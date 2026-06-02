@@ -20,7 +20,7 @@ export function createMessageNode(msg, index, fullHistory, commentData, commentI
     metaHeader.className = "ai-msg-meta";
     
     const roleSpan = document.createElement("span");
-    roleSpan.className = "ai-role-label";
+    roleSpan.className = "ai-role-label ai-role-tag";
     roleSpan.innerText = msg.role === 'user' ? 'USER' : 'AI';
     metaHeader.appendChild(roleSpan);
     
@@ -37,10 +37,10 @@ export function createMessageNode(msg, index, fullHistory, commentData, commentI
     // Actions (Fork button)
     if (window.curAlias) {
         const actionsDiv = document.createElement("div");
-        actionsDiv.className = "ai-msg-actions";
+        actionsDiv.className = "ai-msg-actions awtsmoos-sidebar-actions";
         
         const replyBtn = document.createElement("button");
-        replyBtn.className = "ai-action-btn";
+        replyBtn.className = "ai-action-btn btn awtsmoos-hero-btn";
         replyBtn.innerHTML = "[FORK REALITY]";
         replyBtn.title = "Create a new branch from here";
         replyBtn.onclick = (e) => {
@@ -56,7 +56,7 @@ export function createMessageNode(msg, index, fullHistory, commentData, commentI
 
     // Branch Container (Nested below bubble)
     const branchContainer = document.createElement("div");
-    branchContainer.className = "ai-branch-container";
+    branchContainer.className = "ai-branch-container awtsmoos-card";
     block.appendChild(branchContainer);
 
     return block;

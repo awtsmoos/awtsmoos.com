@@ -64,8 +64,8 @@ function createInlineToggle(alias, isInline) {
             "aria-pressed": String(isInline)
         },
         children: [
-            { tag: "span", attr: { class: "inline-toggle-switch", "aria-hidden": "true" }, children: [{ tag: "span", attr: { class: "inline-toggle-knob" } }] },
-            { tag: "span", attr: { class: "inline-toggle-text" }, children: [isInline ? "Inline on" : "Inline"] }
+            { tag: "span", attr: { class: "inline-toggle-switch awtsmoos-mini-inline-toggle", "aria-hidden": "true" }, children: [{ tag: "span", attr: { class: "inline-toggle-knob awtsmoos-student-avatar" } }] },
+            { tag: "span", attr: { class: "inline-toggle-text awtsmoos-student-location" }, children: [isInline ? "Inline on" : "Inline"] }
         ],
         events: { click: async event => {
             event.stopPropagation();

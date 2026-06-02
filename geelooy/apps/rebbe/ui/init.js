@@ -1,21 +1,129 @@
 //B"H
-import{openModal}from'./modals.js';import{updatePlayIcon}from'./player.js';import{getSearchOptions}from'../search.js';import state from'../modules/state.js';
-export function initUI(cb){console.log("VIEW: Initializing UI...");dateSearch(cb);let $=id=>document.getElementById(id),b;
-if(b=$('btn-play'))b.onclick=e=>{e.stopPropagation();cb.onPlayPause();updatePlayIcon(cb.isPlaying())};
-if(b=$('btn-next'))b.onclick=cb.onNext;if(b=$('btn-prev'))b.onclick=cb.onPrev;
-if(b=$('btn-slice'))b.onclick=e=>{e.stopPropagation();cb.onOpenSliceModal&&cb.onOpenSliceModal()};
-if(b=$('player-seeker'))b.onclick=e=>{let r=b.getBoundingClientRect(),p=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));cb.onSeekFraction&&cb.onSeekFraction(p)};
-if(b=$('btn-search'))b.onclick=()=>{openModal('modal-search');setTimeout(()=>$('search-month')?.focus(),100)};
-if(b=$('btn-share'))b.onclick=cb.onShare;if(b=$('btn-settings'))b.onclick=()=>openModal('modal-settings');
-if(b=$('btn-action-clear'))b.onclick=()=>{if(confirm("DELETE ALL CACHED AUDIO?"))cb.onClearDB()};
-if(b=$('btn-generate-analyze'))b.onclick=()=>cb.onAnalyzeVideo(parseFloat($('vid-start').value||0),parseFloat($('vid-duration').value||15),$('vid-res').value);
-if(b=$('btn-download-audio'))b.onclick=()=>cb.onDownloadAudioSlice(state);
-if(b=$('btn-close-studio'))b.onclick=()=>cb.onCloseStudio&&cb.onCloseStudio();
-if(b=$('back-tracks'))b.onclick=cb.onBack;if(b=$('back-folders'))b.onclick=cb.onBack;
-document.querySelectorAll('.modal-close').forEach(x=>{if(x.id!=='btn-close-studio')x.onclick=()=>closeAll(cb)});
-let o=$('overlay-layer');if(o)o.onclick=e=>{if(e.target===o)closeAll(cb)}}
-function dateSearch(cb){let $=id=>document.getElementById(id),m=$('modal-search');if(!m)return;let{years,months,days}=getSearchOptions();m.classList.add('search-modal');
-m.innerHTML=`<h2>SEARCH BY ZMAN</h2><div class="search-grid"><label>YEAR<select id="search-year" class="cyber-input"><option value="">ALL YEARS</option>${years.map(y=>`<option value="${y}">${y}</option>`).join('')}</select></label><label>MONTH<select id="search-month" class="cyber-input"><option value="">ALL MONTHS</option>${months.map(x=>`<option value="${x.id}">${x.id} // ${x.name}</option>`).join('')}</select></label><label>DAY<select id="search-day" class="cyber-input"><option value="">ALL DAYS</option>${days.map(d=>`<option value="${d}">${d}</option>`).join('')}</select></label></div><div class="search-actions"><button class="modal-btn" id="btn-date-search">SCAN INDEXES</button><button class="modal-btn" id="btn-date-reset">RESET</button><button class="modal-btn modal-close">CLOSE</button></div><div class="search-help">No text search. Combine year/month/day; month and day indexes intersect by bucket/folder.</div><div class="search-res date-search-results" id="search-results"><div class="search-empty">SELECT FILTERS AND SCAN</div></div><style>.search-modal{width:min(960px,94vw);height:min(82vh,760px);max-height:82vh}.search-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.search-grid label{display:flex;flex-direction:column;gap:7px;color:#aaa;font-weight:900;letter-spacing:1px;background:rgba(255,255,255,.04);border:1px solid #222;padding:12px}.search-actions{display:flex;gap:10px;flex-wrap:wrap}.search-help{color:#b7c5d0;border-left:3px solid var(--c-magenta);padding:8px 12px;background:rgba(255,0,128,.06);font-size:13px}.search-res.date-search-results{max-height:calc(82vh - 310px)!important;min-height:300px;overflow:auto!important;border:1px solid #244!important;margin-top:0!important}.search-empty{padding:26px;text-align:center;color:#778;letter-spacing:2px;font-weight:900}.search-summary{position:sticky;top:0;z-index:3;padding:12px 14px;background:#000;border-bottom:1px solid #244;color:#bbb;font-weight:900}.search-summary span{color:var(--c-cyan);font-size:18px}.date-result{width:100%;display:block;text-align:left;border:0;border-bottom:1px solid #222;background:linear-gradient(90deg,rgba(0,243,255,.08),transparent);color:#eee;padding:16px 20px;cursor:pointer}.date-result:hover{background:rgba(0,243,255,.16);transform:translateX(4px)}.result-topline{display:flex;justify-content:space-between}.result-date{color:var(--c-yellow);font-weight:900}.result-arrow{color:var(--c-cyan);font-weight:900}.result-title{font-size:17px;font-weight:800;color:#fff;margin:8px 0}.result-meta{display:flex;gap:8px;flex-wrap:wrap;color:#91a4ad;font:11px monospace}@media(max-width:720px){.search-grid{grid-template-columns:1fr}.search-modal{height:90vh}}</style>`;
-let run=()=>{let f={year:$('search-year')?.value||'',month:$('search-month')?.value||'',day:$('search-day')?.value||''},r=$('search-results');if(!f.year&&!f.month&&!f.day){r.innerHTML='<div class="search-empty">CHOOSE AT LEAST ONE FILTER</div>';return}r.innerHTML='<div class="search-empty">ACCESSING ARCHIVE INDEXES...</div>';cb.onSearch&&cb.onSearch(f)};
-m.querySelector('#btn-date-search')?.addEventListener('click',run);m.querySelector('#btn-date-reset')?.addEventListener('click',()=>{['search-year','search-month','search-day'].forEach(id=>{let e=$(id);if(e)e.value=''});$('search-results').innerHTML='<div class="search-empty">SELECT FILTERS AND SCAN</div>'});m.querySelectorAll('select').forEach(x=>x.addEventListener('change',run))}
-function closeAll(cb){let s=document.getElementById('modal-studio');if(s&&!s.classList.contains('hidden')&&cb?.onCloseStudio){cb.onCloseStudio();return}document.querySelectorAll('.modal').forEach(m=>m.classList.add('hidden'));document.getElementById('overlay-layer')?.classList.add('hidden')}
+import { openModal } from './modals.js';
+import { updatePlayIcon } from './player.js';
+import { SearchPanel } from './browser/search-panel.js';
+import state from '../modules/state.js';
+
+/**
+ * B"H
+ * UI init is the doorkeeper. The Awtsmoos sparks every control into a messenger:
+ * player, search, studio, and now the bookshelf where remembered sichos rest.
+ * @param {object} cb Application callbacks.
+ */
+export function initUI(cb) {
+  console.log('VIEW: Initializing UI...');
+  mountPlayerPolishStyles();
+  mountDateSearch(cb);
+  mountBookshelfShell();
+  bindButtons(cb);
+  bindCloseLayer(cb);
+}
+
+function bindButtons(cb) {
+  const $ = id => document.getElementById(id);
+  let button;
+  if (button = $('btn-play')) button.onclick = event => {
+    event.stopPropagation();
+    cb.onPlayPause();
+    updatePlayIcon(cb.isPlaying());
+  };
+  if (button = $('btn-next')) button.onclick = cb.onNext;
+  if (button = $('btn-prev')) button.onclick = cb.onPrev;
+  if (button = $('btn-slice')) {
+    button.title = 'Studio / video tools';
+    button.setAttribute('aria-label', 'Studio / video tools');
+    button.onclick = event => {
+      event.stopPropagation();
+      cb.onOpenSliceModal?.();
+    };
+  }
+  if (button = $('player-seeker')) button.onclick = event => seekFromBar(event, button, cb);
+  if (button = $('btn-search')) button.onclick = () => openModal('modal-search');
+  if (button = $('btn-bookshelf')) button.onclick = () => cb.onOpenBookshelf?.();
+  if (button = $('btn-bookshelf-clear')) button.onclick = () => {
+    if (confirm('CLEAR ALL BOOKMARKS?')) cb.onClearBookshelf?.();
+  };
+  if (button = $('btn-share')) button.onclick = cb.onShare;
+  if (button = $('btn-settings')) button.onclick = () => openModal('modal-settings');
+  if (button = $('btn-action-clear')) button.onclick = () => {
+    if (confirm('DELETE ALL CACHED AUDIO?')) cb.onClearDB();
+  };
+  if (button = $('btn-generate-analyze')) button.onclick = () => cb.onAnalyzeVideo(
+    parseFloat($('vid-start').value || 0),
+    parseFloat($('vid-duration').value || 15),
+    $('vid-res').value
+  );
+  if (button = $('btn-download-audio')) button.onclick = () => cb.onDownloadAudioSlice(state);
+  if (button = $('btn-close-studio')) button.onclick = () => cb.onCloseStudio?.();
+  if (button = $('back-tracks')) button.onclick = cb.onBack;
+  if (button = $('back-folders')) button.onclick = cb.onBack;
+}
+
+function seekFromBar(event, bar, cb) {
+  const rect = bar.getBoundingClientRect();
+  const percent = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+  cb.onSeekFraction?.(percent);
+}
+
+function mountDateSearch(cb) {
+  const modal = document.getElementById('modal-search');
+  new SearchPanel(cb).mount(modal);
+}
+
+function mountBookshelfShell() {
+  const tools = document.querySelector('.tools');
+  if (tools && !document.getElementById('btn-bookshelf')) tools.insertBefore(bookButton(), tools.children[1] || null);
+  const overlay = document.getElementById('overlay-layer');
+  if (overlay && !document.getElementById('modal-bookshelf')) overlay.insertBefore(bookModal(), overlay.firstChild);
+}
+
+function bookButton() {
+  const button = document.createElement('button');
+  button.className = 'tool-btn';
+  button.id = 'btn-bookshelf';
+  button.title = 'Bookshelf Bookmarks';
+  button.innerHTML = '<span class="tool-emoji">▰</span>';
+  return button;
+}
+
+function bookModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal hidden bookshelf-modal';
+  modal.id = 'modal-bookshelf';
+  modal.innerHTML = `
+    <h2>BOOKSHELF</h2>
+    <div class="bookshelf-top">
+      <button class="modal-btn danger" id="btn-bookshelf-clear">CLEAR BOOKMARKS</button>
+      <button class="modal-btn modal-close">CLOSE</button>
+    </div>
+    <div id="bookshelf-list"></div>`;
+  return modal;
+}
+
+function mountPlayerPolishStyles() {
+  if (document.getElementById('reb-ui-polish')) return;
+  const style = document.createElement('style');
+  style.id = 'reb-ui-polish';
+  style.textContent = `.tool-emoji{font-size:26px;line-height:1;color:currentColor}.bookshelf-modal{width:min(900px,94vw)!important}.bookshelf-top{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}.track-left,.folder-label{min-width:0;flex:1;display:flex;align-items:center;overflow:hidden}.t-name,.item-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.item-actions{display:flex;gap:8px;margin-left:10px;align-items:center;flex-shrink:0}.t-dur{font-family:monospace;color:#888}.mini-btn.saved{color:var(--c-cyan)!important;border-color:var(--c-cyan)!important}.ctrl-btn{position:relative;z-index:5;touch-action:manipulation}.ctrl-btn svg{pointer-events:none}.hidden{display:none!important}@media(max-width:768px){body{height:100dvh!important}.controls{order:1!important;display:grid!important;grid-template-columns:repeat(4,minmax(56px,1fr));gap:10px!important;width:100%;padding-bottom:0!important}.info{order:2!important}.ctrl-btn{width:100%!important;height:56px!important;border-radius:12px!important;background:#030b0c!important}.ctrl-btn svg{width:30px!important;height:30px!important}#btn-play{height:64px!important;background:rgba(0,243,255,.18)!important}#btn-slice:after{content:'STUDIO';position:absolute;bottom:2px;font-size:9px;letter-spacing:1px;color:currentColor}footer{padding:10px 12px calc(16px + env(safe-area-inset-bottom))!important;gap:9px!important;max-height:42vh!important;overflow:visible!important}.track-title{font-size:14px!important}.progress-container{height:18px!important}.time-display{font-size:12px!important}main{min-height:0!important}}`;
+  document.head.appendChild(style);
+}
+
+function bindCloseLayer(cb) {
+  document.querySelectorAll('.modal-close').forEach(button => {
+    if (button.id !== 'btn-close-studio') button.onclick = () => closeAll(cb);
+  });
+  const overlay = document.getElementById('overlay-layer');
+  if (overlay) overlay.onclick = event => {
+    if (event.target === overlay) closeAll(cb);
+  };
+}
+
+function closeAll(cb) {
+  const studio = document.getElementById('modal-studio');
+  if (studio && !studio.classList.contains('hidden') && cb?.onCloseStudio) {
+    cb.onCloseStudio();
+    return;
+  }
+  document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+  document.getElementById('overlay-layer')?.classList.add('hidden');
+}

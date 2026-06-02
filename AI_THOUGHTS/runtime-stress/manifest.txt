@@ -1,0 +1,35 @@
+B"H
+Merkava runtime stress manifest
+Generated: 2026-06-02T07:44:58.397Z
+
+Scope:
+- geelooy/apps/*/index.html
+- geelooy/games/*/index.html
+
+Boundary:
+- Actual app/game source workarounds were reverted.
+- Remaining runtime-related changes are limited to the tunnel/tunnel-control system and MerkavaExecutor.
+- Fake THREE fallbacks remain removed; real files/import maps are used.
+
+Summary: 29/31 passed, 0 failed, 31 tested.
+Caps: collect=unknownms runtime=unknownms
+
+Failures:
+- serverStart :: not directly registered in local dispatcher mapping
+- serverStop :: not directly registered in local dispatcher mapping
+
+Slow but passing rows:
+- none
+
+Regression proof:
+- AI_THOUGHTS/runtime-stress/runtime-regression-tests.json
+- AI_THOUGHTS/runtime-stress/direct-runtime-matrix.json
+- AI_THOUGHTS/runtime-stress/direct-runtime-matrix.jsonl
+
+Key simulator fixes:
+- Source collector split into small modules.
+- Collector ignores strings/templates/comments/regex literals and CommonJS require().
+- Inline module script bodies are scanned as JavaScript, not raw HTML.
+- Real import-map pass-through is preserved.
+- DOM raw script text, Element.append/prepend/before/after, and async error capture are supported.
+- Matrix cap adjusted to measured runtime reality without modifying game source.

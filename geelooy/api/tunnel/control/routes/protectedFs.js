@@ -7,24 +7,32 @@ const { recordUsage } = require("../core/usageStore.js");
 const { maybeExternalize } = require("../core/responseModes.js");
 const { publishHandoff } = require("../core/handoffStore.js");
 const { attachActionGuidance } = require("../core/actionGuidance.js");
+const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
+const { routeHints, withRouteHints } = require("./fsVessel/queryHints.js");
 
 const FOUR_MINUTES_MS = 240000;
 
 function responseBytes(obj) {
   try { return Buffer.byteLength(JSON.stringify(obj), "utf8"); }
-  catch (e) { return 0; }
+  catch (_e) { return 0; }
 }
 
 function identityAllows(ident, neededScope) {
   if (ident.kind === "session") return true;
-  return scopeAllowed(ident, neededScope) || scopeAllowed(ident, "tunnel.admin");
+  return scopeAllowed(ident, neededScope) ||
+    scopeAllowed(ident, "tunnel.admin") ||
+    scopeAllowed(ident, "awtsmoos.os");
 }
 
 /**
  * B"H
- * Bounds public API waits to four minutes so slow local commands do not become false gateway failures.
+ * Chapter 6: The relay stopped being one road and became a crown of roads.
  *
- * @param {$} value Requested timeout.
+ * The same action payload may now enter a real installed tunnel or the hosted
+ * Awtsmoos Virtual OS. Local metal and virtual light share auth, rate limits,
+ * usage logging, handoff publishing, and response shaping.
+ *
+ * @param {*} value Requested timeout.
  * @returns {number} Bounded timeout.
  */
 function boundedTunnelTimeout(value) {
@@ -35,76 +43,83 @@ function boundedTunnelTimeout(value) {
 
 async function protectedFs($i, vars) {
   const ident = currentIdentity($i);
-  const payload = buildFsPayload($i);
-  payload.tunnelName = vars.tunnelName;
-  payload.controlBaseUrl = "https://awtsmoos.com/api/tunnel/control/fs/" + encodeURIComponent(vars.tunnelName);
+  const rawPayload = buildFsPayload($i);
+  const hints = routeHints($i);
+  const tunnelName = vars.tunnelName;
+  const payload = withRouteHints(rawPayload, hints);
+  payload.tunnelName = tunnelName;
+  payload.controlBaseUrl = controlBaseUrl(tunnelName);
 
-  if (!ident.ok) {
-    return json($i, attachActionGuidance({
-      BH: "B\"H",
-      ok: false,
-      error: ident.error || "not_authenticated",
-      guidance: "Log in normally, use OAuth Bearer token, or use x-awtsmoos-api-key."
-    }, payload), 401);
-  }
-
-  const neededScope = actionRequiredScope(payload.action);
-
-  if (!identityAllows(ident, neededScope)) {
-    return json($i, attachActionGuidance({
-      BH: "B\"H",
-      ok: false,
-      error: "missing_scope",
-      neededScope,
-      identityKind: ident.kind
-    }, payload), 403);
-  }
+  if (!ident.ok) return authFailure($i, payload, ident);
+  const denied = scopeFailure($i, ident, payload);
+  if (denied) return denied;
 
   const rate = enforceApiKeyRate(ident, 0);
-  if (!rate.ok) {
-    return json($i, attachActionGuidance({
-      BH: "B\"H",
-      ok: false,
-      error: rate.error,
-      limit: rate.limit
-    }, payload), 429);
-  }
+  if (!rate.ok) return rateFailure($i, payload, rate);
 
+  const requestTimeoutMs = boundedTunnelTimeout(payload.timeoutMs);
+  const vessel = resolveFsVessel({ $i, userId: ident.userId, tunnelName, payload, timeoutMs: requestTimeoutMs });
+  return await runResolvedVessel($i, ident, payload, vessel);
+}
+
+function controlBaseUrl(tunnelName) {
+  return "https://awtsmoos.com/api/tunnel/control/fs/" + encodeURIComponent(tunnelName || "auto");
+}
+
+function authFailure($i, payload, ident) {
+  return json($i, attachActionGuidance({
+    BH: "B\"H",
+    ok: false,
+    error: ident.error || "not_authenticated",
+    guidance: "Log in normally, use OAuth Bearer token, or use x-awtsmoos-api-key."
+  }, payload), 401);
+}
+
+function scopeFailure($i, ident, payload) {
+  const neededScope = actionRequiredScope(payload.action);
+  if (identityAllows(ident, neededScope)) return null;
+  return json($i, attachActionGuidance({
+    BH: "B\"H",
+    ok: false,
+    error: "missing_scope",
+    neededScope,
+    identityKind: ident.kind
+  }, payload), 403);
+}
+
+function rateFailure($i, payload, rate) {
+  return json($i, attachActionGuidance({
+    BH: "B\"H",
+    ok: false,
+    error: rate.error,
+    limit: rate.limit
+  }, payload), 429);
+}
+
+async function runResolvedVessel($i, ident, payload, vessel) {
   try {
-    const requestTimeoutMs = boundedTunnelTimeout(payload.timeoutMs);
-    const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload, requestTimeoutMs);
-    publishHandoff(vars.tunnelName, { action: payload.action, result });
+    const result = await vessel.send();
+    publishHandoff(vessel.tunnelName || payload.tunnelName, { action: payload.action, result });
     const shaped = attachActionGuidance(maybeExternalize(result, payload), payload);
-    const bytes = responseBytes(shaped);
-
-    recordUsage({
-      userId: ident.userId,
-      keyId: ident.keyId || null,
-      action: payload.action,
-      path: payload.path || payload.absolutePath || payload.cwd || payload.url || null,
-      bytes,
-      ok: result.ok !== false
-    });
-
+    recordFsUsage(ident, payload, shaped, result.ok !== false);
     return json($i, shaped, shaped.status || result.status || 200);
   } catch (e) {
-    recordUsage({
-      userId: ident.userId,
-      keyId: ident.keyId || null,
-      action: payload.action,
-      path: payload.path || payload.absolutePath || payload.cwd || payload.url || null,
-      ok: false
-    });
-
-    const failure = attachActionGuidance({
-      BH: "B\"H",
-      ok: false,
-      error: e.message,
-      stack: e.stack
-    }, payload);
-    publishHandoff(vars.tunnelName, { action: payload.action, result: failure });
+    const failure = attachActionGuidance({ BH: "B\"H", ok: false, error: e.message, stack: e.stack }, payload);
+    recordFsUsage(ident, payload, failure, false);
+    publishHandoff(payload.tunnelName, { action: payload.action, result: failure });
     return json($i, failure, 500);
   }
 }
 
-module.exports = { protectedFs, boundedTunnelTimeout };
+function recordFsUsage(ident, payload, result, ok) {
+  recordUsage({
+    userId: ident.userId,
+    keyId: ident.keyId || null,
+    action: `${payload.tunnelName || "auto"}:${payload.action}`,
+    path: payload.path || payload.absolutePath || payload.cwd || payload.url || null,
+    bytes: responseBytes(result),
+    ok
+  });
+}
+
+module.exports = { boundedTunnelTimeout, protectedFs };

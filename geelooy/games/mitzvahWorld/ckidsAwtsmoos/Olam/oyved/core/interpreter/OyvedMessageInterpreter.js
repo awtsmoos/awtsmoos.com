@@ -1,13 +1,25 @@
 // B"H
 /**
  * @module OyvedMessageInterpreter
- * @description Chapter 20: Routes genesis and continuous worker messages through bh24.
+ * @description
+ * Chapter 33: Continuous Messages Carry The Countdown Route.
+ *
+ * The Awtsmoos routes genesis and every after-breath through fresh vessels:
+ * authored Y is preserved, lava reset waits for touch/key, then feet return.
  */
-import { GenesisRoute } from './GenesisRoute.js?v=lean-l1-20260528-bh37';
-import { ContinuousRoute } from './ContinuousRoute.js?v=lean-l1-20260528-bh37';
+import { GenesisRoute } from './GenesisRoute.js?v=respect-authored-y-20260602-bh7';
+import { ContinuousRoute } from './ContinuousRoute.js?v=lava-countdown-feet-20260602-bh8';
 
 export class OyvedMessageInterpreter {
-  /** Directs the initial creation message or delegates ongoing events. */
+  /**
+   * Directs the initial creation message or delegates ongoing events.
+   *
+   * @param {object} data Incoming worker message.
+   * @param {boolean} isVesselsSound Runtime health flag.
+   * @param {object} SystemCore Core classes.
+   * @param {Map} promiseMap Promise bridge.
+   * @returns {Promise<object|string|null>} Genesis world, continuous marker, or null.
+   */
   static async handleMessage(data, isVesselsSound, SystemCore, promiseMap) {
     if (!data || typeof data !== 'object') return null;
     if (!isVesselsSound) {
@@ -18,7 +30,14 @@ export class OyvedMessageInterpreter {
     return 'CONTINUOUS';
   }
 
-  /** Directs all post-creation pulses. */
+  /**
+   * Directs all post-creation pulses.
+   *
+   * @param {object} ActiveOlamInstance Active world.
+   * @param {object} data Incoming data.
+   * @param {Map} promiseMap Promise bridge.
+   * @returns {Promise<void>} Completion.
+   */
   static async handleOngoing(ActiveOlamInstance, data, promiseMap) {
     await ContinuousRoute.route(ActiveOlamInstance, data, promiseMap);
   }

@@ -1,0 +1,2 @@
+geelooy/games/shema-strike/index.html
+geelooy/games/soul-jump/index.html

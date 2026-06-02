@@ -1,0 +1,229 @@
+{
+  "ok": 29,
+  "failed": 0,
+  "total": 31,
+  "count": 31,
+  "caps": {
+    "collectMs": 0,
+    "runtimeMs": 0
+  },
+  "rows": [
+    {
+      "p": "mkdirp",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "write",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "read",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "read64",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "readLines",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "readManyLines",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "partial-offset-read",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "bulk",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "bulkSearch",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "fileHashes/writeIfHash",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "bulkWrite/bulkWriteIfHashes",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "touch/ensureFile/stat/list/tree/findFiles",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "copyFile/copyTree/moveFile/moveTree/deleteFile/deleteTree",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "jsonValidate-valid",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "jsonValidate-invalid",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "yamlValidate-valid",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "yamlValidate-invalid",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "syntaxCheck-malformed-js",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "simulateRuntime-import",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "simulateRuntime-success",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "simulateRuntime-thrown-error",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "simulateRuntime-async-error",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "snapshot-like-api",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "nodeCheckFile",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "processList",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "portList",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "server/local-http",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "agent-spawn-status-watch",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "agent-stale-kill-after-10s",
+      "ok": true,
+      "error": "",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "serverStart",
+      "ok": false,
+      "error": "not directly registered in local dispatcher mapping",
+      "ms": 0,
+      "fileCount": 0
+    },
+    {
+      "p": "serverStop",
+      "ok": false,
+      "error": "not directly registered in local dispatcher mapping",
+      "ms": 0,
+      "fileCount": 0
+    }
+  ]
+}

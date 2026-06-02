@@ -1,21 +1,22 @@
 //B"H
 
 const KEY = "BH_awtsmoos_ai_node_relay_v1";
+const SPLIT_BROWSER_URL = "http://127.0.0.1:38488";
+const OLD_COOKIE_RELAY_URL = "http://127.0.0.1:38487";
 
 export const DEFAULT_NODE_RELAY_SETTINGS = Object.freeze({
   enabled: false,
-  url: "http://127.0.0.1:38487"
+  url: SPLIT_BROWSER_URL
 });
 
 /**
- * Chapter 102: The Silent Door Stays Closed Until Chosen.
+ * Chapter 291: The Relay Door Remembered The Correct Port.
  *
- * The Awtsmoos reveals two possible roads for ChatGPT traffic: the Chrome
- * extension bridge, which owns the normal cockpit, and the localhost relay,
- * which is a separate chosen vessel. This store must never awaken the relay by
- * default during page boot; otherwise a dead localhost check can steal time from
- * the extension and leave the sidebar whispering "reconnecting" instead of
- * showing the living conversations.
+ * The Awtsmoos saw the phone open `38487` while the split-browser throne was
+ * actually alive on `38488`. That mismatch is not a user mistake; it is stale
+ * memory from the older cookie relay. The chosen Node path must now heal old
+ * stored settings into the split-browser control gate, where `/control` opens
+ * the localhost-proxied ChatGPT page and does not require debug Chrome.
  *
  * @returns {{enabled:boolean,url:string}} Saved relay settings with safe defaults.
  */
@@ -55,13 +56,21 @@ export function isNodeRelayEnabled() {
 }
 
 function normalize(value = {}) {
-  const rawUrl = String(value.url || DEFAULT_NODE_RELAY_SETTINGS.url).replace(/\/+$/, "");
-  const staleUrl = /:38488$/.test(rawUrl);
+  const rawUrl = cleanUrl(value.url || DEFAULT_NODE_RELAY_SETTINGS.url);
+  const staleUrl = isOldCookieRelay(rawUrl);
   const url = staleUrl ? DEFAULT_NODE_RELAY_SETTINGS.url : rawUrl;
-  const enabled = !staleUrl && value.enabled === true;
+  const enabled = value.enabled === true;
   return { enabled, url };
 }
 
+function cleanUrl(value) {
+  return String(value || DEFAULT_NODE_RELAY_SETTINGS.url).replace(/\/+$/, "");
+}
+
+function isOldCookieRelay(url) {
+  return url === OLD_COOKIE_RELAY_URL || /:38487$/.test(url);
+}
+
 function shouldHealStoredSettings(raw = {}, settings = DEFAULT_NODE_RELAY_SETTINGS) {
-  return raw.enabled !== settings.enabled || String(raw.url || "").replace(/\/+$/, "") !== settings.url;
+  return raw.enabled !== settings.enabled || cleanUrl(raw.url || "") !== settings.url;
 }

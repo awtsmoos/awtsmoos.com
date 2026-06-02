@@ -1,64 +1,44 @@
 // B"H
+/**
+ * @file runtimeAdapters.js
+ * @brief Runtime adapters backed by the shared Awtsmoos router.
+ */
 
-import { recordRuntimeEvent } from "./runtimeTimeline.js";
-import { listVirtualFiles, readVirtualFile, writeVirtualFile } from "./virtualFilesystem.js";
+import { routeAwtsmoosAction } from '../../../../../shared/awtsmoos-runtime/index.js';
+import { recordRuntimeEvent } from './runtimeTimeline.js';
 
-function virtualInvoke(action, payload = {}) {
-  if (action === "files.search" || action === "files.list") return { ok: true, entries: listVirtualFiles(payload.path || "/") };
-  if (action === "files.read") return readVirtualFile(payload.path || "/README.awt");
-  if (action === "files.write") return writeVirtualFile(payload.path || "/draft.txt", payload.content || "");
-  if (action === "semantic.search") return { ok: true, matches: listVirtualFiles("/").filter(entry => entry.path.toLowerCase().includes(String(payload.q || "").toLowerCase())) };
-  if (action === "workflow.run") return { ok: true, workflow: payload.workflow || "virtual", simulated: true };
-  return { ok: true, simulated: true, action, payload };
+const INTENT_TO_ACTION = Object.freeze({
+  'files.search': 'grep',
+  'files.list': 'list',
+  'files.read': 'read',
+  'files.write': 'write',
+  'semantic.search': 'grep',
+  'workflow.run': 'simulateRuntime',
+  'browser.inspect': 'simulateRuntime',
+  'terminal.run': 'command'
+});
+
+function normalizePayload(intent, payload = {}) {
+  if (intent === 'files.search' || intent === 'semantic.search') return { query: payload.q || payload.query || '' };
+  if (intent === 'workflow.run') return { runtime: 'virtual', workflow: payload.workflow || 'virtual' };
+  if (intent === 'browser.inspect') return { runtime: 'browser', html: payload.html || '' };
+  if (intent === 'terminal.run') return { command: payload.command || payload.text || '' };
+  return payload;
 }
 
-/**
- * B"H
- * Creates a normalized adapter around a runtime.
- *
- * @param {object} runtime Runtime descriptor.
- * @returns {object} Adapter.
- */
 export function createRuntimeAdapter(runtime) {
   const caps = runtime?.mountedCapabilities || {};
 
   return {
-    id: runtime?.id || "unknown",
+    id: runtime?.id || 'unknown',
     runtime,
-    can(capability) {
-      return !!caps[capability];
-    },
-    describe() {
-      return {
-        id: runtime?.id,
-        mode: runtime?.mode,
-        root: runtime?.activeRoot,
-        capabilities: caps
-      };
-    },
-    async invoke(action, payload = {}) {
-      const event = recordRuntimeEvent({
-        runtimeId: runtime?.id,
-        type: "intent.invoke",
-        summary: `Invoke ${action}`,
-        payload: { action, payload }
-      });
-
-      if (runtime?.mode === "virtual-os") {
-        return {
-          ...virtualInvoke(action, payload),
-          virtual: true,
-          action,
-          eventId: event.id
-        };
-      }
-
-      return {
-        ok: false,
-        action,
-        eventId: event.id,
-        message: "Adapter recorded intent. Real local execution remains delegated to the existing tunnel feature modules."
-      };
+    can(capability) { return !!caps[capability]; },
+    describe() { return { id: runtime?.id, mode: runtime?.mode, root: runtime?.activeRoot, capabilities: caps }; },
+    async invoke(intent, payload = {}) {
+      const event = recordRuntimeEvent({ runtimeId: runtime?.id, type: 'intent.invoke', summary: `Invoke ${intent}`, payload: { intent, payload } });
+      const action = INTENT_TO_ACTION[intent] || intent;
+      const result = await routeAwtsmoosAction({ action, args: normalizePayload(intent, payload), preferVirtual: runtime?.mode === 'virtual-os' });
+      return { ...result, eventId: event.id, intent, runtimeId: runtime?.id };
     }
   };
 }

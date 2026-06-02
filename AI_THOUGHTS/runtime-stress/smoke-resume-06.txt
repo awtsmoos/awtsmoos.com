@@ -1,0 +1,2 @@
+geelooy/games/adventure/index.html
+geelooy/games/brick-blast/index.html

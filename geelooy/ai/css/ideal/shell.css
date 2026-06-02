@@ -1,14 +1,195 @@
 /*B"H
-  Chapter 132: The Cockpit Learned The Difference Between Narrow And Broken.
-  Intermediate desktops keep expandable rails, true mobile keeps scene tabs, and
-  the divider bars glow because they actually resize the grid.
+  Chapter 377: The Cockpit Shell Released The Last Repeated Panel Body.
+
+  The Awtsmoos gives the app one grid and clear panel chrome. This shell reaches
+  through structural selectors only where the outer grid must assign areas; the
+  right-panel module owns the plain `#automation-panel .right-panel-body` name.
 */
-.container{width:100vw;height:100dvh;display:grid;grid-template-columns:var(--awt-shell-cols);grid-template-areas:var(--awt-shell-areas);gap:var(--awt-gap);padding:var(--awt-shell-pad);background:var(--awt-bg-radial);overflow:hidden;isolation:isolate}#sidebar{grid-area:left;left:var(--awt-sidebar-left)}#left-resizer{grid-area:leftResize}#right-resizer{grid-area:rightResize}#automation-panel{grid-area:right;right:var(--awt-auto-right)}.main{grid-area:main;border:var(--awt-main-border);border-radius:var(--awt-main-radius);min-height:var(--awt-main-min)}
-.resize-bar,.composer-resizer{display:block!important;background:linear-gradient(180deg,transparent,rgba(45,212,191,.42),transparent);border:0;border-radius:999px;opacity:.72;touch-action:none;z-index:12}.resize-bar{cursor:col-resize}.composer-resizer{cursor:row-resize;min-height:6px;background:linear-gradient(90deg,transparent,rgba(45,212,191,.42),transparent)}.resize-bar:hover,.composer-resizer:hover,.is-resizing-panels .resize-bar,.is-resizing-panels .composer-resizer{opacity:1;box-shadow:0 0 24px rgba(34,230,196,.28)}
-.sidebar,.automation-panel{min-width:0;max-width:100%;max-height:var(--awt-panel-max-h);height:var(--awt-panel-h);border:1px solid var(--awt-line);border-radius:var(--awt-panel-radius);background:linear-gradient(180deg,rgba(12,26,45,.98),rgba(3,8,17,.99));box-shadow:var(--awt-shadow-lg),var(--awt-inset);overflow:hidden;position:var(--awt-panel-pos);top:var(--awt-panel-top);bottom:var(--awt-panel-bottom);z-index:var(--awt-panel-z);display:grid;grid-template-rows:auto minmax(0,1fr);width:100%}.main{min-width:0;max-width:100%;max-height:var(--awt-panel-max-h);height:var(--awt-panel-h);background:linear-gradient(180deg,rgba(8,19,34,.98),rgba(3,8,17,.99));box-shadow:var(--awt-shadow-lg),var(--awt-inset);overflow:hidden;position:var(--awt-panel-pos);top:var(--awt-panel-top);bottom:var(--awt-panel-bottom);z-index:var(--awt-panel-z);display:grid;grid-template-rows:auto minmax(0,1fr) 6px minmax(var(--ai-composer,96px),auto);grid-template-areas:"transport" "chat" "composerResize" "composer"}
-.sidebar::after,.automation-panel::after,.main::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(135deg,rgba(34,230,196,.05),transparent 28%,rgba(124,58,237,.04) 92%);opacity:.55}.automation-panel-content,.conversation-list,.chat-box,.input-area,.panel-topbar{position:relative;z-index:2}#transport-status{grid-area:transport}.chat-box{grid-area:chat}.input-area{grid-area:composer;min-height:var(--ai-composer,96px)}#composer-resizer{grid-area:composerResize}.attachment-tools{position:absolute;right:var(--awt-tools-right);bottom:var(--awt-tools-bottom);z-index:8}
-.panel-topbar,.sidebar-header{min-height:var(--awt-topbar-min);height:var(--awt-topbar-h);display:flex;align-items:center;justify-content:var(--awt-topbar-justify);gap:10px;padding:var(--awt-topbar-pad);border-bottom:1px solid rgba(148,163,184,.15);background:linear-gradient(135deg,rgba(15,31,52,.98),rgba(6,16,30,.92))}.panel-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:950;letter-spacing:.02em;font-size:var(--awt-title-size);color:var(--awt-text)}.sidebar .panel-title::before{content:"☰";margin-right:9px;color:var(--awt-hot)}.automation-panel .panel-title::before{content:"⚙";margin-right:9px;color:#b79cff}.panel-actions{display:flex;gap:8px;margin-left:auto}.panel-actions button{width:var(--awt-action-size);height:var(--awt-action-size);border:1px solid var(--awt-line-soft);border-radius:14px;background:rgba(7,17,31,.96);color:var(--awt-soft);box-shadow:var(--awt-inset)}.panel-actions button:hover{border-color:var(--awt-line-strong);color:var(--awt-text);box-shadow:var(--awt-ring)}
-.is-collapsed,.is-detached{min-width:58px!important;width:58px!important;max-width:58px!important;overflow:hidden!important}.is-collapsed>:not(.panel-topbar),.is-detached>:not(.panel-topbar){display:none!important}.is-collapsed .panel-topbar,.is-detached .panel-topbar{height:100%;min-height:0;padding:10px 7px;border-bottom:0;display:grid;grid-template-rows:minmax(0,1fr) 44px;grid-template-columns:1fr;place-items:center;gap:8px;cursor:pointer}.is-collapsed .panel-title,.is-detached .panel-title{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;max-height:100%;white-space:nowrap}.is-collapsed .panel-title::before,.is-detached .panel-title::before{content:""!important;margin:0!important}.is-collapsed .panel-actions,.is-detached .panel-actions{margin:0;width:44px;height:44px;display:grid;place-items:center}.is-collapsed .panel-actions [data-panel-action="fullscreen"],.is-detached .panel-actions [data-panel-action="fullscreen"]{display:none!important}.is-collapsed .panel-actions button,.is-detached .panel-actions button{width:40px;height:40px;border-radius:16px}
-.is-panel-fullscreen{position:fixed!important;inset:10px!important;z-index:90!important;width:auto!important;height:auto!important}.has-panel-fullscreen .container{padding:0}.has-panel-fullscreen .main:not(.is-panel-fullscreen),.has-panel-fullscreen .sidebar:not(.is-panel-fullscreen),.has-panel-fullscreen .automation-panel:not(.is-panel-fullscreen){filter:brightness(.45);pointer-events:none}@media(max-width:1100px) and (min-width:761px){.container{--awt-gap:7px}.panel-title{font-size:.92rem}.sidebar:not(.is-collapsed),.automation-panel:not(.is-collapsed){min-width:0}.conversation-list,.right-panel-body{padding:10px!important}.service-selector{padding:9px}.automation-two-col{grid-template-columns:1fr}}
-@media(max-width:760px){#left-resizer,#right-resizer,#composer-resizer{display:none!important}.is-collapsed,.is-detached{width:100vw!important;max-width:100vw!important}.is-collapsed>:not(.panel-topbar),.is-detached>:not(.panel-topbar){display:revert!important}.is-collapsed .panel-topbar,.is-detached .panel-topbar{height:var(--awt-topbar-h);display:flex;padding:var(--awt-topbar-pad)}.is-collapsed .panel-title,.is-detached .panel-title{writing-mode:horizontal-tb;transform:none;font-size:var(--awt-title-size)}}
-@media(min-width:1380px){.container{max-width:1540px;margin:0 auto}}
+.container{
+  width:100vw;
+  height:100dvh;
+  display:grid;
+  grid-template-columns:var(--awt-shell-cols);
+  grid-template-areas:var(--awt-shell-areas);
+  gap:var(--awt-gap);
+  padding:var(--awt-shell-pad);
+  background:var(--awt-bg-radial);
+  overflow:hidden;
+  isolation:isolate;
+}
+#sidebar{grid-area:left;left:var(--awt-sidebar-left)}
+#left-resizer{grid-area:leftResize}
+#right-resizer{grid-area:rightResize}
+.container>#automation-panel{grid-area:right;right:var(--awt-auto-right)}
+.container>.main{
+  grid-area:main;
+  border:var(--awt-main-border);
+  border-radius:var(--awt-main-radius);
+  min-height:var(--awt-main-min);
+  min-width:0;
+  max-width:100%;
+  max-height:var(--awt-panel-max-h);
+  height:var(--awt-panel-h);
+  background:linear-gradient(180deg,rgba(8,19,34,.98),rgba(3,8,17,.99));
+  box-shadow:var(--awt-shadow-lg),var(--awt-inset);
+  overflow:hidden;
+  position:var(--awt-panel-pos);
+  top:var(--awt-panel-top);
+  bottom:var(--awt-panel-bottom);
+  z-index:var(--awt-panel-z);
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) 6px minmax(var(--ai-composer,96px),auto);
+  grid-template-areas:"transport" "chat" "composerResize" "composer";
+}
+.resize-bar,
+.composer-resizer{
+  display:block;
+  background:linear-gradient(180deg,transparent,rgba(45,212,191,.42),transparent);
+  border:0;
+  border-radius:999px;
+  opacity:.72;
+  touch-action:none;
+  z-index:12;
+}
+.resize-bar{cursor:col-resize}
+.composer-resizer{
+  cursor:row-resize;
+  min-height:6px;
+  background:linear-gradient(90deg,transparent,rgba(45,212,191,.42),transparent);
+}
+.resize-bar:hover,
+.composer-resizer:hover,
+.is-resizing-panels .resize-bar,
+.is-resizing-panels .composer-resizer{
+  opacity:1;
+  box-shadow:0 0 24px rgba(34,230,196,.28);
+}
+.container>.sidebar,
+.container>.automation-panel{
+  min-width:0;
+  max-width:100%;
+  max-height:var(--awt-panel-max-h);
+  height:var(--awt-panel-h);
+  border:1px solid var(--awt-line);
+  border-radius:var(--awt-panel-radius);
+  background:linear-gradient(180deg,rgba(12,26,45,.98),rgba(3,8,17,.99));
+  box-shadow:var(--awt-shadow-lg),var(--awt-inset);
+  overflow:hidden;
+  position:var(--awt-panel-pos);
+  top:var(--awt-panel-top);
+  bottom:var(--awt-panel-bottom);
+  z-index:var(--awt-panel-z);
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  width:100%;
+}
+.container>.sidebar::after,
+.container>.automation-panel::after,
+.container>.main::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(34,230,196,.05),transparent 28%,rgba(124,58,237,.04) 92%);
+  opacity:.55;
+}
+.container>.main>#transport-status{grid-area:transport;position:relative;z-index:2}
+.container>.main>.chat-box{grid-area:chat;position:relative;z-index:2}
+.container>.main>.input-area{grid-area:composer;min-height:var(--ai-composer,96px);position:relative;z-index:2}
+.container>.main>#composer-resizer{grid-area:composerResize}
+.container>.main .attachment-tools{
+  position:absolute;
+  right:var(--awt-tools-right);
+  bottom:var(--awt-tools-bottom);
+  z-index:8;
+}
+.panel-topbar,
+.sidebar-header{
+  position:relative;
+  z-index:2;
+  min-height:var(--awt-topbar-min);
+  height:var(--awt-topbar-h);
+  display:flex;
+  align-items:center;
+  justify-content:var(--awt-topbar-justify);
+  gap:10px;
+  padding:var(--awt-topbar-pad);
+  border-bottom:1px solid rgba(148,163,184,.15);
+  background:linear-gradient(135deg,rgba(15,31,52,.98),rgba(6,16,30,.92));
+}
+.panel-title{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-weight:950;
+  letter-spacing:.02em;
+  font-size:var(--awt-title-size);
+  color:var(--awt-text);
+}
+.sidebar .panel-title::before{content:"☰";margin-right:9px;color:var(--awt-hot)}
+.automation-panel .panel-title::before{content:"⚙";margin-right:9px;color:#b79cff}
+.panel-actions{display:flex;gap:8px;margin-left:auto}
+.panel-actions button{
+  width:var(--awt-action-size);
+  height:var(--awt-action-size);
+  border:1px solid var(--awt-line-soft);
+  border-radius:14px;
+  background:rgba(7,17,31,.96);
+  color:var(--awt-soft);
+  box-shadow:var(--awt-inset);
+}
+.panel-actions button:hover{
+  border-color:var(--awt-line-strong);
+  color:var(--awt-text);
+  box-shadow:var(--awt-ring);
+}
+.is-collapsed,
+.is-detached{
+  min-width:58px;
+  width:58px;
+  max-width:58px;
+  overflow:hidden;
+}
+.is-collapsed>:not(.panel-topbar),
+.is-detached>:not(.panel-topbar){display:none}
+.is-collapsed .panel-topbar,
+.is-detached .panel-topbar{
+  height:100%;
+  min-height:0;
+  padding:10px 7px;
+  border-radius:inherit;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.is-collapsed .panel-title,
+.is-detached .panel-title{
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  white-space:nowrap;
+}
+.is-panel-fullscreen{
+  position:fixed;
+  inset:10px;
+  z-index:90;
+  width:auto;
+  height:auto;
+}
+.has-panel-fullscreen .container{padding:0}
+.has-panel-fullscreen .main:not(.is-panel-fullscreen),
+.has-panel-fullscreen .sidebar:not(.is-panel-fullscreen),
+.has-panel-fullscreen .automation-panel:not(.is-panel-fullscreen){
+  filter:brightness(.45);
+  pointer-events:none;
+}
+@media(max-width:1100px) and (min-width:761px){
+  .container{--awt-gap:7px}
+  .panel-title{font-size:.92rem}
+  .container>.sidebar:not(.is-collapsed),
+  .container>.automation-panel:not(.is-collapsed){min-width:0}
+  .sidebar .conversation-list,
+  .container>#automation-panel .right-panel-body{padding:10px}
+  .sidebar .service-selector{padding:9px}
+  .automation-two-col{grid-template-columns:1fr}
+}

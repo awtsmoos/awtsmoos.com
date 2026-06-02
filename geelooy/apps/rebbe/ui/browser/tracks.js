@@ -2,80 +2,91 @@
 // ui/browser/tracks.js
 import { fmt } from '../utils.js';
 
+/**
+ * B"H
+ * The event view mirrors search results: whole-event actions above, individual
+ * file actions below. One logic, two doors, no divided kingdom.
+ */
 export function renderTracks(tracks, folderTitle, checkStatus, onSelect, onAction) {
-    const list = document.getElementById('list-tracks');
-    if(!list) return;
-    list.innerHTML = '';
-    tracks.forEach((t, i) => {
-        const d = document.createElement('div');
-        d.className = 'item track-item';
-        d.id = `track-${i}`;
-        
-        // Left side container for name and status
-        const left = document.createElement('div');
-        left.style.flex = '1';
-        left.style.display = 'flex';
-        left.style.alignItems = 'center';
-        left.style.overflow = 'hidden';
+  const list = document.getElementById('list-tracks');
+  if (!list) return;
+  list.innerHTML = '';
+  list.appendChild(eventToolbar(folderTitle, onAction));
+  tracks.forEach((track, index) => list.appendChild(row(track, index, checkStatus, onSelect, onAction)));
+}
 
-        const statusSpan = document.createElement('span');
-        statusSpan.className = 'status-slot';
-        left.appendChild(statusSpan);
-        left.appendChild(document.createTextNode(" "));
+function eventToolbar(folderTitle, onAction) {
+  const bar = document.createElement('div');
+  bar.className = 'event-toolbar';
+  bar.innerHTML = `<strong></strong><div class="event-toolbar-actions"></div>`;
+  bar.querySelector('strong').textContent = folderTitle || 'EVENT';
+  const actions = bar.querySelector('.event-toolbar-actions');
+  actions.appendChild(mini('⬇ EVENT ZIP', 'Download all files in this event as ZIP', 'download-event', null, onAction));
+  actions.appendChild(mini('⚡ CACHE EVENT', 'Cache all files in this event', 'cache-event', null, onAction));
+  actions.appendChild(mini('☆ SAVE EVENT', 'Save this event to bookshelf', 'bookmark-folder', null, onAction));
+  bar.appendChild(styles());
+  return bar;
+}
 
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 't-name';
-        nameSpan.textContent = t.title;
-        nameSpan.style.fontFamily = 'monospace';
-        nameSpan.style.whiteSpace = 'nowrap';
-        nameSpan.style.overflow = 'hidden';
-        nameSpan.style.textOverflow = 'ellipsis';
-        left.appendChild(nameSpan);
-        
-        // Hacker text removed
+function row(track, index, checkStatus, onSelect, onAction) {
+  const item = document.createElement('div');
+  item.className = 'item track-item';
+  item.id = `track-${index}`;
+  item.appendChild(leftSide(track));
+  item.appendChild(actions(track, onAction));
+  if (checkStatus) markCacheStatus(track, item, checkStatus);
+  item.onclick = () => onSelect(index);
+  return item;
+}
 
-        // Right side actions
-        const actions = document.createElement('div');
-        actions.className = 'item-actions';
-        actions.style.display = 'flex';
-        actions.style.gap = '8px';
-        actions.style.marginLeft = '10px';
+function leftSide(track) {
+  const left = document.createElement('div');
+  left.className = 'track-left';
+  const status = document.createElement('span');
+  status.className = 'status-slot';
+  const name = document.createElement('span');
+  name.className = 't-name';
+  name.textContent = track.title;
+  left.append(status, document.createTextNode(' '), name);
+  return left;
+}
 
-        const durSpan = document.createElement('span');
-        durSpan.className = 't-dur';
-        durSpan.style.fontFamily = 'monospace';
-        durSpan.style.color = '#888';
-        durSpan.textContent = fmt(t.duration);
-        actions.appendChild(durSpan);
-        
-        // Download Button (Disk)
-        const btnDl = document.createElement('button');
-        btnDl.innerHTML = '⬇';
-        btnDl.title = "Download MP3";
-        btnDl.className = 'mini-btn';
-        btnDl.onclick = (e) => { e.stopPropagation(); onAction('download', t); };
-        actions.appendChild(btnDl);
+function actions(track, onAction) {
+  const wrap = document.createElement('div');
+  wrap.className = 'item-actions';
+  const dur = document.createElement('span');
+  dur.className = 't-dur';
+  dur.textContent = fmt(track.duration);
+  wrap.appendChild(dur);
+  wrap.appendChild(mini('⬇', 'Download this file', 'download', track, onAction));
+  wrap.appendChild(mini('⚡', 'Cache this file offline', 'cache', track, onAction));
+  wrap.appendChild(mini('☆', 'Save this file to bookshelf', 'bookmark-track', track, onAction));
+  return wrap;
+}
 
-        // Cache Button (App)
-        const btnCache = document.createElement('button');
-        btnCache.innerHTML = '⚡';
-        btnCache.title = "Save to App";
-        btnCache.className = 'mini-btn';
-        btnCache.onclick = (e) => { e.stopPropagation(); onAction('cache', t); };
-        actions.appendChild(btnCache);
+function mini(text, title, action, track, onAction) {
+  const button = document.createElement('button');
+  button.innerHTML = text;
+  button.title = title;
+  button.className = `mini-btn mini-${action}`;
+  button.onclick = event => {
+    event.stopPropagation();
+    onAction?.(action, track);
+  };
+  return button;
+}
 
-        d.appendChild(left);
-        d.appendChild(actions);
+function markCacheStatus(track, item, checkStatus) {
+  checkStatus(track.path).then(cached => {
+    const status = item.querySelector('.status-slot');
+    const cache = item.querySelector('.mini-cache');
+    if (status) status.innerHTML = cached ? '<span style="color:var(--c-cyan);font-weight:bold;">●</span>' : '';
+    if (cache && cached) cache.classList.add('saved');
+  });
+}
 
-        if(checkStatus) {
-            checkStatus(t.path).then(cached => {
-                const s = cached ? '<span style="color:var(--c-cyan); font-weight:bold;">● </span>' : '';
-                statusSpan.innerHTML = s;
-                if(cached) btnCache.style.color = 'var(--c-cyan)';
-            });
-        }
-        
-        d.onclick = () => onSelect(i);
-        list.appendChild(d);
-    });
+function styles() {
+  const style = document.createElement('style');
+  style.textContent = `.event-toolbar{border:1px solid #244;background:rgba(0,243,255,.08);padding:12px;margin-bottom:10px;display:grid;gap:10px}.event-toolbar strong{color:var(--c-yellow);letter-spacing:2px}.event-toolbar-actions{display:flex;gap:8px;flex-wrap:wrap}.event-toolbar .mini-btn{width:auto;padding:8px 10px}@media(max-width:720px){.event-toolbar-actions{display:grid;grid-template-columns:1fr}.event-toolbar .mini-btn{width:100%}}`;
+  return style;
 }

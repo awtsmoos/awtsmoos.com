@@ -163,15 +163,15 @@ function createLocateBtn(comment) {
 function createActionMenu(comment) {
     return {
         tag: 'div',
-        attr: { class: 'menu-chariot' },
+        attr: { class: 'menu-chariot awtsmoos-list-item' },
         children: [
-            { tag: 'button', attr: { class: 'menu-btn', type: 'button', title: 'More actions' }, children: ['...'] },
+            { tag: 'button', attr: { class: 'menu-btn btn', type: 'button', title: 'More actions' }, children: ['...'] },
             {
                 tag: 'div',
                 attr: { class: 'menu-dropdown hidden' },
                 children: ['Reply', 'Copy', 'Delete'].map(opt => ({
                     tag: 'div',
-                    attr: { class: 'menu-item', style: 'text-transform: none !important;' },
+                    attr: { class: 'menu-item awtsmoos-list-item', style: 'text-transform: none !important;' },
                     children: [opt],
                     events: { click: e => {
                         e.stopPropagation();

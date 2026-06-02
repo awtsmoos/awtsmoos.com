@@ -53,7 +53,7 @@ async function collectOptions(payload = {}, config = {}) {
     origin: payload.origin || runtimeOrigin(payload),
     url: payload.url || process.env.AWTSMOOS_BASE_URL || "https://awtsmoos.com",
     headless: payload.headless !== false,
-    waitMs: Number(payload.waitMs || 800),
+    waitMs: Number(payload.waitMs || 0),
     timeoutMs: Number(payload.timeoutMs || 30000),
     returnValues: firstJson(payload, ["returnValues", "values"], []),
     values: firstJson(payload, ["values", "returnValues"], [])

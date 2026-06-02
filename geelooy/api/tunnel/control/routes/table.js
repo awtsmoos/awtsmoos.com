@@ -2,6 +2,7 @@
 
 const { me } = require("./me.js");
 const { device } = require("./device.js");
+const { devices } = require("./devices.js");
 const { myDevice } = require("./myDevice.js");
 const { apiKeys } = require("./apiKeys.js");
 const { createApiKey } = require("./createApiKey.js");
@@ -20,12 +21,22 @@ const { blobView } = require("./blobView.js");
 const { blobManifest } = require("./blobManifest.js");
 const { handoff } = require("./handoff.js");
 
+/**
+ * B"H
+ * Chapter 10: The routes gathered like constellations around one crown.
+ *
+ * The route table now exposes the devices registry and keeps the same fs paths
+ * for local and virtual vessels. Agents can switch by changing only the tunnel
+ * segment: a real tunnel name, `auto`, or `awtsmoos-virtual-os`.
+ */
 const routeTable = {
   me,
   "me/": me,
 
   device,
   "device/": device,
+  devices,
+  "devices/": devices,
 
   "my-device": myDevice,
   "my-device/": myDevice,

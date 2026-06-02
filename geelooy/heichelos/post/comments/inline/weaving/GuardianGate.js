@@ -81,18 +81,18 @@ export class GuardianGate {
                         'aria-expanded': 'true'
                     },
                     children: [
-                        { tag: 'div', attr: { class: 'awtsmoos-inline-trigger-sigil', style: 'display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:999px;background:rgba(255,255,255,.14);font-size:20px;flex:0 0 auto;' }, children: ['✦'] },
+                        { tag: 'div', attr: { class: 'awtsmoos-inline-trigger-sigil awtsmoos-student-avatar', style: 'display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:999px;background:rgba(255,255,255,.14);font-size:20px;flex:0 0 auto;' }, children: ['✦'] },
                         {
                             tag: 'div',
-                            attr: { class: 'awtsmoos-inline-trigger-copy', style: 'display:flex;flex-direction:column;align-items:flex-start;min-width:0;flex:1;' },
+                            attr: { class: 'awtsmoos-inline-trigger-copy awtsmoos-student-copy', style: 'display:flex;flex-direction:column;align-items:flex-start;min-width:0;flex:1;' },
                             children: [
-                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-title', style: 'font-size:15px;text-transform:uppercase;opacity:.78;font-weight:900;letter-spacing:.08em;' }, children: ['Inline commentary'] },
-                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-subtitle', style: 'font-size:18px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;' }, children: [`@${alias}`] },
-                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-preview' }, children: ['Preparing a marginal preview…'] },
-                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-meta' }, children: [`@${alias} · ready`] }
+                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-title awtsmoos-student-name', style: 'font-size:15px;text-transform:uppercase;opacity:.78;font-weight:900;letter-spacing:.08em;' }, children: ['Inline commentary'] },
+                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-subtitle awtsmoos-student-location', style: 'font-size:18px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;' }, children: [`@${alias}`] },
+                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-preview comment-content' }, children: ['Preparing a marginal preview…'] },
+                                { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-meta awtsmoos-student-location' }, children: [`@${alias} · ready`] }
                             ]
                         },
-                        { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-count', 'aria-label': 'inline comment count' }, children: ['0'] }
+                        { tag: 'span', attr: { class: 'awtsmoos-inline-trigger-count awtsmoos-sidebar-tab-btn', 'aria-label': 'inline comment count' }, children: ['0'] }
                     ],
                     events: {
                         mouseenter: e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.01)'; e.currentTarget.style.boxShadow = '0 22px 48px rgba(88,28,135,.28)'; },

@@ -1,0 +1,1 @@
+const http=require('http');const s=http.createServer((q,r)=>r.end('BH'));s.listen(0,()=>{console.log(s.address().port);setTimeout(()=>s.close(),400);});

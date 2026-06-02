@@ -1,0 +1,389 @@
+{
+  "BH": "B\"H",
+  "ok": true,
+  "runtime": "MekravaExecutor",
+  "engine": "merkava",
+  "entry": "index.html",
+  "console": {
+    "logs": []
+  },
+  "errors": [],
+  "stackTraces": [],
+  "variableSnapshots": [],
+  "domSnapshot": {
+    "activeElement": null,
+    "readyState": "complete",
+    "title": "",
+    "documentElement": {
+      "nodeId": 1,
+      "tagName": "HTML",
+      "id": "",
+      "className": "",
+      "textContent": "B\"H SnapshotglobalThis.snap=1",
+      "value": "",
+      "nodeType": 1,
+      "name": "",
+      "type": "",
+      "checked": false,
+      "selected": false,
+      "attributes": {},
+      "dataset": {},
+      "style": {},
+      "webgl": null,
+      "shadowRoot": null,
+      "children": [
+        {
+          "nodeId": 2,
+          "tagName": "HEAD",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": "",
+          "nodeType": 1,
+          "name": "",
+          "type": "",
+          "checked": false,
+          "selected": false,
+          "attributes": {},
+          "dataset": {},
+          "style": {},
+          "webgl": null,
+          "shadowRoot": null,
+          "children": []
+        },
+        {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "",
+          "textContent": "B\"H SnapshotglobalThis.snap=1",
+          "value": "",
+          "nodeType": 1,
+          "name": "",
+          "type": "",
+          "checked": false,
+          "selected": false,
+          "attributes": {},
+          "dataset": {},
+          "style": {},
+          "webgl": null,
+          "shadowRoot": null,
+          "children": [
+            {
+              "nodeId": 5,
+              "tagName": "H1",
+              "id": "",
+              "className": "",
+              "textContent": "B\"H Snapshot",
+              "value": "",
+              "nodeType": 1,
+              "name": "",
+              "type": "",
+              "checked": false,
+              "selected": false,
+              "attributes": {},
+              "dataset": {},
+              "style": {},
+              "webgl": null,
+              "shadowRoot": null,
+              "children": [
+                {
+                  "nodeId": 6,
+                  "tagName": "#TEXT",
+                  "id": "",
+                  "className": "",
+                  "textContent": "B\"H Snapshot",
+                  "value": "",
+                  "nodeType": 3,
+                  "name": "",
+                  "type": "",
+                  "checked": false,
+                  "selected": false,
+                  "attributes": {},
+                  "dataset": {},
+                  "style": {},
+                  "webgl": null,
+                  "shadowRoot": null,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "nodeId": 7,
+              "tagName": "SCRIPT",
+              "id": "",
+              "className": "",
+              "textContent": "globalThis.snap=1",
+              "value": "",
+              "nodeType": 1,
+              "name": "",
+              "type": "",
+              "checked": false,
+              "selected": false,
+              "attributes": {},
+              "dataset": {},
+              "style": {},
+              "webgl": null,
+              "shadowRoot": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "journal": [
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 1,
+          "tagName": "HTML",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 2,
+            "tagName": "HEAD",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780377302477
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 1,
+          "tagName": "HTML",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 3,
+            "tagName": "BODY",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780377302477
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 5,
+            "tagName": "H1",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780377302478
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 5,
+          "tagName": "H1",
+          "id": "",
+          "className": "",
+          "textContent": "B\"H Snapshot",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 6,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "B\"H Snapshot",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780377302480
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "",
+          "textContent": "B\"H Snapshot",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 7,
+            "tagName": "SCRIPT",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780377302480
+      }
+    ]
+  },
+  "networkLog": {
+    "requests": []
+  },
+  "moduleGraph": {
+    "entry": "index.html",
+    "modules": [
+      "index.html"
+    ],
+    "unresolved": []
+  },
+  "assetGraph": {
+    "entry": "index.html",
+    "scripts": [
+      {
+        "kind": "script",
+        "type": "classic",
+        "src": null,
+        "inline": true,
+        "code": "globalThis.snap=1",
+        "from": "index.html",
+        "attrs": {}
+      }
+    ],
+    "styles": [],
+    "assets": [],
+    "importMaps": [],
+    "executionPlan": [
+      {
+        "kind": "script",
+        "type": "classic",
+        "src": null,
+        "inline": true,
+        "code": "globalThis.snap=1",
+        "from": "index.html",
+        "attrs": {}
+      }
+    ],
+    "warnings": []
+  },
+  "runtimeGraph": {
+    "nodes": [
+      {
+        "kind": "MekravaExecutor",
+        "entry": "index.html",
+        "id": "runtime",
+        "updatedAt": "2026-06-02T05:15:02.475Z"
+      },
+      {
+        "kind": "html",
+        "id": "index.html",
+        "updatedAt": "2026-06-02T05:15:02.477Z"
+      }
+    ],
+    "edges": [
+      {
+        "from": "index.html",
+        "to": "inline-script:1",
+        "kind": "classic-script",
+        "at": "2026-06-02T05:15:02.477Z"
+      }
+    ],
+    "events": []
+  },
+  "score": 100,
+  "suggestions": [],
+  "browserRuntime": false,
+  "urlCollection": null,
+  "values": {},
+  "valueErrors": {
+    "snap": {
+      "message": "snap is not defined",
+      "name": "ReferenceError",
+      "stack": "ReferenceError: snap is not defined\n    at readGlobal (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-vm/executors/stack.js:55:15)\n    at H.<computed> (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-vm/executors/stack.js:58:68)\n    at Object.exec (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-vm/instructions.js:15:44)\n    at Thread.step (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-vm/thread.js:124:41)\n    at runSang (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/SangVmRunner.js:49:12)\n    at runJsonCode (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaJsonRunner.js:11:10)\n    at evaluateMerkavaProbeExpressions (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaProbeEvaluator.js:51:19)\n    at async extractRequestedValues (file:///storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/core/simulateRuntime.js:90:41)\n    at async runMerkavaAssemblerOnce (file:///storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/core/simulateRuntime.js:169:21)\n    at async Module.simulateRuntime (file:///storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/core/simulateRuntime.js:182:12)",
+      "ip": 9,
+      "bytecodeLength": 13,
+      "threadId": 24083,
+      "status": "CRASHED",
+      "trace": [
+        "[Divine Trace] Thread #24083 - Status: CRASHED",
+        "  at anonymous (IP: 9, Bytecode: 13 bytes)"
+      ],
+      "stackSummary": [
+        {
+          "slot": "TOP - 0",
+          "type": "string",
+          "value": "__merkavaProbeValue"
+        },
+        {
+          "slot": "TOP - 1",
+          "type": "object",
+          "value": "[VirtualWindow]"
+        }
+      ]
+    }
+  },
+  "interactions": [],
+  "interactionLog": [],
+  "browserActionLog": [],
+  "interactionError": null,
+  "epochs": [
+    {
+      "id": 0,
+      "name": "url-collect",
+      "ok": true,
+      "fetchedCount": 1
+    },
+    {
+      "id": 1,
+      "name": "merkava-boot",
+      "ok": true
+    },
+    {
+      "id": 2,
+      "name": "actions",
+      "count": 0,
+      "ok": true
+    }
+  ],
+  "snapshot": {
+    "format": "json",
+    "fullPage": true,
+    "html": null,
+    "text": null,
+    "values": {},
+    "console": {
+      "logs": []
+    },
+    "errors": [],
+    "runtime": {
+      "kind": "browser",
+      "errors": []
+    },
+    "result": {
+      "kind": "browser",
+      "errors": []
+    }
+  }
+}

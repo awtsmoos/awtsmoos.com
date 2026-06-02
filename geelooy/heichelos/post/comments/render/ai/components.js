@@ -30,10 +30,10 @@ export function createMessageNode(msg, index, options = {}) {
     
     // Mini Toolbar
     const toolbar = document.createElement("div");
-    toolbar.className = "ai-toolbar-mini";
+    toolbar.className = "ai-toolbar-mini awtsmoos-sidebar-actions";
     
     const minBtn = document.createElement("button");
-    minBtn.className = "ai-btn-mini";
+    minBtn.className = "ai-btn-mini btn";
     minBtn.innerText = "_";
     minBtn.onclick = (e) => {
         e.stopPropagation();
@@ -43,7 +43,7 @@ export function createMessageNode(msg, index, options = {}) {
     };
 
     const collapseBelowBtn = document.createElement("button");
-    collapseBelowBtn.className = "ai-btn-mini";
+    collapseBelowBtn.className = "ai-btn-mini btn";
     collapseBelowBtn.innerText = "▼";
     
     collapseBelowBtn.onclick = (e) => {
@@ -79,9 +79,9 @@ export function createMessageNode(msg, index, options = {}) {
     
     if (canInteract) {
         const actionsDiv = document.createElement("div");
-        actionsDiv.className = "ai-msg-actions";
+        actionsDiv.className = "ai-msg-actions awtsmoos-sidebar-actions";
         const forkBtn = document.createElement("button");
-        forkBtn.className = "ai-action-btn";
+        forkBtn.className = "ai-action-btn btn awtsmoos-hero-btn";
         forkBtn.innerHTML = "Branch"; 
         forkBtn.onclick = (e) => {
             e.stopPropagation();
@@ -95,7 +95,7 @@ export function createMessageNode(msg, index, options = {}) {
     block.appendChild(content);
 
     const forksSlot = document.createElement("div");
-    forksSlot.className = "ai-forks-slot";
+    forksSlot.className = "ai-forks-slot awtsmoos-list-item";
     block.appendChild(forksSlot);
 
     return block;

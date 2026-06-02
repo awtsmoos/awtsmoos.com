@@ -7,7 +7,12 @@
 @import url("./views/gate.css") layer(awt.views);
 @import url("./views/shell.css") layer(awt.views);
 @import url("./views/dashboard.css") layer(awt.views);
+@import url("./views/kabbalah.css") layer(awt.views);
+@import url("./views/providers.css") layer(awt.views);
+@import url("./views/tasks.css") layer(awt.views);
+@import url("./views/command-center.css") layer(awt.views);
 @import url("./views/workspace.css") layer(awt.views);
+@import url("./views/portals.css") layer(awt.views);
 @import url("./interaction/controls.css") layer(awt.controls);
 @import url("./interaction/states.css") layer(awt.states);
 @import url("./interaction/motion.css") layer(awt.motion);

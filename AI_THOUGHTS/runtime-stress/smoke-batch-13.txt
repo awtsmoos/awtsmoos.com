@@ -1,0 +1,3 @@
+geelooy/games/mitzvahWorld/index.html
+geelooy/games/mitzvahWorld/main.html
+geelooy/games/mitzvahWorld/secretEditor.html

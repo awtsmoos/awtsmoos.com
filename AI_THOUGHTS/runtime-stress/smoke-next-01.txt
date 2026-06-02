@@ -1,0 +1,2 @@
+geelooy/games/Merkava/index.html
+geelooy/games/Nachash/index.html

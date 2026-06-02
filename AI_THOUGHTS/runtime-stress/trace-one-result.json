@@ -1,0 +1,1436 @@
+{
+  "BH": "B\"H",
+  "ok": true,
+  "runtime": "browser",
+  "engine": "merkava",
+  "entry": "geelooy/apps/tunnel-control/index.html",
+  "console": {
+    "logs": [
+      {
+        "level": "log",
+        "args": [
+          "[AwtsmoosTunnelControl]",
+          "boot modular control center v3300"
+        ],
+        "at": "2026-06-01T19:35:28.122Z"
+      },
+      {
+        "level": "error",
+        "args": [
+          "[AwtsmoosTunnelControl]",
+          "fatal app boot error",
+          "TypeError: node.append is not a function"
+        ],
+        "at": "2026-06-01T19:35:28.131Z"
+      }
+    ]
+  },
+  "errors": [],
+  "stackTraces": [],
+  "variableSnapshots": [],
+  "domSnapshot": {
+    "activeElement": null,
+    "readyState": "complete",
+    "title": "",
+    "documentElement": {
+      "nodeId": 1,
+      "tagName": "HTML",
+      "id": "",
+      "className": "",
+      "textContent": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :114:7)",
+      "value": "",
+      "nodeType": 1,
+      "name": "",
+      "type": "",
+      "checked": false,
+      "selected": false,
+      "attributes": {},
+      "dataset": {},
+      "style": {},
+      "webgl": null,
+      "shadowRoot": null,
+      "children": [
+        {
+          "nodeId": 2,
+          "tagName": "HEAD",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": "",
+          "nodeType": 1,
+          "name": "",
+          "type": "",
+          "checked": false,
+          "selected": false,
+          "attributes": {},
+          "dataset": {},
+          "style": {},
+          "webgl": null,
+          "shadowRoot": null,
+          "children": []
+        },
+        {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "awt-gated",
+          "textContent": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :114:7)",
+          "value": "",
+          "nodeType": 1,
+          "name": "",
+          "type": "",
+          "checked": false,
+          "selected": false,
+          "attributes": {
+            "class": "awt-gated"
+          },
+          "dataset": {},
+          "style": {},
+          "webgl": null,
+          "shadowRoot": null,
+          "children": [
+            {
+              "nodeId": 30,
+              "tagName": "PRE",
+              "id": "",
+              "className": "",
+              "textContent": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :114:7)",
+              "value": "",
+              "nodeType": 1,
+              "name": "",
+              "type": "",
+              "checked": false,
+              "selected": false,
+              "attributes": {},
+              "dataset": {},
+              "style": {},
+              "webgl": null,
+              "shadowRoot": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "journal": [
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 1,
+          "tagName": "HTML",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 2,
+            "tagName": "HEAD",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527950
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 1,
+          "tagName": "HTML",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 3,
+            "tagName": "BODY",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527950
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 5,
+          "tagName": "SECTION",
+          "id": "",
+          "className": "awt-login-gate",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342527957
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 5,
+          "tagName": "SECTION",
+          "id": "",
+          "className": "awt-login-gate",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "aria-labelledby",
+        "oldValue": null,
+        "at": 1780342527958
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 5,
+            "tagName": "SECTION",
+            "id": "",
+            "className": "awt-login-gate",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527958
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 6,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-card",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342527958
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 5,
+          "tagName": "SECTION",
+          "id": "",
+          "className": "awt-login-gate",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 6,
+            "tagName": "DIV",
+            "id": "",
+            "className": "awt-login-card",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527958
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 7,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-mini-kicker",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342527958
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 6,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-card",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 7,
+            "tagName": "DIV",
+            "id": "",
+            "className": "awt-mini-kicker",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527958
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 7,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-mini-kicker",
+          "textContent": "B&quot;H Tunnel Control",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 8,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "B&quot;H Tunnel Control",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527958
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 9,
+          "tagName": "H1",
+          "id": "awt-preboot-title",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "id",
+        "oldValue": null,
+        "at": 1780342527959
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 6,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-card",
+          "textContent": "B&quot;H Tunnel Control",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 9,
+            "tagName": "H1",
+            "id": "awt-preboot-title",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527959
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 9,
+          "tagName": "H1",
+          "id": "awt-preboot-title",
+          "className": "",
+          "textContent": "Awtsmoos Tunnel Control is opening",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 10,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "Awtsmoos Tunnel Control is opening",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527959
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 6,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-card",
+          "textContent": "B&quot;H Tunnel ControlAwtsmoos Tunnel Control is opening",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 11,
+            "tagName": "P",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527959
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 11,
+          "tagName": "P",
+          "id": "",
+          "className": "",
+          "textContent": "The panel is loading your secure browser session, then it will discover the connected local tunnel and reveal the project workspace.",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 12,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "The panel is loading your secure browser session, then it will discover the connected local tunnel and reveal the project workspace.",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527962
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 13,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-actions",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 13,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-actions",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "aria-label",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 6,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-card",
+          "textContent": "B&quot;H Tunnel ControlAwtsmoos Tunnel Control is openingThe panel is loading your secure browser session, then it will discover the connected local tunnel and reveal the project workspace.",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 13,
+            "tagName": "DIV",
+            "id": "",
+            "className": "awt-login-actions",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 14,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link primary awt-primary-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 14,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link primary awt-primary-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "href",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 13,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-actions",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 14,
+            "tagName": "A",
+            "id": "",
+            "className": "button-link primary awt-primary-link",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 14,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link primary awt-primary-link",
+          "textContent": "Login",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 15,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "Login",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 16,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 16,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "href",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 13,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-actions",
+          "textContent": "Login",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 16,
+            "tagName": "A",
+            "id": "",
+            "className": "button-link",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 16,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "Install Windows agent",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 17,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "Install Windows agent",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 18,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 18,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "href",
+        "oldValue": null,
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 13,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-actions",
+          "textContent": "LoginInstall Windows agent",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 18,
+            "tagName": "A",
+            "id": "",
+            "className": "button-link",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 18,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "Install Mac / Linux agent",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 19,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "Install Mac / Linux agent",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 6,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-card",
+          "textContent": "B&quot;H Tunnel ControlAwtsmoos Tunnel Control is openingThe panel is loading your secure browser session, then it will discover the connected local tunnel and reveal the project workspace.LoginInstall Windows agentInstall Mac / Linux agent",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 20,
+            "tagName": "NOSCRIPT",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 20,
+          "tagName": "NOSCRIPT",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 21,
+            "tagName": "P",
+            "id": "",
+            "className": "",
+            "textContent": "",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 21,
+          "tagName": "P",
+          "id": "",
+          "className": "",
+          "textContent": "JavaScript is required for the live tunnel dashboard. Use the login or installer links above, then return with JavaScript enabled.",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 22,
+            "tagName": "#TEXT",
+            "id": "",
+            "className": "",
+            "textContent": "JavaScript is required for the live tunnel dashboard. Use the login or installer links above, then return with JavaScript enabled.",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342527963
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "awt-gated",
+          "textContent": "",
+          "value": ""
+        },
+        "addedNodes": [],
+        "removedNodes": [
+          {
+            "nodeId": 5,
+            "tagName": "SECTION",
+            "id": "",
+            "className": "awt-login-gate",
+            "textContent": "B&quot;H Tunnel ControlAwtsmoos Tunnel Control is openingThe panel is loading your secure browser session, then it will discover the connected local tunnel and reveal the project workspace.LoginInstall Windows agentInstall Mac / Linux agentJavaScript is required for the live tunnel dashboard. Use the login or installer links above, then return with JavaScript enabled.",
+            "value": ""
+          }
+        ],
+        "at": 1780342528127
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 24,
+          "tagName": "H1",
+          "id": "awt-login-title",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "id",
+        "oldValue": null,
+        "at": 1780342528128
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 26,
+          "tagName": "A",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "href",
+        "oldValue": null,
+        "at": 1780342528128
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 26,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link primary awt-primary-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342528128
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 27,
+          "tagName": "A",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "href",
+        "oldValue": null,
+        "at": 1780342528128
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 27,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342528128
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 28,
+          "tagName": "A",
+          "id": "",
+          "className": "",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "href",
+        "oldValue": null,
+        "at": 1780342528128
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 28,
+          "tagName": "A",
+          "id": "",
+          "className": "button-link",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "class",
+        "oldValue": null,
+        "at": 1780342528128
+      },
+      {
+        "kind": "attributes",
+        "target": {
+          "nodeId": 29,
+          "tagName": "DIV",
+          "id": "",
+          "className": "awt-login-actions",
+          "textContent": "",
+          "value": ""
+        },
+        "attributeName": "aria-label",
+        "oldValue": null,
+        "at": 1780342528129
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 30,
+          "tagName": "PRE",
+          "id": "",
+          "className": "",
+          "textContent": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :114:7)",
+          "value": ""
+        },
+        "html": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:114:7)",
+        "at": 1780342528131
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "awt-gated",
+          "textContent": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :114:7)",
+          "value": ""
+        },
+        "addedNodes": [
+          {
+            "nodeId": 30,
+            "tagName": "PRE",
+            "id": "",
+            "className": "",
+            "textContent": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :114:7)",
+            "value": ""
+          }
+        ],
+        "removedNodes": [],
+        "at": 1780342528131
+      },
+      {
+        "kind": "childList",
+        "target": {
+          "nodeId": 3,
+          "tagName": "BODY",
+          "id": "",
+          "className": "awt-gated",
+          "textContent": "B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), :114:7)",
+          "value": ""
+        },
+        "html": "<pre>B\\\"H\\nControl panel boot failed:\\nTypeError: node.append is not a function\n    at Object.h (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:36:10)\n    at createLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:36:11)\n    at Object.showLoginGate (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:70:24)\n    at Object.startTunnelControl (eval at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:217:11), <anonymous>:114:7)</pre>",
+        "at": 1780342528131
+      }
+    ]
+  },
+  "networkLog": {
+    "requests": [
+      {
+        "url": "/api/tunnel/control/me",
+        "method": "GET",
+        "at": "2026-06-01T19:35:28.123Z",
+        "ok": false,
+        "candidates": [
+          "/api/tunnel/control/me",
+          "./api/tunnel/control/me",
+          "api/tunnel/control/me",
+          "https://awtsmoos.com/api/tunnel/control/me",
+          "/https://awtsmoos.com/api/tunnel/control/me",
+          "./https://awtsmoos.com/api/tunnel/control/me"
+        ],
+        "error": "virtual network miss"
+      }
+    ]
+  },
+  "moduleGraph": {
+    "entry": "geelooy/apps/tunnel-control/index.html",
+    "modules": [
+      "geelooy/apps/tunnel-control/index.html"
+    ],
+    "unresolved": []
+  },
+  "assetGraph": {
+    "entry": "geelooy/apps/tunnel-control/index.html",
+    "scripts": [
+      {
+        "kind": "script",
+        "type": "module",
+        "src": "./js/app.js",
+        "inline": false,
+        "code": "",
+        "from": "geelooy/apps/tunnel-control/index.html",
+        "attrs": {
+          "type": "module",
+          "src": "./js/app.js"
+        },
+        "resolved": "geelooy/apps/tunnel-control/js/app.js"
+      }
+    ],
+    "styles": [
+      {
+        "href": "geelooy/apps/tunnel-control/css/app.css",
+        "specifier": "./css/app.css",
+        "from": "geelooy/apps/tunnel-control/index.html"
+      }
+    ],
+    "assets": [],
+    "importMaps": [],
+    "executionPlan": [
+      {
+        "kind": "script",
+        "type": "module",
+        "src": "./js/app.js",
+        "inline": false,
+        "code": "",
+        "from": "geelooy/apps/tunnel-control/index.html",
+        "attrs": {
+          "type": "module",
+          "src": "./js/app.js"
+        },
+        "resolved": "geelooy/apps/tunnel-control/js/app.js"
+      }
+    ],
+    "warnings": []
+  },
+  "runtimeGraph": {
+    "nodes": [
+      {
+        "kind": "browser",
+        "entry": "geelooy/apps/tunnel-control/index.html",
+        "id": "runtime",
+        "updatedAt": "2026-06-01T19:35:27.936Z"
+      },
+      {
+        "kind": "html",
+        "id": "geelooy/apps/tunnel-control/index.html",
+        "updatedAt": "2026-06-01T19:35:27.939Z"
+      },
+      {
+        "kind": "css",
+        "id": "geelooy/apps/tunnel-control/css/app.css",
+        "updatedAt": "2026-06-01T19:35:27.942Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/index.css",
+        "updatedAt": "2026-06-01T19:35:27.947Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/core/tokens.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/core/reset.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/core/frame.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/surfaces/glass.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/gate.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/shell.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/dashboard.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/kabbalah.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/providers.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/tasks.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/command-center.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/workspace.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/views/portals.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/interaction/controls.css",
+        "updatedAt": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/interaction/states.css",
+        "updatedAt": "2026-06-01T19:35:27.947Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/interaction/motion.css",
+        "updatedAt": "2026-06-01T19:35:27.947Z"
+      },
+      {
+        "kind": "asset",
+        "id": "geelooy/apps/tunnel-control/css/future/core/responsive.css",
+        "updatedAt": "2026-06-01T19:35:27.947Z"
+      }
+    ],
+    "edges": [
+      {
+        "from": "geelooy/apps/tunnel-control/index.html",
+        "to": "geelooy/apps/tunnel-control/js/app.js",
+        "kind": "module-script",
+        "at": "2026-06-01T19:35:27.940Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/index.html",
+        "to": "geelooy/apps/tunnel-control/css/app.css",
+        "kind": "stylesheet",
+        "at": "2026-06-01T19:35:27.941Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/app.css",
+        "to": "geelooy/apps/tunnel-control/css/future/index.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.943Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/tokens.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.943Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/reset.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.943Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/frame.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.943Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/surfaces/glass.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.943Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/gate.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.944Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/shell.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.944Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/dashboard.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.944Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/kabbalah.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.944Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/providers.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/tasks.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/command-center.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/workspace.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/portals.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/interaction/controls.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/interaction/states.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/interaction/motion.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/responsive.css",
+        "kind": "css-import",
+        "at": "2026-06-01T19:35:27.945Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/tokens.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/reset.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/frame.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/surfaces/glass.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/gate.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/shell.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/dashboard.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/kabbalah.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/providers.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/tasks.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/command-center.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/workspace.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/views/portals.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/interaction/controls.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/interaction/states.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.946Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/interaction/motion.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.947Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/future/index.css",
+        "to": "geelooy/apps/tunnel-control/css/future/core/responsive.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.947Z"
+      },
+      {
+        "from": "geelooy/apps/tunnel-control/css/app.css",
+        "to": "geelooy/apps/tunnel-control/css/future/index.css",
+        "kind": "css-asset",
+        "at": "2026-06-01T19:35:27.947Z"
+      }
+    ],
+    "events": [
+      {
+        "kind": "console.log",
+        "data": {
+          "level": "log",
+          "args": [
+            "[AwtsmoosTunnelControl]",
+            "boot modular control center v3300"
+          ],
+          "at": "2026-06-01T19:35:28.122Z"
+        },
+        "at": "2026-06-01T19:35:28.122Z"
+      },
+      {
+        "kind": "network.request",
+        "data": {
+          "url": "/api/tunnel/control/me",
+          "method": "GET",
+          "at": "2026-06-01T19:35:28.123Z",
+          "ok": false,
+          "candidates": [
+            "/api/tunnel/control/me",
+            "./api/tunnel/control/me",
+            "api/tunnel/control/me",
+            "https://awtsmoos.com/api/tunnel/control/me",
+            "/https://awtsmoos.com/api/tunnel/control/me",
+            "./https://awtsmoos.com/api/tunnel/control/me"
+          ],
+          "error": "virtual network miss"
+        },
+        "at": "2026-06-01T19:35:28.123Z"
+      },
+      {
+        "kind": "network.response",
+        "data": {
+          "url": "/api/tunnel/control/me",
+          "status": 404
+        },
+        "at": "2026-06-01T19:35:28.125Z"
+      },
+      {
+        "kind": "console.error",
+        "data": {
+          "level": "error",
+          "args": [
+            "[AwtsmoosTunnelControl]",
+            "fatal app boot error",
+            "TypeError: node.append is not a function"
+          ],
+          "at": "2026-06-01T19:35:28.131Z"
+        },
+        "at": "2026-06-01T19:35:28.131Z"
+      }
+    ]
+  },
+  "score": 100,
+  "suggestions": [],
+  "browserRuntime": false,
+  "urlCollection": null,
+  "values": {},
+  "valueErrors": {},
+  "interactions": [],
+  "interactionLog": [],
+  "browserActionLog": [],
+  "interactionError": null,
+  "epochs": [
+    {
+      "id": 0,
+      "name": "url-collect",
+      "ok": true,
+      "fetchedCount": 107
+    },
+    {
+      "id": 1,
+      "name": "merkava-boot",
+      "ok": true
+    },
+    {
+      "id": 2,
+      "name": "actions",
+      "count": 0,
+      "ok": true
+    }
+  ]
+}

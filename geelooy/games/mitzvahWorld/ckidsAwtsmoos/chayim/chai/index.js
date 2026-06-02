@@ -1,16 +1,18 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 63: the Chai body drinks the fresh physics wrapper, not
- * the stale cached stream. The Awtsmoos grafts visual, movement, physics, and
- * raycasting limbs onto one living prototype.
+ * @description
+ * Chapter 21: The Chai Opened The Direct Stride Gate.
+ *
+ * The Awtsmoos gives the player a feet-based capsule, a measured visual robe,
+ * and direct horizontal velocity so walking on brick is no slower than a jump.
  */
 import Tzomayach from "../tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
-import visualMethods from "./methods/visuals.js";
+import visualMethods from "./methods/visuals.js?v=measured-visual-lift-20260602-bh6";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=lean-l1-20260528-bh63";
+import physicsMethods from "./methods/physics.js?v=direct-velocity-20260602-bh6";
 import raycastingMethods from "./methods/raycasting.js";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
@@ -70,16 +72,19 @@ export default class Chai extends Tzomayach {
   get speed() { return this._speed; }
   set speed(v) { this._speed = v; }
 
-  /** @param {object} options Entity options. @param {object} olam Runtime world. */
+  /** @param {object} options Entity options from level JSON. @param {object} olam Runtime world. */
   constructor(options = {}, olam) {
     super(options, olam);
     this.rotationSpeed = options.rotationSpeed || 2;
     this.heesHawveh = true;
     this.rayAnchor = new THREE.Group();
-    this.height = options.height || this.height;
-    this.radius = options.radius || this.radius;
+    this.height = Number.isFinite(Number(options.height)) ? Number(options.height) : this.height;
+    this.radius = Number.isFinite(Number(options.radius)) ? Number(options.radius) : this.radius;
+    this.visualGroundBiasY = Number.isFinite(Number(options.visualGroundBiasY)) ? Number(options.visualGroundBiasY) : 0;
     this.dynamicSolidRadius = options.dynamicSolidRadius || options.movingSolidRadius || this.radius * 0.62;
-    this.collider = new Capsule(new THREE.Vector3(0, this.height, 0), new THREE.Vector3(0, this.height, 0), this.radius);
+    const start = new THREE.Vector3(0, this.radius, 0);
+    const end = new THREE.Vector3(0, Math.max(this.radius, this.height - this.radius), 0);
+    this.collider = new Capsule(start, end, this.radius);
     this.collider.nivraReference = this;
     const cm = options.chaweeyoosMap;
     if (cm && typeof cm === "object") Object.keys(cm).forEach(k => { this.chaweeyoosMap[k] = cm[k]; });
@@ -88,8 +93,11 @@ export default class Chai extends Tzomayach {
 
   /** @param {object} olam Runtime world. */
   async heescheel(olam) { await super.heescheel(olam); }
+
+  /** @returns {Promise<void>} */
   async afterBriyah() { await super.afterBriyah(this); this.distanceFromRay = 5; }
 
+  /** @returns {Promise<void>} */
   async ready() {
     await super.ready();
     if (this.olam) this.olam.scene.add(this.rayAnchor);

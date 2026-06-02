@@ -1,0 +1,3 @@
+geelooy/apps/piano/index.html
+geelooy/apps/rebbe/index.html
+geelooy/apps/transcribe/index.html

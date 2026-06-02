@@ -77,7 +77,7 @@ export class VesselArchitect {
      */
     static weaveSubSections(list, sectionIndex) {
         const subWrap = document.createElement("div");
-        subWrap.className = "awtsmoos-subsection-wrap";
+        subWrap.className = "awtsmoos-subsection-wrap toichen";
         if (!Array.isArray(list)) return subWrap;
 
         list.forEach((sub, sIdx) => {

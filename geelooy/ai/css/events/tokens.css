@@ -1,0 +1,28 @@
+/*B"H
+  Chapter 296: The Trace Learned Its Colors From One Flame.
+
+  The Awtsmoos has no body and no border, yet every created interface needs
+  vessels. These tokens are the vessels for thought, tool, and file-change light.
+*/
+:root{
+  --awt-event-bg:linear-gradient(145deg,rgba(8,20,38,.98),rgba(2,6,23,.94));
+  --awt-event-bg-strong:linear-gradient(145deg,rgba(15,23,42,.98),rgba(4,8,20,.96));
+  --awt-event-terminal-bg:linear-gradient(180deg,rgba(2,6,23,.98),rgba(0,2,12,.96));
+  --awt-event-line:rgba(125,211,252,.24);
+  --awt-event-line-hot:rgba(103,232,249,.62);
+  --awt-event-line-soft:rgba(148,163,184,.16);
+  --awt-event-cyan:#67e8f9;
+  --awt-event-blue:#60a5fa;
+  --awt-event-purple:#d8b4fe;
+  --awt-event-green:#22c55e;
+  --awt-event-red:#f87171;
+  --awt-event-text:#f8fbff;
+  --awt-event-soft:#dbeafe;
+  --awt-event-muted:#94a3b8;
+  --awt-event-radius:24px;
+  --awt-event-radius-sm:14px;
+  --awt-event-radius-md:18px;
+  --awt-event-shadow:0 22px 54px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.07);
+  --awt-event-glow:0 0 28px rgba(34,211,238,.22),0 0 48px rgba(168,85,247,.14);
+  --awt-event-code-font:"SFMono-Regular","Cascadia Code","Roboto Mono",monospace;
+}

@@ -1,35 +1,32 @@
 /**
  * B"H
  * @class State
- * @description Live state for the current Ohr HaGnuz runtime.
+ * @description Runtime memory vessel for Ohr HaGnuz.
  *
- * Chapter 74: The first voice stood beside the road.
- * The Awtsmoos has no body and no form; nevertheless the world needs a memory
- * vessel so the first guide can keep speaking in order. This state holds feet,
- * panels, story beats, quest counters, and the soft command that every button
- * must answer the player with a visible result.
+ * Chapter 120: The stride was restored. The Awtsmoos has no body and no form,
+ * yet the player has a thumb, a phone, a road, a quest, and no patience for
+ * molasses. This state keeps the world fast, countable, and responsive.
  */
 export class State {
   static ActiveRealm = 'OVERWORLD';
   static MapId = 'Overworld_Main';
   static Resolution = 64;
-  static Speed = 4;
+  static Speed = 8;
 
   static Hero = { cx: 12, cy: 7, dx: 12 * 64, dy: 7 * 64, dir: 'd', moving: false, stepTick: 0 };
-
   static Stats = { light: 100, maxLight: 100, level: 1, sparks: 0, debatesWon: 0, exp: 0, nextExp: 50 };
   static Sefiros = { chochmah: 0, binah: 0, daat: 0 };
   static Equipment = { garment: 'WHITE_LINEN' };
-  static Inventory = { garments: ['WHITE_LINEN'], items: { spark: 0, scroll: 0, chest: 0, key: 0 } };
+  static Inventory = { garments: ['WHITE_LINEN'], items: { spark: 0, scroll: 0, chest: 0, key: 0, book: 0, mitzvah: 0 } };
   static Skills = {};
   static MusagDex = { found: {}, mastery: {} };
-  static Quests = { active: {}, completed: {}, counters: { spark: 0, scroll: 0, debateWon: 0, wildWon: 0, chest: 0, key: 0 } };
+  static Quests = { active: {}, completed: {}, counters: { spark: 0, scroll: 0, debateWon: 0, wildWon: 0, chest: 0, key: 0, book: 0, mitzvah: 0 } };
   static HeroPath = [];
   static PathTarget = null;
   static UiPanel = null;
   static VisitedMaps = { Overworld_Main: true };
   static Story = { beats: {}, active: 'Village Guide', chapter: 1 };
-  static Message = 'Talk to the Village Guide beside you. He will begin the hidden-light story.';
+  static Message = 'Talk to the Village Guide. NPCs give missions. Merchants trade.';
   static MessageTTL = 720;
   static BattleFx = [];
 
@@ -62,14 +59,7 @@ export class State {
     }
   };
 
-  /**
-   * B"H
-   * @description Places the hero at a whole tile and clears old kinetic/path state.
-   * @param {number} x Tile column.
-   * @param {number} y Tile row.
-   * @param {'u'|'d'|'l'|'r'} [dir='d'] Facing direction.
-   * @returns {void}
-   */
+  /** @param {number} x @param {number} y @param {'u'|'d'|'l'|'r'} dir @returns {void} */
   static resetHero(x, y, dir = 'd') {
     const r = this.Resolution;
     this.Hero = { cx: x, cy: y, dx: x * r, dy: y * r, dir, moving: false, stepTick: 0 };
@@ -78,40 +68,25 @@ export class State {
     this.rememberMap(this.MapId);
   }
 
-  /**
-   * B"H
-   * @description Records a visited map so the map panel becomes truthful.
-   * @param {string} mapId Active map identifier.
-   * @returns {void}
-   */
+  /** @param {string} mapId @returns {void} */
   static rememberMap(mapId) {
     if (mapId) this.VisitedMaps[mapId] = true;
   }
 
-  /**
-   * B"H
-   * @description Opens or closes a named UI panel.
-   * @param {string|null} panel Panel key or null to close.
-   * @returns {void}
-   */
+  /** @param {string|null} panel @returns {void} */
   static openPanel(panel) {
     this.UiPanel = this.UiPanel === panel ? null : panel;
-    if (panel) this.say(`${panel[0].toUpperCase()}${panel.slice(1)} vessel opened.`, 90);
+    if (panel) this.say(`${panel[0].toUpperCase()}${panel.slice(1)} opened.`, 90);
   }
 
-  /**
-   * B"H
-   * @description Advances a sequential story key and returns the next index.
-   * @param {string} key Persistent story key.
-   * @param {number} total Total lines available.
-   * @returns {number} Index to read now.
-   */
+  /** @param {string} key @param {number} total @returns {number} */
   static nextStoryBeat(key, total) {
     const current = this.Story.beats[key] || 0;
     this.Story.beats[key] = Math.min(current + 1, total);
     return Math.min(current, Math.max(0, total - 1));
   }
 
+  /** @param {string} message @param {number} ttl @returns {void} */
   static say(message, ttl = 360) {
     this.Message = message;
     this.MessageTTL = ttl;

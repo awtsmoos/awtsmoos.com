@@ -1,0 +1,17 @@
+{
+  "entry": "geelooy/games/scribe-journey/js/data/library/sparks.js",
+  "imports": [],
+  "exportNames": [
+    "sparksList",
+    "generateSparks"
+  ],
+  "codeLen": 1712,
+  "head": "\n// B\"H\n// js/data/library/sparks.js\n\n// The 288 Sparks of Tohu shattered into fragments. \n// We generate 667 distinct collectible \"concepts\".\n\nconst adjectives = [\"Holy\", \"Hidden\", \"Bright\", \"Fallen\", \"Redeemed\", \"Silent\", \"Singing\", \"Burning\", \"Deep\", \"High\", \"Broken\", \"Whole\", \"Ancient\", \"New\", \""
+}
+{
+  "ok": true,
+  "exports": [
+    "sparksList",
+    "generateSparks"
+  ]
+}

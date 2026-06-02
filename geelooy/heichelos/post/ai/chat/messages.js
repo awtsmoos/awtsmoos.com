@@ -27,7 +27,7 @@ export function appendMessage(role, text, container, isLoading = false) {
 
     if (isLoading) {
         const indicator = document.createElement("div");
-        indicator.className = "typing-indicator";
+        indicator.className = "typing-indicator awtsmoos-empty-placeholder";
         indicator.innerHTML = "<span></span><span></span><span></span>";
         bubble.appendChild(indicator);
     }

@@ -34,7 +34,7 @@ function html() {
     by('flag').addEventListener('change', e => { window.flag=e.target.checked; log('flag:'+e.target.checked); });
     by('kind').addEventListener('change', e => { window.kind=e.target.value; log('kind:'+e.target.value); });
     by('go').addEventListener('click', () => { by('out').textContent='Hello '+by('name').value+' '+by('kind').value+' '+by('flag').checked; window.clicked=true; });
-    by('dbl').addEventListener('click', () => { window.dbl=(window.dbl||0)+1; by('out').textContent='dbl '+window.dbl; });
+    by('dbl').addEventListener('click', () => { window.dblClicks=(window.dblClicks||0)+1; by('out').textContent='dbl '+window.dblClicks; });
   </script></body>`;
 }
 
@@ -58,19 +58,19 @@ async function main() {
     { action: "click", selector: "#go" },
     { action: "assertText", selector: "#out", expected: "Hello Melech b true" },
     { action: "doubleClick", selector: "#dbl" },
-    { action: "waitForFunction", source: "window.dbl === 2", timeoutMs: 30 },
+    { action: "waitForFunction", source: "window.dblClicks === 2", timeoutMs: 30 },
     { action: "assertEval", source: "window.events.includes('kind:b')", expected: true },
-    { action: "evaluate", source: "({ out: document.querySelector('#out').textContent, dbl: window.dbl, typed: window.typed })" },
+    { action: "evaluate", source: "({ out: document.querySelector('#out').textContent, dbl: window.dblClicksClicks, typed: window.typed })" },
     { action: "snapshot" }
   ];
-  const sim = await runFs("simulateRuntime", { runtime: "browser", engine: "merkava", entry: "index.html", html: html(), browserActions, returnValues: ["window.clicked", "window.flag", "window.kind", "window.dbl"] });
+  const sim = await runFs("simulateRuntime", { runtime: "browser", engine: "merkava", entry: "index.html", html: html(), browserActions, returnValues: ["window.clicked", "window.flag", "window.kind", "window.dblClicks"] });
   assert.equal(sim.ok, true, JSON.stringify(sim.errors || sim.result?.errors || []));
   assert.equal(sim.interactionLog.length, browserActions.length);
   assert.equal(sim.interactionLog[18].value.out, "dbl 2");
   assert.equal(sim.values["window.clicked"], true);
   assert.equal(sim.values["window.flag"], true);
   assert.equal(sim.values["window.kind"], "b");
-  assert.equal(sim.values["window.dbl"], 2);
+  assert.equal(sim.values["window.dblClicks"], 2);
   const fail = await runFs("simulateRuntime", { runtime: "browser", engine: "merkava", entry: "index.html", html: html(), browserActions: [{ action: "waitForFunction", source: "window.never === true", timeoutMs: 15 }] });
   assert.equal(fail.ok, false);
   assert.ok(JSON.stringify(fail.errors || fail.result?.errors || []).includes("Timeout waiting for function"));

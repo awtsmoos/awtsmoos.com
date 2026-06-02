@@ -1,0 +1,5 @@
+geelooy/games/mitzvahWorld/main.html
+geelooy/games/mitzvahWorld/secretEditor.html
+geelooy/games/neshama-quest/index.html
+geelooy/games/ohr-hagnuz/index.html
+geelooy/games/pong/index.html

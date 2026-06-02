@@ -13,11 +13,12 @@ import { preservePanelScroll } from "./scrollAnchor.js";
 import { hasRenderableEventFire } from "./eventRenderableGate.js";
 
 /**
- * Chapter 236: The Tool Group Gained A Codex Mirror Beneath Its Armor.
+ * B"H
+ * Chapter 348: The Tool Group Became A Terminal Chamber.
  *
- * The chronological trace stays Claude-like, but every collapsed tool group now
- * also carries a bottom review shelf: files touched, added characters, removed
- * characters when known, and a clean place to inspect the change storm.
+ * The Awtsmoos lets chronological traces stay Claude-like while tool groups now
+ * wear a Codex terminal shell: running chip, command target, stable output body,
+ * and a file review shelf beneath the fire.
  */
 export function renderEventRegion(shell, events = [], record = null) {
   const region = ensureRegion(shell);
@@ -98,10 +99,18 @@ function renderToolGroup(event, key) {
   const events = compactToolEvents(event.raw?.events || []);
   const latest = escapeHtml(event.text || "tools are running");
   const review = renderFileChangeReview(events);
-  return `<details class="transport-details event-kind-tool_group tool-call-group" data-persist-key="${escapeHtml(key)}">
-    <summary><span class="event-title-wrap"><span class="event-kind-pill">calling tools</span><b>${escapeHtml(event.label || "Calling tools")}</b><span class="event-tool-target">${latest}</span></span>${panelActions()}</summary>
-    <div class="tool-call-group-body">${renderEventDetails(events, { nested: true, stableKeyPrefix: `${key}::tool` })}${review}</div>
+  const status = toolStatus(event, events);
+  return `<details class="transport-details event-kind-tool_group tool-call-group tool-terminal-card" data-persist-key="${escapeHtml(key)}" open>
+    <summary class="tool-terminal-header"><span class="event-title-wrap"><span class="event-kind-pill tool-status-chip ${status.className}">${status.label}</span><b>${escapeHtml(event.label || "Calling tools")}</b><span class="event-tool-target tool-terminal-command">${latest}</span></span>${panelActions()}</summary>
+    <div class="tool-call-group-body tool-terminal-output">${renderEventDetails(events, { nested: true, stableKeyPrefix: `${key}::tool` })}${review}</div>
   </details>`;
+}
+
+function toolStatus(event = {}, events = []) {
+  const failed = events.some(child => /error|failed|exception/i.test(String(child.kind || child.label || child.text || "")));
+  if (failed) return { label: "failed", className: "is-error" };
+  if (/done|complete|finished/i.test(String(event.text || event.label || ""))) return { label: "passed", className: "is-ok" };
+  return { label: "running", className: "is-running" };
 }
 
 function compactToolEvents(events = []) {

@@ -29,7 +29,7 @@ function ensureIntro(shelter) {
     if (intro) return intro;
 
     intro = document.createElement('div');
-    intro.className = 'awtsmoos-inline-shelter-label';
+    intro.className = 'awtsmoos-inline-shelter-label awtsmoos-student-location';
     intro.textContent = 'Inline commentary';
     intro.style.cssText = [
         "font-size:12px",
@@ -70,7 +70,7 @@ export class ShelterArchitect {
         let status = shelter.querySelector(':scope > .awtsmoos-inline-status');
         if (!status) {
             status = document.createElement('div');
-            status.className = 'awtsmoos-inline-status';
+            status.className = 'awtsmoos-inline-status awtsmoos-empty-placeholder';
             shelter.appendChild(status);
         }
         status.dataset.kind = kind;

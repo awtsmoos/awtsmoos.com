@@ -18,19 +18,19 @@ export function createAndPlaceRootCommentHolder(alias) {
     if (existing) return existing.querySelector(".comments-holder-inline");
 
     const holder = document.createElement("div");
-    holder.className = "commentator inline root-comments-holder";
+    holder.className = "commentator inline root-comments-holder inline-holder marginal-gloss-shelter";
     holder.dataset.alias = alias;
     
     const toggle = document.createElement("button");
-    toggle.className = "inline-summary-btn";
+    toggle.className = "inline-summary-btn btn";
     toggle.innerHTML = `💬 Post Comments (@${alias})`;
     
     const scrollVessel = document.createElement("div");
-    scrollVessel.className = "inline-scroll-container";
+    scrollVessel.className = "inline-scroll-container comments-holder-inline";
     scrollVessel.style.display = "none";
 
     const content = document.createElement("div");
-    content.className = "comments-holder-inline"; 
+    content.className = "comments-holder-inline awtsmoos-inline-comments"; 
     
     toggle.onclick = () => {
         const isHidden = getComputedStyle(scrollVessel).display === "none";

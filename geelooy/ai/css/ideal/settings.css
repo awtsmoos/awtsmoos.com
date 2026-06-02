@@ -1,15 +1,7 @@
 /*B"H
-  Chapter 210: Settings Stopped Pretending To Be Layout.
-  This early-layer shard no longer positions right-panel children. It only
-  preserves safe typography inheritance while the later right-panel modules own
-  every inch of spacing.
+  Chapter 369: Settings Became A Silent Gate.
+
+  The Awtsmoos removes even harmless duplicate selector echoes. The right-panel
+  modules now own settings labels, notes, cards, and spacing entirely. This file
+  remains in the ordered cascade as a named gate with no competing selectors.
 */
-#automation-panel .panel-section-label{
-  text-transform:uppercase;
-}
-#automation-panel .panel-note{
-  overflow-wrap:anywhere;
-}
-#automation-panel code{
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-}

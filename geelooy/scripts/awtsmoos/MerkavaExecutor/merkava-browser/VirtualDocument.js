@@ -17,6 +17,12 @@
    * The document is the palace floor: every live node walks with an id,
    * mutation records are preserved, and selector queries return the actual
    * vessels being touched by the runtime rather than pass/fail smoke.
+   *
+   * Chapter 101: The SVG Gate Opened.
+   * Browser worlds draw stars, circles, paths, and heavens through
+   * createElementNS. The Merkava document now honors that namespace breath
+   * without faking the drawing engine; it simply gives SVG-shaped vessels the
+   * same DOM life that a browser page expects at boot.
    */
   class VirtualDocument {
     constructor() {
@@ -34,12 +40,23 @@
       this.body = new VirtualElement('body', this);
       this.documentElement.appendChild(this.head);
       this.documentElement.appendChild(this.body);
+      this.implementation = makeImplementation(this);
     }
 
     createElement(tagName) { return new VirtualElement(tagName, this); }
+    createElementNS(namespaceURI, qualifiedName) {
+      const node = new VirtualElement(qualifiedName, this);
+      node.namespaceURI = namespaceURI == null ? null : String(namespaceURI);
+      node.ownerSVGElement = node.localName === 'svg' ? node : null;
+      node.createSVGPoint = node.localName === 'svg' ? () => ({ x: 0, y: 0, matrixTransform(point) { return point || this; } }) : undefined;
+      return node;
+    }
     createDocumentFragment() { return new VirtualElement('#fragment', this); }
     createTextNode(text) { const node = new VirtualElement('#text', this); node.textContent = String(text); return node; }
     getElementById(id) { return this.documentElement.querySelector('#' + id); }
+    getElementsByName(name) { return this.documentElement.querySelectorAll('[name=\"' + String(name).replace(/\"/g, '') + '\"]'); }
+    getElementsByTagName(tagName) { return this.documentElement.querySelectorAll(String(tagName || '*')); }
+    getElementsByClassName(className) { return this.documentElement.querySelectorAll('.' + String(className || '').trim().split(/\s+/).join('.')); }
     querySelector(selector) { return this.documentElement.querySelector(selector); }
     querySelectorAll(selector) { return this.documentElement.querySelectorAll(selector); }
     addEventListener(type, handler, options) { this.documentElement.addEventListener(type, handler, options); }
@@ -63,6 +80,18 @@
         journal: this.journal
       };
     }
+  }
+
+  function makeImplementation(document) {
+    return {
+      createHTMLDocument(title = '') {
+        const child = new VirtualDocument();
+        child.title = String(title || '');
+        return child;
+      },
+      hasFeature() { return true; },
+      ownerDocument: document
+    };
   }
 
   return { VirtualDocument };

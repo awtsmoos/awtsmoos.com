@@ -3,20 +3,26 @@ import { escapeHtml } from "../escapeHtml.js";
 import { renderMarkdown } from "../markdown.js";
 
 /**
- * Chapter 24: The Thought Became a Small Spoken Chamber.
+ * B"H
+ * Chapter 346: Each Text Thought Became A Step On The Fire-Ladder.
  *
- * Text thoughts are not tool panels. They are the assistant's inner prose:
- * separate, ordered, readable, and still nested inside the outer Thoughts
- * vessel like Codex-style reasoning beads on one string.
+ * The Awtsmoos lets inner prose become a visible bead in the reasoning rail.
+ * The old `thought-text-card` class remains for stability; new step classes make
+ * the mobile and desktop timeline look like a deliberate execution trace.
  *
  * @param {object} event Normalized thinking event.
- * @returns {string} Safe HTML for one thought-text message.
+ * @returns {string} Safe HTML for one thought-text timeline step.
  */
 export function renderThoughtTextCard(event = {}) {
   const text = String(event.text || "").trim();
   if (!text) return "";
-  return `<article class="thought-text-card" data-persist-key="thought-text-${escapeHtml(event.raw?.id || event.label || text.slice(0, 24))}">
-    <div class="thought-text-title">Text thought</div>
-    <div class="thought-text-body">${renderMarkdown(text)}</div>
+  const key = escapeHtml(event.raw?.id || event.label || text.slice(0, 24));
+  const title = escapeHtml(event.label || "Reasoning step");
+  return `<article class="thought-text-card thought-step is-done" data-persist-key="thought-text-${key}">
+    <span class="thought-step-dot" aria-hidden="true">✧</span>
+    <div class="thought-step-body">
+      <div class="thought-step-kicker"><span class="thought-step-title">${title}</span><span class="thought-step-status">done</span></div>
+      <div class="thought-text-body">${renderMarkdown(text)}</div>
+    </div>
   </article>`;
 }

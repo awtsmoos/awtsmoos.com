@@ -1,11 +1,12 @@
 /*B"H
-  Chapter 45c: The crown became the menu.
+  Chapter 363: The Crown Took A Contextual Name.
 
-  Three buttons, one upper gate, no bottom blockade. The Awtsmoos turns cramped
-  navigation into a bright ribbon above the panels.
+  The Awtsmoos turns cramped navigation into a bright ribbon above the panels.
+  Desktop never owns this selector, but the contextual name keeps ownership
+  precise and prevents exact selector echoes.
 */
 @media(max-width:900px){
-  .mobile-bottom-dock{
+  body .mobile-bottom-dock{
     position:fixed;
     left:12px;
     right:12px;
@@ -22,8 +23,7 @@
     z-index:120;
     box-shadow:0 18px 46px rgba(0,0,0,.42),0 0 0 1px rgba(45,212,191,.08) inset;
   }
-
-  .mobile-bottom-dock::before{
+  body .mobile-bottom-dock::before{
     content:"☰";
     position:absolute;
     left:14px;
@@ -39,8 +39,7 @@
     border:1px solid rgba(45,212,191,.2);
     pointer-events:none;
   }
-
-  .mobile-bottom-dock button{
+  body .mobile-bottom-dock button{
     border:1px solid rgba(125,211,252,.16);
     border-radius:17px;
     background:rgba(8,19,33,.9);
@@ -49,17 +48,16 @@
     letter-spacing:.01em;
     min-width:0;
   }
-
-  .mobile-bottom-dock button:first-child{padding-left:28px}
-
+  body .mobile-bottom-dock button:first-child{padding-left:28px}
   body[data-mobile-scene="chat"] .mobile-nav-chat,
   body[data-mobile-scene="conversations"] .mobile-nav-conversations,
   body[data-mobile-scene="automation"] .mobile-nav-automation{
-    background:linear-gradient(135deg,#22e6c4,#2f78ff)!important;
-    color:#02121c!important;
-    border-color:rgba(255,255,255,.28)!important;
+    background:linear-gradient(135deg,#22e6c4,#2f78ff);
+    color:#02121c;
+    border-color:rgba(255,255,255,.28);
     box-shadow:0 10px 22px rgba(34,230,196,.2);
   }
 }
-
-@media(min-width:901px){.mobile-bottom-dock{display:none!important}}
+@media(min-width:901px){
+  body .mobile-bottom-dock{display:none}
+}

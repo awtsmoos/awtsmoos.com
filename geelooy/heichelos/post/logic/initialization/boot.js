@@ -129,6 +129,6 @@ export async function bootApplication() {
         }
     } catch (e) {
         console.error("FATAL B\"H CORE ERROR:", e);
-        if (viewport) viewport.innerHTML = `<div class='fatal-error'>SYSTEM RUPTURE: ${e.message}</div>`;
+        if (viewport) viewport.innerHTML = `<div class='fatal-error awtsmoos-empty-placeholder'>SYSTEM RUPTURE: ${e.message}</div>`;
     }
 }

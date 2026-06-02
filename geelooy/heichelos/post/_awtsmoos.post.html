@@ -43,10 +43,10 @@
             <div class="typography-content">
                 <div class="settings-group">
                     <div class="control-label">Scribe's Lens</div>
-                    <div class="focus-mode-control">
-                        <span class="setting-name">Focus Mode</span>
-                        <input type="checkbox" id="focusModeToggle" class="awtsmoos-toggle">
-                        <label for="focusModeToggle" class="awtsmoos-toggle-label"></label>
+                    <div class="focus-mode-control settings-group">
+                        <span class="setting-name control-label">Focus Mode</span>
+                        <input type="checkbox" id="focusModeToggle" class="awtsmoos-toggle font-selector">
+                        <label for="focusModeToggle" class="awtsmoos-toggle-label control-label"></label>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@
 
                 <div class="settings-group">
                     <div class="control-label">Theme Engine</div>
-                    <div class="theme-controls">
+                    <div class="theme-controls settings-group">
                         <button id="themeToggleBtn" title="Toggle Light/Dark">L</button>
                         <select id="themeSelector">
                             <option value="light">Light</option>
@@ -84,11 +84,11 @@
 
                 <div class="settings-group">
                     <div class="control-label">Live Tincture</div>
-                    <div class="color-picker-grid">
-                        <div class="color-control"><label for="inkColorPicker">Ink</label><input type="color" id="inkColorPicker" data-css-var="--color-ink" class="ink-pot"></div>
-                        <div class="color-control"><label for="vellumColorPicker">Vellum</label><input type="color" id="vellumColorPicker" data-css-var="--bg-vellum" class="ink-pot"></div>
-                        <div class="color-control"><label for="primaryColorPicker">Primary</label><input type="color" id="primaryColorPicker" data-css-var="--color-primary" class="ink-pot"></div>
-                        <div class="color-control"><label for="accentColorPicker">Accent</label><input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot"></div>
+                    <div class="color-picker-grid settings-group">
+                        <div class="color-control settings-group"><label for="inkColorPicker">Ink</label><input type="color" id="inkColorPicker" data-css-var="--color-ink" class="ink-pot font-selector"></div>
+                        <div class="color-control settings-group"><label for="vellumColorPicker">Vellum</label><input type="color" id="vellumColorPicker" data-css-var="--bg-vellum" class="ink-pot font-selector"></div>
+                        <div class="color-control settings-group"><label for="primaryColorPicker">Primary</label><input type="color" id="primaryColorPicker" data-css-var="--color-primary" class="ink-pot font-selector"></div>
+                        <div class="color-control settings-group"><label for="accentColorPicker">Accent</label><input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot font-selector"></div>
                     </div>
                 </div>
             </div>
@@ -104,13 +104,13 @@
                     <?<script> return $a("loading.html") </script>?>
                 </div>
 
-                <div class="scroll-roll-top">
-                    <div class="scroll-wood left"></div>
-                    <div class="scroll-wood right"></div>
+                <div class="scroll-roll-top awtsmoos-card">
+                    <div class="scroll-wood left awtsmoos-verse-number"></div>
+                    <div class="scroll-wood right awtsmoos-verse-number"></div>
                 </div>
-                <div class="scroll-roll-bottom">
-                    <div class="scroll-wood left"></div>
-                    <div class="scroll-wood right"></div>
+                <div class="scroll-roll-bottom awtsmoos-card">
+                    <div class="scroll-wood left awtsmoos-verse-number"></div>
+                    <div class="scroll-wood right awtsmoos-verse-number"></div>
                 </div>
             </div>
 

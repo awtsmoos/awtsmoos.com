@@ -1,0 +1,19 @@
+{
+  "puppeteerStress": {
+    "ok": true,
+    "actions": 20,
+    "covers": ["goto", "assertUrl", "waitForSelector", "fill", "assertValue", "clear", "type", "check", "assertChecked", "selectOption", "hover", "focus", "blur", "click", "assertText", "doubleClick", "waitForFunction", "assertEval", "evaluate", "snapshot", "intentional waitForFunction timeout failure"]
+  },
+  "legacyMerkavaPuppeteerTests": {
+    "ok": true,
+    "files": [
+      "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-puppeteer-like-api-custom.cjs",
+      "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-dom-puppeteer-evidence.cjs",
+      "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs"
+    ]
+  },
+  "diagnostics": {
+    "doubleClickIsolated": "passed",
+    "stressBugFound": "test counter used window.dbl while id=dbl created browser named element; changed counter to window.dblClicks"
+  }
+}

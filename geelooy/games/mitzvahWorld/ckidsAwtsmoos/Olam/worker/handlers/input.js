@@ -2,52 +2,49 @@
 /**
  * @file input.js
  * @description
- * Chapter 19: The reset is no longer a world-reload flood.
+ * Chapter 30: Legacy Reset Also Learned Feet.
  *
- * The Awtsmoos keeps the already-born world alive. When the thorn has frozen
- * the Chossid, the overlay sends `resetAfterSpikeDeath`; this handler restores
- * the same player vessel to the first platform, shows its mesh, clears velocity,
- * and lets controls breathe again.
+ * Some routes still carry older input-handler messages. If they receive a lava
+ * reset, they now use feet-on-ground Y and call the player's own setPosition so
+ * the capsule does not come back as a center-based ghost.
  */
-const START = Object.freeze({ x: -8, y: 5, z: 0 });
+const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
 
+/** @param {object} obj Object3D-like root. */
 function showTree(obj) {
   if (!obj) return;
   obj.visible = true;
   if (obj.scale?.setScalar) obj.scale.setScalar(1);
-  if (obj.traverse) obj.traverse(child => {
-    child.visible = true;
-    if (child.scale?.setScalar) child.scale.setScalar(1);
-  });
+  if (obj.traverse) obj.traverse(child => { child.visible = true; if (child.scale?.setScalar) child.scale.setScalar(1); });
 }
 
-function setPosition(obj, pos) {
-  if (obj?.position?.set) obj.position.set(pos.x, pos.y, pos.z);
-  else if (obj?.position) Object.assign(obj.position, pos);
+/** @param {object} player Player entity. @param {{x:number,y:number,z:number}} pos Feet position. */
+function setPlayerFeet(player, pos) {
+  if (typeof player.setPosition === "function") player.setPosition(pos);
+  else if (player.mesh?.position?.set) player.mesh.position.set(pos.x, pos.y, pos.z);
+  if (player.mesh?.position?.set) player.mesh.position.set(pos.x, pos.y, pos.z);
+  if (player.modelMesh && player.mesh) {
+    player.modelMesh.position.copy(player.mesh.position);
+    player.modelMesh.position.y += Number(player.modelMesh.userData?.visualGroundOffsetY || 0);
+  }
 }
 
+/** @param {object} olam World. @param {object} data Reset payload. @returns {boolean} */
 function resetChossid(olam, data = {}) {
   const player = olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
   if (!player) return false;
-  const pos = { ...START, ...(data.position || {}) };
-  player.__spikeDefeated = false;
-  player.__spikeDeathControlsFrozen = false;
+  const pos = { ...START_FEET, ...(data.position || {}) };
+  Object.assign(player, { __spikeDefeated: false, __spikeDeathControlsFrozen: false, __spikeColliderDisabled: false, movingAutomatically: false, onFloor: true });
   player.moving = {};
-  if (player.velocity?.set) player.velocity.set(0, 0, 0);
-  if (player.acceleration?.set) player.acceleration.set(0, 0, 0);
-  setPosition(player.mesh, pos);
-  setPosition(player.modelMesh, pos);
-  setPosition(player.guf, pos);
-  setPosition(player.visualObject, pos);
-  showTree(player.mesh);
-  showTree(player.modelMesh);
-  showTree(player.guf);
-  showTree(player.visualObject);
+  player.velocity?.set?.(0, 0, 0);
+  player.acceleration?.set?.(0, 0, 0);
+  setPlayerFeet(player, pos);
+  [player.mesh, player.modelMesh, player.guf, player.visualObject].forEach(showTree);
   olam.chossid = player;
+  olam.player = player;
   olam.keyStates = {};
   olam.inputs = { ...(olam.inputs || {}) };
-  console.info('B"H | SPIKE_RESET_TRACE', { stage: 'worker-reset-complete', pos });
-  olam.ayshPeula?.("ui event", "effectsOverlay", { effect: "spikeResetDone", text: "Reset", color: "#76ff8a" });
+  console.info('B"H | SPIKE_RESET_TRACE', { stage: 'legacy-worker-reset-complete', pos });
   return true;
 }
 
@@ -63,18 +60,7 @@ export default function inputHandlers(me) {
     wheel(e) { if (me.olam?.ayin) me.olam.ayshPeula("wheel", e); },
     mousemove(e) { if (me.olam) me.olam.ayshPeula("mousemove", e); },
     resize(e) { if (me.olam) me.olam.ayshPeula("resize", e); },
-
-    /** Restores the already-loaded Chossid to the first platform. */
-    resetAfterSpikeDeath(data) {
-      const ok = resetChossid(me.olam, data || {});
-      me.eved?.postMessage?.({ type: "spikeResetComplete", payload: { ok } });
-    },
-
-    /** High-speed rotation from swipe signals. */
-    cameraDrag(data) {
-      if (me.olam?.ayin && typeof me.olam.ayin.rotateAroundTarget === 'function') {
-        me.olam.ayin.rotateAroundTarget(data.dx, data.dy);
-      }
-    }
+    resetAfterSpikeDeath(data) { const ok = resetChossid(me.olam, data || {}); me.eved?.postMessage?.({ type: "spikeResetComplete", payload: { ok } }); },
+    cameraDrag(data) { if (me.olam?.ayin && typeof me.olam.ayin.rotateAroundTarget === 'function') me.olam.ayin.rotateAroundTarget(data.dx, data.dy); }
   };
 }

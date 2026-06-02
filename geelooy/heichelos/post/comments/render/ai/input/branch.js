@@ -107,18 +107,18 @@ export function toggleBranchInput(container, context, callbacks) {
     if (existingInput) return existingInput.remove();
 
     const branchArea = document.createElement("div");
-    branchArea.className = "ai-branch-input-area";
+    branchArea.className = "ai-branch-input-area awtsmoos-card";
     const input = document.createElement("textarea");
     input.placeholder = `Reply / Branch from @${context.originalAuthor || "User"} (Msg #${context.index + 1})...`;
     const actionsRow = document.createElement("div");
-    actionsRow.className = "ai-input-actions";
+    actionsRow.className = "ai-input-actions awtsmoos-sidebar-actions";
     const cancelBtn = document.createElement("button");
     cancelBtn.innerText = "CANCEL";
-    cancelBtn.className = "ai-btn ai-btn-secondary";
+    cancelBtn.className = "ai-btn ai-btn-secondary btn";
     cancelBtn.onclick = () => branchArea.remove();
     const goBtn = document.createElement("button");
     goBtn.innerText = "SEND REPLY";
-    goBtn.className = "ai-btn ai-btn-primary";
+    goBtn.className = "ai-btn ai-btn-primary btn awtsmoos-hero-btn";
     actionsRow.append(cancelBtn, goBtn);
     goBtn.onclick = () => submitBranch(container, branchArea, input, context, callbacks);
     branchArea.append(input, actionsRow);

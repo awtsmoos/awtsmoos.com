@@ -55,6 +55,16 @@ paths:
               - agentDoctor
               - agentSelfTest
               - agentVersionSkewCheck
+              - aiAgentConfigSet
+              - aiAgentList
+              - aiAgentMessage
+              - aiAgentRemoveProviderKey
+              - aiAgentSetProviderKey
+              - aiAgentSpawnNovel
+              - aiAgentSpawnTask
+              - aiAgentTaskList
+              - aiAgentTaskResult
+              - aiAgentTaskStatus
               - aiCommandBatch
               - aiContextPack
               - aiTemplateGet

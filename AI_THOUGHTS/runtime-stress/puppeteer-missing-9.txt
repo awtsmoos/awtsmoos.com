@@ -1,0 +1,5 @@
+geelooy/games/rambam/kiddushHachodesh/12/index.html
+geelooy/games/rebbe-runner/index.html
+geelooy/games/scribe-journey/index.html
+geelooy/games/shema-strike/index.html
+geelooy/games/soul-jump/index.html

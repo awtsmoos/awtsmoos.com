@@ -1,19 +1,7 @@
 /*B"H
-  Chapter 217: Narrow Gates Kept The Same Law.
-  On smaller screens the panel remains one column. No special overlap magic.
+  Chapter 373: Responsive Became A Quiet Marker.
+
+  The Awtsmoos moved the remaining mobile right-panel law into the final guard
+  so no action row or body selector is claimed twice. This file stays as an
+  import gate for future breakpoint-only tokens, but owns no selectors today.
 */
-@media(max-width:1100px){
-  #automation-panel .right-panel-body{
-    padding:10px!important;
-    gap:12px!important;
-  }
-  #automation-panel .right-tabs{
-    width:min(310px,calc(100vw - 30px))!important;
-  }
-}
-@media(max-width:760px){
-  #automation-panel.mobile-scene-active,
-  #automation-panel.is-panel-fullscreen{
-    inset:8px 8px max(82px,env(safe-area-inset-bottom)) 8px!important;
-  }
-}

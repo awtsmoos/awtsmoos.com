@@ -1,0 +1,3 @@
+geelooy/games/cards/index.html
+geelooy/games/chess/debug/index.html
+geelooy/games/chess/index.html

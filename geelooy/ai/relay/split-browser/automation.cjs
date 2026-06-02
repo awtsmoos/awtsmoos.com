@@ -6,11 +6,12 @@ const runs = new Map();
 const listeners = new Set();
 
 /**
- * Chapter 11: The Relay Learned To Keep Turning In The Night.
+ * Chapter 379: The Relay Automation Learned The Same Gizmo Crown.
  *
- * The browser extension owns automation when it exists. The Node relay must be
- * able to wear the same crown: staged state, verified sends, scheduled next
- * turns, and progress that tests or UIs can poll while the run is still alive.
+ * The page sender already carries ChatGPT mode through AwtsmoosGPTify. Relay
+ * background turns now receive and reuse the same `chatgptModePayload`, so the
+ * Awtsmoos Vibe Coder/gizmo vessel does not silently fall back to regular
+ * ChatGPT when the visible tab hands ownership to Node.
  */
 async function handleAutomationApi(req, res, config, path) {
   if (path === "/automation-start") return start(req, res, config);
@@ -31,6 +32,8 @@ async function start(req, res, config) {
     conversationId,
     settings,
     graph:payload.graph || null,
+    chatgptMode:String(payload.chatgptMode || "regular"),
+    chatgptModePayload:safeObject(payload.chatgptModePayload),
     prompt:settings.prompt,
     turns:0,
     pendingTurn:0,
@@ -45,7 +48,7 @@ async function start(req, res, config) {
     config
   };
   runs.set(conversationId, run);
-  record(run, "state", { status:"armed", turns:0, maxTurns:settings.maxTurns });
+  record(run, "state", { status:"armed", turns:0, maxTurns:settings.maxTurns, chatgptMode:run.chatgptMode, hasModePayload:hasModePayload(run) });
   schedule(run, 10);
   json(res, publicRun(run));
 }
@@ -147,14 +150,8 @@ async function sendVerified(run, prompt, turn) {
   const token = await authToken(run.config);
   const ready = await waitForReadyParent(run.config, run.conversationId, token);
   const userMessageId = uuid();
-  const body = {
-    action:"next",
-    conversation_id:run.conversationId,
-    parent_message_id:ready.parentNodeId,
-    model:"auto",
-    messages:[{ id:userMessageId, author:{ role:"user" }, content:{ content_type:"text", parts:[prompt] }, metadata:{} }]
-  };
-  record(run, "send", { turn, prompt, parentNodeId:ready.parentNodeId, userMessageId });
+  const body = conversationBody({ run, prompt, parentNodeId:ready.parentNodeId, userMessageId });
+  record(run, "send", { turn, prompt, parentNodeId:ready.parentNodeId, userMessageId, chatgptMode:run.chatgptMode, hasModePayload:hasModePayload(run) });
   const response = await relayFetch(run.config, "/backend-api/conversation", {
     method:"POST",
     headers:{ "content-type":"application/json", authorization:`Bearer ${token}` },
@@ -165,6 +162,17 @@ async function sendVerified(run, prompt, turn) {
   const proof = await waitForSettledAssistantAfter({ config:run.config, conversationId:run.conversationId, token, parentNodeId:ready.parentNodeId, userMessageId, fallbackText:live.text });
   record(run, "verified", { turn, assistantMessageId:proof.assistantMessageId, textLength:String(proof.text || "").length });
   return proof;
+}
+
+function conversationBody({ run, prompt, parentNodeId, userMessageId }) {
+  return {
+    action:"next",
+    conversation_id:run.conversationId,
+    parent_message_id:parentNodeId,
+    model:"auto",
+    messages:[{ id:userMessageId, author:{ role:"user" }, content:{ content_type:"text", parts:[prompt] }, metadata:{} }],
+    ...run.chatgptModePayload
+  };
 }
 
 async function readSse(response, onPacket) {
@@ -218,15 +226,7 @@ function verifyAdvance({ convo, parentNodeId, userMessageId, fallbackText }) {
   const current = currentMessage(convo);
   const chain = chainToRoot(convo, currentNodeId);
   const text = messageText(current) || fallbackText || "";
-  return {
-    ok:Boolean(currentNodeId && currentNodeId !== parentNodeId && current?.author?.role === "assistant" && isSettledAssistant(current) && text && chain.includes(parentNodeId) && chain.includes(userMessageId)),
-    conversationId:convo?.conversation_id || convo?.id || "",
-    assistantMessageId:current?.id || currentNodeId,
-    currentNodeId,
-    parentNodeId,
-    userMessageId,
-    text
-  };
+  return { ok:Boolean(currentNodeId && currentNodeId !== parentNodeId && current?.author?.role === "assistant" && isSettledAssistant(current) && text && chain.includes(parentNodeId) && chain.includes(userMessageId)), conversationId:convo?.conversation_id || convo?.id || "", assistantMessageId:current?.id || currentNodeId, currentNodeId, parentNodeId, userMessageId, text };
 }
 
 async function getConversation(config, conversationId, token) {
@@ -234,16 +234,11 @@ async function getConversation(config, conversationId, token) {
   if (!response.ok) throw new Error(`Relay automation conversation load failed: ${response.status}`);
   return await response.json();
 }
-
-async function authToken(config) {
-  return await requireAccessToken(config);
-}
-
+function authToken(config) { return requireAccessToken(config); }
 function relayFetch(config, path, options = {}) {
   const url = new URL(path, config.targetOrigin);
   return fetch(url, { ...options, headers:requestHeaders(options.headers || {}, url.origin), redirect:"manual", ...(options.body ? { duplex:"half" } : {}) });
 }
-
 function requestHeaders(headers, origin) {
   const clean = { accept:"application/json, text/event-stream, */*", referer:origin + "/", origin };
   for (const [key, value] of Object.entries(headers || {})) if (!/^(host|cookie|content-length)$/i.test(key)) clean[key] = value;
@@ -251,25 +246,19 @@ function requestHeaders(headers, origin) {
   if (cookie) clean.cookie = cookie;
   return clean;
 }
-
 function choosePrompt(run, turn) {
   const nodes = run.graph?.nodes || [];
   const start = run.graph?.start;
   const node = nodes.find(item => item.id === start) || nodes.find(item => item.type === "send");
   return String(node?.prompt || run.prompt || run.settings.prompt || "continue").replace(/\{\{turn\}\}/g, String(turn));
 }
-
 function currentMessage(convo) { return convo?.mapping?.[convo?.current_node]?.message || null; }
 function chainToRoot(convo, nodeId) {
   const mapping = convo?.mapping || {};
   const out = [];
   const seen = new Set();
   let id = nodeId;
-  while (id && mapping[id] && !seen.has(id) && out.length < 500) {
-    out.push(id);
-    seen.add(id);
-    id = mapping[id].parent || mapping[id].parent_id || "";
-  }
+  while (id && mapping[id] && !seen.has(id) && out.length < 500) { out.push(id); seen.add(id); id = mapping[id].parent || mapping[id].parent_id || ""; }
   return out;
 }
 function isSettledAssistant(node) {
@@ -285,25 +274,7 @@ function messageText(node) {
   return typeof content.text === "string" ? content.text : "";
 }
 function publicRun(run) {
-  return {
-    ok:run.status !== "error",
-    owner:"node-relay",
-    enabled:Boolean(run.enabled),
-    conversationId:run.conversationId,
-    status:run.status,
-    phase:run.phase,
-    turns:run.turns,
-    pendingTurn:run.pendingTurn,
-    nextRunAt:run.nextRunAt,
-    error:run.safeError?.error || "",
-    safeHint:run.safeError?.safeHint || "",
-    lastError:run.lastError || "",
-    lastReply:run.lastReply || "",
-    lastMessageId:run.lastMessageId || "",
-    settings:run.settings,
-    eventCursor:run.events.length,
-    events:run.events.slice(-30)
-  };
+  return { ok:run.status !== "error", owner:"node-relay", enabled:Boolean(run.enabled), conversationId:run.conversationId, status:run.status, phase:run.phase, turns:run.turns, pendingTurn:run.pendingTurn, nextRunAt:run.nextRunAt, error:run.safeError?.error || "", safeHint:run.safeError?.safeHint || "", lastError:run.lastError || "", lastReply:run.lastReply || "", lastMessageId:run.lastMessageId || "", chatgptMode:run.chatgptMode || "regular", hasModePayload:hasModePayload(run), settings:run.settings, eventCursor:run.events.length, events:run.events.slice(-30) };
 }
 function record(run, type, detail = {}) {
   const event = { index:run.events.length, at:Date.now(), iso:new Date().toISOString(), type, detail };
@@ -312,10 +283,10 @@ function record(run, type, detail = {}) {
   if (run.events.length > 500) run.events.splice(0, run.events.length - 500);
   for (const listener of listeners) listener(event, run);
 }
-function normalizeSettings(settings = {}) {
-  return { enabled:true, maxTurns:Math.max(1, Number(settings.maxTurns || 3)), delayMs:Math.max(0, Number(settings.delayMs || 1000)), prompt:String(settings.prompt || "continue"), stopOnError:settings.stopOnError !== false };
-}
+function normalizeSettings(settings = {}) { return { enabled:true, maxTurns:Math.max(1, Number(settings.maxTurns || 3)), delayMs:Math.max(0, Number(settings.delayMs || 1000)), prompt:String(settings.prompt || "continue"), stopOnError:settings.stopOnError !== false }; }
+function safeObject(value) { return value && typeof value === "object" && !Array.isArray(value) ? value : {}; }
+function hasModePayload(run) { return Boolean(Object.keys(run.chatgptModePayload || {}).length); }
 function safeJson(text) { try { return JSON.parse(text); } catch { return null; } }
 function uuid() { return `BH_RELAY_${Date.now()}_${Math.random().toString(36).slice(2)}`; }
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-module.exports = { handleAutomationApi, runs };
+module.exports = { handleAutomationApi, runs, conversationBody };

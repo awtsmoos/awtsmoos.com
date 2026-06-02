@@ -1,0 +1,55 @@
+/* B"H */
+.awt-command-center {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255,215,127,.28);
+  border-radius: var(--awt-radius-4);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(188,149,255,.16), transparent 34%),
+    linear-gradient(145deg, rgba(6,12,27,.82), rgba(3,7,16,.88));
+}
+.awt-command-message {
+  max-width: 86%;
+  padding: 12px 14px;
+  border: 1px solid rgba(166,218,255,.16);
+  border-radius: 18px;
+  background: rgba(255,255,255,.055);
+}
+.awt-command-message[data-role="agent"] {
+  margin-left: 28px;
+  border-color: rgba(188,149,255,.28);
+  background: rgba(188,149,255,.075);
+}
+.awt-spawn-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 11px;
+  border: 1px solid rgba(255,123,212,.3);
+  border-radius: var(--awt-radius-2);
+  background: rgba(255,123,212,.08);
+}
+.awt-spawn-card code {
+  color: var(--awt-gold);
+  font-size: .78rem;
+}
+.awt-command-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(166,218,255,.16);
+  border-radius: var(--awt-radius-3);
+  background: rgba(0,0,0,.2);
+}
+.awt-command-input span {
+  color: var(--awt-muted);
+  align-self: center;
+  padding-inline: 8px;
+}
+.awt-command-input button {
+  min-width: 48px;
+}

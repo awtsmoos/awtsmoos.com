@@ -1,29 +1,33 @@
 /* B"H */
 .awt-dashboard {
   border-radius: var(--awt-radius-5);
-  padding: clamp(18px, 3vw, 44px);
+  padding: clamp(16px, 2.4vw, 34px);
   overflow: hidden;
   display: grid;
-  grid-template-columns: minmax(280px, .82fr) minmax(360px, 1.28fr);
-  gap: clamp(18px, 3vw, 42px);
+  grid-template-columns: minmax(320px, .92fr) minmax(0, 1.7fr);
+  gap: var(--awt-gap);
   align-items: start;
 }
-.awt-dashboard-copy, .awt-feature-dashboard-grid { position: relative; z-index: 1; }
-.awt-dashboard-copy { display: grid; gap: 14px; align-content: start; }
+.awt-dashboard-copy, .awt-dashboard-orbit, .awt-dashboard-grid { position: relative; z-index: 1; }
+.awt-dashboard-copy {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
 .awt-dashboard-copy h2 {
   margin: 0;
-  max-width: 860px;
-  font-size: clamp(3rem, 7.6vw, 8.6rem);
+  max-width: 760px;
+  font-size: clamp(2.9rem, 6.4vw, 7.4rem);
   line-height: .82;
   letter-spacing: -.105em;
   text-wrap: balance;
 }
-.awt-dashboard-copy p { margin: 0; font-size: clamp(1rem, 1.35vw, 1.22rem); }
+.awt-dashboard-copy p { margin: 0; font-size: clamp(.98rem, 1.25vw, 1.16rem); }
 .awt-dashboard-metrics {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 4px;
 }
 .awt-metric {
   padding: 13px;
@@ -31,11 +35,24 @@
   border-radius: var(--awt-radius-2);
   background: rgba(255,255,255,.055);
 }
-.awt-metric span { display: block; color: var(--awt-dim); text-transform: uppercase; letter-spacing: .14em; font-size: .7rem; }
-.awt-metric strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(.98rem, 1.25vw, 1.15rem); }
+.awt-metric span {
+  display: block;
+  color: var(--awt-dim);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .7rem;
+}
+.awt-metric strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(.98rem, 1.25vw, 1.15rem);
+}
+.awt-dashboard-orbit { display: grid; gap: var(--awt-gap); }
 .awt-feature-dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 14px;
 }
 .awt-action-card {
@@ -43,7 +60,7 @@
   --ry: 0deg;
   --shine-x: 50%;
   --shine-y: 0%;
-  min-height: 178px;
+  min-height: 150px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
@@ -84,3 +101,12 @@
   transition: opacity var(--awt-fast);
   pointer-events: none;
 }
+.awt-section-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+.awt-section-title h3 { margin: 0; letter-spacing: -.035em; }
+.awt-section-title span { color: var(--awt-gold); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }

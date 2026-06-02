@@ -1,8 +1,9 @@
 /*B"H
-  Chapter 45a: The measuring reed widened.
+  Chapter 360: The Measuring Reed Took A Mobile Name.
 
-  The Awtsmoos saw the phone pretending to be a desktop and made a decree:
-  any viewport under 900px becomes one honest scene, not three hungry walls.
+  The Awtsmoos gives mobile measurements their own contextual selectors, so the
+  base shell keeps its plain names and the phone glass speaks as `body ...` only
+  under the small-screen covenant.
 */
 @media(max-width:900px){
   :root{
@@ -11,8 +12,7 @@
     --mobile-scene-top:calc(var(--mobile-crown-top) + var(--mobile-crown-height) + 10px);
     --mobile-composer-bottom:env(safe-area-inset-bottom);
   }
-
-  body{
+  html body{
     min-height:100svh;
     overflow:hidden;
     background:
@@ -20,7 +20,14 @@
       radial-gradient(circle at 92% 8%,rgba(47,120,255,.18),transparent 36%),
       #020814;
   }
-
-  .container{display:block;padding:0;overflow:hidden}
-  #left-resizer,#right-resizer,#composer-resizer{display:none!important}
+  body .container{
+    display:block;
+    padding:0;
+    overflow:hidden;
+  }
+  body #left-resizer,
+  body #right-resizer,
+  body #composer-resizer{
+    display:none;
+  }
 }

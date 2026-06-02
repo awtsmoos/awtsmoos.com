@@ -1,0 +1,2 @@
+geelooy/games/pong/index.html
+geelooy/games/rambam/kiddushHachodesh/12/index.html

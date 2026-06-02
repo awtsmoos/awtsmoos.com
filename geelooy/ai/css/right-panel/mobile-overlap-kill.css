@@ -1,94 +1,73 @@
 /*B"H
-  Chapter 283: The Mobile River Remembered Its Banks.
+  Chapter 367: The Final Guard Took A Contextual Name.
 
-  The Awtsmoos recreates every control with a private breath. On the narrow
-  screen, no card may become a ghost over its brother; no status pill may cling
-  to the glass and cover a red emergency gate. This shard is the treaty of
-  normal flow: static cards, visible overflow only where safe, and scroll owned
-  by the panel body alone.
+  The Awtsmoos no longer needs a battlefield of overrides. This last file is a
+  narrow mobile oath, scoped through `body #automation-panel ...` so it does not
+  duplicate the base right-panel selector kingdom.
 */
 @media(max-width:900px){
-  #automation-panel,
-  #automation-panel *{
-    box-sizing:border-box!important;
+  body #automation-panel,
+  body #automation-panel *{
+    box-sizing:border-box;
   }
-  #automation-panel>.automation-panel-content{
-    overflow:hidden!important;
+  body #automation-panel>.automation-panel-content{
+    overflow:hidden;
   }
-  #automation-panel .right-panel-body{
-    display:flex!important;
-    flex-direction:column!important;
-    gap:12px!important;
-    padding:12px 10px calc(96px + env(safe-area-inset-bottom))!important;
-    overflow-y:auto!important;
-    overflow-x:hidden!important;
-    min-height:0!important;
-    scroll-padding-bottom:110px!important;
+  body #automation-panel .right-panel-body{
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:12px 10px calc(96px + env(safe-area-inset-bottom));
+    scroll-padding-bottom:110px;
   }
-  #automation-panel .right-panel-body>*{
-    position:static!important;
-    flex:0 0 auto!important;
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    transform:none!important;
+  body #automation-panel .right-panel-body>*,
+  body #automation-panel .automation-card,
+  body #automation-panel .automation-archive-panel,
+  body #automation-panel .settings-hero-card,
+  body #automation-panel .relay-install-card,
+  body #automation-panel .chat-scope-pill,
+  body #automation-panel .automation-status,
+  body #automation-panel .automation-field,
+  body #automation-panel .automation-toggle-row,
+  body #automation-panel .event-filter,
+  body #automation-panel .provider-chat-row{
+    position:static;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    height:auto;
+    min-height:0;
+    max-height:none;
+    margin:0;
+    transform:none;
   }
-  #automation-panel .automation-card,
-  #automation-panel .automation-archive-panel,
-  #automation-panel .settings-hero-card,
-  #automation-panel .relay-install-card,
-  #automation-panel .chat-scope-pill,
-  #automation-panel .automation-status{
-    position:static!important;
-    inset:auto!important;
-    z-index:auto!important;
-    margin:0!important;
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    overflow:visible!important;
-    transform:none!important;
+  body #automation-panel .prompt-action-row,
+  body #automation-panel .relay-actions,
+  body #automation-panel .conversation-portal-actions,
+  body #automation-panel .graph-toolbar,
+  body #automation-panel .compact-provider-actions{
+    position:static;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    width:100%;
+    height:auto;
+    margin:0;
+    transform:none;
   }
-  #automation-panel .automation-field,
-  #automation-panel .automation-toggle-row,
-  #automation-panel .event-filter,
-  #automation-panel .provider-chat-row{
-    position:static!important;
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    overflow:visible!important;
-    transform:none!important;
+  body #automation-panel .automation-toggle-row{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
   }
-  #automation-panel .automation-toggle-row{
-    display:grid!important;
-    grid-template-columns:minmax(0,1fr) auto!important;
-    align-items:center!important;
+  body #automation-panel .automation-toggle-row>span{
+    min-width:0;
   }
-  #automation-panel .automation-toggle-row>span{
-    min-width:0!important;
+  body #automation-panel .automation-toggle-row input[type="checkbox"]{
+    justify-self:end;
   }
-  #automation-panel .automation-toggle-row input[type="checkbox"]{
-    justify-self:end!important;
-  }
-  #automation-panel .prompt-action-row,
-  #automation-panel .relay-actions,
-  #automation-panel .conversation-portal-actions,
-  #automation-panel .graph-toolbar,
-  #automation-panel .compact-provider-actions{
-    position:static!important;
-    display:grid!important;
-    grid-template-columns:1fr!important;
-    gap:10px!important;
-    width:100%!important;
-    height:auto!important;
-    margin:0!important;
-    transform:none!important;
-  }
-  #automation-panel .automation-stop-button{
-    position:static!important;
-    z-index:auto!important;
-    width:100%!important;
-    min-height:48px!important;
+  body #automation-panel .automation-stop-button{
+    position:static;
+    width:100%;
+    min-height:48px;
   }
 }

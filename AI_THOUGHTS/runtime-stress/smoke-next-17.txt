@@ -1,0 +1,2 @@
+geelooy/games/tests/1/water.html
+geelooy/games/tests/2/index.html

@@ -1,0 +1,35 @@
+{
+  "pre": {
+    "fileCount": 1,
+    "hasSource": true,
+    "plan": [
+      {
+        "type": "classic",
+        "inline": true,
+        "src": null,
+        "codeHead": "\n    document.addEventListener('DOMConte"
+      }
+    ]
+  },
+  "ok": false,
+  "hasEl": false,
+  "tag": null,
+  "textLen": null,
+  "errors": [
+    {
+      "message": "Cannot read properties of null (reading 'textContent')",
+      "stack": "TypeError: Cannot read properties of null (reading 'textContent')\n    at initializeWorker (eval at <anonymous> (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-runtime/RuntimeAssembler.js:230:33), <anonymous>:113:61)\n    at main (eval at <anonymous> (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-runtime/RuntimeAssembler.js:230:33), <anonymous>:262:13)\n    at VirtualElement.eval (eval at <anonymous> (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-runtime/RuntimeAssembler.js:230:33), <anonymous>:275:9)\n    at VirtualElement.__invoke (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualElement.js:197:45)\n    at VirtualElement.dispatchEvent (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualElement.js:218:541)\n    at VirtualDocument.dispatchEvent (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualDocument.js:50:56)\n    at safeDispatch (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-runtime/RuntimeAssembler.js:208:28)\n    at /storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-runtime/RuntimeAssembler.js:217:13\n    at /storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/SyntheticBrowserRuntime.js:43:63\n    at async SyntheticBrowserRuntime.executeFunction (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/SyntheticBrowserRuntime.js:43:32)",
+      "phase": "unhandledRejection"
+    }
+  ],
+  "current": {
+    "type": "lifecycle",
+    "inline": false,
+    "resolved": null
+  },
+  "last": {
+    "type": "classic",
+    "inline": true,
+    "resolved": null
+  }
+}

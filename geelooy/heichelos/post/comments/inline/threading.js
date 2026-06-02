@@ -29,7 +29,7 @@ export async function renderThreadContent(threadContainer, idx, sub) {
         if(window.curAlias) {
             const portal = document.createElement("div");
             portal.className = "thread-portal";
-            if (isEmpty) portal.innerHTML = '<div class="empty-msg">No insights manifest here.</div>';
+            if (isEmpty) portal.innerHTML = '<div class="empty-msg awtsmoos-empty-placeholder">No insights manifest here.</div>';
 
             const btnRow = document.createElement("div");
             btnRow.className = "portal-btn-row";
@@ -45,7 +45,7 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             const humanRitual = async () => {
                 const { CommentSection } = await import("/heichelos/post/CommentSection.js");
                 const entry = document.createElement("div");
-                entry.className = "inline-comment-entry";
+                entry.className = "inline-comment-entry comment-content";
                 portal.after(entry);
                 new CommentSection(entry, { autoReveal: true });
                 btnRow.remove();

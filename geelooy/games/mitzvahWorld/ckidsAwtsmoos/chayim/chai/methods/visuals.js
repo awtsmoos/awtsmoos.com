@@ -1,87 +1,78 @@
 // B"H
+/**
+ * @file visuals.js
+ * @description
+ * Chapter 17: The Eye Stopped Pretending To Be A Collider.
+ *
+ * The Awtsmoos lets a GLB be measured, sealed from the octree, and visually
+ * lifted by its actual foot offset. Measurement never mutates height, radius,
+ * capsule start, capsule end, or collider radius.
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
-import { PHYSICS_CONSTANTS } from './physics/physicsConstants.js';
- 
+
+const ROOT_POS = new THREE.Vector3();
+const MIN_LIFT = 0;
+const MAX_LIFT = 0.7;
+
+/**
+ * Measures the visual foot lift from the model root to the lowest vertex.
+ *
+ * @param {THREE.Object3D} targetModel Visual model root.
+ * @returns {number} Positive visual lift.
+ */
+function measureVisualFootLift(targetModel) {
+    targetModel.updateMatrixWorld(true);
+    targetModel.updateWorldMatrix(true, true);
+    const box = new THREE.Box3().setFromObject(targetModel);
+    if (!Number.isFinite(box.min.y) || box.isEmpty()) return 0;
+    targetModel.getWorldPosition(ROOT_POS);
+    const lift = ROOT_POS.y - box.min.y;
+    return Number.isFinite(lift) ? lift : 0;
+}
+
+/**
+ * Marks a model hierarchy as decorative player visual matter.
+ *
+ * @param {THREE.Object3D} model Visual model root.
+ * @returns {void}
+ */
+function sealVisualAgainstOctree(model) {
+    model.userData ||= {};
+    Object.assign(model.userData, { isLiving: true, isPlayer: true, skipOctree: true, noOctree: true, addToOctree: false });
+    model.traverse(child => {
+        child.userData ||= {};
+        Object.assign(child.userData, { isLiving: true, isPlayer: true, skipOctree: true, noOctree: true, addToOctree: false });
+    });
+}
+
+/** @param {number} value Number. @param {number} min Min. @param {number} max Max. @returns {number} */
+function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+
 export default {
- 
     /**
-     * @method updateDimensionsFromModel
-     * @description
-     * Captures the physical extent of the loaded GLB mesh relative to its pivot.
+     * Stores visual-only lift from real model measurement plus optional bias.
+     *
+     * @param {THREE.Object3D} [model] Optional visual model to measure.
+     * @returns {void}
      */
     updateDimensionsFromModel(model) {
         const targetModel = model || this.modelMesh;
-        if (!targetModel) return;
-
-        // 1. THE REVELATION OF MATRICES
-        // B"H FIX: We MUST update the world matrix, otherwise the bounding box 
-        // will measure the un-scaled, un-positioned original state!
-        targetModel.updateMatrixWorld(true);
-        targetModel.updateWorldMatrix(true, true);
- 
-        // 2. THE WEIGHING
-        const box = new THREE.Box3().setFromObject(targetModel);
-        const size = new THREE.Vector3();
-        box.getSize(size);
- 
-        if (
-            !isFinite(size.y) || size.y === 0 ||
-            !isFinite(box.min.y) || !isFinite(box.max.y)
-        ) {
-            console.warn(`B"H - ⚠️ Degenerate measurement for [${this.name}]. Reality is distorted.`);
-            return;
-        }
- 
-        // Update local dimensions
-        this.height = size.y;
-        this.radius = Math.max(size.x, size.z) / 2 * 0.8;
- 
-        // Safety: Radius cannot exceed half the height
-        if (this.radius > this.height / 2) {
-            this.radius = this.height / 2;
-        }
-
-        // B"H: THE RADIUS CAP TIKKUN
-        // Prevents stray vertices in GLB models from creating giant invisible walls!
-        // A human soul's physical width should never exceed 0.6 units in this realm.
-        if (this.radius > PHYSICS_CONSTANTS.MAX_RADIUS_CAP) {
-            this.radius = PHYSICS_CONSTANTS.MAX_RADIUS_CAP;
-        }
- 
-        /**
-         * B"H: THE TRUE LOCAL OFFSET (visualYOffset)
-         * We measure how far the bottom of the model (feet) is from its pivot (center).
-         * This is essential for sticking the feet to the floor later.
-         */
-        const worldPivotY = new THREE.Vector3();
-        targetModel.getWorldPosition(worldPivotY);
-        this.visualYOffset = box.min.y - worldPivotY.y;
- 
-        if (this.collider) {
-            this.collider.radius = this.radius;
-            // The ends of the internal physics capsule
-            const centerDistance = Math.max(0.1, this.height - (this.radius * 2));
- 
-            this.collider.end.set(
-                this.collider.start.x,
-                this.collider.start.y + centerDistance,
-                this.collider.start.z
-            );
- 
-            // B"H: silent
-
-        }
- 
-        if (!this.boundingBoxHelper) {
-            this.boundingBoxHelper = new THREE.Box3Helper(box.clone(), 0xff0000);
-            if (this.olam && this.olam.scene) {
-                this.olam.scene.add(this.boundingBoxHelper);
-            }
-        } else {
-            this.boundingBoxHelper.box.copy(box);
-        }
+        if (!targetModel?.isObject3D) return;
+        sealVisualAgainstOctree(targetModel);
+        const measured = measureVisualFootLift(targetModel);
+        const bias = Number(this.visualGroundBiasY ?? this.originalOptions?.visualGroundBiasY ?? 0);
+        const lift = measured + (Number.isFinite(bias) ? bias : 0);
+        targetModel.userData.visualGroundOffsetY = clamp(Number.isFinite(lift) ? lift : measured, MIN_LIFT, MAX_LIFT);
+        this.visualYOffset = -targetModel.userData.visualGroundOffsetY;
     },
- 
+
+    /**
+     * Releases Hebrew-letter sparks from a point in space.
+     *
+     * @param {THREE.Vector3} position Origin of the sparks.
+     * @param {number} [count=10] Number of sparks.
+     * @returns {void}
+     */
     spawnHebrewParticles(position, count = 10) {
         if (!this.olam) return;
         for (let i = 0; i < count; i++) {
@@ -90,14 +81,22 @@ export default {
             if (!mesh) continue;
             mesh.position.copy(position);
             mesh.position.y += 0.5;
-            const velocity = new THREE.Vector3((Math.random()-0.5)*15, (Math.random()*10)+5, (Math.random()-0.5)*15);
-            const rotSpeed = new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
+            mesh.userData.skipOctree = true;
+            mesh.userData.addToOctree = false;
+            const velocity = new THREE.Vector3((Math.random() - 0.5) * 15, (Math.random() * 10) + 5, (Math.random() - 0.5) * 15);
+            const rotSpeed = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
             mesh.scale.setScalar(3.0);
             this.olam.scene.add(mesh);
             this.particles.push({ mesh, velocity, rotSpeed, life: 2.0 });
         }
     },
- 
+
+    /**
+     * Advances decorative particles. These are never collision bodies.
+     *
+     * @param {number} dt Frame delta.
+     * @returns {void}
+     */
     updateParticles(dt) {
         for (let i = this.particles.length - 1; i >= 0; i--) {
             const p = this.particles[i];

@@ -1,12 +1,15 @@
 // B"H
 
+import { buildMultimodalUserMessage } from "./multimodal.js";
+
 /**
  * B"H
- * Chapter 18: Messages, tools, and models braided into one breath.
+ * Chapter 18: Messages, tools, models, and now media braided into one breath.
  *
  * This builder is shared by browser AI and local agent scripts. It prepares an
  * OpenAI-compatible chat payload without knowing whether the river is Groq,
- * OpenRouter, or a future provider.
+ * OpenRouter, MiniMax, Gemini, or a future provider. Media is only folded into
+ * the final user message when the model declares a fitting vessel.
  */
 export function buildChatPayload({ model, messages, tools, stream = true, extraBody = null } = {}) {
   const safeMessages = Array.isArray(messages) && messages.length
@@ -29,6 +32,24 @@ export function buildChatPayload({ model, messages, tools, stream = true, extraB
 export function normalizeMessages(input) {
   if (Array.isArray(input)) return input;
   return [{ role: "user", content: String(input ?? "") }];
+}
+
+/**
+ * B"H
+ * Converts a prompt plus media attachments into chat messages.
+ *
+ * @param {object} options Prompt, model and attachment options.
+ * @returns {object[]} Chat messages.
+ */
+export function normalizeMultimodalMessages(options = {}) {
+  const base = normalizeMessages(options.messages || options.prompt || options.input || "");
+  if (!Array.isArray(options.attachments) || !options.attachments.length) return base;
+  const last = base[base.length - 1] || { role: "user", content: "" };
+  if (last.role !== "user") {
+    return [...base, buildMultimodalUserMessage({ text: "", attachments: options.attachments, model: options.modelMeta || {}, providerId: options.providerId || "" })];
+  }
+  const text = typeof last.content === "string" ? last.content : JSON.stringify(last.content || "");
+  return [...base.slice(0, -1), buildMultimodalUserMessage({ text, attachments: options.attachments, model: options.modelMeta || {}, providerId: options.providerId || "" })];
 }
 
 /**

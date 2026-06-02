@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-06-01T08:48:49.118Z",
+  "count": 2,
+  "total": 44,
+  "rows": [
+    {
+      "p": "geelooy/apps/archive-uploader/index.html",
+      "ms": 2407,
+      "ok": true,
+      "engine": "merkava",
+      "error": null,
+      "topStack": null,
+      "chromeRecommended": false
+    },
+    {
+      "p": "geelooy/apps/audio-editor/index.html",
+      "ms": 1462,
+      "ok": true,
+      "engine": "merkava",
+      "error": null,
+      "topStack": null,
+      "chromeRecommended": false
+    }
+  ]
+}

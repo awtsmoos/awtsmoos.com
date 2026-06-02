@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "hasPicture": true,
+  "backend": "merkava-software-webgl-dom",
+  "fallbackReason": "merkava_default",
+  "imageBytes": 18377,
+  "canvasTextureCount": 2,
+  "canvasCommandCount": 14,
+  "minimax": {
+    "ok": true,
+    "status": 200,
+    "answerLength": 4216
+  },
+  "files": {
+    "picture": "AI_THOUGHTS/runtime-stress/local-action-sandbox/merkava-advanced-vision/actual-merkava-picture.png",
+    "answer": "AI_THOUGHTS/runtime-stress/local-action-sandbox/merkava-advanced-vision/minimax-answer.md",
+    "result": "AI_THOUGHTS/runtime-stress/local-action-sandbox/merkava-advanced-vision/result.safe.json"
+  }
+}

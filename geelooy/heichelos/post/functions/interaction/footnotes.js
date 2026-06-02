@@ -66,10 +66,10 @@ export function createFootnoteOverlay(content) {
     
     const overlay = document.createElement('div');
     overlay.id = 'footnote-overlay';
-    overlay.className = "awtsmoos-footnote-overlay";
+    overlay.className = "awtsmoos-footnote-overlay command-palette-overlay";
     
     const contentBox = document.createElement('div');
-    contentBox.className = "awtsmoosFootnote";
+    contentBox.className = "awtsmoosFootnote command-palette awtsmoos-card";
     contentBox.innerHTML = content;
 
     overlay.onclick = () => overlay.remove();

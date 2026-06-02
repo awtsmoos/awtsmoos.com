@@ -1,0 +1,4 @@
+geelooy/games/tests/2/index.html
+geelooy/games/tests/3/index.html
+geelooy/games/tests/tree/index.html
+geelooy/games/tetris/index.html

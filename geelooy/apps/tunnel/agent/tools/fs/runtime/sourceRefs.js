@@ -2,42 +2,41 @@
 /**
  * @file sourceRefs.js
  * @description
- * Chapter 5: CSS whispered through url() wells, JavaScript called across
- * valleys, and the Awtsmoos bound each whisper into one reachable procession.
+ * Chapter 100: The HTML Sea And JS Flame Were Given Separate Vessels.
  */
-
 const path = require("path");
 const { refsFromHtml } = require("./htmlRefs.js");
+const { refsFromCss } = require("./sourceRefs/cssRefs.js");
+const { refsFromImportMaps } = require("./sourceRefs/importMapRefs.js");
+const { refsFromInlineScripts } = require("./sourceRefs/inlineScriptRefs.js");
+const { refsFromJs } = require("./sourceRefs/jsRefs.js");
+const { normalizeRuntimeRef } = require("./sourceRefs/pathRefs.js");
 const { cleanSpec, slash } = require("./pathUtils.js");
-
-function refsFromCss(text = "") {
-  const refs = [];
-  for (const m of String(text).matchAll(/@import\s+(?:url\()?\s*["']?([^"')\s;]+)["']?\s*\)?/gi)) refs.push(m[1]);
-  for (const m of String(text).matchAll(/url\(\s*["']?([^"')]+)["']?\s*\)/gi)) refs.push(m[1]);
-  return refs;
-}
-
-function refsFromJs(text = "") {
-  const refs = [];
-  const source = String(text || "");
-  const staticRe = /(?:import\s+(?!\()(?:(?:[\s\S]*?)\s+from\s+)?|export\s+(?:\*|\{[\s\S]*?\})\s+from\s+)["']([^"']+)["']/g;
-  for (const m of source.matchAll(staticRe)) refs.push(m[1]);
-  for (const m of source.matchAll(/import\s*\(\s*["']([^"']+)["']\s*\)/g)) refs.push(m[1]);
-  for (const m of source.matchAll(/require\(\s*["']([^"']+)["']\s*\)/g)) refs.push(m[1]);
-  for (const m of source.matchAll(/\bfetch\s*\(\s*["']([^"']+)["']\s*\)/g)) refs.push(m[1]);
-  return refs;
-}
 
 function refsFrom(text, fromKey) {
   const refs = [];
   const base = slash(path.dirname(fromKey));
-  const add = spec => {
-    const clean = cleanSpec(spec);
-    if (!clean || /^[a-z]+:/i.test(clean) || clean.startsWith("//") || clean.startsWith("data:")) return;
-    refs.push(slash(path.posix.normalize(path.posix.join(base, clean))));
-  };
-  [...refsFromHtml(text), ...refsFromCss(text), ...refsFromJs(text)].forEach(add);
+  const isHtml = /\.html?$/i.test(fromKey);
+  const sources = [
+    ...refsFromHtml(text),
+    ...refsFromImportMaps(text),
+    ...refsFromCss(text),
+    ...(isHtml ? refsFromInlineScripts(text) : refsFromJs(text))
+  ];
+
+  for (const spec of sources) {
+    const normalized = normalizeRuntimeRef(cleanSpec(spec), base);
+    if (normalized) refs.push(normalized);
+  }
+
   return [...new Set(refs)];
 }
 
-module.exports = { refsFrom, refsFromCss, refsFromJs };
+module.exports = {
+  refsFrom,
+  refsFromCss,
+  refsFromJs,
+  refsFromImportMaps,
+  refsFromInlineScripts,
+  normalizeRuntimeRef
+};

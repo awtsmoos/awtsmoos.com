@@ -1,0 +1,2809 @@
+{
+  "generatedAt": "2026-06-02T04:30:04.920Z",
+  "total": 70,
+  "count": 70,
+  "ok": 70,
+  "failed": 0,
+  "rows": [
+    {
+      "p": "geelooy/apps/archive-uploader/index.html",
+      "at": "2026-06-02T03:41:07.714Z",
+      "ok": true,
+      "error": null,
+      "ms": 209,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/audio-editor/index.html",
+      "at": "2026-06-02T03:41:07.945Z",
+      "ok": true,
+      "error": null,
+      "ms": 247,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/awtsmoos-gguf/index.html",
+      "at": "2026-06-02T03:41:08.201Z",
+      "ok": true,
+      "error": null,
+      "ms": 857,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/bookCoverMaker/index.html",
+      "at": "2026-06-02T03:41:09.061Z",
+      "ok": true,
+      "error": null,
+      "ms": 51,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/broadcaster/index.html",
+      "at": "2026-06-02T03:41:09.115Z",
+      "ok": true,
+      "error": null,
+      "ms": 51,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/byteViewer/index.html",
+      "at": "2026-06-02T03:41:09.174Z",
+      "ok": true,
+      "error": null,
+      "ms": 36,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/captions/index.html",
+      "at": "2026-06-02T03:41:09.213Z",
+      "ok": true,
+      "error": null,
+      "ms": 173,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/captions/video/index.html",
+      "at": "2026-06-02T03:41:09.388Z",
+      "ok": true,
+      "error": null,
+      "ms": 260,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/code/index.html",
+      "at": "2026-06-02T03:41:09.651Z",
+      "ok": true,
+      "error": null,
+      "ms": 2599,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/compiler/index.html",
+      "at": "2026-06-02T03:41:12.252Z",
+      "ok": true,
+      "error": null,
+      "ms": 381,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/csv/index.html",
+      "at": "2026-06-02T03:42:31.143Z",
+      "ok": true,
+      "error": null,
+      "ms": 514,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/editor/index.html",
+      "at": "2026-06-02T03:41:12.708Z",
+      "ok": true,
+      "error": null,
+      "ms": 28661,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/editor/old/examples/1.html",
+      "at": "2026-06-02T03:41:41.372Z",
+      "ok": true,
+      "error": null,
+      "ms": 34679,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/editor/old/index.html",
+      "at": "2026-06-02T03:42:57.456Z",
+      "ok": true,
+      "error": null,
+      "ms": 35606,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/exe-emulator/index.html",
+      "at": "2026-06-02T04:11:06.878Z",
+      "ok": true,
+      "error": null,
+      "ms": 143,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/index.html",
+      "at": "2026-06-02T04:11:07.039Z",
+      "ok": true,
+      "error": null,
+      "ms": 20,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/lyric-sync/index.html",
+      "at": "2026-06-02T03:44:21.117Z",
+      "ok": true,
+      "error": null,
+      "ms": 438,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/merkava-native-browser/samples/browser-shell.html",
+      "at": "2026-06-02T03:44:21.586Z",
+      "ok": true,
+      "error": null,
+      "ms": 32,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/merkava-native-browser/samples/frontend.html",
+      "at": "2026-06-02T03:44:21.622Z",
+      "ok": true,
+      "error": null,
+      "ms": 25,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/merkava-native-browser/samples/webgl-native.html",
+      "at": "2026-06-02T04:13:42.168Z",
+      "ok": true,
+      "error": null,
+      "ms": 45,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/merkava-native-browser/tmp-chrome-webgl/index.html",
+      "at": "2026-06-02T04:12:07.645Z",
+      "ok": true,
+      "error": null,
+      "ms": 16,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/pdf-to-img/index.html",
+      "at": "2026-06-02T04:13:08.211Z",
+      "ok": true,
+      "error": null,
+      "ms": 66,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/piano/index.html",
+      "at": "2026-06-02T04:13:08.293Z",
+      "ok": true,
+      "error": null,
+      "ms": 292,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/rebbe/index.html",
+      "at": "2026-06-02T04:14:09.324Z",
+      "ok": true,
+      "error": null,
+      "ms": 518,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/transcribe/index.html",
+      "at": "2026-06-02T04:14:09.859Z",
+      "ok": true,
+      "error": null,
+      "ms": 26,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/tunnel-control/index.html",
+      "at": "2026-06-02T04:15:11.361Z",
+      "ok": true,
+      "error": null,
+      "ms": 1780,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/tunnel-control/privacy.html",
+      "at": "2026-06-02T04:15:13.220Z",
+      "ok": true,
+      "error": null,
+      "ms": 29,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/tunnel/index.html",
+      "at": "2026-06-02T04:14:48.994Z",
+      "ok": true,
+      "error": null,
+      "ms": 258,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/video-editor/index.html",
+      "at": "2026-06-02T04:14:49.275Z",
+      "ok": true,
+      "error": null,
+      "ms": 112,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/video-editor/simpleer.html",
+      "at": "2026-06-02T04:15:20.377Z",
+      "ok": true,
+      "error": null,
+      "ms": 88,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/wallet/index.html",
+      "at": "2026-06-02T04:15:20.497Z",
+      "ok": true,
+      "error": null,
+      "ms": 159,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/apps/watermark-remover/index.html",
+      "at": "2026-06-02T04:18:29.416Z",
+      "ok": true,
+      "error": null,
+      "ms": 395,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/KAVANAH/index.html",
+      "at": "2026-06-02T04:18:29.862Z",
+      "ok": true,
+      "error": null,
+      "ms": 620,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/Merkava/index.html",
+      "at": "2026-06-02T04:30:04.886Z",
+      "ok": true,
+      "error": null,
+      "ms": 1156,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/Nachash/index.html",
+      "at": "2026-06-02T04:20:57.328Z",
+      "ok": true,
+      "error": null,
+      "ms": 772,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/adventure/index.html",
+      "at": "2026-06-02T04:20:58.435Z",
+      "ok": true,
+      "error": null,
+      "ms": 668,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/brick-blast/index.html",
+      "at": "2026-06-02T04:21:00.775Z",
+      "ok": true,
+      "error": null,
+      "ms": 1871,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/cards/index.html",
+      "at": "2026-06-02T04:21:02.105Z",
+      "ok": true,
+      "error": null,
+      "ms": 723,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/chess/debug/index.html",
+      "at": "2026-06-02T04:21:02.987Z",
+      "ok": true,
+      "error": null,
+      "ms": 477,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/chess/index.html",
+      "at": "2026-06-02T04:21:04.102Z",
+      "ok": true,
+      "error": null,
+      "ms": 642,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/chess/magic.html",
+      "at": "2026-06-02T04:21:05.016Z",
+      "ok": true,
+      "error": null,
+      "ms": 447,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/chess/pgn_validator.html",
+      "at": "2026-06-02T04:21:07.777Z",
+      "ok": true,
+      "error": null,
+      "ms": 510,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/connect4/index.html",
+      "at": "2026-06-02T04:21:09.494Z",
+      "ok": true,
+      "error": null,
+      "ms": 723,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/dove/index.html",
+      "at": "2026-06-02T04:21:10.669Z",
+      "ok": true,
+      "error": null,
+      "ms": 763,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/emojis/index.html",
+      "at": "2026-06-02T04:21:12.717Z",
+      "ok": true,
+      "error": null,
+      "ms": 1625,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/index.html",
+      "at": "2026-06-02T04:21:13.632Z",
+      "ok": true,
+      "error": null,
+      "ms": 473,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/kabbalah-shooter/index.html",
+      "at": "2026-06-02T04:21:14.946Z",
+      "ok": true,
+      "error": null,
+      "ms": 853,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/migdol/index.html",
+      "at": "2026-06-02T04:21:15.913Z",
+      "ok": true,
+      "error": null,
+      "ms": 575,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/mitzvahWorld/documentation/advanced.html",
+      "at": "2026-06-02T04:21:17.029Z",
+      "ok": true,
+      "error": null,
+      "ms": 548,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/mitzvahWorld/documentation/advanced2.html",
+      "at": "2026-06-02T04:22:09.337Z",
+      "ok": true,
+      "error": null,
+      "ms": 371,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/mitzvahWorld/documentation/index.html",
+      "at": "2026-06-02T04:22:10.003Z",
+      "ok": true,
+      "error": null,
+      "ms": 344,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/mitzvahWorld/documentation/introduction.html",
+      "at": "2026-06-02T04:22:10.665Z",
+      "ok": true,
+      "error": null,
+      "ms": 347,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/mitzvahWorld/index.html",
+      "at": "2026-06-02T04:22:11.914Z",
+      "ok": true,
+      "error": null,
+      "ms": 951,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/mitzvahWorld/main.html",
+      "at": "2026-06-02T04:22:13.109Z",
+      "ok": true,
+      "error": null,
+      "ms": 342,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/mitzvahWorld/secretEditor.html",
+      "at": "2026-06-02T04:22:13.826Z",
+      "ok": true,
+      "error": null,
+      "ms": 384,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/neshama-quest/index.html",
+      "at": "2026-06-02T04:22:14.618Z",
+      "ok": true,
+      "error": null,
+      "ms": 472,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/ohr-hagnuz/index.html",
+      "at": "2026-06-02T04:22:16.477Z",
+      "ok": true,
+      "error": null,
+      "ms": 1531,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/pong/index.html",
+      "at": "2026-06-02T04:22:17.243Z",
+      "ok": true,
+      "error": null,
+      "ms": 430,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
+      "at": "2026-06-02T04:22:34.346Z",
+      "ok": true,
+      "error": null,
+      "ms": 16774,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/rebbe-runner/index.html",
+      "at": "2026-06-02T04:22:36.013Z",
+      "ok": true,
+      "error": null,
+      "ms": 437,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/scribe-journey/index.html",
+      "at": "2026-06-02T04:22:54.754Z",
+      "ok": true,
+      "error": null,
+      "ms": 18373,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/shema-strike/index.html",
+      "at": "2026-06-02T04:22:55.681Z",
+      "ok": true,
+      "error": null,
+      "ms": 510,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/soul-jump/index.html",
+      "at": "2026-06-02T04:22:56.503Z",
+      "ok": true,
+      "error": null,
+      "ms": 455,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/sulam-ha-sod/index.html",
+      "at": "2026-06-02T04:23:08.745Z",
+      "ok": true,
+      "error": null,
+      "ms": 11872,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/tests/1/index.html",
+      "at": "2026-06-02T04:23:11.408Z",
+      "ok": true,
+      "error": null,
+      "ms": 2113,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/tests/1/water.html",
+      "at": "2026-06-02T04:23:13.875Z",
+      "ok": true,
+      "error": null,
+      "ms": 1984,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/tests/2/index.html",
+      "at": "2026-06-02T04:23:16.101Z",
+      "ok": true,
+      "error": null,
+      "ms": 1846,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/tests/3/index.html",
+      "at": "2026-06-02T04:23:19.882Z",
+      "ok": true,
+      "error": null,
+      "ms": 3403,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/tests/tree/index.html",
+      "at": "2026-06-02T04:23:22.131Z",
+      "ok": true,
+      "error": null,
+      "ms": 1861,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "p": "geelooy/games/tetris/index.html",
+      "at": "2026-06-02T04:24:24.996Z",
+      "ok": true,
+      "error": null,
+      "ms": 899,
+      "actionCount": 6,
+      "actions": [
+        {
+          "action": "waitForSelector",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "waitForFunction",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "click",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "evaluate",
+          "ok": true,
+          "error": null
+        },
+        {
+          "action": "snapshot",
+          "ok": true,
+          "error": null
+        }
+      ]
+    }
+  ]
+}

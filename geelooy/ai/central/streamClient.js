@@ -1,16 +1,17 @@
 // B"H
-import { buildChatPayload, extractAssistantText, normalizeMessages } from "./payload.js";
+import { buildChatPayload, extractAssistantText, normalizeMultimodalMessages } from "./payload.js";
 import { estimateTokens, trimMessagesForContext } from "./contextWindow.js";
 import { readSSEStream } from "../../shared/streaming/index.js";
 
 /**
  * B"H
- * Chapter 200: The MiniMax Tool Sparks Were Seen Before They Were Complete.
+ * Chapter 200: The Provider River Learned To Carry Images And Audio.
  *
  * Text, thinking, raw provider chunks, partial tool-call deltas, complete tool
- * calls, metrics, and finish reasons stream outward immediately. The final
- * visible bubble still strips `<think>` caves, but the thought itself remains
- * in the live thought panel.
+ * calls, metrics, finish reasons, and supported media flow outward immediately.
+ * The final visible bubble still strips `<think>` caves, but the thought itself
+ * remains in the live thought panel. Media only enters the river after provider
+ * capability checks in the shared multimodal builder.
  */
 export class OpenAICompatibleStreamClient {
   constructor({ provider, apiKey, fetchImpl = null } = {}) {
@@ -19,11 +20,17 @@ export class OpenAICompatibleStreamClient {
     this.fetchImpl = safeFetch(fetchImpl);
   }
 
-  async complete({ messages, prompt, model, tools, stream = true, signal, onDelta, onReasoning, onToolCall, onMetrics, onEvent } = {}) {
-    const rawMessages = normalizeMessages(messages || prompt);
+  async complete({ messages, prompt, model, modelMeta, attachments, tools, stream = true, signal, onDelta, onReasoning, onToolCall, onMetrics, onEvent } = {}) {
+    const chosenModel = model || this.provider.defaultModel;
+    const rawMessages = normalizeMultimodalMessages({
+      messages: messages || prompt,
+      attachments,
+      modelMeta: modelMeta || { id: chosenModel, provider: this.provider.id },
+      providerId: this.provider.id
+    });
     const context = trimMessagesForContext(rawMessages, tools || [], this.provider.contextWindow || 128000);
     onMetrics?.({ ...context.metrics, outputTokens: 0, totalTokens: context.metrics.promptTokens });
-    const payload = buildChatPayload({ model: model || this.provider.defaultModel, messages: context.messages, tools, stream, extraBody: this.provider.extraBody });
+    const payload = buildChatPayload({ model: chosenModel, messages: context.messages, tools, stream, extraBody: this.provider.extraBody });
     const response = await this.fetchImpl(this.provider.endpoint, this.request(payload, signal));
     if (!response.ok) throw await this.error(response);
     if (stream && response.body) return this.readStream(response, { context, onDelta, onReasoning, onToolCall, onMetrics, onEvent });

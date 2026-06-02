@@ -31,7 +31,7 @@ export function makeNavBars(post, seriesParent, indexInSeries) {
         children:[
             { 
                 tag: 'div', 
-                attr: { class: 'controls' }, 
+                attr: { class: 'controls awtsmoos-sidebar-actions' }, 
                 text: `CHAPTER ${cur + 1} / ${length}` 
             }
         ]

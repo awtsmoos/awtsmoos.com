@@ -35,6 +35,7 @@
       this.history = { stack: [this.location.href], pushState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack.push(this.location.href); }, replaceState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack[this.history.stack.length - 1] = this.location.href; } };
       this.performance = { now: () => Date.now() };
       this.__timers = new Map();
+      this.__timerBudget = { callbacks: 0, maxCallbacks: 250, frozen: false };
       this.__network = new VirtualFetch({ files, graph, baseUrl: this.location.href });
       this.fetch = this.__network.fetch.bind(this.__network);
       this.Event = events.VirtualEvent;
@@ -73,10 +74,12 @@
       this.addStyleSheet = cssText => this.document.cssEngine.parseStyleSheet(cssText);
     }
 
-    setTimeout(fn, ms = 0, ...args) { const id = setTimeout(() => safeCall(fn, args, this), ms); this.__timers.set(id, { kind: 'timeout', ms }); return id; }
+    setTimeout(fn, ms = 0, ...args) { if (this.__timerBudget.frozen) return 0; const id = setTimeout(() => { this.__timers.delete(id); budgetedCall(fn, args, this); }, Math.max(0, Number(ms) || 0)); if (id && typeof id.unref === 'function') id.unref(); this.__timers.set(id, { kind: 'timeout', ms }); return id; }
     clearTimeout(id) { this.__timers.delete(id); clearTimeout(id); }
-    setInterval(fn, ms = 0, ...args) { const id = setInterval(() => safeCall(fn, args, this), ms); this.__timers.set(id, { kind: 'interval', ms }); return id; }
+    setInterval(fn, ms = 0, ...args) { if (this.__timerBudget.frozen) return 0; const id = setInterval(() => budgetedCall(fn, args, this), Math.max(0, Number(ms) || 0)); if (id && typeof id.unref === 'function') id.unref(); this.__timers.set(id, { kind: 'interval', ms }); return id; }
     clearInterval(id) { this.__timers.delete(id); clearInterval(id); }
+    freezeTimers() { this.__timerBudget.frozen = true; this.clearAllTimers(); }
+    clearAllTimers() { for (const id of Array.from(this.__timers.keys())) { clearTimeout(id); clearInterval(id); this.__timers.delete(id); } }
     addEventListener(type, handler, options) { this.document.addEventListener(type, handler, options); }
     removeEventListener(type, handler, options) { this.document.removeEventListener(type, handler, options); }
     dispatchEvent(event) { return this.document.dispatchEvent(event); }
@@ -89,7 +92,7 @@
         localStorage: this.localStorage.toJSON(),
         sessionStorage: this.sessionStorage.toJSON(),
         network: this.__network.toJSON(),
-        console: this.console.toJSON(),
+        console: this.console && typeof this.console.toJSON === 'function' ? this.console.toJSON() : [],
         timers: Array.from(this.__timers.values()),
         mouse: this.mouse.toJSON(),
         keyboard: this.keyboard.toJSON(),
@@ -98,6 +101,12 @@
     }
   }
 
+  function budgetedCall(fn, args, win) {
+    if (win.__timerBudget.frozen) return;
+    win.__timerBudget.callbacks++;
+    if (win.__timerBudget.callbacks > win.__timerBudget.maxCallbacks) { win.freezeTimers(); return; }
+    safeCall(fn, args, win);
+  }
   function safeCall(fn, args, win) { try { if (typeof fn === 'function') fn(...args); } catch (error) { win.__AWTSMOOS_CAPTURED_ERRORS__ = win.__AWTSMOOS_CAPTURED_ERRORS__ || []; win.__AWTSMOOS_CAPTURED_ERRORS__.push({ message: error.message, stack: error.stack, phase: 'timer' }); } }
 
   function makeImageClass(win) {

@@ -10,6 +10,8 @@
   .awt-dashboard, .awt-workspace-stage, .awt-login-card { border-radius: var(--awt-radius-4); }
   .awt-control-shell :where(.form-grid,.terminal-grid) { grid-template-columns: 1fr; }
   .awt-control-shell :where(.span-12,.span-6,.span-5,.span-4,.span-3,.span-2) { grid-column: auto; }
+  .awt-task-row { grid-template-columns: auto minmax(0, 1fr); }
+  .awt-task-progress, .awt-task-state { grid-column: 2; }
 }
 @media (max-width: 620px) {
   body::before { background-size: 36px 36px, 36px 36px, auto; }
@@ -19,8 +21,9 @@
   .awt-nav-button strong { white-space: normal; line-height: 1.1; }
   .awt-dashboard { padding: 16px; }
   .awt-dashboard-copy h2, .awt-login-card h1 { font-size: clamp(2.35rem, 16vw, 4.6rem); }
-  .awt-dashboard-metrics, .awt-feature-dashboard-grid, .awt-mode-grid { grid-template-columns: 1fr; }
+  .awt-dashboard-metrics, .awt-feature-dashboard-grid, .awt-mode-grid, .awt-provider-grid { grid-template-columns: 1fr; }
   .awt-action-card { grid-template-columns: 1fr; min-height: 0; padding: 16px; border-radius: var(--awt-radius-3); }
+  .awt-kabbalah-map { min-height: 360px; }
   .awt-workspace-toolbar { align-items: flex-start; flex-direction: column; }
   .awt-control-shell :where([data-pane], .awt-pane-content) { padding: 14px; }
   .awt-control-shell :where(.two-grid,.check-grid,.awt-mesh-graph,.chrome-grid,.docs-grid,.usage-grid,.explorer-grid) { grid-template-columns: 1fr; }

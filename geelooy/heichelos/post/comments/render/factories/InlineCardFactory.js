@@ -100,7 +100,7 @@ export function makeInlineComment(comment) {
         children: [
             { tag: "header", attr: { class: "awtsmoos-inline-card-header", style: headerStyle() }, children: [
                 { tag: "div", attr: { class: "awtsmoos-inline-avatar", style: avatarStyle() }, children: [String(alias).charAt(0).toUpperCase()] },
-                { tag: "div", attr: { class: "awtsmoos-inline-card-heading", style: "display:flex;flex-direction:column;min-width:0;flex:1;" }, children: [
+                { tag: "div", attr: { class: "awtsmoos-inline-card-heading awtsmoos-student-copy", style: "display:flex;flex-direction:column;min-width:0;flex:1;" }, children: [
                     { tag: "strong", attr: { style: titleStyle() }, children: [title] },
                     { tag: "span", attr: { style: metaStyle() }, children: [`@${alias} · ${coordinate}`] }
                 ] },

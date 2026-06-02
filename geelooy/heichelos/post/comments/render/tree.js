@@ -33,7 +33,7 @@ export function expandPathToComment(element) {
 export function renderTreeItem(node, container, factoryMethod, type, expandedReplies = new Set()) {
     const { comment, children } = node;
     const wrapper = document.createElement("div");
-    wrapper.className = "comment-wrapper";
+    wrapper.className = "comment-wrapper awtsmoos-list-item";
     
     const card = factoryMethod(comment);
     wrapper.appendChild(card);

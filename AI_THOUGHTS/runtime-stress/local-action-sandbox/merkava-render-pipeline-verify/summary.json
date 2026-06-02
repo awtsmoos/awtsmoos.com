@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "backend": "merkava-software-webgl-dom",
+  "bytes": 9667,
+  "proof": {
+    "nonBackgroundPixels": 614400,
+    "canvasTextures": 2,
+    "canvasCommands": 14,
+    "cssBytes": 0,
+    "sampleTopLeft": [
+      9,
+      11,
+      18,
+      255
+    ],
+    "sampleCenter": [
+      17,
+      42,
+      47,
+      255
+    ],
+    "antialiasing": "2x-supersampled-downsample"
+  },
+  "values": {
+    "window.appState": {
+      "dom": true,
+      "css": true,
+      "canvas2d": true,
+      "webgl": true
+    }
+  },
+  "canvasTextures": [
+    {
+      "kind": "canvas-2d",
+      "width": 300,
+      "height": 160,
+      "commands": [
+        "fillRect",
+        "fillRect",
+        "fillRect",
+        "fillTextPlaceholder",
+        "beginPath",
+        "moveTo",
+        "lineTo",
+        "lineTo",
+        "fillPath"
+      ]
+    },
+    {
+      "kind": "canvas-webgl",
+      "width": 300,
+      "height": 160,
+      "commands": [
+        "webgl.clearColor",
+        "webgl.clear",
+        "webgl.drawArrays"
+      ]
+    }
+  ],
+  "pngPath": "AI_THOUGHTS/runtime-stress/local-action-sandbox/merkava-render-pipeline-verify/actual-render.png"
+}

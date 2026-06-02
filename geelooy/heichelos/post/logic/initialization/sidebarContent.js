@@ -159,7 +159,7 @@ function createMenuPortal(portal, tabRefs) {
         events: { click: onClick, pointerup: onClick },
         children: [
             { tag: "div", attr: { class: "menu-icon-vessel", "aria-hidden": "true" }, text: portal.icon },
-            { tag: "div", attr: { class: "menu-text-vessel" }, children: [
+            { tag: "div", attr: { class: "menu-text-vessel awtsmoos-student-copy" }, children: [
                 { tag: "span", attr: { class: "menu-portal-title" }, text: portal.title },
                 { tag: "span", attr: { class: "menu-portal-desc" }, text: portal.desc }
             ] },

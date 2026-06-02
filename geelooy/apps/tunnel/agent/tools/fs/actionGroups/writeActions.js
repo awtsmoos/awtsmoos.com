@@ -4,41 +4,39 @@ const { replaceRange, applyPatch } = require("../searchEdit.js");
 const { writeIfHash, bulkWriteIfHashes } = require("../hashWrite.js");
 const { verifyJsFile, verifyJsRuntime } = require("../jsWriteVerifier.js");
 
+/**
+ * B"H
+ * Chapter 356: Bulk Write Learned To Confess Every Spark.
+ *
+ * Bulk write now returns honest counts, ok=false on partial failure, stable
+ * order, and per-file verification. The Awtsmoos does not hide a broken vessel
+ * inside a green shell; every file speaks its own outcome.
+ */
 async function handleBulkWrite(config, payload, action) {
   if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
   const writes = normalizeWrites(payload);
-  const results = {};
-  let okCount = 0;
-
+  const results = {}, order = [];
+  let okCount = 0, errorCount = 0;
   for (const one of writes) {
+    order.push(one.path);
     try {
-      results[one.path] = await writeText(config, one.path, one.content);
-      results[one.path].jsVerification = verifyJsFile(results[one.path].absolutePath, payload);
-      results[one.path].runtimeVerification = await verifyJsRuntime(results[one.path].absolutePath, payload);
+      const wrote = await writeText(config, one.path, one.content);
+      wrote.jsVerification = verifyJsFile(wrote.absolutePath, payload);
+      wrote.runtimeVerification = await verifyJsRuntime(wrote.absolutePath, payload);
+      results[one.path] = wrote;
       okCount++;
     } catch (e) {
-      results[one.path] = { ok: false, error: e.message };
+      results[one.path] = { ok: false, path: one.path, error: e.message };
+      errorCount++;
     }
   }
-
-  return { ok: true, action, root: config.root, count: writes.length, okCount, results };
+  return { ok: errorCount === 0, action, root: config.root, count: writes.length, okCount, errorCount, partial: errorCount > 0, order, results };
 }
 
-/**
- * B"H
- * Chapter 3: The Awtsmoos drew the blade of clarity through the old alias.
- * the vague legacy replacement alias was too broad for a living filesystem vessel; the
- * sharper sparks remain as write, applyPatch, replaceRange, and hash-guarded
- * writes, each one named for the covenant it actually keeps.
- *
- * @param {object} ctx Fresh tunnel action context.
- * @returns {object} Write action handlers, without the legacy replacement alias.
- */
 function buildWriteActions(ctx) {
   const { config, payload } = ctx;
   const action = payload.action || "list";
   const p = payload.path || payload.p || ".";
-
   return {
     async write() {
       const content = payload.content !== undefined ? payload.content : payload.text;
@@ -55,4 +53,4 @@ function buildWriteActions(ctx) {
   };
 }
 
-module.exports = { buildWriteActions };
+module.exports = { buildWriteActions, handleBulkWrite };

@@ -5,28 +5,35 @@ import { battleMoveLayout, moveIndexAt } from '../tiferet/render/BattleMoveLayou
 /**
  * B"H
  * @class Input
+ * @description Keyboard, battle-card, and canvas pointer input.
  *
- * Chapter 55: The finger finally touched the same card the eye could see.
- * The Awtsmoos has no body and no form; this input vessel now measures the
- * live canvas correctly, feeds the same battle layout used by rendering, and
- * keeps overworld walking separate from Torah-response tapping.
+ * Chapter 119: The touch no longer became browser selection. The Awtsmoos has no
+ * body and no form, but the finite phone needs capture, cancellation, and clean
+ * coordinate math so every press belongs to the game alone.
  */
 export class Input {
   static bound = false;
 
+  /** @returns {void} */
   static bind() {
     if (this.bound) return;
     this.bound = true;
-    const map = { ArrowUp:'U', w:'U', W:'U', ArrowDown:'D', s:'D', S:'D', ArrowLeft:'L', a:'L', A:'L', ArrowRight:'R', d:'R', D:'R', z:'A', Z:'A', Enter:'A', ' ':'A', x:'B', X:'B', Escape:'B' };
-    window.addEventListener('keydown', e => this.keyDown(e, map));
-    window.addEventListener('keyup', e => this.keyUp(e, map));
+    const map = this.keyMap();
+    window.addEventListener('keydown', e => this.keyDown(e, map), { passive: false });
+    window.addEventListener('keyup', e => this.keyUp(e, map), { passive: false });
     this.pointer();
   }
 
+  /** @returns {Record<string,string>} */
+  static keyMap() {
+    return { ArrowUp:'U', w:'U', W:'U', ArrowDown:'D', s:'D', S:'D', ArrowLeft:'L', a:'L', A:'L', ArrowRight:'R', d:'R', D:'R', z:'A', Z:'A', Enter:'A', ' ':'A', x:'B', X:'B', Escape:'B' };
+  }
+
+  /** @returns {void} */
   static keyDown(e, map) {
     if (State.ActiveRealm === 'DEBATE' && /^[1-4]$/.test(e.key)) {
       this.commitDebate(Number(e.key) - 1);
-      e.preventDefault();
+      e.preventDefault?.();
       return;
     }
     const k = map[e.key];
@@ -36,22 +43,30 @@ export class Input {
     e.preventDefault?.();
   }
 
+  /** @returns {void} */
   static keyUp(e, map) {
     const k = map[e.key];
     if (k) window.AwtsmoosIntents[k] = 0;
   }
 
+  /** @returns {void} */
   static pointer() {
     const shell = document.getElementById('game-shell');
     const canvas = document.getElementById('layer-obj');
     const target = shell || canvas;
     if (!target || !canvas) return;
-    target.addEventListener('pointerdown', e => this.pointerDown(e, canvas));
+    target.addEventListener('pointerdown', e => this.pointerDown(e, canvas), { passive: false });
+    target.addEventListener('contextmenu', e => e.preventDefault(), { passive: false });
+    target.addEventListener('selectstart', e => e.preventDefault(), { passive: false });
+    target.addEventListener('dragstart', e => e.preventDefault(), { passive: false });
   }
 
+  /** @returns {void} */
   static pointerDown(e, canvas) {
     if (e.target?.closest?.('button')) return;
     e.preventDefault?.();
+    e.stopPropagation?.();
+    canvas.setPointerCapture?.(e.pointerId);
     if (State.ActiveRealm === 'DEBATE') {
       const i = this.debateIndex(e, canvas);
       if (i !== null) this.commitDebate(i);
@@ -61,27 +76,28 @@ export class Input {
     if (tile) Logic.setPathTo(tile.x, tile.y);
   }
 
+  /** @returns {void} */
   static commitDebate(index) {
     State.Debate.cursor = index;
     Logic.selectDebateMove(index);
   }
 
+  /** @returns {{x:number,y:number}} */
   static point(e, canvas) {
     const r = canvas.getBoundingClientRect();
-    return {
-      x: (e.clientX - r.left) * (canvas.width / r.width),
-      y: (e.clientY - r.top) * (canvas.height / r.height)
-    };
+    return { x: (e.clientX - r.left) * (canvas.width / r.width), y: (e.clientY - r.top) * (canvas.height / r.height) };
   }
 
+  /** @returns {{x:number,y:number}} */
   static tile(e, canvas) {
     const p = this.point(e, canvas);
     const res = State.Resolution;
-    const camX = State.Hero.dx - canvas.width / 2 + res / 2;
-    const camY = State.Hero.dy - canvas.height / 2 + res / 2;
+    const camX = State.Hero.cx * res - canvas.width / 2 + res / 2;
+    const camY = State.Hero.cy * res - canvas.height / 2 + res / 2;
     return { x: Math.floor((p.x + camX) / res), y: Math.floor((p.y + camY) / res) };
   }
 
+  /** @returns {number|null} */
   static debateIndex(e, canvas) {
     const p = this.point(e, canvas);
     const layout = battleMoveLayout(canvas.width, canvas.height);

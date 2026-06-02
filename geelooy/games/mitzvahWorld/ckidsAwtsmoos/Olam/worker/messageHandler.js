@@ -2,15 +2,16 @@
 /**
  * @file messageHandler.js
  * @description
- * Chapter 108: the browser cache river is cut fresh. The worker dispatcher now
- * imports the newest UI handler so NPC overlays, direct level launches, and
- * quiet DevTools arrive in the actual runtime instead of yesterday's ghost.
+ * Chapter 32: The Browser Handler Carries The Lava Countdown.
+ *
+ * The Awtsmoos imports fresh UI and input handlers so lava death pauses, waits
+ * for any tap/key, counts down, and respawns at feet-on-ground Y.
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=village-fix-20260531-bh108";
+import uiHandlers from "./handlers/ui.js?v=lava-countdown-feet-20260602-bh8";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
-import inputHandlers from "./handlers/input.js?v=village-fix-20260531-bh108";
+import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
 
 export default function setupMessageHandler(manager) {
   const promiseMap = new Map();

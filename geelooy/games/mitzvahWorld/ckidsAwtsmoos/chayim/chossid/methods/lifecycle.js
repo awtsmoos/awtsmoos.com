@@ -2,24 +2,17 @@
 /**
  * @file lifecycle.js
  * @description
- * Chapter 1: The player stands alone at the quiet gate.
+ * Chapter 20: The Lifecycle Pulled The Fresh Robe.
  *
- * The Awtsmoos speaks the first level into being through a single Chossid,
- * without summoning the Medabeir/NPC chain. This lifecycle intentionally calls
- * the direct Chai base methods, so ShopManager, NpcRandomizer, SiachManager,
- * and the older speaker-world imports stay outside the hot platformer path.
+ * The Awtsmoos refreshes the player lifecycle so the browser loads the new
+ * measured GLB lift helper instead of the stale zero-lift burial helper.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Chai from "../../chai/index.js";
+import Chai from "../../chai/index.js?v=direct-velocity-20260602-bh6";
 import { ensureFallbackBody } from './lifecycle/fallbackBody.js';
-import { prepareChossidModel } from './lifecycle/model.js';
+import { prepareChossidModel } from './lifecycle/model.js?v=measured-visual-lift-20260602-bh6';
 
-/**
- * Ensures the visible player body exists.
- *
- * @param {object} chossid Player entity.
- * @returns {void}
- */
+/** @param {object} chossid Player entity. @returns {void} */
 function ensureVisibleChossidBody(chossid) {
     if (prepareChossidModel(chossid)) {
         ensureFallbackBody(chossid);
@@ -29,27 +22,14 @@ function ensureVisibleChossidBody(chossid) {
 }
 
 export default {
-    /**
-     * Starts the Chossid through Chai only, avoiding the old NPC chain.
-     *
-     * @param {object} olam World vessel that loads models.
-     * @returns {Promise<void>} Resolves after base living setup.
-     */
+    /** @param {object} olam World vessel that loads models. @returns {Promise<void>} */
     async heescheel(olam) {
         await Chai.prototype.heescheel.call(this, olam);
-        if (!this.position || isNaN(this.position.x)) {
-            this.setPosition(new THREE.Vector3(0, 5, 10));
-        }
-        if (typeof this.setupInputListeners === 'function') {
-            this.setupInputListeners(olam);
-        }
+        if (!this.position || isNaN(this.position.x)) this.setPosition(new THREE.Vector3(0, 5, 10));
+        if (typeof this.setupInputListeners === 'function') this.setupInputListeners(olam);
     },
 
-    /**
-     * Registers the player and prepares the GLB overlay.
-     *
-     * @returns {Promise<void>} Resolves after readiness and inventory setup.
-     */
+    /** @returns {Promise<void>} */
     async ready() {
         await Chai.prototype.ready.call(this);
         registerPlayer(this);
@@ -60,11 +40,7 @@ export default {
         this.updateAppearance?.();
     },
 
-    /**
-     * Attaches non-visual player controls after creation.
-     *
-     * @returns {Promise<void>} Resolves after inherited afterBriyah.
-     */
+    /** @returns {Promise<void>} */
     async afterBriyah() {
         await Chai.prototype.afterBriyah.call(this, this);
         ensureVisibleChossidBody(this);
@@ -74,17 +50,11 @@ export default {
             if (this.activeObject && this.setDistanceFromRay) {
                 this.distanceFromRay += deltaY * 0.005;
                 this.setDistanceFromRay(this.distanceFromRay);
-            } else if (this.olam.ayin) {
-                this.olam.ayin.zoom(deltaY);
-            }
+            } else if (this.olam.ayin) this.olam.ayin.zoom(deltaY);
         });
     },
 
-    /**
-     * Initializes inventory and UI identity.
-     *
-     * @returns {Promise<void>|void} Completion signal.
-     */
+    /** @returns {Promise<void>|void} */
     async started() {
         this.iconPath = "chossid.svg";
         this.iconType = "centered";
@@ -92,12 +62,7 @@ export default {
     }
 };
 
-/**
- * Registers the Chossid as the world player and camera target.
- *
- * @param {object} chossid Player entity.
- * @returns {void}
- */
+/** @param {object} chossid Player entity. @returns {void} */
 function registerPlayer(chossid) {
     if (!chossid?.olam) return;
     chossid.olam.chossid = chossid;

@@ -43,10 +43,10 @@ export function renderThreadSequence(container, history, commentData, commentId,
             // Reply Button for Non-Owners
             const replyDiv = document.createElement("div");
             replyDiv.style.padding = "10px 0 10px 40px";
-            replyDiv.className = "ai-fork-reply-container";
+            replyDiv.className = "ai-fork-reply-container awtsmoos-card";
             
             const replyBtn = document.createElement("button");
-            replyBtn.className = "ai-btn ai-btn-primary";
+            replyBtn.className = "ai-btn ai-btn-primary btn awtsmoos-hero-btn";
             replyBtn.innerText = "Reply to Chat";
             replyBtn.onclick = () => {
                 replyDiv.innerHTML = "";
@@ -71,11 +71,11 @@ export function renderThreadSequence(container, history, commentData, commentId,
 
 export function renderNestedThread(container, commentData, commentId, forceOpen = false) {
     const wrapper = document.createElement("div");
-    wrapper.className = "ai-nested-thread";
+    wrapper.className = "ai-nested-thread awtsmoos-card";
     wrapper.dataset.nestedId = commentId;
 
     const trigger = document.createElement("div");
-    trigger.className = "ai-branch-trigger";
+    trigger.className = "ai-branch-trigger awtsmoos-list-item";
     
     let previewText = "New Reality";
     if(commentData.dayuh.conversation && commentData.dayuh.conversation.length > 0) {
@@ -89,15 +89,15 @@ export function renderNestedThread(container, commentData, commentId, forceOpen 
         }
     }
     
-    trigger.innerHTML = `<span class="ai-branch-icon">⑂</span> <span>Branch by @${commentData.author}: "${previewText}"</span>`;
+    trigger.innerHTML = `<span class="ai-branch-icon awtsmoos-student-avatar">⑂</span> <span>Branch by @${commentData.author}: "${previewText}"</span>`;
     
     const content = document.createElement("div");
-    content.className = "ai-branch-content";
+    content.className = "ai-branch-content awtsmoos-list-item";
     content.style.display = forceOpen ? "block" : "none";
     if(forceOpen) trigger.classList.add("active");
 
     const timelineContainer = document.createElement("div");
-    timelineContainer.className = "ai-thread-timeline nested-timeline";
+    timelineContainer.className = "ai-thread-timeline nested-timeline awtsmoos-comments-timeline";
     
     let startIdx = 0;
     if (commentData.dayuh.forkedFrom && typeof commentData.dayuh.forkedFrom.msgIndex === 'number') {

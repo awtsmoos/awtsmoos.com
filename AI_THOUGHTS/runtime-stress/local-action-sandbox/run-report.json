@@ -1,0 +1,332 @@
+{
+  "BH": "B\"H",
+  "generatedAt": "2026-06-02T05:15:21.570Z",
+  "repo": "/storage/emulated/0/Documents/git/awtsmoos.com",
+  "sandbox": "AI_THOUGHTS/runtime-stress/local-action-sandbox",
+  "discoveredCounts": {
+    "documented": 397,
+    "dispatcher": 129
+  },
+  "totalTests": 31,
+  "passed": 29,
+  "failed": 0,
+  "skipped": 2,
+  "failedActions": [],
+  "facts": {
+    "simulateRuntimeWorked": true,
+    "mekravaWorked": true,
+    "snapshotApiExists": true,
+    "agentWorked": true
+  },
+  "tests": [
+    {
+      "action": "mkdirp",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "made": "AI_THOUGHTS/runtime-stress/local-action-sandbox/families/fs"
+      }
+    },
+    {
+      "action": "write",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "bytes": 192512
+      }
+    },
+    {
+      "action": "read",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "chars": 143360
+      }
+    },
+    {
+      "action": "read64",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "prefix": "QiJIINep15zXldedINei15XXnNedIOKAlCBBd3RzbW9vcyBzcGFya3Mg8J+UpQpC"
+      }
+    },
+    {
+      "action": "readLines",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "first": [
+          "B\"H שלום עולם — Awtsmoos sparks 🔥",
+          "B\"H שלום עולם — Awtsmoos sparks 🔥"
+        ]
+      }
+    },
+    {
+      "action": "readManyLines",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "count": 10
+      }
+    },
+    {
+      "action": "partial-offset-read",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "first": "B\"H שלום ע",
+        "second": "ולם — Awtsmoos spark"
+      }
+    },
+    {
+      "action": "bulk",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "contents": [
+          "bulk-0",
+          "bulk-1",
+          "bulk-2"
+        ]
+      }
+    },
+    {
+      "action": "bulkSearch",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "hits": 3
+      }
+    },
+    {
+      "action": "fileHashes/writeIfHash",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "before": "cba06b5736faf67e54b07b561eae94395e774c517a7d910a54369e1263ccfbd4",
+        "after": "11507a0e2f5e69d5dfa40a62a1bd7b6ee57e6bcd85c67c9b8431b36fff21c437"
+      }
+    },
+    {
+      "action": "bulkWrite/bulkWriteIfHashes",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "before": [
+          "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        ],
+        "after": [
+          "7abfe20acb922900cfaba048993ce9c9e49a5fe3eb5a08d4baf30aad9ad09af7",
+          "0966428a1d83cbecd97934479318caeb7281b3b917333673c92b3b73839958c9"
+        ]
+      }
+    },
+    {
+      "action": "touch/ensureFile/stat/list/tree/findFiles",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "exists": true,
+        "listCount": 9
+      }
+    },
+    {
+      "action": "copyFile/copyTree/moveFile/moveTree/deleteFile/deleteTree",
+      "family": "fs",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "containment": true
+      }
+    },
+    {
+      "action": "jsonValidate-valid",
+      "family": "validation",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "parsed": true
+      }
+    },
+    {
+      "action": "jsonValidate-invalid",
+      "family": "validation",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "captured": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      }
+    },
+    {
+      "action": "yamlValidate-valid",
+      "family": "validation",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "wrote": true
+      }
+    },
+    {
+      "action": "yamlValidate-invalid",
+      "family": "validation",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "fixture": true
+      }
+    },
+    {
+      "action": "syntaxCheck-malformed-js",
+      "family": "validation",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "stderr": "/storage/emulated/0/Documents/git/awtsmoos.com/AI_THOUGHTS/runtime-stress/local-action-sandbox/families/validation/bad.js:1"
+      }
+    },
+    {
+      "action": "simulateRuntime-import",
+      "family": "runtime",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "imported": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js"
+      }
+    },
+    {
+      "action": "simulateRuntime-success",
+      "family": "runtime",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "ok": true,
+        "engine": "merkava",
+        "values": {}
+      }
+    },
+    {
+      "action": "simulateRuntime-thrown-error",
+      "family": "runtime",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "captured": true
+      }
+    },
+    {
+      "action": "simulateRuntime-async-error",
+      "family": "runtime",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "observed": true
+      }
+    },
+    {
+      "action": "snapshot-like-api",
+      "family": "runtime",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "keys": [
+          "format",
+          "fullPage",
+          "html",
+          "text",
+          "values",
+          "console",
+          "errors",
+          "runtime",
+          "result"
+        ],
+        "values": {}
+      }
+    },
+    {
+      "action": "nodeCheckFile",
+      "family": "command",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "ok": true
+      }
+    },
+    {
+      "action": "processList",
+      "family": "command",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "stdout": "  PID  PPID COMMAND\n 7562 21738 node\n 7616  7562 bash\n 7618     1 /data/data/com.termux/files/usr/bin/sh\n 7621  7616 ps\n 7622  7616 head\n15838 15790 /data/data/com.termux/files/usr/bin/bash\n21738     1 node\n32448     1 node\n32483     1 node\n"
+      }
+    },
+    {
+      "action": "portList",
+      "family": "command",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "stdout": "Active Internet connections (only servers)\nProto Recv-Q Send-Q Local Address           Foreign Address         State      \n"
+      }
+    },
+    {
+      "action": "server/local-http",
+      "family": "command",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "stdout": "36049",
+        "status": 0
+      }
+    },
+    {
+      "action": "agent-spawn-status-watch",
+      "family": "agent-command",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "agentId": "gameAgent_1780377304137_affxbf",
+        "finalStatus": "completed_with_failures",
+        "orphans": 0
+      }
+    },
+    {
+      "action": "agent-stale-kill-after-10s",
+      "family": "agent-command",
+      "status": "passed",
+      "ms": 0,
+      "detail": {
+        "agentId": "gameAgent_1780377320763_fue6wr",
+        "observed": true
+      }
+    },
+    {
+      "action": "serverStart",
+      "family": "surface",
+      "status": "skipped",
+      "ms": 0,
+      "reason": "not directly registered in local dispatcher mapping"
+    },
+    {
+      "action": "serverStop",
+      "family": "surface",
+      "status": "skipped",
+      "ms": 0,
+      "reason": "not directly registered in local dispatcher mapping"
+    }
+  ]
+}

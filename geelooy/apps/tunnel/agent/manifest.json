@@ -1,13 +1,13 @@
 {
   "BH": "B\"H",
-  "version": "1.5.63",
-  "previousVersion": "1.5.62",
+  "version": "1.5.68",
+  "previousVersion": "1.5.67",
   "entry": "main.js",
   "files": [
     {
       "path": "lib/config.js",
-      "bytes": 6167,
-      "sha256": "230c8f493ff6ebbadb42a8df190327c05f8162878a7dd98c25a2c447f69b33ba"
+      "bytes": 7146,
+      "sha256": "93a069ba6b10613791c6687b59db4a872278942fd7ccf5b651df83bf106f4aaf"
     },
     {
       "path": "lib/local-api.js",
@@ -135,6 +135,61 @@
       "sha256": "9685a7d033a899d3c85de897633c181678edce0b82e4376c982a24745f47d92c"
     },
     {
+      "path": "tools/fs/actionGroups/aiAgentActions.js",
+      "bytes": 5279,
+      "sha256": "f47a6a99ecc9d3854bdf26af7ff51cb70cba2163bec29bcb39f8c9a174f750f0"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/childSpawner.js",
+      "bytes": 1780,
+      "sha256": "0618d0f5b2570a5c2fc848104fad412eb87f4bf77c621681be17fa94873089ca"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/client.js",
+      "bytes": 4737,
+      "sha256": "bc9e5ef3c9620e1130f6c9929ea37598f6cb9cb3735cbf605969c6fd92c74a98"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/genericTask.js",
+      "bytes": 4837,
+      "sha256": "24fc880427706ef79a25239140398577ed92cb8e5e32da8377c355baab23b521"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/novelPipeline.js",
+      "bytes": 7090,
+      "sha256": "8b7c0628e127e1bf514177539c0b7680446a7c7d8ddfc30bb34010fcc0ad73f1"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/providers.js",
+      "bytes": 3605,
+      "sha256": "c9b7454459c56f6282b39af5554669db81311eb05840a7f141d3fdd367c5430b"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/registry.js",
+      "bytes": 1786,
+      "sha256": "4956a7da67f07aa181fe6cc86e0ab332032641da49e374865dffcb48ca13e4dc"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/sleep.js",
+      "bytes": 473,
+      "sha256": "87f84cfad28b2523c418944b2d46558970edb1f058f5a122f35c3afc4a3856fc"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/taskLimits.js",
+      "bytes": 1272,
+      "sha256": "612c6bb269639a1b778fb3a6ed821046b56c88585269db3c2896435acc119203"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/taskRunner.js",
+      "bytes": 3399,
+      "sha256": "5bc5eef7cb3ba08ba5d9b11ed0e83da6c16431b799a5053a9ee8aeb26b9ceb08"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiAgents/taskStore.js",
+      "bytes": 3570,
+      "sha256": "842b193fd1e4061ef75af6765a7a32004b13a9da300347e237fe3a2349e0278d"
+    },
+    {
       "path": "tools/fs/actionGroups/aiTemplateActions.js",
       "bytes": 1929,
       "sha256": "e7bc2331ffd35fd4abf29a9dfa090578291769bbac78bdc32cef003483171de0"
@@ -156,8 +211,8 @@
     },
     {
       "path": "tools/fs/actionGroups/configActions.js",
-      "bytes": 4464,
-      "sha256": "1a19975096fcf1a82308468c428a5c865659b6363227aaa11fc3906ca39c1fbb"
+      "bytes": 4923,
+      "sha256": "35f6341e48a14c1959cac680475244df9f611aa4f3345ad1d7a6cc4a04ee4cba"
     },
     {
       "path": "tools/fs/actionGroups/fileOpsActions.js",
@@ -206,8 +261,8 @@
     },
     {
       "path": "tools/fs/actionGroups/runtimeActions.js",
-      "bytes": 7740,
-      "sha256": "9d3183d94ef67f8b952a7a79760dbcf43a69dd8c1a07f42ea9d743be86387c1e"
+      "bytes": 7738,
+      "sha256": "8e4c0a870603f41d98b11a1465f7359ba557bf43e6bf434b07891f079a953a64"
     },
     {
       "path": "tools/fs/actionGroups/staticServerActions.js",
@@ -221,18 +276,18 @@
     },
     {
       "path": "tools/fs/actionGroups/writeActions.js",
-      "bytes": 2560,
-      "sha256": "ea0f8691364b2032c560595e2fb757cac7d4510f4a0ea728ab04dd39af729035"
+      "bytes": 2537,
+      "sha256": "4f0e2ee7a3d9dd5ba28a4a158d996e6c2b26b9449ceae9b891bbe9249180c6d5"
     },
     {
       "path": "tools/fs/actionLedger.js",
-      "bytes": 6081,
-      "sha256": "fd77e5a6f167ff3252c7509f5a5066bfa610968425d9d40c5efd1e5af085a1ec"
+      "bytes": 6970,
+      "sha256": "f5588159b1aa9ae613493270f84b471dbfb219df869138bba23e522d2f61bd27"
     },
     {
       "path": "tools/fs/actions.js",
-      "bytes": 3169,
-      "sha256": "70f7a55800a5e0820dc4ed78a18f2295ee42da4ac9409a6e74ba247a80fba7a2"
+      "bytes": 3511,
+      "sha256": "ba2d829031e8eb1037ecc78af491ed17bc3855509743c7464c8fd9d0c4c19195"
     },
     {
       "path": "tools/fs/astOutline.js",
@@ -241,8 +296,8 @@
     },
     {
       "path": "tools/fs/bulkRead.js",
-      "bytes": 4211,
-      "sha256": "4d34c4bb3e6e04bfe5ee03950b97d86b0786730029bd5a57629bd2f7ada99a97"
+      "bytes": 4817,
+      "sha256": "6db1c851080f4d7cbb70f6b960a92fba0f6fe549f4853fd6e460c28f9694b77c"
     },
     {
       "path": "tools/fs/cognitionCommandNames.js",
@@ -390,6 +445,81 @@
       "sha256": "c5c4d0d119c4cd5fb473039bbcbea05c065b5e28c832b87a20ea90a28f8d519f"
     },
     {
+      "path": "tools/fs/runtime/collector.js",
+      "bytes": 1363,
+      "sha256": "730f9a1b82c59429035407967c6e437855cb2858763665c3f71f10f9f9e494b3"
+    },
+    {
+      "path": "tools/fs/runtime/constants.js",
+      "bytes": 668,
+      "sha256": "2f87e95fc23cd87a265eb2dfe7b61fd2ba3ab9ee8f404378cb37a9998ef05692"
+    },
+    {
+      "path": "tools/fs/runtime/discovery.js",
+      "bytes": 1761,
+      "sha256": "9695c5bee9699383683513880f6336c5a0d8b3c629ac90aed70048a389d1a39f"
+    },
+    {
+      "path": "tools/fs/runtime/htmlRefs.js",
+      "bytes": 1218,
+      "sha256": "ae9fc445641bbe4ed8f7d8affcfca4feee2435c38897827a2df6089e38c4049e"
+    },
+    {
+      "path": "tools/fs/runtime/inlineFiles.js",
+      "bytes": 1378,
+      "sha256": "f0bb77ea9331d873b4997f936db679bdd469b56556358bef262ad529dab55a24"
+    },
+    {
+      "path": "tools/fs/runtime/pathUtils.js",
+      "bytes": 829,
+      "sha256": "184667a6ed3827875ea026ae2e5074581c7b6a1759cd8f31afc1f171461855ac"
+    },
+    {
+      "path": "tools/fs/runtime/preflight.js",
+      "bytes": 1791,
+      "sha256": "b3a941ff0cb019f3b915ece5bfd1000d66b3f4805547d5c5fb6cddd54be6d1d6"
+    },
+    {
+      "path": "tools/fs/runtime/scriptKinds.js",
+      "bytes": 899,
+      "sha256": "c5017a8ef782da1817ec5f38a5c5d9fa3e39ec535f687bffe21ec09cde63adc9"
+    },
+    {
+      "path": "tools/fs/runtime/sourceRefs.js",
+      "bytes": 1233,
+      "sha256": "8652e03db4418aa37a51d3830e3e2700d06b62c959f3e1345fa84fa0cda66f9a"
+    },
+    {
+      "path": "tools/fs/runtime/sourceRefs/cssRefs.js",
+      "bytes": 481,
+      "sha256": "671ba63297fb92b39ebc1961648454de94d4d63b7b1099f1830170104245a175"
+    },
+    {
+      "path": "tools/fs/runtime/sourceRefs/importMapRefs.js",
+      "bytes": 844,
+      "sha256": "2f169808d412956018d92aac4fd019f7adcc896177c4464ce4d63c44bed68668"
+    },
+    {
+      "path": "tools/fs/runtime/sourceRefs/inlineScriptRefs.js",
+      "bytes": 769,
+      "sha256": "1bf479fee9e876d7cbb6fe5424d69c89fc77fdc4f65159d2bf63a516374fb30c"
+    },
+    {
+      "path": "tools/fs/runtime/sourceRefs/jsLex.js",
+      "bytes": 3004,
+      "sha256": "7b64b84c38d36ec077c002c5dcb6e41986d10c28f8c32e5fdbe93a71966bd602"
+    },
+    {
+      "path": "tools/fs/runtime/sourceRefs/jsRefs.js",
+      "bytes": 3329,
+      "sha256": "c37f13ddbabbbe9774f74f8072cce027c0a96d3361e7505802e3abfd0293e9c7"
+    },
+    {
+      "path": "tools/fs/runtime/sourceRefs/pathRefs.js",
+      "bytes": 3056,
+      "sha256": "f5787123ee8f878446628a57609fbb262d558ab64bafdcce232db06414f3bdd3"
+    },
+    {
       "path": "tools/fs/runtimeDetect.js",
       "bytes": 1055,
       "sha256": "ef98df902c953679ba58ffe19deaa50a268686a887387edd77ec70511606ff64"
@@ -406,8 +536,8 @@
     },
     {
       "path": "tools/fs/runtimeVirtualEnv.js",
-      "bytes": 8195,
-      "sha256": "6898fd2c94f94c94b9b8634e9b278e6630d17cc292d762122a0d4570a40e3e57"
+      "bytes": 2314,
+      "sha256": "55e08ad3006c520f1912b69feaca10bce842270c5760de5898a902d0ef30bdab"
     },
     {
       "path": "tools/fs/searchEdit.js",

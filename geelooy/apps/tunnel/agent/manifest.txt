@@ -1,5 +1,5 @@
 B"H
-1.0.22
+1.0.34
 main.js
 
 lib/config.js
@@ -29,6 +29,17 @@ tools/command/shells.js
 tools/fs.js
 tools/fs/actionBatch.js
 tools/fs/actionGroups/actionHistoryActions.js
+tools/fs/actionGroups/aiAgentActions.js
+tools/fs/actionGroups/aiAgents/childSpawner.js
+tools/fs/actionGroups/aiAgents/client.js
+tools/fs/actionGroups/aiAgents/genericTask.js
+tools/fs/actionGroups/aiAgents/novelPipeline.js
+tools/fs/actionGroups/aiAgents/providers.js
+tools/fs/actionGroups/aiAgents/registry.js
+tools/fs/actionGroups/aiAgents/sleep.js
+tools/fs/actionGroups/aiAgents/taskLimits.js
+tools/fs/actionGroups/aiAgents/taskRunner.js
+tools/fs/actionGroups/aiAgents/taskStore.js
 tools/fs/actionGroups/aiTemplateActions.js
 tools/fs/actionGroups/aiTemplateCatalog.js
 tools/fs/actionGroups/cognitionActions.js
@@ -80,6 +91,21 @@ tools/fs/projectInfo.js
 tools/fs/projectValidation.js
 tools/fs/readWrite.js
 tools/fs/rootBrowser.js
+tools/fs/runtime/collector.js
+tools/fs/runtime/constants.js
+tools/fs/runtime/discovery.js
+tools/fs/runtime/htmlRefs.js
+tools/fs/runtime/inlineFiles.js
+tools/fs/runtime/pathUtils.js
+tools/fs/runtime/preflight.js
+tools/fs/runtime/scriptKinds.js
+tools/fs/runtime/sourceRefs.js
+tools/fs/runtime/sourceRefs/cssRefs.js
+tools/fs/runtime/sourceRefs/importMapRefs.js
+tools/fs/runtime/sourceRefs/inlineScriptRefs.js
+tools/fs/runtime/sourceRefs/jsLex.js
+tools/fs/runtime/sourceRefs/jsRefs.js
+tools/fs/runtime/sourceRefs/pathRefs.js
 tools/fs/runtimeDetect.js
 tools/fs/runtimeManifest.js
 tools/fs/runtimeUrlEnv.js

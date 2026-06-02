@@ -1,29 +1,21 @@
-
 // B"H
 /**
  * @file utils.js
- * @brief The Universal Translator of the Mind.
+ * @brief The universal translator of text, tools, and multimodal content.
+ *
+ * Chapter 6: The messenger used to flatten every offering into text. Now it
+ * preserves arrays of OpenAI-compatible content parts so images, audio, video,
+ * and snapshots can reach models that support them.
  */
 
 export const ApiUtils = {
-    /**
-     * B"H
-     * Standardizes the message history to the universal OpenAI-ish schema.
-     * 
-     * THE RECTIFICATION:
-     * 1. Preserves 'thought_signature' for Gemini 3 models.
-     * 2. Ensures 'content' is null if tool_calls are present to satisfy strict parsers.
-     */
     standardizeMessages(messages) {
         if (!Array.isArray(messages)) return [];
-
         return messages.map(m => {
-            let standardized = {
+            const standardized = {
                 role: m.role === 'model' ? 'assistant' : m.role,
-                content: m.content || null
+                content: normalizeContent(m.content)
             };
-
-            // Handle Tool Calls (The Oracle's Intent)
             if (m.tool_calls && m.tool_calls.length > 0) {
                 standardized.tool_calls = m.tool_calls.map(tc => {
                     const call = {
@@ -34,29 +26,16 @@ export const ApiUtils = {
                             arguments: tc.function.arguments
                         }
                     };
-                    
-                    // B"H - CRITICAL GEMINI 3 COMPLIANCE:
-                    // If a thought signature was provided by the model previously, 
-                    // we MUST pass it back exactly in the history.
-                    if (tc.thought_signature) {
-                        call.thought_signature = tc.thought_signature;
-                    }
-                    
+                    if (tc.thought_signature) call.thought_signature = tc.thought_signature;
                     return call;
                 });
-
-                if (!standardized.content || standardized.content === "") {
-                    standardized.content = null;
-                }
+                if (!standardized.content || standardized.content === "") standardized.content = null;
             }
-            
-            // Handle Tool Responses (The Engine's Feedback)
             if (m.tool_call_id) {
                 standardized.tool_call_id = m.tool_call_id;
                 standardized.name = m.name;
                 standardized.content = String(m.content || "Success");
             }
-
             return standardized;
         });
     },
@@ -65,7 +44,7 @@ export const ApiUtils = {
         let systemPrompt = "";
         const filtered = messages.filter(m => {
             if (m.role === 'system') {
-                systemPrompt += m.content + "\n";
+                systemPrompt += stringifyContent(m.content) + "\n";
                 return false;
             }
             return true;
@@ -73,3 +52,16 @@ export const ApiUtils = {
         return { systemPrompt: systemPrompt.trim(), conversation: filtered };
     }
 };
+
+function normalizeContent(content) {
+    if (Array.isArray(content)) return content;
+    if (content === undefined || content === null) return null;
+    return String(content);
+}
+
+function stringifyContent(content) {
+    if (Array.isArray(content)) {
+        return content.map(part => part?.text || part?.image_url?.url || part?.video_url?.url || part?.type || '').filter(Boolean).join('\n');
+    }
+    return String(content || '');
+}

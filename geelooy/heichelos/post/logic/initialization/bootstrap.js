@@ -127,6 +127,6 @@ export async function ignite() {
 
     } catch (e) {
         console.error("B\"H - Bootstrap Rupture:", e);
-        if(viewport) viewport.innerHTML = `<div class='fatal-error'>SYSTEM RUPTURE: ${e.message}</div>`;
+        if(viewport) viewport.innerHTML = `<div class='fatal-error awtsmoos-empty-placeholder'>SYSTEM RUPTURE: ${e.message}</div>`;
     }
 }

@@ -1,0 +1,3 @@
+geelooy/games/chess/magic.html
+geelooy/games/chess/pgn_validator.html
+geelooy/games/connect4/index.html

@@ -1,0 +1,39 @@
+Starting instance of email
+Warning: Could not load DKIM file. Checking Env...
+Task Runner: Starting background polling for generic jobs...
+Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
+B"H
+
+
+
+ Server running at http://127.0.0.1:8099/
+Time:  1780371575939
+Email server running
+Server error:  Error: listen EACCES: permission denied 0.0.0.0:25
+    at Server.setupListenHandle [as _listen2] (node:net:1986:21)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at AwtsMail.shoymayuh (/storage/emulated/0/Documents/git/awtsmoos.com/ayzarim/email/email.js:121:21)
+    at startMailSafely (/storage/emulated/0/Documents/git/awtsmoos.com/index.js:98:14)
+    at go (/storage/emulated/0/Documents/git/awtsmoos.com/index.js:40:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  code: 'EACCES',
+  errno: -13,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 25
+}
+Error starting server: Error: listen EACCES: permission denied 0.0.0.0:25
+    at Server.setupListenHandle [as _listen2] (node:net:1986:21)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at AwtsMail.shoymayuh (/storage/emulated/0/Documents/git/awtsmoos.com/ayzarim/email/email.js:121:21)
+    at startMailSafely (/storage/emulated/0/Documents/git/awtsmoos.com/index.js:98:14)
+    at go (/storage/emulated/0/Documents/git/awtsmoos.com/index.js:40:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  code: 'EACCES',
+  errno: -13,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 25
+}

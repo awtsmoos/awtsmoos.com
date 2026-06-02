@@ -2,11 +2,13 @@
 /**
  * @module SoulLoader
  * @description
- * Chapter 109: after the souls appear, the earth claims them. The Awtsmoos
- * loads only explicit level manifests, snaps every eligible non-player entity
- * to the ground by its real mesh bounds, then warns only about true invaders.
+ * Chapter 24: The Loader Let Authored Heights Live.
+ *
+ * The Awtsmoos loads explicit level manifests, then grounds only decorative
+ * entities that ask for it. Lava platforms, player spawn, moving bridges, and
+ * perutos keep their authored Y positions.
  */
-import { autoGroundNivrayim } from "./AutoGrounder.js?v=village-ground-20260531-bh109";
+import { autoGroundNivrayim } from "./AutoGrounder.js?v=respect-authored-y-20260602-bh7";
 
 export class SoulLoader {
   /**
@@ -23,16 +25,18 @@ export class SoulLoader {
     const nivrayim = await olam.loadNivrayim(nivrayimData);
     const grounded = autoGroundNivrayim(nivrayim);
     const loadTime = (performance.now() - loadStart).toFixed(2);
-    console.log(`B"H - Souls materialized in ${loadTime}ms. Auto-grounded ${grounded.snapped}/${grounded.checked}.`);
+    console.log(`B"H - Souls materialized in ${loadTime}ms. Auto-grounded ${grounded.snapped}/${grounded.checked}; skipped ${grounded.skipped}.`);
     reportForbiddenIfPresent(nivrayim, worldData);
     return nivrayim;
   }
 }
 
+/** @param {object} nivra Entity. @param {object} worldData Level data. @returns {boolean} */
 function allowedVillageGuide(nivra, worldData) {
   return worldData?.id === "village.json" && nivra?.type === "interactiveNpc" && /Village Challenge Guide/i.test(nivra?.name || "");
 }
 
+/** @param {object} nivra Entity. @param {object} worldData Level data. @returns {boolean} */
 function forbiddenNivra(nivra, worldData) {
   if (allowedVillageGuide(nivra, worldData)) return false;
   if (["customNpc", "medabeir", "mazik", "proceduralBuilding", "ProceduralBuilding"].includes(nivra?.type)) return true;

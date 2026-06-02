@@ -1,0 +1,27 @@
+bh: "B\"H"
+generated_at: "2026-06-02T07:44:58.397Z"
+scope:
+  - "geelooy/apps/*/index.html"
+  - "geelooy/games/*/index.html"
+boundary:
+  app_game_source_workarounds_reverted: true
+  fake_three_fallbacks: "removed"
+summary:
+  total: 31
+  tested: 31
+  passed: 29
+  failed: 0
+caps:
+  collect_ms: 0
+  runtime_ms: 0
+failures:
+  - path: "serverStart"
+    error: "not directly registered in local dispatcher mapping"
+  - path: "serverStop"
+    error: "not directly registered in local dispatcher mapping"
+slow_but_passing:
+  []
+result_files:
+  - "AI_THOUGHTS/runtime-stress/runtime-regression-tests.json"
+  - "AI_THOUGHTS/runtime-stress/direct-runtime-matrix.json"
+  - "AI_THOUGHTS/runtime-stress/direct-runtime-matrix.jsonl"

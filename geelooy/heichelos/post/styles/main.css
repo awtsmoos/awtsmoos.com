@@ -1,81 +1,61 @@
 /* B"H
-   THE MASTER SCROLL OF STYLES
-   Chapter 43: one live import graph, one owner per visual chamber.
-   Legacy scrolls may remain in the archive, but this page imports only the
-   chosen owners so mobile, desktop, sidebar, text, and comments do not quarrel.
-*/
+ * Chapter 27: Existing Vessels Keep Receiving Light
+ *
+ * The Awtsmoos gathers only CSS scrolls that already lived in this project.
+ * No generated style suite is imported. Every chamber receives an existing
+ * garment: reader, sidebar, inline comments, AI, approvals, editor, commands,
+ * footnotes, images, settings, cards, actions, post info, markdown, and mobile.
+ */
 
-/* 1. TOKENS */
-@import url("./tokens/colors.css");
-@import url("./tokens/typography.css");
-@import url("./tokens/physics.css");
-@import url("./tokens/z-index.css");
-@import url("./tokens/spacing.css");
-@import url("./tokens/polished-codex-vars.css");
+/* 1. IDEAL OWNERS */
+@import url("./ideal/tokens.css");
+@import url("./ideal/mobile-desktop-viewport.css");
+@import url("./ideal/mobile-desktop-stabilization.css");
+@import url("./ideal/reader-canvas.css");
+@import url("./ideal/mobile-reader-vision.css");
+@import url("./ideal/reading-focus.css");
+@import url("./ideal/sidebar-shell.css");
+@import url("./ideal/sidebar-chrome.css");
+@import url("./ideal/sidebar-panels.css");
+@import url("./ideal/sidebar-comments.css");
+@import url("./ideal/inline-comments.css");
+@import url("./ideal/global-actions.css");
+@import url("./ideal/floating-rail.css");
+@import url("./ideal/mobile-desktop-overlays.css");
+@import url("./ideal/mobile-main-menu-polish.css");
 
-/* 2. RESET */
-@import url("./reset/base.css");
+/* 2. EXISTING FEATURE OWNERS */
+@import url("./aiThread.css");
+@import url("./aiChatStyles.css");
+@import url("./commandPalette.css");
+@import url("./new-style.css");
+@import url("./inlineThreadStyles.css");
+@import url("./reader-runtime-polish.css");
 @import url("./reset/isolation.css");
 
-/* 3. LAYOUT OWNERS */
-@import url("./layout/sidebar.css");
-@import url("./layout/resizer.css");
-@import url("./layout/polished-shell.css");
-@import url("./layout/polished-sidebar.css");
-@import url("./layout/polished-resizer.css");
-@import url("./layout/polished-desktop-rhythm.css");
-@import url("./layout/polished-ambient-light.css");
-@import url("./layout/polished-sidebar-depth.css");
-@import url("./layout/polished-mobile-drawer.css");
+/* 3. EXISTING COMMENT OWNERS */
+@import url("./comments/reply.css");
+@import url("./comments/editor.css");
+@import url("./comments/inputs.css");
+@import url("./comments/inline-intense.css");
 
-/* 4. COMPONENT OWNERS */
-@import url("./components/buttons.css");
-@import url("./components/inputs.css");
-@import url("./components/polished-inputs.css");
-@import url("./components/polished-action-surfaces.css");
-@import url("./components/cards.css");
-@import url("./components/verse-menu.css");
-@import url("./components/floating-orbs.css");
-
-/* 5. MODULE OWNERS */
-@import url("./modules/settings.css");
-@import url("./modules/sidebar-chrome.css");
-@import url("./modules/polished-sidebar-controls.css");
-@import url("./modules/polished-tab-atmosphere.css");
-@import url("./modules/polished-panel-surfaces.css");
-@import url("./modules/sidebar-menu.css");
-@import url("./modules/tabs.css");
-@import url("./modules/info-cards.css");
-@import url("./modules/comments.css");
-@import url("./modules/keepers.css");
+/* 4. EXISTING MODULE OWNERS */
+@import url("./modules/approvals.css");
 @import url("./modules/ai-chat.css");
 @import url("./modules/command-palette.css");
 @import url("./modules/footnotes.css");
-@import url("./modules/approvals.css");
-@import url("./modules/inline-thread.css");
 @import url("./modules/image-upload.css");
+@import url("./modules/keepers.css");
+@import url("./modules/comments.css");
+@import url("./modules/settings.css");
+@import url("./modules/info-cards.css");
 
-/* 6. CONTENT OWNERS */
-@import url("./content/text.css");
+/* 5. EXISTING COMPONENT AND CONTENT OWNERS */
+@import url("./components/buttons.css");
+@import url("./components/inputs.css");
+@import url("./components/cards.css");
+@import url("./components/verse-menu.css");
 @import url("./content/marginalia.css");
-@import url("./content/polished-reading-column.css");
-@import url("./content/polished-title-vessel.css");
-@import url("./content/polished-typography-rhythm.css");
-@import url("./content/polished-focus-reading.css");
+@import url("./content/paragraphs.css");
+@import url("./content/text.css");
 @import url("./content/polished-sigils.css");
-@import url("./content/polished-active-state.css");
-
-/* 7. THEMES */
-@import url("./themes/dark-mode.css");
-@import url("./themes/animations.css");
-
-/* 8. COMMENTARY OWNERS */
-@import url("./comments/inputs.css");
-@import url("./comments/editor.css");
-@import url("./comments/inline-intense.css");
-@import url("./comments/sidebar-intense.css");
-@import url("./comments/sidebar-premium.css");
-@import url("./reader-runtime-polish.css");
-
-/* 9. FINAL IDEAL OWNERS */
-@import url("./forever-ui-fixes.css");

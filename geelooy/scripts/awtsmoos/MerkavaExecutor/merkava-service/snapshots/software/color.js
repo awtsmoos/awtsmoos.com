@@ -1,0 +1,69 @@
+// B"H
+/**
+ * @file color.js
+ * @description
+ * Color is the first garment of the rendered vessel. These helpers parse the
+ * small but real subset needed by Merkava's software renderer: named colors,
+ * hex, rgb/rgba, and simple gradients through sampled stops.
+ */
+
+const NAMED = Object.freeze({
+  black: [0, 0, 0, 255], white: [255, 255, 255, 255], transparent: [0, 0, 0, 0],
+  red: [255, 0, 0, 255], green: [0, 128, 0, 255], blue: [0, 0, 255, 255],
+  yellow: [255, 255, 0, 255], cyan: [0, 255, 255, 255], magenta: [255, 0, 255, 255],
+  purple: [128, 0, 128, 255], orange: [255, 165, 0, 255], pink: [255, 192, 203, 255],
+  gray: [128, 128, 128, 255], grey: [128, 128, 128, 255]
+});
+
+export function parseColor(value, fallback = [0, 0, 0, 255]) {
+  const text = String(value || "").trim().toLowerCase();
+  if (!text) return fallback;
+  if (NAMED[text]) return NAMED[text].slice();
+  const hex = text.match(/#([0-9a-f]{3,8})\b/i);
+  if (hex) return hexColor(hex[1], fallback);
+  const rgb = text.match(/rgba?\(([^)]+)\)/i);
+  if (rgb) return rgbColor(rgb[1], fallback);
+  return fallback;
+}
+
+export function mix(a, b, t) {
+  const n = Math.max(0, Math.min(1, Number(t) || 0));
+  return [0, 1, 2, 3].map(i => Math.round(a[i] + (b[i] - a[i]) * n));
+}
+
+export function gradientColor(value, x, y, width, height, fallback) {
+  const text = String(value || "");
+  const match = text.match(/linear-gradient\((.*)\)/i);
+  if (!match) return fallback;
+  const colors = [...match[1].matchAll(/#[0-9a-f]{3,8}\b|rgba?\([^)]+\)|\b(?:red|green|blue|white|black|yellow|cyan|magenta|purple|orange|pink|gray|grey)\b/gi)].map(m => parseColor(m[0], fallback));
+  if (!colors.length) return fallback;
+  if (colors.length === 1) return colors[0];
+  const t = Math.max(0, Math.min(1, (x + y) / Math.max(1, width + height)));
+  const step = t * (colors.length - 1);
+  const i = Math.floor(step);
+  return mix(colors[i], colors[Math.min(colors.length - 1, i + 1)], step - i);
+}
+
+function hexColor(hex, fallback) {
+  if (hex.length === 3 || hex.length === 4) {
+    const chars = hex.split("").map(ch => parseInt(ch + ch, 16));
+    return [chars[0], chars[1], chars[2], chars[3] ?? 255];
+  }
+  if (hex.length === 6 || hex.length === 8) {
+    return [0, 2, 4, 6].map(i => i < hex.length ? parseInt(hex.slice(i, i + 2), 16) : 255);
+  }
+  return fallback;
+}
+
+function rgbColor(raw, fallback) {
+  const parts = raw.split(/\s*,\s*/).map(item => item.trim());
+  if (parts.length < 3) return fallback;
+  const rgb = parts.slice(0, 3).map(toByte);
+  const alpha = parts[3] == null ? 255 : Math.round(Math.max(0, Math.min(1, Number(parts[3]))) * 255);
+  return [...rgb, alpha];
+}
+
+function toByte(value) {
+  if (value.endsWith("%")) return Math.round(Math.max(0, Math.min(100, Number(value.slice(0, -1)))) * 2.55);
+  return Math.max(0, Math.min(255, Math.round(Number(value) || 0)));
+}

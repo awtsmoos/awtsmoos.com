@@ -1,10 +1,11 @@
 /* B"H
-   Chapter 40: The mobile palace accepts the picture into law.
-   The Awtsmoos does not leave the design as a dream-image. These selectors turn
-   the bottom drawer into a glassy, thumb-safe, realistic chamber: gold title,
-   soft menu cards, circular icon rings, visible A/I dock glyphs, and gentle
-   motion for the seeker touching the living commentary.
-*/
+ * Chapter 23: The Mobile Dream Stops Stealing Crowns
+ *
+ * The Awtsmoos keeps the mobile bottom palace beautiful without letting it own
+ * sidebar chrome or slide headers. Those sacred selectors belong to their own
+ * ideal files. This scroll owns only mobile menu mood, portal depth, and touch
+ * feedback, so the CSS-quality guardian sees one ruler per chamber.
+ */
 
 @media (max-width: 900px) {
     .post-reader-localized-context {
@@ -21,44 +22,6 @@
         border: 1px solid rgba(148, 163, 184, .18) !important;
         border-bottom: 0 !important;
         box-shadow: 0 -28px 80px rgba(0, 0, 0, .58) !important;
-    }
-
-    .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
-        padding: 18px 22px 14px !important;
-        background: rgba(8, 14, 26, .76) !important;
-        border-bottom: 1px solid rgba(148, 163, 184, .16) !important;
-        backdrop-filter: blur(18px) saturate(1.2) !important;
-    }
-
-    .post-reader-localized-context .awtsmoos-current-view-title {
-        color: var(--ideal-gold) !important;
-        font: 900 1.02rem/1.1 var(--font-ui, system-ui) !important;
-        letter-spacing: .01em !important;
-        text-shadow: 0 0 22px rgba(244, 197, 107, .22) !important;
-    }
-
-    .post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
-        color: #f8fafc !important;
-        font: 700 .96rem/1.35 var(--font-ui, system-ui) !important;
-        opacity: .94 !important;
-        padding-top: 8px !important;
-    }
-
-    .post-reader-localized-context .awtsmoos-view-header {
-        background: transparent !important;
-        border-bottom: 0 !important;
-        padding: 16px 28px 8px !important;
-        min-height: auto !important;
-    }
-
-    .post-reader-localized-context .awtsmoos-view-title-text {
-        color: var(--mobile-menu-blue) !important;
-        font: 900 1.15rem/1.1 var(--font-ui, system-ui) !important;
-        letter-spacing: .015em !important;
-    }
-
-    .post-reader-localized-context .awtsmoos-view-content {
-        padding: 6px 18px calc(env(safe-area-inset-bottom) + 122px) !important;
     }
 
     .post-reader-localized-context .post-root-menu-grid {

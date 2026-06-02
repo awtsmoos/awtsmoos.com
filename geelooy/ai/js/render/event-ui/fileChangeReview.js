@@ -3,7 +3,7 @@ import { escapeHtml } from "../escapeHtml.js";
 
 /**
  * B"H
- * Chapter 241: The Diff Shelf Counted One File Once.
+ * Chapter 347: The Changed Files Became A Review Shelf Of Sparks.
  *
  * Tool calls and tool results often describe the same write. The Codex shelf
  * must not double-count the same file just because the tunnel answered. Each
@@ -16,7 +16,10 @@ export function renderFileChangeReview(events = []) {
   const changes = collectFileChanges(events);
   if (!changes.length) return "";
   const totals = changes.reduce((sum, item) => ({ plus: sum.plus + item.plus, minus: sum.minus + item.minus }), { plus: 0, minus: 0 });
-  return `<div class="file-change-review"><div class="file-change-review-head"><b>Review changes</b><span>${changes.length} file${changes.length === 1 ? "" : "s"}</span><span class="diff-plus">+${totals.plus}</span><span class="diff-minus">-${totals.minus}</span></div><div class="file-change-list">${changes.map(renderChange).join("")}</div></div>`;
+  return `<section class="file-change-review tool-file-review">
+    <div class="file-change-review-head"><b>Files changed</b><span>${changes.length} file${changes.length === 1 ? "" : "s"}</span><span class="diff-plus">+${totals.plus}</span><span class="diff-minus">-${totals.minus}</span></div>
+    <div class="file-change-list">${changes.map(renderChange).join("")}</div>
+  </section>`;
 }
 
 /**
@@ -70,7 +73,7 @@ function mergeChange(byPath, file = {}) {
 }
 
 function renderChange(item) {
-  return `<div class="file-change-row"><code>${escapeHtml(item.path)}</code><span class="file-change-actions">${escapeHtml([...item.actions].join(", "))}</span><span class="diff-plus">+${item.plus}</span><span class="diff-minus">-${item.minus}</span></div>`;
+  return `<div class="file-change-row"><code class="file-change-path">${escapeHtml(item.path)}</code><span class="file-change-kind">${escapeHtml([...item.actions].join(", "))}</span><span class="file-change-stat diff-plus">+${item.plus}</span><span class="file-change-stat diff-minus">-${item.minus}</span></div>`;
 }
 
 function actionName(raw = {}, event = {}) {

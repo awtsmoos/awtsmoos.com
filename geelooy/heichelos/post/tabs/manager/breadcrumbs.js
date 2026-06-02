@@ -14,7 +14,7 @@ export function renderBreadcrumbs(container, stack, onNavigate) {
     
     stack.forEach((tab, i) => {
         const crumb = document.createElement("button");
-        crumb.className = "awtsmoos-crumb-link"; // Hook into the insane CSS
+        crumb.className = "awtsmoos-crumb-link btn"; // Hook into the insane CSS
         
         const txt = document.createElement("span");
         txt.innerText = tab.header;
@@ -28,7 +28,7 @@ export function renderBreadcrumbs(container, stack, onNavigate) {
                 onNavigate(i);
             };
             const arrow = document.createElement("span");
-            arrow.className = "crumb-arrow";
+            arrow.className = "crumb-arrow awtsmoos-student-location";
             arrow.innerText = "»"; // Use double arrow for impact
             crumb.appendChild(arrow);
         } else {

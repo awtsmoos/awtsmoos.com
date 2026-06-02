@@ -1,0 +1,11 @@
+{
+  "taskId": "novelOrchestra_mpuxh80u_3duw78",
+  "childTaskIds": [
+    "novelChapter_mpuxh816_grj6fb",
+    "novelSummary_mpuxi2lg_xw4ees"
+  ],
+  "outputDir": "/storage/emulated/0/Documents/git/awtsmoos.com/AI_THOUGHTS/novel-agent-runs/backend-nested-real-1780301384639",
+  "chapter": "/storage/emulated/0/Documents/git/awtsmoos.com/AI_THOUGHTS/novel-agent-runs/backend-nested-real-1780301384639/chapter-01-awtsmoos-tunnel.md",
+  "summary": "/storage/emulated/0/Documents/git/awtsmoos.com/AI_THOUGHTS/novel-agent-runs/backend-nested-real-1780301384639/chapter-01-summary.md",
+  "createdAt": "2026-06-01T08:10:44.131Z"
+}

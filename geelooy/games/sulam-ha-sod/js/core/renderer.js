@@ -1,44 +1,12 @@
 // B"H
-import { Renderer as LegacyRenderer } from './legacyRenderer.js';
-import { VisualEffects } from '../render/effects/visualEffects.js';
+import { AdaptiveRenderer } from '../render/workerRenderer.js';
 
 /**
- * Renderer, lightning mode.
+ * Public renderer gate for Sulam HaSod.
  *
- * Chapter 3 — The Awtsmoos commanded the canvas to stop lumbering and start
- * flying. The old renderer draws the real game. This wrapper only swaps the
- * sky and adds tiny event sparks. No second visibility pass, no per-coin glow,
- * no blur, no expensive blend mode. The level remains untouched; the frame
- * becomes a chariot of speed.
+ * Chapter 7: The Awtsmoos hid the fork in one small doorway. Callers still ask
+ * for `Renderer` exactly as before; behind the name, a worker may paint with an
+ * OffscreenCanvas, or the faithful main-thread painter may carry the frame when
+ * the browser lacks the vessel.
  */
-export class Renderer extends LegacyRenderer {
-  constructor(canvas, options = {}) {
-    super(canvas, options);
-    this.visualEffects = new VisualEffects();
-    this.effectWorld = null;
-  }
-
-  /** @param {object} world active physics world @returns {void} */
-  draw(world) {
-    this.effectWorld = world;
-    super.draw(world);
-    this.paintFastEventSparks(world);
-  }
-
-  /** @param {CanvasRenderingContext2D} c context @returns {void} */
-  background(c) {
-    const world = this.effectWorld;
-    if (!world) { super.background(c); return; }
-    this.visualEffects.begin(c, world, this.view, this.camera, this.frame);
-  }
-
-  /** @param {object} world active physics world @returns {void} */
-  paintFastEventSparks(world) {
-    if (!this.ctx || !world?.player || world.deathPause) return;
-    this.ctx.save();
-    this.ctx.translate(-this.camera.x, -this.camera.y);
-    this.visualEffects.accents(this.ctx, world);
-    this.visualEffects.finish(this.ctx, world);
-    this.ctx.restore();
-  }
-}
+export class Renderer extends AdaptiveRenderer {}

@@ -14,7 +14,7 @@ export function sanitizeComment(cnt) {
 export function addImageGallery(images, parent) {
 	if (images && Array.isArray(images)) {
 		const imageGallery = document.createElement("div");
-		imageGallery.className = "image-gallery";
+		imageGallery.className = "image-gallery awtsmoos-card";
 		images.forEach(image => {
 		    const img = document.createElement("img");
 		    img.src = image.medium || image.img || image;

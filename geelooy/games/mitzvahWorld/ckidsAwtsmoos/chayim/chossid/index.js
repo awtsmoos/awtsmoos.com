@@ -2,23 +2,27 @@
 /**
  * @module Chossid
  * @description
- * Chapter 103: the walker no longer shouts editor-tool text into the village.
- * The Awtsmoos lets gameplay stay quiet unless a true interaction speaks.
+ * Chapter 22: The Walker Took The Fresh Stride.
+ *
+ * The Awtsmoos refreshes the Chossid import chain so the player receives the
+ * direct-velocity Chai, measured visual lift, and cache-busted lifecycle.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=lean-l1-20260528-bh36";
+import Chai from "../chai/index.js?v=direct-velocity-20260602-bh6";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 import controlMethods from './methods/controls.js?v=lean-l1-20260528-bh36';
 import interactionMethods from './methods/interaction.js?v=lean-l1-20260528-bh36';
-import lifecycleMethods from './methods/lifecycle.js?v=lean-l1-20260528-bh36';
+import lifecycleMethods from './methods/lifecycle.js?v=measured-direct-20260602-bh6';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
 import updateMethods from './methods/update.js?v=lean-l1-20260528-bh36';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 
+/** @returns {object} Small fallback body definition. */
 function leanGolem() {
   return { guf: { BoxGeometry: [0.9, 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: 0x1f6fff } } };
 }
 
+/** @param {Chossid} chossid Owner. @returns {InventoryManager} Inventory. */
 function makeInventory(chossid) {
   const inventory = new InventoryManager(chossid);
   inventory.equipment ||= {};
@@ -32,6 +36,7 @@ export default class Chossid extends Chai {
   rayLength = 50;
   approachedEntities = [];
 
+  /** @param {object} options Player options. @param {object} olam Runtime world. */
   constructor(options = {}, olam) {
     const lean = options.leanBody === true;
     if (lean) {
@@ -67,6 +72,7 @@ export default class Chossid extends Chai {
     this.installLeanSafeEvents();
   }
 
+  /** @returns {void} */
   installLeanSafeEvents() {
     this.on("started walking", () => { this._isWalking = true; });
     this.on("stopped walking", () => { this._isWalking = false; });
@@ -76,11 +82,13 @@ export default class Chossid extends Chai {
 
   onChossidStepBreath() {}
 
+  /** @returns {object|null} Active action-slot item. */
   getActiveItem() {
     const index = Number.isInteger(this.selectedInventorySlot) ? this.selectedInventorySlot : 0;
     return this.inventory?.actionSlots?.[index] || null;
   }
 
+  /** @returns {object|null} Active item instance. */
   getRealActiveItemInstance() {
     const item = this.getActiveItem();
     if (item?.className === 'ElementalStaff') this.olam?.ayshPeula("toolAltAction", item);
@@ -90,15 +98,18 @@ export default class Chossid extends Chai {
   resetPreviewRotation() { this.placementRotation = 0; }
   shoot() {}
 
+  /** @param {object} entity Approached entity. @returns {void} */
   rememberApproach(entity) {
     if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity);
   }
 
+  /** @param {object} entity Departed entity. @returns {void} */
   forgetApproach(entity) {
     const idx = this.approachedEntities.indexOf(entity);
     if (idx > -1) this.approachedEntities.splice(idx, 1);
   }
 
+  /** @returns {Promise<void>} */
   async madeAll() {
     if (this.mesh) this.mesh.userData.isPlayer = true;
     this.updateAppearance?.();
@@ -107,6 +118,7 @@ export default class Chossid extends Chai {
     this.recalculateStats();
   }
 
+  /** @returns {void} */
   recalculateStats() {
     this.currentStats.maxHealth = this.baseStats.health;
     this.currentStats.health ||= this.currentStats.maxHealth;
@@ -114,6 +126,7 @@ export default class Chossid extends Chai {
     this.olam?.ayshPeula("ui event", "gameHUD", { updateStats: { hp: this.currentStats.health || 100, maxHp: this.currentStats.maxHealth || 100, koach: 50, maxKoach: 50, xp: 0, level: 1 } });
   }
 
+  /** @returns {number} Combat multiplier. */
   getCombatBonus() { return 1; }
 }
 

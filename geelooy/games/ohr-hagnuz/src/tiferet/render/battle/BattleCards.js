@@ -1,63 +1,7 @@
-/**
- * B"H
- * @module BattleCards
- *
- * Chapter 37: Names stopped colliding and learned humility.
- * The Awtsmoos has no body and no form; every stat card now trims its speech,
- * leaving enough air for level, light, and recognition at one glance.
- */
+/** B"H @module BattleCards Flat battle cards. */
 import { BATTLE_THEME as T } from './BattleTheme.js';
-
-export const roundRect = (ctx, x, y, w, h, r = 14) => {
-  ctx.beginPath();
-  ctx.roundRect(x, y, w, h, r);
-  ctx.fill();
-  ctx.stroke();
-};
-
+export const roundRect = (ctx, x, y, w, h, r = 14) => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fill(); ctx.stroke(); };
 const fit = (value, max) => value.length > max ? `${value.slice(0, max - 1)}…` : value;
-
-const text = (ctx, value, x, y, size, weight = 700, color = T.colors.text) => {
-  ctx.fillStyle = color;
-  ctx.font = `${weight} ${size}px ${T.fonts.ui}`;
-  ctx.fillText(value, x, y);
-};
-
-export const drawLightBar = (ctx, x, y, w, h, value, max, fill) => {
-  const ratio = max ? Math.max(0, Math.min(1, value / max)) : 0;
-  ctx.fillStyle = 'rgba(0,0,0,.55)';
-  ctx.strokeStyle = 'rgba(255,255,255,.24)';
-  ctx.lineWidth = 1;
-  roundRect(ctx, x, y, w, h, h / 2);
-  ctx.save();
-  ctx.beginPath();
-  ctx.roundRect(x + 3, y + 3, (w - 6) * ratio, h - 6, h / 2);
-  ctx.clip();
-  const g = ctx.createLinearGradient(x, y, x + w, y);
-  g.addColorStop(0, fill);
-  g.addColorStop(1, '#fff59d');
-  ctx.fillStyle = g;
-  ctx.fillRect(x + 3, y + 3, (w - 6) * ratio, h - 6);
-  ctx.restore();
-};
-
-export const drawStatCard = (ctx, card) => {
-  const { x, y, w, h } = card.rect;
-  const titleSize = Math.max(13, Math.min(18, w * .085));
-  const titleMax = Math.max(9, Math.floor(w / 13));
-  ctx.save();
-  ctx.shadowColor = T.colors.shadow;
-  ctx.shadowBlur = 16;
-  ctx.fillStyle = T.colors.glass;
-  ctx.strokeStyle = T.colors.line;
-  ctx.lineWidth = 1.3;
-  roundRect(ctx, x, y, w, h, 16);
-  ctx.shadowBlur = 0;
-  text(ctx, fit(card.title, titleMax), x + 12, y + 25, titleSize);
-  text(ctx, `Lv ${card.level}`, x + w - 42, y + 25, 12, 800, T.colors.muted);
-  const barY = y + Math.max(42, h * .48);
-  drawLightBar(ctx, x + 12, barY, w - 24, 17, card.light, card.maxLight, card.fill);
-  text(ctx, `${card.light}/${card.maxLight}`, x + 18, barY + 13, 10, 800);
-  if (card.sub) text(ctx, fit(card.sub, titleMax + 4), x + 12, y + h - 12, 10, 600, T.colors.muted);
-  ctx.restore();
-};
+const text = (ctx, value, x, y, size, weight = 700, color = T.colors.text) => { ctx.fillStyle = color; ctx.font = `${weight} ${size}px ${T.fonts.ui}`; ctx.fillText(value, x, y); };
+export const drawLightBar = (ctx, x, y, w, h, value, max, fill) => { const ratio = max ? Math.max(0, Math.min(1, value / max)) : 0; ctx.fillStyle = '#05070b'; ctx.strokeStyle = 'rgba(255,255,255,.28)'; ctx.lineWidth = 1; roundRect(ctx, x, y, w, h, h / 2); ctx.fillStyle = fill; ctx.fillRect(x + 3, y + 3, (w - 6) * ratio, h - 6); };
+export const drawStatCard = (ctx, card) => { const { x, y, w, h } = card.rect; const titleSize = Math.max(13, Math.min(18, w * .085)); const titleMax = Math.max(9, Math.floor(w / 13)); ctx.fillStyle = T.colors.glass; ctx.strokeStyle = T.colors.line; ctx.lineWidth = 1.3; roundRect(ctx, x, y, w, h, 16); text(ctx, fit(card.title, titleMax), x + 12, y + 25, titleSize); text(ctx, `Lv ${card.level}`, x + w - 42, y + 25, 12, 800, T.colors.muted); const barY = y + Math.max(42, h * .48); drawLightBar(ctx, x + 12, barY, w - 24, 17, card.light, card.maxLight, card.fill); text(ctx, `${card.light}/${card.maxLight}`, x + 18, barY + 13, 10, 800); if (card.sub) text(ctx, fit(card.sub, titleMax + 4), x + 12, y + h - 12, 10, 600, T.colors.muted); };

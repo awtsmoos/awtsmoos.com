@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "text": "real-613",
+  "errors": [],
+  "importMaps": [
+    {
+      "from": "AI_THOUGHTS/runtime-stress/importmap-fixture/index.html",
+      "code": "{\"imports\":{\"three\":\"./lib/three.module.js\"}}",
+      "parsed": {
+        "imports": {
+          "three": "./lib/three.module.js"
+        }
+      }
+    }
+  ]
+}

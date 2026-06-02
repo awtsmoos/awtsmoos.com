@@ -1,0 +1,5 @@
+geelooy/games/kabbalah-shooter/index.html
+geelooy/games/migdol/index.html
+geelooy/games/mitzvahWorld/documentation/advanced.html
+geelooy/games/mitzvahWorld/documentation/advanced2.html
+geelooy/games/mitzvahWorld/documentation/index.html

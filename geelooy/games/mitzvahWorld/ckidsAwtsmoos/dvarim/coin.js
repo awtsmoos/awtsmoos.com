@@ -1,14 +1,29 @@
 // B"H
 /**
  * @file coin.js
- * @description Chapter 61: perutos belong to the HUD counter, not the equipment
- * inventory. The Awtsmoos keeps the backpack clean while the mitzvah count rises.
+ * @description
+ * Chapter 15: The Gold Rose Above The Fire.
+ *
+ * The Awtsmoos spins bright perutos above lava. They are larger, glowing, and
+ * visual-only: never octree triangles, never raycast clutter, never hidden
+ * platform collision.
  */
 import Tzomayach from "../chayim/tzomayach.js";
 import { CurrencySystem } from "./currencySystem.js";
 
 export { CurrencySystem };
 const safeNumber = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+
+/** @param {object} mesh Mesh root to seal. @returns {void} */
+function markCoinVisual(mesh) {
+  if (!mesh) return;
+  mesh.userData ||= {};
+  Object.assign(mesh.userData, { skipRaycast: true, skipOctree: true, noOctree: true, addToOctree: false });
+  mesh.traverse?.(child => {
+    child.userData ||= {};
+    Object.assign(child.userData, { skipRaycast: true, skipOctree: true, noOctree: true, addToOctree: false });
+  });
+}
 
 export default class Coin extends Tzomayach {
   rotationSpeed = 0.01;
@@ -24,13 +39,13 @@ export default class Coin extends Tzomayach {
   constructor(op = {}) {
     let collecting = false;
     op.golem ||= {
-      guf: { CylinderGeometry: [0.42, 0.42, 0.1, 24, 1] },
-      toyr: { MeshStandardMaterial: { color: 0xffd54a, emissive: 0xaa7700, metalness: 0.9, roughness: 0.2 } }
+      guf: { CylinderGeometry: [0.68, 0.68, 0.16, 32, 1] },
+      toyr: { MeshStandardMaterial: { color: 0xfff176, emissive: 0xffaa00, metalness: 0.95, roughness: 0.12 } }
     };
     super(op);
     this.value = safeNumber(op.value, 1) || 1;
     this.globalValue = safeNumber(op.globalValue, 0);
-    this.proximity = safeNumber(op.proximity, 0.78);
+    this.proximity = safeNumber(op.proximity, 1.05);
     this.rotationSpeed = op.rotationSpeed || this.rotationSpeed;
     this.heesHawveh = true;
     this.bindCoinLife(() => collecting, value => { collecting = value; });
@@ -41,8 +56,7 @@ export default class Coin extends Tzomayach {
     this.on("ready", () => {
       if (!this.mesh) return;
       this.mesh.rotation.z = Math.PI / 2;
-      this.mesh.userData.skipRaycast = true;
-      this.mesh.userData.addToOctree = false;
+      markCoinVisual(this.mesh);
     });
     this.on("heesHawvoos", me => {
       if (!me?.mesh) return;
@@ -62,7 +76,7 @@ export default class Coin extends Tzomayach {
   collectFor(nivra) {
     this.ayshPeula("collected", this, nivra);
     const olam = this.olam;
-    const requiredPerutos = safeNumber(olam?.requiredPerutos, 7) || 7;
+    const requiredPerutos = safeNumber(olam?.requiredPerutos, 9) || 9;
     olam.__levelPerutosCollected = safeNumber(olam?.__levelPerutosCollected, 0) + this.value;
     olam.__globalPerutosCollected = safeNumber(olam?.__globalPerutosCollected, 0) + this.globalValue;
     const globalCoins = this.readGlobalCoinsSafely() + this.globalValue;

@@ -1,48 +1,19 @@
 /*B"H
-  Chapter 199: Fullscreen Became A Window Instead Of A Flood.
-  The panel may fill the sky, but its content still walks one row at a time.
+  Chapter 339: Fullscreen Kept Its Crown Without Force.
+
+  The Awtsmoos allows the inspector to rise above the city only through an
+  explicit fullscreen class. This is the only right-panel high throne.
 */
 #automation-panel.is-panel-fullscreen{
-  position:fixed!important;
-  inset:10px!important;
-  width:auto!important;
-  height:auto!important;
-  max-width:none!important;
-  max-height:none!important;
-  z-index:2147482500!important;
-  display:grid!important;
-  grid-template-rows:auto minmax(0,1fr)!important;
-  overflow:hidden!important;
+  position:fixed;
+  inset:10px;
+  z-index:2147482500;
+  width:auto;
+  height:auto;
+  max-width:none;
+  max-height:none;
+  border-radius:22px;
 }
-#automation-panel.is-panel-fullscreen>.automation-panel-content{
-  display:grid!important;
-  grid-template-rows:auto minmax(0,1fr)!important;
-  height:auto!important;
-  max-height:none!important;
-  min-height:0!important;
-  overflow:hidden!important;
-  padding:0!important;
-}
-#automation-panel.is-panel-fullscreen>.automation-panel-content>.right-panel-body{
-  height:auto!important;
-  max-height:none!important;
-  min-height:0!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-}
-#automation-panel.is-panel-fullscreen>.automation-panel-content,
-#automation-panel.is-panel-fullscreen>.automation-panel-content>*{
-  opacity:1!important;
-  filter:none!important;
-}
-body.has-panel-fullscreen #automation-panel.is-panel-fullscreen{
-  filter:none!important;
-  pointer-events:auto!important;
-}
-body.has-panel-fullscreen .main:not(.is-panel-fullscreen),
-body.has-panel-fullscreen .sidebar:not(.is-panel-fullscreen){
-  filter:brightness(.42)!important;
-}
-#automation-panel .panel-actions button{
-  opacity:1!important;
+#automation-panel.is-panel-fullscreen .right-panel-body{
+  padding:16px;
 }

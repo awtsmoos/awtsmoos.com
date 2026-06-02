@@ -31,7 +31,7 @@ export async function manifestCommentIndicators() {
         if (mainAliases && mainAliases.length > 0) {
             const indicatorSlot = section.querySelector('.awtsmoos-comment-indicator:not(.sub-indicator)');
             if (indicatorSlot) {
-                indicatorSlot.innerHTML = `<span class="awtsmoos-flame" title="Open Insight Thread">🕯️</span>`;
+                indicatorSlot.innerHTML = `<span class="awtsmoos-flame comment-chip-action" title="Open Insight Thread">🕯️</span>`;
                 indicatorSlot.classList.add('visible');
                 
                 // Absolute Event Binding
@@ -53,7 +53,7 @@ export async function manifestCommentIndicators() {
             if (subAliases && subAliases.length > 0) {
                 const subIndicator = subEl.querySelector('.awtsmoos-comment-indicator.sub-indicator');
                 if (subIndicator) {
-                    subIndicator.innerHTML = `<span class="awtsmoos-flame resonance" title="Open Paragraph Insights">🕯️</span>`;
+                    subIndicator.innerHTML = `<span class="awtsmoos-flame comment-chip-action resonance" title="Open Paragraph Insights">🕯️</span>`;
                     subIndicator.classList.add('visible');
                     
                     subIndicator.onclick = (e) => {

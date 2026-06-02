@@ -12,10 +12,11 @@ import { CameraRig } from './cameraRig.js';
 /**
  * Complete hard-shape renderer for Sulam HaSod.
  *
- * Chapter 15: The Awtsmoos entered the frame and made every vessel confess its
- * role. Real stones carry weight. Lies carry broken grammar. Coins wear Hebrew.
- * Rotors show axles. Spikes speak dormant, warning, active. The canvas remains
- * one fast 2D court: no images, no glow, no blur, only readable geometry.
+ * Chapter 16: The Awtsmoos entered the frame and made every vessel confess its
+ * role without spoiling the trial. Real stones carry weight. Lies carry broken
+ * grammar only where the law demands it. Fake coins now wear the exact same
+ * Hebrew face as honest dinar, sela, maneh, and perutah, because the secret of
+ * deception must live in contact, not in a cheap icon screaming its own guilt.
  */
 export class Renderer {
   constructor(canvas, options = {}) {
@@ -111,8 +112,8 @@ export class Renderer {
 
   drawPickups(c, view) { for (const coin of view.coins) { const k = coinKind(coin); this.spark(c, coin.x, coin.y, k.color, k.label, false, k.kind); } for (const coin of view.fakeCoins) this.fakeCoinThatLooksReal(c, coin); for (const coin of view.trickCoins) this.trickCoin(c, coin); for (const key of view.keys) this.key(c, key.x, key.y); }
   spark(c, x, y, fill, label, cursed, kind = 'coin') { coinFace(c, x, y, kind === 'maneh' ? 15 : 13, fill, this.frame, label, cursed); }
-  fakeCoinThatLooksReal(c, coin) { const k = coinKind(coin); this.spark(c, coin.x, coin.y, k.color, k.label, true, k.kind); }
-  trickCoin(c, coin) { const fake = coin.kind === 'revealedSpike' || coin.kind === 'fakeRunner'; this.spark(c, coin.x, coin.y, fake ? '#ff2f6d' : '#ffe28a', fake ? '!' : '₪', fake, fake ? 'fake' : 'coin'); }
+  fakeCoinThatLooksReal(c, coin) { const k = coinKind(coin); this.spark(c, coin.x, coin.y, k.color, k.label, false, k.kind); }
+  trickCoin(c, coin) { const revealed = coin.kind === 'revealedSpike'; this.spark(c, coin.x, coin.y, revealed ? '#ff2f6d' : '#ffe28a', revealed ? '!' : '₪', revealed, revealed ? 'fake' : 'coin'); }
   key(c, x, y) { c.fillStyle = '#ffd36a'; c.fillRect(x + 6, y + 12, 22, 5); c.beginPath(); c.arc(x + 6, y + 14, 7, 0, Math.PI * 2); c.fill(); c.fillRect(x + 22, y + 17, 4, 7); }
 
   enemy(c, e, theme) { const m = enemyMask(e); const color = this.enemyColor(theme, m.color); this.rect(c, e, color, '#ffffff'); c.fillStyle = m.eye; c.fillRect(e.x + 7, e.y + 8, 6, 6); c.fillRect(e.x + Math.max(14, e.w - 13), e.y + 8, 6, 6); if (/Sanctuary/.test(theme)) { c.fillStyle = '#7bd668'; c.fillRect(e.x + 4, e.y - 5, e.w - 8, 5); } if (/Prism|Womb/.test(theme)) { c.fillStyle = '#d98cff'; c.fillRect(e.x + e.w / 2 - 2, e.y - 8, 4, 8); } if (e.dropCoin) this.spark(c, e.x + e.w / 2 - 12, e.y - 28, '#ffd36a', '₪', false, 'coin'); if (m.armored) { c.fillStyle = '#ffffff'; c.fillRect(e.x + 5, e.y + e.h - 8, e.w - 10, 3); } if (m.chaser) { c.fillStyle = '#ff2f6d'; c.fillText('!', e.x + e.w / 2 - 3, e.y - 4); } }

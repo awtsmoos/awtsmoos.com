@@ -100,7 +100,7 @@ export async function makeCommentatorList(parentEl, rootTabObj) {
 
     // 2. List of Commentators
     const listWrap = document.createElement("div");
-    listWrap.className = "awtsmoos-insight-list-wrap";
+    listWrap.className = "awtsmoos-insight-list-wrap awtsmoos-comments-timeline";
     parentEl.appendChild(listWrap);
     
     const aliases = await getCommentatorList();
@@ -126,7 +126,7 @@ export async function makeCommentatorList(parentEl, rootTabObj) {
 }
 
 async function renderAliasInsights({ alias, actualTab, post }) {
-    actualTab.innerHTML = `<div class="awtsmoos-loading-text">Gathering sparks...</div>`;
+    actualTab.innerHTML = `<div class="awtsmoos-loading-text awtsmoos-empty-placeholder">Gathering sparks...</div>`;
     
     const comments = await getCommentsOfAlias({
         seriesId: post.parentSeriesId,

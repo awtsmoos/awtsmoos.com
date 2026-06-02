@@ -24,7 +24,7 @@ export async function renderBookmarksPanel(tab) {
     if (bookmarks.length === 0) {
         const emptyPlan = {
             tag: 'div',
-            attr: { class: 'awtsmoos-empty-state', style: 'padding: 40px 20px; text-align: center;' },
+            attr: { class: 'awtsmoos-empty-state awtsmoos-empty-placeholder', style: 'padding: 40px 20px; text-align: center;' },
             children:[
                 { tag: 'div', attr: { style: 'font-size: 40px; margin-bottom: 20px; opacity: 0.3;' }, text: '🔖' },
                 { tag: 'div', attr: { style: 'font-weight: 900; text-transform: uppercase; color: var(--color-ink-secondary);' }, text: 'No bookmarks saved yet.' },
@@ -41,7 +41,7 @@ export async function renderBookmarksPanel(tab) {
         children: bookmarks.map((bm, i) => {
             return {
                 tag: 'li',
-                attr: { class: 'bookmark-item' },
+                attr: { class: 'bookmark-item awtsmoos-list-item' },
                 events: {
                     click: () => {
                         console.log(`B"H - [Bookmarks] Navigating to Verse ${bm.idx}`);
@@ -61,12 +61,12 @@ export async function renderBookmarksPanel(tab) {
                 children:[
                     {
                         tag: 'div',
-                        attr: { class: 'bm-title', style: 'font-weight: 900; text-transform: uppercase; font-size: 11px; margin-bottom: 5px;' },
+                        attr: { class: 'bm-title awtsmoos-student-name', style: 'font-weight: 900; text-transform: uppercase; font-size: 11px; margin-bottom: 5px;' },
                         text: bm.title
                     },
                     {
                         tag: 'div',
-                        attr: { class: 'bm-text', style: 'font-size: 13px; opacity: 0.8; line-height: 1.3;' },
+                        attr: { class: 'bm-text awtsmoos-student-location', style: 'font-size: 13px; opacity: 0.8; line-height: 1.3;' },
                         text: bm.textPreview
                     },
                     {

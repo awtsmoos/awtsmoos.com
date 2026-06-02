@@ -1,0 +1,4 @@
+[direct] afterCollect {"target":"geelooy/apps/tunnel/index.html","fileCount":7}
+[direct] afterRun {"ms":141,"ok":false,"errors":[{"message":"VM module failed: geelooy/apps/tunnel/js/main.js: Cannot read properties of null (reading 'addEventListener')","stack":"Error: VM module failed: geelooy/apps/tunnel/js/main.js: Cannot read properties of null (reading 'addEventListener')\n    at runNativeAsyncModule (/storage/emulated/0/Documents/git/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/MerkavaVmFileExecutor.js:326:21)","code":"MERKAVA_VM_MODULE_FAILED"}],"timers":0}
+[direct:caught] TypeError: (raw.console || []).slice is not a function
+    at /storage/emulated/0/Documents/git/awtsmoos.com/AI_THOUGHTS/runtime-stress/probe-assembler-direct.cjs:15:140
