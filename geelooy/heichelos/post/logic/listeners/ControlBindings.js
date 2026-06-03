@@ -2,12 +2,13 @@
 /**
  * @module ControlBindings
  * @description
- * Chapter 137: The A-menu controls become living instruments.
- * Font, color, and reset bindings stay separate from navigation. Every click
- * writes the CSS variables that the rebuilt reader actually consumes.
+ * Chapter 140: The A-menu controls become living instruments. Font controls
+ * now command the real reader variables and then re-center the current verse,
+ * so the vessel grows without losing the seeker's place.
  */
 
 import { adjustFontSize } from "../../functions/utils.js";
+import { scrollToActiveEl } from "../../functions/interaction/scrolling.js";
 
 const APPEARANCE_KEYS = [
     "awtsmoos-theme",
@@ -23,16 +24,23 @@ function context() {
     return document.querySelector(".post-reader-localized-context");
 }
 
-function updateDisplay() {
+function updateDisplay(size = "") {
     const display = document.querySelector(".font-size-display");
     const ctx = context();
     if (!display || !ctx) return;
-    const size = ctx.style.getPropertyValue("--post-text-size") || getComputedStyle(ctx).getPropertyValue("--post-text-size") || "42px";
-    display.textContent = size.trim();
+    const cssSize = size || ctx.style.getPropertyValue("--post-text-size") || getComputedStyle(ctx).getPropertyValue("--post-text-size") || "42px";
+    display.textContent = cssSize.trim();
 }
 
 function storageKey(cssVar) {
     return `awtsmoos-color-${cssVar}`;
+}
+
+function settleReaderAfterScale() {
+    requestAnimationFrame(() => {
+        window.dispatchEvent(new Event("resize"));
+        scrollToActiveEl({ behavior: "auto", block: "center", retries: 8 });
+    });
 }
 
 /** Binds typography plus/minus buttons. */
@@ -42,14 +50,14 @@ export function setupFontControls() {
     if (fontInc) fontInc.onclick = event => {
         event.preventDefault();
         event.stopPropagation();
-        adjustFontSize("increase");
-        updateDisplay();
+        updateDisplay(adjustFontSize("increase"));
+        settleReaderAfterScale();
     };
     if (fontDec) fontDec.onclick = event => {
         event.preventDefault();
         event.stopPropagation();
-        adjustFontSize("decrease");
-        updateDisplay();
+        updateDisplay(adjustFontSize("decrease"));
+        settleReaderAfterScale();
     };
     updateDisplay();
 }

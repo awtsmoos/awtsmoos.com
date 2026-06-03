@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-03T02:37:49.798Z",
+  "generatedAt": "2026-06-03T02:53:02.381Z",
   "pass": true,
   "image": {
     "path": "AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/layout-labyrinth/layout-labyrinth.png",
-    "bytes": 29446,
-    "sha256": "3eba42859899da4eadb77dae9a8c8c8cdb0bc20975078b65c7af366345e22167",
+    "bytes": 29429,
+    "sha256": "ab815e2a923cfb33fc0349515c3613681c0b51d882e404dee7e0cc5d872a9c38",
     "width": 960,
     "height": 640
   },
@@ -33,15 +33,15 @@
     }
   },
   "colorStats": {
-    "red": 1297,
-    "green": 1834,
-    "blue": 4111,
-    "yellow": 5649,
-    "magenta": 9515,
-    "cyan": 69987,
-    "lime": 1941,
-    "white": 12690,
-    "dark": 420829,
+    "red": 1250,
+    "green": 1810,
+    "blue": 4015,
+    "yellow": 4804,
+    "magenta": 10284,
+    "cyan": 69193,
+    "lime": 1897,
+    "white": 12356,
+    "dark": 422964,
     "total": 614400
   },
   "textures": [

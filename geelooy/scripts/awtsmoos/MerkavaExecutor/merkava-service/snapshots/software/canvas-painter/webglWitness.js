@@ -1,15 +1,14 @@
 // B"H
 /**
- * WebGL witness: no ambiguous D-depth badge inside GPU space. The Awtsmoos now
- * names the draw badge DRAW so MiniMax cannot confuse WebGL state with layout
- * depth levels.
+ * WebGL witness: bright DRAW badge, no ambiguous D-depth. The Awtsmoos makes
+ * invisible GPU lifecycle visible without confusing it with DOM layout levels.
  */
 export function paintWebgl(fb, texture, box) {
   const commands = texture.commands || [];
   fb.fillRect(box.x, box.y, box.w, box.h, clearColor(commands));
   grid(fb, box);
   badge(fb, box.x + 8, box.y + 8, 'GPU', [35, 55, 105, 245], 52);
-  badge(fb, box.x + box.w - 72, box.y + 8, 'DRAW', [65, 40, 120, 245], 64);
+  badge(fb, box.x + box.w - 72, box.y + 8, 'DRAW', [150, 70, 210, 255], 64);
   fb.drawText('WEBGL CUBE', box.x + 68, box.y + 10, [255, 255, 255, 255], 1, Math.max(74, box.w - 150));
   cube(fb, { x: box.x + 22, y: box.y + 40, w: box.w - 44, h: Math.max(74, box.h - 96) }, hasTexture(commands));
   swatches(fb, box);

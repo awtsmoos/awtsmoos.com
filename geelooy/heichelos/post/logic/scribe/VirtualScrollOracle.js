@@ -2,9 +2,9 @@
 /**
  * @module VirtualScrollOracle
  * @description
- * Chapter 4: The oracle becomes lean. Math lives in its own chamber; this file
- * only listens to the viewport, asks nearby chunks to awaken, and sends distant
- * chunks back to placeholder sleep.
+ * Chapter 141: The oracle remembers the exact chamber, not merely the verse.
+ * It listens to the viewport, awakens neighboring chunks, and restores refresh
+ * position to idx/sub aliases after layout has settled.
  */
 
 import { chunkWindow, chunksToPrune, parseScrollTarget } from "./VirtualScrollMath.js";
@@ -62,14 +62,45 @@ function attachScrollFallback() {
     activeScrollHandler();
 }
 
-/**
- * Starts dynamic chunk revelation for the current scroll.
- * @param {object} options Oracle options.
- * @param {number} options.totalChunks Total scaffold chunks.
- * @param {(chunkId:number)=>Promise<void>} options.renderChunk Renderer.
- * @param {(chunkId:number)=>boolean} options.unrenderChunk Unrenderer.
- * @param {Element} [options.root] Optional scroll root.
- */
+function firstParam(params, names) {
+    for (const name of names) {
+        const value = params.get(name);
+        if (value !== null && value !== undefined && value !== "") return value;
+    }
+    return null;
+}
+
+function targetFromQuery(query) {
+    const params = query instanceof URLSearchParams ? query : new URLSearchParams(String(query || ""));
+    const mathTarget = parseScrollTarget(params);
+    const idx = firstParam(params, ["idx", "verse", "verseIndex", "section", "sectionIndex"]);
+    const sub = firstParam(params, ["sub", "subsection", "subSection", "subIdx", "paragraph", "para"]);
+    return {
+        idx: idx === null ? mathTarget.idx : Number.parseInt(idx, 10),
+        sub: sub === null || sub === "" || sub === "null" || sub === "root" ? mathTarget.sub : Number.parseInt(sub, 10)
+    };
+}
+
+function exactTarget(idx, sub) {
+    const section = document.querySelector(`[data-awtsmoos-idx="${idx}"].section, .section[data-idx="${idx}"], .section[data-awtsmoos-idx="${idx}"]`);
+    if (!section) return null;
+    if (sub !== null && Number.isFinite(sub)) {
+        return section.querySelector(`.sub-awtsmoos[data-awtsmoos-sub="${sub}"], .sub-awtsmoos[data-sub="${sub}"], .sub-awtsmoos[data-sub-section="${sub}"]`) || section;
+    }
+    return section;
+}
+
+function topOffset() {
+    const header = document.querySelector(".awtsmoos-integrated-header")?.getBoundingClientRect().height || 0;
+    return Math.max(18, header) + 18;
+}
+
+function scrollToTarget(target, behavior = "auto") {
+    const y = target.getBoundingClientRect().top + window.pageYOffset - topOffset();
+    window.scrollTo({ top: Math.max(0, y), behavior });
+}
+
+/** Starts dynamic chunk revelation for the current scroll. */
 export function awakenVirtualScrollOracle({ totalChunks, renderChunk, unrenderChunk, root = null } = {}) {
     resetVirtualScrollOracle();
     activeRenderer = renderChunk;
@@ -101,16 +132,22 @@ export function awakenVirtualScrollOracle({ totalChunks, renderChunk, unrenderCh
  * @returns {Promise<Element|null>} Target element if found.
  */
 export async function restoreScrollTarget(query, renderChunk, chunkSize) {
-    const { idx, sub } = parseScrollTarget(query);
-    await renderChunk(Math.floor(idx / chunkSize));
-    const selector = sub === null
-        ? `[data-awtsmoos-idx="${idx}"]`
-        : `[data-awtsmoos-idx="${idx}"][data-awtsmoos-sub="${sub}"]`;
-    const target = document.querySelector(selector) || document.querySelector(`[data-awtsmoos-idx="${idx}"]`);
+    const { idx, sub } = targetFromQuery(query);
+    if (!Number.isFinite(idx)) return null;
+    const chunkId = Math.floor(idx / chunkSize);
+    await renderChunk(chunkId);
+    await renderChunk(chunkId + 1);
+    if (chunkId > 0) await renderChunk(chunkId - 1);
+
+    const target = exactTarget(idx, sub);
     if (!target) return null;
-    target.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
     target.classList.add("awtsmoos-refresh-target");
-    setTimeout(() => target.classList.remove("awtsmoos-refresh-target"), 1800);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        scrollToTarget(target, "auto");
+        setTimeout(() => scrollToTarget(target, "auto"), 250);
+        setTimeout(() => scrollToTarget(target, "auto"), 900);
+    }));
+    setTimeout(() => target.classList.remove("awtsmoos-refresh-target"), 2200);
     return target;
 }
 
