@@ -1,18 +1,23 @@
 /* B"H
- * Chapter 82: The final seal against sideways motion.
- * This file speaks last with specific selectors. It does not create new layout
- * ideas; it forbids overflow and lets every chamber fold inside the screen.
+ * Chapter 128: The final seal stops crushing living typography.
+ * The Awtsmoos forbids sideways motion, but it never again uses a sidebar
+ * wildcard that can flatten comment bodies or Scroll Details into dull dust.
  */
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar,
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar * {
-    direction: ltr !important;
-    text-align: left !important;
-    font-family: var(--font-ui) !important;
-    font-size: 16px !important;
-    line-height: 1.25 !important;
-    letter-spacing: normal !important;
-    text-shadow: none !important;
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar div,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar section,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar article,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar nav,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar header,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar footer,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar button,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar input,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar textarea,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar select,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar a,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar span,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar p {
     box-sizing: border-box !important;
     max-width: 100% !important;
 }
@@ -26,6 +31,18 @@
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content {
     overflow-x: clip !important;
     min-width: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-header-chrome,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-header,
+.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
+.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-tabs,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-actions,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-search {
+    direction: ltr !important;
+    text-align: left !important;
+    font-family: var(--font-ui) !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-viewport {

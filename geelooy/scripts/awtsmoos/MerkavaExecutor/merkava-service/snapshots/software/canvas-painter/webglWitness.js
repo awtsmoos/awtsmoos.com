@@ -1,16 +1,16 @@
 // B"H
 /**
- * WebGL witness: the Awtsmoos makes invisible GPU state legible. The grid is
- * bright enough for vision audit, badges are short, and rainbow cube faces
- * remain loud.
+ * WebGL witness: no ambiguous D-depth badge inside GPU space. The Awtsmoos now
+ * names the draw badge DRAW so MiniMax cannot confuse WebGL state with layout
+ * depth levels.
  */
 export function paintWebgl(fb, texture, box) {
   const commands = texture.commands || [];
   fb.fillRect(box.x, box.y, box.w, box.h, clearColor(commands));
   grid(fb, box);
   badge(fb, box.x + 8, box.y + 8, 'GPU', [35, 55, 105, 245], 52);
-  badge(fb, box.x + box.w - 54, box.y + 8, `D${drawCount(commands)}`, [65, 40, 120, 245], 46);
-  fb.drawText('WEBGL CUBE', box.x + 68, box.y + 10, [255, 255, 255, 255], 1, Math.max(74, box.w - 144));
+  badge(fb, box.x + box.w - 72, box.y + 8, 'DRAW', [65, 40, 120, 245], 64);
+  fb.drawText('WEBGL CUBE', box.x + 68, box.y + 10, [255, 255, 255, 255], 1, Math.max(74, box.w - 150));
   cube(fb, { x: box.x + 22, y: box.y + 40, w: box.w - 44, h: Math.max(74, box.h - 96) }, hasTexture(commands));
   swatches(fb, box);
 }
@@ -23,10 +23,6 @@ function clearColor(commands) {
 
 function hasTexture(commands) {
   return commands.some(c => /texImage|bindTexture|activeTexture|texParameteri|generateMipmap/i.test(c.op || ''));
-}
-
-function drawCount(commands) {
-  return Math.max(1, commands.filter(c => String(c.op || '').includes('draw')).length);
 }
 
 function grid(fb, box) {

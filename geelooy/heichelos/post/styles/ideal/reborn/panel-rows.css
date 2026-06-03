@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 81: The tabs learn to wrap, not wander.
- * The Awtsmoos forbids horizontal scrolling in the sidebar. Buttons fold into
- * rows, student cards keep one readable lane, and nothing demands extra width.
+ * Chapter 118: Panel rows own only panel rows.
+ * Comment cards have their own covenant now. This file keeps menu portals,
+ * student rows, avatars, and descriptions without touching comment anatomy.
  */
 
 .post-reader-localized-context .awtsmoos-sidebar-tabs {
@@ -32,8 +32,7 @@
 
 .post-reader-localized-context .awtsmoos-massive-menu-btn,
 .post-reader-localized-context .awtsmoos-student-row,
-.post-reader-localized-context .comment-content,
-.post-reader-localized-context .awtsmoos-list-item {
+.post-reader-localized-context .awtsmoos-list-item:not(.comment-wrapper) {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
@@ -92,8 +91,7 @@
 }
 
 .post-reader-localized-context .menu-portal-title,
-.post-reader-localized-context .awtsmoos-student-name,
-.post-reader-localized-context .comment-author-link {
+.post-reader-localized-context .awtsmoos-student-name {
     overflow-wrap: anywhere !important;
     color: var(--awt-text) !important;
     font: 900 .95rem/1.15 var(--font-ui) !important;

@@ -1,75 +1,47 @@
-// /BH/awtsmoos.com/geelooy/heichelos/post/tabs/manager/core.js
-//B"H
+// B"H
 /**
- * @file core.js
+ * @module TabManagerCore
  * @description
- * Chapter 48: The Awtsmoos reveals that a chamber is not merely appended; it
- * must be crowned as the one living view. This manager keeps a real registry of
- * tabs, opens portals by name, marks the active vessel, and lets mobile fingers
- * strike a menu row once and immediately see the chosen panel instead of a
- * ghostly stack of overlapping worlds.
+ * Chapter 121: No inline style decree remains in the crown.
+ * The Awtsmoos lets state become class and attribute. The shell title names the
+ * current chamber; the local row appears only when a back path exists.
  */
+
 import { createSidebarShell } from "/heichelos/post/tabs/manager/shell.js";
 import { createChamberDOM } from "/heichelos/post/tabs/manager/chamber.js";
 import { renderBreadcrumbs } from "/heichelos/post/tabs/manager/breadcrumbs.js";
 import { slideIn, slideOut } from "/heichelos/post/tabs/manager/transitions.js";
 import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 
-/**
- * Guards query-string cleanup when the side palace closes.
- * @param {Function} onclose A consumer close callback.
- * @returns {Function} A close ritual with no arguments.
- */
 function createGlobalClose(onclose) {
     return () => {
         updateQueryStringParameter("panel", null);
         updateQueryStringParameter("u", null);
-        if (onclose) onclose();
+        onclose?.();
     };
 }
 
-/**
- * Returns the canonical tab key from user-provided options.
- * @param {object} options Tab options.
- * @returns {string} Stable tab name.
- */
 function getTabName(options) {
     return options.name || options.header.toLowerCase().replace(/\s+/g, "-");
 }
 
-/**
- * The living stack and registry for the sidebar chambers.
- */
 export default class TabManager {
-    /**
-     * @param {object} options Construction options.
-     * @param {Element} options.parent Sidebar root element.
-     * @param {string} [options.headerTxt] Sidebar crown title.
-     * @param {Function} [options.onclose] Callback invoked on close.
-     */
     constructor({ parent, headerTxt = "Divine Context", onclose = () => {} } = {}) {
         if (!parent) throw new Error("B\"H - TabManager requires a parent vessel.");
         this.onGlobalClose = createGlobalClose(onclose);
         this.stack = [];
         this.registry = new Map();
+        this.rootTitle = headerTxt;
         const elements = createSidebarShell(parent, headerTxt, this.onGlobalClose);
         this.viewport = elements.viewport;
         this.navBar = elements.navBar;
+        this.titleEl = elements.titleEl;
+        this.titleEl.onclick = () => { if (this.stack.length > 1) this.pop(); };
     }
 
-    /**
-     * Registers one chamber and returns its public controls.
-     * @param {object} options Tab configuration.
-     * @returns {object} Tab object with an open method.
-     */
     addTab(options) {
         const tabName = getTabName(options);
-        const tabObj = {
-            ...options,
-            header: options.header || "Realm",
-            name: tabName,
-            ...createChamberDOM(options, () => this.pop())
-        };
+        const tabObj = { ...options, header: options.header || "Realm", name: tabName, ...createChamberDOM(options, () => this.pop()) };
         tabObj.actual = tabObj.scrollArea;
         tabObj.open = () => this.push(tabObj);
         tabObj.onUpdateHeader = txt => this.updateTabHeader(tabObj, txt);
@@ -78,11 +50,6 @@ export default class TabManager {
         return tabObj;
     }
 
-    /**
-     * Opens a tab by name when a URL or menu knows only the key.
-     * @param {string} name Registered tab name.
-     * @returns {Promise<object|null>} Opened tab, or null if absent.
-     */
     async openByName(name) {
         const tab = this.registry.get(name);
         if (!tab) return null;
@@ -90,10 +57,7 @@ export default class TabManager {
         return tab;
     }
 
-    /** @returns {object|null} The current visible tab. */
     getCurrent() { return this.stack[this.stack.length - 1] || null; }
-
-    /** @returns {object[]} Copy of the visible stack. */
     getTabs() { return [...this.stack]; }
 
     updateTabHeader(tabObj, txt) {
@@ -103,8 +67,11 @@ export default class TabManager {
     }
 
     enforceBackBtnState(tabObj) {
-        if (!tabObj?.backBtn) return;
-        tabObj.backBtn.style.setProperty("display", this.stack.length > 1 ? "flex" : "none", "important");
+        if (!tabObj) return;
+        const hasBack = this.stack.length > 1;
+        if (tabObj.backBtn) tabObj.backBtn.hidden = !hasBack;
+        if (tabObj.subTitle) tabObj.subTitle.hidden = !hasBack;
+        tabObj.dom?.classList.toggle("has-back", hasBack);
     }
 
     syncUrl(tabObj) {
@@ -119,6 +86,11 @@ export default class TabManager {
     }
 
     updateCrumbs() {
+        const current = this.getCurrent();
+        if (this.titleEl) {
+            this.titleEl.textContent = current?.header || this.rootTitle;
+            this.titleEl.classList.toggle("can-go-back", this.stack.length > 1);
+        }
         renderBreadcrumbs(this.navBar, this.stack, index => {
             while (this.stack.length - 1 > index) this.pop(true);
         });

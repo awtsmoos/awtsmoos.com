@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 60: The old style-cities fall silent.
- * The Awtsmoos rebuilds the post reader from small clear chambers only.
- * Nothing legacy is imported here; the mobile portrait is the contract.
+ * Chapter 113: The polished mobile covenant.
+ * A small import river now owns the post reader: shell, sidebar, comments,
+ * inline aura, scroll details, and controls.
  */
 
 @import url("./ideal/reborn/tokens.css");
@@ -11,6 +11,8 @@
 @import url("./ideal/reborn/panels.css");
 @import url("./ideal/reborn/panel-rows.css");
 @import url("./ideal/reborn/panel-controls.css");
+@import url("./ideal/reborn/comments.css");
 @import url("./ideal/reborn/inline-comments.css");
+@import url("./ideal/reborn/details.css");
 @import url("./ideal/reborn/actions.css");
 @import url("./ideal/reborn/mobile-sidebar-reset.css");

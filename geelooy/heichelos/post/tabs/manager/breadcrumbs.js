@@ -1,42 +1,30 @@
-
-//B"H
+// B"H
 /**
  * @module SidebarBreadcrumbsManager
- * @description 
- * Weaving the trail of light through the sidebar spheres.
- * It reconstructs the seeker's journey from the current stack depth,
- * attaching the insane CSS classes automatically.
+ * @description
+ * Chapter 110: The trail becomes quiet and useful.
+ * Only parent chambers appear as chips. The current chamber lives in the single
+ * crown title, preventing duplicate active headers.
  */
+
 export function renderBreadcrumbs(container, stack, onNavigate) {
     if (!container) return;
-    console.log("B\"H - [Sidebar Breadcrumbs] Re-weaving the trail of light.");
     container.innerHTML = "";
-    
-    stack.forEach((tab, i) => {
+    const parents = stack.slice(0, -1);
+    if (!parents.length) {
+        container.classList.add("is-empty");
+        return;
+    }
+    container.classList.remove("is-empty");
+    parents.forEach((tab, index) => {
         const crumb = document.createElement("button");
-        crumb.className = "awtsmoos-crumb-link btn"; // Hook into the insane CSS
-        
-        const txt = document.createElement("span");
-        txt.innerText = tab.header;
-        crumb.appendChild(txt);
-
-        if (i < stack.length - 1) {
-            // A parent crumb allows navigation back to that sphere
-            crumb.onclick = (e) => {
-                e.stopPropagation();
-                console.log(`B"H - [Breadcrumbs] Jump to level ${i}: ${tab.header}.`);
-                onNavigate(i);
-            };
-            const arrow = document.createElement("span");
-            arrow.className = "crumb-arrow awtsmoos-student-location";
-            arrow.innerText = "»"; // Use double arrow for impact
-            crumb.appendChild(arrow);
-        } else {
-            // The active sphere is centered and unclickable
-            crumb.classList.add("active-crumb");
-            crumb.disabled = true;
-        }
-        
+        crumb.className = "awtsmoos-crumb-link";
+        crumb.type = "button";
+        crumb.innerHTML = `<span>${tab.header}</span><span class="crumb-arrow">›</span>`;
+        crumb.onclick = event => {
+            event.stopPropagation();
+            onNavigate(index);
+        };
         container.appendChild(crumb);
     });
 }

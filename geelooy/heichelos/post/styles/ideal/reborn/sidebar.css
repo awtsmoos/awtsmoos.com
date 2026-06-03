@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 80: The sidebar fits inside the world.
- * The Awtsmoos refuses `100vw` overflow and gives the context chamber the exact
- * width of its containing reality: never wider, never sideways, never exiled.
+ * Chapter 116: The sidebar crown becomes the single living header.
+ * The current page is the title button. Breadcrumbs are only the earlier path.
+ * The chamber below no longer has to shout the same name twice.
  */
 
 .post-reader-localized-context .sidebar {
@@ -14,23 +14,20 @@
     width: 100% !important;
     max-width: 100% !important;
     height: calc(100dvh - var(--awt-header-space)) !important;
-    max-height: calc(100dvh - var(--awt-header-space)) !important;
     overflow-x: clip !important;
     overflow-y: hidden !important;
     border: 0 !important;
-    border-top: 1px solid rgba(244, 197, 107, .18) !important;
-    border-radius: 0 !important;
-    background: linear-gradient(180deg, #09111f, #050812 72%) !important;
+    border-top: 1px solid rgba(246,201,108,.18) !important;
+    background: linear-gradient(180deg, #050b14, #020712 72%) !important;
     color: var(--awt-text) !important;
-    box-shadow: 0 -22px 70px rgba(0, 0, 0, .62) !important;
-    transform: translate3d(0, 0, 0) !important;
+    box-shadow: 0 -22px 70px rgba(0,0,0,.62) !important;
+    transform: translate3d(0,0,0) !important;
     opacity: 1 !important;
     pointer-events: auto !important;
-    transition: transform 120ms linear, opacity 120ms linear !important;
 }
 
 .post-reader-localized-context .sidebar.hidden-comments {
-    transform: translate3d(104%, 0, 0) !important;
+    transform: translate3d(104%,0,0) !important;
     opacity: 0 !important;
     pointer-events: none !important;
 }
@@ -41,21 +38,19 @@
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    max-width: 100% !important;
     height: 100% !important;
-    min-height: 0 !important;
     min-width: 0 !important;
+    min-height: 0 !important;
     overflow-x: clip !important;
-    background: transparent !important;
-    color: inherit !important;
 }
 
 .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
     flex: 0 0 auto !important;
-    min-width: 0 !important;
-    padding: 14px 14px 10px !important;
-    border-bottom: 1px solid var(--awt-line) !important;
-    background: rgba(6, 10, 18, .96) !important;
+    padding: 14px !important;
+    border-bottom: 1px solid rgba(191,203,226,.14) !important;
+    background:
+        radial-gradient(circle at 8% 0%, rgba(139,92,246,.16), transparent 12rem),
+        rgba(3,8,18,.98) !important;
 }
 
 .post-reader-localized-context .awtsmoos-chrome-row {
@@ -67,12 +62,27 @@
 }
 
 .post-reader-localized-context .awtsmoos-current-view-title {
-    margin: 0 !important;
+    appearance: none !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #ffffff !important;
     min-width: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    color: var(--awt-text) !important;
-    font: 900 1.05rem/1.2 var(--font-ui) !important;
+    font: 950 clamp(1.35rem,6vw,2rem)/1.1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-current-view-title.can-go-back::before {
+    content: "‹ ";
+    color: var(--inline-edge-gold);
+}
+
+.post-reader-localized-context .awtsmoos-chrome-controls {
+    display: flex !important;
+    gap: 8px !important;
+    flex: 0 0 auto !important;
 }
 
 .post-reader-localized-context .awtsmoos-chrome-btn,
@@ -82,36 +92,43 @@
     min-width: 44px !important;
     min-height: 44px !important;
     border-radius: 999px !important;
-    border: 1px solid var(--awt-line) !important;
-    background: rgba(255, 255, 255, .06) !important;
+    border: 1px solid rgba(191,203,226,.16) !important;
+    background: rgba(255,255,255,.06) !important;
     color: var(--awt-text) !important;
-    box-shadow: none !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
 }
 
 .post-reader-localized-context .awtsmoos-chrome-btn.close {
     color: #fecdd3 !important;
-    background: rgba(244, 63, 94, .13) !important;
-    border-color: rgba(244, 63, 94, .28) !important;
+    background: rgba(244,63,94,.13) !important;
+    border-color: rgba(244,63,94,.28) !important;
 }
 
 .post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
-    display: block !important;
-    margin-top: 8px !important;
-    min-height: 18px !important;
-    overflow: hidden !important;
-    color: var(--awt-muted) !important;
-    text-overflow: ellipsis !important;
-    font: 750 .78rem/1.2 var(--font-ui) !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs.is-empty { display: none !important; }
+
+.post-reader-localized-context .awtsmoos-crumb-link {
+    border: 1px solid rgba(246,201,108,.18) !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.055) !important;
+    color: var(--inline-edge-gold) !important;
+    padding: .55rem .8rem !important;
+    font: 850 .88rem/1 var(--font-ui) !important;
 }
 
 @media (min-width: 901px) {
     .post-reader-localized-context .sidebar {
         top: 0 !important;
         left: auto !important;
-        width: min(440px, 42%) !important;
+        width: min(440px,42%) !important;
         height: 100dvh !important;
-        max-height: 100dvh !important;
-        border-left: 1px solid rgba(244, 197, 107, .18) !important;
-        box-shadow: -22px 0 70px rgba(0, 0, 0, .48) !important;
+        border-left: 1px solid rgba(246,201,108,.18) !important;
     }
 }

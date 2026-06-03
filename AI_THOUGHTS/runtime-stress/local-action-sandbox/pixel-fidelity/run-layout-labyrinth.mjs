@@ -8,9 +8,9 @@ const outDir = 'AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/l
 fs.mkdirSync(outDir, { recursive: true });
 
 /**
- * Chapter 28: the gates follow the widened WebGL witness and the split source.
- * The Awtsmoos asks the renderer to prove pixels, source intent, and command
- * streams in one truthful report.
+ * Chapter 29: the certification gauntlet adds wrap, minmax, alignment, z-index,
+ * absolute layout, ImageBitmap, and UI corpus gates. The Awtsmoos judges source
+ * intent, command streams, and the living PNG together.
  */
 async function main() {
   const files = buildLabyrinthFiles();
@@ -47,14 +47,16 @@ function checksFor({ result, decoded, stats, ops, textures, sourceText }) {
     runtimeOk: result.ok === true,
     labReady: result.values?.['window.labState']?.ready === true,
     fitsViewport: decoded.width === 960 && decoded.height === 640,
-    deepLayoutText: ['LAYOUT LABYRINTH', 'D0', 'D1', 'D2', 'D3', 'D4', 'GRID', 'FLEX'].every(t => sourceText.includes(t)),
-    cssGridAndFlex: /display:grid/.test(sourceText) && /display:flex/.test(sourceText) && /flex-direction:column/.test(sourceText),
+    deepLayoutText: ['D0', 'D1', 'D2', 'D3', 'D4', 'D5', 'GRID', 'FLEX'].every(t => sourceText.includes(t)),
+    wrapAndMinmax: ['flex-wrap:wrap', 'minmax(', 'fit-content(', 'grid-template-columns'].every(t => sourceText.includes(t)),
+    alignmentAndZ: ['alignGrid', 'z-index:1', 'z-index:2', 'z-index:3', 'position:absolute'].every(t => sourceText.includes(t)),
     overflowAndScroll: ['overflow:hidden', 'overflow:scroll', 'overflow-x:scroll', 'overflow:auto', 'scrollbar-color'].every(t => sourceText.includes(t)),
     transforms: ['rotate', 'scale', 'translate'].every(t => sourceText.includes(t)),
-    svgWitness: sourceText.includes('<svg') && sourceText.includes('<circle') && sourceText.includes('<path') && sourceText.includes('<linearGradient'),
+    svgWitness: sourceText.includes('<svg') && sourceText.includes('<circle') && sourceText.includes('<path') && sourceText.includes('<clipPath'),
+    imageBitmapChain: ['OffscreenCanvas', 'transferToImageBitmap', 'drawImage'].every(t => sourceText.includes(t)),
     realUiCorpus: ['IDE', 'MAIL', 'KAN'].every(t => sourceText.includes(t)),
-    canvasDensity: textures.filter(t => t.kind === 'canvas-2d').length >= 16,
-    webglTexture: textures.some(t => t.kind === 'canvas-webgl' && Math.abs(t.width - 260) <= 2 && Math.abs(t.height - 132) <= 2),
+    canvasDensity: textures.filter(t => t.kind === 'canvas-2d').length >= 20,
+    webglTexture: textures.some(t => t.kind === 'canvas-webgl' && Math.abs(t.width - 260) <= 2 && Math.abs(t.height - 118) <= 2),
     webglOps: ['webgl.createTexture', 'webgl.createProgram', 'webgl.drawArrays'].every(op => ops.includes(op)),
     pathTextAndGridOps: ops.includes('fillText') && ops.includes('strokeRect') && ops.includes('fillRect'),
     colorRich: stats.red > 700 && stats.yellow > 2500 && stats.cyan > 2500 && stats.magenta > 600 && stats.lime > 500,

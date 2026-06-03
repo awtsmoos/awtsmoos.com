@@ -2,12 +2,12 @@
 /**
  * @module TerrainMaterialScribe
  * @description
- * Chapter 180: the lava level stops bleaching the eye.
+ * Chapter 192: desert becomes readable earth, not a white wound.
  *
- * The Awtsmoos revealed that desert terrain was still too high-key beside pale
- * platforms. This scribe now creates darker ochre sand and gentler village
- * grass, with material color set to white so the DataTexture is not double-tinted.
- * Future AI: do not return desert/sand to white or neon yellow.
+ * The Awtsmoos showed the mobile lava world bleaching into blank fire. The
+ * desert texture is now deliberately dark ochre and the material has low
+ * reflectance. Village grass stays bright enough, but lava/desert no longer
+ * overwhelms coins, player, or platforms.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -25,9 +25,9 @@ function makeTexture(size, dark, light, repeatX, repeatY, bladeScale = 1) {
     const i = (y * size + x) * 4;
     const t = Math.max(0, Math.min(1, noise(x, y) * 0.55 + noise(x * 0.28, y * 0.28, 4) * 0.45));
     const blade = Math.sin(x * 0.8 + y * 0.12) > 0.72 ? 14 * bladeScale : 0;
-    data[i] = clamp(mix(dark[0], light[0], t) + blade * 0.2);
-    data[i + 1] = clamp(mix(dark[1], light[1], t) + blade);
-    data[i + 2] = clamp(mix(dark[2], light[2], t) + blade * 0.15);
+    data[i] = clamp(mix(dark[0], light[0], t) + blade * 0.16);
+    data[i + 1] = clamp(mix(dark[1], light[1], t) + blade * 0.55);
+    data[i + 2] = clamp(mix(dark[2], light[2], t) + blade * 0.12);
     data[i + 3] = 255;
   }
   const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
@@ -45,10 +45,10 @@ export default class TerrainMaterialScribe {
   static async scribe(data) {
     const isSand = data.textureType === "sand" || data.textureType === "desert";
     if (isSand) {
-      const map = makeTexture(96, [72, 48, 24], [126, 92, 43], Math.max(8, data.width / 7), Math.max(8, data.depth / 7), 0.04);
-      return new THREE.MeshLambertMaterial({ color: 0xffffff, map, side: THREE.DoubleSide });
+      const map = makeTexture(96, [36, 24, 13], [82, 57, 27], Math.max(8, data.width / 7), Math.max(8, data.depth / 7), 0.02);
+      return new THREE.MeshLambertMaterial({ color: 0xd0b080, map, side: THREE.DoubleSide });
     }
-    const map = makeTexture(96, [42, 130, 48], [144, 222, 116], Math.max(4, data.width / 9), Math.max(4, data.depth / 9), 0.9);
+    const map = makeTexture(96, [38, 116, 42], [132, 205, 110], Math.max(4, data.width / 9), Math.max(4, data.depth / 9), 0.8);
     return new THREE.MeshLambertMaterial({ color: 0xffffff, map, side: THREE.DoubleSide });
   }
 }

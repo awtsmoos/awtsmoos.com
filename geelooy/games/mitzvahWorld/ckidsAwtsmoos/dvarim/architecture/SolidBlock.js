@@ -2,13 +2,12 @@
 /**
  * @module SolidBlock
  * @description
- * Chapter 179: the lava path stops screaming white.
+ * Chapter 193: the stone platforms lower their flame.
  *
- * The Awtsmoos showed the phone screen: pale platform colors were becoming a
- * white sheet under mobile exposure. This block material keeps the same stone
- * identity but clamps sandstone into readable ochre, darkens mortar, and keeps
- * procedural brick texture visible. Future AI: never restore flat bright blocks
- * in lava levels.
+ * The Awtsmoos revealed that even textured sandstone can blind the eye when
+ * lit by lava skies. This block now clamps sandstone to a darker ochre range
+ * and tints the material slightly downward so pale JSON colors cannot become
+ * white slabs again.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from '/games/scripts/build/three.module.js';
@@ -37,11 +36,11 @@ function styleFor(seed = "") {
 
 function readableBase(hex, style) {
   const [r, g, b] = rgb(hex || 0xc6aa62);
-  if (style === "cyanGlass") return [42, 146, 162];
-  if (style === "goldCarve") return [156, 118, 42];
-  if (style === "woodBrick") return [112, 66, 32];
-  const warm = [(r * 0.45 + 126 * 0.55), (g * 0.42 + 92 * 0.58), (b * 0.35 + 38 * 0.65)];
-  return warm.map(v => Math.min(170, v));
+  if (style === "cyanGlass") return [34, 112, 128];
+  if (style === "goldCarve") return [132, 92, 30];
+  if (style === "woodBrick") return [88, 49, 24];
+  const warm = [(r * 0.32 + 82 * 0.68), (g * 0.3 + 58 * 0.7), (b * 0.25 + 28 * 0.75)];
+  return warm.map(v => Math.min(126, v));
 }
 
 function shadeFor(style, x, y, h) {
@@ -50,16 +49,16 @@ function shadeFor(style, x, y, h) {
   const row = Math.floor(y / brickH);
   const offset = row % 2 ? brickW / 2 : 0;
   const mortar = ((x + offset) % brickW) < 1.2 || (y % brickH) < 1.1;
-  const grain = (noise(x * 0.7, y * 0.7, h) - 0.5) * 42;
-  const chip = noise(x, y, h) > 0.925 ? -44 : 0;
-  const ridge = style === "goldCarve" && (x % 8 === 0 || y % 8 === 0) ? 24 : 0;
-  const glass = style === "cyanGlass" ? Math.sin((x + y) * 0.35) * 20 : 0;
-  return (mortar ? -70 : grain + chip) + ridge + glass;
+  const grain = (noise(x * 0.7, y * 0.7, h) - 0.5) * 30;
+  const chip = noise(x, y, h) > 0.925 ? -35 : 0;
+  const ridge = style === "goldCarve" && (x % 8 === 0 || y % 8 === 0) ? 14 : 0;
+  const glass = style === "cyanGlass" ? Math.sin((x + y) * 0.35) * 12 : 0;
+  return (mortar ? -46 : grain + chip) + ridge + glass;
 }
 
 function makeTexture(seed, baseHex) {
   const style = styleFor(seed);
-  const key = `${seed}:${baseHex}:${style}:readable`;
+  const key = `${seed}:${baseHex}:${style}:dimmed`;
   if (cache.has(key)) return cache.get(key).clone();
   const size = 64;
   const h = hashText(seed);
@@ -68,10 +67,10 @@ function makeTexture(seed, baseHex) {
   for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
     const i = (y * size + x) * 4;
     const s = shadeFor(style, x, y, h);
-    const edge = x < 2 || y < 2 || x > 61 || y > 61 ? -28 : 0;
+    const edge = x < 2 || y < 2 || x > 61 || y > 61 ? -22 : 0;
     data[i] = clamp(base[0] + s + edge);
     data[i + 1] = clamp(base[1] + s + edge);
-    data[i + 2] = clamp(base[2] + s * 0.65 + edge);
+    data[i + 2] = clamp(base[2] + s * 0.55 + edge);
     data[i + 3] = 255;
   }
   const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
@@ -102,7 +101,7 @@ export default class SolidBlock extends Domem {
   async heescheel(olam) {
     this.olam = olam;
     const geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
-    const material = new THREE.MeshLambertMaterial({ color: 0xffffff, map: makeTexture(this.textureSeed, this.color) });
+    const material = new THREE.MeshLambertMaterial({ color: 0xd0b890, map: makeTexture(this.textureSeed, this.color) });
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.name = this.name;
     this.mesh.nivraAwtsmoos = this;

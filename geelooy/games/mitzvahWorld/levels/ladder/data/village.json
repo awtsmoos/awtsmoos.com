@@ -1,7 +1,7 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "village.json",
-  "shaym": "Human_Doorway_Authed_Colliders_Centered_Shop",
+  "shaym": "Tall_Textured_Cottage_Aligned_Door_No_Front_Gap",
   "title": "Grounded Village",
   "requiredPerutos": 0,
   "nextLevel": "ladder-1.json",
@@ -178,8 +178,8 @@
         "name": "big_warm_house_simple_colliders",
         "width": 34,
         "depth": 23,
-        "height": 12.6,
-        "doorWidth": 2.05,
+        "height": 13.6,
+        "doorWidth": 1.82,
         "floorTop": 0.4,
         "thickness": 0.85,
         "position": {
@@ -190,7 +190,8 @@
         "rotation": {
           "y": -0.25
         },
-        "useAuthoredY": true
+        "useAuthoredY": true,
+        "doorClearHeight": 3.72
       }
     ],
     "VillageHouseDoor": [
@@ -198,9 +199,9 @@
         "name": "cottage_real_hinged_door",
         "scale": 4.8,
         "position": {
-          "x": 9.89,
+          "x": 9.771,
           "y": 0,
-          "z": 1.18
+          "z": 1.452
         },
         "rotation": {
           "y": -0.25
@@ -297,9 +298,9 @@
           }
         ],
         "position": {
-          "x": 13.15,
+          "x": 12.1,
           "y": 0.4,
-          "z": -10.32
+          "z": -12.7
         }
       }
     ]

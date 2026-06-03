@@ -2,24 +2,24 @@
 /**
  * @module SparkFixer
  * @description
- * Chapter 95: The spark enters without side-force.
- * No inline display writes remain. Each spark is placed into a vertical list,
- * and the Awtsmoos lets CSS shape the vessel.
+ * Chapter 107: The margin accepts each spark once.
+ * Inline placement now deduplicates the same way the sidebar tree does. It does
+ * not mutate the original comment into a different species; it only supplies
+ * normalized coordinates to the placement ritual.
  */
 
 import { makeInlineComment } from "/heichelos/post/comments/render/core.js";
 import { resolveCoordinateToDOM } from "/heichelos/post/comments/logic/inlineManifest/CoordinateResolver.js";
 import { buildRealPlacementDayuh } from "/heichelos/post/comments/logic/inlineManifest/realCommentCoordinate.js";
+import { uniqueComments } from "/heichelos/post/comments/logic/treeBuilder.js";
 import { ShelterArchitect } from "/heichelos/post/comments/inline/weaving/ShelterArchitect.js";
 import { GuardianGate } from "/heichelos/post/comments/inline/weaving/GuardianGate.js";
 import { inlineDuplicateExists } from "/heichelos/post/comments/inline/weaving/DuplicateGuard.js";
 import { bindReadingFocus, connectShelterToVessel, hydrateGateSummary } from "/heichelos/post/comments/inline/weaving/ThreadIntelligence.js";
-import { polishCard, polishGate, refreshGatePolish } from "/heichelos/post/comments/inline/weaving/polish/EditorialReadingPolish.js";
+import { polishGate, refreshGatePolish } from "/heichelos/post/comments/inline/weaving/polish/EditorialReadingPolish.js";
 
-function normalizeSparkCoordinates(spark) {
-    const coords = buildRealPlacementDayuh(spark, spark?.dayuh?.verseSection ?? spark?.verseSection ?? null);
-    spark.dayuh = coords;
-    return coords;
+function placementCoords(spark) {
+    return buildRealPlacementDayuh(spark, spark?.dayuh?.verseSection ?? spark?.verseSection ?? null);
 }
 
 function getOrCreateGate(shelter, alias, coords) {
@@ -46,11 +46,13 @@ function findInlineSections() {
 }
 
 function appendCard(list, spark, alias, sparkIdStr) {
+    const existing = list.querySelector(`[data-cid="${CSS.escape(sparkIdStr)}"][data-from-alias="${CSS.escape(alias)}"]`);
+    if (existing) return false;
     const card = makeInlineComment(spark);
     card.dataset.fromAlias = alias;
     card.dataset.cid = sparkIdStr;
-    polishCard(card, spark, list.children.length);
     list.appendChild(card);
+    return true;
 }
 
 export class SparkFixer {
@@ -66,13 +68,11 @@ export class SparkFixer {
     }
 
     static fix(sparks, alias) {
-        const stats = { requested: Array.isArray(sparks) ? sparks.length : 0, inserted: 0, duplicates: 0, missing: 0, alias };
-        if (!Array.isArray(sparks) || sparks.length === 0) {
-            this.showEmpty(alias);
-            return this.remember(stats);
-        }
+        const clean = uniqueComments(sparks);
+        const stats = { requested: Array.isArray(sparks) ? sparks.length : 0, unique: clean.length, inserted: 0, duplicates: 0, missing: 0, alias };
+        if (!clean.length) { this.showEmpty(alias); return this.remember(stats); }
         const touchedGates = new Set();
-        sparks.forEach(spark => this.placeSpark(spark, alias, stats, touchedGates));
+        clean.forEach(spark => this.placeSpark(spark, alias, stats, touchedGates));
         touchedGates.forEach(gate => {
             GuardianGate.updateCount(gate);
             refreshGatePolish(gate);
@@ -85,7 +85,7 @@ export class SparkFixer {
         if (!spark?.id) return;
         const sparkIdStr = String(spark.id);
         if (inlineDuplicateExists(document, sparkIdStr, alias)) { stats.duplicates++; return; }
-        const coords = normalizeSparkCoordinates(spark);
+        const coords = placementCoords(spark);
         const vessel = resolveCoordinateToDOM(coords);
         if (!vessel) { stats.missing++; return; }
         const shelter = ShelterArchitect.secureShelter(vessel);
@@ -99,8 +99,8 @@ export class SparkFixer {
         rememberGateComment(gate, spark);
         const list = gate.querySelector(".comments-holder-inline");
         if (!list) { stats.missing++; return; }
-        appendCard(list, spark, alias, sparkIdStr);
-        stats.inserted++;
+        if (appendCard(list, spark, alias, sparkIdStr)) stats.inserted++;
+        else stats.duplicates++;
     }
 
     static remember(stats) {

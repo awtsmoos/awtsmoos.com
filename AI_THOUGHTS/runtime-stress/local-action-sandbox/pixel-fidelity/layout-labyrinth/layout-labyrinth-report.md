@@ -1,20 +1,22 @@
 # B"H Mega Layout v2
 
-Pass: true
+Pass: false
 
 Image: AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/layout-labyrinth/layout-labyrinth.png
-SHA256: 2bd18df98293e115ca0bafd6a4d6d79e4637826c897cdffc93e6dbe527d5ee83
+SHA256: 1983c7e291dcabfee5a976425a0cb40c3b4c9850fe5f2573f78a8426ceb231e6
 
 ## Checks
 - PASS runtimeOk
 - PASS labReady
 - PASS fitsViewport
-- PASS deepLayoutText
-- PASS cssGridAndFlex
+- FAIL deepLayoutText
+- PASS wrapAndMinmax
+- PASS alignmentAndZ
 - PASS overflowAndScroll
 - PASS transforms
 - PASS svgWitness
-- PASS realUiCorpus
+- PASS imageBitmapChain
+- FAIL realUiCorpus
 - PASS canvasDensity
 - PASS webglTexture
 - PASS webglOps

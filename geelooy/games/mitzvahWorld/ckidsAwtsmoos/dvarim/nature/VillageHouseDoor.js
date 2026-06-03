@@ -2,12 +2,12 @@
 /**
  * @file VillageHouseDoor.js
  * @description
- * Chapter 174: The door receives grain, not dead color.
+ * Chapter 189: A human door, hinged outside the large house.
  *
- * The house may be 4.8x, but the leaf remains human-sized and textured. The
- * click box is invisible by design; every visible door part uses the same
- * procedural material system as the cottage, so no flat brown rectangle returns.
- * Future AI: do not enlarge this door to match the house scale.
+ * The Awtsmoos makes the house huge but not absurd: the door leaf is now narrow,
+ * textured, and aligned with the small doorway. It remains non-solid so it can
+ * never become the invisible wall; the real passage is guarded only by the
+ * separate authored collider file.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -36,7 +36,7 @@ export default class VillageHouseDoor extends Domem {
     this.options = op;
     this.scaleValue = num(op.scale, 1);
     this.open = Boolean(op.open);
-    this.openAngle = num(op.openAngle, -1.3);
+    this.openAngle = num(op.openAngle, -1.22);
     this.target = this.open ? this.openAngle : 0;
     this.angle = this.target;
     this.proximity = num(op.proximity, 7.5);
@@ -58,11 +58,13 @@ export default class VillageHouseDoor extends Domem {
     const root = new THREE.Group();
     root.name = this.name || "VillageHouseDoor";
     this.hinge = new THREE.Group();
-    this.hinge.position.set(-0.23, 0.39, 0.14);
-    part(this.hinge, this, "door_leaf", [0.23, 0, 0], [0.42, 0.78, 0.09], wood(0x7a421e));
-    part(this.hinge, this, "door_cross", [0.23, 0.13, -0.06], [0.32, 0.05, 0.04], wood(0x3a1d0b));
-    part(this.hinge, this, "door_knob", [0.36, -0.04, -0.09], [0.045, 0.045, 0.035], brass(0xffd05a));
-    part(root, this, "door_click_box", [0, 0.43, 0.12], [0.62, 1.04, 0.55], new THREE.MeshBasicMaterial({ visible: false }), true);
+    this.hinge.position.set(-0.19, 0.34, 0.16);
+    part(this.hinge, this, "door_leaf_grained", [0.19, 0, 0], [0.34, 0.68, 0.08], wood(0x74411d));
+    part(this.hinge, this, "door_vertical_plank_left", [0.08, 0, -0.05], [0.035, 0.62, 0.035], wood(0x4a260e));
+    part(this.hinge, this, "door_vertical_plank_right", [0.3, 0, -0.05], [0.035, 0.62, 0.035], wood(0x4a260e));
+    part(this.hinge, this, "door_cross_bar", [0.19, 0.12, -0.055], [0.28, 0.045, 0.035], wood(0x321806));
+    part(this.hinge, this, "door_knob", [0.31, -0.04, -0.075], [0.04, 0.04, 0.032], brass(0xffd05a));
+    part(root, this, "door_click_box", [0, 0.36, 0.14], [0.52, 0.88, 0.48], new THREE.MeshBasicMaterial({ visible: false }), true);
     root.add(this.hinge);
     root.traverse(child => { child.nivraAwtsmoos = this; child.frustumCulled = false; });
     return root;

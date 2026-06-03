@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 84: The chamber title may wrap.
- * Visibility is still sacred: one slide speaks, all hidden slides vanish. But
- * no label may force the sidebar wider than the screen.
+ * Chapter 122: The local row is silent until a return path exists.
+ * The shell crown names the page. A chamber header appears only when Back is
+ * meaningful, so Main Menu and Scroll Details no longer echo twice.
  */
 
 .post-reader-localized-context .awtsmoos-slide-viewport {
@@ -48,7 +48,7 @@
 
 .post-reader-localized-context .awtsmoos-view-header {
     flex: 0 0 auto !important;
-    display: flex !important;
+    display: none !important;
     align-items: center !important;
     gap: 10px !important;
     min-height: 56px !important;
@@ -56,6 +56,10 @@
     padding: 10px 14px !important;
     border-bottom: 1px solid var(--awt-line) !important;
     background: rgba(7, 12, 22, .98) !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view.has-back .awtsmoos-view-header {
+    display: flex !important;
 }
 
 .post-reader-localized-context .awtsmoos-view-content,

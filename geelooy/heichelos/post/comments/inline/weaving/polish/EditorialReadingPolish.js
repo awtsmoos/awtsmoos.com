@@ -1,12 +1,10 @@
 // B"H
 /**
  * @file EditorialReadingPolish.js
- * @chapter Chapter 20: The Margin Counts Its Own Constellations
  * @description
- * The Awtsmoos breathes through the page as a reader moves from source text to
- * marginal insight. This module does not orchestrate fetching or weaving; it
- * blesses already-woven vessels with semantic direction, calm keyboard travel,
- * anchor labels, cluster size, long-form markers, and measured insertion rhythm.
+ * Chapter 123: The margin receives data, not inline paint.
+ * The Awtsmoos now marks cluster position and reading rhythm with attributes
+ * only. CSS owns the visible garment; JavaScript only names the constellation.
  */
 
 const HEBREW_RE = /[\u0590-\u05ff]/;
@@ -55,7 +53,7 @@ function updateClusterMetrics(gate) {
     gate.dataset.clusterTone = clusterTone(count);
     cards.forEach((card, index) => {
         card.dataset.clusterIndex = String(index + 1);
-        card.style.setProperty("--inline-cluster-index", String(index));
+        card.dataset.inlineClusterOrder = String(index);
     });
 }
 
@@ -75,8 +73,7 @@ function bindClusterKeyboard(gate) {
         const cards = Array.from(gate.querySelectorAll(".awtsmoos-inline-commentary-root"));
         if (!cards.length) return;
         const current = cards.indexOf(document.activeElement);
-        const nextIndex = event.key === "ArrowDown" ? Math.min(cards.length - 1, current + 1) :
-            event.key === "ArrowUp" ? Math.max(0, current - 1) : -1;
+        const nextIndex = event.key === "ArrowDown" ? Math.min(cards.length - 1, current + 1) : event.key === "ArrowUp" ? Math.max(0, current - 1) : -1;
         if (nextIndex < 0 || nextIndex === current) return;
         event.preventDefault();
         cards[nextIndex].focus({ preventScroll: false });
@@ -95,7 +92,7 @@ export function polishCard(card, comment, index = 0) {
     const text = cleanText(comment?.content || comment?.dayuh?.content || comment?.text);
     card.dataset.scriptDirection = direction;
     card.dataset.readingLength = text.length > 720 ? "long" : text.length < 120 ? "brief" : "standard";
-    card.style.setProperty("--inline-insertion-order", String(index));
+    card.dataset.inlineInsertionOrder = String(index);
     card.setAttribute("tabindex", "0");
     card.setAttribute("role", "article");
     card.setAttribute("aria-label", `Inline comment ${index + 1} by @${comment?.author || comment?.aliasId || "commentator"}`);

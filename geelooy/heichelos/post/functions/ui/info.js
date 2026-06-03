@@ -1,167 +1,134 @@
-
-//B"H
+// B"H
 /**
  * @file info.js
- * @description 
- * The Info Panel Renderer.
- * Transmuted from `innerHTML` string interpolation into pure JSON Blueprints 
- * using the Scribe of Manifestation (GenesisEngine).
+ * @description
+ * Chapter 108: Scroll Details is washed clean.
+ * Raw HTML and script text are not invited into the chamber. The Awtsmoos turns
+ * metadata into safe plain text, polished cards, and symbolic book/person
+ * graphics shaped by CSS classes rather than dangerous markup.
  */
+
 import { GenesisEngine } from "../dom/GenesisEngine.js";
 import { getLinkHrefOfEditing } from "../interaction/CoordinateInteraction.js";
 
-/**
- * @method makeInfoHTML
- * @description Creates the structural info cards for the sidebar as a DOM Node.
- * @returns {HTMLElement}
- */
+function textOnly(value) {
+    const raw = String(value ?? "");
+    return raw
+        .replace(/<script[\s\S]*?<\/script>/gi, " ")
+        .replace(/<style[\s\S]*?<\/style>/gi, " ")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+function fallbackDescription(text) {
+    const clean = textOnly(text);
+    if (clean && !/[{};=<>]/.test(clean.slice(0, 240))) return clean;
+    return "The main books of the entire Torah connect the reader to the Awtsmoos. These scrolls gather sacred wisdom, living commentary, and a path for study.";
+}
+
+function icon(name) {
+    return { tag: "span", attr: { class: `awtsmoos-detail-svg awtsmoos-detail-svg-${name}`, "aria-hidden": "true" }, children: [{ tag: "span" }] };
+}
+
+function card({ title, subtitle, iconName, children }) {
+    return { tag: "section", attr: { class: "awtsmoos-detail-card" }, children: [
+        { tag: "header", attr: { class: "awtsmoos-detail-card-head" }, children: [icon(iconName), { tag: "div", attr: { class: "awtsmoos-detail-card-title" }, children: [
+            { tag: "h3", children: [title] },
+            subtitle ? { tag: "p", children: [subtitle] } : null
+        ] }] },
+        { tag: "div", attr: { class: "awtsmoos-detail-card-body" }, children }
+    ] };
+}
+
+function linkPlan(text, href, className = "awtsmoos-detail-link") {
+    return { tag: "a", attr: { href, class: className }, children: [textOnly(text)] };
+}
+
+function authorCard(alias) {
+    const id = textOnly(alias.id || alias.name || "Anonymous");
+    const name = textOnly(alias.name || alias.id || "Anonymous");
+    return card({
+        title: "Transmitted By",
+        subtitle: "Author and living source",
+        iconName: "person",
+        children: [
+            linkPlan(`@${name}`, `/@${encodeURIComponent(id)}`),
+            { tag: "span", attr: { class: "awtsmoos-verified-sigil" }, children: ["✹ verified"] }
+        ]
+    });
+}
+
+function heichelCard(heichel) {
+    const name = textOnly(heichel.name || heichel.id || "Unknown Heichel");
+    const id = encodeURIComponent(textOnly(heichel.id || ""));
+    return card({
+        title: "Sacred Heichel",
+        subtitle: "Place of this scroll",
+        iconName: "book",
+        children: [
+            linkPlan(name, `/heichelos/${id}`),
+            { tag: "p", attr: { class: "awtsmoos-detail-description" }, children: [fallbackDescription(heichel.description)] }
+        ]
+    });
+}
+
+function pathCard(heichel) {
+    const crumb = Array.isArray(window.breadcrumb) ? window.breadcrumb.slice(1) : [];
+    if (!crumb.length) return null;
+    return card({
+        title: "Revelation Path",
+        subtitle: "Where this chapter lives",
+        iconName: "path",
+        children: [{ tag: "div", attr: { class: "awtsmoos-detail-path" }, children: crumb.map((q, index) => [
+            linkPlan(q.name, `/heichelos/${encodeURIComponent(heichel.id || "")}/?series=${encodeURIComponent(q.id)}`),
+            index < crumb.length - 1 ? { tag: "span", attr: { class: "awtsmoos-path-sep" }, children: ["/"] } : null
+        ]).flat().filter(Boolean) }]
+    });
+}
+
+function noticeCard() {
+    return { tag: "aside", attr: { class: "awtsmoos-detail-notice" }, children: [
+        { tag: "span", attr: { class: "awtsmoos-notice-icon" }, children: ["ⓘ"] },
+        { tag: "p", children: ["These may contain AI translations. Double-check any translation before drawing important conclusions."] }
+    ] };
+}
+
+function chapterNav(posts) {
+    if (!Array.isArray(posts) || !posts.length) return null;
+    let current = window.currentIndexInSeries;
+    if (current === undefined || current === null) current = window.post?.id ? posts.indexOf(window.post.id) : 0;
+    if (current < 0) current = 0;
+    const basePath = location.pathname.split("/").slice(0, -1).join("/");
+    return { tag: "nav", attr: { class: "awtsmoos-detail-nav", "aria-label": "Chapter navigation" }, children: [
+        current > 0 ? linkPlan("← Prev", `${basePath}/${current - 1}`, "awtsmoos-detail-nav-btn") : null,
+        { tag: "select", attr: { class: "series-chapter-select font-selector" }, children: posts.map((postId, index) => ({ tag: "option", attr: { value: index, ...(index === current ? { selected: true } : {}) }, children: [`Ch. ${index + 1} / ${posts.length}`] })), events: { change: event => { window.location.href = `${basePath}/${event.target.value}`; } } },
+        current < posts.length - 1 ? linkPlan("Next →", `${basePath}/${current + 1}`, "awtsmoos-detail-nav-btn") : null
+    ].filter(Boolean) };
+}
+
+function editLink(post, heichel) {
+    if (!window.doesOwn) return null;
+    return linkPlan("⚙️ Edit Post", `/heichelos/${encodeURIComponent(heichel.id)}/edit?type=post&id=${encodeURIComponent(post.id)}${getLinkHrefOfEditing()}`, "awtsmoos-detail-nav-btn danger");
+}
+
 export function makeInfoHTML() {
     const post = window.post || {};
     const alias = window.alias || { id: "Anonymous", name: "Hidden One" };
     const heichel = post.heichel || { id: "unknown", name: "Unknown Realm", description: "A sacred expanse." };
-
-    const authorIdStr = alias.name || alias.id;
-
-    const blueprint = {
-        tag: 'div',
-        attr: { class: 'post-info-container awtsmoos-card' },
-        children:[]
-    };
-
-    // 1. Author Section
-    blueprint.children.push(createSectionPlan("Transmitted By", {
-        tag: 'a',
-        attr: { href: `/@${alias.id}`, class: 'author-link awtsmoos-hero-btn' },
-        text: `@${authorIdStr}`
-    }));
-
-    // 2. Heichel Section
-    blueprint.children.push(createSectionPlan("Sacred Heichel",[
-        {
-            tag: 'a',
-            attr: { href: `/heichelos/${heichel.id}`, class: 'heichel-link awtsmoos-hero-btn' },
-            text: heichel.name
-        },
-        {
-            tag: 'div',
-            attr: { class: 'heichelDesc comment-content', style: 'font-size:12px; margin-top:8px; opacity:0.7; font-style:italic;' },
-            text: heichel.description
-        }
-    ]));
-
-    // 3. Series Path
-    if (window.breadcrumb && Array.isArray(window.breadcrumb)) {
-        const pathChildren = window.breadcrumb.slice(1).map((q, i, a) => ({
-            tag: 'a',
-            attr: { href: `/heichelos/${heichel.id}/?series=${q.id}`, class: 'series-link awtsmoos-hero-btn' },
-            text: q.name + (i === a.length - 1 ? "" : " / ")
-        }));
-
-        blueprint.children.push({
-            tag: 'div',
-            attr: { class: 'tl' },
-            children:[
-                { tag: 'div', attr: { class: 'label' }, text: 'Revelation Path' },
-                { tag: 'div', attr: { class: 'value path-value' }, children: pathChildren }
-            ]
-        });
-    }
-
-    // 4. Chapter Navigation
-    if (window.series && Array.isArray(window.series.posts)) {
-        blueprint.children.push(makeChapterNavPlan(window.series.posts));
-    }
-
-    // 5. Edit Link
-    if (window.doesOwn) {
-        blueprint.children.push({
-            tag: 'a',
-            attr: { 
-                href: `/heichelos/${heichel.id}/edit?type=post&id=${post.id}${getLinkHrefOfEditing()}`, 
-                class: 'btn danger full-width',
-                style: 'margin-top: 2rem;'
-            },
-            children:[
-                { tag: 'span', text: '⚙️ EDIT POST' }
-            ]
-        });
-    }
-
-    return GenesisEngine.manifest(blueprint);
-}
-
-/**
- * @private
- * @function createSectionPlan
- */
-function createSectionPlan(label, valuePlan) {
-    return {
-        tag: 'div',
-        attr: { class: 'tl' },
-        children:[
-            { tag: 'div', attr: { class: 'label' }, text: label },
-            { 
-                tag: 'div', 
-                attr: { class: 'value' }, 
-                children: Array.isArray(valuePlan) ? valuePlan : [valuePlan] 
-            }
-        ]
-    };
-}
-
-/**
- * @private
- * @function makeChapterNavPlan
- */
-function makeChapterNavPlan(posts) {
-    let currentIndex = window.currentIndexInSeries;
-    if (currentIndex === undefined || currentIndex === null) {
-        if (posts && window.post?.id) {
-            currentIndex = posts.indexOf(window.post.id);
-        } else {
-            currentIndex = 0;
-        }
-    }
-
-    const basePath = (d => d.slice(0, d.length - 1).join("/"))(location.pathname.split("/"));
-    const totalPosts = posts.length;
-
-    const rowChildren =[];
-
-    if (currentIndex > 0) {
-        rowChildren.push({
-            tag: 'a',
-            attr: { href: `${basePath}/${currentIndex - 1}`, class: 'btn small secondary' },
-            text: '← Prev'
-        });
-    }
-
-    const options = posts.map((postId, index) => ({
-        tag: 'option',
-        attr: { value: index, ...(index === currentIndex ? { selected: true } : {}) },
-        text: `Ch. ${index + 1} / ${totalPosts}`
-    }));
-
-    rowChildren.push({
-        tag: 'select',
-        attr: { class: 'series-chapter-select font-selector' },
-        children: options,
-        events: {
-            change: (e) => window.location.href = `${basePath}/${e.target.value}`
-        }
-    });
-
-    if (currentIndex < totalPosts - 1) {
-        rowChildren.push({
-            tag: 'a',
-            attr: { href: `${basePath}/${currentIndex + 1}`, class: 'btn small secondary' },
-            text: 'Next →'
-        });
-    }
-
-    return {
-        tag: 'div',
-        attr: { class: 'post-navigation-container awtsmoos-card' },
-        children:[{ tag: 'div', attr: { class: 'nav-row awtsmoos-sidebar-actions' }, children: rowChildren }]
-    };
+    return GenesisEngine.manifest({ tag: "div", attr: { class: "post-info-container awtsmoos-scroll-details-page" }, children: [
+        { tag: "section", attr: { class: "awtsmoos-detail-hero" }, children: [icon("scroll"), { tag: "div", children: [{ tag: "h2", children: ["Scroll Details"] }, { tag: "p", children: ["Heichel, Author, & Path"] }] }] },
+        authorCard(alias),
+        heichelCard(heichel),
+        noticeCard(),
+        pathCard(heichel),
+        chapterNav(window.series?.posts),
+        editLink(post, heichel)
+    ].filter(Boolean) });
 }

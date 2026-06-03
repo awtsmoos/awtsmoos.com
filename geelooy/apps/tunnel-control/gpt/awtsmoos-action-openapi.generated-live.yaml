@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 5.7.0-generated
-  description: B"H. Generated from the local tunnel registry. GPT actions can target connected local tunnels or the secure hosted Virtual OS with tunnelName awtsmoos-virtual-os / targetVessel virtual-os. MiniMax AI-agent tools expose provider, model, prompt, system, taskId, and recursive spawn limits.
+  version: 5.8.0-generated
+  description: B"H. Generated from the local tunnel registry. GPT Store Custom GPT actions can target connected local tunnels or the secure hosted Virtual OS with tunnelName awtsmoos-virtual-os / targetVessel virtual-os. OAuth is declared on awtsmoosTunnelAction; server auth/scope checks remain authoritative.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,7 +24,8 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. Use tunnelName=awtsmoos-virtual-os or targetVessel=virtual-os to run secure hosted Virtual OS actions without a local tunnel. For simulateRuntime, use url/html/files plus actionsJson/browserActions/pageActions. For AI-agent tools, use provider/agentId/model plus prompt/message/system/taskId and recursive spawn limits.
+      description: B"H. Run one tunnel action. Use tunnelName=awtsmoos-virtual-os or targetVessel=virtual-os to run secure hosted Virtual OS actions without a local tunnel. For GPT Store Custom GPTs, OAuth is required and the server enforces per-user scopes before local or virtual execution. For simulateRuntime, use url/html/files plus actionsJson/browserActions/pageActions. For AI-agent tools, use provider/agentId/model plus prompt/message/system/taskId and recursive spawn limits.
+      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
         - name: action
@@ -587,6 +588,7 @@ paths:
     get:
       operationId: awtsmoosPreviewProxy
       summary: Fetch preview through tunnel.
+      security: [{ OAuth2: [profile, tunnel.read] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
         - { name: url, in: query, schema: { type: string } }
@@ -619,8 +621,8 @@ components:
           tokenUrl: https://awtsmoos.com/api/oauth/token
           scopes:
             profile: Basic identity access.
-            tunnel.read: Read tunnel state.
-            tunnel.write: Modify files.
-            tunnel.command: Execute diagnostics.
-            tunnel.browser: Browser automation.
+            tunnel.read: Read tunnel state and Virtual OS content.
+            tunnel.write: Modify files in authorized local or Virtual OS roots.
+            tunnel.command: Execute command-class diagnostics where permitted.
+            tunnel.browser: Browser automation where permitted.
             tunnel.admin: Administrative tunnel operations.

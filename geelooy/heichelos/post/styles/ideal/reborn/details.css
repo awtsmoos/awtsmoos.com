@@ -1,0 +1,164 @@
+/* B"H
+ * Chapter 115: Scroll Details becomes a safe illuminated page.
+ * No script text, no raw code slabs. The view is readable metadata, violet
+ * cards, gold headings, and symbolic book/person graphics shaped in CSS.
+ */
+
+.post-reader-localized-context .awtsmoos-scroll-details-page {
+    display: grid !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding-bottom: 2rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-hero,
+.post-reader-localized-context .awtsmoos-detail-card,
+.post-reader-localized-context .awtsmoos-detail-notice,
+.post-reader-localized-context .awtsmoos-detail-nav {
+    border: 1px solid rgba(139,92,246,.28) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(180deg, rgba(9,18,34,.96), rgba(4,9,20,.98)) !important;
+    box-shadow: 0 18px 48px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.07) !important;
+    color: var(--awt-text) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-hero,
+.post-reader-localized-context .awtsmoos-detail-card-head {
+    display: grid !important;
+    grid-template-columns: 64px minmax(0,1fr) !important;
+    gap: 1rem !important;
+    align-items: center !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-hero {
+    padding: 1rem !important;
+    border-color: rgba(246,201,108,.28) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-hero h2,
+.post-reader-localized-context .awtsmoos-detail-card-title h3 {
+    margin: 0 !important;
+    color: #ffffff !important;
+    font: 950 clamp(1.35rem,6vw,2rem)/1.12 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-hero p,
+.post-reader-localized-context .awtsmoos-detail-card-title p {
+    margin: .25rem 0 0 !important;
+    color: var(--inline-edge-gold) !important;
+    font: 850 clamp(.95rem,4vw,1.18rem)/1.25 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-card {
+    display: grid !important;
+    overflow: hidden !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-card-head {
+    padding: 1rem !important;
+    border-bottom: 1px solid rgba(255,255,255,.1) !important;
+    background: rgba(12,19,36,.9) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-card-body {
+    display: grid !important;
+    gap: .7rem !important;
+    padding: 1rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-link,
+.post-reader-localized-context .awtsmoos-detail-path a {
+    color: #c084fc !important;
+    font: 850 clamp(1rem,4.6vw,1.3rem)/1.2 var(--font-ui) !important;
+    text-decoration: underline !important;
+    text-underline-offset: .18em !important;
+}
+
+.post-reader-localized-context .awtsmoos-verified-sigil {
+    justify-self: start !important;
+    border: 1px solid rgba(246,201,108,.26) !important;
+    border-radius: 999px !important;
+    padding: .35rem .7rem !important;
+    color: var(--inline-edge-gold) !important;
+    background: rgba(246,201,108,.08) !important;
+    font: 800 .86rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-description {
+    margin: 0 !important;
+    color: #fffdf5 !important;
+    font: 500 clamp(1.08rem,4.8vw,1.42rem)/1.55 var(--font-content) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-notice {
+    display: grid !important;
+    grid-template-columns: 36px minmax(0,1fr) !important;
+    gap: .75rem !important;
+    padding: 1rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-notice-icon {
+    display: grid !important;
+    place-items: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 999px !important;
+    background: rgba(139,92,246,.18) !important;
+    color: var(--inline-edge-gold) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-notice p {
+    margin: 0 !important;
+    color: var(--inline-text-blue) !important;
+    font: 650 1rem/1.45 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-path {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: .4rem !important;
+    align-items: center !important;
+}
+
+.post-reader-localized-context .awtsmoos-path-sep { color: var(--inline-edge-gold) !important; }
+
+.post-reader-localized-context .awtsmoos-detail-nav {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: .75rem !important;
+    padding: 1rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-nav-btn,
+.post-reader-localized-context .series-chapter-select {
+    min-height: 54px !important;
+    border: 1px solid rgba(246,201,108,.22) !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.055) !important;
+    color: #fffdf5 !important;
+    padding: .85rem 1rem !important;
+    font: 900 1rem/1 var(--font-ui) !important;
+    text-align: center !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-svg {
+    position: relative !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle at 30% 20%, #39d7ee, #7c3aed 75%) !important;
+    box-shadow: 0 0 28px rgba(139,92,246,.5) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-svg span::before {
+    color: white !important;
+    font: 900 1.65rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-detail-svg-person span::before { content: "👤"; }
+.post-reader-localized-context .awtsmoos-detail-svg-book span::before { content: "📖"; }
+.post-reader-localized-context .awtsmoos-detail-svg-path span::before { content: "✦"; }
+.post-reader-localized-context .awtsmoos-detail-svg-scroll span::before { content: "📜"; }
