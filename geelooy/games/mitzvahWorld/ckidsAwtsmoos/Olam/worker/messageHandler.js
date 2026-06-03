@@ -2,13 +2,13 @@
 /**
  * @file messageHandler.js
  * @description
- * Chapter 165: The Browser Handler imports the single centered NPC/shop UI,
+ * Chapter 186: The Browser Handler imports the single centered NPC/shop UI,
  * authored cottage colliders, and readable lava seal. Future AI: if BUY/SELL
- * does not open a centered market, first check this cache seal.
+ * drifts left, first check this cache seal and the one UI vessel.
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=centered-npc-shop-readable-lava-20260602-bh165";
+import uiHandlers from "./handlers/ui.js?v=centered-npc-shop-purges-inventory-20260602-bh186";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
 import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
 

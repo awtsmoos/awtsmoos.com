@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 69c: Controls are purified.
- * The Awtsmoos gives toggles, stars, search, actions, and comment tools one
- * dark skin, so no default browser blocks haunt the sidebar.
+ * Chapter 91: Sidebar controls stop crowding the words.
+ * The Awtsmoos gives comment actions a wrapped dock beneath the text and keeps
+ * profile, locate, and more controls from becoming a horizontal weapon.
  */
 
 .post-reader-localized-context .keeper-controls,
@@ -10,18 +10,45 @@
 .post-reader-localized-context .comment-toolbar {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-end !important;
+    justify-content: flex-start !important;
     flex-wrap: wrap !important;
     gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context .comment-meta-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-comment-card {
+    display: grid !important;
+    gap: 12px !important;
+    padding: 14px !important;
+    overflow-x: clip !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-comment-body {
+    direction: rtl !important;
+    text-align: start !important;
+    color: var(--awt-text) !important;
+    font: 500 clamp(1.05rem, 4.2vw, 1.45rem)/1.55 var(--font-content) !important;
+    overflow-wrap: anywhere !important;
 }
 
 .post-reader-localized-context .inline-toggle-altar,
 .post-reader-localized-context .awtsmoos-mini-inline-toggle,
 .post-reader-localized-context .awtsmoos-student-favorite,
 .post-reader-localized-context .comment-chip-action,
-.post-reader-localized-context .reply-toggle-btn {
+.post-reader-localized-context .reply-toggle-btn,
+.post-reader-localized-context .menu-item {
     min-height: 36px !important;
-    max-height: 40px !important;
     border: 1px solid var(--awt-line) !important;
     border-radius: 999px !important;
     background: rgba(255,255,255,.065) !important;
@@ -29,6 +56,39 @@
     padding: 7px 10px !important;
     box-shadow: none !important;
     font: 800 .78rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .comment-chip-action {
+    flex: 1 1 auto !important;
+    min-width: 5.2rem !important;
+    max-width: 100% !important;
+}
+
+.post-reader-localized-context .profile-chip {
+    flex: 0 1 auto !important;
+}
+
+.post-reader-localized-context .menu-chariot,
+.post-reader-localized-context .awtsmoos-comment-more {
+    display: block !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+}
+
+.post-reader-localized-context .menu-chariot summary,
+.post-reader-localized-context .awtsmoos-comment-more summary {
+    list-style: none !important;
+}
+
+.post-reader-localized-context .menu-dropdown {
+    display: grid !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+    width: 100% !important;
 }
 
 .post-reader-localized-context .inline-toggle-altar {
@@ -57,7 +117,7 @@
 
 .post-reader-localized-context .awtsmoos-sidebar-search {
     display: grid !important;
-    grid-template-columns: 1fr 44px !important;
+    grid-template-columns: minmax(0, 1fr) 44px !important;
     gap: 8px !important;
 }
 

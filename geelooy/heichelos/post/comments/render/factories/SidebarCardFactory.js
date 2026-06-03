@@ -1,11 +1,12 @@
+// B"H
 /**
- * B"H
  * @module SidebarCardFactory
- * @chapter The Assembly of the Insight-Tabernacle
  * @description
- * The sidebar is the repository of history and collective wisdom. This factory
- * creates the primary card through which seekers read, reply, locate, share,
- * copy, and jump to the profile behind a full transmission.
+ * Chapter 89: A student comment becomes one readable card.
+ *
+ * The sidebar must be calm on mobile. Profile, locate, reply, share, copy, and
+ * more actions remain present, but they wrap beneath the text instead of
+ * crowding the first line or forcing horizontal pressure.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -14,113 +15,89 @@ import { handleMenuOption } from "../actions.js";
 import { isAliasInline } from "../../state/inline/RegistryLogic.js";
 import { expandPathToComment } from "../tree.js";
 
-/**
- * B"H
- * @function makeHTMLFromComment
- * @description
- * Manifests a sidebar comment card from raw comment JSON, including the author
- * profile gate and the full comment-tree action strip.
- * @param {Object} comment - The comment record from old or new readers.
- * @returns {HTMLElement|Comment} The manifested card or silence.
- */
 export function makeHTMLFromComment(comment) {
     if (!comment) return document.createComment("Silence");
-
-    const blueprint = {
-        tag: 'div',
-        attr: { class: 'comment-content awtsmoos-card', 'data-cid': comment.id, id: `comment-${comment.id}` },
+    const manifest = BlueprintManifestor.manifest({
+        tag: "article",
+        attr: { class: "comment-content awtsmoos-card awtsmoos-sidebar-comment-card", "data-cid": comment.id, id: `comment-${comment.id}` },
         children: [
             createMetaRow(comment),
-            {
-                tag: 'div',
-                attr: { class: 'comment-text-root' },
-                ref: 'textContainer'
-            },
-            {
-                tag: 'div',
-                attr: { class: 'comment-toolbar' },
-                children: [
-                    createLocateBtn(comment),
-                    createActionStrip(comment),
-                    createActionMenu(comment)
-                ]
-            }
+            { tag: "div", attr: { class: "comment-text-root awtsmoos-sidebar-comment-body" } },
+            { tag: "div", attr: { class: "comment-toolbar" }, children: [createLocateBtn(comment), ...createActionStrip(comment), createActionMenu(comment)].filter(Boolean) }
         ]
-    };
-
-    const manifest = BlueprintManifestor.manifest(blueprint);
-    const textTarget = manifest.querySelector('.comment-text-root');
-    populateCommentElement(comment, textTarget);
+    });
+    populateCommentElement(comment, manifest.querySelector(".comment-text-root"));
     return manifest;
 }
 
-/**
- * B"H
- * @function createMetaRow
- * @description Creates the profile-facing identity row for the comment author.
- * @param {Object} comment - The comment record.
- * @returns {Object} Blueprint for the meta row.
- */
 function createMetaRow(comment) {
-    const alias = comment.author || comment.aliasId || "";
+    const alias = comment.author || comment.aliasId || "unknown";
     return {
-        tag: 'div',
-        attr: { class: 'comment-meta-row' },
+        tag: "header",
+        attr: { class: "comment-meta-row" },
         children: [
-            {
-                tag: 'a',
-                attr: { class: 'comment-author-link', href: alias ? `/@${encodeURIComponent(alias)}` : '/profile', target: '_blank' },
-                children: [alias ? `@${alias}` : '@unknown']
-            },
-            {
-                tag: 'button',
-                attr: { class: 'comment-chip-action', type: 'button', title: 'Copy profile link' },
-                children: ['Profile'],
-                events: { click: async e => {
-                    e.stopPropagation();
-                    await copyText(`${location.origin}/@${encodeURIComponent(alias)}`);
-                }}
-            }
+            { tag: "a", attr: { class: "comment-author-link", href: `/@${encodeURIComponent(alias)}`, target: "_blank" }, children: [`@${alias}`] },
+            { tag: "button", attr: { class: "comment-chip-action profile-chip", type: "button", title: "Copy profile link" }, children: ["Profile"], events: { click: event => copyProfile(event, alias) } }
         ]
     };
 }
 
-/**
- * B"H
- * @function createActionStrip
- * @description Builds first-class reply/share/copy controls visible on every card.
- * @param {Object} comment - The comment record.
- * @returns {Object} Blueprint for the action strip.
- */
 function createActionStrip(comment) {
-    return {
-        tag: 'div',
-        attr: { class: 'comment-action-strip' },
-        children: [
-            makeChip('Reply', e => handleMenuOption('Reply', comment, e.target)),
-            makeChip('Share', () => shareComment(comment)),
-            makeChip('Copy', e => handleMenuOption('Copy', comment, e.target))
-        ]
-    };
+    return [
+        makeChip("Reply", event => handleMenuOption("Reply", comment, event.target)),
+        makeChip("Share", () => shareComment(comment)),
+        makeChip("Copy", event => handleMenuOption("Copy", comment, event.target))
+    ];
 }
 
 function makeChip(label, action) {
+    return { tag: "button", attr: { class: "comment-chip-action", type: "button", title: label }, children: [label], events: { click: async event => {
+        event.stopPropagation();
+        await action(event);
+    } } };
+}
+
+function createLocateBtn(comment) {
+    if (!isAliasInline(comment.author)) return null;
+    return makeChip("Locate", event => {
+        const inlineEl = document.querySelector(`.inline-comment[data-cid="${comment.id}"]`);
+        if (!inlineEl) return;
+        expandPathToComment(inlineEl);
+        inlineEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        inlineEl.classList.add("signal-active");
+        setTimeout(() => inlineEl.classList.remove("signal-active"), 1400);
+    });
+}
+
+function createActionMenu(comment) {
     return {
-        tag: 'button',
-        attr: { class: 'comment-chip-action', type: 'button', title: label },
-        children: [label],
-        events: { click: async e => {
-            e.stopPropagation();
-            await action(e);
-        }}
+        tag: "details",
+        attr: { class: "menu-chariot awtsmoos-comment-more" },
+        children: [
+            { tag: "summary", attr: { class: "menu-btn comment-chip-action" }, children: ["More"] },
+            { tag: "div", attr: { class: "menu-dropdown" }, children: ["Reply", "Copy", "Delete"].map(option => ({
+                tag: "button",
+                attr: { class: "menu-item", type: "button" },
+                children: [option],
+                events: { click: event => {
+                    event.stopPropagation();
+                    handleMenuOption(option, comment, event.target);
+                } }
+            })) }
+        ]
     };
 }
 
+async function copyProfile(event, alias) {
+    event.stopPropagation();
+    await copyText(`${location.origin}/@${encodeURIComponent(alias)}`);
+}
+
 async function shareComment(comment) {
-    const link = `${location.origin}${location.pathname}${location.search}#comment-${encodeURIComponent(comment.id || '')}`;
+    const link = `${location.origin}${location.pathname}${location.search}#comment-${encodeURIComponent(comment.id || "")}`;
     if (navigator.share) {
         try {
-            await navigator.share({ title: 'Awtsmoos insight', text: comment.content || '', url: link });
+            await navigator.share({ title: "Awtsmoos insight", text: comment.content || "", url: link });
             return;
         } catch (_) {}
     }
@@ -131,58 +108,13 @@ async function copyText(text) {
     try {
         await navigator.clipboard.writeText(text);
     } catch (_) {
-        const area = document.createElement('textarea');
+        const area = document.createElement("textarea");
         area.value = text;
-        area.style.position = 'fixed';
-        area.style.opacity = '0';
+        area.style.position = "fixed";
+        area.style.opacity = "0";
         document.body.appendChild(area);
         area.select();
-        document.execCommand('copy');
+        document.execCommand("copy");
         area.remove();
     }
-}
-
-function createLocateBtn(comment) {
-    if (!isAliasInline(comment.author)) return null;
-    return {
-        tag: 'button',
-        attr: { class: 'btn small locate-trigger', style: 'text-transform: none !important;' },
-        children: ['Locate'],
-        events: { click: e => {
-            e.stopPropagation();
-            const inlineEl = document.querySelector(`.inline-comment[data-cid="${comment.id}"]`);
-            if (inlineEl) {
-                expandPathToComment(inlineEl);
-                inlineEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                inlineEl.classList.add('signal-active');
-            }
-        }}
-    };
-}
-
-function createActionMenu(comment) {
-    return {
-        tag: 'div',
-        attr: { class: 'menu-chariot awtsmoos-list-item' },
-        children: [
-            { tag: 'button', attr: { class: 'menu-btn btn', type: 'button', title: 'More actions' }, children: ['...'] },
-            {
-                tag: 'div',
-                attr: { class: 'menu-dropdown hidden' },
-                children: ['Reply', 'Copy', 'Delete'].map(opt => ({
-                    tag: 'div',
-                    attr: { class: 'menu-item awtsmoos-list-item', style: 'text-transform: none !important;' },
-                    children: [opt],
-                    events: { click: e => {
-                        e.stopPropagation();
-                        handleMenuOption(opt, comment, e.target);
-                    }}
-                }))
-            }
-        ],
-        events: { click: e => {
-            const drop = e.currentTarget.querySelector('.menu-dropdown');
-            drop.classList.toggle('hidden');
-        }}
-    };
 }

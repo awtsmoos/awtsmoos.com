@@ -2,13 +2,13 @@
 /**
  * @file VillageHouseCollider.js
  * @description
- * Chapter 160: The house colliders stand where authored.
+ * Chapter 181: The doorway is open in collision, not only in sight.
  *
- * The bug was precise: the post-render village grounder measured this invisible
- * collider group's minimum Y and pushed the whole collision house down, so the
- * raised interior floor stopped touching the player's capsule. This collider is
- * now marked `useAuthoredY`; it still contributes simple cuboids to the regular
- * world octree, but the complex visual cottage never does.
+ * The visual door could swing, but the old lintel collider began near the floor
+ * and became an invisible wall. The Awtsmoos now leaves a full human passage:
+ * floor is solid, walls are simple, furniture is solid, and the front wall only
+ * has side jambs plus a true high lintel. Future AI: never put a center collider
+ * inside the door opening.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -48,8 +48,9 @@ export default class VillageHouseCollider extends Domem {
     const d = num(this.options.depth, 23);
     const h = num(this.options.height, 12.6);
     const t = num(this.options.thickness, 0.85);
-    const doorW = num(this.options.doorWidth, 2.05);
+    const doorW = num(this.options.doorWidth, 2.35);
     const floorTop = num(this.options.floorTop, 0.4);
+    const doorClearH = num(this.options.doorClearHeight, 4.45);
     this.mesh = new THREE.Group();
     this.mesh.name = this.name || "VillageHouseCollider";
     Object.assign(this.mesh.userData ||= {}, { isVillageHouseCollider: true, useAuthoredY: true });
@@ -59,7 +60,7 @@ export default class VillageHouseCollider extends Domem {
     addCollider(this.mesh, this, "house_right_wall", [w / 2, h / 2, 0], [t, h, d]);
     addCollider(this.mesh, this, "house_front_left", [-(doorW / 2 + (w - doorW) / 4), h / 2, d / 2], [(w - doorW) / 2, h, t]);
     addCollider(this.mesh, this, "house_front_right", [(doorW / 2 + (w - doorW) / 4), h / 2, d / 2], [(w - doorW) / 2, h, t]);
-    addCollider(this.mesh, this, "house_front_lintel", [0, 5.05, d / 2], [doorW, h - 3.2, t]);
+    addCollider(this.mesh, this, "house_high_lintel_only", [0, (doorClearH + h) / 2, d / 2], [doorW, h - doorClearH, t]);
     addCollider(this.mesh, this, "house_roof_stop", [0, h + 0.6, 0], [w + 2.8, 0.5, d + 2.8]);
     addInterior(this.mesh, this);
     this.mesh.position.copy(this.position.vector3());

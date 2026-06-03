@@ -1,0 +1,49 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 374: The Yesod Wire-Room Glowed With Moving Testimony.
+ *
+ * LIVE is dense by nature, so every row must breathe: chips, histories, socket
+ * pulses, action titles, and raw frames wrap without crushing the phone glass.
+ */
+.awt-live-console .page-head p { max-width: 48rem; }
+.awt-live-control { gap: 14px; }
+.awt-live-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+.awt-live-event {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  padding: 13px;
+  border: 1px solid rgba(166,218,255,.16);
+  border-radius: var(--awt-radius-2);
+  background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+  overflow-wrap: anywhere;
+}
+.awt-live-event strong { line-height: 1.08; }
+.awt-live-event small { color: var(--awt-muted); line-height: 1.25; }
+.awt-live-kind {
+  width: max-content;
+  max-width: 100%;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: var(--awt-cyan);
+  background: rgba(119,236,255,.12);
+  font-size: .7rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.awt-live-agents .awt-live-kind { color: var(--awt-gold); background: rgba(255,215,127,.12); }
+.awt-live-tasks .awt-live-kind { color: var(--awt-pink); background: rgba(255,123,212,.12); }
+.awt-live-actions .awt-live-kind { color: var(--awt-blue); background: rgba(135,164,255,.13); }
+.awt-live-errors .awt-live-kind { color: #ff9aa8; background: rgba(255,112,128,.13); }
+.awt-live-sockets .awt-live-kind { color: var(--awt-green); background: rgba(125,255,186,.12); }
+.awt-live-console :where(pre, code, .notice) { overflow-wrap: anywhere; white-space: pre-wrap; }
+@media (max-width: 620px) {
+  .awt-live-board { grid-template-columns: 1fr; }
+  .awt-live-control .button-row > * { width: 100%; }
+}

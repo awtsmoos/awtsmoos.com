@@ -1,35 +1,28 @@
-
+// B"H
 /**
- * B"H
  * @module RootAssembly
- * @chapter Foundation of the Commentary-Scroll
+ * @description
+ * Chapter 92: Root placement respects classed visibility.
+ * No direct display writes. The holder's hidden attribute is the only gate,
+ * and CSS owns the shape of the inline chamber.
  */
 
 import { createAndPlaceRootCommentHolder } from "../placement.js";
 import { renderTreeItem, makeInlineComment } from "../../render.js";
 
-/**
- * @function processRootPlacement
- * @description Places global insights into the start of the Scroll.
- */
 export function processRootPlacement(forest, author, count) {
     const altar = createAndPlaceRootCommentHolder(author);
     if (!altar) return;
 
-    const baseWrapper = altar.closest('.commentator');
-    const scrollWall = baseWrapper?.querySelector('.inline-scroll-container');
-    const wasVisible = (scrollWall && getComputedStyle(scrollWall).display !== "none");
-
+    const baseWrapper = altar.closest(".commentator");
+    const wasVisible = altar && !altar.hidden;
     altar.innerHTML = "";
-    forest.forEach(rootNode => renderTreeItem(rootNode, altar, (c) => makeInlineComment(c), 'inline'));
-    
-    const summaryBtn = baseWrapper?.querySelector('.inline-summary-btn');
-    if (summaryBtn) {
-        summaryBtn.innerHTML = `💬 ${count} Post Insights (@${author})`;
-        if (wasVisible) {
-            scrollWall.style.display = "block";
-            altar.classList.add("expanded");
-            summaryBtn.classList.add("active");
-        }
-    }
+    forest.forEach(rootNode => renderTreeItem(rootNode, altar, comment => makeInlineComment(comment), "inline"));
+
+    const summaryBtn = baseWrapper?.querySelector(".inline-summary-btn");
+    if (!summaryBtn) return;
+    summaryBtn.innerHTML = `<span class="awtsmoos-inline-trigger-sigil">💬</span><span class="awtsmoos-inline-trigger-copy"><strong class="awtsmoos-inline-trigger-title">Post Insights</strong><span class="awtsmoos-inline-trigger-subtitle">${count} from @${author}</span></span>`;
+    altar.hidden = !wasVisible;
+    summaryBtn.classList.toggle("active", wasVisible);
+    summaryBtn.setAttribute("aria-expanded", String(wasVisible));
 }

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-03T00:40:37.399Z",
+  "generatedAt": "2026-06-03T01:00:19.120Z",
   "pass": true,
   "image": {
     "path": "AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/layout-labyrinth/layout-labyrinth.png",
-    "bytes": 33440,
-    "sha256": "9f938d64251eb1ac4c9b1a5caa251c860d07dc84c1928c2ebc5bb2b8209692bb",
+    "bytes": 38766,
+    "sha256": "2bd18df98293e115ca0bafd6a4d6d79e4637826c897cdffc93e6dbe527d5ee83",
     "width": 960,
     "height": 640
   },
@@ -31,15 +31,15 @@
     }
   },
   "colorStats": {
-    "red": 897,
-    "green": 2067,
-    "blue": 5105,
-    "yellow": 5709,
-    "magenta": 16203,
-    "cyan": 63904,
-    "lime": 1267,
-    "white": 11460,
-    "dark": 486516,
+    "red": 1143,
+    "green": 4319,
+    "blue": 7636,
+    "yellow": 6643,
+    "magenta": 17683,
+    "cyan": 67673,
+    "lime": 2803,
+    "white": 12155,
+    "dark": 412342,
     "total": 614400
   },
   "textures": [
@@ -618,7 +618,7 @@
       "id": 19,
       "kind": "canvas-webgl",
       "width": 260,
-      "height": 128,
+      "height": 132,
       "ops": [
         "webgl.viewport",
         "webgl.clearColor",

@@ -1,44 +1,20 @@
-
+// B"H
 /**
- * B"H
  * @module ShelterFactory
- * @chapter Forging the Tabernacle
  * @description
- * Every Verse (Section) is a holy vessel. To contain the insights 
- * without overwhelming the reader, we create a 'Shelter' (Marginal Gloss Shelter).
- * This factory ensures the shelter exists and is properly styled 
- * to receive the Divine Light of commentary.
+ * Chapter 93: The shelter is born without inline force.
+ * A shelter is only a classed vessel. CSS carries the shape.
  */
 
 export class ShelterFactory {
-    /**
-     * @method establishShelter
-     * @description
-     * Finds or creates the physical container for marginalia within a verse.
-     * 
-     * @param {HTMLElement} targetVessel - The Verse/Section element.
-     * @returns {HTMLElement} - The manifest shelter.
-     */
     static establishShelter(targetVessel) {
         if (!targetVessel) return null;
-
-        let shelter = null;
-        for (const child of targetVessel.children) {
-            if (child.classList.contains("marginal-gloss-shelter")) {
-                shelter = child;
-                break;
-            }
-        }
-
+        let shelter = Array.from(targetVessel.children).find(child => child.classList.contains("marginal-gloss-shelter"));
         if (!shelter) {
-            shelter = document.createElement("div");
-            shelter.className = "marginal-gloss-shelter";
-            
-            // B"H - Force the display to ensure visibility
-            shelter.style.setProperty("display", "flex", "important");
+            shelter = document.createElement("section");
+            shelter.className = "marginal-gloss-shelter awtsmoos-inline-shelter-v2";
             targetVessel.appendChild(shelter);
         }
-
         return shelter;
     }
 }

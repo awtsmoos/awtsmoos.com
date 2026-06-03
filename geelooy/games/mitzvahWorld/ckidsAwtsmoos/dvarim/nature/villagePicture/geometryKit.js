@@ -2,12 +2,12 @@
 /**
  * @file geometryKit.js
  * @description
- * Chapter 150: Textured village materials, safe in main thread or worker.
+ * Chapter 178: texture must be seen, not multiplied into mud.
  *
- * The Awtsmoos now paints every visible village piece with a tiny procedural
- * canvas texture. No dead solid colors. If the code runs in a worker, it uses
- * OffscreenCanvas; if neither canvas exists, it falls back to color only rather
- * than crashing creation.
+ * The Awtsmoos found the quiet sin: procedural textures were being multiplied
+ * by the same base color that created them. Brown stayed brown, stone stayed
+ * flat, and wood grain vanished into itself. When a map exists, material color
+ * is now pure white so the generated pattern is the actual visible surface.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { generateProceduralGeometry } from "../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js";
@@ -62,20 +62,23 @@ function hexParts(hex) {
   return { r: (hex >> 16) & 255, g: (hex >> 8) & 255, b: hex & 255 };
 }
 
-function shade(hex, amount) {
+function css(hex, amount = 0) {
   const c = hexParts(hex);
-  const mix = v => Math.max(0, Math.min(255, Math.round(v + amount)));
-  return `rgb(${mix(c.r)},${mix(c.g)},${mix(c.b)})`;
+  const v = n => Math.max(0, Math.min(255, Math.round(n + amount)));
+  return `rgb(${v(c.r)},${v(c.g)},${v(c.b)})`;
 }
 
 function drawPattern(ctx, base, mode) {
-  ctx.fillStyle = shade(base, 0);
+  ctx.fillStyle = css(base, mode === "wood" ? 18 : 0);
   ctx.fillRect(0, 0, 64, 64);
-  if (mode === "wood") for (let y = 0; y < 64; y += 8) { ctx.fillStyle = shade(base, y % 16 ? -28 : 22); ctx.fillRect(0, y, 64, 3); }
-  if (mode === "stone") for (let i = 0; i < 45; i += 1) { ctx.fillStyle = shade(base, i % 3 === 0 ? 30 : -22); ctx.fillRect((i * 17) % 64, (i * 29) % 64, 11, 3); }
-  if (mode === "roof") for (let x = 0; x < 64; x += 8) { ctx.fillStyle = shade(base, x % 16 ? -38 : 24); ctx.fillRect(x, 0, 4, 64); }
-  if (mode === "floor") for (let y = 0; y < 64; y += 16) for (let x = 0; x < 64; x += 16) { ctx.fillStyle = shade(base, (x + y) % 32 ? 18 : -18); ctx.fillRect(x, y, 14, 14); }
-  if (mode === "cloth") for (let x = 0; x < 64; x += 6) { ctx.fillStyle = shade(base, x % 12 ? 16 : -16); ctx.fillRect(x, 0, 2, 64); }
+  if (mode === "wood") for (let y = 0; y < 64; y += 6) {
+    ctx.fillStyle = css(base, y % 18 ? -42 : 48); ctx.fillRect(0, y, 64, 2);
+    ctx.fillStyle = css(base, y % 12 ? -18 : 28); ctx.fillRect((y * 7) % 64, y + 2, 28, 1);
+  }
+  if (mode === "stone") for (let i = 0; i < 54; i += 1) { ctx.fillStyle = css(base, i % 3 === 0 ? 46 : -34); ctx.fillRect((i * 17) % 64, (i * 29) % 64, 13, 3); }
+  if (mode === "roof") for (let x = 0; x < 64; x += 7) { ctx.fillStyle = css(base, x % 14 ? -48 : 40); ctx.fillRect(x, 0, 4, 64); }
+  if (mode === "floor") for (let y = 0; y < 64; y += 16) for (let x = 0; x < 64; x += 16) { ctx.fillStyle = css(base, (x + y) % 32 ? 28 : -26); ctx.fillRect(x, y, 14, 14); }
+  if (mode === "cloth") for (let x = 0; x < 64; x += 5) { ctx.fillStyle = css(base, x % 10 ? 26 : -24); ctx.fillRect(x, 0, 2, 64); }
 }
 
 export function textureFor(base, mode = "stone") {
@@ -88,7 +91,10 @@ export function textureFor(base, mode = "stone") {
   const tex = new THREE.CanvasTexture(canvas);
   tex.wrapS = THREE.RepeatWrapping;
   tex.wrapT = THREE.RepeatWrapping;
-  tex.repeat.set(mode === "floor" ? 3 : 1.8, mode === "floor" ? 3 : 1.8);
+  tex.magFilter = THREE.NearestFilter;
+  tex.minFilter = THREE.NearestFilter;
+  tex.repeat.set(mode === "floor" ? 4 : 2.4, mode === "floor" ? 4 : 2.4);
+  tex.needsUpdate = true;
   cache.set(key, tex);
   return tex;
 }
@@ -96,7 +102,7 @@ export function textureFor(base, mode = "stone") {
 export function material(color, extra = {}) {
   const { textureMode = "stone", ...rest } = extra;
   const map = textureFor(color, textureMode);
-  const mat = new THREE.MeshLambertMaterial({ color, ...(map ? { map } : {}), ...rest });
+  const mat = new THREE.MeshLambertMaterial({ color: map ? 0xffffff : color, ...(map ? { map } : {}), ...rest });
   if (extra.emissive !== undefined && mat.emissive) mat.emissive.setHex(extra.emissive);
   if (extra.emissiveIntensity !== undefined) mat.emissiveIntensity = extra.emissiveIntensity;
   return mat;

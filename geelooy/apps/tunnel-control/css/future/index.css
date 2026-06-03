@@ -11,6 +11,7 @@
 @import url("./views/providers.css") layer(awt.views);
 @import url("./views/tasks.css") layer(awt.views);
 @import url("./views/command-center.css") layer(awt.views);
+@import url("./views/live.css") layer(awt.views);
 @import url("./views/workspace.css") layer(awt.views);
 @import url("./views/portals.css") layer(awt.views);
 @import url("./interaction/controls.css") layer(awt.controls);

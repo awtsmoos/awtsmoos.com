@@ -14,8 +14,16 @@
       "position": {
         "x": 0,
         "y": 0,
-        "z": 0
-      }
+        "z": 0,
+        "sunIntensity": 0.72,
+        "hemiIntensity": 0.48,
+        "ambientIntensity": 0.2,
+        "timeOfDay": 10,
+        "timeMultiplier": 0
+      },
+      "sunIntensity": 0.72,
+      "hemiIntensity": 0.48,
+      "ambientIntensity": 0.2
     },
     "ProceduralTerrain": {
       "name": "calm_desert_underlay",

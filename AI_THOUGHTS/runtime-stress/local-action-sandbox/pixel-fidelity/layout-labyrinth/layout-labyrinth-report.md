@@ -3,7 +3,7 @@
 Pass: true
 
 Image: AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/layout-labyrinth/layout-labyrinth.png
-SHA256: 9f938d64251eb1ac4c9b1a5caa251c860d07dc84c1928c2ebc5bb2b8209692bb
+SHA256: 2bd18df98293e115ca0bafd6a4d6d79e4637826c897cdffc93e6dbe527d5ee83
 
 ## Checks
 - PASS runtimeOk

@@ -1,0 +1,30 @@
+{
+  "rounds": 8,
+  "passCount": 0,
+  "notPassCount": 7,
+  "topicMentions": {
+    "small labels": 1,
+    "tiny": 4,
+    "unused space": 15,
+    "webgl": 74,
+    "svg": 78,
+    "overflow": 37,
+    "transform": 33,
+    "grid": 52,
+    "flex": 49,
+    "right column": 26,
+    "readability": 10,
+    "phone": 15,
+    "ui corpus": 7
+  },
+  "files": [
+    "minimax-8x-round-1.md",
+    "minimax-8x-round-2.md",
+    "minimax-8x-round-3.md",
+    "minimax-8x-round-4.md",
+    "minimax-8x-round-5.md",
+    "minimax-8x-round-6.md",
+    "minimax-8x-round-7.md",
+    "minimax-8x-round-8.md"
+  ]
+}

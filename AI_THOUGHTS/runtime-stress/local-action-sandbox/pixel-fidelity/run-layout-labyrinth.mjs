@@ -8,9 +8,9 @@ const outDir = 'AI_THOUGHTS/runtime-stress/local-action-sandbox/pixel-fidelity/l
 fs.mkdirSync(outDir, { recursive: true });
 
 /**
- * Chapter 27: the gates follow the actual visible corpus labels: IDE, MAIL,
- * and KAN. The Awtsmoos rejects stale expectations and tests what the picture
- * really says.
+ * Chapter 28: the gates follow the widened WebGL witness and the split source.
+ * The Awtsmoos asks the renderer to prove pixels, source intent, and command
+ * streams in one truthful report.
  */
 async function main() {
   const files = buildLabyrinthFiles();
@@ -54,7 +54,7 @@ function checksFor({ result, decoded, stats, ops, textures, sourceText }) {
     svgWitness: sourceText.includes('<svg') && sourceText.includes('<circle') && sourceText.includes('<path') && sourceText.includes('<linearGradient'),
     realUiCorpus: ['IDE', 'MAIL', 'KAN'].every(t => sourceText.includes(t)),
     canvasDensity: textures.filter(t => t.kind === 'canvas-2d').length >= 16,
-    webglTexture: textures.some(t => t.kind === 'canvas-webgl' && Math.abs(t.width - 260) <= 2 && Math.abs(t.height - 128) <= 2),
+    webglTexture: textures.some(t => t.kind === 'canvas-webgl' && Math.abs(t.width - 260) <= 2 && Math.abs(t.height - 132) <= 2),
     webglOps: ['webgl.createTexture', 'webgl.createProgram', 'webgl.drawArrays'].every(op => ops.includes(op)),
     pathTextAndGridOps: ops.includes('fillText') && ops.includes('strokeRect') && ops.includes('fillRect'),
     colorRich: stats.red > 700 && stats.yellow > 2500 && stats.cyan > 2500 && stats.magenta > 600 && stats.lime > 500,

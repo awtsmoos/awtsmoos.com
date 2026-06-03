@@ -1,1 +1,681 @@
-{"format":"awtsmoos-level-json-v1","id":"ladder-5.json","shaym":"Hei_Quiet_Court","title":"5. Court of Sand","requiredPerutos":11,"nextLevel":"ladder-6.json","globalCoinStorageKey":"awtsmoosMitzvahGlobalCoins","nivrayim":{"ProceduralSky":{"name":"hei_clear_court_sky","timeOfDay":10.8,"timeMultiplier":0,"position":{"x":0,"y":0,"z":0}},"ProceduralTerrain":{"name":"hei_safe_desert_underlay","width":96,"depth":42,"thickness":2,"segments":2,"isSolid":true,"textureType":"sand","position":{"x":20,"y":-3.05,"z":0}},"Chossid":[{"name":"The Chossid","height":1.5,"radius":0.45,"dynamicSolidRadius":0.28,"speed":7.2,"speedScale":1.08,"jumpHeight":12.5,"interactable":true,"path":"https://models-3122d.web.app/chossid.glb?k=2","position":{"x":-16,"y":1.15,"z":0},"visualGroundBiasY":-0.34,"rotationSpeed":5.2,"lerpTurnSpeed":0.42,"movementResponsiveness":24,"stopResponsiveness":34,"animationBlendDuration":0.055,"animationActionTimeScale":1.12,"animationSpeedScale":1.12,"runModeScale":1,"walkModeScale":0.56}],"SolidBlock":[{"name":"start_court_5","width":9,"height":1,"depth":7,"color":13481054,"textureSeed":"hand_authored_level_5","position":{"x":-16,"y":0,"z":0},"safeRect":{"x":-16,"z":0,"width":9,"depth":7}},{"name":"sand_step_5_1","width":6.2,"height":1,"depth":5.2,"color":13481054,"textureSeed":"hand_authored_level_5","position":{"x":-8,"y":0.15,"z":0},"safeRect":{"x":-8,"z":0,"width":6.2,"depth":5.2}},{"name":"sand_step_5_2","width":6.2,"height":1,"depth":5.2,"color":13481054,"textureSeed":"hand_authored_level_5","position":{"x":-1,"y":0.3,"z":1.4},"safeRect":{"x":-1,"z":1.4,"width":6.2,"depth":5.2}},{"name":"sand_step_5_3","width":6.2,"height":1,"depth":5.2,"color":13481054,"textureSeed":"hand_authored_level_5","position":{"x":6,"y":0.45,"z":-1.2},"safeRect":{"x":6,"z":-1.2,"width":6.2,"depth":5.2}},{"name":"wide_rest_5_4","width":8.5,"height":1,"depth":6,"color":14337898,"textureSeed":"hand_authored_level_5","position":{"x":14,"y":0.6,"z":0},"safeRect":{"x":14,"z":0,"width":8.5,"depth":6}},{"name":"bridge_5_5","width":5.7,"height":1,"depth":4.6,"color":13481054,"textureSeed":"hand_authored_level_5","position":{"x":22,"y":0.85,"z":0.7},"safeRect":{"x":22,"z":0.7,"width":5.7,"depth":4.6}},{"name":"court_step_5_6","width":5.7,"height":1,"depth":4.6,"color":13481054,"textureSeed":"hand_authored_level_5","position":{"x":29,"y":1.1,"z":-1.2},"safeRect":{"x":29,"z":-1.2,"width":5.7,"depth":4.6}},{"name":"court_step_5_7","width":5.7,"height":1,"depth":4.6,"color":13481054,"textureSeed":"hand_authored_level_5","position":{"x":36,"y":1.35,"z":1},"safeRect":{"x":36,"z":1,"width":5.7,"depth":4.6}},{"name":"wide_rest_5_8","width":8,"height":1,"depth":6,"color":14337898,"textureSeed":"hand_authored_level_5","position":{"x":44,"y":1.55,"z":0},"safeRect":{"x":44,"z":0,"width":8,"depth":6}},{"name":"gate_floor_5","width":8,"height":1,"depth":7,"color":14337898,"textureSeed":"hand_authored_level_5","position":{"x":54,"y":1.8,"z":0},"safeRect":{"x":54,"z":0,"width":8,"depth":7}}],"SpikeField":[{"name":"hei_level_5_lava_floor","groundY":-2.74,"height":0.36,"pad":0.08,"lava":true,"bounds":{"minX":-22,"maxX":62,"minZ":-16,"maxZ":16},"position":{"x":20,"y":-2.56,"z":0}}],"Coin":[{"name":"perutah_5_1","value":1,"rotationSpeed":0.025,"position":{"x":-12,"y":1.25,"z":1.7},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_2","value":1,"rotationSpeed":0.025,"position":{"x":-8,"y":1.4,"z":-1.5},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_3","value":1,"rotationSpeed":0.025,"position":{"x":-1,"y":1.55,"z":2.7},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_4","value":1,"rotationSpeed":0.025,"position":{"x":6,"y":1.7,"z":-2.2},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_5","value":1,"rotationSpeed":0.025,"position":{"x":14,"y":1.85,"z":0},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_6","value":1,"rotationSpeed":0.025,"position":{"x":22,"y":2.1,"z":1.8},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_7","value":1,"rotationSpeed":0.025,"position":{"x":29,"y":2.35,"z":-2.4},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_8","value":1,"rotationSpeed":0.025,"position":{"x":36,"y":2.6,"z":2.1},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_9","value":1,"rotationSpeed":0.025,"position":{"x":44,"y":2.8,"z":-1.9},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_10","value":1,"rotationSpeed":0.025,"position":{"x":50,"y":3.05,"z":1.8},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15},{"name":"perutah_5_11","value":1,"rotationSpeed":0.025,"position":{"x":54,"y":3.15,"z":0},"golem":{"guf":{"CylinderGeometry":[0.58,0.58,0.13,40]},"toyr":{"MeshStandardMaterial":{"color":14256709,"emissive":5907467,"metalness":0.88,"roughness":0.22}}},"proximity":1.15}],"SpikedBallHazard":[{"name":"hei_crossing_orb_a","axis":"z","amplitude":2,"speed":0.95,"radius":0.58,"hitRadius":0.42,"position":{"x":8,"y":2.2,"z":-1.8}},{"name":"hei_crossing_orb_b","axis":"x","amplitude":1.8,"speed":1.05,"radius":0.58,"hitRadius":0.42,"position":{"x":31,"y":2.75,"z":1.6}}],"MovingPushBlock":[{"name":"hei_gentle_push_z","axis":"z","amplitude":1.35,"speed":0.82,"size":{"x":1.8,"y":1,"z":0.9},"position":{"x":18,"y":1.65,"z":0}},{"name":"hei_gentle_push_x","axis":"x","amplitude":1.5,"speed":0.88,"size":{"x":1.5,"y":1,"z":1.5},"position":{"x":40,"y":2.15,"z":-0.8}}],"InteractiveDoor":[{"name":"hei_gate_to_level_6","targetLevel":"ladder-6.json","requiresPerutos":11,"position":{"x":54,"y":2.3,"z":0},"height":3.6,"width":2.2,"depth":0.8}]}}
+{
+  "format": "awtsmoos-level-json-v1",
+  "id": "ladder-5.json",
+  "shaym": "Hei_Quiet_Court",
+  "title": "5. Court of Sand",
+  "requiredPerutos": 11,
+  "nextLevel": "ladder-6.json",
+  "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
+  "nivrayim": {
+    "ProceduralSky": {
+      "name": "hei_clear_court_sky",
+      "timeOfDay": 10.8,
+      "timeMultiplier": 0,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "sunIntensity": 0.72,
+        "hemiIntensity": 0.48,
+        "ambientIntensity": 0.2,
+        "timeOfDay": 10,
+        "timeMultiplier": 0
+      },
+      "sunIntensity": 0.72,
+      "hemiIntensity": 0.48,
+      "ambientIntensity": 0.2
+    },
+    "ProceduralTerrain": {
+      "name": "hei_safe_desert_underlay",
+      "width": 96,
+      "depth": 42,
+      "thickness": 2,
+      "segments": 2,
+      "isSolid": true,
+      "textureType": "sand",
+      "position": {
+        "x": 20,
+        "y": -3.05,
+        "z": 0
+      }
+    },
+    "Chossid": [
+      {
+        "name": "The Chossid",
+        "height": 1.5,
+        "radius": 0.45,
+        "dynamicSolidRadius": 0.28,
+        "speed": 7.2,
+        "speedScale": 1.08,
+        "jumpHeight": 12.5,
+        "interactable": true,
+        "path": "https://models-3122d.web.app/chossid.glb?k=2",
+        "position": {
+          "x": -16,
+          "y": 1.15,
+          "z": 0
+        },
+        "visualGroundBiasY": -0.34,
+        "rotationSpeed": 5.2,
+        "lerpTurnSpeed": 0.42,
+        "movementResponsiveness": 24,
+        "stopResponsiveness": 34,
+        "animationBlendDuration": 0.055,
+        "animationActionTimeScale": 1.12,
+        "animationSpeedScale": 1.12,
+        "runModeScale": 1,
+        "walkModeScale": 0.56
+      }
+    ],
+    "SolidBlock": [
+      {
+        "name": "start_court_5",
+        "width": 9,
+        "height": 1,
+        "depth": 7,
+        "color": 13481054,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": -16,
+          "y": 0,
+          "z": 0
+        },
+        "safeRect": {
+          "x": -16,
+          "z": 0,
+          "width": 9,
+          "depth": 7
+        }
+      },
+      {
+        "name": "sand_step_5_1",
+        "width": 6.2,
+        "height": 1,
+        "depth": 5.2,
+        "color": 13481054,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": -8,
+          "y": 0.15,
+          "z": 0
+        },
+        "safeRect": {
+          "x": -8,
+          "z": 0,
+          "width": 6.2,
+          "depth": 5.2
+        }
+      },
+      {
+        "name": "sand_step_5_2",
+        "width": 6.2,
+        "height": 1,
+        "depth": 5.2,
+        "color": 13481054,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": -1,
+          "y": 0.3,
+          "z": 1.4
+        },
+        "safeRect": {
+          "x": -1,
+          "z": 1.4,
+          "width": 6.2,
+          "depth": 5.2
+        }
+      },
+      {
+        "name": "sand_step_5_3",
+        "width": 6.2,
+        "height": 1,
+        "depth": 5.2,
+        "color": 13481054,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": 6,
+          "y": 0.45,
+          "z": -1.2
+        },
+        "safeRect": {
+          "x": 6,
+          "z": -1.2,
+          "width": 6.2,
+          "depth": 5.2
+        }
+      },
+      {
+        "name": "wide_rest_5_4",
+        "width": 8.5,
+        "height": 1,
+        "depth": 6,
+        "color": 14337898,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": 14,
+          "y": 0.6,
+          "z": 0
+        },
+        "safeRect": {
+          "x": 14,
+          "z": 0,
+          "width": 8.5,
+          "depth": 6
+        }
+      },
+      {
+        "name": "bridge_5_5",
+        "width": 5.7,
+        "height": 1,
+        "depth": 4.6,
+        "color": 13481054,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": 22,
+          "y": 0.85,
+          "z": 0.7
+        },
+        "safeRect": {
+          "x": 22,
+          "z": 0.7,
+          "width": 5.7,
+          "depth": 4.6
+        }
+      },
+      {
+        "name": "court_step_5_6",
+        "width": 5.7,
+        "height": 1,
+        "depth": 4.6,
+        "color": 13481054,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": 29,
+          "y": 1.1,
+          "z": -1.2
+        },
+        "safeRect": {
+          "x": 29,
+          "z": -1.2,
+          "width": 5.7,
+          "depth": 4.6
+        }
+      },
+      {
+        "name": "court_step_5_7",
+        "width": 5.7,
+        "height": 1,
+        "depth": 4.6,
+        "color": 13481054,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": 36,
+          "y": 1.35,
+          "z": 1
+        },
+        "safeRect": {
+          "x": 36,
+          "z": 1,
+          "width": 5.7,
+          "depth": 4.6
+        }
+      },
+      {
+        "name": "wide_rest_5_8",
+        "width": 8,
+        "height": 1,
+        "depth": 6,
+        "color": 14337898,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": 44,
+          "y": 1.55,
+          "z": 0
+        },
+        "safeRect": {
+          "x": 44,
+          "z": 0,
+          "width": 8,
+          "depth": 6
+        }
+      },
+      {
+        "name": "gate_floor_5",
+        "width": 8,
+        "height": 1,
+        "depth": 7,
+        "color": 14337898,
+        "textureSeed": "hand_authored_level_5",
+        "position": {
+          "x": 54,
+          "y": 1.8,
+          "z": 0
+        },
+        "safeRect": {
+          "x": 54,
+          "z": 0,
+          "width": 8,
+          "depth": 7
+        }
+      }
+    ],
+    "SpikeField": [
+      {
+        "name": "hei_level_5_lava_floor",
+        "groundY": -2.74,
+        "height": 0.36,
+        "pad": 0.08,
+        "lava": true,
+        "bounds": {
+          "minX": -22,
+          "maxX": 62,
+          "minZ": -16,
+          "maxZ": 16
+        },
+        "position": {
+          "x": 20,
+          "y": -2.56,
+          "z": 0
+        }
+      }
+    ],
+    "Coin": [
+      {
+        "name": "perutah_5_1",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": -12,
+          "y": 1.25,
+          "z": 1.7
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_2",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": -8,
+          "y": 1.4,
+          "z": -1.5
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_3",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": -1,
+          "y": 1.55,
+          "z": 2.7
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_4",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 6,
+          "y": 1.7,
+          "z": -2.2
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_5",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 14,
+          "y": 1.85,
+          "z": 0
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_6",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 22,
+          "y": 2.1,
+          "z": 1.8
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_7",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 29,
+          "y": 2.35,
+          "z": -2.4
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_8",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 36,
+          "y": 2.6,
+          "z": 2.1
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_9",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 44,
+          "y": 2.8,
+          "z": -1.9
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_10",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 50,
+          "y": 3.05,
+          "z": 1.8
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      },
+      {
+        "name": "perutah_5_11",
+        "value": 1,
+        "rotationSpeed": 0.025,
+        "position": {
+          "x": 54,
+          "y": 3.15,
+          "z": 0
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.58,
+              0.58,
+              0.13,
+              40
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 14256709,
+              "emissive": 5907467,
+              "metalness": 0.88,
+              "roughness": 0.22
+            }
+          }
+        },
+        "proximity": 1.15
+      }
+    ],
+    "SpikedBallHazard": [
+      {
+        "name": "hei_crossing_orb_a",
+        "axis": "z",
+        "amplitude": 2,
+        "speed": 0.95,
+        "radius": 0.58,
+        "hitRadius": 0.42,
+        "position": {
+          "x": 8,
+          "y": 2.2,
+          "z": -1.8
+        }
+      },
+      {
+        "name": "hei_crossing_orb_b",
+        "axis": "x",
+        "amplitude": 1.8,
+        "speed": 1.05,
+        "radius": 0.58,
+        "hitRadius": 0.42,
+        "position": {
+          "x": 31,
+          "y": 2.75,
+          "z": 1.6
+        }
+      }
+    ],
+    "MovingPushBlock": [
+      {
+        "name": "hei_gentle_push_z",
+        "axis": "z",
+        "amplitude": 1.35,
+        "speed": 0.82,
+        "size": {
+          "x": 1.8,
+          "y": 1,
+          "z": 0.9
+        },
+        "position": {
+          "x": 18,
+          "y": 1.65,
+          "z": 0
+        }
+      },
+      {
+        "name": "hei_gentle_push_x",
+        "axis": "x",
+        "amplitude": 1.5,
+        "speed": 0.88,
+        "size": {
+          "x": 1.5,
+          "y": 1,
+          "z": 1.5
+        },
+        "position": {
+          "x": 40,
+          "y": 2.15,
+          "z": -0.8
+        }
+      }
+    ],
+    "InteractiveDoor": [
+      {
+        "name": "hei_gate_to_level_6",
+        "targetLevel": "ladder-6.json",
+        "requiresPerutos": 11,
+        "position": {
+          "x": 54,
+          "y": 2.3,
+          "z": 0
+        },
+        "height": 3.6,
+        "width": 2.2,
+        "depth": 0.8
+      }
+    ]
+  }
+}

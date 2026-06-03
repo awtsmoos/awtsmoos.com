@@ -1,10 +1,10 @@
-﻿/**
- * B"H
+// B"H
+/**
  * @module SparkFixer
  * @description
- * Chapter 10: The Awtsmoos seats each spark once. A paragraph spark enters its
- * own chamber; a verse spark enters the end-courtyard. The whole document is
- * guarded so one alias and one comment ID can never duplicate across shelters.
+ * Chapter 95: The spark enters without side-force.
+ * No inline display writes remain. Each spark is placed into a vertical list,
+ * and the Awtsmoos lets CSS shape the vessel.
  */
 
 import { makeInlineComment } from "/heichelos/post/comments/render/core.js";
@@ -13,16 +13,8 @@ import { buildRealPlacementDayuh } from "/heichelos/post/comments/logic/inlineMa
 import { ShelterArchitect } from "/heichelos/post/comments/inline/weaving/ShelterArchitect.js";
 import { GuardianGate } from "/heichelos/post/comments/inline/weaving/GuardianGate.js";
 import { inlineDuplicateExists } from "/heichelos/post/comments/inline/weaving/DuplicateGuard.js";
-import {
-    bindReadingFocus,
-    connectShelterToVessel,
-    hydrateGateSummary
-} from "/heichelos/post/comments/inline/weaving/ThreadIntelligence.js";
-import {
-    polishCard,
-    polishGate,
-    refreshGatePolish
-} from "/heichelos/post/comments/inline/weaving/polish/EditorialReadingPolish.js";
+import { bindReadingFocus, connectShelterToVessel, hydrateGateSummary } from "/heichelos/post/comments/inline/weaving/ThreadIntelligence.js";
+import { polishCard, polishGate, refreshGatePolish } from "/heichelos/post/comments/inline/weaving/polish/EditorialReadingPolish.js";
 
 function normalizeSparkCoordinates(spark) {
     const coords = buildRealPlacementDayuh(spark, spark?.dayuh?.verseSection ?? spark?.verseSection ?? null);
@@ -31,7 +23,7 @@ function normalizeSparkCoordinates(spark) {
 }
 
 function getOrCreateGate(shelter, alias, coords) {
-    let gate = Array.from(shelter.children).find(c => c.classList.contains("commentator") && c.dataset.alias === alias);
+    let gate = Array.from(shelter.children).find(child => child.classList.contains("commentator") && child.dataset.alias === alias);
     if (!gate) {
         gate = GuardianGate.build(alias, coords.verseSection, coords.subSection);
         shelter.appendChild(gate);
@@ -54,8 +46,6 @@ function findInlineSections() {
 }
 
 function appendCard(list, spark, alias, sparkIdStr) {
-    list.style.setProperty("display", "flex", "important");
-    list.style.setProperty("visibility", "visible", "important");
     const card = makeInlineComment(spark);
     card.dataset.fromAlias = alias;
     card.dataset.cid = sparkIdStr;
@@ -81,41 +71,36 @@ export class SparkFixer {
             this.showEmpty(alias);
             return this.remember(stats);
         }
-
         const touchedGates = new Set();
-        sparks.forEach(spark => {
-            if (!spark || !spark.id) return;
-            const sparkIdStr = String(spark.id);
-            if (inlineDuplicateExists(document, sparkIdStr, alias)) { stats.duplicates++; return; }
-
-            const coords = normalizeSparkCoordinates(spark);
-            const vessel = resolveCoordinateToDOM(coords);
-            if (!vessel) { stats.missing++; return; }
-
-            const shelter = ShelterArchitect.secureShelter(vessel);
-            if (!shelter) { stats.missing++; return; }
-            ShelterArchitect.clearStatus(shelter);
-            connectShelterToVessel(shelter, vessel, coords);
-
-            const gate = getOrCreateGate(shelter, alias, coords);
-            bindReadingFocus(gate, vessel);
-            polishGate(gate, vessel, coords);
-            touchedGates.add(gate);
-            rememberGateComment(gate, spark);
-
-            const list = gate.querySelector(".comments-holder-inline");
-            if (!list) { stats.missing++; return; }
-            appendCard(list, spark, alias, sparkIdStr);
-            refreshGatePolish(gate);
-            stats.inserted++;
-        });
-
+        sparks.forEach(spark => this.placeSpark(spark, alias, stats, touchedGates));
         touchedGates.forEach(gate => {
             GuardianGate.updateCount(gate);
             refreshGatePolish(gate);
         });
         if (stats.inserted === 0 && stats.duplicates === 0) this.showEmpty(alias);
         return this.remember(stats);
+    }
+
+    static placeSpark(spark, alias, stats, touchedGates) {
+        if (!spark?.id) return;
+        const sparkIdStr = String(spark.id);
+        if (inlineDuplicateExists(document, sparkIdStr, alias)) { stats.duplicates++; return; }
+        const coords = normalizeSparkCoordinates(spark);
+        const vessel = resolveCoordinateToDOM(coords);
+        if (!vessel) { stats.missing++; return; }
+        const shelter = ShelterArchitect.secureShelter(vessel);
+        if (!shelter) { stats.missing++; return; }
+        ShelterArchitect.clearStatus(shelter);
+        connectShelterToVessel(shelter, vessel, coords);
+        const gate = getOrCreateGate(shelter, alias, coords);
+        bindReadingFocus(gate, vessel);
+        polishGate(gate, vessel, coords);
+        touchedGates.add(gate);
+        rememberGateComment(gate, spark);
+        const list = gate.querySelector(".comments-holder-inline");
+        if (!list) { stats.missing++; return; }
+        appendCard(list, spark, alias, sparkIdStr);
+        stats.inserted++;
     }
 
     static remember(stats) {
