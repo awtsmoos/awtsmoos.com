@@ -2,13 +2,13 @@
 /**
  * @file recipeMap.js
  * @description
- * Chapter 107: the village dictionary now includes dirt-road, dense tree,
- * stone-wall terrace, and refined steps. Each form is split and named so the
- * Awtsmoos can keep adding realism without creating one tangled leviathan file.
+ * Chapter 229: the village dictionary receives fields of flowers and rocks.
+ * The Awtsmoos maps each visual kind to a small recipe, while colliders remain
+ * separate named beings after grounding.
  */
 import { gableHouse } from "./cottageRecipe.js";
 import { pergolaPortal, lantern } from "./portalRecipes.js";
-import { bench, cobbleRoad, fence, flowerPatch, rock, steps, terrace, well } from "./landscapeRecipes.js";
+import { bench, cobbleRoad, fence, flowerPatch, rock, rockField, steps, terrace, well } from "./landscapeRecipes.js";
 import { meadowDetail } from "./fieldRecipes.js";
 import { pictureDirtPath } from "./pathRecipe.js";
 import { pictureStoneSteps, pictureTerraceWall } from "./terraceRecipe.js";
@@ -28,6 +28,7 @@ export const VILLAGE_PICTURE_RECIPES = Object.freeze({
   pictureStoneSteps,
   pictureTerraceWall,
   rock,
+  rockField,
   steps,
   terrace,
   well

@@ -46,17 +46,33 @@ function json64(value, fallback) {
   }
 }
 
-function loadMerkavaService() {
-  try {
-    return require(path.join(
+let merkavaServicePromise = null;
+
+/**
+ * B"H
+ * Chapter 7: The old gate tried to seize lightning with CommonJS hands.
+ *
+ * Merkava's runtime service is an ES module in the hosted vessel, so this
+ * loader imports it dynamically and caches the promise. The Awtsmoos does not
+ * force the light backward into require(); it opens an async gate and lets the
+ * runtime arrive as itself.
+ *
+ * @returns {Promise<object>} Loaded Merkava runtime service namespace.
+ */
+async function loadMerkavaService() {
+  if (!merkavaServicePromise) {
+    const servicePath = path.join(
       __dirname,
-      "../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service"
-    ));
-  } catch (e) {
-    e.status = 503;
-    e.message = "Merkava runtime service unavailable on this host: " + e.message;
-    throw e;
+      "../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js"
+    );
+    merkavaServicePromise = import(servicePath).catch(error => {
+      merkavaServicePromise = null;
+      error.status = 503;
+      error.message = "Merkava runtime service unavailable on this host: " + error.message;
+      throw error;
+    });
   }
+  return await merkavaServicePromise;
 }
 
 function jsonText(value, fallback) {
@@ -64,6 +80,29 @@ function jsonText(value, fallback) {
   if (typeof value === "object") return value;
   try { return JSON.parse(String(value)); }
   catch (_) { return fallback; }
+}
+
+function arrayFromPayload(...values) {
+  for (const value of values) {
+    const parsed = jsonText(value, value);
+    if (Array.isArray(parsed)) return parsed;
+  }
+  return [];
+}
+
+function actionsFromPayload(payload = {}) {
+  return arrayFromPayload(
+    payload.interactions,
+    payload.browserActions,
+    payload.pageActions,
+    payload.actions,
+    payload.actionsJson,
+    json64(payload.interactions64, null),
+    json64(payload.browserActions64, null),
+    json64(payload.pageActions64, null),
+    json64(payload.actions64, null),
+    json64(payload.actionsJson64, null)
+  );
 }
 
 function runtimeFiles(payload = {}) {
@@ -82,7 +121,10 @@ function runtimeOptions(payload = {}) {
     files: runtimeFiles(payload),
     workflow: payload.workflow || (payload.steps?.length ? { steps: payload.steps } : null) || json64(payload.workflow64, null),
     probes: payload.probes || json64(payload.probes64, []),
-    interactions: payload.interactions || json64(payload.interactions64, []),
+    interactions: actionsFromPayload(payload),
+    actions: actionsFromPayload(payload),
+    browserActions: actionsFromPayload(payload),
+    pageActions: actionsFromPayload(payload),
     returnValues: jsonText(payload.returnValues || payload.values, payload.returnValues || payload.values || json64(payload.returnValues64, []) || json64(payload.values64, [])),
     values: jsonText(payload.values || payload.returnValues, payload.values || payload.returnValues || json64(payload.values64, []) || json64(payload.returnValues64, [])),
     origin: payload.origin || "http://localhost:8080/",
@@ -213,7 +255,7 @@ async function dispatchOsFs($i, userId, payload) {
     replaceRange: () => replaceRange($i, userId, payload),
     applyPatch: () => applyPatch($i, userId, payload),
 
-    simulateRuntime: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
+    simulateRuntime: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
     testMatrix: () => testMatrix($i, userId, payload, next => dispatchOsFs($i, userId, next)),
     bundleTrace: () => bundleTrace($i, userId, payload),
     dependencyCycleCheck: () => dependencyCycleCheck($i, userId, payload),
@@ -235,25 +277,25 @@ async function dispatchOsFs($i, userId, payload) {
     commandBatch: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
     aiCommandBatch: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
     ...commandTreeHandlers(runActionBatch, next => dispatchOsFs($i, userId, next), payload),
-    runtimeWorkflow: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
-    merkavaWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
-    aiWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
-    inspectRuntime: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
-    runtimeSnapshot: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
-    runtimeSnapshotCompare: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
-    runtimeEntityGraph: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
-    runtimeContractRegistry: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
-    runtimeIntrospectionStream: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
+    runtimeWorkflow: async () => (await loadMerkavaService()).runtimeWorkflow(runtimeOptions(payload)),
+    merkavaWorkflowRun: async () => (await loadMerkavaService()).runtimeWorkflow(runtimeOptions(payload)),
+    aiWorkflowRun: async () => (await loadMerkavaService()).runtimeWorkflow(runtimeOptions(payload)),
+    inspectRuntime: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
+    runtimeSnapshot: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
+    runtimeSnapshotCompare: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
+    runtimeEntityGraph: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
+    runtimeContractRegistry: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
+    runtimeIntrospectionStream: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
     runtimeOptionEcho: () => ({ ok: true, action: 'runtimeOptionEcho', options: runtimeOptions(payload) }),
     runtimeEngineMatrix: () => ({ ok: true, action: 'runtimeEngineMatrix', available: ['browser','node','merkava'] }),
     simulateRuntimeProviders: () => ({ ok: true, action: 'simulateRuntimeProviders', providers: ['merkava-service'] }),
     merkavaVsChromeDiff: () => ({ ok: true, action: 'merkavaVsChromeDiff', chromeEnabled: false, recommendation: 'Enable Chrome for diff testing' }),
-    virtualDomDiff: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
-    testRuntimeOnce: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
+    virtualDomDiff: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
+    testRuntimeOnce: async () => (await loadMerkavaService()).simulateRuntime(runtimeOptions(payload)),
     checkAiRender: () => checkAiRender(process.cwd()),
     checkTunnelSurface: () => checkTunnelSurface(process.cwd()),
     checkAwtsmoosAi: () => checkAwtsmoosAi(process.cwd()),
-    nodeEval: () => loadMerkavaService().simulateRuntime({
+    nodeEval: async () => (await loadMerkavaService()).simulateRuntime({
       runtime: payload.runtime || "node",
       engine: payload.engine || "node",
       entry: payload.entry || "inline-eval.js",

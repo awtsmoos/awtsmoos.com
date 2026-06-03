@@ -8,14 +8,11 @@ let council = { agents: [], providers: [], config: {} };
 
 /**
  * B"H
- * Chapter 355: The Refresh Remembered The Masked Flame.
+ * Chapter 6: The user saw the remote flame before opening the gate.
  *
- * The Awtsmoos lets no secret glare naked from the glass. Provider keys return
- * as masks, models return from the living tunnel list, and every refresh shows
- * the chosen vessel again. MiniMax may change its river-name in realtime; this
- * pane drinks from the current council instead of stale stone.
- *
- * @returns {HTMLElement} AI-agent control pane.
+ * A provider key may stay local, or it may be copied into the Awtsmoos account
+ * so hosted Virtual OS agents can use it. This pane now says that plainly and
+ * makes the remote save an explicit checkbox, not a hidden consequence.
  */
 export function aiAgents() {
   return h("section", { className: "pane awt-ai-console", data: { pane: "aiAgents" } }, [
@@ -27,7 +24,7 @@ export function aiAgents() {
 function providerPanel() {
   return h("article", { className: "panel stack awt-ai-provider-panel" }, [
     h("h3", { text: "Provider keys and live models" }),
-    h("p", { text: "Refresh shows existing provider keys by mask and rebuilds the model selector from live agent data." }),
+    h("p", { text: "By default a provider key is saved only to your local tunnel agent. Check the remote option only when you want hosted Virtual OS to use it too." }),
     h("div", { id: "aiProviderStatus", className: "awt-provider-status", text: "No provider status loaded yet." }),
     h("div", { className: "form-grid" }, [
       h("label", {}, ["Provider", providerSelect()]),
@@ -35,7 +32,15 @@ function providerPanel() {
       field("aiAgentModel", "Custom model override", { placeholder: "optional exact model id" }),
       field("aiProviderKey", "API key", { type: "password", placeholder: "Paste provider API key" })
     ]),
+    remoteSaveWarning(),
     h("div", { className: "button-row" }, [button("saveAiProviderKeyBtn", "Save provider key", "primary"), button("removeAiProviderKeyBtn", "Remove key"), button("loadAiAgentsBtn", "Refresh council")])
+  ]);
+}
+
+function remoteSaveWarning() {
+  return h("label", { className: "notice danger" }, [
+    h("input", { id: "saveProviderKeyToAccount", type: "checkbox" }),
+    " Also save this provider API key to my Awtsmoos account for hosted Virtual OS. This stores the key remotely, not only on this device."
   ]);
 }
 
@@ -83,14 +88,32 @@ export function mountAiAgents(getTunnelName) {
   $("aiModelSelect").onchange = saveChoice;
   $("loadAiAgentsBtn").onclick = () => refreshCouncil(getTunnelName, "Council refreshed.");
   $("saveAiConfigBtn").onclick = () => run(getTunnelName, { action: "aiAgentConfigSet", maxDepth: $("aiMaxDepth").value, maxChildrenPerTask: $("aiMaxChildren").value, maxTotalTasks: $("aiMaxTotalTasks").value, allowRecursiveSpawn: $("aiAllowRecursive").value });
-  $("saveAiProviderKeyBtn").onclick = async () => { await run(getTunnelName, { action: "aiAgentSetProviderKey", provider: $("aiProviderId").value, apiKey: $("aiProviderKey").value }); $("aiProviderKey").value = ""; await refreshCouncil(getTunnelName, "Provider key saved and verified."); };
-  $("removeAiProviderKeyBtn").onclick = async () => { await run(getTunnelName, { action: "aiAgentRemoveProviderKey", provider: $("aiProviderId").value }); await refreshCouncil(getTunnelName, "Provider key removed and verified."); };
+  $("saveAiProviderKeyBtn").onclick = async () => { await saveProviderKey(getTunnelName); };
+  $("removeAiProviderKeyBtn").onclick = async () => { await run(getTunnelName, { action: "aiAgentRemoveProviderKey", provider: $("aiProviderId").value }); await refreshCouncil(getTunnelName, "Provider key removed locally. Remove from Virtual OS by selecting the virtual-os tunnel and removing there too if needed."); };
   $("sendAiAgentBtn").onclick = () => run(getTunnelName, messagePayload("aiAgentMessage"));
   $("spawnAiTaskBtn").onclick = () => run(getTunnelName, taskPayload());
   $("listAiTasksBtn").onclick = () => run(getTunnelName, { action: "aiAgentTaskList", limit: 25 });
   $("aiTaskStatusBtn").onclick = () => run(getTunnelName, { action: "aiAgentTaskStatus", taskId: $("aiTaskId").value });
   $("aiTaskResultBtn").onclick = () => run(getTunnelName, { action: "aiAgentTaskResult", taskId: $("aiTaskId").value });
   refreshCouncil(getTunnelName, "Council loaded after refresh.").catch(error => show("aiAgentsOut", { ok: false, error: String(error) }));
+}
+
+async function saveProviderKey(getTunnelName) {
+  const saveToAccount = Boolean($("saveProviderKeyToAccount")?.checked);
+  const got = await run(getTunnelName, {
+    action: "aiAgentSetProviderKey",
+    provider: $("aiProviderId").value,
+    apiKey: $("aiProviderKey").value,
+    saveProviderKeyToAccount: saveToAccount,
+    saveToAccount
+  });
+  $("aiProviderKey").value = "";
+  $("saveProviderKeyToAccount").checked = false;
+  const message = saveToAccount
+    ? "Provider key saved locally and copied to your Awtsmoos account for Virtual OS."
+    : "Provider key saved locally only; Virtual OS will not receive it.";
+  await refreshCouncil(getTunnelName, message);
+  return got;
 }
 
 async function refreshCouncil(getTunnelName, message) {

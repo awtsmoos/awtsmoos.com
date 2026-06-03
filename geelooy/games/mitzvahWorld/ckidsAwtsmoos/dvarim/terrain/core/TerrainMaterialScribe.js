@@ -2,53 +2,43 @@
 /**
  * @module TerrainMaterialScribe
  * @description
- * Chapter 192: desert becomes readable earth, not a white wound.
- *
- * The Awtsmoos showed the mobile lava world bleaching into blank fire. The
- * desert texture is now deliberately dark ochre and the material has low
- * reflectance. Village grass stays bright enough, but lava/desert no longer
- * overwhelms coins, player, or platforms.
+ * Chapter 234: Grass, dirt, and stone are woven as pure DataTexture bytes.
+ * The village gets richer earth from generated RGBA arrays alone, suited to
+ * mobile and the reference countryside mood. Lava terrain brightness is untouched.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
 const clamp = value => Math.max(0, Math.min(255, Math.round(value)));
 const mix = (a, b, t) => a + (b - a) * t;
+const noise = (x, y, seed = 0) => { const n = Math.sin(x * 127.1 + y * 311.7 + seed * 73.13) * 43758.5453123; return n - Math.floor(n); };
+const palette = { grassA: [34, 105, 39], grassB: [118, 190, 92], dirtA: [91, 61, 33], dirtB: [154, 105, 55], rockA: [112, 106, 92], rockB: [184, 174, 145] };
 
-function noise(x, y, seed = 0) {
-  const n = Math.sin(x * 127.1 + y * 311.7 + seed * 73.13) * 43758.5453123;
-  return n - Math.floor(n);
+function chooseColor(x, y, type) {
+  const low = noise(x * 0.2, y * 0.2, 9), speck = noise(x, y, 4), road = noise(x * 0.08, y * 0.08, 12);
+  let a = palette.grassA, b = palette.grassB;
+  if (type === "sand" || type === "desert") { a = [44, 31, 17]; b = [104, 76, 38]; }
+  else if (road > 0.66) { a = palette.dirtA; b = palette.dirtB; }
+  else if (low < 0.12) { a = palette.rockA; b = palette.rockB; }
+  const t = Math.max(0, Math.min(1, low * 0.75 + speck * 0.25));
+  return [clamp(mix(a[0], b[0], t)), clamp(mix(a[1], b[1], t)), clamp(mix(a[2], b[2], t))];
 }
-
-function makeTexture(size, dark, light, repeatX, repeatY, bladeScale = 1) {
-  const data = new Uint8Array(size * size * 4);
+function makeTexture(data) {
+  const size = Number(data.textureSize || 128), bytes = new Uint8Array(size * size * 4);
   for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
-    const i = (y * size + x) * 4;
-    const t = Math.max(0, Math.min(1, noise(x, y) * 0.55 + noise(x * 0.28, y * 0.28, 4) * 0.45));
-    const blade = Math.sin(x * 0.8 + y * 0.12) > 0.72 ? 14 * bladeScale : 0;
-    data[i] = clamp(mix(dark[0], light[0], t) + blade * 0.16);
-    data[i + 1] = clamp(mix(dark[1], light[1], t) + blade * 0.55);
-    data[i + 2] = clamp(mix(dark[2], light[2], t) + blade * 0.12);
-    data[i + 3] = 255;
+    const i = (y * size + x) * 4, c = chooseColor(x, y, data.textureType);
+    const blade = Math.sin(x * 0.9 + y * 0.17) > 0.78 && data.textureType !== "desert" ? 16 : 0;
+    bytes[i] = c[0]; bytes[i + 1] = clamp(c[1] + blade); bytes[i + 2] = c[2]; bytes[i + 3] = 255;
   }
-  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.magFilter = THREE.NearestFilter;
-  texture.minFilter = THREE.NearestFilter;
-  texture.generateMipmaps = false;
-  texture.repeat.set(repeatX, repeatY);
-  texture.needsUpdate = true;
-  return texture;
+  const tex = new THREE.DataTexture(bytes, size, size, THREE.RGBAFormat);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.magFilter = tex.minFilter = THREE.NearestFilter;
+  tex.generateMipmaps = false; tex.repeat.set(Math.max(8, data.width / 8), Math.max(8, data.depth / 8)); tex.needsUpdate = true;
+  return tex;
 }
 
 export default class TerrainMaterialScribe {
   static async scribe(data) {
-    const isSand = data.textureType === "sand" || data.textureType === "desert";
-    if (isSand) {
-      const map = makeTexture(96, [36, 24, 13], [82, 57, 27], Math.max(8, data.width / 7), Math.max(8, data.depth / 7), 0.02);
-      return new THREE.MeshLambertMaterial({ color: 0xd0b080, map, side: THREE.DoubleSide });
-    }
-    const map = makeTexture(96, [38, 116, 42], [132, 205, 110], Math.max(4, data.width / 9), Math.max(4, data.depth / 9), 0.8);
-    return new THREE.MeshLambertMaterial({ color: 0xffffff, map, side: THREE.DoubleSide });
+    const map = makeTexture(data);
+    const color = data.textureType === "desert" || data.textureType === "sand" ? 0xc2a270 : 0xffffff;
+    return new THREE.MeshLambertMaterial({ color, map, side: THREE.DoubleSide });
   }
 }

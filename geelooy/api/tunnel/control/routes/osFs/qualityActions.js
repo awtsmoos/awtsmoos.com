@@ -1,15 +1,48 @@
 // B"H
 const path = require("path");
 const { readWhole } = require("./listRead.js");
-const { textSearch } = require("./textSearch.js");
 const { dependencyGraph } = require("./graph.js");
 const { astOutline } = require("./astTools.js");
 const { applyPatch } = require("./patchOps.js");
 
-function loadMerkavaService() {
-  return require(path.join(__dirname, "../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service"));
+let merkavaServicePromise = null;
+
+/**
+ * B"H
+ * Chapter 8: The quality gate stopped grabbing an ESM flame with require().
+ *
+ * Quality actions are not decorative; browserReplay and performance checks are
+ * the mirrors that reveal whether simulateRuntime truly breathes. This loader
+ * uses dynamic import so the same ESM Merkava service can be reached from the
+ * CommonJS tunnel route without tearing the vessel.
+ *
+ * @returns {Promise<object>} Merkava runtime service namespace.
+ */
+async function loadMerkavaService() {
+  if (!merkavaServicePromise) {
+    const servicePath = path.join(
+      __dirname,
+      "../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js"
+    );
+    merkavaServicePromise = import(servicePath).catch(error => {
+      merkavaServicePromise = null;
+      error.status = 503;
+      error.message = "Merkava runtime service unavailable on this host: " + error.message;
+      throw error;
+    });
+  }
+  return await merkavaServicePromise;
 }
 
+/**
+ * Runs a small matrix of runtime cases through the dispatcher.
+ *
+ * @param {object} $i Awtsmoos request vessel.
+ * @param {string} userId Authenticated user id.
+ * @param {object} payload Action payload.
+ * @param {Function} dispatch Recursive dispatcher.
+ * @returns {Promise<object>} Matrix result.
+ */
 async function testMatrix($i, userId, payload, dispatch) {
   const cases = payload.cases || payload.tests || [
     { name: "node", action: "simulateRuntime", runtime: "node", entry: payload.entry || "index.js", files64: payload.files64 },
@@ -46,15 +79,23 @@ async function deadExportScan($i, userId, payload) {
 
 async function mutationPatchTest($i, userId, payload, dispatch) {
   const before = payload.path ? await readWhole($i, userId, payload.path) : null;
-  let patchResult = null, testResult = null;
+  let patchResult = null;
+  let testResult = null;
   if (payload.patches) patchResult = await applyPatch($i, userId, payload);
   if (payload.test || payload.testAction) testResult = await dispatch({ ...(payload.test || payload.testAction) });
   return { ok: (patchResult?.ok !== false) && (testResult?.ok !== false), action: "mutationPatchTest", patchResult, testResult, beforeHashHint: before?.sha256 || null };
 }
 
 async function browserReplay($i, userId, payload) {
-  const service = loadMerkavaService();
-  const result = await service.simulateRuntime({ runtime: "browser", entry: payload.entry || payload.path || "index.html", files: payload.files || decode64(payload.files64, {}), interactions: payload.interactions || decode64(payload.interactions64, []), probes: payload.probes || [] });
+  const service = await loadMerkavaService();
+  const result = await service.simulateRuntime({
+    runtime: "browser",
+    entry: payload.entry || payload.path || "index.html",
+    files: payload.files || decode64(payload.files64, {}),
+    interactions: firstArray(payload.interactions, payload.actions, payload.browserActions, payload.pageActions, decode64(payload.actionsJson64, null), decode64(payload.browserActions64, null), decode64(payload.pageActions64, null), decodeTextJson(payload.actionsJson, null)),
+    probes: firstArray(payload.probes, decode64(payload.probes64, [])),
+    returnValues: firstArray(payload.returnValues, payload.values, decode64(payload.returnValues64, null), decode64(payload.values64, null))
+  });
   return { ...result, action: "browserReplay" };
 }
 
@@ -79,13 +120,46 @@ async function perfBudgetCheck($i, userId, payload, dispatch) {
   return { ok: result?.ok !== false && durationMs <= budgetMs, action: "perfBudgetCheck", durationMs, budgetMs, result };
 }
 
-function decode64(value, fallback) { try { return value ? JSON.parse(Buffer.from(String(value), "base64").toString("utf8")) : fallback; } catch { return fallback; } }
-function countWord(text, word) { return (text.match(new RegExp("\\b" + word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "g")) || []).length; }
+function decode64(value, fallback) {
+  try { return value ? JSON.parse(Buffer.from(String(value), "base64").toString("utf8")) : fallback; }
+  catch { return fallback; }
+}
+
+function decodeTextJson(value, fallback) {
+  if (!value) return fallback;
+  try { return JSON.parse(String(value)); }
+  catch { return fallback; }
+}
+
+function firstArray(...values) {
+  for (const value of values) if (Array.isArray(value)) return value;
+  return [];
+}
+
+function countWord(text, word) {
+  return (text.match(new RegExp("\\b" + word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "g")) || []).length;
+}
+
 function findCycles(edges) {
   const graph = new Map();
-  for (const e of edges) { const from = e.from || e.source || e[0], to = e.to || e.target || e[1]; if (!from || !to) continue; if (!graph.has(from)) graph.set(from, []); graph.get(from).push(to); }
-  const cycles = [], stack = [], seen = new Set(), active = new Set();
-  function dfs(node) { if (active.has(node)) { cycles.push(stack.slice(stack.indexOf(node)).concat(node)); return; } if (seen.has(node)) return; seen.add(node); active.add(node); stack.push(node); for (const next of graph.get(node) || []) dfs(next); stack.pop(); active.delete(node); }
+  for (const edge of edges) {
+    const from = edge.from || edge.source || edge[0];
+    const to = edge.to || edge.target || edge[1];
+    if (!from || !to) continue;
+    if (!graph.has(from)) graph.set(from, []);
+    graph.get(from).push(to);
+  }
+  const cycles = [];
+  const stack = [];
+  const seen = new Set();
+  const active = new Set();
+  function dfs(node) {
+    if (active.has(node)) { cycles.push(stack.slice(stack.indexOf(node)).concat(node)); return; }
+    if (seen.has(node)) return;
+    seen.add(node); active.add(node); stack.push(node);
+    for (const next of graph.get(node) || []) dfs(next);
+    stack.pop(); active.delete(node);
+  }
   for (const node of graph.keys()) dfs(node);
   return cycles.slice(0, 50);
 }

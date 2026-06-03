@@ -1,52 +1,31 @@
-
+// B"H
 /**
- * B"H
  * @module TerrainGeometryEmanator
  * @description
- * ⛰️ THE SHAPING OF THE MOUNTAINS ⛰️
- * 
- * "Before the mountains were born, or You brought forth the earth..." (Tehillim 90:2)
- * 
- * This module is absolutely severed from the rendering logic. It takes pure JSON 
- * data representing the 'hills' and mathematically displaces the vertices of a plane.
- * It also computes a massive bounding sphere so the GPU can safely frustum-cull.
+ * Chapter 233: The plane becomes a countryside from points, roads, and plateaus.
+ * The Awtsmoos keeps the terrain algorithm pure and data-first so village JSON
+ * can shape hills without heavy runtime ray work.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import TerrainMath from './TerrainMath.js';
 
 export default class TerrainGeometryEmanator {
-    /**
-     * @function emanate
-     * @description Carves the plane into valleys and peaks.
-     * @param {Object} data - The terrain blueprint.
-     * @returns {THREE.PlaneGeometry}
-     */
-    static emanate(data) {
-        const { width, depth, segments, hills } = data;
-        
-        const geometry = new THREE.PlaneGeometry(width, depth, segments, segments);
-        geometry.rotateX(-Math.PI / 2); // Lay it flat
-
-        if (hills && hills.length > 0) {
-            const pos = geometry.attributes.position;
-            for (let i = 0; i < pos.count; i++) {
-                const x = pos.getX(i);
-                const z = pos.getZ(i);
-                
-                // B"H: We delegate to the pure math module!
-                const h = TerrainMath.calculateHeightAt(x, z, hills);
-                pos.setY(i, h);
-            }
-            geometry.computeVertexNormals();
-        }
-
-        // B"H: THE SHIELD OF THE HORIZON
-        // We set the bounding sphere massively large, covering the corners,
-        // so it only culls when we truly turn away.
-        geometry.computeBoundingSphere();
-        const maxDim = Math.max(width, depth);
-        geometry.boundingSphere.radius = maxDim * 0.75; 
-
-        return geometry;
+  static emanate(data = {}) {
+    const width = Number(data.width || 1500);
+    const depth = Number(data.depth || 1500);
+    const segments = Math.max(1, Math.floor(Number(data.segments || 32)));
+    const geometry = new THREE.PlaneGeometry(width, depth, segments, segments);
+    geometry.rotateX(-Math.PI / 2);
+    const needsHeight = data.hills?.length || data.points?.length || data.controlPoints?.length || data.plateaus?.length || data.roads?.length || data.microNoise;
+    if (needsHeight) {
+      const pos = geometry.attributes.position;
+      for (let i = 0; i < pos.count; i += 1) pos.setY(i, TerrainMath.calculateHeightAt(pos.getX(i), pos.getZ(i), data));
+      pos.needsUpdate = true;
+      geometry.computeVertexNormals();
     }
+    geometry.computeBoundingBox();
+    geometry.computeBoundingSphere();
+    geometry.boundingSphere.radius = Math.max(width, depth) * 0.85;
+    return geometry;
+  }
 }

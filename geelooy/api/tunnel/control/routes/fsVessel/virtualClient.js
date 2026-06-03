@@ -5,11 +5,10 @@ const { VIRTUAL_OS_TUNNEL_NAME } = require("./virtualNames.js");
 
 /**
  * B"H
- * Chapter 4: No agent stood in the room, yet the hosted root opened its eye.
- *
- * This client sends the same filesystem action payload into the Awtsmoos
- * Virtual OS dispatcher. The result is annotated so callers know they are not
- * touching a local disk, but a hosted account-rooted vessel.
+ * Chapter 3: The hosted root received the user's name without receiving the
+ * user's mask. This internal marker is not a public credential; it lets the
+ * Virtual OS look up account-scoped AI config that was explicitly saved for
+ * remote use.
  *
  * @param {object} $i Awtsmoos route context.
  * @param {string} userId Current authenticated user id.
@@ -19,6 +18,7 @@ const { VIRTUAL_OS_TUNNEL_NAME } = require("./virtualNames.js");
 async function sendVirtualOs($i, userId, payload) {
   const result = await dispatchOsFs($i, userId, {
     ...payload,
+    __awtsmoosUserId: userId,
     tunnelName: VIRTUAL_OS_TUNNEL_NAME,
     targetVessel: "virtual-os"
   });

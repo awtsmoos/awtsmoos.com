@@ -1,310 +1,87 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "village.json",
-  "shaym": "Village_Cottage_No_Lintel_Gap_Aligned_Door",
+  "shaym": "Large_Inviting_Village_Three_Houses_Trees_Point_Terrain",
   "title": "Grounded Village",
   "requiredPerutos": 0,
   "nextLevel": "ladder-1.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
     "ProceduralSky": [
-      {
-        "name": "bright_gold_sky",
-        "timeOfDay": 14.5,
-        "timeMultiplier": 0,
-        "sunIntensity": 1.55,
-        "hemiIntensity": 1,
-        "ambientIntensity": 0.68,
-        "position": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        }
-      }
+      { "name": "soft_country_village_sky", "timeOfDay": 14.3, "timeMultiplier": 0, "sunIntensity": 1.42, "hemiIntensity": 1.05, "ambientIntensity": 0.5, "fogNear": 115, "fogFar": 365, "position": { "x": 0, "y": 0, "z": 0 } }
     ],
     "ProceduralTerrain": [
       {
-        "name": "single_ground_plane",
-        "width": 96,
-        "depth": 78,
+        "name": "wide_point_based_village_ground",
+        "width": 320,
+        "depth": 300,
         "thickness": 2,
-        "segments": 1,
+        "segments": 72,
         "isSolid": true,
-        "textureType": "grass",
-        "position": {
-          "x": 0,
-          "y": -1,
-          "z": 0
-        }
+        "textureType": "safegrass",
+        "textureSize": 128,
+        "microNoise": 0.08,
+        "points": [
+          { "x": -95, "z": -58, "y": 5.2, "radius": 82 },
+          { "x": 85, "z": -72, "y": 4.6, "radius": 92 },
+          { "x": -100, "z": 70, "y": 3.8, "radius": 80 },
+          { "x": 88, "z": 78, "y": 3.2, "radius": 76 },
+          { "x": -12, "z": 92, "y": 2.1, "radius": 105 }
+        ],
+        "plateaus": [
+          { "x": 13, "z": -11, "y": 0, "rx": 28, "rz": 24 },
+          { "x": -46, "z": 27, "y": 0.2, "rx": 22, "rz": 19 },
+          { "x": 57, "z": 33, "y": 0.35, "rx": 24, "rz": 20 }
+        ],
+        "roads": [
+          { "width": 10, "feather": 9, "flatten": 0.7, "points": [[-90, -44], [-40, -13], [0, 4], [38, 18], [92, 60]] },
+          { "width": 7, "feather": 8, "flatten": 0.55, "points": [[0, 4], [13, -11], [57, 33]] },
+          { "width": 6, "feather": 7, "flatten": 0.5, "points": [[0, 4], [-46, 27]] }
+        ],
+        "position": { "x": 0, "y": -1, "z": 0 }
       }
     ],
     "Chossid": [
-      {
-        "name": "Village Chossid",
-        "height": 1.5,
-        "radius": 0.45,
-        "dynamicSolidRadius": 0.28,
-        "speed": 7.2,
-        "speedScale": 1.08,
-        "jumpHeight": 8,
-        "interactable": true,
-        "path": "https://models-3122d.web.app/chossid.glb?k=2",
-        "position": {
-          "x": -10,
-          "y": 0.05,
-          "z": 9
-        },
-        "visualGroundBiasY": 0,
-        "movementResponsiveness": 18,
-        "stopResponsiveness": 28
-      }
+      { "name": "Village Chossid", "height": 1.5, "radius": 0.45, "dynamicSolidRadius": 0.28, "speed": 7.2, "speedScale": 1.08, "jumpHeight": 8, "interactable": true, "path": "https://models-3122d.web.app/chossid.glb?k=2", "position": { "x": -10, "y": 0.05, "z": 9 }, "visualGroundBiasY": 0, "movementResponsiveness": 18, "stopResponsiveness": 28 }
+    ],
+    "VillageTreeField": [
+      { "name": "north_hill_transparent_leaf_trees", "count": 90, "radius": 118, "seed": 31, "groundY": 0, "groundLift": 0, "position": { "x": 8, "y": 0, "z": -88 } },
+      { "name": "left_meadow_tree_clusters", "count": 70, "radius": 86, "seed": 52, "groundY": 0, "groundLift": 0, "position": { "x": -76, "y": 0, "z": 36 } },
+      { "name": "right_orchard_tree_clusters", "count": 66, "radius": 78, "seed": 71, "groundY": 0, "groundLift": 0, "position": { "x": 86, "y": 0, "z": 48 } }
     ],
     "VillagePictureProp": [
-      {
-        "name": "big_warm_textured_house_grounded_threshold",
-        "kind": "gableHouse",
-        "scale": 4.8,
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": 13,
-          "z": -11
-        },
-        "rotation": {
-          "y": -0.25
-        }
-      },
-      {
-        "name": "low_dirt_path",
-        "kind": "pictureDirtPath",
-        "groundY": 0,
-        "groundLift": 0.01,
-        "position": {
-          "x": -4,
-          "z": 7.5
-        },
-        "rotation": {
-          "y": -0.05
-        },
-        "scale": 1.4
-      },
-      {
-        "name": "tiny_tree_bench",
-        "kind": "bench",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -11,
-          "z": 12
-        },
-        "rotation": {
-          "y": 0.3
-        },
-        "scale": 1.2
-      },
-      {
-        "name": "front_lantern_bright",
-        "kind": "lantern",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -15.5,
-          "z": 11.5
-        },
-        "scale": 1.3
-      },
-      {
-        "name": "portal_lantern_bright",
-        "kind": "lantern",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": 1,
-          "z": 3.6
-        },
-        "scale": 1.45
-      },
-      {
-        "name": "gentle_flowers_left",
-        "kind": "flowerPatch",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -8.2,
-          "z": 8
-        },
-        "scale": 1.4
-      },
-      {
-        "name": "gentle_flowers_right",
-        "kind": "flowerPatch",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": 0.5,
-          "z": 4.5
-        },
-        "scale": 1.2
-      },
-      {
-        "name": "short_fence_left",
-        "kind": "fence",
-        "count": 5,
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -22,
-          "z": 2.5
-        },
-        "rotation": {
-          "y": 0.18
-        },
-        "scale": 1.4
-      },
-      {
-        "name": "path_rock_grounded",
-        "kind": "rock",
-        "groundY": 0,
-        "groundLift": 0,
-        "position": {
-          "x": -7.4,
-          "z": 6.5
-        },
-        "scale": 1.1
-      }
+      { "name": "main_warm_house", "kind": "gableHouse", "scale": 4.8, "groundY": 0, "groundLift": 0, "position": { "x": 13, "z": -11 }, "rotation": { "y": -0.25 } },
+      { "name": "left_meadow_house", "kind": "gableHouse", "scale": 4.8, "groundY": 0, "groundLift": 0, "position": { "x": -46, "z": 27 }, "rotation": { "y": 0.55 } },
+      { "name": "right_orchard_house", "kind": "gableHouse", "scale": 4.8, "groundY": 0, "groundLift": 0, "position": { "x": 57, "z": 33 }, "rotation": { "y": -0.86 } },
+      { "name": "wide_soft_dirt_road", "kind": "pictureDirtPath", "groundY": 0, "groundLift": 0.01, "position": { "x": -4, "z": 7.5 }, "rotation": { "y": -0.05 }, "scale": 2.2 },
+      { "name": "tiny_tree_bench", "kind": "bench", "groundY": 0, "groundLift": 0, "position": { "x": -11, "z": 12 }, "rotation": { "y": 0.3 }, "scale": 1.2 },
+      { "name": "front_lantern_bright", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": -15.5, "z": 11.5 }, "scale": 1.3 },
+      { "name": "portal_lantern_bright", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": 1, "z": 3.6 }, "scale": 1.45 },
+      { "name": "village_wildflowers_left_instanced", "kind": "flowerPatch", "count": 82, "radius": 3.4, "seed": 8, "groundY": 0, "groundLift": 0, "position": { "x": -20, "z": 13 }, "scale": 1.5 },
+      { "name": "village_wildflowers_right_instanced", "kind": "flowerPatch", "count": 76, "radius": 3.2, "seed": 12, "groundY": 0, "groundLift": 0, "position": { "x": 25, "z": 10 }, "scale": 1.35 },
+      { "name": "house_side_wildflowers_instanced", "kind": "flowerPatch", "count": 68, "radius": 2.8, "seed": 19, "groundY": 0, "groundLift": 0, "position": { "x": 7.5, "z": -3.3 }, "scale": 1.1 },
+      { "name": "short_fence_left", "kind": "fence", "count": 9, "groundY": 0, "groundLift": 0, "position": { "x": -28, "z": 4 }, "rotation": { "y": 0.18 }, "scale": 1.4 },
+      { "name": "orchard_back_fence", "kind": "fence", "count": 13, "groundY": 0, "groundLift": 0, "position": { "x": -20, "z": 45 }, "rotation": { "y": 0.02 }, "scale": 1.35 },
+      { "name": "right_village_fence", "kind": "fence", "count": 11, "groundY": 0, "groundLift": 0, "position": { "x": 76, "z": 22 }, "rotation": { "y": 1.42 }, "scale": 1.25 },
+      { "name": "path_rock_grounded", "kind": "rock", "count": 12, "radius": 1.3, "seed": 4, "groundY": 0, "groundLift": 0, "position": { "x": -7.4, "z": 6.5 }, "scale": 1.1 },
+      { "name": "village_scattered_rocks_left", "kind": "rockField", "count": 46, "radius": 13, "seed": 6, "groundY": 0, "groundLift": 0, "position": { "x": -50, "z": 4 }, "scale": 1.0 },
+      { "name": "village_scattered_rocks_house", "kind": "rockField", "count": 36, "radius": 8, "seed": 15, "groundY": 0, "groundLift": 0, "position": { "x": 8, "z": -1 }, "scale": 0.85 }
+    ],
+    "VillageFenceCollider": [
+      { "name": "left_fence_simple_collider", "targetName": "short_fence_left", "length": 12.1, "height": 1.7, "depth": 0.65, "position": { "x": -28, "y": 0, "z": 4 }, "rotation": { "y": 0.18 }, "useAuthoredY": true },
+      { "name": "back_fence_simple_collider", "targetName": "orchard_back_fence", "length": 16.2, "height": 1.65, "depth": 0.65, "position": { "x": -20, "y": 0, "z": 45 }, "rotation": { "y": 0.02 }, "useAuthoredY": true },
+      { "name": "right_fence_simple_collider", "targetName": "right_village_fence", "length": 12.6, "height": 1.5, "depth": 0.65, "position": { "x": 76, "y": 0, "z": 22 }, "rotation": { "y": 1.42 }, "useAuthoredY": true }
     ],
     "VillageHouseCollider": [
-      {
-        "name": "big_warm_house_simple_colliders",
-        "width": 34,
-        "depth": 23,
-        "height": 13.6,
-        "doorWidth": 2.12,
-        "floorTop": 0.2,
-        "thickness": 0.85,
-        "position": {
-          "x": 13,
-          "y": 0,
-          "z": -11
-        },
-        "rotation": {
-          "y": -0.25
-        },
-        "useAuthoredY": true,
-        "doorClearHeight": 3.95,
-        "thresholdCollider": false,
-        "groundY": 0
-      }
+      { "name": "main_house_simple_colliders", "targetName": "main_warm_house", "width": 34, "depth": 23, "height": 13.6, "doorWidth": 2.12, "floorTop": 0.192, "thickness": 0.85, "position": { "x": 13, "y": 0, "z": -11 }, "rotation": { "y": -0.25 }, "useAuthoredY": true, "doorClearHeight": 3.95, "thresholdCollider": false, "groundY": 0 },
+      { "name": "left_house_simple_colliders", "targetName": "left_meadow_house", "width": 34, "depth": 23, "height": 13.6, "doorWidth": 2.12, "floorTop": 0.192, "thickness": 0.85, "position": { "x": -46, "y": 0, "z": 27 }, "rotation": { "y": 0.55 }, "useAuthoredY": true, "doorClearHeight": 3.95, "thresholdCollider": false, "groundY": 0 },
+      { "name": "right_house_simple_colliders", "targetName": "right_orchard_house", "width": 34, "depth": 23, "height": 13.6, "doorWidth": 2.12, "floorTop": 0.192, "thickness": 0.85, "position": { "x": 57, "y": 0, "z": 33 }, "rotation": { "y": -0.86 }, "useAuthoredY": true, "doorClearHeight": 3.95, "thresholdCollider": false, "groundY": 0 }
     ],
     "VillageHouseDoor": [
-      {
-        "name": "cottage_real_hinged_door",
-        "scale": 4.8,
-        "position": {
-          "x": 9.817,
-          "y": 0,
-          "z": 1.464
-        },
-        "rotation": {
-          "y": -0.25
-        },
-        "openAngle": -1.3,
-        "proximity": 7.2,
-        "interactable": true
-      }
+      { "name": "cottage_real_hinged_door", "targetName": "main_warm_house", "scale": 4.8, "position": { "x": 9.853, "y": 0, "z": 1.325 }, "rotation": { "y": -0.25 }, "openAngle": -1.3, "proximity": 7.2, "interactable": true }
     ],
     "InteractiveNpc": [
-      {
-        "name": "Village Challenge Guide",
-        "opensLevelSelect": true,
-        "hasShop": true,
-        "selectorTitle": "NPC CHALLENGES",
-        "proximity": 6.4,
-        "height": 1.5,
-        "radius": 0.42,
-        "visualHeight": 1.5,
-        "visualGroundBiasY": 0,
-        "groundLift": 0.18,
-        "path": "https://models-3122d.web.app/chossid.glb?k=2",
-        "dialogue": [
-          "Shalom! Choose levels, buy clothes, or sell extras.",
-          "Your bag buys colored clothing.",
-          "Give tzedakah in a level and the mezuzah returns double."
-        ],
-        "shopInventory": [
-          {
-            "id": "blue_shirt",
-            "name": "Blue Shirt",
-            "icon": "👕",
-            "equipSlot": "shirt",
-            "price": 3,
-            "sellValue": 1,
-            "customData": {
-              "meshName": [
-                "shirt",
-                "outer-shirt"
-              ],
-              "color": "#4db8ff"
-            }
-          },
-          {
-            "id": "gold_shirt",
-            "name": "Gold Shirt",
-            "icon": "👕",
-            "equipSlot": "shirt",
-            "price": 5,
-            "sellValue": 2,
-            "customData": {
-              "meshName": [
-                "shirt",
-                "outer-shirt"
-              ],
-              "color": "#ffd54a"
-            }
-          },
-          {
-            "id": "green_coat",
-            "name": "Green Coat",
-            "icon": "🧥",
-            "equipSlot": "jacket",
-            "price": 6,
-            "sellValue": 3,
-            "customData": {
-              "meshName": "jacket",
-              "color": "#2ecc71"
-            }
-          },
-          {
-            "id": "purple_coat",
-            "name": "Purple Coat",
-            "icon": "🧥",
-            "equipSlot": "jacket",
-            "price": 6,
-            "sellValue": 3,
-            "customData": {
-              "meshName": "jacket",
-              "color": "#9b5cff"
-            }
-          },
-          {
-            "id": "brown_shoes",
-            "name": "Brown Shoes",
-            "icon": "👞",
-            "equipSlot": "feet",
-            "price": 4,
-            "sellValue": 2,
-            "customData": {
-              "meshName": "shoes",
-              "color": "#8b5a2b"
-            }
-          }
-        ],
-        "position": {
-          "x": 12.1,
-          "y": 0.18,
-          "z": -12.7
-        }
-      }
+      { "name": "Village Challenge Guide", "opensLevelSelect": true, "hasShop": true, "selectorTitle": "NPC CHALLENGES", "proximity": 6.4, "height": 1.5, "radius": 0.42, "visualHeight": 1.5, "visualGroundBiasY": 0, "groundLift": 0.192, "path": "https://models-3122d.web.app/chossid.glb?k=2", "dialogue": ["Shalom! Choose levels, buy clothes, or sell extras.", "Your bag buys colored clothing.", "Give tzedakah in a level and the mezuzah returns double."], "shopInventory": [{ "id": "blue_shirt", "name": "Blue Shirt", "icon": "👕", "equipSlot": "shirt", "price": 3, "sellValue": 1, "customData": { "meshName": ["shirt", "outer-shirt"], "color": "#4db8ff" } }, { "id": "gold_shirt", "name": "Gold Shirt", "icon": "👕", "equipSlot": "shirt", "price": 5, "sellValue": 2, "customData": { "meshName": ["shirt", "outer-shirt"], "color": "#ffd54a" } }, { "id": "green_coat", "name": "Green Coat", "icon": "🧥", "equipSlot": "jacket", "price": 6, "sellValue": 3, "customData": { "meshName": "jacket", "color": "#2ecc71" } }, { "id": "purple_coat", "name": "Purple Coat", "icon": "🧥", "equipSlot": "jacket", "price": 6, "sellValue": 3, "customData": { "meshName": "jacket", "color": "#9b5cff" } }, { "id": "brown_shoes", "name": "Brown Shoes", "icon": "👞", "equipSlot": "feet", "price": 4, "sellValue": 2, "customData": { "meshName": "shoes", "color": "#8b5a2b" } }], "position": { "x": 12.1, "y": 0.192, "z": -12.7 } }
     ]
   }
 }

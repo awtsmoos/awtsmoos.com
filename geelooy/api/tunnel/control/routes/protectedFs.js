@@ -7,11 +7,22 @@ const { recordUsage } = require("../core/usageStore.js");
 const { maybeExternalize } = require("../core/responseModes.js");
 const { publishHandoff } = require("../core/handoffStore.js");
 const { attachActionGuidance } = require("../core/actionGuidance.js");
+const { saveAccountProviderKey, shouldSaveRemote } = require("../core/accountAiConfigStore.js");
 const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const { routeHints, withRouteHints } = require("./fsVessel/queryHints.js");
 
 const FOUR_MINUTES_MS = 240000;
 
+/**
+ * B"H
+ * Chapter 2: The gate learned the user's consent.
+ *
+ * Local tunnel actions remain local. Only when the payload explicitly says to
+ * save a provider key to the Awtsmoos account does this route copy the key into
+ * the hosted account store, after the local vessel answers. The response carries
+ * a warning so the human sees the boundary: local disk is one chamber, remote
+ * account storage is another.
+ */
 function responseBytes(obj) {
   try { return Buffer.byteLength(JSON.stringify(obj), "utf8"); }
   catch (_e) { return 0; }
@@ -24,17 +35,6 @@ function identityAllows(ident, neededScope) {
     scopeAllowed(ident, "awtsmoos.os");
 }
 
-/**
- * B"H
- * Chapter 6: The relay stopped being one road and became a crown of roads.
- *
- * The same action payload may now enter a real installed tunnel or the hosted
- * Awtsmoos Virtual OS. Local metal and virtual light share auth, rate limits,
- * usage logging, handoff publishing, and response shaping.
- *
- * @param {*} value Requested timeout.
- * @returns {number} Bounded timeout.
- */
 function boundedTunnelTimeout(value) {
   const n = Number(value || FOUR_MINUTES_MS);
   if (!Number.isFinite(n)) return FOUR_MINUTES_MS;
@@ -99,8 +99,9 @@ function rateFailure($i, payload, rate) {
 async function runResolvedVessel($i, ident, payload, vessel) {
   try {
     const result = await vessel.send();
-    publishHandoff(vessel.tunnelName || payload.tunnelName, { action: payload.action, result });
-    const shaped = attachActionGuidance(maybeExternalize(result, payload), payload);
+    const withAccount = maybeAttachAccountSave(ident, payload, result);
+    publishHandoff(vessel.tunnelName || payload.tunnelName, { action: payload.action, result: withAccount });
+    const shaped = attachActionGuidance(maybeExternalize(withAccount, payload), payload);
     recordFsUsage(ident, payload, shaped, result.ok !== false);
     return json($i, shaped, shaped.status || result.status || 200);
   } catch (e) {
@@ -109,6 +110,13 @@ async function runResolvedVessel($i, ident, payload, vessel) {
     publishHandoff(payload.tunnelName, { action: payload.action, result: failure });
     return json($i, failure, 500);
   }
+}
+
+function maybeAttachAccountSave(ident, payload, result) {
+  if (payload.action !== "aiAgentSetProviderKey") return result;
+  if (!shouldSaveRemote(payload)) return result;
+  const accountProviderKey = saveAccountProviderKey(ident.userId, payload);
+  return { ...result, accountProviderKey };
 }
 
 function recordFsUsage(ident, payload, result, ok) {
