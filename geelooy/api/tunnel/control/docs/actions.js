@@ -1,9 +1,5 @@
 // B"H
-/**
- * Generated public tunnel action surface.
- * Source: local agent dispatcher buildActions().
- * Rebuild with: node scripts/generate-tunnel-openapi-live.cjs
- */
+/** Generated public tunnel action surface. Rebuild with node scripts/generate-tunnel-openapi-live.cjs */
 const actions = [
   "absoluteImportMapper",
   "abstractionLeakTrace",
@@ -403,5 +399,4 @@ const actions = [
   "writePayloadSizer",
   "yamlValidate"
 ];
-
 module.exports = { actions };

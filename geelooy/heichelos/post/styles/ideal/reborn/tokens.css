@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 61: Tokens, the quiet laws beneath the palace.
- * The Awtsmoos needs no form, yet every form needs one covenant of color,
- * shadow, radius, and safe-area breath so the mobile page stops fighting.
+ * Chapter 97: Tokens, the covenant of color beneath the palace.
+ * The Awtsmoos has no form, yet every visible vessel needs measured fire:
+ * navy night, violet lightning, gold breath, and white letters like snow.
  */
 
 :root {
@@ -12,20 +12,33 @@
     --z-controls: 140;
     --z-sidebar: 260;
     --z-popover: 320;
-    --awt-bg: #060a12;
-    --awt-bg-2: #0b1220;
-    --awt-panel: rgba(12, 19, 32, .96);
-    --awt-panel-2: rgba(18, 27, 44, .92);
+    --awt-bg: #050b14;
+    --awt-bg-2: #081321;
+    --awt-panel: rgba(7, 14, 27, .97);
+    --awt-panel-2: rgba(17, 27, 47, .94);
     --awt-card: rgba(255, 255, 255, .055);
-    --awt-line: rgba(255, 255, 255, .12);
-    --awt-line-hot: rgba(245, 197, 105, .42);
-    --awt-text: #f8fafc;
-    --awt-muted: #a8b3c7;
-    --awt-dim: #707b90;
-    --awt-gold: #f4c56b;
-    --awt-cyan: #29d5de;
+    --awt-line: rgba(191, 203, 226, .14);
+    --awt-line-hot: rgba(247, 205, 112, .48);
+    --awt-text: #f8fbff;
+    --awt-muted: #c4cce0;
+    --awt-dim: #8792aa;
+    --awt-gold: #f6c96c;
+    --awt-gold-bright: #ffe8a3;
+    --awt-cyan: #39d7ee;
+    --awt-violet: #8b5cf6;
+    --awt-magenta: #d946ef;
     --awt-green: #10b981;
     --awt-red: #fb7185;
+    --inline-bg-deep: #030814;
+    --inline-bg-glass: rgba(8, 16, 31, .96);
+    --inline-bg-blue: rgba(10, 30, 54, .92);
+    --inline-edge-gold: #f4c56b;
+    --inline-edge-violet: #9b5cff;
+    --inline-edge-pink: #f472b6;
+    --inline-text-white: #fffdf5;
+    --inline-text-blue: #dbeafe;
+    --inline-pill-bg: rgba(34, 23, 69, .72);
+    --inline-shadow-purple: rgba(139, 92, 246, .38);
     --awt-radius-sm: 12px;
     --awt-radius: 18px;
     --awt-radius-lg: 26px;
@@ -42,11 +55,8 @@
 .post-reader-localized-context button,
 .post-reader-localized-context input,
 .post-reader-localized-context select,
-.post-reader-localized-context textarea {
-    font-family: var(--font-ui);
-}
+.post-reader-localized-context textarea { font-family: var(--font-ui); }
 
 .post-reader-localized-context button { touch-action: manipulation; }
-
 .post-reader-localized-context .hidden,
 .post-reader-localized-context [hidden] { display: none !important; }

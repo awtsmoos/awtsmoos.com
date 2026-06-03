@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 5.6.0-generated
-  description: B"H. Generated from the local tunnel agent action registry. GET-only transport with UTF-8 query parameters. simulateRuntime is Merkava-backed by default; AI-agent spawn tools expose provider, model, prompt, system, taskId, and recursive spawn limits.
+  version: 5.7.0-generated
+  description: B"H. Generated from the local tunnel registry. GPT actions can target connected local tunnels or the secure hosted Virtual OS with tunnelName awtsmoos-virtual-os / targetVessel virtual-os. MiniMax AI-agent tools expose provider, model, prompt, system, taskId, and recursive spawn limits.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,9 +24,9 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. For simulateRuntime, use url/html/files plus actions/browserActions/pageActions/actionsJson to run Puppeteer-like actions in Merkava's synthetic browser. For AI-agent tools, use provider/agentId/model plus prompt/message/system/taskId and recursive spawn limits. For long autonomous loops, call finishAndContinue after finishing.
+      description: B"H. Run one tunnel action. Use tunnelName=awtsmoos-virtual-os or targetVessel=virtual-os to run secure hosted Virtual OS actions without a local tunnel. For simulateRuntime, use url/html/files plus actionsJson/browserActions/pageActions. For AI-agent tools, use provider/agentId/model plus prompt/message/system/taskId and recursive spawn limits.
       parameters:
-        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+        - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
         - name: action
           in: query
           required: true
@@ -442,6 +442,10 @@ paths:
         - { name: source, in: query, schema: { type: string } }
         - { name: dest, in: query, schema: { type: string } }
         - { name: target, in: query, schema: { type: string } }
+        - { name: targetVessel, in: query, schema: { type: string } }
+        - { name: vessel, in: query, schema: { type: string } }
+        - { name: fallback, in: query, schema: { type: string } }
+        - { name: fs, in: query, schema: { type: string } }
         - { name: cwd, in: query, schema: { type: string, default: "." } }
         - { name: root, in: query, schema: { type: string } }
         - { name: content, in: query, schema: { type: string } }

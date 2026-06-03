@@ -1,0 +1,124 @@
+/* B"H
+ * Chapter 101: The card itself opens like a sapphire ark.
+ * White Hebrew stands nearly as tall as the source verse; actions gleam in
+ * gold-purple buttons; every line refuses gray weakness and becomes alive.
+ */
+
+.post-reader-localized-context .comments-holder-inline,
+.post-reader-localized-context .awtsmoos-inline-comments,
+.post-reader-localized-context .thread-scroll-area,
+.post-reader-localized-context .thread-alias-group {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1.15rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: clip !important;
+}
+
+.post-reader-localized-context .comments-holder-inline[hidden] { display: none !important; }
+
+.post-reader-localized-context .inline-comment,
+.post-reader-localized-context .awtsmoos-inline-card-v3,
+.post-reader-localized-context .awtsmoos-readable-inline-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    border: 1px solid rgba(246, 201, 108, .42) !important;
+    border-radius: 28px !important;
+    background:
+        radial-gradient(circle at 50% 12%, rgba(139,92,246,.22), transparent 18rem),
+        linear-gradient(180deg, rgba(7,16,31,.99), rgba(2,6,15,.99)) !important;
+    color: var(--inline-text-white) !important;
+    box-shadow: 0 22px 62px rgba(0,0,0,.45), 0 0 0 1px rgba(139,92,246,.16) !important;
+    overflow: hidden !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header {
+    display: grid !important;
+    grid-template-columns: 56px minmax(0, 1fr) !important;
+    gap: .85rem !important;
+    align-items: center !important;
+    padding: 1rem !important;
+    background: rgba(7,13,27,.92) !important;
+    border-bottom: 1px solid rgba(255,255,255,.12) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-avatar {
+    display: grid !important;
+    place-items: center !important;
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 999px !important;
+    color: #ffffff !important;
+    background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%) !important;
+    font: 950 1.35rem/1 var(--font-ui) !important;
+    box-shadow: 0 0 28px rgba(139,92,246,.55) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-focus { display: none !important; }
+
+.post-reader-localized-context .awtsmoos-inline-card-heading {
+    display: grid !important;
+    gap: .24rem !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-title {
+    color: #ffffff !important;
+    font: 950 clamp(1.2rem, 5.4vw, 1.85rem)/1.13 var(--font-ui) !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-meta {
+    color: var(--inline-edge-gold) !important;
+    font: 850 clamp(.95rem, 4.1vw, 1.22rem)/1.25 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-body,
+.post-reader-localized-context .inline-comment .comment-body-vessel,
+.post-reader-localized-context .inline-comment .comment-text-root {
+    direction: rtl !important;
+    text-align: center !important;
+    padding: clamp(1.3rem, 5vw, 2rem) !important;
+    color: var(--inline-text-white) !important;
+    font-family: var(--font-content) !important;
+    font-size: clamp(2.25rem, 10.5vw, 4.1rem) !important;
+    font-weight: 800 !important;
+    line-height: 1.45 !important;
+    text-shadow: 0 10px 30px rgba(0,0,0,.62) !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-body *,
+.post-reader-localized-context .inline-comment .comment-body-vessel * {
+    color: inherit !important;
+    font: inherit !important;
+    line-height: inherit !important;
+    text-shadow: inherit !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-action-dock {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .75rem !important;
+    padding: 0 1rem 1rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-action {
+    min-height: 58px !important;
+    border: 1px solid rgba(246,201,108,.24) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(180deg, rgba(24,29,49,.95), rgba(11,15,31,.98)) !important;
+    color: #fffdf5 !important;
+    font: 900 clamp(.95rem, 4vw, 1.18rem)/1 var(--font-ui) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+.post-reader-localized-context .inline-comment img { max-width: 100% !important; height: auto !important; }
+
+@media (min-width: 560px) {
+    .post-reader-localized-context .awtsmoos-inline-action-dock { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+}

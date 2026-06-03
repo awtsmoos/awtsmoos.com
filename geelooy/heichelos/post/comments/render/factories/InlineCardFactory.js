@@ -2,12 +2,11 @@
 /**
  * @module InlineCardFactory
  * @description
- * Chapter 76: The inline insight becomes a page-like card.
+ * Chapter 102: The inline card receives its golden dock.
  *
- * No inline white-card styles remain. The factory emits semantic classes and
- * lets the reborn CSS decide size, rhythm, darkness, and mobile breath. The
- * Hebrew body is large enough to read, and the card stacks vertically with no
- * horizontal flex procession.
+ * The Awtsmoos makes the insight almost as large as the verse, then crowns it
+ * with avatar, coordinate, white Hebrew, and usable action buttons. No inline
+ * style attributes are emitted; the violet-gold CSS owns every garment.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -20,17 +19,30 @@ function getAlias(comment) {
 }
 
 function getTitle(comment) {
-    return comment?.dayuh?.title || comment?.content?.title || comment?.title || "Inline insight";
+    return comment?.dayuh?.title || comment?.content?.title || comment?.title || "Inline Commentary";
 }
 
-function getCoordinateLabel(comment) {
+function coordinateLabel(comment) {
     const dayuh = parseRealDayuh(comment?.dayuh);
     const verse = dayuh.verseSection ?? comment?.verseSection;
     const sub = getRealCommentSubSection(comment);
     const parts = [];
     if (verse !== undefined && verse !== null && verse !== "root") parts.push(`Verse ${Number(verse) + 1}`);
-    if (sub !== null) parts.push(`Paragraph ${Number(sub) + 1}`);
-    return parts.length ? parts.join(" · ") : "Verse insight";
+    if (sub !== null) parts.push(`Para ${Number(sub) + 1}`);
+    return parts.length ? parts.join(", ") : "Verse insight";
+}
+
+function actionBlueprint(label, handler) {
+    return {
+        tag: "button",
+        attr: { class: "awtsmoos-inline-action", type: "button", title: label },
+        children: [label],
+        events: { click: event => {
+            event.preventDefault();
+            event.stopPropagation();
+            handler(event);
+        } }
+    };
 }
 
 function headerBlueprint(comment, alias) {
@@ -38,12 +50,24 @@ function headerBlueprint(comment, alias) {
         tag: "header",
         attr: { class: "awtsmoos-inline-card-header" },
         children: [
-            { tag: "button", attr: { class: "awtsmoos-inline-focus", type: "button", title: "Open this comment in the sidebar" }, children: ["↗"], events: { click: event => handleMarginalFocus(event, comment) } },
+            { tag: "div", attr: { class: "awtsmoos-inline-avatar" }, children: [String(alias).charAt(0).toUpperCase()] },
             { tag: "div", attr: { class: "awtsmoos-inline-card-heading" }, children: [
-                { tag: "strong", attr: { class: "awtsmoos-inline-title" }, children: [getTitle(comment)] },
-                { tag: "span", attr: { class: "awtsmoos-inline-meta" }, children: [`@${alias} · ${getCoordinateLabel(comment)}`] }
-            ] },
-            { tag: "div", attr: { class: "awtsmoos-inline-avatar" }, children: [String(alias).charAt(0).toUpperCase()] }
+                { tag: "strong", attr: { class: "awtsmoos-inline-title" }, children: [`@${alias}`] },
+                { tag: "span", attr: { class: "awtsmoos-inline-meta" }, children: [`${getTitle(comment)} · ${coordinateLabel(comment)}`] }
+            ] }
+        ]
+    };
+}
+
+function actionDock(comment) {
+    return {
+        tag: "nav",
+        attr: { class: "awtsmoos-inline-action-dock", "aria-label": "Inline comment actions" },
+        children: [
+            actionBlueprint("Locate", event => handleMarginalFocus(event, comment)),
+            actionBlueprint("Reply", () => handleMarginalFocus({ stopPropagation() {}, preventDefault() {} }, comment)),
+            actionBlueprint("Share", () => shareInlineComment(comment)),
+            actionBlueprint("Copy", () => copyInlineComment(comment))
         ]
     };
 }
@@ -51,19 +75,15 @@ function headerBlueprint(comment, alias) {
 export function makeInlineComment(comment) {
     if (!comment) return document.createComment("Empty Insight");
     const alias = getAlias(comment);
-    const blueprint = {
+    const manifest = BlueprintManifestor.manifest({
         tag: "article",
         attr: {
             class: "inline-comment intense-marginalia awtsmoos-inline-commentary-root awtsmoos-inline-card-v3 awtsmoos-readable-inline-card",
             "data-cid": comment.id,
             "data-alias": alias
         },
-        children: [
-            headerBlueprint(comment, alias),
-            { tag: "div", attr: { class: "comment-body-vessel awtsmoos-inline-body" } }
-        ]
-    };
-    const manifest = BlueprintManifestor.manifest(blueprint);
+        children: [headerBlueprint(comment, alias), { tag: "div", attr: { class: "comment-body-vessel awtsmoos-inline-body" } }, actionDock(comment)]
+    });
     populateCommentElement(comment, manifest.querySelector(".comment-body-vessel"));
     return manifest;
 }
@@ -82,4 +102,17 @@ async function handleMarginalFocus(event, comment) {
         target.classList.add("pulse-of-light");
         setTimeout(() => target.classList.remove("pulse-of-light"), 1600);
     }, 120);
+}
+
+async function shareInlineComment(comment) {
+    const url = `${location.origin}${location.pathname}${location.search}#comment-${encodeURIComponent(comment.id || "")}`;
+    if (navigator.share) {
+        try { await navigator.share({ title: "Awtsmoos inline insight", url }); return; } catch (_) {}
+    }
+    await navigator.clipboard?.writeText(url);
+}
+
+async function copyInlineComment(comment) {
+    const text = typeof comment?.content === "string" ? comment.content : JSON.stringify(comment?.content || comment || {});
+    await navigator.clipboard?.writeText(text);
 }
