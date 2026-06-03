@@ -2,21 +2,20 @@
 /**
  * @file cottageRecipe.js
  * @description
- * Chapter 146: A large house with human-sized contents.
+ * Chapter 158: The big house keeps a human doorway.
  *
- * The house shell remains grand, but the doorway, bed, table, shelves, and NPC
- * room furniture are authored small in local units before the house scale is
- * applied. Every piece asks `geometryKit` for textured material; no dead solid
- * colors return to this cottage. The doorway is intentionally narrow enough to
- * feel like a door while still letting the player walk in.
+ * The Awtsmoos heard the screenshot: the house should be large, but the portal
+ * should not become a temple gate. All doorway values are local, then scaled by
+ * the house, so we deliberately carve only a narrow human slit while preserving
+ * a roomy interior. Future AI: do not shrink the house to fix the doorway.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { add, light } from "./geometryKit.js";
 import { PICTURE_COLORS as C } from "./palette.js";
 
 const STONES = [C.stone, 0xd1c4a5, 0xa99c85, 0xe0d3b1];
-const DOOR_HALF = 0.32;
-const DOOR_TOP = 1.24;
+const DOOR_HALF = 0.2;
+const DOOR_TOP = 0.84;
 const tex = textureMode => ({ textureMode });
 
 function stoneFace(group, x1, x2, z, skipDoor = false) {
@@ -24,7 +23,7 @@ function stoneFace(group, x1, x2, z, skipDoor = false) {
     const y = 0.23 + row * 0.25;
     for (let x = x1; x <= x2; x += 0.52) {
       const xx = x + (row % 2 ? 0.13 : 0);
-      if (skipDoor && Math.abs(xx) < DOOR_HALF + 0.08 && y < DOOR_TOP) continue;
+      if (skipDoor && Math.abs(xx) < DOOR_HALF + 0.055 && y < DOOR_TOP) continue;
       add(group, "cube", STONES[(Math.floor(x * 5) + row) & 3], [xx, y, z], [0.47, 0.05, 0.08], [0, 0, 0], tex("stone"));
     }
   }
@@ -34,9 +33,9 @@ function shell(group) {
   add(group, "cube", C.stone, [0, 1.32, -2.24], [6.8, 2.64, 0.18], [0, 0, 0], tex("stone"));
   add(group, "cube", C.stone, [-3.32, 1.32, 0], [0.18, 2.64, 4.62], [0, 0, 0], tex("stone"));
   add(group, "cube", C.stone, [3.32, 1.32, 0], [0.18, 2.64, 4.62], [0, 0, 0], tex("stone"));
-  add(group, "cube", C.stone, [-1.84, 1.32, 2.32], [2.94, 2.64, 0.18], [0, 0, 0], tex("stone"));
-  add(group, "cube", C.stone, [1.84, 1.32, 2.32], [2.94, 2.64, 0.18], [0, 0, 0], tex("stone"));
-  add(group, "cube", C.stone, [0, 1.9, 2.32], [0.95, 1.48, 0.18], [0, 0, 0], tex("stone"));
+  add(group, "cube", C.stone, [-1.96, 1.32, 2.32], [2.7, 2.64, 0.18], [0, 0, 0], tex("stone"));
+  add(group, "cube", C.stone, [1.96, 1.32, 2.32], [2.7, 2.64, 0.18], [0, 0, 0], tex("stone"));
+  add(group, "cube", C.stone, [0, 1.72, 2.32], [0.58, 1.84, 0.18], [0, 0, 0], tex("stone"));
   stoneFace(group, -3.0, 3.0, 2.45, true);
 }
 
@@ -64,7 +63,7 @@ function interior(group) {
   smallTable(group);
   smallShelf(group);
   smallBed(group);
-  light(group, 0xffd98a, [0, 1.9, -1.05], 1.15, 8.5);
+  light(group, 0xffd98a, [0, 1.9, -1.05], 0.82, 7.5);
 }
 
 function roofHalf(group, side) {
@@ -76,16 +75,16 @@ function roofHalf(group, side) {
 
 function window(group, x, y, z) {
   add(group, "cube", C.wood, [x, y, z + 0.01], [0.9, 0.66, 0.09], [0, 0, 0], tex("wood"));
-  add(group, "cube", C.warm, [x, y, z + 0.04], [0.58, 0.42, 0.08], [0, 0, 0], { ...tex("cloth"), emissive: C.warm, emissiveIntensity: 1.0 });
+  add(group, "cube", C.warm, [x, y, z + 0.04], [0.58, 0.42, 0.08], [0, 0, 0], { ...tex("cloth"), emissive: C.warm, emissiveIntensity: 0.45 });
   add(group, "cube", C.wood, [x, y - 0.39, z + 0.08], [1.0, 0.12, 0.14], [0, 0, 0], tex("wood"));
-  light(group, C.warm, [x, y, z + 0.45], 1.25, 8.5);
+  light(group, C.warm, [x, y, z + 0.45], 0.55, 5.5);
 }
 
 function doorway(group) {
-  add(group, "cube", C.wood, [-0.42, 0.64, 2.62], [0.13, 1.28, 0.2], [0, 0, 0], tex("wood"));
-  add(group, "cube", C.wood, [0.42, 0.64, 2.62], [0.13, 1.28, 0.2], [0, 0, 0], tex("wood"));
-  add(group, "cube", C.wood, [0, 1.26, 2.62], [0.96, 0.14, 0.2], [0, 0, 0], tex("wood"));
-  add(group, "cube", 0xd8c49a, [0, 0.05, 2.76], [1.18, 0.1, 0.48], [0, 0, 0], tex("stone"));
+  add(group, "cube", C.wood, [-0.29, 0.42, 2.62], [0.09, 0.84, 0.16], [0, 0, 0], tex("wood"));
+  add(group, "cube", C.wood, [0.29, 0.42, 2.62], [0.09, 0.84, 0.16], [0, 0, 0], tex("wood"));
+  add(group, "cube", C.wood, [0, 0.84, 2.62], [0.68, 0.1, 0.16], [0, 0, 0], tex("wood"));
+  add(group, "cube", 0xd8c49a, [0, 0.05, 2.76], [0.86, 0.1, 0.42], [0, 0, 0], tex("stone"));
 }
 
 export function gableHouse() {

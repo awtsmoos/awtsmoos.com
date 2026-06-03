@@ -4,12 +4,12 @@ import { background, borderColor, borderWidth, hasGlow } from "./styleTools.js";
 import { isExplicitOverflowWitness, paintOverflowBadge } from "./overflowPainter.js";
 import { directText, paintTextWithin, textPadX, textPadY } from "./textPainter.js";
 import { paintTransformWitness } from "./transformPainter.js";
+import { paintSvgWitness } from "./svgPainter.js";
 
 /**
  * Box painter: the Awtsmoos turns each measured rectangle into a vessel of
- * background, border, transform witness, canvas soul, overflow badge, and
- * carefully contained text. No partial patching: the whole box covenant lives
- * here in one small complete module.
+ * background, border, SVG witness, transform witness, canvas soul, overflow
+ * badge, and carefully contained text. SVG no longer sits empty in the maze.
  */
 export function paintBox(fb, item, texture, allTextures) {
   const style = item.style || {};
@@ -19,6 +19,7 @@ export function paintBox(fb, item, texture, allTextures) {
   else if (bg.color[3] > 0) fb.fillRect(item.x, item.y, item.width, item.height, bg.color);
   const bw = borderWidth(style, item.kind);
   if (bw > 0) fb.strokeRect(item.x, item.y, item.width, item.height, borderColor(style, item.kind), bw);
+  if (paintSvgWitness(fb, item)) return;
   paintTransformWitness(fb, item);
   if (isExplicitOverflowWitness(item)) paintOverflowBadge(fb, item);
   if (item.kind === "canvas") paintCanvasTexture(fb, texture, canvasBox(item), allTextures);

@@ -2,11 +2,12 @@
 /**
  * @file SpikeField.js
  * @description
- * Chapter 79: Lava Reset Counted First, Coins Returned Later.
+ * Chapter 162: Lava becomes readable again.
  *
- * The Awtsmoos splits the death breath from the rebirth breath. Lava impact
- * resets the counter immediately, but coins do not visually return until the
- * worker has moved the player back to the start platform.
+ * The screenshot showed the lava level blown out white/yellow. MeshBasic lava
+ * plus bright terrain was ignoring scene light and exhausting the phone screen.
+ * This pass darkens the DataTexture, uses Lambert material, and keeps animation
+ * by texture offset only. Future AI: do not restore white-hot lava exposure.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -17,6 +18,7 @@ const FEET_PAD = 0.2;
 const RESET_DELAY_MS = 3000;
 const EXPLOSION_DELAY_MS = 240;
 const now = () => (globalThis.performance?.now?.() || Date.now()) / 1000;
+const clamp = value => Math.max(0, Math.min(255, Math.round(value)));
 
 function makeLavaTexture() {
   const size = 64;
@@ -24,20 +26,20 @@ function makeLavaTexture() {
   for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
     const i = (y * size + x) * 4;
     const hash = (x * 19 + y * 23 + ((x ^ y) * 7)) & 63;
-    const vein = hash < 10 || ((x + y * 2) & 15) === 0;
-    data[i] = vein ? 255 : 185 + (hash >> 1);
-    data[i + 1] = vein ? 205 : 42 + (hash >> 2);
-    data[i + 2] = vein ? 36 : 0;
+    const vein = hash < 7 || ((x + y * 2) & 21) === 0;
+    data[i] = vein ? 205 : clamp(92 + hash * 1.4);
+    data[i + 1] = vein ? 82 : clamp(25 + hash * 0.35);
+    data[i + 2] = vein ? 18 : 3;
     data[i + 3] = 255;
   }
   const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.magFilter = THREE.LinearFilter;
-  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
   texture.generateMipmaps = false;
   texture.flipY = false;
-  texture.repeat.set(18, 8);
+  texture.repeat.set(14, 7);
   texture.needsUpdate = true;
   return texture;
 }
@@ -92,8 +94,9 @@ export default class SpikeField extends Domem {
 
   makeMesh() {
     this.texture = makeLavaTexture();
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(this.box.width, this.height, this.box.depth, 1, 1, 1), new THREE.MeshBasicMaterial({ map: this.texture, color: 0xff6a20 }));
-    mesh.name = `${this.name || "LavaField"}_Delayed_Final_Position_Field`;
+    const material = new THREE.MeshLambertMaterial({ map: this.texture, color: 0xa54016, emissive: 0x170400 });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(this.box.width, this.height, this.box.depth, 1, 1, 1), material);
+    mesh.name = `${this.name || "LavaField"}_Readable_Field`;
     mesh.position.set(this.box.cx, this.groundY + this.height / 2, this.box.cz);
     mesh.userData.skipRaycast = true;
     mesh.userData.addToOctree = false;
@@ -126,7 +129,6 @@ export default class SpikeField extends Domem {
     const token = (this.olam.__spikeDeathToken || 0) + 1;
     this.olam.__spikeDeathToken = token;
     const origin = this.finalExplosionOrigin(player);
-    console.info("B\"H | SPIKE_FIELD_TRACE", { stage: "hit", origin, token });
     freezePlayer(player, token);
     this.resetLevelStateNow();
     setTimeout(() => this.spawnLetterExplosion(origin), EXPLOSION_DELAY_MS);
@@ -169,7 +171,6 @@ export default class SpikeField extends Domem {
     const particles = this.particleFactory.createMany(origin, 48);
     particles.forEach(particle => scene.add(particle));
     this._particles.push(...particles);
-    console.info("B\"H | SPIKE_FIELD_TRACE", { stage: "explosion", origin, count: particles.length });
   }
 
   resetField() { this._triggered = false; }

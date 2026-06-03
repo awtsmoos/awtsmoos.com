@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 64: The drawer becomes a full mobile palace.
- * The Awtsmoos grants the open area ownership beneath the header. It is no
- * longer a smoky half-sheet over old cards; it is the active page of context.
+ * Chapter 80: The sidebar fits inside the world.
+ * The Awtsmoos refuses `100vw` overflow and gives the context chamber the exact
+ * width of its containing reality: never wider, never sideways, never exiled.
  */
 
 .post-reader-localized-context .sidebar {
@@ -11,10 +11,12 @@
     right: 0 !important;
     top: var(--awt-header-space) !important;
     bottom: 0 !important;
-    width: 100vw !important;
+    width: 100% !important;
+    max-width: 100% !important;
     height: calc(100dvh - var(--awt-header-space)) !important;
     max-height: calc(100dvh - var(--awt-header-space)) !important;
-    overflow: hidden !important;
+    overflow-x: clip !important;
+    overflow-y: hidden !important;
     border: 0 !important;
     border-top: 1px solid rgba(244, 197, 107, .18) !important;
     border-radius: 0 !important;
@@ -38,14 +40,19 @@
 .post-reader-localized-context .awtsmoos-sidebar-shell {
     display: flex !important;
     flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
     height: 100% !important;
     min-height: 0 !important;
+    min-width: 0 !important;
+    overflow-x: clip !important;
     background: transparent !important;
     color: inherit !important;
 }
 
 .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
     flex: 0 0 auto !important;
+    min-width: 0 !important;
     padding: 14px 14px 10px !important;
     border-bottom: 1px solid var(--awt-line) !important;
     background: rgba(6, 10, 18, .96) !important;
@@ -56,6 +63,7 @@
     align-items: center !important;
     justify-content: space-between !important;
     gap: 10px !important;
+    min-width: 0 !important;
 }
 
 .post-reader-localized-context .awtsmoos-current-view-title {
@@ -63,7 +71,6 @@
     min-width: 0 !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    white-space: nowrap !important;
     color: var(--awt-text) !important;
     font: 900 1.05rem/1.2 var(--font-ui) !important;
 }
@@ -93,7 +100,6 @@
     min-height: 18px !important;
     overflow: hidden !important;
     color: var(--awt-muted) !important;
-    white-space: nowrap !important;
     text-overflow: ellipsis !important;
     font: 750 .78rem/1.2 var(--font-ui) !important;
 }
@@ -102,7 +108,7 @@
     .post-reader-localized-context .sidebar {
         top: 0 !important;
         left: auto !important;
-        width: min(440px, 42vw) !important;
+        width: min(440px, 42%) !important;
         height: 100dvh !important;
         max-height: 100dvh !important;
         border-left: 1px solid rgba(244, 197, 107, .18) !important;

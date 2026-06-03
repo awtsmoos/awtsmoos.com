@@ -1,8 +1,8 @@
 // B"H
 /**
- * CSS transform witness: the Awtsmoos marks transformed DOM boxes without
- * vandalizing their labels. The geometry mark now lives in the upper/right
- * portion of each box, leaving the text covenant readable below.
+ * CSS transform witness: MiniMax saw the old triangle marks as whispers. The
+ * Awtsmoos now places a thick colored witness block on each transformed vessel,
+ * away from the label, so ROT/SCALE/MOVE are unmistakable at phone scale.
  */
 export function hasTransform(style = {}) {
   const text = String(style.transform || '').trim().toLowerCase();
@@ -13,23 +13,32 @@ export function paintTransformWitness(fb, item) {
   const style = item.style || {};
   if (!hasTransform(style)) return;
   const color = transformColor(style.transform);
-  const mark = markRect(item);
-  fb.strokeRect(item.x + 3, item.y + 3, Math.max(1, item.width - 6), Math.max(1, item.height - 6), color, 2);
-  fb.drawLine(mark.x, mark.y + mark.h, mark.x + mark.w, mark.y, color, 3);
-  fb.drawLine(mark.x, mark.y, mark.x + mark.w, mark.y + mark.h, [255, 255, 255, 150], 1);
-  fb.drawText(transformLabel(style.transform), mark.x + 2, Math.max(item.y + 4, mark.y - 10), color, 1, Math.max(18, mark.w));
+  fb.strokeRect(item.x + 3, item.y + 3, Math.max(1, item.width - 6), Math.max(1, item.height - 6), color, 3);
+  paintCornerBlock(fb, item, color);
+  paintBadge(fb, item, transformLabel(style.transform), color);
 }
 
-function markRect(item) {
-  const w = Math.max(24, Math.min(70, item.width * 0.44));
-  const h = Math.max(10, Math.min(18, item.height * 0.34));
-  return { x: item.x + item.width - w - 8, y: item.y + 6, w, h };
+function paintCornerBlock(fb, item, color) {
+  const x = item.x + item.width - 42;
+  const y = item.y + item.height - 20;
+  fb.fillRect(x, y, 32, 12, [4, 12, 26, 230]);
+  fb.drawLine(x + 2, y + 10, x + 30, y + 2, color, 5);
+  fb.strokeRect(x, y, 32, 12, color, 1);
+}
+
+function paintBadge(fb, item, label, color) {
+  const w = Math.max(40, Math.min(78, item.width - 12));
+  const x = item.x + 6;
+  const y = item.y + 6;
+  fb.fillRect(x, y, w, 16, [4, 12, 26, 245]);
+  fb.strokeRect(x, y, w, 16, color, 2);
+  fb.drawText(label, x + 4, y + 4, [255, 255, 255, 255], 1, w - 8);
 }
 
 function transformLabel(value = '') {
   const text = String(value).toLowerCase();
-  if (text.includes('rotate') && text.includes('scale')) return 'ROT SCALE';
   if (text.includes('translate') && text.includes('rotate')) return 'MOVE ROT';
+  if (text.includes('rotate') && text.includes('scale')) return 'ROT SCALE';
   if (text.includes('rotate')) return 'ROT';
   if (text.includes('scale')) return 'SCALE';
   if (text.includes('translate')) return 'MOVE';

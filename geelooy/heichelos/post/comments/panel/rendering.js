@@ -2,10 +2,12 @@
 /**
  * @module SidebarRenderingScribe
  * @description
- * Chapter 71: The Awtsmoos seals the chamber law. Comments, students, and
- * favorites may all exist in memory, but only one may wear the visible crown.
- * The CSS receives `is-current-panel`, the DOM receives `hidden`, and the user
- * receives one clean surface instead of colliding worlds.
+ * Chapter 75: The Awtsmoos abolishes the horizontal court.
+ *
+ * The Commentators chamber is now one page: a searchable Students list with
+ * focused actions. Comments and favorites are not rendered beside it as hidden
+ * columns. When a student opens, the TabManager creates a real new chamber,
+ * which is the correct mobile pattern: one room, one scroll, one direction.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -22,43 +24,13 @@ export { makeAddCommentSection };
 
 function manifest(blueprint) { return BlueprintManifestor.manifest(blueprint); }
 
-function loadingNode(text) {
-    return manifest({ tag: "div", attr: { class: "loading-ink awtsmoos-smooth-loading awtsmoos-empty-placeholder" }, children: [text] });
-}
-
-function setActivePanel(shell, name) {
-    shell.querySelectorAll(".awtsmoos-sidebar-tab-btn").forEach(btn => {
-        const active = btn.dataset.panel === name;
-        btn.classList.toggle("is-active", active);
-        btn.setAttribute("aria-selected", String(active));
-    });
-    shell.querySelectorAll(".awtsmoos-sidebar-panel").forEach(panel => {
-        const active = panel.dataset.panel === name;
-        panel.hidden = !active;
-        panel.classList.toggle("is-current-panel", active);
-        panel.setAttribute("aria-hidden", String(!active));
-    });
-}
-
-function makeTabs(counts) {
-    return { tag: "nav", attr: { class: "awtsmoos-sidebar-tabs", "aria-label": "Comment panels" }, children: [
-        tabBlueprint("comments", "Comments", counts.comments, false),
-        tabBlueprint("students", "Students", counts.students, true),
-        tabBlueprint("favorites", "Favorites", counts.favorites, false)
-    ] };
-}
-
-function tabBlueprint(panel, label, count, active) {
-    return {
-        tag: "button",
-        attr: { class: `awtsmoos-sidebar-tab-btn ${active ? "is-active" : ""}`, type: "button", "data-panel": panel, "aria-selected": String(active) },
-        children: [{ tag: "span", children: [label] }, { tag: "strong", children: [String(count)] }]
-    };
+function placeholder(text) {
+    return manifest({ tag: "div", attr: { class: "loading-ink awtsmoos-empty-placeholder" }, children: [text] });
 }
 
 function makeSearch() {
     return manifest({ tag: "div", attr: { class: "awtsmoos-sidebar-search" }, children: [
-        { tag: "input", attr: { class: "awtsmoos-sidebar-search-input", type: "search", placeholder: "Search comments or students…", autocomplete: "off" } },
+        { tag: "input", attr: { class: "awtsmoos-sidebar-search-input", type: "search", placeholder: "Search students…", autocomplete: "off" } },
         { tag: "button", attr: { class: "awtsmoos-sidebar-filter-btn", type: "button", title: "Filter" }, children: ["☰"] }
     ] });
 }
@@ -97,61 +69,36 @@ function actionRows(keepersWrap) {
     ] });
 }
 
-function makeShell(counts) {
-    return manifest({ tag: "div", attr: { class: "awtsmoos-ideal-sidebar" }, children: [
-        makeTabs(counts),
-        { tag: "div", attr: { class: "awtsmoos-sidebar-panels" }, children: [
-            { tag: "section", attr: { class: "awtsmoos-sidebar-panel", "data-panel": "comments", hidden: true, "aria-hidden": "true" } },
-            { tag: "section", attr: { class: "awtsmoos-sidebar-panel is-current-panel", "data-panel": "students", "aria-hidden": "false" } },
-            { tag: "section", attr: { class: "awtsmoos-sidebar-panel", "data-panel": "favorites", hidden: true, "aria-hidden": "true" } }
+function makeStudentsPage(count) {
+    return manifest({ tag: "section", attr: { class: "awtsmoos-ideal-sidebar awtsmoos-students-page" }, children: [
+        { tag: "header", attr: { class: "awtsmoos-section-title-row" }, children: [
+            { tag: "h3", children: ["Students"] },
+            { tag: "span", attr: { class: "awtsmoos-count-pill" }, children: [String(count)] }
         ] }
     ] });
 }
 
-function connectTabs(shell) {
-    shell.querySelectorAll(".awtsmoos-sidebar-tab-btn").forEach(button => button.addEventListener("click", () => setActivePanel(shell, button.dataset.panel)));
-}
-
-function setupStudentsPanel(shell, aliases) {
-    const panel = shell.querySelector('[data-panel="students"]');
+export async function makeCommentatorList(actualTab, forceFresh = false) {
+    actualTab.innerHTML = "";
+    actualTab.appendChild(placeholder("Gathering commentators…"));
+    await nextFrame();
+    const aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
+    const page = makeStudentsPage(aliases?.length || 0);
     const keepersWrap = document.createElement("div");
     keepersWrap.className = "keepers-assembly awtsmoos-students-list";
-    panel.append(makeSearch(), makeAiRow(), keepersWrap, actionRows(keepersWrap));
-    bindSearch(shell);
-    if (!aliases.length) {
-        keepersWrap.innerHTML = `<div class="assembly-void-msg awtsmoos-empty-placeholder">The chambers are currently silent.</div>`;
-        return Promise.resolve();
+    page.append(makeSearch(), makeAiRow(), keepersWrap, actionRows(keepersWrap));
+    actualTab.innerHTML = "";
+    actualTab.appendChild(page);
+    bindSearch(page);
+    if (!aliases?.length) {
+        keepersWrap.appendChild(placeholder("The chambers are currently silent."));
+        return;
     }
-    return renderChunked(aliases, alias => {
+    await renderChunked(aliases, alias => {
         const row = createKeeperRow(alias, triggerAliasTab);
         row.dataset.awtsmoosSearchText = String(alias).toLowerCase();
         return row;
     }, keepersWrap, 10);
-}
-
-function setupCommentsPanel(shell) {
-    const panel = shell.querySelector('[data-panel="comments"]');
-    panel.append(loadingNode("Choose a student to read comments."));
-    makeAddCommentSection(panel);
-}
-
-function setupFavoritesPanel(shell) {
-    shell.querySelector('[data-panel="favorites"]').innerHTML = `<div class="awtsmoos-empty-placeholder">Favorite stars will gather here.</div>`;
-}
-
-export async function makeCommentatorList(actualTab, forceFresh = false) {
-    actualTab.innerHTML = "";
-    actualTab.appendChild(loadingNode("Gathering commentators…"));
-    await nextFrame();
-    const aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
-    const shell = makeShell({ comments: 0, students: aliases?.length || 0, favorites: 0 });
-    actualTab.innerHTML = "";
-    actualTab.appendChild(shell);
-    connectTabs(shell);
-    setupCommentsPanel(shell);
-    setupFavoritesPanel(shell);
-    await setupStudentsPanel(shell, aliases || []);
-    setActivePanel(shell, "students");
 }
 
 function triggerAliasTab(alias) {
@@ -176,7 +123,7 @@ function triggerAliasTab(alias) {
 
 export async function renderControlsAndComments(coms, alias, tab) {
     tab.innerHTML = "";
-    tab.appendChild(loadingNode(`Opening @${alias} smoothly…`));
+    tab.appendChild(placeholder(`Opening @${alias} smoothly…`));
     await nextFrame();
     const listContainer = document.createElement("div");
     listContainer.className = "sidebar-comment-list awtsmoos-comments-timeline";

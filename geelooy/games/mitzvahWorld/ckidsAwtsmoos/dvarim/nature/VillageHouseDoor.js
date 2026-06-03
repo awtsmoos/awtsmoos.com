@@ -2,17 +2,20 @@
 /**
  * @file VillageHouseDoor.js
  * @description
- * Chapter 147: The small cottage door sits flush in the human doorway.
+ * Chapter 174: The door receives grain, not dead color.
  *
- * The doorway was too large because the whole house is scaled. The door leaf is
- * therefore authored small locally, then scaled with the house. Future AI: do
- * not detach this door from the front-center anchor and never feed it to octree.
+ * The house may be 4.8x, but the leaf remains human-sized and textured. The
+ * click box is invisible by design; every visible door part uses the same
+ * procedural material system as the cottage, so no flat brown rectangle returns.
+ * Future AI: do not enlarge this door to match the house scale.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
+import { material as texturedMaterial } from "./villagePicture/geometryKit.js";
 
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
-const mat = color => new THREE.MeshLambertMaterial({ color });
+const wood = color => texturedMaterial(color, { textureMode: "wood" });
+const brass = color => texturedMaterial(color, { textureMode: "stone", emissive: 0x2a1800, emissiveIntensity: 0.15 });
 
 function part(root, owner, name, pos, size, material, ray = false) {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), material);
@@ -33,7 +36,7 @@ export default class VillageHouseDoor extends Domem {
     this.options = op;
     this.scaleValue = num(op.scale, 1);
     this.open = Boolean(op.open);
-    this.openAngle = num(op.openAngle, -1.22);
+    this.openAngle = num(op.openAngle, -1.3);
     this.target = this.open ? this.openAngle : 0;
     this.angle = this.target;
     this.proximity = num(op.proximity, 7.5);
@@ -55,11 +58,11 @@ export default class VillageHouseDoor extends Domem {
     const root = new THREE.Group();
     root.name = this.name || "VillageHouseDoor";
     this.hinge = new THREE.Group();
-    this.hinge.position.set(-0.34, 0.61, 0.16);
-    part(this.hinge, this, "door_leaf", [0.34, 0, 0], [0.64, 1.14, 0.12], mat(0x7a421e));
-    part(this.hinge, this, "door_cross", [0.34, 0.2, -0.08], [0.48, 0.07, 0.06], mat(0x3a1d0b));
-    part(this.hinge, this, "door_knob", [0.58, -0.04, -0.13], [0.065, 0.065, 0.05], mat(0xffd05a));
-    part(root, this, "door_click_box", [0, 0.64, 0.12], [0.9, 1.55, 0.72], new THREE.MeshBasicMaterial({ visible: false }), true);
+    this.hinge.position.set(-0.23, 0.39, 0.14);
+    part(this.hinge, this, "door_leaf", [0.23, 0, 0], [0.42, 0.78, 0.09], wood(0x7a421e));
+    part(this.hinge, this, "door_cross", [0.23, 0.13, -0.06], [0.32, 0.05, 0.04], wood(0x3a1d0b));
+    part(this.hinge, this, "door_knob", [0.36, -0.04, -0.09], [0.045, 0.045, 0.035], brass(0xffd05a));
+    part(root, this, "door_click_box", [0, 0.43, 0.12], [0.62, 1.04, 0.55], new THREE.MeshBasicMaterial({ visible: false }), true);
     root.add(this.hinge);
     root.traverse(child => { child.nivraAwtsmoos = this; child.frustumCulled = false; });
     return root;

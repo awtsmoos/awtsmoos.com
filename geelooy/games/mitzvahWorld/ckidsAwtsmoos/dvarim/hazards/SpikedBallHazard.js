@@ -1,9 +1,11 @@
 // B"H
 /**
  * @file SpikedBallHazard.js
- * @description Chapter 63: the lava globe is not a red balloon anymore. It
- * carries a procedural black-crust/orange-vein texture with MeshBasicMaterial so
- * mobile lighting cannot flatten it. Collision stays exact squared-sphere math.
+ * @description
+ * Chapter 163: Lava globes keep texture without burning the whole scene white.
+ *
+ * These hazards stay visually molten, but the palette is now dark crust with
+ * amber veins and Lambert lighting. Collision remains exact squared-sphere math.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -11,30 +13,21 @@ import * as THREE from "/games/scripts/build/three.module.js";
 const now = () => (globalThis.performance?.now?.() || Date.now()) / 1000;
 const playerPos = player => player?.mesh?.position || player?.modelMesh?.position || null;
 const clamp = value => Math.max(0, Math.min(255, Math.round(value)));
-
-/** @param {object} root Visual root. @param {boolean} visible Visibility. */
 function show(root, visible) { if (root) root.visible = visible; }
+function freeze(player, token) { Object.assign(player, { __spikeDefeated: true, __spikeDeathControlsFrozen: true, __spikeColliderDisabled: true, __spikeDeathToken: token, moving: {} }); player.velocity?.set?.(0, 0, 0); player.acceleration?.set?.(0, 0, 0); }
 
-/** @param {object} player Chossid-like player. @param {number} token Death token. */
-function freeze(player, token) {
-  Object.assign(player, { __spikeDefeated: true, __spikeDeathControlsFrozen: true, __spikeColliderDisabled: true, __spikeDeathToken: token, moving: {} });
-  player.velocity?.set?.(0, 0, 0);
-  player.acceleration?.set?.(0, 0, 0);
-}
-
-/** @returns {THREE.DataTexture} Strong visible molten crust texture. */
 function lavaTexture() {
   const size = 96;
   const data = new Uint8Array(size * size * 4);
   for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
     const i = (y * size + x) * 4;
     const vein = Math.sin(x * 0.34) + Math.cos(y * 0.29) + Math.sin((x - y) * 0.18);
-    const crack = x % 17 < 1 || y % 19 < 1 || ((x + y) % 29 < 1);
-    const ember = ((x * 13 + y * 23) & 63) > 54;
-    const hot = crack || vein > 1.1 || ember;
-    data[i] = hot ? 255 : clamp(56 + vein * 18);
-    data[i + 1] = hot ? clamp(118 + vein * 22) : clamp(18 + vein * 8);
-    data[i + 2] = hot ? clamp(18 + vein * 4) : 4;
+    const crack = x % 23 < 1 || y % 29 < 1 || ((x + y) % 37 < 1);
+    const ember = ((x * 13 + y * 23) & 63) > 58;
+    const hot = crack || vein > 1.35 || ember;
+    data[i] = hot ? 205 : clamp(42 + vein * 12);
+    data[i + 1] = hot ? clamp(78 + vein * 12) : clamp(14 + vein * 6);
+    data[i + 2] = hot ? clamp(14 + vein * 3) : 3;
     data[i + 3] = 255;
   }
   const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
@@ -48,12 +41,10 @@ function lavaTexture() {
   return tex;
 }
 
-/** Moving lava-globe hazard with squared sphere collision. */
 export default class SpikedBallHazard extends Domem {
   type = "spikedBallHazard";
   heesHawveh = true;
 
-  /** @param {object} op Authored JSON. @param {object} olam Runtime world. */
   constructor(op = {}, olam) {
     super({ ...op, isSolid: false, interactable: false }, olam);
     this.origin = { ...(op.position || { x: 0, y: 0, z: 0 }) };
@@ -65,7 +56,6 @@ export default class SpikedBallHazard extends Domem {
     this._triggered = false;
   }
 
-  /** @param {object} olam Runtime world. @returns {Promise<void>} */
   async heescheel(olam) {
     this.olam = olam;
     this.mesh = this.makeMesh();
@@ -73,19 +63,17 @@ export default class SpikedBallHazard extends Domem {
     this.isReady = true;
   }
 
-  /** @returns {THREE.Mesh} Efficient textured lava globe mesh. */
   makeMesh() {
-    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: lavaTexture() });
+    const material = new THREE.MeshLambertMaterial({ color: 0x8d3818, map: lavaTexture(), emissive: 0x160300 });
     const geometry = new THREE.SphereGeometry(this.radius, 24, 16);
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = this.name || "TexturedLavaGlobeHazard";
+    mesh.name = this.name || "ReadableLavaGlobeHazard";
     mesh.position.set(this.origin.x, this.origin.y, this.origin.z);
     mesh.userData.skipRaycast = true;
     mesh.userData.addToOctree = false;
     return mesh;
   }
 
-  /** @returns {void} Moves and checks collision. */
   heesHawvoos() {
     if (!this.mesh) return;
     const offset = Math.sin(now() * this.speed) * this.amplitude;
@@ -97,7 +85,6 @@ export default class SpikedBallHazard extends Domem {
     this.checkHit();
   }
 
-  /** @returns {void} Squared globe collision, no sqrt. */
   checkHit() {
     if (this._triggered || this.olam?.__spikeDeathActive) return;
     const player = this.olam?.chossid, p = playerPos(player), s = this.mesh?.position;
@@ -107,7 +94,6 @@ export default class SpikedBallHazard extends Domem {
     if (dx * dx + dy * dy + dz * dz <= r * r) this.hit(player);
   }
 
-  /** @param {object} player Chossid-like player. @returns {void} */
   hit(player) {
     this._triggered = true;
     this.olam.__spikeDeathActive = true;
@@ -120,12 +106,8 @@ export default class SpikedBallHazard extends Domem {
     this.olam?.ayshPeula?.("ui event", "effectsOverlay", payload);
   }
 
-  /** @param {object} player Chossid-like player. @param {number} token Death token. */
   hidePlayer(player, token) {
     if (player.__spikeDeathToken !== token) return;
-    show(player.modelMesh, false);
-    show(player.visualObject, false);
-    show(player.guf, false);
-    show(player.mesh, false);
+    show(player.modelMesh, false); show(player.visualObject, false); show(player.guf, false); show(player.mesh, false);
   }
 }

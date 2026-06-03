@@ -1,12 +1,13 @@
 /* B"H
- * Chapter 67: The river is released from the iron throat.
- * The Awtsmoos opens every ancestor of the reader so the finger may descend,
- * the page may breathe, and no fixed-height prison can swallow the scroll.
+ * Chapter 79: No sideways river remains.
+ * The Awtsmoos opens the vertical scroll and seals every horizontal crack.
+ * The hand moves only upward and downward; no hidden width exiles the page.
  */
 
 html,
 body {
     width: 100% !important;
+    max-width: 100% !important;
     min-height: 100% !important;
     height: auto !important;
     overflow-x: hidden !important;
@@ -25,6 +26,7 @@ body {
 body.awtsmoos-reader-scroll-repaired,
 html.awtsmoos-reader-scroll-repaired {
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     position: static !important;
 }
 
@@ -32,6 +34,7 @@ html.awtsmoos-reader-scroll-repaired {
     position: relative !important;
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
     min-height: 100dvh !important;
     height: auto !important;
     max-height: none !important;
@@ -56,10 +59,12 @@ html.awtsmoos-reader-scroll-repaired {
     position: static !important;
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
     min-height: calc(100dvh - var(--awt-header-space)) !important;
     height: auto !important;
     max-height: none !important;
-    overflow: visible !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
     padding-bottom: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
     touch-action: pan-y !important;
 }
@@ -68,10 +73,11 @@ html.awtsmoos-reader-scroll-repaired {
     position: relative !important;
     z-index: var(--z-reader) !important;
     width: 100% !important;
+    max-width: 100% !important;
     min-height: calc(100dvh - var(--awt-header-space)) !important;
     height: auto !important;
     max-height: none !important;
-    overflow-x: visible !important;
+    overflow-x: clip !important;
     overflow-y: visible !important;
     padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
     touch-action: pan-y !important;
@@ -84,9 +90,12 @@ html.awtsmoos-reader-scroll-repaired {
     min-height: 125dvh !important;
     height: auto !important;
     margin: 0 auto !important;
-    overflow: visible !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
 }
 
 @media (min-width: 901px) {
-    .post-reader-localized-context .scroll-view-wrapper { padding-inline: clamp(2rem, 7vw, 8rem) !important; }
+    .post-reader-localized-context .scroll-view-wrapper {
+        padding-inline: clamp(2rem, 7vw, 8rem) !important;
+    }
 }

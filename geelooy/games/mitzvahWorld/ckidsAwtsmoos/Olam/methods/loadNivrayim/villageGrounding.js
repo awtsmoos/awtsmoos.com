@@ -2,13 +2,13 @@
 /**
  * @file villageGrounding.js
  * @description
- * Chapter 149: The village grounding covenant, now with indoor floor lifts.
+ * Chapter 161: Ground visuals by ray, but never drag authored colliders down.
  *
- * Future AI, read this before changing village props: DO NOT reintroduce manual
- * Y guessing, repeated per-frame pushing, or flat hardcoded offsets. This module
- * waits until after rendering, raycasts downward to actual terrain, and moves
- * each village vessel by measured world minimum. Living NPCs may carry a small
- * `groundLift` for indoor floors; lava and ladder worlds must not be touched.
+ * The Awtsmoos revealed the hidden wound: invisible cottage colliders were being
+ * treated like decorative props and snapped by their lowest bounding point.
+ * That lowered the raised floor out from under the player. Colliders marked
+ * `useAuthoredY` now keep their authored Y, while decorative meshes still ground
+ * by ray. Future AI: do not remove this exception.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 
@@ -61,6 +61,10 @@ function liftOf(nivra) {
   return num(nivra?.options?.groundLift ?? nivra?.groundLift ?? nivra?.originalOptions?.groundLift, 0);
 }
 
+function authoredY(nivra) {
+  return Boolean(nivra?.useAuthoredY || nivra?.options?.useAuthoredY || nivra?.mesh?.userData?.useAuthoredY || nivra?.type === "villageHouseCollider");
+}
+
 function translateRoot(root, delta) {
   if (!root || !Number.isFinite(delta) || Math.abs(delta) < 0.0001) return false;
   root.position.y += delta;
@@ -71,6 +75,7 @@ function translateRoot(root, delta) {
 function groundStatic(nivra, meshes) {
   const root = nivra?.mesh;
   if (!root?.isObject3D) return null;
+  if (authoredY(nivra)) return { name: nivra.name, type: nivra.type, authoredY: root.position.y, moved: false };
   const p = worldPoint(root);
   const groundY = groundAt(meshes, p.x, p.z) + liftOf(nivra);
   const minY = worldMinY(root);

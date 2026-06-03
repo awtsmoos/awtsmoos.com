@@ -2,23 +2,21 @@
 /**
  * @module OlamGraftingPlain
  * @description
- * Chapter 156: the graft chain carries the indoor-floor grounding seal. The
- * Awtsmoos makes sure the worker imports the fresh LoadNivrayim vessel, not an
- * old cached river where indoor NPCs sink or float.
+ * Chapter 170: the graft chain carries authored cottage collision, centered
+ * NPC market, and readable lava into the worker-created Olam.
  */
 import loading from "../methods/loadingPlain.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
 import heesHawvoos from "../methods/heesHawvoos.js";
 import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=indoor-floor-lift-20260602-bh156";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=authored-collider-floor-20260602-bh170";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
 import bindAllListeners from "../eventListeners/index.js";
 
 export default class OlamGraftingPlain {
-  /** @param {object} olam Runtime world. @returns {Promise<void>} */
   static async graft(olam) {
     const isWorker = typeof document === "undefined";
     const graftModule = ClassDef => {

@@ -2,13 +2,13 @@
 /**
  * @module OlamVessel
  * @description
- * Chapter 157: The Root Vessel imports the indoor-floor graft chain. The
- * Awtsmoos carries raised cottage floor grounding and exact coin collision into
- * the worker-created Olam.
+ * Chapter 171: The Root Vessel imports the authored-collider graft chain. The
+ * Awtsmoos carries raised cottage floor collision, centered NPC shop, and
+ * readable lava into the worker-created Olam.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGraftingPlain.js?v=indoor-floor-lift-20260602-bh157";
+import OlamGrafting from "./OlamGraftingPlain.js?v=authored-collider-shop-lava-20260602-bh171";
 import OlamProperties from "../properties/index.js";
 import OlamInit from "./OlamInit.js";
 import Ayin from "../camera/index.js?v=old-smooth-camera-20260602-bh13";

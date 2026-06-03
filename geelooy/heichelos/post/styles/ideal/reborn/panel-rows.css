@@ -1,19 +1,21 @@
 /* B"H
- * Chapter 69b: Student rows regain their faces.
- * The Awtsmoos removes browser-white masks and gives every keeper a dark,
- * readable doorway with a clean avatar, text column, and control rail.
+ * Chapter 81: The tabs learn to wrap, not wander.
+ * The Awtsmoos forbids horizontal scrolling in the sidebar. Buttons fold into
+ * rows, student cards keep one readable lane, and nothing demands extra width.
  */
 
 .post-reader-localized-context .awtsmoos-sidebar-tabs {
     display: flex !important;
+    flex-wrap: wrap !important;
     gap: 8px !important;
     padding: 0 0 10px !important;
-    overflow-x: auto !important;
+    overflow-x: clip !important;
 }
 
 .post-reader-localized-context .awtsmoos-sidebar-tab-btn {
-    flex: 1 0 auto !important;
-    min-width: 92px !important;
+    flex: 1 1 7rem !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
     border: 1px solid var(--awt-line) !important;
     border-radius: 14px !important;
     background: rgba(255,255,255,.055) !important;
@@ -34,6 +36,7 @@
 .post-reader-localized-context .awtsmoos-list-item {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     border: 1px solid var(--awt-line) !important;
     border-radius: var(--awt-radius) !important;
     background: linear-gradient(180deg, var(--awt-panel-2), rgba(11,18,32,.94)) !important;
@@ -43,8 +46,8 @@
 
 .post-reader-localized-context .awtsmoos-student-row {
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto !important;
-    align-items: center !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
     gap: 10px !important;
     padding: 10px !important;
     min-height: 74px !important;
@@ -57,6 +60,7 @@
     align-items: center !important;
     gap: 10px !important;
     min-width: 0 !important;
+    max-width: 100% !important;
     border: 0 !important;
     background: transparent !important;
     color: inherit !important;
@@ -83,15 +87,14 @@
 .post-reader-localized-context .menu-text-vessel {
     display: grid !important;
     min-width: 0 !important;
+    max-width: 100% !important;
     gap: 3px !important;
 }
 
 .post-reader-localized-context .menu-portal-title,
 .post-reader-localized-context .awtsmoos-student-name,
 .post-reader-localized-context .comment-author-link {
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
+    overflow-wrap: anywhere !important;
     color: var(--awt-text) !important;
     font: 900 .95rem/1.15 var(--font-ui) !important;
     text-decoration: none !important;
@@ -102,4 +105,5 @@
 .post-reader-localized-context .comment-time {
     color: var(--awt-muted) !important;
     font: 650 .78rem/1.25 var(--font-ui) !important;
+    overflow-wrap: anywhere !important;
 }

@@ -2,15 +2,13 @@
 /**
  * @module SoulLoader
  * @description
- * Chapter 155: Worker loader imports the indoor-floor grounding seal. The
- * Awtsmoos measures terrain, then allows explicitly lifted indoor NPCs to stand
- * on the raised cottage floor instead of sinking into it.
+ * Chapter 169: Worker loader imports the authored-collider grounding seal. The
+ * Awtsmoos keeps raised house colliders in the regular octree at authored Y.
  */
 import { autoGroundNivrayim } from "./AutoGrounder.js?v=ground-zero-non-village-20260602-bh126";
-import { scheduleVillageGrounding } from "../../../methods/loadNivrayim/villageGrounding.js?v=indoor-floor-lift-20260602-bh155";
+import { scheduleVillageGrounding } from "../../../methods/loadNivrayim/villageGrounding.js?v=authored-collider-floor-20260602-bh169";
 
 export class SoulLoader {
-  /** @param {any} olam Olam instance. @param {object} payload Worker payload. @returns {Promise<any[]>} Created Nivrayim. */
   static async load(olam, payload) {
     const worldData = payload.userInfo || payload;
     const nivrayimData = worldData.nivrayim || {};

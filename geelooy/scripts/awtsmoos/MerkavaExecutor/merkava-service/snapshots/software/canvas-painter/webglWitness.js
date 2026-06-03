@@ -1,15 +1,15 @@
 // B"H
 /**
- * WebGL witness: the Awtsmoos makes invisible GPU state legible. The cube now
- * carries unmistakable rainbow faces, not merely a golden wireframe, so MiniMax
- * can see texture/program/draw state with its eyes.
+ * WebGL witness: the Awtsmoos makes invisible GPU state legible. The grid is
+ * bright enough for vision audit, badges are short, and rainbow cube faces
+ * remain loud.
  */
 export function paintWebgl(fb, texture, box) {
   const commands = texture.commands || [];
   fb.fillRect(box.x, box.y, box.w, box.h, clearColor(commands));
   grid(fb, box);
-  badge(fb, box.x + 8, box.y + 8, 'GPU', [35, 55, 105, 235]);
-  badge(fb, box.x + box.w - 66, box.y + 8, `DRAW${drawCount(commands)}`, [65, 40, 120, 235]);
+  badge(fb, box.x + 8, box.y + 8, 'GPU', [35, 55, 105, 245], 52);
+  badge(fb, box.x + box.w - 54, box.y + 8, `D${drawCount(commands)}`, [65, 40, 120, 245], 46);
   fb.drawText('WEBGL CUBE', box.x + 68, box.y + 10, [255, 255, 255, 255], 1, Math.max(74, box.w - 144));
   cube(fb, { x: box.x + 22, y: box.y + 40, w: box.w - 44, h: Math.max(74, box.h - 96) }, hasTexture(commands));
   swatches(fb, box);
@@ -30,14 +30,14 @@ function drawCount(commands) {
 }
 
 function grid(fb, box) {
-  for (let x = box.x + 18; x < box.x + box.w; x += 32) fb.drawLine(x, box.y, x, box.y + box.h, [120, 85, 200, 55], 1);
-  for (let y = box.y + 18; y < box.y + box.h; y += 32) fb.drawLine(box.x, y, box.x + box.w, y, [120, 85, 200, 55], 1);
+  for (let x = box.x + 18; x < box.x + box.w; x += 32) fb.drawLine(x, box.y, x, box.y + box.h, [80, 190, 255, 125], 1);
+  for (let y = box.y + 18; y < box.y + box.h; y += 32) fb.drawLine(box.x, y, box.x + box.w, y, [80, 190, 255, 125], 1);
 }
 
-function badge(fb, x, y, label, fill) {
-  fb.fillRect(x, y, 58, 22, fill);
-  fb.strokeRect(x, y, 58, 22, [126, 220, 255, 255], 1);
-  fb.drawText(String(label), x + 5, y + 6, [255, 255, 255, 255], 1, 50);
+function badge(fb, x, y, label, fill, width) {
+  fb.fillRect(x, y, width, 22, fill);
+  fb.strokeRect(x, y, width, 22, [126, 220, 255, 255], 1);
+  fb.drawText(String(label), x + 5, y + 6, [255, 255, 255, 255], 1, width - 8);
 }
 
 function cube(fb, box, textured) {

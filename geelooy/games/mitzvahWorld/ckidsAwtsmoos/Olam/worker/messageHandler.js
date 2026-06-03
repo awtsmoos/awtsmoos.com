@@ -2,13 +2,13 @@
 /**
  * @file messageHandler.js
  * @description
- * Chapter 137: The Browser Handler imports the fresh centered NPC UI, enlarged
- * walk-in-house message path, and old lava reset behavior. Future AI: if NPC UI
- * looks left-clipped, first check this cache seal before inventing another UI.
+ * Chapter 165: The Browser Handler imports the single centered NPC/shop UI,
+ * authored cottage colliders, and readable lava seal. Future AI: if BUY/SELL
+ * does not open a centered market, first check this cache seal.
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=centered-npc-big-house-20260602-bh137";
+import uiHandlers from "./handlers/ui.js?v=centered-npc-shop-readable-lava-20260602-bh165";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
 import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
 

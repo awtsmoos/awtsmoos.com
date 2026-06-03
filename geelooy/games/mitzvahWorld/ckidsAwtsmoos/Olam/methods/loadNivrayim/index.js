@@ -2,20 +2,18 @@
 /**
  * @file index.js
  * @description
- * Chapter 154: The loader carries the indoor-floor village grounding seal.
- * The Awtsmoos waits for the first rendered breath, then grounds village props
- * and lifted indoor NPCs by the fresh ray/lift covenant.
+ * Chapter 168: The loader carries the authored-collider village grounding seal.
+ * The Awtsmoos waits for the first rendered breath, then grounds only what
+ * should be grounded; invisible cottage colliders keep authored Y.
  */
 import instantiate from "./instantiateMezuzahDirect.js";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
-import { scheduleVillageGrounding } from "./villageGrounding.js?v=indoor-floor-lift-20260602-bh154";
+import { scheduleVillageGrounding } from "./villageGrounding.js?v=authored-collider-floor-20260602-bh168";
 
 export default class LoadNivrayim {
-  /** @param {string} type Nivra type. @param {object} options Config. @returns {Promise<object|null>} Created object. */
   async addObject(type, options) { return await instantiate.addObject.call(this, type, options); }
 
-  /** @param {object} nivrayim Pure level data. @returns {Promise<object[]>} Loaded nivrayim. */
   async loadNivrayim(nivrayim) {
     try {
       TimeTracker.start("LOAD_NIVRAYIM");
@@ -40,7 +38,7 @@ export default class LoadNivrayim {
         try { this.ohr(); }
         catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }
       }
-      TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified, linked, and indoor village grounding scheduled.");
+      TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified; authored cottage collision preserved.");
       return nivrayimMade || [];
     } catch (error) {
       console.error("B\"H - 🚨 THE ENTIRE CREATION PROTOCOL FAILED:", error);

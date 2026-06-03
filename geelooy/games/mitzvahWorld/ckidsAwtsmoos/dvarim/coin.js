@@ -2,20 +2,44 @@
 /**
  * @file coin.js
  * @description
- * Chapter 151: Perutah collection becomes exact again.
+ * Chapter 175: Perutos become textured copper, and collection stays exact.
  *
  * The lava levels were using a broad sphere that could grab coins too early.
  * Now a perutah requires a real capsule-to-coin touch with a smaller radius and
- * a vertical overlap gate. Future AI: do not inflate `proximity` to make coins
- * feel easier; tune coin placement instead.
+ * a vertical overlap gate. Its visible surface also receives a procedural copper
+ * fleck texture, not a dead flat color. Future AI: tune placement, not pickup
+ * radius, and do not remove the copper texture.
  */
 import Tzomayach from "../chayim/tzomayach.js";
 import Utils from "../utils.js";
+import * as THREE from "/games/scripts/build/three.module.js";
 import { CurrencySystem } from "./currencySystem.js";
 
 export { CurrencySystem };
 const safeNumber = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 const COPPER = Object.freeze({ color: 0xd98a45, emissive: 0x5a240b, roughness: 0.22, metalness: 0.88 });
+
+function copperTexture() {
+  const size = 64;
+  const data = new Uint8Array(size * size * 4);
+  for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
+    const i = (y * size + x) * 4;
+    const ring = Math.sin(Math.hypot(x - 32, y - 32) * 0.7) * 18;
+    const speck = ((x * 17 + y * 29 + (x ^ y) * 3) & 31) < 5 ? 22 : -8;
+    data[i] = Math.max(0, Math.min(255, 198 + ring + speck));
+    data[i + 1] = Math.max(0, Math.min(255, 112 + ring * 0.45 + speck * 0.35));
+    data[i + 2] = Math.max(0, Math.min(255, 42 + ring * 0.15));
+    data[i + 3] = 255;
+  }
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  texture.repeat.set(1.6, 1.6);
+  texture.needsUpdate = true;
+  return texture;
+}
 
 function markCoinVisual(mesh) {
   if (!mesh) return;
@@ -29,11 +53,13 @@ function copperGolem() {
 }
 
 function applyCopperMaterial(root) {
+  const texture = copperTexture();
   root?.traverse?.(child => {
     const materials = Array.isArray(child?.material) ? child.material : child?.material ? [child.material] : [];
     materials.forEach(material => {
       material.color?.setHex?.(COPPER.color);
       material.emissive?.setHex?.(COPPER.emissive);
+      material.map = texture;
       if ("metalness" in material) material.metalness = COPPER.metalness;
       if ("roughness" in material) material.roughness = COPPER.roughness;
       material.needsUpdate = true;

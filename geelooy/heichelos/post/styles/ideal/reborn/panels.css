@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 69a: Only one chamber speaks.
- * The Awtsmoos makes panel visibility a law: inactive chambers are absent,
- * active chambers alone receive breath, scroll, and touch.
+ * Chapter 84: The chamber title may wrap.
+ * Visibility is still sacred: one slide speaks, all hidden slides vanish. But
+ * no label may force the sidebar wider than the screen.
  */
 
 .post-reader-localized-context .awtsmoos-slide-viewport {
@@ -17,13 +17,16 @@
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
+    max-width: 100% !important;
     height: 100% !important;
     min-height: 0 !important;
+    min-width: 0 !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
     transform: translate3d(8%, 0, 0) !important;
     background: var(--awt-panel) !important;
+    overflow-x: clip !important;
 }
 
 .post-reader-localized-context .awtsmoos-slide-view.active-view {
@@ -49,6 +52,7 @@
     align-items: center !important;
     gap: 10px !important;
     min-height: 56px !important;
+    min-width: 0 !important;
     padding: 10px 14px !important;
     border-bottom: 1px solid var(--awt-line) !important;
     background: rgba(7, 12, 22, .98) !important;
@@ -58,8 +62,9 @@
 .post-reader-localized-context .awtsmoos-sidebar-panel.is-current-panel {
     flex: 1 1 auto !important;
     min-height: 0 !important;
+    min-width: 0 !important;
     overflow-y: auto !important;
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
     -webkit-overflow-scrolling: touch !important;
     padding: 14px !important;
 }
@@ -68,7 +73,7 @@
     min-width: 0 !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    white-space: nowrap !important;
+    overflow-wrap: anywhere !important;
     color: var(--awt-text) !important;
     font: 900 1rem/1.15 var(--font-ui) !important;
 }
@@ -79,6 +84,7 @@
 .post-reader-localized-context .sidebar-comment-list {
     display: grid !important;
     gap: 10px !important;
+    min-width: 0 !important;
 }
 
 .post-reader-localized-context .awtsmoos-ideal-sidebar,
@@ -87,5 +93,7 @@
     flex-direction: column !important;
     gap: 10px !important;
     min-height: 0 !important;
+    min-width: 0 !important;
     color: var(--awt-text) !important;
+    overflow-x: clip !important;
 }
