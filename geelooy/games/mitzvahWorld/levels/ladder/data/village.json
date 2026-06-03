@@ -1,7 +1,7 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "village.json",
-  "shaym": "UV_Textured_Cottage_Low_Aligned_Collider",
+  "shaym": "Village_Cottage_No_Lintel_Gap_Aligned_Door",
   "title": "Grounded Village",
   "requiredPerutos": 0,
   "nextLevel": "ladder-1.json",
@@ -180,7 +180,7 @@
         "depth": 23,
         "height": 13.6,
         "doorWidth": 2.12,
-        "floorTop": 0.18,
+        "floorTop": 0.2,
         "thickness": 0.85,
         "position": {
           "x": 13,
@@ -201,9 +201,9 @@
         "name": "cottage_real_hinged_door",
         "scale": 4.8,
         "position": {
-          "x": 9.771,
+          "x": 9.817,
           "y": 0,
-          "z": 1.452
+          "z": 1.464
         },
         "rotation": {
           "y": -0.25

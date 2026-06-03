@@ -1,5 +1,5 @@
 B"H
-1.0.36
+1.0.38
 main.js
 
 lib/config.js
@@ -9,7 +9,6 @@ lib/open.js
 lib/tool-schema-catalog.js
 lib/ws.js
 main.js
-manifest.json
 tools/chrome.js
 tools/chrome/actions.js
 tools/chrome/cdp.js
@@ -78,8 +77,8 @@ tools/fs/httpCookieJar.js
 tools/fs/index.js
 tools/fs/isolatedHtml.js
 tools/fs/isolatedJs.js
-tools/fs/jsWriteVerifier.js
 tools/fs/jsonTools.js
+tools/fs/jsWriteVerifier.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
 tools/fs/nodeCheckMany.js

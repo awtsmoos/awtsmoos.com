@@ -1,0 +1,189 @@
+/* B"H
+ * Chapter 171: Proportional smallness is sealed into the final cascade.
+ * Inline headers keep a minimum size, scale gently upward with the reader, and
+ * never converge with the main Torah letters. The comment body alone echoes the
+ * main text with near-reader weight.
+ */
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shell,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shell *,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger *,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-shell,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-shell :not(.awtsmoos-comment-body):not(.awtsmoos-comment-body *):not(.comment-text-root):not(.comment-text-root *) {
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-inline-meta-size, 12px) !important;
+    line-height: 1.25 !important;
+    font-weight: 800 !important;
+    letter-spacing: normal !important;
+    text-align: center !important;
+    text-shadow: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-shelter-label,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-trigger-title,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shelter-label,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-title {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    max-width: 100% !important;
+    color: var(--inline-edge-gold, #f6c96c) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-inline-label-size, 13px) !important;
+    font-weight: 950 !important;
+    line-height: 1.12 !important;
+    letter-spacing: .14em !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 0 14px rgba(246,201,108,.22) !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-trigger-subtitle,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-trigger-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-comment-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-subtitle,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-meta {
+    color: var(--inline-text-blue, #cbd5e1) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-inline-meta-size, 12px) !important;
+    font-weight: 850 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0 !important;
+    text-shadow: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-trigger-preview,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-preview {
+    display: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-trigger-copy,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-copy {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .35rem .7rem !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-trigger,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger {
+    min-height: 0 !important;
+    padding: .85rem 1rem !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-card-header,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .awtsmoos-comment-card-header,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-card-header,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-card-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 46px !important;
+    align-items: center !important;
+    gap: .75rem !important;
+    padding: .85rem 1rem !important;
+    direction: ltr !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .awtsmoos-comment-avatar,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-avatar,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-avatar,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-avatar {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    width: 46px !important;
+    height: 46px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .awtsmoos-comment-heading,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-card-heading,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-heading,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-card-heading {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    display: grid !important;
+    justify-items: start !important;
+    text-align: start !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .comment-author-link,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .awtsmoos-inline-title,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .comment-author-link,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-title {
+    color: #fffdf5 !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-ui-chip-size, 14px) !important;
+    font-weight: 950 !important;
+    line-height: 1.12 !important;
+    letter-spacing: 0 !important;
+    text-decoration: none !important;
+    text-shadow: 0 8px 18px rgba(0,0,0,.35) !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .comment-text-root,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .awtsmoos-comment-body,
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .awtsmoos-comment-body *,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .comment-text-root,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-body,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-body * {
+    direction: rtl !important;
+    text-align: center !important;
+    color: var(--inline-text-white, #fffdf5) !important;
+    font-family: var(--font-content) !important;
+    font-size: var(--post-inline-body-size, 36px) !important;
+    font-weight: 780 !important;
+    line-height: 1.44 !important;
+    letter-spacing: normal !important;
+    text-shadow: 0 10px 30px rgba(0,0,0,.58) !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .section.heb .inline-comment .awtsmoos-comment-action-dock,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-action-dock {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .75rem !important;
+}
+
+#custom-context-menu,
+#insane-verse-menu {
+    position: fixed !important;
+    z-index: 2147483647 !important;
+    max-width: min(92vw, 360px) !important;
+    max-height: min(72dvh, 520px) !important;
+    overflow: auto !important;
+    overscroll-behavior: contain !important;
+    border: 1px solid rgba(246,201,108,.34) !important;
+    border-radius: 18px !important;
+    background: rgba(3, 8, 18, .98) !important;
+    color: #fffdf5 !important;
+    box-shadow: 0 22px 70px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    font-family: var(--font-ui, Inter, sans-serif) !important;
+}
+
+#custom-context-menu > *,
+#insane-verse-menu > * {
+    color: inherit !important;
+    font-family: var(--font-ui, Inter, sans-serif) !important;
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+}

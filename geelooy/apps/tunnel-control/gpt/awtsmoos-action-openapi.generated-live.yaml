@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 5.8.0-generated
-  description: B"H. Generated from the local tunnel registry. GPT Store Custom GPT actions can target connected local tunnels or the secure hosted Virtual OS with tunnelName awtsmoos-virtual-os / targetVessel virtual-os. OAuth is declared on awtsmoosTunnelAction; server auth/scope checks remain authoritative.
+  version: 5.9.0-generated
+  description: B"H. Generated from the local tunnel registry. GPT Store Custom GPT actions and all AI-agent tool bridges share the same action list. OAuth is declared on awtsmoosTunnelAction; server auth/scope checks remain authoritative.
 servers:
   - url: https://awtsmoos.com
 paths:

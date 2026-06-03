@@ -1,130 +1,159 @@
-//B"H
+// B"H
+/**
+ * @file contextMenu.js
+ * @description
+ * Chapter 167: The right-click beast becomes a contained mobile sheet.
+ * The old menu used page coordinates and could be clipped by scroll geometry.
+ * This version lives in the viewport, clamps itself, and disappears on any
+ * outside tap, scroll, resize, escape, or new context-menu invocation.
+ */
+
 import { copyToClipboard, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 import { makeToast } from "/heichelos/post/functions/ui.js";
 
+const MENU_ID = "custom-context-menu";
+
+function removeExistingMenu() {
+    document.getElementById(MENU_ID)?.remove();
+}
+
 function compilePostText() {
     if (!window.sectionDayuh || !Array.isArray(window.sectionDayuh)) {
-        console.warn("B\"H - sectionDayuh data not found for copying.");
         const postElement = document.getElementById("realPost");
         return postElement ? postElement.innerText : "";
     }
-
     const postTitle = window.post?.title || "";
     const seriesName = window.series?.prateem?.name || "";
-    
-    let header = "";
-    if (seriesName) header += `${seriesName}\n`;
-    if (postTitle) header += `${postTitle}\n`;
-    if (header) header += "\n---\n\n";
-
+    const header = [seriesName, postTitle].filter(Boolean).join("\n");
     const compiledText = window.sectionDayuh.map(section => {
-        if (Array.isArray(section)) {
-            return section.flat(Infinity).join("\n");
-        }
-        return section;
+        if (Array.isArray(section)) return section.flat(Infinity).join("\n");
+        return section || "";
     }).join("\n\n");
-
-    return header + compiledText;
+    return `${header ? `${header}\n\n---\n\n` : ""}${compiledText}`;
 }
 
-export async function showCustomContextMenu(x, y, e) {
-    const getSelectedText = () => window.getSelection().toString();
-    
-    const subSection = e.target.closest('.sub-awtsmoos');
-    const mainSection = e.target.closest('.section');
-    
+function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+}
+
+function viewportPoint(x, y) {
+    const scrollX = window.scrollX || window.pageXOffset || 0;
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    return { x: x > window.innerWidth ? x - scrollX : x, y: y > window.innerHeight ? y - scrollY : y };
+}
+
+function closeOnOutside(menu) {
+    const close = event => {
+        if (event && menu.contains(event.target)) return;
+        cleanup();
+    };
+    const escape = event => {
+        if (event.key === "Escape") cleanup();
+    };
+    const cleanup = () => {
+        menu.remove();
+        document.removeEventListener("pointerdown", close, true);
+        document.removeEventListener("touchstart", close, true);
+        document.removeEventListener("keydown", escape, true);
+        window.removeEventListener("scroll", cleanup, true);
+        window.removeEventListener("resize", cleanup, true);
+        window.removeEventListener("orientationchange", cleanup, true);
+    };
+    setTimeout(() => {
+        document.addEventListener("pointerdown", close, true);
+        document.addEventListener("touchstart", close, true);
+        document.addEventListener("keydown", escape, true);
+        window.addEventListener("scroll", cleanup, { passive: true, capture: true });
+        window.addEventListener("resize", cleanup, { passive: true, capture: true });
+        window.addEventListener("orientationchange", cleanup, { passive: true, capture: true });
+    }, 0);
+}
+
+function sectionPayload(event) {
+    const subSection = event.target.closest(".sub-awtsmoos");
+    const mainSection = event.target.closest(".section");
     const idx = mainSection ? mainSection.dataset.awtsmoosIdx : null;
     const sub = subSection ? subSection.dataset.awtsmoosSub : null;
+    return { idx, sub, subSection, mainSection };
+}
 
-    const menuActions = {
+function buildActions(event) {
+    const getSelectedText = () => window.getSelection().toString();
+    const { idx, sub, subSection, mainSection } = sectionPayload(event);
+    const actions = {
         "Fullscreen": () => toggleFullscreen(),
-        "Copy Selected": (txt) => copyToClipboard({ text: txt || getSelectedText() }, makeToast),
-        "Copy Entire Post": () => {
-            const fullPostText = compilePostText();
-            if (fullPostText) {
-                copyToClipboard({ text: fullPostText, successMsg: "Entire Revelation Copied!" }, makeToast);
-            } else {
-                makeToast("Could not retrieve post data to copy.");
-            }
-        },
+        "Copy Selected": () => copyToClipboard({ text: getSelectedText() }, makeToast),
+        "Copy Entire Post": () => copyToClipboard({ text: compilePostText(), successMsg: "Entire Revelation Copied!" }, makeToast)
     };
 
     if (idx !== null) {
         const sectionType = sub !== null ? "Paragraph" : "Verse";
-        
-        menuActions[`Comment on ${sectionType}`] = async () => {
+        actions[`Comment on ${sectionType}`] = async () => {
             updateQueryStringParameter("idx", idx);
             updateQueryStringParameter("sub", sub !== null ? sub : null);
-
             if (window.openPanelToComments) {
                 await window.openPanelToComments();
                 if (window.commentLogic?.reloadRoot) await window.commentLogic.reloadRoot();
             }
         };
-        
-        menuActions[`View Commentary`] = async () => {
+        actions["View Commentary"] = async () => {
             const inlineModule = await import("/heichelos/post/comments/inline.js");
-            const targetEl = subSection || mainSection;
-            await inlineModule.showSectionCommentaryInline(idx, sub, targetEl);
+            await inlineModule.showSectionCommentaryInline(idx, sub, subSection || mainSection);
         };
-
-        menuActions[`Copy ${sectionType} Content`] = () => {
-             var sec = window.sectionDayuh[idx];
-             let textToCopy = Array.isArray(sec) ? sec.join(" ") : sec;
-             if (sub !== null && Array.isArray(sec)) textToCopy = sec[sub] || textToCopy;
-             copyToClipboard({ text: textToCopy, successMsg: `Copied ${sectionType}!` }, makeToast);
+        actions[`Copy ${sectionType} Content`] = () => {
+            const sec = window.sectionDayuh?.[idx];
+            let text = Array.isArray(sec) ? sec.join(" ") : sec;
+            if (sub !== null && Array.isArray(sec)) text = sec[sub] || text;
+            copyToClipboard({ text, successMsg: `Copied ${sectionType}!` }, makeToast);
         };
     }
 
-    if (e.target.tagName == "A") {
-        menuActions["Open Link in New Tab"] = () => open(e.target.href, "_blank").focus();
-    }
+    if (event.target.tagName === "A") actions["Open Link in New Tab"] = () => open(event.target.href, "_blank")?.focus?.();
+    return actions;
+}
 
-    renderMenu(x, y, menuActions);
+function placeMenu(menu, x, y) {
+    const point = viewportPoint(x, y);
+    document.body.appendChild(menu);
+    const rect = menu.getBoundingClientRect();
+    const margin = 10;
+    const left = clamp(point.x + 8, margin, Math.max(margin, window.innerWidth - rect.width - margin));
+    const top = clamp(point.y + 8, margin, Math.max(margin, window.innerHeight - rect.height - margin));
+    menu.style.left = `${left}px`;
+    menu.style.top = `${top}px`;
 }
 
 function renderMenu(x, y, actions) {
-    const existingMenu = document.getElementById("custom-context-menu");
-    if (existingMenu) existingMenu.remove();
-    
+    removeExistingMenu();
     const menu = document.createElement("div");
-    menu.id = "custom-context-menu";
-    Object.assign(menu.style, { 
-        position: "absolute", left: `${x}px`, top: `${y}px`, 
-        backgroundColor: "#000", border: "2px solid #fff",
-        color: "white", padding: "0", zIndex: "100000", 
-        boxShadow: "5px 5px 0px rgba(0,0,0,0.5)", minWidth: "220px",
-        fontFamily: "'Space Grotesk', monospace"
-    });
-    
-    for (const [label, action] of Object.entries(actions)) {
-        const item = document.createElement("div");
-        item.innerText = label;
-        item.style.padding = "12px 20px";
-        item.style.cursor = "pointer";
-        item.style.borderBottom = "1px solid #333";
-        item.style.transition = "background 0.1s";
-        
-        item.onclick = (event) => { 
+    menu.id = MENU_ID;
+    menu.setAttribute("role", "menu");
+    menu.setAttribute("aria-label", "Reader actions");
+
+    Object.entries(actions).forEach(([label, action]) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "awtsmoos-context-menu-item";
+        item.textContent = label;
+        item.addEventListener("click", async event => {
+            event.preventDefault();
             event.stopPropagation();
-            action(); 
-            menu.remove(); 
-        };
-        item.onmouseover = () => { item.style.backgroundColor = "#ccff00"; item.style.color = "black"; };
-        item.onmouseout = () => { item.style.backgroundColor = "black"; item.style.color = "white"; };
-        
+            removeExistingMenu();
+            await action();
+        });
         menu.appendChild(item);
-    }
-    
-    document.body.appendChild(menu);
-    const clickHandler = () => { menu.remove(); document.removeEventListener('click', clickHandler); };
-    setTimeout(() => document.addEventListener('click', clickHandler), 10);
+    });
+
+    placeMenu(menu, x, y);
+    closeOnOutside(menu);
+}
+
+export async function showCustomContextMenu(x, y, event) {
+    removeExistingMenu();
+    renderMenu(x, y, buildActions(event));
 }
 
 function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
-    } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-    }
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
 }

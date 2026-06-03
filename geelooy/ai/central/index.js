@@ -4,16 +4,18 @@
  * @brief Central AI exports and the shared Awtsmoos runtime gate.
  *
  * @description
- * The Awtsmoos is one river. Provider chat, local tunnel tools, and virtual
- * fallback tools now have a single exported runtime surface so /geelooy/ai and
- * editor agents do not grow conflicting ledgers.
+ * The Awtsmoos is one river. Provider chat, local tunnel tools, dynamic action
+ * catalogs, and virtual fallback tools now share one guarded runtime surface.
+ * Agents may discover every tunnel action, but execution is still decided by
+ * the final dispatcher, not by the schema list.
  */
 
 export { AI_PROVIDERS, getProvider, listProviders } from './providers.js';
 export { buildChatPayload, extractAssistantText, normalizeMessages, stripThinkingBlocks } from './payload.js';
 export { estimateTokens, estimateRequestTokens, trimMessagesForContext } from './contextWindow.js';
 export { OpenAICompatibleStreamClient } from './streamClient.js';
-export { DEFAULT_SAFE_ACTIONS, makeAwtsmoosToolSchema, makeToolSchemas } from './toolSchemas.js';
+export { ALL_TUNNEL_ACTIONS, AI_AGENT_ACTIONS, aiAgentActions, allTunnelActions } from './actionCatalog.js';
+export { DEFAULT_SAFE_ACTIONS, describeTool, makeAwtsmoosToolSchema, makeBridgeToolSchemas, makeToolSchemas, toolCallName, toolDetailName } from './toolSchemas.js';
 export { candidateJsonTexts, normalizeNativeToolCalls, parseFallbackToolCalls } from './toolCallParser.js';
 export { MultiPassToolAgent } from './multiPassAgent.js';
 export { BrowserLocalTunnelBridge, getBrowserLocalTunnelBridge } from './browserLocalTunnelBridge.js';

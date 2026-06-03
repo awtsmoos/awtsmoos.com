@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 144: The polished mobile covenant refreshes through the main vessel.
- * The page URL version reloads this file; tests need clean import paths, so the
- * import river stays filesystem-pure.
+ * Chapter 168: The final import river ends with a correction seal.
+ * Cache busting belongs to the HTML link; imports remain filesystem-pure so
+ * the ownership tests can walk the graph without illusions.
  */
 
 @import url("./ideal/reborn/tokens.css");
@@ -17,3 +17,4 @@
 @import url("./ideal/reborn/details.css");
 @import url("./ideal/reborn/actions.css");
 @import url("./ideal/reborn/mobile-sidebar-reset.css");
+@import url("./ideal/reborn/live-mobile-corrections.css");

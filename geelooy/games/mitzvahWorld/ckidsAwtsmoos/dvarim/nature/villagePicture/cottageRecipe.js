@@ -2,13 +2,12 @@
 /**
  * @file cottageRecipe.js
  * @description
- * Chapter 201: The broken mouth of the house is given teeth of stone.
+ * Chapter 215: The mouth of the house closes everywhere except the door.
  *
- * The Awtsmoos reveals the cottage as layered matter: floor, threshold, brick
- * courses, jambs, lintels, roof ribs, windows, furniture, lamps, and vines. No
- * wall is left as a mute slab. The entrance keeps a real open passage, but its
- * missing bricks return as columns, sill stones, and a raised step that matches
- * the collider threshold beneath the player.
+ * The Awtsmoos makes the cottage from measured spans: side front walls overlap
+ * the stone jambs, the upper wall touches the wood lintel, and the only open
+ * space is the actual human doorway. The floor is lowered to match the current
+ * octree floor so the chossid does not walk on a secret shelf above the boards.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { add, light } from "./geometryKit.js";
@@ -26,8 +25,7 @@ function stoneCourse(g, x1, x2, z, front = false) {
     const y = 0.14 + row * 0.17;
     const xx = x + (row % 2 ? 0.13 : 0);
     if (front && Math.abs(xx) < DOOR_HALF + 0.06 && y < DOOR_TOP) continue;
-    const color = STONE[(row + Math.floor((xx + 5) * 7)) % STONE.length];
-    cube(g, color, [xx, y, z], [0.36, 0.04, 0.075], [0, 0, 0], "stone");
+    cube(g, STONE[(row + Math.floor((xx + 5) * 7)) % STONE.length], [xx, y, z], [0.36, 0.04, 0.075]);
   }
 }
 
@@ -37,16 +35,15 @@ function wallShell(g) {
   cube(g, C.stone, [3.32, 1.42, 0], [0.18, 2.84, 4.62]);
   cube(g, C.stone, [-1.94, 1.42, FRONT_Z], [2.76, 2.84, 0.18]);
   cube(g, C.stone, [1.94, 1.42, FRONT_Z], [2.76, 2.84, 0.18]);
-  cube(g, C.stone, [0, 1.92, FRONT_Z], [0.92, 1.84, 0.18]);
+  cube(g, C.stone, [0, 1.88, FRONT_Z], [0.92, 1.92, 0.18]);
   stoneCourse(g, -3.1, 3.1, 2.45, true);
   stoneCourse(g, -3.1, 3.1, -2.45, false);
 }
 
 function entranceStonework(g) {
-  const blocks = [-0.46, 0.46];
-  for (const x of blocks) for (let i = 0; i < 5; i += 1) cube(g, STONE[(i + (x > 0 ? 2 : 0)) % STONE.length], [x, 0.17 + i * 0.17, 2.58], [0.22, 0.11, 0.18]);
-  cube(g, 0x9f835d, [0, 0.055, 2.78], [0.96, 0.11, 0.54], [0, 0, 0], "floor");
-  cube(g, 0xd8c49a, [0, 0.13, 2.52], [1.04, 0.08, 0.22], [0, 0, 0], "stone");
+  for (const x of [-0.46, 0.46]) for (let i = 0; i < 5; i += 1) cube(g, STONE[(i + (x > 0 ? 2 : 0)) % STONE.length], [x, 0.17 + i * 0.17, 2.58], [0.22, 0.11, 0.18]);
+  cube(g, 0x9f835d, [0, 0.025, 2.78], [0.96, 0.05, 0.54], [0, 0, 0], "floor");
+  cube(g, 0xd8c49a, [0, 0.07, 2.52], [1.04, 0.04, 0.22], [0, 0, 0], "stone");
   cube(g, C.wood, [-0.31, 0.43, 2.65], [0.08, 0.82, 0.18], [0, 0, 0], "wood");
   cube(g, C.wood, [0.31, 0.43, 2.65], [0.08, 0.82, 0.18], [0, 0, 0], "wood");
   cube(g, C.wood, [0, 0.87, 2.65], [0.72, 0.1, 0.18], [0, 0, 0], "wood");
@@ -101,7 +98,7 @@ function rugAndLantern(g) {
 }
 
 function interior(g) {
-  cube(g, 0xb89b64, [0, 0.035, -0.1], [6.25, 0.07, 4.15], [0, 0, 0], "floor");
+  cube(g, 0xb89b64, [0, 0.02, -0.1], [6.25, 0.04, 4.15], [0, 0, 0], "floor");
   rugAndLantern(g); tableAndLight(g); storageAndPlant(g); bedChestStool(g);
 }
 

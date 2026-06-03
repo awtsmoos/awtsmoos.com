@@ -8,78 +8,45 @@ const tunnelDir = path.resolve(scriptDir, "..");
 const agentDir = path.join(tunnelDir, "agent");
 const manifestPath = path.join(agentDir, "manifest.txt");
 
+/**
+ * B"H
+ * Chapter 396: The Installer Scroll Refused The Deprecated Shadow.
+ *
+ * The manifest is text only: blessing, version, entry, and downloadable files.
+ * The stale JSON name is not mentioned because it is no longer a vessel.
+ */
 function walk(dir) {
   const out = [];
-
   for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, ent.name);
-
+    const rel = path.relative(agentDir, full).replaceAll("\\", "/");
     if (ent.isDirectory()) {
+      if (rel.includes("/testing/") || rel === "tools/fs/testing") continue;
       out.push(...walk(full));
       continue;
     }
-
     if (!ent.isFile()) continue;
-
-    const rel = path.relative(agentDir, full).replaceAll("\\", "/");
-
-    if (
-      rel === "manifest.txt" ||
-      rel.includes("/testing/") ||
-      rel.includes("/.tmp-") ||
-      rel.endsWith(".test.cjs") ||
-      rel.endsWith(".test.js") ||
-      rel.endsWith(".map")
-    ) continue;
-
+    if (rel === "manifest.txt" || rel.includes("/.tmp-") || rel.endsWith(".test.cjs") || rel.endsWith(".test.js") || rel.endsWith(".map")) continue;
     out.push(rel);
   }
-
   return out;
 }
-
+function oldVersion() {
+  try {
+    const lines = fs.readFileSync(manifestPath, "utf8").split(/\r?\n/).map(v => v.trim()).filter(Boolean);
+    return lines[1] || "1.0.0";
+  } catch (_e) { return "1.0.0"; }
+}
 function bump(version) {
-  const parts = String(version || "1.0.0")
-    .trim()
-    .split(".")
-    .map(v => parseInt(v, 10) || 0);
-
+  const parts = String(version || "1.0.0").split(".").map(v => parseInt(v, 10) || 0);
   while (parts.length < 3) parts.push(0);
-
   parts[2] += 1;
-
   return parts.join(".");
 }
-
-let oldVersion = "1.0.0";
-
-if (fs.existsSync(manifestPath)) {
-  const first = fs.readFileSync(manifestPath, "utf8")
-    .split(/\r?\n/)
-    .map(v => v.trim())
-    .filter(Boolean);
-
-  if (first[1]) oldVersion = first[1];
-}
-
-const nextVersion = bump(oldVersion);
-const entry = "main.js";
-
+const version = bump(oldVersion());
 const files = walk(agentDir).sort();
-
-const text = [
-  'B"H',
-  nextVersion,
-  entry,
-  "",
-  ...files,
-  ""
-].join("\n");
-
-fs.writeFileSync(manifestPath, text, "utf8");
-
+fs.writeFileSync(manifestPath, ['B"H', version, "main.js", "", ...files, ""].join("\n"), "utf8");
 console.log(`B"H wrote manifest`);
-console.log(`agentDir ${agentDir}`);
 console.log(`manifest ${manifestPath}`);
-console.log(`version ${oldVersion} -> ${nextVersion}`);
+console.log(`version ${version}`);
 console.log(`files ${files.length}`);

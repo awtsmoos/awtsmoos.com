@@ -2,45 +2,47 @@
 import fs from "fs";
 import path from "path";
 import { createRequire } from "module";
-import { DEFAULT_SAFE_ACTIONS, makeToolSchemas } from "../central/index.js";
+import { ALL_TUNNEL_ACTIONS, DEFAULT_SAFE_ACTIONS, describeTool, makeBridgeToolSchemas, toolCallName, toolDetailName } from "../central/index.js";
 
 const require = createRequire(import.meta.url);
 
 /**
  * B"H
- * Chapter 21: The local tools stood like iron angels around the model fire.
+ * Chapter 393: The Local Delegate Saw All Names Through One Guarded Door.
  *
- * This bridge loads the native tunnel action map directly when running inside
- * the repo. It is intentionally local and secret-safe by default, so OpenRouter
- * or Groq agents can call the same Awtsmoos actions without needing ChatGPT.
+ * Local AI agents receive the full generated catalog for discovery and generic
+ * tool calls, but only safe essentials are direct tools. Calling any action still
+ * reaches `buildActions`, where the real tunnel config decides what may happen.
  */
 export class LocalToolBridge {
-  constructor({ root = process.cwd(), actions = DEFAULT_SAFE_ACTIONS } = {}) {
+  constructor({ root = process.cwd(), actions = DEFAULT_SAFE_ACTIONS, allActions = ALL_TUNNEL_ACTIONS } = {}) {
     this.root = root;
     this.actions = actions;
+    this.allActions = allActions;
     this.fsActions = this.loadActions();
   }
-
-  schemas() { return makeToolSchemas(this.actions); }
-
+  schemas() { return makeBridgeToolSchemas(this.actions, this.allActions); }
   async call(name, args = {}) {
-    const action = name || args.action;
-    const payload = { ...args, action };
+    const requested = String(name || args.name || args.action || "").replace(/^[^.]+\./, "");
+    if (requested === toolDetailName()) return this.details(args);
+    if (requested === toolCallName()) return await this.call(String(args.name || args.action || ""), args.arguments || args.args || {});
+    const payload = { ...args, action: requested };
     const table = this.fsActions(payload);
-    if (typeof table[action] !== "function") throw new Error(`Unavailable local tool: ${action}`);
-    return await table[action]();
+    if (typeof table[requested] !== "function") throw new Error(`Unavailable local tool: ${requested}`);
+    return await table[requested]();
   }
-
+  details(args = {}) {
+    const names = Array.isArray(args.names) ? args.names.map(String) : [];
+    const query = String(args.query || "").toLowerCase();
+    const matches = this.allActions.filter(action => names.length ? names.includes(action) : !query || action.toLowerCase().includes(query)).slice(0, 80);
+    return { ok: true, directSafe: this.actions, count: this.allActions.length, names: this.allActions, matches, details: matches.map(describeTool), safety: "Final execution is still guarded by buildActions and tunnel config." };
+  }
   loadActions() {
     const publicRoot = this.findPublicRoot(this.root);
     const { buildActions } = require(path.join(publicRoot, "apps/tunnel/agent/tools/fs/actions.js"));
     return payload => buildActions(this.config(), payload, null);
   }
-
-  config() {
-    return { root: this.root, allowWrite: true, allowSecrets: false, tools: { fsRead: true, fsWrite: true, fsBulk: true, fsList: true, fsTree: true } };
-  }
-
+  config() { return { root: this.root, allowWrite: true, allowSecrets: false, tools: { fsRead: true, fsWrite: true, fsBulk: true, fsList: true, fsTree: true } }; }
   findPublicRoot(start) {
     let dir = path.resolve(start);
     while (dir && dir !== path.dirname(dir)) {

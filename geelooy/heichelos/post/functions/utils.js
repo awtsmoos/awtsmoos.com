@@ -2,9 +2,10 @@
 /**
  * @file utils.js
  * @description
- * Chapter 155: One reader scale, many obedient echoes.
- * Main Torah text may become thunder. Inline bodies become almost-thunder.
- * Headers, badges, status text, and metadata remain tiny lamps beside it.
+ * Chapter 170: Utility scale mirrors the live Dimensionality gate.
+ * Any caller using this utility path receives the same proportional variables:
+ * main text is large, inline comment body is near-large, headers and metadata
+ * stay small with minimum sizes and gentle growth.
  */
 
 const DEFAULT_FONT_SIZE = 42;
@@ -12,34 +13,27 @@ const MIN_FONT_SIZE = 18;
 const MAX_FONT_SIZE = 120;
 const FONT_STEP = 4;
 
-function readerContext() {
-    return document.querySelector(".post-reader-localized-context") || document.body;
-}
-
+function readerContext() { return document.querySelector(".post-reader-localized-context") || document.body; }
 function cleanSize(value, fallback = DEFAULT_FONT_SIZE) {
     const parsed = Number.parseFloat(value);
     if (!Number.isFinite(parsed)) return fallback;
     return Math.min(MAX_FONT_SIZE, Math.max(MIN_FONT_SIZE, parsed));
 }
-
 function px(value) { return `${Math.round(value * 100) / 100}px`; }
-
+function bounded(main, ratio, min, max) { return px(Math.min(max, Math.max(min, main * ratio))); }
 function scaleVars(size) {
     const main = cleanSize(size);
     return {
         "--post-text-size": px(main),
-        "--post-inline-body-size": px(Math.max(24, main * 0.9)),
-        "--post-sidebar-comment-size": px(Math.max(22, main * 0.62)),
-        "--post-inline-summary-size": px(Math.max(13, main * 0.13)),
-        "--post-inline-label-size": px(Math.max(12, main * 0.105)),
-        "--post-inline-meta-size": px(Math.max(12, main * 0.105)),
-        "--post-ui-chip-size": px(Math.max(14, main * 0.14))
+        "--post-inline-body-size": bounded(main, 0.86, 30, 82),
+        "--post-sidebar-comment-size": bounded(main, 0.62, 22, 56),
+        "--post-inline-summary-size": bounded(main, 0.18, 13, 23),
+        "--post-inline-label-size": bounded(main, 0.16, 13, 22),
+        "--post-inline-meta-size": bounded(main, 0.145, 12, 18),
+        "--post-ui-chip-size": bounded(main, 0.17, 14, 24)
     };
 }
-
-function scaleTargets() {
-    return [document.documentElement, document.body, readerContext(), document.getElementById("realPost")].filter(Boolean);
-}
+function scaleTargets() { return [document.documentElement, document.body, readerContext(), document.getElementById("realPost")].filter(Boolean); }
 
 export function appendHTML(html, par) {
     if (!par) return;
