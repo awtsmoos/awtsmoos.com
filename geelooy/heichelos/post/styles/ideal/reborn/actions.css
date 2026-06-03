@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 70: The thumb dock bows beneath the text.
- * A, I, and Scroll live at the screen edge, never on top of the opened sidebar,
- * never on top of the Hebrew words, always reachable and always quiet.
+ * Chapter 139: The thumb dock bows beneath the text.
+ * A, I, and Scroll live at the screen edge. The A-menu itself belongs only to
+ * settings.css so ownership does not split into conflicting garments.
  */
 
 .post-reader-localized-context .awtsmoos-floating-controls {
@@ -61,23 +61,15 @@
     pointer-events: none !important;
 }
 
-.post-reader-localized-context .awtsmoos-auto-scroll-icon { display: block !important; font-size: 1.35rem !important; }
-.post-reader-localized-context .awtsmoos-auto-scroll-label { display: block !important; margin-top: 3px !important; font-size: .62rem !important; }
+.post-reader-localized-context .awtsmoos-auto-scroll-icon {
+    display: block !important;
+    font-size: 1.35rem !important;
+}
 
-.post-reader-localized-context .typography-details {
-    position: fixed !important;
-    z-index: var(--z-popover) !important;
-    left: 12px !important;
-    right: 12px !important;
-    bottom: calc(var(--awt-safe-bottom) + 84px) !important;
-    max-height: 58dvh !important;
-    overflow: auto !important;
-    border: 1px solid var(--awt-line-hot) !important;
-    border-radius: var(--awt-radius-lg) !important;
-    background: rgba(8, 13, 23, .98) !important;
-    color: var(--awt-text) !important;
-    padding: 14px !important;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, .45) !important;
+.post-reader-localized-context .awtsmoos-auto-scroll-label {
+    display: block !important;
+    margin-top: 3px !important;
+    font-size: .62rem !important;
 }
 
 .post-reader-localized-context .hidden-details { display: none !important; }
@@ -95,7 +87,6 @@
 .post-reader-localized-context .awtsmoos-add-comment-btn,
 .post-reader-localized-context .btn,
 .post-reader-localized-context .btn-ai-draft,
-.post-reader-localized-context .danger-outline,
 .post-reader-localized-context .awtsmoos-action-row {
     min-height: 42px !important;
     border: 1px solid var(--awt-line) !important;

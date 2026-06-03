@@ -21,9 +21,9 @@
         "timeOfDay": 10,
         "timeMultiplier": 0
       },
-      "sunIntensity": 0.38,
-      "hemiIntensity": 0.26,
-      "ambientIntensity": 0.08
+      "sunIntensity": 0.46,
+      "hemiIntensity": 0.34,
+      "ambientIntensity": 0.13
     },
     "ProceduralTerrain": {
       "name": "calm_desert_underlay",

@@ -1,0 +1,362 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-03T02:32:11.207Z",
+  "userId": "pollUser_1780453925664",
+  "publicUrl": "http://localhost:8080/apps/virtual-os-stress-light-counter/",
+  "checks": {
+    "jsonValidateOk": true,
+    "packageInfoOk": true,
+    "spawnOk": true,
+    "statusComplete": true,
+    "resultOk": true,
+    "outputHasText": true,
+    "publicAppOk": true
+  },
+  "jsonValidate": {
+    "ok": true,
+    "action": "jsonValidate",
+    "path": "machine/data.json",
+    "valid": true,
+    "type": "object"
+  },
+  "packageInfo": {
+    "ok": true,
+    "action": "packageInfo",
+    "path": "machine/package.json",
+    "name": "vos-poll-app",
+    "version": "1.0.0",
+    "scripts": [],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  "spawn": {
+    "ok": true,
+    "action": "aiAgentSpawnTask",
+    "vessel": "virtual-os",
+    "taskId": "vos_1780453925672_dqpspv",
+    "status": "running",
+    "check": {
+      "action": "aiAgentTaskStatus",
+      "taskId": "vos_1780453925672_dqpspv"
+    }
+  },
+  "status": {
+    "ok": true,
+    "action": "aiAgentTaskStatus",
+    "vessel": "virtual-os",
+    "task": {
+      "id": "vos_1780453925672_dqpspv",
+      "ok": true,
+      "status": "complete",
+      "input": {
+        "action": "aiAgentSpawnTask",
+        "provider": "minimax",
+        "agentId": "minimax-deep",
+        "model": "MiniMax-M2.7",
+        "path": "machine/data.json",
+        "message": "Reply with exactly POLL_TASK_OK and no other words.",
+        "stream": false,
+        "outputDir": "machine/out",
+        "fileName": "task.md"
+      },
+      "output": {
+        "ok": true,
+        "action": "aiAgentMessage",
+        "agent": "minimax-deep",
+        "provider": "minimax",
+        "text": "POLL_TASK_OK",
+        "reasoning": "",
+        "toolCalls": [],
+        "usage": {
+          "total_tokens": 193,
+          "total_characters": 0,
+          "prompt_tokens": 134,
+          "completion_tokens": 59,
+          "completion_tokens_details": {
+            "reasoning_tokens": 59
+          },
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "finishReason": null,
+        "raw": {
+          "id": "066ec524481f6693a7c798c518746dcb",
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "message": {
+                "content": "POLL_TASK_OK",
+                "role": "assistant",
+                "name": "MiniMax AI",
+                "audio_content": "",
+                "reasoning_content": "The user is asking me to reply with exactly \"POLL_TASK_OK\" and no other words. They want me to respond in a specific way that indicates the polling task is OK.\n\nI should simply reply with exactly \"POLL_TASK_OK\" as requested.\n",
+                "reasoning_details": [
+                  {
+                    "type": "reasoning.text",
+                    "id": "reasoning-text-1",
+                    "format": "MiniMax-response-v1",
+                    "index": 0,
+                    "text": "The user is asking me to reply with exactly \"POLL_TASK_OK\" and no other words. They want me to respond in a specific way that indicates the polling task is OK.\n\nI should simply reply with exactly \"POLL_TASK_OK\" as requested.\n"
+                  }
+                ]
+              }
+            }
+          ],
+          "created": 1780453924,
+          "model": "MiniMax-M2.7",
+          "object": "chat.completion",
+          "usage": {
+            "total_tokens": 193,
+            "total_characters": 0,
+            "prompt_tokens": 134,
+            "completion_tokens": 59,
+            "completion_tokens_details": {
+              "reasoning_tokens": 59
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "input_sensitive": false,
+          "output_sensitive": false,
+          "input_sensitive_type": 0,
+          "output_sensitive_type": 0,
+          "output_sensitive_int": 0,
+          "base_resp": {
+            "status_code": 0,
+            "status_msg": ""
+          }
+        },
+        "vessel": "virtual-os",
+        "virtualOsContext": {
+          "path": "machine/data.json",
+          "read": true,
+          "error": null
+        }
+      },
+      "events": [
+        {
+          "at": "2026-06-03T02:32:05.673Z",
+          "message": "Task queued."
+        },
+        {
+          "at": "2026-06-03T02:32:05.673Z",
+          "message": "Task started."
+        },
+        {
+          "at": "2026-06-03T02:32:08.878Z",
+          "message": "Task completed."
+        }
+      ],
+      "createdAt": "2026-06-03T02:32:05.671Z",
+      "updatedAt": "2026-06-03T02:32:05.671Z",
+      "finishedAt": "2026-06-03T02:32:08.878Z"
+    }
+  },
+  "result": {
+    "ok": true,
+    "action": "aiAgentTaskResult",
+    "vessel": "virtual-os",
+    "status": "complete",
+    "output": {
+      "ok": true,
+      "action": "aiAgentMessage",
+      "agent": "minimax-deep",
+      "provider": "minimax",
+      "text": "POLL_TASK_OK",
+      "reasoning": "",
+      "toolCalls": [],
+      "usage": {
+        "total_tokens": 193,
+        "total_characters": 0,
+        "prompt_tokens": 134,
+        "completion_tokens": 59,
+        "completion_tokens_details": {
+          "reasoning_tokens": 59
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finishReason": null,
+      "raw": {
+        "id": "066ec524481f6693a7c798c518746dcb",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "POLL_TASK_OK",
+              "role": "assistant",
+              "name": "MiniMax AI",
+              "audio_content": "",
+              "reasoning_content": "The user is asking me to reply with exactly \"POLL_TASK_OK\" and no other words. They want me to respond in a specific way that indicates the polling task is OK.\n\nI should simply reply with exactly \"POLL_TASK_OK\" as requested.\n",
+              "reasoning_details": [
+                {
+                  "type": "reasoning.text",
+                  "id": "reasoning-text-1",
+                  "format": "MiniMax-response-v1",
+                  "index": 0,
+                  "text": "The user is asking me to reply with exactly \"POLL_TASK_OK\" and no other words. They want me to respond in a specific way that indicates the polling task is OK.\n\nI should simply reply with exactly \"POLL_TASK_OK\" as requested.\n"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1780453924,
+        "model": "MiniMax-M2.7",
+        "object": "chat.completion",
+        "usage": {
+          "total_tokens": 193,
+          "total_characters": 0,
+          "prompt_tokens": 134,
+          "completion_tokens": 59,
+          "completion_tokens_details": {
+            "reasoning_tokens": 59
+          },
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "input_sensitive": false,
+        "output_sensitive": false,
+        "input_sensitive_type": 0,
+        "output_sensitive_type": 0,
+        "output_sensitive_int": 0,
+        "base_resp": {
+          "status_code": 0,
+          "status_msg": ""
+        }
+      },
+      "vessel": "virtual-os",
+      "virtualOsContext": {
+        "path": "machine/data.json",
+        "read": true,
+        "error": null
+      }
+    },
+    "task": {
+      "id": "vos_1780453925672_dqpspv",
+      "ok": true,
+      "status": "complete",
+      "input": {
+        "action": "aiAgentSpawnTask",
+        "provider": "minimax",
+        "agentId": "minimax-deep",
+        "model": "MiniMax-M2.7",
+        "path": "machine/data.json",
+        "message": "Reply with exactly POLL_TASK_OK and no other words.",
+        "stream": false,
+        "outputDir": "machine/out",
+        "fileName": "task.md"
+      },
+      "output": {
+        "ok": true,
+        "action": "aiAgentMessage",
+        "agent": "minimax-deep",
+        "provider": "minimax",
+        "text": "POLL_TASK_OK",
+        "reasoning": "",
+        "toolCalls": [],
+        "usage": {
+          "total_tokens": 193,
+          "total_characters": 0,
+          "prompt_tokens": 134,
+          "completion_tokens": 59,
+          "completion_tokens_details": {
+            "reasoning_tokens": 59
+          },
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "finishReason": null,
+        "raw": {
+          "id": "066ec524481f6693a7c798c518746dcb",
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "message": {
+                "content": "POLL_TASK_OK",
+                "role": "assistant",
+                "name": "MiniMax AI",
+                "audio_content": "",
+                "reasoning_content": "The user is asking me to reply with exactly \"POLL_TASK_OK\" and no other words. They want me to respond in a specific way that indicates the polling task is OK.\n\nI should simply reply with exactly \"POLL_TASK_OK\" as requested.\n",
+                "reasoning_details": [
+                  {
+                    "type": "reasoning.text",
+                    "id": "reasoning-text-1",
+                    "format": "MiniMax-response-v1",
+                    "index": 0,
+                    "text": "The user is asking me to reply with exactly \"POLL_TASK_OK\" and no other words. They want me to respond in a specific way that indicates the polling task is OK.\n\nI should simply reply with exactly \"POLL_TASK_OK\" as requested.\n"
+                  }
+                ]
+              }
+            }
+          ],
+          "created": 1780453924,
+          "model": "MiniMax-M2.7",
+          "object": "chat.completion",
+          "usage": {
+            "total_tokens": 193,
+            "total_characters": 0,
+            "prompt_tokens": 134,
+            "completion_tokens": 59,
+            "completion_tokens_details": {
+              "reasoning_tokens": 59
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "input_sensitive": false,
+          "output_sensitive": false,
+          "input_sensitive_type": 0,
+          "output_sensitive_type": 0,
+          "output_sensitive_int": 0,
+          "base_resp": {
+            "status_code": 0,
+            "status_msg": ""
+          }
+        },
+        "vessel": "virtual-os",
+        "virtualOsContext": {
+          "path": "machine/data.json",
+          "read": true,
+          "error": null
+        }
+      },
+      "events": [
+        {
+          "at": "2026-06-03T02:32:05.673Z",
+          "message": "Task queued."
+        },
+        {
+          "at": "2026-06-03T02:32:05.673Z",
+          "message": "Task started."
+        },
+        {
+          "at": "2026-06-03T02:32:08.878Z",
+          "message": "Task completed."
+        }
+      ],
+      "createdAt": "2026-06-03T02:32:05.671Z",
+      "updatedAt": "2026-06-03T02:32:05.671Z",
+      "finishedAt": "2026-06-03T02:32:08.878Z"
+    }
+  },
+  "outRead": {
+    "ok": true,
+    "content": "POLL_TASK_OK"
+  },
+  "publicApp": {
+    "ok": true,
+    "status": 200,
+    "hasButton": true,
+    "bytes": 507,
+    "title": "Light Counter"
+  }
+}

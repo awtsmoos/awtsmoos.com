@@ -2,10 +2,9 @@
 /**
  * @module SparkFixer
  * @description
- * Chapter 107: The margin accepts each spark once.
- * Inline placement now deduplicates the same way the sidebar tree does. It does
- * not mutate the original comment into a different species; it only supplies
- * normalized coordinates to the placement ritual.
+ * Chapter 131: The margin accepts each spark once, then removes the loading fog.
+ * Inline placement deduplicates by real identity and by the already-rendered
+ * document. Loading status never remains under successful cards.
  */
 
 import { makeInlineComment } from "/heichelos/post/comments/render/core.js";
@@ -22,6 +21,14 @@ function placementCoords(spark) {
     return buildRealPlacementDayuh(spark, spark?.dayuh?.verseSection ?? spark?.verseSection ?? null);
 }
 
+function getPageShelters() {
+    return Array.from(document.querySelectorAll(".marginal-gloss-shelter"));
+}
+
+function clearAllLoadingStatuses() {
+    getPageShelters().forEach(shelter => ShelterArchitect.clearStatus(shelter));
+}
+
 function getOrCreateGate(shelter, alias, coords) {
     let gate = Array.from(shelter.children).find(child => child.classList.contains("commentator") && child.dataset.alias === alias);
     if (!gate) {
@@ -29,10 +36,6 @@ function getOrCreateGate(shelter, alias, coords) {
         shelter.appendChild(gate);
     }
     return gate;
-}
-
-function getPageShelters() {
-    return Array.from(document.querySelectorAll(".marginal-gloss-shelter"));
 }
 
 function rememberGateComment(gate, spark) {
@@ -46,7 +49,9 @@ function findInlineSections() {
 }
 
 function appendCard(list, spark, alias, sparkIdStr) {
-    const existing = list.querySelector(`[data-cid="${CSS.escape(sparkIdStr)}"][data-from-alias="${CSS.escape(alias)}"]`);
+    const id = CSS.escape(sparkIdStr);
+    const safeAlias = CSS.escape(alias);
+    const existing = list.querySelector(`[data-cid="${id}"][data-from-alias="${safeAlias}"]`);
     if (existing) return false;
     const card = makeInlineComment(spark);
     card.dataset.fromAlias = alias;
@@ -68,6 +73,7 @@ export class SparkFixer {
     }
 
     static fix(sparks, alias) {
+        clearAllLoadingStatuses();
         const clean = uniqueComments(sparks);
         const stats = { requested: Array.isArray(sparks) ? sparks.length : 0, unique: clean.length, inserted: 0, duplicates: 0, missing: 0, alias };
         if (!clean.length) { this.showEmpty(alias); return this.remember(stats); }
@@ -77,6 +83,7 @@ export class SparkFixer {
             GuardianGate.updateCount(gate);
             refreshGatePolish(gate);
         });
+        clearAllLoadingStatuses();
         if (stats.inserted === 0 && stats.duplicates === 0) this.showEmpty(alias);
         return this.remember(stats);
     }

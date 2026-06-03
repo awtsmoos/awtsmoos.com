@@ -1,8 +1,12 @@
 /* B"H
- * Chapter 68: The verse chambers become weight and distance.
- * The Awtsmoos gives the virtual scroll enough physical height to exist,
- * while every rendered card stays calm, centered, and readable in the night.
+ * Chapter 134: The verse chambers obey the reader's scale.
+ * The Awtsmoos gives the virtual scroll enough physical height to exist while
+ * the A-menu can actually enlarge or reduce the holy letters.
  */
+
+.post-reader-localized-context {
+    --post-text-size: 42px;
+}
 
 .post-reader-localized-context #virtual-scroll-container,
 .post-reader-localized-context .awtsmoos-virtual-scroll {
@@ -59,14 +63,20 @@
     direction: rtl !important;
     text-align: center !important;
     font-family: var(--font-content) !important;
-    color: #fffdf5 !important;
+    color: var(--color-ink, #fffdf5) !important;
     text-shadow: 0 8px 26px rgba(0, 0, 0, .42) !important;
 }
 
 .post-reader-localized-context .section.heb .toichen,
 .post-reader-localized-context .sub-awtsmoos.heb {
-    font-size: clamp(2.2rem, 11vw, 5.4rem) !important;
+    font-size: clamp(2rem, calc(var(--post-text-size, 42px) * .145), 7rem) !important;
     line-height: 1.42 !important;
+}
+
+.post-reader-localized-context .toichen,
+.post-reader-localized-context .sub-awtsmoos,
+.post-reader-localized-context .section {
+    font-size: clamp(1.25rem, calc(var(--post-text-size, 42px) * .06), 3.25rem) !important;
 }
 
 .post-reader-localized-context .awtsmoos-section-header,

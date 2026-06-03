@@ -1,0 +1,203 @@
+/* B"H
+ * Chapter 135: The A-menu becomes a usable sanctuary.
+ * Typography controls are touch-sized, readable, scrollable, and sovereign.
+ * Every control wears the same dark violet/gold garment as the reader.
+ */
+
+.post-reader-localized-context .typography-details {
+    position: fixed !important;
+    z-index: calc(var(--z-sidebar, 3000) + 20) !important;
+    left: max(14px, env(safe-area-inset-left)) !important;
+    right: max(14px, env(safe-area-inset-right)) !important;
+    bottom: calc(var(--awt-reader-bottom-space, 86px) + 18px) !important;
+    width: auto !important;
+    max-width: 680px !important;
+    max-height: min(78dvh, 620px) !important;
+    margin-inline: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(246, 201, 108, .32) !important;
+    border-radius: 28px !important;
+    background:
+        radial-gradient(circle at 16% 0%, rgba(139, 92, 246, .26), transparent 18rem),
+        linear-gradient(180deg, rgba(7, 13, 27, .98), rgba(3, 8, 18, .99)) !important;
+    box-shadow: 0 26px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    color: #fffdf5 !important;
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    transition: opacity .18s ease, transform .18s ease !important;
+}
+
+.post-reader-localized-context .typography-details.hidden-details {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(16px) scale(.98) !important;
+}
+
+.post-reader-localized-context .typography-content {
+    display: grid !important;
+    gap: 14px !important;
+    padding: 18px !important;
+    overflow-y: auto !important;
+    overflow-x: clip !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.post-reader-localized-context .settings-group {
+    display: grid !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context .typography-content > .settings-group {
+    padding: 14px !important;
+    border: 1px solid rgba(255,255,255,.1) !important;
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.055) !important;
+}
+
+.post-reader-localized-context .control-label {
+    margin: 0 !important;
+    color: var(--inline-edge-gold, #f6c96c) !important;
+    font: 900 .78rem/1.2 var(--font-ui) !important;
+    text-transform: uppercase !important;
+    letter-spacing: .11em !important;
+    text-shadow: none !important;
+}
+
+.post-reader-localized-context .setting-name {
+    color: #fffdf5 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+.post-reader-localized-context .focus-mode-control,
+.post-reader-localized-context .theme-controls,
+.post-reader-localized-context .text-controls {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 10px !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.post-reader-localized-context .text-controls {
+    grid-template-columns: 58px minmax(0, 1fr) 58px !important;
+}
+
+.post-reader-localized-context .font-adjust-btn,
+.post-reader-localized-context #themeToggleBtn,
+.post-reader-localized-context .danger-outline {
+    all: unset !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    place-items: center !important;
+    min-height: 52px !important;
+    border: 1px solid rgba(246,201,108,.28) !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, rgba(26,32,52,.98), rgba(10,15,30,.98)) !important;
+    color: #fffdf5 !important;
+    font: 950 1.25rem/1 var(--font-ui) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .font-size-display {
+    display: grid !important;
+    place-items: center !important;
+    min-height: 52px !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.06) !important;
+    color: #fffdf5 !important;
+    font: 950 1.25rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .font-selector,
+.post-reader-localized-context #themeSelector,
+.post-reader-localized-context .ink-pot {
+    width: 100% !important;
+    min-height: 54px !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.075) !important;
+    color: #fffdf5 !important;
+    padding: 0 14px !important;
+    font: 800 1rem/1.2 var(--font-ui) !important;
+    outline: none !important;
+}
+
+.post-reader-localized-context .font-selector option,
+.post-reader-localized-context #themeSelector option {
+    color: #08111f !important;
+    background: #fffdf5 !important;
+}
+
+.post-reader-localized-context .awtsmoos-toggle {
+    justify-self: end !important;
+    width: 54px !important;
+    min-width: 54px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    accent-color: #22d3ee !important;
+}
+
+.post-reader-localized-context .awtsmoos-toggle-label { display: none !important; }
+
+.post-reader-localized-context .theme-controls {
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+}
+
+.post-reader-localized-context .color-picker-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+.post-reader-localized-context .color-control {
+    display: grid !important;
+    gap: 6px !important;
+}
+
+.post-reader-localized-context .color-control label {
+    color: var(--inline-text-blue, #cbd5e1) !important;
+    font: 800 .82rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context input[type="color"].ink-pot {
+    padding: 4px !important;
+    overflow: hidden !important;
+}
+
+.post-reader-localized-context .reset-section {
+    padding: 14px 18px !important;
+    border-top: 1px solid rgba(255,255,255,.11) !important;
+    background: rgba(0,0,0,.22) !important;
+}
+
+.post-reader-localized-context .danger-outline {
+    width: 100% !important;
+    color: #fecdd3 !important;
+    border-color: rgba(244,63,94,.38) !important;
+    background: rgba(244,63,94,.14) !important;
+    font-size: 1rem !important;
+}
+
+@media (max-width: 520px) {
+    .post-reader-localized-context .typography-details {
+        left: 10px !important;
+        right: 10px !important;
+        bottom: calc(var(--awt-reader-bottom-space, 86px) + 8px) !important;
+        max-height: 70dvh !important;
+    }
+
+    .post-reader-localized-context .color-picker-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

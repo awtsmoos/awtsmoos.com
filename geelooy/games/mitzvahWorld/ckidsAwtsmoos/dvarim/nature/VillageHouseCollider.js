@@ -2,11 +2,14 @@
 /**
  * @file VillageHouseCollider.js
  * @description
- * Chapter 199: invisible furniture stands beneath visible furniture.
+ * Chapter 203: The invisible floor returns to the visible brick.
  *
- * The Awtsmoos revealed table, shelf, bed, chest, cabinet, and stool as touchable
- * vessels. Tiny candle flames and plant leaves remain decorative so they never
- * snag the player. The doorway remains open: side jambs and high lintel only.
+ * The Awtsmoos revealed the hidden arithmetic after the full read: the cottage
+ * picture is scaled by 4.8, so the visible floor top is near 0.34 world units.
+ * A floor collider at 0.08 would make the chossid sink; the old 0.4 made him
+ * hover. This vessel now sets the floor to 0.34, and gives the doorway a real
+ * low threshold stone whose top agrees with the visible step without sealing the
+ * passage that a player must cross.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -37,6 +40,13 @@ function addFurniture(root, owner) {
   addCollider(root, owner, "solid_chest_right_scaled", pos(1.25, 0.25, 1.1), size(0.5, 0.36, 0.32));
 }
 
+function addThreshold(root, owner, floorTop, d) {
+  addCollider(root, owner, "house_door_threshold_touchable", [0, 0.43, d / 2 + 0.55], [5.0, 0.18, 2.6]);
+  addCollider(root, owner, "house_inside_threshold_lip", [0, 0.4, d / 2 - 0.42], [4.8, 0.12, 0.52]);
+  addCollider(root, owner, "house_left_door_cheek_low", [-2.16, floorTop + 0.36, d / 2 + 0.14], [0.48, 0.72, 1.0]);
+  addCollider(root, owner, "house_right_door_cheek_low", [2.16, floorTop + 0.36, d / 2 + 0.14], [0.48, 0.72, 1.0]);
+}
+
 export default class VillageHouseCollider extends Domem {
   type = "villageHouseCollider";
 
@@ -53,12 +63,13 @@ export default class VillageHouseCollider extends Domem {
     const h = num(this.options.height, 13.6);
     const t = num(this.options.thickness, 0.85);
     const doorW = num(this.options.doorWidth, 1.82);
-    const floorTop = num(this.options.floorTop, 0.4);
+    const floorTop = num(this.options.floorTop, 0.34);
     const doorClearH = num(this.options.doorClearHeight, 3.72);
     this.mesh = new THREE.Group();
     this.mesh.name = this.name || "VillageHouseCollider";
     Object.assign(this.mesh.userData ||= {}, { isVillageHouseCollider: true, useAuthoredY: true });
-    addCollider(this.mesh, this, "house_floor_flush", [0, floorTop - 0.08, 0], [w, 0.16, d]);
+    addCollider(this.mesh, this, "house_floor_scaled_flush", [0, floorTop - 0.08, 0], [w, 0.16, d]);
+    addThreshold(this.mesh, this, floorTop, d);
     addCollider(this.mesh, this, "house_back_wall", [0, h / 2, -d / 2], [w, h, t]);
     addCollider(this.mesh, this, "house_left_wall", [-w / 2, h / 2, 0], [t, h, d]);
     addCollider(this.mesh, this, "house_right_wall", [w / 2, h / 2, 0], [t, h, d]);

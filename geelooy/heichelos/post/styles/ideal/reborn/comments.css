@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 127: One comment garment for sidebar and inline.
- * The Awtsmoos joins the courts: same card anatomy, same body, same violet-gold
- * hierarchy. Inline may glow larger, but it is the same DOM body and text.
+ * Chapter 133: The shared card receives complete garments.
+ * Headers, profile chips, body paragraphs, and actions all shine from one CSS
+ * covenant. The card body never looks like a raw browser button again.
  */
 
 .post-reader-localized-context .awtsmoos-shared-comment-card {
@@ -66,19 +66,27 @@
     padding: clamp(1.1rem,4.5vw,1.65rem) !important;
     color: #fffdf5 !important;
     font-family: var(--font-content) !important;
-    font-size: clamp(1.5rem,6.4vw,2.65rem) !important;
+    font-size: clamp(1.45rem,6vw,2.35rem) !important;
     font-weight: 700 !important;
     line-height: 1.55 !important;
     text-shadow: 0 8px 24px rgba(0,0,0,.5) !important;
     overflow-wrap: anywhere !important;
 }
 
+.post-reader-localized-context .awtsmoos-comment-paragraph {
+    display: block !important;
+    margin: 0 0 .85em !important;
+    color: inherit !important;
+}
+
+.post-reader-localized-context .awtsmoos-comment-paragraph:last-child { margin-bottom: 0 !important; }
+
 .post-reader-localized-context .awtsmoos-sidebar-comment-card .awtsmoos-comment-body,
 .post-reader-localized-context .awtsmoos-sidebar-comment-card .awtsmoos-comment-body * {
     direction: rtl !important;
     text-align: start !important;
     font-family: var(--font-content) !important;
-    font-size: clamp(1.5rem,6.4vw,2.65rem) !important;
+    font-size: clamp(1.45rem,6vw,2.35rem) !important;
     font-weight: 700 !important;
     line-height: 1.55 !important;
     text-shadow: 0 8px 24px rgba(0,0,0,.5) !important;
@@ -86,8 +94,8 @@
 
 .post-reader-localized-context .inline-comment .awtsmoos-comment-body {
     text-align: center !important;
-    font-size: clamp(2.1rem,9.8vw,4rem) !important;
-    line-height: 1.46 !important;
+    font-size: clamp(1.9rem,8.6vw,3.45rem) !important;
+    line-height: 1.48 !important;
 }
 
 .post-reader-localized-context .awtsmoos-comment-body * {
@@ -106,6 +114,7 @@
 
 .post-reader-localized-context .awtsmoos-comment-action-dock button,
 .post-reader-localized-context .awtsmoos-comment-more summary,
+.post-reader-localized-context .profile-chip,
 .post-reader-localized-context .menu-item {
     min-height: 54px !important;
     border: 1px solid rgba(246,201,108,.22) !important;
@@ -114,6 +123,12 @@
     color: #fffdf5 !important;
     font: 900 clamp(.9rem,3.8vw,1.1rem)/1 var(--font-ui) !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+.post-reader-localized-context .profile-chip {
+    min-height: 42px !important;
+    padding: .55rem .85rem !important;
+    border-radius: 999px !important;
 }
 
 .post-reader-localized-context .awtsmoos-comment-more {

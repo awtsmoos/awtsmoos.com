@@ -1,27 +1,17 @@
 // B"H
 /**
  * @file ThreadIntelligence.js
- * @chapter Chapter 18: The Margin Learns to Whisper Back
  * @description
- * The Awtsmoos reveals that a margin is not merely a stack of cards. It is a
- * living relationship between source text and commentary: a thread, a scent of
- * context, a quiet flame laid beside a paragraph. This module keeps that
- * intelligence small and data-based so the orchestration remains untouched.
- *
- * It extracts readable comment previews, marks shelves with anchor metadata,
- * hydrates collapsed summaries, and gives focus/hover a semantic body: the
- * related paragraph glows while unrelated inline clusters become quiet.
+ * Chapter 132: The gateway stops copying the comment body.
+ * The inline trigger is now a status doorway, not a second excerpt. The full
+ * comment appears exactly once: inside the shared comment card below.
  */
-
-const MAX_PREVIEW_LENGTH = 118;
 
 function textFrom(value) {
     if (!value) return "";
     if (typeof value === "string") return value;
     if (Array.isArray(value)) return value.map(textFrom).filter(Boolean).join(" ");
-    if (typeof value === "object") {
-        return textFrom(value.text || value.html || value.plain || value.content || value.body || value.message);
-    }
+    if (typeof value === "object") return textFrom(value.text || value.html || value.plain || value.content || value.body || value.message);
     return String(value);
 }
 
@@ -41,10 +31,7 @@ export function getCommentAlias(comment, fallback = "commentator") {
 }
 
 export function getCommentPreview(comment) {
-    const raw = stripMarkup(textFrom(comment?.content) || textFrom(comment?.dayuh?.content) || textFrom(comment?.text));
-    if (!raw) return "A quiet marginal note is linked to this passage.";
-    if (raw.length <= MAX_PREVIEW_LENGTH) return raw;
-    return `${raw.slice(0, MAX_PREVIEW_LENGTH - 1).trim()}…`;
+    return stripMarkup(textFrom(comment?.content) || textFrom(comment?.dayuh?.content) || textFrom(comment?.text));
 }
 
 export function getCommentStamp(comment) {
@@ -67,6 +54,11 @@ export function connectShelterToVessel(shelter, vessel, coords = {}) {
     if (sub !== undefined && sub !== null) vessel.dataset.inlineAnchorSub = sub;
 }
 
+function insightPhrase(count) {
+    if (!count) return "Ready for inline insights.";
+    return count === 1 ? "1 inline insight loaded." : `${count} inline insights loaded.`;
+}
+
 export function hydrateGateSummary(gate, comments = []) {
     if (!gate) return;
     const usable = comments.filter(Boolean);
@@ -75,7 +67,7 @@ export function hydrateGateSummary(gate, comments = []) {
     const preview = gate.querySelector(".awtsmoos-inline-trigger-preview");
     const meta = gate.querySelector(".awtsmoos-inline-trigger-meta");
     const alias = gate.dataset.alias || getCommentAlias(latest);
-    if (preview) preview.textContent = latest ? getCommentPreview(latest) : "No visible notes yet.";
+    if (preview) preview.textContent = insightPhrase(count);
     if (meta) {
         const stamp = latest ? getCommentStamp(latest) : "waiting";
         meta.textContent = count ? `Latest by @${getCommentAlias(latest, alias)} · ${stamp}` : `@${alias} · ready`;
@@ -101,9 +93,7 @@ export function bindReadingFocus(gate, vessel) {
     const leave = () => {
         gate.classList.remove("awtsmoos-inline-reading-focus");
         setFocusState(vessel, false);
-        document.querySelectorAll(".awtsmoos-inline-nearby-muted").forEach(other => {
-            other.classList.remove("awtsmoos-inline-nearby-muted");
-        });
+        document.querySelectorAll(".awtsmoos-inline-nearby-muted").forEach(other => other.classList.remove("awtsmoos-inline-nearby-muted"));
     };
     gate.addEventListener("mouseenter", enter);
     gate.addEventListener("focusin", enter);

@@ -1,12 +1,13 @@
 /* B"H
- * Chapter 113: The polished mobile covenant.
- * A small import river now owns the post reader: shell, sidebar, comments,
- * inline aura, scroll details, and controls.
+ * Chapter 136: The polished mobile covenant includes the A-menu.
+ * A small import river now owns the post reader: shell, sidebar, settings,
+ * comments, inline aura, scroll details, and controls.
  */
 
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/shell.css");
 @import url("./ideal/reborn/reader.css");
+@import url("./ideal/reborn/settings.css");
 @import url("./ideal/reborn/sidebar.css");
 @import url("./ideal/reborn/panels.css");
 @import url("./ideal/reborn/panel-rows.css");

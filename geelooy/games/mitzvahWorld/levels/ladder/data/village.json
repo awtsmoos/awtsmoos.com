@@ -12,9 +12,9 @@
         "name": "bright_gold_sky",
         "timeOfDay": 14.5,
         "timeMultiplier": 0,
-        "sunIntensity": 1.9,
-        "hemiIntensity": 1.25,
-        "ambientIntensity": 0.86,
+        "sunIntensity": 1.55,
+        "hemiIntensity": 1,
+        "ambientIntensity": 0.68,
         "position": {
           "x": 0,
           "y": 0,
@@ -61,7 +61,7 @@
     ],
     "VillagePictureProp": [
       {
-        "name": "big_warm_house_visual_only",
+        "name": "big_warm_textured_house_grounded_threshold",
         "kind": "gableHouse",
         "scale": 4.8,
         "groundY": 0,
@@ -180,7 +180,7 @@
         "depth": 23,
         "height": 13.6,
         "doorWidth": 1.82,
-        "floorTop": 0.4,
+        "floorTop": 0.34,
         "thickness": 0.85,
         "position": {
           "x": 13,
@@ -191,7 +191,8 @@
           "y": -0.25
         },
         "useAuthoredY": true,
-        "doorClearHeight": 3.72
+        "doorClearHeight": 3.72,
+        "thresholdCollider": true
       }
     ],
     "VillageHouseDoor": [

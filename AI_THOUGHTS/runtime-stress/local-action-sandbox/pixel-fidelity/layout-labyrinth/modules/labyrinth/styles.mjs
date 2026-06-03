@@ -2,10 +2,9 @@
 /**
  * @file styles.mjs
  * @description
- * Final-stretch certification CSS. The Awtsmoos widens the smallest witness
- * halls, seals alignment labels inside their boxes, and keeps z-index windows
- * inside the visible viewport so MiniMax can judge the actual renderer, not
- * accidental clipping.
+ * MiniMax final council named D5 overflow and D2 compression. The Awtsmoos now
+ * flattens the z-index stack into one visible row, gives minmax cells calmer
+ * columns, and paints the UI corpus as real DOM cards.
  */
 export function labyrinthCss() {
   return `${base()}${shell()}${maze()}${cells()}${witnesses()}${advanced()}`;
@@ -20,7 +19,7 @@ function shell() {
 }
 
 function maze() {
-  return `.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.grid4{display:grid;grid-template-columns:.7fr minmax(78px,1.35fr) 1fr .8fr;gap:5px}.gridMinmax{display:grid;grid-template-columns:minmax(64px,1fr) 1.3fr .8fr fit-content(72px);gap:5px}.flexRow{display:flex;gap:5px}.wrapRow{display:grid;grid-template-columns:1fr 1fr;gap:4px;flex-wrap:wrap}.wrapRow>.cell{height:31px}.flexRow>.cell{flex:1}.flexCol{display:flex;flex-direction:column;gap:3px}.deep{display:grid;grid-template-columns:1fr 1fr;gap:4px;height:100%}`;
+  return `.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px}.gridMinmax{display:grid;grid-template-columns:minmax(78px,1fr) minmax(78px,1fr) minmax(70px,.9fr) fit-content(78px);gap:6px}.flexRow{display:flex;gap:5px}.wrapRow{display:grid;grid-template-columns:1fr 1fr;gap:4px;flex-wrap:wrap}.wrapRow>.cell{height:31px}.flexRow>.cell{flex:1}.flexCol{display:flex;flex-direction:column;gap:3px}.deep{display:grid;grid-template-columns:1fr 1fr;gap:4px;height:100%}`;
 }
 
 function cells() {
@@ -28,9 +27,9 @@ function cells() {
 }
 
 function witnesses() {
-  return `.web{border:2px solid #00d9ff;background:#06101f;padding:5px}.web b,.svgbox b{font-size:10px}.web canvas{width:100%;height:118px}.svgbox{border:2px solid #8090ff;background:#06101f;padding:5px}.svgbox svg{width:100%;height:92px}.matrix{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.matrix div{border:2px solid white;height:48px;background:#071326;font-size:12px;font-weight:900;padding:5px;box-sizing:border-box}.r{background:#f40070!important;transform:rotate(-4deg)}.c{background:#00d9ff!important;color:#06101f;transform:scale(1.03)}.y{background:#ffe14a!important;color:#06101f;transform:translate(1px,1px) rotate(2deg)}.clipper{overflow:hidden;position:relative}.scrollY{overflow:scroll;--scroll-y:.66;--scroll-y-ratio:.30;scrollbar-color:#00e5ff #10213b}.scrollX{overflow-x:scroll;overflow-y:hidden;--scroll-x:.56;--scroll-x-ratio:.28;scrollbar-color:#ffdf3a #30142a}.autoBoth{overflow:auto;--scroll-y:.33;--scroll-x:.42;--scroll-y-ratio:.38;--scroll-x-ratio:.38;scrollbar-color:#ff00a8 #06101f}.slab{width:108px;height:12px;background:linear-gradient(90deg,red,yellow,lime,cyan,blue,magenta);border:2px solid white;margin-top:0}`;
+  return `.web{border:2px solid #00d9ff;background:#06101f;padding:5px}.web b,.svgbox b{font-size:10px}.web canvas{width:100%;height:118px}.svgbox{border:2px solid #8090ff;background:#06101f;padding:5px}.svgbox svg{width:100%;height:92px}.matrix{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.matrix div{border:2px solid white;height:48px;background:#071326;font-size:17px;font-weight:900;padding:5px;box-sizing:border-box}.r{background:#f40070!important;transform:rotate(-4deg)}.c{background:#00d9ff!important;color:#06101f;transform:scale(1.03)}.y{background:#ffe14a!important;color:#06101f;transform:translate(1px,1px) rotate(2deg)}.clipper{overflow:hidden;position:relative}.scrollY{overflow:scroll;--scroll-y:.66;--scroll-y-ratio:.30;scrollbar-color:#00e5ff #10213b}.scrollX{overflow-x:scroll;overflow-y:hidden;--scroll-x:.56;--scroll-x-ratio:.28;scrollbar-color:#ffdf3a #30142a}.autoBoth{overflow:auto;--scroll-y:.33;--scroll-x:.42;--scroll-y-ratio:.38;--scroll-x-ratio:.38;scrollbar-color:#ff00a8 #06101f}.slab{width:108px;height:12px;background:linear-gradient(90deg,red,yellow,lime,cyan,blue,magenta);border:2px solid white;margin-top:0}`;
 }
 
 function advanced() {
-  return `.zAbs{position:relative;border:2px solid #00d9ff;background:#06101f;overflow:hidden}.zAbs canvas{position:absolute;left:126px;top:16px;width:196px;height:34px}.zWin{position:absolute;border:2px solid white;width:58px;height:20px;font-size:12px;font-weight:900;text-align:center;padding-top:5px}.za{left:8px;top:7px;background:#f40070;z-index:1}.zb{left:28px;top:23px;background:#00d9ff;color:#06101f;z-index:2}.zc{left:48px;top:39px;background:#ffe14a;color:#06101f;z-index:3}.corpus{height:62px}.realUi{display:grid;grid-template-columns:72px 1fr;gap:5px}.sidebar{border:2px solid #00d9ff;background:#06101f}.cards{display:grid;grid-template-columns:1fr 1fr;gap:4px}.cards div{border:1px solid white;background:linear-gradient(90deg,#f40070,#00d9ff);height:24px}`;
+  return `.zAbs{position:relative;border:2px solid #00d9ff;background:#06101f;overflow:hidden}.zAbs canvas{position:absolute;left:166px;top:18px;width:156px;height:32px}.zWin{position:absolute;border:2px solid white;width:38px;height:18px;font-size:11px;font-weight:900;text-align:center;padding-top:5px}.za{left:8px;top:10px;background:#f40070;z-index:1}.zb{left:52px;top:10px;background:#00d9ff;color:#06101f;z-index:2}.zc{left:96px;top:10px;background:#ffe14a;color:#06101f;z-index:3}.corpus{height:62px}.uiCards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.uiCards div{border:2px solid #00d9ff;background:linear-gradient(135deg,#06101f,#142e5a);min-height:44px;padding:4px;box-sizing:border-box}.uiCards b{display:block;font-size:11px;color:white}.uiCards span{display:block;margin-top:5px;height:14px;background:linear-gradient(90deg,#f40070,#00d9ff,#ffe14a);font-size:0}.realUi{display:grid;grid-template-columns:72px 1fr;gap:5px}.sidebar{border:2px solid #00d9ff;background:#06101f}.cards{display:grid;grid-template-columns:1fr 1fr;gap:4px}.cards div{border:1px solid white;background:linear-gradient(90deg,#f40070,#00d9ff);height:24px}`;
 }
