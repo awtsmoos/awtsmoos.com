@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 153: The frame glows, but whispers.
- * The label becomes ornament instead of thunder, leaving the real commentary
- * with the full voice of the page.
+ * Chapter 158: The inline frame label is crowned, not inflated.
+ * The shelter can glow; its label remains a small gold inscription guarded
+ * against the reader's giant Hebrew text scale.
  */
 
 .post-reader-localized-context .marginal-gloss-shelter,
@@ -26,13 +26,17 @@
     box-shadow: 0 24px 62px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08) !important;
 }
 
+.post-reader-localized-context .section.heb .awtsmoos-inline-shelter-label,
 .post-reader-localized-context .awtsmoos-inline-shelter-label {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: .55rem !important;
     color: var(--inline-edge-gold) !important;
-    font: 950 var(--post-inline-label-size, 18px)/1.1 var(--font-ui) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-inline-label-size, 12px) !important;
+    font-weight: 950 !important;
+    line-height: 1.1 !important;
     letter-spacing: .18em !important;
     text-transform: uppercase !important;
     text-shadow: 0 0 18px rgba(246, 201, 108, .26) !important;
@@ -46,6 +50,7 @@
     filter: drop-shadow(0 0 12px rgba(139, 92, 246, .75));
 }
 
+.post-reader-localized-context .section.heb .awtsmoos-inline-status,
 .post-reader-localized-context .awtsmoos-inline-status {
     display: grid !important;
     gap: .3rem !important;
@@ -55,7 +60,10 @@
     border: 1px solid rgba(139, 92, 246, .35) !important;
     border-radius: 20px !important;
     padding: 1rem !important;
-    font: 850 var(--post-inline-meta-size, 16px)/1.35 var(--font-ui) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-inline-meta-size, 12px) !important;
+    font-weight: 850 !important;
+    line-height: 1.35 !important;
     text-align: center !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
 }

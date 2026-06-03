@@ -1,13 +1,11 @@
 /* B"H
- * Chapter 142: The A-menu touches the actual letters.
- * The Awtsmoos lets one scale variable pour into every rendered verse,
- * subsection, span, link, and paragraph. No unsupported CSS multiplication;
- * the button changes the real text immediately.
+ * Chapter 164: The current chamber glows and becomes the refresh anchor.
+ * Main Torah text grows. Inline UI is protected. The active visible verse and
+ * subsection now receive clear light so the reader can see what URL will return
+ * to after refresh.
  */
 
-.post-reader-localized-context {
-    --post-text-size: 42px;
-}
+.post-reader-localized-context { --post-text-size: 42px; }
 
 .post-reader-localized-context #virtual-scroll-container,
 .post-reader-localized-context .awtsmoos-virtual-scroll {
@@ -44,10 +42,14 @@
 
 .post-reader-localized-context .section.active,
 .post-reader-localized-context .section.active-reading-section,
-.post-reader-localized-context .sub-awtsmoos.active-reading-sub,
+.post-reader-localized-context .section.awtsmoos-current-reading-section,
 .post-reader-localized-context .awtsmoos-refresh-target {
-    border-color: var(--awt-line-hot) !important;
-    box-shadow: 0 24px 72px rgba(244, 197, 107, .16), 0 0 0 2px rgba(244, 197, 107, .13) !important;
+    border-color: rgba(246, 201, 108, .78) !important;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(246,201,108,.13), transparent 18rem),
+        linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06)),
+        rgba(17,24,39,.82) !important;
+    box-shadow: 0 26px 78px rgba(244, 197, 107, .18), 0 0 0 2px rgba(244, 197, 107, .16) !important;
 }
 
 .post-reader-localized-context .sub-awtsmoos {
@@ -60,6 +62,15 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10) !important;
 }
 
+.post-reader-localized-context .sub-awtsmoos.active-reading-sub,
+.post-reader-localized-context .sub-awtsmoos.awtsmoos-current-reading-sub {
+    border-color: rgba(34, 211, 238, .52) !important;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem),
+        rgba(255, 255, 255, .09) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 2px rgba(34,211,238,.12), 0 18px 44px rgba(34,211,238,.10) !important;
+}
+
 .post-reader-localized-context .section.heb .toichen,
 .post-reader-localized-context .sub-awtsmoos.heb,
 .post-reader-localized-context .heb {
@@ -70,31 +81,17 @@
     text-shadow: 0 8px 26px rgba(0, 0, 0, .42) !important;
 }
 
-.post-reader-localized-context .section.heb .toichen,
-.post-reader-localized-context .sub-awtsmoos.heb,
-.post-reader-localized-context .section.heb .sub-awtsmoos,
-.post-reader-localized-context .section.heb .sub-toichen,
-.post-reader-localized-context .section.heb p,
-.post-reader-localized-context .section.heb span,
-.post-reader-localized-context .section.heb a,
-.post-reader-localized-context .section.heb b,
-.post-reader-localized-context .section.heb i,
-.post-reader-localized-context .section.heb strong,
-.post-reader-localized-context .section.heb em {
+.post-reader-localized-context .section.heb > .toichen,
+.post-reader-localized-context .section.heb > .toichen > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell),
+.post-reader-localized-context .section.heb > .sub-awtsmoos.heb,
+.post-reader-localized-context .section.heb > .sub-awtsmoos.heb > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
     font-size: var(--post-text-size, 42px) !important;
     line-height: 1.42 !important;
 }
 
-.post-reader-localized-context .section:not(.heb) .toichen,
-.post-reader-localized-context .section:not(.heb) .sub-awtsmoos,
-.post-reader-localized-context .section:not(.heb) .sub-toichen,
-.post-reader-localized-context .section:not(.heb) p,
-.post-reader-localized-context .section:not(.heb) span,
-.post-reader-localized-context .section:not(.heb) a,
-.post-reader-localized-context .section:not(.heb) b,
-.post-reader-localized-context .section:not(.heb) i,
-.post-reader-localized-context .section:not(.heb) strong,
-.post-reader-localized-context .section:not(.heb) em {
+.post-reader-localized-context .section:not(.heb) > .toichen,
+.post-reader-localized-context .section:not(.heb) > .sub-awtsmoos,
+.post-reader-localized-context .section:not(.heb) > .sub-awtsmoos > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
     font-size: var(--post-text-size, 42px) !important;
     line-height: 1.55 !important;
 }

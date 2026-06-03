@@ -4092,6 +4092,150 @@
       "path": "minimaxGameOrchestrator/projects/crystal-1780374112967-clean-mobile/README.md",
       "bytes": 2201,
       "ok": true
+    },
+    {
+      "at": 1780456705952,
+      "userId": "gptvosapp_mpxhyaj6",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:capabilityParityAudit",
+      "path": "machine",
+      "bytes": 43444,
+      "ok": true
+    },
+    {
+      "at": 1780456705965,
+      "userId": "gptvosapp_mpxhyaj6",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:capabilityParityAudit",
+      "path": "machine",
+      "bytes": 43444,
+      "ok": true
+    },
+    {
+      "at": 1780456706001,
+      "userId": "gptvosapp_mpxhyaj6",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 2035,
+      "ok": false
+    },
+    {
+      "at": 1780456706019,
+      "userId": "gptvosapp_mpxhyaj6",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 2035,
+      "ok": false
+    },
+    {
+      "at": 1780456706049,
+      "userId": "gptvosapp_mpxhyaj6",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 3296,
+      "ok": false
+    },
+    {
+      "at": 1780456706067,
+      "userId": "gptvosapp_mpxhyaj6",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 3296,
+      "ok": false
+    },
+    {
+      "at": 1780456706790,
+      "userId": "gptvosapp_mpxhyb63",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:capabilityParityAudit",
+      "path": "machine",
+      "bytes": 43444,
+      "ok": true
+    },
+    {
+      "at": 1780456706803,
+      "userId": "gptvosapp_mpxhyb63",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:capabilityParityAudit",
+      "path": "machine",
+      "bytes": 43444,
+      "ok": true
+    },
+    {
+      "at": 1780456706914,
+      "userId": "gptvosapp_mpxhyb63",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 2035,
+      "ok": false
+    },
+    {
+      "at": 1780456706950,
+      "userId": "gptvosapp_mpxhyb63",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 2035,
+      "ok": false
+    },
+    {
+      "at": 1780456707009,
+      "userId": "gptvosapp_mpxhyb63",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 3296,
+      "ok": false
+    },
+    {
+      "at": 1780456707039,
+      "userId": "gptvosapp_mpxhyb63",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "machine/apps/pulse-garden/index.html",
+      "bytes": 3296,
+      "ok": false
+    },
+    {
+      "at": 1780456734286,
+      "userId": "gptvosmake_mpxhyw4s",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "pulse_mpxhyw4s/apps/pulse-garden/index.html",
+      "bytes": 2133,
+      "ok": true
+    },
+    {
+      "at": 1780456734338,
+      "userId": "gptvosmake_mpxhyw4s",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "pulse_mpxhyw4s/apps/pulse-garden/index.html",
+      "bytes": 2133,
+      "ok": true
+    },
+    {
+      "at": 1780456734371,
+      "userId": "gptvosmake_mpxhyw4s",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "pulse_mpxhyw4s/apps/pulse-garden/index.html",
+      "bytes": 6707,
+      "ok": true
+    },
+    {
+      "at": 1780456734389,
+      "userId": "gptvosmake_mpxhyw4s",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "pulse_mpxhyw4s/apps/pulse-garden/index.html",
+      "bytes": 6707,
+      "ok": true
     }
   ]
 }

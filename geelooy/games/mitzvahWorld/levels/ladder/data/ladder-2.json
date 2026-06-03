@@ -17,9 +17,9 @@
           "y": 0,
           "z": 0
         },
-        "sunIntensity": 0.46,
+        "sunIntensity": 0.52,
         "hemiIntensity": 0.34,
-        "ambientIntensity": 0.13
+        "ambientIntensity": 0.12
       }
     ],
     "ProceduralTerrain": [

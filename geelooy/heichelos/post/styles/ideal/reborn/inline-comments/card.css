@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 152: The inline card learns proportion.
- * Metadata stays small, the commentary itself is nearly the reader's size, and
- * the card remains vivid without crushing words into giant broken towers.
+ * Chapter 159: Inline cards inherit only the right scale.
+ * The header and author chips stay small. The Hebrew comment body is the only
+ * chamber allowed to become almost as large as the source text.
  */
 
 .post-reader-localized-context .comments-holder-inline,
@@ -28,9 +28,7 @@
     min-width: 0 !important;
     border: 1px solid rgba(246, 201, 108, .38) !important;
     border-radius: 28px !important;
-    background:
-        radial-gradient(circle at 50% 12%, rgba(139,92,246,.2), transparent 17rem),
-        linear-gradient(180deg, rgba(7,16,31,.99), rgba(2,6,15,.99)) !important;
+    background: radial-gradient(circle at 50% 12%, rgba(139,92,246,.2), transparent 17rem), linear-gradient(180deg, rgba(7,16,31,.99), rgba(2,6,15,.99)) !important;
     color: var(--inline-text-white) !important;
     box-shadow: 0 22px 62px rgba(0,0,0,.42), 0 0 0 1px rgba(139,92,246,.14) !important;
     overflow: hidden !important;
@@ -38,10 +36,10 @@
 
 .post-reader-localized-context .awtsmoos-inline-card-header {
     display: grid !important;
-    grid-template-columns: 48px minmax(0, 1fr) !important;
-    gap: .72rem !important;
+    grid-template-columns: 44px minmax(0, 1fr) !important;
+    gap: .65rem !important;
     align-items: center !important;
-    padding: .85rem !important;
+    padding: .8rem !important;
     background: rgba(7,13,27,.88) !important;
     border-bottom: 1px solid rgba(255,255,255,.11) !important;
 }
@@ -49,29 +47,44 @@
 .post-reader-localized-context .awtsmoos-inline-avatar {
     display: grid !important;
     place-items: center !important;
-    width: 46px !important;
-    height: 46px !important;
+    width: 42px !important;
+    height: 42px !important;
     border-radius: 999px !important;
     color: #ffffff !important;
     background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%) !important;
-    font: 950 1.08rem/1 var(--font-ui) !important;
-    box-shadow: 0 0 24px rgba(139,92,246,.48) !important;
+    font: 950 1rem/1 var(--font-ui) !important;
+    box-shadow: 0 0 22px rgba(139,92,246,.46) !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-focus { display: none !important; }
 .post-reader-localized-context .awtsmoos-inline-card-heading { display: grid !important; gap: .2rem !important; min-width: 0 !important; }
 
-.post-reader-localized-context .awtsmoos-inline-title {
+.post-reader-localized-context .section.heb .awtsmoos-inline-title,
+.post-reader-localized-context .awtsmoos-inline-title,
+.post-reader-localized-context .section.heb .inline-comment .comment-author-link,
+.post-reader-localized-context .inline-comment .comment-author-link {
     color: #ffffff !important;
-    font: 950 var(--post-ui-chip-size, 16px)/1.16 var(--font-ui) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-ui-chip-size, 14px) !important;
+    font-weight: 950 !important;
+    line-height: 1.16 !important;
     overflow-wrap: anywhere !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-meta {
+.post-reader-localized-context .section.heb .awtsmoos-inline-meta,
+.post-reader-localized-context .awtsmoos-inline-meta,
+.post-reader-localized-context .section.heb .inline-comment .awtsmoos-comment-meta,
+.post-reader-localized-context .inline-comment .awtsmoos-comment-meta {
     color: var(--inline-edge-gold) !important;
-    font: 850 var(--post-inline-meta-size, 15px)/1.25 var(--font-ui) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-inline-meta-size, 12px) !important;
+    font-weight: 850 !important;
+    line-height: 1.25 !important;
 }
 
+.post-reader-localized-context .section.heb .awtsmoos-inline-body,
+.post-reader-localized-context .section.heb .inline-comment .comment-body-vessel,
+.post-reader-localized-context .section.heb .inline-comment .comment-text-root,
 .post-reader-localized-context .awtsmoos-inline-body,
 .post-reader-localized-context .inline-comment .comment-body-vessel,
 .post-reader-localized-context .inline-comment .comment-text-root {
@@ -87,6 +100,8 @@
     overflow-wrap: anywhere !important;
 }
 
+.post-reader-localized-context .section.heb .inline-comment .awtsmoos-comment-body *,
+.post-reader-localized-context .inline-comment .awtsmoos-comment-body *,
 .post-reader-localized-context .awtsmoos-inline-body *,
 .post-reader-localized-context .inline-comment .comment-body-vessel * {
     color: inherit !important;
@@ -108,7 +123,7 @@
     border-radius: 18px !important;
     background: linear-gradient(180deg, rgba(24,29,49,.95), rgba(11,15,31,.98)) !important;
     color: #fffdf5 !important;
-    font: 900 var(--post-ui-chip-size, 16px)/1 var(--font-ui) !important;
+    font: 900 var(--post-ui-chip-size, 14px)/1 var(--font-ui) !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
 }
 

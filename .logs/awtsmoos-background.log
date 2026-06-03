@@ -6,12 +6,7 @@ Starting instance of email
 Warning: Could not load DKIM file. Checking Env...
 Task Runner: Starting background polling for generic jobs...
 Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
-B"H
-
-
-
- Server running at http://127.0.0.1:8080/
-Time:  1780453754332
+B"H - Port 8080 is already in use; another server instance may already be alive.
 Email server running
 Server error:  Error: listen EACCES: permission denied 0.0.0.0:25
     at Server.setupListenHandle [as _listen2] (node:net:1986:21)
@@ -39,5 +34,207 @@ Error starting server: Error: listen EACCES: permission denied 0.0.0.0:25
   errno: -13,
   syscall: 'listen',
   address: '0.0.0.0',
-  port: 25
+  [
+  'B"H SESSION LOGIN DEBUG',
+  '{\n' +
+    '  "step": "module_loaded",\n' +
+    '  "time": 1780456669028,\n' +
+    '  "data": {\n' +
+    '    "exporting": "handleLogin"\n' +
+    '  }\n' +
+    '}'
+]
+[
+  'B"H SESSION LOGIN DEBUG',
+  '{\n' +
+    '  "step": "handleLogin_enter",\n' +
+    '  "time": 1780456669038,\n' +
+    '  "data": {\n' +
+    '    "requestMethod": "GET",\n' +
+    '    "requestUrl": "/login/",\n' +
+    '    "postKeys": [],\n' +
+    '    "hasPassword": false,\n' +
+    '    "passwordLength": 0,\n' +
+    '    "hasSecret": true,\n' +
+    '    "hasDb": true,\n' +
+    '    "hasSodos": true\n' +
+    '  }\n' +
+    '}'
+]
+[
+  'B"H SESSION LOGIN DEBUG',
+  '{\n' +
+    '  "step": "missing_form_fields",\n' +
+    '  "time": 1780456669040,\n' +
+    '  "data": {\n' +
+    '    "postKeys": []\n' +
+    '  }\n' +
+    '}'
+]
+[
+  'B"H SESSION LOGIN DEBUG',
+  '{\n' +
+    '  "step": "module_loaded",\n' +
+    '  "time": 1780456671019,\n' +
+    '  "data": {\n' +
+    '    "exporting": "handleLogin"\n' +
+    '  }\n' +
+    '}'
+]
+[
+  'B"H SESSION LOGIN DEBUG',
+  '{\n' +
+    '  "step": "handleLogin_enter",\n' +
+    '  "time": 1780456671021,\n' +
+    '  "data": {\n' +
+    '    "requestMethod": "GET",\n' +
+    '    "requestUrl": "/login/",\n' +
+    '    "postKeys": [],\n' +
+    '    "hasPassword": false,\n' +
+    '    "passwordLength": 0,\n' +
+    '    "hasSecret": true,\n' +
+    '    "hasDb": true,\n' +
+    '    "hasSodos": true\n' +
+    '  }\n' +
+    '}'
+]
+[
+  'B"H SESSION LOGIN DEBUG',
+  '{\n' +
+    '  "step": "missing_form_fields",\n' +
+    '  "time": 1780456671021,\n' +
+    '  "data": {\n' +
+    '    "postKeys": []\n' +
+    '  }\n' +
+    '}'
+]
+B"H BODY DEBUG {
+  "stage": "reader_start",
+  "time": 1780456685919,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "method": "POST",
+    "contentType": "application/x-www-form-urlencoded",
+    "contentLength": "77"
+  }
+}
+B"H BODY DEBUG {
+  "stage": "chunk",
+  "time": 1780456685919,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "chunkLength": 77,
+    "totalLength": 77
+  }
+}
+B"H BODY DEBUG {
+  "stage": "raw_body",
+  "time": 1780456685919,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "byteLength": 77,
+    "preview": "username=gptvos_mpxhxv08&password=[REDACTED]&submit=Login"
+  }
+}
+B"H BODY DEBUG {
+  "stage": "parsed_body",
+  "time": 1780456685920,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "parsedType": "object",
+    "parsedKeys": [
+      "username",
+      "password",
+      "submit"
+    ],
+    "parsedShape": {
+      "username": {
+        "type": "string",
+        "value": "gptvos_mpxhxv08",
+        "present": true,
+        "length": 15
+      },
+      "password": {
+        "type": "string",
+        "present": true,
+        "length": 28,
+        "redacted": true
+      },
+      "submit": {
+        "type": "string",
+        "value": "Login",
+        "present": true,
+        "length": 5
+      }
+    }
+  }
+}
+B"H BODY DEBUG {
+  "stage": "reader_start",
+  "time": 1780456686609,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "method": "POST",
+    "contentType": "application/x-www-form-urlencoded",
+    "contentLength": "77"
+  }
+}
+B"H BODY DEBUG {
+  "stage": "chunk",
+  "time": 1780456686610,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "chunkLength": 77,
+    "totalLength": 77
+  }
+}
+B"H BODY DEBUG {
+  "stage": "raw_body",
+  "time": 1780456686612,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "byteLength": 77,
+    "preview": "username=gptvos_mpxhxvno&password=[REDACTED]&submit=Login"
+  }
+}
+B"H BODY DEBUG {
+  "stage": "parsed_body",
+  "time": 1780456686612,
+  "method": "POST",
+  "url": "/login/",
+  "data": {
+    "parsedType": "object",
+    "parsedKeys": [
+      "username",
+      "password",
+      "submit"
+    ],
+    "parsedShape": {
+      "username": {
+        "type": "string",
+        "value": "gptvos_mpxhxvno",
+        "present": true,
+        "length": 15
+      },
+      "password": {
+        "type": "string",
+        "present": true,
+        "length": 28,
+        "redacted": true
+      },
+      "submit": {
+        "type": "string",
+        "value": "Login",
+        "present": true,
+        "length": 5
+      }
+    }
+  }
 }

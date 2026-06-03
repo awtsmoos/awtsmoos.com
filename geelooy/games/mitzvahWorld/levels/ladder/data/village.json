@@ -1,7 +1,7 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "village.json",
-  "shaym": "Tall_Textured_Cottage_Aligned_Door_No_Front_Gap",
+  "shaym": "UV_Textured_Cottage_Low_Aligned_Collider",
   "title": "Grounded Village",
   "requiredPerutos": 0,
   "nextLevel": "ladder-1.json",
@@ -179,8 +179,8 @@
         "width": 34,
         "depth": 23,
         "height": 13.6,
-        "doorWidth": 1.82,
-        "floorTop": 0.34,
+        "doorWidth": 2.12,
+        "floorTop": 0.18,
         "thickness": 0.85,
         "position": {
           "x": 13,
@@ -191,8 +191,9 @@
           "y": -0.25
         },
         "useAuthoredY": true,
-        "doorClearHeight": 3.72,
-        "thresholdCollider": true
+        "doorClearHeight": 3.95,
+        "thresholdCollider": false,
+        "groundY": 0
       }
     ],
     "VillageHouseDoor": [
@@ -223,7 +224,7 @@
         "radius": 0.42,
         "visualHeight": 1.5,
         "visualGroundBiasY": 0,
-        "groundLift": 0.4,
+        "groundLift": 0.18,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "dialogue": [
           "Shalom! Choose levels, buy clothes, or sell extras.",
@@ -300,7 +301,7 @@
         ],
         "position": {
           "x": 12.1,
-          "y": 0.4,
+          "y": 0.18,
           "z": -12.7
         }
       }

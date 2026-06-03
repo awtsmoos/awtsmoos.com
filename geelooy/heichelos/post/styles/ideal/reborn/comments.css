@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 154: Shared comments receive proportional garments.
- * Sidebar comments remain readable but not monstrous; inline comments inherit
- * the special near-reader size from the A-menu scale variables.
+ * Chapter 160: Shared comments own sidebar scale only.
+ * Inline comment body scale is owned by inline-comments/card.css, preventing
+ * duplicate ownership while the Awtsmoos keeps one renderer and two garments.
  */
 
 .post-reader-localized-context .awtsmoos-shared-comment-card {
@@ -86,13 +86,6 @@
     font-weight: 700 !important;
     line-height: 1.55 !important;
     text-shadow: 0 8px 24px rgba(0,0,0,.5) !important;
-}
-
-.post-reader-localized-context .inline-comment .awtsmoos-comment-body,
-.post-reader-localized-context .inline-comment .awtsmoos-comment-body * {
-    text-align: center !important;
-    font-size: var(--post-inline-body-size, 38px) !important;
-    line-height: 1.44 !important;
 }
 
 .post-reader-localized-context .awtsmoos-comment-body * {

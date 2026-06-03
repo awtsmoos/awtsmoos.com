@@ -2,12 +2,15 @@
 /**
  * @file InteractiveNpc.js
  * @description
- * Chapter 120: The guide becomes clickable again. The Awtsmoos found the ray
- * proxy was being sealed as skipRaycast during ready. The seal now protects the
- * visual body while leaving the invisible interaction box alive for taps.
+ * Chapter 210: The guide speaks only across real nearness.
+ *
+ * The Awtsmoos does not let a faraway tap tear open a menu from across the
+ * village. The NPC now checks distance on every talk attempt, faces the chossid
+ * while speaking, and keeps the invisible ray proxy clickable without letting
+ * the visual body enter the octree.
  */
 import Medabeir from "../../chayim/medabeir/index.js?v=no-auto-dialogue-20260602-bh9";
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from "/games/scripts/build/three.module.js";
 import AwtsmoosThreeManifestor from "../../utils/3d/procedural/AwtsmoosThreeManifestor.js";
 
 const DEFAULT_DIALOGUES = ["Shalom! Choose levels, buy clothes, or sell extras.", "Your bag buys colored clothing.", "Give tzedakah in a level and the mezuzah returns double."];
@@ -19,6 +22,7 @@ const DEFAULT_SHOP = [
   { id: "brown_shoes", name: "Brown Shoes", icon: "👞", equipSlot: "feet", price: 4, sellValue: 2, customData: { meshName: "shoes", color: "#8b5a2b" } }
 ];
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
+const posOf = nivra => nivra?.mesh?.position || nivra?.modelMesh?.position || nivra?.guf?.position || null;
 
 function sealVisual(root, nivra) {
   root?.traverse?.(child => {
@@ -39,7 +43,8 @@ export default class InteractiveNpc extends Medabeir {
 
   constructor(op = {}, olam) {
     const clean = { ...op, dialogue: null, dialogues: null, messageTree: null };
-    clean.proximity ||= 5.2;
+    clean.proximity ||= 4.2;
+    clean.talkDistance ||= clean.proximity;
     clean.interactable = true;
     clean.heesHawveh = true;
     clean.visualHeight ||= 1.5;
@@ -54,14 +59,18 @@ export default class InteractiveNpc extends Medabeir {
     this.shopInventory = op.shopInventory || DEFAULT_SHOP;
     this.interactKey = "C";
     this.height = clean.visualHeight;
+    this.talkDistance = num(op.talkDistance ?? clean.talkDistance, 4.2);
     this.isDancing = true;
+    this._lastTooFarAt = 0;
+    this._lookTarget = null;
     this._makeRayProxy();
     this._setupEventHandlers();
   }
 
   _makeRayProxy() {
-    this.interactionMesh = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.5, 2.2), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
-    this.interactionMesh.name = "NPC_Guide_Click_Box";
+    const radius = Math.max(1.8, this.talkDistance * 0.72);
+    this.interactionMesh = new THREE.Mesh(new THREE.BoxGeometry(radius, 2.5, radius), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+    this.interactionMesh.name = "NPC_Guide_Click_Box_Close_Range";
     Object.assign(this.interactionMesh.userData, { awtsmoosRayProxy: true, skipRaycast: false, skipOctree: true, noOctree: true });
     this.interactionMesh.nivraAwtsmoos = this;
     this.raycastMesh = this.interactionMesh;
@@ -96,7 +105,7 @@ export default class InteractiveNpc extends Medabeir {
 
   _setupEventHandlers() {
     this.on("accepted interaction", chossid => this.openGuideMenu(chossid));
-    this.on("mouseEnter", () => this.olam.ayshPeula("ui event", "tooltip", { show: true, text: "Talk: levels / shop" }));
+    this.on("mouseEnter", () => this.olam.ayshPeula("ui event", "tooltip", { show: true, text: "Talk nearby: levels / shop" }));
     this.on("mouseLeave", () => this.olam.ayshPeula("ui event", "tooltip", { show: false }));
     this.on("pointerdown", chossid => this.openGuideMenu(chossid));
   }
@@ -106,7 +115,38 @@ export default class InteractiveNpc extends Medabeir {
     return super.ayshPeula?.(peula, actor);
   }
 
-  openGuideMenu() {
+  findTalker(actor) {
+    if (posOf(actor)) return actor;
+    return this.olam?.chossid || this.olam?.player || null;
+  }
+
+  distanceTo(actor) {
+    const a = posOf(actor), b = posOf(this);
+    if (!a || !b) return Infinity;
+    const dx = a.x - b.x, dz = a.z - b.z, dy = (a.y || 0) - (b.y || 0);
+    return Math.sqrt(dx * dx + dz * dz + dy * dy * 0.12);
+  }
+
+  sayTooFar() {
+    const now = Date.now();
+    if (now - this._lastTooFarAt < 800) return;
+    this._lastTooFarAt = now;
+    this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "Come closer to talk.", color: "#ffd54a", replace: true });
+  }
+
+  faceTalker(actor) {
+    const a = posOf(actor), b = posOf(this);
+    if (!a || !b || !this.mesh) return;
+    const dx = a.x - b.x, dz = a.z - b.z;
+    if (Math.abs(dx) + Math.abs(dz) < 0.001) return;
+    this.mesh.rotation.y = Math.atan2(dx, dz);
+    this._lookTarget = actor;
+  }
+
+  openGuideMenu(actor) {
+    const talker = this.findTalker(actor);
+    if (this.distanceTo(talker) > this.talkDistance) { this.sayTooFar(); return false; }
+    this.faceTalker(talker);
     const payload = { fromNpc: this.name, title: "Village Guide", selectorTitle: this.options.selectorTitle || "NPC CHALLENGES", lines: this.dialogues, actions: ["levels", "buy", "sell"], shopInventory: this.shopInventory, entityId: this.id || this.name, npcName: this.name || "Village Guide" };
     this.olam.ayshPeula("ui event", "openNpcChallengeOverlay", payload);
     return true;
@@ -121,6 +161,7 @@ export default class InteractiveNpc extends Medabeir {
   heesHawvoos(dt) {
     super.heesHawvoos(dt);
     if (!this.__awtsDanceStarted && this.animationMixer && this.animations?.length) this.playGuideDance();
+    if (this._lookTarget && this.distanceTo(this._lookTarget) <= this.talkDistance + 0.8) this.faceTalker(this._lookTarget);
     if (this.missionMark) { this.missionMark.rotation.y += dt * 2; this.missionMark.position.y = this.height + 0.28 + Math.sin(Date.now() * 0.005) * 0.04; }
   }
 }
