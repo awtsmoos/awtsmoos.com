@@ -2,11 +2,12 @@
 /**
  * @module ControlBindings
  * @description
- * Chapter 140: The A-menu controls become living instruments. Font controls
- * now command the real reader variables and then re-center the current verse,
- * so the vessel grows without losing the seeker's place.
+ * Chapter 147: The A-menu becomes the command bridge for scale and speed.
+ * Font controls resize the real reader. Auto-scroll speed is now a remembered
+ * river throttle, updating the floating button while the page remains alive.
  */
 
+import { setAutoScrollDownSpeed, getAutoScrollDownState, loadAutoScrollDownSpeed } from "../../actions/AutoScrollDown.js";
 import { adjustFontSize } from "../../functions/utils.js";
 import { scrollToActiveEl } from "../../functions/interaction/scrolling.js";
 
@@ -14,6 +15,7 @@ const APPEARANCE_KEYS = [
     "awtsmoos-theme",
     "awtsmoos-font",
     "currentPostFontSize",
+    "awtsmoos-auto-scroll-speed",
     "awtsmoos-color---color-ink",
     "awtsmoos-color---bg-vellum",
     "awtsmoos-color---color-primary",
@@ -43,6 +45,15 @@ function settleReaderAfterScale() {
     });
 }
 
+function updateSpeedDisplay(value) {
+    const display = document.getElementById("autoScrollSpeedDisplay");
+    const slider = document.getElementById("autoScrollSpeedRange");
+    const speed = setAutoScrollDownSpeed(value);
+    if (slider && String(slider.value) !== String(speed)) slider.value = String(speed);
+    if (display) display.textContent = `${speed.toFixed(2)}x`;
+    return speed;
+}
+
 /** Binds typography plus/minus buttons. */
 export function setupFontControls() {
     const fontInc = document.getElementById("fontIncreaseBtn");
@@ -60,6 +71,16 @@ export function setupFontControls() {
         settleReaderAfterScale();
     };
     updateDisplay();
+}
+
+/** Binds the auto-scroll speed slider. */
+export function setupAutoScrollSpeedControl() {
+    const slider = document.getElementById("autoScrollSpeedRange");
+    if (!slider) return;
+    const stateSpeed = loadAutoScrollDownSpeed() || getAutoScrollDownState().speed;
+    slider.value = String(stateSpeed);
+    updateSpeedDisplay(stateSpeed);
+    slider.addEventListener("input", event => updateSpeedDisplay(event.target.value));
 }
 
 /** Binds live color controls to CSS variables and local memory. */

@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 100: The gateway becomes a golden-violet signet.
- * It carries author, verse, preview, and pulse in the colors of the image:
- * navy glass, violet halo, gold metadata, and large readable white Hebrew.
+ * Chapter 151: The gateway becomes a quiet signpost, not a second page.
+ * Gateway text stays intentionally small while the real inline comment card
+ * below carries the main commentary voice.
  */
 
 .post-reader-localized-context .inline-summary-btn,
@@ -9,18 +9,18 @@
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     justify-items: stretch !important;
-    gap: 1rem !important;
+    gap: .65rem !important;
     width: 100% !important;
     min-height: 0 !important;
-    padding: clamp(1rem, 4.6vw, 1.55rem) !important;
-    border: 1px solid rgba(244, 114, 182, .45) !important;
-    border-radius: 26px !important;
+    padding: clamp(.85rem, 3.6vw, 1.2rem) !important;
+    border: 1px solid rgba(244, 114, 182, .38) !important;
+    border-radius: 24px !important;
     background:
-        radial-gradient(circle at 0% 0%, rgba(139, 92, 246, .34), transparent 16rem),
-        radial-gradient(circle at 100% 100%, rgba(41, 213, 238, .18), transparent 16rem),
-        linear-gradient(180deg, rgba(8, 15, 31, .98), rgba(4, 8, 18, .99)) !important;
+        radial-gradient(circle at 0% 0%, rgba(139, 92, 246, .28), transparent 12rem),
+        radial-gradient(circle at 100% 100%, rgba(41, 213, 238, .16), transparent 12rem),
+        linear-gradient(180deg, rgba(8, 15, 31, .96), rgba(4, 8, 18, .98)) !important;
     color: var(--inline-text-white) !important;
-    box-shadow: 0 20px 56px var(--inline-shadow-purple), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    box-shadow: 0 18px 48px var(--inline-shadow-purple), inset 0 1px 0 rgba(255,255,255,.08) !important;
     text-align: center !important;
 }
 
@@ -30,7 +30,7 @@
 .post-reader-localized-context .awtsmoos-inline-trigger-copy {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
-    gap: .7rem !important;
+    gap: .45rem !important;
     width: 100% !important;
     min-width: 0 !important;
 }
@@ -38,37 +38,38 @@
 .post-reader-localized-context .awtsmoos-inline-trigger-title {
     justify-self: center !important;
     color: #ffffff !important;
-    font: 950 clamp(1.35rem, 6.6vw, 2.25rem)/1.08 var(--font-ui) !important;
-    letter-spacing: .02em !important;
-    text-shadow: 0 8px 22px rgba(0,0,0,.62) !important;
+    font: 950 var(--post-inline-label-size, 18px)/1.15 var(--font-ui) !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 8px 20px rgba(0,0,0,.5) !important;
     overflow-wrap: anywhere !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-trigger-subtitle {
     justify-self: center !important;
     color: var(--inline-edge-gold) !important;
-    font: 900 clamp(1.05rem, 4.8vw, 1.42rem)/1.2 var(--font-ui) !important;
+    font: 900 var(--post-inline-meta-size, 16px)/1.2 var(--font-ui) !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-trigger-preview {
-    direction: rtl !important;
+    direction: ltr !important;
     width: 100% !important;
-    padding: clamp(1rem, 4.8vw, 1.45rem) !important;
-    border: 1px solid rgba(255,255,255,.14) !important;
-    border-radius: 22px !important;
-    background: rgba(2,6,23,.78) !important;
+    padding: .75rem 1rem !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    border-radius: 18px !important;
+    background: rgba(2,6,23,.58) !important;
     color: var(--inline-text-white) !important;
-    font-family: var(--font-content) !important;
-    font-size: clamp(2.05rem, 9.6vw, 3.65rem) !important;
-    font-weight: 800 !important;
-    line-height: 1.42 !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--post-inline-summary-size, 22px) !important;
+    font-weight: 900 !important;
+    line-height: 1.28 !important;
     text-align: center !important;
-    text-shadow: 0 9px 28px rgba(0,0,0,.58) !important;
+    text-shadow: 0 7px 18px rgba(0,0,0,.52) !important;
     overflow-wrap: anywhere !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-trigger-meta {
     justify-self: center !important;
     color: var(--inline-text-blue) !important;
-    font: 850 clamp(1rem, 4.4vw, 1.3rem)/1.25 var(--font-ui) !important;
+    font: 850 var(--post-inline-meta-size, 16px)/1.28 var(--font-ui) !important;
 }

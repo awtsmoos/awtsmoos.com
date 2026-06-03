@@ -2,9 +2,10 @@
 /**
  * @file utils.js
  * @description
- * The Awtsmoos breathes letters into vessels. This chamber keeps the common
- * reader tools small: DOM weaving, readable scale, text purification, clipboard
- * copying, and URL coordinate updates.
+ * Chapter 149: One scale becomes many harmonious vessels.
+ * The Awtsmoos lets the main text grow large while inline headers, metadata,
+ * badges, and comment bodies grow by their own measured ratios. CSS receives
+ * plain pixel variables, not unsupported multiplication spells.
  */
 
 const DEFAULT_FONT_SIZE = 42;
@@ -22,14 +23,33 @@ function cleanSize(value, fallback = DEFAULT_FONT_SIZE) {
     return Math.min(MAX_FONT_SIZE, Math.max(MIN_FONT_SIZE, parsed));
 }
 
+function px(value) {
+    return `${Math.round(value * 100) / 100}px`;
+}
+
+function scaleVars(size) {
+    const main = cleanSize(size);
+    return {
+        "--post-text-size": px(main),
+        "--post-inline-body-size": px(Math.max(24, main * 0.9)),
+        "--post-sidebar-comment-size": px(Math.max(22, main * 0.78)),
+        "--post-inline-summary-size": px(Math.max(22, main * 0.36)),
+        "--post-inline-label-size": px(Math.max(16, main * 0.2)),
+        "--post-inline-meta-size": px(Math.max(14, main * 0.17)),
+        "--post-ui-chip-size": px(Math.max(14, main * 0.18))
+    };
+}
+
+function scaleTargets() {
+    return [document.documentElement, document.body, readerContext(), document.getElementById("realPost")].filter(Boolean);
+}
+
 /** Manifests raw HTML strings into a parent vessel. */
 export function appendHTML(html, par) {
     if (!par) return;
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
-    Array.from(doc.body.childNodes).forEach((node, index, array) => {
-        appendWithSubChildren(node, par, array);
-    });
+    Array.from(doc.body.childNodes).forEach((node, index, array) => appendWithSubChildren(node, par, array));
 }
 
 /** Recursively weaves nodes, honoring the old toldafy transformer. */
@@ -59,14 +79,11 @@ export function appendWithSubChildren(node, parent, array) {
 
 /** Applies the reader scale everywhere the live CSS may read it. */
 export function applyReaderFontSize(size) {
-    const px = `${cleanSize(size)}px`;
-    const ctx = readerContext();
-    [document.documentElement, document.body, ctx, document.getElementById("realPost")]
-        .filter(Boolean)
-        .forEach(el => el.style.setProperty("--post-text-size", px));
-    localStorage.currentPostFontSize = px;
-    window.dispatchEvent(new CustomEvent("awtsmoos:font-size", { detail: { size: px } }));
-    return px;
+    const vars = scaleVars(size);
+    scaleTargets().forEach(el => Object.entries(vars).forEach(([name, value]) => el.style.setProperty(name, value)));
+    localStorage.currentPostFontSize = vars["--post-text-size"];
+    window.dispatchEvent(new CustomEvent("awtsmoos:font-size", { detail: { size: vars["--post-text-size"], vars } }));
+    return vars["--post-text-size"];
 }
 
 /** Enlarges or reduces the holy letters. */

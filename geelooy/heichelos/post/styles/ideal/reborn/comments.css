@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 133: The shared card receives complete garments.
- * Headers, profile chips, body paragraphs, and actions all shine from one CSS
- * covenant. The card body never looks like a raw browser button again.
+ * Chapter 154: Shared comments receive proportional garments.
+ * Sidebar comments remain readable but not monstrous; inline comments inherit
+ * the special near-reader size from the A-menu scale variables.
  */
 
 .post-reader-localized-context .awtsmoos-shared-comment-card {
@@ -21,52 +21,48 @@
 
 .post-reader-localized-context .awtsmoos-comment-card-header {
     display: grid !important;
-    grid-template-columns: 54px minmax(0,1fr) auto !important;
-    gap: .8rem !important;
+    grid-template-columns: 48px minmax(0,1fr) auto !important;
+    gap: .75rem !important;
     align-items: center !important;
-    padding: 1rem !important;
+    padding: .9rem !important;
     border-bottom: 1px solid rgba(255,255,255,.11) !important;
-    background: rgba(7,13,27,.92) !important;
+    background: rgba(7,13,27,.9) !important;
 }
 
 .post-reader-localized-context .awtsmoos-comment-avatar {
     display: grid !important;
     place-items: center !important;
-    width: 52px !important;
-    height: 52px !important;
+    width: 46px !important;
+    height: 46px !important;
     border-radius: 999px !important;
     color: white !important;
     background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%) !important;
-    font: 950 1.3rem/1 var(--font-ui) !important;
-    box-shadow: 0 0 28px rgba(139,92,246,.55) !important;
+    font: 950 1.08rem/1 var(--font-ui) !important;
+    box-shadow: 0 0 24px rgba(139,92,246,.48) !important;
 }
 
-.post-reader-localized-context .awtsmoos-comment-heading {
-    display: grid !important;
-    gap: .25rem !important;
-    min-width: 0 !important;
-}
+.post-reader-localized-context .awtsmoos-comment-heading { display: grid !important; gap: .22rem !important; min-width: 0 !important; }
 
 .post-reader-localized-context .comment-author-link {
     color: #ffffff !important;
     text-decoration: none !important;
-    font: 950 clamp(1.1rem,4.8vw,1.55rem)/1.12 var(--font-ui) !important;
+    font: 950 var(--post-ui-chip-size, 16px)/1.16 var(--font-ui) !important;
     overflow-wrap: anywhere !important;
 }
 
 .post-reader-localized-context .awtsmoos-comment-meta {
     color: var(--inline-edge-gold) !important;
-    font: 850 clamp(.88rem,3.8vw,1.08rem)/1.25 var(--font-ui) !important;
+    font: 850 var(--post-inline-meta-size, 15px)/1.25 var(--font-ui) !important;
     overflow-wrap: anywhere !important;
 }
 
 .post-reader-localized-context .awtsmoos-comment-body {
     direction: rtl !important;
     text-align: start !important;
-    padding: clamp(1.1rem,4.5vw,1.65rem) !important;
+    padding: clamp(1rem,4vw,1.5rem) !important;
     color: #fffdf5 !important;
     font-family: var(--font-content) !important;
-    font-size: clamp(1.45rem,6vw,2.35rem) !important;
+    font-size: var(--post-sidebar-comment-size, 32px) !important;
     font-weight: 700 !important;
     line-height: 1.55 !important;
     text-shadow: 0 8px 24px rgba(0,0,0,.5) !important;
@@ -86,16 +82,17 @@
     direction: rtl !important;
     text-align: start !important;
     font-family: var(--font-content) !important;
-    font-size: clamp(1.45rem,6vw,2.35rem) !important;
+    font-size: var(--post-sidebar-comment-size, 32px) !important;
     font-weight: 700 !important;
     line-height: 1.55 !important;
     text-shadow: 0 8px 24px rgba(0,0,0,.5) !important;
 }
 
-.post-reader-localized-context .inline-comment .awtsmoos-comment-body {
+.post-reader-localized-context .inline-comment .awtsmoos-comment-body,
+.post-reader-localized-context .inline-comment .awtsmoos-comment-body * {
     text-align: center !important;
-    font-size: clamp(1.9rem,8.6vw,3.45rem) !important;
-    line-height: 1.48 !important;
+    font-size: var(--post-inline-body-size, 38px) !important;
+    line-height: 1.44 !important;
 }
 
 .post-reader-localized-context .awtsmoos-comment-body * {
@@ -121,35 +118,16 @@
     border-radius: 18px !important;
     background: linear-gradient(180deg, rgba(26,32,52,.95), rgba(10,15,30,.98)) !important;
     color: #fffdf5 !important;
-    font: 900 clamp(.9rem,3.8vw,1.1rem)/1 var(--font-ui) !important;
+    font: 900 var(--post-ui-chip-size, 16px)/1 var(--font-ui) !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
 }
 
-.post-reader-localized-context .profile-chip {
-    min-height: 42px !important;
-    padding: .55rem .85rem !important;
-    border-radius: 999px !important;
-}
-
-.post-reader-localized-context .awtsmoos-comment-more {
-    display: grid !important;
-    padding: 0 1rem 1rem !important;
-}
-
-.post-reader-localized-context .menu-dropdown {
-    display: grid !important;
-    gap: .6rem !important;
-    margin-top: .6rem !important;
-}
-
-.post-reader-localized-context .awtsmoos-clipboard-proxy {
-    position: fixed !important;
-    left: -9999px !important;
-    top: 0 !important;
-    opacity: 0 !important;
-}
+.post-reader-localized-context .profile-chip { min-height: 42px !important; padding: .55rem .85rem !important; border-radius: 999px !important; }
+.post-reader-localized-context .awtsmoos-comment-more { display: grid !important; padding: 0 1rem 1rem !important; }
+.post-reader-localized-context .menu-dropdown { display: grid !important; gap: .6rem !important; margin-top: .6rem !important; }
+.post-reader-localized-context .awtsmoos-clipboard-proxy { position: fixed !important; left: -9999px !important; top: 0 !important; opacity: 0 !important; }
 
 @media (max-width: 420px) {
-    .post-reader-localized-context .awtsmoos-comment-card-header { grid-template-columns: 48px minmax(0,1fr) !important; }
+    .post-reader-localized-context .awtsmoos-comment-card-header { grid-template-columns: 44px minmax(0,1fr) !important; }
     .post-reader-localized-context .profile-chip { grid-column: 1 / -1 !important; }
 }

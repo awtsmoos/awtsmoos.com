@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 99: The frame catches violet lightning in navy glass.
- * The Awtsmoos makes a shelter: wide, quiet, radiant, and impossible to shove
- * sideways. Gold breath on top, purple fire beneath, white text within.
+ * Chapter 153: The frame glows, but whispers.
+ * The label becomes ornament instead of thunder, leaving the real commentary
+ * with the full voice of the page.
  */
 
 .post-reader-localized-context .marginal-gloss-shelter,
@@ -10,40 +10,40 @@
 .post-reader-localized-context .awtsmoos-inline-shell {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
-    gap: 1.1rem !important;
+    gap: 1rem !important;
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
-    margin: clamp(1.35rem, 5vw, 2.15rem) auto !important;
-    padding: clamp(1rem, 4vw, 1.35rem) !important;
+    margin: clamp(1.2rem, 4.6vw, 2rem) auto !important;
+    padding: clamp(.9rem, 3.6vw, 1.25rem) !important;
     overflow-x: clip !important;
-    border: 1px solid rgba(246, 201, 108, .28) !important;
+    border: 1px solid rgba(246, 201, 108, .26) !important;
     border-radius: 30px !important;
     background:
-        radial-gradient(circle at 4% 12%, rgba(139, 92, 246, .32), transparent 14rem),
-        radial-gradient(circle at 96% 18%, rgba(244, 114, 182, .22), transparent 14rem),
-        linear-gradient(180deg, rgba(12, 24, 43, .98), rgba(3, 8, 20, .99)) !important;
-    box-shadow: 0 26px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.09) !important;
+        radial-gradient(circle at 4% 12%, rgba(139, 92, 246, .26), transparent 13rem),
+        radial-gradient(circle at 96% 18%, rgba(244, 114, 182, .17), transparent 13rem),
+        linear-gradient(180deg, rgba(12, 24, 43, .97), rgba(3, 8, 20, .99)) !important;
+    box-shadow: 0 24px 62px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08) !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-shelter-label {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .75rem !important;
+    gap: .55rem !important;
     color: var(--inline-edge-gold) !important;
-    font: 950 clamp(1.15rem, 5vw, 1.75rem)/1.1 var(--font-ui) !important;
-    letter-spacing: .16em !important;
+    font: 950 var(--post-inline-label-size, 18px)/1.1 var(--font-ui) !important;
+    letter-spacing: .18em !important;
     text-transform: uppercase !important;
-    text-shadow: 0 0 18px rgba(246, 201, 108, .32) !important;
+    text-shadow: 0 0 18px rgba(246, 201, 108, .26) !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-shelter-label::before,
 .post-reader-localized-context .awtsmoos-inline-shelter-label::after {
     content: "✦";
     color: var(--inline-edge-violet);
-    font-size: 1rem;
-    filter: drop-shadow(0 0 12px rgba(139, 92, 246, .8));
+    font-size: .85em;
+    filter: drop-shadow(0 0 12px rgba(139, 92, 246, .75));
 }
 
 .post-reader-localized-context .awtsmoos-inline-status {
@@ -55,7 +55,7 @@
     border: 1px solid rgba(139, 92, 246, .35) !important;
     border-radius: 20px !important;
     padding: 1rem !important;
-    font: 850 clamp(1rem, 4.2vw, 1.35rem)/1.35 var(--font-ui) !important;
+    font: 850 var(--post-inline-meta-size, 16px)/1.35 var(--font-ui) !important;
     text-align: center !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
 }

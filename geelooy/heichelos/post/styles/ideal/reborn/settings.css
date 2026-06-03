@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 135: The A-menu becomes a usable sanctuary.
- * Typography controls are touch-sized, readable, scrollable, and sovereign.
- * Every control wears the same dark violet/gold garment as the reader.
+ * Chapter 150: The A-menu becomes a polished command sanctuary.
+ * Typography and river-speed controls are touch-sized, readable, scrollable,
+ * and sovereign. The Awtsmoos gives each setting a luminous vessel.
  */
 
 .post-reader-localized-context .typography-details {
@@ -17,10 +17,11 @@
     display: flex !important;
     flex-direction: column !important;
     overflow: hidden !important;
-    border: 1px solid rgba(246, 201, 108, .32) !important;
+    border: 1px solid rgba(246, 201, 108, .34) !important;
     border-radius: 28px !important;
     background:
-        radial-gradient(circle at 16% 0%, rgba(139, 92, 246, .26), transparent 18rem),
+        radial-gradient(circle at 16% 0%, rgba(139, 92, 246, .28), transparent 18rem),
+        radial-gradient(circle at 94% 18%, rgba(14,165,233,.12), transparent 13rem),
         linear-gradient(180deg, rgba(7, 13, 27, .98), rgba(3, 8, 18, .99)) !important;
     box-shadow: 0 26px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08) !important;
     color: #fffdf5 !important;
@@ -54,18 +55,19 @@
 
 .post-reader-localized-context .typography-content > .settings-group {
     padding: 14px !important;
-    border: 1px solid rgba(255,255,255,.1) !important;
-    border-radius: 18px !important;
-    background: rgba(255,255,255,.055) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035)) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
 }
 
 .post-reader-localized-context .control-label {
     margin: 0 !important;
     color: var(--inline-edge-gold, #f6c96c) !important;
-    font: 900 .78rem/1.2 var(--font-ui) !important;
+    font: 950 .78rem/1.2 var(--font-ui) !important;
     text-transform: uppercase !important;
-    letter-spacing: .11em !important;
-    text-shadow: none !important;
+    letter-spacing: .14em !important;
+    text-shadow: 0 0 16px rgba(246,201,108,.18) !important;
 }
 
 .post-reader-localized-context .setting-name {
@@ -87,9 +89,7 @@
     background: transparent !important;
 }
 
-.post-reader-localized-context .text-controls {
-    grid-template-columns: 58px minmax(0, 1fr) 58px !important;
-}
+.post-reader-localized-context .text-controls { grid-template-columns: 58px minmax(0, 1fr) 58px !important; }
 
 .post-reader-localized-context .font-adjust-btn,
 .post-reader-localized-context #themeToggleBtn,
@@ -99,16 +99,17 @@
     display: grid !important;
     place-items: center !important;
     min-height: 52px !important;
-    border: 1px solid rgba(246,201,108,.28) !important;
+    border: 1px solid rgba(246,201,108,.3) !important;
     border-radius: 16px !important;
-    background: linear-gradient(180deg, rgba(26,32,52,.98), rgba(10,15,30,.98)) !important;
+    background: linear-gradient(180deg, rgba(29,36,61,.98), rgba(10,15,30,.98)) !important;
     color: #fffdf5 !important;
     font: 950 1.25rem/1 var(--font-ui) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 10px 22px rgba(0,0,0,.22) !important;
     cursor: pointer !important;
 }
 
-.post-reader-localized-context .font-size-display {
+.post-reader-localized-context .font-size-display,
+.post-reader-localized-context .speed-readout-row {
     display: grid !important;
     place-items: center !important;
     min-height: 52px !important;
@@ -134,10 +135,7 @@
 }
 
 .post-reader-localized-context .font-selector option,
-.post-reader-localized-context #themeSelector option {
-    color: #08111f !important;
-    background: #fffdf5 !important;
-}
+.post-reader-localized-context #themeSelector option { color: #08111f !important; background: #fffdf5 !important; }
 
 .post-reader-localized-context .awtsmoos-toggle {
     justify-self: end !important;
@@ -149,31 +147,43 @@
 }
 
 .post-reader-localized-context .awtsmoos-toggle-label { display: none !important; }
+.post-reader-localized-context .theme-controls { grid-template-columns: 58px minmax(0, 1fr) !important; }
 
-.post-reader-localized-context .theme-controls {
-    grid-template-columns: 58px minmax(0, 1fr) !important;
-}
-
-.post-reader-localized-context .color-picker-grid {
+.post-reader-localized-context .speed-control-row {
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
     gap: 10px !important;
+    align-items: center !important;
 }
 
-.post-reader-localized-context .color-control {
-    display: grid !important;
-    gap: 6px !important;
-}
-
-.post-reader-localized-context .color-control label {
+.post-reader-localized-context .speed-word,
+.post-reader-localized-context .speed-readout-row span {
     color: var(--inline-text-blue, #cbd5e1) !important;
-    font: 800 .82rem/1 var(--font-ui) !important;
+    font: 850 .86rem/1.2 var(--font-ui) !important;
 }
 
-.post-reader-localized-context input[type="color"].ink-pot {
-    padding: 4px !important;
-    overflow: hidden !important;
+.post-reader-localized-context .speed-readout-row {
+    grid-template-columns: minmax(0,1fr) auto !important;
+    justify-items: stretch !important;
+    padding: 0 14px !important;
+    place-items: center stretch !important;
 }
+
+.post-reader-localized-context .speed-readout-row strong {
+    color: var(--inline-edge-gold, #f6c96c) !important;
+    font: 950 1.1rem/1 var(--font-ui) !important;
+    text-align: end !important;
+}
+
+.post-reader-localized-context #autoScrollSpeedRange {
+    width: 100% !important;
+    accent-color: #22d3ee !important;
+}
+
+.post-reader-localized-context .color-picker-grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+.post-reader-localized-context .color-control { display: grid !important; gap: 6px !important; }
+.post-reader-localized-context .color-control label { color: var(--inline-text-blue, #cbd5e1) !important; font: 800 .82rem/1 var(--font-ui) !important; }
+.post-reader-localized-context input[type="color"].ink-pot { padding: 4px !important; overflow: hidden !important; }
 
 .post-reader-localized-context .reset-section {
     padding: 14px 18px !important;
@@ -196,8 +206,5 @@
         bottom: calc(var(--awt-reader-bottom-space, 86px) + 8px) !important;
         max-height: 70dvh !important;
     }
-
-    .post-reader-localized-context .color-picker-grid {
-        grid-template-columns: 1fr !important;
-    }
+    .post-reader-localized-context .color-picker-grid { grid-template-columns: 1fr !important; }
 }
