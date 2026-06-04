@@ -62,7 +62,7 @@ export default {
     ],
     "ProceduralTerrain": [
       {
-        "name": "stable_physics_terrain_under_rich_ground",
+        "name": "stable_physics_terrain_lawful_textured_ground",
         "width": 190,
         "depth": 190,
         "segments": 72,
@@ -70,7 +70,7 @@ export default {
         "textureType": "safegrass",
         "textureSize": 768,
         "microNoise": 0.04,
-        "mobileTone": "darker-golden-village-green",
+        "mobileTone": "warm-readable-green",
         "points": [
           {
             "x": -95,
@@ -100,26 +100,12 @@ export default {
         }
       }
     ],
-    "VillageGroundPlane": [
-      {
-        "name": "shader_baked_rich_grass_dirt_ground",
-        "width": 188,
-        "depth": 188,
-        "y": -0.64,
-        "size": 768,
-        "repeatX": 1,
-        "repeatY": 1,
-        "color": 6258488,
-        "grassDark": 3627559,
-        "grassLight": 9284178,
-        "flowerColor": 15259744
-      }
-    ],
+    "VillageGroundPlane": [],
     "Chossid": [
       {
-        "name": "Village Player Guide Visible Spawn",
+        "name": "Village Player Restored Speed Spawn",
         "path": "https://models-3122d.web.app/chossid.glb?k=1",
-        "speed": 0.19,
+        "speed": 0.34,
         "position": {
           "x": -11.8,
           "y": 0.24,
@@ -131,87 +117,116 @@ export default {
         "cameraPreset": "guide-visible-low-third-person"
       }
     ],
-    "VillageStonePath": [
-      {
-        "name": "spawn_to_visible_guide_cobble_path",
-        "count": 168,
-        "width": 4.8,
-        "length": 38,
-        "y": 0.07,
-        "dirtX": -6.7,
-        "dirtZ": 13.2,
-        "rotationY": -0.24,
-        "stoneColor": 12168593,
-        "dirtColor": 9135937,
-        "points": [
-          [
-            -12.8,
-            18.2
-          ],
-          [
-            -10.4,
-            15.4
-          ],
-          [
-            -8.4,
-            12.7
-          ],
-          [
-            -6.6,
-            10.6
-          ],
-          [
-            -2.2,
-            8.8
-          ],
-          [
-            3.4,
-            6.6
-          ]
-        ]
-      }
-    ],
-    "VillageCottage": [
-      {
-        "name": "spawn_visible_right_cottage_anchor",
-        "width": 9.2,
-        "depth": 6.6,
-        "height": 4.5,
-        "scale": 1.12,
-        "rotationY": -0.35,
-        "position": {
-          "x": -1.6,
-          "y": 0.08,
-          "z": 8
-        }
-      },
-      {
-        "name": "mid_depth_second_cottage",
-        "width": 7.5,
-        "depth": 5.5,
-        "height": 3.8,
-        "scale": 0.9,
-        "rotationY": 0.25,
-        "position": {
-          "x": 13.5,
-          "y": 0.06,
-          "z": -8
-        }
-      }
-    ],
+    "VillageStonePath": [],
     "VillagePictureProp": [
       {
-        "name": "spawn_path_lantern_left",
+        "name": "restored_grounded_dirt_path_to_guide",
+        "kind": "pictureDirtPath",
+        "position": {
+          "x": -6.8,
+          "z": 12.8
+        },
+        "scale": 1.08,
+        "rotation": {
+          "y": -0.24
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0.01
+      },
+      {
+        "name": "restored_cobble_path_by_house",
+        "kind": "cobbleRoad",
+        "position": {
+          "x": -4.6,
+          "z": 9.4
+        },
+        "scale": 1.18,
+        "rotation": {
+          "y": -0.2
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0.02
+      },
+      {
+        "name": "restored_steps_to_brick_house",
+        "kind": "steps",
+        "position": {
+          "x": -2.2,
+          "z": 9.1
+        },
+        "scale": 1.1,
+        "rotation": {
+          "y": -0.35
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0.02
+      },
+      {
+        "name": "restored_brick_house_by_guide",
+        "kind": "gableHouse",
+        "position": {
+          "x": -1.6,
+          "z": 8
+        },
+        "scale": 4.6,
+        "rotation": {
+          "y": -0.35
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "restored_second_brick_house_depth",
+        "kind": "gableHouse",
+        "position": {
+          "x": 13.5,
+          "z": -8
+        },
+        "scale": 3.55,
+        "rotation": {
+          "y": 0.25
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "restored_lantern_by_path",
         "kind": "lantern",
         "position": {
           "x": -8.8,
           "z": 11.8
         },
         "scale": 2.1,
-        "terrainLawGrounded": true
+        "terrainLawGrounded": true,
+        "groundLift": 0
       },
       {
-        "name": "cottage_flower_cluster",
+        "name": "restored_visible_well",
+        "kind": "well",
+        "position": {
+          "x": 4.4,
+          "z": 10.4
+        },
+        "scale": 1.15,
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "restored_left_low_fence",
+        "kind": "fence",
+        "position": {
+          "x": -18,
+          "z": 11.5
+        },
+        "scale": 1.55,
+        "rotation": {
+          "y": -0.28
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "restored_cottage_flowers",
         "kind": "flowerPatch",
         "count": 160,
         "radius": 3.8,
@@ -221,10 +236,11 @@ export default {
           "z": 10.2
         },
         "scale": 1.25,
-        "terrainLawGrounded": true
+        "terrainLawGrounded": true,
+        "groundLift": 0
       },
       {
-        "name": "hero_tree_flower_cluster",
+        "name": "restored_tree_flowers",
         "kind": "flowerPatch",
         "count": 150,
         "radius": 5.2,
@@ -234,100 +250,68 @@ export default {
           "z": 13
         },
         "scale": 1.25,
-        "terrainLawGrounded": true
+        "terrainLawGrounded": true,
+        "groundLift": 0
       },
       {
-        "name": "visible_cottage_well",
-        "kind": "well",
+        "name": "restored_grounded_anchor_tree_left",
+        "kind": "pictureAnchorTree",
         "position": {
-          "x": 4.4,
-          "z": 10.4
+          "x": -20,
+          "z": 15
         },
-        "scale": 1.15,
-        "terrainLawGrounded": true
+        "scale": 1.7,
+        "rotation": {
+          "y": -0.3
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0
       },
       {
-        "name": "left_low_fence_near_spawn",
-        "kind": "fence",
+        "name": "restored_grounded_mid_tree_by_house",
+        "kind": "pictureAnchorTree",
         "position": {
-          "x": -18,
-          "z": 11.5
+          "x": 5.5,
+          "z": 2
         },
-        "scale": 1.55,
-        "rotationY": -0.28,
-        "terrainLawGrounded": true
+        "scale": 1.05,
+        "rotation": {
+          "y": 0.8
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "restored_grounded_right_depth_tree",
+        "kind": "pictureAnchorTree",
+        "position": {
+          "x": 15,
+          "z": -10
+        },
+        "scale": 0.92,
+        "rotation": {
+          "y": -1.1
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0
       }
     ],
+    "VillageCottage": [],
     "VillageHouseCollider": [
       {
-        "name": "spawn_cottage_collider",
+        "name": "restored_brick_house_collider",
         "position": {
           "x": -1.6,
           "y": 0,
           "z": 8
         },
-        "width": 14,
-        "depth": 10,
-        "height": 6,
+        "width": 16,
+        "depth": 11,
+        "height": 7,
         "floorTop": 0.34
       }
     ],
-    "VillageHeroTree": [
-      {
-        "name": "left_spawn_reference_hero_tree",
-        "trunkHeight": 9.6,
-        "limbCount": 44,
-        "leafCount": 900,
-        "crownRadius": 7.1,
-        "crownHeight": 4.6,
-        "scale": 1.22,
-        "rotationY": -0.3,
-        "barkColor": 5911581,
-        "branchColor": 5057817,
-        "leafColor": 6860095,
-        "position": {
-          "x": -20,
-          "y": 0.04,
-          "z": 15
-        }
-      },
-      {
-        "name": "guide_house_mid_tree",
-        "trunkHeight": 6.8,
-        "limbCount": 24,
-        "leafCount": 420,
-        "crownRadius": 4.2,
-        "crownHeight": 2.9,
-        "scale": 0.82,
-        "rotationY": 0.8,
-        "barkColor": 5911581,
-        "branchColor": 5057817,
-        "leafColor": 7322181,
-        "position": {
-          "x": 5.5,
-          "y": 0.04,
-          "z": 2
-        }
-      },
-      {
-        "name": "right_depth_mid_tree",
-        "trunkHeight": 6.2,
-        "limbCount": 20,
-        "leafCount": 360,
-        "crownRadius": 3.8,
-        "crownHeight": 2.6,
-        "scale": 0.72,
-        "rotationY": -1.1,
-        "barkColor": 5911581,
-        "branchColor": 5057817,
-        "leafColor": 6268986,
-        "position": {
-          "x": 15,
-          "y": 0.04,
-          "z": -10
-        }
-      }
-    ],
+    "VillageHeroTree": [],
     "VillageTreeField": [],
     "VillageGrassField": [
       {

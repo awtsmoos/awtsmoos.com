@@ -2,23 +2,23 @@
 /**
  * @file houses.js
  * @description
- * Chapter 86: The house moves into the opening shot.
- * The first cottage is now near the guide and path so Android players see both
- * immediately. Props are close, readable, and support the reference composition.
+ * Chapter 94: The brick houses return.
+ * The failed custom VillageCottage experiment is removed from active data.
+ * Grounded VillagePictureProp recipes restore the richer brick/plaster cottage,
+ * lantern, fence, well, flower patches, and collisions that obey terrain law.
  */
 export default {
-  VillageCottage: [
-    { name: "spawn_visible_right_cottage_anchor", width: 9.2, depth: 6.6, height: 4.5, scale: 1.12, rotationY: -0.35, position: { x: -1.6, y: 0.08, z: 8.0 } },
-    { name: "mid_depth_second_cottage", width: 7.5, depth: 5.5, height: 3.8, scale: 0.9, rotationY: 0.25, position: { x: 13.5, y: 0.06, z: -8.0 } }
-  ],
+  VillageCottage: [],
   VillagePictureProp: [
-    { name: "spawn_path_lantern_left", kind: "lantern", position: { x: -8.8, z: 11.8 }, scale: 2.1, terrainLawGrounded: true },
-    { name: "cottage_flower_cluster", kind: "flowerPatch", count: 160, radius: 3.8, seed: 88, position: { x: -3.6, z: 10.2 }, scale: 1.25, terrainLawGrounded: true },
-    { name: "hero_tree_flower_cluster", kind: "flowerPatch", count: 150, radius: 5.2, seed: 92, position: { x: -18, z: 13 }, scale: 1.25, terrainLawGrounded: true },
-    { name: "visible_cottage_well", kind: "well", position: { x: 4.4, z: 10.4 }, scale: 1.15, terrainLawGrounded: true },
-    { name: "left_low_fence_near_spawn", kind: "fence", position: { x: -18, z: 11.5 }, scale: 1.55, rotationY: -0.28, terrainLawGrounded: true }
+    { name: "restored_brick_house_by_guide", kind: "gableHouse", position: { x: -1.6, z: 8.0 }, scale: 4.6, rotation: { y: -0.35 }, terrainLawGrounded: true, groundLift: 0 },
+    { name: "restored_second_brick_house_depth", kind: "gableHouse", position: { x: 13.5, z: -8.0 }, scale: 3.55, rotation: { y: 0.25 }, terrainLawGrounded: true, groundLift: 0 },
+    { name: "restored_lantern_by_path", kind: "lantern", position: { x: -8.8, z: 11.8 }, scale: 2.1, terrainLawGrounded: true, groundLift: 0 },
+    { name: "restored_visible_well", kind: "well", position: { x: 4.4, z: 10.4 }, scale: 1.15, terrainLawGrounded: true, groundLift: 0 },
+    { name: "restored_left_low_fence", kind: "fence", position: { x: -18, z: 11.5 }, scale: 1.55, rotation: { y: -0.28 }, terrainLawGrounded: true, groundLift: 0 },
+    { name: "restored_cottage_flowers", kind: "flowerPatch", count: 160, radius: 3.8, seed: 88, position: { x: -3.6, z: 10.2 }, scale: 1.25, terrainLawGrounded: true, groundLift: 0 },
+    { name: "restored_tree_flowers", kind: "flowerPatch", count: 150, radius: 5.2, seed: 92, position: { x: -18, z: 13 }, scale: 1.25, terrainLawGrounded: true, groundLift: 0 }
   ],
   VillageHouseCollider: [
-    { name: "spawn_cottage_collider", position: { x: -1.6, y: 0, z: 8.0 }, width: 14, depth: 10, height: 6, floorTop: 0.34 }
+    { name: "restored_brick_house_collider", position: { x: -1.6, y: 0, z: 8.0 }, width: 16, depth: 11, height: 7, floorTop: 0.34 }
   ]
 };
