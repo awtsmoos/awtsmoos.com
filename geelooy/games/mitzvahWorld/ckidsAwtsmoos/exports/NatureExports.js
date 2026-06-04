@@ -2,9 +2,9 @@
 /**
  * @module NatureExports
  * @description
- * Chapter 34: The export river carries the complete reference toolkit.
- * Ground paint, sky layers, golden light, backdrop, cobbles, grass, and hero
- * trees are now all data-addressable Nivrayim for composable village authoring.
+ * Chapter 49: The export river carries the complete reference toolkit.
+ * Ground paint, sky layers, golden light, backdrop, cobbles, cottage, grass,
+ * and hero trees are all data-addressable Nivrayim for composed village art.
  */
 export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=green-dirt-phone-ground-20260604-bh430";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?v=soft-country-sky-fog-20260603-bh237";
@@ -14,6 +14,7 @@ export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPla
 export { default as VillageSkyLayers } from "../dvarim/nature/VillageSkyLayers.js?v=gold-cloud-layers-20260604-bh434";
 export { default as VillageLightingRig } from "../dvarim/nature/VillageLightingRig.js?v=golden-lambert-rig-20260604-bh432";
 export { default as VillageBackdrop } from "../dvarim/nature/VillageBackdrop.js?v=hills-haze-sky-glow-20260604-bh432";
+export { default as VillageCottage } from "../dvarim/nature/VillageCottage.js?v=lambert-cottage-kit-20260604-bh435";
 export { default as VillageHeroTree } from "../dvarim/nature/VillageHeroTree.js?v=lib-hero-tree-20260604-bh434";
 export { default as VillageStonePath } from "../dvarim/nature/VillageStonePath.js?v=lib-cobble-path-20260604-bh434";
 export { default as VillageTreeField } from "../dvarim/nature/VillageTreeField.js?v=visible-green-field-trees-20260604-bh430";

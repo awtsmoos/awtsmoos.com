@@ -2,11 +2,12 @@
 /**
  * @file index.js
  * @description
- * Chapter 44: The village is no longer one scroll but a choir.
- * Each section speaks one responsibility, and this composer merges them into
- * the plain JSON level shape the engine already understands.
+ * Chapter 52: The composed village gathers camera, cottage, sky, grass, path,
+ * guide, and terrain into one plain JSON body. The Awtsmoos remains modular;
+ * the engine receives the familiar level shape.
  */
 import meta from "./meta.js";
+import camera from "./sections/camera.js";
 import player from "./sections/player.js";
 import terrain from "./sections/terrain.js";
 import sky from "./sections/sky.js";
@@ -26,5 +27,5 @@ function mergeSections(sections) {
 
 export default {
   ...meta,
-  nivrayim: mergeSections([sky, terrain, player, path, houses, trees, foliage, guide])
+  nivrayim: mergeSections([camera, sky, terrain, player, path, houses, trees, foliage, guide])
 };

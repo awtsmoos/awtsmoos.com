@@ -4,10 +4,9 @@
  * @description
  * The outer verse river bows to the inner subsection river.
  *
- * Hard law: a next verse may not awaken while the current verse still has a
- * hidden next subsection. A previous verse may not awaken while the current
- * verse still has a hidden previous subsection. The Awtsmoos completes the
- * inner world before birthing the outer world.
+ * It exposes a gentle buffer hook for auto-scroll, but it never awakens the next
+ * verse while the current verse still owns hidden subsections. No fake height,
+ * no whole-page relaxation: only actual rendered neighboring vessels.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
@@ -18,9 +17,9 @@ import {
 
 export { parseScrollTarget };
 
-const VERSE_AHEAD_PX = 520;
-const PRUNE_PX = 1500;
-const MIN_DELTA = 3;
+const VERSE_AHEAD_PX = 900;
+const PRUNE_PX = 2800;
+const MIN_DELTA = 2;
 const MAX_CHUNKS = 3;
 let activeRenderer = null;
 let activePruner = null;
@@ -39,9 +38,24 @@ function sortedIds() {
     return [...revealed].sort((a, b) => a - b).filter(id => chunkNode(id));
 }
 
-function preserveIfRemovingAbove(node) {
-    const rect = node.getBoundingClientRect();
-    return rect.bottom < 0 ? Math.max(0, rect.height) : 0;
+function visibleAnchor() {
+    const probe = Math.min(window.innerHeight * 0.36, window.innerHeight - 160);
+    let best = null;
+    let distance = Infinity;
+    document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake'], #realPost .section").forEach(node => {
+        const rect = node.getBoundingClientRect();
+        if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+        const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
+        if (d < distance) { best = node; distance = d; }
+    });
+    return best ? { node: best, top: best.getBoundingClientRect().top } : null;
+}
+
+function preserveAnchor(anchor) {
+    if (!anchor?.node?.isConnected) return;
+    const nextTop = anchor.node.getBoundingClientRect().top;
+    const delta = nextTop - anchor.top;
+    if (Math.abs(delta) > 0.5) window.scrollBy(0, delta);
 }
 
 function currentChunkNode() {
@@ -49,13 +63,17 @@ function currentChunkNode() {
     return chunkNode(activeCurrent);
 }
 
-function shouldAwakenNextVerse() {
+function shouldAwakenNextVerse(force = false) {
+    if (activeCurrent >= activeTotalChunks - 1) return false;
+    if (force) return true;
     const node = currentChunkNode();
     if (!node) return false;
     return node.getBoundingClientRect().bottom < window.innerHeight + VERSE_AHEAD_PX;
 }
 
-function shouldAwakenPreviousVerse() {
+function shouldAwakenPreviousVerse(force = false) {
+    if (activeCurrent <= 0) return false;
+    if (force) return true;
     const node = currentChunkNode();
     if (!node) return false;
     return node.getBoundingClientRect().top > -VERSE_AHEAD_PX;
@@ -64,6 +82,7 @@ function shouldAwakenPreviousVerse() {
 function pruneFarChunks() {
     const ids = sortedIds();
     if (ids.length <= MAX_CHUNKS) return;
+    const anchor = visibleAnchor();
     ids.forEach(id => {
         if (id === activeCurrent || revealed.size <= MAX_CHUNKS) return;
         const node = chunkNode(id);
@@ -72,29 +91,25 @@ function pruneFarChunks() {
         const safelyAbove = rect.bottom < -PRUNE_PX;
         const safelyBelow = rect.top > window.innerHeight + PRUNE_PX;
         if (!safelyAbove && !safelyBelow) return;
-        const correction = preserveIfRemovingAbove(node);
         activePruner?.(id);
         revealed.delete(id);
-        if (correction) window.scrollBy(0, -correction);
     });
+    preserveAnchor(anchor);
 }
 
 async function reveal(id, place) {
     if (streaming || !Number.isInteger(id) || id < 0 || id >= activeTotalChunks || revealed.has(id)) return false;
     streaming = true;
+    const anchor = place === "before" ? visibleAnchor() : null;
     await activeRenderer?.(id);
     revealed.add(id);
-    if (place === "before") {
-        const node = chunkNode(id);
-        const height = node?.getBoundingClientRect().height || 0;
-        if (height) window.scrollBy(0, height);
-    }
+    if (anchor) preserveAnchor(anchor);
     requestAnimationFrame(() => {
         updateCurrentFromViewport();
         updateLocationFromViewport();
         pruneFarChunks();
         lastY = window.scrollY;
-        setTimeout(() => { streaming = false; }, 70);
+        setTimeout(() => { streaming = false; }, 55);
     });
     return true;
 }
@@ -153,10 +168,18 @@ function subsectionStillOwnsDirection(delta) {
     return false;
 }
 
+export async function ensureVerseBuffer(direction = 1, options = {}) {
+    const delta = direction >= 0 ? 1 : -1;
+    if (subsectionStillOwnsDirection(delta)) return false;
+    if (delta > 0 && shouldAwakenNextVerse(!!options.force)) return reveal(activeCurrent + 1, "after");
+    if (delta < 0 && shouldAwakenPreviousVerse(!!options.force)) return reveal(activeCurrent - 1, "before");
+    return false;
+}
+
 async function handleScrollIntent(delta) {
     if (streaming || Math.abs(delta) < MIN_DELTA) return;
 
-    const innerConsumed = consumeSubsectionScrollIntent(delta);
+    const innerConsumed = consumeSubsectionScrollIntent(delta, { count: 2 });
     updateCurrentFromViewport();
     updateLocationFromViewport();
 
@@ -165,8 +188,7 @@ async function handleScrollIntent(delta) {
         return;
     }
 
-    if (delta > 0 && shouldAwakenNextVerse()) await reveal(activeCurrent + 1, "after");
-    if (delta < 0 && shouldAwakenPreviousVerse()) await reveal(activeCurrent - 1, "before");
+    await ensureVerseBuffer(delta >= 0 ? 1 : -1);
     pruneFarChunks();
 }
 
@@ -233,6 +255,7 @@ export function awakenVirtualScrollOracle({ totalChunks, renderChunk, unrenderCh
     activeTotalChunks = Math.max(0, Number(totalChunks) || 0);
     activeCurrent = currentChunk;
     revealed.add(currentChunk);
+    window.__awtsmoosAutoScrollVerseBuffer = ensureVerseBuffer;
     attach();
 }
 
@@ -269,4 +292,5 @@ export function resetVirtualScrollOracle() {
     lastY = 0;
     streaming = false;
     revealed.clear();
+    if (window.__awtsmoosAutoScrollVerseBuffer === ensureVerseBuffer) delete window.__awtsmoosAutoScrollVerseBuffer;
 }

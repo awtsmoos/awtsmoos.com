@@ -2,10 +2,11 @@
 /**
  * @module AutoScrollDown
  * @description
- * Chapter 193: The river now distinguishes touch from intent.
- * The Awtsmoos keeps the auto-scroll flowing when a finger merely rests, taps,
- * or jitters on glass. Only a real manual scroll gesture past the threshold
- * pauses the river, lets the reader pull away, and then resumes after release.
+ * Chapter 245: The river asks the scribe for road before it walks.
+ *
+ * Auto-scroll awaits subsection/verse buffering before each movement tick. The
+ * reader should never arrive at blankness while the Awtsmoos still has more
+ * letters to reveal. Human intent still pauses only after a real threshold.
  */
 
 const DEFAULT_SPEED = 1.15;
@@ -91,17 +92,37 @@ function writeSavedSpeed(speed) {
     try { localStorage.setItem(SPEED_KEY, String(speed)); } catch {}
 }
 
-function step() {
+async function askForRoadAhead(force = false) {
+    try {
+        if (window.__awtsmoosEnsureSubsectionBuffer?.(1, { force, count: force ? 3 : 2 })) return true;
+        if (await window.__awtsmoosAutoScrollVerseBuffer?.(1, { force })) return true;
+    } catch (error) {
+        console.warn("B\"H auto-scroll buffer request resisted", error);
+    }
+    return false;
+}
+
+async function step() {
     if (!scrollState.active) return;
     if (scrollState.paused) {
         scrollState.raf = frame(step);
         return;
     }
     const root = scrollRoot();
-    if (!root || atBottom(root)) {
+    if (!root) {
         stopAutoScrollDown();
         return;
     }
+
+    await askForRoadAhead(false);
+    if (atBottom(root)) {
+        const opened = await askForRoadAhead(true);
+        if (!opened && atBottom(root)) {
+            stopAutoScrollDown();
+            return;
+        }
+    }
+
     root.scrollTop += scrollState.speed;
     scrollState.raf = frame(step);
 }
@@ -122,13 +143,7 @@ function beginGesture(event) {
     if (!scrollState.active || shouldIgnoreHumanGesture(event)) return;
     const point = eventPoint(event);
     const root = scrollRoot();
-    gesture = {
-        x: point.x,
-        y: point.y,
-        scrollTop: root?.scrollTop || 0,
-        ignored: false,
-        paused: false
-    };
+    gesture = { x: point.x, y: point.y, scrollTop: root?.scrollTop || 0, ignored: false, paused: false };
     clearResumeTimer();
 }
 
@@ -188,7 +203,6 @@ function bindHumanPauseListeners() {
     document.addEventListener("keydown", keyGesture, true);
 }
 
-/** Sets the automatic scroll speed. */
 export function setAutoScrollDownSpeed(value) {
     const speed = boundedSpeed(value);
     scrollState = { ...scrollState, speed };
@@ -198,12 +212,8 @@ export function setAutoScrollDownSpeed(value) {
     return speed;
 }
 
-/** Loads speed from memory and returns it. */
-export function loadAutoScrollDownSpeed() {
-    return setAutoScrollDownSpeed(readSavedSpeed());
-}
+export function loadAutoScrollDownSpeed() { return setAutoScrollDownSpeed(readSavedSpeed()); }
 
-/** Pauses the automatic descent without turning it off. */
 export function pauseAutoScrollDown() {
     if (!scrollState.active || scrollState.paused) return scrollState.active;
     clearResumeTimer();
@@ -213,7 +223,6 @@ export function pauseAutoScrollDown() {
     return true;
 }
 
-/** Schedules the river to resume after the human stops steering. */
 export function scheduleAutoScrollResume(delay = RESUME_DELAY_MS) {
     if (!scrollState.active) return false;
     clearResumeTimer();
@@ -226,7 +235,6 @@ export function scheduleAutoScrollResume(delay = RESUME_DELAY_MS) {
     return true;
 }
 
-/** Starts smooth automatic downward reading. */
 export function startAutoScrollDown(options = {}) {
     stopAutoScrollDown();
     bindHumanPauseListeners();
@@ -240,6 +248,7 @@ export function startAutoScrollDown(options = {}) {
     };
     gesture = null;
     writeSavedSpeed(scrollState.speed);
+    askForRoadAhead(false);
     scrollState.raf = frame(step);
     document.body?.classList?.add("awtsmoos-auto-scroll-active");
     document.body?.classList?.remove("awtsmoos-auto-scroll-paused");
@@ -247,7 +256,6 @@ export function startAutoScrollDown(options = {}) {
     return true;
 }
 
-/** Stops the automatic descent entirely. */
 export function stopAutoScrollDown() {
     cancelFrame(scrollState.raf);
     clearResumeTimer();
@@ -259,12 +267,10 @@ export function stopAutoScrollDown() {
     return false;
 }
 
-/** Toggles automatic downward reading. */
 export function toggleAutoScrollDown(options = {}) {
     return scrollState.active ? stopAutoScrollDown() : startAutoScrollDown(options);
 }
 
-/** Exposes the current state for UI labels and tests. */
 export function getAutoScrollDownState() {
     return { active: scrollState.active, paused: scrollState.paused, speed: scrollState.speed };
 }
