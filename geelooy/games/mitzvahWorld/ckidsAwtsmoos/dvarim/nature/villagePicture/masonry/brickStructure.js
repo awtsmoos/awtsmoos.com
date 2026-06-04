@@ -2,82 +2,87 @@
 /**
  * @file brickStructure.js
  * @description
- * Chapter 221: Any wall may now learn the brick-song.
+ * Chapter 306: The one-buffer wall stops exploding the stack.
  *
- * The Awtsmoos speaks a general masonry grammar: a garden wall, a chimney, a
- * ruined arch, a house face, or a lonely roadside barrier can all be born from
- * the same data. This is visual only. Physics must be separate simple boxes.
+ * The vanished houses came from a hidden arrogance: `Math.max(...hugeIndices)`
+ * tried to pour thousands of index values onto the call stack at once. The
+ * Awtsmoos now counts patiently in a loop. One BufferGeometry remains, but the
+ * vessel no longer shatters before it reaches the screen.
  */
-import { add } from "../geometryKit.js";
+import * as THREE from "/games/scripts/build/three.module.js";
+import { material } from "../geometryKit.js";
 import { PICTURE_COLORS as C } from "../palette.js";
+import { buildBrickWallRenderData } from "../../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/generators/brickWall/brickWallGenerator.js";
 
 export const DEFAULT_STONE_PALETTE = Object.freeze([C.stone, 0xd9c9a6, 0xb4a486, 0xe9d9b8, 0xa8926f, 0xf2e4c2]);
 const n = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 
-/**
- * Adds a textured cube as a visual brick or backing panel.
- * @param {THREE.Group} group target group.
- * @param {number} color hex color.
- * @param {number[]} position xyz center.
- * @param {number[]} scale xyz size.
- * @param {string} mode procedural texture mode.
- * @returns {THREE.Mesh} created visual mesh.
- */
-export function addMasonryBox(group, color, position, scale, mode = "stone") {
-  const mesh = add(group, "cube", color, position, scale, [0, 0, 0], { textureMode: mode });
-  Object.assign(mesh.userData ||= {}, { masonryVisualOnly: true, physics: "separate-colliders-only" });
+function maxValue(values = []) {
+  let max = 0;
+  for (let i = 0; i < values.length; i += 1) if (values[i] > max) max = values[i];
+  return max;
+}
+function attr(values, size) {
+  return new THREE.BufferAttribute(new Float32Array(values || []), size);
+}
+function indexAttr(values = []) {
+  const source = maxValue(values) > 65535 ? new Uint32Array(values) : new Uint16Array(values);
+  return new THREE.BufferAttribute(source, 1);
+}
+function geometryFromRenderData(data) {
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", attr(data.positions, 3));
+  geo.setAttribute("normal", attr(data.normals, 3));
+  geo.setAttribute("uv", attr(data.uvs, 2));
+  geo.setAttribute("color", attr(data.colors, 3));
+  geo.setIndex(indexAttr(data.indices));
+  geo.computeBoundingBox();
+  geo.computeBoundingSphere();
+  return geo;
+}
+
+export function addMasonryBox(group, color, position, scale, mode = "rock") {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material(color, { textureMode: mode }));
+  mesh.position.set(n(position?.[0]), n(position?.[1]), n(position?.[2]));
+  mesh.scale.set(n(scale?.[0], 1), n(scale?.[1], 1), n(scale?.[2], 1));
+  Object.assign(mesh.userData ||= {}, {
+    masonryVisualOnly: true,
+    physics: "separate-colliders-only",
+    skipOctree: true,
+    noOctree: true,
+    skipRaycast: true
+  });
+  group.add(mesh);
   return mesh;
 }
 
-function inOpening(x, y, opening) {
-  if (!opening) return false;
-  const pad = n(opening.pad, 0);
-  return x > n(opening.xMin) - pad && x < n(opening.xMax) + pad && y > n(opening.yMin) - pad && y < n(opening.yMax) + pad;
-}
-
-function chooseColor(row, col, palette) {
-  return palette[Math.abs((row * 3 + col * 5) % palette.length)] || C.stone;
-}
-
-function rowX(span, col, brickW, stagger) {
-  return n(span.xMin) + brickW / 2 + col * brickW + stagger;
-}
-
-/**
- * Builds one 2D brick span on a flat plane facing Z.
- * @param {THREE.Group} group target visual group.
- * @param {object} span brick span data.
- * @returns {number} bricks placed.
- */
 export function buildBrickSpan(group, span = {}) {
-  const palette = span.palette || DEFAULT_STONE_PALETTE;
-  const brickW = n(span.brickW, 0.46), brickH = n(span.brickH, 0.16), depth = n(span.depth, 0.16);
-  const xMin = n(span.xMin), xMax = n(span.xMax), yMin = n(span.yMin), yMax = n(span.yMax, 1), z = n(span.z);
-  const rows = Math.ceil((yMax - yMin) / brickH);
-  let placed = 0;
-  for (let row = 0; row < rows; row += 1) {
-    const stagger = row % 2 ? brickW * n(span.stagger, 0.34) : 0;
-    const cols = Math.ceil((xMax - xMin) / brickW) + 1;
-    for (let col = 0; col < cols; col += 1) {
-      const x = rowX(span, col, brickW, stagger), y = yMin + brickH / 2 + row * brickH;
-      if (x > xMax - 0.08 || y > yMax - 0.04 || (span.openings || [span.opening]).some(o => inOpening(x, y, o))) continue;
-      const mesh = addMasonryBox(group, chooseColor(row, col, palette), [x, y, z], [brickW * 0.94, brickH * 0.72, depth], span.mode || "stone");
-      mesh.name = `${span.name || "brick_span"}_${row}_${col}`;
-      placed += 1;
-    }
-  }
-  return placed;
+  return buildBrickStructure(group, { spans: [span], panels: [] }).bricks;
 }
 
-/**
- * Builds any visual masonry structure from panels and brick spans.
- * @param {THREE.Group} group target group.
- * @param {object} structure data with panels/spans.
- * @returns {{bricks:number, panels:number}} build summary.
- */
 export function buildBrickStructure(group, structure = {}) {
-  for (const panel of structure.panels || []) addMasonryBox(group, panel.color || C.stone, panel.position, panel.scale, panel.mode || "stone").name = panel.name || "masonry_backing_panel";
-  const bricks = (structure.spans || []).reduce((sum, span) => sum + buildBrickSpan(group, span), 0);
-  Object.assign(group.userData ||= {}, { visualBrickStructure: { bricks, panels: (structure.panels || []).length, physics: "none" } });
+  const data = buildBrickWallRenderData(structure);
+  const geo = geometryFromRenderData(data);
+  const mat = material(0xffffff, { textureMode: "rock", vertexColors: true });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.name = structure.name || "one_buffer_geometry_masonry_wall_no_stack_bomb";
+  Object.assign(mesh.userData ||= {}, {
+    masonryVisualOnly: true,
+    singleBufferGeometry: true,
+    bricks: data.bricks,
+    skipOctree: true,
+    noOctree: true,
+    skipRaycast: true
+  });
+  group.add(mesh);
+  Object.assign(group.userData ||= {}, {
+    visualBrickStructure: {
+      bricks: data.bricks,
+      panels: 0,
+      meshes: 1,
+      physics: "none",
+      algorithm: "libs-one-buffer-no-gaps-no-spread-stack"
+    }
+  });
   return group.userData.visualBrickStructure;
 }

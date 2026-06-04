@@ -2,40 +2,25 @@
 /**
  * @file update.js
  * @description
- * Chapter 42: Every Frame Took The Smoothed Chai.
- *
- * Each frame is a new breath from the Awtsmoos. The Chossid reads input,
- * checks interactions, refreshes tiny UI systems, then returns to the cache-
- * busted Chai physics that smooths horizontal velocity.
+ * Chapter 387: Every frame receives the exact-foot Chai.
  */
-import Chai from "../../chai/index.js?v=smooth-jump-restored-20260602-bh14";
+import Chai from "../../chai/index.js?v=exact-visual-feet-20260603-bh387";
 
 export default {
-    /**
-     * Updates the player once per frame.
-     *
-     * @param {number} deltaTime Seconds since previous frame.
-     * @returns {void}
-     */
-    heesHawvoos(deltaTime) {
-        if (!this.startedAll) {
-            this.olam.ayshPeula("ready from chossid");
-            this.startedAll = true;
-        }
-        if (!this.olam.isPlayingCutscene) this.controls(deltaTime);
-        if (this.olam && this.olam.isLookingForSomething) this.checkHover(this.olam, false);
-
-        if (this.koach !== undefined && this.maxKoach !== undefined && this.koach < this.maxKoach) {
-            this.koach += deltaTime * 2.0;
-            if (this.koach > this.maxKoach) this.koach = this.maxKoach;
-            if (!this.lastKoachUpdate || Date.now() - this.lastKoachUpdate > 1000) {
-                if (typeof this.updateStatsUI === 'function') this.updateStatsUI();
-                this.lastKoachUpdate = Date.now();
-            }
-        }
-
-        if (typeof this.adjustDOF === 'function') this.adjustDOF();
-        if (typeof this.postProcessing === 'function') this.postProcessing();
-        Chai.prototype.heesHawvoos.call(this, deltaTime);
+  heesHawvoos(deltaTime) {
+    if (!this.startedAll) { this.olam.ayshPeula("ready from chossid"); this.startedAll = true; }
+    if (!this.olam.isPlayingCutscene) this.controls(deltaTime);
+    if (this.olam && this.olam.isLookingForSomething) this.checkHover(this.olam, false);
+    if (this.koach !== undefined && this.maxKoach !== undefined && this.koach < this.maxKoach) {
+      this.koach += deltaTime * 2;
+      if (this.koach > this.maxKoach) this.koach = this.maxKoach;
+      if (!this.lastKoachUpdate || Date.now() - this.lastKoachUpdate > 1000) {
+        if (typeof this.updateStatsUI === 'function') this.updateStatsUI();
+        this.lastKoachUpdate = Date.now();
+      }
     }
+    if (typeof this.adjustDOF === 'function') this.adjustDOF();
+    if (typeof this.postProcessing === 'function') this.postProcessing();
+    Chai.prototype.heesHawvoos.call(this, deltaTime);
+  }
 };

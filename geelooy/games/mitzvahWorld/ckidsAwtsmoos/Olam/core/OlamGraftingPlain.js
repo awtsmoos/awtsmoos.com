@@ -2,15 +2,17 @@
 /**
  * @module OlamGraftingPlain
  * @description
- * Chapter 170: the graft chain carries authored cottage collision, centered
- * NPC market, and readable lava into the worker-created Olam.
+ * Chapter 324: The worker graft receives nonfatal sizing.
+ *
+ * The Awtsmoos burns the old `getSize()` fatal path by importing the protected
+ * loadNivrayim bridge with a fresh cache key.
  */
 import loading from "../methods/loadingPlain.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
 import heesHawvoos from "../methods/heesHawvoos.js";
 import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=authored-collider-floor-20260602-bh170";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=nonfatal-size-probe-20260603-bh324";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";

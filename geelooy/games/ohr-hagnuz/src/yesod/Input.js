@@ -1,20 +1,19 @@
+/**
+ * B"H
+ * @class Input
+ * @description Keyboard, battle-card, dialogue, panel, and canvas pointer input.
+ *
+ * Chapter 194: The finger learned what not to awaken. The Awtsmoos has no body
+ * and no form, yet the phone screen must know: when a panel or dialogue is
+ * open, no world click becomes movement. UI first, learning first, feet later.
+ */
 import { State } from '../binah/State.js';
 import { Logic } from './Logic.js';
 import { battleMoveLayout, moveIndexAt } from '../tiferet/render/BattleMoveLayout.js';
 
-/**
- * B"H
- * @class Input
- * @description Keyboard, battle-card, and canvas pointer input.
- *
- * Chapter 119: The touch no longer became browser selection. The Awtsmoos has no
- * body and no form, but the finite phone needs capture, cancellation, and clean
- * coordinate math so every press belongs to the game alone.
- */
 export class Input {
   static bound = false;
 
-  /** @returns {void} */
   static bind() {
     if (this.bound) return;
     this.bound = true;
@@ -24,13 +23,17 @@ export class Input {
     this.pointer();
   }
 
-  /** @returns {Record<string,string>} */
   static keyMap() {
     return { ArrowUp:'U', w:'U', W:'U', ArrowDown:'D', s:'D', S:'D', ArrowLeft:'L', a:'L', A:'L', ArrowRight:'R', d:'R', D:'R', z:'A', Z:'A', Enter:'A', ' ':'A', x:'B', X:'B', Escape:'B' };
   }
 
-  /** @returns {void} */
   static keyDown(e, map) {
+    if (State.Dialogue.open) return this.dialogueKey(e);
+    if (State.UiPanel) {
+      if (e.key === 'Escape' || e.key === 'x' || e.key === 'X') State.openPanel(null);
+      e.preventDefault?.();
+      return;
+    }
     if (State.ActiveRealm === 'DEBATE' && /^[1-4]$/.test(e.key)) {
       this.commitDebate(Number(e.key) - 1);
       e.preventDefault?.();
@@ -43,13 +46,19 @@ export class Input {
     e.preventDefault?.();
   }
 
-  /** @returns {void} */
+  static dialogueKey(e) {
+    if (['Enter', ' ', 'z', 'Z'].includes(e.key)) State.dialogueNext(1);
+    else if (['x', 'X', 'Escape'].includes(e.key)) State.closeDialogue(true);
+    else if (['ArrowLeft', 'a', 'A'].includes(e.key)) State.dialogueNext(-1);
+    else if (['ArrowRight', 'd', 'D'].includes(e.key)) State.dialogueNext(1);
+    e.preventDefault?.();
+  }
+
   static keyUp(e, map) {
     const k = map[e.key];
     if (k) window.AwtsmoosIntents[k] = 0;
   }
 
-  /** @returns {void} */
   static pointer() {
     const shell = document.getElementById('game-shell');
     const canvas = document.getElementById('layer-obj');
@@ -61,12 +70,15 @@ export class Input {
     target.addEventListener('dragstart', e => e.preventDefault(), { passive: false });
   }
 
-  /** @returns {void} */
   static pointerDown(e, canvas) {
-    if (e.target?.closest?.('button')) return;
+    if (e.target?.closest?.('button, .ohr-panel, .ohr-dialogue, .ohr-world-card')) return;
     e.preventDefault?.();
     e.stopPropagation?.();
     canvas.setPointerCapture?.(e.pointerId);
+    if (State.isUiBlocking()) {
+      State.releaseIntents();
+      return;
+    }
     if (State.ActiveRealm === 'DEBATE') {
       const i = this.debateIndex(e, canvas);
       if (i !== null) this.commitDebate(i);
@@ -76,19 +88,13 @@ export class Input {
     if (tile) Logic.setPathTo(tile.x, tile.y);
   }
 
-  /** @returns {void} */
-  static commitDebate(index) {
-    State.Debate.cursor = index;
-    Logic.selectDebateMove(index);
-  }
+  static commitDebate(index) { State.Debate.cursor = index; Logic.selectDebateMove(index); }
 
-  /** @returns {{x:number,y:number}} */
   static point(e, canvas) {
     const r = canvas.getBoundingClientRect();
     return { x: (e.clientX - r.left) * (canvas.width / r.width), y: (e.clientY - r.top) * (canvas.height / r.height) };
   }
 
-  /** @returns {{x:number,y:number}} */
   static tile(e, canvas) {
     const p = this.point(e, canvas);
     const res = State.Resolution;
@@ -97,7 +103,6 @@ export class Input {
     return { x: Math.floor((p.x + camX) / res), y: Math.floor((p.y + camY) / res) };
   }
 
-  /** @returns {number|null} */
   static debateIndex(e, canvas) {
     const p = this.point(e, canvas);
     const layout = battleMoveLayout(canvas.width, canvas.height);

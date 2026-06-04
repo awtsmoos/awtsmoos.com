@@ -11,13 +11,12 @@ import { drawHud } from './render/HudRenderer.js';
 /**
  * B"H
  * @class Projector
- * @description Hard performance renderer for mobile Ohr HaGnuz.
+ * @description Mobile canvas projector for Ohr HaGnuz.
  *
- * Chapter 116: The camera stopped dragging the whole universe every heartbeat.
- * The Awtsmoos recreates all existence every instant; this finite canvas must
- * not imitate Infinity by repainting every tile. Static world art is redrawn
- * only when the snapped camera, map, or canvas size changes. Each live frame
- * draws only the hero, path, HUD, and battle surface.
+ * Chapter 124: The camera stopped tearing the road in half. The Awtsmoos speaks
+ * every atom into being without jerk or delay; this projector now follows the
+ * hero's interpolated body pixels, not the destination tile that was already
+ * counted by logic. The world glides as one garment around the walker.
  */
 export class Projector {
   static Caches = {};
@@ -64,8 +63,8 @@ export class Projector {
   static camera(view = { w: 390, h: 844 }) {
     const res = State.Resolution;
     return {
-      x: Math.floor(State.Hero.cx * res - view.w / 2 + res / 2),
-      y: Math.floor(State.Hero.cy * res - view.h / 2 + res / 2),
+      x: State.Hero.dx - view.w / 2 + res / 2,
+      y: State.Hero.dy - view.h / 2 + res / 2,
       ...view
     };
   }
@@ -85,17 +84,16 @@ export class Projector {
 
   /** @returns {void} */
   static drawBattle(bg, obj, over) {
+    [bg, obj, over].forEach(ctx => ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height));
     bg.fillStyle = '#050714';
     bg.fillRect(0, 0, bg.canvas.width, bg.canvas.height);
-    obj.clearRect(0, 0, obj.canvas.width, obj.canvas.height);
-    over.clearRect(0, 0, over.canvas.width, over.canvas.height);
     renderBattle(over);
     this.staticKey = '';
   }
 
   /** @returns {void} */
   static drawStaticIfNeeded(bg, obj, cam) {
-    const key = `${State.MapId}:${cam.x}:${cam.y}:${cam.w}:${cam.h}`;
+    const key = `${State.MapId}:${Math.round(cam.x)}:${Math.round(cam.y)}:${cam.w}:${cam.h}`;
     if (key === this.staticKey) return;
     this.staticKey = key;
     bg.fillStyle = '#05070b';
@@ -140,22 +138,21 @@ export class Projector {
 
   /** @returns {{x0:number,x1:number,y0:number,y1:number}} */
   static visibleTileBounds(map, cam, res) {
-    const pad = 1;
     const width = Math.max(1, ...map.map(row => [...row].length));
     const height = map.length || 1;
     return {
-      x0: Math.max(0, Math.floor(cam.x / res) - pad),
-      y0: Math.max(0, Math.floor(cam.y / res) - pad),
-      x1: Math.min(width - 1, Math.ceil((cam.x + cam.w) / res) + pad),
-      y1: Math.min(height - 1, Math.ceil((cam.y + cam.h) / res) + pad)
+      x0: Math.max(0, Math.floor(cam.x / res) - 2),
+      y0: Math.max(0, Math.floor(cam.y / res) - 2),
+      x1: Math.min(width - 1, Math.ceil((cam.x + cam.w) / res) + 2),
+      y1: Math.min(height - 1, Math.ceil((cam.y + cam.h) / res) + 2)
     };
   }
 
   /** @returns {void} */
   static drawTile(bg, obj, queue, cam, tile) {
     const { rx, ry, glyph, res } = tile;
-    const x = rx * res - cam.x;
-    const y = ry * res - cam.y;
+    const x = Math.round(rx * res - cam.x);
+    const y = Math.round(ry * res - cam.y);
     const meta = tileMeta(glyph);
     Ground.draw(bg, x, y, res, groundGlyph(glyph), rx * 13 + ry * 7);
     if (meta.kind === 'edge') this.portal(obj, x, y, res, meta.edge);

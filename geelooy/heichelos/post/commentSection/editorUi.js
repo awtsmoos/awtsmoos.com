@@ -2,20 +2,92 @@
 /**
  * @module CommentEditorUi
  * @description
- * Chapter 5: The editor vessel is assembled from nodes, not string storms. The
- * Awtsmoos gives the typing chamber, AI bar, and initial trigger their borders.
+ * Chapter 183: The scribe altar listens to every vessel.
+ * Title, rich body, and extra markdown sections all awaken the submit gate, so
+ * a root title-only spark or a section-only note can still be transmitted.
  */
 
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { createWysiwygEditor } from "/heichelos/post/logic/wysiwyg.js";
 import { getActiveAlias } from "./identity.js";
 
-/** @param {object} owner CommentSection instance. */
+function makeScopeButton(owner, mode, label) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "awtsmoos-comment-scope-btn";
+    button.dataset.scope = mode;
+    button.textContent = label;
+    button.onclick = () => setScope(owner, mode);
+    return button;
+}
+
+function setScope(owner, mode) {
+    owner.scopeMode = mode;
+    owner.scopeButtons?.forEach(button => button.classList.toggle("is-active", button.dataset.scope === mode));
+    if (owner.scopeHint) owner.scopeHint.textContent = mode === "root" ? "Posting at scroll root" : "Posting at current verse / paragraph";
+}
+
+function createScopeControls(owner) {
+    owner.scopeMode = owner.options.scope || "current";
+    const wrap = document.createElement("div");
+    wrap.className = "awtsmoos-comment-scope-row";
+    owner.scopeButtons = [makeScopeButton(owner, "current", "Current place"), makeScopeButton(owner, "root", "Root")];
+    owner.scopeHint = document.createElement("span");
+    owner.scopeHint.className = "awtsmoos-comment-scope-hint";
+    wrap.append(...owner.scopeButtons, owner.scopeHint);
+    owner.addCommentArea.appendChild(wrap);
+    setScope(owner, owner.scopeMode);
+}
+
+function createTitleInput(owner) {
+    owner.titleInput = document.createElement("input");
+    owner.titleInput.className = "awtsmoos-comment-title-input";
+    owner.titleInput.type = "text";
+    owner.titleInput.placeholder = "Optional title / dibbur hamaschil…";
+    owner.titleInput.autocomplete = "off";
+    owner.titleInput.addEventListener("input", () => owner.syncSubmitState());
+    owner.addCommentArea.appendChild(owner.titleInput);
+}
+
+function createSectionControls(owner) {
+    owner.sectionList = document.createElement("div");
+    owner.sectionList.className = "awtsmoos-comment-section-list";
+    const add = document.createElement("button");
+    add.type = "button";
+    add.className = "awtsmoos-add-section-btn";
+    add.textContent = "+ Add section";
+    add.onclick = () => addSection(owner);
+    owner.addCommentArea.append(owner.sectionList, add);
+}
+
+function addSection(owner) {
+    const section = document.createElement("section");
+    section.className = "awtsmoos-comment-extra-section";
+    const title = document.createElement("input");
+    title.className = "awtsmoos-extra-section-title";
+    title.placeholder = "Section title";
+    const text = document.createElement("textarea");
+    text.className = "awtsmoos-extra-section-text";
+    text.placeholder = "Markdown or plain text for this section…";
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "awtsmoos-remove-section-btn";
+    remove.textContent = "Remove";
+    remove.onclick = () => {
+        section.remove();
+        owner.syncSubmitState();
+    };
+    [title, text].forEach(input => input.addEventListener("input", () => owner.syncSubmitState()));
+    section.append(title, text, remove);
+    owner.sectionList.appendChild(section);
+    owner.syncSubmitState();
+}
+
 export function createInitialButton(owner) {
     owner.btn = document.createElement("button");
     owner.btn.classList.add("btn", "awtsmoos-add-comment-btn");
     const span = document.createElement("span");
-    span.textContent = "✍️ Transcribe your Insight...";
+    span.textContent = owner.options.label || "✍️ Write your own insight";
     owner.btn.appendChild(span);
     owner.btn.onclick = async () => {
         if (!getActiveAlias()) {
@@ -27,8 +99,9 @@ export function createInitialButton(owner) {
     owner.addCommentArea.appendChild(owner.btn);
 }
 
-/** @param {object} owner CommentSection instance. */
 export function createEditorInterface(owner) {
+    createScopeControls(owner);
+    createTitleInput(owner);
     if (typeof createWysiwygEditor !== "function") {
         owner.commentBox = document.createElement("div");
         owner.editorWrapper = document.createElement("div");
@@ -39,23 +112,9 @@ export function createEditorInterface(owner) {
         owner.commentBox = contentArea;
         owner.sourceArea = sourceArea;
     }
-    owner.commentBox.dataset.placeholder = "Channel the Infinite...";
+    owner.commentBox.dataset.placeholder = "Write rich text or markdown…";
     owner.editorWrapper.style.display = "none";
     owner.commentBox.oninput = () => owner.syncSubmitState();
     owner.addCommentArea.appendChild(owner.editorWrapper);
-    createAiDraftBar(owner);
-}
-
-function createAiDraftBar(owner) {
-    owner.aiDraftBar = document.createElement("div");
-    owner.aiDraftBar.className = "ai-draft-bar";
-    const label = document.createElement("div");
-    label.className = "ai-label";
-    label.textContent = "Awtsmoos AI Assistant";
-    const button = document.createElement("button");
-    button.className = "btn-ai-draft";
-    button.textContent = "✨ Draft Insight";
-    button.onclick = () => owner.openAiDraftModal();
-    owner.aiDraftBar.append(label, button);
-    owner.editorWrapper.appendChild(owner.aiDraftBar);
+    createSectionControls(owner);
 }

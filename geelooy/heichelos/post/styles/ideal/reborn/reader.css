@@ -1,11 +1,42 @@
 /* B"H
- * Chapter 164: The current chamber glows and becomes the refresh anchor.
- * Main Torah text grows. Inline UI is protected. The active visible verse and
- * subsection now receive clear light so the reader can see what URL will return
- * to after refresh.
+ * Chapter 189: The crown stays above the virtual river.
+ * The scroll title and chapter gates are fixed real vessels around a RAM-backed
+ * virtual body. Active verse/subsection light remains visible, so refresh and
+ * inline comment anchors know exactly where the reader stood.
  */
 
 .post-reader-localized-context { --post-text-size: 42px; }
+
+.post-reader-localized-context .awtsmoos-post-title-crown {
+    width: min(820px, calc(100% - 1.5rem)) !important;
+    margin: clamp(.75rem, 3vw, 1.25rem) auto clamp(1rem, 4vw, 1.6rem) !important;
+    padding: clamp(1rem, 4vw, 1.55rem) !important;
+    border: 1px solid rgba(246,201,108,.34) !important;
+    border-radius: clamp(24px, 5vw, 36px) !important;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(246,201,108,.16), transparent 16rem),
+        linear-gradient(180deg, rgba(13,23,42,.94), rgba(3,8,18,.98)) !important;
+    box-shadow: 0 24px 70px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    text-align: center !important;
+}
+
+.post-reader-localized-context .awtsmoos-post-title-kicker,
+.post-reader-localized-context .awtsmoos-post-title-count {
+    color: var(--inline-edge-gold, #f6c96c) !important;
+    font: 900 clamp(.82rem, 3.2vw, 1rem)/1.2 var(--font-ui) !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+}
+
+.post-reader-localized-context .awtsmoos-post-title-main {
+    margin: .4rem 0 !important;
+    color: #fffdf5 !important;
+    font-family: var(--font-content) !important;
+    font-size: clamp(2rem, calc(var(--post-text-size,42px) * .86), 4.8rem) !important;
+    line-height: 1.18 !important;
+    font-weight: 850 !important;
+    text-shadow: 0 14px 36px rgba(0,0,0,.5) !important;
+}
 
 .post-reader-localized-context #virtual-scroll-container,
 .post-reader-localized-context .awtsmoos-virtual-scroll {
@@ -15,17 +46,22 @@
     min-height: 140dvh !important;
     height: auto !important;
     margin-inline: auto !important;
-    padding-bottom: calc(var(--awt-reader-bottom-space) + 5rem) !important;
+    padding-bottom: 2rem !important;
     overflow: visible !important;
 }
 
 .post-reader-localized-context .scroll-chunk {
     display: block !important;
-    min-height: 780px;
+    min-height: 840px;
     height: auto !important;
     overflow: visible !important;
-    contain: none !important;
+    contain: layout style paint !important;
     content-visibility: visible !important;
+}
+
+.post-reader-localized-context .scroll-chunk[data-awtsmoos-virtual-chunk="sleeping"] {
+    border: 0 !important;
+    opacity: .98 !important;
 }
 
 .post-reader-localized-context .section {
@@ -65,9 +101,7 @@
 .post-reader-localized-context .sub-awtsmoos.active-reading-sub,
 .post-reader-localized-context .sub-awtsmoos.awtsmoos-current-reading-sub {
     border-color: rgba(34, 211, 238, .52) !important;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem),
-        rgba(255, 255, 255, .09) !important;
+    background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem), rgba(255,255,255,.09) !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 2px rgba(34,211,238,.12), 0 18px 44px rgba(34,211,238,.10) !important;
 }
 
@@ -78,7 +112,7 @@
     text-align: center !important;
     font-family: var(--font-content) !important;
     color: var(--color-ink, #fffdf5) !important;
-    text-shadow: 0 8px 26px rgba(0, 0, 0, .42) !important;
+    text-shadow: 0 8px 26px rgba(0,0,0,.42) !important;
 }
 
 .post-reader-localized-context .section.heb > .toichen,
@@ -108,24 +142,66 @@
     border-radius: 999px !important;
     background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220) !important;
     color: #1b1205 !important;
-    border: 1px solid rgba(255, 255, 255, .3) !important;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, .28) !important;
+    border: 1px solid rgba(255,255,255,.3) !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,.28) !important;
 }
 
-.post-reader-localized-context .post-title,
-.post-reader-localized-context .post-title * {
-    font-size: var(--post-text-size, 42px) !important;
-    line-height: 1.2 !important;
+.post-reader-localized-context .awtsmoos-chapter-nav {
+    display: grid !important;
+    gap: .85rem !important;
+    width: min(820px, calc(100% - 1.5rem)) !important;
+    margin: 1rem auto calc(var(--awt-reader-bottom-space) + 6rem) !important;
+    padding: 1rem !important;
+    border: 1px solid rgba(246,201,108,.28) !important;
+    border-radius: 24px !important;
+    background: linear-gradient(180deg, rgba(9,18,34,.96), rgba(4,9,20,.98)) !important;
+    box-shadow: 0 24px 70px rgba(0,0,0,.3) !important;
 }
 
-.post-reader-localized-context .scroll-roll-top,
-.post-reader-localized-context .scroll-roll-bottom { display: none !important; }
+.post-reader-localized-context .awtsmoos-chapter-nav-status {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: .4rem !important;
+    color: var(--inline-edge-gold, #f6c96c) !important;
+    font: 900 1rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chapter-gate {
+    display: grid !important;
+    grid-template-columns: 42px 1fr auto !important;
+    align-items: center !important;
+    gap: .8rem !important;
+    min-height: 58px !important;
+    padding: .8rem 1rem !important;
+    border: 1px solid rgba(246,201,108,.22) !important;
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.06) !important;
+    color: #fffdf5 !important;
+    text-decoration: none !important;
+    font: 900 1rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chapter-gate-arrow {
+    display: grid !important;
+    place-items: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 999px !important;
+    background: radial-gradient(circle at 35% 25%, #f8dc8f, #d89b1d) !important;
+    color: #160d03 !important;
+}
+
+.post-reader-localized-context .awtsmoos-chapter-gate-number {
+    color: var(--inline-text-blue, #cbd5e1) !important;
+    font-size: .84rem !important;
+}
 
 .post-reader-localized-context .fatal-error,
 .post-reader-localized-context .awtsmoos-empty-placeholder {
     border: 1px dashed var(--awt-line) !important;
     border-radius: var(--awt-radius) !important;
-    background: rgba(255, 255, 255, .05) !important;
+    background: rgba(255,255,255,.05) !important;
     color: var(--awt-muted) !important;
     padding: 1.25rem !important;
     text-align: center !important;

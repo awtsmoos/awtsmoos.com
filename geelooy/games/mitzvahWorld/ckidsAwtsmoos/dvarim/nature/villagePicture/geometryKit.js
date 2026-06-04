@@ -2,90 +2,96 @@
 /**
  * @file geometryKit.js
  * @description
- * Chapter 204: The dead slab receives skin.
- * The custom cube generator did not guarantee stable UVs, so textures existed
- * in code but rendered as flat colors. Cube-like village parts now use
- * THREE.BoxGeometry with real UVs, and every texture is a DataTexture that works
- * in workers and mobile contexts without canvas support.
+ * Chapter 308: No geometry may summon the stack abyss.
+ *
+ * The Awtsmoos remembers every index one by one. This file keeps smooth village
+ * textures but removes spread-based max checks from generated geometry, so large
+ * render data cannot erase houses through `Maximum call stack size exceeded`.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { generateProceduralGeometry } from "../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js";
 
 const cache = new Map();
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+const smooth = t => t * t * (3 - 2 * t);
+const mix = (a, b, t) => a + (b - a) * t;
+const clamp = v => Math.max(0, Math.min(255, Math.round(v)));
 
+function maxValue(values = []) {
+  let max = 0;
+  for (let i = 0; i < values.length; i += 1) if (values[i] > max) max = values[i];
+  return max;
+}
 function quietGeometry(factory) {
   const originals = { log: console.log, info: console.info, warn: console.warn };
   const quiet = (...args) => { if (!String(args[0] || "").includes("picture_")) originals.log(...args); };
   console.log = quiet; console.info = quiet; console.warn = quiet;
   try { return factory(); } finally { console.log = originals.log; console.info = originals.info; console.warn = originals.warn; }
 }
-
 export function vec3(values) { return [finite(values?.[0], 1), finite(values?.[1], 1), finite(values?.[2], 1)]; }
-
 export function geometry(kind) {
-  if (kind === "cube" || kind === "box") {
-    const g = new THREE.BoxGeometry(1, 1, 1);
-    g.computeBoundingBox(); g.computeBoundingSphere();
-    return g;
-  }
+  if (kind === "cube" || kind === "box") { const g = new THREE.BoxGeometry(1, 1, 1); g.computeBoundingBox(); g.computeBoundingSphere(); return g; }
   const data = quietGeometry(() => generateProceduralGeometry(kind, { size: 1 }, [], { id: `picture_${kind}` }));
-  const g = new THREE.BufferGeometry();
-  const pos = data.positions || data.verts || data.vertices || [];
-  const nor = data.normals || [], uv = data.uvs || [], ind = data.indices || [];
+  const g = new THREE.BufferGeometry(), pos = data.positions || data.verts || data.vertices || [], nor = data.normals || [], uv = data.uvs || [], ind = data.indices || [];
   g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(pos), 3));
   if (nor.length) g.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(nor), 3));
   if (uv.length) g.setAttribute("uv", new THREE.BufferAttribute(new Float32Array(uv), 2));
-  if (ind.length) g.setIndex(new THREE.BufferAttribute(Math.max(...ind) > 65535 ? new Uint32Array(ind) : new Uint16Array(ind), 1));
-  if (!nor.length) g.computeVertexNormals();
-  g.computeBoundingBox(); g.computeBoundingSphere();
-  return g;
+  if (ind.length) g.setIndex(new THREE.BufferAttribute(maxValue(ind) > 65535 ? new Uint32Array(ind) : new Uint16Array(ind), 1));
+  if (!nor.length) g.computeVertexNormals(); g.computeBoundingBox(); g.computeBoundingSphere(); return g;
 }
-
-function clamp(v) { return Math.max(0, Math.min(255, Math.round(v))); }
 function parts(hex) { return [(hex >> 16) & 255, (hex >> 8) & 255, hex & 255]; }
-function put(data, i, base, d = 0) { data[i] = clamp(base[0] + d); data[i + 1] = clamp(base[1] + d); data[i + 2] = clamp(base[2] + d); data[i + 3] = 255; }
-function noise(x, y, s = 1) { const n = Math.sin(x * 127.1 + y * 311.7 + s * 91.3) * 43758.5453; return n - Math.floor(n); }
-
-function drawStone(data, size, base) {
+function put(data, i, rgb, a = 255) { data[i] = clamp(rgb[0]); data[i + 1] = clamp(rgb[1]); data[i + 2] = clamp(rgb[2]); data[i + 3] = clamp(a); }
+function n2(x, y, s = 1) { const a = Math.sin(x * 127.1 + y * 311.7 + s * 91.3) * 43758.5453; return a - Math.floor(a); }
+function valueNoise(x, y, s = 1) {
+  const ix = Math.floor(x), iy = Math.floor(y), fx = smooth(x - ix), fy = smooth(y - iy);
+  return mix(mix(n2(ix, iy, s), n2(ix + 1, iy, s), fx), mix(n2(ix, iy + 1, s), n2(ix + 1, iy + 1, s), fx), fy);
+}
+function fbm(x, y, s) { return valueNoise(x, y, s) * 0.55 + valueNoise(x * 2.1, y * 2.1, s + 7) * 0.3 + valueNoise(x * 4.2, y * 4.2, s + 19) * 0.15; }
+function shade(base, amount, tint = [0, 0, 0]) { return [base[0] + amount + tint[0], base[1] + amount + tint[1], base[2] + amount + tint[2]]; }
+function drawBrick(data, size, base, side = false) {
+  const bw = side ? 46 : 54, bh = 21, mortar = [142, 139, 116];
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-    const i = (y * size + x) * 4, row = Math.floor(y / 10), off = row % 2 ? 10 : 0;
-    const mortar = y % 10 < 2 || ((x + off) % 20) < 2;
-    const chip = noise(x, y, 4) > 0.82 ? -38 : 0;
-    put(data, i, base, mortar ? -54 : 16 + chip + noise(x, y, 2) * 24);
+    const row = Math.floor(y / bh), off = row % 2 ? bw / 2 : 0, mx = (x + off) % bw, my = y % bh, i = (y * size + x) * 4;
+    const mortarMask = Math.min(mx, bw - mx, my, bh - my), mortarBlend = 1 - smooth(Math.min(1, mortarMask / 3.2));
+    const grain = (fbm(x / 23, y / 18, 30) - 0.5) * 44, chip = fbm((x + row * 11) / 7, y / 7, 41) > 0.78 ? -26 : 0;
+    const brick = shade(base, 18 + grain + chip, [8, 6, -4]);
+    put(data, i, [mix(brick[0], mortar[0], mortarBlend), mix(brick[1], mortar[1], mortarBlend), mix(brick[2], mortar[2], mortarBlend)]);
+  }
+}
+function drawRock(data, size, base) {
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const mineral = (fbm(x / 29, y / 25, 71) - 0.5) * 54, pores = fbm(x / 5.5, y / 5.5, 83) > 0.82 ? -24 : 0;
+    const vein = Math.abs(Math.sin((x + fbm(x / 21, y / 21, 92) * 28) * 0.07 + y * 0.025)) < 0.035 ? -18 : 0;
+    put(data, (y * size + x) * 4, shade(base, 14 + mineral + pores + vein + (Math.sin(x * 0.033) + Math.sin(y * 0.041)) * 5, [4, 3, -2]));
   }
 }
 function drawWood(data, size, base) {
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-    const i = (y * size + x) * 4;
-    const board = x % 16 < 2 ? -54 : 0, grain = Math.sin(y * 0.42 + noise(x, y, 3) * 5) * 28;
-    const knot = Math.hypot((x % 32) - 17, (y % 32) - 16) < 4 ? -45 : 0;
-    put(data, i, base, 12 + board + grain + knot);
+    const wave = Math.sin(y * 0.09 + fbm(x / 18, y / 32, 3) * 5.5) * 26, seam = 1 - smooth(Math.min(1, Math.min(x % 64, 64 - (x % 64)) / 5));
+    const knot = smooth(Math.max(0, 1 - Math.hypot((x % 96) - 52, (y % 88) - 43) / 18)) * -58;
+    put(data, (y * size + x) * 4, shade(base, 10 + wave + knot - seam * 32, [8, 2, -4]));
   }
 }
-function drawRoof(data, size, base) {
-  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) put(data, (y * size + x) * 4, base, (x % 9 < 3 ? 36 : -18) + noise(x, y, 6) * 14);
+function drawRoof(data, size, base) { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) put(data, (y * size + x) * 4, shade(base, 12 + Math.sin(x * 0.11) * 22 + (y % 42 < 5 ? -28 : 0) + (fbm(x / 18, y / 18, 6) - 0.5) * 36, [14, -4, -8])); }
+function drawFloor(data, size, base) { drawBrick(data, size, base, false); }
+function drawCloth(data, size, base) { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) put(data, (y * size + x) * 4, shade(base, (fbm(x / 12, y / 12, 9) - 0.5) * 38 + (Math.sin(x * 0.4) + Math.sin(y * 0.4)) * 6)); }
+function drawLeaf(data, size, base) {
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const u = x / (size - 1), v = y / (size - 1), edge = Math.min(u, v, 1 - u, 1 - v), vein = Math.exp(-Math.abs(u - 0.5 - Math.sin(v * 10) * 0.035) * 42);
+    const rib = Math.max(0, Math.sin((u + v) * 38)) * 10, dap = (fbm(x / 14, y / 14, 13) - 0.5) * 42, gold = fbm(x / 9, y / 9, 29) > 0.82 ? 28 : 0;
+    put(data, (y * size + x) * 4, shade(base, edge * 80 + vein * 32 - rib + dap + gold, [-28, 8, -24]));
+  }
 }
-function drawFloor(data, size, base) {
-  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) put(data, (y * size + x) * 4, base, (y % 16 < 2 || x % 32 < 2 ? -38 : 12) + noise(x, y, 8) * 18);
-}
-function drawCloth(data, size, base) {
-  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) put(data, (y * size + x) * 4, base, (x % 8 < 2 || y % 8 < 2 ? 30 : -8) + noise(x, y, 9) * 10);
-}
-
 export function textureFor(color, mode = "stone") {
-  const key = `${color}:${mode}:uv-data-204`;
-  if (cache.has(key)) return cache.get(key);
-  const size = 64, data = new Uint8Array(size * size * 4), base = parts(color || 0xffffff);
-  if (mode === "wood") drawWood(data, size, base); else if (mode === "roof") drawRoof(data, size, base);
-  else if (mode === "floor") drawFloor(data, size, base); else if (mode === "cloth") drawCloth(data, size, base); else drawStone(data, size, base);
+  const key = `${color}:${mode}:smooth-rock-308`; if (cache.has(key)) return cache.get(key);
+  const size = 256, data = new Uint8Array(size * size * 4), base = parts(color || 0xffffff);
+  if (mode === "wood") drawWood(data, size, base); else if (mode === "roof") drawRoof(data, size, base); else if (mode === "floor") drawFloor(data, size, base);
+  else if (mode === "cloth") drawCloth(data, size, base); else if (mode === "leaf") drawLeaf(data, size, base); else if (mode === "rock") drawRock(data, size, base); else drawBrick(data, size, base, mode === "alignedBrickSide");
   const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
-  tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping;
-  tex.magFilter = THREE.NearestFilter; tex.minFilter = THREE.NearestFilter;
-  tex.repeat.set(mode === "floor" ? 4 : 2.8, mode === "floor" ? 4 : 2.8);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.magFilter = THREE.LinearFilter; tex.minFilter = THREE.LinearMipmapLinearFilter; tex.generateMipmaps = true;
+  tex.repeat.set(mode === "floor" ? 3.5 : mode === "leaf" ? 1 : mode === "rock" ? 1.25 : mode.startsWith("alignedBrick") ? 2.2 : 2.4, mode === "floor" ? 3.5 : mode === "leaf" ? 1 : mode === "rock" ? 1.25 : mode.startsWith("alignedBrick") ? 2.2 : 2.4);
   tex.needsUpdate = true; cache.set(key, tex); return tex;
 }
-
 export function material(color, extra = {}) {
   const { textureMode = "stone", ...rest } = extra;
   const mat = new THREE.MeshLambertMaterial({ color: 0xffffff, map: textureFor(color, textureMode), ...rest });
@@ -93,19 +99,6 @@ export function material(color, extra = {}) {
   if (extra.emissiveIntensity !== undefined) mat.emissiveIntensity = extra.emissiveIntensity;
   return mat;
 }
-
-export function add(group, kind, color, pos, scale, rot = [0, 0, 0], extra = {}) {
-  const mesh = new THREE.Mesh(geometry(kind), material(color, extra));
-  mesh.position.set(finite(pos?.[0]), finite(pos?.[1]), finite(pos?.[2]));
-  mesh.scale.set(...vec3(scale)); mesh.rotation.set(finite(rot?.[0]), finite(rot?.[1]), finite(rot?.[2]));
-  mesh.castShadow = false; mesh.receiveShadow = false; group.add(mesh); return mesh;
-}
-
-export function light(group, color, pos, intensity = 1, distance = 7) {
-  const point = new THREE.PointLight(color, finite(intensity, 1), finite(distance, 7), 2);
-  point.position.set(finite(pos?.[0]), finite(pos?.[1]), finite(pos?.[2])); group.add(point); return point;
-}
-
-export function markDecorative(root) {
-  root.traverse(child => { Object.assign(child.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, villageDecor: true }); if (child.isMesh) child.frustumCulled = true; });
-}
+export function add(group, kind, color, pos, scale, rot = [0, 0, 0], extra = {}) { const mesh = new THREE.Mesh(geometry(kind), material(color, extra)); mesh.position.set(finite(pos?.[0]), finite(pos?.[1]), finite(pos?.[2])); mesh.scale.set(...vec3(scale)); mesh.rotation.set(finite(rot?.[0]), finite(rot?.[1]), finite(rot?.[2])); mesh.castShadow = false; mesh.receiveShadow = false; group.add(mesh); return mesh; }
+export function light(group, color, pos, intensity = 1, distance = 7) { const point = new THREE.PointLight(color, finite(intensity, 1), finite(distance, 7), 2); point.position.set(finite(pos?.[0]), finite(pos?.[1]), finite(pos?.[2])); group.add(point); return point; }
+export function markDecorative(root) { root.traverse(child => { Object.assign(child.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, villageDecor: true }); if (child.isMesh) child.frustumCulled = true; }); }

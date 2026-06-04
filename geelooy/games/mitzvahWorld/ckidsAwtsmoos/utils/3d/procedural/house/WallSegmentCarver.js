@@ -2,127 +2,115 @@
 /**
  * @module WallSegmentCarver
  * @description
- * ╔═══════════════════════════════════════════════════════════╗
- * ║  THE CHISEL OF LIGHT — Carving Doorways from Solid Wall   ║
- * ║                                                             ║
- * ║  Chapter 14: The Surgeon's Precision                        ║
- * ║                                                             ║
- * ║  A solid wall is like the uncarved Torah scroll — pure      ║
- * ║  potential. The chisel (this module) carves the sacred       ║
- * ║  openings: entrances through which souls may pass.          ║
- * ║                                                             ║
- * ║  For each hole, three segments are emitted:                 ║
- * ║    1. Solid section BEFORE the hole                          ║
- * ║    2. Lintel ABOVE the hole                                  ║
- * ║    3. Solid section AFTER the last hole                      ║
- * ║                                                             ║
- * ║  PURE DATA — zero THREE.js. Only JSON instructions.         ║
- * ╚═══════════════════════════════════════════════════════════╝
+ * Chapter 328: Bricks without betrayal.
+ *
+ * The Awtsmoos now separates a wall into deterministic brick vessels. Each brick
+ * is a real box in the final merged BufferGeometry, slightly overlapping its
+ * neighbors so no sky leaks through. Door holes are skipped by interval math,
+ * not by visual guessing. Collision will use a different clean slab path.
  */
+const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const hash = (a, b, c) => {
+  const x = Math.sin(a * 37.17 + b * 91.41 + c * 13.33) * 43758.5453;
+  return x - Math.floor(x);
+};
+
+function normalizedHoles(wallWidth, holes) {
+  return [...holes].map(hole => {
+    const width = n(hole.width, 4) + 0.44;
+    const height = n(hole.height, 5.5) + 0.18;
+    const center = n(hole.offset, 0);
+    const minX = center - width * 0.5;
+    const maxX = center + width * 0.5;
+    return { minX, maxX, minY: 0, maxY: height + 0.5 };
+  }).sort((a, b) => a.minX - b.minX);
+}
+function overlapsHole(cx, cy, bw, bh, holes) {
+  const minX = cx - bw * 0.5, maxX = cx + bw * 0.5;
+  const minY = cy - bh * 0.5, maxY = cy + bh * 0.5;
+  return holes.some(h => maxX > h.minX && minX < h.maxX && maxY > h.minY && minY < h.maxY);
+}
+function segmentMods(localX, localY, localZ, rotY, pos) {
+  const mods = [{ type: 'translate', x: localX, y: localY, z: localZ }];
+  if (rotY) mods.push({ type: 'rotateY', angle: rotY });
+  mods.push({ type: 'translate', ...pos });
+  return mods;
+}
+function pushBrick(out, cfg) {
+  out.push({
+    type: 'box',
+    params: { width: cfg.w, height: cfg.h, depth: cfg.d },
+    modifiers: segmentMods(cfg.x, cfg.y, cfg.z, cfg.rotY, cfg.pos),
+    materialGroup: 0
+  });
+}
 
 export default class WallSegmentCarver {
-    /**
-     * @method carve
-     * @description
-     * Given a wall's dimensions and holes, emits box instructions
-     * for the solid portions and lintels.
-     * 
-     * @param {Object} opts
-     * @param {number} opts.wallWidth - Total width of the wall
-     * @param {number} opts.wallHeight - Total height of the wall
-     * @param {number} opts.thickness - Wall depth/thickness
-     * @param {Array} opts.holes - Array of { offset, width, height }
-     * @param {number} opts.rotY - Y-axis rotation for final positioning
-     * @param {Object} opts.pos - { x, y, z } translation after rotation
-     * @param {Array} opts.out - Output instruction array (mutated)
-     */
-    static carve({ wallWidth, wallHeight, thickness, holes, rotY, pos, out }) {
-        let currentX = 0;
-        const sorted = [...holes].sort((a, b) => (a.offset || 0) - (b.offset || 0));
+  /** Emits one merged visual brick wall with mathematically carved holes. */
+  static carve({ wallWidth, wallHeight, thickness, holes, rotY, pos, out }) {
+    const brickH = 0.42;
+    const brickLong = 1.18;
+    const overlap = 0.035;
+    const rows = Math.ceil(wallHeight / brickH);
+    const cutouts = normalizedHoles(wallWidth, holes || []);
+    for (let row = 0; row < rows; row += 1) {
+      const y0 = row * brickH;
+      const h = Math.min(brickH + overlap, wallHeight - y0 + overlap);
+      const cy = y0 + h * 0.5 - overlap * 0.5;
+      const offset = row % 2 ? brickLong * 0.5 : 0;
+      let x = -wallWidth * 0.5 - offset;
+      let col = 0;
+      while (x < wallWidth * 0.5) {
+        const left = Math.max(-wallWidth * 0.5, x);
+        const right = Math.min(wallWidth * 0.5, x + brickLong);
+        const w = right - left + overlap;
+        const cx = (left + right) * 0.5;
+        if (w > 0.12 && !overlapsHole(cx, cy, w, h, cutouts)) {
+          const seed = hash(row, col, wallWidth);
+          pushBrick(out, {
+            w, h,
+            d: thickness + 0.025 + seed * 0.16,
+            x: cx,
+            y: cy,
+            z: (seed - 0.5) * 0.045,
+            rotY,
+            pos
+          });
+        }
+        x += brickLong;
+        col += 1;
+      }
+    }
+  }
 
-        sorted.forEach(hole => {
-            const hW = hole.width || 4;
-            const hH = hole.height || 5.5; 
-            const sideMercy = 0.6; // B"H: Extra width for the trim pillars
-            const totalHoleW = hW + sideMercy * 2;
-
-            const holeStartX = (wallWidth / 2) + (hole.offset || 0) - (totalHoleW / 2);
-            const holeEndX = holeStartX + totalHoleW;
-
-            // Solid section BEFORE the hole
-            if (holeStartX > currentX) {
-                const segW = holeStartX - currentX;
-                out.push(
-                    WallSegmentCarver._makeSegment(
-                        segW, wallHeight, thickness,
-                        currentX + segW / 2 - wallWidth / 2,
-                        wallHeight / 2,
-                        rotY, pos
-                    )
-                );
-            }
-
-            // Lintel ABOVE the hole
-            const floorOffset = 0.5; 
-            const mercy = 0.7; // B"H: Space for the 0.6 trim beam + 0.1 gap
-            const lintelH = wallHeight - (hH + floorOffset + mercy);
-            if (lintelH > 0) {
-                out.push(
-                    WallSegmentCarver._makeSegment(
-                        totalHoleW, lintelH, thickness,
-                        holeStartX + totalHoleW / 2 - wallWidth / 2,
-                        wallHeight - lintelH / 2,
-                        rotY, pos
-                    )
-                );
-            }
-
-            currentX = holeEndX;
+  /** Emits clean invisible collider slabs with the same carved holes. */
+  static carveCollider({ wallWidth, wallHeight, thickness, holes, rotY, pos, out }) {
+    let cursor = -wallWidth * 0.5;
+    for (const hole of normalizedHoles(wallWidth, holes || [])) {
+      const left = clamp(hole.minX, -wallWidth * 0.5, wallWidth * 0.5);
+      const right = clamp(hole.maxX, -wallWidth * 0.5, wallWidth * 0.5);
+      if (left > cursor) WallSegmentCarver._slab(out, cursor, left, wallHeight, thickness, rotY, pos);
+      const lintelH = wallHeight - hole.maxY;
+      if (lintelH > 0.2) {
+        out.push({
+          type: 'box',
+          params: { width: Math.max(0.1, right - left), height: lintelH, depth: thickness },
+          modifiers: segmentMods((left + right) * 0.5, hole.maxY + lintelH * 0.5, 0, rotY, pos),
+          materialGroup: 4
         });
-
-        // Solid section AFTER the last hole (the remnant)
-        if (currentX < wallWidth) {
-            const segW = wallWidth - currentX;
-            out.push(
-                WallSegmentCarver._makeSegment(
-                    segW, wallHeight, thickness,
-                    currentX + segW / 2 - wallWidth / 2,
-                    wallHeight / 2,
-                    rotY, pos
-                )
-            );
-        }
+      }
+      cursor = Math.max(cursor, right);
     }
+    if (cursor < wallWidth * 0.5) WallSegmentCarver._slab(out, cursor, wallWidth * 0.5, wallHeight, thickness, rotY, pos);
+  }
 
-    /**
-     * @method _makeSegment
-     * @description
-     * Creates a single wall segment instruction with proper
-     * modifier chain: local translate → rotate → world translate.
-     * 
-     * @param {number} w - Segment width
-     * @param {number} h - Segment height
-     * @param {number} depth - Wall thickness
-     * @param {number} localX - X offset in wall-local space
-     * @param {number} localY - Y offset in wall-local space
-     * @param {number} rotY - Y rotation for face orientation
-     * @param {Object} pos - { x, y, z } world position offset
-     * @returns {Object} - Data instruction for BlueprintCompiler
-     */
-    static _makeSegment(w, h, depth, localX, localY, rotY, pos) {
-        const mods = [
-            { type: 'translate', x: localX, y: localY, z: 0 }
-        ];
-        if (rotY) {
-            mods.push({ type: 'rotateY', angle: rotY });
-        }
-        mods.push({ type: 'translate', ...pos });
-
-        return {
-            type: 'box',
-            params: { width: w, height: h, depth },
-            modifiers: mods,
-            materialGroup: 0
-        };
-    }
+  static _slab(out, left, right, height, depth, rotY, pos) {
+    out.push({
+      type: 'box',
+      params: { width: right - left, height, depth },
+      modifiers: segmentMods((left + right) * 0.5, height * 0.5, 0, rotY, pos),
+      materialGroup: 4
+    });
+  }
 }

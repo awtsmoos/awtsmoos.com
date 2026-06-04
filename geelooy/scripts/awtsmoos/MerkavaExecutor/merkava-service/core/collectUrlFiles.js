@@ -1,11 +1,13 @@
 // B"H
 /**
  * @file collectUrlFiles.js
- * @description Chapter 79: Merkava drinks the page river itself. Given a URL,
- * it fetches the HTML vessel, stylesheet sparks, module scripts, static module
- * imports, and same-origin fetchable JSON nearby, storing every asset under
- * browser URL keys and page-relative keys so VirtualFetch and module loading can
- * behave like a complete headless browser without escaping to Chrome.
+ * @description URL hydration for simulateRuntime.
+ *
+ * Chapter 157: The collector learned patience. The Awtsmoos has no body and no
+ * form, yet a modern routed app can be a village of ninety modules. `maxFiles`,
+ * `maxUrlFiles`, and `maxDynamicFiles` now speak the same language, and the
+ * default URL harvest is large enough for real browser games instead of toy
+ * fixtures.
  */
 const SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
 const LINK_RE = /<link\b([^>]*)>/gi;
@@ -23,25 +25,56 @@ function parseAttrs(text = '') {
   }
   return attrs;
 }
+
+function isDirectoryLikeUrl(url) {
+  const path = url.pathname || '/';
+  const last = path.split('/').filter(Boolean).pop() || '';
+  return path.endsWith('/') || !/\.[A-Za-z0-9]{1,12}$/.test(last);
+}
+
+function pageBasePath(pageUrl) {
+  const clean = pageUrl.pathname || '/';
+  if (clean.endsWith('/')) return clean.replace(/^\/+/, '');
+  if (isDirectoryLikeUrl(pageUrl)) return `${clean}/`.replace(/^\/+/, '');
+  return clean.replace(/\/[^/]*$/, '/').replace(/^\/+/, '');
+}
+
+function stripHash(href) {
+  const url = new URL(href);
+  url.hash = '';
+  return url.href;
+}
+
 function normalizeKey(url, pageUrl) {
+  const samePage = stripHash(url.href) === stripHash(pageUrl.href);
+  if (samePage) return 'index.html';
   const cleanPath = decodeURIComponent(url.pathname || '/').replace(/^\/+/, '');
-  const pageDir = pageUrl.pathname.replace(/\/[^/]*$/, '/').replace(/^\/+/, '');
-  const rel = cleanPath.startsWith(pageDir) ? cleanPath.slice(pageDir.length) : cleanPath;
+  const base = pageBasePath(pageUrl);
+  const rel = cleanPath.startsWith(base) ? cleanPath.slice(base.length) : cleanPath;
   return rel || 'index.html';
 }
+
 function addAliases(files, url, pageUrl, body) {
   const key = normalizeKey(url, pageUrl);
   const full = url.href;
-  const noQuery = new URL(url.href); noQuery.search = ''; noQuery.hash = '';
-  const keys = [key, '/' + key.replace(/^\//, ''), './' + key.replace(/^\//, ''), full, noQuery.href, noQuery.pathname, noQuery.pathname.replace(/^\//, '')];
+  const noQuery = new URL(url.href);
+  noQuery.search = '';
+  noQuery.hash = '';
+  const bare = key.replace(/^\//, '');
+  const keys = [key, `/${bare}`, `./${bare}`, full, noQuery.href, noQuery.pathname, noQuery.pathname.replace(/^\//, '')];
+  if (key === 'index.html') keys.push(pageUrl.pathname.replace(/^\//, '') || 'index.html');
   for (const k of [...new Set(keys)].filter(Boolean)) files[k] = body;
   return key;
 }
+
 function refsFromJs(source = '') {
   const refs = [];
-  for (const re of [STATIC_IMPORT_RE, DYNAMIC_IMPORT_RE, FETCH_RE]) for (const match of String(source).matchAll(re)) refs.push(match[1]);
+  for (const re of [STATIC_IMPORT_RE, DYNAMIC_IMPORT_RE, FETCH_RE]) {
+    for (const match of String(source).matchAll(re)) refs.push(match[1]);
+  }
   return refs;
 }
+
 function refsFromHtml(html = '') {
   const refs = [];
   for (const match of String(html).matchAll(SCRIPT_RE)) {
@@ -54,14 +87,39 @@ function refsFromHtml(html = '') {
   }
   return refs;
 }
+
 async function fetchText(url) {
   const response = await fetch(url.href, { headers: { accept: 'text/html,text/css,text/javascript,application/json,*/*' } });
   if (!response.ok) throw new Error(`Merkava URL fetch failed: ${url.href} (${response.status})`);
   return response.text();
 }
-function sameOrigin(url, pageUrl) { return url.origin === pageUrl.origin; }
 
-/** @param {object} options Runtime options. @returns {Promise<object>} */
+function sameOrigin(url, pageUrl) {
+  return url.origin === pageUrl.origin;
+}
+
+function shouldParseAsHtml(url, pageUrl) {
+  return stripHash(url.href) === stripHash(pageUrl.href) || /\.html?$/i.test(url.pathname) || isDirectoryLikeUrl(url);
+}
+
+function resolveRef(ref, fromUrl, pageUrl) {
+  try {
+    const base = stripHash(fromUrl.href) === stripHash(pageUrl.href) && isDirectoryLikeUrl(pageUrl)
+      ? new URL(pageBasePath(pageUrl), pageUrl.origin + '/')
+      : fromUrl;
+    return new URL(ref, base.href);
+  } catch (_) {
+    return null;
+  }
+}
+
+function resolveMaxFiles(options = {}) {
+  const raw = options.maxUrlFiles ?? options.maxDynamicFiles ?? options.maxCollectedFiles ?? options.urlMaxFiles ?? options.maxFiles;
+  const value = Number(raw || 0);
+  if (Number.isFinite(value) && value > 0) return Math.max(1, Math.floor(value));
+  return 500;
+}
+
 export async function collectUrlFiles(options = {}) {
   if (!options.url) return { files: options.files || {}, entry: options.entry || 'index.html', origin: options.origin };
   const pageUrl = new URL(options.url);
@@ -69,24 +127,24 @@ export async function collectUrlFiles(options = {}) {
   const queue = [pageUrl];
   const seen = new Set();
   const diagnostics = [];
-  const maxFiles = Number(options.maxUrlFiles || options.maxDynamicFiles || 160);
+  const maxFiles = resolveMaxFiles(options);
   let entry = options.entry || 'index.html';
   while (queue.length && seen.size < maxFiles) {
     const url = queue.shift();
-    const clean = new URL(url.href); clean.hash = '';
+    const clean = new URL(url.href);
+    clean.hash = '';
     if (seen.has(clean.href) || !sameOrigin(clean, pageUrl)) continue;
     seen.add(clean.href);
     let text = '';
     try { text = await fetchText(clean); }
     catch (error) { diagnostics.push({ url: clean.href, error: error.message }); continue; }
     const key = addAliases(files, clean, pageUrl, text);
-    if (clean.href === pageUrl.href || clean.pathname === pageUrl.pathname) entry = key || 'index.html';
-    const refs = /\.html?$|\/[^.]*$/i.test(clean.pathname) ? refsFromHtml(text) : refsFromJs(text);
+    if (stripHash(clean.href) === stripHash(pageUrl.href)) entry = key || 'index.html';
+    const refs = shouldParseAsHtml(clean, pageUrl) ? refsFromHtml(text) : refsFromJs(text);
     for (const ref of refs) {
-      let next;
-      try { next = new URL(ref, clean.href); } catch (_) { continue; }
-      if (!sameOrigin(next, pageUrl)) continue;
-      if (!seen.has(next.href)) queue.push(next);
+      const next = resolveRef(ref, clean, pageUrl);
+      if (!next || !sameOrigin(next, pageUrl) || seen.has(next.href)) continue;
+      queue.push(next);
     }
   }
   return { files, entry, origin: pageUrl.origin + '/', url: pageUrl.href, diagnostics, fetchedCount: seen.size };

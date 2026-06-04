@@ -2,28 +2,16 @@
 /**
  * @file BuildingManifestor.js
  * @description
- * ╔═══════════════════════════════════════════════════════════╗
- * ║  THE ARCHITECT OF DWELLINGS — Central Coordinator          ║
- * ║                                                             ║
- * ║  "And they shall build houses and inhabit them"            ║
- * ║  (Yeshayahu 65:21)                                          ║
- * ║                                                             ║
- * ║  The unified vessel for architectural manifestation.       ║
- * ╚═══════════════════════════════════════════════════════════╝
+ * Chapter 340: The architect imports the freshly carved manifestation limb.
+ *
+ * The Awtsmoos joins grounding, material, and the new dual-body house pipeline:
+ * visual bricks for the eye, hidden carved slabs for the feet.
  */
 import grounding from './building/grounding.js';
 import textures from './building/textures.js';
-import manifestation from './building/manifestation.js';
-
-export default class BuildingManifestor {
-    // B"H - Grafting the faculties
-}
-
+import manifestation from './building/manifestation.js?v=dual-body-house-20260603-bh340';
 import ChasveiAwtsmoos from "../../../utils/ChasveiAwtsmoos.js";
 
-// B"H - Grafting the modular limbs onto the Architect with Divine Emanation
-ChasveiAwtsmoos.emanate(BuildingManifestor, [
-    grounding,
-    textures,
-    manifestation
-]);
+export default class BuildingManifestor {}
+
+ChasveiAwtsmoos.emanate(BuildingManifestor, [grounding, textures, manifestation]);

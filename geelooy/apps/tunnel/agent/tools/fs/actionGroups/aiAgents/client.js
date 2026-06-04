@@ -1,6 +1,4 @@
 // B"H
-const path = require("path");
-const { pathToFileURL } = require("url");
 const { providerFor, providerHeaders, providerKey } = require("./providers.js");
 const { resolveAgent } = require("./registry.js");
 
@@ -9,11 +7,17 @@ const DEFAULT_TIMEOUT_MS = 45000;
 
 /**
  * B"H
- * Chapter 369: The River Received A Shoreline.
+ * Chapter 370: The River Stopped Looking For A Distant Mouth.
  *
- * A delegate may wait, but it may not vanish into endless water. Each provider
- * call now has an AbortController boundary, so the agent forest can fail,
- * report, retry, and continue instead of hanging in a nameless dark.
+ * The installed tunnel agent lives inside ~/.awtsmoos-tunnel, far from the repo's
+ * shared/streaming scroll. A real MiniMax task therefore failed before its first
+ * child could breathe. This client now carries its own small SSE reader, so the
+ * local delegate council can stream, finish, spawn, and be polled from the same
+ * shipped vessel.
+ *
+ * @param {object} config Local tunnel config.
+ * @param {object} payload Agent message payload.
+ * @returns {Promise<object>} Provider response shaped for the action surface.
  */
 async function sendAgentMessage(config = {}, payload = {}) {
   const agentConfig = resolveAgent(config, payload.agentId || payload.agent || "openrouter-general");
@@ -26,10 +30,32 @@ async function sendAgentMessage(config = {}, payload = {}) {
   return body.stream && response.body ? readStreamingResponse(response, provider, agentConfig) : readJsonResponse(response, provider, agentConfig);
 }
 
+/**
+ * Builds an OpenAI-compatible request body.
+ *
+ * @param {object} provider Provider definition.
+ * @param {object} agentConfig Resolved agent config.
+ * @param {object} payload Incoming action payload.
+ * @returns {object} JSON body for the provider.
+ */
 function requestBody(provider, agentConfig, payload) {
-  return { model: payload.model || agentConfig.model || provider.defaultModel, messages: buildMessages(agentConfig, payload), stream: payload.stream !== false, ...(provider.extraBody || {}) };
+  return {
+    model: payload.model || agentConfig.model || provider.defaultModel,
+    messages: buildMessages(agentConfig, payload),
+    stream: payload.stream !== false && payload.stream !== "false",
+    ...(provider.extraBody || {})
+  };
 }
 
+/**
+ * Sends with bounded retries.
+ *
+ * @param {object} config Local tunnel config.
+ * @param {object} provider Provider definition.
+ * @param {string} apiKey Provider key.
+ * @param {object} body Request body.
+ * @returns {Promise<Response>} Fetch response.
+ */
 async function fetchWithRetries(config, provider, apiKey, body) {
   let last;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -39,10 +65,18 @@ async function fetchWithRetries(config, provider, apiKey, body) {
   throw last;
 }
 
+/**
+ * Sends one provider request with timeout.
+ *
+ * @param {object} config Local tunnel config.
+ * @param {object} provider Provider definition.
+ * @param {string} apiKey Provider key.
+ * @param {object} body Request body.
+ * @returns {Promise<Response>} Fetch response.
+ */
 async function fetchOnce(config, provider, apiKey, body) {
-  const timeoutMs = providerTimeout(config);
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(new Error("provider_timeout")), timeoutMs);
+  const timer = setTimeout(() => controller.abort(new Error("provider_timeout")), providerTimeout(config));
   try {
     return await fetch(provider.endpoint, {
       method: "POST",
@@ -55,41 +89,160 @@ async function fetchOnce(config, provider, apiKey, body) {
   }
 }
 
+/**
+ * Calculates a safe provider timeout.
+ *
+ * @param {object} config Local tunnel config.
+ * @returns {number} Timeout in milliseconds.
+ */
 function providerTimeout(config = {}) {
   const raw = config.aiAgents?.providerTimeoutMs || process.env.AWTSMOOS_AI_PROVIDER_TIMEOUT_MS || DEFAULT_TIMEOUT_MS;
   const value = Number(raw);
   return Number.isFinite(value) ? Math.max(5000, Math.min(300000, Math.floor(value))) : DEFAULT_TIMEOUT_MS;
 }
 
+/**
+ * Builds provider messages from system, history, and prompt.
+ *
+ * @param {object} agentConfig Resolved agent config.
+ * @param {object} payload Incoming action payload.
+ * @returns {Array<{role: string, content: string}>} Provider messages.
+ */
 function buildMessages(agentConfig, payload) {
   const given = Array.isArray(payload.messages) ? payload.messages : [];
-  const prompt = String(payload.message || payload.prompt || "").trim();
+  const prompt = String(payload.message || payload.prompt || payload.goal || "").trim();
   const system = payload.system || agentConfig.system || defaultSystem();
   return [{ role: "system", content: system }, ...given, ...(prompt ? [{ role: "user", content: prompt }] : [])];
 }
 
+/**
+ * Default delegate instruction.
+ *
+ * @returns {string} System prompt.
+ */
 function defaultSystem() {
-  return ["You are an Awtsmoos delegate agent.", "Answer clearly and truthfully.", "When useful, propose child tasks as JSON under awtsmoos_agent_tasks.", "Each child task may include title, kind, prompt, agentId, provider, and fileName."].join(" ");
+  return [
+    "You are an Awtsmoos delegate agent.",
+    "Answer clearly and truthfully.",
+    "When useful, propose child tasks as JSON under awtsmoos_agent_tasks.",
+    "Each child task may include title, kind, prompt, agentId, provider, and fileName."
+  ].join(" ");
 }
 
+/**
+ * Reads an SSE streaming response without external repo imports.
+ *
+ * @param {Response} response Provider response.
+ * @param {object} provider Provider definition.
+ * @param {object} agentConfig Resolved agent config.
+ * @returns {Promise<object>} Shaped response.
+ */
 async function readStreamingResponse(response, provider, agentConfig) {
-  const { readSSEStream } = await import(sharedStreamingUrl());
-  const result = await readSSEStream(response.body.getReader(), provider.id, {});
-  return shape(provider, agentConfig, result.text || "", result.reasoning || "", result.tools || [], result.usage || null, result.finishReason || null);
+  const parsed = await parseSse(response.body.getReader());
+  return shape(provider, agentConfig, parsed.text, parsed.reasoning, parsed.toolCalls, parsed.usage, parsed.finishReason);
 }
 
+/**
+ * Reads a non-streaming JSON response.
+ *
+ * @param {Response} response Provider response.
+ * @param {object} provider Provider definition.
+ * @param {object} agentConfig Resolved agent config.
+ * @returns {Promise<object>} Shaped response.
+ */
 async function readJsonResponse(response, provider, agentConfig) {
   const json = await response.json();
   const message = json?.choices?.[0]?.message || {};
-  return { ...shape(provider, agentConfig, message.content || "", "", message.tool_calls || [], json.usage || null, null), raw: json };
+  return { ...shape(provider, agentConfig, message.content || "", message.reasoning_content || "", message.tool_calls || [], json.usage || null, null), raw: json };
 }
 
+/**
+ * Parses OpenAI-style server-sent events.
+ *
+ * @param {ReadableStreamDefaultReader} reader Stream reader.
+ * @returns {Promise<object>} Parsed text/reasoning/tool usage bundle.
+ */
+async function parseSse(reader) {
+  const decoder = new TextDecoder();
+  const state = { buffer: "", text: "", reasoning: "", toolCalls: [], usage: null, finishReason: null };
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    state.buffer += decoder.decode(value, { stream: true });
+    drainSseBuffer(state);
+  }
+  state.buffer += decoder.decode();
+  drainSseBuffer(state, true);
+  return state;
+}
+
+/**
+ * Drains complete SSE records from parser state.
+ *
+ * @param {object} state Mutable parser state.
+ * @param {boolean} final Whether stream ended.
+ * @returns {void}
+ */
+function drainSseBuffer(state, final = false) {
+  const chunks = state.buffer.split(/\n\n/);
+  state.buffer = final ? "" : chunks.pop() || "";
+  for (const chunk of chunks) readSseChunk(state, chunk);
+  if (final && chunks.length === 0 && state.buffer) readSseChunk(state, state.buffer);
+}
+
+/**
+ * Reads one SSE chunk.
+ *
+ * @param {object} state Mutable parser state.
+ * @param {string} chunk Raw chunk text.
+ * @returns {void}
+ */
+function readSseChunk(state, chunk) {
+  const lines = String(chunk || "").split(/\r?\n/).filter(line => line.startsWith("data:"));
+  for (const line of lines) {
+    const data = line.slice(5).trim();
+    if (!data || data === "[DONE]") continue;
+    readJsonDelta(state, data);
+  }
+}
+
+/**
+ * Reads one JSON delta safely.
+ *
+ * @param {object} state Mutable parser state.
+ * @param {string} data JSON text.
+ * @returns {void}
+ */
+function readJsonDelta(state, data) {
+  try {
+    const json = JSON.parse(data);
+    const choice = json?.choices?.[0] || {};
+    const delta = choice.delta || choice.message || {};
+    state.text += delta.content || "";
+    state.reasoning += delta.reasoning_content || delta.reasoning || "";
+    if (Array.isArray(delta.tool_calls)) state.toolCalls.push(...delta.tool_calls);
+    if (json.usage) state.usage = json.usage;
+    if (choice.finish_reason) state.finishReason = choice.finish_reason;
+  } catch (_error) {}
+}
+
+/**
+ * Shapes provider output for the public action surface.
+ *
+ * @param {object} provider Provider definition.
+ * @param {object} agentConfig Resolved agent config.
+ * @param {string} text Assistant text.
+ * @param {string} reasoning Assistant reasoning text, when provider sends it.
+ * @param {Array} toolCalls Tool calls.
+ * @param {object|null} usage Usage block.
+ * @param {string|null} finishReason Finish reason.
+ * @returns {object} Public response.
+ */
 function shape(provider, agentConfig, text, reasoning, toolCalls, usage, finishReason) {
   return { ok: true, action: "aiAgentMessage", agent: agentConfig.id, provider: provider.id, text, reasoning, toolCalls, usage, finishReason };
 }
 
-function sharedStreamingUrl() { return pathToFileURL(path.resolve(__dirname, "../../../../../../../shared/streaming/index.js")).href; }
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 function failure(error, extra = {}) { return { ok: false, action: "aiAgent", error, ...extra }; }
 
-module.exports = { buildMessages, providerTimeout, sendAgentMessage };
+module.exports = { buildMessages, parseSse, providerTimeout, sendAgentMessage };

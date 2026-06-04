@@ -2,13 +2,12 @@
 /**
  * @module CommentSection
  * @description
- * Chapter 5: The monolith cracks into constellations. This class remains the
- * public vessel used by root comments, inline replies, and sidebar altars, but
- * every inner chamber now lives in a focused helper module.
+ * Chapter 179: A compact scribe altar can write at root or at the living place.
+ * The class remains the public vessel, while scoped title/sections/media/submit
+ * chambers keep the Awtsmoos flow modular and inspectable.
  */
 
 import { createButtons, setSubmitText } from "./commentSection/actions.js";
-import { openAiDraftModal } from "./commentSection/aiDraft.js";
 import { clearEditor, getEditorHtml } from "./commentSection/editorValue.js";
 import { createEditorInterface, createInitialButton } from "./commentSection/editorUi.js";
 import { createImageUploadControls, updateGallery } from "./commentSection/media.js";
@@ -32,6 +31,7 @@ export class CommentSection {
     init() {
         this.addCommentArea = document.createElement("div");
         this.addCommentArea.classList.add("awtsmoos-comment-entry-monolith");
+        if (this.options.compact) this.addCommentArea.classList.add("is-compact-altar");
         this.container.appendChild(this.addCommentArea);
         createInitialButton(this);
         createEditorInterface(this);
@@ -40,16 +40,13 @@ export class CommentSection {
         if (this.options.autoReveal && window.curAlias) this.revealEditor();
     }
 
-    /** Enables submit when text or image sparks exist. */
+    /** Enables submit when text, title, section, or image sparks exist. */
     syncSubmitState() {
         const hasText = this.commentBox.innerText.trim().length > 0;
+        const hasTitle = !!this.titleInput?.value?.trim();
+        const hasSections = Array.from(this.sectionList?.querySelectorAll("textarea") || []).some(area => area.value.trim());
         const hasImages = this.imgResults.length > 0;
-        this.submitBtn.disabled = !(hasText || hasImages);
-    }
-
-    /** Opens the AI draft flow. */
-    async openAiDraftModal() {
-        await openAiDraftModal(this);
+        this.submitBtn.disabled = !(hasText || hasTitle || hasSections || hasImages);
     }
 
     /** Reveals the editor after alias validation. */
@@ -57,13 +54,15 @@ export class CommentSection {
         this.btn.style.display = "none";
         this.editorWrapper.style.display = "flex";
         this.buttonContainer.classList.add("revealed");
-        this.commentBox.focus();
+        this.titleInput?.focus?.();
     }
 
     /** Resets editor, gallery, buttons, and visible state. */
     resetForm() {
         clearEditor(this.commentBox);
         if (this.sourceArea) this.sourceArea.value = "";
+        if (this.titleInput) this.titleInput.value = "";
+        this.sectionList?.replaceChildren?.();
         this.imgResults = [];
         updateGallery(this);
         this.editorWrapper.style.display = "none";

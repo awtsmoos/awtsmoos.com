@@ -1,11 +1,12 @@
 /**
  * B"H
  * @module WorldMapsVillage
+ * @description First village and early tutorial cast placement.
  *
- * Chapter 76: The guide moved one tile from destiny.
- * The Awtsmoos has no body and no form; still, a story needs a first neighbor,
- * close enough that the player sees whom to ask. These maps place the Village
- * Guide beside the hero so Talk and Interact begin the path immediately.
+ * Chapter 185: The first act received neighbors. The Awtsmoos has no body and
+ * no form, yet a village needs more than one guide: child, elder, merchant,
+ * trainer, sage, shepherd, sparks, doors, and a beis midrash now form the first
+ * circle of the player's living sefer.
  */
 export const VillageMaps = {
   Overworld_Main: [
@@ -13,17 +14,17 @@ export const VillageMaps = {
     "T11111111111222221111111111T",
     "T1מ11111111112222111111ם111T",
     "T11WWWWW111122221111WWWWW11T",
-    "T11W000W111122221111W000W11T",
-    "T11W0ד0W111122221111W0ה0W11T",
-    "T110⌂00011112222111100✡0011T",
+    "T11WWWWW111122221111WWWWW11T",
+    "T11WWדWW111122221111WWהWW11T",
+    "T11C⌂E0011112222111100✡0011T",
     "←←222222222ג22222222222222→→",
     "←←22222222נ22222222ס222222→→",
     "T11111111111222211111111111T",
     "T1111מ111111222211111ן1111T",
-    "T11WWWWW111122221111111111T",
-    "T11W0ז0W1111222211111ר1111T",
-    "T11W000W111122221111111111T",
-    "T11111111111222211111111111T",
+    "T11WWWWW111122221111WWWWW11T",
+    "T11WWWWW111122221111WWWWW11T",
+    "T11WWזWW111122221111WWחWW11T",
+    "T111ש111111122221111ר11111T",
     "TTTTTTTTTTTT↓↓↓↓TTTTTTTTTTTT"
   ],
   House_Aleph: [
@@ -38,9 +39,9 @@ export const VillageMaps = {
   Beis_Midrash: [
     "WWWWWWWWWWWWWWWWW",
     "W0ב0ב0ב000ב0ב0ב0W",
-    "W000000000000000W",
+    "W00000O0P000000W",
     "W0ס000ע000צ000ל0W",
-    "W000000000000000W",
+    "W00000F00000000W",
     "W000000ה0000000W",
     "WWWWWWWWWWWWWWWWW"
   ]

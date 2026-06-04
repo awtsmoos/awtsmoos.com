@@ -6,9 +6,9 @@ import { VisualEffects } from '../render/effects/visualEffects.js';
  * LightningRenderer keeps the current visible game exactly recognizable.
  *
  * Chapter 6: Before the worker chamber opened, the Awtsmoos preserved the old
- * painter as a sealed flask of light. Background atmosphere, event sparks, and
- * hard collision shapes still move with the same grammar; this class is now the
- * canonical painter used by both main-thread fallback and the Offscreen worker.
+ * painter as a sealed flask of light. Chapter 7: the flask learned to pulse
+ * without spilling. The frame number is passed like a living letter into the
+ * accent system, so door rays and hero outlines can breathe while staying fast.
  */
 export class LightningRenderer extends LegacyRenderer {
   constructor(canvas, options = {}) {
@@ -36,7 +36,7 @@ export class LightningRenderer extends LegacyRenderer {
     if (!this.ctx || !world?.player || world.deathPause) return;
     this.ctx.save();
     this.ctx.translate(-this.camera.x, -this.camera.y);
-    this.visualEffects.accents(this.ctx, world);
+    this.visualEffects.accents(this.ctx, world, this.frame);
     this.visualEffects.finish(this.ctx, world);
     this.ctx.restore();
   }

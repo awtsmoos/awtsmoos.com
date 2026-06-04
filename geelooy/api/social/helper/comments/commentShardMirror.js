@@ -1,236 +1,98 @@
 // B"H
 /**
  * @file commentShardMirror.js
+ * @chapter The Packed Mirror Of Speech
  * @description
- * The legacy comment path is the first vessel, the packed shard is the second
- * lamp: the same spark, written again so future readers can survive directory
- * drift, binary compaction, and the long road from old JSON vessels into a
- * tighter AwtsmoosDB sidecar.
+ * Each comment is mirrored into the packed social shard. When tests provide a
+ * memory-only fake DB with no directory, the mirror stays silent so the real
+ * dayuhChadash world is never accidentally consulted.
  */
 
 const { logicalKey } = require("../packed/shardPaths.js");
 const { writePacked, listPackedRecords } = require("../packed/socialPacked.js");
 
-/**
- * Builds the stable packed key for one comment.
- * @param {object} params Key parts.
- * @param {string} params.heichelId Heichel id.
- * @param {string} params.seriesId Series id.
- * @param {string} params.parentType Parent type, usually post or comment.
- * @param {string} params.parentId Parent id.
- * @param {string} params.aliasId Author alias id.
- * @param {string|number} params.verseSection Verse section key.
- * @param {string} params.commentId Comment id.
- * @returns {string} Packed logical key.
- */
-function commentShardKey({
-    heichelId,
-    seriesId,
-    parentType,
-    parentId,
-    aliasId,
-    verseSection,
-    commentId
-}) {
-    return logicalKey([
-        "comments",
-        "byParent",
-        heichelId,
-        seriesId,
-        parentType,
-        parentId,
-        aliasId,
-        verseSection,
-        commentId
-    ]);
+/** @param {object} $i @returns {boolean} */
+function canUsePacked($i) {
+    return Boolean(process.awtsmoosDbPath || $i?.db?.directory);
 }
 
-/**
- * Normalizes the searchable coordinate for filtering packed comments.
- * @param {object} params Comment context.
- * @returns {object} Coordinate object.
- */
-function commentCoordinate({
-    heichelId,
-    seriesId,
-    parentType = "post",
-    parentId,
-    postId,
-    aliasId,
-    verseSection = "root"
-}) {
-    return {
-        heichelId,
-        seriesId,
-        parentType,
-        parentId,
-        postId: postId || (parentType === "post" ? parentId : ""),
-        aliasId,
-        verseSection: String(verseSection)
-    };
+/** @param {Array<string>} parts @returns {string} */
+function key(parts) {
+    return logicalKey(parts);
 }
 
-/**
- * Writes a single comment into the packed core shard.
- * @param {object} params Write params.
- * @param {object} params.$i Runtime context with db.
- * @param {object} params.comment Comment object.
- * @param {object} params.context Parent and alias context.
- * @param {object} [params.migration] Migration packet.
- * @returns {object} Packed write result.
- */
-function writeCommentShardRecord({
-    $i,
-    comment,
-    context,
-    migration
-}) {
-    const coordinate = commentCoordinate({
-        ...context,
-        aliasId: context.aliasId || comment?.author,
-        verseSection: comment?.verseSection ?? context.verseSection
-    });
+/** @param {object} params @returns {string} */
+function commentShardKey({ heichelId, seriesId, parentType, parentId, aliasId, verseSection, commentId }) {
+    return key(["comments", "byParent", heichelId, seriesId, parentType, parentId, aliasId, verseSection, commentId]);
+}
+
+/** @param {object} params @returns {object} */
+function commentCoordinate({ heichelId, seriesId, parentType = "post", parentId, postId, aliasId, verseSection = "root" }) {
+    return { heichelId, seriesId, parentType, parentId, postId: postId || (parentType === "post" ? parentId : ""), aliasId, verseSection: String(verseSection) };
+}
+
+/** @param {object} params @returns {object} */
+function writeCommentShardRecord({ $i, comment, context, migration }) {
+    if (!canUsePacked($i)) return { skipped: true, reason: "no_db_directory_for_packed_test" };
+    const coordinate = commentCoordinate({ ...context, aliasId: context.aliasId || comment?.author, verseSection: comment?.verseSection ?? context.verseSection });
     const commentId = comment?.id || comment?.commentId;
-    const value = {
-        ...comment,
-        id: commentId,
-        author: comment?.author || coordinate.aliasId,
-        verseSection: comment?.verseSection ?? coordinate.verseSection,
-        coordinate,
-        migration
-    };
+    const value = { ...comment, id: commentId, author: comment?.author || coordinate.aliasId, verseSection: comment?.verseSection ?? coordinate.verseSection, coordinate, migration };
     return writePacked({
         $i,
         shard: "core",
         key: commentShardKey({ ...coordinate, commentId }),
         value,
-        meta: {
-            kind: "comment",
-            entityKind: "comment",
-            heichelId: coordinate.heichelId,
-            seriesId: coordinate.seriesId,
-            parentType: coordinate.parentType,
-            parentId: coordinate.parentId,
-            postId: coordinate.postId,
-            aliasId: coordinate.aliasId,
-            verseSection: coordinate.verseSection,
-            commentId
-        }
+        meta: { kind: "comment", entityKind: "comment", ...coordinate, commentId }
     });
 }
 
-/**
- * Writes a packed tombstone for one comment so fallback readers do not
- * resurrect a comment after the legacy path has deleted it.
- * @param {object} params Delete params.
- * @returns {object} Packed delete result.
- */
-function deleteCommentShardRecord({
-    $i,
-    heichelId,
-    seriesId,
-    parentType = "post",
-    parentId,
-    postId,
-    aliasId,
-    verseSection = "root",
-    commentId
-}) {
-    const coordinate = commentCoordinate({
-        heichelId,
-        seriesId,
-        parentType,
-        parentId,
-        postId,
-        aliasId,
-        verseSection
-    });
+/** @param {object} params @returns {object} */
+function deleteCommentShardRecord({ $i, heichelId, seriesId, parentType = "post", parentId, postId, aliasId, verseSection = "root", commentId }) {
+    if (!canUsePacked($i)) return { skipped: true, reason: "no_db_directory_for_packed_test" };
+    const coordinate = commentCoordinate({ heichelId, seriesId, parentType, parentId, postId, aliasId, verseSection });
     return writePacked({
         $i,
         shard: "core",
         key: commentShardKey({ ...coordinate, commentId }),
         op: "delete",
-        value: {
-            deleted: true,
-            commentId,
-            coordinate,
-            deletedAt: Date.now()
-        },
-        meta: {
-            kind: "comment",
-            entityKind: "comment",
-            deleted: true,
-            ...coordinate,
-            commentId
-        }
+        value: { deleted: true, commentId, coordinate, deletedAt: Date.now() },
+        meta: { kind: "comment", entityKind: "comment", deleted: true, ...coordinate, commentId }
     });
 }
 
-/**
- * Reads packed comments matching a legacy retrieval coordinate.
- * @param {object} params Read params.
- * @returns {Array<object>} Matching packed comment values.
- */
-function readCommentShardRecords({
-    $i,
-    heichelId,
-    seriesId,
-    parentType = "post",
-    parentId,
-    postId,
-    aliasId,
-    verseSection
-}) {
-    const wanted = commentCoordinate({
-        heichelId,
-        seriesId,
-        parentType,
-        parentId,
-        postId,
-        aliasId,
-        verseSection
-    });
+/** @param {object} params @returns {Array<object>} */
+function latestPackedCommentRecords(params) {
+    if (!canUsePacked(params.$i)) return [];
     const latest = new Map();
-    for (const record of listPackedRecords({ $i, shard: "core" })) {
+    for (const record of listPackedRecords({ $i: params.$i, shard: "core" })) {
         if (record.key) latest.set(record.key, record);
     }
-    return [...latest.values()]
-        .filter(record => record.meta?.kind === "comment")
-        .filter(record => record.op !== "delete" && !record.meta?.deleted)
-        .filter(record => record.meta?.heichelId === wanted.heichelId)
-        .filter(record => record.meta?.seriesId === wanted.seriesId)
-        .filter(record => record.meta?.parentType === wanted.parentType)
-        .filter(record => record.meta?.parentId === wanted.parentId)
-        .filter(record => !postId || record.meta?.postId === wanted.postId)
-        .filter(record => !aliasId || record.meta?.aliasId === wanted.aliasId)
-        .filter(record => verseSection === undefined || record.meta?.verseSection === wanted.verseSection)
-        .map(record => record.value);
+    return [...latest.values()];
 }
 
-/**
- * Lists authors found in packed comments for one parent and verse.
- * @param {object} params Lookup params.
- * @returns {Array<string>} Alias ids.
- */
+/** @param {object} params @returns {boolean} */
+function matches(record, wanted, postId, aliasId, verseSection) {
+    return record.meta?.kind === "comment" && record.op !== "delete" && !record.meta?.deleted &&
+        record.meta?.heichelId === wanted.heichelId && record.meta?.seriesId === wanted.seriesId &&
+        record.meta?.parentType === wanted.parentType && record.meta?.parentId === wanted.parentId &&
+        (!postId || record.meta?.postId === wanted.postId) && (!aliasId || record.meta?.aliasId === wanted.aliasId) &&
+        (verseSection === undefined || record.meta?.verseSection === wanted.verseSection);
+}
+
+/** @param {object} params @returns {Array<object>} */
+function readCommentShardRecords({ $i, heichelId, seriesId, parentType = "post", parentId, postId, aliasId, verseSection }) {
+    const wanted = commentCoordinate({ heichelId, seriesId, parentType, parentId, postId, aliasId, verseSection });
+    return latestPackedCommentRecords({ $i }).filter(record => matches(record, wanted, postId, aliasId, verseSection)).map(record => record.value);
+}
+
+/** @param {object} params @returns {Array<string>} */
 function listPackedCommentAuthors(params) {
     return [...new Set(readCommentShardRecords(params).map(comment => comment?.author).filter(Boolean))];
 }
 
-/**
- * Lists verse sections found in packed comments for one alias and parent.
- * @param {object} params Lookup params.
- * @returns {Array<string>} Verse section keys.
- */
+/** @param {object} params @returns {Array<string>} */
 function listPackedCommentVerseSections(params) {
     return [...new Set(readCommentShardRecords(params).map(comment => String(comment?.verseSection ?? "root")))];
 }
 
-module.exports = {
-    commentShardKey,
-    commentCoordinate,
-    writeCommentShardRecord,
-    deleteCommentShardRecord,
-    readCommentShardRecords,
-    listPackedCommentAuthors,
-    listPackedCommentVerseSections
-};
+module.exports = { canUsePacked, commentShardKey, commentCoordinate, writeCommentShardRecord, deleteCommentShardRecord, readCommentShardRecords, listPackedCommentAuthors, listPackedCommentVerseSections };

@@ -2,31 +2,23 @@
 /**
  * @module SidebarRenderingScribe
  * @description
- * Chapter 75: The Awtsmoos abolishes the horizontal court.
- *
- * The Commentators chamber is now one page: a searchable Students list with
- * focused actions. Comments and favorites are not rendered beside it as hidden
- * columns. When a student opens, the TabManager creates a real new chamber,
- * which is the correct mobile pattern: one room, one scroll, one direction.
+ * Chapter 180: The students page receives a human scribe altar and clear
+ * navigation. AI is hidden for now. Root comments and all-scroll exploration
+ * become first-class doors instead of cramped floating extras.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
+import { CommentSection } from "../../CommentSection.js";
 import { openCommentsOfAlias } from "../panel.js";
 import { getAndSaveAliases } from "./fetching.js";
 import { buildCommentTree } from "../logic/treeBuilder.js";
 import { renderTreeItem } from "../render/tree.js";
 import { makeHTMLFromComment } from "../render/core.js";
-import { makeAddCommentSection } from "./rendering/AltarFactory.js";
 import { createKeeperRow } from "./rendering/KeeperRowFactory.js";
 import { nextFrame, renderChunked } from "./performance/SmoothScheduler.js";
 
-export { makeAddCommentSection };
-
 function manifest(blueprint) { return BlueprintManifestor.manifest(blueprint); }
-
-function placeholder(text) {
-    return manifest({ tag: "div", attr: { class: "loading-ink awtsmoos-empty-placeholder" }, children: [text] });
-}
+function placeholder(text) { return manifest({ tag: "div", attr: { class: "loading-ink awtsmoos-empty-placeholder" }, children: [text] }); }
 
 function makeSearch() {
     return manifest({ tag: "div", attr: { class: "awtsmoos-sidebar-search" }, children: [
@@ -46,26 +38,24 @@ function bindSearch(shell) {
     }, { passive: true });
 }
 
-function makeAiRow() {
-    return manifest({ tag: "button", attr: { class: "awtsmoos-list-item ai-monolith awtsmoos-action-row", type: "button" }, children: [
-        { tag: "span", attr: { class: "keeper-icon awtsmoos-student-avatar" }, children: ["✨"] },
-        { tag: "span", attr: { class: "keeper-name awtsmoos-student-name" }, children: ["Ask Awtsmoos AI"] },
-        { tag: "span", attr: { class: "keeper-arrow awtsmoos-student-location" }, children: ["→"] }
-    ], events: { click: async () => {
-        const { openAIChat } = await import("../../ai/chat.js");
-        openAIChat();
-    } } });
+function makeScribeAltar() {
+    const section = manifest({ tag: "section", attr: { class: "awtsmoos-sidebar-scribe-card" }, children: [
+        { tag: "div", attr: { class: "awtsmoos-sidebar-scribe-head" }, children: [
+            { tag: "span", attr: { class: "awtsmoos-detail-svg awtsmoos-detail-svg-scroll" }, children: [{ tag: "span" }] },
+            { tag: "div", children: [{ tag: "h3", children: ["Write an Insight"] }, { tag: "p", children: ["Rich text, markdown, title, sections, root or current place."] }] }
+        ] },
+        { tag: "div", attr: { class: "awtsmoos-sidebar-scribe-mount" } }
+    ] });
+    new CommentSection(section.querySelector(".awtsmoos-sidebar-scribe-mount"), { compact: true, label: "✍️ Address your own comment" });
+    return section;
 }
 
 function actionRows(keepersWrap) {
     return manifest({ tag: "section", attr: { class: "awtsmoos-sidebar-actions" }, children: [
-        { tag: "h4", children: ["Actions"] },
-        { tag: "button", attr: { class: "awtsmoos-action-row", type: "button" }, children: ["👥 Open All Students"], events: { click: () => keepersWrap.querySelectorAll(".keeper-portal-trigger").forEach(btn => btn.click()) } },
-        { tag: "button", attr: { class: "awtsmoos-action-row", type: "button" }, children: ["↻ Refresh Comments"], events: { click: () => window.location.reload() } },
-        { tag: "button", attr: { class: "awtsmoos-action-row", type: "button" }, children: ["✨ Ask Awtsmoos AI"], events: { click: async () => {
-            const { openAIChat } = await import("../../ai/chat.js");
-            openAIChat();
-        } } }
+        { tag: "h4", children: ["Comment Navigation"] },
+        { tag: "button", attr: { class: "awtsmoos-action-row", type: "button" }, children: ["Root Comments"], events: { click: () => openRootCommentList() } },
+        { tag: "button", attr: { class: "awtsmoos-action-row", type: "button" }, children: ["All Commented Students"], events: { click: () => keepersWrap.querySelectorAll(".keeper-portal-trigger").forEach(btn => btn.click()) } },
+        { tag: "button", attr: { class: "awtsmoos-action-row", type: "button" }, children: ["Refresh Comments"], events: { click: () => window.location.reload() } }
     ] });
 }
 
@@ -86,7 +76,7 @@ export async function makeCommentatorList(actualTab, forceFresh = false) {
     const page = makeStudentsPage(aliases?.length || 0);
     const keepersWrap = document.createElement("div");
     keepersWrap.className = "keepers-assembly awtsmoos-students-list";
-    page.append(makeSearch(), makeAiRow(), keepersWrap, actionRows(keepersWrap));
+    page.append(makeScribeAltar(), makeSearch(), keepersWrap, actionRows(keepersWrap));
     actualTab.innerHTML = "";
     actualTab.appendChild(page);
     bindSearch(page);
@@ -101,23 +91,44 @@ export async function makeCommentatorList(actualTab, forceFresh = false) {
     }, keepersWrap, 10);
 }
 
-function triggerAliasTab(alias) {
+async function openRootCommentList() {
+    const aliases = await getAndSaveAliases(false, true, "root", undefined, false);
+    const tabObj = window.tabManager.addTab({
+        header: "Root Comments",
+        name: "root-comments",
+        content: `<div class="loading-ink awtsmoos-empty-placeholder">Gathering root comments...</div>`,
+        async onopen({ actualTab }) {
+            actualTab.innerHTML = "";
+            if (!aliases.length) {
+                actualTab.appendChild(placeholder("No root comments yet. Use the scribe altar and choose Root."));
+                return;
+            }
+            const wrap = document.createElement("div");
+            wrap.className = "keepers-assembly awtsmoos-students-list";
+            actualTab.appendChild(wrap);
+            aliases.forEach(alias => wrap.appendChild(createKeeperRow(alias, () => triggerAliasTab(alias, true))));
+        }
+    });
+    tabObj.open();
+}
+
+function triggerAliasTab(alias, all = false) {
     const existing = window.__awtsmoosAliasTabs?.get(alias);
-    if (existing?.open) return existing.open();
+    if (existing?.open && !all) return existing.open();
     const tabObj = window.tabManager.addTab({
         header: "@" + alias,
-        name: "user-" + alias,
+        name: `user-${alias}${all ? "-all" : ""}`,
         content: `<div class="loading-ink awtsmoos-empty-placeholder">Seeking records of @${alias}...</div>`,
         async onopen({ actualTab, tab }) {
             tab.awtsmoosType = "specific alias comments";
             window.currentAliasTabContainer = actualTab;
             window.currentAliasBeingViewed = alias;
             await nextFrame();
-            await openCommentsOfAlias({ alias, actualTab, post: window.post });
+            await openCommentsOfAlias({ alias, actualTab, post: window.post, all });
         }
     });
     if (!window.__awtsmoosAliasTabs) window.__awtsmoosAliasTabs = new Map();
-    window.__awtsmoosAliasTabs.set(alias, tabObj);
+    if (!all) window.__awtsmoosAliasTabs.set(alias, tabObj);
     tabObj.open();
 }
 

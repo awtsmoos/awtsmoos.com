@@ -4,21 +4,22 @@ import { State } from '../../binah/State.js';
 /**
  * B"H
  * @class Architecture
- * @description Ultra-simple stable house and wall tiles.
+ * @description Stable data-aware house and wall tiles.
  *
- * Chapter 117: The houses stopped pretending to be a thousand fragments. The
- * Awtsmoos grants the palace, but the mobile canvas receives one honest block at
- * a time: roof, stone, seam, door. No scallops, no clipped roof math, no broken
- * ghost rectangles floating across the village.
+ * Chapter 125: The houses remembered their doors. The Awtsmoos has no body and
+ * no form, yet a home in the village needs roof, wall, window, threshold, and
+ * seam to agree. Door glyphs now count as architecture neighbors, so the canvas
+ * stops ripping holes where a family would enter.
  */
 export class Architecture {
+  static WALL_GLYPHS = new Set(['W', '☗', '★', '♜', 'ד', 'ה', 'ו', 'ז', 'ח']);
+
   /** @returns {void} */
   static draw(ctx, x, y, size, rx, ry) {
     const n = this.neighbors(rx, ry);
-    const roof = !n.aboveWall;
     ctx.save();
     ctx.translate(Math.floor(x), Math.floor(y));
-    if (roof) this.roof(ctx, size, n);
+    if (!n.aboveWall) this.roof(ctx, size, n);
     else this.wall(ctx, size, n, rx, ry);
     ctx.restore();
   }
@@ -26,8 +27,8 @@ export class Architecture {
   /** @returns {{aboveWall:boolean,belowWall:boolean,leftWall:boolean,rightWall:boolean}} */
   static neighbors(rx, ry) {
     const map = WorldData[State.MapId] || [];
-    const at = (x, y) => y >= 0 && y < map.length ? [...map[y]][x] : null;
-    const wall = glyph => ['W', '☗', '★', '♜'].includes(glyph);
+    const at = (x, y) => y >= 0 && y < map.length ? [...(map[y] || '')][x] : null;
+    const wall = glyph => this.WALL_GLYPHS.has(glyph);
     return {
       aboveWall: wall(at(rx, ry - 1)),
       belowWall: wall(at(rx, ry + 1)),
@@ -38,28 +39,43 @@ export class Architecture {
 
   /** @returns {void} */
   static roof(ctx, size, n) {
-    ctx.fillStyle = '#7a4a2a';
-    ctx.fillRect(0, 0, size, size);
-    ctx.fillStyle = '#9b6640';
-    ctx.fillRect(0, 0, size, 8);
-    ctx.fillStyle = '#57321f';
-    ctx.fillRect(0, size - 8, size, 8);
-    ctx.strokeStyle = '#4a2a1b';
+    this.base(ctx, size, '#7a4a2a');
+    ctx.fillStyle = '#a36b42';
+    ctx.fillRect(0, 0, size, 10);
+    ctx.fillStyle = '#4d2c1b';
+    ctx.fillRect(0, size - 9, size, 9);
+    ctx.strokeStyle = '#3d2317';
     ctx.lineWidth = 2;
-    for (let y = 12; y < size; y += 13) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(size, y + 4);
-      ctx.stroke();
-    }
-    if (!n.leftWall) this.edge(ctx, 0, size, '#3a2117');
-    if (!n.rightWall) this.edge(ctx, size - 4, size, '#b18058');
+    for (let y = 14; y < size - 6; y += 12) this.roofLine(ctx, size, y);
+    this.verticalEdges(ctx, size, n);
   }
 
   /** @returns {void} */
   static wall(ctx, size, n, rx, ry) {
-    ctx.fillStyle = '#d8d0c6';
+    this.base(ctx, size, '#d8d0c6');
+    this.bricks(ctx, size);
+    ctx.fillStyle = '#f4eee6';
+    ctx.fillRect(0, 0, size, 3);
+    ctx.fillStyle = '#b8aea6';
+    ctx.fillRect(0, size - 4, size, 4);
+    this.verticalEdges(ctx, size, n);
+    if (!n.belowWall && ((rx + ry) % 4 === 0)) this.window(ctx, size);
+  }
+
+  /** @returns {void} */
+  static base(ctx, size, color) {
+    ctx.fillStyle = color;
     ctx.fillRect(0, 0, size, size);
+    const shade = ctx.createLinearGradient(0, 0, size, size);
+    shade.addColorStop(0, 'rgba(255,255,255,.12)');
+    shade.addColorStop(.65, 'rgba(0,0,0,0)');
+    shade.addColorStop(1, 'rgba(0,0,0,.18)');
+    ctx.fillStyle = shade;
+    ctx.fillRect(0, 0, size, size);
+  }
+
+  /** @returns {void} */
+  static bricks(ctx, size) {
     ctx.strokeStyle = '#a79d94';
     ctx.lineWidth = 1;
     const bw = size / 2;
@@ -68,13 +84,20 @@ export class Architecture {
       const offset = row % 2 ? 0 : -bw / 2;
       for (let col = 0; col < 3; col += 1) ctx.strokeRect(offset + col * bw, row * bh, bw, bh);
     }
-    ctx.fillStyle = '#f4eee6';
-    ctx.fillRect(0, 0, size, 3);
-    ctx.fillStyle = '#b8aea6';
-    ctx.fillRect(0, size - 4, size, 4);
-    if (!n.leftWall) this.edge(ctx, 0, size, '#948982');
+  }
+
+  /** @returns {void} */
+  static roofLine(ctx, size, y) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(size, y + 4);
+    ctx.stroke();
+  }
+
+  /** @returns {void} */
+  static verticalEdges(ctx, size, n) {
+    if (!n.leftWall) this.edge(ctx, 0, size, '#4a2a1b');
     if (!n.rightWall) this.edge(ctx, size - 4, size, '#efe8df');
-    if (!n.belowWall && ((rx + ry) % 5 === 0)) this.window(ctx, size);
   }
 
   /** @returns {void} */

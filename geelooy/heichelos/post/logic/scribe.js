@@ -2,9 +2,11 @@
 /**
  * @module SovereignScribe
  * @description
- * Chapter 3: The living scroll keeps all wisdom in RAM while the DOM breathes.
- * Nearby chunks receive bodies; distant chunks return to placeholder sleep with
- * their height remembered, so refresh, inline sparks, and mobile glass survive.
+ * Chapter 186: The scroll is fully present in RAM and selectively present in
+ * dust. Every verse/subsection remains indexed in memory for coordinates and
+ * inline comments, but the DOM only carries the current reading window plus a
+ * small buffer. Navigation lives outside the virtual river, so Next/Previous do
+ * not sleep inside chunks.
  */
 
 import { UniversalInterpreter } from "./scribe/UniversalInterpreter.js";
@@ -26,12 +28,21 @@ function targetChunkFromLocation() {
     return ScribeScaffold.findChunkByItemIndex(safeIdx);
 }
 
+function removeChunkInlineResidue(container) {
+    container.querySelectorAll(".awtsmoos-inline-shell, .marginal-gloss-shelter, .inline-comment").forEach(node => node.remove());
+}
+
 async function refreshInlineLight() {
     if (window.pendingInlineManifest) clearTimeout(window.pendingInlineManifest);
     window.pendingInlineManifest = setTimeout(async () => {
         const { manifestAllActiveInlines } = await import("../comments/inline.js");
         await manifestAllActiveInlines();
-    }, 220);
+    }, 180);
+}
+
+function rememberChunkHeight(container) {
+    const fallback = ScribeScaffold.CHUNK_SIZE * 420;
+    return Math.max(container.offsetHeight || 0, fallback);
 }
 
 /**
@@ -44,11 +55,13 @@ export async function interpretPostDayuh(post) {
     if (!dayuh?.sections) return;
 
     window.sectionDayuh = [];
+    window.__awtsmoosVirtualSections = [];
     chunkMap.clear();
     resetVirtualScrollOracle();
 
     const rawSections = Array.isArray(dayuh.sections) ? dayuh.sections : Object.values(dayuh.sections);
     allSectionData = rawSections.map((section, index) => ({ data: section, index }));
+    window.__awtsmoosVirtualSections = allSectionData;
 
     allSectionData.forEach(item => {
         window.sectionDayuh[item.index] = UniversalInterpreter.extractPureText(item.data);
@@ -57,7 +70,7 @@ export async function interpretPostDayuh(post) {
     const realPost = document.getElementById("realPost");
     if (!realPost) return;
 
-    ScribeScaffold.construct(realPost, allSectionData.length);
+    ScribeScaffold.construct(realPost, allSectionData.length, { post, series: window.series });
     const totalChunks = Math.ceil(allSectionData.length / ScribeScaffold.CHUNK_SIZE);
     const targetChunkId = targetChunkFromLocation();
 
@@ -70,7 +83,7 @@ export async function interpretPostDayuh(post) {
 }
 
 /**
- * Reveals one chunk of sections, once, into its waiting scaffold vessel.
+ * Reveals one chunk of sections into its waiting scaffold vessel.
  * @param {number} chunkId Chunk index.
  * @returns {Promise<Element|null>} Rendered chunk container.
  */
@@ -94,6 +107,7 @@ export async function renderChunk(chunkId) {
 
     container.style.minHeight = "";
     container.dataset.awtsmoosRevealed = "true";
+    container.dataset.awtsmoosVirtualChunk = "awake";
     container.appendChild(frag);
     await refreshInlineLight();
 
@@ -112,9 +126,11 @@ export function unrenderChunk(chunkId) {
     if (!Number.isInteger(chunkId) || !chunkMap.has(chunkId)) return false;
     const container = document.querySelector(`.scroll-chunk[data-chunk-id="${chunkId}"]`);
     if (!container) return false;
-    const rememberedHeight = Math.max(container.offsetHeight || 0, ScribeScaffold.CHUNK_SIZE * 65);
+    const rememberedHeight = rememberChunkHeight(container);
+    removeChunkInlineResidue(container);
     container.replaceChildren();
     container.style.minHeight = `${rememberedHeight}px`;
+    container.dataset.awtsmoosVirtualChunk = "sleeping";
     delete container.dataset.awtsmoosRevealed;
     chunkMap.delete(chunkId);
     return true;

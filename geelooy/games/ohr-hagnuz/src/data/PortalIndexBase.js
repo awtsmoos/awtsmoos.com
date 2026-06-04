@@ -1,13 +1,17 @@
 /**
  * B"H
  * @module PortalIndexBase
- * Original core door and edge links.
+ * @description Core door and edge links for the first campaign act.
+ *
+ * Chapter 151: The doors remembered where their bodies actually stand. The
+ * Awtsmoos has no body and no form, yet a portal must be exact: same glyph,
+ * same coordinate, same map. These base links now match the rewritten village.
  */
 export const BasePortals = {
   Overworld_Main: [
     { x: 5, y: 5, glyph: 'ד', to: 'House_Aleph', spawn: { x: 6, y: 5 }, message: 'You enter the warm house of learning.' },
     { x: 22, y: 5, glyph: 'ה', to: 'Beis_Midrash', spawn: { x: 7, y: 5 }, message: 'The beis midrash opens with a hum of learning.' },
-    { x: 5, y: 12, glyph: 'ז', to: 'Garden_South', spawn: { x: 22, y: 10 }, message: 'A garden gate swings open.' },
+    { x: 5, y: 13, glyph: 'ז', to: 'Garden_South', spawn: { x: 22, y: 10 }, message: 'A garden gate swings open.' },
     { edge: 'N', to: 'Forest_North', spawn: { x: 14, y: 14 }, message: 'You cross into the northern forest of hidden musagim.' },
     { edge: 'E', to: 'Forest_East', spawn: { x: 1, y: 6 }, message: 'You travel east into a wider wild region.' },
     { edge: 'W', to: 'Forest_East', spawn: { x: 26, y: 6 }, message: 'You circle around through the western trail.' },
@@ -30,7 +34,7 @@ export const BasePortals = {
     { edge: 'E', to: 'Forest_North', spawn: { x: 1, y: 8 }, message: 'The eastern path bends northward.' }
   ],
   Garden_South: [
-    { x: 22, y: 10, glyph: 'ז', to: 'Overworld_Main', spawn: { x: 5, y: 13 }, message: 'You return through the garden gate.' },
+    { x: 22, y: 10, glyph: 'ז', to: 'Overworld_Main', spawn: { x: 5, y: 14 }, message: 'You return through the garden gate.' },
     { x: 5, y: 10, glyph: 'ו', to: 'Cave_Sod', spawn: { x: 7, y: 5 }, message: 'You enter a cave of sod.' },
     { edge: 'N', to: 'Overworld_Main', spawn: { x: 14, y: 14 }, message: 'You climb back toward the village.' }
   ],

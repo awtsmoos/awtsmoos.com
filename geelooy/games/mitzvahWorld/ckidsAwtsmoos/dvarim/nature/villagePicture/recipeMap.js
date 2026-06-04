@@ -2,11 +2,9 @@
 /**
  * @file recipeMap.js
  * @description
- * Chapter 229: the village dictionary receives fields of flowers and rocks.
- * The Awtsmoos maps each visual kind to a small recipe, while colliders remain
- * separate named beings after grounding.
+ * Chapter 378: The recipe map cache is torn open so roof edits reach houses.
  */
-import { gableHouse } from "./cottageRecipe.js";
+import { gableHouse } from "./cottageRecipe.js?v=roof-recipe-live-20260603-bh378";
 import { pergolaPortal, lantern } from "./portalRecipes.js";
 import { bench, cobbleRoad, fence, flowerPatch, rock, rockField, steps, terrace, well } from "./landscapeRecipes.js";
 import { meadowDetail } from "./fieldRecipes.js";

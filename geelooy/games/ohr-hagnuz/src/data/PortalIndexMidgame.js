@@ -1,10 +1,18 @@
-/** B"H * @module PortalIndexMidgame */
+/**
+ * B"H
+ * @module PortalIndexMidgame
+ * @description Portal links for the middle campaign chambers.
+ *
+ * Chapter 154: The academy door shifted into exactness. The Awtsmoos has no
+ * body and no form, yet the player can only pass where the glyph truly stands.
+ * The Academy gate now points to the actual ח tile at x=8, y=6.
+ */
 export const MidgamePortals = {
   Academy_Upper: [
-    { x: 10, y: 6, glyph: 'ח', to: 'Chamber_Eit', spawn: { x: 7, y: 6 }, message: 'You enter the chamber of right timing.' }
+    { x: 8, y: 6, glyph: 'ח', to: 'Chamber_Eit', spawn: { x: 7, y: 6 }, message: 'You enter the chamber of right timing.' }
   ],
   Chamber_Eit: [
-    { x: 7, y: 6, glyph: 'ח', to: 'Academy_Upper', spawn: { x: 10, y: 6 }, message: 'You descend from the chamber of eit.' }
+    { x: 7, y: 6, glyph: 'ח', to: 'Academy_Upper', spawn: { x: 8, y: 6 }, message: 'You descend from the chamber of eit.' }
   ],
   Market_West: [
     { edge: 'N', to: 'Letter_Forge', spawn: { x: 8, y: 5 }, message: 'The road rises into the forge of letters.' }

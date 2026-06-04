@@ -1,87 +1,74 @@
-
 // B"H
 /**
  * @module HouseAssembler
  * @description
- * 🏛️ THE GRAND ASSEMBLY — PURE DATA ORCHESTRATION 🏛️
+ * Chapter 342: The house has two bodies and fresh limbs.
+ *
+ * The visible body is brick, trim, roof, floor, and steps. The collision body is
+ * clean mercy: slab walls with carved doors, floors, and steps only. Every import
+ * carries the new cache seal so stale builders cannot return.
  */
 import BlueprintCompiler from "./BlueprintCompiler.js";
-import WallBuilder from "./WallBuilder.js";
-import RoofBuilder from "./RoofBuilder.js";
+import WallBuilder from "./WallBuilder.js?v=brick-wall-and-clean-collider-20260603-bh342";
+import RoofBuilder from "./RoofBuilder.js?v=clean-gable-roof-20260603-bh342";
 import FloorBuilder from "./FloorBuilder.js";
 import StepsBuilder from "./StepsBuilder.js";
 import MezuzahBuilder from "./MezuzahBuilder.js";
 import DoorwayTrimBuilder from "./DoorwayTrimBuilder.js";
 import JSONEvaluator from "../../../data/JSONEvaluator.js";
 
+function evaluated(rawBlueprint) {
+  return JSONEvaluator.evaluate(rawBlueprint, { defaultWidth: 12, defaultHeight: 12, defaultThickness: 1 });
+}
+function roomsOf(blueprint) { return blueprint.rooms || [blueprint]; }
+function withRoomOffset(room, instructions) {
+  if (!room.offset || !Array.isArray(room.offset)) return instructions;
+  for (const instr of instructions) {
+    instr.modifiers ||= [];
+    instr.modifiers.push({ type: 'translate', x: room.offset[0] || 0, y: room.offset[1] || 0, z: room.offset[2] || 0 });
+  }
+  return instructions;
+}
+function visualInstructions(room) {
+  return [
+    ...WallBuilder.build(room),
+    ...(room.hasRoof !== false ? RoofBuilder.build(room) : []),
+    ...FloorBuilder.build(room),
+    ...StepsBuilder.build(room),
+    ...DoorwayTrimBuilder.build(room),
+    ...MezuzahBuilder.build(room)
+  ];
+}
+function colliderInstructions(room) {
+  return [
+    ...WallBuilder.buildCollider(room),
+    ...FloorBuilder.build(room).map(i => ({ ...i, materialGroup: 4 })),
+    ...StepsBuilder.build(room).map(i => ({ ...i, materialGroup: 4 }))
+  ];
+}
+
 export default class HouseAssembler {
-    static generateFromBlueprint(rawBlueprint) {
-        try {
-            const blueprint = JSONEvaluator.evaluate(rawBlueprint, {
-                defaultWidth: 12,
-                defaultHeight: 12,
-                defaultThickness: 1
-            });
+  static generateFromBlueprint(rawBlueprint) {
+    try { return BlueprintCompiler.compile(HouseAssembler.getInstructions(evaluated(rawBlueprint))); }
+    catch (error) { console.error("B\"H - House Assembler visual failed:", error); return BlueprintCompiler.compile([]); }
+  }
 
-            const rooms = blueprint.rooms || [blueprint];
-            const allInstructions = [];
+  static generateColliderFromBlueprint(rawBlueprint) {
+    try { return BlueprintCompiler.compile(HouseAssembler.getColliderInstructions(evaluated(rawBlueprint))); }
+    catch (error) { console.error("B\"H - House Assembler collider failed:", error); return BlueprintCompiler.compile([]); }
+  }
 
-            rooms.forEach(room => {
-                const roomInstructions = [
-                    ...WallBuilder.build(room),
-                    ...(room.hasRoof !== false ? RoofBuilder.build(room) : []),
-                    ...FloorBuilder.build(room),
-                    ...StepsBuilder.build(room),
-                    ...DoorwayTrimBuilder.build(room),
-                    ...MezuzahBuilder.build(room)
-                ];
+  static generate(rawBlueprint) { return HouseAssembler.generateFromBlueprint(rawBlueprint); }
 
-                if (room.offset && Array.isArray(room.offset)) {
-                    roomInstructions.forEach(instr => {
-                        if (!instr.modifiers) instr.modifiers = [];
-                        instr.modifiers.push({
-                            type: 'translate',
-                            x: room.offset[0] || 0,
-                            y: room.offset[1] || 0,
-                            z: room.offset[2] || 0
-                        });
-                    });
-                }
-                allInstructions.push(...roomInstructions);
-            });
+  static getInstructions(blueprint) {
+    const all = [];
+    for (const room of roomsOf(blueprint)) all.push(...withRoomOffset(room, visualInstructions(room)));
+    return all;
+  }
 
-            return BlueprintCompiler.compile(allInstructions);
-        } catch(e) {
-            console.error("B\"H - ⚡ House Assembler Failed:", e);
-            return BlueprintCompiler.compile([]);
-        }
-    }
-
-    static getInstructions(blueprint) {
-        const rooms = blueprint.rooms || [blueprint];
-        const allInstructions = [];
-        rooms.forEach(room => {
-            const roomInstructions = [
-                ...WallBuilder.build(room),
-                ...(room.hasRoof !== false ? RoofBuilder.build(room) : []),
-                ...FloorBuilder.build(room),
-                ...StepsBuilder.build(room),
-                ...DoorwayTrimBuilder.build(room),
-                ...MezuzahBuilder.build(room)
-            ];
-            if (room.offset && Array.isArray(room.offset)) {
-                roomInstructions.forEach(instr => {
-                    if (!instr.modifiers) instr.modifiers = [];
-                    instr.modifiers.push({
-                        type: 'translate',
-                        x: room.offset[0] || 0,
-                        y: room.offset[1] || 0,
-                        z: room.offset[2] || 0
-                    });
-                });
-            }
-            allInstructions.push(...roomInstructions);
-        });
-        return allInstructions;
-    }
+  static getColliderInstructions(blueprint) {
+    const all = [];
+    for (const room of roomsOf(blueprint)) all.push(...withRoomOffset(room, colliderInstructions(room)));
+    return all;
+  }
 }

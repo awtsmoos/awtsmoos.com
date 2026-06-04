@@ -1,41 +1,32 @@
 /**
  * B"H
  * @module OhrStory
+ * @description Dialogue tree runtime: readable, stepped, mission-aware conversations.
  *
- * Chapter 78: The guide remembered what he already said.
- * The Awtsmoos has no body and no form; sequential dialogue is merely a vessel
- * that prevents the first mission from dissolving into random mist. Each glyph
- * may now speak in ordered beats while older random stories remain compatible.
+ * Chapter 190: The line became a page. The Awtsmoos has no body and no form,
+ * yet a long intro needs Next, Back, Mission, and Close. Speaking to a guide now
+ * opens a real dialogue vessel instead of flooding the HUD and vanishing into a
+ * scrolling phone screen.
  */
 import { State } from '../../binah/State.js';
 import { storyLinesForGlyph } from '../../data/stories/StoryIndex.js';
+import { questById } from '../../data/QuestIndex.js';
+import { questStatus } from '../OhrQuest.js';
 
-const sequentialGlyphs = new Set(['ג']);
+const fallbackLines = label => [`${label} is quiet for a moment.`, 'Open Journal to see the next mission, or keep exploring nearby glyphs.'];
 
-/**
- * B"H
- * @description Chooses the right story line for this glyph and records progress.
- * @param {string} glyph Tile glyph being addressed.
- * @returns {string|null} A story line or null.
- */
-const nextLine = glyph => {
-  const lines = storyLinesForGlyph(glyph);
-  if (!lines.length) return null;
-  if (!sequentialGlyphs.has(glyph)) return lines[Math.floor(Math.random() * lines.length)];
-  const index = State.nextStoryBeat(glyph, lines.length);
-  return lines[index];
+export const dialogueTreeFor = (glyph, label = 'NPC', questId = null) => {
+  const story = storyLinesForGlyph(glyph);
+  const quest = questId ? questById(questId) : null;
+  const missionLines = quest ? [`Mission: ${quest.title}`, quest.start, `Progress: ${questStatus(questId)}`] : [];
+  const lines = [...missionLines, ...(story.length ? story : fallbackLines(label))];
+  return { glyph, label, questId, lines };
 };
 
-/**
- * B"H
- * @description Speaks story text into the global message vessel.
- * @param {string} glyph Tile glyph whose story should be told.
- * @param {string} [label='NPC'] Speaker label.
- * @returns {boolean} Whether a line was spoken.
- */
-export const tellStory = (glyph, label = 'NPC') => {
-  const story = nextLine(glyph);
-  if (!story) return false;
-  State.say(`${label}: ${story}`, 780);
+export const openStoryDialogue = (glyph, label = 'NPC', questId = null) => {
+  const tree = dialogueTreeFor(glyph, label, questId);
+  State.openDialogue(tree);
   return true;
 };
+
+export const tellStory = (glyph, label = 'NPC', questId = null) => openStoryDialogue(glyph, label, questId);

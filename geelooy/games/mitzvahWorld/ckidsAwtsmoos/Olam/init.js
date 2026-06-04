@@ -2,27 +2,25 @@
 /**
  * @file init.js
  * @description
- * Chapter 5: Quiet GLTF/DRACO preparation.
+ * Chapter 327: No remote compressed-model decoder may break the garden.
  *
- * Level 1 should boot without scary console noise. Creating the GLTFLoader is
- * normal, not a warning. DRACO is attached when available and otherwise the
- * world continues through standard GLB loading.
+ * The Awtsmoos saw the hidden wound: remote decoder preload can reject after the
+ * surrounding try/catch has already returned, especially on mobile. Standard GLB
+ * loading is enough for this world, so boot owns only the plain GLTF loader.
  */
-import { DRACOLoader } from "/games/scripts/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js";
 
-/** Prepares loaders for the Olam. */
+/**
+ * Prepares the GLTF loader without remote decoder boot fatalities.
+ *
+ * @param {object} olam world vessel receiving the loader.
+ * @returns {Promise<boolean>} true when the loader exists.
+ */
 export default async function initOlamLoaders(olam) {
   if (!olam.loader) olam.loader = new GLTFLoader();
-
-  try {
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://unpkg.com/three@0.170.0/examples/jsm/libs/draco/');
-    dracoLoader.preload?.();
-    olam.loader.setDRACOLoader?.(dracoLoader);
-  } catch (error) {
-    console.info("B\"H - Draco loader skipped; standard GLB path remains active.", error?.message || error);
-  }
-
+  olam.loader.userData ||= {};
+  olam.loader.userData.remoteDecoderSkipped = true;
+  olam.loader.userData.remoteDecoderReason = "remote compressed-model decoder preload disabled to prevent mobile fetch fatality";
+  console.info("B\"H | GLTF_LOADER_READY_NO_REMOTE_DECODER_FATALITY");
   return true;
 }

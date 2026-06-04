@@ -2,10 +2,10 @@
 /**
  * @module ArchitectureExports
  * @description
- * Chapter 208: cache seal for glowing perutos and readable lava.
- * The Awtsmoos makes coins visible through copper glow without returning the
- * desert to blinding white.
+ * Chapter 338: Architecture exports architecture only.
+ *
+ * The Awtsmoos keeps the swing-door name sealed at the central export hub so no
+ * star-export conflict can hide it behind the mezuzah vessel again.
  */
-export { default as InteractiveDoor } from "../dvarim/SimpleDoor.js?v=lean-l1-20260528-bh52";
 export { default as SolidBlock } from "../dvarim/architecture/SolidBlock.js?v=dimmed-readable-ochre-blocks-20260602-bh194";
-export { default as ProceduralBuilding } from "../dvarim/architecture/ProceduralBuilding.js";
+export { default as ProceduralBuilding } from "../dvarim/architecture/ProceduralBuilding.js?v=clean-collider-brick-house-20260603-bh338";

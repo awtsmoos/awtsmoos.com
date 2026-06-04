@@ -1,12 +1,12 @@
 /**
  * B"H
  * @module OhrEncounter
+ * @description Arrival, facing, dialogue tree, shop, quest, and battle separation.
  *
- * Chapter 79: No button returned empty-handed.
- * The Awtsmoos, beyond body and form, renews every facing tile from nothing:
- * door, grass, book, synagogue, mitzvah, NPC, musag, and ordinary road. This
- * module makes Talk and Interact always answer, so the player never wonders if
- * the living world heard his hand.
+ * Chapter 191: The player stopped accidentally entering people. The Awtsmoos
+ * has no body and no form, yet derech eretz means standing face to face. NPCs
+ * now open readable dialogue trees only by Talk/Interact; walking onto them is
+ * avoided by pathing, and arrival only gives soft hints.
  */
 import { State } from '../binah/State.js';
 import { tileMeta } from '../data/WorldData.js';
@@ -14,15 +14,16 @@ import { encounterById, randomWildEncounter } from '../data/EncounterIndex.js';
 import { tileAt, portalAt, transfer } from './OhrWorld.js';
 import { startDebate } from './OhrDebate.js';
 import { interactQuest } from './OhrQuest.js';
-import { tellStory } from './story/OhrStory.js';
+import { openStoryDialogue } from './story/OhrStory.js';
 import { learnBook } from './books/TorahBooks.js';
 import { doMitzvah, healAtSynagogue } from './holy/HolyPlaces.js';
+import { routeSummary } from './abilities/AbilityRuntime.js';
+import { grantSkillExp } from './skills/SkillRuntime.js';
 
-const maybeStory = (glyph, meta) => tellStory(glyph, meta.label || 'NPC');
-
-const interactQuestIfPresent = meta => {
-  if (meta.quest) interactQuest(meta);
-};
+const openNpcDialogue = (glyph, meta) => openStoryDialogue(glyph, meta.label || 'NPC', meta.quest || null);
+const interactQuestIfPresent = meta => { if (meta.quest) interactQuest(meta); };
+const shouldBattle = meta => !!meta.battle && !!meta.encounter;
+const canShop = meta => !!meta.shop || meta.role === 'merchant';
 
 const handleBookArrival = meta => {
   if (!meta.book) return false;
@@ -53,93 +54,75 @@ const handlePortalArrival = (glyph, meta) => {
 
 const handlePresenceArrival = (glyph, meta) => {
   if (meta.kind !== 'npc' && meta.kind !== 'musag') return false;
-  if (meta.quest) {
-    maybeStory(glyph, meta);
-    interactQuest(meta);
-  }
-  if (meta.encounter) startDebate(encounterById(meta.encounter));
+  if (meta.kind === 'musag' && shouldBattle(meta)) startDebate(encounterById(meta.encounter));
+  else State.say(`${meta.label || 'Guide'} is here. Face them and press Talk.`, 180);
   return true;
 };
 
-const describeQuietTile = meta => {
-  const labels = {
-    grass: 'The grass rustles. Face a person, door, spark, book, or mitzvah station, then press Talk or Interact.',
-    road: 'The road waits. The Village Guide beside the starting road begins the story.',
-    floor: 'The room is quiet. Step toward a sefer or doorway and press Interact.',
-    tree: 'The tree is solid and silent. Walk around it.'
-  };
-  State.say(labels[meta.kind] || 'Nothing responds here yet. Face a glowing vessel and try again.', 220);
+const practiceTorahRoute = meta => {
+  const routes = routeSummary();
+  const route = routes[State.Stats.debatesWon % Math.max(1, routes.length)] || 'Mishnah: Judge Favorably';
+  State.Stats.light = Math.min(State.Stats.maxLight, State.Stats.light + 2);
+  grantSkillExp('learning', 3, 'route review');
+  const hint = meta.kind === 'road' ? ' Find ג for the first story guide.' : '';
+  State.say(`Reviewed route: ${route}. +2 light.${hint}`, 260);
 };
 
-/**
- * B"H
- * @description Responds to the hero stepping onto the current tile.
- * @returns {void}
- */
 export const handleArrival = () => {
   const glyph = tileAt(State.Hero.cx, State.Hero.cy);
   const meta = tileMeta(glyph);
-
   if (handlePortalArrival(glyph, meta)) return;
   if (handleBookArrival(meta)) return;
   if (handleSynagogueArrival(meta)) return;
   if (handleMitzvahArrival(meta)) return;
-
-  if (meta.questItem) {
-    interactQuest(meta);
-    return;
-  }
-
+  if (meta.questItem) return interactQuest(meta);
   if (handlePresenceArrival(glyph, meta)) return;
-
-  if (meta.kind === 'grass' && Math.random() < (meta.wildChance || 0)) {
-    startDebate(randomWildEncounter());
-  }
+  if (meta.kind === 'grass' && Math.random() < (meta.wildChance || 0)) startDebate(randomWildEncounter());
 };
 
-/**
- * B"H
- * @description Responds to Talk or Interact against the tile in front.
- * @param {{ tile: string, x: number, y: number }} front Facing tile data.
- * @returns {void}
- */
 export const handleActionFacing = front => {
   const meta = tileMeta(front.tile);
+  if (meta.kind === 'door') return handleDoorFacing(front, meta);
+  if (meta.kind === 'npc' || meta.kind === 'musag') return handlePresenceFacing(front.tile, meta);
+  if (meta.quest || meta.questItem) return handleQuestFacing(front.tile, meta);
+  if (meta.kind === 'object') return handleObjectFacing(meta);
+  if (meta.kind === 'synagogue') return healAtSynagogue(meta.label);
+  if (meta.kind === 'mitzvah') return doMitzvah(meta.label);
+  practiceTorahRoute(meta);
+};
 
-  if (meta.quest || meta.questItem) {
-    maybeStory(front.tile, meta);
-    interactQuest(meta);
+const handleQuestFacing = (glyph, meta) => {
+  openNpcDialogue(glyph, meta);
+  interactQuest(meta);
+};
+
+const handleDoorFacing = (front, meta) => {
+  const portal = portalAt(front.x, front.y, front.tile);
+  if (portal) transfer(portal);
+  else State.say(`${meta.label || 'Door'} is closed for now.`, 220);
+};
+
+const handlePresenceFacing = (glyph, meta) => {
+  if (canShop(meta)) return runMerchant(meta);
+  if (shouldBattle(meta)) return startDebate(encounterById(meta.encounter));
+  openNpcDialogue(glyph, meta);
+  interactQuestIfPresent(meta);
+};
+
+const runMerchant = meta => {
+  openNpcDialogue('נ', meta);
+  interactQuestIfPresent(meta);
+  if (State.Stats.sparks >= 2) {
+    State.Stats.sparks -= 2;
+    State.Inventory.items.scroll = (State.Inventory.items.scroll || 0) + 1;
+    State.Quests.counters.scroll = (State.Quests.counters.scroll || 0) + 1;
+    State.say(`${meta.label}: sold you a parchment פ for 2 sparks. Scrolls now ${State.Inventory.items.scroll}.`, 520);
     return;
   }
+  State.say(`${meta.label}: bring 2 sparks and I will sell you a parchment פ.`, 520);
+};
 
-  if (meta.kind === 'door') {
-    const portal = portalAt(front.x, front.y, front.tile);
-    if (portal) transfer(portal);
-    else State.say(`${meta.label || 'Door'} is closed for now.`, 220);
-    return;
-  }
-
-  if (meta.kind === 'npc' || meta.kind === 'musag') {
-    maybeStory(front.tile, meta);
-    if (meta.encounter) startDebate(encounterById(meta.encounter));
-    return;
-  }
-
-  if (meta.kind === 'object') {
-    if (meta.book) learnBook(meta.book);
-    else State.say(`${meta.label}: its letters glow softly.`, 360);
-    return;
-  }
-
-  if (meta.kind === 'synagogue') {
-    healAtSynagogue(meta.label);
-    return;
-  }
-
-  if (meta.kind === 'mitzvah') {
-    doMitzvah(meta.label);
-    return;
-  }
-
-  describeQuietTile(meta);
+const handleObjectFacing = meta => {
+  if (meta.book) learnBook(meta.book);
+  else State.say(`${meta.label}: its letters glow softly.`, 360);
 };

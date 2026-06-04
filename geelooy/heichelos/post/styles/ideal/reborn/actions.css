@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 139: The thumb dock bows beneath the text.
- * A, I, and Scroll live at the screen edge. The A-menu itself belongs only to
- * settings.css so ownership does not split into conflicting garments.
+ * Chapter 192: The river button now has three faces.
+ * Scroll invites the descent, Stop ends the covenant, and Paused appears while
+ * the reader's finger holds the page. The control never fights the hand.
  */
 
 .post-reader-localized-context .awtsmoos-floating-controls {
@@ -47,13 +47,24 @@
     z-index: var(--z-controls) !important;
     right: max(16px, env(safe-area-inset-right, 0px)) !important;
     bottom: calc(var(--awt-safe-bottom) + 14px) !important;
-    width: 68px !important;
-    min-height: 68px !important;
+    width: 74px !important;
+    min-height: 74px !important;
     border-radius: 999px !important;
     padding: 8px !important;
     background: radial-gradient(circle at 35% 20%, #34d399, #047857 74%) !important;
     color: white !important;
     text-align: center !important;
+    transition: transform .18s ease, filter .18s ease, background .18s ease !important;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-on {
+    background: radial-gradient(circle at 35% 20%, #fca5a5, #dc2626 74%) !important;
+    transform: scale(1.04) !important;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-is-paused {
+    background: radial-gradient(circle at 35% 20%, #fde68a, #b45309 74%) !important;
+    filter: saturate(1.12) !important;
 }
 
 .post-reader-localized-context:has(.sidebar.awtsmoos-sidebar-open) .awtsmoos-auto-scroll-floating {
@@ -63,13 +74,23 @@
 
 .post-reader-localized-context .awtsmoos-auto-scroll-icon {
     display: block !important;
-    font-size: 1.35rem !important;
+    font-size: 1.18rem !important;
+    line-height: 1 !important;
 }
 
 .post-reader-localized-context .awtsmoos-auto-scroll-label {
     display: block !important;
     margin-top: 3px !important;
-    font-size: .62rem !important;
+    font-size: .66rem !important;
+    line-height: 1 !important;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-speed {
+    display: block !important;
+    margin-top: 3px !important;
+    font-size: .66rem !important;
+    line-height: 1 !important;
+    opacity: .95 !important;
 }
 
 .post-reader-localized-context .hidden-details { display: none !important; }

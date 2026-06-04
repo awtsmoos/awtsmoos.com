@@ -2,12 +2,12 @@
 /**
  * @module OlamInit
  * @description
- * Chapter 5: Quiet loader ignition.
+ * Chapter 323: The boot bridge burns the stale DRACO path.
  *
- * This tiny bridge imports the fresh loader initializer with a cache key so the
- * browser receives the no-warning GLTF setup on the next Level 1 boot.
+ * This imports the no-remote-DRACO initializer with a fresh cache key so mobile
+ * reloads stop executing the old preload fatality.
  */
-import initLogic from "../init.js?v=lean-l1-20260528-bh8";
+import initLogic from "../init.js?v=no-remote-draco-fetch-fatality-20260603-bh323";
 
 export default class OlamInit {
   /** Runs the loader initialization. */

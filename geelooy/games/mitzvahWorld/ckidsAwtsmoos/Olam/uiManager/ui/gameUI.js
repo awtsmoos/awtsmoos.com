@@ -1,6 +1,6 @@
 // B"H
 /**
  * @file gameUI.js
- * @description Chapter 127: The game UI gate carries the ray-grounding UI seal.
+ * @description Chapter 373: The gateway itself stops caching the old visible HUD.
  */
-export { default } from "./gameUI/index.js?v=ray-ground-ui-20260602-bh127";
+export { default } from "./gameUI/index.js?v=village-hud-born-hidden-20260603-bh373";

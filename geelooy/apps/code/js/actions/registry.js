@@ -1,8 +1,13 @@
-
 // B"H
 /**
  * @file registry.js
  * @brief THE UNIFIED LEDGER OF ACTION.
+ * @description
+ * B"H. Every command is a spark looking for its vessel. The Awtsmoos lets the
+ * registry bind known actions immediately and lazily import deeper commands
+ * only when their hour arrives. The AI chat path is rooted at `/ai/` because
+ * this server already serves from the `geelooy` directory; `/geelooy/ai/`
+ * doubles the world into `geelooy/geelooy` and falls into dynamic-route void.
  */
 
 import { CORE_FILE_ACTIONS } from './categories/file-core.js';
@@ -15,6 +20,44 @@ import { MenuUI } from '../menus/ui.js';
 
 const COMMAND_CACHE = new Map();
 
+/**
+ * B"H. Builds URLs from the real app root, not an assumed filesystem prefix.
+ * @param {string} path Absolute web path.
+ * @returns {string} Browser-safe URL.
+ */
+function appUrl(path) {
+    return new URL(path, location.origin).toString();
+}
+
+/**
+ * B"H. Opens the standalone Rosie/MiniMax chat vessel in the inner browser.
+ * @returns {Promise<any>} Browser tab result.
+ */
+async function openGenericAiChat() {
+    const m = await import('../browser/index.js');
+    const url = appUrl('/ai/?awtsmoosAi=minimax');
+    return m.BrowserManager.open(url, { name: 'AI Chat' });
+}
+
+/**
+ * B"H. Opens the inner browser tab.
+ * @returns {Promise<any>} Browser tab result.
+ */
+async function openBrowserTab() {
+    const m = await import('../browser/index.js');
+    return m.BrowserManager.open();
+}
+
+/**
+ * B"H. Opens devtools against preview or browser vessels.
+ * @param {object} ctx Action context.
+ * @returns {Promise<any>} DevTools open result.
+ */
+async function openDevTools(ctx) {
+    const module = await import('../devtools/open.js');
+    return module.DevToolsOpener.open(ctx);
+}
+
 const FALLBACK_ACTIONS = {
     ...CORE_FILE_ACTIONS,
     ...UI_LAYOUT_ACTIONS,
@@ -22,33 +65,17 @@ const FALLBACK_ACTIONS = {
     ...PREVIEW_DEVTOOLS_ACTIONS,
     ...DATA_TRANSFER_ACTIONS,
     ...TEXT_TRANS_ACTIONS,
-    
     'cancel-menu': () => MenuUI.hideAll(),
-    'reveal-in-workspace': async (ctx) => {
-        const module = await import('./commands/reveal-in-workspace.js');
-        return module.default(ctx);
-    },
-    'open-browser-tab': async () => {
-        const m = await import('../browser/index.js');
-        return m.BrowserManager.open();
-    },
-    'open-generic-ai-chat': async () => {
-        const m = await import('../browser/index.js');
-        const url = new URL('/geelooy/ai/?awtsmoosAi=minimax', location.origin).toString();
-        return m.BrowserManager.open(url, { name: 'AI Chat' });
-    },
-    'open-devtools': async (ctx) => {
-        // B"H - The high-level command to open inspection vessels.
-        // It can now handle standard previews AND the new browser tabs.
-        const module = await import('../devtools/open.js');
-        return module.DevToolsOpener.open(ctx);
-    }
+    'reveal-in-workspace': async (ctx) => (await import('./commands/reveal-in-workspace.js')).default(ctx),
+    'open-browser-tab': openBrowserTab,
+    'open-generic-ai-chat': openGenericAiChat,
+    'open-devtools': openDevTools
 };
 
 export const ActionRegistry = {
     async resolve(actionId) {
         if (COMMAND_CACHE.has(actionId)) return COMMAND_CACHE.get(actionId);
-        
+
         if (FALLBACK_ACTIONS[actionId]) {
             const handler = FALLBACK_ACTIONS[actionId];
             COMMAND_CACHE.set(actionId, handler);
@@ -56,16 +83,12 @@ export const ActionRegistry = {
         }
 
         try {
-            const path = './commands/' + actionId + '.js';
-            const module = await import(path);
+            const module = await import('./commands/' + actionId + '.js');
             const executor = module.default || Object.values(module).find(exp => typeof exp === 'function');
-            
-            if (executor) {
-                COMMAND_CACHE.set(actionId, executor);
-                return executor;
-            }
-        } catch(e) {
-            console.error("B\"H - Registry Error: Action [" + actionId + "] could not be found.", e);
+            if (executor) COMMAND_CACHE.set(actionId, executor);
+            return executor || null;
+        } catch (e) {
+            console.error('B"H - Registry Error: Action [' + actionId + '] could not be found.', e);
             return null;
         }
     }

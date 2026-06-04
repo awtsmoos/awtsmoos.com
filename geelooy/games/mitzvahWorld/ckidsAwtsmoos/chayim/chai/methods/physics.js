@@ -2,12 +2,13 @@
 /**
  * @file physics.js
  * @description
- * Chapter 59: The Wrapper Restored Smooth Jumping.
+ * Chapter 322: The wrapper imports the terrain-law covenant.
  *
- * The Awtsmoos breaks the previous anti-chop cache so the player receives the
- * no-ground-lock, continuous-step jump physics.
+ * The Awtsmoos bumps the cache key so the mobile browser stops using the old
+ * jump-only physics and receives the new ground fallback: octree first, terrain
+ * law second, abyss never.
  */
-import basePhysics from "./physics/index.js?v=smooth-jump-restored-20260602-bh14";
+import basePhysics from "./physics/index.js?v=terrain-law-floor-fallback-20260603-bh322";
 
 /** @param {object} entity Chossid-like body. @returns {void} */
 function holdVisibleBody(entity) {

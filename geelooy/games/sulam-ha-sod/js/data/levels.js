@@ -3,10 +3,12 @@
  * Campaign index for Sulam HaSod.
  *
  * Chapter 4: The Awtsmoos held the ladder while gates five through nine were
- * remade into honest chambers. Gates 1-9 now keep their human-authored shapes
- * without the enrichment fire adding extra cruelty; from gate 10 onward the old
- * storm may still roar.
+ * remade into honest chambers. Chapter 5: the same breath inspected every gate,
+ * and any door swallowed by stone or suspended over empty air was returned to
+ * the covenant of foot and floor. A gate may be cruel, but it may not lie about
+ * the ground beneath it.
  */
+import { groundExitDoors } from './doorGrounding.js';
 import { enrichLevel } from './levelCruelty.js';
 import { level01 } from './levels/level01-malchus.js';
 import { level02 } from './levels/level02-yesod.js';
@@ -73,13 +75,28 @@ const RAW_LEVELS = [
 const HUMAN_AUTHORED_CLEAR_GATES = 9;
 const clone = value => structuredClone(value);
 
-/** @param {object} level Raw authored level. @returns {object} Safe copied level. */
+/**
+ * Keeps early human-authored gates free from enrichment cruelty.
+ *
+ * @param {object} level Raw authored level.
+ * @returns {object} Safe copied level.
+ */
 function keepHumanGate(level) { return clone(level); }
 
-/** @param {object} level Raw authored level. @param {number} index Zero-based campaign index. @returns {object} Playable campaign level. */
+/**
+ * Reveals the playable campaign gate before grounding the exit.
+ *
+ * @param {object} level Raw authored level.
+ * @param {number} index Zero-based campaign index.
+ * @returns {object} Playable campaign level.
+ */
 function revealPlayableGate(level, index) {
   return index < HUMAN_AUTHORED_CLEAR_GATES ? keepHumanGate(level) : enrichLevel(level, index);
 }
 
-/** @constant {Array<object>} LEVELS */
-export const LEVELS = RAW_LEVELS.map(revealPlayableGate);
+/**
+ * All playable gates, post-enrichment and post-grounding.
+ *
+ * @constant {Array<object>} LEVELS
+ */
+export const LEVELS = groundExitDoors(RAW_LEVELS.map(revealPlayableGate));

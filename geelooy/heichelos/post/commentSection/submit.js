@@ -2,8 +2,9 @@
 /**
  * @module CommentSubmit
  * @description
- * Chapter 5: Transmission becomes a clean river. Coordinates, payload, network,
- * events, and inline refresh happen in one narrow covenant.
+ * Chapter 178: The scribe chooses root or present coordinates deliberately.
+ * The payload carries title and optional sections in dayuh, while the main
+ * editor remains the body. No AI oracle is needed for a human insight to rise.
  */
 
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
@@ -13,7 +14,17 @@ import { hasMeaningfulContent } from "./editorValue.js";
 import { getActiveAlias } from "./identity.js";
 import { imagePayload } from "./media.js";
 
-function commentCoordinate() {
+function currentCoordinate(owner) {
+    if (owner?.scopeMode === "root") return normalizeCommentCoordinate({
+        heichelId: window.post?.heichel?.id,
+        seriesId: window?.post?.parentSeriesId,
+        postId: window.post?.id,
+        parentType: "post",
+        parentId: window.post?.id,
+        idx: null,
+        sub: null
+    });
+
     const params = new URLSearchParams(location.search);
     return normalizeCommentCoordinate({
         heichelId: window.post?.heichel?.id,
@@ -24,6 +35,20 @@ function commentCoordinate() {
         idx: params.get("idx"),
         sub: params.get("sub")
     });
+}
+
+function extraSections(owner) {
+    return Array.from(owner?.sectionList?.querySelectorAll?.(".awtsmoos-comment-extra-section") || [])
+        .map(section => ({
+            title: section.querySelector(".awtsmoos-extra-section-title")?.value?.trim() || "",
+            text: section.querySelector(".awtsmoos-extra-section-text")?.value?.trim() || ""
+        }))
+        .filter(section => section.title || section.text);
+}
+
+function clearExtraSections(owner) {
+    owner?.sectionList?.replaceChildren?.();
+    if (owner?.titleInput) owner.titleInput.value = "";
 }
 
 async function postComment({ activeAlias, content, dayuhObject }) {
@@ -56,14 +81,20 @@ async function refreshCommentSystems(payload) {
  */
 export async function submitComment(owner, content) {
     const images = imagePayload(owner.imgResults);
-    if (!hasMeaningfulContent(content) && images.length === 0) return;
+    const title = owner.titleInput?.value?.trim() || "";
+    const sections = extraSections(owner);
+    const hasSections = sections.some(section => section.title || section.text);
+    if (!hasMeaningfulContent(content) && images.length === 0 && !title && !hasSections) return;
     const activeAlias = getActiveAlias();
     if (!activeAlias) throw new Error("Choose an alias before transmitting.");
 
-    const coordinate = commentCoordinate();
+    const coordinate = currentCoordinate(owner);
     const dayuhObject = coordinateToDayuh(coordinate, { images });
+    if (title) dayuhObject.title = title;
+    if (sections.length) dayuhObject.sections = sections;
     const commentId = await postComment({ activeAlias, content, dayuhObject });
     if (!commentId) return;
+    clearExtraSections(owner);
 
     await refreshCommentSystems({
         aliasId: activeAlias,

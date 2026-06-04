@@ -2,70 +2,95 @@
 /**
  * @file VillageTreeField.js
  * @description
- * Chapter 240: The forest stops pretending and borrows the true tree soul.
+ * Chapter 377: Orchard crowns become leafy masses, not dead-stick lollipops.
  *
- * Each field now uses the existing procedural-core TreeGenerator to create real
- * branch/trunk geometry and real leaf quad geometry once, then instances those
- * generated trees many times. Leaves receive an alpha DataTexture, so their
- * rectangular backgrounds vanish. Future AI: trees are visual only; do not add
- * these generated branches or leaves to the octree.
+ * The Awtsmoos replaces procedural branch skeletons with a small data orchard:
+ * tapered trunks, angled limbs, and many overlapping leaf clusters. It is still
+ * instanced and mobile-friendly, but each crown is a real volume cloud.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
-import { TreeGenerator } from "../../../../../libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js";
+import TerrainMath from "../terrain/core/TerrainMath.js";
 
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const rand = i => { const x = Math.sin(i * 12.9898) * 43758.5453; return x - Math.floor(x); };
-const attr = (values, itemSize) => new THREE.BufferAttribute(new Float32Array(values || []), itemSize);
-const idx = values => new THREE.BufferAttribute((Math.max(...values) > 65535 ? new Uint32Array(values) : new Uint16Array(values)), 1);
-
-function rgb(values = []) { const out = []; for (let i = 0; i < values.length; i += 4) out.push(values[i], values[i + 1], values[i + 2]); return out; }
-function geometryFrom(data, colors = false) {
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", attr(data.verts, 3));
-  if (data.normals?.length) geo.setAttribute("normal", attr(data.normals, 3));
-  if (data.uvs?.length) geo.setAttribute("uv", attr(data.uvs, 2));
-  if (colors && data.colors?.length) geo.setAttribute("color", attr(rgb(data.colors), 3));
-  if (data.indices?.length) geo.setIndex(idx(data.indices));
-  if (!data.normals?.length) geo.computeVertexNormals();
-  geo.computeBoundingSphere(); return geo;
+const LEAF_COLORS = [0x2c7a2f, 0x3f9637, 0x4fa43e, 0x246c2b, 0x67ad3f, 0x358338];
+function terrainHeight(olam, worldX, worldZ, fallback = 0) {
+  const law = olam?.awtsmoosTerrainLaw;
+  if (law?.data) return n(law.position?.y) + TerrainMath.calculateHeightAt(worldX - n(law.position?.x), worldZ - n(law.position?.z), law.data);
+  const ray = new THREE.Ray(new THREE.Vector3(worldX, 500, worldZ), new THREE.Vector3(0, -1, 0));
+  const hit = olam?.worldOctree?.rayIntersect?.(ray);
+  return Number.isFinite(hit?.position?.y) ? hit.position.y : fallback;
 }
-function leafAlphaTexture() {
-  const size = 32, data = new Uint8Array(size * size);
-  for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
-    const dx = (x - 16) / 15, dy = (y - 16) / 15;
-    data[y * size + x] = Math.hypot(dx * 0.72, dy * 1.22) < 0.88 ? 255 : 0;
-  }
-  const tex = new THREE.DataTexture(data, size, size, THREE.AlphaFormat);
-  tex.magFilter = tex.minFilter = THREE.NearestFilter; tex.needsUpdate = true; return tex;
+function mark(root) { root.traverse(o => Object.assign(o.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, villageDecor: true, useAuthoredY: true })); }
+function compose(mesh, index, p, q, s) { mesh.setMatrixAt(index, new THREE.Matrix4().compose(p, q, s)); }
+function trunkGeometry() { return new THREE.CylinderGeometry(0.34, 0.52, 4.2, 8, 3); }
+function limbGeometry() { return new THREE.CylinderGeometry(0.08, 0.16, 1, 7, 1); }
+function leafGeometry() { return new THREE.IcosahedronGeometry(0.75, 2); }
+function between(a, b) {
+  const mid = a.clone().add(b).multiplyScalar(0.5);
+  const dir = b.clone().sub(a);
+  const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+  return { mid, q, len: dir.length() };
 }
-function config(seed) {
-  return { name: "instanced_village_oak", seed, type: "deciduous", bark: { type: "oak", tint: 0xffffff }, branch: {
-    levels: 3, angle: { 1: 54, 2: 48, 3: 30 }, children: { 0: 4, 1: 3, 2: 2 }, force: { direction: { x: 0.02, y: 1, z: 0.01 }, strength: -0.008 },
-    gnarliness: { 0: 0.06, 1: 0.16, 2: 0.22, 3: 0.08 }, length: { 0: 6.8, 1: 3.2, 2: 1.7, 3: 0.8 }, radius: { 0: 0.46, 1: 0.18, 2: 0.08, 3: 0.035 },
-    sections: { 0: 7, 1: 6, 2: 4, 3: 3 }, segments: { 0: 5, 1: 4, 2: 3, 3: 2 }, start: { 1: 0.35, 2: 0.18, 3: 0.1 }, taper: { 0: 0.66, 1: 0.62, 2: 0.6, 3: 0.5 }, twist: { 0: 0, 1: 0.08, 2: 0.1, 3: 0 }
-  }, leaves: { type: "leaf_oak", count: 18, size: 0.42, sizeVariance: 0.5, tint: [0.22, 0.56, 0.16, 1] } };
+function orchardPoint(i, seed, radius) {
+  const angle = i * 2.399963 + seed * 0.77;
+  const ring = radius * Math.sqrt(rand(i + seed * 17));
+  return { x: Math.cos(angle) * ring, z: Math.sin(angle) * ring * 0.72, angle };
 }
-function mark(root) { root.traverse(o => Object.assign(o.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, villageDecor: true })); }
-function set(mesh, i, p, q, s) { mesh.setMatrixAt(i, new THREE.Matrix4().compose(p, q, s)); }
+function crownLocal(i, c) {
+  const angle = c * 1.618 + i * 0.41;
+  const ring = c < 3 ? 0.25 : 0.55 + rand(i * 100 + c) * 0.75;
+  return new THREE.Vector3(Math.cos(angle) * ring, 3.0 + rand(i * 30 + c) * 1.5, Math.sin(angle) * ring * 0.86);
+}
+function colorInstance(mesh, index, seed) { mesh.setColorAt(index, new THREE.Color(LEAF_COLORS[index % LEAF_COLORS.length]).offsetHSL(0.01 * rand(seed), -0.04, (rand(seed + 3) - 0.5) * 0.06)); }
 
 export default class VillageTreeField extends Domem {
   type = "villageTreeField";
-  constructor(op = {}, olam) { super({ ...op, isSolid: false, interactable: false }, olam); this.options = op; }
+  constructor(op = {}, olam) { super({ ...op, isSolid: false, interactable: false }, olam); this.options = op; this.useAuthoredY = true; }
+
   async heescheel(olam) {
-    const count = Math.max(1, Math.floor(n(this.options.count, 80))), radius = n(this.options.radius, 90), seed = n(this.options.seed, 5);
-    const generated = new TreeGenerator(config(seed)).generate();
-    const trunks = new THREE.InstancedMesh(geometryFrom(generated.branches), new THREE.MeshLambertMaterial({ color: this.options.barkColor || 0x5a371d }), count);
-    const leaves = new THREE.InstancedMesh(geometryFrom(generated.leaves, true), new THREE.MeshLambertMaterial({ vertexColors: true, alphaMap: leafAlphaTexture(), transparent: true, alphaTest: 0.42, side: THREE.DoubleSide, depthWrite: false }), count);
-    trunks.name = "tree_field_real_generated_branches_no_collision"; leaves.name = "tree_field_generated_transparent_leaves_no_collision";
+    const count = Math.max(1, Math.floor(n(this.options.count, 44)));
+    const radius = n(this.options.radius, 86), seed = n(this.options.seed, 5), origin = this.position || {};
+    const trunks = new THREE.InstancedMesh(trunkGeometry(), new THREE.MeshLambertMaterial({ color: 0x5a351d }), count);
+    const limbCount = count * 5, leafCount = count * 15;
+    const limbs = new THREE.InstancedMesh(limbGeometry(), new THREE.MeshLambertMaterial({ color: 0x4a2d17 }), limbCount);
+    const leaves = new THREE.InstancedMesh(leafGeometry(), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: false }), leafCount);
+    trunks.name = "warm_tapered_orchard_trunks"; limbs.name = "short_visible_living_limbs"; leaves.name = "many_overlapping_leaf_volume_crowns";
+    let li = 0, ci = 0;
     for (let i = 0; i < count; i += 1) {
-      const a = i * 2.399 + seed, r = radius * Math.sqrt(rand(i + seed)), sc = 0.78 + rand(i * 5) * 0.82;
-      const p = new THREE.Vector3(Math.cos(a) * r, 0, Math.sin(a) * r * 0.72), q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, a, 0)), s = new THREE.Vector3(sc, sc, sc);
-      set(trunks, i, p, q, s); set(leaves, i, p, q, s);
+      const pt = orchardPoint(i, seed, radius), sc = 0.78 + rand(i * 9 + seed) * 0.46;
+      const worldX = n(origin.x) + pt.x, worldZ = n(origin.z) + pt.z;
+      const gy = terrainHeight(olam, worldX, worldZ, n(this.options.groundY, 0));
+      const base = new THREE.Vector3(pt.x, gy + 2.1 * sc, pt.z);
+      compose(trunks, i, base, new THREE.Quaternion().setFromEuler(new THREE.Euler(0, pt.angle, (rand(i) - 0.5) * 0.08)), new THREE.Vector3(sc * 0.9, sc, sc * 0.9));
+      const top = new THREE.Vector3(pt.x, gy + 4.05 * sc, pt.z);
+      for (let b = 0; b < 5; b += 1) {
+        const a = pt.angle + b * 1.256 + rand(i * 19 + b) * 0.35;
+        const end = top.clone().add(new THREE.Vector3(Math.cos(a) * sc * (0.8 + rand(b) * 0.6), sc * (0.45 + rand(i + b) * 0.45), Math.sin(a) * sc * (0.8 + rand(b + 2) * 0.6)));
+        const seg = between(top.clone().add(new THREE.Vector3(0, -0.28 * sc, 0)), end);
+        compose(limbs, li++, seg.mid, seg.q, new THREE.Vector3(sc, seg.len, sc));
+      }
+      for (let c = 0; c < 15; c += 1) {
+        const local = crownLocal(i, c).multiplyScalar(sc);
+        const p = new THREE.Vector3(pt.x + local.x, gy + local.y, pt.z + local.z);
+        const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(rand(c) * 0.4, pt.angle + c, rand(i + c) * 0.4));
+        const sx = (0.65 + rand(i * 50 + c) * 0.45) * sc;
+        compose(leaves, ci, p, q, new THREE.Vector3(sx * 1.18, sx * 0.82, sx * 1.02));
+        colorInstance(leaves, ci, i * 70 + c);
+        ci += 1;
+      }
     }
-    trunks.instanceMatrix.needsUpdate = leaves.instanceMatrix.needsUpdate = true;
-    this.mesh = new THREE.Group(); this.mesh.name = this.name || "VillageTreeField"; this.mesh.add(trunks, leaves);
-    const p = this.position || {}; this.mesh.position.set(n(p.x), n(p.y), n(p.z)); mark(this.mesh);
-    await olam.hoyseef(this); this.isReady = true;
+    trunks.instanceMatrix.needsUpdate = limbs.instanceMatrix.needsUpdate = leaves.instanceMatrix.needsUpdate = true;
+    leaves.instanceColor.needsUpdate = true;
+    [trunks, limbs, leaves].forEach(mesh => { mesh.frustumCulled = false; });
+    this.mesh = new THREE.Group();
+    this.mesh.name = this.name || "VillageTreeField_leafy_volume_orchard";
+    this.mesh.position.set(n(origin.x), 0, n(origin.z));
+    this.mesh.add(trunks, limbs, leaves);
+    Object.assign(this.mesh.userData ||= {}, { useAuthoredY: true, awtsmoosGrounding: { mode: "per-tree-terrain-law" } });
+    mark(this.mesh);
+    await olam.hoyseef(this);
+    this.isReady = true;
   }
 }

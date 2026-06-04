@@ -1,7 +1,9 @@
 # B"H
-# Awtsmoos tunnel runtime artifacts
+# Awtsmoos tunnel/runtime artifacts and local AI model cache
 .awtsmoos/
+.Awtsmoos/
 .awtsmoos-tmp/
+.Awtsmoos-tmp/
 
 # Tunnel logs / generated local runtime state
 *.awtsmoos.log
@@ -9,6 +11,8 @@
 # Optional local tunnel overrides
 .awtsmoos.local.json
 .awtsmoos.config.local.json
+.Awtsmoos.local.json
+.Awtsmoos.config.local.json
 
 # Command output spill files
 command-output/

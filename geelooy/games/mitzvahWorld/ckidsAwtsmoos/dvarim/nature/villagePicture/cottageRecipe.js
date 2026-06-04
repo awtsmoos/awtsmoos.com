@@ -2,48 +2,26 @@
 /**
  * @file cottageRecipe.js
  * @description
- * Chapter 220: The cottage became two kingdoms, sight and touch.
- *
- * Sight receives real procedural brick courses: data spans, carved doorway,
- * stout wooden trim, roof, glow, and furniture. Touch stays elsewhere in simple
- * invisible colliders. Future AI: do not join these kingdoms. Visual masonry is
- * decorative/no-octree after VillagePictureProp marks it; VillageHouseCollider
- * alone supplies floor, walls, jambs, lintel, and furniture physics.
+ * Chapter 390: The cottage receives true gable roof generation.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { buildBrickStructure, cube } from "./cottage/brickMason.js";
-import { HOUSE_BRICK_STRUCTURE } from "./cottage/houseShellPlan.js";
+import { HOUSE_BRICK_STRUCTURE } from "./cottage/houseShellPlan.js?v=split-front-no-mortar-door-20260603-bh370";
 import { buildInteriorDetails } from "./cottage/interiorDetails.js";
-import { buildDoorTrim, buildWindowsRoofAndExterior } from "./cottage/roofAndExterior.js";
+import { buildDoorTrim, buildWindowsRoofAndExterior } from "./cottage/roofAndExterior.js?v=true-gable-roof-20260603-bh390";
 
-function sealVisualPhysicsContract(group) {
-  group.userData ||= {};
-  group.userData.cottageVisualOnly = true;
-  group.userData.colliderOwner = "VillageHouseCollider";
-  group.userData.warning = "Do not add decorative cottage meshes to worldOctree.";
-}
-
+function sealVisualPhysicsContract(group) { Object.assign(group.userData ||= {}, { cottageVisualOnly: true, colliderOwner: "VillageHouseCollider", warning: "Decorative cottage meshes must never enter worldOctree." }); }
+function sightOnly(mesh) { Object.assign(mesh.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, villageDecor: true }); return mesh; }
 function buildThresholdSightOnly(group) {
-  cube(group, 0x9f835d, [0, 0.026, 2.84], [1.08, 0.05, 0.5], "floor").name = "visual_flat_threshold_no_collider";
-  cube(group, 0xe5d3ac, [0, 0.095, 2.5], [1.22, 0.07, 0.18], "stone").name = "visual_lower_door_stone_no_collider";
+  sightOnly(cube(group, 0x9f835d, [0, 0.014, 2.84], [0.94, 0.018, 0.32], "floor")).name = "thin_visual_threshold_low_no_collider";
+  sightOnly(cube(group, 0xe5d3ac, [0, 0.042, 2.52], [0.98, 0.018, 0.1], "stone")).name = "thin_floor_lip_low_not_blocker";
 }
-
-function buildReadableDoorwayDarkness(group) {
-  cube(group, 0x46351f, [0, 0.48, 2.505], [0.52, 0.78, 0.026], "wood").name = "doorway_shadow_not_solid";
-  cube(group, 0xb89b64, [0, 0.042, 1.92], [0.58, 0.035, 1.1], "floor").name = "visible_entry_floor_flush";
-}
-
-/**
- * Builds the large decorative village cottage.
- * @returns {THREE.Group} decorative house only.
- */
 export function gableHouse() {
   const group = new THREE.Group();
-  group.name = "gableHouse_visual_brick_cottage";
+  group.name = "gableHouse_visual_empty_doorway_true_gable_roof";
   buildInteriorDetails(group);
   buildBrickStructure(group, HOUSE_BRICK_STRUCTURE);
   buildThresholdSightOnly(group);
-  buildReadableDoorwayDarkness(group);
   buildDoorTrim(group);
   buildWindowsRoofAndExterior(group);
   sealVisualPhysicsContract(group);

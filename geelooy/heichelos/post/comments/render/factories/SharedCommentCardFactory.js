@@ -2,10 +2,10 @@
 /**
  * @module SharedCommentCardFactory
  * @description
- * Chapter 125: The same body receives two crowns, not two souls.
- * Sidebar and inline share one renderer and one population ritual. The mode
- * only adds classes for placement and styling; the comment content itself is
- * never forked, shortened, or reinterpreted by separate factories.
+ * Chapter 175: The profile button dissolves into the author's crown.
+ * Sidebar and inline cards share one renderer. The alias itself is now the
+ * profile portal, while a user-written comment title receives its own luminous
+ * title band above the body. System labels remain small; the user's title sings.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -16,7 +16,11 @@ import { expandPathToComment } from "../tree.js";
 import { getRealCommentSubSection, parseRealDayuh } from "../../logic/inlineManifest/realCommentCoordinate.js";
 
 function aliasOf(comment) { return comment?.author || comment?.aliasId || comment?.owner || "unknown"; }
-function titleOf(comment) { return comment?.dayuh?.title || comment?.content?.title || comment?.title || "Insight"; }
+function rawTitleOf(comment) { return comment?.dayuh?.title || comment?.content?.title || comment?.title || ""; }
+function cleanTitleOf(comment) {
+    const title = String(rawTitleOf(comment) || "").trim();
+    return title && title.toLowerCase() !== "insight" ? title : "";
+}
 
 function coordOf(comment) {
     const dayuh = parseRealDayuh(comment?.dayuh);
@@ -42,7 +46,7 @@ async function copyText(text) {
 }
 
 function textForCopy(comment) {
-    const value = comment?.content?.text || comment?.content?.plain || comment?.content || comment?.text || "";
+    const value = comment?.content?.text || comment?.content?.plain || comment?.content?.body || comment?.content || comment?.text || comment?.body || "";
     return typeof value === "string" ? value : JSON.stringify(value || comment || {});
 }
 
@@ -72,43 +76,40 @@ function makeButton(label, className, onClick) {
     } } };
 }
 
-function dockClass(mode) {
-    const specific = mode === "inline" ? "awtsmoos-inline-action-dock inline-comment-actions" : "sidebar-comment-actions";
-    return `awtsmoos-comment-action-dock ${specific}`;
-}
-
 function actionDock(comment, mode) {
     const chip = mode === "inline" ? "awtsmoos-inline-action" : "comment-chip-action";
-    return { tag: "nav", attr: { class: dockClass(mode), "aria-label": "Comment actions" }, children: [
-        makeButton("Locate", chip, () => locateComment(comment)),
+    const specific = mode === "inline" ? "awtsmoos-inline-action-dock inline-comment-actions" : "sidebar-comment-actions";
+    return { tag: "nav", attr: { class: `awtsmoos-comment-action-dock ${specific}`, "aria-label": "Comment actions" }, children: [
         makeButton("Reply", chip, event => handleMenuOption("Reply", comment, event.target)),
-        makeButton("Share", chip, () => shareComment(comment)),
-        makeButton("Copy", chip, () => copyText(textForCopy(comment)))
+        makeButton("Locate", chip, () => locateComment(comment)),
+        makeButton("Copy", chip, () => copyText(textForCopy(comment))),
+        makeButton("Share", chip, () => shareComment(comment))
     ] };
 }
 
 function moreMenu(comment) {
     return { tag: "details", attr: { class: "menu-chariot awtsmoos-comment-more" }, children: [
         { tag: "summary", attr: { class: "menu-btn comment-chip-action" }, children: ["More"] },
-        { tag: "div", attr: { class: "menu-dropdown" }, children: ["Reply", "Copy", "Delete"].map(option => ({
-            tag: "button",
-            attr: { class: "menu-item", type: "button" },
-            children: [option],
-            events: { click: event => { event.stopPropagation(); handleMenuOption(option, comment, event.target); } }
-        })) }
+        { tag: "div", attr: { class: "menu-dropdown" }, children: ["Reply", "Copy", "Delete"].map(option => ({ tag: "button", attr: { class: "menu-item", type: "button" }, children: [option], events: { click: event => { event.stopPropagation(); handleMenuOption(option, comment, event.target); } } })) }
     ] };
 }
 
-function header(comment, mode) {
+function authorPortal(alias) {
+    return { tag: "a", attr: { class: "comment-author-link awtsmoos-author-crown", href: `/@${encodeURIComponent(alias)}`, target: "_blank", title: `Open @${alias}` }, children: [`@${alias}`] };
+}
+
+function header(comment) {
     const alias = aliasOf(comment);
-    const namePlan = mode === "inline"
-        ? { tag: "strong", attr: { class: "comment-author-link" }, children: [`@${alias}`] }
-        : { tag: "a", attr: { class: "comment-author-link", href: `/@${encodeURIComponent(alias)}`, target: "_blank" }, children: [`@${alias}`] };
     return { tag: "header", attr: { class: "awtsmoos-comment-card-header" }, children: [
         { tag: "div", attr: { class: "awtsmoos-comment-avatar" }, children: [String(alias).charAt(0).toUpperCase()] },
-        { tag: "div", attr: { class: "awtsmoos-comment-heading" }, children: [namePlan, { tag: "span", attr: { class: "awtsmoos-comment-meta" }, children: [`${titleOf(comment)} · ${coordOf(comment)}`] }] },
-        { tag: "button", attr: { class: "comment-chip-action profile-chip", type: "button", title: "Copy profile link" }, children: ["Profile"], events: { click: event => { event.stopPropagation(); copyText(`${location.origin}/@${encodeURIComponent(alias)}`); } } }
+        { tag: "div", attr: { class: "awtsmoos-comment-heading" }, children: [authorPortal(alias), { tag: "span", attr: { class: "awtsmoos-comment-coordinate" }, children: [coordOf(comment)] }] }
     ] };
+}
+
+function titleBand(comment) {
+    const title = cleanTitleOf(comment);
+    if (!title) return null;
+    return { tag: "div", attr: { class: "awtsmoos-comment-title-band", dir: "auto" }, children: [title] };
 }
 
 export function makeSharedCommentCard(comment, { mode = "sidebar" } = {}) {
@@ -116,7 +117,7 @@ export function makeSharedCommentCard(comment, { mode = "sidebar" } = {}) {
     const alias = aliasOf(comment);
     const modeClass = mode === "inline" ? "inline-comment awtsmoos-inline-commentary-root awtsmoos-inline-card-v3 awtsmoos-readable-inline-card" : "awtsmoos-sidebar-comment-card";
     const classes = ["comment-content", "awtsmoos-card", "awtsmoos-shared-comment-card", modeClass, isAliasInline(alias) ? "is-inline-enabled" : ""].filter(Boolean).join(" ");
-    const card = BlueprintManifestor.manifest({ tag: "article", attr: { class: classes, "data-cid": comment.id, "data-alias": alias, "data-from-alias": alias, id: `comment-${comment.id}` }, children: [header(comment, mode), { tag: "div", attr: { class: "comment-text-root awtsmoos-comment-body" } }, actionDock(comment, mode), mode === "sidebar" ? moreMenu(comment) : null] });
+    const card = BlueprintManifestor.manifest({ tag: "article", attr: { class: classes, "data-cid": comment.id, "data-alias": alias, "data-from-alias": alias, id: `comment-${comment.id}` }, children: [header(comment), titleBand(comment), { tag: "div", attr: { class: "comment-text-root awtsmoos-comment-body" } }, actionDock(comment, mode), mode === "sidebar" ? moreMenu(comment) : null] });
     populateCommentElement(comment, card.querySelector(".comment-text-root"));
     return card;
 }

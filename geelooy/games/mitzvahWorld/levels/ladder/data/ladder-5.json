@@ -1,19 +1,23 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "ladder-5.json",
-  "shaym": "Hei_Flame_Court_Returns",
-  "title": "5. 🔥 Flame Court",
+  "shaym": "Hei_Flame_Court_Rewritten",
+  "title": "5. 🔥 Flame Court Gauntlet",
   "requiredPerutos": 10,
   "nextLevel": "ladder-6.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
     "ProceduralSky": {
-      "name": "hei_flame_court_sky",
-      "timeOfDay": 10,
+      "name": "dark_lava_level_5_sky",
+      "timeOfDay": 18,
       "timeMultiplier": 0,
-      "sunIntensity": 0.52,
-      "hemiIntensity": 0.34,
-      "ambientIntensity": 0.12,
+      "topColor": 1712691,
+      "bottomColor": 7154973,
+      "sunIntensity": 0.18,
+      "hemiIntensity": 0.2,
+      "ambientIntensity": 0.065,
+      "fogNear": 55,
+      "fogFar": 165,
       "position": {
         "x": 0,
         "y": 0,
@@ -21,16 +25,16 @@
       }
     },
     "ProceduralTerrain": {
-      "name": "lava_sand_underlay",
-      "width": 105,
-      "depth": 54,
+      "name": "low_dark_lava_underlay_5",
+      "width": 112,
+      "depth": 64,
       "thickness": 2.2,
       "segments": 2,
       "isSolid": true,
-      "textureType": "sand",
+      "textureType": "darksand",
       "position": {
-        "x": 25,
-        "y": -3.1,
+        "x": 9,
+        "y": -3.6,
         "z": 0
       }
     },
@@ -42,15 +46,15 @@
         "dynamicSolidRadius": 0.28,
         "speed": 7,
         "speedScale": 1.05,
-        "jumpHeight": 12.8,
+        "jumpHeight": 13.6,
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
-          "x": -18,
-          "y": 1.15,
+          "x": -21,
+          "y": 1.05,
           "z": 0
         },
-        "visualGroundBiasY": -0.34,
+        "visualGroundBiasY": -0.62,
         "rotationSpeed": 5.2,
         "lerpTurnSpeed": 0.42,
         "movementResponsiveness": 24,
@@ -65,173 +69,192 @@
     "SolidBlock": [
       {
         "name": "start_5",
-        "width": 9,
+        "width": 8,
         "height": 1,
         "depth": 7,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
         "position": {
-          "x": -18,
+          "x": -21,
           "y": 0,
           "z": 0
         },
         "safeRect": {
-          "x": -18,
+          "x": -21,
           "z": 0,
-          "width": 9,
+          "width": 8,
           "depth": 7
         }
       },
       {
-        "name": "flame_step_5_1",
-        "width": 5.6,
+        "name": "flame_court_step_5_1",
+        "width": 4.4,
         "height": 1,
-        "depth": 4.4,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
+        "depth": 3.6,
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
         "position": {
-          "x": -9.5,
-          "y": 0.2,
-          "z": -1.5
+          "x": -13,
+          "y": 0.32,
+          "z": 3
         },
         "safeRect": {
-          "x": -9.5,
-          "z": -1.5,
-          "width": 5.6,
-          "depth": 4.4
+          "x": -13,
+          "z": 3,
+          "width": 4.4,
+          "depth": 3.6
         }
       },
       {
-        "name": "flame_step_5_2",
-        "width": 5.4,
+        "name": "flame_court_step_5_2",
+        "width": 4,
         "height": 1,
-        "depth": 4.2,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
+        "depth": 3.2,
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
         "position": {
-          "x": -2.5,
-          "y": 0.45,
-          "z": 1.6
+          "x": -6,
+          "y": 0.68,
+          "z": -3
         },
         "safeRect": {
-          "x": -2.5,
-          "z": 1.6,
-          "width": 5.4,
-          "depth": 4.2
+          "x": -6,
+          "z": -3,
+          "width": 4,
+          "depth": 3.2
         }
       },
       {
-        "name": "rest_5_3",
+        "name": "flame_court_step_5_3",
+        "width": 3.8,
+        "height": 1,
+        "depth": 3,
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
+        "position": {
+          "x": 1.2,
+          "y": 1.05,
+          "z": 2.8
+        },
+        "safeRect": {
+          "x": 1.2,
+          "z": 2.8,
+          "width": 3.8,
+          "depth": 3
+        }
+      },
+      {
+        "name": "flame_court_step_5_4",
+        "width": 3.5,
+        "height": 1,
+        "depth": 2.8,
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
+        "position": {
+          "x": 8,
+          "y": 1.42,
+          "z": -2.8
+        },
+        "safeRect": {
+          "x": 8,
+          "z": -2.8,
+          "width": 3.5,
+          "depth": 2.8
+        }
+      },
+      {
+        "name": "flame_court_step_5_5",
+        "width": 3.5,
+        "height": 1,
+        "depth": 2.7,
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
+        "position": {
+          "x": 15.2,
+          "y": 1.75,
+          "z": 2.5
+        },
+        "safeRect": {
+          "x": 15.2,
+          "z": 2.5,
+          "width": 3.5,
+          "depth": 2.7
+        }
+      },
+      {
+        "name": "flame_court_step_5_6",
+        "width": 3.4,
+        "height": 1,
+        "depth": 2.7,
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
+        "position": {
+          "x": 22.5,
+          "y": 2.05,
+          "z": -2.3
+        },
+        "safeRect": {
+          "x": 22.5,
+          "z": -2.3,
+          "width": 3.4,
+          "depth": 2.7
+        }
+      },
+      {
+        "name": "flame_court_step_5_7",
+        "width": 3.8,
+        "height": 1,
+        "depth": 2.8,
+        "color": 13546862,
+        "textureSeed": "hard_lava_sandstone",
+        "position": {
+          "x": 30,
+          "y": 2.35,
+          "z": 2.2
+        },
+        "safeRect": {
+          "x": 30,
+          "z": 2.2,
+          "width": 3.8,
+          "depth": 2.8
+        }
+      },
+      {
+        "name": "flame_court_step_5_8",
         "width": 7,
         "height": 1,
-        "depth": 5.8,
-        "color": 13942646,
-        "textureSeed": "warm_rest_5",
+        "depth": 5.2,
+        "color": 13940307,
+        "textureSeed": "hard_lava_sandstone",
         "position": {
-          "x": 5,
-          "y": 0.65,
+          "x": 39,
+          "y": 2.6,
           "z": 0
         },
         "safeRect": {
-          "x": 5,
+          "x": 39,
           "z": 0,
           "width": 7,
-          "depth": 5.8
-        }
-      },
-      {
-        "name": "flame_step_5_4",
-        "width": 5.3,
-        "height": 1,
-        "depth": 4.1,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 13,
-          "y": 0.9,
-          "z": -1.7
-        },
-        "safeRect": {
-          "x": 13,
-          "z": -1.7,
-          "width": 5.3,
-          "depth": 4.1
-        }
-      },
-      {
-        "name": "flame_step_5_5",
-        "width": 5.3,
-        "height": 1,
-        "depth": 4.1,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 21,
-          "y": 1.15,
-          "z": 1.4
-        },
-        "safeRect": {
-          "x": 21,
-          "z": 1.4,
-          "width": 5.3,
-          "depth": 4.1
-        }
-      },
-      {
-        "name": "rest_5_6",
-        "width": 7.3,
-        "height": 1,
-        "depth": 5.8,
-        "color": 13942646,
-        "textureSeed": "warm_rest_5",
-        "position": {
-          "x": 29,
-          "y": 1.35,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 29,
-          "z": 0,
-          "width": 7.3,
-          "depth": 5.8
-        }
-      },
-      {
-        "name": "finish_5",
-        "width": 8,
-        "height": 1,
-        "depth": 6.5,
-        "color": 14337914,
-        "textureSeed": "gold_gate_floor",
-        "position": {
-          "x": 39,
-          "y": 1.55,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 39,
-          "z": 0,
-          "width": 8,
-          "depth": 6.5
+          "depth": 5.2
         }
       }
     ],
     "SpikeField": [
       {
-        "name": "lava_under_level_5",
-        "groundY": -2.75,
-        "height": 0.36,
-        "pad": 0.08,
+        "name": "dark_lava_pool_5_main",
+        "groundY": -2.84,
+        "height": 0.52,
+        "pad": 0.2,
         "lava": true,
         "bounds": {
-          "minX": -25,
-          "maxX": 49,
-          "minZ": -18,
-          "maxZ": 18
+          "minX": -30,
+          "maxX": 48,
+          "minZ": -22,
+          "maxZ": 22
         },
         "position": {
-          "x": 12,
-          "y": -2.57,
+          "x": 9,
+          "y": -2.58,
           "z": 0
         }
       }
@@ -240,74 +263,87 @@
       {
         "name": "flame_orb_5_a",
         "axis": "z",
-        "amplitude": 2.2,
-        "speed": 0.95,
-        "radius": 0.68,
-        "hitRadius": 0.49,
+        "amplitude": 2.8,
+        "speed": 1.25,
+        "radius": 0.72,
+        "hitRadius": 0.51,
         "position": {
-          "x": -6,
-          "y": 2.3,
+          "x": -9.5,
+          "y": 2.35,
           "z": 0
         }
       },
       {
         "name": "flame_orb_5_b",
         "axis": "x",
-        "amplitude": 2,
-        "speed": 1.1,
-        "radius": 0.68,
-        "hitRadius": 0.49,
+        "amplitude": 2.5,
+        "speed": 1.32,
+        "radius": 0.72,
+        "hitRadius": 0.51,
         "position": {
-          "x": 8,
-          "y": 2.7,
-          "z": -1.2
+          "x": 5,
+          "y": 2.85,
+          "z": -0.8
         }
       },
       {
         "name": "flame_orb_5_c",
         "axis": "z",
-        "amplitude": 2.3,
-        "speed": 1.18,
-        "radius": 0.68,
-        "hitRadius": 0.49,
+        "amplitude": 3,
+        "speed": 1.42,
+        "radius": 0.72,
+        "hitRadius": 0.51,
         "position": {
-          "x": 25,
-          "y": 3.05,
-          "z": 1.3
+          "x": 18.5,
+          "y": 3.25,
+          "z": 0.6
+        }
+      },
+      {
+        "name": "flame_orb_5_d",
+        "axis": "x",
+        "amplitude": 2.2,
+        "speed": 1.18,
+        "radius": 0.72,
+        "hitRadius": 0.51,
+        "position": {
+          "x": 34.5,
+          "y": 3.55,
+          "z": -0.5
         }
       }
     ],
     "MovingPushBlock": [
       {
-        "name": "flame_push_5_a",
+        "name": "flame_pusher_5_a",
         "axis": "z",
-        "amplitude": 1.8,
-        "speed": 0.9,
+        "amplitude": 2.2,
+        "speed": 1.15,
         "size": {
-          "x": 1.7,
+          "x": 1.35,
           "y": 1,
-          "z": 1.6
+          "z": 1.35
         },
         "position": {
-          "x": 16.5,
-          "y": 2.25,
+          "x": 11.5,
+          "y": 2.65,
           "z": 0
         }
       },
       {
-        "name": "flame_push_5_b",
+        "name": "flame_pusher_5_b",
         "axis": "x",
-        "amplitude": 1.6,
-        "speed": 0.86,
+        "amplitude": 2,
+        "speed": 1.05,
         "size": {
-          "x": 1.7,
+          "x": 1.35,
           "y": 1,
-          "z": 1.6
+          "z": 1.35
         },
         "position": {
-          "x": 33,
-          "y": 2.55,
-          "z": -0.6
+          "x": 26.5,
+          "y": 3.15,
+          "z": 0.1
         }
       }
     ],
@@ -315,125 +351,125 @@
       {
         "name": "perutah_5_1",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": -13.5,
-          "y": 1.35,
-          "z": 1.8
+          "x": -13,
+          "y": 1.55,
+          "z": 3.2
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_2",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": -9.5,
-          "y": 1.45,
-          "z": -2.3
+          "x": -6,
+          "y": 1.9,
+          "z": -3.2
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_3",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": -2.5,
-          "y": 1.7,
-          "z": 2.2
+          "x": 1.2,
+          "y": 2.25,
+          "z": 3
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_4",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": 5,
-          "y": 1.9,
-          "z": 0
+          "x": 8,
+          "y": 2.62,
+          "z": -3
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_5",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": 13,
-          "y": 2.15,
-          "z": -2.35
+          "x": 15.2,
+          "y": 2.95,
+          "z": 2.7
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_6",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": 21,
-          "y": 2.4,
-          "z": 2
+          "x": 22.5,
+          "y": 3.25,
+          "z": -2.5
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_7",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": 29,
-          "y": 2.6,
-          "z": -1.9
+          "x": 30,
+          "y": 3.55,
+          "z": 2.4
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_8",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": 33.5,
-          "y": 2.8,
-          "z": 1.8
+          "x": 39,
+          "y": 3.8,
+          "z": 2
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_9",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
           "x": 39,
-          "y": 3,
-          "z": 0
+          "y": 3.8,
+          "z": -2
         },
         "proximity": 0.9
       },
       {
         "name": "perutah_5_10",
         "value": 1,
-        "rotationSpeed": 0.028,
+        "rotationSpeed": 0.032,
         "position": {
-          "x": 23.5,
-          "y": 2.4,
-          "z": -2.2
+          "x": 26.5,
+          "y": 3.3,
+          "z": 0
         },
         "proximity": 0.9
       }
     ],
     "TzedakahBox": [
       {
-        "name": "pushkuh_5_fire_icon",
+        "name": "pushkuh_5_flame_court",
         "requiresAllCoins": true,
         "requiredPerutos": 10,
         "levelIcon": "🔥",
-        "levelLabel": "Flame Court",
+        "levelLabel": "Flame Court Gauntlet",
         "position": {
           "x": 41.2,
-          "y": 2.45,
-          "z": -1.6
+          "y": 3.35,
+          "z": -1.7
         }
       }
     ],
@@ -451,23 +487,23 @@
         "manualOnly": true,
         "requiredPerutos": 10,
         "position": {
-          "x": 43,
-          "y": 2.95,
-          "z": 1.55
+          "x": 42.8,
+          "y": 3.65,
+          "z": 1.7
         }
       }
     ],
     "FallResetTrigger": [
       {
         "name": "fall_reset_5",
-        "width": 105,
+        "width": 112,
         "height": 0.4,
-        "depth": 90,
+        "depth": 94,
         "proximity": 6,
         "penalty": 0,
         "color": 3342336,
         "position": {
-          "x": 13,
+          "x": 9,
           "y": -14,
           "z": 0
         },

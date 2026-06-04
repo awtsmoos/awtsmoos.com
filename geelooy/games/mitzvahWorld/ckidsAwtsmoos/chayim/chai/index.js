@@ -2,18 +2,14 @@
 /**
  * @file index.js
  * @description
- * Chapter 68: The Chai Was Given Two True Strides.
- *
- * Run is run. Walk is walk. The Awtsmoos no longer hides one mode inside the
- * other: animation names and physics multipliers are both authored as real
- * player state.
+ * Chapter 388: Chai imports measured feet, never guessed feet.
  */
 import Tzomayach from "../tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
-import visualMethods from "./methods/visuals.js?v=measured-visual-lift-20260602-bh6";
+import visualMethods from "./methods/visuals.js?v=exact-visual-feet-20260603-bh388";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=smooth-jump-restored-20260602-bh14";
+import physicsMethods from "./methods/physics.js?v=terrain-law-floor-wrapper-20260603-bh326";
 import raycastingMethods from "./methods/raycasting.js";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
@@ -65,21 +61,11 @@ export default class Chai extends Tzomayach {
   moving = { stridingLeft: false, stridingRight: false, forward: false, backward: false, turningLeft: false, turningRight: false, running: true, jump: false };
   movingAutomatically = false;
   isDancing = false;
-  chaweeyoosMap = {
-    run: () => this.moving.running ? "run" : "walk",
-    idle: () => this.isDancing ? "dance silly" : "stand",
-    walk: "walk",
-    jump: "jump",
-    falling: "falling",
-    "right turn": "right turn",
-    "left turn": "left turn",
-    "dance silly": "dance silly"
-  };
+  chaweeyoosMap = { run: () => this.moving.running ? "run" : "walk", idle: () => this.isDancing ? "dance silly" : "stand", walk: "walk", jump: "jump", falling: "falling", "right turn": "right turn", "left turn": "left turn", "dance silly": "dance silly" };
 
   get speed() { return this._speed; }
   set speed(v) { this._speed = v; }
 
-  /** @param {object} options Entity options from level JSON. @param {object} olam Runtime world. */
   constructor(options = {}, olam) {
     super(options, olam);
     this.rotationSpeed = numberOr(options.rotationSpeed, 2);
@@ -87,7 +73,7 @@ export default class Chai extends Tzomayach {
     this.rayAnchor = new THREE.Group();
     this.height = numberOr(options.height, this.height);
     this.radius = numberOr(options.radius, this.radius);
-    this.visualGroundBiasY = numberOr(options.visualGroundBiasY, 0);
+    this.visualGroundBiasY = 0;
     this.lerpTurnSpeed = numberOr(options.lerpTurnSpeed, this.lerpTurnSpeed);
     this.movementResponsiveness = numberOr(options.movementResponsiveness, this.movementResponsiveness);
     this.stopResponsiveness = numberOr(options.stopResponsiveness, this.stopResponsiveness);
@@ -105,13 +91,8 @@ export default class Chai extends Tzomayach {
     this.on("collider transform update", ({ position, rotation }) => {});
   }
 
-  /** @param {object} olam Runtime world. */
   async heescheel(olam) { await super.heescheel(olam); }
-
-  /** @returns {Promise<void>} */
   async afterBriyah() { await super.afterBriyah(this); this.distanceFromRay = 5; }
-
-  /** @returns {Promise<void>} */
   async ready() {
     await super.ready();
     if (this.olam) this.olam.scene.add(this.rayAnchor);

@@ -1,5 +1,5 @@
 B"H
-1.0.38
+1.0.42
 main.js
 
 lib/config.js
@@ -77,8 +77,8 @@ tools/fs/httpCookieJar.js
 tools/fs/index.js
 tools/fs/isolatedHtml.js
 tools/fs/isolatedJs.js
-tools/fs/jsonTools.js
 tools/fs/jsWriteVerifier.js
+tools/fs/jsonTools.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
 tools/fs/nodeCheckMany.js

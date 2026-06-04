@@ -2,36 +2,21 @@
 /**
  * @module SidebarMenu
  * @description
- * Chapter 49: The root menu becomes a real covenant of doors. Each row is a
- * button with state, label, portal key, and failure flare. When the seeker taps
- * Insights, the Awtsmoos does not allow the tap to drown in a dim overlay; the
- * registered chamber opens, the menu yields, and the visible world changes.
+ * Chapter 181: The root menu becomes quieter and more human.
+ * The AI oracle door is hidden for now. The living commentary receives the
+ * first breath, and the details chamber remains concise and safe.
  */
 import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
 
 const TAB_PORTALS = [
-    { title: "Insights", desc: "The Living Commentary", icon: "💬", name: "insights" },
-    { title: "Scroll Details", desc: "Heichel, Author, & Path", icon: "📜", name: "details" },
-    { title: "AI Oracle", desc: "Consult the Awtsmoos AI", icon: "✨", name: "oracle", type: "oracle" },
+    { title: "Insights", desc: "Write and read living commentary", icon: "💬", name: "insights" },
+    { title: "Scroll Details", desc: "Heichel, author, and path", icon: "📜", name: "details" },
     { title: "Approval Queue", desc: "Review submitted insights", icon: "✅", name: "approvals" },
     { title: "Saved Sparks", desc: "Your bookmarked verses", icon: "🔖", name: "bookmarks" }
 ];
 
-/**
- * Finds the button that invoked a portal ritual.
- * @param {Event} event Original DOM event.
- * @returns {HTMLButtonElement|null} Button source when present.
- */
-function getPortalButton(event) {
-    return event?.currentTarget || event?.target?.closest?.("button") || null;
-}
+function getPortalButton(event) { return event?.currentTarget || event?.target?.closest?.("button") || null; }
 
-/**
- * Shows a small visible error in the portal row.
- * @param {Element|null} source Clicked portal.
- * @param {string} message User-facing failure text.
- * @returns {void}
- */
 function revealPortalFailure(source, message) {
     if (!source) return;
     source.classList.remove("awtsmoos-portal-opening");
@@ -41,11 +26,6 @@ function revealPortalFailure(source, message) {
     if (desc) desc.textContent = message;
 }
 
-/**
- * Marks one portal as the active chosen chamber.
- * @param {Element|null} source Active button.
- * @returns {void}
- */
 function markActivePortal(source) {
     const grid = source?.closest?.(".post-root-menu-grid");
     grid?.querySelectorAll?.(".awtsmoos-massive-menu-btn").forEach(button => {
@@ -55,11 +35,6 @@ function markActivePortal(source) {
     });
 }
 
-/**
- * Prevents touch/click duplicate firing on mobile glass.
- * @param {Element|null} portal Source portal.
- * @returns {boolean} True when this event may proceed.
- */
 function claimPortalTap(portal) {
     if (!portal) return true;
     if (portal.dataset.tapLock === "true") return false;
@@ -68,11 +43,6 @@ function claimPortalTap(portal) {
     return true;
 }
 
-/**
- * Creates a consistent event boundary for taps and clicks.
- * @param {Event} event Original event.
- * @returns {HTMLButtonElement|null|false} Source portal, or false if locked.
- */
 function beginPortalOpening(event) {
     event?.preventDefault?.();
     event?.stopPropagation?.();
@@ -84,23 +54,11 @@ function beginPortalOpening(event) {
     return portal;
 }
 
-/**
- * Ends the temporary loading state.
- * @param {Element|null} portal Source portal.
- * @returns {void}
- */
 function finishPortalOpening(portal) {
     portal?.classList.remove("awtsmoos-portal-opening");
     portal?.removeAttribute("aria-busy");
 }
 
-/**
- * Opens a TabManager chamber by registry key.
- * @param {object} tabRefs Registered tab references.
- * @param {string} name Tab key.
- * @param {Event} event Original event.
- * @returns {Promise<void>} Opens or visibly fails.
- */
 async function openRegisteredPortal(tabRefs, name, event) {
     const portal = beginPortalOpening(event);
     if (portal === false) return;
@@ -118,44 +76,11 @@ async function openRegisteredPortal(tabRefs, name, event) {
     }
 }
 
-/**
- * Opens the AI chat vessel as a lazy module.
- * @param {Event} event Original event.
- * @returns {Promise<void>} Resolves after invoking the oracle.
- */
-async function openOraclePortal(event) {
-    const portal = beginPortalOpening(event);
-    if (portal === false) return;
-    try {
-        const { openAIChat } = await import("/heichelos/post/ai/chat.js");
-        openAIChat();
-        markActivePortal(portal);
-    } catch (error) {
-        console.error("B\"H - AI Oracle portal failed:", error);
-        revealPortalFailure(portal, error?.message || "Oracle unavailable");
-    } finally {
-        finishPortalOpening(portal);
-    }
-}
-
-/**
- * Builds one root menu portal from a pure data blueprint.
- * @param {object} portal Portal data.
- * @param {object} tabRefs Registered tab references.
- * @returns {object} GenesisEngine blueprint.
- */
 function createMenuPortal(portal, tabRefs) {
-    const onClick = portal.type === "oracle"
-        ? openOraclePortal
-        : event => openRegisteredPortal(tabRefs, portal.name, event);
+    const onClick = event => openRegisteredPortal(tabRefs, portal.name, event);
     return {
         tag: "button",
-        attr: {
-            class: "awtsmoos-massive-menu-btn",
-            type: "button",
-            "data-portal": portal.name,
-            "aria-label": `${portal.title}: ${portal.desc}`
-        },
+        attr: { class: "awtsmoos-massive-menu-btn", type: "button", "data-portal": portal.name, "aria-label": `${portal.title}: ${portal.desc}` },
         events: { click: onClick, pointerup: onClick },
         children: [
             { tag: "div", attr: { class: "menu-icon-vessel", "aria-hidden": "true" }, text: portal.icon },
@@ -168,13 +93,6 @@ function createMenuPortal(portal, tabRefs) {
     };
 }
 
-/**
- * Populates the sidebar root menu.
- * @param {Element} actualTab Sidebar tab body.
- * @param {object} post Current post.
- * @param {object} tabRefs Registered tabs.
- * @returns {void}
- */
 export function populateRootMenu(actualTab, post, tabRefs) {
     if (!actualTab) return;
     actualTab.innerHTML = "";

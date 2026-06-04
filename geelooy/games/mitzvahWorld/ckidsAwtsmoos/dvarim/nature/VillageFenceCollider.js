@@ -2,20 +2,22 @@
 /**
  * @file VillageFenceCollider.js
  * @description
- * Chapter 226: The fence receives one honest invisible rail.
- * Visual fence posts are many decorative wooden letters. Collision is one or a
- * few simple boxes, aligned only after village grounding, then inserted into
- * worldOctree. Future AI: never add every fence slat to physics.
+ * Chapter 357: The fence collider learns where the fence actually begins.
+ *
+ * The visible fence recipe builds posts from local x=0 forward, while the old
+ * collider sat centered on x=0. The Awtsmoos moves the invisible rail to half
+ * its length, aligning collision with the wooden rails instead of the player.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
-const hidden = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0 });
+const hidden = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0, depthWrite: false });
 
 function makeBox(owner, name, size, pos = [0, 0, 0]) {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), hidden.clone());
   mesh.name = name;
+  mesh.visible = false;
   mesh.position.set(...pos);
   mesh.nivraAwtsmoos = owner;
   Object.assign(mesh.userData ||= {}, { isSolid: true, explicitCollision: true, isVillageFenceCollider: true, useAuthoredY: true });
@@ -36,13 +38,16 @@ export default class VillageFenceCollider extends Domem {
   async heescheel(olam) {
     this.olam = olam;
     this.mesh = new THREE.Group();
-    this.mesh.name = this.name || "VillageFenceCollider";
+    this.mesh.name = this.name || "VillageFenceCollider_aligned_half_length";
     this.mesh.position.copy(this.position.vector3());
     this.mesh.rotation.y = n(this.rotation?.y, 0);
     this.mesh.userData.awaitingVillageFinalTransform = true;
-    const boxSize = [n(this.options.length, 11), n(this.options.height, 1.15), n(this.options.depth, 0.55)];
-    const boxPos = [n(this.options.offsetX), boxSize[1] / 2, n(this.options.offsetZ)];
-    this.mesh.add(makeBox(this, "single_simple_fence_rail_collider", boxSize, boxPos));
+    const length = n(this.options.length, 11);
+    const height = n(this.options.height, 1.15);
+    const depth = n(this.options.depth, 0.42);
+    const centerX = n(this.options.offsetX, length * 0.5);
+    const centerZ = n(this.options.offsetZ, 0);
+    this.mesh.add(makeBox(this, "single_simple_fence_rail_collider_aligned", [length, height, depth], [centerX, height / 2, centerZ]));
     await olam.hoyseef(this);
     this.isReady = true;
   }
