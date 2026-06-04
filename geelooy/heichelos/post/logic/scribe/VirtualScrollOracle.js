@@ -2,12 +2,13 @@
 /**
  * @module VirtualScrollOracle
  * @description
- * The outer verse river is indexed to the current verse.
+ * The outer verse river obeys the visible subsection.
  *
- * Every scroll request first belongs to the exact subsection state of
- * `activeCurrent`. If verse N has more subsections, this module reveals those
- * subsections and refuses to birth verse N+1. This remains true for manual
- * scroll and auto-scroll, even if a generic nearest-wrapper buffer misses.
+ * Earlier versions let `activeCurrent` drift by chunk rectangles. Between two
+ * loaded verses that could make the oracle briefly serve the wrong verse. This
+ * version chooses ownership from the actual visible subsection first. If the
+ * reader's eyes are on verse N, verse N owns the next buffer request. Only when
+ * no subsection is visible does chunk geometry act as a fallback.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
@@ -19,8 +20,8 @@ import {
 
 export { parseScrollTarget };
 
-const VERSE_AHEAD_PX = 1400;
-const MIN_DELTA = 2;
+const VERSE_AHEAD_PX = 2600;
+const MIN_DELTA = 1;
 let activeRenderer = null;
 let activeTotalChunks = 0;
 let activeScrollHandler = null;
@@ -43,7 +44,7 @@ function visibleAnchor() {
     let distance = Infinity;
     document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake'], #realPost .section").forEach(node => {
         const rect = node.getBoundingClientRect();
-        if (rect.bottom < -240 || rect.top > window.innerHeight + 240) return;
+        if (rect.bottom < -320 || rect.top > window.innerHeight + 320) return;
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
         if (d < distance) { best = node; distance = d; }
     });
@@ -56,8 +57,49 @@ function preserveAnchor(anchor) {
     if (Math.abs(delta) > 0.5) window.scrollBy(0, delta);
 }
 
+function visibleSubsection() {
+    const probe = Math.min(window.innerHeight * 0.42, window.innerHeight - 140);
+    const awake = [...document.querySelectorAll(".sub-awtsmoos[data-awtsmoos-idx][data-awtsmoos-sub]")];
+    let best = null;
+    let distance = Infinity;
+    awake.forEach(node => {
+        const rect = node.getBoundingClientRect();
+        if (rect.bottom < -420 || rect.top > window.innerHeight + 420) return;
+        const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
+        if (d < distance) { best = node; distance = d; }
+    });
+    return best;
+}
+
+function visibleVerseIndex() {
+    const sub = visibleSubsection();
+    if (!sub) return null;
+    const idx = Number.parseInt(sub.dataset.awtsmoosIdx || "", 10);
+    return Number.isFinite(idx) ? idx : null;
+}
+
+function fallbackChunkIndex() {
+    const probe = Math.min(window.innerHeight * 0.45, window.innerHeight - 120);
+    let best = { id: activeCurrent, distance: Infinity };
+    sortedIds().forEach(id => {
+        const node = chunkNode(id);
+        if (!node) return;
+        const rect = node.getBoundingClientRect();
+        const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
+        if (d < best.distance) best = { id, distance: d };
+    });
+    return best.id;
+}
+
+function chooseOwnerVerse() {
+    const visible = visibleVerseIndex();
+    activeCurrent = visible === null ? fallbackChunkIndex() : visible;
+    window.__awtsmoosCurrentVerseIndex = activeCurrent;
+    return activeCurrent;
+}
+
 function currentChunkNode() {
-    updateCurrentFromViewport();
+    chooseOwnerVerse();
     return chunkNode(activeCurrent);
 }
 
@@ -99,39 +141,12 @@ async function reveal(id, place) {
     revealed.add(id);
     if (anchor) preserveAnchor(anchor);
     requestAnimationFrame(() => {
-        updateCurrentFromViewport();
+        chooseOwnerVerse();
         updateLocationFromViewport();
         lastY = window.scrollY;
-        setTimeout(() => { streaming = false; }, 25);
+        setTimeout(() => { streaming = false; }, 20);
     });
     return true;
-}
-
-function updateCurrentFromViewport() {
-    const probe = Math.min(window.innerHeight * 0.45, window.innerHeight - 120);
-    let best = { id: activeCurrent, distance: Infinity };
-    sortedIds().forEach(id => {
-        const node = chunkNode(id);
-        if (!node) return;
-        const rect = node.getBoundingClientRect();
-        const distance = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (distance < best.distance) best = { id, distance };
-    });
-    activeCurrent = best.id;
-    window.__awtsmoosCurrentVerseIndex = activeCurrent;
-}
-
-function visibleSubsection() {
-    const probe = Math.min(window.innerHeight * 0.48, window.innerHeight - 120);
-    const awake = [...document.querySelectorAll(".sub-awtsmoos[data-awtsmoos-idx][data-awtsmoos-sub]")];
-    let best = null;
-    let distance = Infinity;
-    awake.forEach(node => {
-        const rect = node.getBoundingClientRect();
-        const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (d < distance) { best = node; distance = d; }
-    });
-    return best;
 }
 
 function markVisible(node) {
@@ -158,12 +173,12 @@ function updateLocationFromViewport() {
 
 export async function ensureVerseBuffer(direction = 1, options = {}) {
     const delta = direction >= 0 ? 1 : -1;
-    updateCurrentFromViewport();
+    chooseOwnerVerse();
 
     if (currentOwnsDirection(delta)) {
         return ensureSubsectionBufferFor(activeCurrent, delta, {
             force: options.force ?? true,
-            count: options.count || 6
+            count: options.count || 10
         });
     }
 
@@ -174,13 +189,13 @@ export async function ensureVerseBuffer(direction = 1, options = {}) {
 
 async function handleScrollIntent(delta) {
     if (Math.abs(delta) < MIN_DELTA) return;
-    updateCurrentFromViewport();
+    chooseOwnerVerse();
 
-    const innerConsumed = consumeSubsectionScrollIntentFor(activeCurrent, delta, { count: 4 });
+    const innerConsumed = consumeSubsectionScrollIntentFor(activeCurrent, delta, { count: 8 });
     updateLocationFromViewport();
     if (innerConsumed || currentOwnsDirection(delta)) return;
 
-    await ensureVerseBuffer(delta >= 0 ? 1 : -1);
+    await ensureVerseBuffer(delta >= 0 ? 1 : -1, { count: 8 });
 }
 
 function attach() {
@@ -200,7 +215,10 @@ function attach() {
     window.addEventListener("scroll", activeScrollHandler, { passive: true });
     window.addEventListener("wheel", activeScrollHandler, { passive: true });
     window.addEventListener("touchmove", activeScrollHandler, { passive: true });
-    setInterval(updateLocationFromViewport, 700);
+    setInterval(() => {
+        chooseOwnerVerse();
+        updateLocationFromViewport();
+    }, 700);
 }
 
 function firstParam(params, names) {

@@ -2,25 +2,21 @@
 /**
  * @module SubsectionVirtualizer
  * @description
- * The baby-subsection river is owned by its verse index.
+ * A wider no-prune buffer for the inner verse stream.
  *
- * The previous stream asked the nearest visible subsection wrapper whether the
- * verse was finished. A huge verse could drift out of that nearest calculation,
- * letting the outer verse stream jump ahead too early. This version makes the
- * law explicit: verse N owns the subsection state for verse N. The outer oracle
- * may only ask that exact state before revealing verse N+1.
- *
- * No live deletion. No pruning. No forgetting during a reading session.
+ * The visible subsection owns the current verse, and each verse keeps a generous
+ * living margin of baby chambers. The goal is not minimal DOM; the goal is that
+ * the reader cannot feel where virtual boundaries are.
  */
 
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
 
-const AHEAD_PX = 2200;
-const FORCE_AHEAD_PX = 3200;
-const ACTIVE_PAD_PX = 2800;
-const MIN_DELTA = 2;
-const MIN_AWAKE = 5;
-const MAX_AWAKE = 10;
+const AHEAD_PX = 4200;
+const FORCE_AHEAD_PX = 6200;
+const ACTIVE_PAD_PX = 5200;
+const MIN_DELTA = 1;
+const MIN_AWAKE = 8;
+const MAX_AWAKE = 18;
 const REGISTRY = new Map();
 let pendingInline = 0;
 let debugNode = null;
@@ -52,7 +48,7 @@ function readerFontPx() {
 function desiredCount(total) {
     const font = clamp(readerFontPx(), 18, 180);
     const room = Math.max(420, window.innerHeight || 720);
-    const byFont = Math.floor(room / (font * 2.45)) + 4;
+    const byFont = Math.floor(room / (font * 1.85)) + 8;
     return Math.min(total, clamp(byFont, MIN_AWAKE, MAX_AWAKE));
 }
 
@@ -65,7 +61,7 @@ function scheduleInlineRefresh() {
         } catch (error) {
             if (window.__awtsmoosInlineDebug) console.warn("B\"H inline remanifest resisted", error);
         }
-    }, 100);
+    }, 120);
 }
 
 function makeAwake(entry, sectionIndex) {
@@ -85,7 +81,7 @@ function visibleAnchor() {
     let distance = Infinity;
     document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").forEach(node => {
         const rect = node.getBoundingClientRect();
-        if (rect.bottom < -260 || rect.top > window.innerHeight + 260) return;
+        if (rect.bottom < -360 || rect.top > window.innerHeight + 360) return;
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
         if (d < distance) { best = node; distance = d; }
     });
@@ -178,7 +174,7 @@ function bufferState(state, direction = 1, options = {}) {
     if (!state) return false;
     const force = !!options.force;
     let changed = false;
-    const count = clamp(options.count || 1, 1, 8);
+    const count = clamp(options.count || 1, 1, 12);
     for (let i = 0; i < count; i++) {
         if (direction >= 0 && shouldAwakenNext(state, force)) changed = appendNext(state) || changed;
         else if (direction < 0 && shouldAwakenPrevious(state, force)) changed = prependPrevious(state) || changed;
@@ -241,14 +237,14 @@ function updateDebugPanel() {
     }
     const stat = [...REGISTRY.values()].map(s => `${s.sectionIndex}:${s.first}-${s.last}/${s.entries.length}`).join(" · ");
     const awake = document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").length;
-    debugNode.textContent = `B\"H indexed no-prune; awake ${awake}; ${stat}`;
+    debugNode.textContent = `B\"H wide indexed no-prune; awake ${awake}; ${stat}`;
 }
 
 export function makeVirtualSubsectionWindow(texts, sectionIndex, targetSub = null) {
     const wrapper = document.createElement("div");
     wrapper.className = "awtsmoos-subsection-wrap awtsmoos-subsection-window toichen";
     wrapper.dataset.awtsmoosIdx = String(sectionIndex);
-    wrapper.dataset.virtualSubsections = "indexed-no-prune-subsection-first";
+    wrapper.dataset.virtualSubsections = "wide-indexed-no-prune-subsection-first";
 
     const entries = texts.map((text, index) => ({ index, text })).filter(entry => String(entry.text || "").trim());
     const target = clamp(Number.isFinite(targetSub) ? targetSub : asNum(targetSub, 0), 0, Math.max(0, entries.length - 1));
@@ -287,5 +283,5 @@ window.__awtsmoosSubsectionVirtualStats = () => [...REGISTRY.values()].map(state
     first: state.first,
     last: state.last,
     awake: Math.max(0, state.last - state.first + 1),
-    mode: "indexed-no-prune-subsection-first"
+    mode: "wide-indexed-no-prune-subsection-first"
 }));

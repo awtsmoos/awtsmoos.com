@@ -2,12 +2,10 @@
 /**
  * @module uiHandlers
  * @description
- * Chapter 394: NPC UI becomes a sealed vessel, not a leaky veil.
- *
- * Every overlay listener now captures pointer/touch/mouse/click and calls the
- * full sealing triad: preventDefault, stopPropagation, stopImmediatePropagation.
- * The 3D world receives nothing while the menu is open. The level board now
- * lists all twenty existing JSON levels and launches them directly from the NPC.
+ * Chapter 113: Buttons must receive the click before the veil seals the world.
+ * The old root capture seal used stopImmediatePropagation before button handlers
+ * could run. This complete file keeps the world sealed with bubbling listeners,
+ * but lets CLOSE / LEVELS / BUY / SELL / level cards execute first.
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
 
@@ -16,17 +14,18 @@ const LEVELS = Object.freeze(Array.from({ length: 20 }, (_, i) => [`ladder-${i +
 const LEVEL_BASE = "/games/mitzvahWorld/levels/ladder/data/";
 const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
 const BAG_KEY = "awtsmoosMitzvahPersonalPerutas";
-const CAPTURE_EVENTS = ["pointerdown", "pointerup", "click", "mousedown", "mouseup", "touchstart", "touchend"];
+const SEAL_EVENTS = ["pointerdown", "pointerup", "mousedown", "mouseup", "touchstart", "touchend"];
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const esc = s => String(s || "").replace(/[<>&"']/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "\"": "&quot;", "'": "&#39;" }[c]));
 const q = name => document.querySelector(`[shaym="${name}"], [data-shaym="${name}"], #${name}, .${name}`);
 const worker = manager => manager?.eved || window.mana?.socket?.eved || window.mana?.eved || null;
 
-function sealEvent(event) { event?.preventDefault?.(); event?.stopPropagation?.(); event?.stopImmediatePropagation?.(); }
-function bindClick(el, fn) { if (!el) return; el.addEventListener("click", event => { sealEvent(event); fn(event); }, true); }
-function sealDomIsland(root) { CAPTURE_EVENTS.forEach(type => root.addEventListener(type, event => { if (event.target === root && type === "click") return; sealEvent(event); }, true)); }
+function sealEvent(event) { event?.preventDefault?.(); event?.stopPropagation?.(); }
+function hardSeal(event) { event?.preventDefault?.(); event?.stopPropagation?.(); event?.stopImmediatePropagation?.(); }
+function bindClick(el, fn) { if (!el) return; el.addEventListener("click", event => { hardSeal(event); fn(event); }, false); }
+function sealDomIsland(root) { SEAL_EVENTS.forEach(type => root.addEventListener(type, sealEvent, false)); }
 function oldPanels() { return ".premium-dialogue-container,[shaym='dialogue-vessel'],.npcChallengeOverlay,.npc-challenge-overlay,.challengeOverlay,#awtsmoos-npc-overlay,#awtsmoos-npc-shop,#inventoryScreen,.store-container,.bz-panel,.construction-screen"; }
-function closeNpcOverlay(event) { sealEvent(event); document.querySelectorAll(oldPanels()).forEach(el => el.id === "inventoryScreen" || el.classList?.contains("store-container") ? el.classList.add("hidden") : el.remove()); }
+function closeNpcOverlay(event) { hardSeal(event); document.querySelectorAll(oldPanels()).forEach(el => el.id === "inventoryScreen" || el.classList?.contains("store-container") ? el.classList.add("hidden") : el.remove()); }
 function readBag() { try { return n(localStorage.getItem(BAG_KEY), 0); } catch { return 0; } }
 function writeBag(value) { try { localStorage.setItem(BAG_KEY, String(Math.max(0, Math.floor(n(value))))); } catch {} }
 function changeBag(delta, reason) { const value = Math.max(0, readBag() + n(delta)); writeBag(value); window.dispatchEvent(new CustomEvent("awtsmoosPersonalPerutas", { detail: { personalPerutas: value, delta, reason } })); return value; }
@@ -40,7 +39,7 @@ function showHud(host = hudHost()) { const c = hudCard(); if (c) c.style.display
 function mustHideHud(data = {}) { return data.hidePerutahHud === true || data.villageRay === true || !(Number(data.requiredPerutos) > 0); }
 function lineHtml(lines = []) { return (Array.isArray(lines) ? lines : [lines]).slice(0, 4).map(line => `<p>${esc(line)}</p>`).join(""); }
 function levelLabel(id, fallback) { const num = String(id).match(/ladder-(\d+)/)?.[1]; return num ? `${fallback} — ${id}` : fallback; }
-function buttonsHtml() { return LEVELS.map(([id, label]) => `<button data-level-id="${esc(id)}" class="awts-npc-level-card"><strong>${esc(levelLabel(id, label))}</strong><span>Load JSON challenge</span></button>`).join(""); }
+function buttonsHtml() { return LEVELS.map(([id, label]) => `<button type="button" data-level-id="${esc(id)}" class="awts-npc-level-card"><strong>${esc(levelLabel(id, label))}</strong><span>Load JSON challenge</span></button>`).join(""); }
 function clothing(item = {}) { return { className: "Apparel", quantity: 1, stackSize: 1, sellValue: item.sellValue || Math.max(1, Math.floor((item.price || 2) / 2)), ...item, isTintable: true }; }
 
 async function fetchLevel(id) {
@@ -65,8 +64,7 @@ function updatePerutahHud(data = {}) {
   const host = hudHost();
   if (mustHideHud(data)) return hideHud(host);
   showHud(host);
-  const ds = host.dataset || (host.dataset = {});
-  const required = n(data.requiredPerutos, 9);
+  const ds = host.dataset || (host.dataset = {}), required = n(data.requiredPerutos, 9);
   const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : n(ds.collectedPerutos, 0) + n(data.added, 0);
   const globalCoins = Number.isFinite(Number(data.globalCoins)) ? Number(data.globalCoins) : readGlobalCoins() + n(data.globalAdded, 0);
   ds.requiredPerutos = String(required); ds.collectedPerutos = String(collected); writeGlobalCoins(globalCoins);
@@ -88,10 +86,10 @@ function openNpcChallengeOverlay(manager, data = {}) {
   closeNpcOverlay(); installNpcCss();
   const overlay = document.createElement("div"); overlay.id = "awtsmoos-npc-overlay"; overlay.setAttribute("role", "dialog"); overlay.setAttribute("aria-modal", "true");
   const chooser = data.chooserOpen ? `<div class="awts-npc-level-grid">${buttonsHtml()}</div>` : "";
-  const menu = data.chatOnly || data.chooserOpen ? "" : `<button data-npc-choose class="awts-npc-btn awts-primary">LEVELS</button><button data-npc-buy class="awts-npc-btn awts-shop-warm">BUY</button><button data-npc-sell class="awts-npc-btn awts-shop-warm">SELL</button>`;
-  overlay.innerHTML = `<section class="awts-npc-card"><h2 class="awts-npc-title">${esc(data.title || data.fromNpc || "Village Guide")}</h2><div class="awts-npc-lines">${lineHtml(data.lines || [])}</div>${chooser}<div class="awts-npc-actions"><button data-npc-close class="awts-npc-btn awts-close">CLOSE</button>${menu}</div></section>`;
+  const menu = data.chatOnly || data.chooserOpen ? "" : `<button type="button" data-npc-choose class="awts-npc-btn awts-primary">LEVELS</button><button type="button" data-npc-buy class="awts-npc-btn awts-shop-warm">BUY</button><button type="button" data-npc-sell class="awts-npc-btn awts-shop-warm">SELL</button>`;
+  overlay.innerHTML = `<section class="awts-npc-card"><h2 class="awts-npc-title">${esc(data.title || data.fromNpc || "Village Guide")}</h2><div class="awts-npc-lines">${lineHtml(data.lines || [])}</div>${chooser}<div class="awts-npc-actions"><button type="button" data-npc-close class="awts-npc-btn awts-close">CLOSE</button>${menu}</div></section>`;
   document.body.appendChild(overlay); sealDomIsland(overlay);
-  overlay.addEventListener("click", e => { if (e.target === overlay) closeNpcOverlay(e); }, true);
+  overlay.addEventListener("click", e => { if (e.target === overlay) closeNpcOverlay(e); }, false);
   bindClick(overlay.querySelector("[data-npc-close]"), closeNpcOverlay);
   bindClick(overlay.querySelector("[data-npc-choose]"), () => openLevelSelect(manager, { title: data.selectorTitle || "NPC CHALLENGES", lines: data.lines }));
   bindClick(overlay.querySelector("[data-npc-buy]"), () => openShopOverlay(manager, data, "buy"));
@@ -102,18 +100,18 @@ function shopRows(data, mode) { const buy = data.shopInventory || data.items || 
 function openShopOverlay(manager, data = {}, mode = "buy") { closeNpcOverlay(); installNpcCss(); const host = document.createElement("div"); host.id = "awtsmoos-npc-shop"; host.dataset.mode = mode; host.__awtsData = data; host.setAttribute("role", "dialog"); host.setAttribute("aria-modal", "true"); document.body.appendChild(host); sealDomIsland(host); renderShop(host, manager); }
 function renderShop(host, manager) {
   const data = host.__awtsData || {}, mode = host.dataset.mode || "buy", rows = shopRows(data, mode);
-  host.innerHTML = `<section class="awts-shop-card"><h2 class="awts-shop-title">${esc(data.npcName || data.fromNpc || "Guide")} Market</h2><div class="awts-shop-wallet">Bag: ${readBag()} perutas</div><div class="awts-shop-tabs"><button data-shop-tab="buy" class="awts-shop-btn ${mode === "buy" ? "awts-primary" : "awts-shop-warm"}">BUY</button><button data-shop-tab="sell" class="awts-shop-btn ${mode === "sell" ? "awts-primary" : "awts-shop-warm"}">SELL</button></div><div class="awts-shop-list">${rows.length ? rows.map(row => `<div class="awts-shop-row"><div class="awts-shop-icon">${esc(row.icon || "✦")}</div><div><h3>${esc(row.name || "Item")}</h3><p>${esc(row.description || "Colored clothing.")}</p><div class="awts-shop-price">${row.price} perutas</div></div><button data-shop-act="${row.type}" data-shop-index="${row.index}" class="awts-shop-btn awts-shop-warm">${row.type === "buy" ? "BUY" : "SELL"}</button></div>`).join("") : `<div class="awts-muted">Nothing here yet.</div>`}</div><div class="awts-npc-actions"><button data-shop-close class="awts-npc-btn awts-close">CLOSE</button><button data-shop-back class="awts-npc-btn awts-primary">BACK</button></div></section>`;
+  host.innerHTML = `<section class="awts-shop-card"><h2 class="awts-shop-title">${esc(data.npcName || data.fromNpc || "Guide")} Market</h2><div class="awts-shop-wallet">Bag: ${readBag()} perutas</div><div class="awts-shop-tabs"><button type="button" data-shop-tab="buy" class="awts-shop-btn ${mode === "buy" ? "awts-primary" : "awts-shop-warm"}">BUY</button><button type="button" data-shop-tab="sell" class="awts-shop-btn ${mode === "sell" ? "awts-primary" : "awts-shop-warm"}">SELL</button></div><div class="awts-shop-list">${rows.length ? rows.map(row => `<div class="awts-shop-row"><div class="awts-shop-icon">${esc(row.icon || "✦")}</div><div><h3>${esc(row.name || "Item")}</h3><p>${esc(row.description || "Colored clothing.")}</p><div class="awts-shop-price">${row.price} perutas</div></div><button type="button" data-shop-act="${row.type}" data-shop-index="${row.index}" class="awts-shop-btn awts-shop-warm">${row.type === "buy" ? "BUY" : "SELL"}</button></div>`).join("") : `<div class="awts-muted">Nothing here yet.</div>`}</div><div class="awts-npc-actions"><button type="button" data-shop-close class="awts-npc-btn awts-close">CLOSE</button><button type="button" data-shop-back class="awts-npc-btn awts-primary">BACK</button></div></section>`;
   bindClick(host.querySelector("[data-shop-close]"), closeNpcOverlay);
   bindClick(host.querySelector("[data-shop-back]"), () => openNpcChallengeOverlay(manager, data));
   host.querySelectorAll("[data-shop-tab]").forEach(btn => bindClick(btn, () => { host.dataset.mode = btn.dataset.shopTab; renderShop(host, manager); }));
   host.querySelectorAll("[data-shop-act]").forEach(btn => bindClick(btn, () => shopAction(host, Number(btn.dataset.shopIndex), btn.dataset.shopAct)));
 }
-function shopAction(host, index, act) { const data = host.__awtsData || {}, rows = shopRows(data, act === "sell" ? "sell" : "buy"), item = rows.find(row => row.index === index); if (!item) return; if (act === "buy") { if (readBag() < item.price) return alert("Not enough bag perutas."); changeBag(-item.price, "buy clothing"); send({ addItem: clothing(item) }); } if (act === "sell") { changeBag(item.price, "sell clothing"); send({ updateInventoryItem: { sourceType: "inventory", index: item.index, itemData: { ...item, quantity: 0 } } }); data.playerInventory[item.index] = null; } renderShop(host); }
+function shopAction(host, index, act) { const data = host.__awtsData || {}, rows = shopRows(data, act === "sell" ? "sell" : "buy"), item = rows.find(row => row.index === index); if (!item) return; if (act === "buy") { if (readBag() < item.price) return alert("Not enough bag perutas."); changeBag(-item.price, "buy clothing"); send({ addItem: clothing(item) }); } if (act === "sell") { changeBag(item.price, "sell clothing"); send({ updateInventoryItem: { sourceType: "inventory", index: item.index, itemData: { ...item, quantity: 0 } } }); data.playerInventory[item.index] = null; } renderShop(host, null); }
 function navigateLevel(manager, data = {}) { const next = String(data.next || data.path || "").trim().replace(/\.js$/i, ".json"); if (next) launchLevel(manager, next).catch(error => console.error('B"H - direct level navigation failed', error)); }
 function dispatchInventory(ob = {}) { closeNpcOverlay(); window.dispatchEvent(new CustomEvent("awtsInventoryUpdate", { detail: ob })); document.getElementById("inventoryScreen")?.dispatchEvent(new CustomEvent("awtsInventoryOpen", { bubbles: true })); }
 function tzedakahLetters(data = {}) { const msg = document.createElement("div"); msg.textContent = data.text || "צדקה תציל ממות — Giving opens the gate"; msg.style.cssText = "position:fixed;left:50%;top:32%;transform:translate(-50%,-50%);z-index:2147483647;font:bold 24px Arial;color:#ffd54a;text-align:center;text-shadow:0 0 18px #3cff86,0 0 10px #000;pointer-events:none;white-space:pre-line;"; document.body.appendChild(msg); setTimeout(() => msg.remove(), 1400); }
 function postSpikeReset(manager) { worker(manager)?.postMessage?.({ resetAfterSpikeDeath: { position: START_FEET, forceRunMode: false, resetLevelCollectibles: true } }); }
-function showSpikeResetOverlay(manager) { if (document.getElementById("awtsmoos-spike-reset-overlay")) return; const overlay = document.createElement("div"); overlay.id = "awtsmoos-spike-reset-overlay"; overlay.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(30,0,0,.82);display:grid;place-items:center;color:#fff;font-family:Arial;text-align:center;pointer-events:auto;"; overlay.innerHTML = `<div style="padding:24px;border-radius:28px;background:rgba(35,6,0,.72);border:3px solid #ffd260"><div style="font-size:34px">לבה!</div><div data-spike-reset-text>Tap or press any key to return</div><div data-spike-count style="font-size:72px;color:#ffd54a"></div></div>`; document.body.appendChild(overlay); sealDomIsland(overlay); const text = overlay.querySelector("[data-spike-reset-text]"), count = overlay.querySelector("[data-spike-count]"); let started = false; const start = e => { sealEvent(e); if (started) return; started = true; text.textContent = "Returning in..."; let left = 3; count.textContent = String(left); const timer = setInterval(() => { left -= 1; if (left <= 0) { clearInterval(timer); overlay.remove(); postSpikeReset(manager); return; } count.textContent = String(left); }, 700); }; overlay.addEventListener("pointerdown", start, { once: true, capture: true }); window.addEventListener("keydown", start, { once: true, capture: true }); }
+function showSpikeResetOverlay(manager) { if (document.getElementById("awtsmoos-spike-reset-overlay")) return; const overlay = document.createElement("div"); overlay.id = "awtsmoos-spike-reset-overlay"; overlay.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(30,0,0,.82);display:grid;place-items:center;color:#fff;font-family:Arial;text-align:center;pointer-events:auto;"; overlay.innerHTML = `<div style="padding:24px;border-radius:28px;background:rgba(35,6,0,.72);border:3px solid #ffd260"><div style="font-size:34px">לבה!</div><div data-spike-reset-text>Tap or press any key to return</div><div data-spike-count style="font-size:72px;color:#ffd54a"></div></div>`; document.body.appendChild(overlay); sealDomIsland(overlay); const text = overlay.querySelector("[data-spike-reset-text]"), count = overlay.querySelector("[data-spike-count]"); let started = false; const start = e => { hardSeal(e); if (started) return; started = true; text.textContent = "Returning in..."; let left = 3; count.textContent = String(left); const timer = setInterval(() => { left -= 1; if (left <= 0) { clearInterval(timer); overlay.remove(); postSpikeReset(manager); return; } count.textContent = String(left); }, 700); }; overlay.addEventListener("pointerdown", start, { once: true }); window.addEventListener("keydown", start, { once: true }); }
 function directFallback(manager, shaym, ob = {}) { if (shaym === "openNpcChallengeOverlay") openNpcChallengeOverlay(manager, ob); if (shaym === "openLevelSelect") openLevelSelect(manager, ob); if (shaym === "levelGoal") setLevelGoal(ob); if (shaym === "perutahProgress") updatePerutahHud(ob); if (shaym === "gameHUD") { if (ob.perutahProgress) updatePerutahHud(ob.perutahProgress); if (ob.personalPerutas) changeBag(ob.personalPerutas.personalDelta || 0, ob.personalPerutas.reason); } if (shaym === "inventoryScreen") dispatchInventory(ob); if (shaym === "storeScreen" && ob?.open) openShopOverlay(manager, ob.open, ob.open.mode || "buy"); if (shaym === "navigateLevel") navigateLevel(manager, ob); if (shaym === "tzedakahBlessing") tzedakahLetters(ob); if (shaym === "effectsOverlay" && ob?.effect === "spikeDeath") showSpikeResetOverlay(manager); if (shaym === "effectsOverlay" && ob?.effect === "tzedakahBlessing") tzedakahLetters(ob); }
 
 export default function uiHandlers(manager) {

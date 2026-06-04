@@ -2,13 +2,13 @@
 /**
  * @file messageHandler.js
  * @description
- * Chapter 186: The Browser Handler imports the single centered NPC/shop UI,
- * authored cottage colliders, and readable lava seal. Future AI: if BUY/SELL
- * drifts left, first check this cache seal and the one UI vessel.
+ * Chapter 114: The browser handler imports the repaired NPC UI seal.
+ * The previous cached UI swallowed button clicks before handlers could run.
+ * This file cache-busts the fixed handler so Android receives the working menu.
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=centered-npc-shop-purges-inventory-20260602-bh186";
+import uiHandlers from "./handlers/ui.js?v=npc-buttons-work-20260604-bh443";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
 import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
 

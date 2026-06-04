@@ -23,18 +23,18 @@ export default {
     ],
     "ProceduralSky": [
       {
-        "name": "stable_soft_golden_sky",
-        "timeOfDay": 16.8,
+        "name": "stable_soft_blue_gold_village_sky",
+        "timeOfDay": 16.4,
         "timeMultiplier": 0,
-        "sunIntensity": 0.52,
-        "hemiIntensity": 0.72,
-        "ambientIntensity": 0.38,
-        "fogNear": 110,
-        "fogFar": 470,
-        "topColor": 8363976,
-        "bottomColor": 15309397,
-        "horizonGlow": 15239480,
-        "mobileLambertGrade": "soft-readable-not-blown-out",
+        "sunIntensity": 0.44,
+        "hemiIntensity": 0.66,
+        "ambientIntensity": 0.34,
+        "fogNear": 130,
+        "fogFar": 540,
+        "topColor": 7903169,
+        "bottomColor": 15115370,
+        "horizonGlow": 15774046,
+        "mobileLambertGrade": "soft-blue-gold-readable",
         "position": {
           "x": 0,
           "y": 0,
@@ -46,18 +46,18 @@ export default {
     "VillageBackdrop": [],
     "VillageLightingRig": [
       {
-        "name": "stable_dim_golden_lambert_rig",
-        "skyColor": 14271642,
-        "groundColor": 2900776,
-        "hemiIntensity": 0.52,
-        "sunColor": 16756842,
-        "sunIntensity": 0.72,
-        "sunX": -22,
-        "sunY": 24,
-        "sunZ": 20,
-        "fogColor": 14260834,
-        "fogNear": 115,
-        "fogFar": 470
+        "name": "stable_picture_reference_lambert_rig",
+        "skyColor": 14208946,
+        "groundColor": 4216890,
+        "hemiIntensity": 0.48,
+        "sunColor": 16760700,
+        "sunIntensity": 0.62,
+        "sunX": -24,
+        "sunY": 26,
+        "sunZ": 18,
+        "fogColor": 13806203,
+        "fogNear": 135,
+        "fogFar": 540
       }
     ],
     "ProceduralTerrain": [
@@ -125,55 +125,69 @@ export default {
     "VillageStonePath": [],
     "VillagePictureProp": [
       {
-        "name": "main_rich_dirt_road_to_guide",
+        "name": "reference_main_dirt_path_to_guide",
         "kind": "pictureDirtPath",
         "position": {
-          "x": -6.8,
-          "z": 12.8
+          "x": -7.4,
+          "z": 12.6
         },
-        "scale": 1.08,
+        "scale": 1.12,
         "rotation": {
-          "y": -0.24
+          "y": -0.18
         },
         "terrainLawGrounded": true,
         "groundLift": 0.01
       },
       {
-        "name": "house_cobble_arrival_road",
+        "name": "reference_house_cobble_arrival",
         "kind": "cobbleRoad",
         "position": {
-          "x": -4.6,
-          "z": 9.4
-        },
-        "scale": 1.18,
-        "rotation": {
-          "y": -0.2
-        },
-        "terrainLawGrounded": true,
-        "groundLift": 0.02
-      },
-      {
-        "name": "brick_house_grounded_steps",
-        "kind": "steps",
-        "position": {
-          "x": -2.2,
-          "z": 9.1
+          "x": -0.8,
+          "z": 8.2
         },
         "scale": 1.1,
         "rotation": {
-          "y": -0.35
+          "y": -0.28
         },
         "terrainLawGrounded": true,
         "groundLift": 0.02
       },
       {
-        "name": "stable_main_brick_house",
+        "name": "reference_door_steps_flush",
+        "kind": "steps",
+        "position": {
+          "x": 3,
+          "z": 8
+        },
+        "scale": 1.05,
+        "rotation": {
+          "y": -0.25
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0.02
+      },
+      {
+        "name": "reference_lantern_cobble_pad",
+        "kind": "cobbleRoad",
+        "position": {
+          "x": -7.4,
+          "z": 10.5
+        },
+        "scale": 0.55,
+        "rotation": {
+          "y": 0.15
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0.02
+      },
+      {
+        "name": "reference_main_brick_house",
         "kind": "gableHouse",
         "position": {
-          "x": 4.5,
-          "z": 5.8
+          "x": 4.8,
+          "z": 5.6
         },
-        "scale": 3.35,
+        "scale": 3.25,
         "rotation": {
           "y": -0.25
         },
@@ -181,13 +195,13 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "stable_far_brick_house",
+        "name": "reference_far_brick_house",
         "kind": "gableHouse",
         "position": {
-          "x": 22,
-          "z": -15
+          "x": 24,
+          "z": -18
         },
-        "scale": 2.65,
+        "scale": 2.35,
         "rotation": {
           "y": 0.35
         },
@@ -195,35 +209,35 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "stable_lantern_by_path",
+        "name": "reference_lantern_by_path",
         "kind": "lantern",
         "position": {
           "x": -7.4,
           "z": 10.8
         },
-        "scale": 1.45,
+        "scale": 1.6,
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "stable_visible_well",
+        "name": "reference_visible_well",
         "kind": "well",
         "position": {
-          "x": 8.8,
-          "z": 10.6
+          "x": 9.5,
+          "z": 10.4
         },
-        "scale": 0.95,
+        "scale": 1,
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "stable_left_low_fence",
+        "name": "reference_left_low_fence",
         "kind": "fence",
         "position": {
           "x": -16,
           "z": 11.5
         },
-        "scale": 1.25,
+        "scale": 1.35,
         "rotation": {
           "y": -0.28
         },
@@ -231,41 +245,55 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "stable_cottage_flowers",
+        "name": "reference_house_flower_border",
         "kind": "flowerPatch",
-        "count": 140,
-        "radius": 3.4,
+        "count": 210,
+        "radius": 3.8,
         "seed": 88,
         "position": {
           "x": 1.8,
           "z": 8.2
+        },
+        "scale": 1.08,
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "reference_tree_flower_border",
+        "kind": "flowerPatch",
+        "count": 210,
+        "radius": 5.8,
+        "seed": 92,
+        "position": {
+          "x": -18,
+          "z": 13
+        },
+        "scale": 1.1,
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "reference_path_meadow_detail",
+        "kind": "meadowDetail",
+        "count": 120,
+        "radius": 5.2,
+        "seed": 122,
+        "position": {
+          "x": -8,
+          "z": 10.8
         },
         "scale": 1,
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "stable_tree_flowers",
-        "kind": "flowerPatch",
-        "count": 130,
-        "radius": 5.2,
-        "seed": 92,
-        "position": {
-          "x": -18,
-          "z": 13
-        },
-        "scale": 1.05,
-        "terrainLawGrounded": true,
-        "groundLift": 0
-      },
-      {
-        "name": "stable_left_anchor_tree",
+        "name": "reference_left_anchor_tree",
         "kind": "pictureAnchorTree",
         "position": {
           "x": -18,
           "z": 14
         },
-        "scale": 1.25,
+        "scale": 1.35,
         "rotation": {
           "y": -0.3
         },
@@ -273,13 +301,13 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "stable_mid_tree",
+        "name": "reference_path_mid_tree",
         "kind": "pictureAnchorTree",
         "position": {
-          "x": 10,
-          "z": -5
+          "x": 9.5,
+          "z": -4.5
         },
-        "scale": 0.78,
+        "scale": 0.86,
         "rotation": {
           "y": 0.8
         },
@@ -287,67 +315,58 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "stable_far_tree",
+        "name": "reference_right_depth_tree",
         "kind": "pictureAnchorTree",
         "position": {
-          "x": 24,
-          "z": -22
+          "x": 22,
+          "z": -18
         },
-        "scale": 0.62,
+        "scale": 0.78,
         "rotation": {
           "y": -1.1
         },
         "terrainLawGrounded": true,
         "groundLift": 0
-      }
-    ],
-    "VillageRoadCollider": [
-      {
-        "name": "main_road_simple_walkable_collider",
-        "targetName": "main_rich_dirt_road_to_guide",
-        "width": 5,
-        "length": 38,
-        "height": 0.16,
-        "edgeColliders": false,
-        "position": {
-          "x": -6.8,
-          "y": 0,
-          "z": 12.8
-        },
-        "rotation": {
-          "y": -0.24
-        },
-        "useAuthoredY": true,
-        "groundLift": 0.035
       },
       {
-        "name": "house_cobble_simple_walkable_collider",
-        "targetName": "house_cobble_arrival_road",
-        "width": 3.6,
-        "length": 30,
-        "height": 0.14,
-        "edgeColliders": false,
+        "name": "reference_far_hill_tree_left",
+        "kind": "pictureAnchorTree",
         "position": {
-          "x": -4.6,
-          "y": 0,
-          "z": 9.4
+          "x": -30,
+          "z": -18
         },
+        "scale": 0.55,
         "rotation": {
-          "y": -0.2
+          "y": 0.4
         },
-        "useAuthoredY": true,
-        "groundLift": 0.035
+        "terrainLawGrounded": true,
+        "groundLift": 0
+      },
+      {
+        "name": "reference_far_hill_tree_right",
+        "kind": "pictureAnchorTree",
+        "position": {
+          "x": 34,
+          "z": -28
+        },
+        "scale": 0.58,
+        "rotation": {
+          "y": -0.7
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0
       }
     ],
+    "VillageRoadCollider": [],
     "VillageCottage": [],
     "VillageHouseCollider": [
       {
-        "name": "stable_main_brick_house_collider",
-        "targetName": "stable_main_brick_house",
+        "name": "reference_main_brick_house_collider",
+        "targetName": "reference_main_brick_house",
         "position": {
-          "x": 4.5,
+          "x": 4.8,
           "y": 0,
-          "z": 5.8
+          "z": 5.6
         },
         "width": 11,
         "depth": 8,
@@ -359,36 +378,54 @@ export default {
     "VillageTreeField": [],
     "VillageGrassField": [
       {
-        "name": "stable_visible_grass_and_flowers",
-        "count": 1700,
-        "tallRatio": 0.18,
-        "flowerRatio": 0.16,
-        "radius": 52,
+        "name": "reference_meadow_grass_flowers_varied",
+        "count": 3200,
+        "tallRatio": 0.24,
+        "flowerRatio": 0.24,
+        "radius": 58,
         "groundY": 0,
         "groundLift": 0.014,
         "shortColor": 5217083,
-        "tallColor": 3439150,
+        "shortAltColor": 8960349,
+        "tallColor": 3111985,
+        "tallAltColor": 7311670,
         "flowerColor": 15259744,
+        "flowerAltColor": 14394344,
         "patches": [
           {
             "x": -18,
             "z": 13,
-            "radius": 9
+            "radius": 11
           },
           {
-            "x": -3,
+            "x": -8,
             "z": 11,
-            "radius": 6
+            "radius": 8
+          },
+          {
+            "x": 0,
+            "z": 8,
+            "radius": 7
           },
           {
             "x": 8,
             "z": 2,
-            "radius": 8
+            "radius": 9
           },
           {
-            "x": 18,
-            "z": -9,
-            "radius": 8
+            "x": 16,
+            "z": -8,
+            "radius": 10
+          },
+          {
+            "x": 23,
+            "z": -18,
+            "radius": 10
+          },
+          {
+            "x": -22,
+            "z": -5,
+            "radius": 9
           }
         ]
       }

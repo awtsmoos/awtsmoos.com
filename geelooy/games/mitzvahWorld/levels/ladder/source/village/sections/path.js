@@ -2,19 +2,17 @@
 /**
  * @file path.js
  * @description
- * Chapter 108: The village road gains beauty and a simple hidden body.
- * Visual path recipes remain grounded picture props. VillageRoadCollider adds
- * cheap walkable slabs aligned to the final visual road after grounding.
+ * Chapter 121: The path leads the eye instead of splashing random tiles.
+ * Roads remain visual-only for safety after the NaN raycast warning, but their
+ * placement now creates a clear line from player spawn to guide and house.
  */
 export default {
   VillageStonePath: [],
   VillagePictureProp: [
-    { name: "main_rich_dirt_road_to_guide", kind: "pictureDirtPath", position: { x: -6.8, z: 12.8 }, scale: 1.08, rotation: { y: -0.24 }, terrainLawGrounded: true, groundLift: 0.01 },
-    { name: "house_cobble_arrival_road", kind: "cobbleRoad", position: { x: -4.6, z: 9.4 }, scale: 1.18, rotation: { y: -0.2 }, terrainLawGrounded: true, groundLift: 0.02 },
-    { name: "brick_house_grounded_steps", kind: "steps", position: { x: -2.2, z: 9.1 }, scale: 1.1, rotation: { y: -0.35 }, terrainLawGrounded: true, groundLift: 0.02 }
+    { name: "reference_main_dirt_path_to_guide", kind: "pictureDirtPath", position: { x: -7.4, z: 12.6 }, scale: 1.12, rotation: { y: -0.18 }, terrainLawGrounded: true, groundLift: 0.01 },
+    { name: "reference_house_cobble_arrival", kind: "cobbleRoad", position: { x: -0.8, z: 8.2 }, scale: 1.1, rotation: { y: -0.28 }, terrainLawGrounded: true, groundLift: 0.02 },
+    { name: "reference_door_steps_flush", kind: "steps", position: { x: 3.0, z: 8.0 }, scale: 1.05, rotation: { y: -0.25 }, terrainLawGrounded: true, groundLift: 0.02 },
+    { name: "reference_lantern_cobble_pad", kind: "cobbleRoad", position: { x: -7.4, z: 10.5 }, scale: 0.55, rotation: { y: 0.15 }, terrainLawGrounded: true, groundLift: 0.02 }
   ],
-  VillageRoadCollider: [
-    { name: "main_road_simple_walkable_collider", targetName: "main_rich_dirt_road_to_guide", width: 5.0, length: 38, height: 0.16, edgeColliders: false, position: { x: -6.8, y: 0, z: 12.8 }, rotation: { y: -0.24 }, useAuthoredY: true, groundLift: 0.035 },
-    { name: "house_cobble_simple_walkable_collider", targetName: "house_cobble_arrival_road", width: 3.6, length: 30, height: 0.14, edgeColliders: false, position: { x: -4.6, y: 0, z: 9.4 }, rotation: { y: -0.2 }, useAuthoredY: true, groundLift: 0.035 }
-  ]
+  VillageRoadCollider: []
 };
