@@ -2,17 +2,16 @@
 /**
  * @file index.js
  * @description
- * Chapter 319: One failed size probe cannot cancel creation.
+ * Chapter 100: Loading now imports the player-grounding covenant fresh.
  *
- * The Awtsmoos distinguishes ornament from essence. Asset byte counting is only
- * a progress hint; it must never destroy the world when a model HEAD/GET/decoder
- * fails. Every nivra receives its own protected sizing gate, then creation keeps
- * flowing into heescheel, ready, grounding, and light.
+ * The village grounding module changed from prop-only grounding to living
+ * Chossid first-frame grounding. This root loader uses a new query seal so the
+ * Android browser cannot keep the stale module that left the player floating.
  */
 import instantiate from "./instantiateMezuzahDirect.js";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
-import { scheduleVillageGrounding } from "./villageGrounding.js?v=authored-collider-floor-20260602-bh168";
+import { scheduleVillageGrounding } from "./villageGrounding.js?v=player-feet-ground-speed-20260604-bh440";
 
 async function safeAssetSize(nivra) {
   if (typeof nivra?.getSize !== "function") return 0;
@@ -52,7 +51,7 @@ export default class LoadNivrayim {
         try { this.ohr(); }
         catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }
       }
-      TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified; nonfatal asset sizing preserved.");
+      TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified; player feet grounded fresh.");
       return nivrayimMade || [];
     } catch (error) {
       console.error("B\"H - 🚨 THE CREATION PROTOCOL HIT A REAL LOAD FAILURE:", error);

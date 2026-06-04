@@ -2,11 +2,9 @@
 /**
  * @module AutoScrollDown
  * @description
- * Chapter 245: The river asks the scribe for road before it walks.
- *
- * Auto-scroll awaits subsection/verse buffering before each movement tick. The
- * reader should never arrive at blankness while the Awtsmoos still has more
- * letters to reveal. Human intent still pauses only after a real threshold.
+ * The auto-scroll river moves first, asks for more road in the background, and
+ * never blocks a frame waiting for DOM. If the Awtsmoos needs more letters, the
+ * request is fired and the next animation breath continues.
  */
 
 const DEFAULT_SPEED = 1.15;
@@ -19,6 +17,7 @@ const SCROLL_MOVE_THRESHOLD = 18;
 const WHEEL_THRESHOLD = 32;
 
 let gesture = null;
+let bufferPending = false;
 let scrollState = {
     active: false,
     paused: false,
@@ -73,8 +72,8 @@ function viewportHeight(root) {
     return root.clientHeight || window.innerHeight || 0;
 }
 
-function atBottom(root) {
-    return root.scrollTop + viewportHeight(root) >= root.scrollHeight - 2;
+function bottomDistance(root) {
+    return root.scrollHeight - (root.scrollTop + viewportHeight(root));
 }
 
 function boundedSpeed(value) {
@@ -92,17 +91,22 @@ function writeSavedSpeed(speed) {
     try { localStorage.setItem(SPEED_KEY, String(speed)); } catch {}
 }
 
-async function askForRoadAhead(force = false) {
-    try {
-        if (window.__awtsmoosEnsureSubsectionBuffer?.(1, { force, count: force ? 3 : 2 })) return true;
-        if (await window.__awtsmoosAutoScrollVerseBuffer?.(1, { force })) return true;
-    } catch (error) {
-        console.warn("B\"H auto-scroll buffer request resisted", error);
-    }
-    return false;
+function requestRoadAhead(force = false) {
+    if (bufferPending) return;
+    bufferPending = true;
+    Promise.resolve().then(async () => {
+        try {
+            const openedSub = window.__awtsmoosEnsureSubsectionBuffer?.(1, { force, count: force ? 6 : 4 });
+            if (!openedSub) await window.__awtsmoosAutoScrollVerseBuffer?.(1, { force });
+        } catch (error) {
+            console.warn("B\"H auto-scroll buffer request resisted", error);
+        } finally {
+            bufferPending = false;
+        }
+    });
 }
 
-async function step() {
+function step() {
     if (!scrollState.active) return;
     if (scrollState.paused) {
         scrollState.raf = frame(step);
@@ -114,13 +118,13 @@ async function step() {
         return;
     }
 
-    await askForRoadAhead(false);
-    if (atBottom(root)) {
-        const opened = await askForRoadAhead(true);
-        if (!opened && atBottom(root)) {
-            stopAutoScrollDown();
-            return;
-        }
+    const distance = bottomDistance(root);
+    if (distance < 2600) requestRoadAhead(false);
+    if (distance < 90) requestRoadAhead(true);
+
+    if (distance <= 1 && !bufferPending) {
+        stopAutoScrollDown();
+        return;
     }
 
     root.scrollTop += scrollState.speed;
@@ -143,7 +147,7 @@ function beginGesture(event) {
     if (!scrollState.active || shouldIgnoreHumanGesture(event)) return;
     const point = eventPoint(event);
     const root = scrollRoot();
-    gesture = { x: point.x, y: point.y, scrollTop: root?.scrollTop || 0, ignored: false, paused: false };
+    gesture = { x: point.x, y: point.y, scrollTop: root?.scrollTop || 0, paused: false };
     clearResumeTimer();
 }
 
@@ -247,8 +251,9 @@ export function startAutoScrollDown(options = {}) {
         speed: Number.isFinite(options.speed) ? boundedSpeed(options.speed) : readSavedSpeed()
     };
     gesture = null;
+    bufferPending = false;
     writeSavedSpeed(scrollState.speed);
-    askForRoadAhead(false);
+    requestRoadAhead(false);
     scrollState.raf = frame(step);
     document.body?.classList?.add("awtsmoos-auto-scroll-active");
     document.body?.classList?.remove("awtsmoos-auto-scroll-paused");
@@ -260,6 +265,7 @@ export function stopAutoScrollDown() {
     cancelFrame(scrollState.raf);
     clearResumeTimer();
     gesture = null;
+    bufferPending = false;
     scrollState = { ...scrollState, active: false, paused: false, raf: 0, resumeTimer: 0 };
     document.body?.classList?.remove("awtsmoos-auto-scroll-active");
     document.body?.classList?.remove("awtsmoos-auto-scroll-paused");

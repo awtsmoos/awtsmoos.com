@@ -101,12 +101,17 @@
     "VillageGroundPlane": [],
     "Chossid": [
       {
-        "name": "Village Player Restored Speed Spawn",
+        "name": "Village Player Restored Engine Speed Spawn",
         "path": "https://models-3122d.web.app/chossid.glb?k=1",
-        "speed": 0.34,
+        "speed": 18,
+        "speedScale": 1.25,
+        "runModeScale": 1,
+        "walkModeScale": 0.58,
+        "autoGround": true,
+        "groundLift": 0,
         "position": {
           "x": -11.8,
-          "y": 0.24,
+          "y": 0,
           "z": 18.4
         },
         "rotation": {
@@ -118,7 +123,7 @@
     "VillageStonePath": [],
     "VillagePictureProp": [
       {
-        "name": "restored_grounded_dirt_path_to_guide",
+        "name": "main_rich_dirt_road_to_guide",
         "kind": "pictureDirtPath",
         "position": {
           "x": -6.8,
@@ -132,7 +137,7 @@
         "groundLift": 0.01
       },
       {
-        "name": "restored_cobble_path_by_house",
+        "name": "house_cobble_arrival_road",
         "kind": "cobbleRoad",
         "position": {
           "x": -4.6,
@@ -146,7 +151,7 @@
         "groundLift": 0.02
       },
       {
-        "name": "restored_steps_to_brick_house",
+        "name": "brick_house_grounded_steps",
         "kind": "steps",
         "position": {
           "x": -2.2,
@@ -292,6 +297,44 @@
         },
         "terrainLawGrounded": true,
         "groundLift": 0
+      }
+    ],
+    "VillageRoadCollider": [
+      {
+        "name": "main_road_simple_walkable_collider",
+        "targetName": "main_rich_dirt_road_to_guide",
+        "width": 5,
+        "length": 38,
+        "height": 0.16,
+        "edgeColliders": false,
+        "position": {
+          "x": -6.8,
+          "y": 0,
+          "z": 12.8
+        },
+        "rotation": {
+          "y": -0.24
+        },
+        "useAuthoredY": true,
+        "groundLift": 0.035
+      },
+      {
+        "name": "house_cobble_simple_walkable_collider",
+        "targetName": "house_cobble_arrival_road",
+        "width": 3.6,
+        "length": 30,
+        "height": 0.14,
+        "edgeColliders": false,
+        "position": {
+          "x": -4.6,
+          "y": 0,
+          "z": 9.4
+        },
+        "rotation": {
+          "y": -0.2
+        },
+        "useAuthoredY": true,
+        "groundLift": 0.035
       }
     ],
     "VillageCottage": [],

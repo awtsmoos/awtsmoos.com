@@ -2,11 +2,12 @@
 /**
  * @module VirtualScrollOracle
  * @description
- * The outer verse river bows to the inner subsection river.
+ * The outer verse river now follows the same covenant as the subsection river:
+ * while reading, it reveals more road and never tears old road away.
  *
- * This oracle now refuses to prune verse chunks while the reader is moving. It
- * may append road ahead, or prepend road above with anchor preservation, but it
- * cleans old distant vessels only after the scroll river becomes idle.
+ * No live pruning. No idle pruning. No scroll-height correction when appending
+ * below. Only an upward prepend preserves the reader's anchor because it appears
+ * above the eye. This makes the virtual machinery nearly impossible to feel.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
@@ -17,37 +18,15 @@ import {
 
 export { parseScrollTarget };
 
-const VERSE_AHEAD_PX = 1100;
-const PRUNE_PX = 3600;
-const MOTION_IDLE_MS = 1100;
+const VERSE_AHEAD_PX = 1400;
 const MIN_DELTA = 2;
-const MAX_CHUNKS = 4;
 let activeRenderer = null;
-let activePruner = null;
 let activeTotalChunks = 0;
 let activeScrollHandler = null;
 let activeCurrent = 0;
 let lastY = 0;
 let streaming = false;
-let idlePruneTimer = 0;
 const revealed = new Set();
-
-function isAutoMoving() {
-    return document.body?.classList?.contains("awtsmoos-auto-scroll-active") && !document.body?.classList?.contains("awtsmoos-auto-scroll-paused");
-}
-
-function markMotion() {
-    window.__awtsmoosVirtualMotionActive = true;
-    clearTimeout(idlePruneTimer);
-    idlePruneTimer = setTimeout(() => {
-        window.__awtsmoosVirtualMotionActive = false;
-        if (isAutoMoving()) {
-            markMotion();
-            return;
-        }
-        pruneFarChunksIdle();
-    }, MOTION_IDLE_MS);
-}
 
 function chunkNode(id) {
     return document.querySelector(`#virtual-scroll-container > .scroll-chunk[data-chunk-id="${id}"]`);
@@ -101,29 +80,9 @@ function shouldAwakenPreviousVerse(force = false) {
     return node.getBoundingClientRect().top > -VERSE_AHEAD_PX;
 }
 
-function pruneFarChunksIdle() {
-    if (window.__awtsmoosVirtualMotionActive || isAutoMoving()) return;
-    const ids = sortedIds();
-    if (ids.length <= MAX_CHUNKS) return;
-    const anchor = visibleAnchor();
-    ids.forEach(id => {
-        if (id === activeCurrent || revealed.size <= MAX_CHUNKS) return;
-        const node = chunkNode(id);
-        if (!node) return;
-        const rect = node.getBoundingClientRect();
-        const safelyAbove = rect.bottom < -PRUNE_PX;
-        const safelyBelow = rect.top > window.innerHeight + PRUNE_PX;
-        if (!safelyAbove && !safelyBelow) return;
-        activePruner?.(id);
-        revealed.delete(id);
-    });
-    preserveAnchor(anchor);
-}
-
 async function reveal(id, place) {
     if (streaming || !Number.isInteger(id) || id < 0 || id >= activeTotalChunks || revealed.has(id)) return false;
     streaming = true;
-    markMotion();
     const anchor = place === "before" ? visibleAnchor() : null;
     await activeRenderer?.(id);
     revealed.add(id);
@@ -132,7 +91,7 @@ async function reveal(id, place) {
         updateCurrentFromViewport();
         updateLocationFromViewport();
         lastY = window.scrollY;
-        setTimeout(() => { streaming = false; }, 45);
+        setTimeout(() => { streaming = false; }, 25);
     });
     return true;
 }
@@ -205,10 +164,9 @@ export async function ensureVerseBuffer(direction = 1, options = {}) {
 }
 
 async function handleScrollIntent(delta) {
-    if (streaming || Math.abs(delta) < MIN_DELTA) return;
-    markMotion();
+    if (Math.abs(delta) < MIN_DELTA) return;
 
-    const innerConsumed = consumeSubsectionScrollIntent(delta, { count: 2 });
+    const innerConsumed = consumeSubsectionScrollIntent(delta, { count: 3 });
     updateCurrentFromViewport();
     updateLocationFromViewport();
 
@@ -272,10 +230,9 @@ function scrollToTarget(target) {
     window.scrollTo({ top: Math.max(0, y), behavior: "auto" });
 }
 
-export function awakenVirtualScrollOracle({ totalChunks, renderChunk, unrenderChunk, currentChunk = 0 } = {}) {
+export function awakenVirtualScrollOracle({ totalChunks, renderChunk, currentChunk = 0 } = {}) {
     resetVirtualScrollOracle();
     activeRenderer = renderChunk;
-    activePruner = unrenderChunk;
     activeTotalChunks = Math.max(0, Number(totalChunks) || 0);
     activeCurrent = currentChunk;
     revealed.add(currentChunk);
@@ -308,9 +265,7 @@ export function resetVirtualScrollOracle() {
         window.removeEventListener("wheel", activeScrollHandler);
         window.removeEventListener("touchmove", activeScrollHandler);
     }
-    clearTimeout(idlePruneTimer);
     activeRenderer = null;
-    activePruner = null;
     activeTotalChunks = 0;
     activeScrollHandler = null;
     activeCurrent = 0;

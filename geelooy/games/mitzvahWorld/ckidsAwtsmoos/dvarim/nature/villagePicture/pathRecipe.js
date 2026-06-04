@@ -2,83 +2,51 @@
 /**
  * @file pathRecipe.js
  * @description
- * Chapter 425: The path stops floating and starts remembering footsteps.
- *
- * A village road is not a tiled ruler. It is compacted dust, bruised grass,
- * half-buried stones, and little side tufts where the meadow tries to return.
- * This recipe stays decorative and cheap, but the silhouette becomes lived-in.
+ * Chapter 103: The road becomes a readable village road.
+ * It is still decorative and grounded by the village pass, but now has a broad
+ * compacted dirt bed, layered cobbles, edge grass, and varied stones. Collision
+ * belongs to VillageRoadCollider, keeping visuals beautiful and physics simple.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { add } from "./geometryKit.js";
 
-const DIRT = 0x9f7042;
-const DIRT_DARK = 0x6d4a2d;
-const DIRT_LIGHT = 0xbc8750;
-const STONE_A = 0xb8aa8a;
-const STONE_B = 0xd1c39f;
-const GRASS_EDGE = 0x4d8c3c;
+const DIRT = 0x9f7042, DARK = 0x6d4a2d, LIGHT = 0xbc8750;
+const STONE = [0xb8aa8a, 0xd1c39f, 0x9f9477, 0xc8bd9d];
+const EDGE = [0x4d8c3c, 0x6aa84a, 0x3c7f32];
+const pulse = seed => { const x = Math.sin(seed * 91.17 + 13.31) * 43758.5453; return x - Math.floor(x); };
 
-/**
- * Deterministic ripple number for path scatter.
- *
- * @param {number} seed Numeric seed.
- * @returns {number} Value between 0 and 1.
- */
-function pulse(seed) {
-  const x = Math.sin(seed * 91.17 + 13.31) * 43758.5453;
-  return x - Math.floor(x);
+function curve(t) { return Math.sin(t * Math.PI * 1.12) * 2.7 + Math.sin(t * Math.PI * 2.1) * 0.42; }
+function tile(group, color, position, scale, yaw = 0, mode = "floor") {
+  return add(group, "cube", color, position, scale, [0, yaw, 0], { textureMode: mode });
+}
+function dirtBed(group) {
+  for (let i = 0; i < 38; i += 1) {
+    const t = i / 37, z = -17.5 + t * 35, x = curve(t), yaw = x * 0.026 + Math.sin(i * 0.7) * 0.035;
+    const w = 4.25 - Math.abs(t - 0.5) * 0.7 + pulse(i) * 0.34;
+    tile(group, i % 3 ? DIRT : DARK, [x, -0.108, z], [w, 0.034, 1.15], yaw);
+    if (i % 2 === 0) tile(group, LIGHT, [x + (pulse(i + 4) - 0.5) * w * 0.58, -0.093, z + 0.14], [0.82, 0.018, 0.3], yaw + 0.24);
+  }
+}
+function stones(group) {
+  for (let i = 0; i < 88; i += 1) {
+    const t = i / 87, z = -16.7 + t * 33.4, x = curve(t), off = (pulse(i + 9) - 0.5) * 2.6;
+    if (pulse(i + 20) < 0.16) continue;
+    tile(group, STONE[i % STONE.length], [x + off, -0.052, z], [0.34 + pulse(i) * 0.48, 0.045, 0.26 + pulse(i + 1) * 0.28], x * 0.045 + i * 0.19, "rock");
+  }
+}
+function edges(group) {
+  for (let i = 0; i < 38; i += 1) {
+    const side = i % 2 ? -1 : 1, t = pulse(i + 33), z = -16 + t * 32, x = curve(t);
+    tile(group, EDGE[i % EDGE.length], [x + side * (2.1 + pulse(i) * 0.82), -0.052, z], [0.08, 0.2 + pulse(i + 1) * 0.3, 0.08], pulse(i + 2) * Math.PI, "leaf");
+  }
 }
 
-/**
- * Adds a cuboid path tile.
- *
- * @param {THREE.Group} group Destination group.
- * @param {number} color Material color.
- * @param {number[]} position Local position.
- * @param {number[]} scale Local scale.
- * @param {number} yaw Local yaw.
- * @returns {THREE.Mesh} Added mesh.
- */
-function tile(group, color, position, scale, yaw = 0) {
-  return add(group, "cube", color, position, scale, [0, yaw, 0], { textureMode: color === GRASS_EDGE ? "leaf" : color === STONE_A || color === STONE_B ? "rock" : "floor" });
-}
-
-/**
- * Builds an irregular dirt-and-stone village path.
- *
- * @returns {THREE.Group} Decorative path group.
- */
 export function pictureDirtPath() {
   const group = new THREE.Group();
-
-  for (let i = 0; i < 34; i += 1) {
-    const t = i / 33;
-    const z = -16.5 + t * 33.0;
-    const curve = Math.sin(t * Math.PI * 1.12) * 2.7;
-    const yaw = curve * 0.025 + Math.sin(i * 0.7) * 0.035;
-    const width = 3.75 - Math.abs(t - 0.5) * 0.86 + pulse(i) * 0.35;
-    tile(group, i % 3 ? DIRT : DIRT_DARK, [curve, -0.102, z], [width, 0.034, 1.08], yaw);
-    if (i % 2 === 0) tile(group, DIRT_LIGHT, [curve + (pulse(i + 4) - 0.5) * width * 0.55, -0.096, z + 0.2], [0.72, 0.018, 0.28], yaw + 0.2);
-  }
-
-  for (let i = 0; i < 58; i += 1) {
-    const t = i / 57;
-    const z = -15.7 + t * 31.4;
-    const curve = Math.sin(t * Math.PI * 1.14) * 2.55;
-    const offset = (pulse(i + 9) - 0.5) * 1.85;
-    if (pulse(i + 20) > 0.22) {
-      tile(group, i % 2 ? STONE_A : STONE_B, [curve + offset, -0.058, z], [0.38 + pulse(i) * 0.42, 0.04, 0.28 + pulse(i + 1) * 0.24], curve * 0.04 + i * 0.17);
-    }
-  }
-
-  for (let i = 0; i < 22; i += 1) {
-    const side = i % 2 ? -1 : 1;
-    const t = pulse(i + 33);
-    const z = -15 + t * 30;
-    const curve = Math.sin(t * Math.PI * 1.1) * 2.55;
-    tile(group, GRASS_EDGE, [curve + side * (1.9 + pulse(i) * 0.7), -0.054, z], [0.08, 0.18 + pulse(i + 1) * 0.22, 0.08], pulse(i + 2) * Math.PI);
-  }
-
+  group.name = "pictureDirtPath_grounded_rich_collidable_partner";
+  dirtBed(group);
+  stones(group);
+  edges(group);
+  Object.assign(group.userData ||= {}, { suggestedRoadCollider: { width: 4.6, length: 35, height: 0.18 } });
   return group;
 }
-

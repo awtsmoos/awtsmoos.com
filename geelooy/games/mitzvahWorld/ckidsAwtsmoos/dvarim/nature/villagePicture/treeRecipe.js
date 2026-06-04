@@ -2,54 +2,52 @@
 /**
  * @file treeRecipe.js
  * @description
- * Chapter 257: The roots remembered the soil.
- *
- * The Awtsmoos lowers the tree's visible body below local zero so the existing
- * grounding pass pins root tips to earth, not empty air. Bark ridges, roots,
- * limbs, and veined canopy are decorative only, but they now read grounded.
+ * Chapter 102: A village tree becomes a grounded organism again.
+ * Roots bite below zero, the trunk leans, bark ridges spiral, limbs fork in
+ * readable layers, and the canopy remains textured/cheap through the existing
+ * village picture material system. The Awtsmoos grounds root tips, not air.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { add } from "./geometryKit.js";
-import { addDenseCanopy } from "./treeCanopyRecipe.js";
+import { addDenseCanopy } from "./treeCanopyRecipe.js?v=layered-canopy-20260604-bh441";
 
 const BARK = 0x704321;
 const BARK_DARK = 0x3b2415;
+const BARK_LITE = 0x9a6734;
 
-function branch(group, x, y, z, sx, sy, sz, rz, ry = 0) {
-  add(group, "cylinder", BARK, [x, y, z], [sx, sy, sz], [0, ry, rz], { textureMode: "wood" });
+function branch(group, x, y, z, sx, sy, sz, rz, ry = 0, color = BARK) {
+  return add(group, "cylinder", color, [x, y, z], [sx, sy, sz], [0, ry, rz], { textureMode: "wood" });
 }
-
 function barkRidges(group) {
-  for (let i = 0; i < 14; i += 1) {
-    const a = i * Math.PI * 2 / 14;
-    add(group, "cube", BARK_DARK, [Math.cos(a) * 0.58, 2.72, Math.sin(a) * 0.58], [0.055, 5.85, 0.055], [0, -a, 0.08 * Math.sin(i)], { textureMode: "wood" });
+  for (let i = 0; i < 18; i += 1) {
+    const a = i * Math.PI * 2 / 18;
+    add(group, "cube", i % 3 ? BARK_DARK : BARK_LITE, [Math.cos(a) * 0.58, 2.78, Math.sin(a) * 0.58], [0.046, 5.72, 0.052], [0, -a, 0.06 * Math.sin(i)], { textureMode: "wood" });
   }
 }
-
 function roots(group) {
-  for (let i = 0; i < 10; i += 1) {
-    const a = i * Math.PI * 2 / 10;
-    const x = Math.cos(a) * 0.94, z = Math.sin(a) * 0.94;
-    add(group, "cylinder", BARK_DARK, [x, -0.08, z], [0.14, 1.62, 0.14], [1.34, a, 0.86], { textureMode: "wood" });
-    add(group, "cube", BARK_DARK, [x * 1.48, -0.24, z * 1.48], [0.18, 0.12, 0.62], [0.1, -a, 0.22], { textureMode: "wood" });
+  for (let i = 0; i < 12; i += 1) {
+    const a = i * Math.PI * 2 / 12;
+    const x = Math.cos(a), z = Math.sin(a);
+    branch(group, x * 0.9, -0.1, z * 0.9, 0.12, 1.72, 0.12, 1.33, a, BARK_DARK);
+    add(group, "cube", BARK_DARK, [x * 1.55, -0.27, z * 1.55], [0.17, 0.11, 0.7], [0.08, -a, 0.18], { textureMode: "wood" });
   }
 }
-
 function limbSystem(group) {
-  branch(group, -0.7, 4.35, 0.1, 0.24, 2.25, 0.24, 0.9, -0.35);
-  branch(group, 0.85, 4.65, -0.15, 0.23, 2.55, 0.23, -0.85, 0.25);
-  branch(group, -1.35, 5.5, -0.45, 0.16, 1.65, 0.16, 1.08, -0.7);
-  branch(group, 1.5, 5.6, 0.35, 0.16, 1.7, 0.16, -1.0, 0.65);
-  branch(group, 0.15, 6.1, 0.25, 0.17, 1.9, 0.17, 0.25, 0.05);
-  branch(group, -2.0, 5.95, 0.85, 0.11, 1.35, 0.11, 1.25, -0.95);
-  branch(group, 2.0, 6.0, 0.75, 0.11, 1.35, 0.11, -1.25, 0.95);
+  branch(group, -0.65, 4.25, 0.06, 0.24, 2.35, 0.24, 0.88, -0.34);
+  branch(group, 0.82, 4.55, -0.18, 0.23, 2.55, 0.23, -0.82, 0.25);
+  branch(group, -1.35, 5.28, -0.42, 0.16, 1.7, 0.16, 1.05, -0.72);
+  branch(group, 1.45, 5.42, 0.35, 0.16, 1.75, 0.16, -1.02, 0.64);
+  branch(group, 0.05, 6.0, 0.22, 0.17, 1.92, 0.17, 0.22, 0.04);
+  branch(group, -2.05, 5.95, 0.85, 0.1, 1.45, 0.1, 1.22, -0.98, BARK_DARK);
+  branch(group, 2.05, 5.95, 0.75, 0.1, 1.45, 0.1, -1.23, 0.96, BARK_DARK);
 }
 
 export function pictureAnchorTree() {
   const group = new THREE.Group();
-  group.name = "pictureAnchorTree_grounded_veined";
+  group.name = "pictureAnchorTree_grounded_layered_realish";
   roots(group);
-  add(group, "cylinder", BARK, [0, 2.58, 0], [0.72, 5.95, 0.72], [0, 0, 0], { textureMode: "wood" }).name = "trunk_rooted_below_zero";
+  const trunk = branch(group, 0, 2.58, 0, 0.74, 5.95, 0.74, 0.03, -0.04, BARK);
+  trunk.name = "grounded_ridged_trunk_rooted_below_zero";
   barkRidges(group);
   limbSystem(group);
   addDenseCanopy(group);

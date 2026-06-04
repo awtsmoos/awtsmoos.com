@@ -2,36 +2,28 @@
 /**
  * @module SubsectionVirtualizer
  * @description
- * The inner verse stream guards the reader's eye.
+ * The baby-subsection river must be invisible as machinery.
  *
- * In the first attempt, the stream sometimes pruned old DOM during the same
- * breath that it appended new DOM. That made the visible scroll anchor tremble.
- * This version obeys a calmer covenant:
+ * This version chooses holy smoothness over clever pruning:
+ * - scrolling down only appends below;
+ * - scrolling up only prepends above with anchor preservation;
+ * - stopping does not prune, rebuild, snap, or correct;
+ * - the DOM may grow during a long reading session, but the eye is never shoved.
  *
- * - while the user or auto-scroll is moving, only reveal more road;
- * - never prune during motion;
- * - after the river becomes idle, prune far-away chambers while preserving one
- *   visible anchor;
- * - downward appends never adjust scroll position;
- * - upward prepends preserve the visible anchor once, because new DOM appears
- *   above the eye.
+ * The Awtsmoos can optimize later. The reader must not feel the gears now.
  */
 
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
 
-const AHEAD_PX = 1300;
-const FORCE_AHEAD_PX = 1900;
-const ACTIVE_PAD_PX = 2200;
-const PRUNE_PX = 3600;
-const MOTION_IDLE_MS = 950;
+const AHEAD_PX = 1800;
+const FORCE_AHEAD_PX = 2600;
+const ACTIVE_PAD_PX = 2600;
 const MIN_DELTA = 2;
-const MIN_AWAKE = 3;
-const MAX_AWAKE = 7;
-const EXTRA_BUFFER = 3;
+const MIN_AWAKE = 4;
+const MAX_AWAKE = 8;
 const REGISTRY = new Map();
 let pendingInline = 0;
 let debugNode = null;
-let idlePruneTimer = 0;
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const asNum = (value, fallback = 0) => {
@@ -39,19 +31,14 @@ const asNum = (value, fallback = 0) => {
     return Number.isFinite(n) ? n : fallback;
 };
 const debugOn = () => new URLSearchParams(location.search).get("vdebug") === "1";
-const isAutoMoving = () => document.body?.classList?.contains("awtsmoos-auto-scroll-active") && !document.body?.classList?.contains("awtsmoos-auto-scroll-paused");
 
 function markMotion() {
     window.__awtsmoosVirtualMotionActive = true;
-    clearTimeout(idlePruneTimer);
-    idlePruneTimer = setTimeout(() => {
+    clearTimeout(window.__awtsmoosVirtualMotionIdleTimer);
+    window.__awtsmoosVirtualMotionIdleTimer = setTimeout(() => {
         window.__awtsmoosVirtualMotionActive = false;
-        if (isAutoMoving()) {
-            markMotion();
-            return;
-        }
-        pruneAllIdle();
-    }, MOTION_IDLE_MS);
+        updateDebugPanel();
+    }, 900);
 }
 
 function readerFontPx() {
@@ -64,13 +51,9 @@ function readerFontPx() {
 
 function desiredCount(total) {
     const font = clamp(readerFontPx(), 18, 180);
-    const room = Math.max(360, window.innerHeight || 720);
-    const byFont = Math.floor(room / (font * 3.15)) + 2;
+    const room = Math.max(420, window.innerHeight || 720);
+    const byFont = Math.floor(room / (font * 2.7)) + 3;
     return Math.min(total, clamp(byFont, MIN_AWAKE, MAX_AWAKE));
-}
-
-function keepLimit(state) {
-    return Math.min(state.entries.length, desiredCount(state.entries.length) + EXTRA_BUFFER);
 }
 
 function scheduleInlineRefresh() {
@@ -82,7 +65,7 @@ function scheduleInlineRefresh() {
         } catch (error) {
             if (window.__awtsmoosInlineDebug) console.warn("B\"H inline remanifest resisted", error);
         }
-    }, 70);
+    }, 120);
 }
 
 function makeAwake(entry, sectionIndex) {
@@ -119,13 +102,6 @@ function preserveAnchor(anchor) {
     if (Math.abs(delta) > 0.5) window.scrollBy(0, delta);
 }
 
-function mutatePreservingAnchor(mutator, preserve = true) {
-    const anchor = preserve ? visibleAnchor() : null;
-    const result = mutator();
-    if (anchor) preserveAnchor(anchor);
-    return result;
-}
-
 function stamp(state) {
     state.wrapper.dataset.virtualWindow = `${state.first}-${state.last}`;
     state.wrapper.dataset.virtualAwakeCount = String(state.last - state.first + 1);
@@ -134,11 +110,9 @@ function stamp(state) {
 }
 
 function rebuild(state) {
-    mutatePreservingAnchor(() => {
-        const frag = document.createDocumentFragment();
-        for (let i = state.first; i <= state.last; i++) frag.appendChild(makeAwake(state.entries[i], state.sectionIndex));
-        state.wrapper.replaceChildren(frag);
-    });
+    const frag = document.createDocumentFragment();
+    for (let i = state.first; i <= state.last; i++) frag.appendChild(makeAwake(state.entries[i], state.sectionIndex));
+    state.wrapper.replaceChildren(frag);
     stamp(state);
 }
 
@@ -163,46 +137,11 @@ function prependPrevious(state) {
     if (state.first <= 0) return false;
     markMotion();
     state.first -= 1;
-    return mutatePreservingAnchor(() => {
-        state.wrapper.insertBefore(makeAwake(state.entries[state.first], state.sectionIndex), state.wrapper.firstChild);
-        stamp(state);
-        return true;
-    });
-}
-
-function pruneTopIdle(state) {
-    const limit = keepLimit(state);
-    while (state.wrapper.children.length > limit) {
-        const firstNode = state.wrapper.firstElementChild;
-        if (!firstNode) break;
-        const rect = firstNode.getBoundingClientRect();
-        if (rect.bottom > -PRUNE_PX) break;
-        firstNode.remove();
-        state.first += 1;
-    }
-}
-
-function pruneBottomIdle(state) {
-    const limit = keepLimit(state);
-    while (state.wrapper.children.length > limit) {
-        const lastNode = state.wrapper.lastElementChild;
-        if (!lastNode) break;
-        const rect = lastNode.getBoundingClientRect();
-        if (rect.top < window.innerHeight + PRUNE_PX) break;
-        lastNode.remove();
-        state.last -= 1;
-    }
-}
-
-function pruneAllIdle() {
-    if (window.__awtsmoosVirtualMotionActive || isAutoMoving()) return;
-    mutatePreservingAnchor(() => {
-        REGISTRY.forEach(state => {
-            pruneTopIdle(state);
-            pruneBottomIdle(state);
-            stamp(state);
-        });
-    });
+    const anchor = visibleAnchor();
+    state.wrapper.insertBefore(makeAwake(state.entries[state.first], state.sectionIndex), state.wrapper.firstChild);
+    preserveAnchor(anchor);
+    stamp(state);
+    return true;
 }
 
 function activeState() {
@@ -242,7 +181,7 @@ export function ensureSubsectionBuffer(direction = 1, options = {}) {
     if (!state) return false;
     const force = !!options.force;
     let changed = false;
-    const count = clamp(options.count || 1, 1, 4);
+    const count = clamp(options.count || 1, 1, 6);
     for (let i = 0; i < count; i++) {
         if (direction >= 0 && shouldAwakenNext(state, force)) changed = appendNext(state) || changed;
         else if (direction < 0 && shouldAwakenPrevious(state, force)) changed = prependPrevious(state) || changed;
@@ -288,14 +227,14 @@ function updateDebugPanel() {
     }
     const stat = [...REGISTRY.values()].map(s => `${s.sectionIndex}:${s.first}-${s.last}/${s.entries.length}`).join(" · ");
     const awake = document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").length;
-    debugNode.textContent = `B\"H idle-pruned stream; awake ${awake}; ${stat}`;
+    debugNode.textContent = `B\"H no-prune stream; awake ${awake}; ${stat}`;
 }
 
 export function makeVirtualSubsectionWindow(texts, sectionIndex, targetSub = null) {
     const wrapper = document.createElement("div");
     wrapper.className = "awtsmoos-subsection-wrap awtsmoos-subsection-window toichen";
     wrapper.dataset.awtsmoosIdx = String(sectionIndex);
-    wrapper.dataset.virtualSubsections = "idle-pruned-subsection-first";
+    wrapper.dataset.virtualSubsections = "smooth-no-prune-subsection-first";
 
     const entries = texts.map((text, index) => ({ index, text })).filter(entry => String(entry.text || "").trim());
     const target = clamp(Number.isFinite(targetSub) ? targetSub : asNum(targetSub, 0), 0, Math.max(0, entries.length - 1));
@@ -332,5 +271,5 @@ window.__awtsmoosSubsectionVirtualStats = () => [...REGISTRY.values()].map(state
     first: state.first,
     last: state.last,
     awake: Math.max(0, state.last - state.first + 1),
-    mode: "idle-pruned-subsection-first"
+    mode: "smooth-no-prune-subsection-first"
 }));
