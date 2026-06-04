@@ -1,9 +1,9 @@
 /**
  * B"H
- * The Awtsmoos unifies all, weaving creation’s threads into one eternal tapestry.
+ * The Awtsmoos unifies all comment vessels into one practical API surface.
  */
 
-const { 
+const {
     addComment,
     submitComment,
     addOrApproveComment,
@@ -11,55 +11,37 @@ const {
     addLotsOfCommentsToPostByVerseSections
 } = require("./commentCreation.js");
 
-const { 
-    approveComment, 
-    denyComment, 
-    getSubmittedComments 
-} = require("./commentModeration.js");
+const { approveComment, denyComment, getSubmittedComments } = require("./commentModeration.js");
 
-const { 
+const {
     getCommentsByAliasAtVerseSection,
+    getAllCommentsByAliasInParent,
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
     getComment
-    
 } = require("./commentRetrieval.js");
 
-const { 
-    editComment,
-    updateAllCommentIndexes, // Expose if determined necessary after review
-    updateCommentIndexesAtParent
-} = require("./commentModification.js");
-
-const { 
-    deleteComment,
-    deleteAllCommentsOfAlias,
-    deleteAllCommentsOfParent
-} = require("./commentDeletion.js");
+const { editComment, updateAllCommentIndexes, updateCommentIndexesAtParent } = require("./commentModification.js");
+const { deleteComment, deleteAllCommentsOfAlias, deleteAllCommentsOfParent } = require("./commentDeletion.js");
 
 module.exports = {
     addComment,
-    
-    getComment,
-    deleteComment,
-    updateAllCommentIndexes,
+    submitComment,
+    addOrApproveComment,
     addCommentIndexToAlias,
-    deleteAllCommentsOfAlias,
-    deleteAllCommentsOfParent,
-    editComment,
+    addLotsOfCommentsToPostByVerseSections,
+    approveComment,
     denyComment,
     getSubmittedComments,
-    approveComment,
-	
-	updateCommentIndexesAtParent,
-    
-    
-	submitComment, 
-    addOrApproveComment, 
-
+    getComment,
     getCommentsByAliasAtVerseSection,
+    getAllCommentsByAliasInParent,
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
-
-    addLotsOfCommentsToPostByVerseSections
+    editComment,
+    updateAllCommentIndexes,
+    updateCommentIndexesAtParent,
+    deleteComment,
+    deleteAllCommentsOfAlias,
+    deleteAllCommentsOfParent
 };

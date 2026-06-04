@@ -1,0 +1,72 @@
+/* B"H
+ * Chapter 203: Inline commentary hides its tools inside the three-dot crown.
+ * The holy body stays clean; action buttons no longer crowd the card. Sidebar
+ * cards keep their larger action dock, while inline cards expose only one menu.
+ */
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-action-dock {
+    display: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-card-header {
+    grid-template-columns: minmax(0,1fr) 52px auto !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu {
+    grid-column: 3 !important;
+    justify-self: end !important;
+    align-self: center !important;
+    position: relative !important;
+    display: block !important;
+    padding: 0 !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu > summary {
+    list-style: none !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    border-radius: 999px !important;
+    color: #fffdf5 !important;
+    background: radial-gradient(circle at 30% 20%, rgba(246,201,108,.22), rgba(30,41,59,.88)) !important;
+    border: 1px solid rgba(246,201,108,.28) !important;
+    font: 950 1.55rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu > summary::-webkit-details-marker {
+    display: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu[open] > summary {
+    background: linear-gradient(180deg, #f6c96c, #8b5cf6) !important;
+    color: #06111f !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu .menu-dropdown {
+    position: absolute !important;
+    right: 0 !important;
+    top: calc(100% + 10px) !important;
+    z-index: 50 !important;
+    min-width: 176px !important;
+    padding: 8px !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(246,201,108,.3) !important;
+    background: rgba(3,8,18,.98) !important;
+    box-shadow: 0 22px 60px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu .menu-item {
+    width: 100% !important;
+    min-height: 42px !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding: .7rem .85rem !important;
+    border-radius: 12px !important;
+    font-size: .9rem !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-comment-card .awtsmoos-comment-more > summary {
+    text-align: center !important;
+}

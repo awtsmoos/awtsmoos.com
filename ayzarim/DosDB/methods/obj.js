@@ -51,7 +51,7 @@ module.exports = {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 	
 		var meta = awtsmoosJSON.getMetadataByKey(pathic, key)
-		if(meta.notFound) {
+		if(!meta || meta?.notFound) {
 			return false;
 		}
 		return true;

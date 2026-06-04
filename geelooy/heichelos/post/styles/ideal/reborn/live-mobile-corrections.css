@@ -18,7 +18,7 @@
 
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shell :not(.awtsmoos-comment-body):not(.awtsmoos-comment-body *):not(.comment-text-root):not(.comment-text-root *) {
     font-family: var(--font-ui) !important;
-    font-size: var(--post-inline-meta-size, 12px) !important;
+    /* font-size: var(--post-inline-meta-size, 12px) !important; */
     line-height: 1.25 !important;
     font-weight: 800 !important;
     text-align: center !important;

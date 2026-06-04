@@ -3,15 +3,16 @@
  * @file commentRetrieval.js
  * @chapter The River Chooses The New Vessel First
  * @description
- * Comment retrieval asks the newer durable mirror before the old JSON tree.
- * Listing verse sections must not accidentally filter by one verse; the whole
- * parent/alias sky must be visible before the caller chooses a star.
+ * Retrieval normalizes the caller's coordinate, then asks the packed mirror
+ * before the legacy scroll. Undefined verse means broad post-scroll discovery;
+ * an explicit verse means exact alias-at-verse retrieval.
  */
 
 const { er } = require("../general.js");
 const {
     resolveVerseSection,
     readCommentsWithSource,
+    readAllCommentsOfAliasWithSource,
     readVerseSectionsWithSource,
     readAuthorsWithSource
 } = require("./commentReadSources.js");
@@ -29,7 +30,10 @@ function buildContext(params, options = {}) {
         postId: params.postId || (parentType === "comment" ? $i.$_GET?.postId : params.parentId),
         seriesId: params.seriesId || $i.$_GET?.seriesId
     };
-    if (!options.omitVerseSection) context.verseSection = resolveVerseSection($i, params.verseSection);
+    if (!options.omitVerseSection) {
+        const verseSection = resolveVerseSection($i, params.verseSection);
+        if (verseSection !== undefined) context.verseSection = verseSection;
+    }
     return context;
 }
 
@@ -66,6 +70,14 @@ async function getCommentsByAliasAtVerseSection(params) {
 }
 
 /** @param {object} params @returns {Promise<object>} */
+async function getAllCommentsByAliasInParent(params) {
+    const context = buildContext(params, { omitVerseSection: true });
+    const invalid = validateContext(context, { needAlias: true });
+    if (invalid) return invalid;
+    return await readAllCommentsOfAliasWithSource(context);
+}
+
+/** @param {object} params @returns {Promise<object>} */
 async function getVerseSectionsCommentedByAuthorInParent(params) {
     const context = buildContext(params, { omitVerseSection: true });
     const invalid = validateContext(context, { needAlias: true });
@@ -94,6 +106,7 @@ async function getComment(params) {
 
 module.exports = {
     getCommentsByAliasAtVerseSection,
+    getAllCommentsByAliasInParent,
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
     getComment

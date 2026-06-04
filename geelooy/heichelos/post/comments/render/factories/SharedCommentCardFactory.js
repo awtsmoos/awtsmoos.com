@@ -2,10 +2,9 @@
 /**
  * @module SharedCommentCardFactory
  * @description
- * Chapter 175: The profile button dissolves into the author's crown.
- * Sidebar and inline cards share one renderer. The alias itself is now the
- * profile portal, while a user-written comment title receives its own luminous
- * title band above the body. System labels remain small; the user's title sings.
+ * Chapter 215: The visual card delegates actions to the single action gate.
+ * Copy/Edit/Reply/Share/Delete all pass through comments/actions/menu.js, so
+ * object-shaped comments and legacy strings behave the same in sidebar and inline.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -32,24 +31,6 @@ function coordOf(comment) {
     return parts.join(", ") || "Post insight";
 }
 
-async function copyText(text) {
-    try { await navigator.clipboard.writeText(text); }
-    catch (_) {
-        const area = document.createElement("textarea");
-        area.value = text;
-        area.className = "awtsmoos-clipboard-proxy";
-        document.body.appendChild(area);
-        area.select();
-        document.execCommand("copy");
-        area.remove();
-    }
-}
-
-function textForCopy(comment) {
-    const value = comment?.content?.text || comment?.content?.plain || comment?.content?.body || comment?.content || comment?.text || comment?.body || "";
-    return typeof value === "string" ? value : JSON.stringify(value || comment || {});
-}
-
 function locateComment(comment) {
     const cid = CSS.escape(String(comment?.id || ""));
     const target = document.querySelector(`.inline-comment[data-cid="${cid}"]`) || document.querySelector(`.awtsmoos-sidebar-comment-card[data-cid="${cid}"]`);
@@ -60,12 +41,13 @@ function locateComment(comment) {
     setTimeout(() => target.classList.remove("signal-active", "pulse-of-light"), 1600);
 }
 
-async function shareComment(comment) {
-    const link = `${location.origin}${location.pathname}${location.search}#comment-${encodeURIComponent(comment?.id || "")}`;
-    if (navigator.share) {
-        try { await navigator.share({ title: "Awtsmoos insight", url: link }); return; } catch (_) {}
-    }
-    await copyText(link);
+function menuAction(option, comment, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const menu = event.currentTarget.closest("details");
+    if (menu) menu.open = false;
+    if (option === "Locate") return locateComment(comment);
+    return handleMenuOption(option, comment, event.currentTarget);
 }
 
 function makeButton(label, className, onClick) {
@@ -76,21 +58,28 @@ function makeButton(label, className, onClick) {
     } } };
 }
 
-function actionDock(comment, mode) {
-    const chip = mode === "inline" ? "awtsmoos-inline-action" : "comment-chip-action";
-    const specific = mode === "inline" ? "awtsmoos-inline-action-dock inline-comment-actions" : "sidebar-comment-actions";
-    return { tag: "nav", attr: { class: `awtsmoos-comment-action-dock ${specific}`, "aria-label": "Comment actions" }, children: [
-        makeButton("Reply", chip, event => handleMenuOption("Reply", comment, event.target)),
-        makeButton("Locate", chip, () => locateComment(comment)),
-        makeButton("Copy", chip, () => copyText(textForCopy(comment))),
-        makeButton("Share", chip, () => shareComment(comment))
+function sidebarActionDock(comment) {
+    return { tag: "nav", attr: { class: "awtsmoos-comment-action-dock sidebar-comment-actions", "aria-label": "Comment actions" }, children: [
+        makeButton("Reply", "comment-chip-action", event => handleMenuOption("Reply", comment, event.target)),
+        makeButton("Copy", "comment-chip-action", event => handleMenuOption("Copy", comment, event.target)),
+        makeButton("Share", "comment-chip-action", event => handleMenuOption("Share", comment, event.target))
     ] };
 }
 
-function moreMenu(comment) {
-    return { tag: "details", attr: { class: "menu-chariot awtsmoos-comment-more" }, children: [
-        { tag: "summary", attr: { class: "menu-btn comment-chip-action" }, children: ["More"] },
-        { tag: "div", attr: { class: "menu-dropdown" }, children: ["Reply", "Copy", "Delete"].map(option => ({ tag: "button", attr: { class: "menu-item", type: "button" }, children: [option], events: { click: event => { event.stopPropagation(); handleMenuOption(option, comment, event.target); } } })) }
+function moreOptions(mode) {
+    if (mode === "inline") return ["Reply", "Copy", "Share", "Edit"];
+    return ["Reply", "Copy", "Share", "Edit", "Locate", "Delete"];
+}
+
+function moreMenu(comment, mode) {
+    return { tag: "details", attr: { class: `menu-chariot awtsmoos-comment-more awtsmoos-${mode}-comment-menu` }, children: [
+        { tag: "summary", attr: { class: "menu-btn comment-chip-action", "aria-label": "Comment actions" }, children: [mode === "inline" ? "⋯" : "More"] },
+        { tag: "div", attr: { class: "menu-dropdown" }, children: moreOptions(mode).map(option => ({
+            tag: "button",
+            attr: { class: "menu-item", type: "button" },
+            children: [option],
+            events: { click: event => menuAction(option, comment, event) }
+        })) }
     ] };
 }
 
@@ -98,11 +87,12 @@ function authorPortal(alias) {
     return { tag: "a", attr: { class: "comment-author-link awtsmoos-author-crown", href: `/@${encodeURIComponent(alias)}`, target: "_blank", title: `Open @${alias}` }, children: [`@${alias}`] };
 }
 
-function header(comment) {
+function header(comment, mode) {
     const alias = aliasOf(comment);
     return { tag: "header", attr: { class: "awtsmoos-comment-card-header" }, children: [
         { tag: "div", attr: { class: "awtsmoos-comment-avatar" }, children: [String(alias).charAt(0).toUpperCase()] },
-        { tag: "div", attr: { class: "awtsmoos-comment-heading" }, children: [authorPortal(alias), { tag: "span", attr: { class: "awtsmoos-comment-coordinate" }, children: [coordOf(comment)] }] }
+        { tag: "div", attr: { class: "awtsmoos-comment-heading" }, children: [authorPortal(alias), { tag: "span", attr: { class: "awtsmoos-comment-coordinate" }, children: [coordOf(comment)] }] },
+        mode === "inline" ? moreMenu(comment, mode) : null
     ] };
 }
 
@@ -117,7 +107,11 @@ export function makeSharedCommentCard(comment, { mode = "sidebar" } = {}) {
     const alias = aliasOf(comment);
     const modeClass = mode === "inline" ? "inline-comment awtsmoos-inline-commentary-root awtsmoos-inline-card-v3 awtsmoos-readable-inline-card" : "awtsmoos-sidebar-comment-card";
     const classes = ["comment-content", "awtsmoos-card", "awtsmoos-shared-comment-card", modeClass, isAliasInline(alias) ? "is-inline-enabled" : ""].filter(Boolean).join(" ");
-    const card = BlueprintManifestor.manifest({ tag: "article", attr: { class: classes, "data-cid": comment.id, "data-alias": alias, "data-from-alias": alias, id: `comment-${comment.id}` }, children: [header(comment), titleBand(comment), { tag: "div", attr: { class: "comment-text-root awtsmoos-comment-body" } }, actionDock(comment, mode), mode === "sidebar" ? moreMenu(comment) : null] });
+    const card = BlueprintManifestor.manifest({
+        tag: "article",
+        attr: { class: classes, "data-cid": comment.id, "data-alias": alias, "data-from-alias": alias, id: `comment-${comment.id}` },
+        children: [header(comment, mode), titleBand(comment), { tag: "div", attr: { class: "comment-text-root awtsmoos-comment-body" } }, mode === "sidebar" ? sidebarActionDock(comment) : null, mode === "sidebar" ? moreMenu(comment, mode) : null]
+    });
     populateCommentElement(comment, card.querySelector(".comment-text-root"));
     return card;
 }

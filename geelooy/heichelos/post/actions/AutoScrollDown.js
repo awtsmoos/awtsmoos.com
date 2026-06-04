@@ -2,11 +2,10 @@
 /**
  * @module AutoScrollDown
  * @description
- * Chapter 190: The green river bows to the human hand.
- * Auto-scroll flows by itself, but the instant a finger, wheel, key, or pointer
- * touches the scroll, the river pauses without forgetting its covenant. When
- * the reader releases the page, the stream resumes after a tiny breath. The
- * button receives live state events so it can say Scroll, Stop, or Paused.
+ * Chapter 193: The river now distinguishes touch from intent.
+ * The Awtsmoos keeps the auto-scroll flowing when a finger merely rests, taps,
+ * or jitters on glass. Only a real manual scroll gesture past the threshold
+ * pauses the river, lets the reader pull away, and then resumes after release.
  */
 
 const DEFAULT_SPEED = 1.15;
@@ -14,7 +13,11 @@ const MIN_SPEED = 0.25;
 const MAX_SPEED = 8;
 const SPEED_KEY = "awtsmoos-auto-scroll-speed";
 const RESUME_DELAY_MS = 650;
+const TOUCH_MOVE_THRESHOLD = 26;
+const SCROLL_MOVE_THRESHOLD = 18;
+const WHEEL_THRESHOLD = 32;
 
+let gesture = null;
 let scrollState = {
     active: false,
     paused: false,
@@ -103,17 +106,69 @@ function step() {
     scrollState.raf = frame(step);
 }
 
-function shouldIgnorePause(event) {
-    return !!event?.target?.closest?.("#awtsmoosAutoScrollBtn, .typography-details, .sidebar");
+function shouldIgnoreHumanGesture(event) {
+    return !!event?.target?.closest?.("#awtsmoosAutoScrollBtn, .typography-details, .sidebar, input, textarea, select, button, a");
 }
 
-function pauseFromHuman(event) {
-    if (!scrollState.active || shouldIgnorePause(event)) return;
+function eventPoint(event) {
+    const touch = event?.touches?.[0] || event?.changedTouches?.[0];
+    return {
+        x: Number(touch?.clientX ?? event?.clientX ?? 0),
+        y: Number(touch?.clientY ?? event?.clientY ?? 0)
+    };
+}
+
+function beginGesture(event) {
+    if (!scrollState.active || shouldIgnoreHumanGesture(event)) return;
+    const point = eventPoint(event);
+    const root = scrollRoot();
+    gesture = {
+        x: point.x,
+        y: point.y,
+        scrollTop: root?.scrollTop || 0,
+        ignored: false,
+        paused: false
+    };
+    clearResumeTimer();
+}
+
+function movementPastThreshold(event) {
+    if (!gesture) return false;
+    const point = eventPoint(event);
+    const root = scrollRoot();
+    const fingerDistance = Math.abs(point.y - gesture.y);
+    const scrollDistance = Math.abs((root?.scrollTop || 0) - gesture.scrollTop);
+    return fingerDistance >= TOUCH_MOVE_THRESHOLD || scrollDistance >= SCROLL_MOVE_THRESHOLD;
+}
+
+function pauseFromIntent() {
+    if (!scrollState.active) return;
+    if (gesture) gesture.paused = true;
     pauseAutoScrollDown();
 }
 
-function resumeFromHuman() {
-    if (!scrollState.active) return;
+function moveGesture(event) {
+    if (!scrollState.active || shouldIgnoreHumanGesture(event) || !gesture) return;
+    if (movementPastThreshold(event)) pauseFromIntent();
+}
+
+function endGesture() {
+    const shouldResume = !!gesture?.paused || scrollState.paused;
+    gesture = null;
+    if (shouldResume) scheduleAutoScrollResume();
+}
+
+function wheelGesture(event) {
+    if (!scrollState.active || shouldIgnoreHumanGesture(event)) return;
+    if (Math.abs(Number(event?.deltaY || 0)) < WHEEL_THRESHOLD) return;
+    pauseAutoScrollDown();
+    scheduleAutoScrollResume();
+}
+
+function keyGesture(event) {
+    if (!scrollState.active || shouldIgnoreHumanGesture(event)) return;
+    if (!["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) return;
+    pauseAutoScrollDown();
     scheduleAutoScrollResume();
 }
 
@@ -121,24 +176,16 @@ function bindHumanPauseListeners() {
     if (scrollState.listenersBound || typeof document === "undefined") return;
     scrollState.listenersBound = true;
     const opts = { passive: true, capture: true };
-    document.addEventListener("pointerdown", pauseFromHuman, opts);
-    document.addEventListener("pointermove", pauseFromHuman, opts);
-    document.addEventListener("pointerup", resumeFromHuman, opts);
-    document.addEventListener("pointercancel", resumeFromHuman, opts);
-    document.addEventListener("touchstart", pauseFromHuman, opts);
-    document.addEventListener("touchmove", pauseFromHuman, opts);
-    document.addEventListener("touchend", resumeFromHuman, opts);
-    document.addEventListener("touchcancel", resumeFromHuman, opts);
-    document.addEventListener("wheel", event => {
-        pauseFromHuman(event);
-        resumeFromHuman();
-    }, opts);
-    document.addEventListener("keydown", event => {
-        if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) {
-            pauseFromHuman(event);
-            resumeFromHuman();
-        }
-    }, true);
+    document.addEventListener("pointerdown", beginGesture, opts);
+    document.addEventListener("pointermove", moveGesture, opts);
+    document.addEventListener("pointerup", endGesture, opts);
+    document.addEventListener("pointercancel", endGesture, opts);
+    document.addEventListener("touchstart", beginGesture, opts);
+    document.addEventListener("touchmove", moveGesture, opts);
+    document.addEventListener("touchend", endGesture, opts);
+    document.addEventListener("touchcancel", endGesture, opts);
+    document.addEventListener("wheel", wheelGesture, opts);
+    document.addEventListener("keydown", keyGesture, true);
 }
 
 /** Sets the automatic scroll speed. */
@@ -166,7 +213,7 @@ export function pauseAutoScrollDown() {
     return true;
 }
 
-/** Schedules the river to resume after the hand leaves the screen. */
+/** Schedules the river to resume after the human stops steering. */
 export function scheduleAutoScrollResume(delay = RESUME_DELAY_MS) {
     if (!scrollState.active) return false;
     clearResumeTimer();
@@ -191,6 +238,7 @@ export function startAutoScrollDown(options = {}) {
         resumeTimer: 0,
         speed: Number.isFinite(options.speed) ? boundedSpeed(options.speed) : readSavedSpeed()
     };
+    gesture = null;
     writeSavedSpeed(scrollState.speed);
     scrollState.raf = frame(step);
     document.body?.classList?.add("awtsmoos-auto-scroll-active");
@@ -203,6 +251,7 @@ export function startAutoScrollDown(options = {}) {
 export function stopAutoScrollDown() {
     cancelFrame(scrollState.raf);
     clearResumeTimer();
+    gesture = null;
     scrollState = { ...scrollState, active: false, paused: false, raf: 0, resumeTimer: 0 };
     document.body?.classList?.remove("awtsmoos-auto-scroll-active");
     document.body?.classList?.remove("awtsmoos-auto-scroll-paused");

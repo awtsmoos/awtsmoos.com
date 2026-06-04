@@ -2,9 +2,9 @@
 /**
  * @module CommentSection
  * @description
- * Chapter 179: A compact scribe altar can write at root or at the living place.
- * The class remains the public vessel, while scoped title/sections/media/submit
- * chambers keep the Awtsmoos flow modular and inspectable.
+ * Chapter 206: The scribe altar learns concealment.
+ * The button alone appears first. Only when the reader clicks does the form
+ * open like a chamber: scope, title, editor, sections, imagery, and transmit.
  */
 
 import { createButtons, setSubmitText } from "./commentSection/actions.js";
@@ -16,11 +16,7 @@ import { showSubmitError, submitComment } from "./commentSection/submit.js";
 export class CommentSection {
     imgResults = [];
 
-    /**
-     * Creates a comment entry UI.
-     * @param {HTMLElement} container Parent container.
-     * @param {object} [options={}] Comment behavior options.
-     */
+    /** @param {HTMLElement} container @param {object} [options={}] */
     constructor(container, options = {}) {
         this.container = container;
         this.options = options;
@@ -37,23 +33,38 @@ export class CommentSection {
         createEditorInterface(this);
         createImageUploadControls(this);
         createButtons(this);
+        this.closeEditorSurface();
         if (this.options.autoReveal && window.curAlias) this.revealEditor();
     }
 
     /** Enables submit when text, title, section, or image sparks exist. */
     syncSubmitState() {
-        const hasText = this.commentBox.innerText.trim().length > 0;
+        const hasText = this.commentBox?.innerText?.trim?.().length > 0;
         const hasTitle = !!this.titleInput?.value?.trim();
         const hasSections = Array.from(this.sectionList?.querySelectorAll("textarea") || []).some(area => area.value.trim());
         const hasImages = this.imgResults.length > 0;
-        this.submitBtn.disabled = !(hasText || hasTitle || hasSections || hasImages);
+        if (this.submitBtn) this.submitBtn.disabled = !(hasText || hasTitle || hasSections || hasImages);
+    }
+
+    /** Hides all non-button fields before the user opens the altar. */
+    closeEditorSurface() {
+        this.addCommentArea.classList.remove("is-editor-open");
+        [this.scopeRow, this.titleInput, this.editorWrapper, this.sectionList, this.addSectionBtn, this.mediaTrigger, this.galleryContainer, this.buttonContainer]
+            .filter(Boolean)
+            .forEach(node => { node.hidden = true; });
+        if (this.btn) this.btn.hidden = false;
     }
 
     /** Reveals the editor after alias validation. */
     revealEditor() {
-        this.btn.style.display = "none";
-        this.editorWrapper.style.display = "flex";
-        this.buttonContainer.classList.add("revealed");
+        this.addCommentArea.classList.add("is-editor-open");
+        [this.scopeRow, this.titleInput, this.editorWrapper, this.sectionList, this.addSectionBtn, this.mediaTrigger, this.buttonContainer]
+            .filter(Boolean)
+            .forEach(node => { node.hidden = false; });
+        if (this.galleryContainer) this.galleryContainer.hidden = this.imgResults.length === 0;
+        if (this.btn) this.btn.hidden = true;
+        if (this.editorWrapper) this.editorWrapper.style.display = "grid";
+        this.buttonContainer?.classList.add("revealed");
         this.titleInput?.focus?.();
     }
 
@@ -65,10 +76,9 @@ export class CommentSection {
         this.sectionList?.replaceChildren?.();
         this.imgResults = [];
         updateGallery(this);
-        this.editorWrapper.style.display = "none";
-        this.buttonContainer.classList.remove("revealed");
-        this.btn.style.display = "flex";
-        this.submitBtn.disabled = true;
+        this.buttonContainer?.classList.remove("revealed");
+        if (this.submitBtn) this.submitBtn.disabled = true;
+        this.closeEditorSurface();
     }
 
     /** Sends the current comment to the Heichel API. */
@@ -86,6 +96,7 @@ export class CommentSection {
         } finally {
             setSubmitText(this.submitBtn, "Transmit");
             this.submitBtn.disabled = false;
+            this.syncSubmitState();
         }
     }
 }

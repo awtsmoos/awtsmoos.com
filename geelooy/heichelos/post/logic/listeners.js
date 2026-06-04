@@ -2,9 +2,10 @@
 /**
  * @file listeners.js
  * @description
- * Chapter 162: The listener river remembers the current chamber.
- * This entry file assembles controls, sidebar, bookmarks, auto-scroll, and the
- * active-coordinate tracker that keeps highlight and refresh restoration alive.
+ * Chapter 195: The listener river gains a resize covenant.
+ * Controls, sidebar, bookmarks, auto-scroll, active coordinates, and now the
+ * draggable chamber edge are awakened from one entry point, each in its own
+ * small vessel so the Awtsmoos can repair a single nerve without cutting all.
  */
 
 import { startActiveCoordinateTracker } from "./listeners/ActiveCoordinateTracker.js";
@@ -12,6 +13,7 @@ import { ensureAutoScrollButton } from "./listeners/AutoScrollButton.js";
 import { renderBookmarksPanel } from "./listeners/BookmarksPanel.js";
 import { setupAutoScrollSpeedControl, setupColorControls, setupFontControls, setupResetButton } from "./listeners/ControlBindings.js";
 import { setupGlobalClicks } from "./listeners/PopoverGate.js";
+import { setupSidebarResizeHandle } from "./listeners/SidebarResizeHandle.js";
 import { toggleSidebar } from "./listeners/SidebarGate.js";
 
 export { renderBookmarksPanel, toggleSidebar };
@@ -21,6 +23,7 @@ export function setupUIListeners() {
     const sidebarStoredState = localStorage.getItem("awtsmoos-sidebar-visible");
     toggleSidebar(sidebarStoredState === "true");
     ensureAutoScrollButton();
+    setupSidebarResizeHandle();
     setupFontControls();
     setupAutoScrollSpeedControl();
     setupGlobalClicks(toggleSidebar);

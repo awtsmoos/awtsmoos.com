@@ -2,9 +2,9 @@
 /**
  * @module CommentEditorUi
  * @description
- * Chapter 183: The scribe altar listens to every vessel.
- * Title, rich body, and extra markdown sections all awaken the submit gate, so
- * a root title-only spark or a section-only note can still be transmitted.
+ * Chapter 207: Every editor chamber exposes its handle to the parent class.
+ * The CommentSection can now hide the scope row, add-section gate, imagery gate,
+ * and action footer until the reader explicitly clicks the scribe button.
  */
 
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
@@ -29,13 +29,13 @@ function setScope(owner, mode) {
 
 function createScopeControls(owner) {
     owner.scopeMode = owner.options.scope || "current";
-    const wrap = document.createElement("div");
-    wrap.className = "awtsmoos-comment-scope-row";
+    owner.scopeRow = document.createElement("div");
+    owner.scopeRow.className = "awtsmoos-comment-scope-row";
     owner.scopeButtons = [makeScopeButton(owner, "current", "Current place"), makeScopeButton(owner, "root", "Root")];
     owner.scopeHint = document.createElement("span");
     owner.scopeHint.className = "awtsmoos-comment-scope-hint";
-    wrap.append(...owner.scopeButtons, owner.scopeHint);
-    owner.addCommentArea.appendChild(wrap);
+    owner.scopeRow.append(...owner.scopeButtons, owner.scopeHint);
+    owner.addCommentArea.appendChild(owner.scopeRow);
     setScope(owner, owner.scopeMode);
 }
 
@@ -52,12 +52,12 @@ function createTitleInput(owner) {
 function createSectionControls(owner) {
     owner.sectionList = document.createElement("div");
     owner.sectionList.className = "awtsmoos-comment-section-list";
-    const add = document.createElement("button");
-    add.type = "button";
-    add.className = "awtsmoos-add-section-btn";
-    add.textContent = "+ Add section";
-    add.onclick = () => addSection(owner);
-    owner.addCommentArea.append(owner.sectionList, add);
+    owner.addSectionBtn = document.createElement("button");
+    owner.addSectionBtn.type = "button";
+    owner.addSectionBtn.className = "awtsmoos-add-section-btn";
+    owner.addSectionBtn.textContent = "+ Add section";
+    owner.addSectionBtn.onclick = () => addSection(owner);
+    owner.addCommentArea.append(owner.sectionList, owner.addSectionBtn);
 }
 
 function addSection(owner) {
@@ -113,7 +113,7 @@ export function createEditorInterface(owner) {
         owner.sourceArea = sourceArea;
     }
     owner.commentBox.dataset.placeholder = "Write rich text or markdown…";
-    owner.editorWrapper.style.display = "none";
+    owner.editorWrapper.style.display = "grid";
     owner.commentBox.oninput = () => owner.syncSubmitState();
     owner.addCommentArea.appendChild(owner.editorWrapper);
     createSectionControls(owner);

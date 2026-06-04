@@ -1,7 +1,8 @@
 // B"H
 /**
- * Chapter 190 test: the river flows, pauses beneath the human hand, resumes
- * after release, and still stops when commanded by the green button.
+ * Chapter 193 test: the river ignores taps and tiny jitter, pauses only after a
+ * meaningful manual scroll gesture, resumes after release, and still stops when
+ * commanded by the green button.
  */
 import assert from "node:assert/strict";
 import {
@@ -15,14 +16,18 @@ import {
 
 const classes = new Set();
 const listeners = new Map();
+const scrollElement = { scrollTop: 0, scrollHeight: 900, clientHeight: 100 };
+
 globalThis.window = {
     innerHeight: 100,
     dispatchEvent: () => true,
     addEventListener: () => {}
 };
-globalThis.CustomEvent = class CustomEvent { constructor(type, init = {}) { this.type = type; this.detail = init.detail; } };
+globalThis.CustomEvent = class CustomEvent {
+    constructor(type, init = {}) { this.type = type; this.detail = init.detail; }
+};
 globalThis.document = {
-    scrollingElement: { scrollTop: 0, scrollHeight: 500, clientHeight: 100 },
+    scrollingElement: scrollElement,
     documentElement: null,
     querySelector: () => null,
     addEventListener: (type, handler) => listeners.set(type, handler),
@@ -41,33 +46,49 @@ globalThis.requestAnimationFrame = fn => {
 };
 globalThis.cancelAnimationFrame = () => {};
 
+const target = { closest: () => null };
+
 assert.equal(startAutoScrollDown({ speed: 3 }), true);
 assert.equal(getAutoScrollDownState().active, true);
 assert.equal(getAutoScrollDownState().paused, false);
 assert.equal(getAutoScrollDownState().speed, 3);
 assert.equal(classes.has("awtsmoos-auto-scroll-active"), true);
 await new Promise(resolve => setTimeout(resolve, 5));
-const moved = document.scrollingElement.scrollTop;
+const moved = scrollElement.scrollTop;
 assert.ok(moved > 0);
+
+listeners.get("pointerdown")?.({ target, clientY: 100, clientX: 10 });
+assert.equal(getAutoScrollDownState().paused, false, "mere touch must not pause");
+listeners.get("pointermove")?.({ target, clientY: 112, clientX: 10 });
+assert.equal(getAutoScrollDownState().paused, false, "tiny jitter must not pause");
+
+listeners.get("pointermove")?.({ target, clientY: 142, clientX: 10 });
+assert.equal(getAutoScrollDownState().paused, true, "real drag must pause");
+const pausedAt = scrollElement.scrollTop;
+await new Promise(resolve => setTimeout(resolve, 5));
+assert.equal(scrollElement.scrollTop, pausedAt, "paused river must not move");
+
+listeners.get("pointerup")?.();
+await new Promise(resolve => setTimeout(resolve, 700));
+assert.equal(getAutoScrollDownState().paused, false, "release resumes after delay");
+await new Promise(resolve => setTimeout(resolve, 5));
+assert.ok(scrollElement.scrollTop > pausedAt);
+
+listeners.get("wheel")?.({ target, deltaY: 8 });
+assert.equal(getAutoScrollDownState().paused, false, "tiny wheel must not pause");
+listeners.get("wheel")?.({ target, deltaY: 44 });
+assert.equal(getAutoScrollDownState().paused, true, "real wheel must pause");
+scheduleAutoScrollResume(1);
+await new Promise(resolve => setTimeout(resolve, 8));
+assert.equal(getAutoScrollDownState().paused, false);
 
 pauseAutoScrollDown();
 assert.equal(getAutoScrollDownState().paused, true);
 assert.equal(classes.has("awtsmoos-auto-scroll-paused"), true);
-await new Promise(resolve => setTimeout(resolve, 5));
-assert.equal(document.scrollingElement.scrollTop, moved);
-
 scheduleAutoScrollResume(1);
 await new Promise(resolve => setTimeout(resolve, 8));
 assert.equal(getAutoScrollDownState().paused, false);
 assert.equal(classes.has("awtsmoos-auto-scroll-paused"), false);
-await new Promise(resolve => setTimeout(resolve, 5));
-assert.ok(document.scrollingElement.scrollTop > moved);
-
-listeners.get("pointerdown")?.({ target: { closest: () => null } });
-assert.equal(getAutoScrollDownState().paused, true);
-listeners.get("pointerup")?.();
-await new Promise(resolve => setTimeout(resolve, 700));
-assert.equal(getAutoScrollDownState().paused, false);
 
 assert.equal(toggleAutoScrollDown(), false);
 assert.equal(getAutoScrollDownState().active, false);

@@ -2,9 +2,9 @@
 /**
  * @module CommentSubmit
  * @description
- * Chapter 178: The scribe chooses root or present coordinates deliberately.
- * The payload carries title and optional sections in dayuh, while the main
- * editor remains the body. No AI oracle is needed for a human insight to rise.
+ * Chapter 212: A new comment clears caches and wakes both chambers.
+ * The scribe posts to the current post endpoint, carries title and sections in
+ * dayuh, then refreshes inline and sidebar without waiting for a manual button.
  */
 
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
@@ -24,7 +24,6 @@ function currentCoordinate(owner) {
         idx: null,
         sub: null
     });
-
     const params = new URLSearchParams(location.search);
     return normalizeCommentCoordinate({
         heichelId: window.post?.heichel?.id,
@@ -46,11 +45,6 @@ function extraSections(owner) {
         .filter(section => section.title || section.text);
 }
 
-function clearExtraSections(owner) {
-    owner?.sectionList?.replaceChildren?.();
-    if (owner?.titleInput) owner.titleInput.value = "";
-}
-
 async function postComment({ activeAlias, content, dayuhObject }) {
     const response = await fetch(`/api/social/heichelos/${window.post?.heichel?.id}/post/${window.post?.id}/comments/`, {
         method: "POST",
@@ -62,23 +56,39 @@ async function postComment({ activeAlias, content, dayuhObject }) {
         })
     });
     const json = await response.json();
-    if (!json.success) throw new Error(json.error || "Void response.");
-    return json.details?.id || json.success?.id || json.id;
+    if (!json.success) throw new Error(json.error?.message || json.error || "Void response.");
+    return json.details?.id || json.success?.id || json.commentId || json.id;
+}
+
+async function refreshSidebar(activeAlias) {
+    try {
+        const panel = await import("/heichelos/post/comments/panel/fetching.js");
+        panel.clearSidebarCommentCache?.();
+    } catch (_) {}
+    try {
+        const target = window.rootLevelCommentatorTab?.actual || window.tabParent;
+        if (target && window.makeCommentatorList) await window.makeCommentatorList(target, true);
+        if (window.currentAliasTabContainer && window.openCommentsOfAlias && window.currentAliasBeingViewed) {
+            await window.openCommentsOfAlias({ alias: window.currentAliasBeingViewed, actualTab: window.currentAliasTabContainer, post: window.post });
+        }
+    } catch (error) {
+        console.warn("B\"H - sidebar refresh resisted", error);
+    }
+    return activeAlias;
 }
 
 async function refreshCommentSystems(payload) {
     emitAwtsmoosEvent("comment:submitted", payload);
     if (window.commentLogic?.handleNewComment) await window.commentLogic.handleNewComment(payload);
     else if (window.awtsmoosConductor?.handleNewComment) await window.awtsmoosConductor.handleNewComment(payload);
-    const inline = await import("/heichelos/post/comments/logic/inlineManifest.js");
-    await inline.manifestAliasInline(payload.aliasId);
+    try {
+        const inline = await import("/heichelos/post/comments/logic/inlineManifest.js");
+        await inline.manifestAliasInline(payload.aliasId);
+    } catch (_) {}
+    await refreshSidebar(payload.aliasId);
 }
 
-/**
- * Sends a comment for the provided owner.
- * @param {object} owner CommentSection instance.
- * @param {string} content Editor HTML content.
- */
+/** @param {object} owner @param {string} content */
 export async function submitComment(owner, content) {
     const images = imagePayload(owner.imgResults);
     const title = owner.titleInput?.value?.trim() || "";
@@ -94,8 +104,6 @@ export async function submitComment(owner, content) {
     if (sections.length) dayuhObject.sections = sections;
     const commentId = await postComment({ activeAlias, content, dayuhObject });
     if (!commentId) return;
-    clearExtraSections(owner);
-
     await refreshCommentSystems({
         aliasId: activeAlias,
         commentId,

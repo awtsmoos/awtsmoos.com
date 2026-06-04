@@ -2,8 +2,9 @@
 /**
  * @module CommentMedia
  * @description
- * Chapter 5: Images enter as purified sparks. The trigger and gallery live here
- * so the main CommentSection remains a conductor, not a warehouse.
+ * Chapter 208: The image gate is a named vessel.
+ * The parent CommentSection can now hide it until the altar is opened, while
+ * uploaded images still become purified payload sparks in dayuh.images.
  */
 
 import { ImageUploader } from "/heichelos/post/ImageUploader.js";
@@ -11,17 +12,17 @@ import { ImageUploader } from "/heichelos/post/ImageUploader.js";
 /** @param {object} owner CommentSection instance. */
 export function createImageUploadControls(owner) {
     owner.imageUploader = new ImageUploader(createGalleryContainer(owner));
-    const trigger = document.createElement("div");
-    trigger.className = "awtsmoos-media-trigger";
+    owner.mediaTrigger = document.createElement("div");
+    owner.mediaTrigger.className = "awtsmoos-media-trigger";
     const span = document.createElement("span");
     span.textContent = "📷 Add Sacred Imagery";
-    trigger.appendChild(span);
-    trigger.onclick = async () => {
+    owner.mediaTrigger.appendChild(span);
+    owner.mediaTrigger.onclick = async () => {
         owner.imgResults = await owner.imageUploader.uploadImages();
         updateGallery(owner);
         owner.syncSubmitState();
     };
-    owner.addCommentArea.appendChild(trigger);
+    owner.addCommentArea.appendChild(owner.mediaTrigger);
 }
 
 /** @param {object} owner CommentSection instance. */
@@ -29,7 +30,7 @@ export function createGalleryContainer(owner) {
     if (owner.galleryContainer) return owner.galleryContainer;
     owner.galleryContainer = document.createElement("div");
     owner.galleryContainer.className = "awtsmoos-comment-gallery-grid";
-    owner.galleryContainer.style.display = "none";
+    owner.galleryContainer.hidden = true;
     owner.addCommentArea.appendChild(owner.galleryContainer);
     return owner.galleryContainer;
 }
@@ -44,7 +45,7 @@ export function updateGallery(owner) {
         img.className = "awtsmoos-creation-thumbnail";
         owner.galleryContainer.appendChild(img);
     });
-    owner.galleryContainer.style.display = owner.imgResults.length > 0 ? "flex" : "none";
+    owner.galleryContainer.hidden = owner.imgResults.length === 0;
 }
 
 /** @param {Array<object>} results @returns {Array<object>} */
