@@ -10,15 +10,15 @@
     "ProceduralSky": [
       {
         "name": "soft_country_village_sky",
-        "timeOfDay": 17.15,
+        "timeOfDay": 16.35,
         "timeMultiplier": 0,
-        "sunIntensity": 1.68,
-        "hemiIntensity": 1.18,
-        "ambientIntensity": 0.62,
-        "fogNear": 150,
-        "fogFar": 520,
-        "topColor": 8233215,
-        "bottomColor": 16764116,
+        "sunIntensity": 1.05,
+        "hemiIntensity": 0.82,
+        "ambientIntensity": 0.42,
+        "fogNear": 180,
+        "fogFar": 650,
+        "topColor": 9424895,
+        "bottomColor": 16761220,
         "position": {
           "x": 0,
           "y": 0,
@@ -35,8 +35,8 @@
         "segments": 72,
         "isSolid": true,
         "textureType": "safegrass",
-        "textureSize": 768,
-        "microNoise": 0.025,
+        "textureSize": 1024,
+        "microNoise": 0.018,
         "points": [
           {
             "x": -95,
@@ -174,9 +174,9 @@
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
-          "x": -10,
+          "x": -7,
           "y": 0.02,
-          "z": 9
+          "z": 14
         },
         "visualGroundBiasY": 0,
         "movementResponsiveness": 18,
@@ -186,8 +186,8 @@
     "VillageTreeField": [
       {
         "name": "north_hill_per_tree_grounded_treasure",
-        "count": 44,
-        "radius": 118,
+        "count": 56,
+        "radius": 138,
         "seed": 31,
         "groundY": 0,
         "groundLift": 0,
@@ -199,8 +199,8 @@
       },
       {
         "name": "left_meadow_per_tree_grounded_treasure",
-        "count": 44,
-        "radius": 86,
+        "count": 52,
+        "radius": 104,
         "seed": 52,
         "groundY": 0,
         "groundLift": 0,
@@ -212,8 +212,8 @@
       },
       {
         "name": "right_orchard_per_tree_grounded_treasure",
-        "count": 44,
-        "radius": 78,
+        "count": 52,
+        "radius": 98,
         "seed": 71,
         "groundY": 0,
         "groundLift": 0,
@@ -521,13 +521,13 @@
         "kind": "pictureAnchorTree",
         "groundLift": 0,
         "position": {
-          "x": -8,
-          "z": 19
+          "x": -19,
+          "z": 30
         },
         "rotation": {
           "y": 0.16
         },
-        "scale": 2.05,
+        "scale": 1.38,
         "terrainLawGrounded": true
       },
       {
@@ -664,6 +664,22 @@
           [
             30,
             3
+          ],
+          [
+            -6,
+            24
+          ],
+          [
+            6,
+            21
+          ],
+          [
+            -38,
+            7
+          ],
+          [
+            44,
+            8
           ]
         ],
         "position": {
@@ -671,6 +687,79 @@
           "z": 0
         },
         "scale": 1.18,
+        "terrainLawGrounded": true
+      },
+      {
+        "name": "front_green_courtyard_fill",
+        "kind": "meadowDetail",
+        "groundLift": 0,
+        "clusters": [
+          [
+            -2,
+            12
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            16,
+            13
+          ],
+          [
+            -14,
+            17
+          ],
+          [
+            24,
+            20
+          ],
+          [
+            -25,
+            25
+          ]
+        ],
+        "position": {
+          "x": 0,
+          "z": 0
+        },
+        "scale": 1.45,
+        "terrainLawGrounded": true
+      },
+      {
+        "name": "main_house_front_left_lamp",
+        "kind": "lantern",
+        "groundLift": 0,
+        "position": {
+          "x": 5.2,
+          "z": 1.9
+        },
+        "scale": 1.22,
+        "terrainLawGrounded": true
+      },
+      {
+        "name": "main_house_front_right_lamp",
+        "kind": "lantern",
+        "groundLift": 0,
+        "position": {
+          "x": 16.7,
+          "z": -0.9
+        },
+        "scale": 1.12,
+        "terrainLawGrounded": true
+      },
+      {
+        "name": "warm_front_yard_rock_flowers",
+        "kind": "flowerPatch",
+        "count": 180,
+        "radius": 7.2,
+        "seed": 61,
+        "groundLift": 0,
+        "position": {
+          "x": 1.5,
+          "z": 16
+        },
+        "scale": 1.28,
         "terrainLawGrounded": true
       },
       {
@@ -935,6 +1024,32 @@
           "z": -12.7
         },
         "talkDistance": 7.2
+      },
+      {
+        "name": "Main House Study Mentor",
+        "opensLevelSelect": false,
+        "hasShop": false,
+        "proximity": 7.8,
+        "height": 1.5,
+        "radius": 0.42,
+        "visualHeight": 1.5,
+        "visualGroundBiasY": 0,
+        "groundLift": 0.04,
+        "path": "https://models-3122d.web.app/chossid.glb?k=2",
+        "dialogue": [
+          "Shalom from inside the house.",
+          "This room should feel warm: table, lamp, rug, shelves, and a person standing on the floor.",
+          "If you can see me, the house is no longer empty."
+        ],
+        "position": {
+          "x": 12.8,
+          "y": 0.22,
+          "z": -6.4
+        },
+        "rotation": {
+          "y": 3.05
+        },
+        "talkDistance": 7.8
       }
     ],
     "VillageGrassField": [

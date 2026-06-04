@@ -2,11 +2,11 @@
 /**
  * @file VillageTreeField.js
  * @description
- * Chapter 377: Orchard crowns become leafy masses, not dead-stick lollipops.
+ * Chapter 429: The orchard refuses to become a black paper cutout.
  *
- * The Awtsmoos replaces procedural branch skeletons with a small data orchard:
- * tapered trunks, angled limbs, and many overlapping leaf clusters. It is still
- * instanced and mobile-friendly, but each crown is a real volume cloud.
+ * The Awtsmoos lets the field trees stay cheap and instanced, but their leaves
+ * are now self-colored, warm, and visible even when the phone camera faces the
+ * sun. The silhouette becomes leafy green volume instead of ink on the horizon.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -52,10 +52,10 @@ export default class VillageTreeField extends Domem {
   async heescheel(olam) {
     const count = Math.max(1, Math.floor(n(this.options.count, 44)));
     const radius = n(this.options.radius, 86), seed = n(this.options.seed, 5), origin = this.position || {};
-    const trunks = new THREE.InstancedMesh(trunkGeometry(), new THREE.MeshLambertMaterial({ color: 0x5a351d }), count);
+    const trunks = new THREE.InstancedMesh(trunkGeometry(), new THREE.MeshLambertMaterial({ color: 0x6a4124 }), count);
     const limbCount = count * 5, leafCount = count * 15;
-    const limbs = new THREE.InstancedMesh(limbGeometry(), new THREE.MeshLambertMaterial({ color: 0x4a2d17 }), limbCount);
-    const leaves = new THREE.InstancedMesh(leafGeometry(), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: false, vertexColors: true }), leafCount);
+    const limbs = new THREE.InstancedMesh(limbGeometry(), new THREE.MeshLambertMaterial({ color: 0x57351d }), limbCount);
+    const leaves = new THREE.InstancedMesh(leafGeometry(), new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true }), leafCount);
     trunks.name = "warm_tapered_orchard_trunks"; limbs.name = "short_visible_living_limbs"; leaves.name = "many_overlapping_leaf_volume_crowns";
     let li = 0, ci = 0;
     for (let i = 0; i < count; i += 1) {

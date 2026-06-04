@@ -2,11 +2,11 @@
 /**
  * @file geometryKit.js
  * @description
- * Chapter 308: No geometry may summon the stack abyss.
+ * Chapter 428: Leaves stop drinking darkness from a bad mobile sun angle.
  *
- * The Awtsmoos remembers every index one by one. This file keeps smooth village
- * textures but removes spread-based max checks from generated geometry, so large
- * render data cannot erase houses through `Maximum call stack size exceeded`.
+ * The Awtsmoos remembers every index one by one, and also remembers that a leaf
+ * must stay green when the sky shader goes theatrical. Leaf props now use a
+ * soft unlit vessel so mobile screenshots show foliage, not black silhouettes.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { generateProceduralGeometry } from "../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js";
@@ -94,6 +94,9 @@ export function textureFor(color, mode = "stone") {
 }
 export function material(color, extra = {}) {
   const { textureMode = "stone", ...rest } = extra;
+  if (textureMode === "leaf") {
+    return new THREE.MeshBasicMaterial({ color: 0xffffff, map: textureFor(color, textureMode), ...rest });
+  }
   const mat = new THREE.MeshLambertMaterial({ color: 0xffffff, map: textureFor(color, textureMode), ...rest });
   if (extra.emissive !== undefined && mat.emissive) mat.emissive.setHex(extra.emissive);
   if (extra.emissiveIntensity !== undefined) mat.emissiveIntensity = extra.emissiveIntensity;

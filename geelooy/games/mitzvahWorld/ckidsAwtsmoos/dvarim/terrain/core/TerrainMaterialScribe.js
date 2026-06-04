@@ -2,12 +2,11 @@
 /**
  * @module TerrainMaterialScribe
  * @description
- * Chapter 424: The earth remembered the roads beneath the grass.
+ * Chapter 430: The meadow stops bleaching into yellow paper.
  *
- * A village floor cannot be one green shout. It needs dusty paths, crushed
- * pebbles, clover flashes, and broad mossy breath. This scribe bakes those
- * signs from the same level data that shapes the terrain, so the player sees
- * paths where the terrain already walks.
+ * A village floor cannot be one green shout, but it also cannot vanish beneath
+ * overbright mobile lighting. This scribe bakes saturated meadow, dirt roads,
+ * clover, flowers, and pebbles into exact pixels so the phone sees earth.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 
@@ -149,13 +148,13 @@ function makeTexture(terrain = {}, size = 768) {
       const flower = hash(Math.floor(u * 130), Math.floor(v * 130), 601) > 0.986 ? 1 : 0;
       const clover = hash(Math.floor(u * 92), Math.floor(v * 92), 811) > 0.965 ? 1 : 0;
 
-      let r = lerp(61, 121, broad * 0.72 + fine * 0.28);
-      let g = lerp(117, 178, broad * 0.78 + fine * 0.22);
-      let b = lerp(48, 76, broad);
+      let r = lerp(42, 95, broad * 0.72 + fine * 0.28);
+      let g = lerp(104, 166, broad * 0.78 + fine * 0.22);
+      let b = lerp(38, 70, broad);
 
-      r = lerp(r, 141 + fine * 35, road);
-      g = lerp(g, 96 + fine * 28, road);
-      b = lerp(b, 51 + fine * 16, road);
+      r = lerp(r, 126 + fine * 28, road);
+      g = lerp(g, 86 + fine * 24, road);
+      b = lerp(b, 45 + fine * 12, road);
       r = lerp(r, 136 + fine * 42, stone * (1 - road * 0.5));
       g = lerp(g, 132 + fine * 38, stone * (1 - road * 0.5));
       b = lerp(b, 112 + fine * 34, stone * (1 - road * 0.5));
@@ -185,11 +184,10 @@ export default class TerrainMaterialScribe {
    */
   static async scribe(data = {}) {
     const size = Math.max(384, Math.min(1024, Number(data.textureSize || 768)));
-    return new THREE.MeshLambertMaterial({
+    return new THREE.MeshBasicMaterial({
       color: 0xffffff,
       map: makeTexture(data, size),
       side: THREE.DoubleSide
     });
   }
 }
-
