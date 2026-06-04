@@ -31,12 +31,28 @@ function firstJson(payload, names, fallback) {
 
 /**
  * B"H
+ * Some ChatGPT tool wrappers only allow new experimental switches through the
+ * `params` or `params64` vessel. The Awtsmoos merges that vessel before any
+ * runtime work begins, so source URL collection, network rewrites, and Merkava
+ * execution all see the same living payload.
+ *
+ * @param {object} payload Raw tunnel payload.
+ * @returns {object} Payload merged with params/params64 objects.
+ */
+function expandRuntimePayload(payload = {}) {
+  const params = jsonMaybe(payload.params, json64(payload.params64, {}));
+  if (!params || typeof params !== "object" || Array.isArray(params)) return payload;
+  return { ...params, ...payload };
+}
+
+/**
+ * B"H
  * The tunnel runner stands at the gate of two worlds: URL rivers and local
- * files. It now accepts Puppeteer-shaped action scrolls (`actions`,
- * `browserActions`, `pageActions`, `actionsJson`, plus base64 forms) and sends
- * them into Merkava's synthetic browser without invoking Chromium.
+ * files. It accepts Puppeteer-shaped action scrolls and now accepts general
+ * network rewrite options such as compactModules through the same payload.
  */
 async function collectOptions(payload = {}, config = {}) {
+  payload = expandRuntimePayload(payload);
   const env = await collectRuntimeEnv(payload, config);
   const actions = browserActionsFrom(payload);
   return {
@@ -56,11 +72,14 @@ async function collectOptions(payload = {}, config = {}) {
     waitMs: Number(payload.waitMs || 0),
     timeoutMs: Number(payload.timeoutMs || 30000),
     returnValues: firstJson(payload, ["returnValues", "values"], []),
-    values: firstJson(payload, ["values", "returnValues"], [])
+    values: firstJson(payload, ["values", "returnValues"], []),
+    compactModules: payload.compactModules,
+    networkRewrite: payload.networkRewrite || null
   };
 }
 
 async function collectRuntimeEnv(payload, config) {
+  payload = expandRuntimePayload(payload);
   const urlEnv = await buildRuntimeUrlEnv(payload);
   if (urlEnv) return urlEnv;
   return buildRuntimeVirtualEnv(payload, config);
@@ -73,6 +92,7 @@ function runtimeOrigin(payload = {}) {
 
 /** @param {object} payload Tunnel payload. @returns {Array|object|null} */
 function browserActionsFrom(payload = {}) {
+  payload = expandRuntimePayload(payload);
   return firstJson(payload, ["browserActions", "pageActions", "actionsJson", "actions", "steps"], null);
 }
 
@@ -126,14 +146,17 @@ function findLocalMerkavaService(start) {
   return candidates.find(file => fs.existsSync(file)) || null;
 }
 async function loadMerkavaService(payload = {}, config = {}) {
+  payload = expandRuntimePayload(payload);
   const localPath = findLocalMerkavaService(config.root || process.cwd());
   if (localPath) return await import(pathToFileURL(localPath).href + "?awtsmoos=" + Date.now());
   return await importHttpModule(resolveMerkavaServiceUrl(payload));
 }
 async function fallback(error, payload) {
+  payload = expandRuntimePayload(payload);
   return { ok: false, engine: "merkava", error: "merkava_runtime_failed", message: error?.message || String(error), stack: error?.stack || "", chromeRecommended: false, suggestion: { action: "simulateRuntime", engine: "merkava", reason: "Synthetic Merkava runtime failed before completion." }, options: await collectOptions(payload, {}) };
 }
 async function runService(payload, method, config = {}) {
+  payload = expandRuntimePayload(payload);
   const options = await collectOptions(payload, config);
   if (options.virtualEnv && options.virtualEnv.ok === false) return { ok: false, action: method, engine: "merkava", error: "runtime_preflight_failed", diagnostics: options.virtualEnv.diagnostics || [], virtualEnv: options.virtualEnv, options };
   try {
@@ -156,4 +179,4 @@ function buildRuntimeActions(ctx) {
   };
 }
 
-module.exports = { buildRuntimeActions, collectOptions, browserActionsFrom };
+module.exports = { buildRuntimeActions, collectOptions, browserActionsFrom, expandRuntimePayload };

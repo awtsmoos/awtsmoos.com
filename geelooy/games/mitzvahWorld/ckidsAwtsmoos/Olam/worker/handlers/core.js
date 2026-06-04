@@ -8,6 +8,7 @@
  * on mobile browsers that withhold measurements, we use safe defaults 
  * before the Tzimtzum (transferControlToOffscreen).
  */
+import { measureRenderViewport } from "../../../divine_systems/render/core/PixelRatioGovernor.js";
 
 export default function coreHandlers(manager) {
     const { eved, myUi } = manager;
@@ -53,15 +54,17 @@ export default function coreHandlers(manager) {
                 manager.canvasElement.style.outline = "none";
                 manager.canvasElement.style.border = "none";
 
-                // 2. Measure the void with absolute truth
-                const dpr = window.devicePixelRatio || 1;
-                const w = window.innerWidth || 1024;
-                const h = window.innerHeight || 768;
+                // 2. Measure the void with governed sharpness
+                const sizing = measureRenderViewport(window, "initial");
+                const dpr = sizing.pixelRatio;
+                const w = sizing.width;
+                const h = sizing.height;
                 const rect = manager.canvasElement.getBoundingClientRect?.();
                 console.info("B\"H | MAIN_CANVAS_TRACE | heescheel:measured", {
                     windowWidth: w,
                     windowHeight: h,
                     devicePixelRatio: dpr,
+                    rawDevicePixelRatio: sizing.rawPixelRatio,
                     canvasClientWidth: manager.canvasElement.clientWidth,
                     canvasClientHeight: manager.canvasElement.clientHeight,
                     canvasRect: rect ? {
@@ -72,8 +75,8 @@ export default function coreHandlers(manager) {
                     } : null
                 });
                 
-                manager.canvasElement.width = w * dpr;
-                manager.canvasElement.height = h * dpr;
+                manager.canvasElement.width = Math.max(1, Math.floor(w * dpr));
+                manager.canvasElement.height = Math.max(1, Math.floor(h * dpr));
 
                 // B"H: silent
 
@@ -85,6 +88,7 @@ export default function coreHandlers(manager) {
                     takeInCanvas: {
                         canvas: offscreen,
                         devicePixelRatio: dpr,
+                        rawDevicePixelRatio: sizing.rawPixelRatio,
                         width: w,
                         height: h
                     }

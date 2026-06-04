@@ -2,13 +2,13 @@
 /**
  * @file recipeMap.js
  * @description
- * Chapter 378: The recipe map cache is torn open so roof edits reach houses.
+ * Chapter 426: The recipe map carries the richer village signatures.
  */
-import { gableHouse } from "./cottageRecipe.js?v=roof-recipe-live-20260603-bh378";
+import { gableHouse } from "./cottageRecipe.js?v=warm-cottage-details-20260604-bh426";
 import { pergolaPortal, lantern } from "./portalRecipes.js";
 import { bench, cobbleRoad, fence, flowerPatch, rock, rockField, steps, terrace, well } from "./landscapeRecipes.js";
 import { meadowDetail } from "./fieldRecipes.js";
-import { pictureDirtPath } from "./pathRecipe.js";
+import { pictureDirtPath } from "./pathRecipe.js?v=worn-village-path-20260604-bh425";
 import { pictureStoneSteps, pictureTerraceWall } from "./terraceRecipe.js";
 import { pictureAnchorTree } from "./treeRecipe.js";
 

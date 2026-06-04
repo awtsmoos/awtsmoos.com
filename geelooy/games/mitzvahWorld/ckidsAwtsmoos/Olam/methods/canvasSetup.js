@@ -8,6 +8,7 @@ import RendererFactory from "./canvas/RendererFactory.js?v=lean-l1-20260528-bh17
 import ViewportSizer from "./canvas/ViewportSizer.js";
 import ContextMonitor from "./canvas/ContextMonitor.js";
 import UIRectifier from "./ui/UIRectifier.js";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js";
 
 export default class MasterCanvasSetup {
   /** Accepts the transferred canvas and creates the renderer. */
@@ -20,7 +21,12 @@ export default class MasterCanvasSetup {
     ContextMonitor.bind(canvas, this);
     try {
       this.renderer = RendererFactory.manifest(canvas);
-      const optimizedRatio = Math.min(devicePixelRatio || 1, 1.25);
+      const optimizedRatio = resolvePixelRatio({
+        raw: devicePixelRatio,
+        width: this.width || 1024,
+        height: this.height || 768,
+        phase: "initial"
+      });
       this.renderer.setPixelRatio(optimizedRatio);
       this.ayshPeula("canvased");
     } catch (err) {

@@ -78,7 +78,12 @@ export default class VillageGrassField extends Domem {
       const y = terrainHeight(olam, p.x, p.z, n(this.options.groundY, 0)) + n(this.options.groundLift, 0.018);
       placeFleck(flecks, i, p, y, seed + 91);
     }
-    [short, tall, flecks].forEach(mesh => { mesh.instanceMatrix.needsUpdate = true; mesh.frustumCulled = false; });
+    [short, tall, flecks].forEach(mesh => {
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.computeBoundingBox?.();
+      mesh.computeBoundingSphere?.();
+      mesh.frustumCulled = true;
+    });
     this.mesh = new THREE.Group();
     this.mesh.name = this.name || "VillageGrassField_lawn_many_real_blades";
     Object.assign(this.mesh.userData ||= {}, { useAuthoredY: true });

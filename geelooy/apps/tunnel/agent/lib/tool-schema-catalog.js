@@ -1,4 +1,4 @@
-// B"H
+﻿// B"H
 
 /**
  * B"H
@@ -60,7 +60,7 @@ function fsSchema(name) {
   if (/rg|grep|selectString|bulkSearch|find/i.test(name)) return objectSchema({ p: string("Repo-relative root/path."), path: string("Repo-relative root/path."), query: string("Search query."), pattern: string("Search pattern."), regex: bool("Treat pattern as regex."), maxResults: integer("Maximum matches."), maxFiles: integer("Maximum files to scan."), maxChars: integer("Maximum returned characters.") });
   if (/command|Runner|test|lint|typecheck|build/i.test(name)) return objectSchema({ p: string("Repo-relative working path."), cwd: string("Repo-relative working directory."), command: string("Command to run."), timeoutMs: integer("Timeout in milliseconds."), maxChars: integer("Maximum returned characters.") });
   if (/http/i.test(name)) return objectSchema({ url: string("URL to request."), method: string("HTTP method."), headers: string("JSON or text headers."), body: string("Request body."), timeoutMs: integer("Timeout in milliseconds."), maxChars: integer("Maximum returned characters.") });
-  if (/simulateRuntime|isolated|Runtime|browser/i.test(name)) return objectSchema({ p: string("Repo-relative path."), html: string("HTML source."), scriptText: string("JavaScript source."), runtime: string("Runtime engine."), interactions: string("JSON browser/page interactions."), url: string("URL to load."), timeoutMs: integer("Timeout in milliseconds."), maxChars: integer("Maximum returned characters.") });
+  if (/simulateRuntime|isolated|Runtime|browser/i.test(name)) return objectSchema({ p: string("Repo-relative path."), html: string("HTML source."), scriptText: string("JavaScript source."), runtime: string("Runtime engine."), interactions: string("JSON browser/page interactions."), url: string("URL to load."), params: string("JSON object merged into runtime payload before collection/execution."), params64: string("Base64 JSON object merged into runtime payload before collection/execution."), compactModules: bool("Rewrite same-origin JS URL fetches to append compact=true during simulateRuntime URL collection."), networkRewrite: string("JSON rewrite rule or array for URL collection; supports match/kind/sameOrigin/appendQuery/setQuery/rewriteTo."), networkRewrite64: string("Base64 JSON networkRewrite rules."), timeoutMs: integer("Timeout in milliseconds."), maxChars: integer("Maximum returned characters."), maxFiles: integer("Maximum URL files to collect."), maxBytes: integer("Maximum bytes per fetched URL asset.") });
   return commonSchema();
 }
 
@@ -138,3 +138,4 @@ function yamlValue(value) { return JSON.stringify(String(value ?? "")); }
 function unique(values = []) { return [...new Set(values.filter(Boolean).map(String))]; }
 
 module.exports = { buildToolCatalog, renderToolCatalogYaml };
+

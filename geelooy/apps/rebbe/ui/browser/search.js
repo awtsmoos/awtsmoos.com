@@ -3,192 +3,106 @@
 
 /**
  * B"H
- * The results view is no longer a compressed control panel. It is a calmer
- * table of discovered events: soft text, spacious cards, selected-event bulk
- * download, and expandable files only when the seeker asks.
- * @param {object[]} results Events to show.
- * @param {object|Function} handlers Action handlers.
+ * Search results become a premium archive river: the Awtsmoos gathers every
+ * event-card spark, every track-row ember, and every selected checkbox into one
+ * obvious, touchable, offline-ready library surface.
+ * @param {Array<object>} results Event search results from the date index.
+ * @param {object|Function} handlers Search action callbacks.
+ * @returns {void}
  */
 export function renderSearchResults(results, handlers = {}) {
   const root = document.getElementById('search-results');
   if (!root) return;
-  root.innerHTML = '';
-  root.appendChild(actionStyles());
   const actions = typeof handlers === 'function' ? { onOpen: handlers } : handlers;
-  if (!Array.isArray(results) || !results.length) {
-    root.innerHTML += '<div class="search-empty">No date index matches found</div>';
-    return;
-  }
-  const selection = new Map(results.map((item, index) => [selectionKey(item, index), item]));
-  root.appendChild(summary(results.length, selection, actions));
-  results.forEach((item, index) => root.appendChild(resultCard(item, index, actions, selection)));
-  updateSelectionCount(root, selection);
+  const selected = new Map();
+  root.innerHTML = '';
+  root.appendChild(styles());
+  if (!results?.length) return root.appendChild(empty('No date index matches found'));
+  root.appendChild(summary(results.length, selected, actions));
+  results.forEach((item, index) => root.appendChild(card(item, index, actions, selected)));
+  syncCount(root, selected);
 }
 
-function summary(count, selection, actions) {
-  const div = document.createElement('div');
-  div.className = 'search-summary';
-  div.innerHTML = `
-    <div class="summary-copy"><strong>${count}</strong> events found · <b class="selected-count">${count}</b> selected</div>
-    <div class="bulk-selection-actions">
-      <button class="result-action select-all-results">Select all</button>
-      <button class="result-action unselect-all-results">Unselect all</button>
-      <button class="result-action all-results-zip">Download selected zip</button>
-    </div>`;
-  div.querySelector('.select-all-results').onclick = event => bulkSelect(event, div, true, selection);
-  div.querySelector('.unselect-all-results').onclick = event => bulkSelect(event, div, false, selection);
-  div.querySelector('.all-results-zip').onclick = event => {
-    event.stopPropagation();
-    actions.onDownloadAllResults?.([...selection.values()]);
-  };
-  return div;
+function summary(count, selected, actions) {
+  const node = el('div', 'search-summary premium-selection');
+  node.innerHTML = `<div><span class="summary-eyebrow">premium archive search</span><strong>${count}</strong> events · <b class="selected-count">0</b> selected tracks</div><div class="bulk-selection-actions"><button class="result-action" data-all="1">Select all tracks</button><button class="result-action" data-all="0">Clear selected</button><button class="result-action playlist-selected">Add selected to playlist</button><button class="result-action zip-selected">ZIP selected</button></div>`;
+  node.querySelector('[data-all="1"]').onclick = e => selectAll(e, true, selected);
+  node.querySelector('[data-all="0"]').onclick = e => selectAll(e, false, selected);
+  node.querySelector('.playlist-selected').onclick = e => act(e, () => actions.onAddToPlaylist?.([...selected.values()]));
+  node.querySelector('.zip-selected').onclick = e => act(e, () => actions.onDownloadSelectedTracks?.([...selected.values()]));
+  return node;
 }
 
-function bulkSelect(event, node, enabled, selection) {
-  event.stopPropagation();
-  const root = node.closest('#search-results') || document.getElementById('search-results');
-  root.querySelectorAll('.result-select').forEach(input => {
-    input.checked = enabled;
-    const card = input.closest('.date-result');
-    const item = card.__searchItem;
-    const key = card.__searchKey;
-    if (enabled) selection.set(key, item);
-    else selection.delete(key);
-    card.classList.toggle('not-selected', !enabled);
-  });
-  updateSelectionCount(root, selection);
+function card(item, index, actions, selected) {
+  const node = el('article', 'date-result premium-event-card');
+  node.__searchItem = item;
+  node.innerHTML = `<div class="result-head"><div><div class="result-date">${safe(item.month)} ${safe(item.day)}, ${safe(item.year)}</div><div class="result-title">${safe(item.title || item.folder || 'Untitled event')}</div></div><div class="event-action-grid"><button class="result-action open">Open</button><button class="result-action playlist">Playlist</button><button class="result-action cache">Cache</button><button class="result-action zip">ZIP</button><button class="result-action bookmark">Bookmark</button></div></div><button class="result-action result-expand">Show tracks</button><div class="event-files hidden"><div class="track-selection-toolbar"><label><input class="select-event-tracks" type="checkbox"> Select all tracks in event</label><button class="result-action add-event-selected">Add event selection</button></div><div class="event-file-list"><div class="search-empty small">Open tracks to load files</div></div></div>`;
+  bindEventActions(node, item, actions);
+  const state = { loaded: false, tracks: [] };
+  node.querySelector('.result-expand').onclick = e => toggleFiles(e, node, item, actions, selected, state);
+  node.querySelector('.select-event-tracks').onchange = e => toggleEventTracks(node, e.target.checked, selected);
+  node.querySelector('.add-event-selected').onclick = e => act(e, () => actions.onAddToPlaylist?.(eventSelected(node)));
+  return node;
 }
 
-function resultCard(item, index, actions, selection) {
-  const card = document.createElement('article');
-  const key = selectionKey(item, index);
-  card.className = 'date-result';
-  card.__searchItem = item;
-  card.__searchKey = key;
-  card.innerHTML = template(item, key);
-  card.querySelector('.result-title').textContent = cleanTitle(item.title || item.folder || 'Untitled event');
-  const state = { tracks: [], loaded: false, open: false };
-  bindSelection(card, item, key, selection);
-  bindEventActions(card, item, actions, state);
-  return card;
+function bindEventActions(node, item, actions) {
+  const bind = (sel, fn) => { node.querySelector(sel).onclick = e => act(e, fn); };
+  bind('.open', () => actions.onOpen?.(item));
+  bind('.playlist', () => actions.onAddToPlaylist?.([item]));
+  bind('.cache', () => actions.onCacheEvent?.(item));
+  bind('.zip', () => actions.onDownloadEvent?.(item));
+  bind('.bookmark', () => actions.onBookmark?.(item));
 }
 
-function template(item, key) {
-  const month = item.month || `Month ${item.month_id || '?'}`;
-  const day = item.day || '?';
-  const year = item.year || '????';
-  return `
-    <div class="result-head">
-      <label class="result-select-row">
-        <input class="result-select" type="checkbox" data-key="${key}" checked>
-        <span>Include</span>
-      </label>
-      <div class="result-date">${month} ${day}, ${year}</div>
-      <button class="result-action result-open">Open</button>
-    </div>
-    <div class="result-title"></div>
-    <div class="result-meta"><span>${cleanTitle(item.folder || '')}</span></div>
-    <div class="result-actions event-actions">
-      <button class="result-action result-expand">Show files</button>
-      <button class="result-action result-download-event">Event zip</button>
-      <button class="result-action result-cache-event">Cache event</button>
-      <button class="result-action result-bookmark">Bookmark</button>
-    </div>
-    <div class="event-files hidden"><div class="files-loading">Files not loaded</div></div>`;
-}
-
-function bindSelection(card, item, key, selection) {
-  const checkbox = card.querySelector('.result-select');
-  checkbox.addEventListener('click', event => event.stopPropagation());
-  checkbox.addEventListener('change', () => {
-    if (checkbox.checked) selection.set(key, item);
-    else selection.delete(key);
-    card.classList.toggle('not-selected', !checkbox.checked);
-    updateSelectionCount(card.closest('#search-results') || document.getElementById('search-results'), selection);
-  });
-}
-
-function bindEventActions(card, item, actions, state) {
-  bindAction(card, '.result-open', () => actions.onOpen?.(item));
-  bindAction(card, '.result-bookmark', () => actions.onBookmark?.(item));
-  bindAction(card, '.result-download-event', async () => actions.onDownloadEvent?.(item, await tracks(card, item, actions, state)));
-  bindAction(card, '.result-cache-event', async () => actions.onCacheEvent?.(item, await tracks(card, item, actions, state)));
-  bindAction(card, '.result-expand', () => toggleFiles(card, item, actions, state));
-  card.addEventListener('click', event => {
-    if (event.target.closest('button,input,label')) return;
-    actions.onOpen?.(item);
-  });
-}
-
-async function toggleFiles(card, item, actions, state) {
-  const box = card.querySelector('.event-files');
-  const button = card.querySelector('.result-expand');
-  state.open = !state.open;
-  box.classList.toggle('hidden', !state.open);
-  button.textContent = state.open ? 'Hide files' : 'Show files';
-  if (state.open) await tracks(card, item, actions, state);
-}
-
-async function tracks(card, item, actions, state) {
-  if (state.loaded) return state.tracks;
-  const box = card.querySelector('.event-files');
-  box.classList.remove('hidden');
-  box.innerHTML = '<div class="files-loading">Loading event files…</div>';
+async function toggleFiles(e, node, item, actions, selected, state) {
+  e.stopPropagation();
+  const box = node.querySelector('.event-files');
+  const button = node.querySelector('.result-expand');
+  box.classList.toggle('hidden');
+  button.textContent = box.classList.contains('hidden') ? 'Show tracks' : 'Hide tracks';
+  if (state.loaded) return;
+  const list = node.querySelector('.event-file-list');
+  list.innerHTML = '<div class="search-empty small">Loading event tracks...</div>';
   state.tracks = await (actions.onLoadTracks?.(item) || []);
   state.loaded = true;
-  box.innerHTML = '';
-  if (!state.tracks.length) box.innerHTML = '<div class="files-loading">No audio files found</div>';
-  state.tracks.forEach((track, index) => box.appendChild(trackRow(track, index, item, actions)));
-  return state.tracks;
+  list.innerHTML = state.tracks.length ? '' : '<div class="search-empty small">No tracks found</div>';
+  state.tracks.forEach((track, i) => list.appendChild(trackRow(track, item, i, actions, selected)));
 }
 
-function trackRow(track, index, item, actions) {
-  const row = document.createElement('div');
-  row.className = 'event-file-row';
-  row.innerHTML = `
-    <div class="event-file-name"><span>${index + 1}.</span> <strong></strong></div>
-    <div class="event-file-actions">
-      <button class="result-action file-download">Download</button>
-      <button class="result-action file-cache">Cache</button>
-      <button class="result-action file-bookmark">Save</button>
-    </div>`;
-  row.querySelector('strong').textContent = cleanTitle(track.title || track.name || 'Audio file');
-  bindAction(row, '.file-download', () => actions.onDownloadTrack?.(track, item));
-  bindAction(row, '.file-cache', () => actions.onCacheTrack?.(track, item));
-  bindAction(row, '.file-bookmark', () => actions.onBookmarkTrack?.(track, item));
+function trackRow(track, item, index, actions, selected) {
+  const wrapped = normalizeTrack(track, item);
+  const key = keyOf(wrapped, index);
+  const row = el('div', 'event-file-row premium-track-row');
+  row.__playlistItem = wrapped;
+  row.__playlistKey = key;
+  row.innerHTML = `<label class="track-check-shell"><input class="track-select" type="checkbox"><span></span></label><button class="track-play-title">${safe(wrapped.title || 'Audio')}</button><div class="track-row-actions"><button class="result-action play">Play</button><button class="result-action playlist">Playlist</button><button class="result-action cache">Cache</button><button class="result-action download">Download</button><button class="result-action bookmark">Bookmark</button></div>`;
+  row.querySelector('.track-select').onchange = e => { e.target.checked ? selected.set(key, wrapped) : selected.delete(key); row.classList.toggle('selected', e.target.checked); syncCount(document.getElementById('search-results'), selected); };
+  row.querySelector('.track-play-title').onclick = e => act(e, () => actions.onPlayTrack?.(track, item));
+  row.querySelector('.play').onclick = e => act(e, () => actions.onPlayTrack?.(track, item));
+  row.querySelector('.playlist').onclick = e => act(e, () => actions.onAddToPlaylist?.([wrapped]));
+  row.querySelector('.cache').onclick = e => act(e, () => actions.onCacheTrack?.(track, item));
+  row.querySelector('.download').onclick = e => act(e, () => actions.onDownloadTrack?.(track, item));
+  row.querySelector('.bookmark').onclick = e => act(e, () => actions.onBookmarkTrack?.(track, item));
   return row;
 }
 
-function bindAction(root, selector, callback) {
-  const button = root.querySelector(selector);
-  if (!button) return;
-  button.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopPropagation();
-    callback();
-  });
+function toggleEventTracks(node, checked, selected) {
+  node.querySelectorAll('.track-select').forEach(input => { input.checked = checked; input.dispatchEvent(new Event('change')); });
 }
 
-function updateSelectionCount(root, selection) {
-  const count = root?.querySelector('.selected-count');
-  if (count) count.textContent = selection.size;
+function selectAll(e, checked, selected) {
+  e.stopPropagation();
+  document.querySelectorAll('#search-results .track-select').forEach(input => { input.checked = checked; input.dispatchEvent(new Event('change')); });
+  if (!checked) selected.clear();
+  syncCount(document.getElementById('search-results'), selected);
 }
 
-function selectionKey(item, index) {
-  return `${index}:${item.year || ''}:${item.folder || ''}`;
-}
-
-function actionStyles() {
-  const style = document.createElement('style');
-  style.textContent = `.search-summary{position:sticky;top:0;z-index:4;display:grid;gap:12px;background:#000;border-bottom:1px solid #244;padding:14px}.summary-copy{color:#cbd;font-size:15px;letter-spacing:.3px;text-transform:none}.summary-copy strong,.selected-count{color:var(--c-cyan);font-size:20px}.bulk-selection-actions,.result-actions,.event-file-actions{display:flex;gap:8px;flex-wrap:wrap}.date-result{border-bottom:1px solid #17343a!important;background:linear-gradient(180deg,rgba(0,243,255,.06),rgba(0,0,0,.96))!important;color:#eee!important;padding:16px!important;text-transform:none!important}.date-result.not-selected{opacity:.45}.date-result.not-selected .result-title{text-decoration:line-through}.result-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px}.result-select-row{display:flex;align-items:center;gap:7px;color:var(--c-cyan);font-family:monospace;font-weight:700;cursor:pointer;text-transform:none}.result-select{width:18px;height:18px;accent-color:var(--c-cyan)}.result-date{color:var(--c-yellow);font-weight:800;letter-spacing:.3px}.result-title{font-size:18px;font-weight:800;color:#fff;margin:12px 0 6px;line-height:1.32;word-break:break-word}.result-meta{display:flex;gap:8px;flex-wrap:wrap;color:#91a4ad;font:12px monospace;line-height:1.35;word-break:break-word}.result-action{border:1px solid #244;background:#020708;color:var(--c-cyan);font-family:monospace;font-weight:800;padding:8px 10px;letter-spacing:.3px;cursor:pointer;text-transform:none}.result-action:hover{background:var(--c-cyan);color:#000;box-shadow:0 0 12px rgba(0,243,255,.35)}.all-results-zip{color:#000!important;background:var(--c-yellow)!important;border-color:var(--c-yellow)!important}.event-files{margin-top:14px;border-top:1px solid #244;background:rgba(0,0,0,.34)}.files-loading{padding:14px;color:#889;text-align:center;letter-spacing:.4px}.event-file-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid #132d31}.event-file-name{color:#ddd;min-width:0;word-break:break-word;line-height:1.35}.event-file-name span{color:var(--c-yellow)}.event-file-actions .result-action{font-size:12px;padding:7px 8px}@media(max-width:720px){.search-summary{position:relative}.bulk-selection-actions,.result-actions,.event-file-actions{display:grid;grid-template-columns:1fr}.result-head{grid-template-columns:1fr;align-items:start}.result-action{width:100%;text-align:center}.event-file-row{grid-template-columns:1fr}.date-result{padding:18px 14px!important}.result-title{font-size:17px}}`;
-  return style;
-}
-
-function cleanTitle(value) {
-  return String(value || '')
-    .replace(/^BH[_\s-]*\d+[_\s-]*/i, '')
-    .replace(/_/g, ' ')
-    .replace(/\s*-\s*/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
+function eventSelected(node) { return [...node.querySelectorAll('.premium-track-row.selected')].map(row => row.__playlistItem).filter(Boolean); }
+function normalizeTrack(track, event) { return { type: 'track', year: String(event.year || ''), folder: event.folder || '', title: track.title || track.name || event.title || 'Audio', path: track.path || '', url: track.url || '', fallbackUrls: track.fallbackUrls || [], track, event }; }
+function keyOf(item, index) { return item.path || `${item.year}:${item.folder}:${item.title}:${index}`; }
+function syncCount(root, selected) { const c = root?.querySelector('.selected-count'); if (c) c.textContent = selected.size; }
+function act(e, fn) { e.stopPropagation(); return fn?.(); }
+function empty(text) { const node = el('div', 'search-empty'); node.textContent = text; return node; }
+function el(tag, cls) { const node = document.createElement(tag); node.className = cls; return node; }
+function safe(value) { return String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])); }
+function styles() { const s = document.createElement('style'); s.textContent = `.premium-event-card{border:1px solid rgba(0,243,255,.28);border-radius:22px;margin:14px 0;padding:16px;background:linear-gradient(135deg,rgba(0,243,255,.08),rgba(255,204,0,.035),rgba(0,0,0,.82));box-shadow:0 18px 48px rgba(0,0,0,.34)}.premium-event-card:hover{border-color:rgba(0,243,255,.75);box-shadow:0 22px 70px rgba(0,243,255,.12)}.result-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.summary-eyebrow{display:block;color:var(--c-yellow);font-size:11px;letter-spacing:3px;text-transform:uppercase}.premium-selection{position:sticky;top:0;z-index:20;border:1px solid rgba(255,204,0,.36);border-radius:18px;padding:14px;background:rgba(2,8,10,.96);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.event-action-grid,.bulk-selection-actions,.track-row-actions{display:flex;gap:8px;flex-wrap:wrap}.result-action{border:1px solid rgba(0,243,255,.45);border-radius:999px;background:rgba(0,0,0,.58);color:#eaffff;padding:8px 12px;font-weight:900;letter-spacing:.6px;cursor:pointer}.result-action:hover,.result-action:focus{background:var(--c-cyan);color:#001014;outline:2px solid rgba(255,204,0,.45)}.result-title{font-size:clamp(18px,3vw,28px);color:white;font-weight:900}.result-date{color:var(--c-yellow);letter-spacing:2px}.event-files{margin-top:12px;border-top:1px solid rgba(0,243,255,.18);padding-top:12px}.track-selection-toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px;color:#dff}.premium-track-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px;border:1px solid rgba(0,243,255,.12);border-radius:14px;margin:8px 0;background:rgba(255,255,255,.025)}.premium-track-row.selected{border-color:var(--c-yellow);background:rgba(255,204,0,.12);box-shadow:inset 4px 0 0 var(--c-yellow)}.track-play-title{background:transparent;border:0;color:white;text-align:left;font-weight:900;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.track-check-shell input{width:20px;height:20px;accent-color:var(--c-yellow)}.search-empty.small{padding:16px}@media(max-width:760px){.result-head,.premium-track-row,.premium-selection,.track-selection-toolbar{display:grid;grid-template-columns:1fr}.event-action-grid,.track-row-actions,.bulk-selection-actions{display:grid;grid-template-columns:1fr 1fr}.result-action{width:100%}}`; return s; }

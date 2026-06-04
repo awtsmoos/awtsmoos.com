@@ -26,7 +26,7 @@ function mark(root) { root.traverse(o => Object.assign(o.userData ||= {}, { skip
 function compose(mesh, index, p, q, s) { mesh.setMatrixAt(index, new THREE.Matrix4().compose(p, q, s)); }
 function trunkGeometry() { return new THREE.CylinderGeometry(0.34, 0.52, 4.2, 8, 3); }
 function limbGeometry() { return new THREE.CylinderGeometry(0.08, 0.16, 1, 7, 1); }
-function leafGeometry() { return new THREE.IcosahedronGeometry(0.75, 2); }
+function leafGeometry() { return new THREE.IcosahedronGeometry(0.75, 1); }
 function between(a, b) {
   const mid = a.clone().add(b).multiplyScalar(0.5);
   const dir = b.clone().sub(a);
@@ -55,7 +55,7 @@ export default class VillageTreeField extends Domem {
     const trunks = new THREE.InstancedMesh(trunkGeometry(), new THREE.MeshLambertMaterial({ color: 0x5a351d }), count);
     const limbCount = count * 5, leafCount = count * 15;
     const limbs = new THREE.InstancedMesh(limbGeometry(), new THREE.MeshLambertMaterial({ color: 0x4a2d17 }), limbCount);
-    const leaves = new THREE.InstancedMesh(leafGeometry(), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: false }), leafCount);
+    const leaves = new THREE.InstancedMesh(leafGeometry(), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: false, vertexColors: true }), leafCount);
     trunks.name = "warm_tapered_orchard_trunks"; limbs.name = "short_visible_living_limbs"; leaves.name = "many_overlapping_leaf_volume_crowns";
     let li = 0, ci = 0;
     for (let i = 0; i < count; i += 1) {
@@ -83,7 +83,11 @@ export default class VillageTreeField extends Domem {
     }
     trunks.instanceMatrix.needsUpdate = limbs.instanceMatrix.needsUpdate = leaves.instanceMatrix.needsUpdate = true;
     leaves.instanceColor.needsUpdate = true;
-    [trunks, limbs, leaves].forEach(mesh => { mesh.frustumCulled = false; });
+    [trunks, limbs, leaves].forEach(mesh => {
+      mesh.computeBoundingBox?.();
+      mesh.computeBoundingSphere?.();
+      mesh.frustumCulled = true;
+    });
     this.mesh = new THREE.Group();
     this.mesh.name = this.name || "VillageTreeField_leafy_volume_orchard";
     this.mesh.position.set(n(origin.x), 0, n(origin.z));

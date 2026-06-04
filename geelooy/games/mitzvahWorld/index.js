@@ -4,9 +4,11 @@
  * @description
  * Chapter 130: The outer gate carries the ray-grounded village seal. The
  * Awtsmoos asks the browser for fresh ikar, fresh UI, and fresh worker grounding.
+ * The worker-side builder contract is WorldHeescheel.
  */
 let bootStarted = false;
 const SEAL = "ray-ground-ui-ground0-20260602-bh130";
+const WORKER_WORLD_BUILDER_CONTRACT = "WorldHeescheel";
 
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";

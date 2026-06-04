@@ -16,6 +16,7 @@ import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";
 import CombatManager from "../../systems/combat/CombatManager.js";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js";
 
 const SAFE_SKY = 0x5d8fa8;
 
@@ -69,7 +70,15 @@ export default class Olam extends Nivra {
   get activeCamera() { return this._activeCamera; }
   set activeCamera(value) { this._activeCamera = value; this.refreshCameraAspect(); }
   get camera() { return this.activeCamera || this.ayin.camera; }
-  set pixelRatio(pixelRatio) { if (this.renderer) this.renderer.setPixelRatio(pixelRatio); }
+  set pixelRatio(pixelRatio) {
+    if (!this.renderer) return;
+    this.renderer.setPixelRatio(resolvePixelRatio({
+      raw: pixelRatio,
+      width: this.width || 1024,
+      height: this.height || 768,
+      phase: "resize"
+    }));
+  }
 
   async init() {
     await this._facultiesGrafted;

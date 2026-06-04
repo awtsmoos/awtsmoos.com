@@ -2,26 +2,73 @@
 /**
  * @file MitzvahWorldPostBuild.js
  * @description
- * Chapter 3: The automatic city/battle/NPC postbuild is closed.
+ * Chapter 429: The postbuild returns as a narrow bridge, not a flood.
  *
- * This module used to import and run house doors, generated battle enemies,
- * wood collectibles, NPC role markers, and Emerald features for every worker
- * load. That is forbidden for the clean Level 1 platformer path because the
- * authored level already contains its complete manifest.
+ * The old postbuild tried to summon too much and could trample authored worlds.
+ * This vessel restores only the wood collectible covenant and NPC role marks:
+ * small touchable logs, quest progress, debate markers, inventory reward, and
+ * diagnostics. Everything else remains quiet unless a future explicit manifest
+ * opens another gate.
  */
+import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteractionSchema.js";
+import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js";
+import { ensureNpcRoles } from "./NpcRolePostBuild.js";
+import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
 
 /**
- * No-op postbuild kept only for compatibility with stale imports.
+ * Executes one protected postbuild step.
+ *
+ * @param {string} name Diagnostic step name.
+ * @param {Function} task Async work to run.
+ * @returns {Promise<{ ok: boolean, value?: unknown, error?: string }>} Step result.
+ */
+async function safeStep(name, task) {
+  try {
+    return { ok: true, value: await task() };
+  } catch (error) {
+    console.warn("B\"H | MITZVAH_POSTBUILD_STEP_FAILED", {
+      name,
+      message: error?.message || String(error)
+    });
+    return { ok: false, error: error?.message || String(error) };
+  }
+}
+
+/**
+ * Runs the focused Mitzvah World postbuild.
  *
  * @param {object} context Optional postbuild context.
- * @returns {Promise<object>} Empty summary.
+ * @param {object} [context.olam] Worker world instance.
+ * @param {THREE.Scene} [context.scene] Scene to receive postbuilt meshes.
+ * @returns {Promise<object>} Postbuild diagnostic summary.
  */
 export async function runMitzvahWorldPostBuild(context = {}) {
+  const woodCollectibles = await safeStep("woodCollectibles", () => ensureWoodCollectibles(context));
+  const roleMarkedNpcs = await safeStep("roleMarkedNpcs", () => ensureNpcRoles(context));
+  const addedWood = Array.isArray(woodCollectibles.value) ? woodCollectibles.value.length : 0;
+  const markedNpcs = Array.isArray(roleMarkedNpcs.value) ? roleMarkedNpcs.value.length : 0;
+
   return {
-    skipped: true,
-    reason: "clean-level-pipeline",
+    skipped: false,
+    reason: "focused-safe-postbuild",
     source: context?.worldData?.shaym || context?.source || null,
-    steps: {},
-    finalCounts: {}
+    steps: {
+      woodCollectibles: {
+        ok: woodCollectibles.ok,
+        authored: WOOD_COLLECTIBLES.length,
+        added: addedWood,
+        error: woodCollectibles.error || null
+      },
+      roleMarkedNpcs: {
+        ok: roleMarkedNpcs.ok,
+        authored: Object.keys(NPC_ROLES).length,
+        marked: markedNpcs,
+        error: roleMarkedNpcs.error || null
+      }
+    },
+    finalCounts: {
+      woodCollectibles: addedWood,
+      roleMarkedNpcs: markedNpcs
+    }
   };
 }

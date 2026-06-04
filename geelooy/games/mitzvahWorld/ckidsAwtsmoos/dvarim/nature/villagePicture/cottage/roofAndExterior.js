@@ -26,6 +26,16 @@ function roofPlane(group, side) {
   return mesh;
 }
 function ridge(group) { cube(group, C.roofDark, [0, ROOF.ridgeY + 0.065, 0], [0.22, 0.16, ROOF.halfDepth * 2.12], [0, 0, 0], "roof").name = "single_clean_roof_ridge_cap"; }
+function roofRows(group) {
+  for (let i = 0; i < 9; i += 1) {
+    const t = i / 8;
+    const y = ROOF.eaveY + 0.1 + t * (ROOF.ridgeY - ROOF.eaveY - 0.08);
+    const x = ROOF.halfRun - t * ROOF.halfRun;
+    const rowScale = [0.08, 0.08, ROOF.halfDepth * 2.18];
+    cube(group, C.roofDark, [-x, y, 0], rowScale, [0, 0, 0.43], "roof").name = `left_roof_tile_ridge_${i}`;
+    cube(group, C.roofDark, [x, y, 0], rowScale, [0, 0, -0.43], "roof").name = `right_roof_tile_ridge_${i}`;
+  }
+}
 function eaves(group) {
   cube(group, C.roofDark, [-ROOF.halfRun - 0.13, ROOF.eaveY - 0.05, 0], [0.16, 0.16, ROOF.halfDepth * 2.12], [0, 0, 0.43], "roof").name = "left_short_eave_edge";
   cube(group, C.roofDark, [ROOF.halfRun + 0.13, ROOF.eaveY - 0.05, 0], [0.16, 0.16, ROOF.halfDepth * 2.12], [0, 0, -0.43], "roof").name = "right_short_eave_edge";
@@ -46,11 +56,36 @@ function gableCap(group, z, name) {
 }
 function framedWindow(group, x, z = 2.55) {
   cube(group, C.wood, [x, 1.42, z], [0.86, 0.6, 0.12], [0, 0, 0], "wood");
-  cube(group, C.warm, [x, 1.42, z + 0.065], [0.54, 0.36, 0.075], [0, 0, 0], "cloth", { emissive: C.warm, emissiveIntensity: 0.34 });
+  cube(group, C.warm, [x, 1.42, z + 0.065], [0.54, 0.36, 0.075], [0, 0, 0], "cloth", { emissive: C.warm, emissiveIntensity: 0.72 });
   cube(group, C.wood, [x, 1.42, z + 0.12], [0.08, 0.5, 0.08], [0, 0, 0], "wood");
   cube(group, C.wood, [x, 1.42, z + 0.13], [0.54, 0.08, 0.08], [0, 0, 0], "wood");
   cube(group, C.wood, [x, 1.08, z + 0.1], [0.98, 0.1, 0.16], [0, 0, 0], "wood");
-  light(group, C.warm, [x, 1.42, z + 0.46], 0.34, 4.8);
+  light(group, C.warm, [x, 1.42, z + 0.46], 0.56, 5.8);
+}
+function chimney(group) {
+  cube(group, C.stoneDark, [1.78, 3.58, -1.4], [0.42, 0.92, 0.42], [0, 0, 0], "stone").name = "warm_stone_chimney_stack";
+  cube(group, C.roofDark, [1.78, 4.08, -1.4], [0.56, 0.16, 0.56], [0, 0, 0], "roof").name = "small_chimney_cap";
+}
+function gableTrim(group) {
+  cube(group, C.darkWood, [-1.46, 3.12, 2.95], [3.15, 0.09, 0.1], [0, 0, 0.43], "wood").name = "front_left_gable_trim";
+  cube(group, C.darkWood, [1.46, 3.12, 2.95], [3.15, 0.09, 0.1], [0, 0, -0.43], "wood").name = "front_right_gable_trim";
+  cube(group, C.darkWood, [-1.46, 3.12, -2.95], [3.15, 0.09, 0.1], [0, 0, 0.43], "wood").name = "rear_left_gable_trim";
+  cube(group, C.darkWood, [1.46, 3.12, -2.95], [3.15, 0.09, 0.1], [0, 0, -0.43], "wood").name = "rear_right_gable_trim";
+}
+function frontDetails(group) {
+  cube(group, C.darkWood, [-0.78, 1.3, 2.98], [0.1, 2.28, 0.1], [0, 0, 0], "wood").name = "front_left_door_jamb_visual";
+  cube(group, C.darkWood, [0.78, 1.3, 2.98], [0.1, 2.28, 0.1], [0, 0, 0], "wood").name = "front_right_door_jamb_visual";
+  cube(group, C.darkWood, [0, 2.44, 2.98], [1.72, 0.12, 0.12], [0, 0, 0], "wood").name = "front_door_lintel_visual";
+  cube(group, C.warm, [-1.08, 2.07, 3.06], [0.12, 0.24, 0.08], [0, 0, 0], "cloth", { emissive: C.warm, emissiveIntensity: 1.1 }).name = "left_entry_lamp_glass";
+  cube(group, C.warm, [1.08, 2.07, 3.06], [0.12, 0.24, 0.08], [0, 0, 0], "cloth", { emissive: C.warm, emissiveIntensity: 1.1 }).name = "right_entry_lamp_glass";
+  light(group, C.warm, [-1.08, 2.08, 3.36], 0.42, 4.4);
+  light(group, C.warm, [1.08, 2.08, 3.36], 0.42, 4.4);
+}
+function planters(group) {
+  [-3.05, 3.05].forEach((x, index) => {
+    cube(group, 0x6b3a1f, [x, 0.22, 2.72], [0.46, 0.26, 0.32], [0, 0, 0], "wood").name = `front_planter_box_${index}`;
+    for (let i = 0; i < 5; i += 1) cube(group, i % 2 ? C.pinkFlower : C.yellowFlower, [x - 0.2 + i * 0.1, 0.45 + i * 0.01, 2.83], [0.05, 0.08, 0.05], [0, i, 0], "cloth").name = `front_planter_bloom_${index}_${i}`;
+  });
 }
 export function buildDoorTrim(group) { for (const block of ENTRANCE_TRIM) { const mesh = cube(group, block.color, block.p, block.s, [0, 0, 0], block.mode); mesh.name = block.name; } }
 export function buildWindowsRoofAndExterior(group) {
@@ -61,6 +96,11 @@ export function buildWindowsRoofAndExterior(group) {
   roofPlane(group, -1);
   roofPlane(group, 1);
   ridge(group);
+  roofRows(group);
   eaves(group);
+  chimney(group);
+  gableTrim(group);
+  frontDetails(group);
+  planters(group);
   for (const block of OUTSIDE_DETAIL_BLOCKS) cube(group, block.color, block.p, block.s, [0, 0, 0], block.mode);
 }

@@ -11,8 +11,11 @@ let folderMap = {};
 
 /**
  * B"H
- * Browser controller: years open, events unfold, and file actions share the same
- * download/cache/bookmark machinery as search results. One event law, everywhere.
+ * Browser controller: years open, events unfold, and every event/track button
+ * shares the same cache, ZIP, bookmark, and playlist law. The Awtsmoos refuses
+ * duplicate systems and lets one archive river feed all visible surfaces.
+ * @param {string} colId Column id to reveal on mobile.
+ * @returns {void}
  */
 function openColumn(colId) {
   if (window.innerWidth <= 768) document.querySelectorAll('.col').forEach(c => c.classList.remove('open'));
@@ -34,9 +37,7 @@ export async function handleYearSelect(yearId) {
     Render.renderFolders(folderMap, handleFolderSelect, handleFolderAction);
     openColumn('col-folders');
     updateURL({ year: yearId, clearFolder: true });
-  } catch (e) {
-    Render.log('ERROR: ' + e.message, true);
-  }
+  } catch (e) { Render.log('ERROR: ' + e.message, true); }
 }
 
 export async function handleFolderSelect(folderId) {
@@ -69,11 +70,7 @@ export async function handleTrackSelect(index) {
   updateURL({ year: state.currentYearId, folder: state.currentFolderName, track: index });
   try {
     const cached = await Store.getTrack(track.path);
-    if (cached) {
-      Render.log('PLAYING FROM LOCAL CACHE');
-      await Audio.playBlob(cached);
-      return;
-    }
+    if (cached) { Render.log('PLAYING FROM LOCAL CACHE'); await Audio.playBlob(cached); return; }
     Render.log('STREAMING FROM ARCHIVE...');
     const ok = await Audio.playUrl(track.url, track.fallbackUrls || []);
     if (!ok) Render.log(`FAILED: ${track.title}`, true);
@@ -84,22 +81,29 @@ export async function handleTrackSelect(index) {
 }
 
 export async function handleTrackAction(action, track) {
-  const handlers = createSearchResultHandlers();
+  const handlers = createSearchResultHandlers({ onAddToPlaylist: items => Render.openAddToPlaylist(items) });
   const item = currentEventItem();
-  if (action === 'download-event') return handlers.onDownloadEvent(item, state.currentTracks);
-  if (action === 'cache-event') return handlers.onCacheEvent(item, state.currentTracks);
-  if (action === 'bookmark-folder') return handlers.onBookmark(item);
-  if (action === 'download') return handlers.onDownloadTrack(track, item);
-  if (action === 'cache') return handlers.onCacheTrack(track, item).then(refreshTracks);
-  if (action === 'bookmark-track') return handlers.onBookmarkTrack(track, item);
+  const actionMap = {
+    'download-event': () => handlers.onDownloadEvent(item, state.currentTracks),
+    'cache-event': () => handlers.onCacheEvent(item, state.currentTracks),
+    'bookmark-folder': () => handlers.onBookmark(item),
+    'playlist-event': () => Render.openAddToPlaylist(state.currentTracks.map(t => Render.playlistTrackItem(t, item))),
+    'playlist-track': () => Render.openAddToPlaylist([Render.playlistTrackItem(track, item)]),
+    'play-row': () => handleTrackSelect(state.currentTracks.indexOf(track)),
+    download: () => handlers.onDownloadTrack(track, item),
+    cache: () => handlers.onCacheTrack(track, item).then(refreshTracks),
+    'bookmark-track': () => handlers.onBookmarkTrack(track, item)
+  };
+  return actionMap[action]?.();
 }
 
 export async function handleFolderAction(action, folder) {
-  const handlers = createSearchResultHandlers();
+  const handlers = createSearchResultHandlers({ onAddToPlaylist: items => Render.openAddToPlaylist(items) });
   const item = eventItem(folder.rawTitle || folder.title);
   if (action === 'download-event') return handlers.onDownloadEvent(item);
   if (action === 'cache-event') return handlers.onCacheEvent(item);
   if (action === 'bookmark-folder') return handlers.onBookmark(item);
+  if (action === 'playlist-event') return Render.openAddToPlaylist([item]);
 }
 
 export async function openBookmark(item) {
@@ -116,52 +120,22 @@ async function openBookmarkedTrack(item) {
   if (index >= 0) await handleTrackSelect(index);
 }
 
-export function handleNext() {
-  if (state.trackIndex < state.currentTracks.length - 1) handleTrackSelect(state.trackIndex + 1);
-}
-
-export function handlePrev() {
-  if (state.trackIndex > 0) handleTrackSelect(state.trackIndex - 1);
-}
-
+export function handleNext() { if (state.trackIndex < state.currentTracks.length - 1) handleTrackSelect(state.trackIndex + 1); }
+export function handlePrev() { if (state.trackIndex > 0) handleTrackSelect(state.trackIndex - 1); }
 export function getFolderMap() { return folderMap; }
 export function setFolderMap(map) { folderMap = map; }
 
-function folderById(id) {
-  return Array.isArray(folderMap) ? folderMap[id] : Object.values(folderMap)[id];
-}
-
-function currentEventItem() {
-  return eventItem(state.currentFolderName);
-}
-
-function eventItem(folderName) {
-  return {
-    year: state.currentYearId,
-    folder: folderName,
-    title: String(folderName || '').replace(/^BH[_\s-]*\d+[_\s-]*/i, '').replace(/_/g, ' ')
-  };
-}
-
-function refreshTracks() {
-  Render.renderTracks(state.currentTracks, state.currentFolderName, Store.isCached, handleTrackSelect, handleTrackAction);
-}
+function folderById(id) { return Array.isArray(folderMap) ? folderMap[id] : Object.values(folderMap)[id]; }
+function currentEventItem() { return eventItem(state.currentFolderName); }
+function eventItem(folderName) { return { year: state.currentYearId, folder: folderName, title: String(folderName || '').replace(/^BH[_\s-]*\d+[_\s-]*/i, '').replace(/_/g, ' ') }; }
+function refreshTracks() { Render.renderTracks(state.currentTracks, state.currentFolderName, Store.isCached, handleTrackSelect, handleTrackAction); }
 
 function updateURL(params) {
   const url = new URL(window.location);
   if (params.year) url.searchParams.set('year', params.year);
   if (params.folder) url.searchParams.set('folder', params.folder);
   if (params.track !== undefined) url.searchParams.set('track', params.track);
-  if (params.clearFolder) {
-    url.searchParams.delete('folder');
-    url.searchParams.delete('track');
-    url.searchParams.delete('time');
-    url.searchParams.delete('autoplay');
-  }
-  if (params.clearTrack) {
-    url.searchParams.delete('track');
-    url.searchParams.delete('time');
-    url.searchParams.delete('autoplay');
-  }
+  if (params.clearFolder) ['folder', 'track', 'time', 'autoplay'].forEach(k => url.searchParams.delete(k));
+  if (params.clearTrack) ['track', 'time', 'autoplay'].forEach(k => url.searchParams.delete(k));
   window.history.replaceState({}, '', url);
 }

@@ -10,10 +10,21 @@
 import KeyboardEmissary from './input/KeyboardEmissary.js';
 import MouseEmissary from './input/MouseEmissary.js';
 import TouchOrchestrator from './input/TouchOrchestrator.js?v=stable-joystick-state-20260602-bh11';
+import { measureRenderViewport } from '../../divine_systems/render/core/PixelRatioGovernor.js';
 
 export default function setupDomEvents(manager) {
   const { eved } = manager;
-  const broadcastResize = () => eved.postMessage({ resize: { width: window.innerWidth, height: window.innerHeight, devicePixelRatio: window.devicePixelRatio || 1 } });
+  const broadcastResize = () => {
+    const sizing = measureRenderViewport(window, "resize");
+    eved.postMessage({
+      resize: {
+        width: sizing.width,
+        height: sizing.height,
+        devicePixelRatio: sizing.pixelRatio,
+        rawDevicePixelRatio: sizing.rawPixelRatio
+      }
+    });
+  };
   window.addEventListener('resize', broadcastResize);
   KeyboardEmissary.bind(eved);
   MouseEmissary.bind(eved);

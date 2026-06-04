@@ -1,21 +1,20 @@
-
-//B"H
+// B"H
 /**
  * @file postFunctions.js
- * @description 
- * The Grand Aggregator of the Post Reader. In the architecture of Atzilus, 
- * this module serves as the primary gateway (Malkhus) through which all 
- * specialized emanations—Utils, UI, Interpretation, and Interaction—are 
- * projected to the Orchestrator (postLogic).
+ * @description
+ * Chapter 230: The old gate stops summoning the old renderer.
+ * This root aggregator used to export the ancient /functions/logic.js renderer,
+ * which painted every verse and baby subsection directly into the DOM. Now even
+ * legacy imports receive the sovereign virtual scribe from /logic/scribe.js,
+ * so there is no split-brain path left for the reader to accidentally awaken.
  */
 
 export { GenesisEngine } from "./functions/dom/GenesisEngine.js";
 
-// 1. Emanations of Utility and Textual Deciphering
-export { 
-    appendHTML, 
+export {
+    appendHTML,
     appendWithSubChildren,
-    loadFontSize, 
+    loadFontSize,
     adjustFontSize,
     isHebrewWord,
     isFirstCharacterHebrew,
@@ -27,45 +26,52 @@ export {
     sanitizeContent
 } from "./functions/utils.js";
 
-// 2. Emanations of the Visual Interface
-export { 
-    makeInfoHTML, 
-    showCustomContextMenu, 
+export {
+    makeInfoHTML,
+    showCustomContextMenu,
     makeNavBars,
     makeToast
 } from "./functions/ui.js";
 
-// 3. Emanations of Interpretive Scribing (Manifesting the Dayuh)
-export { 
+export {
     interpretPostDayuh,
     generateSection
-} from "./functions/logic.js";
+} from "./logic/scribe.js";
 
-// 4. Emanations of Focused Interaction (The Watchman's Engine)
-export { 
-    startHighlighting, 
-    scrollToActiveEl, 
+export {
+    startHighlighting,
+    scrollToActiveEl,
     initializeFootnotes,
     weaveDropdownFromAwtsmoos,
     createFootnoteOverlay
 } from "./functions/interaction.js";
 
-// 5. Emanations of the Structural Dimensions (The Tabbed Realms)
-export { 
-    addTab 
-} from "./functions/tabs.js";
+export { addTab } from "./functions/tabs.js";
 
-/**
- * @method initPostInteractions
- */
-document.addEventListener("contextmenu", function(e) {
-    const context = e.target.closest('.post-reader-localized-context');
-    if (context) {
-        e.preventDefault();
-        import("./functions/ui.js").then(module => {
-            module.showCustomContextMenu(e.pageX, e.pageY, e);
-        });
-    }
+function closeAwtsmoosMenus() {
+    document.getElementById("custom-context-menu")?.remove();
+    document.getElementById("insane-verse-menu")?.remove();
+}
+
+document.addEventListener("contextmenu", event => {
+    const context = event.target.closest(".post-reader-localized-context");
+    if (!context) return;
+    event.preventDefault();
+    closeAwtsmoosMenus();
+    import("./functions/ui.js").then(module => module.showCustomContextMenu(event.clientX, event.clientY, event));
 });
 
-console.log("B\"H - [postFunctions] Aggregator fully manifest and conduits are open.");
+document.addEventListener("click", event => {
+    if (event.target.closest("#custom-context-menu, #insane-verse-menu")) return;
+    closeAwtsmoosMenus();
+}, true);
+
+document.addEventListener("touchstart", event => {
+    if (event.target.closest("#custom-context-menu, #insane-verse-menu")) return;
+    closeAwtsmoosMenus();
+}, true);
+
+window.addEventListener("scroll", closeAwtsmoosMenus, { passive: true, capture: true });
+window.addEventListener("resize", closeAwtsmoosMenus, { passive: true });
+
+console.log("B\"H - [postFunctions] Root aggregator now delegates to the virtual scribe.");

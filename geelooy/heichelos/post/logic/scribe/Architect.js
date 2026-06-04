@@ -1,16 +1,17 @@
-
+// B"H
 /**
- * B"H
  * @module VesselArchitect
- * @chapter Creating the physical sanctuaries.
  * @description
- * The Awtsmoos gives each verse a body, each subsection a chamber, and each
- * verse-level inline comment a final courtyard after all chambers have passed.
+ * Chapter 225: One verse, many baby chambers, one small DOM window.
+ * The Awtsmoos holds every subsection in memory, but the verse body receives a
+ * moving subsection window rather than a full list of children. Whole verses
+ * still sleep by chunk; baby sections now sleep inside their verse.
  */
 
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
 import { UniversalInterpreter } from "/heichelos/post/logic/scribe/UniversalInterpreter.js";
 import { SidebarConduit } from "/heichelos/post/ui/sidebar/Conduit.js";
+import { makeVirtualSubsectionWindow } from "/heichelos/post/logic/scribe/SubsectionVirtualizer.js";
 
 function makeVerseEnd(index) {
     const end = document.createElement("div");
@@ -18,6 +19,30 @@ function makeVerseEnd(index) {
     end.dataset.awtsmoosVerseEnd = String(index);
     end.setAttribute("data-awtsmoos-verse-end", String(index));
     return end;
+}
+
+function rawTextOf(sub) {
+    if (typeof sub === "string") return sub;
+    if (sub?.text) return sub.text;
+    if (sub?.content) return sub.content;
+    if (sub?.html) return sub.html;
+    if (sub?.body) return sub.body;
+    return "";
+}
+
+function targetSubFor(sectionIndex) {
+    const params = new URLSearchParams(location.search);
+    const idx = Number.parseInt(params.get("idx") || "0", 10);
+    if (idx !== sectionIndex) return null;
+    const sub = Number.parseInt(params.get("sub") || "", 10);
+    return Number.isFinite(sub) ? sub : null;
+}
+
+function firstTextForLanguage(flatText, dynamicContent, data) {
+    if (flatText) return flatText;
+    if (Array.isArray(dynamicContent) && dynamicContent.length) return rawTextOf(dynamicContent[0]);
+    const pure = UniversalInterpreter.extractPureText(data);
+    return Array.isArray(pure) ? pure.find(Boolean) || "" : pure;
 }
 
 export class VesselArchitect {
@@ -31,19 +56,22 @@ export class VesselArchitect {
         const { flatText, dynamicContent } = UniversalInterpreter.decipher(data);
         const sectionEl = document.createElement("div");
         sectionEl.className = "section";
-        sectionEl.dataset.idx = index;
-        sectionEl.dataset.awtsmoosIdx = index;
+        sectionEl.dataset.idx = String(index);
+        sectionEl.dataset.awtsmoosIdx = String(index);
         sectionEl.appendChild(this.forgeHeader(data, index));
 
         const body = document.createElement("div");
         body.className = "toichen";
         sectionEl.appendChild(body);
 
-        if (flatText) appendHTML(sanitizeContent(flatText), body);
-        if (dynamicContent) body.appendChild(this.weaveSubSections(dynamicContent, index));
-        sectionEl.appendChild(makeVerseEnd(index));
+        if (Array.isArray(dynamicContent) && dynamicContent.length) {
+            body.appendChild(this.weaveSubSections(dynamicContent, index));
+        } else if (flatText) {
+            appendHTML(sanitizeContent(flatText), body);
+        }
 
-        const langClass = isFirstCharacterHebrew(body.innerText) ? "heb" : "en";
+        sectionEl.appendChild(makeVerseEnd(index));
+        const langClass = isFirstCharacterHebrew(firstTextForLanguage(flatText, dynamicContent, data)) ? "heb" : "en";
         sectionEl.classList.add(langClass);
         return sectionEl;
     }
@@ -59,7 +87,7 @@ export class VesselArchitect {
         hdr.className = "awtsmoos-section-header";
         const num = document.createElement("div");
         num.className = "awtsmoos-verse-number portal-revealer";
-        num.textContent = data.verseSection !== undefined && data.verseSection !== null ? data.verseSection : index + 1;
+        num.textContent = data?.verseSection !== undefined && data?.verseSection !== null ? data.verseSection : index + 1;
         num.addEventListener("click", event => {
             event.preventDefault();
             event.stopPropagation();
@@ -70,26 +98,13 @@ export class VesselArchitect {
     }
 
     /**
-     * Renders subsection chambers with stable data coordinates.
+     * Renders one moving window for many subsection chambers.
      * @param {Array<string|{text: string}>} list Dynamic subsection list.
      * @param {number} sectionIndex Verse index.
      * @returns {HTMLDivElement} Subsection wrapper.
      */
     static weaveSubSections(list, sectionIndex) {
-        const subWrap = document.createElement("div");
-        subWrap.className = "awtsmoos-subsection-wrap toichen";
-        if (!Array.isArray(list)) return subWrap;
-
-        list.forEach((sub, sIdx) => {
-            const txt = typeof sub === "string" ? sub : sub.text;
-            if (!txt) return;
-            const subEl = document.createElement("div");
-            subEl.className = `sub-awtsmoos ${isFirstCharacterHebrew(txt) ? "heb" : "en"}`;
-            subEl.dataset.awtsmoosIdx = sectionIndex;
-            subEl.dataset.awtsmoosSub = sIdx;
-            appendHTML(sanitizeContent(txt), subEl);
-            subWrap.appendChild(subEl);
-        });
-        return subWrap;
+        const texts = Array.isArray(list) ? list.map(rawTextOf).filter(Boolean) : [];
+        return makeVirtualSubsectionWindow(texts, sectionIndex, targetSubFor(sectionIndex));
     }
 }
