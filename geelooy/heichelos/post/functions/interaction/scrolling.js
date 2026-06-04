@@ -1,11 +1,11 @@
-// /BH/awtsmoos.com/geelooy/heichelos/post/functions/interaction/scrolling.js
-//B"H
+// B"H
 /**
  * @file scrolling.js
  * @description
- * The Navigator of Coordinates. On refresh it awakens the needed virtual chunk,
- * finds the exact verse/subsection through every known URL dialect, and settles
- * it beneath the fixed header after layout has finished breathing.
+ * The coordinate navigator no longer relaxes the whole page. It awakens only
+ * the exact verse chunk requested by the URL, then asks the subsection oracle
+ * to reveal the exact baby chamber inside that verse. No neighbor chunks are
+ * forced merely because a jump happened.
  */
 
 function firstParam(params, names) {
@@ -56,7 +56,7 @@ function subsectionSelector(sub) {
 function findTarget(idx, sub) {
     const section = document.querySelector(sectionSelector(idx));
     if (!section) return null;
-    if (sub !== null) return section.querySelector(subsectionSelector(sub)) || section;
+    if (sub !== null) return window.__awtsmoosRevealSubsection?.(idx, sub) || section.querySelector(subsectionSelector(sub)) || section;
     return section;
 }
 
@@ -64,12 +64,12 @@ async function awakenTargetChunk(idx) {
     const numericIdx = Number.parseInt(idx, 10);
     if (!Number.isFinite(numericIdx)) return;
     try {
-        const scribe = await import("../../logic/scribe.js");
+        const [{ ScribeScaffold }, scribe] = await Promise.all([
+            import("../../logic/scribe/Scaffold.js"),
+            import("../../logic/scribe.js")
+        ]);
         if (typeof scribe.renderChunk === "function") {
-            const chunkId = Math.floor(numericIdx / 12);
-            await scribe.renderChunk(chunkId);
-            await scribe.renderChunk(chunkId + 1);
-            if (chunkId > 0) await scribe.renderChunk(chunkId - 1);
+            await scribe.renderChunk(ScribeScaffold.findChunkByItemIndex(numericIdx));
         }
     } catch (error) {
         console.warn("B\"H - Target chunk awakening deferred.", error);
@@ -99,10 +99,10 @@ function headerOffset() {
 
 function performScroll(target, behavior = "auto", block = "start") {
     const root = scrollRoot();
-    const rect = target.getBoundingClientRect();
-    const y = rect.top + window.pageYOffset - headerOffset();
-    root.scrollTo?.({ top: Math.max(0, y), behavior });
-    if (!root.scrollTo) window.scrollTo({ top: Math.max(0, y), behavior });
+    const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+    const top = Math.max(0, y);
+    root.scrollTo?.({ top, behavior });
+    if (!root.scrollTo) window.scrollTo({ top, behavior });
     if (block === "center") target.scrollIntoView({ behavior, block: "center", inline: "nearest" });
 }
 
@@ -110,17 +110,12 @@ function afterLayout(callback) {
     requestAnimationFrame(() => requestAnimationFrame(callback));
 }
 
-/**
- * Scrolls to the URL coordinate.
- * @param {{behavior?:ScrollBehavior,block?:ScrollLogicalPosition,retries?:number,settle?:boolean}} options Scroll options.
- * @returns {Promise<Element|null>} The target element, if found.
- */
 export async function scrollToActiveEl(options = {}) {
     const { idx, sub } = parseTarget();
     if (idx === null) return null;
     const behavior = options.behavior || "auto";
     const block = options.block || "start";
-    const maxRetries = Number.isFinite(options.retries) ? options.retries : 48;
+    const maxRetries = Number.isFinite(options.retries) ? options.retries : 28;
 
     console.log(`B"H - [Interaction] Targeting coordinates: Verse ${idx}, Sub ${sub}`);
     await awakenTargetChunk(idx);
@@ -130,13 +125,7 @@ export async function scrollToActiveEl(options = {}) {
             const target = findTarget(idx, sub);
             if (target) {
                 markTarget(target, sub);
-                afterLayout(() => {
-                    performScroll(target, behavior, block);
-                    if (options.settle !== false) {
-                        setTimeout(() => performScroll(target, "auto", block), 220);
-                        setTimeout(() => performScroll(target, "auto", block), 850);
-                    }
-                });
+                afterLayout(() => performScroll(target, behavior, block));
                 resolve(target);
                 return;
             }
@@ -145,7 +134,7 @@ export async function scrollToActiveEl(options = {}) {
                 resolve(null);
                 return;
             }
-            setTimeout(() => tryScroll(attempts + 1), 100);
+            setTimeout(() => tryScroll(attempts + 1), 80);
         };
         tryScroll(0);
     });

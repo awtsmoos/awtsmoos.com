@@ -1,4 +1,6 @@
-{
+// B"H
+/** @file village.js - built from source/village sections. */
+export default {
   "format": "awtsmoos-level-json-v1",
   "id": "village.json",
   "shaym": "Village_Composed_Reference_Lambert",
@@ -420,4 +422,4 @@
       }
     ]
   }
-}
+};

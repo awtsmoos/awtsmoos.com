@@ -2,21 +2,25 @@
 /**
  * @module VirtualScrollOracle
  * @description
- * Chapter 243: The bridge no longer pulls the reader's feet.
+ * The outer verse river bows to the inner subsection river.
  *
- * A verse is streamed only by the user's real direction. The oracle never jumps
- * to the top or bottom after loading. It appends the next verse, prepends the
- * previous verse, and prunes only after a chunk is safely outside the viewport,
- * preserving visual position when removing anything above the eye.
+ * Hard law: a next verse may not awaken while the current verse still has a
+ * hidden next subsection. A previous verse may not awaken while the current
+ * verse still has a hidden previous subsection. The Awtsmoos completes the
+ * inner world before birthing the outer world.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
+import {
+    consumeSubsectionScrollIntent,
+    currentSubsectionGateState
+} from "./SubsectionVirtualizer.js";
 
 export { parseScrollTarget };
 
-const EDGE_PX = 280;
-const PRUNE_PX = 1100;
-const MIN_DELTA = 4;
+const VERSE_AHEAD_PX = 520;
+const PRUNE_PX = 1500;
+const MIN_DELTA = 3;
 const MAX_CHUNKS = 3;
 let activeRenderer = null;
 let activePruner = null;
@@ -35,21 +39,26 @@ function sortedIds() {
     return [...revealed].sort((a, b) => a - b).filter(id => chunkNode(id));
 }
 
-function scrollLimit() {
-    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-}
-
-function nearBottom() {
-    return window.scrollY >= scrollLimit() - EDGE_PX;
-}
-
-function nearTop() {
-    return window.scrollY <= EDGE_PX;
-}
-
 function preserveIfRemovingAbove(node) {
     const rect = node.getBoundingClientRect();
     return rect.bottom < 0 ? Math.max(0, rect.height) : 0;
+}
+
+function currentChunkNode() {
+    updateCurrentFromViewport();
+    return chunkNode(activeCurrent);
+}
+
+function shouldAwakenNextVerse() {
+    const node = currentChunkNode();
+    if (!node) return false;
+    return node.getBoundingClientRect().bottom < window.innerHeight + VERSE_AHEAD_PX;
+}
+
+function shouldAwakenPreviousVerse() {
+    const node = currentChunkNode();
+    if (!node) return false;
+    return node.getBoundingClientRect().top > -VERSE_AHEAD_PX;
 }
 
 function pruneFarChunks() {
@@ -71,7 +80,7 @@ function pruneFarChunks() {
 }
 
 async function reveal(id, place) {
-    if (streaming || !Number.isInteger(id) || id < 0 || id >= activeTotalChunks || revealed.has(id)) return;
+    if (streaming || !Number.isInteger(id) || id < 0 || id >= activeTotalChunks || revealed.has(id)) return false;
     streaming = true;
     await activeRenderer?.(id);
     revealed.add(id);
@@ -85,8 +94,9 @@ async function reveal(id, place) {
         updateLocationFromViewport();
         pruneFarChunks();
         lastY = window.scrollY;
-        setTimeout(() => { streaming = false; }, 80);
+        setTimeout(() => { streaming = false; }, 70);
     });
+    return true;
 }
 
 function updateCurrentFromViewport() {
@@ -135,12 +145,28 @@ function updateLocationFromViewport() {
     window.dispatchEvent(new CustomEvent("awtsmoos:coordinates", { detail: { idx: Number(idx), sub: Number(sub) } }));
 }
 
+function subsectionStillOwnsDirection(delta) {
+    const gate = currentSubsectionGateState();
+    if (!gate.hasState) return false;
+    if (delta > 0 && gate.canNext) return true;
+    if (delta < 0 && gate.canPrev) return true;
+    return false;
+}
+
 async function handleScrollIntent(delta) {
     if (streaming || Math.abs(delta) < MIN_DELTA) return;
+
+    const innerConsumed = consumeSubsectionScrollIntent(delta);
     updateCurrentFromViewport();
-    if (delta > 0 && nearBottom()) await reveal(activeCurrent + 1, "after");
-    if (delta < 0 && nearTop()) await reveal(activeCurrent - 1, "before");
     updateLocationFromViewport();
+
+    if (innerConsumed || subsectionStillOwnsDirection(delta)) {
+        pruneFarChunks();
+        return;
+    }
+
+    if (delta > 0 && shouldAwakenNextVerse()) await reveal(activeCurrent + 1, "after");
+    if (delta < 0 && shouldAwakenPreviousVerse()) await reveal(activeCurrent - 1, "before");
     pruneFarChunks();
 }
 
@@ -161,7 +187,7 @@ function attach() {
     window.addEventListener("scroll", activeScrollHandler, { passive: true });
     window.addEventListener("wheel", activeScrollHandler, { passive: true });
     window.addEventListener("touchmove", activeScrollHandler, { passive: true });
-    setInterval(updateLocationFromViewport, 650);
+    setInterval(updateLocationFromViewport, 700);
 }
 
 function firstParam(params, names) {

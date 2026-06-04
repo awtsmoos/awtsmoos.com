@@ -1,32 +1,37 @@
-﻿// B"H
+// B"H
 /**
  * @module SubsectionVirtualizer
  * @description
- * Chapter 244: The baby chambers stop wrestling the scroll.
- * Subsections stream with a tiny buffer. Loading next never moves the page;
- * loading previous compensates once so the visible text stays still.
+ * The Awtsmoos whispers: finish the verse before birthing the next verse.
+ *
+ * This engine streams only a few baby subsections from the current verse. It is
+ * not tied to the document scrollbar edge. It watches the visible subsection
+ * window itself, so scrolling down feels ordinary: the next chamber appears
+ * before the reader collides with emptiness. Scrolling up is guarded by one
+ * exact compensation, preserving the eye's place while older chambers awaken.
  */
 
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
 
-const EDGE_PX = 230;
-const PRUNE_PX = 900;
-const MIN_DELTA = 4;
+const AHEAD_PX = 900;
+const ACTIVE_PAD_PX = 1200;
+const PRUNE_PX = 2200;
+const MIN_DELTA = 3;
 const MIN_AWAKE = 2;
 const MAX_AWAKE = 5;
 const REGISTRY = new Map();
 let pendingInline = 0;
 let debugNode = null;
-let lastY = 0;
-let streaming = false;
 
-function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
-function asNum(value, fallback = 0) { const n = Number.parseInt(value, 10); return Number.isFinite(n) ? n : fallback; }
-function isDebug() { return new URLSearchParams(location.search).get("vdebug") === "1"; }
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+const asNum = (value, fallback = 0) => {
+    const n = Number.parseInt(value, 10);
+    return Number.isFinite(n) ? n : fallback;
+};
+const debugOn = () => new URLSearchParams(location.search).get("vdebug") === "1";
 
 function readerFontPx() {
-    const raw = getComputedStyle(document.documentElement).getPropertyValue("--awtsmoos-reader-font-size").trim();
-    const css = Number.parseFloat(raw);
+    const css = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--awtsmoos-reader-font-size"));
     if (Number.isFinite(css)) return css;
     const sample = document.querySelector(".toichen, .section, #realPost");
     const found = sample ? Number.parseFloat(getComputedStyle(sample).fontSize) : NaN;
@@ -39,10 +44,6 @@ function desiredCount(total) {
     return Math.min(total, clamp(Math.floor(room / (font * 3.4)) + 1, MIN_AWAKE, MAX_AWAKE));
 }
 
-function scrollLimit() { return Math.max(0, document.documentElement.scrollHeight - window.innerHeight); }
-function nearBottom() { return window.scrollY >= scrollLimit() - EDGE_PX; }
-function nearTop() { return window.scrollY <= EDGE_PX; }
-
 function scheduleInlineRefresh() {
     clearTimeout(pendingInline);
     pendingInline = setTimeout(async () => {
@@ -52,7 +53,7 @@ function scheduleInlineRefresh() {
         } catch (error) {
             if (window.__awtsmoosInlineDebug) console.warn("B\"H inline remanifest resisted", error);
         }
-    }, 100);
+    }, 90);
 }
 
 function makeAwake(entry, sectionIndex) {
@@ -66,14 +67,18 @@ function makeAwake(entry, sectionIndex) {
     return el;
 }
 
-function rebuild(state) {
-    const frag = document.createDocumentFragment();
-    for (let i = state.first; i <= state.last; i++) frag.appendChild(makeAwake(state.entries[i], state.sectionIndex));
-    state.wrapper.replaceChildren(frag);
+function stamp(state) {
     state.wrapper.dataset.virtualWindow = `${state.first}-${state.last}`;
     state.wrapper.dataset.virtualAwakeCount = String(state.last - state.first + 1);
     updateDebugPanel();
     scheduleInlineRefresh();
+}
+
+function rebuild(state) {
+    const frag = document.createDocumentFragment();
+    for (let i = state.first; i <= state.last; i++) frag.appendChild(makeAwake(state.entries[i], state.sectionIndex));
+    state.wrapper.replaceChildren(frag);
+    stamp(state);
 }
 
 function setWindow(state, first) {
@@ -89,9 +94,7 @@ function appendNext(state) {
     state.last += 1;
     state.wrapper.appendChild(makeAwake(state.entries[state.last], state.sectionIndex));
     trimFarTop(state);
-    state.wrapper.dataset.virtualWindow = `${state.first}-${state.last}`;
-    updateDebugPanel();
-    scheduleInlineRefresh();
+    stamp(state);
     return true;
 }
 
@@ -103,14 +106,12 @@ function prependPrevious(state) {
     const height = node.getBoundingClientRect().height || 0;
     if (height) window.scrollBy(0, height);
     trimFarBottom(state);
-    state.wrapper.dataset.virtualWindow = `${state.first}-${state.last}`;
-    updateDebugPanel();
-    scheduleInlineRefresh();
+    stamp(state);
     return true;
 }
 
 function trimFarTop(state) {
-    while (state.wrapper.children.length > desiredCount(state.entries.length) + 1) {
+    while (state.wrapper.children.length > desiredCount(state.entries.length)) {
         const firstNode = state.wrapper.firstElementChild;
         if (!firstNode) break;
         const rect = firstNode.getBoundingClientRect();
@@ -123,7 +124,7 @@ function trimFarTop(state) {
 }
 
 function trimFarBottom(state) {
-    while (state.wrapper.children.length > desiredCount(state.entries.length) + 1) {
+    while (state.wrapper.children.length > desiredCount(state.entries.length)) {
         const lastNode = state.wrapper.lastElementChild;
         if (!lastNode) break;
         const rect = lastNode.getBoundingClientRect();
@@ -136,49 +137,62 @@ function trimFarBottom(state) {
 function activeState() {
     let best = null;
     let bestDistance = Infinity;
-    const probe = Math.min(window.innerHeight * 0.45, window.innerHeight - 120);
+    const probe = Math.min(window.innerHeight * 0.48, window.innerHeight - 120);
     REGISTRY.forEach(state => {
         const rect = state.wrapper.getBoundingClientRect();
-        if (rect.bottom < -300 || rect.top > window.innerHeight + 300) return;
+        if (rect.bottom < -ACTIVE_PAD_PX || rect.top > window.innerHeight + ACTIVE_PAD_PX) return;
         const distance = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
         if (distance < bestDistance) { best = state; bestDistance = distance; }
     });
     return best;
 }
 
-function step(delta) {
-    if (streaming || Math.abs(delta) < MIN_DELTA) return;
+function shouldAwakenNext(state) {
+    if (state.last >= state.entries.length - 1) return false;
+    const last = state.wrapper.lastElementChild?.getBoundingClientRect();
+    const wrap = state.wrapper.getBoundingClientRect();
+    return Boolean(last && (last.bottom < window.innerHeight + AHEAD_PX || wrap.bottom < window.innerHeight + AHEAD_PX));
+}
+
+function shouldAwakenPrevious(state) {
+    if (state.first <= 0) return false;
+    const first = state.wrapper.firstElementChild?.getBoundingClientRect();
+    const wrap = state.wrapper.getBoundingClientRect();
+    return Boolean(first && (first.top > -AHEAD_PX || wrap.top > -AHEAD_PX));
+}
+
+export function consumeSubsectionScrollIntent(delta) {
+    if (Math.abs(delta) < MIN_DELTA) return false;
     const state = activeState();
-    if (!state) return;
-    streaming = true;
-    if (delta > 0 && nearBottom()) appendNext(state);
-    if (delta < 0 && nearTop()) prependPrevious(state);
-    requestAnimationFrame(() => {
-        lastY = window.scrollY;
-        setTimeout(() => { streaming = false; }, 70);
-    });
+    if (!state) return false;
+    if (delta > 0 && shouldAwakenNext(state)) return appendNext(state);
+    if (delta < 0 && shouldAwakenPrevious(state)) return prependPrevious(state);
+    return false;
+}
+
+export function currentSubsectionGateState() {
+    const state = activeState();
+    if (!state) return { hasState: false, canNext: false, canPrev: false };
+    return {
+        hasState: true,
+        sectionIndex: state.sectionIndex,
+        first: state.first,
+        last: state.last,
+        total: state.entries.length,
+        canNext: state.last < state.entries.length - 1,
+        canPrev: state.first > 0
+    };
 }
 
 function ensureListeners() {
-    if (window.__awtsmoosSubsectionBufferedListening) return;
-    window.__awtsmoosSubsectionBufferedListening = true;
-    lastY = window.scrollY;
-    const handler = event => {
-        const eventDelta = typeof event?.deltaY === "number" ? event.deltaY : window.scrollY - lastY;
-        const scrollDelta = window.scrollY - lastY;
-        const delta = Math.abs(eventDelta) > Math.abs(scrollDelta) ? eventDelta : scrollDelta;
-        lastY = window.scrollY;
-        step(delta);
-    };
-    window.addEventListener("scroll", handler, { passive: true });
-    window.addEventListener("wheel", handler, { passive: true });
-    window.addEventListener("touchmove", handler, { passive: true });
+    if (window.__awtsmoosSubsectionGateListening) return;
+    window.__awtsmoosSubsectionGateListening = true;
     window.addEventListener("resize", () => REGISTRY.forEach(state => setWindow(state, state.first)), { passive: true });
     document.addEventListener("awtsmoos:reader-scale", () => REGISTRY.forEach(state => setWindow(state, state.first)));
 }
 
 function updateDebugPanel() {
-    if (!isDebug()) return;
+    if (!debugOn()) return;
     if (!debugNode) {
         debugNode = document.createElement("div");
         debugNode.id = "awtsmoosVirtualDebugPanel";
@@ -187,14 +201,14 @@ function updateDebugPanel() {
     }
     const stat = [...REGISTRY.values()].map(s => `${s.sectionIndex}:${s.first}-${s.last}/${s.entries.length}`).join(" · ");
     const awake = document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").length;
-    debugNode.textContent = `B\"H buffered true-height; awake baby ${awake}; ${stat}`;
+    debugNode.textContent = `B\"H smooth subsection stream; awake ${awake}; ${stat}`;
 }
 
 export function makeVirtualSubsectionWindow(texts, sectionIndex, targetSub = null) {
     const wrapper = document.createElement("div");
     wrapper.className = "awtsmoos-subsection-wrap awtsmoos-subsection-window toichen";
     wrapper.dataset.awtsmoosIdx = String(sectionIndex);
-    wrapper.dataset.virtualSubsections = "buffered-true-height";
+    wrapper.dataset.virtualSubsections = "smooth-subsection-first";
 
     const entries = texts.map((text, index) => ({ index, text })).filter(entry => String(entry.text || "").trim());
     const target = clamp(Number.isFinite(targetSub) ? targetSub : asNum(targetSub, 0), 0, Math.max(0, entries.length - 1));
@@ -223,11 +237,12 @@ export function forgetSubsectionWindowsInside(container) {
 }
 
 window.__awtsmoosRevealSubsection = awakenSubsectionByCoordinate;
+window.__awtsmoosConsumeSubsectionScrollIntent = consumeSubsectionScrollIntent;
 window.__awtsmoosSubsectionVirtualStats = () => [...REGISTRY.values()].map(state => ({
     sectionIndex: state.sectionIndex,
     total: state.entries.length,
     first: state.first,
     last: state.last,
     awake: Math.max(0, state.last - state.first + 1),
-    mode: "buffered-true-height"
+    mode: "smooth-subsection-first"
 }));

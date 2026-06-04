@@ -1,0 +1,3 @@
+// B"H
+/** @file VillageTreeField.js - generated village section data. */
+export default [{"name":"north_hill_per_tree_grounded_treasure","count":18,"radius":96,"seed":31,"groundY":0,"groundLift":0,"position":{"x":8,"y":0,"z":-92},"leafBrightness":1.28,"leafMaterialMode":"background-only-after-hero-tree"},{"name":"left_meadow_per_tree_grounded_treasure","count":16,"radius":74,"seed":52,"groundY":0,"groundLift":0,"position":{"x":-76,"y":0,"z":42},"leafBrightness":1.28,"leafMaterialMode":"background-only-after-hero-tree"},{"name":"right_orchard_per_tree_grounded_treasure","count":16,"radius":72,"seed":71,"groundY":0,"groundLift":0,"position":{"x":88,"y":0,"z":52},"leafBrightness":1.28,"leafMaterialMode":"background-only-after-hero-tree"}];

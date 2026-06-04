@@ -1,0 +1,3 @@
+// B"H
+/** @file VillageFenceCollider.js - generated village section data. */
+export default [{"name":"left_fence_simple_collider","targetName":"short_fence_left","length":12.1,"height":1.7,"depth":0.42,"position":{"x":-28,"y":0,"z":4},"rotation":{"y":0.18},"useAuthoredY":true},{"name":"back_fence_simple_collider","targetName":"orchard_back_fence","length":16.2,"height":1.65,"depth":0.42,"position":{"x":-20,"y":0,"z":45},"rotation":{"y":0.02},"useAuthoredY":true},{"name":"right_fence_simple_collider","targetName":"right_village_fence","length":12.6,"height":1.5,"depth":0.42,"position":{"x":76,"y":0,"z":22},"rotation":{"y":1.42},"useAuthoredY":true}];
