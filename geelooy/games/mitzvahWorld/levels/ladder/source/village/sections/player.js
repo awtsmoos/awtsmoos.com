@@ -2,22 +2,20 @@
 /**
  * @file player.js
  * @description
- * Chapter 98: The Chossid speed returns to the scale the engine expects.
- * I was wrong to set speed to a tiny decimal. Chossid already defaults around
- * 18; the village now explicitly keeps that scale and asks for first-frame
- * terrain grounding instead of floating by authored Y.
+ * Stabilized movement. The Awtsmoos no longer lets the child crawl or launch
+ * like lightning: speed sits in the engine's real scale, but softened.
  */
 export default {
   Chossid: [{
-    name: "Village Player Restored Engine Speed Spawn",
+    name: "Village Player Stable Speed Spawn",
     path: "https://models-3122d.web.app/chossid.glb?k=1",
-    speed: 18,
-    speedScale: 1.25,
-    runModeScale: 1,
-    walkModeScale: 0.58,
+    speed: 10,
+    speedScale: 1,
+    runModeScale: 0.82,
+    walkModeScale: 0.45,
     autoGround: true,
     groundLift: 0,
-    position: { x: -11.8, y: 0, z: 18.4 },
+    position: { x: -10.8, y: 0, z: 16.2 },
     rotation: { y: 2.75 },
     cameraPreset: "guide-visible-low-third-person"
   }]

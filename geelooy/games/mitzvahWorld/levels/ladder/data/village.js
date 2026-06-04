@@ -23,18 +23,18 @@ export default {
     ],
     "ProceduralSky": [
       {
-        "name": "clean_golden_hour_sky_no_rectangles",
-        "timeOfDay": 17.25,
+        "name": "stable_soft_golden_sky",
+        "timeOfDay": 16.8,
         "timeMultiplier": 0,
-        "sunIntensity": 0.9,
-        "hemiIntensity": 1.05,
-        "ambientIntensity": 0.64,
-        "fogNear": 90,
-        "fogFar": 460,
-        "topColor": 8824791,
-        "bottomColor": 16758122,
-        "horizonGlow": 16755274,
-        "mobileLambertGrade": "clean-warm-no-rectangles",
+        "sunIntensity": 0.52,
+        "hemiIntensity": 0.72,
+        "ambientIntensity": 0.38,
+        "fogNear": 110,
+        "fogFar": 470,
+        "topColor": 8363976,
+        "bottomColor": 15309397,
+        "horizonGlow": 15239480,
+        "mobileLambertGrade": "soft-readable-not-blown-out",
         "position": {
           "x": 0,
           "y": 0,
@@ -46,18 +46,18 @@ export default {
     "VillageBackdrop": [],
     "VillageLightingRig": [
       {
-        "name": "clean_visible_golden_lambert_rig",
-        "skyColor": 16767396,
-        "groundColor": 3231531,
-        "hemiIntensity": 0.82,
-        "sunColor": 16761466,
-        "sunIntensity": 1.22,
+        "name": "stable_dim_golden_lambert_rig",
+        "skyColor": 14271642,
+        "groundColor": 2900776,
+        "hemiIntensity": 0.52,
+        "sunColor": 16756842,
+        "sunIntensity": 0.72,
         "sunX": -22,
         "sunY": 24,
         "sunZ": 20,
-        "fogColor": 16763018,
-        "fogNear": 95,
-        "fogFar": 460
+        "fogColor": 14260834,
+        "fogNear": 115,
+        "fogFar": 470
       }
     ],
     "ProceduralTerrain": [
@@ -103,18 +103,18 @@ export default {
     "VillageGroundPlane": [],
     "Chossid": [
       {
-        "name": "Village Player Restored Engine Speed Spawn",
+        "name": "Village Player Stable Speed Spawn",
         "path": "https://models-3122d.web.app/chossid.glb?k=1",
-        "speed": 18,
-        "speedScale": 1.25,
-        "runModeScale": 1,
-        "walkModeScale": 0.58,
+        "speed": 10,
+        "speedScale": 1,
+        "runModeScale": 0.82,
+        "walkModeScale": 0.45,
         "autoGround": true,
         "groundLift": 0,
         "position": {
-          "x": -11.8,
+          "x": -10.8,
           "y": 0,
-          "z": 18.4
+          "z": 16.2
         },
         "rotation": {
           "y": 2.75
@@ -167,63 +167,63 @@ export default {
         "groundLift": 0.02
       },
       {
-        "name": "restored_brick_house_by_guide",
+        "name": "stable_main_brick_house",
         "kind": "gableHouse",
         "position": {
-          "x": -1.6,
-          "z": 8
+          "x": 4.5,
+          "z": 5.8
         },
-        "scale": 4.6,
+        "scale": 3.35,
         "rotation": {
-          "y": -0.35
+          "y": -0.25
         },
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "restored_second_brick_house_depth",
+        "name": "stable_far_brick_house",
         "kind": "gableHouse",
         "position": {
-          "x": 13.5,
-          "z": -8
+          "x": 22,
+          "z": -15
         },
-        "scale": 3.55,
+        "scale": 2.65,
         "rotation": {
-          "y": 0.25
+          "y": 0.35
         },
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "restored_lantern_by_path",
+        "name": "stable_lantern_by_path",
         "kind": "lantern",
         "position": {
-          "x": -8.8,
-          "z": 11.8
+          "x": -7.4,
+          "z": 10.8
         },
-        "scale": 2.1,
+        "scale": 1.45,
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "restored_visible_well",
+        "name": "stable_visible_well",
         "kind": "well",
         "position": {
-          "x": 4.4,
-          "z": 10.4
+          "x": 8.8,
+          "z": 10.6
         },
-        "scale": 1.15,
+        "scale": 0.95,
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "restored_left_low_fence",
+        "name": "stable_left_low_fence",
         "kind": "fence",
         "position": {
-          "x": -18,
+          "x": -16,
           "z": 11.5
         },
-        "scale": 1.55,
+        "scale": 1.25,
         "rotation": {
           "y": -0.28
         },
@@ -231,41 +231,41 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "restored_cottage_flowers",
+        "name": "stable_cottage_flowers",
         "kind": "flowerPatch",
-        "count": 160,
-        "radius": 3.8,
+        "count": 140,
+        "radius": 3.4,
         "seed": 88,
         "position": {
-          "x": -3.6,
-          "z": 10.2
+          "x": 1.8,
+          "z": 8.2
         },
-        "scale": 1.25,
+        "scale": 1,
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "restored_tree_flowers",
+        "name": "stable_tree_flowers",
         "kind": "flowerPatch",
-        "count": 150,
+        "count": 130,
         "radius": 5.2,
         "seed": 92,
         "position": {
           "x": -18,
           "z": 13
         },
-        "scale": 1.25,
+        "scale": 1.05,
         "terrainLawGrounded": true,
         "groundLift": 0
       },
       {
-        "name": "restored_grounded_anchor_tree_left",
+        "name": "stable_left_anchor_tree",
         "kind": "pictureAnchorTree",
         "position": {
-          "x": -20,
-          "z": 15
+          "x": -18,
+          "z": 14
         },
-        "scale": 1.7,
+        "scale": 1.25,
         "rotation": {
           "y": -0.3
         },
@@ -273,13 +273,13 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "restored_grounded_mid_tree_by_house",
+        "name": "stable_mid_tree",
         "kind": "pictureAnchorTree",
         "position": {
-          "x": 5.5,
-          "z": 2
+          "x": 10,
+          "z": -5
         },
-        "scale": 1.05,
+        "scale": 0.78,
         "rotation": {
           "y": 0.8
         },
@@ -287,13 +287,13 @@ export default {
         "groundLift": 0
       },
       {
-        "name": "restored_grounded_right_depth_tree",
+        "name": "stable_far_tree",
         "kind": "pictureAnchorTree",
         "position": {
-          "x": 15,
-          "z": -10
+          "x": 24,
+          "z": -22
         },
-        "scale": 0.92,
+        "scale": 0.62,
         "rotation": {
           "y": -1.1
         },
@@ -342,15 +342,16 @@ export default {
     "VillageCottage": [],
     "VillageHouseCollider": [
       {
-        "name": "restored_brick_house_collider",
+        "name": "stable_main_brick_house_collider",
+        "targetName": "stable_main_brick_house",
         "position": {
-          "x": -1.6,
+          "x": 4.5,
           "y": 0,
-          "z": 8
+          "z": 5.8
         },
-        "width": 16,
-        "depth": 11,
-        "height": 7,
+        "width": 11,
+        "depth": 8,
+        "height": 6,
         "floorTop": 0.34
       }
     ],
@@ -358,11 +359,11 @@ export default {
     "VillageTreeField": [],
     "VillageGrassField": [
       {
-        "name": "readable_spawn_grass_and_flowers",
-        "count": 3000,
-        "tallRatio": 0.28,
-        "flowerRatio": 0.22,
-        "radius": 62,
+        "name": "stable_visible_grass_and_flowers",
+        "count": 1700,
+        "tallRatio": 0.18,
+        "flowerRatio": 0.16,
+        "radius": 52,
         "groundY": 0,
         "groundLift": 0.014,
         "shortColor": 5217083,
@@ -372,52 +373,47 @@ export default {
           {
             "x": -18,
             "z": 13,
-            "radius": 12
+            "radius": 9
           },
           {
-            "x": -12,
-            "z": 17,
+            "x": -3,
+            "z": 11,
+            "radius": 6
+          },
+          {
+            "x": 8,
+            "z": 2,
             "radius": 8
           },
           {
-            "x": -2,
-            "z": 12,
-            "radius": 7
-          },
-          {
-            "x": 6,
-            "z": 4,
-            "radius": 10
-          },
-          {
-            "x": 14,
-            "z": -5,
-            "radius": 9
+            "x": 18,
+            "z": -9,
+            "radius": 8
           }
         ]
       }
     ],
     "InteractiveNpc": [
       {
-        "name": "SPAWN_VISIBLE_CHOOSE_LEVELS_GUIDE",
+        "name": "OPEN_VISIBLE_CHOOSE_LEVELS_GUIDE",
         "opensLevelSelect": true,
         "hasShop": true,
         "selectorTitle": "Choose Levels",
-        "proximity": 18,
-        "talkDistance": 18,
+        "proximity": 22,
+        "talkDistance": 22,
         "height": 1.9,
         "visualHeight": 1.9,
         "radius": 0.58,
         "visualGroundBiasY": 0,
-        "groundLift": 0.08,
+        "groundLift": 0.02,
         "beacon": true,
-        "beaconColor": 16766282,
-        "guideCyan": 65488,
-        "beaconHeight": 8.2,
+        "beaconColor": 16763972,
+        "guideCyan": 56831,
+        "beaconHeight": 5.2,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
-          "x": -6.6,
-          "y": 0.14,
+          "x": -8.2,
+          "y": 0,
           "z": 10.6
         },
         "rotation": {

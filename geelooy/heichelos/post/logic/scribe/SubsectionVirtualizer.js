@@ -257,9 +257,14 @@ export function awakenSubsectionByCoordinate(idx, sub) {
     return state.wrapper.querySelector(`.sub-awtsmoos[data-awtsmoos-sub="${target}"]`);
 }
 
-export function forgetSubsectionWindowsInside(container) {
-    container?.querySelectorAll?.(".awtsmoos-subsection-window[data-awtsmoos-idx]").forEach(node => REGISTRY.delete(node.dataset.awtsmoosIdx));
+/**
+ * Legacy compatibility only. During a reader session, already-awakened
+ * subsection windows must never be forgotten or deleted.
+ * @returns {false} Always false; no destructive work performed.
+ */
+export function forgetSubsectionWindowsInside() {
     updateDebugPanel();
+    return false;
 }
 
 window.__awtsmoosRevealSubsection = awakenSubsectionByCoordinate;

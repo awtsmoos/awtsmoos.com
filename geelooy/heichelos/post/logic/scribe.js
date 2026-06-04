@@ -2,16 +2,18 @@
 /**
  * @module SovereignScribe
  * @description
- * Chapter 239: The scroll is no longer a ladder made of ghosts.
- * No sleeping verse placeholder remains in the DOM. The container contains only
- * the active verse neighborhood, ordered by verse index. When the reader nears
- * the top or bottom, the oracle streams a neighbor and prunes distant verses.
+ * The reader's past must never be erased while the scroll is alive.
+ *
+ * Earlier versions had an `unrenderChunk` function that could remove verse
+ * chunks from the DOM. That made auto-scroll pause/reverse feel catastrophic:
+ * content the reader had passed could vanish. This module now has one law:
+ * chunks may be added during a reading session, but not removed. The Awtsmoos
+ * can create more vessels, but it will not tear away the reader's footprints.
  */
 
 import { UniversalInterpreter } from "./scribe/UniversalInterpreter.js";
 import { ScribeScaffold } from "./scribe/Scaffold.js";
 import { VesselArchitect } from "./scribe/Architect.js";
-import { forgetSubsectionWindowsInside } from "./scribe/SubsectionVirtualizer.js";
 import {
     awakenVirtualScrollOracle,
     restoreScrollTarget,
@@ -26,10 +28,6 @@ function targetChunkFromLocation() {
     const params = new URLSearchParams(location.search);
     const startIdx = Number.parseInt(params.get("idx") || "0", 10);
     return Number.isFinite(startIdx) && startIdx >= 0 ? startIdx : 0;
-}
-
-function removeChunkInlineResidue(container) {
-    container.querySelectorAll(".awtsmoos-inline-shell, .marginal-gloss-shelter, .inline-comment").forEach(node => node.remove());
 }
 
 function makeChunkShell(chunkId) {
@@ -61,7 +59,7 @@ async function refreshInlineLight() {
 
 function installStats() {
     window.__awtsmoosVirtualDomStats = () => ({
-        mode: "true-height-verse-and-subsection-stream",
+        mode: "additive-verse-and-subsection-stream-no-session-delete",
         renderedChunks: [...chunkMap.keys()].sort((a, b) => a - b),
         realSections: document.querySelectorAll("#realPost .section").length,
         awakeSubsections: document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").length,
@@ -91,7 +89,9 @@ export async function interpretPostDayuh(post) {
     const rawSections = Array.isArray(dayuh.sections) ? dayuh.sections : Object.values(dayuh.sections);
     allSectionData = rawSections.map((section, index) => ({ data: section, index }));
     window.__awtsmoosVirtualSections = allSectionData;
-    allSectionData.forEach(item => { window.sectionDayuh[item.index] = UniversalInterpreter.extractPureText(item.data); });
+    allSectionData.forEach(item => {
+        window.sectionDayuh[item.index] = UniversalInterpreter.extractPureText(item.data);
+    });
 
     const realPost = document.getElementById("realPost");
     if (!realPost) return;
@@ -100,7 +100,7 @@ export async function interpretPostDayuh(post) {
     const totalChunks = allSectionData.length;
     const targetChunkId = targetChunkFromLocation();
     await renderChunk(targetChunkId);
-    awakenVirtualScrollOracle({ totalChunks, renderChunk, unrenderChunk, currentChunk: targetChunkId });
+    awakenVirtualScrollOracle({ totalChunks, renderChunk, currentChunk: targetChunkId });
     await restoreScrollTarget(location.search, renderChunk, ScribeScaffold.CHUNK_SIZE);
 }
 
@@ -124,16 +124,6 @@ export async function renderChunk(chunkId) {
     const { initializeFootnotes } = await import("./postFunctions.js");
     initializeFootnotes();
     return container;
-}
-
-export function unrenderChunk(chunkId) {
-    const container = chunkMap.get(chunkId);
-    if (!container) return false;
-    forgetSubsectionWindowsInside(container);
-    removeChunkInlineResidue(container);
-    container.remove();
-    chunkMap.delete(chunkId);
-    return true;
 }
 
 export async function generateSection({ data, sectionId }) {

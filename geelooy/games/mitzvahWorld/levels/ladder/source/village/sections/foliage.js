@@ -2,28 +2,26 @@
 /**
  * @file foliage.js
  * @description
- * Chapter 91: The grass obeys readability.
- * Dense foreground life remains, but the guide and path get a small visible
- * clearing so the NPC is not swallowed by a wall of blades.
+ * Stabilized grass. Enough grass and flowers to see life, but not so much that
+ * it hides the NPC or makes the player feel buried.
  */
 export default {
   VillageGrassField: [{
-    name: "readable_spawn_grass_and_flowers",
-    count: 3000,
-    tallRatio: 0.28,
-    flowerRatio: 0.22,
-    radius: 62,
+    name: "stable_visible_grass_and_flowers",
+    count: 1700,
+    tallRatio: 0.18,
+    flowerRatio: 0.16,
+    radius: 52,
     groundY: 0,
     groundLift: 0.014,
     shortColor: 0x4f9b3b,
     tallColor: 0x347a2e,
     flowerColor: 0xe8d860,
     patches: [
-      { x: -18, z: 13, radius: 12 },
-      { x: -12, z: 17, radius: 8 },
-      { x: -2, z: 12, radius: 7 },
-      { x: 6, z: 4, radius: 10 },
-      { x: 14, z: -5, radius: 9 }
+      { x: -18, z: 13, radius: 9 },
+      { x: -3, z: 11, radius: 6 },
+      { x: 8, z: 2, radius: 8 },
+      { x: 18, z: -9, radius: 8 }
     ]
   }]
 };

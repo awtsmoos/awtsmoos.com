@@ -2,16 +2,15 @@
 /**
  * @file trees.js
  * @description
- * Chapter 95: The bad solid-plane hero tree is removed from active data.
- * The grounded pictureAnchorTree recipe returns, using the existing village
- * texture/grounding algorithms instead of the failed experimental tree class.
+ * Stabilized trees. Enough visible trees to read as a village, not a broken
+ * forest. Uses the stable picture prop recipe system only.
  */
 export default {
   VillageHeroTree: [],
   VillageTreeField: [],
   VillagePictureProp: [
-    { name: "restored_grounded_anchor_tree_left", kind: "pictureAnchorTree", position: { x: -20, z: 15 }, scale: 1.7, rotation: { y: -0.3 }, terrainLawGrounded: true, groundLift: 0 },
-    { name: "restored_grounded_mid_tree_by_house", kind: "pictureAnchorTree", position: { x: 5.5, z: 2.0 }, scale: 1.05, rotation: { y: 0.8 }, terrainLawGrounded: true, groundLift: 0 },
-    { name: "restored_grounded_right_depth_tree", kind: "pictureAnchorTree", position: { x: 15, z: -10 }, scale: 0.92, rotation: { y: -1.1 }, terrainLawGrounded: true, groundLift: 0 }
+    { name: "stable_left_anchor_tree", kind: "pictureAnchorTree", position: { x: -18, z: 14 }, scale: 1.25, rotation: { y: -0.3 }, terrainLawGrounded: true, groundLift: 0 },
+    { name: "stable_mid_tree", kind: "pictureAnchorTree", position: { x: 10, z: -5 }, scale: 0.78, rotation: { y: 0.8 }, terrainLawGrounded: true, groundLift: 0 },
+    { name: "stable_far_tree", kind: "pictureAnchorTree", position: { x: 24, z: -22 }, scale: 0.62, rotation: { y: -1.1 }, terrainLawGrounded: true, groundLift: 0 }
   ]
 };
