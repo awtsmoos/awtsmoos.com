@@ -2,14 +2,14 @@
 /**
  * @file index.js
  * @description
- * Chapter 111: Loading imports the fresh direct interaction gate.
- * The village guide must not disappear because Android holds an older loader
- * module. The Awtsmoos seals both NPC construction and grounding with new URLs.
+ * Chapter 127: Loading imports the tap-only guide and final-only colliders.
+ * The village must not open UI from gaze, and invisible house walls must not
+ * enter the octree before the visual brick house has settled into place.
  */
-import instantiate from "./instantiateMezuzahDirect.js?v=visible-guide-direct-20260604-bh442";
+import instantiate from "./instantiateMezuzahDirect.js?v=tap-only-same-chossid-20260604-bh444";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
-import { scheduleVillageGrounding } from "./villageGrounding.js?v=road-house-guide-colliders-20260604-bh442";
+import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-only-house-colliders-20260604-bh444";
 
 async function safeAssetSize(nivra) {
   if (typeof nivra?.getSize !== "function") return 0;
@@ -24,7 +24,6 @@ async function safeAssetSize(nivra) {
 
 export default class LoadNivrayim {
   async addObject(type, options) { return await instantiate.addObject.call(this, type, options); }
-
   async loadNivrayim(nivrayim) {
     try {
       TimeTracker.start("LOAD_NIVRAYIM");
@@ -46,10 +45,9 @@ export default class LoadNivrayim {
       scheduleVillageGrounding(this, nivrayimMade);
       this.ayshPeula("updateProgress", { loadedNivrayim: Date.now() });
       if (!this.enlightened && typeof this.ohr === "function") {
-        try { this.ohr(); }
-        catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }
+        try { this.ohr(); } catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }
       }
-      TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified; visible guide and colliders fresh.");
+      TimeTracker.finish("LOAD_NIVRAYIM", "Souls loaded; guide tap-only; final house colliders scheduled.");
       return nivrayimMade || [];
     } catch (error) {
       console.error("B\"H - 🚨 THE CREATION PROTOCOL HIT A REAL LOAD FAILURE:", error);

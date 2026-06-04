@@ -2,40 +2,27 @@
 /**
  * @file instantiateMezuzahDirect.js
  * @description
- * Chapter 110: The guide and the door are no longer at the mercy of stale hubs.
- * The loader imports both critical interaction souls directly. If export hubs lag
- * in Android cache, `InteractiveNpc` still constructs and the guide appears.
+ * Chapter 126: Direct instantiation drinks the tap-only Chossid guide.
+ * The cache seal is renewed so Android cannot keep the older NPC that opened
+ * menus from gaze or accepted-interaction noise.
  */
 import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js';
 import Utils from '../../../utils.js';
 import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js';
-import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=visible-guide-direct-20260604-bh442';
+import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=tap-only-same-chossid-20260604-bh444';
 
 function resolveSoulType(type) {
   if (type === 'InteractiveDoor') return InteractiveDoorDirect;
   if (type === 'InteractiveNpc') return InteractiveNpcDirect;
   return AWTSMOOS[type] || null;
 }
-
-function logSpecial(stage, data = {}) {
-  console.info('B"H | DIRECT_INTERACTION_INSTANTIATE', { stage, ...data });
-}
-
+function logSpecial(stage, data = {}) { console.info('B"H | DIRECT_INTERACTION_INSTANTIATE', { stage, ...data }); }
 function logMissing(type) {
-  console.warn('B"H | INSTANTIATE_MISSING_TYPE', {
-    type,
-    available: Object.keys(AWTSMOOS),
-    hasDirectInteractiveDoor: Boolean(InteractiveDoorDirect),
-    hasDirectInteractiveNpc: Boolean(InteractiveNpcDirect)
-  });
+  console.warn('B"H | INSTANTIATE_MISSING_TYPE', { type, available: Object.keys(AWTSMOOS), hasDirectInteractiveDoor: Boolean(InteractiveDoorDirect), hasDirectInteractiveNpc: Boolean(InteractiveNpcDirect) });
 }
-
 function makeNivra(context, type, options) {
   const SoulType = resolveSoulType(type);
-  if (!SoulType) {
-    logMissing(type);
-    return null;
-  }
+  if (!SoulType) { logMissing(type); return null; }
   if (type === 'InteractiveDoor' || type === 'InteractiveNpc') logSpecial('constructor-selected', { type, constructor: SoulType.name, name: options?.name, position: options?.position });
   return new SoulType(options, context);
 }
@@ -51,7 +38,6 @@ const instantiateMezuzahDirect = {
     if (nivra.afterBriyah) await nivra.afterBriyah();
     return nivra;
   },
-
   parseDefinitions(nivrayim) {
     const list = [];
     if (!nivrayim) return list;

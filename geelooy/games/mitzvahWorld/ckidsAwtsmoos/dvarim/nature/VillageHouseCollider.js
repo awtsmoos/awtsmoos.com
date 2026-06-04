@@ -2,10 +2,13 @@
 /**
  * @file VillageHouseCollider.js
  * @description
- * Chapter 112: House walls receive the visual house scale.
- * The previous collider aligned to the house position/rotation but forced scale
- * back to 1, so walls could miss the large brick house. This complete rewrite
- * preserves the existing collision contract and copies final visual scale.
+ * Chapter 123: The house collider enters the octree only after the house exists.
+ *
+ * The Awtsmoos does not let invisible walls wander before the brick vessel has
+ * settled. This Nivra is non-solid at birth, hidden from octree/raycast, then
+ * the village grounding pass copies the final visual house position, rotation,
+ * and scale. Only after that alignment are the child collider meshes added to
+ * the octree. Door opening remains clear, walls remain scaled to the house.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -14,17 +17,37 @@ import { colliderMetrics } from "./villagePicture/cottage/cottageContract.js?v=w
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const hidden = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0, depthWrite: false });
 
-function mark(mesh, owner, role) {
+function inert(mesh, owner, role) {
   mesh.visible = false;
   if (mesh.material) mesh.material.visible = false;
-  Object.assign(mesh.userData ||= {}, { isSolid: true, explicitCollision: true, isVillageHouseCollider: true, villageHouseFinalOnly: true, useAuthoredY: true, colliderRole: role });
+  Object.assign(mesh.userData ||= {}, {
+    isSolid: false,
+    explicitCollision: false,
+    isVillageHouseCollider: true,
+    villageHouseFinalOnly: true,
+    skipOctree: true,
+    noOctree: true,
+    skipRaycast: true,
+    useAuthoredY: true,
+    colliderRole: role
+  });
   mesh.nivraAwtsmoos = owner;
+}
+function activate(mesh) {
+  Object.assign(mesh.userData ||= {}, {
+    isSolid: true,
+    explicitCollision: true,
+    skipOctree: false,
+    noOctree: false,
+    skipRaycast: true,
+    finalOctreeOnly: true
+  });
 }
 function addCollider(root, owner, name, p, s, role = "house") {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(...s), hidden.clone());
   mesh.name = name;
   mesh.position.set(...p);
-  mark(mesh, owner, role);
+  inert(mesh, owner, role);
   root.add(mesh);
   return mesh;
 }
@@ -53,8 +76,9 @@ export default class VillageHouseCollider extends Domem {
   type = "villageHouseCollider";
 
   constructor(op = {}, olam) {
-    super({ ...op, golem: null, isSolid: true, interactable: false }, olam);
+    super({ ...op, golem: null, isSolid: false, interactable: false }, olam);
     this.options = op;
+    this.isSolid = false;
     this.useAuthoredY = true;
     this._octreeMeshes = [];
   }
@@ -65,7 +89,7 @@ export default class VillageHouseCollider extends Domem {
     this.mesh.position.copy(this.position.vector3());
     this.mesh.position.y = num(this.options.groundY ?? this.mesh.position.y, this.mesh.position.y);
     this.mesh.rotation.y = num(this.rotation?.y, 0);
-    this.mesh.userData.awaitingVillageFinalTransform = true;
+    Object.assign(this.mesh.userData ||= {}, { awaitingVillageFinalTransform: true, skipOctree: true, noOctree: true, skipRaycast: true, useAuthoredY: true });
     await olam.hoyseef(this);
     this.mesh.updateMatrixWorld(true);
     this.isReady = true;
@@ -74,8 +98,16 @@ export default class VillageHouseCollider extends Domem {
   buildRoot() {
     const c = colliderMetrics();
     const root = new THREE.Group();
-    root.name = this.name || "VillageHouseCollider_scaled_to_visual_house";
-    Object.assign(root.userData ||= {}, { isVillageHouseCollider: true, useAuthoredY: true, contractDoorWidth: c.doorWidth, contractDoorClearHeight: c.doorClearHeight });
+    root.name = this.name || "VillageHouseCollider_final_only_scaled_to_visual_house";
+    Object.assign(root.userData ||= {}, {
+      isVillageHouseCollider: true,
+      useAuthoredY: true,
+      skipOctree: true,
+      noOctree: true,
+      skipRaycast: true,
+      contractDoorWidth: c.doorWidth,
+      contractDoorClearHeight: c.doorClearHeight
+    });
     floors(root, this, c);
     walls(root, this, c);
     furniture(root, this, c);
@@ -89,16 +121,39 @@ export default class VillageHouseCollider extends Domem {
     houseMesh.getWorldQuaternion(this.mesh.quaternion);
     this.mesh.scale.copy(houseMesh.getWorldScale(new THREE.Vector3()));
     this.mesh.updateMatrixWorld(true);
-    Object.assign(this.mesh.userData, { awaitingVillageFinalTransform: false, coupledToFinalVisualHouse: true, copiedVisualScale: this.mesh.scale.toArray() });
-    return true;
+    Object.assign(this.mesh.userData, {
+      awaitingVillageFinalTransform: false,
+      coupledToFinalVisualHouse: true,
+      copiedVisualScale: this.mesh.scale.toArray()
+    });
+    return this.isFiniteWorldTransform();
+  }
+
+  isFiniteWorldTransform() {
+    let ok = true;
+    this.mesh?.updateMatrixWorld(true);
+    this.mesh?.traverse?.(child => {
+      if (!child.isMesh) return;
+      const e = child.matrixWorld.elements;
+      for (let i = 0; i < e.length; i += 1) if (!Number.isFinite(e[i])) ok = false;
+    });
+    return ok;
   }
 
   addFinalCollidersToOctree(olam = this.olam) {
-    if (!this.mesh || !olam?.worldOctree) return 0;
+    if (!this.mesh || !olam?.worldOctree || this.mesh.userData.awaitingVillageFinalTransform) return 0;
+    if (!this.isFiniteWorldTransform()) {
+      console.warn("B\"H | HOUSE_COLLIDER_NOT_ADDED_NAN_TRANSFORM", { name: this.name });
+      return 0;
+    }
     this.removeFinalCollidersFromOctree(olam);
-    this.mesh.updateMatrixWorld(true);
     const added = [];
-    this.mesh.traverse(child => { if (child.isMesh && child.userData?.isVillageHouseCollider && olam.worldOctree.addObject(child)) added.push(child); });
+    this.mesh.traverse(child => {
+      if (!child.isMesh || !child.userData?.isVillageHouseCollider) return;
+      activate(child);
+      child.updateMatrixWorld(true);
+      if (olam.worldOctree.addObject(child)) added.push(child);
+    });
     this._octreeMeshes = added;
     return added.length;
   }
