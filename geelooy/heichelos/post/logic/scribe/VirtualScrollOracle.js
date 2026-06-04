@@ -4,9 +4,9 @@
  * @description
  * The outer verse river bows to the inner subsection river.
  *
- * It exposes a gentle buffer hook for auto-scroll, but it never awakens the next
- * verse while the current verse still owns hidden subsections. No fake height,
- * no whole-page relaxation: only actual rendered neighboring vessels.
+ * This oracle now refuses to prune verse chunks while the reader is moving. It
+ * may append road ahead, or prepend road above with anchor preservation, but it
+ * cleans old distant vessels only after the scroll river becomes idle.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
@@ -17,10 +17,11 @@ import {
 
 export { parseScrollTarget };
 
-const VERSE_AHEAD_PX = 900;
-const PRUNE_PX = 2800;
+const VERSE_AHEAD_PX = 1100;
+const PRUNE_PX = 3600;
+const MOTION_IDLE_MS = 1100;
 const MIN_DELTA = 2;
-const MAX_CHUNKS = 3;
+const MAX_CHUNKS = 4;
 let activeRenderer = null;
 let activePruner = null;
 let activeTotalChunks = 0;
@@ -28,7 +29,25 @@ let activeScrollHandler = null;
 let activeCurrent = 0;
 let lastY = 0;
 let streaming = false;
+let idlePruneTimer = 0;
 const revealed = new Set();
+
+function isAutoMoving() {
+    return document.body?.classList?.contains("awtsmoos-auto-scroll-active") && !document.body?.classList?.contains("awtsmoos-auto-scroll-paused");
+}
+
+function markMotion() {
+    window.__awtsmoosVirtualMotionActive = true;
+    clearTimeout(idlePruneTimer);
+    idlePruneTimer = setTimeout(() => {
+        window.__awtsmoosVirtualMotionActive = false;
+        if (isAutoMoving()) {
+            markMotion();
+            return;
+        }
+        pruneFarChunksIdle();
+    }, MOTION_IDLE_MS);
+}
 
 function chunkNode(id) {
     return document.querySelector(`#virtual-scroll-container > .scroll-chunk[data-chunk-id="${id}"]`);
@@ -44,9 +63,12 @@ function visibleAnchor() {
     let distance = Infinity;
     document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake'], #realPost .section").forEach(node => {
         const rect = node.getBoundingClientRect();
-        if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+        if (rect.bottom < -240 || rect.top > window.innerHeight + 240) return;
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (d < distance) { best = node; distance = d; }
+        if (d < distance) {
+            best = node;
+            distance = d;
+        }
     });
     return best ? { node: best, top: best.getBoundingClientRect().top } : null;
 }
@@ -79,7 +101,8 @@ function shouldAwakenPreviousVerse(force = false) {
     return node.getBoundingClientRect().top > -VERSE_AHEAD_PX;
 }
 
-function pruneFarChunks() {
+function pruneFarChunksIdle() {
+    if (window.__awtsmoosVirtualMotionActive || isAutoMoving()) return;
     const ids = sortedIds();
     if (ids.length <= MAX_CHUNKS) return;
     const anchor = visibleAnchor();
@@ -100,6 +123,7 @@ function pruneFarChunks() {
 async function reveal(id, place) {
     if (streaming || !Number.isInteger(id) || id < 0 || id >= activeTotalChunks || revealed.has(id)) return false;
     streaming = true;
+    markMotion();
     const anchor = place === "before" ? visibleAnchor() : null;
     await activeRenderer?.(id);
     revealed.add(id);
@@ -107,9 +131,8 @@ async function reveal(id, place) {
     requestAnimationFrame(() => {
         updateCurrentFromViewport();
         updateLocationFromViewport();
-        pruneFarChunks();
         lastY = window.scrollY;
-        setTimeout(() => { streaming = false; }, 55);
+        setTimeout(() => { streaming = false; }, 45);
     });
     return true;
 }
@@ -118,7 +141,9 @@ function updateCurrentFromViewport() {
     const probe = Math.min(window.innerHeight * 0.45, window.innerHeight - 120);
     let best = { id: activeCurrent, distance: Infinity };
     sortedIds().forEach(id => {
-        const rect = chunkNode(id).getBoundingClientRect();
+        const node = chunkNode(id);
+        if (!node) return;
+        const rect = node.getBoundingClientRect();
         const distance = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
         if (distance < best.distance) best = { id, distance };
     });
@@ -133,7 +158,10 @@ function visibleSubsection() {
     awake.forEach(node => {
         const rect = node.getBoundingClientRect();
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (d < distance) { best = node; distance = d; }
+        if (d < distance) {
+            best = node;
+            distance = d;
+        }
     });
     return best;
 }
@@ -178,18 +206,14 @@ export async function ensureVerseBuffer(direction = 1, options = {}) {
 
 async function handleScrollIntent(delta) {
     if (streaming || Math.abs(delta) < MIN_DELTA) return;
+    markMotion();
 
     const innerConsumed = consumeSubsectionScrollIntent(delta, { count: 2 });
     updateCurrentFromViewport();
     updateLocationFromViewport();
 
-    if (innerConsumed || subsectionStillOwnsDirection(delta)) {
-        pruneFarChunks();
-        return;
-    }
-
+    if (innerConsumed || subsectionStillOwnsDirection(delta)) return;
     await ensureVerseBuffer(delta >= 0 ? 1 : -1);
-    pruneFarChunks();
 }
 
 function attach() {
@@ -284,6 +308,7 @@ export function resetVirtualScrollOracle() {
         window.removeEventListener("wheel", activeScrollHandler);
         window.removeEventListener("touchmove", activeScrollHandler);
     }
+    clearTimeout(idlePruneTimer);
     activeRenderer = null;
     activePruner = null;
     activeTotalChunks = 0;

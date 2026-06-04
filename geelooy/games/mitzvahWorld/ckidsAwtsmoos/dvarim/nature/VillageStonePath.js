@@ -2,13 +2,11 @@
 /**
  * @file VillageStonePath.js
  * @description
- * Chapter 30: The road class becomes a doorway into the shared library.
- * All cobble geometry, material language, and path scattering now live in
- * `geelooy/libs/awtsmoos3d/path/cobblePath.js`; this file simply manifests it
- * as a Nivra inside Mitzvah World.
+ * Chapter 80: The stone path passes the renderer to the shader snapshot forge.
+ * Cobble and dirt textures are baked once, then reused by instanced Lambert.
  */
 import Domem from "../../chayim/domem/index.js";
-import { createCobblePath } from "../../../../../libs/awtsmoos3d/path/cobblePath.js";
+import { createCobblePath } from "../../../../../libs/awtsmoos3d/path/cobblePath.js?v=shader-path-20260604-bh437";
 
 export default class VillageStonePath extends Domem {
   type = "villageStonePath";
@@ -19,7 +17,7 @@ export default class VillageStonePath extends Domem {
   }
 
   async heescheel(olam) {
-    this.mesh = createCobblePath(this.options);
+    this.mesh = createCobblePath(this.options, { renderer: olam?.renderer });
     await olam.hoyseef(this);
     this.isReady = true;
   }

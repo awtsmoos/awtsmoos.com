@@ -2,14 +2,14 @@
 /**
  * @file cobblePath.js
  * @description
- * Chapter 25: The Awtsmoos turns a flat road into individual remembered steps.
- * This reusable generator lays alpha-free Lambert cobbles over a warm dirt bed,
- * driven by polyline data and device-safe instancing.
+ * Chapter 75: The road stones are textured by one-shot shader snapshots.
+ * Dirt and cobble diffuse maps come from shader bakes, then the path remains a
+ * simple instanced Lambert road for fast Android WebGL rendering.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { finite, hash, setInstance } from "../math.js";
 import { markDecorative, finishInstanced } from "../decor.js";
-import { lambertNoise } from "../lambert.js";
+import { lambertNoise } from "../lambert.js?v=shader-lambert-20260604-bh437";
 
 function stoneGeometry() {
   const shape = new THREE.Shape();
@@ -46,17 +46,18 @@ function place(mesh, i, point, op) {
   setInstance(mesh, i, p, q, s);
 }
 
-/** @param {Object} op @returns {THREE.Group} */
-export function createCobblePath(op = {}) {
+/** @param {Object} op @param {Object} ctx @returns {THREE.Group} */
+export function createCobblePath(op = {}, ctx = {}) {
   const points = op.points || [[-12, 17], [-6, 10], [0, 5.5], [7, 1.2], [13, -4.5]];
   const count = Math.max(4, Math.floor(finite(op.count, 110)));
+  const renderCtx = { renderer: ctx.renderer || ctx.olam?.renderer || op.renderer };
   const group = new THREE.Group();
   group.name = op.name || "AwtsmoosCobblePath_reusable";
-  const dirt = new THREE.Mesh(new THREE.PlaneGeometry(finite(op.length, 42), finite(op.width, 5.8)), lambertNoise(finite(op.dirtColor, 0x8b6741), "#8a673f"));
+  const dirt = new THREE.Mesh(new THREE.PlaneGeometry(finite(op.length, 42), finite(op.width, 5.8)), lambertNoise(finite(op.dirtColor, 0x8b6741), 0x8a673f, renderCtx));
   dirt.rotation.x = -Math.PI / 2;
   dirt.rotation.z = finite(op.rotationY, -0.62);
   dirt.position.set(finite(op.dirtX), finite(op.y, 0.03), finite(op.dirtZ, 6.2));
-  const stones = new THREE.InstancedMesh(stoneGeometry(), lambertNoise(finite(op.stoneColor, 0xb9ad91), "#b9ad91"), count);
+  const stones = new THREE.InstancedMesh(stoneGeometry(), lambertNoise(finite(op.stoneColor, 0xb9ad91), 0xb9ad91, renderCtx), count);
   for (let i = 0; i < count; i += 1) place(stones, i, sample(points, i / Math.max(1, count - 1)), op);
   finishInstanced([stones]);
   group.add(dirt, stones);

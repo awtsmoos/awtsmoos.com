@@ -2,23 +2,23 @@
 /**
  * @file houses.js
  * @description
- * Chapter 50: The cottage stops pretending and becomes its own generated body.
- * VillageCottage carries plaster, roof tiles, door, windows, ivy, and lanterns;
- * smaller props orbit it as composition marks: well, fence, flowers, path light.
+ * Chapter 86: The house moves into the opening shot.
+ * The first cottage is now near the guide and path so Android players see both
+ * immediately. Props are close, readable, and support the reference composition.
  */
 export default {
   VillageCottage: [
-    { name: "reference_right_cottage_anchor", width: 8.5, depth: 6.2, height: 4.3, scale: 1.05, rotationY: -0.18, position: { x: 17.5, y: 0.06, z: -7.8 } },
-    { name: "reference_far_cottage_depth", width: 7.5, depth: 5.5, height: 3.8, scale: 0.86, rotationY: 0.28, position: { x: 31, y: 0.05, z: -20 } }
+    { name: "spawn_visible_right_cottage_anchor", width: 9.2, depth: 6.6, height: 4.5, scale: 1.12, rotationY: -0.35, position: { x: -1.6, y: 0.08, z: 8.0 } },
+    { name: "mid_depth_second_cottage", width: 7.5, depth: 5.5, height: 3.8, scale: 0.9, rotationY: 0.25, position: { x: 13.5, y: 0.06, z: -8.0 } }
   ],
   VillagePictureProp: [
-    { name: "reference_path_lantern_left", kind: "lantern", position: { x: -7.8, z: 7.6 }, scale: 1.95, terrainLawGrounded: true },
-    { name: "reference_house_ivy_flowers", kind: "flowerPatch", count: 128, radius: 3.4, seed: 88, position: { x: 13.5, z: -4.4 }, scale: 1.2, terrainLawGrounded: true },
-    { name: "reference_tree_shadow_flowers", kind: "flowerPatch", count: 140, radius: 5.2, seed: 92, position: { x: -18, z: 11 }, scale: 1.25, terrainLawGrounded: true },
-    { name: "reference_well_near_house", kind: "well", position: { x: 23.5, z: -1.8 }, scale: 1.25, terrainLawGrounded: true },
-    { name: "reference_left_low_fence", kind: "fence", position: { x: -23, z: 8 }, scale: 1.6, rotationY: -0.28, terrainLawGrounded: true }
+    { name: "spawn_path_lantern_left", kind: "lantern", position: { x: -8.8, z: 11.8 }, scale: 2.1, terrainLawGrounded: true },
+    { name: "cottage_flower_cluster", kind: "flowerPatch", count: 160, radius: 3.8, seed: 88, position: { x: -3.6, z: 10.2 }, scale: 1.25, terrainLawGrounded: true },
+    { name: "hero_tree_flower_cluster", kind: "flowerPatch", count: 150, radius: 5.2, seed: 92, position: { x: -18, z: 13 }, scale: 1.25, terrainLawGrounded: true },
+    { name: "visible_cottage_well", kind: "well", position: { x: 4.4, z: 10.4 }, scale: 1.15, terrainLawGrounded: true },
+    { name: "left_low_fence_near_spawn", kind: "fence", position: { x: -18, z: 11.5 }, scale: 1.55, rotationY: -0.28, terrainLawGrounded: true }
   ],
   VillageHouseCollider: [
-    { name: "right_cottage_collider", position: { x: 17.5, y: 0, z: -7.8 }, width: 16, depth: 11, height: 6, floorTop: 0.34 }
+    { name: "spawn_cottage_collider", position: { x: -1.6, y: 0, z: 8.0 }, width: 14, depth: 10, height: 6, floorTop: 0.34 }
   ]
 };

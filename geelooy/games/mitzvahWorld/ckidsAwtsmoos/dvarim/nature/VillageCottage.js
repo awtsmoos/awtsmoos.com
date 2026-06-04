@@ -2,12 +2,11 @@
 /**
  * @file VillageCottage.js
  * @description
- * Chapter 48: The cottage kit enters the world as a Nivra.
- * This thin class keeps village data clean while the reusable Lambert building
- * generator lives in `geelooy/libs/awtsmoos3d/buildings/cottage.js`.
+ * Chapter 81: The cottage wrapper passes the renderer into shader-baked walls.
+ * Plaster, roof, and door textures are snapshots from custom shaders.
  */
 import Domem from "../../chayim/domem/index.js";
-import { createCottage } from "../../../../../libs/awtsmoos3d/buildings/cottage.js";
+import { createCottage } from "../../../../../libs/awtsmoos3d/buildings/cottage.js?v=shader-cottage-20260604-bh437";
 
 export default class VillageCottage extends Domem {
   type = "villageCottage";
@@ -18,7 +17,7 @@ export default class VillageCottage extends Domem {
   }
 
   async heescheel(olam) {
-    this.mesh = createCottage(this.options);
+    this.mesh = createCottage(this.options, { renderer: olam?.renderer });
     await olam.hoyseef(this);
     this.isReady = true;
   }

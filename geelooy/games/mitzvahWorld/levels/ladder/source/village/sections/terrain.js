@@ -2,22 +2,21 @@
 /**
  * @file terrain.js
  * @description
- * Chapter 35: The village ground is authored as its own reusable section.
- * ProceduralTerrain remains the physical broad surface; VillageGroundPlane adds
- * painted Lambert earth on top so the screenshot-like grass/dirt language reads
- * immediately at spawn.
+ * Chapter 90: The ground becomes darker, richer, and less toy-flat.
+ * A physical terrain remains underneath; a shader-baked Lambert ground plane
+ * carries grass/dirt/flower color with stronger contrast and safer placement.
  */
 export default {
   ProceduralTerrain: [{
-    name: "reference_physics_terrain_under_painted_ground",
+    name: "stable_physics_terrain_under_rich_ground",
     width: 190,
     depth: 190,
     segments: 72,
     isSolid: true,
     textureType: "safegrass",
     textureSize: 768,
-    microNoise: 0.032,
-    mobileTone: "warm-readable-green",
+    microNoise: 0.04,
+    mobileTone: "darker-golden-village-green",
     points: [
       { x: -95, z: -95, y: 0 }, { x: 95, z: -95, y: 0 },
       { x: 95, z: 95, y: 0 }, { x: -95, z: 95, y: 0 }
@@ -25,14 +24,16 @@ export default {
     position: { x: 0, y: -0.72, z: 0 }
   }],
   VillageGroundPlane: [{
-    name: "reference_painted_grass_dirt_ground",
-    width: 190,
-    depth: 190,
-    y: -0.665,
-    size: 1024,
+    name: "shader_baked_rich_grass_dirt_ground",
+    width: 188,
+    depth: 188,
+    y: -0.64,
+    size: 768,
     repeatX: 1,
     repeatY: 1,
-    color: 0x789346,
-    pathUv: [[0.12, 0.82], [0.32, 0.62], [0.48, 0.51], [0.68, 0.38], [0.88, 0.22]]
+    color: 0x5f7f38,
+    grassDark: 0x375a27,
+    grassLight: 0x8daa52,
+    flowerColor: 0xe8d860
   }]
 };

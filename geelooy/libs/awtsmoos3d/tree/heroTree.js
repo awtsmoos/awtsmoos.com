@@ -2,15 +2,14 @@
 /**
  * @file heroTree.js
  * @description
- * Chapter 24: The Awtsmoos teaches one great tree to become many worlds.
- * This reusable generator makes a WebGL-safe Lambert hero tree from data: trunk,
- * limbs, fine twigs, clustered leaf cards, and color variation. It is not tied
- * to Mitzvah World; every future geelooy scene may call it.
+ * Chapter 74: The hero tree's bark and leaves are shader snapshots.
+ * Branches and leaves remain instanced; their diffuse maps are baked once by
+ * custom shaders through the active renderer, then held still for speed.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { finite, hash, setInstance, segmentBetween } from "../math.js";
 import { finishInstanced, markDecorative } from "../decor.js";
-import { lambertBark, lambertLeaf } from "../lambert.js";
+import { lambertBark, lambertLeaf } from "../lambert.js?v=shader-lambert-20260604-bh437";
 
 const trunkGeo = h => new THREE.CylinderGeometry(0.72, 1.16, h, 14, 6);
 const limbGeo = () => new THREE.CylinderGeometry(0.07, 0.2, 1, 8, 1);
@@ -38,20 +37,17 @@ function placeLeaf(mesh, i, op) {
   setInstance(mesh, i, p, q, s);
 }
 
-/**
- * Build a complete decorative hero tree group.
- * @param {Object} op Authored tree options.
- * @returns {THREE.Group} Visual-only group.
- */
-export function createHeroTree(op = {}) {
+/** @param {Object} op @param {Object} ctx @returns {THREE.Group} */
+export function createHeroTree(op = {}, ctx = {}) {
   const h = finite(op.trunkHeight, 7.5);
   const limbsN = Math.max(8, Math.floor(finite(op.limbCount, 30)));
   const leavesN = Math.max(90, Math.floor(finite(op.leafCount, 480)));
   const group = new THREE.Group();
+  const renderCtx = { renderer: ctx.renderer || ctx.olam?.renderer || op.renderer };
   group.name = op.name || "AwtsmoosHeroTree_reusable_lambert";
-  const trunk = new THREE.Mesh(trunkGeo(h), lambertBark(finite(op.barkColor, 0x5a351d)));
-  const limbs = new THREE.InstancedMesh(limbGeo(), lambertBark(finite(op.branchColor, 0x4d2d19)), limbsN);
-  const leaves = new THREE.InstancedMesh(leafGeo(), lambertLeaf(finite(op.leafColor, 0x4f9f36)), leavesN);
+  const trunk = new THREE.Mesh(trunkGeo(h), lambertBark(finite(op.barkColor, 0x5a351d), renderCtx));
+  const limbs = new THREE.InstancedMesh(limbGeo(), lambertBark(finite(op.branchColor, 0x4d2d19), renderCtx), limbsN);
+  const leaves = new THREE.InstancedMesh(leafGeo(), lambertLeaf(finite(op.leafColor, 0x5fa83a), renderCtx), leavesN);
   trunk.position.y = h / 2;
   for (let i = 0; i < limbsN; i += 1) placeLimb(limbs, i, h);
   for (let i = 0; i < leavesN; i += 1) placeLeaf(leaves, i, op);

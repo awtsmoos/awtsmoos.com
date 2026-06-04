@@ -2,21 +2,21 @@
 /**
  * @module NatureExports
  * @description
- * Chapter 49: The export river carries the complete reference toolkit.
- * Ground paint, sky layers, golden light, backdrop, cobbles, cottage, grass,
- * and hero trees are all data-addressable Nivrayim for composed village art.
+ * Chapter 82: The export river names the shader-snapshot epoch.
+ * Cinematic village Nivrayim now import modules that bake procedural textures
+ * through custom shaders once, then render fast with Lambert.
  */
 export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=green-dirt-phone-ground-20260604-bh430";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?v=soft-country-sky-fog-20260603-bh237";
 export { default as ProceduralTree } from "../dvarim/nature/proceduralTree.js?v=village-texture-pass-20260603-bh296";
 export { default as Forest } from "../dvarim/nature/forest.js";
-export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?v=painted-ground-20260604-bh434";
-export { default as VillageSkyLayers } from "../dvarim/nature/VillageSkyLayers.js?v=gold-cloud-layers-20260604-bh434";
+export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?v=shader-ground-20260604-bh437";
+export { default as VillageSkyLayers } from "../dvarim/nature/VillageSkyLayers.js?v=shader-sky-20260604-bh437";
 export { default as VillageLightingRig } from "../dvarim/nature/VillageLightingRig.js?v=golden-lambert-rig-20260604-bh432";
-export { default as VillageBackdrop } from "../dvarim/nature/VillageBackdrop.js?v=hills-haze-sky-glow-20260604-bh432";
-export { default as VillageCottage } from "../dvarim/nature/VillageCottage.js?v=lambert-cottage-kit-20260604-bh435";
-export { default as VillageHeroTree } from "../dvarim/nature/VillageHeroTree.js?v=lib-hero-tree-20260604-bh434";
-export { default as VillageStonePath } from "../dvarim/nature/VillageStonePath.js?v=lib-cobble-path-20260604-bh434";
+export { default as VillageBackdrop } from "../dvarim/nature/VillageBackdrop.js?v=worker-safe-backdrop-20260604-bh436";
+export { default as VillageCottage } from "../dvarim/nature/VillageCottage.js?v=shader-cottage-20260604-bh437";
+export { default as VillageHeroTree } from "../dvarim/nature/VillageHeroTree.js?v=shader-hero-tree-20260604-bh437";
+export { default as VillageStonePath } from "../dvarim/nature/VillageStonePath.js?v=shader-stone-path-20260604-bh437";
 export { default as VillageTreeField } from "../dvarim/nature/VillageTreeField.js?v=visible-green-field-trees-20260604-bh430";
 export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?v=lib-grass-field-20260604-bh434";
 export { default as VillageRealismTree } from "../dvarim/nature/VillageRealismTree.js?v=realism-tree-index-loop-safe-20260603-bh312";

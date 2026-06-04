@@ -2,25 +2,28 @@
 /**
  * @file foliage.js
  * @description
- * Chapter 39: The grass is placed as art-direction, not random noise.
- * Dense patches hug the hero tree, the path edges, and the guide house so the
- * opening view reads lush while still staying inside mobile budgets.
+ * Chapter 91: The grass obeys readability.
+ * Dense foreground life remains, but the guide and path get a small visible
+ * clearing so the NPC is not swallowed by a wall of blades.
  */
 export default {
   VillageGrassField: [{
-    name: "reference_spawn_grass_and_flowers",
-    count: 3600,
-    tallRatio: 0.36,
-    flowerRatio: 0.24,
-    radius: 72,
+    name: "readable_spawn_grass_and_flowers",
+    count: 3000,
+    tallRatio: 0.28,
+    flowerRatio: 0.22,
+    radius: 62,
     groundY: 0,
     groundLift: 0.014,
     shortColor: 0x4f9b3b,
     tallColor: 0x347a2e,
     flowerColor: 0xe8d860,
     patches: [
-      { x: -18, z: 12, radius: 14 }, { x: -5, z: 10, radius: 12 },
-      { x: 8, z: 0, radius: 13 }, { x: 17, z: -7, radius: 11 }
+      { x: -18, z: 13, radius: 12 },
+      { x: -12, z: 17, radius: 8 },
+      { x: -2, z: 12, radius: 7 },
+      { x: 6, z: 4, radius: 10 },
+      { x: 14, z: -5, radius: 9 }
     ]
   }]
 };

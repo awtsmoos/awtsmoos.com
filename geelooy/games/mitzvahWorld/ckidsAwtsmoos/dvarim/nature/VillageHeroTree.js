@@ -2,13 +2,11 @@
 /**
  * @file VillageHeroTree.js
  * @description
- * Chapter 29: The world-specific tree bows to the reusable library root.
- * This class is now only a thin Nivra vessel. The actual cinematic Lambert tree
- * generator lives in `geelooy/libs/awtsmoos3d/tree/heroTree.js`, ready for every
- * later village, forest, or dream the Awtsmoos will breathe into existence.
+ * Chapter 79: The tree wrapper gives the renderer to the bark and leaf forge.
+ * Its Lambert maps are shader-baked snapshots, not canvas textures.
  */
 import Domem from "../../chayim/domem/index.js";
-import { createHeroTree } from "../../../../../libs/awtsmoos3d/tree/heroTree.js";
+import { createHeroTree } from "../../../../../libs/awtsmoos3d/tree/heroTree.js?v=shader-tree-20260604-bh437";
 
 export default class VillageHeroTree extends Domem {
   type = "villageHeroTree";
@@ -19,7 +17,7 @@ export default class VillageHeroTree extends Domem {
   }
 
   async heescheel(olam) {
-    this.mesh = createHeroTree(this.options);
+    this.mesh = createHeroTree(this.options, { renderer: olam?.renderer });
     await olam.hoyseef(this);
     this.isReady = true;
   }

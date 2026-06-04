@@ -2,12 +2,11 @@
 /**
  * @file VillageSkyLayers.js
  * @description
- * Chapter 32: The sky becomes layered gold instead of a single flat thought.
- * The reusable `goldenSky` helper creates cloud wisps and horizon glow planes
- * that sit behind the Lambert village with almost no GPU cost.
+ * Chapter 78: The sky wrapper hands the renderer to the cloud shader snapshot.
+ * Clouds bake once; the runtime carries only a frozen texture on a plane.
  */
 import Domem from "../../chayim/domem/index.js";
-import { createGoldenSkyLayers } from "../../../../../libs/awtsmoos3d/sky/goldenSky.js";
+import { createGoldenSkyLayers } from "../../../../../libs/awtsmoos3d/sky/goldenSky.js?v=shader-sky-20260604-bh437";
 
 export default class VillageSkyLayers extends Domem {
   type = "villageSkyLayers";
@@ -18,7 +17,7 @@ export default class VillageSkyLayers extends Domem {
   }
 
   async heescheel(olam) {
-    this.mesh = createGoldenSkyLayers(this.options);
+    this.mesh = createGoldenSkyLayers(this.options, { renderer: olam?.renderer });
     await olam.hoyseef(this);
     this.isReady = true;
   }
