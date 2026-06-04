@@ -2,16 +2,14 @@
 /**
  * @file index.js
  * @description
- * Chapter 100: Loading now imports the player-grounding covenant fresh.
- *
- * The village grounding module changed from prop-only grounding to living
- * Chossid first-frame grounding. This root loader uses a new query seal so the
- * Android browser cannot keep the stale module that left the player floating.
+ * Chapter 111: Loading imports the fresh direct interaction gate.
+ * The village guide must not disappear because Android holds an older loader
+ * module. The Awtsmoos seals both NPC construction and grounding with new URLs.
  */
-import instantiate from "./instantiateMezuzahDirect.js";
+import instantiate from "./instantiateMezuzahDirect.js?v=visible-guide-direct-20260604-bh442";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
-import { scheduleVillageGrounding } from "./villageGrounding.js?v=player-feet-ground-speed-20260604-bh440";
+import { scheduleVillageGrounding } from "./villageGrounding.js?v=road-house-guide-colliders-20260604-bh442";
 
 async function safeAssetSize(nivra) {
   if (typeof nivra?.getSize !== "function") return 0;
@@ -51,7 +49,7 @@ export default class LoadNivrayim {
         try { this.ohr(); }
         catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }
       }
-      TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified; player feet grounded fresh.");
+      TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified; visible guide and colliders fresh.");
       return nivrayimMade || [];
     } catch (error) {
       console.error("B\"H - 🚨 THE CREATION PROTOCOL HIT A REAL LOAD FAILURE:", error);

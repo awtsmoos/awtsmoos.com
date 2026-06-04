@@ -2,11 +2,10 @@
 /**
  * @file VillageHouseCollider.js
  * @description
- * Chapter 347: The doorway is collision-aware, not decoration-aware.
- *
- * The Awtsmoos lowers the walkable floor, widens the front aperture, and removes
- * accidental blocker lips. Only simple hidden slabs collide; the door void is a
- * true gap until the separate door leaf closes.
+ * Chapter 112: House walls receive the visual house scale.
+ * The previous collider aligned to the house position/rotation but forced scale
+ * back to 1, so walls could miss the large brick house. This complete rewrite
+ * preserves the existing collision contract and copies final visual scale.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -18,14 +17,7 @@ const hidden = new THREE.MeshBasicMaterial({ visible: false, transparent: true, 
 function mark(mesh, owner, role) {
   mesh.visible = false;
   if (mesh.material) mesh.material.visible = false;
-  Object.assign(mesh.userData ||= {}, {
-    isSolid: true,
-    explicitCollision: true,
-    isVillageHouseCollider: true,
-    villageHouseFinalOnly: true,
-    useAuthoredY: true,
-    colliderRole: role
-  });
+  Object.assign(mesh.userData ||= {}, { isSolid: true, explicitCollision: true, isVillageHouseCollider: true, villageHouseFinalOnly: true, useAuthoredY: true, colliderRole: role });
   mesh.nivraAwtsmoos = owner;
 }
 function addCollider(root, owner, name, p, s, role = "house") {
@@ -82,7 +74,7 @@ export default class VillageHouseCollider extends Domem {
   buildRoot() {
     const c = colliderMetrics();
     const root = new THREE.Group();
-    root.name = this.name || "VillageHouseCollider_low_floor_wide_doorway";
+    root.name = this.name || "VillageHouseCollider_scaled_to_visual_house";
     Object.assign(root.userData ||= {}, { isVillageHouseCollider: true, useAuthoredY: true, contractDoorWidth: c.doorWidth, contractDoorClearHeight: c.doorClearHeight });
     floors(root, this, c);
     walls(root, this, c);
@@ -95,9 +87,9 @@ export default class VillageHouseCollider extends Domem {
     houseMesh.updateMatrixWorld(true);
     houseMesh.getWorldPosition(this.mesh.position);
     houseMesh.getWorldQuaternion(this.mesh.quaternion);
-    this.mesh.scale.set(1, 1, 1);
+    this.mesh.scale.copy(houseMesh.getWorldScale(new THREE.Vector3()));
     this.mesh.updateMatrixWorld(true);
-    Object.assign(this.mesh.userData, { awaitingVillageFinalTransform: false, coupledToFinalVisualHouse: true });
+    Object.assign(this.mesh.userData, { awaitingVillageFinalTransform: false, coupledToFinalVisualHouse: true, copiedVisualScale: this.mesh.scale.toArray() });
     return true;
   }
 
@@ -118,6 +110,6 @@ export default class VillageHouseCollider extends Domem {
   }
 
   floorTopWorldY() {
-    return num(this.mesh?.position?.y, 0) + colliderMetrics().floorTop;
+    return num(this.mesh?.position?.y, 0) + colliderMetrics().floorTop * num(this.mesh?.scale?.y, 1);
   }
 }

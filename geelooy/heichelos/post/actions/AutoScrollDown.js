@@ -2,9 +2,12 @@
 /**
  * @module AutoScrollDown
  * @description
- * The auto-scroll river moves first, asks for more road in the background, and
- * never blocks a frame waiting for DOM. If the Awtsmoos needs more letters, the
- * request is fired and the next animation breath continues.
+ * The auto-scroll river only asks the indexed verse oracle for more road.
+ *
+ * It no longer calls the generic nearest-wrapper subsection buffer. The verse
+ * oracle owns exact `activeCurrent` and will always reveal the current verse's
+ * hidden subsections before allowing the next verse. Auto-scroll moves every
+ * frame and requests buffer in the background so motion stays smooth.
  */
 
 const DEFAULT_SPEED = 1.15;
@@ -96,10 +99,12 @@ function requestRoadAhead(force = false) {
     bufferPending = true;
     Promise.resolve().then(async () => {
         try {
-            const openedSub = window.__awtsmoosEnsureSubsectionBuffer?.(1, { force, count: force ? 6 : 4 });
-            if (!openedSub) await window.__awtsmoosAutoScrollVerseBuffer?.(1, { force });
+            await window.__awtsmoosAutoScrollVerseBuffer?.(1, {
+                force,
+                count: force ? 8 : 5
+            });
         } catch (error) {
-            console.warn("B\"H auto-scroll buffer request resisted", error);
+            console.warn("B\"H auto-scroll indexed buffer request resisted", error);
         } finally {
             bufferPending = false;
         }
@@ -119,12 +124,15 @@ function step() {
     }
 
     const distance = bottomDistance(root);
-    if (distance < 2600) requestRoadAhead(false);
-    if (distance < 90) requestRoadAhead(true);
+    if (distance < 3200) requestRoadAhead(false);
+    if (distance < 140) requestRoadAhead(true);
 
     if (distance <= 1 && !bufferPending) {
-        stopAutoScrollDown();
-        return;
+        requestRoadAhead(true);
+        if (bottomDistance(root) <= 1) {
+            stopAutoScrollDown();
+            return;
+        }
     }
 
     root.scrollTop += scrollState.speed;

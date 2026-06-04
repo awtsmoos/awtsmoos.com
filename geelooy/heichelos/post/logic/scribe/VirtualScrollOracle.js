@@ -2,18 +2,19 @@
 /**
  * @module VirtualScrollOracle
  * @description
- * The outer verse river now follows the same covenant as the subsection river:
- * while reading, it reveals more road and never tears old road away.
+ * The outer verse river is indexed to the current verse.
  *
- * No live pruning. No idle pruning. No scroll-height correction when appending
- * below. Only an upward prepend preserves the reader's anchor because it appears
- * above the eye. This makes the virtual machinery nearly impossible to feel.
+ * Every scroll request first belongs to the exact subsection state of
+ * `activeCurrent`. If verse N has more subsections, this module reveals those
+ * subsections and refuses to birth verse N+1. This remains true for manual
+ * scroll and auto-scroll, even if a generic nearest-wrapper buffer misses.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
 import {
-    consumeSubsectionScrollIntent,
-    currentSubsectionGateState
+    consumeSubsectionScrollIntentFor,
+    currentSubsectionGateState,
+    ensureSubsectionBufferFor
 } from "./SubsectionVirtualizer.js";
 
 export { parseScrollTarget };
@@ -44,18 +45,14 @@ function visibleAnchor() {
         const rect = node.getBoundingClientRect();
         if (rect.bottom < -240 || rect.top > window.innerHeight + 240) return;
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (d < distance) {
-            best = node;
-            distance = d;
-        }
+        if (d < distance) { best = node; distance = d; }
     });
     return best ? { node: best, top: best.getBoundingClientRect().top } : null;
 }
 
 function preserveAnchor(anchor) {
     if (!anchor?.node?.isConnected) return;
-    const nextTop = anchor.node.getBoundingClientRect().top;
-    const delta = nextTop - anchor.top;
+    const delta = anchor.node.getBoundingClientRect().top - anchor.top;
     if (Math.abs(delta) > 0.5) window.scrollBy(0, delta);
 }
 
@@ -64,8 +61,21 @@ function currentChunkNode() {
     return chunkNode(activeCurrent);
 }
 
+function currentGate() {
+    return currentSubsectionGateState(activeCurrent);
+}
+
+function currentOwnsDirection(delta) {
+    const gate = currentGate();
+    if (!gate.hasState) return false;
+    if (delta > 0 && gate.canNext) return true;
+    if (delta < 0 && gate.canPrev) return true;
+    return false;
+}
+
 function shouldAwakenNextVerse(force = false) {
     if (activeCurrent >= activeTotalChunks - 1) return false;
+    if (currentGate().canNext) return false;
     if (force) return true;
     const node = currentChunkNode();
     if (!node) return false;
@@ -74,6 +84,7 @@ function shouldAwakenNextVerse(force = false) {
 
 function shouldAwakenPreviousVerse(force = false) {
     if (activeCurrent <= 0) return false;
+    if (currentGate().canPrev) return false;
     if (force) return true;
     const node = currentChunkNode();
     if (!node) return false;
@@ -107,6 +118,7 @@ function updateCurrentFromViewport() {
         if (distance < best.distance) best = { id, distance };
     });
     activeCurrent = best.id;
+    window.__awtsmoosCurrentVerseIndex = activeCurrent;
 }
 
 function visibleSubsection() {
@@ -117,10 +129,7 @@ function visibleSubsection() {
     awake.forEach(node => {
         const rect = node.getBoundingClientRect();
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (d < distance) {
-            best = node;
-            distance = d;
-        }
+        if (d < distance) { best = node; distance = d; }
     });
     return best;
 }
@@ -147,17 +156,17 @@ function updateLocationFromViewport() {
     window.dispatchEvent(new CustomEvent("awtsmoos:coordinates", { detail: { idx: Number(idx), sub: Number(sub) } }));
 }
 
-function subsectionStillOwnsDirection(delta) {
-    const gate = currentSubsectionGateState();
-    if (!gate.hasState) return false;
-    if (delta > 0 && gate.canNext) return true;
-    if (delta < 0 && gate.canPrev) return true;
-    return false;
-}
-
 export async function ensureVerseBuffer(direction = 1, options = {}) {
     const delta = direction >= 0 ? 1 : -1;
-    if (subsectionStillOwnsDirection(delta)) return false;
+    updateCurrentFromViewport();
+
+    if (currentOwnsDirection(delta)) {
+        return ensureSubsectionBufferFor(activeCurrent, delta, {
+            force: options.force ?? true,
+            count: options.count || 6
+        });
+    }
+
     if (delta > 0 && shouldAwakenNextVerse(!!options.force)) return reveal(activeCurrent + 1, "after");
     if (delta < 0 && shouldAwakenPreviousVerse(!!options.force)) return reveal(activeCurrent - 1, "before");
     return false;
@@ -165,12 +174,12 @@ export async function ensureVerseBuffer(direction = 1, options = {}) {
 
 async function handleScrollIntent(delta) {
     if (Math.abs(delta) < MIN_DELTA) return;
-
-    const innerConsumed = consumeSubsectionScrollIntent(delta, { count: 3 });
     updateCurrentFromViewport();
-    updateLocationFromViewport();
 
-    if (innerConsumed || subsectionStillOwnsDirection(delta)) return;
+    const innerConsumed = consumeSubsectionScrollIntentFor(activeCurrent, delta, { count: 4 });
+    updateLocationFromViewport();
+    if (innerConsumed || currentOwnsDirection(delta)) return;
+
     await ensureVerseBuffer(delta >= 0 ? 1 : -1);
 }
 
@@ -235,6 +244,7 @@ export function awakenVirtualScrollOracle({ totalChunks, renderChunk, currentChu
     activeRenderer = renderChunk;
     activeTotalChunks = Math.max(0, Number(totalChunks) || 0);
     activeCurrent = currentChunk;
+    window.__awtsmoosCurrentVerseIndex = activeCurrent;
     revealed.add(currentChunk);
     window.__awtsmoosAutoScrollVerseBuffer = ensureVerseBuffer;
     attach();
@@ -245,6 +255,7 @@ export async function restoreScrollTarget(query, renderChunk, chunkSize) {
     if (!Number.isFinite(idx)) return null;
     const chunkId = Math.floor(idx / chunkSize);
     activeCurrent = chunkId;
+    window.__awtsmoosCurrentVerseIndex = activeCurrent;
     revealed.add(chunkId);
     await renderChunk(chunkId);
     const target = exactTarget(idx, sub);

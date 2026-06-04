@@ -2,25 +2,25 @@
 /**
  * @module SubsectionVirtualizer
  * @description
- * The baby-subsection river must be invisible as machinery.
+ * The baby-subsection river is owned by its verse index.
  *
- * This version chooses holy smoothness over clever pruning:
- * - scrolling down only appends below;
- * - scrolling up only prepends above with anchor preservation;
- * - stopping does not prune, rebuild, snap, or correct;
- * - the DOM may grow during a long reading session, but the eye is never shoved.
+ * The previous stream asked the nearest visible subsection wrapper whether the
+ * verse was finished. A huge verse could drift out of that nearest calculation,
+ * letting the outer verse stream jump ahead too early. This version makes the
+ * law explicit: verse N owns the subsection state for verse N. The outer oracle
+ * may only ask that exact state before revealing verse N+1.
  *
- * The Awtsmoos can optimize later. The reader must not feel the gears now.
+ * No live deletion. No pruning. No forgetting during a reading session.
  */
 
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
 
-const AHEAD_PX = 1800;
-const FORCE_AHEAD_PX = 2600;
-const ACTIVE_PAD_PX = 2600;
+const AHEAD_PX = 2200;
+const FORCE_AHEAD_PX = 3200;
+const ACTIVE_PAD_PX = 2800;
 const MIN_DELTA = 2;
-const MIN_AWAKE = 4;
-const MAX_AWAKE = 8;
+const MIN_AWAKE = 5;
+const MAX_AWAKE = 10;
 const REGISTRY = new Map();
 let pendingInline = 0;
 let debugNode = null;
@@ -52,7 +52,7 @@ function readerFontPx() {
 function desiredCount(total) {
     const font = clamp(readerFontPx(), 18, 180);
     const room = Math.max(420, window.innerHeight || 720);
-    const byFont = Math.floor(room / (font * 2.7)) + 3;
+    const byFont = Math.floor(room / (font * 2.45)) + 4;
     return Math.min(total, clamp(byFont, MIN_AWAKE, MAX_AWAKE));
 }
 
@@ -65,7 +65,7 @@ function scheduleInlineRefresh() {
         } catch (error) {
             if (window.__awtsmoosInlineDebug) console.warn("B\"H inline remanifest resisted", error);
         }
-    }, 120);
+    }, 100);
 }
 
 function makeAwake(entry, sectionIndex) {
@@ -85,20 +85,16 @@ function visibleAnchor() {
     let distance = Infinity;
     document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").forEach(node => {
         const rect = node.getBoundingClientRect();
-        if (rect.bottom < -240 || rect.top > window.innerHeight + 240) return;
+        if (rect.bottom < -260 || rect.top > window.innerHeight + 260) return;
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (d < distance) {
-            best = node;
-            distance = d;
-        }
+        if (d < distance) { best = node; distance = d; }
     });
     return best ? { node: best, top: best.getBoundingClientRect().top } : null;
 }
 
 function preserveAnchor(anchor) {
     if (!anchor?.node?.isConnected) return;
-    const nextTop = anchor.node.getBoundingClientRect().top;
-    const delta = nextTop - anchor.top;
+    const delta = anchor.node.getBoundingClientRect().top - anchor.top;
     if (Math.abs(delta) > 0.5) window.scrollBy(0, delta);
 }
 
@@ -125,7 +121,7 @@ function setWindow(state, first) {
 }
 
 function appendNext(state) {
-    if (state.last >= state.entries.length - 1) return false;
+    if (!state || state.last >= state.entries.length - 1) return false;
     markMotion();
     state.last += 1;
     state.wrapper.appendChild(makeAwake(state.entries[state.last], state.sectionIndex));
@@ -134,7 +130,7 @@ function appendNext(state) {
 }
 
 function prependPrevious(state) {
-    if (state.first <= 0) return false;
+    if (!state || state.first <= 0) return false;
     markMotion();
     state.first -= 1;
     const anchor = visibleAnchor();
@@ -142,6 +138,11 @@ function prependPrevious(state) {
     preserveAnchor(anchor);
     stamp(state);
     return true;
+}
+
+function stateFor(sectionIndex) {
+    if (sectionIndex === null || sectionIndex === undefined || sectionIndex === "") return null;
+    return REGISTRY.get(String(sectionIndex)) || null;
 }
 
 function activeState() {
@@ -152,16 +153,13 @@ function activeState() {
         const rect = state.wrapper.getBoundingClientRect();
         if (rect.bottom < -ACTIVE_PAD_PX || rect.top > window.innerHeight + ACTIVE_PAD_PX) return;
         const distance = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
-        if (distance < bestDistance) {
-            best = state;
-            bestDistance = distance;
-        }
+        if (distance < bestDistance) { best = state; bestDistance = distance; }
     });
     return best;
 }
 
 function shouldAwakenNext(state, force = false) {
-    if (state.last >= state.entries.length - 1) return false;
+    if (!state || state.last >= state.entries.length - 1) return false;
     if (force) return true;
     const last = state.wrapper.lastElementChild?.getBoundingClientRect();
     const wrap = state.wrapper.getBoundingClientRect();
@@ -169,19 +167,18 @@ function shouldAwakenNext(state, force = false) {
 }
 
 function shouldAwakenPrevious(state, force = false) {
-    if (state.first <= 0) return false;
+    if (!state || state.first <= 0) return false;
     if (force) return true;
     const first = state.wrapper.firstElementChild?.getBoundingClientRect();
     const wrap = state.wrapper.getBoundingClientRect();
     return Boolean(first && (first.top > -AHEAD_PX || wrap.top > -FORCE_AHEAD_PX));
 }
 
-export function ensureSubsectionBuffer(direction = 1, options = {}) {
-    const state = activeState();
+function bufferState(state, direction = 1, options = {}) {
     if (!state) return false;
     const force = !!options.force;
     let changed = false;
-    const count = clamp(options.count || 1, 1, 6);
+    const count = clamp(options.count || 1, 1, 8);
     for (let i = 0; i < count; i++) {
         if (direction >= 0 && shouldAwakenNext(state, force)) changed = appendNext(state) || changed;
         else if (direction < 0 && shouldAwakenPrevious(state, force)) changed = prependPrevious(state) || changed;
@@ -190,14 +187,27 @@ export function ensureSubsectionBuffer(direction = 1, options = {}) {
     return changed;
 }
 
+export function ensureSubsectionBuffer(direction = 1, options = {}) {
+    return bufferState(activeState(), direction, options);
+}
+
+export function ensureSubsectionBufferFor(sectionIndex, direction = 1, options = {}) {
+    return bufferState(stateFor(sectionIndex), direction, options);
+}
+
 export function consumeSubsectionScrollIntent(delta, options = {}) {
     if (Math.abs(delta) < MIN_DELTA && !options.force) return false;
     markMotion();
     return ensureSubsectionBuffer(delta >= 0 ? 1 : -1, options);
 }
 
-export function currentSubsectionGateState() {
-    const state = activeState();
+export function consumeSubsectionScrollIntentFor(sectionIndex, delta, options = {}) {
+    if (Math.abs(delta) < MIN_DELTA && !options.force) return false;
+    markMotion();
+    return ensureSubsectionBufferFor(sectionIndex, delta >= 0 ? 1 : -1, options);
+}
+
+function gateFromState(state) {
     if (!state) return { hasState: false, canNext: false, canPrev: false };
     return {
         hasState: true,
@@ -208,6 +218,10 @@ export function currentSubsectionGateState() {
         canNext: state.last < state.entries.length - 1,
         canPrev: state.first > 0
     };
+}
+
+export function currentSubsectionGateState(sectionIndex = null) {
+    return gateFromState(sectionIndex === null || sectionIndex === undefined ? activeState() : stateFor(sectionIndex));
 }
 
 function ensureListeners() {
@@ -222,19 +236,19 @@ function updateDebugPanel() {
     if (!debugNode) {
         debugNode = document.createElement("div");
         debugNode.id = "awtsmoosVirtualDebugPanel";
-        debugNode.style.cssText = "position:fixed;left:12px;bottom:95px;z-index:999999;background:#06101f;color:#ffe08a;border:1px solid #7b5cff;border-radius:14px;padding:10px 12px;font:700 13px system-ui;box-shadow:0 12px 34px #000a;max-width:320px;pointer-events:none";
+        debugNode.style.cssText = "position:fixed;left:12px;bottom:95px;z-index:999999;background:#06101f;color:#ffe08a;border:1px solid #7b5cff;border-radius:14px;padding:10px 12px;font:700 13px system-ui;box-shadow:0 12px 34px #000a;max-width:360px;pointer-events:none";
         document.body.appendChild(debugNode);
     }
     const stat = [...REGISTRY.values()].map(s => `${s.sectionIndex}:${s.first}-${s.last}/${s.entries.length}`).join(" · ");
     const awake = document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").length;
-    debugNode.textContent = `B\"H no-prune stream; awake ${awake}; ${stat}`;
+    debugNode.textContent = `B\"H indexed no-prune; awake ${awake}; ${stat}`;
 }
 
 export function makeVirtualSubsectionWindow(texts, sectionIndex, targetSub = null) {
     const wrapper = document.createElement("div");
     wrapper.className = "awtsmoos-subsection-wrap awtsmoos-subsection-window toichen";
     wrapper.dataset.awtsmoosIdx = String(sectionIndex);
-    wrapper.dataset.virtualSubsections = "smooth-no-prune-subsection-first";
+    wrapper.dataset.virtualSubsections = "indexed-no-prune-subsection-first";
 
     const entries = texts.map((text, index) => ({ index, text })).filter(entry => String(entry.text || "").trim());
     const target = clamp(Number.isFinite(targetSub) ? targetSub : asNum(targetSub, 0), 0, Math.max(0, entries.length - 1));
@@ -249,7 +263,7 @@ export function makeVirtualSubsectionWindow(texts, sectionIndex, targetSub = nul
 
 export function awakenSubsectionByCoordinate(idx, sub) {
     if (sub === null || sub === undefined || sub === "") return null;
-    const state = REGISTRY.get(String(idx));
+    const state = stateFor(idx);
     if (!state) return null;
     const target = clamp(asNum(sub, 0), 0, Math.max(0, state.entries.length - 1));
     const count = desiredCount(state.entries.length);
@@ -257,11 +271,6 @@ export function awakenSubsectionByCoordinate(idx, sub) {
     return state.wrapper.querySelector(`.sub-awtsmoos[data-awtsmoos-sub="${target}"]`);
 }
 
-/**
- * Legacy compatibility only. During a reader session, already-awakened
- * subsection windows must never be forgotten or deleted.
- * @returns {false} Always false; no destructive work performed.
- */
 export function forgetSubsectionWindowsInside() {
     updateDebugPanel();
     return false;
@@ -270,11 +279,13 @@ export function forgetSubsectionWindowsInside() {
 window.__awtsmoosRevealSubsection = awakenSubsectionByCoordinate;
 window.__awtsmoosConsumeSubsectionScrollIntent = consumeSubsectionScrollIntent;
 window.__awtsmoosEnsureSubsectionBuffer = ensureSubsectionBuffer;
+window.__awtsmoosEnsureSubsectionBufferFor = ensureSubsectionBufferFor;
+window.__awtsmoosSubsectionGateState = currentSubsectionGateState;
 window.__awtsmoosSubsectionVirtualStats = () => [...REGISTRY.values()].map(state => ({
     sectionIndex: state.sectionIndex,
     total: state.entries.length,
     first: state.first,
     last: state.last,
     awake: Math.max(0, state.last - state.first + 1),
-    mode: "smooth-no-prune-subsection-first"
+    mode: "indexed-no-prune-subsection-first"
 }));
