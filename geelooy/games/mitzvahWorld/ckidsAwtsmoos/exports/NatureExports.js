@@ -2,9 +2,11 @@
 /**
  * @module NatureExports
  * @description
- * Chapter 128: The nature export river carries final-only house colliders.
- * Visual recipes stay stable; house colliders now wait for the final brick
- * transform before adding child meshes to the octree.
+ * Chapter 155: The cache river splits and the new wall law crosses dry-shod.
+ *
+ * Every browser ghost clings to old query strings. These exports stamp the
+ * detached-collider tikkun into fresh URLs, so house, fence, and road bodies are
+ * fetched anew and the Awtsmoos reveals solid village boundaries.
  */
 export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=green-dirt-phone-ground-20260604-bh430";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?v=soft-country-sky-fog-20260603-bh237";
@@ -21,8 +23,8 @@ export { default as VillageTreeField } from "../dvarim/nature/VillageTreeField.j
 export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?v=varied-grass-meadow-20260604-bh444";
 export { default as VillageRealismTree } from "../dvarim/nature/VillageRealismTree.js?v=realism-tree-index-loop-safe-20260603-bh312";
 export { default as VillageRealismProp } from "../dvarim/nature/VillageRealismProp.js?v=realism-prop-index-loop-safe-20260603-bh312";
-export { default as VillagePictureProp } from "../dvarim/nature/VillagePictureProp.js?v=rich-tree-road-recipes-20260604-bh441";
+export { default as VillagePictureProp } from "../dvarim/nature/VillagePictureProp.js?v=soft-readable-tree-recipes-20260604-bh445";
 export { default as VillageHouseDoor } from "../dvarim/nature/VillageHouseDoor.js?v=wide-door-gray-ghost-banished-20260603-bh351";
-export { default as VillageHouseCollider } from "../dvarim/nature/VillageHouseCollider.js?v=final-only-house-colliders-20260604-bh444";
-export { default as VillageFenceCollider } from "../dvarim/nature/VillageFenceCollider.js?v=aligned-half-length-fence-collider-20260603-bh362";
-export { default as VillageRoadCollider } from "../dvarim/nature/VillageRoadCollider.js?v=simple-grounded-road-collider-20260604-bh441";
+export { default as VillageHouseCollider } from "../dvarim/nature/VillageHouseCollider.js?v=detached-house-octree-20260605-bh449";
+export { default as VillageFenceCollider } from "../dvarim/nature/VillageFenceCollider.js?v=detached-fence-octree-20260605-bh449";
+export { default as VillageRoadCollider } from "../dvarim/nature/VillageRoadCollider.js?v=detached-road-octree-20260605-bh449";

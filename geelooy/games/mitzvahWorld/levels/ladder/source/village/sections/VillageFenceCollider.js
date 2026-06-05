@@ -1,3 +1,20 @@
 // B"H
-/** @file VillageFenceCollider.js - generated village section data. */
-export default [{"name":"left_fence_simple_collider","targetName":"short_fence_left","length":12.1,"height":1.7,"depth":0.42,"position":{"x":-28,"y":0,"z":4},"rotation":{"y":0.18},"useAuthoredY":true},{"name":"back_fence_simple_collider","targetName":"orchard_back_fence","length":16.2,"height":1.65,"depth":0.42,"position":{"x":-20,"y":0,"z":45},"rotation":{"y":0.02},"useAuthoredY":true},{"name":"right_fence_simple_collider","targetName":"right_village_fence","length":12.6,"height":1.5,"depth":0.42,"position":{"x":76,"y":0,"z":22},"rotation":{"y":1.42},"useAuthoredY":true}];
+/**
+ * @file VillageFenceCollider.js
+ * @description
+ * Chapter 138: The visible left fence receives its matching rail body.
+ * This section was not wired into the village index before. The target name now
+ * matches the current visible fence: `reference_left_low_fence`.
+ */
+export default [
+  {
+    name: "reference_left_low_fence_collider",
+    targetName: "reference_left_low_fence",
+    length: 12.8,
+    height: 1.65,
+    depth: 0.55,
+    position: { x: -16, y: 0, z: 11.5 },
+    rotation: { y: -0.28 },
+    useAuthoredY: true
+  }
+];

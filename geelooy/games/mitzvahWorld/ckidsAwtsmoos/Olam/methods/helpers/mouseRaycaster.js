@@ -1,69 +1,77 @@
+// B"H
 /**
- * B"H
  * @file mouseRaycaster.js
  * @description
- * 🔦 THE BEAM OF DISCERNMENT (KAV) 🔦
- * 
- * "And the spirit of G-d hovered over the face of the waters."
- * This module projects the player's will (mouse) into the 3D world, 
- * using a ray to find the Messengers (NPCs) and other interactive vessels.
+ * Chapter 134: Mobile taps find the proxy, not the robe.
+ *
+ * The phone route used `nivra.mesh || nivra.modelMesh`, ignoring `raycastMesh`.
+ * The guide's real clickable vessel therefore existed but was invisible to the
+ * tap beam. This rewrite uses a small explicit target resolver shared by all
+ * interactables, sends the original click payload into `accepted interaction`,
+ * and keeps hover from opening anything by itself.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
+function targetFor(nivra) {
+  if (!nivra) return null;
+  if (nivra.raycastMesh) return nivra.raycastMesh;
+  if (nivra.interactionMesh) return nivra.interactionMesh;
+  return nivra.mesh || nivra.modelMesh || null;
+}
+function ownerFromHit(hit) {
+  let cursor = hit?.object;
+  while (cursor) {
+    if (cursor.nivraAwtsmoos) return cursor.nivraAwtsmoos;
+    cursor = cursor.parent;
+  }
+  return null;
+}
+function finitePayload(payload = {}) {
+  return Number.isFinite(Number(payload.clientX)) && Number.isFinite(Number(payload.clientY));
+}
+
 export default class MouseInteractionHandler {
-    constructor(olam) {
-        this.olam = olam;
-        this.raycaster = new THREE.Raycaster();
-        this.mouse = new THREE.Vector2();
-        this.currentHovered = null;
+  constructor(olam) {
+    this.olam = olam;
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+    this.currentHovered = null;
+  }
+
+  update(payload = {}, isClick = false) {
+    if (!this.olam.ayin?.camera || !finitePayload(payload)) return;
+    const rect = { width: this.olam.width || this.olam.renderer?.domElement?.clientWidth || 1, height: this.olam.height || this.olam.renderer?.domElement?.clientHeight || 1 };
+    this.mouse.x = (Number(payload.clientX) / rect.width) * 2 - 1;
+    this.mouse.y = -(Number(payload.clientY) / rect.height) * 2 + 1;
+    this.raycaster.setFromCamera(this.mouse, this.olam.ayin.camera);
+
+    const targets = (this.olam.interactableNivrayim || []).map(targetFor).filter(Boolean).filter(m => !m.userData?.skipRaycast);
+    const intersects = this.raycaster.intersectObjects(targets, true);
+    const hit = intersects[0] || null;
+    const hitNivra = ownerFromHit(hit);
+
+    if (hitNivra?.interactable) {
+      if (this.currentHovered !== hitNivra) {
+        if (this.currentHovered) this.currentHovered.ayshPeula("mouseLeave", { type: "hover-leave" });
+        this.currentHovered = hitNivra;
+        this.currentHovered.ayshPeula("mouseEnter", { type: "hover-enter" });
+      }
+      if (isClick) {
+        hitNivra.ayshPeula("accepted interaction", {
+          type: "click",
+          explicit: true,
+          isPointer: true,
+          clientX: Number(payload.clientX),
+          clientY: Number(payload.clientY),
+          hitObjectName: hit?.object?.name
+        });
+      }
+      return;
     }
 
-    /**
-     * @method handleInteraction
-     * @description Casts a ray from the mouse through the camera and checks for intersections.
-     */
-    update(payload, isClick = false) {
-        if (!this.olam.ayin || !this.olam.ayin.camera) return;
-        if (payload.clientX === undefined) return;
-
-        // B"H: Transform screen coordinates to normalized device coordinates (-1 to +1)
-        const canvas = this.olam.renderer.domElement;
-        const rect = { width: this.olam.width, height: this.olam.height }; // Using cached dimensions
-        
-        this.mouse.x = (payload.clientX / rect.width) * 2 - 1;
-        this.mouse.y = -(payload.clientY / rect.height) * 2 + 1;
-
-        this.raycaster.setFromCamera(this.mouse, this.olam.ayin.camera);
-
-        // B"H: We cast against the INTERACTIVE OCTREE for NPCs, not the static world!
-        // This ensures we hit the capsule/bounds specifically.
-        let intersects = [];
-        if (this.olam.interactiveOctree) {
-            // Note: interactiveOctree search logic might vary based on implementation
-            // Here we search through the interactable meshes
-            intersects = this.raycaster.intersectObjects(this.olam.interactableNivrayim.map(n => n.mesh || n.modelMesh).filter(m => !!m), true);
-        }
-
-        const hit = intersects[0];
-        const hitNivra = hit ? (hit.object.nivraAwtsmoos || hit.object.parent?.nivraAwtsmoos) : null;
-
-        if (hitNivra && hitNivra.interactable) {
-            if (this.currentHovered !== hitNivra) {
-                if (this.currentHovered) this.currentHovered.ayshPeula("mouseLeave");
-                this.currentHovered = hitNivra;
-                this.currentHovered.ayshPeula("mouseEnter");
-            }
-
-            if (isClick) {
-                // B"H: silent
-
-                hitNivra.ayshPeula("accepted interaction");
-            }
-        } else {
-            if (this.currentHovered) {
-                this.currentHovered.ayshPeula("mouseLeave");
-                this.currentHovered = null;
-            }
-        }
+    if (this.currentHovered) {
+      this.currentHovered.ayshPeula("mouseLeave", { type: "hover-leave" });
+      this.currentHovered = null;
     }
+  }
 }

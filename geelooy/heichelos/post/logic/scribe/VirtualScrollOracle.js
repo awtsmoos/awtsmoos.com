@@ -2,13 +2,20 @@
 /**
  * @module VirtualScrollOracle
  * @description
- * The outer verse river obeys the visible subsection.
+ * The scroll river has a directional cursor, a visible-owner witness, and a
+ * gentle promotion law for already-rendered neighboring verses.
  *
- * Earlier versions let `activeCurrent` drift by chunk rectangles. Between two
- * loaded verses that could make the oracle briefly serve the wrong verse. This
- * version chooses ownership from the actual visible subsection first. If the
- * reader's eyes are on verse N, verse N owns the next buffer request. Only when
- * no subsection is visible does chunk geometry act as a fallback.
+ * Geometry alone is too nervous near verse boundaries. A visible subsection can
+ * briefly flicker between two loaded verses, especially when a huge verse is
+ * streaming many child sections. This oracle therefore keeps a directional
+ * cursor. While scrolling down, the cursor stays with the current verse until
+ * that verse's own subsections are complete. While scrolling up, it stays until
+ * previous subsections are complete.
+ *
+ * If the next/previous verse is already rendered, the cursor can promote to it
+ * without trying to re-render. That closes the gap where auto-scroll or manual
+ * scroll reached a boundary but the oracle refused to move because the chunk was
+ * already awake.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
@@ -20,12 +27,15 @@ import {
 
 export { parseScrollTarget };
 
-const VERSE_AHEAD_PX = 2600;
+const VERSE_AHEAD_PX = 3400;
 const MIN_DELTA = 1;
+const CURSOR_CORRECTION_PX = 800;
 let activeRenderer = null;
 let activeTotalChunks = 0;
 let activeScrollHandler = null;
 let activeCurrent = 0;
+let cursorVerse = 0;
+let lastDirection = 1;
 let lastY = 0;
 let streaming = false;
 const revealed = new Set();
@@ -44,7 +54,7 @@ function visibleAnchor() {
     let distance = Infinity;
     document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake'], #realPost .section").forEach(node => {
         const rect = node.getBoundingClientRect();
-        if (rect.bottom < -320 || rect.top > window.innerHeight + 320) return;
+        if (rect.bottom < -520 || rect.top > window.innerHeight + 520) return;
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
         if (d < distance) { best = node; distance = d; }
     });
@@ -59,12 +69,11 @@ function preserveAnchor(anchor) {
 
 function visibleSubsection() {
     const probe = Math.min(window.innerHeight * 0.42, window.innerHeight - 140);
-    const awake = [...document.querySelectorAll(".sub-awtsmoos[data-awtsmoos-idx][data-awtsmoos-sub]")];
     let best = null;
     let distance = Infinity;
-    awake.forEach(node => {
+    document.querySelectorAll(".sub-awtsmoos[data-awtsmoos-idx][data-awtsmoos-sub]").forEach(node => {
         const rect = node.getBoundingClientRect();
-        if (rect.bottom < -420 || rect.top > window.innerHeight + 420) return;
+        if (rect.bottom < -620 || rect.top > window.innerHeight + 620) return;
         const d = rect.top <= probe && rect.bottom >= probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe));
         if (d < distance) { best = node; distance = d; }
     });
@@ -80,7 +89,7 @@ function visibleVerseIndex() {
 
 function fallbackChunkIndex() {
     const probe = Math.min(window.innerHeight * 0.45, window.innerHeight - 120);
-    let best = { id: activeCurrent, distance: Infinity };
+    let best = { id: cursorVerse, distance: Infinity };
     sortedIds().forEach(id => {
         const node = chunkNode(id);
         if (!node) return;
@@ -91,60 +100,94 @@ function fallbackChunkIndex() {
     return best.id;
 }
 
-function chooseOwnerVerse() {
-    const visible = visibleVerseIndex();
-    activeCurrent = visible === null ? fallbackChunkIndex() : visible;
-    window.__awtsmoosCurrentVerseIndex = activeCurrent;
-    return activeCurrent;
+function gateFor(id = cursorVerse) {
+    return currentSubsectionGateState(id);
 }
 
-function currentChunkNode() {
-    chooseOwnerVerse();
-    return chunkNode(activeCurrent);
-}
-
-function currentGate() {
-    return currentSubsectionGateState(activeCurrent);
-}
-
-function currentOwnsDirection(delta) {
-    const gate = currentGate();
+function cursorOwnsDirection(direction) {
+    const gate = gateFor(cursorVerse);
     if (!gate.hasState) return false;
-    if (delta > 0 && gate.canNext) return true;
-    if (delta < 0 && gate.canPrev) return true;
+    if (direction > 0 && gate.canNext) return true;
+    if (direction < 0 && gate.canPrev) return true;
     return false;
 }
 
+function syncWindowState() {
+    activeCurrent = cursorVerse;
+    window.__awtsmoosCurrentVerseIndex = cursorVerse;
+}
+
+function maybeCorrectCursorByViewport(direction) {
+    const visible = visibleVerseIndex();
+    if (visible === null || visible === cursorVerse) return;
+
+    const currentNode = chunkNode(cursorVerse);
+    const visibleNode = chunkNode(visible);
+    if (!currentNode || !visibleNode) return;
+
+    const currentRect = currentNode.getBoundingClientRect();
+    const currentGate = gateFor(cursorVerse);
+
+    if (direction > 0) {
+        const currentFinished = !currentGate.canNext;
+        const clearlyPastCurrent = currentRect.bottom < -CURSOR_CORRECTION_PX;
+        if (visible > cursorVerse && currentFinished && clearlyPastCurrent) cursorVerse = visible;
+    } else {
+        const currentFinished = !currentGate.canPrev;
+        const clearlyBeforeCurrent = currentRect.top > window.innerHeight + CURSOR_CORRECTION_PX;
+        if (visible < cursorVerse && currentFinished && clearlyBeforeCurrent) cursorVerse = visible;
+    }
+
+    syncWindowState();
+}
+
 function shouldAwakenNextVerse(force = false) {
-    if (activeCurrent >= activeTotalChunks - 1) return false;
-    if (currentGate().canNext) return false;
+    if (cursorVerse >= activeTotalChunks - 1) return false;
+    if (gateFor(cursorVerse).canNext) return false;
     if (force) return true;
-    const node = currentChunkNode();
+    const node = chunkNode(cursorVerse);
     if (!node) return false;
     return node.getBoundingClientRect().bottom < window.innerHeight + VERSE_AHEAD_PX;
 }
 
 function shouldAwakenPreviousVerse(force = false) {
-    if (activeCurrent <= 0) return false;
-    if (currentGate().canPrev) return false;
+    if (cursorVerse <= 0) return false;
+    if (gateFor(cursorVerse).canPrev) return false;
     if (force) return true;
-    const node = currentChunkNode();
+    const node = chunkNode(cursorVerse);
     if (!node) return false;
     return node.getBoundingClientRect().top > -VERSE_AHEAD_PX;
 }
 
+function promoteIfRendered(id, direction) {
+    if (!Number.isInteger(id) || id < 0 || id >= activeTotalChunks || !revealed.has(id) || !chunkNode(id)) return false;
+    if (direction > 0 && id > cursorVerse && gateFor(cursorVerse).canNext) return false;
+    if (direction < 0 && id < cursorVerse && gateFor(cursorVerse).canPrev) return false;
+    cursorVerse = id;
+    syncWindowState();
+    updateLocationFromViewport();
+    return true;
+}
+
 async function reveal(id, place) {
-    if (streaming || !Number.isInteger(id) || id < 0 || id >= activeTotalChunks || revealed.has(id)) return false;
+    if (!Number.isInteger(id) || id < 0 || id >= activeTotalChunks) return false;
+    if (revealed.has(id)) return promoteIfRendered(id, place === "before" ? -1 : 1);
+    if (streaming) return false;
+
     streaming = true;
     const anchor = place === "before" ? visibleAnchor() : null;
     await activeRenderer?.(id);
     revealed.add(id);
     if (anchor) preserveAnchor(anchor);
+
+    if (place === "before") cursorVerse = id;
+    if (place === "after") cursorVerse = id;
+
     requestAnimationFrame(() => {
-        chooseOwnerVerse();
+        syncWindowState();
         updateLocationFromViewport();
         lastY = window.scrollY;
-        setTimeout(() => { streaming = false; }, 20);
+        setTimeout(() => { streaming = false; }, 16);
     });
     return true;
 }
@@ -173,29 +216,38 @@ function updateLocationFromViewport() {
 
 export async function ensureVerseBuffer(direction = 1, options = {}) {
     const delta = direction >= 0 ? 1 : -1;
-    chooseOwnerVerse();
+    lastDirection = delta;
+    maybeCorrectCursorByViewport(delta);
 
-    if (currentOwnsDirection(delta)) {
-        return ensureSubsectionBufferFor(activeCurrent, delta, {
+    if (cursorOwnsDirection(delta)) {
+        return ensureSubsectionBufferFor(cursorVerse, delta, {
             force: options.force ?? true,
-            count: options.count || 10
+            count: options.count || 12
         });
     }
 
-    if (delta > 0 && shouldAwakenNextVerse(!!options.force)) return reveal(activeCurrent + 1, "after");
-    if (delta < 0 && shouldAwakenPreviousVerse(!!options.force)) return reveal(activeCurrent - 1, "before");
+    if (delta > 0 && shouldAwakenNextVerse(!!options.force)) {
+        return reveal(cursorVerse + 1, "after");
+    }
+
+    if (delta < 0 && shouldAwakenPreviousVerse(!!options.force)) {
+        return reveal(cursorVerse - 1, "before");
+    }
+
     return false;
 }
 
 async function handleScrollIntent(delta) {
     if (Math.abs(delta) < MIN_DELTA) return;
-    chooseOwnerVerse();
+    const direction = delta >= 0 ? 1 : -1;
+    lastDirection = direction;
+    maybeCorrectCursorByViewport(direction);
 
-    const innerConsumed = consumeSubsectionScrollIntentFor(activeCurrent, delta, { count: 8 });
+    const innerConsumed = consumeSubsectionScrollIntentFor(cursorVerse, direction, { count: 12, force: false });
     updateLocationFromViewport();
-    if (innerConsumed || currentOwnsDirection(delta)) return;
+    if (innerConsumed || cursorOwnsDirection(direction)) return;
 
-    await ensureVerseBuffer(delta >= 0 ? 1 : -1, { count: 8 });
+    await ensureVerseBuffer(direction, { count: 12 });
 }
 
 function attach() {
@@ -208,7 +260,7 @@ function attach() {
             const scrollDelta = window.scrollY - lastY;
             const delta = Math.abs(eventDelta) > Math.abs(scrollDelta) ? eventDelta : scrollDelta;
             lastY = window.scrollY;
-            await handleScrollIntent(delta);
+            await handleScrollIntent(delta || lastDirection);
         });
     };
     lastY = window.scrollY;
@@ -216,7 +268,7 @@ function attach() {
     window.addEventListener("wheel", activeScrollHandler, { passive: true });
     window.addEventListener("touchmove", activeScrollHandler, { passive: true });
     setInterval(() => {
-        chooseOwnerVerse();
+        maybeCorrectCursorByViewport(lastDirection);
         updateLocationFromViewport();
     }, 700);
 }
@@ -261,8 +313,9 @@ export function awakenVirtualScrollOracle({ totalChunks, renderChunk, currentChu
     resetVirtualScrollOracle();
     activeRenderer = renderChunk;
     activeTotalChunks = Math.max(0, Number(totalChunks) || 0);
+    cursorVerse = currentChunk;
     activeCurrent = currentChunk;
-    window.__awtsmoosCurrentVerseIndex = activeCurrent;
+    syncWindowState();
     revealed.add(currentChunk);
     window.__awtsmoosAutoScrollVerseBuffer = ensureVerseBuffer;
     attach();
@@ -272,8 +325,9 @@ export async function restoreScrollTarget(query, renderChunk, chunkSize) {
     const { idx, sub } = targetFromQuery(query);
     if (!Number.isFinite(idx)) return null;
     const chunkId = Math.floor(idx / chunkSize);
+    cursorVerse = chunkId;
     activeCurrent = chunkId;
-    window.__awtsmoosCurrentVerseIndex = activeCurrent;
+    syncWindowState();
     revealed.add(chunkId);
     await renderChunk(chunkId);
     const target = exactTarget(idx, sub);
@@ -298,6 +352,8 @@ export function resetVirtualScrollOracle() {
     activeTotalChunks = 0;
     activeScrollHandler = null;
     activeCurrent = 0;
+    cursorVerse = 0;
+    lastDirection = 1;
     lastY = 0;
     streaming = false;
     revealed.clear();

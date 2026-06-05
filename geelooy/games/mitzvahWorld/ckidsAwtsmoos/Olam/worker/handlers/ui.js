@@ -2,10 +2,12 @@
 /**
  * @module uiHandlers
  * @description
- * Chapter 113: Buttons must receive the click before the veil seals the world.
- * The old root capture seal used stopImmediatePropagation before button handlers
- * could run. This complete file keeps the world sealed with bubbling listeners,
- * but lets CLOSE / LEVELS / BUY / SELL / level cards execute first.
+ * Chapter 157: The button receives touch before the world swallows it.
+ *
+ * The overlay appeared, but mobile Chrome cancelled synthetic clicks because the
+ * island sealed pointer events too early. The Awtsmoos now binds every button to
+ * pointerup, touchend, and click with a one-breath guard; the event is sealed
+ * only after the button action runs, so CLOSE / LEVELS / BUY / SELL become real.
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
 
@@ -14,18 +16,35 @@ const LEVELS = Object.freeze(Array.from({ length: 20 }, (_, i) => [`ladder-${i +
 const LEVEL_BASE = "/games/mitzvahWorld/levels/ladder/data/";
 const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
 const BAG_KEY = "awtsmoosMitzvahPersonalPerutas";
-const SEAL_EVENTS = ["pointerdown", "pointerup", "mousedown", "mouseup", "touchstart", "touchend"];
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const esc = s => String(s || "").replace(/[<>&"']/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "\"": "&quot;", "'": "&#39;" }[c]));
 const q = name => document.querySelector(`[shaym="${name}"], [data-shaym="${name}"], #${name}, .${name}`);
 const worker = manager => manager?.eved || window.mana?.socket?.eved || window.mana?.eved || null;
+const panelSelector = () => ".premium-dialogue-container,[shaym='dialogue-vessel'],.npcChallengeOverlay,.npc-challenge-overlay,.challengeOverlay,#awtsmoos-npc-overlay,#awtsmoos-npc-shop,#inventoryScreen,.store-container,.bz-panel,.construction-screen";
 
-function sealEvent(event) { event?.preventDefault?.(); event?.stopPropagation?.(); }
 function hardSeal(event) { event?.preventDefault?.(); event?.stopPropagation?.(); event?.stopImmediatePropagation?.(); }
-function bindClick(el, fn) { if (!el) return; el.addEventListener("click", event => { hardSeal(event); fn(event); }, false); }
-function sealDomIsland(root) { SEAL_EVENTS.forEach(type => root.addEventListener(type, sealEvent, false)); }
-function oldPanels() { return ".premium-dialogue-container,[shaym='dialogue-vessel'],.npcChallengeOverlay,.npc-challenge-overlay,.challengeOverlay,#awtsmoos-npc-overlay,#awtsmoos-npc-shop,#inventoryScreen,.store-container,.bz-panel,.construction-screen"; }
-function closeNpcOverlay(event) { hardSeal(event); document.querySelectorAll(oldPanels()).forEach(el => el.id === "inventoryScreen" || el.classList?.contains("store-container") ? el.classList.add("hidden") : el.remove()); }
+function sealIsland(root) {
+  ["pointerdown", "mousedown", "touchstart"].forEach(type => root.addEventListener(type, event => {
+    if (event.target?.closest?.("button,[data-awts-action]")) return;
+    event.preventDefault(); event.stopPropagation();
+  }, false));
+}
+function bindPress(el, fn) {
+  if (!el) return;
+  let last = 0;
+  const run = event => {
+    hardSeal(event);
+    const now = performance.now();
+    if (now - last < 280) return;
+    last = now;
+    fn(event);
+  };
+  ["pointerup", "touchend", "click"].forEach(type => el.addEventListener(type, run, false));
+}
+function closePanels(event) {
+  if (event) hardSeal(event);
+  document.querySelectorAll(panelSelector()).forEach(el => el.id === "inventoryScreen" || el.classList?.contains("store-container") ? el.classList.add("hidden") : el.remove());
+}
 function readBag() { try { return n(localStorage.getItem(BAG_KEY), 0); } catch { return 0; } }
 function writeBag(value) { try { localStorage.setItem(BAG_KEY, String(Math.max(0, Math.floor(n(value))))); } catch {} }
 function changeBag(delta, reason) { const value = Math.max(0, readBag() + n(delta)); writeBag(value); window.dispatchEvent(new CustomEvent("awtsmoosPersonalPerutas", { detail: { personalPerutas: value, delta, reason } })); return value; }
@@ -68,11 +87,10 @@ function updatePerutahHud(data = {}) {
   const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : n(ds.collectedPerutos, 0) + n(data.added, 0);
   const globalCoins = Number.isFinite(Number(data.globalCoins)) ? Number(data.globalCoins) : readGlobalCoins() + n(data.globalAdded, 0);
   ds.requiredPerutos = String(required); ds.collectedPerutos = String(collected); writeGlobalCoins(globalCoins);
-  const goal = q("hud-perutah-goal"), bar = q("hud-perutah-bar"), status = q("hud-perutah-status"), global = q("hud-global-coins");
-  if (goal) goal.textContent = `${collected}/${required}`;
-  if (bar) bar.style.width = `${Math.min(100, required ? collected / required * 100 : 0)}%`;
-  if (global) global.textContent = `Global ${globalCoins}`;
-  if (status) status.textContent = collected >= required ? "Tzedakah ready" : "Collect Perutos";
+  q("hud-perutah-goal") && (q("hud-perutah-goal").textContent = `${collected}/${required}`);
+  q("hud-perutah-bar") && (q("hud-perutah-bar").style.width = `${Math.min(100, required ? collected / required * 100 : 0)}%`);
+  q("hud-global-coins") && (q("hud-global-coins").textContent = `Global ${globalCoins}`);
+  q("hud-perutah-status") && (q("hud-perutah-status").textContent = collected >= required ? "Tzedakah ready" : "Collect Perutos");
 }
 function setLevelGoal(data = {}) { if (mustHideHud(data)) return hideHud(); updatePerutahHud({ requiredPerutos: n(data.requiredPerutos, 9), collected: 0, globalCoins: readGlobalCoins(), reset: true }); }
 function installNpcCss() {
@@ -83,35 +101,34 @@ function installNpcCss() {
 }
 function openLevelSelect(manager, data = {}) { openNpcChallengeOverlay(manager, { ...data, title: data.title || "Choose Levels", lines: data.lines || ["Pick any challenge."], chooserOpen: true }); }
 function openNpcChallengeOverlay(manager, data = {}) {
-  closeNpcOverlay(); installNpcCss();
+  closePanels(); installNpcCss();
   const overlay = document.createElement("div"); overlay.id = "awtsmoos-npc-overlay"; overlay.setAttribute("role", "dialog"); overlay.setAttribute("aria-modal", "true");
   const chooser = data.chooserOpen ? `<div class="awts-npc-level-grid">${buttonsHtml()}</div>` : "";
   const menu = data.chatOnly || data.chooserOpen ? "" : `<button type="button" data-npc-choose class="awts-npc-btn awts-primary">LEVELS</button><button type="button" data-npc-buy class="awts-npc-btn awts-shop-warm">BUY</button><button type="button" data-npc-sell class="awts-npc-btn awts-shop-warm">SELL</button>`;
   overlay.innerHTML = `<section class="awts-npc-card"><h2 class="awts-npc-title">${esc(data.title || data.fromNpc || "Village Guide")}</h2><div class="awts-npc-lines">${lineHtml(data.lines || [])}</div>${chooser}<div class="awts-npc-actions"><button type="button" data-npc-close class="awts-npc-btn awts-close">CLOSE</button>${menu}</div></section>`;
-  document.body.appendChild(overlay); sealDomIsland(overlay);
-  overlay.addEventListener("click", e => { if (e.target === overlay) closeNpcOverlay(e); }, false);
-  bindClick(overlay.querySelector("[data-npc-close]"), closeNpcOverlay);
-  bindClick(overlay.querySelector("[data-npc-choose]"), () => openLevelSelect(manager, { title: data.selectorTitle || "NPC CHALLENGES", lines: data.lines }));
-  bindClick(overlay.querySelector("[data-npc-buy]"), () => openShopOverlay(manager, data, "buy"));
-  bindClick(overlay.querySelector("[data-npc-sell]"), () => openShopOverlay(manager, data, "sell"));
-  overlay.querySelectorAll("[data-level-id]").forEach(btn => bindClick(btn, async () => { try { closeNpcOverlay(); await launchLevel(manager, btn.dataset.levelId); } catch (error) { console.error('B"H - NPC level launch failed', error); alert("Could not load that level yet."); } }));
+  document.body.appendChild(overlay); sealIsland(overlay);
+  bindPress(overlay, e => { if (e.target === overlay) closePanels(e); });
+  bindPress(overlay.querySelector("[data-npc-close]"), closePanels);
+  bindPress(overlay.querySelector("[data-npc-choose]"), () => openLevelSelect(manager, { title: data.selectorTitle || "NPC CHALLENGES", lines: data.lines }));
+  bindPress(overlay.querySelector("[data-npc-buy]"), () => openShopOverlay(manager, data, "buy"));
+  bindPress(overlay.querySelector("[data-npc-sell]"), () => openShopOverlay(manager, data, "sell"));
+  overlay.querySelectorAll("[data-level-id]").forEach(btn => bindPress(btn, async () => { try { closePanels(); await launchLevel(manager, btn.dataset.levelId); } catch (error) { console.error('B"H - NPC level launch failed', error); alert("Could not load that level yet."); } }));
 }
 function shopRows(data, mode) { const buy = data.shopInventory || data.items || [], sell = data.playerInventory || []; return mode === "sell" ? sell.map((item, index) => item && { ...item, index, type: "sell", price: item.sellValue || 1 }).filter(Boolean) : buy.map((item, index) => ({ ...item, index, type: "buy", price: item.price || item.sellValue || 1 })); }
-function openShopOverlay(manager, data = {}, mode = "buy") { closeNpcOverlay(); installNpcCss(); const host = document.createElement("div"); host.id = "awtsmoos-npc-shop"; host.dataset.mode = mode; host.__awtsData = data; host.setAttribute("role", "dialog"); host.setAttribute("aria-modal", "true"); document.body.appendChild(host); sealDomIsland(host); renderShop(host, manager); }
+function openShopOverlay(manager, data = {}, mode = "buy") { closePanels(); installNpcCss(); const host = document.createElement("div"); host.id = "awtsmoos-npc-shop"; host.dataset.mode = mode; host.__awtsData = data; host.setAttribute("role", "dialog"); host.setAttribute("aria-modal", "true"); document.body.appendChild(host); sealIsland(host); renderShop(host, manager); }
 function renderShop(host, manager) {
   const data = host.__awtsData || {}, mode = host.dataset.mode || "buy", rows = shopRows(data, mode);
   host.innerHTML = `<section class="awts-shop-card"><h2 class="awts-shop-title">${esc(data.npcName || data.fromNpc || "Guide")} Market</h2><div class="awts-shop-wallet">Bag: ${readBag()} perutas</div><div class="awts-shop-tabs"><button type="button" data-shop-tab="buy" class="awts-shop-btn ${mode === "buy" ? "awts-primary" : "awts-shop-warm"}">BUY</button><button type="button" data-shop-tab="sell" class="awts-shop-btn ${mode === "sell" ? "awts-primary" : "awts-shop-warm"}">SELL</button></div><div class="awts-shop-list">${rows.length ? rows.map(row => `<div class="awts-shop-row"><div class="awts-shop-icon">${esc(row.icon || "✦")}</div><div><h3>${esc(row.name || "Item")}</h3><p>${esc(row.description || "Colored clothing.")}</p><div class="awts-shop-price">${row.price} perutas</div></div><button type="button" data-shop-act="${row.type}" data-shop-index="${row.index}" class="awts-shop-btn awts-shop-warm">${row.type === "buy" ? "BUY" : "SELL"}</button></div>`).join("") : `<div class="awts-muted">Nothing here yet.</div>`}</div><div class="awts-npc-actions"><button type="button" data-shop-close class="awts-npc-btn awts-close">CLOSE</button><button type="button" data-shop-back class="awts-npc-btn awts-primary">BACK</button></div></section>`;
-  bindClick(host.querySelector("[data-shop-close]"), closeNpcOverlay);
-  bindClick(host.querySelector("[data-shop-back]"), () => openNpcChallengeOverlay(manager, data));
-  host.querySelectorAll("[data-shop-tab]").forEach(btn => bindClick(btn, () => { host.dataset.mode = btn.dataset.shopTab; renderShop(host, manager); }));
-  host.querySelectorAll("[data-shop-act]").forEach(btn => bindClick(btn, () => shopAction(host, Number(btn.dataset.shopIndex), btn.dataset.shopAct)));
+  bindPress(host.querySelector("[data-shop-close]"), closePanels);
+  bindPress(host.querySelector("[data-shop-back]"), () => openNpcChallengeOverlay(manager, data));
+  host.querySelectorAll("[data-shop-tab]").forEach(btn => bindPress(btn, () => { host.dataset.mode = btn.dataset.shopTab; renderShop(host, manager); }));
+  host.querySelectorAll("[data-shop-act]").forEach(btn => bindPress(btn, () => shopAction(host, Number(btn.dataset.shopIndex), btn.dataset.shopAct)));
 }
 function shopAction(host, index, act) { const data = host.__awtsData || {}, rows = shopRows(data, act === "sell" ? "sell" : "buy"), item = rows.find(row => row.index === index); if (!item) return; if (act === "buy") { if (readBag() < item.price) return alert("Not enough bag perutas."); changeBag(-item.price, "buy clothing"); send({ addItem: clothing(item) }); } if (act === "sell") { changeBag(item.price, "sell clothing"); send({ updateInventoryItem: { sourceType: "inventory", index: item.index, itemData: { ...item, quantity: 0 } } }); data.playerInventory[item.index] = null; } renderShop(host, null); }
 function navigateLevel(manager, data = {}) { const next = String(data.next || data.path || "").trim().replace(/\.js$/i, ".json"); if (next) launchLevel(manager, next).catch(error => console.error('B"H - direct level navigation failed', error)); }
-function dispatchInventory(ob = {}) { closeNpcOverlay(); window.dispatchEvent(new CustomEvent("awtsInventoryUpdate", { detail: ob })); document.getElementById("inventoryScreen")?.dispatchEvent(new CustomEvent("awtsInventoryOpen", { bubbles: true })); }
+function dispatchInventory(ob = {}) { closePanels(); window.dispatchEvent(new CustomEvent("awtsInventoryUpdate", { detail: ob })); document.getElementById("inventoryScreen")?.dispatchEvent(new CustomEvent("awtsInventoryOpen", { bubbles: true })); }
 function tzedakahLetters(data = {}) { const msg = document.createElement("div"); msg.textContent = data.text || "צדקה תציל ממות — Giving opens the gate"; msg.style.cssText = "position:fixed;left:50%;top:32%;transform:translate(-50%,-50%);z-index:2147483647;font:bold 24px Arial;color:#ffd54a;text-align:center;text-shadow:0 0 18px #3cff86,0 0 10px #000;pointer-events:none;white-space:pre-line;"; document.body.appendChild(msg); setTimeout(() => msg.remove(), 1400); }
-function postSpikeReset(manager) { worker(manager)?.postMessage?.({ resetAfterSpikeDeath: { position: START_FEET, forceRunMode: false, resetLevelCollectibles: true } }); }
-function showSpikeResetOverlay(manager) { if (document.getElementById("awtsmoos-spike-reset-overlay")) return; const overlay = document.createElement("div"); overlay.id = "awtsmoos-spike-reset-overlay"; overlay.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(30,0,0,.82);display:grid;place-items:center;color:#fff;font-family:Arial;text-align:center;pointer-events:auto;"; overlay.innerHTML = `<div style="padding:24px;border-radius:28px;background:rgba(35,6,0,.72);border:3px solid #ffd260"><div style="font-size:34px">לבה!</div><div data-spike-reset-text>Tap or press any key to return</div><div data-spike-count style="font-size:72px;color:#ffd54a"></div></div>`; document.body.appendChild(overlay); sealDomIsland(overlay); const text = overlay.querySelector("[data-spike-reset-text]"), count = overlay.querySelector("[data-spike-count]"); let started = false; const start = e => { hardSeal(e); if (started) return; started = true; text.textContent = "Returning in..."; let left = 3; count.textContent = String(left); const timer = setInterval(() => { left -= 1; if (left <= 0) { clearInterval(timer); overlay.remove(); postSpikeReset(manager); return; } count.textContent = String(left); }, 700); }; overlay.addEventListener("pointerdown", start, { once: true }); window.addEventListener("keydown", start, { once: true }); }
+function showSpikeResetOverlay(manager) { if (document.getElementById("awtsmoos-spike-reset-overlay")) return; const overlay = document.createElement("div"); overlay.id = "awtsmoos-spike-reset-overlay"; overlay.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(30,0,0,.82);display:grid;place-items:center;color:#fff;font-family:Arial;text-align:center;pointer-events:auto;"; overlay.innerHTML = `<div style="padding:24px;border-radius:28px;background:rgba(35,6,0,.72);border:3px solid #ffd260"><div style="font-size:34px">לבה!</div><div data-spike-reset-text>Tap or press any key to return</div><div data-spike-count style="font-size:72px;color:#ffd54a"></div></div>`; document.body.appendChild(overlay); const start = e => { hardSeal(e); let left = 3; const count = overlay.querySelector("[data-spike-count]"); const text = overlay.querySelector("[data-spike-reset-text]"); text.textContent = "Returning in..."; count.textContent = String(left); const timer = setInterval(() => { left -= 1; if (left <= 0) { clearInterval(timer); overlay.remove(); worker(manager)?.postMessage?.({ resetAfterSpikeDeath: { position: START_FEET, forceRunMode: false, resetLevelCollectibles: true } }); return; } count.textContent = String(left); }, 700); }; bindPress(overlay, start); window.addEventListener("keydown", start, { once: true }); }
 function directFallback(manager, shaym, ob = {}) { if (shaym === "openNpcChallengeOverlay") openNpcChallengeOverlay(manager, ob); if (shaym === "openLevelSelect") openLevelSelect(manager, ob); if (shaym === "levelGoal") setLevelGoal(ob); if (shaym === "perutahProgress") updatePerutahHud(ob); if (shaym === "gameHUD") { if (ob.perutahProgress) updatePerutahHud(ob.perutahProgress); if (ob.personalPerutas) changeBag(ob.personalPerutas.personalDelta || 0, ob.personalPerutas.reason); } if (shaym === "inventoryScreen") dispatchInventory(ob); if (shaym === "storeScreen" && ob?.open) openShopOverlay(manager, ob.open, ob.open.mode || "buy"); if (shaym === "navigateLevel") navigateLevel(manager, ob); if (shaym === "tzedakahBlessing") tzedakahLetters(ob); if (shaym === "effectsOverlay" && ob?.effect === "spikeDeath") showSpikeResetOverlay(manager); if (shaym === "effectsOverlay" && ob?.effect === "tzedakahBlessing") tzedakahLetters(ob); }
 
 export default function uiHandlers(manager) {

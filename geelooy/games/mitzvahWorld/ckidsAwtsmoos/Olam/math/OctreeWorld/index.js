@@ -1,38 +1,25 @@
-
 // B"H
 /**
  * @module OctreeWorld
  * @description
- * 🏰 THE TEMPLE OF FOUNDATIONS (MODULAR EDITION) 🏰
- * 
- * "With a span He weighed the Earth."
- * We have successfully split the colossal OctreeWorld into a vast network of 
- * modular limbs. Each file manages its own hyper-specific piece of logic, 
- * maintaining pristine clarity and limitless scalability.
+ * Chapter 150: The collision temple imports the world-pose insertion vessel.
+ * The house/fence fix lives inside methods/index.js, so this root module must
+ * cache-bust that hub or Android can keep old non-solid wall physics.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import JobProcessor from './JobProcessor.js';
-import methods from './methods/index.js';
+import methods from './methods/index.js?v=world-pose-collider-clones-20260605-bh448';
 
 export class OctreeWorld {
-    constructor() {
-        this.root = null;
-        this._intakeQueue = [];
-        this._buildQueue = new Set();
-        this._subdivisionQueue = new Set();
-        this._mergeQueue = new Set();
-        this._pendingOctrees = []; 
-        this._lastUpdateCenter = new THREE.Vector3(Infinity, Infinity, Infinity);
-        
-        this.jobProcessor = new JobProcessor(this);
-        
-        // B"H: The Grand Seder Hishtalshelus Binding
-        // We draw down all modular methods into the context of this specific world!
-        Object.keys(methods).forEach(methodName => {
-            this[methodName] = methods[methodName].bind(this);
-        });
-        
-        // B"H: silent
-
-    }
+  constructor() {
+    this.root = null;
+    this._intakeQueue = [];
+    this._buildQueue = new Set();
+    this._subdivisionQueue = new Set();
+    this._mergeQueue = new Set();
+    this._pendingOctrees = [];
+    this._lastUpdateCenter = new THREE.Vector3(Infinity, Infinity, Infinity);
+    this.jobProcessor = new JobProcessor(this);
+    Object.keys(methods).forEach(methodName => { this[methodName] = methods[methodName].bind(this); });
+  }
 }

@@ -2,9 +2,9 @@
 /**
  * @file recipeMap.js
  * @description
- * Chapter 105: The recipe map chooses the stable upgraded village recipes.
- * We keep the old picture-prop architecture, but route trees and paths through
- * fresh grounded, textured, mobile-safe versions.
+ * Chapter 133: The recipe map points at the sane tree.
+ * The old layered tree cache produced a spike-broom. The map now imports the
+ * soft readable canopy version, while keeping stable house/path recipes.
  */
 import { gableHouse } from "./cottageRecipe.js?v=warm-cottage-details-20260604-bh426";
 import { pergolaPortal, lantern } from "./portalRecipes.js";
@@ -12,7 +12,7 @@ import { bench, cobbleRoad, fence, flowerPatch, rock, rockField, steps, terrace,
 import { meadowDetail } from "./fieldRecipes.js";
 import { pictureDirtPath } from "./pathRecipe.js?v=rich-grounded-road-20260604-bh441";
 import { pictureStoneSteps, pictureTerraceWall } from "./terraceRecipe.js";
-import { pictureAnchorTree } from "./treeRecipe.js?v=layered-grounded-tree-20260604-bh441";
+import { pictureAnchorTree } from "./treeRecipe.js?v=soft-readable-tree-20260604-bh445";
 
 export const VILLAGE_PICTURE_RECIPES = Object.freeze({
   bench,

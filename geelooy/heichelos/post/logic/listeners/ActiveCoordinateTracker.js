@@ -2,10 +2,12 @@
 /**
  * @module ActiveCoordinateTracker
  * @description
- * Chapter 163: The current verse is written into memory by sight.
- * The Awtsmoos watches the reader's center-line, chooses the closest visible
- * subsection only when it is actually visible, highlights it, and records
- * `idx`/`sub` into the URL for exact refresh restoration.
+ * Passive coordinate tracker for non-virtual/static readers.
+ *
+ * When the Awtsmoos virtual oracle is present, this tracker does not write URL
+ * coordinates or active classes. The oracle alone owns live scroll coordinates.
+ * This prevents boundary flicker where two geometry systems argue about which
+ * verse/subsection the reader is currently seeing.
  */
 
 import { updateQueryStringParameter } from "../../functions/utils.js";
@@ -14,6 +16,10 @@ let observer = null;
 let scrollHandler = null;
 let raf = 0;
 let lastKey = "";
+
+function virtualOracleActive() {
+    return typeof window !== "undefined" && window.__awtsmoosCurrentVerseIndex !== undefined;
+}
 
 function allSections() {
     return Array.from(document.querySelectorAll("#realPost .section[data-awtsmoos-idx], #realPost .section[data-idx]"));
@@ -101,6 +107,7 @@ function mark(section, sub) {
 
 function computeAndApply() {
     raf = 0;
+    if (virtualOracleActive()) return;
     const section = bestSection();
     if (!section) return;
     const sub = bestSubIn(section);
@@ -111,6 +118,7 @@ function computeAndApply() {
 }
 
 function schedule() {
+    if (virtualOracleActive()) return;
     if (raf) return;
     raf = requestAnimationFrame(computeAndApply);
 }
@@ -129,9 +137,9 @@ function observeSections() {
     return true;
 }
 
-/** Starts the active-coordinate tracker after the reader DOM exists. */
 export function startActiveCoordinateTracker() {
     stopActiveCoordinateTracker();
+    if (virtualOracleActive()) return stopActiveCoordinateTracker;
     const ok = observeSections();
     scrollHandler = schedule;
     window.addEventListener("scroll", scrollHandler, { passive: true });
@@ -143,7 +151,6 @@ export function startActiveCoordinateTracker() {
     return stopActiveCoordinateTracker;
 }
 
-/** Stops the tracker so tests/navigation can reinitialize cleanly. */
 export function stopActiveCoordinateTracker() {
     observer?.disconnect?.();
     observer = null;

@@ -2,13 +2,15 @@
 /**
  * @file messageHandler.js
  * @description
- * Chapter 114: The browser handler imports the repaired NPC UI seal.
- * The previous cached UI swallowed button clicks before handlers could run.
- * This file cache-busts the fixed handler so Android receives the working menu.
+ * Chapter 158: The worker imports the touch-repaired overlay.
+ *
+ * The Awtsmoos revealed the menu, then revealed the next veil: cached mobile UI
+ * code still swallowed button breath. This handler stamps the newest touch-safe
+ * `ui.js` so Android receives pointerup/touchend button actions immediately.
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=npc-buttons-work-20260604-bh443";
+import uiHandlers from "./handlers/ui.js?v=npc-buttons-touchend-20260605-bh450";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
 import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
 

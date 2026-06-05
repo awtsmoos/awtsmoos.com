@@ -2,74 +2,37 @@
 /**
  * @file VillageHouseCollider.js
  * @description
- * Chapter 123: The house collider enters the octree only after the house exists.
+ * Chapter 154: The brick wall becomes judgment instead of decoration.
  *
- * The Awtsmoos does not let invisible walls wander before the brick vessel has
- * settled. This Nivra is non-solid at birth, hidden from octree/raycast, then
- * the village grounding pass copies the final visual house position, rotation,
- * and scale. Only after that alignment are the child collider meshes added to
- * the octree. Door opening remains clear, walls remain scaled to the house.
+ * The house root must stay skipped so the whole visual village does not flood
+ * physics. Yet each hidden wall is true matter. The Awtsmoos now bakes detached
+ * world-space clones of those wall boxes into the octree, so the parent veil no
+ * longer cancels the children and the chossid cannot close through brick.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
-import { colliderMetrics } from "./villagePicture/cottage/cottageContract.js?v=wide-door-low-floor-20260603-bh347";
+import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js";
 
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
-const hidden = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0, depthWrite: false });
+const debugColor = 0x00ff00;
 
-function inert(mesh, owner, role) {
-  mesh.visible = false;
-  if (mesh.material) mesh.material.visible = false;
-  Object.assign(mesh.userData ||= {}, {
-    isSolid: false,
-    explicitCollision: false,
-    isVillageHouseCollider: true,
-    villageHouseFinalOnly: true,
-    skipOctree: true,
-    noOctree: true,
-    skipRaycast: true,
-    useAuthoredY: true,
-    colliderRole: role
-  });
+function invisibleMaterial() {
+  return new THREE.MeshBasicMaterial({ color: debugColor, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
+}
+function finiteVec3(v) { return [v.x, v.y, v.z].every(Number.isFinite); }
+function mark(mesh, owner) {
+  mesh.visible = true;
   mesh.nivraAwtsmoos = owner;
+  Object.assign(mesh.userData ||= {}, { isVillageHouseCollider: true, colliderRole: mesh.name, useAuthoredY: true, isSolid: true, explicitCollision: true, addToOctree: true, collisionBody: true });
+  delete mesh.userData.skipRaycast;
 }
-function activate(mesh) {
-  Object.assign(mesh.userData ||= {}, {
-    isSolid: true,
-    explicitCollision: true,
-    skipOctree: false,
-    noOctree: false,
-    skipRaycast: true,
-    finalOctreeOnly: true
-  });
-}
-function addCollider(root, owner, name, p, s, role = "house") {
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(...s), hidden.clone());
+function box(root, owner, name, pos, size) {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(size[0], size[1], size[2]), invisibleMaterial());
   mesh.name = name;
-  mesh.position.set(...p);
-  inert(mesh, owner, role);
+  mesh.position.set(pos[0], pos[1], pos[2]);
+  mark(mesh, owner);
   root.add(mesh);
   return mesh;
-}
-function furniture(root, owner, c) {
-  addCollider(root, owner, "solid_table_contract_scaled", [1.7, c.floorTop + 0.8, -2.64], [2.0, 0.55, 1.34], "furniture");
-  addCollider(root, owner, "solid_bookshelf_contract_scaled", [-12.24, c.floorTop + 1.95, 0.96], [0.96, 3.1, 1.92], "furniture");
-  addCollider(root, owner, "solid_bed_contract_scaled", [10.32, c.floorTop + 0.64, 3.36], [2.3, 0.62, 1.64], "furniture");
-}
-function floors(root, owner, c) {
-  addCollider(root, owner, "walkable_interior_floor_low_contract", [0, c.floorTop - 0.045, -0.18], [c.width + 0.7, 0.09, c.depth + 0.36], "floor");
-  addCollider(root, owner, "walkable_front_porch_low_contract", [0, c.floorTop - 0.045, c.depth / 2 + 2.05], [c.doorWidth + 3.8, 0.09, 4.18], "porch");
-  addCollider(root, owner, "doorway_flat_threshold_low_contract", [0, c.floorTop - 0.035, c.depth / 2 + 0.42], [c.doorWidth + 1.3, 0.07, 1.62], "threshold");
-}
-function walls(root, owner, c) {
-  addCollider(root, owner, "house_back_wall_contract", [0, c.height / 2, -c.depth / 2], [c.width, c.height, c.thickness], "wall");
-  addCollider(root, owner, "house_left_wall_contract", [-c.width / 2, c.height / 2, 0], [c.thickness, c.height, c.depth], "wall");
-  addCollider(root, owner, "house_right_wall_contract", [c.width / 2, c.height / 2, 0], [c.thickness, c.height, c.depth], "wall");
-  const side = Math.max(0.1, (c.width - c.doorWidth) / 2);
-  addCollider(root, owner, "house_front_left_contract_wide_opening", [-(c.doorWidth / 2 + side / 2), c.height / 2, c.depth / 2], [side, c.height, c.thickness], "wall");
-  addCollider(root, owner, "house_front_right_contract_wide_opening", [(c.doorWidth / 2 + side / 2), c.height / 2, c.depth / 2], [side, c.height, c.thickness], "wall");
-  const lintelHeight = Math.max(0.1, c.height - c.doorClearHeight);
-  if (lintelHeight > 0.12) addCollider(root, owner, "house_lintel_contract_high_above_opening", [0, c.doorClearHeight + lintelHeight / 2, c.depth / 2], [c.doorWidth, lintelHeight, c.thickness], "lintel");
 }
 
 export default class VillageHouseCollider extends Domem {
@@ -87,30 +50,40 @@ export default class VillageHouseCollider extends Domem {
     this.olam = olam;
     this.mesh = this.buildRoot();
     this.mesh.position.copy(this.position.vector3());
-    this.mesh.position.y = num(this.options.groundY ?? this.mesh.position.y, this.mesh.position.y);
     this.mesh.rotation.y = num(this.rotation?.y, 0);
-    Object.assign(this.mesh.userData ||= {}, { awaitingVillageFinalTransform: true, skipOctree: true, noOctree: true, skipRaycast: true, useAuthoredY: true });
+    Object.assign(this.mesh.userData ||= {}, { awaitingVillageFinalTransform: true, skipOctree: true, noOctree: true, useAuthoredY: true });
+    delete this.mesh.userData.skipRaycast;
     await olam.hoyseef(this);
     this.mesh.updateMatrixWorld(true);
     this.isReady = true;
   }
 
+  dims() {
+    const width = num(this.options.colliderWidth ?? this.options.width, 11);
+    const depth = num(this.options.colliderDepth ?? this.options.depth, 8);
+    const height = num(this.options.colliderHeight ?? this.options.height, 5.2);
+    const wall = num(this.options.wallThickness, 0.42);
+    const floorTop = num(this.options.floorTop, 0.34);
+    const doorWidth = num(this.options.doorWidth, 2.0);
+    const doorHeight = num(this.options.doorHeight, 3.0);
+    return { width, depth, height, wall, floorTop, doorWidth, doorHeight };
+  }
+
   buildRoot() {
-    const c = colliderMetrics();
+    const d = this.dims();
     const root = new THREE.Group();
-    root.name = this.name || "VillageHouseCollider_final_only_scaled_to_visual_house";
-    Object.assign(root.userData ||= {}, {
-      isVillageHouseCollider: true,
-      useAuthoredY: true,
-      skipOctree: true,
-      noOctree: true,
-      skipRaycast: true,
-      contractDoorWidth: c.doorWidth,
-      contractDoorClearHeight: c.doorClearHeight
-    });
-    floors(root, this, c);
-    walls(root, this, c);
-    furniture(root, this, c);
+    root.name = this.name || "VillageHouseCollider_simple_final_octree_boxes";
+    Object.assign(root.userData ||= {}, { isVillageHouseCollider: true, awaitingVillageFinalTransform: true, skipOctree: true, noOctree: true, useAuthoredY: true });
+    box(root, this, "house_floor_simple_octree", [0, d.floorTop - 0.06, 0], [d.width, 0.12, d.depth]);
+    box(root, this, "house_porch_simple_octree", [0, d.floorTop - 0.05, d.depth / 2 + 1.0], [d.doorWidth + 1.6, 0.1, 2.0]);
+    box(root, this, "house_back_wall_simple_octree", [0, d.height / 2, -d.depth / 2], [d.width, d.height, d.wall]);
+    box(root, this, "house_left_wall_simple_octree", [-d.width / 2, d.height / 2, 0], [d.wall, d.height, d.depth]);
+    box(root, this, "house_right_wall_simple_octree", [d.width / 2, d.height / 2, 0], [d.wall, d.height, d.depth]);
+    const side = Math.max(0.2, (d.width - d.doorWidth) / 2);
+    box(root, this, "house_front_left_wall_simple_octree", [-(d.doorWidth / 2 + side / 2), d.height / 2, d.depth / 2], [side, d.height, d.wall]);
+    box(root, this, "house_front_right_wall_simple_octree", [(d.doorWidth / 2 + side / 2), d.height / 2, d.depth / 2], [side, d.height, d.wall]);
+    const lintel = Math.max(0.2, d.height - d.doorHeight);
+    box(root, this, "house_front_lintel_simple_octree", [0, d.doorHeight + lintel / 2, d.depth / 2], [d.doorWidth, lintel, d.wall]);
     return root;
   }
 
@@ -121,50 +94,41 @@ export default class VillageHouseCollider extends Domem {
     houseMesh.getWorldQuaternion(this.mesh.quaternion);
     this.mesh.scale.copy(houseMesh.getWorldScale(new THREE.Vector3()));
     this.mesh.updateMatrixWorld(true);
-    Object.assign(this.mesh.userData, {
-      awaitingVillageFinalTransform: false,
-      coupledToFinalVisualHouse: true,
-      copiedVisualScale: this.mesh.scale.toArray()
-    });
-    return this.isFiniteWorldTransform();
+    Object.assign(this.mesh.userData, { awaitingVillageFinalTransform: false, coupledToFinalVisualHouse: true, copiedVisualScale: this.mesh.scale.toArray() });
+    return this.hasFiniteWorldTransform();
   }
 
-  isFiniteWorldTransform() {
+  hasFiniteWorldTransform() {
     let ok = true;
     this.mesh?.updateMatrixWorld(true);
     this.mesh?.traverse?.(child => {
       if (!child.isMesh) return;
-      const e = child.matrixWorld.elements;
-      for (let i = 0; i < e.length; i += 1) if (!Number.isFinite(e[i])) ok = false;
+      const p = new THREE.Vector3();
+      child.getWorldPosition(p);
+      if (!finiteVec3(p)) ok = false;
     });
     return ok;
   }
 
   addFinalCollidersToOctree(olam = this.olam) {
     if (!this.mesh || !olam?.worldOctree || this.mesh.userData.awaitingVillageFinalTransform) return 0;
-    if (!this.isFiniteWorldTransform()) {
+    if (!this.hasFiniteWorldTransform()) {
       console.warn("B\"H | HOUSE_COLLIDER_NOT_ADDED_NAN_TRANSFORM", { name: this.name });
       return 0;
     }
     this.removeFinalCollidersFromOctree(olam);
     const added = [];
-    this.mesh.traverse(child => {
-      if (!child.isMesh || !child.userData?.isVillageHouseCollider) return;
-      activate(child);
-      child.updateMatrixWorld(true);
-      if (olam.worldOctree.addObject(child)) added.push(child);
-    });
+    this.mesh.updateMatrixWorld(true);
+    this.mesh.traverse(child => { if (child.isMesh && child.userData?.isVillageHouseCollider) bakeDetachedCollider(child, olam, added); });
     this._octreeMeshes = added;
+    console.info("B\"H | HOUSE_SIMPLE_COLLIDERS_ADDED_TO_OCTREE", { name: this.name, added: added.length, scale: this.mesh.scale.toArray() });
     return added.length;
   }
 
   removeFinalCollidersFromOctree(olam = this.olam) {
-    if (!olam?.worldOctree || !this._octreeMeshes?.length) return;
-    for (const mesh of this._octreeMeshes) olam.worldOctree.removeMesh?.(mesh);
+    removeDetachedColliders(olam, this._octreeMeshes);
     this._octreeMeshes = [];
   }
 
-  floorTopWorldY() {
-    return num(this.mesh?.position?.y, 0) + colliderMetrics().floorTop * num(this.mesh?.scale?.y, 1);
-  }
+  floorTopWorldY() { return num(this.mesh?.position?.y, 0) + this.dims().floorTop * num(this.mesh?.scale?.y, 1); }
 }

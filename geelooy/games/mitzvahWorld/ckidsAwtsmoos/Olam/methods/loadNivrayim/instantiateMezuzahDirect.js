@@ -9,7 +9,7 @@
 import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js';
 import Utils from '../../../utils.js';
 import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js';
-import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=tap-only-same-chossid-20260604-bh444';
+import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=mobile-raycast-accepted-click-20260604-bh446';
 
 function resolveSoulType(type) {
   if (type === 'InteractiveDoor') return InteractiveDoorDirect;

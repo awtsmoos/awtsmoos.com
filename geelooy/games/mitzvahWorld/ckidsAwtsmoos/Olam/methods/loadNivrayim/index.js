@@ -6,10 +6,10 @@
  * The village must not open UI from gaze, and invisible house walls must not
  * enter the octree before the visual brick house has settled into place.
  */
-import instantiate from "./instantiateMezuzahDirect.js?v=tap-only-same-chossid-20260604-bh444";
+import instantiate from "./instantiateMezuzahDirect.js?v=mobile-raycast-accepted-click-20260604-bh446";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
-import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-only-house-colliders-20260604-bh444";
+import { scheduleVillageGrounding } from "./villageGrounding.js?v=no-skipraycast-wall-octree-20260604-bh446";
 
 async function safeAssetSize(nivra) {
   if (typeof nivra?.getSize !== "function") return 0;

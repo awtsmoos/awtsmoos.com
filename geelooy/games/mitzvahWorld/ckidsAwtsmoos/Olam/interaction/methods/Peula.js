@@ -1,56 +1,43 @@
+// B"H
 /**
- * B"H
- * 
- * THE PEULA (ACTION) - ACTUALIZATION OF THE WILL
- * 
- * The Peula is the transition from potentiality to actuality.
- * When the mind (player) decides and the body (click) executes,
- * the Peula is the command that ripples through the Sefiros.
- * 
- * It is the "Accepted Interaction."
- * 
- * @module Peula
+ * @file Peula.js
+ * @description
+ * Chapter 151: The click receives a name and the gate opens.
+ *
+ * A highlighted NPC proved the ray reached the guide, yet the action arrived as
+ * a bare player object. The guide rejected it as non-explicit. Now the Peula
+ * carries both the player and the unmistakable seal of an intentional click,
+ * like a spark given letters so the Awtsmoos can reveal the UI inside it.
  */
+function interactionPayload(olam, intersection = {}) {
+  return {
+    type: "click",
+    explicit: true,
+    isPointer: true,
+    player: olam?.chossid || olam?.player || null,
+    point: intersection.point || intersection.hit?.point || null,
+    distance: intersection.distance || intersection.hit?.distance || 0,
+    hitObjectName: intersection.mesh?.name || intersection.hit?.object?.name || "unknown"
+  };
+}
 
 /**
- * @class Peula
- * @description Translates a physical click into a spiritual action.
+ * Sends a world hit into the target Nivra as an explicit accepted interaction.
  */
 export default class Peula {
-    constructor(olam) {
-        this.olam = olam;
+  constructor(olam) { this.olam = olam; }
+
+  execute(intersection = {}) {
+    const { nivra } = intersection;
+    if (!nivra) return;
+    if (typeof nivra.ayshPeula === "function") {
+      nivra.ayshPeula("accepted interaction", interactionPayload(this.olam, intersection));
+      return;
     }
+    this.handleSpecialCases(nivra);
+  }
 
-    /**
-     * @method execute
-     * @description Fires the action on the nivra.
-     * @param {Object} intersection - The hit data.
-     */
-    execute(intersection) {
-        const { nivra } = intersection;
-        if (!nivra) return;
-
-        // B"H: silent
-
-
-        // Every Nivra has an ayshPeula (Fire Action) method.
-        // It is their way of responding to the world.
-        if (typeof nivra.ayshPeula === 'function') {
-            nivra.ayshPeula("accepted interaction", this.olam.chossid);
-        } else {
-            // Fallback for objects that might not have ayshPeula but have logic
-            this.handleSpecialCases(nivra);
-        }
-    }
-
-    /**
-     * @method handleSpecialCases
-     * @description Handles logic for objects without a standard ayshPeula.
-     */
-    handleSpecialCases(nivra) {
-        // Doors, signs, etc.
-        if (nivra.type === 'interactiveDoor') {
-            this.olam.ayshPeula("toggle door", nivra);
-        }
-    }
+  handleSpecialCases(nivra) {
+    if (nivra.type === "interactiveDoor") this.olam.ayshPeula("toggle door", nivra);
+  }
 }

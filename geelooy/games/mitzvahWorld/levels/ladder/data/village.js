@@ -462,6 +462,24 @@ export default {
           "The village is only the beginning."
         ]
       }
+    ],
+    "VillageFenceCollider": [
+      {
+        "name": "reference_left_low_fence_collider",
+        "targetName": "reference_left_low_fence",
+        "length": 12.8,
+        "height": 1.65,
+        "depth": 0.55,
+        "position": {
+          "x": -16,
+          "y": 0,
+          "z": 11.5
+        },
+        "rotation": {
+          "y": -0.28
+        },
+        "useAuthoredY": true
+      }
     ]
   }
 };

@@ -2,9 +2,9 @@
 /**
  * @file index.js
  * @description
- * Chapter 52: The composed village gathers camera, cottage, sky, grass, path,
- * guide, and terrain into one plain JSON body. The Awtsmoos remains modular;
- * the engine receives the familiar level shape.
+ * Chapter 139: The composed village finally imports the fence body.
+ * The fence collider file existed but was not gathered into the level. Now the
+ * visible fence and its octree rail are born together after the Awtsmoos breath.
  */
 import meta from "./meta.js";
 import camera from "./sections/camera.js";
@@ -16,6 +16,7 @@ import path from "./sections/path.js";
 import foliage from "./sections/foliage.js";
 import houses from "./sections/houses.js";
 import guide from "./sections/guide.js";
+import fenceColliders from "./sections/VillageFenceCollider.js";
 
 function mergeSections(sections) {
   const nivrayim = {};
@@ -27,5 +28,5 @@ function mergeSections(sections) {
 
 export default {
   ...meta,
-  nivrayim: mergeSections([camera, sky, terrain, player, path, houses, trees, foliage, guide])
+  nivrayim: mergeSections([camera, sky, terrain, player, path, houses, trees, foliage, guide, { VillageFenceCollider: fenceColliders }])
 };

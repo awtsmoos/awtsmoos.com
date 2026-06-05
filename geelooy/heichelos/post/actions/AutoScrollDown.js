@@ -2,12 +2,10 @@
 /**
  * @module AutoScrollDown
  * @description
- * The auto-scroll river only asks the indexed verse oracle for more road.
- *
- * It no longer calls the generic nearest-wrapper subsection buffer. The verse
- * oracle owns exact `activeCurrent` and will always reveal the current verse's
- * hidden subsections before allowing the next verse. Auto-scroll moves every
- * frame and requests buffer in the background so motion stays smooth.
+ * The auto-scroll river moves smoothly while asking the indexed verse oracle for
+ * more road in the background. It does not stop merely because it touched the
+ * current bottom for one frame; it waits through several stalled frames so async
+ * subsection/verse buffers have time to appear.
  */
 
 const DEFAULT_SPEED = 1.15;
@@ -18,9 +16,13 @@ const RESUME_DELAY_MS = 650;
 const TOUCH_MOVE_THRESHOLD = 26;
 const SCROLL_MOVE_THRESHOLD = 18;
 const WHEEL_THRESHOLD = 32;
+const BUFFER_DISTANCE = 5200;
+const FORCE_DISTANCE = 900;
+const MAX_STALLED_FRAMES = 42;
 
 let gesture = null;
 let bufferPending = false;
+let stalledFrames = 0;
 let scrollState = {
     active: false,
     paused: false,
@@ -99,10 +101,11 @@ function requestRoadAhead(force = false) {
     bufferPending = true;
     Promise.resolve().then(async () => {
         try {
-            await window.__awtsmoosAutoScrollVerseBuffer?.(1, {
+            const opened = await window.__awtsmoosAutoScrollVerseBuffer?.(1, {
                 force,
-                count: force ? 8 : 5
+                count: force ? 12 : 8
             });
+            if (opened) stalledFrames = 0;
         } catch (error) {
             console.warn("B\"H auto-scroll indexed buffer request resisted", error);
         } finally {
@@ -111,10 +114,14 @@ function requestRoadAhead(force = false) {
     });
 }
 
+function continueNextFrame() {
+    scrollState.raf = frame(step);
+}
+
 function step() {
     if (!scrollState.active) return;
     if (scrollState.paused) {
-        scrollState.raf = frame(step);
+        continueNextFrame();
         return;
     }
     const root = scrollRoot();
@@ -123,20 +130,27 @@ function step() {
         return;
     }
 
+    const before = root.scrollTop;
     const distance = bottomDistance(root);
-    if (distance < 3200) requestRoadAhead(false);
-    if (distance < 140) requestRoadAhead(true);
+    if (distance < BUFFER_DISTANCE) requestRoadAhead(false);
+    if (distance < FORCE_DISTANCE) requestRoadAhead(true);
 
-    if (distance <= 1 && !bufferPending) {
+    root.scrollTop += scrollState.speed;
+    const after = root.scrollTop;
+    const moved = Math.abs(after - before) > 0.2;
+    if (moved) stalledFrames = 0;
+    else if (distance <= 1) stalledFrames += 1;
+    else stalledFrames = 0;
+
+    if (stalledFrames > MAX_STALLED_FRAMES && !bufferPending) {
         requestRoadAhead(true);
-        if (bottomDistance(root) <= 1) {
+        if (stalledFrames > MAX_STALLED_FRAMES + 12 && !bufferPending) {
             stopAutoScrollDown();
             return;
         }
     }
 
-    root.scrollTop += scrollState.speed;
-    scrollState.raf = frame(step);
+    continueNextFrame();
 }
 
 function shouldIgnoreHumanGesture(event) {
@@ -260,6 +274,7 @@ export function startAutoScrollDown(options = {}) {
     };
     gesture = null;
     bufferPending = false;
+    stalledFrames = 0;
     writeSavedSpeed(scrollState.speed);
     requestRoadAhead(false);
     scrollState.raf = frame(step);
@@ -274,6 +289,7 @@ export function stopAutoScrollDown() {
     clearResumeTimer();
     gesture = null;
     bufferPending = false;
+    stalledFrames = 0;
     scrollState = { ...scrollState, active: false, paused: false, raf: 0, resumeTimer: 0 };
     document.body?.classList?.remove("awtsmoos-auto-scroll-active");
     document.body?.classList?.remove("awtsmoos-auto-scroll-paused");

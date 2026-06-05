@@ -2,13 +2,16 @@
 /**
  * @module Chossid
  * @description
- * Chapter 393: The chossid imports lifecycle/update with exact foot law.
+ * Chapter 144: The chossid imports the explicit NPC click covenant.
+ * The guide highlighted but did not open because the old interaction module sent
+ * the player object without explicit tap metadata. This cache-busts the fixed
+ * click route while preserving the exact foot law and movement tuning.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
 import Chai from "../chai/index.js?v=exact-visual-feet-20260603-bh393";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 import controlMethods from './methods/controls.js?v=smooth-jump-restored-20260602-bh14';
-import interactionMethods from './methods/interaction.js?v=lean-l1-20260528-bh36';
+import interactionMethods from './methods/interaction.js?v=explicit-npc-click-payload-20260604-bh447';
 import lifecycleMethods from './methods/lifecycle.js?v=exact-feet-after-frame-20260603-bh393';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
 import updateMethods from './methods/update.js?v=exact-feet-after-frame-20260603-bh393';

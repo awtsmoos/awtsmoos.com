@@ -1,18 +1,19 @@
 // B"H
 /**
  * @file classMap.js
- * @description Chapter 87: the ladder doorway receives its true class. The
- * Awtsmoos exposed the hidden mismatch: every ladder JSON `InteractiveDoor` is
- * named Inside Right Doorpost Mezuzah, but the registry sent it to the old
- * wooden-door module. Now the registry sends that type to SimpleDoor.js, the
- * visible clickable mezuzah vessel.
+ * @description
+ * Chapter 156: The registry burns away stale ghosts.
+ *
+ * JSON-instantiated Nivrayim pass through this map. The village guide, player
+ * click route, and detached collider bodies now carry fresh import seals, so
+ * the browser receives the present tikkun instead of yesterday's shadow.
  */
 export default {
   Domem: "../../chayim/domem/index.js",
   Tzomayach: "../../chayim/tzomayach.js",
   Chai: "../../chayim/chai/index.js",
   Medabeir: "../../chayim/medabeir/index.js",
-  Chossid: "../../chayim/chossid/index.js",
+  Chossid: "../../chayim/chossid/index.js?v=explicit-npc-click-payload-20260605-bh449",
   Tool: "../../dvarim/tool.js",
   Coin: "../../dvarim/coin.js",
   Container: "../../dvarim/container.js",
@@ -51,12 +52,15 @@ export default {
   ElementalStaff: "../../dvarim/tools/elementalStaff.js",
   FluidSystem: "../../dvarim/nature/fluidSystem.js",
   InteractiveDoor: "../../dvarim/SimpleDoor.js",
-  InteractiveNpc: "../../dvarim/npc/InteractiveNpc.js",
+  InteractiveNpc: "../../dvarim/npc/InteractiveNpc.js?v=direct-guide-ui-20260605-bh449",
   ProceduralSky: "../../dvarim/nature/ProceduralSky.js",
   ProceduralFlowerPatch: "../../dvarim/nature/ProceduralFlowerPatch.js",
   ProceduralRoad: "../../dvarim/architecture/ProceduralRoad.js",
   Collectable: "../../dvarim/Collectable.js",
   SolidBlock: "../../dvarim/architecture/SolidBlock.js",
   ProceduralBuilding: "../../dvarim/architecture/ProceduralBuilding.js",
-  ProceduralFlora: "../../dvarim/nature/ProceduralFlora.js"
+  ProceduralFlora: "../../dvarim/nature/ProceduralFlora.js",
+  VillageHouseCollider: "../../dvarim/nature/VillageHouseCollider.js?v=detached-house-octree-20260605-bh449",
+  VillageFenceCollider: "../../dvarim/nature/VillageFenceCollider.js?v=detached-fence-octree-20260605-bh449",
+  VillageRoadCollider: "../../dvarim/nature/VillageRoadCollider.js?v=detached-road-octree-20260605-bh449"
 };
