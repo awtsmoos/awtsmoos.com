@@ -124,3 +124,9 @@
     .post-reader-localized-context .awtsmoos-comment-card-header { grid-template-columns: 44px minmax(0,1fr) !important; }
     .post-reader-localized-context .profile-chip { grid-column: 1 / -1 !important; }
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-sidebar-comment-card { scroll-margin-block: .75rem; }

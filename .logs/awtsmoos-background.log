@@ -2,12 +2,7 @@ Starting instance of email
 Warning: Could not load DKIM file. Checking Env...
 Task Runner: Starting background polling for generic jobs...
 Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
-B"H
-
-
-
- Server running at http://127.0.0.1:8080/
-Time:  1780616394092
+B"H - Port 8080 is already in use; another server instance may already be alive.
 Email server running
 Server error:  Error: listen EACCES: permission denied 0.0.0.0:25
     at Server.setupListenHandle [as _listen2] (node:net:1986:21)

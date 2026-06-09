@@ -1,0 +1,7 @@
+// B"H
+/**
+ * @file npcCssLayout.js
+ * @description Chapter 269: The dialogue card moves toward the screenshot:
+ * a clean readable panel on the right, not a full-screen interruption.
+ */
+export const NPC_UI_LAYOUT = `#awtsmoos-npc-overlay,#awtsmoos-npc-shop{position:fixed!important;inset:0!important;z-index:2147483400!important;display:flex!important;align-items:flex-end!important;justify-content:flex-end!important;padding:calc(14px + env(safe-area-inset-top)) 20px calc(76px + env(safe-area-inset-bottom))!important;background:linear-gradient(90deg,rgba(0,0,0,.08),rgba(0,0,0,.34))!important;box-sizing:border-box!important;pointer-events:auto!important;overflow:hidden!important;touch-action:none!important}#awtsmoos-npc-overlay *,#awtsmoos-npc-shop *{box-sizing:border-box!important;pointer-events:auto!important;touch-action:manipulation!important}.awts-npc-card,.awts-shop-card{width:min(520px,calc(100vw - 30px))!important;max-height:min(700px,calc(100dvh - 105px))!important;overflow:auto!important;margin:0!important;padding:clamp(18px,4vw,25px)!important;border-radius:28px!important;border:3px solid var(--awts-gold)!important;background:linear-gradient(180deg,var(--awts-card),var(--awts-card2))!important;color:var(--awts-ink)!important;box-shadow:var(--awts-shadow),inset 0 0 30px rgba(255,255,255,.3)!important;font-family:Arial,sans-serif!important;text-align:left!important;-webkit-overflow-scrolling:touch!important}`;

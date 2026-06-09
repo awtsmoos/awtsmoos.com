@@ -10,7 +10,7 @@
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=npc-buttons-touchend-20260605-bh450";
+import uiHandlers from "./handlers/ui.js?v=npc-stats-levelselect-split-20260607-bh167";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
 import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
 

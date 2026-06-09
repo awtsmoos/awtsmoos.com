@@ -1,62 +1,69 @@
-
+// B"H
 /**
- * B"H
  * @module NerveCenter
  * @description
- * This module connects the physical events (clicks, inputs) to the 
- * Navigator's mind. Most events are now manifest directly in the 
- * JSON blueprints, but global rituals like 'popstate' or 
- * high-level management belong here.
+ * Chapter 285: Events bind once, like nerves under bark.
+ *
+ * The global listeners and floating panels are guarded so a hot reload or
+ * repeated initialization cannot stack duplicate popstate handlers, duplicate
+ * notification panels, or duplicate platform vessels.
  */
 
 import { DOMElements } from './dom.js';
 import * as ui from './ui.js';
 import { appState } from './state.js';
 
-/**
- * @function initializeEventListeners
- * @description Establishes the global connections of intent.
- */
+const EVENT_KEY = '__awtsmoosHeichelEventsBound';
+let popstateNavigator = null;
+
 export function initializeEventListeners(navigator) {
-    
-    // 1. Initialize the Portal of Creation (Modal)
+    popstateNavigator = navigator;
+    if (window[EVENT_KEY]) return;
+    window[EVENT_KEY] = true;
     import('./modal.js').then(m => m.initializeModal());
-
-    // 2. Global History Ritual
-    window.addEventListener('popstate', () => {
-        const params = new URLSearchParams(window.location.search);
-        navigator.currentView = params.get('view') || 'posts';
-        navigator.loadContent(params.get('series') || 'root');
-    });
-
-    // 3. UI-specific rituals that require direct monitoring
+    window.addEventListener('popstate', handlePopState, { passive: true });
     setupSidebarHoverRituals();
+    mountNotificationPanelOnce();
+    mountPlatformPanelOnce();
+}
 
-    // 4. Durable social notifications for the current alias
-    if (window.curAlias) {
-        import('./ui/notificationsPanel.js').then(module => {
-            module.mountNotificationsPanel({ root: document.body, aliasId: window.curAlias });
-        });
-    }
+function handlePopState() {
+    if (!popstateNavigator) return;
+    const params = new URLSearchParams(window.location.search);
+    popstateNavigator.currentView = params.get('view') || 'posts';
+    popstateNavigator.loadContent(params.get('series') || seriesFromPath() || 'root');
+}
 
-    // 5. Feed/search/live/db sharing tools
+function seriesFromPath() {
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    const index = segments.indexOf('series');
+    return index === -1 ? null : decodeURIComponent(segments[index + 1] || '');
+}
+
+function setupSidebarHoverRituals() {
+    if (!DOMElements.editorsSection || DOMElements.editorsSection.dataset.awtsmoosHoverBound === 'true') return;
+    DOMElements.editorsSection.dataset.awtsmoosHoverBound = 'true';
+    DOMElements.editorsSection.addEventListener('click', () => {
+        DOMElements.editorHolder?.classList.toggle('extended');
+    });
+}
+
+function mountNotificationPanelOnce() {
+    if (!window.curAlias || window.__awtsmoosNotificationsMounted) return;
+    window.__awtsmoosNotificationsMounted = true;
+    import('./ui/notificationsPanel.js').then(module => {
+        module.mountNotificationsPanel({ root: document.body, aliasId: window.curAlias });
+    });
+}
+
+function mountPlatformPanelOnce() {
+    if (window.__awtsmoosPlatformPanelMounted) return;
+    window.__awtsmoosPlatformPanelMounted = true;
     import('./ui/platformPanel.js').then(module => {
         module.mountPlatformPanel({
             root: document.body,
             heichelId: appState.heichelId,
             aliasId: window.curAlias || ''
         });
-    });
-
-}
-
-/**
- * @private
- */
-function setupSidebarHoverRituals() {
-    if (!DOMElements.editorsSection) return;
-    
-    DOMElements.editorsSection.addEventListener("click", () => {
-        DOMElements.editorHolder.classList.toggle("extended");
     });
 }

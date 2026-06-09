@@ -1,5 +1,5 @@
 /* B"H
- * Chapter 204: The final import river receives the scribe and fullscreen seals.
+ * Chapter 280: The import river receives the action ark and the polish flame.
  * Cache busting belongs to the HTML link; imports remain filesystem-pure so
  * the ownership tests can walk the graph without illusions.
  */
@@ -22,4 +22,6 @@
 @import url("./ideal/reborn/actions.css");
 @import url("./ideal/reborn/mobile-sidebar-reset.css");
 @import url("./ideal/reborn/live-mobile-corrections.css");
+@import url("./ideal/reborn/context-menu.css");
+@import url("./ideal/reborn/mobile-polish.css");
 @import url("./ideal/reborn/button-hover.css");

@@ -228,3 +228,9 @@
 }
 #custom-context-menu > *,
 #insane-verse-menu > * { color: inherit !important; font: 800 15px/1.2 var(--font-ui,Inter,sans-serif) !important; white-space: normal !important; }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-inline-shell:where(:not(.awtsmoos-inline-polish-off)) { contain: layout style; }

@@ -1,61 +1,76 @@
 /* B"H
-   Chapter 3: The Awtsmoos tames the gray beast of overlapping UI.
-   The card menu becomes a small revealed chamber, not a storm across the card.
+   Chapter 251: The main Heichel cards receive their black-gold teeth.
+   The Awtsmoos gives each menu a real z-index, a visible trigger, and a mobile
+   sheet that cannot be swallowed by the card body.
 */
 
 .bookmarks-list { list-style: none; padding: 0; margin: 0; }
 .bookmarks-list li { padding: 10px; border-bottom: 1px solid var(--color-ink-secondary); cursor: pointer; position: relative; }
 .bookmarks-list li:hover { background: var(--color-accent); color: #000; }
 .bookmark-title { font-weight: bold; }
-.bookmark-preview { font-size: 0.8em; color: var(--color-ink-secondary); margin-top: 4px; }
+.bookmark-preview { font-size: .8em; color: var(--color-ink-secondary); margin-top: 4px; }
 .bookmark-delete-btn { position: absolute; top: 5px; right: 5px; background: transparent; border: none; color: var(--color-danger); cursor: pointer; font-size: 18px; }
 
-.card-wrapper.awtsmoos-card { position: relative; overflow: visible; }
-.post-card { position: relative; z-index: 1; }
-.card-menu-spark { position: absolute; top: 0.85rem; right: 0.85rem; z-index: 30; }
-.card-menu-trigger {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 999px;
-    border: 2px solid rgba(20, 24, 37, 0.75);
-    background: rgba(255, 255, 255, 0.94);
-    color: #111827;
-    font: 900 1.35rem/1 var(--font-heading, system-ui);
-    box-shadow: 0 0.35rem 0 rgba(0, 0, 0, 0.75);
-    cursor: pointer;
+.card-wrapper.awtsmoos-card { position: relative; overflow: visible !important; isolation: isolate; }
+.card-wrapper.awtsmoos-card:has(.card-menu-spark.open) { z-index: 80; }
+.post-card { position: relative; z-index: 1; overflow: visible !important; }
+.card-social-actions { display: none !important; }
+
+.card-menu-spark {
+    position: absolute;
+    top: .8rem;
+    right: .8rem;
+    z-index: 90;
+    display: grid;
+    justify-items: end;
 }
+.card-menu-trigger {
+    width: 2.85rem;
+    height: 2.85rem;
+    border-radius: 999px;
+    border: 2px solid rgba(20, 24, 37, .85);
+    background: radial-gradient(circle at 30% 20%, #f8d682, #b99157 60%, #17110a 62%);
+    color: #07111f;
+    font: 950 1.45rem/1 var(--font-heading, system-ui);
+    box-shadow: .42rem .48rem 0 rgba(0,0,0,.82), 0 12px 28px rgba(0,0,0,.18);
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.card-menu-trigger:focus-visible { outline: 3px solid rgba(14,165,233,.55); outline-offset: 4px; }
 .card-menu-panel {
     display: none;
     position: absolute;
-    top: calc(100% + 0.55rem);
+    top: calc(100% + .75rem);
     right: 0;
-    min-width: 12rem;
-    padding: 0.5rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(148, 163, 184, 0.4);
-    background: rgba(248, 250, 252, 0.98);
-    box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, 0.24);
-    backdrop-filter: blur(12px);
+    min-width: 13.5rem;
+    max-width: min(84vw, 18rem);
+    padding: .65rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(15, 23, 42, .18);
+    background:
+        radial-gradient(circle at 20% 0%, rgba(34,211,238,.18), transparent 8rem),
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(249,250,251,.96));
+    box-shadow: 0 1.35rem 3.25rem rgba(15,23,42,.32), .35rem .45rem 0 rgba(0,0,0,.72);
+    backdrop-filter: blur(14px) saturate(135%);
 }
 .card-menu-spark.open .card-menu-panel,
-.card-menu-spark:focus-within .card-menu-panel { display: grid; gap: 0.45rem; }
+.card-menu-spark:focus-within .card-menu-panel { display: grid; gap: .5rem; }
 .card-menu-action {
     width: 100%;
-    min-height: 2.6rem;
-    padding: 0.65rem 0.85rem;
-    border-radius: 0.75rem;
-    border: 1px solid rgba(14, 165, 233, 0.25);
-    background: linear-gradient(180deg, #e0f7ff, #d9f4ff);
+    min-height: 2.9rem;
+    padding: .72rem .9rem;
+    border-radius: .9rem;
+    border: 1px solid rgba(14,165,233,.24);
+    background: linear-gradient(180deg, #e6fbff, #dff4ff);
     color: #111827;
-    font: 900 0.85rem/1.1 var(--font-heading, system-ui);
-    text-align: left;
-    box-shadow: 0 0.22rem 0 rgba(0, 0, 0, 0.78);
+    font: 950 .9rem/1.12 var(--font-heading, system-ui);
+    text-align: start;
+    box-shadow: 0 .23rem 0 rgba(0,0,0,.78);
     cursor: pointer;
 }
 .card-menu-action:hover,
-.card-menu-action:focus-visible { transform: translateY(-1px); outline: 2px solid rgba(14, 165, 233, 0.42); }
+.card-menu-action:focus-visible { transform: translateY(-1px); outline: 2px solid rgba(14,165,233,.42); }
 .card-menu-action.admin-action { background: linear-gradient(180deg, #fff7ed, #fed7aa); }
-.card-social-actions { display: none !important; }
 
 .selection-popover {
     position: absolute;
@@ -66,45 +81,43 @@
     display: flex;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.2s, transform 0.2s;
+    transition: opacity .2s, transform .2s;
     pointer-events: none;
 }
 .selection-popover.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
-.popover-btn {
-    background: transparent !important;
-    color: #eaddc5 !important;
-    border: none !important;
-    border-right: 2px solid #5a4d3b !important;
-    box-shadow: none !important;
-    padding: 12px 24px !important;
-    font-size: 12px !important;
-    font-family: var(--font-heading) !important;
-    position: relative;
-    cursor: pointer;
-}
+.popover-btn { background: transparent !important; color: #eaddc5 !important; border: none !important; border-right: 2px solid #5a4d3b !important; box-shadow: none !important; padding: 12px 24px !important; font-size: 12px !important; font-family: var(--font-heading) !important; position: relative; cursor: pointer; }
 .popover-btn:last-child { border-right: none !important; }
-.popover-btn:hover { background: rgba(255,255,255,0.1) !important; color: #fff !important; transform: none !important; box-shadow: none !important; }
+.popover-btn:hover { background: rgba(255,255,255,.1) !important; color: #fff !important; transform: none !important; box-shadow: none !important; }
 .highlight-palette { display: none; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #3a2f1b; padding: 8px; border: 2px solid #2a1f0b; }
 .palette-color { width: 24px; height: 24px; border: 2px solid #c5a372; margin: 4px; cursor: pointer; border-radius: 50%; }
 .palette-color.yellow { background-color: #f7b731; }
 .palette-color.pink { background-color: #a44242; }
 .palette-color.cyan { border-color: #88d8b0; background: transparent; }
 mark { background: none; }
-mark.highlight-yellow { background-color: rgba(247, 183, 49, 0.2); color: inherit; }
-mark.highlight-pink { background-color: rgba(164, 66, 66, 0.2); color: inherit; }
-mark.highlight-cyan { background-image: linear-gradient(120deg, #88d8b0, #88d8b0); background-repeat: no-repeat; background-size: 100% 0.2em; background-position: 0 88%; color: inherit; }
+mark.highlight-yellow { background-color: rgba(247,183,49,.2); color: inherit; }
+mark.highlight-pink { background-color: rgba(164,66,66,.2); color: inherit; }
+mark.highlight-cyan { background-image: linear-gradient(120deg,#88d8b0,#88d8b0); background-repeat: no-repeat; background-size: 100% .2em; background-position: 0 88%; color: inherit; }
 awtsmoos-note { border-bottom: 2px dotted var(--color-primary); cursor: help; }
-.marginal-sigil { position: absolute; top: 5px; right: 100%; margin-right: 10rem; width: 24px; height: 24px; background-color: transparent; border: none; cursor: help; will-change: transform; transition: transform 0.1s linear; font-family: var(--font-ui); text-align: center; font-size: 14px; line-height: 18px; font-weight: 900; }
+.marginal-sigil { position: absolute; top: 5px; right: 100%; margin-right: 10rem; width: 24px; height: 24px; background-color: transparent; border: none; cursor: help; will-change: transform; transition: transform .1s linear; font-family: var(--font-ui); text-align: center; font-size: 14px; line-height: 18px; font-weight: 900; }
 .marginal-sigil::before { content: '※'; color: var(--color-primary); font-size: 24px; }
 .heb .marginal-sigil { right: auto; left: 100%; margin-left: 10rem; margin-right: 0; }
 .marginal-sigil:hover, awtsmoos-note:hover + .marginal-sigil { transform: scale(1.3) !important; }
 .marginal-sigil:hover::before { color: var(--color-danger); }
-.note-popover { position: absolute; z-index: 12000; width: 250px; background: var(--bg-surface); border: var(--border-ui); box-shadow: var(--shadow-ui); padding: 16px; font-family: var(--font-content); font-size: 16px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
-.post-reader-localized-context.focus-mode-active #scribeLensOverlay { pointer-events: none; position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9999; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, transparent 40%, rgba(0,0,0,0.88) 100%); }
+.note-popover { position: absolute; z-index: 12000; width: 250px; background: var(--bg-surface); border: var(--border-ui); box-shadow: var(--shadow-ui); padding: 16px; font-family: var(--font-content); font-size: 16px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .2s; }
+.post-reader-localized-context.focus-mode-active #scribeLensOverlay { pointer-events: none; position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9999; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, transparent 40%, rgba(0,0,0,.88) 100%); }
 
 @media (max-width: 700px) {
-    .card-menu-spark { top: 0.55rem; right: 0.55rem; }
-    .card-menu-trigger { width: 2.25rem; height: 2.25rem; }
-    .card-menu-panel { right: 0; min-width: min(72vw, 14rem); max-width: 78vw; }
-    .selection-popover { position: fixed; left: 0.75rem !important; right: 0.75rem; bottom: 5.25rem; top: auto !important; justify-content: center; flex-wrap: wrap; }
+    .card-menu-spark { top: .65rem; right: .65rem; }
+    .card-menu-trigger { width: 3rem; height: 3rem; font-size: 1.35rem; }
+    .card-menu-spark.open { position: fixed; inset: auto max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left)); z-index: 2147483000; justify-items: stretch; }
+    .card-menu-spark.open .card-menu-trigger { justify-self: end; margin-bottom: .7rem; }
+    .card-menu-spark.open .card-menu-panel { position: relative; inset: auto; min-width: 0; max-width: none; width: 100%; border-radius: 1.35rem; display: grid; }
+    .card-menu-action { min-height: 3.25rem; font-size: .95rem; }
+    .selection-popover { position: fixed; left: .75rem !important; right: .75rem; bottom: 5.25rem; top: auto !important; justify-content: center; flex-wrap: wrap; }
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.card-wrapper.awtsmoos-card { scroll-margin-block: 1rem; }

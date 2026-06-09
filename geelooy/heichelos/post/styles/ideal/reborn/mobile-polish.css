@@ -1,0 +1,30 @@
+/* B"H
+ * Chapter 279: The single owner of mobile touch polish.
+ * The Awtsmoos gathers broad focus, tap, overscroll, and reduced-motion rules
+ * into one vessel so imported selector ownership remains pure and testable.
+ */
+
+:where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) :where(button, a[href], [role="button"], summary) {
+    -webkit-tap-highlight-color: rgba(246, 201, 108, .22);
+    touch-action: manipulation;
+}
+
+:where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) :where(button, a[href], input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid rgba(34, 211, 238, .72);
+    outline-offset: 3px;
+}
+
+:where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) :where(.scroll-chunk, .section, .sub-awtsmoos, .card-wrapper, .card-menu-panel, .awtsmoos-reader-action-sheet) {
+    overscroll-behavior: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *,
+    :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *::before,
+    :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+    }
+}

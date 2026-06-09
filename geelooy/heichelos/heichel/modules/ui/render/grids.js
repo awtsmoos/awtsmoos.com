@@ -1,13 +1,13 @@
+// B"H
 /**
- * B"H
  * @module GridManifest
  * @description
- * Chapter 2: The Awtsmoos folds the noisy market into one silent dot.
+ * Chapter 269: The card menu becomes a disciplined mobile gate.
  *
- * The grids organize posts and series into clean cards. Post social actions
- * are hidden inside the three-dot menu so the card face remains readable on
- * mobile and desktop. The menu is click-safe: opening the menu does not open
- * the post, and social buttons do not bubble into navigation.
+ * The active Heichel page uses this renderer, not the older logic folder. The
+ * three-dot spark now opens only from its button, closes on outside/Escape, and
+ * never lets menu clicks leak into card navigation. The card face remains calm;
+ * the thunder waits inside the dot.
  */
 
 import { DOMElements } from "../../dom.js";
@@ -17,6 +17,8 @@ import { getItemKey } from "../../state.js";
 import { socialActionBlueprints } from "./social-actions.js";
 import { openRecordVessel } from "../../navigator/content-normalizer.js";
 import { VoidPurifier } from "../../utils/VoidPurifier.js";
+
+let globalMenuClosersInstalled = false;
 
 function clean(value, fallback = "") {
     return VoidPurifier.purify(value) || fallback;
@@ -35,7 +37,20 @@ function emptyBlueprint(type) {
     };
 }
 
+function ensureGlobalMenuClosers() {
+    if (globalMenuClosersInstalled) return;
+    globalMenuClosersInstalled = true;
+    document.addEventListener("pointerdown", event => {
+        if (event.target.closest(".card-menu-spark")) return;
+        closeAllMenus();
+    }, true);
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeAllMenus();
+    }, true);
+}
+
 export function renderContentGrids(content, navigator, appState) {
+    ensureGlobalMenuClosers();
     manifestSpecificGrid(content.posts, DOMElements.postsList, "post", navigator, appState);
     manifestSpecificGrid(content.subSeries, DOMElements.seriesList, "series", navigator, appState);
 }
@@ -86,26 +101,48 @@ function getCardBlueprint(item, type, navigator, appState) {
 function cardMenuBlueprint(id, type, title, navigator, appState, socialItem) {
     const socialActions = type === "post" ? socialActionBlueprints(socialItem, appState) : [];
     const adminAction = appState.ownsIt ? adminMenuAction(id, type, title, navigator, appState) : null;
+    const menuId = `card-menu-panel-${String(id).replace(/[^a-z0-9_-]/gi, "-")}`;
     return {
         tag: "div",
         attr: { class: "card-menu-spark", "data-card-menu": id },
+        events: { click: stopMenuLeak },
         children: [
-            { tag: "button", attr: { type: "button", class: "card-menu-trigger", "aria-label": "Open card menu" }, children: ["⋮"] },
+            {
+                tag: "button",
+                attr: {
+                    type: "button",
+                    class: "card-menu-trigger",
+                    "aria-label": "Open card menu",
+                    "aria-expanded": "false",
+                    "aria-controls": menuId
+                },
+                children: ["⋮"],
+                events: { click: toggleCardMenu }
+            },
             {
                 tag: "div",
-                attr: { class: "card-menu-panel", role: "menu" },
+                attr: { id: menuId, class: "card-menu-panel", role: "menu" },
+                events: { click: stopMenuLeak },
                 children: [adminAction, ...socialActions].filter(Boolean)
             }
-        ],
-        events: {
-            click: event => {
-                event.preventDefault();
-                event.stopPropagation();
-                closeOtherMenus(event.currentTarget);
-                event.currentTarget.classList.toggle("open");
-            }
-        }
+        ]
     };
+}
+
+function toggleCardMenu(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const menu = event.currentTarget.closest(".card-menu-spark");
+    if (!menu) return;
+    const willOpen = !menu.classList.contains("open");
+    closeAllMenus(menu);
+    menu.classList.toggle("open", willOpen);
+    event.currentTarget.setAttribute("aria-expanded", willOpen ? "true" : "false");
+}
+
+function stopMenuLeak(event) {
+    event.preventDefault();
+    event.stopPropagation();
 }
 
 function adminMenuAction(id, type, title, navigator, appState) {
@@ -117,15 +154,18 @@ function adminMenuAction(id, type, title, navigator, appState) {
             click: event => {
                 event.preventDefault();
                 event.stopPropagation();
+                closeAllMenus();
                 showContextMenu(event.target, { id, type, parentId: appState.currentSeries, title }, navigator);
             }
         }
     };
 }
 
-function closeOtherMenus(activeMenu) {
+function closeAllMenus(except = null) {
     document.querySelectorAll(".card-menu-spark.open").forEach(menu => {
-        if (menu !== activeMenu) menu.classList.remove("open");
+        if (menu === except) return;
+        menu.classList.remove("open");
+        menu.querySelector(".card-menu-trigger")?.setAttribute("aria-expanded", "false");
     });
 }
 

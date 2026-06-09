@@ -1,11 +1,10 @@
 /* B"H
- * Chapter 189: The crown stays above the virtual river.
- * The scroll title and chapter gates are fixed real vessels around a RAM-backed
- * virtual body. Active verse/subsection light remains visible, so refresh and
- * inline comment anchors know exactly where the reader stood.
+ * Chapter 257: The letters ride on glass, not on jagged stone.
+ * The reader keeps every awakened chunk, lowers layout violence, and surrounds
+ * Hebrew paragraphs with smooth luminous vessels that scroll without flicker.
  */
 
-.post-reader-localized-context { --post-text-size: 42px; }
+.post-reader-localized-context { --post-text-size: clamp(34px, 9.5vw, 48px); }
 
 .post-reader-localized-context .awtsmoos-post-title-crown {
     width: min(820px, calc(100% - 1.5rem)) !important;
@@ -14,7 +13,7 @@
     border: 1px solid rgba(246,201,108,.34) !important;
     border-radius: clamp(24px, 5vw, 36px) !important;
     background:
-        radial-gradient(circle at 50% 0%, rgba(246,201,108,.16), transparent 16rem),
+        radial-gradient(circle at 50% 0%, rgba(246,201,108,.20), transparent 16rem),
         linear-gradient(180deg, rgba(13,23,42,.94), rgba(3,8,18,.98)) !important;
     box-shadow: 0 24px 70px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.08) !important;
     text-align: center !important;
@@ -32,7 +31,7 @@
     margin: .4rem 0 !important;
     color: #fffdf5 !important;
     font-family: var(--font-content) !important;
-    font-size: clamp(2rem, calc(var(--post-text-size,42px) * .86), 4.8rem) !important;
+    font-size: clamp(2rem, calc(var(--post-text-size) * .86), 4.8rem) !important;
     line-height: 1.18 !important;
     font-weight: 850 !important;
     text-shadow: 0 14px 36px rgba(0,0,0,.5) !important;
@@ -52,55 +51,58 @@
 
 .post-reader-localized-context .scroll-chunk {
     display: block !important;
-    min-height: 840px;
+    min-height: 720px;
     height: auto !important;
     overflow: visible !important;
-    contain: layout style paint !important;
+    contain: layout style !important;
     content-visibility: visible !important;
-}
-
-.post-reader-localized-context .scroll-chunk[data-awtsmoos-virtual-chunk="sleeping"] {
-    border: 0 !important;
-    opacity: .98 !important;
 }
 
 .post-reader-localized-context .section {
     position: relative !important;
     margin: clamp(1rem, 3.8vw, 2rem) auto !important;
     padding: clamp(1rem, 4.5vw, 2.25rem) !important;
-    border: 1px solid rgba(255, 255, 255, .12) !important;
+    border: 1px solid rgba(255,255,255,.13) !important;
     border-radius: clamp(22px, 5vw, 34px) !important;
-    background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.055)), rgba(17,24,39,.76) !important;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, .35) !important;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(34,211,238,.055), transparent 18rem),
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.055)),
+        rgba(17,24,39,.76) !important;
+    box-shadow: 0 24px 64px rgba(0,0,0,.35) !important;
     overflow: hidden !important;
     scroll-margin-top: calc(var(--awt-header-space) + 12px) !important;
+    transform: translateZ(0) !important;
+    transition: border-color .22s ease, box-shadow .22s ease, background .22s ease !important;
 }
 
 .post-reader-localized-context .section.active,
 .post-reader-localized-context .section.active-reading-section,
+.post-reader-localized-context .section.awtsmoos-current-section,
 .post-reader-localized-context .section.awtsmoos-current-reading-section,
 .post-reader-localized-context .awtsmoos-refresh-target {
-    border-color: rgba(246, 201, 108, .78) !important;
+    border-color: rgba(246,201,108,.78) !important;
     background:
-        radial-gradient(circle at 50% 0%, rgba(246,201,108,.13), transparent 18rem),
+        radial-gradient(circle at 50% 0%, rgba(246,201,108,.14), transparent 18rem),
         linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06)),
         rgba(17,24,39,.82) !important;
-    box-shadow: 0 26px 78px rgba(244, 197, 107, .18), 0 0 0 2px rgba(244, 197, 107, .16) !important;
+    box-shadow: 0 26px 78px rgba(244,197,107,.18), 0 0 0 2px rgba(244,197,107,.16) !important;
 }
 
 .post-reader-localized-context .sub-awtsmoos {
     display: block !important;
     margin: clamp(.85rem, 3.2vw, 1.5rem) 0 !important;
     padding: clamp(1rem, 4.2vw, 1.9rem) !important;
-    border: 1px solid rgba(255, 255, 255, .11) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
     border-radius: clamp(18px, 4.3vw, 28px) !important;
-    background: rgba(255, 255, 255, .07) !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10) !important;
+    background: rgba(255,255,255,.07) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10) !important;
+    transform: translateZ(0) !important;
 }
 
 .post-reader-localized-context .sub-awtsmoos.active-reading-sub,
+.post-reader-localized-context .sub-awtsmoos.awtsmoos-current-subsection,
 .post-reader-localized-context .sub-awtsmoos.awtsmoos-current-reading-sub {
-    border-color: rgba(34, 211, 238, .52) !important;
+    border-color: rgba(34,211,238,.52) !important;
     background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem), rgba(255,255,255,.09) !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 2px rgba(34,211,238,.12), 0 18px 44px rgba(34,211,238,.10) !important;
 }
@@ -119,14 +121,14 @@
 .post-reader-localized-context .section.heb > .toichen > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell),
 .post-reader-localized-context .section.heb > .sub-awtsmoos.heb,
 .post-reader-localized-context .section.heb > .sub-awtsmoos.heb > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
-    font-size: var(--post-text-size, 42px) !important;
+    font-size: var(--post-text-size) !important;
     line-height: 1.42 !important;
 }
 
 .post-reader-localized-context .section:not(.heb) > .toichen,
 .post-reader-localized-context .section:not(.heb) > .sub-awtsmoos,
 .post-reader-localized-context .section:not(.heb) > .sub-awtsmoos > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
-    font-size: var(--post-text-size, 42px) !important;
+    font-size: var(--post-text-size) !important;
     line-height: 1.55 !important;
 }
 
@@ -206,3 +208,13 @@
     padding: 1.25rem !important;
     text-align: center !important;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .post-reader-localized-context .section { transition: none !important; }
+}
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .scroll-chunk { scroll-margin-top: calc(var(--awt-header-space) + 12px); }

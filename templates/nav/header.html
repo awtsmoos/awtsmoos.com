@@ -1,6 +1,8 @@
 <!--B"H
-header
-
+Chapter 282: The global roof receives a real gate.
+The Awtsmoos turns the three bars from a fragile div into a button with ARIA,
+keyboard behavior, and clean markup. The sidebar no longer depends on a global
+`menuButton` variable being magically born.
 -->
 
 <!--
@@ -11,91 +13,110 @@ header
 <link type="text/css" rel="stylesheet" href="/style/awtsmoos/social/profileStyles.css">
 -->
 <link rel="stylesheet" href="/style/home/main.css" type="text/css">
+
 <header class="awtsmoosificationalisticaticalism">
     <title>Awtsmoos | עצמות</title>
 
     <div class="BH">
-      <div class="lg">B"H</div>
-       <script awts>
-        if(location.pathname != "/") {
-          return /*html*/`
-            <a class="home icon" href="/">🏠</a>
-          `
-        }
-      </script>?>
-      
+        <div class="lg">B"H</div>
+        <script awts>
+            if (location.pathname != "/") {
+                return /*html*/`
+                    <a class="home icon" href="/" aria-label="Home">🏠</a>
+                `;
+            }
+        </script>?>
     </div>
+
     <div class="header-buttons">
-      
-      <div id="menuButton" class="menuBtn btn">
+        <button
+            id="menuButton"
+            class="menuBtn btn"
+            type="button"
+            aria-label="Open Awtsmoos menu"
+            aria-controls="awtsmoosGlobalSidebar"
+            aria-expanded="false">
+            <script awts>
+                return /*svg*/`
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="32" height="32" viewBox="0 0 32 32"
+                        fill="none" aria-hidden="true" focusable="false">
+                        ${Array(3)
+                            .fill()
+                            .map((_, i) => /*svg*/`<path d="M4 ${8 + i * 8}H28" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`)
+                            .join('')}
+                        <rect class="menuBtnRect" x="0" y="0" width="32" height="32" fill="transparent"/>
+                    </svg>`;
+            </script>?>
+        </button>
 
+        <script>
+            //B"H
+            (() => {
+                const bindGlobalMenu = () => {
+                    const button = document.getElementById("menuButton");
+                    const sidebar = document.getElementById("awtsmoosGlobalSidebar");
+                    if (!button || !sidebar || button.dataset.awtsmoosBound === "true") return;
+                    button.dataset.awtsmoosBound = "true";
 
-      <script awts>
-        return /*svg*/`
-        <svg xmlns="http://www.w3.org/2000/svg"
-         width="32" height="20" viewBox="0 0 32 32" 
-         fill="none">
-         ${Array(3)
-          .fill()
-          .map((_, i) => 
-            /*svg*/`<path d="M4 ${
-              8 + i * 8
-            }H28" stroke="white" stroke-width="4" 
-            stroke-linecap="round" stroke-linejoin="round"/>
-          `)
-          .join('')}
-          <rect class="menuBtnRect" x="0" y="0" width="100%" height="100%"/></svg>`;
+                    const setOpen = open => {
+                        sidebar.classList.toggle("offscreen", !open);
+                        button.setAttribute("aria-expanded", open ? "true" : "false");
+                        button.setAttribute("aria-label", open ? "Close Awtsmoos menu" : "Open Awtsmoos menu");
+                    };
 
-      </script>?>
-              
-      </div>
-      <script>
-          //B"H
-          console.log("B\"H",
-          "\n",
-          "Welcome to the Awtsmoos.com");
+                    button.addEventListener("click", event => {
+                        event.preventDefault();
+                        setOpen(sidebar.classList.contains("offscreen"));
+                    });
 
-          menuButton.onclick = () => {
-            var q = document.querySelector(".sidebarMitzvah");
-            if(!q) return;
-            q.classList.toggle("offscreen")
-          }
-      </script>
-      
-      <?<script>
-        
-        var t = await getT("profileLink.html");
-        return t;
-      </script>?>
-      <!--<div class="forge icon">
-        <div class="forge-logo">
-          <div class="swirl">🌀</div>
-          <div class="symbol hammer">🔨</div>
-          <div class="symbol lightning">⚡</div>
-          <div class="symbol spark s4">✨</div>
-        </div>
-      </div>
+                    document.addEventListener("keydown", event => {
+                        if (event.key === "Escape") setOpen(false);
+                    });
 
-      -->
-     
+                    document.addEventListener("pointerdown", event => {
+                        if (sidebar.classList.contains("offscreen")) return;
+                        if (sidebar.contains(event.target) || button.contains(event.target)) return;
+                        setOpen(false);
+                    }, true);
+                };
+
+                if (document.readyState === "loading") {
+                    document.addEventListener("DOMContentLoaded", bindGlobalMenu, { once: true });
+                } else {
+                    bindGlobalMenu();
+                }
+            })();
+        </script>
+
+        <?<script>
+            var t = await getT("profileLink.html");
+            return t;
+        </script>?>
+        <!--<div class="forge icon">
+            <div class="forge-logo">
+                <div class="swirl">🌀</div>
+                <div class="symbol hammer">🔨</div>
+                <div class="symbol lightning">⚡</div>
+                <div class="symbol spark s4">✨</div>
+            </div>
+        </div>-->
     </div>
-    
 </header>
-<div class="sidebarMitzvah offscreen">
-   <a href="/email"></span>Awtsmoos Email 📧<span id="awtsmoos-unread-emails"></a>
+
+<nav id="awtsmoosGlobalSidebar" class="sidebarMitzvah offscreen" aria-label="Awtsmoos global menu">
+    <a href="/email">Awtsmoos Email 📧 <span id="awtsmoos-unread-emails"></span></a>
     <a href="/apps">Awtsmoos Apps</a>
-  <a href="/heichelos/ikar?view=posts">Sefarim</a>
-  <a href="LIKTEUI SICHOS AI">Likkutei Sichos AI</a>
-  <a href="/games">Games</a>
-</div>
+    <a href="/heichelos/ikar?view=posts">Sefarim</a>
+    <a href="/likkutei-sichos-ai">Likkutei Sichos AI</a>
+    <a href="/games">Games</a>
+</nav>
+
 <script>
-async function setUnread() {
-	var aw=  document.getElementById("awtsmoos-unread-emails");
-	if(!aw) return;
-	
-}
-if(window.curAlias) setUnread();
-else {
-	addEventListener("awtsmoosAliasChange", setUnread);
-}
+    async function setUnread() {
+        var aw = document.getElementById("awtsmoos-unread-emails");
+        if (!aw) return;
+    }
+    if (window.curAlias) setUnread();
+    else addEventListener("awtsmoosAliasChange", setUnread);
 </script>

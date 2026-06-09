@@ -1,7 +1,8 @@
 /* B"H
- * Chapter 192: The river button now has three faces.
- * Scroll invites the descent, Stop ends the covenant, and Paused appears while
- * the reader's finger holds the page. The control never fights the hand.
+ * Chapter 258: The reader controls become soft engines.
+ * The Awtsmoos gives the A/I buttons, auto-scroll orb, and comment actions
+ * touch-safe geometry, luminous gradients, and motion that does not fight the
+ * hand of the reader.
  */
 
 .post-reader-localized-context .awtsmoos-floating-controls {
@@ -19,22 +20,29 @@
     pointer-events: auto !important;
     display: inline-grid !important;
     place-items: center !important;
-    border: 1px solid rgba(255, 255, 255, .20) !important;
-    box-shadow: 0 16px 38px rgba(0, 0, 0, .36) !important;
-    backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255,255,255,.20) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.18) !important;
+    backdrop-filter: blur(14px) saturate(130%) !important;
     font-family: var(--font-ui) !important;
     font-weight: 950 !important;
     line-height: 1 !important;
     touch-action: manipulation !important;
+    transition: transform .18s ease, filter .18s ease, background .18s ease, opacity .18s ease !important;
 }
 
 .post-reader-localized-context .awtsmoos-floating-controls button {
     width: 54px !important;
     height: 54px !important;
     border-radius: 16px !important;
-    background: rgba(255, 255, 255, .94) !important;
+    background: rgba(255,255,255,.94) !important;
     color: #111827 !important;
     font-size: 1.45rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button:hover,
+.post-reader-localized-context .awtsmoos-auto-scroll-floating:hover {
+    transform: translateY(-2px) scale(1.03) !important;
+    filter: saturate(1.08) brightness(1.04) !important;
 }
 
 .post-reader-localized-context .awtsmoos-floating-controls button.pushed {
@@ -47,23 +55,22 @@
     z-index: var(--z-controls) !important;
     right: max(16px, env(safe-area-inset-right, 0px)) !important;
     bottom: calc(var(--awt-safe-bottom) + 14px) !important;
-    width: 74px !important;
-    min-height: 74px !important;
+    width: 78px !important;
+    min-height: 78px !important;
     border-radius: 999px !important;
     padding: 8px !important;
-    background: radial-gradient(circle at 35% 20%, #34d399, #047857 74%) !important;
+    background: radial-gradient(circle at 35% 20%, #5eead4, #10b981 46%, #047857 74%) !important;
     color: white !important;
     text-align: center !important;
-    transition: transform .18s ease, filter .18s ease, background .18s ease !important;
 }
 
 .post-reader-localized-context .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-on {
-    background: radial-gradient(circle at 35% 20%, #fca5a5, #dc2626 74%) !important;
+    background: radial-gradient(circle at 35% 20%, #fca5a5, #ef4444 46%, #b91c1c 74%) !important;
     transform: scale(1.04) !important;
 }
 
 .post-reader-localized-context .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-is-paused {
-    background: radial-gradient(circle at 35% 20%, #fde68a, #b45309 74%) !important;
+    background: radial-gradient(circle at 35% 20%, #fde68a, #f59e0b 48%, #92400e 74%) !important;
     filter: saturate(1.12) !important;
 }
 
@@ -72,27 +79,9 @@
     pointer-events: none !important;
 }
 
-.post-reader-localized-context .awtsmoos-auto-scroll-icon {
-    display: block !important;
-    font-size: 1.18rem !important;
-    line-height: 1 !important;
-}
-
-.post-reader-localized-context .awtsmoos-auto-scroll-label {
-    display: block !important;
-    margin-top: 3px !important;
-    font-size: .66rem !important;
-    line-height: 1 !important;
-}
-
-.post-reader-localized-context .awtsmoos-auto-scroll-speed {
-    display: block !important;
-    margin-top: 3px !important;
-    font-size: .66rem !important;
-    line-height: 1 !important;
-    opacity: .95 !important;
-}
-
+.post-reader-localized-context .awtsmoos-auto-scroll-icon { display: block !important; font-size: 1.22rem !important; line-height: 1 !important; }
+.post-reader-localized-context .awtsmoos-auto-scroll-label { display: block !important; margin-top: 3px !important; font-size: .68rem !important; line-height: 1 !important; }
+.post-reader-localized-context .awtsmoos-auto-scroll-speed { display: block !important; margin-top: 3px !important; font-size: .68rem !important; line-height: 1 !important; opacity: .95 !important; }
 .post-reader-localized-context .hidden-details { display: none !important; }
 
 .post-reader-localized-context .awtsmoos-comment-entry-monolith,
@@ -133,3 +122,14 @@
         flex-direction: column !important;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .post-reader-localized-context .awtsmoos-floating-controls button,
+    .post-reader-localized-context .awtsmoos-auto-scroll-floating { transition: none !important; }
+}
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-auto-scroll-floating { min-width: 68px; }

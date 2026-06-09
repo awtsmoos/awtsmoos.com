@@ -7,3 +7,9 @@
 @import url("./inline-comments/frame.css");
 @import url("./inline-comments/gateway.css");
 @import url("./inline-comments/card.css");
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-inline-shell { scroll-margin-top: calc(var(--awt-header-space) + 12px); }

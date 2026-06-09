@@ -257,3 +257,9 @@
     .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-entry-monolith .awtsmoos-comment-scope-hint:not(.awtsmoos-composer-unowned) { grid-column: 1 / -1 !important; }
     .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-actions-bar .btn:not(.awtsmoos-composer-unowned) { flex: 1 1 130px !important; }
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-writing-surface { min-height: 8rem; }

@@ -1,146 +1,131 @@
-/**B"H*/
+/** B"H
+ * Chapter 253: The page breathes instead of trapping the reader.
+ * The old home shell set `overflow:hidden` on html/body, which made mobile
+ * Heichel pages feel locked inside a glass coffin. The Awtsmoos opens vertical
+ * motion, preserves the main scroll vessel, and paints a calmer luminous floor.
+ */
 
-html,body {
+html,
+body {
     margin: 0;
-    /* margin-top: 25px; */
-    height: 100%;
-    overflow: hidden;
+    min-height: 100%;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     font-family: Arial, sans-serif;
-  }
-  
- 
-  
-element.style {
-}
-.logo {
-  font-size: 36px;
-  font-weight: bold;
-  /* color: #333; */
-  width: 80%;
-  display: flex
-;
-  height: calc(100vh - 100px);
-  top: 0;
-  margin: 0;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  /* margin: 26px; */
-  text-align: center;
-  z-index: -123132;
-  position: absolute;
-  padding: 20px 0;
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    background: #f6f0e6;
 }
 
-.logo img {
-  height: 100%;
-    
+body { overscroll-behavior-y: contain; }
+
+.logo {
+    position: absolute;
+    inset-block-start: 0;
+    z-index: -1;
+    width: 80%;
+    height: calc(100vh - 100px);
+    margin: 0;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 5px;
+    background: radial-gradient(circle at 50% 20%, #ffffff, #e9eef9);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
 }
+
+.logo img { height: 100%; }
 
 .about {
-  padding: 5px;
-  box-shadow: inset -1px 4px 20px 20px azure, 0px 0px 13px 3px black;
+    padding: 5px;
+    box-shadow: inset -1px 4px 20px 20px azure, 0 0 13px 3px black;
 }
 
-  
-  
-
-  .all.awtsmoospage {
-      
-    display:flex;
-    flex-direction: column;
-      height:100vh;
-  }
-
-  .all.awtsmoospage > .main {
+.all.awtsmoospage {
+    min-height: 100dvh;
     display: flex;
-    flex-grow:1;
+    flex-direction: column;
+}
+
+.all.awtsmoospage > .main {
+    min-height: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
     overflow-y: auto;
-    flex-direction: column;
-  }
-
-.all.awtsmoospage > .main.centered.y {
-    
-    justify-content: center;
+    -webkit-overflow-scrolling: touch;
 }
 
-  .all.awtsmoospage > .main.centered {
-    padding:26px;
-    align-items:center;
-  }
-  
-
-  .awtsmoospage > footer {
-    background-color: #f1f1f1;
-    padding: 10px 20px;
-    height: 60px; /* Set a fixed height for the footer */
-    margin-top: auto; /* Push the footer to the bottom */
-    display: flex;
-    justify-content: center;
+.all.awtsmoospage > .main.centered {
+    padding: clamp(1rem, 4vw, 26px);
     align-items: center;
 }
 
+.all.awtsmoospage > .main.centered.y { justify-content: center; }
+
+.awtsmoospage > footer {
+    height: 60px;
+    margin-top: auto;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f1f1;
+}
+
 .awtsmoospage > footer a {
-    text-decoration: none;
-    color: #4285f4;
     margin: 0 10px;
+    color: #4285f4;
+    text-decoration: none;
 }
 
-.awtsmoospage > #menu-button {
-  height:20px;
-}
-
-.awtsmoospage > footer a:hover {
-    text-decoration: underline;
-}
+.awtsmoospage > footer a:hover { text-decoration: underline; }
+.awtsmoospage > #menu-button { height: 20px; }
 
 .awtsmoospage > .about.list {
-  display: flex;
-  flex-flow: column;
-  gap: 20px;
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
 }
 
 .awtsmoospage > .about {
-    text-align: center; /* Center align the text */
-    margin-top: 20px; /* Add some space between the logo and the description */
-    font-size: 16px; /* Set the font size for the description */
-    color: #666; /* Set the text color */
+    margin-top: 20px;
+    color: #666;
+    font-size: 16px;
+    text-align: center;
 }
 
 .awtsmoospage > .about a {
-    color: #4285f4; /* Set the link color */
-    text-decoration: none; /* Remove underline from the link */
+    color: #4285f4;
+    text-decoration: none;
 }
 
-.awtsmoospage > .about a:hover {
-    text-decoration: underline; /* Underline the link on hover */
-}
-  @media screen and (max-width: 600px) {
+.awtsmoospage > .about a:hover { text-decoration: underline; }
 
-    #menu-button {
-      display: block; /* Show the menu button on small screens */
-    }
-  }
-  
-  
 .awtsmoospage p {
-    white-space:pre-wrap;
-    font-size: 18px; /* Set a comfortable font size for reading */
-    /* line-height: 1.6; */ /* Increase line height for better readability */
-    /* color: #333; */ /* Set a dark text color */
-    /* margin-bottom: 20px; */ /* Add some space between paragraphs */
+    white-space: pre-wrap;
+    font-size: 18px;
 }
 
-.awtsmoospage p:first-child {
-    margin-top: 0; /* Remove top margin for the first paragraph */
-}
+.awtsmoospage p:first-child { margin-top: 0; }
+.awtsmoospage p:last-child { margin-bottom: 0; }
 
-.awtsmoospage p:last-child {
-    margin-bottom: 0; /* Remove bottom margin for the last paragraph */
-    /* overflow-y: scroll; */
+@media screen and (max-width: 600px) {
+    #menu-button { display: block; }
+    .all.awtsmoospage > .main.centered { padding: 1rem; }
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.all.awtsmoospage > .main { overscroll-behavior-y: contain; }

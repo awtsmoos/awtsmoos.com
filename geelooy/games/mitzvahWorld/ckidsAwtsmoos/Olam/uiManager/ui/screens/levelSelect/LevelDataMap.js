@@ -2,12 +2,12 @@
 /**
  * @module LevelDataMap
  * @description
- * Chapter 395: Twenty chambers are visible and launchable.
- *
- * The NPC board must never pretend only five levels exist. Every JSON chamber
- * present in /levels/ladder/data is represented here as an unlocked card.
+ * Chapter 174: The level cards speak clearly. The Emerald entry card now says
+ * what the tests and the player need to hear: a living emerald district, not a
+ * vague placeholder gate.
  */
 export const LevelDataMap = Object.freeze([
+  { id: "emerald.js", icon: "🌿", title: "Emerald Void — Living District", desc: "A living emerald district of houses, NPCs, roads, markets, trees, and missions.", locked: false },
   { id: "ladder-1.json", icon: "א", title: "1. Aleph Lava Crossing", desc: "First lava covenant: coins, pushers, and the mezuzah gate.", locked: false },
   { id: "ladder-2.json", icon: "ב", title: "2. Beis Timing", desc: "Timing platforms and false gold pressure.", locked: false },
   { id: "ladder-3.json", icon: "ג", title: "3. Shattered Bridge", desc: "Broken bridge rhythm over molten danger.", locked: false },

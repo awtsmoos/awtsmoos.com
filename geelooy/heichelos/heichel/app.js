@@ -1,39 +1,56 @@
-
+// B"H
 /**
- * B"H
  * @module HeichelApp
  * @description
- * The single spark that initiates the creation of the Great Library.
- * It coordinates the manifestation of the UI from JSON and the 
- * awakening of the Navigator.
+ * Chapter 284: The entry spark fires once.
+ *
+ * The Heichel page may be visited through real browsers, synthetic runtimes,
+ * cached modules, and impatient refreshes. This entry point now binds exactly
+ * once, avoids duplicate worlds, and leaves a readable boot state for tests.
  */
 
 import { HeichelNavigator } from './modules/navigator.js';
 import { initializeEventListeners } from './modules/events.js';
 import { manifestWorld } from './modules/ui.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    try {
-        console.log("B\"H - Commencing Creation Ritual...");
+const BOOT_KEY = '__awtsmoosHeichelBoot';
 
-        const heichelId = window.location.pathname.split('/')[2];
-        if (!heichelId) {
-            throw new Error('Heichel ID missing from the URL.');
-        }
+function readHeichelId() {
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    return segments[1] || null;
+}
 
-        const navigator = new HeichelNavigator(heichelId);
+function fatal(error) {
+    console.error('B"H - Fatal failure in the Great Manifestation:', error);
+    document.body.innerHTML = `<h1 class="void-error">VOID ERROR: ${error.message}</h1>`;
+}
 
-        // 1. Manifest the entire UI from JSON blueprints
-        manifestWorld(navigator, document.body);
-
-        // 2. Awake the Navigator's logic
-        navigator.initialize().then(() => {
+async function boot() {
+    if (window[BOOT_KEY]?.started) return window[BOOT_KEY].promise;
+    const state = { started: true, ready: false, error: null, promise: null };
+    window[BOOT_KEY] = state;
+    state.promise = (async () => {
+        try {
+            console.log('B"H - Commencing Creation Ritual...');
+            const heichelId = readHeichelId();
+            if (!heichelId) throw new Error('Heichel ID missing from the URL.');
+            const navigator = new HeichelNavigator(heichelId);
+            window.__awtsmoosHeichelNavigator = navigator;
+            manifestWorld(navigator, document.body);
+            await navigator.initialize();
             initializeEventListeners(navigator);
-            console.log("B\"H - The Library consciousness is fully manifest.");
-        });
+            state.ready = true;
+            console.log('B"H - The Library consciousness is fully manifest.');
+        } catch (error) {
+            state.error = error;
+            fatal(error);
+        }
+    })();
+    return state.promise;
+}
 
-    } catch (error) {
-        console.error("B\"H - Fatal failure in the Great Manifestation:", error);
-        document.body.innerHTML = `<h1 style='color:red; text-align:center;'>VOID ERROR: ${error.message}</h1>`;
-    }
-});
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+} else {
+    boot();
+}

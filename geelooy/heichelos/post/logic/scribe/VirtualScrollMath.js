@@ -2,17 +2,39 @@
 /**
  * @module VirtualScrollMath
  * @description
- * Chapter 233: The verse gates remember their neighbors.
- * One chunk is one verse. The current gate and one gate above/below remain
- * ready, while all farther gates go back to placeholder height.
+ * Chapter 262: The math no longer speaks of pruning.
+ *
+ * These helpers describe additive scroll windows. Legacy callers may still ask
+ * which chunks are outside a radius, but the answer is intentionally empty.
+ * The Awtsmoos only adds in this reading session; it does not recommend
+ * removal.
  */
 
-export function chunkWindow(chunkId, totalChunks) {
-    return [chunkId - 1, chunkId, chunkId + 1].filter(id => Number.isInteger(id) && id >= 0 && id < totalChunks);
+export function chunkWindow(chunkId, totalChunks, radius = 1) {
+    const center = Number.isInteger(chunkId) ? chunkId : 0;
+    const total = Number.isInteger(totalChunks) ? totalChunks : 0;
+    const span = Math.max(0, Number.isInteger(radius) ? radius : 1);
+    const ids = [];
+    for (let id = center - span; id <= center + span; id++) {
+        if (id >= 0 && id < total) ids.push(id);
+    }
+    return ids;
 }
 
-export function chunksToPrune(rendered, center, radius = 1) {
-    return [...rendered].filter(id => Number.isInteger(id) && Math.abs(id - center) > radius);
+export function additiveAheadWindow(center, totalChunks, direction = 1, steps = 5) {
+    const normalized = direction >= 0 ? 1 : -1;
+    const total = Number.isInteger(totalChunks) ? totalChunks : 0;
+    const ids = [];
+    for (let step = 1; step <= steps; step++) {
+        const id = center + step * normalized;
+        if (id < 0 || id >= total) break;
+        ids.push(id);
+    }
+    return ids;
+}
+
+export function chunksToPrune() {
+    return [];
 }
 
 export function parseScrollTarget(query) {

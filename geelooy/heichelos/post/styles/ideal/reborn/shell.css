@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 79: No sideways river remains.
- * The Awtsmoos opens the vertical scroll and seals every horizontal crack.
- * The hand moves only upward and downward; no hidden width exiles the page.
+ * Chapter 256: The reader body glides like a night river.
+ * The Awtsmoos removes scroll traps, keeps only vertical motion, and gives the
+ * page a GPU-friendly shell where fixed controls and sticky crowns do not tear.
  */
 
 html,
@@ -14,13 +14,15 @@ body {
     overflow-y: auto !important;
     touch-action: pan-y !important;
     background: var(--awt-bg) !important;
+    scroll-behavior: smooth !important;
+    -webkit-font-smoothing: antialiased !important;
 }
 
 body {
     margin: 0 !important;
     color: var(--awt-text) !important;
     font-family: var(--font-ui) !important;
-    overscroll-behavior-y: auto !important;
+    overscroll-behavior-y: contain !important;
 }
 
 body.awtsmoos-reader-scroll-repaired,
@@ -43,7 +45,8 @@ html.awtsmoos-reader-scroll-repaired {
     isolation: isolate !important;
     touch-action: pan-y !important;
     background:
-        radial-gradient(circle at 78% 0%, rgba(244, 197, 107, .12), transparent 24rem),
+        radial-gradient(circle at 78% 0%, rgba(244,197,107,.16), transparent 25rem),
+        radial-gradient(circle at 8% 12%, rgba(57,215,238,.10), transparent 22rem),
         linear-gradient(180deg, #060a12, #0b1020 38%, #050810) !important;
 }
 
@@ -53,6 +56,7 @@ html.awtsmoos-reader-scroll-repaired {
     z-index: var(--z-header) !important;
     min-height: var(--awt-header-space) !important;
     overflow: clip !important;
+    backdrop-filter: blur(14px) saturate(125%) !important;
 }
 
 .post-reader-localized-context > .main {
@@ -81,6 +85,7 @@ html.awtsmoos-reader-scroll-repaired {
     overflow-y: visible !important;
     padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
     touch-action: pan-y !important;
+    transform: translateZ(0) !important;
 }
 
 .post-reader-localized-context #realPost.content {
@@ -95,7 +100,16 @@ html.awtsmoos-reader-scroll-repaired {
 }
 
 @media (min-width: 901px) {
-    .post-reader-localized-context .scroll-view-wrapper {
-        padding-inline: clamp(2rem, 7vw, 8rem) !important;
-    }
+    .post-reader-localized-context .scroll-view-wrapper { padding-inline: clamp(2rem, 7vw, 8rem) !important; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    html,
+    body { scroll-behavior: auto !important; }
+}
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .scroll-view-wrapper { overscroll-behavior-y: contain; }

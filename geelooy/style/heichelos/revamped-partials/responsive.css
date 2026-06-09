@@ -20,3 +20,9 @@
     .grid-container { gap: 1.5rem; }
     .sidebar-toggle { display: none; }
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.heichel-page-container .main-content-wrapper { min-width: 0; }

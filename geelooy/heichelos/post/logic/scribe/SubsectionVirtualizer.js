@@ -2,19 +2,12 @@
 /**
  * @module SubsectionVirtualizer
  * @description
- * The inner verse is no longer virtualized.
+ * Chapter 261: The inner palace becomes append-only too.
  *
- * Chapter 246: The reader must never feel the gears.
- * A single verse may contain many baby subsections. Earlier versions tried to
- * stream those baby chambers one by one, but that made ownership flicker near
- * boundaries and made auto-scroll feel like a visible machine. The correct law
- * is simpler and truer: when a verse appears, every subsection of that verse is
- * physically present. Only verses themselves are streamed.
- *
- * This preserves real scroll physics. No fake height. No hidden subsection
- * gaps. No deleting read content. No subsection handoff battles. The Awtsmoos
- * creates the whole inner palace at once, then the outer river may bring the
- * next palace when the reader nears its gate.
+ * A verse may contain many subsections, but once the wrapper is born, its
+ * children are appended and left alone. No replacement sweep. No clearing the
+ * room before filling it. The reader never sees the gears, because the gears do
+ * not erase anything already present.
  */
 
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
@@ -48,19 +41,24 @@ function makeAwake(entry, sectionIndex) {
     el.dataset.awtsmoosIdx = String(sectionIndex);
     el.dataset.awtsmoosSub = String(entry.index);
     el.dataset.awtsmoosSubstate = "awake";
+    el.dataset.awtsmoosAppendOnly = "true";
     appendHTML(sanitizeContent(entry.text), el);
     if (window.registerObservable) window.registerObservable(el);
     return el;
 }
 
-function renderAll(state) {
-    const fragment = document.createDocumentFragment();
-    state.entries.forEach(entry => fragment.appendChild(makeAwake(entry, state.sectionIndex)));
-    state.wrapper.replaceChildren(fragment);
+function appendMissingSubsections(state) {
+    const present = new Set([...state.wrapper.querySelectorAll(".sub-awtsmoos[data-awtsmoos-sub]")]
+        .map(node => String(node.dataset.awtsmoosSub)));
+    state.entries.forEach(entry => {
+        if (present.has(String(entry.index))) return;
+        state.wrapper.appendChild(makeAwake(entry, state.sectionIndex));
+    });
     state.first = 0;
     state.last = Math.max(0, state.entries.length - 1);
     state.wrapper.dataset.virtualWindow = `0-${state.last}`;
     state.wrapper.dataset.virtualAwakeCount = String(state.entries.length);
+    state.wrapper.dataset.awtsmoosAppendOnly = "true";
     updateDebugPanel();
     scheduleInlineRefresh();
 }
@@ -93,11 +91,12 @@ function updateDebugPanel() {
     }
     const stat = [...REGISTRY.values()].map(s => `${s.sectionIndex}:all/${s.entries.length}`).join(" · ");
     const awake = document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").length;
-    debugNode.textContent = `B\"H verse-level stream; awake subs ${awake}; ${stat}`;
+    debugNode.textContent = `B\"H append-only subsections; awake ${awake}; ${stat}`;
 }
 
 /**
- * Creates a real-height subsection body. Every subsection is present.
+ * Creates a real-height subsection body. Every subsection is present and
+ * append-only inside its verse.
  * @param {Array<string>} texts Subsection HTML/text payloads.
  * @param {number|string} sectionIndex Verse index.
  * @param {number|string|null} targetSub Optional target subsection coordinate.
@@ -108,6 +107,7 @@ export function makeVirtualSubsectionWindow(texts, sectionIndex, targetSub = nul
     wrapper.className = "awtsmoos-subsection-wrap awtsmoos-subsection-window toichen";
     wrapper.dataset.awtsmoosIdx = String(sectionIndex);
     wrapper.dataset.virtualSubsections = "all-subsections-real-height";
+    wrapper.dataset.awtsmoosAppendOnly = "true";
 
     const entries = texts.map((text, index) => ({ index, text })).filter(entry => String(entry.text || "").trim());
     const state = {
@@ -119,7 +119,7 @@ export function makeVirtualSubsectionWindow(texts, sectionIndex, targetSub = nul
         target: targetSub === null || targetSub === undefined ? 0 : asNum(targetSub, 0)
     };
     REGISTRY.set(String(sectionIndex), state);
-    renderAll(state);
+    appendMissingSubsections(state);
     return wrapper;
 }
 
@@ -159,5 +159,5 @@ window.__awtsmoosSubsectionVirtualStats = () => [...REGISTRY.values()].map(state
     first: state.first,
     last: state.last,
     awake: state.entries.length,
-    mode: "all-subsections-real-height"
+    mode: "append-only-all-subsections-real-height"
 }));

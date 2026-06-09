@@ -1,206 +1,206 @@
-/**B"H**/
+/** B"H
+ * Chapter 254: The roof no longer hides its own gate.
+ * The Awtsmoos gives the global header a real touch target, luminous motion,
+ * and a sidebar that slides like a revealed chamber instead of disappearing.
+ */
 
 body {
     margin: 0;
-    /* height: 100vh; */
-    /* display: flex; */
-    /* flex-direction: column; */
     font-family: Arial, sans-serif;
-  }
-  
-  header.awtsmoosificationalisticaticalism {
-    color: black;
-    z-index: 218937123871283618273198273123;
-    background: #a3cbff/*linear-gradient(180deg, #a3cbff, #5599ff)*/;
-    padding: 10px 20px;
-    box-shadow: 0px 1px 4px 0px black;
-    height: 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
-header.awtsmoosificationalisticaticalism   .header-buttons {
+header.awtsmoosificationalisticaticalism {
+    position: sticky;
+    top: 0;
+    z-index: 2147482000;
+    min-height: 45px;
+    height: 45px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #07111f;
+    background: linear-gradient(180deg, rgba(167, 210, 255, .98), rgba(128, 190, 255, .96));
+    box-shadow: 0 2px 12px rgba(0,0,0,.24), inset 0 -1px 0 rgba(255,255,255,.45);
+    backdrop-filter: blur(12px);
+}
+
+header.awtsmoosificationalisticaticalism .header-buttons {
     display: flex;
     flex-direction: row-reverse;
-    align-content: center;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
 }
 
 header.awtsmoosificationalisticaticalism .BH {
-    display: flex
-;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 header.awtsmoosificationalisticaticalism .BH .lg {
     display: inline-block;
-    font-size: 0.7em;
-  
-    margin-left: -17px;
+    margin-left: -12px;
+    font-size: .74rem;
+    font-weight: 800;
 }
 
-
-header.awtsmoosificationalisticaticalism 
-div#dropdownProfile {
+header.awtsmoosificationalisticaticalism div#dropdownProfile {
     display: inline-flex;
     align-items: center;
-    align-content: center;
     justify-content: center;
 }
 
-header.awtsmoosificationalisticaticalism 
-.icon.btn {
-  padding: 1px;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+header.awtsmoosificationalisticaticalism .icon.btn,
+header.awtsmoosificationalisticaticalism .btn,
+header.awtsmoosificationalisticaticalism .header-buttons button,
+header.awtsmoosificationalisticaticalism .header-buttons a,
+header.awtsmoosificationalisticaticalism .header-buttons .button {
+    min-width: 42px;
+    min-height: 42px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,.45);
+    border-radius: 999px;
+    color: white;
+    text-decoration: none;
+    user-select: none;
+    cursor: pointer;
+    background: rgba(6, 14, 28, .16);
+    box-shadow: 0 6px 16px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.35);
+    transition: transform .18s ease, background .18s ease, color .18s ease;
 }
 
- .sidebarMitzvah {
-  position: fixed;
-  top: 45px;
-  left: 100%;
-  transform: translateX(-100%);
-  width: 250px;
-  height: calc(100% - 45px);
-  padding: 20px;
-  background: rgb(0 0 0 / 80%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #f0f0f0;
-  overflow-y: auto;
-  transition: all 0.5s ease-in-out;
-  z-index: 1000;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.15),
-              0 4px 12px rgba(0, 0, 0, 0.2);
-  border-left: 2px solid rgba(0, 183, 255, 0.4);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+header.awtsmoosificationalisticaticalism .btn:hover,
+header.awtsmoosificationalisticaticalism .header-buttons a:hover,
+header.awtsmoosificationalisticaticalism .header-buttons button:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,.52);
+    color: #07111f;
+}
+
+.menuBtn {
+    width: 52px;
+    height: 38px !important;
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+}
+
+.menuBtn svg {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.38));
+}
+
+.menuBtnRect { fill: transparent; pointer-events: all; }
+
+.sidebarMitzvah {
+    position: fixed;
+    top: 45px;
+    right: 0;
+    left: auto;
+    z-index: 2147481900;
+    width: min(82vw, 310px);
+    height: calc(100dvh - 45px);
+    padding: 20px;
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    overflow-y: auto;
+    color: #f0f7ff;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(34, 211, 238, .18), transparent 12rem),
+        linear-gradient(180deg, rgba(4, 10, 22, .96), rgba(2, 5, 12, .98));
+    border-left: 1px solid rgba(34,211,238,.34);
+    box-shadow: -18px 0 70px rgba(0,0,0,.45), inset 1px 0 0 rgba(255,255,255,.08);
+    backdrop-filter: blur(16px) saturate(130%);
+    transform: translateX(0);
+    transition: transform .42s cubic-bezier(.2,.9,.2,1), opacity .25s ease;
+}
+
+.sidebarMitzvah.offscreen {
+    transform: translateX(106%);
+    opacity: .85;
+    pointer-events: none;
 }
 
 .sidebarMitzvah a {
-  position: relative;
-  display: block;
-  padding: 12px 0;
-  text-decoration: none;
-  color: #c7e4ff;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  transition: color 0.25s ease;
-  overflow: hidden;
+    position: relative;
+    display: block;
+    min-height: 46px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 16px;
+    color: #d9efff;
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: .02em;
+    background: rgba(255,255,255,.045);
+    overflow: hidden;
+    transition: transform .18s ease, color .18s ease, background .18s ease;
 }
 
 .sidebarMitzvah a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 100%;
-  background: linear-gradient(90deg, #00eaff, #0066ff);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-.sidebarMitzvah a:hover::after {
-  transform: translateX(0);
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #00eaff, #f8d682);
+    transform: translateX(-100%);
+    transition: transform .3s ease;
 }
 
 .sidebarMitzvah a:hover {
-  color: #00d4ff;
+    transform: translateX(-2px);
+    color: #ffffff;
+    background: rgba(34,211,238,.12);
 }
 
+.sidebarMitzvah a:hover::after { transform: translateX(0); }
 
-  .offscreen {
-    transform: translateX(100%);
-  }
+.hidden { display: none !important; }
+.center { display: flex; align-items: center; justify-content: center; }
 
- .menuBtn {
-    height:20px
-  }
-  
- header.awtsmoosificationalisticaticalism  .header-buttons button,
- header.awtsmoosificationalisticaticalism  .header-buttons a,
- header.awtsmoosificationalisticaticalism  .header-buttons .button,
- header.awtsmoosificationalisticaticalism  .btn {
-    /* background-color: #4285f4; */
-    text-decoration: none;
-    color: white;
-    user-select: none;
-    border: 1px solid black;
-    border-radius: 26px;
-    padding: 8px 16px;
-    margin-left: 10px;
-    cursor: pointer;
-    margin-top: unset !important;
-  }
-
- header.awtsmoosificationalisticaticalism  .btn {
-    display:inline-block;
-  }
- header.awtsmoosificationalisticaticalism .header-buttons button, 
-header.awtsmoosificationalisticaticalism .header-buttons a:hover
-  ,
-  header.awtsmoosificationalisticaticalism  .btn:hover {
-    background-color: #88b5ff;
-    color: black;
-}
-
-.hidden {
-  display:none !important;
-}
-
-      /* Animation keyframes */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Loading circle styles */
 .loading-circle {
     width: 50px;
     height: 50px;
+    border: 5px solid #c6c6c6;
+    border-top-color: #3498db;
     border-radius: 50%;
-    border: 5px solid #c6c6c6; /* Light grey border */
-    
-    border-top: 5px solid #3498db; /* Blue border on top */
-    animation: spin 1s linear infinite; /* Apply the spin animation */
+    animation: spin 1s linear infinite;
 }
 
-/* Center the loading circle */
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
+@keyframes spin { to { transform: rotate(360deg); } }
 
 a.home.icon {
     font-size: 30px;
-  will-change: transform;
-  transition: transform 0.5s ease;
+    transition: transform .5s ease;
+    will-change: transform;
 }
 
 a.home.icon:hover {
-  cursor:pointer;
-  transform: rotate(15deg) scale(1.26);
+    cursor: pointer;
+    transform: rotate(15deg) scale(1.26);
 }
-@media screen and (max-width:600px) {
-  
-  header.awtsmoosificationalisticaticalism 
-  .currentAliasName.prim {
-       max-width: 34vw;
-       display: inline-flex;
-       overflow-x: scroll;
-       align-content: center;
-  }
 
-  
-
-  .currentAliasName.prim::-webkit-scrollbar {
-    display:none;
-  }
+@media screen and (max-width: 600px) {
+    header.awtsmoosificationalisticaticalism { padding-inline: 12px; }
+    header.awtsmoosificationalisticaticalism .currentAliasName.prim {
+        max-width: 34vw;
+        display: inline-flex;
+        overflow-x: auto;
+        align-content: center;
+    }
+    .currentAliasName.prim::-webkit-scrollbar { display: none; }
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+header.awtsmoosificationalisticaticalism .menuBtn { flex: 0 0 auto; }

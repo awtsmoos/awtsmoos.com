@@ -105,3 +105,9 @@
     font: 650 .78rem/1.25 var(--font-ui) !important;
     overflow-wrap: anywhere !important;
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-list-item { min-height: var(--awt-polish-touch-size, 44px); }

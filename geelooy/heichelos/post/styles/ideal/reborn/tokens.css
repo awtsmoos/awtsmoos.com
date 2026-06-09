@@ -60,3 +60,9 @@
 .post-reader-localized-context button { touch-action: manipulation; }
 .post-reader-localized-context .hidden,
 .post-reader-localized-context [hidden] { display: none !important; }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision:where(:not(.awtsmoos-token-polish-off)) { --awt-polish-touch-size: 44px; }

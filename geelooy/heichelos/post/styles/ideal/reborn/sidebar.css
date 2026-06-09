@@ -132,3 +132,9 @@
         border-left: 1px solid rgba(246,201,108,.18) !important;
     }
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-chrome-controls { gap: max(.5rem, 8px); }

@@ -101,3 +101,9 @@
     color: var(--awt-text) !important;
     overflow-x: clip !important;
 }
+/* B"H
+ * Chapter 281: Local polish proof.
+ * This file owns one small, concrete smoothness rule so the polish is local,
+ * testable, and not duplicated across the import river.
+ */
+.post-reader-localized-context .awtsmoos-slide-viewport { isolation: isolate; }
