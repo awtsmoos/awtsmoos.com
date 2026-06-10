@@ -113,7 +113,7 @@ tools/fs/searchEdit.js
 tools/fs/selectString.js
 tools/fs/selfAudit.js
 tools/fs/semantic/astOutline.js
-tools/fs/semantic/balancedScopes.js
+tools/fs/semantic/balancedScopes.js 
 tools/fs/semantic/merkavaParser.js
 tools/fs/semantic/scopeEdit.js
 tools/fs/semantic/scopeOutline.js
