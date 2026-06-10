@@ -6,7 +6,7 @@
  * instantiation and visual-only village data.
  */
 let bootStarted = false;
-const SEAL = "simplified-solid-colliders-20260609-bh636";
+const SEAL = "lava-camera-collision-bypass-20260609-bh643";
 const WORKER_WORLD_BUILDER_CONTRACT = "WorldHeescheel";
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";

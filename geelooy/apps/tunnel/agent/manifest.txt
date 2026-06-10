@@ -1,9 +1,10 @@
 B"H
-1.0.46
+1.0.47
 main.js
 
 lib/config.js
 lib/local-api.js
+lib/local-browser-relay.js
 lib/log.js
 lib/open.js
 lib/tool-schema-catalog.js
@@ -113,7 +114,7 @@ tools/fs/searchEdit.js
 tools/fs/selectString.js
 tools/fs/selfAudit.js
 tools/fs/semantic/astOutline.js
-tools/fs/semantic/balancedScopes.js 
+tools/fs/semantic/balancedScopes.js
 tools/fs/semantic/merkavaParser.js
 tools/fs/semantic/scopeEdit.js
 tools/fs/semantic/scopeOutline.js
@@ -123,9 +124,10 @@ tools/fs/symbolOutline.js
 tools/fs/tree.js
 tools/fs/workflowExpressions.js
 tools/fs/workflowRunner.js
-tools/relay/index.js
+tools/relay/browserApi.js
 tools/relay/chatgptRelay.js
 tools/relay/chromeCookies.js
+tools/relay/index.js
 tools/relay/jsonRelay.js
 tools/relay/settings.js
 tools/relay/streams.js

@@ -8,11 +8,11 @@
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import setupDomEvents from "./worker/domEvents.js?v=stable-joystick-state-20260602-bh11";
-import setupMessageHandler from "./worker/messageHandler.js?v=centered-npc-big-house-20260602-bh140";
+import setupDomEvents from "./worker/domEvents.js?v=npc-scroll-pass-through-20260609-bh638";
+import setupMessageHandler from "./worker/messageHandler.js?v=lava-camera-axis-20260609-bh640";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=lava-camera-collision-bypass-20260609-bh643";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";

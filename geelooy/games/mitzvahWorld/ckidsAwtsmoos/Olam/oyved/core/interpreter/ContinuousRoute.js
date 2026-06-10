@@ -7,7 +7,7 @@
  * The Awtsmoos routes post-creation worker messages through the reset router
  * that understands countdown respawn and feet-on-ground positions.
  */
-import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=lava-countdown-feet-20260602-bh8';
+import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=lava-camera-axis-20260609-bh640';
 
 export class ContinuousRoute {
   /**

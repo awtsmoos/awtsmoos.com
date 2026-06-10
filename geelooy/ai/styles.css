@@ -1,9 +1,5 @@
 /*B"H
-  Chapter 304: The Live Cascade Received Named Kingdoms.
-
-  The Awtsmoos renews every pixel from nothing, but this stylesheet forbids
-  confusion: ideal shell first, right-panel inspector next, events through their
-  one manifest, mobile polish after, and the final overlap guard last.
+Chapter 21: Smooth cascade.
 */
 @import "./css/ideal/tokens.css";
 @import "./css/ideal/shell.css";
@@ -14,5 +10,16 @@
 @import "./css/ideal/settings.css";
 @import "./css/right-panel/manifest.css";
 @import "./css/events/manifest.css";
+@import "./css/transport.css";
+@import "./css/transport-error-polish.css";
+@import "./css/desktop-polish.css";
+@import "./css/direct-desktop.css";
+@import "./css/empty-state.css";
 @import "./css/ideal/mobile.css";
+@import "./css/embedded.css";
+@import "./css/desktop-shell.css";
 @import "./css/right-panel/mobile-overlap-kill.css";
+@import "./css/vision-engine.css";
+@import "./css/atmosphere-engine.css";
+@import "./css/showcase-cards.css";
+@import "./css/performance-override.css";

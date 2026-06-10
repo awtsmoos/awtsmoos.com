@@ -1,23 +1,28 @@
 /*B"H
-  Chapter 360: The Measuring Reed Took A Mobile Name.
+  Chapter 4: The Measuring Reed Became Retractable.
 
-  The Awtsmoos gives mobile measurements their own contextual selectors, so the
-  base shell keeps its plain names and the phone glass speaks as `body ...` only
-  under the small-screen covenant.
+  The Awtsmoos makes the phone crown small by default and smaller on command.
+  The chat scene receives the reclaimed height instantly through variables.
 */
 @media(max-width:900px){
   :root{
-    --mobile-crown-top:calc(10px + env(safe-area-inset-top));
-    --mobile-crown-height:62px;
-    --mobile-scene-top:calc(var(--mobile-crown-top) + var(--mobile-crown-height) + 10px);
-    --mobile-composer-bottom:env(safe-area-inset-bottom);
+    --mobile-crown-top:calc(8px + env(safe-area-inset-top));
+    --mobile-crown-height:52px;
+    --mobile-dock-height:70px;
+    --mobile-scene-top:calc(var(--mobile-crown-top) + var(--mobile-crown-height) + 8px);
+    --mobile-scene-bottom:calc(var(--mobile-dock-height) + env(safe-area-inset-bottom));
+    --mobile-composer-bottom:calc(var(--mobile-scene-bottom) + 8px);
+  }
+  body.mobile-crown-collapsed{
+    --mobile-crown-height:18px;
+    --mobile-scene-top:calc(var(--mobile-crown-top) + var(--mobile-crown-height) + 6px);
   }
   html body{
     min-height:100svh;
     overflow:hidden;
     background:
       radial-gradient(circle at 12% 0%,rgba(34,230,196,.16),transparent 32%),
-      radial-gradient(circle at 92% 8%,rgba(47,120,255,.18),transparent 36%),
+      radial-gradient(circle at 92% 8%,rgba(124,58,237,.18),transparent 36%),
       #020814;
   }
   body .container{
@@ -27,7 +32,5 @@
   }
   body #left-resizer,
   body #right-resizer,
-  body #composer-resizer{
-    display:none;
-  }
+  body #composer-resizer{display:none}
 }

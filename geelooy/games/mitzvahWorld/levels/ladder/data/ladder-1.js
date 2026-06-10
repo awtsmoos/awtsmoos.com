@@ -14,12 +14,20 @@ export default {
         "position": {
           "x": -22,
           "y": 1.78,
-          "z": 0
+          "z": 2.4
+        },
+        "rotation": {
+          "y": 1.5707963267948966
         },
         "visualGroundBiasY": -0.12,
         "dynamicSolidRadius": 0.28,
         "modelScale": 1,
-        "heesHawveh": true
+        "heesHawveh": true,
+        "cameraDistance": 5.8,
+        "cameraTheta": 45,
+        "cameraPhi": 30,
+        "cameraTargetHeight": 1.25,
+        "ignoreCameraCollision": true
       }
     ],
     "ProceduralTerrain": [
@@ -56,7 +64,17 @@ export default {
         "lava": true,
         "pad": 0.03,
         "opacity": 0.98,
-        "isSolid": false
+        "isSolid": false,
+        "resetPosition": {
+          "x": -22,
+          "y": 1.78,
+          "z": 2.4
+        },
+        "startFeet": {
+          "x": -22,
+          "y": 1.78,
+          "z": 2.4
+        }
       }
     ],
     "SolidBlock": [
@@ -416,8 +434,13 @@ export default {
         "depth": 52,
         "targetPosition": {
           "x": -22,
-          "y": 2.22,
-          "z": 0
+          "y": 1.78,
+          "z": 2.4
+        },
+        "resetPosition": {
+          "x": -22,
+          "y": 1.78,
+          "z": 2.4
         },
         "opacity": 0,
         "isSolid": false

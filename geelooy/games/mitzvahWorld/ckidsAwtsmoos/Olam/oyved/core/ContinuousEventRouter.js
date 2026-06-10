@@ -10,9 +10,9 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import RenderTrace from "../../methods/canvas/RenderTrace.js";
+import { resolveSpikeResetFeet } from "../../shared/SpikeResetPosition.js";
 import { rememberCanvasPayload } from "./CanvasMemory.js";
 
-const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
 const MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_ROTATE", "RIGHT_ROTATE", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"]);
 const findPlayer = olam => olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
 
@@ -130,7 +130,7 @@ function destroyWorld(olam) {
 
 function resetAfterSpikeDeath(olam, payload = {}) {
   const player = findPlayer(olam);
-  const pos = { ...START_FEET, ...(payload.position || {}) };
+  const pos = resolveSpikeResetFeet(payload, olam);
   if (!player) return void self.postMessage({ type: "spikeResetComplete", payload: { ok: false, reason: "missing-player" } });
   olam.__spikeDeathActive = false;
   olam.__spikeDeathToken = (olam.__spikeDeathToken || 0) + 1;

@@ -1,11 +1,16 @@
 // B"H
 /**
  * @file preview-manager.js
- * @brief Non-iframe preview registry powered by Merkava + WebGL virtual DOM.
+ * @brief Switchable preview registry: Merkava VDOM, sandbox iframe, or both.
+ *
+ * Chapter 19: The Awtsmoos gives the preview vessel free will. Some worlds
+ * need the living iframe; some need the Merkava synthetic runtime; some need
+ * both, so diagnostics and real rendering stand side by side.
  */
 
-import { DOM } from '../state.js';
+import { DOM, State } from '../state.js';
 import { renderMerkavaPreview } from '../html-preview/merkava-preview.js';
+import { HTMLPreviewProcessor } from '../html-preview/processor.js';
 
 export const PreviewManager = {
   _visions: new Map(),
@@ -13,24 +18,44 @@ export const PreviewManager = {
   show(tabId, item, content, forceReload = false) {
     const id = String(tabId);
     this.hideAll();
+    const vessel = this.ensureVessel(id);
+    vessel.style.display = 'grid';
+    if (forceReload || vessel.dataset.rendered !== '1') this.renderByEngine(vessel, id, item, content);
+  },
 
+  async renderByEngine(vessel, id, item, content) {
+    vessel.dataset.rendered = '1';
+    vessel.dataset.previewEngine = State.previewEngine || 'merkava';
+    vessel.replaceChildren();
+    if (usesIframe()) await this.renderIframe(vessel, id, item, content);
+    if (usesMerkava()) await this.renderMerkava(vessel, id, item, content);
+  },
+
+  async renderIframe(vessel, id, item, content) {
+    const iframe = document.createElement('iframe');
+    iframe.className = 'html-preview-iframe';
+    iframe.dataset.tabId = id;
+    iframe.title = 'HTML iframe preview';
+    vessel.appendChild(wrap('Iframe Preview', iframe));
+    await HTMLPreviewProcessor.orchestrate(item, iframe, content, id);
+  },
+
+  async renderMerkava(vessel, id, item, content) {
+    const merkava = document.createElement('section');
+    merkava.className = 'merkava-preview-vessel-inner';
+    vessel.appendChild(wrap('Merkava Virtual DOM', merkava));
+    await renderMerkavaPreview(merkava, item, content, id);
+  },
+
+  ensureVessel(id) {
     let vessel = this.getPreview(id);
-    let needsRender = forceReload;
-    if (!vessel) {
-      vessel = document.createElement('section');
-      vessel.className = 'merkava-preview-vessel';
-      vessel.dataset.tabId = id;
-      vessel.dataset.previewEngine = 'merkava-webgl-vdom';
-      vessel.style.width = '100%';
-      vessel.style.height = '100%';
-      vessel.style.overflow = 'auto';
-      DOM.previewer.appendChild(vessel);
-      this.registerPreview(id, vessel);
-      needsRender = true;
-    }
-
-    vessel.style.display = 'block';
-    if (needsRender) renderMerkavaPreview(vessel, item, content, id);
+    if (vessel) return vessel;
+    vessel = document.createElement('section');
+    vessel.className = 'preview-engine-vessel';
+    vessel.dataset.tabId = id;
+    DOM.previewer.appendChild(vessel);
+    this.registerPreview(id, vessel);
+    return vessel;
   },
 
   registerPreview(tabId, vessel) {
@@ -45,18 +70,19 @@ export const PreviewManager = {
     const id = String(tabId);
     let vessel = this._visions.get(id);
     if (!vessel) {
-      vessel = document.querySelector(`[data-merkava-preview="true"][data-tab-id="${id}"], .merkava-preview-vessel[data-tab-id="${id}"]`);
+      vessel = document.querySelector(`.preview-engine-vessel[data-tab-id="${id}"], .merkava-preview-vessel[data-tab-id="${id}"]`);
       if (vessel) this.registerPreview(id, vessel);
     }
     return vessel || null;
   },
 
   getIframe(tabId) {
-    return this.getPreview(tabId);
+    const vessel = this.getPreview(tabId);
+    return vessel?.querySelector?.('iframe') || vessel;
   },
 
   hideAll() {
-    document.querySelectorAll('.merkava-preview-vessel, iframe.browser-iframe').forEach(vessel => {
+    document.querySelectorAll('.preview-engine-vessel, .merkava-preview-vessel, iframe.browser-iframe').forEach(vessel => {
       vessel.style.display = 'none';
     });
   },
@@ -68,3 +94,19 @@ export const PreviewManager = {
     this._visions.delete(id);
   }
 };
+
+function usesIframe() {
+  return ['iframe', 'both'].includes(State.previewEngine || 'merkava');
+}
+
+function usesMerkava() {
+  return ['merkava', 'both'].includes(State.previewEngine || 'merkava');
+}
+
+function wrap(title, child) {
+  const shell = document.createElement('article');
+  shell.className = 'preview-engine-pane';
+  shell.innerHTML = `<header>${title}</header>`;
+  shell.appendChild(child);
+  return shell;
+}

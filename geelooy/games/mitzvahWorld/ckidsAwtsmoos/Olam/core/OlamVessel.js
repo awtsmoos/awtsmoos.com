@@ -7,16 +7,16 @@
  * readable lava into the worker-created Olam.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGraftingPlain.js?v=authored-collider-shop-lava-20260602-bh171";
-import OlamProperties from "../properties/index.js";
-import OlamInit from "./OlamInit.js";
-import Ayin from "../camera/index.js?v=old-smooth-camera-20260602-bh13";
-import UserProgressManager from "../../systems/UserProgressManager.js";
-import Yichud from "../interaction/Yichud.js";
-import PlacementManager from "../interaction/PlacementManager.js";
-import CombatManager from "../../systems/combat/CombatManager.js";
-import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js";
+import Nivra from "../../chayim/nivra.js?compact=true";
+import OlamGrafting from "./OlamGraftingPlain.js?compact=true";
+import OlamProperties from "../properties/index.js?compact=true";
+import OlamInit from "./OlamInit.js?compact=true";
+import Ayin from "../camera/index.js?compact=true";
+import UserProgressManager from "../../systems/UserProgressManager.js?compact=true";
+import Yichud from "../interaction/Yichud.js?compact=true";
+import PlacementManager from "../interaction/PlacementManager.js?compact=true";
+import CombatManager from "../../systems/combat/CombatManager.js?compact=true";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true";
 
 const SAFE_SKY = 0x5d8fa8;
 

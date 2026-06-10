@@ -19,7 +19,7 @@
  *
  * @module MouseEmissary
  */
-import SefiraOfInput from './SefiraOfInput.js';
+import SefiraOfInput from './SefiraOfInput.js?v=npc-scroll-pass-through-20260609-bh638';
  
 export default class MouseEmissary {
  
@@ -39,6 +39,7 @@ export default class MouseEmissary {
         // ───────────────────────────────────────────────────────
         window.addEventListener('mousedown', (e) => {
             const isUI = SefiraOfInput.isUI(e.target); // Resolves seamlessly to false!
+            if (isUI) return;
  
             // Track left/right button state for camera drag ALL THE TIME. 
             // The veil of the UI no longer hides the eyes!
@@ -84,9 +85,10 @@ export default class MouseEmissary {
         // ───────────────────────────────────────────────────────
         window.addEventListener('wheel', (e) => {
             const isUI = SefiraOfInput.isUI(e.target);
+            if (isUI) return;
  
             // Prevent page scroll natively
-            if (!isUI && e.cancelable) {
+            if (e.cancelable) {
                 e.preventDefault();
             }
  

@@ -7,8 +7,8 @@
  * The Awtsmoos routes genesis and every after-breath through fresh vessels:
  * authored Y is preserved, lava reset waits for touch/key, then feet return.
  */
-import { GenesisRoute } from './GenesisRoute.js?v=respect-authored-y-20260602-bh7';
-import { ContinuousRoute } from './ContinuousRoute.js?v=lava-countdown-feet-20260602-bh8';
+import { GenesisRoute } from './GenesisRoute.js?compact=true';
+import { ContinuousRoute } from './ContinuousRoute.js?compact=true';
 
 export class OyvedMessageInterpreter {
   /**

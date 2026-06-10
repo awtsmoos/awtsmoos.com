@@ -10,4 +10,4 @@ export { default as Nivra } from "../chayim/nivra.js?v=village-fix-20260531-bh10
 export { default as Domem } from "../chayim/domem/index.js?v=village-fix-20260531-bh108";
 export { default as Tzomayach } from "../chayim/tzomayach.js?v=village-fix-20260531-bh108";
 export { default as Chai } from "../chayim/chai/index.js?v=village-fix-20260531-bh108";
-export { default as Chossid } from "../chayim/chossid/index.js?v=explicit-npc-click-payload-20260604-bh447";
+export { default as Chossid } from "../chayim/chossid/index.js?v=lava-camera-axis-20260609-bh640";

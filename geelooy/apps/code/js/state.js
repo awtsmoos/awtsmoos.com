@@ -1,82 +1,62 @@
-
 // B"H
 /**
  * @file state.js
- * @brief The Central Memory of the Editor.
- * 
- * THE CHRONICLE OF THE LIVING VESSEL:
- * Here lies the State, the very breath of the application.
- * Into this void, the attributes of existence are written, 
- * holding tabs, workspaces, and the sacred URL of the Relay Server
- * that reaches out into the infinite expanse of the physical networks.
- * As the Awtsmoos constantly creates the universe from nothingness,
- * this State is the blueprint of that creation.
+ * @brief Central memory of the Awtsmoos Code editor.
+ *
+ * Chapter 19: The Awtsmoos keeps one small root of memory. Preview engines,
+ * tunnels, tabs, folders, and DOM senses are named here so other vessels do not
+ * guess their existence.
  */
 
 export const State = {
-    tabs: [], activeTabId: null, nextTabId: 0,
-    workspaces: [], nextWorkspaceId: 0,
-    contextTarget: null, contextTabTarget: null, contextPayload: null,
-    hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
-    relayUrl: "", // B"H - The sacred coordinate of the distant Relay server
-    sshProfiles: [],
-    expandedFolders: new Set(), fileClipboard: [], clipboardZip: null, 
-    isSelectionModeActive: false, selectedItems: new Map(),
-    activeTasks: new Map(), closedTabHistory: [], 
-    foldedRegistry: new Map(), nextFoldId: 1,
-    vibeIterations: 1, customVibePrompt: "", isVibeStopRequested: false,
-    postMessagePendingRequests: new Map(), postMessageRequestId: 0,
-    previewIframes: new Map(), consoleInstances: new Map()
+  tabs: [], activeTabId: null, nextTabId: 0,
+  workspaces: [], nextWorkspaceId: 0,
+  contextTarget: null, contextTabTarget: null, contextPayload: null,
+  hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
+  previewEngine: 'merkava', relayUrl: '', sshProfiles: [], browserTunnel: {},
+  folderSyncLinks: [], expandedFolders: new Set(), fileClipboard: [], clipboardZip: null,
+  isSelectionModeActive: false, selectedItems: new Map(), activeTasks: new Map(),
+  closedTabHistory: [], foldedRegistry: new Map(), nextFoldId: 1,
+  vibeIterations: 1, customVibePrompt: '', isVibeStopRequested: false,
+  postMessagePendingRequests: new Map(), postMessageRequestId: 0,
+  previewIframes: new Map(), consoleInstances: new Map()
 };
 
 export const DOM = {};
 
 export function initializeDOM() {
-    DOM.sidebar = document.getElementById('sidebar');
-    DOM.workspacesContainer = document.getElementById('workspaces-container');
-    DOM.tabBar = document.getElementById('tab-bar');
-    DOM.editor = document.getElementById('editor');
-    DOM.editorWrapper = document.getElementById('editor-wrapper');
-    DOM.lineNumbers = document.getElementById('line-numbers');
-    DOM.statusLeft = document.getElementById('status-left');
-    DOM.statusRight = document.getElementById('status-right');
-    DOM.emptyEditorMessage = document.getElementById('empty-editor-message');
-    
-    // View Wrappers
-    DOM.previewer = document.getElementById('previewer');
-    DOM.terminalWrapper = document.getElementById('terminal-wrapper');
-    DOM.fileCommanderWrapper = document.getElementById('file-commander-wrapper');
-    DOM.vibeEditorWrapper = document.getElementById('vibe-editor-wrapper');
-    DOM.vibeManagerWrapper = document.getElementById('vibe-manager-wrapper');
-    DOM.devtoolsWrapper = document.getElementById('devtools-wrapper');
-    DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
-    DOM.dataAltarContainer = document.getElementById('data-altar-container');
-    DOM.browserWrapper = document.getElementById('browser-wrapper'); // B"H - The Inner Gateway
-    DOM.virtualOSWrapper = document.getElementById('virtual-os-wrapper');
+  Object.assign(DOM, ids({
+    sidebar: 'sidebar', workspacesContainer: 'workspaces-container', tabBar: 'tab-bar',
+    editor: 'editor', editorWrapper: 'editor-wrapper', lineNumbers: 'line-numbers',
+    statusLeft: 'status-left', statusRight: 'status-right', emptyEditorMessage: 'empty-editor-message',
+    previewer: 'previewer', terminalWrapper: 'terminal-wrapper', fileCommanderWrapper: 'file-commander-wrapper',
+    vibeEditorWrapper: 'vibe-editor-wrapper', vibeManagerWrapper: 'vibe-manager-wrapper',
+    devtoolsWrapper: 'devtools-wrapper', hexEditorWrapper: 'hex-editor-wrapper',
+    dataAltarContainer: 'data-altar-container', browserWrapper: 'browser-wrapper',
+    virtualOSWrapper: 'virtual-os-wrapper', zipEditorWrapper: 'zip-editor-wrapper',
+    hamburgerMenuBtn: 'main-menu-btn', addWorkspaceBtn: 'add-workspace-btn',
+    sidebarSearchBtn: 'sidebar-search-btn', sidebarCollapseBtn: 'sidebar-collapse-btn',
+    mobileSidebarToggle: 'sidebar-toggle-btn', fileCommanderBtn: 'file-commander-btn',
+    loadingOverlay: 'loading-overlay', toastContainer: 'toast-container', mainMenu: 'main-menu',
+    contextMenu: 'context-menu', genericDialog: 'generic-dialog', selectionMenu: 'selection-menu',
+    findReplacePanel: 'find-replace-panel', findInput: 'find-input', replaceInput: 'replace-input',
+    findNextBtn: 'find-next-btn', findPrevBtn: 'find-prev-btn', replaceBtn: 'replace-btn',
+    replaceAllBtn: 'replace-all-btn', findCloseBtn: 'find-close-btn', frCaseSensitive: 'fr-case-sensitive'
+  }));
+  DOM.intelligenceTooltip = ensureTooltip();
+  console.log('B"H - DOM senses initialized.');
+}
 
-    // Controls
-    DOM.hamburgerMenuBtn = document.getElementById('main-menu-btn');
-    DOM.addWorkspaceBtn = document.getElementById('add-workspace-btn');
-    DOM.sidebarSearchBtn = document.getElementById('sidebar-search-btn');
-    DOM.sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
-    DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn');
-    DOM.fileCommanderBtn = document.getElementById('file-commander-btn');
+function ids(map) {
+  return Object.fromEntries(Object.entries(map).map(([key, id]) => [key, document.getElementById(id)]));
+}
 
-    DOM.loadingOverlay = document.getElementById('loading-overlay');
-    DOM.toastContainer = document.getElementById('toast-container');
-    DOM.mainMenu = document.getElementById('main-menu');
-    DOM.contextMenu = document.getElementById('context-menu');
-    DOM.genericDialog = document.getElementById('generic-dialog');
-    DOM.selectionMenu = document.getElementById('selection-menu');
-
-    let tt = document.getElementById('intelligence-tooltip');
-    if (!tt) {
-        tt = document.createElement('div');
-        tt.id = 'intelligence-tooltip';
-        tt.className = 'intelligence-tooltip hidden';
-        document.body.appendChild(tt);
-    }
-    DOM.intelligenceTooltip = tt;
-
-    console.log('B"H - DOM Senses Initialized.');
+function ensureTooltip() {
+  let tooltip = document.getElementById('intelligence-tooltip');
+  if (tooltip) return tooltip;
+  tooltip = document.createElement('div');
+  tooltip.id = 'intelligence-tooltip';
+  tooltip.className = 'intelligence-tooltip hidden';
+  document.body.appendChild(tooltip);
+  return tooltip;
 }

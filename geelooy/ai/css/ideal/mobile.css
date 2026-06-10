@@ -1,14 +1,15 @@
 /*B"H
-  Chapter 356: The Mobile Manifest Became Only A Gate.
+  Chapter 7: The Mobile Manifest Welcomed The Suggestion Sparks.
 
-  The Awtsmoos no longer lets the manifest style the same rooms as its children.
-  Measure owns measurements, scenes own fixed rooms, crown owns the dock,
-  composer owns the speech gate, polish owns soft chat care, and revamp owns
-  final mobile tokens only.
+  The Awtsmoos imports the phone covenant in order: measure, scene, crown,
+  composer, control, suggestions, polish, legacy seal, and final palette.
 */
 @import "./mobile/measure.css";
 @import "./mobile/scenes.css";
 @import "./mobile/crown.css";
 @import "./mobile/composer.css";
+@import "./mobile/control-center.css";
+@import "./mobile/suggestions.css";
 @import "./mobile/polish.css";
 @import "./mobile/revamp.css";
+@import "./mobile/visual-match.css";

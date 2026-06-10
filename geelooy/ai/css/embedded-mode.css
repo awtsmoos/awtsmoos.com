@@ -1,0 +1,169 @@
+/*B"H
+  Chapter 8: The Black Void Was Assigned A Name.
+
+  The Awtsmoos reveals an embedded vessel when /ai runs inside the Code browser:
+  not phone, not full desktop, but a wide working chamber. In this mode the fake
+  mobile rails vanish, the chat expands, and the composer anchors the river.
+*/
+body.is-ai-embedded{
+  --awt-gap:0;
+  --awt-shell-pad:0;
+  --awt-main-radius:0;
+  --awt-main-border:0;
+  --awt-chat-pad:18px 22px 132px;
+  --awt-message-max:min(920px,86%);
+  --awt-input-min:86px;
+  --awt-input-cols:minmax(0,1fr) 76px;
+}
+
+body.is-ai-embedded .mobile-app-crown,
+body.is-ai-embedded .mobile-bottom-dock,
+body.is-ai-embedded #left-resizer,
+body.is-ai-embedded #right-resizer,
+body.is-ai-embedded #composer-resizer{
+  display:none;
+}
+
+body.is-ai-embedded .container{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"main";
+  width:100vw;
+  height:100dvh;
+  padding:0;
+  overflow:hidden;
+  background:linear-gradient(180deg,#050b18,#020611 46%,#02050d);
+}
+
+body.is-ai-embedded .sidebar,
+body.is-ai-embedded .automation-panel{
+  display:none;
+}
+
+body.is-ai-embedded .main{
+  grid-area:main;
+  position:relative;
+  inset:auto;
+  width:100vw;
+  height:100dvh;
+  max-width:none;
+  max-height:none;
+  min-height:0;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  grid-template-areas:"control" "chat" "composer";
+  border:0;
+  border-radius:0;
+  background:
+    radial-gradient(circle at 18% 0,rgba(34,211,197,.10),transparent 34%),
+    radial-gradient(circle at 82% 0,rgba(124,58,237,.10),transparent 38%),
+    linear-gradient(180deg,rgba(6,13,26,.98),rgba(2,6,17,.99));
+  box-shadow:none;
+  overflow:hidden;
+}
+
+body.is-ai-embedded #transport-status{
+  grid-area:control;
+  min-height:0;
+  max-height:0;
+  margin:0;
+  padding:0;
+  border:0;
+  opacity:0;
+  overflow:hidden;
+}
+
+body.is-ai-embedded .mobile-control-center{
+  grid-area:control;
+  display:block;
+  margin:10px 12px 6px;
+  border:1px solid rgba(148,163,184,.14);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(10,18,32,.94),rgba(4,9,20,.97));
+  box-shadow:0 14px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);
+  overflow:hidden;
+}
+
+body.is-ai-embedded .mobile-control-center summary{
+  min-height:46px;
+  display:grid;
+  grid-template-columns:14px minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  padding:8px 12px;
+  list-style:none;
+  cursor:pointer;
+}
+
+body.is-ai-embedded .mobile-control-center summary::-webkit-details-marker{display:none}
+body.is-ai-embedded .mobile-control-center strong{display:block;font-size:15px;color:#f8fbff;line-height:1.1}
+body.is-ai-embedded .mobile-control-center em{display:block;font-style:normal;font-size:11px;color:#9fb0c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.is-ai-embedded .mobile-control-provider-name{max-width:110px;padding:5px 9px;border-radius:999px;color:#c4b5fd;background:rgba(124,58,237,.10);font-size:11px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.is-ai-embedded .mobile-control-dot{width:12px;height:12px;border-radius:999px;background:#fbbf24;box-shadow:0 0 16px rgba(251,191,36,.45)}
+body.is-ai-embedded .mobile-control-dot[data-state="ready"]{background:#4ade80;box-shadow:0 0 0 7px rgba(74,222,128,.10),0 0 18px rgba(74,222,128,.34)}
+body.is-ai-embedded .mobile-control-dot[data-state="missing"]{background:#fb7185;box-shadow:0 0 0 7px rgba(251,113,133,.10),0 0 18px rgba(251,113,133,.34)}
+
+body.is-ai-embedded .mobile-control-body{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  gap:8px;
+  padding:0 10px 10px;
+}
+
+body.is-ai-embedded .mobile-control-body label{display:grid;gap:5px;color:#9fb0c8;font-size:11px;font-weight:900}
+body.is-ai-embedded .mobile-control-provider,
+body.is-ai-embedded .mobile-control-body button{min-height:36px;border:1px solid rgba(148,163,184,.16);border-radius:13px;background:rgba(2,8,20,.72);color:#e6fbff;font-weight:900;padding:7px 10px}
+
+body.is-ai-embedded .chat-box{
+  grid-area:chat;
+  min-height:0;
+  width:100%;
+  padding:18px 24px 132px;
+  overflow:auto;
+  background:radial-gradient(circle at 50% 0,rgba(124,58,237,.07),transparent 42%);
+}
+
+body.is-ai-embedded .message,
+body.is-ai-embedded .bubble{max-width:min(920px,86%);border-radius:24px;border-color:rgba(148,163,184,.14);background:linear-gradient(180deg,rgba(13,24,42,.95),rgba(6,13,26,.97));box-shadow:0 14px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)}
+body.is-ai-embedded .user-message,
+body.is-ai-embedded .message.user{background:linear-gradient(135deg,rgba(74,35,145,.94),rgba(39,32,74,.96));border-color:rgba(168,85,247,.24)}
+
+body.is-ai-embedded .input-area{
+  grid-area:composer;
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:12px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 62px;
+  gap:9px;
+  align-items:end;
+  min-height:66px;
+  padding:9px;
+  border-radius:22px;
+  background:rgba(3,8,17,.98);
+  border:1px solid rgba(148,163,184,.18);
+  box-shadow:0 18px 46px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(18px);
+  z-index:80;
+}
+
+body.is-ai-embedded #message-input{min-height:48px;max-height:116px;border-radius:16px;padding:12px 14px;font-size:16px;resize:none;background:rgba(11,21,38,.94);border-color:rgba(148,163,184,.18)}
+body.is-ai-embedded #send-button{min-height:48px;border-radius:16px;font-size:0;background:linear-gradient(135deg,#7c3aed,#5b21b6);border-color:rgba(196,181,253,.30);box-shadow:0 12px 28px rgba(124,58,237,.28)}
+body.is-ai-embedded #send-button::after{content:"➤";font-size:22px}
+body.is-ai-embedded .attachment-tools{position:absolute;right:22px;bottom:84px;z-index:79;border-radius:999px;background:rgba(2,8,20,.72);backdrop-filter:blur(12px)}
+
+body.is-ai-embedded .mobile-suggestion-rail{
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:88px;
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:2px 0 4px;
+  z-index:78;
+  scrollbar-width:none;
+}
+body.is-ai-embedded .mobile-suggestion-rail::-webkit-scrollbar{display:none}
+body.is-ai-embedded .mobile-suggestion-rail button{flex:0 0 auto;min-height:34px;padding:7px 12px;border:1px solid rgba(192,132,252,.24);border-radius:999px;background:rgba(21,13,43,.70);color:#d8b4fe;font-weight:850}

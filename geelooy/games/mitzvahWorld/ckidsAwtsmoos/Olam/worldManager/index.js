@@ -5,13 +5,13 @@
  * removes query masks from the start river so the blue bridge must stand by
  * honest module identity.
  */
-import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
-import UIManager from "../uiManager/index.js";
-import StartWorldFlow from "./StartWorldFlow.js";
-import SocketHandler from "./SocketHandler.js";
-import ServiceWorkerInit from "./ServiceWorkerInit.js";
-import SwitchDestroyLogic from "./SwitchDestroyLogic.js";
-import DomHelpers from "./DomHelpers.js";
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?comptact=true";
+import UIManager from "../uiManager/index.js?comptact=true";
+import StartWorldFlow from "./StartWorldFlow.js?comptact=true";
+import SocketHandler from "./SocketHandler.js?comptact=true";
+import ServiceWorkerInit from "./ServiceWorkerInit.js?comptact=true";
+import SwitchDestroyLogic from "./SwitchDestroyLogic.js?comptact=true";
+import DomHelpers from "./DomHelpers.js?comptact=true";
 
 export default class ManagerOfAllWorlds {
   gameState = {};

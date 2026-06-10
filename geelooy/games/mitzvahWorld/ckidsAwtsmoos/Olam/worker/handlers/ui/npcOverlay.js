@@ -4,8 +4,8 @@
  * @description Chapter 266: The NPC overlay is now a small conductor. Markup,
  * stats, levels, and actions each live in their own vessel.
  */
-import { closePanels, esc, sealIsland } from './domKit.js';
-import { installNpcCss } from './npcCss.js';
+import { closePanels, esc, sealIsland } from './domKit.js?v=npc-scroll-pass-through-20260609-bh638';
+import { installNpcCss } from './npcCss.js?v=npc-scroll-pass-through-20260609-bh638';
 import { actionButtonsHtml, linesHtml } from './npcDialogueMarkup.js';
 import { levelCardsHtml } from './npcLevelMarkup.js';
 import { bindNpcOverlayActions } from './npcOverlayActions.js';

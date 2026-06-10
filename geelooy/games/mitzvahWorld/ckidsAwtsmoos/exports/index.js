@@ -8,9 +8,9 @@
  * carry old names, but this explicit seal makes `InteractiveDoor` the swinging
  * threshold class for procedural houses.
  */
-export * from './ChayimExports.js';
-export * from './DvarimExports.js';
+export * from './ChayimExports.js?v=lava-camera-axis-20260609-bh640';
+export * from './DvarimExports.js?v=lava-camera-axis-20260609-bh640';
 export * from './SystemExports.js';
-export * from './NatureExports.js';
+export * from './NatureExports.js?v=lava-camera-axis-20260609-bh640';
 export * from './ArchitectureExports.js';
 export { default as InteractiveDoor } from '../dvarim/interactiveDoor/index.js?v=passable-open-door-20260603-bh336';

@@ -9,7 +9,7 @@
  * intent across the thread boundary to the waiting Oyved (Worker),
  * explicitly pausing only when the user intends to converse (Input Fields).
  */
-import SefiraOfInput from './SefiraOfInput.js';
+import SefiraOfInput from './SefiraOfInput.js?v=npc-scroll-pass-through-20260609-bh638';
 
 export default class KeyboardEmissary {
     /**

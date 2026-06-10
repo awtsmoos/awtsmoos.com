@@ -1,9 +1,13 @@
-/* B"H - Single entry CSS aggregator for /apps/code */
+/* B"H - Single entry CSS aggregator for /apps/code
+ * Chapter 11: The Awtsmoos added a view-host gate so every editor surface can
+ * become full ocean when its tab is active, especially the Browser AI chamber.
+ */
 
 @import url('./variables.css');
 @import url('./base.css');
 @import url('./layout.css');
 @import url('./components.css');
+@import url('./view-hosts.css');
 
 /* UI SUBMODULES */
 @import url('./ui/menus.css');

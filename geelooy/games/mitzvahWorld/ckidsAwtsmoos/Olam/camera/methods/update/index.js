@@ -92,7 +92,7 @@ export default function update() {
     position.sub(vTargetOffset);
     position.sub(new THREE.Vector3(0, 0, this.desiredDistance).applyQuaternion(rotation));
 
-    if (!this.isFPS) {
+    if (!this.isFPS && this.target?.originalOptions?.ignoreCameraCollision !== true) {
         const trueTargetPosition = new THREE.Vector3().copy(this.target.mesh.position).sub(vTargetOffset);
         this.raycaster.set(trueTargetPosition, position.clone().sub(trueTargetPosition).normalize());
         const collisionResult = this.olam.worldOctree ? this.olam.worldOctree.rayIntersect(this.raycaster.ray) : null;

@@ -7,9 +7,9 @@
  * The Awtsmoos imports the touch orchestrator that sends only key-state deltas,
  * eliminating the keyup/keydown storm that made walking start choppy.
  */
-import KeyboardEmissary from './input/KeyboardEmissary.js';
-import MouseEmissary from './input/MouseEmissary.js';
-import TouchOrchestrator from './input/TouchOrchestrator.js?v=stable-joystick-state-20260602-bh11';
+import KeyboardEmissary from './input/KeyboardEmissary.js?v=npc-scroll-pass-through-20260609-bh638';
+import MouseEmissary from './input/MouseEmissary.js?v=npc-scroll-pass-through-20260609-bh638';
+import TouchOrchestrator from './input/TouchOrchestrator.js?v=npc-scroll-pass-through-20260609-bh638';
 import { measureRenderViewport } from '../../divine_systems/render/core/PixelRatioGovernor.js';
 
 export default function setupDomEvents(manager) {

@@ -7,7 +7,7 @@
  * The Awtsmoos cache-busts the manager that binds DOM input, ensuring mobile
  * joystick movement uses stable key-state deltas instead of repeated releases.
  */
-import OlamWorkerManager from "../ikarOyvedManager.js?v=stable-joystick-state-20260602-bh11";
+import OlamWorkerManager from "../ikarOyvedManager.js?v=lava-camera-collision-bypass-20260609-bh643";
 
 const WORLD_FLOW_PATHS = Object.freeze({
   WORKER_ENTRY: "../oyved/index.js",

@@ -5,8 +5,8 @@
  * surface: entry HUD, quest, portrait, camera cue, ambient audio, effects,
  * shop, inventory, HUD counters, and direct NPC/level gates.
  */
-import { directFallbackMap } from './directFallbackMap.js';
-import { handleEffectsFallback } from './effectsFallback.js';
+import { directFallbackMap } from './directFallbackMap.js?v=npc-scroll-pass-through-20260609-bh638';
+import { handleEffectsFallback } from './effectsFallback.js?v=lava-camera-axis-20260609-bh640';
 import { handleEmeraldAudioFallback } from './emeraldAudioFallback.js';
 import { handleEmeraldCameraFallback } from './emeraldCameraFallback.js';
 import { handleEmeraldHudFallback } from './emeraldHudFallback.js';
@@ -14,7 +14,7 @@ import { handleEmeraldQuestFallback } from './emeraldQuestFallback.js';
 import { handleHudFallback } from './hudFallback.js';
 import { dispatchInventory } from './inventoryFallback.js';
 import { handleNpcPortraitFallback } from './npcPortraitFallback.js';
-import { openShopOverlay } from './shopOverlay.js';
+import { openShopOverlay } from './shopOverlay.js?v=npc-scroll-pass-through-20260609-bh638';
 export { dispatchInventory };
 export function directFallback(manager, shaym, ob = {}) {
   handleHudFallback(shaym, ob);

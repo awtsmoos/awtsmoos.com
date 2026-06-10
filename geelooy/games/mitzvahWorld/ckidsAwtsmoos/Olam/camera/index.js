@@ -8,7 +8,7 @@
  * loop that smooths target Y, camera distance, and jump collision correction.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import update from "./methods/update/index.js?v=old-smooth-camera-20260602-bh13";
+import update from "./methods/update/index.js?v=lava-camera-collision-bypass-20260609-bh643";
 import controls from "./methods/controls.js?v=lean-l1-20260528-bh19";
 import collision from "./methods/collision.js?v=lean-l1-20260528-bh19";
 

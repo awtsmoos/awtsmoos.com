@@ -6,7 +6,7 @@
  */
 import { NPC_UI_BUTTONS } from './npcCssButtons.js';
 import { NPC_UI_CARDS } from './npcCssCards.js';
-import { NPC_UI_LAYOUT } from './npcCssLayout.js';
+import { NPC_UI_LAYOUT } from './npcCssLayout.js?v=npc-scroll-pass-through-20260609-bh638';
 import { NPC_UI_RESPONSIVE } from './npcCssResponsive.js';
 import { NPC_UI_SHOP } from './npcCssShop.js';
 import { NPC_UI_TOKENS } from './npcCssTokens.js';

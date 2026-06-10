@@ -1,0 +1,80 @@
+/* B"H */
+:root {
+  --bg: #05070f;
+  --panel: #0d1626;
+  --panel2: #111f34;
+  --text: #e7fbff;
+  --muted: #88a3af;
+  --a: #75fff2;
+  --b: #ad8cff;
+  --danger: #ff6b9a;
+  font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background: radial-gradient(circle at top left, #163d49, transparent 36rem), var(--bg);
+}
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px;
+  border-bottom: 1px solid #ffffff18;
+}
+.eyebrow { color: var(--a); letter-spacing: .18em; text-transform: uppercase; }
+h1 { margin: 0; font-size: clamp(2rem, 5vw, 4.8rem); }
+.heroText { max-width: 850px; color: var(--muted); line-height: 1.7; }
+.status {
+  align-self: start;
+  border: 1px solid #75fff288;
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: var(--a);
+  background: #75fff214;
+  text-transform: uppercase;
+}
+.appShell { padding: 24px; }
+.forgeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 16px;
+}
+.editorPanel, .previewPanel, .bytePanel, .logPanel {
+  background: linear-gradient(180deg, var(--panel), var(--panel2));
+  border: 1px solid #ffffff18;
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: 0 20px 80px #0009;
+  min-height: 280px;
+}
+.panelTitle {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--a);
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+textarea, pre, iframe {
+  width: 100%;
+  height: 230px;
+  margin: 0;
+  border: 1px solid #75fff229;
+  border-radius: 16px;
+  background: #02050a;
+  color: var(--text);
+  font: 13px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+textarea { padding: 14px; resize: vertical; }
+iframe { min-height: 360px; background: white; }
+pre { overflow: auto; padding: 14px; white-space: pre-wrap; }
+.previewPanel { grid-column: span 2; }
+.bytePanel, .logPanel { min-height: 380px; }
+@media (max-width: 980px) {
+  .hero { flex-direction: column; }
+  .forgeGrid { grid-template-columns: 1fr; }
+  .previewPanel { grid-column: span 1; }
+}

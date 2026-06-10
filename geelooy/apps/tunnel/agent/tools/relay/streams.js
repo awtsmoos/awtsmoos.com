@@ -4,22 +4,36 @@ const { STREAM_TTL_MS } = require("./settings.js");
 const streams = new Map();
 
 /**
- * Chapter 2: The River Remembered Every Drop.
+ * Chapter 19: A Finished Browser Body Still Became A River.
  *
- * The relay stream store keeps fetch bodies alive after the first response. A
- * cursor may return, resume, drink text, parse JSON, or wait without pretending
- * the river ended before its final wave arrived.
+ * Node fetch gives a native stream. Browser Runtime fetch gives a completed
+ * body. The Awtsmoos lets both become the same relay stream shape so callers can
+ * read, resume, text, json, or blob without caring which world answered.
  *
  * @param {Response} response Fetch response with optional body stream.
  * @returns {object} Metadata containing id, headers, and status.
  */
 function rememberResponse(response) {
   sweepStreams();
-  const id = `BH_TUNNEL_RELAY_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const id = nextId();
   const stream = { id, chunks: [], done: false, error: null, waiters: [], createdAt: Date.now(), lastReadAt: Date.now() };
   streams.set(id, stream);
   pump(stream, response.body);
   return { status: response.status, ok: response.ok, headers: Array.from(response.headers.entries()), url: response.url, redirected: response.redirected, streamId: id, id };
+}
+
+/**
+ * B"H — Stores an already-read browser body as one completed stream chunk.
+ * @param {object} metadata Response metadata.
+ * @param {string|Buffer} body Body bytes/text.
+ * @returns {object} Fetch-like relay metadata.
+ */
+function rememberStaticResponse(metadata = {}, body = "") {
+  sweepStreams();
+  const id = nextId();
+  const chunk = Buffer.isBuffer(body) ? body : Buffer.from(String(body || ""), "utf8");
+  streams.set(id, { id, chunks: [chunk], done: true, error: null, waiters: [], createdAt: Date.now(), lastReadAt: Date.now() });
+  return { status: metadata.status || 200, ok: metadata.ok !== false, headers: metadata.headers || [], url: metadata.url || "", redirected: !!metadata.redirected, streamId: id, id };
 }
 
 async function readRelayBody({ id, bodyAction, cursor = 0 }) {
@@ -59,9 +73,10 @@ function resumeFrom(stream, cursor) {
 async function whole(stream, action) {
   while (!stream.done && !stream.error) await new Promise(resolve => stream.waiters.push(resolve));
   if (stream.error) throw stream.error;
-  const text = Buffer.concat(stream.chunks).toString("utf8");
+  const bytes = Buffer.concat(stream.chunks);
+  const text = bytes.toString("utf8");
   if (action === "json") return JSON.parse(text);
-  if (action === "blob") return dataUrl(Buffer.from(text));
+  if (action === "blob") return dataUrl(bytes);
   return text;
 }
 
@@ -78,5 +93,6 @@ function waitFor(stream, cursor, ms) {
 function sweepStreams() { const now = Date.now(); for (const [id, s] of streams) if (s.done && now - s.lastReadAt > STREAM_TTL_MS) streams.delete(id); }
 function wake(stream) { stream.waiters.splice(0).forEach(fn => fn()); }
 function dataUrl(buf) { return `data:application/octet-stream;base64,${Buffer.from(buf).toString("base64")}`; }
+function nextId() { return `BH_TUNNEL_RELAY_${Date.now()}_${Math.random().toString(36).slice(2)}`; }
 
-module.exports = { rememberResponse, readRelayBody, streams };
+module.exports = { rememberResponse, rememberStaticResponse, readRelayBody, streams };

@@ -7,7 +7,8 @@
  * Older reset messages now zero the counter, restore perutos, and stamp the HUD
  * with the same perutah epoch used by the modern continuous event router.
  */
-const START_FEET = Object.freeze({ x: -10.5, y: 0.425, z: 0 });
+import { resolveSpikeResetFeet } from '../../shared/SpikeResetPosition.js';
+
 const MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_ROTATE", "RIGHT_ROTATE", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"]);
 
 function showTree(obj) {
@@ -65,7 +66,7 @@ function resetLevelCollectibles(olam) {
 function resetChossid(olam, data = {}) {
   const player = olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
   if (!player) return false;
-  const pos = { ...START_FEET, ...(data.position || {}) };
+  const pos = resolveSpikeResetFeet(data, olam);
   Object.assign(player, { __spikeDefeated: false, __spikeDeathControlsFrozen: false, __spikeColliderDisabled: false, movingAutomatically: false, onFloor: true });
   clearMovementButKeepGait(olam, player);
   player.velocity?.set?.(0, 0, 0);

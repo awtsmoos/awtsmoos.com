@@ -2,8 +2,9 @@
 /**
  * @file dom.js
  * @description
- * Chapter 12: The Awtsmoos shaped controls from data. Buttons became rivers,
- * the textarea became a cave of lightning, and the iframe became a little sky.
+ * Chapter 2: The Awtsmoos hid the forge behind a deliberate gate. The normal
+ * browser view is now readable first; HTML and JS lightning open only when the
+ * human asks for the custom preview chamber.
  */
 
 import { HTML } from '../../../html-generator.js';
@@ -17,7 +18,7 @@ export function H(schema) {
 export function browserBlueprint(state) {
     return {
         tag: 'div',
-        className: `browser-runtime${state.consoleVisible ? ' has-console' : ''}`,
+        className: `browser-runtime${state.consoleVisible ? ' has-console' : ''}${state.studioVisible ? ' has-studio' : ''}`,
         children: [toolbarBlueprint(state), studioBlueprint(state), frameBlueprint()]
     };
 }
@@ -26,14 +27,19 @@ function toolbarBlueprint(state) {
     return { tag: 'div', className: 'browser-runtime-toolbar', children: [
         button('←', 'back'), button('↻', 'reload'), button('Home', 'home'),
         { tag: 'input', className: 'vos-app-input browser-runtime-address', value: state.currentUrl || 'about:blank' },
-        button('Go', 'go'), button('HTML', 'run-html'), button('JS', 'run-js'), button('Console', 'console')
+        button('Go', 'go'), button(state.studioVisible ? 'Hide Dev' : 'Dev', 'studio'),
+        button('Console', 'console')
     ] };
 }
 
 function studioBlueprint(state) {
-    return { tag: 'div', className: 'browser-runtime-studio', children: [
-        { tag: 'textarea', className: 'browser-runtime-code', text: state.customHtml || starterHtml() },
-        { tag: 'textarea', className: 'browser-runtime-js', text: state.customJs || "document.body.dataset.awtsmoos = 'revealed';" }
+    return { tag: 'details', className: 'browser-runtime-studio', open: Boolean(state.studioVisible), children: [
+        { tag: 'summary', text: 'Custom HTML / JS preview forge' },
+        { className: 'browser-runtime-studio-grid', children: [
+            { tag: 'textarea', className: 'browser-runtime-code', text: state.customHtml || starterHtml() },
+            { tag: 'textarea', className: 'browser-runtime-js', text: state.customJs || "document.body.dataset.awtsmoos = 'revealed';" }
+        ] },
+        { className: 'browser-runtime-studio-actions', children: [button('Run HTML', 'run-html'), button('Run JS', 'run-js')] }
     ] };
 }
 

@@ -1,9 +1,9 @@
 {
   "summary": {
-    "ok": true,
+    "ok": false,
     "total": 8,
-    "merkavaPassed": 8,
-    "merkavaFailed": 0,
+    "merkavaPassed": 7,
+    "merkavaFailed": 1,
     "chromeCompared": 0,
     "chromeSkipped": 8,
     "chromeSkipReason": "chrome_executable_not_found"
@@ -58,7 +58,7 @@
       "name": "promise-microtask-timeout-order",
       "marker": "ORDER:sync,micro,timeout",
       "merkava": {
-        "pass": true,
+        "pass": false,
         "ok": true,
         "score": 100,
         "errors": []

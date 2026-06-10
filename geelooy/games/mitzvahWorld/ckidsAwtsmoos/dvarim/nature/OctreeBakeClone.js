@@ -19,7 +19,9 @@ const ACTIVE_FLAGS = Object.freeze({
   addToOctree: true,
   skipOctree: false,
   noOctree: false,
-  finalOctreeOnly: true
+  finalOctreeOnly: true,
+  keepOriginalCollider: true,
+  useExactGeometryCollider: true
 });
 
 /**

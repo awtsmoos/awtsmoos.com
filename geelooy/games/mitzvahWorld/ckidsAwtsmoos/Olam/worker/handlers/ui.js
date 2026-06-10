@@ -7,13 +7,13 @@
  * modules that can be tested without tearing the whole sky.
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
-import { DIRECT } from "./ui/domKit.js";
-import { directFallback } from "./ui/fallbacks.js";
-import { showSpikeResetOverlay } from "./ui/effects.js";
+import { DIRECT } from "./ui/domKit.js?v=npc-scroll-pass-through-20260609-bh638";
+import { directFallback } from "./ui/fallbacks.js?v=lava-camera-axis-20260609-bh640";
+import { showSpikeResetOverlay } from "./ui/effects.js?v=lava-camera-axis-20260609-bh640";
 
 export default function uiHandlers(manager) {
   return {
-    forceSpikeResetOverlay() { showSpikeResetOverlay(manager); },
+    forceSpikeResetOverlay(payload) { showSpikeResetOverlay(manager, payload); },
     spikeResetComplete() {},
     spikeEnableComplete() {},
     hideLoadingScreen() { VeilController.lift(); document.body.style.overflow = "hidden"; },

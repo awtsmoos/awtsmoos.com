@@ -6,6 +6,7 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Chai from "../../chai/index.js?v=exact-visual-feet-20260603-bh386";
+import { applyCameraStart } from './lifecycle/cameraStart.js?v=lava-camera-axis-20260609-bh640';
 import { ensureFallbackBody } from './lifecycle/fallbackBody.js';
 import { prepareChossidModel } from './lifecycle/model.js?v=exact-feet-after-frame-20260603-bh386';
 
@@ -55,6 +56,5 @@ function registerPlayer(chossid) {
   chossid.olam.player = chossid;
   if (!chossid.olam.ayin) return;
   chossid.olam.ayin.target = chossid;
-  chossid.olam.ayin.currentDistance = 5;
-  chossid.olam.ayin.desiredDistance = 5;
+  applyCameraStart(chossid);
 }

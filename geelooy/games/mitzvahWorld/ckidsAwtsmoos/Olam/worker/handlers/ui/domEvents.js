@@ -32,8 +32,11 @@ function isControl(target) {
 }
 export function sealIsland(root) {
   if (!root) return;
-  root.style.pointerEvents = 'auto';
+  root.style.pointerEvents = 'none';
   root.setAttribute('data-awts-ui-seal', 'true');
+  root.querySelectorAll('.awts-npc-card,.awts-shop-card,button,[data-level-id],input,select,textarea,a').forEach(el => {
+    el.style.pointerEvents = 'auto';
+  });
   const guard = event => {
     if (isControl(event.target)) return;
     softSeal(event);

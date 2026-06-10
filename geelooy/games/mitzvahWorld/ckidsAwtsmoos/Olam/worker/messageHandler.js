@@ -10,9 +10,9 @@
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=npc-stats-levelselect-split-20260607-bh167";
+import uiHandlers from "./handlers/ui.js?v=lava-camera-axis-20260609-bh640";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
-import inputHandlers from "./handlers/input.js?v=lava-countdown-feet-20260602-bh8";
+import inputHandlers from "./handlers/input.js?v=lava-camera-axis-20260609-bh640";
 
 export default function setupMessageHandler(manager) {
   const promiseMap = new Map();

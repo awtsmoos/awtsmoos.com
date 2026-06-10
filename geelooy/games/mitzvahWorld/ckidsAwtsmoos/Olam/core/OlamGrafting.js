@@ -9,7 +9,7 @@ import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
 import heesHawvoos from "../methods/heesHawvoos.js";
 import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=nonfatal-size-probe-20260603-bh325";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=lava-camera-axis-20260609-bh640";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";

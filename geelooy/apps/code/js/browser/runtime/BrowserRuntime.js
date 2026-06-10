@@ -2,9 +2,9 @@
 /**
  * @file BrowserRuntime.js
  * @description
- * Chapter 15: The Awtsmoos made one browser vessel with three revelations:
- * URL rivers, custom HTML earth, and JavaScript lightning. The old iframe did
- * not die; it became a fuller virtual preview chamber.
+ * Chapter 11: The browser vessel became an ocean-forge. The Awtsmoos no longer
+ * lets the iframe sit in a half-width cup; on mount, the runtime marks its host
+ * and ancestors so CSS can stretch the whole tab surface to the available sky.
  */
 
 import { PreviewManager } from '../../editor/preview-manager.js';
@@ -26,6 +26,7 @@ export class BrowserRuntime {
     /** @returns {void} Mounts the browser UI and loads its current route. */
     mount() {
         this.prepareState();
+        this.markHostVessels();
         const root = H(browserBlueprint(this.state));
         this.container.replaceChildren(root);
         this.bindNodes(root);
@@ -39,6 +40,14 @@ export class BrowserRuntime {
         this.state.currentUrl = this.state.currentUrl || this.state.url || 'about:blank';
         this.state.history = Array.isArray(this.state.history) ? this.state.history : [];
         this.state.consoleVisible = Boolean(this.state.consoleVisible);
+        this.state.studioVisible = Boolean(this.state.studioVisible);
+    }
+
+    /** @returns {void} Marks host containers so CSS can destroy the black void. */
+    markHostVessels() {
+        this.container.classList.add('awtsmoos-browser-host-fill');
+        this.container.closest('.editor-area')?.classList.add('awtsmoos-browser-editor-fill');
+        this.container.closest('.main-content')?.classList.add('awtsmoos-browser-main-fill');
     }
 
     /** @param {HTMLElement} root Root node. @returns {void} Captures useful elements. */
@@ -49,6 +58,7 @@ export class BrowserRuntime {
         this.lines = root.querySelector('.browser-runtime-console-lines');
         this.htmlBox = root.querySelector('.browser-runtime-code');
         this.jsBox = root.querySelector('.browser-runtime-js');
+        this.studio = root.querySelector('.browser-runtime-studio');
     }
 
     /** @param {HTMLElement} root Root node. @returns {void} Attaches event handlers. */
@@ -57,10 +67,12 @@ export class BrowserRuntime {
         root.querySelector('[data-action="reload"]').onclick = () => this.navigate(this.state.currentUrl, false);
         root.querySelector('[data-action="home"]').onclick = () => this.navigate('about:blank');
         root.querySelector('[data-action="console"]').onclick = () => this.toggleConsole();
+        root.querySelector('[data-action="studio"]').onclick = () => this.toggleStudio();
         root.querySelector('[data-action="back"]').onclick = () => this.back();
         root.querySelector('[data-action="run-html"]').onclick = () => this.runHtml();
         root.querySelector('[data-action="run-js"]').onclick = () => this.runJs();
         this.address.addEventListener('keydown', e => { if (e.key === 'Enter') this.navigate(this.address.value); });
+        this.studio.addEventListener('toggle', () => { this.state.studioVisible = this.studio.open; this.syncStudio(); });
         this.frame.addEventListener('load', () => appendConsole(this.lines, 'info', 'Frame loaded.'));
     }
 
@@ -116,6 +128,20 @@ export class BrowserRuntime {
     toggleConsole() {
         this.state.consoleVisible = !this.state.consoleVisible;
         this.root.classList.toggle('has-console', this.state.consoleVisible);
+        this.save();
+    }
+
+    /** @returns {void} Toggles custom preview forge. */
+    toggleStudio() {
+        this.state.studioVisible = !this.state.studioVisible;
+        this.studio.open = this.state.studioVisible;
+        this.syncStudio();
+    }
+
+    /** @returns {void} Synchronizes studio chrome. */
+    syncStudio() {
+        this.root.classList.toggle('has-studio', this.state.studioVisible);
+        this.root.querySelector('[data-action="studio"]').textContent = this.state.studioVisible ? 'Hide Dev' : 'Dev';
         this.save();
     }
 

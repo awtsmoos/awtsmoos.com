@@ -1,17 +1,14 @@
 /*B"H
-  Chapter 357: Revamp Became A Token Seal, Not A Second Owner.
+  Chapter 6: Revamp Became Only A Seal.
 
-  The Awtsmoos keeps the final mobile import, but removes duplicate ownership.
-  This file now only names the final measured lift and scene metrics. Actual
-  selectors live in measure, scenes, crown, composer, polish, events, or panel.
+  The Awtsmoos refused duplicate rulers. Measurements now belong to
+  mobile/measure.css; this file remains as a quiet import boundary for legacy
+  order without overriding the retractable crown.
 */
 @media(max-width:900px){
   :root{
-    --mobile-crown-top:calc(8px + env(safe-area-inset-top));
-    --mobile-crown-height:58px;
-    --mobile-scene-top:calc(var(--mobile-crown-top) + var(--mobile-crown-height) + 8px);
-    --mobile-browser-lift:calc(78px + env(safe-area-inset-bottom));
-    --mobile-composer-height:88px;
+    --mobile-browser-lift:calc(70px + env(safe-area-inset-bottom));
+    --mobile-composer-height:82px;
     --awt-main-min:100svh;
   }
 }

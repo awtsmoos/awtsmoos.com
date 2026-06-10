@@ -1,0 +1,37 @@
+/*B"H
+  Chapter 7: Three Prompt Sparks Floated Above The Speech Gate.
+
+  The Awtsmoos keeps suggestions small, scrollable, and quiet. They help the
+  thumb without becoming a new wall above the composer.
+*/
+@media(max-width:900px){
+  body[data-mobile-scene] .mobile-suggestion-rail{
+    position:absolute;
+    left:12px;
+    right:12px;
+    bottom:calc(82px + env(safe-area-inset-bottom));
+    display:flex;
+    gap:8px;
+    overflow:auto;
+    padding:2px 0 4px;
+    z-index:78;
+    scrollbar-width:none;
+  }
+  body[data-mobile-scene] .mobile-suggestion-rail::-webkit-scrollbar{display:none}
+  body[data-mobile-scene] .mobile-suggestion-rail button{
+    flex:0 0 auto;
+    min-height:34px;
+    padding:7px 12px;
+    border:1px solid rgba(192,132,252,.28);
+    border-radius:999px;
+    background:rgba(21,13,43,.74);
+    color:#d8b4fe;
+    font-weight:850;
+    box-shadow:0 12px 24px rgba(0,0,0,.20);
+  }
+  body[data-mobile-scene] .chat-box{
+    padding-bottom:172px;
+    scroll-padding-bottom:190px;
+  }
+}
+@media(min-width:901px){.mobile-suggestion-rail{display:none}}

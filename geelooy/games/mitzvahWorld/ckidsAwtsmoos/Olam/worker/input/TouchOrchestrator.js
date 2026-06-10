@@ -9,7 +9,7 @@
  * one second. This orchestrator keeps a living key-state set and only sends
  * changes, so walking starts smooth and remains smooth.
  */
-import SefiraOfInput from './SefiraOfInput.js?v=lean-l1-20260528-bh37';
+import SefiraOfInput from './SefiraOfInput.js?v=npc-scroll-pass-through-20260609-bh638';
 
 const WALK_KEYS = ['KeyW', 'KeyS', 'KeyQ', 'KeyE'];
 const DEAD_ZONE = 10;

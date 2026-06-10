@@ -105,8 +105,8 @@ function handleProgress(data) {
   const stage = String(data.stage || data.text || "unknown");
   recordWorkerProgress(stage);
 
-  if (VISIBLE_PROGRESS.has(stage)) {
-    console.info(`B"H | WORKER_PROGRESS | ${stage}`);
+  if (VISIBLE_PROGRESS.has(stage) || stage.includes(":")) {
+   // console.info(`B"H | WORKER_PROGRESS | ${stage}`);
   }
 }
 

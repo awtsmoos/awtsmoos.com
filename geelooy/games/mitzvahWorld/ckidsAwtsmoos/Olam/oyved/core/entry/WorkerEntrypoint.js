@@ -5,15 +5,15 @@
  * filenames. The Awtsmoos turns the fatal mobile import chain into ordinary JS
  * modules so OlamVessel, then the mezuzah, may materialize.
  */
-import { postPlainWorkerError } from "./PlainWorkerPost.js";
-import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
-import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js";
-import { createWorkerBootState } from "./WorkerBootState.js";
-import { startWorkerBoot } from "./WorkerBootRunner.js";
-import { loadWorkerCoreModules } from "./WorkerCoreModules.js";
-import { installWorkerMessageListener } from "./WorkerListenerInstaller.js";
-import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
+import { postPlainWorkerError } from "./PlainWorkerPost.js?compact=true";
+import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?compact=true";
+import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js?compact=true";
+import { createWorkerBootState } from "./WorkerBootState.js?compact=true";
+import { startWorkerBoot } from "./WorkerBootRunner.js?compact=true";
+import { loadWorkerCoreModules } from "./WorkerCoreModules.js?compact=true";
+import { installWorkerMessageListener } from "./WorkerListenerInstaller.js?compact=true";
+import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js?compact=true";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true";
 
 /** @returns {Promise<void>} */
 export async function startOyvedEntrypoint() {

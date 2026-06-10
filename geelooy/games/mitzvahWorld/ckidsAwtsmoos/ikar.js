@@ -6,13 +6,13 @@
  * The Awtsmoos keeps this root small: diagnostics and level loading now live in
  * reusable boot vessels, so the village may be authored from many files without
  * losing the immediate reliability of `village.json`.
- */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=js-level-source-20260604-bh433";
-import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?v=js-level-source-20260604-bh433";
-import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?v=js-level-source-20260604-bh433";
+ */ 
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true";
+import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?comptact=true";
+import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?compact=true";
 
 const scope = window;
-const SEAL = "js-level-source-20260604-bh433";
+const SEAL = "lava-camera-axis-20260609-bh640";
 const markPhase = (phase, data = {}) => mark(SEAL, phase, data);
 
 async function clearOldCaches() {

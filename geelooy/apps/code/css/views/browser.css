@@ -1,16 +1,23 @@
 /* B"H
- * Chapter 16: The browser vessel received walls of light. The Awtsmoos curved
- * each panel into a chamber where URLs, HTML, JavaScript, console, and iframe
- * could stand together without devouring one another.
+ * Chapter 10: The Host Vessel Split Open.
+ *
+ * The Awtsmoos revealed that the black void was not merely inside /ai; it lived
+ * in the browser host. This file now forces every browser runtime layer to fill
+ * the active editor surface, while the Dev forge stays folded behind a button.
  */
 
-.browser-container {
+.browser-container,
+.browser-runtime {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
     background-color: var(--color-bg-deep);
     font-family: var(--font-ui);
+    overflow: hidden !important;
 }
 
 .browser-toolbar,
@@ -19,23 +26,33 @@
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    background-color: var(--color-bg-secondary);
+    background: linear-gradient(180deg, rgba(6, 16, 30, .98), rgba(2, 8, 16, .98));
     border-bottom: 1px solid var(--color-border);
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.browser-runtime-toolbar .vos-app-button {
+    min-height: 32px;
+    padding: 5px 12px;
+    white-space: nowrap;
 }
 
 .browser-url-input,
 .browser-runtime-address {
-    flex-grow: 1;
+    flex: 1 1 auto;
+    min-width: min(220px, 40vw);
+    max-width: none;
     background: #000;
     border: 1px solid var(--color-border);
     color: var(--neon-lime);
-    padding: 6px 12px;
-    border-radius: 16px;
+    padding: 7px 12px;
+    border-radius: 14px;
     font-family: var(--font-code);
     font-size: 13px;
     outline: none;
-    transition: all 0.2s;
 }
 
 .browser-url-input:focus,
@@ -44,50 +61,73 @@
     box-shadow: 0 0 10px rgba(0, 246, 255, 0.2);
 }
 
-.browser-runtime {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
+.browser-runtime-studio {
+    display: none;
+    flex: 0 0 auto;
+    padding: 0 12px 10px;
+    background: rgba(2, 8, 16, .98);
+    border-bottom: 1px solid var(--color-border);
 }
 
-.browser-runtime-studio {
+.browser-runtime.has-studio .browser-runtime-studio { display: block; }
+
+.browser-runtime-studio summary {
+    cursor: pointer;
+    color: var(--neon-cyan);
+    font-weight: 800;
+    padding: 8px 0;
+}
+
+.browser-runtime-studio-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.browser-runtime-studio-actions {
+    display: flex;
+    justify-content: flex-end;
     gap: 8px;
-    padding: 8px;
-    background: var(--color-bg-secondary);
-    border-bottom: 1px solid var(--color-border);
+    padding-top: 8px;
 }
 
 .browser-runtime-code,
 .browser-runtime-js {
-    min-height: 78px;
+    min-height: 96px;
+    max-height: 180px;
     resize: vertical;
     color: var(--neon-lime);
     background: #050505;
     border: 1px solid var(--color-border);
     border-radius: 10px;
-    padding: 8px;
+    padding: 9px;
     font-family: var(--font-code);
     font-size: 12px;
 }
 
 .browser-iframe-container,
 .browser-runtime-frame-wrap {
-    flex-grow: 1;
-    background: #fff;
+    flex: 1 1 auto;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    background: #020611;
     position: relative;
-    min-height: 0;
+    overflow: hidden;
 }
 
 .browser-iframe,
 .browser-runtime-frame {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
     border: none;
     display: block;
+    background: #020611;
 }
 
 .browser-runtime-console {
@@ -103,11 +143,10 @@
     border-top: 1px solid var(--color-border);
     font-family: var(--font-code);
     font-size: 12px;
+    z-index: 4;
 }
 
-.browser-runtime.has-console .browser-runtime-console {
-    display: block;
-}
+.browser-runtime.has-console .browser-runtime-console { display: block; }
 
 .browser-runtime-console-head {
     padding: 6px 8px;
@@ -118,4 +157,9 @@
 .browser-runtime-console-line {
     padding: 4px 8px;
     white-space: pre-wrap;
+}
+
+@media (max-width: 820px) {
+    .browser-runtime-studio-grid { grid-template-columns: 1fr; }
+    .browser-runtime-toolbar { flex-wrap: wrap; }
 }

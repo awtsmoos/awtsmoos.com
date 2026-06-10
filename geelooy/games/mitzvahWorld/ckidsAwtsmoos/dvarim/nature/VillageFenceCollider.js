@@ -19,7 +19,7 @@ function makeBody(owner, name, size, pos) {
   mesh.visible = true;
   mesh.position.set(...pos);
   mesh.nivraAwtsmoos = owner;
-  Object.assign(mesh.userData ||= {}, { isSolid: true, explicitCollision: true, collisionBody: true, addToOctree: true, isVillageFenceCollider: true, authoredFenceCollider: true, useAuthoredY: true });
+  Object.assign(mesh.userData ||= {}, { isSolid: true, explicitCollision: true, collisionBody: true, addToOctree: true, isVillageFenceCollider: true, authoredFenceCollider: true, useAuthoredY: true, keepOriginalCollider: true, useExactGeometryCollider: true });
   return mesh;
 }
 export default class VillageFenceCollider extends Domem {

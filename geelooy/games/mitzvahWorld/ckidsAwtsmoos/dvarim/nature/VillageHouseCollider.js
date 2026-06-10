@@ -1,21 +1,23 @@
 // B"H
 /**
  * @file VillageHouseCollider.js
- * @description
- * Chapter 565: The house becomes solid again, but only as walls.
- * No hidden floor slab, no porch ramp, no climbable invisible shelf. The visual
- * house gives final pose and scale; this vessel contributes four perimeter wall
- * bodies with a front doorway gap, then bakes detached world clones into octree.
+ * @description Chapter 638: the house becomes solid by measured simple walls.
+ *
+ * The visual house may be complex geometry, many small bricks and roof shapes,
+ * but the octree receives only a calm measured wall shell. During final village
+ * settle, the finished house is measured in its own local space, six simple
+ * slabs are rebuilt around it, and detached exact box bodies enter physics.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js";
+import { rebuildMeasuredHouseShell } from "./houseCollider/VillageHouseAutoShell.js";
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const mat = () => new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
 function mark(mesh, owner) {
   mesh.visible = true;
   mesh.nivraAwtsmoos = owner;
-  Object.assign(mesh.userData ||= {}, { isVillageHouseCollider: true, colliderRole: mesh.name, useAuthoredY: true, isSolid: true, explicitCollision: true, addToOctree: true, collisionBody: true });
+  Object.assign(mesh.userData ||= {}, { isVillageHouseCollider: true, colliderRole: mesh.name, useAuthoredY: true, isSolid: true, explicitCollision: true, addToOctree: true, collisionBody: true, keepOriginalCollider: true, useExactGeometryCollider: true });
   delete mesh.userData.skipRaycast;
 }
 function box(root, owner, name, pos, size) {
@@ -78,12 +80,15 @@ export default class VillageHouseCollider extends Domem {
   }
   alignToFinalHouseTransform(houseMesh) {
     if (!this.mesh || !houseMesh?.isObject3D) return false;
-    houseMesh.updateMatrixWorld(true);
-    houseMesh.getWorldPosition(this.mesh.position);
-    houseMesh.getWorldQuaternion(this.mesh.quaternion);
-    this.mesh.scale.copy(houseMesh.getWorldScale(new THREE.Vector3()));
-    this.mesh.updateMatrixWorld(true);
-    this.mesh.userData.awaitingVillageFinalTransform = false;
+    const measured = rebuildMeasuredHouseShell({ root: this.mesh, owner: this, houseMesh, options: this.options, materialFactory: mat });
+    if (!measured) {
+      houseMesh.updateMatrixWorld(true);
+      houseMesh.getWorldPosition(this.mesh.position);
+      houseMesh.getWorldQuaternion(this.mesh.quaternion);
+      this.mesh.scale.set(1, 1, 1);
+      this.mesh.userData.awaitingVillageFinalTransform = false;
+      this.mesh.updateMatrixWorld(true);
+    }
     return finiteWorld(this.mesh);
   }
   addFinalCollidersToOctree(olam = this.olam) {

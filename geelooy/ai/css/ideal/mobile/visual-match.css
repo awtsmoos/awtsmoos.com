@@ -1,0 +1,102 @@
+/*B"H
+  Chapter 6: The Phone Glass Took The Mockup Palette.
+
+  The Awtsmoos quiets the excessive neon. Deep navy owns the field, purple owns
+  the AI voice, green owns transport truth, and cyan becomes a rare accent.
+*/
+@media(max-width:900px){
+  html body{
+    background:
+      radial-gradient(circle at 20% -8%,rgba(34,230,196,.12),transparent 30%),
+      radial-gradient(circle at 90% 6%,rgba(124,58,237,.14),transparent 36%),
+      linear-gradient(180deg,#050b18,#020611 44%,#02050d);
+  }
+  body .mobile-app-crown,
+  body .mobile-bottom-dock,
+  body[data-mobile-scene] .mobile-control-center,
+  body[data-mobile-scene] .mobile-chat-hero,
+  body[data-mobile-scene] .input-area,
+  body .main,
+  body .sidebar,
+  body .automation-panel{
+    background:linear-gradient(180deg,rgba(10,18,32,.94),rgba(4,9,20,.97));
+    border-color:rgba(148,163,184,.16);
+    box-shadow:0 18px 46px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  body .mobile-crown-brand{
+    color:#22d3c5;
+    text-shadow:none;
+  }
+  body .mobile-crown-mark{
+    background:rgba(34,211,197,.12);
+    color:#22d3c5;
+    border:1px solid rgba(34,211,197,.24);
+    box-shadow:none;
+  }
+  body[data-mobile-scene] .mobile-chat-icon{
+    color:#c084fc;
+    background:rgba(124,58,237,.16);
+    border:1px solid rgba(192,132,252,.18);
+  }
+  body[data-mobile-scene] .mobile-control-dot[data-state="ready"]{
+    background:#4ade80;
+    box-shadow:0 0 0 7px rgba(74,222,128,.12),0 0 18px rgba(74,222,128,.38);
+  }
+  body[data-mobile-scene] .mobile-control-dot[data-state="missing"]{
+    background:#fb7185;
+    box-shadow:0 0 0 7px rgba(251,113,133,.12),0 0 18px rgba(251,113,133,.38);
+  }
+  body[data-mobile-scene] .chat-box{
+    background:
+      radial-gradient(circle at 50% 0,rgba(124,58,237,.08),transparent 38%),
+      linear-gradient(180deg,rgba(4,9,20,.42),rgba(2,6,17,.65));
+  }
+  body[data-mobile-scene] .message,
+  body[data-mobile-scene] .bubble{
+    border-color:rgba(148,163,184,.15);
+    border-radius:24px;
+    background:linear-gradient(180deg,rgba(13,24,42,.95),rgba(6,13,26,.97));
+    box-shadow:0 14px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.045);
+    color:#e6edf7;
+  }
+  body[data-mobile-scene] .user-message,
+  body[data-mobile-scene] .message.user{
+    background:linear-gradient(135deg,rgba(74,35,145,.94),rgba(39,32,74,.96));
+    border-color:rgba(168,85,247,.24);
+    color:#f8f5ff;
+  }
+  body[data-mobile-scene] .assistant-message,
+  body[data-mobile-scene] .message.assistant{
+    background:linear-gradient(180deg,rgba(12,24,42,.94),rgba(6,13,26,.97));
+  }
+  body[data-mobile-scene] #message-input{
+    background:rgba(11,21,38,.94);
+    border-color:rgba(148,163,184,.18);
+    color:#f8fafc;
+  }
+  body[data-mobile-scene] #send-button{
+    background:linear-gradient(135deg,#7c3aed,#5b21b6);
+    border-color:rgba(196,181,253,.30);
+    box-shadow:0 12px 28px rgba(124,58,237,.32);
+  }
+  body .mobile-bottom-dock button{
+    background:transparent;
+    border-color:transparent;
+    color:#aebbd0;
+  }
+  body[data-mobile-scene="chat"] .mobile-nav-chat,
+  body[data-mobile-scene="conversations"] .mobile-nav-conversations,
+  body[data-mobile-scene="automation"] .mobile-nav-automation{
+    background:rgba(124,58,237,.16);
+    color:#c084fc;
+    border-color:rgba(192,132,252,.18);
+    box-shadow:none;
+  }
+  body .provider-key-panel,
+  body .service-selector,
+  body .conversation-list li,
+  body .automation-panel button{
+    border-color:rgba(148,163,184,.15);
+    background:rgba(8,16,31,.72);
+  }
+}

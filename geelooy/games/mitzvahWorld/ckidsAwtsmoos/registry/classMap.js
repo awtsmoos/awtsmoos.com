@@ -13,7 +13,7 @@ export default {
   Tzomayach: "../../chayim/tzomayach.js",
   Chai: "../../chayim/chai/index.js",
   Medabeir: "../../chayim/medabeir/index.js",
-  Chossid: "../../chayim/chossid/index.js?v=explicit-npc-click-payload-20260605-bh449",
+  Chossid: "../../chayim/chossid/index.js?v=lava-camera-axis-20260609-bh640",
   Tool: "../../dvarim/tool.js",
   Coin: "../../dvarim/coin.js",
   Container: "../../dvarim/container.js",
@@ -60,7 +60,7 @@ export default {
   SolidBlock: "../../dvarim/architecture/SolidBlock.js",
   ProceduralBuilding: "../../dvarim/architecture/ProceduralBuilding.js",
   ProceduralFlora: "../../dvarim/nature/ProceduralFlora.js",
-  VillageHouseCollider: "../../dvarim/nature/VillageHouseCollider.js?v=wall-only-house-solid-20260609-bh566",
-  VillageFenceCollider: "../../dvarim/nature/VillageFenceCollider.js?v=fence-recipe-mirror-20260609-bh541",
+  VillageHouseCollider: "../../dvarim/nature/VillageHouseCollider.js?v=lava-camera-axis-20260609-bh640",
+  VillageFenceCollider: "../../dvarim/nature/VillageFenceCollider.js?v=lava-camera-axis-20260609-bh640",
   VillageRoadCollider: "../../dvarim/nature/VillageRoadCollider.js?v=detached-road-octree-20260605-bh449"
 };

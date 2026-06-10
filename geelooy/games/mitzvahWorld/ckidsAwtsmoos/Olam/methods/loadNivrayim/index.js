@@ -12,7 +12,7 @@
  * instantiateMezuzahDirect.js?v=direct-lava-platforms-20260609-bh613
  * final-colliders-after-settle-20260609-bh571
  */
-import instantiate from "./instantiateMezuzahDirect.js?v=direct-lava-platforms-20260609-bh620";
+import instantiate from "./instantiateMezuzahDirect.js?v=lava-camera-axis-20260609-bh640";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-colliders-after-settle-20260609-bh621";

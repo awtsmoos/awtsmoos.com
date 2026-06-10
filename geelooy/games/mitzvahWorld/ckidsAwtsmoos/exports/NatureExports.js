@@ -22,6 +22,6 @@ export { default as VillageRealismTree } from "../dvarim/nature/VillageRealismTr
 export { default as VillageRealismProp } from "../dvarim/nature/VillageRealismProp.js?v=realism-prop-index-loop-safe-20260603-bh312";
 export { default as VillagePictureProp } from "../dvarim/nature/VillagePictureProp.js?v=soft-readable-tree-recipes-20260604-bh445";
 export { default as VillageHouseDoor } from "../dvarim/nature/VillageHouseDoor.js?v=wide-door-gray-ghost-banished-20260603-bh351";
-export { default as VillageHouseCollider } from "../dvarim/nature/VillageHouseCollider.js?v=wall-only-house-solid-20260609-bh566";
-export { default as VillageFenceCollider } from "../dvarim/nature/VillageFenceCollider.js?v=no-composed-fence-collider-20260609-bh556";
+export { default as VillageHouseCollider } from "../dvarim/nature/VillageHouseCollider.js?v=lava-camera-axis-20260609-bh640";
+export { default as VillageFenceCollider } from "../dvarim/nature/VillageFenceCollider.js?v=lava-camera-axis-20260609-bh640";
 export { default as VillageRoadCollider } from "../dvarim/nature/VillageRoadCollider.js?v=detached-road-octree-20260605-bh449";

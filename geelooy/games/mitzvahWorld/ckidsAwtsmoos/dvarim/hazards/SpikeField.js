@@ -10,6 +10,7 @@
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 import { SpikeParticleFactory, animateSpikeParticles } from "./spikeField/SpikeParticles.js";
+import { normalizeResetFeet } from "../../Olam/shared/SpikeResetPosition.js";
 
 const PAD = 0.15;
 const FEET_PAD = 0.2;
@@ -55,7 +56,7 @@ function hideTree(root) { if (!root) return; root.visible = false; root.traverse
 export default class SpikeField extends Domem {
   type = "spikeField";
   heesHawveh = true;
-  constructor(op = {}, olam) { super({ ...op, isSolid: false, interactable: false }, olam); this.height = Number(op.height || 0.42); this.groundY = Number(op.groundY ?? -3); this.resetDelayMs = Number(op.resetDelayMs || RESET_DELAY_MS); this.box = paddedBox(op.bounds || boundsFromPoints(op.spikes || []), Number(op.pad ?? PAD)); this._triggered = false; this._particles = []; this.particleFactory = new SpikeParticleFactory(olam); this.texture = null; }
+  constructor(op = {}, olam) { super({ ...op, isSolid: false, interactable: false }, olam); this.height = Number(op.height || 0.42); this.groundY = Number(op.groundY ?? -3); this.resetDelayMs = Number(op.resetDelayMs || RESET_DELAY_MS); this.resetPosition = normalizeResetFeet(op.resetPosition || op.startFeet || op.targetPosition); this.box = paddedBox(op.bounds || boundsFromPoints(op.spikes || []), Number(op.pad ?? PAD)); this._triggered = false; this._particles = []; this.particleFactory = new SpikeParticleFactory(olam); this.texture = null; }
   async heescheel(olam) { this.olam = olam; this.particleFactory.olam = olam; this.mesh = this.makeMesh(); await olam.hoyseef(this); this.isReady = true; }
   makeMesh() {
     this.texture = makeLavaTexture();
@@ -77,7 +78,7 @@ export default class SpikeField extends Domem {
   finalExplosionOrigin(player) { const pos = (playerPosition(player) || this.mesh?.position || new THREE.Vector3()).clone(); pos.y = this.groundY + this.height + 0.55; return pos; }
   resetLevelStateNow() { this.olam.__levelPerutosCollected = 0; this.olam.__tzedakahBlessed = false; this.olam.__tzedakahDonation = 0; this.olam.__personalRewardPaid = false; const mezuzahs = this.olam.__insideRightPostMezuzahs || []; for (const mezuzah of mezuzahs) mezuzah?.awakenColor?.(0x72fff4); const lossPayload = { collected: 0, requiredPerutos: this.olam.requiredPerutos || 0, reset: true, personalDelta: -1, reason: "lava fall" }; this.olam?.ayshPeula?.("ui event", "perutahProgress", lossPayload); this.olam?.ayshPeula?.("ui event", "gameHUD", { perutahProgress: lossPayload, personalPerutas: lossPayload }); }
   hidePlayer(player, token) { if (player.__spikeDeathToken !== token) return; [player.modelMesh, player.visualObject, player.guf, player.mesh, player.emptyCopy, player.nonRotatingEmptyForMovement].forEach(hideTree); }
-  overlay(origin, token) { const payload = { effect: "spikeDeath", reason: "lava-floor", token, cssOnly: true, overlayDelayMs: this.resetDelayMs, text: "לבה! חוזרים בעוד 3", worldPosition: { x: origin.x, y: origin.y, z: origin.z } }; globalThis.postMessage?.({ type: "forceSpikeResetOverlay", payload }); this.olam?.ayshPeula?.("ui event", "effectsOverlay", payload); }
+  overlay(origin, token) { const payload = { effect: "spikeDeath", reason: "lava-floor", token, cssOnly: true, overlayDelayMs: this.resetDelayMs, text: "לבה! חוזרים בעוד 3", worldPosition: { x: origin.x, y: origin.y, z: origin.z }, resetPosition: this.resetPosition }; globalThis.postMessage?.({ type: "forceSpikeResetOverlay", payload }); this.olam?.ayshPeula?.("ui event", "effectsOverlay", payload); }
   spawnLetterExplosion(origin) { const scene = this.olam?.scene || this.mesh?.parent; if (!scene) return; const particles = this.particleFactory.createMany(origin, 48); particles.forEach(particle => scene.add(particle)); this._particles.push(...particles); }
   resetField() { this._triggered = false; }
 }

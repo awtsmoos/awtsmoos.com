@@ -13,12 +13,12 @@
  * dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh613
  * dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh613
  */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lava-camera-axis-20260609-bh640';
 import Utils from '../../../utils.js';
 import SolidBlockDirect from '../../../dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh620';
 import MovingPlatformDirect from '../../../dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh620';
-import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=direct-lava-platforms-20260609-bh620';
-import FallResetTriggerDirect from '../../../dvarim/hazards/FallResetTrigger.js?v=direct-lava-platforms-20260609-bh620';
+import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=lava-camera-axis-20260609-bh640';
+import FallResetTriggerDirect from '../../../dvarim/hazards/FallResetTrigger.js?v=lava-camera-axis-20260609-bh640';
 import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js?v=route-alias-targetpath-20260609-bh620';
 import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=travel-ui-buttons-fixed-20260609-bh566';
 

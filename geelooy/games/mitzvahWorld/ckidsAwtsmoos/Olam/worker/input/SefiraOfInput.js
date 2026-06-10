@@ -22,7 +22,11 @@ export default class SefiraOfInput {
       '.innerSlot', '.close', '.back-inv-btn', '#joystick-container',
       '#joystick-base', '#joystick-thumb', '.controller-button',
       '.awtsmoosBtn', '.mitzvahBtn', '.gameMenu', '.store-container',
-      '.quest-log', '.characterDesigner'
+      '.quest-log', '.characterDesigner', '[data-awts-ui-seal]',
+      '#awtsmoos-npc-overlay', '#awtsmoos-npc-shop', '.awts-npc-card',
+      '.awts-shop-card', '.awts-npc-layout', '.awts-shop-list',
+      '.awts-npc-level-grid', '.awts-npc-actions', '.awts-npc-btn',
+      '.awts-shop-btn', '.awts-shop-row', '.awts-npc-level-card'
     ];
     return !!el.closest(markers.join(', '));
   }

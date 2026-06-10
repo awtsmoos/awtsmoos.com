@@ -1,57 +1,48 @@
 /*B"H
-  Chapter 374: The Mobile Composer Became Scene-Contextual.
+  Chapter 6: The Hero Merged Into The Control Jewel.
 
-  The Awtsmoos lifts the speech gate without stealing the mobile scene selector.
-  Scene positioning belongs to `mobile/scenes.css`; this file refines the chat
-  scene only through body state.
+  The Awtsmoos removed the duplicate title card. The compact control center is
+  now the only mobile header inside the scene, leaving more vertical room for
+  the living conversation.
 */
 @media(max-width:900px){
   body[data-mobile-scene] .main{
     display:grid;
     grid-template-rows:auto minmax(0,1fr) auto;
-    grid-template-areas:"transport" "chat" "composer";
+    grid-template-areas:"control" "chat" "composer";
     padding:0;
     overflow:hidden;
   }
   body[data-mobile-scene] .main .transport-status{
-    grid-area:transport;
-    position:relative;
-    top:auto;
-    left:auto;
-    right:auto;
-    min-height:46px;
-    max-height:92px;
-    margin:10px 12px 8px;
-    border-radius:18px;
-    font-size:.8rem;
-    padding:9px 12px;
-    z-index:60;
-    background:rgba(4,12,24,.88);
-    border:1px solid rgba(125,211,252,.18);
-    box-shadow:0 12px 30px rgba(0,0,0,.28);
-    overflow:auto;
+    grid-area:control;
+    min-height:0;
+    max-height:0;
+    margin:0;
+    padding:0;
+    border:0;
+    overflow:hidden;
+    opacity:0;
   }
   body[data-mobile-scene] .chat-box{
     grid-area:chat;
     min-height:0;
-    padding:14px 12px 190px;
+    padding:10px 12px 132px;
     scroll-padding-top:16px;
-    scroll-padding-bottom:202px;
+    scroll-padding-bottom:150px;
     overflow:auto;
   }
   body[data-mobile-scene] .input-area{
     grid-area:composer;
-    position:relative;
-    left:auto;
-    right:auto;
-    bottom:auto;
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:calc(8px + env(safe-area-inset-bottom));
     display:grid;
-    grid-template-columns:minmax(0,1fr) 88px;
-    gap:10px;
+    grid-template-columns:minmax(0,1fr) 58px;
+    gap:9px;
     align-items:end;
-    margin:0 10px calc(12px + env(safe-area-inset-bottom));
-    padding:10px;
-    min-height:70px;
+    padding:9px;
+    min-height:66px;
     border-radius:22px;
     background:rgba(3,8,17,.98);
     border:1px solid rgba(45,212,191,.28);
@@ -59,34 +50,24 @@
     backdrop-filter:blur(18px);
     z-index:80;
   }
-  body[data-mobile-scene] .input-area::before{
-    left:18px;
-    right:18px;
-    top:-1px;
-  }
   body[data-mobile-scene] #message-input{
     min-height:48px;
-    max-height:120px;
+    max-height:116px;
     border-radius:16px;
     padding:12px 14px;
     font-size:16px;
     resize:none;
   }
-  body[data-mobile-scene] #send-button{
-    min-height:48px;
-    border-radius:16px;
-    font-weight:950;
-    box-shadow:0 12px 26px rgba(47,120,255,.28);
-    white-space:nowrap;
-  }
+  body[data-mobile-scene] #send-button{min-height:48px;border-radius:16px;font-size:0}
+  body[data-mobile-scene] #send-button::after{content:"➤";font-size:22px}
   body[data-mobile-scene] .attachment-tools{
     position:absolute;
-    left:auto;
     right:18px;
-    bottom:calc(84px + env(safe-area-inset-bottom));
+    bottom:calc(82px + env(safe-area-inset-bottom));
     z-index:79;
     border-radius:999px;
     background:rgba(2,8,20,.72);
     backdrop-filter:blur(12px);
   }
 }
+@media(min-width:901px){.mobile-chat-hero{display:none}}
