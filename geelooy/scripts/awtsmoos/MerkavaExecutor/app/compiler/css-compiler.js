@@ -1,11 +1,24 @@
 // B"H
 (function cssCompiler(root) {
   const ns = root.AwtsEctCompilerParts = root.AwtsEctCompilerParts || {};
+  const ATOMS = [
+    ["display", "block"], ["display", "grid"], ["display", "flex"], ["display", "none"],
+    ["position", "relative"], ["position", "absolute"], ["position", "fixed"],
+    ["padding", "0"], ["padding", "10px"], ["padding", "12px"], ["padding", "14px"], ["padding", "16px"], ["padding", "18px"], ["padding", "24px"], ["padding", "28px"], ["padding", "10px 16px"],
+    ["margin", "0"], ["gap", "10px"], ["gap", "12px"],
+    ["border", "0"], ["border-radius", "12px"], ["border-radius", "14px"], ["border-radius", "18px"], ["border-radius", "24px"], ["border-radius", "999px"],
+    ["background", "#02050a"], ["background", "#06141f"], ["background", "#071923"], ["background", "#0d3340"], ["background", "#123"],
+    ["color", "#eaffff"], ["color", "#eef"], ["color", "#73fff2"], ["color", "#001"],
+    ["width", "100%"], ["height", "100%"], ["touch-action", "none"], ["list-style", "none"], ["font-weight", "900"],
+    ["grid-template-columns", "repeat(3,1fr)"], ["grid-template-columns", "repeat(4,1fr)"],
+    ["opacity", "0"], ["opacity", "1"], ["overflow", "hidden"], ["box-sizing", "border-box"]
+  ];
 
   /**
-   * B"H. CSS is reduced to selector atoms and typed values. Declaration groups
-   * are generic recipes, not handcrafted demos; any rule with enough structure
-   * can collapse into one phrase plus compact property/value operands.
+   * B"H. CSS now has an atom lane. When a declaration is one of the common
+   * property/value pairs of the web, it becomes a tiny atom ID and may share a
+   * byte with neighbors. Unusual CSS still falls back to the typed declaration
+   * river. The atom table is generic browser CSS, not demo-specific magic.
    */
   function parseCss(src, pools, ops, publicSymbols) {
     let index = 0;
@@ -22,8 +35,12 @@
   function ruleOps(selector, body, pools) {
     const decls = declarations(body, pools);
     const out = selectorOps(selector, pools);
-    const group = groupRecipe(decls);
-    if (group) out.push(group); else decls.forEach(op => out.push(op));
+    const atomRun = atomRunRecipe(decls);
+    if (atomRun) out.push(atomRun);
+    else {
+      const group = groupRecipe(decls);
+      if (group) out.push(group); else decls.forEach(op => out.push(op));
+    }
     return out;
   }
 
@@ -43,9 +60,22 @@
       const at = item.indexOf(":");
       if (at < 1) return;
       const prop = ns.trim(item.slice(0, at));
-      const value = ns.trim(item.slice(at + 1));
-      out.push([ids.ops.CSS_DECL, ns.builtin(ids.cssProps, prop, pools.custom)].concat(cssValue(value, pools)));
+      const value = normalizeValue(ns.trim(item.slice(at + 1)));
+      const atom = atomId(prop, value);
+      if (atom >= 0) out.push([ids.ops.CSS_ATOM, atom]);
+      else out.push([ids.ops.CSS_DECL, ns.builtin(ids.cssProps, prop, pools.custom)].concat(cssValue(value, pools)));
     });
+    return out;
+  }
+
+  function atomRunRecipe(decls) {
+    const ids = root.AwtsEctIds;
+    if (decls.length < 2) return null;
+    const out = [ids.ops.CSS_ATOM_RUN, decls.length];
+    for (let index = 0; index < decls.length; index += 1) {
+      if (decls[index][0] !== ids.ops.CSS_ATOM) return null;
+      out.push(decls[index][1]);
+    }
     return out;
   }
 
@@ -54,8 +84,11 @@
     const ids = root.AwtsEctIds;
     const out = [ids.ops.PHRASE, phraseId("CSS_DECL_GROUP"), decls.length];
     decls.forEach(op => {
-      out.push(op[1]);
-      for (let index = 2; index < Math.min(op.length, 6); index += 1) out.push(op[index]);
+      if (op[0] === ids.ops.CSS_ATOM) out.push(-999, op[1]);
+      else {
+        out.push(op[1]);
+        for (let index = 2; index < Math.min(op.length, 6); index += 1) out.push(op[index]);
+      }
     });
     return out.slice(0, 34);
   }
@@ -109,6 +142,12 @@
       }
     }
     return null;
+  }
+
+  function normalizeValue(value) { return ns.splitSpaces(value).join(" "); }
+  function atomId(prop, value) {
+    for (let index = 0; index < ATOMS.length; index += 1) if (ATOMS[index][0] === prop && ATOMS[index][1] === value) return index;
+    return -1;
   }
 
   function markPublic(selector, publicSymbols) {

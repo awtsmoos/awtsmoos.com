@@ -4,42 +4,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Awtsmoos HEICHEL | <?Awtsmoos return heichel.name.replace(/_/g, " ") ?></title>
+<title>Awtsmoos Heichel</title>
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/variables.css" type="text/css">
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/base.css" type="text/css">
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/layout.css" type="text/css">
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/sidebar.css" type="text/css">
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/content.css" type="text/css">
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/overlays.css" type="text/css">
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/responsive.css" type="text/css">
+<link rel="stylesheet" href="/style/heichelos/revamped-partials/live-main.css" type="text/css">
 <link rel="stylesheet" href="/style/heichelos/heichel/index.css" type="text/css">
-<script>
-/**
- * B"H
- * The Heichel route now loads the split mobile navigation stylesheet. The old
- * reader path remains untouched; this shell only hosts the navigation world
- * immediately before a post opens.
- */
-<?<script>
-return `
-    var authorId = "${heichel.author}";
-`;
-</script>?>
-</script>
+<script type="module" src="/heichelos/heichel/app.js"></script>
 </head>
 <body>
 <div class="all awtsmoospage">
 <?<script> return $a("nav/header.html") </script>?>
-<div class="main">
-    <div class="heichel" data-heichel-id="<?Awtsmoos return heichel.id ?>">
-        <header class="legacy-heichel-fallback">
-            <a href="/heichelos/<?Awtsmoos return heichel.id ?>"><h1><?Awtsmoos return heichel.name.replace(/_/g, " ") ?></h1></a>
-        </header>
-        <section class="legacy-heichel-data hidden" aria-hidden="true">
-            <h2 id="serverHeichelName"><?Awtsmoos return heichel.name.replace(/_/g, " ") ?></h2>
-            <p id="serverHeichelDescription"><?Awtsmoos
-                var desc = heichel.description || "";
-                if (desc === "undefined" || desc === "null") desc = "";
-                desc = desc.split("<").join("&lt;").split(">").join("&gt;").replace(/_/g, " ");
-                return desc;
-            ?></p>
-        </section>
-    </div>
+<div class="main"></div>
 </div>
-</div>
-<script type="module" src="/heichelos/heichel/logic/HeichelLoader.js"></script>
 </body>
 </html>
