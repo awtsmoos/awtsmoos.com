@@ -22,8 +22,13 @@ function Install-AwtsmoosFiles($root, $baseUrl, $files) {
     $parent = Split-Path $dest -Parent
     New-Item -ItemType Directory -Force -Path $parent | Out-Null
     Write-Host ('Downloading ' + $filePath + '...')
-    Invoke-WebRequest -Uri ($baseUrl + '/' + $filePath) -OutFile $dest
-  }
+    if ($filePath.StartsWith('apps/')) {
+  Invoke-WebRequest -Uri ('https://awtsmoos.com/' + $filePath) -OutFile $dest
+} else {
+  Invoke-WebRequest -Uri ($baseUrl + '/' + $filePath) -OutFile $dest
+}
+
+}
 }
 
 $root = Join-Path $env:USERPROFILE '.awtsmoos-tunnel'

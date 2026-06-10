@@ -44,7 +44,17 @@ function bump(version) {
   return parts.join(".");
 }
 const version = bump(oldVersion());
-const files = walk(agentDir).sort();
+const publicFiles = [
+  "apps/ai/relay/split-browser/controlPage.cjs",
+  "apps/ai/relay/split-browser/proxy.cjs",
+  "apps/ai/relay/split-browser/cookieJar.cjs",
+  "apps/ai/relay/split-browser/authState.cjs",
+  "apps/ai/relay/split-browser/clientState.cjs"
+];
+
+const files = [...walk(agentDir), ...publicFiles].sort();
+
+
 fs.writeFileSync(manifestPath, ['B"H', version, "main.js", "", ...files, ""].join("\n"), "utf8");
 console.log(`B"H wrote manifest`);
 console.log(`manifest ${manifestPath}`);

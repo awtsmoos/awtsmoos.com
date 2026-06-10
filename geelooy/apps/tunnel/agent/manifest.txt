@@ -1,7 +1,12 @@
 B"H
-1.0.47
+1.0.48
 main.js
 
+apps/ai/relay/split-browser/authState.cjs
+apps/ai/relay/split-browser/clientState.cjs
+apps/ai/relay/split-browser/controlPage.cjs
+apps/ai/relay/split-browser/cookieJar.cjs
+apps/ai/relay/split-browser/proxy.cjs
 lib/config.js
 lib/local-api.js
 lib/local-browser-relay.js

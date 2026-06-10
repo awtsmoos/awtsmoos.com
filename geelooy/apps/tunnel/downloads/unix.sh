@@ -64,7 +64,11 @@ install_awtsmoos_files() {
     assert_safe_manifest_path "$file_path"
     mkdir -p "$(dirname "$ROOT/$file_path")"
     echo "Downloading $file_path..."
-    curl -fsSL --retry 3 --retry-delay 1 "$BASE_URL/$file_path" -o "$ROOT/$file_path"
+    if [[ "$file_path" == apps/* ]]; then
+  curl -fsSL --retry 3 --retry-delay 1 "https://awtsmoos.com/$file_path" -o "$ROOT/$file_path"
+else
+  curl -fsSL --retry 3 --retry-delay 1 "$BASE_URL/$file_path" -o "$ROOT/$file_path"
+fi
   done
 }
 
