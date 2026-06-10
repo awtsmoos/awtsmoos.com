@@ -5,6 +5,8 @@ const { cookieSummary } = require("../ai/relay/split-browser/cookieJar.cjs");
 const { sessionStatus } = require("../ai/relay/split-browser/authState.cjs");
 const { clientStateSummary } = require("../ai/relay/split-browser/clientState.cjs");
 
+
+
 const TARGET_ORIGIN = "https://chatgpt.com";
 const ALLOWED_ORIGINS = [
   "https://chatgpt.com",

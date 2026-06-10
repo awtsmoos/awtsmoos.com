@@ -44,21 +44,32 @@ function bump(version) {
   return parts.join(".");
 }
 const version = bump(oldVersion());
-const publicFiles = [
-  "ai/relay/split-browser/authState.cjs",
-  "ai/relay/split-browser/bodyTransform.cjs",
-  "ai/relay/split-browser/clientState.cjs",
-  "ai/relay/split-browser/controlPage.cjs",
-  "ai/relay/split-browser/cookieJar.cjs",
-  "ai/relay/split-browser/headerMap.cjs",
-  "ai/relay/split-browser/http.cjs",
-  "ai/relay/split-browser/logger.cjs",
-  "ai/relay/split-browser/proxy.cjs",
-  "ai/relay/split-browser/urlMap.cjs"
-];
+const publicRoot = path.resolve(tunnelDir, "../..");
+const relaySplitBrowserDir = path.join(publicRoot, "ai/relay/split-browser");
 
+function walkPublic(dir) {
+  const out = [];
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (ent.name.startsWith(".")) continue;
+    const full = path.join(dir, ent.name);
+    const rel = path.relative(publicRoot, full).replaceAll("\\", "/");
 
+    if (ent.isDirectory()) {
+      out.push(...walkPublic(full));
+      continue;
+    }
+
+    if (!ent.isFile()) continue;
+    if (!rel.endsWith(".cjs") && !rel.endsWith(".js")) continue;
+
+    out.push(rel);
+  }
+  return out;
+}
+
+const publicFiles = walkPublic(relaySplitBrowserDir);
 const files = [...walk(agentDir), ...publicFiles].sort();
+
 
 
 fs.writeFileSync(manifestPath, ['B"H', version, "main.js", "", ...files, ""].join("\n"), "utf8");
