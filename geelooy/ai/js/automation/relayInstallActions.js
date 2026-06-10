@@ -1,5 +1,6 @@
 //B"H
 const SCRIPT_ROOT = "./relay/install";
+const TUNNEL_CONTROL_URL = "https://awtsmoos.com/apps/tunnel-control/";
 
 export const RELAY_INSTALL_ASSETS = Object.freeze({
   powershell: `${SCRIPT_ROOT}/install-awtsmoos-chatgpt-relay.ps1`,
@@ -8,31 +9,26 @@ export const RELAY_INSTALL_ASSETS = Object.freeze({
 });
 
 /**
- * B"H
- * Chapter 178: The Installer Button Became A Gate Of Actual Descent.
+ * Chapter 12: The Installer Split Into Relay And Tunnel.
  *
- * The Awtsmoos is not satisfied by a label that says "relay" while leaving the
- * human empty-handed. This helper turns each click into a real downloaded file:
- * a PowerShell river, a Unix river, or the raw Node vessel itself.
+ * The ChatGPT relay remains downloadable, while Awtsmoos Tunnel install opens
+ * the hosted control gate. Commands are visible in the card so the human can
+ * copy them for Windows, macOS, Linux, or Termux without guessing.
  *
  * @param {string} action The `data-relay-action` token from the settings panel.
  * @returns {boolean} True when this module handled the action.
  */
 export function handleRelayInstallAction(action) {
+  if (action === "tunnel-control" || action === "tunnel-install") {
+    globalThis.open?.(TUNNEL_CONTROL_URL, "_blank", "noopener,noreferrer");
+    return true;
+  }
   const href = RELAY_INSTALL_ASSETS[action];
   if (!href) return false;
   downloadAsset(href, href.split("/").pop());
   return true;
 }
 
-/**
- * B"H
- * Downloads the public installer asset without mutating the page state.
- *
- * @param {string} href Relative public URL under `/geelooy/ai`.
- * @param {string} name Filename offered to the browser.
- * @returns {void}
- */
 export function downloadAsset(href, name) {
   const a = document.createElement("a");
   a.href = href;
@@ -43,10 +39,7 @@ export function downloadAsset(href, name) {
 }
 
 /**
- * B"H
- * Copies a command from the jewel-card beside the relay buttons. If clipboard is
- * blocked, the command text is selected so the human can still carry the spark.
- *
+ * B"H — Copies a command from the jewel-card beside the relay buttons.
  * @param {HTMLElement} root Panel root that contains command buttons.
  * @param {HTMLElement} node Clicked copy button.
  * @returns {Promise<string>} Status sentence for the relay status line.

@@ -1,15 +1,13 @@
 // B"H
 /**
  * @file index.js
- * @description
- * Chapter 130: The outer gate carries the ray-grounded village seal. The
- * Awtsmoos asks the browser for fresh ikar, fresh UI, and fresh worker grounding.
- * The worker-side builder contract is WorldHeescheel.
+ * @description Chapter 619: The outer gate carries the direct lava platform and no
+ * invisible village collider seal, forcing the browser to fetch fresh runtime
+ * instantiation and visual-only village data.
  */
 let bootStarted = false;
-const SEAL = "ray-ground-ui-ground0-20260602-bh130";
+const SEAL = "simplified-solid-colliders-20260609-bh636";
 const WORKER_WORLD_BUILDER_CONTRACT = "WorldHeescheel";
-
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
   if (value == null || ["string", "number", "boolean"].includes(typeof value)) return value;
@@ -26,7 +24,6 @@ function safeClone(value, depth = 0) {
   }
   return String(value);
 }
-
 function renderErrorPanel(details) {
   const root = document.getElementById("ikar") || document.body;
   if (!root) return;
@@ -39,7 +36,6 @@ function renderErrorPanel(details) {
   }
   panel.textContent = `B\"H — Mitzvah World boot error\n\n${JSON.stringify(details, null, 2)}`;
 }
-
 function describeAwtsmoosError(error, context = {}) {
   const details = { context: safeClone(context), thrown: safeClone(error), at: new Date().toISOString(), page: location?.href || null };
   console.error(`B"H - ${context.label || "Runtime error"} JSON`, JSON.stringify(details, null, 2));
@@ -48,7 +44,6 @@ function describeAwtsmoosError(error, context = {}) {
   renderErrorPanel(details);
   return details;
 }
-
 function bootIkarNow() {
   if (bootStarted || typeof window === "undefined" || !window.document) return;
   bootStarted = true;
@@ -59,7 +54,6 @@ function bootIkarNow() {
     console.log("B\"H - Mitzvah World ikar boot loaded", window.__AWTSMOOS_BOOT_LOADED__);
   }).catch(error => describeAwtsmoosError(error, { label: "Index [Main]: Failed to load UI starter", phase: "dynamic import", moduleURL: new URL(ikarModuleURL, import.meta.url).href }));
 }
-
 window.addEventListener("error", event => describeAwtsmoosError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));
 window.addEventListener("unhandledrejection", event => describeAwtsmoosError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
 export async function heescheel(ctx) { console.log("B\"H - Index [Worker]: data-driven level hook.", Boolean(ctx)); }

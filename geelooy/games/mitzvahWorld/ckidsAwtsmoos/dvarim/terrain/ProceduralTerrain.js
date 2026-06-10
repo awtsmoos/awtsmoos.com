@@ -2,34 +2,40 @@
 /**
  * @module ProceduralTerrain
  * @description
- * Chapter 363: The terrain keeps collision safety but abandons the black shader.
+ * Chapter 621: Village ground keeps one lawful collider, never a hidden slab.
  *
- * Visual ground now imports the safe texture material. The collider remains a
- * simple terrain mesh plus safety slab, and the terrain law remains published so
- * props, trees, NPCs, and player grounding all speak one earth language.
+ * The screenshots kept reporting false blockers after house/fence/road collider
+ * rows were removed. The remaining collision-capable village row was terrain.
+ * This vessel now honors `noSafetySlab:true`, so flat villages do not get an
+ * extra invisible 190×190 box under the player. Lava levels may still request
+ * their visual-only basins; solid villages keep only the terrain surface mesh.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Domem from "../../chayim/domem/index.js";
 import TerrainGeometryEmanator from "./core/TerrainGeometryEmanator.js";
-import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=green-dirt-phone-ground-20260604-bh430";
-
+import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=typed-ground-no-safety-slab-20260609-bh621";
 const hiddenGroundMaterial = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0 });
 const n = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
-
 function triangleCount(geometry) {
   const indexCount = geometry?.index?.count;
   const posCount = geometry?.attributes?.position?.count;
   return Math.ceil((indexCount || posCount || 0) / 3);
 }
 function solidFlags(mesh, role) {
-  Object.assign(mesh.userData ||= {}, { isSolid: true, isTerrain: true, explicitCollision: true, terrainColliderOnly: true, colliderRole: role });
+  Object.assign(mesh.userData ||= {}, {
+    isSolid: true,
+    isTerrain: true,
+    explicitCollision: true,
+    terrainColliderOnly: true,
+    colliderRole: role
+  });
 }
-
 export default class ProceduralTerrain extends Domem {
   type = "proceduralTerrain";
-
   constructor(op = {}, olam) {
     super(op, olam);
+    this.isSolid = op.isSolid !== false;
+    this.noSafetySlab = Boolean(op.noSafetySlab || op.villageNoSafetySlab || op.textureType === "safegrass");
     this.terrainData = {
       ...op,
       width: n(op.width, 1500),
@@ -43,16 +49,20 @@ export default class ProceduralTerrain extends Domem {
       plateaus: op.plateaus || [],
       roads: op.roads || [],
       microNoise: n(op.microNoise, 0),
-      textureType: op.textureType || "safegrass"
+      textureType: op.textureType || "safegrass",
+      isSolid: this.isSolid,
+      noSafetySlab: this.noSafetySlab
     };
   }
-
   publishTerrainLaw() {
     if (!this.olam) return;
     const p = this.mesh?.position || { x: 0, y: 0, z: 0 };
-    this.olam.awtsmoosTerrainLaw = { data: { ...this.terrainData }, position: { x: n(p.x), y: n(p.y), z: n(p.z) }, source: this.name || "proceduralTerrain" };
+    this.olam.awtsmoosTerrainLaw = {
+      data: { ...this.terrainData },
+      position: { x: n(p.x), y: n(p.y), z: n(p.z) },
+      source: this.name || "proceduralTerrain"
+    };
   }
-
   async heescheel(olam) {
     this.olam = olam;
     const geometry = TerrainGeometryEmanator.emanate(this.terrainData);
@@ -60,16 +70,27 @@ export default class ProceduralTerrain extends Domem {
     this.mesh = this.createMesh(geometry, material);
     this.mesh.name = this.name || "Sacred_Earth_Visual";
     this.mesh.nivraAwtsmoos = this;
-    Object.assign(this.mesh.userData ||= {}, { isTerrain: true, noOctree: true, skipOctree: true, awtsmoosTerrainLaw: true });
+    Object.assign(this.mesh.userData ||= {}, {
+      isTerrain: true,
+      noOctree: true,
+      skipOctree: true,
+      awtsmoosTerrainLaw: true,
+      visualOnlyTerrain: !this.isSolid
+    });
     if (this.position) this.mesh.position.set(n(this.position.x), n(this.position.y), n(this.position.z));
     this.mesh.updateMatrixWorld(true);
     this.publishTerrainLaw();
     await olam.hoyseef(this);
-    this.createAndInsertCollider();
-    this.createAndInsertSafetySlab();
+    if (this.isSolid) {
+      this.createAndInsertCollider();
+      if (!this.noSafetySlab) this.createAndInsertSafetySlab();
+      else console.info("B\"H | TERRAIN_SAFETY_SLAB_SKIPPED", { name: this.mesh.name, reason: "noSafetySlab", textureType: this.terrainData.textureType });
+    } else {
+      console.info("B\"H | TERRAIN_VISUAL_ONLY_NO_COLLIDER", { name: this.mesh.name, textureType: this.terrainData.textureType });
+    }
     this.isReady = true;
   }
-
+  createMesh(geometry, material) { return new THREE.Mesh(geometry, material); }
   createAndInsertCollider() {
     const data = { ...this.terrainData, segments: Math.min(this.terrainData.collisionSegments, 40), microNoise: 0 };
     const geometry = TerrainGeometryEmanator.emanate(data);
@@ -85,9 +106,9 @@ export default class ProceduralTerrain extends Domem {
     const added = this.olam?.worldOctree?.addObject(this.colliderMesh) || false;
     console.info("B\"H | TERRAIN_COLLIDER_INSERT", { added, triangles: triangleCount(geometry), name: this.colliderMesh.name });
   }
-
   createAndInsertSafetySlab() {
-    const w = this.terrainData.width + 28, d = this.terrainData.depth + 28;
+    const w = this.terrainData.width + 28;
+    const d = this.terrainData.depth + 28;
     const y = n(this.mesh?.position?.y, 0) - 0.45;
     this.safetySlab = new THREE.Mesh(new THREE.BoxGeometry(w, 0.18, d), hiddenGroundMaterial.clone());
     this.safetySlab.name = `${this.mesh?.name || "terrain"}_abyss_safety_slab`;
@@ -98,6 +119,5 @@ export default class ProceduralTerrain extends Domem {
     const added = this.olam?.worldOctree?.addObject(this.safetySlab) || false;
     console.info("B\"H | TERRAIN_SAFETY_SLAB_INSERT", { added, width: w, depth: d, y });
   }
-
   heesHawvoos() {}
 }

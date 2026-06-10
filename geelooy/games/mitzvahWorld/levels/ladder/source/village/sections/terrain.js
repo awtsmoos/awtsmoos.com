@@ -2,9 +2,8 @@
 /**
  * @file terrain.js
  * @description
- * Chapter 93: The ground returns to the engine's lawful terrain.
- * The broken painted overlay is removed from active data. The physical terrain
- * keeps its original texturing/grounding role so village props can sit on earth.
+ * Chapter 622: Village terrain is the only village collider and it has no
+ * hidden safety slab. One lawful ground surface, no extra invisible box.
  */
 export default {
   ProceduralTerrain: [{
@@ -12,7 +11,9 @@ export default {
     width: 190,
     depth: 190,
     segments: 72,
+    collisionSegments: 12,
     isSolid: true,
+    noSafetySlab: true,
     textureType: "safegrass",
     textureSize: 768,
     microNoise: 0.04,

@@ -1,8 +1,8 @@
 // B"H
 /**
  * @file npcOverlayActions.js
- * @description Chapter 265: Every NPC button gets sealed touch behavior from
- * one small binding vessel.
+ * @description Chapter 553: Every NPC button is sealed and travel buttons load
+ * their destination without letting a tap leak through to the world.
  */
 import { bindPress, closePanels } from './domKit.js';
 import { launchLevel } from './levelLauncher.js';
@@ -11,10 +11,8 @@ export function bindNpcOverlayActions(overlay, manager, data, openLevelSelect) {
   bindPress(overlay, e => { if (e.target === overlay) closePanels(e); });
   bindPress(overlay.querySelector('[data-npc-close]'), closePanels);
   bindPress(overlay.querySelector('[data-npc-choose]'), () => openLevelSelect(manager, { ...data, title: data.selectorTitle || 'NPC CHALLENGES' }));
+  bindPress(overlay.querySelector('[data-npc-travel]'), async () => { try { closePanels(); await launchLevel(manager, data.travelPath); } catch (error) { console.error('B"H - NPC travel failed', error); alert('Could not travel there yet.'); } });
   bindPress(overlay.querySelector('[data-npc-buy]'), () => openShopOverlay(manager, data, 'buy'));
   bindPress(overlay.querySelector('[data-npc-sell]'), () => openShopOverlay(manager, data, 'sell'));
-  overlay.querySelectorAll('[data-level-id]').forEach(btn => bindPress(btn, async () => {
-    try { closePanels(); await launchLevel(manager, btn.dataset.levelId); }
-    catch (error) { console.error('B"H - NPC level launch failed', error); alert('Could not load that level yet.'); }
-  }));
+  overlay.querySelectorAll('[data-level-id]').forEach(btn => bindPress(btn, async () => { try { closePanels(); await launchLevel(manager, btn.dataset.levelId); } catch (error) { console.error('B"H - NPC level launch failed', error); alert('Could not load that level yet.'); } }));
 }

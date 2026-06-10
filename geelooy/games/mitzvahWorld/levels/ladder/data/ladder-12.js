@@ -1,0 +1,449 @@
+// B"H
+/** @file ladder-12.js - built from manual lava source level12.js. */
+export default {
+  "format": "awtsmoos-level-json-v1",
+  "id": "ladder-12",
+  "shaym": "ladder-12",
+  "title": "Lamed Turnback Ladder",
+  "description": "A hand-authored ladder route that bends back before the finish.",
+  "nivrayim": {
+    "Chossid": [
+      {
+        "name": "player",
+        "position": {
+          "x": -28,
+          "y": 1.96,
+          "z": 0
+        },
+        "visualGroundBiasY": -0.12,
+        "dynamicSolidRadius": 0.28,
+        "modelScale": 1,
+        "heesHawveh": true
+      }
+    ],
+    "ProceduralTerrain": [
+      {
+        "name": "level_12_basalt_lava_basin",
+        "position": {
+          "x": -3,
+          "y": -0.92,
+          "z": 0.15
+        },
+        "width": 90,
+        "depth": 45.3,
+        "segments": 24,
+        "collisionSegments": 1,
+        "textureSize": 512,
+        "textureType": "lavaBasin",
+        "material": "lavaBasin",
+        "isSolid": false,
+        "microNoise": 0.015
+      }
+    ],
+    "SpikeField": [
+      {
+        "name": "level_12_visible_lava_hazard",
+        "position": {
+          "x": -3,
+          "y": -0.34,
+          "z": 0.15
+        },
+        "width": 92,
+        "depth": 47.3,
+        "height": 0.28,
+        "groundY": -0.48,
+        "lava": true,
+        "pad": 0.03,
+        "opacity": 0.98,
+        "isSolid": false
+      }
+    ],
+    "SolidBlock": [
+      {
+        "name": "l12_start_lamed_base",
+        "position": {
+          "x": -28,
+          "y": 1.38,
+          "z": 0
+        },
+        "width": 9,
+        "height": 1,
+        "depth": 6,
+        "color": 13673572,
+        "textureSeed": "l12_start_lamed_base",
+        "isSolid": true,
+        "safeRect": {
+          "x": -28,
+          "z": 0,
+          "width": 9,
+          "depth": 6
+        }
+      },
+      {
+        "name": "l12_rung_one",
+        "position": {
+          "x": -21,
+          "y": 1.64,
+          "z": 3.8
+        },
+        "width": 4.5,
+        "height": 1,
+        "depth": 2.9,
+        "color": 12159308,
+        "textureSeed": "l12_rung_one",
+        "isSolid": true,
+        "safeRect": {
+          "x": -21,
+          "z": 3.8,
+          "width": 4.5,
+          "depth": 2.9
+        }
+      },
+      {
+        "name": "l12_rung_two",
+        "position": {
+          "x": -15,
+          "y": 1.9,
+          "z": 0.3
+        },
+        "width": 4.2,
+        "height": 1,
+        "depth": 2.7,
+        "color": 12159308,
+        "textureSeed": "l12_rung_two",
+        "isSolid": true,
+        "safeRect": {
+          "x": -15,
+          "z": 0.3,
+          "width": 4.2,
+          "depth": 2.7
+        }
+      },
+      {
+        "name": "l12_rung_three",
+        "position": {
+          "x": -9,
+          "y": 2.16,
+          "z": -3.5
+        },
+        "width": 4.1,
+        "height": 1,
+        "depth": 2.7,
+        "color": 12159308,
+        "textureSeed": "l12_rung_three",
+        "isSolid": true,
+        "safeRect": {
+          "x": -9,
+          "z": -3.5,
+          "width": 4.1,
+          "depth": 2.7
+        }
+      },
+      {
+        "name": "l12_return_north_rung",
+        "position": {
+          "x": 6,
+          "y": 2.62,
+          "z": 3.4
+        },
+        "width": 4,
+        "height": 1,
+        "depth": 2.7,
+        "color": 12159308,
+        "textureSeed": "l12_return_north_rung",
+        "isSolid": true,
+        "safeRect": {
+          "x": 6,
+          "z": 3.4,
+          "width": 4,
+          "depth": 2.7
+        }
+      },
+      {
+        "name": "l12_final_lamed_rung",
+        "position": {
+          "x": 13.2,
+          "y": 2.82,
+          "z": 0
+        },
+        "width": 4.2,
+        "height": 1,
+        "depth": 2.8,
+        "color": 12159308,
+        "textureSeed": "l12_final_lamed_rung",
+        "isSolid": true,
+        "safeRect": {
+          "x": 13.2,
+          "z": 0,
+          "width": 4.2,
+          "depth": 2.8
+        }
+      },
+      {
+        "name": "l12_finish_lamed_roof",
+        "position": {
+          "x": 22,
+          "y": 2.98,
+          "z": 0
+        },
+        "width": 8.4,
+        "height": 1,
+        "depth": 6,
+        "color": 13673572,
+        "textureSeed": "l12_finish_lamed_roof",
+        "isSolid": true,
+        "safeRect": {
+          "x": 22,
+          "z": 0,
+          "width": 8.4,
+          "depth": 6
+        }
+      }
+    ],
+    "MovingPlatform": [
+      {
+        "name": "l12_turnback_mover",
+        "position": {
+          "x": -1.8,
+          "y": 2.42,
+          "z": -1
+        },
+        "width": 3.6,
+        "height": 1,
+        "depth": 2.5,
+        "color": 6211839,
+        "textureSeed": "l12_turnback_mover",
+        "isSolid": true,
+        "moving": true,
+        "axis": "x",
+        "distance": 4.1,
+        "speed": 0.55,
+        "phase": 0.25,
+        "size": {
+          "x": 3.6,
+          "y": 1,
+          "z": 2.5
+        },
+        "dimensions": {
+          "x": 3.6,
+          "y": 1,
+          "z": 2.5
+        },
+        "safeRect": {
+          "x": -1.8,
+          "z": -1,
+          "width": 3.6,
+          "depth": 2.5
+        }
+      }
+    ],
+    "Coin": [
+      {
+        "name": "level_12_peruta_1",
+        "position": {
+          "x": -21,
+          "y": 2.86,
+          "z": 3.8
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_12_peruta_2",
+        "position": {
+          "x": -15,
+          "y": 3.12,
+          "z": 0.3
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_12_peruta_3",
+        "position": {
+          "x": -9,
+          "y": 3.38,
+          "z": -3.5
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_12_peruta_4",
+        "position": {
+          "x": -1.8,
+          "y": 3.64,
+          "z": -1
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_12_peruta_5",
+        "position": {
+          "x": 6,
+          "y": 3.84,
+          "z": 3.4
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_12_peruta_6",
+        "position": {
+          "x": 13.2,
+          "y": 4.04,
+          "z": 0
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      }
+    ],
+    "TzedakahBox": [
+      {
+        "name": "level_12_tzedakah_box",
+        "position": {
+          "x": 13.2,
+          "y": 3.87,
+          "z": 0
+        },
+        "reward": 17,
+        "proximity": 1.5
+      }
+    ],
+    "InteractiveDoor": [
+      {
+        "name": "level_12_return_gate",
+        "position": {
+          "x": 23.2,
+          "y": 3.53,
+          "z": 0
+        },
+        "targetPath": "village.json",
+        "target": "village.json",
+        "proximity": 2.1,
+        "height": 3.2,
+        "width": 1.8,
+        "isSolid": false
+      }
+    ],
+    "FallResetTrigger": [
+      {
+        "name": "level_12_deep_fall_reset",
+        "position": {
+          "x": -3,
+          "y": -7.6,
+          "z": 0.15
+        },
+        "width": 102,
+        "height": 1,
+        "depth": 53.3,
+        "targetPosition": {
+          "x": -28,
+          "y": 2.4,
+          "z": 0
+        },
+        "opacity": 0,
+        "isSolid": false
+      }
+    ]
+  },
+  "objectives": [
+    {
+      "id": "level_12_collect_perutos",
+      "type": "collect",
+      "target": "Coin",
+      "count": 6
+    }
+  ]
+};

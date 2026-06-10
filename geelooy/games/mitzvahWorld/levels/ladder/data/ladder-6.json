@@ -1,526 +1,447 @@
 {
   "format": "awtsmoos-level-json-v1",
-  "id": "ladder-6.json",
-  "shaym": "Tiferes_Mirage_Trial",
-  "title": "6. 🌀 Mirage Trial",
-  "requiredPerutos": 10,
-  "nextLevel": "ladder-7.json",
-  "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
+  "id": "ladder-6",
+  "shaym": "ladder-6",
+  "title": "Vav First Motion",
+  "description": "Manual first moving platform with safe anchors before and after.",
   "nivrayim": {
-    "ProceduralSky": {
-      "name": "tiferes_mirage_sky",
-      "timeOfDay": 10,
-      "timeMultiplier": 0,
-      "sunIntensity": 0.52,
-      "hemiIntensity": 0.34,
-      "ambientIntensity": 0.12,
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      }
-    },
-    "ProceduralTerrain": {
-      "name": "lava_sand_underlay",
-      "width": 120,
-      "depth": 54,
-      "thickness": 2.2,
-      "segments": 2,
-      "isSolid": true,
-      "textureType": "sand",
-      "position": {
-        "x": 32,
-        "y": -3.1,
-        "z": 0
-      }
-    },
     "Chossid": [
       {
-        "name": "The Chossid",
-        "height": 1.5,
-        "radius": 0.45,
-        "dynamicSolidRadius": 0.28,
-        "speed": 7,
-        "speedScale": 1.05,
-        "jumpHeight": 12.8,
-        "interactable": true,
-        "path": "https://models-3122d.web.app/chossid.glb?k=2",
+        "name": "player",
         "position": {
-          "x": -20,
-          "y": 1.15,
+          "x": -25,
+          "y": 1.83,
           "z": 0
         },
-        "visualGroundBiasY": -0.34,
-        "rotationSpeed": 5.2,
-        "lerpTurnSpeed": 0.42,
-        "movementResponsiveness": 24,
-        "stopResponsiveness": 34,
-        "animationBlendDuration": 0.055,
-        "animationActionTimeScale": 1.14,
-        "animationSpeedScale": 1.14,
-        "runModeScale": 1,
-        "walkModeScale": 0.56
+        "visualGroundBiasY": -0.12,
+        "dynamicSolidRadius": 0.28,
+        "modelScale": 1,
+        "heesHawveh": true
+      }
+    ],
+    "ProceduralTerrain": [
+      {
+        "name": "level_6_basalt_lava_basin",
+        "position": {
+          "x": 0.5,
+          "y": -0.92,
+          "z": 0
+        },
+        "width": 91,
+        "depth": 43,
+        "segments": 24,
+        "collisionSegments": 1,
+        "textureSize": 512,
+        "textureType": "lavaBasin",
+        "material": "lavaBasin",
+        "isSolid": false,
+        "microNoise": 0.015
+      }
+    ],
+    "SpikeField": [
+      {
+        "name": "level_6_visible_lava_hazard",
+        "position": {
+          "x": 0.5,
+          "y": -0.34,
+          "z": 0
+        },
+        "width": 93,
+        "depth": 45,
+        "height": 0.28,
+        "groundY": -0.48,
+        "lava": true,
+        "pad": 0.03,
+        "opacity": 0.98,
+        "isSolid": false
       }
     ],
     "SolidBlock": [
       {
-        "name": "start_6",
-        "width": 8.5,
-        "height": 1,
-        "depth": 6.5,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "l6_start_stable_teacher",
         "position": {
-          "x": -20,
-          "y": 0,
+          "x": -25,
+          "y": 1.25,
           "z": 0
         },
+        "width": 9,
+        "height": 1,
+        "depth": 6.5,
+        "color": 13673572,
+        "textureSeed": "l6_start_stable_teacher",
+        "isSolid": true,
         "safeRect": {
-          "x": -20,
+          "x": -25,
           "z": 0,
-          "width": 8.5,
+          "width": 9,
           "depth": 6.5
         }
       },
       {
-        "name": "solid_island_6_1",
-        "width": 4.8,
+        "name": "l6_static_before_motion",
+        "position": {
+          "x": -18,
+          "y": 1.42,
+          "z": 2.5
+        },
+        "width": 5.2,
         "height": 1,
-        "depth": 3.8,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
+        "depth": 3.4,
+        "color": 12159308,
+        "textureSeed": "l6_static_before_motion",
+        "isSolid": true,
+        "safeRect": {
+          "x": -18,
+          "z": 2.5,
+          "width": 5.2,
+          "depth": 3.4
+        }
+      },
+      {
+        "name": "l6_static_second_anchor",
         "position": {
           "x": -11,
-          "y": 0.25,
-          "z": 1.5
+          "y": 1.55,
+          "z": -2.5
         },
+        "width": 5,
+        "height": 1,
+        "depth": 3.2,
+        "color": 12159308,
+        "textureSeed": "l6_static_second_anchor",
+        "isSolid": true,
         "safeRect": {
           "x": -11,
-          "z": 1.5,
-          "width": 4.8,
-          "depth": 3.8
+          "z": -2.5,
+          "width": 5,
+          "depth": 3.2
         }
       },
       {
-        "name": "solid_island_6_2",
+        "name": "l6_after_motion_rest",
+        "position": {
+          "x": 4,
+          "y": 1.78,
+          "z": 2.2
+        },
+        "width": 5.2,
+        "height": 1,
+        "depth": 3.5,
+        "color": 12159308,
+        "textureSeed": "l6_after_motion_rest",
+        "isSolid": true,
+        "safeRect": {
+          "x": 4,
+          "z": 2.2,
+          "width": 5.2,
+          "depth": 3.5
+        }
+      },
+      {
+        "name": "l6_final_static_read",
+        "position": {
+          "x": 11,
+          "y": 1.92,
+          "z": -1.8
+        },
         "width": 4.8,
         "height": 1,
-        "depth": 3.8,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": -1.5,
-          "y": 0.55,
-          "z": -1.4
-        },
+        "depth": 3.2,
+        "color": 12159308,
+        "textureSeed": "l6_final_static_read",
+        "isSolid": true,
         "safeRect": {
-          "x": -1.5,
-          "z": -1.4,
+          "x": 11,
+          "z": -1.8,
           "width": 4.8,
-          "depth": 3.8
+          "depth": 3.2
         }
       },
       {
-        "name": "solid_island_6_3",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.2,
-        "color": 13483646,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "l6_pre_finish_anchor",
         "position": {
-          "x": 12.5,
-          "y": 1.05,
-          "z": 0.4
+          "x": 18,
+          "y": 2,
+          "z": 1.2
         },
+        "width": 4.8,
+        "height": 1,
+        "depth": 3.2,
+        "color": 12159308,
+        "textureSeed": "l6_pre_finish_anchor",
+        "isSolid": true,
         "safeRect": {
-          "x": 12.5,
-          "z": 0.4,
-          "width": 5.4,
-          "depth": 4.2
+          "x": 18,
+          "z": 1.2,
+          "width": 4.8,
+          "depth": 3.2
         }
       },
       {
-        "name": "rest_6",
-        "width": 7,
-        "height": 1,
-        "depth": 5.8,
-        "color": 14271338,
-        "textureSeed": "tiferes_rest_gold",
+        "name": "l6_finish_vav_landing",
         "position": {
-          "x": 29,
-          "y": 1.6,
+          "x": 26,
+          "y": 2.08,
           "z": 0
         },
-        "safeRect": {
-          "x": 29,
-          "z": 0,
-          "width": 7,
-          "depth": 5.8
-        }
-      },
-      {
-        "name": "finish_6",
-        "width": 8,
+        "width": 9,
         "height": 1,
         "depth": 6.3,
-        "color": 14337914,
-        "textureSeed": "gold_gate_floor",
-        "position": {
-          "x": 48,
-          "y": 2.15,
-          "z": 0
-        },
+        "color": 13673572,
+        "textureSeed": "l6_finish_vav_landing",
+        "isSolid": true,
         "safeRect": {
-          "x": 48,
+          "x": 26,
           "z": 0,
-          "width": 8,
+          "width": 9,
           "depth": 6.3
         }
       }
     ],
     "MovingPlatform": [
       {
-        "name": "real_blue_mover_6_a",
-        "axis": "x",
-        "amplitude": 2.7,
-        "speed": 0.9,
-        "width": 3.2,
-        "height": 0.55,
-        "depth": 2.6,
-        "fake": false,
-        "passThrough": false,
-        "visualStyle": "bluePlatform",
+        "name": "l6_first_moving_bridge_z",
         "position": {
-          "x": 5.5,
-          "y": 1.05,
-          "z": 1.6
-        }
-      },
-      {
-        "name": "fake_blue_mover_6_b",
-        "axis": "x",
-        "amplitude": 2.2,
-        "speed": 0.95,
-        "width": 3.2,
-        "height": 0.55,
-        "depth": 2.6,
-        "fake": true,
-        "passThrough": true,
-        "visualStyle": "bluePlatform",
-        "position": {
-          "x": 19,
+          "x": -4,
           "y": 1.65,
-          "z": -1.5
-        }
-      },
-      {
-        "name": "safe_lava_ball_platform_6_c",
-        "axis": "z",
-        "amplitude": 2.6,
-        "speed": 0.85,
-        "width": 3.2,
-        "height": 0.55,
-        "depth": 2.6,
-        "fake": false,
-        "passThrough": false,
-        "visualStyle": "lavaOrbPlatform",
-        "position": {
-          "x": 22,
-          "y": 1.85,
-          "z": 1.4
-        }
-      },
-      {
-        "name": "fake_static_blue_6_d",
-        "axis": "z",
-        "amplitude": 0,
-        "speed": 0,
-        "width": 3.2,
-        "height": 0.55,
-        "depth": 2.6,
-        "fake": true,
-        "passThrough": true,
-        "visualStyle": "bluePlatform",
-        "position": {
-          "x": 36.5,
-          "y": 2.25,
-          "z": -1.6
-        }
-      },
-      {
-        "name": "safe_lava_ball_platform_6_e",
-        "axis": "x",
-        "amplitude": 2.3,
-        "speed": 1.05,
-        "width": 3.2,
-        "height": 0.55,
-        "depth": 2.6,
-        "fake": false,
-        "passThrough": false,
-        "visualStyle": "lavaOrbPlatform",
-        "position": {
-          "x": 39,
-          "y": 2.45,
-          "z": 1.2
-        }
-      }
-    ],
-    "SpikeField": [
-      {
-        "name": "lava_under_level_6",
-        "groundY": -2.75,
-        "height": 0.36,
-        "pad": 0.08,
-        "lava": true,
-        "bounds": {
-          "minX": -28,
-          "maxX": 58,
-          "minZ": -18,
-          "maxZ": 18
+          "z": 0
         },
-        "position": {
-          "x": 15,
-          "y": -2.57,
-          "z": 0
-        }
-      }
-    ],
-    "SpikedBallHazard": [
-      {
-        "name": "mirage_real_lava_hazard_6_a",
+        "width": 4.2,
+        "height": 1,
+        "depth": 2.8,
+        "color": 6211839,
+        "textureSeed": "l6_first_moving_bridge_z",
+        "isSolid": true,
+        "moving": true,
         "axis": "z",
-        "amplitude": 2.3,
-        "speed": 1.05,
-        "radius": 0.68,
-        "hitRadius": 0.49,
-        "position": {
-          "x": -5,
-          "y": 2.6,
-          "z": 0
-        }
-      },
-      {
-        "name": "mirage_real_lava_hazard_6_b",
-        "axis": "x",
-        "amplitude": 2.5,
-        "speed": 1.22,
-        "radius": 0.68,
-        "hitRadius": 0.49,
-        "position": {
-          "x": 32,
-          "y": 3.4,
-          "z": -0.8
-        }
-      }
-    ],
-    "MovingPushBlock": [
-      {
-        "name": "mirage_push_6",
-        "axis": "z",
-        "amplitude": 2.2,
-        "speed": 1.05,
+        "distance": 2.4,
+        "speed": 0.42,
+        "phase": 0,
         "size": {
-          "x": 1.7,
+          "x": 4.2,
           "y": 1,
-          "z": 1.6
+          "z": 2.8
         },
-        "position": {
-          "x": 15.5,
-          "y": 2.5,
-          "z": 0
+        "dimensions": {
+          "x": 4.2,
+          "y": 1,
+          "z": 2.8
+        },
+        "safeRect": {
+          "x": -4,
+          "z": 0,
+          "width": 4.2,
+          "depth": 2.8
         }
       }
     ],
     "Coin": [
       {
-        "name": "perutah_6_1",
-        "value": 1,
-        "rotationSpeed": 0.028,
+        "name": "level_6_peruta_1",
         "position": {
-          "x": -11,
-          "y": 1.5,
-          "z": 2.3
+          "x": -18,
+          "y": 2.64,
+          "z": 2.5
         },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_2",
         "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": -1.5,
-          "y": 1.85,
-          "z": -2.2
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_3",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 5.5,
-          "y": 2.05,
-          "z": 1.6
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_4",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 12.5,
-          "y": 2.35,
-          "z": 0.4
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_5",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 22,
-          "y": 3.05,
-          "z": 1.4
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_6",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 29,
-          "y": 2.9,
-          "z": -1.9
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_7",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 39,
-          "y": 3.45,
-          "z": 1.2
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_8",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 48,
-          "y": 3.55,
-          "z": 1.8
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_9",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 48,
-          "y": 3.55,
-          "z": -1.8
-        },
-        "proximity": 0.9
-      },
-      {
-        "name": "perutah_6_10",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 33,
-          "y": 2.9,
-          "z": 1.7
-        },
-        "proximity": 0.9
-      }
-    ],
-    "CoinMimicHazard": [
-      {
-        "name": "mimic_perutah_6_lie_a",
-        "radius": 0.58,
-        "height": 0.13,
-        "manualHitRadius": 0.66,
-        "rotationSpeed": 0.055,
-        "groundY": 2.83,
-        "position": {
-          "x": 19,
-          "y": 2.9,
-          "z": -1.5
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
         }
       },
       {
-        "name": "mimic_perutah_6_lie_b",
-        "radius": 0.58,
-        "height": 0.13,
-        "manualHitRadius": 0.66,
-        "rotationSpeed": 0.055,
-        "groundY": 3.18,
+        "name": "level_6_peruta_2",
         "position": {
-          "x": 36.5,
-          "y": 3.25,
-          "z": -1.6
+          "x": -11,
+          "y": 2.77,
+          "z": -2.5
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_6_peruta_3",
+        "position": {
+          "x": -4,
+          "y": 2.87,
+          "z": 0
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_6_peruta_4",
+        "position": {
+          "x": 4,
+          "y": 3,
+          "z": 2.2
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_6_peruta_5",
+        "position": {
+          "x": 11,
+          "y": 3.14,
+          "z": -1.8
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_6_peruta_6",
+        "position": {
+          "x": 18,
+          "y": 3.22,
+          "z": 1.2
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
         }
       }
     ],
     "TzedakahBox": [
       {
-        "name": "pushkuh_6_mirage_icon",
-        "requiresAllCoins": true,
-        "requiredPerutos": 10,
-        "levelIcon": "🌀",
-        "levelLabel": "Mirage Trial",
+        "name": "level_6_tzedakah_box",
         "position": {
-          "x": 50.2,
+          "x": 18,
           "y": 3.05,
-          "z": -1.6
-        }
+          "z": 1.2
+        },
+        "reward": 11,
+        "proximity": 1.5
       }
     ],
     "InteractiveDoor": [
       {
-        "name": "🌀 Mezuzah to Level 7",
-        "label": "🌀 Mezuzah to Level 7",
-        "next": "ladder-7.json",
-        "destination": "ladder-7.json",
-        "isSolid": false,
-        "interactable": true,
-        "proximity": 3,
-        "requiresAllCoins": true,
-        "requiresTzedakah": true,
-        "manualOnly": true,
-        "requiredPerutos": 10,
+        "name": "level_6_return_gate",
         "position": {
-          "x": 52,
-          "y": 3.55,
-          "z": 1.55
-        }
+          "x": 27.2,
+          "y": 2.63,
+          "z": 0
+        },
+        "targetPath": "village.json",
+        "target": "village.json",
+        "proximity": 2.1,
+        "height": 3.2,
+        "width": 1.8,
+        "isSolid": false
       }
     ],
     "FallResetTrigger": [
       {
-        "name": "fall_reset_6",
-        "width": 125,
-        "height": 0.4,
-        "depth": 90,
-        "proximity": 6,
-        "penalty": 0,
-        "color": 3342336,
+        "name": "level_6_deep_fall_reset",
         "position": {
-          "x": 15,
-          "y": -14,
+          "x": 0.5,
+          "y": -7.6,
           "z": 0
         },
-        "resetDelayMs": 30
+        "width": 103,
+        "height": 1,
+        "depth": 52,
+        "targetPosition": {
+          "x": -25,
+          "y": 2.27,
+          "z": 0
+        },
+        "opacity": 0,
+        "isSolid": false
       }
     ]
-  }
+  },
+  "objectives": [
+    {
+      "id": "level_6_collect_perutos",
+      "type": "collect",
+      "target": "Coin",
+      "count": 6
+    }
+  ]
 }

@@ -1,15 +1,14 @@
 // B"H
 /**
  * @file index.js
- * @description
- * Chapter 502: Loading no longer stops at entities. If the Emerald entry scene
- * is present, its HUD, quest, portrait, camera cue, and ambience are awakened
- * after the nivrayim settle into the world.
+ * @description Chapter 571: Loading waits for the final-settle grounding seal.
+ * The village collider bake is cache-busted so old repeated-collider schedules
+ * cannot survive on mobile Chrome.
  */
-import instantiate from "./instantiateMezuzahDirect.js?v=mobile-raycast-accepted-click-20260604-bh446";
+import instantiate from "./instantiateMezuzahDirect.js?v=direct-lava-platforms-20260609-bh613";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
-import { scheduleVillageGrounding } from "./villageGrounding.js?v=no-skipraycast-wall-octree-20260604-bh446";
+import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-colliders-after-settle-20260609-bh571";
 import { applyEntryRuntime } from "./entryRuntime/applyEntryRuntime.js";
 async function safeAssetSize(nivra) {
   if (typeof nivra?.getSize !== "function") return 0;
@@ -34,7 +33,7 @@ export default class LoadNivrayim {
       applyEntryRuntime(this, nivrayim || {});
       this.ayshPeula("updateProgress", { loadedNivrayim: Date.now() });
       if (!this.enlightened && typeof this.ohr === "function") { try { this.ohr(); } catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); } }
-      TimeTracker.finish("LOAD_NIVRAYIM", "Souls loaded; Emerald entry runtime awakened when present.");
+      TimeTracker.finish("LOAD_NIVRAYIM", "Souls loaded; final colliders scheduled after visual settle.");
       return nivrayimMade || [];
     } catch (error) { console.error("B\"H - 🚨 THE CREATION PROTOCOL HIT A REAL LOAD FAILURE:", error); return []; }
   }

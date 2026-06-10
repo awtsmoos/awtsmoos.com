@@ -1,0 +1,464 @@
+// B"H
+/** @file ladder-10.js - built from manual lava source level10.js. */
+export default {
+  "format": "awtsmoos-level-json-v1",
+  "id": "ladder-10",
+  "shaym": "ladder-10",
+  "title": "Yud Summit Climb",
+  "description": "A manually stepped climb with two summit ferries.",
+  "nivrayim": {
+    "Chossid": [
+      {
+        "name": "player",
+        "position": {
+          "x": -27,
+          "y": 1.93,
+          "z": 0
+        },
+        "visualGroundBiasY": -0.12,
+        "dynamicSolidRadius": 0.28,
+        "modelScale": 1,
+        "heesHawveh": true
+      }
+    ],
+    "ProceduralTerrain": [
+      {
+        "name": "level_10_basalt_lava_basin",
+        "position": {
+          "x": -0.75,
+          "y": -0.92,
+          "z": 0.1
+        },
+        "width": 92.5,
+        "depth": 43.4,
+        "segments": 24,
+        "collisionSegments": 1,
+        "textureSize": 512,
+        "textureType": "lavaBasin",
+        "material": "lavaBasin",
+        "isSolid": false,
+        "microNoise": 0.015
+      }
+    ],
+    "SpikeField": [
+      {
+        "name": "level_10_visible_lava_hazard",
+        "position": {
+          "x": -0.75,
+          "y": -0.34,
+          "z": 0.1
+        },
+        "width": 94.5,
+        "depth": 45.4,
+        "height": 0.28,
+        "groundY": -0.48,
+        "lava": true,
+        "pad": 0.03,
+        "opacity": 0.98,
+        "isSolid": false
+      }
+    ],
+    "SolidBlock": [
+      {
+        "name": "l10_start_yud_square",
+        "position": {
+          "x": -27,
+          "y": 1.35,
+          "z": 0
+        },
+        "width": 9,
+        "height": 1,
+        "depth": 6.2,
+        "color": 13673572,
+        "textureSeed": "l10_start_yud_square",
+        "isSolid": true,
+        "safeRect": {
+          "x": -27,
+          "z": 0,
+          "width": 9,
+          "depth": 6.2
+        }
+      },
+      {
+        "name": "l10_riser_one",
+        "position": {
+          "x": -19,
+          "y": 1.62,
+          "z": 1.8
+        },
+        "width": 4.7,
+        "height": 1,
+        "depth": 3,
+        "color": 12159308,
+        "textureSeed": "l10_riser_one",
+        "isSolid": true,
+        "safeRect": {
+          "x": -19,
+          "z": 1.8,
+          "width": 4.7,
+          "depth": 3
+        }
+      },
+      {
+        "name": "l10_riser_two",
+        "position": {
+          "x": -12,
+          "y": 1.9,
+          "z": -2.4
+        },
+        "width": 4.4,
+        "height": 1,
+        "depth": 2.9,
+        "color": 12159308,
+        "textureSeed": "l10_riser_two",
+        "isSolid": true,
+        "safeRect": {
+          "x": -12,
+          "z": -2.4,
+          "width": 4.4,
+          "depth": 2.9
+        }
+      },
+      {
+        "name": "l10_riser_three",
+        "position": {
+          "x": -5,
+          "y": 2.18,
+          "z": 2.8
+        },
+        "width": 4.2,
+        "height": 1,
+        "depth": 2.8,
+        "color": 12159308,
+        "textureSeed": "l10_riser_three",
+        "isSolid": true,
+        "safeRect": {
+          "x": -5,
+          "z": 2.8,
+          "width": 4.2,
+          "depth": 2.8
+        }
+      },
+      {
+        "name": "l10_summit_rest",
+        "position": {
+          "x": 10,
+          "y": 2.62,
+          "z": -2.6
+        },
+        "width": 4.5,
+        "height": 1,
+        "depth": 3,
+        "color": 12159308,
+        "textureSeed": "l10_summit_rest",
+        "isSolid": true,
+        "safeRect": {
+          "x": 10,
+          "z": -2.6,
+          "width": 4.5,
+          "depth": 3
+        }
+      },
+      {
+        "name": "l10_finish_yud_summit",
+        "position": {
+          "x": 25.5,
+          "y": 2.92,
+          "z": 0
+        },
+        "width": 8.4,
+        "height": 1,
+        "depth": 6,
+        "color": 13673572,
+        "textureSeed": "l10_finish_yud_summit",
+        "isSolid": true,
+        "safeRect": {
+          "x": 25.5,
+          "z": 0,
+          "width": 8.4,
+          "depth": 6
+        }
+      }
+    ],
+    "MovingPlatform": [
+      {
+        "name": "l10_summit_ferry_a",
+        "position": {
+          "x": 2.5,
+          "y": 2.4,
+          "z": 0
+        },
+        "width": 3.6,
+        "height": 1,
+        "depth": 2.5,
+        "color": 6211839,
+        "textureSeed": "l10_summit_ferry_a",
+        "isSolid": true,
+        "moving": true,
+        "axis": "z",
+        "distance": 3.5,
+        "speed": 0.54,
+        "phase": 0.1,
+        "size": {
+          "x": 3.6,
+          "y": 1,
+          "z": 2.5
+        },
+        "dimensions": {
+          "x": 3.6,
+          "y": 1,
+          "z": 2.5
+        },
+        "safeRect": {
+          "x": 2.5,
+          "z": 0,
+          "width": 3.6,
+          "depth": 2.5
+        }
+      },
+      {
+        "name": "l10_summit_ferry_b",
+        "position": {
+          "x": 17,
+          "y": 2.78,
+          "z": 0.8
+        },
+        "width": 3.4,
+        "height": 1,
+        "depth": 2.4,
+        "color": 6211839,
+        "textureSeed": "l10_summit_ferry_b",
+        "isSolid": true,
+        "moving": true,
+        "axis": "x",
+        "distance": 3.4,
+        "speed": 0.56,
+        "phase": 0.4,
+        "size": {
+          "x": 3.4,
+          "y": 1,
+          "z": 2.4
+        },
+        "dimensions": {
+          "x": 3.4,
+          "y": 1,
+          "z": 2.4
+        },
+        "safeRect": {
+          "x": 17,
+          "z": 0.8,
+          "width": 3.4,
+          "depth": 2.4
+        }
+      }
+    ],
+    "Coin": [
+      {
+        "name": "level_10_peruta_1",
+        "position": {
+          "x": -19,
+          "y": 2.84,
+          "z": 1.8
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_10_peruta_2",
+        "position": {
+          "x": -12,
+          "y": 3.12,
+          "z": -2.4
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_10_peruta_3",
+        "position": {
+          "x": -5,
+          "y": 3.4,
+          "z": 2.8
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_10_peruta_4",
+        "position": {
+          "x": 2.5,
+          "y": 3.62,
+          "z": 0
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_10_peruta_5",
+        "position": {
+          "x": 10,
+          "y": 3.84,
+          "z": -2.6
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_10_peruta_6",
+        "position": {
+          "x": 17,
+          "y": 4,
+          "z": 0.8
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      }
+    ],
+    "TzedakahBox": [
+      {
+        "name": "level_10_tzedakah_box",
+        "position": {
+          "x": 10,
+          "y": 3.67,
+          "z": -2.6
+        },
+        "reward": 15,
+        "proximity": 1.5
+      }
+    ],
+    "InteractiveDoor": [
+      {
+        "name": "level_10_return_gate",
+        "position": {
+          "x": 26.7,
+          "y": 3.47,
+          "z": 0
+        },
+        "targetPath": "village.json",
+        "target": "village.json",
+        "proximity": 2.1,
+        "height": 3.2,
+        "width": 1.8,
+        "isSolid": false
+      }
+    ],
+    "FallResetTrigger": [
+      {
+        "name": "level_10_deep_fall_reset",
+        "position": {
+          "x": -0.75,
+          "y": -7.6,
+          "z": 0.1
+        },
+        "width": 104.5,
+        "height": 1,
+        "depth": 52,
+        "targetPosition": {
+          "x": -27,
+          "y": 2.37,
+          "z": 0
+        },
+        "opacity": 0,
+        "isSolid": false
+      }
+    ]
+  },
+  "objectives": [
+    {
+      "id": "level_10_collect_perutos",
+      "type": "collect",
+      "target": "Coin",
+      "count": 6
+    }
+  ]
+};

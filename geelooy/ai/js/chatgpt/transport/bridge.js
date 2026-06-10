@@ -1,21 +1,22 @@
 //B"H
 
-import { AwtsmoosPrompt } from "../../../prompt.js";
 import { nodeRelayFetch, checkNodeRelay } from "./nodeRelayFetch.js";
+import { tunnelRelayFetch, checkTunnelRelay } from "./tunnelRelayFetch.js";
+import { showMissingBridgeNotice } from "./missingTransportNotice.js";
 
 let mFetch = currentBridge();
 let waiting = null;
-let missingBridgeNotice = null;
 
 /**
- * B"H — Reveals the best available ChatGPT fetch vessel.
+ * Chapter 11: When Chrome Fell Silent, The Tunnel Still Knocked.
  *
- * This file is only for ChatGPT. The Awtsmoos keeps this warning out of
- * MiniMax, Gemini, OpenRouter, and Groq so provider chats can keep flowing while
- * ChatGPT transport sleeps.
+ * The ChatGPT page listens first for the extension bridge. If it does not
+ * appear, the Awtsmoos checks the selected local transport: Awtsmoos Tunnel or
+ * Node relay. Thus other AI tools can keep using the same tunnel system instead
+ * of each inventing another private doorway.
  *
  * @param {{quiet?:boolean,timeout?:number}} options Prompt and wait controls.
- * @returns {Promise<Function>} Live extension or Node relay fetcher.
+ * @returns {Promise<Function>} Live extension, tunnel, or Node relay fetcher.
  */
 export async function checkMFetch({ quiet = false, timeout = 12000 } = {}) {
   mFetch = currentBridge();
@@ -24,11 +25,8 @@ export async function checkMFetch({ quiet = false, timeout = 12000 } = {}) {
   mFetch = await waitForBridge(timeout);
   if (typeof mFetch === "function") return mFetch;
 
-  if (await canUseNodeRelay()) {
-    mFetch = nodeRelayFetch;
-    announceTransport("node-relay");
-    return mFetch;
-  }
+  const selectedRelay = await selectedLocalRelay();
+  if (selectedRelay) return selectedRelay;
 
   const error = new Error("Awtsmoos ChatGPT transport is not connected yet.");
   if (!quiet) showMissingBridgeNotice(error.message);
@@ -50,6 +48,25 @@ function currentBridge() {
   return null;
 }
 
+async function selectedLocalRelay() {
+  if (await canUseTunnelRelay()) {
+    mFetch = tunnelRelayFetch;
+    announceTransport("awtsmoos-tunnel");
+    return mFetch;
+  }
+  if (await canUseNodeRelay()) {
+    mFetch = nodeRelayFetch;
+    announceTransport("node-relay");
+    return mFetch;
+  }
+  return null;
+}
+
+async function canUseTunnelRelay() {
+  try { return await checkTunnelRelay(); }
+  catch { return false; }
+}
+
 async function canUseNodeRelay() {
   try { return await checkNodeRelay(); }
   catch { return false; }
@@ -57,7 +74,7 @@ async function canUseNodeRelay() {
 
 function announceTransport(label) {
   try {
-    globalThis.dispatchEvent?.(new CustomEvent("awtsmoos-ai-transport", { detail: { kind: "node-relay", label } }));
+    globalThis.dispatchEvent?.(new CustomEvent("awtsmoos-ai-transport", { detail: { kind: label, label } }));
   } catch {}
 }
 
@@ -96,29 +113,4 @@ function waitForBridge(timeout = 12000) {
   });
 
   return waiting;
-}
-
-/**
- * B"H — Shows one missing-transport flame without stacking modal worlds.
- * @param {string} reason Transport failure reason shown in the help body.
- * @returns {void}
- */
-function showMissingBridgeNotice(reason = "") {
-  if (missingBridgeNotice) return;
-  missingBridgeNotice = Promise.resolve(AwtsmoosPrompt.go({
-    isAlert: true,
-    title: "B\"H — ChatGPT Transport Needed",
-    okText: "Keep using other AIs",
-    headerTxt: installHelp(reason),
-    extensionHelpTxt: "Use these buttons whenever you want ChatGPT conversation history and ChatGPT sending. MiniMax, Gemini, OpenRouter, and Groq can still work independently with their API keys."
-  })).finally(() => { missingBridgeNotice = null; });
-}
-
-function installHelp(reason = "") {
-  return `
-    <p><b>ChatGPT transport is not visible yet.</b></p>
-    ${reason ? `<p><code>${reason}</code></p>` : ""}
-    <p>This only blocks ChatGPT conversation loading/sending. You can switch to MiniMax, Gemini, OpenRouter, or Groq and keep using them in the meantime.</p>
-    <p>To enable ChatGPT later, use the Settings panel Node relay, or download/load the Awtsmoos Server Extension from <code>geelooy/scripts/tricks/extensions/server</code> and refresh this tab.</p>
-  `;
 }

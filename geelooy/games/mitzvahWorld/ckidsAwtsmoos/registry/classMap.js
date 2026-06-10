@@ -32,7 +32,7 @@ export default {
   ProceduralRiver: "../../dvarim/nature/proceduralRiver.js",
   Forest: "../../dvarim/nature/forest.js",
   ProceduralPool: "../../dvarim/nature/proceduralPool.js",
-  ProceduralTerrain: "../../dvarim/terrain/ProceduralTerrain.js",
+  ProceduralTerrain: "../../dvarim/terrain/ProceduralTerrain.js?v=village-no-safety-slab-20260609-bh622",
   Shovel: "../../dvarim/tools/shovel.js",
   Pickaxe: "../../dvarim/tools/pickaxe.js",
   RoadTool: "../../dvarim/tools/roadTool.js",
@@ -60,7 +60,7 @@ export default {
   SolidBlock: "../../dvarim/architecture/SolidBlock.js",
   ProceduralBuilding: "../../dvarim/architecture/ProceduralBuilding.js",
   ProceduralFlora: "../../dvarim/nature/ProceduralFlora.js",
-  VillageHouseCollider: "../../dvarim/nature/VillageHouseCollider.js?v=detached-house-octree-20260605-bh449",
-  VillageFenceCollider: "../../dvarim/nature/VillageFenceCollider.js?v=detached-fence-octree-20260605-bh449",
+  VillageHouseCollider: "../../dvarim/nature/VillageHouseCollider.js?v=wall-only-house-solid-20260609-bh566",
+  VillageFenceCollider: "../../dvarim/nature/VillageFenceCollider.js?v=fence-recipe-mirror-20260609-bh541",
   VillageRoadCollider: "../../dvarim/nature/VillageRoadCollider.js?v=detached-road-octree-20260605-bh449"
 };

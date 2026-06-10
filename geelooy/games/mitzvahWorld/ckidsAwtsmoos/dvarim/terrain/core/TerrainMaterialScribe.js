@@ -1,193 +1,41 @@
 // B"H
 /**
  * @module TerrainMaterialScribe
- * @description
- * Chapter 430: The meadow stops bleaching into yellow paper.
- *
- * A village floor cannot be one green shout, but it also cannot vanish beneath
- * overbright mobile lighting. This scribe bakes saturated meadow, dirt roads,
- * clover, flowers, and pebbles into exact pixels so the phone sees earth.
+ * @description Chapter 529: Terrain now respects its authored world type.
+ * Village grass stays meadow-green; lava ladder basins become ash/desert stone
+ * instead of the wrong green floor seen under the lava course.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-
 const clamp = value => Math.max(0, Math.min(255, Math.round(value)));
 const lerp = (a, b, t) => a + (b - a) * t;
 const smooth = t => t * t * (3 - 2 * t);
-
-/**
- * Stable hash noise for generated texture detail.
- *
- * @param {number} x X coordinate.
- * @param {number} y Y coordinate.
- * @param {number} seed Noise seed.
- * @returns {number} Value in the range [0, 1).
- */
-function hash(x, y, seed = 1) {
-  const value = Math.sin(x * 127.1 + y * 311.7 + seed * 91.3) * 43758.5453;
-  return value - Math.floor(value);
-}
-
-/**
- * Smooth value noise.
- *
- * @param {number} x X coordinate.
- * @param {number} y Y coordinate.
- * @param {number} seed Noise seed.
- * @returns {number} Smoothed value in the range [0, 1).
- */
-function noise(x, y, seed = 1) {
-  const ix = Math.floor(x);
-  const iy = Math.floor(y);
-  const fx = smooth(x - ix);
-  const fy = smooth(y - iy);
-  return lerp(
-    lerp(hash(ix, iy, seed), hash(ix + 1, iy, seed), fx),
-    lerp(hash(ix, iy + 1, seed), hash(ix + 1, iy + 1, seed), fx),
-    fy
-  );
-}
-
-/**
- * Fractal noise for organic color breakup.
- *
- * @param {number} x X coordinate.
- * @param {number} y Y coordinate.
- * @param {number} seed Noise seed.
- * @returns {number} Layered noise value.
- */
-function fbm(x, y, seed) {
-  return noise(x, y, seed) * 0.52
-    + noise(x * 2.07, y * 2.07, seed + 11) * 0.31
-    + noise(x * 4.13, y * 4.13, seed + 29) * 0.17;
-}
-
-/**
- * Returns distance from a point to a segment.
- *
- * @param {number} px Point X.
- * @param {number} pz Point Z.
- * @param {number[]} a Segment start [x, z].
- * @param {number[]} b Segment end [x, z].
- * @returns {number} Distance in terrain units.
- */
-function segmentDistance(px, pz, a, b) {
-  const ax = Number(a?.[0] || 0);
-  const az = Number(a?.[1] || 0);
-  const bx = Number(b?.[0] || 0);
-  const bz = Number(b?.[1] || 0);
-  const dx = bx - ax;
-  const dz = bz - az;
-  const lengthSq = dx * dx + dz * dz || 1;
-  const t = Math.max(0, Math.min(1, ((px - ax) * dx + (pz - az) * dz) / lengthSq));
-  return Math.hypot(px - (ax + dx * t), pz - (az + dz * t));
-}
-
-/**
- * Computes authored road influence at a terrain coordinate.
- *
- * @param {number} x Terrain-local X.
- * @param {number} z Terrain-local Z.
- * @param {object[]} roads Authored road descriptions.
- * @returns {number} Dirt-road influence.
- */
-function roadMask(x, z, roads = []) {
-  let mask = 0;
-  for (const road of roads) {
-    const points = road?.points || [];
-    for (let i = 1; i < points.length; i += 1) {
-      const distance = segmentDistance(x, z, points[i - 1], points[i]);
-      const width = Number(road.width || 9) * 0.5;
-      const feather = Number(road.feather || 8);
-      const influence = 1 - smooth(Math.max(0, distance - width) / Math.max(0.001, feather));
-      mask = Math.max(mask, influence);
-    }
-  }
-  return Math.max(0, Math.min(1, mask));
-}
-
-/**
- * Writes one RGBA pixel.
- *
- * @param {Uint8Array} data Pixel buffer.
- * @param {number} index Pixel start index.
- * @param {number} r Red channel.
- * @param {number} g Green channel.
- * @param {number} b Blue channel.
- * @returns {void}
- */
-function put(data, index, r, g, b) {
-  data[index] = clamp(r);
-  data[index + 1] = clamp(g);
-  data[index + 2] = clamp(b);
-  data[index + 3] = 255;
-}
-
-/**
- * Synthesizes the terrain material texture.
- *
- * @param {object} terrain Terrain data.
- * @param {number} size Texture dimension.
- * @returns {THREE.DataTexture} Generated texture.
- */
+const PALETTES = Object.freeze({
+  safegrass: Object.freeze({ lo: [42, 104, 38], hi: [95, 166, 70], road: [132, 92, 48], stone: [136, 132, 112] }),
+  dirtGrass: Object.freeze({ lo: [48, 92, 38], hi: [116, 150, 76], road: [130, 96, 58], stone: [126, 118, 96] }),
+  desert: Object.freeze({ lo: [104, 76, 45], hi: [176, 132, 78], road: [154, 105, 56], stone: [165, 142, 105] }),
+  sand: Object.freeze({ lo: [120, 95, 56], hi: [194, 154, 91], road: [160, 118, 67], stone: [178, 158, 120] }),
+  lavaBasin: Object.freeze({ lo: [58, 34, 24], hi: [116, 72, 42], road: [126, 84, 44], stone: [88, 70, 62] })
+});
+function hash(x, y, seed = 1) { const value = Math.sin(x * 127.1 + y * 311.7 + seed * 91.3) * 43758.5453; return value - Math.floor(value); }
+function noise(x, y, seed = 1) { const ix = Math.floor(x), iy = Math.floor(y), fx = smooth(x - ix), fy = smooth(y - iy); return lerp(lerp(hash(ix, iy, seed), hash(ix + 1, iy, seed), fx), lerp(hash(ix, iy + 1, seed), hash(ix + 1, iy + 1, seed), fx), fy); }
+function fbm(x, y, seed) { return noise(x, y, seed) * 0.52 + noise(x * 2.07, y * 2.07, seed + 11) * 0.31 + noise(x * 4.13, y * 4.13, seed + 29) * 0.17; }
+function segmentDistance(px, pz, a, b) { const ax = Number(a?.[0] || 0), az = Number(a?.[1] || 0), bx = Number(b?.[0] || 0), bz = Number(b?.[1] || 0), dx = bx - ax, dz = bz - az, lengthSq = dx * dx + dz * dz || 1; const t = Math.max(0, Math.min(1, ((px - ax) * dx + (pz - az) * dz) / lengthSq)); return Math.hypot(px - (ax + dx * t), pz - (az + dz * t)); }
+function roadMask(x, z, roads = []) { let mask = 0; for (const road of roads) for (let i = 1; i < (road?.points || []).length; i += 1) { const d = segmentDistance(x, z, road.points[i - 1], road.points[i]), width = Number(road.width || 9) * 0.5, feather = Number(road.feather || 8); mask = Math.max(mask, 1 - smooth(Math.max(0, d - width) / Math.max(0.001, feather))); } return Math.max(0, Math.min(1, mask)); }
+function typeOf(terrain = {}) { const raw = String(terrain.textureType || terrain.material || 'safegrass'); if (/lava|basalt|ash/i.test(raw)) return 'lavaBasin'; if (/desert/i.test(raw)) return 'desert'; if (/sand/i.test(raw)) return 'sand'; if (/dirt/i.test(raw)) return 'dirtGrass'; return 'safegrass'; }
+function mix(a, b, t) { return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
+function put(data, index, rgb) { data[index] = clamp(rgb[0]); data[index + 1] = clamp(rgb[1]); data[index + 2] = clamp(rgb[2]); data[index + 3] = 255; }
 function makeTexture(terrain = {}, size = 768) {
-  const data = new Uint8Array(size * size * 4);
-  const width = Number(terrain.width || 320);
-  const depth = Number(terrain.depth || 300);
-  const roads = terrain.roads || [];
-
-  for (let y = 0; y < size; y += 1) {
-    for (let x = 0; x < size; x += 1) {
-      const u = x / (size - 1);
-      const v = y / (size - 1);
-      const wx = (u - 0.5) * width;
-      const wz = (v - 0.5) * depth;
-      const broad = fbm(u * 9.2, v * 9.2, 40);
-      const fine = fbm(u * 48, v * 48, 91);
-      const road = roadMask(wx, wz, roads);
-      const stone = smooth(Math.max(0, fbm(u * 22 - 2, v * 22 + 5, 76) - 0.7) / 0.23);
-      const flower = hash(Math.floor(u * 130), Math.floor(v * 130), 601) > 0.986 ? 1 : 0;
-      const clover = hash(Math.floor(u * 92), Math.floor(v * 92), 811) > 0.965 ? 1 : 0;
-
-      let r = lerp(42, 95, broad * 0.72 + fine * 0.28);
-      let g = lerp(104, 166, broad * 0.78 + fine * 0.22);
-      let b = lerp(38, 70, broad);
-
-      r = lerp(r, 126 + fine * 28, road);
-      g = lerp(g, 86 + fine * 24, road);
-      b = lerp(b, 45 + fine * 12, road);
-      r = lerp(r, 136 + fine * 42, stone * (1 - road * 0.5));
-      g = lerp(g, 132 + fine * 38, stone * (1 - road * 0.5));
-      b = lerp(b, 112 + fine * 34, stone * (1 - road * 0.5));
-
-      if (clover && road < 0.35) { r += 18; g += 40; b += 8; }
-      if (flower && road < 0.2) { r += 86; g += 38; b += hash(x, y, 77) > 0.5 ? 90 : -12; }
-
-      put(data, (y * size + x) * 4, r, g, b);
-    }
+  const data = new Uint8Array(size * size * 4), width = Number(terrain.width || 320), depth = Number(terrain.depth || 300), roads = terrain.roads || [], palette = PALETTES[typeOf(terrain)];
+  for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
+    const u = x / (size - 1), v = y / (size - 1), wx = (u - 0.5) * width, wz = (v - 0.5) * depth, broad = fbm(u * 9.2, v * 9.2, 40), fine = fbm(u * 48, v * 48, 91), road = roadMask(wx, wz, roads), stone = smooth(Math.max(0, fbm(u * 22 - 2, v * 22 + 5, 76) - 0.7) / 0.23);
+    let color = mix(palette.lo, palette.hi, broad * 0.72 + fine * 0.28);
+    color = mix(color, palette.road, road);
+    color = mix(color, palette.stone, stone * (1 - road * 0.5));
+    if (typeOf(terrain) === 'safegrass' && hash(Math.floor(u * 130), Math.floor(v * 130), 601) > 0.986 && road < 0.2) color = [color[0] + 86, color[1] + 38, color[2] + (hash(x, y, 77) > 0.5 ? 90 : -12)];
+    put(data, (y * size + x) * 4, color);
   }
-
-  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
-  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.magFilter = THREE.LinearFilter;
-  texture.minFilter = THREE.LinearMipmapLinearFilter;
-  texture.generateMipmaps = true;
-  texture.needsUpdate = true;
-  return texture;
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType); texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping; texture.magFilter = THREE.LinearFilter; texture.minFilter = THREE.LinearMipmapLinearFilter; texture.generateMipmaps = true; texture.needsUpdate = true; return texture;
 }
-
 export default class TerrainMaterialScribe {
-  /**
-   * Creates a safe, road-aware material for the terrain mesh.
-   *
-   * @param {object} data Terrain authoring data.
-   * @returns {THREE.MeshLambertMaterial} Generated terrain material.
-   */
-  static async scribe(data = {}) {
-    const size = Math.max(384, Math.min(1024, Number(data.textureSize || 768)));
-    return new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      map: makeTexture(data, size),
-      side: THREE.DoubleSide
-    });
-  }
+  static async scribe(data = {}) { const size = Math.max(384, Math.min(1024, Number(data.textureSize || 768))); return new THREE.MeshBasicMaterial({ color: 0xffffff, map: makeTexture(data, size), side: THREE.DoubleSide }); }
 }

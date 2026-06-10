@@ -1,14 +1,11 @@
 // B"H
 /**
  * @module NatureExports
- * @description
- * Chapter 155: The cache river splits and the new wall law crosses dry-shod.
- *
- * Every browser ghost clings to old query strings. These exports stamp the
- * detached-collider tikkun into fresh URLs, so house, fence, and road bodies are
- * fetched anew and the Awtsmoos reveals solid village boundaries.
+ * @description Chapter 556: Nature exports now forbid the broken composed-route
+ * colliders and black grass cache. The house/fence classes remain available for
+ * other routes, but village.json now exports no such rows.
  */
-export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=green-dirt-phone-ground-20260604-bh430";
+export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=village-no-safety-slab-20260609-bh622";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?v=soft-country-sky-fog-20260603-bh237";
 export { default as ProceduralTree } from "../dvarim/nature/proceduralTree.js?v=village-texture-pass-20260603-bh296";
 export { default as Forest } from "../dvarim/nature/forest.js";
@@ -20,11 +17,11 @@ export { default as VillageCottage } from "../dvarim/nature/VillageCottage.js?v=
 export { default as VillageHeroTree } from "../dvarim/nature/VillageHeroTree.js?v=shader-hero-tree-20260604-bh437";
 export { default as VillageStonePath } from "../dvarim/nature/VillageStonePath.js?v=shader-stone-path-20260604-bh437";
 export { default as VillageTreeField } from "../dvarim/nature/VillageTreeField.js?v=visible-green-field-trees-20260604-bh430";
-export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?v=varied-grass-meadow-20260604-bh444";
+export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?v=no-composed-black-grass-20260609-bh556";
 export { default as VillageRealismTree } from "../dvarim/nature/VillageRealismTree.js?v=realism-tree-index-loop-safe-20260603-bh312";
 export { default as VillageRealismProp } from "../dvarim/nature/VillageRealismProp.js?v=realism-prop-index-loop-safe-20260603-bh312";
 export { default as VillagePictureProp } from "../dvarim/nature/VillagePictureProp.js?v=soft-readable-tree-recipes-20260604-bh445";
 export { default as VillageHouseDoor } from "../dvarim/nature/VillageHouseDoor.js?v=wide-door-gray-ghost-banished-20260603-bh351";
-export { default as VillageHouseCollider } from "../dvarim/nature/VillageHouseCollider.js?v=detached-house-octree-20260605-bh449";
-export { default as VillageFenceCollider } from "../dvarim/nature/VillageFenceCollider.js?v=detached-fence-octree-20260605-bh449";
+export { default as VillageHouseCollider } from "../dvarim/nature/VillageHouseCollider.js?v=wall-only-house-solid-20260609-bh566";
+export { default as VillageFenceCollider } from "../dvarim/nature/VillageFenceCollider.js?v=no-composed-fence-collider-20260609-bh556";
 export { default as VillageRoadCollider } from "../dvarim/nature/VillageRoadCollider.js?v=detached-road-octree-20260605-bh449";

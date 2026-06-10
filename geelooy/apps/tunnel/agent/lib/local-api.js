@@ -6,6 +6,7 @@ const { buildToolCatalog } = require("./tool-schema-catalog.js");
 const { handleFs } = require("../tools/fs/index.js");
 const { handleCommand, ACTIONS: COMMAND_ACTIONS } = require("../tools/command/index.js");
 const { handleChrome, ACTIONS: CHROME_ACTIONS } = require("../tools/chrome/index.js");
+const { handleRelay, jsonRelay, ACTIONS: RELAY_ACTIONS } = require("../tools/relay/index.js");
 const { buildActions, AGENT_VERSION } = require("../tools/fs/actions.js");
 
 const BODY_LIMIT = 8 * 1024 * 1024;
@@ -13,13 +14,14 @@ const DEFAULT_HOST = "127.0.0.1";
 const DEFAULT_PORT = 3977;
 
 /**
- * B"H
- * Chapter 2: One Local Gate Served Names, Schemas, Manifest, And YAML.
+ * Chapter 8: The Local API Became A Hall Of Four Doors.
  *
- * `/actions`, `/tools`, `/schemas`, and `/manifest` now drink from the same
- * `buildToolCatalog` vessel. The execution maps remain the source of action
- * names, while the catalog generator turns those names into JSON schemas and a
- * YAML view so no format drifts from the others.
+ * The local tunnel API now opens fs, command, Chrome, and relay as equal gates.
+ * ChatGPT relay keeps its cookie bridge. JSON/Jason relay is separate, simple,
+ * and visible through dedicated routes.
+ *
+ * @param {object} deps Optional test doubles for handlers and config.
+ * @returns {import("http").Server} Local API server.
  */
 function createLocalApiServer(deps = {}) {
   const bag = makeDeps(deps);
@@ -43,7 +45,14 @@ function startLocalApiServer(options = {}) {
 }
 
 function makeDeps(deps) {
-  return { configLoader: deps.configLoader || loadConfig, fsHandler: deps.fsHandler || ((payload, ws) => handleFs(payload, ws)), commandHandler: deps.commandHandler || (payload => handleCommand(payload)), chromeHandler: deps.chromeHandler || (payload => handleChrome(payload)) };
+  return {
+    configLoader: deps.configLoader || loadConfig,
+    fsHandler: deps.fsHandler || ((payload, ws) => handleFs(payload, ws)),
+    commandHandler: deps.commandHandler || (payload => handleCommand(payload)),
+    chromeHandler: deps.chromeHandler || (payload => handleChrome(payload)),
+    relayHandler: deps.relayHandler || ((payload, config) => handleRelay(payload, config)),
+    jsonRelayHandler: deps.jsonRelayHandler || (payload => jsonRelay(payload))
+  };
 }
 
 function localSettings(config = {}) {
@@ -51,22 +60,18 @@ function localSettings(config = {}) {
   const enabledByEnv = process.env.AWTSMOOS_LOCAL_API !== "0";
   return { enabled: enabledByEnv && localApi.enabled !== false, host: process.env.AWTSMOOS_LOCAL_API_HOST || localApi.host || DEFAULT_HOST, port: bounded(process.env.AWTSMOOS_LOCAL_API_PORT || localApi.port, DEFAULT_PORT) };
 }
-function bounded(value, fallback) { const n = Number(value || fallback); return Number.isFinite(n) ? Math.max(1, Math.min(65535, Math.floor(n))) : fallback; }
 
 async function route(req, res, deps) {
   setCors(res);
   if (req.method === "OPTIONS") return endJson(res, 204, {});
   try {
     const url = new URL(req.url || "/", "http://127.0.0.1");
-    if (req.method === "GET" && url.pathname === "/health") return health(res, deps);
-    if (req.method === "GET" && url.pathname === "/actions") return actions(res, deps);
-    if (req.method === "GET" && url.pathname === "/tools") return tools(res, deps);
-    if (req.method === "GET" && url.pathname === "/schemas") return schemas(res, deps);
-    if (req.method === "GET" && url.pathname === "/manifest") return manifest(res, deps);
+    const getRoutes = { "/health": health, "/actions": actions, "/tools": tools, "/schemas": schemas, "/manifest": manifest, "/relay/health": relayHealth, "/relay/open-login": relayOpenLogin, "/relay/cookies": relayCookies };
+    if (req.method === "GET" && getRoutes[url.pathname]) return getRoutes[url.pathname](res, deps);
     if (req.method !== "POST") return endJson(res, 404, { ok: false, error: "unknown_local_api_route" });
     const body = await readJsonBody(req);
-    const routes = { "/fs": () => callFs(res, deps, body), "/command": () => callCommand(res, deps, body), "/chrome": () => callChrome(res, deps, body), "/tool": () => callTool(res, deps, body), "/context": () => callFs(res, deps, { action: body.action || "aiContextPack", ...body }) };
-    return (routes[url.pathname] || routes["/tool"])();
+    const postRoutes = { "/fs": callFs, "/command": callCommand, "/chrome": callChrome, "/tool": callTool, "/context": callContext, "/relay": callRelay, "/relay/fetch": callRelayFetch, "/relay/body": callRelayBody, "/relay/json": callJsonRelay, "/json-relay": callJsonRelay, "/jason/relay": callJasonRelay };
+    return (postRoutes[url.pathname] || postRoutes["/tool"])(res, deps, body);
   } catch (e) {
     return endJson(res, 500, { ok: false, error: e.message });
   }
@@ -85,7 +90,7 @@ function catalogPayload(deps) { return makeCatalog(deps.configLoader()); }
 
 function makeCatalog(config) {
   const fsNames = Object.keys(buildActions(config, { action: "list" }, null));
-  return buildToolCatalog({ config, fsActionNames: fsNames, commandActionNames: Object.keys(COMMAND_ACTIONS || {}), chromeActionNames: Object.keys(CHROME_ACTIONS || {}), agentVersion: AGENT_VERSION });
+  return buildToolCatalog({ config, fsActionNames: fsNames, commandActionNames: Object.keys(COMMAND_ACTIONS || {}), chromeActionNames: Object.keys(CHROME_ACTIONS || {}), relayActionNames: Object.keys(RELAY_ACTIONS || {}), agentVersion: AGENT_VERSION });
 }
 
 function normalizeTool(body = {}, deps) {
@@ -94,6 +99,7 @@ function normalizeTool(body = {}, deps) {
   const payload = { ...args, action };
   const config = deps.configLoader();
   if (body.kind) payload.kind = body.kind;
+  else if (RELAY_ACTIONS?.[action]) payload.kind = "relay";
   else if (buildActions(config, { action }, null)[action]) payload.kind = "fs";
   else if (COMMAND_ACTIONS?.[action]) payload.kind = "command";
   else if (CHROME_ACTIONS?.[action]) payload.kind = "chrome";
@@ -101,10 +107,19 @@ function normalizeTool(body = {}, deps) {
   return payload;
 }
 
-async function callTool(res, deps, body) { const payload = normalizeTool(body, deps); const calls = { fs: callFs, command: callCommand, chrome: callChrome }; return (calls[payload.kind] || callFs)(res, deps, payload); }
+async function callTool(res, deps, body) { const payload = normalizeTool(body, deps); const calls = { fs: callFs, command: callCommand, chrome: callChrome, relay: callRelay }; return (calls[payload.kind] || callFs)(res, deps, payload); }
+async function callContext(res, deps, body) { return callFs(res, deps, { action: body.action || "aiContextPack", ...body }); }
 async function callFs(res, deps, body) { return endJson(res, 200, await deps.fsHandler({ kind: "fs", ...body }, null)); }
 async function callCommand(res, deps, body) { return endJson(res, 200, await deps.commandHandler({ kind: "command", ...body })); }
 async function callChrome(res, deps, body) { return endJson(res, 200, await deps.chromeHandler({ kind: "chrome", ...body })); }
+async function callRelay(res, deps, body) { return endJson(res, 200, await deps.relayHandler({ kind: "relay", ...body }, deps.configLoader())); }
+async function callRelayFetch(res, deps, body) { return callRelay(res, deps, { ...body, action: "relayFetch" }); }
+async function callRelayBody(res, deps, body) { return callRelay(res, deps, { ...body, action: "relayBody" }); }
+async function callJsonRelay(res, deps, body) { return endJson(res, 200, await deps.jsonRelayHandler({ ...body, action: "jsonRelay" })); }
+async function callJasonRelay(res, deps, body) { return endJson(res, 200, await deps.jsonRelayHandler({ ...body, action: "jasonRelay" })); }
+async function relayHealth(res, deps) { return endJson(res, 200, await deps.relayHandler({ action: "relayHealth" }, deps.configLoader())); }
+async function relayOpenLogin(res, deps) { return endJson(res, 200, await deps.relayHandler({ action: "relayOpenLogin" }, deps.configLoader())); }
+async function relayCookies(res, deps) { return endJson(res, 200, await deps.relayHandler({ action: "relayCookies" }, deps.configLoader())); }
 
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -116,6 +131,7 @@ function readJsonBody(req) {
   });
 }
 
+function bounded(value, fallback) { const n = Number(value || fallback); return Number.isFinite(n) ? Math.max(1, Math.min(65535, Math.floor(n))) : fallback; }
 function setCors(res) { res.setHeader("Access-Control-Allow-Origin", "*"); res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS"); res.setHeader("Access-Control-Allow-Headers", "content-type,x-awtsmoos-local-token"); }
 function endJson(res, status, data) { res.writeHead(status, { "content-type": "application/json; charset=utf-8" }); res.end(status === 204 ? "" : JSON.stringify(data)); }
 

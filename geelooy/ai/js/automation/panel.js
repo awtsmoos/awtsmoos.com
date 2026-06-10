@@ -1,6 +1,7 @@
 //B"H
 import { EVENT_TYPES, applyEventVisibility, loadEventVisibility, saveEventVisibility } from "../settings/eventVisibility.js";
 import { checkNodeRelay, openRelayControl } from "../chatgpt/transport/nodeRelayFetch.js";
+import { checkTunnelRelay, openTunnelRelayLogin, tryTunnelMerkavaLogin } from "../chatgpt/transport/tunnelRelayFetch.js";
 import { loadNodeRelaySettings, saveNodeRelaySettings } from "../chatgpt/transport/nodeRelaySettings.js";
 import { automationGraphStore } from "./graphStore.js";
 import { cloneDefaultAutomationGraph, cloneStudioExampleGraph } from "./graphDefaults.js";
@@ -11,14 +12,12 @@ import { menu, automationFields, conversationFields, exportFields, archiveFields
 import { handleRelayInstallAction, copyRelayCommand } from "./relayInstallActions.js";
 
 /**
- * B"H
- * Chapter 286: The Tab Gate Learned To Close Its Own Mouth.
+ * Chapter 14: The Cockpit Tried The Tunnel Before Declaring Exile.
  *
- * The Awtsmoos reveals an interface as a treaty between state and space. A tab
- * click changes the room; therefore the menu that chose the room must close
- * before the new room is born. Without that mercy, the old floating chooser can
- * hang over the fresh form like a translucent shard and make the store look
- * broken even when the data is clean.
+ * The automation panel now treats Awtsmoos Tunnel as a first-class transport
+ * option. The user can install/refresh the tunnel, try its local API, test
+ * ChatGPT login through the tunnel relay, and ask MerkavaExecutor to inspect
+ * ChatGPT when Chrome itself cannot be summoned.
  */
 export class AutomationPanel {
   constructor({ root, store, onChange, onDownloadChat = null, onDownloadJson = null, conversationId = null }) {
@@ -31,22 +30,7 @@ export class AutomationPanel {
   }
   setConversationId(conversationId = null) { this.conversationId = conversationId; this.settings = this.store.setConversationId?.(conversationId) || this.store.load(conversationId); this.render(); }
   render() { const topbar = this.root.querySelector(":scope > .panel-topbar"); const content = document.createElement("div"); content.className = "automation-panel-content"; content.innerHTML = `${menu(this.tab)}<div class="right-panel-body">${this.body()}</div>`; this.root.replaceChildren(...[topbar, content].filter(Boolean)); this.bindAll(); }
-  bindAll() {
-    this.bind("[data-tab]", node => node.onclick = () => this.chooseTab(node.dataset.tab));
-    this.bind("[data-auto]", input => { const handler = () => this.captureAutomation(); input.onchange = handler; input.oninput = handler; });
-    this.bindAutomationActions();
-    this.bind("[data-prompt-action]", node => node.onclick = () => this.handlePromptAction(node.dataset.promptAction));
-    this.bind("[data-conversation-action]", node => node.onclick = () => this.handleConversationAction(node.dataset.conversationAction));
-    this.bind("[data-event-type]", node => node.onchange = () => this.captureVisibility());
-    this.bind("[data-graph-action]", node => node.onclick = () => this.handleGraphAction(node.dataset.graphAction));
-    this.bind("[data-archive-action]", node => node.onclick = () => this.handleArchiveAction(node.dataset.archiveAction));
-    this.bind("[data-settings-action]", node => node.onclick = () => this.handleSettingsAction(node.dataset.settingsAction));
-    this.bind("[data-relay]", input => { const handler = () => this.captureRelay(); input.onchange = handler; input.oninput = handler; });
-    this.bind("[data-relay-action]", node => node.onclick = () => this.handleRelayAction(node.dataset.relayAction));
-    this.bind("[data-relay-copy]", node => node.onclick = async () => this.relayReport(await copyRelayCommand(this.root, node)));
-    this.bind("[data-provider-chat-action]", node => node.onclick = () => this.handleProviderChatAction(node.dataset.providerChatAction));
-    this.bind("[data-provider-chat-import]", node => node.onchange = () => this.handleProviderImport(node.files?.[0]));
-  }
+  bindAll() { this.bind("[data-tab]", node => node.onclick = () => this.chooseTab(node.dataset.tab)); this.bind("[data-auto]", input => { const handler = () => this.captureAutomation(); input.onchange = handler; input.oninput = handler; }); this.bindAutomationActions(); this.bind("[data-prompt-action]", node => node.onclick = () => this.handlePromptAction(node.dataset.promptAction)); this.bind("[data-conversation-action]", node => node.onclick = () => this.handleConversationAction(node.dataset.conversationAction)); this.bind("[data-event-type]", node => node.onchange = () => this.captureVisibility()); this.bind("[data-graph-action]", node => node.onclick = () => this.handleGraphAction(node.dataset.graphAction)); this.bind("[data-archive-action]", node => node.onclick = () => this.handleArchiveAction(node.dataset.archiveAction)); this.bind("[data-settings-action]", node => node.onclick = () => this.handleSettingsAction(node.dataset.settingsAction)); this.bind("[data-relay]", input => { const handler = () => this.captureRelay(); input.onchange = handler; input.oninput = handler; }); this.bind("[data-relay-action]", node => node.onclick = () => this.handleRelayAction(node.dataset.relayAction)); this.bind("[data-relay-copy]", node => node.onclick = async () => this.relayReport(await copyRelayCommand(this.root, node))); this.bind("[data-provider-chat-action]", node => node.onclick = () => this.handleProviderChatAction(node.dataset.providerChatAction)); this.bind("[data-provider-chat-import]", node => node.onchange = () => this.handleProviderImport(node.files?.[0])); }
   chooseTab(tab) { this.closeOpenMenu(); this.tab = tab || "automation"; this.render(); if (["archive", "settings"].includes(this.tab)) this.refreshProviderGroups(); }
   closeOpenMenu() { const menuNode = this.root.querySelector(".right-menu[open]"); if (menuNode) menuNode.open = false; }
   bindAutomationActions() { const stopSelector = '[data-auto-action="stop"]'; this.bind(`${stopSelector},[data-auto-action]`, node => node.onclick = () => this.handleAutomationAction(node.dataset.autoAction)); }
@@ -62,8 +46,12 @@ export class AutomationPanel {
   async handleArchiveAction(action) { const status = this.root.querySelector("#archive-status"); if (action === "download") { downloadTextFile("BH_automation_archive.json", await automationArchiveStore.exportJson()); status.textContent = "archive downloaded"; } if (action === "clear") { await automationArchiveStore.clear(); status.textContent = "archive cleared"; } if (action === "count") status.textContent = `${(await automationArchiveStore.list()).length} archived message(s)`; }
   handleSettingsAction(action) { const status = this.root.querySelector("#settings-status"); if (action === "download-chat-html") { this.onDownloadChat?.(); status && (status.textContent = "chat HTML downloaded"); } if (action === "download-chat-json") { this.onDownloadJson?.(); status && (status.textContent = "debug JSON downloaded"); } }
   captureVisibility() { const next = { ...this.eventVisibility }; this.root.querySelectorAll("[data-event-type]").forEach(input => next[input.dataset.eventType] = input.checked); this.eventVisibility = saveEventVisibility(next); }
-  captureRelay() { const next = {}; this.root.querySelectorAll("[data-relay]").forEach(input => next[input.dataset.relay] = input.type === "checkbox" ? input.checked : input.value); this.relaySettings = saveNodeRelaySettings(next); this.relayReport(this.relaySettings.enabled ? "Node relay selected" : "Extension bridge selected"); }
-  async handleRelayAction(action) { if (handleRelayInstallAction(action)) return this.relayReport("relay installer download started"); if (action === "extension") { this.relaySettings = saveNodeRelaySettings({ enabled: false }); this.render(); return; } if (action === "control") { this.relaySettings = saveNodeRelaySettings({ ...this.relaySettings, enabled: true }); this.relayReport(`control opened: ${await openRelayControl()}`); this.render(); return; } if (action === "health") this.relayReport(await checkNodeRelay() ? "Node relay is reachable" : "Node relay not reachable yet"); }
+  captureRelay() { const next = {}; this.root.querySelectorAll("[data-relay]").forEach(input => next[input.dataset.relay] = input.type === "checkbox" ? input.checked : input.value); next.enabled = next.mode !== "extension"; this.relaySettings = saveNodeRelaySettings(next); this.relayReport(this.relaySettings.mode === "tunnel" ? "Awtsmoos Tunnel selected" : this.relaySettings.mode === "node" ? "Node relay selected" : "Extension bridge selected"); }
+  async handleRelayAction(action) { if (handleRelayInstallAction(action)) return this.relayReport(action === "tunnel-control" ? "Awtsmoos Tunnel install page opened" : "relay installer download started"); if (action === "extension") { this.relaySettings = saveNodeRelaySettings({ mode: "extension", enabled: false }); this.render(); return; } if (action === "control") { this.relaySettings = saveNodeRelaySettings({ ...this.relaySettings, mode: "node", enabled: true }); this.relayReport(`control opened: ${await openRelayControl()}`); this.render(); return; } if (action === "health") return await this.checkSelectedRelay(); if (action === "tunnel-health") return await this.tryTunnelHealth(); if (action === "tunnel-login") return await this.tryTunnelLogin(); if (action === "tunnel-merkava") return await this.tryMerkavaLogin(); }
+  async checkSelectedRelay() { this.captureRelay(); if (this.relaySettings.mode === "tunnel") return await this.tryTunnelHealth(); if (this.relaySettings.mode === "node") return this.relayReport(await checkNodeRelay({ ignoreEnabled: true }) ? "Node relay is reachable" : "Node relay not reachable yet"); return this.relayReport("Extension selected; refresh after loading the extension."); }
+  async tryTunnelHealth() { this.relaySettings = saveNodeRelaySettings({ ...this.relaySettings, mode: "tunnel", enabled: true }); this.render(); this.relayReport(await checkTunnelRelay({ ignoreEnabled: true }) ? "Awtsmoos Tunnel local API is reachable" : "Awtsmoos Tunnel local API not reachable yet; run/copy the install command below"); }
+  async tryTunnelLogin() { try { this.relaySettings = saveNodeRelaySettings({ ...this.relaySettings, mode: "tunnel", enabled: true }); const result = await openTunnelRelayLogin(); this.relayReport(result.ok ? "ChatGPT login opened through tunnel" : `Tunnel login returned: ${result.error || "not ready"}`); if (!result.ok && this.relaySettings.useMerkavaExecutor !== false) await this.tryMerkavaLogin(); } catch (error) { this.relayReport(`Tunnel login failed: ${error.message || error}`); if (this.relaySettings.useMerkavaExecutor !== false) await this.tryMerkavaLogin(); } }
+  async tryMerkavaLogin() { try { const result = await tryTunnelMerkavaLogin(); this.relayReport(result.ok === false ? `MerkavaExecutor skipped: ${result.reason || result.error || "not ready"}` : "MerkavaExecutor reached ChatGPT diagnostic path"); } catch (error) { this.relayReport(`MerkavaExecutor fallback failed: ${error.message || error}`); } }
   selectedProviderChatIds() { return [...this.root.querySelectorAll("[data-provider-chat-id]:checked")].map(input => input.dataset.providerChatId); }
   visibilityMarkup() { return visibilityFields(EVENT_TYPES, this.eventVisibility, label); }
   bind(selector, attach) { this.root.querySelectorAll(selector).forEach(attach); }

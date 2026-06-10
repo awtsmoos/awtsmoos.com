@@ -3,31 +3,33 @@
 const KEY = "BH_awtsmoos_ai_node_relay_v1";
 const SPLIT_BROWSER_URL = "http://127.0.0.1:38488";
 const OLD_COOKIE_RELAY_URL = "http://127.0.0.1:38487";
+const TUNNEL_LOCAL_API_URL = "http://127.0.0.1:3977";
+const MODES = new Set(["extension", "node", "tunnel"]);
 
 export const DEFAULT_NODE_RELAY_SETTINGS = Object.freeze({
   enabled: false,
-  url: SPLIT_BROWSER_URL
+  mode: "extension",
+  url: SPLIT_BROWSER_URL,
+  tunnelUrl: TUNNEL_LOCAL_API_URL,
+  useMerkavaExecutor: true
 });
 
 /**
- * Chapter 291: The Relay Door Remembered The Correct Port.
+ * Chapter 9: Three Gates Stood Under One Crown.
  *
- * The Awtsmoos saw the phone open `38487` while the split-browser throne was
- * actually alive on `38488`. That mismatch is not a user mistake; it is stale
- * memory from the older cookie relay. The chosen Node path must now heal old
- * stored settings into the split-browser control gate, where `/control` opens
- * the localhost-proxied ChatGPT page and does not require debug Chrome.
+ * Extension, Node relay, and Awtsmoos Tunnel are separate gates. The Awtsmoos
+ * lets the user choose one without destroying the others: old `enabled` storage
+ * still means Node relay, while new `mode` storage can point to Tunnel and keep
+ * MerkavaExecutor ready when Chrome cannot answer.
  *
- * @returns {{enabled:boolean,url:string}} Saved relay settings with safe defaults.
+ * @returns {{enabled:boolean,mode:string,url:string,tunnelUrl:string,useMerkavaExecutor:boolean}} Saved relay settings.
  */
 export function loadNodeRelaySettings() {
   try {
     const raw = localStorage.getItem(KEY);
     const parsed = JSON.parse(raw || "{}");
     const settings = normalize(parsed);
-    if (raw && shouldHealStoredSettings(parsed, settings)) {
-      localStorage.setItem(KEY, JSON.stringify(settings));
-    }
+    if (raw && shouldHealStoredSettings(parsed, settings)) localStorage.setItem(KEY, JSON.stringify(settings));
     return settings;
   } catch {
     return { ...DEFAULT_NODE_RELAY_SETTINGS };
@@ -35,10 +37,9 @@ export function loadNodeRelaySettings() {
 }
 
 /**
- * B"H — Saves the human's explicit relay choice.
- *
- * @param {Partial<{enabled:boolean,url:string}>} next Partial relay settings.
- * @returns {{enabled:boolean,url:string}} Saved relay settings.
+ * B"H — Saves the chosen transport gate.
+ * @param {Partial<typeof DEFAULT_NODE_RELAY_SETTINGS>} next Partial settings.
+ * @returns {typeof DEFAULT_NODE_RELAY_SETTINGS} Saved settings.
  */
 export function saveNodeRelaySettings(next = {}) {
   const settings = normalize({ ...loadNodeRelaySettings(), ...next });
@@ -46,25 +47,33 @@ export function saveNodeRelaySettings(next = {}) {
   return settings;
 }
 
-/**
- * B"H — Answers whether boot code may even touch localhost relay health.
- *
- * @returns {boolean} True only after explicit user selection.
- */
 export function isNodeRelayEnabled() {
-  return loadNodeRelaySettings().enabled === true;
+  const settings = loadNodeRelaySettings();
+  return settings.enabled === true && settings.mode === "node";
+}
+
+export function isTunnelRelayEnabled() {
+  const settings = loadNodeRelaySettings();
+  return settings.enabled === true && settings.mode === "tunnel";
+}
+
+export function selectedTransportMode() {
+  return loadNodeRelaySettings().mode;
 }
 
 function normalize(value = {}) {
-  const rawUrl = cleanUrl(value.url || DEFAULT_NODE_RELAY_SETTINGS.url);
-  const staleUrl = isOldCookieRelay(rawUrl);
-  const url = staleUrl ? DEFAULT_NODE_RELAY_SETTINGS.url : rawUrl;
-  const enabled = value.enabled === true;
-  return { enabled, url };
+  const inheritedMode = value.mode || (value.enabled === true ? "node" : "extension");
+  const mode = MODES.has(inheritedMode) ? inheritedMode : DEFAULT_NODE_RELAY_SETTINGS.mode;
+  const rawUrl = cleanUrl(value.url || DEFAULT_NODE_RELAY_SETTINGS.url, DEFAULT_NODE_RELAY_SETTINGS.url);
+  const url = isOldCookieRelay(rawUrl) ? DEFAULT_NODE_RELAY_SETTINGS.url : rawUrl;
+  const tunnelUrl = cleanUrl(value.tunnelUrl || DEFAULT_NODE_RELAY_SETTINGS.tunnelUrl, DEFAULT_NODE_RELAY_SETTINGS.tunnelUrl);
+  const enabled = mode !== "extension" && value.enabled !== false;
+  const useMerkavaExecutor = value.useMerkavaExecutor !== false;
+  return { enabled, mode, url, tunnelUrl, useMerkavaExecutor };
 }
 
-function cleanUrl(value) {
-  return String(value || DEFAULT_NODE_RELAY_SETTINGS.url).replace(/\/+$/, "");
+function cleanUrl(value, fallback) {
+  return String(value || fallback).replace(/\/+$/, "");
 }
 
 function isOldCookieRelay(url) {
@@ -72,5 +81,5 @@ function isOldCookieRelay(url) {
 }
 
 function shouldHealStoredSettings(raw = {}, settings = DEFAULT_NODE_RELAY_SETTINGS) {
-  return raw.enabled !== settings.enabled || cleanUrl(raw.url || "") !== settings.url;
+  return raw.enabled !== settings.enabled || raw.mode !== settings.mode || cleanUrl(raw.url || "", "") !== settings.url || cleanUrl(raw.tunnelUrl || "", "") !== settings.tunnelUrl || raw.useMerkavaExecutor !== settings.useMerkavaExecutor;
 }

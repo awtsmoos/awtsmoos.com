@@ -10,6 +10,7 @@ const { TinyWebSocket } = require("./lib/ws.js");
 const { handleFs } = require("./tools/fs/index.js");
 const { handleCommand } = require("./tools/command/index.js");
 const { handleChrome } = require("./tools/chrome/index.js");
+const { handleRelay } = require("./tools/relay/index.js");
 const { AGENT_VERSION } = require("./tools/fs/actions.js");
 
 const log = makeLogger(ROOT);
@@ -187,6 +188,7 @@ async function runRequest(ws, data, enqueuedAt) {
     if (payload.kind === "fs") result = await handleFs(payload, ws);
     else if (payload.kind === "command") result = await handleCommand(payload);
     else if (payload.kind === "chrome") result = await handleChrome(payload);
+    else if (payload.kind === "relay") result = await handleRelay(payload, loadConfig());
     else {
       proxyLocalHttp(loadConfig(), data, ws);
       return;

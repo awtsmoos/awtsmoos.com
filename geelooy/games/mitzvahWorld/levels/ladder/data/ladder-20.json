@@ -1,1781 +1,567 @@
 {
   "format": "awtsmoos-level-json-v1",
-  "id": "ladder-20.json",
-  "shaym": "Throne_of_Confidence",
-  "title": "Throne of Confidence",
-  "requiredPerutos": 26,
-  "nextLevel": null,
-  "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
+  "id": "ladder-20",
+  "shaym": "ladder-20",
+  "title": "Reish Final Crossing",
+  "description": "The final handmade lava crossing: tight chips, fast ferries, and a victory island.",
   "nivrayim": {
-    "ProceduralSky": {
-      "name": "Clean_Desert_Sky",
-      "timeOfDay": 10,
-      "timeMultiplier": 0,
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "sunIntensity": 0.52,
-        "hemiIntensity": 0.34,
-        "ambientIntensity": 0.12,
-        "timeOfDay": 10,
-        "timeMultiplier": 0
-      },
-      "sunIntensity": 0.52,
-      "hemiIntensity": 0.34,
-      "ambientIntensity": 0.12
-    },
-    "ProceduralTerrain": {
-      "name": "calm_desert_underlay",
-      "width": 210,
-      "depth": 120,
-      "thickness": 3,
-      "segments": 4,
-      "isSolid": true,
-      "textureType": "sand",
-      "position": {
-        "x": 45,
-        "y": -3,
-        "z": 0
-      }
-    },
     "Chossid": [
       {
-        "name": "The Chossid",
-        "height": 1.5,
-        "radius": 0.45,
-        "dynamicSolidRadius": 0.28,
-        "speed": 6.9,
-        "speedScale": 1.12,
-        "jumpHeight": 13.5,
-        "interactable": true,
-        "path": "https://models-3122d.web.app/chossid.glb?k=2",
+        "name": "player",
         "position": {
-          "x": -8,
-          "y": 0.5,
+          "x": -34,
+          "y": 2.13,
           "z": 0
         },
-        "visualGroundBiasY": -0.34,
-        "rotationSpeed": 5.2,
-        "lerpTurnSpeed": 0.42,
-        "movementResponsiveness": 24,
-        "stopResponsiveness": 34,
-        "animationBlendDuration": 0.055,
-        "animationActionTimeScale": 1.18,
-        "animationSpeedScale": 1.2,
-        "runModeScale": 1,
-        "walkModeScale": 0.56,
-        "chaweeyoosMap": {
-          "run": "run",
-          "walk": "walk",
-          "idle": "stand",
-          "jump": "jump",
-          "falling": "falling",
-          "right turn": "right turn",
-          "left turn": "left turn"
-        }
+        "visualGroundBiasY": -0.12,
+        "dynamicSolidRadius": 0.28,
+        "modelScale": 1,
+        "heesHawveh": true
       }
     ],
-    "SolidBlock": [
+    "ProceduralTerrain": [
       {
-        "name": "safe_step_20_0",
-        "width": 9,
-        "height": 1,
-        "depth": 7,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "level_20_basalt_lava_basin",
         "position": {
-          "x": -8,
-          "y": 0,
-          "z": -1.67
+          "x": -2,
+          "y": -0.92,
+          "z": 0.3
         },
-        "safeRect": {
-          "x": -8,
-          "z": -1.67,
-          "width": 9,
-          "depth": 7
-        }
-      },
-      {
-        "name": "safe_step_20_1",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": -2.5999999999999996,
-          "y": 0,
-          "z": -0.27
-        },
-        "safeRect": {
-          "x": -2.5999999999999996,
-          "z": -0.27,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_2",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 2.8000000000000007,
-          "y": 0,
-          "z": 1.13
-        },
-        "safeRect": {
-          "x": 2.8000000000000007,
-          "z": 1.13,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_3",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 8.200000000000003,
-          "y": 0,
-          "z": -1.67
-        },
-        "safeRect": {
-          "x": 8.200000000000003,
-          "z": -1.67,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_4",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 13.600000000000001,
-          "y": 0,
-          "z": -0.27
-        },
-        "safeRect": {
-          "x": 13.600000000000001,
-          "z": -0.27,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_5",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 19,
-          "y": 0.55,
-          "z": 1.13
-        },
-        "safeRect": {
-          "x": 19,
-          "z": 1.13,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "low_bridge_20_5",
-        "width": 2.6,
-        "height": 0.45,
-        "depth": 2.4,
-        "color": 13284443,
-        "textureSeed": "thin_safe_bridge",
-        "position": {
-          "x": 16.3,
-          "y": 0.47000000000000003,
-          "z": 0.565
-        },
-        "safeRect": {
-          "x": 16.3,
-          "z": 0.565,
-          "width": 2.6,
-          "depth": 2.4
-        }
-      },
-      {
-        "name": "safe_step_20_6",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 24.400000000000006,
-          "y": 0.55,
-          "z": -1.67
-        },
-        "safeRect": {
-          "x": 24.400000000000006,
-          "z": -1.67,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_7",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 29.800000000000004,
-          "y": 0.55,
-          "z": -0.27
-        },
-        "safeRect": {
-          "x": 29.800000000000004,
-          "z": -0.27,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_8",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 35.2,
-          "y": 0.55,
-          "z": 1.13
-        },
-        "safeRect": {
-          "x": 35.2,
-          "z": 1.13,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_9",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 40.6,
-          "y": 0.55,
-          "z": -1.67
-        },
-        "safeRect": {
-          "x": 40.6,
-          "z": -1.67,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_10",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 46,
-          "y": 1.1,
-          "z": -0.27
-        },
-        "safeRect": {
-          "x": 46,
-          "z": -0.27,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "low_bridge_20_10",
-        "width": 2.6,
-        "height": 0.45,
-        "depth": 2.4,
-        "color": 13284443,
-        "textureSeed": "thin_safe_bridge",
-        "position": {
-          "x": 43.3,
-          "y": 1.02,
-          "z": -0.835
-        },
-        "safeRect": {
-          "x": 43.3,
-          "z": -0.835,
-          "width": 2.6,
-          "depth": 2.4
-        }
-      },
-      {
-        "name": "safe_step_20_11",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 51.400000000000006,
-          "y": 1.1,
-          "z": 1.13
-        },
-        "safeRect": {
-          "x": 51.400000000000006,
-          "z": 1.13,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_12",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 56.80000000000001,
-          "y": 1.1,
-          "z": -1.67
-        },
-        "safeRect": {
-          "x": 56.80000000000001,
-          "z": -1.67,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_13",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 62.2,
-          "y": 1.1,
-          "z": -0.27
-        },
-        "safeRect": {
-          "x": 62.2,
-          "z": -0.27,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_14",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 67.60000000000001,
-          "y": 1.1,
-          "z": 1.13
-        },
-        "safeRect": {
-          "x": 67.60000000000001,
-          "z": 1.13,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_15",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 73,
-          "y": 1.6500000000000001,
-          "z": -1.67
-        },
-        "safeRect": {
-          "x": 73,
-          "z": -1.67,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "low_bridge_20_15",
-        "width": 2.6,
-        "height": 0.45,
-        "depth": 2.4,
-        "color": 13284443,
-        "textureSeed": "thin_safe_bridge",
-        "position": {
-          "x": 70.3,
-          "y": 1.57,
-          "z": -0.135
-        },
-        "safeRect": {
-          "x": 70.3,
-          "z": -0.135,
-          "width": 2.6,
-          "depth": 2.4
-        }
-      },
-      {
-        "name": "safe_step_20_16",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 78.4,
-          "y": 1.6500000000000001,
-          "z": -0.27
-        },
-        "safeRect": {
-          "x": 78.4,
-          "z": -0.27,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_20_17",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 83.80000000000001,
-          "y": 1.6500000000000001,
-          "z": 1.13
-        },
-        "safeRect": {
-          "x": 83.80000000000001,
-          "z": 1.13,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "sand_leg_left_20",
-        "width": 0.7,
-        "height": 1.6,
-        "depth": 0.7,
-        "color": 14140267,
-        "textureSeed": "sand_rescue_leg",
-        "position": {
-          "x": 9.700000000000003,
-          "y": 0.9,
-          "z": -3.42
-        },
-        "safeRect": {
-          "x": 9.700000000000003,
-          "z": -3.42,
-          "width": 0.7,
-          "depth": 0.7
-        }
-      },
-      {
-        "name": "sand_leg_right_20",
-        "width": 0.7,
-        "height": 1.6,
-        "depth": 0.7,
-        "color": 14140267,
-        "textureSeed": "sand_rescue_leg",
-        "position": {
-          "x": 11.100000000000003,
-          "y": 0.9,
-          "z": -3.42
-        },
-        "safeRect": {
-          "x": 11.100000000000003,
-          "z": -3.42,
-          "width": 0.7,
-          "depth": 0.7
-        }
-      },
-      {
-        "name": "gate_floor_20",
-        "width": 7,
-        "height": 1,
-        "depth": 6,
-        "color": 14337898,
-        "textureSeed": "gold_gate_floor",
-        "position": {
-          "x": 14.500000000000004,
-          "y": 0.8999999999999999,
-          "z": -3.42
-        },
-        "safeRect": {
-          "x": 14.500000000000004,
-          "z": -3.42,
-          "width": 7,
-          "depth": 6
-        }
-      },
-      {
-        "name": "gate_left_pillar_20",
-        "width": 0.8,
-        "height": 4.2,
-        "depth": 0.8,
-        "color": 14075258,
-        "textureSeed": "gold_gate_pillar",
-        "position": {
-          "x": 16.300000000000004,
-          "y": 3,
-          "z": -5.62
-        },
-        "safeRect": {
-          "x": 16.300000000000004,
-          "z": -5.62,
-          "width": 0.8,
-          "depth": 0.8
-        }
-      },
-      {
-        "name": "gate_right_pillar_20",
-        "width": 0.8,
-        "height": 4.2,
-        "depth": 0.8,
-        "color": 14075258,
-        "textureSeed": "gold_gate_pillar",
-        "position": {
-          "x": 16.300000000000004,
-          "y": 3,
-          "z": -1.2199999999999998
-        },
-        "safeRect": {
-          "x": 16.300000000000004,
-          "z": -1.2199999999999998,
-          "width": 0.8,
-          "depth": 0.8
-        }
-      },
-      {
-        "name": "gate_lintel_20",
-        "width": 1,
-        "height": 0.7,
-        "depth": 5.4,
-        "color": 14929784,
-        "textureSeed": "gold_lintel",
-        "position": {
-          "x": 16.300000000000004,
-          "y": 5.3,
-          "z": -3.42
-        },
-        "safeRect": {
-          "x": 16.300000000000004,
-          "z": -3.42,
-          "width": 1,
-          "depth": 5.4
-        }
+        "width": 104,
+        "depth": 47,
+        "segments": 24,
+        "collisionSegments": 1,
+        "textureSize": 512,
+        "textureType": "lavaBasin",
+        "material": "lavaBasin",
+        "isSolid": false,
+        "microNoise": 0.015
       }
     ],
     "SpikeField": [
       {
-        "name": "lava_under_level_20",
-        "groundY": -2.75,
-        "height": 0.36,
-        "pad": 0.08,
+        "name": "level_20_visible_lava_hazard",
+        "position": {
+          "x": -2,
+          "y": -0.34,
+          "z": 0.3
+        },
+        "width": 106,
+        "depth": 49,
+        "height": 0.28,
+        "groundY": -0.48,
         "lava": true,
-        "bounds": {
-          "minX": -18,
-          "maxX": 26.500000000000004,
-          "minZ": -18,
-          "maxZ": 18
-        },
-        "position": {
-          "x": 4.250000000000002,
-          "y": -2.57,
-          "z": 0
-        }
+        "pad": 0.03,
+        "opacity": 0.98,
+        "isSolid": false
       }
     ],
-    "SpikedBallHazard": [
+    "SolidBlock": [
       {
-        "name": "lava_orb_20",
-        "axis": "x",
-        "amplitude": 1.2,
-        "speed": 1.194,
-        "radius": 0.72,
-        "hitRadius": 0.58,
+        "name": "l20_start_reish_final_court",
         "position": {
-          "x": 10.400000000000002,
-          "y": 2.05,
-          "z": -3.42
-        }
-      },
-      {
-        "name": "bh_letter_lava_orb_cross_20_a",
-        "axis": "z",
-        "amplitude": 3.4000000000000004,
-        "speed": 2.044,
-        "radius": 0.7,
-        "hitRadius": 0.504,
-        "position": {
-          "x": 44,
-          "y": 6.300000000000001,
-          "z": -1.8
-        }
-      },
-      {
-        "name": "bh_letter_lava_orb_cross_20_b",
-        "axis": "x",
-        "amplitude": 3,
-        "speed": 2.044,
-        "radius": 0.7,
-        "hitRadius": 0.504,
-        "position": {
-          "x": 48,
-          "y": 6.7,
-          "z": 1.6
-        }
-      },
-      {
-        "name": "bh_letter_lava_orb_cross_20_a",
-        "axis": "z",
-        "amplitude": 3.4000000000000004,
-        "speed": 2.044,
-        "radius": 0.7,
-        "hitRadius": 0.504,
-        "position": {
-          "x": 44,
-          "y": 6.300000000000001,
-          "z": -1.8
-        }
-      },
-      {
-        "name": "bh_letter_lava_orb_cross_20_b",
-        "axis": "x",
-        "amplitude": 3,
-        "speed": 2.044,
-        "radius": 0.7,
-        "hitRadius": 0.504,
-        "position": {
-          "x": 48,
-          "y": 6.7,
-          "z": 1.6
-        }
-      }
-    ],
-    "MovingPushBlock": [
-      {
-        "name": "exact_push_block_20",
-        "axis": "z",
-        "amplitude": 1.68,
-        "speed": 1.41,
-        "size": {
-          "x": 2.2,
-          "y": 1.1,
-          "z": 0.9
-        },
-        "position": {
-          "x": 14.700000000000001,
+          "x": -34,
           "y": 1.55,
-          "z": -0.27
-        }
-      },
-      {
-        "name": "hard_push_block_z_20",
-        "axis": "z",
-        "amplitude": 3.6800000000000006,
-        "speed": 2.1100000000000003,
-        "size": {
-          "x": 2.2,
-          "y": 1.1,
-          "z": 1.35
-        },
-        "position": {
-          "x": 46,
-          "y": 6.6,
           "z": 0
+        },
+        "width": 8.5,
+        "height": 1,
+        "depth": 5.7,
+        "color": 13673572,
+        "textureSeed": "l20_start_reish_final_court",
+        "isSolid": true,
+        "safeRect": {
+          "x": -34,
+          "z": 0,
+          "width": 8.5,
+          "depth": 5.7
         }
       },
       {
-        "name": "hard_push_block_x_20",
-        "axis": "x",
-        "amplitude": 3.08,
-        "speed": 2.1,
-        "size": {
-          "x": 1.7,
-          "y": 1.15,
-          "z": 1.85
-        },
+        "name": "l20_final_west_slab",
         "position": {
-          "x": 50,
-          "y": 7.6,
-          "z": -1.2
+          "x": -26,
+          "y": 1.9,
+          "z": 4.8
+        },
+        "width": 3.4,
+        "height": 1,
+        "depth": 2.3,
+        "color": 12159308,
+        "textureSeed": "l20_final_west_slab",
+        "isSolid": true,
+        "safeRect": {
+          "x": -26,
+          "z": 4.8,
+          "width": 3.4,
+          "depth": 2.3
         }
       },
       {
-        "name": "hard_push_block_z_20",
-        "axis": "z",
-        "amplitude": 3.6800000000000006,
-        "speed": 2.1100000000000003,
-        "size": {
-          "x": 2.2,
-          "y": 1.1,
-          "z": 1.35
-        },
+        "name": "l20_final_chip_one",
         "position": {
-          "x": 46,
-          "y": 6.6,
+          "x": -12.2,
+          "y": 2.46,
+          "z": -4.2
+        },
+        "width": 2.4,
+        "height": 1,
+        "depth": 2.2,
+        "color": 12880978,
+        "textureSeed": "l20_final_chip_one",
+        "isSolid": true,
+        "safeRect": {
+          "x": -12.2,
+          "z": -4.2,
+          "width": 2.4,
+          "depth": 2.2
+        }
+      },
+      {
+        "name": "l20_final_center_rest",
+        "position": {
+          "x": -5.5,
+          "y": 2.74,
           "z": 0
+        },
+        "width": 3.6,
+        "height": 1,
+        "depth": 2.4,
+        "color": 12159308,
+        "textureSeed": "l20_final_center_rest",
+        "isSolid": true,
+        "safeRect": {
+          "x": -5.5,
+          "z": 0,
+          "width": 3.6,
+          "depth": 2.4
         }
       },
       {
-        "name": "hard_push_block_x_20",
-        "axis": "x",
-        "amplitude": 3.08,
-        "speed": 2.1,
-        "size": {
-          "x": 1.7,
-          "y": 1.15,
-          "z": 1.85
-        },
+        "name": "l20_final_chip_two",
         "position": {
-          "x": 50,
-          "y": 7.6,
-          "z": -1.2
+          "x": 8,
+          "y": 3.24,
+          "z": -3.8
+        },
+        "width": 2.4,
+        "height": 1,
+        "depth": 2.2,
+        "color": 12880978,
+        "textureSeed": "l20_final_chip_two",
+        "isSolid": true,
+        "safeRect": {
+          "x": 8,
+          "z": -3.8,
+          "width": 2.4,
+          "depth": 2.2
+        }
+      },
+      {
+        "name": "l20_final_exit_slab",
+        "position": {
+          "x": 21.6,
+          "y": 3.58,
+          "z": 3.2
+        },
+        "width": 3.3,
+        "height": 1,
+        "depth": 2.3,
+        "color": 12159308,
+        "textureSeed": "l20_final_exit_slab",
+        "isSolid": true,
+        "safeRect": {
+          "x": 21.6,
+          "z": 3.2,
+          "width": 3.3,
+          "depth": 2.3
+        }
+      },
+      {
+        "name": "l20_finish_reish_victory",
+        "position": {
+          "x": 30,
+          "y": 3.7,
+          "z": 0
+        },
+        "width": 8,
+        "height": 1,
+        "depth": 5.5,
+        "color": 13673572,
+        "textureSeed": "l20_finish_reish_victory",
+        "isSolid": true,
+        "safeRect": {
+          "x": 30,
+          "z": 0,
+          "width": 8,
+          "depth": 5.5
+        }
+      }
+    ],
+    "MovingPlatform": [
+      {
+        "name": "l20_final_first_sweep",
+        "position": {
+          "x": -19,
+          "y": 2.18,
+          "z": 0
+        },
+        "width": 2.8,
+        "height": 1,
+        "depth": 2,
+        "color": 6211839,
+        "textureSeed": "l20_final_first_sweep",
+        "isSolid": true,
+        "moving": true,
+        "axis": "z",
+        "distance": 5.8,
+        "speed": 0.72,
+        "phase": 0.05,
+        "size": {
+          "x": 2.8,
+          "y": 1,
+          "z": 2
+        },
+        "dimensions": {
+          "x": 2.8,
+          "y": 1,
+          "z": 2
+        },
+        "safeRect": {
+          "x": -19,
+          "z": 0,
+          "width": 2.8,
+          "depth": 2
+        }
+      },
+      {
+        "name": "l20_final_second_sweep",
+        "position": {
+          "x": 1.2,
+          "y": 3.02,
+          "z": 4
+        },
+        "width": 2.8,
+        "height": 1,
+        "depth": 2,
+        "color": 6211839,
+        "textureSeed": "l20_final_second_sweep",
+        "isSolid": true,
+        "moving": true,
+        "axis": "x",
+        "distance": 5.4,
+        "speed": 0.76,
+        "phase": 0.33,
+        "size": {
+          "x": 2.8,
+          "y": 1,
+          "z": 2
+        },
+        "dimensions": {
+          "x": 2.8,
+          "y": 1,
+          "z": 2
+        },
+        "safeRect": {
+          "x": 1.2,
+          "z": 4,
+          "width": 2.8,
+          "depth": 2
+        }
+      },
+      {
+        "name": "l20_final_last_ferry",
+        "position": {
+          "x": 14.8,
+          "y": 3.42,
+          "z": 0
+        },
+        "width": 2.7,
+        "height": 1,
+        "depth": 2,
+        "color": 6211839,
+        "textureSeed": "l20_final_last_ferry",
+        "isSolid": true,
+        "moving": true,
+        "axis": "z",
+        "distance": 5.6,
+        "speed": 0.78,
+        "phase": 0.65,
+        "size": {
+          "x": 2.7,
+          "y": 1,
+          "z": 2
+        },
+        "dimensions": {
+          "x": 2.7,
+          "y": 1,
+          "z": 2
+        },
+        "safeRect": {
+          "x": 14.8,
+          "z": 0,
+          "width": 2.7,
+          "depth": 2
         }
       }
     ],
     "Coin": [
       {
-        "name": "perutah_20_1",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_1",
         "position": {
-          "x": -2.5999999999999996,
-          "y": 1.45,
-          "z": 0.6799999999999999
+          "x": -26,
+          "y": 3.12,
+          "z": 4.8
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "perutah_20_2",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_2",
         "position": {
-          "x": -2.5999999999999996,
-          "y": 1.45,
-          "z": -1.22
+          "x": -19,
+          "y": 3.4,
+          "z": 0
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "perutah_20_3",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_3",
         "position": {
-          "x": 2.8000000000000007,
-          "y": 1.45,
-          "z": 2.08
+          "x": -12.2,
+          "y": 3.68,
+          "z": -4.2
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "perutah_20_4",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_4",
         "position": {
-          "x": 2.8000000000000007,
-          "y": 1.45,
-          "z": 0.17999999999999994
+          "x": -5.5,
+          "y": 3.96,
+          "z": 0
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "perutah_20_5",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_5",
         "position": {
-          "x": 8.200000000000003,
-          "y": 1.45,
-          "z": -0.72
+          "x": 1.2,
+          "y": 4.24,
+          "z": 4
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "perutah_20_6",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_6",
         "position": {
-          "x": 8.200000000000003,
-          "y": 1.45,
-          "z": -2.62
+          "x": 8,
+          "y": 4.46,
+          "z": -3.8
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "perutah_20_7",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_7",
         "position": {
-          "x": 13.600000000000001,
-          "y": 1.45,
-          "z": 0.6799999999999999
+          "x": 14.8,
+          "y": 4.64,
+          "z": 0
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "perutah_20_8",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "level_20_peruta_8",
         "position": {
-          "x": 13.600000000000001,
-          "y": 1.45,
-          "z": -1.22
+          "x": 21.6,
+          "y": 4.8,
+          "z": 3.2
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_9",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 19,
-          "y": 2,
-          "z": 2.08
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_10",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 19,
-          "y": 2,
-          "z": 0.17999999999999994
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_11",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 16.3,
-          "y": 1.92,
-          "z": 1.515
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_12",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 16.3,
-          "y": 1.92,
-          "z": -0.385
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_13",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 24.400000000000006,
-          "y": 2,
-          "z": -0.72
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_14",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 24.400000000000006,
-          "y": 2,
-          "z": -2.62
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_15",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 29.800000000000004,
-          "y": 2,
-          "z": 0.6799999999999999
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_16",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 29.800000000000004,
-          "y": 2,
-          "z": -1.22
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_17",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 35.2,
-          "y": 2,
-          "z": 2.08
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_18",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 35.2,
-          "y": 2,
-          "z": 0.17999999999999994
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_19",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 40.6,
-          "y": 2,
-          "z": -0.72
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_20",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 40.6,
-          "y": 2,
-          "z": -2.62
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_21",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 46,
-          "y": 2.55,
-          "z": 0.6799999999999999
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_22",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 46,
-          "y": 2.55,
-          "z": -1.22
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_23",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 43.3,
-          "y": 2.4699999999999998,
-          "z": 0.11499999999999999
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_24",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 43.3,
-          "y": 2.4699999999999998,
-          "z": -1.785
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_25",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 51.400000000000006,
-          "y": 2.55,
-          "z": 2.08
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "perutah_20_26",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 51.400000000000006,
-          "y": 2.55,
-          "z": 0.17999999999999994
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
+        }
       }
     ],
-    "InteractiveDoor": [],
     "TzedakahBox": [
       {
-        "name": "pushkuh_before_inside_mezuzah_20",
-        "requiresAllCoins": true,
+        "name": "level_20_tzedakah_box",
         "position": {
-          "x": 82.70000000000002,
-          "y": 7.35,
-          "z": 1.45
-        }
+          "x": 21.6,
+          "y": 4.63,
+          "z": 3.2
+        },
+        "reward": 25,
+        "proximity": 1.5
+      }
+    ],
+    "InteractiveDoor": [
+      {
+        "name": "level_20_return_gate",
+        "position": {
+          "x": 31.2,
+          "y": 4.25,
+          "z": 0
+        },
+        "targetPath": "village.json",
+        "target": "village.json",
+        "proximity": 2.1,
+        "height": 3.2,
+        "width": 1.8,
+        "isSolid": false
       }
     ],
     "FallResetTrigger": [
       {
-        "name": "fall_reset_20",
-        "width": 180,
-        "height": 0.4,
-        "depth": 120,
-        "proximity": 6,
-        "penalty": 0,
-        "color": 3342336,
+        "name": "level_20_deep_fall_reset",
         "position": {
-          "x": 35,
-          "y": -14,
+          "x": -2,
+          "y": -7.6,
+          "z": 0.3
+        },
+        "width": 116,
+        "height": 1,
+        "depth": 55,
+        "targetPosition": {
+          "x": -34,
+          "y": 2.57,
           "z": 0
         },
-        "resetDelayMs": 3000
-      }
-    ],
-    "MovingPlatform": [
-      {
-        "name": "thin_moving_platform_20_a",
-        "width": 2.62,
-        "height": 0.75,
-        "depth": 1.63,
-        "axis": "x",
-        "distance": 6.2,
-        "speed": 2.04,
-        "position": {
-          "x": 49,
-          "y": 5.5,
-          "z": 2.7
-        },
-        "phase": 0,
-        "size": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "dimensions": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      },
-      {
-        "name": "thin_moving_platform_20_b",
-        "width": 2.62,
-        "height": 0.75,
-        "depth": 1.63,
-        "axis": "z",
-        "distance": 5.800000000000001,
-        "speed": 2.12,
-        "position": {
-          "x": 54,
-          "y": 6.6,
-          "z": -2.6
-        },
-        "phase": 1.8,
-        "size": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "dimensions": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      },
-      {
-        "name": "thin_moving_platform_20_a",
-        "width": 2.62,
-        "height": 0.75,
-        "depth": 1.63,
-        "axis": "x",
-        "distance": 6.2,
-        "speed": 2.04,
-        "position": {
-          "x": 49,
-          "y": 5.5,
-          "z": 2.7
-        },
-        "phase": 3.6,
-        "size": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "dimensions": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      },
-      {
-        "name": "thin_moving_platform_20_b",
-        "width": 2.62,
-        "height": 0.75,
-        "depth": 1.63,
-        "axis": "z",
-        "distance": 5.800000000000001,
-        "speed": 2.12,
-        "position": {
-          "x": 54,
-          "y": 6.6,
-          "z": -2.6
-        },
-        "phase": 5.4,
-        "size": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "dimensions": {
-          "x": 2.62,
-          "y": 0.75,
-          "z": 1.63
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      }
-    ],
-    "DisappearingPlatform": [
-      {
-        "name": "blink_platform_20_a",
-        "width": 2.8,
-        "height": 0.72,
-        "depth": 2.05,
-        "vanishMs": 470,
-        "position": {
-          "x": 38,
-          "y": 6.9,
-          "z": 2.1
-        }
-      },
-      {
-        "name": "blink_platform_20_a",
-        "width": 2.8,
-        "height": 0.72,
-        "depth": 2.05,
-        "vanishMs": 470,
-        "position": {
-          "x": 38,
-          "y": 6.9,
-          "z": 2.1
-        }
-      }
-    ],
-    "TrapdoorPlatform": [
-      {
-        "name": "trapdoor_platform_20_a",
-        "width": 2.8,
-        "height": 0.72,
-        "depth": 2.05,
-        "delayMs": 420,
-        "position": {
-          "x": 42,
-          "y": 7.1,
-          "z": -2.2
-        }
-      },
-      {
-        "name": "trapdoor_platform_20_a",
-        "width": 2.8,
-        "height": 0.72,
-        "depth": 2.05,
-        "delayMs": 420,
-        "position": {
-          "x": 42,
-          "y": 7.1,
-          "z": -2.2
-        }
-      }
-    ],
-    "SlipperyPlatform": [
-      {
-        "name": "slippery_sandstone_20_a",
-        "width": 2.8,
-        "height": 0.72,
-        "depth": 2.05,
-        "axis": "x",
-        "slidePower": 8.5,
-        "position": {
-          "x": 46,
-          "y": 7.4,
-          "z": 1.5
-        }
-      },
-      {
-        "name": "slippery_sandstone_20_a",
-        "width": 2.8,
-        "height": 0.72,
-        "depth": 2.05,
-        "axis": "x",
-        "slidePower": 8.5,
-        "position": {
-          "x": 46,
-          "y": 7.4,
-          "z": 1.5
-        }
-      }
-    ],
-    "FastPusherPlatform": [
-      {
-        "name": "sudden_ruach_push_20",
-        "width": 2.4,
-        "height": 0.6,
-        "depth": 2.2,
-        "axis": "x",
-        "direction": -1,
-        "blastSpeed": 44,
-        "position": {
-          "x": 48,
-          "y": 7.8,
-          "z": 1.2
-        }
-      },
-      {
-        "name": "sudden_ruach_push_20",
-        "width": 2.4,
-        "height": 0.6,
-        "depth": 2.2,
-        "axis": "x",
-        "direction": -1,
-        "blastSpeed": 44,
-        "position": {
-          "x": 48,
-          "y": 7.8,
-          "z": 1.2
-        }
+        "opacity": 0,
+        "isSolid": false
       }
     ]
-  }
+  },
+  "objectives": [
+    {
+      "id": "level_20_collect_perutos",
+      "type": "collect",
+      "target": "Coin",
+      "count": 8
+    }
+  ]
 }

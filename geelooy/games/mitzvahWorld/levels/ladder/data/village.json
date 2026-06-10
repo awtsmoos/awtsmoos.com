@@ -64,7 +64,9 @@
         "width": 190,
         "depth": 190,
         "segments": 72,
+        "collisionSegments": 12,
         "isSolid": true,
+        "noSafetySlab": true,
         "textureType": "safegrass",
         "textureSize": 768,
         "microNoise": 0.04,
@@ -357,85 +359,19 @@
     ],
     "VillageRoadCollider": [],
     "VillageCottage": [],
-    "VillageHouseCollider": [
-      {
-        "name": "reference_main_brick_house_collider",
-        "targetName": "reference_main_brick_house",
-        "position": {
-          "x": 4.8,
-          "y": 0,
-          "z": 5.6
-        },
-        "width": 11,
-        "depth": 8,
-        "height": 6,
-        "floorTop": 0.34
-      }
-    ],
+    "VillageHouseCollider": [],
     "VillageHeroTree": [],
     "VillageTreeField": [],
-    "VillageGrassField": [
-      {
-        "name": "reference_meadow_grass_flowers_varied",
-        "count": 3200,
-        "tallRatio": 0.24,
-        "flowerRatio": 0.24,
-        "radius": 58,
-        "groundY": 0,
-        "groundLift": 0.014,
-        "shortColor": 5217083,
-        "shortAltColor": 8960349,
-        "tallColor": 3111985,
-        "tallAltColor": 7311670,
-        "flowerColor": 15259744,
-        "flowerAltColor": 14394344,
-        "patches": [
-          {
-            "x": -18,
-            "z": 13,
-            "radius": 11
-          },
-          {
-            "x": -8,
-            "z": 11,
-            "radius": 8
-          },
-          {
-            "x": 0,
-            "z": 8,
-            "radius": 7
-          },
-          {
-            "x": 8,
-            "z": 2,
-            "radius": 9
-          },
-          {
-            "x": 16,
-            "z": -8,
-            "radius": 10
-          },
-          {
-            "x": 23,
-            "z": -18,
-            "radius": 10
-          },
-          {
-            "x": -22,
-            "z": -5,
-            "radius": 9
-          }
-        ]
-      }
-    ],
+    "VillageGrassField": [],
     "InteractiveNpc": [
       {
         "name": "OPEN_VISIBLE_CHOOSE_LEVELS_GUIDE",
+        "title": "Village Guide",
         "opensLevelSelect": true,
         "hasShop": true,
         "selectorTitle": "Choose Levels",
-        "proximity": 12,
-        "talkDistance": 12,
+        "proximity": 10,
+        "talkDistance": 10,
         "height": 1.9,
         "visualHeight": 1.9,
         "radius": 0.58,
@@ -447,37 +383,52 @@
         "beaconHeight": 4.8,
         "path": "https://models-3122d.web.app/chossid.glb?k=1",
         "position": {
-          "x": -8.2,
+          "x": -2.8,
           "y": 0,
-          "z": 10.6
+          "z": 14.8
         },
         "rotation": {
-          "y": 2.75
+          "y": 2.9
         },
         "dialogue": [
           "Shalom! I guard the challenge path.",
           "Tap Choose Levels to see all available challenges.",
-          "The village is only the beginning."
+          "The guide is no longer stuck by the wall."
+        ]
+      },
+      {
+        "name": "Egg Village Travel Guide",
+        "title": "Egg Village Guide",
+        "opensLevelSelect": false,
+        "hasShop": false,
+        "travelOnly": true,
+        "travelPath": "egg-village.json",
+        "travelLabel": "GO TO EGG VILLAGE",
+        "proximity": 9,
+        "talkDistance": 9,
+        "height": 1.75,
+        "visualHeight": 1.75,
+        "radius": 0.52,
+        "groundLift": 0.02,
+        "beacon": true,
+        "beaconColor": 16773280,
+        "beaconHeight": 4.2,
+        "path": "https://models-3122d.web.app/chossid.glb?k=3",
+        "position": {
+          "x": -14.5,
+          "y": 0,
+          "z": 6.5
+        },
+        "rotation": {
+          "y": 1.15
+        },
+        "dialogue": [
+          "I can take you to Egg Village.",
+          "Tap the travel button and I will open that path.",
+          "You can return from the guide there."
         ]
       }
     ],
-    "VillageFenceCollider": [
-      {
-        "name": "reference_left_low_fence_collider",
-        "targetName": "reference_left_low_fence",
-        "length": 12.8,
-        "height": 1.65,
-        "depth": 0.55,
-        "position": {
-          "x": -16,
-          "y": 0,
-          "z": 11.5
-        },
-        "rotation": {
-          "y": -0.28
-        },
-        "useAuthoredY": true
-      }
-    ]
+    "VillageFenceCollider": []
   }
 }

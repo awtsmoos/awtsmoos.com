@@ -1,910 +1,431 @@
 {
   "format": "awtsmoos-level-json-v1",
-  "id": "ladder-3.json",
-  "shaym": "Gimmel_Shattered_Bridge",
-  "title": "Gimmel Shattered Bridge",
-  "requiredPerutos": 11,
-  "nextLevel": "ladder-4.json",
-  "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
+  "id": "ladder-3",
+  "shaym": "ladder-3",
+  "title": "Gimmel Narrow Read",
+  "description": "A manual center-line course teaching measured jumps.",
   "nivrayim": {
-    "ProceduralSky": [
+    "Chossid": [
       {
-        "name": "gimmel_shattered_bridge_sky",
-        "timeOfDay": 10,
-        "timeMultiplier": 0,
+        "name": "player",
         "position": {
-          "x": 0,
-          "y": 0,
+          "x": -24,
+          "y": 1.83,
           "z": 0
         },
-        "sunIntensity": 0.52,
-        "hemiIntensity": 0.34,
-        "ambientIntensity": 0.12
+        "visualGroundBiasY": -0.12,
+        "dynamicSolidRadius": 0.28,
+        "modelScale": 1,
+        "heesHawveh": true
       }
     ],
     "ProceduralTerrain": [
       {
-        "name": "gimmel_black_sand_below",
-        "width": 120,
-        "depth": 70,
-        "thickness": 2.4,
-        "segments": 6,
+        "name": "level_3_basalt_lava_basin",
+        "position": {
+          "x": 1,
+          "y": -0.92,
+          "z": -0.05
+        },
+        "width": 90,
+        "depth": 42.3,
+        "segments": 24,
+        "collisionSegments": 1,
+        "textureSize": 512,
+        "textureType": "lavaBasin",
+        "material": "lavaBasin",
         "isSolid": false,
-        "textureType": "desert",
-        "position": {
-          "x": 18,
-          "y": -5.4,
-          "z": 0
-        }
-      }
-    ],
-    "Chossid": [
-      {
-        "name": "The Chossid",
-        "height": 1.5,
-        "radius": 0.45,
-        "dynamicSolidRadius": 0.28,
-        "speed": 6.9,
-        "speedScale": 1.12,
-        "jumpHeight": 13.5,
-        "interactable": true,
-        "path": "https://models-3122d.web.app/chossid.glb?k=2",
-        "position": {
-          "x": -10,
-          "y": 0.425,
-          "z": 0
-        },
-        "visualGroundBiasY": -0.34,
-        "rotationSpeed": 5.2,
-        "lerpTurnSpeed": 0.42,
-        "movementResponsiveness": 24,
-        "stopResponsiveness": 34,
-        "animationBlendDuration": 0.055,
-        "animationActionTimeScale": 1.18,
-        "animationSpeedScale": 1.2,
-        "runModeScale": 1,
-        "walkModeScale": 0.56,
-        "chaweeyoosMap": {
-          "run": "run",
-          "walk": "walk",
-          "idle": "stand",
-          "jump": "jump",
-          "falling": "falling",
-          "right turn": "right turn",
-          "left turn": "left turn"
-        }
-      }
-    ],
-    "SolidBlock": [
-      {
-        "name": "gimmel_start_island",
-        "width": 6.8,
-        "height": 0.85,
-        "depth": 4.8,
-        "color": 14070366,
-        "textureSeed": "gimmel_start_island",
-        "position": {
-          "x": -10,
-          "y": 0,
-          "z": 0
-        },
-        "safeRect": {
-          "x": -10,
-          "z": 0,
-          "width": 6.8,
-          "depth": 4.8
-        }
-      },
-      {
-        "name": "bridge_anchor_one",
-        "width": 1.7,
-        "height": 0.85,
-        "depth": 1.35,
-        "color": 14070366,
-        "textureSeed": "bridge_anchor_one",
-        "position": {
-          "x": -3.8,
-          "y": 0.85,
-          "z": -1.2
-        },
-        "safeRect": {
-          "x": -3.8,
-          "z": -1.2,
-          "width": 1.7,
-          "depth": 1.35
-        }
-      },
-      {
-        "name": "bridge_anchor_two",
-        "width": 1.65,
-        "height": 0.85,
-        "depth": 1.3,
-        "color": 14070366,
-        "textureSeed": "bridge_anchor_two",
-        "position": {
-          "x": 2.4,
-          "y": 1.75,
-          "z": 1.35
-        },
-        "safeRect": {
-          "x": 2.4,
-          "z": 1.35,
-          "width": 1.65,
-          "depth": 1.3
-        }
-      },
-      {
-        "name": "high_safe_breath",
-        "width": 2.4,
-        "height": 0.85,
-        "depth": 1.7,
-        "color": 14070366,
-        "textureSeed": "high_safe_breath",
-        "position": {
-          "x": 15.2,
-          "y": 4.45,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 15.2,
-          "z": 0,
-          "width": 2.4,
-          "depth": 1.7
-        }
-      },
-      {
-        "name": "after_push_safe_to_gate",
-        "width": 3.2,
-        "height": 0.85,
-        "depth": 1.8,
-        "color": 14070366,
-        "textureSeed": "after_push_safe_to_gate",
-        "position": {
-          "x": 28.9,
-          "y": 6.05,
-          "z": -1.2
-        },
-        "safeRect": {
-          "x": 28.9,
-          "z": -1.2,
-          "width": 3.2,
-          "depth": 1.8
-        }
-      },
-      {
-        "name": "gimmel_gate_island",
-        "width": 8,
-        "height": 0.85,
-        "depth": 5.6,
-        "color": 14794085,
-        "textureSeed": "gimmel_gate_island",
-        "position": {
-          "x": 37.2,
-          "y": 6.85,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 37.2,
-          "z": 0,
-          "width": 8,
-          "depth": 5.6
-        }
-      },
-      {
-        "name": "gimmel_left_post",
-        "width": 0.8,
-        "height": 4.6,
-        "depth": 0.8,
-        "color": 14329946,
-        "textureSeed": "gimmel_left_post",
-        "position": {
-          "x": 39.8,
-          "y": 9.15,
-          "z": -2.25
-        },
-        "safeRect": {
-          "x": 39.8,
-          "z": -2.25,
-          "width": 0.8,
-          "depth": 0.8
-        }
-      },
-      {
-        "name": "gimmel_right_post",
-        "width": 0.8,
-        "height": 4.6,
-        "depth": 0.8,
-        "color": 14329946,
-        "textureSeed": "gimmel_right_post",
-        "position": {
-          "x": 39.8,
-          "y": 9.15,
-          "z": 2.25
-        },
-        "safeRect": {
-          "x": 39.8,
-          "z": 2.25,
-          "width": 0.8,
-          "depth": 0.8
-        }
-      },
-      {
-        "name": "gimmel_gate_lintel",
-        "width": 0.9,
-        "height": 0.85,
-        "depth": 5,
-        "color": 15386734,
-        "textureSeed": "gimmel_gate_lintel",
-        "position": {
-          "x": 39.8,
-          "y": 11.55,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 39.8,
-          "z": 0,
-          "width": 0.9,
-          "depth": 5
-        }
-      }
-    ],
-    "BetrayalPlatform": [
-      {
-        "name": "gimmel_bridge_piece_one",
-        "width": 1.75,
-        "height": 0.72,
-        "depth": 1.25,
-        "color": 9334271,
-        "textureSeed": "gimmel_bridge_piece_one",
-        "proximity": 1.55,
-        "dropDelayMs": 240,
-        "shardCount": 22,
-        "position": {
-          "x": 6.2,
-          "y": 2.45,
-          "z": -1.2
-        },
-        "safeRect": {
-          "x": 6.2,
-          "z": -1.2,
-          "width": 1.75,
-          "depth": 1.25
-        }
-      },
-      {
-        "name": "gimmel_bridge_piece_two",
-        "width": 1.65,
-        "height": 0.72,
-        "depth": 1.2,
-        "color": 9334271,
-        "textureSeed": "gimmel_bridge_piece_two",
-        "proximity": 1.55,
-        "dropDelayMs": 220,
-        "shardCount": 22,
-        "position": {
-          "x": 8.9,
-          "y": 3.05,
-          "z": 0.85
-        },
-        "safeRect": {
-          "x": 8.9,
-          "z": 0.85,
-          "width": 1.65,
-          "depth": 1.2
-        }
-      },
-      {
-        "name": "gimmel_bridge_piece_three",
-        "width": 1.55,
-        "height": 0.72,
-        "depth": 1.2,
-        "color": 9334271,
-        "textureSeed": "gimmel_bridge_piece_three",
-        "proximity": 1.55,
-        "dropDelayMs": 200,
-        "shardCount": 22,
-        "position": {
-          "x": 11.6,
-          "y": 3.65,
-          "z": -0.9
-        },
-        "safeRect": {
-          "x": 11.6,
-          "z": -0.9,
-          "width": 1.55,
-          "depth": 1.2
-        }
-      },
-      {
-        "name": "gimmel_last_false_step",
-        "width": 2.05,
-        "height": 0.72,
-        "depth": 1.35,
-        "color": 9334271,
-        "textureSeed": "gimmel_last_false_step",
-        "proximity": 1.55,
-        "dropDelayMs": 180,
-        "shardCount": 22,
-        "position": {
-          "x": 24.3,
-          "y": 5.55,
-          "z": 1.35
-        },
-        "safeRect": {
-          "x": 24.3,
-          "z": 1.35,
-          "width": 2.05,
-          "depth": 1.35
-        }
-      }
-    ],
-    "MovingPlatform": [
-      {
-        "name": "gimmel_side_mover_first_rescue",
-        "width": 2.15,
-        "height": 0.72,
-        "depth": 1.45,
-        "axis": "z",
-        "distance": 4.610000000000001,
-        "speed": 1.492,
-        "position": {
-          "x": 18.8,
-          "y": 4.95,
-          "z": 1.4
-        },
-        "phase": 0,
-        "size": {
-          "x": 2.15,
-          "y": 0.72,
-          "z": 1.45
-        },
-        "dimensions": {
-          "x": 2.15,
-          "y": 0.72,
-          "z": 1.45
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      },
-      {
-        "name": "gimmel_final_mover_to_gate",
-        "width": 2.15,
-        "height": 0.72,
-        "depth": 1.45,
-        "axis": "x",
-        "distance": 3.8100000000000005,
-        "speed": 1.3920000000000003,
-        "position": {
-          "x": 32.5,
-          "y": 6.35,
-          "z": 1.1
-        },
-        "phase": 1.8,
-        "size": {
-          "x": 2.15,
-          "y": 0.72,
-          "z": 1.45
-        },
-        "dimensions": {
-          "x": 2.15,
-          "y": 0.72,
-          "z": 1.45
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      }
-    ],
-    "DisappearingPlatform": [
-      {
-        "name": "gimmel_blink_above_letters",
-        "width": 2,
-        "height": 0.72,
-        "depth": 1.25,
-        "vanishMs": 430,
-        "position": {
-          "x": 21.3,
-          "y": 5.25,
-          "z": -1.45
-        }
-      }
-    ],
-    "TrapdoorPlatform": [
-      {
-        "name": "gimmel_gate_trapdoor_choice",
-        "width": 2.1,
-        "height": 0.72,
-        "depth": 1.35,
-        "delayMs": 360,
-        "position": {
-          "x": 34.6,
-          "y": 6.65,
-          "z": -1.65
-        }
+        "microNoise": 0.015
       }
     ],
     "SpikeField": [
       {
-        "name": "gimmel_deep_letter_lava",
-        "groundY": -2.55,
-        "height": 0.46,
-        "pad": 0.04,
+        "name": "level_3_visible_lava_hazard",
+        "position": {
+          "x": 1,
+          "y": -0.34,
+          "z": -0.05
+        },
+        "width": 92,
+        "depth": 44.3,
+        "height": 0.28,
+        "groundY": -0.48,
         "lava": true,
-        "resetDelayMs": 3000,
-        "bounds": {
-          "minX": -19,
-          "maxX": 47,
-          "minZ": -18,
-          "maxZ": 18
-        },
-        "position": {
-          "x": 14,
-          "y": -2.32,
-          "z": 0
-        }
+        "pad": 0.03,
+        "opacity": 0.98,
+        "isSolid": false
       }
     ],
-    "SpikedBallHazard": [
+    "SolidBlock": [
       {
-        "name": "gimmel_orb_under_bridge_one",
-        "axis": "z",
-        "amplitude": 2.15,
-        "speed": 1.2520000000000002,
-        "radius": 0.62,
-        "hitRadius": 0.434,
+        "name": "l3_start_square_court",
         "position": {
-          "x": 5.7,
-          "y": 3.4,
-          "z": 0.1
-        }
-      },
-      {
-        "name": "gimmel_orb_under_bridge_two",
-        "axis": "x",
-        "amplitude": 2,
-        "speed": 1.312,
-        "radius": 0.62,
-        "hitRadius": 0.434,
-        "position": {
-          "x": 13.6,
-          "y": 5,
-          "z": -0.1
-        }
-      },
-      {
-        "name": "gimmel_orb_push_corridor",
-        "axis": "z",
-        "amplitude": 2.1,
-        "speed": 1.3920000000000001,
-        "radius": 0.62,
-        "hitRadius": 0.434,
-        "position": {
-          "x": 25.8,
-          "y": 7.05,
+          "x": -24,
+          "y": 1.25,
           "z": 0
+        },
+        "width": 9,
+        "height": 1,
+        "depth": 6.5,
+        "color": 13673572,
+        "textureSeed": "l3_start_square_court",
+        "isSolid": true,
+        "safeRect": {
+          "x": -24,
+          "z": 0,
+          "width": 9,
+          "depth": 6.5
         }
       },
       {
-        "name": "gimmel_gate_orb",
-        "axis": "x",
-        "amplitude": 1.75,
-        "speed": 1.2220000000000002,
-        "radius": 0.62,
-        "hitRadius": 0.434,
+        "name": "l3_short_hop_a",
         "position": {
-          "x": 35.8,
-          "y": 8.1,
+          "x": -17,
+          "y": 1.35,
+          "z": -1.8
+        },
+        "width": 5.4,
+        "height": 1,
+        "depth": 3.8,
+        "color": 12159308,
+        "textureSeed": "l3_short_hop_a",
+        "isSolid": true,
+        "safeRect": {
+          "x": -17,
+          "z": -1.8,
+          "width": 5.4,
+          "depth": 3.8
+        }
+      },
+      {
+        "name": "l3_short_hop_b",
+        "position": {
+          "x": -10,
+          "y": 1.44,
+          "z": 2.1
+        },
+        "width": 5.2,
+        "height": 1,
+        "depth": 3.6,
+        "color": 12159308,
+        "textureSeed": "l3_short_hop_b",
+        "isSolid": true,
+        "safeRect": {
+          "x": -10,
+          "z": 2.1,
+          "width": 5.2,
+          "depth": 3.6
+        }
+      },
+      {
+        "name": "l3_short_hop_c",
+        "position": {
+          "x": -3,
+          "y": 1.54,
+          "z": -2.2
+        },
+        "width": 5,
+        "height": 1,
+        "depth": 3.5,
+        "color": 12159308,
+        "textureSeed": "l3_short_hop_c",
+        "isSolid": true,
+        "safeRect": {
+          "x": -3,
+          "z": -2.2,
+          "width": 5,
+          "depth": 3.5
+        }
+      },
+      {
+        "name": "l3_short_hop_d",
+        "position": {
+          "x": 4,
+          "y": 1.62,
+          "z": 1.8
+        },
+        "width": 4.8,
+        "height": 1,
+        "depth": 3.4,
+        "color": 12159308,
+        "textureSeed": "l3_short_hop_d",
+        "isSolid": true,
+        "safeRect": {
+          "x": 4,
+          "z": 1.8,
+          "width": 4.8,
+          "depth": 3.4
+        }
+      },
+      {
+        "name": "l3_last_narrow_reading",
+        "position": {
+          "x": 11,
+          "y": 1.7,
+          "z": -1.2
+        },
+        "width": 4.4,
+        "height": 1,
+        "depth": 3.2,
+        "color": 12159308,
+        "textureSeed": "l3_last_narrow_reading",
+        "isSolid": true,
+        "safeRect": {
+          "x": 11,
+          "z": -1.2,
+          "width": 4.4,
+          "depth": 3.2
+        }
+      },
+      {
+        "name": "l3_pre_finish_straight",
+        "position": {
+          "x": 18,
+          "y": 1.78,
           "z": 0.8
-        }
-      }
-    ],
-    "MovingPushBlock": [
-      {
-        "name": "gimmel_push_wall_first",
-        "axis": "z",
-        "amplitude": 2.33,
-        "speed": 1.3400000000000003,
-        "size": {
-          "x": 1.55,
-          "y": 1.05,
-          "z": 1.55
         },
-        "position": {
-          "x": 23.1,
-          "y": 6.25,
-          "z": -0.2
+        "width": 4.6,
+        "height": 1,
+        "depth": 3.3,
+        "color": 12159308,
+        "textureSeed": "l3_pre_finish_straight",
+        "isSolid": true,
+        "safeRect": {
+          "x": 18,
+          "z": 0.8,
+          "width": 4.6,
+          "depth": 3.3
         }
       },
       {
-        "name": "gimmel_push_wall_second",
-        "axis": "x",
-        "amplitude": 2.13,
-        "speed": 1.2200000000000002,
-        "size": {
-          "x": 1.55,
-          "y": 1.05,
-          "z": 1.55
-        },
+        "name": "l3_finish_broad_rest",
         "position": {
-          "x": 30.6,
-          "y": 7.25,
-          "z": 0.4
+          "x": 26,
+          "y": 1.85,
+          "z": 0
+        },
+        "width": 9,
+        "height": 1,
+        "depth": 6.5,
+        "color": 13673572,
+        "textureSeed": "l3_finish_broad_rest",
+        "isSolid": true,
+        "safeRect": {
+          "x": 26,
+          "z": 0,
+          "width": 9,
+          "depth": 6.5
         }
       }
     ],
+    "MovingPlatform": [],
     "Coin": [
       {
-        "name": "gimmel_coin_start",
-        "value": 1,
-        "rotationSpeed": 0.03,
+        "name": "level_3_peruta_1",
         "position": {
-          "x": -10.8,
-          "y": 1.55,
-          "z": 1.2
+          "x": -17,
+          "y": 2.57,
+          "z": -1.8
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "gimmel_coin_anchor_one",
-        "value": 1,
-        "rotationSpeed": 0.03,
+        "name": "level_3_peruta_2",
         "position": {
-          "x": -3.8,
-          "y": 2.25,
+          "x": -10,
+          "y": 2.66,
+          "z": 2.1
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_3_peruta_3",
+        "position": {
+          "x": -3,
+          "y": 2.76,
+          "z": -2.2
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_3_peruta_4",
+        "position": {
+          "x": 4,
+          "y": 2.84,
+          "z": 1.8
+        },
+        "value": 1,
+        "proximity": 1.15,
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              32
+            ]
+          },
+          "toyr": {
+            "MeshBasicMaterial": {
+              "color": 16763955
+            }
+          }
+        }
+      },
+      {
+        "name": "level_3_peruta_5",
+        "position": {
+          "x": 11,
+          "y": 2.92,
           "z": -1.2
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
+        }
       },
       {
-        "name": "gimmel_coin_anchor_two",
-        "value": 1,
-        "rotationSpeed": 0.03,
+        "name": "level_3_peruta_6",
         "position": {
-          "x": 2.4,
-          "y": 3.15,
-          "z": 1.35
+          "x": 18,
+          "y": 3,
+          "z": 0.8
         },
+        "value": 1,
+        "proximity": 1.15,
         "golem": {
           "guf": {
             "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
+              0.42,
+              0.42,
+              0.1,
+              32
             ]
           },
           "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
+            "MeshBasicMaterial": {
+              "color": 16763955
             }
           }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_bridge_one",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 6.2,
-          "y": 3.9,
-          "z": -1.2
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_bridge_two",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 8.9,
-          "y": 4.45,
-          "z": 0.85
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_bridge_three",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 11.6,
-          "y": 5.1,
-          "z": -0.9
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_safe_breath",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 15.2,
-          "y": 5.9,
-          "z": 0
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_side_mover",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 18.8,
-          "y": 6.3,
-          "z": 1.4
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_blink",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 21.3,
-          "y": 6.6,
-          "z": -1.45
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_after_push",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 28.9,
-          "y": 7.45,
-          "z": -1.2
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
-      },
-      {
-        "name": "gimmel_coin_gate",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 36.1,
-          "y": 8.3,
-          "z": 1.4
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.58,
-              0.58,
-              0.13,
-              40
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 14256709,
-              "emissive": 5907467,
-              "metalness": 0.88,
-              "roughness": 0.22
-            }
-          }
-        },
-        "proximity": 1.15
+        }
       }
     ],
     "TzedakahBox": [
       {
-        "name": "pushkuh_on_gate_island_level_3",
-        "requiresAllCoins": true,
+        "name": "level_3_tzedakah_box",
         "position": {
-          "x": 36.05,
-          "y": 7.5,
-          "z": 1.75
-        }
+          "x": 18,
+          "y": 2.83,
+          "z": 0.8
+        },
+        "reward": 8,
+        "proximity": 1.5
       }
     ],
     "InteractiveDoor": [
       {
-        "name": "Inside Right Doorpost Mezuzah",
-        "label": "Inside Right Doorpost Mezuzah",
-        "next": "ladder-4.json",
-        "destination": "ladder-4.json",
-        "isSolid": false,
-        "interactable": true,
-        "proximity": 2.8,
-        "requiresAllCoins": true,
-        "requiresTzedakah": true,
-        "manualOnly": true,
+        "name": "level_3_return_gate",
         "position": {
-          "x": 40.25,
-          "y": 10.3,
-          "z": 2.3
+          "x": 27.2,
+          "y": 2.4,
+          "z": 0
         },
-        "mezuzahPlacement": "upper-third-right-doorpost"
+        "targetPath": "village.json",
+        "target": "village.json",
+        "proximity": 2.1,
+        "height": 3.2,
+        "width": 1.8,
+        "isSolid": false
       }
     ],
     "FallResetTrigger": [
       {
-        "name": "deep_reset_level_3",
-        "width": 110,
-        "height": 0.4,
-        "depth": 70,
-        "proximity": 7,
-        "penalty": 0,
-        "color": 3342336,
-        "resetDelayMs": 3000,
+        "name": "level_3_deep_fall_reset",
         "position": {
-          "x": 20,
-          "y": -13.5,
+          "x": 1,
+          "y": -7.6,
+          "z": -0.05
+        },
+        "width": 102,
+        "height": 1,
+        "depth": 52,
+        "targetPosition": {
+          "x": -24,
+          "y": 2.27,
           "z": 0
-        }
+        },
+        "opacity": 0,
+        "isSolid": false
       }
     ]
-  }
+  },
+  "objectives": [
+    {
+      "id": "level_3_collect_perutos",
+      "type": "collect",
+      "target": "Coin",
+      "count": 6
+    }
+  ]
 }

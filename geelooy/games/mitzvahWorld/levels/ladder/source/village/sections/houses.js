@@ -2,10 +2,11 @@
 /**
  * @file houses.js
  * @description
- * Chapter 120: The cottage composition becomes readable again.
- * One hero brick house anchors the frame, a smaller cottage sits far behind,
- * and props create the warm reference feel without overlapping walls or hiding
- * the guide. Colliders stay attached only to the main house.
+ * Chapter 614: The village keeps visual houses only.
+ *
+ * The phone showed invisible house colliders offset from the brick body. Until
+ * the collision hull can be drawn/debugged in the live viewport, no invisible
+ * house wall may enter the octree. Better no wall than a false wall.
  */
 export default {
   VillageCottage: [],
@@ -19,7 +20,5 @@ export default {
     { name: "reference_tree_flower_border", kind: "flowerPatch", count: 210, radius: 5.8, seed: 92, position: { x: -18, z: 13 }, scale: 1.1, terrainLawGrounded: true, groundLift: 0 },
     { name: "reference_path_meadow_detail", kind: "meadowDetail", count: 120, radius: 5.2, seed: 122, position: { x: -8, z: 10.8 }, scale: 1.0, terrainLawGrounded: true, groundLift: 0 }
   ],
-  VillageHouseCollider: [
-    { name: "reference_main_brick_house_collider", targetName: "reference_main_brick_house", position: { x: 4.8, y: 0, z: 5.6 }, width: 11, depth: 8, height: 6, floorTop: 0.34 }
-  ]
+  VillageHouseCollider: []
 };
