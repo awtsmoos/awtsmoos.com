@@ -1,5 +1,5 @@
 // B"H
-/** @file village.js - visual village, terrain-only collider, no safety slab. */
+/** @file village.js - built from source/village sections. */
 export default {
   "format": "awtsmoos-level-json-v1",
   "id": "village.json",
@@ -361,7 +361,77 @@ export default {
     ],
     "VillageRoadCollider": [],
     "VillageCottage": [],
-    "VillageHouseCollider": [],
+    "VillageHouseCollider": [
+      {
+        "name": "main_house_fitted_colliders",
+        "targetName": "main_warm_house",
+        "width": 34,
+        "depth": 23,
+        "height": 13.6,
+        "floorTop": 0.058,
+        "thickness": 0.85,
+        "position": {
+          "x": 13,
+          "y": 0,
+          "z": -11
+        },
+        "rotation": {
+          "y": -0.25
+        },
+        "useAuthoredY": true,
+        "thresholdCollider": false,
+        "contractDriven": true,
+        "useVisualHouseY": true,
+        "doorWidth": 5.1,
+        "doorClearHeight": 4.65
+      },
+      {
+        "name": "left_house_fitted_colliders",
+        "targetName": "left_meadow_house",
+        "width": 34,
+        "depth": 23,
+        "height": 13.6,
+        "floorTop": 0.058,
+        "thickness": 0.85,
+        "position": {
+          "x": -46,
+          "y": 0,
+          "z": 27
+        },
+        "rotation": {
+          "y": 0.55
+        },
+        "useAuthoredY": true,
+        "thresholdCollider": false,
+        "contractDriven": true,
+        "useVisualHouseY": true,
+        "doorWidth": 5.1,
+        "doorClearHeight": 4.65
+      },
+      {
+        "name": "right_house_fitted_colliders",
+        "targetName": "right_orchard_house",
+        "width": 34,
+        "depth": 23,
+        "height": 13.6,
+        "floorTop": 0.058,
+        "thickness": 0.85,
+        "position": {
+          "x": 57,
+          "y": 0,
+          "z": 33
+        },
+        "rotation": {
+          "y": -0.86
+        },
+        "useAuthoredY": true,
+        "thresholdCollider": false,
+        "contractDriven": true,
+        "useVisualHouseY": true,
+        "doorWidth": 5.1,
+        "doorClearHeight": 4.65
+      }
+    ],
     "VillageHeroTree": [],
     "VillageTreeField": [],
     "VillageGrassField": [],
@@ -431,6 +501,61 @@ export default {
         ]
       }
     ],
-    "VillageFenceCollider": []
+    "VillageFenceCollider": [
+      {
+        "name": "village_front_fence_collider",
+        "count": 112,
+        "spacing": 0.92,
+        "height": 1.24,
+        "depth": 0.52,
+        "scale": 1,
+        "position": {
+          "x": -48,
+          "y": 0,
+          "z": 20
+        },
+        "rotation": {
+          "y": 0
+        },
+        "useAuthoredY": true,
+        "isSolid": true
+      },
+      {
+        "name": "village_left_return_fence_collider",
+        "count": 48,
+        "spacing": 0.92,
+        "height": 1.24,
+        "depth": 0.52,
+        "scale": 1,
+        "position": {
+          "x": -49,
+          "y": 0,
+          "z": 20
+        },
+        "rotation": {
+          "y": 1.5707963267948966
+        },
+        "useAuthoredY": true,
+        "isSolid": true
+      },
+      {
+        "name": "village_right_return_fence_collider",
+        "count": 48,
+        "spacing": 0.92,
+        "height": 1.24,
+        "depth": 0.52,
+        "scale": 1,
+        "position": {
+          "x": 54,
+          "y": 0,
+          "z": 20
+        },
+        "rotation": {
+          "y": 1.5707963267948966
+        },
+        "useAuthoredY": true,
+        "isSolid": true
+      }
+    ]
   }
 };
