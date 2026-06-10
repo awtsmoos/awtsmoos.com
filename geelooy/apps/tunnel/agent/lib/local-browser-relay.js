@@ -1,11 +1,9 @@
 // B"H
-// B"H
 const { renderControlPage } = require("../ai/relay/split-browser/controlPage.cjs");
 const { proxyChatGpt } = require("../ai/relay/split-browser/proxy.cjs");
 const { cookieSummary } = require("../ai/relay/split-browser/cookieJar.cjs");
 const { sessionStatus } = require("../ai/relay/split-browser/authState.cjs");
 const { clientStateSummary } = require("../ai/relay/split-browser/clientState.cjs");
-
 
 const TARGET_ORIGIN = "https://chatgpt.com";
 const ALLOWED_ORIGINS = [
