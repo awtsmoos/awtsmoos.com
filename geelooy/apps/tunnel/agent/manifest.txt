@@ -123,3 +123,9 @@ tools/fs/symbolOutline.js
 tools/fs/tree.js
 tools/fs/workflowExpressions.js
 tools/fs/workflowRunner.js
+tools/relay/index.js
+tools/relay/chatgptRelay.js
+tools/relay/chromeCookies.js
+tools/relay/jsonRelay.js
+tools/relay/settings.js
+tools/relay/streams.js
