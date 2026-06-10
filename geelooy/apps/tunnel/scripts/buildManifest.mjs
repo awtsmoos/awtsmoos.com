@@ -45,11 +45,11 @@ function bump(version) {
 }
 const version = bump(oldVersion());
 const publicFiles = [
-  "apps/ai/relay/split-browser/controlPage.cjs",
-  "apps/ai/relay/split-browser/proxy.cjs",
-  "apps/ai/relay/split-browser/cookieJar.cjs",
-  "apps/ai/relay/split-browser/authState.cjs",
-  "apps/ai/relay/split-browser/clientState.cjs"
+  "ai/relay/split-browser/controlPage.cjs",
+  "ai/relay/split-browser/proxy.cjs",
+  "ai/relay/split-browser/cookieJar.cjs",
+  "ai/relay/split-browser/authState.cjs",
+  "ai/relay/split-browser/clientState.cjs"
 ];
 
 const files = [...walk(agentDir), ...publicFiles].sort();

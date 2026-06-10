@@ -22,7 +22,7 @@ function Install-AwtsmoosFiles($root, $baseUrl, $files) {
     $parent = Split-Path $dest -Parent
     New-Item -ItemType Directory -Force -Path $parent | Out-Null
     Write-Host ('Downloading ' + $filePath + '...')
-    if ($filePath.StartsWith('apps/')) {
+    if ($filePath.StartsWith('ai/')) {
   Invoke-WebRequest -Uri ('https://awtsmoos.com/' + $filePath) -OutFile $dest
 } else {
   Invoke-WebRequest -Uri ($baseUrl + '/' + $filePath) -OutFile $dest
