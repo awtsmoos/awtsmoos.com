@@ -8,6 +8,7 @@
     "Chossid": [
       {
         "name": "player",
+        "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
           "x": -29,
           "y": 2,
@@ -452,8 +453,9 @@
           "y": 3.57,
           "z": 0
         },
-        "targetPath": "village.json",
+        "next": "village.json",
         "target": "village.json",
+        "targetPath": "village.json",
         "proximity": 2.1,
         "height": 3.2,
         "width": 1.8,

@@ -10,6 +10,7 @@ export default {
     "Chossid": [
       {
         "name": "player",
+        "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
           "x": -22,
           "y": 1.78,
@@ -393,8 +394,9 @@ export default {
           "y": 2.03,
           "z": 0
         },
-        "targetPath": "village.json",
+        "next": "village.json",
         "target": "village.json",
+        "targetPath": "village.json",
         "proximity": 2.1,
         "height": 3.2,
         "width": 1.8,
