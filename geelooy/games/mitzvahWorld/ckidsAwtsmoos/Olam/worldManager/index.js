@@ -1,24 +1,20 @@
 // B"H
 /**
  * @module ManagerOfAllWorlds
- * @description Chapter 80: the world manager uses true filenames. The Awtsmoos
- * removes query masks from the start river so the blue bridge must stand by
- * honest module identity.
+ * @description Chapter 82: The manager imports the wall-direct mobile start river.
  */
-import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?comptact=true";
-import UIManager from "../uiManager/index.js?comptact=true";
-import StartWorldFlow from "./StartWorldFlow.js?comptact=true";
-import SocketHandler from "./SocketHandler.js?comptact=true";
-import ServiceWorkerInit from "./ServiceWorkerInit.js?comptact=true";
-import SwitchDestroyLogic from "./SwitchDestroyLogic.js?comptact=true";
-import DomHelpers from "./DomHelpers.js?comptact=true";
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
+import UIManager from "../uiManager/index.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
+import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
+import SocketHandler from "./SocketHandler.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
+import ServiceWorkerInit from "./ServiceWorkerInit.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
+import SwitchDestroyLogic from "./SwitchDestroyLogic.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
+import DomHelpers from "./DomHelpers.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
 
 export default class ManagerOfAllWorlds {
   gameState = {};
   started = false;
   ikarUI = null;
-
-  /** @param {string} serviceWorkerPath Optional service worker path. */
   constructor(serviceWorkerPath) {
     DomHelpers.setupGlobalFunctions();
     const uiManager = new UIManager();

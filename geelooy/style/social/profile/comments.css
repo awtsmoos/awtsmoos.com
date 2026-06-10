@@ -1,0 +1,25 @@
+/* B"H comments: every comment shows its anchor without noise. */
+.profile-comment-card {
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 1.12rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, .055);
+  color: #fffaf1;
+}
+.profile-comment-card small {
+  display: block;
+  color: var(--pp-gold);
+  font-weight: 850;
+  margin-bottom: .55rem;
+}
+.profile-comment-card p {
+  margin: 0;
+  color: #f1edf7;
+  line-height: 1.55;
+}
+.profile-comment-card footer {
+  margin-top: .75rem;
+  color: var(--pp-muted);
+  font-size: .83rem;
+}

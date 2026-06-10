@@ -1,0 +1,21 @@
+/* B"H hero: a simple scrollable crown before the list. */
+.heichel-mobile-topbar {
+  position: sticky; top: 0; z-index: 40;
+  max-width: 34rem; margin: 0 auto .65rem; padding: .55rem .7rem;
+  display: grid; grid-template-columns: auto 1fr auto; gap: .6rem; align-items: center;
+  border: 1px solid var(--h-dark-line); border-radius: 0 0 1.2rem 1.2rem;
+  background: rgba(8, 10, 24, .86); color: #fffaf1; backdrop-filter: blur(16px);
+}
+.topbar-icon { width: 2.6rem; height: 2.6rem; display: grid; place-items: center; border: 0; border-radius: .85rem; background: linear-gradient(135deg, var(--h-gold-2), var(--h-gold)); color: #160e05; font-weight: 950; text-decoration: none; }
+.topbar-title { text-align: center; line-height: 1; }
+.topbar-title strong { display: block; color: var(--h-gold-2); letter-spacing: .08em; text-transform: uppercase; }
+.topbar-title small { color: #ead6a6; font-size: .7rem; }
+.geelooy-heichel-hero { position: relative; overflow: hidden; min-height: 220px; border-radius: var(--h-radius); background: linear-gradient(145deg, rgba(255,252,246,.98), rgba(246,241,231,.94)); box-shadow: var(--h-shadow); }
+.heichel-hero-glow { height: 8.6rem; background: linear-gradient(135deg, rgba(7,9,24,.88), rgba(110,63,20,.4)), radial-gradient(circle at 76% 22%, rgba(245,202,112,.72), transparent 10rem); }
+.heichel-hero-copy { display: grid; grid-template-columns: auto 1fr; gap: .75rem; padding: 0 .9rem .8rem; margin-top: -2.2rem; align-items: end; }
+.heichel-seal { width: 4.4rem; height: 4.4rem; display: grid; place-items: center; border-radius: 50%; border: .22rem solid #fffaf1; background: #11152f; color: var(--h-gold-2); font-size: 1.8rem; }
+.hero-kicker { margin: 0; color: var(--h-gold); font-size: .72rem; font-weight: 950; text-transform: uppercase; letter-spacing: .11em; }
+.heichel-hero-copy h1 { margin: .1rem 0; font-size: clamp(1.45rem, 7vw, 2.2rem); letter-spacing: -.05em; }
+.hero-description { margin: 0; color: var(--h-muted); line-height: 1.35; max-height: 3.8rem; overflow: hidden; }
+.hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: .45rem; padding: 0 .9rem .9rem; }
+.hero-stats span { padding: .55rem .3rem; border: 1px solid var(--h-line); border-radius: .85rem; background: rgba(255,255,255,.55); text-align: center; font-size: .72rem; font-weight: 850; }

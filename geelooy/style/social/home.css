@@ -1,0 +1,37 @@
+/* B"H
+ * Chapter 21: The home feed becomes the pulse of connection.
+ */
+
+:root { --home-bg:#080c1a; --home-card:#fffaf1; --home-muted:#6e6877; --home-gold:#b9853f; --home-gold-light:#f5ca70; --home-line:rgba(67,46,24,.14); --home-shadow:0 1.2rem 3rem rgba(8,10,24,.24); }
+body { background: radial-gradient(circle at 20% 0%, #25173a, var(--home-bg) 45%, #050712); }
+a { text-decoration:none; }
+.geelooy-home-shell { width:min(82rem, calc(100vw - 1rem)); margin:1rem auto 5rem; display:grid; grid-template-columns: 18rem minmax(20rem, 32rem) 18rem; gap:1rem; align-items:start; color:#171624; }
+.home-sanctuary-card,.home-feed-phone,.home-discovery-card { border-radius:2rem; background:linear-gradient(145deg, rgba(255,252,246,.97), rgba(246,241,231,.94)); border:1px solid rgba(255,255,255,.65); box-shadow:var(--home-shadow); overflow:hidden; }
+.home-sanctuary-card { min-height:42rem; padding:1.25rem; background:linear-gradient(180deg, rgba(9,13,31,.96), rgba(11,10,25,.98)); color:#fffaf1; position:relative; }
+.home-sanctuary-card::after { content:""; position:absolute; inset:auto 2rem 2rem; height:18rem; background:radial-gradient(circle, rgba(245,202,112,.9), transparent 65%); filter:blur(14px); opacity:.7; }
+.home-logo-mark { width:3.2rem; height:3.2rem; display:grid; place-items:center; border:1px solid rgba(245,202,112,.55); border-radius:.9rem; color:var(--home-gold-light); font-size:1.7rem; }
+.home-sanctuary-card h1 { margin:.8rem 0 0; font-family:Georgia,serif; font-size:2.3rem; letter-spacing:.06em; text-transform:uppercase; }
+.home-kicker { margin:.2rem 0 1rem; color:var(--home-gold-light); text-transform:uppercase; font-weight:950; letter-spacing:.1em; }
+.home-sanctuary-card p:not(.home-kicker) { color:#f1dfba; line-height:1.6; }
+.home-side-links { display:grid; gap:.65rem; margin-top:1.2rem; position:relative; z-index:1; }
+.home-side-links a,.home-discovery-card a { padding:.9rem 1rem; border-radius:.95rem; background:rgba(255,255,255,.08); color:#fffaf1; font-weight:850; }
+.home-feed-phone { padding:.8rem; }
+.home-feed-header { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:.7rem; padding:.5rem; }
+.home-feed-header button { border:0; background:transparent; font-size:1.2rem; }
+.home-feed-header strong { text-align:center; }
+.home-feed-header a { color:#4d3216; font-weight:850; }
+.home-feed-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:.25rem; margin:.5rem 0 1rem; }
+.home-feed-tabs button { border:0; border-radius:999px; padding:.65rem; background:transparent; color:var(--home-muted); font-weight:900; }
+.home-feed-tabs .active { background:#efe1ca; color:#3a240f; }
+.home-composer { display:grid; grid-template-columns:auto 1fr; gap:.7rem; align-items:center; padding:.7rem; border:1px solid var(--home-line); border-radius:1.1rem; background:rgba(255,255,255,.58); }
+.home-composer span,.post-author span { width:2.4rem; height:2.4rem; border-radius:50%; background:linear-gradient(135deg,#151a37,#9f6b31); }
+.home-composer a { color:var(--home-muted); }
+.home-feed-list { display:grid; gap:1rem; margin-top:1rem; }
+.home-post-card { border:1px solid var(--home-line); border-radius:1.25rem; padding:1rem; background:linear-gradient(160deg,#fffdf7,#f8f0e2); box-shadow:0 .45rem 1.2rem rgba(25,20,11,.08); }
+.post-author { display:grid; grid-template-columns:auto 1fr auto; gap:.65rem; align-items:center; }
+.post-author small,.home-post-card footer,.home-post-card p { color:var(--home-muted); }
+.post-image-glow { min-height:11rem; border-radius:1rem; background:linear-gradient(135deg, rgba(14,19,43,.94), rgba(185,133,63,.48)), radial-gradient(circle at 72% 28%, rgba(245,202,112,.7), transparent 8rem); margin:.8rem 0; }
+.home-discovery-card { padding:1rem; display:grid; gap:.6rem; }
+.home-discovery-card h2 { margin:0 0 .5rem; }
+.home-discovery-card a { background:#ede0cd; color:#3a240f; }
+@media(max-width:980px){ .geelooy-home-shell{grid-template-columns:1fr;} .home-sanctuary-card{min-height:auto;} .home-feed-phone{order:-1;} }

@@ -1,4 +1,13 @@
 //B"H
+/**
+ * @module SubmitSections
+ * @description
+ * Chapter 29: The Awtsmoos splits a post into verses, segments, and nested
+ * chambers. The editor becomes a living map: each section can name its verse,
+ * its segment type, its order, and its sub-segments, so the API receives data
+ * ready for comment anchoring and reader-side navigation.
+ */
+
 import { toggleContextualToolbar, toggleEditorHtmlView, getEditorContent } from "./editor.js";
 import { initImageUploadModal } from "./images.js";
 
@@ -6,128 +15,109 @@ let sectionsArea;
 
 export function setupSectionManager(editorInterface) {
     sectionsArea = document.getElementById("sectionsArea");
-    
-    // Generators
-    document.getElementById("generateSectionsFromBulk")?.addEventListener("click", () => {
-        const text = document.getElementById("bulkText").value.trim();
-        const delims = document.getElementById("mainSectionDelimiters").value;
-        generateItems(text, delims, sectionsArea, "sectionTemplate", false, editorInterface);
-    });
-
-    document.getElementById("generateSectionsFromMainEditor")?.addEventListener("click", () => {
-        const mainEditor = document.getElementById("mainContentEditor");
-        const content = getEditorContent(mainEditor).text;
-        const delims = document.getElementById("mainSectionDelimiters").value;
-        generateItems(content, delims, sectionsArea, "sectionTemplate", false, editorInterface);
-    });
-
+    bindGenerator("generateSectionsFromBulk", () => document.getElementById("bulkText")?.value || "", editorInterface);
+    bindGenerator("generateSectionsFromMainEditor", () => getEditorContent(document.getElementById("mainContentEditor")).text, editorInterface);
     document.getElementById("addSection")?.addEventListener("click", () => {
-        const sec = createItem("sectionTemplate", "", false, editorInterface);
-        sectionsArea.appendChild(sec);
+        sectionsArea.appendChild(createItem("sectionTemplate", "", false, editorInterface));
         updateTitles();
+    });
+}
+
+function bindGenerator(buttonId, textGetter, editorInterface) {
+    document.getElementById(buttonId)?.addEventListener("click", () => {
+        const text = textGetter().trim();
+        const delims = document.getElementById("mainSectionDelimiters")?.value || "";
+        generateItems(text, delims, sectionsArea, "sectionTemplate", false, editorInterface);
     });
 }
 
 function parseText(text, delimitersStr) {
     if (!text) return [];
-    let delims = delimitersStr ? delimitersStr.split(',').map(d => d.trim()).filter(Boolean) : [];
-    
-    if (delims.length === 0) return text.split(/\n+/).map(t => t.trim()).filter(Boolean);
-    
-    const regexStr = delims.map(d => d.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-    const regex = new RegExp(regexStr, 'g');
+    const delims = delimitersStr ? delimitersStr.split(',').map(d => d.trim()).filter(Boolean) : [];
+    if (!delims.length) return text.split(/\n+/).map(t => t.trim()).filter(Boolean);
+    const regex = new RegExp(delims.map(d => d.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g');
     return text.split(regex).map(t => t.trim()).filter(Boolean);
 }
 
 function generateItems(text, delims, container, templateId, isSub, editorInterface) {
-    const items = parseText(text, delims);
-    items.forEach(txt => {
-        const el = createItem(templateId, txt, isSub, editorInterface);
-        container.appendChild(el);
-    });
+    parseText(text, delims).forEach((txt, index) => container.appendChild(createItem(templateId, txt, isSub, editorInterface, index)));
     updateTitles();
 }
 
-function createItem(templateId, content, isSub, editorInterface) {
+function setControlValue(root, selector, value) {
+    const node = root.querySelector(selector);
+    if (node) node.value = value;
+}
+
+function wireEditorControls(clone, contentDiv, editorInterface) {
+    contentDiv.addEventListener('focus', () => editorInterface.setActiveEditor(contentDiv));
+    clone.querySelector(".toggle-toolbar-btn").onclick = () => toggleContextualToolbar(contentDiv, clone.querySelector(".editor-toolbar-container"));
+    clone.querySelector(".toggle-html-view-btn").onclick = () => toggleEditorHtmlView(contentDiv);
+    clone.querySelector(".upload-image-section-btn").onclick = () => initImageUploadModal(contentDiv);
+    clone.querySelector(".remove-section-btn").onclick = () => { clone.remove(); updateTitles(); };
+}
+
+function wirePlacementControls(clone, templateId, isSub, editorInterface) {
+    clone.querySelector(".add-before-btn").onclick = () => { clone.before(createItem(templateId, "", isSub, editorInterface)); updateTitles(); };
+    clone.querySelector(".add-after-btn").onclick = () => { clone.after(createItem(templateId, "", isSub, editorInterface)); updateTitles(); };
+}
+
+function wireSubSections(clone, editorInterface) {
+    const subArea = clone.querySelector(".sub-sections-area");
+    const subManager = clone.querySelector(".subsection-manager");
+    subManager.querySelector(".generate-subsections-btn").onclick = () => {
+        generateItems(subManager.querySelector(".subsection-bulk-text").value, subManager.querySelector(".subsection-delimiters").value, subArea, "subSectionTemplate", true, editorInterface);
+    };
+    subManager.querySelector(".add-subsection-btn").onclick = () => {
+        subArea.appendChild(createItem("subSectionTemplate", "", true, editorInterface));
+        updateTitles();
+    };
+}
+
+function createItem(templateId, content, isSub, editorInterface, index = 0) {
     const tmpl = document.getElementById(templateId);
-    if (!tmpl) return null;
-    
     const clone = tmpl.content.cloneNode(true).firstElementChild;
     const contentDiv = clone.querySelector(".section-content");
     contentDiv.innerHTML = content;
-    
-    contentDiv.addEventListener('focus', () => editorInterface.setActiveEditor(contentDiv));
-
-    // Controls
-    clone.querySelector(".toggle-toolbar-btn").onclick = () => 
-        toggleContextualToolbar(contentDiv, clone.querySelector(".editor-toolbar-container"));
-        
-    clone.querySelector(".toggle-html-view-btn").onclick = () => 
-        toggleEditorHtmlView(contentDiv);
-        
-    clone.querySelector(".upload-image-section-btn").onclick = () => 
-        initImageUploadModal(contentDiv);
-        
-    clone.querySelector(".remove-section-btn").onclick = () => {
-        clone.remove();
-        updateTitles();
-    };
-
-    // Reordering
-    clone.querySelector(".add-before-btn").onclick = () => {
-        clone.before(createItem(templateId, "", isSub, editorInterface));
-        updateTitles();
-    };
-    clone.querySelector(".add-after-btn").onclick = () => {
-        clone.after(createItem(templateId, "", isSub, editorInterface));
-        updateTitles();
-    };
-
-    // Sub-section handling (only for main sections)
-    if (!isSub) {
-        const subArea = clone.querySelector(".sub-sections-area");
-        const subManager = clone.querySelector(".subsection-manager");
-        
-        subManager.querySelector(".generate-subsections-btn").onclick = () => {
-            const txt = subManager.querySelector(".subsection-bulk-text").value;
-            const del = subManager.querySelector(".subsection-delimiters").value;
-            generateItems(txt, del, subArea, "subSectionTemplate", true, editorInterface);
-        };
-        
-        subManager.querySelector(".add-subsection-btn").onclick = () => {
-            subArea.appendChild(createItem("subSectionTemplate", "", true, editorInterface));
-            updateTitles(clone);
-        };
-    }
-
+    setControlValue(clone, ".section-verse-input", isSub ? `segment-${index + 1}` : `verse-${index + 1}`);
+    setControlValue(clone, ".section-label-input", isSub ? `Segment ${index + 1}` : `Verse ${index + 1}`);
+    setControlValue(clone, ".section-order-input", String(index + 1));
+    wireEditorControls(clone, contentDiv, editorInterface);
+    wirePlacementControls(clone, templateId, isSub, editorInterface);
+    if (!isSub) wireSubSections(clone, editorInterface);
     return clone;
 }
 
-function updateTitles(parentSection) {
-    // Update main sections
+function updateTitles() {
     const secs = document.querySelectorAll("#sectionsArea > .section");
-    secs.forEach((s, i) => {
-        s.querySelector(".section-title-dynamic").textContent = `Section ${i + 1}`;
-        // Update subs inside
-        const subs = s.querySelectorAll(".sub-sections-area > .sub-section");
-        subs.forEach((sub, j) => {
-            sub.querySelector(".section-title-dynamic").textContent = `Sub-Section ${j + 1}`;
+    secs.forEach((section, index) => {
+        section.querySelector(".section-title-dynamic").textContent = `Verse ${index + 1}`;
+        if (!section.querySelector(".section-order-input")?.value) setControlValue(section, ".section-order-input", String(index + 1));
+        section.querySelectorAll(".sub-sections-area > .sub-section").forEach((sub, subIndex) => {
+            sub.querySelector(".section-title-dynamic").textContent = `Segment ${subIndex + 1}`;
+            if (!sub.querySelector(".section-order-input")?.value) setControlValue(sub, ".section-order-input", String(subIndex + 1));
         });
     });
 }
 
+function sectionMeta(root, fallbackPrefix, index) {
+    return {
+        id: root.querySelector(".section-id-input")?.value || `${fallbackPrefix}_${index + 1}`,
+        title: root.querySelector(".section-label-input")?.value || `${fallbackPrefix} ${index + 1}`,
+        verseSection: root.querySelector(".section-verse-input")?.value || `${fallbackPrefix}-${index + 1}`,
+        segmentType: root.querySelector(".section-type-select")?.value || fallbackPrefix,
+        order: Number(root.querySelector(".section-order-input")?.value || index + 1)
+    };
+}
+
 export function getAllSectionsData() {
-    return Array.from(document.querySelectorAll("#sectionsArea > .section")).map(sec => {
+    return Array.from(document.querySelectorAll("#sectionsArea > .section")).map((sec, index) => {
         const main = getEditorContent(sec.querySelector(".section-content"));
-        const subs = Array.from(sec.querySelectorAll(".sub-section")).map(sub => {
+        const meta = sectionMeta(sec, "verse", index);
+        const segments = Array.from(sec.querySelectorAll(".sub-section")).map((sub, subIndex) => {
             const sc = getEditorContent(sub.querySelector(".section-content"));
-            return { html: sc.html, images: sc.images };
+            return { ...sectionMeta(sub, "segment", subIndex), html: sc.html, content: sc.text, images: sc.images };
         });
-        
-        return {
-            html: main.html,
-            images: main.images,
-            subSections: subs.length ? subs : undefined
-        };
+        return { ...meta, html: main.html, content: main.text, images: main.images, segments };
     });
 }

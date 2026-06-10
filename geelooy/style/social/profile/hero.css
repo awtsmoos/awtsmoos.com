@@ -1,0 +1,42 @@
+/* B"H hero: the Awtsmoos makes the profile portrait breathe. */
+.profile-hero {
+  overflow: hidden;
+  border: 1px solid var(--pp-line);
+  border-radius: 1.45rem;
+  background: var(--pp-panel);
+  box-shadow: var(--pp-shadow);
+}
+.profile-banner {
+  min-height: 10.5rem;
+  background: linear-gradient(135deg, rgba(7,9,24,.86), rgba(92,48,13,.33)), radial-gradient(circle at 74% 25%, rgba(245,202,112,.75), transparent 11rem);
+  background-size: cover;
+  background-position: center;
+}
+.profile-identity {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .8rem;
+  align-items: end;
+  padding: 0 .9rem .9rem;
+  margin-top: -2.7rem;
+}
+.profile-avatar {
+  width: 5.25rem;
+  height: 5.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: .22rem solid #fffaf1;
+  background: linear-gradient(135deg, #151a37, #9f6b31);
+  color: #ffe5a7;
+  font-size: 2rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+.profile-copy h1 { margin: 0; font-size: clamp(1.55rem, 7vw, 2.25rem); letter-spacing: -.04em; }
+.profile-copy p { margin: .22rem 0; color: #d7d0dc; line-height: 1.42; }
+.profile-action-main { grid-column: 1 / -1; text-align: center; padding: .8rem; border-radius: .9rem; background: linear-gradient(135deg, #efc46b, #9a672c); color: #160e05; font-weight: 900; }
+.profile-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; }
+.profile-stat { padding: .7rem .45rem; border: 1px solid var(--pp-line); border-radius: 1rem; background: rgba(255,255,255,.055); text-align: center; }
+.profile-stat strong { display: block; font-size: 1.2rem; }
+.profile-stat span { color: var(--pp-muted); font-size: .67rem; text-transform: capitalize; }

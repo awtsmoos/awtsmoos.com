@@ -1,9 +1,7 @@
 // B"H
 /**
  * @file awtsmoosCkidsGames.js
- * @description Chapter 80: the export river is plain again. The Awtsmoos opens
- * the central mouth with real filenames so MovingPlatform is the only bridge
- * interpreter and no version charm distracts from truth.
+ * @description Chapter 83: the central river carries visible form and physics witness.
  */
-export * from './exports/index.js?v=lava-camera-axis-20260609-bh640';
+export * from './exports/index.js?v=physics-motion-trace-20260610-bh708';
 export class ok {}

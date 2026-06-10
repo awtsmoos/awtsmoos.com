@@ -2,17 +2,13 @@
 /**
  * @file index.js
  * @description
- * Chapter 8: The Gatekeeper Learns Not To Shatter.
+ * Chapter 9: The Gatekeeper Refuses The False Throne.
  *
- * This is the server entry. The old gate could crash when another Awtsmoos
- * instance already held port 8080. The log then screamed `EADDRINUSE`, even
- * though that usually means a server is already guarding the gate. This entry
- * now catches server listen errors and reports them as clear state instead of
- * an unhandled rupture.
- *
- * The Awtsmoos has no body and no form, yet every local server needs a vessel:
- * HTTP, WebSocket upgrade, dynamic routes, and optional mail. Each vessel is
- * guarded so a failure in one chamber does not tear the whole palace apart.
+ * The Awtsmoos breathes the server into being through one practical vessel:
+ * HTTP on port 8080. Optional mail is not allowed to seize port 25 and murder
+ * the web gate during local game work. If mail is desired, the environment must
+ * explicitly say `AWTSMOOS_START_MAIL=true`; otherwise the game server rises
+ * cleanly and the compact-JS root can be tested by the real browser.
  */
 
 const http = require("http");
@@ -36,15 +32,15 @@ async function go() {
     await dynamicServer.init();
 
     const httpServer = createHttpServer(dynamicServer, wsServer);
-    await listenSafely(httpServer, Number(process.env.PORT) || DEFAULT_PORT);
-    startMailSafely(mail);
+    const listening = await listenSafely(httpServer, Number(process.env.PORT) || DEFAULT_PORT);
+    if (listening) await startMailSafely(mail);
 }
 
 /**
  * Creates the HTTP server and upgrade bridge.
  *
- * @param {object} dynamicServer - Awtsmoos dynamic server instance.
- * @param {object} wsServer - WebSocket handler.
+ * @param {object} dynamicServer Awtsmoos dynamic server instance.
+ * @param {object} wsServer WebSocket handler.
  * @returns {import("http").Server} Configured HTTP server.
  */
 function createHttpServer(dynamicServer, wsServer) {
@@ -62,40 +58,45 @@ function createHttpServer(dynamicServer, wsServer) {
 /**
  * Listens without allowing EADDRINUSE to become an unhandled crash.
  *
- * @param {import("http").Server} httpServer - Server to bind.
- * @param {number} port - Port to listen on.
- * @returns {Promise<void>} Resolves when listening or when port is occupied.
+ * @param {import("http").Server} httpServer Server to bind.
+ * @param {number} port Port to listen on.
+ * @returns {Promise<boolean>} True when this process owns the HTTP listener.
  */
 function listenSafely(httpServer, port) {
     return new Promise(resolve => {
         httpServer.once("error", error => {
             if (error.code === "EADDRINUSE") {
                 console.log(`B"H - Port ${port} is already in use; another server instance may already be alive.`);
-                resolve();
+                resolve(false);
                 return;
             }
 
             console.error("B\"H - HTTP server failed to listen:", error);
-            resolve();
+            resolve(false);
         });
 
         httpServer.listen(port, () => {
             console.log("B\"H\n\n\n\n", `Server running at http://127.0.0.1:${port}/`);
             console.log("Time: ", Date.now());
-            resolve();
+            resolve(true);
         });
     });
 }
 
 /**
- * Starts optional mail handling without tearing down the web server.
+ * Starts optional mail only when explicitly requested.
  *
- * @param {object} mail - AwtsMail instance.
- * @returns {void}
+ * @param {object} mail AwtsMail instance.
+ * @returns {Promise<void>} Resolves after mail startup is skipped or attempted.
  */
-function startMailSafely(mail) {
+async function startMailSafely(mail) {
+    if (process.env.AWTSMOOS_START_MAIL !== "true") {
+        console.log("B\"H - Email server skipped; set AWTSMOOS_START_MAIL=true to enable it.");
+        return;
+    }
+
     try {
-        mail.shoymayuh();
+        await mail.shoymayuh();
         console.log("Email server running");
     } catch (error) {
         console.log("Could not start email server", error);

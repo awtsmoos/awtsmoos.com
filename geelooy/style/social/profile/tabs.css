@@ -1,0 +1,25 @@
+/* B"H tabs: five quiet gates, no clutter. */
+.profile-tabs {
+  display: flex;
+  gap: .35rem;
+  overflow-x: auto;
+  padding: .35rem;
+  border: 1px solid var(--pp-line);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.045);
+}
+.profile-tabs button {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: .8rem;
+  padding: .7rem .85rem;
+  background: transparent;
+  color: var(--pp-muted);
+  font-weight: 850;
+}
+.profile-tabs button.active {
+  background: linear-gradient(135deg, #efc46b, #9a672c);
+  color: #170f08;
+}
+.profile-card-list { display: grid; gap: .8rem; }
+.profile-empty-card { padding: 1rem; border: 1px dashed var(--pp-line); border-radius: 1rem; color: var(--pp-muted); text-align: center; }

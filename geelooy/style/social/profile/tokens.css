@@ -1,0 +1,15 @@
+/* B"H tokens: the Awtsmoos gives the clean profile its measured colors. */
+:root {
+  --pp-bg: #080c1a;
+  --pp-panel: rgba(9, 12, 30, .86);
+  --pp-card: #fffaf1;
+  --pp-ink: #171624;
+  --pp-muted: #a9a2b4;
+  --pp-soft-muted: #716a78;
+  --pp-gold: #d6a34e;
+  --pp-gold-dark: #8b5b25;
+  --pp-line: rgba(255, 255, 255, .12);
+  --pp-card-line: rgba(67, 46, 24, .16);
+  --pp-radius: 1.4rem;
+  --pp-shadow: 0 1.4rem 3.4rem rgba(0, 0, 0, .32);
+}

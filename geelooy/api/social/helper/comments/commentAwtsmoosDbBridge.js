@@ -3,8 +3,10 @@
  * @file commentAwtsmoosDbBridge.js
  * @chapter The Search Sidecar Learns To Remember Vectors
  * @description
- * Mirrors successful comment writes into the AwtsmoosDB search sidecar and
- * stores a persistent real GGUF embedding for each comment at write time.
+ * Mirrors successful comment writes into the AwtsmoosDB search sidecar. In
+ * normal mode it also stores real GGUF vectors; in heavy social burst tests the
+ * vector side can be skipped by env so the API test proves account/post/comment
+ * behavior without waiting for dozens of embeddings.
  */
 
 const path = require("path");
@@ -13,12 +15,10 @@ const { storeCommentVector } = require("./commentVectorStore.js");
 
 const CACHE_KEY = "__awtsmoosCommentSearchDbs";
 
-/** @param {*} value @returns {string} */
 function cleanText(value) {
     return String(value ?? "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-/** @param {object} $i @param {object} context @returns {string} */
 function resolveRoot($i, context = {}) {
     const base = $i?.db?.directory || process.cwd();
     const heichel = context.heichelId || "unknown-heichel";
@@ -26,15 +26,11 @@ function resolveRoot($i, context = {}) {
     return path.join(base, "awtsmoos-comment-search", heichel, series);
 }
 
-/** @param {object} $i @returns {Map} */
 function cacheFor($i) {
-    if (!$i[CACHE_KEY]) {
-        Object.defineProperty($i, CACHE_KEY, { value: new Map(), enumerable: false, configurable: true });
-    }
+    if (!$i[CACHE_KEY]) Object.defineProperty($i, CACHE_KEY, { value: new Map(), enumerable: false, configurable: true });
     return $i[CACHE_KEY];
 }
 
-/** @param {object} $i @param {object} context @returns {object} */
 function getCommentSearchDb($i, context = {}) {
     const root = resolveRoot($i, context);
     const cache = cacheFor($i);
@@ -42,7 +38,6 @@ function getCommentSearchDb($i, context = {}) {
     return cache.get(root);
 }
 
-/** @param {object} params @returns {object} */
 function normalizeCommentSearchRecord(params) {
     const { comment, heichelId, seriesId, parentId, parentType, postId, aliasId, status = "active", migration = null } = params;
     const dayuh = comment?.dayuh && typeof comment.dayuh === "object" ? comment.dayuh : {};
@@ -60,7 +55,6 @@ function normalizeCommentSearchRecord(params) {
     };
 }
 
-/** @param {object} p @returns {object} */
 function coordinateFor(p) {
     return {
         heichelId: p.heichelId,
@@ -78,7 +72,6 @@ function coordinateFor(p) {
     };
 }
 
-/** @param {object} p @returns {object} */
 function metadataFor(p) {
     return {
         status: p.status,
@@ -98,21 +91,26 @@ function metadataFor(p) {
     };
 }
 
-/** @param {object} params @returns {Promise<object>} */
+async function vectorFor(params) {
+    if (process.env.AWTSMOOS_SKIP_COMMENT_VECTORS === "1") {
+        return { skipped: true, reason: "AWTSMOOS_SKIP_COMMENT_VECTORS" };
+    }
+    return await storeCommentVector(params);
+}
+
 async function indexCommentSearchRecord(params) {
     try {
         if (!params?.$i || !params?.comment?.id) return { skipped: true, reason: "missing_request_or_comment_id" };
         const db = getCommentSearchDb(params.$i, params);
         const record = normalizeCommentSearchRecord(params);
         const lexical = db.indexCommentRecord(record);
-        const vector = await storeCommentVector(params);
+        const vector = await vectorFor(params);
         return { success: true, record: lexical, vector, stats: db.stats() };
     } catch (error) {
         return { error: true, message: "COMMENT_SEARCH_INDEX_FAILED", details: error.stack || String(error) };
     }
 }
 
-/** @param {object} params @returns {Promise<object>} */
 async function searchCommentSearchRecords({ $i, query, heichelId, seriesId } = {}) {
     try {
         const db = getCommentSearchDb($i, { heichelId, seriesId });

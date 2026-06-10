@@ -1,0 +1,17 @@
+/* B"H nav: the Awtsmoos gives top, drawer, and bottom paths. */
+.profile-topbar {
+  position: sticky; top: .4rem; z-index: 40;
+  max-width: 33rem; margin: 0 auto .75rem; padding: .55rem .7rem;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .6rem;
+  border: 1px solid var(--pp-line); border-radius: 1.25rem; background: rgba(6, 9, 22, .82); backdrop-filter: blur(16px);
+}
+.profile-icon-btn { width: 2.65rem; height: 2.65rem; display: grid; place-items: center; border: 0; border-radius: .9rem; background: rgba(255,255,255,.06); color: var(--pp-gold); font-weight: 900; }
+.profile-brand { text-align: center; line-height: 1; }
+.profile-brand strong { display: block; color: var(--pp-gold); letter-spacing: .08em; }
+.profile-brand small { color: var(--pp-muted); font-size: .68rem; }
+.profile-drawer { position: fixed; inset: 0 auto 0 0; z-index: 60; width: min(82vw, 19rem); padding: 5rem 1rem 1rem; display: grid; align-content: start; gap: .45rem; background: #070b18; transform: translateX(-105%); transition: transform .22s ease; }
+.profile-drawer.open { transform: translateX(0); }
+.profile-drawer a { padding: .85rem; border-radius: .9rem; background: rgba(255,255,255,.06); }
+.profile-bottom-nav { position: fixed; left: 50%; bottom: max(.6rem, env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(94vw, 33rem); z-index: 45; display: grid; grid-template-columns: repeat(5,1fr); gap: .2rem; padding: .4rem; border-radius: 1.3rem; background: rgba(8, 11, 25, .92); backdrop-filter: blur(16px); }
+.profile-bottom-nav a { min-height: 2.65rem; display: grid; place-items: center; border-radius: .9rem; color: #fff8df; font-size: .75rem; }
+.profile-bottom-nav a:nth-child(3) { margin-top: -.8rem; min-height: 3.4rem; border-radius: 999px; background: linear-gradient(135deg, #f1c66d, #9a672c); color: #160e05; font-size: 1.25rem; }

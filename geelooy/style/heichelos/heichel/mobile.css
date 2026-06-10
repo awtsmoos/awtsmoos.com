@@ -1,0 +1,19 @@
+/* B"H mobile: simple first, wider screens merely breathe more. */
+@media (min-width: 760px) {
+  .geelooy-social-shell { padding-top: 1rem; }
+  .geelooy-main-stage, .heichel-mobile-topbar { max-width: 46rem; }
+  .nav-card { grid-template-columns: 5.6rem 1fr auto; }
+  .heichel-hero-glow { height: 10rem; }
+}
+@media (max-width: 420px) {
+  .geelooy-social-shell { padding-left: .5rem; padding-right: .5rem; }
+  .nav-card { grid-template-columns: 4.1rem 1fr auto; gap: .6rem; }
+  .nav-card-media { min-height: 4.3rem; }
+  .nav-card h2 { font-size: .98rem; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .series-search-row { top: 3.45rem; }
+}
+@media (max-width: 340px) {
+  .nav-card { grid-template-columns: 1fr auto; }
+  .nav-card-media { display: none; }
+}

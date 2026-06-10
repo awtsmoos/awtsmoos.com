@@ -3,26 +3,15 @@
 /**
  * @module LoadersModule
  * @description
- * ==============================================================================
- * 🪐 THE CONDUIT OF MATTER AND LIGHT (YETZIRAH) 🪐
- * ==============================================================================
- * Unifying the shattered fragments back into a comprehensive entry point.
+ * Chapter 73: The loader index carries the model-load witness seal.
  */
-import GLTFLoaderVessel from './GLTFLoaderVessel.js?v=player-gltf-sanitize-20260527';
+import GLTFLoaderVessel from './GLTFLoaderVessel.js?v=chossid-model-load-20260610-bh709';
 import TextureLoaderVessel from './TextureLoaderVessel.js';
 
 export default {
-    /**
-     * Extracts heavy meshes and animations.
-     */
-    async loadGLTF(url) {
-        return await GLTFLoaderVessel.load(url, this);
-    },
+  /** @param {string} url GLTF/GLB URL. @returns {Promise<object|null>} Loaded GLTF. */
+  async loadGLTF(url) { return await GLTFLoaderVessel.load(url, this); },
 
-    /**
-     * Extracts paints and textures.
-     */
-    async loadTexture(options) {
-        return await TextureLoaderVessel.load(options);
-    }
+  /** @param {object|string} options Texture options. @returns {Promise<object|null>} Texture. */
+  async loadTexture(options) { return await TextureLoaderVessel.load(options); }
 };

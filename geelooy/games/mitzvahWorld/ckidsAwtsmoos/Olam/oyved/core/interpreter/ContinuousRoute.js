@@ -2,12 +2,13 @@
 /**
  * @module ContinuousRoute
  * @description
- * Chapter 31: The Ongoing Route Carries The New Lava Covenant.
+ * Chapter 32: The ongoing route drinks from the active mobileMove router.
  *
- * The Awtsmoos routes post-creation worker messages through the reset router
- * that understands countdown respawn and feet-on-ground positions.
+ * The old router had camera/key events only. The Awtsmoos now sends every
+ * post-genesis worker message through a ContinuousEventRouter that knows the
+ * real wall joystick packet: `mobileMove`.
  */
-import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=lava-camera-axis-20260609-bh640';
+import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=wall-direct-mobile-router-20260610-bh706';
 
 export class ContinuousRoute {
   /**

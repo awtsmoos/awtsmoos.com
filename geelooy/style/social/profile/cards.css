@@ -1,0 +1,26 @@
+/* B"H cards: post and Heichel vessels stay focused. */
+.profile-post-card, .profile-heichel-card {
+  cursor: pointer;
+  border: 1px solid var(--pp-card-line);
+  border-radius: 1.12rem;
+  padding: .95rem;
+  background: linear-gradient(160deg, #fffdf7, #f8f0e2);
+  color: var(--pp-ink);
+  box-shadow: 0 .45rem 1.2rem rgba(25, 20, 11, .08);
+}
+.profile-post-card small, .profile-post-card footer {
+  color: #7a5a2e;
+  font-weight: 800;
+}
+.profile-post-card h3 { margin: .3rem 0; letter-spacing: -.03em; }
+.profile-post-card p { margin: 0 0 .75rem; color: var(--pp-soft-muted); line-height: 1.48; }
+.profile-heichel-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: .75rem;
+}
+.heichel-seal { width: 3.2rem; height: 3.2rem; display: grid; place-items: center; border-radius: 50%; background: #171b39; color: var(--pp-gold); }
+.profile-heichel-card h3 { margin: 0 0 .15rem; }
+.profile-heichel-card p, .profile-heichel-card small { margin: 0; color: var(--pp-soft-muted); }
+.profile-heichel-card a { padding: .55rem .75rem; border-radius: .75rem; background: #ede0cd; color: #3a240f; font-weight: 900; }

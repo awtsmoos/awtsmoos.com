@@ -2,12 +2,21 @@
 /**
  * @file joystick.js
  * @description
- * Chapter 15: Two small circles replace the tangled machine.
+ * Chapter 16: The Arrow Learned The Correct Gate.
  *
- * The Awtsmoos leaves the mobile player with only what Level 1 needs: a left
- * thumbstick for walking and one right jump button. The huge inventory/action
- * flower no longer devours the desert view.
+ * The Awtsmoos revealed that the mobile jump button was speaking outside the
+ * worker covenant. It now wraps key events in `olamPeula`, bubbles through the
+ * ikar gate, and also posts directly to the worker when available. The left
+ * joystick remains the walking vessel; the right button is now a real Space key.
  */
+function worker() { return window.mana?.socket?.eved || window.mana?.eved || null; }
+function sendKey(type, code) {
+  const payload = { [type]: { code } };
+  const detail = { olamPeula: payload };
+  document.querySelector('[shaym="ikar"]')?.dispatchEvent(new CustomEvent("olamPeula", { bubbles: true, detail }));
+  worker()?.postMessage?.(payload);
+}
+
 export default [
   {
     id: "joystick-container",
@@ -18,16 +27,16 @@ export default [
     id: "mobile-jump-button",
     textContent: "↑",
     style: { pointerEvents: "auto", zIndex: "12000" },
-    ready(m, $f) {
-      const ik = $f("ikar");
-      if (!ik) return;
-      const send = type => ik.dispatchEvent(new CustomEvent("olamPeula", { detail: { [type]: { code: "Space" } } }));
-      const down = e => { e.preventDefault(); e.stopPropagation(); m.classList.add("active-state"); send("keydown"); };
-      const up = e => { e.preventDefault(); e.stopPropagation(); m.classList.remove("active-state"); send("keyup"); };
+    ready(m) {
+      const down = e => { e.preventDefault(); e.stopPropagation(); m.classList.add("active-state"); sendKey("keydown", "Space"); };
+      const up = e => { e.preventDefault(); e.stopPropagation(); m.classList.remove("active-state"); sendKey("keyup", "Space"); };
       m.addEventListener("touchstart", down, { passive: false });
+      m.addEventListener("pointerdown", down, { passive: false });
       m.addEventListener("mousedown", down);
       m.addEventListener("touchend", up, { passive: false });
       m.addEventListener("touchcancel", up, { passive: false });
+      m.addEventListener("pointerup", up, { passive: false });
+      m.addEventListener("pointercancel", up, { passive: false });
       m.addEventListener("mouseup", up);
       m.addEventListener("mouseleave", up);
     }

@@ -1,0 +1,17 @@
+/* B"H templates: API-selected garments shift tone, not structure. */
+.profile-template-reader-light {
+  --pp-bg: #f8efe0;
+  --pp-panel: rgba(255,250,241,.94);
+  --pp-line: rgba(67,46,24,.16);
+  color: var(--pp-ink);
+}
+.profile-template-reader-light .profile-copy p,
+.profile-template-reader-light .profile-tree-summary,
+.profile-template-reader-light .profile-comment-card { color: var(--pp-ink); }
+.profile-template-compact-social .profile-main { max-width: 30rem; }
+.profile-template-compact-social .profile-stats { grid-template-columns: repeat(3, 1fr); }
+.profile-template-heichel-builder { --pp-gold: #44d6bf; }
+.profile-template-heichel-builder .profile-action-main,
+.profile-template-heichel-builder .profile-tabs button.active { background: linear-gradient(135deg, #6ee7d8, #0f766e); }
+.profile-template-minimal-clean { --pp-gold: #f0bd62; }
+.profile-template-minimal-clean .profile-banner { min-height: 7rem; }

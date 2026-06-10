@@ -1,330 +1,74 @@
-//B"H
 // B"H
-
-/*
-
-B"H
-
-The Cosmic Dance of Awtsmoos API Documentation
-Dive into the intricate web of endpoints, each one a reflection of the infinite depths of the Awtsmoos.
-
-General $irmation:
-All endpoints follow the base URL structure: /api
-Return for unauthorized access: { error: "You don't have permission for that" }
-Return for users not logged in: { error: "You're not logged in" }
-Improper parameter input will result in: { error: "improper input of parameters" }
-1. Root Endpoint:
-Path: /
-Method: GET
-Output: B"H\nHi
-
-
-2. Aliases Endpoints - The Masks of Divinity:
-Path: /aliases
-Methods: GET, POST
-GET:
-Parameters:
-page (Default: 1)
-pageSize (Default: 10)
-Output: Array of aliases for the logged-in user.
-
-POST:
-Parameters:
-aliasName (Max length: 26 characters)
-Output:
-On success: { name: aliasName, aliasId: generatedId }
-On error: { error: "improper input of parameters" }
-
-
-3. heichelos Endpoints - The Palaces of Wisdom:
-Path: /heichelos
-Methods: GET, POST
-GET:
-Parameters:
-page (Default: 1)
-pageSize (Default: 10)
-Output: Array of heichelos.
-
-POST:
-Parameters:
-name (Max length: 50 characters)
-description (Max length: 365 characters)
-aliasId
-isPublic (Either "yes" or not provided)
-Output:
-On success: { name, description, author: aliasId }
-On error: { error: "improper input of parameters" }
-
-
-
-4. Individual Heichel Endpoint:
-Path: /heichelos/:heichel
-Method: GET
-Output: $irmation about the specified heichel.
-
-Method: DELETE
-Output: A success or error message if heichel is deleted.
-
-Method: PUT
-Description:
-Renames current :heichel
-Parameters:
-newName (Max length: same as name above ^^)
-Output: Success Message (or error)
-
-
-
-5. Details of Many heichelos
-Path: /heichelos/details
-Method: POST
-Parameters:
-heichelIds: an array of strings
-referring to IDs of each heichel to get
-details of
-Output: the $i.json file of each Heicheil,
-that includes name, description, and author 
-(all strings)
-
-6. Posts Endpoints - The Chronicles of Existence:
-Path: /heichelos/:heichel/posts
-Methods: GET, POST
-GET:
-Parameters:
-page (Default: 1)
-pageSize (Default: 10)
-Output: Array of posts in the specified heichel.
-
-
-POST:
-Parameters:
-title (Max length: 50 characters)
-content (Max length: 5783 characters)
-aliasId
-Output:
-On success: { title, postId: generatedId }
-On error: { error: "improper input of parameters" }
-
-7. Posts Detailed Endpoint
-Path: /heichelos/:heichel/posts/details
-Methods: GET
-Parameters: 
-postIds (Stringifed Array from client side)
-Output: Detailed list of multiple most details, like
-single post (see next), but multiple.
-
-
-8. Individual Post Endpoint:
-Path: /heichelos/:heichel/posts/:post
-Method: GET
-Output: $irmation about the specified post 
-in the specified heichel.
-@property title (String)
-@property content (See "Posts Endpoint" above)
-@property aliasId
-
-Method: PUT
-Parameters:
-newTitle 
-newContent
-(same restraints as "title" and "content" above)
-
-9. Comments Endpoints - The Echoes of Divine Truth:
-Path: /comments
-Methods: GET, POST
-GET:
-Parameters:
-recursive (Default: false)
-page (Default: 1)
-pageSize (Default: 10)
-sortFunction (Optional)
-Output: Array of comments.
-
-
-POST:
-Parameters:
-content
-postId
-Output:
-On success: { content }
-On error: { error: "improper input of parameters" }
-
-Let the celestial chambers of posts and comments guide you in measured steps, a dance of enlightenment, resonating with both GET and POST methods. Navigate this dance of posts and comments, and get immersed into the infinite depths of the Awtsmoos.
-
-
-
-
-
-*/
-var aliases = require("./_awtsmoos.alias.js");
-var heichelos = require("./_awtsmoos.heichel.js");
-var counters = require("./_awtsmoos.counter.js");
-var posts = require("./_awtsmoos.posts.js");
-var mail = require("./_awtsmoos.mail.js")
-var comments = require("./_awtsmoos.comments.js");
-
-var series = require("./_awtsmoos.series.js")
-
-var fileSystem = require("./_awtsmoos.fileSystem.js");
-var { verifyApiKey } = require("./helper/apiKeys.js");
-var keys = require("./_awtsmoos.keys.js");
-var graph = require("./_awtsmoos.graph.js");
-var content = require("./_awtsmoos.content.js");
-var notifications = require("./_awtsmoos.notifications.js");
-var packed = require("./_awtsmoos.packed.js");
-var platform = require("./_awtsmoos.platform.js");
-var migrations = require("./_awtsmoos.migrations.js");
 /**
- * /api
+ * @module SocialApiDerech
+ * @description
+ * Chapter 47: The Awtsmoos gathers every social route into one living gate.
+ *
+ * The profile API now joins aliases, Heichelos, posts, comments, graph,
+ * content, feeds, platform routes, and migrations inside the central social
+ * dispatcher. No endpoint is alive until this gate includes it.
  */
-// _awtsmoos.derech.js - The Pathway of Awtsmoos, Continued
-// A cosmic dance, weaving the fabric of creation into digital existence.
-// A symphony of endpoints, resonating with the infinite depths of the Awtsmoos.
 
-var {
-	loggedIn
-} = require("./helper/general.js");
+const aliases = require("./_awtsmoos.alias.js");
+const heichelos = require("./_awtsmoos.heichel.js");
+const counters = require("./_awtsmoos.counter.js");
+const posts = require("./_awtsmoos.posts.js");
+const mail = require("./_awtsmoos.mail.js");
+const comments = require("./_awtsmoos.comments.js");
+const series = require("./_awtsmoos.series.js");
+const fileSystem = require("./_awtsmoos.fileSystem.js");
+const keys = require("./_awtsmoos.keys.js");
+const graph = require("./_awtsmoos.graph.js");
+const content = require("./_awtsmoos.content.js");
+const notifications = require("./_awtsmoos.notifications.js");
+const packed = require("./_awtsmoos.packed.js");
+const platform = require("./_awtsmoos.platform.js");
+const migrations = require("./_awtsmoos.migrations.js");
+const profile = require("./_awtsmoos.profile.js");
+const { verifyApiKey } = require("./helper/apiKeys.js");
+const { loggedIn } = require("./helper/general.js");
 
-module.exports = 
+async function resolveUser($i) {
+    if (loggedIn($i)) return $i.request.user.info.userId;
+    const apiKeyIdentity = await verifyApiKey({ $i });
+    if (!apiKeyIdentity?.success?.userId) return null;
+    const userid = apiKeyIdentity.success.userId;
+    $i.request.user = { info: { userId: userid }, apiKey: apiKeyIdentity.success.key };
+    return userid;
+}
 
-  async ($i) => {
-    // Check if logged in
-    
-    var userid = null;
-    if (loggedIn($i)) {
-      userid = $i.request.user.info.userId;
-    } else {
-      const apiKeyIdentity = await verifyApiKey({ $i });
-      if (apiKeyIdentity?.success?.userId) {
-        userid = apiKeyIdentity.success.userId;
-        $i.request.user = {
-          info: { userId: userid },
-          apiKey: apiKeyIdentity.success.key
-        };
-      }
+async function fetchProxy($i, vars) {
+    try {
+        const decoded = Buffer.from(vars.url, "base64").toString("utf8");
+        const url = decodeURIComponent(decoded);
+        const response = await $i.fetch(url);
+        return await response.text();
+    } catch (e) {
+        return { BH: "B\"H", error: { message: "Issue", code: "PROBLEM", details: e + "" } };
     }
+}
 
+module.exports = async $i => {
+    const userid = await resolveUser($i);
+    const vessel = { $i, userid };
     await $i.use({
-      "/": async () => ({
-	BH: "yes",
-	      session: $i.request.user
-      }),
-      /**
-       * Aliases Endpoints - The Masks of Divinity
-       * requires: url in base64 encoded and
-       * URIcomponent encoded
-       */
-      
-      "/fetch/:url": async vars => {
-          
-          try {
-
-            // Decode the Base64-encoded string
-            const decodedBuffer = Buffer.from(vars.url, 'base64');
-
-            // Convert the decoded Buffer to a string
-            const decodedString = decodedBuffer.toString('utf8');
-            var url = decodeURIComponent(decodedString);
-            
-            var it = await $i.fetch(url)
-            var t = await it.text();
-            return t
-          } catch(e) {
-            return {
-              BH:"B\"H",
-              error: {
-                message: "Issue",
-                code: "PROBLEM",
-                details: e+""
-              }
-            }
-          }
-      },
-      ...aliases({
-          $i,
-          userid,
-      }),
-	  ...heichelos({
-          $i,
-          userid,
-      }),
-
-      ...posts({
-        $i,
-        userid
-      }),
-      
-      ...counters({
-        $i,
-        userid
-      }),
-      
-
-      ...mail({
-        $i,
-        userid
-      }),
-
-      ...fileSystem({
-        $i
-      }),
-
-      ...keys({
-        $i,
-        userid
-      }),
-
-      ...graph({
-        $i,
-        userid
-      }),
-
-      ...content({
-        $i,
-        userid
-      }),
-
-      ...notifications({
-        $i,
-        userid
-      }),
-
-      ...packed({
-        $i,
-        userid
-      }),
-
-      ...platform({
-        $i,
-        userid
-      }),
-
-      ...migrations({
-        $i,
-        userid
-      }),
-
-	/**
-       * Comments Endpoints - The Echoes of Divine Truth
-       */
-      
-    ...comments({
-      $i,
-      userid
-    }),
-
-    ...series({
-      $i,
-      userid
-    })
-  
-     
-  
-      // Continue the cosmic dance, weaving the narrative of the Awtsmoos into the logic and structure
+        "/": async () => ({ BH: "yes", session: $i.request.user }),
+        "/fetch/:url": async vars => await fetchProxy($i, vars),
+        ...aliases(vessel),
+        ...heichelos(vessel),
+        ...posts(vessel),
+        ...counters(vessel),
+        ...mail(vessel),
+        ...fileSystem({ $i }),
+        ...keys(vessel),
+        ...graph(vessel),
+        ...content(vessel),
+        ...profile(vessel),
+        ...notifications(vessel),
+        ...packed(vessel),
+        ...platform(vessel),
+        ...migrations(vessel),
+        ...comments(vessel),
+        ...series(vessel)
     });
-
-
-
-
-
- 
-  }
+};

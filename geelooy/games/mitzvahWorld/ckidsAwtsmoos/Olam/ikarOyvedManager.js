@@ -2,14 +2,12 @@
 /**
  * @file ikarOyvedManager.js
  * @description
- * Chapter 140: The Worker Manager imports the fresh centered NPC UI handler.
- * The Awtsmoos seals the cache path so the old left-clipped guide card cannot
- * survive inside a stale worker message handler.
+ * Chapter 142: The Worker Manager imports the wall-direct mobile movement bridge.
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import setupDomEvents from "./worker/domEvents.js?v=npc-scroll-pass-through-20260609-bh638";
-import setupMessageHandler from "./worker/messageHandler.js?v=lava-camera-axis-20260609-bh640";
+import setupDomEvents from "./worker/domEvents.js?v=wall-direct-mobile-move-20260610-bh705";
+import setupMessageHandler from "./worker/messageHandler.js?v=direct-mobile-move-20260610-bh704";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
 import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=lava-camera-collision-bypass-20260609-bh643";
@@ -19,7 +17,6 @@ import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";
 import { startWorkerProgressWatchdog } from "./ikarOyvedManager/watch/WorkerProgressWatchdog.js";
 
 export default class OlamWorkerManager {
-  /** @param {string} workerPath Worker URL. @param {object} options Hooks. @param {HTMLCanvasElement} canvasElement Canvas. @param {object} ui UI. */
   constructor(workerPath, options = {}, canvasElement, ui) {
     this.workerPath = workerPath;
     this.customTawfeekeem = options;
@@ -36,11 +33,8 @@ export default class OlamWorkerManager {
     attachWorkerErrorEvents(this.eved, workerPath);
     setupMessageHandler(this);
     setupDomEvents(this);
-    this.eved.onmessage = event => {
-      this.runtime.touch();
-      interceptWorkerMessage(this, event);
-      this.handleMessageEvent(event);
-    };
+    console.info('B"H | OYVED_MANAGER_BOUND', { seal: 'wall-direct-mobile-move-20260610-bh705', workerPath, touchTrace: window.__AWTSMOOS_TOUCH_TRACE__?.slice?.(-4) || [] });
+    this.eved.onmessage = event => { this.runtime.touch(); interceptWorkerMessage(this, event); this.handleMessageEvent(event); };
     this._initStagnationWatch();
     startWorkerProgressWatchdog(this);
   }
@@ -50,16 +44,9 @@ export default class OlamWorkerManager {
 
   async _dispatchPawsawch() {
     if (this.runtime.pawsawchDispatched || this._pawsawchDispatched) return;
-    this.runtime.pawsawchDispatched = true;
-    this.runtime.opened = true;
-    this._pawsawchDispatched = true;
-    this.opened = true;
-    this.processQueue();
-    try {
-      if (typeof this.customTawfeekeem.pawsawch === "function") await this.customTawfeekeem.pawsawch();
-    } catch (error) {
-      oyvedManagerLog.error("pawsawch dispatch failed", { message: error?.message || String(error), stack: String(error?.stack || "no stack").replace(/\s+/g, " ") });
-    }
+    this.runtime.pawsawchDispatched = true; this.runtime.opened = true; this._pawsawchDispatched = true; this.opened = true; this.processQueue();
+    try { if (typeof this.customTawfeekeem.pawsawch === "function") await this.customTawfeekeem.pawsawch(); }
+    catch (error) { oyvedManagerLog.error("pawsawch dispatch failed", { message: error?.message || String(error), stack: String(error?.stack || "no stack").replace(/\s+/g, " ") }); }
   }
 
   postMessage(data, transfer = []) {
@@ -69,22 +56,15 @@ export default class OlamWorkerManager {
       const action = () => this.eved.postMessage(dayuh, transfer.length > 0 ? transfer : undefined);
       if (!this.runtime.opened) return void this.queue.add(action);
       action();
-    } catch (error) {
-      oyvedManagerLog.error("Worker postMessage failed", { message: error?.message || String(error), stack: String(error?.stack || "no stack").replace(/\s+/g, " ") });
-    }
+    } catch (error) { oyvedManagerLog.error("Worker postMessage failed", { message: error?.message || String(error), stack: String(error?.stack || "no stack").replace(/\s+/g, " ") }); }
   }
 
-  processQueue() {
-    try { this.queue.flush(); }
-    catch (error) { oyvedManagerLog.error("Worker queue flush failed", { message: error?.message || String(error), stack: String(error?.stack || "no stack").replace(/\s+/g, " ") }); }
-  }
+  processQueue() { try { this.queue.flush(); } catch (error) { oyvedManagerLog.error("Worker queue flush failed", { message: error?.message || String(error), stack: String(error?.stack || "no stack").replace(/\s+/g, " ") }); } }
 
   _initStagnationWatch() {
     const check = () => {
       const silence = this.runtime.silenceMs();
-      if ((this.runtime.vesselIsReady || this._vesselIsReady) && silence > 25000 && !this.runtime.worldLoaded && !this._worldLoaded) {
-        oyvedManagerLog.error("Worker silent after vessel ready", { seconds: Math.floor(silence / 1000), workerPath: this.workerPath });
-      }
+      if ((this.runtime.vesselIsReady || this._vesselIsReady) && silence > 25000 && !this.runtime.worldLoaded && !this._worldLoaded) oyvedManagerLog.error("Worker silent after vessel ready", { seconds: Math.floor(silence / 1000), workerPath: this.workerPath });
       setTimeout(check, 5000);
     };
     setTimeout(check, 10000);

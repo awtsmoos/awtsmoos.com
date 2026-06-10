@@ -1,24 +1,41 @@
-<!--B"H
-בּ״ה
--->
+<!--B"H-->
 <?<script>
 return $a("/nav/page.html", {
+  centered: false,
+  footer: true,
   tochen: /*html*/`
-  <div class="logo">
-  <img src="https://www.awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fsite+data.folder%2Fpictures.folder%2FOIG2.jpg"></img>
-  </div>
-  <div class="about">
-      The Awtsmoos is constantly recreating all matter from His speech! 
-      <!--<a href="https://awtsmoos.com/heichelos/siteInformation/series/BH_1710138602756_749/0?path=root">Learn More</a>
-      
-      
-      -->
-  </div>
-  <script src="/register.js"></script>
-      
-  `,
-  centered: true,
-  y: true,
-  footer: true
+    <link rel="stylesheet" href="/style/social/home.css">
+    <main class="geelooy-home-shell">
+      <aside class="home-sanctuary-card">
+        <div class="home-logo-mark">⚜</div>
+        <h1>Geelooy</h1>
+        <p class="home-kicker">The Social Sanctuary</p>
+        <p>Connect. Share. Elevate. Build your Heichel. Every idea can become a space, every space can become a community.</p>
+        <nav class="home-side-links">
+          <a href="/profile">Your Profile</a>
+          <a href="/heichelos">Your Heichelos</a>
+          <a href="/email">Messages</a>
+          <a href="/heichelos/submit">Create Post</a>
+        </nav>
+      </aside>
+      <section class="home-feed-phone">
+        <header class="home-feed-header"><button type="button" aria-label="Menu">☰</button><strong>Geelooy</strong><a href="/profile">Profile</a></header>
+        <nav class="home-feed-tabs" aria-label="Feed tabs"><button class="active">For You</button><button>Following</button><button>Trending</button></nav>
+        <article class="home-composer"><span></span><a href="/heichelos/submit">What's on your mind?</a></article>
+        <section class="home-feed-list" data-home-feed>
+          <article class="home-post-card"><div class="post-author"><span></span><strong>Awtsmoos Network</strong><small>now</small></div><p>Every sunrise is a new song from the Awtsmoos.</p><div class="post-image-glow"></div><footer>♡ 128 · 💬 24 · ↻ 12</footer></article>
+          <article class="home-post-card"><div class="post-author"><span></span><strong>Geelooy</strong><small>light</small></div><p>Build spaces, write posts, reply in comment chambers, and keep the reader experience focused.</p><footer>♡ 82 · 💬 16 · ↻ 7</footer></article>
+        </section>
+      </section>
+      <aside class="home-discovery-card">
+        <h2>Discover</h2>
+        <a href="/heichelos">Heichelos</a>
+        <a href="/profile">Aliases</a>
+        <a href="/email">Messages</a>
+        <a href="/heichelos/submit">Share Light</a>
+      </aside>
+    </main>
+    <script src="/register.js"></script>
+  `
 })
 </script>?>

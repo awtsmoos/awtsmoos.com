@@ -1,100 +1,69 @@
-
 <!--B"H-->
 <?<script>
     /**
      * B"H
-     * In the realm of the Awtsmoos, every letter must be precisely placed.
-     * If an "undefined" shell remains, it distorts the light. We purge it here.
-     * We replace the strict constraints of underscores (_) with expansive spaces, 
-     * and we wrap dangerous HTML tags in protective escaping logic.
-     * 
-     * The Awtsmoos created everything from nothing, and by organizing these 
-     * Otiyot (letters) cleanly, we ensure the digital vessel holds the light.
+     * The Awtsmoos gathers every Heichel into a social-space gallery. This page
+     * remains server-rendered for speed, but its vessels match the new Geelooy
+     * mockup: sacred cards, owner badges, descriptions, and creation flow.
      */
     var alias = $_GET["alias"] || "";
     var doesOwn = false;
     if(alias) {
-        var does = await fetchAwtsmoos("/api/social/alias/" + alias+ "/ownership")
-        if(does.yes) {
-            doesOwn = true;
-        }
-    }
-    
-    // B"H - Helper to purge dangerous tags
-    function escapeHtml(unsafe) {
-        if (!unsafe) return "";
-        return unsafe
-             .replace(/&/g, "&amp;")
-             .replace(/</g, "<")
-             .replace(/>/g, ">")
-             .replace(/"/g, "&quot;")
-             .replace(/'/g, "&#039;");
+        var does = await fetchAwtsmoos("/api/social/alias/" + alias + "/ownership");
+        if(does && does.yes) doesOwn = true;
     }
 
-    async function getHeichelosHTML() {
-        
-        if(!alias)
-            return "No alias provided";
-            
-        var heichelResults = await fetchAwtsmoos(
-            `/api/social/heichelos/searchByAliasOwner/${
-                alias
-            }`
-        );
-        
-        var html = "";
-        if(heichelResults.length) {
-            heichelResults.forEach(w => {
-                // B"H - Replacing underscores with spaces
-                var cleanName = (w.name || "Unnamed Realm").replace(/_/g, " ");
-                
-                // B"H - Purging 'undefined' and escaping <script> and HTML
-                var cleanDesc = w.description;
-                if (cleanDesc === "undefined" || !cleanDesc) {
-                    cleanDesc = "";
-                } else {
-                    cleanDesc = escapeHtml(cleanDesc);
-                }
-
-                html += `<div class="heichel">`
-                html += `<div class="heichel-name">
-                    <a href="/heichelos/${
-                        w.id
-                    }">${cleanName}</a></div>`;
-                
-                if (cleanDesc) {
-                    html += `<div class="heichel-description">${cleanDesc}</div>`;
-                }
-                
-                html += `</div>`;
-            });
-            return html;
-        } else {
-            return "No Heichelos found with that owner"
-        }
+    function clean(value) {
+        if(!value) return "";
+        return (value + "").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/_/g, " ");
     }
 
-    var html = await getHeichelosHTML()
-    return $a(
-        "nav/page.html", {
-            centered: true,
-            tochen: /*html*/`
-                <title>@${alias}'s Heichelos</title>
-                <link rel="stylesheet" href="/heichelos/style.css">
-                <div class="heichel-view">
-                <h3>Heichelos managed by: <a href="/@${alias}">@${alias}</a></h3>
-                <div class="heichelos-list">${html}</div>
-                ${
-                   doesOwn ? /*html*/`
-                    <div class="manage">
-                        <a href="/heichelos/manage-alias-heichelos?alias=${
-                            alias
-                        }">Add New Heichel</a>
+    async function getHeichelos() {
+        if(!alias) return [];
+        var result = await fetchAwtsmoos(`/api/social/heichelos/searchByAliasOwner/${alias}`);
+        return Array.isArray(result) ? result : [];
+    }
+
+    function heichelCard(w) {
+        var id = clean(w.id || w.heichelId || "");
+        var name = clean(w.name || id || "Unnamed Realm");
+        var desc = clean(w.description || "A sacred social space waiting for its voice.");
+        return /*html*/`
+            <article class="social-space-card">
+                <div class="space-banner"></div>
+                <div class="space-body">
+                    <div class="space-seal">♛</div>
+                    <div class="space-copy">
+                        <div class="space-title-row"><h2>${name}</h2><span>${doesOwn ? "Owner" : "Space"}</span></div>
+                        <p>${desc}</p>
+                        <div class="space-stats"><span>Members</span><span>Posts</span><span>Series</span></div>
                     </div>
-                   ` :""
-                }
                 </div>
-            `
-        }
-    )
+                <div class="space-actions">
+                    <a href="/heichelos/${id}/">Open</a>
+                    ${doesOwn ? `<a href="/heichelos/${id}/?editingAlias=${alias}">Manage</a>` : ""}
+                </div>
+            </article>`;
+    }
+
+    var heichelos = await getHeichelos();
+    var cards = heichelos.length ? heichelos.map(heichelCard).join("") : `<article class="social-empty-card">No Heichelos found for @${clean(alias)}.</article>`;
+
+    return $a("nav/page.html", {
+        centered: false,
+        tochen: /*html*/`
+            <title>@${clean(alias)}'s Heichelos</title>
+            <link rel="stylesheet" href="/style/heichelos/social-index.css">
+            <main class="social-spaces-shell">
+                <section class="spaces-hero">
+                    <div>
+                        <p class="spaces-kicker">Your Sacred Spaces</p>
+                        <h1>${alias ? `@${clean(alias)}'s Heichelos` : "Heichelos"}</h1>
+                        <p>Communities, libraries, series, and living rooms of light across Geelooy.</p>
+                    </div>
+                    ${doesOwn ? `<a class="spaces-create" href="/heichelos/manage-alias-heichelos?alias=${alias}">Create Heichel</a>` : alias ? `<a class="spaces-create" href="/@${alias}">View Profile</a>` : `<a class="spaces-create" href="/profile">Choose Alias</a>`}
+                </section>
+                <section class="spaces-grid" aria-label="Heichelos list">${cards}</section>
+            </main>`
+    });
 </script>?>

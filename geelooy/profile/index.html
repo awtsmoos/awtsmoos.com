@@ -2,60 +2,70 @@
 <?<script>
     var user;
     if(request.user) {
-        sharedData.user = request.user.info.userId
-        user = request.user.info.userId
+        sharedData.user = request.user.info.userId;
+        user = request.user.info.userId;
     } else {
-        olam.replace = $a("message.html", {
-            message: "You're not logged in!@!"
-        })
+        olam.replace = $a("message.html", { message: "You're not logged in!@!" });
         return;
     }
 
-
     return $a("nav/page.html", {
         tochen: /*html*/`
-            <link rel="stylesheet" type="text/css" href="/style/social/profile.css">    
-            <div class="profile">
-                <h1>Your Profile Control Center</h1>
-            <div class="welcome">
-                Welcome <span class="profile-name">${user}</span>!
-            </div>
-            
-            <div class="explanation">
-                <h2>What are Aliases?</h2>
-                <p>Aliases are alternate names or identities that users can create on the platform. Each alias can have its own profile, allowing users to interact with others using different personas.</p>
-                <h2>What are Heichelos?</h2>
-                <p>Heichelos are spaces or communities within the platform where users can post and interact with each other. Each alias can create, or be part of, multiple heichelos, contributing to discussions and sharing content within those spaces.</p>
-            </div>
-            
-            <div class="aliases">
-                <h2>Aliases:</h2>
-                <div class="alias-list">
-                    <div class="center">
-                        <div class="loading-circle"></div>
+            <link rel="stylesheet" type="text/css" href="/style/social/profile.css">
+            <main class="geelooy-profile-shell" data-user="${user}">
+                <section class="profile-hero-card">
+                    <div class="profile-banner-light"></div>
+                    <div class="profile-identity-row">
+                        <div class="profile-avatar-orb" aria-hidden="true">א</div>
+                        <div class="profile-identity-copy">
+                            <p class="profile-kicker">Your Digital Presence</p>
+                            <h1>${user}</h1>
+                            <p>Build aliases, forge Heichelos, answer messages, and tune the way your light appears across Geelooy.</p>
+                        </div>
+                        <a class="profile-primary-action" href="./alias-manage/">Create Alias</a>
                     </div>
-                    <!--
-                        
-                        the format aliases hsould be loaded in:
-                        <div class="alias">
-                        <div class="alias-name">Alias 1</div>
-                        <div class="alias-description">Description of Alias 1.</div>
-                        <button class="edit-alias">Edit Alias</button>
+                    <div class="profile-stat-grid" aria-label="Profile social stats">
+                        <article><strong data-profile-stat="aliases">—</strong><span>Aliases</span></article>
+                        <article><strong data-profile-stat="heichelos">—</strong><span>Heichelos</span></article>
+                        <article><strong data-profile-stat="defaultAlias">—</strong><span>Default</span></article>
                     </div>
-                    <div class="alias">
-                        <div class="alias-name">Alias 2</div>
-                        <div class="alias-description">Description of Alias 2.</div>
-                        <button class="edit-alias">Edit Alias</button>
-                    </div>-->
-                </div>
-                <a href="./alias-manage/" class="create-alias-btn">Create New Alias</a>
-                <!-- Add more alias sections as needed -->
-            </div>
-            
-        </div>
-        
-        <script src="./script.js"></script>
+                </section>
+
+                <section class="profile-command-panel">
+                    <nav class="profile-tabs" aria-label="Profile sections">
+                        <button class="active" type="button" data-profile-tab="aliases">Aliases</button>
+                        <button type="button" data-profile-tab="heichelos">Heichelos</button>
+                        <button type="button" data-profile-tab="about">About</button>
+                    </nav>
+                    <div class="profile-panel-body">
+                        <section class="profile-tab-panel" data-profile-panel="aliases">
+                            <div class="panel-title-row">
+                                <h2>Your Aliases</h2>
+                                <a href="./alias-manage/">New Alias</a>
+                            </div>
+                            <div class="alias-list social-card-list">
+                                <div class="center"><div class="loading-circle"></div></div>
+                            </div>
+                        </section>
+                        <section class="profile-tab-panel hidden" data-profile-panel="heichelos">
+                            <div class="panel-title-row">
+                                <h2>Your Heichelos</h2>
+                                <a href="/heichelos/manage-alias-heichelos/">Manage</a>
+                            </div>
+                            <div class="heichel-list social-card-list" aria-live="polite"></div>
+                        </section>
+                        <section class="profile-tab-panel hidden" data-profile-panel="about">
+                            <div class="profile-about-grid">
+                                <article><h3>Aliases</h3><p>Each alias is a public identity with its own posts, comments, Heichelos, and relationships.</p></article>
+                                <article><h3>Heichelos</h3><p>Heichelos are social spaces: communities, libraries, series, and living discussions.</p></article>
+                                <article><h3>Reader Experience</h3><p>Geelooy keeps Torah and learning focused while social comments stay nearby in side chambers.</p></article>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </main>
+            <script type="module" src="./script.js"></script>
         `,
-        centered: true
+        centered: false
     })
 </script>?>

@@ -1,148 +1,160 @@
-/**B"H */
+// B"H
+/**
+ * @module ProfileControlCenter
+ * @description
+ * Chapter 16: The Awtsmoos makes the user's own profile a command palace.
+ *
+ * The profile page is no longer a plain alias list. It is a social dashboard:
+ * aliases, default identity, owned Heichelos, and quick paths into edit, mail,
+ * public profile, and creation. All data comes from the live social API.
+ */
 
-document.addEventListener("DOMContentLoaded", async function() {
-    // Make a GET request to the /aliases/details endpoint
-    
-    const aliasList = document.querySelector(".alias-list");
-    window.aliasList = aliasList;
-    console.log("Loading")
-    var defaultAlias = (await (await fetch(`/api/social/alias/default`)).json())?.success;
-    
-    window.defaultAlias = defaultAlias;
-    console.log("Got it",defaultAlias)
-    try {
-        var json = await (await fetch("/api/social/aliases/details")).json()
-        displayData(json)
-        
-        
-    } catch(error){
-        aliasList.textContent = "Couldn't get your aliases"
-        console.error("Error fetching aliases:", error);
-    }
-});
+const state = { aliases: [], defaultAlias: "", heichelosByAlias: new Map() };
 
-function displayData(data,reset=true) {
-    data = Array.from(data);
-    console.log("GOT aliases",data)
-    if(!aliasList) {
-        console.log("Cant ifndl ist")
-    }
-    if(data.length == 0) {
-        aliasList.textContent = "No aliases yet!"
-        return;
-    }
-    aliasList.innerHTML = ""
-    
-    if(defaultAlias) {
-        var fnd = data.find(w=>w.id==defaultAlias)
-        var ind = data.indexOf(fnd)
-        if(ind >= 0) {
-            
-            if(reset) {
-                data.splice(ind, 1);
-                data.unshift(fnd)
-            }
-            fnd.default = true;
-        }
-    }
-    data.forEach(alias => {
-        // Create a new alias div
-        const aliasDiv = document.createElement("div");
-        aliasDiv.classList.add("alias");
+const $ = selector => document.querySelector(selector);
+const $$ = selector => Array.from(document.querySelectorAll(selector));
 
+function text(value, fallback = "") {
+    return String(value ?? fallback).replace(/[<>]/g, "").trim();
+}
 
-        // Add edit button
-        const aliasId = document.createElement("a");
-        aliasId.classList.add("alias-id");
-        aliasId.href="/@"+alias.id
-        aliasId.textContent = "@"+alias.id;
-        aliasDiv.appendChild(aliasId);
+async function apiJson(url, options) {
+    const response = await fetch(url, options);
+    const data = await response.json().catch(() => null);
+    if (!response.ok || data?.error) throw new Error(data?.error?.message || data?.message || response.statusText);
+    return data;
+}
 
-        // Add alias name
-        const aliasName = document.createElement("div");
-        aliasName.classList.add("alias-name");
-        aliasName.textContent = alias.name;
-        aliasDiv.appendChild(aliasName);
+function setStat(name, value) {
+    const el = document.querySelector(`[data-profile-stat="${name}"]`);
+    if (el) el.textContent = value;
+}
 
-        // Add alias description
-        const aliasDescription = document.createElement("div");
-        aliasDescription.classList.add("alias-description");
-        aliasDescription.innerHTML = alias.description;
-        aliasDiv.appendChild(aliasDescription);
-
-        // Add edit button
-        const man = document.createElement("a");
-        man.classList.add("alias-manage");
-        man.classList.add("btn")
-        man.href="./alias-manage?" + new URLSearchParams({
-            alias: alias.id,
-            action: "update"
+function bindTabs() {
+    $$("[data-profile-tab]").forEach(button => {
+        button.addEventListener("click", () => {
+            $$("[data-profile-tab]").forEach(tab => tab.classList.toggle("active", tab === button));
+            $$("[data-profile-panel]").forEach(panel => panel.classList.toggle("hidden", panel.dataset.profilePanel !== button.dataset.profileTab));
         });
-
-        man.textContent = "Edit";
-
-        aliasDiv.appendChild(man);
-
-        if(alias.default) {
-            var defLabel = document.createElement("div")
-            defLabel.innerText = "Default"
-            aliasDiv.appendChild(defLabel)
-            defLabel.className = "defaultLabel"
-            aliasDiv.classList.add("alias-manage");
-        
-        } else {
-            var makeDefault = document.createElement("div")
-            makeDefault.innerText = "Make Default"
-            aliasDiv.appendChild(makeDefault)
-            makeDefault.className = "makeDefault"
-            makeDefault.classList.add("alias-manage");
-            makeDefault.classList.add("btn")
-            makeDefault.onclick = async () => {
-                makeDefault.innerText = "Loading..."
-                var defaultChange = (await (await fetch("/api/social/alias/default", {
-                    method: "POST",
-                    body: "alias="+alias.id
-                    
-                })).json());
-                if(defaultChange?.success) {
-                    
-                    //alias.default = true;
-                    window.defaultAlias = alias.id
-                    var newData = Array.from(data)
-                    newData.forEach(w=> {
-                       // w.default = false
-                       if(w.id != alias.id) {
-                            w.default = false
-                        } else {
-                            w.default = true;   
-                        }
-                    })
-                    /*
-                    data.forEach((w,i,ar) => {
-                        if(w.id == alias.id) {
-                             w.default = true;
-                            console.log(w,alias,i,ar)
-                        }
-                    })*/
-                    var newDefault = newData.find(w=>w.id == alias.id);
-                    //newDefault.default = true
-                   ///console.log(newData,alias.id,newDefault,data[0],data[0].default,data[0].default=false,newData)
-                    window.data=newData;
-                    dispatchEvent(new CustomEvent("awtsmoosAliasChange",{
-                        detail: {
-                            id: alias.id
-                        }
-                    }))
-                    displayData(newData, false)
-                } else {
-                    console.log(defaultChange)
-                    makeDefault.innerText = "Problem.. check console"
-                }
-            }
-            
-        }
-
-        // Append the alias div to the alias list
-        aliasList.appendChild(aliasDiv);
     });
 }
+
+function aliasAvatar(alias) {
+    return text(alias.name || alias.id || "A").slice(0, 1).toUpperCase();
+}
+
+function aliasCard(alias) {
+    const card = document.createElement("article");
+    card.className = `social-alias-card ${alias.default ? "default" : ""}`;
+    card.innerHTML = `
+        <div class="alias-avatar">${aliasAvatar(alias)}</div>
+        <div class="alias-copy">
+            <a class="alias-id" href="/@${encodeURIComponent(alias.id)}">@${text(alias.id)}</a>
+            <h3>${text(alias.name || alias.id)}</h3>
+            <p>${text(alias.description || "A quiet identity awaiting a voice.")}</p>
+            <div class="alias-card-actions">
+                <a href="./alias-manage?${new URLSearchParams({ alias: alias.id, action: "update" })}">Edit Profile</a>
+                <a href="/email?alias=${encodeURIComponent(alias.id)}">Mail</a>
+                <button type="button" data-default-alias="${text(alias.id)}">${alias.default ? "Default" : "Make Default"}</button>
+            </div>
+        </div>`;
+    return card;
+}
+
+async function setDefaultAlias(aliasId, button) {
+    if (!aliasId || state.defaultAlias === aliasId) return;
+    button.textContent = "Saving...";
+    const result = await apiJson("/api/social/alias/default", { method: "POST", body: `alias=${encodeURIComponent(aliasId)}` });
+    if (!result?.success) throw new Error("Default alias was not saved.");
+    state.defaultAlias = aliasId;
+    state.aliases.forEach(alias => alias.default = alias.id === aliasId);
+    dispatchEvent(new CustomEvent("awtsmoosAliasChange", { detail: { id: aliasId } }));
+    renderAliases();
+}
+
+function renderAliases() {
+    const list = $(".alias-list");
+    if (!list) return;
+    list.replaceChildren();
+    if (!state.aliases.length) {
+        list.appendChild(emptyCard("No aliases yet. Create your first identity and enter the network."));
+        return;
+    }
+    state.aliases.forEach(alias => list.appendChild(aliasCard(alias)));
+    list.querySelectorAll("[data-default-alias]").forEach(button => {
+        button.addEventListener("click", () => setDefaultAlias(button.dataset.defaultAlias, button).catch(error => button.textContent = error.message));
+    });
+}
+
+function emptyCard(message) {
+    const card = document.createElement("article");
+    card.className = "social-empty-card";
+    card.textContent = message;
+    return card;
+}
+
+function heichelCard(heichel, aliasId) {
+    const card = document.createElement("article");
+    card.className = "social-heichel-card";
+    const id = text(heichel.id || heichel.heichelId || heichel.inputId);
+    card.innerHTML = `
+        <div class="heichel-card-banner"></div>
+        <div class="heichel-card-body">
+            <div class="heichel-seal-small">♛</div>
+            <div>
+                <h3>${text(heichel.name || id)}</h3>
+                <p>${text(heichel.description || "A sacred social space.")}</p>
+                <small>Owner: @${text(aliasId)}</small>
+            </div>
+            <a href="/heichelos/${encodeURIComponent(id)}/?editingAlias=${encodeURIComponent(aliasId)}">Open</a>
+        </div>`;
+    return card;
+}
+
+async function loadHeichelosForAlias(alias) {
+    try {
+        const data = await apiJson(`/api/social/alias/${encodeURIComponent(alias.id)}/heichelos/details`);
+        const list = Array.isArray(data) ? data : data?.success || [];
+        state.heichelosByAlias.set(alias.id, list);
+        return list.map(heichel => ({ heichel, aliasId: alias.id }));
+    } catch {
+        state.heichelosByAlias.set(alias.id, []);
+        return [];
+    }
+}
+
+async function renderHeichelos() {
+    const list = $(".heichel-list");
+    if (!list) return;
+    list.replaceChildren(emptyCard("Loading your Heichelos..."));
+    const groups = await Promise.all(state.aliases.map(loadHeichelosForAlias));
+    const items = groups.flat();
+    list.replaceChildren();
+    if (!items.length) {
+        list.appendChild(emptyCard("No Heichelos yet. Open the forge from your alias and create a space."));
+    } else {
+        items.forEach(item => list.appendChild(heichelCard(item.heichel, item.aliasId)));
+    }
+    setStat("heichelos", String(items.length));
+}
+
+async function loadProfile() {
+    const defaultResult = await apiJson("/api/social/alias/default").catch(() => ({}));
+    state.defaultAlias = defaultResult?.success || "";
+    const aliases = await apiJson("/api/social/aliases/details");
+    state.aliases = (Array.isArray(aliases) ? aliases : aliases?.success || []).map(alias => ({ ...alias, default: alias.id === state.defaultAlias }));
+    if (state.defaultAlias) state.aliases.sort((a, b) => Number(b.default) - Number(a.default));
+    setStat("aliases", String(state.aliases.length));
+    setStat("defaultAlias", state.defaultAlias ? `@${state.defaultAlias}` : "None");
+    renderAliases();
+    await renderHeichelos();
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+    bindTabs();
+    try {
+        await loadProfile();
+    } catch (error) {
+        $(".alias-list")?.replaceChildren(emptyCard(error.message || "Could not load profile."));
+    }
+});

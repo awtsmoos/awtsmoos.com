@@ -2,11 +2,13 @@
 /**
  * @file ContinuousEventRouter.js
  * @description
- * Chapter 88: The Reset Epoch Sealed The Counter.
+ * Chapter 89: The Real Worker Router Receives The Wall.
  *
- * The Awtsmoos resets perutos in one breath and stamps that breath with an
- * epoch. Any old coin message from before the lava reset becomes dust when it
- * reaches the HUD after the zeroing decree.
+ * The Awtsmoos revealed the true river: the live worker never used the old
+ * `worker/handlers/input.js`. It routes through this ContinuousEventRouter.
+ * Therefore `mobileMove` was arriving as an unknown key and only fell through to
+ * `olam.ayshPeula("mobileMove")`, which no movement listener consumed. This
+ * file now writes joystick state into `olam.inputs` in the active worker path.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import RenderTrace from "../../methods/canvas/RenderTrace.js";
@@ -14,7 +16,15 @@ import { resolveSpikeResetFeet } from "../../shared/SpikeResetPosition.js";
 import { rememberCanvasPayload } from "./CanvasMemory.js";
 
 const MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_ROTATE", "RIGHT_ROTATE", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"]);
+const MOBILE_MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_STRIDE", "RIGHT_STRIDE"]);
 const findPlayer = olam => olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
+
+function routerTrace(olam, stage, payload = {}) {
+  olam.__movementTrace ||= [];
+  olam.__movementTrace.push({ at: Date.now(), stage, ...payload });
+  olam.__movementTrace = olam.__movementTrace.slice(-160);
+  if (!payload.quiet) console.info('B"H | CONTINUOUS_INPUT_TRACE', { stage, ...payload });
+}
 
 function setTreeVisible(root, visible) {
   if (!root) return;
@@ -158,6 +168,14 @@ function enableAfterSpikeReset(olam) {
   self.postMessage({ type: "spikeEnableComplete", payload: { ok: true, colliderDisabled: false, perutahEpoch: olam.__perutahResetEpoch, running: olam.inputs?.RUNNING, runMode: olam.runMode, token: olam.__spikeDeathToken } });
 }
 
+function applyMobileMove(olam, payload = {}) {
+  olam.inputs ||= {};
+  MOBILE_MOVE_FLAGS.forEach(flag => { olam.inputs[flag] = payload[flag] === true; });
+  olam.__lastMobileMove = { at: Date.now(), ...payload };
+  const active = MOBILE_MOVE_FLAGS.filter(flag => olam.inputs[flag]);
+  routerTrace(olam, 'mobileMove-applied-active-router', { active, source: payload.source || 'unknown', seal: payload.seal || null });
+}
+
 export class ContinuousEventRouter {
   static actionMap = {
     takeInCanvas: async (olam, payload) => {
@@ -173,6 +191,7 @@ export class ContinuousEventRouter {
     cameraDrag: (olam, payload) => { if (olam.ayin?.rotateAroundTarget) olam.ayin.rotateAroundTarget(payload.dx, payload.dy); },
     resetAfterSpikeDeath,
     enableAfterSpikeReset,
+    mobileMove: applyMobileMove,
     olamPeula: (olam, payload) => { for (const p in payload) olam.ayshPeula(p, payload[p]); },
     awtsCode: (olam, payload) => { try { const me = { olam }; eval(payload); } catch (e) { console.error("B\"H - AWTS_CODE error:", e); } },
     keydown: (olam, payload) => olam.ayshPeula("keydown", payload),

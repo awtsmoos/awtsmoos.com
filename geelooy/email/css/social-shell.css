@@ -1,0 +1,22 @@
+/* B"H
+ * Chapter 26: Mail joins the immense social surface.
+ */
+
+.mail-social-shell { height: 100%; display: grid; grid-template-rows: auto 1fr auto; background: radial-gradient(circle at 20% 0%, #25173a, #080c1a 45%, #050712); color: #fffaf1; }
+.mail-social-topbar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; padding: .8rem 1rem; background: rgba(8,9,24,.78); border-bottom: 1px solid rgba(255,255,255,.09); backdrop-filter: blur(16px); }
+.mail-social-topbar a { color: #f5ca70; font-weight: 900; }
+.mail-social-topbar strong { text-align: center; letter-spacing: .05em; text-transform: uppercase; }
+.mail-social-frame { min-height: 0; border-radius: 1.4rem; margin: .75rem; overflow: hidden; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 1.2rem 3rem rgba(0,0,0,.35); }
+.mail-social-sidebar { background: linear-gradient(180deg, rgba(255,252,246,.96), rgba(246,241,231,.94)) !important; color: #171624 !important; }
+.mail-social-sidebar .brand-title, .mail-social-sidebar .thread-name { color: #171624 !important; text-shadow: none !important; }
+.mail-social-sidebar .thread-snippet, .mail-social-sidebar .thread-time { color: #6e6877 !important; }
+.mail-social-sidebar .fab-compose { background: linear-gradient(135deg,#5c3414,#9b6a2f) !important; color: #fffaf1 !important; box-shadow: none !important; }
+.mail-social-sidebar .tabs-container { background: rgba(255,255,255,.55); border-color: rgba(67,46,24,.14); }
+.mail-social-sidebar .nav-tab.active { background: #efe1ca; color: #3a240f; }
+.mail-social-sidebar .thread-item { background: rgba(255,255,255,.48); }
+.mail-social-sidebar .thread-item.active { background: linear-gradient(90deg, rgba(185,133,63,.2), rgba(255,255,255,.2)); border-left-color: #b9853f; }
+.mail-social-chat { background: rgba(7,9,24,.88); }
+.mail-bottom-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: .25rem; padding: .45rem; background: rgba(12,15,34,.88); backdrop-filter: blur(16px); }
+.mail-bottom-nav a { display: grid; place-items: center; min-height: 2.8rem; border-radius: 1rem; color: #fff7df; font-size: .78rem; font-weight: 850; }
+.mail-bottom-nav a:nth-child(3) { margin-top: -1rem; min-height: 3.7rem; border-radius: 999px; background: linear-gradient(135deg,#f5ca70,#b9853f); color: #160e05; font-size: 1.35rem; }
+@media(max-width:850px){ .mail-social-frame{margin:0;border-radius:0;} .mail-social-topbar{grid-template-columns:1fr; text-align:center;} .mail-social-topbar a{display:none;} }

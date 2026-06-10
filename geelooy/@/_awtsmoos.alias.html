@@ -1,60 +1,14 @@
 <!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Awtsmoos Profile</title>
-    <link rel="stylesheet" href="/style/social/alias.css">
-  </head>
-  <body>
-    <main class="all awtsmoospage">
-      <section class="main">
-        <div class="alias-container" aria-live="polite"></div>
-      </section>
-    </main>
-    <script type="module">
-      // B"H
-      import {
-        getAliasOwnership,
-        getAliasDetails
-      } from "/scripts/awtsmoos/api/social/alias.js";
-      import {
-        makeAliasPage
-      } from "/scripts/awtsmoos/social/aliasPage.js";
-
-      const container = document.querySelector(".alias-container");
-      const alias = decodeURIComponent(location.pathname.replace(/^\/@\/?/, ""));
-
-      async function awakenAliasPage() {
-        if (!alias) {
-          container.textContent = "B'H - no alias selected.";
-          return;
-        }
-
-        const [ownership, details] = await Promise.all([
-          getAliasOwnership(alias),
-          getAliasDetails(alias)
-        ]);
-
-        if (!details || details.error) {
-          container.textContent = "B'H - @" + alias + " was not found.";
-          return;
-        }
-
-        document.title = "@" + (details.id || alias);
-
-        await makeAliasPage({
-          details,
-          ownership: ownership?.code === "YES",
-          container
-        });
-      }
-
-      awakenAliasPage().catch(error => {
-        console.error("B'H - Alias profile rupture:", error);
-        container.textContent = "B'H - Could not load @" + alias + ".";
-      });
-    </script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geelooy Profile</title>
+<link rel="stylesheet" href="/style/social/profile/index.css">
+</head>
+<body>
+<div id="public-profile-root" aria-live="polite"></div>
+<script type="module" src="/scripts/awtsmoos/social/profile/index.js"></script>
+</body>
 </html>

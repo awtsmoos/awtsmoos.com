@@ -2,27 +2,23 @@
 /**
  * @file instantiateMezuzahDirect.js
  * @description
- * Chapter 620: The direct runtime drinks from fresh gates.
+ * Chapter 625: The player soul drinks the physics witness seal.
  *
- * When cached export rivers run stale, the lava course still needs platforms,
- * hazards, and the mezuzah return gate. These imports carry a fresh query seal
- * so Android devtools receives the route-aware SimpleDoor and the ladder world
- * does not fall back into ghost objects.
- *
- * Compatibility seals for older visual audits:
- * dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh613
- * dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh613
+ * The Awtsmoos keeps Chossid in the direct map and now pins it to the same
+ * visible-body and physics-motion witness used by the live worker chain.
  */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lava-camera-axis-20260609-bh640';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=physics-motion-trace-20260610-bh708';
 import Utils from '../../../utils.js';
+import ChossidDirect from '../../../chayim/chossid/index.js?v=physics-motion-trace-20260610-bh708';
 import SolidBlockDirect from '../../../dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh620';
 import MovingPlatformDirect from '../../../dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh620';
 import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=lava-camera-axis-20260609-bh640';
 import FallResetTriggerDirect from '../../../dvarim/hazards/FallResetTrigger.js?v=lava-camera-axis-20260609-bh640';
 import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js?v=route-alias-targetpath-20260609-bh620';
-import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=travel-ui-buttons-fixed-20260609-bh566';
+import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=visible-guide-motion-20260610-bh702';
 
 const DIRECT_TYPES = {
+  Chossid: ChossidDirect,
   SolidBlock: SolidBlockDirect,
   MovingPlatform: MovingPlatformDirect,
   SpikeField: SpikeFieldDirect,
@@ -34,7 +30,6 @@ const DIRECT_TYPES = {
 function resolveSoulType(type) { return DIRECT_TYPES[type] || AWTSMOOS[type] || null; }
 function logSpecial(stage, data = {}) { console.info('B"H | DIRECT_RUNTIME_INSTANTIATE', { stage, ...data }); }
 function logMissing(type) { console.warn('B"H | INSTANTIATE_MISSING_TYPE', { type, directKnown: Object.keys(DIRECT_TYPES), available: Object.keys(AWTSMOOS) }); }
-
 function makeNivra(context, type, options) {
   const SoulType = resolveSoulType(type);
   if (!SoulType) { logMissing(type); return null; }

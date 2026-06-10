@@ -2,17 +2,14 @@
 /**
  * @module OlamGraftingPlain
  * @description
- * Chapter 324: The worker graft receives nonfatal sizing.
- *
- * The Awtsmoos burns the old `getSize()` fatal path by importing the protected
- * loadNivrayim bridge with a fresh cache key.
+ * Chapter 330: the worker graft drinks from player registration and model-load witnesses.
  */
 import loading from "../methods/loadingPlain.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
 import heesHawvoos from "../methods/heesHawvoos.js";
-import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=lava-camera-axis-20260609-bh640";
+import HelpersBridge from "../methods/helpers.js?v=chossid-model-load-20260610-bh709";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=physics-motion-trace-20260610-bh708";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
@@ -29,7 +26,7 @@ export default class OlamGraftingPlain {
     };
     [hoyseef, loadNivrayim, placeholderAndEntities, loading, entityLogic, hebrewLetters, heesHawvoos, HelpersBridge, sealayk].forEach(graftModule);
     graftModule((await import("../methods/canvasSetup.js")).default);
-    graftModule((await import("../methods/boyrayNivra.js")).default);
+    graftModule((await import("../methods/boyrayNivra.js?v=chossid-model-load-20260610-bh709")).default);
     graftModule((await import("../methods/ohr.js")).default);
     if (!isWorker) {
       try { graftModule((await import("../methods/tzimtzum/index.js")).default); }

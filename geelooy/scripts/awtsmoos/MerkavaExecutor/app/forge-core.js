@@ -1,89 +1,64 @@
 // B"H
 (function forgeCore(root) {
   const forge = root.MerkavaForge = root.MerkavaForge || {};
-  const encoder = new TextEncoder();
 
   forge.seed = {
-    html: `<article class="card"><h2>Awtsmoos Bytecode Garden</h2><p>The preview vessel begins as HTML, receives CSS robes, then JS breath.</p><button id="ignite">Ignite</button><output id="spark">waiting...</output></article>`,
+    html: `<article class="card"><h2>Awtsmoos Bytecode Garden</h2><p>The source scroll becomes packed bytes, a BMP, and living DOM.</p><button id="ignite">Ignite</button><output id="spark">waiting...</output></article>`,
     css: `.card{padding:28px;border-radius:24px;background:linear-gradient(135deg,#08111f,#14383a);box-shadow:0 24px 80px #0008;color:#eaffff}.card h2{color:#73fff2}.card button{border:0;border-radius:999px;padding:10px 16px;background:#73fff2;color:#001;font-weight:900}.card output{display:block;margin-top:16px}`,
     js: `const spark = document.getElementById("spark");
 const button = document.getElementById("ignite");
 let count = 0;
 button.addEventListener("click", function awaken() {
-  count = count + 1;
-  spark.textContent = "B'H custom bytecode pulse #" + count;
+  requestAnimationFrame(function pulse() {
+    count = count + 1;
+    spark.textContent = "B'H bytecode pulse #" + count;
+  });
 });
-syscall(0, "Preview app compiled and breathed into the vessel.");`
+syscall(0, "Preview app compiled; source bytes and RAM fire are awake.");`
   };
 
   /**
-   * The Awtsmoos turns plain declarations into living DOM vessels.
-   * @param {object|string} node UI declaration or text.
-   * @returns {Node} Rendered node.
+   * Chapter Four: one source enters three gates. First reversible source bytes,
+   * then optional BMP garment, then VM execution where RAM receives motion.
+   * @param {{html:string,css:string,js:string}} parts Source sections.
+   * @param {{previewDocument:Document,log:function}} env Runtime bridge.
+   * @returns {Promise<object>} Unified compilation showcase.
    */
-  forge.render = function render(node) {
-    if (typeof node === "string") return document.createTextNode(node);
-    const element = document.createElement(node.tag || "div");
-    Object.entries(node.attrs || {}).forEach(function put(entry) {
-      const key = entry[0];
-      const value = entry[1];
-      if (key === "class") element.className = value;
-      else if (key.startsWith("on") && typeof value === "function") element.addEventListener(key.slice(2), value);
-      else element.setAttribute(key, value);
-    });
-    (node.children || []).map(forge.render).forEach(function add(child) {
-      element.appendChild(child);
-    });
-    return element;
-  };
+  async function compileForge(parts, env) {
+    let runtime = { status: "NOT_RUN", value: null, ramObjects: 0 };
+    try {
+      const result = await forge.runMerkavaPreview(parts.js, env);
+      runtime = {
+        status: result.status,
+        value: result.value,
+        ramObjects: result.memory && result.memory.ram ? result.memory.ram.size : 0,
+        vmCycles: result.vm ? result.vm.cycleCount : 0
+      };
+    } catch (error) {
+      runtime = { status: "VM_ERROR", error: error.message || String(error), ramObjects: 0 };
+    }
+    const sourceBytecode = forge.makeWebBytecode(parts, runtime);
+    const bmp = forge.bytesToBmp(sourceBytecode.bytes);
+    const roundTripBytes = forge.bmpToBytes(bmp.dataUrl);
+    const rebuilt = forge.rebuildSources(roundTripBytes);
+    return { sourceBytecode, bmp, rebuilt, runtime, roundTripOk: rebuilt.html === parts.html && rebuilt.css === parts.css && rebuilt.js === parts.js };
+  }
 
-  /**
-   * Encodes a string into bytes, sparks counted after speech descends.
-   * @param {string} text Source text.
-   * @returns {number[]} Byte list.
-   */
-  forge.bytes = function bytes(text) {
-    return Array.from(encoder.encode(text));
-  };
+  /** @param {object} showcase Compilation result. @returns {object[]} Metric cards. */
+  function metricCards(showcase) {
+    const m = showcase.sourceBytecode.metrics;
+    return [
+      ["Source bytes", m.sourceBytes],
+      ["Packed bytes", m.packedBytes],
+      ["Opcode records", m.recordCount],
+      ["Pack ratio", m.ratio],
+      ["BMP pixels", showcase.bmp.pixels],
+      ["BMP bytes", showcase.bmp.bmpBytes],
+      ["RAM objects", showcase.runtime.ramObjects || 0],
+      ["Round trip", showcase.roundTripOk ? "perfect" : "mismatch"]
+    ];
+  }
 
-  /**
-   * Builds the custom web bytecode vessel beside native Merkava bytecode.
-   * @param {{html:string,css:string,js:string}} parts Source bundle.
-   * @param {object} compiled VM metadata.
-   * @returns {object} Bytecode container.
-   */
-  forge.makeBytecode = function makeBytecode(parts, compiled) {
-    const sections = { html: forge.bytes(parts.html), css: forge.bytes(parts.css), js: forge.bytes(parts.js) };
-    const totalBytes = Object.values(sections).reduce(function total(sum, section) {
-      return sum + section.length;
-    }, 0);
-    return { magic: "AWTS-WEB-BYTECODE", version: 1, totalBytes, sections, compiled: compiled || {} };
-  };
-
-  /**
-   * Runs JavaScript through Merkava against the preview document.
-   * @param {string} source JavaScript source.
-   * @param {Document} previewDocument Preview DOM document.
-   * @param {Function} log Log sink.
-   * @returns {Promise<object>} VM metadata.
-   */
-  forge.runVm = async function runVm(source, previewDocument, log) {
-    if (!root.Merkava) return { status: "SDK_MISSING", value: null, ramObjects: 0 };
-    await root.Merkava.init();
-    const active = await root.Merkava.run(source, {
-      debug: true,
-      ramLimit: 5000,
-      context: { document: previewDocument, window: previewDocument.defaultView, console },
-      hostAPI: { 0: function hostLog() { log(Array.from(arguments).join(" ")); } },
-      importResolver: async function importResolver(specifier) {
-        return { code: `syscall(0, "Imported ${specifier}");` };
-      }
-    });
-    const result = await active.done;
-    return {
-      status: result.status,
-      value: result.value,
-      ramObjects: active.memory && active.memory.ram ? active.memory.ram.size : 0
-    };
-  };
+  forge.compileForge = compileForge;
+  forge.metricCards = metricCards;
 })(window);

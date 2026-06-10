@@ -1,13 +1,11 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 619: The outer gate carries the direct lava platform and no
- * invisible village collider seal, forcing the browser to fetch fresh runtime
- * instantiation and visual-only village data.
+ * @description
+ * Chapter 620: The outer gate carries the wall-direct mobile movement seal.
  */
 let bootStarted = false;
-const SEAL = "lava-camera-collision-bypass-20260609-bh643";
-const WORKER_WORLD_BUILDER_CONTRACT = "WorldHeescheel";
+const SEAL = "wall-direct-mobile-move-20260610-bh705";
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
   if (value == null || ["string", "number", "boolean"].includes(typeof value)) return value;
@@ -28,12 +26,7 @@ function renderErrorPanel(details) {
   const root = document.getElementById("ikar") || document.body;
   if (!root) return;
   let panel = document.getElementById("awtsmoosBootErrorPanel");
-  if (!panel) {
-    panel = document.createElement("pre");
-    panel.id = "awtsmoosBootErrorPanel";
-    panel.style.cssText = "position:fixed;inset:12px;z-index:999999;padding:16px;overflow:auto;white-space:pre-wrap;background:#190000;color:#ffd7a0;border:2px solid #ff6b2a;font:13px/1.4 monospace;";
-    root.appendChild(panel);
-  }
+  if (!panel) { panel = document.createElement("pre"); panel.id = "awtsmoosBootErrorPanel"; panel.style.cssText = "position:fixed;inset:12px;z-index:999999;padding:16px;overflow:auto;white-space:pre-wrap;background:#190000;color:#ffd7a0;border:2px solid #ff6b2a;font:13px/1.4 monospace;"; root.appendChild(panel); }
   panel.textContent = `B\"H — Mitzvah World boot error\n\n${JSON.stringify(details, null, 2)}`;
 }
 function describeAwtsmoosError(error, context = {}) {
@@ -48,7 +41,7 @@ function bootIkarNow() {
   if (bootStarted || typeof window === "undefined" || !window.document) return;
   bootStarted = true;
   window.__AWTSMOOS_BOOT_STARTED__ = { at: new Date().toISOString(), readyState: document.readyState, seal: SEAL };
-  const ikarModuleURL = `./ckidsAwtsmoos/ikar.js?bh=${SEAL}`;
+  const ikarModuleURL = `./ckidsAwtsmoos/ikar.js?compact=true&bh=${SEAL}`;
   import(ikarModuleURL).then(module => {
     window.__AWTSMOOS_BOOT_LOADED__ = { at: new Date().toISOString(), keys: Object.keys(module || {}), seal: SEAL };
     console.log("B\"H - Mitzvah World ikar boot loaded", window.__AWTSMOOS_BOOT_LOADED__);

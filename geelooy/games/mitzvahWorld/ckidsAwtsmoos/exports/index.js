@@ -2,14 +2,10 @@
 /**
  * @module ExportsHub
  * @description
- * Chapter 336: The river names the gate correctly.
- *
- * The Awtsmoos distinguishes a level mezuzah from a house door. Star exports may
- * carry old names, but this explicit seal makes `InteractiveDoor` the swinging
- * threshold class for procedural houses.
+ * Chapter 339: The river names the physics witness and visible guide seals.
  */
-export * from './ChayimExports.js?v=lava-camera-axis-20260609-bh640';
-export * from './DvarimExports.js?v=lava-camera-axis-20260609-bh640';
+export * from './ChayimExports.js?v=physics-motion-trace-20260610-bh708';
+export * from './DvarimExports.js?v=visible-guide-motion-20260610-bh701';
 export * from './SystemExports.js';
 export * from './NatureExports.js?v=lava-camera-axis-20260609-bh640';
 export * from './ArchitectureExports.js';

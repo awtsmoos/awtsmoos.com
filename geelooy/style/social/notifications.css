@@ -1,0 +1,25 @@
+/* B"H
+ * Chapter 24: Notifications become a golden activity chamber.
+ */
+
+:root { --n-bg:#080c1a; --n-card:#fffaf1; --n-muted:#706978; --n-gold:#b9853f; --n-line:rgba(67,46,24,.14); --n-shadow:0 1.2rem 3rem rgba(8,10,24,.24); }
+body { background: radial-gradient(circle at 20% 0%, #25173a, var(--n-bg) 45%, #050712); }
+.hidden { display:none!important; }
+.notifications-shell { width:min(46rem, calc(100vw - 1rem)); margin:1rem auto 5rem; display:grid; gap:1rem; color:#171624; }
+.notifications-hero,.notification-tabs,.notification-card { border:1px solid rgba(255,255,255,.65); background:linear-gradient(145deg,rgba(255,252,246,.97),rgba(246,241,231,.94)); box-shadow:var(--n-shadow); }
+.notifications-hero { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:1rem; border-radius:2rem; padding:1rem; }
+.notifications-hero button { border:0; border-radius:999px; padding:.75rem 1rem; background:#ede0cd; color:#3a240f; font-weight:900; cursor:pointer; }
+.notifications-hero .mark-all { background:linear-gradient(135deg,#5c3414,#9b6a2f); color:#fffaf1; }
+.notifications-hero p { margin:0; color:var(--n-gold); text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; font-weight:950; }
+.notifications-hero h1 { margin:0; font-size:clamp(1.9rem,5vw,3rem); letter-spacing:-.05em; }
+.notification-tabs { display:flex; gap:.4rem; overflow:auto; border-radius:1.2rem; padding:.45rem; }
+.notification-tabs button { flex:1; border:0; border-radius:999px; padding:.7rem .9rem; background:transparent; color:var(--n-muted); font-weight:900; cursor:pointer; }
+.notification-tabs .active { background:#efe1ca; color:#3a240f; }
+.notification-list { display:grid; gap:.75rem; }
+.notification-card { display:grid; grid-template-columns:auto 1fr auto; gap:.8rem; align-items:start; border-radius:1.2rem; padding:1rem; }
+.notification-card > span { width:2.75rem; height:2.75rem; border-radius:50%; display:grid; place-items:center; background:linear-gradient(135deg,#151a37,#9f6b31); color:#ffe4a8; font-weight:950; }
+.notification-card strong { display:block; margin:.15rem 0 .25rem; }
+.notification-card p { margin:0; color:var(--n-muted); line-height:1.45; }
+.notification-card small { color:var(--n-muted); font-size:.75rem; white-space:nowrap; }
+.notification-card.read { opacity:.68; }
+@media(max-width:600px){ .notifications-hero{grid-template-columns:auto 1fr;} .notifications-hero .mark-all{grid-column:1/-1;} .notification-tabs button{flex:0 0 auto;} }

@@ -4,183 +4,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Awtsmoos | Intense Post Creator</title>
-  <!-- FIXED LINK: style.css instead of styles.css -->
+  <title>Geelooy | Segment-Aware Post Creator</title>
   <link rel="stylesheet" href="/heichelos/heichel/submit/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;900&family=Syne:wght@400;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="all awtsmoospage">
-    <?Awtsmoos
-      return await getT("nav/header.html")
-    ?>
+    <?Awtsmoos return await getT("nav/header.html") ?>
     <div class="main">
       <div id="editorContainer" class="post-creator-container">
-        
         <header class="page-header">
-            <h4>B"H</h4>
-            <h1 class="page-title-glow">CREATE NEW <span class="highlight-text">REVELATION</span></h1>
+          <h4>B"H</h4>
+          <h1 class="page-title-glow">SHARE <span class="highlight-text">LIGHT</span></h1>
         </header>
-        
-        <div class="top-controls">
-             <a id="backBtn" class="btn secondary small">← Back to Heichel</a>
-        </div>
-
-        <!-- Alias and Heichel Selection -->
-        <div class="input-group">
-          <label for="aliasId">Posting As (Alias ID)</label>
-          <input disabled type="text" id="aliasId" placeholder="Authenticating...">
-        </div>
-    
-        <!-- Title Section -->
-        <div class="input-group">
-          <label for="title">Post Title</label>
-          <input type="text" id="title" placeholder="Enter the title of your post">
-        </div>
-        
-        <!-- Main Content -->
+        <div class="top-controls"><a id="backBtn" class="btn secondary small">← Back to Heichel</a></div>
+        <div class="input-group"><label for="aliasId">Posting As</label><input disabled type="text" id="aliasId" placeholder="Authenticating..."></div>
+        <div class="input-group"><label for="contentType">Content Type</label><select id="contentType" class="segment-select"><option value="post">Post</option><option value="question">Question</option></select></div>
+        <div class="input-group"><label for="postId">Post ID / Edit ID</label><input type="text" id="postId" placeholder="Leave blank for new post, set to edit/replace a known vessel"></div>
+        <div class="input-group"><label for="title">Post Title</label><input type="text" id="title" placeholder="Enter the title of your post"></div>
         <div class="editor-wrapper main-wrapper">
-            <div class="editor-label">Main Content</div>
-            <div class="editor-controls-bar">
-                <button id="toggleMainContentToolbarBtn" class="btn icon-btn" title="Toolbar">T</button>
-                <button id="toggleMainContentHtmlViewBtn" class="btn icon-btn" title="HTML Source">&lt;/&gt;</button>
-                <button id="uploadImageMainBtn" class="btn icon-btn" title="Upload Image">IMG</button>
-            </div>
-            <div id="mainContentToolbarContainer" class="editor-toolbar-container"></div>
-            <div id="mainContentEditor" class="content-editor" contenteditable="true"></div>
+          <div class="editor-label">Main Content</div>
+          <div class="editor-controls-bar"><button id="toggleMainContentToolbarBtn" class="btn icon-btn" title="Toolbar">T</button><button id="toggleMainContentHtmlViewBtn" class="btn icon-btn" title="HTML Source">&lt;/&gt;</button><button id="uploadImageMainBtn" class="btn icon-btn" title="Upload Image">IMG</button></div>
+          <div id="mainContentToolbarContainer" class="editor-toolbar-container"></div>
+          <div id="mainContentEditor" class="content-editor" contenteditable="true"></div>
         </div>
-    
-        <!-- Collapsible Section -->
         <div class="collapsible-section input-group">
-          <div class="collapsible-header">
-            <span>Bulk Text to Sections (Generator)</span>
-          </div>
+          <div class="collapsible-header"><span>Bulk Text to Verses / Segments</span></div>
           <div class="collapsible-content" id="collapsibleContent">
-            <textarea id="bulkText" placeholder="Paste large text here. Each paragraph or custom delimiter will become a new section below."></textarea>
+            <textarea id="bulkText" placeholder="Paste large text here. Each paragraph or delimiter becomes a verse section."></textarea>
             <input type="text" id="mainSectionDelimiters" placeholder="Custom Delimiters (comma separated, e.g. '***, ---')">
-            <button id="generateSectionsFromBulk" class="btn secondary">Generate From Text Area</button>
-            <button id="generateSectionsFromMainEditor" class="btn secondary">Generate From Main Editor</button>
+            <button id="generateSectionsFromBulk" class="btn secondary">Generate Verses From Text</button>
+            <button id="generateSectionsFromMainEditor" class="btn secondary">Generate Verses From Main Editor</button>
           </div>
         </div>
-
-        <!-- Dynamic Sections Area -->
-        <div class="sections-header">
-            <h3>Sections</h3>
-            <button id="addSection" class="btn primary">+ Add New Section</button>
-        </div>
-        
+        <div class="sections-header"><h3>Verses & Segments</h3><button id="addSection" class="btn primary">+ Add Verse</button></div>
         <div id="sectionsArea"></div>
-        
-        <!-- Submit Button -->
-        <div class="submit-area">
-            <button id="submitPost" class="btn action-btn">LAUNCH POST 🚀</button>
-        </div>
+        <div class="submit-area"><button id="submitPost" class="btn action-btn">LAUNCH POST</button></div>
       </div>
-
-      <!-- Templates -->
-      
-      <!-- 1. Toolbar Template -->
-      <div id="toolbarTemplate" class="editor-toolbar" style="display: none;">
-          <button data-command="bold" title="Bold"><b>B</b></button>
-          <button data-command="italic" title="Italic"><i>I</i></button>
-          <button data-command="underline" title="Underline"><u>U</u></button>
-          <span class="separator"></span>
-          <button data-command="formatBlock" data-value="h2" title="Heading 2">H2</button>
-          <button data-command="formatBlock" data-value="h3" title="Heading 3">H3</button>
-          <span class="separator"></span>
-          <button data-command="createLink" title="Link">🔗</button>
-          <button data-command="insertUnorderedList" title="List">list</button>
-      </div>
-
-      <!-- 2. Section Template (REQUIRED by sections.js) -->
+      <div id="toolbarTemplate" class="editor-toolbar" style="display:none;"><button data-command="bold" title="Bold"><b>B</b></button><button data-command="italic" title="Italic"><i>I</i></button><button data-command="underline" title="Underline"><u>U</u></button><span class="separator"></span><button data-command="formatBlock" data-value="h2" title="Heading 2">H2</button><button data-command="formatBlock" data-value="h3" title="Heading 3">H3</button><span class="separator"></span><button data-command="createLink" title="Link">🔗</button><button data-command="insertUnorderedList" title="List">list</button></div>
       <template id="sectionTemplate">
         <div class="section">
-            <div class="section-header-row">
-                <span class="section-title-dynamic">Section</span>
-                <div class="section-actions">
-                    <button class="btn icon-btn add-before-btn" title="Add Before">↑</button>
-                    <button class="btn icon-btn add-after-btn" title="Add After">↓</button>
-                    <button class="btn icon-btn destructive remove-section-btn" title="Delete">×</button>
-                </div>
-            </div>
-            
-            <div class="editor-wrapper">
-                <div class="editor-controls-bar">
-                    <button class="toggle-toolbar-btn btn icon-btn">T</button>
-                    <button class="toggle-html-view-btn btn icon-btn">&lt;/&gt;</button>
-                    <button class="upload-image-section-btn btn icon-btn">IMG</button>
-                </div>
-                <div class="editor-toolbar-container"></div>
-                <div class="section-content content-editor" contenteditable="true"></div>
-            </div>
-
-            <!-- Sub Section Manager inside Section -->
-            <div class="subsection-manager">
-                <div class="subsection-controls">
-                    <button class="add-subsection-btn btn small">Add Sub-Section</button>
-                    <details>
-                        <summary>Bulk Sub-Gen</summary>
-                        <textarea class="subsection-bulk-text" placeholder="Bulk text for sub-sections"></textarea>
-                        <input type="text" class="subsection-delimiters" placeholder="Delimiters">
-                        <button class="generate-subsections-btn btn small">Generate</button>
-                    </details>
-                </div>
-                <div class="sub-sections-area"></div>
-            </div>
+          <div class="section-header-row"><span class="section-title-dynamic">Verse</span><div class="section-actions"><button class="btn icon-btn add-before-btn" title="Add Before">↑</button><button class="btn icon-btn add-after-btn" title="Add After">↓</button><button class="btn icon-btn destructive remove-section-btn" title="Delete">×</button></div></div>
+          <div class="segment-meta-grid"><input class="section-id-input" type="text" placeholder="section id"><input class="section-label-input" type="text" placeholder="visible label"><input class="section-verse-input" type="text" placeholder="verse anchor"><input class="section-order-input" type="number" min="1" placeholder="order"><select class="section-type-select segment-select"><option value="verse">Verse</option><option value="paragraph">Paragraph</option><option value="note">Note</option><option value="source">Source</option></select></div>
+          <div class="editor-wrapper"><div class="editor-controls-bar"><button class="toggle-toolbar-btn btn icon-btn">T</button><button class="toggle-html-view-btn btn icon-btn">&lt;/&gt;</button><button class="upload-image-section-btn btn icon-btn">IMG</button></div><div class="editor-toolbar-container"></div><div class="section-content content-editor" contenteditable="true"></div></div>
+          <div class="subsection-manager"><div class="subsection-controls"><button class="add-subsection-btn btn small">Add Segment</button><details><summary>Bulk Segment Generator</summary><textarea class="subsection-bulk-text" placeholder="Bulk text for segments"></textarea><input type="text" class="subsection-delimiters" placeholder="Delimiters"><button class="generate-subsections-btn btn small">Generate</button></details></div><div class="sub-sections-area"></div></div>
         </div>
       </template>
-
-      <!-- 3. Sub-Section Template -->
       <template id="subSectionTemplate">
         <div class="sub-section section">
-            <div class="section-header-row sub-header">
-                <span class="section-title-dynamic">Sub-Section</span>
-                <div class="section-actions">
-                    <button class="btn icon-btn add-before-btn">↑</button>
-                    <button class="btn icon-btn add-after-btn">↓</button>
-                    <button class="btn icon-btn destructive remove-section-btn">×</button>
-                </div>
-            </div>
-            <div class="editor-wrapper">
-                <div class="editor-controls-bar">
-                    <button class="toggle-toolbar-btn btn icon-btn">T</button>
-                    <button class="toggle-html-view-btn btn icon-btn">&lt;/&gt;</button>
-                    <button class="upload-image-section-btn btn icon-btn">IMG</button>
-                </div>
-                <div class="editor-toolbar-container"></div>
-                <div class="section-content content-editor" contenteditable="true"></div>
-            </div>
+          <div class="section-header-row sub-header"><span class="section-title-dynamic">Segment</span><div class="section-actions"><button class="btn icon-btn add-before-btn">↑</button><button class="btn icon-btn add-after-btn">↓</button><button class="btn icon-btn destructive remove-section-btn">×</button></div></div>
+          <div class="segment-meta-grid"><input class="section-id-input" type="text" placeholder="segment id"><input class="section-label-input" type="text" placeholder="segment label"><input class="section-verse-input" type="text" placeholder="segment anchor"><input class="section-order-input" type="number" min="1" placeholder="order"><select class="section-type-select segment-select"><option value="segment">Segment</option><option value="quote">Quote</option><option value="translation">Translation</option><option value="commentary">Commentary</option></select></div>
+          <div class="editor-wrapper"><div class="editor-controls-bar"><button class="toggle-toolbar-btn btn icon-btn">T</button><button class="toggle-html-view-btn btn icon-btn">&lt;/&gt;</button><button class="upload-image-section-btn btn icon-btn">IMG</button></div><div class="editor-toolbar-container"></div><div class="section-content content-editor" contenteditable="true"></div></div>
         </div>
       </template>
-
-      <!-- Image Upload Modal -->
-      <div id="imageUploadModal" style="display: none;">
-        <div class="modal-overlay">
-          <div class="modal-content">
-            <h2>Upload Image</h2>
-            <div class="input-group">
-                <label for="imgbbApiKey">ImgBB API Key:</label>
-                <input type="text" id="imgbbApiKey" placeholder="Enter your ImgBB API key">
-            </div>
-            <small>
-              <a href="https://imgbb.com/api" target="_blank">Get your ImgBB API key</a>
-            </small>
-      
-            <div id="dropZone" class="drop-zone">
-              <p>Drag and drop an image here, or click to select a file</p>
-              <input type="file" id="fileInput" accept="image/*" hidden>
-            </div>
-      
-            <div class="modal-actions">
-                <button id="uploadImageBtn" class="btn primary">Add Picture</button>
-                <button id="closeModalBtn" class="btn secondary">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="imageUploadModal" style="display:none;"><div class="modal-overlay"><div class="modal-content"><h2>Upload Image</h2><div class="input-group"><label for="imgbbApiKey">ImgBB API Key:</label><input type="text" id="imgbbApiKey" placeholder="Enter your ImgBB API key"></div><small><a href="https://imgbb.com/api" target="_blank">Get your ImgBB API key</a></small><div id="dropZone" class="drop-zone"><p>Drag and drop an image here, or click to select a file</p><input type="file" id="fileInput" accept="image/*" hidden></div><div class="modal-actions"><button id="uploadImageBtn" class="btn primary">Add Picture</button><button id="closeModalBtn" class="btn secondary">Close</button></div></div></div></div>
     </div>
   </div>
-  
   <script type="module" src="/heichelos/heichel/submit/script.js"></script>
 </body>
 </html>

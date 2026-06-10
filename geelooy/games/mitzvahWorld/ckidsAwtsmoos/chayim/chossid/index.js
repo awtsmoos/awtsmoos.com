@@ -2,19 +2,21 @@
 /**
  * @module Chossid
  * @description
- * Chapter 144: The chossid imports the explicit NPC click covenant.
- * The guide highlighted but did not open because the old interaction module sent
- * the player object without explicit tap metadata. This cache-busts the fixed
- * click route while preserving the exact foot law and movement tuning.
+ * Chapter 149: The chossid receives visible form, model-load testimony, and physics testimony.
+ *
+ * The Awtsmoos revealed three gates: input must reach the active worker router,
+ * the player must prove the capsule actually moved, and the GLB garment must
+ * testify whether it loaded or yielded to fallback. This class imports all three
+ * witnesses under one current seal.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=exact-visual-feet-20260603-bh393";
+import Chai from "../chai/index.js?v=physics-motion-trace-20260610-bh708";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import controlMethods from './methods/controls.js?v=smooth-jump-restored-20260602-bh14';
+import controlMethods from './methods/controls.js?v=direct-mobile-move-20260610-bh704';
 import interactionMethods from './methods/interaction.js?v=explicit-npc-click-payload-20260604-bh447';
-import lifecycleMethods from './methods/lifecycle.js?v=lava-camera-axis-20260609-bh640';
+import lifecycleMethods from './methods/lifecycle.js?v=chossid-model-load-20260610-bh709';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
-import updateMethods from './methods/update.js?v=exact-feet-after-frame-20260603-bh393';
+import updateMethods from './methods/update.js?v=physics-motion-trace-20260610-bh708';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 
 function leanGolem() { return { guf: { BoxGeometry: [0.9, 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: 0x1f6fff } } }; }
@@ -77,7 +79,6 @@ export default class Chossid extends Chai {
   shoot() {}
   rememberApproach(entity) { if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity); }
   forgetApproach(entity) { const idx = this.approachedEntities.indexOf(entity); if (idx > -1) this.approachedEntities.splice(idx, 1); }
-
   async madeAll() { if (this.mesh) this.mesh.userData.isPlayer = true; this.updateAppearance?.(); this.setupDefaultInventory?.(); this.inventory?.updateUI?.(); this.recalculateStats(); }
   recalculateStats() { this.currentStats.maxHealth = this.baseStats.health; this.currentStats.health ||= this.currentStats.maxHealth; this.currentStats.speed = this.baseStats.speed; this.olam?.ayshPeula("ui event", "gameHUD", { updateStats: { hp: this.currentStats.health || 100, maxHp: this.currentStats.maxHealth || 100, koach: 50, maxKoach: 50, xp: 0, level: 1 } }); }
   getCombatBonus() { return 1; }

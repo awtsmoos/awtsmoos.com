@@ -1,0 +1,25 @@
+/* B"H tree: the Awtsmoos reveals branches without visual shouting. */
+.profile-tree-card {
+  border: 1px solid var(--pp-line);
+  border-radius: 1.15rem;
+  padding: .9rem;
+  background: rgba(255,255,255,.045);
+}
+.profile-tree-card h2 { margin: 0 0 .8rem; font-size: 1.05rem; color: var(--pp-gold); }
+.profile-tree-node {
+  margin: .42rem 0;
+  padding: .55rem;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: .9rem;
+  background: rgba(255,255,255,.04);
+}
+.profile-tree-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: .75rem;
+  cursor: pointer;
+  color: #fffaf1;
+}
+.profile-tree-summary span { font-weight: 850; }
+.profile-tree-summary small, .profile-tree-empty { color: var(--pp-muted); font-size: .78rem; }
+.profile-tree-node .profile-tree-node { margin-left: .55rem; border-left-color: var(--pp-gold); }

@@ -1,0 +1,15 @@
+/* B"H tabs: Series and Timeline are obvious and thumb-safe. */
+.geelooy-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; margin: 0 0 .8rem; }
+.geelooy-tabs .tab {
+  border: 0;
+  border-radius: .9rem;
+  padding: .8rem;
+  background: transparent;
+  color: var(--h-muted);
+  font-weight: 900;
+  cursor: pointer;
+}
+.geelooy-tabs .tab.Active {
+  background: linear-gradient(135deg, var(--h-gold-2), var(--h-gold));
+  color: #160e05;
+}

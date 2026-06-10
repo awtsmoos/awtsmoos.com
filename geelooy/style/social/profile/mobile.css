@@ -1,0 +1,14 @@
+/* B"H mobile: the clean mockup remains clear on the smallest screen. */
+@media (min-width: 860px) {
+  .profile-app { padding-bottom: 2rem; }
+  .profile-main { max-width: 42rem; }
+  .profile-bottom-nav { display: none; }
+}
+@media (max-width: 420px) {
+  .profile-app { padding: .55rem .55rem 5.2rem; }
+  .profile-topbar { top: .25rem; border-radius: 1rem; }
+  .profile-stats { grid-template-columns: repeat(3, 1fr); }
+  .profile-heichel-card { grid-template-columns: auto 1fr; }
+  .profile-heichel-card a { grid-column: 1 / -1; text-align: center; }
+  .profile-tabs button { padding: .62rem .72rem; }
+}

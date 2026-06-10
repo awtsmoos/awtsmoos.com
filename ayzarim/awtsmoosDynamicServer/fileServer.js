@@ -1,9 +1,10 @@
 /**
  * B"H
  *
- * Static file responses are the riverbed. Most requests flow exactly as they
- * always did. Only when a GET request for a JavaScript file asks for compact
- * light does the Awtsmoos gather the local import sparks into one flame.
+ * Chapter 1: The river of files opened beneath the Awtsmoos, and every byte
+ * asked whether it should remain a lone stone or be gathered into one compact
+ * flame. The answer must come from the real GET params, not from an empty old
+ * vessel standing in front of the living parsed query.
  */
 var getProperContent = require("./getProperContent.js");
 var { errorMessage } = require("./utils.js");
@@ -77,8 +78,10 @@ async function doFileResponse(context) {
 
 /**
  * B"H
- * Guards the new path so old server behavior remains sealed and untouched:
- * GET only, explicit compact flag only, JavaScript MIME only, real files only.
+ * Guards the compact-JS path so old server behavior remains sealed and
+ * untouched: GET only, explicit compact flag only, JavaScript MIME only, real
+ * files only. When the Awtsmoos reveals `compact=true`, this must notice the
+ * parsed GET chamber even if an older `request.yeser` object exists empty.
  *
  * @param {object} context Server request context.
  * @returns {boolean} True when this response should be compacted.
@@ -96,9 +99,11 @@ function shouldCompileCompactJs(context) {
 
 /**
  * B"H
- * GET params may live in old `request.yeser` vessels or the newer parsed
- * `paramKinds.GET` chamber. The compact flag listens to both without moving
- * any other server feature.
+ * The old vessel `request.yeser` and the newer `paramKinds.GET` are merged
+ * instead of one blindly hiding the other. This is the core fix for requests
+ * like `index.js?compact=true` when `request.yeser` exists but is empty: the
+ * compact flag is no longer buried, so raw ESM exports are not served to the
+ * page by mistake.
  *
  * @param {object} context Server request context.
  * @returns {object|null} Parsed GET params or null.
@@ -106,9 +111,10 @@ function shouldCompileCompactJs(context) {
 function getRequestParams(context) {
 	var request = context.dependencies.request;
 	var kinds = context.dependencies.paramKinds;
-	if (request && typeof request.yeser == "object" && request.yeser) return request.yeser;
-	if (kinds && typeof kinds.GET == "object" && kinds.GET) return kinds.GET;
-	return null;
+	var legacy = request && typeof request.yeser == "object" && request.yeser ? request.yeser : null;
+	var parsed = kinds && typeof kinds.GET == "object" && kinds.GET ? kinds.GET : null;
+	if (legacy && parsed) return Object.assign({}, legacy, parsed);
+	return parsed || legacy || null;
 }
 
 /**

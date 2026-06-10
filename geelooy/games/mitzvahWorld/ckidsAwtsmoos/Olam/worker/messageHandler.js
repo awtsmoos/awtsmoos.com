@@ -2,17 +2,13 @@
 /**
  * @file messageHandler.js
  * @description
- * Chapter 158: The worker imports the touch-repaired overlay.
- *
- * The Awtsmoos revealed the menu, then revealed the next veil: cached mobile UI
- * code still swallowed button breath. This handler stamps the newest touch-safe
- * `ui.js` so Android receives pointerup/touchend button actions immediately.
+ * Chapter 159: The worker imports the direct mobile movement handler.
  */
 import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
 import uiHandlers from "./handlers/ui.js?v=lava-camera-axis-20260609-bh640";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
-import inputHandlers from "./handlers/input.js?v=lava-camera-axis-20260609-bh640";
+import inputHandlers from "./handlers/input.js?v=direct-mobile-move-20260610-bh704";
 
 export default function setupMessageHandler(manager) {
   const promiseMap = new Map();
@@ -29,23 +25,16 @@ export default function setupMessageHandler(manager) {
         try { await task.call(dispatcher, data.payload || data); }
         catch (e) { console.error(`B"H - Type-handler [${data.type}] crashed:`, e); }
       }
-      if (data.id && promiseMap.has(data.id)) {
-        promiseMap.get(data.id).resolve(data);
-        promiseMap.delete(data.id);
-      }
+      if (data.id && promiseMap.has(data.id)) { promiseMap.get(data.id).resolve(data); promiseMap.delete(data.id); }
       return;
     }
     for (const key of Object.keys(data)) {
-      const task = dispatcher[key];
-      const payload = data[key];
+      const task = dispatcher[key], payload = data[key];
       if (typeof task === "function") {
         try { await task.call(dispatcher, payload); }
         catch (e) { console.error(`B"H - Task [${key}] shattered during processing:`, e); }
       }
-      if (payload?.id && promiseMap.has(payload.id)) {
-        promiseMap.get(payload.id).resolve(payload);
-        promiseMap.delete(payload.id);
-      }
+      if (payload?.id && promiseMap.has(payload.id)) { promiseMap.get(payload.id).resolve(payload); promiseMap.delete(payload.id); }
     }
   };
 }
