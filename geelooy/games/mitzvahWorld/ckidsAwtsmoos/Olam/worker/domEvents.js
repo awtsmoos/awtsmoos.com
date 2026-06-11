@@ -2,12 +2,18 @@
 /**
  * @module DomEventsUnified
  * @description
- * Chapter 49: The DOM binds the wall-direct mobile movement seal.
+ * Chapter 426: The DOM binds the rooted touch covenant.
+ *
+ * The Awtsmoos gathers resize, keyboard, mouse, touch, and pointer rivers at
+ * this gate before they enter the worker. The seal now matches the player-root
+ * guarantee so input traces and body traces speak one version of truth.
  */
 import KeyboardEmissary from './input/KeyboardEmissary.js?v=npc-scroll-pass-through-20260609-bh638';
 import MouseEmissary from './input/MouseEmissary.js?v=npc-scroll-pass-through-20260609-bh638';
-import TouchOrchestrator from './input/TouchOrchestrator.js?v=wall-direct-mobile-move-20260610-bh705';
+import TouchOrchestrator from './input/TouchOrchestrator.js?v=visible-root-binding-20260610-bh710';
 import { measureRenderViewport } from '../../divine_systems/render/core/PixelRatioGovernor.js';
+
+const SEAL = 'visible-root-binding-20260610-bh710';
 
 export default function setupDomEvents(manager) {
   const { eved } = manager;
@@ -19,7 +25,7 @@ export default function setupDomEvents(manager) {
   KeyboardEmissary.bind(eved);
   MouseEmissary.bind(eved);
   TouchOrchestrator.bind(eved);
-  console.info('B"H | DOM_EVENTS_BOUND', { seal: 'wall-direct-mobile-move-20260610-bh705', touch: 'ontouchstart' in window, pointer: 'onpointerdown' in window, maxTouchPoints: navigator.maxTouchPoints || 0, touchTrace: window.__AWTSMOOS_TOUCH_TRACE__?.slice?.(-3) || [] });
+  console.info('B"H | DOM_EVENTS_BOUND', { seal: SEAL, touch: 'ontouchstart' in window, pointer: 'onpointerdown' in window, maxTouchPoints: navigator.maxTouchPoints || 0, touchTrace: window.__AWTSMOOS_TOUCH_TRACE__?.slice?.(-3) || [] });
   broadcastResize();
   window.addEventListener('contextmenu', event => {
     const markers = ['button', '.mitzvahBtn', '.awtsmoosBtn', '.ctx-btn', '.characterDesigner', '.store-container', '.quest-log', '#actionBar', '#inventoryScreen', '.awtsmoosInventoryViewer'];

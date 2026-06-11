@@ -1,0 +1,6 @@
+/* B"H mail chat social theme vessel */
+.mail-social-chat .chat-header { background: rgba(7,9,24,.88); border-bottom-color: rgba(255,255,255,.08); }
+.mail-social-chat .message-bubble { border-radius: 1.05rem; }
+.mail-social-chat .message-row.sent .message-bubble { background: linear-gradient(145deg,#2b241c,#5c3414); border-color: rgba(245,202,112,.22); }
+.mail-social-chat .message-row.received .message-bubble { background: rgba(255,250,241,.08); border-color: rgba(255,255,255,.1); }
+.mail-social-chat .composer-input { border-radius: 1rem; }

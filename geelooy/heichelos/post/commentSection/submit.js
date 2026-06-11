@@ -2,9 +2,13 @@
 /**
  * @module CommentSubmit
  * @description
- * Chapter 212: A new comment clears caches and wakes both chambers.
- * The scribe posts to the current post endpoint, carries title and sections in
- * dayuh, then refreshes inline and sidebar without waiting for a manual button.
+ * Chapter 201: The reader remains the reader.
+ *
+ * We keep the old post-comment endpoint as the source path for existing inline
+ * and sidebar logic, while also mirroring the same comment into the rich entity
+ * comment tree when available. If the new mirror resists, the old reader still
+ * succeeds. Root, verse, subsection, images, title, and sectioned comments all
+ * travel in the old dayuh vessel and in explicit new fields.
  */
 
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
@@ -38,26 +42,65 @@ function currentCoordinate(owner) {
 
 function extraSections(owner) {
     return Array.from(owner?.sectionList?.querySelectorAll?.(".awtsmoos-comment-extra-section") || [])
-        .map(section => ({
+        .map((section, index) => ({
+            id: section.dataset?.sectionId || `reader_section_${index + 1}`,
             title: section.querySelector(".awtsmoos-extra-section-title")?.value?.trim() || "",
-            text: section.querySelector(".awtsmoos-extra-section-text")?.value?.trim() || ""
+            content: section.querySelector(".awtsmoos-extra-section-text")?.value?.trim() || ""
         }))
-        .filter(section => section.title || section.text);
+        .filter(section => section.title || section.content);
 }
 
-async function postComment({ activeAlias, content, dayuhObject }) {
+function asAssetPayload(images) {
+    return images.map((image, index) => ({
+        id: image.id || image.assetId || image.img || `reader_image_${index + 1}`,
+        type: "image",
+        publicPath: image.img || image.medium || image.thumbnail || "",
+        alt: image.alt || "Reader image"
+    })).filter(asset => asset.publicPath);
+}
+
+function oldCommentBody({ activeAlias, content, dayuhObject, coordinate }) {
+    return new URLSearchParams({
+        aliasId: activeAlias,
+        content,
+        seriesId: window?.post?.parentSeriesId || "root",
+        verseSection: coordinate.verseSection || "root",
+        subsectionId: coordinate.subSection ?? coordinate.sub ?? "",
+        dayuh: JSON.stringify(dayuhObject)
+    });
+}
+
+async function postOldComment({ activeAlias, content, dayuhObject, coordinate }) {
     const response = await fetch(`/api/social/heichelos/${window.post?.heichel?.id}/post/${window.post?.id}/comments/`, {
         method: "POST",
-        body: new URLSearchParams({
-            aliasId: activeAlias,
-            content,
-            seriesId: window?.post?.parentSeriesId,
-            dayuh: JSON.stringify(dayuhObject)
-        })
+        body: oldCommentBody({ activeAlias, content, dayuhObject, coordinate })
     });
     const json = await response.json();
     if (!json.success) throw new Error(json.error?.message || json.error || "Void response.");
     return json.details?.id || json.success?.id || json.commentId || json.id;
+}
+
+async function mirrorRichComment({ activeAlias, content, dayuhObject, coordinate, assets, sections }) {
+    try {
+        const response = await fetch(`/api/social/heichelos/${window.post?.heichel?.id}/posts/${window.post?.id}/comment-tree`, {
+            method: "POST",
+            body: new URLSearchParams({
+                aliasId: activeAlias,
+                seriesId: window?.post?.parentSeriesId || "root",
+                content,
+                verseSection: coordinate.verseSection || "root",
+                subsectionId: coordinate.subSection ?? coordinate.sub ?? "",
+                assets: JSON.stringify(assets),
+                sections: JSON.stringify(sections),
+                links: JSON.stringify(dayuhObject.links || [])
+            })
+        });
+        const json = await response.json();
+        return json.success || null;
+    } catch (error) {
+        console.warn("B\"H - rich comment mirror resisted; old reader comment already lives", error);
+        return null;
+    }
 }
 
 async function refreshSidebar(activeAlias) {
@@ -93,24 +136,28 @@ export async function submitComment(owner, content) {
     const images = imagePayload(owner.imgResults);
     const title = owner.titleInput?.value?.trim() || "";
     const sections = extraSections(owner);
-    const hasSections = sections.some(section => section.title || section.text);
+    const hasSections = sections.some(section => section.title || section.content);
     if (!hasMeaningfulContent(content) && images.length === 0 && !title && !hasSections) return;
     const activeAlias = getActiveAlias();
     if (!activeAlias) throw new Error("Choose an alias before transmitting.");
 
     const coordinate = currentCoordinate(owner);
-    const dayuhObject = coordinateToDayuh(coordinate, { images });
+    const assets = asAssetPayload(images);
+    const dayuhObject = coordinateToDayuh(coordinate, { images, assets });
     if (title) dayuhObject.title = title;
     if (sections.length) dayuhObject.sections = sections;
-    const commentId = await postComment({ activeAlias, content, dayuhObject });
+    const commentId = await postOldComment({ activeAlias, content, dayuhObject, coordinate });
     if (!commentId) return;
+    const richMirror = await mirrorRichComment({ activeAlias, content, dayuhObject, coordinate, assets, sections });
     await refreshCommentSystems({
         aliasId: activeAlias,
         commentId,
+        richCommentId: richMirror?.id || "",
         verseSection: coordinate.verseSection,
+        subsectionId: coordinate.subSection ?? coordinate.sub ?? "",
         coordinate,
         content,
-        newCommentData: { id: commentId, author: activeAlias, content, dayuh: dayuhObject }
+        newCommentData: { id: commentId, author: activeAlias, content, dayuh: dayuhObject, assets, sections }
     });
 }
 

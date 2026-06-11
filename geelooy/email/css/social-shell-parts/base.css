@@ -1,0 +1,5 @@
+/* B"H mail base vessel */
+html, body { min-height: 100%; overflow-y: auto; }
+body { background: radial-gradient(circle at 20% 0%, #25173a, #080c1a 45%, #050712); }
+#root { min-height: 100dvh; height: auto; }
+.mail-social-shell { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; background: transparent; color: #fffaf1; }

@@ -1,98 +1,92 @@
 //B"H
 /**
- * @module postMigration
+ * @module ConnectedPostMigration
  * @description
- * Dry-run and repair helpers for lifting legacy series posts into packed
- * social sidecars without destructively changing old DosDB paths.
+ * Chapter 108: Only posts truly tied into a Heichel series are lifted.
+ *
+ * The migration is additive: it mirrors connected legacy DosDB posts into
+ * `social.core.awtsdb` and the global `social.allPosts.awtsdb` census, then
+ * records metadata in `social.meta.awtsdb`. It never deletes or rewrites the old
+ * system, and it skips orphan post bodies that are not referenced by a series.
  */
 
 const { logicalKey } = require('./shardPaths.js');
 const { mirrorPost, readPacked, writeMigrationManifest } = require('./socialPacked.js');
 
-function legacyPostPath({ heichelId, seriesId, postId }) {
-  return `/social/heichelos/${heichelId}/series/${seriesId}/posts/${postId}`;
-}
-
 function packedPostKey({ heichelId, postId }) {
   return logicalKey(['posts', heichelId, postId]);
 }
 
-async function scanLegacyPosts({ $i, heichelId, seriesId }) {
-  const base = `/social/heichelos/${heichelId}/series/${seriesId}/posts`;
-  const posts = await $i.db.get(base).catch(() => null);
-  if (!posts || typeof posts !== 'object') return [];
-  if (Array.isArray(posts)) {
-    const out = [];
-    for (const postId of posts) {
-      const record = await $i.db.get(`${base}/${postId}`).catch(() => null);
-      if (record) out.push({ postId, record, legacyPath: `${base}/${postId}` });
+function ids(value) {
+  if (Array.isArray(value)) return value.filter(Boolean).map(String);
+  if (value && typeof value === 'object') return Object.keys(value).filter(Boolean).map(String);
+  return [];
+}
+
+async function get($i, path, fallback = null) {
+  try { return (await $i.db.get(path)) ?? fallback; }
+  catch { return fallback; }
+}
+
+async function seriesIdsForHeichel($i, heichelId) {
+  const root = await get($i, `/social/heichelos/${heichelId}/series`, {});
+  return ids(root).includes('root') ? ids(root) : ['root', ...ids(root)];
+}
+
+async function connectedPostIds($i, heichelId, seriesId) {
+  return ids(await get($i, `/social/heichelos/${heichelId}/series/${seriesId}/posts`, {}));
+}
+
+async function postBody($i, heichelId, postId) {
+  return await get($i, `/social/heichelos/${heichelId}/posts/${postId}`, null);
+}
+
+function normalizePost({ heichelId, seriesId, postId, body }) {
+  return { ...body, id: body.id || postId, postId: body.postId || postId, heichelId, seriesId: body.seriesId || body.parentSeriesId || seriesId, parentSeriesId: body.parentSeriesId || body.seriesId || seriesId };
+}
+
+async function scanConnectedPosts({ $i, heichelId = '', seriesId = '' }) {
+  const heichelIds = heichelId ? [heichelId] : ids(await get($i, '/social/heichelos', {}));
+  const output = [];
+  for (const hid of heichelIds) {
+    const seriesIds = seriesId ? [seriesId] : await seriesIdsForHeichel($i, hid);
+    for (const sid of seriesIds) {
+      for (const postId of await connectedPostIds($i, hid, sid)) {
+        const body = await postBody($i, hid, postId);
+        if (!body || typeof body !== 'object') continue;
+        output.push({ heichelId: hid, seriesId: sid, postId, post: normalizePost({ heichelId: hid, seriesId: sid, postId, body }), legacyPath: `/social/heichelos/${hid}/posts/${postId}` });
+      }
     }
-    return out;
   }
-  return Object.entries(posts).map(([postId, record]) => ({ postId, record, legacyPath: `${base}/${postId}` }));
+  return output;
 }
 
-async function dryRunPostMigration({ $i, heichelId, seriesId }) {
-  const found = await scanLegacyPosts({ $i, heichelId, seriesId });
+async function dryRunPostMigration({ $i, heichelId = '', seriesId = '' }) {
+  const found = await scanConnectedPosts({ $i, heichelId, seriesId });
   const items = found.map(item => {
-    const key = packedPostKey({ heichelId, postId: item.postId });
+    const key = packedPostKey(item);
     const exists = Boolean(readPacked({ $i, shard: 'core', key }));
-    return {
-      postId: item.postId,
-      legacyPath: item.legacyPath,
-      packedKey: key,
-      alreadyPacked: exists,
-      action: exists ? 'skip' : 'mirror'
-    };
+    return { postId: item.postId, heichelId: item.heichelId, seriesId: item.seriesId, legacyPath: item.legacyPath, packedKey: key, alreadyPacked: exists, action: exists ? 'skip' : 'mirror' };
   });
-  return {
-    migrationId: `postsV2_${heichelId}_${seriesId}_${Date.now()}`,
-    type: 'postsV2',
-    heichelId,
-    seriesId,
-    dryRun: true,
-    total: items.length,
-    toMirror: items.filter(item => item.action === 'mirror').length,
-    items
-  };
+  return { migrationId: `connectedPosts_${Date.now()}`, type: 'connectedPostsToAwtsdb', heichelId: heichelId || 'ALL', seriesId: seriesId || 'ALL', dryRun: true, total: items.length, toMirror: items.filter(item => item.action === 'mirror').length, items };
 }
 
-async function runPostMigration({ $i, heichelId, seriesId, limit = 100 }) {
-  const dry = await dryRunPostMigration({ $i, heichelId, seriesId });
-  const found = await scanLegacyPosts({ $i, heichelId, seriesId });
+async function runPostMigration({ $i, heichelId = '', seriesId = '', limit = 10000, dryRun = false }) {
+  const preview = await dryRunPostMigration({ $i, heichelId, seriesId });
+  if (dryRun) return preview;
+  const found = await scanConnectedPosts({ $i, heichelId, seriesId });
   let mirrored = 0;
+  const skipped = [];
   for (const item of found) {
     if (mirrored >= limit) break;
-    const key = packedPostKey({ heichelId, postId: item.postId });
-    if (readPacked({ $i, shard: 'core', key })) continue;
-    mirrorPost({
-      $i,
-      post: {
-        id: item.postId,
-        postId: item.postId,
-        heichelId,
-        seriesId,
-        parentSeriesId: seriesId,
-        ...item.record
-      }
-    });
+    const key = packedPostKey(item);
+    if (readPacked({ $i, shard: 'core', key })) { skipped.push(item.postId); continue; }
+    mirrorPost({ $i, post: { ...item.post, migratedAt: Date.now() } });
     mirrored++;
   }
-  const manifest = {
-    ...dry,
-    id: dry.migrationId,
-    dryRun: false,
-    mirrored,
-    finishedAt: Date.now()
-  };
+  const manifest = { ...preview, id: preview.migrationId, dryRun: false, mirrored, skipped: skipped.length, finishedAt: Date.now() };
   writeMigrationManifest({ $i, manifest });
   return manifest;
 }
 
-module.exports = {
-  legacyPostPath,
-  packedPostKey,
-  scanLegacyPosts,
-  dryRunPostMigration,
-  runPostMigration
-};
+module.exports = { packedPostKey, scanConnectedPosts, dryRunPostMigration, runPostMigration };

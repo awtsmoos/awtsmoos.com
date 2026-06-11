@@ -2,12 +2,16 @@
 /**
  * @file helpers.js
  * @description
- * Chapter 74: The helper bridge imports the model-load witness.
+ * Chapter 436: The helper bridge drinks the rooted loader seal.
+ *
+ * The Awtsmoos lets model loading, mesh generation, transforms, state, and HTML
+ * bridges pass through this helper. The GLB loader branch now shares the same
+ * visible-root seal as Chossid visibility and worker probes.
  */
-import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
+import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?v=visible-root-binding-20260610-bh710';
 import Utils from '../../utils.js';
 import ShlichusHandler from '../../shleechoosHandler.js';
-import LoadersModule from './helpers/loaders/index.js?v=chossid-model-load-20260610-bh709';
+import LoadersModule from './helpers/loaders/index.js?v=visible-root-binding-20260610-bh710';
 import generateThreeJsMesh from './helpers/generateMesh.js';
 import TransformsModule from './helpers/transforms.js';
 import StateModule from './helpers/state.js';

@@ -2,11 +2,13 @@
 /**
  * @file model.js
  * @description
- * Chapter 385: Visible Means Renderable.
+ * Chapter 412: The garment bows to the root that walks.
  *
- * A `modelMesh` object is not enough. The Awtsmoos asks whether the garment has
- * a visible renderable mesh before trusting it. The GLB is scaled and aligned
- * when real; otherwise the fallback body is allowed to stand in the world.
+ * A visible GLB is not merely geometry; it is a covenant between parent space
+ * and world space. The Awtsmoos revealed the hidden split: the moving root could
+ * walk while the robe still remembered the scene as its parent. This fitter now
+ * measures real renderable geometry, scales it, and aligns either world children
+ * or root-bound children without confusing local and global coordinates.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { hasVisibleRenderable } from './fallbackBody.js?v=chossid-visible-guarantee-20260610-bh707';
@@ -39,7 +41,7 @@ function markModelAsPlayerVisual(model, chossid) {
   model.traverse(child => {
     Object.assign(child.userData ||= {}, { isLiving: true, isPlayer: true, skipOctree: true, noOctree: true, addToOctree: false });
     child.nivraAwtsmoos = chossid;
-    if (!child.isMesh) return;
+    if (!child.isMesh && !child.isSkinnedMesh) return;
     child.visible = child.visible !== false;
     child.castShadow = true;
     child.receiveShadow = true;
@@ -71,7 +73,7 @@ function applyMeasuredFootOffset(model, chossid, phase) {
   const measured = measureRootToLowestVisiblePoint(model);
   const offset = sanitizeOffset(measured);
   model.userData.visualGroundOffsetY = offset;
-  model.userData.visualFootMeasurement = { phase, measured, applied: offset, at: Date.now() };
+  model.userData.visualFootMeasurement = { phase, measured, applied: offset, rootBound: model.parent === chossid?.mesh, at: Date.now() };
   chossid.visualGroundBiasY = 0;
   chossid.visualYOffset = offset;
   alignModelToColliderFeet(model, chossid);
@@ -98,7 +100,14 @@ function sanitizeOffset(value) {
 function alignModelToColliderFeet(model, chossid) {
   const collider = chossid?.collider;
   if (!collider?.start) return;
+  const offsetY = Number(model.userData.visualGroundOffsetY || 0);
+  if (model.parent === chossid?.mesh) {
+    model.position.set(0, offsetY, 0);
+    model.rotation.y = Number(chossid.rotateOffset || 0);
+    model.updateMatrixWorld(true);
+    return;
+  }
   const radius = Number(collider.radius || chossid.radius || 0.45);
   const feetY = collider.start.y - radius;
-  model.position.set(collider.start.x, feetY + Number(model.userData.visualGroundOffsetY || 0), collider.start.z);
+  model.position.set(collider.start.x, feetY + offsetY, collider.start.z);
 }

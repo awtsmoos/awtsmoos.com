@@ -2,10 +2,16 @@
 /**
  * @file index.js
  * @description
- * Chapter 620: The outer gate carries the wall-direct mobile movement seal.
+ * Chapter 421: The outer gate opens the rooted-player compact bundle.
+ *
+ * The Awtsmoos revealed that even corrected inner vessels can remain hidden if
+ * the first browser gate calls an older compact seal. This entry now summons the
+ * visible-root binding bundle so the Chossid's robe, root, collider, and frame
+ * loop are recreated together from the first breath of boot.
  */
 let bootStarted = false;
-const SEAL = "wall-direct-mobile-move-20260610-bh705";
+const SEAL = "visible-root-binding-20260610-bh710";
+
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
   if (value == null || ["string", "number", "boolean"].includes(typeof value)) return value;
@@ -22,13 +28,20 @@ function safeClone(value, depth = 0) {
   }
   return String(value);
 }
+
 function renderErrorPanel(details) {
   const root = document.getElementById("ikar") || document.body;
   if (!root) return;
   let panel = document.getElementById("awtsmoosBootErrorPanel");
-  if (!panel) { panel = document.createElement("pre"); panel.id = "awtsmoosBootErrorPanel"; panel.style.cssText = "position:fixed;inset:12px;z-index:999999;padding:16px;overflow:auto;white-space:pre-wrap;background:#190000;color:#ffd7a0;border:2px solid #ff6b2a;font:13px/1.4 monospace;"; root.appendChild(panel); }
+  if (!panel) {
+    panel = document.createElement("pre");
+    panel.id = "awtsmoosBootErrorPanel";
+    panel.style.cssText = "position:fixed;inset:12px;z-index:999999;padding:16px;overflow:auto;white-space:pre-wrap;background:#190000;color:#ffd7a0;border:2px solid #ff6b2a;font:13px/1.4 monospace;";
+    root.appendChild(panel);
+  }
   panel.textContent = `B\"H — Mitzvah World boot error\n\n${JSON.stringify(details, null, 2)}`;
 }
+
 function describeAwtsmoosError(error, context = {}) {
   const details = { context: safeClone(context), thrown: safeClone(error), at: new Date().toISOString(), page: location?.href || null };
   console.error(`B"H - ${context.label || "Runtime error"} JSON`, JSON.stringify(details, null, 2));
@@ -37,6 +50,7 @@ function describeAwtsmoosError(error, context = {}) {
   renderErrorPanel(details);
   return details;
 }
+
 function bootIkarNow() {
   if (bootStarted || typeof window === "undefined" || !window.document) return;
   bootStarted = true;
@@ -47,10 +61,13 @@ function bootIkarNow() {
     console.log("B\"H - Mitzvah World ikar boot loaded", window.__AWTSMOOS_BOOT_LOADED__);
   }).catch(error => describeAwtsmoosError(error, { label: "Index [Main]: Failed to load UI starter", phase: "dynamic import", moduleURL: new URL(ikarModuleURL, import.meta.url).href }));
 }
+
 window.addEventListener("error", event => describeAwtsmoosError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));
 window.addEventListener("unhandledrejection", event => describeAwtsmoosError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
+
 export async function heescheel(ctx) { console.log("B\"H - Index [Worker]: data-driven level hook.", Boolean(ctx)); }
 export function ready(ctx) { ctx.postMsg({ type: "game started", payload: true }); }
 export function afterBriyah(ctx) { console.log("B\"H - Index [Worker]: afterBriyah() called", Boolean(ctx)); }
+
 if (document.readyState === "loading") window.addEventListener("DOMContentLoaded", bootIkarNow, { once: true });
 else bootIkarNow();

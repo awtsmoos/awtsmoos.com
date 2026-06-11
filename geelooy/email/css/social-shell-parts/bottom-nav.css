@@ -1,0 +1,4 @@
+/* B"H mail bottom nav vessel */
+.mail-bottom-nav { position: sticky; bottom: 0; z-index: 45; display: grid; grid-template-columns: repeat(5, 1fr); gap: .25rem; padding: .45rem .45rem max(.45rem, env(safe-area-inset-bottom)); background: rgba(12,15,34,.94); backdrop-filter: blur(16px); }
+.mail-bottom-nav a { display: grid; place-items: center; min-height: 2.8rem; border-radius: 1rem; color: #fff7df; text-decoration: none; font-size: .78rem; font-weight: 850; }
+.mail-bottom-nav a:nth-child(3) { margin-top: -1rem; min-height: 3.7rem; border-radius: 999px; background: linear-gradient(135deg,#f5ca70,#b9853f); color: #160e05; font-size: 1.35rem; }

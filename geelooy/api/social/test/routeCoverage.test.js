@@ -3,27 +3,20 @@ const assert = require('assert');
 const fs = require('fs');
 
 const routeFiles = [
-  'geelooy/api/social/_awtsmoos.heichel.js',
-  'geelooy/api/social/_awtsmoos.posts.js',
-  'geelooy/api/social/_awtsmoos.series.js',
-  'geelooy/api/social/_awtsmoos.alias.js',
-  'geelooy/api/social/_awtsmoos.profile.js',
-  'geelooy/api/social/_awtsmoos.mail.js',
-  'geelooy/api/social/_awtsmoos.comments.js',
-  'geelooy/api/social/_awtsmoos.keys.js',
-  'geelooy/api/social/_awtsmoos.graph.js',
-  'geelooy/api/social/_awtsmoos.content.js',
-  'geelooy/api/social/_awtsmoos.notifications.js',
-  'geelooy/api/social/_awtsmoos.packed.js',
-  'geelooy/api/social/_awtsmoos.platform.js',
-  'geelooy/api/social/_awtsmoos.migrations.js'
+  'geelooy/api/social/_awtsmoos.heichel.js', 'geelooy/api/social/_awtsmoos.posts.js', 'geelooy/api/social/_awtsmoos.series.js', 'geelooy/api/social/_awtsmoos.alias.js', 'geelooy/api/social/_awtsmoos.profile.js', 'geelooy/api/social/_awtsmoos.mail.js', 'geelooy/api/social/_awtsmoos.nodeOs.js', 'geelooy/api/social/_awtsmoos.nodeOs.js', 'geelooy/api/social/_awtsmoos.comments.js', 'geelooy/api/social/_awtsmoos.keys.js', 'geelooy/api/social/_awtsmoos.graph.js', 'geelooy/api/social/_awtsmoos.content.js', 'geelooy/api/social/_awtsmoos.entities.js', 'geelooy/api/social/_awtsmoos.assets.js', 'geelooy/api/social/_awtsmoos.editor.js', 'geelooy/api/social/_awtsmoos.governance.js', 'geelooy/api/social/_awtsmoos.notifications.js', 'geelooy/api/social/_awtsmoos.packed.js', 'geelooy/api/social/_awtsmoos.platform.js', 'geelooy/api/social/_awtsmoos.migrations.js'
 ];
 
-const commentRouteFiles = fs.readdirSync('geelooy/api/social/helper/comments/routes')
-  .filter(file => file.endsWith('.js'))
-  .map(file => `geelooy/api/social/helper/comments/routes/${file}`);
+const commentRouteFiles = fs.readdirSync('geelooy/api/social/helper/comments/routes').filter(file => file.endsWith('.js')).map(file => `geelooy/api/social/helper/comments/routes/${file}`);
 
 const requiredRoutes = [
+  '/node-os/path', '/node-os/nodes/:node', '/node-os/nodes/:node/children', '/node-os/nodes', '/node-os/mount/entity/:type/:id', '/node-os/mount/assets/:alias', '/node-os/migrations/dry-run', '/node-os/migrations/run',
+  '/node-os/path', '/node-os/nodes/:node', '/node-os/nodes/:node/children', '/node-os/nodes', '/node-os/mount/entity/:type/:id', '/node-os/mount/assets/:alias', '/node-os/migrations/dry-run', '/node-os/migrations/run',
+  '/mail/universe/mirror', '/mail/universe/:thread/link',
+  '/entities/universe', '/entities/universe/:type/:id', '/entities/universe/:type/:id/children', '/entities/universe/:type/:id/edges', '/entities/universe/:type/:id/range-reference/preview', '/entities/universe/:type/:id/range-reference/attach', '/entities/universe/:type/:id/snapshot', '/entities/universe/:type/:id/fork', '/entities/universe/:type/:id/dna',
+  '/assets/:alias/upload', '/assets/:alias', '/assets/:alias/:asset/bind', '/assets/:alias/manifest/:asset', '/assets/:alias/:kind/:asset',
+  '/editor/posts/drafts', '/editor/posts/drafts/:alias/:draft', '/editor/posts/drafts/publish', '/editor/heichelos/:heichel/posts/:post/verses/:verse/delete-preview', '/editor/heichelos/:heichel/posts/:post/verses/:verse', '/editor/heichelos/:heichel/posts/:post/subsections/:subsection/delete-preview', '/editor/heichelos/:heichel/posts/:post/subsections/:subsection',
+  '/heichelos/:heichel/posts/:post/comment-tree', '/heichelos/:heichel/questions/:question/comment-tree', '/heichelos/:heichel/answers/:answer/comment-tree', '/heichelos/:heichel/posts/:post/comments/:comment', '/heichelos/:heichel/posts/:post/comments/:comment/replies', '/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies', '/entities/:heichel/:entity/comment-tree', '/entities/:heichel/:entity/comments/:comment/replies', '/entities/:heichel/:entity/comments/:comment/sections/:section/replies', '/comments/url/:comment', '/heichelos/:heichel/posts/:post/verses/:verse/comments', '/heichelos/:heichel/posts/:post/subsections/:subsection/comments',
+  '/heichelos/:heichel/settings/full', '/heichelos/:heichel/members', '/heichelos/:heichel/invites', '/heichelos/:heichel/invites/:invite/accept', '/heichelos/:heichel/submissions/full', '/heichelos/:heichel/submissions/:submission/approve', '/heichelos/:heichel/submissions/:submission/reject', '/heichelos/:heichel/submissions/:submission/publish',
   '/profile/templates', '/profile/:alias', '/profile/:alias/posts', '/profile/:alias/comments', '/profile/:alias/tree', '/profile/:alias/series-tree', '/profile/:alias/heichelos',
   '/alias/:alias/profile', '/alias/:alias/profile/template', '/heichelos/:heichel/roles/:role', '/heichelos/:heichel/settings/submissions',
   '/heichelos/:heichel/submittedPosts', '/heichelos/:heichel/submittedPosts/approve', '/heichelos/:heichel/submittedPosts/deny', '/heichelos/:heichel/series/:series/editSeriesDetails',
@@ -41,9 +34,7 @@ const requiredRoutes = [
 ];
 
 function routeKeys(source) {
-  return source.split('\n').map((line, index) => ({ line, index: index + 1 }))
-    .map(({ line, index }) => ({ match: line.match(/^\s*["'`]([^"'`]+)["'`]\s*:/), index }))
-    .filter(item => item.match && item.match[1].startsWith('/')).map(item => ({ route: item.match[1], line: item.index }));
+  return source.split('\n').map((line, index) => ({ line, index: index + 1 })).map(({ line, index }) => ({ match: line.match(/^\s*["'`]([^"'`]+)["'`]\s*:/), index })).filter(item => item.match && item.match[1].startsWith('/')).map(item => ({ route: item.match[1], line: item.index }));
 }
 
 for (const file of routeFiles) {

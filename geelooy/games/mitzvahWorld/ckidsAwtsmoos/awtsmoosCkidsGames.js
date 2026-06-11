@@ -1,7 +1,11 @@
 // B"H
 /**
  * @file awtsmoosCkidsGames.js
- * @description Chapter 83: the central river carries visible form and physics witness.
+ * @description
+ * Chapter 433: The central export river carries the rooted-player seal.
+ *
+ * The Awtsmoos lets direct constructors enter through this single river. The
+ * export hub must therefore never point to an older Chai or Chossid seal.
  */
-export * from './exports/index.js?v=physics-motion-trace-20260610-bh708';
+export * from './exports/index.js?v=visible-root-binding-20260610-bh710';
 export class ok {}

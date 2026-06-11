@@ -2,12 +2,11 @@
 /**
  * @file boyrayNivra.js
  * @description
- * Chapter 12: The Chossid garment is judged by real geometry.
+ * Chapter 438: The Chossid garment is judged by rooted geometry.
  *
  * The Awtsmoos revealed that “loaded” and “visible” are different gates. This
- * factory now traces model creation, counts renderable vertices, records whether
- * the real GLB was used, and only falls back when the remote garment has no
- * visible geometry.
+ * factory traces model creation, counts renderable vertices, records whether
+ * the real GLB was used, and shares the visible-root seal with the worker probe.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js';
@@ -16,7 +15,7 @@ import BoneSanctifier from './boyrayNivra/BoneSanctifier.js';
 import AttributeHealer from './boyrayNivra/AttributeHealer.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
 
-const TRACE_SEAL = 'chossid-model-load-20260610-bh709';
+const TRACE_SEAL = 'visible-root-binding-20260610-bh710';
 const HIDDEN_PARTS = new Set(['Camera', 'Camera.001', 'NurbsPath', 'Plane.001', 'Plane.002', 'teeth', 'tooth-distance']);
 const HIDDEN_MATERIALS = new Set(['teffilinStrap']);
 const livingTypes = new Set(['chossid', 'medabeir', 'customNpc', 'interactiveNpc']);
@@ -33,7 +32,7 @@ function traceModel(stage, nivra, payload = {}) {
   try {
     globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__ ||= [];
     globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.push(data);
-    globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__ = globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.slice(-160);
+    globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__ = globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.slice(-180);
   } catch {}
   console.info('B"H | MODEL_LOAD_TRACE', data);
 }

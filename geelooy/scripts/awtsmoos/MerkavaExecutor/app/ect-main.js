@@ -5,7 +5,7 @@
 
   function boot() {
     mount();
-    worker = new Worker("/scripts/awtsmoos/MerkavaExecutor/app/ect-worker.js?v=29");
+    worker = new Worker("/scripts/awtsmoos/MerkavaExecutor/app/ect-worker.js?v=40");
     worker.onmessage = event => showMetrics(event.data);
     loadExample();
   }

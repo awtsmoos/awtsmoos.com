@@ -1,0 +1,2 @@
+/* B"H Entity mobile vessel. */
+@media(max-width:820px){.entity-page{padding:.65rem .65rem max(5rem,env(safe-area-inset-bottom))}.entity-layout{grid-template-columns:1fr}.entity-hero{padding:.9rem;border-radius:1.25rem}.entity-hero h1{font-size:clamp(2rem,15vw,3.5rem)}.entity-actions a,.entity-actions button{flex:1;text-align:center}.entity-card{border-radius:1.05rem}.entity-node-children{margin-left:.35rem;padding-left:.6rem}.entity-card pre{max-height:16rem}}

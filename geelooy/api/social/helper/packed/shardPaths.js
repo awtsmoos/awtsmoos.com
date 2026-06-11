@@ -1,12 +1,29 @@
 //B"H
 /**
- * @module shardPaths
- * @description Logical shard layout for packed social sidecars.
+ * @module SocialPackedShardPaths
+ * @description
+ * Chapter 105: The Awtsmoos gives every social sidecar its own vessel.
+ *
+ * Core posts live in `social.core.awtsdb`, all-post indexes live in their own
+ * file, and metadata/manifests live apart from content. Legacy `.awtsocial`
+ * shards are still recognized as read fallbacks so old packed migrations do
+ * not vanish while the new AwtsmoosDB-shaped names take over.
  */
 
 const path = require('path');
 
 const SHARDS = {
+  core: 'social.core.awtsdb',
+  allPosts: 'social.allPosts.awtsdb',
+  meta: 'social.meta.awtsdb',
+  graph: 'social.graph.awtsdb',
+  notify: 'social.notify.awtsdb',
+  audit: 'social.audit.awtsdb',
+  search: 'social.search.awtsdb',
+  feed: 'social.feed.awtsdb'
+};
+
+const LEGACY_SHARDS = {
   core: 'social.core.awtsocial',
   graph: 'social.graph.awtsocial',
   notify: 'social.notify.awtsocial',
@@ -25,8 +42,17 @@ function shardFile(dbRoot, shard) {
   return path.join(packedRoot(dbRoot), file);
 }
 
+function legacyShardFile(dbRoot, shard) {
+  const file = LEGACY_SHARDS[shard];
+  return file ? path.join(packedRoot(dbRoot), file) : null;
+}
+
+function shardFilesForRead(dbRoot, shard) {
+  return [legacyShardFile(dbRoot, shard), shardFile(dbRoot, shard)].filter(Boolean);
+}
+
 function logicalKey(parts) {
   return '/' + parts.filter(Boolean).map(String).map(part => part.replace(/^\/+|\/+$/g, '')).join('/');
 }
 
-module.exports = { SHARDS, packedRoot, shardFile, logicalKey };
+module.exports = { SHARDS, LEGACY_SHARDS, packedRoot, shardFile, legacyShardFile, shardFilesForRead, logicalKey };

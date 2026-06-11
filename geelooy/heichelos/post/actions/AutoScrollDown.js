@@ -2,109 +2,55 @@
 /**
  * @module AutoScrollDown
  * @description
- * The auto-scroll river moves smoothly while asking the indexed verse oracle for
- * more road in the background. It does not stop merely because it touched the
- * current bottom for one frame; it waits through several stalled frames so async
- * subsection/verse buffers have time to appear.
+ * Chapter 202: The reader's river was too slow, so the current now moves with
+ * dignity. It still yields to human touch, requests more verses before the
+ * bottom, and stops only after real exhaustion. The reader surface itself is not
+ * remodeled; only the river's pace and patience are tuned.
  */
 
-const DEFAULT_SPEED = 1.15;
-const MIN_SPEED = 0.25;
-const MAX_SPEED = 8;
+const DEFAULT_SPEED = 2.4;
+const MIN_SPEED = 0.35;
+const MAX_SPEED = 14;
 const SPEED_KEY = "awtsmoos-auto-scroll-speed";
-const RESUME_DELAY_MS = 650;
+const RESUME_DELAY_MS = 420;
 const TOUCH_MOVE_THRESHOLD = 26;
 const SCROLL_MOVE_THRESHOLD = 18;
 const WHEEL_THRESHOLD = 32;
-const BUFFER_DISTANCE = 5200;
-const FORCE_DISTANCE = 900;
-const MAX_STALLED_FRAMES = 42;
+const BUFFER_DISTANCE = 6200;
+const FORCE_DISTANCE = 1100;
+const MAX_STALLED_FRAMES = 34;
 
 let gesture = null;
 let bufferPending = false;
 let stalledFrames = 0;
-let scrollState = {
-    active: false,
-    paused: false,
-    raf: 0,
-    resumeTimer: 0,
-    listenersBound: false,
-    speed: readSavedSpeed()
-};
+let scrollState = { active: false, paused: false, raf: 0, resumeTimer: 0, listenersBound: false, speed: readSavedSpeed() };
 
-function frame(callback) {
-    if (typeof requestAnimationFrame === "function") return requestAnimationFrame(callback);
-    return setTimeout(() => callback(Date.now()), 16);
-}
-
-function cancelFrame(id) {
-    if (!id) return;
-    if (typeof cancelAnimationFrame === "function") cancelAnimationFrame(id);
-    else clearTimeout(id);
-}
-
-function clearResumeTimer() {
-    if (!scrollState.resumeTimer) return;
-    clearTimeout(scrollState.resumeTimer);
-    scrollState.resumeTimer = 0;
-}
-
-function emitState() {
-    window.dispatchEvent?.(new CustomEvent("awtsmoos:auto-scroll-state", { detail: getAutoScrollDownState() }));
-}
-
-function canScroll(element) {
-    return element && element.scrollHeight > element.clientHeight + 2;
-}
-
-function documentRoot() {
-    return document.scrollingElement || document.documentElement || document.body;
-}
+function frame(callback) { return typeof requestAnimationFrame === "function" ? requestAnimationFrame(callback) : setTimeout(() => callback(Date.now()), 16); }
+function cancelFrame(id) { if (!id) return; typeof cancelAnimationFrame === "function" ? cancelAnimationFrame(id) : clearTimeout(id); }
+function clearResumeTimer() { if (scrollState.resumeTimer) clearTimeout(scrollState.resumeTimer); scrollState.resumeTimer = 0; }
+function emitState() { window.dispatchEvent?.(new CustomEvent("awtsmoos:auto-scroll-state", { detail: getAutoScrollDownState() })); }
+function canScroll(element) { return element && element.scrollHeight > element.clientHeight + 2; }
+function documentRoot() { return document.scrollingElement || document.documentElement || document.body; }
 
 function scrollRoot() {
     const documentScroll = documentRoot();
     if (canScroll(documentScroll)) return documentScroll;
-    const candidates = [
-        document.querySelector?.(".scroll-view-wrapper"),
-        document.querySelector?.("#realPost"),
-        document.querySelector?.(".main")
-    ];
+    const candidates = [document.querySelector?.(".scroll-view-wrapper"), document.querySelector?.("#realPost"), document.querySelector?.(".main")];
     return candidates.find(canScroll) || documentScroll;
 }
 
-function viewportHeight(root) {
-    if (root === documentRoot()) return window.innerHeight || root.clientHeight || 0;
-    return root.clientHeight || window.innerHeight || 0;
-}
-
-function bottomDistance(root) {
-    return root.scrollHeight - (root.scrollTop + viewportHeight(root));
-}
-
-function boundedSpeed(value) {
-    const parsed = Number.parseFloat(value);
-    if (!Number.isFinite(parsed)) return DEFAULT_SPEED;
-    return Math.min(MAX_SPEED, Math.max(MIN_SPEED, parsed));
-}
-
-function readSavedSpeed() {
-    try { return boundedSpeed(localStorage.getItem(SPEED_KEY) || DEFAULT_SPEED); }
-    catch { return DEFAULT_SPEED; }
-}
-
-function writeSavedSpeed(speed) {
-    try { localStorage.setItem(SPEED_KEY, String(speed)); } catch {}
-}
+function viewportHeight(root) { return root === documentRoot() ? window.innerHeight || root.clientHeight || 0 : root.clientHeight || window.innerHeight || 0; }
+function bottomDistance(root) { return root.scrollHeight - (root.scrollTop + viewportHeight(root)); }
+function boundedSpeed(value) { const parsed = Number.parseFloat(value); return Number.isFinite(parsed) ? Math.min(MAX_SPEED, Math.max(MIN_SPEED, parsed)) : DEFAULT_SPEED; }
+function readSavedSpeed() { try { return boundedSpeed(localStorage.getItem(SPEED_KEY) || DEFAULT_SPEED); } catch { return DEFAULT_SPEED; } }
+function writeSavedSpeed(speed) { try { localStorage.setItem(SPEED_KEY, String(speed)); } catch {} }
 
 function requestRoadAhead(force = false) {
     if (bufferPending) return;
     bufferPending = true;
     Promise.resolve().then(async () => {
         try {
-            const opened = await window.__awtsmoosAutoScrollVerseBuffer?.(1, {
-                force,
-                count: force ? 12 : 8
-            });
+            const opened = await window.__awtsmoosAutoScrollVerseBuffer?.(1, { force, count: force ? 16 : 10 });
             if (opened) stalledFrames = 0;
         } catch (error) {
             console.warn("B\"H auto-scroll indexed buffer request resisted", error);
@@ -114,42 +60,26 @@ function requestRoadAhead(force = false) {
     });
 }
 
-function continueNextFrame() {
-    scrollState.raf = frame(step);
-}
+function continueNextFrame() { scrollState.raf = frame(step); }
 
 function step() {
     if (!scrollState.active) return;
-    if (scrollState.paused) {
-        continueNextFrame();
-        return;
-    }
+    if (scrollState.paused) return continueNextFrame();
     const root = scrollRoot();
-    if (!root) {
-        stopAutoScrollDown();
-        return;
-    }
-
+    if (!root) return void stopAutoScrollDown();
     const before = root.scrollTop;
     const distance = bottomDistance(root);
     if (distance < BUFFER_DISTANCE) requestRoadAhead(false);
     if (distance < FORCE_DISTANCE) requestRoadAhead(true);
-
     root.scrollTop += scrollState.speed;
-    const after = root.scrollTop;
-    const moved = Math.abs(after - before) > 0.2;
+    const moved = Math.abs(root.scrollTop - before) > 0.2;
     if (moved) stalledFrames = 0;
     else if (distance <= 1) stalledFrames += 1;
     else stalledFrames = 0;
-
     if (stalledFrames > MAX_STALLED_FRAMES && !bufferPending) {
         requestRoadAhead(true);
-        if (stalledFrames > MAX_STALLED_FRAMES + 12 && !bufferPending) {
-            stopAutoScrollDown();
-            return;
-        }
+        if (stalledFrames > MAX_STALLED_FRAMES + 10 && !bufferPending) return void stopAutoScrollDown();
     }
-
     continueNextFrame();
 }
 
@@ -159,10 +89,7 @@ function shouldIgnoreHumanGesture(event) {
 
 function eventPoint(event) {
     const touch = event?.touches?.[0] || event?.changedTouches?.[0];
-    return {
-        x: Number(touch?.clientX ?? event?.clientX ?? 0),
-        y: Number(touch?.clientY ?? event?.clientY ?? 0)
-    };
+    return { x: Number(touch?.clientX ?? event?.clientX ?? 0), y: Number(touch?.clientY ?? event?.clientY ?? 0) };
 }
 
 function beginGesture(event) {
@@ -177,41 +104,14 @@ function movementPastThreshold(event) {
     if (!gesture) return false;
     const point = eventPoint(event);
     const root = scrollRoot();
-    const fingerDistance = Math.abs(point.y - gesture.y);
-    const scrollDistance = Math.abs((root?.scrollTop || 0) - gesture.scrollTop);
-    return fingerDistance >= TOUCH_MOVE_THRESHOLD || scrollDistance >= SCROLL_MOVE_THRESHOLD;
+    return Math.abs(point.y - gesture.y) >= TOUCH_MOVE_THRESHOLD || Math.abs((root?.scrollTop || 0) - gesture.scrollTop) >= SCROLL_MOVE_THRESHOLD;
 }
 
-function pauseFromIntent() {
-    if (!scrollState.active) return;
-    if (gesture) gesture.paused = true;
-    pauseAutoScrollDown();
-}
-
-function moveGesture(event) {
-    if (!scrollState.active || shouldIgnoreHumanGesture(event) || !gesture) return;
-    if (movementPastThreshold(event)) pauseFromIntent();
-}
-
-function endGesture() {
-    const shouldResume = !!gesture?.paused || scrollState.paused;
-    gesture = null;
-    if (shouldResume) scheduleAutoScrollResume();
-}
-
-function wheelGesture(event) {
-    if (!scrollState.active || shouldIgnoreHumanGesture(event)) return;
-    if (Math.abs(Number(event?.deltaY || 0)) < WHEEL_THRESHOLD) return;
-    pauseAutoScrollDown();
-    scheduleAutoScrollResume();
-}
-
-function keyGesture(event) {
-    if (!scrollState.active || shouldIgnoreHumanGesture(event)) return;
-    if (!["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) return;
-    pauseAutoScrollDown();
-    scheduleAutoScrollResume();
-}
+function pauseFromIntent() { if (!scrollState.active) return; if (gesture) gesture.paused = true; pauseAutoScrollDown(); }
+function moveGesture(event) { if (scrollState.active && !shouldIgnoreHumanGesture(event) && gesture && movementPastThreshold(event)) pauseFromIntent(); }
+function endGesture() { const shouldResume = !!gesture?.paused || scrollState.paused; gesture = null; if (shouldResume) scheduleAutoScrollResume(); }
+function wheelGesture(event) { if (!scrollState.active || shouldIgnoreHumanGesture(event) || Math.abs(Number(event?.deltaY || 0)) < WHEEL_THRESHOLD) return; pauseAutoScrollDown(); scheduleAutoScrollResume(); }
+function keyGesture(event) { if (!scrollState.active || shouldIgnoreHumanGesture(event) || !["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) return; pauseAutoScrollDown(); scheduleAutoScrollResume(); }
 
 function bindHumanPauseListeners() {
     if (scrollState.listenersBound || typeof document === "undefined") return;
@@ -264,14 +164,7 @@ export function scheduleAutoScrollResume(delay = RESUME_DELAY_MS) {
 export function startAutoScrollDown(options = {}) {
     stopAutoScrollDown();
     bindHumanPauseListeners();
-    scrollState = {
-        ...scrollState,
-        active: true,
-        paused: false,
-        raf: 0,
-        resumeTimer: 0,
-        speed: Number.isFinite(options.speed) ? boundedSpeed(options.speed) : readSavedSpeed()
-    };
+    scrollState = { ...scrollState, active: true, paused: false, raf: 0, resumeTimer: 0, speed: Number.isFinite(options.speed) ? boundedSpeed(options.speed) : readSavedSpeed() };
     gesture = null;
     bufferPending = false;
     stalledFrames = 0;
@@ -297,10 +190,5 @@ export function stopAutoScrollDown() {
     return false;
 }
 
-export function toggleAutoScrollDown(options = {}) {
-    return scrollState.active ? stopAutoScrollDown() : startAutoScrollDown(options);
-}
-
-export function getAutoScrollDownState() {
-    return { active: scrollState.active, paused: scrollState.paused, speed: scrollState.speed };
-}
+export function toggleAutoScrollDown(options = {}) { return scrollState.active ? stopAutoScrollDown() : startAutoScrollDown(options); }
+export function getAutoScrollDownState() { return { active: scrollState.active, paused: scrollState.paused, speed: scrollState.speed }; }

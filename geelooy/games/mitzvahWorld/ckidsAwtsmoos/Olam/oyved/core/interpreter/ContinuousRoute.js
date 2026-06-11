@@ -2,13 +2,13 @@
 /**
  * @module ContinuousRoute
  * @description
- * Chapter 32: The ongoing route drinks from the active mobileMove router.
+ * Chapter 429: The ongoing route drinks from the rooted player probe.
  *
- * The old router had camera/key events only. The Awtsmoos now sends every
- * post-genesis worker message through a ContinuousEventRouter that knows the
- * real wall joystick packet: `mobileMove`.
+ * The Awtsmoos routes genesis once, then every after-breath through this river.
+ * The route now imports the current ContinuousEventRouter seal so joystick,
+ * camera, canvas, spike reset, and playerProbe all share the same living code.
  */
-import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=wall-direct-mobile-router-20260610-bh706';
+import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=visible-root-binding-20260610-bh710';
 
 export class ContinuousRoute {
   /**

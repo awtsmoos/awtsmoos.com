@@ -3,15 +3,15 @@
 (function ectWorkerBridge(root) {
   importScripts(
     "/scripts/awtsmoos/MerkavaASTParser/parser-core.js",
-    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/roots.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/members-core.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/members-browser.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/members-graphics.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/html-css.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/syntax.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/index.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/ect-compiler-core.js?v=29",
-    "/scripts/awtsmoos/MerkavaExecutor/app/ect-storage-codec.js?v=29"
+    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/roots.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/members-core.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/members-browser.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/members-graphics.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/html-css.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/syntax.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/id-tables/index.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/ect-compiler-core.js?v=40",
+    "/scripts/awtsmoos/MerkavaExecutor/app/ect-storage-codec.js?v=40"
   );
 
   /** B"H. Worker bridge: parser + tables + modular compiler + storage codec. */

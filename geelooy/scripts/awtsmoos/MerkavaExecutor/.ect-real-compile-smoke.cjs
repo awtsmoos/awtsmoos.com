@@ -14,9 +14,11 @@ async function main() {
     assert(result.metrics.ramBytes > 0, project.title + " produced no typed RAM image");
     assert(result.metrics.originalSourceBytes > result.byteCount, project.title + " did not compress storage");
     assert(result.universe.dictionaries.memberIds > 200, "runtime member dictionary too small");
+    assert(result.reconstruction && result.reconstruction.proof.reconstructable, project.title + " did not reconstruct semantic source");
+    assert(result.reconstruction.js.length > 0 || result.reconstruction.html.length > 0 || result.reconstruction.css.length > 0, project.title + " reconstructed empty output");
     const decoded = globalThis.AwtsEctCompiler.decodeStorage(result.storage);
     assert(decoded.length === result.semanticBytes.length, project.title + " storage decode length mismatch");
-    console.log(project.title + ": src " + result.metrics.originalSourceBytes + " -> storage " + result.byteCount + " bytes, semanticRAM " + result.metrics.semanticRamBytes + " bytes, typedRAM " + result.metrics.ramBytes + " bytes, " + result.metrics.compressionX + "x, ops=" + result.metrics.detail.ops);
+    console.log(project.title + ": src " + result.metrics.originalSourceBytes + " -> storage " + result.byteCount + " bytes, semanticRAM " + result.metrics.semanticRamBytes + " bytes, typedRAM " + result.metrics.ramBytes + " bytes, " + result.metrics.compressionX + "x, ops=" + result.metrics.detail.ops + ", rebuiltJS=" + result.reconstruction.proof.jsChars);
   }
 }
 

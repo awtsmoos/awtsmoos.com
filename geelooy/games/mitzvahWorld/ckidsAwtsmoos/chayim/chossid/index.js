@@ -2,21 +2,21 @@
 /**
  * @module Chossid
  * @description
- * Chapter 149: The chossid receives visible form, model-load testimony, and physics testimony.
+ * Chapter 413: The player enters as one living root.
  *
- * The Awtsmoos revealed three gates: input must reach the active worker router,
- * the player must prove the capsule actually moved, and the GLB garment must
- * testify whether it loaded or yielded to fallback. This class imports all three
- * witnesses under one current seal.
+ * The Awtsmoos reveals a Chossid as a single covenant: input, collider, camera,
+ * model, and fallback must all point to the same living root. This constructor
+ * now drinks from the visible-root Chai seal so the robe is not merely loaded,
+ * but fastened to the body that the joystick moves.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=physics-motion-trace-20260610-bh708";
+import Chai from "../chai/index.js?v=visible-root-binding-20260610-bh710";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 import controlMethods from './methods/controls.js?v=direct-mobile-move-20260610-bh704';
 import interactionMethods from './methods/interaction.js?v=explicit-npc-click-payload-20260604-bh447';
-import lifecycleMethods from './methods/lifecycle.js?v=chossid-model-load-20260610-bh709';
+import lifecycleMethods from './methods/lifecycle.js?v=visible-root-binding-20260610-bh710';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
-import updateMethods from './methods/update.js?v=physics-motion-trace-20260610-bh708';
+import updateMethods from './methods/update.js?v=visible-root-binding-20260610-bh710';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 
 function leanGolem() { return { guf: { BoxGeometry: [0.9, 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: 0x1f6fff } } }; }

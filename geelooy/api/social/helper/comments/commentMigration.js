@@ -1,12 +1,12 @@
 // B"H
 /**
  * @file commentMigration.js
- * @chapter The Swift Ark Of Old Comments
+ * @chapter The Swift Ark That Still Leaves A Searchable Trace
  * @description
- * Fast additive migration from legacy comment JSON into the packed comment
- * mirror. By default it skips search indexing and vectors so the bulk copy is
- * not slowed by transformers, sidecars, or repeated scans. The Awtsmoos first
- * saves the old sparks quickly; indexes can be rebuilt afterward.
+ * Legacy comments are copied into packed shards and, by default, indexed into
+ * the AwtsmoosDB search sidecar. The old APIs keep working through fallback
+ * readers, but migrated comments also become searchable and recoverable from
+ * the new binary mirror. Vectors may still be skipped by env during huge runs.
  */
 
 const { getParentCommentsBasePath, getAliasCommentFilePath } = require("./commentPaths.js");
@@ -14,41 +14,32 @@ const { indexCommentSearchRecord } = require("./commentAwtsmoosDbBridge.js");
 const { writeCommentShardRecord } = require("./commentShardMirror.js");
 const { writeMigrationManifest } = require("../packed/socialPacked.js");
 
-/** @param {object} params @returns {string} */
 function stableMigratedId({ comment, aliasId, verseSection, index }) {
     return comment?.id || comment?.commentId || `BH_migrated_${aliasId}_${verseSection}_${index}`;
 }
 
-/** @param {object} params @returns {object} */
 function migrationPacket({ sourcePath, aliasId, verseSection, index }) {
-    return { version: 4, source: "legacy-comment-fast-copy", sourcePath, aliasId, verseSection, index, migratedAt: Date.now() };
+    return { version: 5, source: "legacy-comment-paths", sourcePath, aliasId, verseSection, index, migratedAt: Date.now() };
 }
 
-/** @param {*} value @returns {Array<string>} */
 function names(value) {
     if (Array.isArray(value)) return value.map(String).filter(Boolean);
     if (value && typeof value === "object") return Object.keys(value).map(String).filter(Boolean);
     return [];
 }
 
-/** @param {object} params @param {string} event @param {object} data @returns {void} */
 function progress(params, event, data = {}) {
     if (typeof params.onProgress === "function") params.onProgress({ event, ...data });
 }
 
-/** @param {object} params @returns {Promise<Array<string>>} */
 async function listAliases({ $i, parentBasePath }) {
-    try { return names(await $i.db.get(parentBasePath)); }
-    catch (_) { return []; }
+    try { return names(await $i.db.get(parentBasePath)); } catch (_) { return []; }
 }
 
-/** @param {object} params @returns {Promise<Array<string>>} */
 async function listVerseSections({ $i, aliasPath }) {
-    try { return names(await $i.db.getObjectKeys(aliasPath)); }
-    catch (_) { return []; }
+    try { return names(await $i.db.getObjectKeys(aliasPath)); } catch (_) { return []; }
 }
 
-/** @param {object} params @returns {Promise<Array<object>>} */
 async function readLegacyComments({ $i, aliasPath, verseSection }) {
     try {
         const value = await $i.db.getObjectKey(aliasPath, verseSection);
@@ -56,34 +47,15 @@ async function readLegacyComments({ $i, aliasPath, verseSection }) {
     } catch (_) { return []; }
 }
 
-/** @param {object} params @returns {object} */
 function makeReport({ dryRun, parentBasePath, fastMode, indexSearch }) {
-    return {
-        success: true,
-        dryRun,
-        fastMode,
-        indexSearch,
-        parentBasePath,
-        aliasesSeen: 0,
-        versesSeen: 0,
-        copied: 0,
-        migrated: 0,
-        indexed: 0,
-        sharded: 0,
-        vectors: 0,
-        vectorSkipped: 0,
-        alreadyPresent: 0,
-        skipped: 0,
-        errors: []
-    };
+    return { success: true, dryRun, fastMode, indexSearch, parentBasePath, aliasesSeen: 0, versesSeen: 0, copied: 0, migrated: 0, indexed: 0, sharded: 0, vectors: 0, vectorSkipped: 0, alreadyPresent: 0, skipped: 0, errors: [] };
 }
 
-/** @param {object} params @returns {Promise<object>} */
 async function migrateParentCommentsToAwtsmoosDb(params) {
     const { $i, heichelId, seriesId, parentId, parentType = "post", dryRun = false } = params;
     const postId = params.postId || (parentType === "post" ? parentId : undefined);
     const fastMode = params.fastMode !== false;
-    const indexSearch = Boolean(params.indexSearch);
+    const indexSearch = params.indexSearch !== false;
     if (!$i?.db || !heichelId || !seriesId || !parentId) return { error: true, message: "Missing $i.db, heichelId, seriesId, or parentId" };
     const parentBasePath = getParentCommentsBasePath({ heichelId, seriesId, parentId, parentType, postId });
     const report = makeReport({ dryRun, parentBasePath, fastMode, indexSearch });
@@ -98,7 +70,6 @@ async function migrateParentCommentsToAwtsmoosDb(params) {
     return report;
 }
 
-/** @param {object} params @returns {Promise<void>} */
 async function copyAliasComments(params) {
     const { $i, heichelId, seriesId, parentId, parentType, postId, aliasId, report } = params;
     const aliasPath = getAliasCommentFilePath({ heichelId, seriesId, parentId, aliasId, parentType, postId });
@@ -108,7 +79,6 @@ async function copyAliasComments(params) {
     for (const verseSection of verseSections) await copyVerseComments({ ...params, aliasPath, verseSection, report });
 }
 
-/** @param {object} params @returns {Promise<void>} */
 async function copyVerseComments(params) {
     const { $i, aliasPath, aliasId, verseSection, report } = params;
     const comments = await readLegacyComments({ $i, aliasPath, verseSection });
@@ -122,12 +92,16 @@ async function copyVerseComments(params) {
     progress(params, "verse:done", { aliasId, verseSection, totals: compactReport(report) });
 }
 
-/** @param {object} params @returns {Promise<void>} */
 async function copyOneComment(params) {
     const { comment, id, aliasId, verseSection, aliasPath, index, report, dryRun, indexSearch } = params;
-    const copied = { ...comment, id, author: comment.author || aliasId, verseSection: comment.verseSection ?? verseSection };
+    const copied = { ...comment, id, author: comment.author || aliasId, aliasId, verseSection: comment.verseSection ?? comment.dayuh?.verseSection ?? verseSection };
     const migration = migrationPacket({ sourcePath: aliasPath, aliasId, verseSection, index });
-    if (dryRun) { report.copied++; report.sharded++; if (indexSearch) report.indexed++; return; }
+    if (dryRun) {
+        report.copied++;
+        report.sharded++;
+        if (indexSearch) report.indexed++;
+        return;
+    }
     const context = { heichelId: params.heichelId, seriesId: params.seriesId, parentType: params.parentType, parentId: params.parentId, postId: params.postId, aliasId, verseSection };
     const sharded = writeCommentShardRecord({ $i: params.$i, comment: copied, context, migration });
     if (sharded?.file || sharded?.skipped) report.sharded++; else report.errors.push({ id, sharded });
@@ -135,7 +109,6 @@ async function copyOneComment(params) {
     report.copied++;
 }
 
-/** @param {object} params @returns {Promise<void>} */
 async function maybeIndexComment(params) {
     const indexed = await indexCommentSearchRecord({ $i: params.$i, comment: params.copied, ...params.context, status: "migrated", migration: params.migration });
     if (indexed?.success) params.report.indexed++; else params.report.errors.push({ id: params.id, indexed });
@@ -143,14 +116,12 @@ async function maybeIndexComment(params) {
     if (indexed?.vector?.skipped) params.report.vectorSkipped++;
 }
 
-/** @param {object} report @returns {object} */
 function compactReport(report) {
     return { aliasesSeen: report.aliasesSeen, versesSeen: report.versesSeen, copied: report.copied, indexed: report.indexed, sharded: report.sharded, vectors: report.vectors, vectorSkipped: report.vectorSkipped, alreadyPresent: report.alreadyPresent, skipped: report.skipped, errors: report.errors.length };
 }
 
-/** @param {object} params @returns {void} */
 function writeManifest({ $i, heichelId, seriesId, parentType, parentId, postId, report }) {
-    writeMigrationManifest({ $i, manifest: { id: `comments_${heichelId}_${seriesId}_${parentType}_${parentId}_${Date.now()}`, type: "legacyCommentsFastCopy", heichelId, seriesId, parentType, parentId, postId, ...report, createdAt: Date.now() } });
+    writeMigrationManifest({ $i, manifest: { id: `comments_${heichelId}_${seriesId}_${parentType}_${parentId}_${Date.now()}`, type: "legacyCommentsCopy", heichelId, seriesId, parentType, parentId, postId, ...report, createdAt: Date.now() } });
 }
 
 module.exports = { migrateParentCommentsToAwtsmoosDb, compactReport };

@@ -6,6 +6,37 @@ export default {
   "shaym": "ladder-7",
   "title": "Zayin Double Ferry",
   "description": "Two hand-placed moving ferries with rest landings.",
+  "presentation": {
+    "theme": "lava-ladder-golden-village",
+    "biome": "lava",
+    "lighting": "golden-hour-lava-bounce",
+    "titleCard": "Lava Ladder 7",
+    "missionText": "Collect the perutos, give tzedakah, and return through the mezuzah gate.",
+    "hintText": "Use the joystick, read the platform colors, and never trust the lava.",
+    "difficultyTier": "learning-motion",
+    "estimatedDifficulty": 13,
+    "readabilityContract": [
+      "green-start",
+      "sandstone-path",
+      "blue-moving-when-present",
+      "gold-reward",
+      "cyan-finish",
+      "red-lava-danger"
+    ]
+  },
+  "gameplayContract": {
+    "startPlatform": "l7_start_blue_court",
+    "finishPlatform": "l7_finish_zayin_court",
+    "rewardPlatform": "l7_right_static_ledge",
+    "requiredVisualRoles": [
+      "start",
+      "path",
+      "moving",
+      "reward",
+      "finish"
+    ],
+    "playerModel": "https://models-3122d.web.app/chossid.glb?k=2"
+  },
   "nivrayim": {
     "Chossid": [
       {
@@ -23,6 +54,8 @@ export default {
         "dynamicSolidRadius": 0.28,
         "modelScale": 1,
         "heesHawveh": true,
+        "role": "player",
+        "theme": "lava-ladder-golden-village",
         "cameraDistance": 5.8,
         "cameraTheta": 45,
         "cameraPhi": 30,
@@ -88,15 +121,21 @@ export default {
         "width": 9,
         "height": 1,
         "depth": 6.2,
-        "color": 13673572,
-        "textureSeed": "l7_start_blue_court",
+        "color": 4177775,
+        "textureSeed": "start_l7_start_blue_court",
         "isSolid": true,
         "safeRect": {
           "x": -25,
           "z": 0,
           "width": 9,
           "depth": 6.2
-        }
+        },
+        "visualRoles": [
+          "start"
+        ],
+        "visualRole": "start",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Safe start platform"
       },
       {
         "name": "l7_left_static_ledge",
@@ -109,14 +148,20 @@ export default {
         "height": 1,
         "depth": 3.2,
         "color": 12159308,
-        "textureSeed": "l7_left_static_ledge",
+        "textureSeed": "path_l7_left_static_ledge",
         "isSolid": true,
         "safeRect": {
           "x": -18,
           "z": 3.5,
           "width": 5,
           "depth": 3.2
-        }
+        },
+        "visualRoles": [
+          "path"
+        ],
+        "visualRole": "path",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Safe path platform"
       },
       {
         "name": "l7_pre_ferry_anchor",
@@ -129,14 +174,20 @@ export default {
         "height": 1,
         "depth": 3,
         "color": 12159308,
-        "textureSeed": "l7_pre_ferry_anchor",
+        "textureSeed": "path_l7_pre_ferry_anchor",
         "isSolid": true,
         "safeRect": {
           "x": -12,
           "z": 0,
           "width": 4.8,
           "depth": 3
-        }
+        },
+        "visualRoles": [
+          "path"
+        ],
+        "visualRole": "path",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Safe path platform"
       },
       {
         "name": "l7_center_rest",
@@ -149,14 +200,20 @@ export default {
         "height": 1,
         "depth": 3.3,
         "color": 12159308,
-        "textureSeed": "l7_center_rest",
+        "textureSeed": "path_l7_center_rest",
         "isSolid": true,
         "safeRect": {
           "x": 1.5,
           "z": -3.1,
           "width": 5.2,
           "depth": 3.3
-        }
+        },
+        "visualRoles": [
+          "path"
+        ],
+        "visualRole": "path",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Safe path platform"
       },
       {
         "name": "l7_right_static_ledge",
@@ -168,15 +225,22 @@ export default {
         "width": 4.7,
         "height": 1,
         "depth": 3.1,
-        "color": 12159308,
-        "textureSeed": "l7_right_static_ledge",
+        "color": 16762957,
+        "textureSeed": "path_reward_l7_right_static_ledge",
         "isSolid": true,
         "safeRect": {
           "x": 16,
           "z": 3,
           "width": 4.7,
           "depth": 3.1
-        }
+        },
+        "visualRoles": [
+          "path",
+          "reward"
+        ],
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Safe path platform / Reward or tzedakah platform"
       },
       {
         "name": "l7_finish_zayin_court",
@@ -188,15 +252,21 @@ export default {
         "width": 8.8,
         "height": 1,
         "depth": 6.2,
-        "color": 13673572,
-        "textureSeed": "l7_finish_zayin_court",
+        "color": 7536628,
+        "textureSeed": "finish_l7_finish_zayin_court",
         "isSolid": true,
         "safeRect": {
           "x": 25,
           "z": 0,
           "width": 8.8,
           "depth": 6.2
-        }
+        },
+        "visualRoles": [
+          "finish"
+        ],
+        "visualRole": "finish",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Goal platform with return mezuzah"
       }
     ],
     "MovingPlatform": [
@@ -211,9 +281,10 @@ export default {
         "height": 1,
         "depth": 2.7,
         "color": 6211839,
-        "textureSeed": "l7_horizontal_ferry",
+        "textureSeed": "moving_l7_horizontal_ferry",
         "isSolid": true,
         "moving": true,
+        "visualStyle": "bluePlatform",
         "axis": "x",
         "distance": 2.6,
         "speed": 0.45,
@@ -233,7 +304,13 @@ export default {
           "z": 0,
           "width": 4.3,
           "depth": 2.7
-        }
+        },
+        "visualRoles": [
+          "moving"
+        ],
+        "visualRole": "moving",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Moving safe platform"
       },
       {
         "name": "l7_vertical_ferry",
@@ -246,9 +323,10 @@ export default {
         "height": 1,
         "depth": 2.6,
         "color": 6211839,
-        "textureSeed": "l7_vertical_ferry",
+        "textureSeed": "moving_l7_vertical_ferry",
         "isSolid": true,
         "moving": true,
+        "visualStyle": "bluePlatform",
         "axis": "z",
         "distance": 3.1,
         "speed": 0.48,
@@ -268,12 +346,20 @@ export default {
           "z": 0,
           "width": 4,
           "depth": 2.6
-        }
+        },
+        "visualRoles": [
+          "moving"
+        ],
+        "visualRole": "moving",
+        "theme": "lava-ladder-golden-village",
+        "gameplayHint": "Moving safe platform"
       }
     ],
     "Coin": [
       {
         "name": "level_7_peruta_1",
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
         "position": {
           "x": -18,
           "y": 2.66,
@@ -281,6 +367,7 @@ export default {
         },
         "value": 1,
         "proximity": 1.15,
+        "uiPulse": "coin-spark",
         "golem": {
           "guf": {
             "CylinderGeometry": [
@@ -292,13 +379,15 @@ export default {
           },
           "toyr": {
             "MeshBasicMaterial": {
-              "color": 16763955
+              "color": 16762957
             }
           }
         }
       },
       {
         "name": "level_7_peruta_2",
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
         "position": {
           "x": -12,
           "y": 2.76,
@@ -306,6 +395,7 @@ export default {
         },
         "value": 1,
         "proximity": 1.15,
+        "uiPulse": "coin-spark",
         "golem": {
           "guf": {
             "CylinderGeometry": [
@@ -317,13 +407,15 @@ export default {
           },
           "toyr": {
             "MeshBasicMaterial": {
-              "color": 16763955
+              "color": 16762957
             }
           }
         }
       },
       {
         "name": "level_7_peruta_3",
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
         "position": {
           "x": -6,
           "y": 2.84,
@@ -331,6 +423,7 @@ export default {
         },
         "value": 1,
         "proximity": 1.15,
+        "uiPulse": "coin-spark",
         "golem": {
           "guf": {
             "CylinderGeometry": [
@@ -342,13 +435,15 @@ export default {
           },
           "toyr": {
             "MeshBasicMaterial": {
-              "color": 16763955
+              "color": 16762957
             }
           }
         }
       },
       {
         "name": "level_7_peruta_4",
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
         "position": {
           "x": 1.5,
           "y": 2.98,
@@ -356,6 +451,7 @@ export default {
         },
         "value": 1,
         "proximity": 1.15,
+        "uiPulse": "coin-spark",
         "golem": {
           "guf": {
             "CylinderGeometry": [
@@ -367,13 +463,15 @@ export default {
           },
           "toyr": {
             "MeshBasicMaterial": {
-              "color": 16763955
+              "color": 16762957
             }
           }
         }
       },
       {
         "name": "level_7_peruta_5",
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
         "position": {
           "x": 8.5,
           "y": 3.16,
@@ -381,6 +479,7 @@ export default {
         },
         "value": 1,
         "proximity": 1.15,
+        "uiPulse": "coin-spark",
         "golem": {
           "guf": {
             "CylinderGeometry": [
@@ -392,13 +491,15 @@ export default {
           },
           "toyr": {
             "MeshBasicMaterial": {
-              "color": 16763955
+              "color": 16762957
             }
           }
         }
       },
       {
         "name": "level_7_peruta_6",
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
         "position": {
           "x": 16,
           "y": 3.3,
@@ -406,6 +507,7 @@ export default {
         },
         "value": 1,
         "proximity": 1.15,
+        "uiPulse": "coin-spark",
         "golem": {
           "guf": {
             "CylinderGeometry": [
@@ -417,7 +519,7 @@ export default {
           },
           "toyr": {
             "MeshBasicMaterial": {
-              "color": 16763955
+              "color": 16762957
             }
           }
         }
@@ -426,18 +528,24 @@ export default {
     "TzedakahBox": [
       {
         "name": "level_7_tzedakah_box",
+        "visualRole": "reward",
+        "theme": "lava-ladder-golden-village",
         "position": {
           "x": 16,
           "y": 3.13,
           "z": 3
         },
         "reward": 12,
-        "proximity": 1.5
+        "proximity": 1.5,
+        "uiPulse": "tzedakah-gold"
       }
     ],
     "InteractiveDoor": [
       {
         "name": "level_7_return_gate",
+        "visualRole": "finish",
+        "theme": "lava-ladder-golden-village",
+        "label": "Return Gate 7",
         "position": {
           "x": 26.2,
           "y": 2.73,
@@ -449,7 +557,8 @@ export default {
         "proximity": 2.1,
         "height": 3.2,
         "width": 1.8,
-        "isSolid": false
+        "isSolid": false,
+        "uiPulse": "mezuzah-cyan"
       }
     ],
     "FallResetTrigger": [
@@ -483,7 +592,28 @@ export default {
       "id": "level_7_collect_perutos",
       "type": "collect",
       "target": "Coin",
-      "count": 6
+      "count": 6,
+      "label": "Collect the perutos",
+      "icon": "coin",
+      "uiOrder": 1
+    },
+    {
+      "id": "level_7_give_tzedakah",
+      "type": "interact",
+      "target": "TzedakahBox",
+      "count": 1,
+      "label": "Give tzedakah",
+      "icon": "pushkuh",
+      "uiOrder": 2
+    },
+    {
+      "id": "level_7_return_gate",
+      "type": "interact",
+      "target": "InteractiveDoor",
+      "count": 1,
+      "label": "Return through the mezuzah gate",
+      "icon": "mezuzah",
+      "uiOrder": 3
     }
   ]
 };

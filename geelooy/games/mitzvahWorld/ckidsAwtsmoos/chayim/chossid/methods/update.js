@@ -2,15 +2,14 @@
 /**
  * @file update.js
  * @description
- * Chapter 388: The Chossid frame can no longer vanish without testimony.
+ * Chapter 414: The frame witness follows the bound body.
  *
- * The Awtsmoos showed the wall truth: Olam inputs were alive, but no Chossid
- * control or physics witness appeared. This frame vessel now imports the current
- * Chai physics witness, logs the player-frame gate, and only lets a real
- * `isPlayingCutscene === true` silence controls when there is no movement input
- * waiting in the river.
+ * The Awtsmoos showed that input can reach Olam yet still need proof at the
+ * player-frame gate. This module logs that gate while calling the current
+ * visible-root Chai, so controls, physics, and visual binding all breathe from
+ * one renewed source.
  */
-import Chai from "../../chai/index.js?v=physics-motion-trace-20260610-bh708";
+import Chai from "../../chai/index.js?v=visible-root-binding-20260610-bh710";
 
 const MOVEMENT_INPUTS = ["FORWARD", "BACKWARD", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"];
 
@@ -40,12 +39,13 @@ function traceFrame(chossid, stage, extra = {}) {
     cutscene: chossid?.olam?.isPlayingCutscene,
     hasMesh: Boolean(chossid.mesh),
     hasModel: Boolean(chossid.modelMesh),
+    modelParentIsRoot: chossid?.modelMesh?.parent === chossid?.mesh,
     visibleBody: chossid.__visibleBodyState || null,
     ...extra
   };
   chossid.olam.__movementTrace ||= [];
   chossid.olam.__movementTrace.push({ at: now, kind: "CHOSSID_FRAME_TRACE", ...payload });
-  chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-220);
+  chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-240);
   console.info('B"H | CHOSSID_FRAME_TRACE', payload);
 }
 

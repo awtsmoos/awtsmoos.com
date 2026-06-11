@@ -1,0 +1,3 @@
+import { nearest } from './targeting.js';
+/** B"H — bot brain presses the same buttons as the player, only faster. */
+export function driveBots(state){ for(const f of state.fighters){ if(f.human||f.dead)continue; const t=nearest(f,state.fighters); if(!t)continue; const dx=t.x-f.x, near=Math.abs(dx)<90, danger=f.y>state.map.platforms[0].y+80; f.ai.clock++; f.input={x:danger?Math.sign(state.map.platforms[0].x+state.map.platforms[0].w/2-f.x):Math.sign(dx),jump:f.grounded&&(t.y<f.y-50||danger),punch:near&&f.ai.clock%50<7,kick:near&&f.ai.clock%83<8,grab:near&&t.blocking&&f.ai.clock%60<8,shield:near&&f.ai.clock%120>90,special:near&&f.heldWeapon&&f.ai.clock%70<10}; } }

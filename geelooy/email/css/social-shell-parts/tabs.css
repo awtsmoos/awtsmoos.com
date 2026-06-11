@@ -1,0 +1,4 @@
+/* B"H mail tabs vessel */
+.mail-social-sidebar .tabs-container { margin: 0 1rem 1rem; padding: .35rem; background: rgba(255,255,255,.62); border-color: rgba(67,46,24,.14); border-radius: 1rem; }
+.mail-social-sidebar .nav-tab { min-height: 2.9rem; border-radius: .8rem; color: #9a94a2; }
+.mail-social-sidebar .nav-tab.active { background: #efe1ca; color: #3a240f; }

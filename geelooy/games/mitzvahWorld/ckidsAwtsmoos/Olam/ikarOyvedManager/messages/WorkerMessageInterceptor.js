@@ -1,20 +1,19 @@
-
+// B"H
 /**
- * B"H
  * @file WorkerMessageInterceptor.js
  * @description
- * Main thread Worker message interceptor with reduced progress logs.
+ * Chapter 431: The main thread receives the worker's hidden body testimony.
+ *
+ * The Awtsmoos lets the Chossid live inside the worker, but the browser still
+ * needs proof. This interceptor records worker progress, render traces, import
+ * errors, and now `playerProbeResult`, placing the latest plain JSON body report
+ * on `window.__AWTSMOOS_LAST_PLAYER_PROBE__`.
  */
-
 import { oyvedManagerLog } from "../log/MainTextLogger.js";
 import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js";
 import { makeWorkerErrorAlertText } from "./WorkerErrorAlertText.js";
 import { recordWorkerProgress } from "../progress/WorkerProgressStore.js";
 
-/**
- * B"H
- * Important visible progress stages.
- */
 const VISIBLE_PROGRESS = new Set([
   "entrypoint:start",
   "boot-runner:start",
@@ -27,101 +26,41 @@ const VISIBLE_PROGRESS = new Set([
   "canvas_transferred"
 ]);
 
-/**
- * B"H
- * Marks vessel ready.
- *
- * @param {Object} manager
- * Manager.
- *
- * @returns {void}
- */
 function markVesselReady(manager) {
   if (manager.runtime) manager.runtime.vesselIsReady = true;
   manager._vesselIsReady = true;
 }
 
-/**
- * B"H
- * Marks world loaded.
- *
- * @param {Object} manager
- * Manager.
- *
- * @returns {void}
- */
 function markWorldLoaded(manager) {
   if (manager.runtime) manager.runtime.worldLoaded = true;
   manager._worldLoaded = true;
 }
 
-/**
- * B"H
- * Marks canvas transferred.
- *
- * @param {Object} manager
- * Manager.
- *
- * @returns {void}
- */
 function markCanvasTransferred(manager) {
   if (manager.runtime) manager.runtime.canvasTransferred = true;
   manager._canvasTransferred = true;
 }
 
-/**
- * B"H
- * Determines whether an error text deserves alerting.
- *
- * @param {any} data
- * Worker data.
- *
- * @param {string} text
- * Message text.
- *
- * @returns {boolean}
- * True if alert should show.
- */
 function shouldAlertImportFailure(data, text) {
-  return Boolean(
-    data.isImportError ||
-    text.includes(".js") ||
-    text.includes("import") ||
-    text.includes("required export") ||
-    text.includes("does not provide an export named")
-  );
+  return Boolean(data.isImportError || text.includes(".js") || text.includes("import") || text.includes("required export") || text.includes("does not provide an export named"));
 }
 
-/**
- * B"H
- * Handles progress.
- *
- * @param {any} data
- * Worker data.
- *
- * @returns {void}
- */
 function handleProgress(data) {
   const stage = String(data.stage || data.text || "unknown");
   recordWorkerProgress(stage);
-
   if (VISIBLE_PROGRESS.has(stage) || stage.includes(":")) {
-   // console.info(`B"H | WORKER_PROGRESS | ${stage}`);
+    // progress is stored; noisy console intentionally suppressed
   }
 }
 
-/**
- * B"H
- * Intercepts Worker messages.
- *
- * @param {Object} manager
- * Worker manager instance.
- *
- * @param {MessageEvent} event
- * Worker event.
- *
- * @returns {void}
- */
+function handlePlayerProbeResult(data) {
+  window.__AWTSMOOS_PLAYER_PROBES__ ||= [];
+  window.__AWTSMOOS_LAST_PLAYER_PROBE__ = data.payload || data;
+  window.__AWTSMOOS_PLAYER_PROBES__.push(window.__AWTSMOOS_LAST_PLAYER_PROBE__);
+  window.__AWTSMOOS_PLAYER_PROBES__ = window.__AWTSMOOS_PLAYER_PROBES__.slice(-40);
+  console.info('B"H | PLAYER_PROBE_RESULT', window.__AWTSMOOS_LAST_PLAYER_PROBE__);
+}
+
 export function interceptWorkerMessage(manager, event) {
   const data = event.data;
 
@@ -137,13 +76,14 @@ export function interceptWorkerMessage(manager, event) {
     return;
   }
 
+  if (data && data.type === "playerProbeResult") {
+    handlePlayerProbeResult(data);
+    return;
+  }
+
   if (isWorkerTextLog(data)) {
     const text = workerMessageToText(data);
-
-    if (data.type === "worker_import_error_text" || data.type === "ERROR_TEXT") {
-      oyvedManagerLog.error(text);
-    }
-
+    if (data.type === "worker_import_error_text" || data.type === "ERROR_TEXT") oyvedManagerLog.error(text);
     return;
   }
 
@@ -152,11 +92,7 @@ export function interceptWorkerMessage(manager, event) {
   if (data.type === "ERROR" || data.type === "ERROR_TEXT") {
     const text = workerMessageToText(data);
     oyvedManagerLog.error(text);
-
-    if (shouldAlertImportFailure(data, text)) {
-      alert(makeWorkerErrorAlertText(text));
-    }
-
+    if (shouldAlertImportFailure(data, text)) alert(makeWorkerErrorAlertText(text));
     return;
   }
 

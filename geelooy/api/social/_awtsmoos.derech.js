@@ -2,11 +2,9 @@
 /**
  * @module SocialApiDerech
  * @description
- * Chapter 47: The Awtsmoos gathers every social route into one living gate.
- *
- * The profile API now joins aliases, Heichelos, posts, comments, graph,
- * content, feeds, platform routes, and migrations inside the central social
- * dispatcher. No endpoint is alive until this gate includes it.
+ * Chapter 189: The social API gate opens to the recursive entity universe and
+ * the Node OS filesystem layer. Old APIs remain mounted; new APIs add safer,
+ * richer alternate views over the same living data.
  */
 
 const aliases = require("./_awtsmoos.alias.js");
@@ -17,9 +15,14 @@ const mail = require("./_awtsmoos.mail.js");
 const comments = require("./_awtsmoos.comments.js");
 const series = require("./_awtsmoos.series.js");
 const fileSystem = require("./_awtsmoos.fileSystem.js");
+const nodeOs = require("./_awtsmoos.nodeOs.js");
 const keys = require("./_awtsmoos.keys.js");
 const graph = require("./_awtsmoos.graph.js");
 const content = require("./_awtsmoos.content.js");
+const entities = require("./_awtsmoos.entities.js");
+const assets = require("./_awtsmoos.assets.js");
+const editor = require("./_awtsmoos.editor.js");
+const governance = require("./_awtsmoos.governance.js");
 const notifications = require("./_awtsmoos.notifications.js");
 const packed = require("./_awtsmoos.packed.js");
 const platform = require("./_awtsmoos.platform.js");
@@ -60,9 +63,14 @@ module.exports = async $i => {
         ...counters(vessel),
         ...mail(vessel),
         ...fileSystem({ $i }),
+        ...nodeOs(vessel),
         ...keys(vessel),
         ...graph(vessel),
         ...content(vessel),
+        ...entities(vessel),
+        ...assets(vessel),
+        ...editor(vessel),
+        ...governance(vessel),
         ...profile(vessel),
         ...notifications(vessel),
         ...packed(vessel),

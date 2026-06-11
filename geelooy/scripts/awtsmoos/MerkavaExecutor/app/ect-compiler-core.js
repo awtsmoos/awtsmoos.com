@@ -8,6 +8,7 @@
     "css-compiler.js",
     "js-compiler.js",
     "op-writer.js",
+    "reconstructor.js",
     "project-compiler.js"
   ];
 
@@ -22,7 +23,7 @@
       return;
     }
     if (typeof importScripts === "function") {
-      importScripts.apply(null, files.map(name => "/scripts/awtsmoos/MerkavaExecutor/app/compiler/" + name + "?v=29"));
+      importScripts.apply(null, files.map(name => "/scripts/awtsmoos/MerkavaExecutor/app/compiler/" + name + "?v=40"));
     }
   }
 

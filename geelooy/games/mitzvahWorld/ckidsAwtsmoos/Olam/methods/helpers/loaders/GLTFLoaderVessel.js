@@ -2,12 +2,11 @@
 /**
  * @file GLTFLoaderVessel.js
  * @description
- * Chapter 72: The remote garment must testify.
+ * Chapter 439: The remote garment testifies under the rooted seal.
  *
  * The Awtsmoos does not let `chossid.glb` disappear behind silence. Every gate
- * now reports: canonical URL, fetch status, blob size, parse completion, scene
- * child count, animation count, and failure reason. If the browser refuses the
- * garment, the console will say where.
+ * reports canonical URL, fetch status, blob size, parse completion, scene child
+ * count, animation count, and failure reason under the same visible-root seal.
  */
 import AssetCache from '../../../../utils/assetCache/index.js';
 import LoaderMonitor from './LoaderMonitor.js';
@@ -15,7 +14,7 @@ import LoaderStateMap from './LoaderStateMap.js';
 
 const GLTF_LOAD_TIMEOUT_MS = 30000;
 const GLTF_FETCH_TIMEOUT_MS = 25000;
-const TRACE_SEAL = 'chossid-model-load-20260610-bh709';
+const TRACE_SEAL = 'visible-root-binding-20260610-bh710';
 
 /** @param {string} stage Trace stage. @param {object} payload Trace data. */
 function traceModelLoad(stage, payload = {}) {
@@ -23,7 +22,7 @@ function traceModelLoad(stage, payload = {}) {
   try {
     globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__ ||= [];
     globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.push(data);
-    globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__ = globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.slice(-160);
+    globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__ = globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.slice(-180);
   } catch {}
   console.info('B"H | MODEL_LOAD_TRACE', data);
 }

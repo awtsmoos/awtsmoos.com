@@ -2,22 +2,40 @@
 /**
  * @file index.js
  * @description
- * Chapter 389: Chai imports the physics witness.
+ * Chapter 410: The robe is tied to the feet.
  *
- * The Awtsmoos now demands that movement prove itself at the capsule, mesh,
- * velocity, model, and fallback root. The physics wrapper carries that witness.
+ * The Awtsmoos reveals motion through vessels: the collider is the hidden decree,
+ * the empty root is the walking throne, and the visible model is the garment
+ * that must be lashed to that throne instead of wandering as a lonely scene
+ * child. This Chai breath binds the model under the moving root immediately, so
+ * even before the next physics frame the Chossid has a visible body at spawn.
  */
 import Tzomayach from "../tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
 import visualMethods from "./methods/visuals.js?v=exact-visual-feet-20260603-bh388";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=physics-motion-trace-20260610-bh708";
+import physicsMethods from "./methods/physics.js?v=visible-root-binding-20260610-bh710";
 import raycastingMethods from "./methods/raycasting.js";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 
 const numberOr = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+
+/** @param {THREE.Object3D} root Moving root. @param {THREE.Object3D} model Visible garment. */
+function bindModelToMovingRoot(root, model) {
+  if (!root?.isObject3D || !model?.isObject3D || model === root) return;
+  model.updateMatrixWorld(true);
+  const worldPosition = new THREE.Vector3();
+  const worldQuaternion = new THREE.Quaternion();
+  const worldScale = new THREE.Vector3();
+  model.matrixWorld.decompose(worldPosition, worldQuaternion, worldScale);
+  if (model.parent !== root) root.add(model);
+  model.position.set(0, Number(model.userData?.visualGroundOffsetY || 0), 0);
+  model.quaternion.copy(root.quaternion).invert().multiply(worldQuaternion);
+  if (Number.isFinite(worldScale.x) && Number.isFinite(worldScale.y) && Number.isFinite(worldScale.z)) model.scale.copy(worldScale);
+  model.updateMatrixWorld(true);
+}
 
 export default class Chai extends Tzomayach {
   type = "chai";
@@ -103,11 +121,13 @@ export default class Chai extends Tzomayach {
     this.animationSpeed = this.speed;
     if (Number.isFinite(Number(this.originalOptions?.animationSpeedScale))) this.animationSpeedScale = Number(this.originalOptions.animationSpeedScale);
     this.empty = new THREE.Group();
+    this.empty.name = `${this.name || 'Chai'}_MOVING_VISUAL_ROOT`;
     if (this.olam) this.olam.scene.add(this.empty);
     const pos = this.mesh?.position;
     if (pos) this.empty.position.copy(pos);
     this.modelMesh = this.mesh;
     this.mesh = this.empty;
+    bindModelToMovingRoot(this.mesh, this.modelMesh);
     this.emptyCopy = this.empty.clone();
     this.nonRotatingEmptyForMovement = this.empty.clone();
     if (this.olam) this.olam.scene.add(this.emptyCopy);

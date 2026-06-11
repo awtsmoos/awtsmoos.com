@@ -1,0 +1,2 @@
+/** B"H — keyboard gates: letters become motion. */
+export function keyboard(doc){ const keys=new Set(); doc.addEventListener('keydown',e=>keys.add(e.code)); doc.addEventListener('keyup',e=>keys.delete(e.code)); return ()=>({x:(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),jump:keys.has('Space')||keys.has('KeyW')||keys.has('ArrowUp'),punch:keys.has('KeyJ'),kick:keys.has('KeyK'),grab:keys.has('KeyL'),shield:keys.has('ShiftLeft'),special:keys.has('KeyU')}); }

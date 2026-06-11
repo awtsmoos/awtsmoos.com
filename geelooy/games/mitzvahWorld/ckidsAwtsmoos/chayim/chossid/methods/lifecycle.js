@@ -2,35 +2,36 @@
 /**
  * @file lifecycle.js
  * @description
- * Chapter 390: The visible Chossid covenant drinks the current Chai.
+ * Chapter 415: The Chossid is registered, visible, and rooted.
  *
- * The Awtsmoos revealed a stale ancestral import: lifecycle was calling an older
- * Chai module. Now ready/afterBriyah use the same physics-motion Chai imported
- * by the Chossid class, and every model decision testifies through
- * MODEL_VISIBILITY_TRACE.
+ * The Awtsmoos revealed that a player may be present in memory yet still fail
+ * the eye if its garment and root are divided. This lifecycle now calls the
+ * current visible-root Chai and records whether the model is actually parented
+ * to the moving root that camera and physics follow.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Chai from "../../chai/index.js?v=physics-motion-trace-20260610-bh708";
+import Chai from "../../chai/index.js?v=visible-root-binding-20260610-bh710";
 import { applyCameraStart } from './lifecycle/cameraStart.js?v=lava-camera-axis-20260609-bh640';
 import { ensureFallbackBody } from './lifecycle/fallbackBody.js?v=chossid-visible-guarantee-20260610-bh707';
-import { prepareChossidModel } from './lifecycle/model.js?v=chossid-visible-guarantee-20260610-bh707';
+import { prepareChossidModel } from './lifecycle/model.js?v=visible-root-binding-20260610-bh710';
 
 function traceVisibility(chossid, stage, extra = {}) {
   const payload = {
-    seal: 'chossid-model-load-20260610-bh709',
+    seal: 'visible-root-binding-20260610-bh710',
     stage,
     name: chossid?.name,
     hasMesh: Boolean(chossid?.mesh),
     hasModel: Boolean(chossid?.modelMesh),
     meshName: chossid?.mesh?.name || null,
     modelName: chossid?.modelMesh?.name || null,
+    modelParentIsRoot: chossid?.modelMesh?.parent === chossid?.mesh,
     visibleBody: chossid?.__visibleBodyState || null,
     at: Date.now(),
     ...extra
   };
   chossid.olam.__movementTrace ||= [];
   chossid.olam.__movementTrace.push({ kind: 'MODEL_VISIBILITY_TRACE', ...payload });
-  chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-240);
+  chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-260);
   console.info('B"H | MODEL_VISIBILITY_TRACE', payload);
 }
 
@@ -38,7 +39,12 @@ function traceVisibility(chossid, stage, extra = {}) {
 function ensureVisibleChossidBody(chossid) {
   const realModelPrepared = prepareChossidModel(chossid);
   const fallbackVisible = ensureFallbackBody(chossid);
-  chossid.__visibleBodyState = { realModelPrepared, fallbackVisible, at: Date.now() };
+  chossid.__visibleBodyState = {
+    realModelPrepared,
+    fallbackVisible,
+    modelParentIsRoot: chossid?.modelMesh?.parent === chossid?.mesh,
+    at: Date.now()
+  };
   traceVisibility(chossid, 'ensure-visible-body', { realModelPrepared, fallbackVisible });
   return realModelPrepared || fallbackVisible;
 }

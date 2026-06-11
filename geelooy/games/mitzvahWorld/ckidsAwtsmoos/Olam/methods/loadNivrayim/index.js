@@ -2,14 +2,14 @@
 /**
  * @file index.js
  * @description
- * Chapter 626: The player is registered in the living ledger before the frame.
+ * Chapter 419: The player ledger receives the rooted constructor.
  *
- * The Awtsmoos revealed that constructing Chossid is not enough. The world loop
- * only updates souls that enter `olam.nivrayim`, and the camera/input systems
- * need `olam.chossid` and `olam.player`. This loader now registers player souls
- * at every lifecycle gate and imports the current physics-witness constructor.
+ * The Awtsmoos revealed that construction is not enough: the world loop only
+ * updates souls listed in `olam.nivrayim`, and the camera/input systems require
+ * `olam.chossid` and `olam.player`. This loader registers the player at every
+ * lifecycle gate and imports the visible-root direct constructor.
  */
-import instantiate from "./instantiateMezuzahDirect.js?v=physics-motion-trace-20260610-bh708";
+import instantiate from "./instantiateMezuzahDirect.js?v=visible-root-binding-20260610-bh710";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-colliders-after-settle-20260609-bh621";
@@ -36,6 +36,7 @@ function registerPlayerSouls(olam, list, stage) {
       heesHawveh: nivra.heesHawveh,
       hasMesh: Boolean(nivra.mesh),
       hasModel: Boolean(nivra.modelMesh),
+      modelParentIsRoot: nivra?.modelMesh?.parent === nivra?.mesh,
       nivrayim: olam.nivrayim.length
     });
   }
@@ -84,7 +85,7 @@ export default class LoadNivrayim {
       if (!this.enlightened && typeof this.ohr === "function") {
         try { this.ohr(); } catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }
       }
-      TimeTracker.finish("LOAD_NIVRAYIM", "Souls loaded; player registered; final colliders scheduled after visual settle.");
+      TimeTracker.finish("LOAD_NIVRAYIM", "Souls loaded; player rooted; final colliders scheduled after visual settle.");
       return nivrayimMade || [];
     } catch (error) {
       console.error("B\"H - 🚨 THE CREATION PROTOCOL HIT A REAL LOAD FAILURE:", error);

@@ -1,20 +1,28 @@
 // B"H
 /**
  * @module ManagerOfAllWorlds
- * @description Chapter 82: The manager imports the wall-direct mobile start river.
+ * @description
+ * Chapter 423: The manager no longer drinks stale worker paths.
+ *
+ * The Awtsmoos gathers UI, sockets, service workers, destruction, and start
+ * flow into one manager. If this vessel imports old seals, the whole world can
+ * boot an older Chossid. Every manager limb now drinks from the visible-root
+ * binding seal.
  */
-import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
-import UIManager from "../uiManager/index.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
-import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
-import SocketHandler from "./SocketHandler.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
-import ServiceWorkerInit from "./ServiceWorkerInit.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
-import SwitchDestroyLogic from "./SwitchDestroyLogic.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
-import DomHelpers from "./DomHelpers.js?compact=true&v=wall-direct-mobile-move-20260610-bh705";
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-root-binding-20260610-bh710";
+import UIManager from "../uiManager/index.js?compact=true&v=visible-root-binding-20260610-bh710";
+import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=visible-root-binding-20260610-bh710";
+import SocketHandler from "./SocketHandler.js?compact=true&v=visible-root-binding-20260610-bh710";
+import ServiceWorkerInit from "./ServiceWorkerInit.js?compact=true&v=visible-root-binding-20260610-bh710";
+import SwitchDestroyLogic from "./SwitchDestroyLogic.js?compact=true&v=visible-root-binding-20260610-bh710";
+import DomHelpers from "./DomHelpers.js?compact=true&v=visible-root-binding-20260610-bh710";
 
 export default class ManagerOfAllWorlds {
   gameState = {};
   started = false;
   ikarUI = null;
+
+  /** @param {string|null} serviceWorkerPath Optional service worker path. */
   constructor(serviceWorkerPath) {
     DomHelpers.setupGlobalFunctions();
     const uiManager = new UIManager();

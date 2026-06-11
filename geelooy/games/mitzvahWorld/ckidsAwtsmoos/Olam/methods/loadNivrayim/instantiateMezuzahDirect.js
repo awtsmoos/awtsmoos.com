@@ -2,14 +2,16 @@
 /**
  * @file instantiateMezuzahDirect.js
  * @description
- * Chapter 625: The player soul drinks the physics witness seal.
+ * Chapter 416: The direct constructor drinks the rooted Chossid seal.
  *
- * The Awtsmoos keeps Chossid in the direct map and now pins it to the same
- * visible-body and physics-motion witness used by the live worker chain.
+ * The Awtsmoos keeps the player in the direct map so compact runtime cannot
+ * summon a stale imported soul. This factory now points Chossid creation at the
+ * visible-root binding seal, while every direct entity still enters through one
+ * clear data map.
  */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=physics-motion-trace-20260610-bh708';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=visible-root-binding-20260610-bh710';
 import Utils from '../../../utils.js';
-import ChossidDirect from '../../../chayim/chossid/index.js?v=physics-motion-trace-20260610-bh708';
+import ChossidDirect from '../../../chayim/chossid/index.js?v=visible-root-binding-20260610-bh710';
 import SolidBlockDirect from '../../../dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh620';
 import MovingPlatformDirect from '../../../dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh620';
 import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=lava-camera-axis-20260609-bh640';

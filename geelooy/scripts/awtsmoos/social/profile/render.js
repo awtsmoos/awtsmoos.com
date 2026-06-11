@@ -2,12 +2,13 @@
 /**
  * @module ProfileRender
  * @description
- * Chapter 76: The Awtsmoos arranges clean mobile vessels: hero, stats, tabs,
- * cards, tree, drawer, and bottom navigation.
+ * Chapter 100: The profile page is rendered by one clean order. The drawer is
+ * a controlled layer with an explicit close path, and tabs close it before they
+ * repaint so mobile never shows the broken half-screen state again.
  */
 
 import { el, emptyCard } from "./dom.js";
-import { profileState, setTab, toggleDrawer } from "./state.js";
+import { profileState, setTab, toggleDrawer, setDrawer } from "./state.js";
 import { topbar } from "./components/topbar.js";
 import { hero } from "./components/hero.js";
 import { stats } from "./components/stats.js";
@@ -40,7 +41,14 @@ function tabBody(profile) {
 export function render(container) {
     const profile = profileState.profile;
     const root = el("div", { className: `profile-app ${profile.activeTemplate.className} ${profileState.drawerOpen ? "drawer-open" : ""}` });
-    const body = el("main", { className: "profile-main" }, [hero(profile), stats(profile), tabs(profileState.activeTab, tab => { setTab(tab); render(container); }), tabBody(profile)]);
-    root.append(drawer(profileState.drawerOpen), topbar(() => { toggleDrawer(); render(container); }), body, bottomNav());
+    const repaint = () => render(container);
+    const close = () => { setDrawer(false); repaint(); };
+    const body = el("main", { className: "profile-main" }, [
+        hero(profile),
+        stats(profile),
+        tabs(profileState.activeTab, tab => { setTab(tab); repaint(); }),
+        tabBody(profile)
+    ]);
+    root.append(drawer(profileState.drawerOpen, close), topbar(() => { toggleDrawer(); repaint(); }), body, bottomNav());
     container.replaceChildren(root);
 }

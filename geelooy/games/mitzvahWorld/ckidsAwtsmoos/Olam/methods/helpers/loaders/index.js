@@ -1,11 +1,13 @@
-
 // B"H
 /**
  * @module LoadersModule
  * @description
- * Chapter 73: The loader index carries the model-load witness seal.
+ * Chapter 437: The loader index carries the rooted model witness.
+ *
+ * The Awtsmoos sends GLB garments through this small gate. Its seal now matches
+ * the Chossid root guarantee and worker player probe.
  */
-import GLTFLoaderVessel from './GLTFLoaderVessel.js?v=chossid-model-load-20260610-bh709';
+import GLTFLoaderVessel from './GLTFLoaderVessel.js?v=visible-root-binding-20260610-bh710';
 import TextureLoaderVessel from './TextureLoaderVessel.js';
 
 export default {

@@ -3,44 +3,51 @@
   const ns = root.AwtsEctCompilerParts = root.AwtsEctCompilerParts || {};
 
   /**
-   * B"H. HTML becomes a tree-token river. Built-in tags and attrs are IDs,
-   * public ids/classes are marked for JS/CSS linking, and common structural
-   * shapes are represented as generic phrase calls instead of angle-bracket ash.
+   * B"H. HTML as a compact tree, not a tag stream.
+   *
+   * The old path emitted open/close tokens and sometimes collapsed shells. This
+   * path parses a tiny DOM-shaped tree and emits pre-order semantic nodes:
+   * tagId, attrCount, childCount, attrId/value pairs. Closing tags vanish.
+   * In maximum semantic mode, visible text may be dropped while structure and
+   * cross-language public slots remain reconstructable.
    */
   function parseHtml(src, pools, ops, publicSymbols) {
-    const tokens = tokenizeHtml(src, pools, publicSymbols);
-    recipeOps(tokens, pools).forEach(op => ops.push(op));
+    const roots = buildTree(src, pools, publicSymbols);
+    roots.forEach(node => emitNode(node, pools, ops));
   }
 
-  function tokenizeHtml(src, pools, publicSymbols) {
+  function buildTree(src, pools, publicSymbols) {
+    const roots = [];
+    const stack = [];
     let index = 0;
     const text = [];
-    const out = [];
     while (index < src.length) {
       if (src[index] === "<") {
-        flushText(text, pools, out);
-        index = readTag(src, index, pools, out, publicSymbols);
-      } else {
-        text.push(src[index]);
-        index += 1;
-      }
+        flushText(text, pools, stack);
+        const read = readNode(src, index, pools, publicSymbols);
+        index = read.next;
+        if (read.close) closeStack(stack, read.tag);
+        else if (read.node) attach(read.node, roots, stack, read.selfClosing);
+      } else { text.push(src[index]); index += 1; }
     }
-    flushText(text, pools, out);
-    return out;
+    flushText(text, pools, stack);
+    return roots;
   }
 
-  function readTag(src, start, pools, out, publicSymbols) {
-    const ids = root.AwtsEctIds;
+  function readNode(src, start, pools, publicSymbols) {
     let index = start + 1;
     let close = false;
     if (src[index] === "/") { close = true; index += 1; }
     index = ns.skipSpaces(src, index);
     const tag = ns.readName(src, index);
     index = tag.next;
-    if (tag.value) out.push([close ? ids.ops.HTML_CLOSE : ids.ops.HTML_OPEN, ns.builtin(ids.tags, ns.lower(tag.value), pools.custom)]);
+    if (close) return { close: true, tag: ns.lower(tag.value), next: skipTag(src, index) };
+    const node = { tag: tagId(tag.value, pools), attrs: [], children: [] };
+    let selfClosing = false;
     while (index < src.length && src[index] !== ">") {
       index = ns.skipSpaces(src, index);
-      if (src[index] === ">" || src[index] === "/") { index += 1; continue; }
+      if (src[index] === "/") { selfClosing = true; index += 1; continue; }
+      if (src[index] === ">") break;
       const attr = ns.readName(src, index);
       index = ns.skipSpaces(src, attr.next);
       let value = "";
@@ -49,74 +56,63 @@
         value = read.value;
         index = read.next;
       }
-      if (attr.value) {
-        if (isPublicAttr(attr.value)) addPublic(value, publicSymbols);
-        out.push([ids.ops.HTML_ATTR, ns.builtin(ids.attrs, attr.value, pools.custom), attrValue(attr.value, value, pools)]);
-      }
+      if (attr.value) node.attrs.push([attrId(attr.value, pools), attrValue(attr.value, value, pools, publicSymbols)]);
     }
-    return index + 1;
+    return { close: false, node, selfClosing: selfClosing || isVoidTag(tag.value), next: index + 1 };
   }
 
-  function recipeOps(tokens) {
-    const out = [];
-    for (let index = 0; index < tokens.length; index += 1) {
-      const shell = matchShell(tokens, index);
-      if (shell) { out.push(shell.op); index = shell.end; continue; }
-      out.push(tokens[index]);
-    }
-    return out;
+  function skipTag(src, index) { while (index < src.length && src[index] !== ">") index += 1; return index + 1; }
+
+  function attach(node, roots, stack, selfClosing) {
+    const parent = stack[stack.length - 1];
+    if (parent) parent.children.push(node); else roots.push(node);
+    if (!selfClosing) stack.push(node);
   }
 
-  function matchShell(tokens, start) {
-    const ids = root.AwtsEctIds;
-    if (!tokens[start] || tokens[start][0] !== ids.ops.HTML_OPEN) return null;
-    const tag = tokens[start][1];
-    const cls = attrAfter(tokens, start, "class");
-    const id = attrAfter(tokens, start, "id");
-    const childCount = countChildOpen(tokens, start);
-    if (cls >= 0 && childCount >= 2) return { op: [ids.ops.PHRASE, phraseId("HTML_SHELL_CLASS_CHILDREN"), tag, cls, childCount], end: closeAt(tokens, start, tag) };
-    if (id >= 0 && childCount >= 1) return { op: [ids.ops.PHRASE, phraseId("HTML_SHELL_ID_CHILDREN"), tag, id, childCount], end: closeAt(tokens, start, tag) };
+  function closeStack(stack) { if (stack.length) stack.pop(); }
+
+  function flushText(buffer, pools, stack) {
+    const value = ns.trim(buffer.join(""));
+    buffer.length = 0;
+    if (!value) return;
+    if (pools.__settings && pools.__settings.preserveText === false) return;
+    const parent = stack[stack.length - 1];
+    if (parent) parent.children.push({ text: ns.ref(pools.text, value), attrs: [], children: [] });
+  }
+
+  function emitNode(node, pools, ops) {
+    if (node.text !== undefined) { ops.push([root.AwtsEctIds.ops.HTML_TEXT, node.text]); return; }
+    const shell = shellPhrase(node);
+    if (shell) { ops.push(shell); return; }
+    const op = [root.AwtsEctIds.ops.PHRASE, phraseId("HTML_TREE_NODE"), node.tag, node.attrs.length, node.children.length];
+    node.attrs.forEach(pair => { op.push(pair[0], pair[1]); });
+    ops.push(op);
+    node.children.forEach(child => emitNode(child, pools, ops));
+  }
+
+  function shellPhrase(node) {
+    const cls = findAttr(node, "class");
+    const id = findAttr(node, "id");
+    if (cls >= 0 && node.children.length >= 2) return [root.AwtsEctIds.ops.PHRASE, phraseId("HTML_SHELL_CLASS_CHILDREN"), node.tag, cls, node.children.length];
+    if (id >= 0 && node.children.length >= 1) return [root.AwtsEctIds.ops.PHRASE, phraseId("HTML_SHELL_ID_CHILDREN"), node.tag, id, node.children.length];
     return null;
   }
 
-  function attrAfter(tokens, start, name) {
-    const ids = root.AwtsEctIds;
-    const attrId = ns.builtin(ids.attrs, name, []);
-    for (let index = start + 1; index < Math.min(tokens.length, start + 10); index += 1) {
-      const token = tokens[index];
-      if (token && token[0] === ids.ops.HTML_ATTR && token[1] === attrId) return token[2];
-      if (token && token[0] === ids.ops.HTML_OPEN) return -1;
-    }
+  function findAttr(node, name) {
+    const wanted = attrId(name, { custom: [] });
+    for (let index = 0; index < node.attrs.length; index += 1) if (node.attrs[index][0] === wanted) return node.attrs[index][1];
     return -1;
   }
 
-  function countChildOpen(tokens, start) {
-    const ids = root.AwtsEctIds;
-    let count = 0;
-    for (let index = start + 1; index < Math.min(tokens.length, start + 64); index += 1) {
-      if (tokens[index][0] === ids.ops.HTML_OPEN) count += 1;
-      if (tokens[index][0] === ids.ops.HTML_CLOSE && count > 0) return count;
-    }
-    return count;
+  function attrValue(name, value, pools, publicSymbols) {
+    if (isPublicAttr(name)) return ns.publicSlot(publicSymbols, value);
+    return ns.isNumber(value) ? ns.smallNumOrRef(value, pools) : ns.ref(pools.sym, value);
   }
 
-  function closeAt(tokens, start, tag) {
-    const ids = root.AwtsEctIds;
-    for (let index = start + 1; index < Math.min(tokens.length, start + 96); index += 1) {
-      if (tokens[index][0] === ids.ops.HTML_CLOSE && tokens[index][1] === tag) return index;
-    }
-    return start;
-  }
-
-  function flushText(buffer, pools, out) {
-    const text = ns.trim(buffer.join(""));
-    buffer.length = 0;
-    if (text) out.push([root.AwtsEctIds.ops.HTML_TEXT, ns.ref(pools.text, text)]);
-  }
-
-  function attrValue(name, value, pools) { return ns.isNumber(value) ? ns.smallNumOrRef(value, pools) : ns.ref(pools.sym, value); }
+  function tagId(name, pools) { return ns.builtin(root.AwtsEctIds.tags, ns.lower(name), pools.custom); }
+  function attrId(name, pools) { return ns.builtin(root.AwtsEctIds.attrs, name, pools.custom); }
   function isPublicAttr(name) { return name === "id" || name === "class" || ns.startsAt(name, "data-", 0); }
-  function addPublic(value, publicSymbols) { ns.splitSpaces(String(value || "")).forEach(item => { if (item) publicSymbols[item] = true; }); }
+  function isVoidTag(name) { return "area base br col embed hr img input link meta param source track wbr".split(" ").indexOf(ns.lower(name)) >= 0; }
   function phraseId(name) { const list = root.AwtsEctIds.phrases; let id = list.indexOf(name); if (id < 0) id = list.push(name) - 1; return id; }
 
   ns.parseHtml = parseHtml;

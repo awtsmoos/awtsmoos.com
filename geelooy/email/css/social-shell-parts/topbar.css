@@ -1,0 +1,4 @@
+/* B"H mail topbar vessel */
+.mail-social-topbar { position: sticky; top: 0; z-index: 40; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; padding: .85rem 1rem; background: rgba(8,9,24,.9); border-bottom: 1px solid rgba(255,255,255,.09); backdrop-filter: blur(16px); }
+.mail-social-topbar a { color: #f5ca70; font-weight: 900; text-decoration: none; }
+.mail-social-topbar strong { text-align: center; letter-spacing: .05em; text-transform: uppercase; }
