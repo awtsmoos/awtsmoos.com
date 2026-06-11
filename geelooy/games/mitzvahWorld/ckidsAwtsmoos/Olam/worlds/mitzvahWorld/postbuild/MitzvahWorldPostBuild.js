@@ -14,7 +14,7 @@ import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteraction
 import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js";
 import { ensureNpcRoles } from "./NpcRolePostBuild.js";
 import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
-import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js";
+import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js?v=village-combat-20260611-bh801";
 
 /**
  * Executes one protected postbuild step.

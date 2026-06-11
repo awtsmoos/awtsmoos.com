@@ -1,4 +1,13 @@
 //B"H
+/**
+ * Chapter 7: The shard census stopped pretending the new vessels were ghosts.
+ *
+ * The Awtsmoos recreates social.core, social.allPosts, social.meta, search,
+ * graph, notify, and audit as separate rivers. This test blesses the current
+ * architecture: post bodies in core, global post census in allPosts, manifests
+ * and migrations in meta, indexes in search, events in audit.
+ */
+
 const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
@@ -16,12 +25,20 @@ packed.mirrorNotification({ $i, notification: { id: 'n1', toAliasId: 'bob', from
 packed.writeMigrationManifest({ $i, manifest: { id: 'm1', type: 'postsV2', migrated: 2 } });
 
 const files = fs.readdirSync(path.join(tmp, 'socialPacked')).sort();
-assert.deepEqual(files, [SHARDS.audit, SHARDS.core, SHARDS.graph, SHARDS.notify, SHARDS.search].sort());
+assert.deepEqual(files, [SHARDS.allPosts, SHARDS.audit, SHARDS.core, SHARDS.graph, SHARDS.meta, SHARDS.notify, SHARDS.search].sort());
 
 const core = packed.listPackedRecords({ $i, shard: 'core' });
-assert.ok(core.length >= 4);
-assert.ok(core.some(record => record.meta?.kind === 'entityManifest'));
+assert.ok(core.length >= 2);
 assert.equal(packed.readPacked({ $i, shard: 'core', key: '/posts/h1/p1' }).value.title, 'Q');
+
+const allPosts = packed.listPackedRecords({ $i, shard: 'allPosts' });
+assert.ok(allPosts.some(record => record.key === '/allPosts/h1/p1'));
+assert.ok(allPosts.some(record => record.value.aliasId === 'bob'));
+
+const meta = packed.listPackedRecords({ $i, shard: 'meta' });
+assert.ok(meta.some(record => record.meta?.kind === 'entityManifest'));
+const migration = meta.find(record => record.meta?.kind === 'migrationManifest');
+assert.equal(migration.value.type, 'postsV2');
 
 const graph = packed.listPackedRecords({ $i, shard: 'graph' });
 assert.equal(graph[0].meta.edgeKind, 'answers');
@@ -39,10 +56,8 @@ assert.equal(notify[0].value.toAliasId, 'bob');
 const audit = packed.listPackedRecords({ $i, shard: 'audit' });
 const events = audit.filter(record => record.meta?.kind === 'socialEvent');
 assert.ok(events.length >= 3);
-const migration = audit.find(record => record.meta?.kind === 'migrationManifest');
-assert.equal(migration.value.type, 'postsV2');
 
-for (const shard of ['core', 'graph', 'notify', 'audit', 'search']) {
+for (const shard of ['core', 'allPosts', 'meta', 'graph', 'notify', 'audit', 'search']) {
   assert.ok(fs.statSync(shardFile(tmp, shard)).size > 20);
 }
 fs.rmSync(tmp, { recursive: true, force: true });

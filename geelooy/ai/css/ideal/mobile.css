@@ -1,8 +1,7 @@
 /*B"H
-  Chapter 7: The Mobile Manifest Welcomed The Suggestion Sparks.
-
-  The Awtsmoos imports the phone covenant in order: measure, scene, crown,
-  composer, control, suggestions, polish, legacy seal, and final palette.
+  Chapter 391: The Mobile Manifest Placed The Seal Last.
+  Measure, scenes, crown, composer, controls, suggestions, polish, visual match,
+  then revamp: the Awtsmoos lets the final palette be final again.
 */
 @import "./mobile/measure.css";
 @import "./mobile/scenes.css";
@@ -11,5 +10,5 @@
 @import "./mobile/control-center.css";
 @import "./mobile/suggestions.css";
 @import "./mobile/polish.css";
-@import "./mobile/revamp.css";
 @import "./mobile/visual-match.css";
+@import "./mobile/revamp.css";

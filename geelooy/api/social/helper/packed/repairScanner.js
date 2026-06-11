@@ -1,7 +1,14 @@
 //B"H
 /**
  * @module repairScanner
- * @description Lightweight packed integrity scanner and repair helpers.
+ * @description
+ * Chapter 9: The repairer carried missing names from the core furnace to the
+ * meta archive, where manifests now live.
+ *
+ * The Awtsmoos recreates post bodies in `social.core.awtsdb`, but the scrolls
+ * that describe those bodies belong in `social.meta.awtsdb`. This scanner
+ * checks the correct chamber and repairs absent post manifests without touching
+ * old DosDB data or deleting packed records.
  */
 
 const { listPackedRecords, writePacked } = require('./socialPacked.js');
@@ -14,10 +21,16 @@ function postManifestExpectation(post) {
   return { kind: 'post', id, expected: entityManifestKey({ kind: 'post', id }), post };
 }
 
+function manifestKeySet({ $i }) {
+  return new Set(listPackedRecords({ $i, shard: 'meta' })
+    .filter(record => record.meta?.kind === 'entityManifest')
+    .map(record => record.key));
+}
+
 function scanPackedIntegrity({ $i }) {
   const core = listPackedRecords({ $i, shard: 'core' });
   const graph = listPackedRecords({ $i, shard: 'graph' });
-  const manifestKeys = new Set(core.filter(record => record.meta?.kind === 'entityManifest').map(record => record.key));
+  const manifestKeys = manifestKeySet({ $i });
   const postRecords = core.filter(record => record.meta?.kind === 'post');
   const missingPostManifests = postRecords
     .map(record => postManifestExpectation(record.value))
@@ -36,9 +49,28 @@ function scanPackedIntegrity({ $i }) {
   };
 }
 
+function makeRepairManifest(post, id, contentType) {
+  return makeEntityManifest({
+    kind: 'post',
+    id,
+    paths: {
+      packedCore: logicalKey(['posts', post.heichelId, id]),
+      allPosts: logicalKey(['allPosts', post.heichelId, id]),
+      legacy: post.parentSeriesId || post.seriesId ? `/social/heichelos/${post.heichelId}/series/${post.parentSeriesId || post.seriesId}/posts/${id}` : ''
+    },
+    indexes: {
+      byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, id]),
+      byAlias: post.aliasId ? logicalKey(['indexes', 'postsByAlias', post.aliasId, id]) : '',
+      byType: logicalKey(['indexes', 'postsByType', contentType, id])
+    },
+    binaryRefs: { futureShard: 'social.core.awtsdb' },
+    stats: { repaired: true, sections: Array.isArray(post.sections) ? post.sections.length : 0 }
+  });
+}
+
 function repairMissingPostManifests({ $i, limit = 100 }) {
   const core = listPackedRecords({ $i, shard: 'core' });
-  const manifestKeys = new Set(core.filter(record => record.meta?.kind === 'entityManifest').map(record => record.key));
+  const manifestKeys = manifestKeySet({ $i });
   const postRecords = core.filter(record => record.meta?.kind === 'post');
   let repaired = 0;
   const repairedIds = [];
@@ -49,22 +81,8 @@ function repairMissingPostManifests({ $i, limit = 100 }) {
     const post = expected.post;
     const id = post.id || post.postId;
     const contentType = post.contentType || post.postType || 'post';
-    const manifest = makeEntityManifest({
-      kind: 'post',
-      id,
-      paths: {
-        packedCore: logicalKey(['posts', post.heichelId, id]),
-        legacy: post.parentSeriesId || post.seriesId ? `/social/heichelos/${post.heichelId}/series/${post.parentSeriesId || post.seriesId}/posts/${id}` : ''
-      },
-      indexes: {
-        byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, id]),
-        byAlias: post.aliasId ? logicalKey(['indexes', 'postsByAlias', post.aliasId, id]) : '',
-        byType: logicalKey(['indexes', 'postsByType', contentType, id])
-      },
-      binaryRefs: { futureShard: 'social.core.awtsdb' },
-      stats: { repaired: true, sections: Array.isArray(post.sections) ? post.sections.length : 0 }
-    });
-    writePacked({ $i, shard: 'core', key: expected.expected, value: manifest, meta: { kind: 'entityManifest', entityKind: 'post', repaired: true } });
+    writePacked({ $i, shard: 'meta', key: expected.expected, value: makeRepairManifest(post, id, contentType), meta: { kind: 'entityManifest', entityKind: 'post', repaired: true } });
+    manifestKeys.add(expected.expected);
     repaired++;
     repairedIds.push(id);
   }

@@ -1,8 +1,7 @@
 /*B"H
-  Chapter 388: The Sidebars Finally Obeyed The Crown.
-  Collapse, expand, fullscreen, and resize now all drink from the same CSS
-  variables that JavaScript writes. The Awtsmoos reveals one layout speech, not
-  two arguing dialects in the dark.
+  Chapter 390: The Desktop Rail Learned To Rule Without Shouting.
+  No `!important`, no unnamed fixed crown. The file wins by cascade order and
+  by speaking the same variables JavaScript writes when a sidebar collapses.
 */
 @media(min-width:901px){
   :root{--ai-left-width:310px;--ai-right-width:370px;--ai-rail-width:58px}
@@ -11,39 +10,30 @@
   body:not(.is-awtsmoos-embedded-ai) .mobile-control-center,
   body:not(.is-awtsmoos-embedded-ai) .mobile-suggestion-rail,
   body:not(.is-awtsmoos-embedded-ai) .desktop-shell-left,
-  body:not(.is-awtsmoos-embedded-ai) .desktop-shell-right{display:none!important}
+  body:not(.is-awtsmoos-embedded-ai) .desktop-shell-right{display:none}
   body:not(.is-awtsmoos-embedded-ai){overflow:hidden;background:linear-gradient(180deg,#050b18,#020611 54%,#02050d)}
-  body:not(.is-awtsmoos-embedded-ai) .container{
-    width:100vw;height:100dvh;display:grid;
-    grid-template-columns:var(--ai-left-width) 7px minmax(420px,1fr) 7px var(--ai-right-width);
-    grid-template-areas:"sidebar left main right automation";
-    gap:0;padding:0;overflow:hidden;
-  }
+  body:not(.is-awtsmoos-embedded-ai) .container{width:100vw;height:100dvh;display:grid;grid-template-columns:var(--ai-left-width) 7px minmax(420px,1fr) 7px var(--ai-right-width);grid-template-areas:"sidebar left main right automation";gap:0;padding:0;overflow:hidden}
   body.ai-left-collapsed:not(.is-awtsmoos-embedded-ai) .container{grid-template-columns:var(--ai-rail-width) 0 minmax(420px,1fr) 7px var(--ai-right-width)}
   body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) .container{grid-template-columns:var(--ai-left-width) 7px minmax(420px,1fr) 0 var(--ai-rail-width)}
   body.ai-left-collapsed.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) .container{grid-template-columns:var(--ai-rail-width) 0 minmax(420px,1fr) 0 var(--ai-rail-width)}
   body:not(.is-awtsmoos-embedded-ai) #sidebar,
-  body:not(.is-awtsmoos-embedded-ai) #automation-panel{
-    position:relative!important;inset:auto!important;width:auto!important;max-width:none!important;height:auto!important;min-width:0!important;
-    transform:none!important;opacity:1!important;pointer-events:auto!important;filter:none!important;border-radius:0!important;
-    display:flex!important;flex-direction:column!important;overflow:hidden!important;
-  }
+  body:not(.is-awtsmoos-embedded-ai) #automation-panel{position:relative;inset:auto;width:auto;max-width:none;height:auto;min-width:0;transform:none;opacity:1;pointer-events:auto;filter:none;border-radius:0;display:flex;flex-direction:column;overflow:hidden}
   body:not(.is-awtsmoos-embedded-ai) #sidebar{grid-area:sidebar}
   body:not(.is-awtsmoos-embedded-ai) #automation-panel{grid-area:automation}
   body:not(.is-awtsmoos-embedded-ai) #left-resizer,
-  body:not(.is-awtsmoos-embedded-ai) #right-resizer{display:block!important;cursor:col-resize;background:linear-gradient(180deg,rgba(34,211,197,.18),rgba(124,58,237,.18));opacity:.65}
+  body:not(.is-awtsmoos-embedded-ai) #right-resizer{display:block;cursor:col-resize;background:linear-gradient(180deg,rgba(34,211,197,.18),rgba(124,58,237,.18));opacity:.65}
   body.ai-left-collapsed:not(.is-awtsmoos-embedded-ai) #left-resizer,
-  body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #right-resizer{display:none!important}
+  body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #right-resizer{display:none}
   body:not(.is-awtsmoos-embedded-ai) #left-resizer{grid-area:left}
   body:not(.is-awtsmoos-embedded-ai) #right-resizer{grid-area:right}
-  body.is-resizing-panels,body.is-ai-resizing{user-select:none!important;cursor:col-resize!important}
+  body.is-resizing-panels,body.is-ai-resizing{user-select:none;cursor:col-resize}
   body:not(.is-awtsmoos-embedded-ai) .panel-topbar{flex:0 0 auto;min-height:58px;display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(125,211,252,.13);background:rgba(5,15,29,.74);z-index:10}
   body:not(.is-awtsmoos-embedded-ai) .panel-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:950;color:#f0fbff}
   body:not(.is-awtsmoos-embedded-ai) .panel-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
   body:not(.is-awtsmoos-embedded-ai) .panel-actions button{width:40px;height:40px;border:1px solid rgba(125,211,252,.26);border-radius:15px;background:rgba(8,19,33,.92);color:#dff7ff;font-weight:950;cursor:pointer}
   body:not(.is-awtsmoos-embedded-ai) .panel-actions button:hover{border-color:rgba(34,230,196,.58);box-shadow:0 0 22px rgba(34,230,196,.14)}
   body.ai-left-collapsed:not(.is-awtsmoos-embedded-ai) #sidebar,
-  body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #automation-panel{align-items:stretch!important;padding:0!important;background:linear-gradient(180deg,rgba(4,14,26,.98),rgba(2,7,16,.98))!important}
+  body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #automation-panel{align-items:stretch;padding:0;background:linear-gradient(180deg,rgba(4,14,26,.98),rgba(2,7,16,.98))}
   body.ai-left-collapsed:not(.is-awtsmoos-embedded-ai) #sidebar .panel-topbar,
   body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #automation-panel .panel-topbar{height:100%;padding:10px 6px;justify-content:center;writing-mode:vertical-rl;cursor:pointer}
   body.ai-left-collapsed:not(.is-awtsmoos-embedded-ai) #sidebar .panel-title,
@@ -52,14 +42,12 @@
   body.ai-left-collapsed:not(.is-awtsmoos-embedded-ai) #sidebar .panel-actions,
   body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #automation-panel .panel-actions{margin:10px 0 0;writing-mode:horizontal-tb;display:flex;flex-direction:column;gap:8px}
   body.ai-left-collapsed:not(.is-awtsmoos-embedded-ai) #sidebar>:not(.panel-topbar),
-  body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #automation-panel>:not(.panel-topbar){display:none!important}
-  body:not(.is-awtsmoos-embedded-ai) .is-panel-fullscreen{position:fixed!important;inset:12px!important;z-index:3000!important;width:auto!important;height:auto!important;border-radius:24px!important;box-shadow:0 30px 120px rgba(0,0,0,.7)!important}
-  body.has-panel-fullscreen:not(.is-awtsmoos-embedded-ai) .main{filter:blur(2px) brightness(.55);pointer-events:none}
-  body:not(.is-awtsmoos-embedded-ai) .main{grid-area:main;position:relative!important;inset:auto!important;width:auto!important;height:auto!important;max-width:none!important;transform:none!important;opacity:1!important;pointer-events:auto!important;filter:none!important;display:grid!important;grid-template-rows:auto minmax(0,1fr) 6px auto auto!important;overflow:hidden!important;border-radius:0!important;background:linear-gradient(180deg,rgba(5,12,24,.96),rgba(2,6,17,.98))}
-  body:not(.is-awtsmoos-embedded-ai) .transport-status{display:flex!important;margin:12px;min-height:50px;max-height:90px;opacity:1!important}
+  body.ai-right-collapsed:not(.is-awtsmoos-embedded-ai) #automation-panel>:not(.panel-topbar){display:none}
+  body:not(.is-awtsmoos-embedded-ai) .main{grid-area:main;position:relative;inset:auto;width:auto;height:auto;max-width:none;transform:none;opacity:1;pointer-events:auto;filter:none;display:grid;grid-template-rows:auto minmax(0,1fr) 6px auto auto;overflow:hidden;border-radius:0;background:linear-gradient(180deg,rgba(5,12,24,.96),rgba(2,6,17,.98))}
+  body:not(.is-awtsmoos-embedded-ai) .transport-status{display:flex;margin:12px;min-height:50px;max-height:90px;opacity:1}
   body:not(.is-awtsmoos-embedded-ai) .chat-box{min-height:0;padding:20px clamp(20px,4vw,64px);overflow:auto;display:flex;flex-direction:column}
-  body:not(.is-awtsmoos-embedded-ai) .input-area{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;margin:0 16px 10px;display:grid!important;grid-template-columns:minmax(0,1fr) 96px;gap:10px;padding:12px;border-radius:22px;background:rgba(3,8,17,.94);border:1px solid rgba(148,163,184,.18);box-shadow:0 18px 46px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04)}
+  body:not(.is-awtsmoos-embedded-ai) .input-area{position:relative;left:auto;right:auto;bottom:auto;margin:0 16px 10px;display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:10px;padding:12px;border-radius:22px;background:rgba(3,8,17,.94);border:1px solid rgba(148,163,184,.18);box-shadow:0 18px 46px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04)}
   body:not(.is-awtsmoos-embedded-ai) #message-input{min-height:72px;max-height:180px;resize:vertical}
   body:not(.is-awtsmoos-embedded-ai) #send-button{min-height:58px}
-  body:not(.is-awtsmoos-embedded-ai) .attachment-tools{position:relative!important;right:auto!important;bottom:auto!important;margin:0 16px 12px}
+  body:not(.is-awtsmoos-embedded-ai) .attachment-tools{position:relative;right:auto;bottom:auto;margin:0 16px 12px}
 }

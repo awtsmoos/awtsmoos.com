@@ -1,6 +1,6 @@
 // B"H
 (function ectCompilerCoreLoader(root) {
-  const files = [
+  const nodeFiles = [
     "util.js",
     "text-codec.js",
     "bit-writer.js",
@@ -11,19 +11,21 @@
     "reconstructor.js",
     "project-compiler.js"
   ];
+  const workerFiles = nodeFiles.map(name => name === "js-compiler.js" ? "js-compiler.worker.js" : name);
 
   /**
-   * B"H. Tiny loader for the modular compiler. The giant core was shattered;
-   * now each vessel has one service, and this file only gathers them in order.
+   * B"H. Tiny loader for the modular compiler. Node drinks the full readable
+   * compiler; browser workers drink the compact served vessel so local static
+   * file-size gates do not starve importScripts.
    */
   function load() {
     if (root.AwtsEctCompiler && root.AwtsEctCompiler.compileProject) return;
     if (typeof require === "function") {
-      files.forEach(name => require("./compiler/" + name));
+      nodeFiles.forEach(name => require("./compiler/" + name));
       return;
     }
     if (typeof importScripts === "function") {
-      importScripts.apply(null, files.map(name => "/scripts/awtsmoos/MerkavaExecutor/app/compiler/" + name + "?v=45"));
+      importScripts.apply(null, workerFiles.map(name => "/scripts/awtsmoos/MerkavaExecutor/app/compiler/" + name + "?v=45"));
     }
   }
 

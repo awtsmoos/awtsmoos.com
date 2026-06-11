@@ -22,15 +22,22 @@ function makeDb(directory) {
     async write(path, value) { store.set(path, value); return { path, value }; },
     async get(path) {
       if (store.has(path)) return store.get(path);
-      const prefix = path.endsWith('/') ? path : path + '/';
+      const keys = await this.getObjectKeys(path);
+      if (!keys.length) return undefined;
       const out = {};
-      for (const [key, value] of store.entries()) {
+      for (const key of keys) out[key] = true;
+      return out;
+    },
+    async getObjectKeys(path) {
+      const prefix = path.endsWith('/') ? path : path + '/';
+      const keys = new Set();
+      for (const key of store.keys()) {
         if (!key.startsWith(prefix)) continue;
         const rest = key.slice(prefix.length);
-        if (!rest || rest.includes('/')) continue;
-        out[rest] = value;
+        if (!rest) continue;
+        keys.add(rest.split('/')[0]);
       }
-      return Object.keys(out).length ? out : undefined;
+      return Array.from(keys);
     }
   };
 }

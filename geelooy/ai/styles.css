@@ -1,5 +1,8 @@
 /*B"H
-Chapter 21: Smooth cascade.
+Chapter 389: The Cascade Became A River With The Seal At The Delta.
+The Awtsmoos lets every palace speak in order: tokens, rooms, events, desktop,
+mobile, effects, and finally the overlap seal that protects the automation
+panel from swallowing its own buttons.
 */
 @import "./css/ideal/tokens.css";
 @import "./css/ideal/shell.css";
@@ -18,8 +21,8 @@ Chapter 21: Smooth cascade.
 @import "./css/ideal/mobile.css";
 @import "./css/embedded.css";
 @import "./css/desktop-shell.css";
-@import "./css/right-panel/mobile-overlap-kill.css";
 @import "./css/vision-engine.css";
 @import "./css/atmosphere-engine.css";
 @import "./css/showcase-cards.css";
 @import "./css/performance-override.css";
+@import "./css/right-panel/mobile-overlap-kill.css";

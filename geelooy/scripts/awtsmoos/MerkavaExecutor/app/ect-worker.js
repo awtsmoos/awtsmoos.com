@@ -3,14 +3,24 @@
 (function ectWorkerBridge(root) {
   const version = "45";
   const app = "/scripts/awtsmoos/MerkavaExecutor/app/";
+  const parserCore = "/scripts/awtsmoos/MerkavaASTParser/parser-core.worker.js";
 
   /**
-   * B"H. The worker is the small hidden chamber where uploaded source becomes
-   * semantic binary. It must never drink stale cache while the page claims a new
-   * engine; every import carries the same living version number.
+   * B"H. Worker-safe parser altar.
+   *
+   * The existing parser extensions were written for a browser global named
+   * `window`. In a Worker, the truthful equivalent vessel is `self`; this shim
+   * exposes that alias before importScripts. The document shim only gives the
+   * parser-core loader its own URL, so base-path detection remains accurate.
    */
+  if (typeof root.window === "undefined") root.window = root;
+  if (typeof root.document === "undefined") {
+    const origin = root.location && root.location.origin ? root.location.origin : "";
+    root.document = { currentScript: { src: origin + parserCore } };
+  }
+
   importScripts(
-    "/scripts/awtsmoos/MerkavaASTParser/parser-core.js",
+    parserCore,
     app + "id-tables/roots.js?v=" + version,
     app + "id-tables/members-core.js?v=" + version,
     app + "id-tables/members-browser.js?v=" + version,
@@ -31,9 +41,9 @@
     }
   };
 
-  /** @param {{files:Record<string,string>}} project @param {Error} error */
   function errorResult(project, error) {
     return {
+      error: String(error && error.message || error),
       bytes: [],
       byteCount: 0,
       bitLength: 0,
@@ -41,6 +51,7 @@
         originalSourceBytes: projectBytes(project || { files: {} }),
         storageBytes: 0,
         storageBits: 0,
+        ramBytes: 0,
         compressionX: 0,
         mode: "worker parser error",
         payloadKind: String(error && error.message || error),

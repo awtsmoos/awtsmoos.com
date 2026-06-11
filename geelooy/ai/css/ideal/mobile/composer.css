@@ -1,9 +1,8 @@
 /*B"H
-  Chapter 6: The Hero Merged Into The Control Jewel.
-
-  The Awtsmoos removed the duplicate title card. The compact control center is
-  now the only mobile header inside the scene, leaving more vertical room for
-  the living conversation.
+  Chapter 393: The Speech Gate Made Room For Its Own Echo.
+  The Awtsmoos keeps the mobile composer lifted, readable, and unable to cover
+  the last message. The chat scroll now reserves exactly the tested bottom
+  chamber, so the final words do not vanish behind the input vessel.
 */
 @media(max-width:900px){
   body[data-mobile-scene] .main{
@@ -26,9 +25,9 @@
   body[data-mobile-scene] .chat-box{
     grid-area:chat;
     min-height:0;
-    padding:10px 12px 132px;
+    padding:10px 12px 156px;
     scroll-padding-top:16px;
-    scroll-padding-bottom:150px;
+    scroll-padding-bottom:202px;
     overflow:auto;
   }
   body[data-mobile-scene] .input-area{

@@ -20,9 +20,6 @@ function n(value, fallback) { return Number.isFinite(Number(value)) ? Number(val
 function mat(color, emissive = 0x000000) { return new THREE.MeshLambertMaterial({ color, emissive, emissiveIntensity: 0.08 }); }
 function pulseScale(t, base = 1) { return base + Math.sin(t * 4.4) * 0.035; }
 
-/**
- * Runtime wildlife enemy used by the village combat layer.
- */
 export default class VillageAnimalMob {
   /** @param {object} olam World. @param {object} def Authored mob definition. @param {object} state Shared quest state. */
   constructor(olam, def, state) {
@@ -101,7 +98,6 @@ export default class VillageAnimalMob {
     else this.addEars(group, accent);
   }
 
-  /** @param {THREE.Group} group Animal root. @param {THREE.Material} accent Accent. */
   addHorns(group, accent) {
     [-0.22, 0.22].forEach(x => {
       const horn = new THREE.Mesh(BOX_GEO, accent);
@@ -112,7 +108,6 @@ export default class VillageAnimalMob {
     });
   }
 
-  /** @param {THREE.Group} group Animal root. @param {THREE.Material} accent Accent. */
   addEars(group, accent) {
     [-0.22, 0.22].forEach(x => {
       const ear = new THREE.Mesh(BOX_GEO, accent);
@@ -173,7 +168,6 @@ export default class VillageAnimalMob {
     if (this.hp <= 0) this.die();
   }
 
-  /** Brief hit flash. */
   flash() {
     this.mesh.traverse(child => child.material?.emissive?.setHex?.(0xfff1a8));
     setTimeout(() => this.mesh?.traverse?.(child => child.material?.emissive?.setHex?.(0x000000)), 95);
@@ -194,7 +188,6 @@ export default class VillageAnimalMob {
     requestAnimationFrame(shrink);
   }
 
-  /** Removes render resources. */
   dispose() {
     this.mesh?.removeFromParent?.();
     this.mesh?.traverse?.(child => { child.geometry?.dispose?.(); child.material?.dispose?.(); });

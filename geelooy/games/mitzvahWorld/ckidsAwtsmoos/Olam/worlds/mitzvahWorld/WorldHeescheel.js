@@ -8,7 +8,7 @@
 import { NIVRAYIM_DEFS } from "./NivrayimDefs.js";
 import { DESERT_TEST_WORLD_SETTINGS } from "./data/nefashos/DesertTestWorld.js";
 import { NivrahFactory } from "./NivrahFactory.js";
-import { runMitzvahWorldPostBuild } from "./postbuild/MitzvahWorldPostBuild.js";
+import { runMitzvahWorldPostBuild } from "./postbuild/MitzvahWorldPostBuild.js?v=village-combat-20260611-bh801";
 
 /**
  * B"H

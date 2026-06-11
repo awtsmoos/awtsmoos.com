@@ -2,14 +2,13 @@
  * B"H
  * Smash-like game feel constants.
  *
- * Gravity is stronger, friction is clearer, air drift is readable, and falling
- * is capped so recovery remains possible. These numbers are practical vessels:
- * not realism, but fun 2D arena combat.
+ * Chapter 81: the ground stops being mud. Friction preserves enough speed to
+ * feel responsive, air drift stays controlled, and gravity keeps jumps sharp.
  */
 export const GAME = {
   gravity: 0.68,
-  friction: 0.78,
-  airFriction: 0.965,
+  friction: 0.86,
+  airFriction: 0.955,
   maxFall: 20,
   tick: 1 / 60
 };

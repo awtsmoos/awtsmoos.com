@@ -14,6 +14,7 @@ import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-colliders-after-settle-20260609-bh621";
 import { applyEntryRuntime } from "./entryRuntime/applyEntryRuntime.js";
+import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=village-combat-20260611-bh801";
 
 /** @param {object} nivra Candidate entity. @returns {boolean} True for player. */
 function isPlayerSoul(nivra) {
@@ -81,6 +82,7 @@ export default class LoadNivrayim {
       registerPlayerSouls(this, nivrayimMade, "after-afterBriyah");
       scheduleVillageGrounding(this, nivrayimMade);
       applyEntryRuntime(this, nivrayim || {});
+      await runMitzvahWorldPostBuild({ olam: this, scene: this.scene, nivrayim: nivrayimMade, worldData: this.baseInfo || {}, source: this.baseInfo?.id || this.baseInfo?.shaym || null });
       this.ayshPeula("updateProgress", { loadedNivrayim: Date.now() });
       if (!this.enlightened && typeof this.ohr === "function") {
         try { this.ohr(); } catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }

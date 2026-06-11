@@ -11,7 +11,7 @@
 import { getCameraProperties } from './CameraProperties.js';
 import { getSceneProperties } from './SceneProperties.js';
 import { getPhysicsProperties } from './PhysicsProperties.js?v=lava-camera-axis-20260609-bh640';
-import { getInputProperties } from './InputProperties.js?v=smooth-velocity-turn-20260602-bh9';
+import { getInputProperties } from './InputProperties.js?v=village-combat-20260611-bh801';
 import { getStateProperties } from './StateProperties.js';
 import { getMiscProperties } from './MiscProperties.js';
 

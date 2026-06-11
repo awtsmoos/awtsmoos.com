@@ -1,0 +1,11 @@
+{
+  "state": "{\"ready\":\"complete\",\"status\":\"compiling\",\"hasRenderer\":true,\"app\":\"PROJECT\\nDOM Button\\nCanvas Ball\\nFetch Chain\\nENGINE\\nNative DOM\\nMerkava Virtual DOM\\nMerkava WebGL\\nLoad ExampleCompileSave .awtect\\n\\nUpload HTML/CSS/JS to compress. Upload .awtect to reconstruct.\\n\\nMERGED S\",\"metrics\":\"\"}",
+  "errors": [
+    {
+      "text": "Uncaught ReferenceError: document is not defined",
+      "url": "http://127.0.0.1:7345/scripts/awtsmoos/MerkavaASTParser/parser-core.js",
+      "line": 29,
+      "level": "error"
+    }
+  ]
+}

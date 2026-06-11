@@ -15,7 +15,7 @@ import Ayin from "../camera/index.js?compact=true";
 import UserProgressManager from "../../systems/UserProgressManager.js?compact=true";
 import Yichud from "../interaction/Yichud.js?compact=true";
 import PlacementManager from "../interaction/PlacementManager.js?compact=true";
-import CombatManager from "../../systems/combat/CombatManager.js?compact=true";
+import CombatManager from "../../systems/combat/CombatManager.js?v=village-combat-20260611-bh801";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true";
 
 const SAFE_SKY = 0x5d8fa8;

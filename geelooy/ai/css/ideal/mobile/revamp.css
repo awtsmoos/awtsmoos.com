@@ -1,13 +1,12 @@
 /*B"H
-  Chapter 6: Revamp Became Only A Seal.
-
-  The Awtsmoos refused duplicate rulers. Measurements now belong to
-  mobile/measure.css; this file remains as a quiet import boundary for legacy
-  order without overriding the retractable crown.
+  Chapter 392: Revamp Lifted The Composer Above The Browser Tide.
+  The Awtsmoos refused to let the speech gate drown behind mobile toolbars.
+  This file remains only the final token seal: no panels, no chat selectors,
+  only safe measurements spoken at the end of the mobile manifest.
 */
 @media(max-width:900px){
   :root{
-    --mobile-browser-lift:calc(70px + env(safe-area-inset-bottom));
+    --mobile-browser-lift:calc(76px + env(safe-area-inset-bottom));
     --mobile-composer-height:82px;
     --awt-main-min:100svh;
   }
