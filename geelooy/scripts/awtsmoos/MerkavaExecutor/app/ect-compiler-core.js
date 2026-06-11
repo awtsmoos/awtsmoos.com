@@ -23,7 +23,7 @@
       return;
     }
     if (typeof importScripts === "function") {
-      importScripts.apply(null, files.map(name => "/scripts/awtsmoos/MerkavaExecutor/app/compiler/" + name + "?v=40"));
+      importScripts.apply(null, files.map(name => "/scripts/awtsmoos/MerkavaExecutor/app/compiler/" + name + "?v=45"));
     }
   }
 

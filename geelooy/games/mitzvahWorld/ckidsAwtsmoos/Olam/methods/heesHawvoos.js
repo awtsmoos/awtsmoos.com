@@ -138,7 +138,7 @@ export default class HeesHawvoosManager {
       catch (e) { if (shouldLog) console.error('B"H | HEES_COMBAT_FAILED_ONCE', compactError(e)); }
       try { self.ayin?.update?.(dt); }
       catch (e) { if (shouldLog) console.error('B"H | HEES_CAMERA_FAILED_ONCE', compactError(e)); }
-      const exiled = purgeWorkerHostileRenderNodes(self.scene);
+      const exiled = loopCounter <= 8 || loopCounter % 30 === 0 ? purgeWorkerHostileRenderNodes(self.scene) : 0;
       if (exiled > 0 && (loopCounter <= 10 || loopCounter % 120 === 0)) console.warn('B"H | WORKER_RENDER_EXILED_VANITY', { frame: loopCounter, exiled });
       this.renderFrame(self, loopCounter);
     };

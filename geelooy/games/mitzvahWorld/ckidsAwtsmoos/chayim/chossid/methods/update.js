@@ -29,7 +29,8 @@ function shouldRunControls(chossid) {
 function traceFrame(chossid, stage, extra = {}) {
   const now = Date.now();
   const inputs = activeInputs(chossid);
-  if (!inputs.length && chossid.__lastFrameTraceAt && now - chossid.__lastFrameTraceAt < 1800) return;
+  const cadence = inputs.length ? 1000 : 2200;
+  if (chossid.__lastFrameTraceAt && now - chossid.__lastFrameTraceAt < cadence) return;
   chossid.__lastFrameTraceAt = now;
   const payload = {
     stage,
@@ -45,8 +46,7 @@ function traceFrame(chossid, stage, extra = {}) {
   };
   chossid.olam.__movementTrace ||= [];
   chossid.olam.__movementTrace.push({ at: now, kind: "CHOSSID_FRAME_TRACE", ...payload });
-  chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-240);
-  console.info('B"H | CHOSSID_FRAME_TRACE', payload);
+  chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-80);
 }
 
 export default {

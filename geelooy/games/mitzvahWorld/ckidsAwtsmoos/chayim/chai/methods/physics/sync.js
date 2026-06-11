@@ -81,13 +81,17 @@ export default {
         else if (this.rotateOffset < -Math.PI) this.rotateOffset += 2 * Math.PI;
 
         if (this.modelMesh) {
-            this.modelMesh.rotation.y = this.rotation.y + this.rotateOffset;
+            const parentedToRoot = this.modelMesh.parent === this.mesh;
+            this.modelMesh.rotation.y = parentedToRoot ? this.rotateOffset : this.rotation.y + this.rotateOffset;
             if (this.lastRotateOffset !== this.rotateOffset) {
                 this.ayshPeula("rotate", this.modelMesh.rotation.y);
                 this.lastRotateOffset = this.rotateOffset;
             }
-            this.modelMesh.position.copy(this.mesh.position);
-            this.modelMesh.position.y += Number(this.modelMesh.userData?.visualGroundOffsetY || 0);
+            if (parentedToRoot) this.modelMesh.position.set(0, Number(this.modelMesh.userData?.visualGroundOffsetY || 0), 0);
+            else {
+                this.modelMesh.position.copy(this.mesh.position);
+                this.modelMesh.position.y += Number(this.modelMesh.userData?.visualGroundOffsetY || 0);
+            }
         }
         
         if(this.emptyCopy) this.emptyCopy.position.copy(this.mesh.position);

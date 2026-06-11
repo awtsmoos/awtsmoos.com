@@ -3,6 +3,7 @@
   const ns = root.AwtsEctCompilerParts = root.AwtsEctCompilerParts || {};
   const COMMON_PROPS = "x y z w vx vy vz dx dy ax ay width height radius active count index length value key text textContent innerHTML fillStyle strokeStyle style clientX clientY left top right bottom pageX pageY offsetX offsetY target currentTarget set get has delete clear then catch finally json text blob arrayBuffer formData pathname href searchParams search hash protocol host hostname port method status ok headers body bodyUsed set get has delete clear then catch finally json text blob arrayBuffer formData pathname href searchParams search hash protocol host hostname port method status ok headers body bodyUsed".split(" ");
   const COMMON_STRINGS = "2d webgl webgl2 bitmaprenderer click input change pointermove pointerdown pointerup mousemove mousedown mouseup keydown keyup ready waiting done ball pulse pulse\\  error ok".split(" ");
+  const COMMON_CTORS = "Map Set WeakMap WeakSet URL Date Uint8Array Uint16Array Uint32Array Int8Array Int16Array Int32Array Float32Array Float64Array Array Object Promise RegExp Error TypeError".split(" ");
 
   /**
    * B"H. Generic JavaScript semantic lowering.
@@ -52,7 +53,7 @@
     if (node.type === "MemberExpression") return memberPhrase(node, pools, ops, scope);
     if (node.type === "CallExpression") return callPhrase(node, pools, ops, scope);
     if (node.type === "ReturnStatement") return returnPhrase(node, pools, ops, scope);
-    if (node.type === "ExpressionStatement") return expressionPhrase(node, pools, ops, scope);
+    if (node.type === "ExpressionStatement") return eventAssignPhrase(node, pools, ops, scope) || fetchJsonAssignPhrase(node, pools, ops, scope) || expressionPhrase(node, pools, ops, scope);
     if (node.type === "FunctionDeclaration" && node.id && node.id.name) {
       ops.push([ids.ops.PHRASE, phraseId("FUNC_SLOT"), slot(node.id.name, scope), (node.params || []).length]);
       return false;
@@ -65,6 +66,10 @@
     if (declarations.length !== 1) return null;
     const decl = declarations[0];
     if (!decl.id || decl.id.type !== "Identifier" || !decl.init) return null;
+    if (decl.init.type === "NewExpression") {
+      const made = newAtom(decl.init, pools, scope);
+      if (made) return [root.AwtsEctIds.ops.PHRASE, phraseId("DECL_CONST_FROM_NEW"), kindId(node.kind), slot(decl.id.name, scope)].concat(made);
+    }
     if (decl.init.type === "CallExpression") {
       const call = callAtom(decl.init, pools, scope);
       if (call) return [root.AwtsEctIds.ops.PHRASE, phraseId("DECL_CONST_FROM_CALL"), kindId(node.kind), slot(decl.id.name, scope)].concat(call);
@@ -102,6 +107,114 @@
     return out;
   }
 
+  /**
+   * B"H. Generic DOM event assignment phrase. It recognizes the structural AST
+   * shape target.addEventListener(event, ()=>{ left = right; }) for any target,
+   * any literal event name, and any atom-compatible assignment sides.
+   */
+  function eventAssignPhrase(node, pools, ops, scope) {
+    const shape = eventAssignShape(node && node.expression);
+    if (!shape) return false;
+    const target = atom(shape.target, pools, scope);
+    const event = literalAtom(shape.event, pools);
+    const left = atom(shape.left, pools, scope);
+    const right = atom(shape.right, pools, scope);
+    if (!target || !event || !left || !right) return false;
+    ops.push([root.AwtsEctIds.ops.PHRASE, phraseId("EVENT_ASSIGN")].concat(target, event, left, right));
+    return true;
+  }
+
+  function eventAssignShape(node) {
+    if (!node || node.type !== "CallExpression" || !isMemberNamed(node.callee, "addEventListener")) return null;
+    const args = node.arguments || [];
+    if (args.length !== 2 || !args[0] || args[0].type !== "Literal" || typeof args[0].value !== "string") return null;
+    const handler = args[1];
+    if (!handler || handler.type !== "ArrowFunctionExpression") return null;
+    const assign = singleAssignment(handler.body);
+    if (!assign) return null;
+    return { target: node.callee.object, event: args[0].value, left: assign.left, right: assign.right };
+  }
+
+  /**
+   * B"H. Generic fetch-json-assignment chain phrase.
+   *
+   * This is AST-structural: fetch(url).then(r=>r.json()).then(data=>{
+   * target.property = JSON.stringify(data)
+   * }). It is not tied to a demo, only to the standard Promise/Fetch/JSON shape.
+   */
+  function fetchJsonAssignPhrase(node, pools, ops, scope) {
+    const shape = fetchJsonAssignShape(node && node.expression);
+    if (!shape) return false;
+    const target = atom(shape.target, pools, scope);
+    const prop = shape.property;
+    if (!target || !prop) return false;
+    ops.push([root.AwtsEctIds.ops.PHRASE, phraseId("FETCH_JSON_ASSIGN"), ns.ref(pools.text, shape.url)].concat(target, [propId(prop, pools)]));
+    return true;
+  }
+
+  function fetchJsonAssignShape(node) {
+    if (!node || node.type !== "CallExpression" || !isMemberNamed(node.callee, "then") || (node.arguments || []).length !== 1) return null;
+    const second = node.arguments[0];
+    const firstCall = node.callee.object;
+    if (!firstCall || firstCall.type !== "CallExpression" || !isMemberNamed(firstCall.callee, "then") || (firstCall.arguments || []).length !== 1) return null;
+    const fetchCall = firstCall.callee.object;
+    const first = firstCall.arguments[0];
+    if (!isFetchCall(fetchCall) || !isJsonArrow(first) || !second || second.type !== "ArrowFunctionExpression") return null;
+    const urlNode = fetchCall.arguments && fetchCall.arguments[0];
+    const url = urlNode && urlNode.type === "Literal" && typeof urlNode.value === "string" ? urlNode.value : "";
+    const dataName = second.params && second.params[0] && second.params[0].name;
+    const assign = singleAssignment(second.body);
+    if (!url || !dataName || !assign || !isJsonStringifyOf(assign.right, dataName)) return null;
+    if (!assign.left || assign.left.type !== "MemberExpression") return null;
+    return { url, target: assign.left.object, property: assign.left.property && (assign.left.property.name || assign.left.property.value) };
+  }
+
+  function isFetchCall(node) {
+    return node && node.type === "CallExpression" && node.callee && node.callee.type === "Identifier" && node.callee.name === "fetch";
+  }
+
+  function isJsonArrow(node) {
+    const param = node && node.params && node.params[0] && node.params[0].name;
+    const body = node && node.body;
+    return !!(param && body && body.type === "CallExpression" && isMemberNamed(body.callee, "json") && body.callee.object && body.callee.object.name === param);
+  }
+
+  function singleAssignment(body) {
+    if (!body) return null;
+    const stmt = body.type === "BlockStatement" && body.body && body.body.length === 1 ? body.body[0] : body;
+    const expr = stmt && stmt.type === "ExpressionStatement" ? stmt.expression : stmt;
+    return expr && expr.type === "AssignmentExpression" && expr.operator === "=" ? expr : null;
+  }
+
+  function isJsonStringifyOf(node, name) {
+    return !!(node && node.type === "CallExpression" && isMemberNamed(node.callee, "stringify") && node.callee.object && node.callee.object.name === "JSON" && node.arguments && node.arguments[0] && node.arguments[0].name === name);
+  }
+
+  function isMemberNamed(node, name) {
+    return !!(node && node.type === "MemberExpression" && node.property && (node.property.name || node.property.value) === name);
+  }
+
+  /**
+   * B"H. Generic fetch-json-assignment chain phrase.
+   *
+   * This is AST-structural: fetch(url).then(r=>r.json()).then(data=>{
+   * target.property = JSON.stringify(data)
+   * }). It is not tied to a demo, only to the standard Promise/Fetch/JSON shape.
+   */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   function expressionPhrase(node, pools, ops, scope) {
     if (node.expression && node.expression.type === "CallExpression") {
       const call = callAtom(node.expression, pools, scope);
@@ -129,6 +242,7 @@
     if (node.type === "Literal") return literalAtom(node.value, pools);
     if (node.type === "ObjectExpression") return objectShape(node, pools, scope);
     if (node.type === "CallExpression") { const call = callAtom(node, pools, scope); return call ? [phraseId("CALL_VALUE")].concat(call) : null; }
+    if (node.type === "NewExpression") { const made = newAtom(node, pools, scope); return made ? [phraseId("NEW_VALUE")].concat(made) : null; }
     return atom(node, pools, scope);
   }
 
@@ -143,6 +257,39 @@
       value.forEach(part => out.push(part));
     });
     return out;
+  }
+
+  /**
+   * B"H. Generic constructor atom. Any new Ctor(args...) lowers by AST shape:
+   * a constructor id plus argument atoms. Standard constructors use stable ids;
+   * custom classes use the custom pool.
+   */
+  function newAtom(node, pools, scope) {
+    if (!node || node.type !== "NewExpression") return null;
+    const args = node.arguments || [];
+    if (args.length > 8) return null;
+    const name = constructorName(node.callee);
+    if (!name) return null;
+    const ctor = ctorId(name);
+    if (ctor < 0) return null;
+    const out = [ctor, args.length];
+    for (let index = 0; index < args.length; index += 1) {
+      const value = atom(args[index], pools, scope);
+      if (!value) return null;
+      value.forEach(part => out.push(part));
+    }
+    return out;
+  }
+
+  function constructorName(node) {
+    if (!node) return "";
+    if (node.type === "Identifier") return node.name || "";
+    if (node.type === "MemberExpression") {
+      const prop = node.property && (node.property.name || node.property.value || "");
+      const base = constructorName(node.object);
+      return base && prop ? base + "." + prop : prop;
+    }
+    return "";
   }
 
   function callAtom(node, pools, scope) {
@@ -166,6 +313,7 @@
     if (node.type === "MemberExpression") return memberAtom(node, pools, scope);
     if (node.type === "BinaryExpression" || node.type === "LogicalExpression") return binaryAtom(node, pools, scope);
     if (node.type === "CallExpression") { const call = callAtom(node, pools, scope); return call ? [9].concat(call) : null; }
+    if (node.type === "NewExpression") { const made = newAtom(node, pools, scope); return made ? [15].concat(made) : null; }
     return null;
   }
 
@@ -227,12 +375,13 @@
   function inferFamily(prop) { const members = root.AwtsEctIds.members; if ((members.ctx2d || []).indexOf(prop) >= 0) return "ctx2d"; if ((members.event || []).indexOf(prop) >= 0) return "event"; if ((members.rect || []).indexOf(prop) >= 0) return "rect"; if ((members.style || []).indexOf(prop) >= 0) return "style"; return "element"; }
   function memberId(family, prop, pools) { const list = root.AwtsEctIds.members[family] || []; const id = list.indexOf(prop); return id >= 0 ? id : propId(prop, pools); }
   function propId(name, pools) { const id = COMMON_PROPS.indexOf(String(name || "")); return id >= 0 ? id : -(ns.ref(pools.custom, "prop:" + name) + 1); }
+  function ctorId(name) { return COMMON_CTORS.indexOf(String(name || "")); }
   function commonStringId(value) { return COMMON_STRINGS.indexOf(String(value || "")); }
   function colorInt(value) { const text = String(value || ""); if (text.length !== 7 || text[0] !== "#") return -1; const n = Number.parseInt(text.slice(1), 16); return Number.isFinite(n) ? n : -1; }
   function phraseId(name) { const list = root.AwtsEctIds.phrases; let id = list.indexOf(name); if (id < 0) id = list.push(name) - 1; return id; }
   function opId(table, value) { const id = (table || []).indexOf(value); return id < 0 ? 0 : id; }
   function kindId(kind) { const id = root.AwtsEctIds.declarationKinds.indexOf(kind); return id < 0 ? 0 : id; }
-  function shouldKeepAstNode(node, scope) { if (scope.settings && scope.settings.preserveExactSource) return true; return ["Program", "BlockStatement", "ExpressionStatement", "FunctionDeclaration", "Identifier", "Literal", "VariableDeclaration", "VariableDeclarator", "CallExpression", "MemberExpression", "AssignmentExpression", "BinaryExpression", "LogicalExpression", "UpdateExpression", "ObjectExpression", "Property"].indexOf(node.type) < 0; }
+  function shouldKeepAstNode(node, scope) { if (scope.settings && scope.settings.preserveExactSource) return true; return ["Program", "BlockStatement", "ExpressionStatement", "FunctionDeclaration", "Identifier", "Literal", "VariableDeclaration", "VariableDeclarator", "CallExpression", "MemberExpression", "AssignmentExpression", "BinaryExpression", "LogicalExpression", "UpdateExpression", "ObjectExpression", "Property", "NewExpression"].indexOf(node.type) < 0; }
   function meta(node) { if (node.type === "Identifier" || node.type === "PrivateIdentifier") return 1; if (node.type === "Literal" || node.type === "TemplateElement") return 2; if (node.type === "MemberExpression" || node.type === "CallExpression" || node.type === "NewExpression") return 3; return 0; }
   function isScope(node) { return node && (node.type === "Program" || node.type === "FunctionDeclaration" || node.type === "FunctionExpression" || node.type === "ArrowFunctionExpression" || node.type === "BlockStatement"); }
   function skipKey(key, node) { if (key === "type" || key === "start" || key === "end" || key === "loc" || key === "raw") return true; if (node && node.type === "FunctionDeclaration" && (key === "id" || key === "params")) return true; if (node && node.type === "MemberExpression" && key === "property") return true; if (node && node.type === "Property" && key === "key") return true; return key === "name" || key === "value"; }

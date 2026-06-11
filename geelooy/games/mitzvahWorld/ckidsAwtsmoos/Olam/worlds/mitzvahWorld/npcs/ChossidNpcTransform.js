@@ -130,7 +130,7 @@ export function applyChossidNpcTransform(npc, def, olam = null) {
     child.userData.inventory = inventory;
 
     if (child.isMesh) {
-      child.castShadow = true;
+      child.castShadow = false;
       child.receiveShadow = true;
       child.frustumCulled = false;
     }

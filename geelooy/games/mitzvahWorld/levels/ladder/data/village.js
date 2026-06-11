@@ -24,17 +24,17 @@ export default {
     "ProceduralSky": [
       {
         "name": "stable_soft_blue_gold_village_sky",
-        "timeOfDay": 16.4,
+        "timeOfDay": 14.8,
         "timeMultiplier": 0,
-        "sunIntensity": 0.44,
-        "hemiIntensity": 0.66,
-        "ambientIntensity": 0.34,
-        "fogNear": 130,
-        "fogFar": 540,
-        "topColor": 7903169,
-        "bottomColor": 15115370,
-        "horizonGlow": 15774046,
-        "mobileLambertGrade": "soft-blue-gold-readable",
+        "sunIntensity": 0.5,
+        "hemiIntensity": 0.74,
+        "ambientIntensity": 0.42,
+        "fogNear": 155,
+        "fogFar": 620,
+        "topColor": 9418972,
+        "bottomColor": 14208935,
+        "horizonGlow": 15913611,
+        "mobileLambertGrade": "soft-clear-village-readable",
         "position": {
           "x": 0,
           "y": 0,
@@ -47,17 +47,17 @@ export default {
     "VillageLightingRig": [
       {
         "name": "stable_picture_reference_lambert_rig",
-        "skyColor": 14208946,
-        "groundColor": 4216890,
-        "hemiIntensity": 0.48,
-        "sunColor": 16760700,
-        "sunIntensity": 0.62,
+        "skyColor": 13229279,
+        "groundColor": 6322767,
+        "hemiIntensity": 0.58,
+        "sunColor": 16766363,
+        "sunIntensity": 0.54,
         "sunX": -24,
         "sunY": 26,
         "sunZ": 18,
-        "fogColor": 13806203,
-        "fogNear": 135,
-        "fogFar": 540
+        "fogColor": 14275253,
+        "fogNear": 160,
+        "fogFar": 620
       }
     ],
     "ProceduralTerrain": [
@@ -70,9 +70,9 @@ export default {
         "isSolid": true,
         "noSafetySlab": true,
         "textureType": "safegrass",
-        "textureSize": 768,
-        "microNoise": 0.04,
-        "mobileTone": "warm-readable-green",
+        "textureSize": 512,
+        "microNoise": 0.026,
+        "mobileTone": "soft-clear-meadow-green",
         "points": [
           {
             "x": -95,
@@ -183,435 +183,147 @@ export default {
         "groundLift": 0.02
       },
       {
-        "name": "reference_path_lantern_left",
-        "kind": "lantern",
-        "position": {
-          "x": -7.8,
-          "z": 7.6
-        },
-        "scale": 1.95,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "reference_house_ivy_flowers",
-        "kind": "flowerPatch",
-        "count": 96,
-        "radius": 3.2,
-        "seed": 88,
-        "position": {
-          "x": 9.5,
-          "z": -2.8
-        },
-        "scale": 1.2,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "reference_tree_shadow_flowers",
-        "kind": "flowerPatch",
-        "count": 120,
-        "radius": 4.8,
-        "seed": 92,
-        "position": {
-          "x": -18,
-          "z": 11
-        },
-        "scale": 1.25,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "spawn_guide_gold_lantern_left",
-        "kind": "lantern",
-        "groundLift": 0,
-        "position": {
-          "x": -8.4,
-          "z": 8.4
-        },
-        "scale": 1.75,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "spawn_guide_gold_lantern_right",
-        "kind": "lantern",
-        "groundLift": 0,
-        "position": {
-          "x": -4,
-          "z": 8.3
-        },
-        "scale": 1.75,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "spawn_guide_clear_meadow_ring",
-        "kind": "flowerPatch",
-        "count": 48,
-        "radius": 2.4,
-        "seed": 73,
-        "groundLift": 0,
-        "position": {
-          "x": -6.2,
-          "z": 8.2
-        },
-        "scale": 1.1,
-        "terrainLawGrounded": true
-      },
-      {
         "name": "main_warm_house",
         "kind": "gableHouse",
-        "scale": 4.8,
-        "groundLift": 0,
         "position": {
-          "x": 13,
-          "z": -11
+          "x": 145,
+          "z": -110
         },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 2.2,
         "rotation": {
-          "y": -0.25
-        },
-        "terrainLawGrounded": true
+          "y": -0.34
+        }
       },
       {
         "name": "left_meadow_house",
         "kind": "gableHouse",
-        "scale": 4.8,
-        "groundLift": 0,
         "position": {
-          "x": -46,
-          "z": 27
+          "x": -120,
+          "z": 92
         },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 2.3,
         "rotation": {
-          "y": 0.55
-        },
-        "terrainLawGrounded": true
+          "y": 0.52
+        }
       },
       {
         "name": "right_orchard_house",
         "kind": "gableHouse",
-        "scale": 4.8,
-        "groundLift": 0,
         "position": {
-          "x": 57,
-          "z": 33
+          "x": 132,
+          "z": 96
         },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 2.25,
         "rotation": {
-          "y": -0.86
-        },
-        "terrainLawGrounded": true
+          "y": -0.74
+        }
       },
       {
-        "name": "tiny_tree_bench",
-        "kind": "bench",
-        "groundLift": 0,
-        "position": {
-          "x": -11,
-          "z": 12
-        },
-        "rotation": {
-          "y": 0.3
-        },
-        "scale": 1.2,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "front_lantern_bright",
-        "kind": "lantern",
-        "groundLift": 0,
-        "position": {
-          "x": -15.5,
-          "z": 11.5
-        },
-        "scale": 1.3,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "portal_lantern_bright",
-        "kind": "lantern",
-        "groundLift": 0,
-        "position": {
-          "x": 1,
-          "z": 3.6
-        },
-        "scale": 1.45,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "village_wildflowers_left_instanced",
-        "kind": "flowerPatch",
-        "count": 82,
-        "radius": 3.4,
-        "seed": 8,
-        "groundLift": 0,
-        "position": {
-          "x": -20,
-          "z": 13
-        },
-        "scale": 1.5,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "village_wildflowers_right_instanced",
-        "kind": "flowerPatch",
-        "count": 76,
-        "radius": 3.2,
-        "seed": 12,
-        "groundLift": 0,
-        "position": {
-          "x": 25,
-          "z": 10
-        },
-        "scale": 1.35,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "house_side_wildflowers_instanced",
-        "kind": "flowerPatch",
-        "count": 68,
-        "radius": 2.8,
-        "seed": 19,
-        "groundLift": 0,
-        "position": {
-          "x": 7.5,
-          "z": -3.3
-        },
-        "scale": 1.1,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "short_fence_left",
-        "kind": "fence",
-        "count": 9,
-        "groundLift": 0,
-        "position": {
-          "x": -28,
-          "z": 4
-        },
-        "rotation": {
-          "y": 0.18
-        },
-        "scale": 1.4,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "orchard_back_fence",
-        "kind": "fence",
-        "count": 13,
-        "groundLift": 0,
-        "position": {
-          "x": -20,
-          "z": 45
-        },
-        "rotation": {
-          "y": 0.02
-        },
-        "scale": 1.35,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "right_village_fence",
-        "kind": "fence",
-        "count": 11,
-        "groundLift": 0,
-        "position": {
-          "x": 76,
-          "z": 22
-        },
-        "rotation": {
-          "y": 1.42
-        },
-        "scale": 1.25,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "path_rock_grounded",
-        "kind": "rock",
-        "count": 12,
-        "radius": 1.3,
-        "seed": 4,
-        "groundLift": 0,
-        "position": {
-          "x": -7.4,
-          "z": 6.5
-        },
-        "scale": 1.1,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "village_scattered_rocks_left",
-        "kind": "rockField",
-        "count": 70,
-        "radius": 17,
-        "seed": 6,
-        "groundLift": 0,
-        "position": {
-          "x": -50,
-          "z": 4
-        },
-        "scale": 0.95,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "village_scattered_rocks_house",
-        "kind": "rockField",
-        "count": 66,
-        "radius": 12,
-        "seed": 15,
-        "groundLift": 0,
-        "position": {
-          "x": 8,
-          "z": -1
-        },
-        "scale": 0.8,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "village_scattered_rocks_right",
-        "kind": "rockField",
-        "count": 52,
-        "radius": 15,
-        "seed": 29,
-        "groundLift": 0,
-        "position": {
-          "x": 54,
-          "z": 18
-        },
-        "scale": 0.86,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "left_house_flower_dirt_edge",
-        "kind": "flowerPatch",
-        "count": 110,
-        "radius": 4.2,
-        "seed": 31,
-        "groundLift": 0,
-        "position": {
-          "x": -42,
-          "z": 18
-        },
-        "scale": 1.15,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "hero_courtyard_oak_dense_canopy",
-        "kind": "pictureAnchorTree",
-        "groundLift": 0,
-        "position": {
-          "x": -19,
-          "z": 30
-        },
-        "rotation": {
-          "y": 0.16
-        },
-        "scale": 1.38,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "main_house_stone_terrace_warm",
-        "kind": "terrace",
-        "groundLift": 0.01,
-        "position": {
-          "x": 10.8,
-          "z": -0.2
-        },
-        "rotation": {
-          "y": -0.25
-        },
-        "scale": 1.22,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "main_house_entry_steps_low",
-        "kind": "steps",
-        "groundLift": 0.012,
-        "position": {
-          "x": 9.1,
-          "z": 2.2
-        },
-        "rotation": {
-          "y": -0.25
-        },
-        "scale": 1.24,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "green_vine_pergola_portal",
-        "kind": "pergolaPortal",
-        "groundLift": 0,
-        "position": {
-          "x": 0.8,
-          "z": 3.4
-        },
-        "rotation": {
-          "y": -0.08
-        },
-        "scale": 1.42,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "courtyard_stone_well_centerpiece",
+        "name": "courtyard_well_readable_center",
         "kind": "well",
-        "groundLift": 0,
         "position": {
-          "x": -6.5,
-          "z": -2.2
+          "x": -3.8,
+          "z": 2.4
         },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 1.12,
         "rotation": {
           "y": 0.42
-        },
-        "scale": 1.36,
-        "terrainLawGrounded": true
+        }
       },
       {
-        "name": "oak_shadow_bench_left",
-        "kind": "bench",
-        "groundLift": 0,
-        "position": {
-          "x": -16.5,
-          "z": 21.5
-        },
-        "rotation": {
-          "y": 0.84
-        },
-        "scale": 1.42,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "oak_shadow_bench_right",
-        "kind": "bench",
-        "groundLift": 0,
-        "position": {
-          "x": -3.5,
-          "z": 28.5
-        },
-        "rotation": {
-          "y": -0.46
-        },
-        "scale": 1.28,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "left_path_lantern_glow",
+        "name": "guide_path_lantern_left",
         "kind": "lantern",
-        "groundLift": 0,
         "position": {
-          "x": -28.2,
-          "z": 17.4
+          "x": -9.5,
+          "z": 9.8
         },
-        "scale": 1.35,
-        "terrainLawGrounded": true
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 1.18
       },
       {
-        "name": "right_path_lantern_glow",
+        "name": "guide_path_lantern_right",
         "kind": "lantern",
-        "groundLift": 0,
         "position": {
-          "x": 34.4,
-          "z": 19.4
+          "x": -2.4,
+          "z": 10.4
         },
-        "scale": 1.32,
-        "terrainLawGrounded": true
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 1.12
       },
       {
-        "name": "foreground_meadow_detail_cluster",
+        "name": "oak_shadow_bench",
+        "kind": "bench",
+        "position": {
+          "x": -16.4,
+          "z": 18.4
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 1.18,
+        "rotation": {
+          "y": 0.72
+        }
+      },
+      {
+        "name": "courtyard_bench_right",
+        "kind": "bench",
+        "position": {
+          "x": 7.2,
+          "z": 9.6
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "scale": 1.02,
+        "rotation": {
+          "y": -0.5
+        }
+      },
+      {
+        "name": "front_soft_flower_arc",
+        "kind": "flowerPatch",
+        "position": {
+          "x": -8.5,
+          "z": 13.2
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "count": 46,
+        "radius": 3,
+        "seed": 73,
+        "scale": 1
+      },
+      {
+        "name": "left_tree_flowers",
+        "kind": "flowerPatch",
+        "position": {
+          "x": -18,
+          "z": 13.2
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "count": 62,
+        "radius": 4.2,
+        "seed": 92,
+        "scale": 1.05
+      },
+      {
+        "name": "quiet_front_meadow_detail",
         "kind": "meadowDetail",
+        "position": {
+          "x": 0,
+          "z": 0
+        },
+        "terrainLawGrounded": true,
         "groundLift": 0,
         "clusters": [
           [
@@ -619,149 +331,114 @@ export default {
             11
           ],
           [
-            -12,
+            -9,
             8
           ],
           [
-            18,
-            9
+            14,
+            11
           ],
           [
             23,
-            14
+            16
           ],
           [
-            -27,
-            26
-          ],
-          [
-            30,
-            3
-          ],
-          [
-            -6,
+            -26,
             24
           ],
           [
-            6,
-            21
-          ],
-          [
-            -38,
-            7
-          ],
-          [
-            44,
-            8
+            30,
+            6
           ]
         ],
-        "position": {
-          "x": 0,
-          "z": 0
-        },
-        "scale": 1.18,
-        "terrainLawGrounded": true
+        "scale": 1.05
       },
       {
-        "name": "front_green_courtyard_fill",
-        "kind": "meadowDetail",
+        "name": "left_low_fence_frame",
+        "kind": "fence",
+        "position": {
+          "x": -28,
+          "z": 5
+        },
+        "terrainLawGrounded": true,
         "groundLift": 0,
-        "clusters": [
-          [
-            -2,
-            12
-          ],
-          [
-            8,
-            10
-          ],
-          [
-            16,
-            13
-          ],
-          [
-            -14,
-            17
-          ],
-          [
-            24,
-            20
-          ],
-          [
-            -25,
-            25
-          ]
-        ],
-        "position": {
-          "x": 0,
-          "z": 0
-        },
-        "scale": 1.45,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "main_house_front_left_lamp",
-        "kind": "lantern",
-        "groundLift": 0,
-        "position": {
-          "x": 5.2,
-          "z": 1.9
-        },
-        "scale": 1.22,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "main_house_front_right_lamp",
-        "kind": "lantern",
-        "groundLift": 0,
-        "position": {
-          "x": 16.7,
-          "z": -0.9
-        },
-        "scale": 1.12,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "warm_front_yard_rock_flowers",
-        "kind": "flowerPatch",
-        "count": 180,
-        "radius": 7.2,
-        "seed": 61,
-        "groundLift": 0,
-        "position": {
-          "x": 1.5,
-          "z": 16
-        },
-        "scale": 1.28,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "right_house_yard_flower_wall",
-        "kind": "flowerPatch",
-        "count": 150,
-        "radius": 5.2,
-        "seed": 47,
-        "groundLift": 0,
-        "position": {
-          "x": 53,
-          "z": 23
-        },
-        "scale": 1.18,
-        "terrainLawGrounded": true
-      },
-      {
-        "name": "well_cobble_ring_path",
-        "kind": "cobbleRoad",
-        "groundLift": 0.01,
-        "position": {
-          "x": -6.8,
-          "z": -1.4
-        },
+        "count": 8,
+        "scale": 1.15,
         "rotation": {
-          "y": 1.58
+          "y": 0.12
+        }
+      },
+      {
+        "name": "orchard_back_low_fence",
+        "kind": "fence",
+        "position": {
+          "x": -18,
+          "z": 43
         },
-        "scale": 0.74,
-        "terrainLawGrounded": true
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "count": 10,
+        "scale": 1.12,
+        "rotation": {
+          "y": 0.02
+        }
+      },
+      {
+        "name": "right_low_fence_frame",
+        "kind": "fence",
+        "position": {
+          "x": 62,
+          "z": 20
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "count": 9,
+        "scale": 1.05,
+        "rotation": {
+          "y": 1.32
+        }
+      },
+      {
+        "name": "path_small_rocks",
+        "kind": "rock",
+        "position": {
+          "x": -5.4,
+          "z": 6.8
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "count": 8,
+        "radius": 1.2,
+        "seed": 4,
+        "scale": 0.9
+      },
+      {
+        "name": "left_scattered_rocks_soft",
+        "kind": "rockField",
+        "position": {
+          "x": -45,
+          "z": 4
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "count": 24,
+        "radius": 13,
+        "seed": 6,
+        "scale": 0.78
+      },
+      {
+        "name": "right_scattered_rocks_soft",
+        "kind": "rockField",
+        "position": {
+          "x": 43,
+          "z": 12
+        },
+        "terrainLawGrounded": true,
+        "groundLift": 0,
+        "count": 22,
+        "radius": 12,
+        "seed": 29,
+        "scale": 0.74
       },
       {
         "name": "reference_left_anchor_tree",
@@ -840,71 +517,71 @@ export default {
       {
         "name": "main_house_fitted_colliders",
         "targetName": "main_warm_house",
-        "width": 34,
-        "depth": 23,
-        "height": 13.6,
+        "width": 21.76,
+        "depth": 14.72,
+        "height": 8.704,
         "floorTop": 0.058,
         "thickness": 0.85,
         "position": {
-          "x": 13,
+          "x": 145,
           "y": 0,
-          "z": -11
+          "z": -110
         },
         "rotation": {
-          "y": -0.25
+          "y": -0.34
         },
         "useAuthoredY": true,
         "thresholdCollider": false,
         "contractDriven": true,
         "useVisualHouseY": true,
-        "doorWidth": 5.1,
-        "doorClearHeight": 4.65
+        "doorWidth": 3.264,
+        "doorClearHeight": 2.9760000000000004
       },
       {
         "name": "left_house_fitted_colliders",
         "targetName": "left_meadow_house",
-        "width": 34,
-        "depth": 23,
-        "height": 13.6,
+        "width": 23.12,
+        "depth": 15.64,
+        "height": 9.248000000000001,
         "floorTop": 0.058,
         "thickness": 0.85,
         "position": {
-          "x": -46,
+          "x": -120,
           "y": 0,
-          "z": 27
+          "z": 92
         },
         "rotation": {
-          "y": 0.55
+          "y": 0.52
         },
         "useAuthoredY": true,
         "thresholdCollider": false,
         "contractDriven": true,
         "useVisualHouseY": true,
-        "doorWidth": 5.1,
-        "doorClearHeight": 4.65
+        "doorWidth": 3.468,
+        "doorClearHeight": 3.1620000000000004
       },
       {
         "name": "right_house_fitted_colliders",
         "targetName": "right_orchard_house",
-        "width": 34,
-        "depth": 23,
-        "height": 13.6,
+        "width": 22.44,
+        "depth": 15.180000000000001,
+        "height": 8.976,
         "floorTop": 0.058,
         "thickness": 0.85,
         "position": {
-          "x": 57,
+          "x": 132,
           "y": 0,
-          "z": 33
+          "z": 96
         },
         "rotation": {
-          "y": -0.86
+          "y": -0.74
         },
         "useAuthoredY": true,
         "thresholdCollider": false,
         "contractDriven": true,
         "useVisualHouseY": true,
-        "doorWidth": 5.1,
-        "doorClearHeight": 4.65
+        "doorWidth": 3.366,
+        "doorClearHeight": 3.0690000000000004
       }
     ],
     "VillageHeroTree": [],

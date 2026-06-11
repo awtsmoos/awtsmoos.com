@@ -37,6 +37,26 @@ function bindModelToMovingRoot(root, model) {
   model.updateMatrixWorld(true);
 }
 
+/**
+ * @param {THREE.Object3D} source Moving visual root whose transform is echoed.
+ * @param {string} name Helper name.
+ * @returns {THREE.Group} A renderless helper root.
+ */
+function makeRenderlessMotionHelper(source, name) {
+  const helper = new THREE.Group();
+  helper.name = name;
+  if (source?.position) helper.position.copy(source.position);
+  if (source?.quaternion) helper.quaternion.copy(source.quaternion);
+  Object.assign(helper.userData ||= {}, {
+    isMotionHelper: true,
+    renderlessHelper: true,
+    skipOctree: true,
+    noOctree: true,
+    addToOctree: false
+  });
+  return helper;
+}
+
 export default class Chai extends Tzomayach {
   type = "chai";
   rotationSpeed;
@@ -128,8 +148,8 @@ export default class Chai extends Tzomayach {
     this.modelMesh = this.mesh;
     this.mesh = this.empty;
     bindModelToMovingRoot(this.mesh, this.modelMesh);
-    this.emptyCopy = this.empty.clone();
-    this.nonRotatingEmptyForMovement = this.empty.clone();
+    this.emptyCopy = makeRenderlessMotionHelper(this.empty, `${this.name || 'Chai'}_RAYCAST_EMPTY_HELPER`);
+    this.nonRotatingEmptyForMovement = makeRenderlessMotionHelper(this.empty, `${this.name || 'Chai'}_MOVEMENT_DIRECTION_HELPER`);
     if (this.olam) this.olam.scene.add(this.emptyCopy);
     this.setPosition(this.mesh.position);
   }

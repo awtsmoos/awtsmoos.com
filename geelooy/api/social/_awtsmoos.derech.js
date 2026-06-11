@@ -2,9 +2,10 @@
 /**
  * @module SocialApiDerech
  * @description
- * Chapter 189: The social API gate opens to the recursive entity universe and
- * the Node OS filesystem layer. Old APIs remain mounted; new APIs add safer,
- * richer alternate views over the same living data.
+ * Chapter 190: The social API gate opens to the recursive entity universe, the
+ * Node OS filesystem layer, and now the harmless living read-only bridge. Old
+ * APIs remain mounted; new APIs add safer, richer alternate views over the same
+ * living data, as the Awtsmoos reveals one light through many vessels.
  */
 
 const aliases = require("./_awtsmoos.alias.js");
@@ -20,6 +21,7 @@ const keys = require("./_awtsmoos.keys.js");
 const graph = require("./_awtsmoos.graph.js");
 const content = require("./_awtsmoos.content.js");
 const entities = require("./_awtsmoos.entities.js");
+const living = require("./_awtsmoos.living.js");
 const assets = require("./_awtsmoos.assets.js");
 const editor = require("./_awtsmoos.editor.js");
 const governance = require("./_awtsmoos.governance.js");
@@ -68,6 +70,7 @@ module.exports = async $i => {
         ...graph(vessel),
         ...content(vessel),
         ...entities(vessel),
+        ...living(vessel),
         ...assets(vessel),
         ...editor(vessel),
         ...governance(vessel),

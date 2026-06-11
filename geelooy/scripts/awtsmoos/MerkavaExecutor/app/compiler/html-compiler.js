@@ -5,11 +5,10 @@
   /**
    * B"H. HTML as a compact tree, not a tag stream.
    *
-   * The old path emitted open/close tokens and sometimes collapsed shells. This
-   * path parses a tiny DOM-shaped tree and emits pre-order semantic nodes:
-   * tagId, attrCount, childCount, attrId/value pairs. Closing tags vanish.
-   * In maximum semantic mode, visible text may be dropped while structure and
-   * cross-language public slots remain reconstructable.
+   * Each semantic node carries tag, attributes, and child count. Shell phrases
+   * are allowed for compact public id/class wrappers, but the children are still
+   * emitted immediately after the shell so the virtual DOM can resurrect the
+   * actual compiled tree rather than a hollow costume.
    */
   function parseHtml(src, pools, ops, publicSymbols) {
     const roots = buildTree(src, pools, publicSymbols);
@@ -26,9 +25,12 @@
         flushText(text, pools, stack);
         const read = readNode(src, index, pools, publicSymbols);
         index = read.next;
-        if (read.close) closeStack(stack, read.tag);
+        if (read.close) closeStack(stack);
         else if (read.node) attach(read.node, roots, stack, read.selfClosing);
-      } else { text.push(src[index]); index += 1; }
+      } else {
+        text.push(src[index]);
+        index += 1;
+      }
     }
     flushText(text, pools, stack);
     return roots;
@@ -61,11 +63,15 @@
     return { close: false, node, selfClosing: selfClosing || isVoidTag(tag.value), next: index + 1 };
   }
 
-  function skipTag(src, index) { while (index < src.length && src[index] !== ">") index += 1; return index + 1; }
+  function skipTag(src, index) {
+    while (index < src.length && src[index] !== ">") index += 1;
+    return index + 1;
+  }
 
   function attach(node, roots, stack, selfClosing) {
     const parent = stack[stack.length - 1];
-    if (parent) parent.children.push(node); else roots.push(node);
+    if (parent) parent.children.push(node);
+    else roots.push(node);
     if (!selfClosing) stack.push(node);
   }
 
@@ -81,13 +87,20 @@
   }
 
   function emitNode(node, pools, ops) {
-    if (node.text !== undefined) { ops.push([root.AwtsEctIds.ops.HTML_TEXT, node.text]); return; }
+    if (node.text !== undefined) {
+      ops.push([root.AwtsEctIds.ops.HTML_TEXT, node.text]);
+      return;
+    }
     const shell = shellPhrase(node);
-    if (shell) { ops.push(shell); return; }
+    if (shell) ops.push(shell);
+    else ops.push(treeOp(node));
+    node.children.forEach(child => emitNode(child, pools, ops));
+  }
+
+  function treeOp(node) {
     const op = [root.AwtsEctIds.ops.PHRASE, phraseId("HTML_TREE_NODE"), node.tag, node.attrs.length, node.children.length];
     node.attrs.forEach(pair => { op.push(pair[0], pair[1]); });
-    ops.push(op);
-    node.children.forEach(child => emitNode(child, pools, ops));
+    return op;
   }
 
   function shellPhrase(node) {
@@ -100,7 +113,9 @@
 
   function findAttr(node, name) {
     const wanted = attrId(name, { custom: [] });
-    for (let index = 0; index < node.attrs.length; index += 1) if (node.attrs[index][0] === wanted) return node.attrs[index][1];
+    for (let index = 0; index < node.attrs.length; index += 1) {
+      if (node.attrs[index][0] === wanted) return node.attrs[index][1];
+    }
     return -1;
   }
 

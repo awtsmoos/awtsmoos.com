@@ -12,6 +12,7 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { hasVisibleRenderable } from './fallbackBody.js?v=chossid-visible-guarantee-20260610-bh707';
+import { sanitizeLivingModelTree } from '../../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js';
 
 const ROOT_POS = new THREE.Vector3();
 const MAX_REASONABLE_OFFSET = 2.4;
@@ -37,6 +38,7 @@ export function prepareChossidModel(chossid) {
 /** @param {THREE.Object3D} model Model root. @param {object} chossid Player. */
 function markModelAsPlayerVisual(model, chossid) {
   model.visible = true;
+  sanitizeLivingModelTree(model, { isPlayer: true });
   Object.assign(model.userData ||= {}, { isLiving: true, isPlayer: true, skipOctree: true, noOctree: true, addToOctree: false });
   model.traverse(child => {
     Object.assign(child.userData ||= {}, { isLiving: true, isPlayer: true, skipOctree: true, noOctree: true, addToOctree: false });

@@ -13,6 +13,7 @@
 import Medabeir from "../../chayim/medabeir/index.js?v=no-auto-dialogue-20260602-bh9";
 import * as THREE from "/games/scripts/build/three.module.js";
 import { buildGuideVisualFromRig } from "./guide/runtime/GuideVisualFactory.js";
+import { isDrawableMaterial, shouldHideLivingNode } from "../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js";
 const GUIDE_MODEL = "https://models-3122d.web.app/chossid.glb?k=1";
 const DEFAULT_DIALOGUES = ["Shalom! I guard the challenge path.", "Tap Levels to open all available challenges.", "The village grows when mitzvos become action."];
 const DEFAULT_SHOP = [
@@ -29,17 +30,32 @@ function enrichedSlots(player) { const inv = player?.inventory; return (inv?.slo
 function enrichedShop(player, items) { const inv = player?.inventory; return (items || []).map(s => inv?.enrichItemData ? inv.enrichItemData(s) : s); }
 function makeRayProxy(nivra) { const mesh = new THREE.Mesh(new THREE.BoxGeometry(3.4, 3.6, 3.4), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })); mesh.name = "GUIDE_EXPLICIT_TAP_COLLIDER_RAYCAST_ONLY"; mesh.position.set(0, 1.25, 0); Object.assign(mesh.userData, { awtsmoosRayProxy: true, explicitTapOnly: true, skipRaycast: false, skipOctree: true, noOctree: true }); mesh.nivraAwtsmoos = nivra; return mesh; }
 function fallbackRig(op = {}) { return op.visualRig || { kind: 'fallback-guide', clothing: [{ meshName: ['robe'], color: '#f7f2df' }, { meshName: ['vest'], color: '#2f5fa8' }, { meshName: ['belt'], color: '#6d4424' }], face: { eyes: { irisColor: [0.08, 0.08, 0.08] }, yarmulke: { color: '#101014' }, beard: { colorTip: [0.44, 0.25, 0.12] } } }; }
-function hasVisibleRealMesh(root) { let found = false; root?.traverse?.(child => { if (child?.isMesh && child.visible !== false && !child.userData?.awtsmoosGeneratedFallback) found = true; }); return found; }
+function guideCarrierGolem() { return { name: "NPC_INVISIBLE_CARRIER", guf: { BoxGeometry: [0.01, 0.01, 0.01] }, toyr: { MeshBasicMaterial: { color: 0xffffff, transparent: true, opacity: 0, depthWrite: false } } }; }
+function hasVisibleRealMesh(root) {
+  let found = false;
+  root?.traverse?.(child => {
+    if (found || (!child?.isMesh && !child?.isSkinnedMesh)) return;
+    if (child.userData?.isNpcVisual || child.name === "NPC_INVISIBLE_CARRIER") return;
+    if (child.visible === false || shouldHideLivingNode(child)) return;
+    const materials = Array.isArray(child.material) ? child.material : [child.material];
+    if (!materials.some(isDrawableMaterial)) return;
+    const count = child.geometry?.attributes?.position?.count || child.geometry?.index?.count || 0;
+    if (count > 0) found = true;
+  });
+  return found;
+}
+function hideCarrierMesh(root) { root?.traverse?.(child => { if (child?.name !== "NPC_INVISIBLE_CARRIER" && child?.geometry?.parameters?.width !== 0.01) return; const mats = Array.isArray(child.material) ? child.material : [child.material]; mats.forEach(mat => { if (!mat) return; mat.transparent = true; mat.opacity = 0; mat.depthWrite = false; mat.visible = true; }); }); }
 
 export default class InteractiveNpc extends Medabeir {
   type = "interactiveNpc"; static itemName = "Village Guide"; static description = "A visible tap-only level guide with stats, shop, and rigged visual metadata.";
   constructor(op = {}, olam) {
-    const clean = { ...op, dialogue: null, dialogues: null, messageTree: null, proximity: num(op.proximity, 18), talkDistance: num(op.talkDistance, num(op.proximity, 18)), interactable: true, heesHawveh: true, visualHeight: num(op.visualHeight, 1.8), height: num(op.height, 1.8), radius: num(op.radius, 0.52), path: op.path || GUIDE_MODEL, chaweeyoosMap: op.chaweeyoosMap || { idle: "dance silly", run: "dance silly", walk: "dance silly" } };
+    const realModelRequested = op.useRealNpcModel === true;
+    const clean = { ...op, dialogue: null, dialogues: null, messageTree: null, proximity: num(op.proximity, 18), talkDistance: num(op.talkDistance, num(op.proximity, 18)), interactable: true, heesHawveh: true, visualHeight: num(op.visualHeight, 1.8), height: num(op.height, 1.8), radius: num(op.radius, 0.52), path: realModelRequested ? (op.path || GUIDE_MODEL) : null, golem: realModelRequested ? op.golem : guideCarrierGolem(), chaweeyoosMap: op.chaweeyoosMap || { idle: "dance silly", run: "dance silly", walk: "dance silly" } };
     super(clean, olam); this.options = { ...op, path: clean.path }; this.dialogues = op.dialogues || op.dialogue || DEFAULT_DIALOGUES; this.shopInventory = op.shopInventory || DEFAULT_SHOP; this.areaStats = op.areaStats || op.npcStats || DEFAULT_STATS; this.visualRig = fallbackRig(op); this.height = clean.visualHeight; this.talkDistance = clean.talkDistance; this.interactionMesh = makeRayProxy(this); this.raycastMesh = this.interactionMesh;
     this.on("pointerdown", c => this.openGuideMenu(c, true)); this.on("pointerup", c => this.openGuideMenu(c, true)); this.on("click", c => this.openGuideMenu(c, true));
   }
   async heescheel(olam) { await super.heescheel(olam); if (!this.mesh) this.mesh = new THREE.Object3D(); Object.assign(this.mesh.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, awtsmoosVillageGuide: true, tapOnlyGuide: true }); this.mesh.nivraAwtsmoos = this; seal(this.mesh, this); this.guideVisualMesh = buildGuideVisualFromRig(this.visualRig); seal(this.guideVisualMesh, this); this.mesh.add(this.guideVisualMesh, this.interactionMesh); if (typeof this.randomizeAppearance === "function") this.randomizeAppearance(); if (olam.interactableNivrayim && !olam.interactableNivrayim.includes(this)) olam.interactableNivrayim.push(this); this.isReady = true; }
-  async ready() { await super.ready(); seal(this.modelMesh || this.mesh, this); this.syncGuideVisualVisibility(); this.playGuideDance(); }
+  async ready() { await super.ready(); seal(this.modelMesh || this.mesh, this); hideCarrierMesh(this.modelMesh); this.syncGuideVisualVisibility(); this.playGuideDance(); }
   ayshPeula(peula, actor) { if (["pointerdown", "pointerup", "click"].includes(peula)) return this.openGuideMenu(actor, true); if (peula === "accepted interaction") return isExplicitTap(actor) ? this.openGuideMenu(actor, true) : false; return super.ayshPeula?.(peula, actor); }
   syncGuideVisualVisibility() { if (!this.guideVisualMesh) return false; const hasReal = hasVisibleRealMesh(this.modelMesh); this.guideVisualMesh.visible = !hasReal; return hasReal; }
   findTalker(actor) { return actor?.player || (posOf(actor) ? actor : this.olam?.chossid || this.olam?.player || null); }

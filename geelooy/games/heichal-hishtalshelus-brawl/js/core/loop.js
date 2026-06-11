@@ -8,6 +8,57 @@ import { maybeStartAttack } from '../combat/startAttack.js';
 import { updateShield } from '../combat/shields.js';
 import { resolveAttacks } from '../combat/attackResolver.js';
 import { resolveWeaponPickups, syncHeldWeapons } from '../weapons/weaponPickup.js';
+import { stepPowerups } from '../powerups/powerupSystem.js';
+import { stepNarrative } from '../narrative/narrativeSystem.js';
 import { addEventParticles, stepParticles } from '../particles/particles.js';
-/** B"H — one tick: input descends, combat erupts, souls remain or fall. */
-export function stepState(state,input){ state.frame++; driveBots(state); for(const f of state.fighters){ if(f.dead)continue; const i=f.human?input:f.input; f.stun=Math.max(0,f.stun-1); updateShield(f,i); maybeStartAttack(f,i); applyMovement(f,i); integrate(f); resolvePlatforms(f,state.map); solveSkeleton(f); resolveBlast(f,state.map); } resolveAttacks(state); resolveWeaponPickups(state); syncHeldWeapons(state); addEventParticles(state); stepParticles(state); const alive=state.fighters.filter(f=>!f.dead); state.winner=alive.length===1?alive[0].name:''; }
+import { addWeaponTrails } from '../particles/emitters/weaponTrails.js';
+import { addAmbientDust } from '../particles/emitters/ambientDust.js';
+
+/**
+ * B"H
+ * One tick of the fight.
+ *
+ * Chapter 50: time itself now flinches. During hitstop, bodies freeze at the
+ * instant of consequence while sparks and story still move. The player reads
+ * impact without losing the living smoke around it.
+ */
+export function stepState(state, input) {
+  state.frame++;
+  if (stepHitstop(state)) return;
+  driveBots(state);
+  for (const f of state.fighters) stepFighter(state, f, f.human ? input : f.input);
+  resolveAttacks(state);
+  resolveWeaponPickups(state);
+  stepPowerups(state);
+  syncHeldWeapons(state);
+  stepAftermath(state);
+  const alive = state.fighters.filter(f => !f.dead);
+  state.winner = alive.length === 1 ? alive[0].name : '';
+}
+
+function stepHitstop(state) {
+  if (!state.hitstop) return false;
+  state.hitstop--;
+  stepAftermath(state);
+  return true;
+}
+
+function stepAftermath(state) {
+  stepNarrative(state);
+  addWeaponTrails(state);
+  addAmbientDust(state);
+  addEventParticles(state);
+  stepParticles(state);
+}
+
+function stepFighter(state, f, input) {
+  if (f.dead) return;
+  f.stun = Math.max(0, f.stun - 1);
+  updateShield(f, input);
+  maybeStartAttack(f, input);
+  applyMovement(f, input);
+  integrate(f);
+  resolvePlatforms(f, state.map);
+  solveSkeleton(f);
+  resolveBlast(f, state.map);
+}

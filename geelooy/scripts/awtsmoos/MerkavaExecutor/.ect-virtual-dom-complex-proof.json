@@ -1,0 +1,18 @@
+{
+  "engine": "Merkava Virtual DOM",
+  "original": 709,
+  "storage": 101,
+  "ram": 101,
+  "directRam": true,
+  "lowRam": true,
+  "proof": {
+    "htmlChars": 238,
+    "cssChars": 201,
+    "jsChars": 104,
+    "unsupportedFragments": 0,
+    "reconstructable": true
+  },
+  "html": "<main class=\"dash\"><article class=\"card\"><header><h2></h2><button id=\"go\"></button></header><section><p></p><output id=\"out\"></output></section></article><article class=\"card\"><h2></h2><ul><li></li><li></li><li></li></ul></article></main>",
+  "css": ".dash{/*semantic*/}\n/*cssGroup:-999,1,177,8,84,81,7,160,2,93,0,-999,13*/\n.card{/*semantic*/}\n/*cssAtomRun:22,27,30,12*/\nbutton{/*semantic*/}\n/*cssAtomRun:8,24*/\noutput{/*semantic*/}\n/*cssAtomRun:0,32*/",
+  "js": "const _$0=document.m0(\"go\");\nconst _$1=path0(\"out\");\n_$0.addEventListener(\"click\",()=>{Element.m5=\"\";});"
+}

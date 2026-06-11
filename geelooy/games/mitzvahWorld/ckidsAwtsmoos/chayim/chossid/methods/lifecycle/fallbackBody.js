@@ -11,6 +11,7 @@
  * remote GLB does.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
+import { hasVisibleLivingRenderable } from '../../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js';
 
 const FALLBACK_NAME = 'BASIC_VISIBLE_CHOSSID_BODY';
 
@@ -45,18 +46,7 @@ function fallbackHost(chossid) {
 
 /** @param {THREE.Object3D|null} root Model root. @returns {boolean} Visible mesh exists. */
 export function hasVisibleRenderable(root) {
-  let found = false;
-  root?.traverse?.(child => {
-    if (found || !child?.isMesh) return;
-    if (child.visible === false) return;
-    const material = Array.isArray(child.material) ? child.material[0] : child.material;
-    if (material?.visible === false || material?.opacity === 0) return;
-    const geometry = child.geometry;
-    if (!geometry) return;
-    const count = geometry.attributes?.position?.count || geometry.index?.count || 0;
-    if (count > 0) found = true;
-  });
-  return found;
+  return hasVisibleLivingRenderable(root);
 }
 
 /** @param {object} chossid Player entity. @returns {THREE.Group} Fallback body. */

@@ -1,3 +1,34 @@
 // B"H
-/** @file VillageHouseCollider.js - generated village section data. */
-export default [{"name":"main_house_fitted_colliders","targetName":"main_warm_house","width":34,"depth":23,"height":13.6,"floorTop":0.058,"thickness":0.85,"position":{"x":13,"y":0,"z":-11},"rotation":{"y":-0.25},"useAuthoredY":true,"thresholdCollider":false,"contractDriven":true,"useVisualHouseY":true,"doorWidth":5.1,"doorClearHeight":4.65},{"name":"left_house_fitted_colliders","targetName":"left_meadow_house","width":34,"depth":23,"height":13.6,"floorTop":0.058,"thickness":0.85,"position":{"x":-46,"y":0,"z":27},"rotation":{"y":0.55},"useAuthoredY":true,"thresholdCollider":false,"contractDriven":true,"useVisualHouseY":true,"doorWidth":5.1,"doorClearHeight":4.65},{"name":"right_house_fitted_colliders","targetName":"right_orchard_house","width":34,"depth":23,"height":13.6,"floorTop":0.058,"thickness":0.85,"position":{"x":57,"y":0,"z":33},"rotation":{"y":-0.86},"useAuthoredY":true,"thresholdCollider":false,"contractDriven":true,"useVisualHouseY":true,"doorWidth":5.1,"doorClearHeight":4.65}];
+/**
+ * @file VillageHouseCollider.js
+ * @description
+ * Chapter 643: The invisible house walls follow the houses out of frame.
+ *
+ * These are not scenery. They are quiet physics letters, hidden from the eye
+ * but present to the feet, so the Awtsmoos lets the player walk around homes
+ * without the first camera being swallowed by a collider-sized stone page.
+ */
+
+const collider = (name, targetName, position, rotationY, scale = 1) => ({
+  name,
+  targetName,
+  width: 34 * scale,
+  depth: 23 * scale,
+  height: 13.6 * scale,
+  floorTop: 0.058,
+  thickness: 0.85,
+  position,
+  rotation: { y: rotationY },
+  useAuthoredY: true,
+  thresholdCollider: false,
+  contractDriven: true,
+  useVisualHouseY: true,
+  doorWidth: 5.1 * scale,
+  doorClearHeight: 4.65 * scale
+});
+
+export default [
+  collider("main_house_fitted_colliders", "main_warm_house", { x: 145, y: 0, z: -110 }, -0.34, 0.64),
+  collider("left_house_fitted_colliders", "left_meadow_house", { x: -120, y: 0, z: 92 }, 0.52, 0.68),
+  collider("right_house_fitted_colliders", "right_orchard_house", { x: 132, y: 0, z: 96 }, -0.74, 0.66)
+];

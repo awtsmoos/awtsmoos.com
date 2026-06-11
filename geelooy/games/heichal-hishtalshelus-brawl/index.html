@@ -9,13 +9,16 @@
 <body>
   <main class="shell">
     <section class="topbar">
-      <div><h1>Heichal Hishtalshelus Brawl</h1><p>Canvas-only procedural skeleton arena</p></div>
-      <label>Map <select id="mapSelect"></select></label>
+      <div>
+        <h1>Heichal Hishtalshelus Brawl</h1>
+        <p id="statusText">Choose a character, choose a map, then survive.</p>
+      </div>
       <label>Bots <select id="botSelect"><option>3</option><option selected>5</option><option>7</option></select></label>
-      <button id="restart">Recreate</button>
+      <button id="restart">Menu</button>
       <button id="debugToggle">Debug</button>
     </section>
     <canvas id="olam"></canvas>
+    <section id="menuOverlay" class="menuOverlay"></section>
     <section id="touchControls" class="touchControls">
       <div id="stick" class="stick"><span></span></div>
       <div class="touchButtons">

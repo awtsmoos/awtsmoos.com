@@ -54,7 +54,7 @@ export async function ensureChossidNpcs(context) {
 
   const added = [];
   const settings = scene.userData?.mitzvahWorldSettings || {};
-  const limit = Number.isFinite(settings.npcLimit) ? settings.npcLimit : CHOSSID_NPC_DEFS.length;
+  const limit = Number.isFinite(settings.npcLimit) ? settings.npcLimit : 4;
   const defs = makeVisibleDefs(scene).slice(0, limit);
 
   for (const def of defs) {

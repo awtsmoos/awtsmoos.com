@@ -1,0 +1,81 @@
+/* B"H
+ * Chapter 300: The reader returns to a natural river.
+ *
+ * The fixed-shell repair proved too harsh: it made the document and the reader
+ * argue about who owns the wheel. This file restores the reader to normal page
+ * flow while keeping the wrapper and content open, so the browser scrollbar,
+ * wheel, touch, keyboard, inline comments, and virtualization all share one
+ * simple vertical world.
+ */
+
+html.awtsmoos-reader-scroll-repaired,
+body.awtsmoos-reader-scroll-repaired,
+html,
+body {
+    width: 100% !important;
+    min-height: 100% !important;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision,
+.post-reader-localized-context.awtsmoos-reader-vision {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: 100dvh !important;
+    height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+    isolation: isolate !important;
+    touch-action: pan-y !important;
+}
+
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision > .main,
+.post-reader-localized-context.awtsmoos-reader-vision > .main {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: calc(100dvh - var(--awt-header-space, 0px)) !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+    touch-action: pan-y !important;
+}
+
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    min-height: calc(100dvh - var(--awt-header-space, 0px)) !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+    overscroll-behavior-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-behavior: auto !important;
+    touch-action: pan-y !important;
+}
+
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision #realPost.content,
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container,
+.post-reader-localized-context.awtsmoos-reader-vision #realPost.content,
+.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    touch-action: pan-y !important;
+}
+
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .sidebar,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar {
+    max-height: calc(100dvh - 1rem) !important;
+}

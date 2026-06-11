@@ -1,3 +1,26 @@
-import { nearest } from './targeting.js';
-/** B"H — bot brain presses the same buttons as the player, only faster. */
-export function driveBots(state){ for(const f of state.fighters){ if(f.human||f.dead)continue; const t=nearest(f,state.fighters); if(!t)continue; const dx=t.x-f.x, near=Math.abs(dx)<90, danger=f.y>state.map.platforms[0].y+80; f.ai.clock++; f.input={x:danger?Math.sign(state.map.platforms[0].x+state.map.platforms[0].w/2-f.x):Math.sign(dx),jump:f.grounded&&(t.y<f.y-50||danger),punch:near&&f.ai.clock%50<7,kick:near&&f.ai.clock%83<8,grab:near&&t.blocking&&f.ai.clock%60<8,shield:near&&f.ai.clock%120>90,special:near&&f.heldWeapon&&f.ai.clock%70<10}; } }
+import { executeIntent } from './brain/execute.js';
+import { prepareMemory } from './brain/memory.js';
+import { senseWorld } from './brain/sense.js';
+import { chooseIntent } from './brain/utility.js';
+import { chooseTarget } from './brain/threats.js';
+
+/**
+ * B"H
+ * Modular bot brain entry.
+ *
+ * Chapter 37: the bot no longer lunges at the nearest shadow by default. It
+ * chooses the most meaningful threat, predicts motion, avoids body knots, and
+ * then lets smaller organs translate the desire into real inputs.
+ */
+export function driveBots(state) {
+  for (let i = 0; i < state.fighters.length; i++) {
+    const bot = state.fighters[i];
+    if (bot.human || bot.dead) continue;
+    prepareMemory(bot);
+    const target = chooseTarget(bot, state.fighters);
+    if (!target) continue;
+    const world = senseWorld(bot, target, state);
+    const intent = chooseIntent(bot, world);
+    bot.input = executeIntent(bot, world, intent);
+  }
+}

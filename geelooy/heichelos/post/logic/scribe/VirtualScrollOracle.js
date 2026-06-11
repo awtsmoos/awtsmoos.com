@@ -2,11 +2,13 @@
 /**
  * @module VirtualScrollOracle
  * @description
- * Chapter 276: The oracle becomes a lean river-master.
+ * Chapter 284: The oracle now survives the thin-scroll illusion.
  *
- * Visibility, coordinates, and target math now live in smaller vessels. This
- * file only keeps the living scroll contract: add ahead in the scroll
- * direction, never remove awakened chunks, and preserve the reader's flow.
+ * When the user reaches the bottom of the currently rendered stream, the visible
+ * chunk probe can remain stuck on an old verse because the next verses do not
+ * exist yet. The oracle therefore advances from the rendered edge whenever the
+ * real scroll root is near its bottom/top. It still never prunes or replaces;
+ * it only appends more reader road in both directions.
  */
 
 import { parseScrollTarget, chunkWindow, chunksToPrune, additiveAheadWindow } from "./VirtualScrollMath.js";
@@ -14,16 +16,18 @@ import { currentSubsectionGateState } from "./SubsectionVirtualizer.js";
 import { chunkNode, visibleChunkId } from "./VirtualScrollVisibility.js";
 import { exactTarget, scrollToTarget, targetFromQuery } from "./VirtualScrollTarget.js";
 import { markVisibleCoordinate } from "./VirtualScrollCoordinates.js";
+import { addRootScrollListener, bottomDistanceOf, rootDiagnostics, scrollRoot, scrollTopOf } from "./VirtualScrollRoot.js";
 
 export { parseScrollTarget, chunkWindow, chunksToPrune, additiveAheadWindow };
 
-const AHEAD_PX = 5600;
-const PREFETCH_STEPS = 5;
+const AHEAD_PX = 6400;
+const TOP_PX = 1900;
+const PREFETCH_STEPS = 10;
+const HEARTBEAT_MS = 240;
 const MIN_DELTA = 1;
-const HEARTBEAT_MS = 720;
 let renderVerse = null;
 let totalVerses = 0;
-let scrollHandler = null;
+let detachScroll = null;
 let heartbeatId = 0;
 let cursorVerse = 0;
 let lastY = 0;
@@ -34,6 +38,15 @@ const revealed = new Set();
 function syncGlobals() {
     window.__awtsmoosCurrentVerseIndex = cursorVerse;
     window.__awtsmoosRevealedVerseChunks = [...revealed].sort((a, b) => a - b);
+    window.__awtsmoosVirtualScrollRoot = rootDiagnostics();
+}
+
+function minRevealed() {
+    return revealed.size ? Math.min(...revealed) : cursorVerse;
+}
+
+function maxRevealed() {
+    return revealed.size ? Math.max(...revealed) : cursorVerse;
 }
 
 function gateAllowsPast(id, direction) {
@@ -42,11 +55,22 @@ function gateAllowsPast(id, direction) {
     return direction > 0 ? !gate.canNext : !gate.canPrev;
 }
 
+function edgeCursor(direction) {
+    const root = scrollRoot();
+    if (direction > 0 && bottomDistanceOf(root) < AHEAD_PX) return maxRevealed();
+    if (direction < 0 && scrollTopOf(root) < TOP_PX) return minRevealed();
+    return cursorVerse;
+}
+
 function adoptVisibleCursor(direction) {
     const visible = visibleChunkId(cursorVerse);
-    if (!Number.isInteger(visible) || visible === cursorVerse || !revealed.has(visible)) return;
-    if (direction > 0 && visible > cursorVerse && gateAllowsPast(cursorVerse, 1)) cursorVerse = visible;
-    if (direction < 0 && visible < cursorVerse && gateAllowsPast(cursorVerse, -1)) cursorVerse = visible;
+    if (Number.isInteger(visible) && revealed.has(visible)) {
+        if (direction > 0 && visible > cursorVerse && gateAllowsPast(cursorVerse, 1)) cursorVerse = visible;
+        if (direction < 0 && visible < cursorVerse && gateAllowsPast(cursorVerse, -1)) cursorVerse = visible;
+    }
+    const edge = edgeCursor(direction);
+    if (direction > 0 && edge > cursorVerse && gateAllowsPast(cursorVerse, 1)) cursorVerse = edge;
+    if (direction < 0 && edge < cursorVerse && gateAllowsPast(cursorVerse, -1)) cursorVerse = edge;
     syncGlobals();
 }
 
@@ -62,26 +86,28 @@ async function reveal(id) {
 
 function nearGate(direction, force) {
     if (force) return true;
-    const base = chunkNode(cursorVerse);
-    if (!base) return false;
-    const rect = base.getBoundingClientRect();
-    return direction > 0 ? rect.bottom < window.innerHeight + AHEAD_PX : rect.top > -AHEAD_PX;
+    const root = scrollRoot();
+    if (direction > 0) return bottomDistanceOf(root) < AHEAD_PX;
+    return scrollTopOf(root) < TOP_PX;
 }
 
-function wantedIds(direction, force = false) {
+function wantedIds(direction, force = false, count = PREFETCH_STEPS) {
     if (!nearGate(direction, force)) return [];
-    return additiveAheadWindow(cursorVerse, totalVerses, direction, PREFETCH_STEPS);
+    const base = edgeCursor(direction);
+    return additiveAheadWindow(base, totalVerses, direction, count);
 }
 
 function schedulePrewarm(direction, options = {}) {
     const normalized = direction >= 0 ? 1 : -1;
+    adoptVisibleCursor(normalized);
     if (!gateAllowsPast(cursorVerse, normalized) && !options.force) return queue;
-    const ids = wantedIds(normalized, !!options.force);
+    const ids = wantedIds(normalized, !!options.force, Number(options.count || PREFETCH_STEPS));
     queue = queue.then(async () => {
-        for (const id of ids) await reveal(id);
+        let opened = false;
+        for (const id of ids) opened = (await reveal(id)) || opened;
         adoptVisibleCursor(normalized);
         markVisibleCoordinate(cursorVerse);
-        return ids.length > 0;
+        return opened;
     }).catch(error => {
         console.warn("B\"H VirtualScrollOracle prewarm resisted", error);
         return false;
@@ -89,31 +115,43 @@ function schedulePrewarm(direction, options = {}) {
     return queue;
 }
 
-function handleIntent(delta) {
-    if (Math.abs(delta) < MIN_DELTA) return false;
+function handleIntent(delta, options = {}) {
+    const forced = !!options.force;
+    if (!forced && Math.abs(delta) < MIN_DELTA) return false;
     lastDirection = delta >= 0 ? 1 : -1;
     adoptVisibleCursor(lastDirection);
     markVisibleCoordinate(cursorVerse);
-    return schedulePrewarm(lastDirection);
+    return schedulePrewarm(lastDirection, options);
+}
+
+function eventDelta(event, nextY) {
+    if (typeof event?.deltaY === "number") return event.deltaY;
+    if (event?.key === "ArrowDown" || event?.key === "PageDown" || event?.key === "End" || event?.key === " ") return 1;
+    if (event?.key === "ArrowUp" || event?.key === "PageUp" || event?.key === "Home") return -1;
+    return nextY - lastY;
 }
 
 function attachListeners() {
     let raf = 0;
-    scrollHandler = event => {
-        const eventDelta = typeof event?.deltaY === "number" ? event.deltaY : window.scrollY - lastY;
+    lastY = scrollTopOf(scrollRoot());
+    const handler = event => {
         if (raf) return;
         raf = requestAnimationFrame(() => {
             raf = 0;
-            const scrollDelta = window.scrollY - lastY;
-            lastY = window.scrollY;
-            handleIntent(Math.abs(eventDelta) > Math.abs(scrollDelta) ? eventDelta : scrollDelta || lastDirection);
+            const nextY = scrollTopOf(scrollRoot());
+            const delta = eventDelta(event, nextY);
+            const scrollDelta = nextY - lastY;
+            lastY = nextY;
+            handleIntent(Math.abs(delta) > Math.abs(scrollDelta) ? delta : scrollDelta || lastDirection);
         });
     };
-    lastY = window.scrollY;
-    window.addEventListener("scroll", scrollHandler, { passive: true });
-    window.addEventListener("wheel", scrollHandler, { passive: true });
-    window.addEventListener("touchmove", scrollHandler, { passive: true });
-    heartbeatId = window.setInterval(() => handleIntent(lastDirection), HEARTBEAT_MS);
+    detachScroll = addRootScrollListener(handler);
+    heartbeatId = window.setInterval(() => {
+        syncGlobals();
+        const root = scrollRoot();
+        const forced = bottomDistanceOf(root) < AHEAD_PX || scrollTopOf(root) < TOP_PX;
+        handleIntent(lastDirection, { force: forced, count: PREFETCH_STEPS });
+    }, HEARTBEAT_MS);
 }
 
 export function awakenVirtualScrollOracle({ totalChunks, renderChunk, currentChunk = 0 } = {}) {
@@ -125,7 +163,8 @@ export function awakenVirtualScrollOracle({ totalChunks, renderChunk, currentChu
     syncGlobals();
     window.__awtsmoosAutoScrollVerseBuffer = ensureVerseBuffer;
     attachListeners();
-    schedulePrewarm(1, { force: true });
+    schedulePrewarm(1, { force: true, count: PREFETCH_STEPS });
+    schedulePrewarm(-1, { force: true, count: PREFETCH_STEPS });
 }
 
 export async function restoreScrollTarget(query, renderChunk) {
@@ -135,34 +174,30 @@ export async function restoreScrollTarget(query, renderChunk) {
     revealed.add(cursorVerse);
     syncGlobals();
     await renderChunk(cursorVerse);
-    await schedulePrewarm(1, { force: true });
-    await schedulePrewarm(-1, { force: true });
+    await schedulePrewarm(1, { force: true, count: PREFETCH_STEPS });
+    await schedulePrewarm(-1, { force: true, count: PREFETCH_STEPS });
     const target = exactTarget(idx, sub);
     if (!target) return null;
     target.classList.add("awtsmoos-refresh-target");
     requestAnimationFrame(() => requestAnimationFrame(() => {
         scrollToTarget(target);
         markVisibleCoordinate(cursorVerse);
-        lastY = window.scrollY;
+        lastY = scrollTopOf(scrollRoot());
     }));
     setTimeout(() => target.classList.remove("awtsmoos-refresh-target"), 2200);
     return target;
 }
 
 export function ensureVerseBuffer(direction = 1, options = {}) {
-    return schedulePrewarm(direction >= 0 ? 1 : -1, options);
+    return schedulePrewarm(direction >= 0 ? 1 : -1, { ...options, force: true });
 }
 
 export function resetVirtualScrollOracle() {
-    if (scrollHandler) {
-        window.removeEventListener("scroll", scrollHandler);
-        window.removeEventListener("wheel", scrollHandler);
-        window.removeEventListener("touchmove", scrollHandler);
-    }
+    detachScroll?.();
     if (heartbeatId) window.clearInterval(heartbeatId);
     renderVerse = null;
     totalVerses = 0;
-    scrollHandler = null;
+    detachScroll = null;
     heartbeatId = 0;
     cursorVerse = 0;
     lastY = 0;
@@ -170,4 +205,5 @@ export function resetVirtualScrollOracle() {
     queue = Promise.resolve(false);
     revealed.clear();
     if (window.__awtsmoosAutoScrollVerseBuffer === ensureVerseBuffer) window.__awtsmoosAutoScrollVerseBuffer = null;
+    window.__awtsmoosVirtualScrollRoot = null;
 }

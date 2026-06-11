@@ -92,10 +92,10 @@ function trace(entity, stage, extra = {}) {
   if (stage === "before" && entity.__lastPhysicsTraceAt && now - entity.__lastPhysicsTraceAt < 280) return;
   if (stage === "before") entity.__lastPhysicsTraceAt = now;
   const payload = { seal: TRACE_SEAL, stage, ...extra, ...snapshot(entity) };
-  entity.olam.__movementTrace ||= [];
+/*  entity.olam.__movementTrace ||= [];
   entity.olam.__movementTrace.push({ at: now, kind: "PHYSICS_MOTION_TRACE", ...payload });
   entity.olam.__movementTrace = entity.olam.__movementTrace.slice(-220);
-  console.info('B"H | PHYSICS_MOTION_TRACE', payload);
+  console.info('B"H | PHYSICS_MOTION_TRACE', payload);*/
 }
 
 const wrappedPhysics = {
@@ -111,15 +111,15 @@ const wrappedPhysics = {
       this.jumped = false;
       this.didJump = false;
       sealVisualBody(this);
-      trace(this, "spike-disabled", { dt });
+     // trace(this, "spike-disabled", { dt });
       return;
     }
-    trace(this, "before", { dt });
+    //trace(this, "before", { dt });
     const before = this.mesh?.position?.clone?.();
     const result = basePhysics.heesHawvoos.call(this, dt);
     sealVisualBody(this);
     const moved = before && this.mesh?.position ? before.distanceTo(this.mesh.position) : 0;
-    trace(this, "after", { dt, moved });
+  //  trace(this, "after", { dt, moved });
     return result;
   }
 };

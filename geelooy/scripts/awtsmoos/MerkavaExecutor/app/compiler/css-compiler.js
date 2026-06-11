@@ -76,9 +76,11 @@
       const block = readBlock(body, stop.next);
       const decls = declarations(block.value, pools);
       const encoded = compactDeclPayload(decls);
-      stops.push({ stop: stopId(ns.trim(stop.value)), decls: encoded });
+      stops.push({ stop: stopId(ns.trim(stop.value)), rawDecls: decls, decls: encoded });
       index = block.next;
     }
+    const rotate = rotateKeyframesPhrase(name, stops);
+    if (rotate) return [rotate];
     const out = [root.AwtsEctIds.ops.PHRASE, phraseId("CSS_KEYFRAMES"), ns.ref(pools.sym, name), stops.length];
     stops.forEach(item => {
       out.push(item.stop, item.decls.length);
@@ -86,6 +88,60 @@
     });
     return [out];
   }
+
+  /**
+   * B"H. Simple rotate keyframes phrase: from/to transform:rotate(Ndeg).
+   * It is generic CSS structure, not a demo recipe, and removes bulky per-stop
+   * declaration payload when the semantic shape is exactly a standard rotate.
+   */
+  function rotateKeyframesPhrase(name, stops) {
+    if (!name || stops.length !== 2) return null;
+    const first = rotateStop(stops[0]);
+    const second = rotateStop(stops[1]);
+    if (!first || !second) return null;
+    const fromStop = stops[0].stop;
+    const toStop = stops[1].stop;
+    if (!isEndpointStop(fromStop) || !isEndpointStop(toStop) || first.unit !== second.unit) return null;
+    return [root.AwtsEctIds.ops.PHRASE, phraseId("CSS_ROTATE_KEYFRAMES"), first.value, second.value, first.unit];
+  }
+
+  function rotateStop(stop) {
+    const ids = root.AwtsEctIds;
+    const decls = stop.rawDecls || [];
+    const transform = ids.cssProps.indexOf("transform");
+    if (decls.length !== 1 || decls[0][0] !== ids.ops.CSS_DECL) return null;
+    if (decls[0][1] !== transform || decls[0][2] !== 9) return null;
+    return { value: decls[0][3], unit: decls[0][4] };
+  }
+
+  function isEndpointStop(id) { return id === 0 || id === 1 || id === 2 || id === 6; }
+
+  /**
+   * B"H. Simple rotate keyframes phrase: from/to transform:rotate(Ndeg).
+   * It is generic CSS structure, not a demo recipe, and removes bulky per-stop
+   * declaration payload when the semantic shape is exactly a standard rotate.
+   */
+  function rotateKeyframesPhrase(name, stops) {
+    if (!name || stops.length !== 2) return null;
+    const first = rotateStop(stops[0]);
+    const second = rotateStop(stops[1]);
+    if (!first || !second) return null;
+    const fromStop = stops[0].stop;
+    const toStop = stops[1].stop;
+    if (!isEndpointStop(fromStop) || !isEndpointStop(toStop) || first.unit !== second.unit) return null;
+    return [root.AwtsEctIds.ops.PHRASE, phraseId("CSS_ROTATE_KEYFRAMES"), first.value, second.value, first.unit];
+  }
+
+  function rotateStop(stop) {
+    const ids = root.AwtsEctIds;
+    const decls = stop.rawDecls || [];
+    const transform = ids.cssProps.indexOf("transform");
+    if (decls.length !== 1 || decls[0][0] !== ids.ops.CSS_DECL) return null;
+    if (decls[0][1] !== transform || decls[0][2] !== 9) return null;
+    return { value: decls[0][3], unit: decls[0][4] };
+  }
+
+  function isEndpointStop(id) { return id === 0 || id === 1 || id === 2 || id === 6; }
 
   function compactDeclPayload(decls) {
     const ids = root.AwtsEctIds;

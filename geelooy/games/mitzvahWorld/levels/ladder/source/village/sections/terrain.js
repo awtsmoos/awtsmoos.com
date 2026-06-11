@@ -15,9 +15,9 @@ export default {
     isSolid: true,
     noSafetySlab: true,
     textureType: "safegrass",
-    textureSize: 768,
-    microNoise: 0.04,
-    mobileTone: "warm-readable-green",
+    textureSize: 512,
+    microNoise: 0.026,
+    mobileTone: "soft-clear-meadow-green",
     points: [
       { x: -95, z: -95, y: 0 }, { x: 95, z: -95, y: 0 },
       { x: 95, z: 95, y: 0 }, { x: -95, z: 95, y: 0 }

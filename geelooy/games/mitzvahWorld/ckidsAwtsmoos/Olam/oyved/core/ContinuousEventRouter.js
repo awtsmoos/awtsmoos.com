@@ -18,10 +18,14 @@ import { resetAfterSpikeDeath, enableAfterSpikeReset } from "./SpikeResetActions
 const MOBILE_MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_STRIDE", "RIGHT_STRIDE"]);
 
 function routerTrace(olam, stage, payload = {}) {
+  const at = Date.now();
+  const active = Array.isArray(payload.active) ? payload.active.length : 0;
+  const cadence = active > 0 ? 900 : 2200;
+  if (olam.__lastContinuousRouterTraceAt && at - olam.__lastContinuousRouterTraceAt < cadence) return;
+  olam.__lastContinuousRouterTraceAt = at;
   olam.__movementTrace ||= [];
-  olam.__movementTrace.push({ at: Date.now(), stage, ...payload });
-  olam.__movementTrace = olam.__movementTrace.slice(-180);
-  if (!payload.quiet) console.info('B"H | CONTINUOUS_INPUT_TRACE', { stage, ...payload });
+  olam.__movementTrace.push({ at, stage, ...payload });
+  olam.__movementTrace = olam.__movementTrace.slice(-80);
 }
 
 async function takeInCanvas(olam, payload) {

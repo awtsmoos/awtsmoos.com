@@ -2,14 +2,13 @@
 /**
  * @module VirtualScrollTarget
  * @description
- * Chapter 272: Coordinates become a quiet covenant.
- *
- * The oracle asks this module where a URL points and how to land there. It does
- * not create or remove reader content; it only resolves and scrolls to existing
- * vessels revealed by the append-only scribe.
+ * Chapter 279: Target landing respects the true scroll river. If the reader is
+ * inside a mobile/internal scroll vessel, URL restoration moves that vessel;
+ * otherwise it moves the document. It never creates or removes reader content.
  */
 
 import { parseScrollTarget } from "./VirtualScrollMath.js";
+import { scrollRoot, scrollTopOf, setScrollTop } from "./VirtualScrollRoot.js";
 
 const asNumber = (value, fallback = 0) => {
     const parsed = Number.parseInt(value, 10);
@@ -43,7 +42,10 @@ export function exactTarget(idx, sub) {
 }
 
 export function scrollToTarget(target) {
+    const root = scrollRoot();
     const header = document.querySelector(".awtsmoos-integrated-header")?.getBoundingClientRect().height || 0;
-    const top = target.getBoundingClientRect().top + window.pageYOffset - Math.max(36, header + 18);
-    window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+    const rootTop = root.getBoundingClientRect?.().top || 0;
+    const current = scrollTopOf(root);
+    const top = target.getBoundingClientRect().top - rootTop + current - Math.max(36, header + 18);
+    setScrollTop(root, top);
 }

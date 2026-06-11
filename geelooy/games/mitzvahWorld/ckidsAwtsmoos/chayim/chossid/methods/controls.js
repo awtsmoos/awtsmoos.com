@@ -24,12 +24,13 @@ function activeMove(moving) { return MOVE_KEYS.filter(key => moving?.[key]); }
 function trace(chossid, stage, payload = {}) {
   const olam = chossid.olam;
   const now = Date.now();
+  const active = payload.active || [];
+  const cadence = active.length > 0 ? 900 : 2200;
+  if (chossid.__lastControlTrace && now - chossid.__lastControlTrace < cadence) return;
+  chossid.__lastControlTrace = now;
   olam.__movementTrace ||= [];
   olam.__movementTrace.push({ at: now, stage, ...payload });
-  olam.__movementTrace = olam.__movementTrace.slice(-120);
-  const active = payload.active || [];
-  const shouldPrint = active.length > 0 || !chossid.__lastControlTrace || now - chossid.__lastControlTrace > 2200;
-  if (shouldPrint) { chossid.__lastControlTrace = now; console.info('B"H | CHOSSID_CONTROLS_TRACE', { stage, ...payload }); }
+  olam.__movementTrace = olam.__movementTrace.slice(-80);
 }
 
 export default {

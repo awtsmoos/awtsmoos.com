@@ -11,10 +11,14 @@
 import PointerUpdater from "../methods/interaction/PointerUpdater.js";
 
 function trace(olam, stage, payload = {}) {
+  const at = Date.now();
+  const active = Array.isArray(payload.active) ? payload.active.length : 0;
+  const cadence = active > 0 ? 900 : 2200;
+  if (olam.__lastOlamInputTraceAt && at - olam.__lastOlamInputTraceAt < cadence) return;
+  olam.__lastOlamInputTraceAt = at;
   olam.__movementTrace ||= [];
-  olam.__movementTrace.push({ at: Date.now(), stage, ...payload });
-  olam.__movementTrace = olam.__movementTrace.slice(-120);
-  if (!payload.quiet) console.info('B"H | OLAM_INPUT_TRACE', { stage, ...payload });
+  olam.__movementTrace.push({ at, stage, ...payload });
+  olam.__movementTrace = olam.__movementTrace.slice(-80);
 }
 function toggleFPS(olam) {
   if (!olam?.ayin) return;

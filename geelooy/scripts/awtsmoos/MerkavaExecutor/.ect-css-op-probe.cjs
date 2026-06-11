@@ -1,0 +1,15 @@
+// B"H
+(async function cssOpProbe() {
+  globalThis.self = globalThis;
+  require("./app/ect-id-tables.js");
+  require("./app/ect-compiler-core.js");
+  require("./app/ect-storage-codec.js");
+  const Parser = await require("../MerkavaASTParser/parser-core.js");
+  const project = { files: {
+    "index.html": '<div class="orb"></div>',
+    "style.css": '.orb{position:absolute;left:10px;top:10px;width:24px;height:24px;border-radius:999px;background:#73fff2;animation:spin 2s linear infinite}@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}',
+    "app.js": 'console.log("ready");'
+  } };
+  const result = globalThis.AwtsEctCompiler.compileProject(project, Parser);
+  console.log(JSON.stringify({storage: result.byteCount, metrics: result.metrics, reconstruction: result.reconstruction}, null, 2));
+})();

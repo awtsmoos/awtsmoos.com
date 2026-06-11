@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 256: The reader body glides like a night river.
- * The Awtsmoos removes scroll traps, keeps only vertical motion, and gives the
- * page a GPU-friendly shell where fixed controls and sticky crowns do not tear.
+ * Chapter 292: The shell keeps beauty; scroll-root owns the river.
+ * The document receives the night background and typography, while the repaired
+ * reader scroll contract lives only in `scroll-root.css` to prevent selector war.
  */
 
 html,
@@ -23,13 +23,6 @@ body {
     color: var(--awt-text) !important;
     font-family: var(--font-ui) !important;
     overscroll-behavior-y: contain !important;
-}
-
-body.awtsmoos-reader-scroll-repaired,
-html.awtsmoos-reader-scroll-repaired {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    position: static !important;
 }
 
 .all.post-reader-localized-context.awtsmoos-reader-vision {
@@ -86,6 +79,7 @@ html.awtsmoos-reader-scroll-repaired {
     padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
     touch-action: pan-y !important;
     transform: translateZ(0) !important;
+    overscroll-behavior-y: contain;
 }
 
 .post-reader-localized-context #realPost.content {
@@ -107,9 +101,3 @@ html.awtsmoos-reader-scroll-repaired {
     html,
     body { scroll-behavior: auto !important; }
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-.post-reader-localized-context .scroll-view-wrapper { overscroll-behavior-y: contain; }

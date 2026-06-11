@@ -91,10 +91,14 @@ function syncVisual(player, dt) {
   const angularDistance = normAngle(player.targetRotateOffset - player.rotateOffset);
   player.rotateOffset = normAngle(player.rotateOffset + angularDistance * Math.max(0.01, numeric(player.lerpTurnSpeed, 0.32)));
   if (player.modelMesh) {
-    player.modelMesh.rotation.y = normAngle(player.rotation.y + player.rotateOffset);
+    const parentedToRoot = player.modelMesh.parent === player.mesh;
+    player.modelMesh.rotation.y = normAngle((parentedToRoot ? 0 : player.rotation.y) + player.rotateOffset);
     if (player.lastRotateOffset !== player.rotateOffset) { player.ayshPeula("rotate", player.modelMesh.rotation.y); player.lastRotateOffset = player.rotateOffset; }
-    player.modelMesh.position.copy(player.mesh.position);
-    player.modelMesh.position.y += numeric(player.modelMesh.userData?.visualGroundOffsetY, 0);
+    if (parentedToRoot) player.modelMesh.position.set(0, numeric(player.modelMesh.userData?.visualGroundOffsetY, 0), 0);
+    else {
+      player.modelMesh.position.copy(player.mesh.position);
+      player.modelMesh.position.y += numeric(player.modelMesh.userData?.visualGroundOffsetY, 0);
+    }
   }
   player.emptyCopy?.position?.copy?.(player.mesh.position);
   player.nonRotatingEmptyForMovement?.position?.copy?.(player.mesh.position);

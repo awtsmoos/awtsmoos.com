@@ -69,7 +69,10 @@ export function syncPlayerVisuals(player) {
   const radius = playerVerticalRadius(player);
   player.mesh?.position?.copy?.(player.collider.start);
   if (player.mesh) player.mesh.position.y -= radius;
-  if (player.modelMesh && player.mesh) player.modelMesh.position.copy(player.mesh.position);
+  if (player.modelMesh && player.mesh) {
+    if (player.modelMesh.parent === player.mesh) player.modelMesh.position.set(0, Number(player.modelMesh.userData?.visualGroundOffsetY || 0), 0);
+    else player.modelMesh.position.copy(player.mesh.position);
+  }
   const visual = player.mesh?.position || player.modelMesh?.position;
   player.emptyCopy?.position?.copy?.(visual);
   player.nonRotatingEmptyForMovement?.position?.copy?.(visual);

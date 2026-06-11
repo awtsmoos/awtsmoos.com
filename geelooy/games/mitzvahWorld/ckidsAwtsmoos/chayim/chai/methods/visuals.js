@@ -31,6 +31,10 @@ function alignToColliderFeet(entity, model) {
   if (!entity?.collider?.start) return;
   const radius = Number(entity.collider.radius || entity.radius || 0.45);
   const feetY = entity.collider.start.y - radius;
+  if (model.parent === entity.mesh) {
+    model.position.set(0, Number(model.userData.visualGroundOffsetY || 0), 0);
+    return;
+  }
   model.position.set(entity.collider.start.x, feetY + Number(model.userData.visualGroundOffsetY || 0), entity.collider.start.z);
 }
 

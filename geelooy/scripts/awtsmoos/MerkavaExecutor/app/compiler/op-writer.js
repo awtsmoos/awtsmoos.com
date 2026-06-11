@@ -2,12 +2,12 @@
 (function opWriter(root) {
   const ns = root.AwtsEctCompilerParts = root.AwtsEctCompilerParts || {};
   const PHRASE_NAMES = [
-    "GEN_CALL", "GEN_EXPR_STMT", "GEN_RETURN", "GEN_MEMBER_PATH",
+    "GEN_CALL", "GEN_EXPR_STMT", "GEN_RETURN", "GEN_MEMBER_PATH", "EVENT_ASSIGN", "DECL_CONST_FROM_NEW", "FETCH_JSON_ASSIGN", "FETCH_JSON_ASSIGN",
     "GEN_ASSIGN", "GEN_BINARY", "GEN_LOGICAL", "GEN_UPDATE",
     "GEN_VAR_DECL", "DECL_SLOT_FROM_PHRASE", "FUNC_SLOT",
     "HTML_SHELL_CLASS_CHILDREN", "HTML_SHELL_ID_CHILDREN",
     "SELECT_CLASS_DESC_TAG", "HTML_TREE_NODE", "DECL_CONST_FROM_CALL", "DECL_CONST_FROM_CALL", "DECL_OBJECT_LITERAL", "DECL_LET_NUMBER",
-    "ADD_ASSIGN", "CALL0_EXPR", "CALL_EXPR", "CSS_KEYFRAMES", "CSS_AT_RULE", "CSS_KEYFRAMES", "CSS_AT_RULE", "CALL_EXPR"
+    "ADD_ASSIGN", "CALL0_EXPR", "CALL_EXPR", "CSS_KEYFRAMES", "CSS_AT_RULE", "CSS_ROTATE_KEYFRAMES", "CSS_KEYFRAMES", "CSS_AT_RULE", "CALL_EXPR"
   ];
 
   /**
@@ -45,6 +45,10 @@
 
   function writeKnownPhrase(writer, op) {
     const name = root.AwtsEctIds.phrases[op[1]] || "";
+    if (name === "FETCH_JSON_ASSIGN") return writeFetchJsonAssign(writer, op, 2);
+    if (name === "EVENT_ASSIGN") return writeManyAtoms(writer, op, 2, 4);
+    if (name === "DECL_CONST_FROM_NEW") return writeDeclNewPhrase(writer, op, 2);
+    if (name === "FETCH_JSON_ASSIGN") return writeFetchJsonAssign(writer, op, 2);
     if (name === "DECL_CONST_FROM_CALL") return writeDeclCallPhrase(writer, op, 2);
     if (name === "DECL_CONST_FROM_CALL") return writeDeclCallPhrase(writer, op, 2);
     if (name === "DECL_OBJECT_LITERAL") return writeDeclObjectPhrase(writer, op, 2);
@@ -65,6 +69,8 @@
     if (name === "HTML_SHELL_CLASS_CHILDREN" || name === "HTML_SHELL_ID_CHILDREN") { writer.tiny(op[2]); writer.tiny(op[3]); writer.tiny(op[4]); return true; }
     if (name === "SELECT_CLASS_DESC_TAG") { writer.tiny(op[2]); operand(writer, op[3]); return true; }
     if (name === "HTML_TREE_NODE") return writeHtmlTreeNode(writer, op, 2);
+    if (name === "CSS_ROTATE_KEYFRAMES") { writeNum(writer, op[2]); writeNum(writer, op[3]); writer.tiny(op[4]); return true; }
+    if (name === "CSS_ROTATE_KEYFRAMES") { writeNum(writer, op[2]); writeNum(writer, op[3]); writer.tiny(op[4]); return true; }
     if (name === "CSS_KEYFRAMES") return writeCssKeyframes(writer, op, 2);
     if (name === "CSS_AT_RULE") { writer.tiny(op[2]); writer.tiny(op[3]); writer.tiny(op[4]); return true; }
     if (name === "CSS_KEYFRAMES") return writeCssKeyframes(writer, op, 2);
@@ -149,6 +155,11 @@
     return index + 1;
   }
 
+  function writeManyAtoms(writer, op, index, count) { let cursor = index; for (let item = 0; item < count; item += 1) cursor = writeAtom(writer, op, cursor); return true; }
+  function writeDeclNewPhrase(writer, op, index) { writer.tiny(op[index]); writer.tiny(op[index + 1]); writeNewPayload(writer, op, index + 2); return true; }
+  function writeNewPayload(writer, op, index) { operand(writer, op[index]); const count = op[index + 1]; writer.tiny(count); let cursor = index + 2; for (let item = 0; item < count; item += 1) cursor = writeAtom(writer, op, cursor); return cursor; }
+  function writeFetchJsonAssign(writer, op, index) { writer.tiny(op[index]); const cursor = writeAtom(writer, op, index + 1); operand(writer, op[cursor]); return true; }
+  function writeFetchJsonAssign(writer, op, index) { writer.tiny(op[index]); const cursor = writeAtom(writer, op, index + 1); operand(writer, op[cursor]); return true; }
   function writeCallPhrase(writer, op, index) { writeCallPayload(writer, op, index); return true; }
   function writeSingleAtomPhrase(writer, op, index) { writeAtom(writer, op, index); return true; }
   function writeTwoAtomPhrase(writer, op, index) { writeAtom(writer, op, writeAtom(writer, op, index)); return true; }
@@ -217,6 +228,7 @@
     writer.tiny(phrase);
     const name = root.AwtsEctIds.phrases[phrase] || "";
     if (name === "CALL_VALUE") return writeCallPayload(writer, op, index + 1);
+    if (name === "NEW_VALUE") return writeNewPayload(writer, op, index + 1);
     if (name === "OBJECT_SHAPE") return writeObjectShape(writer, op, index + 1);
     if (name === "LIT_UNDEFINED") return index + 1;
     return writeAtomBodyAfterKind(writer, phrase, op, index + 1);
@@ -250,6 +262,7 @@
   function writeAtomBodyAfterKind(writer, kind, op, index) {
     if (kind === 0 || kind === 1 || kind === 2 || kind === 3 || kind === 4 || kind === 11 || kind === 12 || kind === 13) { operand(writer, op[index]); return index + 1; }
     if (kind === 14) { writer.write(op[index], 24); return index + 1; }
+    if (kind === 15) return writeNewPayload(writer, op, index);
     if (kind === 5) { writer.tiny(op[index]); operand(writer, op[index + 1]); return index + 2; }
     if (kind === 6) { const cursor = writeAtom(writer, op, index); operand(writer, op[cursor]); return cursor + 1; }
     if (kind === 9) return writeCallPayload(writer, op, index);

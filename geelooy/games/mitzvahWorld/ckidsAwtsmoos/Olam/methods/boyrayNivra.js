@@ -14,16 +14,12 @@ import Utils from '../../utils.js';
 import BoneSanctifier from './boyrayNivra/BoneSanctifier.js';
 import AttributeHealer from './boyrayNivra/AttributeHealer.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
+import { hasVisibleLivingRenderable, sanitizeLivingModelTree, shouldHideLivingNode } from '../worlds/mitzvahWorld/npcs/LivingModelSanitizer.js';
 
 const TRACE_SEAL = 'visible-root-binding-20260610-bh710';
-const HIDDEN_PARTS = new Set(['Camera', 'Camera.001', 'NurbsPath', 'Plane.001', 'Plane.002', 'teeth', 'tooth-distance']);
-const HIDDEN_MATERIALS = new Set(['teffilinStrap']);
 const livingTypes = new Set(['chossid', 'medabeir', 'customNpc', 'interactiveNpc']);
 
 function isLiving(nivra) { return livingTypes.has(nivra?.type); }
-function materialNameOf(node) { const material = Array.isArray(node.material) ? node.material[0] : node.material; return material?.name || ''; }
-function hasHiddenAncestor(node) { for (let cur = node; cur; cur = cur.parent) if (HIDDEN_PARTS.has(cur.name)) return true; return false; }
-function shouldHideLivingPart(node) { return hasHiddenAncestor(node) || HIDDEN_MATERIALS.has(materialNameOf(node)); }
 function fallbackColor(nivra) { return nivra?.type === 'interactiveNpc' ? 0xf7f2df : 0x1f6fff; }
 function fallbackGolem(nivra) { return { guf: { BoxGeometry: [0.9, Number(nivra?.height) || 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: fallbackColor(nivra) } } }; }
 
@@ -43,10 +39,10 @@ function visibleRenderableSummary(root) {
     if (!child?.isMesh && !child?.isSkinnedMesh) return;
     summary.meshes += 1;
     const material = Array.isArray(child.material) ? child.material[0] : child.material;
-    if (shouldHideLivingPart(child)) summary.hiddenByRule += 1;
+    if (shouldHideLivingNode(child)) summary.hiddenByRule += 1;
     if (material?.name) summary.materials.push(material.name);
     const count = Number(child.geometry?.attributes?.position?.count || child.geometry?.index?.count || 0);
-    if (child.visible !== false && material?.visible !== false && material?.opacity !== 0 && count > 0 && !shouldHideLivingPart(child)) {
+    if (child.visible !== false && material?.visible !== false && material?.opacity !== 0 && count > 0 && !shouldHideLivingNode(child)) {
       summary.visibleMeshes += 1;
       summary.vertices += count;
     }
@@ -54,7 +50,7 @@ function visibleRenderableSummary(root) {
   summary.materials = [...new Set(summary.materials)].slice(0, 20);
   return summary;
 }
-function hasVisibleMesh(root) { return visibleRenderableSummary(root).visibleMeshes > 0; }
+function hasVisibleMesh(root) { return hasVisibleLivingRenderable(root); }
 
 function markLivingTree(root, nivra, fallback = false) {
   if (!root) return root;
@@ -83,10 +79,13 @@ async function livingFallback(context, nivra, reason = 'unspecified') {
 
 function prepareLoadedScene(scene, nivra) {
   const boneChildren = {}, garments = {}, materials = [];
-  if (isLiving(nivra)) markLivingTree(scene, nivra, false);
+  if (isLiving(nivra)) {
+    markLivingTree(scene, nivra, false);
+    sanitizeLivingModelTree(scene, nivra.type === 'interactiveNpc' ? { isNpc: true } : { isPlayer: true });
+  }
   scene.traverse(child => {
-    if (isLiving(nivra) && shouldHideLivingPart(child)) child.visible = false;
-    if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; }
+    if (isLiving(nivra) && shouldHideLivingNode(child)) child.visible = false;
+    if (child.isMesh) { child.castShadow = false; child.receiveShadow = true; }
     BoneSanctifier.sanctify(child, boneChildren);
     AttributeHealer.heal(child);
     child.nivraAwtsmoos = nivra;

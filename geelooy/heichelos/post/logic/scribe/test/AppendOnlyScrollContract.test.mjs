@@ -1,11 +1,11 @@
 // B"H
 /**
- * Chapter 277 test: the reader must never eat its own past.
+ * Chapter 282 test: the reader must never eat its own past.
  *
  * This static contract watches every high-risk reader scroll vessel. It strips
  * comments and then searches executable code for DOM destruction patterns that
- * would erase revealed chunks or subsections. Class cleanup is allowed; node
- * destruction is not.
+ * would erase revealed chunks or subsections. Class cleanup and event listener
+ * cleanup are allowed; node destruction is not.
  */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -16,6 +16,7 @@ const FILES = [
     "geelooy/heichelos/post/logic/scribe/VirtualScrollCoordinates.js",
     "geelooy/heichelos/post/logic/scribe/VirtualScrollMath.js",
     "geelooy/heichelos/post/logic/scribe/VirtualScrollOracle.js",
+    "geelooy/heichelos/post/logic/scribe/VirtualScrollRoot.js",
     "geelooy/heichelos/post/logic/scribe/VirtualScrollTarget.js",
     "geelooy/heichelos/post/logic/scribe/VirtualScrollVisibility.js"
 ];

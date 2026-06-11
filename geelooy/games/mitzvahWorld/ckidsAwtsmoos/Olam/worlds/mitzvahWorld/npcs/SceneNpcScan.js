@@ -20,6 +20,9 @@ export function isSpawnedNpcRoot(object) {
   const name = String(object?.name || "");
   return Boolean(
     object?.userData?.mitzvahWorldNpcRoot === true ||
+    object?.userData?.isNpc === true ||
+    object?.userData?.awtsmoosVillageGuide === true ||
+    object?.nivraAwtsmoos?.type === "interactiveNpc" ||
     name.startsWith("npc_")
   );
 }

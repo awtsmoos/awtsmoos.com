@@ -6,6 +6,7 @@
  * Clones the loaded chossid.glb scene for NPC use.
  */
 import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js';
+import { sanitizeLivingModelTree } from "./LivingModelSanitizer.js";
 
 /**
  * B"H
@@ -32,6 +33,8 @@ export function cloneChossidNpcScene(gltf) {
   clone.userData.skipOctree = true;
   clone.userData.noOctree = true;
 
+  sanitizeLivingModelTree(clone, { isNpc: true });
+
   clone.traverse(child => {
     if (!child.userData) child.userData = {};
     child.userData.isLiving = true;
@@ -39,13 +42,9 @@ export function cloneChossidNpcScene(gltf) {
     child.userData.skipOctree = true;
     child.userData.noOctree = true;
 
-    if (!child?.isMesh) return;
+    if (!child?.isMesh && !child?.isSkinnedMesh) return;
 
-    if (child.material && typeof child.material.clone === "function") {
-      child.material = child.material.clone();
-    }
-
-    child.castShadow = true;
+    child.castShadow = false;
     child.receiveShadow = true;
     child.userData.isNpcPart = true;
   });
