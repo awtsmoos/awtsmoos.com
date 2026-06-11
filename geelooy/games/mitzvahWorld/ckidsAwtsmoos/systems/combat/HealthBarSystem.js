@@ -18,6 +18,33 @@
 
 import * as THREE from '/games/scripts/build/three.module.js';
 
+function makeCanvas(width, height) {
+    if (typeof document !== 'undefined') {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        return canvas;
+    }
+    if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(width, height);
+    return null;
+}
+
+function rounded(ctx, x, y, w, h, r) {
+    if (typeof ctx.roundRect === 'function') {
+        ctx.roundRect(x, y, w, h, r);
+        return;
+    }
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+}
+
 /**
  * B"H
  * @class HealthBarSystem
@@ -145,13 +172,13 @@ export default class HealthBarSystem {
         const color = `rgb(${r}, ${g}, 0)`;
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.roundRect(4, 4, w - 8, h - 8, 8);
+        rounded(ctx, 4, 4, w - 8, h - 8, 8);
         ctx.fill();
 
         // B"H - Inner glow
         ctx.fillStyle = `rgba(255, 255, 255, 0.3)`;
         ctx.beginPath();
-        ctx.roundRect(4, 4, w - 8, (h - 8) * 0.4, 8);
+        rounded(ctx, 4, 4, w - 8, (h - 8) * 0.4, 8);
         ctx.fill();
 
         bar.fgTexture.needsUpdate = true;
@@ -161,17 +188,17 @@ export default class HealthBarSystem {
      * B"H - Creates a rounded bar canvas.
      */
     _createBarCanvas(fillRatio, color1, color2) {
-        const canvas = document.createElement('canvas');
-        canvas.width = 256;
-        canvas.height = 32;
+        const canvas = makeCanvas(256, 32);
+        if (!canvas) return { width: 1, height: 1, getContext: () => null };
         const ctx = canvas.getContext('2d');
+        if (!ctx) return canvas;
 
         const gradient = ctx.createLinearGradient(0, 0, 0, 32);
         gradient.addColorStop(0, color1);
         gradient.addColorStop(1, color2);
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.roundRect(2, 2, (256 - 4) * fillRatio, 28, 6);
+        rounded(ctx, 2, 2, (256 - 4) * fillRatio, 28, 6);
         ctx.fill();
 
         return canvas;
@@ -181,14 +208,14 @@ export default class HealthBarSystem {
      * B"H - Creates a name label canvas.
      */
     _createNameCanvas(name) {
-        const canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = 64;
+        const canvas = makeCanvas(512, 64);
+        if (!canvas) return { width: 1, height: 1, getContext: () => null };
         const ctx = canvas.getContext('2d');
+        if (!ctx) return canvas;
 
         ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
         ctx.beginPath();
-        ctx.roundRect(10, 5, 492, 54, 10);
+        rounded(ctx, 10, 5, 492, 54, 10);
         ctx.fill();
 
         ctx.fillStyle = '#ffffff';

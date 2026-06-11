@@ -14,6 +14,7 @@ import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteraction
 import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js";
 import { ensureNpcRoles } from "./NpcRolePostBuild.js";
 import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
+import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js";
 
 /**
  * Executes one protected postbuild step.
@@ -45,8 +46,10 @@ async function safeStep(name, task) {
 export async function runMitzvahWorldPostBuild(context = {}) {
   const woodCollectibles = await safeStep("woodCollectibles", () => ensureWoodCollectibles(context));
   const roleMarkedNpcs = await safeStep("roleMarkedNpcs", () => ensureNpcRoles(context));
+  const battleLayer = await safeStep("battleLayer", () => ensureGeneratedBattleLayer(context));
   const addedWood = Array.isArray(woodCollectibles.value) ? woodCollectibles.value.length : 0;
   const markedNpcs = Array.isArray(roleMarkedNpcs.value) ? roleMarkedNpcs.value.length : 0;
+  const battleObjects = Array.isArray(battleLayer.value) ? battleLayer.value.length : 0;
 
   return {
     skipped: false,
@@ -64,11 +67,18 @@ export async function runMitzvahWorldPostBuild(context = {}) {
         authored: Object.keys(NPC_ROLES).length,
         marked: markedNpcs,
         error: roleMarkedNpcs.error || null
+      },
+      battleLayer: {
+        ok: battleLayer.ok,
+        authored: 10,
+        added: battleObjects,
+        error: battleLayer.error || null
       }
     },
     finalCounts: {
       woodCollectibles: addedWood,
-      roleMarkedNpcs: markedNpcs
+      roleMarkedNpcs: markedNpcs,
+      battleLayer: battleObjects
     }
   };
 }

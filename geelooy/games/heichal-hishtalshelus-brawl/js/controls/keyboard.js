@@ -2,15 +2,21 @@
  * B"H
  * Keyboard gates for sane desktop fighting.
  *
- * F is punch now, G is kick, H is grab, Shift blocks, R is special/recovery.
- * J/K/L still work as backwards compatibility, but the HUD teaches F/G/H.
+ * Chapter 70: broken controls are exile. This file restores the covenant:
+ * F punches immediately, G kicks immediately, H grabs, Shift shields, R is
+ * special, W/Space jump, S/Down reads as down for fast-fall and short-hop.
  */
 export function keyboard(doc) {
   const keys = new Set();
-  doc.addEventListener('keydown', event => keys.add(event.code));
+  doc.addEventListener('keydown', event => {
+    if (isGameKey(event.code)) event.preventDefault();
+    keys.add(event.code);
+  });
   doc.addEventListener('keyup', event => keys.delete(event.code));
   return () => ({
     x: axis(keys),
+    y: down(keys) ? 1 : 0,
+    down: down(keys),
     jump: keys.has('Space') || keys.has('KeyW') || keys.has('ArrowUp'),
     punch: keys.has('KeyF') || keys.has('KeyJ'),
     kick: keys.has('KeyG') || keys.has('KeyK'),
@@ -23,4 +29,12 @@ export function keyboard(doc) {
 function axis(keys) {
   return (keys.has('KeyD') || keys.has('ArrowRight') ? 1 : 0) -
     (keys.has('KeyA') || keys.has('ArrowLeft') ? 1 : 0);
+}
+
+function down(keys) {
+  return keys.has('KeyS') || keys.has('ArrowDown');
+}
+
+function isGameKey(code) {
+  return ['Space', 'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyR', 'KeyJ', 'KeyK', 'KeyL', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ShiftLeft', 'ShiftRight'].includes(code);
 }

@@ -2,12 +2,13 @@
 /**
  * @module ConnectedPostMigration
  * @description
- * Chapter 108: Only posts truly tied into a Heichel series are lifted.
+ * Chapter 4: The buried post body answered from beneath the series stone.
  *
- * The migration is additive: it mirrors connected legacy DosDB posts into
- * `social.core.awtsdb` and the global `social.allPosts.awtsdb` census, then
- * records metadata in `social.meta.awtsdb`. It never deletes or rewrites the old
- * system, and it skips orphan post bodies that are not referenced by a series.
+ * The old migration heard ids inside `/series/:series/posts` but searched for
+ * bodies in `/posts/:post`. That made the river appear empty while water roared
+ * under the floor. This module reads the series body first, then legacy
+ * standalone bodies, and mirrors every connected post into AwtsmoosDB without
+ * deleting the old world.
  */
 
 const { logicalKey } = require('./shardPaths.js');
@@ -28,33 +29,59 @@ async function get($i, path, fallback = null) {
   catch { return fallback; }
 }
 
+/**
+ * @description Reads direct children from the DB, preferring the API that was
+ * born for keys. The Awtsmoos reveals nested branches without requiring their
+ * whole bodies to be loaded.
+ * @param {object} $i Request context.
+ * @param {string} path DB path.
+ * @returns {Promise<string[]>} Direct child keys.
+ */
+async function objectKeys($i, path) {
+  try {
+    if (typeof $i.db.getObjectKeys === 'function') {
+      const keys = await $i.db.getObjectKeys(path);
+      if (Array.isArray(keys)) return keys.filter(Boolean).map(String);
+    }
+  } catch {}
+  return ids(await get($i, path, {}));
+}
+
 async function seriesIdsForHeichel($i, heichelId) {
-  const root = await get($i, `/social/heichelos/${heichelId}/series`, {});
-  return ids(root).includes('root') ? ids(root) : ['root', ...ids(root)];
+  const found = await objectKeys($i, `/social/heichelos/${heichelId}/series`);
+  return Array.from(new Set(['root', ...found]));
 }
 
 async function connectedPostIds($i, heichelId, seriesId) {
-  return ids(await get($i, `/social/heichelos/${heichelId}/series/${seriesId}/posts`, {}));
+  return objectKeys($i, `/social/heichelos/${heichelId}/series/${seriesId}/posts`);
 }
 
-async function postBody($i, heichelId, postId) {
-  return await get($i, `/social/heichelos/${heichelId}/posts/${postId}`, null);
+async function postBody($i, heichelId, seriesId, postId) {
+  return await get($i, `/social/heichelos/${heichelId}/series/${seriesId}/posts/${postId}`, null)
+    || await get($i, `/social/heichelos/${heichelId}/posts/${postId}`, null);
 }
 
 function normalizePost({ heichelId, seriesId, postId, body }) {
-  return { ...body, id: body.id || postId, postId: body.postId || postId, heichelId, seriesId: body.seriesId || body.parentSeriesId || seriesId, parentSeriesId: body.parentSeriesId || body.seriesId || seriesId };
+  return {
+    ...body,
+    id: body.id || postId,
+    postId: body.postId || body.id || postId,
+    heichelId,
+    seriesId: body.seriesId || body.parentSeriesId || seriesId,
+    parentSeriesId: body.parentSeriesId || body.seriesId || seriesId
+  };
 }
 
 async function scanConnectedPosts({ $i, heichelId = '', seriesId = '' }) {
-  const heichelIds = heichelId ? [heichelId] : ids(await get($i, '/social/heichelos', {}));
+  const heichelIds = heichelId ? [heichelId] : await objectKeys($i, '/social/heichelos');
   const output = [];
   for (const hid of heichelIds) {
     const seriesIds = seriesId ? [seriesId] : await seriesIdsForHeichel($i, hid);
     for (const sid of seriesIds) {
       for (const postId of await connectedPostIds($i, hid, sid)) {
-        const body = await postBody($i, hid, postId);
+        const body = await postBody($i, hid, sid, postId);
         if (!body || typeof body !== 'object') continue;
-        output.push({ heichelId: hid, seriesId: sid, postId, post: normalizePost({ heichelId: hid, seriesId: sid, postId, body }), legacyPath: `/social/heichelos/${hid}/posts/${postId}` });
+        output.push({ heichelId: hid, seriesId: sid, postId, post: normalizePost({ heichelId: hid, seriesId: sid, postId, body }), legacyPath: `/social/heichelos/${hid}/series/${sid}/posts/${postId}` });
       }
     }
   }

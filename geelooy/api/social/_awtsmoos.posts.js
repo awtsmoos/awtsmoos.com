@@ -1,233 +1,186 @@
+//B"H
 /**
- * B"H
+ * @module SocialPostsRoutes
+ * @description
+ * Chapter 2: The gate of posts learned to hear two heartbeats.
  *
- * Posts API Endpoints.
- * IMPORTANT: Posts are now accessed *through* their parent series.
- * Standalone post endpoints are deprecated.
+ * Legacy DosDB paths still carry living writes. AwtsmoosDB packed shards carry
+ * migrated fire. These routes answer from both, so the social network does not
+ * split into yesterday and tomorrow. The Awtsmoos, beyond body and form, speaks
+ * one reality through many vessels; this route composes those vessels carefully.
  */
 
 const {
-    addPostToSeries,
-    editPostInSeries,
-    deletePostFromSeries,
-    getPostFromSeries,
-    getPostsInSeries,
-    getPostsByProperty,
+  addPostToSeries,
+  editPostInSeries,
+  deletePostFromSeries,
+  getPostFromSeries,
+  getPostsInSeries,
+  getPostsByProperty,
+  getPostsOfAliasInSeries,
+  getSeriesOfPostsOfAliasInHeichel,
+  getHeichelosOfPostsOfAlias,
+  getSubmittedPosts,
+  approveSubmittedPost,
+  denySubmittedPost,
+  er
+} = require('./helper/index.js');
 
-	getPostsOfAliasInSeries,
-	getSeriesOfPostsOfAliasInHeichel,
-	getHeichelosOfPostsOfAlias,
-	
-    // Other helpers if needed by routes
-    er // Import error helper
-} = require("./helper/index.js");
+const {
+  readPackedPost,
+  listPackedPosts,
+  mergePosts,
+  mergePostIds,
+  filterPackedPostIds
+} = require('./helper/packed/postPackedBridge.js');
 
-const { loggedIn } = require("./helper/general.js"); // For auth checks if needed directly
+/**
+ * @description Safely decodes the base64 breadcrumb used by older alias routes.
+ * @param {string} value Encoded value.
+ * @returns {string} Decoded breadcrumb or empty string.
+ */
+function decodeCrumbPath(value = '') {
+  try { return decodeURIComponent(Buffer.from(value, 'base64').toString('utf-8')); }
+  catch { return ''; }
+}
+
+/**
+ * @description Parses the optional properties query without letting bad JSON
+ * shatter the route like a clay cup before the palace doors.
+ * @param {object} $i Request context.
+ * @returns {object|null} Parsed properties or null.
+ */
+function parseProperties($i) {
+  if (!$i.$_GET?.properties) return null;
+  try { return JSON.parse($i.$_GET.properties); }
+  catch { return null; }
+}
+
+/**
+ * @description Returns true when a helper result is an error envelope.
+ * @param {*} value Any helper result.
+ * @returns {boolean} Whether it is an error.
+ */
+function isError(value) {
+  return Boolean(value && typeof value === 'object' && value.error);
+}
+
+/**
+ * @description Reads posts from legacy and packed stores for one series.
+ * @param {object} input Named input.
+ * @param {object} input.$i Request context.
+ * @param {string} input.heichelId Heichel id.
+ * @param {string} input.seriesId Series id.
+ * @param {boolean} input.withDetails Whether full posts are requested.
+ * @param {object|null} input.properties Optional legacy property map.
+ * @returns {Promise<object[]|string[]|object>} Merged posts, ids, or error.
+ */
+async function readPostsFromBothStores({ $i, heichelId, seriesId, withDetails, properties }) {
+  const legacy = await getPostsInSeries({ $i, heichelId, seriesId, withDetails, properties });
+  if (isError(legacy)) return legacy;
+  const packed = listPackedPosts({ $i, heichelId, seriesId });
+  return withDetails ? mergePosts(Array.isArray(legacy) ? legacy : [], packed) : mergePostIds(Array.isArray(legacy) ? legacy : [], packed);
+}
+
+/**
+ * @description Reads one post from legacy first and AwtsmoosDB as fallback.
+ * @param {object} input Named input.
+ * @returns {Promise<object>} Post object or error envelope.
+ */
+async function readOnePostFromBothStores({ $i, heichelId, seriesId, postId }) {
+  const legacy = await getPostFromSeries({ $i, heichelId, seriesId, postId });
+  if (!isError(legacy)) return { ...legacy, _awtsmoosSource: legacy._awtsmoosSource || 'legacyDosDB' };
+  const packed = readPackedPost({ $i, heichelId, seriesId, postId });
+  return packed || legacy;
+}
+
+/**
+ * @description Filters ids from legacy and packed stores.
+ * @param {object} input Named input.
+ * @returns {Promise<string[]|object>} Matching ids or error.
+ */
+async function filterPostsFromBothStores({ $i, heichelId, seriesId, propertyKey, propertyValue }) {
+  const legacy = await getPostsByProperty({ $i, heichelId, seriesId, propertyKey, propertyValue });
+  if (isError(legacy)) return legacy;
+  const packed = filterPackedPostIds({ posts: listPackedPosts({ $i, heichelId, seriesId }), propertyKey, propertyValue });
+  return Array.from(new Set([...(Array.isArray(legacy) ? legacy : []), ...packed]));
+}
 
 module.exports = ({ $i, userid } = {}) => ({
+  '/aliases/:alias/postsMade/heichel/:heichel/pathToSeries/:pathive': async vars => getPostsOfAliasInSeries({
+    $i,
+    aliasId: vars.alias,
+    crumbpath: decodeCrumbPath(vars.pathive || ''),
+    heichelId: vars.heichel,
+    withDetails: true
+  }),
 
-	"/aliases/:alias/postsMade/heichel/:heichel/pathToSeries/:pathive": async vars => {
-		var pathic = "";
-		try {
-			pathic = decodeURIComponent(
-				Buffer.from(
-				
-					vars
-					.pathive || "",
-					"base64"
-				).toString("utf-8")
-			)
-		} catch(e) {
-		}
-		return await getPostsOfAliasInSeries({
-			$i,
-			aliasId: vars.alias,
-			crumbpath: pathic,
-			//seriesId: vars.series,
-			heichelId: vars.heichel,
-			withDetails: true
-		})
-	},
-	"/aliases/:alias/postsMade/heichelos": async vars => {
-		return await getHeichelosOfPostsOfAlias({
-			$i,
-			aliasId: vars.alias
-		})
-	},
-	"/aliases/:alias/postsMade/heichel/:heichel/series": async vars => {
-		return await getSeriesOfPostsOfAliasInHeichel({
-			$i,
-			aliasId: vars.alias,
-			heichelId: vars.heichel
-		})
-	},
+  '/aliases/:alias/postsMade/heichelos': async vars => getHeichelosOfPostsOfAlias({ $i, aliasId: vars.alias }),
 
-    "/heichelos/:heichel/submittedPosts": async vars => {
-        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-        return await getSubmittedPosts({ $i, heichelId: vars.heichel });
-    },
+  '/aliases/:alias/postsMade/heichel/:heichel/series': async vars => getSeriesOfPostsOfAliasInHeichel({
+    $i,
+    aliasId: vars.alias,
+    heichelId: vars.heichel
+  }),
 
-    "/heichelos/:heichel/submittedPosts/approve": async vars => {
-        if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
-        return await approveSubmittedPost({
-            $i,
-            heichelId: vars.heichel,
-            postId: $i.$_POST.postId,
-            approverAliasId: $i.$_POST.aliasId,
-            addPostToSeries
-        });
-    },
+  '/heichelos/:heichel/submittedPosts': async vars => {
+    if ($i.request.method !== 'GET') return er({ code: 'METHOD_NOT_ALLOWED' });
+    return getSubmittedPosts({ $i, heichelId: vars.heichel });
+  },
 
-    "/heichelos/:heichel/submittedPosts/deny": async vars => {
-        if ($i.request.method !== "POST" && $i.request.method !== "DELETE") return er({ code: "METHOD_NOT_ALLOWED" });
-        const body = $i.$_POST || $i.$_DELETE || {};
-        return await denySubmittedPost({
-            $i,
-            heichelId: vars.heichel,
-            postId: body.postId,
-            approverAliasId: body.aliasId
-        });
-    },
-    /**
-     * @endpoint POST /heichelos/:heichel/series/:series/posts
-     * @description Adds a new post to the specified series.
-     * @requires Body: { aliasId, title, content, dayuh? }
-	 * 
-	 *  * @endpoint GET /heichelos/:heichel/series/:series/posts
-     * @description Gets posts within a series. Returns IDs by default.
-     * @query details=true - Returns full post objects.
-     * @query properties={...} - Apply property filtering (if implemented in helper).
-     */
-    "/heichelos/:heichel/series/:series/posts": async (v) => {
-		if ($i.request.method == "GET") {
-         const withDetails = $i.$_GET.details === 'true';
-         const properties = $i.$_GET.properties ? JSON.parse($i.$_GET.properties) : null; // Basic query param parsing
-         return getPostsInSeries({
-             $i,
-             heichelId: v.heichel,
-             seriesId: v.series,
-             withDetails,
-             properties
-         });
-		}
-        if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
-        // $_POST should contain aliasId, title, content
-        $i.$_POST.seriesId = v.series; // Ensure seriesId from route is used
-        return addPostToSeries({
-            $i,
-            heichelId: v.heichel,
-			seriesId: v.series
-        });
-    },
+  '/heichelos/:heichel/submittedPosts/approve': async vars => {
+    if ($i.request.method !== 'POST') return er({ code: 'METHOD_NOT_ALLOWED' });
+    return approveSubmittedPost({ $i, heichelId: vars.heichel, postId: $i.$_POST.postId, approverAliasId: $i.$_POST.aliasId, addPostToSeries });
+  },
 
+  '/heichelos/:heichel/submittedPosts/deny': async vars => {
+    if ($i.request.method !== 'POST' && $i.request.method !== 'DELETE') return er({ code: 'METHOD_NOT_ALLOWED' });
+    const body = $i.$_POST || $i.$_DELETE || {};
+    return denySubmittedPost({ $i, heichelId: vars.heichel, postId: body.postId, approverAliasId: body.aliasId });
+  },
 
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/posts/details
-     * @description Convenience endpoint. Gets full post objects within a series.
-     * (Equivalent to GET /posts?details=true)
-     */
-    "/heichelos/:heichel/series/:series/posts/details": async (v) => {
-        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED",
-			method: $i.request.method				   
-		});
-        return getPostsInSeries({
-            $i,
-            heichelId: v.heichel,
-            seriesId: v.series,
-            withDetails: true
-        });
-    },
+  '/heichelos/:heichel/series/:series/posts': async v => {
+    if ($i.request.method === 'GET') {
+      return readPostsFromBothStores({
+        $i,
+        heichelId: v.heichel,
+        seriesId: v.series,
+        withDetails: $i.$_GET?.details === 'true',
+        properties: parseProperties($i)
+      });
+    }
+    if ($i.request.method !== 'POST') return er({ code: 'METHOD_NOT_ALLOWED' });
+    $i.$_POST.seriesId = v.series;
+    return addPostToSeries({ $i, heichelId: v.heichel, seriesId: v.series });
+  },
 
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/post/:post
-     * @description Gets a specific post by its ID within its series.
-     */
-	 /**
-     * @endpoint PUT /heichelos/:heichel/series/:series/post/:post
-     * @description Edits a specific post.
-     * @requires Body: { aliasId, newTitle?, newContent?, dayuh? }
-     */
-	  /**
-     * @endpoint DELETE /heichelos/:heichel/series/:series/post/:post
-     * @description Deletes a specific post.
-     * @requires Body: { aliasId } (can also be query/header depending on convention)
-     */
-    "/heichelos/:heichel/series/:series/post/:post": async (v) => {
-        if ($i.request.method === "GET") {
-            return getPostFromSeries({
-                $i,
-                heichelId: v.heichel,
-                seriesId: v.series,
-                postId: v.post
-            });
-        }
-        if ($i.request.method == "PUT") {
-         // $_PUT should contain aliasId and updates
-         return editPostInSeries({
-             $i,
-             heichelId: v.heichel,
-             seriesId: v.series,
-             postId: v.post
-         });
-		}
+  '/heichelos/:heichel/series/:series/posts/details': async v => {
+    if ($i.request.method !== 'GET') return er({ code: 'METHOD_NOT_ALLOWED', method: $i.request.method });
+    return readPostsFromBothStores({ $i, heichelId: v.heichel, seriesId: v.series, withDetails: true, properties: parseProperties($i) });
+  },
 
-		if ($i.request.method !== "DELETE") return er({ code: "METHOD_NOT_ALLOWED" });
-        // Ensure aliasId is available, maybe from query or body
-        if (!$i.$_DELETE) $i.$_DELETE = {}; // Ensure object exists
-        $i.$_DELETE.aliasId = $i.$_DELETE.aliasId || $i.$_QUERY.aliasId /* or from authenticated user */;
-        if (!$i.$_DELETE.aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required for deletion"});
+  '/heichelos/:heichel/series/:series/post/:post': async v => {
+    if ($i.request.method === 'GET') return readOnePostFromBothStores({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
+    if ($i.request.method === 'PUT') return editPostInSeries({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
+    if ($i.request.method !== 'DELETE') return er({ code: 'METHOD_NOT_ALLOWED' });
+    if (!$i.$_DELETE) $i.$_DELETE = {};
+    $i.$_DELETE.aliasId = $i.$_DELETE.aliasId || $i.$_QUERY?.aliasId || $i.$_GET?.aliasId;
+    if (!$i.$_DELETE.aliasId) return er({ code: 'AUTH_NEEDED', details: 'aliasId required for deletion' });
+    return deletePostFromSeries({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post, userid });
+  },
 
-        return deletePostFromSeries({
-            $i,
-            heichelId: v.heichel,
-            seriesId: v.series,
-            postId: v.post,
-            userid
-        });
+  '/heichelos/:heichel/series/:series/post/:post/delete': async v => deletePostFromSeries({
+    $i,
+    heichelId: v.heichel,
+    seriesId: v.series,
+    postId: v.post,
+    userid
+  }),
 
-    },
-
-   
-	"/heichelos/:heichel/series/:series/post/:post/delete": async (v) => {
-      
-        return deletePostFromSeries({
-            $i,
-            heichelId: v.heichel,
-            seriesId: v.series,
-            postId: v.post,
-            userid
-        });
-    },
-
-
-     /**
-      * @endpoint GET /heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal
-      * @description Filters posts in a series by property value. Returns matching post IDs.
-      */
-     "/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal": async v => {
-         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-         let pv = v.propVal;
-         let pk = v.propKey;
-         try { pv = decodeURIComponent(pv); } catch (e) {}
-         try { pk = decodeURIComponent(pk); } catch (e) {}
-
-         return getPostsByProperty({
-             $i,
-             heichelId: v.heichel,
-             seriesId: v.series,
-             propertyKey: pk,
-             propertyValue: pv
-         });
-     },
-
-
-    // --- Deprecated Standalone Post Routes ---
-    /*
-    "/heichelos/:heichel/posts": DEPRECATED - Use /heichelos/:heichel/series/:series/posts
-    "/heichelos/:heichel/posts/details": DEPRECATED - Use /heichelos/:heichel/series/:series/posts?details=true
-    "/heichelos/:heichel/post/:post": DEPRECATED - Use /heichelos/:heichel/series/:series/post/:post
-    "/heichelos/:heichel/post/:post/delete": DEPRECATED - Use DELETE on /heichelos/:heichel/series/:series/post/:post
-    */
-    // Add catch-all or specific handlers for deprecated routes to return errors if desired.
-
+  '/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal': async v => {
+    if ($i.request.method !== 'GET') return er({ code: 'METHOD_NOT_ALLOWED' });
+    const propertyKey = decodeURIComponent(v.propKey || '');
+    const propertyValue = decodeURIComponent(v.propVal || '');
+    return filterPostsFromBothStores({ $i, heichelId: v.heichel, seriesId: v.series, propertyKey, propertyValue });
+  }
 });

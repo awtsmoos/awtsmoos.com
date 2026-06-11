@@ -10,6 +10,12 @@
  */
 import PointerUpdater from "../methods/interaction/PointerUpdater.js";
 
+const WEAPON_KEYS = Object.freeze({
+  Digit1: "cherev_hakodesh",
+  Digit2: "keshes_haemes",
+  Digit3: "mateh_hatorah"
+});
+
 function trace(olam, stage, payload = {}) {
   const at = Date.now();
   const active = Array.isArray(payload.active) ? payload.active.length : 0;
@@ -31,6 +37,10 @@ function bindInput(olam, code, value, source, keepRunning = true) {
   olam.keyStates[code] = value;
   const key = olam.keyBindings?.[code];
   if (!key) return trace(olam, `${source}-unbound`, { code });
+  if (key === "ATTACK") {
+    if (value === true) olam.combatManager?.attack?.({ source });
+    return trace(olam, source, { code, key, value, active: ["ATTACK"] });
+  }
   if (value === false && keepRunning && key === "RUNNING") return;
   olam.inputs[key] = value;
   trace(olam, source, { code, key, value, active: Object.keys(olam.inputs).filter(k => olam.inputs[k]) });
@@ -39,12 +49,15 @@ function bindInput(olam, code, value, source, keepRunning = true) {
 export default function userInputEvents() {
   this.on("keydown", peula => {
     const code = peula?.code;
+    if (WEAPON_KEYS[code]) this.combatManager?.equipWeapon?.(WEAPON_KEYS[code]);
     if (!this.keyStates[code]) this.ayshPeula("keypressed", peula);
     bindInput(this, code, true, "keydown");
   });
 
   this.on("setInput", peula => bindInput(this, peula?.code, true, "setInput"));
   this.on("setInputOut", peula => bindInput(this, peula?.code, false, "setInputOut"));
+  this.on("combatAttack", peula => this.combatManager?.attack?.({ source: peula?.source || "ui" }));
+  this.on("combatEquip", peula => this.combatManager?.equipWeapon?.(peula?.weaponId));
   this.on("toggleFPS", () => toggleFPS(this));
   this.on("returnVillage", () => this.ayshPeula("ui event", "navigateLevel", { next: "village.json", reason: "return village loses progress" }));
 
@@ -59,6 +72,7 @@ export default function userInputEvents() {
   this.on("keyup", peula => bindInput(this, peula?.code, false, "keyup"));
   this.on("presskey", () => {});
   this.on("mousedown", peula => {
+    if (peula?.button === 0) this.combatManager?.attack?.({ source: "mouse" });
     if (peula.clientX !== undefined && peula.clientY !== undefined) PointerUpdater.update(this, peula.clientX, peula.clientY);
     this.ayin.onMouseDown(peula);
     this.mouseDown = true;

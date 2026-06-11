@@ -2,16 +2,22 @@
 /**
  * @file actionBar.js
  * @description
- * Chapter 47: The side dock becomes exact. VIEW toggles first/third person,
- * EYE returns to village and loses progress, TOOL speaks to the NPC/interaction
- * key, and no button opens a builder panel by accident.
+ * Chapter 706: The dock becomes a real combat bar.
+ *
+ * The Awtsmoos gives the player's hands clear gates: attack, weapon forms,
+ * talk, camera view, movement gait, inventory, and village return. Every slot
+ * dispatches data into the worker instead of guessing through stale UI panels.
  */
 const ACTIONS = [
-  { cls: "bag-slot", icon: "🎒", label: "BAG", kind: "inventory" },
-  { cls: "run-slot", icon: "🏃", label: "RUN", kind: "run" },
-  { cls: "scope-slot", icon: "👁️", label: "VIEW", kind: "toggleView" },
-  { cls: "magic-slot", icon: "✨", label: "TALK", kind: "pulse", code: "KeyC" },
-  { cls: "eagle-slot", icon: "🏠", label: "VILLAGE", kind: "village" }
+  { cls: "attack-slot", icon: "ATK", label: "V", kind: "combatAttack" },
+  { cls: "sword-slot", icon: "ALEF", label: "1", kind: "combatEquip", weaponId: "cherev_hakodesh" },
+  { cls: "bow-slot", icon: "SHIN", label: "2", kind: "combatEquip", weaponId: "keshes_haemes" },
+  { cls: "staff-slot", icon: "ALL", label: "3", kind: "combatEquip", weaponId: "mateh_hatorah" },
+  { cls: "talk-slot", icon: "TALK", label: "C", kind: "pulse", code: "KeyC" },
+  { cls: "view-slot", icon: "VIEW", label: "T", kind: "toggleView" },
+  { cls: "run-slot", icon: "RUN", label: "SHIFT", kind: "run" },
+  { cls: "bag-slot", icon: "BAG", label: "I", kind: "inventory" },
+  { cls: "home-slot", icon: "HOME", label: "VIL", kind: "village" }
 ];
 
 function stop(event) { event?.preventDefault?.(); event?.stopPropagation?.(); }
@@ -47,8 +53,7 @@ function pulse(code) { send({ setInput: { code } }); setTimeout(() => send({ set
 function setRun(el) {
   const running = el.dataset.running === "false";
   el.dataset.running = running ? "true" : "false";
-  el.querySelector(".slotBtn").textContent = running ? "🏃" : "🚶";
-  el.querySelector(".slotName").textContent = running ? "RUN" : "WALK";
+  el.querySelector(".slotBtn").textContent = running ? "RUN" : "WALK";
   send({ setRunMode: { running } });
 }
 function fire(el) {
@@ -59,26 +64,51 @@ function fire(el) {
   if (action.kind === "pulse") pulse(action.code);
   if (action.kind === "toggleView") send({ toggleFPS: true });
   if (action.kind === "village") send({ returnVillage: true });
+  if (action.kind === "combatAttack") send({ combatAttack: { source: "actionBar" } });
+  if (action.kind === "combatEquip") send({ combatEquip: { weaponId: action.weaponId } });
 }
 function bindTap(el, fn) {
   let last = 0;
-  el.addEventListener("pointerdown", event => { stop(event); const at = performance.now(); if (at - last < 160) return; last = at; fn(event); }, { passive: false });
+  el.addEventListener("pointerdown", event => {
+    stop(event);
+    const at = performance.now();
+    if (at - last < 130) return;
+    last = at;
+    fn(event);
+  }, { passive: false });
 }
 function button(action) {
-  return { className: `actionSlot ${action.cls}`, dataset: { awtsUi: "true", running: action.kind === "run" ? "true" : undefined }, ready(el) { bindTap(el, () => fire(el)); }, children: [{ className: "slotBtn", textContent: action.icon }, { className: "slotName", textContent: action.label }] };
+  return {
+    className: `actionSlot ${action.cls}`,
+    dataset: { awtsUi: "true", running: action.kind === "run" ? "true" : undefined },
+    ready(el) { bindTap(el, () => fire(el)); },
+    children: [{ className: "slotBtn", textContent: action.icon }, { className: "slotName", textContent: action.label }]
+  };
 }
 const css = `
-#actionBar.compact-action-dock{position:fixed!important;right:0!important;top:44%!important;transform:translateY(-50%)!important;width:0!important;height:0!important;z-index:26000!important;pointer-events:none!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important;touch-action:none!important}
-#actionBar .dock-handle{position:absolute!important;right:0!important;top:0!important;width:44px!important;height:58px!important;border-radius:16px 0 0 16px!important;background:#28124f!important;border:2px solid #ffd34f!important;border-right:0!important;color:#ffe680!important;font:bold 28px Arial!important;display:flex!important;align-items:center!important;justify-content:center!important;pointer-events:auto!important;touch-action:manipulation!important;box-shadow:0 6px 12px rgba(0,0,0,.35)!important;user-select:none!important}
-#actionBar.open .dock-handle{color:#7dfcff!important;border-color:#7dfcff!important}
-#actionSlots{position:absolute!important;right:48px!important;top:-116px!important;width:68px!important;display:grid!important;grid-template-columns:1fr!important;gap:7px!important;background:transparent!important;pointer-events:auto!important}
-#actionBar.closed #actionSlots,#actionBar[data-open="false"] #actionSlots{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
-#actionBar .actionSlot{width:62px!important;height:62px!important;border-radius:18px!important;background:#20104b!important;border:2px solid rgba(255,215,0,.72)!important;box-shadow:0 7px 14px rgba(0,0,0,.42)!important;pointer-events:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;position:relative!important;overflow:hidden!important;touch-action:manipulation!important;color:#fff!important}
-#actionBar .slotBtn{font-size:27px!important;line-height:1!important}#actionBar .slotName{position:absolute!important;left:5px!important;right:5px!important;bottom:4px!important;text-align:center!important;font:bold 9px Arial!important;color:#ffeaa4!important;text-shadow:0 1px 3px #000!important;background:rgba(0,0,0,.38)!important;border-radius:8px!important;letter-spacing:.04em!important}
+#actionBar.combat-action-dock{position:fixed!important;left:50%!important;bottom:12px!important;transform:translateX(-50%)!important;z-index:26000!important;pointer-events:none!important;background:transparent!important}
+#actionBar .dock-handle{display:none!important}
+#actionSlots{display:grid!important;grid-template-columns:repeat(9,58px)!important;gap:7px!important;padding:8px!important;border-radius:16px!important;background:rgba(12,18,28,.72)!important;border:1px solid rgba(255,224,138,.42)!important;box-shadow:0 12px 28px rgba(0,0,0,.34)!important;backdrop-filter:blur(7px)!important;pointer-events:auto!important}
+#actionBar .actionSlot{width:58px!important;height:58px!important;border-radius:8px!important;background:linear-gradient(180deg,rgba(52,71,90,.95),rgba(21,28,40,.95))!important;border:1px solid rgba(255,224,138,.62)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 5px 12px rgba(0,0,0,.28)!important;display:flex!important;align-items:center!important;justify-content:center!important;position:relative!important;overflow:hidden!important;touch-action:manipulation!important;color:#fff!important}
+#actionBar .attack-slot{border-color:#ffdf60!important;background:linear-gradient(180deg,rgba(122,51,36,.96),rgba(48,22,20,.96))!important}
+#actionBar .sword-slot,#actionBar .bow-slot,#actionBar .staff-slot{background:linear-gradient(180deg,rgba(37,75,92,.96),rgba(16,35,48,.96))!important}
+#actionBar .slotBtn{font:bold 13px Arial!important;line-height:1!important;text-align:center!important;color:#fff6c9!important;text-shadow:0 1px 3px #000!important}
+#actionBar .slotName{position:absolute!important;left:4px!important;right:4px!important;bottom:3px!important;text-align:center!important;font:bold 9px Arial!important;color:#9effd0!important;background:rgba(0,0,0,.42)!important;border-radius:5px!important}
+@media(max-width:760px){#actionBar.combat-action-dock{left:6px!important;right:6px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;transform:none!important}#actionSlots{grid-template-columns:repeat(5,minmax(48px,1fr))!important;gap:6px!important}#actionBar .actionSlot{width:auto!important;height:52px!important}.home-slot{display:none!important}}
 `;
-const ActionBar = { shaym: "action bar", id: "actionBar", className: "awtsmoosAction compact-action-dock closed", awtsmoosClick: true, ready() { setTimeout(() => setOpen(false), 0); }, children: [
-  { className: "dock-handle", textContent: "‹", ready(el) { bindTap(el, () => setOpen(!openState())); } },
-  { className: "slots", shaym: "action slots", id: "actionSlots", children: ACTIONS.map(button) },
-  { tag: "style", innerHTML: css }
-], on: { updateActionSlots() {} } };
+
+const ActionBar = {
+  shaym: "action bar",
+  id: "actionBar",
+  className: "awtsmoosAction combat-action-dock open",
+  awtsmoosClick: true,
+  ready() { setTimeout(() => setOpen(true), 0); },
+  children: [
+    { className: "dock-handle", textContent: "<", ready(el) { bindTap(el, () => setOpen(!openState())); } },
+    { className: "slots", shaym: "action slots", id: "actionSlots", children: ACTIONS.map(button) },
+    { tag: "style", innerHTML: css }
+  ],
+  on: { updateActionSlots() {} }
+};
+
 export default ActionBar;

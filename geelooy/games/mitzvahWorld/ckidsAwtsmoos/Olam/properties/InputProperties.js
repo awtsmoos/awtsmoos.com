@@ -42,6 +42,7 @@ export const getInputProperties = () => ({
         "ShiftRight": "RUNNING",
         "Space": "JUMP",
         "KeyX": "DOWN",
-        "KeyC": "INTERACT"
+        "KeyC": "INTERACT",
+        "KeyV": "ATTACK"
     }
 });

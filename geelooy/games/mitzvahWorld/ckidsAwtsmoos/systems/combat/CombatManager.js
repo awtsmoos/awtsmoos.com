@@ -58,10 +58,11 @@ export default class CombatManager {
      */
     init() {
         if (this.initialized) return;
+        this.initialized = true;
+        this.equipWeapon('cherev_hakodesh', { silent: true });
         if (typeof document === "undefined") {
             return;
         }
-        this.initialized = true;
 
         // B"H - Bind attack input
         this._onMouseDown = (e) => {
@@ -82,6 +83,7 @@ export default class CombatManager {
             if (weaponKeys[e.key]) {
                 this.equipWeapon(weaponKeys[e.key]);
             }
+            if (e.code === 'KeyV') this.attack({ source: 'keyboard' });
         };
         document.addEventListener('keydown', this._onKeyDown);
     }
@@ -90,7 +92,7 @@ export default class CombatManager {
      * B"H - Equips a weapon by its registry ID.
      * @param {string} weaponId - Key from WEAPON_REGISTRY.
      */
-    equipWeapon(weaponId) {
+    equipWeapon(weaponId, options = {}) {
         const def = WEAPON_REGISTRY[weaponId];
         if (!def) return;
 
@@ -100,9 +102,9 @@ export default class CombatManager {
             const hasWeapon = player.inventory.items?.some(
                 item => item?.id === weaponId
             );
-            if (!hasWeapon && weaponId !== 'cherev_hakodesh') {
+            if (!hasWeapon && weaponId !== 'cherev_hakodesh' && Number(def.price || 0) > 0) {
                 // Only allow equipping owned weapons (sword is default)
-                if (this.olam) {
+                if (this.olam && !options.silent) {
                     this.olam.ayshPeula("ui event", "toast", {
                         message: `B"H - You don't own the ${def.name}! Buy it from the Weaponsmith.`
                     });
@@ -112,7 +114,7 @@ export default class CombatManager {
         }
 
         this.equippedWeapon = def;
-        if (this.olam) {
+        if (this.olam && !options.silent) {
             this.olam.ayshPeula("ui event", "toast", {
                 message: `B"H - Equipped: ${def.icon} ${def.name}`
             });
@@ -122,7 +124,7 @@ export default class CombatManager {
     /**
      * B"H - Fires the equipped weapon.
      */
-    attack() {
+    attack(options = {}) {
         if (!this.equippedWeapon) {
             // B"H - Default to fists (Hebrew Sword) if nothing equipped
             this.equippedWeapon = WEAPON_REGISTRY.cherev_hakodesh;
@@ -144,11 +146,35 @@ export default class CombatManager {
             direction = new THREE.Vector3(0, 0, -1);
             direction.applyQuaternion(this.olam.camera.quaternion);
         } else {
-            direction = new THREE.Vector3(0, 0, -1);
+            direction = new THREE.Vector3(0, 0, 1);
             direction.applyEuler(player.mesh.rotation);
         }
 
+        direction = this.resolveAimDirection(origin, direction.normalize());
         this.projectiles.fire(this.equippedWeapon, origin, direction.normalize());
+        if (!options.quiet) this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: this.equippedWeapon.projectile?.letter || "ATTACK", color: "#ffe680" });
+    }
+
+    /**
+     * B"H - Soft-locks attacks toward nearby living enemies for smoother play.
+     * @param {THREE.Vector3} origin - Shot origin.
+     * @param {THREE.Vector3} fallback - Camera/player forward vector.
+     * @returns {THREE.Vector3} Resolved aim.
+     */
+    resolveAimDirection(origin, fallback) {
+        let best = null;
+        let bestScore = Infinity;
+        for (const enemy of this.enemies) {
+            if (!enemy?.mesh || enemy.hp <= 0 || enemy.isDead) continue;
+            const toEnemy = enemy.mesh.position.clone().sub(origin);
+            const dist = toEnemy.length();
+            if (dist <= 0.01 || dist > (this.equippedWeapon?.range || 50)) continue;
+            const dir = toEnemy.clone().normalize();
+            const angle = fallback.angleTo(dir);
+            const score = angle * 28 + dist * 0.04;
+            if (angle < 0.62 && score < bestScore) { best = dir; bestScore = score; }
+        }
+        return best || fallback;
     }
 
     /**
@@ -157,8 +183,19 @@ export default class CombatManager {
      */
     registerEnemy(enemy) {
         if (!enemy) return;
-        this.enemies.push(enemy);
+        if (!this.enemies.includes(enemy)) this.enemies.push(enemy);
         this.healthBars.createBar(enemy);
+    }
+
+    /**
+     * B"H - Removes an enemy from combat targeting and UI.
+     * @param {Object} enemy - Enemy to remove.
+     */
+    unregisterEnemy(enemy) {
+        if (!enemy) return;
+        this.healthBars.removeBar(enemy.name);
+        const i = this.enemies.indexOf(enemy);
+        if (i >= 0) this.enemies.splice(i, 1);
     }
 
     /**
@@ -181,9 +218,8 @@ export default class CombatManager {
                 this.healthBars.removeBar(enemy.name);
                 // B"H - Award XP
                 if (this.olam?.player && enemy.xpValue) {
-                    if (this.olam.player.gainXP) {
-                        this.olam.player.gainXP(enemy.xpValue);
-                    }
+                    if (this.olam.player.gainXP) this.olam.player.gainXP(enemy.xpValue);
+                    else if (this.olam.player.gainXp) this.olam.player.gainXp(enemy.xpValue);
                     this.olam.ayshPeula("ui event", "toast", {
                         message: `B"H - ${enemy.name} refined! +${enemy.xpValue} XP`
                     });

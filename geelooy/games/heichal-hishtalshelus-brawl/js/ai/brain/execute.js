@@ -4,11 +4,12 @@ import { goalX, steer } from './goals.js';
  * B"H
  * Bot input executor.
  *
- * Chapter 69: intention becomes buttons after the new senses speak. Recovery
- * denial now prefers downward aerial pressure, ledge traps wait with shield,
- * and perch-claiming climbs instead of wandering under the sky.
+ * Chapter 75: the golem stops hopping like a broken spring. Jump becomes a
+ * deliberate pulse with cooldown, only for real recovery, high platforms, or
+ * clear pursuit. Attacks use press pulses, not endless held buttons.
  */
 export function executeIntent(bot, w, intent) {
+  bot.ai.jumpCooldown = Math.max(0, bot.ai.jumpCooldown || 0);
   const goal = goalX(bot, w, intent);
   const x = steer(bot, goal, intent, w.crowdPush);
   const close = w.dist < attackRange(intent) && Math.abs(w.dy) < 190;
@@ -17,10 +18,19 @@ export function executeIntent(bot, w, intent) {
   if (close && confident && bot.ai.cooldown === 0 && bot.ai.hold === 0) bot.ai.hold = holdFrames(intent, w);
   const attacking = bot.ai.hold > 1;
   bot.ai.hold = Math.max(0, bot.ai.hold - 1);
+  bot.ai.jumpCooldown = Math.max(0, bot.ai.jumpCooldown - 1);
   if (release) bot.ai.cooldown = intent === 'punish' || intent === 'denyRecovery' ? 12 : 18 + bot.ai.clock % 16;
+  const jump = wantsJump(bot, w, intent);
+  if (jump) bot.ai.jumpCooldown = intent === 'recover' ? 12 : 26;
   return {
-    x, jump: wantsJump(bot, w, intent), shield: wantsShield(bot, w, intent), grab: release && w.target.blocking,
-    punch: attacking && prefersPunch(intent, w), kick: attacking && !prefersPunch(intent, w),
+    x,
+    y: intent === 'denyRecovery' ? 1 : 0,
+    down: intent === 'denyRecovery',
+    jump,
+    shield: wantsShield(bot, w, intent),
+    grab: release && w.target.blocking,
+    punch: attacking && prefersPunch(intent, w),
+    kick: attacking && !prefersPunch(intent, w),
     special: wantsSpecial(bot, attacking, intent)
   };
 }
@@ -37,12 +47,15 @@ function confidence(intent) {
 }
 
 function wantsJump(bot, w, intent) {
+  if (bot.ai.jumpCooldown > 0) return false;
   if (!bot.grounded && intent !== 'recover' && intent !== 'denyRecovery') return false;
-  if (intent === 'recover' || intent === 'unstick' || intent === 'separate') return true;
-  if (intent === 'denyRecovery' && w.target.y > bot.y - 40) return bot.ai.clock % 12 < 4;
-  if (intent === 'perch' && w.territory?.perch?.y < bot.y - 70) return bot.ai.clock % 16 < 5;
-  if (w.nav?.shouldJump && bot.ai.clock % 18 < 4) return true;
-  return w.dy < -115 && w.dist < 285 && bot.ai.clock % 48 < 5;
+  if (intent === 'recover') return bot.ai.clock % 10 < 2;
+  if (intent === 'unstick') return bot.grounded && bot.ai.stuck > 48;
+  if (intent === 'separate') return false;
+  if (intent === 'denyRecovery') return bot.grounded && w.target.y > bot.y + 55;
+  if (intent === 'perch' && w.territory?.perch?.y < bot.y - 95) return true;
+  if (w.nav?.shouldJump && Math.abs(w.dx) < 380 && w.dy < -130) return true;
+  return false;
 }
 
 function wantsShield(bot, w, intent) {

@@ -8,19 +8,28 @@ import { getRandomLetter, getLetterByIndex } from './WeaponRegistry.js';
  * `Olam/olamDynamic.js` path inside JSDoc. The Awtsmoos keeps the import graph
  * pure for mobile Chrome and for every seer that follows string paths.
  */
-function makeLetterSprite(letter, color, size) {
-  if (typeof document === 'undefined') {
-    const material = new THREE.MeshBasicMaterial({ color: new THREE.Color(color) });
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(size * 0.3, size * 0.3, size * 0.3), material);
-    mesh.userData.letter = letter;
-    return mesh;
+function makeCanvas(width, height) {
+  if (typeof document !== 'undefined') {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
   }
-  const canvas = document.createElement('canvas');
+  if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(width, height);
+  return null;
+}
+
+function makeLetterSprite(letter, color, size) {
+  const canvas = makeCanvas(128, 128);
+  if (!canvas) return makeFallbackMesh(letter, color, size);
   canvas.width = 128;
   canvas.height = 128;
   const ctx = canvas.getContext('2d');
+  if (!ctx) return makeFallbackMesh(letter, color, size);
   ctx.clearRect(0, 0, 128, 128);
   ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = '#ffe680';
+  ctx.shadowBlur = 18;
   ctx.font = 'bold 96px serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -30,6 +39,13 @@ function makeLetterSprite(letter, color, size) {
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(size, size, size);
   return sprite;
+}
+
+function makeFallbackMesh(letter, color, size) {
+  const material = new THREE.MeshBasicMaterial({ color: new THREE.Color(color) });
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(size * 0.3, size * 0.3, size * 0.3), material);
+  mesh.userData.letter = letter;
+  return mesh;
 }
 
 export default class HebrewProjectileSystem {

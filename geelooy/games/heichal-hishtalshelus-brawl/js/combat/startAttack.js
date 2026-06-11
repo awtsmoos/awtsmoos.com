@@ -4,16 +4,15 @@ import { ATTACKS } from '../data/attacks.js';
  * B"H
  * Input-to-move interpreter.
  *
- * Chapter 6: the Awtsmoos turns one button into many intentions. Tap punch
- * for jabs, run and release for dash punch, hold for charge punch, press while
- * rising for uppercut. Kick becomes sweep, roundhouse, aerial, or meteor by
- * the player's body-state. No extra UI required; feel emerges from context.
+ * Chapter 76: F and G are simple again. Press means strike. The current attack
+ * itself prevents spam; no hidden lockout is allowed to swallow the next button
+ * and make the player think the game is dead.
  */
 export function maybeStartAttack(f, input) {
   f.charge ||= createCharge();
-  if (f.stun > 0 || f.blocking) return remember(f, input);
+  if (f.stun > 0 || f.blocking || f.landingLag > 0) return remember(f, input);
   tickCharge(f, input);
-  if (!f.attack) releaseAttacks(f, input);
+  if (!f.attack) startPressedAttacks(f, input);
   remember(f, input);
 }
 
@@ -23,29 +22,29 @@ function createCharge() {
 
 function tickCharge(f, input) {
   f.charge.comboTimer = Math.max(0, f.charge.comboTimer - 1);
-  if (input.punch) f.charge.punch = Math.min(70, f.charge.punch + 1);
-  if (input.kick) f.charge.kick = Math.min(80, f.charge.kick + 1);
-  if (input.special) f.charge.special = Math.min(90, f.charge.special + 1);
+  f.charge.punch = input.punch ? Math.min(70, f.charge.punch + 1) : 0;
+  f.charge.kick = input.kick ? Math.min(80, f.charge.kick + 1) : 0;
+  f.charge.special = input.special ? Math.min(90, f.charge.special + 1) : 0;
 }
 
-function releaseAttacks(f, input) {
-  if (released(f, input, 'punch')) start(f, choosePunch(f), f.charge.punch);
-  else if (released(f, input, 'kick')) start(f, chooseKick(f), f.charge.kick);
-  else if (released(f, input, 'special')) start(f, 'special', f.charge.special);
-  else if (pressed(f, input, 'grab')) start(f, 'grab', 0);
+function startPressedAttacks(f, input) {
+  if (pressed(f, input, 'punch')) return start(f, choosePunch(f), f.charge.punch);
+  if (pressed(f, input, 'kick')) return start(f, chooseKick(f), f.charge.kick);
+  if (pressed(f, input, 'special')) return start(f, 'special', f.charge.special);
+  if (pressed(f, input, 'grab')) return start(f, 'grab', 0);
 }
 
 function choosePunch(f) {
-  if (f.charge.punch > 28) return 'chargePunch';
-  if (Math.abs(f.vx) > 7) return 'dashPunch';
-  if (f.vy < -4 || !f.grounded) return 'uppercut';
+  if (f.charge.punch > 34) return 'chargePunch';
+  if (Math.abs(f.vx) > 7 && f.grounded) return 'dashPunch';
+  if (!f.grounded && f.vy < -3) return 'uppercut';
   return `jab${nextCombo(f)}`;
 }
 
 function chooseKick(f) {
   if (!f.grounded && f.vy > 2.5) return 'meteorKick';
   if (!f.grounded) return 'aerialKick';
-  if (f.charge.kick > 30) return 'roundhouse';
+  if (f.charge.kick > 34) return 'roundhouse';
   if (Math.abs(f.vx) < 2) return 'sweep';
   return 'roundhouse';
 }
@@ -62,9 +61,8 @@ function start(f, id, chargeFrames) {
     radius: base.radius + charge * 24,
     hasHit: new Set()
   };
-  applyAttackImpulse(f, id, charge);
   f.attackFrame = 0;
-  clearCharge(f, id);
+  applyAttackImpulse(f, id, charge);
 }
 
 function applyAttackImpulse(f, id, charge) {
@@ -79,13 +77,6 @@ function nextCombo(f) {
   return f.charge.combo;
 }
 
-function clearCharge(f, id) {
-  if (id.includes('jab') || id.includes('Punch') || id === 'uppercut') f.charge.punch = 0;
-  else if (id.includes('Kick') || id === 'roundhouse' || id === 'sweep') f.charge.kick = 0;
-  else f.charge[id] = 0;
-}
-
-function released(f, input, key) { return f.charge.prev[key] && !input[key]; }
 function pressed(f, input, key) { return !f.charge.prev[key] && input[key]; }
 
 function remember(f, input) {
