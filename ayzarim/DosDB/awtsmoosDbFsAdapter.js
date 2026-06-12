@@ -33,7 +33,7 @@ function sharedFlushTimers() {
   return globalThis.__awtsmoosDosDbFsFlushTimers;
 }
 
-function scheduleSharedFlush(db, file, delayMs = 1500) {
+function scheduleSharedFlush(db, file, delayMs = 300000) {
   const timers = sharedFlushTimers();
   if (timers.has(file)) return { scheduled: true, alreadyQueued: true, delayMs };
   const timer = setTimeout(() => {

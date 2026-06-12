@@ -2,21 +2,21 @@
  * B"H
  * Particle performance budget.
  *
- * Chapter 109: the letters may blaze, but the frame may not bow. These numbers
- * are the treaty between spectacle and time: finite glyphs, finite sparks,
- * finite hit visuals per frame, always pooled, never infinite.
+ * Chapter 252: rapid fire receives a brighter crown, but never an infinite
+ * throne. The Hebrew letters flare harder, sparks cut sharper, and the pool
+ * remains finite so the frame stays sovereign under the Awtsmoos.
  */
 export const PARTICLE_BUDGET = Object.freeze({
-  maxParticles: 220,
-  maxLetters: 42,
+  maxParticles: 240,
+  maxLetters: 48,
   maxCallouts: 10,
-  maxHitVisualsPerFrame: 18,
-  maxEventsPerFrame: 42,
-  poolLimit: 360,
-  rapidGlyphs: 1,
+  maxHitVisualsPerFrame: 22,
+  maxEventsPerFrame: 48,
+  poolLimit: 380,
+  rapidGlyphs: 2,
   normalGlyphs: 3,
   hugeGlyphs: 6,
-  rapidSparks: 5,
+  rapidSparks: 8,
   normalSparks: 10,
   hugeSparks: 18
 });

@@ -1,10 +1,11 @@
 /**
  * B"H
- * Smash-style launch math with buff-aware stun.
+ * Smash-style launch math with rapid-fire equality.
  *
- * Chapter 189: the launch vector still belongs to the attacker's aim, but rage
- * can thicken stun, shields can soften survival indirectly through damage, and
- * gloves can enlarge the force before this scroll receives it.
+ * Chapter 247: the Awtsmoos reveals the law hidden inside the sparks: a rapid
+ * hit is still a hit. It may arrive in a swarm, but each spark carries normal
+ * damage influence, normal launch growth, normal hit reaction, and no secret
+ * jail-chain that freezes the victim's will.
  */
 export function applyKnockback(target, source, attack, weapon) {
   const percent = Math.max(0, target.damage);
@@ -16,6 +17,7 @@ export function applyKnockback(target, source, attack, weapon) {
   target.vx = aim.x * force;
   target.vy = aim.y * force;
   target.stun = stunFor(force, percent, attack, source);
+  if (attack.rapid) markRapidMobility(target);
   applyMoveSpecificRules(target, force, attack, aim);
 }
 
@@ -24,8 +26,7 @@ export function launchScale(percent, attack = {}) {
   const midGrowth = Math.max(0, percent - 35) * 0.017;
   const highGrowth = Math.max(0, percent - 95) ** 1.22 * 0.0065;
   const fullChargeBonus = attack.fullCharge ? Math.min(1.15, percent * 0.0065) : 0;
-  const rapidPenalty = attack.rapid ? 0.48 : 1;
-  return Math.max(0.18, (lowResist + midGrowth + highGrowth + fullChargeBonus) * rapidPenalty);
+  return Math.max(0.18, lowResist + midGrowth + highGrowth + fullChargeBonus);
 }
 
 function normalizedAim(aim, source, target) {
@@ -37,9 +38,12 @@ function normalizedAim(aim, source, target) {
 }
 
 function stunFor(force, percent, attack, source) {
-  const rapid = attack.rapid ? 0.65 : 1;
   const rage = source?.buffs?.rageScroll ? 1.18 : 1;
-  return Math.min(86, (8 + force * 1.6 + percent * 0.05) * rapid * rage);
+  return Math.min(86, (8 + force * 1.6 + percent * 0.05) * rage);
+}
+
+function markRapidMobility(target) {
+  target.rapidMobilityFrames = Math.max(target.rapidMobilityFrames || 0, 16);
 }
 
 function applyMoveSpecificRules(target, force, attack, aim) {

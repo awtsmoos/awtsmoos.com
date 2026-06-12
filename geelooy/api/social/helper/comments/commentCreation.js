@@ -53,6 +53,11 @@ const {
  * @param {any} dayuh Raw dayuh from request/comment payload.
  * @returns {object|undefined} Parsed dayuh object, or undefined.
  */
+function traceCommentPhase(label, data = {}) {
+    try {
+        require("fs").appendFileSync(".awtsmoos-tmp/comment-add-phases.jsonl", JSON.stringify({ at: Date.now(), label, ...data }) + "\n");
+    } catch (_) {}
+}
 function runCommentSideEffect(label, fn) {
     const startedAt = Date.now();
     setImmediate(async () => {
@@ -105,14 +110,16 @@ async function addComment(
         if (!userid) return er(NO_LOGIN);
 
 
-        // Verify Alias Ownership
+        traceCommentPhase("addComment.beforeVerifyAliasOwnership", { aliasId, userid, parentType, parentId, seriesId });
         var owns = await verifyAliasOwnership(aliasId, $i, userid);
+        traceCommentPhase("addComment.afterVerifyAliasOwnership", { aliasId, userid, owns });
         if (!owns) {
             return er("You don't have permission to post as this alias.", { aliasId, userid });
         }
 
-        // Verify Heichel Authority (for direct posting/approval)
+        traceCommentPhase("addComment.beforeVerifyHeichelAuthority", { heichelId, aliasId });
         var hasAuthority = await verifyHeichelAuthority({ heichelId, aliasId, $i });
+        traceCommentPhase("addComment.afterVerifyHeichelAuthority", { heichelId, aliasId, hasAuthority });
 
         if (!hasAuthority) {
             const settings = (await getHeichelSubmissionSettings({ $i, heichelId })).success || {};
@@ -251,8 +258,9 @@ async function addLotsOfCommentsToPostByVerseSections({
             });
         }
 
-        // Verify Heichel Authority (for direct posting/approval)
+        traceCommentPhase("addComment.beforeVerifyHeichelAuthority", { heichelId, aliasId });
         var hasAuthority = await verifyHeichelAuthority({ heichelId, aliasId, $i });
+        traceCommentPhase("addComment.afterVerifyHeichelAuthority", { heichelId, aliasId, hasAuthority });
 
         if (!hasAuthority) {
             return er({
@@ -413,6 +421,8 @@ async function addOrApproveComment(
         try {
             // We need an operation like "appendToArrayAtKey" or simulate it:
             // a. Get current array for the verseSection
+            traceCommentPhase("addOrApprove.beforeAppend", { aliasCommentFilePath, verseSection, commentId });
+            traceCommentPhase("addOrApprove.beforeAppend", { aliasCommentFilePath, verseSection, commentId });
             let writeResult = await $i.db.appendToArrayAtKey(
 				aliasCommentFilePath, {
 					key: verseSection,
@@ -420,6 +430,8 @@ async function addOrApproveComment(
 				}
 			);
 
+            traceCommentPhase("addOrApprove.afterAppend", { aliasCommentFilePath, verseSection, commentId, writeResult });
+            traceCommentPhase("addOrApprove.afterAppend", { aliasCommentFilePath, verseSection, commentId, writeResult });
             if (writeResult?.error) {
                 throw writeResult.error; // Rethrow DB error
             }
@@ -431,6 +443,8 @@ async function addOrApproveComment(
         }
 
         // 5. Update the fast read mirror synchronously; defer heavy indexes.
+        traceCommentPhase("addOrApprove.beforeShardMirror", { aliasCommentFilePath, verseSection, commentId });
+        traceCommentPhase("addOrApprove.beforeShardMirror", { aliasCommentFilePath, verseSection, commentId });
         const shardMirror = writeCommentShardRecord({
             $i,
             comment: shtar,
@@ -445,6 +459,8 @@ async function addOrApproveComment(
             }
         });
 
+        traceCommentPhase("addOrApprove.afterShardMirror", { commentId, shardMirror });
+        traceCommentPhase("addOrApprove.afterShardMirror", { commentId, shardMirror });
         const sideEffects = [
             runCommentSideEffect("commentAliasIndex", () => addCommentIndexToAlias({
                 $i, aliasId, heichelId, seriesId, parentType, parentId, postId
@@ -468,6 +484,8 @@ async function addOrApproveComment(
 
         const searchIndex = { deferred: true, sideEffects };
 
+        traceCommentPhase("addOrApprove.beforeReturn", { commentId, aliasCommentFilePath, verseSection });
+        traceCommentPhase("addOrApprove.beforeReturn", { commentId, aliasCommentFilePath, verseSection });
         return {
             success: true,
             message: isApproval ? "Comment approved and added!" : "Comment added!",

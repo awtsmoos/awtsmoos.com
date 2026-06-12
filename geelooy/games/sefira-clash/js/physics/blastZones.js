@@ -4,9 +4,9 @@ import { beginRespawnDelay } from './respawn.js';
  * B"H
  * Blast zones and overload judgment.
  *
- * Chapter 243: exile may come by leaving the sheet, or by becoming too wounded
- * for the pinball arena to keep pretending. Extreme damage plus violent motion
- * now opens a mercy blast so fighters do not live at impossible percentages.
+ * Chapter 245: once damage becomes truly catastrophic, the arena stops storing
+ * pain and converts it into exile. Low percent still survives; extreme percent
+ * is no longer allowed to linger as an immortal number.
  */
 export function resolveBlast(f, map) {
   if (f.hidden || f.respawnTimer || f.dead) return;
@@ -25,13 +25,15 @@ export function forceBlast(f, map, edge = null) {
 export function attachBlastEvents(map, events) { map._events = events; }
 
 function overloadKo(f, b) {
-  if ((f.damage || 0) < 260) return false;
+  const damage = f.damage || 0;
   const speed = Math.hypot(f.vx || 0, f.vy || 0);
-  if ((f.damage || 0) > 420 && speed > 10) return true;
-  if ((f.damage || 0) > 650) return true;
-  const nearSide = Math.min(Math.abs(f.x - b.left), Math.abs(b.right - f.x)) < 190;
-  const nearTop = Math.abs(f.y - b.top) < 210;
-  return speed > 38 && (nearSide || nearTop || f.damage > 320);
+  if (damage < 220) return false;
+  if (damage > 520) return true;
+  if (damage > 360 && speed > 8) return true;
+  if (damage > 280 && speed > 18) return true;
+  const nearSide = Math.min(Math.abs(f.x - b.left), Math.abs(b.right - f.x)) < 210;
+  const nearTop = Math.abs(f.y - b.top) < 230;
+  return speed > 34 && (nearSide || nearTop || damage > 300);
 }
 
 function loseStock(f, map, edge) {

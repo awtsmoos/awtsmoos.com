@@ -1,5 +1,5 @@
 import { clamp } from '../core/vectors.js';
-import { hitEscapeIntent, stepRapidJail } from '../ai/advanced/combat/hitEscapeIntent.js';
+import { stepRapidJail } from '../ai/advanced/combat/hitEscapeIntent.js';
 import { moveBuff } from '../fighters/applyHatStats.js';
 import { applyAirControl, applyAirDodge } from './airControl.js';
 import { applyRecoveryMove } from './recoveryMove.js';
@@ -7,26 +7,36 @@ import { consumeJump, rememberJump, updateJumpState, wantsJumpPress } from './ju
 
 /**
  * B"H
- * Movement with rapid-jail drift, no platform phasing, and speed blessings.
+ * Movement with rapid-hit freedom.
  *
- * Chapter 188: Speed Boots and Netzach sparks bend acceleration through one
- * helper. The player still moves by input, but the blessing makes pursuit feel
- * like the ground itself is carrying them.
+ * Chapter 248: rapid fire no longer chains the legs to the floor. A victim may
+ * be struck, launched, damaged, and shaken, yet the body still answers input,
+ * gravity still pulls, air control still breathes, and the Awtsmoos keeps agency
+ * alive inside the storm of sparks.
  */
 export function applyMovement(f, input) {
   f.motionClock = (f.motionClock || 0) + 1;
   f.dropCooldown = Math.max(0, (f.dropCooldown || 0) - 1);
+  f.rapidMobilityFrames = Math.max(0, (f.rapidMobilityFrames || 0) - 1);
   stepRapidJail(f);
   prepareLedgeOnlyRelease(f, input);
   updateJumpState(f, input);
   if (f.ledgeHang || f.grabbedBy) return rememberJump(f, input);
-  if (f.stun > 0 || f.landingLag > 0) return decayLag(f, input);
+  if (normalHitlock(f)) return decayNormalLag(f, input);
   moveGroundOrBase(f, input);
   if (wantsJumpPress(f, input) || f.jumpBuffer > 0) consumeJump(f, input);
   applyAirControl(f, input);
   applyRecoveryMove(f, input);
   applyAirDodge(f, input);
   rememberJump(f, input);
+}
+
+function normalHitlock(f) {
+  return (f.stun > 0 || f.landingLag > 0) && !rapidFreedom(f);
+}
+
+function rapidFreedom(f) {
+  return f.rapidMobilityFrames > 0 || f.rapidJail?.active;
 }
 
 function prepareLedgeOnlyRelease(f, input) {
@@ -57,18 +67,7 @@ function moveGroundOrBase(f, input) {
   if (Math.abs(x) > 0.05) f.face = x < 0 ? -1 : 1;
 }
 
-function decayLag(f, input) {
+function decayNormalLag(f, input) {
   f.landingLag = Math.max(0, (f.landingLag || 0) - 1);
-  applyRapidJailDrift(f, input);
   rememberJump(f, input);
-}
-
-function applyRapidJailDrift(f, input) {
-  const escape = hitEscapeIntent(f);
-  if (!escape.active) return;
-  const desired = Math.abs(input?.x || 0) > 0.15 ? Math.sign(input.x) : escape.x;
-  const max = (f.stats.maxSpeed || 10) * 0.72 * moveBuff(f);
-  f.vx = clamp((f.vx || 0) + desired * escape.leak, -max, max);
-  if (escape.jump && !f.grounded) f.vy = Math.min(f.vy, -2.2);
-  if (f.rapidJail) f.rapidJail.escapes = (f.rapidJail.escapes || 0) + 1;
 }

@@ -1,11 +1,11 @@
 /**
  * B"H
- * Player/spectator action camera.
+ * Player/action camera.
  *
- * Chapter 220: while the player lives, the camera honors the player. If the
- * player is eliminated, the camera becomes a witness over the living battle,
- * zooming farther out and following the hottest cluster of surviving fighters
- * until the user manually stops watching.
+ * Chapter 249: the camera stops worshiping empty sky. While the player lives it
+ * follows closer, holding the fighter lower on the screen so the stage ahead is
+ * visible and the body feels grounded. When the player falls, the lens becomes a
+ * wide witness over the remaining war.
  */
 export function updateCamera(state, w, h) {
   const focus = chooseFocus(state);
@@ -15,11 +15,11 @@ export function updateCamera(state, w, h) {
   const spectator = isSpectating(state);
   const zoom = chooseZoom(w, h, livingFighters(state).length, spectator, focus.spread || 0);
   const shake = stepShake(state);
-  const lookAhead = spectator ? 0 : Math.max(-260, Math.min(260, (focus.vx || 0) * 18));
-  const desired = { x: focus.x + lookAhead, y: focus.y + Math.max(-80, Math.min(100, (focus.vy || 0) * 5)) };
+  const lookAhead = spectator ? 0 : clamp((focus.vx || 0) * 14, -180, 180);
+  const desired = { x: focus.x + lookAhead, y: focus.y + clamp((focus.vy || 0) * 4, -60, 80) };
   moveTargetThroughDeadZone(state.cameraTarget, desired, w / zoom, h / zoom, spectator);
   const targetX = w * 0.5;
-  const targetY = h * (spectator ? 0.5 : 0.46);
+  const targetY = h * (spectator ? 0.52 : 0.62);
   state.camera.zoom = zoom;
   state.camera.x = clamp((targetX - w / 2) / zoom - state.cameraTarget.x + w / 2, minX(state.map, w, zoom), maxX(state.map, w, zoom)) + shake.x;
   state.camera.y = clamp((targetY - h / 2) / zoom - state.cameraTarget.y + h / 2, minY(state.map, h, zoom), maxY(state.map, h, zoom)) + shake.y;
@@ -36,11 +36,15 @@ function chooseFocus(state) {
   const living = livingFighters(state);
   if (!living.length) return state.fighters.find(f => !f.dead) || null;
   const hot = hottestPair(living) || living;
-  const x = hot.reduce((sum, f) => sum + f.x, 0) / hot.length;
-  const y = hot.reduce((sum, f) => sum + f.y, 0) / hot.length;
-  const vx = hot.reduce((sum, f) => sum + (f.vx || 0), 0) / hot.length;
-  const vy = hot.reduce((sum, f) => sum + (f.vy || 0), 0) / hot.length;
-  const spread = hot.reduce((max, f) => Math.max(max, Math.hypot(f.x - x, f.y - y)), 0);
+  return averageFocus(hot);
+}
+
+function averageFocus(fighters) {
+  const x = fighters.reduce((sum, f) => sum + f.x, 0) / fighters.length;
+  const y = fighters.reduce((sum, f) => sum + f.y, 0) / fighters.length;
+  const vx = fighters.reduce((sum, f) => sum + (f.vx || 0), 0) / fighters.length;
+  const vy = fighters.reduce((sum, f) => sum + (f.vy || 0), 0) / fighters.length;
+  const spread = fighters.reduce((max, f) => Math.max(max, Math.hypot(f.x - x, f.y - y)), 0);
   return { x, y, vx, vy, spread };
 }
 
@@ -54,8 +58,7 @@ function hottestPair(fighters) {
       const b = fighters[j];
       const d = Math.hypot(a.x - b.x, a.y - b.y);
       const heat = (a.attack || a.rapidAttack ? -240 : 0) + (b.attack || b.rapidAttack ? -240 : 0) - (a.damage + b.damage) * 0.18;
-      const s = d + heat;
-      if (s < score) { score = s; best = [a, b]; }
+      if (d + heat < score) { score = d + heat; best = [a, b]; }
     }
   }
   return best;
@@ -71,8 +74,8 @@ function isSpectating(state) {
 }
 
 function moveTargetThroughDeadZone(target, desired, viewW, viewH, spectator) {
-  const deadX = Math.min(spectator ? 520 : 340, viewW * (spectator ? 0.14 : 0.22));
-  const deadY = Math.min(spectator ? 360 : 230, viewH * (spectator ? 0.14 : 0.17));
+  const deadX = Math.min(spectator ? 520 : 240, viewW * (spectator ? 0.14 : 0.14));
+  const deadY = Math.min(spectator ? 360 : 145, viewH * (spectator ? 0.14 : 0.12));
   if (desired.x < target.x - deadX) target.x = desired.x + deadX;
   else if (desired.x > target.x + deadX) target.x = desired.x - deadX;
   if (desired.y < target.y - deadY) target.y = desired.y + deadY;
@@ -82,10 +85,10 @@ function moveTargetThroughDeadZone(target, desired, viewW, viewH, spectator) {
 function chooseZoom(w, h, fighters, spectator, spread) {
   const portrait = h > w * 1.25;
   const mobile = w < 820 || h < 560;
-  const base = spectator ? (portrait ? 0.38 : mobile ? 0.43 : 0.52) : (portrait ? 0.47 : mobile ? 0.55 : 0.68);
-  const countPenalty = Math.min(spectator ? 0.1 : 0.06, Math.max(0, fighters - 4) * 0.012);
+  const base = spectator ? (portrait ? 0.38 : mobile ? 0.43 : 0.52) : (portrait ? 0.56 : mobile ? 0.62 : 0.82);
+  const countPenalty = Math.min(spectator ? 0.1 : 0.04, Math.max(0, fighters - 4) * 0.01);
   const spreadPenalty = spectator ? Math.min(0.11, Math.max(0, spread - 360) * 0.00016) : 0;
-  return Math.max(0.32, base - countPenalty - spreadPenalty);
+  return Math.max(0.42, base - countPenalty - spreadPenalty);
 }
 
 function minX(map, w, zoom) { return w / 2 + w / (2 * zoom) - map.bounds.right; }

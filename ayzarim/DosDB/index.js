@@ -93,6 +93,15 @@ class DosDB {
     this.getObjectKeys = async id => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("getObjectKeys", id);
       return maybeResult(routed) ? routed : legacy.getObjectKeys(id);
+    };    this.exists = async id => {
+      const routed = await this.__awtsmoosDbFsRouter.maybe("get", id, { access: true });
+      if (maybeResult(routed)) return { success: true };
+      try {
+        const got = await legacy.get(id, { access: true });
+        return { success: got !== undefined && got !== null };
+      } catch (_err) {
+        return { success: false };
+      }
     };
     this.syncKeyInObj = async (id, key, value = true) => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInObj", id, key, value);

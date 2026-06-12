@@ -11,11 +11,12 @@ import { shieldAbsorb } from './shields.js';
 
 /**
  * B"H
- * Combat resolver with concrete powerup force.
+ * Combat resolver with fair rapid hits and honest damage accounting.
  *
- * Chapter 190: Gevurah, Heavy Gloves, and Rage Scroll now turn pickups into
- * felt combat. Damage, launch, hitstop, stun, and scars all read one lawful
- * force calculation before the arena tells the story.
+ * Chapter 253: the battlefield remembers damage even after a KO washes percent
+ * back to zero. Rapid sparks hit like real strikes, victims keep mobility, and
+ * the simulator can now measure the true river of violence instead of only the
+ * remaining puddle after respawn.
  */
 export function resolveAttacks(state) {
   tickCombos(state.fighters);
@@ -101,7 +102,7 @@ function strikePoint(attacker, attack) {
 
 function landGrab(state, attacker, target, slot) {
   beginGrab(attacker, target);
-  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 105, color: '#ffe8a8', letter: 'אחיזה', damage: 0, force: 8, side: attacker.face || 1 });
+  state.events.push(hitEvent(attacker, target, { letter: 'אחיזה', damage: 0, force: 8, color: '#ffe8a8' }));
   punchCamera(state, 5);
   endAttack(attacker, slot, slot === 'rapidAttack' ? 'rapidAttackFrame' : 'attackFrame');
 }
@@ -112,22 +113,25 @@ function landHit(state, attacker, target, attack) {
   const raw = Math.max(1, Math.round((attack.damage + (weapon?.damage || 0)) * power.damage));
   const damage = damageAfterDefense(target, raw);
   const combo = updateCombo(attacker, target);
+  state.totalDamageDealt = (state.totalDamageDealt || 0) + damage;
   target.damage += damage;
   target.danger = target.damage > 120;
   rememberRapidJailHit(target, attacker, attack);
   const knock = knockAfterHat(attacker, attack.knock * power.knock + (weapon?.knock || 0));
   const force = Math.max(damage, knock);
   applyKnockback(target, attacker, { ...attack, damage, knock }, weapon);
-  state.hitstop = Math.max(state.hitstop || 0, Math.min(7, attack.rapid ? 1 : 2 + Math.floor(force / 8)));
-  punchCamera(state, attack.rapid ? 2 : Math.min(18, force * 0.45));
+  applyHitstop(state, attack, force);
+  punchCamera(state, attack.rapid ? 1.4 : Math.min(18, force * 0.45));
   emitHit(state, attacker, target, attack, damage, weapon, force, combo);
 }
 
+function applyHitstop(state, attack, force) {
+  if (attack.rapid) return;
+  state.hitstop = Math.max(state.hitstop || 0, Math.min(7, 2 + Math.floor(force / 8)));
+}
+
 function attackPower(attacker) {
-  return {
-    damage: attacker.buffs?.gevurahFist ? 1.45 : attacker.buffs?.rageScroll ? 1.1 : 1,
-    knock: attacker.buffs?.heavyGloves ? 1.24 : attacker.buffs?.gevurahFist ? 1.1 : 1
-  };
+  return { damage: attacker.buffs?.gevurahFist ? 1.45 : attacker.buffs?.rageScroll ? 1.1 : 1, knock: attacker.buffs?.heavyGloves ? 1.24 : attacker.buffs?.gevurahFist ? 1.1 : 1 };
 }
 
 function updateCombo(attacker, target) {
@@ -142,22 +146,27 @@ function updateCombo(attacker, target) {
 function absorbByOhrShield(state, attacker, target) {
   if (!target.buffs?.ohrShield) return false;
   delete target.buffs.ohrShield;
-  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 96, color: '#fff1a6', letter: 'א', damage: 0, charge: 0, force: 8 });
+  state.events.push(hitEvent(attacker, target, { letter: 'א', damage: 0, force: 8, color: '#fff1a6' }));
   punchCamera(state, 5);
   return true;
 }
 
 function shieldHit(state, attacker, target, attack) {
   shieldAbsorb(target, attack.damage);
-  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 92, color: '#9affc5', letter: 'מ', damage: Math.round(attack.damage / 2), force: attack.knock * 0.5, rapid: attack.rapid });
-  punchCamera(state, attack.rapid ? 2 : 4);
+  state.totalDamageDealt = (state.totalDamageDealt || 0) + Math.round(attack.damage / 2);
+  state.events.push(hitEvent(attacker, target, { letter: 'מ', damage: Math.round(attack.damage / 2), force: attack.knock * 0.5, rapid: attack.rapid, color: '#9affc5' }));
+  punchCamera(state, attack.rapid ? 1 : 4);
 }
 
 function emitHit(state, attacker, target, attack, damage, weapon, force, combo) {
   const side = Math.sign(attack.aim?.x || target.x - attacker.x) || attacker.face || 1;
   const letter = combo >= 20 ? 'כ' : combo >= 10 ? 'י' : combo >= 5 ? 'ה' : attack.letter || 'כ';
-  const event = { type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, side, letter, damage, force, koDanger: target.damage > 120, combo, charge: attack.charge || 0, fullCharge: attack.fullCharge, rapid: attack.rapid };
+  const event = hitEvent(attacker, target, { color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, side, letter, damage, force, koDanger: target.damage > 120, combo, charge: attack.charge || 0, fullCharge: attack.fullCharge, rapid: attack.rapid });
   state.events.push(event);
   addBattlefieldScar(state, event);
   if (combo >= 3) state.events.push({ type: 'narrative', x: target.x, y: target.y - 145, text: `${combo}x`, color: '#fff4a8' });
+}
+
+function hitEvent(attacker, target, data) {
+  return { type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, side: attacker.face || 1, ...data };
 }

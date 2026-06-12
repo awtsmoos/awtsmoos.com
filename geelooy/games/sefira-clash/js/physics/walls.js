@@ -1,9 +1,12 @@
+import { forceBlast } from './blastZones.js';
+
 /**
  * B"H
- * Swept bouncy wall and ceiling collision with player-local event metadata.
+ * Swept bouncy walls with decisive high-damage finish conversion.
  *
- * Chapter 273: walls may sing for every ricochet, but only the human body may
- * ask the phone to tremble. Each wall event now carries actorId and human truth.
+ * Chapter 244: pinball walls may sing, but they may not preserve a doomed soul
+ * forever. At high damage, a brutal ricochet becomes a blast judgment, turning
+ * successful pressure into stocks instead of absurd endless bouncing.
  */
 export function resolveWalls(f, state) {
   const walls = state.map.walls || [];
@@ -41,21 +44,39 @@ function bounceFromRect(f, state, rect, safe) {
 }
 
 function bounceHorizontal(f, state, rect, safe, side) {
+  const speed = Math.max(10, Math.abs(f.vx));
+  if (wallKo(f, speed)) return forceBlast(f, state.map, sideBlastEdge(f, state.map.bounds, side));
   f.x = side < 0 ? rect.x - 31 : rect.x + rect.w + 31;
   f.y = safe.y;
-  const speed = Math.max(10, Math.abs(f.vx));
   f.vx = side * Math.min(72, speed * 1.06 + f.damage * 0.05);
   f.vy = preserveTangential(f.vy, 0.94);
   impact(f, state, speed, 'קיר', side);
 }
 
 function bounceVertical(f, state, rect, safe, dir) {
+  const speed = Math.max(10, Math.abs(f.vy));
+  if (wallKo(f, speed) && dir < 0) return forceBlast(f, state.map, topBlastEdge(f, state.map.bounds));
   f.x = safe.x;
   f.y = dir > 0 ? rect.y + rect.h + 173 : rect.y - 8;
-  const speed = Math.max(10, Math.abs(f.vy));
   f.vy = dir * Math.min(68, speed * 1.03 + f.damage * 0.045);
   f.vx = preserveTangential(f.vx, 0.94);
   impact(f, state, speed, dir > 0 ? 'תקרה' : 'רצפה', 0);
+}
+
+function wallKo(f, speed) {
+  const damage = f.damage || 0;
+  if (damage > 360 && speed > 12) return true;
+  if (damage > 260 && speed > 24) return true;
+  if (damage > 210 && speed > 38) return true;
+  return false;
+}
+
+function sideBlastEdge(f, b, side) {
+  return { x: side < 0 ? b.left + 24 : b.right - 24, y: clamp(f.y, b.top + 80, b.bottom - 80), dirX: side, dirY: 0 };
+}
+
+function topBlastEdge(f, b) {
+  return { x: clamp(f.x, b.left + 80, b.right - 80), y: b.top + 24, dirX: 0, dirY: -1 };
 }
 
 function preserveTangential(value, keep) {
@@ -72,3 +93,5 @@ function impact(f, state, speed, letter, side) {
 function boundsFor(x, y) {
   return { left: x - 28, right: x + 28, top: y - 170, bottom: y + 6 };
 }
+
+function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }

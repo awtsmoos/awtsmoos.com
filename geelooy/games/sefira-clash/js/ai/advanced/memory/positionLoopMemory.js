@@ -2,9 +2,9 @@
  * B"H
  * Position loop memory.
  *
- * Chapter 135: loops must be true loops, not innocent proximity to an edge.
- * Edge bounce now requires edge-near frames with jump pressure or repeated tiny
- * reversal near the lip; fighting near a ledge is not automatically stupidity.
+ * Chapter 246: the edge detector stops accusing ordinary edge combat. A true
+ * bounce now requires sustained lip-nearness plus repeated reversals or useless
+ * jumps. Standing near danger while pursuing violence is no longer called a bug.
  */
 export function updatePositionLoopMemory(bot, world = null) {
   bot.aiMind ||= {};
@@ -16,14 +16,14 @@ export function updatePositionLoopMemory(bot, world = null) {
   const edgeNear = nearEdge(bot, world);
   const entry = { region, x: bot.x, y: bot.y, jump: !!bot.input?.jump, nearEnemy, attacking, edgeNear, vx: bot.vx || 0, inputX: bot.input?.x || 0 };
   loop.history.push(entry);
-  if (loop.history.length > 360) loop.history.shift();
+  if (loop.history.length > 300) loop.history.shift();
   loop.sameRegionFrames = sameRegionFrames(loop.history, region);
   loop.ababFrames = detectAbab(loop.history);
   loop.jumpLoopFrames = jumpLoop(loop.history);
   loop.edgeBounceFrames = edgeBounceLoop(loop.history);
   loop.idleNearEnemyFrames = idleNearEnemy(loop.history);
   loop.microWalkFrames = microWalkLoop(loop.history);
-  loop.loopDetected = loop.sameRegionFrames > 520 || loop.ababFrames > 140 || loop.jumpLoopFrames > 170 || loop.edgeBounceFrames > 150 || loop.idleNearEnemyFrames > 90 || loop.microWalkFrames > 210;
+  loop.loopDetected = loop.sameRegionFrames > 520 || loop.ababFrames > 140 || loop.jumpLoopFrames > 190 || loop.edgeBounceFrames > 210 || loop.idleNearEnemyFrames > 90 || loop.microWalkFrames > 240;
   if (loop.loopDetected) loop.triggers++;
   return loop;
 }
@@ -31,9 +31,8 @@ export function updatePositionLoopMemory(bot, world = null) {
 export function loopPenalty(bot, opportunityName) {
   const loop = bot.aiMind?.positionLoop;
   if (!loop?.loopDetected) return 0;
-  if (opportunityName === 'GuaranteedAttack') return 0;
-  if (opportunityName === 'Chase') return 0;
-  return loop.sameRegionFrames > 520 || loop.edgeBounceFrames > 150 ? 70 : 45;
+  if (opportunityName === 'GuaranteedAttack' || opportunityName === 'Chase') return 0;
+  return loop.sameRegionFrames > 520 || loop.edgeBounceFrames > 210 ? 70 : 45;
 }
 
 function sameRegionFrames(history, region) {
@@ -69,19 +68,23 @@ function jumpLoop(history) {
 }
 
 function edgeBounceLoop(history) {
-  let count = 0;
+  let frames = 0;
   let reversals = 0;
+  let jumps = 0;
   let lastDir = 0;
   for (let i = history.length - 1; i >= 0; i--) {
     const e = history[i];
-    if (!e.edgeNear || e.attacking) break;
+    if (!e.edgeNear || e.attacking || e.nearEnemy) break;
     const dir = Math.sign(e.inputX || e.vx || 0);
     if (dir && lastDir && dir !== lastDir) reversals++;
     if (dir) lastDir = dir;
-    if (e.jump || Math.abs(e.vx) < 0.35 || reversals >= 3) count++;
-    else if (i < history.length - 24) break;
+    if (e.jump) jumps++;
+    frames++;
+    if (frames > 260) break;
   }
-  return count;
+  if (frames < 90) return 0;
+  if (reversals < 4 && jumps < 4) return 0;
+  return frames + reversals * 18 + jumps * 10;
 }
 
 function idleNearEnemy(history) {
@@ -97,7 +100,7 @@ function idleNearEnemy(history) {
 function microWalkLoop(history) {
   let count = 0;
   for (let i = history.length - 1; i >= 0; i--) {
-    if (history[i].attacking) break;
+    if (history[i].attacking || history[i].nearEnemy) break;
     if (Math.abs(history[i].vx) > 1.4) break;
     count++;
   }
@@ -107,7 +110,7 @@ function microWalkLoop(history) {
 function nearEdge(bot, world) {
   const p = world?.current?.p || bot.currentPlatform;
   if (!p) return false;
-  return Math.min(Math.abs(bot.x - p.x), Math.abs(bot.x - (p.x + p.w))) < 95;
+  return Math.min(Math.abs(bot.x - p.x), Math.abs(bot.x - (p.x + p.w))) < 92;
 }
 
 function regionKey(x, y) {
