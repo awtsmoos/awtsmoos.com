@@ -7,6 +7,6 @@
 import { DEFAULT_SPIKE_RESET_FEET } from '../../../shared/SpikeResetPosition.js';
 
 export const DIRECT = new Set(['openNpcChallengeOverlay', 'openLevelSelect', 'navigateLevel', 'tzedakahBlessing']);
-export const LEVELS = Object.freeze(Array.from({ length: 20 }, (_, i) => [`ladder-${i + 1}.json`, `Level ${i + 1}`]));
+export const LEVELS = Object.freeze(Array.from({ length: 20 }, (_, i) => [`ladder-${i + 1}`, `Lava Ladder ${i + 1}`]));
 export const LEVEL_BASE = '/games/mitzvahWorld/levels/ladder/data/';
 export const START_FEET = DEFAULT_SPIKE_RESET_FEET;

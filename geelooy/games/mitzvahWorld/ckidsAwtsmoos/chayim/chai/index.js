@@ -15,7 +15,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
 import visualMethods from "./methods/visuals.js?v=exact-visual-feet-20260603-bh388";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=visible-root-binding-20260610-bh710";
+import physicsMethods from "./methods/physics.js?v=village-polish-20260612-bh810";
 import raycastingMethods from "./methods/raycasting.js";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';

@@ -6,7 +6,12 @@
  */
 import { q } from './domKit.js';
 export async function dispatchWorldStart(manager, clean, data) {
-  q('loading')?.classList.remove('hidden');
+  const loading = q('loading');
+  loading?.classList.remove('hidden');
+  const bar = q('loadingBar');
+  if (bar) bar.style.width = '24%';
+  const action = q('action loading');
+  if (action) action.textContent = 'Opening the next ladder chamber...';
   const owner = manager?._managerOfAllWorlds || window.mana;
   const detail = { worldDayuh: data, sourcePath: clean, gameUiHTML: window.awtsmoosGameUI };
   if (owner?.startWorld) return Boolean(await owner.startWorld(detail) || true);

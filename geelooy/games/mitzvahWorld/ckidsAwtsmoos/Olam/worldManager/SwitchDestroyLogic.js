@@ -60,6 +60,6 @@ export default {
     const ld = this.ui.getHtml("loading");
     if (ld) this.ui.setHtml(ld, { className: "loading" });
     this.ui.htmlAction({ shaym: "action loading", properties: { innerHTML: "Resetting the world vessels..." } });
-    return await this.startWorld({ worldDayuh, sourcePath, gameUiHTML, reuseWorker: true });
+    return await this.startWorld({ worldDayuh, sourcePath, gameUiHTML, reuseWorker: true, alreadyDestroyed: true });
   }
 };

@@ -1,10 +1,10 @@
 /**
  * B"H
- * Smash-style launch math with exact joystick-vector authority.
+ * Smash-style launch math with buff-aware stun.
  *
- * Chapter 281: the launch direction is now the vector itself, not a side sign
- * multiplied by a canned angle. If the thumb points northeast, the target flies
- * northeast. If it points straight up, the target rises like a spark.
+ * Chapter 189: the launch vector still belongs to the attacker's aim, but rage
+ * can thicken stun, shields can soften survival indirectly through damage, and
+ * gloves can enlarge the force before this scroll receives it.
  */
 export function applyKnockback(target, source, attack, weapon) {
   const percent = Math.max(0, target.damage);
@@ -15,7 +15,7 @@ export function applyKnockback(target, source, attack, weapon) {
   const aim = normalizedAim(attack.aim, source, target);
   target.vx = aim.x * force;
   target.vy = aim.y * force;
-  target.stun = stunFor(force, percent, attack);
+  target.stun = stunFor(force, percent, attack, source);
   applyMoveSpecificRules(target, force, attack, aim);
 }
 
@@ -36,9 +36,10 @@ function normalizedAim(aim, source, target) {
   return { x: x / mag, y: y / mag };
 }
 
-function stunFor(force, percent, attack) {
+function stunFor(force, percent, attack, source) {
   const rapid = attack.rapid ? 0.65 : 1;
-  return Math.min(78, (8 + force * 1.6 + percent * 0.05) * rapid);
+  const rage = source?.buffs?.rageScroll ? 1.18 : 1;
+  return Math.min(86, (8 + force * 1.6 + percent * 0.05) * rapid * rage);
 }
 
 function applyMoveSpecificRules(target, force, attack, aim) {

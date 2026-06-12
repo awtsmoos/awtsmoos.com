@@ -6,9 +6,9 @@
  */
 import { closePanels, esc, sealIsland } from './domKit.js?v=npc-scroll-pass-through-20260609-bh638';
 import { installNpcCss } from './npcCss.js?v=npc-scroll-pass-through-20260609-bh638';
-import { actionButtonsHtml, linesHtml } from './npcDialogueMarkup.js';
+import { actionButtonsHtml, linesHtml } from './npcDialogueMarkup.js?v=village-polish-20260612-bh810';
 import { levelCardsHtml } from './npcLevelMarkup.js';
-import { bindNpcOverlayActions } from './npcOverlayActions.js';
+import { bindNpcOverlayActions } from './npcOverlayActions.js?v=village-polish-20260612-bh810';
 import { statsHtml } from './npcStatsMarkup.js';
 export function openLevelSelect(manager, data = {}) {
   openNpcChallengeOverlay(manager, { ...data, title: data.title || 'Choose Levels', lines: data.lines || ['Pick any challenge.'], chooserOpen: true });

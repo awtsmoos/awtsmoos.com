@@ -10,7 +10,7 @@
  */
 import { setLevelGoal, updatePerutahHud } from './hudState.js';
 import { navigateLevel } from './levelNavigator.js';
-import { openLevelSelect, openNpcChallengeOverlay } from './npcOverlay.js?v=npc-scroll-pass-through-20260609-bh638';
+import { openLevelSelect, openNpcChallengeOverlay } from './npcOverlay.js?v=village-polish-20260612-bh810';
 import { tzedakahLetters } from './effects.js';
 import { dispatchInventory } from './inventoryFallback.js';
 import { showMission } from './missionFallback.js?v=mission-card-ui-20260610-bh711';

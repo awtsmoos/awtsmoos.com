@@ -9,12 +9,12 @@
  * `olam.chossid` and `olam.player`. This loader registers the player at every
  * lifecycle gate and imports the visible-root direct constructor.
  */
-import instantiate from "./instantiateMezuzahDirect.js?v=visible-root-binding-20260610-bh710";
+import instantiate from "./instantiateMezuzahDirect.js?v=village-polish-20260612-bh810";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-colliders-after-settle-20260609-bh621";
 import { applyEntryRuntime } from "./entryRuntime/applyEntryRuntime.js";
-import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=village-combat-20260611-bh801";
+import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=village-polish-20260612-bh810";
 
 /** @param {object} nivra Candidate entity. @returns {boolean} True for player. */
 function isPlayerSoul(nivra) {

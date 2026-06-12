@@ -1,0 +1,5120 @@
+{
+  "bh": "B\"H",
+  "generatedAt": "2026-06-12T08:13:20.431Z",
+  "installManifest": {
+    "generator": "geelooy/apps/tunnel/agent/rebuild-manifest.cjs",
+    "files": 228
+  },
+  "roots": [
+    {
+      "label": "Tunnel app",
+      "root": "geelooy/apps/tunnel",
+      "exists": true,
+      "files": 242,
+      "dirs": 33,
+      "bytes": 811744,
+      "rows": [
+        {
+          "path": "agent",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/lib",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/lib/config.js",
+          "kind": "file",
+          "bytes": 7259
+        },
+        {
+          "path": "agent/lib/local-api.js",
+          "kind": "file",
+          "bytes": 9775
+        },
+        {
+          "path": "agent/lib/local-browser-relay.js",
+          "kind": "file",
+          "bytes": 3414
+        },
+        {
+          "path": "agent/lib/log.js",
+          "kind": "file",
+          "bytes": 743
+        },
+        {
+          "path": "agent/lib/open.js",
+          "kind": "file",
+          "bytes": 1275
+        },
+        {
+          "path": "agent/lib/tool-schema-catalog.js",
+          "kind": "file",
+          "bytes": 9902
+        },
+        {
+          "path": "agent/lib/ws.js",
+          "kind": "file",
+          "bytes": 6926
+        },
+        {
+          "path": "agent/main.js",
+          "kind": "file",
+          "bytes": 9717
+        },
+        {
+          "path": "agent/manifest.txt",
+          "kind": "file",
+          "bytes": 7938
+        },
+        {
+          "path": "agent/rebuild-manifest.cjs",
+          "kind": "file",
+          "bytes": 1776
+        },
+        {
+          "path": "agent/tools",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/actions",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/actions/conversations.js",
+          "kind": "file",
+          "bytes": 1128
+        },
+        {
+          "path": "agent/tools/chatgpt/actions/login.js",
+          "kind": "file",
+          "bytes": 1201
+        },
+        {
+          "path": "agent/tools/chatgpt/actions/message.js",
+          "kind": "file",
+          "bytes": 2052
+        },
+        {
+          "path": "agent/tools/chatgpt/actions/status.js",
+          "kind": "file",
+          "bytes": 889
+        },
+        {
+          "path": "agent/tools/chatgpt/auth",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/auth/sessionCheck.js",
+          "kind": "file",
+          "bytes": 1793
+        },
+        {
+          "path": "agent/tools/chatgpt/chrome",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/chrome/ensureProfileChrome.js",
+          "kind": "file",
+          "bytes": 1341
+        },
+        {
+          "path": "agent/tools/chatgpt/conversations",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/conversations/current.js",
+          "kind": "file",
+          "bytes": 1186
+        },
+        {
+          "path": "agent/tools/chatgpt/conversations/registry.js",
+          "kind": "file",
+          "bytes": 1209
+        },
+        {
+          "path": "agent/tools/chatgpt/direct",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/direct/auth.js",
+          "kind": "file",
+          "bytes": 6138
+        },
+        {
+          "path": "agent/tools/chatgpt/direct/conversation.js",
+          "kind": "file",
+          "bytes": 7054
+        },
+        {
+          "path": "agent/tools/chatgpt/direct/cookies.js",
+          "kind": "file",
+          "bytes": 2939
+        },
+        {
+          "path": "agent/tools/chatgpt/direct/ids.js",
+          "kind": "file",
+          "bytes": 617
+        },
+        {
+          "path": "agent/tools/chatgpt/direct/sentinel.js",
+          "kind": "file",
+          "bytes": 3386
+        },
+        {
+          "path": "agent/tools/chatgpt/direct/sessionCache.js",
+          "kind": "file",
+          "bytes": 1893
+        },
+        {
+          "path": "agent/tools/chatgpt/direct/sse.js",
+          "kind": "file",
+          "bytes": 2164
+        },
+        {
+          "path": "agent/tools/chatgpt/index.js",
+          "kind": "file",
+          "bytes": 1334
+        },
+        {
+          "path": "agent/tools/chatgpt/runtime",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/runtime/selectors.js",
+          "kind": "file",
+          "bytes": 779
+        },
+        {
+          "path": "agent/tools/chatgpt/runtime/sendPrompt.js",
+          "kind": "file",
+          "bytes": 4511
+        },
+        {
+          "path": "agent/tools/chatgpt/runtime/waitForResponse.js",
+          "kind": "file",
+          "bytes": 2192
+        },
+        {
+          "path": "agent/tools/chatgpt/storage",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/storage/jsonStore.js",
+          "kind": "file",
+          "bytes": 792
+        },
+        {
+          "path": "agent/tools/chatgpt/storage/paths.js",
+          "kind": "file",
+          "bytes": 809
+        },
+        {
+          "path": "agent/tools/chatgpt/storage/profileState.js",
+          "kind": "file",
+          "bytes": 1046
+        },
+        {
+          "path": "agent/tools/chatgpt/testing",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chatgpt/testing/chatgpt-profile-actions.test.cjs",
+          "kind": "file",
+          "bytes": 2311
+        },
+        {
+          "path": "agent/tools/chrome",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/chrome/actions.js",
+          "kind": "file",
+          "bytes": 12643
+        },
+        {
+          "path": "agent/tools/chrome/cdp.js",
+          "kind": "file",
+          "bytes": 5189
+        },
+        {
+          "path": "agent/tools/chrome/extras.js",
+          "kind": "file",
+          "bytes": 5728
+        },
+        {
+          "path": "agent/tools/chrome/finder.js",
+          "kind": "file",
+          "bytes": 6214
+        },
+        {
+          "path": "agent/tools/chrome/index.js",
+          "kind": "file",
+          "bytes": 1973
+        },
+        {
+          "path": "agent/tools/chrome/launchArgs.js",
+          "kind": "file",
+          "bytes": 1905
+        },
+        {
+          "path": "agent/tools/chrome/logs.js",
+          "kind": "file",
+          "bytes": 4071
+        },
+        {
+          "path": "agent/tools/chrome/session.js",
+          "kind": "file",
+          "bytes": 10263
+        },
+        {
+          "path": "agent/tools/chrome/snapshot.js",
+          "kind": "file",
+          "bytes": 2050
+        },
+        {
+          "path": "agent/tools/chrome.js",
+          "kind": "file",
+          "bytes": 7193
+        },
+        {
+          "path": "agent/tools/command",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/command/index.js",
+          "kind": "file",
+          "bytes": 2132
+        },
+        {
+          "path": "agent/tools/command/instantTests.js",
+          "kind": "file",
+          "bytes": 2495
+        },
+        {
+          "path": "agent/tools/command/projectChecks.js",
+          "kind": "file",
+          "bytes": 3346
+        },
+        {
+          "path": "agent/tools/command/run.js",
+          "kind": "file",
+          "bytes": 7436
+        },
+        {
+          "path": "agent/tools/command/scriptSandbox.js",
+          "kind": "file",
+          "bytes": 5316
+        },
+        {
+          "path": "agent/tools/command/shells.js",
+          "kind": "file",
+          "bytes": 1988
+        },
+        {
+          "path": "agent/tools/fs",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/actionBatch.js",
+          "kind": "file",
+          "bytes": 13941
+        },
+        {
+          "path": "agent/tools/fs/actionGroups",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/actionHistoryActions.js",
+          "kind": "file",
+          "bytes": 4935
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgentActions.js",
+          "kind": "file",
+          "bytes": 5960
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/childSpawner.js",
+          "kind": "file",
+          "bytes": 1826
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/client.js",
+          "kind": "file",
+          "bytes": 9519
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/genericTask.js",
+          "kind": "file",
+          "bytes": 4953
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/novelPipeline.js",
+          "kind": "file",
+          "bytes": 6938
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/providers.js",
+          "kind": "file",
+          "bytes": 3714
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/registry.js",
+          "kind": "file",
+          "bytes": 1831
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/sleep.js",
+          "kind": "file",
+          "bytes": 490
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/taskLimits.js",
+          "kind": "file",
+          "bytes": 1302
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/taskRunner.js",
+          "kind": "file",
+          "bytes": 3862
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiAgents/taskStore.js",
+          "kind": "file",
+          "bytes": 3654
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiTemplateActions.js",
+          "kind": "file",
+          "bytes": 1969
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/aiTemplateCatalog.js",
+          "kind": "file",
+          "bytes": 2592
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/cognitionActions.js",
+          "kind": "file",
+          "bytes": 2369
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/commandPresetActions.js",
+          "kind": "file",
+          "bytes": 3577
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/configActions.js",
+          "kind": "file",
+          "bytes": 5028
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/fileOpsActions.js",
+          "kind": "file",
+          "bytes": 1066
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/httpActionsGroup.js",
+          "kind": "file",
+          "bytes": 844
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/isolatedActions.js",
+          "kind": "file",
+          "bytes": 840
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/previewActions.js",
+          "kind": "file",
+          "bytes": 6844
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/processActions.js",
+          "kind": "file",
+          "bytes": 9446
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/projectActions.js",
+          "kind": "file",
+          "bytes": 2012
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/qualityActions.js",
+          "kind": "file",
+          "bytes": 2782
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/readActions.js",
+          "kind": "file",
+          "bytes": 6898
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/remoteModuleCompat.js",
+          "kind": "file",
+          "bytes": 1482
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/runtimeActions.js",
+          "kind": "file",
+          "bytes": 11054
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/staticServerActions.js",
+          "kind": "file",
+          "bytes": 587
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/workflowActions.js",
+          "kind": "file",
+          "bytes": 3626
+        },
+        {
+          "path": "agent/tools/fs/actionGroups/writeActions.js",
+          "kind": "file",
+          "bytes": 3206
+        },
+        {
+          "path": "agent/tools/fs/actionLedger.js",
+          "kind": "file",
+          "bytes": 7213
+        },
+        {
+          "path": "agent/tools/fs/actions.js",
+          "kind": "file",
+          "bytes": 3335
+        },
+        {
+          "path": "agent/tools/fs/astOutline.js",
+          "kind": "file",
+          "bytes": 811
+        },
+        {
+          "path": "agent/tools/fs/bulkPage.js",
+          "kind": "file",
+          "bytes": 2466
+        },
+        {
+          "path": "agent/tools/fs/bulkRead.js",
+          "kind": "file",
+          "bytes": 5673
+        },
+        {
+          "path": "agent/tools/fs/chromeRuntime.js",
+          "kind": "file",
+          "bytes": 5082
+        },
+        {
+          "path": "agent/tools/fs/cognitionCommandNames.js",
+          "kind": "file",
+          "bytes": 5351
+        },
+        {
+          "path": "agent/tools/fs/connectedFiles.js",
+          "kind": "file",
+          "bytes": 4277
+        },
+        {
+          "path": "agent/tools/fs/connectedRefs.js",
+          "kind": "file",
+          "bytes": 3140
+        },
+        {
+          "path": "agent/tools/fs/constants.js",
+          "kind": "file",
+          "bytes": 548
+        },
+        {
+          "path": "agent/tools/fs/dependencyGraph.js",
+          "kind": "file",
+          "bytes": 2670
+        },
+        {
+          "path": "agent/tools/fs/diagnostics.js",
+          "kind": "file",
+          "bytes": 5741
+        },
+        {
+          "path": "agent/tools/fs/fileOpsCopy.js",
+          "kind": "file",
+          "bytes": 6207
+        },
+        {
+          "path": "agent/tools/fs/fileOpsMoveDelete.js",
+          "kind": "file",
+          "bytes": 6823
+        },
+        {
+          "path": "agent/tools/fs/fileOpsPaths.js",
+          "kind": "file",
+          "bytes": 3159
+        },
+        {
+          "path": "agent/tools/fs/findFiles.js",
+          "kind": "file",
+          "bytes": 3176
+        },
+        {
+          "path": "agent/tools/fs/hashWrite.js",
+          "kind": "file",
+          "bytes": 4074
+        },
+        {
+          "path": "agent/tools/fs/httpActions.js",
+          "kind": "file",
+          "bytes": 1190
+        },
+        {
+          "path": "agent/tools/fs/httpClient.js",
+          "kind": "file",
+          "bytes": 6321
+        },
+        {
+          "path": "agent/tools/fs/httpCookieJar.js",
+          "kind": "file",
+          "bytes": 9166
+        },
+        {
+          "path": "agent/tools/fs/index.js",
+          "kind": "file",
+          "bytes": 183
+        },
+        {
+          "path": "agent/tools/fs/isolatedHtml.js",
+          "kind": "file",
+          "bytes": 3253
+        },
+        {
+          "path": "agent/tools/fs/isolatedJs.js",
+          "kind": "file",
+          "bytes": 4278
+        },
+        {
+          "path": "agent/tools/fs/jsonTools.js",
+          "kind": "file",
+          "bytes": 2305
+        },
+        {
+          "path": "agent/tools/fs/jsWriteVerifier.js",
+          "kind": "file",
+          "bytes": 3738
+        },
+        {
+          "path": "agent/tools/fs/lineBatch.js",
+          "kind": "file",
+          "bytes": 1611
+        },
+        {
+          "path": "agent/tools/fs/listing.js",
+          "kind": "file",
+          "bytes": 1213
+        },
+        {
+          "path": "agent/tools/fs/nodeCheckMany.js",
+          "kind": "file",
+          "bytes": 1826
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/assertText.js",
+          "kind": "file",
+          "bytes": 394
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/assertValue.js",
+          "kind": "file",
+          "bytes": 369
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/click.js",
+          "kind": "file",
+          "bytes": 713
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/evaluate.js",
+          "kind": "file",
+          "bytes": 395
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/fill.js",
+          "kind": "file",
+          "bytes": 410
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/index.js",
+          "kind": "file",
+          "bytes": 2069
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/selectors.js",
+          "kind": "file",
+          "bytes": 319
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/snapshotAction.js",
+          "kind": "file",
+          "bytes": 113
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/type.js",
+          "kind": "file",
+          "bytes": 273
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/actions/wait.js",
+          "kind": "file",
+          "bytes": 356
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/asyncCapture.js",
+          "kind": "file",
+          "bytes": 809
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/capabilities",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/capabilities/index.js",
+          "kind": "file",
+          "bytes": 885
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/browserContext.js",
+          "kind": "file",
+          "bytes": 854
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/events.js",
+          "kind": "file",
+          "bytes": 520
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/installCompat.js",
+          "kind": "file",
+          "bytes": 553
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/keyboardMouse.js",
+          "kind": "file",
+          "bytes": 565
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/locator.js",
+          "kind": "file",
+          "bytes": 684
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/pageCore.js",
+          "kind": "file",
+          "bytes": 3339
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/playwright.js",
+          "kind": "file",
+          "bytes": 906
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/compat/puppeteer.js",
+          "kind": "file",
+          "bytes": 980
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/engineAliases.js",
+          "kind": "file",
+          "bytes": 702
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/errors.js",
+          "kind": "file",
+          "bytes": 300
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/esm",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/esm/astTransform.js",
+          "kind": "file",
+          "bytes": 1312
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/esm/exportEmit.js",
+          "kind": "file",
+          "bytes": 2164
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/esm/importEmit.js",
+          "kind": "file",
+          "bytes": 805
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/esm/names.js",
+          "kind": "file",
+          "bytes": 770
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/esm/sourcePatch.js",
+          "kind": "file",
+          "bytes": 565
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/format",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/format/index.js",
+          "kind": "file",
+          "bytes": 716
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/format/openai.js",
+          "kind": "file",
+          "bytes": 743
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/format/yaml.js",
+          "kind": "file",
+          "bytes": 870
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/htmlHydrate.js",
+          "kind": "file",
+          "bytes": 466
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/htmlPlan.js",
+          "kind": "file",
+          "bytes": 791
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/importMap.js",
+          "kind": "file",
+          "bytes": 1508
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/index.js",
+          "kind": "file",
+          "bytes": 2066
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/merkavaAdapter.js",
+          "kind": "file",
+          "bytes": 1253
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/moduleRunner.js",
+          "kind": "file",
+          "bytes": 1602
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/moduleTransform.js",
+          "kind": "file",
+          "bytes": 1764
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/options.js",
+          "kind": "file",
+          "bytes": 1312
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/paths.js",
+          "kind": "file",
+          "bytes": 877
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/publicFetch.js",
+          "kind": "file",
+          "bytes": 790
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/publicPath.js",
+          "kind": "file",
+          "bytes": 1248
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/resultAdapter.js",
+          "kind": "file",
+          "bytes": 1019
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/scriptRunner.js",
+          "kind": "file",
+          "bytes": 1827
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/shims",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/shims/index.js",
+          "kind": "file",
+          "bytes": 326
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/shims/three.js",
+          "kind": "file",
+          "bytes": 3819
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/timerFlush.js",
+          "kind": "file",
+          "bytes": 544
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/values.js",
+          "kind": "file",
+          "bytes": 420
+        },
+        {
+          "path": "agent/tools/fs/nodeDomRuntime/vmContext.js",
+          "kind": "file",
+          "bytes": 1716
+        },
+        {
+          "path": "agent/tools/fs/pagedSearch.js",
+          "kind": "file",
+          "bytes": 5952
+        },
+        {
+          "path": "agent/tools/fs/pagedTree.js",
+          "kind": "file",
+          "bytes": 2785
+        },
+        {
+          "path": "agent/tools/fs/pathGuard.js",
+          "kind": "file",
+          "bytes": 850
+        },
+        {
+          "path": "agent/tools/fs/plainPayload.js",
+          "kind": "file",
+          "bytes": 1505
+        },
+        {
+          "path": "agent/tools/fs/previewRegistry.js",
+          "kind": "file",
+          "bytes": 644
+        },
+        {
+          "path": "agent/tools/fs/projectInfo.js",
+          "kind": "file",
+          "bytes": 3176
+        },
+        {
+          "path": "agent/tools/fs/projectValidation.js",
+          "kind": "file",
+          "bytes": 3999
+        },
+        {
+          "path": "agent/tools/fs/readWrite.js",
+          "kind": "file",
+          "bytes": 5044
+        },
+        {
+          "path": "agent/tools/fs/rootBrowser.js",
+          "kind": "file",
+          "bytes": 2704
+        },
+        {
+          "path": "agent/tools/fs/runtime",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/runtime/collector.js",
+          "kind": "file",
+          "bytes": 1407
+        },
+        {
+          "path": "agent/tools/fs/runtime/constants.js",
+          "kind": "file",
+          "bytes": 693
+        },
+        {
+          "path": "agent/tools/fs/runtime/discovery.js",
+          "kind": "file",
+          "bytes": 1811
+        },
+        {
+          "path": "agent/tools/fs/runtime/htmlRefs.js",
+          "kind": "file",
+          "bytes": 1255
+        },
+        {
+          "path": "agent/tools/fs/runtime/inlineFiles.js",
+          "kind": "file",
+          "bytes": 1419
+        },
+        {
+          "path": "agent/tools/fs/runtime/pathUtils.js",
+          "kind": "file",
+          "bytes": 862
+        },
+        {
+          "path": "agent/tools/fs/runtime/preflight.js",
+          "kind": "file",
+          "bytes": 1843
+        },
+        {
+          "path": "agent/tools/fs/runtime/scriptKinds.js",
+          "kind": "file",
+          "bytes": 925
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs/cssRefs.js",
+          "kind": "file",
+          "bytes": 499
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs/importMapRefs.js",
+          "kind": "file",
+          "bytes": 871
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs/inlineScriptRefs.js",
+          "kind": "file",
+          "bytes": 793
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs/jsLex.js",
+          "kind": "file",
+          "bytes": 3145
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs/jsRefs.js",
+          "kind": "file",
+          "bytes": 3430
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs/pathRefs.js",
+          "kind": "file",
+          "bytes": 3738
+        },
+        {
+          "path": "agent/tools/fs/runtime/sourceRefs.js",
+          "kind": "file",
+          "bytes": 1275
+        },
+        {
+          "path": "agent/tools/fs/runtimeDetect.js",
+          "kind": "file",
+          "bytes": 1092
+        },
+        {
+          "path": "agent/tools/fs/runtimeManifest.js",
+          "kind": "file",
+          "bytes": 2384
+        },
+        {
+          "path": "agent/tools/fs/runtimeUrlEnv.js",
+          "kind": "file",
+          "bytes": 11734
+        },
+        {
+          "path": "agent/tools/fs/runtimeVirtualEnv.js",
+          "kind": "file",
+          "bytes": 2360
+        },
+        {
+          "path": "agent/tools/fs/searchEdit.js",
+          "kind": "file",
+          "bytes": 8851
+        },
+        {
+          "path": "agent/tools/fs/selectString.js",
+          "kind": "file",
+          "bytes": 4488
+        },
+        {
+          "path": "agent/tools/fs/selfAudit.js",
+          "kind": "file",
+          "bytes": 2362
+        },
+        {
+          "path": "agent/tools/fs/semantic",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/semantic/astOutline.js",
+          "kind": "file",
+          "bytes": 2688
+        },
+        {
+          "path": "agent/tools/fs/semantic/balancedScopes.js",
+          "kind": "file",
+          "bytes": 1663
+        },
+        {
+          "path": "agent/tools/fs/semantic/merkavaParser.js",
+          "kind": "file",
+          "bytes": 4757
+        },
+        {
+          "path": "agent/tools/fs/semantic/scopeEdit.js",
+          "kind": "file",
+          "bytes": 3387
+        },
+        {
+          "path": "agent/tools/fs/semantic/scopeOutline.js",
+          "kind": "file",
+          "bytes": 3649
+        },
+        {
+          "path": "agent/tools/fs/semantic/walk.js",
+          "kind": "file",
+          "bytes": 806
+        },
+        {
+          "path": "agent/tools/fs/staticServers.js",
+          "kind": "file",
+          "bytes": 5480
+        },
+        {
+          "path": "agent/tools/fs/symbolOutline.js",
+          "kind": "file",
+          "bytes": 1217
+        },
+        {
+          "path": "agent/tools/fs/testing",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/fs/testing/action-registry-stress.test.cjs",
+          "kind": "file",
+          "bytes": 3971
+        },
+        {
+          "path": "agent/tools/fs/testing/aiAgentActions.test.cjs",
+          "kind": "file",
+          "bytes": 9755
+        },
+        {
+          "path": "agent/tools/fs/testing/all-actions-source-stress.test.cjs",
+          "kind": "file",
+          "bytes": 6690
+        },
+        {
+          "path": "agent/tools/fs/testing/bulk-runtime-browser-actions.test.cjs",
+          "kind": "file",
+          "bytes": 4904
+        },
+        {
+          "path": "agent/tools/fs/testing/connected-bulk-runtime-actors.test.cjs",
+          "kind": "file",
+          "bytes": 6019
+        },
+        {
+          "path": "agent/tools/fs/testing/consolidated-edge-cases.test.cjs",
+          "kind": "file",
+          "bytes": 3683
+        },
+        {
+          "path": "agent/tools/fs/testing/consolidated-get-runtime-guidance.test.cjs",
+          "kind": "file",
+          "bytes": 5530
+        },
+        {
+          "path": "agent/tools/fs/testing/installer-manifest-hygiene.test.cjs",
+          "kind": "file",
+          "bytes": 2261
+        },
+        {
+          "path": "agent/tools/fs/testing/local-api-direct.test.cjs",
+          "kind": "file",
+          "bytes": 3926
+        },
+        {
+          "path": "agent/tools/fs/testing/node-dom-geelooy-apps-games-surface-stress.test.cjs",
+          "kind": "file",
+          "bytes": 2856
+        },
+        {
+          "path": "agent/tools/fs/testing/node-dom-playwright-puppeteer-compat.test.cjs",
+          "kind": "file",
+          "bytes": 1267
+        },
+        {
+          "path": "agent/tools/fs/testing/node-dom-public-server-surface-stress.test.cjs",
+          "kind": "file",
+          "bytes": 2419
+        },
+        {
+          "path": "agent/tools/fs/testing/node-dom-runtime-actors.test.cjs",
+          "kind": "file",
+          "bytes": 4095
+        },
+        {
+          "path": "agent/tools/fs/testing/puppeteer-api-stress.test.cjs",
+          "kind": "file",
+          "bytes": 4792
+        },
+        {
+          "path": "agent/tools/fs/testing/runtime-actions-real.test.cjs",
+          "kind": "file",
+          "bytes": 4550
+        },
+        {
+          "path": "agent/tools/fs/testing/runtime-chrome-parity.test.cjs",
+          "kind": "file",
+          "bytes": 4915
+        },
+        {
+          "path": "agent/tools/fs/testing/runtime-dom-hydrator-canvas-regression.test.cjs",
+          "kind": "file",
+          "bytes": 2698
+        },
+        {
+          "path": "agent/tools/fs/testing/runtime-inline-module-import-regression.test.cjs",
+          "kind": "file",
+          "bytes": 1910
+        },
+        {
+          "path": "agent/tools/fs/testing/runtime-merkava-heavy-parity.test.cjs",
+          "kind": "file",
+          "bytes": 8613
+        },
+        {
+          "path": "agent/tools/fs/testing/runtime-url-mitzvah-world.test.cjs",
+          "kind": "file",
+          "bytes": 2854
+        },
+        {
+          "path": "agent/tools/fs/testing/source-runtime-bulk-commandtree.test.cjs",
+          "kind": "file",
+          "bytes": 9688
+        },
+        {
+          "path": "agent/tools/fs/testing/xml-bulk-write.test.cjs",
+          "kind": "file",
+          "bytes": 3088
+        },
+        {
+          "path": "agent/tools/fs/tree.js",
+          "kind": "file",
+          "bytes": 1192
+        },
+        {
+          "path": "agent/tools/fs/workflowExpressions.js",
+          "kind": "file",
+          "bytes": 1882
+        },
+        {
+          "path": "agent/tools/fs/workflowRunner.js",
+          "kind": "file",
+          "bytes": 5893
+        },
+        {
+          "path": "agent/tools/fs/xmlWrites.js",
+          "kind": "file",
+          "bytes": 3939
+        },
+        {
+          "path": "agent/tools/fs.js",
+          "kind": "file",
+          "bytes": 11496
+        },
+        {
+          "path": "agent/tools/relay",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "agent/tools/relay/browserApi.js",
+          "kind": "file",
+          "bytes": 9649
+        },
+        {
+          "path": "agent/tools/relay/chatgptRelay.js",
+          "kind": "file",
+          "bytes": 5177
+        },
+        {
+          "path": "agent/tools/relay/chromeCookies.js",
+          "kind": "file",
+          "bytes": 6003
+        },
+        {
+          "path": "agent/tools/relay/index.js",
+          "kind": "file",
+          "bytes": 1945
+        },
+        {
+          "path": "agent/tools/relay/jsonRelay.js",
+          "kind": "file",
+          "bytes": 1552
+        },
+        {
+          "path": "agent/tools/relay/settings.js",
+          "kind": "file",
+          "bytes": 1822
+        },
+        {
+          "path": "agent/tools/relay/streams.js",
+          "kind": "file",
+          "bytes": 4506
+        },
+        {
+          "path": "css",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "css/tunnel.css",
+          "kind": "file",
+          "bytes": 4797
+        },
+        {
+          "path": "downloads",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "downloads/awtsmoos-agent.js",
+          "kind": "file",
+          "bytes": 0
+        },
+        {
+          "path": "downloads/awtsmoos-local-app.js",
+          "kind": "file",
+          "bytes": 35812
+        },
+        {
+          "path": "downloads/awtsmoos-tunnel-client.js",
+          "kind": "file",
+          "bytes": 14041
+        },
+        {
+          "path": "downloads/unix.sh",
+          "kind": "file",
+          "bytes": 4273
+        },
+        {
+          "path": "downloads/windows.ps1",
+          "kind": "file",
+          "bytes": 5211
+        },
+        {
+          "path": "index.html",
+          "kind": "file",
+          "bytes": 4164
+        },
+        {
+          "path": "js",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/commands.js",
+          "kind": "file",
+          "bytes": 2774
+        },
+        {
+          "path": "js/handoff.js",
+          "kind": "file",
+          "bytes": 1186
+        },
+        {
+          "path": "js/main.js",
+          "kind": "file",
+          "bytes": 922
+        },
+        {
+          "path": "js/status.js",
+          "kind": "file",
+          "bytes": 499
+        },
+        {
+          "path": "js/ui.js",
+          "kind": "file",
+          "bytes": 3108
+        },
+        {
+          "path": "scripts",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "scripts/buildManifest.mjs",
+          "kind": "file",
+          "bytes": 2665
+        }
+      ]
+    },
+    {
+      "label": "Tunnel control app",
+      "root": "geelooy/apps/tunnel-control",
+      "exists": true,
+      "files": 151,
+      "dirs": 27,
+      "bytes": 451250,
+      "rows": [
+        {
+          "path": "css",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "css/app.css",
+          "kind": "file",
+          "bytes": 47
+        },
+        {
+          "path": "css/future",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "css/future/core",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "css/future/core/frame.css",
+          "kind": "file",
+          "bytes": 515
+        },
+        {
+          "path": "css/future/core/reset.css",
+          "kind": "file",
+          "bytes": 1682
+        },
+        {
+          "path": "css/future/core/responsive.css",
+          "kind": "file",
+          "bytes": 4380
+        },
+        {
+          "path": "css/future/core/tokens.css",
+          "kind": "file",
+          "bytes": 2398
+        },
+        {
+          "path": "css/future/index.css",
+          "kind": "file",
+          "bytes": 1251
+        },
+        {
+          "path": "css/future/interaction",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "css/future/interaction/controls.css",
+          "kind": "file",
+          "bytes": 2994
+        },
+        {
+          "path": "css/future/interaction/motion.css",
+          "kind": "file",
+          "bytes": 2721
+        },
+        {
+          "path": "css/future/interaction/states.css",
+          "kind": "file",
+          "bytes": 2182
+        },
+        {
+          "path": "css/future/surfaces",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "css/future/surfaces/glass.css",
+          "kind": "file",
+          "bytes": 3092
+        },
+        {
+          "path": "css/future/views",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "css/future/views/command-center.css",
+          "kind": "file",
+          "bytes": 1411
+        },
+        {
+          "path": "css/future/views/dashboard.css",
+          "kind": "file",
+          "bytes": 4738
+        },
+        {
+          "path": "css/future/views/gate.css",
+          "kind": "file",
+          "bytes": 1030
+        },
+        {
+          "path": "css/future/views/kabbalah.css",
+          "kind": "file",
+          "bytes": 2603
+        },
+        {
+          "path": "css/future/views/live.css",
+          "kind": "file",
+          "bytes": 1865
+        },
+        {
+          "path": "css/future/views/portals.css",
+          "kind": "file",
+          "bytes": 2013
+        },
+        {
+          "path": "css/future/views/pro-control.css",
+          "kind": "file",
+          "bytes": 5359
+        },
+        {
+          "path": "css/future/views/providers.css",
+          "kind": "file",
+          "bytes": 1741
+        },
+        {
+          "path": "css/future/views/runtime-mesh.css",
+          "kind": "file",
+          "bytes": 3026
+        },
+        {
+          "path": "css/future/views/shell.css",
+          "kind": "file",
+          "bytes": 5078
+        },
+        {
+          "path": "css/future/views/tasks.css",
+          "kind": "file",
+          "bytes": 2067
+        },
+        {
+          "path": "css/future/views/workspace.css",
+          "kind": "file",
+          "bytes": 2644
+        },
+        {
+          "path": "gpt",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "gpt/awtsmoos-action-openapi.generated-live.yaml",
+          "kind": "file",
+          "bytes": 27748
+        },
+        {
+          "path": "gpt/awtsmoos-action-openapi.yaml",
+          "kind": "file",
+          "bytes": 27748
+        },
+        {
+          "path": "index.html",
+          "kind": "file",
+          "bytes": 1576
+        },
+        {
+          "path": "js",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/api",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/api/auth.js",
+          "kind": "file",
+          "bytes": 770
+        },
+        {
+          "path": "js/api/control.js",
+          "kind": "file",
+          "bytes": 3723
+        },
+        {
+          "path": "js/api/http.js",
+          "kind": "file",
+          "bytes": 637
+        },
+        {
+          "path": "js/api/keySession.js",
+          "kind": "file",
+          "bytes": 2027
+        },
+        {
+          "path": "js/api/tunnel.js",
+          "kind": "file",
+          "bytes": 5789
+        },
+        {
+          "path": "js/app.js",
+          "kind": "file",
+          "bytes": 91
+        },
+        {
+          "path": "js/boot",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/boot/cleanStalePanels.js",
+          "kind": "file",
+          "bytes": 1438
+        },
+        {
+          "path": "js/boot/init.js",
+          "kind": "file",
+          "bytes": 5398
+        },
+        {
+          "path": "js/boot/mountFeatureVessels.js",
+          "kind": "file",
+          "bytes": 1376
+        },
+        {
+          "path": "js/boot/mountLegacyFeatures.js",
+          "kind": "file",
+          "bytes": 1864
+        },
+        {
+          "path": "js/boot/renderPrompt.js",
+          "kind": "file",
+          "bytes": 503
+        },
+        {
+          "path": "js/boot/repairUi.js",
+          "kind": "file",
+          "bytes": 1482
+        },
+        {
+          "path": "js/boot/safeMount.js",
+          "kind": "file",
+          "bytes": 472
+        },
+        {
+          "path": "js/boot/wireInputs.js",
+          "kind": "file",
+          "bytes": 1203
+        },
+        {
+          "path": "js/dashboard",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/dashboard/activeCards.js",
+          "kind": "file",
+          "bytes": 587
+        },
+        {
+          "path": "js/dashboard/dashboard.js",
+          "kind": "file",
+          "bytes": 2302
+        },
+        {
+          "path": "js/dashboard/dashboardCard.js",
+          "kind": "file",
+          "bytes": 1974
+        },
+        {
+          "path": "js/dashboard/dashboardData.js",
+          "kind": "file",
+          "bytes": 1761
+        },
+        {
+          "path": "js/dashboard/dashboardPager.js",
+          "kind": "file",
+          "bytes": 3307
+        },
+        {
+          "path": "js/dashboard/dashboardSections.js",
+          "kind": "file",
+          "bytes": 3642
+        },
+        {
+          "path": "js/diagnostics",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/diagnostics/collector.js",
+          "kind": "file",
+          "bytes": 1095
+        },
+        {
+          "path": "js/diagnostics/diagnosticFinders.js",
+          "kind": "file",
+          "bytes": 1085
+        },
+        {
+          "path": "js/diagnostics/drawer.js",
+          "kind": "file",
+          "bytes": 1022
+        },
+        {
+          "path": "js/features",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/features/account.js",
+          "kind": "file",
+          "bytes": 1585
+        },
+        {
+          "path": "js/features/actionCatalogData.js",
+          "kind": "file",
+          "bytes": 2123
+        },
+        {
+          "path": "js/features/actions.js",
+          "kind": "file",
+          "bytes": 4080
+        },
+        {
+          "path": "js/features/aiAgents.js",
+          "kind": "file",
+          "bytes": 11259
+        },
+        {
+          "path": "js/features/apiKeys.js",
+          "kind": "file",
+          "bytes": 4838
+        },
+        {
+          "path": "js/features/chrome",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/features/chrome/actions.js",
+          "kind": "file",
+          "bytes": 5979
+        },
+        {
+          "path": "js/features/chrome/dom.js",
+          "kind": "file",
+          "bytes": 4587
+        },
+        {
+          "path": "js/features/chrome/index.js",
+          "kind": "file",
+          "bytes": 8095
+        },
+        {
+          "path": "js/features/chrome/manualPicker.js",
+          "kind": "file",
+          "bytes": 5756
+        },
+        {
+          "path": "js/features/chrome/output.js",
+          "kind": "file",
+          "bytes": 1751
+        },
+        {
+          "path": "js/features/chrome/read.js",
+          "kind": "file",
+          "bytes": 2023
+        },
+        {
+          "path": "js/features/chrome.js",
+          "kind": "file",
+          "bytes": 9628
+        },
+        {
+          "path": "js/features/config.js",
+          "kind": "file",
+          "bytes": 7238
+        },
+        {
+          "path": "js/features/dashboard.js",
+          "kind": "file",
+          "bytes": 1329
+        },
+        {
+          "path": "js/features/dashboardPolish.js",
+          "kind": "file",
+          "bytes": 8793
+        },
+        {
+          "path": "js/features/explorer.js",
+          "kind": "file",
+          "bytes": 1704
+        },
+        {
+          "path": "js/features/install.js",
+          "kind": "file",
+          "bytes": 789
+        },
+        {
+          "path": "js/features/keys.js",
+          "kind": "file",
+          "bytes": 5082
+        },
+        {
+          "path": "js/features/live.js",
+          "kind": "file",
+          "bytes": 7331
+        },
+        {
+          "path": "js/features/pathCrumbs.js",
+          "kind": "file",
+          "bytes": 2517
+        },
+        {
+          "path": "js/features/prompt.js",
+          "kind": "file",
+          "bytes": 3214
+        },
+        {
+          "path": "js/features/rootPicker.js",
+          "kind": "file",
+          "bytes": 7477
+        },
+        {
+          "path": "js/features/setup.js",
+          "kind": "file",
+          "bytes": 2567
+        },
+        {
+          "path": "js/features/status.js",
+          "kind": "file",
+          "bytes": 6899
+        },
+        {
+          "path": "js/features/terminal.js",
+          "kind": "file",
+          "bytes": 8082
+        },
+        {
+          "path": "js/features/usage.js",
+          "kind": "file",
+          "bytes": 4135
+        },
+        {
+          "path": "js/interactions",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/interactions/cardTilt.js",
+          "kind": "file",
+          "bytes": 1041
+        },
+        {
+          "path": "js/interactions/pointerField.js",
+          "kind": "file",
+          "bytes": 530
+        },
+        {
+          "path": "js/lib",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/lib/base64.js",
+          "kind": "file",
+          "bytes": 216
+        },
+        {
+          "path": "js/lib/dom.js",
+          "kind": "file",
+          "bytes": 3556
+        },
+        {
+          "path": "js/logger.js",
+          "kind": "file",
+          "bytes": 283
+        },
+        {
+          "path": "js/main.js",
+          "kind": "file",
+          "bytes": 57
+        },
+        {
+          "path": "js/platform",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/platform/activityStream.js",
+          "kind": "file",
+          "bytes": 214
+        },
+        {
+          "path": "js/platform/commandPalette.js",
+          "kind": "file",
+          "bytes": 1638
+        },
+        {
+          "path": "js/platform/entityRegistry.js",
+          "kind": "file",
+          "bytes": 364
+        },
+        {
+          "path": "js/platform/eventBus.js",
+          "kind": "file",
+          "bytes": 589
+        },
+        {
+          "path": "js/platform/liveTunnelMesh.js",
+          "kind": "file",
+          "bytes": 2127
+        },
+        {
+          "path": "js/platform/qaSmoke.js",
+          "kind": "file",
+          "bytes": 648
+        },
+        {
+          "path": "js/platform/workspaceMemory.js",
+          "kind": "file",
+          "bytes": 439
+        },
+        {
+          "path": "js/router",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/router/bindNavigation.js",
+          "kind": "file",
+          "bytes": 537
+        },
+        {
+          "path": "js/router/buttonAliases.js",
+          "kind": "file",
+          "bytes": 1147
+        },
+        {
+          "path": "js/router/paneHeadings.js",
+          "kind": "file",
+          "bytes": 1640
+        },
+        {
+          "path": "js/router/paneMeta.js",
+          "kind": "file",
+          "bytes": 159
+        },
+        {
+          "path": "js/router/paneRouter.js",
+          "kind": "file",
+          "bytes": 2013
+        },
+        {
+          "path": "js/runtime",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/runtime/activeWorkspaceRuntime.js",
+          "kind": "file",
+          "bytes": 1608
+        },
+        {
+          "path": "js/runtime/capabilityGuard.js",
+          "kind": "file",
+          "bytes": 1253
+        },
+        {
+          "path": "js/runtime/mesh",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/runtime/mesh/browserProjection.js",
+          "kind": "file",
+          "bytes": 610
+        },
+        {
+          "path": "js/runtime/mesh/intentRouter.js",
+          "kind": "file",
+          "bytes": 1624
+        },
+        {
+          "path": "js/runtime/mesh/meshHealthCard.js",
+          "kind": "file",
+          "bytes": 2805
+        },
+        {
+          "path": "js/runtime/mesh/meshJsonToggle.js",
+          "kind": "file",
+          "bytes": 1648
+        },
+        {
+          "path": "js/runtime/mesh/meshLabels.js",
+          "kind": "file",
+          "bytes": 1523
+        },
+        {
+          "path": "js/runtime/mesh/meshPanel.js",
+          "kind": "file",
+          "bytes": 6082
+        },
+        {
+          "path": "js/runtime/mesh/runtimeAdapters.js",
+          "kind": "file",
+          "bytes": 1872
+        },
+        {
+          "path": "js/runtime/mesh/runtimeGraph.js",
+          "kind": "file",
+          "bytes": 2383
+        },
+        {
+          "path": "js/runtime/mesh/runtimeHealth.js",
+          "kind": "file",
+          "bytes": 972
+        },
+        {
+          "path": "js/runtime/mesh/runtimeMounts.js",
+          "kind": "file",
+          "bytes": 1458
+        },
+        {
+          "path": "js/runtime/mesh/runtimeTimeline.js",
+          "kind": "file",
+          "bytes": 1308
+        },
+        {
+          "path": "js/runtime/mesh/semanticProjection.js",
+          "kind": "file",
+          "bytes": 780
+        },
+        {
+          "path": "js/runtime/mesh/virtualFilesystem.js",
+          "kind": "file",
+          "bytes": 943
+        },
+        {
+          "path": "js/runtime/runtimeCatalog.js",
+          "kind": "file",
+          "bytes": 586
+        },
+        {
+          "path": "js/runtime/runtimeRegistry.js",
+          "kind": "file",
+          "bytes": 2013
+        },
+        {
+          "path": "js/runtime/runtimeSwitcher.js",
+          "kind": "file",
+          "bytes": 4144
+        },
+        {
+          "path": "js/runtime/tunnelRuntimeHydrator.js",
+          "kind": "file",
+          "bytes": 1442
+        },
+        {
+          "path": "js/runtime/virtualRuntime.js",
+          "kind": "file",
+          "bytes": 851
+        },
+        {
+          "path": "js/security",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/security/secretMasker.js",
+          "kind": "file",
+          "bytes": 1451
+        },
+        {
+          "path": "js/security/secretToken.js",
+          "kind": "file",
+          "bytes": 1263
+        },
+        {
+          "path": "js/session",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/session/loginGate.js",
+          "kind": "file",
+          "bytes": 2210
+        },
+        {
+          "path": "js/session/sessionClient.js",
+          "kind": "file",
+          "bytes": 541
+        },
+        {
+          "path": "js/shell",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/shell/domCollect.js",
+          "kind": "file",
+          "bytes": 5817
+        },
+        {
+          "path": "js/shell/findRoot.js",
+          "kind": "file",
+          "bytes": 542
+        },
+        {
+          "path": "js/shell/mountShell.js",
+          "kind": "file",
+          "bytes": 2135
+        },
+        {
+          "path": "js/shell/pageSpecs.js",
+          "kind": "file",
+          "bytes": 5007
+        },
+        {
+          "path": "js/shell/sideRail.js",
+          "kind": "file",
+          "bytes": 2839
+        },
+        {
+          "path": "js/shell/statusRail.js",
+          "kind": "file",
+          "bytes": 1326
+        },
+        {
+          "path": "js/shell/workspaceMode.js",
+          "kind": "file",
+          "bytes": 926
+        },
+        {
+          "path": "js/shell/workspaceStage.js",
+          "kind": "file",
+          "bytes": 1398
+        },
+        {
+          "path": "js/state",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/state/state.js",
+          "kind": "file",
+          "bytes": 1691
+        },
+        {
+          "path": "js/state/storage.js",
+          "kind": "file",
+          "bytes": 1456
+        },
+        {
+          "path": "js/tunnels",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/tunnels/extractTunnel.js",
+          "kind": "file",
+          "bytes": 1482
+        },
+        {
+          "path": "js/tunnels/modes.js",
+          "kind": "file",
+          "bytes": 941
+        },
+        {
+          "path": "js/tunnels/noTunnelView.js",
+          "kind": "file",
+          "bytes": 2219
+        },
+        {
+          "path": "js/tunnels/tunnelResolver.js",
+          "kind": "file",
+          "bytes": 1468
+        },
+        {
+          "path": "js/ui",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/ui/api.js",
+          "kind": "file",
+          "bytes": 7606
+        },
+        {
+          "path": "js/ui/boot.js",
+          "kind": "file",
+          "bytes": 1394
+        },
+        {
+          "path": "js/ui/controlPanels.js",
+          "kind": "file",
+          "bytes": 5811
+        },
+        {
+          "path": "js/ui/copy.js",
+          "kind": "file",
+          "bytes": 460
+        },
+        {
+          "path": "js/ui/core",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "js/ui/core/classes.js",
+          "kind": "file",
+          "bytes": 908
+        },
+        {
+          "path": "js/ui/core/events.js",
+          "kind": "file",
+          "bytes": 1203
+        },
+        {
+          "path": "js/ui/core/html.js",
+          "kind": "file",
+          "bytes": 1520
+        },
+        {
+          "path": "js/ui/core/text.js",
+          "kind": "file",
+          "bytes": 1061
+        },
+        {
+          "path": "js/ui/dom.js",
+          "kind": "file",
+          "bytes": 1340
+        },
+        {
+          "path": "js/ui/finalLayout.js",
+          "kind": "file",
+          "bytes": 5998
+        },
+        {
+          "path": "js/ui/iconRegistry.js",
+          "kind": "file",
+          "bytes": 3394
+        },
+        {
+          "path": "js/ui/idb.js",
+          "kind": "file",
+          "bytes": 1396
+        },
+        {
+          "path": "js/ui/mount.js",
+          "kind": "file",
+          "bytes": 10420
+        },
+        {
+          "path": "js/ui/pages.js",
+          "kind": "file",
+          "bytes": 1149
+        },
+        {
+          "path": "js/ui/proControlCenter.js",
+          "kind": "file",
+          "bytes": 21045
+        },
+        {
+          "path": "js/ui/sections.js",
+          "kind": "file",
+          "bytes": 4376
+        },
+        {
+          "path": "js/ui/shell.js",
+          "kind": "file",
+          "bytes": 1540
+        },
+        {
+          "path": "js/ui/state.js",
+          "kind": "file",
+          "bytes": 573
+        },
+        {
+          "path": "js/ui/status.js",
+          "kind": "file",
+          "bytes": 3163
+        },
+        {
+          "path": "js/ui/tabs.js",
+          "kind": "file",
+          "bytes": 1506
+        },
+        {
+          "path": "privacy.html",
+          "kind": "file",
+          "bytes": 3254
+        }
+      ]
+    },
+    {
+      "label": "Merkava executor external library",
+      "root": "geelooy/scripts/awtsmoos/MerkavaExecutor",
+      "exists": true,
+      "files": 502,
+      "dirs": 44,
+      "bytes": 1652162,
+      "rows": [
+        {
+          "path": ".advanced-app-base77-stress.cjs",
+          "kind": "file",
+          "bytes": 4088
+        },
+        {
+          "path": ".advanced-source-app-full-stress.cjs",
+          "kind": "file",
+          "bytes": 3895
+        },
+        {
+          "path": ".awts-html-bytecode-smoke.cjs",
+          "kind": "file",
+          "bytes": 1086
+        },
+        {
+          "path": ".bitpacked-insane-stress.cjs",
+          "kind": "file",
+          "bytes": 2358
+        },
+        {
+          "path": ".compact-class-stress.cjs",
+          "kind": "file",
+          "bytes": 1899
+        },
+        {
+          "path": ".css-cascade-has-stress.cjs",
+          "kind": "file",
+          "bytes": 1435
+        },
+        {
+          "path": ".ect-ast-probe.cjs",
+          "kind": "file",
+          "bytes": 377
+        },
+        {
+          "path": ".ect-build-worker-js-compiler.cjs",
+          "kind": "file",
+          "bytes": 1511
+        },
+        {
+          "path": ".ect-build-worker-parser.cjs",
+          "kind": "file",
+          "bytes": 2664
+        },
+        {
+          "path": ".ect-byte-frequency.cjs",
+          "kind": "file",
+          "bytes": 1440
+        },
+        {
+          "path": ".ect-cdp-debug-fast.cjs",
+          "kind": "file",
+          "bytes": 3093
+        },
+        {
+          "path": ".ect-cdp-debug-result.json",
+          "kind": "file",
+          "bytes": 566
+        },
+        {
+          "path": ".ect-cdp-debug.cjs",
+          "kind": "file",
+          "bytes": 3379
+        },
+        {
+          "path": ".ect-cdp-page-test-result.json",
+          "kind": "file",
+          "bytes": 320
+        },
+        {
+          "path": ".ect-cdp-page-test.cjs",
+          "kind": "file",
+          "bytes": 3838
+        },
+        {
+          "path": ".ect-cdp-ping.cjs",
+          "kind": "file",
+          "bytes": 968
+        },
+        {
+          "path": ".ect-cdp-read-current.cjs",
+          "kind": "file",
+          "bytes": 1261
+        },
+        {
+          "path": ".ect-cdp-read-error.cjs",
+          "kind": "file",
+          "bytes": 1295
+        },
+        {
+          "path": ".ect-cdp-read-fixed.cjs",
+          "kind": "file",
+          "bytes": 1288
+        },
+        {
+          "path": ".ect-cdp-read-parserworker.cjs",
+          "kind": "file",
+          "bytes": 1309
+        },
+        {
+          "path": ".ect-cdp-read-windowshim.cjs",
+          "kind": "file",
+          "bytes": 1303
+        },
+        {
+          "path": ".ect-cdp-read-workerfix.cjs",
+          "kind": "file",
+          "bytes": 1300
+        },
+        {
+          "path": ".ect-css-op-probe.cjs",
+          "kind": "file",
+          "bytes": 826
+        },
+        {
+          "path": ".ect-fix-css-rotate.cjs",
+          "kind": "file",
+          "bytes": 730
+        },
+        {
+          "path": ".ect-fix-reconstruct-numbers.cjs",
+          "kind": "file",
+          "bytes": 737
+        },
+        {
+          "path": ".ect-fix-webgl-measure-fallback.cjs",
+          "kind": "file",
+          "bytes": 3494
+        },
+        {
+          "path": ".ect-inspect-current.cjs",
+          "kind": "file",
+          "bytes": 1017
+        },
+        {
+          "path": ".ect-install-css-rotate.cjs",
+          "kind": "file",
+          "bytes": 4160
+        },
+        {
+          "path": ".ect-install-event-assign.cjs",
+          "kind": "file",
+          "bytes": 5051
+        },
+        {
+          "path": ".ect-install-fetch-phrase.cjs",
+          "kind": "file",
+          "bytes": 6196
+        },
+        {
+          "path": ".ect-install-generic-constructors.cjs",
+          "kind": "file",
+          "bytes": 9156
+        },
+        {
+          "path": ".ect-install-ram-direct-2.cjs",
+          "kind": "file",
+          "bytes": 1013
+        },
+        {
+          "path": ".ect-install-ram-direct.cjs",
+          "kind": "file",
+          "bytes": 1371
+        },
+        {
+          "path": ".ect-real-compile-smoke.cjs",
+          "kind": "file",
+          "bytes": 3354
+        },
+        {
+          "path": ".ect-render-preserve-smoke.cjs",
+          "kind": "file",
+          "bytes": 1433
+        },
+        {
+          "path": ".ect-renderer-node-smoke.cjs",
+          "kind": "file",
+          "bytes": 6167
+        },
+        {
+          "path": ".ect-save-virtual-dom-proof.cjs",
+          "kind": "file",
+          "bytes": 4321
+        },
+        {
+          "path": ".ect-storage-roundtrip.cjs",
+          "kind": "file",
+          "bytes": 1622
+        },
+        {
+          "path": ".ect-stress-20.cjs",
+          "kind": "file",
+          "bytes": 8353
+        },
+        {
+          "path": ".ect-tighten-standard-ctors.cjs",
+          "kind": "file",
+          "bytes": 925
+        },
+        {
+          "path": ".ect-virtual-dom-complex-proof.json",
+          "kind": "file",
+          "bytes": 876
+        },
+        {
+          "path": ".ect-virtual-dom-complex.html",
+          "kind": "file",
+          "bytes": 1017
+        },
+        {
+          "path": ".ect-virtual-dom-complex.svg",
+          "kind": "file",
+          "bytes": 1618
+        },
+        {
+          "path": ".ect-virtual-dom-node-test.cjs",
+          "kind": "file",
+          "bytes": 2481
+        },
+        {
+          "path": ".inspect-class-field-json.cjs",
+          "kind": "file",
+          "bytes": 534
+        },
+        {
+          "path": ".inspect-class-json.cjs",
+          "kind": "file",
+          "bytes": 494
+        },
+        {
+          "path": ".inspect-method-default-param-json.cjs",
+          "kind": "file",
+          "bytes": 470
+        },
+        {
+          "path": ".inspect-optional-call-json.cjs",
+          "kind": "file",
+          "bytes": 420
+        },
+        {
+          "path": ".inspect-optional-missing-json.cjs",
+          "kind": "file",
+          "bytes": 348
+        },
+        {
+          "path": ".inspect-scope-failures.cjs",
+          "kind": "file",
+          "bytes": 768
+        },
+        {
+          "path": ".isolated-combo-nan-test.cjs",
+          "kind": "file",
+          "bytes": 736
+        },
+        {
+          "path": ".isolated-mj2-direct-test.cjs",
+          "kind": "file",
+          "bytes": 640
+        },
+        {
+          "path": ".isolated-optional-call-test.cjs",
+          "kind": "file",
+          "bytes": 486
+        },
+        {
+          "path": ".isolated-optional-chain-test.cjs",
+          "kind": "file",
+          "bytes": 463
+        },
+        {
+          "path": ".isolated-promise-closure-test.cjs",
+          "kind": "file",
+          "bytes": 459
+        },
+        {
+          "path": ".isolated-runtime-rat-stress.cjs",
+          "kind": "file",
+          "bytes": 2444
+        },
+        {
+          "path": ".local-symbol-custom-stress.cjs",
+          "kind": "file",
+          "bytes": 2056
+        },
+        {
+          "path": ".md2-api-smoke.cjs",
+          "kind": "file",
+          "bytes": 782
+        },
+        {
+          "path": ".md2-big-js-stress.cjs",
+          "kind": "file",
+          "bytes": 2046
+        },
+        {
+          "path": ".md2-browser-node-webgl-bridge-stress.cjs",
+          "kind": "file",
+          "bytes": 2485
+        },
+        {
+          "path": ".md2-control-flow-stress.cjs",
+          "kind": "file",
+          "bytes": 1440
+        },
+        {
+          "path": ".md2-css-combinator-stress.cjs",
+          "kind": "file",
+          "bytes": 1988
+        },
+        {
+          "path": ".md2-css-pseudo-selector-stress.cjs",
+          "kind": "file",
+          "bytes": 2150
+        },
+        {
+          "path": ".md2-css-webgl-renderer-stress.cjs",
+          "kind": "file",
+          "bytes": 2073
+        },
+        {
+          "path": ".md2-functions-callbacks-stress.cjs",
+          "kind": "file",
+          "bytes": 1396
+        },
+        {
+          "path": ".md2-js-feature-gap-stress.cjs",
+          "kind": "file",
+          "bytes": 2594
+        },
+        {
+          "path": ".md2-node-runtime-compat-stress.cjs",
+          "kind": "file",
+          "bytes": 2463
+        },
+        {
+          "path": ".md2-offscreen-text-measure-stress.cjs",
+          "kind": "file",
+          "bytes": 1460
+        },
+        {
+          "path": ".md2-only-unified-stress.cjs",
+          "kind": "file",
+          "bytes": 2409
+        },
+        {
+          "path": ".md2-remaining-runtime-features-stress.cjs",
+          "kind": "file",
+          "bytes": 3584
+        },
+        {
+          "path": ".md2-service-smoke.mjs",
+          "kind": "file",
+          "bytes": 828
+        },
+        {
+          "path": ".md2-unverified-es-features-stress.cjs",
+          "kind": "file",
+          "bytes": 2337
+        },
+        {
+          "path": ".md2-virtual-dom-events-stress.cjs",
+          "kind": "file",
+          "bytes": 2883
+        },
+        {
+          "path": ".md2-virtual-dom-node-props-stress.cjs",
+          "kind": "file",
+          "bytes": 1874
+        },
+        {
+          "path": ".md2-virtual-dom-stop-default-stress.cjs",
+          "kind": "file",
+          "bytes": 1662
+        },
+        {
+          "path": ".md2-webgl-dom-renderer-stress.cjs",
+          "kind": "file",
+          "bytes": 2574
+        },
+        {
+          "path": ".merkava-ai-app-runtime-stress.mjs",
+          "kind": "file",
+          "bytes": 953
+        },
+        {
+          "path": ".merkava-arbitrary-js-stress.cjs",
+          "kind": "file",
+          "bytes": 2466
+        },
+        {
+          "path": ".merkava-css-u16-stress.cjs",
+          "kind": "file",
+          "bytes": 608
+        },
+        {
+          "path": ".merkava-error-stack-stress.cjs",
+          "kind": "file",
+          "bytes": 2118
+        },
+        {
+          "path": ".merkava-js-ast-stress.cjs",
+          "kind": "file",
+          "bytes": 1140
+        },
+        {
+          "path": ".merkava-js-runtime-next-stress.cjs",
+          "kind": "file",
+          "bytes": 2073
+        },
+        {
+          "path": ".merkava-json-stress.cjs",
+          "kind": "file",
+          "bytes": 1300
+        },
+        {
+          "path": ".merkava-max-stress.cjs",
+          "kind": "file",
+          "bytes": 3340
+        },
+        {
+          "path": ".merkava-pass-verify.cjs",
+          "kind": "file",
+          "bytes": 965
+        },
+        {
+          "path": ".merkava-probe-smoke.cjs",
+          "kind": "file",
+          "bytes": 428
+        },
+        {
+          "path": ".merkava-public-api-audit.cjs",
+          "kind": "file",
+          "bytes": 3357
+        },
+        {
+          "path": ".merkava-runtime-extreme-stress.mjs",
+          "kind": "file",
+          "bytes": 3871
+        },
+        {
+          "path": ".merkava-runtime-service-path-normalization-stress.mjs",
+          "kind": "file",
+          "bytes": 792
+        },
+        {
+          "path": ".merkava-service-smoke.cjs",
+          "kind": "file",
+          "bytes": 329
+        },
+        {
+          "path": ".merkava-service-smoke.mjs",
+          "kind": "file",
+          "bytes": 976
+        },
+        {
+          "path": ".merkava-stress-fixture",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": ".merkava-stress-fixture/app.js",
+          "kind": "file",
+          "bytes": 181
+        },
+        {
+          "path": ".merkava-stress-fixture/entry.html",
+          "kind": "file",
+          "bytes": 156
+        },
+        {
+          "path": ".merkava-stress-fixture/style.css",
+          "kind": "file",
+          "bytes": 30
+        },
+        {
+          "path": ".merkava-vm-files-noeval-stress.cjs",
+          "kind": "file",
+          "bytes": 1237
+        },
+        {
+          "path": ".merkava-vm-noeval-advanced-stress.cjs",
+          "kind": "file",
+          "bytes": 2123
+        },
+        {
+          "path": ".merkava-vm-path-normalization-stress.cjs",
+          "kind": "file",
+          "bytes": 1142
+        },
+        {
+          "path": ".merkavaexecutor-api-stress.cjs",
+          "kind": "file",
+          "bytes": 2988
+        },
+        {
+          "path": ".merkavaexecutor-full-surface-stress.cjs",
+          "kind": "file",
+          "bytes": 4150
+        },
+        {
+          "path": ".minimal-source-smaller-stress.cjs",
+          "kind": "file",
+          "bytes": 1771
+        },
+        {
+          "path": ".mode-app-stress.cjs",
+          "kind": "file",
+          "bytes": 3041
+        },
+        {
+          "path": ".mode2-app-stress.cjs",
+          "kind": "file",
+          "bytes": 2961
+        },
+        {
+          "path": ".mode2-closure-stress.cjs",
+          "kind": "file",
+          "bytes": 1792
+        },
+        {
+          "path": ".mode2-heavy-compile-run-ram-stress.cjs",
+          "kind": "file",
+          "bytes": 4951
+        },
+        {
+          "path": ".mode2-native-intrinsics-stress.cjs",
+          "kind": "file",
+          "bytes": 1614
+        },
+        {
+          "path": ".mode2-path-app",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": ".mode2-path-app/app.md2",
+          "kind": "file",
+          "bytes": 110
+        },
+        {
+          "path": ".mode2-path-app/css",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": ".mode2-path-app/css/style.css",
+          "kind": "file",
+          "bytes": 83
+        },
+        {
+          "path": ".mode2-path-app/css/theme.css",
+          "kind": "file",
+          "bytes": 34
+        },
+        {
+          "path": ".mode2-path-app/index.html",
+          "kind": "file",
+          "bytes": 173
+        },
+        {
+          "path": ".mode2-path-app/js",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": ".mode2-path-app/js/main.js",
+          "kind": "file",
+          "bytes": 59
+        },
+        {
+          "path": ".mode2-path-app/js/msg.js",
+          "kind": "file",
+          "bytes": 36
+        },
+        {
+          "path": ".native-behavior-coverage-stress.cjs",
+          "kind": "file",
+          "bytes": 2167
+        },
+        {
+          "path": ".native-capability-bridge-stress.cjs",
+          "kind": "file",
+          "bytes": 1586
+        },
+        {
+          "path": ".native-gap-coverage-stress.cjs",
+          "kind": "file",
+          "bytes": 2143
+        },
+        {
+          "path": ".native-table-and-class-stress.cjs",
+          "kind": "file",
+          "bytes": 2499
+        },
+        {
+          "path": ".new-advanced-stress-app.cjs",
+          "kind": "file",
+          "bytes": 4539
+        },
+        {
+          "path": ".packed-values-stress.cjs",
+          "kind": "file",
+          "bytes": 1925
+        },
+        {
+          "path": ".probe-full-ui-wait.cjs",
+          "kind": "file",
+          "bytes": 778
+        },
+        {
+          "path": ".repair-async-function-body.cjs",
+          "kind": "file",
+          "bytes": 689
+        },
+        {
+          "path": ".repair-class-closure-snapshot.cjs",
+          "kind": "file",
+          "bytes": 681
+        },
+        {
+          "path": ".repair-class-fields-by-index.cjs",
+          "kind": "file",
+          "bytes": 1299
+        },
+        {
+          "path": ".repair-class-fields-dedupe.cjs",
+          "kind": "file",
+          "bytes": 671
+        },
+        {
+          "path": ".repair-class-fields-lowerer-exact.cjs",
+          "kind": "file",
+          "bytes": 1283
+        },
+        {
+          "path": ".repair-class-fields-lowerer-regex.cjs",
+          "kind": "file",
+          "bytes": 1297
+        },
+        {
+          "path": ".repair-class-fields.cjs",
+          "kind": "file",
+          "bytes": 1535
+        },
+        {
+          "path": ".repair-class-instance-semantics.cjs",
+          "kind": "file",
+          "bytes": 1540
+        },
+        {
+          "path": ".repair-class-method-closures.cjs",
+          "kind": "file",
+          "bytes": 1790
+        },
+        {
+          "path": ".repair-class-method-default-params.cjs",
+          "kind": "file",
+          "bytes": 483
+        },
+        {
+          "path": ".repair-class-method-param-binding.cjs",
+          "kind": "file",
+          "bytes": 1397
+        },
+        {
+          "path": ".repair-default-host-guard.cjs",
+          "kind": "file",
+          "bytes": 497
+        },
+        {
+          "path": ".repair-default-params.cjs",
+          "kind": "file",
+          "bytes": 1319
+        },
+        {
+          "path": ".repair-domparser-globals-exact.cjs",
+          "kind": "file",
+          "bytes": 1285
+        },
+        {
+          "path": ".repair-domparser-globals.cjs",
+          "kind": "file",
+          "bytes": 1945
+        },
+        {
+          "path": ".repair-dynamic-absolute-alias.cjs",
+          "kind": "file",
+          "bytes": 1553
+        },
+        {
+          "path": ".repair-dynamic-import-catch.cjs",
+          "kind": "file",
+          "bytes": 2844
+        },
+        {
+          "path": ".repair-dynamic-seed-files.cjs",
+          "kind": "file",
+          "bytes": 766
+        },
+        {
+          "path": ".repair-empty-statement.cjs",
+          "kind": "file",
+          "bytes": 1148
+        },
+        {
+          "path": ".repair-export-default-expression.cjs",
+          "kind": "file",
+          "bytes": 655
+        },
+        {
+          "path": ".repair-function-syscall-closure.cjs",
+          "kind": "file",
+          "bytes": 442
+        },
+        {
+          "path": ".repair-js-compiler-preflight.cjs",
+          "kind": "file",
+          "bytes": 2053
+        },
+        {
+          "path": ".repair-json-compiler-block-const.cjs",
+          "kind": "file",
+          "bytes": 1185
+        },
+        {
+          "path": ".repair-module-crash-detail.cjs",
+          "kind": "file",
+          "bytes": 916
+        },
+        {
+          "path": ".repair-optional-getprop-bound.cjs",
+          "kind": "file",
+          "bytes": 784
+        },
+        {
+          "path": ".repair-probe-regex.cjs",
+          "kind": "file",
+          "bytes": 430
+        },
+        {
+          "path": ".repair-promise-combinators.cjs",
+          "kind": "file",
+          "bytes": 964
+        },
+        {
+          "path": ".repair-reference-type-block-errors.cjs",
+          "kind": "file",
+          "bytes": 1948
+        },
+        {
+          "path": ".repair-regexp-literal.cjs",
+          "kind": "file",
+          "bytes": 770
+        },
+        {
+          "path": ".repair-regexp-native-const.cjs",
+          "kind": "file",
+          "bytes": 626
+        },
+        {
+          "path": ".repair-return-propagation.cjs",
+          "kind": "file",
+          "bytes": 1671
+        },
+        {
+          "path": ".repair-simulate-catch.cjs",
+          "kind": "file",
+          "bytes": 922
+        },
+        {
+          "path": ".repair-simulate-runtime-probes.cjs",
+          "kind": "file",
+          "bytes": 3851
+        },
+        {
+          "path": ".repair-step-budget.cjs",
+          "kind": "file",
+          "bytes": 516
+        },
+        {
+          "path": ".repair-super-constructor.cjs",
+          "kind": "file",
+          "bytes": 1217
+        },
+        {
+          "path": ".repair-tagged-template.cjs",
+          "kind": "file",
+          "bytes": 751
+        },
+        {
+          "path": ".repair-template-preflight.cjs",
+          "kind": "file",
+          "bytes": 761
+        },
+        {
+          "path": ".repair-top-simulate-catch.cjs",
+          "kind": "file",
+          "bytes": 1946
+        },
+        {
+          "path": ".repair-typeof-compiler.cjs",
+          "kind": "file",
+          "bytes": 409
+        },
+        {
+          "path": ".repair-typeof.cjs",
+          "kind": "file",
+          "bytes": 1047
+        },
+        {
+          "path": ".repair-undefined-const-host.cjs",
+          "kind": "file",
+          "bytes": 651
+        },
+        {
+          "path": ".repair-virtual-dom-bound-methods.cjs",
+          "kind": "file",
+          "bytes": 555
+        },
+        {
+          "path": ".sang-binary-stress.cjs",
+          "kind": "file",
+          "bytes": 2060
+        },
+        {
+          "path": ".scoped-classes-dom-native-stress.cjs",
+          "kind": "file",
+          "bytes": 2800
+        },
+        {
+          "path": ".selector-block-stress.cjs",
+          "kind": "file",
+          "bytes": 1627
+        },
+        {
+          "path": ".source-and-node-stress.cjs",
+          "kind": "file",
+          "bytes": 2021
+        },
+        {
+          "path": ".test-async-call-side-effect.cjs",
+          "kind": "file",
+          "bytes": 863
+        },
+        {
+          "path": ".test-chrome-parity-core.cjs",
+          "kind": "file",
+          "bytes": 3246
+        },
+        {
+          "path": ".test-class-extends-super.cjs",
+          "kind": "file",
+          "bytes": 1290
+        },
+        {
+          "path": ".test-class-field-direct.cjs",
+          "kind": "file",
+          "bytes": 862
+        },
+        {
+          "path": ".test-custom-syntax-shapes.cjs",
+          "kind": "file",
+          "bytes": 1577
+        },
+        {
+          "path": ".test-custom-ui-config-shape.cjs",
+          "kind": "file",
+          "bytes": 1372
+        },
+        {
+          "path": ".test-default-class-constructor.cjs",
+          "kind": "file",
+          "bytes": 1201
+        },
+        {
+          "path": ".test-default-class-no-fields.cjs",
+          "kind": "file",
+          "bytes": 1319
+        },
+        {
+          "path": ".test-dom-puppeteer-evidence.cjs",
+          "kind": "file",
+          "bytes": 5005
+        },
+        {
+          "path": ".test-dynamic-import-side-effect.cjs",
+          "kind": "file",
+          "bytes": 975
+        },
+        {
+          "path": ".test-dynamic-static-import.cjs",
+          "kind": "file",
+          "bytes": 1268
+        },
+        {
+          "path": ".test-ikar-body-with-stub.cjs",
+          "kind": "file",
+          "bytes": 1301
+        },
+        {
+          "path": ".test-mainmenu-shape.cjs",
+          "kind": "file",
+          "bytes": 1509
+        },
+        {
+          "path": ".test-method-default-param-exec.cjs",
+          "kind": "file",
+          "bytes": 731
+        },
+        {
+          "path": ".test-module-regexp-closure.cjs",
+          "kind": "file",
+          "bytes": 1128
+        },
+        {
+          "path": ".test-native-method-args.cjs",
+          "kind": "file",
+          "bytes": 828
+        },
+        {
+          "path": ".test-optional-chained-instance-call.cjs",
+          "kind": "file",
+          "bytes": 681
+        },
+        {
+          "path": ".test-puppeteer-like-api-custom.cjs",
+          "kind": "file",
+          "bytes": 1731
+        },
+        {
+          "path": ".test-real-manager-import.cjs",
+          "kind": "file",
+          "bytes": 1568
+        },
+        {
+          "path": ".test-real-ui-html-basic.cjs",
+          "kind": "file",
+          "bytes": 1340
+        },
+        {
+          "path": ".test-real-ui-import.cjs",
+          "kind": "file",
+          "bytes": 1485
+        },
+        {
+          "path": ".test-real-uimanager-import.cjs",
+          "kind": "file",
+          "bytes": 1565
+        },
+        {
+          "path": ".test-regexp-closure-value.cjs",
+          "kind": "file",
+          "bytes": 1158
+        },
+        {
+          "path": ".test-regexp-runtime.cjs",
+          "kind": "file",
+          "bytes": 607
+        },
+        {
+          "path": ".test-scope-runtime-strictness.cjs",
+          "kind": "file",
+          "bytes": 2572
+        },
+        {
+          "path": ".test-static-default-import-class-introspect.cjs",
+          "kind": "file",
+          "bytes": 1548
+        },
+        {
+          "path": ".test-static-default-import-class.cjs",
+          "kind": "file",
+          "bytes": 1180
+        },
+        {
+          "path": ".test-string-chain.cjs",
+          "kind": "file",
+          "bytes": 624
+        },
+        {
+          "path": ".test-tunnel-actions-param-variants.cjs",
+          "kind": "file",
+          "bytes": 1606
+        },
+        {
+          "path": ".test-tunnel-directory-entry-env.cjs",
+          "kind": "file",
+          "bytes": 4959
+        },
+        {
+          "path": ".test-tunnel-form-actions.cjs",
+          "kind": "file",
+          "bytes": 2585
+        },
+        {
+          "path": ".test-tunnel-recoverable-errors.cjs",
+          "kind": "file",
+          "bytes": 1984
+        },
+        {
+          "path": ".test-tunnel-simulate-runtime-helpers.cjs",
+          "kind": "file",
+          "bytes": 2135
+        },
+        {
+          "path": ".test-tunnel-simulate-runtime-url-puppeteer.cjs",
+          "kind": "file",
+          "bytes": 4277
+        },
+        {
+          "path": ".test-tunnel-snapshot-content.cjs",
+          "kind": "file",
+          "bytes": 2466
+        },
+        {
+          "path": ".test-tunnel-url-module-graph.cjs",
+          "kind": "file",
+          "bytes": 2485
+        },
+        {
+          "path": ".test-urlsearchparams.cjs",
+          "kind": "file",
+          "bytes": 834
+        },
+        {
+          "path": ".unified-app-binary-stress.cjs",
+          "kind": "file",
+          "bytes": 2804
+        },
+        {
+          "path": ".web-binary-chat-stress.cjs",
+          "kind": "file",
+          "bytes": 1320
+        },
+        {
+          "path": "app",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "app/bmp.js",
+          "kind": "file",
+          "bytes": 3225
+        },
+        {
+          "path": "app/browser",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "app/browser/binary.js",
+          "kind": "file",
+          "bytes": 2252
+        },
+        {
+          "path": "app/browser/examples.js",
+          "kind": "file",
+          "bytes": 2226
+        },
+        {
+          "path": "app/browser/files.js",
+          "kind": "file",
+          "bytes": 2172
+        },
+        {
+          "path": "app/browser/renderers.js",
+          "kind": "file",
+          "bytes": 11865
+        },
+        {
+          "path": "app/browser/state.js",
+          "kind": "file",
+          "bytes": 1130
+        },
+        {
+          "path": "app/browser/ui.js",
+          "kind": "file",
+          "bytes": 6734
+        },
+        {
+          "path": "app/codec.js",
+          "kind": "file",
+          "bytes": 4588
+        },
+        {
+          "path": "app/compiler",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "app/compiler/bit-writer.js",
+          "kind": "file",
+          "bytes": 1258
+        },
+        {
+          "path": "app/compiler/css-compiler.js",
+          "kind": "file",
+          "bytes": 12781
+        },
+        {
+          "path": "app/compiler/html-compiler.js",
+          "kind": "file",
+          "bytes": 5495
+        },
+        {
+          "path": "app/compiler/js-compiler.js",
+          "kind": "file",
+          "bytes": 25559
+        },
+        {
+          "path": "app/compiler/js-compiler.worker.js",
+          "kind": "file",
+          "bytes": 20429
+        },
+        {
+          "path": "app/compiler/op-writer.js",
+          "kind": "file",
+          "bytes": 14498
+        },
+        {
+          "path": "app/compiler/project-compiler.js",
+          "kind": "file",
+          "bytes": 11698
+        },
+        {
+          "path": "app/compiler/reconstructor.js",
+          "kind": "file",
+          "bytes": 12960
+        },
+        {
+          "path": "app/compiler/text-codec.js",
+          "kind": "file",
+          "bytes": 2363
+        },
+        {
+          "path": "app/compiler/util.js",
+          "kind": "file",
+          "bytes": 5537
+        },
+        {
+          "path": "app/compiler.js",
+          "kind": "file",
+          "bytes": 972
+        },
+        {
+          "path": "app/dom.js",
+          "kind": "file",
+          "bytes": 1482
+        },
+        {
+          "path": "app/ect-analyze.js",
+          "kind": "file",
+          "bytes": 2050
+        },
+        {
+          "path": "app/ect-bit.js",
+          "kind": "file",
+          "bytes": 1329
+        },
+        {
+          "path": "app/ect-bmp.js",
+          "kind": "file",
+          "bytes": 1370
+        },
+        {
+          "path": "app/ect-compiler-core.js",
+          "kind": "file",
+          "bytes": 1095
+        },
+        {
+          "path": "app/ect-data.js",
+          "kind": "file",
+          "bytes": 10253
+        },
+        {
+          "path": "app/ect-extreme-hook.js",
+          "kind": "file",
+          "bytes": 465
+        },
+        {
+          "path": "app/ect-extreme-pack.js",
+          "kind": "file",
+          "bytes": 8325
+        },
+        {
+          "path": "app/ect-id-tables.js",
+          "kind": "file",
+          "bytes": 683
+        },
+        {
+          "path": "app/ect-main.js",
+          "kind": "file",
+          "bytes": 649
+        },
+        {
+          "path": "app/ect-pack.js",
+          "kind": "file",
+          "bytes": 8835
+        },
+        {
+          "path": "app/ect-radical-core.js",
+          "kind": "file",
+          "bytes": 1897
+        },
+        {
+          "path": "app/ect-radical-css.js",
+          "kind": "file",
+          "bytes": 2533
+        },
+        {
+          "path": "app/ect-radical-html.js",
+          "kind": "file",
+          "bytes": 1605
+        },
+        {
+          "path": "app/ect-radical-js.js",
+          "kind": "file",
+          "bytes": 2011
+        },
+        {
+          "path": "app/ect-radical-pack.js",
+          "kind": "file",
+          "bytes": 3083
+        },
+        {
+          "path": "app/ect-ram.js",
+          "kind": "file",
+          "bytes": 3053
+        },
+        {
+          "path": "app/ect-render.js",
+          "kind": "file",
+          "bytes": 1088
+        },
+        {
+          "path": "app/ect-storage-codec.js",
+          "kind": "file",
+          "bytes": 14093
+        },
+        {
+          "path": "app/ect-ui.js",
+          "kind": "file",
+          "bytes": 4894
+        },
+        {
+          "path": "app/ect-worker.js",
+          "kind": "file",
+          "bytes": 3615
+        },
+        {
+          "path": "app/forge-bundle.js",
+          "kind": "file",
+          "bytes": 13562
+        },
+        {
+          "path": "app/forge-core.js",
+          "kind": "file",
+          "bytes": 3057
+        },
+        {
+          "path": "app/forge-ui.js",
+          "kind": "file",
+          "bytes": 4941
+        },
+        {
+          "path": "app/forge.js",
+          "kind": "file",
+          "bytes": 320
+        },
+        {
+          "path": "app/id-tables",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "app/id-tables/html-css.js",
+          "kind": "file",
+          "bytes": 9974
+        },
+        {
+          "path": "app/id-tables/index.js",
+          "kind": "file",
+          "bytes": 1081
+        },
+        {
+          "path": "app/id-tables/members-browser.js",
+          "kind": "file",
+          "bytes": 4678
+        },
+        {
+          "path": "app/id-tables/members-core.js",
+          "kind": "file",
+          "bytes": 8167
+        },
+        {
+          "path": "app/id-tables/members-graphics.js",
+          "kind": "file",
+          "bytes": 3239
+        },
+        {
+          "path": "app/id-tables/roots.js",
+          "kind": "file",
+          "bytes": 2141
+        },
+        {
+          "path": "app/id-tables/syntax.js",
+          "kind": "file",
+          "bytes": 3303
+        },
+        {
+          "path": "app/main.js",
+          "kind": "file",
+          "bytes": 3039
+        },
+        {
+          "path": "app/preview.js",
+          "kind": "file",
+          "bytes": 740
+        },
+        {
+          "path": "app/samples.js",
+          "kind": "file",
+          "bytes": 1008
+        },
+        {
+          "path": "app/semantic-bitstream.js",
+          "kind": "file",
+          "bytes": 1984
+        },
+        {
+          "path": "app/semantic-bmp.js",
+          "kind": "file",
+          "bytes": 1467
+        },
+        {
+          "path": "app/semantic-decoder.js",
+          "kind": "file",
+          "bytes": 1413
+        },
+        {
+          "path": "app/semantic-encoder.js",
+          "kind": "file",
+          "bytes": 4488
+        },
+        {
+          "path": "app/semantic-ram.js",
+          "kind": "file",
+          "bytes": 3077
+        },
+        {
+          "path": "app/semantic-runtime.js",
+          "kind": "file",
+          "bytes": 15179
+        },
+        {
+          "path": "app/semantic-seed.js",
+          "kind": "file",
+          "bytes": 1238
+        },
+        {
+          "path": "app/semantic-tables.js",
+          "kind": "file",
+          "bytes": 2385
+        },
+        {
+          "path": "app/semantic-ui.js",
+          "kind": "file",
+          "bytes": 4791
+        },
+        {
+          "path": "app/styles.css",
+          "kind": "file",
+          "bytes": 3414
+        },
+        {
+          "path": "app/vm.js",
+          "kind": "file",
+          "bytes": 2064
+        },
+        {
+          "path": "check-new-runtime.cjs",
+          "kind": "file",
+          "bytes": 1382
+        },
+        {
+          "path": "index.html",
+          "kind": "file",
+          "bytes": 1389
+        },
+        {
+          "path": "merkava-binary",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/BitPackedValueCodec.js",
+          "kind": "file",
+          "bytes": 4190
+        },
+        {
+          "path": "merkava-binary/BitReader.js",
+          "kind": "file",
+          "bytes": 596
+        },
+        {
+          "path": "merkava-binary/BitWriter.js",
+          "kind": "file",
+          "bytes": 752
+        },
+        {
+          "path": "merkava-binary/ByteReader.js",
+          "kind": "file",
+          "bytes": 946
+        },
+        {
+          "path": "merkava-binary/ByteWriter.js",
+          "kind": "file",
+          "bytes": 1087
+        },
+        {
+          "path": "merkava-binary/CompactClassBinary.js",
+          "kind": "file",
+          "bytes": 4858
+        },
+        {
+          "path": "merkava-binary/CompactClassCodec.js",
+          "kind": "file",
+          "bytes": 5054
+        },
+        {
+          "path": "merkava-binary/CompactClassRuntime.js",
+          "kind": "file",
+          "bytes": 5134
+        },
+        {
+          "path": "merkava-binary/CompactModuleBinary.js",
+          "kind": "file",
+          "bytes": 4718
+        },
+        {
+          "path": "merkava-binary/CssSelectorEngine.js",
+          "kind": "file",
+          "bytes": 3294
+        },
+        {
+          "path": "merkava-binary/DefaultMerkavaHost.js",
+          "kind": "file",
+          "bytes": 19673
+        },
+        {
+          "path": "merkava-binary/index.js",
+          "kind": "file",
+          "bytes": 2302
+        },
+        {
+          "path": "merkava-binary/js-md2",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/js-md2/compiler",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/js-md2/compiler/Mode2ExpressionCompiler.js",
+          "kind": "file",
+          "bytes": 1794
+        },
+        {
+          "path": "merkava-binary/js-md2/compiler/Mode2StatementCompiler.js",
+          "kind": "file",
+          "bytes": 2111
+        },
+        {
+          "path": "merkava-binary/js-md2/opcodes",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/js-md2/opcodes/Mode2OpcodeTable.js",
+          "kind": "file",
+          "bytes": 1752
+        },
+        {
+          "path": "merkava-binary/js-md2/optimizer",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/js-md2/optimizer/Mode2BytecodeValidator.js",
+          "kind": "file",
+          "bytes": 2720
+        },
+        {
+          "path": "merkava-binary/js-md2/optimizer/Mode2Optimizer.js",
+          "kind": "file",
+          "bytes": 2138
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2AsyncRuntime.js",
+          "kind": "file",
+          "bytes": 5673
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2ClassRuntime.js",
+          "kind": "file",
+          "bytes": 2005
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2DecompilerRuntime.js",
+          "kind": "file",
+          "bytes": 4395
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2ErrorRuntime.js",
+          "kind": "file",
+          "bytes": 1990
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2ExceptionRuntime.js",
+          "kind": "file",
+          "bytes": 1174
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2HostBridgeRuntime.js",
+          "kind": "file",
+          "bytes": 1547
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2IteratorRuntime.js",
+          "kind": "file",
+          "bytes": 2319
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2ModuleRuntime.js",
+          "kind": "file",
+          "bytes": 2664
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2Runtime.js",
+          "kind": "file",
+          "bytes": 1475
+        },
+        {
+          "path": "merkava-binary/js-md2/runtime/Mode2RuntimeFeatureInventory.js",
+          "kind": "file",
+          "bytes": 2150
+        },
+        {
+          "path": "merkava-binary/js-md2/slots",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/js-md2/slots/Mode2SlotCompiler.js",
+          "kind": "file",
+          "bytes": 1869
+        },
+        {
+          "path": "merkava-binary/js-md2/slots/Mode2SlotRuntime.js",
+          "kind": "file",
+          "bytes": 1552
+        },
+        {
+          "path": "merkava-binary/LocalSymbolTable.js",
+          "kind": "file",
+          "bytes": 1172
+        },
+        {
+          "path": "merkava-binary/Md2BytecodeApi.js",
+          "kind": "file",
+          "bytes": 60
+        },
+        {
+          "path": "merkava-binary/MerkavaAstLowerer.js",
+          "kind": "file",
+          "bytes": 15009
+        },
+        {
+          "path": "merkava-binary/MerkavaBundleBuilder.js",
+          "kind": "file",
+          "bytes": 4479
+        },
+        {
+          "path": "merkava-binary/MerkavaBytecodeApi.js",
+          "kind": "file",
+          "bytes": 3386
+        },
+        {
+          "path": "merkava-binary/MerkavaJsCompiler.js",
+          "kind": "file",
+          "bytes": 2026
+        },
+        {
+          "path": "merkava-binary/MerkavaJsonCompiler.js",
+          "kind": "file",
+          "bytes": 9409
+        },
+        {
+          "path": "merkava-binary/MerkavaJsonRunner.js",
+          "kind": "file",
+          "bytes": 637
+        },
+        {
+          "path": "merkava-binary/MerkavaJsRunner.js",
+          "kind": "file",
+          "bytes": 623
+        },
+        {
+          "path": "merkava-binary/MerkavaProbeEvaluator.js",
+          "kind": "file",
+          "bytes": 2356
+        },
+        {
+          "path": "merkava-binary/MerkavaSyntaxPreflight.js",
+          "kind": "file",
+          "bytes": 3134
+        },
+        {
+          "path": "merkava-binary/MerkavaVmFileExecutor.js",
+          "kind": "file",
+          "bytes": 28933
+        },
+        {
+          "path": "merkava-binary/MerkavaVmLoader.js",
+          "kind": "file",
+          "bytes": 1028
+        },
+        {
+          "path": "merkava-binary/Mode2AppBinary.js",
+          "kind": "file",
+          "bytes": 13401
+        },
+        {
+          "path": "merkava-binary/Mode2ArenaRuntime.js",
+          "kind": "file",
+          "bytes": 4224
+        },
+        {
+          "path": "merkava-binary/Mode2BinaryArena.js",
+          "kind": "file",
+          "bytes": 6455
+        },
+        {
+          "path": "merkava-binary/Mode2ClosureVm.js",
+          "kind": "file",
+          "bytes": 3827
+        },
+        {
+          "path": "merkava-binary/Mode2CssBitCodec.js",
+          "kind": "file",
+          "bytes": 2559
+        },
+        {
+          "path": "merkava-binary/Mode2IteratorRuntime.js",
+          "kind": "file",
+          "bytes": 546
+        },
+        {
+          "path": "merkava-binary/Mode2JsBinary.js",
+          "kind": "file",
+          "bytes": 63499
+        },
+        {
+          "path": "merkava-binary/Mode2JsBitCodec.js",
+          "kind": "file",
+          "bytes": 3311
+        },
+        {
+          "path": "merkava-binary/Mode2LoopControl.js",
+          "kind": "file",
+          "bytes": 320
+        },
+        {
+          "path": "merkava-binary/Mode2NativeIntrinsics.js",
+          "kind": "file",
+          "bytes": 3974
+        },
+        {
+          "path": "merkava-binary/Mode2PathLoader.js",
+          "kind": "file",
+          "bytes": 2225
+        },
+        {
+          "path": "merkava-binary/Mode2PoolBytes.js",
+          "kind": "file",
+          "bytes": 1368
+        },
+        {
+          "path": "merkava-binary/Mode2PoolCodec.js",
+          "kind": "file",
+          "bytes": 2265
+        },
+        {
+          "path": "merkava-binary/Mode2RepeatNodes.js",
+          "kind": "file",
+          "bytes": 1436
+        },
+        {
+          "path": "merkava-binary/Mode2SlotFrames.js",
+          "kind": "file",
+          "bytes": 4171
+        },
+        {
+          "path": "merkava-binary/Mode2SlotSymbols.js",
+          "kind": "file",
+          "bytes": 2172
+        },
+        {
+          "path": "merkava-binary/Mode2Templates.js",
+          "kind": "file",
+          "bytes": 1120
+        },
+        {
+          "path": "merkava-binary/Mode2ValueCodec.js",
+          "kind": "file",
+          "bytes": 2263
+        },
+        {
+          "path": "merkava-binary/ModeAppBinary.js",
+          "kind": "file",
+          "bytes": 5131
+        },
+        {
+          "path": "merkava-binary/ModeOpcodes.js",
+          "kind": "file",
+          "bytes": 518
+        },
+        {
+          "path": "merkava-binary/ModeSelectorCodec.js",
+          "kind": "file",
+          "bytes": 2856
+        },
+        {
+          "path": "merkava-binary/native-tables",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/native-tables/css-selectors.js",
+          "kind": "file",
+          "bytes": 1329
+        },
+        {
+          "path": "merkava-binary/native-tables/css-values.js",
+          "kind": "file",
+          "bytes": 1808
+        },
+        {
+          "path": "merkava-binary/native-tables/dom-apis.js",
+          "kind": "file",
+          "bytes": 1882
+        },
+        {
+          "path": "merkava-binary/native-tables/html-attrs.js",
+          "kind": "file",
+          "bytes": 1304
+        },
+        {
+          "path": "merkava-binary/native-tables/html-tags.js",
+          "kind": "file",
+          "bytes": 1074
+        },
+        {
+          "path": "merkava-binary/native-tables/js-builtins.js",
+          "kind": "file",
+          "bytes": 1851
+        },
+        {
+          "path": "merkava-binary/native-tables/node-apis.js",
+          "kind": "file",
+          "bytes": 1401
+        },
+        {
+          "path": "merkava-binary/native-tables/worker-apis.js",
+          "kind": "file",
+          "bytes": 1214
+        },
+        {
+          "path": "merkava-binary/NativeCapabilityBridge.js",
+          "kind": "file",
+          "bytes": 2847
+        },
+        {
+          "path": "merkava-binary/NativeTables.js",
+          "kind": "file",
+          "bytes": 6805
+        },
+        {
+          "path": "merkava-binary/PackedValueCodec.js",
+          "kind": "file",
+          "bytes": 5584
+        },
+        {
+          "path": "merkava-binary/SangCodec.js",
+          "kind": "file",
+          "bytes": 2661
+        },
+        {
+          "path": "merkava-binary/SangExpressionCompiler.js",
+          "kind": "file",
+          "bytes": 1643
+        },
+        {
+          "path": "merkava-binary/SangStrictJsCompiler.js",
+          "kind": "file",
+          "bytes": 1597
+        },
+        {
+          "path": "merkava-binary/SangVmRunner.js",
+          "kind": "file",
+          "bytes": 2612
+        },
+        {
+          "path": "merkava-binary/SangWebCompiler.js",
+          "kind": "file",
+          "bytes": 1939
+        },
+        {
+          "path": "merkava-binary/SourceAppCompiler.js",
+          "kind": "file",
+          "bytes": 7640
+        },
+        {
+          "path": "merkava-binary/testing",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-binary/testing/json-compiler-value-wrapper.test.cjs",
+          "kind": "file",
+          "bytes": 1455
+        },
+        {
+          "path": "merkava-binary/UnifiedAppBinary.js",
+          "kind": "file",
+          "bytes": 7587
+        },
+        {
+          "path": "merkava-binary/VarInt.js",
+          "kind": "file",
+          "bytes": 626
+        },
+        {
+          "path": "merkava-binary/WebBinaryCodec.js",
+          "kind": "file",
+          "bytes": 8738
+        },
+        {
+          "path": "merkava-binary/WebBinaryOpcodes.js",
+          "kind": "file",
+          "bytes": 769
+        },
+        {
+          "path": "merkava-binary/WebBinaryRuntime.js",
+          "kind": "file",
+          "bytes": 4105
+        },
+        {
+          "path": "merkava-browser",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-browser/BrowserRenderPipeline.js",
+          "kind": "file",
+          "bytes": 3634
+        },
+        {
+          "path": "merkava-browser/CssColorResolver.js",
+          "kind": "file",
+          "bytes": 3691
+        },
+        {
+          "path": "merkava-browser/CssValueResolver.js",
+          "kind": "file",
+          "bytes": 4071
+        },
+        {
+          "path": "merkava-browser/EventRoutingEngine.js",
+          "kind": "file",
+          "bytes": 3796
+        },
+        {
+          "path": "merkava-browser/IncrementalDomCompiler.js",
+          "kind": "file",
+          "bytes": 3654
+        },
+        {
+          "path": "merkava-browser/PersistentBrowserRuntime.js",
+          "kind": "file",
+          "bytes": 4299
+        },
+        {
+          "path": "merkava-browser/RetainedLayoutEngine.js",
+          "kind": "file",
+          "bytes": 7416
+        },
+        {
+          "path": "merkava-browser/RuntimeLog.js",
+          "kind": "file",
+          "bytes": 1180
+        },
+        {
+          "path": "merkava-browser/RuntimeProbe.js",
+          "kind": "file",
+          "bytes": 966
+        },
+        {
+          "path": "merkava-browser/SyntheticBrowserRuntime.js",
+          "kind": "file",
+          "bytes": 11116
+        },
+        {
+          "path": "merkava-browser/TextLayoutEngine.js",
+          "kind": "file",
+          "bytes": 2882
+        },
+        {
+          "path": "merkava-browser/VirtualCanvas2DContext.js",
+          "kind": "file",
+          "bytes": 12515
+        },
+        {
+          "path": "merkava-browser/VirtualClassList.js",
+          "kind": "file",
+          "bytes": 1372
+        },
+        {
+          "path": "merkava-browser/VirtualConsole.js",
+          "kind": "file",
+          "bytes": 3165
+        },
+        {
+          "path": "merkava-browser/VirtualCssEngine.js",
+          "kind": "file",
+          "bytes": 11583
+        },
+        {
+          "path": "merkava-browser/VirtualDocument.js",
+          "kind": "file",
+          "bytes": 4782
+        },
+        {
+          "path": "merkava-browser/VirtualElement.js",
+          "kind": "file",
+          "bytes": 17638
+        },
+        {
+          "path": "merkava-browser/VirtualEvents.js",
+          "kind": "file",
+          "bytes": 1999
+        },
+        {
+          "path": "merkava-browser/VirtualFetch.js",
+          "kind": "file",
+          "bytes": 6652
+        },
+        {
+          "path": "merkava-browser/VirtualFontAtlas.js",
+          "kind": "file",
+          "bytes": 6488
+        },
+        {
+          "path": "merkava-browser/VirtualHtmlHydrator.js",
+          "kind": "file",
+          "bytes": 5865
+        },
+        {
+          "path": "merkava-browser/VirtualHtmlSerializer.js",
+          "kind": "file",
+          "bytes": 3658
+        },
+        {
+          "path": "merkava-browser/VirtualImagePaintResolver.js",
+          "kind": "file",
+          "bytes": 3286
+        },
+        {
+          "path": "merkava-browser/VirtualInteractions.js",
+          "kind": "file",
+          "bytes": 1251
+        },
+        {
+          "path": "merkava-browser/VirtualKeyboard.js",
+          "kind": "file",
+          "bytes": 1476
+        },
+        {
+          "path": "merkava-browser/VirtualMouse.js",
+          "kind": "file",
+          "bytes": 1521
+        },
+        {
+          "path": "merkava-browser/VirtualOffscreenCanvas.js",
+          "kind": "file",
+          "bytes": 4087
+        },
+        {
+          "path": "merkava-browser/VirtualPath2D.js",
+          "kind": "file",
+          "bytes": 1857
+        },
+        {
+          "path": "merkava-browser/VirtualStorage.js",
+          "kind": "file",
+          "bytes": 2961
+        },
+        {
+          "path": "merkava-browser/VirtualStyleDeclaration.js",
+          "kind": "file",
+          "bytes": 1390
+        },
+        {
+          "path": "merkava-browser/VirtualWebGLBoxRenderer.js",
+          "kind": "file",
+          "bytes": 32904
+        },
+        {
+          "path": "merkava-browser/VirtualWebGLContext.js",
+          "kind": "file",
+          "bytes": 16934
+        },
+        {
+          "path": "merkava-browser/VirtualWebGLTextureArena.js",
+          "kind": "file",
+          "bytes": 1693
+        },
+        {
+          "path": "merkava-browser/VirtualWindow.js",
+          "kind": "file",
+          "bytes": 12738
+        },
+        {
+          "path": "merkava-browser/VirtualWorker.js",
+          "kind": "file",
+          "bytes": 4629
+        },
+        {
+          "path": "merkava-browser/WebGLBytecodeCompiler.js",
+          "kind": "file",
+          "bytes": 4608
+        },
+        {
+          "path": "merkava-compiler",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-compiler/builder.js",
+          "kind": "file",
+          "bytes": 2191
+        },
+        {
+          "path": "merkava-compiler/index.js",
+          "kind": "file",
+          "bytes": 13610
+        },
+        {
+          "path": "merkava-compiler/scope.js",
+          "kind": "file",
+          "bytes": 2197
+        },
+        {
+          "path": "merkava-compiler/visitors",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-compiler/visitors/declarations.js",
+          "kind": "file",
+          "bytes": 8887
+        },
+        {
+          "path": "merkava-compiler/visitors/expressions.js",
+          "kind": "file",
+          "bytes": 13372
+        },
+        {
+          "path": "merkava-compiler/visitors/literals.js",
+          "kind": "file",
+          "bytes": 3060
+        },
+        {
+          "path": "merkava-compiler/visitors/statements.js",
+          "kind": "file",
+          "bytes": 12268
+        },
+        {
+          "path": "merkava-compiler/visitors.js",
+          "kind": "file",
+          "bytes": 433
+        },
+        {
+          "path": "merkava-console.css",
+          "kind": "file",
+          "bytes": 4610
+        },
+        {
+          "path": "merkava-console.html",
+          "kind": "file",
+          "bytes": 5140
+        },
+        {
+          "path": "merkava-debugger.js",
+          "kind": "file",
+          "bytes": 3975
+        },
+        {
+          "path": "merkava-memory",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-memory/adapter.js",
+          "kind": "file",
+          "bytes": 2705
+        },
+        {
+          "path": "merkava-memory/index.js",
+          "kind": "file",
+          "bytes": 5866
+        },
+        {
+          "path": "merkava-node",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-node/VirtualNodeRuntime.js",
+          "kind": "file",
+          "bytes": 2409
+        },
+        {
+          "path": "merkava-opcodes.js",
+          "kind": "file",
+          "bytes": 3603
+        },
+        {
+          "path": "merkava-reality",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-reality/RealityScore.js",
+          "kind": "file",
+          "bytes": 1030
+        },
+        {
+          "path": "merkava-reality/RuntimeSnapshot.js",
+          "kind": "file",
+          "bytes": 792
+        },
+        {
+          "path": "merkava-runtime",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-runtime/CSSAssembler.js",
+          "kind": "file",
+          "bytes": 2187
+        },
+        {
+          "path": "merkava-runtime/DOMHydrator.js",
+          "kind": "file",
+          "bytes": 5909
+        },
+        {
+          "path": "merkava-runtime/HTMLAssembler.js",
+          "kind": "file",
+          "bytes": 4335
+        },
+        {
+          "path": "merkava-runtime/ImportResolver.js",
+          "kind": "file",
+          "bytes": 2519
+        },
+        {
+          "path": "merkava-runtime/ModuleExecutor.js",
+          "kind": "file",
+          "bytes": 822
+        },
+        {
+          "path": "merkava-runtime/RuntimeAddress.js",
+          "kind": "file",
+          "bytes": 2469
+        },
+        {
+          "path": "merkava-runtime/RuntimeAssembler.js",
+          "kind": "file",
+          "bytes": 24631
+        },
+        {
+          "path": "merkava-runtime/RuntimeGraph.js",
+          "kind": "file",
+          "bytes": 1144
+        },
+        {
+          "path": "merkava-runtime/UnifiedSimulation.js",
+          "kind": "file",
+          "bytes": 2187
+        },
+        {
+          "path": "merkava-scouts",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-scouts/RuntimeScouts.js",
+          "kind": "file",
+          "bytes": 1231
+        },
+        {
+          "path": "merkava-sdk",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-sdk/context.js",
+          "kind": "file",
+          "bytes": 3907
+        },
+        {
+          "path": "merkava-sdk/core.js",
+          "kind": "file",
+          "bytes": 15148
+        },
+        {
+          "path": "merkava-sdk/utils.js",
+          "kind": "file",
+          "bytes": 3775
+        },
+        {
+          "path": "merkava-sdk/worker-bootstrap.js",
+          "kind": "file",
+          "bytes": 9047
+        },
+        {
+          "path": "merkava-sdk/worker-proxy.js",
+          "kind": "file",
+          "bytes": 8467
+        },
+        {
+          "path": "merkava-sdk.js",
+          "kind": "file",
+          "bytes": 3454
+        },
+        {
+          "path": "merkava-service",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/actions",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/actions/actionRegistry.js",
+          "kind": "file",
+          "bytes": 3675
+        },
+        {
+          "path": "merkava-service/browser-actions",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/browser-actions/actionSchema.js",
+          "kind": "file",
+          "bytes": 3895
+        },
+        {
+          "path": "merkava-service/browser-actions/cdpClient.js",
+          "kind": "file",
+          "bytes": 4535
+        },
+        {
+          "path": "merkava-service/browser-actions/chromeRuntime.js",
+          "kind": "file",
+          "bytes": 5892
+        },
+        {
+          "path": "merkava-service/browser-actions/pageActions.js",
+          "kind": "file",
+          "bytes": 3785
+        },
+        {
+          "path": "merkava-service/browser-actions/pageSnapshot.js",
+          "kind": "file",
+          "bytes": 3856
+        },
+        {
+          "path": "merkava-service/browser-actions/runBrowserActions.js",
+          "kind": "file",
+          "bytes": 838
+        },
+        {
+          "path": "merkava-service/browser-actions/VirtualPage.js",
+          "kind": "file",
+          "bytes": 9344
+        },
+        {
+          "path": "merkava-service/conditions",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/conditions/evaluateCondition.js",
+          "kind": "file",
+          "bytes": 536
+        },
+        {
+          "path": "merkava-service/conditions/operators.js",
+          "kind": "file",
+          "bytes": 456
+        },
+        {
+          "path": "merkava-service/core",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/core/collectUrlFiles.js",
+          "kind": "file",
+          "bytes": 5910
+        },
+        {
+          "path": "merkava-service/core/realBrowserRuntime.js",
+          "kind": "file",
+          "bytes": 6358
+        },
+        {
+          "path": "merkava-service/core/simulateRuntime.js",
+          "kind": "file",
+          "bytes": 14315
+        },
+        {
+          "path": "merkava-service/flow",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/flow/executeWorkflow.js",
+          "kind": "file",
+          "bytes": 2141
+        },
+        {
+          "path": "merkava-service/index.js",
+          "kind": "file",
+          "bytes": 1209
+        },
+        {
+          "path": "merkava-service/instrumentation",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/instrumentation/instrumentSource.js",
+          "kind": "file",
+          "bytes": 1333
+        },
+        {
+          "path": "merkava-service/instrumentation/probeId.js",
+          "kind": "file",
+          "bytes": 477
+        },
+        {
+          "path": "merkava-service/interactions",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/interactions/applyInteractions.js",
+          "kind": "file",
+          "bytes": 1738
+        },
+        {
+          "path": "merkava-service/md2",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/md2/md2Runtime.js",
+          "kind": "file",
+          "bytes": 266
+        },
+        {
+          "path": "merkava-service/merkava",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/merkava/merkavaRuntime.js",
+          "kind": "file",
+          "bytes": 10022
+        },
+        {
+          "path": "merkava-service/package.json",
+          "kind": "file",
+          "bytes": 23
+        },
+        {
+          "path": "merkava-service/snapshots",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/snapshots/chromeScreenshot.js",
+          "kind": "file",
+          "bytes": 2224
+        },
+        {
+          "path": "merkava-service/snapshots/normalizeRuntimeResult.js",
+          "kind": "file",
+          "bytes": 1437
+        },
+        {
+          "path": "merkava-service/snapshots/pngTools.js",
+          "kind": "file",
+          "bytes": 1704
+        },
+        {
+          "path": "merkava-service/snapshots/snapshotImage.js",
+          "kind": "file",
+          "bytes": 1763
+        },
+        {
+          "path": "merkava-service/snapshots/software",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/snapshots/software/canvas-painter",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/snapshots/software/canvas-painter/webglWitness.js",
+          "kind": "file",
+          "bytes": 4308
+        },
+        {
+          "path": "merkava-service/snapshots/software/canvasPainter.js",
+          "kind": "file",
+          "bytes": 7420
+        },
+        {
+          "path": "merkava-service/snapshots/software/color.js",
+          "kind": "file",
+          "bytes": 4934
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/boxPainter.js",
+          "kind": "file",
+          "bytes": 2119
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/canvasPicker.js",
+          "kind": "file",
+          "bytes": 953
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/clip.js",
+          "kind": "file",
+          "bytes": 747
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/geometry.js",
+          "kind": "file",
+          "bytes": 1141
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/overflowPainter.js",
+          "kind": "file",
+          "bytes": 3444
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/styleTools.js",
+          "kind": "file",
+          "bytes": 2615
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/svgPainter.js",
+          "kind": "file",
+          "bytes": 3035
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/textPainter.js",
+          "kind": "file",
+          "bytes": 1179
+        },
+        {
+          "path": "merkava-service/snapshots/software/dom-painter/transformPainter.js",
+          "kind": "file",
+          "bytes": 1320
+        },
+        {
+          "path": "merkava-service/snapshots/software/domLayout.js",
+          "kind": "file",
+          "bytes": 12246
+        },
+        {
+          "path": "merkava-service/snapshots/software/domPainter.js",
+          "kind": "file",
+          "bytes": 1200
+        },
+        {
+          "path": "merkava-service/snapshots/software/framebuffer.js",
+          "kind": "file",
+          "bytes": 8132
+        },
+        {
+          "path": "merkava-service/snapshots/software/supersample.js",
+          "kind": "file",
+          "bytes": 3191
+        },
+        {
+          "path": "merkava-service/snapshots/virtualPngRenderer.js",
+          "kind": "file",
+          "bytes": 2682
+        },
+        {
+          "path": "merkava-vm",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-vm/executors",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "merkava-vm/executors/flow.js",
+          "kind": "file",
+          "bytes": 3468
+        },
+        {
+          "path": "merkava-vm/executors/functions.js",
+          "kind": "file",
+          "bytes": 5912
+        },
+        {
+          "path": "merkava-vm/executors/math.js",
+          "kind": "file",
+          "bytes": 2449
+        },
+        {
+          "path": "merkava-vm/executors/objects.js",
+          "kind": "file",
+          "bytes": 3890
+        },
+        {
+          "path": "merkava-vm/executors/stack.js",
+          "kind": "file",
+          "bytes": 3457
+        },
+        {
+          "path": "merkava-vm/index.js",
+          "kind": "file",
+          "bytes": 2611
+        },
+        {
+          "path": "merkava-vm/instructions.js",
+          "kind": "file",
+          "bytes": 1056
+        },
+        {
+          "path": "merkava-vm/polyfills.js",
+          "kind": "file",
+          "bytes": 2739
+        },
+        {
+          "path": "merkava-vm/thread.js",
+          "kind": "file",
+          "bytes": 6003
+        },
+        {
+          "path": "merkavaexecutor.cjs",
+          "kind": "file",
+          "bytes": 8495
+        },
+        {
+          "path": "merkavaexecutor.global.js",
+          "kind": "file",
+          "bytes": 4252
+        },
+        {
+          "path": "run-merkava-runtime-tests.js",
+          "kind": "file",
+          "bytes": 1742
+        },
+        {
+          "path": "runtime-tests.html",
+          "kind": "file",
+          "bytes": 4580
+        },
+        {
+          "path": "tests",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "tests/3d_rainbow.js",
+          "kind": "file",
+          "bytes": 2707
+        },
+        {
+          "path": "tests/autonomous_motion.js",
+          "kind": "file",
+          "bytes": 1446
+        },
+        {
+          "path": "tests/canvas_cosmos.js",
+          "kind": "file",
+          "bytes": 3058
+        },
+        {
+          "path": "tests/intro.js",
+          "kind": "file",
+          "bytes": 2737
+        },
+        {
+          "path": "tests/merkava-runtime-advanced.test.cjs",
+          "kind": "file",
+          "bytes": 3092
+        },
+        {
+          "path": "tests/module_chaos_game.js",
+          "kind": "file",
+          "bytes": 4079
+        },
+        {
+          "path": "tests/runtime",
+          "kind": "dir",
+          "bytes": 0
+        },
+        {
+          "path": "tests/runtime/browser_dom.js",
+          "kind": "file",
+          "bytes": 221
+        },
+        {
+          "path": "tests/runtime/browser_network.js",
+          "kind": "file",
+          "bytes": 155
+        },
+        {
+          "path": "tests/runtime/dom_interaction.js",
+          "kind": "file",
+          "bytes": 520
+        },
+        {
+          "path": "tests/runtime/html_boot.js",
+          "kind": "file",
+          "bytes": 248
+        },
+        {
+          "path": "tests/runtime/html_entry.html",
+          "kind": "file",
+          "bytes": 396
+        },
+        {
+          "path": "tests/runtime/html_webgl_boot.js",
+          "kind": "file",
+          "bytes": 1057
+        },
+        {
+          "path": "tests/runtime/html_webgl_entry.html",
+          "kind": "file",
+          "bytes": 249
+        },
+        {
+          "path": "tests/runtime/module_child.js",
+          "kind": "file",
+          "bytes": 104
+        },
+        {
+          "path": "tests/runtime/module_imports.js",
+          "kind": "file",
+          "bytes": 245
+        },
+        {
+          "path": "tests/runtime/node_fs.js",
+          "kind": "file",
+          "bytes": 217
+        },
+        {
+          "path": "tests/runtime/pixel.txt",
+          "kind": "file",
+          "bytes": 15
+        },
+        {
+          "path": "tests/runtime/style.css",
+          "kind": "file",
+          "bytes": 84
+        },
+        {
+          "path": "tests/runtime/theme.css",
+          "kind": "file",
+          "bytes": 42
+        },
+        {
+          "path": "tests/runtime-manifest.json",
+          "kind": "file",
+          "bytes": 905
+        },
+        {
+          "path": "tests/worker_chariot.js",
+          "kind": "file",
+          "bytes": 3609
+        },
+        {
+          "path": "tests.js",
+          "kind": "file",
+          "bytes": 309
+        }
+      ]
+    },
+    {
+      "label": "Merkava AST parser external library",
+      "root": "geelooy/scripts/awtsmoos/MerkavaASTParser",
+      "exists": true,
+      "files": 15,
+      "dirs": 0,
+      "bytes": 270940,
+      "rows": [
+        {
+          "path": "constants.js",
+          "kind": "file",
+          "bytes": 7327
+        },
+        {
+          "path": "index.html",
+          "kind": "file",
+          "bytes": 45909
+        },
+        {
+          "path": "Lexer.js",
+          "kind": "file",
+          "bytes": 22201
+        },
+        {
+          "path": "Lexer.worker.js",
+          "kind": "file",
+          "bytes": 14093
+        },
+        {
+          "path": "LexerProbe.html",
+          "kind": "file",
+          "bytes": 14165
+        },
+        {
+          "path": "node_helpers.js",
+          "kind": "file",
+          "bytes": 1159
+        },
+        {
+          "path": "parser-core.js",
+          "kind": "file",
+          "bytes": 9496
+        },
+        {
+          "path": "parser-core.worker.js",
+          "kind": "file",
+          "bytes": 9667
+        },
+        {
+          "path": "parser-declarations.js",
+          "kind": "file",
+          "bytes": 39954
+        },
+        {
+          "path": "parser-declarations.worker.js",
+          "kind": "file",
+          "bytes": 18833
+        },
+        {
+          "path": "parser-expressions.js",
+          "kind": "file",
+          "bytes": 42534
+        },
+        {
+          "path": "parser-expressions.worker.js",
+          "kind": "file",
+          "bytes": 19037
+        },
+        {
+          "path": "parser-statements.js",
+          "kind": "file",
+          "bytes": 13934
+        },
+        {
+          "path": "parser-statements.worker.js",
+          "kind": "file",
+          "bytes": 7642
+        },
+        {
+          "path": "readme.md",
+          "kind": "file",
+          "bytes": 4989
+        }
+      ]
+    }
+  ]
+}

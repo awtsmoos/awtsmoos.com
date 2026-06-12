@@ -58,6 +58,8 @@ export default function userInputEvents() {
   this.on("setInputOut", peula => bindInput(this, peula?.code, false, "setInputOut"));
   this.on("combatAttack", peula => this.combatManager?.attack?.({ source: peula?.source || "ui" }));
   this.on("combatEquip", peula => this.combatManager?.equipWeapon?.(peula?.weaponId));
+  this.on("acceptVillageMission", () => this.__villageCombatState?.accept?.());
+  this.on("learnNpcSkill", peula => (this.player || this.chossid)?.learnSkill?.(peula?.skillId));
   this.on("toggleFPS", () => toggleFPS(this));
   this.on("returnVillage", () => this.ayshPeula("ui event", "navigateLevel", { next: "village.json", reason: "return village loses progress" }));
 
@@ -72,8 +74,11 @@ export default function userInputEvents() {
   this.on("keyup", peula => bindInput(this, peula?.code, false, "keyup"));
   this.on("presskey", () => {});
   this.on("mousedown", peula => {
-    if (peula?.button === 0) this.combatManager?.attack?.({ source: "mouse" });
     if (peula.clientX !== undefined && peula.clientY !== undefined) PointerUpdater.update(this, peula.clientX, peula.clientY);
+    if (peula?.button === 0) {
+      const selection = this.combatManager?.selectTargetFromPointer?.();
+      if (selection === "confirmed") this.combatManager?.attack?.({ source: "mouse" });
+    }
     this.ayin.onMouseDown(peula);
     this.mouseDown = true;
   });

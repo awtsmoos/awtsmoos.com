@@ -8,7 +8,7 @@
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
 import { DIRECT } from "./ui/domKit.js?v=npc-scroll-pass-through-20260609-bh638";
-import { directFallback } from "./ui/fallbacks.js?v=lava-camera-axis-20260609-bh640";
+import { directFallback } from "./ui/fallbacks.js?v=village-polish-20260612-bh810";
 import { showSpikeResetOverlay } from "./ui/effects.js?v=lava-camera-axis-20260609-bh640";
 
 export default function uiHandlers(manager) {

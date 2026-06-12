@@ -12,5 +12,7 @@ export function actionButtonsHtml(data = {}) {
   const travel = data.travelPath ? `<button type="button" data-npc-travel class="awts-npc-btn awts-primary">${esc(data.travelLabel || 'TRAVEL')}</button>` : '';
   const levels = data.opensLevelSelect === false || data.travelOnly ? '' : `<button type="button" data-npc-choose class="awts-npc-btn awts-primary">CHOOSE LEVELS</button>`;
   const shop = data.hasShop === false || data.travelOnly ? '' : `<button type="button" data-npc-buy class="awts-npc-btn awts-shop-warm">BUY</button><button type="button" data-npc-sell class="awts-npc-btn awts-shop-warm">SELL</button>`;
-  return `${travel}${levels}${shop}`;
+  const mission = data.missionId ? `<button type="button" data-npc-mission class="awts-npc-btn awts-primary">${esc(data.missionLabel || 'ACCEPT SHLICHUS')}</button>` : '';
+  const skill = data.learnSkillId ? `<button type="button" data-npc-skill class="awts-npc-btn awts-primary">${esc(data.learnSkillLabel || 'LEARN SKILL')}</button>` : '';
+  return `${mission}${skill}${travel}${levels}${shop}`;
 }

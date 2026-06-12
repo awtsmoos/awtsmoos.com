@@ -8,13 +8,13 @@
  * world. This gate now creates the manager, cleans stale browser vessels,
  * autoloads a level, and delegates Chossid proof globals to a dedicated module.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=village-combat-20260611-bh804";
-import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?compact=true&v=visible-root-binding-20260610-bh710";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=village-polish-20260612-bh811";
+import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?compact=true&v=village-polish-20260612-bh811";
 import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?compact=true&v=visible-root-binding-20260610-bh710";
 import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?compact=true&v=visible-root-binding-20260610-bh710";
 
 const scope = window;
-const SEAL = "village-combat-20260611-bh804";
+const SEAL = "village-polish-20260612-bh811";
 const markPhase = (phase, data = {}) => mark(SEAL, phase, data);
 
 async function clearOldCaches() {

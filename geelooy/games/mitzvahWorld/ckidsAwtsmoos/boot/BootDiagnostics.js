@@ -12,7 +12,7 @@ export function markPhase(seal, phase, data = {}) {
   scope.__AWTSMOOS_IKAR_PHASES__ ||= [];
   const row = { phase, at: new Date().toISOString(), seal, ...data };
   scope.__AWTSMOOS_IKAR_PHASES__.push(row);
-  console.info("B\"H | IKAR_PHASE", JSON.stringify(row));
+  if (scope.__AWTSMOOS_BOOT_TRACE__ === true) console.info("B\"H | IKAR_PHASE", JSON.stringify(row));
   return row;
 }
 

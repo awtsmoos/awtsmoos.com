@@ -60,7 +60,7 @@ export default function coreHandlers(manager) {
                 const w = sizing.width;
                 const h = sizing.height;
                 const rect = manager.canvasElement.getBoundingClientRect?.();
-                console.info("B\"H | MAIN_CANVAS_TRACE | heescheel:measured", {
+                if (window.__AWTSMOOS_RENDER_TRACE__ === true) console.info("B\"H | MAIN_CANVAS_TRACE | heescheel:measured", {
                     windowWidth: w,
                     windowHeight: h,
                     devicePixelRatio: dpr,

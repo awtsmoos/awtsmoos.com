@@ -1,39 +1,31 @@
+import { pickAttackFamily } from './families/attackFamilyPicker.js';
 import { killConfirmTactic } from './killConfirmPlanner.js';
+import { tastePenalty } from '../memory/actionTasteMemory.js';
 
 /**
  * B"H
- * Combat tactic planner with kill pressure and anti-peace hunger.
+ * Combat tactic planner with KO family intelligence.
  *
- * Chapter 79: courage now has teeth. Low damage invites rapid pressure, high
- * damage demands launchers, and old quiet maps receive a decree of engagement.
- * Still, every chosen strike must pass the validator before a command is born.
+ * Chapter 209: tactics no longer begin as buttons. The bot chooses a family
+ * from KO intent — rapid, kick, charge, anti-air, meteor, grab — then old taste
+ * memory and kill-confirm polish keep it lawful and adaptive.
  */
 export function combatTactic(bot, world) {
+  if (world.threatVision?.panic && !world.combat?.canHitNow) return tactic('AvoidThreat', 'none', world.threatVision.safestX, 0, false, 'none');
   const c = world.combat;
-  const edge = world.edgePressure;
-  const threat = world.threat || {};
-  const heat = world.combatHeat || {};
-  let chosen = baseTactic(bot, world, c, edge, threat, heat);
+  let chosen = pickAttackFamily(bot, world);
+  chosen = avoidBitter(bot, chosen, c);
   chosen = killConfirmTactic(bot, world, chosen);
   return chosen;
 }
 
-function baseTactic(bot, world, c, edge, threat, heat) {
-  if (threat.panic) return tactic('EvadeCharge', 'none', threat.escapeSide, 0, false);
-  if (threat.charging && c.reachableClose) return tactic('InterruptCharge', 'kick', threat.flankSide, 0, true);
-  if (threat.charging && c.sameFightingLane) return tactic('FlankCharge', 'none', threat.flankSide, 0, false);
-  if (c.reachableClose && world.target.blocking) return tactic('GrabShield', 'grab', 0, 0, true);
-  if (c.shouldAntiAir) return tactic(heat.killMode ? 'KillAntiAir' : 'AntiAir', 'punch', c.facing, -1, true);
-  if (heat.comboMode && c.reachableClose) return tactic('ComboRapid', 'punch', c.facing, 0, true);
-  if (edge?.score > 0.45 && c.sameFightingLane) return tactic('EdgeChargeKick', 'kick', edge.attackToward, 0, false);
-  if (heat.forceEngage && c.canHitNow) return tactic('ForceKick', 'kick', c.facing, 0, true);
-  if ((c.killPercent || threat.targetKillable) && c.reachableGround) return tactic('KillChargePunch', 'punch', c.facing, -0.08, false);
-  if (threat.defensive && c.reachableClose) return tactic('DefensiveKick', 'kick', c.facing, 0, true);
-  if (c.reachableClose) return tactic(heat.forceEngage ? 'ForcePunch' : 'PunishClose', 'punch', c.facing, 0, true);
-  if (c.canHitNow) return tactic('PokeApproach', 'kick', c.facing, 0, true);
-  return tactic('Approach', 'none', c.facing, 0, false);
+function avoidBitter(bot, chosen, combat) {
+  if (!chosen.instant || tastePenalty(bot, chosen.kind) < 55) return chosen;
+  if (chosen.button === 'punch' && combat.canHitNow) return tactic('TasteSwitchKick', 'kick', chosen.aimX, chosen.aimY, true, 'kick');
+  if (chosen.button === 'kick' && combat.reachableClose) return tactic('TasteSwitchPunch', 'punch', chosen.aimX, chosen.aimY, true, 'jab');
+  return chosen;
 }
 
-function tactic(kind, button, aimX, aimY, instant) {
-  return { kind, button, aimX: Math.sign(aimX || 1), aimY, instant };
+function tactic(kind, button, aimX, aimY, instant, family) {
+  return { kind, button, aimX: Math.sign(aimX || 1), aimY, instant, family };
 }

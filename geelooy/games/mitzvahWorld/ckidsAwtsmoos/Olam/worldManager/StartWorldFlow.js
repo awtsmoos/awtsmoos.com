@@ -9,13 +9,13 @@
  * seal, exposes the active manager for probes, and keeps level restarts inside
  * the same rooted covenant.
  */
-import OlamWorkerManager from "../ikarOyvedManager.js?v=visible-root-binding-20260610-bh710";
+import OlamWorkerManager from "../ikarOyvedManager.js?v=village-polish-20260612-bh811";
 
-const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js?v=village-combat-20260611-bh804", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
+const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js?v=village-polish-20260612-bh811", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
 
 const StartWorldFlow = {
   async startWorld(ob = {}) {
-    const { worldDayuh, gameUiHTML, sourcePath } = ob;
+    const { worldDayuh, gameUiHTML, sourcePath, alreadyDestroyed = false } = ob;
     if (!worldDayuh || typeof worldDayuh !== "object") {
       console.error('B"H - startWorld refused: direct worldDayuh is required.');
       return false;
@@ -29,7 +29,7 @@ const StartWorldFlow = {
       return false;
     }
     this._prepareCanvas(canvas);
-    if (this.socket?.eved) return await this._restartInsideExistingWorker({ userInfo, systemInfo });
+    if (this.socket?.eved) return await this._restartInsideExistingWorker({ userInfo, systemInfo }, alreadyDestroyed);
     return await this._startFreshWorker(canvas, { userInfo, systemInfo });
   },
 
@@ -55,8 +55,8 @@ const StartWorldFlow = {
     return true;
   },
 
-  async _restartInsideExistingWorker(payload) {
-    await this.destroyWorld({ keepWorker: true });
+  async _restartInsideExistingWorker(payload, alreadyDestroyed = false) {
+    if (!alreadyDestroyed) await this.destroyWorld({ keepWorker: true });
     const manager = this.socket;
     manager.customTawfeekeem.pawsawch = async () => manager.postMessage({ type: "pawsawch", payload });
     manager.runtime.pawsawchDispatched = false;

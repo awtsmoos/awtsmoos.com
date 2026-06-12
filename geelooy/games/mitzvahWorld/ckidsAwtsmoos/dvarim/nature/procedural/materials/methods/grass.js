@@ -1,49 +1,39 @@
-
 // B"H
 /**
  * @file grass.js
  * @module GrassMaterialGenerator
  * @description
- * ╔══════════════════════════════════════════════════════════════════════════════════╗
- * ║  THE MANIFESTATION OF THE HAIR OF THE EARTH — Grass Material Factory             ║
- * ║                                                                                  ║
- * ║  Now replete with diagnostic vision. If the Divine Light (texture)               ║
- * ║  cannot be drawn down, we log it and proceed with pure color.                    ║
- * ╚══════════════════════════════════════════════════════════════════════════════════╝
+ * Chapter 40: the village receives the photographed blades.
+ *
+ * The Awtsmoos does not ask grass to pretend with a flat green color when a
+ * real atlas has already been revealed. This material draws from
+ * `assets/textures/village/grass-atlas.png`, repeats it gently, clips alpha for
+ * blade silhouettes, and keeps the console silent unless explicit debug is on.
  */
-
-// B"H: The 5 levels of ascent to the root of the shaders!
 import { GRASS_SNIPPETS } from '../../../../../shaders/GrassShader.js';
 
+const GRASS_ATLAS = '/games/mitzvahWorld/assets/textures/village/grass-atlas.png';
+
+/** @param {object} olam World texture loader. @returns {Promise<object>} Material recipe. */
 export default async function createGrass(olam) {
-    console.log("B\"H - 🌱 [Grass Factory] Initiated. Drawing down texture...");
-    let grassTex = null;
-
-    if (olam && typeof olam.loadTexture === 'function') {
-        try {
-            grassTex = await olam.loadTexture({ 
-                url: 'awtsmoostex://safegrass', 
-                shouldRepeat: true, 
-                repeatX: 2, 
-                repeatY: 2 
-            });
-            console.log("B\"H - 🌱 [Grass Factory] Texture mapped successfully.");
-        } catch (e) {
-            console.warn("B\"H - ⚠️ [Grass Factory] Failed to load texture awtsmoostex://safegrass:", e);
-        }
-    } else {
-        console.warn("B\"H - ⚠️ [Grass Factory] Missing Olam context! Proceeding without texture.");
+  let grassTex = null;
+  if (olam && typeof olam.loadTexture === 'function') {
+    try {
+      grassTex = await olam.loadTexture({ url: GRASS_ATLAS, shouldRepeat: true, repeatX: 3, repeatY: 3 });
+    } catch (error) {
+      if (globalThis.__AWTSMOOS_DEBUG__ === true) console.warn('B"H | village grass atlas fallback', error);
     }
+  }
 
-    return {
-        type: 'Lambert',
-        properties: { 
-            color: 0xffffff, // White base to let snippets/texture drive color
-            map: grassTex,
-            side: 2,
-            alphaTest: 0.5,
-            transparent: true
-        },
-        snippets: GRASS_SNIPPETS
-    };
+  return {
+    type: 'Lambert',
+    properties: {
+      color: 0xffffff,
+      map: grassTex,
+      side: 2,
+      alphaTest: 0.38,
+      transparent: true
+    },
+    snippets: GRASS_SNIPPETS
+  };
 }

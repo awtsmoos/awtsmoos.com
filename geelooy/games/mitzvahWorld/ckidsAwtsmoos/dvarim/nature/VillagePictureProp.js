@@ -12,7 +12,7 @@ import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 import TerrainMath from "../terrain/core/TerrainMath.js";
 import { markDecorative } from "./villagePicture/geometryKit.js?v=leaf-basic-phone-green-20260604-bh430";
-import { VILLAGE_PICTURE_RECIPES } from "./villagePicture/recipeMap.js?v=phone-composition-village-20260604-bh430";
+import { VILLAGE_PICTURE_RECIPES } from "./villagePicture/recipeMap.js?v=village-polish-20260612-bh810";
 
 const num = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 function localMinY(root) { root.updateMatrixWorld(true); const box = new THREE.Box3().setFromObject(root); return Number.isFinite(box.min.y) && !box.isEmpty() ? box.min.y : 0; }

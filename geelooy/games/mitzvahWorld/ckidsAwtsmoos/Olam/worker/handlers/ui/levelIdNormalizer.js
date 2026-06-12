@@ -4,5 +4,6 @@
  * @description Chapter 366: A level id is purified before the gate opens.
  */
 export function normalizeLevelId(id) {
-  return String(id || '').trim().replace(/\.js$/i, '.json');
+  const stem = String(id || '').trim().replace(/\.(?:js|json)$/i, '');
+  return stem ? `${stem}.json` : '';
 }

@@ -8,7 +8,7 @@ import titleBuilder from "./titleBuilder.js?v=ray-ground-ui-20260602-bh128";
 import playButton from "./playButton.js?v=ray-ground-ui-20260602-bh128";
 import loading from "../loading.js?v=ray-ground-ui-20260602-bh128";
 import errorScreen from "../errorScreen.js?v=ray-ground-ui-20260602-bh128";
-import uiGame from "../gameUI.js?v=village-hud-born-hidden-20260603-bh367";
+import uiGame from "../gameUI.js?v=village-polish-20260612-bh810";
 import levelSelectScreen from "../screens/levelSelect.js?v=ray-ground-ui-20260602-bh128";
 
 const gameUiHTML = { shaym: "gameID", className: "gameUi", children: [...uiGame] };

@@ -7,6 +7,7 @@
 import { bindPress, closePanels } from './domKit.js';
 import { launchLevel } from './levelLauncher.js';
 import { openShopOverlay } from './shopOverlay.js';
+function sendOlam(manager, peula) { manager?.eved?.postMessage?.({ olamPeula: peula }); }
 export function bindNpcOverlayActions(overlay, manager, data, openLevelSelect) {
   bindPress(overlay, e => { if (e.target === overlay) closePanels(e); });
   bindPress(overlay.querySelector('[data-npc-close]'), closePanels);
@@ -14,5 +15,7 @@ export function bindNpcOverlayActions(overlay, manager, data, openLevelSelect) {
   bindPress(overlay.querySelector('[data-npc-travel]'), async () => { try { closePanels(); await launchLevel(manager, data.travelPath); } catch (error) { console.error('B"H - NPC travel failed', error); alert('Could not travel there yet.'); } });
   bindPress(overlay.querySelector('[data-npc-buy]'), () => openShopOverlay(manager, data, 'buy'));
   bindPress(overlay.querySelector('[data-npc-sell]'), () => openShopOverlay(manager, data, 'sell'));
+  bindPress(overlay.querySelector('[data-npc-mission]'), () => { sendOlam(manager, { acceptVillageMission: { missionId: data.missionId } }); closePanels(); });
+  bindPress(overlay.querySelector('[data-npc-skill]'), () => { sendOlam(manager, { learnNpcSkill: { skillId: data.learnSkillId } }); closePanels(); });
   overlay.querySelectorAll('[data-level-id]').forEach(btn => bindPress(btn, async () => { try { closePanels(); await launchLevel(manager, btn.dataset.levelId); } catch (error) { console.error('B"H - NPC level launch failed', error); alert('Could not load that level yet.'); } }));
 }

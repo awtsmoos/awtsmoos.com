@@ -8,7 +8,7 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { add } from "./geometryKit.js";
-import { addDenseCanopy } from "./treeCanopyRecipe.js?v=orchard-canopy-20260607-bh169";
+import { addDenseCanopy } from "./treeCanopyRecipe.js?v=village-polish-20260612-bh810";
 const BARK = 0x74502d, DARK = 0x432817, ROOT = 0x5e381f, MOSS = 0x356d30;
 function cylinder(group, name, color, p, s, r = [0, 0, 0]) { const mesh = add(group, "cylinder", color, p, s, r, { textureMode: "wood" }); mesh.name = name; return mesh; }
 function cube(group, name, color, p, s, r = [0, 0, 0], mode = "wood") { const mesh = add(group, "cube", color, p, s, r, { textureMode: mode }); mesh.name = name; return mesh; }

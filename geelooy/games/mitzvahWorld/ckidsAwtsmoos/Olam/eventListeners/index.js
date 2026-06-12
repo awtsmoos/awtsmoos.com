@@ -4,10 +4,10 @@
  * the difference event listeners needed
  * to make the Olam class function
  */
-import userInput from "./userInput.js?v=village-combat-20260611-bh801"
+import userInput from "./userInput.js?v=village-polish-20260612-bh810"
 import labels from "./labels.js";
 import minimap from "./minimap.js";
-import resizing from "./resizing.js";
+import resizing from "./resizing.js?v=village-combat-20260611-bh805";
 import destroy from "./destroy.js"
 import chossidReactions from "./chossidRaections.js";
 import shlichus from "./shlichus.js"

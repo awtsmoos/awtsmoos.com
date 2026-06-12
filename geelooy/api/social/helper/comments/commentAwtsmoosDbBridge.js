@@ -92,8 +92,8 @@ function metadataFor(p) {
 }
 
 async function vectorFor(params) {
-    if (process.env.AWTSMOOS_SKIP_COMMENT_VECTORS === "1") {
-        return { skipped: true, reason: "AWTSMOOS_SKIP_COMMENT_VECTORS" };
+    if (process.env.AWTSMOOS_ENABLE_COMMENT_VECTORS !== "1") {
+        return { skipped: true, reason: "COMMENT_VECTORS_DISABLED_FOR_FAST_WRITES" };
     }
     return await storeCommentVector(params);
 }

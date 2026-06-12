@@ -1,24 +1,22 @@
 import { clamp } from '../core/vectors.js';
+import { hitEscapeIntent, stepRapidJail } from '../ai/advanced/combat/hitEscapeIntent.js';
+import { moveBuff } from '../fighters/applyHatStats.js';
 import { applyAirControl, applyAirDodge } from './airControl.js';
 import { applyRecoveryMove } from './recoveryMove.js';
 import { consumeJump, rememberJump, updateJumpState, wantsJumpPress } from './jumpState.js';
 
 /**
  * B"H
- * Movement without platform phasing.
+ * Movement with rapid-jail drift, no platform phasing, and speed blessings.
  *
- * Chapter 5: the old stone swallowed anyone who pressed down. That was not a
- * ledge release; it was exile through the floor. Now down only hushes ledge
- * re-grab near a real platform lip. The body must leave by an edge, never by
- * ghosting through the full face of the platform.
- *
- * @param {object} f Fighter being moved.
- * @param {object} input Normalized player or NPC command.
- * @returns {void}
+ * Chapter 188: Speed Boots and Netzach sparks bend acceleration through one
+ * helper. The player still moves by input, but the blessing makes pursuit feel
+ * like the ground itself is carrying them.
  */
 export function applyMovement(f, input) {
   f.motionClock = (f.motionClock || 0) + 1;
   f.dropCooldown = Math.max(0, (f.dropCooldown || 0) - 1);
+  stepRapidJail(f);
   prepareLedgeOnlyRelease(f, input);
   updateJumpState(f, input);
   if (f.ledgeHang || f.grabbedBy) return rememberJump(f, input);
@@ -31,12 +29,6 @@ export function applyMovement(f, input) {
   rememberJump(f, input);
 }
 
-/**
- * Allows a down-held ledge departure without allowing platform passthrough.
- * @param {object} f Fighter state.
- * @param {object} input Command object.
- * @returns {void}
- */
 function prepareLedgeOnlyRelease(f, input) {
   if (!f.grounded || !wantsDown(input)) return;
   const edgeIntent = Math.abs(input.x || 0) > 0.28;
@@ -58,14 +50,25 @@ function wantsDown(input) {
 
 function moveGroundOrBase(f, input) {
   const x = input.x || 0;
-  const boots = f.buffs?.netzachBoots ? 1.24 : 1;
-  const accel = (f.grounded ? f.stats.accel : f.stats.air * 0.45) * boots;
-  const max = (f.stats.maxSpeed || 10) * boots;
+  const speed = moveBuff(f);
+  const accel = (f.grounded ? f.stats.accel : f.stats.air * 0.45) * speed;
+  const max = (f.stats.maxSpeed || 10) * speed;
   f.vx = clamp(f.vx + x * accel, -max, max);
   if (Math.abs(x) > 0.05) f.face = x < 0 ? -1 : 1;
 }
 
 function decayLag(f, input) {
   f.landingLag = Math.max(0, (f.landingLag || 0) - 1);
+  applyRapidJailDrift(f, input);
   rememberJump(f, input);
+}
+
+function applyRapidJailDrift(f, input) {
+  const escape = hitEscapeIntent(f);
+  if (!escape.active) return;
+  const desired = Math.abs(input?.x || 0) > 0.15 ? Math.sign(input.x) : escape.x;
+  const max = (f.stats.maxSpeed || 10) * 0.72 * moveBuff(f);
+  f.vx = clamp((f.vx || 0) + desired * escape.leak, -max, max);
+  if (escape.jump && !f.grounded) f.vy = Math.min(f.vy, -2.2);
+  if (f.rapidJail) f.rapidJail.escapes = (f.rapidJail.escapes || 0) + 1;
 }

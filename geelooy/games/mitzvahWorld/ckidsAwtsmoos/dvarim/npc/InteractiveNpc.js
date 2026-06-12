@@ -2,18 +2,18 @@
 /**
  * @file InteractiveNpc.js
  * @description
- * Chapter 517: The Guide Refused To Become A Ghost.
+ * Chapter 518: the double body is dismissed.
  *
- * The Awtsmoos exposed a subtle visual wound: any loaded or fallback `modelMesh`
- * made the procedural guide hide, even when the GLB garment was absent, tiny, or
- * invisible. The guide rig now remains visible unless a real visible GLB mesh is
- * actually present. The ray proxy stays invisible and clickable; the guide body
- * stays seen.
+ * When a village NPC asks for `chossid.glb`, the Awtsmoos now permits no second
+ * generated body to stand over it. The procedural guide body exists only when no
+ * real model was requested; real Chossid NPCs receive the GLB, a ray proxy, and
+ * a standing animation—nothing overlapped, nothing pretending.
  */
 import Medabeir from "../../chayim/medabeir/index.js?v=no-auto-dialogue-20260602-bh9";
 import * as THREE from "/games/scripts/build/three.module.js";
 import { buildGuideVisualFromRig } from "./guide/runtime/GuideVisualFactory.js";
 import { isDrawableMaterial, shouldHideLivingNode } from "../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js";
+
 const GUIDE_MODEL = "https://models-3122d.web.app/chossid.glb?k=1";
 const DEFAULT_DIALOGUES = ["Shalom! I guard the challenge path.", "Tap Levels to open all available challenges.", "The village grows when mitzvos become action."];
 const DEFAULT_SHOP = [
@@ -31,37 +31,39 @@ function enrichedShop(player, items) { const inv = player?.inventory; return (it
 function makeRayProxy(nivra) { const mesh = new THREE.Mesh(new THREE.BoxGeometry(3.4, 3.6, 3.4), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })); mesh.name = "GUIDE_EXPLICIT_TAP_COLLIDER_RAYCAST_ONLY"; mesh.position.set(0, 1.25, 0); Object.assign(mesh.userData, { awtsmoosRayProxy: true, explicitTapOnly: true, skipRaycast: false, skipOctree: true, noOctree: true }); mesh.nivraAwtsmoos = nivra; return mesh; }
 function fallbackRig(op = {}) { return op.visualRig || { kind: 'fallback-guide', clothing: [{ meshName: ['robe'], color: '#f7f2df' }, { meshName: ['vest'], color: '#2f5fa8' }, { meshName: ['belt'], color: '#6d4424' }], face: { eyes: { irisColor: [0.08, 0.08, 0.08] }, yarmulke: { color: '#101014' }, beard: { colorTip: [0.44, 0.25, 0.12] } } }; }
 function guideCarrierGolem() { return { name: "NPC_INVISIBLE_CARRIER", guf: { BoxGeometry: [0.01, 0.01, 0.01] }, toyr: { MeshBasicMaterial: { color: 0xffffff, transparent: true, opacity: 0, depthWrite: false } } }; }
-function hasVisibleRealMesh(root) {
-  let found = false;
-  root?.traverse?.(child => {
-    if (found || (!child?.isMesh && !child?.isSkinnedMesh)) return;
-    if (child.userData?.isNpcVisual || child.name === "NPC_INVISIBLE_CARRIER") return;
-    if (child.visible === false || shouldHideLivingNode(child)) return;
-    const materials = Array.isArray(child.material) ? child.material : [child.material];
-    if (!materials.some(isDrawableMaterial)) return;
-    const count = child.geometry?.attributes?.position?.count || child.geometry?.index?.count || 0;
-    if (count > 0) found = true;
-  });
-  return found;
-}
+function hasVisibleRealMesh(root) { let found = false; root?.traverse?.(child => { if (found || (!child?.isMesh && !child?.isSkinnedMesh)) return; if (child.userData?.isNpcVisual || child.name === "NPC_INVISIBLE_CARRIER") return; if (child.visible === false || shouldHideLivingNode(child)) return; const materials = Array.isArray(child.material) ? child.material : [child.material]; if (!materials.some(isDrawableMaterial)) return; const count = child.geometry?.attributes?.position?.count || child.geometry?.index?.count || 0; if (count > 0) found = true; }); return found; }
 function hideCarrierMesh(root) { root?.traverse?.(child => { if (child?.name !== "NPC_INVISIBLE_CARRIER" && child?.geometry?.parameters?.width !== 0.01) return; const mats = Array.isArray(child.material) ? child.material : [child.material]; mats.forEach(mat => { if (!mat) return; mat.transparent = true; mat.opacity = 0; mat.depthWrite = false; mat.visible = true; }); }); }
+function disposeVisual(root) { root?.traverse?.(child => { child.geometry?.dispose?.(); const mats = Array.isArray(child.material) ? child.material : [child.material]; mats.forEach(mat => mat?.dispose?.()); }); root?.removeFromParent?.(); }
+function garmentName(child) { return String(child?.userData?.garment || child?.name || "").toLowerCase(); }
+function paletteColor(palette, name) { if (/jacket|coat|robe|outer-shirt|vest/.test(name)) return palette.coat; if (/shirt/.test(name)) return palette.shirt; if (/pants|trouser|leg/.test(name)) return palette.pants; if (/shoe|boot/.test(name)) return palette.shoes; if (/hat|yamulka|yarmulke/.test(name)) return palette.hatColor; return null; }
+function applyNpcPalette(root, palette = {}) { root?.traverse?.(child => { if (!child?.isMesh && !child?.isSkinnedMesh) return; const name = garmentName(child); if (name === "top-hat" || name.includes("top_hat")) child.visible = palette.hatStyle !== "yamulka"; if (/yamulka|yarmulke/.test(name)) child.visible = palette.hatStyle === "yamulka"; const color = paletteColor(palette, name); if (!color || !child.material) return; if (!child.userData.npcPaletteCloned) { child.material = Array.isArray(child.material) ? child.material.map(mat => mat.clone()) : child.material.clone(); child.userData.npcPaletteCloned = true; } const mats = Array.isArray(child.material) ? child.material : [child.material]; mats.forEach(mat => { mat.color?.set?.(color); mat.needsUpdate = true; }); }); }
 
 export default class InteractiveNpc extends Medabeir {
-  type = "interactiveNpc"; static itemName = "Village Guide"; static description = "A visible tap-only level guide with stats, shop, and rigged visual metadata.";
+  type = "interactiveNpc"; static itemName = "Village Guide"; static description = "A tap-only level guide with real Chossid GLB support.";
   constructor(op = {}, olam) {
     const realModelRequested = op.useRealNpcModel === true;
-    const clean = { ...op, dialogue: null, dialogues: null, messageTree: null, proximity: num(op.proximity, 18), talkDistance: num(op.talkDistance, num(op.proximity, 18)), interactable: true, heesHawveh: true, visualHeight: num(op.visualHeight, 1.8), height: num(op.height, 1.8), radius: num(op.radius, 0.52), path: realModelRequested ? (op.path || GUIDE_MODEL) : null, golem: realModelRequested ? op.golem : guideCarrierGolem(), chaweeyoosMap: op.chaweeyoosMap || { idle: "dance silly", run: "dance silly", walk: "dance silly" } };
-    super(clean, olam); this.options = { ...op, path: clean.path }; this.dialogues = op.dialogues || op.dialogue || DEFAULT_DIALOGUES; this.shopInventory = op.shopInventory || DEFAULT_SHOP; this.areaStats = op.areaStats || op.npcStats || DEFAULT_STATS; this.visualRig = fallbackRig(op); this.height = clean.visualHeight; this.talkDistance = clean.talkDistance; this.interactionMesh = makeRayProxy(this); this.raycastMesh = this.interactionMesh;
+    const clean = { ...op, dialogue: null, dialogues: null, messageTree: null, proximity: num(op.proximity, 18), talkDistance: num(op.talkDistance, num(op.proximity, 18)), interactable: true, heesHawveh: false, visualHeight: num(op.visualHeight, 1.8), height: num(op.height, 1.8), radius: num(op.radius, 0.52), path: realModelRequested ? (op.path || GUIDE_MODEL) : null, golem: realModelRequested ? op.golem : guideCarrierGolem(), chaweeyoosMap: op.chaweeyoosMap || { idle: "stand", run: "walk", walk: "walk" } };
+    super(clean, olam);
+    this.realModelRequested = realModelRequested;
+    this.options = { ...op, path: clean.path };
+    this.dialogues = op.dialogues || op.dialogue || DEFAULT_DIALOGUES;
+    this.shopInventory = op.shopInventory || DEFAULT_SHOP;
+    this.areaStats = op.areaStats || op.npcStats || DEFAULT_STATS;
+    this.visualRig = fallbackRig(op);
+    this.height = clean.visualHeight;
+    this.talkDistance = clean.talkDistance;
+    this.interactionMesh = makeRayProxy(this);
+    this.raycastMesh = this.interactionMesh;
     this.on("pointerdown", c => this.openGuideMenu(c, true)); this.on("pointerup", c => this.openGuideMenu(c, true)); this.on("click", c => this.openGuideMenu(c, true));
   }
-  async heescheel(olam) { await super.heescheel(olam); if (!this.mesh) this.mesh = new THREE.Object3D(); Object.assign(this.mesh.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, awtsmoosVillageGuide: true, tapOnlyGuide: true }); this.mesh.nivraAwtsmoos = this; seal(this.mesh, this); this.guideVisualMesh = buildGuideVisualFromRig(this.visualRig); seal(this.guideVisualMesh, this); this.mesh.add(this.guideVisualMesh, this.interactionMesh); if (typeof this.randomizeAppearance === "function") this.randomizeAppearance(); if (olam.interactableNivrayim && !olam.interactableNivrayim.includes(this)) olam.interactableNivrayim.push(this); this.isReady = true; }
-  async ready() { await super.ready(); seal(this.modelMesh || this.mesh, this); hideCarrierMesh(this.modelMesh); this.syncGuideVisualVisibility(); this.playGuideDance(); }
+  async heescheel(olam) { await super.heescheel(olam); if (!this.mesh) this.mesh = new THREE.Object3D(); Object.assign(this.mesh.userData ||= {}, { skipOctree: true, noOctree: true, skipRaycast: true, awtsmoosVillageGuide: true, tapOnlyGuide: true }); this.mesh.nivraAwtsmoos = this; seal(this.mesh, this); if (!this.realModelRequested) { this.guideVisualMesh = buildGuideVisualFromRig(this.visualRig); seal(this.guideVisualMesh, this); this.mesh.add(this.guideVisualMesh); } this.mesh.add(this.interactionMesh); if (olam.interactableNivrayim && !olam.interactableNivrayim.includes(this)) olam.interactableNivrayim.push(this); this.isReady = true; }
+  async ready() { await super.ready(); seal(this.modelMesh || this.mesh, this); hideCarrierMesh(this.modelMesh); applyNpcPalette(this.modelMesh, this.options.palette || {}); this.setStandingPose(); this.resolveVisualBody(); this.heesHawveh = false; }
   ayshPeula(peula, actor) { if (["pointerdown", "pointerup", "click"].includes(peula)) return this.openGuideMenu(actor, true); if (peula === "accepted interaction") return isExplicitTap(actor) ? this.openGuideMenu(actor, true) : false; return super.ayshPeula?.(peula, actor); }
-  syncGuideVisualVisibility() { if (!this.guideVisualMesh) return false; const hasReal = hasVisibleRealMesh(this.modelMesh); this.guideVisualMesh.visible = !hasReal; return hasReal; }
+  resolveVisualBody() { const hasReal = hasVisibleRealMesh(this.modelMesh); if ((hasReal || this.realModelRequested) && this.guideVisualMesh) { disposeVisual(this.guideVisualMesh); this.guideVisualMesh = null; } else if (this.guideVisualMesh) this.guideVisualMesh.visible = true; return hasReal; }
   findTalker(actor) { return actor?.player || (posOf(actor) ? actor : this.olam?.chossid || this.olam?.player || null); }
   faceTalker(actor) { const a = posOf(actor), b = posOf(this); if (!a || !b || !this.mesh) return; const dx = a.x - b.x, dz = a.z - b.z; if (Math.abs(dx) + Math.abs(dz) > 0.001) this.mesh.rotation.y = Math.atan2(dx, dz); }
-  payload(player) { return { fromNpc: this.name, title: this.options.title || "Village Guide", selectorTitle: this.options.selectorTitle || "Choose Levels", lines: this.dialogues, actions: ["levels", "buy", "sell"], shopInventory: enrichedShop(player, this.shopInventory), items: enrichedShop(player, this.shopInventory), playerInventory: enrichedSlots(player), entityId: this.id || this.name, npcName: this.name || "Village Guide", npcStats: this.areaStats, areaStats: this.areaStats, areaName: this.options.areaName || "First Entry Village", areaNote: this.options.areaNote || "Talk, choose levels, buy, sell, and grow.", opensLevelSelect: this.options.opensLevelSelect !== false, hasShop: this.options.hasShop !== false, travelPath: this.options.travelPath || null, travelLabel: this.options.travelLabel || null, travelOnly: Boolean(this.options.travelOnly), visualRig: this.visualRig }; }
-  openGuideMenu(actor, explicit = false) { if (!explicit && !isExplicitTap(actor)) return false; const talker = this.findTalker(actor); this.faceTalker(talker); this.olam?.ayshPeula?.("ui event", "openNpcChallengeOverlay", this.payload(talker)); return true; }
-  playGuideDance() { if (!this.playChaweeyoos || !this.animations?.length) return; this.playChaweeyoos("dance silly"); this.__awtsDanceStarted = true; }
-  heesHawvoos(dt) { super.heesHawvoos(dt); this.syncGuideVisualVisibility(); if (!this.__awtsDanceStarted && this.animationMixer && this.animations?.length) this.playGuideDance(); if (this.guideVisualMesh) this.guideVisualMesh.rotation.y += dt * 0.12; }
+  payload(player) { return { fromNpc: this.name, title: this.options.title || "Village Guide", selectorTitle: this.options.selectorTitle || "Choose Levels", lines: this.dialogues, shopInventory: enrichedShop(player, this.shopInventory), items: enrichedShop(player, this.shopInventory), playerInventory: enrichedSlots(player), entityId: this.id || this.name, npcName: this.name || "Village Guide", npcStats: this.areaStats, areaStats: this.areaStats, areaName: this.options.areaName || "First Entry Village", areaNote: this.options.areaNote || "Talk, choose levels, buy, sell, and grow.", opensLevelSelect: this.options.opensLevelSelect !== false, hasShop: this.options.hasShop !== false, travelPath: this.options.travelPath || null, travelLabel: this.options.travelLabel || null, travelOnly: Boolean(this.options.travelOnly), missionId: this.options.missionId || null, missionLabel: this.options.missionLabel || null, learnSkillId: this.options.learnSkillId || null, learnSkillLabel: this.options.learnSkillLabel || null, visualRig: this.visualRig }; }
+  openGuideMenu(actor, explicit = false) { if (!explicit && !isExplicitTap(actor)) return false; const talker = this.findTalker(actor); const a = posOf(talker), b = posOf(this); if (a && b && a.distanceTo?.(b) > this.talkDistance) { this.olam?.ayshPeula?.("ui event", "toast", { message: `B"H - Move closer to ${this.name} to talk.`, type: "info" }); return false; } this.faceTalker(talker); this.olam?.ayshPeula?.("ui event", "openNpcChallengeOverlay", this.payload(talker)); return true; }
+  setStandingPose() { if (!this.animationMixer || !this.animations?.length) return; this.animationMixer.stopAllAction(); const clip = this.animations.find(anim => /stand|idle/i.test(anim.name) && !/dance/i.test(anim.name)); if (clip) this.playChaweeyoos(clip.name, { duration: 0.04, loop: true, force: true, timeScale: 0.72 }); }
+  heesHawvoos() {}
 }

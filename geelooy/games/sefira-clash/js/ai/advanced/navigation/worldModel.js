@@ -2,17 +2,25 @@
  * B"H
  * World model for the single advanced AI mind.
  *
- * Chapter 89: target choice now obeys battle proximity. The human is important,
- * but not if the bot spends five quiet minutes crossing the heavens while an
- * enemy stands nearer. Anti-peace shortens target hold and favors reachable
- * bodies so violence can actually happen.
+ * Chapter 218: the rebuilt world again carries every old organ and every new
+ * death-purpose organ. Wall sense returns to the vessel, so the state machine
+ * can still guard escape while KO intent guides violence.
  */
 import { wallSense } from '../../sense/wallSense.js';
 import { combatSense } from '../../sense/combatSense.js';
 import { stageDangerAt } from '../../sense/stageDanger.js';
+import { edgeCarryPlan } from '../edge/edgeCarryPlan.js';
+import { ledgeKillPlan } from '../edge/ledgeKillPlan.js';
 import { edgePressure } from '../combat/edgePressure.js';
 import { combatPocket } from '../combat/positionPlanner.js';
 import { combatTactic } from '../combat/tacticPlanner.js';
+import { revengeTargetBonus } from '../emotion/revengeMemory.js';
+import { killPressure } from '../kill/killPressure.js';
+import { chooseKoIntent } from '../kill/koIntent.js';
+import { launchDirection } from '../kill/launchDirection.js';
+import { humanPrediction } from '../prediction/humanPrediction.js';
+import { predatorGoal } from '../position/predatorGoal.js';
+import { powerupValue } from '../resources/powerupValue.js';
 import { threatAwareness } from '../combat/threatAwareness.js';
 import { updatePatternMemory } from '../strategy/patternMemory.js';
 import { bestPlatformValue } from '../strategy/platformValue.js';
@@ -32,14 +40,26 @@ export function buildWorld(bot, target, state) {
   const combat = combatSense(bot, target);
   const threat = threatAwareness(bot, target);
   const motion = targetMotion(target);
-  const partial = { target, current, goal, combat, threat, motion, map: state.map };
-  const edge = edgePressure(bot, partial);
-  const pattern = updatePatternMemory(bot, target, { ...partial, edgePressure: edge });
+  const prediction = humanPrediction(target, 24);
+  const objective = objectiveInfo(bot, state);
+  const hazard = nearestHazard(bot, state);
+  const partial = { state, map: state.map, target, current, goal, route, step, danger, wall, combat, threat, motion, prediction, hazard, objective };
+  const stageItem = nearestStageItem(bot, state, partial);
+  const edge = edgePressure(bot, { ...partial, stageItem });
+  const base = { ...partial, stageItem, edgePressure: edge };
+  const koPressure = killPressure(bot, base);
+  const ledgeKill = ledgeKillPlan(bot, { ...base, koPressure });
+  const koIntent = chooseKoIntent(bot, { ...base, koPressure, ledgeKill });
+  const launchPlan = launchDirection(bot, { ...base, koPressure, ledgeKill, koIntent }, koIntent.name);
+  const edgeCarry = edgeCarryPlan(bot, { ...base, koPressure, koIntent, launchPlan });
+  const predGoal = predatorGoal(bot, { ...base, koPressure, koIntent, launchPlan, edgeCarry, ledgeKill });
+  const rich = { ...base, koPressure, ledgeKill, koIntent, launchPlan, edgeCarry, predatorGoal: predGoal };
+  const pattern = updatePatternMemory(bot, target, rich);
   const landing = predictLanding(target, state.map.platforms || []);
-  const bestPlatform = bestPlatformValue(bot, { ...partial, graph, edgePressure: edge, map: state.map }, landing);
-  const pocket = combatPocket(bot, { ...partial, edgePressure: edge, pattern, landing, bestPlatform });
-  const tactic = combatTactic(bot, { ...partial, edgePressure: edge, combatPocket: pocket, pattern, landing, bestPlatform });
-  return { state, map: state.map, target, graph, current, goal, route, step, danger, wall, combat, threat, motion, pattern, landing, bestPlatform, edgePressure: edge, combatPocket: pocket, combatTactic: tactic, platforms: state.map.platforms || [] };
+  const bestPlatform = bestPlatformValue(bot, { ...rich, graph, map: state.map }, landing);
+  const pocket = combatPocket(bot, { ...rich, pattern, landing, bestPlatform });
+  const tactic = combatTactic(bot, { ...rich, combatPocket: pocket, pattern, landing, bestPlatform });
+  return { ...rich, graph, pattern, landing, bestPlatform, combatPocket: pocket, combatTactic: tactic, platforms: state.map.platforms || [] };
 }
 
 export function chooseStableTarget(bot, fighters, map) {
@@ -55,23 +75,55 @@ export function chooseStableTarget(bot, fighters, map) {
     if (f === bot || f.dead || f.hidden) continue;
     const targetNode = nearestNode(graph, f);
     const blocked = wallSense(bot, f, map).blocked ? 360 : 0;
-    const s = targetScore(bot, f, map, graph, botNode, targetNode, blocked, urgent);
+    const s = targetScore(bot, f, graph, botNode, targetNode, blocked, urgent);
     if (s < score) { best = f; score = s; }
   }
   if (best) { bot.aiMind.targetId = best.id; bot.aiMind.targetHold = urgent ? 24 : 100; }
   return best;
 }
 
-function targetScore(bot, target, map, graph, botNode, targetNode, blocked, urgent) {
+function objectiveInfo(bot, state) {
+  const o = state.objective;
+  if (!o) return null;
+  const d = Math.hypot(o.x - bot.x, (o.y - (bot.y - 90)) * 0.6);
+  return { ...o, distance: d, score: Math.max(0, (o.value || 90) - d * 0.045 + (o.hold || 0) * 0.18) };
+}
+
+function nearestStageItem(bot, state, world) {
+  let best = null;
+  let score = Infinity;
+  for (const item of state.powerups || []) {
+    if (!item.active) continue;
+    const d = Math.hypot(item.x - bot.x, (item.y - bot.y) * 0.5);
+    const candidate = { ...item, distance: d };
+    const value = powerupValue(bot, candidate, world);
+    const s = d - value * 3;
+    if (s < score) { best = { ...candidate, score: value }; score = s; }
+  }
+  return best;
+}
+
+function nearestHazard(bot, state) {
+  let best = null;
+  let distance = Infinity;
+  for (const h of state.hazards || []) {
+    const d = Math.hypot(h.x - bot.x, h.y - (bot.y - 80));
+    if (d < distance) { best = { ...h, distance: d, danger: Math.max(0, h.radius + 80 - d) }; distance = d; }
+  }
+  return best;
+}
+
+function targetScore(bot, target, graph, botNode, targetNode, blocked, urgent) {
   const dx = Math.abs(target.x - bot.x);
   const dy = Math.abs(target.y - bot.y);
   const routePenalty = routeCost(graph, botNode.id, targetNode.id, urgent);
   const platformBonus = botNode.id === targetNode.id ? 280 : 0;
   const damageBonus = Math.min(190, target.damage || 0);
+  const revengeBonus = revengeTargetBonus(bot, target);
   const humanBonus = target.human && !urgent && dx < 1800 ? 70 : 0;
   const chargingBonus = Math.max(target.charge?.punch || 0, target.charge?.kick || 0, (target.chargeGlow || 0) * 90) > 14 ? 85 : 0;
   const urgentNearBonus = urgent ? Math.max(0, 320 - dx * 0.08 - dy * 0.04) : 0;
-  return dx * (urgent ? 0.75 : 1) + dy * 0.52 + blocked + routePenalty - platformBonus - damageBonus - humanBonus - chargingBonus - urgentNearBonus;
+  return dx * (urgent ? 0.75 : 1) + dy * 0.52 + blocked + routePenalty - platformBonus - damageBonus - revengeBonus - humanBonus - chargingBonus - urgentNearBonus;
 }
 
 function routeCost(graph, fromId, toId, urgent) {

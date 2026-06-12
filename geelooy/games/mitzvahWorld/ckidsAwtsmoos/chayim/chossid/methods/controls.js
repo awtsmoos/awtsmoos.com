@@ -2,11 +2,11 @@
 /**
  * @file controls.js
  * @description
- * Chapter 38: The Feet Testify Before Physics.
+ * Chapter 40: the keys return to the git-rooted covenant.
  *
- * The Awtsmoos now logs the exact moment Olam inputs become Chossid movement
- * flags. If the joystick speaks, the worker logs it; if controls receive it,
- * this file logs it; if physics moves it, physics logs it. No more silent gates.
+ * The old history was clear: W/S move along the player's own rotation, A/D turn
+ * that player, and Q/E stride sideways. The Awtsmoos lets the camera witness the
+ * dance without stealing the dance. Only FPS physics may bind eye-yaw to body-yaw.
  */
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ";
@@ -14,7 +14,7 @@ const CAMERA_FPS_TOGGLE = "KeyT";
 const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const DISMOUNT_KEY = "KeyX";
-const MOVE_KEYS = ["forward", "backward", "stridingLeft", "stridingRight", "jump"];
+const MOVE_KEYS = ["forward", "backward", "turningLeft", "turningRight", "stridingLeft", "stridingRight", "jump"];
 
 function keyOn(olam, ...codes) { return codes.some(code => !!olam?.keyStates?.[code]); }
 function flag(inputs, key) { return inputs?.[key] === true; }
@@ -23,14 +23,11 @@ function inputMap(chossid) { return chossid.olam?.inputs || {}; }
 function activeMove(moving) { return MOVE_KEYS.filter(key => moving?.[key]); }
 function trace(chossid, stage, payload = {}) {
   const olam = chossid.olam;
+  if (!olam || globalThis.__AWTSMOOS_DEBUG__ !== true) return;
   const now = Date.now();
-  const active = payload.active || [];
-  const cadence = active.length > 0 ? 900 : 2200;
-  if (chossid.__lastControlTrace && now - chossid.__lastControlTrace < cadence) return;
-  chossid.__lastControlTrace = now;
   olam.__movementTrace ||= [];
   olam.__movementTrace.push({ at: now, stage, ...payload });
-  olam.__movementTrace = olam.__movementTrace.slice(-80);
+  olam.__movementTrace = olam.__movementTrace.slice(-120);
 }
 
 export default {
@@ -53,7 +50,7 @@ export default {
     this.moving.jump = flag(inputs, "JUMP") || keyOn(this.olam, "Space");
     this.moving.down = flag(inputs, "DOWN") || keyOn(this.olam, "KeyX");
     this.moving.up = flag(inputs, "UP");
-    trace(this, 'controls-applied', { active: activeMove(this.moving), inputs: Object.keys(inputs).filter(k => inputs[k]), pos: this.mesh?.position ? { x: this.mesh.position.x, y: this.mesh.position.y, z: this.mesh.position.z } : null });
+    trace(this, 'controls-applied', { active: activeMove(this.moving) });
     this.cameraControls();
   },
 

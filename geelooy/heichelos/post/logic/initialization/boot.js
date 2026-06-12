@@ -3,9 +3,9 @@
  * @module BootSequence
  * @description
  * Chapter 188: The title crown is born before the virtual river, and the footer
- * gates are appended as real DOM, not parsed string shadows. The boot keeps
- * inline awakening after the virtual window is ready, so comment anchors bind to
- * the currently embodied verses without dragging the whole scroll into DOM.
+ * gates are appended as real DOM, not parsed string shadows. The boot now uses
+ * the canonical URL constructors, so post loading keeps the series context and
+ * drinks from the same AwtsmoosDB v3 routes certified by the API stress tests.
  */
 
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
@@ -16,10 +16,11 @@ import { setupUIListeners, setupHighlightingLogic } from "../listeners.js";
 import { loadAnnotations } from "../selection.js";
 import { setupTabs } from "./tabs.js";
 import { awakenInlineSparks } from "./autoInline.js";
+import { constructBreadcrumbUrl, constructPostUrl, constructSeriesDetailsUrl } from "./constants.js";
 
 async function fetchJson(url) {
     console.log(`B"H - [Initialization] Fetching: ${url}`);
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}: Celestial Rupture.`);
     return await response.json();
 }
@@ -50,10 +51,10 @@ async function hydratePostIdentity(post, hId) {
 }
 
 async function loadPostContext({ hId, sId, pIdx }) {
-    const series = await fetchJson(`/api/social/heichelos/${hId}/series/${sId}/details`);
+    const series = await fetchJson(constructSeriesDetailsUrl(hId, sId));
     const pId = Array.isArray(series?.posts) && pIdx !== null ? series.posts[pIdx] : null;
-    const post = await fetchJson(`/api/social/heichelos/${hId}/post/${pId}`);
-    const bread = await fetchJson(`/api/social/heichelos/${hId}/series/${sId}/breadcrumb`);
+    const post = await fetchJson(constructPostUrl(hId, sId, pId));
+    const bread = await fetchJson(constructBreadcrumbUrl(hId, sId));
     return { series, post, bread, pId };
 }
 
@@ -75,7 +76,7 @@ export async function bootApplication() {
 
     try {
         const coords = resolvePathCoordinates();
-        const { hId, sId, pIdx } = coords;
+        const { hId, pIdx } = coords;
         const { series, post, bread, pId } = await loadPostContext(coords);
         post.id = post.id || pId;
 

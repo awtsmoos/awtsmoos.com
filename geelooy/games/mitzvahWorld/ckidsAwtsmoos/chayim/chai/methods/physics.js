@@ -10,7 +10,7 @@
  * the robe, fallback, capsule, camera target, and joystick motion all inhabit
  * one body.
  */
-import basePhysics from "./physics/index.js?v=terrain-law-floor-fallback-20260603-bh322";
+import basePhysics from "./physics/index.js?v=village-polish-20260612-bh810";
 
 const TRACE_SEAL = "visible-root-binding-20260610-bh710";
 const MOVING_KEYS = ["forward", "backward", "stridingLeft", "stridingRight", "turningLeft", "turningRight", "jump"];

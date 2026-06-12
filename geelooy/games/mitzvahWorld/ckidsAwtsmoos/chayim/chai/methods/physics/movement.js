@@ -27,13 +27,12 @@ export default {
 
         // B"H: Compute forward and side vectors directly from rotation.y
         // This is mathematically correct and doesn't depend on scene graph state.
-        // Forward = (sin(rotY), 0, cos(rotY)) -> +Z is forward at rotY=0
-        // Side (right) = cross(forward, up) = (-cos(rotY), 0, sin(rotY))
+        // The third-person camera looks toward local +Z at rotation zero.
         const rotY = this.rotation ? this.rotation.y : 0;
         const forwardX = Math.sin(rotY);
         const forwardZ = Math.cos(rotY);
-        const sideX = -Math.cos(rotY);  // right vector X
-        const sideZ =  Math.sin(rotY);  // right vector Z
+        const sideX = -Math.cos(rotY);
+        const sideZ = Math.sin(rotY);
 
         if (this.moving.forward || this.movingAutomatically) {
             this.isWalking = true; isWalkingForward = true;

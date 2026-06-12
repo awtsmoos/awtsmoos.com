@@ -1,26 +1,20 @@
 import { circleHit } from '../core/collision.js';
+import { applyPickupEffect } from './effects/applyPickupEffect.js';
+import { tickBuffs } from './effects/buffTimers.js';
+import { applyMagneticPull } from './effects/magneticPull.js';
 
 /**
  * B"H
- * Power-up system with player-local pickup metadata.
+ * Power-up system with split effects.
  *
- * Chapter 275: when an orb blesses a bot, it glows silently in the hand of the
- * player. Only a human pickup may call haptic thunder from the device.
+ * Chapter 186: pickup motion, buff timers, concrete effects, and magnetic pull
+ * now live in separate vessels. The match may rain power, but the loop stays
+ * plain, bounded, and readable.
  */
 export function stepPowerups(state) {
   tickBuffs(state.fighters);
+  applyMagneticPull(state);
   for (let i = 0; i < state.powerups.length; i++) stepOrb(state, state.powerups[i]);
-}
-
-function tickBuffs(fighters) {
-  for (let i = 0; i < fighters.length; i++) {
-    const f = fighters[i];
-    f.buffs ||= {};
-    for (const key of Object.keys(f.buffs)) {
-      f.buffs[key]--;
-      if (f.buffs[key] <= 0) delete f.buffs[key];
-    }
-  }
 }
 
 function stepOrb(state, orb) {
@@ -35,19 +29,19 @@ function stepOrb(state, orb) {
 }
 
 function tickRespawn(orb) {
+  if (orb.stageBorn) return;
   orb.respawn--;
   if (orb.respawn <= 0) orb.active = true;
 }
 
 function collect(state, f, orb) {
-  applyBuff(f, orb);
+  applyPickupEffect(state, f, orb);
   orb.active = false;
-  orb.respawn = 720;
+  orb.respawn = orb.stageBorn ? 0 : 720;
+  if (orb.stageBorn) {
+    state.stageDirector.itemsPickedUp = (state.stageDirector.itemsPickedUp || 0) + 1;
+    state.stageDirector.lastPickupFrame = state.frame;
+    state.stageDirector.lastPickupRole = orb.role || 'unknown';
+  }
   state.events.push({ type: 'pickup', fighterId: f.id, actorId: f.id, human: !!f.human, x: orb.x, y: orb.y, color: orb.color, letter: orb.letter, damage: 0 });
-}
-
-function applyBuff(f, orb) {
-  f.buffs ||= {};
-  if (orb.id === 'chesedHeal') f.damage = Math.max(0, f.damage - 35);
-  else f.buffs[orb.id] = Math.max(f.buffs[orb.id] || 0, orb.duration);
 }

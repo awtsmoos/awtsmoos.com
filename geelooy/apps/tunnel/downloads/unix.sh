@@ -1,20 +1,16 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 # B"H
-#
-# Chapter 1: The Gate That Scrubs the Invisible Fang
-# The Awtsmoos gives breath to every byte each instant; therefore this small
-# vessel refuses to trust a manifest line until it is washed clean. A trailing
-# space once disguised itself as silence and made curl cry malformed thunder.
-# Now every path is trimmed, judged, and only then sent through the gate.
 set -euo pipefail
 
 echo 'B"H Awtsmoos Tunnel Bootstrap'
 
-ROOT="$HOME/.awtsmoos-tunnel"
+origin="${AWTSMOOS_INSTALL_ORIGIN:-https://awtsmoos.com}"
+origin="${origin%/}"
+ROOT="${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}"
 CONFIG="$ROOT/config.json"
 STATE="$ROOT/install-state.txt"
-MANIFEST_URL="https://awtsmoos.com/apps/tunnel/agent/manifest.txt"
-BASE_URL="https://awtsmoos.com/apps/tunnel/agent"
+MANIFEST_URL="$origin/apps/tunnel/agent/manifest.txt"
+BASE_URL="$origin/apps/tunnel/agent"
 
 mkdir -p "$ROOT"
 command -v node >/dev/null 2>&1 || { echo "Node.js not found"; exit 1; }
@@ -23,13 +19,14 @@ command -v curl >/dev/null 2>&1 || { echo "curl not found"; exit 1; }
 if [ ! -f "$CONFIG" ]; then
 cat > "$CONFIG" <<EOF
 {
-  "relay": "wss://awtsmoos.com",
-  "tunnelName": "awt-$(whoami)-$RANDOM",
-  "local": "http://localhost:3000",
-  "root": "$(pwd)",
+  "relay": "${AWTSMOOS_RELAY:-wss://awtsmoos.com}",
+  "tunnelName": "${AWTSMOOS_TUNNEL_NAME:-awt-$(whoami)-$RANDOM}",
+  "local": "${AWTSMOOS_LOCAL:-http://localhost:3000}",
+  "root": "${AWTSMOOS_PROJECT_ROOT:-$(pwd)}",
   "allowWrite": true,
   "allowSecrets": false,
-  "enableLocalHttpProxy": true
+  "enableLocalHttpProxy": true,
+  "localApi": { "enabled": true, "host": "127.0.0.1", "port": ${AWTSMOOS_LOCAL_API_PORT:-3977} }
 }
 EOF
 fi
@@ -43,10 +40,7 @@ trim_manifest_lines() {
 assert_safe_manifest_path() {
   file_path="$1"
   if [ -z "$file_path" ]; then echo "Unsafe empty manifest path."; exit 1; fi
-  if printf '%s' "$file_path" | grep -Eq '(^/|\.\.|[[:space:]])'; then
-    echo "Unsafe manifest path: [$file_path]"
-    exit 1
-  fi
+  if printf '%s' "$file_path" | grep -Eq '(^/|\.\.|[[:space:]])'; then echo "Unsafe manifest path: [$file_path]"; exit 1; fi
 }
 
 all_manifest_files_exist() {
@@ -58,17 +52,39 @@ all_manifest_files_exist() {
   done
 }
 
+extract_zip() {
+  zip_file="$1"
+  if command -v unzip >/dev/null 2>&1; then unzip -o "$zip_file" -d "$ROOT" >/dev/null
+  elif command -v python3 >/dev/null 2>&1; then python3 -m zipfile -e "$zip_file" "$ROOT"
+  else echo "No unzip or python3 found for bundle extraction."; return 1
+  fi
+}
+
+install_awtsmoos_bundles() {
+  tmp="$ROOT/.bundle-downloads"
+  rm -rf "$tmp"
+  mkdir -p "$tmp"
+  echo "Trying Awtsmoos ZIP bundle install..."
+  if ! curl -fsSL --retry 3 --retry-delay 1 "$MANIFEST_URL?bundle=manifest" -o "$tmp/bundles.json"; then return 1; fi
+  node -e "const fs=require('fs'); const j=JSON.parse(fs.readFileSync(process.argv[1],'utf8')); if(!j.bundles||!j.bundles.length) process.exit(2); for(const b of j.bundles) console.log(b.name+' '+b.url);" "$tmp/bundles.json" > "$tmp/bundles.txt"
+  while read -r name url; do
+    [ -z "$name" ] && continue
+    zip_file="$tmp/$name.zip"
+    echo "Downloading bundle $name..."
+    curl -fsSL --retry 3 --retry-delay 1 "$origin$url" -o "$zip_file"
+    echo "Expanding bundle $name..."
+    extract_zip "$zip_file"
+  done < "$tmp/bundles.txt"
+  rm -rf "$tmp"
+}
+
 install_awtsmoos_files() {
   printf '%s\n' "$FILES" | while IFS= read -r file_path; do
     [ -z "$file_path" ] && continue
     assert_safe_manifest_path "$file_path"
     mkdir -p "$(dirname "$ROOT/$file_path")"
     echo "Downloading $file_path..."
-    if [[ "$file_path" == ai/* ]]; then
-  curl -fsSL --retry 3 --retry-delay 1 "https://awtsmoos.com/$file_path" -o "$ROOT/$file_path"
-else
-  curl -fsSL --retry 3 --retry-delay 1 "$BASE_URL/$file_path" -o "$ROOT/$file_path"
-fi
+    if [[ "$file_path" == ai/* ]]; then curl -fsSL --retry 3 --retry-delay 1 "$origin/$file_path" -o "$ROOT/$file_path"; else if [[ "$file_path" == ai/* ]]; then curl -fsSL --retry 3 --retry-delay 1 "$origin/$file_path" -o "$ROOT/$file_path"; else curl -fsSL --retry 3 --retry-delay 1 "$BASE_URL/$file_path" -o "$ROOT/$file_path"; fi; fi
   done
 }
 
@@ -88,16 +104,19 @@ INSTALLED=""
 if [ "$INSTALLED" = "$VERSION" ] && all_manifest_files_exist; then
   echo "Awtsmoos version $VERSION already installed and complete."
 else
-  if [ "$INSTALLED" = "$VERSION" ]; then
-    echo "Repairing incomplete Awtsmoos version $VERSION..."
-  else
-    echo "Installing Awtsmoos version $VERSION..."
+  if [ "$INSTALLED" = "$VERSION" ]; then echo "Repairing incomplete Awtsmoos version $VERSION..."; else echo "Installing Awtsmoos version $VERSION..."; fi
+  if ! install_awtsmoos_bundles || ! all_manifest_files_exist; then
+    echo "Bundle install failed or incomplete; falling back to per-file install."
+    install_awtsmoos_files
   fi
-  install_awtsmoos_files
+  all_manifest_files_exist || { echo "Install verification failed after bundle/per-file install."; exit 1; }
   printf '%s\n' "$VERSION" > "$STATE"
 fi
 
+if [ "${AWTSMOOS_SKIP_START:-}" = "1" ] || [ "${AWTSMOOS_SKIP_START:-}" = "true" ]; then echo "AWTSMOOS_SKIP_START set; install verified without starting agent."; exit 0; fi
 pkill -f "$ROOT/$ENTRY" 2>/dev/null || true
 echo
 echo "Starting Awtsmoos background agent..."
-node "$ROOT/$ENTRY" --open-control
+if [ "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" = "1" ] || [ "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" = "true" ]; then node "$ROOT/$ENTRY"; else node "$ROOT/$ENTRY" --open-control; fi
+
+

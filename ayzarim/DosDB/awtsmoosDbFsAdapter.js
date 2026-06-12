@@ -1,18 +1,12 @@
 // B"H
 /**
  * @file awtsmoosDbFsAdapter.js
- * @chapter The Comment Shard Became A Tiny Ark Per Post
+ * @chapter The Bridge Learned The Mutation Songs
  * @description
- * DosDB-level adapter for real AwtsmoosDB filesystem vessels.
- *
- * Heichel series/posts route to family DB files. Comments prefer tiny per-post
- * DB shards named:
- * `social.heichel.<id>.comments.atSeries.<series>.atPost.<post>.fs.awtsdb`.
- * If absent, the adapter falls back to per-series comment shards and then the
- * old monolithic comments family DB.
- *
- * AwtsmoosJSON reads use blob-offset FileBuffer handles, not full `fs.cat()`
- * reads, so the old dynamic byte parser stays partial-fast inside AwtsmoosDB.
+ * DosDB-level bridge into AwtsmoosDB VirtualFs v3. Reads and writes use the
+ * public `db.fs` API. Object mutation methods used by comments also route here,
+ * so comment creation appends into the v3 comments DB instead of the restored
+ * legacy folder.
  */
 
 const fs = require("fs");
@@ -32,6 +26,23 @@ function openSharedAwtsmoosDb(file) {
   db.open();
   cache.set(file, db);
   return db;
+}
+
+function sharedFlushTimers() {
+  if (!globalThis.__awtsmoosDosDbFsFlushTimers) globalThis.__awtsmoosDosDbFsFlushTimers = new Map();
+  return globalThis.__awtsmoosDosDbFsFlushTimers;
+}
+
+function scheduleSharedFlush(db, file, delayMs = 1500) {
+  const timers = sharedFlushTimers();
+  if (timers.has(file)) return { scheduled: true, alreadyQueued: true, delayMs };
+  const timer = setTimeout(() => {
+    timers.delete(file);
+    try { db.fs.flush?.(); } catch (error) { console.error("B\"H AwtsmoosDB delayed fs flush failed", file, error?.stack || error); }
+  }, delayMs);
+  if (typeof timer.unref === "function") timer.unref();
+  timers.set(file, timer);
+  return { scheduled: true, delayMs };
 }
 
 function normalizePath(input) {
@@ -88,17 +99,17 @@ function serializeValue(value, vpath) {
 }
 
 class FileBuffer {
-  constructor(db, blob, name = "") {
+  constructor(db, filePath, size = 0) {
     this.db = db;
-    this.blob = blob && blob.__resolve__ ? blob.__resolve__() : blob;
-    this.name = name;
-    this.path = name;
+    this.filePath = filePath;
+    this.name = filePath;
+    this.path = filePath;
     this.isFileBuffer = true;
-    this.stats = { size: this.blob?.length || 0 };
+    this.stats = { size };
     return new Proxy(this, { get: (target, prop) => Number.isNaN(Number(prop)) ? target[prop] : target.readUInt8(Number(prop)) });
   }
-  get length() { return this.blob.length; }
-  subarray(start = 0, end = this.length) { return this.db.blob.read(this.blob, start, Math.max(0, end - start)); }
+  get length() { return this.stats.size || 0; }
+  subarray(start = 0, end = this.length) { return this.db.fs.readRange(this.filePath, start, Math.max(0, end - start)); }
   toString(mode = "utf8", start = 0, end = this.length) { return this.subarray(start, end).toString(mode); }
   readUInt8(offset) { return this.subarray(offset, offset + 1).readUInt8(0); }
   readUInt16BE(offset) { return this.subarray(offset, offset + 2).readUInt16BE(0); }
@@ -120,102 +131,59 @@ class AwtsmoosDbFamilyFs {
     this.files = familyDbFiles({ rootDir, heichelId });
     this.dbs = new Map();
   }
-
   packedDir() { return path.join(this.rootDir, "socialPacked"); }
-
   hasCommentShard() {
     try {
       const prefix = `social.heichel.${this.heichelId}.comments.atSeries.`;
       return fs.readdirSync(this.packedDir()).some(name => name.startsWith(prefix) && name.endsWith(".fs.awtsdb"));
     } catch { return false; }
   }
-
   hasAnyFile() { return Object.values(this.files).some(file => fs.existsSync(file)) || this.hasCommentShard(); }
   close() { this.dbs.clear(); }
-
   commentDbPathFor(id, create = false) {
-    const seriesId = commentSeriesFromPath(id);
-    const postId = commentPostFromPath(id);
-    if (seriesId && postId) {
-      const postFile = commentsPostDbFile({ rootDir: this.rootDir, heichelId: this.heichelId, seriesId, postId });
-      if (create || fs.existsSync(postFile)) return postFile;
-    }
-    if (seriesId) {
-      const seriesFile = commentsSeriesDbFile({ rootDir: this.rootDir, heichelId: this.heichelId, seriesId });
-      if (fs.existsSync(seriesFile)) return seriesFile;
-    }
     return this.files.comments;
   }
-
   dbPathForFamily(family, id = "", create = false) {
     if (family === "comments") return this.commentDbPathFor(id, create);
     return this.files[family];
   }
-
   dbForFamily(family, id = "", create = false) {
     const file = this.dbPathForFamily(family, id, create);
     if (!file || (!create && !fs.existsSync(file))) return null;
     if (create) fs.mkdirSync(path.dirname(file), { recursive: true });
     const key = `${family}:${file}`;
-    if (!this.dbs.has(key)) {
-      const db = openSharedAwtsmoosDb(file);
-      this.dbs.set(key, db);
-    }
+    if (!this.dbs.has(key)) this.dbs.set(key, openSharedAwtsmoosDb(file));
     return this.dbs.get(key);
   }
-
   familiesFor(id) { return familyOrderFor(id).filter(family => this.dbForFamily(family, id)); }
-
-  nodeAt(db, vpath) {
-    const parts = normalizePath(vpath).split("/").filter(Boolean);
-    let cur = db.root.__fs__;
-    for (const part of parts) {
-      if (!cur || cur[part] === undefined) return undefined;
-      cur = cur[part];
-    }
-    return cur;
-  }
-
-  isBlob(node) {
-    const plain = node && node.__resolve__ ? node.__resolve__() : node;
-    return Boolean(plain && plain.__awtsmoosBlob === true);
-  }
-
-  blobFrom(node) { return node && node.__resolve__ ? node.__resolve__() : node; }
-
   find(id) {
     const clean = normalizePath(id);
     for (const family of this.familiesFor(clean)) {
       const db = this.dbForFamily(family, clean);
       for (const candidate of fileCandidates(clean)) {
-        const node = this.nodeAt(db, candidate);
-        if (this.isBlob(node)) return { family, db, path: candidate, node, file: true };
+        const stat = db.fs.stat(candidate);
+        if (stat?.exists && stat.type === "file") return { family, db, path: candidate, stat, file: true };
       }
-      const dirNode = this.nodeAt(db, clean);
-      if (dirNode && !this.isBlob(dirNode)) return { family, db, path: clean, node: dirNode, dir: true };
+      const dirStat = db.fs.stat(clean);
+      if (dirStat?.exists && dirStat.type === "dir") return { family, db, path: clean, stat: dirStat, dir: true };
     }
     return null;
   }
-
-  fileBuffer(found) { return new FileBuffer(found.db, this.blobFrom(found.node), found.path); }
-
+  fileBuffer(found) { return new FileBuffer(found.db, found.path, found.stat?.size || 0); }
   async getObjectKeys(id) {
     const found = this.find(id);
     if (!found) return null;
-    if (found.dir) return Object.keys(found.node || {}).map(stripKnownExtension);
+    if (found.dir) return found.db.fs.ls(found.path).map(stripKnownExtension);
     const fb = this.fileBuffer(found);
     return await awtsmoosJSON.isAwtsmoosObject(fb) ? awtsmoosJSON.getKeys(fb) : [];
   }
-
   async get(id, options = {}) {
     const found = this.find(id);
     if (!found) return undefined;
-    if (found.dir) return Object.keys(found.node || {}).map(stripKnownExtension);
-    const blob = this.blobFrom(found.node);
-    if (options?.access) return { isFile: true, size: blob.length, path: found.path, family: found.family };
+    if (found.dir) return found.db.fs.ls(found.path).map(stripKnownExtension);
+    if (options?.access) return { isFile: true, size: found.stat?.size || 0, path: found.path, family: found.family };
     return this.readFile(found, options);
   }
-
   async readFile(found, options = {}) {
     const ext = path.posix.extname(found.path);
     const fb = this.fileBuffer(found);
@@ -227,7 +195,6 @@ class AwtsmoosDbFamilyFs {
     }
     return fb.subarray(0, fb.length);
   }
-
   async write(id, value) {
     const vpath = writePath(id);
     const family = familyOrderFor(vpath)[0];
@@ -236,31 +203,55 @@ class AwtsmoosDbFamilyFs {
     if (!db) return undefined;
     const buffer = serializeValue(value, vpath);
     db.fs.write(vpath, buffer);
-    return { success: { family, path: vpath, bytes: buffer.length } };
+    const flush = scheduleSharedFlush(db, this.dbPathForFamily(family, vpath, true));
+    return { success: { family, path: vpath, bytes: buffer.length, flush } };
   }
-
+  async mutateObject(id, mutator) {
+    const current = await this.get(id, { max: true });
+    const obj = current && typeof current === "object" && !Array.isArray(current) && !Buffer.isBuffer(current) ? current : {};
+    const result = await mutator(obj);
+    const wrote = await this.write(id, obj);
+    return result === undefined ? wrote : { success: result, wrote };
+  }
+  async appendToObj(id, { key, value } = {}) {
+    if (key === undefined) return undefined;
+    return this.mutateObject(id, obj => { obj[key] = value; return { key, value }; });
+  }
+  async updateEntry(id, payload = {}) { return this.appendToObj(id, payload); }
+  async setObjectKey(id, key, value) { return this.appendToObj(id, { key, value }); }
+  async appendToArrayAtKey(id, { key, shtar } = {}) {
+    if (key === undefined) return undefined;
+    return this.mutateObject(id, obj => {
+      const arr = Array.isArray(obj[key]) ? obj[key] : [];
+      arr.push(shtar);
+      obj[key] = arr;
+      return { key, count: arr.length, appended: true };
+    });
+  }
+  async deleteObjectKey(id, key) {
+    if (key === undefined) return undefined;
+    return this.mutateObject(id, obj => { const existed = key in obj; delete obj[key]; return { key, existed }; });
+  }
+  async getObjectKey(id, key) {
+    const value = await this.get(id, { propertyMap: { [key]: true } });
+    return value && typeof value === "object" ? value[key] : undefined;
+  }
   async delete(id, recursive = false) {
     const found = this.find(id);
     if (!found) return undefined;
     if (found.dir && !recursive) return false;
-    return found.db.fs.rm(found.path);
+    const result = found.db.fs.rm(found.path, { recursive: Boolean(recursive) });
+    scheduleSharedFlush(found.db, this.dbPathForFamily(found.family, found.path, false));
+    return result;
   }
-
   async rename(from, to) {
-    const value = await this.get(from, { max: true });
-    if (value === undefined || value === null) return undefined;
-    const wrote = await this.write(to, value);
-    if (!wrote) return undefined;
-    await this.delete(from, true);
-    return { success: { from, to } };
+    const found = this.find(from);
+    if (!found) return undefined;
+    const result = found.db.fs.mv(found.path, writePath(to));
+    scheduleSharedFlush(found.db, this.dbPathForFamily(found.family, found.path, false));
+    return result ? { success: { from, to } } : undefined;
   }
-
-  async syncKeyInObj(id, key, value = true) {
-    const current = (await this.get(id, { max: true })) || {};
-    current[key] = value;
-    return this.write(id, current);
-  }
-
+  async syncKeyInObj(id, key, value = true) { return this.appendToObj(id, { key, value }); }
   async syncKeyInArray(id, value) {
     const current = (await this.get(id, { max: true })) || [];
     const arr = Array.isArray(current) ? current : Object.keys(current || {});

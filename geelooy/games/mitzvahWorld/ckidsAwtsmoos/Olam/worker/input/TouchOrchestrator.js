@@ -27,7 +27,7 @@ function trace(stage, payload = {}) {
   window.__AWTSMOOS_TOUCH_TRACE__ ||= [];
   window.__AWTSMOOS_TOUCH_TRACE__.push({ at, seal: SEAL, stage, ...payload });
   window.__AWTSMOOS_TOUCH_TRACE__ = window.__AWTSMOOS_TOUCH_TRACE__.slice(-140);
-  if (!payload.quiet) console.info('B"H | TOUCH_ORCHESTRATOR_TRACE', { seal: SEAL, stage, ...payload });
+  if (!payload.quiet && window.__AWTSMOOS_INPUT_TRACE__ === true) console.info('B"H | TOUCH_ORCHESTRATOR_TRACE', { seal: SEAL, stage, ...payload });
 }
 
 function isJoystickTarget(target) { return !!target?.closest?.('#joystick-container, #joystick-base, #joystick-thumb'); }

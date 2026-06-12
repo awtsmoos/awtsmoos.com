@@ -75,7 +75,7 @@ export function sanitizeLivingModelTree(root, flags = {}) {
     if (child.material) child.material = cloneLivingMaterial(child.material);
     child.castShadow = false;
     child.receiveShadow = true;
-    child.frustumCulled = false;
+    child.frustumCulled = flags.isNpc === true;
   });
   return root;
 }

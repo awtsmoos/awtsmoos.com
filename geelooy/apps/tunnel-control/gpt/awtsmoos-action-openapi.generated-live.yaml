@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 5.9.0-generated
-  description: B"H. Generated from the local tunnel registry. GPT Store Custom GPT actions and all AI-agent tool bridges share the same action list. OAuth is declared on awtsmoosTunnelAction; server auth/scope checks remain authoritative.
+  version: 6.0.0-generated
+  description: B"H. Generated from the local tunnel registry. One backward-compatible action endpoint exposes old aliases and new mode-based internals.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. Use tunnelName=awtsmoos-virtual-os or targetVessel=virtual-os to run secure hosted Virtual OS actions without a local tunnel. For GPT Store Custom GPTs, OAuth is required and the server enforces per-user scopes before local or virtual execution. For simulateRuntime, use url/html/files plus actionsJson/browserActions/pageActions. For AI-agent tools, use provider/agentId/model plus prompt/message/system/taskId and recursive spawn limits.
+      description: B"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
@@ -53,6 +53,7 @@ paths:
               - affectedComponents
               - affectedRoutes
               - affectedTests
+              - agent
               - agentDoctor
               - agentSelfTest
               - agentVersionSkewCheck
@@ -101,9 +102,30 @@ paths:
               - bundleTrace
               - capabilityParityAudit
               - changeImpactGraph
+              - chatgptContinueConversation
+              - chatgptCurrentConversation
+              - chatgptListConversations
+              - chatgptLogin
+              - chatgptMessage
+              - chatgptNewConversation
+              - chatgptOpenLogin
+              - chatgptSendMessage
+              - chatgptStatus
+              - chromeClick
+              - chromeEval
               - chromeEvalSlim
+              - chromeFind
+              - chromeLaunch
+              - chromeLogs
+              - chromeNavigate
+              - chromeRunScript
+              - chromeSnapshot
               - chromeSnapshotScoped
+              - chromeStatus
               - chromeTargetSelector
+              - chromeType
+              - chromeWaitForSelector
+              - command
               - commandBatch
               - commandFailureClassifier
               - commandIntentClassifier
@@ -119,6 +141,7 @@ paths:
               - commandPresetList
               - commandPresetRun
               - commandPresetSave
+              - commandRun
               - commandTreeCancel
               - commandTreeDryRun
               - commandTreeExplain
@@ -209,6 +232,7 @@ paths:
               - httpRequest
               - httpSessionClear
               - httpTrace
+              - imageWrite
               - importResolverExplain
               - inferArchitecture
               - inferBusinessRules
@@ -337,6 +361,7 @@ paths:
               - routeAudit
               - routeContextPack
               - routeExecutorGraph
+              - runtime
               - runtimeContractRegistry
               - runtimeEngineMatrix
               - runtimeEntityGraph
@@ -352,6 +377,7 @@ paths:
               - sandboxRootDoctor
               - schemaRoundTripTest
               - scriptDiscovery
+              - search
               - secretScan
               - securityHeadersCheck
               - selectString
@@ -371,6 +397,7 @@ paths:
               - serverRestart
               - serverStart
               - serverStop
+              - shellCommand
               - shellSyntaxTranslator
               - simulateFailure
               - simulateRuntime
@@ -416,6 +443,7 @@ paths:
               - tunnelLivenessTimeline
               - typecheckRunner
               - universalAppManifest
+              - uploadImage
               - virtualDomDiff
               - waitForPort
               - waitForUrl
@@ -429,6 +457,7 @@ paths:
               - workspaceDoctor
               - write
               - writeIfHash
+              - writeImage
               - writePayloadSizer
               - yamlValidate
         - { name: p, in: query, schema: { type: string, default: "." } }
@@ -514,6 +543,17 @@ paths:
         - { name: format, in: query, schema: { type: string, default: "png" } }
         - { name: runtime, in: query, schema: { type: string } }
         - { name: engine, in: query, schema: { type: string } }
+        - { name: mode, in: query, schema: { type: string } }
+        - { name: readMode, in: query, schema: { type: string } }
+        - { name: writeMode, in: query, schema: { type: string } }
+        - { name: searchMode, in: query, schema: { type: string } }
+        - { name: kind, in: query, schema: { type: string } }
+        - { name: xml, in: query, schema: { type: string } }
+        - { name: xmlInput, in: query, schema: { type: string } }
+        - { name: writesXml, in: query, schema: { type: string } }
+        - { name: filesXml, in: query, schema: { type: string } }
+        - { name: bundle, in: query, schema: { type: string } }
+        - { name: part, in: query, schema: { type: string } }
         - { name: continuationPrompt, in: query, schema: { type: string } }
         - { name: continuationPrompt64, in: query, schema: { type: string } }
         - { name: provider, in: query, schema: { type: string } }
@@ -530,7 +570,6 @@ paths:
         - { name: system, in: query, schema: { type: string } }
         - { name: system64, in: query, schema: { type: string } }
         - { name: taskId, in: query, schema: { type: string } }
-        - { name: kind, in: query, schema: { type: string } }
         - { name: title, in: query, schema: { type: string } }
         - { name: outputDir, in: query, schema: { type: string } }
         - { name: fileName, in: query, schema: { type: string } }
@@ -548,6 +587,8 @@ paths:
         - { name: maxResults, in: query, schema: { type: integer, default: 80 } }
         - { name: page, in: query, schema: { type: integer, default: 1 } }
         - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
+        - { name: cursor, in: query, schema: { type: integer, default: 0 } }
+        - { name: nextCursor, in: query, schema: { type: integer } }
         - { name: maxInlineBytes, in: query, schema: { type: integer, default: 12000 } }
         - { name: depth, in: query, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, schema: { type: integer, default: 150 } }
@@ -556,7 +597,11 @@ paths:
         - { name: maxSteps, in: query, schema: { type: integer, default: 50 } }
         - { name: maxIterations, in: query, schema: { type: integer, default: 20 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
+        - { name: chromePort, in: query, schema: { type: integer, default: 9222 } }
         - { name: waitMs, in: query, schema: { type: integer, default: 800 } }
+        - { name: pollMs, in: query, schema: { type: integer, default: 1000 } }
+        - { name: settleMs, in: query, schema: { type: integer, default: 2500 } }
+        - { name: startupWaitMs, in: query, schema: { type: integer, default: 1200 } }
         - { name: maxDepth, in: query, schema: { type: integer, default: 3 } }
         - { name: maxChildrenPerTask, in: query, schema: { type: integer, default: 8 } }
         - { name: maxTotalTasks, in: query, schema: { type: integer, default: 80 } }
@@ -581,7 +626,12 @@ paths:
         - { name: enableLocalHttpProxy, in: query, schema: { type: boolean } }
         - { name: allowCommands, in: query, schema: { type: boolean } }
         - { name: stream, in: query, schema: { type: boolean } }
+        - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
+        - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: allowRecursiveSpawn, in: query, schema: { type: boolean, default: true } }
+        - { name: continueCurrent, in: query, schema: { type: boolean, default: false } }
+        - { name: open, in: query, schema: { type: boolean, default: false } }
+        - { name: wait, in: query, schema: { type: boolean, default: false } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:
@@ -606,6 +656,10 @@ components:
         BH: { type: string }
         error: { type: string }
         message: { type: string }
+        nextRequest: { type: object, additionalProperties: true }
+        nextPagePayload: { type: object, additionalProperties: true }
+        nextScanRequest: { type: object, additionalProperties: true }
+        aiGuidance: { type: object, additionalProperties: true }
         finalInstruction:
           type: object
           additionalProperties: true

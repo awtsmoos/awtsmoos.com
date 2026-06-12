@@ -10,8 +10,8 @@
  * bars, rewards, and training-ground decor.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import VillageAnimalMob from "../combat/VillageAnimalMob.js";
-import VillageCombatState from "../combat/VillageCombatState.js";
+import VillageAnimalMob from "../combat/VillageAnimalMob.js?v=village-polish-20260612-bh810";
+import VillageCombatState from "../combat/VillageCombatState.js?v=village-polish-20260612-bh810";
 import { VILLAGE_BATTLE_DECOR, VILLAGE_COMBAT_MISSION, VILLAGE_WILDLIFE } from "../combat/VillageCombatManifest.js";
 
 const INSTALLED_KEY = "__awtsmoosVillageCombatInstalled";
@@ -70,7 +70,6 @@ export async function ensureGeneratedBattleLayer(context = {}) {
   context.olam.__villageCombatState = state;
   const decor = VILLAGE_BATTLE_DECOR.map(def => addDecor(context.scene, def));
   const mobs = VILLAGE_WILDLIFE.map(def => registerMob(context, new VillageAnimalMob(context.olam, def, state)));
-  state.announce();
   context.olam[INSTALLED_KEY] = [...decor, ...mobs];
   return context.olam[INSTALLED_KEY];
 }

@@ -1,47 +1,91 @@
 /**
  * B"H
- * Dead-zone zoomed-out player camera.
+ * Player/spectator action camera.
  *
- * Chapter 108: the fighter was sitting too low on the phone. The camera now
- * places the player closer to the middle-upper fighting pocket, while still
- * keeping the dead-zone calm and the arena zoomed far out.
+ * Chapter 220: while the player lives, the camera honors the player. If the
+ * player is eliminated, the camera becomes a witness over the living battle,
+ * zooming farther out and following the hottest cluster of surviving fighters
+ * until the user manually stops watching.
  */
 export function updateCamera(state, w, h) {
-  const hero = state.fighters.find(f => f.human && !f.dead) || state.fighters.find(f => !f.dead);
-  if (!hero) return;
+  const focus = chooseFocus(state);
+  if (!focus) return;
   state.camera ||= { x: 0, y: 0, zoom: 1 };
-  state.cameraTarget ||= { x: hero.x, y: hero.y };
-  const zoom = chooseZoom(w, h, state.fighters.length);
+  state.cameraTarget ||= { x: focus.x, y: focus.y };
+  const spectator = isSpectating(state);
+  const zoom = chooseZoom(w, h, livingFighters(state).length, spectator, focus.spread || 0);
   const shake = stepShake(state);
-  const lookAhead = Math.max(-260, Math.min(260, (hero.vx || 0) * 18));
-  const desired = { x: hero.x + lookAhead, y: hero.y + Math.max(-80, Math.min(100, (hero.vy || 0) * 5)) };
-  moveTargetThroughDeadZone(state.cameraTarget, desired, w / zoom, h / zoom);
+  const lookAhead = spectator ? 0 : Math.max(-260, Math.min(260, (focus.vx || 0) * 18));
+  const desired = { x: focus.x + lookAhead, y: focus.y + Math.max(-80, Math.min(100, (focus.vy || 0) * 5)) };
+  moveTargetThroughDeadZone(state.cameraTarget, desired, w / zoom, h / zoom, spectator);
   const targetX = w * 0.5;
-  const targetY = h * 0.46;
+  const targetY = h * (spectator ? 0.5 : 0.46);
   state.camera.zoom = zoom;
   state.camera.x = clamp((targetX - w / 2) / zoom - state.cameraTarget.x + w / 2, minX(state.map, w, zoom), maxX(state.map, w, zoom)) + shake.x;
   state.camera.y = clamp((targetY - h / 2) / zoom - state.cameraTarget.y + h / 2, minY(state.map, h, zoom), maxY(state.map, h, zoom)) + shake.y;
+  state.camera.spectating = spectator;
 }
 
 export function punchCamera(state, force = 1) {
   state.cameraShake = Math.max(state.cameraShake || 0, Math.min(7, force));
 }
 
-function moveTargetThroughDeadZone(target, desired, viewW, viewH) {
-  const deadX = Math.min(340, viewW * 0.22);
-  const deadY = Math.min(230, viewH * 0.17);
+function chooseFocus(state) {
+  const hero = state.fighters.find(f => f.human && !f.dead && !f.hidden);
+  if (hero) return hero;
+  const living = livingFighters(state);
+  if (!living.length) return state.fighters.find(f => !f.dead) || null;
+  const hot = hottestPair(living) || living;
+  const x = hot.reduce((sum, f) => sum + f.x, 0) / hot.length;
+  const y = hot.reduce((sum, f) => sum + f.y, 0) / hot.length;
+  const vx = hot.reduce((sum, f) => sum + (f.vx || 0), 0) / hot.length;
+  const vy = hot.reduce((sum, f) => sum + (f.vy || 0), 0) / hot.length;
+  const spread = hot.reduce((max, f) => Math.max(max, Math.hypot(f.x - x, f.y - y)), 0);
+  return { x, y, vx, vy, spread };
+}
+
+function hottestPair(fighters) {
+  if (fighters.length <= 2) return fighters;
+  let best = null;
+  let score = Infinity;
+  for (let i = 0; i < fighters.length; i++) {
+    for (let j = i + 1; j < fighters.length; j++) {
+      const a = fighters[i];
+      const b = fighters[j];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      const heat = (a.attack || a.rapidAttack ? -240 : 0) + (b.attack || b.rapidAttack ? -240 : 0) - (a.damage + b.damage) * 0.18;
+      const s = d + heat;
+      if (s < score) { score = s; best = [a, b]; }
+    }
+  }
+  return best;
+}
+
+function livingFighters(state) {
+  return state.fighters.filter(f => !f.dead && !f.hidden && f.stocks > 0);
+}
+
+function isSpectating(state) {
+  const hero = state.fighters.find(f => f.human);
+  return !!hero && (hero.dead || hero.stocks <= 0);
+}
+
+function moveTargetThroughDeadZone(target, desired, viewW, viewH, spectator) {
+  const deadX = Math.min(spectator ? 520 : 340, viewW * (spectator ? 0.14 : 0.22));
+  const deadY = Math.min(spectator ? 360 : 230, viewH * (spectator ? 0.14 : 0.17));
   if (desired.x < target.x - deadX) target.x = desired.x + deadX;
   else if (desired.x > target.x + deadX) target.x = desired.x - deadX;
   if (desired.y < target.y - deadY) target.y = desired.y + deadY;
   else if (desired.y > target.y + deadY) target.y = desired.y - deadY;
 }
 
-function chooseZoom(w, h, fighters) {
+function chooseZoom(w, h, fighters, spectator, spread) {
   const portrait = h > w * 1.25;
   const mobile = w < 820 || h < 560;
-  const base = portrait ? 0.47 : mobile ? 0.55 : 0.68;
-  const countPenalty = Math.min(0.06, Math.max(0, fighters - 4) * 0.01);
-  return base - countPenalty;
+  const base = spectator ? (portrait ? 0.38 : mobile ? 0.43 : 0.52) : (portrait ? 0.47 : mobile ? 0.55 : 0.68);
+  const countPenalty = Math.min(spectator ? 0.1 : 0.06, Math.max(0, fighters - 4) * 0.012);
+  const spreadPenalty = spectator ? Math.min(0.11, Math.max(0, spread - 360) * 0.00016) : 0;
+  return Math.max(0.32, base - countPenalty - spreadPenalty);
 }
 
 function minX(map, w, zoom) { return w / 2 + w / (2 * zoom) - map.bounds.right; }

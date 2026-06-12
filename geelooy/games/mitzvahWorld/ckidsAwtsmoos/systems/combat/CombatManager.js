@@ -24,6 +24,7 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import HebrewProjectileSystem from './HebrewProjectileSystem.js';
 import HealthBarSystem from './HealthBarSystem.js';
+import CombatTargeting from './CombatTargeting.js';
 import { WEAPON_REGISTRY } from './WeaponRegistry.js';
 
 /**
@@ -39,6 +40,7 @@ export default class CombatManager {
         this.olam = olam;
         this.projectiles = new HebrewProjectileSystem(olam);
         this.healthBars = new HealthBarSystem();
+        this.targeting = new CombatTargeting(olam, target => this.onTargetChanged(target));
 
         /** @type {Object|null} Currently equipped weapon definition */
         this.equippedWeapon = null;
@@ -51,6 +53,7 @@ export default class CombatManager {
 
         /** @type {boolean} Whether combat has been initialized */
         this.initialized = false;
+        this.lastUnitFrameAt = 0;
     }
 
     /**
@@ -97,7 +100,7 @@ export default class CombatManager {
         if (!def) return;
 
         // B"H - Check if player has this weapon in inventory
-        const player = this.olam?.player;
+        const player = this.player();
         if (player?.inventory) {
             const hasWeapon = player.inventory.items?.some(
                 item => item?.id === weaponId
@@ -130,12 +133,19 @@ export default class CombatManager {
             this.equippedWeapon = WEAPON_REGISTRY.cherev_hakodesh;
         }
 
+        const player = this.player();
+        if (!player?.mesh) return;
         const now = Date.now() / 1000;
         if (now - this.lastAttackTime < this.equippedWeapon.attackSpeed) return;
         this.lastAttackTime = now;
-
-        const player = this.olam?.player;
-        if (!player?.mesh) return;
+        const cost = Number(this.equippedWeapon.koachCost || 0);
+        const currentKoach = Number(player.koach ?? player.maxKoach ?? 100);
+        if (currentKoach < cost) {
+            this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "LOW KOACH", color: "#70b7ff" });
+            return;
+        }
+        player.koach = Math.max(0, currentKoach - cost);
+        player.updateStatsUI?.();
 
         // B"H - Fire from player position in camera's forward direction
         const origin = player.mesh.position.clone();
@@ -162,6 +172,11 @@ export default class CombatManager {
      * @returns {THREE.Vector3} Resolved aim.
      */
     resolveAimDirection(origin, fallback) {
+        const selected = this.targeting.selected;
+        if (selected?.mesh && selected.hp > 0 && !selected.isDead) {
+            const direct = selected.mesh.position.clone().sub(origin);
+            if (direct.length() <= (this.equippedWeapon?.range || 50)) return direct.normalize();
+        }
         let best = null;
         let bestScore = Infinity;
         for (const enemy of this.enemies) {
@@ -187,12 +202,49 @@ export default class CombatManager {
         this.healthBars.createBar(enemy);
     }
 
+    /** @returns {object|null} Active player across legacy and current world names. */
+    player() {
+        return this.olam?.player || this.olam?.chossid || null;
+    }
+
+    /** @returns {"none"|"selected"|"confirmed"} Pointer selection result. */
+    selectTargetFromPointer() {
+        return this.targeting.selectFromPointer(this.enemies);
+    }
+
+    /** @param {object|null} target Newly selected enemy. */
+    onTargetChanged(target) {
+        this.healthBars.setSelected(target);
+        this.emitUnitFrames(true);
+        if (target) this.olam?.ayshPeula?.("ui event", "toast", { message: `B"H - Target: ${target.name}. Click again or press V to attack.` });
+    }
+
+    /** @returns {object} Current player and target HUD state. */
+    unitFramePayload() {
+        const player = this.player(), stats = player?.currentStats || {};
+        const hp = Number(player?.hp ?? stats.health ?? 100), maxHp = Number(player?.maxHp ?? stats.maxHealth ?? stats.health ?? 100);
+        const target = this.targeting.selected;
+        return {
+            player: { name: player?.displayName || "Chossid", hp, maxHp, koach: Number(player?.koach ?? 0), maxKoach: Number(player?.maxKoach ?? 100), level: Number(player?.level || 1) },
+            target: target ? { name: target.name, species: target.def?.species || target.elementalType || "target", hp: Number(target.hp || 0), maxHp: Number(target.maxHp || 1), color: Number(target.def?.color || 0x9a6238) } : null
+        };
+    }
+
+    /** @param {boolean} force Ignore cadence. */
+    emitUnitFrames(force = false) {
+        const now = performance.now();
+        if (!force && now - this.lastUnitFrameAt < 100) return;
+        this.lastUnitFrameAt = now;
+        this.olam?.ayshPeula?.("ui event", "combatUnitFrames", this.unitFramePayload());
+    }
+
     /**
      * B"H - Removes an enemy from combat targeting and UI.
      * @param {Object} enemy - Enemy to remove.
      */
     unregisterEnemy(enemy) {
         if (!enemy) return;
+        if (this.targeting.selected === enemy) this.targeting.set(null);
         this.healthBars.removeBar(enemy.name);
         const i = this.enemies.indexOf(enemy);
         if (i >= 0) this.enemies.splice(i, 1);
@@ -204,6 +256,12 @@ export default class CombatManager {
      */
     update(dt) {
         if (!this.initialized) return;
+        this.targeting.update();
+        const player = this.player();
+        if (player && Number.isFinite(Number(player.maxKoach))) {
+            player.koach = Math.min(Number(player.maxKoach), Number(player.koach || 0) + dt * 4);
+        }
+        this.emitUnitFrames();
 
         // B"H - Update projectiles and check collisions
         this.projectiles.update(dt, this.enemies);
@@ -217,9 +275,9 @@ export default class CombatManager {
             if (enemy.hp !== undefined && enemy.hp <= 0) {
                 this.healthBars.removeBar(enemy.name);
                 // B"H - Award XP
-                if (this.olam?.player && enemy.xpValue) {
-                    if (this.olam.player.gainXP) this.olam.player.gainXP(enemy.xpValue);
-                    else if (this.olam.player.gainXp) this.olam.player.gainXp(enemy.xpValue);
+                if (player && enemy.xpValue) {
+                    if (player.gainXP) player.gainXP(enemy.xpValue);
+                    else if (player.gainXp) player.gainXp(enemy.xpValue);
                     this.olam.ayshPeula("ui event", "toast", {
                         message: `B"H - ${enemy.name} refined! +${enemy.xpValue} XP`
                     });
@@ -235,6 +293,7 @@ export default class CombatManager {
     dispose() {
         this.projectiles.dispose();
         this.healthBars.dispose();
+        this.targeting.dispose();
         if (typeof document !== "undefined") {
             const canvas = this.olam?.renderer?.domElement || document;
             canvas.removeEventListener('mousedown', this._onMouseDown);

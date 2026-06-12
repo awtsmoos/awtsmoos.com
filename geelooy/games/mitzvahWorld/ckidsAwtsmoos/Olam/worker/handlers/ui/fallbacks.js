@@ -5,7 +5,7 @@
  * surface: entry HUD, quest, portrait, camera cue, ambient audio, effects,
  * shop, inventory, HUD counters, and direct NPC/level gates.
  */
-import { directFallbackMap } from './directFallbackMap.js?v=npc-scroll-pass-through-20260609-bh638';
+import { directFallbackMap } from './directFallbackMap.js?v=village-polish-20260612-bh810';
 import { handleEffectsFallback } from './effectsFallback.js?v=lava-camera-axis-20260609-bh640';
 import { handleEmeraldAudioFallback } from './emeraldAudioFallback.js';
 import { handleEmeraldCameraFallback } from './emeraldCameraFallback.js';

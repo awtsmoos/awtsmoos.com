@@ -2,54 +2,52 @@
  * B"H
  * @file leaf.js
  * @module LeafMaterialGenerator
- * @description THE RADIANCE OF THE BRANCH — Super-Realistic Leaf Material
+ * @description
+ * Chapter 41: the branches wear the atlas of leaves.
+ *
+ * The Awtsmoos revealed a sheet of many oak-leaf spirits. This material uses
+ * `assets/textures/village/leaf-atlas.png` directly, so procedural trees stop
+ * glowing like generated blobs and begin reading as layered, hand-painted leaf
+ * clusters across the whole village.
  */
 
+const LEAF_ATLAS = '/games/mitzvahWorld/assets/textures/village/leaf-atlas.png';
+
+/** @param {object} olam World texture loader. @returns {Promise<object>} Material recipe. */
 export default async function createLeaf(olam) {
-    return {
-        type: 'Standard',
-        properties: { 
-            color: 0x2e7d32, // Deep Forest Green
-            roughness: 0.8,
-            metalness: 0.0,
-            side: 2, // DoubleSide
-            transparent: true,
-            alphaTest: 0.5
-        },
-        snippets: {
-            onBeforeCompile: `
-                // B"H: Super-Realistic Leaf Shader
-                varying vec2 vUv;
-                varying vec3 vWorldPos;
-                
-                void main() {
-                    // 1. Organic Teardrop Shape via UV manipulation
-                    vec2 centeredUv = vUv - 0.5;
-                    float bend = sin(centeredUv.x * 3.14) * 0.2;
-                    vec2 shapedUv = vec2(centeredUv.x, centeredUv.y + bend);
-                    float r = length(shapedUv) * (1.2 + 0.5 * abs(sin(atan(shapedUv.y, shapedUv.x))));
-                    float leafShape = smoothstep(0.45, 0.4, r);
-                    if(leafShape < 0.1) discard;
+  let leafTex = null;
+  if (olam && typeof olam.loadTexture === 'function') {
+    try {
+      leafTex = await olam.loadTexture({ url: LEAF_ATLAS, shouldRepeat: true, repeatX: 2, repeatY: 2 });
+    } catch (error) {
+      if (globalThis.__AWTSMOOS_DEBUG__ === true) console.warn('B"H | village leaf atlas fallback', error);
+    }
+  }
 
-                    // 2. Intricate Vein Network
-                    float primaryVein = smoothstep(0.02, 0.0, abs(shapedUv.y)) * smoothstep(0.5, -0.2, shapedUv.x);
-                    float branchFreq = 25.0;
-                    float secondaryVeins = abs(sin(shapedUv.x * branchFreq + abs(shapedUv.y) * branchFreq * 1.5));
-                    secondaryVeins = smoothstep(0.88, 0.98, secondaryVeins) * 0.4;
-                    float totalVeins = max(primaryVein * 0.7, secondaryVeins);
-
-                    // 3. Synthesis
-                    vec3 baseColor = gl_FragColor.rgb;
-                    vec3 veinColor = baseColor * 0.4;
-                    gl_FragColor.rgb = mix(baseColor, veinColor, totalVeins);
-                    
-                    // 4. Rim Highlight
-                    float rim = smoothstep(0.38, 0.48, r);
-                    gl_FragColor.rgb += vec3(0.2, 0.4, 0.1) * rim;
-                    
-                    gl_FragColor.a = leafShape;
-                }
-            `
+  return {
+    type: 'Standard',
+    properties: {
+      color: 0xffffff,
+      map: leafTex,
+      roughness: 0.92,
+      metalness: 0.0,
+      side: 2,
+      transparent: true,
+      alphaTest: 0.42
+    },
+    snippets: {
+      onBeforeCompile: `
+        varying vec2 vUv;
+        void main() {
+          vec4 atlasLeaf = gl_FragColor;
+          float bladeAlpha = atlasLeaf.a;
+          if (bladeAlpha < 0.42) discard;
+          vec2 c = fract(vUv * 2.0) - 0.5;
+          float vein = 1.0 - smoothstep(0.015, 0.055, abs(c.x));
+          gl_FragColor.rgb = mix(gl_FragColor.rgb, gl_FragColor.rgb * 0.68, vein * 0.18);
+          gl_FragColor.a = bladeAlpha;
         }
-    };
+      `
+    }
+  };
 }

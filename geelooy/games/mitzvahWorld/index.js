@@ -10,7 +10,7 @@
  * loop are recreated together from the first breath of boot.
  */
 let bootStarted = false;
-const SEAL = "village-combat-20260611-bh804";
+const SEAL = "village-polish-20260612-bh811";
 
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
@@ -58,7 +58,7 @@ function bootIkarNow() {
   const ikarModuleURL = `./ckidsAwtsmoos/ikar.js?compact=true&bh=${SEAL}`;
   import(ikarModuleURL).then(module => {
     window.__AWTSMOOS_BOOT_LOADED__ = { at: new Date().toISOString(), keys: Object.keys(module || {}), seal: SEAL };
-    console.log("B\"H - Mitzvah World ikar boot loaded", window.__AWTSMOOS_BOOT_LOADED__);
+    if (window.__AWTSMOOS_BOOT_TRACE__ === true) console.log("B\"H - Mitzvah World ikar boot loaded", window.__AWTSMOOS_BOOT_LOADED__);
   }).catch(error => describeAwtsmoosError(error, { label: "Index [Main]: Failed to load UI starter", phase: "dynamic import", moduleURL: new URL(ikarModuleURL, import.meta.url).href }));
 }
 

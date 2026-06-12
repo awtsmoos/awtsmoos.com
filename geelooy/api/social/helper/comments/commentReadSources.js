@@ -33,7 +33,7 @@ function parseMap(value) {
 }
 
 function allowPackedFallback(context) {
-    return context.$i.$_GET?.allowPackedFallback === "true";
+    return context.$i.$_GET?.disablePackedFallback !== "true";
 }
 
 function commentPropertyMap($i) {

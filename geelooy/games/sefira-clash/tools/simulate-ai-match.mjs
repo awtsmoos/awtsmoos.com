@@ -6,20 +6,21 @@ import { simulateMapSet, simulateMatch } from '../js/ai/advanced/test/headlessMa
  * B"H
  * CLI for dreaming complete Sefira Clash matches.
  *
- * Chapter 88: the command scroll now exposes aggression: heat-born anti-peace,
- * combo momentum, kill mode, force engage, attacks per minute, and warnings for
- * quiet arenas that still refuse the sword.
+ * Chapter 234: the command scroll gains fast mode. Gameplay code is unchanged;
+ * the invisible theater simply stops drawing sparks and storing sample scrolls
+ * while the bots continue to think, fight, recover, and kill.
  */
 const args = parseArgs(process.argv.slice(2));
 const frames = Number(args.frames || 1800);
 const botCount = Number(args.bots || 5);
 const scenario = args.scenario || null;
-const sampleEvery = Number(args.sampleEvery || 60);
-const options = { frames, botCount, scenario, sampleEvery, stopOnWinner: args.stopOnWinner !== 'false' };
+const fast = !!args.fast;
+const sampleEvery = fast ? Number(args.sampleEvery || 0) : Number(args.sampleEvery || 60);
+const options = { frames, botCount, scenario, sampleEvery, fast, stopOnWinner: args.stopOnWinner !== 'false' };
 const maps = args.map ? MAPS.filter(map => map.id === args.map) : MAPS.slice(0, Number(args.count || 8));
 if (!maps.length) throw new Error(`No map matched ${args.map}`);
 const reports = args.map ? [simulateMatch(maps[0], options)] : simulateMapSet(maps, options);
-const summary = { ok: reports.every(report => report.health.ok), frames, botCount, scenario, maps: reports.map(summarizeReport), reports: args.full ? reports : undefined };
+const summary = { ok: reports.every(report => report.health.ok), frames, botCount, scenario, fast, maps: reports.map(summarizeReport), reports: args.full ? reports : undefined };
 console.log(JSON.stringify(summary, null, 2));
 if (!summary.ok) process.exitCode = 1;
 
@@ -31,26 +32,28 @@ function summarizeReport(report) {
     warnings: report.health.warnings,
     edgeRatio: Math.round(report.health.edgeRatio * 1000) / 1000,
     framesRun: report.framesRun,
+    simMs: report.simMs,
+    framesPerSecond: report.framesPerSecond,
     attackCommands: report.attackCommands,
     attackCommandsPerMinute: report.attackCommandsPerMinute,
-    activeAttackFrames: report.activeAttackFrames,
     invalidAttackCommands: report.invalidAttackCommands,
     namelessJumps: report.namelessJumps,
-    antiPeaceFrames: report.antiPeaceFrames,
-    antiPeaceActivations: report.antiPeaceActivations,
-    comboMomentumFrames: report.comboMomentumFrames,
-    comboMomentumActivations: report.comboMomentumActivations,
-    killModeFrames: report.killModeFrames,
-    forceEngageFrames: report.forceEngageFrames,
-    loopDetectedFrames: report.loopDetectedFrames,
-    opportunityFatigueTriggers: report.opportunityFatigueTriggers,
-    longestNoPressureWindow: report.longestNoPressureWindow,
-    longestSameOpportunityWindow: report.longestSameOpportunityWindow,
+    attackIntent: report.attackIntent,
+    storyBeats: report.storyBeats,
+    itemsSpawned: report.itemsSpawned,
+    itemsPickedUp: report.itemsPickedUp,
+    hazardsSpawned: report.hazardsSpawned,
+    hazardHits: report.hazardHits,
+    objectiveSpawns: report.objectiveSpawns,
+    objectiveClaims: report.objectiveClaims,
+    scarCount: report.scarCount,
+    stageBornPowerups: report.stageBornPowerups,
+    stageMood: report.stageMood,
+    maxParticles: report.maxParticles,
     damagePerMinute: report.damagePerMinute,
     koCount: report.koCount,
-    maxParticles: report.maxParticles,
     opportunities: report.opportunities,
-    intents: report.intents,
+    humanIntents: report.humanIntents,
     winner: report.winner
   };
 }

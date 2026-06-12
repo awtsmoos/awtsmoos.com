@@ -589,6 +589,8 @@
       {
         "name": "OPEN_VISIBLE_CHOOSE_LEVELS_GUIDE",
         "title": "Village Guide",
+        "useRealNpcModel": true,
+        "palette": { "coat": "#245a78", "shirt": "#f2ead7", "pants": "#20252b", "shoes": "#3b2618", "hatColor": "#121820", "hatStyle": "top-hat" },
         "opensLevelSelect": true,
         "hasShop": true,
         "selectorTitle": "Choose Levels",
@@ -613,19 +615,102 @@
           "y": 2.9
         },
         "dialogue": [
-          "Shalom! I guard the challenge path.",
-          "Tap Choose Levels to see all available challenges.",
-          "The guide is no longer stuck by the wall."
+          "Shalom! First click targets me; the second opens our conversation.",
+          "I keep the map of the lava ladder and every available challenge.",
+          "Choose a level when your shlichus in the meadow is complete."
         ]
       },
       {
-        "name": "Egg Village Travel Guide",
-        "title": "Egg Village Guide",
+        "name": "Reb Mendel the Shliach",
+        "title": "Meadow Shlichus",
+        "useRealNpcModel": true,
+        "palette": { "coat": "#7b3d24", "shirt": "#f4e4c3", "pants": "#28221f", "shoes": "#4b2c1b", "hatColor": "#25160e", "hatStyle": "top-hat" },
+        "opensLevelSelect": false,
+        "hasShop": false,
+        "missionId": "village_wild_sparks",
+        "missionLabel": "ACCEPT MEADOW SHLICHUS",
+        "proximity": 10,
+        "talkDistance": 10,
+        "height": 1.9,
+        "visualHeight": 1.9,
+        "radius": 0.58,
+        "groundLift": 0.02,
+        "beacon": true,
+        "beaconColor": 16766720,
+        "path": "https://models-3122d.web.app/chossid.glb?k=1",
+        "position": { "x": -8.2, "y": 0, "z": 10.2 },
+        "rotation": { "y": 2.6 },
+        "dialogue": [
+          "The village meadow is troubled by wild klipos.",
+          "Refine five, gather their perutas, and return with the sparks.",
+          "Accept the shlichus and your quest tracker will awaken."
+        ]
+      },
+      {
+        "name": "Reb Levi the Melamed",
+        "title": "Torah Skill Teacher",
+        "useRealNpcModel": true,
+        "palette": { "coat": "#31523e", "shirt": "#e9e0c7", "pants": "#1d2b25", "shoes": "#39291d", "hatColor": "#18251d", "hatStyle": "yamulka" },
+        "opensLevelSelect": false,
+        "hasShop": false,
+        "learnSkillId": "vhafta_es_hashem",
+        "learnSkillLabel": "LEARN V'AHAVTA",
+        "proximity": 10,
+        "talkDistance": 10,
+        "height": 1.9,
+        "visualHeight": 1.9,
+        "radius": 0.58,
+        "groundLift": 0.02,
+        "beacon": true,
+        "beaconColor": 6750054,
+        "path": "https://models-3122d.web.app/chossid.glb?k=1",
+        "position": { "x": 2.4, "y": 0, "z": 8.8 },
+        "rotation": { "y": -2.4 },
+        "dialogue": [
+          "A Hebrew letter is not ammunition; it is living Torah.",
+          "I can teach V'ahavta, a water skill that restores the fighting soul.",
+          "Spend Koach carefully and let every attack carry meaning."
+        ]
+      },
+      {
+        "name": "Shmerel the Hat Merchant",
+        "title": "Village Hat Shop",
+        "useRealNpcModel": true,
+        "palette": { "coat": "#67457e", "shirt": "#f0dfc5", "pants": "#30283a", "shoes": "#3d281c", "hatColor": "#291833", "hatStyle": "top-hat" },
+        "opensLevelSelect": false,
+        "hasShop": true,
+        "proximity": 10,
+        "talkDistance": 10,
+        "height": 1.9,
+        "visualHeight": 1.9,
+        "radius": 0.58,
+        "groundLift": 0.02,
+        "beacon": true,
+        "beaconColor": 16755251,
+        "path": "https://models-3122d.web.app/chossid.glb?k=1",
+        "position": { "x": 7.4, "y": 0, "z": 3.8 },
+        "rotation": { "y": -1.8 },
+        "shopInventory": [
+          { "id": "village_blue_hat", "name": "Blue Shabbos Hat", "icon": "HAT", "equipSlot": "hat", "price": 8, "sellValue": 4, "customData": { "meshName": ["hat", "yarmulke"], "color": "#315dba" } },
+          { "id": "village_gold_hat", "name": "Golden Shlichus Hat", "icon": "HAT", "equipSlot": "hat", "price": 14, "sellValue": 7, "customData": { "meshName": ["hat", "yarmulke"], "color": "#d6a62f" } },
+          { "id": "village_green_coat", "name": "Meadow Chassid Coat", "icon": "COAT", "equipSlot": "coat", "price": 18, "sellValue": 9, "customData": { "meshName": ["coat", "robe"], "color": "#285f42" } }
+        ],
+        "dialogue": [
+          "Perutas should become vessels for a brighter avodah.",
+          "I sell hats and coats fitted for the road ahead.",
+          "Defeat klipos, earn honestly, and return to trade."
+        ]
+      },
+      {
+        "name": "Reb Yitzchak the Lava Guide",
+        "title": "Lava Ladder Guide",
+        "useRealNpcModel": true,
+        "palette": { "coat": "#8a4e1e", "shirt": "#f5e6bd", "pants": "#3b2a1e", "shoes": "#4a2917", "hatColor": "#3b210f", "hatStyle": "yamulka" },
         "opensLevelSelect": false,
         "hasShop": false,
         "travelOnly": true,
-        "travelPath": "egg-village.json",
-        "travelLabel": "GO TO EGG VILLAGE",
+        "travelPath": "ladder-1.json",
+        "travelLabel": "ENTER LAVA LADDER",
         "proximity": 9,
         "talkDistance": 9,
         "height": 1.75,
@@ -635,7 +720,7 @@
         "beacon": true,
         "beaconColor": 16773280,
         "beaconHeight": 4.2,
-        "path": "https://models-3122d.web.app/chossid.glb?k=3",
+        "path": "https://models-3122d.web.app/chossid.glb?k=1",
         "position": {
           "x": -14.5,
           "y": 0,
@@ -645,9 +730,9 @@
           "y": 1.15
         },
         "dialogue": [
-          "I can take you to Egg Village.",
-          "Tap the travel button and I will open that path.",
-          "You can return from the guide there."
+          "Beyond this village begins the first lava ladder.",
+          "Prepare your Koach, finish your shlichus, and I will open the gate.",
+          "The mezuzah in the lava level will carry you home."
         ]
       }
     ],

@@ -76,8 +76,11 @@ export default function() {
         // B"H: silent
 
         for (var n of this.nivrayim) {
-            // Give each entity their chance to speak at start.
-            n.ayshPeula("started", n, this);
+            // Scene decoration can share the nivrayim ledger without sharing
+            // the event-emitter covenant. Only living event vessels are called.
+            if (typeof n?.ayshPeula === "function") {
+                n.ayshPeula("started", n, this);
+            }
             if (typeof n.started === "function") {
                 await n.started();
             }

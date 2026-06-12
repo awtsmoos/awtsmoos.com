@@ -72,7 +72,7 @@ export function interceptWorkerMessage(manager, event) {
   if (data && data.type === "render_trace") {
     const stage = String(data.stage || "unknown");
     const payload = JSON.stringify(data.payload || {});
-    console.info(`B"H | RENDER_TRACE | ${stage} | ${payload}`);
+    if (window.__AWTSMOOS_RENDER_TRACE__ === true) console.info(`B"H | RENDER_TRACE | ${stage} | ${payload}`);
     return;
   }
 
@@ -99,7 +99,7 @@ export function interceptWorkerMessage(manager, event) {
   if (data.type === "vessel_ready") {
     markVesselReady(manager);
     recordWorkerProgress("vessel_ready");
-    console.info(`B"H | WORKER_PROGRESS | vessel_ready`);
+    if (window.__AWTSMOOS_WORKER_TRACE__ === true) console.info(`B"H | WORKER_PROGRESS | vessel_ready`);
     manager._dispatchPawsawch();
     return;
   }
@@ -107,13 +107,13 @@ export function interceptWorkerMessage(manager, event) {
   if (data.type === "loadedWorld") {
     markWorldLoaded(manager);
     recordWorkerProgress("loadedWorld");
-    console.info(`B"H | WORKER_PROGRESS | loadedWorld`);
+    if (window.__AWTSMOOS_WORKER_TRACE__ === true) console.info(`B"H | WORKER_PROGRESS | loadedWorld`);
     return;
   }
 
   if (data.type === "canvas_transferred") {
     markCanvasTransferred(manager);
     recordWorkerProgress("canvas_transferred");
-    console.info(`B"H | WORKER_PROGRESS | canvas_transferred | ${JSON.stringify(data.payload || {})}`);
+    if (window.__AWTSMOOS_WORKER_TRACE__ === true) console.info(`B"H | WORKER_PROGRESS | canvas_transferred | ${JSON.stringify(data.payload || {})}`);
   }
 }

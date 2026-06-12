@@ -1,16 +1,13 @@
 // B"H
 /**
  * @file DosDB/index.js
- * @chapter The Old Forest And The New Ark Learned One Language
+ * @chapter The Old Forest And The New Ark Learned The Same Mutation Prayers
  * @description
- * DosDB remains the old filesystem-backed key/value tree, but now it can also
- * see real AwtsmoosDB filesystem vessels automatically.
- *
- * For now the automatic routing is intentionally narrow and safe:
- * `/social/heichelos/:heichel/comments` and `/social/heichelos/:heichel/series`
- * can read/write the family-separated AwtsmoosDB files under `socialPacked`.
- * Aliases, users, keys, mail, counters, governance, and every other root remain
- * regular filesystem DosDB unless explicitly opened through `awtsmoosDb()`.
+ * DosDB remains the old filesystem-backed key/value tree, but narrow heichel
+ * social paths can also route into real AwtsmoosDB VirtualFs vessels. This file
+ * routes reads, writes, object-key mutations, and array-at-key mutations before
+ * falling back to legacy files, so migrated comments are read and written from
+ * the same v3 comments DB.
  */
 
 const fsRegular = require("fs");
@@ -31,21 +28,10 @@ const awtsmoosMerge = require("./utils/awtsmoosMerge.js");
 const { AwtsmoosDB, createAwtsmoosDb } = require("./awtsmoosDbBridge.js");
 const { AwtsmoosDbFsRouter } = require("./awtsmoosDbFsAdapter.js");
 
-function bindMethodBag(instance, methods) {
-  awtsmoosMerge(instance, methods);
-}
-
-function maybeResult(value) {
-  return value !== undefined && value !== null;
-}
+function bindMethodBag(instance, methods) { awtsmoosMerge(instance, methods); }
+function maybeResult(value) { return value !== undefined && value !== null; }
 
 class DosDB {
-  /**
-   * @class DosDB
-   * @description
-   * The Awtsmoos breathes through two garments: the older folder tree and the
-   * newer real AwtsmoosDB ark. The public API remains one path language.
-   */
   readAwtsmoosBinary = true;
 
   constructor(directory) {
@@ -76,9 +62,11 @@ class DosDB {
       syncKeyInArray: this.syncKeyInArray?.bind(this),
       appendToObj: this.appendToObj?.bind(this),
       updateEntry: this.updateEntry?.bind(this),
+      appendToArrayAtKey: this.appendToArrayAtKey?.bind(this),
       setObjectKey: this.setObjectKey?.bind(this),
       getObjectKey: this.getObjectKey?.bind(this),
-      deleteObjectKey: this.deleteObjectKey?.bind(this)
+      deleteObjectKey: this.deleteObjectKey?.bind(this),
+      deleteEntry: this.deleteEntry?.bind(this)
     };
     this.__legacyDosDbMethods = legacy;
 
@@ -114,44 +102,44 @@ class DosDB {
       const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInArray", id, value);
       return maybeResult(routed) ? routed : legacy.syncKeyInArray(id, value);
     };
-    this.appendToObj = async (id, { key, value } = {}) => {
-      const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInObj", id, key, value);
-      return maybeResult(routed) ? routed : legacy.appendToObj(id, { key, value });
+    this.appendToObj = async (id, payload = {}) => {
+      const routed = await this.__awtsmoosDbFsRouter.maybe("appendToObj", id, payload);
+      return maybeResult(routed) ? routed : legacy.appendToObj(id, payload);
     };
-    this.updateEntry = async (id, { key, value } = {}) => {
-      const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInObj", id, key, value);
-      return maybeResult(routed) ? routed : legacy.updateEntry(id, { key, value });
+    this.updateEntry = async (id, payload = {}) => {
+      const routed = await this.__awtsmoosDbFsRouter.maybe("updateEntry", id, payload);
+      return maybeResult(routed) ? routed : legacy.updateEntry(id, payload);
+    };
+    this.appendToArrayAtKey = async (id, payload = {}) => {
+      const routed = await this.__awtsmoosDbFsRouter.maybe("appendToArrayAtKey", id, payload);
+      return maybeResult(routed) ? routed : legacy.appendToArrayAtKey(id, payload);
     };
     this.setObjectKey = async (id, key, value) => {
-      const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInObj", id, key, value);
+      const routed = await this.__awtsmoosDbFsRouter.maybe("setObjectKey", id, key, value);
       return maybeResult(routed) ? routed : legacy.setObjectKey(id, key, value);
     };
     this.getObjectKey = async (id, key) => {
+      const routed = await this.__awtsmoosDbFsRouter.maybe("getObjectKey", id, key);
+      if (maybeResult(routed)) return routed;
       const value = await this.get(id, { propertyMap: { [key]: true } });
       if (value && typeof value === "object" && key in value) return value[key];
       return legacy.getObjectKey(id, key);
     };
     this.deleteObjectKey = async (id, key) => {
-      const current = await this.get(id, { max: true });
-      if (current && typeof current === "object" && !Array.isArray(current) && key in current) {
-        delete current[key];
-        return this.write(id, current);
-      }
-      return legacy.deleteObjectKey(id, key);
+      const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
+      return maybeResult(routed) ? routed : legacy.deleteObjectKey(id, key);
+    };
+    this.deleteEntry = async (id, key) => {
+      const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
+      return maybeResult(routed) ? routed : legacy.deleteEntry(id, key);
     };
   }
 
-  async init() {
-    await fs.mkdir(this.directory, { recursive: true });
-  }
+  async init() { await fs.mkdir(this.directory, { recursive: true }); }
 
-  awtsmoosDb(filePath, options = {}) {
-    return createAwtsmoosDb(filePath, options, this);
-  }
+  awtsmoosDb(filePath, options = {}) { return createAwtsmoosDb(filePath, options, this); }
 
-  closeAwtsmoosDbFsRouter() {
-    this.__awtsmoosDbFsRouter?.close?.();
-  }
+  closeAwtsmoosDbFsRouter() { this.__awtsmoosDbFsRouter?.close?.(); }
 
   async info(pathToInspect, order = "asc") {
     const stats = await stat(pathToInspect);
@@ -199,9 +187,7 @@ class DosDB {
 }
 
 DosDB.AwtsmoosDB = AwtsmoosDB;
-DosDB.awtsmoosDb = function awtsmoosDb(filePath, options = {}) {
-  return createAwtsmoosDb(filePath, options, null);
-};
+DosDB.awtsmoosDb = function awtsmoosDb(filePath, options = {}) { return createAwtsmoosDb(filePath, options, null); };
 DosDB.createAwtsmoosDb = DosDB.awtsmoosDb;
 
 module.exports = DosDB;

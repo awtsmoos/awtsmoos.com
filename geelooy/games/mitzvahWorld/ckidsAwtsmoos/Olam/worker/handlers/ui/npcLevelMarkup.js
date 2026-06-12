@@ -1,13 +1,17 @@
 // B"H
 /**
  * @file npcLevelMarkup.js
- * @description Chapter 263: The lava ladder cards are rendered from LEVELS,
- * not from scattered button smoke.
+ * @description Chapter 263: each ladder gate bears a human title while its
+ * transport filename remains hidden beneath the threshold.
  */
 import { esc, LEVELS } from './domKit.js';
-function labelFor(id, fallback) {
-  return String(id).match(/ladder-(\d+)/)?.[1] ? `${fallback} — ${id}` : fallback;
-}
+
+/** @returns {string} Complete level-selection card markup. */
 export function levelCardsHtml() {
-  return LEVELS.map(([id, label]) => `<button type="button" data-level-id="${esc(id)}" class="awts-npc-level-card"><strong>${esc(labelFor(id, label))}</strong><span>Load JSON challenge</span></button>`).join('');
+  return LEVELS.map(([id, label], index) => `
+    <button type="button" data-level-id="${esc(id)}" class="awts-npc-level-card">
+      <span class="awts-npc-level-number">${String(index + 1).padStart(2, '0')}</span>
+      <strong>${esc(label)}</strong>
+      <span>Enter challenge</span>
+    </button>`).join('');
 }

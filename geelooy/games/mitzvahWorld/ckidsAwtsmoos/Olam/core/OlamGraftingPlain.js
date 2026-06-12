@@ -11,13 +11,13 @@
 import loading from "../methods/loadingPlain.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
-import heesHawvoos from "../methods/heesHawvoos.js";
+import heesHawvoos from "../methods/heesHawvoos.js?v=village-polish-20260612-bh811";
 import HelpersBridge from "../methods/helpers.js?v=visible-root-binding-20260610-bh710";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=village-combat-20260611-bh802";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=village-polish-20260612-bh810";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
-import bindAllListeners from "../eventListeners/index.js";
+import bindAllListeners from "../eventListeners/index.js?v=village-polish-20260612-bh810";
 
 export default class OlamGraftingPlain {
   static async graft(olam) {

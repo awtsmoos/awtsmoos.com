@@ -8,14 +8,14 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
-import OlamGrafting from "./OlamGraftingPlain.js?v=village-combat-20260611-bh803";
+import OlamGrafting from "./OlamGraftingPlain.js?v=village-polish-20260612-bh811";
 import OlamProperties from "../properties/index.js?v=village-combat-20260611-bh804";
 import OlamInit from "./OlamInit.js?v=village-combat-20260611-bh804";
 import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";
 import UserProgressManager from "../../systems/UserProgressManager.js?v=village-combat-20260611-bh804";
 import Yichud from "../interaction/Yichud.js?compact=true";
 import PlacementManager from "../interaction/PlacementManager.js?compact=true";
-import CombatManager from "../../systems/combat/CombatManager.js?v=village-combat-20260611-bh801";
+import CombatManager from "../../systems/combat/CombatManager.js?v=village-polish-20260612-bh810";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true";
 
 const SAFE_SKY = 0x5d8fa8;

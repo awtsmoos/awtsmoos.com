@@ -5,7 +5,9 @@
  *
  * Provider definitions are data, not scattered conditionals. Context windows,
  * endpoints, keys, models, and stream quirks all live here so every caller can
- * trim memory and render progress with the same truth.
+ * trim memory and render progress with the same truth. ChatGPT browser mode is
+ * a local tunnel provider: it has no API key and speaks through the user's
+ * manually authenticated debug Chrome profile.
  */
 export const AI_PROVIDERS = Object.freeze({
   minimax: {
@@ -38,6 +40,28 @@ export const AI_PROVIDERS = Object.freeze({
     endpoint: "https://api.groq.com/openai/v1/chat/completions",
     defaultModel: "llama-3.3-70b-versatile",
     contextWindow: 128000
+  },
+  chatgpt: {
+    id: "chatgpt",
+    name: "ChatGPT Browser",
+    browserProvider: true,
+    localTunnelProvider: true,
+    storageKey: "chatgpt-browser",
+    endpoint: "awtsmoos-tunnel://chatgpt",
+    defaultModel: "chatgpt-browser-profile",
+    contextWindow: 128000,
+    requiresApiKey: false
+  },
+  "chatgpt-browser": {
+    id: "chatgpt-browser",
+    name: "ChatGPT Browser",
+    browserProvider: true,
+    localTunnelProvider: true,
+    storageKey: "chatgpt-browser",
+    endpoint: "awtsmoos-tunnel://chatgpt",
+    defaultModel: "chatgpt-browser-profile",
+    contextWindow: 128000,
+    requiresApiKey: false
   }
 });
 

@@ -1,0 +1,56 @@
+{
+  "tunnelName": "awt-sandbox-localhost-zip",
+  "relay": "wss://awtsmoos.com",
+  "local": "http://localhost:3000",
+  "root": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com",
+  "allowWrite": true,
+  "allowSecrets": false,
+  "allowCommands": true,
+  "enableLocalHttpProxy": true,
+  "aiAgents": {
+    "agents": [],
+    "providerKeys": {},
+    "providerKeyFiles": {},
+    "maxDepth": 3,
+    "maxChildrenPerTask": 8,
+    "maxTotalTasks": 80,
+    "pollIntervalMs": 7000,
+    "promotionCycles": 7,
+    "agentCycles": 8,
+    "chapterCycles": 8,
+    "providerTimeoutMs": 45000,
+    "allowRecursiveSpawn": true
+  },
+  "localApi": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 3988
+  },
+  "tools": {
+    "fsList": true,
+    "fsTree": true,
+    "fsRead": true,
+    "fsWrite": true,
+    "fsBulk": true,
+    "httpProxy": true,
+    "command": true,
+    "nodeScript": true,
+    "chrome": true,
+    "browser": true
+  },
+  "command": {
+    "enabled": true,
+    "allowNodeScript": true,
+    "defaultShell": "powershell",
+    "timeoutMs": 240000,
+    "maxOutput": 120000
+  },
+  "chrome": {
+    "enabled": true,
+    "port": 9222,
+    "path": "",
+    "chromePath": "",
+    "userDataDir": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\AI_THOUGHTS\\runtime-stress\\.tmp-windows-localhost-install\\home\\.awtsmoos-tunnel\\chrome-profile",
+    "headless": false
+  }
+}

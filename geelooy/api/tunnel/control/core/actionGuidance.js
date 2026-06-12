@@ -31,7 +31,6 @@ const GUIDANCE_PROMPTS = [
   "Keep going with a smaller safe step if the big step is blocked.",
   "Do not merely conclude; either finish fully or return a continuation prompt that forces the next step.",
   "Check the control panel default prompt too; the UI should remind agents to keep going.",
-  "Make the next AI help itself: include taskLoop, keepGoingPrompt, remainingWorkPrompt, and concludePrompt.",
   "Every response should nudge: continue, verify, inspect confusion, and conclude only when complete.",
   "When a list is long, group it by family and burn down the largest family first.",
   "Keep the Awtsmoos path alive: inspect, infer, act, verify, continue.",
@@ -46,13 +45,25 @@ const GUIDANCE_PROMPTS = [
   "Do not forget to call finishAndContinue when autonomous work should continue beyond this response."
 ];
 
+/**
+ * B"H
+ * Chapter 381: One spark, not a swarm.
+ * The ChatGPT agent should receive one guidance prompt by default. The full
+ * council of prompts appears only when guidanceDebug=true, so normal action
+ * responses remain sharp, small, and usable.
+ */
 function seedForAction(action = "") {
   const letters = String(action || "");
   return letters.split("").reduce((sum, ch) => sum + ch.charCodeAt(0), letters.length);
 }
 
+function randomIndex(action = "") {
+  const salt = Math.floor(Date.now() / 60000);
+  return Math.abs(seedForAction(action) + salt) % GUIDANCE_PROMPTS.length;
+}
+
 function guidanceForAction(action = "") {
-  return GUIDANCE_PROMPTS[seedForAction(action) % GUIDANCE_PROMPTS.length];
+  return GUIDANCE_PROMPTS[randomIndex(action)];
 }
 
 function guidancePackForAction(action = "") {
@@ -64,25 +75,31 @@ function actionChecklistPrompt(action = "") {
   return `For action ${String(action || "unknown")}: write the remaining task list, inspect confusing results, do the next item, verify with a real result, then continue or conclude explicitly.`;
 }
 
+function debugWanted(payload = {}) {
+  return payload.guidanceDebug === true || payload.guidanceDebug === "true" || payload.debugGuidance === true || payload.debugGuidance === "true";
+}
+
+function guidancePayload(action, payload) {
+  const base = { keepGoing: true, prompt: guidanceForAction(action) };
+  if (!debugWanted(payload)) return base;
+  return {
+    ...base,
+    prompts: guidancePackForAction(action),
+    keepGoingPrompt: DEFAULT_KEEP_GOING_PROMPT,
+    remainingWorkPrompt: "Keep thinking of a list of all remaining things. Do them one by one. After each action, verify with a real result and continue.",
+    confusingActionPrompt: "Do not forget to inspect the confusing action at the end: partial outputs, empty ok=true responses, skipped actions, generic support, catch paths, and cached live routes.",
+    concludePrompt: DEFAULT_CONCLUDE_PROMPT,
+    concludeReminder: "At the end of the work loop, call the conclude/final-summary step when available. If not done, call finishAndContinue with the remaining task list.",
+    taskLoop: "List necessary things to do; do them one by one; verify each step; inspect confusing results; continue until no unverified work remains.",
+    actionChecklistPrompt: actionChecklistPrompt(action)
+  };
+}
+
 function attachActionGuidance(result, payload = {}) {
   if (!result || typeof result !== "object" || Array.isArray(result)) return result;
   if (result.aiGuidance) return result;
   const action = payload.action || result.action || "unknown";
-  return {
-    ...result,
-    aiGuidance: {
-      keepGoing: true,
-      prompt: guidanceForAction(action),
-      prompts: guidancePackForAction(action),
-      keepGoingPrompt: DEFAULT_KEEP_GOING_PROMPT,
-      remainingWorkPrompt: "Keep thinking of a list of all remaining things. Do them one by one. After each action, verify with a real result and continue.",
-      confusingActionPrompt: "Do not forget to inspect the confusing action at the end: partial outputs, empty ok=true responses, skipped actions, generic support, catch paths, and cached live routes.",
-      concludePrompt: DEFAULT_CONCLUDE_PROMPT,
-      concludeReminder: "At the end of the work loop, call the conclude/final-summary step when available. If not done, call finishAndContinue with the remaining task list.",
-      taskLoop: "List necessary things to do; do them one by one; verify each step; inspect confusing results; continue until no unverified work remains.",
-      actionChecklistPrompt: actionChecklistPrompt(action)
-    }
-  };
+  return { ...result, aiGuidance: guidancePayload(action, payload) };
 }
 
 module.exports = {
@@ -92,5 +109,6 @@ module.exports = {
   guidanceForAction,
   guidancePackForAction,
   actionChecklistPrompt,
-  attachActionGuidance
+  attachActionGuidance,
+  guidancePayload
 };

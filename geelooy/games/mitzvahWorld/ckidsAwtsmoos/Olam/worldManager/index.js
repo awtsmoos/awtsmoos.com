@@ -10,8 +10,8 @@
  * binding seal.
  */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-root-binding-20260610-bh710";
-import UIManager from "../uiManager/index.js?compact=true&v=visible-root-binding-20260610-bh710";
-import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=village-combat-20260611-bh804";
+import UIManager from "../uiManager/index.js?compact=true&v=village-polish-20260612-bh811";
+import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=village-polish-20260612-bh811";
 import SocketHandler from "./SocketHandler.js?compact=true&v=visible-root-binding-20260610-bh710";
 import ServiceWorkerInit from "./ServiceWorkerInit.js?compact=true&v=visible-root-binding-20260610-bh710";
 import SwitchDestroyLogic from "./SwitchDestroyLogic.js?compact=true&v=visible-root-binding-20260610-bh710";

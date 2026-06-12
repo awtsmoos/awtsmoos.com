@@ -19,6 +19,7 @@ export default class RenderTrace {
    * Nothing is returned; the console and main thread receive the checkpoint.
    */
   static speak(stage, details = {}) {
+    if (globalThis.__AWTSMOOS_RENDER_TRACE__ !== true) return;
     const safeDetails = RenderTrace.safe(details);
     const text = JSON.stringify(safeDetails);
     console.info(`B"H | RENDER_TRACE | ${stage} | ${text}`);

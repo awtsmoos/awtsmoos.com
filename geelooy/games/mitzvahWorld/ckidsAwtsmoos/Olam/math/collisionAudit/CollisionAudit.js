@@ -10,8 +10,9 @@
  * it to confess its box.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-const MAX_LOGS = 80;
+const MAX_LOGS = 12;
 const state = { accepted: 0, skipped: 0 };
+const enabled = () => globalThis.__AWTSMOOS_COLLISION_AUDIT__ === true;
 const n = value => Number.isFinite(Number(value)) ? Number(Number(value).toFixed(3)) : null;
 function worldBox(mesh) {
   if (!mesh?.geometry) return null;
@@ -33,9 +34,9 @@ function kind(mesh) {
 }
 function record(label, mesh, reason, counter) {
   state[counter] += 1;
-  if (state[counter] > MAX_LOGS) return;
-  console.info(label, { name: mesh?.name, type: kind(mesh), reason, role: mesh?.userData?.colliderRole, position: point(mesh), box: worldBox(mesh), userData: { isSolid: mesh?.userData?.isSolid, explicitCollision: mesh?.userData?.explicitCollision, collisionBody: mesh?.userData?.collisionBody, addToOctree: mesh?.userData?.addToOctree, skipOctree: mesh?.userData?.skipOctree, noOctree: mesh?.userData?.noOctree, skipRaycast: mesh?.userData?.skipRaycast, villageDecor: mesh?.userData?.villageDecor, isTerrain: mesh?.userData?.isTerrain } });
+  if (!enabled() || state[counter] > MAX_LOGS) return;
+  console.debug(label, { name: mesh?.name, type: kind(mesh), reason, role: mesh?.userData?.colliderRole, position: point(mesh), box: worldBox(mesh) });
 }
 export function auditAccepted(mesh, reason = 'accepted') { record('B"H | COLLIDER_ACCEPTED_AUDIT', mesh, reason, 'accepted'); }
 export function auditSkipped(mesh, reason = 'skipped') { record('B"H | COLLIDER_SKIPPED_AUDIT', mesh, reason, 'skipped'); }
-export function auditSummary(extra = {}) { console.info('B"H | COLLIDER_AUDIT_SUMMARY', { ...state, ...extra }); }
+export function auditSummary(extra = {}) { if (enabled()) console.debug('B"H | COLLIDER_AUDIT_SUMMARY', { ...state, ...extra }); }

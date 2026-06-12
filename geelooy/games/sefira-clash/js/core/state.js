@@ -2,13 +2,16 @@ import { createFighter } from '../fighters/createFighter.js';
 import { applyHatStats } from '../fighters/applyHatStats.js';
 import { createMapPowerups } from '../powerups/powerupFactory.js';
 import { createMapWeapons } from '../weapons/weaponFactory.js';
+import { createStageDirector } from '../stage/events/stageDirector.js';
+import { createStageMood } from '../stage/events/stageMood.js';
 
 /**
  * B"H
- * Creates the match state with one customized human fighter and hat class.
+ * Creates the match state with living-stage vessels.
  *
- * Chapter 208: the hat enters the body at spawn. Bots spread across the map;
- * the player carries color, headwear, and class stats into every chamber.
+ * Chapter 145: the arena now opens with fighters, weapons, old powerups, and a
+ * hidden stage-soul: mood, director, hazards, scars, and objectives waiting to
+ * awaken only when the battle asks for them.
  */
 export function createGameState(map, botCount = 5, character = {}, cosmetic = {}) {
   const firstSpawn = map.spawns[0];
@@ -31,6 +34,8 @@ export function createGameState(map, botCount = 5, character = {}, cosmetic = {}
   return {
     phase: 'countdown', map, fighters,
     weapons: createMapWeapons(map), powerups: createMapPowerups(map),
+    hazards: [], scars: [], objective: null,
+    stageMood: createStageMood(map), stageDirector: createStageDirector(),
     particles: [], events: [], frame: 0, winner: '', victoryShown: false,
     camera: { x: 0, y: 0, zoom: 1 }, debug: false
   };

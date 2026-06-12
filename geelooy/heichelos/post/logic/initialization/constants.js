@@ -2,43 +2,28 @@
 /**
  * @file constants.js
  * @description
- * THE IMMUTABLE LAWS OF PATHING.
- * 
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * !!! DO NOT CHANGE THESE PATHS UNDER ANY CIRCUMSTANCE !!!
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * 
- * These functions define the exact contract with the Awtsmoos API.
- * Any deviation causes "Void" errors.
+ * The route covenant for the post reader. The backend's live post reader API is
+ * series-contextual: `/heichelos/:heichel/series/:series/post/:post`. Older
+ * direct paths like `/heichelos/:heichel/post/:post` are invalid in the current
+ * router, so this module refuses to mint them quietly.
  */
 
 /**
  * Constructs the URL to fetch a Series.
- * CRITICAL: Must include '/details' to retrieve the 'posts' array.
- * Used for mapping Index -> ID.
+ * Must include `/details` for the reader index -> postId map.
  */
 export function constructSeriesDetailsUrl(heichelId, seriesId) {
-    // ! IMMUTABLE !
     return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/details`;
 }
 
 /**
- * Constructs the URL to fetch a Post.
- * CRITICAL: Must include '/series/{id}' if a series context exists.
- * Used for fetching the actual content.
+ * Constructs the canonical contextual URL to fetch a Post.
  */
 export function constructPostUrl(heichelId, seriesId, postId) {
-    const safeH = encodeURIComponent(heichelId);
-    const safeP = encodeURIComponent(postId);
-    const safeS = encodeURIComponent(seriesId);
-
-    if (seriesId && seriesId !== "root") {
-        // ! IMMUTABLE: Series Context !
-        return `/api/social/heichelos/${safeH}/series/${safeS}/post/${safeP}`;
-    } else {
-        // ! IMMUTABLE: Direct Context !
-        return `/api/social/heichelos/${safeH}/post/${safeP}`;
+    if (!seriesId || seriesId === "root") {
+        throw new Error("POST_READER_REQUIRES_SERIES_CONTEXT");
     }
+    return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/post/${encodeURIComponent(postId)}`;
 }
 
 /**

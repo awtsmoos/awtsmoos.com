@@ -1,19 +1,21 @@
 import { punchCamera } from '../camera/camera.js';
 import { circleHit } from '../core/collision.js';
+import { rememberRapidJailHit } from '../ai/advanced/combat/hitEscapeIntent.js';
 import { damageAfterDefense, knockAfterHat } from '../fighters/applyHatStats.js';
 import { buildFighterBroadphase, nearbyFighters } from '../performance/broadphase.js';
 import { applyKnockback } from '../physics/knockback.js';
+import { addBattlefieldScar } from '../stage/scars/battlefieldScars.js';
 import { anchors } from '../skeleton/anchors.js';
 import { beginGrab } from './grabResolver.js';
 import { shieldAbsorb } from './shields.js';
 
 /**
  * B"H
- * Combat resolver with main attacks plus overlay rapid sparks.
+ * Combat resolver with concrete powerup force.
  *
- * Chapter 40: the arena now hears two attack vessels. The main attack may be a
- * charging decree, while rapid taps become small overlay hits that do not cancel
- * the decree. The Awtsmoos keeps their hit sets, frames, and endings separate.
+ * Chapter 190: Gevurah, Heavy Gloves, and Rage Scroll now turn pickups into
+ * felt combat. Damage, launch, hitstop, stun, and scars all read one lawful
+ * force calculation before the arena tells the story.
  */
 export function resolveAttacks(state) {
   tickCombos(state.fighters);
@@ -106,18 +108,26 @@ function landGrab(state, attacker, target, slot) {
 
 function landHit(state, attacker, target, attack) {
   const weapon = attack.rapid ? null : attacker.heldWeapon;
-  const fist = attacker.buffs?.gevurahFist ? 1.45 : 1;
-  const raw = Math.max(1, Math.round((attack.damage + (weapon?.damage || 0)) * fist));
+  const power = attackPower(attacker);
+  const raw = Math.max(1, Math.round((attack.damage + (weapon?.damage || 0)) * power.damage));
   const damage = damageAfterDefense(target, raw);
   const combo = updateCombo(attacker, target);
   target.damage += damage;
   target.danger = target.damage > 120;
-  const knock = knockAfterHat(attacker, attack.knock * fist + (weapon?.knock || 0));
+  rememberRapidJailHit(target, attacker, attack);
+  const knock = knockAfterHat(attacker, attack.knock * power.knock + (weapon?.knock || 0));
   const force = Math.max(damage, knock);
   applyKnockback(target, attacker, { ...attack, damage, knock }, weapon);
   state.hitstop = Math.max(state.hitstop || 0, Math.min(7, attack.rapid ? 1 : 2 + Math.floor(force / 8)));
   punchCamera(state, attack.rapid ? 2 : Math.min(18, force * 0.45));
   emitHit(state, attacker, target, attack, damage, weapon, force, combo);
+}
+
+function attackPower(attacker) {
+  return {
+    damage: attacker.buffs?.gevurahFist ? 1.45 : attacker.buffs?.rageScroll ? 1.1 : 1,
+    knock: attacker.buffs?.heavyGloves ? 1.24 : attacker.buffs?.gevurahFist ? 1.1 : 1
+  };
 }
 
 function updateCombo(attacker, target) {
@@ -146,6 +156,8 @@ function shieldHit(state, attacker, target, attack) {
 function emitHit(state, attacker, target, attack, damage, weapon, force, combo) {
   const side = Math.sign(attack.aim?.x || target.x - attacker.x) || attacker.face || 1;
   const letter = combo >= 20 ? 'כ' : combo >= 10 ? 'י' : combo >= 5 ? 'ה' : attack.letter || 'כ';
-  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, side, letter, damage, force, koDanger: target.damage > 120, combo, charge: attack.charge || 0, fullCharge: attack.fullCharge, rapid: attack.rapid });
+  const event = { type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, side, letter, damage, force, koDanger: target.damage > 120, combo, charge: attack.charge || 0, fullCharge: attack.fullCharge, rapid: attack.rapid };
+  state.events.push(event);
+  addBattlefieldScar(state, event);
   if (combo >= 3) state.events.push({ type: 'narrative', x: target.x, y: target.y - 145, text: `${combo}x`, color: '#fff4a8' });
 }

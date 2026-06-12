@@ -1,27 +1,33 @@
 bh: "B\"H"
-generated_at: "2026-06-02T08:49:09.473Z"
-scope:
-  - "geelooy/apps/*/index.html"
-  - "geelooy/games/*/index.html"
-boundary:
-  app_game_source_workarounds_reverted: true
-  fake_three_fallbacks: "removed"
-summary:
-  total: 31
-  tested: 31
-  passed: 29
-  failed: 0
-caps:
-  collect_ms: 0
-  runtime_ms: 0
-failures:
-  - path: "serverStart"
-    error: "not directly registered in local dispatcher mapping"
-  - path: "serverStop"
-    error: "not directly registered in local dispatcher mapping"
-slow_but_passing:
-  []
-result_files:
-  - "AI_THOUGHTS/runtime-stress/runtime-regression-tests.json"
-  - "AI_THOUGHTS/runtime-stress/direct-runtime-matrix.json"
-  - "AI_THOUGHTS/runtime-stress/direct-runtime-matrix.jsonl"
+generated_at: "2026-06-12T08:13:20.431Z"
+install_manifest:
+  generator: "geelooy/apps/tunnel/agent/rebuild-manifest.cjs"
+  files: 228
+roots:
+  - label: "Tunnel app"
+    path: "geelooy/apps/tunnel"
+    exists: true
+    files: 242
+    dirs: 33
+    bytes: 811744
+  - label: "Tunnel control app"
+    path: "geelooy/apps/tunnel-control"
+    exists: true
+    files: 151
+    dirs: 27
+    bytes: 451250
+  - label: "Merkava executor external library"
+    path: "geelooy/scripts/awtsmoos/MerkavaExecutor"
+    exists: true
+    files: 502
+    dirs: 44
+    bytes: 1652162
+  - label: "Merkava AST parser external library"
+    path: "geelooy/scripts/awtsmoos/MerkavaASTParser"
+    exists: true
+    files: 15
+    dirs: 0
+    bytes: 270940
+external_libraries:
+  - "geelooy/scripts/awtsmoos/MerkavaExecutor"
+  - "geelooy/scripts/awtsmoos/MerkavaASTParser"

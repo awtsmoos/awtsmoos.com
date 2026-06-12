@@ -23,6 +23,7 @@ export const WEAPON_REGISTRY = Object.freeze({
     damage: 25,
     range: 18,
     attackSpeed: 0.42,
+    koachCost: 3,
     price: 0,
     projectile: { letter: "\u05d0", color: 0xffd700, speed: 34, lifetime: 0.62, size: 0.72, burst: 3, spread: 0.24 },
     description: "A quick Alef burst for close village defense."
@@ -35,6 +36,7 @@ export const WEAPON_REGISTRY = Object.freeze({
     damage: 20,
     range: 58,
     attackSpeed: 0.72,
+    koachCost: 5,
     price: 0,
     projectile: { letter: "\u05e9", color: 0xff5b2d, speed: 66, lifetime: 2.1, size: 0.54, burst: 1, spread: 0 },
     description: "A Shin arrow for clean ranged pulls."
@@ -47,6 +49,7 @@ export const WEAPON_REGISTRY = Object.freeze({
     damage: 18,
     range: 26,
     attackSpeed: 1.55,
+    koachCost: 12,
     price: 0,
     projectile: { letter: "ALL", color: 0xffffff, speed: 25, lifetime: 1.35, size: 0.38, burst: 22, spread: Math.PI * 2 },
     description: "All letters circle outward for crowd control."

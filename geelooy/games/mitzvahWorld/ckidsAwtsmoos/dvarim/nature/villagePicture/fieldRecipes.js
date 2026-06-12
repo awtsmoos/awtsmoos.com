@@ -7,30 +7,20 @@
  * picture, but remain only visual breath and never collision weight.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { add } from "./geometryKit.js";
+import { foliageBatch, setFoliageInstance } from "./FoliageAtlas.js";
 
-const GRASS_A = 0x317f2f;
-const GRASS_B = 0x5d9a37;
-const FLOWER_Y = 0xffd84d;
-const FLOWER_P = 0xcf6dff;
-
-function blade(group, x, z, h, color, lean) {
-  add(group, "cube", color, [x, h / 2, z], [0.045, h, 0.035], [lean, 0, lean * 0.4]);
-}
-
-function tuft(group, cx, cz, scale = 1) {
-  for (let i = 0; i < 8; i += 1) {
-    const a = i * Math.PI * 2 / 8;
-    blade(group, cx + Math.cos(a) * 0.12 * scale, cz + Math.sin(a) * 0.12 * scale, (0.28 + (i % 3) * 0.07) * scale, i % 2 ? GRASS_A : GRASS_B, (i - 4) * 0.04);
-  }
-}
+const rand = value => { const x = Math.sin(value * 91.173) * 43758.5453; return x - Math.floor(x); };
 
 export function meadowDetail(options = {}) {
   const group = new THREE.Group();
   const clusters = options.clusters || [[-7, 8], [-3, 6], [5, -1], [8, -6], [-15, 7], [12, 2]];
-  clusters.forEach(([x, z], c) => {
-    for (let i = 0; i < 7; i += 1) tuft(group, x + Math.sin(i * 1.7 + c) * 1.2, z + Math.cos(i * 1.3 + c) * 0.9, 0.8 + (i % 3) * 0.18);
-    for (let j = 0; j < 5; j += 1) add(group, "cube", j % 2 ? FLOWER_Y : FLOWER_P, [x + Math.sin(j * 2.1) * 1.0, 0.2, z + Math.cos(j * 1.8) * 0.8], [0.08, 0.08, 0.08]);
-  });
+  const placements = [];
+  clusters.forEach(([x, z], c) => { for (let i = 0; i < 9; i += 1) placements.push({ x: x + Math.sin(i * 1.7 + c) * 1.35, z: z + Math.cos(i * 1.3 + c) * 1.05, seed: c * 20 + i }); });
+  for (let variant = 0; variant < 4; variant += 1) {
+    const rows = placements.filter((_, index) => index % 4 === variant);
+    const mesh = foliageBatch({ file: "grass-atlas.png", cell: variant, count: rows.length, planes: 2, wind: 0.035, alphaTest: 0.3, name: `meadow_grass_atlas_${variant}` });
+    rows.forEach((p, index) => { const size = 0.58 + rand(p.seed) * 0.36; setFoliageInstance(mesh, index, new THREE.Vector3(p.x, 0.01, p.z), new THREE.Euler(0, rand(p.seed + 4) * Math.PI, 0), new THREE.Vector3(size * 0.78, size, size * 0.78)); });
+    mesh.instanceMatrix.needsUpdate = true; mesh.computeBoundingSphere?.(); group.add(mesh);
+  }
   return group;
 }

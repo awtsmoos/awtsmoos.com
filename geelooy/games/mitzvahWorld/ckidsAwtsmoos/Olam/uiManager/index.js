@@ -6,7 +6,7 @@
  */
 import UI from "/scripts/awtsmoos/ui/index.js";
 import style from "./ui/style.js?v=ray-ground-ui-20260602-bh129";
-import mainMenu from "./ui/mainMenu/index.js?v=ray-ground-ui-20260602-bh129";
+import mainMenu from "./ui/mainMenu/index.js?v=village-polish-20260612-bh810";
 
 export default class UIManager {
   constructor() {}

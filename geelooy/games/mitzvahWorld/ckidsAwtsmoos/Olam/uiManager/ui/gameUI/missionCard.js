@@ -15,7 +15,7 @@ const DEFAULT_OBJECTIVES = Object.freeze([
 ]);
 const find = name => document.querySelector(`[shaym="${name}"], [data-shaym="${name}"], #${name}, .${name}`);
 const safe = value => String(value ?? "").replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[ch]));
-const hostFrom = self => self?.dataset ? self : find("levelMission") || document.body;
+const hostFrom = () => find("levelMission") || document.querySelector(".level-mission-card");
 const iconFor = icon => ({ coin: "🪙", pushkuh: "🎁", mezuzah: "🚪" }[icon] || "✨");
 
 function objectivesFrom(data = {}) {
@@ -44,15 +44,16 @@ function show(host, data) {
 
 export default {
   shaym: "levelMission",
+  id: "levelMission",
   className: "level-mission-card",
-  style: { position: "fixed", top: "calc(74px + env(safe-area-inset-top))", left: "10px", zIndex: 22990, width: "min(330px, calc(100vw - 74px))", display: "none", pointerEvents: "none", color: "#fff4cf", fontFamily: "Arial, sans-serif" },
+  style: { position: "fixed", top: "calc(96px + env(safe-area-inset-top))", left: "10px", zIndex: 22990, width: "min(330px, calc(100vw - 74px))", display: "none", pointerEvents: "none", color: "#fff4cf", fontFamily: "Arial, sans-serif" },
   on: {
-    awtsmoosRevealed() { this.style.display = "none"; },
-    levelMission(e) { show(hostFrom(this), e?.detail || {}); },
-    gameHUD(e) { const data = e?.detail?.levelMission; if (data) show(hostFrom(this), data); }
+    awtsmoosRevealed() { const host = hostFrom(); if (host && !host.querySelector?.(".mission-title")) host.style.display = "none"; },
+    levelMission(e) { const host = hostFrom(); if (host) show(host, e?.detail || {}); },
+    gameHUD(e) { const data = e?.detail?.levelMission; const host = hostFrom(); if (data && host) show(host, data); }
   },
   children: [
     { className: "mission-card-inner", style: { padding: "11px 13px", borderRadius: "18px", background: "linear-gradient(180deg,rgba(42,27,12,.84),rgba(13,9,5,.76))", border: "1px solid rgba(255,218,122,.36)", boxShadow: "0 8px 22px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.12)", backdropFilter: "blur(6px)" } },
-    { tag: "style", innerHTML: `.level-mission-card .mission-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#ffd978;font-weight:900}.level-mission-card .mission-tier{margin-left:8px;color:#7dfcff}.level-mission-card .mission-title{font-size:17px;font-weight:900;margin-top:3px;color:#fff8d8}.level-mission-card .mission-text{font-size:12px;line-height:1.25;margin-top:5px;color:#ffe8a6}.level-mission-card ol{margin:8px 0 0 18px;padding:0;font-size:12px;line-height:1.35}.level-mission-card li{margin:2px 0}.level-mission-card .mission-hint{margin-top:8px;font-size:11px;color:#9effd0}.mission-card-soft{opacity:.54;transition:opacity .6s}@media(max-width:760px){.level-mission-card{top:calc(72px + env(safe-area-inset-top))!important;left:8px!important;width:min(330px,calc(100vw - 64px))!important}}` }
+    { tag: "style", innerHTML: `.level-mission-card{width:min(278px,calc(100vw - 32px))!important}.level-mission-card .mission-card-inner{padding:9px 11px!important;border-radius:13px!important}.level-mission-card .mission-kicker{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#ffd978;font-weight:900}.level-mission-card .mission-tier{margin-left:7px;color:#7dfcff}.level-mission-card .mission-title{font-size:15px;font-weight:900;margin-top:2px;color:#fff8d8}.level-mission-card .mission-text{display:none}.level-mission-card ol{margin:5px 0 0 17px;padding:0;font-size:11px;line-height:1.25}.level-mission-card li{margin:1px 0}.level-mission-card .mission-hint{margin-top:5px;font-size:10px;color:#9effd0}.mission-card-soft{opacity:.68;transition:opacity .6s}@media(max-width:760px){.level-mission-card{top:calc(72px + env(safe-area-inset-top))!important;left:8px!important;width:min(260px,calc(100vw - 16px))!important}}` }
   ]
 };

@@ -12,11 +12,11 @@
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import setupDomEvents from "./worker/domEvents.js?v=visible-root-binding-20260610-bh710";
-import setupMessageHandler from "./worker/messageHandler.js?v=direct-mobile-move-20260610-bh704";
+import setupDomEvents from "./worker/domEvents.js?v=village-polish-20260612-bh811";
+import setupMessageHandler from "./worker/messageHandler.js?v=village-polish-20260612-bh811";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=lava-camera-collision-bypass-20260609-bh643";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=village-polish-20260612-bh811";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";
@@ -42,7 +42,7 @@ export default class OlamWorkerManager {
     attachWorkerErrorEvents(this.eved, workerPath);
     setupMessageHandler(this);
     setupDomEvents(this);
-    console.info('B"H | OYVED_MANAGER_BOUND', { seal: SEAL, workerPath, touchTrace: window.__AWTSMOOS_TOUCH_TRACE__?.slice?.(-4) || [] });
+    if (window.__AWTSMOOS_WORKER_TRACE__ === true) console.info('B"H | OYVED_MANAGER_BOUND', { seal: SEAL, workerPath, touchTrace: window.__AWTSMOOS_TOUCH_TRACE__?.slice?.(-4) || [] });
     this.eved.onmessage = event => {
       this.runtime.touch();
       interceptWorkerMessage(this, event);

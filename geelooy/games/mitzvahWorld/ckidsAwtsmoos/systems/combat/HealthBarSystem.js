@@ -54,6 +54,8 @@ export default class HealthBarSystem {
     constructor() {
         /** @type {Map<string, Object>} Map of entity ID to health bar data */
         this.bars = new Map();
+        this.selected = null;
+        this.selectedBar = null;
     }
 
     /**
@@ -108,9 +110,21 @@ export default class HealthBarSystem {
             fgCanvas,
             fgTexture,
             fgMat,
+            bgMat,
+            bgTexture,
+            nameMat,
+            nameTex,
             nameSprite,
             entity
         });
+        container.visible = false;
+    }
+
+    /** @param {object|null} entity The one creature whose life crown is revealed. */
+    setSelected(entity) {
+        this.selected = entity || null;
+        this.selectedBar = entity ? this.bars.get(entity.name) || null : null;
+        for (const bar of this.bars.values()) bar.container.visible = bar === this.selectedBar;
     }
 
     /**
@@ -118,33 +132,25 @@ export default class HealthBarSystem {
      * @param {THREE.Camera} camera - The active camera for billboard orientation.
      */
     update(camera) {
-        for (const [id, bar] of this.bars) {
-            const entity = bar.entity;
-            if (!entity || !entity.mesh) continue;
+        const bar = this.selectedBar;
+        const entity = bar?.entity;
+        if (!bar || !entity?.mesh) return;
+        bar.container.visible = entity.hp > 0;
 
-            // B"H - Calculate health ratio
-            const maxHp = entity.maxHp || entity.options?.maxHp || 100;
-            const currentHp = entity.hp !== undefined ? entity.hp : maxHp;
-            const ratio = Math.max(0, Math.min(1, currentHp / maxHp));
+        // B"H - Calculate health ratio
+        const maxHp = entity.maxHp || entity.options?.maxHp || 100;
+        const currentHp = entity.hp !== undefined ? entity.hp : maxHp;
+        const ratio = Math.max(0, Math.min(1, currentHp / maxHp));
 
-            // B"H - Update foreground bar width and color
-            bar.fgSprite.scale.x = 2.0 * ratio;
-            // Shift the bar left so it shrinks from right
-            bar.fgSprite.position.x = -(1.0 - ratio) * 1.0;
+        // B"H - Update foreground bar width and color
+        bar.fgSprite.scale.x = 2.0 * ratio;
+        bar.fgSprite.position.x = -(1.0 - ratio) * 1.0;
 
-            // B"H - Color transition: green -> yellow -> red
-            this._updateBarColor(bar, ratio);
+        if (bar.lastRatio !== ratio) { this._updateBarColor(bar, ratio); bar.lastRatio = ratio; }
 
-            // B"H - Billboard: always face camera
-            if (camera) {
-                bar.container.quaternion.copy(camera.quaternion);
-            }
+        if (camera) bar.container.quaternion.copy(camera.quaternion);
 
-            // B"H - Hide bar if entity is dead
-            if (currentHp <= 0) {
-                bar.container.visible = false;
-            }
-        }
+        bar.container.visible = currentHp > 0;
     }
 
     /**
@@ -238,6 +244,11 @@ export default class HealthBarSystem {
         }
         bar.fgMat.dispose();
         bar.fgTexture.dispose();
+        bar.bgMat.dispose();
+        bar.bgTexture.dispose();
+        bar.nameMat.dispose();
+        bar.nameTex.dispose();
+        if (this.selectedBar === bar) { this.selectedBar = null; this.selected = null; }
         this.bars.delete(entityName);
     }
 

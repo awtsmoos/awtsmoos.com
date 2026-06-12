@@ -53,6 +53,17 @@ const {
  * @param {any} dayuh Raw dayuh from request/comment payload.
  * @returns {object|undefined} Parsed dayuh object, or undefined.
  */
+function runCommentSideEffect(label, fn) {
+    const startedAt = Date.now();
+    setImmediate(async () => {
+        try {
+            await fn();
+        } catch (error) {
+            console.error("B\"H deferred comment side effect failed:", label, error?.stack || error);
+        }
+    });
+    return { deferred: true, label, startedAt };
+}
 function parseDayuhVessel(dayuh) {
     if (!dayuh) return undefined;
     if (typeof dayuh === "object") return dayuh;
@@ -419,41 +430,7 @@ async function addOrApproveComment(
             return er("Database error: Could not append comment.", { code: "DB_WRITE_ERROR", details: dbError, path: aliasCommentFilePath, key: verseSection });
         }
 
-        // 5. Update Indexes (Simplified)
-        var indexResult = await addCommentIndexToAlias({
-             $i, aliasId, heichelId, seriesId,
-             parentType,
-             parentId,
-             postId
-        });
-
-        if (indexResult.error) {
-            // Log the error but don't necessarily fail the whole operation? Or should we roll back?
-            console.error("Failed to update alias series index:", indexResult.error);
-            // Decide on error handling strategy here. For now, return success with a warning.
-             return {
-                 warning: "Comment added, but failed to update alias series index.",
-                 details: { id: commentId, indexError: indexResult.error }
-             };
-        }
-
-        // 6. Handle Approval Flow Cleanup (Future)
-         if (isApproval && submittedCommentPath) {
-             await $i.db.delete(submittedCommentPath);
-        //     // Maybe remove from submission list too
-         }
-
-        const searchIndex = await indexCommentSearchRecord({
-            $i,
-            comment: shtar,
-            heichelId,
-            seriesId,
-            parentId,
-            parentType,
-            postId,
-            aliasId,
-            status: "active"
-        });
+        // 5. Update the fast read mirror synchronously; defer heavy indexes.
         const shardMirror = writeCommentShardRecord({
             $i,
             comment: shtar,
@@ -467,6 +444,29 @@ async function addOrApproveComment(
                 verseSection
             }
         });
+
+        const sideEffects = [
+            runCommentSideEffect("commentAliasIndex", () => addCommentIndexToAlias({
+                $i, aliasId, heichelId, seriesId, parentType, parentId, postId
+            })),
+            runCommentSideEffect("commentSearchIndex", () => indexCommentSearchRecord({
+                $i,
+                comment: shtar,
+                heichelId,
+                seriesId,
+                parentId,
+                parentType,
+                postId,
+                aliasId,
+                status: "active"
+            }))
+        ];
+
+        if (isApproval && typeof submittedCommentPath !== "undefined" && submittedCommentPath) {
+            sideEffects.push(runCommentSideEffect("submittedCommentCleanup", () => $i.db.delete(submittedCommentPath)));
+        }
+
+        const searchIndex = { deferred: true, sideEffects };
 
         return {
             success: true,
@@ -523,32 +523,23 @@ async function addCommentIndexToAlias({
         if (syncResult?.error) {
             console.error(`Failed to sync seriesId ${seriesId} in ${seriesIndexPath}:`, syncResult.error);
             return er("Database error updating series index.", { code: "DB_INDEX_ERROR", details: syncResult.error });
+        }        if (process.env.AWTSMOOS_ENABLE_COMMENT_BREADCRUMB_INDEX === "1") {
+            var bread = await $i.fetchAwtsmoos(
+                `/api/social/heichelos/${
+                    heichelId
+                }/series/${
+                    seriesId
+                }/breadcrumb`
+            );
+
+            if(Array.isArray(bread)) {
+                var crumbled = bread.map(q => q.id).join("/");
+                var pth = `${sp}/aliases/${aliasId}/comments/heichel/${heichelId}/seriesChain/${crumbled}`;
+                await $i.db.write(pth, { seriesId, breadcrumb: crumbled, updatedAt: Date.now() });
+            }
         }
 
-		var bread = await $i.fetchAwtsmoos(
-			`/api/social/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/breadcrumb`
-		);
-
-		if(Array.isArray(bread)) {
-			var crumbled = bread.map(q => q.id)
-				.join("/")
-			var pth = `${
-		        sp
-		    }/aliases/${
-		        aliasId
-		    }/comments/heichel/${
-		        heichelId
-		    }/seriesChain/${
-				crumbled
-			}`;
-			var wr = await $i.db.write(pth, { seriesId, breadcrumb: crumbled, updatedAt: Date.now() });
-		}
-
-        return { success: true, details: syncResult }; // Return DB operation details
+        return { success: true, details: syncResult, breadcrumbIndex: process.env.AWTSMOOS_ENABLE_COMMENT_BREADCRUMB_INDEX === "1" ? "enabled" : "skippedForFastWrites" }; // Return DB operation details
 
     } catch (e) {
         console.error("Error in addCommentIndexToAlias:", e);

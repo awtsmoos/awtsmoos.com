@@ -21,6 +21,7 @@ export default class VillageCombatState {
     this.kills = 0;
     this.perutas = 0;
     this.completed = false;
+    this.accepted = false;
     this.startedAt = Date.now();
   }
 
@@ -31,11 +32,20 @@ export default class VillageCombatState {
     this.syncHud("ready");
   }
 
+  /** Accepts the quest once, revealing the tracker after an NPC conversation. */
+  accept() {
+    if (this.accepted) return this.toast("The meadow shlichus is already active.", "info");
+    this.accepted = true;
+    this.kills = 0;
+    this.announce();
+  }
+
   /** @param {object} mob Defeated mob. */
   recordKill(mob) {
-    this.kills += 1;
     this.perutas += n(mob.perutas);
     this.rewardPlayer(mob);
+    if (!this.accepted) return this.toast(`${mob.name} refined. Speak to Reb Mendel for the meadow shlichus.`, "success");
+    this.kills += 1;
     this.olam?.chossid?.updateQuestProgress?.("kill", "wildAnimal");
     this.toast(`${mob.name} refined: +${mob.xpValue || 0} XP, +${mob.perutas || 0} perutas`, "success");
     this.syncHud("kill");

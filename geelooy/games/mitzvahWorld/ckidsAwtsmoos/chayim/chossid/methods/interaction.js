@@ -37,6 +37,8 @@ function hoveredOwner(ob, hit) {
   return p?.nivraAwtsmoos || null;
 }
 
+function isNpc(niv) { return ["customNpc", "medabeir", "interactiveNpc"].includes(niv?.type); }
+
 export default {
   actionList: {
     Delete(self) { self?.selected?.niv?.ayshPeula("sealayk"); },
@@ -66,6 +68,13 @@ export default {
     if (this.intersected?.niv) {
       const niv = this.intersected.niv;
       if (isInteractiveNivra(niv)) {
+        if (isNpc(niv) && this.targetedNpc !== niv) {
+          this.clearNpcTarget?.();
+          this.targetedNpc = niv;
+          this.setEntityHighlight(niv.mesh, true, 0xffcf45);
+          this.olam?.ayshPeula?.("ui event", "toast", { message: `B"H - Target: ${niv.name}. Click again to talk.`, type: "info" });
+          return;
+        }
         if (typeof niv.ayshPeula === "function") niv.ayshPeula("accepted interaction", explicitInteractionPayload(this, e));
         return;
       }
@@ -73,7 +82,14 @@ export default {
       return;
     }
 
+    this.clearNpcTarget?.();
     if (typeof this.shoot === "function") this.shoot();
+  },
+
+  /** Clears the current social target and restores its materials. */
+  clearNpcTarget() {
+    if (this.targetedNpc?.mesh) this.setEntityHighlight(this.targetedNpc.mesh, false);
+    this.targetedNpc = null;
   },
 
   async selectIntersected() {

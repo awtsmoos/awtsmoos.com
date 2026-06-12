@@ -1,11 +1,4 @@
 Starting instance of email
 Task Runner: Starting background polling for generic jobs...
 Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
-B"H
-
-
-
- Server running at http://127.0.0.1:8080/
-Time:  1781239909487
-B"H - Email server skipped; set AWTSMOOS_START_MAIL=true to enable it.
-[Merkava Parser] Detected Base Path: 
+B"H - Port 8080 is already in use; another server instance may already be alive.

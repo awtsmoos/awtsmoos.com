@@ -17,13 +17,21 @@ import { resolveLandingShockwaves } from '../physics/special/landingShockwave.js
 import { solveSkeleton } from '../skeleton/solveSkeleton.js';
 import { resolveWeaponPickups, syncHeldWeapons } from '../weapons/weaponPickup.js';
 import { stepPowerups } from '../powerups/powerupSystem.js';
+import { stepStageDirector } from '../stage/events/stageDirector.js';
 import { stepNarrative } from '../narrative/narrativeSystem.js';
 import { addEventParticles, stepParticles } from '../particles/particles.js';
 import { addWeaponTrails } from '../particles/emitters/weaponTrails.js';
 import { addAmbientDust } from '../particles/emitters/ambientDust.js';
 import { playEvents } from '../feedback/feedback.js';
 
-/** B"H — full battle tick with delayed respawns and living aftermath. */
+/**
+ * B"H
+ * Full battle tick with fast-simulation bypass.
+ *
+ * Chapter 233: gameplay keeps every spark and story. Headless fast simulation
+ * may skip render-only aftermath, so the war can be measured for many minutes
+ * without asking particles to perform for an invisible audience.
+ */
 export function stepState(state, input) {
   state.frame++;
   attachBlastEvents(state.map, state.events);
@@ -38,12 +46,14 @@ export function stepState(state, input) {
   resolveWeaponPickups(state);
   stepPowerups(state);
   syncHeldWeapons(state);
+  stepStageDirector(state);
   stepAftermath(state);
   resolveWinner(state);
 }
 
 function stepHitstop(state) {
   if (!state.hitstop) return false;
+  stepStageDirector(state);
   stepAftermath(state);
   resolveWinner(state);
   state.hitstop--;
@@ -51,12 +61,18 @@ function stepHitstop(state) {
 }
 
 function stepAftermath(state) {
+  if (state.fastSim) return clearInvisibleEvents(state);
   playEvents(state.events, state);
   stepNarrative(state);
   addWeaponTrails(state);
   addAmbientDust(state);
   addEventParticles(state);
   stepParticles(state);
+}
+
+function clearInvisibleEvents(state) {
+  state.events.length = 0;
+  if (state.particles?.length) state.particles.length = 0;
 }
 
 function stepFighter(state, f, input) {

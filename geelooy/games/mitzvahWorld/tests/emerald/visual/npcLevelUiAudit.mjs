@@ -37,9 +37,9 @@ const details = {
   fetcherUsesLevelBase: files.fetcher.includes('fetch(LEVEL_BASE + encodeURIComponent(clean)') && files.fetcher.includes('awtsmoos-level-json-v1'),
   launcherIsSplit: files.launcher.includes('levelFetcher') && files.launcher.includes('worldStartDispatcher'),
   dispatcherStartsWorld: files.dispatcher.includes('startWorld') && files.dispatcher.includes("CustomEvent('start'"),
-  normalizerJson: files.normalizer.includes("replace(/\\.js$/i, '.json')"),
+  normalizerJson: files.normalizer.includes("(?:js|json)") && files.normalizer.includes("`${stem}.json`"),
   levelSelectCanLoadEmerald: files.levelSelect.includes('/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/emerald.js'),
-  cssHasMobileGrid: files.css.includes('awts-npc-level-grid') && files.css.includes('@media(max-width:620px)'),
+  cssHasMobileGrid: files.css.includes('awts-npc-level-grid') && files.css.includes('@media(max-width:760px)'),
   ladderIds,
   uniqueLadders: new Set(ladderIds).size
 };
