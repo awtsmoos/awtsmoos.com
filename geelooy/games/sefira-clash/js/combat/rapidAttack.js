@@ -2,9 +2,9 @@
  * B"H
  * Rapid attack resolver data.
  *
- * Chapter 177: fast clicking becomes flurry, not broken charge. Rapid punches
- * and kicks are intentionally weak but sticky, creating pressure, stun, and
- * Hebrew sparks without replacing smash attacks.
+ * Chapter 25: rapid fire is not glue. It is a drum of real strikes: each spark
+ * damages, launches, and moves the victim like a normal hit, only with less
+ * recovery prison so agency survives the storm.
  */
 export function rapidMove(button, intent) {
   if (button === 'kick') return intent.airborne ? 'aerialKick' : 'sweep';
@@ -20,6 +20,7 @@ export function rapidOptions(button, intent) {
   const down = intent.aim.down;
   return {
     rapid: true,
+    noGlue: true,
     angle: up ? -0.85 : down ? 0.55 : -0.08,
     aim: intent.aim,
     grabKind: '',

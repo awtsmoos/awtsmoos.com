@@ -84,7 +84,7 @@ function movementDirection(player) {
   const back = moving.backward;
   player.isWalking = false;
   if (forward) { player.isWalking = true; direction.x += forwardX; direction.z += forwardZ; player.targetRotateOffset = 0; }
-  else if (back) { player.isWalking = true; direction.x -= forwardX; direction.z -= forwardZ; player.targetRotateOffset = -Math.PI; }
+  else if (back) { player.isWalking = true; direction.x -= forwardX; direction.z -= forwardZ; player.targetRotateOffset = Math.PI; }
   if (moving.stridingLeft) {
     player.isWalking = true; direction.x -= sideX; direction.z -= sideZ; player.targetRotateOffset = Math.PI / 2;
     if (forward) player.targetRotateOffset -= Math.PI / 4; else if (back) player.targetRotateOffset += Math.PI / 4;

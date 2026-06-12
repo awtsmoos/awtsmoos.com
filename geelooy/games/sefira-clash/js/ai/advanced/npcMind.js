@@ -1,10 +1,6 @@
 /**
  * B"H
- * NPC mind entry.
- *
- * Chapter 215: the mind now exposes KO intent, launch plan, predator pocket,
- * and attack family as first-class debug truth. The bot is no longer merely
- * active; it says what kind of death-shape it is trying to create.
+ * NPC mind entry with hunt, rivalry, reputation, traps, and kill pressure debug.
  */
 import { updateProgress } from './blackboard/progressTracker.js';
 import { diagnoseStuck } from './blackboard/stuckDetector.js';
@@ -32,6 +28,7 @@ import { executionVision } from './strategy/executionVision.js';
 import { updateFakeRetreat } from './strategy/fakeRetreat.js';
 import { chooseHumanIntent } from './strategy/humanIntent.js';
 import { updateNoStillnessLaw } from './strategy/noStillnessLaw.js';
+import { updateRivalry } from './strategy/rivalrySystem.js';
 import { commandForState } from './commands/commandArbiter.js';
 
 export function driveNpcMind(state) {
@@ -59,6 +56,8 @@ function enrichMind(bot, world) {
   world.comboMomentum = updateComboMomentum(bot, world);
   world.rapidJail = updateRapidJailBreaker(bot);
   world.combatHeat = updateCombatHeat(bot, world);
+  world.huntClock = world.combatHeat.hunt;
+  world.rivalry = updateRivalry(bot, world);
   world.hunger = updateHunger(bot, world);
   world.momentum = updateFightMomentum(bot, world);
   world.threatVision = threatVision(bot, world);
@@ -105,6 +104,12 @@ function debugPacket(bot, world, progress, stuck, mode) {
     predator: world.predatorGoal?.kind || 'none',
     opportunity: bot.aiMind.opportunity?.name || 'none',
     commitment: bot.aiMind.commitment?.name || 'none',
+    pressureCommitment: bot.aiMind.pressureCommitment?.kind || 'none',
+    reputation: world.attackReputation?.counter || 'neutral',
+    rivalry: bot.aiMind.rivalry?.id ? `${bot.aiMind.rivalry.id}:${Math.round(bot.aiMind.rivalry.heat)}` : 'none',
+    platform: world.platformDesire?.reason || 'none',
+    landingTrap: world.landingTrap?.active ? `${Math.round(world.landingTrap.x)}` : 'off',
+    hunt: world.huntClock?.active ? Math.round(world.huntClock.value) : 0,
     hunger: Math.round(world.hunger?.value || 0),
     momentum: Math.round(world.momentum?.value || 0),
     threat: Math.round(Math.max(world.threatVision?.front || 0, world.threatVision?.behind || 0, world.threatVision?.hazard || 0)),
@@ -112,11 +117,7 @@ function debugPacket(bot, world, progress, stuck, mode) {
     jumpDebt: Math.round(world.jumpDebt?.value || 0),
     heat: Math.round(bot.aiMind.combatHeat?.heat || 0),
     antiPeace: bot.aiMind.antiPeace?.active ? `on:${bot.aiMind.antiPeace.frames}` : 'off',
-    frustration: bot.aiMind.frustration?.frustrated ? `on:${Math.round(bot.aiMind.frustration.level)}` : 'off',
     noStillness: bot.aiMind.noStillness?.mustMove ? bot.aiMind.noStillness.reason : 'clear',
-    edgePoison: bot.aiMind.edgePoison?.blocked ? 'blocked' : 'clear',
-    rapidJail: bot.rapidJail?.active ? `${bot.rapidJail.recentHits}` : 'off',
-    combo: bot.aiMind.comboMomentum?.active ? `on:${bot.aiMind.comboMomentum.frames}` : 'off',
     tactic: bot.aiMind.tactic || 'none',
     jumpReason: bot.aiMind.jumpReason || 'none',
     attackValid: bot.aiMind.attackCheck?.valid ?? false,

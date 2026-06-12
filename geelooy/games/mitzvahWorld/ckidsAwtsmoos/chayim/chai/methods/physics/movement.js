@@ -43,7 +43,7 @@ export default {
             this.isWalking = true; isWalkingBack = true;
             dir.x -= forwardX;
             dir.z -= forwardZ;
-            this.targetRotateOffset = -Math.PI;
+            this.targetRotateOffset = Math.PI;
         }
 
         if (this.moving.stridingLeft) {

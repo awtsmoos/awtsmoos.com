@@ -1,84 +1,37 @@
 import { chargeAttackScore } from './chargeAttackPlan.js';
 import { rapidFireScore } from './rapidFirePlan.js';
 
-/**
- * B"H
- * Attack family scoring.
- *
- * Chapter 231: the bot becomes a little more violent without becoming foolish.
- * If combat heat, hunger, or edge-carry pressure rises, jab and kick refuse to
- * fall silent. Charge still seeks death, rapid still traps low percent, but the
- * default body now keeps throwing hands instead of admiring its own plan.
- */
+/** B"H - Attack family scoring with reputation, traps, and kill mode. */
 export function scoreAttackFamilies(world) {
   const intent = world.koIntent?.name || 'NeutralDamage';
   const heat = aggressionHeat(world);
+  const rep = reputationBonus(world);
+  const kill = killHeat(world);
+  const trap = world.landingTrap?.active ? 48 : 0;
   return {
-    rapid: rapidFireScore(world) + intentBonus(intent, 'rapid') + closeHeat(world, heat) * 0.35,
-    jab: baseJab(world) + intentBonus(intent, 'jab') + heat,
-    kick: baseKick(world) + intentBonus(intent, 'kick') + heat * 1.15,
-    chargePunch: chargeAttackScore(world) + intentBonus(intent, 'chargePunch') + killHeat(world) * 0.45,
-    chargeKick: chargeAttackScore(world) + intentBonus(intent, 'chargeKick') + killHeat(world) * 0.55,
-    antiAir: antiAirScore(world) + intentBonus(intent, 'antiAir'),
-    meteor: meteorScore(world) + intentBonus(intent, 'meteor'),
-    grab: grabScore(world) + intentBonus(intent, 'grab')
+    rapid: rapidFireScore(world) + intentBonus(intent,'rapid') + closeHeat(world,heat)*0.3 + rep.combo,
+    jab: baseJab(world) + intentBonus(intent,'jab') + heat + rep.pressure,
+    kick: baseKick(world) + intentBonus(intent,'kick') + heat*1.1 + rep.fall + trap*0.45,
+    chargePunch: chargeAttackScore(world) + intentBonus(intent,'chargePunch') + kill*0.7 + rep.charge,
+    chargeKick: chargeAttackScore(world) + intentBonus(intent,'chargeKick') + kill*0.8 + rep.fall + trap,
+    antiAir: antiAirScore(world) + intentBonus(intent,'antiAir') + rep.air,
+    meteor: meteorScore(world) + intentBonus(intent,'meteor') + rep.fall*0.7,
+    grab: grabScore(world) + intentBonus(intent,'grab') + rep.grab
   };
 }
-
-function intentBonus(intent, family) {
-  const table = {
-    NeutralDamage: { rapid: 20, jab: 18, kick: 14 },
-    ComboExtend: { rapid: 40, jab: 22, kick: 12 },
-    EdgeCarry: { kick: 42, chargeKick: 22, jab: 18, chargePunch: 10 },
-    HorizontalKill: { chargePunch: 32, chargeKick: 38, kick: 38, jab: 10 },
-    VerticalKill: { antiAir: 44, chargePunch: 24, kick: 18 },
-    AntiAirKill: { antiAir: 55, chargePunch: 16, kick: 10 },
-    EdgeGuard: { meteor: 42, chargeKick: 30, kick: 30 },
-    PunishCharge: { kick: 38, chargePunch: 24, grab: 14, jab: 10 }
-  };
-  return table[intent]?.[family] || 0;
+function reputationBonus(world){
+ const c=world.attackReputation?.counter;
+ return {grab:c==='grab'?72:0,air:c==='antiAir'?58:0,fall:c==='landingTrap'?56:0,charge:c==='punishCharge'?50:0,combo:c==='comboExtend'?32:0,pressure:c==='neutral'?0:12};
 }
-
-function baseJab(world) {
-  if (world.combat?.reachableClose) return 44;
-  if (world.combat?.sameFightingLane) return 18;
-  return 10;
+function intentBonus(intent,family){
+ const t={NeutralDamage:{rapid:20,jab:18,kick:14},ComboExtend:{rapid:42,jab:24,kick:12},EdgeCarry:{kick:48,chargeKick:28,jab:18},HorizontalKill:{chargePunch:42,chargeKick:48,kick:42},VerticalKill:{antiAir:58,chargePunch:30,kick:18},AntiAirKill:{antiAir:66,chargePunch:18},EdgeGuard:{meteor:48,chargeKick:34,kick:32},PunishCharge:{kick:42,chargePunch:32,grab:16,jab:10}};
+ return t[intent]?.[family]||0;
 }
-
-function baseKick(world) {
-  if (world.combat?.canHitNow) return 46;
-  if (world.combat?.sameFightingLane) return 24;
-  return 14;
-}
-
-function antiAirScore(world) {
-  return world.combat?.shouldAntiAir ? 62 : 0;
-}
-
-function meteorScore(world) {
-  return world.ledgeKill?.read?.low ? 62 : 0;
-}
-
-function grabScore(world) {
-  return world.target?.blocking && world.combat?.reachableClose ? 58 : 0;
-}
-
-function aggressionHeat(world) {
-  let heat = 0;
-  if (world.hunger?.hungry) heat += 10;
-  if (world.hunger?.starving) heat += 18;
-  if (world.combatHeat?.forceEngage) heat += 20;
-  if (world.antiPeace?.active) heat += 16;
-  if (world.koIntent?.name === 'EdgeCarry') heat += 14;
-  if (world.koIntent?.name === 'HorizontalKill') heat += 18;
-  if (world.target?.stun > 4) heat += 8;
-  return heat;
-}
-
-function closeHeat(world, heat) {
-  return world.combat?.reachableClose ? heat + 12 : heat;
-}
-
-function killHeat(world) {
-  return world.koIntent?.killReady ? 24 : world.koPressure?.lethal ? 18 : 0;
-}
+function baseJab(w){return w.combat?.reachableClose?44:w.combat?.sameFightingLane?18:10;}
+function baseKick(w){return w.combat?.canHitNow?48:w.combat?.sameFightingLane?26:14;}
+function antiAirScore(w){return w.combat?.shouldAntiAir||w.attackReputation?.counter==='antiAir'?66:0;}
+function meteorScore(w){return w.ledgeKill?.read?.low||w.landingTrap?.active&&w.target?.damage>85?66:0;}
+function grabScore(w){return (w.target?.blocking||w.attackReputation?.counter==='grab')&&w.combat?.reachableClose?70:0;}
+function aggressionHeat(w){let h=0; if(w.hunger?.hungry)h+=10; if(w.hunger?.starving)h+=18; if(w.combatHeat?.forceEngage)h+=22; if(w.huntClock?.active)h+=18; if(w.antiPeace?.active)h+=16; if(w.target?.stun>4)h+=8; return h;}
+function closeHeat(w,h){return w.combat?.reachableClose?h+12:h;}
+function killHeat(w){return w.combatHeat?.killMode?36:w.koIntent?.killReady?30:w.koPressure?.lethal?24:0;}

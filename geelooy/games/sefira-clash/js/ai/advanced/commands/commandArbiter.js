@@ -1,6 +1,8 @@
 import { validateAttack } from '../combat/attackValidator.js';
 import { chooseCommitment } from '../combat/commitmentPlanner.js';
+import { classifyCommitment } from '../combat/pressureCommitment.js';
 import { updateActionMemory } from '../memory/actionMemory.js';
+import { calmOscillation } from '../navigation/antiOscillation.js';
 import { chooseOpportunity } from '../strategy/opportunityModel.js';
 import { updatePressure } from '../strategy/pressureBudget.js';
 import { applyAttackCommand, clearChargeOutsideAttack } from './attackCommands.js';
@@ -8,14 +10,7 @@ import { maybeApplyJump } from './jumpCommands.js';
 import { ascendCommand, baseCommand, chaseCommand, descendCommand, escapeCommand, recoverCommand } from './moveCommands.js';
 import { applyStrategyCommand } from './strategyCommands.js';
 
-/**
- * B"H
- * Command arbiter with charge continuity.
- *
- * Chapter 229: the arbiter no longer cuts the thundercloud just because the HSM
- * called the frame Chase while the attack gate says “valid.” Charge plans may
- * live across predator movement frames, then release into real strikes.
- */
+/** B"H - Command arbiter with explicit pressure/commitment identity. */
 export function commandForState(bot, world, mode, stuck) {
   stepButtonClock(bot);
   const memory = updateActionMemory(bot, world);
@@ -24,11 +19,13 @@ export function commandForState(bot, world, mode, stuck) {
   world.pressure = pressure;
   const opportunity = chooseOpportunity(bot, world, attackCheck);
   const commitment = chooseCommitment(bot, { ...world, opportunity, pressure }, mode, attackCheck);
+  const pressureCommitment = classifyCommitment(world, world.combatTactic);
   const out = baseCommand(bot, world);
   clearChargeOnlyWhenTrulyLeavingAttack(bot, mode, attackCheck, world, opportunity);
   applyMode(bot, world, out, mode, stuck, attackCheck, commitment, opportunity);
+  calmOscillation(bot, world, out, mode);
   maybeApplyJump(bot, world, out, mode);
-  return remember(bot, out, attackCheck, commitment, memory, opportunity, pressure);
+  return remember(bot, out, attackCheck, commitment, pressureCommitment, memory, opportunity, pressure);
 }
 
 function clearChargeOnlyWhenTrulyLeavingAttack(bot, mode, attackCheck, world, opportunity) {
@@ -49,7 +46,7 @@ function applyMode(bot, world, out, mode, stuck, attackCheck, commitment, opport
 }
 
 function humanMotion(world) {
-  return !!(world.threatVision?.panic || world.execution?.active || world.fakeRetreat?.active || world.edgePoison?.blocked || world.noStillness?.mustMove || world.frustration?.frustrated || world.antiPeace?.active || world.combatHeat?.forceEngage);
+  return !!(world.threatVision?.panic || world.execution?.active || world.fakeRetreat?.active || world.edgePoison?.blocked || world.noStillness?.mustMove || world.frustration?.frustrated || world.antiPeace?.active || world.combatHeat?.forceEngage || world.huntClock?.active);
 }
 
 function stepButtonClock(bot) {
@@ -59,10 +56,11 @@ function stepButtonClock(bot) {
   for (const key of Object.keys(bot.aiMind.buttonClock)) bot.aiMind.buttonClock[key] = Math.max(0, bot.aiMind.buttonClock[key] - 1);
 }
 
-function remember(bot, out, attackCheck, commitment, memory, opportunity, pressure) {
+function remember(bot, out, attackCheck, commitment, pressureCommitment, memory, opportunity, pressure) {
   bot.aiMind.lastOutputX = out.x || 0;
   bot.aiMind.attackCheck = attackCheck;
   bot.aiMind.commitment = commitment;
+  bot.aiMind.pressureCommitment = pressureCommitment;
   bot.aiMind.memory = memory;
   bot.aiMind.opportunity = opportunity;
   bot.aiMind.pressure = pressure;
@@ -70,10 +68,5 @@ function remember(bot, out, attackCheck, commitment, memory, opportunity, pressu
   return sanitize(out);
 }
 
-function sanitize(out) {
-  out.x = clamp(out.x || 0, -1, 1);
-  out.y = clamp(out.y || 0, -1, 1);
-  return out;
-}
-
+function sanitize(out) { out.x = clamp(out.x || 0, -1, 1); out.y = clamp(out.y || 0, -1, 1); return out; }
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }

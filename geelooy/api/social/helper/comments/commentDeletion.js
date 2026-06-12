@@ -37,9 +37,6 @@ const {
     getConditionalPathIfPostOrComment
 } = require("./commentPaths.js");
 
-const {
-    deleteCommentShardRecord
-} = require("./commentShardMirror.js");
 
 // --- Helper Function for Cleanup ---
 
@@ -276,24 +273,11 @@ async function deleteComment(
             }
         }
 
-        const shardMirror = deleteCommentShardRecord({
-            $i,
-            heichelId,
-            seriesId,
-            parentType,
-            parentId,
-            postId: postId || (parentType === "post" ? parentId : undefined),
-            aliasId,
-            verseSection,
-            commentId
-        });
-
         return {
             success: true,
             message: `Comment ${commentId} deleted successfully.`,
             details: {
-                deletedPaths,
-                shardMirror
+                deletedPaths
             }
         };
 

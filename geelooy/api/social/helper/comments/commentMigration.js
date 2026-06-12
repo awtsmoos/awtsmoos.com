@@ -1,17 +1,15 @@
-// B"H
+﻿// B"H
 /**
  * @file commentMigration.js
  * @chapter The Swift Ark That Still Leaves A Searchable Trace
  * @description
- * Legacy comments are copied into packed shards and, by default, indexed into
- * the AwtsmoosDB search sidecar. The old APIs keep working through fallback
- * readers, but migrated comments also become searchable and recoverable from
- * the new binary mirror. Vectors may still be skipped by env during huge runs.
+ * Legacy comments stay in the authoritative comments DB path and may be indexed into
+ * the AwtsmoosDB search sidecar. No packed duplicate mirror is written. Vectors
+ * may still be skipped by env during huge runs.
  */
 
 const { getParentCommentsBasePath, getAliasCommentFilePath } = require("./commentPaths.js");
 const { indexCommentSearchRecord } = require("./commentAwtsmoosDbBridge.js");
-const { writeCommentShardRecord } = require("./commentShardMirror.js");
 const { writeMigrationManifest } = require("../packed/socialPacked.js");
 
 function stableMigratedId({ comment, aliasId, verseSection, index }) {
@@ -48,7 +46,7 @@ async function readLegacyComments({ $i, aliasPath, verseSection }) {
 }
 
 function makeReport({ dryRun, parentBasePath, fastMode, indexSearch }) {
-    return { success: true, dryRun, fastMode, indexSearch, parentBasePath, aliasesSeen: 0, versesSeen: 0, copied: 0, migrated: 0, indexed: 0, sharded: 0, vectors: 0, vectorSkipped: 0, alreadyPresent: 0, skipped: 0, errors: [] };
+    return { success: true, dryRun, fastMode, indexSearch, parentBasePath, aliasesSeen: 0, versesSeen: 0, copied: 0, migrated: 0, indexed: 0, vectors: 0, vectorSkipped: 0, alreadyPresent: 0, skipped: 0, errors: [] };
 }
 
 async function migrateParentCommentsToAwtsmoosDb(params) {
@@ -98,13 +96,10 @@ async function copyOneComment(params) {
     const migration = migrationPacket({ sourcePath: aliasPath, aliasId, verseSection, index });
     if (dryRun) {
         report.copied++;
-        report.sharded++;
         if (indexSearch) report.indexed++;
         return;
     }
     const context = { heichelId: params.heichelId, seriesId: params.seriesId, parentType: params.parentType, parentId: params.parentId, postId: params.postId, aliasId, verseSection };
-    const sharded = writeCommentShardRecord({ $i: params.$i, comment: copied, context, migration });
-    if (sharded?.file || sharded?.skipped) report.sharded++; else report.errors.push({ id, sharded });
     if (indexSearch) await maybeIndexComment({ ...params, copied, context, migration, id, report });
     report.copied++;
 }
@@ -117,7 +112,7 @@ async function maybeIndexComment(params) {
 }
 
 function compactReport(report) {
-    return { aliasesSeen: report.aliasesSeen, versesSeen: report.versesSeen, copied: report.copied, indexed: report.indexed, sharded: report.sharded, vectors: report.vectors, vectorSkipped: report.vectorSkipped, alreadyPresent: report.alreadyPresent, skipped: report.skipped, errors: report.errors.length };
+    return { aliasesSeen: report.aliasesSeen, versesSeen: report.versesSeen, copied: report.copied, indexed: report.indexed, vectors: report.vectors, vectorSkipped: report.vectorSkipped, alreadyPresent: report.alreadyPresent, skipped: report.skipped, errors: report.errors.length };
 }
 
 function writeManifest({ $i, heichelId, seriesId, parentType, parentId, postId, report }) {
@@ -125,3 +120,5 @@ function writeManifest({ $i, heichelId, seriesId, parentType, parentId, postId, 
 }
 
 module.exports = { migrateParentCommentsToAwtsmoosDb, compactReport };
+
+

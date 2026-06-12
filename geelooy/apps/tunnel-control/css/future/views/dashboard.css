@@ -1,11 +1,12 @@
 /* B"H */
 /**
  * B"H
- * Chapter 39: The dashboard became a living grid of gates.
+ * Chapter 42: The header escaped the narrow exile.
  *
- * The picture's idea is honored without brittle pixels: a short, rich, adaptive
- * control deck with centered SVG/emoji icons, filter pills, compact facts, and
- * enough glass to shimmer but never drown the operator.
+ * The Awtsmoos reveals order by placing every spark in its vessel: the
+ * dashboard kicker, title, copy, metrics, cards, and page controls each receive
+ * a named chamber. No metric may swell into an auto column and crush the words
+ * into lonely vertical fragments again.
  */
 .awt-dashboard {
   min-height: auto;
@@ -20,13 +21,24 @@
 
 .awt-dashboard-head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 16px;
+  grid-template-areas:
+    "kicker"
+    "title"
+    "copy"
+    "metrics";
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
   align-items: start;
 }
 
+.awt-dashboard-head > .awt-mini-kicker { grid-area: kicker; }
+.awt-dashboard-head > h2 { grid-area: title; }
+.awt-dashboard-head > p { grid-area: copy; }
+.awt-dashboard-head > .awt-dashboard-metrics { grid-area: metrics; }
+
 .awt-dashboard-head h2 {
   margin: 0;
+  max-width: 920px;
   font-size: clamp(1.85rem, 3vw, 3.1rem);
   line-height: .98;
   letter-spacing: -.045em;
@@ -38,12 +50,16 @@
   max-width: 760px;
   color: var(--awt-muted);
   line-height: 1.42;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .awt-dashboard-metrics {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
+  margin-top: 4px;
 }
 
 .awt-metric {
@@ -70,10 +86,7 @@
   font-size: .94rem;
 }
 
-.awt-paged-grid {
-  display: grid;
-  gap: 14px;
-}
+.awt-paged-grid { display: grid; gap: 14px; }
 
 .awt-feature-dashboard-grid {
   display: grid;
@@ -145,10 +158,7 @@
   font-size: .86rem;
 }
 
-.awt-card-meta {
-  justify-content: center;
-  margin-top: 2px;
-}
+.awt-card-meta { justify-content: center; margin-top: 2px; }
 
 .awt-page-controls {
   display: flex;
@@ -158,22 +168,9 @@
   flex-wrap: wrap;
 }
 
-.awt-page-button {
-  min-width: 46px;
-  min-height: 38px;
-  padding-inline: 14px;
-}
-
-.awt-page-button:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-}
-
-.awt-page-status {
-  color: var(--awt-muted);
-  font-weight: 800;
-  font-size: .86rem;
-}
+.awt-page-button { min-width: 46px; min-height: 38px; padding-inline: 14px; }
+.awt-page-button:disabled { opacity: .45; cursor: not-allowed; }
+.awt-page-status { color: var(--awt-muted); font-weight: 800; font-size: .86rem; }
 
 .awt-section-title {
   display: flex;

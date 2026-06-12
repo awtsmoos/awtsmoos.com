@@ -41,9 +41,6 @@ const {
     indexCommentSearchRecord
 } = require("./commentAwtsmoosDbBridge.js");
 
-const {
-    writeCommentShardRecord
-} = require("./commentShardMirror.js");
 
 /**
  * B"H
@@ -325,19 +322,6 @@ async function addLotsOfCommentsToPostByVerseSections({
                     aliasId,
                     status: "active"
                 }));
-                writeCommentShardRecord({
-                    $i,
-                    comment: { ...comment, id: commentId, author: aliasId, verseSection: section },
-                    context: {
-                        heichelId,
-                        seriesId,
-                        parentType,
-                        parentId,
-                        postId: postId || (parentType === "post" ? parentId : undefined),
-                        aliasId,
-                        verseSection: section
-                    }
-                });
             }
         }
 
@@ -441,26 +425,7 @@ async function addOrApproveComment(
             console.error("Database error adding comment:", dbError);
             return er("Database error: Could not append comment.", { code: "DB_WRITE_ERROR", details: dbError, path: aliasCommentFilePath, key: verseSection });
         }
-
-        // 5. Update the fast read mirror synchronously; defer heavy indexes.
-        traceCommentPhase("addOrApprove.beforeShardMirror", { aliasCommentFilePath, verseSection, commentId });
-        traceCommentPhase("addOrApprove.beforeShardMirror", { aliasCommentFilePath, verseSection, commentId });
-        const shardMirror = writeCommentShardRecord({
-            $i,
-            comment: shtar,
-            context: {
-                heichelId,
-                seriesId,
-                parentType,
-                parentId,
-                postId: postId || (parentType === "post" ? parentId : undefined),
-                aliasId,
-                verseSection
-            }
-        });
-
-        traceCommentPhase("addOrApprove.afterShardMirror", { commentId, shardMirror });
-        traceCommentPhase("addOrApprove.afterShardMirror", { commentId, shardMirror });
+        // 5. Defer heavy indexes. No duplicate packed mirror is written; the comments DB is authoritative.
         const sideEffects = [
             runCommentSideEffect("commentAliasIndex", () => addCommentIndexToAlias({
                 $i, aliasId, heichelId, seriesId, parentType, parentId, postId
@@ -493,8 +458,7 @@ async function addOrApproveComment(
                 id: commentId,
                 path: aliasCommentFilePath,
                 verseSection: verseSection,
-                searchIndex,
-                shardMirror
+                searchIndex
             }
         };
 

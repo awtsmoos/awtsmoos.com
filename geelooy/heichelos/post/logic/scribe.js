@@ -2,22 +2,18 @@
 /**
  * @module SovereignScribe
  * @description
- * Chapter 260: The outer reader river becomes append-only in law and in code.
+ * Chapter 301: Every verse enters the palace at once.
  *
- * A chunk is born empty, then receives its section exactly once. No runtime path
- * in this vessel clears, replaces, prunes, or forgets a rendered chunk. The
- * Awtsmoos may reveal more letters ahead of the reader, but the footsteps of
- * the reader remain in the DOM until the whole page itself is reborn.
+ * The old river revealed one section and waited for a virtual oracle to invite
+ * more. For this repair pass the user asked for no virtualization. The Scribe
+ * now manifests all sections during initial load. Each verse still receives its
+ * own chunk shell for coordinate compatibility, but no chunk is withheld.
  */
 
-import { UniversalInterpreter } from "./scribe/UniversalInterpreter.js";
-import { ScribeScaffold } from "./scribe/Scaffold.js";
-import { VesselArchitect } from "./scribe/Architect.js";
-import {
-    awakenVirtualScrollOracle,
-    restoreScrollTarget,
-    resetVirtualScrollOracle
-} from "./scribe/VirtualScrollOracle.js";
+import { UniversalInterpreter } from './scribe/UniversalInterpreter.js';
+import { ScribeScaffold } from './scribe/Scaffold.js';
+import { VesselArchitect } from './scribe/Architect.js';
+import { resetVirtualScrollOracle } from './scribe/VirtualScrollOracle.js';
 
 let allSectionData = [];
 let chunkMap = new Map();
@@ -25,26 +21,26 @@ let streamContainer = null;
 
 function targetChunkFromLocation() {
     const params = new URLSearchParams(location.search);
-    const startIdx = Number.parseInt(params.get("idx") || "0", 10);
+    const startIdx = Number.parseInt(params.get('idx') || '0', 10);
     return Number.isFinite(startIdx) && startIdx >= 0 ? startIdx : 0;
 }
 
 function makeChunkShell(chunkId) {
-    const chunk = document.createElement("div");
-    chunk.className = "scroll-chunk";
+    const chunk = document.createElement('div');
+    chunk.className = 'scroll-chunk';
     chunk.dataset.chunkId = String(chunkId);
-    chunk.dataset.awtsmoosVirtualChunk = "awake";
-    chunk.dataset.awtsmoosTrueHeight = "true";
-    chunk.dataset.awtsmoosAppendOnly = "true";
-    chunk.style.minHeight = "";
+    chunk.dataset.awtsmoosVirtualChunk = 'eager';
+    chunk.dataset.awtsmoosTrueHeight = 'true';
+    chunk.dataset.awtsmoosAppendOnly = 'true';
+    chunk.style.minHeight = '';
     return chunk;
 }
 
 function insertChunkOrdered(chunk) {
     if (!streamContainer) return;
-    const id = Number.parseInt(chunk.dataset.chunkId || "0", 10);
-    const later = [...streamContainer.querySelectorAll(".scroll-chunk[data-chunk-id]")]
-        .find(node => Number.parseInt(node.dataset.chunkId || "0", 10) > id);
+    const id = Number.parseInt(chunk.dataset.chunkId || '0', 10);
+    const later = [...streamContainer.querySelectorAll('.scroll-chunk[data-chunk-id]')]
+        .find(node => Number.parseInt(node.dataset.chunkId || '0', 10) > id);
     if (later) streamContainer.insertBefore(chunk, later);
     else streamContainer.appendChild(chunk);
 }
@@ -58,25 +54,25 @@ function appendOnce(parent, child) {
 async function refreshInlineLight() {
     clearTimeout(window.pendingInlineManifest);
     window.pendingInlineManifest = setTimeout(async () => {
-        const { manifestAllActiveInlines } = await import("../comments/inline.js");
+        const { manifestAllActiveInlines } = await import('../comments/inline.js');
         await manifestAllActiveInlines();
     }, 120);
 }
 
 function installStats() {
     window.__awtsmoosVirtualDomStats = () => ({
-        mode: "append-only-verse-and-subsection-stream",
+        mode: 'eager-all-verse-dom',
         renderedChunks: [...chunkMap.keys()].sort((a, b) => a - b),
-        realSections: document.querySelectorAll("#realPost .section").length,
+        realSections: document.querySelectorAll('#realPost .section').length,
         awakeSubsections: document.querySelectorAll("#realPost .sub-awtsmoos[data-awtsmoos-substate='awake']").length,
         subsectionWindows: window.__awtsmoosSubsectionVirtualStats?.() || [],
-        chunks: [...document.querySelectorAll("#virtual-scroll-container > .scroll-chunk")].map(chunk => ({
-            id: Number.parseInt(chunk.dataset.chunkId || "0", 10),
-            appendOnly: chunk.dataset.awtsmoosAppendOnly === "true",
-            sections: chunk.querySelectorAll(".section").length,
+        chunks: [...document.querySelectorAll('#virtual-scroll-container > .scroll-chunk')].map(chunk => ({
+            id: Number.parseInt(chunk.dataset.chunkId || '0', 10),
+            appendOnly: chunk.dataset.awtsmoosAppendOnly === 'true',
+            sections: chunk.querySelectorAll('.section').length,
             awakeSubsections: chunk.querySelectorAll(".sub-awtsmoos[data-awtsmoos-substate='awake']").length,
             height: Math.round(chunk.getBoundingClientRect().height),
-            minHeight: chunk.style.minHeight || "none"
+            minHeight: chunk.style.minHeight || 'none'
         })),
         documentHeight: document.documentElement.scrollHeight,
         viewport: window.innerHeight
@@ -92,12 +88,19 @@ function resetPageSession() {
 }
 
 function normalizeSections(dayuh) {
-    const rawSections = Array.isArray(dayuh.sections) ? dayuh.sections : Object.values(dayuh.sections);
+    const source = dayuh?.sections;
+    const rawSections = Array.isArray(source) ? source : Object.values(source || {});
     allSectionData = rawSections.map((section, index) => ({ data: section, index }));
     window.__awtsmoosVirtualSections = allSectionData;
     allSectionData.forEach(item => {
         window.sectionDayuh[item.index] = UniversalInterpreter.extractPureText(item.data);
     });
+}
+
+function scrollToRequestedChunk() {
+    const target = document.querySelector(`.scroll-chunk[data-chunk-id="${targetChunkFromLocation()}"]`);
+    if (!target) return;
+    requestAnimationFrame(() => target.scrollIntoView({ block: 'start', behavior: 'auto' }));
 }
 
 export async function interpretPostDayuh(post) {
@@ -107,21 +110,23 @@ export async function interpretPostDayuh(post) {
     resetPageSession();
     normalizeSections(dayuh);
 
-    const realPost = document.getElementById("realPost");
+    const realPost = document.getElementById('realPost');
     if (!realPost) return;
     streamContainer = ScribeScaffold.construct(realPost, allSectionData.length, { post, series: window.series });
+    streamContainer.dataset.virtualMode = 'eager-all-verses';
 
-    const totalChunks = allSectionData.length;
-    const targetChunkId = targetChunkFromLocation();
-    await renderChunk(targetChunkId);
-    awakenVirtualScrollOracle({ totalChunks, renderChunk, currentChunk: targetChunkId });
-    await restoreScrollTarget(location.search, renderChunk, ScribeScaffold.CHUNK_SIZE);
+    for (const item of allSectionData) {
+        await renderChunk(item.index);
+    }
+
+    await refreshInlineLight();
+    scrollToRequestedChunk();
 }
 
 export async function renderChunk(chunkId) {
     if (!Number.isInteger(chunkId) || chunkId < 0 || chunkId >= allSectionData.length) return null;
     if (chunkMap.has(chunkId)) return chunkMap.get(chunkId);
-    if (!streamContainer) streamContainer = document.getElementById("virtual-scroll-container");
+    if (!streamContainer) streamContainer = document.getElementById('virtual-scroll-container');
     if (!streamContainer) return null;
 
     const container = makeChunkShell(chunkId);
@@ -133,9 +138,8 @@ export async function renderChunk(chunkId) {
     appendOnce(container, dom);
     if (window.registerObservable) window.registerObservable(dom);
 
-    await refreshInlineLight();
     if (window.chai) window.chai.updateParagraphs();
-    const { initializeFootnotes } = await import("./postFunctions.js");
+    const { initializeFootnotes } = await import('./postFunctions.js');
     initializeFootnotes();
     return container;
 }

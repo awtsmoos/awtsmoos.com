@@ -1,29 +1,35 @@
 /**
  * B"H
- * Jump command gate with debt.
+ * Jump command gate with purpose and debt.
  *
- * Chapter 132: a jump now needs a reason and a clean account. Recovery and real
- * anti-air may still leap, but repeated useless hopping accrues debt and gets
- * blocked before it becomes comedy.
+ * Chapter 18: a jump now needs both accounting and meaning. Recovery, danger,
+ * higher routes, and true anti-air may rise; bored hopping is denied before it
+ * becomes a little exile of wasted frames.
  */
 import { classifyJumpReason, jumpDecision, jumpGap } from '../navigation/jumpDiscipline.js';
+import { purposefulJump } from '../navigation/jumpPurpose.js';
 import { rememberIssuedJump } from '../memory/actionMemory.js';
 import { addJumpDebt, jumpDebtBlocks } from '../memory/jumpDebt.js';
 
 export function maybeApplyJump(bot, world, out, mode) {
   const reason = classifyJumpReason(mode, world);
+  const purpose = purposefulJump(bot, world, mode, reason);
   const decision = jumpDecision(bot, world, reason);
-  const urgent = mode === 'RecoverLow' || mode === 'RecoverHigh' || world.combat?.shouldAntiAir;
+  const urgent = mode === 'RecoverLow' || mode === 'RecoverHigh' || world.threatVision?.panic;
   const blocked = poisonedJump(bot, world, mode) || jumpDebtBlocks(bot, reason, urgent);
-  bot.aiMind.jumpReason = blocked ? blockedReason(bot, world) : decision.allow ? reason : decision.reason;
-  if (blocked || !decision.allow || !needsJump(mode, world)) return;
+  bot.aiMind.jumpReason = blocked ? blockedReason(bot, world) : !purpose.allow ? purpose.reason : decision.allow ? purpose.reason : decision.reason;
+  if (blocked || !purpose.allow || !decision.allow || !needsJump(mode, world)) return;
   out.jump = true;
+  rememberJump(bot, reason);
+}
+
+function rememberJump(bot, reason) {
   bot.aiMind.lastJumpAt = bot.aiMind.clock || 0;
   bot.aiMind.lastJumpAtByReason ||= {};
   bot.aiMind.lastJumpAtByReason[reason] = bot.aiMind.clock || 0;
   bot.jumpMemory ||= { wasJumping: false, hold: 0 };
   bot.jumpMemory.wasJumping = false;
-  addJumpDebt(bot, reason === 'AntiAir' ? 5 : 10);
+  addJumpDebt(bot, reason === 'AntiAirJump' ? 5 : 12);
   rememberIssuedJump(bot, reason, bot.x, bot.y);
 }
 

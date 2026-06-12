@@ -10,7 +10,6 @@
  */
 
 const { getAliasCommentFilePath, getParentCommentsBasePath } = require("./commentPaths.js");
-const { readCommentShardRecords, listPackedCommentAuthors, listPackedCommentVerseSections } = require("./commentShardMirror.js");
 const { NEW_SOURCE, OLD_SOURCE, attempt, readResponse } = require("./commentReadReport.js");
 
 function names(value) {
@@ -32,8 +31,8 @@ function parseMap(value) {
     catch { return null; }
 }
 
-function allowPackedFallback(context) {
-    return context.$i.$_GET?.disablePackedFallback !== "true";
+function allowPackedFallback() {
+    return false;
 }
 
 function commentPropertyMap($i) {
@@ -123,22 +122,16 @@ async function readOldAuthors(context, legacyBase, verseSection) {
     }
 }
 
-function tryPackedComments(context) {
-    if (!allowPackedFallback(context)) return attempt({ ok: true, source: NEW_SOURCE, data: [] });
-    try { return attempt({ ok: true, source: NEW_SOURCE, data: readCommentShardRecords(context) }); }
-    catch (error) { return attempt({ ok: false, source: NEW_SOURCE, error }); }
+function tryPackedComments() {
+    return attempt({ ok: true, source: NEW_SOURCE, data: [] });
 }
 
-function tryPackedVerseSections(context) {
-    if (!allowPackedFallback(context)) return attempt({ ok: true, source: NEW_SOURCE, data: [] });
-    try { return attempt({ ok: true, source: NEW_SOURCE, data: listPackedCommentVerseSections({ ...context, verseSection: undefined }) }); }
-    catch (error) { return attempt({ ok: false, source: NEW_SOURCE, error }); }
+function tryPackedVerseSections() {
+    return attempt({ ok: true, source: NEW_SOURCE, data: [] });
 }
 
-function tryPackedAuthors(context) {
-    if (!allowPackedFallback(context)) return attempt({ ok: true, source: NEW_SOURCE, data: [] });
-    try { return attempt({ ok: true, source: NEW_SOURCE, data: listPackedCommentAuthors(context) }); }
-    catch (error) { return attempt({ ok: false, source: NEW_SOURCE, error }); }
+function tryPackedAuthors() {
+    return attempt({ ok: true, source: NEW_SOURCE, data: [] });
 }
 
 function projectedResponse(context, data, source, primary, fallback, paths) {
@@ -148,7 +141,7 @@ function projectedResponse(context, data, source, primary, fallback, paths) {
 async function readCommentsWithSource(context) {
     const verseSection = resolveVerseSection(context.$i, context.verseSection);
     const legacyPath = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: legacyPath, oldPackedShardFallback: allowPackedFallback(context), verseSection };
+    const paths = { awtsmoosDbFsPath: legacyPath, packedMirrorDisabled: allowPackedFallback(context), verseSection };
     if (verseSection === undefined) return await readAllCommentsOfAliasWithSource(context);
     const primary = await readOldCommentsAtVerse(context, legacyPath, verseSection);
     if (primary.count > 0) return projectedResponse(context, primary.data, OLD_SOURCE, primary, null, paths);
@@ -158,7 +151,7 @@ async function readCommentsWithSource(context) {
 
 async function readAllCommentsOfAliasWithSource(context) {
     const legacyPath = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: legacyPath, oldPackedShardFallback: allowPackedFallback(context), allVerseSections: true };
+    const paths = { awtsmoosDbFsPath: legacyPath, packedMirrorDisabled: allowPackedFallback(context), allVerseSections: true };
     const primary = await readOldAllCommentsOfAlias(context, legacyPath);
     if (primary.count > 0) return projectedResponse(context, primary.data, OLD_SOURCE, primary, null, paths);
     const fallback = tryPackedComments({ ...context, verseSection: undefined });
@@ -167,7 +160,7 @@ async function readAllCommentsOfAliasWithSource(context) {
 
 async function readVerseSectionsWithSource(context) {
     const legacyPath = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: legacyPath, oldPackedShardFallback: allowPackedFallback(context) };
+    const paths = { awtsmoosDbFsPath: legacyPath, packedMirrorDisabled: allowPackedFallback(context) };
     const primary = await tryOldVerseSections(context, legacyPath);
     if (primary.count > 0) return readResponse({ data: primary.data, source: OLD_SOURCE, primary, paths });
     const fallback = tryPackedVerseSections(context);
@@ -177,7 +170,7 @@ async function readVerseSectionsWithSource(context) {
 async function readAuthorsWithSource(context) {
     const verseSection = resolveVerseSection(context.$i, context.verseSection);
     const legacyBase = getParentCommentsBasePath(context);
-    const paths = { awtsmoosDbFsPath: legacyBase, oldPackedShardFallback: allowPackedFallback(context), verseSection };
+    const paths = { awtsmoosDbFsPath: legacyBase, packedMirrorDisabled: allowPackedFallback(context), verseSection };
     const primary = await readOldAuthors(context, legacyBase, verseSection);
     if (primary.count > 0) return readResponse({ data: primary.data, source: OLD_SOURCE, primary, paths });
     const fallback = tryPackedAuthors({ ...context, verseSection });

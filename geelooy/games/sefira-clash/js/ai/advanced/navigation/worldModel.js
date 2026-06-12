@@ -1,10 +1,9 @@
 /**
  * B"H
- * World model for the single advanced AI mind.
+ * World model with hunt, reputation, platform desire, and landing traps.
  *
- * Chapter 218: the rebuilt world again carries every old organ and every new
- * death-purpose organ. Wall sense returns to the vessel, so the state machine
- * can still guard escape while KO intent guides violence.
+ * Chapter 41: the bot now sees more than bodies. It sees habits, desired
+ * platforms, landing prophecy, and the hunt clock burning under quiet grass.
  */
 import { wallSense } from '../../sense/wallSense.js';
 import { combatSense } from '../../sense/combatSense.js';
@@ -14,7 +13,6 @@ import { ledgeKillPlan } from '../edge/ledgeKillPlan.js';
 import { edgePressure } from '../combat/edgePressure.js';
 import { combatPocket } from '../combat/positionPlanner.js';
 import { combatTactic } from '../combat/tacticPlanner.js';
-import { revengeTargetBonus } from '../emotion/revengeMemory.js';
 import { killPressure } from '../kill/killPressure.js';
 import { chooseKoIntent } from '../kill/koIntent.js';
 import { launchDirection } from '../kill/launchDirection.js';
@@ -26,8 +24,12 @@ import { updatePatternMemory } from '../strategy/patternMemory.js';
 import { bestPlatformValue } from '../strategy/platformValue.js';
 import { predictLanding } from '../strategy/landingPredictor.js';
 import { targetMotion } from '../strategy/targetMotion.js';
+import { updateAttackReputation } from '../strategy/attackReputation.js';
+import { landingTrap } from '../strategy/landingTrap.js';
+import { platformDesireMap } from '../strategy/platformDesireMap.js';
 import { platformGraph, nearestNode } from './platformGraph.js';
 import { findPlatformRoute, nextRouteStep } from './routeSearch.js';
+import { targetScore } from './targetScoring.js';
 
 export function buildWorld(bot, target, state) {
   const graph = platformGraph(state.map);
@@ -53,32 +55,37 @@ export function buildWorld(bot, target, state) {
   const launchPlan = launchDirection(bot, { ...base, koPressure, ledgeKill, koIntent }, koIntent.name);
   const edgeCarry = edgeCarryPlan(bot, { ...base, koPressure, koIntent, launchPlan });
   const predGoal = predatorGoal(bot, { ...base, koPressure, koIntent, launchPlan, edgeCarry, ledgeKill });
-  const rich = { ...base, koPressure, ledgeKill, koIntent, launchPlan, edgeCarry, predatorGoal: predGoal };
+  const rich = { ...base, koPressure, ledgeKill, koIntent, launchPlan, edgeCarry, predatorGoal: predGoal, graph };
   const pattern = updatePatternMemory(bot, target, rich);
   const landing = predictLanding(target, state.map.platforms || []);
+  const attackReputation = updateAttackReputation(bot, { ...rich, pattern, landing });
+  const huntClock = bot.aiMind?.huntClock || bot.aiMind?.combatHeat?.hunt || null;
   const bestPlatform = bestPlatformValue(bot, { ...rich, graph, map: state.map }, landing);
-  const pocket = combatPocket(bot, { ...rich, pattern, landing, bestPlatform });
-  const tactic = combatTactic(bot, { ...rich, combatPocket: pocket, pattern, landing, bestPlatform });
-  return { ...rich, graph, pattern, landing, bestPlatform, combatPocket: pocket, combatTactic: tactic, platforms: state.map.platforms || [] };
+  const withPlatform = { ...rich, pattern, landing, attackReputation, huntClock, bestPlatform };
+  const platformDesire = platformDesireMap(bot, withPlatform);
+  const trap = landingTrap(bot, { ...withPlatform, platformDesire });
+  const pocket = combatPocket(bot, { ...withPlatform, platformDesire, landingTrap: trap });
+  const tactic = combatTactic(bot, { ...withPlatform, platformDesire, landingTrap: trap, combatPocket: pocket });
+  return { ...withPlatform, platformDesire, landingTrap: trap, combatPocket: pocket, combatTactic: tactic, platforms: state.map.platforms || [] };
 }
 
 export function chooseStableTarget(bot, fighters, map) {
   bot.aiMind ||= {};
-  const urgent = (bot.aiMind.combatHeat?.noDamageFrames || 0) > 420 || bot.aiMind.antiPeace?.active;
+  const heat = bot.aiMind.combatHeat || {};
+  const urgent = (heat.noDamageFrames || 0) > 220 || bot.aiMind.antiPeace?.active || bot.aiMind.huntClock?.active;
   const held = fighters.find(f => f.id === bot.aiMind.targetId && !f.dead && !f.hidden && f !== bot);
   if (held && !urgent && (bot.aiMind.targetHold || 0) > 0) { bot.aiMind.targetHold--; return held; }
-  let best = null;
-  let score = Infinity;
   const graph = platformGraph(map);
   const botNode = nearestNode(graph, bot);
+  let best = null;
+  let score = Infinity;
   for (const f of fighters) {
     if (f === bot || f.dead || f.hidden) continue;
     const targetNode = nearestNode(graph, f);
-    const blocked = wallSense(bot, f, map).blocked ? 360 : 0;
-    const s = targetScore(bot, f, graph, botNode, targetNode, blocked, urgent);
+    const s = targetScore(bot, f, map, graph, botNode, targetNode, urgent);
     if (s < score) { best = f; score = s; }
   }
-  if (best) { bot.aiMind.targetId = best.id; bot.aiMind.targetHold = urgent ? 24 : 100; }
+  if (best) { bot.aiMind.targetId = best.id; bot.aiMind.targetHold = urgent ? 10 : 60; bot.aiMind.targetScore = Math.round(score); }
   return best;
 }
 
@@ -111,24 +118,4 @@ function nearestHazard(bot, state) {
     if (d < distance) { best = { ...h, distance: d, danger: Math.max(0, h.radius + 80 - d) }; distance = d; }
   }
   return best;
-}
-
-function targetScore(bot, target, graph, botNode, targetNode, blocked, urgent) {
-  const dx = Math.abs(target.x - bot.x);
-  const dy = Math.abs(target.y - bot.y);
-  const routePenalty = routeCost(graph, botNode.id, targetNode.id, urgent);
-  const platformBonus = botNode.id === targetNode.id ? 280 : 0;
-  const damageBonus = Math.min(190, target.damage || 0);
-  const revengeBonus = revengeTargetBonus(bot, target);
-  const humanBonus = target.human && !urgent && dx < 1800 ? 70 : 0;
-  const chargingBonus = Math.max(target.charge?.punch || 0, target.charge?.kick || 0, (target.chargeGlow || 0) * 90) > 14 ? 85 : 0;
-  const urgentNearBonus = urgent ? Math.max(0, 320 - dx * 0.08 - dy * 0.04) : 0;
-  return dx * (urgent ? 0.75 : 1) + dy * 0.52 + blocked + routePenalty - platformBonus - damageBonus - revengeBonus - humanBonus - chargingBonus - urgentNearBonus;
-}
-
-function routeCost(graph, fromId, toId, urgent) {
-  if (fromId === toId) return -170;
-  const route = findPlatformRoute(graph, fromId, toId);
-  if (!route.found) return urgent ? 720 : 420;
-  return Math.max(0, (route.nodes?.length || 1) - 1) * (urgent ? 80 : 45);
 }

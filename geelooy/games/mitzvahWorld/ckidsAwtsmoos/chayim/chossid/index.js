@@ -2,17 +2,15 @@
 /**
  * @module Chossid
  * @description
- * Chapter 413: The player enters as one living root.
- *
- * The Awtsmoos reveals a Chossid as a single covenant: input, collider, camera,
- * model, and fallback must all point to the same living root. This constructor
- * now drinks from the visible-root Chai seal so the robe is not merely loaded,
- * but fastened to the body that the joystick moves.
+ * Chapter 415: The player receives fresh verified controls.
+ * The Awtsmoos renews life every instant; damage, HUD, and the git-checked
+ * AWSDQE covenant now enter through a fresh cache seal so old controls cannot
+ * masquerade as the present.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
 import Chai from "../chai/index.js?v=village-polish-20260612-bh810";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import controlMethods from './methods/controls.js?v=village-polish-20260612-bh810';
+import controlMethods from './methods/controls.js?v=village-controls-verified-20260612-bh2';
 import interactionMethods from './methods/interaction.js?v=village-polish-20260612-bh810';
 import lifecycleMethods from './methods/lifecycle.js?v=visible-root-binding-20260610-bh710';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
@@ -21,6 +19,7 @@ import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-202605
 
 function leanGolem() { return { guf: { BoxGeometry: [0.9, 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: 0x1f6fff } } }; }
 function makeInventory(chossid) { const inventory = new InventoryManager(chossid); inventory.equipment ||= {}; inventory.slots ||= []; inventory.actionSlots ||= []; return inventory; }
+function numberOr(value, fallback) { return Number.isFinite(Number(value)) ? Number(value) : fallback; }
 
 export default class Chossid extends Chai {
   type = "chossid";
@@ -63,6 +62,7 @@ export default class Chossid extends Chai {
     this._stepTimer = 0;
     this.__spikeDefeated = false;
     this.__spikeDeathControlsFrozen = false;
+    this.__lastDamageAt = 0;
     this.installLeanSafeEvents();
   }
 
@@ -80,7 +80,19 @@ export default class Chossid extends Chai {
   rememberApproach(entity) { if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity); }
   forgetApproach(entity) { const idx = this.approachedEntities.indexOf(entity); if (idx > -1) this.approachedEntities.splice(idx, 1); }
   async madeAll() { if (this.mesh) this.mesh.userData.isPlayer = true; this.updateAppearance?.(); this.setupDefaultInventory?.(); this.inventory?.updateUI?.(); this.recalculateStats(); }
-  recalculateStats() { this.currentStats.maxHealth = this.baseStats.health; this.currentStats.health ||= this.currentStats.maxHealth; this.currentStats.speed = this.baseStats.speed; this.olam?.ayshPeula("ui event", "gameHUD", { updateStats: { hp: this.currentStats.health || 100, maxHp: this.currentStats.maxHealth || 100, koach: 50, maxKoach: 50, xp: 0, level: 1 } }); }
+  recalculateStats() { this.currentStats.maxHealth = this.baseStats.health; this.currentStats.health ||= this.currentStats.maxHealth; this.currentStats.speed = this.baseStats.speed; this.emitHudStats(); }
+  emitHudStats() { this.olam?.ayshPeula("ui event", "gameHUD", { updateStats: { hp: this.currentStats.health || 0, maxHp: this.currentStats.maxHealth || this.baseStats.health || 100, koach: this.koach ?? 50, maxKoach: this.maxKoach ?? 50, xp: this.xp || 0, level: this.level || 1 } }); }
+  takeDamage(amount = 0) {
+    const damage = Math.max(0, numberOr(amount, 0) - Math.max(0, numberOr(this.baseStats.defense, 0) * 0.12));
+    this.currentStats.maxHealth ||= this.baseStats.health || 100;
+    this.currentStats.health = Math.max(0, numberOr(this.currentStats.health, this.currentStats.maxHealth) - damage);
+    this.__lastDamageAt = Date.now(); this.emitHudStats();
+    this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: `-${Math.round(damage)} HP`, color: "#ff4b43" });
+    this.mesh?.traverse?.(child => child.material?.emissive?.setHex?.(0x661111));
+    setTimeout(() => this.mesh?.traverse?.(child => child.material?.emissive?.setHex?.(0x000000)), 110);
+    if (this.currentStats.health <= 0) this.ayshPeula?.("player defeated", this);
+    return damage;
+  }
   getCombatBonus() { return 1; }
 }
 

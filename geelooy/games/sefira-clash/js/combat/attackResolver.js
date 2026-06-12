@@ -1,38 +1,24 @@
 import { punchCamera } from '../camera/camera.js';
-import { circleHit } from '../core/collision.js';
+import { COMBAT_TUNING } from '../data/combatTuning.js';
 import { rememberRapidJailHit } from '../ai/advanced/combat/hitEscapeIntent.js';
-import { damageAfterDefense, knockAfterHat } from '../fighters/applyHatStats.js';
 import { buildFighterBroadphase, nearbyFighters } from '../performance/broadphase.js';
 import { applyKnockback } from '../physics/knockback.js';
 import { addBattlefieldScar } from '../stage/scars/battlefieldScars.js';
-import { anchors } from '../skeleton/anchors.js';
+import { recordComboHit, tickComboState } from './comboSystem.js';
+import { buildHitEvent, pushComboAnnouncements, pushLaunchDebug, registerHitDiagnostics } from './combatEvents.js';
+import { attackConnects, cannotHit, strikePoint } from './attackGeometry.js';
+import { applyHitstop, damageFor, knockFor } from './attackMath.js';
 import { beginGrab } from './grabResolver.js';
 import { shieldAbsorb } from './shields.js';
 
-/**
- * B"H
- * Combat resolver with fair rapid hits and honest damage accounting.
- *
- * Chapter 253: the battlefield remembers damage even after a KO washes percent
- * back to zero. Rapid sparks hit like real strikes, victims keep mobility, and
- * the simulator can now measure the true river of violence instead of only the
- * remaining puddle after respawn.
- */
+/** B"H — Chapter 29: every real hit wakes dive-stun and every rapid spark launches honestly. */
 export function resolveAttacks(state) {
-  tickCombos(state.fighters);
+  tickComboState(state.fighters);
   const tree = buildFighterBroadphase(state.fighters, state.map);
   for (const attacker of state.fighters) {
     if (attacker.dead) continue;
     stepAttackSlot(attacker, state, tree, 'attack', 'attackFrame');
     stepAttackSlot(attacker, state, tree, 'rapidAttack', 'rapidAttackFrame');
-  }
-}
-
-function tickCombos(fighters) {
-  for (const f of fighters) {
-    if (!f.combo) continue;
-    f.combo.timer = Math.max(0, f.combo.timer - 1);
-    if (!f.combo.timer) f.combo.count = 0;
   }
 }
 
@@ -51,40 +37,16 @@ function endAttack(f, slot, frameKey) { f[slot] = null; f[frameKey] = 0; }
 function hitWith(attacker, state, tree, attack, slot) {
   const point = strikePoint(attacker, attack);
   const radius = attack.radius + (attacker.heldWeapon?.range || 0) * 0.35 + 150;
-  const candidates = nearbyFighters(tree, point.x, point.y, radius);
-  for (const target of candidates) {
+  for (const target of nearbyFighters(tree, point.x, point.y, radius)) {
     if (cannotHit(attacker, target, attack)) continue;
     if (!attackConnects(attacker, target, point, radius, attack)) continue;
     attack.hasHit.add(target.id);
     rememberAttacker(target, attacker);
     if (attack.id === 'grab') return landGrab(state, attacker, target, slot);
-    if (absorbByOhrShield(state, attacker, target, attack)) continue;
+    if (absorbByOhrShield(state, attacker, target)) continue;
     if (target.blocking) shieldHit(state, attacker, target, attack);
     else landHit(state, attacker, target, attack);
   }
-}
-
-function attackConnects(attacker, target, point, radius, attack) {
-  const hurt = { x: target.x, y: target.y - 88 };
-  return circleHit(point, hurt, radius) || closeBodyHit(attacker, target, attack);
-}
-
-function closeBodyHit(attacker, target, attack) {
-  const dx = (target.x - attacker.x) * (attacker.face || 1);
-  const dy = Math.abs((target.y - 88) - (attacker.y - 92));
-  if (attack.id === 'grab') return Math.abs(target.x - attacker.x) < 92 && dy < 130;
-  return dx >= -46 && dx <= closeReach(attack) && dy <= 122;
-}
-
-function closeReach(attack) {
-  if (attack.id === 'sweep') return 126;
-  if (attack.id?.includes('Kick') || attack.id === 'roundhouse') return 150;
-  if (attack.id === 'dashPunch' || attack.id === 'chargePunch') return 146;
-  return 118;
-}
-
-function cannotHit(attacker, target, attack) {
-  return target === attacker || target.dead || target.hidden || target.grabbedBy || attack.hasHit.has(target.id);
 }
 
 function rememberAttacker(target, attacker) {
@@ -93,80 +55,61 @@ function rememberAttacker(target, attacker) {
   target.ai.lastAttackerName = attacker.name;
 }
 
-function strikePoint(attacker, attack) {
-  const body = anchors(attacker);
-  if (attack.limb === 'rightFoot') return body.rightFoot;
-  if (attack.limb === 'weaponTip') return body.weaponTip;
-  return body.rightHand;
-}
-
 function landGrab(state, attacker, target, slot) {
   beginGrab(attacker, target);
-  state.events.push(hitEvent(attacker, target, { letter: 'אחיזה', damage: 0, force: 8, color: '#ffe8a8' }));
+  state.events.push(simpleHit(attacker, target, { letter: 'אחיזה', damage: 0, force: 8, color: '#ffe8a8' }));
   punchCamera(state, 5);
   endAttack(attacker, slot, slot === 'rapidAttack' ? 'rapidAttackFrame' : 'attackFrame');
 }
 
 function landHit(state, attacker, target, attack) {
+  wakeDiveStun(target);
   const weapon = attack.rapid ? null : attacker.heldWeapon;
-  const power = attackPower(attacker);
-  const raw = Math.max(1, Math.round((attack.damage + (weapon?.damage || 0)) * power.damage));
-  const damage = damageAfterDefense(target, raw);
-  const combo = updateCombo(attacker, target);
+  const damage = damageFor(attacker, target, attack, weapon);
   state.totalDamageDealt = (state.totalDamageDealt || 0) + damage;
   target.damage += damage;
-  target.danger = target.damage > 120;
+  target.danger = target.damage >= COMBAT_TUNING.launch.killDangerPercent;
   rememberRapidJailHit(target, attacker, attack);
-  const knock = knockAfterHat(attacker, attack.knock * power.knock + (weapon?.knock || 0));
-  const force = Math.max(damage, knock);
-  applyKnockback(target, attacker, { ...attack, damage, knock }, weapon);
+  const knock = knockFor(attacker, attack, weapon);
+  const vector = applyKnockback(target, attacker, { ...attack, damage, knock }, weapon);
+  const force = Math.max(damage, knock, vector.force || 0);
+  const combo = recordComboHit(state, attacker, target, damage, attack);
   applyHitstop(state, attack, force);
   punchCamera(state, attack.rapid ? 1.4 : Math.min(18, force * 0.45));
-  emitHit(state, attacker, target, attack, damage, weapon, force, combo);
+  emitHit(state, attacker, target, attack, damage, weapon, force, combo, vector);
 }
 
-function applyHitstop(state, attack, force) {
-  if (attack.rapid) return;
-  state.hitstop = Math.max(state.hitstop || 0, Math.min(7, 2 + Math.floor(force / 8)));
-}
-
-function attackPower(attacker) {
-  return { damage: attacker.buffs?.gevurahFist ? 1.45 : attacker.buffs?.rageScroll ? 1.1 : 1, knock: attacker.buffs?.heavyGloves ? 1.24 : attacker.buffs?.gevurahFist ? 1.1 : 1 };
-}
-
-function updateCombo(attacker, target) {
-  attacker.combo ||= { count: 0, timer: 0, lastTarget: null };
-  const same = attacker.combo.lastTarget === target.id && attacker.combo.timer > 0;
-  attacker.combo.count = same ? attacker.combo.count + 1 : 1;
-  attacker.combo.timer = 95;
-  attacker.combo.lastTarget = target.id;
-  return attacker.combo.count;
+function wakeDiveStun(target) {
+  target.diveStunned = 0;
+  if (target.stun && target.comboPressure?.count) target.stun = Math.min(target.stun, 6);
 }
 
 function absorbByOhrShield(state, attacker, target) {
   if (!target.buffs?.ohrShield) return false;
   delete target.buffs.ohrShield;
-  state.events.push(hitEvent(attacker, target, { letter: 'א', damage: 0, force: 8, color: '#fff1a6' }));
+  state.events.push(simpleHit(attacker, target, { letter: 'א', damage: 0, force: 8, color: '#fff1a6' }));
   punchCamera(state, 5);
   return true;
 }
 
 function shieldHit(state, attacker, target, attack) {
   shieldAbsorb(target, attack.damage);
-  state.totalDamageDealt = (state.totalDamageDealt || 0) + Math.round(attack.damage / 2);
-  state.events.push(hitEvent(attacker, target, { letter: 'מ', damage: Math.round(attack.damage / 2), force: attack.knock * 0.5, rapid: attack.rapid, color: '#9affc5' }));
+  const damage = Math.round(attack.damage / 2);
+  state.totalDamageDealt = (state.totalDamageDealt || 0) + damage;
+  state.events.push(simpleHit(attacker, target, { letter: 'מ', damage, force: attack.knock * 0.5, rapid: attack.rapid, color: '#9affc5' }));
   punchCamera(state, attack.rapid ? 1 : 4);
 }
 
-function emitHit(state, attacker, target, attack, damage, weapon, force, combo) {
-  const side = Math.sign(attack.aim?.x || target.x - attacker.x) || attacker.face || 1;
-  const letter = combo >= 20 ? 'כ' : combo >= 10 ? 'י' : combo >= 5 ? 'ה' : attack.letter || 'כ';
-  const event = hitEvent(attacker, target, { color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, side, letter, damage, force, koDanger: target.damage > 120, combo, charge: attack.charge || 0, fullCharge: attack.fullCharge, rapid: attack.rapid });
+function emitHit(state, attacker, target, attack, damage, weapon, force, combo, vector) {
+  const letter = combo.count >= 20 ? 'כ' : combo.count >= 10 ? 'י' : combo.count >= 5 ? 'ה' : attack.letter || 'כ';
+  const event = buildHitEvent(attacker, target, attack, { color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, letter, damage, force, combo, vector });
   state.events.push(event);
+  registerHitDiagnostics(state, attack, event);
   addBattlefieldScar(state, event);
-  if (combo >= 3) state.events.push({ type: 'narrative', x: target.x, y: target.y - 145, text: `${combo}x`, color: '#fff4a8' });
+  pushComboAnnouncements(state, attacker, target, combo);
+  pushLaunchDebug(state, target, vector);
 }
 
-function hitEvent(attacker, target, data) {
+function simpleHit(attacker, target, data) {
   return { type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, side: attacker.face || 1, ...data };
 }

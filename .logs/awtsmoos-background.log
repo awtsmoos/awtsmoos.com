@@ -32,3 +32,4 @@ issue eading TypeError: Cannot read properties of null (reading 'success')
     at async /heichelos/:heichel/comments/inSeries/:series/atPost/:post/atAlias/:alias (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\routes\post.js:141:16)
     at async AwtsmoosResponse.processDynamicRoute (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\awtsmoosDynamicServer\awtsmoosResponse.js:205:17)
 Not an Awtsmoos JSON:   <Buffer 20>
+[Merkava Parser] Detected Base Path: 

@@ -1,226 +1,44 @@
 /* B"H */
+/**
+ * Chapter 424: the UI receives a cleaner garment.
+ * Broad selectors upgrade NPC/shop/dialogue panels even when generated from the
+ * compact bundle: glass panels, readable cards, strong buttons, scrollbars, and
+ * safe pointer events without stealing the empty world behind them.
+ */
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; overscroll-behavior: none; touch-action: none; }
+#ikar, #container { position: absolute; inset: 0; width: 100vw; height: 100vh; }
+canvas { width: 100%; height: 100%; display: block; }
+a { color: #ff0; text-decoration: none; }
+a:hover { text-decoration: underline; }
+button, a, input, select, textarea, [role="button"], [tabindex] { pointer-events: auto; }
+button { cursor: pointer; text-transform: uppercase; }
+#info { position: absolute; top: 26px; width: 100%; padding: 10px; box-sizing: border-box; text-align: center; z-index: 10; color: #fff; pointer-events: none; }
+.lil-gui { z-index: 20 !important; }
+@media all and (max-width: 640px) { .lil-gui.root { right: auto; top: auto; max-height: 50%; max-width: 80%; bottom: 0; left: 0; } }
+#overlay { position: absolute; font-size: 16px; z-index: 30; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; background: rgba(0, 0, 0, 0.7); }
+#overlay button { background: transparent; border: 1px solid rgb(255, 255, 255); border-radius: 4px; color: #fff; padding: 12px 18px; cursor: pointer; }
+#notSupported { width: 50%; margin: 20px auto 0; background-color: #f00; padding: 10px; }
 
-/* Canvas shell audit seal:
-#ikar,
-#container */
+.battle-overlay { position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(0, 20, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%); display: flex; justify-content: center; align-items: center; color: white; font-family: 'Outfit', system-ui, sans-serif; z-index: 1000; }
+.battle-container { width: min(90%, 1100px); height: 90%; display: grid; grid-template-rows: 1fr 1fr 180px; gap: 20px; }
+.stat-box { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.2); border-radius: 15px; padding: 15px; width: min(300px, 90vw); }
+.health-bar-container { width: 100%; height: 12px; background: #333; border-radius: 6px; overflow: hidden; margin: 10px 0; }
+.health-bar { height: 100%; background: linear-gradient(90deg, #4caf50, #8bc34a); transition: width .5s ease-out; }
+.battle-actions { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; background: rgba(0,0,0,.5); border-top: 2px solid #ffd700; padding: 15px; }
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.battle-btn { background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, rgba(255,255,255,.05) 100%); border: 1px solid rgba(255,255,255,.3); border-radius: 10px; color: white; display: flex; align-items: center; gap: 15px; padding: 10px; text-align: left; transition: all .2s; }
+.battle-btn:hover, .battle-btn:focus-visible { background: rgba(255,255,255,.25); border-color: #ffd700; transform: translateY(-2px); }
+.pardes-indicators { display: flex; gap: 4px; margin-top: 5px; }
+.p-dot { font-size: 10px; padding: 2px 4px; border-radius: 3px; background: #444; color: #888; }
+.p-dot.active { background: #ffd700; color: #000; font-weight: bold; box-shadow: 0 0 5px #ffd700; }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #000;
-  overscroll-behavior: none;
-  touch-action: none;
-}
+[id*="npc" i], [class*="npc" i], [class*="dialog" i], [class*="shop" i], [class*="market" i], [class*="merchant" i], [class*="overlay" i], [class*="modal" i], [class*="panel" i] { font-family: Inter, Outfit, system-ui, sans-serif; }
+[class*="npc" i][class*="overlay" i], [class*="dialog" i][class*="overlay" i], [class*="shop" i][class*="overlay" i], [class*="market" i][class*="overlay" i], [class*="modal" i] { backdrop-filter: blur(10px) saturate(1.2); }
+[class*="npc" i] button, [class*="dialog" i] button, [class*="shop" i] button, [class*="market" i] button, [class*="merchant" i] button, [class*="modal" i] button { border: 0 !important; border-radius: 14px !important; padding: 13px 18px !important; background: linear-gradient(135deg, #7b3ff7, #c77a04) !important; color: #fff !important; font-weight: 900 !important; letter-spacing: .04em; box-shadow: 0 8px 22px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.25); transition: transform .12s ease, filter .12s ease; }
+[class*="npc" i] button:hover, [class*="dialog" i] button:hover, [class*="shop" i] button:hover, [class*="market" i] button:hover, [class*="modal" i] button:hover { transform: translateY(-1px) scale(1.015); filter: brightness(1.12); }
+[class*="npc" i] [class*="item" i], [class*="shop" i] [class*="item" i], [class*="market" i] [class*="item" i], [class*="merchant" i] [class*="item" i] { background: linear-gradient(135deg, rgba(255,248,205,.96), rgba(255,230,142,.9)) !important; border: 2px solid #d18a07 !important; border-radius: 18px !important; color: #16320d !important; box-shadow: 0 6px 18px rgba(0,0,0,.26); margin: 10px 0; }
+[class*="npc" i] h1, [class*="npc" i] h2, [class*="dialog" i] h1, [class*="dialog" i] h2, [class*="shop" i] h1, [class*="market" i] h1 { color: #fff2bf !important; text-shadow: 0 3px 0 rgba(0,0,0,.35), 0 0 18px rgba(255,220,112,.28); letter-spacing: -.03em; }
+[class*="npc" i] ::-webkit-scrollbar, [class*="dialog" i] ::-webkit-scrollbar, [class*="shop" i] ::-webkit-scrollbar, [class*="market" i] ::-webkit-scrollbar { width: 12px; }
+[class*="npc" i] ::-webkit-scrollbar-thumb, [class*="dialog" i] ::-webkit-scrollbar-thumb, [class*="shop" i] ::-webkit-scrollbar-thumb, [class*="market" i] ::-webkit-scrollbar-thumb { background: linear-gradient(#ffe08a, #b97400); border-radius: 10px; }
 
-#ikar,
-#container {
-  position: absolute;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-}
-
-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-a {
-  color: #ff0;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-button,
-a,
-input,
-select {
-  pointer-events: auto;
-}
-
-button {
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-#info {
-  position: absolute;
-  top: 26px;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  text-align: center;
-  z-index: 10;
-  color: #fff;
-  pointer-events: none;
-}
-
-.lil-gui {
-  z-index: 20 !important;
-}
-
-@media all and (max-width: 640px) {
-  .lil-gui.root {
-    right: auto;
-    top: auto;
-    max-height: 50%;
-    max-width: 80%;
-    bottom: 0;
-    left: 0;
-  }
-}
-
-#overlay {
-  position: absolute;
-  font-size: 16px;
-  z-index: 30;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background: rgba(0, 0, 0, 0.7);
-}
-
-#overlay button {
-  background: transparent;
-  border: 1px solid rgb(255, 255, 255);
-  border-radius: 4px;
-  color: #ffffff;
-  padding: 12px 18px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-#notSupported {
-  width: 50%;
-  margin: 20px auto 0;
-  background-color: #f00;
-  padding: 10px;
-}
-
-.battle-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(0, 20, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-family: 'Outfit', system-ui, sans-serif;
-  z-index: 1000;
-}
-
-.battle-container {
-  width: min(90%, 1100px);
-  height: 90%;
-  display: grid;
-  grid-template-rows: 1fr 1fr 180px;
-  gap: 20px;
-}
-
-.stat-box {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  padding: 15px;
-  width: min(300px, 90vw);
-}
-
-.health-bar-container {
-  width: 100%;
-  height: 12px;
-  background: #333;
-  border-radius: 6px;
-  overflow: hidden;
-  margin: 10px 0;
-}
-
-.health-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #4caf50, #8bc34a);
-  transition: width 0.5s ease-out;
-}
-
-.battle-actions {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 15px;
-  background: rgba(0, 0, 0, 0.5);
-  border-top: 2px solid #ffd700;
-  padding: 15px;
-}
-
-.action-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.battle-btn {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 10px;
-  text-align: left;
-  transition: all 0.2s;
-}
-
-.battle-btn:hover,
-.battle-btn:focus-visible {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: #ffd700;
-  transform: translateY(-2px);
-}
-
-.pardes-indicators {
-  display: flex;
-  gap: 4px;
-  margin-top: 5px;
-}
-
-.p-dot {
-  font-size: 10px;
-  padding: 2px 4px;
-  border-radius: 3px;
-  background: #444;
-  color: #888;
-}
-
-.p-dot.active {
-  background: #ffd700;
-  color: #000;
-  font-weight: bold;
-  box-shadow: 0 0 5px #ffd700;
-}
-
-@media all and (max-width: 640px) {
-  .battle-container {
-    width: 96%;
-    height: 96%;
-    grid-template-rows: 1fr 1fr auto;
-    gap: 10px;
-  }
-
-  .battle-actions {
-    grid-template-columns: 1fr;
-    padding: 10px;
-  }
-
-  .action-grid {
-    grid-template-columns: 1fr;
-  }
-}
+@media all and (max-width: 640px) { .battle-container { width: 96%; height: 96%; grid-template-rows: 1fr 1fr auto; gap: 10px; } .battle-actions { grid-template-columns: 1fr; padding: 10px; } .action-grid { grid-template-columns: 1fr; } }

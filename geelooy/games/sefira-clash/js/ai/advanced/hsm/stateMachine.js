@@ -2,9 +2,9 @@
  * B"H
  * Hierarchical state chooser with rare physical escapes.
  *
- * Chapter 242: escape is medicine, not lifestyle. Wall and stall signals no
- * longer exile the bot from combat unless the body is truly trapped. Otherwise
- * the fighter chases, climbs, drops, and keeps the fire pointed at the target.
+ * Chapter 35: escape is medicine, not lifestyle. Vast maps once tricked bots
+ * into calling ordinary travel 'offstage'; now grounded fighters and safe
+ * ledges keep hunting unless real falling danger speaks.
  */
 export function chooseState(bot, world, stuck) {
   const offstage = isOffstage(bot, world);
@@ -29,9 +29,11 @@ function setState(bot, state) {
 
 function isOffstage(bot, world) {
   const p = world.current.p;
-  const farBelow = bot.y > p.y + 260;
-  const farSide = bot.x < p.x - 230 || bot.x > p.x + p.w + 230;
-  return farBelow || farSide || world.danger.score > 305;
+  const farBelow = bot.y > p.y + 300;
+  const dangerousFall = !bot.grounded && bot.vy > 4 && bot.y > p.y + 160;
+  const blastDanger = world.danger.score > 330;
+  const trulyOutside = !bot.grounded && (bot.x < p.x - 330 || bot.x > p.x + p.w + 330) && bot.y > p.y - 40;
+  return farBelow || dangerousFall || blastDanger || trulyOutside;
 }
 
 function recoverKind(bot, world) {
