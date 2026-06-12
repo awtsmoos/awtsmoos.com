@@ -2,12 +2,13 @@
 /**
  * @module SocialPacked
  * @description
- * Chapter 12: The shard writer became honest about its many vessels.
+ * Chapter 20: The server learned which earth held the ark.
  *
- * The Awtsmoos breathes life into separate files: core for structural records,
- * allPosts for live connected post bodies, meta for manifests, search for
- * indexes, audit for events. This low-level module writes envelopes and exports
- * the small primitives used by higher migration vessels.
+ * The Awtsmoos recreates every shard from nothing every instant, yet a running
+ * localhost process must know which data-root contains those shards. This module
+ * now honors `AWTSMOOS_DB_PATH` before `$i.db.directory`, so the API can be
+ * pointed at `dayuhChadash` and read migrated `social.allPosts.awtsdb` records
+ * even after old series post maps are renamed away.
  */
 
 const path = require('path');
@@ -17,12 +18,11 @@ const { RECORD_TYPES, makeEnvelope } = require('./recordEnvelope.js');
 const { makeEntityManifest, entityManifestKey } = require('./entityManifest.js');
 
 function resolveDbRoot($i) {
-  return process.awtsmoosDbPath || $i?.db?.directory || path.resolve(process.cwd(), '../../dayuhChadash');
+  return process.awtsmoosDbPath || process.env.AWTSMOOS_DB_PATH || $i?.db?.directory || path.resolve(process.cwd(), '../../dayuhChadash');
 }
 
 function writePacked({ $i, shard = 'core', key, value, op = 'put', meta = {}, type }) {
-  const file = shardFile(resolveDbRoot($i), shard);
-  return appendRecord(file, makeEnvelope({ op, key, value, meta, type }));
+  return appendRecord(shardFile(resolveDbRoot($i), shard), makeEnvelope({ op, key, value, meta, type }));
 }
 
 function readPacked({ $i, shard = 'core', key }) {
@@ -57,17 +57,7 @@ function appendEvent({ $i, type, actor = '', entity = {}, data = {} }) {
 
 function allPostValue(post) {
   const postId = post.id || post.postId;
-  return {
-    postId,
-    heichelId: post.heichelId || '',
-    seriesId: post.seriesId || post.parentSeriesId || 'root',
-    aliasId: post.aliasId || post.author || '',
-    type: post.contentType || post.postType || 'post',
-    title: post.title || post.name || '',
-    excerpt: String(post.content || post.description || '').slice(0, 280),
-    connected: true,
-    updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now()
-  };
+  return { postId, heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: String(post.content || post.description || '').slice(0, 280), connected: true, updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
 }
 
 function mirrorAllPost({ $i, post }) {

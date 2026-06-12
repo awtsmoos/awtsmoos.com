@@ -164,24 +164,22 @@ async function getHeichelEditors({
 
 async function getHeichel({
 	heichelId,
-	$i,
-	
-	
-
+	$i
 }) {
 	var isAllowed = await verifyHeichelPermissions({
 		heichelId,
-		
 		$i,
 		loggedIn
-	})
+	});
 
-	if (isAllowed)
+	if (isAllowed) {
 		return await $i.db.get(
 			sp +
-			`/heichelos/${heichelId}/info`
+			`/heichelos/${heichelId}/info`,
+			myOpts($i)
 		);
-	else return er(NO_PERMISSION);
+	}
+	return er(NO_PERMISSION);
 }
 
 

@@ -4,19 +4,16 @@
  * @description
  * Chapter 94: The Awtsmoos repairs the gate that the mobile styling pass shook.
  *
- * `/heichelos/:heichel/series/:series?view=series` is an old public covenant.
- * It must render the same Heichel app shell as `/heichelos/:heichel`, letting
- * the browser app read the series id from the path. The new mobile UI may dress
- * the page, but the old route may never fall into invalid-route JSON.
+ * Server-rendered Heichel pages now use property-map query parameters for
+ * post/heichel shell data, so HTML bootstraps carry only the fields the page
+ * needs. Full post bodies still load where the reader actually needs content.
  */
 
 module.exports = async $i => {
     await $i.use({
         "/": async () => await $i.$ga("_awtsmoos.index.html"),
-
         "/:heichel/series/:series/index": async vars => await renderHeichelShell(vars.heichel),
         "/:heichel/series/:series": async vars => await renderHeichelShell(vars.heichel),
-
         "/:heichel/delete": async v => await renderDelete(v),
         "/:heichel/edit": async () => await $i.$ga("_awtsmoos.submitToHeichel.html"),
         "/:heichel/submit": async v => await renderSubmit(v),
@@ -26,8 +23,20 @@ module.exports = async $i => {
         "/:heichel": async v => await renderHeichelShell(v.heichel)
     });
 
+    function qp(mapName, map) {
+        return new URLSearchParams({ [mapName]: JSON.stringify(map) }).toString();
+    }
+
+    function heichelFields() {
+        return qp("propertyMap", { id: true, name: true, title: true, description: true, author: true, createdAt: true, dayuh: true });
+    }
+
+    function postFields() {
+        return qp("propertyMap", { id: true, title: true, content: true, author: true, parentSeriesId: true, seriesId: true, createdAt: true, dayuh: true });
+    }
+
     async function getHeichel(heichelId) {
-        const hch = await $i.fetchAwtsmoos(`/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}`);
+        const hch = await $i.fetchAwtsmoos(`/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`);
         if (hch && !hch.error) hch.id = heichelId;
         return hch;
     }
@@ -63,9 +72,9 @@ module.exports = async $i => {
     }
 
     async function renderPost(vars) {
-        const post = await $i.fetchAwtsmoos(`/api/social/heichelos/${vars.heichel}/post/${encodeURIComponent(vars.post)}`);
-        const heichelDetails = await $i.fetchAwtsmoos(`/api/social/heichelos/${encodeURIComponent(vars.heichel)}`);
-        const aliasDetails = post?.author ? await $i.fetchAwtsmoos(`/api/social/aliases/${encodeURIComponent(post.author)}`) : null;
+        const post = await $i.fetchAwtsmoos(`/api/social/heichelos/${vars.heichel}/post/${encodeURIComponent(vars.post)}?${postFields()}`);
+        const heichelDetails = await $i.fetchAwtsmoos(`/api/social/heichelos/${encodeURIComponent(vars.heichel)}?${heichelFields()}`);
+        const aliasDetails = post?.author ? await $i.fetchAwtsmoos(`/api/social/aliases/${encodeURIComponent(post.author)}?${qp("propertyMap", { id: true, name: true, title: true, description: true })}`) : null;
         if (aliasDetails && post?.author) aliasDetails.id = post.author;
         if (heichelDetails) heichelDetails.id = vars.heichel;
         if (post) {

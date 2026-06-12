@@ -24,6 +24,7 @@ const {
 } = require("./helper/index.js");
 
 const { sp } = require("./helper/_awtsmoos.constants.js"); // If needed
+const { getDirectSeriesPrateem } = require("./helper/series/directSeriesPrateem.js");
 
 module.exports = ({ $i, userid } = {}) => ({
 
@@ -63,6 +64,7 @@ module.exports = ({ $i, userid } = {}) => ({
     "/heichelos/:heichel/series/:series": async v => {
         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
         const withDetails = $i.$_GET.details === 'true';
+        if (!withDetails) return await getDirectSeriesPrateem({ $i, heichelId: v.heichel, seriesId: v.series });
         return await getSeries({
             $i,
             heichelId: v.heichel,

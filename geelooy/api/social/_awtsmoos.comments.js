@@ -1,12 +1,18 @@
 /*B"H*/
-
 /**
  * @file _awtsmoos.comments.js
  * @description
- * Thin route manifest for the social comments API. The old single-file vessel
- * has been split into focused route modules under helper/comments/routes.
+ * Chapter 35: Comments entered their own ark, and the old API kept its voice.
+ *
+ * The route still delegates to the focused comment modules, but `$i.db` is now
+ * wrapped first. Comment paths read/write the family AwtsmoosDB comments file
+ * before legacy folders, while every non-migrated path falls back untouched.
  */
 
-const buildCommentRoutes = require("./helper/comments/routes/index.js");
+const buildCommentRoutes = require('./helper/comments/routes/index.js');
+const { installSocialDbBridge } = require('./helper/packed/socialDbBridgeInstaller.js');
 
-module.exports = ({ $i, userid } = {}) => buildCommentRoutes({ $i, userid });
+module.exports = ({ $i, userid } = {}) => {
+  installSocialDbBridge($i);
+  return buildCommentRoutes({ $i, userid });
+};

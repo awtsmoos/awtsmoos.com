@@ -1,5 +1,4 @@
 Starting instance of email
-Warning: Could not load DKIM file. Checking Env...
 Task Runner: Starting background polling for generic jobs...
 Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
 B"H
@@ -7,5 +6,6 @@ B"H
 
 
  Server running at http://127.0.0.1:8080/
-Time:  1781167657937
+Time:  1781239909487
 B"H - Email server skipped; set AWTSMOOS_START_MAIL=true to enable it.
+[Merkava Parser] Detected Base Path: 
