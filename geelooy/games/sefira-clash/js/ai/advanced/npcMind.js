@@ -1,7 +1,4 @@
-/**
- * B"H
- * NPC mind entry with hunt, rivalry, reputation, traps, and kill pressure debug.
- */
+/** B"H - NPC mind entry with full realistic AI systems wired. */
 import { updateProgress } from './blackboard/progressTracker.js';
 import { diagnoseStuck } from './blackboard/stuckDetector.js';
 import { validateAttack } from './combat/attackValidator.js';
@@ -9,6 +6,7 @@ import { combatPocket } from './combat/positionPlanner.js';
 import { combatTactic } from './combat/tacticPlanner.js';
 import { updateComboMomentum } from './combat/comboMomentum.js';
 import { updateRapidJailBreaker } from './combat/rapidJailBreaker.js';
+import { debugPacket } from './debug/npcDebugPacket.js';
 import { updateFightMomentum } from './emotion/fightMomentum.js';
 import { updateHunger } from './emotion/hungerSystem.js';
 import { updateRevengeMemory } from './emotion/revengeMemory.js';
@@ -92,41 +90,4 @@ function exposeDebug(bot, world, progress, stuck, mode) {
   bot.ai.stuck = progress.noProgress;
   bot.ai.edgeHover = stuck.kind === 'ledge' ? 30 : Math.max(0, (bot.ai.edgeHover || 0) - 2);
   bot.aiMind.debug = debugPacket(bot, world, progress, stuck, mode);
-}
-
-function debugPacket(bot, world, progress, stuck, mode) {
-  return {
-    state: mode,
-    intent: world.humanIntent?.name || 'none',
-    koIntent: world.koIntent?.name || 'none',
-    launch: world.launchPlan?.name || 'none',
-    attackFamily: world.combatTactic?.family || 'none',
-    predator: world.predatorGoal?.kind || 'none',
-    opportunity: bot.aiMind.opportunity?.name || 'none',
-    commitment: bot.aiMind.commitment?.name || 'none',
-    pressureCommitment: bot.aiMind.pressureCommitment?.kind || 'none',
-    reputation: world.attackReputation?.counter || 'neutral',
-    rivalry: bot.aiMind.rivalry?.id ? `${bot.aiMind.rivalry.id}:${Math.round(bot.aiMind.rivalry.heat)}` : 'none',
-    platform: world.platformDesire?.reason || 'none',
-    landingTrap: world.landingTrap?.active ? `${Math.round(world.landingTrap.x)}` : 'off',
-    hunt: world.huntClock?.active ? Math.round(world.huntClock.value) : 0,
-    hunger: Math.round(world.hunger?.value || 0),
-    momentum: Math.round(world.momentum?.value || 0),
-    threat: Math.round(Math.max(world.threatVision?.front || 0, world.threatVision?.behind || 0, world.threatVision?.hazard || 0)),
-    execution: world.execution?.active ? 'kill' : 'off',
-    jumpDebt: Math.round(world.jumpDebt?.value || 0),
-    heat: Math.round(bot.aiMind.combatHeat?.heat || 0),
-    antiPeace: bot.aiMind.antiPeace?.active ? `on:${bot.aiMind.antiPeace.frames}` : 'off',
-    noStillness: bot.aiMind.noStillness?.mustMove ? bot.aiMind.noStillness.reason : 'clear',
-    tactic: bot.aiMind.tactic || 'none',
-    jumpReason: bot.aiMind.jumpReason || 'none',
-    attackValid: bot.aiMind.attackCheck?.valid ?? false,
-    attackReason: bot.aiMind.attackCheck?.reason || 'none',
-    landing: world.landing?.active ? `${Math.round(world.landing.x)},${Math.round(world.landing.y)}` : 'none',
-    stuck: stuck.kind,
-    routeFound: world.route.found,
-    routeAction: world.step?.action || 'same',
-    noProgress: progress.noProgress,
-    target: world.target?.id
-  };
 }

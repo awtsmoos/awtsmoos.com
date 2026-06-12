@@ -1,17 +1,17 @@
 // B"H
 /**
  * @file commentReadReport.js
- * @chapter The Witness Flame Names The True Vessel
+ * @chapter The Witness Flame Refused The Shadow Copy
  * @description
- * Every read testifies which vessel answered. The primary comment tree path is
- * now the DosDB path language, which routes heichel comments into the AwtsmoosDB
- * family filesystem when migrated files exist. The old packed JSONL shard is a
- * last-resort fallback and is named as such.
+ * Every read testifies which vessel answered. The only live comment source is
+ * the DosDB path language, which routes heichel comments into the custom
+ * AwtsmoosDB family filesystem. The former packed mirror is named only as a
+ * disabled non-source so stale duplicate data can never masquerade as truth.
  */
 
-const NEW_SOURCE = "oldPackedCommentShardFallback";
+const NEW_SOURCE = "duplicateCommentMirrorDisabled";
 const OLD_SOURCE = "awtsmoosDbFsCommentTree";
-const OLD_PACKED_ALIAS = "packed-comment-shard";
+const OLD_PACKED_ALIAS = "packed-comment-shard-disabled";
 
 function count(value) {
     return Array.isArray(value) ? value.length : 0;
@@ -25,15 +25,13 @@ function readReport({ source, primary, fallback, paths }) {
     return {
         BH: "B\"H",
         source,
-        order: [OLD_SOURCE, NEW_SOURCE],
+        order: [OLD_SOURCE],
         primary,
         ...(fallback ? { fallback } : {}),
         paths,
         message: source === OLD_SOURCE
-            ? "Read from the DosDB heichel path; migrated heichel comments resolve through the AwtsmoosDB family filesystem."
-            : source === NEW_SOURCE
-                ? "DosDB/AwtsmoosDB comment tree had no result, so the old packed comment shard fallback answered."
-                : "Neither AwtsmoosDB comment tree nor packed fallback had matching comments."
+            ? "Read from the authoritative DosDB heichel path; migrated heichel comments resolve through the custom AwtsmoosDB family filesystem."
+            : "No authoritative AwtsmoosDB comment tree entries matched; duplicate packed mirror fallback is disabled."
     };
 }
 
