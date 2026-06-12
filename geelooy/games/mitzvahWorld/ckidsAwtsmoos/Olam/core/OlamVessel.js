@@ -7,12 +7,12 @@
  * readable lava into the worker-created Olam.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import Nivra from "../../chayim/nivra.js?compact=true";
-import OlamGrafting from "./OlamGraftingPlain.js?compact=true";
-import OlamProperties from "../properties/index.js?compact=true";
-import OlamInit from "./OlamInit.js?compact=true";
-import Ayin from "../camera/index.js?compact=true";
-import UserProgressManager from "../../systems/UserProgressManager.js?compact=true";
+import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
+import OlamGrafting from "./OlamGraftingPlain.js?v=village-combat-20260611-bh803";
+import OlamProperties from "../properties/index.js?v=village-combat-20260611-bh804";
+import OlamInit from "./OlamInit.js?v=village-combat-20260611-bh804";
+import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";
+import UserProgressManager from "../../systems/UserProgressManager.js?v=village-combat-20260611-bh804";
 import Yichud from "../interaction/Yichud.js?compact=true";
 import PlacementManager from "../interaction/PlacementManager.js?compact=true";
 import CombatManager from "../../systems/combat/CombatManager.js?v=village-combat-20260611-bh801";

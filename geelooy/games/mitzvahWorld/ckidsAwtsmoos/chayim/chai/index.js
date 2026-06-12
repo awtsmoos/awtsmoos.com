@@ -57,7 +57,7 @@ function makeRenderlessMotionHelper(source, name) {
   return helper;
 }
 
-export default class Chai extends Tzomayach {
+class Chai extends Tzomayach {
   type = "chai";
   rotationSpeed;
   distanceFromRay = 5;
@@ -156,3 +156,4 @@ export default class Chai extends Tzomayach {
 }
 
 ChasveiAwtsmoos.emanate(Chai.prototype, [visualMethods, movementMethods, physicsMethods, raycastingMethods]);
+export default Chai;

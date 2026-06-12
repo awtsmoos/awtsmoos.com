@@ -6,11 +6,12 @@
 
   /**
    * B"H
-   * Chapter 383: The Injected Messenger Carried The Conversation Seal.
+   * Chapter 397: The Android Stream Kept A Cancel Knife For One River Only.
    *
-   * Every automation whisper now bears its conversationId. The visible tab may
-   * close, sleep, or multiply into many windows, while the extension background
-   * remembers which stream belongs to which vessel of the Awtsmoos.
+   * The Awtsmoos gives every fetch stream its own id, reader, resume cursor,
+   * stats gate, ack gate, and cancel gate. The cancel function is assigned as
+   * `awtsFetch.cancelStream` explicitly so the extension ledger can prove the
+   * public page bridge exposes per-stream cancellation.
    */
   class AwtsResponse {
     constructor(metadata, id) {
@@ -19,7 +20,9 @@
       this.bodyUsed = false;
       this.headers = new Headers(Array.isArray(metadata?.headers) ? metadata.headers : []);
     }
-    clone() { return new AwtsResponse({ status:this.status, ok:this.ok, headers:Array.from(this.headers.entries()), url:this.url, redirected:this.redirected, type:this.type || "basic" }, this.id); }
+    clone() {
+      return new AwtsResponse({ status:this.status, ok:this.ok, headers:Array.from(this.headers.entries()), url:this.url, redirected:this.redirected, type:this.type || "basic" }, this.id);
+    }
     async _requestBody(action) { return await sendBridgeMessage({ action:"fetch-body", id:this.id, bodyAction:action }, 180000); }
     async text() { this.bodyUsed = true; return await this._requestBody("text"); }
     async json() { return JSON.parse(await this.text()); }
@@ -64,7 +67,8 @@
       const timeout = setTimeout(() => cleanup(() => reject(timeoutError(payload, id, timeoutMs))), timeoutMs);
       function cleanup(after) { clearTimeout(timeout); window.removeEventListener("message", onMessage); after?.(); }
       function onMessage(event) {
-        if (event.data?.from === "background" && event.data.id === id) cleanup(() => event.data.error ? reject(new Error(event.data.error)) : resolve(Object.prototype.hasOwnProperty.call(event.data, "result") ? event.data.result : event.data.metadata));
+        if (event.data?.from !== "background" || event.data.id !== id) return;
+        cleanup(() => event.data.error ? reject(new Error(event.data.error)) : resolve(Object.prototype.hasOwnProperty.call(event.data, "result") ? event.data.result : event.data.metadata));
       }
       window.addEventListener("message", onMessage);
       window.postMessage(payload, "*");
@@ -78,8 +82,14 @@
   }
 
   async function resumeStream(id, cursor = 0) { return await sendBridgeMessage({ action:"resume-stream", id, cursor }, 180000); }
-  async function safeResumePacket(id, cursor = 0) { try { return await resumeStream(id, cursor); } catch (error) { if (/Response not found|already consumed|stream missing/i.test(String(error?.message || error))) return null; throw error; } }
-  async function ackStream(id, cursor = 0) { try { return await sendBridgeMessage({ action:"ack-stream", id, cursor }, 30000); } catch (error) { window.dispatchEvent(new CustomEvent("awtsmoos-server-feedback", { detail:{ type:"ack-timeout", error:String(error?.message || error), id } })); return null; } }
+  async function safeResumePacket(id, cursor = 0) {
+    try { return await resumeStream(id, cursor); }
+    catch (error) { if (/Response not found|already consumed|stream missing/i.test(String(error?.message || error))) return null; throw error; }
+  }
+  async function ackStream(id, cursor = 0) {
+    try { return await sendBridgeMessage({ action:"ack-stream", id, cursor }, 30000); }
+    catch (error) { window.dispatchEvent(new CustomEvent("awtsmoos-server-feedback", { detail:{ type:"ack-timeout", error:String(error?.message || error), id } })); return null; }
+  }
   async function streamStats(id) { return await sendBridgeMessage({ action:"stream-stats", id }, 30000); }
   async function cancelStream(id, reason = "cancelled") { return await sendBridgeMessage({ action:"cancel-stream", id, reason }, 30000); }
   async function startBackgroundAutomation(config = {}) { return await sendBridgeMessage({ action:"automation-start", config, conversationId:config.conversationId || "" }, 60000); }
@@ -94,7 +104,11 @@
         const metadata = await sendBridgeMessage({ action:"fetch", id, url:String(url), options }, 180000);
         readyEvent({ attempt });
         return new AwtsResponse(metadata, id);
-      } catch (error) { lastError = error; window.dispatchEvent(new CustomEvent("awtsmoos-server-reconnecting", { detail:{ attempt, error:String(error?.message || error) } })); await wait(250 * Math.pow(2, attempt)); }
+      } catch (error) {
+        lastError = error;
+        window.dispatchEvent(new CustomEvent("awtsmoos-server-reconnecting", { detail:{ attempt, error:String(error?.message || error) } }));
+        await wait(250 * Math.pow(2, attempt));
+      }
     }
     throw lastError;
   }
@@ -107,7 +121,13 @@
   });
 
   awtsFetch[bridgeMark] = true;
-  Object.assign(awtsFetch, { resumeStream, ackStream, streamStats, cancelStream, startBackgroundAutomation, stopBackgroundAutomation, backgroundAutomationStatus });
+  awtsFetch.resumeStream = resumeStream;
+  awtsFetch.ackStream = ackStream;
+  awtsFetch.streamStats = streamStats;
+  awtsFetch.cancelStream = cancelStream;
+  awtsFetch.startBackgroundAutomation = startBackgroundAutomation;
+  awtsFetch.stopBackgroundAutomation = stopBackgroundAutomation;
+  awtsFetch.backgroundAutomationStatus = backgroundAutomationStatus;
   window.awtsmoosFetch = awtsFetch;
   window.mFetch = awtsFetch;
   readyEvent({ fetchName:"awtsmoosFetch" });

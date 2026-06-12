@@ -2,12 +2,12 @@
 /**
  * @module SocialPostsRoutes
  * @description
- * Chapter 2: The gate of posts learned to hear two heartbeats.
+ * Chapter 18: The new scroll answered before the old cave echoed.
  *
- * Legacy DosDB paths still carry living writes. AwtsmoosDB packed shards carry
- * migrated fire. These routes answer from both, so the social network does not
- * split into yesterday and tomorrow. The Awtsmoos, beyond body and form, speaks
- * one reality through many vessels; this route composes those vessels carefully.
+ * The Awtsmoos recreates every byte from nothing, yet the API must choose an
+ * order when two vessels contain the same post. This route now reads the new
+ * `social.allPosts.awtsdb` post body first and keeps legacy DosDB as backup.
+ * Lists/details merge both worlds with the new allPosts record winning dupes.
  */
 
 const {
@@ -35,9 +35,10 @@ const {
 } = require('./helper/packed/postPackedBridge.js');
 
 /**
- * @description Safely decodes the base64 breadcrumb used by older alias routes.
- * @param {string} value Encoded value.
- * @returns {string} Decoded breadcrumb or empty string.
+ * @description Decodes an older base64 breadcrumb without letting malformed
+ * crumbs tear the veil of the request chamber.
+ * @param {string} value Encoded crumb.
+ * @returns {string} Decoded crumb or empty string.
  */
 function decodeCrumbPath(value = '') {
   try { return decodeURIComponent(Buffer.from(value, 'base64').toString('utf-8')); }
@@ -45,8 +46,7 @@ function decodeCrumbPath(value = '') {
 }
 
 /**
- * @description Parses the optional properties query without letting bad JSON
- * shatter the route like a clay cup before the palace doors.
+ * @description Parses optional property filters.
  * @param {object} $i Request context.
  * @returns {object|null} Parsed properties or null.
  */
@@ -57,22 +57,17 @@ function parseProperties($i) {
 }
 
 /**
- * @description Returns true when a helper result is an error envelope.
+ * @description Detects helper error envelopes.
  * @param {*} value Any helper result.
- * @returns {boolean} Whether it is an error.
+ * @returns {boolean} Whether the value is an error envelope.
  */
 function isError(value) {
   return Boolean(value && typeof value === 'object' && value.error);
 }
 
 /**
- * @description Reads posts from legacy and packed stores for one series.
+ * @description Reads list/detail post routes from old plus new with new winning.
  * @param {object} input Named input.
- * @param {object} input.$i Request context.
- * @param {string} input.heichelId Heichel id.
- * @param {string} input.seriesId Series id.
- * @param {boolean} input.withDetails Whether full posts are requested.
- * @param {object|null} input.properties Optional legacy property map.
  * @returns {Promise<object[]|string[]|object>} Merged posts, ids, or error.
  */
 async function readPostsFromBothStores({ $i, heichelId, seriesId, withDetails, properties }) {
@@ -83,19 +78,19 @@ async function readPostsFromBothStores({ $i, heichelId, seriesId, withDetails, p
 }
 
 /**
- * @description Reads one post from legacy first and AwtsmoosDB as fallback.
+ * @description Reads one post from allPosts first, legacy DosDB second.
  * @param {object} input Named input.
  * @returns {Promise<object>} Post object or error envelope.
  */
-async function readOnePostFromBothStores({ $i, heichelId, seriesId, postId }) {
-  const legacy = await getPostFromSeries({ $i, heichelId, seriesId, postId });
-  if (!isError(legacy)) return { ...legacy, _awtsmoosSource: legacy._awtsmoosSource || 'legacyDosDB' };
+async function readOnePostNewFirst({ $i, heichelId, seriesId, postId }) {
   const packed = readPackedPost({ $i, heichelId, seriesId, postId });
-  return packed || legacy;
+  if (packed) return packed;
+  const legacy = await getPostFromSeries({ $i, heichelId, seriesId, postId });
+  return isError(legacy) ? legacy : { ...legacy, _awtsmoosSource: legacy._awtsmoosSource || 'legacyDosDB' };
 }
 
 /**
- * @description Filters ids from legacy and packed stores.
+ * @description Filters ids from both stores, packed ids first in the result.
  * @param {object} input Named input.
  * @returns {Promise<string[]|object>} Matching ids or error.
  */
@@ -103,7 +98,7 @@ async function filterPostsFromBothStores({ $i, heichelId, seriesId, propertyKey,
   const legacy = await getPostsByProperty({ $i, heichelId, seriesId, propertyKey, propertyValue });
   if (isError(legacy)) return legacy;
   const packed = filterPackedPostIds({ posts: listPackedPosts({ $i, heichelId, seriesId }), propertyKey, propertyValue });
-  return Array.from(new Set([...(Array.isArray(legacy) ? legacy : []), ...packed]));
+  return Array.from(new Set([...packed, ...(Array.isArray(legacy) ? legacy : [])]));
 }
 
 module.exports = ({ $i, userid } = {}) => ({
@@ -160,7 +155,7 @@ module.exports = ({ $i, userid } = {}) => ({
   },
 
   '/heichelos/:heichel/series/:series/post/:post': async v => {
-    if ($i.request.method === 'GET') return readOnePostFromBothStores({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
+    if ($i.request.method === 'GET') return readOnePostNewFirst({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
     if ($i.request.method === 'PUT') return editPostInSeries({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
     if ($i.request.method !== 'DELETE') return er({ code: 'METHOD_NOT_ALLOWED' });
     if (!$i.$_DELETE) $i.$_DELETE = {};

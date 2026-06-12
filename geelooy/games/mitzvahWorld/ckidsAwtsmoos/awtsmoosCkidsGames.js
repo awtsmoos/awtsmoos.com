@@ -7,5 +7,5 @@
  * The Awtsmoos lets direct constructors enter through this single river. The
  * export hub must therefore never point to an older Chai or Chossid seal.
  */
-export * from './exports/index.js?v=visible-root-binding-20260610-bh710';
+export * from './exports/index.js?v=village-combat-20260611-bh802';
 export class ok {}

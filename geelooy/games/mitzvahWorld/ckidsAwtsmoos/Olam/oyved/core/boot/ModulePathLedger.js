@@ -12,7 +12,7 @@ export const MODULE_PATH_LEDGER = Object.freeze({
   olamCore: Object.freeze({
     key: "olamCore",
     label: "Olam core direct vessel",
-    relativePath: "../../../core/OlamVessel.js",
+    relativePath: "../../../core/OlamVessel.js?v=village-combat-20260611-bh804",
     expectedEnd: "/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js",
     requiredExport: "default"
   }),

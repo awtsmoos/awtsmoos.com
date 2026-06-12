@@ -13,7 +13,7 @@ import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
 import heesHawvoos from "../methods/heesHawvoos.js";
 import HelpersBridge from "../methods/helpers.js?v=visible-root-binding-20260610-bh710";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=visible-root-binding-20260610-bh710";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=village-combat-20260611-bh802";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";

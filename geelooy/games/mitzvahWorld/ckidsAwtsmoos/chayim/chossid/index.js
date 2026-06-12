@@ -10,7 +10,7 @@
  * but fastened to the body that the joystick moves.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=visible-root-binding-20260610-bh710";
+import Chai from "../chai/index.js?v=village-combat-20260611-bh802";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 import controlMethods from './methods/controls.js?v=direct-mobile-move-20260610-bh704';
 import interactionMethods from './methods/interaction.js?v=explicit-npc-click-payload-20260604-bh447';

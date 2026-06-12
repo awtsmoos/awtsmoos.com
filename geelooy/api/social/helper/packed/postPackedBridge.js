@@ -2,35 +2,31 @@
 /**
  * @module PostPackedBridge
  * @description
- * Chapter 1: Two rivers entered the heichel at dawn.
+ * Chapter 17: The new ark spoke first.
  *
- * One river was old DosDB stone: paths, keys, series, posts, the bruised
- * memory of every word already spoken. One river was AwtsmoosDB fire:
- * `social.core.awtsdb`, where migrated posts glow as append-only sparks.
- *
- * This bridge does not erase either river. It listens to both. The Awtsmoos,
- * beyond body and form, recreates every byte from nothing every instant; this
- * module follows that discipline by reading legacy and packed records together
- * before the API answers.
+ * Migrated live post bodies dwell in `social.allPosts.awtsdb`. This bridge now
+ * gives that new vessel priority over the old DosDB echo when both contain the
+ * same post id. The Awtsmoos reveals one answer through many garments; the
+ * newest garment speaks first, while legacy remains a faithful backup shadow.
  */
 
 const { readPacked, listPackedRecords } = require('./socialPacked.js');
-const { logicalKey } = require('./shardPaths.js');
+const { allPostKey, postIdOf } = require('./allPostsIndex.js');
 
 /**
- * @description Builds the canonical packed key for one post.
+ * @description Builds the allPosts key where the living migrated body rests.
  * @param {object} input Named input.
  * @param {string} input.heichelId Heichel id.
  * @param {string} input.postId Post id.
- * @returns {string} Logical AwtsmoosDB key.
+ * @returns {string} Logical allPosts key.
  */
 function postKey({ heichelId, postId }) {
-  return logicalKey(['posts', heichelId, postId]);
+  return allPostKey({ heichelId, postId });
 }
 
 /**
- * @description Extracts the id at the end of a packed post key.
- * @param {string} key Packed logical key.
+ * @description Extracts the final path spark from a packed key.
+ * @param {string} key Logical key.
  * @returns {string} Post id or empty string.
  */
 function postIdFromKey(key) {
@@ -38,38 +34,34 @@ function postIdFromKey(key) {
 }
 
 /**
- * @description Normalizes one packed record into the normal post object shape.
+ * @description Normalizes one allPosts envelope into route post shape.
  * @param {object} input Named input.
  * @param {object} input.record Packed record envelope.
- * @param {string} input.heichelId Heichel id.
+ * @param {string} input.heichelId Heichel id fallback.
  * @returns {object|null} Normalized post or null.
  */
 function normalizePackedPost({ record, heichelId }) {
   if (!record || record.op === 'delete' || !record.value) return null;
-  const postId = record.value.id || record.value.postId || postIdFromKey(record.key);
+  const postId = postIdOf(record.value) || postIdFromKey(record.key);
   const seriesId = record.value.seriesId || record.value.parentSeriesId || 'root';
   return {
-    id: postId,
+    id: record.value.id || postId,
     postId,
     heichelId: record.value.heichelId || heichelId,
     seriesId,
     parentSeriesId: record.value.parentSeriesId || seriesId,
     ...record.value,
-    _awtsmoosSource: 'packedAwtsDB'
+    _awtsmoosSource: 'allPostsAwtsDB'
   };
 }
 
 /**
- * @description Reads a single post from AwtsmoosDB packed storage.
+ * @description Reads a single post from the new allPosts AwtsmoosDB shard.
  * @param {object} input Named input.
- * @param {object} input.$i Awtsmoos request context.
- * @param {string} input.heichelId Heichel id.
- * @param {string} input.seriesId Optional series id filter.
- * @param {string} input.postId Post id.
  * @returns {object|null} Packed post or null.
  */
 function readPackedPost({ $i, heichelId, seriesId = '', postId }) {
-  const record = readPacked({ $i, shard: 'core', key: postKey({ heichelId, postId }) });
+  const record = readPacked({ $i, shard: 'allPosts', key: postKey({ heichelId, postId }) });
   const post = normalizePackedPost({ record, heichelId });
   if (!post) return null;
   if (seriesId && seriesId !== 'ALL' && post.seriesId !== seriesId && post.parentSeriesId !== seriesId) return null;
@@ -77,17 +69,14 @@ function readPackedPost({ $i, heichelId, seriesId = '', postId }) {
 }
 
 /**
- * @description Lists latest packed posts for one heichel and optional series.
+ * @description Lists latest allPosts records for one heichel and optional series.
  * @param {object} input Named input.
- * @param {object} input.$i Awtsmoos request context.
- * @param {string} input.heichelId Heichel id.
- * @param {string} input.seriesId Optional series id filter.
  * @returns {object[]} Packed posts.
  */
 function listPackedPosts({ $i, heichelId, seriesId = '' }) {
-  const prefix = logicalKey(['posts', heichelId]) + '/';
+  const prefix = allPostKey({ heichelId, postId: '' });
   const latest = new Map();
-  for (const record of listPackedRecords({ $i, shard: 'core' })) {
+  for (const record of listPackedRecords({ $i, shard: 'allPosts' })) {
     if (!record.key || !record.key.startsWith(prefix)) continue;
     latest.set(record.key, record);
   }
@@ -98,38 +87,37 @@ function listPackedPosts({ $i, heichelId, seriesId = '' }) {
 }
 
 /**
- * @description Merges old post objects with packed post objects without dupes.
- * Legacy wins on duplicate ids because live writes still target the legacy tree.
- * @param {object[]} legacyPosts Posts read from the old DB path.
- * @param {object[]} packedPosts Posts read from AwtsmoosDB.
+ * @description Merges legacy and packed posts with packed/new taking priority.
+ * @param {object[]} legacyPosts Old DosDB posts.
+ * @param {object[]} packedPosts New allPosts records.
  * @returns {object[]} Merged posts.
  */
 function mergePosts(legacyPosts = [], packedPosts = []) {
   const byId = new Map();
-  for (const post of packedPosts) if (post?.id || post?.postId) byId.set(post.id || post.postId, post);
   for (const post of legacyPosts) {
     if (!post || !(post.id || post.postId)) continue;
     byId.set(post.id || post.postId, { ...post, _awtsmoosSource: post._awtsmoosSource || 'legacyDosDB' });
+  }
+  for (const post of packedPosts) {
+    if (!post || !(post.id || post.postId)) continue;
+    byId.set(post.id || post.postId, post);
   }
   return Array.from(byId.values());
 }
 
 /**
- * @description Merges legacy ids with packed ids.
+ * @description Merges ids from old and new without duplicates.
  * @param {string[]} legacyIds Old ids.
- * @param {object[]} packedPosts Packed post objects.
+ * @param {object[]} packedPosts Packed posts.
  * @returns {string[]} Stable unique ids.
  */
 function mergePostIds(legacyIds = [], packedPosts = []) {
-  return Array.from(new Set([...legacyIds.map(String), ...packedPosts.map(post => post.id || post.postId).filter(Boolean).map(String)]));
+  return Array.from(new Set([...packedPosts.map(post => post.id || post.postId).filter(Boolean).map(String), ...legacyIds.map(String)]));
 }
 
 /**
- * @description Filters packed posts by property with loose legacy-compatible equality.
+ * @description Filters packed posts by a loose legacy-compatible property match.
  * @param {object} input Named input.
- * @param {object[]} input.posts Posts.
- * @param {string} input.propertyKey Property key.
- * @param {string} input.propertyValue Property value.
  * @returns {string[]} Matching ids.
  */
 function filterPackedPostIds({ posts, propertyKey, propertyValue }) {

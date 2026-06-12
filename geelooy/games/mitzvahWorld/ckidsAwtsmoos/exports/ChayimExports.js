@@ -10,5 +10,5 @@
 export { default as Nivra } from "../chayim/nivra.js?v=village-fix-20260531-bh108";
 export { default as Domem } from "../chayim/domem/index.js?v=village-fix-20260531-bh108";
 export { default as Tzomayach } from "../chayim/tzomayach.js?v=village-fix-20260531-bh108";
-export { default as Chai } from "../chayim/chai/index.js?v=visible-root-binding-20260610-bh710";
-export { default as Chossid } from "../chayim/chossid/index.js?v=visible-root-binding-20260610-bh710";
+export { default as Chai } from "../chayim/chai/index.js?v=village-combat-20260611-bh802";
+export { default as Chossid } from "../chayim/chossid/index.js?v=village-combat-20260611-bh802";

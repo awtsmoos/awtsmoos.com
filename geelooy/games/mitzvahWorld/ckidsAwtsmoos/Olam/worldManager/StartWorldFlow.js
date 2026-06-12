@@ -11,7 +11,7 @@
  */
 import OlamWorkerManager from "../ikarOyvedManager.js?v=visible-root-binding-20260610-bh710";
 
-const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
+const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js?v=village-combat-20260611-bh804", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
 
 const StartWorldFlow = {
   async startWorld(ob = {}) {

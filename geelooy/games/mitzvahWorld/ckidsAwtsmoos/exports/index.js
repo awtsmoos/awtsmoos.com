@@ -8,7 +8,7 @@
  * points to the visible-root seal so Chai and Chossid cannot be resurrected from
  * stale physics-motion imports.
  */
-export * from './ChayimExports.js?v=visible-root-binding-20260610-bh710';
+export * from './ChayimExports.js?v=village-combat-20260611-bh802';
 export * from './DvarimExports.js?v=visible-guide-motion-20260610-bh701';
 export * from './SystemExports.js';
 export * from './NatureExports.js?v=lava-camera-axis-20260609-bh640';

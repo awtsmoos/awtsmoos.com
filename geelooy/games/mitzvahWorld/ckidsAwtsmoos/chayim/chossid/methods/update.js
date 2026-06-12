@@ -9,7 +9,7 @@
  * visible-root Chai, so controls, physics, and visual binding all breathe from
  * one renewed source.
  */
-import Chai from "../../chai/index.js?v=visible-root-binding-20260610-bh710";
+import Chai from "../../chai/index.js?v=village-combat-20260611-bh802";
 
 const MOVEMENT_INPUTS = ["FORWARD", "BACKWARD", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"];
 

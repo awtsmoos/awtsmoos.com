@@ -2,12 +2,12 @@
 /**
  * @module SocialPacked
  * @description
- * Chapter 106: The AwtsmoosDB social sidecar gains separate vessels.
+ * Chapter 12: The shard writer became honest about its many vessels.
  *
- * Core post bodies write to `social.core.awtsdb`; metadata/manifests write to
- * `social.meta.awtsdb`; the global post census writes to `social.allPosts.awtsdb`.
- * Readers still replay legacy `.awtsocial` shards before the new `.awtsdb` shard
- * so migration can be additive, reversible, and gentle on the old system.
+ * The Awtsmoos breathes life into separate files: core for structural records,
+ * allPosts for live connected post bodies, meta for manifests, search for
+ * indexes, audit for events. This low-level module writes envelopes and exports
+ * the small primitives used by higher migration vessels.
  */
 
 const path = require('path');
@@ -121,4 +121,4 @@ function writeMigrationManifest({ $i, manifest }) {
   return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } });
 }
 
-module.exports = { resolveDbRoot, writePacked, readPacked, listPackedRecords, mirrorPost, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, allShardStats };
+module.exports = { resolveDbRoot, writePacked, readPacked, listPackedRecords, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, allShardStats };

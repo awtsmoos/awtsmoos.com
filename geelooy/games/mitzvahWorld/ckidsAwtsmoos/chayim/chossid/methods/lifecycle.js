@@ -10,7 +10,7 @@
  * to the moving root that camera and physics follow.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Chai from "../../chai/index.js?v=visible-root-binding-20260610-bh710";
+import Chai from "../../chai/index.js?v=village-combat-20260611-bh802";
 import { applyCameraStart } from './lifecycle/cameraStart.js?v=lava-camera-axis-20260609-bh640';
 import { ensureFallbackBody } from './lifecycle/fallbackBody.js?v=chossid-visible-guarantee-20260610-bh707';
 import { prepareChossidModel } from './lifecycle/model.js?v=visible-root-binding-20260610-bh710';

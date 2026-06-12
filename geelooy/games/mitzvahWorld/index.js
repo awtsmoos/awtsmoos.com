@@ -10,7 +10,7 @@
  * loop are recreated together from the first breath of boot.
  */
 let bootStarted = false;
-const SEAL = "visible-root-binding-20260610-bh710";
+const SEAL = "village-combat-20260611-bh804";
 
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";

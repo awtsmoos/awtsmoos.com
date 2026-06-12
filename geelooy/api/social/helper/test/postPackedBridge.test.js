@@ -3,22 +3,22 @@
  * Chapter 6: The API bridge held old clay in one hand and packed fire in the other.
  *
  * The Awtsmoos recreates every record every instant, so the reader must never
- * worship only one vessel. This test proves packed-only posts can be listed,
- * read singly, merged with legacy ids, and filtered by property.
+ * worship only one vessel. This test proves packed-only all-post records can be
+ * listed, read singly, merged with legacy ids, and filtered by property.
  */
 
 const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const packed = require('../packed/socialPacked.js');
+const { writeAllPost } = require('../packed/allPostsIndex.js');
 const bridge = require('../packed/postPackedBridge.js');
 
 (async () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'awt-post-bridge-'));
   const $i = { db: { directory: tmp } };
 
-  packed.mirrorPost({
+  writeAllPost({
     $i,
     post: {
       id: 'packedOnly',
@@ -36,6 +36,7 @@ const bridge = require('../packed/postPackedBridge.js');
 
   const one = bridge.readPackedPost({ $i, heichelId: 'h1', seriesId: 'branch', postId: 'packedOnly' });
   assert.equal(one.author, 'a1');
+  assert.equal(one._awtsmoosSource, 'allPostsAwtsDB');
 
   const mergedIds = bridge.mergePostIds(['legacyOne'], listed);
   assert.deepEqual(mergedIds.sort(), ['legacyOne', 'packedOnly']);

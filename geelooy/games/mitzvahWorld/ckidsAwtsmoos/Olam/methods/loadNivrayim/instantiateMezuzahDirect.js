@@ -9,9 +9,9 @@
  * visible-root binding seal, while every direct entity still enters through one
  * clear data map.
  */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=visible-root-binding-20260610-bh710';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=village-combat-20260611-bh802';
 import Utils from '../../../utils.js';
-import ChossidDirect from '../../../chayim/chossid/index.js?v=visible-root-binding-20260610-bh710';
+import ChossidDirect from '../../../chayim/chossid/index.js?v=village-combat-20260611-bh802';
 import SolidBlockDirect from '../../../dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh620';
 import MovingPlatformDirect from '../../../dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh620';
 import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=lava-camera-axis-20260609-bh640';
