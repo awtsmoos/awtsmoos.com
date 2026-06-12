@@ -1,0 +1,24 @@
+STEP waitForServer ... OK 724ms
+STEP create alias ... OK 27ms
+STEP create post ... OK 30ms
+STEP create question ... OK 34ms
+STEP create answer ... OK 38ms
+STEP packed migration dryRun ... OK 15ms
+STEP packed migration run ... OK 13ms
+STEP packed stats ... OK 7688ms
+STEP packed snapshot ... OK 8838ms
+STEP packed integrity ... OK 7677ms
+STEP packed repair manifests ... OK 7896ms
+STEP packed feed materialize ... OK 17ms
+STEP packed compact core ... OK 107ms
+STEP cache set/get/invalidate ... OK 31ms
+STEP sync op/pull ... OK 176ms
+STEP permissions compile ... OK 9ms
+STEP federation import ... OK 9ms
+STEP graph transaction good/bad ... OK 31ms
+B"H frontier_probe_real_server passed {
+  "heichelId": "frontierHeichel_mqb6b2gv",
+  "aliasId": "frontier_mqb6b2gv",
+  "questionId": "frontierQuestion_mqb6b2gv",
+  "answerId": "frontierAnswer_mqb6b2gv"
+}
