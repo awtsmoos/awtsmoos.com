@@ -16,6 +16,7 @@
 @import url("./views/portals.css") layer(awt.views);
 @import url("./views/runtime-mesh.css") layer(awt.views);
 @import url("./views/pro-control.css") layer(awt.views);
+@import url("./views/beauty.css") layer(awt.views);
 @import url("./interaction/controls.css") layer(awt.controls);
 @import url("./interaction/states.css") layer(awt.states);
 @import url("./interaction/motion.css") layer(awt.motion);

@@ -1,4 +1,4 @@
-/* B"H bottom nav: fixed, safe-area aware, never covering content. */
+/* B"H bottom nav: fixed, safe-area aware, and only bottom-nav ownership. */
 .geelooy-bottom-nav {
   position: fixed;
   left: 50%;
@@ -15,6 +15,23 @@
   box-shadow: 0 1rem 2rem rgba(0,0,0,.35);
   backdrop-filter: blur(16px);
 }
-.geelooy-bottom-nav a { display: grid; place-items: center; min-height: 2.6rem; border-radius: .9rem; color: #fff7df; text-decoration: none; font-size: .76rem; font-weight: 850; }
-.geelooy-bottom-nav a:nth-child(3) { margin-top: -.85rem; min-height: 3.35rem; border-radius: 999px; background: linear-gradient(135deg, var(--h-gold-2), var(--h-gold)); color: #160e05; font-size: 1.25rem; }
-#bulk-actions-bar { position: fixed; left: .75rem; right: .75rem; bottom: 5.1rem; z-index: 60; padding: .8rem; border-radius: 1rem; background: #11152f; color: #fff; }
+
+.geelooy-bottom-nav a {
+  display: grid;
+  place-items: center;
+  min-height: 2.6rem;
+  border-radius: .9rem;
+  color: #fff7df;
+  text-decoration: none;
+  font-size: .76rem;
+  font-weight: 850;
+}
+
+.geelooy-bottom-nav a:nth-child(3) {
+  margin-top: -.85rem;
+  min-height: 3.35rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--h-gold-2), var(--h-gold));
+  color: #160e05;
+  font-size: 1.25rem;
+}

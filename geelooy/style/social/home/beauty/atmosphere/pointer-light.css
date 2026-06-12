@@ -1,0 +1,22 @@
+/* B"H pointer light: the quiet glow follows only when the script speaks. */
+.geelooy-home-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .55;
+  background: radial-gradient(
+    circle at var(--home-pointer-x, 50vw) var(--home-pointer-y, 12vh),
+    rgba(245, 202, 112, .20),
+    transparent 18rem
+  );
+  transition: opacity var(--motion-normal) var(--ease-out-soft);
+}
+
+@media (pointer: coarse) {
+  .geelooy-home-shell::after {
+    opacity: .26;
+    background: radial-gradient(circle at 50% 6rem, rgba(245, 202, 112, .16), transparent 15rem);
+  }
+}

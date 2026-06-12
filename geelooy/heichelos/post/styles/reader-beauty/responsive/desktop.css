@@ -1,0 +1,2 @@
+/* B"H reader beauty responsive/desktop.css. */
+@media (min-width:1100px) { .post-reader-localized-context #realPost.content { --reader-width:52rem; } }

@@ -2,24 +2,24 @@ import { bounds, hole, makeMap, platform, points, sideWalls, solidFloor, wall } 
 
 /**
  * B"H
- * Merkava Pinball Court, engagement-tuned.
+ * Merkava Pinball Court, engagement-tuned again.
  *
- * Chapter 48: the bounce chamber keeps its strange machinery, but early combat
- * now ignites near the middle before fighters ricochet into distant lanes.
+ * Chapter 64: the bounce chamber stops scattering the opening duel. Fighters
+ * begin closer to the rally spine, then ricochet outward after first violence.
  */
 export const merkavaPinballCourt = makeMap({
   id: 'merkava-pinball-court', name: 'Merkava Pinball Court', theme: 'cosmic', hue: 210,
-  description: 'Bouncy side walls, angled chambers, narrow gaps, and faster first clashes.',
+  description: 'Bouncy side walls, angled chambers, narrow gaps, and immediate mid-map clashes.',
   bounds: bounds(-1300, 5600, -1900, 1900), rules: { walled: true, wallBounce: true },
   holes: [hole(2520, 460)],
   walls: [...sideWalls(-1050, 5350, -1720, 1180, 95), wall(1300, 240, 90, 560, 'pillar'), wall(3820, 240, 90, 560, 'pillar')],
-  spawns: points([980, 830], [1660, 160], [2240, 830], [2940, 830], [3500, 160], [4180, 830]),
+  spawns: points([1780, 820], [2060, 170], [2320, 820], [3060, 820], [3340, 170], [3620, 820]),
   platforms: [
     ...solidFloor(-1050, 910, 6400, 72, [hole(2520, 460)]),
-    platform(-420, 480, 650, 32, 'ramp'), platform(720, 180, 480, 28, 'ramp'),
-    platform(1900, 470, 560, 32, 'middle'), platform(3250, 470, 560, 32, 'middle'),
-    platform(2380, 130, 620, 26, 'rally'), platform(4350, 180, 480, 28, 'ramp')
+    platform(620, 230, 520, 28, 'ramp'), platform(1740, 470, 760, 32, 'mid-left'),
+    platform(2840, 470, 760, 32, 'mid-right'), platform(2260, 120, 860, 28, 'rally'),
+    platform(3920, 230, 520, 28, 'ramp')
   ],
-  weaponSpawns: points([970, 820], [1660, 120], [2170, 420], [3550, 420], [4300, 120]),
-  powerupSpawns: points([1280, 760], [1880, 150], [2880, 760], [3800, 150])
+  weaponSpawns: points([1860, 780], [2180, 130], [2520, 420], [3180, 130], [3520, 780]),
+  powerupSpawns: points([2050, 760], [2450, 120], [3050, 760], [3400, 120])
 });

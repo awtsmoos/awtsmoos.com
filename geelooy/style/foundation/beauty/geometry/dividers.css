@@ -1,0 +1,3 @@
+/* B"H sacred dividers. */
+.beauty-divider { display:flex; align-items:center; gap:.55rem; color:var(--theme-accent,#b9853f); font-weight:900; }
+.beauty-divider::before, .beauty-divider::after { content:""; height:1px; flex:1; background:linear-gradient(90deg, transparent, currentColor, transparent); opacity:.55; }

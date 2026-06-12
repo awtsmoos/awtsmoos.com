@@ -1,0 +1,4 @@
+/* B"H reader title crown. */
+.awtsmoos-post-title-crown { margin: 0 0 clamp(1rem,4vw,1.75rem) !important; padding: clamp(1rem,4vw,1.6rem) !important; border: 1px solid rgba(244,197,107,.18) !important; border-radius: clamp(1.1rem,3vw,1.65rem) !important; background: linear-gradient(145deg, rgba(255,250,241,.08), rgba(255,255,255,.035)) !important; box-shadow: 0 1rem 2.5rem rgba(0,0,0,.22) !important; }
+.awtsmoos-post-title-main { margin: .4rem 0 !important; font-size: clamp(2rem,9vw,4.2rem) !important; line-height: .96 !important; letter-spacing: -.055em !important; overflow-wrap: anywhere !important; }
+.awtsmoos-post-title-kicker, .awtsmoos-post-title-count { color: rgba(244,197,107,.82) !important; text-transform: uppercase !important; letter-spacing: .11em !important; font-weight: 900 !important; font-size: .75rem !important; }

@@ -1,0 +1,2 @@
+/* B"H small rune markers. */
+.beauty-rune::before { content:"✦"; color:var(--theme-accent,#b9853f); margin-inline-end:.35rem; }

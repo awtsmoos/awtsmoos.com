@@ -1,0 +1,2 @@
+/* B"H Heichel legend journey/current-node.css. */
+.journey-node.current { box-shadow:var(--legend-hover-glow); }

@@ -1,0 +1,2 @@
+/* B"H home beauty discovery/constellation.css. */
+.home-discovery-card a::before { content:"✦"; margin-inline-end:.45rem; color:var(--awt-gold); }

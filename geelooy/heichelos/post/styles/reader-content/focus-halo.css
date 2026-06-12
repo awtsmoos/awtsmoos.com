@@ -1,0 +1,2 @@
+/* B"H future focus halo. */
+.post-reader-localized-context .section:focus-within { box-shadow: 0 .65rem 1.5rem rgba(0,0,0,.14), 0 0 0 1px rgba(244,197,107,.25) !important; }

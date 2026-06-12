@@ -1,0 +1,2 @@
+/* B"H legend safe area. */
+:root { --legend-safe-bottom-space: max(1rem, env(safe-area-inset-bottom)); --legend-safe-top-space: max(.5rem, env(safe-area-inset-top)); }

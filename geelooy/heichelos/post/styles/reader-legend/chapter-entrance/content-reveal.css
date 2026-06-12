@@ -1,0 +1,2 @@
+/* B"H reader legend chapter-entrance/content-reveal.css. */
+.scroll-chunk { animation:legendPageEnter .34s var(--ease-enter, ease) both; }

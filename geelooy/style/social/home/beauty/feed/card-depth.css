@@ -1,0 +1,3 @@
+/* B"H home beauty feed/card-depth.css. */
+.home-post-card { position:relative; box-shadow:var(--beauty-shadow-soft), var(--beauty-edge-light); }
+.home-post-card::before { content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(135deg, rgba(255,255,255,.42), transparent 45%); }

@@ -2,13 +2,12 @@
 /**
  * @file index.js
  * @description
- * Chapter 9: The Gatekeeper Refuses The False Throne.
+ * Chapter 10: The Two Gates Remember Their Names.
  *
- * The Awtsmoos breathes the server into being through one practical vessel:
- * HTTP on port 8080. Optional mail is not allowed to seize port 25 and murder
- * the web gate during local game work. If mail is desired, the environment must
- * explicitly say `AWTSMOOS_START_MAIL=true`; otherwise the game server rises
- * cleanly and the compact-JS root can be tested by the real browser.
+ * The Awtsmoos gives breath to two listeners in this vessel: HTTP for the
+ * visible page, SMTP for the hidden letter that knocks on port 25. The former
+ * rises on port 8080 by default. The latter rises by default on port 25 again,
+ * unless the human explicitly seals it with `AWTSMOOS_DISABLE_MAIL=true`.
  */
 
 const http = require("http");
@@ -16,12 +15,13 @@ const AwtsMail = require("./ayzarim/email/email.js");
 const AwtsServer = require("./ayzarim/awtsmoosDynamicServer/index.js");
 const AwtsSocket = require("./ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js");
 
-const DEFAULT_PORT = 8080;
+const DEFAULT_HTTP_PORT = 8080;
+const DEFAULT_MAIL_PORT = 25;
 
 /**
- * Boots the Awtsmoos HTTP, dynamic, websocket, and optional mail vessels.
+ * Boots the HTTP, dynamic, websocket, and SMTP vessels.
  *
- * @returns {Promise<void>} Resolves after startup attempt is complete.
+ * @returns {Promise<void>} Resolves after startup work is attempted.
  */
 async function go() {
     const mail = new AwtsMail();
@@ -32,16 +32,16 @@ async function go() {
     await dynamicServer.init();
 
     const httpServer = createHttpServer(dynamicServer, wsServer);
-    const listening = await listenSafely(httpServer, Number(process.env.PORT) || DEFAULT_PORT);
-    if (listening) await startMailSafely(mail);
+    await listenSafely(httpServer, getNumberEnv("PORT", DEFAULT_HTTP_PORT), "HTTP");
+    await startMailSafely(mail);
 }
 
 /**
- * Creates the HTTP server and upgrade bridge.
+ * Creates the web server and websocket upgrade bridge.
  *
- * @param {object} dynamicServer Awtsmoos dynamic server instance.
- * @param {object} wsServer WebSocket handler.
- * @returns {import("http").Server} Configured HTTP server.
+ * @param {object} dynamicServer Dynamic Awtsmoos server instance.
+ * @param {object} wsServer WebSocket vessel.
+ * @returns {import("http").Server} Configured server.
  */
 function createHttpServer(dynamicServer, wsServer) {
     const httpServer = http.createServer(async (request, response) => {
@@ -56,51 +56,76 @@ function createHttpServer(dynamicServer, wsServer) {
 }
 
 /**
- * Listens without allowing EADDRINUSE to become an unhandled crash.
+ * Opens a TCP listener while turning startup errors into clear logs.
  *
- * @param {import("http").Server} httpServer Server to bind.
- * @param {number} port Port to listen on.
- * @returns {Promise<boolean>} True when this process owns the HTTP listener.
+ * @param {import("http").Server} server Server with a listen method.
+ * @param {number} port Port to bind.
+ * @param {string} label Human-readable listener name.
+ * @returns {Promise<boolean>} True when the listener binds successfully.
  */
-function listenSafely(httpServer, port) {
+function listenSafely(server, port, label) {
     return new Promise(resolve => {
-        httpServer.once("error", error => {
+        let settled = false;
+        const finish = value => {
+            if (settled) return;
+            settled = true;
+            resolve(value);
+        };
+
+        server.once("error", error => {
             if (error.code === "EADDRINUSE") {
-                console.log(`B"H - Port ${port} is already in use; another server instance may already be alive.`);
-                resolve(false);
+                console.log(`B"H - ${label} port ${port} is already in use; another process may already be alive.`);
+                finish(false);
                 return;
             }
 
-            console.error("B\"H - HTTP server failed to listen:", error);
-            resolve(false);
+            console.error(`B"H - ${label} listener failed on port ${port}:`, error);
+            finish(false);
         });
 
-        httpServer.listen(port, () => {
-            console.log("B\"H\n\n\n\n", `Server running at http://127.0.0.1:${port}/`);
-            console.log("Time: ", Date.now());
-            resolve(true);
+        server.listen(port, () => {
+            console.log(`B"H - ${label} listening on port ${port}.`);
+            if (label === "HTTP") console.log(`Server running at http://127.0.0.1:${port}/`);
+            console.log("Time:", Date.now());
+            finish(true);
         });
     });
 }
 
 /**
- * Starts optional mail only when explicitly requested.
+ * Starts SMTP by default so awtsmoos.com can receive mail on port 25 again.
  *
- * @param {object} mail AwtsMail instance.
- * @returns {Promise<void>} Resolves after mail startup is skipped or attempted.
+ * @param {AwtsMail} mail Mail listener instance.
+ * @returns {Promise<boolean>} True when SMTP binds successfully.
  */
 async function startMailSafely(mail) {
-    if (process.env.AWTSMOOS_START_MAIL !== "true") {
-        console.log("B\"H - Email server skipped; set AWTSMOOS_START_MAIL=true to enable it.");
-        return;
+    if (process.env.AWTSMOOS_DISABLE_MAIL === "true") {
+        console.log("B\"H - Email server disabled by AWTSMOOS_DISABLE_MAIL=true.");
+        return false;
     }
 
+    const port = getNumberEnv("AWTSMOOS_MAIL_PORT", DEFAULT_MAIL_PORT);
+
     try {
-        await mail.shoymayuh();
-        console.log("Email server running");
+        await mail.shoymayuh({ port });
+        console.log(`B"H - Email server running on port ${port}.`);
+        return true;
     } catch (error) {
-        console.log("Could not start email server", error);
+        console.error(`B"H - Could not start email server on port ${port}:`, error);
+        return false;
     }
+}
+
+/**
+ * Reads a positive numeric environment variable.
+ *
+ * @param {string} name Environment variable name.
+ * @param {number} fallback Fallback when unset or invalid.
+ * @returns {number} Safe positive port-like number.
+ */
+function getNumberEnv(name, fallback) {
+    const value = Number(process.env[name]);
+    return Number.isInteger(value) && value > 0 ? value : fallback;
 }
 
 go().catch(error => {

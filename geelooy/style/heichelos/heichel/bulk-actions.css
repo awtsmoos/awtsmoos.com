@@ -1,0 +1,2 @@
+/* B"H bulk action bar. */
+#bulk-actions-bar { position: fixed; left: .75rem; right: .75rem; bottom: 5.1rem; z-index: 60; padding: .8rem; border-radius: 1rem; background: #11152f; color: #fff; }

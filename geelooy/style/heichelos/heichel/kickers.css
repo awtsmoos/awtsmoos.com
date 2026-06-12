@@ -1,0 +1,2 @@
+/* B"H small sacred labels. */
+.hero-kicker, .series-label { display: inline-flex; width: fit-content; max-width: 100%; padding: .28rem .55rem; border-radius: 999px; background: rgba(185,133,63,.14); color: #8a5619 !important; line-height: 1; font-size: .72rem; font-weight: 950; text-transform: uppercase; letter-spacing: .11em; }

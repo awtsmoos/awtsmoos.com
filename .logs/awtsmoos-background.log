@@ -1,4 +1,5 @@
 Starting instance of email
+Warning: Could not load DKIM file. Checking Env...
 Task Runner: Starting background polling for generic jobs...
 Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
 B"H
@@ -6,42 +7,6 @@ B"H
 
 
  Server running at http://127.0.0.1:8080/
-Time:  1781259692723
+Time:  1781269205162
 B"H - Email server skipped; set AWTSMOOS_START_MAIL=true to enable it.
-issue eading TypeError: Cannot read properties of null (reading 'success')
-    at DosDB.getDynamicBinaryRecord (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\methods\read.js:480:22)
-    at async DosDB.get (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\methods\read.js:324:30)
-    at async DosDB.getObjectKey (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\index.js:133:21)
-    at async getObjectKeySafe (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:74:55)
-    at async readOldCommentsAtVerse (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:87:22)
-    at async readCommentsWithSource (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:153:21)
-    at async getCommentsByAliasAtVerseSection (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentRetrieval.js:69:12)
-    at async readAliasComments (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\routes\post.js:53:12)
-    at async /heichelos/:heichel/comments/inSeries/:series/atPost/:post/atAlias/:alias (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\routes\post.js:141:16)
-    at async AwtsmoosResponse.processDynamicRoute (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\awtsmoosDynamicServer\awtsmoosResponse.js:205:17)
-Not an Awtsmoos JSON:   <Buffer 20>
-issue eading TypeError: Cannot read properties of null (reading 'success')
-    at DosDB.getDynamicBinaryRecord (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\methods\read.js:480:22)
-    at async DosDB.get (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\methods\read.js:324:30)
-    at async DosDB.getObjectKey (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\index.js:133:21)
-    at async getObjectKeySafe (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:74:55)
-    at async readOldCommentsAtVerse (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:87:22)
-    at async readCommentsWithSource (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:153:21)
-    at async getCommentsByAliasAtVerseSection (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentRetrieval.js:69:12)
-    at async readAliasComments (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\routes\post.js:53:12)
-    at async /heichelos/:heichel/comments/inSeries/:series/atPost/:post/atAlias/:alias (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\routes\post.js:141:16)
-    at async AwtsmoosResponse.processDynamicRoute (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\awtsmoosDynamicServer\awtsmoosResponse.js:205:17)
-Not an Awtsmoos JSON:   <Buffer 20>
 [Merkava Parser] Detected Base Path: 
-issue eading TypeError: Cannot read properties of null (reading 'success')
-    at DosDB.getDynamicBinaryRecord (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\methods\read.js:480:22)
-    at async DosDB.get (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\methods\read.js:324:30)
-    at async DosDB.getObjectKey (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\DosDB\index.js:133:21)
-    at async getObjectKeySafe (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:74:55)
-    at async readOldCommentsAtVerse (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:87:22)
-    at async readCommentsWithSource (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentReadSources.js:153:21)
-    at async getCommentsByAliasAtVerseSection (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\commentRetrieval.js:69:12)
-    at async readAliasComments (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\routes\post.js:53:12)
-    at async /heichelos/:heichel/comments/inSeries/:series/atPost/:post/atAlias/:alias (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\geelooy\api\social\helper\comments\routes\post.js:141:16)
-    at async AwtsmoosResponse.processDynamicRoute (C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\ayzarim\awtsmoosDynamicServer\awtsmoosResponse.js:205:17)
-Not an Awtsmoos JSON:   <Buffer 20>

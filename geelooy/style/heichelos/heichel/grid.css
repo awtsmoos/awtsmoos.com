@@ -1,0 +1,4 @@
+/* B"H Heichel grid vessels. */
+.dynamic-grid { display: grid; gap: .95rem; }
+.viewport { min-width: 0; }
+@media (min-width: 760px) { .dynamic-grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); } }

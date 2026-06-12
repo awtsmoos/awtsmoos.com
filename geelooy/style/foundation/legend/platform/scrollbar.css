@@ -1,0 +1,2 @@
+/* B"H legend scrollbar. */
+@supports selector(::-webkit-scrollbar) { *::-webkit-scrollbar { width: .7rem; height: .7rem; } *::-webkit-scrollbar-thumb { border-radius: 999px; background: rgba(185,133,63,.52); } *::-webkit-scrollbar-track { background: rgba(0,0,0,.08); } }

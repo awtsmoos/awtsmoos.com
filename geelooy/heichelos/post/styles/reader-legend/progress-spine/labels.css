@@ -1,0 +1,2 @@
+/* B"H reader legend progress-spine/labels.css. */
+.awtsmoos-progress-marker::after { content:attr(data-chunk-id); opacity:0; margin-inline-start:.8rem; color:#f4c56b; }

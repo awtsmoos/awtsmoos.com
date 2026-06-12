@@ -1,0 +1,11 @@
+/* B"H reader beauty entry. */
+@import "/style/foundation/beauty/index.css";
+@import "./chamber/index.css";
+@import "./title/index.css";
+@import "./verses/index.css";
+@import "./focus/index.css";
+@import "./progress/index.css";
+@import "./controls/index.css";
+@import "./commentary/index.css";
+@import "./settings/index.css";
+@import "./responsive/index.css";

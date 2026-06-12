@@ -1,0 +1,3 @@
+/* B"H legend orb hover. */
+.legend-orb-hover { transition: transform .16s var(--ease-out-soft, ease), filter .16s; }
+.legend-orb-hover:hover { transform: translateY(-2px) scale(1.03); filter: saturate(1.12); }

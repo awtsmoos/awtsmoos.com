@@ -1,0 +1,2 @@
+/* B"H Heichel legend search/input-aura.css. */
+.series-search-row:focus-within { box-shadow:var(--legend-focus-glow), var(--legend-elevation-2-shadow); }

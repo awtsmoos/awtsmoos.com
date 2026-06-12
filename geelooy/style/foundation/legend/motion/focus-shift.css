@@ -1,0 +1,2 @@
+/* B"H legend focus shift. */
+.reader-focus-active .legend-focus-fade { transition: opacity .28s var(--ease-out-soft, ease); }

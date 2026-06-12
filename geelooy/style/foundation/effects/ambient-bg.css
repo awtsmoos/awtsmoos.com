@@ -1,0 +1,2 @@
+/* B"H ambient backgrounds born without images. */
+:root { --ambient-home: radial-gradient(circle at 18% 0%, rgba(60,36,97,.9), transparent 24rem), linear-gradient(180deg,#080c1a,#050712 70%); --ambient-reader: radial-gradient(circle at 86% 0%, rgba(93,70,255,.18), transparent 18rem), linear-gradient(180deg,#050812,#0b0f1e 38%,#15101a); }

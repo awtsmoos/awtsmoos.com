@@ -1,0 +1,2 @@
+/* B"H layer tokens. */
+:root { --layer-bg: 0; --layer-content: 10; --layer-float: 1000; --layer-modal: 2147482500; --layer-toast: 2147482600; }

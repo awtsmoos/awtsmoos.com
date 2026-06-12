@@ -3,6 +3,7 @@ import { chooseCommitment } from '../combat/commitmentPlanner.js';
 import { classifyCommitment } from '../combat/pressureCommitment.js';
 import { updateActionMemory } from '../memory/actionMemory.js';
 import { calmOscillation } from '../navigation/antiOscillation.js';
+import { updateLease } from '../strategy/commitmentLease.js';
 import { chooseOpportunity } from '../strategy/opportunityModel.js';
 import { updatePressure } from '../strategy/pressureBudget.js';
 import { applyAttackCommand, clearChargeOutsideAttack } from './attackCommands.js';
@@ -10,7 +11,7 @@ import { maybeApplyJump } from './jumpCommands.js';
 import { ascendCommand, baseCommand, chaseCommand, descendCommand, escapeCommand, recoverCommand } from './moveCommands.js';
 import { applyStrategyCommand } from './strategyCommands.js';
 
-/** B"H - Command arbiter with explicit pressure/commitment identity. */
+/** B"H - Command arbiter with dive-crush priority before ordinary attacks. */
 export function commandForState(bot, world, mode, stuck) {
   stepButtonClock(bot);
   const memory = updateActionMemory(bot, world);
@@ -18,6 +19,7 @@ export function commandForState(bot, world, mode, stuck) {
   const pressure = updatePressure(bot, world, attackCheck);
   world.pressure = pressure;
   const opportunity = chooseOpportunity(bot, world, attackCheck);
+  world.commitmentLease = updateLease(bot, world, opportunity);
   const commitment = chooseCommitment(bot, { ...world, opportunity, pressure }, mode, attackCheck);
   const pressureCommitment = classifyCommitment(world, world.combatTactic);
   const out = baseCommand(bot, world);
@@ -32,8 +34,8 @@ function clearChargeOnlyWhenTrulyLeavingAttack(bot, mode, attackCheck, world, op
   const attackish = attackCheck.valid || mode === 'Attack' || world.combatTactic?.charge || ['HorizontalKill', 'EdgeCarry', 'VerticalKill', 'EdgeGuard'].includes(opportunity.name);
   if (!attackish) clearChargeOutsideAttack(bot, mode);
 }
-
 function applyMode(bot, world, out, mode, stuck, attackCheck, commitment, opportunity) {
+  if (world.dive?.active && opportunity.name === 'DiveCrush' && applyStrategyCommand(bot, world, out, opportunity)) return;
   if (mode === 'RecoverHigh') return recoverCommand(bot, world, out, false);
   if (mode === 'RecoverLow') return recoverCommand(bot, world, out, true);
   if (mode.startsWith('Escape')) return escapeCommand(bot, world, out, stuck);
@@ -44,18 +46,15 @@ function applyMode(bot, world, out, mode, stuck, attackCheck, commitment, opport
   if (applyStrategyCommand(bot, world, out, opportunity)) return;
   chaseCommand(bot, world, out);
 }
-
 function humanMotion(world) {
-  return !!(world.threatVision?.panic || world.execution?.active || world.fakeRetreat?.active || world.edgePoison?.blocked || world.noStillness?.mustMove || world.frustration?.frustrated || world.antiPeace?.active || world.combatHeat?.forceEngage || world.huntClock?.active);
+  return !!(world.dive?.active || world.threatVision?.panic || world.execution?.active || world.fakeRetreat?.active || world.edgePoison?.blocked || world.noStillness?.mustMove || world.frustration?.frustrated || world.antiPeace?.active || world.combatHeat?.forceEngage || world.huntClock?.active || world.antiWander?.active || world.resourcePing?.active);
 }
-
 function stepButtonClock(bot) {
   bot.aiMind ||= {};
   bot.aiMind.clock = (bot.aiMind.clock || 0) + 1;
   bot.aiMind.buttonClock ||= { punch: 0, kick: 0, grab: 0 };
   for (const key of Object.keys(bot.aiMind.buttonClock)) bot.aiMind.buttonClock[key] = Math.max(0, bot.aiMind.buttonClock[key] - 1);
 }
-
 function remember(bot, out, attackCheck, commitment, pressureCommitment, memory, opportunity, pressure) {
   bot.aiMind.lastOutputX = out.x || 0;
   bot.aiMind.attackCheck = attackCheck;
@@ -64,9 +63,8 @@ function remember(bot, out, attackCheck, commitment, pressureCommitment, memory,
   bot.aiMind.memory = memory;
   bot.aiMind.opportunity = opportunity;
   bot.aiMind.pressure = pressure;
-  bot.aiMind.tactic = out.rapidPunch ? 'RapidPunch' : out.grab ? 'Grab' : out.kick ? 'Kick' : out.punch ? 'Punch' : out.chargeKick ? 'ChargeKick' : out.chargePunch ? 'ChargePunch' : commitment.name;
+  bot.aiMind.tactic = out.down ? 'DiveCrush' : out.rapidPunch ? 'RapidPunch' : out.grab ? 'Grab' : out.kick ? 'Kick' : out.punch ? 'Punch' : out.chargeKick ? 'ChargeKick' : out.chargePunch ? 'ChargePunch' : commitment.name;
   return sanitize(out);
 }
-
 function sanitize(out) { out.x = clamp(out.x || 0, -1, 1); out.y = clamp(out.y || 0, -1, 1); return out; }
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }

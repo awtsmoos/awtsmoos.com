@@ -1,0 +1,2 @@
+/* B"H Heichel legend artifact-card/recent-glow.css. */
+.nav-card.is-recent, .nav-card[data-recent="true"] { box-shadow:var(--legend-hover-glow); }

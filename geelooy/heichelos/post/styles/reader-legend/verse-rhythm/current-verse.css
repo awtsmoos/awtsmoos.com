@@ -1,0 +1,2 @@
+/* B"H reader legend verse-rhythm/current-verse.css. */
+.scroll-chunk.is-reader-center > .section, .scroll-chunk.is-current-section > .section { box-shadow:var(--legend-hover-glow) !important; }

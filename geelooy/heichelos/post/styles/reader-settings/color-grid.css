@@ -1,0 +1,3 @@
+/* B"H settings color grid. */
+.color-picker-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr)) !important; gap: .6rem !important; }
+.color-control { display: grid !important; gap: .35rem !important; }

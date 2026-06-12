@@ -1,0 +1,4 @@
+/* B"H tiny control labels. */
+.awtsmoos-floating-controls button::after { display: block; font-size: .58rem; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
+#typographyBtn::after { content: "Type"; }
+#commentaryBtn::after { content: "Notes"; }

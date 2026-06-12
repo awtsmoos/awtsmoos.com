@@ -1,0 +1,2 @@
+/* B"H Heichel beauty journey/connectors.css. */
+.journey-node::before { content:""; width:2px; background:rgba(185,133,63,.25); }

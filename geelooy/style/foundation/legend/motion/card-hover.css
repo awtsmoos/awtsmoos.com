@@ -1,0 +1,3 @@
+/* B"H legend card hover. */
+.legend-card-hover { transition: transform .18s var(--ease-out-soft, ease), box-shadow .18s var(--ease-out-soft, ease), opacity .18s; }
+.legend-card-hover:hover { transform: translateY(-3px); box-shadow: var(--legend-hover-glow); }

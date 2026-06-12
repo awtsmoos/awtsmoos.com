@@ -1,0 +1,2 @@
+/* B"H reader legend margin-notes/connector.css. */
+.reader-margin-note::before { content:""; display:block; width:2rem; height:1px; background:rgba(244,197,107,.4); }

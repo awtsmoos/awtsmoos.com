@@ -1,0 +1,2 @@
+/* B"H context menu overlay. */
+.awtsmoos-context-menu, .context-menu-layer { overscroll-behavior: contain !important; }

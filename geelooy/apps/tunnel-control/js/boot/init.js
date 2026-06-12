@@ -1,9 +1,6 @@
-
 // B"H
 
-import { $ } from "../lib/dom.js";
 import { log, error } from "../logger.js";
-import { state, rememberTunnelName, rememberProjectPath } from "../state/state.js";
 import { refreshLogin, refreshDevice } from "../features/status.js";
 import { devices } from "../api/control.js";
 import { loadConfig } from "../features/config.js";
@@ -18,106 +15,31 @@ import { mountShell } from "../shell/mountShell.js";
 import { mountUiRepair } from "./repairUi.js";
 import { bindNavigationButtons } from "../router/bindNavigation.js";
 import { createActiveWorkspaceRuntime } from "../runtime/activeWorkspaceRuntime.js";
-import { createVirtualRuntime } from "../runtime/virtualRuntime.js";
-import { registerRuntime, restoreActiveRuntime } from "../runtime/runtimeRegistry.js";
-import { registerDiscoveredTunnelRuntimes } from "../runtime/tunnelRuntimeHydrator.js";
-import { mountCommandPalette } from "../platform/commandPalette.js";
 import { mountPointerField } from "../interactions/pointerField.js";
 import { mountCardTilt } from "../interactions/cardTilt.js";
- 
-/**
- * B"H
- * Reads the active tunnel field.
- *
- * @returns {string} Tunnel name.
- */
-function getTunnelName() {
-  return $("tunnelName") ? $("tunnelName").value.trim() : state.tunnelName;
-}
+import { mountBeautyLayer } from "../beauty/index.js";
+import { getProjectPath, getTunnelName } from "./bootAccessors.js";
+import { hydrateFields, hydratePermissionClasses } from "./bootHydrate.js";
+import { hydrateRuntimeMesh } from "./bootRuntimeMesh.js";
+import { showFatalBootError } from "./bootFatal.js";
 
 /**
  * B"H
- * Reads the project path field.
+ * Chapter 409: Boot Opened The Beauty Gate.
  *
- * @returns {string} Project path.
- */
-function getProjectPath() {
-  return $("projectPath")?.value.trim() || state.projectPath || ".";
-}
-
-/**
- * B"H
- * Hydrates old fields from resolved state.
- *
- * @param {object} tunnel Resolved tunnel.
- * @returns {void}
- */
-function hydrateFields(tunnel) {
-  rememberTunnelName(tunnel.tunnelName);
-  rememberProjectPath(tunnel.root || state.projectPath || ".");
-
-  if ($("tunnelName")) $("tunnelName").value = state.tunnelName;
-  if ($("projectPath")) $("projectPath").value = state.projectPath;
-}
-
-/**
- * B"H
- * Marks body with permission classes.
- *
- * @param {object} tunnel Resolved tunnel.
- * @returns {void}
- */
-function hydratePermissionClasses(tunnel) {
-  const p = tunnel.permissions || {};
-
-  document.body.classList.toggle("awt-can-write", !!p.allowWrite);
-  document.body.classList.toggle("awt-can-command", !!p.allowCommands);
-  document.body.classList.toggle("awt-can-browser", !!p.allowBrowser);
-}
-
-/**
- * B"H
- * Registers available runtimes for the mesh.
- *
- * @param {object} localRuntime Local runtime.
- * @returns {object} Selected active runtime.
- */
-function hydrateRuntimeMesh(localRuntime, discoveredRaw = null) {
-  registerRuntime(localRuntime);
-  const activeRaw = localRuntime.tunnel?.raw ? { ...localRuntime.tunnel.raw, tunnelName: localRuntime.tunnel.name } : localRuntime;
-  registerDiscoveredTunnelRuntimes(activeRaw, localRuntime.authState);
-  if (discoveredRaw) registerDiscoveredTunnelRuntimes({ ...activeRaw, raw: discoveredRaw }, localRuntime.authState);
-  registerRuntime(createVirtualRuntime());
-
-  const active = restoreActiveRuntime() || localRuntime;
-  window.awtsActiveWorkspaceRuntime = active;
-  document.body.dataset.awtRuntimeMode = active.mode;
-  return active;
-}
-
-/**
- * B"H
- * Starts the whole control panel.
- *
- * @returns {Promise<void>} Resolves after boot.
+ * The Awtsmoos does not add beauty after life as a sticker. The beauty layer is
+ * mounted after the shell, when the real runtime, panes, and permissions have
+ * been revealed by inspection and can become living controls.
  */
 export async function startTunnelControl() {
   try {
     log("boot modular control center v3300");
 
     const session = await resolveSession();
-
-    if (!session.loggedIn) {
-      showLoginGate();
-      return;
-    }
+    if (!session.loggedIn) return showLoginGate();
 
     const tunnel = await resolveActiveTunnel();
-
-    if (!tunnel.ok) {
-      showNoTunnelView();
-      return;
-    }
+    if (!tunnel.ok) return showNoTunnelView();
 
     hydrateFields(tunnel);
     hydratePermissionClasses(tunnel);
@@ -129,48 +51,55 @@ export async function startTunnelControl() {
       workspaceMode: "runtime-os"
     });
 
-    let discoveredDevices = null;
-    try {
-      discoveredDevices = await devices();
-    } catch (e) {
-      error("devices discovery failed", e);
-    }
-
+    const discoveredDevices = await discoverDevices();
     const runtime = hydrateRuntimeMesh(localRuntime, discoveredDevices);
     window.awtsGetTunnelName = getTunnelName;
 
     wireInputs(getTunnelName);
     await mountLegacyFeatures(getTunnelName);
-
     renderPrompt(getTunnelName);
 
     mountShell({ session, runtime, getTunnelName, getProjectPath });
     mountPointerField();
     mountCardTilt();
-
     bindNavigationButtons();
-    mountCommandPalette();
+    mountBeautyLayer();
     mountUiRepair(getTunnelName);
 
-    await Promise.allSettled([
-      refreshLogin(),
-      refreshDevice(getTunnelName)
-    ]);
-
-    try {
-      await loadConfig(getTunnelName);
-    } catch (e) {
-      error("initial loadConfig failed", e);
-    }
-
-    setInterval(() => refreshDevice(getTunnelName), 5000);
-    setInterval(refreshLogin, 30000);
+    await refreshInitialStatus();
+    await loadInitialConfig();
+    mountPolling();
   } catch (e) {
-    document.body.innerHTML =
-      "<pre>B\\\"H\\nControl panel boot failed:\\n" +
-      (e.stack || e.message || String(e)) +
-      "</pre>";
-
+    showFatalBootError(e);
     error("fatal app boot error", e);
   }
+}
+
+async function discoverDevices() {
+  try {
+    return await devices();
+  } catch (e) {
+    error("devices discovery failed", e);
+    return null;
+  }
+}
+
+async function refreshInitialStatus() {
+  await Promise.allSettled([
+    refreshLogin(),
+    refreshDevice(getTunnelName)
+  ]);
+}
+
+async function loadInitialConfig() {
+  try {
+    await loadConfig(getTunnelName);
+  } catch (e) {
+    error("initial loadConfig failed", e);
+  }
+}
+
+function mountPolling() {
+  setInterval(() => refreshDevice(getTunnelName), 5000);
+  setInterval(refreshLogin, 30000);
 }

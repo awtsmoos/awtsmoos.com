@@ -1,0 +1,2 @@
+/* B"H home legend constellation/orbit-hover.css. */
+.home-discovery-card a:hover { transform:translateX(.16rem); box-shadow:var(--legend-hover-glow); }

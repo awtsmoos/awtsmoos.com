@@ -1,0 +1,2 @@
+/* B"H legend interactive glow. */
+:root { --legend-hover-glow: 0 0 0 1px rgba(245,202,112,.22), 0 .8rem 1.8rem rgba(69,42,11,.16); --legend-focus-glow: 0 0 0 3px rgba(245,202,112,.38); }

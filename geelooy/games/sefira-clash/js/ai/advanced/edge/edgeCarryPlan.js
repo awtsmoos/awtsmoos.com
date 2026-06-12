@@ -2,18 +2,21 @@ import { outward } from '../kill/launchDirection.js';
 
 /**
  * B"H
- * Edge carry plan.
+ * Edge carry plan with restraint.
  *
- * Chapter 226: pushing off cliffs becomes deliberate. The bot stands deeper on
- * the inside shoulder of the target, presses toward the nearest blast wall, and
- * keeps carry active earlier so damage turns into exile instead of wandering.
+ * Chapter 69: exile is no longer the answer to every breath. Edge carry wakes
+ * only when percent, map, and position justify the journey.
  */
 export function edgeCarryPlan(bot, world) {
   const dir = outward(bot, world);
   const standX = world.target.x - dir * 112;
   const distance = Math.abs(bot.x - standX);
   const pressure = world.koPressure || {};
-  const active = !!pressure.window?.carryNeeded || pressure.side > 28 || pressure.carry > 34;
-  const score = Math.max(0, 105 - distance * 0.06 + (pressure.carry || 0) * 0.8 + (pressure.side || 0) * 0.25);
-  return { active, dir, standX, distance, score };
+  const percent = world.target.damage || 0;
+  const zone = world.goal?.zone || world.mapZones?.zones?.[world.goal?.id || 0] || {};
+  const hugeMapPenalty = (world.mapAnalysis?.width || 0) > 8000 ? 18 : 0;
+  const centerPenalty = zone.kind === 'centerControl' && percent < 105 ? 28 : 0;
+  const active = percent > 48 && (!!pressure.window?.carryNeeded || pressure.side > 40 || pressure.carry > 48 || zone.kind === 'edgeKill');
+  const raw = 80 - distance * 0.07 + (pressure.carry || 0) * 0.55 + (pressure.side || 0) * 0.18 + percent * 0.12;
+  return { active, dir, standX, distance, score: Math.max(0, raw - hugeMapPenalty - centerPenalty) };
 }

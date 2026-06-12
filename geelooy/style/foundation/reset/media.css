@@ -1,0 +1,3 @@
+/* B"H media never breaks the vessel. */
+img, video, canvas, svg { max-width: 100%; }
+img, video { height: auto; }

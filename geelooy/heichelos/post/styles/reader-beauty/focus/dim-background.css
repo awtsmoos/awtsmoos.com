@@ -1,0 +1,2 @@
+/* B"H reader beauty focus/dim-background.css. */
+.reader-focus-active .scroll-chunk:not(.is-current-section) { opacity:.55; }

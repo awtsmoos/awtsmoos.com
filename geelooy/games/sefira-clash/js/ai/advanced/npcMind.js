@@ -1,4 +1,4 @@
-/** B"H - NPC mind entry with full realistic AI systems wired. */
+/** B"H - NPC mind with dive-stun global rush. */
 import { updateProgress } from './blackboard/progressTracker.js';
 import { diagnoseStuck } from './blackboard/stuckDetector.js';
 import { validateAttack } from './combat/attackValidator.js';
@@ -18,6 +18,9 @@ import { updateEdgePoisonMemory } from './memory/edgePoisonMemory.js';
 import { updateJumpDebt } from './memory/jumpDebt.js';
 import { updatePositionLoopMemory } from './memory/positionLoopMemory.js';
 import { buildWorld, chooseStableTarget } from './navigation/worldModel.js';
+import { buildFightClusters } from './strategy/fightClusters.js';
+import { stepDiveStunPing } from './strategy/diveStunPing.js';
+import { stepResourcePing } from './strategy/resourcePing.js';
 import { threatVision } from './sense/threatVision.js';
 import { updateAggression } from './strategy/aggressionEscalation.js';
 import { updateAntiPeace } from './strategy/antiPeace.js';
@@ -30,11 +33,14 @@ import { updateRivalry } from './strategy/rivalrySystem.js';
 import { commandForState } from './commands/commandArbiter.js';
 
 export function driveNpcMind(state) {
+  state.fightClusters = buildFightClusters(state);
+  stepResourcePing(state);
+  stepDiveStunPing(state);
   for (const bot of state.fighters) {
     if (bot.human || bot.dead || bot.hidden) continue;
     updateActionMemory(bot, roughWorld(bot));
     updateRevengeMemory(bot);
-    const target = chooseStableTarget(bot, state.fighters, state.map);
+    const target = chooseStableTarget(bot, state.fighters, state.map, state);
     if (!target) continue;
     const world = buildWorld(bot, target, state);
     enrichMind(bot, world);
@@ -73,16 +79,13 @@ function enrichMind(bot, world) {
   bot.aiMind.humanIntent = world.humanIntent;
   bot.aiMind.koIntent = world.koIntent;
   bot.aiMind.combatTactic = world.combatTactic;
+  bot.aiMind.role = world.role;
+  bot.aiMind.antiWander = world.antiWander;
+  bot.aiMind.diveStunRush = world.diveStunRush;
 }
 
-function roughWorld(bot) {
-  return { combatTactic: bot.aiMind?.combatTactic || { kind: bot.aiMind?.tactic || 'unknown' }, current: null, goal: null, step: null };
-}
-
-function routeFacade(world) {
-  return { current: world.current?.p, action: world.step?.action || (world.current?.id === world.goal?.id ? 'same' : 'none') };
-}
-
+function roughWorld(bot) { return { combatTactic: bot.aiMind?.combatTactic || { kind: bot.aiMind?.tactic || 'unknown' }, current: null, goal: null, step: null }; }
+function routeFacade(world) { return { current: world.current?.p, action: world.step?.action || (world.current?.id === world.goal?.id ? 'same' : 'none') }; }
 function exposeDebug(bot, world, progress, stuck, mode) {
   bot.ai ||= {};
   bot.ai.mode = mode;

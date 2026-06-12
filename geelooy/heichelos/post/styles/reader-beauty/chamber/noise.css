@@ -1,0 +1,2 @@
+/* B"H reader beauty chamber/noise.css. */
+.post-reader-localized-context.awtsmoos-reader-vision::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.055; background-image:linear-gradient(90deg,#fff 1px,transparent 1px),linear-gradient(#fff 1px,transparent 1px); background-size:3rem 3rem; }

@@ -1,0 +1,4 @@
+/* B"H card media thumb. */
+.nav-card-media { min-height: 4.55rem; border-radius: .9rem; display: grid; place-items: center; background: radial-gradient(circle at 30% 20%, #31375b, transparent 3rem), linear-gradient(135deg,#11152f,#9c6b31); background-size: cover; background-position: center; color: var(--h-gold-2); font-weight: 950; }
+.nav-card-media span { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: rgba(0,0,0,.35); }
+.nav-card-title-row { display: grid; grid-template-columns: 1fr auto; gap: .55rem; align-items: center; }

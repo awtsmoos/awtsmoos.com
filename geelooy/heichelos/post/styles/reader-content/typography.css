@@ -1,0 +1,2 @@
+/* B"H reader typography. */
+.post-reader-localized-context .section p, .post-reader-localized-context .section li, .post-reader-localized-context .section .paragraph, .post-reader-localized-context .section .perek-text { line-height: 1.78 !important; font-size: clamp(1.05rem,2.3vw,1.22rem) !important; }

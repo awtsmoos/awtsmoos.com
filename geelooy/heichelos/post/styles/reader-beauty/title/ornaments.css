@@ -1,0 +1,2 @@
+/* B"H reader beauty title/ornaments.css. */
+.awtsmoos-post-title-crown::after { content:""; display:block; height:1px; margin-top:1rem; background:linear-gradient(90deg, transparent, rgba(244,197,107,.55), transparent); }

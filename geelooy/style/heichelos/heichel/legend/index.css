@@ -1,0 +1,8 @@
+/* B"H Heichel legend entry. */
+@import "/style/foundation/legend/index.css";
+@import "./monument/index.css";
+@import "./scroll-state/index.css";
+@import "./search/index.css";
+@import "./artifact-card/index.css";
+@import "./journey/index.css";
+@import "./empty/index.css";

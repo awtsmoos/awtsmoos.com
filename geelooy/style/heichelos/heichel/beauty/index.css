@@ -1,0 +1,9 @@
+/* B"H Heichel beauty entry. */
+@import "/style/foundation/beauty/index.css";
+@import "./identity/index.css";
+@import "./hero/index.css";
+@import "./navigation/index.css";
+@import "./cards/index.css";
+@import "./journey/index.css";
+@import "./modal/index.css";
+@import "./responsive/index.css";

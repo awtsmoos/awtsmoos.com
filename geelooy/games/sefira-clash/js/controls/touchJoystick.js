@@ -1,50 +1,46 @@
+import { updateTouchAim } from './touchAimMemory.js';
+
 /**
  * B"H
- * Mobile joystick with exact analog aim.
+ * Android-grade analog joystick.
  *
- * Chapter 276: the thumb is no longer crushed into only up, down, or side.
- * Movement still reads clean left/right, but combat receives the true circular
- * vector, so a punch or kick can travel along the exact angle the player holds.
+ * Chapter 51: the thumb draws a circle of command. Movement is softened, aim is
+ * remembered, dive is intentional, and the nub follows without browser ghosts.
  */
 export function touchJoystick(doc, state) {
   const stick = doc.getElementById('stick');
   const nub = stick?.querySelector('span');
   if (!stick || !nub) return;
-  const center = () => stick.getBoundingClientRect();
   const move = event => {
     event.preventDefault();
-    const r = center();
+    const r = stick.getBoundingClientRect();
     const rawX = event.clientX - r.left - r.width / 2;
     const rawY = event.clientY - r.top - r.height / 2;
-    const clamped = clampCircle(rawX, rawY, 42);
-    const mag = Math.hypot(clamped.x, clamped.y) / 42;
-    state.x = Math.abs(clamped.x) < 8 ? 0 : clamped.x / 42;
-    state.y = Math.abs(clamped.y) < 8 ? 0 : clamped.y / 42;
-    state.aimX = mag < 0.18 ? 0 : clamped.x / 42;
-    state.aimY = mag < 0.18 ? 0 : clamped.y / 42;
-    state.down = clamped.y > 20;
-    state.jump = clamped.y < -22;
-    nub.style.transform = `translate(${clamped.x}px,${clamped.y}px)`;
+    const radius = Math.min(r.width, r.height) * 0.38;
+    const c = clampCircle(rawX, rawY, radius);
+    const mag = Math.hypot(c.x, c.y) / radius;
+    const ax = mag < 0.14 ? 0 : c.x / radius;
+    const ay = mag < 0.14 ? 0 : c.y / radius;
+    state.x = Math.abs(ax) < 0.16 ? 0 : curve(ax);
+    state.y = Math.abs(ay) < 0.16 ? 0 : curve(ay);
+    state.aimX = ax;
+    state.aimY = ay;
+    state.down = ay > 0.5;
+    state.jump = ay < -0.55;
+    updateTouchAim(state, ax, ay, mag);
+    nub.style.transform = `translate(${c.x}px,${c.y}px)`;
   };
   const end = event => {
     event?.preventDefault?.();
-    state.x = 0;
-    state.y = 0;
-    state.aimX = 0;
-    state.aimY = 0;
-    state.down = false;
-    state.jump = false;
+    state.x = state.y = state.aimX = state.aimY = 0;
+    state.down = state.jump = false;
     nub.style.transform = 'translate(0,0)';
   };
-  stick.addEventListener('pointerdown', event => { stick.setPointerCapture(event.pointerId); move(event); });
-  stick.addEventListener('pointermove', move);
-  stick.addEventListener('pointerup', end);
-  stick.addEventListener('pointercancel', end);
+  stick.addEventListener('pointerdown', event => { stick.setPointerCapture?.(event.pointerId); move(event); }, { passive: false });
+  stick.addEventListener('pointermove', move, { passive: false });
+  stick.addEventListener('pointerup', end, { passive: false });
+  stick.addEventListener('pointercancel', end, { passive: false });
 }
 
-function clampCircle(x, y, radius) {
-  const len = Math.hypot(x, y);
-  if (len <= radius) return { x, y };
-  const scale = radius / len;
-  return { x: x * scale, y: y * scale };
-}
+function curve(v) { return Math.sign(v) * Math.min(1, Math.abs(v) ** 0.82); }
+function clampCircle(x, y, radius) { const len = Math.hypot(x, y); if (len <= radius) return { x, y }; const s = radius / len; return { x: x * s, y: y * s }; }

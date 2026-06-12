@@ -1,0 +1,2 @@
+/* B"H reader legend verse-rhythm/separators.css. */
+.scroll-chunk + .scroll-chunk::before { content:"✦"; display:grid; place-items:center; margin:.15rem 0 .55rem; color:rgba(244,197,107,.55); }

@@ -2,16 +2,17 @@
 /**
  * @module HeichelApp
  * @description
- * Chapter 284: The entry spark fires once.
- *
- * The Heichel page may be visited through real browsers, synthetic runtimes,
- * cached modules, and impatient refreshes. This entry point now binds exactly
- * once, avoids duplicate worlds, and leaves a readable boot state for tests.
+ * Chapter 347: The Heichel boots, diagnoses, receives beauty, then legend.
+ * Working vessels first. Beauty second. Legend third. Every crown is optional;
+ * if any ornament fails, the Heichel still breathes.
  */
 
 import { HeichelNavigator } from './modules/navigator.js';
 import { initializeEventListeners } from './modules/events.js';
 import { manifestWorld } from './modules/ui.js';
+import { runHeichelVisualDiagnostics } from './modules/visual/index.js';
+import { runHeichelBeauty } from './modules/beauty/index.js';
+import { runHeichelLegend } from './modules/legend/index.js';
 
 const BOOT_KEY = '__awtsmoosHeichelBoot';
 
@@ -23,6 +24,21 @@ function readHeichelId() {
 function fatal(error) {
     console.error('B"H - Fatal failure in the Great Manifestation:', error);
     document.body.innerHTML = `<h1 class="void-error">VOID ERROR: ${error.message}</h1>`;
+}
+
+function runSafe(label, fn) {
+    try {
+        return fn();
+    } catch (error) {
+        console.warn(`B"H - ${label} failed safely:`, error);
+        return null;
+    }
+}
+
+function refreshVesselHealth() {
+    runSafe('Heichel visual diagnostics', runHeichelVisualDiagnostics);
+    runSafe('Heichel beauty', runHeichelBeauty);
+    runSafe('Heichel legend', runHeichelLegend);
 }
 
 async function boot() {
@@ -37,8 +53,10 @@ async function boot() {
             const navigator = new HeichelNavigator(heichelId);
             window.__awtsmoosHeichelNavigator = navigator;
             manifestWorld(navigator, document.body);
+            refreshVesselHealth();
             await navigator.initialize();
             initializeEventListeners(navigator);
+            [40, 300, 1000, 2200].forEach(delay => setTimeout(refreshVesselHealth, delay));
             state.ready = true;
             console.log('B"H - The Library consciousness is fully manifest.');
         } catch (error) {

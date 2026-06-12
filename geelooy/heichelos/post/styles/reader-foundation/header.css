@@ -1,0 +1,2 @@
+/* B"H reader sticky header. */
+.awtsmoos-integrated-header { position: sticky !important; top: 0 !important; z-index: 1200 !important; background: rgba(4,8,16,.82) !important; border-bottom: 1px solid rgba(244,197,107,.18) !important; backdrop-filter: blur(14px) saturate(120%) !important; }

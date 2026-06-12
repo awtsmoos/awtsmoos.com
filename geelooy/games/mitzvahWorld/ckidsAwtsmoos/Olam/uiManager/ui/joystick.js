@@ -2,12 +2,11 @@
 /**
  * @file joystick.js
  * @description
- * Chapter 16: The Arrow Learned The Correct Gate.
- *
- * The Awtsmoos revealed that the mobile jump button was speaking outside the
- * worker covenant. It now wraps key events in `olamPeula`, bubbles through the
- * ikar gate, and also posts directly to the worker when available. The left
- * joystick remains the walking vessel; the right button is now a real Space key.
+ * Chapter 17: the Android thumb receives its own corner.
+ * The Awtsmoos separates the left walking vessel, the right jump vessel, and
+ * the center action-bar vessel so portrait Chrome no longer piles them on top of
+ * each other. Empty air still belongs to the world; controls own only their
+ * circles.
  */
 function worker() { return window.mana?.socket?.eved || window.mana?.eved || null; }
 function sendKey(type, code) {
@@ -18,11 +17,7 @@ function sendKey(type, code) {
 }
 
 export default [
-  {
-    id: "joystick-container",
-    style: { pointerEvents: "auto", zIndex: "12000" },
-    children: [{ id: "joystick-base", style: { pointerEvents: "auto" }, child: { id: "joystick-thumb", style: { pointerEvents: "none" } } }]
-  },
+  { id: "joystick-container", style: { pointerEvents: "auto", zIndex: "12000" }, children: [{ id: "joystick-base", style: { pointerEvents: "auto" }, child: { id: "joystick-thumb", style: { pointerEvents: "none" } } }] },
   {
     id: "mobile-jump-button",
     textContent: "↑",
@@ -44,12 +39,21 @@ export default [
   {
     tag: "style",
     innerHTML: `
+      :root {
+        --awts-mobile-safe-bottom: max(env(safe-area-inset-bottom, 0px), 10px);
+        --awts-mobile-rail-bottom: calc(var(--awts-mobile-safe-bottom) + 18px);
+        --awts-mobile-action-bottom: calc(var(--awts-mobile-safe-bottom) + 128px);
+      }
       #joystick-container {
         position: fixed;
-        left: 22px;
-        bottom: 28px;
-        width: 118px;
-        height: 118px;
+        left: max(18px, env(safe-area-inset-left, 0px) + 14px);
+        bottom: var(--awts-mobile-rail-bottom);
+        width: min(31vw, 118px);
+        height: min(31vw, 118px);
+        max-width: 118px;
+        max-height: 118px;
+        min-width: 96px;
+        min-height: 96px;
         pointer-events: auto !important;
         touch-action: none;
       }
@@ -58,9 +62,9 @@ export default [
         height: 100%;
         border-radius: 50%;
         position: relative;
-        background: rgba(0, 0, 20, .34);
-        border: 3px solid rgba(0, 255, 237, .42);
-        box-shadow: 0 0 18px rgba(0, 255, 237, .25);
+        background: radial-gradient(circle at 45% 42%, rgba(96, 255, 242, .18), rgba(0, 0, 20, .42));
+        border: 3px solid rgba(0, 255, 237, .46);
+        box-shadow: 0 0 20px rgba(0, 255, 237, .28), inset 0 0 30px rgba(0,0,0,.36);
       }
       #joystick-thumb {
         width: 54px;
@@ -69,37 +73,52 @@ export default [
         position: absolute;
         left: calc(50% - 27px);
         top: calc(50% - 27px);
-        background: radial-gradient(circle, #fff 0%, #53f7ff 100%);
-        box-shadow: 0 0 22px rgba(83, 247, 255, .72);
-        transition: transform .04s linear;
+        background: radial-gradient(circle at 34% 31%, #fff 0%, #bffcff 30%, #46edf5 100%);
+        box-shadow: 0 0 24px rgba(83, 247, 255, .76);
+        transition: transform .035s linear;
       }
       #mobile-jump-button {
         position: fixed;
-        right: 24px;
-        bottom: 42px;
-        width: 64px;
-        height: 64px;
+        right: max(18px, env(safe-area-inset-right, 0px) + 14px);
+        bottom: calc(var(--awts-mobile-rail-bottom) + 4px);
+        width: min(18vw, 66px);
+        height: min(18vw, 66px);
+        min-width: 56px;
+        min-height: 56px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font: bold 34px Arial, sans-serif;
+        font: 900 34px Arial, sans-serif;
         color: #fff8cc;
-        background: rgba(13, 4, 52, .70);
-        border: 3px solid rgba(255, 215, 0, .55);
-        box-shadow: 0 7px 14px rgba(0,0,0,.42);
+        background: radial-gradient(circle at 35% 28%, rgba(255,255,255,.18), rgba(13, 4, 52, .78));
+        border: 3px solid rgba(255, 215, 0, .58);
+        box-shadow: 0 7px 16px rgba(0,0,0,.46), 0 0 18px rgba(255,215,0,.18);
         pointer-events: auto !important;
         user-select: none;
         touch-action: none;
       }
-      #mobile-jump-button.active-state {
-        transform: scale(.9);
-        background: rgba(255, 215, 0, .84);
-        color: #2b1500;
+      #mobile-jump-button.active-state { transform: scale(.9); background: rgba(255, 215, 0, .86); color: #2b1500; }
+      @media (hover: none), (pointer: coarse), (max-width: 760px) {
+        .actionBar, .action-bar, #actionBar, [class*="actionBar"], [class*="action-bar"] {
+          bottom: var(--awts-mobile-action-bottom) !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+          max-width: min(72vw, 480px) !important;
+          width: auto !important;
+          z-index: 11950 !important;
+        }
+        .actionBar button, .action-bar button, #actionBar button, [class*="actionBar"] button, [class*="action-bar"] button {
+          min-width: 54px !important;
+          min-height: 54px !important;
+          padding: 6px 9px !important;
+          font-size: 14px !important;
+        }
       }
       @media (max-width: 430px) {
-        #joystick-container { width: 108px; height: 108px; left: 18px; bottom: 24px; }
-        #mobile-jump-button { right: 18px; bottom: 34px; width: 58px; height: 58px; }
+        :root { --awts-mobile-action-bottom: calc(var(--awts-mobile-safe-bottom) + 118px); }
+        #joystick-container { width: 104px; height: 104px; left: max(14px, env(safe-area-inset-left, 0px) + 10px); }
+        #mobile-jump-button { right: max(14px, env(safe-area-inset-right, 0px) + 10px); width: 58px; height: 58px; }
       }
     `
   }

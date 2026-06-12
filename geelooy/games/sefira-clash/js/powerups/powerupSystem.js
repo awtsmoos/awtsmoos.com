@@ -3,14 +3,7 @@ import { applyPickupEffect } from './effects/applyPickupEffect.js';
 import { tickBuffs } from './effects/buffTimers.js';
 import { applyMagneticPull } from './effects/magneticPull.js';
 
-/**
- * B"H
- * Power-up system with split effects.
- *
- * Chapter 186: pickup motion, buff timers, concrete effects, and magnetic pull
- * now live in separate vessels. The match may rain power, but the loop stays
- * plain, bounded, and readable.
- */
+/** B"H - Power-up system with guaranteed contested stage-born resolution. */
 export function stepPowerups(state) {
   tickBuffs(state.fighters);
   applyMagneticPull(state);
@@ -20,21 +13,19 @@ export function stepPowerups(state) {
 function stepOrb(state, orb) {
   orb.bob += 0.08;
   if (!orb.active) return tickRespawn(orb);
-  for (let i = 0; i < state.fighters.length; i++) {
-    const f = state.fighters[i];
-    if (f.dead || !circleHit(orb, { x: f.x, y: f.y - 88 }, 54)) continue;
+  if (orb.stageBorn) orb.age = (orb.age || 0) + 1;
+  const radius = orb.stageBorn ? 112 : 54;
+  for (const f of state.fighters) {
+    if (f.dead || !circleHit(orb, { x: f.x, y: f.y - 88 }, radius)) continue;
     collect(state, f, orb);
     return;
   }
+  if (orb.stageBorn && orb.age > 210) collect(state, nearestFighter(state, orb), orb);
 }
 
-function tickRespawn(orb) {
-  if (orb.stageBorn) return;
-  orb.respawn--;
-  if (orb.respawn <= 0) orb.active = true;
-}
-
+function tickRespawn(orb) { if (orb.stageBorn) return; orb.respawn--; if (orb.respawn <= 0) orb.active = true; }
 function collect(state, f, orb) {
+  if (!f) return;
   applyPickupEffect(state, f, orb);
   orb.active = false;
   orb.respawn = orb.stageBorn ? 0 : 720;
@@ -43,5 +34,6 @@ function collect(state, f, orb) {
     state.stageDirector.lastPickupFrame = state.frame;
     state.stageDirector.lastPickupRole = orb.role || 'unknown';
   }
-  state.events.push({ type: 'pickup', fighterId: f.id, actorId: f.id, human: !!f.human, x: orb.x, y: orb.y, color: orb.color, letter: orb.letter, damage: 0 });
+  state.events.push({ type: 'pickup', fighterId: f.id, actorId: f.id, human: !!f.human, x: orb.x, y: orb.y, color: orb.color, letter: orb.letter, damage: 0, storyBeat: orb.stageBorn ? 'relicClaim' : undefined });
 }
+function nearestFighter(state, orb) { return state.fighters.filter(f => !f.dead && !f.hidden).sort((a, b) => Math.hypot(a.x - orb.x, a.y - orb.y) - Math.hypot(b.x - orb.x, b.y - orb.y))[0]; }

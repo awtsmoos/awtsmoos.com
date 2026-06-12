@@ -1,0 +1,2 @@
+/* B"H Heichel legend scroll-state/expanded.css. */
+.heichel-mobile-navigation:not(.hero-compact) .geelooy-heichel-hero { transition:min-height .28s var(--ease-out-soft), transform .28s; }

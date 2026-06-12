@@ -1,0 +1,3 @@
+/* B"H home legend feed-river/nodes.css. */
+.home-post-card { position:relative; }
+.home-post-card::after { content:""; position:absolute; left:-.35rem; top:1.35rem; width:.65rem; height:.65rem; border-radius:999px; background:var(--awt-gold-light); box-shadow:var(--legend-sacred-glow); }

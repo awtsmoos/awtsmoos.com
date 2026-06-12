@@ -1,0 +1,2 @@
+/* B"H motion timing. */
+:root { --motion-instant:.08s; --motion-quick:.16s; --motion-normal:.28s; --motion-slow:.55s; }

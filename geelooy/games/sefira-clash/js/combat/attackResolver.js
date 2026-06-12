@@ -11,7 +11,7 @@ import { applyHitstop, damageFor, knockFor } from './attackMath.js';
 import { beginGrab } from './grabResolver.js';
 import { shieldAbsorb } from './shields.js';
 
-/** B"H — Chapter 29: every real hit wakes dive-stun and every rapid spark launches honestly. */
+/** B"H — Chapter 93: any real hit wakes the crushed skull and launches honestly. */
 export function resolveAttacks(state) {
   tickComboState(state.fighters);
   const tree = buildFighterBroadphase(state.fighters, state.map);
@@ -29,7 +29,6 @@ function stepAttackSlot(attacker, state, tree, slot, frameKey) {
   if (isActive(attacker, attack, frameKey)) hitWith(attacker, state, tree, attack, slot);
   if (attacker[slot] && isFinished(attacker, attack, frameKey)) endAttack(attacker, slot, frameKey);
 }
-
 function isActive(f, attack, frameKey) { return f[frameKey] > attack.startup && f[frameKey] <= attack.startup + attack.active; }
 function isFinished(f, attack, frameKey) { return f[frameKey] > attack.startup + attack.active + attack.recovery; }
 function endAttack(f, slot, frameKey) { f[slot] = null; f[frameKey] = 0; }
@@ -49,12 +48,7 @@ function hitWith(attacker, state, tree, attack, slot) {
   }
 }
 
-function rememberAttacker(target, attacker) {
-  target.ai ||= {};
-  target.ai.lastAttacker = attacker.id;
-  target.ai.lastAttackerName = attacker.name;
-}
-
+function rememberAttacker(target, attacker) { target.ai ||= {}; target.ai.lastAttacker = attacker.id; target.ai.lastAttackerName = attacker.name; }
 function landGrab(state, attacker, target, slot) {
   beginGrab(attacker, target);
   state.events.push(simpleHit(attacker, target, { letter: 'אחיזה', damage: 0, force: 8, color: '#ffe8a8' }));
@@ -63,25 +57,29 @@ function landGrab(state, attacker, target, slot) {
 }
 
 function landHit(state, attacker, target, attack) {
-  wakeDiveStun(target);
+  const wake = wakeDiveStun(target);
   const weapon = attack.rapid ? null : attacker.heldWeapon;
-  const damage = damageFor(attacker, target, attack, weapon);
+  const damage = damageFor(attacker, target, attack, weapon) + (wake ? 3 : 0);
   state.totalDamageDealt = (state.totalDamageDealt || 0) + damage;
   target.damage += damage;
   target.danger = target.damage >= COMBAT_TUNING.launch.killDangerPercent;
   rememberRapidJailHit(target, attacker, attack);
-  const knock = knockFor(attacker, attack, weapon);
-  const vector = applyKnockback(target, attacker, { ...attack, damage, knock }, weapon);
+  const knock = knockFor(attacker, attack, weapon) * (wake?.wakeBonus || 1);
+  const vector = applyKnockback(target, attacker, { ...attack, damage, knock, wakeDive: !!wake }, weapon);
   const force = Math.max(damage, knock, vector.force || 0);
   const combo = recordComboHit(state, attacker, target, damage, attack);
-  applyHitstop(state, attack, force);
-  punchCamera(state, attack.rapid ? 1.4 : Math.min(18, force * 0.45));
-  emitHit(state, attacker, target, attack, damage, weapon, force, combo, vector);
+  applyHitstop(state, attack, force + (wake ? 8 : 0));
+  punchCamera(state, wake ? 16 : attack.rapid ? 1.4 : Math.min(18, force * 0.45));
+  emitHit(state, attacker, target, attack, damage, weapon, force, combo, vector, wake);
 }
 
 function wakeDiveStun(target) {
+  if (!target.diveStunned && !target.diveCrushed) return null;
+  const wake = target.diveCrushed || { wakeBonus: 1.25 };
   target.diveStunned = 0;
-  if (target.stun && target.comboPressure?.count) target.stun = Math.min(target.stun, 6);
+  target.diveCrushed = null;
+  target.stun = 0;
+  return wake;
 }
 
 function absorbByOhrShield(state, attacker, target) {
@@ -91,7 +89,6 @@ function absorbByOhrShield(state, attacker, target) {
   punchCamera(state, 5);
   return true;
 }
-
 function shieldHit(state, attacker, target, attack) {
   shieldAbsorb(target, attack.damage);
   const damage = Math.round(attack.damage / 2);
@@ -100,16 +97,14 @@ function shieldHit(state, attacker, target, attack) {
   punchCamera(state, attack.rapid ? 1 : 4);
 }
 
-function emitHit(state, attacker, target, attack, damage, weapon, force, combo, vector) {
-  const letter = combo.count >= 20 ? 'כ' : combo.count >= 10 ? 'י' : combo.count >= 5 ? 'ה' : attack.letter || 'כ';
-  const event = buildHitEvent(attacker, target, attack, { color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, letter, damage, force, combo, vector });
+function emitHit(state, attacker, target, attack, damage, weapon, force, combo, vector, wake) {
+  const letter = wake ? 'התעוררות!' : combo.count >= 20 ? 'כ' : combo.count >= 10 ? 'י' : combo.count >= 5 ? 'ה' : attack.letter || 'כ';
+  const event = buildHitEvent(attacker, target, attack, { color: wake ? '#7fffdc' : weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, letter, damage, force, combo, vector });
+  if (wake) event.storyBeat = 'diveWake';
   state.events.push(event);
   registerHitDiagnostics(state, attack, event);
   addBattlefieldScar(state, event);
   pushComboAnnouncements(state, attacker, target, combo);
   pushLaunchDebug(state, target, vector);
 }
-
-function simpleHit(attacker, target, data) {
-  return { type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, side: attacker.face || 1, ...data };
-}
+function simpleHit(attacker, target, data) { return { type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, side: attacker.face || 1, ...data }; }

@@ -1,0 +1,2 @@
+/* B"H legend section spacing. */
+:root { --legend-section-gap: clamp(var(--rhythm-5), 4vw, var(--rhythm-7)); --legend-section-pad: clamp(var(--rhythm-4), 4vw, var(--rhythm-6)); }

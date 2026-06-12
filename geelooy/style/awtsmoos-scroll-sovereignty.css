@@ -1,80 +1,9 @@
-/* B"H
- * Chapter 1: The wheel is returned to the reader.
- *
- * The Awtsmoos creates the page every instant, and the page must answer every
- * small wheel-turn from every point of the visible body. These rules do not
- * decorate; they remove captivity. Hidden veils become truly untouchable, the
- * document remains the sovereign scroll root, and mobile panels may breathe
- * without stealing the whole river.
- */
-
-html,
-body {
-  min-height: 100%;
-  height: auto !important;
-  overflow-y: auto !important;
-  overflow-x: clip;
-  overscroll-behavior-y: auto;
-  touch-action: pan-y;
-}
-
-body,
-.awtsmoospage,
-.all,
-.geelooy-home-shell,
-.geelooy-social-shell,
-.geelooy-main-stage,
-.heichel-mobile-navigation,
-.main,
-.scroll-view-wrapper,
-#realPost {
-  overscroll-behavior-y: auto;
-}
-
-.awtsmoospage,
-.all,
-.geelooy-home-shell,
-.geelooy-social-shell,
-.heichel-mobile-navigation,
-.geelooy-main-stage,
-.heichel-nav-panel,
-.grid-realms,
-.viewport,
-.dynamic-grid,
-.scroll-view-wrapper,
-#realPost,
-#virtual-scroll-container {
-  max-height: none !important;
-  overflow-y: visible !important;
-}
-
-.modal-gate-hidden,
-.modal-hidden,
-.hidden-void,
-.hidden-details,
-.hidden-comments {
-  pointer-events: none;
-}
-
-.modal-gate,
-.modal-root-open,
-:not(.modal-gate-hidden).gate-backdrop,
-.context-menu-layer,
-.typography-details:not(.hidden-details),
-.sidebar:not(.hidden-comments) {
-  pointer-events: auto;
-}
-
-.geelooy-mobile-drawer,
-.heichel-library-sidebar,
-.typography-details,
-.sidebar,
-.awtsmoos-context-menu {
-  -webkit-overflow-scrolling: touch;
-}
-
-.geelooy-bottom-nav,
-.awtsmoos-floating-controls,
-.heichel-mobile-topbar {
-  touch-action: manipulation;
-}
+/* B"H scroll sovereignty shim: compatibility above all pages. */
+@import "/style/foundation/index.css";
+.awtsmoospage, .all, .geelooy-home-shell, .geelooy-social-shell, .heichel-mobile-navigation, .geelooy-main-stage, .heichel-nav-panel, .grid-realms, .viewport, .dynamic-grid, .scroll-view-wrapper, #realPost, #virtual-scroll-container { max-height: none !important; overflow-y: visible !important; }
+.modal-gate-hidden, .modal-hidden, .hidden-void, .hidden-details, .hidden-comments, [aria-hidden="true"].modal-gate-hidden { pointer-events: none !important; }
+.modal-root-open, .context-menu-layer, .typography-details:not(.hidden-details), .sidebar:not(.hidden-comments) { pointer-events: auto !important; }
+.geelooy-mobile-drawer, .heichel-library-sidebar, .typography-details, .sidebar, .awtsmoos-context-menu, .card-menu-panel { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.geelooy-bottom-nav, .awtsmoos-floating-controls, .heichel-mobile-topbar, .card-menu-trigger, .topbar-icon, button, a { touch-action: manipulation; }
+.geelooy-home-shell, .heichel-mobile-navigation, .post-reader-localized-context.awtsmoos-reader-vision { padding-bottom: var(--floating-clearance); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }

@@ -1,0 +1,5 @@
+/* B"H home shell: the three-column social sanctuary. */
+body { background: var(--ambient-home); }
+a { text-decoration: none; color: inherit; }
+.geelooy-home-shell { width: min(88rem, calc(100vw - clamp(1rem, 3vw, 2rem))); min-height: calc(100dvh - 4rem); margin: clamp(.75rem,2vw,1.5rem) auto 6.5rem; display: grid; grid-template-columns: minmax(15rem,18rem) minmax(20rem,35rem) minmax(14rem,18rem); gap: clamp(.8rem,2vw,1.25rem); align-items: start; color: var(--awt-ink); }
+.home-sanctuary-card, .home-feed-phone, .home-discovery-card { border: var(--awt-soft-border); border-radius: clamp(1.25rem,3vw,2rem); background: linear-gradient(145deg, rgba(255,252,246,.98), rgba(246,241,231,.95)); box-shadow: var(--shadow-card); overflow: clip; }

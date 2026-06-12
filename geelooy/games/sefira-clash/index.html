@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
   <title>Sefira Clash</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -11,7 +11,7 @@
     <section class="topbar">
       <div>
         <h1>Sefira Clash</h1>
-        <p id="statusText">A/D move · W/Space jump · F punch · G kick</p>
+        <p id="statusText">Android: stick aims · down dives · hold buttons to charge</p>
       </div>
       <label>Bots <select id="botSelect"><option>3</option><option selected>5</option><option>7</option></select></label>
       <label>Sound <select id="soundSelect"><option value="all">All</option><option value="hits">Hits</option><option value="world">World</option><option value="off">Off</option></select></label>
@@ -20,11 +20,14 @@
     </section>
     <canvas id="olam"></canvas>
     <section id="menuOverlay" class="menuOverlay"></section>
-    <section id="touchControls" class="touchControls">
-      <div id="stick" class="stick" aria-label="move; push up to jump"><span></span></div>
+    <section id="touchControls" class="touchControls" aria-label="mobile combat controls">
+      <div id="stick" class="stick" aria-label="move and aim; up jumps; down dives"><span></span></div>
       <div class="touchButtons">
-        <button data-act="punch" aria-label="punch">👊</button>
-        <button data-act="kick" aria-label="kick">🦵</button>
+        <button class="primary" data-act="punch" aria-label="punch">👊</button>
+        <button class="primary" data-act="kick" aria-label="kick">🦵</button>
+        <button class="utility" data-act="grab" aria-label="grab">🤝</button>
+        <button class="utility" data-act="shield" aria-label="shield">🛡️</button>
+        <button class="utility wide" data-act="special" aria-label="special recovery">✨</button>
       </div>
     </section>
   </main>

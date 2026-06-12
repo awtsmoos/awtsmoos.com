@@ -1,6 +1,3 @@
 // B"H
-/**
- * @file gameUI.js
- * @description Chapter 373: The gateway itself stops caching the old visible HUD.
- */
-export { default } from "./gameUI/index.js?v=village-polish-20260612-bh810";
+/** @file gameUI.js @description Chapter 655: parent cache seal for Android settings UI. */
+export { default } from "./gameUI/index.js?v=android-settings-20260612-bh1";

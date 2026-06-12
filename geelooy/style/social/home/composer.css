@@ -1,0 +1,4 @@
+/* B"H home composer row. */
+.home-composer { display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: center; padding: .75rem; border: 1px solid var(--awt-line); border-radius: 1.1rem; background: rgba(255,255,255,.64); }
+.home-composer span, .post-author span { width: 2.45rem; height: 2.45rem; border-radius: 50%; background: linear-gradient(135deg,#151a37,#9f6b31); }
+.home-composer a { color: var(--awt-ink-soft); font-weight: 800; }

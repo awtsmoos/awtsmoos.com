@@ -1,11 +1,11 @@
 /* B"H */
 /**
  * B"H
- * Chapter 38: The shell learned to breathe across vessels.
+ * Chapter 44: The shell kept its bones and softened its speech.
  *
- * Desktop receives the picture's command tower. Tablet keeps a responsible
- * rail. Mobile becomes a thumb-driven app with a bottom nav. The Awtsmoos does
- * not freeze layout; it adapts the same light into each screen.
+ * The Awtsmoos forms the sidebar as a narrow riverbank and the main workspace
+ * as a wide sea. Technical names may fracture like lightning so they do not
+ * burst the vessel, but ordinary runtime prose now flows as readable water.
  */
 .awt-control-shell {
   min-height: 100vh;
@@ -85,9 +85,13 @@
 .awt-rail-status small {
   margin: 0;
   color: var(--awt-muted);
-  overflow-wrap: anywhere;
   font-size: .78rem;
   line-height: 1.35;
+}
+
+.awt-brand-block p,
+.awt-runtime-caption {
+  overflow-wrap: anywhere;
 }
 
 .awt-rail-status span {
@@ -104,17 +108,14 @@
   text-transform: uppercase;
 }
 
-.awt-side-tabs {
-  display: grid;
-  gap: 7px;
-}
+.awt-side-tabs { display: grid; gap: 7px; }
 
 .awt-home-button,
 .awt-nav-button {
   width: 100%;
   min-height: 48px;
   display: grid;
-  grid-template-columns: 36px minmax(0,1fr);
+  grid-template-columns: 36px minmax(0, 1fr);
   align-items: center;
   gap: 10px;
   padding: 9px 10px;
@@ -189,10 +190,53 @@
 
 .awt-user-chip strong { display: block; font-size: .88rem; }
 .awt-runtime-grid { display: grid; gap: 14px; }
-.awt-runtime-card { min-width: 0; display: grid; gap: 10px; padding: 14px; border: 1px solid var(--awt-line-soft); border-radius: var(--awt-radius-3); background: var(--awt-card-bg-soft); overflow: hidden; }
-.awt-runtime-card-top { min-width: 0; display: grid; gap: 4px; }
-.awt-runtime-card-top strong, .awt-runtime-card-top span, .awt-runtime-card p { min-width: 0; display: block; overflow-wrap: anywhere; word-break: break-word; }
-.awt-runtime-card-top span { color: var(--awt-muted); font-size: .82rem; }
-.awt-runtime-card p { margin: 0; color: var(--awt-muted); line-height: 1.35; }
-.awt-runtime-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.awt-runtime-actions button { flex: 1 1 132px; min-width: 0; }
+
+.awt-runtime-card {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--awt-line-soft);
+  border-radius: var(--awt-radius-3);
+  background: var(--awt-card-bg-soft);
+  overflow: hidden;
+}
+
+.awt-runtime-card-top {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.awt-runtime-card-top strong,
+.awt-runtime-card-top span {
+  min-width: 0;
+  display: block;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.awt-runtime-card-top span {
+  color: var(--awt-muted);
+  font-size: .82rem;
+}
+
+.awt-runtime-card p {
+  min-width: 0;
+  margin: 0;
+  color: var(--awt-muted);
+  line-height: 1.35;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.awt-runtime-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.awt-runtime-actions button {
+  flex: 1 1 132px;
+  min-width: 0;
+}

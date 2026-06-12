@@ -1,0 +1,4 @@
+/* B"H modal form fields. */
+.gate-chamber form { display: grid; gap: .75rem; }
+.gate-chamber input, .gate-chamber textarea, .gate-chamber select { width: 100%; min-height: 3rem; border: 1px solid rgba(67,46,24,.18); border-radius: .9rem; padding: .85rem .95rem; background: #fffaf1; color: var(--h-ink); font: inherit; box-sizing: border-box; }
+.gate-chamber textarea { min-height: 7rem; resize: vertical; }

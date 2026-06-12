@@ -1,0 +1,2 @@
+/* B"H reduced beauty motion. */
+@media (prefers-reduced-motion: reduce) { .beauty-reveal { animation:none !important; } *, *::before, *::after { transition-duration:.01ms !important; } }

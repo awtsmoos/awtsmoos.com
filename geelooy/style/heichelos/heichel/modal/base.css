@@ -1,0 +1,5 @@
+/* B"H modal base. */
+.modal-root-open { position: fixed; inset: 0; z-index: 2147482500; display: grid !important; place-items: center; padding: max(1rem,env(safe-area-inset-top)) 1rem max(1rem,env(safe-area-inset-bottom)); }
+.gate-backdrop { position: absolute; inset: 0; background: rgba(5,7,18,.62); backdrop-filter: blur(10px); }
+.gate-chamber { position: relative; z-index: 1; width: min(92vw,32rem); max-height: min(90dvh,42rem); overflow: auto; padding: clamp(1rem,3vw,1.35rem); border: 1px solid rgba(255,255,255,.7); border-radius: 1.35rem; background: linear-gradient(160deg,#fffdf7,#f8f0e2); color: var(--h-ink); box-shadow: 0 1.8rem 4rem rgba(0,0,0,.35); }
+.gate-chamber h3 { margin: 0 0 .85rem; font-size: 1.35rem; letter-spacing: -.04em; }

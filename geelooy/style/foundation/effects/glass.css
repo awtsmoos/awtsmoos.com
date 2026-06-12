@@ -1,0 +1,2 @@
+/* B"H reusable glass atmosphere. */
+:root { --awt-glass-dark: rgba(8,10,24,.86); --awt-glass-light: rgba(255,250,241,.86); --awt-blur: blur(16px) saturate(120%); }

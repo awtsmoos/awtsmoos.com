@@ -1,0 +1,2 @@
+/* B"H mobile reader. */
+@media (max-width: 520px) { .post-reader-localized-context #realPost.content { padding-inline: .85rem !important; } .scroll-chunk > .section, .post-reader-localized-context .section { padding: .9rem !important; } .awtsmoos-post-title-main { font-size: clamp(1.85rem,11vw,3rem) !important; } }

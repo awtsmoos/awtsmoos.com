@@ -1,0 +1,2 @@
+/* B"H command palette overlay. */
+#command-palette-container { position: relative; z-index: 1900; }

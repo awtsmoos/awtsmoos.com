@@ -1,0 +1,15 @@
+/* B"H color tokens: one palette, many vessels. */
+:root {
+  --awt-bg-deep: #080c1a;
+  --awt-bg-night: #050812;
+  --awt-vellum: #fffaf1;
+  --awt-vellum-2: #f8f0e2;
+  --awt-ink: #171624;
+  --awt-ink-soft: #6e6877;
+  --awt-gold: #b9853f;
+  --awt-gold-light: #f5ca70;
+  --awt-line: rgba(67, 46, 24, .14);
+  --awt-dark-line: rgba(255, 255, 255, .14);
+  --awt-danger: #9d2f16;
+  --awt-success: #2f7d48;
+}

@@ -1,0 +1,8 @@
+/* B"H type tokens: readable, sacred, direct. */
+:root {
+  --font-ui: Inter, "Space Grotesk", system-ui, sans-serif;
+  --font-serif: Cardo, "Source Serif 4", Georgia, serif;
+  --type-small: .82rem; --type-body: 1rem; --type-lead: 1.18rem;
+  --type-title: clamp(1.7rem, 6vw, 3.4rem);
+  --leading-body: 1.6; --leading-reader: 1.78;
+}

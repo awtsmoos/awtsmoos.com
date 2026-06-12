@@ -1,0 +1,7 @@
+/* B"H shadow tokens: depth without heaviness. */
+:root {
+  --shadow-card: 0 .55rem 1.35rem rgba(25,20,11,.10);
+  --shadow-float: 0 1rem 2rem rgba(0,0,0,.32);
+  --shadow-modal: 0 1.8rem 4rem rgba(0,0,0,.35);
+  --shadow-glow: 0 0 2.2rem rgba(245,202,112,.34);
+}

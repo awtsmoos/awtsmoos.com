@@ -1,0 +1,8 @@
+/* B"H space tokens: the breath between vessels. */
+:root {
+  --space-1: .25rem; --space-2: .45rem; --space-3: .7rem;
+  --space-4: 1rem; --space-5: 1.35rem; --space-6: 1.8rem;
+  --space-7: 2.4rem; --space-8: 3.2rem; --space-9: 4.4rem;
+  --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom);
+  --floating-clearance: max(6.5rem, calc(5rem + env(safe-area-inset-bottom)));
+}

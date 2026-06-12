@@ -1,11 +1,7 @@
-/* B"H search: sticky enough to help, never enough to trap. */
-.series-heading { margin-bottom: .75rem; padding: .75rem; border: 1px solid var(--h-line); border-radius: 1rem; background: rgba(255,255,255,.58); }
-.series-heading h2 { margin: .1rem 0; font-size: 1.25rem; letter-spacing: -.04em; }
-.series-heading p { margin: .2rem 0; color: var(--h-muted); line-height: 1.4; }
-.series-label { color: var(--h-gold) !important; font-size: .72rem; font-weight: 950; text-transform: uppercase; letter-spacing: .11em; }
+/* B"H search: only the sticky finding vessel, no series-heading ownership. */
 .series-search-row {
   position: sticky;
-  top: 3.8rem;
+  top: calc(3.8rem + env(safe-area-inset-top));
   z-index: 20;
   display: grid;
   grid-template-columns: 1fr auto;
@@ -17,13 +13,25 @@
   background: rgba(255, 250, 241, .94);
   backdrop-filter: blur(12px);
 }
+
 .series-search-row input {
   width: 100%;
+  min-height: 2.85rem;
   border: 0;
   border-radius: .8rem;
   padding: .78rem .85rem;
   background: #fffdf8;
+  color: var(--h-ink);
   font: inherit;
   outline: none;
 }
-.filter-chip { border: 0; border-radius: .8rem; padding: .78rem .85rem; background: #ede0cd; color: #3a240f; font-weight: 900; }
+
+.filter-chip {
+  min-width: 4.6rem;
+  border: 0;
+  border-radius: .8rem;
+  padding: .78rem .85rem;
+  background: #ede0cd;
+  color: #3a240f;
+  font-weight: 900;
+}

@@ -1,0 +1,3 @@
+/* B"H one honest vertical river. */
+html, body { min-height: 100%; height: auto !important; overflow-y: auto !important; overflow-x: clip; overscroll-behavior-y: auto; touch-action: pan-y; }
+body, .awtsmoospage, .all, .main, .scroll-view-wrapper, #realPost { overscroll-behavior-y: auto; }

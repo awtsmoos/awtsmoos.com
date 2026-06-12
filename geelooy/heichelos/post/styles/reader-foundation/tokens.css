@@ -1,0 +1,2 @@
+/* B"H reader tokens. */
+:root { --reader-width: 48rem; --reader-pad: clamp(1rem,4vw,2rem); --reader-panel: rgba(255,250,241,.055); --reader-line: rgba(244,197,107,.14); --reader-gold: #f4c56b; --reader-ink: #f6ecdc; }

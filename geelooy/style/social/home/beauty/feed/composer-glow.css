@@ -1,0 +1,2 @@
+/* B"H home beauty feed/composer-glow.css. */
+.home-composer:focus-within, .home-composer:hover { box-shadow:0 0 0 1px rgba(185,133,63,.20), var(--beauty-shadow-soft); }

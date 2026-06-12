@@ -1,0 +1,2 @@
+/* B"H reduced motion reader. */
+@media (prefers-reduced-motion: reduce) { .post-reader-localized-context * { scroll-behavior: auto !important; transition-duration: .01ms !important; } }

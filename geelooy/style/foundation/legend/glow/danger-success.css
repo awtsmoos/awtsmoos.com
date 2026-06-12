@@ -1,0 +1,2 @@
+/* B"H legend semantic glow. */
+:root { --legend-danger-glow: 0 0 1.4rem rgba(157,47,22,.28); --legend-success-glow: 0 0 1.4rem rgba(47,125,72,.28); }

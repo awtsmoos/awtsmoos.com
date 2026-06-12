@@ -1,16 +1,15 @@
 /**
  * B"H
- * OffscreenCanvas-compatible render surface.
+ * Render surface with Android-aware backbuffer choice.
  *
- * Chapter 248: where the browser permits it, the frame is painted into an
- * offscreen backbuffer first, then copied to the visible canvas. This is the
- * safe doorway toward worker rendering without breaking DOM-bound menu logic.
+ * Chapter 54: not every phone wants an extra canvas copy. Android receives a
+ * lean path; desktop may keep the backbuffer where it helps.
  */
-export function createRenderSurface(canvas) {
+export function createRenderSurface(canvas, profile = {}) {
   const visible = canvas.getContext('2d', { alpha: false, desynchronized: true });
-  const offscreen = makeBackbuffer(canvas);
+  const offscreen = profile.backbuffer === false ? null : makeBackbuffer(canvas);
   const ctx = offscreen?.getContext?.('2d', { alpha: false, desynchronized: true }) || visible;
-  return { canvas, visible, ctx, offscreen, usesBackbuffer: ctx !== visible };
+  return { canvas, visible, ctx, offscreen, usesBackbuffer: ctx !== visible, profile };
 }
 
 export function resizeRenderSurface(surface, cssW, cssH, dpr) {
@@ -18,24 +17,17 @@ export function resizeRenderSurface(surface, cssW, cssH, dpr) {
   const pixelH = Math.max(1, Math.floor(cssH * dpr));
   surface.canvas.width = pixelW;
   surface.canvas.height = pixelH;
-  if (surface.offscreen) {
-    surface.offscreen.width = pixelW;
-    surface.offscreen.height = pixelH;
-  }
+  if (surface.offscreen) { surface.offscreen.width = pixelW; surface.offscreen.height = pixelH; }
   surface.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  surface.ctx.imageSmoothingEnabled = true;
+  surface.ctx.imageSmoothingEnabled = !surface.profile?.android;
   surface.visible.setTransform(1, 0, 0, 1, 0, 0);
-  surface.visible.imageSmoothingEnabled = true;
+  surface.visible.imageSmoothingEnabled = !surface.profile?.android;
 }
 
 export function presentRenderSurface(surface) {
   if (!surface.usesBackbuffer) return;
   surface.visible.setTransform(1, 0, 0, 1, 0, 0);
   surface.visible.drawImage(surface.offscreen, 0, 0);
-}
-
-export function supportsWorkerOffscreen(canvas) {
-  return typeof Worker !== 'undefined' && typeof canvas.transferControlToOffscreen === 'function';
 }
 
 function makeBackbuffer(canvas) {

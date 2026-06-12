@@ -1,0 +1,2 @@
+/* B"H legend card spacing. */
+:root { --legend-card-pad: clamp(.85rem, 2.5vw, 1.35rem); --legend-card-gap: clamp(.65rem, 2vw, 1rem); }

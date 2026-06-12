@@ -1,28 +1,17 @@
-/* B"H
- * Chapter 293: The import river crowns scroll-root last.
- * All beauty may speak first; the last word belongs to the one true reader
- * river so no older shell rule can flatten the scroll container again.
- */
-
+/* B"H reader style entry: imports only, small modules last. */
 @import url("./ideal/reborn/tokens.css");
-@import url("./ideal/reborn/shell.css");
-@import url("./ideal/reborn/reader.css");
-@import url("./ideal/reborn/settings.css");
-@import url("./ideal/reborn/sidebar.css");
-@import url("./ideal/reborn/sidebar-resize.css");
-@import url("./ideal/reborn/sidebar-fullscreen.css");
-@import url("./ideal/reborn/panels.css");
-@import url("./ideal/reborn/panel-rows.css");
-@import url("./ideal/reborn/panel-controls.css");
 @import url("./ideal/reborn/comments.css");
 @import url("./ideal/reborn/comment-composer.css");
 @import url("./ideal/reborn/inline-comments.css");
 @import url("./ideal/reborn/inline-action-menu.css");
-@import url("./ideal/reborn/details.css");
-@import url("./ideal/reborn/actions.css");
-@import url("./ideal/reborn/mobile-sidebar-reset.css");
-@import url("./ideal/reborn/live-mobile-corrections.css");
 @import url("./ideal/reborn/context-menu.css");
-@import url("./ideal/reborn/mobile-polish.css");
 @import url("./ideal/reborn/button-hover.css");
-@import url("./ideal/reborn/scroll-root.css");
+@import url("./reader-foundation/index.css");
+@import url("./reader-content/index.css");
+@import url("./reader-controls/index.css");
+@import url("./reader-settings/index.css");
+@import url("./reader-sidebar/index.css");
+@import url("./reader-overlays/index.css");
+@import url("./reader-responsive/index.css");
+@import url("./reader-beauty/index.css");
+@import url("./reader-legend/index.css");

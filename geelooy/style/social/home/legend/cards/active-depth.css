@@ -1,0 +1,2 @@
+/* B"H home legend cards/active-depth.css. */
+.home-post-card.is-feed-current { transform:translateY(-3px) scale(1.01); box-shadow:var(--legend-hover-glow); }

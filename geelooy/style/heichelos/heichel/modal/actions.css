@@ -1,0 +1,6 @@
+/* B"H modal action row. */
+.gate-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+.gate-actions button { min-height: 3rem; border: 0; border-radius: .9rem; font-weight: 950; }
+.gate-actions button[type="button"] { background: #e9dccb; color: #3a240f; }
+.gate-actions button[type="submit"] { background: linear-gradient(135deg,var(--h-gold-2),var(--h-gold)); color: #160e05; }
+@media (max-width: 420px) { .gate-actions { grid-template-columns: 1fr; } }

@@ -1,0 +1,2 @@
+/* B"H glass stack. */
+:root { --beauty-glass-dark: linear-gradient(160deg, rgba(9,13,31,.88), rgba(9,9,20,.72)); --beauty-glass-light: linear-gradient(160deg, rgba(255,253,247,.90), rgba(248,240,226,.78)); --beauty-glass-border: 1px solid rgba(255,255,255,.32); }

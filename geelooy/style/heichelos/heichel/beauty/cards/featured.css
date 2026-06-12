@@ -1,0 +1,2 @@
+/* B"H Heichel beauty cards/featured.css. */
+.nav-card.featured { grid-column:1 / -1; min-height:9rem; }

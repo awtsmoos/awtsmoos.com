@@ -1,0 +1,5 @@
+/* B"H home discovery card. */
+.home-discovery-card { position: sticky; top: 1rem; padding: 1rem; display: grid; gap: .65rem; }
+.home-discovery-card h2 { margin: 0 0 .3rem; letter-spacing: -.04em; }
+.home-side-links a, .home-discovery-card a { min-height: 3rem; display: flex; align-items: center; padding: .85rem 1rem; border-radius: .95rem; background: rgba(255,255,255,.09); color: var(--awt-vellum); font-weight: 900; }
+.home-discovery-card a { background: #ede0cd; color: #3a240f; }

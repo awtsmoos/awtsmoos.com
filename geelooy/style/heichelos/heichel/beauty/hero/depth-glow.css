@@ -1,0 +1,2 @@
+/* B"H Heichel beauty hero/depth-glow.css. */
+.geelooy-heichel-hero::after { content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit; background:radial-gradient(circle at 70% 0%, rgba(245,202,112,.18), transparent 40%); }

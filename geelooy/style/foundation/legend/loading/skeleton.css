@@ -1,0 +1,3 @@
+/* B"H legend skeleton loading. */
+.legend-skeleton { border-radius: 1rem; background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(245,202,112,.12), rgba(255,255,255,.06)); background-size: 220% 100%; animation: legendSkeleton 1.6s linear infinite; }
+@keyframes legendSkeleton { to { background-position: -220% 0; } }
