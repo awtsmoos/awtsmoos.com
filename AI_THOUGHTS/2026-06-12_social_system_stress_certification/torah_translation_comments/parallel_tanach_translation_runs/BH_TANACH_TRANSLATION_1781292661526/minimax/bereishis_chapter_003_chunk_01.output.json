@@ -1,0 +1,75 @@
+{
+  "raw": {
+    "ok": true,
+    "action": "aiAgentMessage",
+    "agent": "minimax-deep",
+    "provider": "minimax",
+    "text": "{\n  \"translations\": [\n    {\n      \"verseSection\": \"verse-1\",\n      \"english\": \"Now the serpent was cunning, more than any beast of the field that Awtsmoos Elokim had made. And it said to the woman, \\\"Indeed, has Elokim said, 'You shall not eat from any tree of the garden'?\\\"\"\n    },\n    {\n      \"verseSection\": \"verse-2\",\n      \"english\": \"And the woman said to the serpent, \\\"From the fruit of the trees of the garden we may eat.\"\n    },\n    {\n      \"verseSection\": \"verse-3\",\n      \"english\": \"But from the fruit of the tree that is in the midst of the garden, Elokim said, 'You shall not eat from it, and you shall not touch it, lest you die.'\\\"\"\n    },\n    {\n      \"verseSection\": \"verse-4\",\n      \"english\": \"And the serpent said to the woman, \\\"You shall surely not die.\"\n    },\n    {\n      \"verseSection\": \"verse-5\",\n      \"english\": \"For Elokim knows that on the day you eat from it, your eyes will be opened, and you will be like Elokim, knowing good and evil.\\\"\"\n    },\n    {\n      \"verseSection\": \"verse-6\",\n      \"english\": \"And the woman saw that the tree was good for food, and that it was a delight to the eyes, and that the tree was desirable to make one wise. So she took from its fruit and ate, and she also gave to her husband who was with her, and he ate.\"\n    }\n  ]\n}",
+    "reasoning": "The user wants me to refine the English translations of these verses from Bereishis (Genesis) Chapter 3. I need to:\n\n1. Return JSON only, no markdown\n2. Preserve every verseSection exactly\n3. Use Hebrew as source of truth\n4. Apply the Divine Name policy (יהוה → \"Awtsmoos\", אלהים → \"Elokim\")\n5. No commentary or footnotes\n\nLet me translate each verse carefully:\n\n**Verse 1:**\nHebrew: וְהַנָּחָשׁ֙ הָיָ֣ה עָר֔וּם מִכֹּל֙ חַיַּ֣ת הַשָּׂדֶ֔ה אֲשֶׁ֥ר עָשָׂ֖ה יְהֹוָ֣ה אֱלֹהִ֑ים וַיֹּ֨אמֶר֙ אֶל־הָ֣אִשָּׁ֔ה אַ֚ף כִּֽי־אָמַ֣ר אֱלֹהִ֔ים לֹ֣א תֹֽאכְל֔וּ מִכֹּ֖ל עֵ֥ץ הַגָּֽן:\n\nThe serpent was cunning (arum) from all the beasts of the field that Awtsmoos Elokim had made. And he said to the woman, \"Indeed, has Elokim said, 'You shall not eat from any tree of the garden'?\"\n\n**Verse 2:**\nHebrew: וַתֹּ֥אמֶר הָֽאִשָּׁ֖ה אֶל־הַנָּחָ֑שׁ מִפְּרִ֥י עֵֽץ־הַגָּ֖ן נֹאכֵֽל:\n\n\nThe woman responded that they could eat from the garden's fruit trees, indicating a more permissive interpretation than the serpent's characterization suggested.\n\nShe clarifies that God's original command was specifically about the tree in the garden's center, warning against eating or touching it on potential punishment. The serpent counters this strict interpretation, suggesting the consequences were not as severe as implied.\n\nWhen examining the deeper meaning, the text reveals a nuanced exploration of divine knowledge, temptation, and the human desire to understand moral boundaries. The serpent's logic suggests a transformative potential in consuming the forbidden fruit, hinting at awakening human consciousness and perception.\n\nThe narrative subtly weaves together themes of obedience, curiosity, and the complex dynamics between divine instruction and human aspiration, presenting a rich psychological and spiritual tableau of early human experience. The woman found the tree enticing - appealing to both appetite and intellect. She took its fruit, ate, and shared it with her husband, who also consumed it.",
+    "toolCalls": [],
+    "usage": {
+      "total_tokens": 2518,
+      "total_characters": 0,
+      "prompt_tokens": 1539,
+      "completion_tokens": 979,
+      "completion_tokens_details": {
+        "reasoning_tokens": 628
+      }
+    },
+    "finishReason": null
+  },
+  "parsed": {
+    "translations": [
+      {
+        "verseSection": "verse-1",
+        "english": "Now the serpent was cunning, more than any beast of the field that Awtsmoos Elokim had made. And it said to the woman, \"Indeed, has Elokim said, 'You shall not eat from any tree of the garden'?\""
+      },
+      {
+        "verseSection": "verse-2",
+        "english": "And the woman said to the serpent, \"From the fruit of the trees of the garden we may eat."
+      },
+      {
+        "verseSection": "verse-3",
+        "english": "But from the fruit of the tree that is in the midst of the garden, Elokim said, 'You shall not eat from it, and you shall not touch it, lest you die.'\""
+      },
+      {
+        "verseSection": "verse-4",
+        "english": "And the serpent said to the woman, \"You shall surely not die."
+      },
+      {
+        "verseSection": "verse-5",
+        "english": "For Elokim knows that on the day you eat from it, your eyes will be opened, and you will be like Elokim, knowing good and evil.\""
+      },
+      {
+        "verseSection": "verse-6",
+        "english": "And the woman saw that the tree was good for food, and that it was a delight to the eyes, and that the tree was desirable to make one wise. So she took from its fruit and ate, and she also gave to her husband who was with her, and he ate."
+      }
+    ]
+  },
+  "translations": [
+    {
+      "verseSection": "verse-1",
+      "english": "Now the serpent was cunning, more than any beast of the field that Awtsmoos Elokim had made. And it said to the woman, \"Indeed, has Elokim said, 'You shall not eat from any tree of the garden'?\""
+    },
+    {
+      "verseSection": "verse-2",
+      "english": "And the woman said to the serpent, \"From the fruit of the trees of the garden we may eat."
+    },
+    {
+      "verseSection": "verse-3",
+      "english": "But from the fruit of the tree that is in the midst of the garden, Elokim said, 'You shall not eat from it, and you shall not touch it, lest you die.'\""
+    },
+    {
+      "verseSection": "verse-4",
+      "english": "And the serpent said to the woman, \"You shall surely not die."
+    },
+    {
+      "verseSection": "verse-5",
+      "english": "For Elokim knows that on the day you eat from it, your eyes will be opened, and you will be like Elokim, knowing good and evil.\""
+    },
+    {
+      "verseSection": "verse-6",
+      "english": "And the woman saw that the tree was good for food, and that it was a delight to the eyes, and that the tree was desirable to make one wise. So she took from its fruit and ate, and she also gave to her husband who was with her, and he ate."
+    }
+  ]
+}

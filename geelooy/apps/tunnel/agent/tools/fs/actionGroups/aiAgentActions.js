@@ -6,12 +6,17 @@ const { sendAgentMessage } = require("./aiAgents/client.js");
 const tasks = require("./aiAgents/taskRunner.js");
 
 const NUMERIC_AI_KEYS = ["maxDepth", "maxChildrenPerTask", "maxTotalTasks", "pollIntervalMs", "promotionCycles", "agentCycles", "chapterCycles", "providerTimeoutMs"];
+const CARRIER_KEYS = ["params", "content", "text", "body", "query", "goal", "message", "prompt"];
 
 /**
  * B"H
- * Chapter 387: The agent council gained one public gate.
- * Old aiAgent* actions remain, while action=agent&mode=list/message/spawn/status
- * routes to the same living delegate system.
+ * Chapter 418: The Delegate Gate Stopped Hiding Its Handle.
+ *
+ * Other AIs should not need secret tunnel lore. Whether they pour JSON into
+ * content, params, body, query, goal, message, prompt, or the top level, this
+ * gate fuses the sparks into one payload before MiniMax, OpenRouter, Groq, and
+ * every child council receives the command. No key is revealed; only the vessel
+ * becomes easier to hold.
  */
 function buildAiAgentActions(ctx) {
   const raw = actionPayload(ctx.payload);
@@ -44,31 +49,69 @@ async function consolidatedAgent(payload = {}) {
   return sendAgentMessage(loadConfig(), payload);
 }
 
-function actionPayload(payload = {}) { return { ...payload, ...parsePayloadJson(payload) }; }
+function actionPayload(payload = {}) {
+  const parsed = parsePayloadJson(payload);
+  const fused = normalizeAliases({ ...payload, ...parsed });
+  const fallbackMessage = firstPlainCarrier(payload);
+  if (!hasPrompt(fused) && fallbackMessage) fused.message = fallbackMessage;
+  return fused;
+}
 
 function parsePayloadJson(payload = {}) {
-  const fields = [payload.params, payload.content, payload.text, payload.body, payload.query, payload.goal];
-  for (const field of fields) {
-    const parsed = parseOne(field);
-    if (Object.keys(parsed).length) return parsed;
-  }
-  return {};
+  return CARRIER_KEYS.reduce((acc, key) => ({ ...acc, ...parseOne(payload[key]) }), {});
 }
 
 function parseOne(value) {
   if (!value) return {};
-  if (typeof value === "object") return value;
+  if (typeof value === "object" && !Array.isArray(value)) return value;
   const text = String(value || "").trim();
   if (!text) return {};
   if (text.startsWith("base64json:")) return parseOne(Buffer.from(text.slice(11), "base64").toString("utf8"));
-  if (!text.startsWith("{")) return {};
-  try { const json = JSON.parse(text); return json && typeof json === "object" ? json : {}; }
-  catch { return {}; }
+  if (!text.startsWith("{") && !text.startsWith("[")) return {};
+  try {
+    const json = JSON.parse(text);
+    return json && typeof json === "object" && !Array.isArray(json) ? json : {};
+  } catch (_error) { return {}; }
+}
+
+function firstPlainCarrier(payload = {}) {
+  for (const key of CARRIER_KEYS) {
+    const value = payload[key];
+    if (typeof value !== "string") continue;
+    const text = value.trim();
+    if (text && !text.startsWith("{") && !text.startsWith("[") && !text.startsWith("base64json:")) return text;
+  }
+  return "";
+}
+
+function normalizeAliases(payload = {}) {
+  const next = { ...payload };
+  if (!next.provider && next.providerId) next.provider = next.providerId;
+  if (!next.agentId && next.agent) next.agentId = next.agent;
+  if (!next.agent && next.agentId) next.agent = next.agentId;
+  if (!next.message && next.prompt) next.message = next.prompt;
+  if (!next.prompt && next.message) next.prompt = next.message;
+  if (!next.taskId && next.id) next.taskId = next.id;
+  return next;
+}
+
+function hasPrompt(payload = {}) {
+  return Boolean(String(payload.message || payload.prompt || payload.goal || "").trim());
 }
 
 function listAll() {
   const config = loadConfig();
-  return { ok: true, action: "aiAgentList", agents: listAgents(config), providers: listProviders(config), config: publicAiConfig(config), taskActions: taskActions(), paramsJson: true };
+  return {
+    ok: true,
+    action: "aiAgentList",
+    agents: listAgents(config),
+    providers: listProviders(config),
+    config: publicAiConfig(config),
+    taskActions: taskActions(),
+    payloadCarriers: CARRIER_KEYS,
+    acceptsTopLevel: ["provider", "providerId", "agent", "agentId", "model", "message", "prompt", "system", "stream", "mode", "taskId"],
+    paramsJson: true
+  };
 }
 
 function setConfig(payload = {}) {

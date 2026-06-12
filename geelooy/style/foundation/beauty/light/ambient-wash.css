@@ -1,3 +1,2 @@
-/* B"H ambient wash. */
-:root { --beauty-wash-gold: radial-gradient(circle at 20% 0%, rgba(245,202,112,.20), transparent 22rem); --beauty-wash-violet: radial-gradient(circle at 92% 10%, rgba(120,91,255,.16), transparent 24rem); }
-.beauty-ambient { background-image: var(--beauty-wash-gold), var(--beauty-wash-violet); }
+/* B"H ambient wash: soft Ohr around the vessels. */
+:root { --awt-ambient-wash: radial-gradient(circle at 18% 12%, rgba(214,168,79,.22), transparent 34rem), radial-gradient(circle at 82% 4%, rgba(35,58,113,.16), transparent 30rem); }

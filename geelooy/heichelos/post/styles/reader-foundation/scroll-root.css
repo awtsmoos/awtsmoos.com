@@ -1,4 +1,2 @@
-/* B"H reader natural scroll root. */
-html, body { width: 100% !important; min-height: 100% !important; height: auto !important; overflow-x: hidden !important; overflow-y: auto !important; overscroll-behavior-y: auto !important; touch-action: pan-y !important; }
-.post-reader-localized-context.awtsmoos-reader-vision { position: relative !important; inset: auto !important; width: 100% !important; min-height: 100dvh !important; height: auto !important; max-height: none !important; display: block !important; overflow-x: clip !important; overflow-y: visible !important; isolation: isolate !important; touch-action: pan-y !important; }
-.post-reader-localized-context.awtsmoos-reader-vision > .main, .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper { position: relative !important; display: block !important; width: 100% !important; min-height: calc(100dvh - var(--awt-header-space,0px)) !important; height: auto !important; max-height: none !important; overflow-x: clip !important; overflow-y: visible !important; touch-action: pan-y !important; }
+/* B"H Reader scroll root: native scroll remains sovereign. */
+#realPost, #virtual-scroll-container { scroll-padding-top: clamp(4rem, 12vh, 7rem); overscroll-behavior-y: contain; }

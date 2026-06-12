@@ -1,3 +1,2 @@
-/* B"H Heichel beauty identity/seal.css. */
-.heichel-seal { box-shadow:var(--beauty-glow-gold); position:relative; }
-.heichel-seal::after { content:""; position:absolute; inset:-.35rem; border-radius:inherit; border:1px solid rgba(245,202,112,.25); }
+/* B"H identity seal. */
+.heichel-identity-seal { filter: drop-shadow(0 .75rem 1.4rem rgba(125,79,20,.24)); }

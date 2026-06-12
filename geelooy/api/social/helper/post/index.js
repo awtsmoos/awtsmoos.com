@@ -560,7 +560,7 @@ async function editPostInSeries({ $i, heichelId, seriesId, postId }) {
         updatedPostData.updatedAt = Date.now();
 
         // Use updateEntry to modify the post within the series' posts object
-        const updateResult = await $i.db.updateEntry(seriesPostsPath, postId, updatedPostData);
+        const updateResult = await $i.db.updateEntry(seriesPostsPath, { key: postId, value: updatedPostData });
 
         if (updateResult?.error) {
             throw new Error(`DB Error: ${updateResult.error.message || updateResult.error}`);

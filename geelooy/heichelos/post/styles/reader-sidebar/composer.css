@@ -1,2 +1,2 @@
-/* B"H sidebar composer. */
-.sidebar textarea, .sidebar input { font: inherit; }
+/* B"H Reader sidebar composer. */
+.awtsmoos-inline-commentary-root textarea { border: 1px solid var(--reader-line); border-radius: .95rem; padding: .8rem; background: #fffdfa; resize: vertical; }

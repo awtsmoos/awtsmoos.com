@@ -1,9 +1,6 @@
-/* B"H left sanctuary card. */
-.home-sanctuary-card { position: sticky; top: 1rem; min-height: min(42rem, calc(100dvh - 2rem)); padding: clamp(1rem,2vw,1.35rem); display: flex; flex-direction: column; color: var(--awt-vellum); background: linear-gradient(180deg, rgba(9,13,31,.98), rgba(11,10,25,.98)); }
-.home-sanctuary-card::after { content: ""; position: absolute; inset: auto 1.25rem 1.25rem; height: 16rem; z-index: 0; pointer-events: none; background: radial-gradient(circle, rgba(245,202,112,.7), transparent 68%); filter: blur(18px); opacity: .7; }
-.home-sanctuary-card > * { position: relative; z-index: 1; }
-.home-logo-mark { width: 3.2rem; height: 3.2rem; display: grid; place-items: center; border: var(--awt-gold-border); border-radius: var(--radius-m); color: var(--awt-gold-light); font-size: 1.65rem; }
-.home-sanctuary-card h1 { margin: .9rem 0 0; font-family: Georgia, serif; font-size: clamp(2rem,4vw,2.55rem); letter-spacing: .06em; text-transform: uppercase; line-height: .95; }
-.home-kicker { margin: .3rem 0 1rem; color: var(--awt-gold-light); text-transform: uppercase; font-weight: 950; letter-spacing: .11em; }
-.home-sanctuary-card p:not(.home-kicker) { color: #f1dfba; line-height: 1.62; font-weight: 700; }
-.home-side-links { display: grid; gap: .7rem; margin-top: auto; padding-top: 1rem; }
+/* B"H compatibility wrapper: Home sanctuary now lives in core/sanctuary vessels. */
+@import "./core/sanctuary/shell.css";
+@import "./core/sanctuary/glow.css";
+@import "./core/sanctuary/logo.css";
+@import "./core/sanctuary/type.css";
+@import "./core/sanctuary/links.css";

@@ -2,20 +2,20 @@
 /**
  * @module SocialPacked
  * @description
- * Chapter 20: The server learned which earth held the ark.
- *
- * The Awtsmoos recreates every shard from nothing every instant, yet a running
- * localhost process must know which data-root contains those shards. This module
- * now honors `AWTSMOOS_DB_PATH` before `$i.db.directory`, so the API can be
- * pointed at `dayuhChadash` and read migrated `social.allPosts.awtsdb` records
- * even after old series post maps are renamed away.
+ * Packed social sidecars for posts, graph, notification, feed, search, and
+ * operational metadata. Status calls must not replay the whole historical sea;
+ * large shards report lightweight file signatures while small shards retain
+ * exact record counts for tests and local repair.
  */
 
+const fs = require('fs');
 const path = require('path');
 const { shardFile, shardFilesForRead, logicalKey } = require('./shardPaths.js');
 const { appendRecord, getLatest, readRecords } = require('./jsonlShard.js');
 const { RECORD_TYPES, makeEnvelope } = require('./recordEnvelope.js');
 const { makeEntityManifest, entityManifestKey } = require('./entityManifest.js');
+
+const MAX_EXACT_STATS_BYTES = 5 * 1024 * 1024;
 
 function resolveDbRoot($i) {
   return process.awtsmoosDbPath || process.env.AWTSMOOS_DB_PATH || $i?.db?.directory || path.resolve(process.cwd(), '../../dayuhChadash');
@@ -95,20 +95,44 @@ function mirrorNotification({ $i, notification }) {
   return write;
 }
 
-function shardStats({ $i, shard = 'core' }) {
+function fileStat(file) {
+  try {
+    const stat = fs.statSync(file);
+    return { file, exists: true, bytes: stat.size, mtimeMs: stat.mtimeMs };
+  } catch {
+    return { file, exists: false, bytes: 0, mtimeMs: 0 };
+  }
+}
+
+function shardFileStats({ $i, shard }) {
+  const dbRoot = resolveDbRoot($i);
+  const files = shardFilesForRead(dbRoot, shard).map(fileStat);
+  const bytes = files.reduce((sum, item) => sum + item.bytes, 0);
+  return { files, bytes };
+}
+
+function exactShardStats({ $i, shard }) {
   const records = listPackedRecords({ $i, shard });
   const keys = new Set(records.map(record => record.key).filter(Boolean));
   const byType = {};
   for (const record of records) byType[record.recordType || record.meta?.kind || 'unknown'] = (byType[record.recordType || record.meta?.kind || 'unknown'] || 0) + 1;
-  return { shard, records: records.length, logicalKeys: keys.size, byType };
+  return { shard, records: records.length, logicalKeys: keys.size, byType, approximate: false };
+}
+
+function shardStats({ $i, shard = 'core' }) {
+  const fileStats = shardFileStats({ $i, shard });
+  if (fileStats.bytes > MAX_EXACT_STATS_BYTES) {
+    return { shard, records: null, logicalKeys: null, byType: {}, approximate: true, bytes: fileStats.bytes, files: fileStats.files };
+  }
+  return { ...exactShardStats({ $i, shard }), bytes: fileStats.bytes, files: fileStats.files };
 }
 
 function allShardStats({ $i }) {
-  return ['core', 'allPosts', 'meta', 'graph', 'notify', 'audit', 'search', 'feed'].map(shard => { try { return shardStats({ $i, shard }); } catch { return { shard, records: 0, logicalKeys: 0, byType: {} }; } });
+  return ['core', 'allPosts', 'meta', 'graph', 'notify', 'audit', 'search', 'feed'].map(shard => { try { return shardStats({ $i, shard }); } catch { return { shard, records: 0, logicalKeys: 0, byType: {}, approximate: true }; } });
 }
 
 function writeMigrationManifest({ $i, manifest }) {
   return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } });
 }
 
-module.exports = { resolveDbRoot, writePacked, readPacked, listPackedRecords, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, allShardStats };
+module.exports = { resolveDbRoot, writePacked, readPacked, listPackedRecords, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, allShardStats, shardFileStats };

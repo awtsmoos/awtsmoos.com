@@ -1,0 +1,72 @@
+[
+  {
+    "series": "bereishis",
+    "chapter": 1,
+    "postId": "BH_POST_1749198302925_awtsmoos_520",
+    "tanachArticleIndex": 0,
+    "verses": 31
+  },
+  {
+    "series": "bereishis",
+    "chapter": 2,
+    "postId": "BH_POST_1749198303030_awtsmoos_768",
+    "tanachArticleIndex": 1,
+    "verses": 25
+  },
+  {
+    "series": "bereishis",
+    "chapter": 3,
+    "postId": "BH_POST_1749198303092_awtsmoos_414",
+    "tanachArticleIndex": 2,
+    "verses": 24
+  },
+  {
+    "series": "bereishis",
+    "chapter": 4,
+    "postId": "BH_POST_1749198303194_awtsmoos_808",
+    "tanachArticleIndex": 3,
+    "verses": 26
+  },
+  {
+    "series": "bereishis",
+    "chapter": 5,
+    "postId": "BH_POST_1749198303264_awtsmoos_628",
+    "tanachArticleIndex": 4,
+    "verses": 32
+  },
+  {
+    "series": "tehillim",
+    "chapter": 1,
+    "postId": "BH_POST_1749198320515_awtsmoos_389",
+    "tanachArticleIndex": 567,
+    "verses": 6
+  },
+  {
+    "series": "tehillim",
+    "chapter": 2,
+    "postId": "BH_POST_1749198320541_awtsmoos_878",
+    "tanachArticleIndex": 568,
+    "verses": 12
+  },
+  {
+    "series": "tehillim",
+    "chapter": 3,
+    "postId": "BH_POST_1749198320579_awtsmoos_531",
+    "tanachArticleIndex": 569,
+    "verses": 9
+  },
+  {
+    "series": "tehillim",
+    "chapter": 4,
+    "postId": "BH_POST_1749198320629_awtsmoos_733",
+    "tanachArticleIndex": 570,
+    "verses": 9
+  },
+  {
+    "series": "tehillim",
+    "chapter": 5,
+    "postId": "BH_POST_1749198320649_awtsmoos_525",
+    "tanachArticleIndex": 571,
+    "verses": 13
+  }
+]

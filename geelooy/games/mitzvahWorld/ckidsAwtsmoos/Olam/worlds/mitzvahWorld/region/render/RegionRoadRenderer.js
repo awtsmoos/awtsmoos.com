@@ -1,17 +1,42 @@
 // B"H
-/** @file RegionRoadRenderer.js @description Actual yellow brick road, dirt trails, and lamps. */
+/**
+ * @file RegionRoadRenderer.js
+ * @description Chapter 998: roads render as proof-safe veins, capped and lightless.
+ */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { makeInstancedLayer } from "./RegionInstancer.js";
-import { samplePolyline, offsetPoint } from "./RegionPolyline.js";
-import { regionGeometry } from "./RegionGeometry.js";
-import { regionMaterial } from "./RegionMaterials.js";
-import { groundY } from "./RegionGround.js";
+import { samplePolyline } from "./RegionPolyline.js";
+import { regionMaterial } from "./RegionMaterials.js?v=fast-region-materials-20260612-bh1";
 import { sealRegionVisual } from "./RegionSeal.js";
-export function buildRoadRenderer(olam, roads) {
-  const root = new THREE.Group(); root.name = "living_region_roads_yellow_brick_and_trails";
-  const main = samplePolyline(roads.main?.points || [], 2.8); root.add(makeInstancedLayer({ olam, name: "instanced_yellow_brick_road", geometry: "road", material: "yellowBrick", count: main.length, simple: false, build: i => ({ ...main[i], sx: 2.8, sy: .055, sz: 3.25, lift: .035 }) }));
-  const farm = samplePolyline(roads.farm?.points || [], 4); root.add(makeInstancedLayer({ olam, name: "instanced_packed_dirt_farm_road", geometry: "road", material: "dirt", count: farm.length, build: i => ({ ...farm[i], sx: 2.4, sy: .045, sz: 4.2, lift: .025 }) }));
-  const lampGeo = regionGeometry("trunk"), lampMat = regionMaterial("darkWood"), shadeGeo = regionGeometry("cone"), shadeMat = regionMaterial("lampShade", { unlit: true }); let lamps = 0;
-  for (let i = 2; i < main.length; i += 8) { const p = offsetPoint(main[i], 3.9), y = groundY(olam, p.x, p.z); const post = new THREE.Mesh(lampGeo, lampMat); post.name = "road_lamp_post"; post.position.set(p.x, y + 1.05, p.z); post.scale.set(.12, 2.1, .12); const shade = new THREE.Mesh(shadeGeo, shadeMat); shade.name = "road_lamp_shade"; shade.position.set(p.x, y + 2.15, p.z); shade.scale.set(.55, .46, .55); root.add(post, shade); if (lamps++ % 3 === 0) { const light = new THREE.PointLight(0xffd28a, .32, 7, 2); light.position.set(p.x, y + 2, p.z); root.add(light); } }
-  root.userData.stats = { roadPieces: main.length + farm.length, lamps }; return sealRegionVisual(root);
+
+const ROAD_LIMIT = 90;
+
+export function buildRoadRenderer(_olam, roads = {}) {
+  const root = new THREE.Group();
+  root.name = "living_region_roads_fast_yellow_brick_and_trails";
+  addRoad(root, roads.main, "yellowBrick", 5.2, 5.4, "main_yellow_road");
+  addRoad(root, roads.farm, "dirt", 3.8, 6.2, "farm_dirt_road");
+  addRoad(root, roads.orchard, "packedEarth", 3.2, 6.6, "orchard_lane");
+  addRoad(root, roads.forest, "leafTrail", 2.6, 7.4, "forest_trail");
+  for (const trail of roads.animalTrails || []) addRoad(root, trail, "softTrail", 1.45, 9, trail.id || "animal_trail");
+  addRoad(root, roads.marshBoardwalk, "wood", 2.6, 6.5, "marsh_boardwalk");
+  root.userData.stats = { roadPieces: root.children.length, lamps: 0, proofSafeRoads: true };
+  return sealRegionVisual(root);
+}
+
+function addRoad(root, road, material, width, spacing, name) {
+  const points = samplePolyline(road?.points || [], spacing).slice(0, ROAD_LIMIT);
+  const mat = regionMaterial(material, { simple: true });
+  const geo = new THREE.BoxGeometry(1, 1, 1);
+  for (let i = 0; i < points.length; i += 1) {
+    const p = points[i];
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.name = `${name}_${i}`;
+    mesh.position.set(p.x, 0.055, p.z);
+    mesh.rotation.y = p.yaw || 0;
+    mesh.scale.set(width, .055, spacing * .82);
+    mesh.castShadow = false;
+    mesh.receiveShadow = true;
+    Object.assign(mesh.userData ||= {}, { regionRoad: true, visualOnly: true, skipOctree: true });
+    root.add(mesh);
+  }
 }

@@ -1,3 +1,2 @@
-/* B"H auto scroll controls. */
-.speed-control-row, .speed-readout-row { display: flex; align-items: center; gap: .55rem; }
-#autoScrollSpeedRange { width: 100%; }
+/* B"H Reader auto-scroll indicator. */
+.awtsmoos-auto-scroll-floating { border-radius: 999px; background: var(--awt-night); color: #fff7e8; box-shadow: var(--awt-elevation-3); }

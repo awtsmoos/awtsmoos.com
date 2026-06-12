@@ -1,2 +1,2 @@
-/* B"H premium shadows. */
-:root { --beauty-shadow-soft: 0 .7rem 1.8rem rgba(19,14,7,.12); --beauty-shadow-deep: 0 1.6rem 4rem rgba(0,0,0,.34); }
+/* B"H shadow stack: soft gravity for cards. */
+:root { --shadow-card: 0 .8rem 2rem rgba(31,23,12,.10), 0 .2rem .65rem rgba(31,23,12,.06); }

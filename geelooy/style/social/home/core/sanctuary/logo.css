@@ -1,0 +1,11 @@
+/* B"H Home sanctuary logo mark. */
+.home-logo-mark {
+  width: 3.2rem;
+  height: 3.2rem;
+  display: grid;
+  place-items: center;
+  border: var(--awt-gold-border);
+  border-radius: var(--radius-m);
+  color: var(--awt-gold-light);
+  font-size: 1.65rem;
+}

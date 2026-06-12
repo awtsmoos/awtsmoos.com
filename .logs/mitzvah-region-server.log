@@ -1,0 +1,4 @@
+B"H - Starting instance of email.
+Task Runner: Starting background polling for generic jobs...
+Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
+B"H - HTTP port 8080 is already in use; another process may already be alive.

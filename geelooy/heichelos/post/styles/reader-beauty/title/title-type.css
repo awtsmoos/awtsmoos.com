@@ -1,2 +1,2 @@
-/* B"H reader beauty title/title-type.css. */
-.awtsmoos-post-title-main { text-shadow:0 .35rem 1.4rem rgba(0,0,0,.28); }
+/* B"H Reader title typography. */
+.awtsmoos-reader-title { color: var(--reader-text); text-shadow: 0 .05em .4em rgba(122,82,31,.10); }

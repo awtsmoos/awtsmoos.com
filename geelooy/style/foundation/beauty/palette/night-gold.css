@@ -1,2 +1,7 @@
-/* B"H palette night-gold.css: a color chamber. */
-:root { --night-bg:#050812; --night-surface:rgba(255,250,241,.07); --night-ink:#f6ecdc; --night-muted:#cdbd9d; --night-accent:#f4c56b; }
+/* B"H night gold palette: the hidden palace warms the dark. */
+:root {
+  --awt-night: #0f1328;
+  --awt-night-2: #171d38;
+  --awt-gold: #d6a84f;
+  --awt-gold-soft: #f1d99d;
+}

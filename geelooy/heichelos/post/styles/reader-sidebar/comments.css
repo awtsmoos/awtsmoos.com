@@ -1,2 +1,2 @@
-/* B"H sidebar comments. */
-.sidebar .comment, .sidebar .comment-card { border-radius: .9rem; background: rgba(255,255,255,.06); }
+/* B"H Reader sidebar comments. */
+.comment-body-vessel { border: 1px solid rgba(122,82,31,.13); border-radius: 1rem; background: rgba(255,255,255,.62); padding: .8rem; line-height: 1.55; }

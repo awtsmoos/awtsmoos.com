@@ -1,2 +1,2 @@
-/* B"H reader beauty title/kicker.css. */
-.awtsmoos-post-title-kicker::before { content:"✦ "; }
+/* B"H Reader title kicker. */
+.awtsmoos-reader-kicker { color: var(--awt-gold); font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }

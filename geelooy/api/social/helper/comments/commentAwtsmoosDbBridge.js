@@ -1,17 +1,14 @@
 // B"H
 /**
  * @file commentAwtsmoosDbBridge.js
- * @chapter The Search Sidecar Learns To Remember Vectors
  * @description
- * Mirrors successful comment writes into the AwtsmoosDB search sidecar. In
- * normal mode it also stores real GGUF vectors; in heavy social burst tests the
- * vector side can be skipped by env so the API test proves account/post/comment
- * behavior without waiting for dozens of embeddings.
+ * Successful comment writes are indexed into the AwtsmoosDB search sidecar.
+ * This bridge does not write packed shards, JSONL mirrors, vector copies,
+ * cache authority, or any duplicate comment store.
  */
 
 const path = require("path");
 const { createAiSearchDb } = require("../../../../../ayzarim/DosDB/aiSearch/index.js");
-const { storeCommentVector } = require("./commentVectorStore.js");
 
 const CACHE_KEY = "__awtsmoosCommentSearchDbs";
 
@@ -83,19 +80,15 @@ function metadataFor(p) {
         verseSection: p.comment?.verseSection ?? p.dayuh?.verseSection ?? "root",
         subSection: p.dayuh?.subSection ?? p.comment?.subSection ?? null,
         storageEngine: "awtsmoosDb",
-        storageFormat: "awtsmoosBinary",
-        storageType: "awtsmoosBinary",
-        legacySourceFormat: "awtsmoosJson",
-        tightlyPacked: true,
+        storageFormat: "single-authority-comment-tree",
+        storageType: "search-sidecar",
+        duplicateCommentStorage: false,
         migration: p.migration
     };
 }
 
-async function vectorFor(params) {
-    if (process.env.AWTSMOOS_ENABLE_COMMENT_VECTORS !== "1") {
-        return { skipped: true, reason: "COMMENT_VECTORS_DISABLED_FOR_FAST_WRITES" };
-    }
-    return await storeCommentVector(params);
+function vectorFor() {
+    return { skipped: true, disabled: true, reason: "single_comment_authority_guard" };
 }
 
 async function indexCommentSearchRecord(params) {
@@ -104,7 +97,7 @@ async function indexCommentSearchRecord(params) {
         const db = getCommentSearchDb(params.$i, params);
         const record = normalizeCommentSearchRecord(params);
         const lexical = db.indexCommentRecord(record);
-        const vector = await vectorFor(params);
+        const vector = vectorFor();
         return { success: true, record: lexical, vector, stats: db.stats() };
     } catch (error) {
         return { error: true, message: "COMMENT_SEARCH_INDEX_FAILED", details: error.stack || String(error) };

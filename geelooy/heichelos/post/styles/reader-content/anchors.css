@@ -1,3 +1,2 @@
-/* B"H verse anchors: quiet affordances. */
-.post-reader-localized-context .section [id] { scroll-margin-top: calc(4rem + env(safe-area-inset-top)); }
-.post-reader-localized-context .section a { text-decoration-thickness: .08em; text-underline-offset: .18em; }
+/* B"H Reader anchors. */
+.awtsmoos-reader-content a { color: var(--awt-sapphire); font-weight: 850; text-decoration-thickness: .08em; text-underline-offset: .18em; }

@@ -1,2 +1,2 @@
-/* B"H desktop sidebar resizer. */
-.sidebar-resize-handle { touch-action: none; }
+/* B"H Reader sidebar resizer. */
+.awtsmoos-sidebar-resizer { width: .45rem; background: linear-gradient(90deg, transparent, rgba(214,168,79,.24), transparent); }

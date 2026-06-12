@@ -1,3 +1,2 @@
-/* B"H reader width and padding. */
-.post-reader-localized-context .scroll-view-wrapper { padding-bottom: 7rem !important; }
-.post-reader-localized-context #realPost.content { width: min(100%, var(--reader-width)) !important; margin-inline: auto !important; padding-inline: var(--reader-pad) !important; padding-block: clamp(1.25rem,4vw,2.5rem) !important; }
+/* B"H Reader width: measure for breathing. */
+.awtsmoos-reader-content { width: min(74ch, calc(100vw - clamp(1rem, 7vw, 7rem))); margin-inline: auto; }

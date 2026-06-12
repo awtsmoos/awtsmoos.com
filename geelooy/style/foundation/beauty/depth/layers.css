@@ -1,2 +1,5 @@
-/* B"H layer tokens. */
-:root { --layer-bg: 0; --layer-content: 10; --layer-float: 1000; --layer-modal: 2147482500; --layer-toast: 2147482600; }
+/* B"H depth layers: every elevation has humility. */
+:root {
+  --awt-layer-flat: 0 1px 0 rgba(255,255,255,.66);
+  --awt-layer-raised: 0 .8rem 2rem rgba(22,17,9,.10);
+}

@@ -13,11 +13,11 @@
   const VirtualFetch = fetchMod.VirtualFetch;
   const VirtualWebGLBoxRenderer = boxRendererMod.VirtualWebGLBoxRenderer;
   const BrowserRenderPipeline = pipelineMod.BrowserRenderPipeline || class { constructor(window) { this.window = window; } render() { return this.window.document.textureArena.snapshot(); } };
-  const VirtualOffscreenCanvas = offscreenMod.VirtualOffscreenCanvas;
-  const VirtualImageData = offscreenMod.VirtualImageData;
-  const VirtualImageBitmap = offscreenMod.VirtualImageBitmap || class VirtualImageBitmap {};
-  const VirtualWorker = workerMod.VirtualWorker;
-  const VirtualPath2D = pathMod.VirtualPath2D;
+  const VirtualOffscreenCanvas = offscreenMod.VirtualOffscreenCanvas || class VirtualOffscreenCanvas { constructor(width = 300, height = 150) { this.width = width; this.height = height; this.localName = 'canvas'; this.tagName = 'OFFSCREENCANVAS'; } getContext() { return null; } convertToBlob() { return Promise.resolve(new Blob([''])); } transferToImageBitmap() { return { width: this.width, height: this.height, close() {} }; } };
+  const VirtualImageData = offscreenMod.VirtualImageData || class VirtualImageData { constructor(dataOrWidth = 0, width = 0, height = 0) { this.width = typeof dataOrWidth === 'number' ? dataOrWidth : width; this.height = typeof dataOrWidth === 'number' ? width : height; this.data = dataOrWidth instanceof Uint8ClampedArray ? dataOrWidth : new Uint8ClampedArray(Math.max(0, (this.width || 0) * (this.height || 0) * 4)); } };
+  const VirtualImageBitmap = offscreenMod.VirtualImageBitmap || class VirtualImageBitmap { constructor(width = 0, height = 0) { this.width = width; this.height = height; this.closed = false; } close() { this.closed = true; } };
+  const VirtualWorker = workerMod.VirtualWorker || class VirtualWorker { constructor() { this.onmessage = null; } postMessage() {} terminate() {} addEventListener() {} removeEventListener() {} };
+  const VirtualPath2D = pathMod.VirtualPath2D || class VirtualPath2D { constructor() { this.commands = []; } addPath() {} moveTo() {} lineTo() {} rect() {} closePath() {} };
 
   /**
    * B"H

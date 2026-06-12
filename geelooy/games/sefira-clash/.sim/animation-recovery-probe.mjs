@@ -1,0 +1,1 @@
+import {fighter,assert,finite} from './animation-probe-lib.mjs';const f=fighter({landingLag:6,preLandingVy:18,damage:160});finite(f);assert(f.visualDustImpulse?.power>0,'dust impulse missing');assert(f.visualStyle.damage.stumble>0,'damage stumble missing');console.log(JSON.stringify({ok:true,dust:f.visualDustImpulse,damage:f.visualStyle.damage},null,2));

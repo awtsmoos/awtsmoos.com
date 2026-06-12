@@ -1,2 +1,2 @@
-/* B"H settings inputs. */
-.typography-details input, .typography-details select, .typography-details button { min-height: 2.7rem !important; border-radius: .75rem !important; }
+/* B"H Reader settings inputs. */
+.awtsmoos-reader-settings input, .awtsmoos-reader-settings select { border: 1px solid var(--reader-line); border-radius: .8rem; padding: .65rem .8rem; background: #fffdfa; }

@@ -1,4 +1,3 @@
-/* B"H compatibility wrapper: cards now live in focused modules. */
-@import "./card.css";
-@import "./card-media.css";
-@import "./card-menu.css";
+/* B"H series list: readable shelf rows. */
+.series-list { display: grid; gap: .8rem; }
+.series-list > * { border-radius: 1rem; border: 1px solid var(--heichel-line); background: rgba(255,255,255,.55); padding: .9rem; }

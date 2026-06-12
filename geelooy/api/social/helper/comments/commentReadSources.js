@@ -1,47 +1,39 @@
 // B"H
 /**
  * @file commentReadSources.js
- * @chapter The Comment Tree Refused The Slow Shadow
  * @description
- * Comment reads ask DosDB first. For migrated heichel comments, DosDB routes to
- * the AwtsmoosDB family filesystem. The old packed shard fallback is disabled
- * unless `allowPackedFallback=true`, because missing migrated comments must fail
- * fast rather than scan a giant fallback mirror.
+ * Comment reads ask only the authoritative DosDB path language. For migrated
+ * heichel comments, DosDB may internally route that path into AwtsmoosDB, but
+ * no duplicate packed mirror is a fallback source.
  */
 
 const { getAliasCommentFilePath, getParentCommentsBasePath } = require("./commentPaths.js");
 const { NEW_SOURCE, OLD_SOURCE, attempt, readResponse } = require("./commentReadReport.js");
 
 function names(value) {
-    if (Array.isArray(value)) return value.map(String).filter(Boolean).map(name => name.replace(/\.awtsmoosJSON$/i, ""));
-    if (value && typeof value === "object") return Object.keys(value).map(String).filter(Boolean).map(name => name.replace(/\.awtsmoosJSON$/i, ""));
+    const strip = name => String(name).replace(/\.awtsmoosJSON$/i, "");
+    if (Array.isArray(value)) return value.map(strip).filter(Boolean);
+    if (value && typeof value === "object") return Object.keys(value).map(strip).filter(Boolean);
     return [];
 }
 
 function resolveVerseSection($i, verseSection) {
-    if (verseSection === undefined || verseSection === null || verseSection === "") verseSection = $i.$_GET?.verseSection ?? $i.$_GET?.idx;
-    if (verseSection === undefined || verseSection === null || verseSection === "") return undefined;
-    return verseSection;
+    const incoming = verseSection ?? $i.$_GET?.verseSection ?? $i.$_GET?.idx;
+    return incoming === undefined || incoming === null || incoming === "" ? undefined : incoming;
 }
 
 function parseMap(value) {
     if (!value) return null;
     if (typeof value === "object") return value;
-    try { return JSON.parse(value); }
-    catch { return null; }
-}
-
-function allowPackedFallback() {
-    return false;
+    try { return JSON.parse(value); } catch { return null; }
 }
 
 async function readNamesSafe(db, path) {
-    try { return names(await db.get(path)); }
-    catch (_) { return []; }
+    try { return names(await db.get(path)); } catch { return []; }
 }
 
-async function candidateAliases(context, legacyBase) {
-    const direct = await readNamesSafe(context.$i.db, legacyBase);
+async function candidateAliases(context, basePath) {
+    const direct = await readNamesSafe(context.$i.db, basePath);
     if (direct.length) return direct;
     const editors = await readNamesSafe(context.$i.db, `/social/heichelos/${context.heichelId}/editors`);
     const out = new Set(editors);
@@ -90,31 +82,26 @@ async function getObjectKeySafe(db, path, key) {
 }
 
 async function hasObjectKeySafe(db, path, key) {
-    if (typeof db.getObjectKey === "function") {
-        const value = await db.getObjectKey(path, key);
-        return value !== undefined && value !== null && !(Array.isArray(value) && value.length === 0);
-    }
-    const obj = await db.get(path, { propertyMap: { [key]: true } });
-    return Boolean(obj && Object.prototype.hasOwnProperty.call(obj, key));
+    const value = await getObjectKeySafe(db, path, key);
+    return value !== undefined && value !== null && !(Array.isArray(value) && value.length === 0);
 }
 
-async function readOldCommentsAtVerse(context, legacyPath, verseSection) {
+async function readAuthorVerse(context, path, verseSection) {
     try {
-        const data = await getObjectKeySafe(context.$i.db, legacyPath, verseSection);
+        const data = await getObjectKeySafe(context.$i.db, path, verseSection);
         return attempt({ ok: true, source: OLD_SOURCE, data: Array.isArray(data) ? data.map(row => withVerse(row, verseSection)) : [] });
     } catch (error) {
         return attempt({ ok: false, source: OLD_SOURCE, error });
     }
 }
 
-async function readOldAllCommentsOfAlias(context, legacyPath) {
+async function readAuthorAllVerses(context, path) {
     try {
-        const verseSections = names(await context.$i.db.getObjectKeys(legacyPath));
+        const verseSections = names(await context.$i.db.getObjectKeys(path));
         const comments = [];
         for (const verseSection of verseSections) {
-            const rows = await getObjectKeySafe(context.$i.db, legacyPath, verseSection).catch(() => []);
-            if (!Array.isArray(rows)) continue;
-            for (const row of rows) comments.push(withVerse(row, verseSection));
+            const rows = await getObjectKeySafe(context.$i.db, path, verseSection).catch(() => []);
+            if (Array.isArray(rows)) for (const row of rows) comments.push(withVerse(row, verseSection));
         }
         return attempt({ ok: true, source: OLD_SOURCE, data: comments });
     } catch (error) {
@@ -122,23 +109,21 @@ async function readOldAllCommentsOfAlias(context, legacyPath) {
     }
 }
 
-async function tryOldVerseSections(context, legacyPath) {
-    try { return attempt({ ok: true, source: OLD_SOURCE, data: names(await context.$i.db.getObjectKeys(legacyPath)) }); }
+async function readVerseSections(context, path) {
+    try { return attempt({ ok: true, source: OLD_SOURCE, data: names(await context.$i.db.getObjectKeys(path)) }); }
     catch (error) { return attempt({ ok: false, source: OLD_SOURCE, error }); }
 }
 
-async function readOldAuthors(context, legacyBase, verseSection) {
+async function readAuthors(context, basePath, verseSection) {
     try {
-        const aliases = await candidateAliases(context, legacyBase);
+        const aliases = await candidateAliases(context, basePath);
         const authors = [];
         for (const aliasId of aliases) {
-            const aliasPath = `${legacyBase}/${aliasId}`;
+            const aliasPath = `${basePath}/${aliasId}`;
             if (verseSection === undefined) {
-                const sections = await tryOldVerseSections(context, aliasPath);
+                const sections = await readVerseSections(context, aliasPath);
                 if (sections.count > 0) authors.push(aliasId);
-            } else {
-                if (await hasObjectKeySafe(context.$i.db, aliasPath, verseSection)) authors.push(aliasId);
-            }
+            } else if (await hasObjectKeySafe(context.$i.db, aliasPath, verseSection)) authors.push(aliasId);
         }
         return attempt({ ok: true, source: OLD_SOURCE, data: authors });
     } catch (error) {
@@ -146,15 +131,7 @@ async function readOldAuthors(context, legacyBase, verseSection) {
     }
 }
 
-function tryPackedComments() {
-    return attempt({ ok: true, source: NEW_SOURCE, data: [] });
-}
-
-function tryPackedVerseSections() {
-    return attempt({ ok: true, source: NEW_SOURCE, data: [] });
-}
-
-function tryPackedAuthors() {
+function disabledDuplicateMirror() {
     return attempt({ ok: true, source: NEW_SOURCE, data: [] });
 }
 
@@ -164,41 +141,41 @@ function projectedResponse(context, data, source, primary, fallback, paths) {
 
 async function readCommentsWithSource(context) {
     const verseSection = resolveVerseSection(context.$i, context.verseSection);
-    const legacyPath = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: legacyPath, packedMirrorDisabled: true, verseSection };
     if (verseSection === undefined) return await readAllCommentsOfAliasWithSource(context);
-    const primary = await readOldCommentsAtVerse(context, legacyPath, verseSection);
+    const path = getAliasCommentFilePath(context);
+    const paths = { awtsmoosDbFsPath: path, duplicateMirrorDisabled: true, verseSection };
+    const primary = await readAuthorVerse(context, path, verseSection);
     if (primary.count > 0) return projectedResponse(context, primary.data, OLD_SOURCE, primary, null, paths);
-    const fallback = tryPackedComments({ ...context, verseSection });
-    return projectedResponse(context, fallback.data, fallback.count > 0 ? NEW_SOURCE : "empty", primary, fallback, paths);
+    const disabled = disabledDuplicateMirror();
+    return projectedResponse(context, [], "empty", primary, disabled, paths);
 }
 
 async function readAllCommentsOfAliasWithSource(context) {
-    const legacyPath = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: legacyPath, packedMirrorDisabled: true, allVerseSections: true };
-    const primary = await readOldAllCommentsOfAlias(context, legacyPath);
+    const path = getAliasCommentFilePath(context);
+    const paths = { awtsmoosDbFsPath: path, duplicateMirrorDisabled: true, allVerseSections: true };
+    const primary = await readAuthorAllVerses(context, path);
     if (primary.count > 0) return projectedResponse(context, primary.data, OLD_SOURCE, primary, null, paths);
-    const fallback = tryPackedComments({ ...context, verseSection: undefined });
-    return projectedResponse(context, fallback.data, fallback.count > 0 ? NEW_SOURCE : "empty", primary, fallback, paths);
+    const disabled = disabledDuplicateMirror();
+    return projectedResponse(context, [], "empty", primary, disabled, paths);
 }
 
 async function readVerseSectionsWithSource(context) {
-    const legacyPath = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: legacyPath, packedMirrorDisabled: true };
-    const primary = await tryOldVerseSections(context, legacyPath);
+    const path = getAliasCommentFilePath(context);
+    const paths = { awtsmoosDbFsPath: path, duplicateMirrorDisabled: true };
+    const primary = await readVerseSections(context, path);
     if (primary.count > 0) return readResponse({ data: primary.data, source: OLD_SOURCE, primary, paths });
-    const fallback = tryPackedVerseSections(context);
-    return readResponse({ data: fallback.data, source: fallback.count > 0 ? NEW_SOURCE : "empty", primary, fallback, paths });
+    const disabled = disabledDuplicateMirror();
+    return readResponse({ data: [], source: "empty", primary, fallback: disabled, paths });
 }
 
 async function readAuthorsWithSource(context) {
     const verseSection = resolveVerseSection(context.$i, context.verseSection);
-    const legacyBase = getParentCommentsBasePath(context);
-    const paths = { awtsmoosDbFsPath: legacyBase, packedMirrorDisabled: true, verseSection };
-    const primary = await readOldAuthors(context, legacyBase, verseSection);
+    const basePath = getParentCommentsBasePath(context);
+    const paths = { awtsmoosDbFsPath: basePath, duplicateMirrorDisabled: true, verseSection };
+    const primary = await readAuthors(context, basePath, verseSection);
     if (primary.count > 0) return readResponse({ data: primary.data, source: OLD_SOURCE, primary, paths });
-    const fallback = tryPackedAuthors({ ...context, verseSection });
-    return readResponse({ data: fallback.data, source: fallback.count > 0 ? NEW_SOURCE : "empty", primary, fallback, paths });
+    const disabled = disabledDuplicateMirror();
+    return readResponse({ data: [], source: "empty", primary, fallback: disabled, paths });
 }
 
 module.exports = { NEW_SOURCE, OLD_SOURCE, resolveVerseSection, readCommentsWithSource, readAllCommentsOfAliasWithSource, readVerseSectionsWithSource, readAuthorsWithSource };

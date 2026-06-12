@@ -1,2 +1,2 @@
-/* B"H reader legend completion/orb.css. */
-.reader-completion-orb { width:4rem; height:4rem; border-radius:999px; background:var(--legend-crown-glow); box-shadow:var(--legend-sacred-glow); }
+/* B"H Reader completion orb. */
+.reader-completion-orb { border-radius: 50%; background: radial-gradient(circle, #fff2c4, var(--awt-gold)); box-shadow: 0 0 2rem rgba(214,168,79,.38); }

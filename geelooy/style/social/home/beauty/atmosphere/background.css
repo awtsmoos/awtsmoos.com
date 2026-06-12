@@ -1,3 +1,2 @@
-/* B"H home beauty atmosphere/background.css. */
-body { background-image: var(--beauty-wash-gold), var(--beauty-wash-violet), var(--ambient-home); }
-.geelooy-home-shell { position:relative; isolation:isolate; }
+/* B"H Home atmosphere background. */
+.geelooy-home-shell::before { content: ""; position: fixed; inset: 0; z-index: -2; background: var(--awt-ambient-wash), linear-gradient(180deg, #fff9ef, #f2e4cf); }

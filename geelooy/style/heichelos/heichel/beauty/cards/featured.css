@@ -1,2 +1,2 @@
-/* B"H Heichel beauty cards/featured.css. */
-.nav-card.featured { grid-column:1 / -1; min-height:9rem; }
+/* B"H featured card beauty. */
+.heichel-card.is-featured, .series-card.is-featured { background: linear-gradient(150deg, #fffaf0, #ecd2a6); box-shadow: var(--awt-elevation-2); }

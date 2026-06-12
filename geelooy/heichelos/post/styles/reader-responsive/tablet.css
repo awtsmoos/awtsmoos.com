@@ -1,2 +1,2 @@
-/* B"H tablet reader. */
-@media (min-width: 700px) and (max-width: 899px) { .post-reader-localized-context #realPost.content { --reader-width: 44rem; } }
+/* B"H Reader tablet. */
+@media (max-width: 900px) { .awtsmoos-reader-content { width: min(68ch, calc(100vw - 2rem)); } }

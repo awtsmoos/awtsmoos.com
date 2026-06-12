@@ -1,2 +1,2 @@
-/* B"H Heichel beauty hero/ornaments.css. */
-.hero-kicker::before { content:"✦"; }
+/* B"H hero ornaments. */
+.heichel-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(120deg, rgba(255,255,255,.32), transparent 42%); }

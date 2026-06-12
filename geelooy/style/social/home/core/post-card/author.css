@@ -1,0 +1,4 @@
+/* B"H Home post author: identity row with restraint. */
+.post-author { display: grid; grid-template-columns: auto 1fr auto; gap: .7rem; align-items: center; }
+.post-author strong { letter-spacing: -.015em; }
+.post-author small { color: var(--awt-ink-soft); }

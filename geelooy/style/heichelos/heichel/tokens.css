@@ -1,14 +1,8 @@
-/* B"H tokens: measured vessels for clean mobile Heichel navigation. */
+/* B"H Heichel tokens: one palace language. */
 :root {
-  --h-bg: #080c1a;
-  --h-panel: #fffaf1;
-  --h-panel-2: #f8f0e2;
-  --h-ink: #171624;
-  --h-muted: #6e6877;
-  --h-gold: #b9853f;
-  --h-gold-2: #f5ca70;
-  --h-line: rgba(67, 46, 24, .14);
-  --h-dark-line: rgba(255, 255, 255, .12);
-  --h-shadow: 0 1.2rem 3rem rgba(8, 10, 24, .24);
-  --h-radius: 1.35rem;
+  --heichel-bg: linear-gradient(180deg, #fff8ec, #f1e0c3);
+  --heichel-panel: linear-gradient(145deg, rgba(255,252,245,.94), rgba(242,229,205,.86));
+  --heichel-line: rgba(122,82,31,.18);
+  --heichel-radius: 1.25rem;
+  --heichel-gap: clamp(.8rem, 2vw, 1.15rem);
 }

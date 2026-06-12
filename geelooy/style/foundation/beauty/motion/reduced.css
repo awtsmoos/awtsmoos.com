@@ -1,2 +1,5 @@
-/* B"H reduced beauty motion. */
-@media (prefers-reduced-motion: reduce) { .beauty-reveal { animation:none !important; } *, *::before, *::after { transition-duration:.01ms !important; } }
+/* B"H reduced beauty motion: stillness is also revelation. */
+@media (prefers-reduced-motion: reduce) {
+  .beauty-reveal { animation: none !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

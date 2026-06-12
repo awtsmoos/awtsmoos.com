@@ -1,0 +1,1 @@
+import {fighter,assert,finite} from './animation-probe-lib.mjs';const f=fighter({vx:11});finite(f);assert(f.visualFeet,'visualFeet missing');assert(f.visualContact?.grounded,'contact missing');console.log(JSON.stringify({ok:true,feet:f.visualFeet,contact:f.visualContact},null,2));

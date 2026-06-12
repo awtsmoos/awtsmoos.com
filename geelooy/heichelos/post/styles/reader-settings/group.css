@@ -1,4 +1,2 @@
-/* B"H settings groups. */
-.typography-content { display: grid !important; gap: .8rem !important; }
-.settings-group { border-radius: 1rem !important; background: rgba(255,255,255,.055) !important; padding: .75rem !important; }
-.control-label { color: rgba(244,197,107,.92) !important; font-weight: 900 !important; letter-spacing: .06em !important; text-transform: uppercase !important; }
+/* B"H Reader settings groups. */
+.awtsmoos-reader-settings-group { display: grid; gap: .6rem; padding-block: .75rem; border-bottom: 1px solid rgba(122,82,31,.10); }

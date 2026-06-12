@@ -7,6 +7,11 @@
  * whose heichel paths now prefer family AwtsmoosDB files. A missing verse query
  * now means "all sections" for alias/commentator discovery. Only explicit
  * `verseSection`, `idx`, or write bodies choose a concrete section.
+ *
+ * Chapter 108: In the storm of simultaneous comment writes, the Awtsmoos gives
+ * the route a second vessel. POST/DELETE bodies remain primary, but query
+ * parameters may now carry series and alias fallback so a parser race cannot
+ * erase the corridor where a comment belongs.
  */
 
 const {
@@ -21,6 +26,10 @@ const {
 } = require("../index.js");
 
 const { er, methodIs, getUserId } = require("./utils.js");
+
+function writeSource($i) {
+    return { ...($i.$_GET || {}), ...($i.$_POST || {}), ...($i.$_PUT || {}), ...($i.$_DELETE || {}) };
+}
 
 function seriesFrom(source = {}) {
     return source.seriesId || source.series || "root";
@@ -68,24 +77,28 @@ async function readPostCommentGet({ $i, vars }) {
 }
 
 async function createPostComment({ $i, userid, vars }) {
-    const { aliasId } = $i.$_POST;
-    const missing = needWriteSeries($i.$_POST, "POST");
+    const source = writeSource($i);
+    const { aliasId } = source;
+    const missing = needWriteSeries(source, "POST");
+    $i.$_POST = { ...source, ...($i.$_POST || {}) };
+    $i.$_POST = { ...source, ...($i.$_POST || {}) };
     if (missing) return missing;
     if (!aliasId) return er({ message: "Missing required POST parameter: aliasId", code: "MISSING_PARAMS" });
-    return await addComment({ ...postContext({ $i, vars, seriesId: seriesFrom($i.$_POST) }), userid, aliasId });
+    return await addComment({ ...postContext({ $i, vars, seriesId: seriesFrom(source) }), userid, aliasId });
 }
 
 async function updatePostComment({ $i, userid, vars }) {
-    const { commentId, aliasId, verseSection, content, dayuh } = $i.$_PUT;
-    const missing = needWriteSeries($i.$_PUT, "PUT");
+    const source = writeSource($i);
+    const { commentId, aliasId, verseSection, content, dayuh } = source;
+    const missing = needWriteSeries(source, "PUT");
     if (!commentId || !aliasId || verseSection === undefined) return er({ message: "Missing required PUT parameters: commentId, aliasId, verseSection", code: "MISSING_PARAMS" });
     if (missing) return missing;
     if (content === undefined && dayuh === undefined) return er({ message: "Missing new data for edit: content or dayuh", code: "MISSING_PARAMS" });
-    return await editComment({ ...postContext({ $i, vars, seriesId: seriesFrom($i.$_PUT) }), userid, commentId, aliasId, verseSection, newContent: content, newDayuh: dayuh });
+    return await editComment({ ...postContext({ $i, vars, seriesId: seriesFrom(source) }), userid, commentId, aliasId, verseSection, newContent: content, newDayuh: dayuh });
 }
 
 async function deletePostComments({ $i, userid, vars }) {
-    const incoming = $i.$_DELETE || $i.$_POST || {};
+    const incoming = writeSource($i);
     const missing = needWriteSeries(incoming, "DELETE/POST");
     if (missing) return missing;
     const requestingUserid = getUserId($i, userid);
@@ -94,7 +107,7 @@ async function deletePostComments({ $i, userid, vars }) {
 }
 
 async function deleteAliasRoute({ $i, userid, vars }) {
-    const incoming = $i.$_DELETE || $i.$_POST || {};
+    const incoming = writeSource($i);
     const missing = needWriteSeries(incoming, "DELETE/POST");
     if (missing) return missing;
     const requestingUserid = getUserId($i, userid);
@@ -131,7 +144,11 @@ module.exports = ({ $i, userid }) => ({
             if ($i.$_GET.verseSection !== undefined || $i.$_GET.idx !== undefined || $i.$_GET.all === "true") return await readAliasComments({ $i, vars, seriesId, aliasId: vars.alias });
             return await readAliasSections({ $i, vars, seriesId, aliasId: vars.alias });
         }
-        if (methodIs($i, "POST")) return await addComment({ ...postContext({ $i, vars, seriesId: seriesFrom($i.$_POST) }), aliasId: vars.alias, userid });
+        if (methodIs($i, "POST")) {
+            const source = writeSource($i);
+            $i.$_POST = { ...source, ...($i.$_POST || {}) };
+            return await addComment({ ...postContext({ $i, vars, seriesId: seriesFrom(source) }), aliasId: vars.alias, userid });
+        }
         if (methodIs($i, "DELETE")) return await deleteAliasRoute({ $i, userid, vars });
         return er({ message: "Method Not Allowed", code: 405 });
     },

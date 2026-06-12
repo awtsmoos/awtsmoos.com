@@ -1,2 +1,2 @@
-/* B"H Heichel beauty identity/shell.css. */
-.heichel-mobile-navigation { background-image:var(--beauty-wash-gold), var(--beauty-wash-violet), linear-gradient(180deg,#f8efe1,#fffaf1 55%,#f4eadb); }
+/* B"H identity shell. */
+.heichel-identity-shell { display: grid; gap: .7rem; align-items: start; }

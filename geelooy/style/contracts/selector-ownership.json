@@ -1,0 +1,36 @@
+{
+  "BH": "B\"H",
+  "version": 1,
+  "selectors": [
+    {
+      "selector": ".beauty-reveal",
+      "owner": "foundation",
+      "ownerRoots": ["geelooy/style/foundation"],
+      "allowedOtherRoots": []
+    },
+    {
+      "selector": ".is-feed-current",
+      "owner": "home",
+      "ownerRoots": ["geelooy/style/social/home", "geelooy/scripts/awtsmoos/social/home"],
+      "allowedOtherRoots": []
+    },
+    {
+      "selector": ".is-card-current",
+      "owner": "heichel",
+      "ownerRoots": ["geelooy/style/heichelos/heichel", "geelooy/heichelos/heichel/modules"],
+      "allowedOtherRoots": []
+    },
+    {
+      "selector": ".is-reader-center",
+      "owner": "reader",
+      "ownerRoots": ["geelooy/heichelos/post/styles", "geelooy/heichelos/post/logic"],
+      "allowedOtherRoots": []
+    },
+    {
+      "selector": ".reader-near-complete",
+      "owner": "reader",
+      "ownerRoots": ["geelooy/heichelos/post/styles", "geelooy/heichelos/post/logic"],
+      "allowedOtherRoots": []
+    }
+  ]
+}

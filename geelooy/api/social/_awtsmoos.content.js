@@ -3,6 +3,10 @@
  * Quora-like and feed-like content routes: posts, questions, answers, sections,
  * reposts and shares. The Awtsmoos lets the editor and Node stress tests use
  * one direct social content API.
+ *
+ * Chapter 107: An answer born in a corridor must be found in that corridor.
+ * The route now carries `seriesId` from query/body into answer listing, so a
+ * non-root question does not vanish behind the root gate.
  */
 
 const {
@@ -21,6 +25,10 @@ function needs(method, expected) {
     return method === expected ? null : er({ code: 'BAD_METHOD', message: `Use ${expected}.` });
 }
 
+function answerSeries($i) {
+    return $i.$_GET?.seriesId || $i.$_GET?.series || $i.$_POST?.seriesId || $i.$_POST?.series || 'root';
+}
+
 module.exports = ({ $i } = {}) => ({
     "/content/heichelos/:heichel/posts": async vars => {
         const bad = needs($i.request.method, 'POST');
@@ -35,7 +43,12 @@ module.exports = ({ $i } = {}) => ({
     },
 
     "/content/heichelos/:heichel/questions/:question/answers": async vars => {
-        if ($i.request.method === 'GET') return await listAnswers({ $i, heichelId: vars.heichel, questionId: vars.question });
+        if ($i.request.method === 'GET') return await listAnswers({
+            $i,
+            heichelId: vars.heichel,
+            questionId: vars.question,
+            seriesId: answerSeries($i)
+        });
         if ($i.request.method === 'POST') return await createAnswer({ $i, heichelId: vars.heichel, questionId: vars.question });
         return er({ code: 'BAD_METHOD', message: 'Use GET or POST.' });
     },

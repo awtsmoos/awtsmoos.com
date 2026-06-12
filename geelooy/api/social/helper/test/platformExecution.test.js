@@ -13,7 +13,18 @@ const threads = require('../platform/commentThreads.js');
 const notifications = require('../notifications.js');
 
 function makeDb(directory) {
-  return { directory, async write(){ return true; }, async get(){ return null; } };
+  const store = new Map();
+  return {
+    directory,
+    async write(p, v) { store.set(p, v); return { success: true }; },
+    async get(p) {
+      if (store.has(p)) return store.get(p);
+      const prefix = `${p}/`;
+      const names = [];
+      for (const key of store.keys()) if (key.startsWith(prefix)) names.push(key.slice(prefix.length).split('/')[0]);
+      return names.length ? Array.from(new Set(names)) : null;
+    }
+  };
 }
 
 (async () => {
@@ -47,14 +58,18 @@ function makeDb(directory) {
   const digest = await jobs.createNotificationDigest({ $i, aliasId: 'alice' });
   assert.equal(digest.count, 1);
 
-  const job = ops.enqueueJob({ $i, type: 'feed.materialize', payload: { heichelId: 'h1', aliasId: 'alice' } });
+  ops.enqueueJob({ $i, type: 'feed.materialize', payload: { heichelId: 'h1', aliasId: 'alice' } });
   const ran = await jobs.runQueuedJobs({ $i, limit: 3 });
   assert.equal(ran.ran, 1);
   assert.equal(ran.results[0].status, 'done');
 
-  threads.appendThreadComment({ $i, postId: 'q1', commentId: 'c1', aliasId: 'alice', content: 'root' });
-  threads.appendThreadComment({ $i, postId: 'q1', commentId: 'c2', parentId: 'c1', aliasId: 'bob', content: 'reply' });
-  assert.equal(threads.rankedThread({ $i, postId: 'q1' }).comments[0].commentId, 'c1');
+  const rootThread = await threads.appendThreadComment({ $i, postId: 'q1', commentId: 'c1', aliasId: 'alice', content: 'root' });
+  const replyThread = await threads.appendThreadComment({ $i, postId: 'q1', commentId: 'c2', parentId: 'c1', aliasId: 'bob', content: 'reply' });
+  assert.equal(rootThread.packedAuditWritten, false);
+  assert.equal(replyThread.packedAuditWritten, false);
+  const ranked = await threads.rankedThread({ $i, postId: 'q1' });
+  assert.equal(ranked.comments[0].commentId, 'c1');
+  assert.equal(ranked.packedAuditRead, false);
 
   fs.rmSync(tmp, { recursive: true, force: true });
   console.log('B"H platformExecution.test passed');

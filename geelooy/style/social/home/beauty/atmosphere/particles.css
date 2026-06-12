@@ -1,2 +1,2 @@
-/* B"H home beauty atmosphere/particles.css. */
-.geelooy-home-shell::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 20% 30%, rgba(245,202,112,.14) 0 .12rem, transparent .16rem), radial-gradient(circle at 80% 20%, rgba(255,255,255,.10) 0 .1rem, transparent .14rem); background-size:18rem 18rem, 23rem 23rem; opacity:.55; }
+/* B"H Home particles: quiet manuscript dust. */
+.home-feed-phone { background-image: radial-gradient(circle at 12% 20%, rgba(214,168,79,.12) 0 1px, transparent 2px), radial-gradient(circle at 82% 70%, rgba(35,58,113,.10) 0 1px, transparent 2px); background-size: 3.8rem 3.8rem, 4.6rem 4.6rem; }

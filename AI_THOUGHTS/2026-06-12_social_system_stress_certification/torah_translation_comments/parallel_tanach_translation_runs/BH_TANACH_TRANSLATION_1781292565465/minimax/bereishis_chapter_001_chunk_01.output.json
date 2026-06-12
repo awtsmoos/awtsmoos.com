@@ -1,0 +1,78 @@
+{
+  "raw": {
+    "ok": true,
+    "action": "aiAgentMessage",
+    "agent": "minimax-deep",
+    "provider": "minimax",
+    "text": "{\"translations\":[{\"verseSection\":\"verse-1\",\"english\":\"In the beginning Elokim created the heavens and the earth.\"},{\"verseSection\":\"verse-2\",\"english\":\"And the earth was formless and void, and darkness was upon the face of the deep, and the spirit of Elokim was hovering over the face of the water.\"},{\"verseSection\":\"verse-3\",\"english\":\"And Elokim said, \\\"Let there be light,\\\" and there was light.\"},{\"verseSection\":\"verse-4\",\"english\":\"And Elokim saw the light that it was good, and Elokim separated between the light and between the darkness.\"},{\"verseSection\":\"verse-5\",\"english\":\"And Elokim called the light day, and the darkness He called night, and it was evening and it was morning, one day.\"},{\"verseSection\":\"verse-6\",\"english\":\"And Elokim said, \\\"Let there be an expanse in the midst of the water, and let it be a separation between water and water.\\\"\"}]}",
+    "reasoning": "The user wants me to refine Tanach verse translations into clear English. I need to:\n1. Return JSON only, no markdown\n2. Preserve every verseSection exactly\n3. Use Hebrew as source of truth and existingEnglish as alignment aid\n4. Use the Divine Name policy provided\n5. The Four-Letter Name must be Awtsmoos\n6. No commentary or footnotes\n\nLet me look at each verse and refine the translation based on the Hebrew:\n\nVerse 1: \"בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ:\"\n- Hebrew: \"In the beginning God created the heavens and the earth.\"\n- Existing: \"In the beginning of God's creation of the heavens and the earth.\"\n- Refined: \"In the beginning Elokim created the heavens and the earth.\"\n\nVerse 2: \"וְהָאָ֗רֶץ הָֽיְתָ֥ה תֹ֨הוּ֙ וָבֹ֔הוּ וְח֖שֶׁךְ עַל־פְּנֵ֣י תְה֑וֹם וְר֣וּחַ אֱלֹהִ֔ים מְרַחֶ֖פֶת עַל־פְּנֵ֥י הַמָּֽיִם:\"\n- Hebrew: \"And the earth was tohu and bohu, and darkness was upon the face of the deep, and the spirit of Elokim was hovering over the face of the water.\"\n\n\n- Existing: \"Now the earth was astonishingly empty, and darkness was on the face of the deep, and the spirit of God was hovering over the face of the water.\"\n- Refined: \"And the earth was formless and void, and darkness was upon the face of the deep, and the spirit of Elokim was hovering over the face of the water.\"\n\nI'll focus on the key translation nuances for this verse. The Hebrew terms \"tohu\" and \"bohu\" suggest a state of utter emptiness and formlessness. The term \"רוּחַ אֱלֹהִים\" (spirit of God) implies a divine, generative force moving over the primordial waters. My refined translation captures these subtle theological implications more precisely than the existing version.\n\nThe translation maintains the original Hebrew's poetic ambiguity while clarifying the conceptual meaning. Each word choice reflects careful consideration of the theological and linguistic nuances embedded in the source text.\n",
+    "toolCalls": [],
+    "usage": {
+      "total_tokens": 2002,
+      "total_characters": 0,
+      "prompt_tokens": 1198,
+      "completion_tokens": 804,
+      "completion_tokens_details": {
+        "reasoning_tokens": 582
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 1184
+      }
+    },
+    "finishReason": null
+  },
+  "parsed": {
+    "translations": [
+      {
+        "verseSection": "verse-1",
+        "english": "In the beginning Elokim created the heavens and the earth."
+      },
+      {
+        "verseSection": "verse-2",
+        "english": "And the earth was formless and void, and darkness was upon the face of the deep, and the spirit of Elokim was hovering over the face of the water."
+      },
+      {
+        "verseSection": "verse-3",
+        "english": "And Elokim said, \"Let there be light,\" and there was light."
+      },
+      {
+        "verseSection": "verse-4",
+        "english": "And Elokim saw the light that it was good, and Elokim separated between the light and between the darkness."
+      },
+      {
+        "verseSection": "verse-5",
+        "english": "And Elokim called the light day, and the darkness He called night, and it was evening and it was morning, one day."
+      },
+      {
+        "verseSection": "verse-6",
+        "english": "And Elokim said, \"Let there be an expanse in the midst of the water, and let it be a separation between water and water.\""
+      }
+    ]
+  },
+  "translations": [
+    {
+      "verseSection": "verse-1",
+      "english": "In the beginning Elokim created the heavens and the earth."
+    },
+    {
+      "verseSection": "verse-2",
+      "english": "And the earth was formless and void, and darkness was upon the face of the deep, and the spirit of Elokim was hovering over the face of the water."
+    },
+    {
+      "verseSection": "verse-3",
+      "english": "And Elokim said, \"Let there be light,\" and there was light."
+    },
+    {
+      "verseSection": "verse-4",
+      "english": "And Elokim saw the light that it was good, and Elokim separated between the light and between the darkness."
+    },
+    {
+      "verseSection": "verse-5",
+      "english": "And Elokim called the light day, and the darkness He called night, and it was evening and it was morning, one day."
+    },
+    {
+      "verseSection": "verse-6",
+      "english": "And Elokim said, \"Let there be an expanse in the midst of the water, and let it be a separation between water and water.\""
+    }
+  ]
+}

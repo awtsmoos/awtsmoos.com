@@ -1,2 +1,2 @@
-/* B"H home beauty feed/composer-glow.css. */
-.home-composer:focus-within, .home-composer:hover { box-shadow:0 0 0 1px rgba(185,133,63,.20), var(--beauty-shadow-soft); }
+/* B"H composer glow: invitation to speak. */
+.home-composer:focus-within { border-color: rgba(214,168,79,.45); box-shadow: 0 .8rem 1.8rem rgba(129,82,24,.12); }

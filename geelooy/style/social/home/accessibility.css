@@ -1,3 +1,3 @@
-/* B"H home accessibility. */
-.home-side-links a:focus-visible, .home-discovery-card a:focus-visible, .home-feed-header a:focus-visible, .home-feed-header button:focus-visible, .home-feed-tabs button:focus-visible { outline: 3px solid rgba(245,202,112,.65); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .home-post-card:hover { transform: none; } * { scroll-behavior: auto !important; } }
+/* B"H Home accessibility: visible covenant for keyboard souls. */
+.geelooy-home-shell :focus-visible { outline: 3px solid rgba(35,58,113,.55); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .home-post-card, .home-sanctuary-card a, .home-feed-tabs button { transition: none !important; } }

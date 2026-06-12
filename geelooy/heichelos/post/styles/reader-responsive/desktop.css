@@ -1,2 +1,2 @@
-/* B"H desktop reader. */
-@media (min-width: 900px) { .awtsmoos-floating-controls { inset: 5.5rem auto auto 1rem !important; display: flex !important; } .sidebar:not(.hidden-comments) { border-radius: 1.25rem 0 0 1.25rem !important; } }
+/* B"H Reader desktop. */
+@media (min-width: 980px) { .awtsmoos-reader-content { padding-bottom: 8rem; } }

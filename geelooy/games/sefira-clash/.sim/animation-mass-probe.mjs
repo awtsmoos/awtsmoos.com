@@ -1,0 +1,1 @@
+import {fighter,assert,finite} from './animation-probe-lib.mjs';const f=fighter({vx:9});finite(f);assert(f.visualMass?.com,'mass com missing');assert(f.visualMass?.support,'support missing');assert(f.visualMass?.axis,'axis missing');console.log(JSON.stringify({ok:true,mass:f.visualMass},null,2));

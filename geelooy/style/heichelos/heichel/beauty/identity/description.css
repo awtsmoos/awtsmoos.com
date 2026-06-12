@@ -1,2 +1,2 @@
-/* B"H Heichel beauty identity/description.css. */
-.hero-description { font-size:clamp(.95rem,2.5vw,1.08rem); }
+/* B"H identity description. */
+.heichel-identity-description { color: var(--awt-ink-soft); line-height: 1.65; max-width: 58ch; }

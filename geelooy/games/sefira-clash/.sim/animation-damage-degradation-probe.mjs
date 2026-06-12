@@ -1,0 +1,1 @@
+import {fighter,assert,finite} from './animation-probe-lib.mjs';const f=fighter({damage:220,stocks:1});finite(f);assert(f.visualStyle.damage.critical===1,'critical missing');assert(f.visualFingers,'micro fingers missing');console.log(JSON.stringify({ok:true,damage:f.visualStyle.damage,fingers:f.visualFingers},null,2));

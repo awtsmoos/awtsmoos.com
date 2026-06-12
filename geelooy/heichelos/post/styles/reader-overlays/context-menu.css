@@ -1,2 +1,2 @@
-/* B"H context menu overlay. */
-.awtsmoos-context-menu, .context-menu-layer { overscroll-behavior: contain !important; }
+/* B"H Reader context menu. */
+.awtsmoos-context-menu { border: 1px solid var(--reader-line); border-radius: 1rem; background: #fff9ee; box-shadow: var(--awt-elevation-3); padding: .4rem; }

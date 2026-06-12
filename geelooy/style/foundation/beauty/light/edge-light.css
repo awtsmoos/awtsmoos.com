@@ -1,3 +1,2 @@
-/* B"H edge light. */
-:root { --beauty-edge-light: inset 0 1px 0 rgba(255,255,255,.55), inset 0 0 0 1px rgba(245,202,112,.10); }
-.beauty-edge-light { box-shadow: var(--beauty-edge-light); }
+/* B"H edge light: the border remembers its source. */
+:root { --awt-edge-light: inset 0 1px 0 rgba(255,255,255,.72), 0 0 0 1px rgba(214,168,79,.16); }

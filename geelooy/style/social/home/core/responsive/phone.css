@@ -1,0 +1,7 @@
+/* B"H Home phone: thumb-safe and generous. */
+@media (max-width: 430px) {
+  .geelooy-home-shell { width: min(100vw - .8rem, 38rem); margin-top: .5rem; gap: .7rem; }
+  .home-feed-header { grid-template-columns: 2.6rem 1fr auto; }
+  .home-feed-tabs button { font-size: .82rem; padding-inline: .25rem; }
+  .home-sanctuary-card h1 { font-size: clamp(1.9rem, 13vw, 2.45rem); }
+}

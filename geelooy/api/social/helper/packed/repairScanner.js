@@ -2,23 +2,34 @@
 /**
  * @module repairScanner
  * @description
- * Chapter 9: The repairer carried missing names from the core furnace to the
- * meta archive, where manifests now live.
- *
- * The Awtsmoos recreates post bodies in `social.core.awtsdb`, but the scrolls
- * that describe those bodies belong in `social.meta.awtsdb`. This scanner
- * checks the correct chamber and repairs absent post manifests without touching
- * old DosDB data or deleting packed records.
+ * Small shards are scanned exactly; huge live core shards are bounded so
+ * integrity and repair routes do not hang or reset the HTTP server.
  */
 
-const { listPackedRecords, writePacked } = require('./socialPacked.js');
-const { logicalKey } = require('./shardPaths.js');
+const fs = require('fs');
+const { listPackedRecords, writePacked, resolveDbRoot } = require('./socialPacked.js');
+const { logicalKey, shardFilesForRead } = require('./shardPaths.js');
 const { entityManifestKey, makeEntityManifest } = require('./entityManifest.js');
+
+const MAX_EXHAUSTIVE_CORE_BYTES = 5 * 1024 * 1024;
 
 function postManifestExpectation(post) {
   const id = post?.id || post?.postId;
   if (!id) return null;
   return { kind: 'post', id, expected: entityManifestKey({ kind: 'post', id }), post };
+}
+
+function fileSize(file) {
+  try { return fs.statSync(file).size; } catch { return 0; }
+}
+
+function shardBytes({ $i, shard }) {
+  const dbRoot = resolveDbRoot($i);
+  return shardFilesForRead(dbRoot, shard).reduce((sum, file) => sum + fileSize(file), 0);
+}
+
+function canScanCoreExhaustively({ $i }) {
+  return shardBytes({ $i, shard: 'core' }) <= MAX_EXHAUSTIVE_CORE_BYTES;
 }
 
 function manifestKeySet({ $i }) {
@@ -27,25 +38,45 @@ function manifestKeySet({ $i }) {
     .map(record => record.key));
 }
 
-function scanPackedIntegrity({ $i }) {
-  const core = listPackedRecords({ $i, shard: 'core' });
+function graphIntegrity({ $i }) {
   const graph = listPackedRecords({ $i, shard: 'graph' });
-  const manifestKeys = manifestKeySet({ $i });
+  const badEdges = graph.filter(record => record.recordType === 'graphEdge').filter(record => !record.value?.from || !record.value?.to);
+  return { graphRecords: graph.length, badEdges: badEdges.map(record => record.key) };
+}
+
+function exactCoreIntegrity({ $i, manifestKeys }) {
+  const core = listPackedRecords({ $i, shard: 'core' });
   const postRecords = core.filter(record => record.meta?.kind === 'post');
   const missingPostManifests = postRecords
     .map(record => postManifestExpectation(record.value))
     .filter(Boolean)
     .filter(item => !manifestKeys.has(item.expected))
     .map(({ post, ...rest }) => rest);
-  const badEdges = graph.filter(record => record.recordType === 'graphEdge').filter(record => !record.value?.from || !record.value?.to);
+  return { coreRecords: core.length, postRecords: postRecords.length, missingPostManifests, exhaustiveCoreScan: true };
+}
+
+function boundedCoreIntegrity({ $i }) {
+  return {
+    coreRecords: null,
+    postRecords: null,
+    missingPostManifests: [],
+    exhaustiveCoreScan: false,
+    skippedReason: 'core_shard_too_large_for_request_integrity_scan',
+    coreBytes: shardBytes({ $i, shard: 'core' })
+  };
+}
+
+function scanPackedIntegrity({ $i }) {
+  const manifestKeys = manifestKeySet({ $i });
+  const graph = graphIntegrity({ $i });
+  const core = canScanCoreExhaustively({ $i }) ? exactCoreIntegrity({ $i, manifestKeys }) : boundedCoreIntegrity({ $i });
   return {
     checkedAt: Date.now(),
-    coreRecords: core.length,
-    graphRecords: graph.length,
-    postRecords: postRecords.length,
-    missingPostManifests,
-    badEdges: badEdges.map(record => record.key),
-    ok: missingPostManifests.length === 0 && badEdges.length === 0
+    ...core,
+    graphRecords: graph.graphRecords,
+    badEdges: graph.badEdges,
+    approximate: !core.exhaustiveCoreScan,
+    ok: core.missingPostManifests.length === 0 && graph.badEdges.length === 0
   };
 }
 
@@ -69,6 +100,9 @@ function makeRepairManifest(post, id, contentType) {
 }
 
 function repairMissingPostManifests({ $i, limit = 100 }) {
+  if (!canScanCoreExhaustively({ $i })) {
+    return { repaired: 0, repairedIds: [], checked: 0, approximate: true, skippedReason: 'core_shard_too_large_for_request_repair_scan', coreBytes: shardBytes({ $i, shard: 'core' }) };
+  }
   const core = listPackedRecords({ $i, shard: 'core' });
   const manifestKeys = manifestKeySet({ $i });
   const postRecords = core.filter(record => record.meta?.kind === 'post');
@@ -86,7 +120,7 @@ function repairMissingPostManifests({ $i, limit = 100 }) {
     repaired++;
     repairedIds.push(id);
   }
-  return { repaired, repairedIds, checked: postRecords.length };
+  return { repaired, repairedIds, checked: postRecords.length, approximate: false };
 }
 
-module.exports = { scanPackedIntegrity, repairMissingPostManifests };
+module.exports = { scanPackedIntegrity, repairMissingPostManifests, canScanCoreExhaustively };

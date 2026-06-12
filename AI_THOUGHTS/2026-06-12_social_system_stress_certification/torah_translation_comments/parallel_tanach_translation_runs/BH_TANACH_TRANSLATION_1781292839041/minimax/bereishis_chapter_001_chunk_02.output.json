@@ -1,0 +1,75 @@
+{
+  "raw": {
+    "ok": true,
+    "action": "aiAgentMessage",
+    "agent": "minimax-deep",
+    "provider": "minimax",
+    "text": "{\"translations\":[{\"verseSection\":\"verse-7\",\"english\":\"And Elokim made the expanse and separated between the water that was below the expanse and the water that was above the expanse, and it was so.\"},{\"verseSection\":\"verse-8\",\"english\":\"And Elokim called the expanse Heaven, and it was evening, and it was morning, a second day.\"},{\"verseSection\":\"verse-9\",\"english\":\"And Elokim said, \\\"Let the waters below the heavens be gathered into one place, and let the dry land appear,\\\" and it was so.\"},{\"verseSection\":\"verse-10\",\"english\":\"And Elokim called the dry land Earth, and the gathering of the waters He called Seas, and Elokim saw that it was good.\"},{\"verseSection\":\"verse-11\",\"english\":\"And Elokim said, \\\"Let the earth bring forth vegetation: seed‑bearing herbs and fruit‑bearing trees, each according to its kind, whose seed is in itself, on the earth,\\\" and it was so.\"},{\"verseSection\":\"verse-12\",\"english\":\"And the earth brought forth vegetation: seed‑bearing herbs according to their kind, and trees that produce fruit with seed in it according to their kind, and Elokim saw that it was good.\"}]}",
+    "reasoning": "We need to output JSON only. The output should contain translations for the verses. We must preserve verseSection values exactly as given, presumably output all given verses. Also must follow Divine Name policy: replace certain Hebrew names with given English forms. The verses involve \"אֱלֹהִים\", \"אֱלֹהִים\" appears many times, we must replace with \"Elokim\". Also \"יהוה\" not present here. \"אל\" not present. So we will replace \"אֱלֹהִים\" with \"Elokim\". Also ensure \"שָׁמָיִם\" is \"shamayim\"? But not required. We just need to refine English translation.\n\nWe must preserve verseSection. For each verse, we produce \"english\" field.\n\nWe must use the Hebrew as source of truth and existing English as alignment aid.\n\nWe need to ensure translation is clear and matches Hebrew. Use a natural clear English translation of these verses.\n\nWe need to replace \"God\" with \"Elokim\"? The policy says replace Hebrew names with English forms. The Hebrew \"אֱלֹהִים\" should be replaced with \"Elokim\". So all references to God in translation should be \"Elokim\". The existing English uses \"God\". We'll replace with \"Elokim\".\n\nWe also need to maintain the meaning, ensure clarity.\n\nWe also must not add commentary or footnotes.\n\nThus produce JSON like:\n\n{\n  \"translations\": [\n    {\"verseSection\": \"verse-7\", \"english\": \"And Elokim made the expanse and separated between the water that was below the expanse and the water that was above the expanse, and it was so.\"},\n    {\"verseSection\": \"verse-8\", \"english\": \"And Elokim called the expanse Heaven, and it was evening, and it was morning, a second day.\"},\n    {\"verseSection\": \"verse-9\", \"english\": \"And Elokim said, 'Let the waters below the heavens be gathered into one place, and let the dry land appear,' and it was so.\"},\n    {\"verseSection\": \"verse-10\", \"english\": \"And Elokim called the dry land Earth, and the gathering of the waters He called Seas, and Elokim saw that it was good.\"},\n    {\"verseSection\": \"verse-11\", \"english\": \"And Elokim said, 'Let the earth bring forth vegetation: seed‑bearing herbs and fruit‑bearing trees, each according to its kind, whose seed is in itself, on the earth,' and it was so.\"},\n    {\"verseSection\": \"verse-12\", \"english\": \"And the earth brought forth vegetation: seed‑bearing herbs according to their kind, and trees that produce fruit with seed in it according to their kind, and Elokim saw that it was good.\"}\n  ]\n}\n\nMake sure we preserve verseSection values exactly as given. Keep all punctuation as needed.\n\nMake sure not to include any markdown.\n\nCheck for any names to replace: \"יהוה\" not present, \"אלהים\" is present; replace with \"Elokim\". Also \"אֱלֹהִים\" replaced.\n\nWe need to ensure correct output format: \"translations\" array.\n\nWe should also check the Hebrew for correctness: \"וַיַּעַשׂ אֱלֹהִים אֶת-הָרָקִיעַ וגו\". So translation is consistent.\n\nMake sure we have no extra whitespace that might cause differences.\n\nNow produce final JSON.",
+    "toolCalls": [],
+    "usage": {
+      "total_tokens": 2560,
+      "total_characters": 0,
+      "prompt_tokens": 1532,
+      "completion_tokens": 1028,
+      "completion_tokens_details": {
+        "reasoning_tokens": 758
+      }
+    },
+    "finishReason": null
+  },
+  "parsed": {
+    "translations": [
+      {
+        "verseSection": "verse-7",
+        "english": "And Elokim made the expanse and separated between the water that was below the expanse and the water that was above the expanse, and it was so."
+      },
+      {
+        "verseSection": "verse-8",
+        "english": "And Elokim called the expanse Heaven, and it was evening, and it was morning, a second day."
+      },
+      {
+        "verseSection": "verse-9",
+        "english": "And Elokim said, \"Let the waters below the heavens be gathered into one place, and let the dry land appear,\" and it was so."
+      },
+      {
+        "verseSection": "verse-10",
+        "english": "And Elokim called the dry land Earth, and the gathering of the waters He called Seas, and Elokim saw that it was good."
+      },
+      {
+        "verseSection": "verse-11",
+        "english": "And Elokim said, \"Let the earth bring forth vegetation: seed‑bearing herbs and fruit‑bearing trees, each according to its kind, whose seed is in itself, on the earth,\" and it was so."
+      },
+      {
+        "verseSection": "verse-12",
+        "english": "And the earth brought forth vegetation: seed‑bearing herbs according to their kind, and trees that produce fruit with seed in it according to their kind, and Elokim saw that it was good."
+      }
+    ]
+  },
+  "translations": [
+    {
+      "verseSection": "verse-7",
+      "english": "And Elokim made the expanse and separated between the water that was below the expanse and the water that was above the expanse, and it was so."
+    },
+    {
+      "verseSection": "verse-8",
+      "english": "And Elokim called the expanse Heaven, and it was evening, and it was morning, a second day."
+    },
+    {
+      "verseSection": "verse-9",
+      "english": "And Elokim said, \"Let the waters below the heavens be gathered into one place, and let the dry land appear,\" and it was so."
+    },
+    {
+      "verseSection": "verse-10",
+      "english": "And Elokim called the dry land Earth, and the gathering of the waters He called Seas, and Elokim saw that it was good."
+    },
+    {
+      "verseSection": "verse-11",
+      "english": "And Elokim said, \"Let the earth bring forth vegetation: seed‑bearing herbs and fruit‑bearing trees, each according to its kind, whose seed is in itself, on the earth,\" and it was so."
+    },
+    {
+      "verseSection": "verse-12",
+      "english": "And the earth brought forth vegetation: seed‑bearing herbs according to their kind, and trees that produce fruit with seed in it according to their kind, and Elokim saw that it was good."
+    }
+  ]
+}

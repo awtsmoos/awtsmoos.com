@@ -1,0 +1,3 @@
+/* B"H Home discovery links: large, tappable, clear. */
+.home-discovery-card a { min-height: 3rem; display: flex; align-items: center; padding: .86rem 1rem; border-radius: 1rem; background: linear-gradient(145deg, #efe0c9, #e4ceb0); color: #36220f; font-weight: 900; box-shadow: inset 0 1px 0 rgba(255,255,255,.45); }
+.home-discovery-card a:hover { filter: brightness(1.03); }

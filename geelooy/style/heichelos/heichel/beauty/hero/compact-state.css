@@ -1,3 +1,2 @@
-/* B"H Heichel beauty hero/compact-state.css. */
-.hero-compact .geelooy-heichel-hero { min-height:9rem; }
-.hero-compact .hero-description { display:none; }
+/* B"H compact hero state. */
+.hero-compact .heichel-hero, .heichel-hero.hero-compact { padding-block: .9rem; }

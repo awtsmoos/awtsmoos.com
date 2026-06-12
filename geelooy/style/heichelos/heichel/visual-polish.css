@@ -1,14 +1,3 @@
-/* B"H compatibility: Heichel visual polish moved into small modules. */
-@import "./topbar.css";
-@import "./drawer.css";
-@import "./hero-stats.css";
-@import "./kickers.css";
-@import "./series-heading.css";
-@import "./grid.css";
-@import "./card.css";
-@import "./card-media.css";
-@import "./card-menu.css";
-@import "./bulk-actions.css";
-@import "./modal/index.css";
-@import "./responsive.css";
-@import "./accessibility.css";
+/* B"H Heichel visual polish: shared finishing layer. */
+.heichel-card p, .series-card p { color: var(--awt-ink-soft); line-height: 1.58; }
+.heichel-card small, .series-card small { color: rgba(32,21,8,.62); font-weight: 800; }

@@ -1,3 +1,2 @@
-/* B"H eager verse chunks. */
-#virtual-scroll-container { display: grid !important; gap: clamp(.85rem,3vw,1.25rem) !important; }
-.scroll-chunk { min-height: 0 !important; padding: 0 !important; border-radius: 1.05rem !important; scroll-margin-top: calc(4rem + env(safe-area-inset-top)) !important; }
+/* B"H Reader chunk spacing. */
+.awtsmoos-reader-chunk { margin-block: clamp(.8rem, 2vw, 1.4rem); }

@@ -1,3 +1,2 @@
-/* B"H settings color grid. */
-.color-picker-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr)) !important; gap: .6rem !important; }
-.color-control { display: grid !important; gap: .35rem !important; }
+/* B"H Reader color grid. */
+.awtsmoos-reader-color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(2.4rem, 1fr)); gap: .45rem; }

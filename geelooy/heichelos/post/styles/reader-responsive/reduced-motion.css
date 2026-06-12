@@ -1,2 +1,2 @@
-/* B"H reduced motion reader. */
-@media (prefers-reduced-motion: reduce) { .post-reader-localized-context * { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+/* B"H Reader reduced motion. */
+@media (prefers-reduced-motion: reduce) { .awtsmoos-reader-section, .awtsmoos-floating-controls button { transition: none !important; } }

@@ -1,2 +1,2 @@
-/* B"H reader beauty chamber/background.css. */
-.post-reader-localized-context.awtsmoos-reader-vision { background-image:var(--beauty-wash-violet), var(--beauty-wash-gold), var(--ambient-reader) !important; }
+/* B"H Reader chamber background. */
+.post-reader-localized-context.awtsmoos-reader-vision { background-image: var(--awt-ambient-wash), linear-gradient(180deg, #fffaf0, #f3e4cc); }

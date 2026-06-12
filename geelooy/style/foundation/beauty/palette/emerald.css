@@ -1,2 +1,5 @@
-/* B"H palette emerald.css: a color chamber. */
-:root { --emerald-bg:#071a13; --emerald-surface:#edf8ef; --emerald-ink:#112719; --emerald-muted:#5f7b63; --emerald-accent:#5fc27a; }
+/* B"H emerald palette: life in the garden of interface. */
+:root {
+  --awt-emerald: #1f6a50;
+  --awt-emerald-soft: #dff5eb;
+}

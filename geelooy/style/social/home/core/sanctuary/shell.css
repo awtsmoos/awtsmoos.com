@@ -1,0 +1,12 @@
+/* B"H Home sanctuary shell vessel. */
+.home-sanctuary-card {
+  position: sticky;
+  top: 1rem;
+  min-height: min(42rem, calc(100dvh - 2rem));
+  padding: clamp(1rem,2vw,1.35rem);
+  display: flex;
+  flex-direction: column;
+  color: var(--awt-vellum);
+  background: linear-gradient(180deg, rgba(9,13,31,.98), rgba(11,10,25,.98));
+}
+.home-sanctuary-card > * { position: relative; z-index: 1; }

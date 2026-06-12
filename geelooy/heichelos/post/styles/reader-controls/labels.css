@@ -1,4 +1,3 @@
-/* B"H tiny control labels. */
-.awtsmoos-floating-controls button::after { display: block; font-size: .58rem; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
-#typographyBtn::after { content: "Type"; }
-#commentaryBtn::after { content: "Notes"; }
+/* B"H Reader control labels. */
+.awtsmoos-floating-controls button { border: 0; border-radius: 999px; min-width: 2.5rem; min-height: 2.5rem; background: transparent; font-weight: 900; }
+.awtsmoos-floating-controls button:hover { background: rgba(214,168,79,.18); }

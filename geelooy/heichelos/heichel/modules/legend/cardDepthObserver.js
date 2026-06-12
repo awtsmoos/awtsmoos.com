@@ -1,24 +1,32 @@
 // B"H
-/** Chapter 336: Cards nearest the viewport center receive depth. */
+/**
+ * @file cardDepthObserver.js
+ * @description
+ * Chapter 336 rewritten: Heichel cards receive depth from a single passive,
+ * frame-bound listener. The Awtsmoos crowns the centered artifact, but Android
+ * Chrome must not be dragged through synchronous geometry on every scroll tick.
+ */
+
+import { bindRafViewportUpdates } from '../../../../shared/visual/createRafScrollBinder.js';
+import { markCenteredElement } from '../../../../shared/visual/findCenteredElement.js';
+
 let unbind = null;
+
+/**
+ * Mark the `.nav-card` nearest the viewport center.
+ * @param {ParentNode} root
+ * @returns {Function} cleanup function
+ */
 export function bindCardDepthObserver(root = document) {
   if (unbind) unbind();
+
   const cards = [...root.querySelectorAll('.nav-card')];
-  if (!cards.length) { unbind = () => {}; return unbind; }
-  const update = () => {
-    const center = innerHeight / 2;
-    let best = null;
-    let bestDistance = Infinity;
-    cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
-      const distance = Math.abs(rect.top + rect.height / 2 - center);
-      if (distance < bestDistance) { best = card; bestDistance = distance; }
-    });
-    cards.forEach(card => card.classList.toggle('is-card-current', card === best));
-  };
-  update();
-  addEventListener('scroll', update, { passive: true });
-  addEventListener('resize', update, { passive: true });
-  unbind = () => { removeEventListener('scroll', update); removeEventListener('resize', update); };
+  if (!cards.length) {
+    unbind = () => {};
+    return unbind;
+  }
+
+  const update = () => markCenteredElement(cards, 'is-card-current');
+  unbind = bindRafViewportUpdates({ update });
   return unbind;
 }

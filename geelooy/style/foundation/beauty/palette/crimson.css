@@ -1,2 +1,5 @@
-/* B"H palette crimson.css: a color chamber. */
-:root { --crimson-bg:#230810; --crimson-surface:#fff0ee; --crimson-ink:#321117; --crimson-muted:#806064; --crimson-accent:#d96952; }
+/* B"H crimson palette: warning without shouting. */
+:root {
+  --awt-crimson: #8f2f3a;
+  --awt-crimson-soft: #ffe3e7;
+}

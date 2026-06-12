@@ -1,2 +1,2 @@
-/* B"H typography settings sheet. */
-.typography-details { position: fixed !important; inset: auto max(.75rem,env(safe-area-inset-right)) max(4.8rem,calc(env(safe-area-inset-bottom) + 4.8rem)) max(.75rem,env(safe-area-inset-left)) !important; z-index: 1700 !important; width: auto !important; max-width: 34rem !important; margin-inline: auto !important; max-height: min(72dvh,34rem) !important; overflow: auto !important; padding: 1rem !important; border: 1px solid rgba(244,197,107,.18) !important; border-radius: 1.25rem !important; background: rgba(7,11,24,.94) !important; box-shadow: 0 1.4rem 3.4rem rgba(0,0,0,.45) !important; backdrop-filter: blur(18px) saturate(120%) !important; }
+/* B"H Reader settings sheet. */
+.awtsmoos-reader-settings { border: 1px solid var(--reader-line); border-radius: 1.25rem; background: rgba(255,250,240,.94); box-shadow: var(--awt-elevation-3); padding: 1rem; }

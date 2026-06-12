@@ -1,0 +1,47 @@
+{
+  "BH": "B\"H",
+  "version": 1,
+  "domains": [
+    {
+      "name": "foundation",
+      "owner": "geelooy/style/foundation",
+      "roots": ["geelooy/style/foundation"],
+      "entryFiles": ["geelooy/style/foundation/index.css"],
+      "allowedDependents": ["home", "heichel", "reader", "global-scroll"],
+      "reducedMotionFiles": ["geelooy/style/foundation/beauty/motion/reduced.css"],
+      "tests": ["geelooy/style/test/cssImportGraph.test.mjs", "geelooy/style/test/cssSmallModuleBudget.test.mjs"]
+    },
+    {
+      "name": "home",
+      "owner": "geelooy/style/social/home",
+      "roots": ["geelooy/style/social/home"],
+      "entryFiles": ["geelooy/style/social/home/index.css"],
+      "allowedDependents": [],
+      "tests": ["geelooy/style/test/homePointerContract.test.mjs", "geelooy/style/test/cssSmallModuleBudget.test.mjs"]
+    },
+    {
+      "name": "heichel",
+      "owner": "geelooy/style/heichelos/heichel",
+      "roots": ["geelooy/style/heichelos/heichel", "geelooy/heichelos/heichel/modules"],
+      "entryFiles": ["geelooy/style/heichelos/heichel/index.css"],
+      "allowedDependents": [],
+      "tests": ["geelooy/style/test/jsCssStateContract.test.mjs", "geelooy/style/test/scrollVisualRegressionGuard.test.mjs"]
+    },
+    {
+      "name": "reader",
+      "owner": "geelooy/heichelos/post",
+      "roots": ["geelooy/heichelos/post/styles", "geelooy/heichelos/post/logic"],
+      "entryFiles": ["geelooy/heichelos/post/styles/main.css"],
+      "allowedDependents": [],
+      "tests": ["geelooy/heichelos/post/styles/test/importedStyleOwnership.test.js", "geelooy/style/test/jsCssStateContract.test.mjs"]
+    },
+    {
+      "name": "global-scroll",
+      "owner": "geelooy/style/awtsmoos-scroll-sovereignty.css",
+      "roots": ["geelooy/style"],
+      "entryFiles": ["geelooy/style/awtsmoos-scroll-sovereignty.css"],
+      "allowedDependents": ["home", "heichel", "reader"],
+      "tests": ["geelooy/style/test/scrollVisualRegressionGuard.test.mjs"]
+    }
+  ]
+}

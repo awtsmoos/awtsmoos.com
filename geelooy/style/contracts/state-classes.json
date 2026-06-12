@@ -1,0 +1,48 @@
+{
+  "BH": "B\"H",
+  "version": 1,
+  "states": [
+    {
+      "name": "home-centered-feed-card",
+      "domain": "home",
+      "js": "geelooy/scripts/awtsmoos/social/home/legend/feedCardObserver.js",
+      "css": "geelooy/style/social/home/legend/cards/active-depth.css",
+      "hooks": ["is-feed-current"]
+    },
+    {
+      "name": "home-pointer-light",
+      "domain": "home",
+      "js": "geelooy/scripts/awtsmoos/social/home/beauty/ambientPointer.js",
+      "css": "geelooy/style/social/home/beauty/atmosphere/pointer-light.css",
+      "hooks": ["--home-pointer-x", "--home-pointer-y"]
+    },
+    {
+      "name": "heichel-centered-card",
+      "domain": "heichel",
+      "js": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js",
+      "css": "geelooy/style/heichelos/heichel/legend/artifact-card/surface.css",
+      "hooks": ["is-card-current"]
+    },
+    {
+      "name": "reader-centered-section",
+      "domain": "reader",
+      "js": "geelooy/heichelos/post/logic/legend/centerSectionObserver.js",
+      "css": "geelooy/heichelos/post/styles/reader-legend/verse-rhythm/current-verse.css",
+      "hooks": ["is-reader-center"]
+    },
+    {
+      "name": "reader-progress",
+      "domain": "reader",
+      "js": "geelooy/heichelos/post/logic/legend/readingProgressState.js",
+      "css": "geelooy/heichelos/post/styles/reader-beauty/progress/spine.css",
+      "hooks": ["--reader-progress", "awtsmoos-progress-spine"]
+    },
+    {
+      "name": "reader-completion",
+      "domain": "reader",
+      "js": "geelooy/heichelos/post/logic/legend/completionState.js",
+      "css": "geelooy/heichelos/post/styles/reader-legend/completion/shell.css",
+      "hooks": ["reader-near-complete"]
+    }
+  ]
+}

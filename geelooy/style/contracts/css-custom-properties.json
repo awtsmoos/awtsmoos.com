@@ -1,0 +1,26 @@
+{
+  "BH": "B\"H",
+  "version": 1,
+  "properties": [
+    {
+      "name": "--home-pointer-x",
+      "owner": "home",
+      "files": ["geelooy/style/social/home/beauty/atmosphere/pointer-light.css", "geelooy/scripts/awtsmoos/social/home/beauty/ambientPointer.js"]
+    },
+    {
+      "name": "--home-pointer-y",
+      "owner": "home",
+      "files": ["geelooy/style/social/home/beauty/atmosphere/pointer-light.css", "geelooy/scripts/awtsmoos/social/home/beauty/ambientPointer.js"]
+    },
+    {
+      "name": "--reader-progress",
+      "owner": "reader",
+      "files": ["geelooy/heichelos/post/styles/reader-beauty/progress/spine.css", "geelooy/heichelos/post/logic/legend/readingProgressState.js"]
+    },
+    {
+      "name": "--floating-clearance",
+      "owner": "global-scroll",
+      "files": ["geelooy/style/awtsmoos-scroll-sovereignty.css"]
+    }
+  ]
+}

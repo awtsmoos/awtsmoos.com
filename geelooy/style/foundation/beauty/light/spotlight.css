@@ -1,3 +1,2 @@
-/* B"H spotlight. */
-:root { --beauty-spotlight: radial-gradient(circle at 50% 0%, rgba(245,202,112,.16), transparent 18rem); }
-.beauty-spotlight { background-image: var(--beauty-spotlight); }
+/* B"H spotlight: one focused beam, no carnival. */
+:root { --awt-spotlight: radial-gradient(circle at 50% 0%, rgba(255,236,181,.34), transparent 24rem); }

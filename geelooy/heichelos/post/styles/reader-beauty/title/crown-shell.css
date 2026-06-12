@@ -1,2 +1,2 @@
-/* B"H reader beauty title/crown-shell.css. */
-.awtsmoos-post-title-crown { position:relative; overflow:clip; box-shadow:var(--beauty-shadow-deep) !important; }
+/* B"H Reader title shell. */
+.awtsmoos-reader-title-shell { border-radius: 1.5rem; padding: clamp(1rem, 4vw, 2rem); background: rgba(255,255,255,.46); }

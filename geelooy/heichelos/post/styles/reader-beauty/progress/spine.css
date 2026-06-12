@@ -1,2 +1,2 @@
-/* B"H reader beauty progress/spine.css. */
-.awtsmoos-progress-spine { position:fixed; inset:18vh auto 18vh .45rem; width:.35rem; z-index:1200; border-radius:999px; background:rgba(244,197,107,.16); display:grid; align-content:space-between; pointer-events:none; }
+/* B"H Reader progress spine. */
+.awtsmoos-progress-spine { transform: scaleY(var(--reader-progress, 0)); transform-origin: top; background: linear-gradient(180deg, var(--awt-gold), var(--awt-sapphire)); box-shadow: 0 0 1rem rgba(214,168,79,.28); }

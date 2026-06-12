@@ -1,15 +1,4 @@
-/* B"H tabs: Series and Timeline are obvious and thumb-safe. */
-.geelooy-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; margin: 0 0 .8rem; }
-.geelooy-tabs .tab {
-  border: 0;
-  border-radius: .9rem;
-  padding: .8rem;
-  background: transparent;
-  color: var(--h-muted);
-  font-weight: 900;
-  cursor: pointer;
-}
-.geelooy-tabs .tab.Active {
-  background: linear-gradient(135deg, var(--h-gold-2), var(--h-gold));
-  color: #160e05;
-}
+/* B"H Heichel tabs: library sections. */
+.heichel-tabs { display: flex; gap: .45rem; flex-wrap: wrap; padding: .35rem; border-radius: 999px; background: rgba(77,49,17,.07); }
+.heichel-tabs button, .heichel-tab { border: 0; border-radius: 999px; padding: .72rem 1rem; background: transparent; color: var(--awt-ink-soft); font-weight: 950; }
+.heichel-tabs .active, .heichel-tab.active { background: #ead4ad; color: #2d1b0a; box-shadow: var(--awt-elevation-1); }

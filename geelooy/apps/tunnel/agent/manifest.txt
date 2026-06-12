@@ -1,5 +1,5 @@
 B"H
-1.0.53
+1.0.63
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -23,7 +23,6 @@ ai/relay/split-browser/http.cjs
 ai/relay/split-browser/index.js
 ai/relay/split-browser/jsPreamble.cjs
 ai/relay/split-browser/logger.cjs
-ai/relay/split-browser/manifest.json
 ai/relay/split-browser/originPolicy.cjs
 ai/relay/split-browser/proxy.cjs
 ai/relay/split-browser/relayApi.cjs
@@ -68,7 +67,6 @@ tools/chatgpt/runtime/waitForResponse.js
 tools/chatgpt/storage/jsonStore.js
 tools/chatgpt/storage/paths.js
 tools/chatgpt/storage/profileState.js
-tools/chatgpt/testing/chatgpt-profile-actions.test.cjs
 tools/chrome.js
 tools/chrome/actions.js
 tools/chrome/cdp.js
@@ -149,8 +147,8 @@ tools/fs/image/writeImage.js
 tools/fs/index.js
 tools/fs/isolatedHtml.js
 tools/fs/isolatedJs.js
-tools/fs/jsonTools.js
 tools/fs/jsWriteVerifier.js
+tools/fs/jsonTools.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
 tools/fs/nodeCheckMany.js
@@ -241,29 +239,6 @@ tools/fs/semantic/scopeOutline.js
 tools/fs/semantic/walk.js
 tools/fs/staticServers.js
 tools/fs/symbolOutline.js
-tools/fs/testing/action-registry-stress.test.cjs
-tools/fs/testing/aiAgentActions.test.cjs
-tools/fs/testing/all-actions-source-stress.test.cjs
-tools/fs/testing/bulk-runtime-browser-actions.test.cjs
-tools/fs/testing/connected-bulk-runtime-actors.test.cjs
-tools/fs/testing/consolidated-edge-cases.test.cjs
-tools/fs/testing/consolidated-get-runtime-guidance.test.cjs
-tools/fs/testing/installer-manifest-hygiene.test.cjs
-tools/fs/testing/local-api-direct.test.cjs
-tools/fs/testing/node-dom-geelooy-apps-games-surface-stress.test.cjs
-tools/fs/testing/node-dom-playwright-puppeteer-compat.test.cjs
-tools/fs/testing/node-dom-public-server-surface-stress.test.cjs
-tools/fs/testing/node-dom-runtime-actors.test.cjs
-tools/fs/testing/puppeteer-api-stress.test.cjs
-tools/fs/testing/runtime-actions-real.test.cjs
-tools/fs/testing/runtime-chrome-parity.test.cjs
-tools/fs/testing/runtime-dom-hydrator-canvas-regression.test.cjs
-tools/fs/testing/runtime-inline-module-import-regression.test.cjs
-tools/fs/testing/runtime-merkava-heavy-parity.test.cjs
-tools/fs/testing/runtime-url-mitzvah-world.test.cjs
-tools/fs/testing/source-runtime-bulk-commandtree.test.cjs
-tools/fs/testing/virtual-chrome-actions.test.cjs
-tools/fs/testing/xml-bulk-write.test.cjs
 tools/fs/tree.js
 tools/fs/workflowExpressions.js
 tools/fs/workflowRunner.js

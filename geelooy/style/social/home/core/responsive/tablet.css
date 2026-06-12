@@ -1,0 +1,7 @@
+/* B"H Home tablet: one column, no crowding. */
+@media (max-width: 980px) {
+  .geelooy-home-shell { grid-template-columns: minmax(0, 1fr); max-width: 40rem; }
+  .home-sanctuary-card,
+  .home-discovery-card { position: relative; top: auto; min-height: auto; }
+  .home-feed-phone { order: -1; }
+}

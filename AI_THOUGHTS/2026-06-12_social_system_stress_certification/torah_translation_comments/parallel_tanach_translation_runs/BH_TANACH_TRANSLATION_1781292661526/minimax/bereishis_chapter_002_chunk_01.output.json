@@ -1,0 +1,78 @@
+{
+  "raw": {
+    "ok": true,
+    "action": "aiAgentMessage",
+    "agent": "minimax-deep",
+    "provider": "minimax",
+    "text": "{\"translations\":[{\"verseSection\":\"verse-1\",\"english\":\"And the heavens and the earth were completed, and all their host.\"},{\"verseSection\":\"verse-2\",\"english\":\"And Elokim completed on the seventh day the work He had done, and He rested on the seventh day from all the work He had done.\"},{\"verseSection\":\"verse-3\",\"english\":\"And Elokim blessed the seventh day and sanctified it, because on it He rested from all the work that Elokim had created to do.\"},{\"verseSection\":\"verse-4\",\"english\":\"These are the generations of the heavens and the earth when they were created, on the day that Awtsmoos Elokim made earth and heaven.\"},{\"verseSection\":\"verse-5\",\"english\":\"And no shrub of the field was yet on the earth, and no grass of the field had yet sprouted, because Awtsmoos Elokim had not sent rain upon the earth, and there was no man to work the soil.\"},{\"verseSection\":\"verse-6\",\"english\":\"And a mist rose from the earth and watered the whole surface of the ground.\"}]}",
+    "reasoning": "We need to produce JSON only, no markdown. Must preserve every verseSection exactly. Use Hebrew as source of truth, existing English as alignment aid. Use Divine Name policy exactly: map Hebrew names to names given. The Four-Letter Name must be Awtsmoos. So for \"יהוה\" we should use \"Awtsmoos\". For \"יְהֹוָה\" also \"Awtsmoos\". For \"אלהים\" we use \"Elokim\". For \"אֱלֹהִים\" also \"Elokim\". For \"אל\" -> \"El\". For \"אֵל\" -> \"El\". For \"אל שדי\" -> \"El-Shaddai\". For \"שדי\" -> \"Shaddai\". For \"צבאות\" -> \"Tzevaos\". For \"אדני\" -> \"Adonai\". For \"אֲדֹנָי\" -> \"Adonai\". Good.\n\nWe need to refine Tanach verse translations into clear English. Must use Hebrew as source of truth, existing English as alignment aid. Probably refine each verse to more accurate or clear translation.\n\nWe need to output JSON with \"translations\" array, each element containing \"verseSection\" and \"english\". The english must be refined translation.\n\nWe need to ensure each verse's english is refined. Let's go through each verse.\n\nFirst verse: \"וַיְכֻלּ֛וּ הַשָּׁמַ֥יִם וְהָאָ֖רֶץ וְכָל־צְבָאָֽם:\" Hebrew: \"And were finished the heavens and the earth and all their host.\" The existing English: \"Now the heavens and the earth were completed and all their host.\" Need refined translation: \"And the heavens and the earth were completed, and all their host.\" Use \"Awtsmoos\"? Not needed. It's just narrative. So we can produce something like: \"And the heavens and the earth were completed, and all their host.\" That is similar.\n\nSecond verse: \"וַיְכַ֤ל אֱלֹהִים֙ בַּיּ֣וֹם הַשְּׁבִיעִ֔י מְלַאכְתּ֖וֹ אֲשֶׁ֣ר עָשָׂ֑ה וַיִּשְׁבֹּת֙ בַּיּ֣וֹם הַשְּׁבִיעִ֔י מִכָּל־מְלַאכְתּ֖וֹ אֲשֶׁ֥ר עָשָֽׂה:\" Hebrew: \"And God completed on the seventh day His work that He did, and He abstained on the seventh day from all His work that He did.\" Use \"Elokim\" for \"אֱלֹהִים\". So: \"And Elokim completed on the seventh day His work that He made, and He rested on the seventh day from all His work that He made.\" The existing English: \"And God completed on the seventh day His work that He did, and He abstained on the seventh day from all His work that He did.\" The refined translation should reflect \"abstained\" but could be \"refrained\" or \"rested\". \"Rest\" is appropriate: \"And Elokim completed on the seventh day the work He had done, and He rested on the seventh day from all the work He had done.\" Good.\n\nThird verse: \"וַיְבָ֤רֶךְ אֱלֹהִים֙ אֶת־י֣וֹם הַשְּׁבִיעִ֔י וַיְקַדֵּ֖שׁ אֹת֑וֹ כִּ֣י ב֤וֹ שָׁבַת֙ מִכָּל־מְלַאכְתּ֔וֹ אֲשֶׁר־בָּרָ֥א אֱלֹהִ֖ים לַֽעֲשֽׂוֹת:\" Hebrew: \"And God blessed the seventh day and He hallowed it, for thereon He abstained from all His work that God created to do.\" Use \"Elokim\". So: \"And Elokim blessed the seventh day and hallowed it, because on it He rested from all His work that Elokim created to do.\" Or \"that He had created\". The nuance: \"that God created to do.\" We can refine: \"And Elokim blessed the seventh day and sanctified it, because on it He rested from all the work that Elokim had created to do.\"\n\nFourth verse: \"אֵ֣לֶּה תֽוֹלְד֧וֹת הַשָּׁמַ֛יִם וְהָאָ֖רֶץ בְּהִ֣בָּֽרְאָ֑ם בְּי֗וֹם עֲשׂ֛וֹת יְהֹוָ֥ה אֱלֹהִ֖ים אֶ֥רֶץ וְשָׁמָֽיִם:\" Hebrew: \"These are the generations of the heavens and the earth when they were created, on the day that the Lord God made earth and heaven.\" Here \"יהוה\" maps to \"Awtsmoos\". \"אֱלֹהִים\" maps to \"Elokim\". So \"the Lord God\" becomes \"Awtsmoos Elokim\". So refined: \"These are the generations of the heavens and the earth when they were created, on the day that Awtsmoos Elokim made earth and heaven.\" That matches.\n\nFifth verse: \"וְכֹ֣ל | שִׂ֣יחַ הַשָּׂדֶ֗ה טֶ֚רֶם יִֽהְיֶ֣ה בָאָ֔רֶץ וְכָל־עֵ֥שֶׂב הַשָּׂדֶ֖ה טֶ֣רֶם יִצְמָ֑ח כִּי֩ לֹ֨א הִמְטִ֜יר יְהֹוָ֤ה אֱלֹהִים֙ עַל־הָאָ֔רֶץ וְאָדָ֣ם אַ֔יִן לַֽעֲבֹ֖ד אֶת־הָֽאֲדָמָֽה:\" Hebrew: \"Now no tree of the field was yet on the earth, neither did any herb of the field yet grow, because the Lord God had not brought rain upon the earth, and there was no man to work the soil.\" Replace \"יהוה\" with \"Awtsmoos\", \"אֱלֹהִים\" with \"Elokim\". So: \"And every shrub of the field was not yet on the earth, and all the grass of the field had not yet sprouted, because Awtsmoos Elokim had not caused rain to fall upon the earth, and there was no man to work the soil.\" We can also use \"shrub\" for \"שִׂיחַ\". \"herb\" could be \"plant\". Let's refine: \"And no shrub of the field was yet on the earth, and no grass of the field had yet sprouted, because Awtsmoos Elokim had not sent rain upon the earth, and there was no man to work the soil.\"\n\nSixth verse: \"וְאֵ֖ד יַֽעֲלֶ֣ה מִן־הָאָ֑רֶץ וְהִשְׁקָ֖ה אֶת־כָּל־פְּנֵ֥י הָֽאֲדָמָֽה:\" Hebrew: \"And a mist ascended from the earth and watered the entire surface of the ground.\" Could refine: \"And a mist rose from the earth and watered the whole surface of the ground.\" That's clear.\n\nNow ensure we follow Divine Name policy: replace each occurrence accordingly. Already done.\n\nNow need to ensure no extra commentary or footnotes. Return JSON only.\n\nMake sure to preserve each verseSection exactly: \"verse-1\", \"verse-2\", etc.\n\nThe output JSON must have \"translations\" array with objects each containing \"verseSection\" and \"english\". No other fields.\n\nAlso must not include any extraneous whitespace? Probably fine.\n\nNow let's write the refined translations:\n\nverse-1: \"And the heavens and the earth were completed, and all their host.\"\n\nverse-2: \"And Elokim completed on the seventh day the work He had done, and He rested on the seventh day from all the work He had done.\"\n\nverse-3: \"And Elokim blessed the seventh day and sanctified it, because on it He rested from all the work that Elokim had created to do.\"\n\nverse-4: \"These are the generations of the heavens and the earth when they were created, on the day that Awtsmoos Elokim made earth and heaven.\"\n\nverse-5: \"And no shrub of the field was yet on the earth, and no grass of the field had yet sprouted, because Awtsmoos Elokim had not sent rain upon the earth, and there was no man to work the soil.\"\n\nverse-6: \"And a mist rose from the earth and watered the whole surface of the ground.\"\n\nMake sure to keep the heh at start? It's fine.\n\nNow produce JSON.\n\nOne note: The existing English uses \"Now the heavens and the earth were completed\". The refined translation is okay.\n\nNow produce final JSON.\n\nMake sure we have no trailing commas.\n\nNow output.\n",
+    "toolCalls": [],
+    "usage": {
+      "total_tokens": 3869,
+      "total_characters": 0,
+      "prompt_tokens": 1423,
+      "completion_tokens": 2446,
+      "completion_tokens_details": {
+        "reasoning_tokens": 2202
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      }
+    },
+    "finishReason": null
+  },
+  "parsed": {
+    "translations": [
+      {
+        "verseSection": "verse-1",
+        "english": "And the heavens and the earth were completed, and all their host."
+      },
+      {
+        "verseSection": "verse-2",
+        "english": "And Elokim completed on the seventh day the work He had done, and He rested on the seventh day from all the work He had done."
+      },
+      {
+        "verseSection": "verse-3",
+        "english": "And Elokim blessed the seventh day and sanctified it, because on it He rested from all the work that Elokim had created to do."
+      },
+      {
+        "verseSection": "verse-4",
+        "english": "These are the generations of the heavens and the earth when they were created, on the day that Awtsmoos Elokim made earth and heaven."
+      },
+      {
+        "verseSection": "verse-5",
+        "english": "And no shrub of the field was yet on the earth, and no grass of the field had yet sprouted, because Awtsmoos Elokim had not sent rain upon the earth, and there was no man to work the soil."
+      },
+      {
+        "verseSection": "verse-6",
+        "english": "And a mist rose from the earth and watered the whole surface of the ground."
+      }
+    ]
+  },
+  "translations": [
+    {
+      "verseSection": "verse-1",
+      "english": "And the heavens and the earth were completed, and all their host."
+    },
+    {
+      "verseSection": "verse-2",
+      "english": "And Elokim completed on the seventh day the work He had done, and He rested on the seventh day from all the work He had done."
+    },
+    {
+      "verseSection": "verse-3",
+      "english": "And Elokim blessed the seventh day and sanctified it, because on it He rested from all the work that Elokim had created to do."
+    },
+    {
+      "verseSection": "verse-4",
+      "english": "These are the generations of the heavens and the earth when they were created, on the day that Awtsmoos Elokim made earth and heaven."
+    },
+    {
+      "verseSection": "verse-5",
+      "english": "And no shrub of the field was yet on the earth, and no grass of the field had yet sprouted, because Awtsmoos Elokim had not sent rain upon the earth, and there was no man to work the soil."
+    },
+    {
+      "verseSection": "verse-6",
+      "english": "And a mist rose from the earth and watered the whole surface of the ground."
+    }
+  ]
+}

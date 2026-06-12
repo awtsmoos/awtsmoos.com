@@ -1,2 +1,2 @@
-/* B"H motion timing. */
-:root { --motion-instant:.08s; --motion-quick:.16s; --motion-normal:.28s; --motion-slow:.55s; }
+/* B"H timing: quick enough for hands, slow enough for soul. */
+:root { --motion-fast: 160ms; --motion-medium: 260ms; --motion-slow: 520ms; }

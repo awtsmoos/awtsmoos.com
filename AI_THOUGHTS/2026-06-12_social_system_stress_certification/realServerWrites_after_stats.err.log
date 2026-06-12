@@ -1,0 +1,192 @@
+AssertionError [ERR_ASSERTION]: packed stats: {
+  "success": [
+    {
+      "shard": "core",
+      "records": null,
+      "logicalKeys": null,
+      "byType": {},
+      "approximate": true,
+      "bytes": 531680485,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.core.awtsocial",
+          "exists": true,
+          "bytes": 530431291,
+          "mtimeMs": 1780562285440.8364
+        },
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.core.awtsdb",
+          "exists": true,
+          "bytes": 1249194,
+          "mtimeMs": 1781285884068.9937
+        }
+      ]
+    },
+    {
+      "shard": "allPosts",
+      "records": 424,
+      "logicalKeys": 384,
+      "byType": {
+        "jsonObject": 424
+      },
+      "approximate": false,
+      "bytes": 231726,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.allPosts.awtsdb",
+          "exists": true,
+          "bytes": 231726,
+          "mtimeMs": 1781285884068.9937
+        }
+      ]
+    },
+    {
+      "shard": "meta",
+      "records": 453,
+      "logicalKeys": 413,
+      "byType": {
+        "jsonObject": 424,
+        "migrationManifest": 29
+      },
+      "approximate": false,
+      "bytes": 404959,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.meta.awtsdb",
+          "exists": true,
+          "bytes": 404959,
+          "mtimeMs": 1781285884306.0332
+        }
+      ]
+    },
+    {
+      "shard": "graph",
+      "records": 222,
+      "logicalKeys": 187,
+      "byType": {
+        "graphEdge": 192,
+        "jsonObject": 30
+      },
+      "approximate": false,
+      "bytes": 192151,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.graph.awtsocial",
+          "exists": false,
+          "bytes": 0,
+          "mtimeMs": 0
+        },
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.graph.awtsdb",
+          "exists": true,
+          "bytes": 192151,
+          "mtimeMs": 1781285884119.6792
+        }
+      ]
+    },
+    {
+      "shard": "notify",
+      "records": 92,
+      "logicalKeys": 92,
+      "byType": {
+        "notification": 73,
+        "jsonObject": 19
+      },
+      "approximate": false,
+      "bytes": 49607,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.notify.awtsocial",
+          "exists": false,
+          "bytes": 0,
+          "mtimeMs": 0
+        },
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.notify.awtsdb",
+          "exists": true,
+          "bytes": 49607,
+          "mtimeMs": 1781285883932.597
+        }
+      ]
+    },
+    {
+      "shard": "audit",
+      "records": null,
+      "logicalKeys": null,
+      "byType": {},
+      "approximate": true,
+      "bytes": 12665905,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.audit.awtsocial",
+          "exists": true,
+          "bytes": 12117829,
+          "mtimeMs": 1780562285442.8442
+        },
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.audit.awtsdb",
+          "exists": true,
+          "bytes": 548076,
+          "mtimeMs": 1781285884121.6946
+        }
+      ]
+    },
+    {
+      "shard": "search",
+      "records": 1709,
+      "logicalKeys": 1520,
+      "byType": {
+        "jsonObject": 1709
+      },
+      "approximate": false,
+      "bytes": 919077,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.search.awtsocial",
+          "exists": false,
+          "bytes": 0,
+          "mtimeMs": 0
+        },
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.search.awtsdb",
+          "exists": true,
+          "bytes": 919077,
+          "mtimeMs": 1781285884119.6792
+        }
+      ]
+    },
+    {
+      "shard": "feed",
+      "records": 72,
+      "logicalKeys": 50,
+      "byType": {
+        "jsonObject": 72
+      },
+      "approximate": false,
+      "bytes": 38024,
+      "files": [
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.feed.awtsocial",
+          "exists": false,
+          "bytes": 0,
+          "mtimeMs": 0
+        },
+        {
+          "file": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash\\socialPacked\\social.feed.awtsdb",
+          "exists": true,
+          "bytes": 38024,
+          "mtimeMs": 1781285239406.3586
+        }
+      ]
+    }
+  ]
+}
+    at main (file:///C:/Users/Yackov%20Yitzchak/Documents/WoW/BH/awtsmoos.com/geelooy/API/social/test/realServerWrites.test.mjs:421:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

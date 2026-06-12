@@ -1,0 +1,5 @@
+/* B"H Home post body: better rhythm for living words. */
+.home-post-card p,
+.home-post-card footer { color: var(--awt-ink-soft); }
+.home-post-card p { line-height: 1.62; margin-block: .85rem; }
+.home-post-card footer { display: flex; gap: .8rem; flex-wrap: wrap; font-weight: 850; }

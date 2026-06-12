@@ -1,0 +1,75 @@
+{
+  "raw": {
+    "ok": true,
+    "action": "aiAgentMessage",
+    "agent": "minimax-deep",
+    "provider": "minimax",
+    "text": "{\"translations\":[{\"verseSection\":\"verse-7\",\"english\":\"And Awtsmoos Elokim formed the human from dust from the ground, and He breathed into his nostrils a living soul, and the human became a living being.\"},{\"verseSection\":\"verse-8\",\"english\":\"And Awtsmoos Elokim planted a garden in Eden from the east, and He placed there the human whom He had formed.\"},{\"verseSection\":\"verse-9\",\"english\":\"And Awtsmoos Elokim caused to sprout from the ground every tree desirable to the sight and good for food, and the Tree of Life in the midst of the garden, and the Tree of Knowledge of good and evil.\"},{\"verseSection\":\"verse-10\",\"english\":\"And a river went out from Eden to water the garden, and from there it divided and became four heads.\"},{\"verseSection\":\"verse-11\",\"english\":\"The name of one is Pishon; that is the one that surrounds all the land of Havilah, where there is gold.\"},{\"verseSection\":\"verse-12\",\"english\":\"And the gold of that land is good; there is the crystal and the onyx stone.\"}]}",
+    "reasoning": "The user wants me to refine Tanach verse translations into clear English. I need to:\n1. Return JSON only, no markdown\n2. Preserve every verseSection exactly\n3. Use Hebrew as source of truth\n4. Use the Divine Name policy provided\n5. The Four-Letter Name (יהוה) must be \"Awtsmoos\"\n6. No commentary or footnotes\n\nLet me process each verse:\n\n**Verse 7:**\nHebrew: וַיִּ֩יצֶר֩ יְהֹוָ֨ה אֱלֹהִ֜ים אֶת־הָֽאָדָ֗ם עָפָר֙ מִן־הָ֣אֲדָמָ֔ה וַיִּפַּ֥ח בְּאַפָּ֖יו נִשְׁמַ֣ת חַיִּ֑ים וַיְהִ֥י הָֽאָדָ֖ם לְנֶ֥פֶשׁ חַיָּֽה:\n- יהוה → Awtsmoos\n- אֱלֹהִים → Elokim\n- existingEnglish: \"And the Lord God formed man of dust from the ground, and He breathed into his nostrils the soul of life, and man became a living soul.\"\n\nRefined: \"And Awtsmoos Elokim formed the human from dust from the ground, and He breathed into his nostrils a living soul, and the human became a living being.\"\n\n**Verse 8:**\nHebrew: וַיִּטַּ֞ע יְהֹוָ֧ה אֱלֹהִ֛ים גַּן־בְּעֵ֖דֶן מִקֶּ֑דֶם וַיָּ֣שֶׂם שָׁ֔ם אֶת־הָֽאָדָ֖ם אֲשֶׁ֥ר יָצָֽר:\n\n\n- יהוה → Awtsmoos\n- אֱלֹהִים → Elokim\n- existingEnglish: \"And the Lord God planted a garden in Eden from the east, and He placed there the man whom He had formed.\"\n\nRefined: \"And Awtsmoos Elokim planted a garden in Eden, in the east, and He placed there the human whom He had formed.\"\n\n**Verse 9:**\nHebrew: וַיַּצְמַ֞ח יְהֹוָ֤ה אֱלֹהִים֙ מִן־הָ֣אֲדָמָ֔ה כָּל־עֵ֛ץ נ\n\nI'll continue processing the next verse, focusing on the Hebrew translation and name transformations. The key is maintaining precise linguistic nuances while ensuring accurate divine name representation.\n\nThe river's description captures its multifaceted purpose: irrigating the garden and branching into four distinct waterways. Each head represents a unique geographical trajectory, symbolizing the river's expansive and generative nature.\n\nThe first river, Pishon, encircles the entire land of Havilah, a region renowned for its precious gold resources. This geographical detail suggests wealth and significance in the ancient textual narrative.\n\nThe subsequent description highlights the exceptional quality of the land's gold, complemented by valuable mineral resources like crystal and onyx stone. These precious materials underscore the region's abundance and potential value.\n",
+    "toolCalls": [],
+    "usage": {
+      "total_tokens": 2404,
+      "total_characters": 0,
+      "prompt_tokens": 1386,
+      "completion_tokens": 1018,
+      "completion_tokens_details": {
+        "reasoning_tokens": 767
+      }
+    },
+    "finishReason": null
+  },
+  "parsed": {
+    "translations": [
+      {
+        "verseSection": "verse-7",
+        "english": "And Awtsmoos Elokim formed the human from dust from the ground, and He breathed into his nostrils a living soul, and the human became a living being."
+      },
+      {
+        "verseSection": "verse-8",
+        "english": "And Awtsmoos Elokim planted a garden in Eden from the east, and He placed there the human whom He had formed."
+      },
+      {
+        "verseSection": "verse-9",
+        "english": "And Awtsmoos Elokim caused to sprout from the ground every tree desirable to the sight and good for food, and the Tree of Life in the midst of the garden, and the Tree of Knowledge of good and evil."
+      },
+      {
+        "verseSection": "verse-10",
+        "english": "And a river went out from Eden to water the garden, and from there it divided and became four heads."
+      },
+      {
+        "verseSection": "verse-11",
+        "english": "The name of one is Pishon; that is the one that surrounds all the land of Havilah, where there is gold."
+      },
+      {
+        "verseSection": "verse-12",
+        "english": "And the gold of that land is good; there is the crystal and the onyx stone."
+      }
+    ]
+  },
+  "translations": [
+    {
+      "verseSection": "verse-7",
+      "english": "And Awtsmoos Elokim formed the human from dust from the ground, and He breathed into his nostrils a living soul, and the human became a living being."
+    },
+    {
+      "verseSection": "verse-8",
+      "english": "And Awtsmoos Elokim planted a garden in Eden from the east, and He placed there the human whom He had formed."
+    },
+    {
+      "verseSection": "verse-9",
+      "english": "And Awtsmoos Elokim caused to sprout from the ground every tree desirable to the sight and good for food, and the Tree of Life in the midst of the garden, and the Tree of Knowledge of good and evil."
+    },
+    {
+      "verseSection": "verse-10",
+      "english": "And a river went out from Eden to water the garden, and from there it divided and became four heads."
+    },
+    {
+      "verseSection": "verse-11",
+      "english": "The name of one is Pishon; that is the one that surrounds all the land of Havilah, where there is gold."
+    },
+    {
+      "verseSection": "verse-12",
+      "english": "And the gold of that land is good; there is the crystal and the onyx stone."
+    }
+  ]
+}

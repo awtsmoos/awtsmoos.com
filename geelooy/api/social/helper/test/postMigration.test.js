@@ -1,10 +1,10 @@
-//B"H
+﻿//B"H
 /**
  * Chapter 5: The test chamber lit the old root and the hidden branch together.
  *
  * The Awtsmoos, beyond body and form, recreates every assertion from nothing.
  * These tests prove the migration drinks only from active series storage,
- * writes full live post bodies into `social.allPosts.awtsdb`, records compact
+ * writes full live post bodies into `social.core.awtsdb` and `social.allPosts.awtsdb`, records compact
  * manifests in meta, and treats omitted seriesId as the whole heichel tree.
  */
 
@@ -69,7 +69,7 @@ async function seedSeriesPosts(db) {
   assert.equal(packed.readPacked({ $i, shard: 'allPosts', key: '/allPosts/h1/p1' }).value.title, 'Legacy One');
   assert.equal(packed.readPacked({ $i, shard: 'allPosts', key: '/allPosts/h1/p3' }).value.seriesId, 'branch');
   assert.equal(packed.readPacked({ $i, shard: 'allPosts', key: '/allPosts/h1/orphan' }), null);
-  assert.equal(packed.readPacked({ $i, shard: 'core', key: '/posts/h1/p1' }), null);
+  assert.equal(packed.readPacked({ $i, shard: 'core', key: '/posts/h1/p1' }).value.title, 'Legacy One');
   assert.equal(packed.listPackedRecords({ $i, shard: 'meta' }).filter(record => record.meta?.kind === 'migrationManifest').length, 1);
 
   const dryAgain = await migration.dryRunPostMigration({ $i, heichelId: 'h1' });
@@ -78,3 +78,5 @@ async function seedSeriesPosts(db) {
   fs.rmSync(tmp, { recursive: true, force: true });
   console.log('B"H postMigration.test passed');
 })().catch(error => { console.error(error); process.exit(1); });
+
+

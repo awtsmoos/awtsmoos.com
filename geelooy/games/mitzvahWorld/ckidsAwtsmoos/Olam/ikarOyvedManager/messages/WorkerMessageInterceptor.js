@@ -2,12 +2,12 @@
 /**
  * @file WorkerMessageInterceptor.js
  * @description
- * Chapter 431: The main thread receives the worker's hidden body testimony.
+ * Chapter 432: The main thread receives the worker's sealed village proof.
  *
- * The Awtsmoos lets the Chossid live inside the worker, but the browser still
- * needs proof. This interceptor records worker progress, render traces, import
- * errors, and now `playerProbeResult`, placing the latest plain JSON body report
- * on `window.__AWTSMOOS_LAST_PLAYER_PROBE__`.
+ * The Awtsmoos lets the world bloom inside the worker, where console logs can
+ * become a sea too large for the tunnel. This interceptor therefore keeps the
+ * river narrow: worker progress, player probes, and compact living-region proof
+ * are stored on tiny globals instead of sprayed into endless browser thunder.
  */
 import { oyvedManagerLog } from "../log/MainTextLogger.js";
 import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js";
@@ -25,6 +25,42 @@ const VISIBLE_PROGRESS = new Set([
   "loadedWorld",
   "canvas_transferred"
 ]);
+
+function trimArray(value, max) {
+  return Array.isArray(value) ? value.slice(-max) : [];
+}
+
+function nowStamp() {
+  return new Date().toISOString();
+}
+
+function ensureLivingRegionMain() {
+  window.__AWTSMOOS_LIVING_REGION_MAIN__ ||= {
+    version: "living-region-main-proof-20260612-bh1",
+    bootedAt: nowStamp(),
+    received: []
+  };
+  return window.__AWTSMOOS_LIVING_REGION_MAIN__;
+}
+
+function rememberLivingRegion(type, payload) {
+  const main = ensureLivingRegionMain();
+  const entry = { at: nowStamp(), type, payload: payload || null };
+  main.received = trimArray([...(main.received || []), entry], 24);
+  main.last = entry;
+  if (type === "runtime") {
+    main.runtimeStats = payload?.stats || payload || null;
+    window.AWTSMOOS_LIVING_REGION_STATS = main.runtimeStats;
+  }
+  if (type === "director") {
+    main.directorReport = payload?.report || payload || null;
+    window.AWTSMOOS_LIVING_REGION_REPORT = main.directorReport;
+  }
+  window.AWTSMOOS_LIVING_REGION_MAIN = main;
+  window.AWTSMOOS_REGION_DEBUG = window.AWTSMOOS_REGION_DEBUG || {};
+  window.AWTSMOOS_REGION_DEBUG.livingRegion = main;
+  recordWorkerProgress(`living-region:${type}`);
+}
 
 function markVesselReady(manager) {
   if (manager.runtime) manager.runtime.vesselIsReady = true;
@@ -48,26 +84,23 @@ function shouldAlertImportFailure(data, text) {
 function handleProgress(data) {
   const stage = String(data.stage || data.text || "unknown");
   recordWorkerProgress(stage);
-  if (VISIBLE_PROGRESS.has(stage) || stage.includes(":")) {
-    // progress is stored; noisy console intentionally suppressed
-  }
+  if (VISIBLE_PROGRESS.has(stage) || stage.includes(":")) return;
 }
 
 function handlePlayerProbeResult(data) {
   window.__AWTSMOOS_PLAYER_PROBES__ ||= [];
   window.__AWTSMOOS_LAST_PLAYER_PROBE__ = data.payload || data;
   window.__AWTSMOOS_PLAYER_PROBES__.push(window.__AWTSMOOS_LAST_PLAYER_PROBE__);
-  window.__AWTSMOOS_PLAYER_PROBES__ = window.__AWTSMOOS_PLAYER_PROBES__.slice(-40);
+  window.__AWTSMOOS_PLAYER_PROBES__ = trimArray(window.__AWTSMOOS_PLAYER_PROBES__, 40);
   console.info('B"H | PLAYER_PROBE_RESULT', window.__AWTSMOOS_LAST_PLAYER_PROBE__);
 }
 
 export function interceptWorkerMessage(manager, event) {
   const data = event.data;
 
-  if (data && data.type === "worker_progress") {
-    handleProgress(data);
-    return;
-  }
+  if (data && data.type === "worker_progress") { handleProgress(data); return; }
+  if (data && data.type === "livingRegionRuntimeStats") { rememberLivingRegion("runtime", data.payload || data); return; }
+  if (data && data.type === "livingRegionDirectorReport") { rememberLivingRegion("director", data.payload || data); return; }
 
   if (data && data.type === "render_trace") {
     const stage = String(data.stage || "unknown");
@@ -76,10 +109,7 @@ export function interceptWorkerMessage(manager, event) {
     return;
   }
 
-  if (data && data.type === "playerProbeResult") {
-    handlePlayerProbeResult(data);
-    return;
-  }
+  if (data && data.type === "playerProbeResult") { handlePlayerProbeResult(data); return; }
 
   if (isWorkerTextLog(data)) {
     const text = workerMessageToText(data);

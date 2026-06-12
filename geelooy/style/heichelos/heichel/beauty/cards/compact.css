@@ -1,2 +1,2 @@
-/* B"H Heichel beauty cards/compact.css. */
-.nav-card.compact { min-height:4.8rem; grid-template-columns:3.5rem 1fr auto; }
+/* B"H compact card beauty. */
+.heichel-card.is-compact, .series-card.is-compact { padding: .78rem; border-radius: 1rem; }

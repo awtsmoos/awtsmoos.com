@@ -1,13 +1,17 @@
 // B"H
 /**
- * Chapter 42: The watchman at the CSS gate sharpens again.
- * The Awtsmoos appoints this blade to guard every visual vessel: no broad
- * ghosts, no duplicate blocks, no stolen sidebar crown, no floating rail war,
- * no chrome header ghost-rule crawling back from an older age.
+ * Chapter 43: The manifest gate joins the CSS watchman.
+ *
+ * The Awtsmoos creates every visual vessel from nothing every instant; this
+ * sentinel now guards not only selector fossils and scroll contracts, but also
+ * explicit architecture manifests. A passing stylesheet is no longer enough.
+ * Ownership must be named, wrappers must confess their temporary mission, and
+ * motion must bow before mercy.
  */
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const { spawnSync } = require('child_process');
 
 const classicCssFiles = [
   'geelooy/style/heichelos/revamped-partials/content.css',
@@ -21,17 +25,26 @@ const classicCssFiles = [
   'geelooy/email/css/composer.css'
 ];
 
+const visualContractTests = [
+  'geelooy/shared/visual/test/findCenteredElement.test.mjs',
+  'geelooy/shared/visual/test/createRafScrollBinder.test.mjs',
+  'geelooy/heichelos/post/logic/visual/test/scrollBlockerDetectorScope.test.mjs',
+  'geelooy/style/test/jsCssStateContract.test.mjs',
+  'geelooy/style/test/staleVisualModuleDetector.test.mjs',
+  'geelooy/style/test/scrollVisualRegressionGuard.test.mjs',
+  'geelooy/style/test/visualDomainContracts.test.js',
+  'geelooy/style/test/cssCustomPropertyOwnership.test.js',
+  'geelooy/style/test/selectorOwnership.test.js',
+  'geelooy/style/test/wrapperExpiration.test.js',
+  'geelooy/style/test/reducedMotionContract.test.js'
+];
+
 const idealDir = 'geelooy/heichelos/post/styles/ideal';
 const idealFiles = fs.readdirSync(idealDir).filter(file => file.endsWith('.css')).map(file => path.join(idealDir, file));
 const sacredDomain = /\.sidebar\b|\.sidebar\.|hidden-comments|awtsmoos-sidebar(?!-breadcrumbs)|awtsmoos-slide|awtsmoos-view|keeper-|keepers-|awtsmoos-ideal-sidebar|awtsmoos-inline-commentary-root|comment-body-vessel|awtsmoos-floating-controls|awtsmoos-auto-scroll-floating|awtsmoos-sidebar-header-chrome|awtsmoos-chrome-row|awtsmoos-current-view-title|awtsmoos-chrome-btn|fullscreen-mode/;
 
-function read(file) {
-  return fs.readFileSync(file, 'utf8');
-}
-
-function stripComments(source) {
-  return source.replace(/\/\*[\s\S]*?\*\//g, '');
-}
+function read(file) { return fs.readFileSync(file, 'utf8'); }
+function stripComments(source) { return source.replace(/\/\*[\s\S]*?\*\//g, ''); }
 
 function importedCssGraph(entry) {
   const root = 'geelooy/heichelos/post/styles';
@@ -91,9 +104,8 @@ function assertIdealSingleOwner() {
 }
 
 function assertOnlyIdealOwnsSacredDomains() {
-  const files = importedCssGraph('main.css');
   const offenders = [];
-  for (const file of files) {
+  for (const file of importedCssGraph('main.css')) {
     const normalized = file.replace(/\\/g, '/');
     const isIdeal = normalized.includes('/styles/ideal/') || normalized.endsWith('/styles/forever-ui-fixes.css');
     const isSafe = /\/styles\/reset\//.test(normalized) || /sidebar-breadcrumbs\.css$/.test(normalized) || /polished-shell\.css$/.test(normalized);
@@ -105,6 +117,13 @@ function assertOnlyIdealOwnsSacredDomains() {
   assert.deepEqual(offenders, [], `non-ideal owners found: ${offenders.join(', ')}`);
 }
 
+function assertVisualContracts() {
+  for (const file of visualContractTests) {
+    const result = spawnSync(process.execPath, [file], { encoding: 'utf8' });
+    if (result.status !== 0) throw new Error(`${file} failed\n${result.stdout}\n${result.stderr}`);
+  }
+}
+
 assert.deepEqual(classicCssFiles, [...new Set(classicCssFiles)], 'cssQuality.test must not scan duplicate file paths');
 classicCssFiles.forEach(file => {
   assert.doesNotMatch(read(file), /z-index:\s*999999/, `${file} has excessive z-index`);
@@ -114,5 +133,6 @@ classicCssFiles.forEach(file => {
 idealFiles.forEach(assertNoExactDuplicateBlocks);
 assertIdealSingleOwner();
 assertOnlyIdealOwnsSacredDomains();
+assertVisualContracts();
 
-console.log('B"H cssQuality.test passed with ideal ownership guards');
+console.log('B"H cssQuality.test passed with ideal ownership, visual contract guards, and manifest gates');

@@ -1,4 +1,2 @@
-/* B"H Heichel grid vessels. */
-.dynamic-grid { display: grid; gap: .95rem; }
-.viewport { min-width: 0; }
-@media (min-width: 760px) { .dynamic-grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); } }
+/* B"H Heichel grid: responsive library shelves. */
+.heichel-grid, .series-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: var(--heichel-gap); align-items: stretch; }

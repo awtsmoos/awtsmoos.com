@@ -1,0 +1,394 @@
+B"H realServerWrites.test passed {
+  "dbRoot": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\dayuhChadash",
+  "userId": "BH_REAL_SMOKE_mqb76zpo_USER",
+  "aliasId": "smoke_$mqb76zpo",
+  "heichelId": "smokeHeichel_$mqb76zpo",
+  "postId": "smokePost_$mqb76zpo",
+  "apiKeyVerified": "BH_REAL_SMOKE_mqb76zpo_USER",
+  "userIdB": "BH_REAL_SMOKE_mqb76zpo_USER_B",
+  "aliasResponse": {
+    "name": "BH_REAL_SMOKE_mqb76zpo Alias",
+    "aliasId": "smoke_$mqb76zpo"
+  },
+  "aliasBResponse": {
+    "name": "BH_REAL_SMOKE_mqb76zpo Alias B",
+    "aliasId": "smokeb_$mqb76zpo"
+  },
+  "mailResponse": {
+    "success": {
+      "message": "Sent internally"
+    }
+  },
+  "notificationId": "BH_note_chat_1781285163271_2192",
+  "notificationRead": true,
+  "graphReferenceId": "quotes_post__smokeHeichel_%24mqb76zpo__root__smokePost_%24mqb76zpo__TO__comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET",
+  "questionId": "smokeQuestion_$mqb76zpo",
+  "answerId": "smokeAnswer_$mqb76zpo",
+  "sectionId": "smokeSection_$mqb76zpo",
+  "answerLinks": 1,
+  "sections": 2,
+  "repostId": "reposts_comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET__TO__question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo",
+  "shareId": "crossLinks_section__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo__smokeSection_%24mqb76zpo_extra__smokeSection_%24mqb76zpo_extra__TO__answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo",
+  "commentResponse": {
+    "success": true,
+    "message": "Comment added!",
+    "details": {
+      "id": "BH_1781285163506_commentBy_smoke_$mqb76zpo",
+      "path": "/social/heichelos/smokeHeichel_$mqb76zpo/comments/atSeries/root/atPost/smokePost_$mqb76zpo/smoke_$mqb76zpo",
+      "verseSection": "root",
+      "searchIndex": {
+        "deferred": true,
+        "sideEffects": [
+          {
+            "deferred": true,
+            "label": "commentAliasIndex",
+            "startedAt": 1781285163518
+          },
+          {
+            "deferred": true,
+            "label": "commentSearchIndex",
+            "startedAt": 1781285163518
+          }
+        ]
+      }
+    }
+  },
+  "directCommentId": "BH_1781285163546_commentBy_smoke_$mqb76zpo",
+  "replyCommentId": "BH_1781285163569_commentBy_smokeb_$mqb76zpo",
+  "commentAuthors": [
+    "smoke_$mqb76zpo"
+  ],
+  "packedStats": [
+    {
+      "shard": "core",
+      "records": 371189,
+      "logicalKeys": 371188,
+      "byType": {
+        "jsonObject": 370682,
+        "jsonBusyObject": 507
+      }
+    },
+    {
+      "shard": "allPosts",
+      "records": 409,
+      "logicalKeys": 374,
+      "byType": {
+        "jsonObject": 409
+      }
+    },
+    {
+      "shard": "meta",
+      "records": 434,
+      "logicalKeys": 399,
+      "byType": {
+        "jsonObject": 409,
+        "migrationManifest": 25
+      }
+    },
+    {
+      "shard": "graph",
+      "records": 199,
+      "logicalKeys": 164,
+      "byType": {
+        "graphEdge": 171,
+        "jsonObject": 28
+      }
+    },
+    {
+      "shard": "notify",
+      "records": 86,
+      "logicalKeys": 86,
+      "byType": {
+        "notification": 68,
+        "jsonObject": 18
+      }
+    },
+    {
+      "shard": "audit",
+      "records": 13849,
+      "logicalKeys": 13689,
+      "byType": {
+        "migrationManifest": 12851,
+        "jsonObject": 977,
+        "jsonBusyObject": 21
+      }
+    },
+    {
+      "shard": "search",
+      "records": 1617,
+      "logicalKeys": 1443,
+      "byType": {
+        "jsonObject": 1617
+      }
+    },
+    {
+      "shard": "feed",
+      "records": 68,
+      "logicalKeys": 47,
+      "byType": {
+        "jsonObject": 68
+      }
+    }
+  ],
+  "packedSnapshot": {
+    "exportedAt": 1781285200585,
+    "stats": [
+      {
+        "shard": "core",
+        "records": 371189,
+        "logicalKeys": 371188,
+        "byType": {
+          "jsonObject": 370682,
+          "jsonBusyObject": 507
+        }
+      },
+      {
+        "shard": "allPosts",
+        "records": 409,
+        "logicalKeys": 374,
+        "byType": {
+          "jsonObject": 409
+        }
+      },
+      {
+        "shard": "meta",
+        "records": 434,
+        "logicalKeys": 399,
+        "byType": {
+          "jsonObject": 409,
+          "migrationManifest": 25
+        }
+      },
+      {
+        "shard": "graph",
+        "records": 199,
+        "logicalKeys": 164,
+        "byType": {
+          "graphEdge": 171,
+          "jsonObject": 28
+        }
+      },
+      {
+        "shard": "notify",
+        "records": 86,
+        "logicalKeys": 86,
+        "byType": {
+          "notification": 68,
+          "jsonObject": 18
+        }
+      },
+      {
+        "shard": "audit",
+        "records": 13849,
+        "logicalKeys": 13689,
+        "byType": {
+          "migrationManifest": 12851,
+          "jsonObject": 977,
+          "jsonBusyObject": 21
+        }
+      },
+      {
+        "shard": "search",
+        "records": 1617,
+        "logicalKeys": 1443,
+        "byType": {
+          "jsonObject": 1617
+        }
+      },
+      {
+        "shard": "feed",
+        "records": 68,
+        "logicalKeys": 47,
+        "byType": {
+          "jsonObject": 68
+        }
+      }
+    ],
+    "indexStats": {
+      "records": 1567,
+      "byIndex": {
+        "graphOut": 171,
+        "graphIn": 171,
+        "postsByHeichel": 409,
+        "postsByAlias": 407,
+        "postsByType": 409
+      }
+    },
+    "manifests": 409,
+    "migrations": 25,
+    "manifestKeys": [
+      "/entities/post/76/bb/smokeQuestion_$mqb6qbpv/manifest",
+      "/entities/post/e2/e2/smokeAnswer_$mqb6qbpv/manifest",
+      "/entities/post/76/bb/smokeQuestion_$mqb6qbpv/manifest",
+      "/entities/post/2f/5f/smokeQuestion_$mqb6r2gp/manifest",
+      "/entities/post/5c/84/smokeAnswer_$mqb6r2gp/manifest",
+      "/entities/post/2f/5f/smokeQuestion_$mqb6r2gp/manifest",
+      "/entities/post/b7/0c/smokeQuestion_$mqb6tqb6/manifest",
+      "/entities/post/b8/40/smokeAnswer_$mqb6tqb6/manifest",
+      "/entities/post/b7/0c/smokeQuestion_$mqb6tqb6/manifest",
+      "/entities/post/0c/46/smokeQuestion_$mqb6uic0/manifest",
+      "/entities/post/6a/e7/smokeAnswer_$mqb6uic0/manifest",
+      "/entities/post/0c/46/smokeQuestion_$mqb6uic0/manifest",
+      "/entities/post/50/98/smokeQuestion_$mqb6x20f/manifest",
+      "/entities/post/0d/60/smokeAnswer_$mqb6x20f/manifest",
+      "/entities/post/50/98/smokeQuestion_$mqb6x20f/manifest",
+      "/entities/post/b3/19/smokeQuestion_$mqb6xvk9/manifest",
+      "/entities/post/3e/3c/smokeAnswer_$mqb6xvk9/manifest",
+      "/entities/post/b3/19/smokeQuestion_$mqb6xvk9/manifest",
+      "/entities/post/6f/83/smokeQuestion_$mqb6zlyh/manifest",
+      "/entities/post/49/82/smokeAnswer_$mqb6zlyh/manifest",
+      "/entities/post/d5/d4/manifest",
+      "/entities/post/b9/48/smokeQuestion_$mqb6znls/manifest",
+      "/entities/post/d7/8c/smokeAnswer_$mqb6znls/manifest",
+      "/entities/post/d5/d4/manifest",
+      "/entities/post/e0/41/q1/manifest",
+      "/entities/post/f2/9b/a1/manifest",
+      "/entities/post/e0/41/q1/manifest",
+      "/entities/post/42/66/probePost_mqb71apx/manifest",
+      "/entities/post/02/a6/tailQuestion_mqb71bkc/manifest",
+      "/entities/post/c4/cd/tailAnswer_mqb71bkc/manifest",
+      "/entities/post/e0/41/q1/manifest",
+      "/entities/post/f2/9b/a1/manifest",
+      "/entities/post/e0/41/q1/manifest",
+      "/entities/post/2d/e6/probePost_mqb71ecs/manifest",
+      "/entities/post/e2/ca/tailQuestion_mqb71f8g/manifest",
+      "/entities/post/c3/8b/tailAnswer_mqb71f8g/manifest",
+      "/entities/post/1d/8d/tailQuestion_mqb722ra/manifest",
+      "/entities/post/e7/3c/tailAnswer_mqb722ra/manifest",
+      "/entities/post/47/df/tailQuestion_mqb725ed/manifest",
+      "/entities/post/96/7a/tailAnswer_mqb725ed/manifest",
+      "/entities/post/95/38/tailQuestion_mqb74yda/manifest",
+      "/entities/post/a9/e9/tailAnswer_mqb74yda/manifest",
+      "/entities/post/cd/f0/tailQuestion_mqb750tk/manifest",
+      "/entities/post/9e/2b/tailAnswer_mqb750tk/manifest",
+      "/entities/post/c2/73/smokeQuestion_$mqb75chj/manifest",
+      "/entities/post/fa/10/smokeAnswer_$mqb75chj/manifest",
+      "/entities/post/c2/73/smokeQuestion_$mqb75chj/manifest",
+      "/entities/post/13/11/smokeQuestion_$mqb76zpo/manifest",
+      "/entities/post/7d/2f/smokeAnswer_$mqb76zpo/manifest",
+      "/entities/post/13/11/smokeQuestion_$mqb76zpo/manifest"
+    ],
+    "migrationKeys": [
+      "/migrations/connectedPosts_1781282806992",
+      "/migrations/connectedPosts_1781282871397",
+      "/migrations/connectedPosts_1781282879454",
+      "/migrations/connectedPosts_1781282942891",
+      "/migrations/connectedPosts_1781283098905",
+      "/migrations/connectedPosts_1781283175900",
+      "/migrations/connectedPosts_1781283252509",
+      "/migrations/connectedPosts_1781283323529",
+      "/migrations/connectedPosts_1781283601712",
+      "/migrations/connectedPosts_1781283639687",
+      "/migrations/connectedPosts_1781283673809",
+      "/migrations/connectedPosts_1781283980508",
+      "/migrations/connectedPosts_1781284045660",
+      "/migrations/connectedPosts_1781284186345",
+      "/migrations/connectedPosts_1781284248762",
+      "/migrations/connectedPosts_1781284314108",
+      "/migrations/connectedPosts_1781284350276",
+      "/migrations/connectedPosts_1781284386129",
+      "/migrations/connectedPosts_1781284420853",
+      "/migrations/connectedPosts_1781284544927",
+      "/migrations/connectedPosts_1781284581383",
+      "/migrations/connectedPosts_1781284699995",
+      "/migrations/connectedPosts_1781284738375",
+      "/migrations/connectedPosts_1781285086743",
+      "/migrations/connectedPosts_1781285163648"
+    ]
+  },
+  "packedIntegrity": {
+    "checkedAt": 1781285216018,
+    "coreRecords": 371189,
+    "graphRecords": 199,
+    "postRecords": 375,
+    "missingPostManifests": [],
+    "badEdges": [],
+    "ok": true
+  },
+  "packedRepair": {
+    "repaired": 0,
+    "repairedIds": [],
+    "checked": 375
+  },
+  "platform": {
+    "liveEvents": 1,
+    "searchHits": 11,
+    "relationship": "follow",
+    "jobId": "job_1781285237803_rzjjlbl471p",
+    "moderationId": "mod_report_1781285237791_xnh1jvuiatm",
+    "graphTransaction": "committed",
+    "jobsRan": 5,
+    "digestCount": 1,
+    "rankedThreadTop": "BH_REAL_SMOKE_mqb76zpo_thread_root"
+  },
+  "packedShardFiles": [
+    "__tmp_fs3_manifest_repro.awtsdb",
+    "__tmp_fs3_manifest_repro.awtsdb.wal",
+    "social.allPosts.awtsdb",
+    "social.audit.awtsdb",
+    "social.audit.awtsocial",
+    "social.core..oiledawtsocial",
+    "social.core.awtsdb",
+    "social.core.awtsocial",
+    "social.feed.awtsdb",
+    "social.graph.awtsdb",
+    "social.heichel.ikar.comments.fs.awtsdb",
+    "social.heichel.ikar.comments.fs.awtsdb.lock",
+    "social.heichel.ikar.comments.fs.awtsdb.wal",
+    "social.heichel.ikar.posts.fs.awtsdb",
+    "social.heichel.ikar.posts.fs.awtsdb.lock",
+    "social.heichel.ikar.posts.fs.awtsdb.wal",
+    "social.heichel.ikar.series.fs.awtsdb",
+    "social.heichel.ikar.series.fs.awtsdb.lock",
+    "social.heichel.ikar.series.fs.awtsdb.wal",
+    "social.meta.awtsdb",
+    "social.notify.awtsdb",
+    "social.posts.real.awtsdb",
+    "social.posts.real.awtsdb.lock",
+    "social.posts.real.awtsdb.migration.lock",
+    "social.posts.real.awtsdb.wal",
+    "social.search.awtsdb"
+  ],
+  "changedFiles": [
+    "socialPacked\\social.allPosts.awtsdb",
+    "socialPacked\\social.audit.awtsdb",
+    "socialPacked\\social.core.awtsdb",
+    "socialPacked\\social.feed.awtsdb",
+    "socialPacked\\social.graph.awtsdb",
+    "socialPacked\\social.meta.awtsdb",
+    "socialPacked\\social.notify.awtsdb",
+    "socialPacked\\social.search.awtsdb",
+    "social\\aliases\\smoke_$mqb76zpo\\comments\\heichel\\smokeHeichel_$mqb76zpo\\series\\root\\atPost.awtsmoosJSON",
+    "social\\aliases\\smoke_$mqb76zpo\\entities\\answer\\smokeAnswer_$mqb76zpo.awtsmoosJSON",
+    "social\\aliases\\smoke_$mqb76zpo\\entities\\question\\smokeQuestion_$mqb76zpo.awtsmoosJSON",
+    "social\\aliases\\smoke_$mqb76zpo\\info.awtsmoosJSON",
+    "social\\aliases\\smokeb_$mqb76zpo\\info.awtsmoosJSON",
+    "social\\aliases\\smokeb_$mqb76zpo\\notifications\\BH_note_chat_1781285163271_2192.awtsmoosJSON",
+    "social\\apiKeys\\byHash\\00943cd6ac5009d9ff7a27381bed9599c5d2dab82b606ee75f3763a68221fdf9.awtsmoosJSON",
+    "social\\apiKeys\\byHash\\e1f4b63f056434bb42e211321d6a1e7d31b7d1944393f43363960ecff7de1828.awtsmoosJSON",
+    "social\\graph\\entities\\answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo\\data.awtsmoosJSON",
+    "social\\graph\\entities\\answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo\\inbound\\crossLinks\\crossLinks_section__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo__smokeSection_%24mqb76zpo_extra__smokeSection_%24mqb76zpo_extra__TO__answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo.awtsmoosJSON",
+    "social\\graph\\entities\\answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo\\outbound\\answers\\answers_answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo__TO__question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo.awtsmoosJSON",
+    "social\\graph\\entities\\answer__smokeHeichel_%24mqb76zpo__smokeAnswer_%24mqb76zpo\\data.awtsmoosJSON",
+    "social\\graph\\entities\\answer__smokeHeichel_%24mqb76zpo__smokeAnswer_%24mqb76zpo\\inbound\\references\\references_question__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo__TO__answer__smokeHeichel_%24mqb76zpo__smokeAnswer_%24mqb76zpo.awtsmoosJSON",
+    "social\\graph\\entities\\comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET\\data.awtsmoosJSON",
+    "social\\graph\\entities\\comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET\\inbound\\quotes\\quotes_post__smokeHeichel_%24mqb76zpo__root__smokePost_%24mqb76zpo__TO__comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET.awtsmoosJSON",
+    "social\\graph\\entities\\comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET\\outbound\\reposts\\reposts_comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET__TO__question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo.awtsmoosJSON",
+    "social\\graph\\entities\\post__smokeHeichel_%24mqb76zpo__root__smokePost_%24mqb76zpo\\data.awtsmoosJSON",
+    "social\\graph\\entities\\post__smokeHeichel_%24mqb76zpo__root__smokePost_%24mqb76zpo\\outbound\\quotes\\quotes_post__smokeHeichel_%24mqb76zpo__root__smokePost_%24mqb76zpo__TO__comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET.awtsmoosJSON",
+    "social\\graph\\entities\\question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo\\data.awtsmoosJSON",
+    "social\\graph\\entities\\question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo\\inbound\\answers\\answers_answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo__TO__question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo.awtsmoosJSON",
+    "social\\graph\\entities\\question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo\\inbound\\reposts\\reposts_comment__smokeHeichel_%24mqb76zpo__smokePost_%24mqb76zpo__BH_REAL_SMOKE_mqb76zpo_COMMENT_TARGET__TO__question__smokeHeichel_%24mqb76zpo__root__smokeQuestion_%24mqb76zpo.awtsmoosJSON",
+    "social\\graph\\entities\\question__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo\\data.awtsmoosJSON",
+    "social\\graph\\entities\\question__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo\\outbound\\references\\references_question__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo__TO__answer__smokeHeichel_%24mqb76zpo__smokeAnswer_%24mqb76zpo.awtsmoosJSON",
+    "social\\graph\\entities\\section__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo__smokeSection_%24mqb76zpo_extra__smokeSection_%24mqb76zpo_extra\\data.awtsmoosJSON",
+    "social\\graph\\entities\\section__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo__smokeSection_%24mqb76zpo_extra__smokeSection_%24mqb76zpo_extra\\outbound\\crossLinks\\crossLinks_section__smokeHeichel_%24mqb76zpo__smokeQuestion_%24mqb76zpo__smokeSection_%24mqb76zpo_extra__smokeSection_%24mqb76zpo_extra__TO__answer__smokeHeichel_%24mqb76zpo__root__smokeAnswer_%24mqb76zpo.awtsmoosJSON",
+    "social\\heichelos\\smokeHeichel_$mqb76zpo\\comments\\atSeries\\root\\atPost\\smokePost_$mqb76zpo\\smoke_$mqb76zpo.awtsmoosJSON",
+    "social\\heichelos\\smokeHeichel_$mqb76zpo\\editors.awtsmoosJSON",
+    "social\\heichelos\\smokeHeichel_$mqb76zpo\\info.awtsmoosJSON",
+    "social\\heichelos\\smokeHeichel_$mqb76zpo\\posts\\smokeAnswer_$mqb76zpo.awtsmoosJSON",
+    "social\\heichelos\\smokeHeichel_$mqb76zpo\\posts\\smokePost_$mqb76zpo.awtsmoosJSON",
+    "social\\heichelos\\smokeHeichel_$mqb76zpo\\posts\\smokeQuestion_$mqb76zpo.awtsmoosJSON",
+    "social\\heichelos\\smokeHeichel_$mqb76zpo\\posts\\smokeQuestion_$mqb76zpo\\sections\\smokeSection_$mqb76zpo.awtsmoosJSON"
+  ]
+}

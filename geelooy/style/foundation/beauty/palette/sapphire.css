@@ -1,2 +1,5 @@
-/* B"H palette sapphire.css: a color chamber. */
-:root { --sapphire-bg:#071425; --sapphire-surface:#eaf4ff; --sapphire-ink:#122238; --sapphire-muted:#5d7188; --sapphire-accent:#76b8ff; }
+/* B"H sapphire palette: cool restraint beneath gold fire. */
+:root {
+  --awt-sapphire: #233a71;
+  --awt-sapphire-soft: #dfe8ff;
+}

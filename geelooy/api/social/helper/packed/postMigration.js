@@ -1,4 +1,4 @@
-//B"H
+﻿//B"H
 /**
  * @module ConnectedPostMigration
  * @description
@@ -51,9 +51,24 @@ async function seriesIdsForHeichel($i, heichelId) {
 }
 
 async function connectedPostEntries($i, heichelId, seriesId) {
-  const posts = await get($i, `/social/heichelos/${heichelId}/series/${seriesId}/posts`, {});
+  const basePath = `/social/heichelos/${heichelId}/series/${seriesId}/posts`;
+  const posts = await get($i, basePath, {});
   if (!posts || typeof posts !== 'object' || Array.isArray(posts)) return [];
-  return Object.entries(posts).filter(([, body]) => body && typeof body === 'object');
+  const entries = [];
+  for (const [postId, body] of Object.entries(posts)) {
+    if (body && typeof body === 'object') {
+      entries.push([postId, body]);
+      continue;
+    }
+    const child = await get($i, `${basePath}/${postId}`, null);
+    if (child && typeof child === 'object' && !Array.isArray(child)) {
+      entries.push([postId, child]);
+      continue;
+    }
+    const canonical = await get($i, `/social/heichelos/${heichelId}/posts/${postId}`, null);
+    if (canonical && typeof canonical === 'object' && !Array.isArray(canonical)) entries.push([postId, canonical]);
+  }
+  return entries;
 }
 
 function normalizePost({ heichelId, seriesId, postId, body }) {
@@ -88,10 +103,12 @@ function writePostIndexes({ $i, post }) {
 }
 
 function mirrorConnectedPostToAllPosts({ $i, post }) {
+  const postId = post.id || post.postId;
+  writePacked({ $i, shard: 'core', key: logicalKey(['posts', post.heichelId, postId]), value: post, meta: { kind: 'post', migrated: true } });
   writeAllPost({ $i, post });
   writePostManifest({ $i, post });
   writePostIndexes({ $i, post });
-  appendEvent({ $i, type: 'post.migrated.allPosts', actor: post.aliasId || post.author || '', entity: { kind: 'post', id: post.id || post.postId }, data: { heichelId: post.heichelId, seriesId: post.seriesId || post.parentSeriesId } });
+  appendEvent({ $i, type: 'post.migrated.allPosts', actor: post.aliasId || post.author || '', entity: { kind: 'post', id: postId }, data: { heichelId: post.heichelId, seriesId: post.seriesId || post.parentSeriesId } });
 }
 
 function migrationItem(item) { const key = packedPostKey(item); return { postId: item.postId, heichelId: item.heichelId, seriesId: item.seriesId, legacyPath: item.legacyPath, packedKey: key, action: 'mirror' }; }
@@ -125,3 +142,6 @@ async function runPostMigration({ $i, heichelId = '', seriesId = '', limit = 100
 }
 
 module.exports = { packedPostKey, scanConnectedPosts, dryRunPostMigration, runPostMigration, mirrorConnectedPostToAllPosts, existingAllPostState };
+
+
+

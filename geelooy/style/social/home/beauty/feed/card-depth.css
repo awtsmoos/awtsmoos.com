@@ -1,3 +1,2 @@
-/* B"H home beauty feed/card-depth.css. */
-.home-post-card { position:relative; box-shadow:var(--beauty-shadow-soft), var(--beauty-edge-light); }
-.home-post-card::before { content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(135deg, rgba(255,255,255,.42), transparent 45%); }
+/* B"H Home feed card depth. */
+.home-post-card.is-feed-current { box-shadow: 0 1.2rem 3rem rgba(115,72,22,.20), inset 0 0 0 1px rgba(214,168,79,.32); transform: translateY(-3px); }

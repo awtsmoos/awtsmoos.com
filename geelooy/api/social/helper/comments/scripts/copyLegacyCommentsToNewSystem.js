@@ -2,11 +2,10 @@
 // B"H
 /**
  * @file copyLegacyCommentsToNewSystem.js
- * @chapter The Lightning Copy With A Heartbeat
  * @description
- * Bulk-copies old comments into the packed mirror. Default mode is fast:
- * no search indexing, no vectors, no duplicate scan. Add --index only when you
- * deliberately want slow indexing during migration.
+ * Discovers legacy comment-tree parents and optionally indexes their comments
+ * into the authoritative AwtsmoosDB comment-search sidecar. It never writes
+ * packed comment shards, JSONL mirrors, vector copies, or fallback stores.
  */
 
 const path = require("path");
@@ -14,7 +13,6 @@ const DosDB = require("../../../../../../ayzarim/DosDB/index.js");
 const { migrateParentCommentsToAwtsmoosDb, compactReport } = require("../commentMigration.js");
 const { discoverCommentParents } = require("../commentMigrationDiscovery.js");
 
-/** @param {Array<string>} argv @returns {object} */
 function parseArgs(argv) {
     const args = {};
     for (const item of argv) {
@@ -26,17 +24,14 @@ function parseArgs(argv) {
     return args;
 }
 
-/** @returns {string} */
 function repoRoot() {
     return path.resolve(__dirname, "../../../../../../");
 }
 
-/** @returns {string} */
 function defaultDbPath() {
     return path.resolve(repoRoot(), "../../dayuhChadash");
 }
 
-/** @param {string} dbPath @returns {Promise<object>} */
 async function makeRuntime(dbPath) {
     const db = new DosDB(dbPath);
     await db.init();
@@ -44,20 +39,17 @@ async function makeRuntime(dbPath) {
     return { db };
 }
 
-/** @param {*} value @returns {Array<string>} */
 function names(value) {
     if (Array.isArray(value)) return value.map(String).filter(Boolean);
     if (value && typeof value === "object") return Object.keys(value).map(String).filter(Boolean);
     return [];
 }
 
-/** @param {object} $i @returns {Promise<Array<string>>} */
 async function listAllHeichelIds($i) {
     try { return names(await $i.db.get("/social/heichelos")); }
     catch (_) { return []; }
 }
 
-/** @param {object} options @returns {Promise<Array<object>>} */
 async function discoverTargets({ $i, heichelId, seriesId, parentId, parentType, postId }) {
     if (parentId) return [{ heichelId, seriesId, parentId, parentType, postId: postId || (parentType === "post" ? parentId : undefined) }];
     const heichelIds = heichelId ? [heichelId] : await listAllHeichelIds($i);
@@ -66,29 +58,30 @@ async function discoverTargets({ $i, heichelId, seriesId, parentId, parentType, 
     return targets;
 }
 
-/** @param {Array<object>} reports @returns {object} */
 function totals(reports) {
     return reports.reduce((sum, report) => {
         const compact = compactReport(report);
         for (const key of Object.keys(sum)) sum[key] += compact[key] || 0;
         return sum;
-    }, { aliasesSeen: 0, versesSeen: 0, copied: 0, indexed: 0, sharded: 0, vectors: 0, vectorSkipped: 0, alreadyPresent: 0, skipped: 0, errors: 0 });
+    }, { aliasesSeen: 0, versesSeen: 0, copied: 0, migrated: 0, indexed: 0, sharded: 0, vectors: 0, vectorSkipped: 0, alreadyPresent: 0, skipped: 0, errors: 0 });
 }
 
-/** @param {string} message @param {object=} data @returns {void} */
 function love(message, data) {
     const suffix = data ? ` ${JSON.stringify(data)}` : "";
     console.log(`B\"H ${new Date().toLocaleTimeString()} ${message}${suffix}`);
 }
 
-/** @param {object} options @returns {Promise<object>} */
+function modeName({ indexSearch }) {
+    return indexSearch ? "search-sidecar-index" : "audit-discovery-only";
+}
+
 async function copyLegacyCommentsToNewSystem(options = {}) {
     const dbPath = path.resolve(options.dbPath || defaultDbPath());
     const $i = options.$i || await makeRuntime(dbPath);
     const dryRun = options.write ? false : options.dryRun !== false;
     const parentType = options.parentType || "post";
     const indexSearch = Boolean(options.indexSearch);
-    love("migration opening", { dbPath, dryRun, mode: indexSearch ? "SLOW index+vector" : "FAST packed-copy only", heichelId: options.heichelId || "ALL", seriesId: options.seriesId || "ALL" });
+    love("migration opening", { dbPath, dryRun, mode: modeName({ indexSearch }), heichelId: options.heichelId || "ALL", seriesId: options.seriesId || "ALL", duplicateMirrorWritten: false });
     const targets = await discoverTargets({ ...options, $i, parentType });
     love("discovered targets", { count: targets.length });
     const reports = [];
@@ -99,16 +92,15 @@ async function copyLegacyCommentsToNewSystem(options = {}) {
         reports.push(report);
         love("running totals", totals(reports));
     }
-    const result = { BH: "B\"H", success: true, dbPath, dryRun, indexSearch, targetCount: targets.length, totals: totals(reports), reports };
-    love("migration complete", { dryRun, indexSearch, targetCount: result.targetCount, totals: result.totals });
+    const result = { BH: "B\"H", success: true, dbPath, dryRun, indexSearch, duplicateMirrorWritten: false, targetCount: targets.length, totals: totals(reports), reports };
+    love("migration complete", { dryRun, indexSearch, targetCount: result.targetCount, totals: result.totals, duplicateMirrorWritten: false });
     return result;
 }
 
-/** @param {object} event @returns {void} */
 function defaultProgress(event) {
     if (event.event === "parent:aliases") love("parent aliases found", { parentId: event.parentId, aliasesSeen: event.aliasesSeen });
     if (event.event === "alias:start" && event.verseCount) love("alias verses found", { aliasId: event.aliasId, verseCount: event.verseCount });
-    if (event.event === "verse:start" && event.commentCount) love("copying verse", { aliasId: event.aliasId, verseSection: event.verseSection, commentCount: event.commentCount });
+    if (event.event === "verse:start" && event.commentCount) love("walking verse", { aliasId: event.aliasId, verseSection: event.verseSection, commentCount: event.commentCount });
 }
 
 if (require.main === module) {

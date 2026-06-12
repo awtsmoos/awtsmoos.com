@@ -1,0 +1,1 @@
+import {fighter,assert,finite} from './animation-probe-lib.mjs';const run=fighter({vx:11});const panic=fighter({vx:8,damage:190,stocks:1});finite(run);finite(panic);assert(run.poseReadback?.leftFoot,'run readback missing');assert(panic.poseIntent.panic>.5,'panic not active');console.log(JSON.stringify({ok:true,run:run.poseReadback.leftFoot,panic:panic.poseIntent},null,2));

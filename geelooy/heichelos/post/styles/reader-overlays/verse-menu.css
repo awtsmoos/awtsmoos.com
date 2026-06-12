@@ -1,2 +1,2 @@
-/* B"H verse menu overlay. */
-#awtsmoos-verse-menu-container { position: relative; z-index: 1900; }
+/* B"H Reader verse menu. */
+.awtsmoos-verse-menu { border-radius: 999px; background: rgba(15,19,40,.92); color: #fff8e9; box-shadow: var(--awt-elevation-2); }

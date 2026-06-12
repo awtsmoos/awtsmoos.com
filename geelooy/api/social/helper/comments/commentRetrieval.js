@@ -1,10 +1,10 @@
-// B"H
+﻿// B"H
 /**
  * @file commentRetrieval.js
  * @chapter The River Chooses The New Vessel First
  * @description
- * Retrieval normalizes the caller's coordinate, then asks the packed mirror
- * before the legacy scroll. Undefined verse means broad post-scroll discovery;
+ * Retrieval normalizes the caller's coordinate, then asks the authoritative
+ * comment-tree path only. Undefined verse means broad post-scroll discovery;
  * an explicit verse means exact alias-at-verse retrieval.
  */
 
@@ -111,3 +111,5 @@ module.exports = {
     getAuthorsCommentingAtVerseSectionInParent,
     getComment
 };
+
+

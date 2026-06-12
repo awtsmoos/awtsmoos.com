@@ -5,11 +5,16 @@ const { BIN } = require("./constants.js");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 const { parseXmlWrites } = require("./xmlWrites.js");
 
+const WRITE_CARRIERS = ["params", "content", "body", "query", "goal", "text"];
+
 /**
  * B"H
- * Chapter 392: JSON and XML became two doors into one honest write list.
- * The Awtsmoos receives GET JSON, direct objects, or XML vessels with CDATA
- * placeholders, then writes only complete files through the same guarded path.
+ * Chapter 420: Bulk Write Stopped Demanding One Secret Shape.
+ *
+ * The scribe may arrive with XML, JSON in content, a params object, a files map,
+ * or a writes array. The Awtsmoos fuses every honest carrier into the same list
+ * of complete-file rewrites, while path guards keep the letters inside their
+ * permitted vessel.
  */
 function number(value, fallback) {
   const n = Number(value);
@@ -77,19 +82,37 @@ function parseMaybeJson(value) {
   if (typeof value !== "string") return value;
   const text = value.trim();
   if (!text || !/^[\[{]/.test(text)) return value;
-  try { return JSON.parse(text); } catch (_) { return value; }
+  try { return JSON.parse(text); } catch (_error) { return value; }
 }
 
 function normalizeWrites(payload = {}) {
   const xmlWrites = parseXmlWrites(payload);
   if (xmlWrites.length) return xmlWrites;
-  const writesValue = parseMaybeJson(payload.writes);
-  const filesValue = parseMaybeJson(payload.files);
+  const fused = fusedWritePayload(payload);
+  const writesValue = parseMaybeJson(fused.writes);
+  const filesValue = parseMaybeJson(fused.files);
   if (Array.isArray(writesValue)) return normalizeArrayWrites(writesValue);
   if (filesValue && typeof filesValue === "object" && !Array.isArray(filesValue)) return Object.entries(filesValue).map(([filePath, content]) => ({ path: filePath, content: String(content ?? "") }));
   if (Array.isArray(filesValue)) return normalizeArrayWrites(filesValue);
-  if (payload.path || payload.p) return [{ path: String(payload.path || payload.p), content: String(payload.content ?? payload.text ?? "") }];
+  if (Array.isArray(fused)) return normalizeArrayWrites(fused);
+  if (fused.path || fused.p) return [{ path: String(fused.path || fused.p), content: String(fused.content ?? fused.text ?? "") }];
   return [];
+}
+
+function fusedWritePayload(payload = {}) {
+  const out = { ...payload };
+  for (const key of WRITE_CARRIERS) mergeWriteCarrier(out, payload[key]);
+  return out;
+}
+
+function mergeWriteCarrier(out, value) {
+  const parsed = parseMaybeJson(value);
+  if (!parsed || parsed === value) return;
+  if (Array.isArray(parsed)) {
+    if (!Array.isArray(out.writes)) out.writes = parsed;
+    return;
+  }
+  if (typeof parsed === "object") Object.assign(out, parsed);
 }
 
 function normalizeArrayWrites(list) {

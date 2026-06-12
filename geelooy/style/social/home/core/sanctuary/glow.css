@@ -1,0 +1,12 @@
+/* B"H Home sanctuary lower glow. */
+.home-sanctuary-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 1.25rem 1.25rem;
+  height: 16rem;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(245,202,112,.7), transparent 68%);
+  filter: blur(18px);
+  opacity: .7;
+}

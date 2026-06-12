@@ -1,3 +1,2 @@
-/* B"H floating reader controls. */
-.awtsmoos-floating-controls { position: fixed !important; inset: auto max(.85rem, env(safe-area-inset-right)) max(.85rem, env(safe-area-inset-bottom)) auto !important; z-index: 1800 !important; display: grid !important; gap: .6rem !important; pointer-events: none !important; }
-.awtsmoos-floating-controls button { pointer-events: auto !important; width: 3.2rem !important; height: 3.2rem !important; border: 1px solid rgba(255,255,255,.28) !important; border-radius: 999px !important; background: linear-gradient(135deg,#f4c56b,#b9853f) !important; color: #120c05 !important; font-weight: 950 !important; box-shadow: 0 .9rem 1.8rem rgba(0,0,0,.32) !important; }
+/* B"H Reader floating controls. */
+.awtsmoos-floating-controls { border: 1px solid var(--reader-line); border-radius: 999px; background: rgba(255,250,240,.88); box-shadow: var(--awt-elevation-2); backdrop-filter: blur(14px); padding: .35rem; }

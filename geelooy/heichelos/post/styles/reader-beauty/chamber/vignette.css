@@ -1,2 +1,2 @@
-/* B"H reader beauty chamber/vignette.css. */
-.post-reader-localized-context.awtsmoos-reader-vision::after { content:""; position:fixed; inset:0; pointer-events:none; box-shadow:inset 0 0 7rem rgba(0,0,0,.34); z-index:0; }
+/* B"H Reader chamber vignette. */
+.post-reader-localized-context::before { content: ""; position: fixed; inset: 0; pointer-events: none; background: radial-gradient(circle at center, transparent 50%, rgba(50,31,10,.08)); }

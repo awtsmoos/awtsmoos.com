@@ -1,0 +1,48 @@
+{
+  "BH": "B\"H",
+  "version": 1,
+  "wrappers": [
+    {
+      "wrapper": "geelooy/style/social/home/shell.css",
+      "owner": "home",
+      "status": "compatibility-wrapper",
+      "expiresWhen": "all imports use core/shell directly",
+      "targets": ["geelooy/style/social/home/core/shell/page.css", "geelooy/style/social/home/core/shell/surfaces.css"]
+    },
+    {
+      "wrapper": "geelooy/style/social/home/feed-shell.css",
+      "owner": "home",
+      "status": "compatibility-wrapper",
+      "expiresWhen": "all imports use core/feed directly",
+      "targets": ["geelooy/style/social/home/core/feed/shell.css", "geelooy/style/social/home/core/feed/header.css"]
+    },
+    {
+      "wrapper": "geelooy/style/social/home/composer.css",
+      "owner": "home",
+      "status": "compatibility-wrapper",
+      "expiresWhen": "all imports use core/feed/composer.css directly",
+      "targets": ["geelooy/style/social/home/core/feed/composer.css"]
+    },
+    {
+      "wrapper": "geelooy/style/social/home/post-card.css",
+      "owner": "home",
+      "status": "compatibility-wrapper",
+      "expiresWhen": "all imports use core/post-card directly",
+      "targets": ["geelooy/style/social/home/core/post-card/surface.css", "geelooy/style/social/home/core/post-card/author.css", "geelooy/style/social/home/core/post-card/body.css", "geelooy/style/social/home/core/post-card/media.css"]
+    },
+    {
+      "wrapper": "geelooy/style/social/home/discovery-card.css",
+      "owner": "home",
+      "status": "compatibility-wrapper",
+      "expiresWhen": "all imports use core/discovery directly",
+      "targets": ["geelooy/style/social/home/core/discovery/shell.css", "geelooy/style/social/home/core/discovery/links.css"]
+    },
+    {
+      "wrapper": "geelooy/style/social/home/responsive.css",
+      "owner": "home",
+      "status": "compatibility-wrapper",
+      "expiresWhen": "all imports use core/responsive directly",
+      "targets": ["geelooy/style/social/home/core/responsive/tablet.css", "geelooy/style/social/home/core/responsive/phone.css"]
+    }
+  ]
+}

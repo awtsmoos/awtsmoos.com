@@ -1,2 +1,7 @@
-/* B"H palette parchment.css: a color chamber. */
-:root { --theme-bg:#fff7e8; --theme-surface:#fffdf7; --theme-ink:#21170d; --theme-muted:#735f48; --theme-accent:#b9853f; }
+/* B"H parchment palette: readable light for living letters. */
+:root {
+  --awt-paper: #fffaf0;
+  --awt-paper-2: #f5ead7;
+  --awt-ink: #201508;
+  --awt-ink-soft: #6b5841;
+}

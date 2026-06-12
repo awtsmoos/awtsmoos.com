@@ -1,6 +1,6 @@
 // B"H
-/** @file recipeMap.js @description Chapter 938: recipe map imports RAM shader cottage. */
-import { gableHouse } from "./cottageRecipe.js?v=ram-shader-cottage-20260612-bh1";
+/** @file recipeMap.js @description Chapter 996: recipe map cache-busts the shaderless fast cottage. */
+import { gableHouse } from "./cottageRecipe.js?v=shaderless-fast-cottage-20260612-bh1";
 import { pergolaPortal, lantern } from "./portalRecipes.js";
 import { bench, cobbleRoad, fence, flowerPatch, rock, rockField, steps, terrace, well } from "./landscapeRecipes.js";
 import { meadowDetail } from "./fieldRecipes.js?v=village-polish-20260612-bh810";

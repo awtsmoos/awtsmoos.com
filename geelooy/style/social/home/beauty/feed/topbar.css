@@ -1,2 +1,2 @@
-/* B"H home beauty feed/topbar.css. */
-.home-feed-header { border-radius:1.15rem; background:rgba(255,255,255,.48); backdrop-filter:blur(10px); }
+/* B"H topbar polish. */
+.home-feed-header { border-bottom: 1px solid rgba(128,92,38,.10); }

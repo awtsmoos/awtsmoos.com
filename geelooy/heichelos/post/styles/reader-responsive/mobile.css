@@ -1,2 +1,2 @@
-/* B"H mobile reader. */
-@media (max-width: 520px) { .post-reader-localized-context #realPost.content { padding-inline: .85rem !important; } .scroll-chunk > .section, .post-reader-localized-context .section { padding: .9rem !important; } .awtsmoos-post-title-main { font-size: clamp(1.85rem,11vw,3rem) !important; } }
+/* B"H Reader mobile. */
+@media (max-width: 520px) { .awtsmoos-reader-content { width: calc(100vw - 1rem); font-size: 1.05rem; } .awtsmoos-reader-section { padding-inline: .7rem; } }

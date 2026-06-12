@@ -1,4 +1,4 @@
-//--- START OF NEW FILE commentCreation.js ---
+﻿//--- START OF NEW FILE commentCreation.js ---
 
 /**
  * B"H
@@ -425,21 +425,23 @@ async function addOrApproveComment(
             console.error("Database error adding comment:", dbError);
             return er("Database error: Could not append comment.", { code: "DB_WRITE_ERROR", details: dbError, path: aliasCommentFilePath, key: verseSection });
         }
-        // 5. Defer heavy indexes. No duplicate packed mirror is written; the comments DB is authoritative.
+        // 5. Index the search sidecar synchronously so read-after-write search is correct.
+        // No duplicate packed mirror is written; the comments DB is authoritative.
+        const searchIndex = await indexCommentSearchRecord({
+            $i,
+            comment: shtar,
+            heichelId,
+            seriesId,
+            parentId,
+            parentType,
+            postId,
+            aliasId,
+            status: "active"
+        });
+
         const sideEffects = [
             runCommentSideEffect("commentAliasIndex", () => addCommentIndexToAlias({
                 $i, aliasId, heichelId, seriesId, parentType, parentId, postId
-            })),
-            runCommentSideEffect("commentSearchIndex", () => indexCommentSearchRecord({
-                $i,
-                comment: shtar,
-                heichelId,
-                seriesId,
-                parentId,
-                parentType,
-                postId,
-                aliasId,
-                status: "active"
             }))
         ];
 
@@ -447,7 +449,7 @@ async function addOrApproveComment(
             sideEffects.push(runCommentSideEffect("submittedCommentCleanup", () => $i.db.delete(submittedCommentPath)));
         }
 
-        const searchIndex = { deferred: true, sideEffects };
+        searchIndex.sideEffects = sideEffects;
 
         traceCommentPhase("addOrApprove.beforeReturn", { commentId, aliasCommentFilePath, verseSection });
         traceCommentPhase("addOrApprove.beforeReturn", { commentId, aliasCommentFilePath, verseSection });
@@ -537,3 +539,4 @@ module.exports = {
     addCommentIndexToAlias // Exposed if needed elsewhere, otherwise internal helper
 };
 //--- END OF NEW FILE commentCreation.js ---
+
