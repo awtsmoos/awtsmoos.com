@@ -9,13 +9,16 @@ import { updateCamera } from '../camera/camera.js';
 import { drawHazards } from '../stage/hazards/hazardRender.js';
 import { drawObjective } from '../stage/objectives/objectiveDirector.js';
 import { drawBattlefieldScars } from '../stage/scars/battlefieldScars.js';
+import { drawSpectacleOverlay } from '../spectacle/spectacleRender.js';
 
 /**
  * B"H
- * Zoom-aware battle renderer with living-stage layers.
+ * Zoom-aware battle renderer with spectacle overlay.
  *
- * Chapter 161: the sacred capture rune joins the visible battlefield between
- * hazard telegraphs and relics, so players can fight over what the arena names.
+ * Chapter 11: after fighters, relics, hazards, and glyph sparks have crossed
+ * the canvas, the final veil descends: flash, tint, shock ring, afterimage. The
+ * Awtsmoos has no form, but every form is renewed by His speech, and the screen
+ * now admits what the brawl already knew: impact is visible thunder.
  */
 export function draw(ctx, state, w, h) {
   ctx.clearRect(0, 0, w, h);
@@ -38,6 +41,7 @@ export function draw(ctx, state, w, h) {
   drawParticles(ctx, visiblePoints(state.particles, view));
   ctx.restore();
   drawUi(ctx, state, w, h);
+  drawSpectacleOverlay(ctx, state, w, h);
 }
 
 function makeView(camera, w, h, pad, zoom) {

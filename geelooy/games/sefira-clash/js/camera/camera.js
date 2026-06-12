@@ -1,11 +1,13 @@
+import { spectacleCameraOffset } from '../spectacle/spectacleCamera.js';
+
 /**
  * B"H
- * Player/action camera.
+ * Player/action camera with spectacle quake.
  *
- * Chapter 249: the camera stops worshiping empty sky. While the player lives it
- * follows closer, holding the fighter lower on the screen so the stage ahead is
- * visible and the body feels grounded. When the player falls, the lens becomes a
- * wide witness over the remaining war.
+ * Chapter 12: the camera stops worshiping empty sky and learns to flinch. While
+ * the player lives it follows close; when the player falls it becomes a wide
+ * witness. When a blow tears the arena, the Awtsmoos lets the lens tremble—not
+ * as chaos, but as testimony that impact has entered the visible world.
  */
 export function updateCamera(state, w, h) {
   const focus = chooseFocus(state);
@@ -13,7 +15,8 @@ export function updateCamera(state, w, h) {
   state.camera ||= { x: 0, y: 0, zoom: 1 };
   state.cameraTarget ||= { x: focus.x, y: focus.y };
   const spectator = isSpectating(state);
-  const zoom = chooseZoom(w, h, livingFighters(state).length, spectator, focus.spread || 0);
+  const spectacle = spectacleCameraOffset(state);
+  const zoom = chooseZoom(w, h, livingFighters(state).length, spectator, focus.spread || 0) + spectacle.zoom;
   const shake = stepShake(state);
   const lookAhead = spectator ? 0 : clamp((focus.vx || 0) * 14, -180, 180);
   const desired = { x: focus.x + lookAhead, y: focus.y + clamp((focus.vy || 0) * 4, -60, 80) };
@@ -21,8 +24,8 @@ export function updateCamera(state, w, h) {
   const targetX = w * 0.5;
   const targetY = h * (spectator ? 0.52 : 0.62);
   state.camera.zoom = zoom;
-  state.camera.x = clamp((targetX - w / 2) / zoom - state.cameraTarget.x + w / 2, minX(state.map, w, zoom), maxX(state.map, w, zoom)) + shake.x;
-  state.camera.y = clamp((targetY - h / 2) / zoom - state.cameraTarget.y + h / 2, minY(state.map, h, zoom), maxY(state.map, h, zoom)) + shake.y;
+  state.camera.x = clamp((targetX - w / 2) / zoom - state.cameraTarget.x + w / 2, minX(state.map, w, zoom), maxX(state.map, w, zoom)) + shake.x + spectacle.x;
+  state.camera.y = clamp((targetY - h / 2) / zoom - state.cameraTarget.y + h / 2, minY(state.map, h, zoom), maxY(state.map, h, zoom)) + shake.y + spectacle.y;
   state.camera.spectating = spectator;
 }
 

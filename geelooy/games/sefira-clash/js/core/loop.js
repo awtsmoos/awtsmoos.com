@@ -23,14 +23,17 @@ import { addEventParticles, stepParticles } from '../particles/particles.js';
 import { addWeaponTrails } from '../particles/emitters/weaponTrails.js';
 import { addAmbientDust } from '../particles/emitters/ambientDust.js';
 import { playEvents } from '../feedback/feedback.js';
+import { stepSpectacleFromEvents } from '../spectacle/spectacleEvents.js';
+import { stepSpectacleState } from '../spectacle/spectacleState.js';
 
 /**
  * B"H
- * Full battle tick with fast-simulation bypass.
+ * Full battle tick with spectacle before particle consumption.
  *
- * Chapter 233: gameplay keeps every spark and story. Headless fast simulation
- * may skip render-only aftermath, so the war can be measured for many minutes
- * without asking particles to perform for an invisible audience.
+ * Chapter 10: the brawl remains a brawl. Damage does not bend. Physics does not
+ * beg. Yet before events vanish into sparks, the Awtsmoos lets the eye hear the
+ * blow: flash, quake, ring, streak. The created world is renewed from nothing,
+ * and the combat loop becomes the instant where that renewal roars.
  */
 export function stepState(state, input) {
   state.frame++;
@@ -47,14 +50,18 @@ export function stepState(state, input) {
   stepPowerups(state);
   syncHeldWeapons(state);
   stepStageDirector(state);
+  stepSpectacleFromEvents(state);
   stepAftermath(state);
+  stepSpectacleState(state);
   resolveWinner(state);
 }
 
 function stepHitstop(state) {
   if (!state.hitstop) return false;
   stepStageDirector(state);
+  stepSpectacleFromEvents(state);
   stepAftermath(state);
+  stepSpectacleState(state);
   resolveWinner(state);
   state.hitstop--;
   return true;
