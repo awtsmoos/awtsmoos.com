@@ -1,0 +1,1 @@
+import lib from './lib.js'; export * from './more.js'; import('./dyn.js'); fetch('./data.json'); console.log(lib);

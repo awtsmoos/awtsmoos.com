@@ -5,6 +5,8 @@ const { pathToFileURL } = require("url");
 const { stabilizeRemoteModuleSource } = require("./remoteModuleCompat.js");
 const { buildRuntimeVirtualEnv } = require("../runtimeVirtualEnv.js");
 const { buildRuntimeUrlEnv } = require("../runtimeUrlEnv.js");
+const { isNodeDomEngine } = require("../nodeDomRuntime/engineAliases.js");
+const { simulateNodeDomRuntime } = require("../nodeDomRuntime/index.js");
 
 function json64(value, fallback) {
   if (!value) return fallback;
@@ -57,7 +59,7 @@ async function collectOptions(payload = {}, config = {}) {
   const actions = browserActionsFrom(payload);
   return {
     runtime: payload.runtime || "browser",
-    engine: "merkava",
+    engine: payload.engine || "merkava",
     entry: env.entry || payload.entry || payload.path || payload.p || payload.target || "index.html",
     files: Object.keys(env.files || {}).length ? env.files : jsonMaybe(payload.files, json64(payload.files64, {})),
     virtualEnv: env,
@@ -74,7 +76,8 @@ async function collectOptions(payload = {}, config = {}) {
     returnValues: firstJson(payload, ["returnValues", "values"], []),
     values: firstJson(payload, ["values", "returnValues"], []),
     compactModules: payload.compactModules,
-    networkRewrite: payload.networkRewrite || null
+    networkRewrite: payload.networkRewrite || null,
+    format: payload.format || payload.returnFormat || payload.outputFormat || null
   };
 }
 
@@ -158,7 +161,10 @@ async function fallback(error, payload) {
 async function runService(payload, method, config = {}) {
   payload = expandRuntimePayload(payload);
   const options = await collectOptions(payload, config);
-  if (options.virtualEnv && options.virtualEnv.ok === false) return { ok: false, action: method, engine: "merkava", error: "runtime_preflight_failed", diagnostics: options.virtualEnv.diagnostics || [], virtualEnv: options.virtualEnv, options };
+  if (options.virtualEnv && options.virtualEnv.ok === false) return { ok: false, action: method, engine: options.engine || "merkava", error: "runtime_preflight_failed", diagnostics: options.virtualEnv.diagnostics || [], virtualEnv: options.virtualEnv, options };
+  if (method === "simulateRuntime" && isNodeDomEngine(options.engine)) {
+    return await simulateNodeDomRuntime(options);
+  }
   try {
     const service = await loadMerkavaService(payload, config);
     const fn = service && service[method];

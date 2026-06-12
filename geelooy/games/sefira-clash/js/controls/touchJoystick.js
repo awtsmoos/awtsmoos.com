@@ -1,9 +1,10 @@
 /**
  * B"H
- * Mobile joystick: horizontal movement, upward jump, downward fast-fall.
+ * Mobile joystick with exact analog aim.
  *
- * Chapter 86: the thumb circle stops pretending to be a full analog stick for
- * vertical movement. Left/right moves. Up jumps. Down fast-falls. Clear.
+ * Chapter 276: the thumb is no longer crushed into only up, down, or side.
+ * Movement still reads clean left/right, but combat receives the true circular
+ * vector, so a punch or kick can travel along the exact angle the player holds.
  */
 export function touchJoystick(doc, state) {
   const stick = doc.getElementById('stick');
@@ -13,18 +14,24 @@ export function touchJoystick(doc, state) {
   const move = event => {
     event.preventDefault();
     const r = center();
-    const dx = clamp(event.clientX - r.left - r.width / 2, -42, 42);
-    const dy = clamp(event.clientY - r.top - r.height / 2, -42, 42);
-    state.x = Math.abs(dx) < 8 ? 0 : dx / 42;
-    state.y = dy > 24 ? 1 : 0;
-    state.down = dy > 24;
-    state.jump = dy < -22;
-    nub.style.transform = `translate(${dx}px,${dy}px)`;
+    const rawX = event.clientX - r.left - r.width / 2;
+    const rawY = event.clientY - r.top - r.height / 2;
+    const clamped = clampCircle(rawX, rawY, 42);
+    const mag = Math.hypot(clamped.x, clamped.y) / 42;
+    state.x = Math.abs(clamped.x) < 8 ? 0 : clamped.x / 42;
+    state.y = Math.abs(clamped.y) < 8 ? 0 : clamped.y / 42;
+    state.aimX = mag < 0.18 ? 0 : clamped.x / 42;
+    state.aimY = mag < 0.18 ? 0 : clamped.y / 42;
+    state.down = clamped.y > 20;
+    state.jump = clamped.y < -22;
+    nub.style.transform = `translate(${clamped.x}px,${clamped.y}px)`;
   };
   const end = event => {
     event?.preventDefault?.();
     state.x = 0;
     state.y = 0;
+    state.aimX = 0;
+    state.aimY = 0;
     state.down = false;
     state.jump = false;
     nub.style.transform = 'translate(0,0)';
@@ -35,6 +42,9 @@ export function touchJoystick(doc, state) {
   stick.addEventListener('pointercancel', end);
 }
 
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
+function clampCircle(x, y, radius) {
+  const len = Math.hypot(x, y);
+  if (len <= radius) return { x, y };
+  const scale = radius / len;
+  return { x: x * scale, y: y * scale };
 }

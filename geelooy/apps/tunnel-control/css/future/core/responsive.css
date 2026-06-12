@@ -1,11 +1,11 @@
 /* B"H */
 /**
  * B"H
- * Chapter 363: The Narrow Glass Stopped Shattering Words.
+ * Chapter 41: Responsiveness became dynamic responsibility.
  *
- * The Awtsmoos presses an infinite dashboard into a phone-width vessel. Every
- * card, pill, path, mesh node, status label, and code ember must learn humility:
- * min-width zero, wrapping everywhere, no secret horizontal exile.
+ * The Awtsmoos does not merely shrink desktop into mobile. It reforms the same
+ * dashboard into wide deck, tablet grid, phone app, and tiny fallback while
+ * preventing hidden horizontal exile.
  */
 .awt-control-shell :where(*, *::before, *::after) { box-sizing: border-box; }
 .awt-control-shell :where(.panel,.notice,.saved-key-card,.awt-mesh-node,.awt-mesh-row,.status-card,.diagnostic-item,.action-card,.workspace-card,.result-card,.awt-provider-chip) { min-width: 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
@@ -14,44 +14,62 @@
 .awt-control-shell :where(.button-row,.saved-key-actions,.awt-login-actions) { display: flex; flex-wrap: wrap; gap: 10px; min-width: 0; }
 .awt-control-shell :where(.button-row > *,.saved-key-actions > *,.awt-login-actions > *) { min-width: min(100%, 9rem); }
 .awt-control-shell :where(table) { display: block; max-width: 100%; overflow-x: auto; }
-@media (max-width: 1240px) {
-  .awt-control-shell { grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); }
-  .awt-dashboard { grid-template-columns: 1fr; }
+
+@media (min-width: 1180px) {
+  .awt-feature-dashboard-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+
+@media (min-width: 1460px) {
+  .awt-feature-dashboard-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1120px) {
+  .awt-control-shell { grid-template-columns: minmax(220px, 250px) minmax(0, 1fr); padding: 14px; }
+  .awt-dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .awt-feature-dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .awt-nav-copy small { display: none; }
+}
+
 @media (max-width: 900px) {
   .awt-control-shell { grid-template-columns: 1fr; padding: 12px; overflow-x: hidden; }
-  .awt-control-side { position: relative; top: 0; max-height: none; border-radius: var(--awt-radius-4); }
-  .awt-side-tabs { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-  .awt-dashboard, .awt-workspace-stage, .awt-login-card { border-radius: var(--awt-radius-4); }
+  .awt-control-side { position: relative; top: 0; max-height: none; border-radius: 24px; }
+  .awt-dashboard, .awt-workspace-stage, .awt-login-card { border-radius: 24px; }
   .awt-control-shell :where(.form-grid,.terminal-grid) { grid-template-columns: 1fr; }
   .awt-control-shell :where(.span-12,.span-6,.span-5,.span-4,.span-3,.span-2) { grid-column: auto; }
-  .awt-task-row { grid-template-columns: auto minmax(0, 1fr); }
-  .awt-task-progress, .awt-task-state { grid-column: 2; }
   .awt-control-shell .awt-mesh-row { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
 }
-@media (max-width: 620px) {
+
+@media (max-width: 760px) {
   body { overflow-x: hidden; }
-  body::before { background-size: 36px 36px, 36px 36px, auto; }
-  .awt-control-shell, .awt-login-gate { padding: 10px; }
-  .awt-brand-block, .awt-runtime-switcher { padding: 13px; border-radius: var(--awt-radius-3); }
-  .awt-side-tabs { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .awt-nav-button { border-radius: 22px; }
-  .awt-nav-button strong { white-space: normal; line-height: 1.1; }
-  .awt-dashboard { padding: 14px; }
-  .awt-dashboard-copy h2, .awt-login-card h1 { font-size: clamp(2rem, 13vw, 3.6rem); letter-spacing: -.085em; }
-  .awt-dashboard-metrics, .awt-feature-dashboard-grid, .awt-mode-grid, .awt-provider-grid { grid-template-columns: 1fr; }
-  .awt-action-card { grid-template-columns: 1fr; min-height: 0; padding: 16px; border-radius: var(--awt-radius-3); }
-  .awt-kabbalah-map { min-height: 360px; }
-  .awt-workspace-toolbar { align-items: stretch; flex-direction: column; }
+  body::before { background-size: 42px 42px, 42px 42px, auto; opacity: .85; }
+  body::after { opacity: .08; }
+  .awt-dashboard { padding: 14px; gap: 14px; }
+  .awt-dashboard-head { grid-template-columns: 1fr; }
+  .awt-dashboard-head h2 { font-size: clamp(1.8rem, 9vw, 2.55rem); }
+  .awt-dashboard-metrics { grid-template-columns: 1fr; }
+  .awt-feature-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .awt-action-card { min-height: 132px; padding: 14px 10px; border-radius: 16px; }
+  .awt-action-icon { width: 48px; height: 48px; border-radius: 18px; }
+  .awt-action-icon .awt-svg-icon { width: 26px; height: 26px; }
+  .awt-action-copy span { display: none; }
+  .awt-card-meta { gap: 5px; }
+  .awt-card-chip { padding: 4px 7px; font-size: .62rem; }
+  .awt-page-controls { justify-content: space-between; }
   .awt-control-shell :where([data-pane], .awt-pane-content) { padding: 14px; }
   .awt-control-shell :where(.two-grid,.check-grid,.awt-mesh-graph,.chrome-grid,.docs-grid,.usage-grid,.explorer-grid) { grid-template-columns: minmax(0, 1fr); }
-  .awt-login-actions { align-items: stretch; flex-direction: column; }
-  .awt-login-actions > * { width: 100%; }
-  .awt-command-palette { top: 8px; width: calc(100vw - 16px); border-radius: var(--awt-radius-3); }
+  .awt-command-palette { top: 8px; width: calc(100vw - 16px); border-radius: 20px; }
 }
-@media (max-width: 390px) {
-  .awt-side-tabs { grid-template-columns: 1fr; }
+
+@media (max-width: 430px) {
+  .awt-feature-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .awt-action-card { min-height: 124px; }
+  .awt-action-copy strong { font-size: .88rem; }
+  .awt-card-chip.is-group { display: none; }
+  .awt-filter-tab { padding-inline: 10px; }
+}
+
+@media (max-width: 350px) {
+  .awt-feature-dashboard-grid { grid-template-columns: 1fr; }
   .awt-mini-kicker { letter-spacing: .08em; }
-  .awt-dashboard-copy h2, .awt-login-card h1 { letter-spacing: -.07em; }
   .awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card) { width: 100%; }
 }

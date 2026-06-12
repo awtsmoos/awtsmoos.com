@@ -1,0 +1,1 @@
+import alias from './alias.js'; export * from './more.js'; import('./dyn.js'); fetch('./data.json'); window.actorValue=alias+2;

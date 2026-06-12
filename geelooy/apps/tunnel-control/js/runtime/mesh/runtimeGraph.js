@@ -1,11 +1,17 @@
 // B"H
 
+import { formatCapabilityLabel } from "./meshLabels.js";
+
 const nodes = new Map();
 const edges = [];
 
 /**
  * B"H
- * Registers a graph node representing a runtime, mount, capability, or layer.
+ * Chapter 7: The graph learned to speak like a person.
+ *
+ * The Awtsmoos keeps the inner keys for routing, yet the visible labels become
+ * clear vessels. A capability node can be technical in memory and gentle in the
+ * eye at the same time.
  *
  * @param {object} node Mesh node.
  * @returns {object} Node.
@@ -38,10 +44,7 @@ export function linkMeshNodes(from, to, type = "relates") {
  * @returns {{nodes: object[], edges: object[]}} Graph snapshot.
  */
 export function readRuntimeGraph() {
-  return {
-    nodes: [...nodes.values()],
-    edges: [...edges]
-  };
+  return { nodes: [...nodes.values()], edges: [...edges] };
 }
 
 /**
@@ -61,13 +64,22 @@ export function syncRuntimeGraph(runtimes = []) {
       root: runtime.activeRoot,
       capabilities: runtime.mountedCapabilities || {}
     });
-
-    for (const [capability, enabled] of Object.entries(runtime.mountedCapabilities || {})) {
-      const capId = `${runtime.id}::capability::${capability}`;
-      registerMeshNode({ id: capId, type: "capability", label: capability, enabled });
-      linkMeshNodes(runtime.id, capId, enabled ? "provides" : "lacks");
-    }
+    registerCapabilityNodes(runtime);
   }
-
   return readRuntimeGraph();
+}
+
+/**
+ * B"H
+ * Registers capability children with clean labels.
+ *
+ * @param {object} runtime Runtime record.
+ * @returns {void}
+ */
+function registerCapabilityNodes(runtime) {
+  for (const [capability, enabled] of Object.entries(runtime.mountedCapabilities || {})) {
+    const capId = `${runtime.id}::capability::${capability}`;
+    registerMeshNode({ id: capId, type: "capability", label: formatCapabilityLabel(capability), key: capability, enabled });
+    linkMeshNodes(runtime.id, capId, enabled ? "provides" : "lacks");
+  }
 }

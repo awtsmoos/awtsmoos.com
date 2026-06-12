@@ -1,0 +1,74 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 6 and 22: The mesh became a grid before it became a map.
+ *
+ * The Awtsmoos hides the raw storm until the traveler knocks. Runtime cards are
+ * the first surface; graph, health, mounts, projections, and JSON open only
+ * after a deliberate selection.
+ */
+.awt-mesh-panel { gap: 16px; }
+.awt-mesh-panel .panel,
+.awt-mesh-card {
+  border: 1px solid rgba(166, 218, 255, .15);
+  background: linear-gradient(180deg, rgba(9, 20, 38, .92), rgba(5, 12, 24, .96));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .24);
+}
+.awt-mesh-card h3 { margin: 0; letter-spacing: -.02em; }
+.awt-runtime-entry-grid,
+.awt-runtime-health-list,
+.awt-mesh-list { display: grid; gap: 10px; }
+.awt-runtime-entry-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.awt-runtime-entry {
+  min-height: 112px;
+  display: grid;
+  gap: 7px;
+  padding: 14px;
+  border: 1px solid rgba(166, 218, 255, .16);
+  border-radius: 18px;
+  color: var(--awt-ink);
+  background: rgba(255, 255, 255, .04);
+  text-align: left;
+  cursor: pointer;
+}
+.awt-runtime-entry:hover,
+.awt-runtime-entry:focus-visible {
+  border-color: rgba(119, 236, 255, .34);
+  background: rgba(119, 236, 255, .09);
+}
+.awt-runtime-entry span,
+.awt-runtime-entry small,
+.awt-mesh-row span,
+.awt-runtime-subtitle { color: var(--awt-muted); overflow-wrap: anywhere; }
+.awt-runtime-detail[hidden] { display: none !important; }
+.awt-runtime-detail { display: grid; gap: 12px; }
+.awt-mesh-row,
+.awt-runtime-health-row {
+  min-width: 0;
+  border: 1px solid rgba(166, 218, 255, .13);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .035);
+  overflow-wrap: anywhere;
+}
+.awt-mesh-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 12px 14px; }
+.awt-runtime-health-row { display: grid; gap: 11px; padding: 14px; }
+.awt-runtime-health-top,
+.awt-runtime-facts,
+.awt-capability-chips { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.awt-runtime-health-top { justify-content: space-between; }
+.awt-status-pill,
+.awt-capability-chip,
+.awt-runtime-fact { border-radius: 999px; padding: 6px 10px; font-size: .78rem; font-weight: 850; }
+.awt-status-pill.connected,
+.awt-capability-chip.is-enabled { color: var(--awt-green); background: rgba(125, 255, 186, .12); }
+.awt-status-pill.offline,
+.awt-capability-chip.is-disabled { color: #ff9aa8; background: rgba(255, 112, 128, .12); }
+.awt-runtime-fact { display: inline-flex; gap: 6px; color: var(--awt-ink); background: rgba(255, 255, 255, .055); }
+.awt-json-reveal { display: grid; gap: 8px; }
+.awt-json-reveal-button { justify-self: start; }
+.awt-json-reveal-output[hidden] { display: none !important; }
+.awt-json-reveal-output { max-height: 320px; margin: 0; white-space: pre-wrap; overflow: auto; overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .awt-mesh-row { grid-template-columns: 1fr; }
+  .awt-runtime-health-top { align-items: flex-start; }
+}

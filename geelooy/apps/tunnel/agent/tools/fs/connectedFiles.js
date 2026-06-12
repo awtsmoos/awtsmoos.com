@@ -1,52 +1,80 @@
 // B"H
 const fs = require("fs/promises");
 const path = require("path");
-const { safePath } = require("./pathGuard.js");
+const { safePath, rel } = require("./pathGuard.js");
 const { symbols } = require("./symbolOutline.js");
+const { readBulk } = require("./bulkRead.js");
+const { refsForConnectedText } = require("./connectedRefs.js");
+const { pageState, describePage, nextPagePayload, parseLimit } = require("./bulkPage.js");
 
-const IMPORT_RE = /(?:import\s+(?:[^'"]+\s+from\s+)?|export\s+[^'"]+\s+from\s+|import\s*\()\s*['"]([^'"]+)['"]/g;
-const EXTENSIONS = ["", ".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx", ".json", "/index.js"];
+/**
+ * B"H
+ * Chapter 359: Connected Files Became A Living Constellation.
+ * JS imports, HTML-delivered scripts, stylesheet @imports, link hrefs, import
+ * maps, inline module bodies, and fetch roads are gathered into one graph. Then
+ * only one generous page is read, so the next command can keep traveling.
+ */
 
-async function exists(p) {
-  try { const st = await fs.stat(p); return st.isFile() ? p : null; } catch (_) { return null; }
+function slash(value) {
+  return String(value || "").replace(/\\/g, "/");
 }
 
-async function resolveImport(fromFile, spec) {
-  if (!spec.startsWith(".")) return null;
-  const base = path.resolve(path.dirname(fromFile), spec);
-  for (const ext of EXTENSIONS) {
-    const got = await exists(base + ext);
-    if (got) return got;
+async function fileExists(abs) {
+  try { return (await fs.stat(abs)).isFile(); } catch (_) { return false; }
+}
+
+async function resolveExisting(config, refPath) {
+  for (const candidate of [refPath, refPath + ".js", refPath + ".mjs", refPath + ".cjs", refPath + ".json", refPath + "/index.js"]) {
+    const abs = safePath(config, candidate);
+    if (await fileExists(abs)) return abs;
   }
   return null;
 }
 
-async function connectedFiles(config, payload) {
-  const entry = safePath(config, payload.path || payload.p || ".");
-  const maxDepth = Number(payload.depth || payload.maxDepth || 4);
-  const maxFiles = Number(payload.maxFiles || 80);
-  const mode = payload.mode || "full";
-  const seen = new Set();
-  const files = [];
-
-  async function visit(file, depth) {
-    if (seen.has(file) || files.length >= maxFiles || depth > maxDepth) return;
-    seen.add(file);
-    let text = "";
-    try { text = await fs.readFile(file, "utf8"); } catch (_) { return; }
-    const rel = path.relative(config.root, file).replace(/\\/g, "/");
-    files.push({ path: rel, depth, bytes: Buffer.byteLength(text), symbols: mode === "outline" ? symbols(text) : undefined, content: mode === "full" ? text : undefined });
-
-    let m;
-    IMPORT_RE.lastIndex = 0;
-    while ((m = IMPORT_RE.exec(text))) {
-      const next = await resolveImport(file, m[1]);
-      if (next) await visit(next, depth + 1);
-    }
-  }
-
-  await visit(entry, 0);
-  return { ok: true, action: "connectedFiles", entry: path.relative(config.root, entry).replace(/\\/g, "/"), mode, count: files.length, files };
+function fileRecord(config, abs, depth, text, mode, refInfo) {
+  const filePath = rel(config, abs);
+  return { path: filePath, depth, bytes: Buffer.byteLength(text), refs: refInfo.refs, refSources: refInfo.sources, merkava: refInfo.merkava, symbols: mode === "outline" ? symbols(text) : undefined, content: mode === "graph" ? undefined : text };
 }
 
-module.exports = { connectedFiles };
+async function collectConnectedGraph(config, payload) {
+  const entry = safePath(config, payload.path || payload.p || ".");
+  const maxDepth = Number(payload.depth || payload.maxDepth || 4);
+  const maxGraphFiles = Number(payload.maxGraphFiles || payload.scanMaxFiles || 1000);
+  const mode = payload.mode || "full";
+  const queue = [{ abs: entry, depth: 0 }], seen = new Set(), files = [], edges = [];
+  while (queue.length && files.length < maxGraphFiles) {
+    const { abs, depth } = queue.shift();
+    if (seen.has(abs) || depth > maxDepth || !(await fileExists(abs))) continue;
+    seen.add(abs);
+    const text = await fs.readFile(abs, "utf8");
+    const from = rel(config, abs);
+    const refInfo = await refsForConnectedText(text, slash(from));
+    files.push(fileRecord(config, abs, depth, text, mode, refInfo));
+    for (const refPath of refInfo.refs) {
+      const next = await resolveExisting(config, refPath);
+      if (!next) continue;
+      edges.push({ from, to: rel(config, next), depth: depth + 1 });
+      if (!seen.has(next)) queue.push({ abs: next, depth: depth + 1 });
+    }
+  }
+  return { entry: rel(config, entry), mode, maxDepth, files, edges, truncatedGraph: queue.length > 0 };
+}
+
+function pageGraph(graph, payload) {
+  const state = pageState(payload, graph.files.length);
+  const pageFiles = graph.files.slice(state.cursor, state.end);
+  const paths = pageFiles.map(file => file.path);
+  return { state, pageFiles, paths };
+}
+
+async function connectedFiles(config, payload) {
+  const graph = await collectConnectedGraph(config, payload);
+  const page = pageGraph(graph, payload);
+  if (payload.readAsBulk || payload.bulk || payload.mode === "bulk") {
+    return await readBulk(config, { ...payload, action: "bulk", paths: page.paths, p: "", page: 1, cursor: 0, maxFiles: page.paths.length || 1 });
+  }
+  const limits = { maxFiles: page.state.pageSize, maxChars: parseLimit(payload.maxChars, 12000), maxBytes: parseLimit(payload.maxBytes, 24000), totalMaxBytes: parseLimit(payload.totalMaxBytes ?? payload.totalMaxChars, Infinity), maxDepth: graph.maxDepth };
+  return { ok: true, action: "connectedFiles", entry: graph.entry, mode: graph.mode, count: graph.files.length, returnedCount: page.pageFiles.length, page: page.state.page, cursor: page.state.cursor, nextCursor: page.state.nextCursor, pageSize: page.state.pageSize, partial: page.state.hasNext || graph.truncatedGraph, message: describePage("connected files read", page.state, limits), nextPagePayload: nextPagePayload(payload, "connectedFiles", page.state), edges: graph.edges, files: page.pageFiles };
+}
+
+module.exports = { connectedFiles, collectConnectedGraph, resolveExisting };

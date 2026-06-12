@@ -2,18 +2,25 @@
  * B"H
  * Combat input intent interpreter.
  *
- * Chapter 174: the same two buttons now unfold like many gates. Tap, hold,
- * spam, aim, air state, and grab all become explicit intentions before any
- * attack is created, so combat stops being a single blunt verb.
+ * Chapter 35 revised: holding punch is sacred charge. Rapid attacks come only
+ * from repeated presses or AI-issued rapid requests. A held button must never
+ * secretly convert into a flurry because its destiny is to gather power.
  */
 export function readCombatIntent(f, input) {
-  const aim = readAim(f, input);
+  f.charge ||= { prev: {} };
+  const liveAim = readAim(f, input);
   const pressed = buttonEdges(f, input);
+  rememberPressAim(f, pressed, liveAim);
   const rapid = rapidIntent(f, pressed);
   return {
-    aim,
+    aim: attackAim(f, input, liveAim),
+    liveAim,
     pressed,
     rapid,
+    rapidPunch: !!input.rapidPunch || rapid.punch,
+    rapidKick: !!input.rapidKick || rapid.kick,
+    aiChargePunch: !!input.chargePunch,
+    aiChargeKick: !!input.chargeKick,
     punchHeld: !!input.punch,
     kickHeld: !!input.kick,
     grabHeld: !!input.grab,
@@ -28,15 +35,18 @@ export function readCombatIntent(f, input) {
 }
 
 export function readAim(f, input) {
-  const rawX = input.aimX || input.x || 0;
-  const rawY = input.aimY || input.y || 0;
-  const x = Math.abs(rawX) > 0.18 ? Math.sign(rawX) : f.face || 1;
-  const y = Math.abs(rawY) > 0.35 ? Math.sign(rawY) : 0;
-  return { x, y, up: y < 0, down: y > 0, side: Math.abs(rawX) > 0.45 };
+  const rawX = number(input.aimX ?? input.x);
+  const rawY = number(input.aimY ?? input.y);
+  const mag = Math.hypot(rawX, rawY);
+  if (mag < 0.18) return enrichAim(f.face || 1, 0, rawX, rawY, 0);
+  return enrichAim(rawX / mag, rawY / mag, rawX, rawY, Math.min(1, mag));
+}
+
+function enrichAim(x, y, rawX, rawY, mag) {
+  return { x, y, rawX, rawY, mag, angle: Math.atan2(y, x), up: y < -0.42, down: y > 0.42, side: Math.abs(x) > 0.35 };
 }
 
 function buttonEdges(f, input) {
-  f.charge ||= { prev: {} };
   const prev = f.charge.prev || {};
   return {
     punch: !prev.punch && !!input.punch,
@@ -48,6 +58,22 @@ function buttonEdges(f, input) {
   };
 }
 
+function rememberPressAim(f, pressed, aim) {
+  f.charge.pressAim ||= {};
+  if (pressed.punch) f.charge.pressAim.punch = { ...aim };
+  if (pressed.kick) f.charge.pressAim.kick = { ...aim };
+  if (pressed.grab) f.charge.pressAim.grab = { ...aim };
+  if (pressed.special) f.charge.pressAim.special = { ...aim };
+}
+
+function attackAim(f, input, liveAim) {
+  if (input.kick && f.charge?.pressAim?.kick) return f.charge.pressAim.kick;
+  if (input.punch && f.charge?.pressAim?.punch) return f.charge.pressAim.punch;
+  if (input.grab && f.charge?.pressAim?.grab) return f.charge.pressAim.grab;
+  if (input.special && f.charge?.pressAim?.special) return f.charge.pressAim.special;
+  return liveAim;
+}
+
 function rapidIntent(f, pressed) {
   f.rapid ||= { punchTap: 0, kickTap: 0, timer: 0 };
   f.rapid.timer = Math.max(0, f.rapid.timer - 1);
@@ -55,7 +81,7 @@ function rapidIntent(f, pressed) {
   if (pressed.kick) f.rapid.kickTap = f.rapid.timer > 0 ? f.rapid.kickTap + 1 : 1;
   if (pressed.punch || pressed.kick) f.rapid.timer = 18;
   return {
-    punch: f.rapid.punchTap >= 3 && f.rapid.timer > 0,
+    punch: f.rapid.punchTap >= 2 && f.rapid.timer > 0,
     kick: f.rapid.kickTap >= 3 && f.rapid.timer > 0
   };
 }
@@ -64,3 +90,5 @@ export function rememberCombatInput(f, input) {
   f.charge ||= {};
   f.charge.prev = { punch: !!input.punch, kick: !!input.kick, grab: !!input.grab, special: !!input.special };
 }
+
+function number(value) { return Number.isFinite(Number(value)) ? Number(value) : 0; }

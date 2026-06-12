@@ -1,37 +1,57 @@
 /* B"H */
 /**
  * B"H
- * Chapter 387: Diagnostics Descended Into A Closed Chamber.
+ * Chapter 37: Thonglasos remained, but became obedient.
  *
- * Glass cards remain beautiful, but raw JSON no longer floods the road. Result
- * cards speak plainly first; only an opened details gate reveals the full raw
- * response, wrapped and bounded for mobile eyes.
+ * The Awtsmoos keeps the cool glass shimmer requested by the user, yet every
+ * panel now serves the picture-language: quiet navy, soft borders, restrained
+ * glow, and readable depth across desktop and mobile.
  */
-.awt-control-side, .awt-dashboard, .awt-workspace-stage, .awt-login-card,
+.awt-control-side,
+.awt-dashboard,
+.awt-workspace-stage,
+.awt-login-card,
 .awt-control-shell :where(.panel,.result-card,.notice,.saved-key-card,.root-dialog,.awt-mesh-node,.awt-mesh-row,.diagnostic-item,.status-card,.action-card,.security-card,.workspace-card,.awt-result-card) {
   border: 1px solid var(--awt-line);
   background:
-    linear-gradient(145deg, var(--awt-glass-1), rgba(4,9,20,.70)),
-    radial-gradient(circle at 14% 0%, rgba(119,236,255,.12), transparent 36%),
-    radial-gradient(circle at 96% 4%, rgba(188,149,255,.12), transparent 38%);
-  box-shadow: var(--awt-shadow), inset 0 1px 0 rgba(255,255,255,.08);
-  backdrop-filter: blur(24px) saturate(145%);
+    linear-gradient(180deg, rgba(13, 29, 50, .82), rgba(5, 13, 26, .90)),
+    radial-gradient(circle at 12% 0%, rgba(40,124,255,.08), transparent 34%),
+    radial-gradient(circle at 96% 4%, rgba(140,104,255,.07), transparent 38%);
+  box-shadow: var(--awt-shadow-soft), inset 0 1px 0 rgba(255,255,255,.065);
+  backdrop-filter: blur(20px) saturate(136%);
   position: relative;
 }
-.awt-control-side::before, .awt-dashboard::before, .awt-workspace-stage::before, .awt-login-card::before,
+
+.awt-control-side::before,
+.awt-dashboard::before,
+.awt-workspace-stage::before,
+.awt-login-card::before,
 .awt-control-shell :where(.panel,.result-card,.notice,.saved-key-card,.root-dialog,.awt-mesh-node,.awt-mesh-row,.diagnostic-item,.status-card,.action-card,.security-card,.workspace-card,.awt-result-card)::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(120deg, transparent 0 38%, rgba(119,236,255,.075) 50%, transparent 64% 100%);
+  background:
+    linear-gradient(120deg, transparent 0 40%, rgba(94,220,255,.050) 50%, transparent 62% 100%),
+    linear-gradient(180deg, rgba(255,255,255,.050), transparent 28%);
 }
+
+.awt-control-side > *,
+.awt-dashboard > *,
+.awt-workspace-stage > *,
+.awt-login-card > *,
+.awt-control-shell :where(.panel,.result-card,.notice,.saved-key-card,.root-dialog,.awt-mesh-node,.awt-mesh-row,.diagnostic-item,.status-card,.action-card,.security-card,.workspace-card,.awt-result-card) > * {
+  position: relative;
+  z-index: 1;
+}
+
 .awt-control-shell :where(.panel,.result-card,.notice,.saved-key-card,.root-dialog,.awt-mesh-node,.awt-mesh-row,.diagnostic-item,.status-card,.action-card,.security-card,.workspace-card,.awt-result-card) {
-  border-radius: var(--awt-radius-3);
+  border-radius: var(--awt-radius-4);
   padding: 16px;
   overflow: hidden;
 }
+
 .awt-result-card {
   display: grid;
   gap: 10px;
@@ -39,26 +59,12 @@
   overflow-wrap: anywhere;
   white-space: normal;
 }
+
 .awt-result-card strong { font-size: 1rem; line-height: 1.15; }
 .awt-result-card p { margin: 0; color: var(--awt-muted); line-height: 1.35; }
-.awt-result-error { border-color: rgba(255,112,128,.35) !important; }
-.awt-result-ok { border-color: rgba(125,255,186,.25) !important; }
+.awt-result-error { border-color: rgba(255,85,115,.36) !important; }
+.awt-result-ok { border-color: rgba(47,231,122,.26) !important; }
 .awt-result-next { color: var(--awt-gold) !important; }
-.awt-raw-details {
-  border-top: 1px solid rgba(255,255,255,.1);
-  padding-top: 10px;
-}
-.awt-raw-details summary {
-  cursor: pointer;
-  color: var(--awt-cyan);
-  font-weight: 900;
-}
-.awt-raw-details pre {
-  max-height: 42vh;
-  overflow: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-size: .78rem;
-  line-height: 1.25;
-  margin: 10px 0 0;
-}
+.awt-raw-details { border-top: 1px solid rgba(255,255,255,.08); padding-top: 10px; }
+.awt-raw-details summary { cursor: pointer; color: var(--awt-cyan); font-weight: 900; }
+.awt-raw-details pre { max-height: 42vh; overflow: auto; white-space: pre-wrap; word-break: break-word; font-size: .78rem; line-height: 1.25; margin: 10px 0 0; }

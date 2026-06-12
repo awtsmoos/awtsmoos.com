@@ -9,7 +9,9 @@ import { integrate } from '../physics/integrate.js';
 import { updateLedgeGrab } from '../physics/ledgeGrab.js';
 import { resolvePlatforms } from '../physics/platforms.js';
 import { resolveWalls } from '../physics/walls.js';
+import { resolveLipRescue } from '../physics/lipRescue.js';
 import { attachBlastEvents, resolveBlast } from '../physics/blastZones.js';
+import { stepRespawns } from '../physics/respawn.js';
 import { resolveStomps } from '../physics/special/stomp.js';
 import { resolveLandingShockwaves } from '../physics/special/landingShockwave.js';
 import { solveSkeleton } from '../skeleton/solveSkeleton.js';
@@ -21,16 +23,11 @@ import { addWeaponTrails } from '../particles/emitters/weaponTrails.js';
 import { addAmbientDust } from '../particles/emitters/ambientDust.js';
 import { playEvents } from '../feedback/feedback.js';
 
-/**
- * B"H
- * One full battle tick: planner, combat, movement, ledges, walls, platforms.
- *
- * Chapter 210: the new systems are threaded into time. Grabs update, ledges
- * catch, walls bounce, platforms land, and every event becomes sound/light.
- */
+/** B"H — full battle tick with delayed respawns and living aftermath. */
 export function stepState(state, input) {
   state.frame++;
   attachBlastEvents(state.map, state.events);
+  stepRespawns(state);
   if (stepHitstop(state)) return;
   driveBots(state);
   for (const f of state.fighters) stepFighter(state, f, f.human ? input : f.input);
@@ -54,7 +51,7 @@ function stepHitstop(state) {
 }
 
 function stepAftermath(state) {
-  playEvents(state.events);
+  playEvents(state.events, state);
   stepNarrative(state);
   addWeaponTrails(state);
   addAmbientDust(state);
@@ -63,10 +60,11 @@ function stepAftermath(state) {
 }
 
 function stepFighter(state, f, input) {
-  if (f.dead) return;
+  if (f.dead || f.hidden || f.respawnTimer) return;
   f.wasGrounded = !!f.grounded;
   f.lastInput = input;
   f.stun = Math.max(0, f.stun - 1);
+  f.respawnGrace = Math.max(0, (f.respawnGrace || 0) - 1);
   updateShield(f, input);
   maybeStartAttack(f, input, state);
   applyMovement(f, input);
@@ -75,6 +73,7 @@ function stepFighter(state, f, input) {
   updateLedgeGrab(f, state.map, input);
   f.preLandingVy = f.vy;
   resolvePlatforms(f, state.map);
+  resolveLipRescue(f, state.map);
   solveSkeleton(f);
   resolveBlast(f, state.map);
 }

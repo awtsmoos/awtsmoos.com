@@ -1,30 +1,198 @@
 /* B"H */
+/**
+ * B"H
+ * Chapter 38: The shell learned to breathe across vessels.
+ *
+ * Desktop receives the picture's command tower. Tablet keeps a responsible
+ * rail. Mobile becomes a thumb-driven app with a bottom nav. The Awtsmoos does
+ * not freeze layout; it adapts the same light into each screen.
+ */
 .awt-control-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: clamp(270px, 22vw, 360px) minmax(0, 1fr);
-  gap: var(--awt-gap);
-  padding: clamp(12px, 2vw, 30px);
+  grid-template-columns: clamp(248px, 19vw, 292px) minmax(0, 1fr);
+  gap: clamp(14px, 1.4vw, 22px);
+  padding: clamp(12px, 1.4vw, 20px);
 }
-.awt-control-side { position: sticky; top: clamp(10px, 2vw, 24px); max-height: calc(100vh - clamp(20px, 4vw, 48px)); overflow: auto; display: grid; align-content: start; gap: 14px; padding: 14px; border-radius: var(--awt-radius-5); }
-.awt-control-main { min-width: 0; display: grid; gap: var(--awt-gap); align-content: start; }
-.awt-brand-block, .awt-runtime-switcher { display: grid; gap: 12px; padding: 16px; border: 1px solid rgba(255,255,255,.1); border-radius: var(--awt-radius-3); background: rgba(255,255,255,.045); }
-.awt-brand-block h1 { margin: 0; font-size: clamp(1.55rem, 2.4vw, 2.35rem); line-height: .9; letter-spacing: -.07em; }
-.awt-brand-block p, .awt-runtime-caption { margin: 0; overflow-wrap: anywhere; }
-.awt-side-tabs { display: grid; gap: 10px; }
-.awt-home-button, .awt-nav-button { width: 100%; min-height: 48px; display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: 10px; padding: 11px 14px; border: 1px solid rgba(166,218,255,.18); border-radius: 999px; background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.035)); box-shadow: inset 0 1px 0 rgba(255,255,255,.07); text-align: left; position: relative; overflow: hidden; cursor: pointer; transition: transform var(--awt-fast), border-color var(--awt-fast), background var(--awt-fast), box-shadow var(--awt-fast); }
-.awt-home-button { grid-template-columns: 1fr; font-weight: 900; }
-.awt-nav-button strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .94rem; }
+
+.awt-control-side {
+  position: sticky;
+  top: clamp(12px, 1.4vw, 20px);
+  max-height: calc(100vh - clamp(24px, 2.8vw, 40px));
+  overflow: auto;
+  display: grid;
+  grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
+  align-content: start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--awt-radius-5);
+  background: var(--awt-sidebar-bg) !important;
+}
+
+.awt-control-main {
+  min-width: 0;
+  display: grid;
+  gap: clamp(14px, 1.4vw, 22px);
+  align-content: start;
+}
+
+.awt-brand-block,
+.awt-runtime-switcher,
+.awt-rail-status,
+.awt-user-chip {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--awt-line-soft);
+  border-radius: var(--awt-radius-3);
+  background: rgba(255, 255, 255, .035);
+}
+
+.awt-brand-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.awt-brand-logo,
+.awt-nav-icon,
+.awt-action-icon,
+.awt-pane-icon {
+  display: grid;
+  place-items: center;
+  color: var(--awt-icon-blue);
+}
+
+.awt-brand-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: rgba(40, 124, 255, .14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 0 26px rgba(40,124,255,.18);
+}
+
+.awt-brand-block h1 {
+  margin: 0;
+  font-size: 1.06rem;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.awt-brand-block p,
+.awt-runtime-caption,
+.awt-user-chip small,
+.awt-rail-status small {
+  margin: 0;
+  color: var(--awt-muted);
+  overflow-wrap: anywhere;
+  font-size: .78rem;
+  line-height: 1.35;
+}
+
+.awt-rail-status span {
+  color: var(--awt-dim);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .68rem;
+  font-weight: 900;
+}
+
+.awt-rail-status strong {
+  color: var(--awt-green);
+  font-size: .88rem;
+  text-transform: uppercase;
+}
+
+.awt-side-tabs {
+  display: grid;
+  gap: 7px;
+}
+
+.awt-home-button,
+.awt-nav-button {
+  width: 100%;
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 36px minmax(0,1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--awt-fast), border-color var(--awt-fast), background var(--awt-fast), box-shadow var(--awt-fast);
+}
+
+.awt-home-button {
+  color: var(--awt-ink);
+  background: var(--awt-nav-active);
+  border-color: rgba(40,124,255,.28);
+}
+
+.awt-home-button > svg,
+.awt-home-button .awt-svg-icon,
+.awt-nav-icon .awt-svg-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.awt-nav-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.awt-nav-copy strong,
+.awt-home-button strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .88rem;
+}
+
+.awt-nav-copy small {
+  color: var(--awt-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .70rem;
+}
+
+.awt-nav-button:hover,
+.awt-nav-button.active,
+.awt-control-shell [aria-selected="true"] {
+  background: rgba(40, 124, 255, .16);
+  border-color: rgba(40,124,255,.24);
+}
+
+.awt-nav-button.is-files .awt-svg-icon { color: var(--awt-icon-green); }
+.awt-nav-button.is-automation .awt-svg-icon { color: var(--awt-icon-orange); }
+.awt-nav-button.is-ai .awt-svg-icon { color: var(--awt-icon-pink); }
+.awt-nav-button.is-system .awt-svg-icon { color: var(--awt-icon-purple); }
+
+.awt-user-chip {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.awt-user-chip > span {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(40,124,255,.24);
+  font-weight: 950;
+}
+
+.awt-user-chip strong { display: block; font-size: .88rem; }
 .awt-runtime-grid { display: grid; gap: 14px; }
-.awt-runtime-card { min-width: 0; display: grid; gap: 10px; padding: 14px; border: 1px solid rgba(166,218,255,.16); border-radius: var(--awt-radius-3); background: rgba(255,255,255,.045); overflow: hidden; }
-.awt-runtime-card-top { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.awt-runtime-card { min-width: 0; display: grid; gap: 10px; padding: 14px; border: 1px solid var(--awt-line-soft); border-radius: var(--awt-radius-3); background: var(--awt-card-bg-soft); overflow: hidden; }
+.awt-runtime-card-top { min-width: 0; display: grid; gap: 4px; }
 .awt-runtime-card-top strong, .awt-runtime-card-top span, .awt-runtime-card p { min-width: 0; display: block; overflow-wrap: anywhere; word-break: break-word; }
-.awt-runtime-card-top strong { line-height: 1.1; }
 .awt-runtime-card-top span { color: var(--awt-muted); font-size: .82rem; }
 .awt-runtime-card p { margin: 0; color: var(--awt-muted); line-height: 1.35; }
 .awt-runtime-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .awt-runtime-actions button { flex: 1 1 132px; min-width: 0; }
-@media (max-width: 620px) {
-  .awt-runtime-actions button { flex-basis: calc(50% - 8px); padding-inline: 8px; }
-  .awt-runtime-card { padding: 12px; }
-}

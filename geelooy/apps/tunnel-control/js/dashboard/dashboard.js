@@ -3,15 +3,16 @@
 import { h } from "../ui/core/html.js";
 import { DASHBOARD_ORDER, PANE_META } from "../router/paneMeta.js";
 import { createDashboardCard } from "./dashboardCard.js";
-import { agentStrip, commandCenter, kabbalahMap, metric, providerGrid, section, taskList } from "./dashboardSections.js";
+import { metric } from "./dashboardSections.js";
+import { createPagedCardGrid } from "./dashboardPager.js";
 
 /**
  * B"H
- * Chapter 341: The Dashboard Became A Tree Of Fire.
+ * Chapter 10: The palace stopped scrolling and became a control room.
  *
- * The Awtsmoos is hidden in every pixel as the vessel is drawn anew: metrics
- * below the title, sefirot as living coordinates, provider rivers, task sparks,
- * and a command center where one agent can awaken another without waiting.
+ * The Awtsmoos reveals every workspace through one clean grid of gates. Nothing
+ * heavy renders on the home page; each card opens its own subpage only when the
+ * user chooses it.
  *
  * @param {object} ctx Runtime context.
  * @returns {HTMLElement} Dashboard.
@@ -21,42 +22,51 @@ export function createDashboard(ctx) {
     classes: ["awt-dashboard"],
     attrs: { id: "awtDashboard" },
     children: [
-      h("div", { classes: ["awt-dashboard-copy"], children: intro(ctx) }),
-      h("div", { classes: ["awt-dashboard-orbit"], children: orbit() }),
-      h("div", { classes: ["awt-sacred-footer"], text: "מאין ליש • From Nothing • Everything" })
+      h("header", { classes: ["awt-dashboard-head"], children: intro(ctx) }),
+      createPagedCardGrid(cards()),
+      h("p", { classes: ["awt-dashboard-note"], text: "Open a tile to enter its focused control page. The dashboard stays grid-first and low-scroll." })
     ]
   });
 }
 
+/**
+ * B"H
+ * Creates the compact professional dashboard header.
+ *
+ * @param {object} ctx Runtime context.
+ * @returns {HTMLElement[]} Header nodes.
+ */
 function intro(ctx) {
   return [
-    h("div", { classes: ["awt-mini-kicker"], text: "B\"H AWTSMOOS COMMAND CENTER" }),
-    h("h2", { text: "Tunnel Control Dashboard" }),
-    h("p", { text: "A secure local tunnel, AI delegates, provider keys, files, terminal, browser, and task councils in one revealed vessel." }),
-    h("div", { classes: ["awt-dashboard-metrics"], children: metrics(ctx) }),
-    section("Quick Actions", "local gates", h("div", { classes: ["awt-dashboard-grid", "awt-feature-dashboard-grid"], children: cards() }))
+    h("div", { classes: ["awt-mini-kicker"], text: "B\"H AWTSMOOS TUNNEL CONTROL" }),
+    h("h2", { text: "Control Panel" }),
+    h("p", { text: "Choose a workspace. Details, forms, logs, and JSON stay inside their own pages." }),
+    h("div", { classes: ["awt-dashboard-metrics"], children: metrics(ctx) })
   ];
 }
 
-function orbit() {
-  return [
-    kabbalahMap(),
-    section("AI Providers", "keys & rivers", providerGrid()),
-    section("Active Tasks", "async sparks", taskList()),
-    section("Recent Agents", "living delegates", agentStrip()),
-    section("Awtsmoos AI Command Center", "spawn without blocking", commandCenter())
-  ];
-}
-
+/**
+ * B"H
+ * Builds compact live facts without stretching the page.
+ *
+ * @param {object} ctx Runtime context.
+ * @returns {HTMLElement[]} Metric nodes.
+ */
 function metrics(ctx) {
   return [
     metric("Runtime", ctx.runtime?.id || "active"),
     metric("Tunnel", ctx.runtime?.tunnel?.name || ctx.getTunnelName() || "transport"),
     metric("Root", ctx.runtime?.activeRoot || ctx.getProjectPath() || "."),
-    metric("Features", String(cards().length))
+    metric("Sections", String(cards().length))
   ];
 }
 
+/**
+ * B"H
+ * Builds existing action/workspace cards.
+ *
+ * @returns {HTMLButtonElement[]} Cards.
+ */
 function cards() {
   return DASHBOARD_ORDER.map(key => createDashboardCard(key, PANE_META[key]));
 }

@@ -1,44 +1,67 @@
 /* B"H */
+/**
+ * B"H
+ * Chapter 36: Color became a responsible covenant.
+ *
+ * The Awtsmoos gives the control panel the picture's midnight language without
+ * imprisoning it in pixels: navy depth, bright category lights, calm borders,
+ * and enough glass to feel alive instead of noisy.
+ */
 :root {
   color-scheme: dark;
-  --awt-bg-0: #02040a;
-  --awt-bg-1: #061021;
-  --awt-bg-2: #0b1d38;
-  --awt-ink: #f7fbff;
-  --awt-muted: #adbad0;
-  --awt-dim: #74849d;
-  --awt-cyan: #77ecff;
-  --awt-blue: #78a5ff;
-  --awt-violet: #bc95ff;
-  --awt-pink: #ff7bd4;
-  --awt-gold: #ffd77f;
-  --awt-green: #7dffba;
-  --awt-red: #ff6c91;
-  --awt-keter: #fff7da;
-  --awt-chochmah: #77ecff;
-  --awt-binah: #9c86ff;
-  --awt-chesed: #62a6ff;
-  --awt-gevurah: #ff557a;
-  --awt-tiferet: #ffd77f;
-  --awt-netzach: #a66cff;
-  --awt-hod: #ffb35a;
-  --awt-yesod: #cfc7ff;
-  --awt-malchut: #d572ff;
-  --awt-line: rgba(166, 218, 255, .22);
-  --awt-line-hot: rgba(119, 236, 255, .58);
-  --awt-line-gold: rgba(255, 215, 127, .55);
-  --awt-glass-0: rgba(5, 11, 23, .84);
-  --awt-glass-1: rgba(13, 28, 54, .76);
-  --awt-glass-2: rgba(23, 45, 83, .62);
-  --awt-radius-1: 12px;
-  --awt-radius-2: 18px;
-  --awt-radius-3: 28px;
-  --awt-radius-4: 40px;
-  --awt-radius-5: 54px;
-  --awt-gap: clamp(12px, 1.7vw, 26px);
-  --awt-pad: clamp(14px, 2vw, 30px);
-  --awt-shadow: 0 28px 90px rgba(0, 0, 0, .48);
-  --awt-shadow-soft: 0 16px 45px rgba(0, 0, 0, .28);
+  --awt-bg-0: #020610;
+  --awt-bg-1: #061121;
+  --awt-bg-2: #0a1b31;
+  --awt-ink: #f6f9ff;
+  --awt-muted: #a8b4c8;
+  --awt-dim: #718096;
+  --awt-cyan: #5edcff;
+  --awt-blue: #287cff;
+  --awt-violet: #8c68ff;
+  --awt-pink: #ff4d8d;
+  --awt-gold: #ffb64a;
+  --awt-green: #2fe77a;
+  --awt-red: #ff5573;
+  --awt-keter: #fff8dd;
+  --awt-chochmah: #5edcff;
+  --awt-binah: #8c68ff;
+  --awt-chesed: #287cff;
+  --awt-gevurah: #ff5573;
+  --awt-tiferet: #ffb64a;
+  --awt-netzach: #8c68ff;
+  --awt-hod: #ff8d3a;
+  --awt-yesod: #c7c0ff;
+  --awt-malchut: #d66dff;
+  --awt-card-bg: rgba(13, 29, 50, .76);
+  --awt-card-bg-strong: rgba(15, 35, 61, .92);
+  --awt-card-bg-soft: rgba(255, 255, 255, .035);
+  --awt-card-border: rgba(114, 156, 206, .20);
+  --awt-sidebar-bg: rgba(4, 12, 24, .90);
+  --awt-main-bg: rgba(5, 14, 28, .74);
+  --awt-nav-active: rgba(40, 124, 255, .24);
+  --awt-icon-blue: #2d87ff;
+  --awt-icon-green: #2fe77a;
+  --awt-icon-purple: #956fff;
+  --awt-icon-orange: #ff8d3a;
+  --awt-icon-pink: #ff4d8d;
+  --awt-icon-slate: #9fb0c7;
+  --awt-line: rgba(114, 156, 206, .18);
+  --awt-line-soft: rgba(114, 156, 206, .11);
+  --awt-line-hot: rgba(94, 220, 255, .52);
+  --awt-line-gold: rgba(255, 182, 74, .44);
+  --awt-glass-0: rgba(5, 11, 23, .82);
+  --awt-glass-1: rgba(10, 24, 43, .76);
+  --awt-glass-2: rgba(20, 43, 75, .58);
+  --awt-radius-1: 10px;
+  --awt-radius-2: 14px;
+  --awt-radius-3: 18px;
+  --awt-radius-4: 24px;
+  --awt-radius-5: 30px;
+  --awt-gap: clamp(12px, 1.45vw, 22px);
+  --awt-pad: clamp(14px, 1.8vw, 28px);
+  --awt-shadow: 0 28px 80px rgba(0, 0, 0, .50);
+  --awt-shadow-soft: 0 14px 36px rgba(0, 0, 0, .28);
+  --awt-shadow-tile: 0 12px 30px rgba(0, 0, 0, .22);
   --awt-ease: cubic-bezier(.16, 1, .3, 1);
   --awt-fast: .18s var(--awt-ease);
   --awt-mid: .44s var(--awt-ease);

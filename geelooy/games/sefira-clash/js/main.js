@@ -5,19 +5,20 @@ import { createGameState } from './core/state.js';
 import { stepState } from './core/loop.js';
 import { draw } from './render/renderer.js';
 import { createRenderSurface, presentRenderSurface, resizeRenderSurface } from './render/offscreenSurface.js';
+import { readAudioMode, writeAudioMode } from './settings/audioSettings.js';
 import { showCardGrid, showCountdown, showSingleStart, showVictory } from './menu/menuViews.js';
 
 /**
  * B"H
- * Sefira Clash main gate with offscreen backbuffer rendering.
+ * Sefira Clash main gate with audio options and offscreen rendering.
  *
- * Chapter 249: the visible canvas receives a quieter burden. Frames may be
- * composed offscreen first, then presented, giving mobile browsers a smoother
- * path while the battle systems keep their living state on the main thread.
+ * Chapter 34: the player can choose which thunder enters the room. The sound
+ * select writes into the same persistent profile stream as the fighter colors.
  */
 const canvas = document.getElementById('olam');
 const overlay = document.getElementById('menuOverlay');
 const botSelect = document.getElementById('botSelect');
+const soundSelect = document.getElementById('soundSelect');
 const restart = document.getElementById('restart');
 const debug = document.getElementById('debugToggle');
 const statusText = document.getElementById('statusText');
@@ -28,6 +29,8 @@ const choice = { character: CHARACTERS[0], map: MAPS[0], cosmetic: { headwear: s
 let state = createMenuState();
 let countdownTimer = null;
 
+soundSelect.value = readAudioMode();
+soundSelect.onchange = () => writeAudioMode(soundSelect.value);
 overlay.addEventListener('click', event => {
   const victory = event.target.closest('[data-victory-action]');
   if (victory) return handleVictoryAction(victory.dataset.victoryAction);
@@ -71,7 +74,7 @@ function showMapMenu() {
   statusText.textContent = 'Choose arena.';
   showCardGrid(overlay, {
     title: 'Choose Arena',
-    subtitle: 'Win to advance. Hold punch/kick to charge. Aim while releasing.',
+    subtitle: 'Win to advance. Hold punch/kick to charge. Re-press punch rapidly to flurry.',
     items: MAPS,
     onPick: item => { choice.map = item; beginCountdown(); }
   });
@@ -97,7 +100,7 @@ function startMatch() {
   overlay.classList.add('hidden');
   state.phase = 'playing';
   state.victoryShown = false;
-  statusText.textContent = 'Fight: hold, aim, release. Down-land to slam.';
+  statusText.textContent = 'Fight: charge, rapid punch, launch, recover.';
 }
 
 function frame() {

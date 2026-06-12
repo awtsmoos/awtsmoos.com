@@ -2,11 +2,11 @@ import { animationState } from './animationState.js';
 
 /**
  * B"H
- * Humanoid animation solver with stateful platform-fighter poses.
+ * Humanoid animation solver with analog-vector combat posing.
  *
- * Chapter 246: every moment has a body now. Squat compresses, jump stretches,
- * apex floats, fast-fall spears downward, landing absorbs, charge trembles,
- * and attacks still carve their own limbs through the air.
+ * Chapter 282: the limb follows the kav of the joystick. Punches extend along
+ * the exact vector. Kicks throw the leg along the exact vector while the torso
+ * twists around it, so diagonal, up, down, and side attacks are visibly true.
  */
 export function solveSkeleton(f) {
   const a = animationState(f);
@@ -17,8 +17,9 @@ export function solveSkeleton(f) {
   const direction = Math.sign(f.vx || facing || 1);
   const clock = f.motionClock || 0;
   const walk = Math.sin(clock * 0.42) * speed * direction;
-  const p = actionPose(f, statePose(a, basePose(f, facing, walk, s, a), facing, s), facing, s);
-  bindAll(f, p);
+  const base = basePose(f, facing, walk, s, a);
+  const posed = statePose(a, base, facing, s);
+  bindAll(f, actionPose(f, posed, facing, s));
 }
 
 function basePose(f, facing, walk, s, a) {
@@ -111,9 +112,10 @@ function chargePose(p, facing, s, charge) {
 
 function actionPose(f, p, facing, s) {
   const id = f.blocking ? 'shield' : f.attack?.id || '';
+  const aim = exactAim(f.attack?.aim, facing);
   const t = attackPhase(f);
-  if (isPunch(id)) extendPunch(p, facing, s, t, id);
-  else if (isKick(id)) extendKick(p, facing, s, t, id);
+  if (isPunch(id)) analogPunch(p, s, t, id, aim);
+  else if (isKick(id)) analogKick(p, s, t, id, aim);
   else if (id === 'grab') extendGrab(p, facing, s, t);
   else if (id === 'shield') raiseGuard(p, facing, s);
   return p;
@@ -130,30 +132,42 @@ function attackPhase(f) {
 }
 
 function isPunch(id) { return id.includes('jab') || id.includes('Punch') || id === 'uppercut' || id === 'special'; }
-function isKick(id) { return id.includes('Kick') || id === 'roundhouse' || id === 'sweep'; }
+function isKick(id) { return id.includes('Kick') || id === 'roundhouse' || id === 'sweep' || id === 'meteorKick'; }
 
-function extendPunch(p, facing, s, t, id) {
-  const upper = id === 'uppercut';
-  const reach = id === 'dashPunch' || id === 'chargePunch' ? 126 : 102;
-  const lift = upper ? -70 : -16;
-  p.chest.x -= facing * 9 * s;
-  p.rightShoulder.x += facing * 13 * s;
-  p.rightElbow = point(p.rightShoulder.x + facing * (40 + reach * 0.28 * t) * s, p.rightShoulder.y + (18 + lift * 0.35 * t) * s);
-  p.rightHand = point(p.rightShoulder.x + facing * (58 + reach * t) * s, p.rightShoulder.y + (14 + lift * t) * s);
-  p.leftElbow = point(p.leftShoulder.x - facing * 22 * s, p.leftShoulder.y + 26 * s);
-  p.leftHand = point(p.leftShoulder.x - facing * 38 * s, p.leftShoulder.y + 50 * s);
+function analogPunch(p, s, t, id, aim) {
+  const reach = (id === 'dashPunch' || id === 'chargePunch') ? 134 : id === 'uppercut' ? 126 : 108;
+  const draw = 22 * (1 - t) * s;
+  twistTorso(p, aim, s, 12 * t, id === 'uppercut' ? -10 * t : 0);
+  const shoulder = p.rightShoulder;
+  const perp = perpOf(aim);
+  p.rightElbow = point(shoulder.x + aim.x * (42 + reach * 0.28 * t) * s + perp.x * draw, shoulder.y + aim.y * (42 + reach * 0.28 * t) * s + perp.y * draw);
+  p.rightHand = point(shoulder.x + aim.x * (62 + reach * t) * s, shoulder.y + aim.y * (62 + reach * t) * s);
+  p.leftElbow = point(p.leftShoulder.x - aim.x * 22 * s, p.leftShoulder.y - aim.y * 14 * s + 30 * s);
+  p.leftHand = point(p.leftShoulder.x - aim.x * 42 * s, p.leftShoulder.y - aim.y * 18 * s + 54 * s);
+  if (aim.y < -0.42) p.rightKnee.y -= 10 * t * s;
 }
 
-function extendKick(p, facing, s, t, id) {
-  const sweep = id === 'sweep';
-  const meteor = id === 'meteorKick';
-  const height = meteor ? 80 : sweep ? 58 : 28;
-  const reach = id === 'roundhouse' ? 118 : id === 'aerialKick' ? 128 : 104;
-  p.chest.x -= facing * 13 * s;
-  p.rightKnee = point(p.rightHip.x + facing * (42 + 24 * t) * s, p.rightHip.y + (height - 26 * t) * s);
-  p.rightFoot = point(p.rightHip.x + facing * (54 + reach * t) * s, p.rightHip.y + (height - 34 * t) * s);
-  p.leftKnee.y += 10 * s;
-  p.leftFoot.x -= facing * 14 * s;
+function analogKick(p, s, t, id, aim) {
+  const reach = id === 'roundhouse' ? 134 : id === 'aerialKick' ? 144 : id === 'meteorKick' ? 132 : 112;
+  const hip = p.rightHip;
+  const perp = perpOf(aim);
+  const fold = 32 * (1 - t) * s;
+  twistTorso(p, aim, s, 18 * t, -12 * Math.abs(aim.y) * t);
+  p.rightKnee = point(hip.x + aim.x * (38 + reach * 0.32 * t) * s + perp.x * fold, hip.y + aim.y * (38 + reach * 0.32 * t) * s + perp.y * fold);
+  p.rightFoot = point(hip.x + aim.x * (58 + reach * t) * s, hip.y + aim.y * (58 + reach * t) * s);
+  p.leftKnee = point(p.leftHip.x - aim.x * 18 * s, p.leftHip.y - aim.y * 12 * s + 42 * s);
+  p.leftFoot = point(p.leftHip.x - aim.x * 32 * s, p.leftHip.y - aim.y * 18 * s + 80 * s);
+  p.leftHand.x -= aim.x * 24 * t * s;
+  p.leftHand.y -= aim.y * 18 * t * s;
+  p.rightHand.x -= aim.x * 18 * t * s;
+  p.rightHand.y -= aim.y * 14 * t * s;
+}
+
+function twistTorso(p, aim, s, lean, lift) {
+  p.chest.x -= aim.x * lean * s;
+  p.chest.y += lift * s;
+  p.head.x -= aim.x * lean * 0.55 * s;
+  p.head.y += lift * 0.55 * s;
 }
 
 function extendGrab(p, facing, s, t) {
@@ -184,5 +198,13 @@ function bind(f, id, root, tip) {
   bone.len = Math.hypot(tip.x - root.x, tip.y - root.y);
 }
 
+function exactAim(aim, facing) {
+  const x = Number.isFinite(aim?.x) ? aim.x : facing;
+  const y = Number.isFinite(aim?.y) ? aim.y : 0;
+  const mag = Math.hypot(x, y) || 1;
+  return { x: x / mag, y: y / mag };
+}
+
+function perpOf(v) { return { x: -v.y, y: v.x }; }
 function bindRoot(f, hip) { if (f.bones.root) { f.bones.root.root = { x: f.x, y: f.y }; f.bones.root.tip = hip; } }
 function point(x, y) { return { x, y }; }

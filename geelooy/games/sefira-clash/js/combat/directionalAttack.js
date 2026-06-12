@@ -1,10 +1,10 @@
 /**
  * B"H
- * Directional attack selection and launch angles.
+ * Directional attack selection and exact analog launch angles.
  *
- * Chapter 231: aim is kavannah. If the player points, that direction rules. If
- * the player does not point, the fighter's face rules. Attack type and launch
- * angle now follow the chosen direction instead of accidental target position.
+ * Chapter 279: attack type is chosen by broad intent, but the launch angle is
+ * the true joystick angle. A diagonal punch is diagonal. A straight-up kick is
+ * upward. A low kick spikes along the thumb's actual kav.
  */
 export function chooseDirectionalMove(button, f, intent, chargeFrames = 0) {
   if (button === 'punch') return choosePunch(f, intent, chargeFrames);
@@ -12,22 +12,33 @@ export function chooseDirectionalMove(button, f, intent, chargeFrames = 0) {
   return 'jab1';
 }
 
-export function directionAngle(baseAngle, intent, id) {
+export function directionAngle(baseAngle, intent) {
   const aim = intent.aim || { x: 1, y: 0 };
-  if (id === 'uppercut') return -1.35;
-  if (id === 'meteorKick') return 1.42;
-  if (aim.down) return id === 'sweep' ? 0.25 : 0.82;
-  if (aim.up) return -1.08;
-  if (id === 'roundhouse') return -0.34;
-  if (id === 'dashPunch' || id === 'chargePunch') return -0.16;
-  return baseAngle;
+  if (Number.isFinite(aim.angle)) return aim.angle;
+  return Math.atan2(aim.y || 0, aim.x || 1) || baseAngle;
 }
 
 export function normalizedAttackAim(f, intent) {
   const aim = intent.aim || {};
-  const x = aim.x || f.face || 1;
-  const y = aim.up ? -1 : aim.down ? 1 : 0;
-  return { x: Math.sign(x) || 1, y, up: y < 0, down: y > 0, side: !!aim.side };
+  const rawX = Number.isFinite(aim.rawX) ? aim.rawX : aim.x;
+  const rawY = Number.isFinite(aim.rawY) ? aim.rawY : aim.y;
+  const mag = Math.hypot(rawX || 0, rawY || 0);
+  if (mag < 0.18) return enrichAim(f.face || 1, 0, rawX || 0, rawY || 0, 0);
+  return enrichAim((rawX || 0) / mag, (rawY || 0) / mag, rawX || 0, rawY || 0, Math.min(1, mag));
+}
+
+function enrichAim(x, y, rawX, rawY, mag) {
+  return {
+    x,
+    y,
+    rawX,
+    rawY,
+    mag,
+    angle: Math.atan2(y, x),
+    up: y < -0.42,
+    down: y > 0.42,
+    side: Math.abs(x) > 0.35
+  };
 }
 
 function choosePunch(f, intent, chargeFrames) {
@@ -41,8 +52,8 @@ function choosePunch(f, intent, chargeFrames) {
 
 function chooseKick(f, intent, chargeFrames) {
   if (intent.airborne && intent.aim.down) return 'meteorKick';
+  if (intent.aim.up) return 'aerialKick';
   if (intent.airborne) return 'aerialKick';
-  if (intent.aim.up) return 'uppercut';
   if (intent.aim.down) return 'sweep';
   if (chargeFrames > 24 || intent.aim.side) return 'roundhouse';
   return 'sweep';

@@ -1,11 +1,10 @@
 /**
  * B"H
- * Smash-style launch math with attack-aim authority.
+ * Smash-style launch math with exact joystick-vector authority.
  *
- * Chapter 233: the direction of the blow is no longer guessed from where the
- * target happened to stand. The attack itself carries the facing/aim chosen at
- * release, so a right punch launches right, an up strike rises, and a down
- * strike spikes by kavannah.
+ * Chapter 281: the launch direction is now the vector itself, not a side sign
+ * multiplied by a canned angle. If the thumb points northeast, the target flies
+ * northeast. If it points straight up, the target rises like a spark.
  */
 export function applyKnockback(target, source, attack, weapon) {
   const percent = Math.max(0, target.damage);
@@ -13,21 +12,13 @@ export function applyKnockback(target, source, attack, weapon) {
   const launch = launchScale(percent, attack);
   const mass = Math.max(0.6, target.stats.mass || 1);
   const force = baseKnock * launch / mass;
-  const aim = attack.aim || { x: source.face || 1, y: 0 };
-  const side = Math.sign(aim.x || source.face || target.x - source.x || 1) || 1;
-  const angle = attack.angle ?? angleFromAim(aim);
-  target.vx = side * Math.cos(angle) * force;
-  target.vy = Math.sin(angle) * force;
+  const aim = normalizedAim(attack.aim, source, target);
+  target.vx = aim.x * force;
+  target.vy = aim.y * force;
   target.stun = stunFor(force, percent, attack);
-  applyMoveSpecificRules(target, force, attack);
+  applyMoveSpecificRules(target, force, attack, aim);
 }
 
-/**
- * Fresh targets resist launch hard; wounded targets scale explosively.
- * @param {number} percent Current accumulated damage after the hit.
- * @param {object} attack Active attack state.
- * @returns {number} Knockback multiplier.
- */
 export function launchScale(percent, attack = {}) {
   const lowResist = percent < 35 ? 0.24 + percent * 0.012 : 0.66;
   const midGrowth = Math.max(0, percent - 35) * 0.017;
@@ -37,10 +28,12 @@ export function launchScale(percent, attack = {}) {
   return Math.max(0.18, (lowResist + midGrowth + highGrowth + fullChargeBonus) * rapidPenalty);
 }
 
-function angleFromAim(aim) {
-  if (aim?.y < 0) return -1.05;
-  if (aim?.y > 0) return 0.82;
-  return -0.2;
+function normalizedAim(aim, source, target) {
+  const fallbackX = Math.sign(source.face || target.x - source.x || 1) || 1;
+  const x = Number.isFinite(aim?.x) ? aim.x : fallbackX;
+  const y = Number.isFinite(aim?.y) ? aim.y : -0.2;
+  const mag = Math.hypot(x, y) || 1;
+  return { x: x / mag, y: y / mag };
 }
 
 function stunFor(force, percent, attack) {
@@ -48,11 +41,11 @@ function stunFor(force, percent, attack) {
   return Math.min(78, (8 + force * 1.6 + percent * 0.05) * rapid);
 }
 
-function applyMoveSpecificRules(target, force, attack) {
+function applyMoveSpecificRules(target, force, attack, aim) {
   if (attack.id === 'sweep') target.vy = Math.max(target.vy, -1.5);
-  if (attack.id === 'meteorKick') target.vy = Math.abs(force) * 0.92;
-  if (attack.aim?.y > 0 && attack.id !== 'sweep') target.vy = Math.max(target.vy, Math.abs(force) * 0.48);
-  if (attack.aim?.y < 0) target.vy = Math.min(target.vy, -Math.abs(force) * 0.62);
+  if (attack.id === 'meteorKick') target.vy = Math.max(target.vy, Math.abs(force) * 0.92);
+  if (aim.y > 0.42 && attack.id !== 'sweep') target.vy = Math.max(target.vy, Math.abs(force) * Math.max(0.48, aim.y));
+  if (aim.y < -0.42) target.vy = Math.min(target.vy, -Math.abs(force) * Math.max(0.62, Math.abs(aim.y)));
   if (target.damage < 40 && attack.fullCharge) {
     target.vx *= 0.62;
     target.vy *= 0.62;

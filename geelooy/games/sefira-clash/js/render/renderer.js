@@ -9,11 +9,11 @@ import { updateCamera } from '../camera/camera.js';
 
 /**
  * B"H
- * Zoom-aware battle renderer with visible wall collision.
+ * Zoom-aware battle renderer with edge-arrow HUD support.
  *
- * Chapter 160: walls are no longer secret judges. Every solid side boundary is
- * drawn with the same stone language as platforms, so players understand why a
- * smashed fighter bounced back instead of vanishing into the abyss.
+ * Chapter 4: after the world is painted and the camera breathes, the border
+ * itself becomes a messenger. Offscreen fighters are not hidden from the eye;
+ * their signs are rendered after the world transform on the flat screen layer.
  */
 export function draw(ctx, state, w, h) {
   ctx.clearRect(0, 0, w, h);
@@ -32,7 +32,7 @@ export function draw(ctx, state, w, h) {
   drawFighters(ctx, visiblePoints(state.fighters, view));
   drawParticles(ctx, visiblePoints(state.particles, view));
   ctx.restore();
-  drawUi(ctx, state, w);
+  drawUi(ctx, state, w, h);
 }
 
 function makeView(camera, w, h, pad, zoom) {

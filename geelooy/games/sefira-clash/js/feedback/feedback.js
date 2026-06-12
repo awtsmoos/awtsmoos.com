@@ -1,47 +1,108 @@
+import { audioAllowed } from '../settings/audioSettings.js';
+
 /**
  * B"H
- * WebAudio and haptic feedback for arena impacts.
+ * WebAudio feedback with charge-tier voices and category settings.
  *
- * Chapter 156: impact becomes sound and trembling. The browser receives tiny,
- * cheap oscillators and mobile vibration pulses so hits, walls, and smashes
- * strike the hand without expensive audio assets.
+ * Chapter 33: every impact now carries a different song. Tiny rapid strikes
+ * chirp like sparks, charged blows descend like bronze doors, and wall crashes
+ * answer with stone-thunder. The player may silence all, or keep only selected
+ * families of sound.
  */
 let ctx = null;
 let lastFrameKey = '';
 let lastTime = 0;
 
-export function playEvents(events) {
+export function playEvents(events, state = null) {
   if (!events?.length || typeof window === 'undefined') return;
   const now = performance.now();
-  if (now - lastTime < 16 && lastFrameKey === events.length + ':' + events[0]?.type) return;
+  if (now - lastTime < 12 && lastFrameKey === events.length + ':' + events[0]?.type) return;
   lastFrameKey = events.length + ':' + events[0]?.type;
   lastTime = now;
-  for (const event of events) playEvent(event);
+  const human = humanFighter(state);
+  for (const event of events) playEvent(event, human);
 }
 
-function playEvent(event) {
-  if (event.type === 'hit') impact(event.force || event.damage || 8, event.fullCharge || event.koDanger, event.shockwave);
-  else if (event.type === 'wall') wall(event.force || 12);
-  else if (event.type === 'pickup') chime();
+export function shouldVibrateForEvent(event, human = null) {
+  if (!event || event.noHaptic || !human) return false;
+  if (event.human || event.playerLocal) return true;
+  if (event.attackerId && event.attackerId === human.id) return true;
+  if (event.targetId && event.targetId === human.id) return true;
+  if (event.actorId && event.actorId === human.id) return true;
+  if (event.ownerId && event.ownerId === human.id) return true;
+  if (event.type === 'pickup' && event.fighterId === human.id) return true;
+  return false;
 }
 
-function impact(force, huge = false, shock = false) {
-  const power = Math.min(1, Math.max(0.15, force / 42));
-  tone(huge ? 72 : shock ? 96 : 150 - power * 45, 0.05 + power * 0.045, 'square', 0.035 + power * 0.045);
-  noise(0.035 + power * 0.045, 0.06 + power * 0.12);
-  vibrate(huge ? [26, 22, 34] : shock ? [18, 18, 26] : [Math.round(8 + power * 18)]);
+function playEvent(event, human) {
+  const haptic = shouldVibrateForEvent(event, human);
+  if (event.type === 'hit' && audioAllowed('hit')) impact(event, haptic);
+  else if (event.type === 'wall' && audioAllowed('wall')) wall(event.force || 12, haptic);
+  else if (event.type === 'fall' && audioAllowed('fall')) fall(event.force || 60, haptic);
+  else if (event.type === 'pickup' && audioAllowed('pickup')) chime(haptic);
 }
 
-function wall(force) {
-  const power = Math.min(1, force / 28);
-  tone(180 + power * 90, 0.06, 'sawtooth', 0.04 + power * 0.04);
-  vibrate([8, 12, Math.round(8 + power * 14)]);
+function impact(event, haptic = false) {
+  const force = event.force || event.damage || 8;
+  const charge = Math.max(0, Math.min(1, event.charge || (event.fullCharge ? 1 : 0)));
+  const power = Math.min(1, Math.max(0.12, force / 54));
+  if (event.rapid) return rapidSound(power, haptic);
+  if (charge > 0.88 || event.fullCharge) return maxChargeSound(power, haptic);
+  if (charge > 0.45) return midChargeSound(charge, power, haptic);
+  lightHitSound(power, haptic);
 }
 
-function chime() {
+function lightHitSound(power, haptic) {
+  tone(210 - power * 60, 0.038 + power * 0.03, 'square', 0.025 + power * 0.045);
+  noise(0.025 + power * 0.035, 0.045 + power * 0.075);
+  if (haptic) vibrate([Math.round(7 + power * 16)]);
+}
+
+function rapidSound(power, haptic) {
+  tone(340 + power * 90, 0.022, 'square', 0.025);
+  tone(520 + power * 80, 0.018, 'triangle', 0.014, 0.018);
+  if (haptic) vibrate(6);
+}
+
+function midChargeSound(charge, power, haptic) {
+  tone(150 - charge * 35, 0.075 + power * 0.04, 'sawtooth', 0.055 + power * 0.05);
+  tone(300 + charge * 120, 0.06, 'triangle', 0.025, 0.035);
+  noise(0.075, 0.09 + power * 0.08);
+  if (haptic) vibrate([18, 18, Math.round(18 + charge * 26)]);
+}
+
+function maxChargeSound(power, haptic) {
+  tone(64, 0.13, 'square', 0.095 + power * 0.04);
+  tone(118, 0.11, 'sawtooth', 0.07, 0.018);
+  tone(420, 0.06, 'triangle', 0.035, 0.06);
+  noise(0.12, 0.18);
+  if (haptic) vibrate([30, 22, 42, 18, 24]);
+}
+
+function wall(force, haptic = false) {
+  const power = Math.min(1, force / 42);
+  tone(88 + power * 60, 0.11, 'sawtooth', 0.06 + power * 0.055);
+  tone(52 + power * 20, 0.16, 'square', 0.035 + power * 0.035, 0.015);
+  noise(0.09 + power * 0.06, 0.12 + power * 0.12);
+  if (haptic) vibrate([10, 12, Math.round(14 + power * 24)]);
+}
+
+function fall(force, haptic = false) {
+  const power = Math.min(1, force / 72);
+  tone(46, 0.22, 'sawtooth', 0.11);
+  tone(92, 0.18, 'square', 0.07, 0.035);
+  noise(0.18, 0.22 + power * 0.12);
+  if (haptic) vibrate([38, 28, 48]);
+}
+
+function chime(haptic = false) {
   tone(520, 0.04, 'sine', 0.035);
   tone(780, 0.05, 'sine', 0.025, 0.035);
-  vibrate(8);
+  if (haptic) vibrate(8);
+}
+
+function humanFighter(state) {
+  return state?.fighters?.find(f => f.human && !f.dead) || state?.fighters?.find(f => f.human) || null;
 }
 
 function audio() {
@@ -59,8 +120,8 @@ function tone(freq, duration, type, gain, delay = 0) {
   const osc = ac.createOscillator();
   const g = ac.createGain();
   osc.type = type;
-  osc.frequency.setValueAtTime(freq, t);
-  osc.frequency.exponentialRampToValueAtTime(Math.max(30, freq * 0.55), t + duration);
+  osc.frequency.setValueAtTime(Math.max(24, freq), t);
+  osc.frequency.exponentialRampToValueAtTime(Math.max(24, freq * 0.52), t + duration);
   g.gain.setValueAtTime(gain, t);
   g.gain.exponentialRampToValueAtTime(0.0001, t + duration);
   osc.connect(g).connect(ac.destination);

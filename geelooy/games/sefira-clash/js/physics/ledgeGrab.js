@@ -1,13 +1,16 @@
 /**
  * B"H
- * Ledge grab and ledge escape.
+ * Ledge grab and ledge escape with intentional drop immunity.
  *
- * Chapter 186: the lip of stone becomes mercy. A falling fighter near a safe
- * edge catches it, hangs briefly, then may jump, climb, or release into air.
+ * Chapter 295: when the player points downward, the ledge must not become a
+ * jailer. Down-drop creates a no-grab window, and holding down while hanging
+ * releases below the stone instead of snapping back to the lip.
  */
 export function updateLedgeGrab(f, map, input) {
+  f.noLedgeTimer = Math.max(0, (f.noLedgeTimer || 0) - 1);
   if (f.grounded || f.grabbedBy) return;
   if (f.ledgeHang) return updateHang(f, input);
+  if (ledgeSuppressed(f, input)) return;
   if (f.vy < -1) return;
   const ledge = nearestLedge(f, map.platforms || []);
   if (!ledge) return;
@@ -25,9 +28,18 @@ function updateHang(f, input) {
   f.y = f.ledgeHang.y + 130;
   f.vx = 0;
   f.vy = 0;
-  if (input.jump) ledgeJump(f);
-  else if (input.x && Math.sign(input.x) === -f.ledgeHang.side) release(f);
-  else if (f.ledgeHang.timer <= 0) release(f);
+  if (wantsDown(input)) dropRelease(f);
+  else if (input.jump) ledgeJump(f);
+  else if (input.x && Math.sign(input.x) === -f.ledgeHang.side) sideRelease(f);
+  else if (f.ledgeHang.timer <= 0) sideRelease(f);
+}
+
+function ledgeSuppressed(f, input) {
+  return (f.noLedgeTimer || 0) > 0 || (f.dropTimer || 0) > 0 || wantsDown(input);
+}
+
+function wantsDown(input) {
+  return !!input.down || input.y > 0.42 || input.aimY > 0.42;
 }
 
 function ledgeJump(f) {
@@ -35,12 +47,25 @@ function ledgeJump(f) {
   f.vx = side * 8;
   f.vy = -17;
   f.jumpsUsed = 1;
+  f.noLedgeTimer = 18;
   f.ledgeHang = null;
 }
 
-function release(f) {
+function sideRelease(f) {
   f.ledgeHang = null;
-  f.vy = 2;
+  f.noLedgeTimer = 18;
+  f.vy = 2.4;
+}
+
+function dropRelease(f) {
+  const side = f.ledgeHang.side;
+  f.x += side * 18;
+  f.y += 48;
+  f.vx = side * 2.5;
+  f.vy = 6;
+  f.dropTimer = 28;
+  f.noLedgeTimer = 32;
+  f.ledgeHang = null;
 }
 
 function nearestLedge(f, platforms) {

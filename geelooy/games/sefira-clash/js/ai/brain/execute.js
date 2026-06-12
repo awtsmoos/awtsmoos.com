@@ -2,22 +2,23 @@ import { goalX, steer } from './goals.js';
 
 /**
  * B"H
- * Bot executor with descent commitment.
+ * Bot executor with wall detours, descent commitment, and anti-freeze law.
  *
- * Chapter 229: planned descent must bypass both safety correction and safety
- * steering. Otherwise the bot sees the correct edge-door but its feet are still
- * dragged back to the safe center. Now the route owns the feet until the fall.
+ * Chapter 260: the bot may chase, but not through stone. If a wall blocks the
+ * target, the executor forbids attacks, walks toward the escape doorway, and
+ * jumps only when the doorway itself asks for height.
  */
 export function executeIntent(bot, w, intent) {
   init(bot);
   tickPlans(bot);
+  const blocked = !!w.wall?.blocked;
   const descent = isDescentRoute(w, intent);
-  const goal = goalX(bot, w, intent);
-  const rawX = steer(bot, goal, intent, w.crowdPush, descent ? null : w.safety);
-  const safeX = edgeCorrect(bot, w, rawX, intent);
-  const attack = attackPlan(bot, w, intent);
-  const x = movementFor(bot, w, safeX, attack, intent);
-  const jump = wantsJump(bot, w, intent, goal);
+  const goal = goalX(bot, w, blocked ? 'route' : intent);
+  const rawX = steer(bot, goal, blocked ? 'route' : intent, w.crowdPush, descent || blocked ? null : w.safety);
+  const safeX = edgeCorrect(bot, w, rawX, intent, blocked);
+  const attack = attackPlan(bot, w, intent, blocked);
+  const x = movementFor(bot, w, safeX, attack, intent, blocked);
+  const jump = wantsJump(bot, w, intent, goal, blocked);
   if (jump) bot.ai.jumpCooldown = intent === 'recover' ? 10 : 18;
   const drop = wantsDrop(bot, w, intent, goal);
   return {
@@ -27,11 +28,11 @@ export function executeIntent(bot, w, intent) {
     y: drop ? 1 : aimYFor(w, intent),
     down: drop,
     jump,
-    shield: wantsShield(bot, w, intent),
-    grab: attack.release && w.target.blocking && w.dist < 95,
-    punch: attack.kind === 'punch',
-    kick: attack.kind === 'kick',
-    special: wantsSpecial(bot, attack.release, intent)
+    shield: wantsShield(bot, w, intent, blocked),
+    grab: !blocked && attack.release && w.target.blocking && w.dist < 95,
+    punch: !blocked && attack.kind === 'punch',
+    kick: !blocked && attack.kind === 'kick',
+    special: !blocked && wantsSpecial(bot, attack.release, intent)
   };
 }
 
@@ -48,28 +49,30 @@ function tickPlans(bot) {
   if (bot.ai.steerCommit.t > 0) bot.ai.steerCommit.t--;
 }
 
-function movementFor(bot, w, safeX, attack, intent) {
-  if (w.safety?.danger && !isDescentRoute(w, intent)) return edgeCorrect(bot, w, safeX, 'edgeSafe');
+function movementFor(bot, w, safeX, attack, intent, blocked) {
+  if (blocked) return commitX(bot, safeX, 30);
+  if (w.safety?.danger && !isDescentRoute(w, intent)) return edgeCorrect(bot, w, safeX, 'edgeSafe', false);
   if (attack.kind !== 'none' && w.route?.same && w.dist < 175) return holdCombatPocket(bot, w, safeX);
-  return commitX(bot, safeX);
+  return commitX(bot, safeX, 24);
 }
 
-function commitX(bot, x) {
+function commitX(bot, x, frames) {
   if (Math.abs(x) < 0.05) return 0;
   const sx = Math.sign(x);
-  if (bot.ai.steerCommit.t <= 0 || bot.ai.steerCommit.x === 0) bot.ai.steerCommit = { x: sx, t: 24 };
+  if (bot.ai.steerCommit.t <= 0 || bot.ai.steerCommit.x === 0) bot.ai.steerCommit = { x: sx, t: frames };
   if (sx !== bot.ai.steerCommit.x && bot.ai.steerCommit.t > 0) return bot.ai.steerCommit.x * Math.abs(x);
-  bot.ai.steerCommit = { x: sx, t: 24 };
+  bot.ai.steerCommit = { x: sx, t: frames };
   return x;
 }
 
 function holdCombatPocket(bot, w, x) {
   if (w.dist < 78) return -Math.sign(w.dx || bot.face || 1) * 0.45;
-  if (w.dist > 148) return commitX(bot, x);
+  if (w.dist > 148) return commitX(bot, x, 18);
   return 0;
 }
 
-function attackPlan(bot, w, intent) {
+function attackPlan(bot, w, intent, blocked) {
+  if (blocked) { bot.ai.chargePlan = null; return { kind: 'none', release: false }; }
   if (bot.ai.chargePlan && shouldCancelCharge(bot, w, intent)) bot.ai.chargePlan = null;
   const plan = bot.ai.chargePlan;
   if (plan) return continuePlan(bot, plan);
@@ -110,7 +113,8 @@ function shouldFullCharge(bot, w, intent) {
   return ['pressure', 'ledgeTrap', 'bait'].includes(intent) && !w.target.attack;
 }
 
-function edgeCorrect(bot, w, x, intent) {
+function edgeCorrect(bot, w, x, intent, blocked) {
+  if (blocked) return x;
   if (!w.safety?.danger || intent === 'denyRecovery' || intent === 'ledgeTrap' || isDescentRoute(w, intent)) return x;
   const movingOut = Math.sign(x || bot.vx || 0) === -w.safety.inward;
   if (!movingOut && Math.abs(x) > 0.01) return x;
@@ -130,11 +134,12 @@ function wantsAttack(bot, w, intent) {
   return w.combat?.canHitNow && w.dist < 150 && (intent === 'approach' || intent === 'bait');
 }
 
-function wantsJump(bot, w, intent, goal) {
+function wantsJump(bot, w, intent, goal, blocked) {
   if (bot.ai.jumpCooldown > 0) return false;
   if (!bot.grounded && intent !== 'recover' && intent !== 'denyRecovery') return false;
   if (intent === 'recover') return pulseJump(bot, 'recover', 10);
-  if (intent === 'edgeSafe' || w.safety?.danger) return false;
+  if (!blocked && (intent === 'edgeSafe' || w.safety?.danger)) return false;
+  if (blocked && Math.abs((goal ?? bot.x) - bot.x) < 90 && w.wall?.escapeY < bot.y - 120) return pulseJump(bot, 'wallDetour', 18);
   const routeJump = w.route?.needsJump && nearLaunchPoint(bot, goal);
   const verticalChase = w.combat?.aboveLane && nearLaunchPoint(bot, goal);
   if (routeJump || verticalChase) return pulseJump(bot, routeKey(w), 16);
@@ -149,13 +154,8 @@ function wantsDrop(bot, w, intent, goal) {
   return Math.abs((goal ?? bot.x) - bot.x) < 74;
 }
 
-function isDescentRoute(w, intent) {
-  return intent === 'route' && !!w.route?.needsDrop;
-}
-
-function nearLaunchPoint(bot, goal) {
-  return Math.abs((goal ?? bot.x) - bot.x) < 82;
-}
+function isDescentRoute(w, intent) { return intent === 'route' && !!w.route?.needsDrop; }
+function nearLaunchPoint(bot, goal) { return Math.abs((goal ?? bot.x) - bot.x) < 82; }
 
 function pulseJump(bot, key, gap) {
   bot.ai.lastJumpKey ||= '';
@@ -167,29 +167,8 @@ function pulseJump(bot, key, gap) {
   return true;
 }
 
-function routeKey(w) {
-  return `${w.route?.current?.x || 0}:${w.route?.targetPlatform?.x || 0}:${w.route?.action || ''}`;
-}
-
-function wantsShield(bot, w, intent) {
-  if (bot.ai.chargePlan) return false;
-  if (intent === 'ledgeTrap') return w.dist > 90 || bot.ai.clock % 5 !== 0;
-  return intent === 'bait' && w.target.attack && w.dist < 165 && bot.ai.clock % 4 !== 0;
-}
-
-function wantsSpecial(bot, releasing, intent) {
-  return intent === 'recover' || (releasing && !!bot.heldWeapon && bot.ai.clock % 2 === 0);
-}
-
-function prefersPunch(intent, w) {
-  if (intent === 'denyRecovery') return false;
-  if (w.dy > 70 || w.target.y > w.floor.y + 40) return false;
-  return intent === 'punish' || intent === 'brawl' || w.dist < 120;
-}
-
-function aimYFor(w, intent) {
-  if (intent === 'denyRecovery') return 1;
-  if (w.dy < -110) return -1;
-  if (w.dy > 140) return 1;
-  return 0;
-}
+function routeKey(w) { return `${w.route?.current?.x || 0}:${w.route?.targetPlatform?.x || 0}:${w.route?.action || ''}`; }
+function wantsShield(bot, w, intent, blocked) { return !blocked && !bot.ai.chargePlan && intent === 'bait' && w.target.attack && w.dist < 165 && bot.ai.clock % 4 !== 0; }
+function wantsSpecial(bot, releasing, intent) { return intent === 'recover' || (releasing && !!bot.heldWeapon && bot.ai.clock % 2 === 0); }
+function prefersPunch(intent, w) { return intent !== 'denyRecovery' && w.dy <= 70 && w.target.y <= w.floor.y + 40 && (intent === 'punish' || intent === 'brawl' || w.dist < 120); }
+function aimYFor(w, intent) { if (intent === 'denyRecovery') return 1; if (w.dy < -110) return -1; if (w.dy > 140) return 1; return 0; }

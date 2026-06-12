@@ -10,12 +10,31 @@
   },
   "results": [
     {
+      "name": "promise-microtask-timeout-order",
+      "marker": "ORDER:sync,micro,timeout",
+      "waitMs": 50,
+      "merkava": {
+        "pass": false,
+        "ok": true,
+        "score": 100,
+        "out": "",
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
       "name": "massive-dom-and-query-loop",
       "marker": "DOM:500:124750",
+      "waitMs": 160,
       "merkava": {
         "pass": true,
         "ok": true,
         "score": 100,
+        "out": "DOM:500:124750",
         "errors": []
       },
       "chrome": {
@@ -27,10 +46,12 @@
     {
       "name": "event-cascade-input-click-change",
       "marker": "EVENTS:input:click:change:done",
+      "waitMs": 160,
       "merkava": {
         "pass": true,
         "ok": true,
         "score": 100,
+        "out": "EVENTS:input:click:change:done",
         "errors": []
       },
       "chrome": {
@@ -42,25 +63,12 @@
     {
       "name": "canvas-webgl-2d-pressure",
       "marker": "CANVAS:true",
+      "waitMs": 160,
       "merkava": {
         "pass": true,
         "ok": true,
         "score": 100,
-        "errors": []
-      },
-      "chrome": {
-        "skipped": true,
-        "reason": "chrome_executable_not_found"
-      },
-      "parity": "chrome-skipped"
-    },
-    {
-      "name": "promise-microtask-timeout-order",
-      "marker": "ORDER:sync,micro,timeout",
-      "merkava": {
-        "pass": false,
-        "ok": true,
-        "score": 100,
+        "out": "CANVAS:true:WEBGL:true",
         "errors": []
       },
       "chrome": {
@@ -72,10 +80,12 @@
     {
       "name": "localstorage-sessionstorage-json",
       "marker": "STORAGE:377",
+      "waitMs": 160,
       "merkava": {
         "pass": true,
         "ok": true,
         "score": 100,
+        "out": "STORAGE:377",
         "errors": []
       },
       "chrome": {
@@ -87,10 +97,12 @@
     {
       "name": "fetch-data-url-and-json-parse",
       "marker": "FETCH:13:Awtsmoos",
+      "waitMs": 160,
       "merkava": {
         "pass": true,
         "ok": true,
         "score": 100,
+        "out": "FETCH:13:Awtsmoos",
         "errors": []
       },
       "chrome": {
@@ -102,10 +114,12 @@
     {
       "name": "module-importmap-skip-and-module-run",
       "marker": "MODULE:importmap-safe:21",
+      "waitMs": 160,
       "merkava": {
         "pass": true,
         "ok": true,
         "score": 100,
+        "out": "MODULE:importmap-safe:21",
         "errors": []
       },
       "chrome": {
@@ -117,10 +131,12 @@
     {
       "name": "shadow-dom-template-fragment",
       "marker": "SHADOW:sealed:3",
+      "waitMs": 160,
       "merkava": {
         "pass": true,
         "ok": true,
         "score": 100,
+        "out": "SHADOW:sealed:3",
         "errors": []
       },
       "chrome": {

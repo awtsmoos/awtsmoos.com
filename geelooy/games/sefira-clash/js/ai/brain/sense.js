@@ -1,5 +1,6 @@
 import { combatSense } from '../sense/combatSense.js';
 import { stageDangerAt } from '../sense/stageDanger.js';
+import { wallSense } from '../sense/wallSense.js';
 import { crowdPush } from './crowd.js';
 import { edgeSafety } from './edgeSafety.js';
 import { hitChance, predictTarget } from './prediction.js';
@@ -9,10 +10,11 @@ import { territorySense } from './territory.js';
 
 /**
  * B"H
- * Bot sensory snapshot with platform route, true combat lanes, and danger map.
+ * Bot sensory snapshot with routes, combat lanes, danger, wall blockage, and map.
  *
- * Chapter 235: the bot now sees not only enemy and platform, but danger itself.
- * Edges, holes, and exile zones become numbers that planning can fear.
+ * Chapter 269: the unstuck angel must see the lower platforms to know whether
+ * to drop or jump. The whole map is now carried into the world-scroll so self
+ * preservation can choose earth beneath instead of scraping the ledge forever.
  */
 export function senseWorld(bot, target, state) {
   const route = platformBrain(bot, target, state.map.platforms);
@@ -25,9 +27,12 @@ export function senseWorld(bot, target, state) {
   const combat = combatSense(bot, predicted);
   const danger = stageDangerAt(bot.x, bot.y, state.map, floor);
   const targetDanger = stageDangerAt(predicted.x, predicted.y, state.map, route.targetPlatform);
+  const wall = wallSense(bot, predicted, state.map);
   return {
-    target, predicted, floor, dx, dy, dist, route, combat, danger, targetDanger,
-    hitChance: hitChance(bot, predicted, bot.heldWeapon ? 190 : 135),
+    map: state.map,
+    platforms: state.map.platforms,
+    target, predicted, floor, dx, dy, dist, route, combat, danger, targetDanger, wall,
+    hitChance: wall.blocked ? 0 : hitChance(bot, predicted, bot.heldWeapon ? 190 : 135),
     crowdPush: crowdPush(bot, state.fighters),
     safety,
     recovery: recoveryRead(target, floor),
@@ -38,7 +43,7 @@ export function senseWorld(bot, target, state) {
     whiff: !!target.attack && (target.attackFrame || 0) > target.attack.startup + target.attack.active,
     crowded: countNear(bot, state.fighters, 150),
     touching: countNear(bot, state.fighters, 58),
-    nav: { shouldJump: route.needsJump || combat.aboveLane, shouldDrop: route.needsDrop || combat.belowLane, targetX: route.targetX }
+    nav: { shouldJump: route.needsJump || combat.aboveLane, shouldDrop: route.needsDrop || combat.belowLane, targetX: wall.blocked ? wall.escapeX : route.targetX }
   };
 }
 

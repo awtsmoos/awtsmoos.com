@@ -9,20 +9,19 @@ import { shieldAbsorb } from './shields.js';
 
 /**
  * B"H
- * Combat resolver with quadtree broadphase.
+ * Combat resolver with main attacks plus overlay rapid sparks.
  *
- * Chapter 247: every active hit no longer asks the whole world. The strike
- * opens a small spatial gate, pulls only nearby fighters from the quadtree, and
- * then runs exact hit logic. Fewer comparisons, same truth, faster melees.
+ * Chapter 40: the arena now hears two attack vessels. The main attack may be a
+ * charging decree, while rapid taps become small overlay hits that do not cancel
+ * the decree. The Awtsmoos keeps their hit sets, frames, and endings separate.
  */
 export function resolveAttacks(state) {
   tickCombos(state.fighters);
   const tree = buildFighterBroadphase(state.fighters, state.map);
   for (const attacker of state.fighters) {
-    if (!attacker.attack || attacker.dead) continue;
-    attacker.attackFrame++;
-    if (isActive(attacker)) hitWith(attacker, state, tree);
-    if (attacker.attack && isFinished(attacker)) endAttack(attacker);
+    if (attacker.dead) continue;
+    stepAttackSlot(attacker, state, tree, 'attack', 'attackFrame');
+    stepAttackSlot(attacker, state, tree, 'rapidAttack', 'rapidAttackFrame');
   }
 }
 
@@ -34,12 +33,19 @@ function tickCombos(fighters) {
   }
 }
 
-function isActive(f) { return f.attackFrame > f.attack.startup && f.attackFrame <= f.attack.startup + f.attack.active; }
-function isFinished(f) { return f.attackFrame > f.attack.startup + f.attack.active + f.attack.recovery; }
-function endAttack(f) { f.attack = null; f.attackFrame = 0; }
+function stepAttackSlot(attacker, state, tree, slot, frameKey) {
+  const attack = attacker[slot];
+  if (!attack) return;
+  attacker[frameKey] = (attacker[frameKey] || 0) + 1;
+  if (isActive(attacker, attack, frameKey)) hitWith(attacker, state, tree, attack, slot);
+  if (attacker[slot] && isFinished(attacker, attack, frameKey)) endAttack(attacker, slot, frameKey);
+}
 
-function hitWith(attacker, state, tree) {
-  const attack = attacker.attack;
+function isActive(f, attack, frameKey) { return f[frameKey] > attack.startup && f[frameKey] <= attack.startup + attack.active; }
+function isFinished(f, attack, frameKey) { return f[frameKey] > attack.startup + attack.active + attack.recovery; }
+function endAttack(f, slot, frameKey) { f[slot] = null; f[frameKey] = 0; }
+
+function hitWith(attacker, state, tree, attack, slot) {
   const point = strikePoint(attacker, attack);
   const radius = attack.radius + (attacker.heldWeapon?.range || 0) * 0.35 + 150;
   const candidates = nearbyFighters(tree, point.x, point.y, radius);
@@ -48,9 +54,9 @@ function hitWith(attacker, state, tree) {
     if (!attackConnects(attacker, target, point, radius, attack)) continue;
     attack.hasHit.add(target.id);
     rememberAttacker(target, attacker);
-    if (attack.id === 'grab') return landGrab(state, attacker, target);
-    if (absorbByOhrShield(state, target)) continue;
-    if (target.blocking) shieldHit(state, target, attack);
+    if (attack.id === 'grab') return landGrab(state, attacker, target, slot);
+    if (absorbByOhrShield(state, attacker, target, attack)) continue;
+    if (target.blocking) shieldHit(state, attacker, target, attack);
     else landHit(state, attacker, target, attack);
   }
 }
@@ -75,7 +81,7 @@ function closeReach(attack) {
 }
 
 function cannotHit(attacker, target, attack) {
-  return target === attacker || target.dead || target.grabbedBy || attack.hasHit.has(target.id);
+  return target === attacker || target.dead || target.hidden || target.grabbedBy || attack.hasHit.has(target.id);
 }
 
 function rememberAttacker(target, attacker) {
@@ -91,15 +97,15 @@ function strikePoint(attacker, attack) {
   return body.rightHand;
 }
 
-function landGrab(state, attacker, target) {
+function landGrab(state, attacker, target, slot) {
   beginGrab(attacker, target);
-  state.events.push({ type: 'hit', x: target.x, y: target.y - 105, color: '#ffe8a8', letter: 'אחיזה', damage: 0, force: 8, side: attacker.face || 1 });
+  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 105, color: '#ffe8a8', letter: 'אחיזה', damage: 0, force: 8, side: attacker.face || 1 });
   punchCamera(state, 5);
-  endAttack(attacker);
+  endAttack(attacker, slot, slot === 'rapidAttack' ? 'rapidAttackFrame' : 'attackFrame');
 }
 
 function landHit(state, attacker, target, attack) {
-  const weapon = attacker.heldWeapon;
+  const weapon = attack.rapid ? null : attacker.heldWeapon;
   const fist = attacker.buffs?.gevurahFist ? 1.45 : 1;
   const raw = Math.max(1, Math.round((attack.damage + (weapon?.damage || 0)) * fist));
   const damage = damageAfterDefense(target, raw);
@@ -109,8 +115,8 @@ function landHit(state, attacker, target, attack) {
   const knock = knockAfterHat(attacker, attack.knock * fist + (weapon?.knock || 0));
   const force = Math.max(damage, knock);
   applyKnockback(target, attacker, { ...attack, damage, knock }, weapon);
-  state.hitstop = Math.max(state.hitstop || 0, Math.min(7, 2 + Math.floor(force / 8)));
-  punchCamera(state, Math.min(18, force * 0.45));
+  state.hitstop = Math.max(state.hitstop || 0, Math.min(7, attack.rapid ? 1 : 2 + Math.floor(force / 8)));
+  punchCamera(state, attack.rapid ? 2 : Math.min(18, force * 0.45));
   emitHit(state, attacker, target, attack, damage, weapon, force, combo);
 }
 
@@ -123,23 +129,23 @@ function updateCombo(attacker, target) {
   return attacker.combo.count;
 }
 
-function absorbByOhrShield(state, target) {
+function absorbByOhrShield(state, attacker, target) {
   if (!target.buffs?.ohrShield) return false;
   delete target.buffs.ohrShield;
-  state.events.push({ type: 'hit', x: target.x, y: target.y - 96, color: '#fff1a6', letter: 'א', damage: 0, charge: 0, force: 8 });
+  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 96, color: '#fff1a6', letter: 'א', damage: 0, charge: 0, force: 8 });
   punchCamera(state, 5);
   return true;
 }
 
-function shieldHit(state, target, attack) {
+function shieldHit(state, attacker, target, attack) {
   shieldAbsorb(target, attack.damage);
-  state.events.push({ type: 'hit', x: target.x, y: target.y - 92, color: '#9affc5', letter: 'מ', damage: Math.round(attack.damage / 2), force: attack.knock * 0.5 });
-  punchCamera(state, 4);
+  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 92, color: '#9affc5', letter: 'מ', damage: Math.round(attack.damage / 2), force: attack.knock * 0.5, rapid: attack.rapid });
+  punchCamera(state, attack.rapid ? 2 : 4);
 }
 
 function emitHit(state, attacker, target, attack, damage, weapon, force, combo) {
   const side = Math.sign(attack.aim?.x || target.x - attacker.x) || attacker.face || 1;
   const letter = combo >= 20 ? 'כ' : combo >= 10 ? 'י' : combo >= 5 ? 'ה' : attack.letter || 'כ';
-  state.events.push({ type: 'hit', x: target.x, y: target.y - 106, color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, side, letter, damage, force, koDanger: target.damage > 120, combo, charge: attack.charge || 0, fullCharge: attack.fullCharge, rapid: attack.rapid });
+  state.events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, human: attacker.human || target.human, x: target.x, y: target.y - 106, color: weapon?.color || `hsl(${attacker.dna.hue} 95% 70%)`, side, letter, damage, force, koDanger: target.damage > 120, combo, charge: attack.charge || 0, fullCharge: attack.fullCharge, rapid: attack.rapid });
   if (combo >= 3) state.events.push({ type: 'narrative', x: target.x, y: target.y - 145, text: `${combo}x`, color: '#fff4a8' });
 }

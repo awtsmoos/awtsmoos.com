@@ -2,11 +2,10 @@ import { circleHit } from '../core/collision.js';
 
 /**
  * B"H
- * Power-up system.
+ * Power-up system with player-local pickup metadata.
  *
- * Chapter 29: the orb touches the fighter and the rule of the body changes.
- * Buffs tick down, picked-up lights sleep, and the arena restores them later
- * so the match keeps producing decisions instead of dead empty space.
+ * Chapter 275: when an orb blesses a bot, it glows silently in the hand of the
+ * player. Only a human pickup may call haptic thunder from the device.
  */
 export function stepPowerups(state) {
   tickBuffs(state.fighters);
@@ -44,7 +43,7 @@ function collect(state, f, orb) {
   applyBuff(f, orb);
   orb.active = false;
   orb.respawn = 720;
-  state.events.push({ type: 'pickup', x: orb.x, y: orb.y, color: orb.color, letter: orb.letter, damage: 0 });
+  state.events.push({ type: 'pickup', fighterId: f.id, actorId: f.id, human: !!f.human, x: orb.x, y: orb.y, color: orb.color, letter: orb.letter, damage: 0 });
 }
 
 function applyBuff(f, orb) {
