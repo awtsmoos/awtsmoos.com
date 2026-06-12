@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Heichal Hishtalshelus Brawl</title>
+  <title>Sefira Clash</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <main class="shell">
     <section class="topbar">
       <div>
-        <h1>Heichal Hishtalshelus Brawl</h1>
-        <p id="statusText">Choose a character, choose a map, then survive.</p>
+        <h1>Sefira Clash</h1>
+        <p id="statusText">A/D move · W/Space jump · F punch · G kick</p>
       </div>
       <label>Bots <select id="botSelect"><option>3</option><option selected>5</option><option>7</option></select></label>
       <button id="restart">Menu</button>
@@ -20,11 +20,10 @@
     <canvas id="olam"></canvas>
     <section id="menuOverlay" class="menuOverlay"></section>
     <section id="touchControls" class="touchControls">
-      <div id="stick" class="stick"><span></span></div>
+      <div id="stick" class="stick" aria-label="move; push up to jump"><span></span></div>
       <div class="touchButtons">
-        <button data-act="jump">↑</button><button data-act="punch">P</button>
-        <button data-act="kick">K</button><button data-act="grab">G</button>
-        <button data-act="shield">S</button><button data-act="special">✦</button>
+        <button data-act="punch" aria-label="punch">👊</button>
+        <button data-act="kick" aria-label="kick">🦵</button>
       </div>
     </section>
   </main>

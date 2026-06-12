@@ -2,11 +2,11 @@ import { withGlow, radialGlow } from './lighting/glow.js';
 
 /**
  * B"H
- * Fighter renderer, repaired toward readable humanoids.
+ * Fighter renderer with charge aura and full hat cabinet.
  *
- * Chapter 63: bodies now announce state. Danger leaks letters, air-dodge turns
- * the silhouette into a streak, fast-fall sharpens posture, and combo heat
- * lights the fighter who is currently writing violence into the arena.
+ * Chapter 146: the chosen hat must become visible in battle. Not merely saved,
+ * not merely previewed, but drawn on the living fighter as the body runs,
+ * charges, jumps, and falls through the palace.
  */
 export function drawFighters(ctx, fighters) {
   for (const fighter of fighters) drawFighter(ctx, fighter);
@@ -16,6 +16,7 @@ function drawFighter(ctx, f) {
   if (f.dead) return;
   const color = `hsl(${f.dna.hue} 90% 62%)`;
   const lean = computeLean(f);
+  drawChargeAura(ctx, f, color);
   if (f.human) drawPlayerRing(ctx, f, color);
   if (f.danger) drawDangerAura(ctx, f);
   if (f.airDodge) drawDodgeStreak(ctx, f, color);
@@ -26,6 +27,23 @@ function drawFighter(ctx, f) {
   drawLabels(ctx, f);
   if (f.blocking) drawShield(ctx, f);
   if (f.attack) drawAttackArc(ctx, f, color);
+}
+
+function drawChargeAura(ctx, f, color) {
+  const charge = f.chargeGlow || 0;
+  if (charge < 0.05) return;
+  const max = charge > 0.92;
+  const radius = 46 + charge * 72 + Math.sin((f.motionClock || 0) * 0.45) * 7;
+  ctx.save();
+  ctx.globalAlpha = 0.18 + charge * 0.38;
+  ctx.strokeStyle = max ? '#fff2a8' : color;
+  ctx.lineWidth = max ? 7 : 3 + charge * 4;
+  ctx.beginPath();
+  ctx.arc(f.x, f.y - 86, radius, 0, Math.PI * 2);
+  ctx.stroke();
+  radialGlow(ctx, f.x, f.y - 86, radius * 0.9, max ? '#fff2a888' : color.replace('hsl', 'hsla').replace(')', ' / .45)'));
+  ctx.restore();
+  if (max) drawOutlinedText(ctx, 'MAX', f.x, f.y - 225, 18, '#fff2a8');
 }
 
 function computeLean(f) {
@@ -126,17 +144,103 @@ function drawOvalTip(ctx, bone, rx, ry) {
 
 function drawHead(ctx, f, color, lean) {
   const head = f.bones.head?.tip || { x: f.x, y: f.y - 170 };
+  const x = head.x + lean * 8;
   ctx.fillStyle = '#080609';
   ctx.strokeStyle = color;
   ctx.lineWidth = 4;
   ctx.beginPath();
-  ctx.arc(head.x + lean * 8, head.y, 18, 0, Math.PI * 2);
+  ctx.arc(x, head.y, 18, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
+  drawHeadwear(ctx, f, x, head.y, color);
   ctx.fillStyle = f.danger ? '#fff2a8' : color;
   ctx.beginPath();
-  ctx.arc(head.x + lean * 8 + f.face * 6, head.y - 2, f.danger ? 3.8 : 2.5, 0, Math.PI * 2);
+  ctx.arc(x + f.face * 6, head.y - 2, f.danger ? 3.8 : 2.5, 0, Math.PI * 2);
   ctx.fill();
+}
+
+function drawHeadwear(ctx, f, x, y, color) {
+  const kind = f.cosmetic?.headwear || 'kippah';
+  ctx.save();
+  ctx.strokeStyle = '#050207';
+  ctx.lineWidth = 4;
+  ctx.fillStyle = color;
+  if (kind === 'kippah' || kind === 'turban') drawDome(ctx, x, y, kind === 'turban' ? 17 : 13, color);
+  else if (kind === 'blackhat') drawBrimHat(ctx, x, y, color, 40, 24);
+  else if (kind === 'tophat') drawTopHat(ctx, x, y, color);
+  else if (kind === 'cap') drawCap(ctx, x, y, color);
+  else if (kind === 'beanie') drawBeanie(ctx, x, y, color);
+  else if (kind === 'crown') drawCrown(ctx, x, y);
+  else if (kind === 'helmet') drawHelmet(ctx, x, y, color);
+  else drawDome(ctx, x, y, 13, color);
+  ctx.restore();
+}
+
+function drawDome(ctx, x, y, rx) {
+  ctx.beginPath();
+  ctx.ellipse(x, y - 17, rx, 6, 0, Math.PI, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+}
+
+function drawBrimHat(ctx, x, y, color, brim, height) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x - brim / 2, y - 25, brim, 8);
+  ctx.strokeRect(x - brim / 2, y - 25, brim, 8);
+  ctx.fillRect(x - 12, y - 25 - height, 24, height);
+  ctx.strokeRect(x - 12, y - 25 - height, 24, height);
+}
+
+function drawTopHat(ctx, x, y, color) {
+  drawBrimHat(ctx, x, y, color, 46, 34);
+}
+
+function drawCap(ctx, x, y, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.ellipse(x - 2, y - 20, 19, 10, -0.15, Math.PI, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(x + 18, y - 16, 15, 5, 0.1, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+}
+
+function drawBeanie(ctx, x, y, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.ellipse(x, y - 20, 20, 12, 0, Math.PI, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(x, y - 34, 4, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawCrown(ctx, x, y) {
+  ctx.fillStyle = '#ffe27a';
+  ctx.beginPath();
+  ctx.moveTo(x - 18, y - 17);
+  ctx.lineTo(x - 12, y - 39);
+  ctx.lineTo(x, y - 24);
+  ctx.lineTo(x + 12, y - 39);
+  ctx.lineTo(x + 18, y - 17);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+}
+
+function drawHelmet(ctx, x, y, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.ellipse(x, y - 19, 22, 15, 0, Math.PI, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x - 20, y - 18);
+  ctx.lineTo(x + 20, y - 18);
+  ctx.stroke();
 }
 
 function drawLabels(ctx, f) {
@@ -166,10 +270,10 @@ function drawShield(ctx, f) {
 
 function drawAttackArc(ctx, f, color) {
   const hand = f.bones.rightLowerArm?.tip || { x: f.x + f.face * 50, y: f.y - 90 };
-  radialGlow(ctx, hand.x, hand.y, 50, color.replace('hsl', 'hsla').replace(')', ' / .45)'));
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 5;
+  radialGlow(ctx, hand.x, hand.y, f.attack.fullCharge ? 96 : 50, f.attack.fullCharge ? '#fff2a888' : color.replace('hsl', 'hsla').replace(')', ' / .45)'));
+  ctx.strokeStyle = f.attack.fullCharge ? '#fff2a8' : color;
+  ctx.lineWidth = f.attack.fullCharge ? 9 : 5;
   ctx.beginPath();
-  ctx.arc(f.x + f.face * 50, f.y - 95, 55, -0.8, 0.8);
+  ctx.arc(f.x + f.face * 50, f.y - 95, f.attack.fullCharge ? 88 : 55, -0.8, 0.8);
   ctx.stroke();
 }

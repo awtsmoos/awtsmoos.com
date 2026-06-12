@@ -1,17 +1,17 @@
 // B"H
 /* eslint-disable no-restricted-globals */
 (function ectWorkerBridge(root) {
-  const version = "45";
+  const version = "50";
   const app = "/scripts/awtsmoos/MerkavaExecutor/app/";
   const parserCore = "/scripts/awtsmoos/MerkavaASTParser/parser-core.worker.js";
 
   /**
    * B"H. Worker-safe parser altar.
    *
-   * The existing parser extensions were written for a browser global named
-   * `window`. In a Worker, the truthful equivalent vessel is `self`; this shim
-   * exposes that alias before importScripts. The document shim only gives the
-   * parser-core loader its own URL, so base-path detection remains accurate.
+   * Two compilations leave the vessel truthful: the first is maximum semantic
+   * compression for storage/RAM metrics; the second preserves render text. The
+   * visual preview also receives exact CSS as a render-only vessel, so Native,
+   * Virtual DOM, and WebGL can be compared without inflating the compact bytes.
    */
   if (typeof root.window === "undefined") root.window = root;
   if (typeof root.document === "undefined") {
@@ -35,11 +35,27 @@
   root.onmessage = async event => {
     try {
       const Parser = await root.MerkavahParserPromise;
-      root.postMessage(root.AwtsEctCompiler.compileProject(event.data.project, Parser));
+      const project = event.data.project;
+      const compact = root.AwtsEctCompiler.compileProject(project, Parser, { preserveText: false, preservePublicSymbols: false });
+      const renderable = root.AwtsEctCompiler.compileProject(project, Parser, { preserveText: true, preservePublicSymbols: true });
+      compact.renderReconstruction = renderable.reconstruction;
+      compact.renderCss = concatFiles(project, ".css");
+      compact.renderJs = concatFiles(project, ".js");
+      compact.renderMetrics = {
+        storageBytes: renderable.byteCount,
+        ramBytes: renderable.metrics && renderable.metrics.ramBytes,
+        cssBytes: bytes(compact.renderCss),
+        proof: renderable.reconstruction && renderable.reconstruction.proof
+      };
+      root.postMessage(compact);
     } catch (error) {
       root.postMessage(errorResult(event.data && event.data.project, error));
     }
   };
+
+  function concatFiles(project, suffix) {
+    return Object.keys(project.files || {}).filter(name => name.endsWith(suffix)).map(name => project.files[name]).join("\n");
+  }
 
   function errorResult(project, error) {
     return {
@@ -63,7 +79,8 @@
   }
 
   function projectBytes(project) {
-    const enc = new TextEncoder();
-    return enc.encode(Object.keys(project.files).map(name => "// FILE: " + name + "\n" + project.files[name]).join("\n\n")).length;
+    return bytes(Object.keys(project.files).map(name => "// FILE: " + name + "\n" + project.files[name]).join("\n\n"));
   }
+
+  function bytes(text) { return new TextEncoder().encode(String(text || "")).length; }
 })(typeof self !== "undefined" ? self : globalThis);

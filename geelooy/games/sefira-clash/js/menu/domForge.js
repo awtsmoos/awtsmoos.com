@@ -2,9 +2,10 @@
  * B"H
  * Forges DOM from data.
  *
- * The Awtsmoos speaks a tree of plain objects into actual elements. When a
- * child is already a live Node, this forge honors it instead of reshaping it;
- * thus data and prebuilt fragments can walk together without collision.
+ * Chapter 107: a null attribute must not become a cursed boolean. The victory
+ * buttons were disabled because `disabled: null` still wrote the disabled
+ * attribute. This forge skips falsey/null attributes and missing handlers, so
+ * declarative UI can breathe without accidental locks.
  *
  * @param {object|string|Node} node - Declarative node, live node, or text.
  * @returns {Node} A live DOM node.
@@ -13,14 +14,8 @@ export function forge(node) {
   if (node instanceof Node) return node;
   if (typeof node === 'string') return document.createTextNode(node);
   const el = document.createElement(node.tag || 'div');
-  for (const [key, value] of Object.entries(node.attrs || {})) {
-    if (key === 'class') el.className = value;
-    else if (key === 'dataset') Object.assign(el.dataset, value);
-    else el.setAttribute(key, value);
-  }
-  for (const [event, handler] of Object.entries(node.on || {})) {
-    el.addEventListener(event, handler);
-  }
+  applyAttrs(el, node.attrs || {});
+  applyEvents(el, node.on || {});
   for (const child of node.children || []) el.appendChild(forge(child));
   return el;
 }
@@ -38,4 +33,20 @@ export function reveal(host, node) {
   const made = forge(node);
   host.appendChild(made);
   return made;
+}
+
+function applyAttrs(el, attrs) {
+  for (const [key, value] of Object.entries(attrs)) {
+    if (value === null || value === undefined || value === false) continue;
+    if (key === 'class') el.className = value;
+    else if (key === 'dataset') Object.assign(el.dataset, value);
+    else if (value === true) el.setAttribute(key, '');
+    else el.setAttribute(key, value);
+  }
+}
+
+function applyEvents(el, events) {
+  for (const [event, handler] of Object.entries(events)) {
+    if (typeof handler === 'function') el.addEventListener(event, handler);
+  }
 }

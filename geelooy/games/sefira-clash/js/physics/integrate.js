@@ -2,12 +2,13 @@ import { GAME } from '../core/constants.js';
 
 /**
  * B"H
- * Integration lowers intention into position: will becomes x/y.
+ * Integration lowers intention into position with remembered previous position.
  *
- * Chapter 60: fast-fall and air-dodge now bend gravity without rewriting the
- * rest of the world. The vessel stays small, but the body feels sharper.
+ * Chapter 165: collision prediction needs yesterday. prevX and prevY are saved
+ * before movement so swept wall tests can catch even absurd smash velocity.
  */
 export function integrate(f) {
+  f.prevX = f.x;
   f.prevY = f.y;
   const gravity = GAME.gravity + (f.fastFalling ? 0.52 : 0) - (f.airDodge ? 0.42 : 0);
   const maxFall = f.fastFalling ? GAME.maxFall * 1.32 : GAME.maxFall;

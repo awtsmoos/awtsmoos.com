@@ -1,36 +1,33 @@
+import { animationState } from './animationState.js';
+
 /**
  * B"H
- * Humanoid animation solver with real combat poses.
+ * Humanoid animation solver with stateful platform-fighter poses.
  *
- * Chapter 79: the fist finally leaves the body and the foot finally cuts the
- * air. Attack names are not generic; jab1, jab2, jab3, dashPunch, sweep,
- * roundhouse, aerialKick, and meteorKick all become visible body language.
+ * Chapter 246: every moment has a body now. Squat compresses, jump stretches,
+ * apex floats, fast-fall spears downward, landing absorbs, charge trembles,
+ * and attacks still carve their own limbs through the air.
  */
 export function solveSkeleton(f) {
+  const a = animationState(f);
+  f.anim = a;
   const s = Math.max(0.9, Math.min(1.15, f.dna.height || 1));
   const facing = f.face || 1;
   const speed = Math.min(1.25, Math.abs(f.vx) / 10);
+  const direction = Math.sign(f.vx || facing || 1);
   const clock = f.motionClock || 0;
-  const walk = Math.sin(clock * 0.42 + f.x * 0.04) * speed;
-  const p = actionPose(f, basePose(f, facing, walk, s), facing, s);
-  bind(f, 'spine', p.hip, p.chest);
-  bind(f, 'head', p.neck, p.head);
-  bind(f, 'leftUpperArm', p.leftShoulder, p.leftElbow);
-  bind(f, 'leftLowerArm', p.leftElbow, p.leftHand);
-  bind(f, 'rightUpperArm', p.rightShoulder, p.rightElbow);
-  bind(f, 'rightLowerArm', p.rightElbow, p.rightHand);
-  bind(f, 'leftThigh', p.leftHip, p.leftKnee);
-  bind(f, 'leftCalf', p.leftKnee, p.leftFoot);
-  bind(f, 'rightThigh', p.rightHip, p.rightKnee);
-  bind(f, 'rightCalf', p.rightKnee, p.rightFoot);
-  bindRoot(f, p.hip);
+  const walk = Math.sin(clock * 0.42) * speed * direction;
+  const p = actionPose(f, statePose(a, basePose(f, facing, walk, s, a), facing, s), facing, s);
+  bindAll(f, p);
 }
 
-function basePose(f, facing, walk, s) {
-  const hip = point(f.x, f.y - 56 * s);
-  const chest = point(f.x + facing * (4 + walk * 4), f.y - 128 * s);
+function basePose(f, facing, walk, s, a) {
+  const squat = a.squash * 42 * s;
+  const stretch = a.stretch * 38 * s;
+  const hip = point(f.x, f.y - 56 * s + squat * 0.6);
+  const chest = point(f.x + facing * 4 + walk * 4, f.y - 128 * s + squat - stretch);
   const neck = point(chest.x, chest.y - 13 * s);
-  const head = point(chest.x + facing * Math.abs(f.vx) * 0.35, chest.y - 42 * s);
+  const head = point(chest.x + facing * Math.abs(f.vx) * 0.35, chest.y - 42 * s - stretch * 0.22);
   const sw = 31 * s;
   const hw = 18 * s;
   return {
@@ -48,6 +45,68 @@ function basePose(f, facing, walk, s) {
     rightKnee: point(hip.x + hw + walk * 27 * s, hip.y + 53 * s),
     rightFoot: point(hip.x + hw + walk * 42 * s, f.y + 2)
   };
+}
+
+function statePose(a, p, facing, s) {
+  if (a.kind === 'squat') crouchPose(p, s);
+  else if (a.kind === 'rise') risePose(p, facing, s);
+  else if (a.kind === 'apex') apexPose(p, facing, s);
+  else if (a.kind === 'fall') fallPose(p, facing, s);
+  else if (a.kind === 'fastFall') fastFallPose(p, facing, s);
+  else if (a.kind === 'landing') crouchPose(p, s * 1.25);
+  else if (a.kind === 'hitstun') hitstunPose(p, facing, s);
+  else if (a.kind === 'ledgeHang') ledgePose(p, facing, s);
+  else if (a.kind === 'charge' || a.kind === 'maxCharge') chargePose(p, facing, s, a.charge);
+  return p;
+}
+
+function crouchPose(p, s) {
+  p.chest.y += 22 * s; p.head.y += 20 * s;
+  p.leftKnee.y += 18 * s; p.rightKnee.y += 18 * s;
+  p.leftFoot.x -= 10 * s; p.rightFoot.x += 10 * s;
+  p.leftHand.y += 18 * s; p.rightHand.y += 18 * s;
+}
+
+function risePose(p, facing, s) {
+  p.leftHand.y -= 28 * s; p.rightHand.y -= 32 * s;
+  p.leftFoot.x -= facing * 14 * s; p.rightFoot.x -= facing * 6 * s;
+  p.leftKnee.y -= 10 * s; p.rightKnee.y -= 6 * s;
+}
+
+function apexPose(p, facing, s) {
+  p.leftHand.x -= facing * 18 * s; p.rightHand.x += facing * 18 * s;
+  p.leftKnee.y += 8 * s; p.rightKnee.y += 8 * s;
+}
+
+function fallPose(p, facing, s) {
+  p.chest.x += facing * 6 * s;
+  p.leftHand.y += 22 * s; p.rightHand.y += 18 * s;
+  p.leftFoot.y += 8 * s; p.rightFoot.y += 8 * s;
+}
+
+function fastFallPose(p, facing, s) {
+  p.chest.x += facing * 14 * s; p.head.x += facing * 10 * s;
+  p.leftHand.y += 38 * s; p.rightHand.y += 38 * s;
+  p.leftFoot.y -= 10 * s; p.rightFoot.y -= 4 * s;
+}
+
+function hitstunPose(p, facing, s) {
+  p.chest.x -= facing * 18 * s; p.head.x -= facing * 22 * s;
+  p.leftHand.x -= facing * 42 * s; p.rightHand.x -= facing * 32 * s;
+}
+
+function ledgePose(p, facing, s) {
+  p.chest.y += 44 * s; p.head.y += 42 * s;
+  p.rightHand.x += facing * 34 * s; p.rightHand.y -= 60 * s;
+  p.leftHand.y -= 16 * s; p.leftFoot.y += 35 * s; p.rightFoot.y += 35 * s;
+}
+
+function chargePose(p, facing, s, charge) {
+  const tremble = Math.sin((charge * 40) + p.chest.x * 0.03) * charge * 7 * s;
+  p.chest.x -= facing * (8 + charge * 12) * s;
+  p.rightHand.x += facing * (14 + charge * 16) * s;
+  p.leftHand.x += tremble;
+  p.rightHand.x -= tremble;
 }
 
 function actionPose(f, p, facing, s) {
@@ -70,20 +129,14 @@ function attackPhase(f) {
   return Math.max(0.2, 1 - (f.attackFrame - activeEnd) / recovery * 0.8);
 }
 
-function isPunch(id) {
-  return id.includes('jab') || id.includes('Punch') || id === 'uppercut' || id === 'special';
-}
-
-function isKick(id) {
-  return id.includes('Kick') || id === 'roundhouse' || id === 'sweep';
-}
+function isPunch(id) { return id.includes('jab') || id.includes('Punch') || id === 'uppercut' || id === 'special'; }
+function isKick(id) { return id.includes('Kick') || id === 'roundhouse' || id === 'sweep'; }
 
 function extendPunch(p, facing, s, t, id) {
   const upper = id === 'uppercut';
   const reach = id === 'dashPunch' || id === 'chargePunch' ? 126 : 102;
   const lift = upper ? -70 : -16;
   p.chest.x -= facing * 9 * s;
-  p.chest.y += upper ? 7 * s : 0;
   p.rightShoulder.x += facing * 13 * s;
   p.rightElbow = point(p.rightShoulder.x + facing * (40 + reach * 0.28 * t) * s, p.rightShoulder.y + (18 + lift * 0.35 * t) * s);
   p.rightHand = point(p.rightShoulder.x + facing * (58 + reach * t) * s, p.rightShoulder.y + (14 + lift * t) * s);
@@ -97,7 +150,6 @@ function extendKick(p, facing, s, t, id) {
   const height = meteor ? 80 : sweep ? 58 : 28;
   const reach = id === 'roundhouse' ? 118 : id === 'aerialKick' ? 128 : 104;
   p.chest.x -= facing * 13 * s;
-  p.chest.y += 6 * s;
   p.rightKnee = point(p.rightHip.x + facing * (42 + 24 * t) * s, p.rightHip.y + (height - 26 * t) * s);
   p.rightFoot = point(p.rightHip.x + facing * (54 + reach * t) * s, p.rightHip.y + (height - 34 * t) * s);
   p.leftKnee.y += 10 * s;
@@ -116,19 +168,21 @@ function raiseGuard(p, facing, s) {
   p.rightHand = point(p.chest.x + facing * 48 * s, p.chest.y + 62 * s);
 }
 
+function bindAll(f, p) {
+  bind(f, 'spine', p.hip, p.chest); bind(f, 'head', p.neck, p.head);
+  bind(f, 'leftUpperArm', p.leftShoulder, p.leftElbow); bind(f, 'leftLowerArm', p.leftElbow, p.leftHand);
+  bind(f, 'rightUpperArm', p.rightShoulder, p.rightElbow); bind(f, 'rightLowerArm', p.rightElbow, p.rightHand);
+  bind(f, 'leftThigh', p.leftHip, p.leftKnee); bind(f, 'leftCalf', p.leftKnee, p.leftFoot);
+  bind(f, 'rightThigh', p.rightHip, p.rightKnee); bind(f, 'rightCalf', p.rightKnee, p.rightFoot);
+  bindRoot(f, p.hip);
+}
+
 function bind(f, id, root, tip) {
-  const bone = f.bones[id];
-  if (!bone) return;
-  bone.root = root;
-  bone.tip = tip;
+  const bone = f.bones[id]; if (!bone) return;
+  bone.root = root; bone.tip = tip;
   bone.angle = Math.atan2(tip.y - root.y, tip.x - root.x);
   bone.len = Math.hypot(tip.x - root.x, tip.y - root.y);
 }
 
-function bindRoot(f, hip) {
-  if (!f.bones.root) return;
-  f.bones.root.root = { x: f.x, y: f.y };
-  f.bones.root.tip = hip;
-}
-
+function bindRoot(f, hip) { if (f.bones.root) { f.bones.root.root = { x: f.x, y: f.y }; f.bones.root.tip = hip; } }
 function point(x, y) { return { x, y }; }

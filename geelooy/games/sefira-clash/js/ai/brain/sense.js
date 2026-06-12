@@ -1,27 +1,35 @@
+import { combatSense } from '../sense/combatSense.js';
+import { stageDangerAt } from '../sense/stageDanger.js';
 import { crowdPush } from './crowd.js';
+import { edgeSafety } from './edgeSafety.js';
 import { hitChance, predictTarget } from './prediction.js';
-import { platformPlan } from './platformNav.js';
+import { platformBrain } from './platformBrain.js';
 import { recoveryRead } from './recoveryRead.js';
 import { territorySense } from './territory.js';
 
 /**
  * B"H
- * Bot sensory snapshot.
+ * Bot sensory snapshot with platform route, true combat lanes, and danger map.
  *
- * Chapter 66: sight becomes layered. The bot reads prediction, crowd pressure,
- * power-up temptation, weapon desire, high ground, and whether the target has
- * become a helpless recovery path waiting to be denied.
+ * Chapter 235: the bot now sees not only enemy and platform, but danger itself.
+ * Edges, holes, and exile zones become numbers that planning can fear.
  */
 export function senseWorld(bot, target, state) {
-  const floor = nearestFloor(bot, state.map.platforms);
+  const route = platformBrain(bot, target, state.map.platforms);
+  const floor = route.current;
   const predicted = predictTarget(target, 16);
   const dx = predicted.x - bot.x;
   const dy = predicted.y - bot.y;
   const dist = Math.hypot(dx, dy * 0.75);
+  const safety = edgeSafety(bot, floor);
+  const combat = combatSense(bot, predicted);
+  const danger = stageDangerAt(bot.x, bot.y, state.map, floor);
+  const targetDanger = stageDangerAt(predicted.x, predicted.y, state.map, route.targetPlatform);
   return {
-    target, predicted, floor, dx, dy, dist,
+    target, predicted, floor, dx, dy, dist, route, combat, danger, targetDanger,
     hitChance: hitChance(bot, predicted, bot.heldWeapon ? 190 : 135),
     crowdPush: crowdPush(bot, state.fighters),
+    safety,
     recovery: recoveryRead(target, floor),
     territory: territorySense(bot, target, floor, state.map.platforms),
     edge: edgeInfo(bot, floor),
@@ -30,20 +38,8 @@ export function senseWorld(bot, target, state) {
     whiff: !!target.attack && (target.attackFrame || 0) > target.attack.startup + target.attack.active,
     crowded: countNear(bot, state.fighters, 150),
     touching: countNear(bot, state.fighters, 58),
-    nav: platformPlan(bot, floor, predicted.x, predicted.y)
+    nav: { shouldJump: route.needsJump || combat.aboveLane, shouldDrop: route.needsDrop || combat.belowLane, targetX: route.targetX }
   };
-}
-
-function nearestFloor(bot, platforms) {
-  let best = platforms[0];
-  let d = Infinity;
-  for (let i = 0; i < platforms.length; i++) {
-    const p = platforms[i];
-    const inside = bot.x >= p.x - 95 && bot.x <= p.x + p.w + 95;
-    const nd = inside ? Math.abs(p.y - bot.y) : Math.abs(p.x + p.w / 2 - bot.x) + 420;
-    if (nd < d) { d = nd; best = p; }
-  }
-  return best;
 }
 
 function edgeInfo(bot, p) {

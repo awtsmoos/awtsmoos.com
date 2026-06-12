@@ -1,66 +1,30 @@
 <!--B"H-->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="./style.css">
-<div class="all awtsmoospage">
-  <script awts> return $a("nav/header.html") </script>?>
-
-  <div class="main">
-        <div class="gamer">
-        <div class="game-logo">Awtsmoos Games</div>
-        
-         <div class="game list">
-            <!-- <a href="./mitzvahWorld/" disabled="true" title="coming soon"  >Mitzvah World</a>
-           
-            <a href="./Merkava/">Merkava</a>
-            -->
-            <a href="./mitzvahWorld/">Mitzvah World</a>
-			
-            <a href="./ohr-hagnuz/">Ohr Hagnuz</a>
-            <a href="./brick-blast/">Brick Blast</a>
-            <a href="./sulam-ha-sod/">Sulam HaSod</a>
-            <a href="./KAVANAH/">KAVANAH</a>
-           
-           
-           <a href="./shema-strike/">Shema Strike</a>
-           
-            <a href="./emojis/">emojis</a>
-            
-            <a href="./chess/">chess</a>
-            
-            
-            <a href="./connect4/">Connect 4</a>
-            <a href="./pong/">Pong</a>
-            
-            
-            <a href="./tetris/">Tetris</a>
-            
-            <a href="./Nachash/">Nachash (snake game)</a>
-            
-            <a href="./dove/">Noah's Dove jump 🕊️</a>
-            <a href="./soul-jump/">soul jump 🔥</a>
-            
-            <a href="./neshama-quest/">Neshama Quest</a>
-        
-            
-            <a href="./scribe-journey/">the Scribe's Journey</a>
-            
-            <a href="./kabbalah-shooter/">Neshama Quest</a>
-        
-            
-            <a href="./migdol/">Migdol</a>
-            <a href="./cards/">Cards</a>
-            
-            <a href="./rebbe-runner/">the Rebbe's Runner</a>
-        
-        
-        
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Awtsmoos Games</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="all awtsmoospage">
+    <script awts> return $a("nav/header.html") </script>?>
+    <main class="gamesShell">
+      <section class="heroPanel">
+        <p class="eyebrow">B"H · Arcade of sparks</p>
+        <h1>Awtsmoos Games</h1>
+        <p class="heroText">Choose a doorway. Each card is generated from one clean JavaScript list, so the arcade can grow without hardcoded link-chaos.</p>
+        <div class="searchRow">
+          <input id="gameSearch" type="search" placeholder="Search games, tags, or worlds…" autocomplete="off" />
+          <span id="gameCount">0 doorways</span>
         </div>
-        
-        </div>
-      </div>
-    </div>
-    
-    
-    <script src="/register.js"></script>
-      
+        <nav id="tagCloud" class="tagCloud" aria-label="Game filters"></nav>
+      </section>
+      <section id="gamesGrid" class="gamesGrid" aria-live="polite"></section>
+    </main>
+  </div>
+  <script type="module" src="./scripts/games-index.js"></script>
+  <script src="/register.js"></script>
+</body>
+</html>

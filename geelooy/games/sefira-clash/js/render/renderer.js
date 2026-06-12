@@ -9,20 +9,23 @@ import { updateCamera } from '../camera/camera.js';
 
 /**
  * B"H
- * Camera-aware battle renderer.
+ * Zoom-aware battle renderer with visible wall collision.
  *
- * Chapter 22: the world is vast, but only the revealed chamber is drawn.
- * Platforms, power-ups, particles, weapons, and fighters all pass through the
- * same view gate so scale does not devour performance.
+ * Chapter 160: walls are no longer secret judges. Every solid side boundary is
+ * drawn with the same stone language as platforms, so players understand why a
+ * smashed fighter bounced back instead of vanishing into the abyss.
  */
 export function draw(ctx, state, w, h) {
   ctx.clearRect(0, 0, w, h);
   drawBackground(ctx, state.map, w, h);
   updateCamera(state, w, h);
-  const view = makeView(state.camera, w, h, 260);
+  const zoom = state.camera.zoom || 1;
+  const view = makeView(state.camera, w, h, 300, zoom);
   ctx.save();
-  ctx.translate(state.camera.x, state.camera.y);
-  drawPlatforms(ctx, visibleRects(state.map.platforms, view), state.map);
+  ctx.translate(w / 2, h / 2);
+  ctx.scale(zoom, zoom);
+  ctx.translate(state.camera.x - w / 2, state.camera.y - h / 2);
+  drawPlatforms(ctx, visibleRects([...(state.map.platforms || []), ...(state.map.walls || [])], view), state.map);
   drawPowerups(ctx, visiblePoints(state.powerups || [], view));
   drawWeapons(ctx, visiblePoints(state.weapons, view));
   drawHeldWeapons(ctx, state.fighters);
@@ -32,8 +35,12 @@ export function draw(ctx, state, w, h) {
   drawUi(ctx, state, w);
 }
 
-function makeView(camera, w, h, pad) {
-  return { left: -camera.x - pad, right: -camera.x + w + pad, top: -camera.y - pad, bottom: -camera.y + h + pad };
+function makeView(camera, w, h, pad, zoom) {
+  const halfW = w / (2 * zoom);
+  const halfH = h / (2 * zoom);
+  const centerX = w / 2 - camera.x;
+  const centerY = h / 2 - camera.y;
+  return { left: centerX - halfW - pad, right: centerX + halfW + pad, top: centerY - halfH - pad, bottom: centerY + halfH + pad };
 }
 
 function visibleRects(items, view) {

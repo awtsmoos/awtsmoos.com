@@ -1,22 +1,29 @@
 /**
- * B"H — Glow is a humble fake-bloom for Canvas2D. It draws the same mark
- * outward with softness, like hidden ohr surrounding a vessel before the
- * crisp line appears within it.
+ * B"H
+ * Ultra-light fake glow for mobile Canvas2D.
+ *
+ * Chapter 167: expensive shadow blur and radial gradients were devouring the
+ * frame when fighters overlapped. Glow is now a simple bright pass; the eye
+ * still feels light, but Android no longer pays for soft bloom every limb.
  */
 export function withGlow(ctx, color, blur, draw) {
-  ctx.save();
-  ctx.shadowColor = color;
-  ctx.shadowBlur = blur;
   draw();
-  ctx.restore();
 }
 
+/**
+ * Cheap glow substitute: translucent filled circle, no gradient allocation.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} x
+ * @param {number} y
+ * @param {number} radius
+ * @param {string} color
+ */
 export function radialGlow(ctx, x, y, radius, color) {
-  const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
-  g.addColorStop(0, color);
-  g.addColorStop(1, 'transparent');
-  ctx.fillStyle = g;
+  ctx.save();
+  ctx.globalAlpha = Math.min(ctx.globalAlpha, 0.22);
+  ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.arc(x, y, Math.max(4, radius), 0, Math.PI * 2);
   ctx.fill();
+  ctx.restore();
 }

@@ -2,14 +2,16 @@ import { platformLanding } from '../core/collision.js';
 
 /**
  * B"H
- * Platform contact resolver.
+ * Platform contact resolver with drop-through support.
  *
- * Chapter 61: when feet touch stone, the body remembers earth. Jumps reset,
- * fast-fall ends, and landing lag only appears after committed aerial violence.
+ * Chapter 116: not every platform is a prison. When a fighter requests a drop,
+ * the stone lets them pass for a few frames so vertical chase becomes possible.
  */
 export function resolvePlatforms(f, map) {
   f.grounded = false;
+  f.dropTimer = Math.max(0, (f.dropTimer || 0) - 1);
   for (const p of map.platforms) {
+    if (f.dropTimer > 0 && f.prevY <= p.y + 8) continue;
     if (!platformLanding(f, p)) continue;
     const wasFast = f.fastFalling;
     f.y = p.y;

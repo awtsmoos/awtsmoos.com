@@ -6,9 +6,11 @@
   const MAGIC = "AWTECT1\n";
 
   /**
-   * B"H. Binary package vessel. It stores the compact storage bytes plus the
-   * semantic reconstruction proof, so an uploaded .awtect can return to visible
-   * HTML/CSS/JS form without pretending exact source names survived.
+   * B"H. Binary package vessel.
+   *
+   * The compact stream remains the storage truth. The render reconstruction is
+   * also carried so uploaded .awtect files can preview with visible text instead
+   * of reopening as a mute semantic skeleton.
    */
   ect.makePackage = function makePackage(project, result) {
     const storage = result.storage && result.storage.bytes ? result.storage.bytes : result.bytes;
@@ -16,9 +18,11 @@
       format: "AWTECT1",
       title: project.title,
       metrics: result.metrics,
+      renderMetrics: result.renderMetrics,
       byteCount: result.byteCount,
       storage: Array.from(storage || []),
       reconstruction: result.reconstruction,
+      renderReconstruction: result.renderReconstruction,
       preservation: result.preservation,
       universe: result.universe
     };
@@ -38,7 +42,7 @@
 
   /** @param {object} pack */
   ect.projectFromPackage = function projectFromPackage(pack) {
-    const r = pack.reconstruction || {};
+    const r = pack.renderReconstruction || pack.reconstruction || {};
     return { title: (pack.title || "Decoded") + " reconstructed", kind: "decoded", files: {
       "index.html": r.html || "",
       "style.css": r.css || "",
