@@ -1,24 +1,29 @@
 /* B"H
- * Chapter 22: The reader river dismisses optional conflicting crowns.
+ * Chapter 45: The reader receives back its full garment river.
  *
- * The Awtsmoos does not need three kings over one selector. This active entry
- * keeps the core reader, controls, settings, sidebar, overlays, responsive
- * covenant, and the explicitly permitted legacy comment/action vessels. Beauty
- * and legend experiments remain on disk, but they no longer fight the live post
- * reader route.
+ * The live Chrome inspection showed the page was no longer broken by the
+ * server template, but the visible reader had only the tiny compatibility
+ * chain: content width collapsed, sections were naked, and Chrome scrolling
+ * became unreliable. This entry restores the known working reader modules and
+ * keeps the small live-template safety shard at the end.
  */
-@import url("../../../style/heichelos/class-coverage/index.css");
+
 @import url("./ideal/reborn/tokens.css");
+@import url("./ideal/reborn/shell.css");
+@import url("./ideal/reborn/reader.css");
+@import url("./ideal/reborn/settings.css");
+@import url("./ideal/reborn/sidebar.css");
+@import url("./ideal/reborn/panels.css");
+@import url("./ideal/reborn/panel-rows.css");
+@import url("./ideal/reborn/panel-controls.css");
 @import url("./ideal/reborn/comments.css");
 @import url("./ideal/reborn/comment-composer.css");
 @import url("./ideal/reborn/inline-comments.css");
 @import url("./ideal/reborn/inline-action-menu.css");
 @import url("./ideal/reborn/context-menu.css");
+@import url("./ideal/reborn/details.css");
+@import url("./ideal/reborn/actions.css");
 @import url("./ideal/reborn/button-hover.css");
-@import url("./reader-foundation/index.css");
-@import url("./reader-content/index.css");
-@import url("./reader-controls/index.css");
-@import url("./reader-settings/index.css");
-@import url("./reader-sidebar/index.css");
-@import url("./reader-overlays/index.css");
-@import url("./reader-responsive/index.css");
+@import url("./ideal/reborn/mobile-sidebar-reset.css");
+@import url("./ideal/reborn/live-mobile-corrections.css");
+@import url("./reader-controls/live-template.css");

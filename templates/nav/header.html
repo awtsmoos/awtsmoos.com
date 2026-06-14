@@ -1,7 +1,7 @@
 <!--B"H
-Chapter 43: The roof gate becomes simple enough to trust.
-The Awtsmoos removes fragile generated SVG from the hamburger and gives the
-button a direct toggle plus a bound fallback. One button, one sidebar, one door.
+Chapter 47: The roof gate stops double-speaking.
+The Awtsmoos gives the hamburger one listener only. Before, inline onclick and
+addEventListener both fired, so the menu opened and closed in one breath.
 -->
 <link href="/style/home/headers.css" type="text/css" rel="stylesheet">
 <link rel="stylesheet" href="/style/home/main.css" type="text/css">
@@ -15,7 +15,7 @@ button a direct toggle plus a bound fallback. One button, one sidebar, one door.
         </script>?>
     </div>
     <div class="header-buttons">
-        <button id="menuButton" class="menuBtn btn" type="button" aria-label="Open Awtsmoos menu" aria-controls="awtsmoosGlobalSidebar" aria-expanded="false" onclick="window.awtsmoosToggleGlobalMenu && window.awtsmoosToggleGlobalMenu(event)">
+        <button id="menuButton" class="menuBtn btn" type="button" aria-label="Open Awtsmoos menu" aria-controls="awtsmoosGlobalSidebar" aria-expanded="false">
             <span class="menuGlyph" aria-hidden="true">☰</span>
         </button>
         <?<script>
