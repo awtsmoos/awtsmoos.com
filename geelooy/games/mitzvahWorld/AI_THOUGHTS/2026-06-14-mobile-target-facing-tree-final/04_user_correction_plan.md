@@ -1,0 +1,3 @@
+B'H
+# User Correction Plan
+User corrected combat rule: attack ONLY if a target is selected AND the player is facing it. Need remove auto nearest attack. Keep mobile target selection. Add facing cone check with feedback. Trees: leaf planes are not enough; translate/scatter individual leaf clusters, leaf shards and cards around crowns so it reads as leaves, not flat sheets. Grass texture is still too plain; add more dense complex grass meshes and color/noise variation, maybe grain/seed head layers. Loading screen faster: reduce heavy extra DOM/log churn and texture generation blocking; keep heartbeat but lighter.
