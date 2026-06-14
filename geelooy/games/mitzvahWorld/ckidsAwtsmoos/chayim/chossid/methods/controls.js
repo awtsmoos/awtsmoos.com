@@ -2,13 +2,12 @@
 /**
  * @file controls.js
  * @description
- * Chapter 44: the mobile warrior walks where his face is turned.
- * The Awtsmoos breathes direction back into the vessel: W/up/joystick-forward
- * means forward, S/down means backward, Q/E stride left/right, and pointer UI
- * may no longer freeze the soul after a villager speaks. Every click is guarded
- * yet every step is released when the overlay moment passes.
+ * Chapter 9: Platformer-safe controls with old-stable movement fallback.
+ *
+ * Restored from the known stable movement era. The player reads `olam.inputs`
+ * and raw `keyStates` backup exactly where movement flags are copied each
+ * frame. This removes later experimental movement drift.
  */
-import { diagThrottle, diagEvent } from "../../../utils/AwtsmoosDiagnostics.js?v=village-diagnostics-20260612-bh1";
 
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ";
@@ -16,100 +15,139 @@ const CAMERA_FPS_TOGGLE = "KeyT";
 const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const DISMOUNT_KEY = "KeyX";
-const MOVE_KEYS = ["forward", "backward", "turningLeft", "turningRight", "stridingLeft", "stridingRight", "jump"];
-let announced = false;
 
-const now = () => Date.now();
-const keyOn = (olam, ...codes) => codes.some(code => !!olam?.keyStates?.[code]);
-const flag = (inputs, key) => inputs?.[key] === true;
-const hardMovementFreeze = chossid => Boolean(chossid.__spikeDeathControlsFrozen || chossid.__spikeDefeated);
-const inputMap = chossid => chossid.olam?.inputs || {};
-const activeMove = moving => MOVE_KEYS.filter(key => moving?.[key]);
-
-function clearExpiredUiHold(olam) {
-  if (!olam) return;
-  const until = Number(olam.__awtsmoosUiPointerCaptureUntil || 0);
-  if (until && until < now()) {
-    olam.__awtsmoosUiPointerCaptureUntil = 0;
-    olam.__awtsmoosSuppressCameraUntil = 0;
-    if (olam.showingImportantMessage === true && !globalThis.document?.querySelector?.(".npc-challenge-overlay,.awtsmoos-modal,.dialogue-box")) olam.showingImportantMessage = false;
-  }
-}
-function uiFrozen(olam) {
-  clearExpiredUiHold(olam);
-  return Boolean(olam?.showingImportantMessage || Number(olam?.__awtsmoosUiPointerCaptureUntil || 0) > now());
-}
-function stopUiPointer(event) { event?.preventDefault?.(); event?.stopPropagation?.(); event?.stopImmediatePropagation?.(); }
-function markUiCapture(olam, ms = 420) { if (!olam) return; olam.__awtsmoosUiPointerCaptureUntil = now() + ms; olam.__awtsmoosSuppressCameraUntil = now() + ms; }
-function announceControls() {
-  if (announced) return;
-  announced = true;
-  diagEvent("controls-mapping", { W: "forward", S: "backward", Q: "strafeLeft", E: "strafeRight", A: "turnLeft", D: "turnRight" });
-}
-function traceControls(chossid, stage) {
-  const active = activeMove(chossid.moving);
-  if (!active.length && stage === "controls-applied") return;
-  diagThrottle("controls", { stage, active, keys: Object.keys(chossid.olam?.keyStates || {}).filter(k => chossid.olam.keyStates[k]), inputs: Object.keys(chossid.olam?.inputs || {}).filter(k => chossid.olam.inputs[k]), rotY: chossid.rotation?.y }, 500);
-}
-function applyNormalMovement(chossid, inputs) {
-  chossid.moving.running = flag(inputs, "RUNNING") || keyOn(chossid.olam, "ShiftLeft", "ShiftRight");
-  chossid.moving.forward = flag(inputs, "FORWARD") || keyOn(chossid.olam, "KeyW", "ArrowUp");
-  chossid.moving.backward = flag(inputs, "BACKWARD") || keyOn(chossid.olam, "KeyS", "ArrowDown");
-  chossid.moving.turningLeft = flag(inputs, "LEFT_ROTATE") || keyOn(chossid.olam, "KeyA", "ArrowLeft");
-  chossid.moving.turningRight = flag(inputs, "RIGHT_ROTATE") || keyOn(chossid.olam, "KeyD", "ArrowRight");
-  chossid.moving.stridingLeft = flag(inputs, "LEFT_STRIDE") || keyOn(chossid.olam, "KeyQ");
-  chossid.moving.stridingRight = flag(inputs, "RIGHT_STRIDE") || keyOn(chossid.olam, "KeyE");
-  chossid.moving.jump = flag(inputs, "JUMP") || keyOn(chossid.olam, "Space");
-  chossid.moving.down = flag(inputs, "DOWN") || keyOn(chossid.olam, "KeyX");
-  chossid.moving.up = flag(inputs, "UP");
+function keyOn(olam, ...codes) {
+  return codes.some(code => !!olam?.keyStates?.[code]);
 }
 
 export default {
+  /** Copies input state into movement flags every frame. */
   controls() {
-    announceControls();
+    if (this.isDriving && this.drivingVehicle) {
+      if (this.olam.keyStates?.[DISMOUNT_KEY]) this.drivingVehicle.dismount?.();
+      return;
+    }
+
     this.resetMoving();
-    clearExpiredUiHold(this.olam);
-    if (hardMovementFreeze(this)) { traceControls(this, "hard-freeze"); return; }
-    if (this.isDriving && this.drivingVehicle) { if (this.olam.keyStates?.[DISMOUNT_KEY]) this.drivingVehicle.dismount?.(); return; }
-    if (uiFrozen(this.olam)) { traceControls(this, "ui-freeze"); return; }
-    applyNormalMovement(this, inputMap(this));
-    traceControls(this, "controls-applied");
+    if (this.olam.showingImportantMessage) return;
+
+    const inputs = this.olam.inputs || {};
+    this.moving.running = inputs.RUNNING !== false || keyOn(this.olam, "ShiftLeft", "ShiftRight");
+    this.moving.forward = !!inputs.FORWARD || keyOn(this.olam, "KeyW", "ArrowUp");
+    this.moving.backward = !!inputs.BACKWARD || keyOn(this.olam, "KeyS", "ArrowDown");
+    this.moving.turningLeft = !!inputs.LEFT_ROTATE || keyOn(this.olam, "KeyA", "ArrowLeft");
+    this.moving.turningRight = !!inputs.RIGHT_ROTATE || keyOn(this.olam, "KeyD", "ArrowRight");
+    this.moving.stridingLeft = !!inputs.LEFT_STRIDE || keyOn(this.olam, "KeyQ");
+    this.moving.stridingRight = !!inputs.RIGHT_STRIDE || keyOn(this.olam, "KeyE");
+    this.moving.jump = !!inputs.JUMP || keyOn(this.olam, "Space");
+    this.moving.down = !!inputs.DOWN || keyOn(this.olam, "KeyX");
+    this.moving.up = !!inputs.UP;
+
     this.cameraControls();
   },
+
+  /** Kept for compatibility; the light platformer has no footstep audio here. */
   movingSounds() {},
-  cameraControls() { if (uiFrozen(this.olam)) return; if (this.olam.keyStates?.[CAMERA_PAN_UP]) this.olam.ayin?.panUp?.(); else if (this.olam.keyStates?.[CAMERA_PAN_DOWN]) this.olam.ayin?.panDown?.(); },
-  dialogueControls(event) { if (!this.interactingWith) return; const n = Number.parseInt(event?.key, 10); if (n >= 1 && n <= 9) this.interactingWith.toggleToOption?.(n - 1); },
+
+  /** Simple camera pan keys. */
+  cameraControls() {
+    if (this.olam.keyStates?.[CAMERA_PAN_UP]) this.olam.ayin?.panUp?.();
+    else if (this.olam.keyStates?.[CAMERA_PAN_DOWN]) this.olam.ayin?.panDown?.();
+  },
+
+  /** Old dialogue numeric controls are inert when no dialogue exists. */
+  dialogueControls(event) {
+    if (!this.interactingWith) return;
+    const n = Number.parseInt(event?.key, 10);
+    if (n >= 1 && n <= 9) this.interactingWith.toggleToOption?.(n - 1);
+  },
+
+  /** Installs only safe mouse/key listeners. */
   setupInputListeners(olam) {
     olam.on("mousedown", event => {
-      if (hardMovementFreeze(this)) return;
-      if (uiFrozen(olam)) return stopUiPointer(event);
-      if (event.button === 0) { const handled = this.handleClick?.(event); if (handled) { markUiCapture(olam); stopUiPointer(event); return; } this.shoot?.(); }
+      if (event.button === 0) this.handleClick?.(event) || this.shoot?.();
       if (event.button === 2) this.getRealActiveItemInstance?.();
     });
-    olam.on("keypressed", async event => { if (hardMovementFreeze(this)) return; clearExpiredUiHold(olam); this.ayshPeula("keypressed", event); this.dialogueControls(event); await this.handlePlatformerKey(event); });
+
+    olam.on("keypressed", async event => {
+      this.ayshPeula("keypressed", event);
+      this.dialogueControls(event);
+      await this.handlePlatformerKey(event);
+    });
   },
+
+  /** Routes platformer-safe key commands. */
   async handlePlatformerKey(event = {}) {
-    if (uiFrozen(this.olam) && !["Escape", "Enter", "Digit1", "Digit2", "Digit3"].includes(event.code)) return;
     switch (event.code) {
-      case "NumLock": this.movingAutomatically = !this.movingAutomatically; break;
-      case DISMOUNT_KEY: if (this.isDriving && this.drivingVehicle) this.drivingVehicle.dismount?.(); break;
-      case ACTION_TOGGLE: await this.activateNearbyOrTool(); break;
-      case ACTION_SELECT: await this.selectFocusedThing(); break;
-      case CAMERA_FPS_TOGGLE: if (this.olam.ayin) { this.olam.ayin.isFPS = !this.olam.ayin.isFPS; this.olam.ayshPeula("setFPS", this.olam.ayin.isFPS); } break;
-      case "Space": this.olam.ayshPeula("setInput", { code: "Space" }); setTimeout(() => this.olam.ayshPeula("setInputOut", { code: "Space" }), 80); break;
-      case "Tab": event.preventDefault?.(); this.cycleApproachedEntities(); break;
-      default: break;
+      case "NumLock":
+        this.movingAutomatically = !this.movingAutomatically;
+        break;
+      case DISMOUNT_KEY:
+        if (this.isDriving && this.drivingVehicle) this.drivingVehicle.dismount?.();
+        break;
+      case ACTION_TOGGLE:
+        await this.activateNearbyOrTool();
+        break;
+      case ACTION_SELECT:
+        await this.selectFocusedThing();
+        break;
+      case CAMERA_FPS_TOGGLE:
+        if (this.olam.ayin) {
+          this.olam.ayin.isFPS = !this.olam.ayin.isFPS;
+          this.olam.ayshPeula("setFPS", this.olam.ayin.isFPS);
+        }
+        break;
+      case "Space":
+        this.olam.ayshPeula("setInput", { code: "Space" });
+        setTimeout(() => this.olam.ayshPeula("setInputOut", { code: "Space" }), 80);
+        break;
+      case "Tab":
+        event.preventDefault?.();
+        this.cycleApproachedEntities();
+        break;
+      default:
+        break;
     }
   },
+
+  /** Uses a nearby simple interactable or a harmless selected tool. */
   async activateNearbyOrTool() {
     const activeItem = this.getActiveItem?.();
-    if (activeItem?.isPainter) { this.isPaintingMode = !this.isPaintingMode; this.olam.ayshPeula("ui event", "effectsOverlay", { text: this.isPaintingMode ? "Painting Mode: ON" : "Painting Mode: OFF", color: this.isPaintingMode ? "#00ff00" : "#ff0000" }); return; }
+    if (activeItem?.isPainter) {
+      this.isPaintingMode = !this.isPaintingMode;
+      this.olam.ayshPeula("ui event", "effectsOverlay", {
+        text: this.isPaintingMode ? "Painting Mode: ON" : "Painting Mode: OFF",
+        color: this.isPaintingMode ? "#00ff00" : "#ff0000"
+      });
+      return;
+    }
+
     const target = this.interactingWith || this.approachedEntities?.[0];
-    if (target?.ayshPeula && target.ayshPeula("accepted interaction", this) !== false) { markUiCapture(this.olam, 700); return; }
-    this.shoot?.();
+    if (target?.ayshPeula) target.ayshPeula("accepted interaction", this);
+    else this.shoot?.();
   },
-  async selectFocusedThing() { if (this.selected) return void this.selectMenuOption?.(); if (this.interactingWith?.selectOption) return void await this.interactingWith.selectOption(); if (this.intersected) return void await this.selectIntersected?.(); },
-  cycleApproachedEntities() { if (!Array.isArray(this.approachedEntities) || this.approachedEntities.length <= 1) return; const last = this.approachedEntities.shift(); this.approachedEntities.push(last); const current = this.approachedEntities[0]; current?.ayshPeula?.("gained interaction focus", this); last?.ayshPeula?.("lost interaction focus", this); current?._showInteractionPrompt?.(); },
+
+  /** Selects a focused dialogue/object only if that legacy focus exists. */
+  async selectFocusedThing() {
+    if (this.selected) return void this.selectMenuOption?.();
+    if (this.interactingWith?.selectOption) return void await this.interactingWith.selectOption();
+    if (this.intersected) return void await this.selectIntersected?.();
+  },
+
+  /** Rotates focus through simple interactables. */
+  cycleApproachedEntities() {
+    if (!Array.isArray(this.approachedEntities) || this.approachedEntities.length <= 1) return;
+    const last = this.approachedEntities.shift();
+    this.approachedEntities.push(last);
+    const current = this.approachedEntities[0];
+    current?.ayshPeula?.("gained interaction focus", this);
+    last?.ayshPeula?.("lost interaction focus", this);
+    current?._showInteractionPrompt?.();
+  },
+
+  /** Compatibility no-op for removed building preview rotation. */
   resetPreviewRotation() { this.placementRotation = 0; },
+
+  /** Compatibility no-op for removed visual editor. */
   handleEditorClick() {}
 };

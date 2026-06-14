@@ -1,9 +1,9 @@
 /**
  * B"H
- * Hero silhouette converter.
+ * Stable hero silhouette converter.
  *
- * Chapter 191: a target mockup stance becomes actual render points. The
- * Awtsmoos strengthens shoulders, compresses hips, and plants boots wide.
+ * Chapter 208: the pose is tall again. The Awtsmoos lifts the torso, lengthens
+ * the legs, raises the hands, and lets boots touch the platform without blobs.
  */
 import { point } from '../math.js';
 import { MOCKUP } from './MockupMeasurements.js';
@@ -23,19 +23,19 @@ export function heroSilhouette(f) {
     scale: s,
     pelvis,
     chest,
-    neck: point(chest.x + face * 2 * s, chest.y - 17 * s),
+    neck: point(chest.x + face * 2 * s, chest.y - 14 * s),
     head: point(chest.x + face * 4 * s, floor + MOCKUP.head.y * s),
-    leftShoulder: point(chest.x - sw / 2, chest.y + 10 * s),
-    rightShoulder: point(chest.x + sw / 2, chest.y + 10 * s),
+    leftShoulder: point(chest.x - sw / 2, chest.y + 11 * s),
+    rightShoulder: point(chest.x + sw / 2, chest.y + 11 * s),
     leftHip: point(pelvis.x - hw / 2, pelvis.y),
     rightHip: point(pelvis.x + hw / 2, pelvis.y),
-    leftElbow: point(chest.x - 64 * s, chest.y + 56 * s),
-    rightElbow: point(chest.x + 64 * s, chest.y + 56 * s),
-    leftHand: point(chest.x - 60 * s, chest.y + 98 * s),
-    rightHand: point(chest.x + 60 * s, chest.y + 98 * s),
-    leftKnee: point(pelvis.x - 37 * s, pelvis.y + 60 * s),
-    rightKnee: point(pelvis.x + 37 * s, pelvis.y + 60 * s),
-    leftFoot: point(pelvis.x - 51 * s, floor + 8 * s),
-    rightFoot: point(pelvis.x + 51 * s, floor + 8 * s)
+    leftElbow: point(chest.x - 55 * s, chest.y + 52 * s),
+    rightElbow: point(chest.x + 55 * s, chest.y + 52 * s),
+    leftHand: point(chest.x - 48 * s, chest.y + 84 * s),
+    rightHand: point(chest.x + 48 * s, chest.y + 84 * s),
+    leftKnee: point(pelvis.x - 28 * s, pelvis.y + 54 * s),
+    rightKnee: point(pelvis.x + 28 * s, pelvis.y + 54 * s),
+    leftFoot: point(pelvis.x - 39 * s, floor + 2 * s),
+    rightFoot: point(pelvis.x + 39 * s, floor + 2 * s)
   };
 }

@@ -1,0 +1,3 @@
+B'H
+# Phase Two: Exact Files To Inspect/Touch
+Inspect: git log --since='4 weeks ago' -- chossid controls/update/chai; git show older controls/update. Touch likely: chossid/methods/controls.js, update.js, chossid/index.js only if needed; CombatTargeting.js and RegionWildlifeRenderer/AnimalBodyForge for ray proxy; LivingRegionRuntime/RegionTreeRenderer plus VillageTreeField/VillageHeroTree/VillageVisualRealityLayer/RegionLandmarkRenderer for old tree emitters; LoadingProgressBridge/worker ui/interceptor for hide. Also inspect console errors around OYVED_MANAGER silent after ready: ikar.js/WorkerMessageInterceptor/WorkerProgressStore.

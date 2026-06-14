@@ -1,17 +1,19 @@
 /**
  * B"H
- * Hero front effects.
+ * Clean hero aura only.
  *
- * Chapter 185: trails and aura remain light so the body stays king.
+ * Chapter 214: the pixel storm is cut away. Hits and charge get only a soft
+ * readable ring so the body remains visible on mobile.
  */
 export function drawHeroPoseAura(ctx, f, p, color) {
-  if (!f.chargeGlow && !f.attack && !f.rapidAttack) return;
+  const active = !!f.attack || !!f.rapidAttack || !!f.chargeGlow;
+  if (!active) return;
   ctx.save();
-  ctx.globalAlpha = f.attack?.fullCharge ? 0.28 : 0.14;
+  ctx.globalAlpha = f.attack?.fullCharge ? 0.18 : 0.08;
   ctx.strokeStyle = color;
-  ctx.lineWidth = f.attack?.fullCharge ? 5 : 3;
+  ctx.lineWidth = f.attack?.fullCharge ? 3 : 2;
   ctx.beginPath();
-  ctx.ellipse(p.chest.x, p.chest.y + 38, 48, 72, 0, 0, Math.PI * 2);
+  ctx.ellipse(p.chest.x, p.chest.y + 42 * (p.scale || 1), 42 * (p.scale || 1), 58 * (p.scale || 1), 0, 0, Math.PI * 2);
   ctx.stroke();
   ctx.restore();
 }
