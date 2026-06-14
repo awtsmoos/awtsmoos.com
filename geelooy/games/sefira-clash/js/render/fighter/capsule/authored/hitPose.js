@@ -3,7 +3,7 @@
  * Authored hit pose.
  *
  * Chapter 165: damage recoils, but never ruins the form. The Awtsmoos bends the
- * fighter away from danger while preserving the mockup silhouette.
+ * fighter away from danger while preserving planted feet and heroic silhouette.
  */
 import { offsetPose } from './poseMixer.js';
 
@@ -19,7 +19,9 @@ export function hitPose(base, f) {
     head: { x: away * force * 10, y: -force * 3 },
     leftHand: { x: away * force * 8, y: force * 5 },
     rightHand: { x: away * force * 8, y: force * 5 },
-    leftKnee: { x: away * force * 4, y: force * 5 },
-    rightKnee: { x: away * force * 4, y: force * 5 }
+    leftKnee: { x: away * force * 4, y: force * 4 },
+    rightKnee: { x: away * force * 4, y: force * 4 },
+    leftFoot: { x: away * force * 3, y: force * 5 },
+    rightFoot: { x: away * force * 3, y: force * 5 }
   });
 }
