@@ -1,9 +1,9 @@
 /**
  * B"H
- * Sculpted shoulder caps.
+ * Flattened shoulder caps.
  *
- * Chapter 199: broad shoulders are the whole declaration. The Awtsmoos places
- * small armor ovals at the top of each arm so the silhouette reads instantly.
+ * Chapter 219: the shoulder bubbles are cut down into slim armor pads. The
+ * fighter becomes less toy-like and more like the reference silhouette.
  */
 export function drawShoulderCaps(ctx, p, mat) {
   const s = p.scale || 1;
@@ -13,13 +13,13 @@ export function drawShoulderCaps(ctx, p, mat) {
 
 function drawCap(ctx, c, sign, mat, s) {
   ctx.save();
-  ctx.translate(c.x, c.y + 4 * s);
-  ctx.rotate(sign * .14);
+  ctx.translate(c.x + sign * 2 * s, c.y + 5 * s);
+  ctx.rotate(sign * 0.16);
   ctx.fillStyle = mat.shellSoft;
   ctx.strokeStyle = mat.accent;
-  ctx.lineWidth = 2.2 * s;
+  ctx.lineWidth = 1.9 * s;
   ctx.beginPath();
-  ctx.ellipse(0, 0, 14 * s, 9 * s, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, 0, 11 * s, 5.5 * s, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
   ctx.restore();

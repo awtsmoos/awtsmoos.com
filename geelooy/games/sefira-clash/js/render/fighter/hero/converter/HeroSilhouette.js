@@ -1,9 +1,9 @@
 /**
  * B"H
- * Stable hero silhouette converter.
+ * Taller stable hero silhouette converter.
  *
- * Chapter 208: the pose is tall again. The Awtsmoos lifts the torso, lengthens
- * the legs, raises the hands, and lets boots touch the platform without blobs.
+ * Chapter 218: a taller body emerges. Feet plant closer, hands rise to glove
+ * height, and the neck/head relationship stays tight and readable.
  */
 import { point } from '../math.js';
 import { MOCKUP } from './MockupMeasurements.js';
@@ -23,19 +23,19 @@ export function heroSilhouette(f) {
     scale: s,
     pelvis,
     chest,
-    neck: point(chest.x + face * 2 * s, chest.y - 14 * s),
+    neck: point(chest.x + face * 2 * s, chest.y - 13 * s),
     head: point(chest.x + face * 4 * s, floor + MOCKUP.head.y * s),
-    leftShoulder: point(chest.x - sw / 2, chest.y + 11 * s),
-    rightShoulder: point(chest.x + sw / 2, chest.y + 11 * s),
+    leftShoulder: point(chest.x - sw / 2, chest.y + 12 * s),
+    rightShoulder: point(chest.x + sw / 2, chest.y + 12 * s),
     leftHip: point(pelvis.x - hw / 2, pelvis.y),
     rightHip: point(pelvis.x + hw / 2, pelvis.y),
-    leftElbow: point(chest.x - 55 * s, chest.y + 52 * s),
-    rightElbow: point(chest.x + 55 * s, chest.y + 52 * s),
-    leftHand: point(chest.x - 48 * s, chest.y + 84 * s),
-    rightHand: point(chest.x + 48 * s, chest.y + 84 * s),
-    leftKnee: point(pelvis.x - 28 * s, pelvis.y + 54 * s),
-    rightKnee: point(pelvis.x + 28 * s, pelvis.y + 54 * s),
-    leftFoot: point(pelvis.x - 39 * s, floor + 2 * s),
-    rightFoot: point(pelvis.x + 39 * s, floor + 2 * s)
+    leftElbow: point(chest.x - 50 * s, chest.y + 53 * s),
+    rightElbow: point(chest.x + 50 * s, chest.y + 53 * s),
+    leftHand: point(chest.x - 44 * s, chest.y + 79 * s),
+    rightHand: point(chest.x + 44 * s, chest.y + 79 * s),
+    leftKnee: point(pelvis.x - 24 * s, pelvis.y + 57 * s),
+    rightKnee: point(pelvis.x + 24 * s, pelvis.y + 57 * s),
+    leftFoot: point(pelvis.x - 35 * s, floor + 1 * s),
+    rightFoot: point(pelvis.x + 35 * s, floor + 1 * s)
   };
 }

@@ -2,7 +2,8 @@ B"H - Starting instance of email.
 Warning: Could not load DKIM file. Checking Env...
 Task Runner: Starting background polling for generic jobs...
 Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
-B"H - HTTP port 8080 is already in use; another process may already be aliveTiB"H - Could not stB"H - Could not start email server on port 25: Error: listen EACCES: permission denied 0.0.0.0:25
+B"H - HTTP port 8080 is already in use; another process may already be alive.
+B"H - Could not start email server on port 25: Error: listen EACCES: permission denied 0.0.0.0:25
     at Server.setupListenHandle [as _listen2] (node:net:1986:21)
     at listenInCluster (node:net:2065:12)
     at Server.listen (node:net:2170:7)

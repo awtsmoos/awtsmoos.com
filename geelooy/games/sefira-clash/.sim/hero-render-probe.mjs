@@ -10,12 +10,14 @@ function check(name, patch, options = {}) {
   assert(Number.isFinite(p.scale), `${name}: bad scale`);
   const shoulder = Math.abs(p.rightShoulder.x - p.leftShoulder.x);
   const hip = Math.abs(p.rightHip.x - p.leftHip.x);
+  const height = Math.max(p.leftFoot.y, p.rightFoot.y) - p.head.y;
   const headGap = dist(p.head, p.neck);
-  assert(shoulder >= 78, `${name}: shoulder ${shoulder}`);
+  assert(shoulder >= 72, `${name}: shoulder ${shoulder}`);
   assert(shoulder > hip * 2.2, `${name}: weak silhouette`);
-  assert(headGap <= 28, `${name}: head gap ${headGap}`);
+  assert(height >= 170, `${name}: height ${height}`);
+  assert(headGap <= 34, `${name}: head gap ${headGap}`);
   if (!options.highKick) assert(p.leftFoot.y > p.leftKnee.y && p.rightFoot.y > p.rightKnee.y, `${name}: foot/knee`);
-  return { name, shoulder, hip, headGap: +headGap.toFixed(1) };
+  return { name, shoulder, hip, height: +height.toFixed(1), headGap: +headGap.toFixed(1) };
 }
 const cases = [
   check('idle', {}),

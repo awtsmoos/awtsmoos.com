@@ -1,23 +1,23 @@
 /**
  * B"H
- * Stable idle keyframe.
+ * Taller idle keyframe.
  *
- * Chapter 209: the hero stands tall and calm. Arms are bent but not dangling;
- * knees are readable but not crouched.
+ * Chapter 223: the hero stands upright now. The elbows soften, the fists hover
+ * near the belt, and the legs stop pretending every idle is a crouch.
  */
 import { add } from '../math.js';
 
 export function applyIdleKeyframe(p, f) {
   const s = p.scale || 1;
-  const b = Math.sin((f.motionClock || 0) * 0.01) * 0.55 * s;
+  const b = Math.sin((f.motionClock || 0) * 0.009) * 0.45 * s;
   p.chest = add(p.chest, 0, b);
   p.neck = add(p.neck, 0, b);
   p.head = add(p.head, 0, b);
-  p.leftElbow = add(p.leftElbow, 3 * s, -4 * s);
-  p.rightElbow = add(p.rightElbow, -3 * s, -4 * s);
-  p.leftHand = add(p.leftHand, 5 * s, -6 * s);
-  p.rightHand = add(p.rightHand, -5 * s, -6 * s);
-  p.leftFoot = add(p.leftFoot, -2 * s, 0);
-  p.rightFoot = add(p.rightFoot, 2 * s, 0);
+  p.leftElbow = add(p.leftElbow, 5 * s, -7 * s);
+  p.rightElbow = add(p.rightElbow, -5 * s, -7 * s);
+  p.leftHand = add(p.leftHand, 8 * s, -12 * s);
+  p.rightHand = add(p.rightHand, -8 * s, -12 * s);
+  p.leftKnee = add(p.leftKnee, 3 * s, -2 * s);
+  p.rightKnee = add(p.rightKnee, -3 * s, -2 * s);
   return p;
 }

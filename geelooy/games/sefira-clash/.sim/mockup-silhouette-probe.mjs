@@ -9,10 +9,10 @@ function check(name, patch, options = {}) {
   const hips = Math.abs(p.rightHip.x - p.leftHip.x);
   const height = Math.max(p.leftFoot.y, p.rightFoot.y) - p.head.y;
   const headGap = dist(p.head, p.neck);
-  assert(shoulder >= 74, `${name}: shoulders ${shoulder}`);
-  assert(shoulder / hips >= 2.2, `${name}: ratio ${shoulder / hips}`);
-  assert(height >= 154, `${name}: too squat ${height}`);
-  assert(headGap <= 32, `${name}: head detached ${headGap}`);
+  assert(shoulder >= 72, `${name}: shoulders ${shoulder}`);
+  assert(shoulder / hips >= 2.25, `${name}: ratio ${shoulder / hips}`);
+  assert(height >= 170, `${name}: too squat ${height}`);
+  assert(headGap <= 34, `${name}: head detached ${headGap}`);
   if (!options.highKick) assert(p.leftFoot.y > p.leftKnee.y && p.rightFoot.y > p.rightKnee.y, `${name}: feet/knees`);
   return { name, shoulder, hips, height: +height.toFixed(1), ratio: +(shoulder / hips).toFixed(2), headGap: +headGap.toFixed(1) };
 }

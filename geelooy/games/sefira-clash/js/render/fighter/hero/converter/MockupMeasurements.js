@@ -1,23 +1,23 @@
 /**
  * B"H
- * Stable gameplay hero measurements.
+ * Taller stable gameplay hero measurements.
  *
- * Chapter 207: the fighter stops crouching into a blob. The Awtsmoos restores
- * a tall readable body for live gameplay: strong shoulders, long legs, smaller
- * boots, and hands that no longer drag below the knees.
+ * Chapter 217: the hero stops being a squat mascot. The Awtsmoos stretches the
+ * living suit into a taller warrior: compact boots, compact gloves, flatter
+ * shoulders, and enough leg length to read like the reference.
  */
 export const MOCKUP = Object.freeze({
-  height: 178,
-  shoulderWidth: 78,
-  hipWidth: 34,
-  waistWidth: 30,
-  head: Object.freeze({ rx: 23, ry: 25, y: -158 }),
-  neck: Object.freeze({ w: 18, h: 26 }),
-  chest: Object.freeze({ y: -130, topWidth: 76, midWidth: 52, bottomWidth: 34 }),
-  pelvis: Object.freeze({ y: -66 }),
-  arms: Object.freeze({ upper: 38, lower: 36, upperWidth: 15, lowerWidth: 12 }),
-  legs: Object.freeze({ thigh: 58, shin: 58, thighWidth: 16, shinWidth: 13 }),
-  glove: Object.freeze({ rx: 12, ry: 11 }),
-  boot: Object.freeze({ rx: 22, ry: 8.5 }),
-  ring: Object.freeze({ rx: 39, ry: 7 })
+  height: 184,
+  shoulderWidth: 76,
+  hipWidth: 32,
+  waistWidth: 28,
+  head: Object.freeze({ rx: 22, ry: 24, y: -172 }),
+  neck: Object.freeze({ w: 16, h: 26 }),
+  chest: Object.freeze({ y: -141, topWidth: 74, midWidth: 50, bottomWidth: 31 }),
+  pelvis: Object.freeze({ y: -70 }),
+  arms: Object.freeze({ upper: 39, lower: 35, upperWidth: 14, lowerWidth: 11 }),
+  legs: Object.freeze({ thigh: 62, shin: 62, thighWidth: 15, shinWidth: 12 }),
+  glove: Object.freeze({ rx: 10.5, ry: 10 }),
+  boot: Object.freeze({ rx: 18, ry: 7 }),
+  ring: Object.freeze({ rx: 35, ry: 6 })
 });

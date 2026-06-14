@@ -1,9 +1,9 @@
 /**
  * B"H
- * Sculpted hero gloves.
+ * Smaller readable hero gloves.
  *
- * Chapter 202: the fist is no longer a bead; it is the readable punctuation of
- * every strike.
+ * Chapter 221: the gloves become fists, not balloons. They punctuate attacks
+ * without swallowing the arms.
  */
 import { MOCKUP } from '../converter/MockupMeasurements.js';
 import { ARM_PARTS } from '../converter/HeroPartMap.js';
@@ -17,15 +17,15 @@ function drawOne(ctx, h, s, mat) {
   ctx.translate(h.x, h.y);
   ctx.fillStyle = mat.accent;
   ctx.strokeStyle = mat.ink;
-  ctx.lineWidth = 2.8 * s;
+  ctx.lineWidth = 2.2 * s;
   ctx.beginPath();
-  ctx.ellipse(0, 0, MOCKUP.glove.rx * s, MOCKUP.glove.ry * s, -0.12, 0, Math.PI * 2);
+  ctx.ellipse(0, 0, MOCKUP.glove.rx * s, MOCKUP.glove.ry * s, -0.1, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
-  ctx.globalAlpha = .24;
+  ctx.globalAlpha = 0.18;
   ctx.fillStyle = mat.glint;
   ctx.beginPath();
-  ctx.ellipse(-4 * s, -4 * s, 4 * s, 2 * s, -.4, 0, Math.PI * 2);
+  ctx.ellipse(-3 * s, -3 * s, 3 * s, 1.5 * s, -0.4, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 }
