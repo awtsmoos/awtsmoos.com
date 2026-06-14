@@ -5,7 +5,8 @@ const files = [
   'geelooy/index.html',
   'geelooy/heichelos/_awtsmoos.heichel.html',
   'geelooy/heichelos/heichel/_awtsmoos.heichel.html',
-  'geelooy/heichelos/post/_awtsmoos.post.html'
+  'geelooy/heichelos/post/_awtsmoos.post.html',
+  'geelooy/heichelos/_awtsmoos.post.html'
 ];
 
 const stale = [];
@@ -19,8 +20,12 @@ const home = fs.readFileSync('geelooy/index.html', 'utf8');
 if (!home.includes('/style/social/home/index.css?v=legend-001')) throw new Error('home does not use legend home entry');
 if (!home.includes('/scripts/awtsmoos/social/home/legend/index.js?v=legend-001')) throw new Error('home legend script missing');
 
-const post = fs.readFileSync('geelooy/heichelos/post/_awtsmoos.post.html', 'utf8');
-if (!post.includes('/heichelos/post/styles/main.css?v=legend-001')) throw new Error('post css not legend-001');
-if (!post.includes('/heichelos/post/postLogic.js?v=legend-001')) throw new Error('postLogic not legend-001');
+for (const file of ['geelooy/heichelos/post/_awtsmoos.post.html', 'geelooy/heichelos/_awtsmoos.post.html']) {
+  const post = fs.readFileSync(file, 'utf8');
+  if (!post.includes('/heichelos/post/styles/main.css?v=legend-002')) throw new Error(file + ' post css not legend-002');
+  if (!post.includes('/heichelos/post/styles/reader-controls/live-template.css?v=legend-002')) throw new Error(file + ' live template css missing');
+  if (!post.includes('awtsmoos-reader-critical-css')) throw new Error(file + ' critical reader css missing');
+  if (!post.includes('/heichelos/post/postLogic.js?v=legend-002')) throw new Error(file + ' postLogic not legend-002');
+}
 
 console.log('B"H templateVersionContract.test passed');

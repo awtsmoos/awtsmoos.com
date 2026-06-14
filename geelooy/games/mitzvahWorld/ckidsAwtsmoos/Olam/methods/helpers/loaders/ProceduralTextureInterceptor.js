@@ -1,44 +1,23 @@
-
+// B"H
 /**
- * B"H
  * @class ProceduralTextureInterceptor
  * @description
- * ==============================================================================
- * 🛸 THE MESSENGER OF FORMLESS LIGHT 🛸
- * ==============================================================================
- * The standard earthly engine wants a file to fetch. "Give me a .png," it begs!
- * But our universe contains realms entirely calculated from equations! The glorious
- * `awtsmoostex://` protocol. 
- * 
- * This class violently intercepts reality anytime an image asks for `awtsmoostex://`.
- * It halts the HTTP request, summons the divine Mathematical algorithms of the 
- * TextureForge, and returns an ethereal Data URL born directly out of absolute void.
- * 
- * A miraculous interception logic standing before the veil!
+ * Chapter 436: awtsmoostex URLs report their descent into cached form.
  */
+function report(stage, url) { try { globalThis.dispatchEvent?.(new CustomEvent("awtsmoos-texture-progress", { detail: { stage, type: String(url || "").replace(/^awtsmoostex:\/\//i, ""), percent: stage === "intercepted" ? 18 : 100 } })); } catch (_) {} }
 export default class ProceduralTextureInterceptor {
-    /**
-     * @method intercept
-     * @description Judges if the string demands pure generation, executing the forge if needed.
-     * @param {string} url - The potential mystical path.
-     * @returns {Promise<string>} The rectified URL that browser engines can read.
-     */
-    static async intercept(url) {
-        let finalUrl = url;
-
-        if (typeof url === 'string' && url.toLowerCase().startsWith('awtsmoostex://')) {
-            try {
-                // Seder Hishtalshelus: Descend out from loaders > helpers > methods > Olam > ckidsAwtsmoos...
-                // Path maps out to the exact texture generation suite.
-                const modulePath = '../../../../utils/TextureForge/index.js';
-                const TextureForge = (await import(modulePath)).default;
-                
-                finalUrl = await TextureForge.generate(url.substring(14)); // Strip the protocol and summon!
-            } catch(e) {
-                console.error("B\"H: Procedural Texture Forge encountered harsh judgments during interception.", e);
-            }
-        }
-
-        return finalUrl;
+  static async intercept(url) {
+    if (typeof url !== "string" || !url.toLowerCase().startsWith("awtsmoostex://")) return url;
+    try {
+      report("intercepted", url);
+      const TextureForge = (await import("../../../../utils/TextureForge/index.js?v=texture-idb-20260614-bh1")).default;
+      const finalUrl = await TextureForge.generate(url.substring(14));
+      report("intercept-complete", url);
+      return finalUrl;
+    } catch (error) {
+      report("intercept-failed", url);
+      console.error("B\"H: Procedural Texture Forge encountered harsh judgments during interception.", error);
+      return url;
     }
+  }
 }

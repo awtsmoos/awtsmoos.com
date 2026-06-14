@@ -2,80 +2,53 @@
 /**
  * @file CombatTargeting.js
  * @description
- * Chapter 707: A click becomes Daas, deliberate connection. The Awtsmoos
- * recreates pointer, ray, creature, and glowing ring in one present instant;
- * the first click names the opponent, and the second confirms the strike.
+ * Chapter 708: mobile taps become real target selection, not just glow.
+ * The Awtsmoos gathers mazikim and runtime wildlife into one target covenant;
+ * first tap selects, second tap confirms, and every selected fox receives a ring.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-
-/** Owns click selection and its visible ground-ring covenant. */
+const DEFAULT_HP = { fox: 45, rabbit: 12, deer: 35, goat: 28, frog: 8, bird: 6 };
+function live(candidate) { return candidate?.mesh && !candidate.isDead && Number(candidate.hp ?? 1) > 0; }
+function speciesOf(group) { return group?.userData?.species || group?.userData?.motion?.species || "target"; }
+function nameOf(group) { const s = speciesOf(group); return group?.name || `wild_${s}`; }
+function ensureWildlifeTarget(group) {
+  if (!group?.isObject3D || !group.userData?.wildlifeActor) return null;
+  if (!group.userData.combatTarget) {
+    const species = speciesOf(group), hp = DEFAULT_HP[species] || 20;
+    group.userData.combatHp = group.userData.combatHp ?? hp;
+    group.userData.combatMaxHp = group.userData.combatMaxHp ?? hp;
+    group.userData.combatTarget = {
+      mesh: group, isReady: true, name: nameOf(group), def: { species, color: species === "fox" ? 0xd46a24 : 0x8bcf68 },
+      get hp() { return group.userData.combatHp || 0; }, get maxHp() { return group.userData.combatMaxHp || hp; },
+      get isDead() { return group.userData.combatHp <= 0 || !group.visible; },
+      takeDamage(amount = 0) {
+        group.userData.combatHp = Math.max(0, Number(group.userData.combatHp || hp) - Math.max(0, Number(amount) || 0));
+        group.userData.lastDamageAt = Date.now();
+        group.scale.setScalar(group.userData.combatHp <= 0 ? 0.001 : 1);
+        if (group.userData.combatHp <= 0) { group.visible = false; group.userData.refined = true; }
+      }
+    };
+  }
+  return group.userData.combatTarget;
+}
+export function collectCombatTargets(olam, enemies = []) {
+  const out = enemies.filter(live);
+  const root = olam?.__livingRegionWildlifeRoot;
+  root?.children?.forEach(child => { const t = ensureWildlifeTarget(child); if (live(t) && !out.includes(t)) out.push(t); });
+  return out;
+}
 export default class CombatTargeting {
-  /** @param {object} olam World vessel. @param {(target: object|null) => void} onChange Selection callback. */
-  constructor(olam, onChange) {
-    this.olam = olam;
-    this.onChange = onChange;
-    this.selected = null;
-    this.raycaster = new THREE.Raycaster();
-    this.marker = this.createMarker();
-  }
-
-  /** @returns {THREE.Mesh} A luminous ring placed beneath the chosen creature. */
-  createMarker() {
-    const geometry = new THREE.RingGeometry(1.25, 1.55, 40);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffd95a, side: THREE.DoubleSide, transparent: true, opacity: 0.86, depthWrite: false });
-    const marker = new THREE.Mesh(geometry, material);
-    marker.rotation.x = -Math.PI / 2;
-    marker.position.y = 0.08;
-    marker.visible = false;
-    marker.userData.skipOctree = true;
-    this.olam?.scene?.add?.(marker);
-    return marker;
-  }
-
-  /** @param {object[]} enemies Living target candidates. @returns {"none"|"selected"|"confirmed"} Click result. */
+  constructor(olam, onChange) { this.olam = olam; this.onChange = onChange; this.selected = null; this.raycaster = new THREE.Raycaster(); this.marker = this.createMarker(); }
+  createMarker() { const g = new THREE.RingGeometry(1.25, 1.65, 48), m = new THREE.MeshBasicMaterial({ color: 0xffd95a, side: THREE.DoubleSide, transparent: true, opacity: .92, depthWrite: false }); const ring = new THREE.Mesh(g, m); ring.rotation.x = -Math.PI / 2; ring.visible = false; ring.userData.skipOctree = true; this.olam?.scene?.add?.(ring); return ring; }
   selectFromPointer(enemies = []) {
-    const camera = this.olam?.camera || this.olam?.activeCamera;
-    const pointer = this.olam?.pointer;
-    if (!camera || !pointer) return "none";
-    const roots = enemies.filter(enemy => enemy?.mesh && !enemy.isDead && enemy.hp > 0).map(enemy => enemy.mesh);
+    const camera = this.olam?.camera || this.olam?.activeCamera, pointer = this.olam?.pointer; if (!camera || !pointer) return "none";
+    const candidates = collectCombatTargets(this.olam, enemies), roots = candidates.filter(live).map(t => t.mesh);
     this.raycaster.setFromCamera(pointer, camera);
-    const hit = this.raycaster.intersectObjects(roots, true)[0];
-    const target = hit ? this.findEnemy(hit.object, enemies) : null;
-    if (!target) return "none";
-    if (target === this.selected) return "confirmed";
-    this.set(target);
-    return "selected";
+    const hit = this.raycaster.intersectObjects(roots, true)[0], target = hit ? this.findTarget(hit.object, candidates) : null;
+    if (!target) return "none"; if (target === this.selected) return "confirmed"; this.set(target); return "selected";
   }
-
-  /** @param {THREE.Object3D} object Hit object. @param {object[]} enemies Candidates. @returns {object|null} Runtime enemy. */
-  findEnemy(object, enemies) {
-    let node = object;
-    while (node) {
-      const enemy = enemies.find(candidate => candidate === node.nivraAwtsmoos || candidate?.mesh === node);
-      if (enemy) return enemy;
-      node = node.parent;
-    }
-    return null;
-  }
-
-  /** @param {object|null} target New target. */
-  set(target) {
-    this.selected = target || null;
-    this.marker.visible = Boolean(target?.mesh);
-    this.onChange?.(this.selected);
-  }
-
-  /** Keeps the ring beneath the selected target. */
-  update() {
-    if (!this.selected?.mesh || this.selected.isDead || this.selected.hp <= 0) return this.set(null);
-    this.marker.position.set(this.selected.mesh.position.x, this.selected.mesh.position.y + 0.08, this.selected.mesh.position.z);
-    this.marker.rotation.z += 0.012;
-  }
-
-  /** Releases GPU resources. */
-  dispose() {
-    this.marker.removeFromParent();
-    this.marker.geometry.dispose();
-    this.marker.material.dispose();
-  }
+  findTarget(object, targets) { let n = object; while (n) { const direct = ensureWildlifeTarget(n); if (direct) return direct; const found = targets.find(t => t === n.nivraAwtsmoos || t?.mesh === n); if (found) return found; n = n.parent; } return null; }
+  set(target) { this.selected = live(target) ? target : null; this.marker.visible = Boolean(this.selected?.mesh); this.onChange?.(this.selected); }
+  update() { if (!live(this.selected)) return this.set(null); const p = this.selected.mesh.position; this.marker.position.set(p.x, p.y + .1, p.z); this.marker.rotation.z += .016; }
+  dispose() { this.marker.removeFromParent(); this.marker.geometry.dispose(); this.marker.material.dispose(); }
 }

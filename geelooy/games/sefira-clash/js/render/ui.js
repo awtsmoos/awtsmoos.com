@@ -1,108 +1,96 @@
 /**
  * B"H
- * Minimal mobile HUD.
+ * Cut-down mobile HUD.
  *
- * Chapter 119: on a phone, the battlefield is the altar. The HUD becomes tiny:
- * human status, small bot dots, small beacons. Nothing heavy sits on the fight.
+ * Chapter 158: the battlefield is no longer framed by menus. On mobile, only a
+ * thin top strip remains; everything else becomes a whisper unless it matters.
  */
 export function drawUi(ctx, state, w, h = innerHeight) {
   const mobile = w < 760;
-  if (mobile) drawMobileHud(ctx, state, w, h);
-  else drawBottomHud(ctx, state.fighters, w, h);
+  if (mobile) drawMobileTopStrip(ctx, state, w);
+  else drawDesktopHud(ctx, state.fighters, w, h);
   drawOffscreenFighterBeacons(ctx, state, w, h, mobile);
   drawRespawnCountdown(ctx, state, w, h);
-  drawSpectatorNotice(ctx, state, w, h, mobile);
-  if (!mobile) drawMiniTitle(ctx, w, h);
   if (state.debug) drawDebug(ctx, state, w);
   if (state.winner) drawWinner(ctx, state, w, h);
 }
 
-function drawMobileHud(ctx, state, w, h) {
-  const hero = state.fighters.find(f => f.human) || state.fighters[0];
-  if (!hero) return;
-  const y = h - 120;
-  drawTinyCard(ctx, hero, 10, y, 92, true);
-  let x = 110;
-  for (const bot of state.fighters.filter(f => !f.human).slice(0, 4)) {
-    drawBotChip(ctx, bot, x, y + 18);
-    x += 42;
-  }
-}
-
-function drawTinyCard(ctx, f, x, y, w, hero = false) {
-  const color = `hsl(${f.dna.hue} 90% 60%)`;
+function drawMobileTopStrip(ctx, state, w) {
+  const fighters = state.fighters.slice(0, 5);
+  const h = 28;
   ctx.save();
-  ctx.fillStyle = 'rgba(4,3,10,.58)';
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 1.5;
-  roundRect(ctx, x, y, w, 38, 11);
-  ctx.fill();
-  ctx.stroke();
-  ctx.font = '950 9px system-ui';
-  ctx.fillStyle = hero ? '#69ffff' : color;
-  ctx.fillText(hero ? 'YOU' : f.name.replace('Bot ', 'B'), x + 8, y + 13);
-  drawPercent(ctx, f, Math.round(f.damage), x + 8, y + 32, true);
-  drawLights(ctx, f, x + 53, y + 30, true, color);
-  ctx.restore();
-}
-
-function drawBotChip(ctx, f, x, y) {
-  const color = `hsl(${f.dna.hue} 90% 60%)`;
-  ctx.save();
+  ctx.globalAlpha = 0.76;
   ctx.fillStyle = 'rgba(4,3,10,.44)';
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 1;
-  roundRect(ctx, x, y, 34, 22, 8);
+  ctx.strokeStyle = 'rgba(255,218,120,.22)';
+  roundRect(ctx, 7, 8, w - 14, h, 10);
   ctx.fill();
   ctx.stroke();
-  ctx.font = '900 10px system-ui';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = Math.round(f.damage) >= 120 ? '#ff866b' : '#fff';
-  ctx.fillText(String(Math.round(f.damage)), x + 17, y + 15);
+  const slot = (w - 24) / Math.max(1, fighters.length);
+  fighters.forEach((f, i) => drawTopSlot(ctx, f, 12 + i * slot, 12, slot - 4));
   ctx.restore();
 }
 
-function drawBottomHud(ctx, fighters, w, h) {
-  const cardW = 112;
-  const totalW = Math.min(w - 170, fighters.length * cardW + 18);
-  const x0 = Math.max(10, (w - totalW) / 2);
+function drawTopSlot(ctx, f, x, y, width) {
+  const color = hue(f);
+  ctx.save();
+  ctx.globalAlpha = f.human ? 1 : 0.82;
+  ctx.fillStyle = f.human ? '#69ffff' : color;
+  ctx.font = '950 8px system-ui';
+  ctx.fillText(f.human ? 'YOU' : f.name.replace('Bot ', 'B'), x, y + 8);
+  ctx.font = '950 14px system-ui';
+  const pct = Math.round(f.damage);
+  ctx.fillStyle = pct >= 120 ? '#ff866b' : pct >= 70 ? '#ffe27a' : '#fff';
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 2.5;
+  const text = f.dead ? 'OUT' : `${pct}`;
+  ctx.strokeText(text, x, y + 23);
+  ctx.fillText(text, x, y + 23);
+  drawLights(ctx, f, x + Math.min(width - 18, 34), y + 21, 5, 1.8, color);
+  ctx.restore();
+}
+
+function drawDesktopHud(ctx, fighters, w, h) {
+  const cardW = 96;
+  const total = fighters.length * cardW + 14;
+  const x0 = (w - total) / 2;
   const y = h - 82;
   ctx.save();
-  ctx.fillStyle = 'rgba(4,3,10,.68)';
-  ctx.strokeStyle = 'rgba(255,218,120,.55)';
-  roundRect(ctx, x0, y, totalW, 64, 14);
+  ctx.fillStyle = 'rgba(4,3,10,.62)';
+  ctx.strokeStyle = 'rgba(255,218,120,.45)';
+  roundRect(ctx, x0, y, total, 58, 14);
   ctx.fill();
   ctx.stroke();
-  fighters.forEach((f, i) => drawDamageCard(ctx, f, x0 + 9 + i * cardW, y + 8, cardW - 14));
+  fighters.forEach((f, i) => drawDesktopCard(ctx, f, x0 + 8 + i * cardW, y + 7));
   ctx.restore();
 }
 
-function drawDamageCard(ctx, f, x, y, width) {
-  const color = `hsl(${f.dna.hue} 90% 60%)`;
-  ctx.font = '950 13px system-ui';
+function drawDesktopCard(ctx, f, x, y) {
+  const color = hue(f);
+  ctx.font = '950 12px system-ui';
   ctx.fillStyle = f.human ? '#69ffff' : color;
   ctx.fillText(f.human ? 'YOU' : f.name.replace('Bot ', 'B'), x, y + 12);
-  drawPercent(ctx, f, Math.round(f.damage), x, y + 42, false);
-  drawLights(ctx, f, x, y + 53, false, color);
+  drawDesktopPercent(ctx, f, x, y + 39, 23);
+  drawLights(ctx, f, x, y + 50, 11, 4, color);
 }
 
-function drawPercent(ctx, f, pct, x, y, mobile) {
-  ctx.font = `950 ${mobile ? 17 : 25}px system-ui`;
+function drawDesktopPercent(ctx, f, x, y, size) {
+  const pct = Math.round(f.damage);
+  ctx.font = `950 ${size}px system-ui`;
   ctx.fillStyle = f.dead ? '#777' : pct >= 120 ? '#ff866b' : pct >= 70 ? '#ffe27a' : '#fff';
   ctx.strokeStyle = '#000';
-  ctx.lineWidth = mobile ? 3 : 4;
+  ctx.lineWidth = Math.max(3, size * 0.16);
   const text = f.dead ? 'OUT' : f.respawnTimer ? `${Math.ceil(f.respawnTimer / 30)}` : `${pct}%`;
   ctx.strokeText(text, x, y);
   ctx.fillText(text, x, y);
 }
 
-function drawLights(ctx, f, x, y, mobile, color) {
+function drawLights(ctx, f, x, y, gap, r, color) {
   const n = Math.max(0, f.stocks || 0);
   for (let i = 0; i < Math.max(3, n); i++) {
     ctx.globalAlpha = i < n ? 1 : 0.15;
     ctx.fillStyle = i < n ? color : '#fff';
     ctx.beginPath();
-    ctx.arc(x + i * (mobile ? 7 : 12), y, mobile ? 2.3 : 4.2, 0, Math.PI * 2);
+    ctx.arc(x + i * gap, y, r, 0, Math.PI * 2);
     ctx.fill();
   }
   ctx.globalAlpha = 1;
@@ -110,21 +98,36 @@ function drawLights(ctx, f, x, y, mobile, color) {
 
 function drawOffscreenFighterBeacons(ctx, state, w, h, mobile) {
   if (!state.camera) return;
-  const topSafe = mobile ? 84 : 76;
-  const bottomSafe = h - (mobile ? 146 : 96);
+  const topSafe = mobile ? 44 : 82;
+  const bottomSafe = h - (mobile ? 82 : 96);
   const placed = [];
   for (const f of state.fighters) {
     if (!f || f.dead || f.hidden || (f.human && !state.camera.spectating)) continue;
-    const point = worldToScreen(f, state.camera, w, h);
-    if (point.x > 18 && point.x < w - 18 && point.y > topSafe && point.y < bottomSafe) continue;
-    const p = beaconSlot(clamp(point.x, 24, w - 24), clamp(point.y, topSafe, bottomSafe), placed, mobile);
-    drawBeacon(ctx, f, p.x, p.y, point, mobile);
+    const s = worldToScreen(f, state.camera, w, h);
+    if (s.x > 18 && s.x < w - 18 && s.y > topSafe && s.y < bottomSafe) continue;
+    const p = slot(clamp(s.x, 18, w - 18), clamp(s.y, topSafe, bottomSafe), placed, mobile);
+    drawBeacon(ctx, p.x, p.y, Math.atan2(s.y - p.y, s.x - p.x), hue(f), mobile);
   }
 }
 
-function beaconSlot(x, y, placed, mobile) {
-  let out = { x, y };
-  for (const p of placed) if (Math.abs(out.x - p.x) < 42 && Math.abs(out.y - p.y) < 32) out.y += mobile ? 28 : 40;
+function drawBeacon(ctx, x, y, angle, color, mobile) {
+  ctx.save();
+  ctx.globalAlpha = mobile ? 0.32 : 0.7;
+  ctx.strokeStyle = color;
+  ctx.fillStyle = 'rgba(0,0,0,.18)';
+  ctx.lineWidth = mobile ? 1.2 : 2.2;
+  const bw = mobile ? 18 : 42;
+  const bh = mobile ? 15 : 31;
+  roundRect(ctx, x - bw / 2, y - bh / 2, bw, bh, 6);
+  ctx.fill();
+  ctx.stroke();
+  drawArrow(ctx, x, y, angle, color, mobile ? 0.26 : 0.78);
+  ctx.restore();
+}
+
+function slot(x, y, placed, mobile) {
+  const out = { x, y };
+  for (const p of placed) if (Math.abs(out.x - p.x) < 24 && Math.abs(out.y - p.y) < 18) out.y += mobile ? 16 : 30;
   placed.push(out);
   return out;
 }
@@ -132,29 +135,6 @@ function beaconSlot(x, y, placed, mobile) {
 function worldToScreen(f, camera, w, h) {
   const z = camera.zoom || 1;
   return { x: w / 2 + z * (f.x + camera.x - w / 2), y: h / 2 + z * (f.y - 95 + camera.y - h / 2) };
-}
-
-function drawBeacon(ctx, f, x, y, point, mobile) {
-  const color = `hsl(${f.dna.hue} 90% 62%)`;
-  const angle = Math.atan2(point.y - y, point.x - x);
-  ctx.save();
-  ctx.globalAlpha = 0.84;
-  ctx.fillStyle = 'rgba(0,0,0,.54)';
-  ctx.strokeStyle = color;
-  ctx.lineWidth = mobile ? 2 : 3;
-  const bw = mobile ? 30 : 54;
-  const bh = mobile ? 24 : 40;
-  roundRect(ctx, x - bw / 2, y - bh / 2, bw, bh, 8);
-  ctx.fill();
-  ctx.stroke();
-  drawArrow(ctx, x, y, angle, color, mobile ? 0.52 : 1);
-  if (!mobile) {
-    ctx.font = '900 10px system-ui';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#fff7c9';
-    ctx.fillText(`${Math.round(f.damage)}%`, x, y + 30);
-  }
-  ctx.restore();
 }
 
 function drawArrow(ctx, x, y, angle, color, s) {
@@ -172,10 +152,24 @@ function drawArrow(ctx, x, y, angle, color, s) {
   ctx.restore();
 }
 
-function drawRespawnCountdown(ctx, state, w, h) { const f = state.fighters.find(item => item.human && item.respawnTimer > 0 && !item.dead); if (!f) return; const n = Math.max(1, Math.ceil(f.respawnTimer / 30)); ctx.save(); ctx.fillStyle = 'rgba(0,0,0,.58)'; ctx.beginPath(); ctx.arc(w / 2, h * 0.44, 62, 0, Math.PI * 2); ctx.fill(); ctx.font = '950 52px system-ui'; ctx.textAlign = 'center'; ctx.strokeStyle = '#000'; ctx.lineWidth = 7; ctx.strokeText(String(n), w / 2, h * 0.44 + 18); ctx.fillStyle = '#fff2a8'; ctx.fillText(String(n), w / 2, h * 0.44 + 18); ctx.restore(); }
-function drawSpectatorNotice(ctx, state, w, h, mobile) { const hero = state.fighters.find(f => f.human); if (!hero || !hero.dead || state.winner) return; ctx.save(); ctx.fillStyle = 'rgba(0,0,0,.52)'; roundRect(ctx, w / 2 - 118, h - (mobile ? 166 : 150), 236, 42, 14); ctx.fill(); ctx.textAlign = 'center'; ctx.font = '900 15px system-ui'; ctx.fillStyle = '#fff1a6'; ctx.fillText('SPECTATING THE BOTS', w / 2, h - (mobile ? 140 : 124)); ctx.restore(); }
-function drawMiniTitle(ctx, w, h) { ctx.save(); ctx.fillStyle = 'rgba(0,0,0,.42)'; roundRect(ctx, w / 2 - 105, h - 120, 210, 32, 10); ctx.fill(); ctx.textAlign = 'center'; ctx.font = '900 16px system-ui'; ctx.fillStyle = '#ffe9a8'; ctx.fillText('Sefira Clash', w / 2, h - 99); ctx.restore(); }
-function drawDebug(ctx, state, w) { ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(w - 236, 82, 222, 154); ctx.fillStyle = '#fff4c4'; ctx.font = '12px monospace'; ctx.fillText(`phase ${state.phase}`, w - 224, 104); ctx.fillText(`frame ${state.frame}`, w - 224, 124); ctx.fillText(`particles ${state.particles.length}`, w - 224, 144); }
+function drawRespawnCountdown(ctx, state, w, h) {
+  const f = state.fighters.find(item => item.human && item.respawnTimer > 0 && !item.dead);
+  if (!f) return;
+  const n = Math.max(1, Math.ceil(f.respawnTimer / 30));
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,0,0,.55)';
+  ctx.beginPath();
+  ctx.arc(w / 2, h * 0.44, 54, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.font = '950 48px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff2a8';
+  ctx.fillText(String(n), w / 2, h * 0.44 + 17);
+  ctx.restore();
+}
+
+function drawDebug(ctx, state, w) { ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(w - 236, 82, 222, 154); ctx.fillStyle = '#fff4c4'; ctx.font = '12px monospace'; ctx.fillText(`frame ${state.frame}`, w - 224, 104); }
 function drawWinner(ctx, state, w, h) { ctx.fillStyle = 'rgba(0,0,0,.84)'; roundRect(ctx, w / 2 - 160, h / 2 - 38, 320, 76, 18); ctx.fill(); ctx.fillStyle = '#ffe9a8'; ctx.font = 'bold 28px system-ui'; ctx.textAlign = 'center'; ctx.fillText(`${state.winner} wins`, w / 2, h / 2 + 10); ctx.textAlign = 'left'; }
-function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); }
+function hue(f) { return `hsl(${f.dna.hue} 90% 60%)`; }
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); }

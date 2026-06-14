@@ -1,5 +1,4 @@
-/* B"H reader foundation index. */
-@import "/style/foundation/index.css";
+/* B"H reader foundation index: post reader only, no global foundation collision. */
 @import "./tokens.css";
 @import "./scroll-root.css";
 @import "./shell.css";

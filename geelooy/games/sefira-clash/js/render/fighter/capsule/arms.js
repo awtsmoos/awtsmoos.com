@@ -1,12 +1,13 @@
 /**
  * B"H
- * Capsule arms.
+ * Mockup arms.
  *
- * Chapter 135: arms are now staged actors: one may pass behind the chest, one
- * may strike in front, both remain attached to heroic shoulders.
+ * Chapter 151: arms become strong suit segments, not noodles. Rear arm hides
+ * beneath torso, front arm reads with glove weight and shoulder connection.
  */
 import { capsuleSegment } from './segment.js';
 import { drawGlove } from './gloves.js';
+import { LIMB_BOUNDS } from './limbBounds.js';
 
 export function drawCapsuleArms(ctx, p, color, layer) {
   const leftBack = p.face > 0;
@@ -23,6 +24,6 @@ export function drawCapsuleArms(ctx, p, color, layer) {
 
 function drawArm(ctx, shoulder, elbow, hand, color, shouldDraw) {
   if (!shouldDraw) return;
-  capsuleSegment(ctx, shoulder, elbow, 10, color, { shadow: true });
-  capsuleSegment(ctx, elbow, hand, 8.5, color);
+  capsuleSegment(ctx, shoulder, elbow, LIMB_BOUNDS.arm.widthUpper, color, { shadow: true });
+  capsuleSegment(ctx, elbow, hand, LIMB_BOUNDS.arm.widthLower, color);
 }

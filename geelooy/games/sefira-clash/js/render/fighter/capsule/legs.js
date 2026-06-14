@@ -1,12 +1,13 @@
 /**
  * B"H
- * Capsule legs.
+ * Mockup legs.
  *
- * Chapter 136: legs carry the whole story. Knees bend with mercy, calves reach
- * boots, and the stance reads as fighter instead of folded geometry.
+ * Chapter 152: thighs and calves gain fighter weight. The stance widens, boots
+ * plant, and the old stick-leg feeling is swallowed by strong capsules.
  */
 import { capsuleSegment, joint } from './segment.js';
 import { drawBoot } from './boots.js';
+import { LIMB_BOUNDS } from './limbBounds.js';
 
 export function drawCapsuleLegs(ctx, p, color) {
   drawLeg(ctx, p.leftHip, p.leftKnee, p.leftFoot, -1, color);
@@ -14,8 +15,8 @@ export function drawCapsuleLegs(ctx, p, color) {
 }
 
 function drawLeg(ctx, hip, knee, foot, side, color) {
-  capsuleSegment(ctx, hip, knee, 12, color, { shadow: true });
-  capsuleSegment(ctx, knee, foot, 10.5, color);
-  joint(ctx, knee, 5.2, color);
+  capsuleSegment(ctx, hip, knee, LIMB_BOUNDS.leg.widthUpper, color, { shadow: true });
+  capsuleSegment(ctx, knee, foot, LIMB_BOUNDS.leg.widthLower, color);
+  joint(ctx, knee, 6.2, color);
   drawBoot(ctx, foot, side, color);
 }

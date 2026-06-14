@@ -1,0 +1,3 @@
+B'H
+# Phase One Loading Repair
+User showed mobile loading stuck with old/static screen and DevTools progress silent for long stretches. Need restore visible animation, multiple bars, radial continuous loading, stage labels, worker heartbeat never quiet more than five seconds, generated texture progress, and IndexedDB versioned generated texture caching. Read loading UI, CSS, worker progress store/interceptor, ui handlers, and TextureForge. Plan: create a small main-thread LoadingProgressBridge that updates DOM directly and receives worker progress, rewrite loading UI to include radial percent + stage bars + log, rewrite CSS for animations, rewrite ui handler and interceptor to call bridge, rewrite TextureForge with IndexedDB cache and progress events.

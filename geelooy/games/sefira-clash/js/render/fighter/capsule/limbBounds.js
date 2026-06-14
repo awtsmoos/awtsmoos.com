@@ -1,16 +1,18 @@
 /**
  * B"H
- * Visual limb bounds.
+ * Authored mockup visual constants.
  *
- * Chapter 127: no elbow crosses the forbidden river, no knee folds into a crab,
- * no hand floats away from the shoulder. The Awtsmoos sets merciful borders.
+ * Chapter 170: every visible part receives heavier mass. Gloves become fists,
+ * boots become anchors, limbs become suit armor, and timing stays slow.
  */
 export const LIMB_BOUNDS = Object.freeze({
-  headGap: Object.freeze({ min: 17, max: 25 }),
-  shoulderWidth: Object.freeze({ min: 52, max: 66 }),
-  hipWidth: Object.freeze({ min: 24, max: 34 }),
-  arm: Object.freeze({ upper: 30, lower: 31, handDropMin: 26, handDropMax: 70 }),
-  leg: Object.freeze({ upper: 38, lower: 43, footDropMin: 62, footDropMax: 86 }),
-  boot: Object.freeze({ width: 16, height: 7 }),
-  glove: Object.freeze({ radius: 7.2 })
+  headGap: Object.freeze({ min: 16, max: 26 }),
+  shoulderWidth: Object.freeze({ min: 66, max: 74 }),
+  hipWidth: Object.freeze({ min: 28, max: 34 }),
+  torso: Object.freeze({ headRx: 23, headRy: 25, waist: 18, chestDrop: 74 }),
+  arm: Object.freeze({ upper: 38, lower: 36, handDropMin: 36, handDropMax: 88, widthUpper: 15, widthLower: 13 }),
+  leg: Object.freeze({ upper: 48, lower: 52, footDropMin: 76, footDropMax: 108, widthUpper: 17, widthLower: 15 }),
+  boot: Object.freeze({ width: 24, height: 10 }),
+  glove: Object.freeze({ radius: 12.5 }),
+  timing: Object.freeze({ idle: 0.014, run: 0.062, attack: 0.34, hit: 0.44 })
 });

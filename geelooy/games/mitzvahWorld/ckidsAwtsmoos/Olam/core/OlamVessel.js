@@ -1,5 +1,5 @@
 // B"H
-/** @module OlamVessel @description Chapter 958: worker root imports offline ecology graft. */
+/** @module OlamVessel @description Chapter 959: worker root imports fresh mobile targeting combat. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
 import OlamGrafting from "./OlamGraftingPlain.js?v=complete-v3-graft-20260612-bh3";
@@ -9,7 +9,7 @@ import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";
 import UserProgressManager from "../../systems/UserProgressManager.js?v=village-combat-20260611-bh804";
 import Yichud from "../interaction/Yichud.js?compact=true";
 import PlacementManager from "../interaction/PlacementManager.js?compact=true";
-import CombatManager from "../../systems/combat/CombatManager.js?v=village-polish-20260612-bh810";
+import CombatManager from "../../systems/combat/CombatManager.js?v=mobile-wildlife-targeting-20260614-bh1";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=android-settings-render-20260612-bh1";
 const SAFE_SKY = 0x5d8fa8;
 export default class Olam extends Nivra {

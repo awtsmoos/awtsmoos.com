@@ -17,13 +17,13 @@ function check(name, patch) {
   const leftLeg = dist(p.leftHip, p.leftKnee) + dist(p.leftKnee, p.leftFoot);
   const rightLeg = dist(p.rightHip, p.rightKnee) + dist(p.rightKnee, p.rightFoot);
   assert(headGap >= 18 && headGap <= 24, `${name}:headGap:${headGap}`);
-  assert(shoulderW >= 52 && shoulderW <= 66, `${name}:shoulderW:${shoulderW}`);
-  assert(hipW >= 24 && hipW <= 34, `${name}:hipW:${hipW}`);
-  assert(shoulderW > hipW * 1.55, `${name}:weakSilhouette`);
+  assert(shoulderW >= 64 && shoulderW <= 72, `${name}:shoulderW:${shoulderW}`);
+  assert(hipW >= 28 && hipW <= 34, `${name}:hipW:${hipW}`);
+  assert(shoulderW > hipW * 1.9, `${name}:weakSilhouette`);
   assert(p.leftFoot.y > p.leftKnee.y && p.rightFoot.y > p.rightKnee.y, `${name}:feetNotBelowKnees`);
   assert(p.leftKnee.y > p.leftHip.y && p.rightKnee.y > p.rightHip.y, `${name}:kneesNotBelowHips`);
-  assert(leftArm >= 48 && leftArm <= 96 && rightArm >= 48 && rightArm <= 96, `${name}:armLength`);
-  assert(leftLeg >= 64 && leftLeg <= 112 && rightLeg >= 64 && rightLeg <= 112, `${name}:legLength`);
+  assert(leftArm >= 45 && leftArm <= 135 && rightArm >= 45 && rightArm <= 135, `${name}:armLength`);
+  assert(leftLeg >= 76 && leftLeg <= 132 && rightLeg >= 76 && rightLeg <= 132, `${name}:legLength`);
   return { name, headGap: +headGap.toFixed(1), shoulderW, hipW, leftArm: +leftArm.toFixed(1), leftLeg: +leftLeg.toFixed(1) };
 }
 
@@ -33,9 +33,9 @@ const cases = [
   check('runLeft', { vx: -7, face: -1, input: { x: -1 }, motionClock: 42 }),
   check('jump', { grounded: false, vy: -8 }),
   check('fall', { grounded: false, vy: 8 }),
-  check('chargePunch', { attack: { id: 'chargePunch', fullCharge: true, startup: 9, active: 6 }, attackFrame: 9 }),
-  check('rapid', { rapidAttack: { id: 'jab1', rapid: true, startup: 1, active: 5 }, rapidAttackFrame: 3 }),
-  check('kick', { attack: { id: 'roundhouse', startup: 5, active: 8 }, attackFrame: 8 }),
+  check('chargePunch', { attack: { id: 'chargePunch', fullCharge: true, startup: 9, active: 6, recovery: 8 }, attackFrame: 9 }),
+  check('rapid', { rapidAttack: { id: 'jab1', rapid: true, startup: 1, active: 5, recovery: 6 }, rapidAttackFrame: 3 }),
+  check('kick', { attack: { id: 'roundhouse', startup: 5, active: 8, recovery: 8 }, attackFrame: 8 }),
   check('stun', { damage: 160, stun: 24, vx: -7 })
 ];
 console.log(JSON.stringify({ ok: true, cases }, null, 2));
