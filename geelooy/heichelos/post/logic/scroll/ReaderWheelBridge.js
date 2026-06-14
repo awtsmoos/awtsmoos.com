@@ -2,11 +2,11 @@
 /**
  * @module ReaderWheelBridge
  * @description
- * Chapter 302: The wheel over the letters now moves the page itself.
- * If a nested verse/card consumes wheel events, this bridge catches the delta in
- * capture phase and applies it to the active scroll vessel: first the wrapper if
- * it truly scrolls, otherwise the document river. Controls and side panels are
- * not captured.
+ * Chapter 306: The page itself answers wheel and finger.
+ * The Awtsmoos watched desktop motion die except on the scrollbar gutter and
+ * mobile touch refuse the river. This bridge now carries wheel and touch deltas
+ * from reader content into the real scroll vessel while leaving buttons,
+ * sidebars, inputs, links, and panels alone.
  */
 
 const BRIDGE_FLAG = "__awtsmoosReaderWheelBridge";
@@ -28,6 +28,8 @@ const IGNORED_SELECTOR = [
     "[role='button']"
 ].join(", ");
 
+let touchPoint = null;
+
 function documentRoot() {
     return document.scrollingElement || document.documentElement || document.body;
 }
@@ -46,57 +48,78 @@ function readTop(vessel) {
 }
 
 function writeTop(vessel, top) {
-    const safe = Math.max(0, top);
+    const safe = Math.max(0, Math.min(maxTop(vessel), top));
     if (vessel === documentRoot()) window.scrollTo({ top: safe, behavior: "auto" });
     else vessel.scrollTop = safe;
 }
 
 function maxTop(vessel) {
     if (vessel === documentRoot()) {
-        return Math.max(0, Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - window.innerHeight);
+        const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        return Math.max(0, height - (window.innerHeight || document.documentElement.clientHeight || 0));
     }
     return Math.max(0, vessel.scrollHeight - vessel.clientHeight);
 }
 
-function deltaPixels(event) {
-    const unit = event.deltaMode === 1 ? 38 : event.deltaMode === 2 ? window.innerHeight : 1;
-    return { x: event.deltaX * unit, y: event.deltaY * unit };
+function insideReader(target) {
+    const reader = document.querySelector(READER_SELECTOR);
+    if (!reader || !target) return false;
+    return reader.contains(target) || target === document.body || target === document.documentElement;
 }
 
-function shouldBridge(event) {
-    const reader = document.querySelector(READER_SELECTOR);
-    if (!reader || !event?.target) return false;
-    if (!reader.contains(event.target)) return false;
-    if (event.target.closest?.(IGNORED_SELECTOR)) return false;
+function shouldBridge(target) {
+    if (!insideReader(target)) return false;
+    if (target.closest?.(IGNORED_SELECTOR)) return false;
     return maxTop(activeVessel()) > 2;
 }
 
-function remember(vessel, delta, before) {
+function remember(vessel, deltaY, before, mode) {
     window.__awtsmoosReaderWheelBridgeState = {
         at: Date.now(),
+        mode,
         vessel: vessel === documentRoot() ? "document" : "wrapper",
         before,
         after: readTop(vessel),
-        deltaY: delta.y,
+        deltaY,
         moved: Math.abs(readTop(vessel) - before) > 0.1
     };
 }
 
-function bridgeWheel(event) {
-    if (!shouldBridge(event)) return;
+function moveBy(deltaY, deltaX = 0, mode = "wheel") {
     const vessel = activeVessel();
     const before = readTop(vessel);
-    const delta = deltaPixels(event);
-    writeTop(vessel, Math.min(maxTop(vessel), before + delta.y));
-    if (vessel !== documentRoot()) vessel.scrollLeft += delta.x;
-    remember(vessel, delta, before);
-    if (Math.abs(readTop(vessel) - before) > 0.1) event.preventDefault();
+    writeTop(vessel, before + deltaY);
+    if (vessel !== documentRoot()) vessel.scrollLeft += deltaX;
+    remember(vessel, deltaY, before, mode);
+    return Math.abs(readTop(vessel) - before) > 0.1;
+}
+
+function bridgeWheel(event) {
+    if (!shouldBridge(event?.target)) return;
+    const unit = event.deltaMode === 1 ? 38 : event.deltaMode === 2 ? window.innerHeight : 1;
+    if (moveBy(event.deltaY * unit, event.deltaX * unit, "wheel")) event.preventDefault();
+}
+
+function bridgeTouchStart(event) {
+    if (!shouldBridge(event?.target)) return void (touchPoint = null);
+    const touch = event.touches?.[0];
+    touchPoint = touch ? { x: touch.clientX, y: touch.clientY, target: event.target } : null;
+}
+
+function bridgeTouchMove(event) {
+    const touch = event.touches?.[0];
+    if (!touchPoint || !touch || !shouldBridge(touchPoint.target)) return;
+    const deltaY = touchPoint.y - touch.clientY;
+    const deltaX = touchPoint.x - touch.clientX;
+    touchPoint = { x: touch.clientX, y: touch.clientY, target: touchPoint.target };
+    if (moveBy(deltaY, deltaX, "touch")) event.preventDefault();
 }
 
 export function bindReaderWheelBridge() {
     if (window[BRIDGE_FLAG]) return window[BRIDGE_FLAG];
-    const options = { capture: true, passive: false };
-    document.addEventListener("wheel", bridgeWheel, options);
-    window[BRIDGE_FLAG] = { bound: true, at: Date.now(), selector: READER_SELECTOR, mode: "document-fallback" };
+    document.addEventListener("wheel", bridgeWheel, { capture: true, passive: false });
+    document.addEventListener("touchstart", bridgeTouchStart, { capture: true, passive: true });
+    document.addEventListener("touchmove", bridgeTouchMove, { capture: true, passive: false });
+    window[BRIDGE_FLAG] = { bound: true, at: Date.now(), selector: READER_SELECTOR, mode: "wheel-and-touch" };
     return window[BRIDGE_FLAG];
 }
