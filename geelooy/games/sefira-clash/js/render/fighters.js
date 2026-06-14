@@ -1,17 +1,16 @@
 /**
  * B"H
- * Capsule-first fighter renderer.
+ * Hero-first fighter renderer.
  *
- * Chapter 125: the exposed skeleton retires from the stage. Gameplay bones still
- * calculate the dance, but the eye sees a clean fighter with attached head,
- * visor face, boots, gloves, torso, and readable action silhouette.
+ * Chapter 187: the visible fighter has crossed from capsule into hero form.
+ * Existing combat labels, shields, arcs, and effects still surround it.
  */
 import { fighterColor } from './fighter/colors.js';
 import { renderLanguage } from './fighter/bodyLanguage.js';
 import { drawLabels } from './fighter/labels.js';
 import { drawAttackArc, drawChargeAura, drawDangerAura, drawDodgeStreak, drawShield } from './fighter/auras.js';
 import { drawBackEffects, drawFrontEffects } from './fighter/effects/effects.js';
-import { drawCapsuleFighter } from './fighter/capsule/fighter.js';
+import { drawHeroFighter } from './fighter/hero/renderer.js';
 
 export function drawFighters(ctx, fighters) {
   for (const fighter of fighters) drawFighter(ctx, fighter);
@@ -25,7 +24,7 @@ function drawFighter(ctx, f) {
   drawChargeAura(ctx, f, color);
   if (f.danger || lang.panic > 0.72) drawDangerAura(ctx, f);
   if (f.airDodge) drawDodgeStreak(ctx, f, color);
-  drawCapsuleFighter(ctx, f, color, lang);
+  drawHeroFighter(ctx, f, color);
   drawFrontEffects(ctx, f, color);
   drawLabels(ctx, f);
   if (f.blocking) drawShield(ctx, f);

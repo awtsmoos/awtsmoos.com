@@ -1,0 +1,3 @@
+B'H
+# Phase One: Grass Texture And Animal Realism
+User asks if grass TEXTURE itself changed, not only grass meshes. I am not sure yet; inspect TextureForge grass generator and RegionMaterial. Also animals/wildlife need fur textures and better realism, not just targetable simple meshes. Plan: inspect GrassGenerator/SafeGrass/RegionMaterials/RegionWildlifeRenderer. Then rewrite full files: GrassGenerator and SafeGrass with grain/noise/blade/seed/stalk texture generation; RegionMaterials may use generated textures or material noise; RegionWildlifeRenderer gets body parts, ears/tails/legs, fur-color variation, stripes/spots/belly/chest patches, and userData furTexture intent.

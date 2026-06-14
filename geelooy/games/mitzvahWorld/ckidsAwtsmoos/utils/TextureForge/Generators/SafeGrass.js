@@ -1,88 +1,45 @@
-
 // B"H
 /**
  * @module SafeGrass
  * @description
- * 🌿 CHAPTER 3: THE BREATH OF THE COLOR 🌿
- * 
- * "Let the earth put forth grass, herb-yielding seed..." (Bereishis 1:11)
- * 
- * Just as the speech of the Creator constanty refreshes every blade of 
- * organic grass, we refresh the pixels of our digital field. 
- * This module bypasses the heavy, repetitive 'fillRect' commands which 
- * were causing the Worker to stutter and freeze during the Tzimtzum. 
- * Instead, we write directly to the 'ImageData' buffer—the absolute 
- * atomic layer of the canvas—and manifest the entire emerald plane 
- * in a single, unified burst of light.
- * 
- * @class SafeGrass
+ * Chapter 441: the fast grass fallback is no longer plain.
+ * Direct pixels still keep mobile quick, but the texture now includes blade
+ * streaks, grain, straw specks, and deep clump shadows.
  */
 import CanvasHelper from "../CanvasHelper.js";
-
+const TAU = Math.PI * 2;
+const clamp = v => Math.max(0, Math.min(255, v | 0));
+const mix = (a, b, t) => a + (b - a) * t;
+const hash = (x, y, s = 1) => { const v = Math.sin(x * 12.9898 + y * 78.233 + s * 37.719) * 43758.5453; return v - Math.floor(v); };
 export default class SafeGrass {
-    /**
-     * @static
-     * @method generate
-     * @description
-     * Synthesizes a vibrant, non-transparent grass texture using direct pixel manipulation.
-     * Guaranteed to bloom in under 50ms, even within the constricted thread of a Worker.
-     * 
-     * @param {number} [width=256] - The horizontal extent of the vessel.
-     * @param {number} [height=256] - The vertical extent of the vessel.
-     * @returns {HTMLCanvasElement|OffscreenCanvas} The materialized canvas.
-     */
-    static generate(width = 256, height = 256) {
-        try {
-            const canvas = CanvasHelper.create(width, height);
-            const ctx = canvas.getContext('2d');
-
-            // B"H: We create a single buffer to hold all the letters of the field.
-            const imgData = ctx.createImageData(width, height);
-            const data = imgData.data;
-
-            const TAU = Math.PI * 2;
-            const dark = [28, 96, 36];
-            const mid = [54, 142, 56];
-            const light = [94, 178, 82];
-            const clamp = value => Math.max(0, Math.min(255, value | 0));
-            const mix = (a, b, t) => a + (b - a) * t;
-
-            for (let y = 0; y < height; y++) {
-                const v = y / height;
-                for (let x = 0; x < width; x++) {
-                    const u = x / width;
-                    const longWave = 0.5 + 0.5 * Math.sin(TAU * (u * 2 + v * 1.5));
-                    const crossWave = 0.5 + 0.5 * Math.cos(TAU * (u * 4 - v * 3));
-                    const bladeLine = Math.pow(0.5 + 0.5 * Math.sin(TAU * (u * 18 + Math.sin(TAU * v * 2) * 0.08)), 4);
-                    const shade = Math.min(1, longWave * 0.42 + crossWave * 0.28 + bladeLine * 0.3);
-                    const base = shade < 0.55 ? dark : mid;
-                    const top = shade < 0.55 ? mid : light;
-                    const t = shade < 0.55 ? shade / 0.55 : (shade - 0.55) / 0.45;
-                    const idx = (y * width + x) * 4;
-
-                    data[idx] = clamp(mix(base[0], top[0], t));
-                    data[idx + 1] = clamp(mix(base[1], top[1], t));
-                    data[idx + 2] = clamp(mix(base[2], top[2], t));
-                    data[idx + 3] = 255; // B"H: ABSOLUTE OPACITY. No transparency allowed in the floor!
-                }
-            }
-
-            // The Word is spoken once. The buffer is poured into the context.
-            ctx.putImageData(imgData, 0, 0);
-
-            // B"H: silent
-
-
-            return canvas;
-
-        } catch (e) {
-            console.error('B"H - 🚨 [SafeGrass]: The bloom was interrupted:', e);
-            // Emergency fallback: Solid Emerald Green
-            const emergency = CanvasHelper.create(64, 64);
-            const eCtx = emergency.getContext('2d');
-            eCtx.fillStyle = '#228B22';
-            eCtx.fillRect(0, 0, 64, 64);
-            return emergency;
-        }
+  static generate(width = 384, height = 384) {
+    try {
+      const canvas = CanvasHelper.create(width, height), ctx = canvas.getContext("2d"), imgData = ctx.createImageData(width, height), data = imgData.data;
+      const dark = [24, 88, 32], mid = [50, 136, 52], light = [111, 190, 81], straw = [170, 157, 82];
+      for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+        const u = x / width, v = y / height;
+        const longWave = .5 + .5 * Math.sin(TAU * (u * 2.3 + v * 1.2));
+        const bladeLine = Math.pow(.5 + .5 * Math.sin(TAU * (u * 42 + Math.sin(TAU * v * 3) * .12)), 5);
+        const micro = hash(x, y, 4), clump = Math.pow(.5 + .5 * Math.cos(TAU * (u * 7.5 - v * 4.2)), 3);
+        const shade = Math.min(1, longWave * .28 + bladeLine * .36 + clump * .22 + micro * .22);
+        const base = shade < .46 ? dark : shade < .72 ? mid : light, top = micro > .975 ? straw : base, idx = (y * width + x) * 4;
+        data[idx] = clamp(mix(dark[0], top[0], shade) + (micro - .5) * 20);
+        data[idx + 1] = clamp(mix(dark[1], top[1], shade) + (hash(x,y,5) - .5) * 26);
+        data[idx + 2] = clamp(mix(dark[2], top[2], shade) + (hash(x,y,6) - .5) * 14);
+        data[idx + 3] = 255;
+      }
+      ctx.putImageData(imgData, 0, 0);
+      ctx.globalCompositeOperation = "source-over";
+      for (let i = 0; i < 950; i++) {
+        const x = hash(i,1)*width, y = hash(i,2)*height, h = 7 + hash(i,3)*24, bend = (hash(i,4)-.5)*12;
+        ctx.strokeStyle = `rgba(${38+hash(i,5)*75},${118+hash(i,6)*88},${38+hash(i,7)*44},${.16+hash(i,8)*.28})`;
+        ctx.lineWidth = .4 + hash(i,9)*.9; ctx.beginPath(); ctx.moveTo(x,y); ctx.quadraticCurveTo(x+bend*.45,y-h*.56,x+bend,y-h); ctx.stroke();
+        if (i % 13 === 0) { ctx.fillStyle = "rgba(220,205,117,.34)"; ctx.fillRect(x + bend - 1, y - h - 1, 2 + hash(i,10)*2, 2 + hash(i,11)*2); }
+      }
+      return canvas;
+    } catch (e) {
+      console.error('B"H - SafeGrass bloom interrupted:', e);
+      const emergency = CanvasHelper.create(64, 64), eCtx = emergency.getContext('2d'); eCtx.fillStyle = '#228B22'; eCtx.fillRect(0, 0, 64, 64); return emergency;
     }
+  }
 }

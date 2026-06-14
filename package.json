@@ -36,7 +36,9 @@
     "test:social-packed": "node geelooy/api/social/helper/test/socialPacked.test.js && node geelooy/api/social/helper/test/postMigration.test.js && node geelooy/api/social/helper/test/packedSnapshotRepair.test.js",
     "test:packed-engine": "node geelooy/api/social/helper/test/packedEngine.test.js",
     "test:platform-ops": "node geelooy/api/social/helper/test/platformOps.test.js",
-    "test:platform-execution": "node geelooy/api/social/helper/test/platformExecution.test.js"
+    "test:platform-execution": "node geelooy/api/social/helper/test/platformExecution.test.js",
+    "bh": "node scripts/ship.mjs && bash scripts/bh-password.sh",
+    "ship:bh": "node scripts/ship.mjs && bash scripts/bh-password.sh"
   },
   "author": "",
   "license": "ISC"
