@@ -2,18 +2,14 @@
 /**
  * @file classMap.js
  * @description
- * Chapter 156: The registry burns away stale ghosts.
- *
- * JSON-instantiated Nivrayim pass through this map. The village guide, player
- * click route, and detached collider bodies now carry fresh import seals, so
- * the browser receives the present tikkun instead of yesterday's shadow.
+ * Chapter 1006: old procedural tree classes are not instantiable here.
  */
 export default {
   Domem: "../../chayim/domem/index.js",
   Tzomayach: "../../chayim/tzomayach.js",
   Chai: "../../chayim/chai/index.js",
   Medabeir: "../../chayim/medabeir/index.js",
-  Chossid: "../../chayim/chossid/index.js?v=lava-camera-axis-20260609-bh640",
+  Chossid: "../../chayim/chossid/index.js?v=stable-movement-restore-20260614-bh1",
   Tool: "../../dvarim/tool.js",
   Coin: "../../dvarim/coin.js",
   Container: "../../dvarim/container.js",
@@ -26,7 +22,6 @@ export default {
   CollectableItem: "../../dvarim/collectableItem.js",
   CharacterMaker: "../../dvarim/characterMaker.js",
   CustomNpc: "../../dvarim/customNpc.js",
-  ProceduralTree: "../../dvarim/nature/proceduralTree.js",
   NatureTool: "../../dvarim/nature/natureTool.js",
   ProceduralCloud: "../../dvarim/nature/proceduralCloud.js",
   ProceduralRiver: "../../dvarim/nature/proceduralRiver.js",
@@ -60,6 +55,7 @@ export default {
   SolidBlock: "../../dvarim/architecture/SolidBlock.js",
   ProceduralBuilding: "../../dvarim/architecture/ProceduralBuilding.js",
   ProceduralFlora: "../../dvarim/nature/ProceduralFlora.js",
+  VillageHeroTree: "../../dvarim/nature/VillageHeroTree.js?v=only-geelooy-libs-hero-tree-20260614-bh1",
   VillageHouseCollider: "../../dvarim/nature/VillageHouseCollider.js?v=lava-camera-axis-20260609-bh640",
   VillageFenceCollider: "../../dvarim/nature/VillageFenceCollider.js?v=lava-camera-axis-20260609-bh640",
   VillageRoadCollider: "../../dvarim/nature/VillageRoadCollider.js?v=detached-road-octree-20260605-bh449"
