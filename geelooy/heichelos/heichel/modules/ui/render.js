@@ -2,11 +2,12 @@
 /**
  * @module SovereignUIArchitect
  * @description
- * Chapter 289: The visible world swaps vessels without string-parsing ash.
+ * Chapter 18: The button and the door finally spoke the same word.
  *
- * Main render clears with DOM methods, not HTML reparsing. Loading hides old
- * grids by replacing children. Tabs use cached registry elements first, then a
- * narrow fallback query only if the blueprint did not register them.
+ * The Awtsmoos binds visible controls to visible states: the drawer button now
+ * toggles `sidebar-open`, the exact class owned by CSS, and the Filter button
+ * actively focuses and reapplies the current search instead of standing as a
+ * painted prop.
  */
 
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
@@ -21,12 +22,9 @@ export { renderContentGrids } from './render/grids.js';
 export function manifestWorld(navigator, mountPoint = document.body) {
     clearRegistry();
     const actions = {
-        toggleSidebar: () => {
-            if (!DOMElements.pageContainer) return;
-            const isCollapsed = DOMElements.pageContainer.classList.toggle('sidebar-collapsed');
-            if (DOMElements.sidebarToggleBtn) DOMElements.sidebarToggleBtn.textContent = isCollapsed ? '‹' : '›';
-        },
+        toggleSidebar: () => toggleSidebarDoor(),
         onSearch: event => navigator.filterContent(event.target.value),
+        applyFilter: () => applyCurrentFilter(navigator),
         switchView: view => navigator.switchView(view),
         closeModal: () => import('../modal.js').then(module => module.closeModal()),
         onModalSubmit: event => event.preventDefault()
@@ -34,6 +32,23 @@ export function manifestWorld(navigator, mountPoint = document.body) {
     const rootVessel = ScribeOfManifestation.speakElement(getFullLayoutBlueprint(actions));
     const target = mountPoint.querySelector('.main') || mountPoint;
     target.replaceChildren(rootVessel);
+}
+
+function toggleSidebarDoor() {
+    if (!DOMElements.pageContainer) return;
+    const isOpen = DOMElements.pageContainer.classList.toggle('sidebar-open');
+    DOMElements.pageContainer.classList.remove('sidebar-collapsed');
+    if (DOMElements.sidebarToggleBtn) {
+        DOMElements.sidebarToggleBtn.textContent = isOpen ? '×' : '☰';
+        DOMElements.sidebarToggleBtn.setAttribute('aria-expanded', String(isOpen));
+    }
+}
+
+function applyCurrentFilter(navigator) {
+    const value = DOMElements.searchInput?.value || '';
+    navigator.filterContent(value);
+    DOMElements.searchInput?.focus();
+    DOMElements.filterButton?.setAttribute('aria-pressed', value ? 'true' : 'false');
 }
 
 export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesId) {

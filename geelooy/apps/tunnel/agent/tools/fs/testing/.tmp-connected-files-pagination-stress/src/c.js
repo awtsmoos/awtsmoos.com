@@ -1,0 +1,1 @@
+import './a.js?cycle=1'; export const c=3;

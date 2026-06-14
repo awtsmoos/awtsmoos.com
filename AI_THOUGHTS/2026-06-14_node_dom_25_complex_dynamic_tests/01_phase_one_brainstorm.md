@@ -1,0 +1,3 @@
+B"H
+
+Phase one brainstorm: the user wants at least 25 more isolated complex node-dom tests, focused on dynamic DOM and unexpected edge cases. The tests should force the virtual DOM to prove it tracks living mutation, not just initial HTML parsing. Include append/prepend/replace/remove, classList, dataset, attributes, styles, events, delegated events, timers, microtasks, async modules, dynamic import, nested module imports, custom events, form values, select changes, fragments, template cloning, shadow DOM if supported, mutation-ish observation if supported, fetch from virtual files, local/session storage, history/location if supported, canvas/event side effects, and negative unexpected DOM queries.

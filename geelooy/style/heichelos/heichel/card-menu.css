@@ -1,3 +1,53 @@
-/* B"H Heichel card menu: obvious touch target. */
-.card-menu-trigger { border: 0; border-radius: .8rem; min-width: 2.4rem; min-height: 2.4rem; background: rgba(214,168,79,.18); font-weight: 950; }
-.card-menu-panel { border: 1px solid var(--heichel-line); border-radius: 1rem; background: #fff8eb; box-shadow: var(--awt-elevation-3); padding: .45rem; }
+/* B"H
+ * Chapter 11: The little three-dot spark learned restraint.
+ */
+.card-menu-spark {
+  position: relative;
+  align-self: start;
+  z-index: 3;
+}
+
+.card-menu-trigger {
+  border: 0;
+  border-radius: .8rem;
+  min-width: 2.4rem;
+  min-height: 2.4rem;
+  background: rgba(214,168,79,.2);
+  color: #231507;
+  font-weight: 950;
+}
+
+.card-menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + .35rem);
+  min-width: 10rem;
+  display: none;
+  border: 1px solid var(--heichel-line, rgba(122,82,31,.18));
+  border-radius: 1rem;
+  background: #fff8eb;
+  box-shadow: var(--awt-elevation-3, 0 1.2rem 2.8rem rgba(42,25,8,.28));
+  padding: .45rem;
+}
+
+.card-menu-spark.open .card-menu-panel {
+  display: grid;
+  gap: .2rem;
+}
+
+.card-menu-panel button,
+.card-menu-action {
+  border: 0;
+  border-radius: .75rem;
+  padding: .68rem .8rem;
+  background: transparent;
+  color: #231507;
+  text-align: left;
+  font: inherit;
+  font-weight: 850;
+}
+
+.card-menu-panel button:hover,
+.card-menu-action:hover {
+  background: rgba(214,168,79,.16);
+}

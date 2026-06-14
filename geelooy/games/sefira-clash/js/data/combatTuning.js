@@ -2,9 +2,8 @@
  * B"H
  * Data scroll for combat feel.
  *
- * Chapter 1: in the arena of sparks, the Awtsmoos speaks numbers into law.
- * These constants are small, readable vessels: no hidden magic, no heavy GPU
- * prayer, only fast browser math that lets every punch tell the truth.
+ * Chapter 98: the Awtsmoos speaks numbers into launch, stun, and mercy. Rapid
+ * punches are sparks that shove apart, not glue. Major blows leave a real daze.
  */
 export const COMBAT_TUNING = Object.freeze({
   combo: Object.freeze({
@@ -17,11 +16,14 @@ export const COMBAT_TUNING = Object.freeze({
     escapeDecayFrames: 42
   }),
   rapid: Object.freeze({
-    mobilityFrames: 18,
-    stunScale: 0.26,
-    stunCap: 13,
+    mobilityFrames: 24,
+    stunScale: 0.12,
+    stunCap: 3.5,
     minDamage: 1,
-    hitstop: 0
+    hitstop: 0,
+    pushMultiplier: 1.72,
+    escapeNudge: 1.55,
+    attackerFreedom: 0.16
   }),
   hitstop: Object.freeze({
     base: 2,
@@ -30,8 +32,11 @@ export const COMBAT_TUNING = Object.freeze({
   }),
   launch: Object.freeze({
     diStrength: 0.18,
-    rapidDiStrength: 0.28,
-    lowPercentBrake: 0.62,
+    rapidDiStrength: 0.38,
+    lowPercentBrake: 0.72,
+    chargedLowPercentMinForce: 8.4,
+    majorStunForce: 15,
+    majorStunBonus: 8,
     killDangerPercent: 120,
     wallDangerSpeed: 18
   }),

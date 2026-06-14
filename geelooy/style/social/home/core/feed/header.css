@@ -1,5 +1,41 @@
-/* B"H Home feed header: compact command crown. */
-.home-feed-header { display: grid; grid-template-columns: 2.8rem 1fr auto; align-items: center; gap: .75rem; padding: .35rem .25rem .8rem; }
-.home-feed-header button { width: 2.7rem; height: 2.7rem; border: 0; border-radius: 1rem; background: linear-gradient(145deg, #f5e7ce, #e5cfaa); color: #29190a; font-size: 1.2rem; font-weight: 950; box-shadow: var(--awt-elevation-1); }
-.home-feed-header strong { text-align: center; font-weight: 950; letter-spacing: -.025em; }
-.home-feed-header a { color: #503319; font-weight: 950; padding: .72rem .85rem; border-radius: .9rem; }
+/* B"H
+ * Chapter 17: The home crown turned fake buttons into real doors.
+ */
+.home-feed-header {
+  display: grid;
+  grid-template-columns: 2.8rem 1fr auto;
+  align-items: center;
+  gap: .75rem;
+  padding: .35rem .25rem .8rem;
+}
+
+.home-feed-header .home-menu-button,
+.home-feed-header button {
+  display: grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border: 0;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #f5e7ce, #e5cfaa);
+  color: #29190a;
+  font-size: 1.2rem;
+  font-weight: 950;
+  box-shadow: var(--awt-elevation-1);
+  text-decoration: none;
+  padding: 0;
+}
+
+.home-feed-header strong {
+  text-align: center;
+  font-weight: 950;
+  letter-spacing: -.025em;
+}
+
+.home-feed-header a:not(.home-menu-button) {
+  color: #503319;
+  font-weight: 950;
+  padding: .72rem .85rem;
+  border-radius: .9rem;
+  text-decoration: none;
+}

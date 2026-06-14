@@ -11,12 +11,7 @@ let history = [];
 
 /**
  * B"H
- * Chapter 370: Yesod Opened The Living Wires.
- *
- * This pane is the socket-vessel: BroadcastChannel for local realtime tabs,
- * polling for the tunnel action rivers, persistent history for page sleep, and
- * categorized streams so every agent saying, doing, spawning, failing, or
- * finishing can be watched after the user returns to the page.
+ * Chapter 414: The Live River Waited For A Tunnel Name.
  */
 export function live() {
   return h("section", { className: "pane awt-live-console", data: { pane: "live" } }, [
@@ -30,6 +25,7 @@ export function live() {
     h("article", { className: "panel stack" }, [h("h3", { text: "Raw stream frame" }), out("liveOut", "No live frame yet.")])
   ]);
 }
+
 export function mountLive(getTunnelName) {
   if (!$("startLiveBtn")) return;
   $("startLiveBtn").onclick = () => start(getTunnelName);
@@ -42,26 +38,44 @@ export function mountLive(getTunnelName) {
   document.addEventListener("visibilitychange", () => { if (!document.hidden) sample(getTunnelName, "visible"); });
   restore().then(() => { render(); start(getTunnelName); });
 }
+
 function streamSelect() { return h("label", {}, ["Stream", h("select", { id: "liveStreamFilter" }, STREAMS.map(value => h("option", { value, text: value }))) ]); }
 function limitInput() { return h("label", {}, ["History limit", h("input", { id: "liveLimit", type: "number", min: "20", value: "80" })]); }
 function button(id, text, className = "") { return h("button", { id, text, className }); }
+
 function start(getTunnelName) {
   stop();
   channel = "BroadcastChannel" in window ? new BroadcastChannel("awtsmoos:live-agent-traffic") : null;
   if (channel) channel.onmessage = event => addEvent({ stream: "sockets", title: "Peer tab frame", detail: event.data, source: "BroadcastChannel" });
-  setState("LIVE socket bridge running. Polling continues after pane changes; focus/visibility refreshes history.");
+  setState("LIVE socket bridge running. Polling waits until a tunnel name exists.");
   sample(getTunnelName, "start");
   timer = setInterval(() => sample(getTunnelName, "interval"), Number($("livePollMs")?.value || 2500));
 }
-function stop() { if (timer) clearInterval(timer); timer = null; if (channel) channel.close(); channel = null; setState("LIVE socket bridge stopped. Local history remains."); }
+
+function stop() {
+  if (timer) clearInterval(timer);
+  timer = null;
+  if (channel) channel.close();
+  channel = null;
+  setState("LIVE socket bridge stopped. Local history remains.");
+}
+
 async function sample(getTunnelName, reason = "sample") {
   const tunnelName = getTunnelName?.() || window.awtsGetTunnelName?.() || "";
+  if (!tunnelName) {
+    addEvent({ stream: "system", title: `Live sample skipped: ${reason}`, detail: { reason: "missing tunnelName" }, source: "local" });
+    await persist();
+    render();
+    return;
+  }
   addEvent({ stream: "sockets", title: `Live sample: ${reason}`, detail: { tunnelName }, source: "local" });
   const frames = await Promise.allSettled([agentFrame(tunnelName), taskFrame(tunnelName), actionFrame(tunnelName)]);
   frames.forEach(frame => frame.status === "fulfilled" ? frame.value.forEach(addEvent) : addEvent({ stream: "errors", title: "Live sample failed", detail: String(frame.reason), source: "live" }));
   channel?.postMessage({ at: Date.now(), reason, count: history.length });
-  await persist(); render();
+  await persist();
+  render();
 }
+
 async function agentFrame(tunnelName) {
   const got = await callFs(tunnelName, { action: "aiAgentList" });
   return [event("agents", "Agent council", got, `${(got.agents || []).filter(a => a.ready).length}/${(got.agents || []).length} ready`)];

@@ -1,4 +1,13 @@
-/* B"H reader style entry: imports only, small modules last. */
+/* B"H
+ * Chapter 22: The reader river dismisses optional conflicting crowns.
+ *
+ * The Awtsmoos does not need three kings over one selector. This active entry
+ * keeps the core reader, controls, settings, sidebar, overlays, responsive
+ * covenant, and the explicitly permitted legacy comment/action vessels. Beauty
+ * and legend experiments remain on disk, but they no longer fight the live post
+ * reader route.
+ */
+@import url("../../../style/heichelos/class-coverage/index.css");
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/comments.css");
 @import url("./ideal/reborn/comment-composer.css");
@@ -13,5 +22,3 @@
 @import url("./reader-sidebar/index.css");
 @import url("./reader-overlays/index.css");
 @import url("./reader-responsive/index.css");
-@import url("./reader-beauty/index.css");
-@import url("./reader-legend/index.css");

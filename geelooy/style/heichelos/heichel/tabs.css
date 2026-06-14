@@ -1,4 +1,40 @@
-/* B"H Heichel tabs: library sections. */
-.heichel-tabs { display: flex; gap: .45rem; flex-wrap: wrap; padding: .35rem; border-radius: 999px; background: rgba(77,49,17,.07); }
-.heichel-tabs button, .heichel-tab { border: 0; border-radius: 999px; padding: .72rem 1rem; background: transparent; color: var(--awt-ink-soft); font-weight: 950; }
-.heichel-tabs .active, .heichel-tab.active { background: #ead4ad; color: #2d1b0a; box-shadow: var(--awt-elevation-1); }
+/* B"H
+ * Chapter 7: Two gates ceased arguing over their names.
+ */
+.tab-gates,
+.heichel-tabs,
+.geelooy-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .45rem;
+  padding: .35rem;
+  border-radius: 999px;
+  background: rgba(77,49,17,.07);
+}
+
+.tab-gates button,
+.heichel-tabs button,
+.heichel-tab,
+.tab {
+  border: 0;
+  border-radius: 999px;
+  min-height: 3rem;
+  padding: .72rem 1rem;
+  background: transparent;
+  color: var(--awt-ink-soft, rgba(35,24,12,.72));
+  font: inherit;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.tab-gates .Active,
+.tab-gates .active,
+.heichel-tabs .active,
+.heichel-tab.active,
+.tab.Active,
+.tab.active {
+  background: linear-gradient(135deg, #fffdf8, #7d1b06);
+  color: #fff7eb;
+  box-shadow: var(--awt-elevation-1, 0 .8rem 1.8rem rgba(77,49,17,.16));
+}

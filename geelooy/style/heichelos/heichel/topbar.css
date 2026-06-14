@@ -1,3 +1,43 @@
-/* B"H Heichel topbar: stable command rail. */
-.heichel-mobile-topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .75rem clamp(.75rem, 3vw, 1.25rem); background: rgba(255,248,236,.86); backdrop-filter: blur(14px); border-bottom: 1px solid var(--heichel-line); }
-.topbar-icon { border: 0; border-radius: .9rem; min-width: 2.7rem; min-height: 2.7rem; background: #ead4ad; font-weight: 950; }
+/* B"H
+ * Chapter 3: The command rail lifted its face from the dust.
+ * Every icon is now a real vessel, not a browser-default shard.
+ */
+.heichel-mobile-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  padding: .72rem clamp(.75rem, 3vw, 1.25rem);
+  background: rgba(155, 213, 255, .9);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(28, 65, 95, .18);
+}
+
+.topbar-title {
+  display: grid;
+  justify-items: center;
+  line-height: 1.05;
+  color: #140f0a;
+}
+
+.topbar-title strong { font-size: clamp(1.05rem, 4vw, 1.45rem); }
+.topbar-title small { font-size: .78rem; font-weight: 700; }
+
+.topbar-icon {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(70, 44, 15, .16);
+  border-radius: 1.05rem;
+  min-width: 2.85rem;
+  min-height: 2.85rem;
+  background: linear-gradient(145deg, #f4dfb9, #e5c58b);
+  color: #1f1408;
+  font-weight: 950;
+  text-decoration: none;
+  box-shadow: .35rem .45rem 0 rgba(0,0,0,.2);
+}
+
+.topbar-icon:active { transform: translateY(1px); box-shadow: .2rem .28rem 0 rgba(0,0,0,.18); }

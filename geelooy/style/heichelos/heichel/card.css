@@ -1,4 +1,73 @@
-/* B"H Heichel card: artifact surface. */
-.heichel-card, .series-card { border: 1px solid var(--heichel-line); border-radius: var(--heichel-radius); padding: 1rem; background: var(--heichel-panel); box-shadow: var(--awt-elevation-1); transition: transform var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft); }
-.heichel-card:hover, .series-card:hover { transform: translateY(-2px); box-shadow: var(--awt-elevation-2); }
-.heichel-card h2, .series-card h2 { margin-block: .2rem .55rem; letter-spacing: -.035em; }
+/* B"H
+ * Chapter 9: The cards recovered their old names without losing their future.
+ */
+.nav-card,
+.heichel-card,
+.series-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(4.25rem, 30%) minmax(0, 1fr) auto;
+  gap: .85rem;
+  align-items: stretch;
+  border: 1px solid var(--heichel-line, rgba(122,82,31,.18));
+  border-radius: var(--heichel-radius, 1.25rem);
+  padding: .85rem;
+  background: var(--heichel-panel, linear-gradient(145deg, rgba(255,252,245,.96), rgba(242,229,205,.9)));
+  color: var(--awt-ink, #24160b);
+  box-shadow: var(--awt-elevation-1, 0 .8rem 1.8rem rgba(77,49,17,.16));
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.nav-card:hover,
+.heichel-card:hover,
+.series-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--awt-elevation-2, 0 1.1rem 2.5rem rgba(77,49,17,.22));
+}
+
+.nav-card.selected {
+  outline: 3px solid rgba(214,168,79,.65);
+}
+
+.nav-card-body {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: .35rem;
+}
+
+.nav-card-title-row {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: .6rem;
+}
+
+.nav-card h2,
+.heichel-card h2,
+.series-card h2 {
+  margin: 0;
+  color: #1f1710;
+  font-size: clamp(1.1rem, 4.2vw, 1.55rem);
+  letter-spacing: -.035em;
+  line-height: 1.05;
+}
+
+.nav-card p {
+  margin: 0;
+  color: var(--awt-ink-soft, rgba(35,24,12,.72));
+  line-height: 1.45;
+}
+
+.nav-card footer {
+  color: rgba(35,24,12,.58);
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.nav-card-chevron {
+  color: #8a4b00;
+  font-size: 1.45rem;
+  line-height: 1;
+}

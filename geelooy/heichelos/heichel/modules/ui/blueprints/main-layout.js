@@ -2,11 +2,11 @@
 /**
  * @module MobileHeichelNavigationLayout
  * @description
- * Chapter 300: The gate receives every missing vessel.
+ * Chapter 19: No visible button is permitted to be a painted silence.
  *
  * The Awtsmoos gives the navigation shell a topbar, hero, tabs, bottom path,
- * and a creation modal whose anatomy matches the modal nerve-center. No hidden
- * button is imagined. Every ref spoken here is real in the DOM.
+ * and modal. The Filter chip now has a ref and a click action, so the user's
+ * finger receives a real response rather than a decorative block.
  */
 
 export function getFullLayoutBlueprint(actions) {
@@ -28,7 +28,7 @@ export function getFullLayoutBlueprint(actions) {
 
 function topbar(actions) {
     return { tag: 'header', attr: { class: 'heichel-mobile-topbar' }, children: [
-        { tag: 'button', attr: { id: 'sidebar-toggle-btn', class: 'topbar-icon', type: 'button', 'aria-label': 'Open navigation' }, ref: 'sidebarToggleBtn', children: ['☰'], events: { click: actions.toggleSidebar } },
+        { tag: 'button', attr: { id: 'sidebar-toggle-btn', class: 'topbar-icon', type: 'button', 'aria-label': 'Open navigation', 'aria-expanded': 'false' }, ref: 'sidebarToggleBtn', children: ['☰'], events: { click: actions.toggleSidebar } },
         { tag: 'div', attr: { class: 'topbar-title' }, children: [{ tag: 'strong', children: ['Heichel'] }, { tag: 'small', children: ['Navigation'] }] },
         { tag: 'a', attr: { class: 'topbar-icon', href: '/notifications', 'aria-label': 'Notifications' }, children: ['◌'] }
     ] };
@@ -59,7 +59,7 @@ function contentPanel(actions) {
         ] },
         { tag: 'div', attr: { class: 'series-search-row' }, children: [
             { tag: 'input', attr: { type: 'search', placeholder: 'Search series and posts...', 'aria-label': 'Search series and posts' }, ref: 'searchInput', events: { input: actions.onSearch } },
-            { tag: 'button', attr: { type: 'button', class: 'filter-chip' }, children: ['Filter'] }
+            { tag: 'button', attr: { type: 'button', class: 'filter-chip', 'aria-pressed': 'false' }, ref: 'filterButton', children: ['Filter'], events: { click: actions.applyFilter } }
         ] },
         { tag: 'nav', attr: { class: 'tab-gates geelooy-tabs' }, children: [
             { tag: 'button', attr: { class: 'tab Active', type: 'button' }, ref: 'postsTab', children: ['Timeline'], events: { click: () => actions.switchView('posts') } },

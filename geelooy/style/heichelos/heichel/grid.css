@@ -1,2 +1,31 @@
-/* B"H Heichel grid: responsive library shelves. */
-.heichel-grid, .series-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: var(--heichel-gap); align-items: stretch; }
+/* B"H
+ * Chapter 8: The shelves widened and every artifact found a square of light.
+ */
+.dynamic-grid,
+.heichel-grid,
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--heichel-gap, clamp(.8rem, 2vw, 1.15rem));
+  align-items: stretch;
+}
+
+.grid-realms,
+.viewport {
+  min-width: 0;
+}
+
+.viewport {
+  display: grid;
+  gap: .8rem;
+}
+
+.sacred-loading,
+.empty-glow-msg {
+  border: 1px dashed rgba(122,82,31,.25);
+  border-radius: 1.2rem;
+  padding: 1rem;
+  background: rgba(255,255,255,.58);
+  color: var(--awt-ink-soft, rgba(35,24,12,.72));
+  font-weight: 800;
+}

@@ -20,12 +20,15 @@ return $a("/nav/page.html", {
         </nav>
       </aside>
       <section class="home-feed-phone beauty-reveal">
-        <header class="home-feed-header"><button type="button" aria-label="Menu">☰</button><strong>Geelooy</strong><a href="/profile">Profile</a></header>
-        <nav class="home-feed-tabs" aria-label="Feed tabs"><button class="active">For You</button><button>Following</button><button>Trending</button></nav>
+        <header class="home-feed-header"><a class="home-menu-button" href="/heichelos" aria-label="Open Heichelos">☰</a><strong>Geelooy</strong><a href="/profile">Profile</a></header>
+        <nav class="home-feed-tabs" aria-label="Feed tabs">
+          <button type="button" class="active" data-feed-mode="forYou">For You</button>
+          <button type="button" data-feed-mode="following">Following</button>
+          <button type="button" data-feed-mode="trending">Trending</button>
+        </nav>
         <article class="home-composer"><span></span><a href="/heichelos/submit">What's on your mind?</a></article>
-        <section class="home-feed-list" data-home-feed>
-          <article class="home-post-card"><div class="post-author"><span></span><strong>Awtsmoos Network</strong><small>now</small></div><p>Every sunrise is a new song from the Awtsmoos.</p><div class="post-image-glow"></div><footer>♡ 128 · 💬 24 · ↻ 12</footer></article>
-          <article class="home-post-card"><div class="post-author"><span></span><strong>Geelooy</strong><small>light</small></div><p>Build spaces, write posts, reply in comment chambers, and keep the reader experience focused.</p><footer>♡ 82 · 💬 16 · ↻ 7</footer></article>
+        <section class="home-feed-list" data-home-feed aria-live="polite">
+          <article class="home-post-card home-feed-loading"><p>Loading real posts from the live Awtsmoos network...</p></article>
         </section>
       </section>
       <aside class="home-discovery-card">
@@ -36,6 +39,7 @@ return $a("/nav/page.html", {
         <a href="/heichelos/submit">Share Light</a>
       </aside>
     </main>
+    <script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=legend-001"></script>
     <script type="module" src="/scripts/awtsmoos/social/home/beauty/index.js?v=legend-001"></script>
     <script type="module" src="/scripts/awtsmoos/social/home/legend/index.js?v=legend-001"></script>
     <script src="/register.js"></script>

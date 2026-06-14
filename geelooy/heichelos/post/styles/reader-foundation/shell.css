@@ -1,3 +1,10 @@
-/* B"H Reader shell: calm chamber for words. */
-.post-reader-localized-context { color: var(--reader-text); background: var(--reader-paper); min-height: 100dvh; }
-.awtsmoos-reader-vision { background-image: var(--awt-ambient-wash); }
+/* B"H
+ * Chapter 24: The shell owns the painted body through a precise vessel.
+ * Tokens hold variables; this shell holds the live page surface.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision {
+  color: var(--reader-text);
+  background: var(--reader-paper);
+  background-image: var(--awt-ambient-wash);
+  min-height: 100dvh;
+}

@@ -2,11 +2,11 @@
 /**
  * @file controls.js
  * @description
- * Chapter 43: the command is explicit, so the signs reverse.
- * W now performs the old S role, S performs the old W role. Q now performs the
- * old E role, E performs the old Q role. No philosophy, only obedience: the
- * Awtsmoos turns the compass by the user's word and records the covenant in the
- * copyable diagnostic scroll.
+ * Chapter 44: the mobile warrior walks where his face is turned.
+ * The Awtsmoos breathes direction back into the vessel: W/up/joystick-forward
+ * means forward, S/down means backward, Q/E stride left/right, and pointer UI
+ * may no longer freeze the soul after a villager speaks. Every click is guarded
+ * yet every step is released when the overlay moment passes.
  */
 import { diagThrottle, diagEvent } from "../../../utils/AwtsmoosDiagnostics.js?v=village-diagnostics-20260612-bh1";
 
@@ -19,39 +19,60 @@ const DISMOUNT_KEY = "KeyX";
 const MOVE_KEYS = ["forward", "backward", "turningLeft", "turningRight", "stridingLeft", "stridingRight", "jump"];
 let announced = false;
 
-function keyOn(olam, ...codes) { return codes.some(code => !!olam?.keyStates?.[code]); }
-function flag(inputs, key) { return inputs?.[key] === true; }
-function hardMovementFreeze(chossid) { return Boolean(chossid.__spikeDeathControlsFrozen || chossid.__spikeDefeated); }
-function inputMap(chossid) { return chossid.olam?.inputs || {}; }
-function activeMove(moving) { return MOVE_KEYS.filter(key => moving?.[key]); }
-function uiFrozen(olam) { return Boolean(olam?.showingImportantMessage || olam?.__awtsmoosUiPointerCaptureUntil > Date.now()); }
+const now = () => Date.now();
+const keyOn = (olam, ...codes) => codes.some(code => !!olam?.keyStates?.[code]);
+const flag = (inputs, key) => inputs?.[key] === true;
+const hardMovementFreeze = chossid => Boolean(chossid.__spikeDeathControlsFrozen || chossid.__spikeDefeated);
+const inputMap = chossid => chossid.olam?.inputs || {};
+const activeMove = moving => MOVE_KEYS.filter(key => moving?.[key]);
+
+function clearExpiredUiHold(olam) {
+  if (!olam) return;
+  const until = Number(olam.__awtsmoosUiPointerCaptureUntil || 0);
+  if (until && until < now()) {
+    olam.__awtsmoosUiPointerCaptureUntil = 0;
+    olam.__awtsmoosSuppressCameraUntil = 0;
+    if (olam.showingImportantMessage === true && !globalThis.document?.querySelector?.(".npc-challenge-overlay,.awtsmoos-modal,.dialogue-box")) olam.showingImportantMessage = false;
+  }
+}
+function uiFrozen(olam) {
+  clearExpiredUiHold(olam);
+  return Boolean(olam?.showingImportantMessage || Number(olam?.__awtsmoosUiPointerCaptureUntil || 0) > now());
+}
 function stopUiPointer(event) { event?.preventDefault?.(); event?.stopPropagation?.(); event?.stopImmediatePropagation?.(); }
-function markUiCapture(olam) { if (!olam) return; olam.__awtsmoosUiPointerCaptureUntil = Date.now() + 280; olam.__awtsmoosSuppressCameraUntil = Date.now() + 650; }
-function announceReversal() { if (announced) return; announced = true; diagEvent("controls-mapping", { W: "backward", S: "forward", Q: "strafeRight", E: "strafeLeft", A: "turnLeft", D: "turnRight" }); }
+function markUiCapture(olam, ms = 420) { if (!olam) return; olam.__awtsmoosUiPointerCaptureUntil = now() + ms; olam.__awtsmoosSuppressCameraUntil = now() + ms; }
+function announceControls() {
+  if (announced) return;
+  announced = true;
+  diagEvent("controls-mapping", { W: "forward", S: "backward", Q: "strafeLeft", E: "strafeRight", A: "turnLeft", D: "turnRight" });
+}
 function traceControls(chossid, stage) {
   const active = activeMove(chossid.moving);
   if (!active.length && stage === "controls-applied") return;
   diagThrottle("controls", { stage, active, keys: Object.keys(chossid.olam?.keyStates || {}).filter(k => chossid.olam.keyStates[k]), inputs: Object.keys(chossid.olam?.inputs || {}).filter(k => chossid.olam.inputs[k]), rotY: chossid.rotation?.y }, 500);
 }
+function applyNormalMovement(chossid, inputs) {
+  chossid.moving.running = flag(inputs, "RUNNING") || keyOn(chossid.olam, "ShiftLeft", "ShiftRight");
+  chossid.moving.forward = flag(inputs, "FORWARD") || keyOn(chossid.olam, "KeyW", "ArrowUp");
+  chossid.moving.backward = flag(inputs, "BACKWARD") || keyOn(chossid.olam, "KeyS", "ArrowDown");
+  chossid.moving.turningLeft = flag(inputs, "LEFT_ROTATE") || keyOn(chossid.olam, "KeyA", "ArrowLeft");
+  chossid.moving.turningRight = flag(inputs, "RIGHT_ROTATE") || keyOn(chossid.olam, "KeyD", "ArrowRight");
+  chossid.moving.stridingLeft = flag(inputs, "LEFT_STRIDE") || keyOn(chossid.olam, "KeyQ");
+  chossid.moving.stridingRight = flag(inputs, "RIGHT_STRIDE") || keyOn(chossid.olam, "KeyE");
+  chossid.moving.jump = flag(inputs, "JUMP") || keyOn(chossid.olam, "Space");
+  chossid.moving.down = flag(inputs, "DOWN") || keyOn(chossid.olam, "KeyX");
+  chossid.moving.up = flag(inputs, "UP");
+}
 
 export default {
   controls() {
-    announceReversal();
+    announceControls();
     this.resetMoving();
+    clearExpiredUiHold(this.olam);
     if (hardMovementFreeze(this)) { traceControls(this, "hard-freeze"); return; }
     if (this.isDriving && this.drivingVehicle) { if (this.olam.keyStates?.[DISMOUNT_KEY]) this.drivingVehicle.dismount?.(); return; }
     if (uiFrozen(this.olam)) { traceControls(this, "ui-freeze"); return; }
-    const inputs = inputMap(this);
-    this.moving.running = flag(inputs, "RUNNING") || keyOn(this.olam, "ShiftLeft", "ShiftRight");
-    this.moving.forward = flag(inputs, "BACKWARD") || keyOn(this.olam, "KeyS", "ArrowDown");
-    this.moving.backward = flag(inputs, "FORWARD") || keyOn(this.olam, "KeyW", "ArrowUp");
-    this.moving.turningLeft = flag(inputs, "LEFT_ROTATE") || keyOn(this.olam, "KeyA", "ArrowLeft");
-    this.moving.turningRight = flag(inputs, "RIGHT_ROTATE") || keyOn(this.olam, "KeyD", "ArrowRight");
-    this.moving.stridingLeft = flag(inputs, "RIGHT_STRIDE") || keyOn(this.olam, "KeyE");
-    this.moving.stridingRight = flag(inputs, "LEFT_STRIDE") || keyOn(this.olam, "KeyQ");
-    this.moving.jump = flag(inputs, "JUMP") || keyOn(this.olam, "Space");
-    this.moving.down = flag(inputs, "DOWN") || keyOn(this.olam, "KeyX");
-    this.moving.up = flag(inputs, "UP");
+    applyNormalMovement(this, inputMap(this));
     traceControls(this, "controls-applied");
     this.cameraControls();
   },
@@ -65,7 +86,7 @@ export default {
       if (event.button === 0) { const handled = this.handleClick?.(event); if (handled) { markUiCapture(olam); stopUiPointer(event); return; } this.shoot?.(); }
       if (event.button === 2) this.getRealActiveItemInstance?.();
     });
-    olam.on("keypressed", async event => { if (hardMovementFreeze(this)) return; this.ayshPeula("keypressed", event); this.dialogueControls(event); await this.handlePlatformerKey(event); });
+    olam.on("keypressed", async event => { if (hardMovementFreeze(this)) return; clearExpiredUiHold(olam); this.ayshPeula("keypressed", event); this.dialogueControls(event); await this.handlePlatformerKey(event); });
   },
   async handlePlatformerKey(event = {}) {
     if (uiFrozen(this.olam) && !["Escape", "Enter", "Digit1", "Digit2", "Digit3"].includes(event.code)) return;
@@ -84,7 +105,7 @@ export default {
     const activeItem = this.getActiveItem?.();
     if (activeItem?.isPainter) { this.isPaintingMode = !this.isPaintingMode; this.olam.ayshPeula("ui event", "effectsOverlay", { text: this.isPaintingMode ? "Painting Mode: ON" : "Painting Mode: OFF", color: this.isPaintingMode ? "#00ff00" : "#ff0000" }); return; }
     const target = this.interactingWith || this.approachedEntities?.[0];
-    if (target?.ayshPeula && target.ayshPeula("accepted interaction", this) !== false) { markUiCapture(this.olam); return; }
+    if (target?.ayshPeula && target.ayshPeula("accepted interaction", this) !== false) { markUiCapture(this.olam, 700); return; }
     this.shoot?.();
   },
   async selectFocusedThing() { if (this.selected) return void this.selectMenuOption?.(); if (this.interactingWith?.selectOption) return void await this.interactingWith.selectOption(); if (this.intersected) return void await this.selectIntersected?.(); },

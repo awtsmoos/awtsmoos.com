@@ -1,67 +1,104 @@
 /* B"H
- * Chapter 197: Every clickable vessel receives a living cursor.
- * The Awtsmoos makes buttons announce themselves before the click: pointer,
- * lift, glow, scale, and a clean pressed state. This is broad but scoped to the
- * reader, so the rest of the universe remains untouched.
+ * Chapter 30: Click polish without parser ghosts.
+ *
+ * The old broad :where list confused selector ownership audits by making naked
+ * `input` and `select` appear as shared rulers. This version keeps the same
+ * reader-scoped behavior with explicit selectors and no accidental bare names.
  */
 
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"], input[type="button"], input[type="submit"], input[type="range"], select, .awtsmoos-clickable, .menu-item, .comment-chip-action) {
+.post-reader-localized-context.awtsmoos-reader-vision button,
+.post-reader-localized-context.awtsmoos-reader-vision a[href],
+.post-reader-localized-context.awtsmoos-reader-vision summary,
+.post-reader-localized-context.awtsmoos-reader-vision [role="button"],
+.post-reader-localized-context.awtsmoos-reader-vision input[type="button"],
+.post-reader-localized-context.awtsmoos-reader-vision input[type="submit"],
+.post-reader-localized-context.awtsmoos-reader-vision input[type="range"],
+.post-reader-localized-context.awtsmoos-reader-vision select,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-clickable,
+.post-reader-localized-context.awtsmoos-reader-vision .menu-item,
+.post-reader-localized-context.awtsmoos-reader-vision .comment-chip-action {
     cursor: pointer !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"], .awtsmoos-clickable, .menu-item, .comment-chip-action) {
-    transition:
-        transform .16s cubic-bezier(.2,.9,.2,1),
-        box-shadow .16s ease,
-        filter .16s ease,
-        background .16s ease,
-        border-color .16s ease,
-        color .16s ease !important;
+.post-reader-localized-context.awtsmoos-reader-vision button,
+.post-reader-localized-context.awtsmoos-reader-vision a[href],
+.post-reader-localized-context.awtsmoos-reader-vision summary,
+.post-reader-localized-context.awtsmoos-reader-vision [role="button"],
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-clickable,
+.post-reader-localized-context.awtsmoos-reader-vision .menu-item,
+.post-reader-localized-context.awtsmoos-reader-vision .comment-chip-action {
+    transition: transform .16s cubic-bezier(.2,.9,.2,1), box-shadow .16s ease, filter .16s ease, background .16s ease, border-color .16s ease, color .16s ease !important;
     transform-origin: center !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"], .awtsmoos-clickable, .menu-item, .comment-chip-action):where(:hover, :focus-visible) {
+.post-reader-localized-context.awtsmoos-reader-vision button:where(:hover, :focus-visible),
+.post-reader-localized-context.awtsmoos-reader-vision a[href]:where(:hover, :focus-visible),
+.post-reader-localized-context.awtsmoos-reader-vision summary:where(:hover, :focus-visible),
+.post-reader-localized-context.awtsmoos-reader-vision [role="button"]:where(:hover, :focus-visible),
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-clickable:where(:hover, :focus-visible),
+.post-reader-localized-context.awtsmoos-reader-vision .menu-item:where(:hover, :focus-visible),
+.post-reader-localized-context.awtsmoos-reader-vision .comment-chip-action:where(:hover, :focus-visible) {
     transform: translateY(-2px) scale(1.035) !important;
     filter: saturate(1.12) brightness(1.06) !important;
     border-color: rgba(246,201,108,.55) !important;
-    box-shadow:
-        0 16px 38px rgba(0,0,0,.34),
-        0 0 0 1px rgba(246,201,108,.18),
-        0 0 24px rgba(34,211,238,.16) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.34), 0 0 0 1px rgba(246,201,108,.18), 0 0 24px rgba(34,211,238,.16) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"], .awtsmoos-clickable, .menu-item, .comment-chip-action):active {
+.post-reader-localized-context.awtsmoos-reader-vision button:active,
+.post-reader-localized-context.awtsmoos-reader-vision a[href]:active,
+.post-reader-localized-context.awtsmoos-reader-vision summary:active,
+.post-reader-localized-context.awtsmoos-reader-vision [role="button"]:active,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-clickable:active,
+.post-reader-localized-context.awtsmoos-reader-vision .menu-item:active,
+.post-reader-localized-context.awtsmoos-reader-vision .comment-chip-action:active {
     transform: translateY(1px) scale(.985) !important;
     filter: brightness(.96) !important;
     box-shadow: inset 0 2px 10px rgba(0,0,0,.28) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"]):focus-visible {
+.post-reader-localized-context.awtsmoos-reader-vision button:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision a[href]:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision summary:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision [role="button"]:focus-visible {
     outline: 2px solid rgba(34,211,238,.72) !important;
     outline-offset: 3px !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, input, select, textarea):disabled,
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, input, select, textarea)[aria-disabled="true"] {
+.post-reader-localized-context.awtsmoos-reader-vision button:disabled,
+.post-reader-localized-context.awtsmoos-reader-vision input:disabled,
+.post-reader-localized-context.awtsmoos-reader-vision select:disabled,
+.post-reader-localized-context.awtsmoos-reader-vision textarea:disabled,
+.post-reader-localized-context.awtsmoos-reader-vision button[aria-disabled="true"],
+.post-reader-localized-context.awtsmoos-reader-vision input[aria-disabled="true"],
+.post-reader-localized-context.awtsmoos-reader-vision select[aria-disabled="true"],
+.post-reader-localized-context.awtsmoos-reader-vision textarea[aria-disabled="true"] {
     cursor: not-allowed !important;
     opacity: .55 !important;
     filter: grayscale(.25) !important;
     transform: none !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"]):has(svg),
-.post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"]):has(.awtsmoos-detail-svg) {
+.post-reader-localized-context.awtsmoos-reader-vision button:has(svg),
+.post-reader-localized-context.awtsmoos-reader-vision a[href]:has(svg),
+.post-reader-localized-context.awtsmoos-reader-vision summary:has(svg),
+.post-reader-localized-context.awtsmoos-reader-vision [role="button"]:has(svg),
+.post-reader-localized-context.awtsmoos-reader-vision button:has(.awtsmoos-detail-svg),
+.post-reader-localized-context.awtsmoos-reader-vision a[href]:has(.awtsmoos-detail-svg),
+.post-reader-localized-context.awtsmoos-reader-vision summary:has(.awtsmoos-detail-svg),
+.post-reader-localized-context.awtsmoos-reader-vision [role="button"]:has(.awtsmoos-detail-svg) {
     will-change: transform !important;
 }
 
 @media (hover: none) {
-    .post-reader-localized-context.awtsmoos-reader-vision :where(button, a[href], summary, [role="button"], .awtsmoos-clickable, .menu-item, .comment-chip-action):where(:hover, :focus-visible) {
+    .post-reader-localized-context.awtsmoos-reader-vision button:where(:hover, :focus-visible),
+    .post-reader-localized-context.awtsmoos-reader-vision a[href]:where(:hover, :focus-visible),
+    .post-reader-localized-context.awtsmoos-reader-vision summary:where(:hover, :focus-visible),
+    .post-reader-localized-context.awtsmoos-reader-vision [role="button"]:where(:hover, :focus-visible),
+    .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-clickable:where(:hover, :focus-visible),
+    .post-reader-localized-context.awtsmoos-reader-vision .menu-item:where(:hover, :focus-visible),
+    .post-reader-localized-context.awtsmoos-reader-vision .comment-chip-action:where(:hover, :focus-visible) {
         transform: none !important;
     }
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
+
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-clickable { min-height: var(--awt-polish-touch-size, 44px); }

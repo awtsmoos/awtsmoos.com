@@ -1,23 +1,29 @@
 /**
  * B"H
- * Hyper-real limb renderer orchestrator.
+ * Soft humanoid limb renderer.
  *
- * The limbs are lightning, echo, contact, bridge, and bone. The Awtsmoos renews
- * every line from nothing; this renderer only reveals motion, never changes it.
+ * Chapter 118: no more neon skeleton shouting over the body. Limbs become soft
+ * rounded strokes behind the torso, readable but not ruling the silhouette.
  */
 import { drawSkeletonLayer } from './drawSkeletonLayer.js';
 import { drawHandsFeet } from './drawHandsFeet.js';
-import { drawLimbGhosts } from './drawLimbGhosts.js';
 import { drawJointBridges } from './drawJointBridges.js';
 import { drawMotionEcho } from './drawMotionEcho.js';
 
-export function drawLimbs(ctx, f, color, language) {
+function width(language) {
+  return language?.behindBody ? 10 : 8;
+}
+
+export function drawLimbs(ctx, f, color, language = {}) {
+  const w = width(language);
+  ctx.save();
   ctx.lineCap = 'round';
-  drawMotionEcho(ctx, f, color);
-  drawLimbGhosts(ctx, f, color, language);
-  drawSkeletonLayer(ctx, f, 'rgba(0,0,0,.92)', 14);
-  drawSkeletonLayer(ctx, f, color, language.limbThickness || 7);
-  drawJointBridges(ctx, f, color);
+  ctx.lineJoin = 'round';
+  if (!language.behindBody) drawMotionEcho(ctx, f, color);
+  drawSkeletonLayer(ctx, f, 'rgba(0,0,0,.62)', w + 5);
+  drawSkeletonLayer(ctx, f, color, w);
+  if (!language.behindBody) drawJointBridges(ctx, f, color);
+  ctx.restore();
 }
 
 export { drawHandsFeet };

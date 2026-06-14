@@ -1,3 +1,38 @@
-/* B"H Heichel shell: library courtyard. */
-.heichel-mobile-navigation { color: var(--awt-ink); background: var(--heichel-bg); min-height: 100dvh; padding-bottom: var(--floating-clearance, 5rem); }
-.heichel-main-stage { width: min(74rem, calc(100vw - clamp(1rem, 4vw, 3rem))); margin: 0 auto; display: grid; gap: var(--heichel-gap); }
+/* B"H
+ * Chapter 1: The courtyard stopped pretending it was mist.
+ * The Awtsmoos gives the Heichel shell one ground, one breath, and one
+ * protected bottom clearing so fixed navigation never eats the final card.
+ */
+.heichel-mobile-navigation {
+  color: var(--awt-ink, #24160b);
+  background: var(--heichel-bg, linear-gradient(180deg, #fff8ec, #f1e0c3));
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: clip;
+  padding-bottom: max(var(--floating-clearance, 5.5rem), calc(env(safe-area-inset-bottom) + 5.5rem));
+  font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+}
+
+.geelooy-main-stage,
+.heichel-main-stage {
+  width: min(74rem, calc(100vw - clamp(1rem, 4vw, 3rem)));
+  margin: 0 auto;
+  display: grid;
+  gap: var(--heichel-gap, clamp(.8rem, 2vw, 1.15rem));
+  padding-block: clamp(.7rem, 2vw, 1.3rem) 1rem;
+}
+
+.heichel-nav-panel {
+  display: grid;
+  gap: clamp(.8rem, 2vw, 1.1rem);
+  border: 1px solid var(--heichel-line, rgba(122,82,31,.18));
+  border-radius: clamp(1.2rem, 4vw, 2rem);
+  padding: clamp(.9rem, 3vw, 1.25rem);
+  background: var(--heichel-panel, rgba(255,252,245,.92));
+  box-shadow: var(--awt-elevation-1, 0 .8rem 2rem rgba(77,49,17,.14));
+}
+
+.hidden,
+.hidden-void {
+  display: none !important;
+}

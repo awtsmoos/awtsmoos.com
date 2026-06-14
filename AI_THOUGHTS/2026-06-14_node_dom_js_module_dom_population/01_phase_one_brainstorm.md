@@ -1,0 +1,3 @@
+B"H
+
+Phase one brainstorm: the user is right to push deeper. A node-dom runtime that only parses HTML and misses JS module DOM mutations is not enough. Need test with obvious module-populated DOM. Need compare inline module, external module via files, and URL-collected modules from localhost. Need inspect htmlPlan/moduleRunner/publicFetch/publicPath/importMap and why localhost tunnel-control title/body class values were empty. Maybe returnValues are evaluated before scripts, module fetch not loaded, script collection skipped type=module, or VirtualDocument title/body class APIs do not mirror DOM snapshot.

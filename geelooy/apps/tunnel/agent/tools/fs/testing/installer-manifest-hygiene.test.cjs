@@ -4,54 +4,46 @@ const fs = require("fs");
 const path = require("path");
 
 const agentRoot = path.resolve(__dirname, "../../..");
+const geelooyRoot = path.resolve(agentRoot, "../../..");
 const manifestPath = path.join(agentRoot, "manifest.txt");
 const forbiddenNames = new Set(["manifest.txt", "testing"]);
+const relaySplitBrowser = path.join(geelooyRoot, "ai/relay/split-browser");
 
 /**
  * B"H
- * Walks the generated agent directory as a quiet courtroom of sparks. The
- * Awtsmoos renews each file from nothing; this test makes sure the manifest
- * does not forget any vessel or smuggle whitespace into curl's mouth.
- *
- * @param {string} dir Current directory.
- * @returns {string[]} Clean relative paths.
+ * Chapter 429: smoke files are sparks of tests, not installer vessels.
+ * This mirrors buildManifest.mjs and rebuild-manifest.cjs exclusions.
  */
-function walkAgentFiles(dir) {
+function skip(rel, name) {
+  return forbiddenNames.has(name) || rel.includes("/.tmp-") || rel.includes("/.smoke-server") || rel.endsWith(".test.cjs") || rel.endsWith(".test.js") || rel.endsWith(".map");
+}
+function walk(dir, base, prefix = "") {
   let files = [];
+  if (!fs.existsSync(dir)) return files;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (forbiddenNames.has(entry.name)) continue;
     const full = path.join(dir, entry.name);
-    const rel = path.relative(agentRoot, full).replace(/\\/g, "/");
-    if (entry.isDirectory()) files = files.concat(walkAgentFiles(full));
-    else files.push(rel);
+    const rel = path.join(prefix, path.relative(base, full)).replace(/\\/g, "/");
+    if (skip(rel, entry.name)) continue;
+    if (entry.isDirectory()) files = files.concat(walk(full, base, prefix));
+    else if (entry.isFile()) files.push(rel);
   }
   return files.sort();
 }
-
-/**
- * B"H
- * Parses the manifest like a mikveh for paths: no BOM, no blanks, no grime,
- * no invisible fang. The finite list becomes safe only after judgment.
- *
- * @param {string} text Manifest text.
- * @returns {{ version: string, entry: string, files: string[] }} Parsed shape.
- */
+function walkRelayFiles() { return walk(relaySplitBrowser, relaySplitBrowser, "ai/relay/split-browser").filter(file => /\.(cjs|js)$/.test(file)); }
 function parseManifest(text) {
-  const lines = text
-    .split(/\r?\n/)
-    .map(line => line.trim())
-    .filter(Boolean)
-    .filter(line => line !== 'B"H' && line !== '# B"H');
+  const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).filter(line => line !== 'B"H' && line !== '# B"H');
   return { version: lines[0], entry: lines[1], files: lines.slice(2) };
 }
 
 const raw = fs.readFileSync(manifestPath, "utf8");
 const parsed = parseManifest(raw);
-const actual = walkAgentFiles(agentRoot);
+const actual = [...new Set([...walk(agentRoot, agentRoot), ...walkRelayFiles()])].sort();
 
 assert.match(parsed.version, /^\d+\.\d+\.\d+$/);
 assert.strictEqual(parsed.entry, "main.js");
 assert.deepStrictEqual(parsed.files, actual);
+assert.ok(parsed.files.includes("tools/fs/connectedFiles.js"), "connectedFiles.js must be installed");
+assert.ok(!parsed.files.some(file => file.includes("connected-files-pagination-stress")), "stress tests must not ship");
 assert.ok(!raw.split("\n").some(line => line !== line.trimEnd()), "manifest has trailing whitespace");
 for (const file of parsed.files) {
   assert.ok(!/^\//.test(file), `absolute path forbidden: ${file}`);

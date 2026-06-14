@@ -1,0 +1,1 @@
+import './c.js#frag'; export const a=1;

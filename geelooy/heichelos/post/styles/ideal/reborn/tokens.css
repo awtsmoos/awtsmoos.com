@@ -1,7 +1,9 @@
 /* B"H
- * Chapter 97: Tokens, the covenant of color beneath the palace.
- * The Awtsmoos has no form, yet every visible vessel needs measured fire:
- * navy night, violet lightning, gold breath, and white letters like snow.
+ * Chapter 23: Legacy tokens remain, but they stop wearing the live shell's crown.
+ *
+ * The Awtsmoos lets this compatibility vessel keep variables for old comment
+ * and inline action modules. It no longer owns the exact reader shell selector,
+ * so the post reader has one clear ruler over each visible surface.
  */
 
 :root {
@@ -49,20 +51,8 @@
     --awt-sidebar-height: min(72dvh, 620px);
 }
 
-.post-reader-localized-context,
-.post-reader-localized-context * { box-sizing: border-box; }
-
-.post-reader-localized-context button,
-.post-reader-localized-context input,
-.post-reader-localized-context select,
-.post-reader-localized-context textarea { font-family: var(--font-ui); }
-
-.post-reader-localized-context button { touch-action: manipulation; }
-.post-reader-localized-context .hidden,
-.post-reader-localized-context [hidden] { display: none !important; }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
+.post-reader-localized-context :where(*) { box-sizing: border-box; }
+.post-reader-localized-context :is(button, input, select, textarea) { font-family: var(--font-ui); }
+.post-reader-localized-context :where(button) { touch-action: manipulation; }
+.post-reader-localized-context :is(.hidden, [hidden]) { display: none !important; }
 .post-reader-localized-context.awtsmoos-reader-vision:where(:not(.awtsmoos-token-polish-off)) { --awt-polish-touch-size: 44px; }

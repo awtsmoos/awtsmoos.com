@@ -1,2 +1,8 @@
-/* B"H Reader desktop. */
-@media (min-width: 980px) { .awtsmoos-reader-content { padding-bottom: 8rem; } }
+/* B"H
+ * Chapter 37: Desktop breathing keeps its own no-conflict seal.
+ */
+@media (min-width: 980px) {
+  .post-reader-localized-context:is(.awtsmoos-reader-vision) .awtsmoos-reader-content:where(:not(.reader-desktop-measure-off)) {
+    padding-bottom: 8rem;
+  }
+}

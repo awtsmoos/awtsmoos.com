@@ -1,80 +1,115 @@
 // B"H
 const fs = require("fs/promises");
 const path = require("path");
-const { safePath, rel } = require("./pathGuard.js");
+const { safePath, rel, assertNotSecret } = require("./pathGuard.js");
 const { symbols } = require("./symbolOutline.js");
 const { readBulk } = require("./bulkRead.js");
 const { refsForConnectedText } = require("./connectedRefs.js");
 const { pageState, describePage, nextPagePayload, parseLimit } = require("./bulkPage.js");
+const { BIN, SKIP } = require("./constants.js");
 
 /**
  * B"H
- * Chapter 359: Connected Files Became A Living Constellation.
- * JS imports, HTML-delivered scripts, stylesheet @imports, link hrefs, import
- * maps, inline module bodies, and fetch roads are gathered into one graph. Then
- * only one generous page is read, so the next command can keep traveling.
+ * @file connectedFiles.js
+ * @description
+ * Chapter 426: the old graph shape remains while the page learns restraint.
+ * Directory seeds, query-string refs, unresolved imports, content budgets, and
+ * legacy collectConnectedGraph().files all stand together without overflow.
  */
-
-function slash(value) {
-  return String(value || "").replace(/\\/g, "/");
+const SOURCE_EXT = new Set([".js", ".mjs", ".cjs", ".jsx", ".ts", ".tsx", ".html", ".htm", ".css", ".json"]);
+function slash(value) { return String(value || "").replace(/\\/g, "/"); }
+function cleanRef(value) { return slash(value).split("#")[0].split("?")[0]; }
+function positiveInt(value, fallback) { const n = Number(value); return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback; }
+async function statOrNull(abs) { try { return await fs.stat(abs); } catch (_) { return null; } }
+async function fileExists(abs) { const st = await statOrNull(abs); return !!st?.isFile(); }
+function readableSource(full) { const ext = path.extname(cleanRef(full)).toLowerCase(); return SOURCE_EXT.has(ext) && !BIN.has(ext); }
+async function safeReadDir(abs) { try { return await fs.readdir(abs, { withFileTypes: true }); } catch (_) { return []; } }
+async function walkSeeds(config, dir, payload, out = [], root = dir) {
+  const maxDepth = positiveInt(payload.seedDepth ?? payload.maxDepth ?? payload.depth, 4);
+  const maxSeeds = positiveInt(payload.maxSeedFiles ?? payload.scanMaxFiles ?? payload.maxGraphFiles, 1000);
+  const depth = path.relative(root, dir).split(path.sep).filter(Boolean).length;
+  if (depth > maxDepth || out.length >= maxSeeds) return out;
+  for (const ent of await safeReadDir(dir)) {
+    if (out.length >= maxSeeds || SKIP.has(ent.name)) continue;
+    const full = path.join(dir, ent.name);
+    if (ent.isDirectory()) await walkSeeds(config, full, payload, out, root);
+    else if (ent.isFile() && readableSource(full)) { try { assertNotSecret(config, full); out.push(full); } catch (_) {} }
+  }
+  return out.sort((a, b) => slash(a).localeCompare(slash(b)));
 }
-
-async function fileExists(abs) {
-  try { return (await fs.stat(abs)).isFile(); } catch (_) { return false; }
+async function entrySeeds(config, payload) {
+  const entry = safePath(config, payload.path || payload.p || ".");
+  const st = await statOrNull(entry);
+  if (!st) return { entry, seeds: [], entryKind: "missing" };
+  if (st.isDirectory()) return { entry, seeds: await walkSeeds(config, entry, payload), entryKind: "directory" };
+  return { entry, seeds: st.isFile() ? [entry] : [], entryKind: st.isFile() ? "file" : "other" };
 }
-
 async function resolveExisting(config, refPath) {
-  for (const candidate of [refPath, refPath + ".js", refPath + ".mjs", refPath + ".cjs", refPath + ".json", refPath + "/index.js"]) {
+  const clean = cleanRef(refPath);
+  for (const candidate of [clean, clean + ".js", clean + ".mjs", clean + ".cjs", clean + ".json", clean + "/index.js"]) {
     const abs = safePath(config, candidate);
     if (await fileExists(abs)) return abs;
   }
   return null;
 }
-
-function fileRecord(config, abs, depth, text, mode, refInfo) {
-  const filePath = rel(config, abs);
-  return { path: filePath, depth, bytes: Buffer.byteLength(text), refs: refInfo.refs, refSources: refInfo.sources, merkava: refInfo.merkava, symbols: mode === "outline" ? symbols(text) : undefined, content: mode === "graph" ? undefined : text };
+function contentFor(text, mode, budget) {
+  if (mode === "graph") return { content: undefined, returnedChars: 0, truncated: false };
+  const cap = Math.max(0, budget);
+  const truncated = text.length > cap;
+  return { content: truncated ? text.slice(0, cap) : text, returnedChars: Math.min(text.length, cap), truncated };
 }
-
+function recordFromNode(config, node, mode = "full", budget = Infinity) {
+  const got = contentFor(node.text, mode, budget);
+  const rec = { path: rel(config, node.abs), depth: node.depth, bytes: Buffer.byteLength(node.text), returnedChars: got.returnedChars, truncated: got.truncated, refs: node.refInfo.refs, refSources: node.refInfo.sources, merkava: node.refInfo.merkava, symbols: mode === "outline" ? symbols(node.text) : undefined };
+  if (mode !== "graph") rec.content = got.content;
+  return rec;
+}
 async function collectConnectedGraph(config, payload) {
-  const entry = safePath(config, payload.path || payload.p || ".");
-  const maxDepth = Number(payload.depth || payload.maxDepth || 4);
-  const maxGraphFiles = Number(payload.maxGraphFiles || payload.scanMaxFiles || 1000);
+  const seedInfo = await entrySeeds(config, payload);
+  const maxDepth = positiveInt(payload.depth || payload.maxDepth, 4);
+  const maxGraphFiles = positiveInt(payload.maxGraphFiles || payload.scanMaxFiles, 1000);
   const mode = payload.mode || "full";
-  const queue = [{ abs: entry, depth: 0 }], seen = new Set(), files = [], edges = [];
-  while (queue.length && files.length < maxGraphFiles) {
+  const queue = seedInfo.seeds.map(abs => ({ abs, depth: 0 }));
+  const seen = new Set(), nodes = [], edges = [], unresolved = [];
+  while (queue.length && nodes.length < maxGraphFiles) {
     const { abs, depth } = queue.shift();
     if (seen.has(abs) || depth > maxDepth || !(await fileExists(abs))) continue;
-    seen.add(abs);
+    seen.add(abs); assertNotSecret(config, abs);
     const text = await fs.readFile(abs, "utf8");
     const from = rel(config, abs);
     const refInfo = await refsForConnectedText(text, slash(from));
-    files.push(fileRecord(config, abs, depth, text, mode, refInfo));
-    for (const refPath of refInfo.refs) {
-      const next = await resolveExisting(config, refPath);
-      if (!next) continue;
-      edges.push({ from, to: rel(config, next), depth: depth + 1 });
-      if (!seen.has(next)) queue.push({ abs: next, depth: depth + 1 });
+    nodes.push({ abs, depth, text, refInfo });
+    for (const spec of refInfo.refs) {
+      const next = await resolveExisting(config, spec);
+      const edge = { from, spec, to: next ? rel(config, next) : null, depth: depth + 1 };
+      edges.push(edge);
+      if (next && !seen.has(next)) queue.push({ abs: next, depth: depth + 1 });
+      if (!next) unresolved.push(edge);
     }
   }
-  return { entry: rel(config, entry), mode, maxDepth, files, edges, truncatedGraph: queue.length > 0 };
+  const files = nodes.map(node => recordFromNode(config, node, mode, Infinity));
+  return { entry: rel(config, seedInfo.entry), entryKind: seedInfo.entryKind, mode, maxDepth, seedCount: seedInfo.seeds.length, nodes, files, edges, unresolved, truncatedGraph: queue.length > 0 };
 }
-
-function pageGraph(graph, payload) {
-  const state = pageState(payload, graph.files.length);
-  const pageFiles = graph.files.slice(state.cursor, state.end);
-  const paths = pageFiles.map(file => file.path);
-  return { state, pageFiles, paths };
-}
-
+function pageGraph(graph, payload) { const state = pageState(payload, graph.nodes.length); return { state, pageNodes: graph.nodes.slice(state.cursor, state.end) }; }
+function edgePage(graph, paths) { const set = new Set(paths); return graph.edges.filter(edge => set.has(edge.from) || (edge.to && set.has(edge.to))); }
 async function connectedFiles(config, payload) {
   const graph = await collectConnectedGraph(config, payload);
   const page = pageGraph(graph, payload);
-  if (payload.readAsBulk || payload.bulk || payload.mode === "bulk") {
-    return await readBulk(config, { ...payload, action: "bulk", paths: page.paths, p: "", page: 1, cursor: 0, maxFiles: page.paths.length || 1 });
+  if (payload.readAsBulk || payload.bulk || payload.mode === "bulk") return await readBulk(config, { ...payload, action: "bulk", paths: page.pageNodes.map(node => rel(config, node.abs)), p: "", page: 1, cursor: 0, maxFiles: page.pageNodes.length || 1 });
+  const totalBudget = parseLimit(payload.totalMaxBytes ?? payload.totalMaxChars, 24000);
+  const perFileBudget = parseLimit(payload.maxChars, 12000);
+  const files = []; let usedChars = 0;
+  for (const node of page.pageNodes) {
+    const remaining = totalBudget === Infinity ? Infinity : Math.max(0, totalBudget - usedChars);
+    const rec = recordFromNode(config, node, graph.mode, Math.min(perFileBudget, remaining));
+    usedChars += rec.returnedChars || 0; files.push(rec);
+    if (totalBudget !== Infinity && usedChars >= totalBudget) break;
   }
-  const limits = { maxFiles: page.state.pageSize, maxChars: parseLimit(payload.maxChars, 12000), maxBytes: parseLimit(payload.maxBytes, 24000), totalMaxBytes: parseLimit(payload.totalMaxBytes ?? payload.totalMaxChars, Infinity), maxDepth: graph.maxDepth };
-  return { ok: true, action: "connectedFiles", entry: graph.entry, mode: graph.mode, count: graph.files.length, returnedCount: page.pageFiles.length, page: page.state.page, cursor: page.state.cursor, nextCursor: page.state.nextCursor, pageSize: page.state.pageSize, partial: page.state.hasNext || graph.truncatedGraph, message: describePage("connected files read", page.state, limits), nextPagePayload: nextPagePayload(payload, "connectedFiles", page.state), edges: graph.edges, files: page.pageFiles };
+  const budgetStopped = files.length < page.pageNodes.length;
+  const nextCursor = page.state.cursor + files.length < graph.nodes.length ? page.state.cursor + files.length : null;
+  const liveState = { ...page.state, end: page.state.cursor + files.length, hasNext: page.state.hasNext || budgetStopped || graph.truncatedGraph, nextCursor };
+  const limits = { maxFiles: page.state.pageSize, maxChars: perFileBudget, maxBytes: parseLimit(payload.maxBytes, 24000), totalMaxBytes: totalBudget, maxDepth: graph.maxDepth };
+  const returnedPaths = files.map(file => file.path);
+  return { ok: true, action: "connectedFiles", entry: graph.entry, entryKind: graph.entryKind, mode: graph.mode, seedCount: graph.seedCount, count: graph.nodes.length, totalEdgeCount: graph.edges.length, unresolvedCount: graph.unresolved.length, returnedCount: files.length, usedChars, page: liveState.page, cursor: liveState.cursor, nextCursor: liveState.nextCursor, pageSize: liveState.pageSize, partial: liveState.hasNext, truncatedGraph: graph.truncatedGraph, stoppedBecause: budgetStopped ? "totalMaxChars_budget" : graph.truncatedGraph ? "maxGraphFiles_or_depth" : liveState.hasNext ? "page_has_more_files" : null, message: describePage("connected files read", liveState, limits), nextPagePayload: nextPagePayload(payload, "connectedFiles", liveState), edges: edgePage(graph, returnedPaths), unresolved: graph.unresolved.slice(0, 50), files };
 }
-
-module.exports = { connectedFiles, collectConnectedGraph, resolveExisting };
+module.exports = { connectedFiles, collectConnectedGraph, resolveExisting, entrySeeds, cleanRef };

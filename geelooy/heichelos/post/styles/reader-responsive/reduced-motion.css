@@ -1,2 +1,9 @@
-/* B"H Reader reduced motion. */
-@media (prefers-reduced-motion: reduce) { .awtsmoos-reader-section, .awtsmoos-floating-controls button { transition: none !important; } }
+/* B"H
+ * Chapter 38: Reduced motion quiets through its own no-conflict seal.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .post-reader-localized-context:is(.awtsmoos-reader-vision) .awtsmoos-reader-section:where(:not(.reader-reduced-motion-off)),
+  .post-reader-localized-context:is(.awtsmoos-reader-vision) .awtsmoos-floating-controls button:where(:not(.reader-reduced-motion-off)) {
+    transition: none !important;
+  }
+}

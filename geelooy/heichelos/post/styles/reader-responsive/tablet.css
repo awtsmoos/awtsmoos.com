@@ -1,2 +1,8 @@
-/* B"H Reader tablet. */
-@media (max-width: 900px) { .awtsmoos-reader-content { width: min(68ch, calc(100vw - 2rem)); } }
+/* B"H
+ * Chapter 36: Tablet measure keeps its own no-conflict seal.
+ */
+@media (max-width: 900px) {
+  .post-reader-localized-context:is(.awtsmoos-reader-vision) .awtsmoos-reader-content:where(:not(.reader-tablet-measure-off)) {
+    width: min(68ch, calc(100vw - 2rem));
+  }
+}

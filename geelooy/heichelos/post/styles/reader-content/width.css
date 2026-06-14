@@ -1,2 +1,9 @@
-/* B"H Reader width: measure for breathing. */
-.awtsmoos-reader-content { width: min(74ch, calc(100vw - clamp(1rem, 7vw, 7rem))); margin-inline: auto; }
+/* B"H
+ * Chapter 25: Width speaks with contextual precision.
+ * Typography may own the plain content class; width anchors it inside the
+ * post-reader vessel so the selector map has no double throne.
+ */
+.post-reader-localized-context .awtsmoos-reader-content {
+  width: min(74ch, calc(100vw - clamp(1rem, 7vw, 7rem)));
+  margin-inline: auto;
+}

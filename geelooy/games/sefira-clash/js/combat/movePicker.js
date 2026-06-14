@@ -6,17 +6,16 @@ import { rapidMove, rapidOptions } from './rapidAttack.js';
 
 /**
  * B"H
- * Move picker with rapid override semantics.
+ * Move picker with clean rapid and charge separation.
  *
- * Chapter 36: a rapid request becomes a real move even when the old punch has
- * not finished its prayer. The flurry is weak, quick, and allowed to interrupt
- * recovery so the hand may drum without waiting for the previous spark to die.
+ * Chapter 109: rapid is never charged thunder. Charge is only chosen on release
+ * after a held vow; rapid is a separate spark and consumes no stored power.
  */
 export function pickMove(f, intent) {
   const aim = normalizedAttackAim(f, intent);
   if (intent.wantsGrab) return picked('grab', { aim, grabKind: 'grab' });
-  if (intent.wantsSpecial) return picked('special', { aim, charge: chargeFramesFor(f, 'punch') / 85, angle: directionAngle(ATTACKS.special.angle, { ...intent, aim }, 'special') });
-  const rapid = pickRapid(f, intent, aim);
+  if (intent.wantsSpecial) return picked('special', { aim, charge: 0, angle: directionAngle(ATTACKS.special.angle, { ...intent, aim }, 'special') });
+  const rapid = pickRapid(intent, aim);
   if (rapid) return rapid;
   const instantPunch = pickInstant(f, intent, 'punch', aim);
   if (instantPunch) return instantPunch;
@@ -37,9 +36,9 @@ export function wantsRapidOverride(f, intent) {
   return false;
 }
 
-function pickRapid(f, intent, aim) {
-  if (intent.rapidPunch) return picked(rapidMove('punch', intent), { ...rapidOptions('punch', intent), aim });
-  if (intent.rapidKick) return picked(rapidMove('kick', intent), { ...rapidOptions('kick', intent), aim });
+function pickRapid(intent, aim) {
+  if (intent.rapidPunch || intent.forceRapid) return picked(rapidMove('punch', intent), { ...rapidOptions('punch', intent), aim, charge: 0 });
+  if (intent.rapidKick) return picked(rapidMove('kick', intent), { ...rapidOptions('kick', intent), aim, charge: 0 });
   return null;
 }
 
@@ -57,9 +56,8 @@ function pickInstant(f, intent, button, aim) {
   const aimedIntent = { ...intent, aim };
   const id = chooseDirectionalMove(button, f, aimedIntent, 0);
   const base = ATTACKS[id];
-  const options = { charge: 0, aim, rapid: false, angle: directionAngle(base.angle, aimedIntent, id) };
   consumeCharge(f, button);
-  return picked(id, options);
+  return picked(id, { charge: 0, aim, rapid: false, angle: directionAngle(base.angle, aimedIntent, id) });
 }
 
 function pickRelease(f, intent, button, aim) {

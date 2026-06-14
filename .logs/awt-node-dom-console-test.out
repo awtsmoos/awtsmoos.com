@@ -1,0 +1,118 @@
+{
+  "ok": true,
+  "cases": {
+    "consoleOnly": {
+      "ok": true,
+      "score": 100,
+      "errors": [],
+      "console": {
+        "logs": [
+          {
+            "level": "log",
+            "args": [
+              "LOG_ONE",
+              "7"
+            ],
+            "at": "2026-06-14T13:59:32.723Z"
+          },
+          {
+            "level": "warn",
+            "args": [
+              "WARN_ONE"
+            ],
+            "at": "2026-06-14T13:59:32.725Z"
+          },
+          {
+            "level": "error",
+            "args": [
+              "ERROR_ONE",
+              "{\"a\":1}"
+            ],
+            "at": "2026-06-14T13:59:32.731Z"
+          }
+        ]
+      },
+      "values": {
+        "out.textContent": "done"
+      },
+      "interactionLog": []
+    },
+    "syncThrow": {
+      "ok": false,
+      "score": 50,
+      "errors": [
+        {
+          "message": "BH_OBVIOUS_SYNC_THROW",
+          "phase": "script",
+          "file": "index.html"
+        }
+      ],
+      "console": {
+        "logs": [
+          {
+            "level": "log",
+            "args": [
+              "BEFORE_THROW"
+            ],
+            "at": "2026-06-14T13:59:32.873Z"
+          }
+        ]
+      },
+      "values": {},
+      "interactionLog": []
+    },
+    "rejectedPromise": {
+      "ok": false,
+      "score": 50,
+      "errors": [
+        {
+          "message": "BH_OBVIOUS_REJECTION",
+          "phase": "unhandledRejection"
+        }
+      ],
+      "console": {
+        "logs": [
+          {
+            "level": "log",
+            "args": [
+              "BEFORE_REJECT"
+            ],
+            "at": "2026-06-14T13:59:32.945Z"
+          }
+        ]
+      },
+      "values": {},
+      "interactionLog": []
+    },
+    "actionFailure": {
+      "ok": false,
+      "score": 50,
+      "errors": [
+        {
+          "message": "Text mismatch for #out: actual text",
+          "phase": "browserAction"
+        }
+      ],
+      "console": {
+        "logs": [
+          {
+            "level": "log",
+            "args": [
+              "BEFORE_ASSERT_ACTION"
+            ],
+            "at": "2026-06-14T13:59:33.068Z"
+          }
+        ]
+      },
+      "values": {},
+      "interactionLog": [
+        {
+          "ok": false,
+          "action": "assertText",
+          "selector": "#out",
+          "error": "Text mismatch for #out: actual text"
+        }
+      ]
+    }
+  }
+}

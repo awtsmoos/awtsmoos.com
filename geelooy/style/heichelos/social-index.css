@@ -1,7 +1,7 @@
 /* B"H
  * Chapter 19: My Heichelos becomes the sacred spaces board.
  */
-
+@import "/style/heichelos/class-coverage/index.css";
 :root {
     --spaces-bg: #080c1a;
     --spaces-card: #fffaf1;

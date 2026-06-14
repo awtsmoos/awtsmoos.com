@@ -1,22 +1,17 @@
 /**
  * B"H
- * Hyper-real fighter renderer orchestrator.
+ * Capsule-first fighter renderer.
  *
- * The Awtsmoos has no visible body, yet the visible fighter is surrounded by
- * readable contact, dust, wind, charge, panic, hunter focus, cloth, and human
- * cues. These are sparks around gameplay, never gameplay authority.
+ * Chapter 125: the exposed skeleton retires from the stage. Gameplay bones still
+ * calculate the dance, but the eye sees a clean fighter with attached head,
+ * visor face, boots, gloves, torso, and readable action silhouette.
  */
-import { withGlow } from './lighting/glow.js';
 import { fighterColor } from './fighter/colors.js';
 import { renderLanguage } from './fighter/bodyLanguage.js';
-import { drawBodyMass } from './fighter/body.js';
-import { drawLimbs, drawHandsFeet } from './fighter/limbs.js';
-import { drawHead } from './fighter/head.js';
 import { drawLabels } from './fighter/labels.js';
-import { drawAttackArc, drawChargeAura, drawDangerAura, drawDodgeStreak, drawPlayerRing, drawShield } from './fighter/auras.js';
-import { drawClothes } from './fighter/clothes/drawClothes.js';
-import { drawHumanReadability } from './fighter/human/humanReadability.js';
+import { drawAttackArc, drawChargeAura, drawDangerAura, drawDodgeStreak, drawShield } from './fighter/auras.js';
 import { drawBackEffects, drawFrontEffects } from './fighter/effects/effects.js';
+import { drawCapsuleFighter } from './fighter/capsule/fighter.js';
 
 export function drawFighters(ctx, fighters) {
   for (const fighter of fighters) drawFighter(ctx, fighter);
@@ -28,16 +23,9 @@ function drawFighter(ctx, f) {
   const lang = renderLanguage(f);
   drawBackEffects(ctx, f, color);
   drawChargeAura(ctx, f, color);
-  if (f.human) drawPlayerRing(ctx, f, color, lang);
   if (f.danger || lang.panic > 0.72) drawDangerAura(ctx, f);
   if (f.airDodge) drawDodgeStreak(ctx, f, color);
-  drawClothes(ctx, f, color, 'back');
-  drawHumanReadability(ctx, f, color);
-  drawBodyMass(ctx, f, color, lang);
-  withGlow(ctx, color, f.combo?.count > 2 ? 18 : 10, () => drawLimbs(ctx, f, color, lang));
-  drawHandsFeet(ctx, f, color, lang);
-  drawClothes(ctx, f, color, 'front');
-  drawHead(ctx, f, color, lang);
+  drawCapsuleFighter(ctx, f, color, lang);
   drawFrontEffects(ctx, f, color);
   drawLabels(ctx, f);
   if (f.blocking) drawShield(ctx, f);

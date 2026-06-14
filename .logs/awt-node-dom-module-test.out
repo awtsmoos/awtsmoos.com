@@ -1,0 +1,62 @@
+[Merkava Parser] Detected Base Path: 
+{
+  "ok": true,
+  "inline": {
+    "values": {
+      "document.title": "Inline Module Title",
+      "document.body.className": "js-on",
+      "document.querySelector('#made')?.textContent": "MADE_INLINE",
+      "document.body.innerHTML": "<div id=\"root\"><strong>MADE_INLINE</strong></div>"
+    },
+    "console": {
+      "logs": [
+        {
+          "level": "log",
+          "args": [
+            "INLINE_MODULE_RAN"
+          ],
+          "at": "2026-06-14T13:59:35.330Z"
+        }
+      ]
+    }
+  },
+  "external": {
+    "values": {
+      "document.title": "External Module Title",
+      "document.body.className": "external-js",
+      "document.querySelector('#made')?.textContent": "MADE_EXTERNAL",
+      "document.body.innerHTML": "<main id=\"root\"><p>MADE_EXTERNAL</p></main>"
+    },
+    "console": {
+      "logs": [
+        {
+          "level": "log",
+          "args": [
+            "EXTERNAL_MODULE_RAN"
+          ],
+          "at": "2026-06-14T13:59:35.437Z"
+        }
+      ]
+    }
+  },
+  "url": {
+    "values": {
+      "document.body.className": "awt-gated",
+      "!!document.querySelector('.awt-login-gate')": true,
+      "document.body.innerHTML.includes('Open your local codebase through Awtsmoos')": true
+    },
+    "console": {
+      "logs": [
+        {
+          "level": "log",
+          "args": [
+            "[AwtsmoosTunnelControl]",
+            "boot modular control center v3300"
+          ],
+          "at": "2026-06-14T13:59:43.280Z"
+        }
+      ]
+    },
+    "files": 163
+  }
+}

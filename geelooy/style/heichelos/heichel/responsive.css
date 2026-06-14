@@ -1,3 +1,35 @@
-/* B"H Heichel responsive covenant. */
-@media (min-width: 900px) { .heichel-main-stage { padding-top: 1rem; } }
-@media (max-width: 760px) { .heichel-hero-stats > * { flex: 1 1 8rem; } }
+/* B"H
+ * Chapter 12: The mobile river made room for thumbs and endings.
+ */
+@media (min-width: 900px) {
+  .geelooy-main-stage,
+  .heichel-main-stage { padding-top: 1rem; }
+}
+
+@media (max-width: 760px) {
+  .hero-stats > *,
+  .heichel-hero-stats > * { flex: 1 1 8rem; }
+
+  .geelooy-main-stage,
+  .heichel-main-stage {
+    width: min(100% - 1rem, 74rem);
+  }
+
+  .heichel-nav-panel {
+    padding: .8rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .geelooy-heichel-hero h1,
+  .heichel-hero h1 { font-size: clamp(2rem, 12vw, 3.25rem); }
+
+  .nav-card {
+    border-radius: 1rem;
+    padding: .68rem;
+    gap: .65rem;
+  }
+
+  .nav-card p { font-size: .92rem; }
+  .geelooy-bottom-nav { width: min(96vw, 33rem); }
+}

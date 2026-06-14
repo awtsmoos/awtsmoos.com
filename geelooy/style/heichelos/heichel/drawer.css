@@ -1,3 +1,45 @@
-/* B"H mobile drawer only. */
-.geelooy-mobile-drawer { border-right: 1px solid rgba(245,202,112,.18); backdrop-filter: blur(16px); }
-.geelooy-mobile-drawer a { min-height: 3.1rem; }
+/* B"H
+ * Chapter 2: The drawer became a door again.
+ * Raw underlined links once spilled like loose nails across the palace floor;
+ * now each path is a touchable plank and the closed chamber stays closed.
+ */
+.geelooy-mobile-drawer {
+  position: fixed;
+  inset: 4.25rem auto 0 0;
+  z-index: 45;
+  width: min(19rem, 84vw);
+  display: grid;
+  align-content: start;
+  gap: .35rem;
+  padding: .9rem;
+  border-right: 1px solid rgba(122,82,31,.18);
+  background: rgba(255,248,236,.94);
+  box-shadow: 1rem 0 2rem rgba(39,24,8,.18);
+  backdrop-filter: blur(16px);
+  transform: translateX(-105%);
+  transition: transform .22s ease;
+}
+
+.sidebar-open .geelooy-mobile-drawer,
+.heichel-mobile-navigation.sidebar-open .geelooy-mobile-drawer {
+  transform: translateX(0);
+}
+
+.geelooy-mobile-drawer a {
+  display: flex;
+  align-items: center;
+  min-height: 3.1rem;
+  padding: .75rem 1rem;
+  border: 1px solid rgba(122,82,31,.14);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.68);
+  color: var(--awt-ink, #24160b);
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: .01em;
+}
+
+.geelooy-mobile-drawer a:hover,
+.geelooy-mobile-drawer a:focus-visible {
+  background: #ead4ad;
+}

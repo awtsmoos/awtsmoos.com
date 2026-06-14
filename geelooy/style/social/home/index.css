@@ -1,4 +1,5 @@
 /* B"H home page entry: imports only. */
+@import "/style/heichelos/class-coverage/index.css";
 @import "/style/foundation/index.css";
 @import "./shell.css";
 @import "./sanctuary-card.css";

@@ -1,11 +1,12 @@
 /* B"H */
 /**
  * B"H
- * Chapter 410: Beauty Became Interface, Not Decoration.
+ * Chapter 415: Beauty Stopped Blocking The Road.
  *
  * The Awtsmoos draws a living command skin: ribbon, pulse, palette, graph,
- * constellation, mission focus, and timeline. It is light enough to sit above
- * the shell and deep enough to make the tunnel feel awake.
+ * constellation, mission focus, and timeline. Yet every heavenly overlay must
+ * know bittul: when hidden, it is truly hidden, and when opened, it gives the
+ * traveler a close door, not a wall.
  */
 .awt-beauty-layer {
   position: fixed;
@@ -93,6 +94,9 @@
   box-shadow: 0 30px 90px rgba(0,0,0,.45);
   z-index: 90;
 }
+.awt-beauty-palette.is-hidden { display: none !important; }
+.awt-command-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.awt-command-close { border-radius: 999px; padding: 7px 10px; }
 .awt-beauty-input,
 .awt-spotlight-input { width: 100%; min-height: 42px; border-radius: 14px; border: 1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.2); color: var(--awt-ink); padding: 10px 12px; }
 .awt-beauty-results { display: grid; gap: 7px; }

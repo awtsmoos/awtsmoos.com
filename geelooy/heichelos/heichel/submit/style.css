@@ -3,7 +3,7 @@
  * controls, verse anchors, and edit-aware IDs. The Awtsmoos keeps the old
  * editor alive while making every section ready for reader comments.
  */
-
+@import url("/style/heichelos/class-coverage/index.css");
 :root {
     --submit-bg: #080c1a;
     --submit-card: #fffaf1;

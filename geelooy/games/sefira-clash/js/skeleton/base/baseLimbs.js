@@ -1,6 +1,33 @@
 /**
  * B"H
- * Awtsmoos visual vessel: pure animation/readability, never gameplay authority.
+ * Calmer humanoid base limbs.
+ *
+ * Chapter 116: walking should swing, not collapse. The Awtsmoos gives arms and
+ * legs a readable default that later combat may bend without making a crab.
  */
-import {point} from '../poseMath.js';
-export function baseLimbs(f,a,m,body){const s=body.height,w=Math.sin((m.footPhase||0)*Math.PI*2)*Math.min(1.2,m.horizontalSpeed/10)*m.movingDirection;return{...a,leftElbow:point(a.leftShoulder.x-18*s-w*18*s,a.leftShoulder.y+38*s),leftHand:point(a.leftShoulder.x-26*s-w*32*s,a.leftShoulder.y+76*s),rightElbow:point(a.rightShoulder.x+18*s+w*18*s,a.rightShoulder.y+38*s),rightHand:point(a.rightShoulder.x+26*s+w*32*s,a.rightShoulder.y+76*s),leftKnee:point(a.leftHip.x-w*27*s,a.leftHip.y+53*s),leftFoot:point(a.leftHip.x-w*42*s,f.y+2),rightKnee:point(a.rightHip.x+w*27*s,a.rightHip.y+53*s),rightFoot:point(a.rightHip.x+w*42*s,f.y+2)}}
+import { point } from '../poseMath.js';
+
+function clamp(n, lo, hi) {
+  return Math.max(lo, Math.min(hi, Number.isFinite(n) ? n : lo));
+}
+
+export function baseLimbs(f, a, m, body) {
+  const s = clamp(body.height || 1, 0.84, 1.18);
+  const speed = clamp((m.horizontalSpeed || 0) / 10, 0, 1);
+  const dir = Math.sign(m.movingDirection || f.face || 1) || 1;
+  const phase = Math.sin((m.footPhase || 0) * Math.PI * 2) * speed * dir;
+  const armSwing = phase * 13 * s;
+  const legSwing = phase * 17 * s;
+  const floor = f.y + 3;
+  return {
+    ...a,
+    leftElbow: point(a.leftShoulder.x - 10 * s - armSwing, a.leftShoulder.y + 34 * s),
+    leftHand: point(a.leftShoulder.x - 14 * s - armSwing * 1.3, a.leftShoulder.y + 66 * s),
+    rightElbow: point(a.rightShoulder.x + 10 * s + armSwing, a.rightShoulder.y + 34 * s),
+    rightHand: point(a.rightShoulder.x + 14 * s + armSwing * 1.3, a.rightShoulder.y + 66 * s),
+    leftKnee: point(a.leftHip.x - legSwing * 0.45, a.leftHip.y + 35 * s),
+    leftFoot: point(a.leftHip.x - 14 * s - legSwing, floor),
+    rightKnee: point(a.rightHip.x + legSwing * 0.45, a.rightHip.y + 35 * s),
+    rightFoot: point(a.rightHip.x + 14 * s + legSwing, floor)
+  };
+}
