@@ -2,10 +2,10 @@
 /**
  * @module ScribeScaffold
  * @description
- * Chapter 238: No phantom ladders.
- * The scroll container no longer receives one hidden placeholder per verse.
- * It is an empty living gate. The streaming oracle inserts only the current
- * verse neighborhood, so the browser scrollbar is never inflated by fake height.
+ * Chapter 308: A normal river with coordinate stones.
+ * The old name `virtual-scroll-container` remains only because many comment,
+ * focus, and diagnostics modules already look for it. It is no longer a virtual
+ * scroller. It is one ordinary block that receives every verse immediately.
  */
 
 function textFrom(value, fallback = "") {
@@ -46,21 +46,23 @@ export class ScribeScaffold {
     static CHUNK_SIZE = 1;
 
     /**
-     * Builds a true-height streaming container with no fake children.
+     * Builds a normal DOM container. All verse chunks are inserted immediately
+     * by the scribe, so scrolling belongs to the browser document.
      * @param {HTMLElement} parent The real post element.
      * @param {number} totalItems Total verse count.
      * @param {{post?:object,series?:object}} context Rendering context.
-     * @returns {HTMLElement} Streaming container.
+     * @returns {HTMLElement} Normal content container.
      */
     static construct(parent, totalItems, context = {}) {
         parent.innerHTML = "";
-        parent.dataset.awtsmoosVirtualDom = "true-height-stream";
+        parent.dataset.awtsmoosVirtualDom = "disabled-normal-dom";
+        parent.dataset.awtsmoosScrollMode = "native-document";
         parent.appendChild(makeTitleCrown(context.post, context.series, totalItems));
 
         const scrollContainer = document.createElement("div");
         scrollContainer.id = "virtual-scroll-container";
-        scrollContainer.className = "awtsmoos-virtual-scroll awtsmoos-mobile-scroll";
-        scrollContainer.dataset.virtualMode = "true-height-verse-stream";
+        scrollContainer.className = "awtsmoos-normal-scroll awtsmoos-mobile-scroll";
+        scrollContainer.dataset.virtualMode = "disabled-all-verses-present";
         scrollContainer.dataset.totalItems = String(totalItems || 0);
         parent.appendChild(scrollContainer);
         return scrollContainer;

@@ -12,7 +12,7 @@ const files = [
 const stale = [];
 for (const file of files) {
   const text = fs.readFileSync(file, 'utf8');
-  if (/visual-303|modal-scroll-299|eager-verses-299|beauty-001/.test(text)) stale.push(file);
+  if (/visual-303|modal-scroll-299|eager-verses-299|beauty-001|legend-002/.test(text)) stale.push(file);
 }
 if (stale.length) throw new Error('stale template cache versions: ' + stale.join(', '));
 
@@ -22,10 +22,11 @@ if (!home.includes('/scripts/awtsmoos/social/home/legend/index.js?v=legend-001')
 
 for (const file of ['geelooy/heichelos/post/_awtsmoos.post.html', 'geelooy/heichelos/_awtsmoos.post.html']) {
   const post = fs.readFileSync(file, 'utf8');
-  if (!post.includes('/heichelos/post/styles/main.css?v=legend-002')) throw new Error(file + ' post css not legend-002');
-  if (!post.includes('/heichelos/post/styles/reader-controls/live-template.css?v=legend-002')) throw new Error(file + ' live template css missing');
+  if (!post.includes('/style/awtsmoos-scroll-sovereignty.css?v=native-scroll-004')) throw new Error(file + ' sovereignty css not native-scroll-004');
+  if (!post.includes('/heichelos/post/styles/main.css?v=native-scroll-004')) throw new Error(file + ' post css not native-scroll-004');
+  if (!post.includes('/heichelos/post/styles/reader-controls/live-template.css?v=native-scroll-004')) throw new Error(file + ' live template css missing');
   if (!post.includes('awtsmoos-reader-critical-css')) throw new Error(file + ' critical reader css missing');
-  if (!post.includes('/heichelos/post/postLogic.js?v=legend-002')) throw new Error(file + ' postLogic not legend-002');
+  if (!post.includes('/heichelos/post/postLogic.js?v=native-scroll-004')) throw new Error(file + ' postLogic not native-scroll-004');
 }
 
 console.log('B"H templateVersionContract.test passed');

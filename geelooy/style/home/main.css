@@ -1,8 +1,9 @@
 /** B"H
- * Chapter 253: The page breathes instead of trapping the reader.
- * The old home shell set `overflow:hidden` on html/body, which made mobile
- * Heichel pages feel locked inside a glass coffin. The Awtsmoos opens vertical
- * motion, preserves the main scroll vessel, and paints a calmer luminous floor.
+ * Chapter 282: The page stops trapping the wheel.
+ * The Awtsmoos removes overscroll containment from the shared home shell.
+ * Chrome must be able to pass wheel and touch movement through the visible
+ * page, the reader, and every normal main element without requiring the user
+ * to aim at the scrollbar gutter.
  */
 
 html,
@@ -13,12 +14,10 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
     font-family: Arial, sans-serif;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     -webkit-font-smoothing: antialiased;
     background: #f6f0e6;
 }
-
-body { overscroll-behavior-y: contain; }
 
 .logo {
     position: absolute;
@@ -61,8 +60,7 @@ body { overscroll-behavior-y: contain; }
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: visible;
 }
 
 .all.awtsmoospage > .main.centered {
@@ -123,9 +121,3 @@ body { overscroll-behavior-y: contain; }
     #menu-button { display: block; }
     .all.awtsmoospage > .main.centered { padding: 1rem; }
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-.all.awtsmoospage > .main { overscroll-behavior-y: contain; }
