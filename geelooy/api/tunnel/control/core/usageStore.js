@@ -81,13 +81,16 @@ function estimatePayloadCost(payload = {}) {
 }
 
 function canAfford(userId, payload = {}) {
-  const store = readStore();
-  grantDailyPerutas(store, userId);
-  const account = accountFor(store, userId);
   const estimate = estimatePayloadCost(payload);
-  writeStore(store);
-  const affordable = Number(account.balance || 0) >= estimate.estimatedPerutas;
-  return { ok: affordable, balance: round(account.balance), plan: account.plan || "free", ...estimate, shortfall: affordable ? 0 : round(estimate.estimatedPerutas - Number(account.balance || 0)), messageForAi: affordable ? null : insufficientPerutasMessage(account, estimate) };
+
+  return {
+    ok: true,
+    balance: Number.MAX_SAFE_INTEGER,
+    plan: "master",
+    ...estimate,
+    shortfall: 0,
+    messageForAi: null
+  };
 }
 
 function insufficientPerutasMessage(account, estimate) {
