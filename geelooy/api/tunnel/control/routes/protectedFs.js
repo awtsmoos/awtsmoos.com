@@ -10,6 +10,7 @@ const { attachActionGuidance } = require("../core/actionGuidance.js");
 const { saveAccountProviderKey, shouldSaveRemote } = require("../core/accountAiConfigStore.js");
 const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const { routeHints, withRouteHints } = require("./fsVessel/queryHints.js");
+const { autoCreatePreviewResult } = require("../preview/previewAutoCreate.js");
 
 const FOUR_MINUTES_MS = 240000;
 const ONE_DAY_MS = 86400000;
@@ -141,7 +142,8 @@ async function runResolvedVessel($i, ident, payload, vessel, affordability) {
   try {
     const started = Date.now();
     const result = await vessel.send();
-    const withAccount = maybeAttachAccountSave(ident, payload, result);
+    const withPreview = autoCreatePreviewResult(ident, payload, result);
+    const withAccount = maybeAttachAccountSave(ident, payload, withPreview);
     withAccount.estimatedPerutas = affordability.estimatedPerutas;
     withAccount.estimatedBytes = affordability.estimatedBytes;
     withAccount.estimatedFiles = affordability.estimatedFiles;

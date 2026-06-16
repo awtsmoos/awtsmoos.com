@@ -7,7 +7,7 @@ const DEFAULT_SETTINGS = Object.freeze({
   allowAiExtendTtl: true,
   allowAiEnableDownload: false,
   allowAiExposeFolders: true,
-  allowAiExposeLocalServers: false,
+  allowAiExposeLocalServers: true,
   requireApprovalForPublic: true,
   defaultVisibility: "private",
   defaultTtlSeconds: 3600,
@@ -15,21 +15,16 @@ const DEFAULT_SETTINGS = Object.freeze({
   maxPrivateTtlSeconds: 86400,
   secretDenyPatterns: [".env", "*.pem", "*.key", "id_rsa", "id_dsa", ".git/config", "*.p12", "*.pfx"]
 });
-
 const VISIBILITIES = new Set(["private", "public", "tunnel-open", "one-time"]);
 const KINDS = new Set(["file", "folder", "action", "live", "page", "collection", "proxy"]);
 
 /**
  * B"H
- * Chapter: Permission became a switch the user can hold.
- *
- * AI may create private previews by default, but public links, downloads, folder
- * exposure, and local server proxying bow to this policy before any URL is born.
+ * Chapter 481: Localhost became visible, but not reckless.
+ * AI may create private localhost proxy previews by default, while public links,
+ * downloads, and secret paths still bow before explicit policy.
  */
-function mergedSettings(settings = {}) {
-  return { ...DEFAULT_SETTINGS, ...(settings || {}) };
-}
-
+function mergedSettings(settings = {}) { return { ...DEFAULT_SETTINGS, ...(settings || {}) }; }
 function clampTtl(visibility, ttlSeconds, settings = {}) {
   const s = mergedSettings(settings);
   const fallback = Number(s.defaultTtlSeconds || DEFAULT_SETTINGS.defaultTtlSeconds);
@@ -38,7 +33,6 @@ function clampTtl(visibility, ttlSeconds, settings = {}) {
   if (!Number.isFinite(wanted)) return fallback;
   return Math.max(30, Math.min(Math.floor(wanted), Math.max(30, max)));
 }
-
 function normalizePreview(input = {}, settings = {}) {
   const s = mergedSettings(settings);
   const kind = KINDS.has(String(input.kind || "")) ? String(input.kind) : "file";
@@ -46,17 +40,14 @@ function normalizePreview(input = {}, settings = {}) {
   const visibility = VISIBILITIES.has(requestedVisibility) ? requestedVisibility : "private";
   return { ...input, kind, visibility, ttlSeconds: clampTtl(visibility, input.ttlSeconds, s), allowDownload: !!input.allowDownload, allowFolderBrowse: input.allowFolderBrowse !== false, allowSearch: input.allowSearch !== false, allowRaw: input.allowRaw !== false };
 }
-
 function deniesSecretPath(path = "", settings = {}) {
   const normalized = String(path || "").replace(/\\/g, "/").toLowerCase();
   return mergedSettings(settings).secretDenyPatterns.some(pattern => globLike(normalized, String(pattern).toLowerCase()));
 }
-
 function globLike(value, pattern) {
   const escaped = pattern.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*");
   return new RegExp(`(^|/)${escaped}($|/)`).test(value) || new RegExp(`^${escaped}$`).test(value);
 }
-
 function aiPolicyCheck(input = {}, settings = {}) {
   const s = mergedSettings(settings);
   const byAi = input.createdBy === "ai" || input.ai === true;
@@ -70,9 +61,6 @@ function aiPolicyCheck(input = {}, settings = {}) {
   if (next.kind === "proxy" && !s.allowAiExposeLocalServers) return deny("ai_local_server_preview_disabled");
   return { ok: true };
 }
-
-function deny(error) {
-  return { ok: false, error, guidance: "Open Preview Gateway in tunnel-control to change this permission manually." };
-}
+function deny(error) { return { ok: false, error, guidance: "Open Preview Gateway in tunnel-control to change this permission manually." }; }
 
 module.exports = { DEFAULT_SETTINGS, VISIBILITIES, KINDS, aiPolicyCheck, clampTtl, deniesSecretPath, mergedSettings, normalizePreview };
