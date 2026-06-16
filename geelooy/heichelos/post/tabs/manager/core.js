@@ -2,9 +2,9 @@
 /**
  * @module TabManagerCore
  * @description
- * Chapter 121: No inline style decree remains in the crown.
- * The Awtsmoos lets state become class and attribute. The shell title names the
- * current chamber; the local row appears only when a back path exists.
+ * Chapter 357: Returning to a chamber reopens its soul.
+ * If a tab is already in the stack, the Awtsmoos still makes it visible and
+ * reruns its opener when its vessel is empty, so menus cannot go hollow.
  */
 
 import { createSidebarShell } from "/heichelos/post/tabs/manager/shell.js";
@@ -21,9 +21,8 @@ function createGlobalClose(onclose) {
     };
 }
 
-function getTabName(options) {
-    return options.name || options.header.toLowerCase().replace(/\s+/g, "-");
-}
+function getTabName(options) { return options.name || options.header.toLowerCase().replace(/\s+/g, "-"); }
+function needsRefresh(tab) { return tab?.name === "rootMenu" || !tab?.actual?.childElementCount; }
 
 export default class TabManager {
     constructor({ parent, headerTxt = "Divine Context", onclose = () => {} } = {}) {
@@ -32,23 +31,26 @@ export default class TabManager {
         this.stack = [];
         this.registry = new Map();
         this.rootTitle = headerTxt;
-        const elements = createSidebarShell(parent, headerTxt, this.onGlobalClose);
-        this.viewport = elements.viewport;
-        this.navBar = elements.navBar;
-        this.titleEl = elements.titleEl;
+        const shell = createSidebarShell(parent, headerTxt, this.onGlobalClose);
+        this.viewport = shell.viewport;
+        this.navBar = shell.navBar;
+        this.titleEl = shell.titleEl;
         this.titleEl.onclick = () => { if (this.stack.length > 1) this.pop(); };
     }
 
     addTab(options) {
-        const tabName = getTabName(options);
-        const tabObj = { ...options, header: options.header || "Realm", name: tabName, ...createChamberDOM(options, () => this.pop()) };
-        tabObj.actual = tabObj.scrollArea;
-        tabObj.open = () => this.push(tabObj);
-        tabObj.onUpdateHeader = txt => this.updateTabHeader(tabObj, txt);
-        this.registry.set(tabName, tabObj);
-        if (typeof options.oninit === "function") options.oninit(tabObj);
-        return tabObj;
+        const name = getTabName(options);
+        const tab = { ...options, header: options.header || "Realm", name, ...createChamberDOM(options, () => this.pop()) };
+        tab.actual = tab.scrollArea;
+        tab.open = () => this.push(tab);
+        tab.onUpdateHeader = txt => this.updateTabHeader(tab, txt);
+        this.registry.set(name, tab);
+        if (typeof options.oninit === "function") options.oninit(tab);
+        return tab;
     }
+
+    getCurrent() { return this.stack[this.stack.length - 1] || null; }
+    getTabs() { return [...this.stack]; }
 
     async openByName(name) {
         const tab = this.registry.get(name);
@@ -57,61 +59,62 @@ export default class TabManager {
         return tab;
     }
 
-    getCurrent() { return this.stack[this.stack.length - 1] || null; }
-    getTabs() { return [...this.stack]; }
-
-    updateTabHeader(tabObj, txt) {
-        tabObj.subTitle.innerText = txt;
-        tabObj.header = txt;
+    updateTabHeader(tab, txt) {
+        tab.subTitle.innerText = txt;
+        tab.header = txt;
         this.updateCrumbs();
     }
 
-    enforceBackBtnState(tabObj) {
-        if (!tabObj) return;
+    enforceBackBtnState(tab) {
+        if (!tab) return;
         const hasBack = this.stack.length > 1;
-        if (tabObj.backBtn) tabObj.backBtn.hidden = !hasBack;
-        if (tabObj.subTitle) tabObj.subTitle.hidden = !hasBack;
-        tabObj.dom?.classList.toggle("has-back", hasBack);
+        tab.backBtn.hidden = !hasBack;
+        tab.subTitle.hidden = !hasBack;
+        tab.dom?.classList.toggle("has-back", hasBack);
     }
 
-    syncUrl(tabObj) {
-        if (!tabObj) {
+    syncUrl(tab) {
+        if (!tab) {
             updateQueryStringParameter("panel", null);
             updateQueryStringParameter("u", null);
             return;
         }
-        updateQueryStringParameter("panel", tabObj.name);
-        const viewingAlias = tabObj.awtsmoosType === "specific alias comments" && window.currentAliasBeingViewed;
+        updateQueryStringParameter("panel", tab.name);
+        const viewingAlias = tab.awtsmoosType === "specific alias comments" && window.currentAliasBeingViewed;
         updateQueryStringParameter("u", viewingAlias ? window.currentAliasBeingViewed : null);
     }
 
     updateCrumbs() {
         const current = this.getCurrent();
-        if (this.titleEl) {
-            this.titleEl.textContent = current?.header || this.rootTitle;
-            this.titleEl.classList.toggle("can-go-back", this.stack.length > 1);
-        }
+        this.titleEl.textContent = current?.header || this.rootTitle;
+        this.titleEl.classList.toggle("can-go-back", this.stack.length > 1);
         renderBreadcrumbs(this.navBar, this.stack, index => {
             while (this.stack.length - 1 > index) this.pop(true);
         });
     }
 
-    async push(tabObj) {
-        if (this.stack.includes(tabObj)) {
-            const idx = this.stack.indexOf(tabObj);
-            while (this.stack.length - 1 > idx) await this.pop(true);
-            this.enforceBackBtnState(tabObj);
-            this.syncUrl(tabObj);
-            this.updateCrumbs();
+    async awaken(tab) {
+        this.enforceBackBtnState(tab);
+        slideIn(tab, null, this.viewport);
+        this.updateCrumbs();
+        this.syncUrl(tab);
+        if (tab.onopen && needsRefresh(tab)) await tab.onopen({ tab, actualTab: tab.actual });
+    }
+
+    async push(tab) {
+        if (this.stack.includes(tab)) {
+            const index = this.stack.indexOf(tab);
+            while (this.stack.length - 1 > index) await this.pop(true);
+            await this.awaken(tab);
             return;
         }
         const current = this.getCurrent();
-        this.stack.push(tabObj);
-        this.enforceBackBtnState(tabObj);
-        slideIn(tabObj, current, this.viewport);
+        this.stack.push(tab);
+        this.enforceBackBtnState(tab);
+        slideIn(tab, current, this.viewport);
         this.updateCrumbs();
-        this.syncUrl(tabObj);
-        if (tabObj.onopen) await tabObj.onopen({ tab: tabObj, actualTab: tabObj.actual });
+        this.syncUrl(tab);
+        if (tab.onopen) await tab.onopen({ tab, actualTab: tab.actual });
     }
 
     async pop(isInternalJump = false) {

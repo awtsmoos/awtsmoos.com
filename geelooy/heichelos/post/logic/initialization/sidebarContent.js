@@ -2,9 +2,9 @@
 /**
  * @module SidebarMenu
  * @description
- * Chapter 181: The root menu becomes quieter and more human.
- * The AI oracle door is hidden for now. The living commentary receives the
- * first breath, and the details chamber remains concise and safe.
+ * Chapter 356: The portals become single-touch vessels.
+ * No duplicate pointer/click storms. The Main Menu always paints a real grid,
+ * and each button opens exactly one chamber.
  */
 import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
 
@@ -12,21 +12,22 @@ const TAB_PORTALS = [
     { title: "Insights", desc: "Write and read living commentary", icon: "💬", name: "insights" },
     { title: "Scroll Details", desc: "Heichel, author, and path", icon: "📜", name: "details" },
     { title: "Approval Queue", desc: "Review submitted insights", icon: "✅", name: "approvals" },
-    { title: "Saved Sparks", desc: "Your bookmarked verses", icon: "🔖", name: "bookmarks" }
+    { title: "Saved Sparks", desc: "Your bookmarked verses", icon: "🔖", name: "bookmarks" },
+    { title: "Footnotes", desc: "Sources and notes", icon: "✦", name: "footnotes" }
 ];
 
-function getPortalButton(event) { return event?.currentTarget || event?.target?.closest?.("button") || null; }
+function portalButton(event) { return event?.currentTarget || event?.target?.closest?.("button"); }
 
-function revealPortalFailure(source, message) {
-    if (!source) return;
-    source.classList.remove("awtsmoos-portal-opening");
-    source.classList.add("awtsmoos-portal-failed");
-    source.removeAttribute("aria-busy");
-    const desc = source.querySelector(".menu-portal-desc");
-    if (desc) desc.textContent = message;
+function setPortalState(button, state, message = "") {
+    if (!button) return;
+    button.classList.toggle("awtsmoos-portal-opening", state === "opening");
+    button.classList.toggle("awtsmoos-portal-failed", state === "failed");
+    button.toggleAttribute("aria-busy", state === "opening");
+    const desc = button.querySelector(".menu-portal-desc");
+    if (message && desc) desc.textContent = message;
 }
 
-function markActivePortal(source) {
+function markActive(source) {
     const grid = source?.closest?.(".post-root-menu-grid");
     grid?.querySelectorAll?.(".awtsmoos-massive-menu-btn").forEach(button => {
         const active = button === source;
@@ -35,53 +36,32 @@ function markActivePortal(source) {
     });
 }
 
-function claimPortalTap(portal) {
-    if (!portal) return true;
-    if (portal.dataset.tapLock === "true") return false;
-    portal.dataset.tapLock = "true";
-    setTimeout(() => { delete portal.dataset.tapLock; }, 420);
-    return true;
-}
-
-function beginPortalOpening(event) {
+async function openPortal(tabRefs, name, event) {
     event?.preventDefault?.();
     event?.stopPropagation?.();
-    const portal = getPortalButton(event);
-    if (!claimPortalTap(portal)) return false;
-    portal?.classList.remove("awtsmoos-portal-failed");
-    portal?.classList.add("awtsmoos-portal-opening");
-    portal?.setAttribute("aria-busy", "true");
-    return portal;
-}
-
-function finishPortalOpening(portal) {
-    portal?.classList.remove("awtsmoos-portal-opening");
-    portal?.removeAttribute("aria-busy");
-}
-
-async function openRegisteredPortal(tabRefs, name, event) {
-    const portal = beginPortalOpening(event);
-    if (portal === false) return;
+    const button = portalButton(event);
+    if (button?.dataset.tapLock === "true") return;
+    if (button) button.dataset.tapLock = "true";
+    setTimeout(() => { if (button) delete button.dataset.tapLock; }, 360);
+    setPortalState(button, "opening");
     try {
         const tab = tabRefs?.[name];
         if (tab?.open) await tab.open();
         else if (window.tabManager?.openByName) await window.tabManager.openByName(name);
         else throw new Error("Portal unavailable");
-        markActivePortal(portal);
+        markActive(button);
+        setPortalState(button, "ready");
     } catch (error) {
         console.error(`B"H - Portal ${name} failed to open:`, error);
-        revealPortalFailure(portal, error?.message || "Could not open");
-    } finally {
-        finishPortalOpening(portal);
+        setPortalState(button, "failed", "Could not open");
     }
 }
 
 function createMenuPortal(portal, tabRefs) {
-    const onClick = event => openRegisteredPortal(tabRefs, portal.name, event);
     return {
         tag: "button",
         attr: { class: "awtsmoos-massive-menu-btn", type: "button", "data-portal": portal.name, "aria-label": `${portal.title}: ${portal.desc}` },
-        events: { click: onClick, pointerup: onClick },
+        events: { click: event => openPortal(tabRefs, portal.name, event) },
         children: [
             { tag: "div", attr: { class: "menu-icon-vessel", "aria-hidden": "true" }, text: portal.icon },
             { tag: "div", attr: { class: "menu-text-vessel awtsmoos-student-copy" }, children: [
@@ -96,6 +76,7 @@ function createMenuPortal(portal, tabRefs) {
 export function populateRootMenu(actualTab, post, tabRefs) {
     if (!actualTab) return;
     actualTab.innerHTML = "";
+    actualTab.dataset.awtsmoosMenuReady = "true";
     actualTab.appendChild(GenesisEngine.manifest({
         tag: "div",
         attr: { class: "post-root-menu-grid", role: "menu", "aria-label": "Divine Context portals" },

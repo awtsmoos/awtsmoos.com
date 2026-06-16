@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 122: The local row is silent until a return path exists.
- * The shell crown names the page. A chamber header appears only when Back is
- * meaningful, so Main Menu and Scroll Details no longer echo twice.
+ * Chapter 359: The menu has room to breathe.
+ * Desktop keeps the sliding palace. Mobile receives visible active views with a
+ * natural content column, so Main Menu portals cannot be hidden in absolute fog.
  */
 
 .post-reader-localized-context .awtsmoos-slide-viewport {
@@ -9,6 +9,7 @@
     flex: 1 1 auto !important;
     min-height: 0 !important;
     overflow: hidden !important;
+    isolation: isolate !important;
 }
 
 .post-reader-localized-context .awtsmoos-slide-view {
@@ -101,9 +102,35 @@
     color: var(--awt-text) !important;
     overflow-x: clip !important;
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-.post-reader-localized-context .awtsmoos-slide-viewport { isolation: isolate; }
+
+@media (max-width: 900px) {
+    .post-reader-localized-context .awtsmoos-slide-viewport {
+        min-height: 9rem !important;
+        overflow-y: auto !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-slide-view {
+        position: relative !important;
+        inset: auto !important;
+        height: auto !important;
+        min-height: 100% !important;
+        transform: none !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-slide-view:not(.active-view) {
+        display: none !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-slide-view.active-view {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+    .post-reader-localized-context .post-root-menu-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+}
