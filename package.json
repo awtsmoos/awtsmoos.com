@@ -43,7 +43,8 @@
     "test:platform-execution": "node geelooy/api/social/helper/test/platformExecution.test.js",
     "bh": "node scripts/ship.mjs && node scripts/bh.mjs",
     "ship:bh": "node scripts/ship.mjs && node scripts/bh.mjs",
-    "verify:agents-tunnel-access": "node scripts/verify-agents-tunnel-access.mjs"
+    "verify:agents-tunnel-access": "node scripts/verify-agents-tunnel-access.mjs",
+    "stress:tunnel-control": "node scripts/stress-tunnel-control-actions.mjs"
   },
   "author": "",
   "license": "ISC"
