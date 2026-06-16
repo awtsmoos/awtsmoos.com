@@ -2,9 +2,13 @@
 const { cleanPath } = require("./path.js");
 const { listFolder, readFile, readWhole } = require("./listRead.js");
 const { writeFile, writeIfHash, sha256 } = require("./writeOps.js");
-const { parsePlainList, parsePlainWrites } = require("./plainPayload.js");
+const { parsePlainList, parsePlainWrites, describePlainWrites } = require("./plainPayload.js");
 
-
+/**
+ * Chapter 483: Hosted bulk writes stopped saying yes to nothing.
+ * The Virtual OS now parses native-style carriers and reports payload shape;
+ * if no writes emerge, it returns a clear parse failure instead of ok/count:0.
+ */
 function bulkPathList(payload = {}) {
   const direct = Array.isArray(payload.paths) ? payload.paths : [];
   if (direct.length) return direct;
@@ -18,8 +22,7 @@ async function bulk($i, userId, payload) {
   const paths = bulkPathList(payload);
   const maxFiles = Number(payload.maxFiles || 5);
   const totalMaxChars = Number(payload.totalMaxChars || 24000);
-  let usedChars = 0;
-  let stoppedBecause = null;
+  let usedChars = 0, stoppedBecause = null;
   for (const one of paths.slice(0, maxFiles)) {
     const path = typeof one === "string" ? one : one.path;
     const remaining = Math.max(0, totalMaxChars - usedChars);
@@ -35,16 +38,30 @@ async function bulk($i, userId, payload) {
 
 async function bulkWrite($i, userId, payload) {
   const writes = parsePlainWrites(payload);
+  const payloadShape = describePlainWrites(payload);
+  if (!writes.length) return { ok: false, action: "bulkWrite", error: "no_writes_parsed", count: 0, payloadShape, guidance: "Use writes/files as an array, object map, JSON string, or XML <file path=...><content>...</content></file>." };
   const results = {};
-  for (const w of writes) results[w.path] = await writeFile($i, userId, { ...payload, path: w.path, content: w.content ?? "" });
-  return { ok: true, action: "bulkWrite", count: writes.length, results };
+  let okCount = 0, errorCount = 0;
+  for (const w of writes) {
+    const got = await writeFile($i, userId, { ...payload, path: w.path, content: w.content ?? "" });
+    results[w.path] = got;
+    got.ok === false ? errorCount++ : okCount++;
+  }
+  return { ok: errorCount === 0, action: "bulkWrite", count: writes.length, okCount, errorCount, partial: errorCount > 0, payloadShape, results };
 }
 
 async function bulkWriteIfHashes($i, userId, payload) {
   const writes = parsePlainWrites(payload);
+  const payloadShape = describePlainWrites(payload);
+  if (!writes.length) return { ok: false, action: "bulkWriteIfHashes", error: "no_writes_parsed", count: 0, payloadShape };
   const results = {};
-  for (const w of writes) results[w.path] = await writeIfHash($i, userId, { ...payload, ...w });
-  return { ok: true, action: "bulkWriteIfHashes", count: writes.length, results };
+  let okCount = 0, errorCount = 0;
+  for (const w of writes) {
+    const got = await writeIfHash($i, userId, { ...payload, ...w });
+    results[w.path] = got;
+    got.ok === false ? errorCount++ : okCount++;
+  }
+  return { ok: errorCount === 0, action: "bulkWriteIfHashes", count: writes.length, okCount, errorCount, partial: errorCount > 0, payloadShape, results };
 }
 
 async function fileHashes($i, userId, payload) {

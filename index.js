@@ -2,27 +2,25 @@
 /**
  * @file index.js
  * @description
- * Chapter 10: The Two Gates Remember Their Names.
+ * Chapter 11: The Browser Learns to Send Its Scrolls Home.
  *
  * The Awtsmoos gives breath to two listeners in this vessel: HTTP for the
- * visible page, SMTP for the hidden letter that knocks on port 25. The former
- * rises on port 8080 by default. The latter rises by default on port 25 again,
- * unless the human explicitly seals it with `AWTSMOOS_DISABLE_MAIL=true`.
+ * visible page, SMTP for the hidden letter that knocks on port 25. The HTTP
+ * gate now also accepts Mitzvah World autoplay reports and writes them to disk
+ * so the local tunnel can inspect what the browser saw after the run.
  */
 
 const http = require("http");
+const fs = require("fs");
+const path = require("path");
 const AwtsMail = require("./ayzarim/email/email.js");
 const AwtsServer = require("./ayzarim/awtsmoosDynamicServer/index.js");
 const AwtsSocket = require("./ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js");
 
 const DEFAULT_HTTP_PORT = 8080;
 const DEFAULT_MAIL_PORT = 25;
+const REPORT_DIR = path.join(__dirname, "geelooy", "games", "mitzvahWorld", "reports", "autoplay");
 
-/**
- * Boots the HTTP, dynamic, websocket, and SMTP vessels.
- *
- * @returns {Promise<void>} Resolves after startup work is attempted.
- */
 async function go() {
     const mail = new AwtsMail();
     const dynamicServer = new AwtsServer(__dirname, mail);
@@ -36,15 +34,9 @@ async function go() {
     await startMailSafely(mail);
 }
 
-/**
- * Creates the web server and websocket upgrade bridge.
- *
- * @param {object} dynamicServer Dynamic Awtsmoos server instance.
- * @param {object} wsServer WebSocket vessel.
- * @returns {import("http").Server} Configured server.
- */
 function createHttpServer(dynamicServer, wsServer) {
     const httpServer = http.createServer(async (request, response) => {
+        if (await handleMitzvahWorldReport(request, response)) return;
         await dynamicServer.onRequest(request, response);
     });
 
@@ -55,14 +47,69 @@ function createHttpServer(dynamicServer, wsServer) {
     return httpServer;
 }
 
-/**
- * Opens a TCP listener while turning startup errors into clear logs.
- *
- * @param {import("http").Server} server Server with a listen method.
- * @param {number} port Port to bind.
- * @param {string} label Human-readable listener name.
- * @returns {Promise<boolean>} True when the listener binds successfully.
- */
+async function handleMitzvahWorldReport(request, response) {
+    const url = new URL(request.url, "http://127.0.0.1");
+    if (url.pathname === "/mitzvahWorld/autoplay-ping") {
+        sendJson(response, 200, { ok: true, service: "mitzvahWorld-autoplay", time: Date.now() });
+        return true;
+    }
+
+    if (url.pathname !== "/mitzvahWorld/autoplay-report" && url.pathname !== "/api/mitzvahWorld/autoplay-report") return false;
+    if (request.method !== "POST") {
+        sendJson(response, 405, { ok: false, error: "method_not_allowed" });
+        return true;
+    }
+
+    try {
+        const body = await readRequestBody(request, 2_000_000);
+        const report = JSON.parse(body || "{}");
+        const saved = await saveMitzvahReport(report);
+        sendJson(response, 200, { ok: true, saved });
+    } catch (error) {
+        sendJson(response, 400, { ok: false, error: error.message || String(error) });
+    }
+    return true;
+}
+
+function readRequestBody(request, limit) {
+    return new Promise((resolve, reject) => {
+        let size = 0;
+        const chunks = [];
+        request.on("data", chunk => {
+            size += chunk.length;
+            if (size > limit) {
+                reject(new Error("report_too_large"));
+                request.destroy();
+                return;
+            }
+            chunks.push(chunk);
+        });
+        request.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+        request.on("error", reject);
+    });
+}
+
+async function saveMitzvahReport(report) {
+    const jobId = sanitizeName(report.jobId || "unknown-job");
+    const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const fileName = `${stamp}-${jobId}.json`;
+    const fullPath = path.join(REPORT_DIR, fileName);
+    await fs.promises.mkdir(REPORT_DIR, { recursive: true });
+    await fs.promises.writeFile(fullPath, JSON.stringify(report, null, 2), "utf8");
+    await fs.promises.writeFile(path.join(REPORT_DIR, "latest.json"), JSON.stringify(report, null, 2), "utf8");
+    console.log(`B"H - Mitzvah World autoplay report saved: ${fullPath}`);
+    return { fileName, path: fullPath };
+}
+
+function sanitizeName(value) {
+    return String(value).replace(/[^a-zA-Z0-9._-]+/g, "_").slice(0, 120) || "unknown";
+}
+
+function sendJson(response, statusCode, payload) {
+    response.writeHead(statusCode, { "content-type": "application/json", "access-control-allow-origin": "*" });
+    response.end(JSON.stringify(payload));
+}
+
 function listenSafely(server, port, label) {
     return new Promise(resolve => {
         let settled = false;
@@ -92,12 +139,6 @@ function listenSafely(server, port, label) {
     });
 }
 
-/**
- * Starts SMTP by default so awtsmoos.com can receive mail on port 25 again.
- *
- * @param {AwtsMail} mail Mail listener instance.
- * @returns {Promise<boolean>} True when SMTP binds successfully.
- */
 async function startMailSafely(mail) {
     if (process.env.AWTSMOOS_DISABLE_MAIL === "true") {
         console.log("B\"H - Email server disabled by AWTSMOOS_DISABLE_MAIL=true.");
@@ -116,13 +157,6 @@ async function startMailSafely(mail) {
     }
 }
 
-/**
- * Reads a positive numeric environment variable.
- *
- * @param {string} name Environment variable name.
- * @param {number} fallback Fallback when unset or invalid.
- * @returns {number} Safe positive port-like number.
- */
 function getNumberEnv(name, fallback) {
     const value = Number(process.env[name]);
     return Number.isInteger(value) && value > 0 ? value : fallback;
