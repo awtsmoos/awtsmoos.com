@@ -133,3 +133,46 @@
  * testable, and not duplicated across the import river.
  */
 .post-reader-localized-context .awtsmoos-auto-scroll-floating { min-width: 68px; }
+/* B"H
+ * Chapter 350: Mobile controls return to the crown.
+ * The A and I gates no longer sleep as a pale side-column over the holy text;
+ * they rise above the scroll as a small crown, clear of the letters below.
+ */
+@media (max-width: 900px) {
+    .post-reader-localized-context .awtsmoos-floating-controls {
+        top: calc(var(--awt-safe-top, env(safe-area-inset-top, 0px)) + 58px) !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: max-content !important;
+        max-width: calc(100vw - 96px) !important;
+        height: auto !important;
+        max-height: 52px !important;
+        transform: translate3d(-50%, 0, 0) !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        padding: 6px !important;
+        border: 1px solid rgba(246,201,108,.24) !important;
+        border-radius: 999px !important;
+        background: rgba(3, 8, 18, .82) !important;
+        box-shadow: 0 12px 30px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08) !important;
+        backdrop-filter: blur(12px) saturate(135%) !important;
+        pointer-events: none !important;
+        z-index: calc(var(--z-controls, 140) + 60) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-floating-controls button {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+        border-radius: 999px !important;
+        background: rgba(255,255,255,.94) !important;
+        color: #08111f !important;
+        font-size: 1.08rem !important;
+    }
+}
+

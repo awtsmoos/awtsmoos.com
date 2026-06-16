@@ -1,4 +1,4 @@
-﻿/* B"H
+/* B"H
  * Chapter 184: Final living correction seal, conflict-free.
  * Every selector is owned here by the .awtsmoos-reader-vision vessel, so the
  * tests see no duplicate ownership while the last cascade still rules the page.
@@ -294,6 +294,50 @@
         right: max(12px, env(safe-area-inset-right)) !important;
         width: auto !important;
         max-width: calc(100vw - 24px) !important;
+    }
+}
+/* B"H
+ * Chapter 351: Mobile sidebar absolute absence.
+ * When the sidebar is collapsed, every descendant is sealed into zero,
+ * so no ghost column, no hidden button, no cream edge can cover the text.
+ */
+@media (max-width: 900px) {
+    .post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments,
+    .post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments * {
+        display: none !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+
+    .post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
+        position: fixed !important;
+        left: -9999px !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: translate3d(-140vw, 0, 0) !important;
+        z-index: -1 !important;
+    }
+
+    .post-reader-localized-context.awtsmoos-reader-vision > .main,
+    .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+    .post-reader-localized-context.awtsmoos-reader-vision #realPost.content {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        transform: none !important;
     }
 }
 
