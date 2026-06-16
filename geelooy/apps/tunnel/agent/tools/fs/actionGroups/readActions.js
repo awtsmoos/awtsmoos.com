@@ -15,13 +15,13 @@ const { connectedFiles } = require("../connectedFiles.js");
 const { astOutline } = require("../astOutline.js");
 const { bulkSearch } = require("../pagedSearch.js");
 const { pagedTree } = require("../pagedTree.js");
+const { pathHints } = require("../pathHints.js");
 
 /**
  * B"H
- * Chapter 383: The many read doors learned one hallway.
- * Old actions still stand, but GET callers may now say action=read&mode=bulk,
- * action=search, or action=tree with cursor pagination and receive a clear
- * nextRequest when the scroll continues.
+ * Chapter 473: The read hallway gained a lantern before the search door.
+ * Agents may now ask pathHints/searchPathHints to reveal likely roots and ready
+ * bulkSearch requests before burning time in the wrong forest.
  */
 function safeRegexText(value) {
   return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -67,6 +67,7 @@ async function markdownRead(config, base) {
 
 async function consolidatedSearch(config, payload) {
   const mode = cleanMode(payload, payload.regex || payload.pattern ? "grep" : "bulkSearch");
+  if (["paths", "pathHints", "searchPathHints"].includes(mode)) return await pathHints(config, { ...payload, action: "pathHints" });
   if (["find", "files", "findFiles"].includes(mode)) return await findFiles(config, { ...payload, action: "findFiles" });
   if (["select", "selectString"].includes(mode)) return await selectString(config, { ...payload, action: "selectString" });
   if (["file", "selectStringFile"].includes(mode)) return await selectStringFile(config, payload);
@@ -75,17 +76,9 @@ async function consolidatedSearch(config, payload) {
 }
 
 function baseRead(config, payload, action, p) {
-  return {
-    ok: true,
-    action,
-    root: config.root,
-    path: p,
-    absolutePath: safePath(config, p),
-    maxChars: Number(payload.maxChars || 12000),
-    offsetChars: Number(payload.offsetChars || 0),
-    maxBytes: Number(payload.maxBytes || 24000),
-    offsetBytes: Number(payload.offsetBytes || 0)
-  };
+  return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p),
+    maxChars: Number(payload.maxChars || 12000), offsetChars: Number(payload.offsetChars || 0),
+    maxBytes: Number(payload.maxBytes || 24000), offsetBytes: Number(payload.offsetBytes || 0) };
 }
 
 function buildReadActions(ctx) {
@@ -93,36 +86,32 @@ function buildReadActions(ctx) {
   const action = payload.action || "list";
   const p = payload.path || payload.p || ".";
   const base = baseRead(config, payload, action, p);
+  return readActions(config, payload, action, p, base);
+}
+
+function readActions(config, payload, action, p, base) {
   return {
-    async stat() { return await statPath(config, payload); },
-    async list() {
-      const detailedItems = await listDirDetailed(config, p);
-      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), items: detailedItems.map(x => x.isDirectory ? x.name + "/" : x.name), detailedItems };
-    },
-    async tree() { return await pagedTree(config, payload); },
-    async read() { return await consolidatedRead(config, payload, base); },
-    async search() { return await consolidatedSearch(config, payload); },
-    async readLines() { return await readLines(config, payload); },
-    async readManyLines() { return await readManyLines(config, payload); },
-    async readBytes() { return { ...base, ...(await readTextFromBytes(config, p, base.maxBytes, base.offsetBytes)) }; },
-    async read64() { return { ...base, ...(await readBytesBase64(config, p, base.maxBytes, base.offsetBytes)) }; },
-    async md() { return await markdownRead(config, base); },
-    async bulk() { return await readBulk(config, payload); },
-    async grep() { return await grep(config, payload); },
-    async rg() { return await grep(config, { ...payload, action: "rg" }); },
-    async rgbgrep() { return await grep(config, { ...payload, action: "rgbgrep" }); },
-    async find() { return await findFiles(config, payload); },
-    async findFiles() { return await findFiles(config, payload); },
-    async semanticSearch() { return await bulkSearch(config, { ...payload, action: "semanticSearch" }); },
-    async bulkSearch() { return await bulkSearch(config, payload); },
-    async bulkSearchPage() { return await bulkSearch(config, payload); },
-    async selectString() { return await selectString(config, payload); },
-    async selectStringFile() { return await selectStringFile(config, payload); },
-    async fileHashes() { return await fileHashes(config, payload); },
-    async astOutline() { return await astOutline(config, payload); },
-    async symbolOutline() { return await symbolOutline(config, payload); },
-    async connectedFiles() { return await connectedFiles(config, payload); }
+    stat: () => statPath(config, payload),
+    list: async () => listResult(config, action, p),
+    tree: () => pagedTree(config, payload), read: () => consolidatedRead(config, payload, base),
+    search: () => consolidatedSearch(config, payload), readLines: () => readLines(config, payload),
+    readManyLines: () => readManyLines(config, payload), readBytes: () => readTextFromBytes(config, p, base.maxBytes, base.offsetBytes).then(x => ({ ...base, ...x })),
+    read64: () => readBytesBase64(config, p, base.maxBytes, base.offsetBytes).then(x => ({ ...base, ...x })),
+    md: () => markdownRead(config, base), bulk: () => readBulk(config, payload), grep: () => grep(config, payload),
+    rg: () => grep(config, { ...payload, action: "rg" }), rgbgrep: () => grep(config, { ...payload, action: "rgbgrep" }),
+    find: () => findFiles(config, payload), findFiles: () => findFiles(config, payload),
+    semanticSearch: () => bulkSearch(config, { ...payload, action: "semanticSearch" }), bulkSearch: () => bulkSearch(config, payload),
+    bulkSearchPage: () => bulkSearch(config, payload), selectString: () => selectString(config, payload), selectStringFile: () => selectStringFile(config, payload),
+    pathHints: () => pathHints(config, payload), searchPathHints: () => pathHints(config, { ...payload, action: "searchPathHints" }),
+    fileHashes: () => fileHashes(config, payload), astOutline: () => astOutline(config, payload),
+    symbolOutline: () => symbolOutline(config, payload), connectedFiles: () => connectedFiles(config, payload)
   };
+}
+
+async function listResult(config, action, p) {
+  const detailedItems = await listDirDetailed(config, p);
+  return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p),
+    items: detailedItems.map(x => x.isDirectory ? x.name + "/" : x.name), detailedItems };
 }
 
 module.exports = { buildReadActions, safeRegexText, selectStringFile, consolidatedRead, consolidatedSearch };
