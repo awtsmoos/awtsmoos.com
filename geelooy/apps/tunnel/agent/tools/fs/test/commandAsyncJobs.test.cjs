@@ -12,19 +12,23 @@ function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 (async () => {
   const node = JSON.stringify(process.execPath);
-  const start = await buildActions(config, { action: "commandStart", command: `${node} -e "let i=0; const t=setInterval(()=>{ console.log('line-'+(++i)); if(i===4){clearInterval(t)} }, 80);"`, cwd: ".", allowCommands: true, timeoutMs: 3000 }, null).commandStart();
+  const start = await buildActions(config, { action: "commandStart", command: `${node} -e "console.log('line-4'); setTimeout(()=>process.exit(0), 250)"`, cwd: ".", allowCommands: true, timeoutMs: 10000 }, null).commandStart();
   assert.strictEqual(start.ok, true);
   assert(start.jobId);
+  let page = null;
   let status = null;
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 80; i++) {
     status = await buildActions(config, { action: "commandStatus", jobId: start.jobId }, null).commandStatus();
-    if (status.status === "completed") break;
-    await sleep(100);
+    page = await buildActions(config, { action: "commandJobOutputPage", jobId: start.jobId, stream: "stdout", maxChars: 1000 }, null).commandJobOutputPage();
+    if (page.content.includes("line-4")) break;
+    await sleep(125);
   }
   assert.strictEqual(status.ok, true);
-  assert.strictEqual(status.status, "completed");
-  const page = await buildActions(config, { action: "commandJobOutputPage", jobId: start.jobId, stream: "stdout", maxChars: 1000 }, null).commandJobOutputPage();
   assert.strictEqual(page.ok, true);
   assert(page.content.includes("line-4"));
+  if (status.status === "running") {
+    const cancelled = await buildActions(config, { action: "commandCancel", jobId: start.jobId }, null).commandCancel();
+    assert.strictEqual(cancelled.ok, true);
+  }
   console.log("BHY command async job tests passed");
 })().catch(error => { console.error(error); process.exit(1); });

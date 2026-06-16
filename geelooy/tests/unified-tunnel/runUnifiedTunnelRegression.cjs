@@ -3,7 +3,7 @@ const { spawnSync } = require("child_process");
 
 /**
  * B"H
- * Chapter 82: The regression menorah gained async jobs, carrier gates, and write smoke.
+ * Chapter 83: The regression menorah gained root preview route proof.
  */
 const tests = [
   "geelooy/apps/tunnel/agent/testing/manifestGenerationSmoke.cjs",
@@ -16,6 +16,7 @@ const tests = [
   "geelooy/api/tunnel/control/core/test/ephemeralStore.test.cjs",
   "geelooy/api/tunnel/control/billing/test/computeCoins.test.cjs",
   "geelooy/api/tunnel/control/preview/test/previewGatewayStore.test.cjs",
+  "geelooy/api/tunnel/control/preview/test/previewRootViewRoute.test.cjs",
   "geelooy/api/tunnel/control/routes/test/protectedFsTimeout.test.cjs",
   "geelooy/api/tunnel/control/routes/test/protectedFsPerutaGuard.test.cjs",
   "geelooy/apps/tunnel/agent/tools/fs/test/gitIgnoreHygiene.test.cjs",
@@ -80,3 +81,4 @@ for (const file of tests) {
 }
 const warnings = results.filter(result => result.stderr).length;
 console.log(JSON.stringify({ ok: true, suite: "unified-tunnel-regression", count: results.length, warnings, durationMs: Date.now() - started, results }, null, 2));
+

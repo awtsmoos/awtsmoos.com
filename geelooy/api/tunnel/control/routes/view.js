@@ -34,11 +34,17 @@ async function viewWs($i, vars = {}) {
 }
 
 function renderMissing(id) {
-  return { statusCode: 404, mimeType: "text/html; charset=utf-8", body: `<!doctype html><h1>Preview not found</h1><p>${escapeHtml(id)}</p>` };
+  return htmlPacket(404, `<!doctype html><h1>Preview not found</h1><p>${escapeHtml(id)}</p>`);
 }
+
 function renderDenied(id) {
-  return { statusCode: 403, mimeType: "text/html; charset=utf-8", body: `<!doctype html><h1>Private preview</h1><p>Log in as the owner to view ${escapeHtml(id)}.</p>` };
+  return htmlPacket(403, `<!doctype html><h1>Private preview</h1><p>Log in as the owner to view ${escapeHtml(id)}.</p>`);
 }
+
+function htmlPacket(statusCode, body) {
+  return { statusCode, mimeType: "text/html; charset=utf-8", headers: { "Cache-Control": "private, no-store, max-age=0" }, response: body, body };
+}
+
 function escapeHtml(value) { return String(value || "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])); }
 
 module.exports = { view, viewRaw, viewWs };
