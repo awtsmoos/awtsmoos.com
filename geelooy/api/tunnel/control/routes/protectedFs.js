@@ -1,4 +1,4 @@
-﻿// B"H
+// B"H
 const { json } = require("../core/respond.js");
 const { currentIdentity } = require("../core/auth.js");
 const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.js");
@@ -20,6 +20,11 @@ const MIN_TIMEOUT_MS = 1000;
  * Chapter 21: The gate received hidden carriers.
  * GPT Actions can carry full trees/jobs inside params/params64 because the
  * visible schema cannot model every nested object.
+ *
+ * Chapter 460: A wandering agent brought `action=bulk` with an `actionsJson`
+ * bundle of writes. The old river thought bulk meant only bulk-read. The new
+ * river recognizes the living intention: arrays of action objects are action
+ * batches, while ordinary bulk file lists remain untouched.
  */
 function responseBytes(obj) { try { return Buffer.byteLength(JSON.stringify(obj), "utf8"); } catch (_e) { return 0; } }
 function identityAllows(ident, neededScope) { if (ident.kind === "session") return true; return scopeAllowed(ident, neededScope) || scopeAllowed(ident, "tunnel.admin") || scopeAllowed(ident, "awtsmoos.os"); }
@@ -71,16 +76,59 @@ function normalizeCarriers(payload = {}, $i = {}) {
     const value = firstDefined(payload[key], query[key], body[key]);
     if (value !== undefined && value !== "") merged[key] = value;
   }
-  if (isCommandTree(merged.action)) {
-    const actionJson = parseCarrier(merged.actionsJson, null);
-    if (!merged.tree && actionJson && typeof actionJson === "object") merged.tree = actionJson;
-    if ((!merged.steps || !merged.steps.length) && actionJson?.steps) merged.steps = actionJson.steps;
-    if (merged.tree && typeof merged.tree === "object") {
-      if (merged.tree.vars && !merged.vars) merged.vars = merged.tree.vars;
-      if (merged.tree.budgetPerutas && !merged.budgetPerutas) merged.budgetPerutas = merged.tree.budgetPerutas;
-    }
-  }
+  hydrateActionStepsFromActionsJson(merged);
   return merged;
+}
+
+function hydrateActionStepsFromActionsJson(merged) {
+  const actionJson = parseCarrier(merged.actionsJson, null);
+  if (!actionJson) return merged;
+  if (isLegacyBulkActionBatch(merged.action, actionJson, merged)) {
+    merged.action = "actionBatch";
+    merged.compatibilityAlias = "bulk_actionsJson_to_actionBatch";
+  }
+  if (isBatchLikeAction(merged.action)) hydrateBatchLikePayload(merged, actionJson);
+  if (isCommandTree(merged.action)) hydrateCommandTreePayload(merged, actionJson);
+  return merged;
+}
+
+function hydrateBatchLikePayload(merged, actionJson) {
+  const steps = stepsFromCarrier(actionJson);
+  if (steps.length && (!Array.isArray(merged.steps) || !merged.steps.length)) merged.steps = steps;
+  if (steps.length && (!Array.isArray(merged.actions) || !merged.actions.length)) merged.actions = steps;
+  if (actionJson && typeof actionJson === "object" && !Array.isArray(actionJson)) {
+    if (actionJson.workflow && !merged.workflow) merged.workflow = actionJson.workflow;
+    if (actionJson.vars && !merged.vars) merged.vars = actionJson.vars;
+  }
+}
+
+function hydrateCommandTreePayload(merged, actionJson) {
+  if (!merged.tree && actionJson && typeof actionJson === "object") merged.tree = actionJson;
+  const steps = stepsFromCarrier(actionJson);
+  if ((!merged.steps || !merged.steps.length) && steps.length) merged.steps = steps;
+  if (merged.tree && typeof merged.tree === "object") {
+    if (merged.tree.vars && !merged.vars) merged.vars = merged.tree.vars;
+    if (merged.tree.budgetPerutas && !merged.budgetPerutas) merged.budgetPerutas = merged.tree.budgetPerutas;
+  }
+}
+
+function isLegacyBulkActionBatch(action, actionJson, merged) {
+  const steps = stepsFromCarrier(actionJson);
+  return String(action || "") === "bulk" && !merged.files && steps.length > 0 && steps.every(step => step && typeof step === "object" && step.action);
+}
+
+function isBatchLikeAction(action) {
+  return /^(actionBatch|parallelActionBatch|forEachActionBatch|retryAction|assertAction|testMatrix|runtimeWorkflow|aiWorkflowRun)$/i.test(String(action || ""));
+}
+
+function stepsFromCarrier(value) {
+  if (Array.isArray(value)) return value;
+  if (!value || typeof value !== "object") return [];
+  if (Array.isArray(value.steps)) return value.steps;
+  if (Array.isArray(value.actions)) return value.actions;
+  if (Array.isArray(value.do)) return value.do;
+  if (Array.isArray(value.workflow?.steps)) return value.workflow.steps;
+  return [];
 }
 
 function controlBaseUrl(tunnelName) { return "https://awtsmoos.com/api/tunnel/control/fs/" + encodeURIComponent(tunnelName || "auto"); }
