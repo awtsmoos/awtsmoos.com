@@ -22,6 +22,10 @@
 AI_THOUGHTS/
 ai_thoughts/
 
+# Runtime mutable app data
+geelooy/.data/
+.data/
+
 # Generated AwtsDB/search shard artifacts
 searchPacked/
 *.bin
