@@ -1,4 +1,4 @@
-/* B"H
+﻿/* B"H
  * Chapter 184: Final living correction seal, conflict-free.
  * Every selector is owned here by the .awtsmoos-reader-vision vessel, so the
  * tests see no duplicate ownership while the last cascade still rules the page.
@@ -104,7 +104,7 @@
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-author-crown::after {
-    content: "↗";
+    content: "â†—";
     margin-inline-start: .35rem;
     color: var(--inline-edge-gold, #f6c96c);
     font-size: .78em;
@@ -234,3 +234,66 @@
  * testable, and not duplicated across the import river.
  */
 .post-reader-localized-context .awtsmoos-inline-shell:where(:not(.awtsmoos-inline-polish-off)) { contain: layout style; }
+/* B"H
+ * Chapter 349: Mobile sidebar zero-width seal.
+ * The Awtsmoos withdraws the collapsed panel into no-place: no pale edge,
+ * no touch sheet, no layout breath, while desktop remains the old side gate.
+ */
+@media (max-width: 900px) {
+    .post-reader-localized-context.awtsmoos-reader-vision > .main {
+        display: block !important;
+        grid-template-columns: minmax(0, 1fr) 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+    .post-reader-localized-context.awtsmoos-reader-vision #realPost.content {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
+        display: none !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transform: translate3d(-120vw, 0, 0) !important;
+        z-index: -1 !important;
+    }
+
+    .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+        z-index: calc(var(--z-sidebar, 120) + 20) !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        max-width: calc(100vw - 1rem) !important;
+    }
+
+    .post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments) {
+        left: max(12px, env(safe-area-inset-left)) !important;
+        right: max(12px, env(safe-area-inset-right)) !important;
+        width: auto !important;
+        max-width: calc(100vw - 24px) !important;
+    }
+}
+
