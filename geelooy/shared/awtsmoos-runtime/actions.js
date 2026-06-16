@@ -5,9 +5,17 @@
  *
  * @description
  * The Awtsmoos does not split reality into rival lists. These actions form one
- * shared ledger used by /geelooy/ai, Code Vibe, Code AI Studio, tunnel-control,
- * and the browser-memory Virtual OS fallback.
+ * shared ledger used by /geelooy/ai, Code Vibe, Code AI Studio, Code Chat,
+ * tunnel-control, the browser local tunnel bridge, and Virtual OS fallback.
+ *
+ * Chapter 452: The small safe cup learned it was held by a larger ocean.
+ * Direct tools remain a guarded subset, yet every generated tunnel action is
+ * visible to agents through the shared manifest so they can ask the final router
+ * for exactly the action they need. Permission is enforced at execution time,
+ * not hidden by an incomplete list.
  */
+
+import { GENERATED_TUNNEL_ACTIONS } from '../../ai/central/generatedTunnelActions.js';
 
 export const SAFE_ACTIONS = Object.freeze([
   'list', 'tree', 'read', 'readLines', 'readManyLines', 'read64', 'bulk',
@@ -18,6 +26,10 @@ export const SAFE_ACTIONS = Object.freeze([
   'astOutline', 'symbolOutline', 'replaceFunction', 'replaceFunctionBody',
   'insertBeforeFunction', 'insertAfterFunction', 'testMatrix', 'apiSmokeTest',
   'runtimeWorkflow', 'aiWorkflowRun', 'aiCommandBatch'
+]);
+
+export const ALL_RUNTIME_ACTIONS = Object.freeze([
+  ...new Set([...GENERATED_TUNNEL_ACTIONS, ...SAFE_ACTIONS])
 ]);
 
 export const VIRTUAL_ACTIONS = Object.freeze([
@@ -38,5 +50,6 @@ export function actionCapability(action = '') {
   const name = normalizeActionName(action);
   if (VIRTUAL_ACTIONS.includes(name)) return 'virtual-compatible';
   if (SAFE_ACTIONS.includes(name)) return 'live-tunnel-preferred';
-  return 'requires-live-tunnel';
+  if (ALL_RUNTIME_ACTIONS.includes(name)) return 'requires-live-tunnel';
+  return 'unknown-action';
 }
