@@ -1,34 +1,36 @@
 /* B"H
- * Chapter 116: The sidebar crown becomes the single living header.
- * The current page is the title button. Breadcrumbs are only the earlier path.
- * The chamber below no longer has to shout the same name twice.
+ * Chapter 116 reopened: the sidebar learns not to bite the page.
+ * On small screens it rises from the crown as a top sheet, not a side ghost.
+ * When hidden, it leaves upward into ayin, with no cream edge over the words.
  */
 
 .post-reader-localized-context .sidebar {
     position: fixed !important;
     z-index: var(--z-sidebar) !important;
-    left: 0 !important;
-    right: 0 !important;
-    top: var(--awt-header-space) !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: calc(100dvh - var(--awt-header-space)) !important;
-    overflow-x: clip !important;
-    overflow-y: hidden !important;
-    border: 0 !important;
-    border-top: 1px solid rgba(246,201,108,.18) !important;
+    left: max(12px, env(safe-area-inset-left)) !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    top: calc(var(--awt-header-space) + 10px) !important;
+    bottom: auto !important;
+    width: auto !important;
+    max-width: calc(100vw - 24px) !important;
+    height: auto !important;
+    max-height: min(72dvh, 34rem) !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(246,201,108,.22) !important;
+    border-radius: 24px !important;
     background: linear-gradient(180deg, #050b14, #020712 72%) !important;
     color: var(--awt-text) !important;
-    box-shadow: 0 -22px 70px rgba(0,0,0,.62) !important;
+    box-shadow: 0 22px 70px rgba(0,0,0,.62) !important;
     transform: translate3d(0,0,0) !important;
     opacity: 1 !important;
+    visibility: visible !important;
     pointer-events: auto !important;
 }
 
 .post-reader-localized-context .sidebar.hidden-comments {
-    transform: translate3d(104%,0,0) !important;
+    transform: translate3d(0, calc(-100% - var(--awt-header-space) - 40px), 0) !important;
     opacity: 0 !important;
+    visibility: hidden !important;
     pointer-events: none !important;
 }
 
@@ -38,10 +40,19 @@
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    height: 100% !important;
+    max-height: inherit !important;
     min-width: 0 !important;
     min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-panels,
+.post-reader-localized-context .awtsmoos-slide-viewport,
+.post-reader-localized-context .awtsmoos-view-content {
+    min-width: 0 !important;
     overflow-x: clip !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
 }
 
 .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
@@ -81,7 +92,7 @@
 
 .post-reader-localized-context .awtsmoos-chrome-controls {
     display: flex !important;
-    gap: 8px !important;
+    gap: max(.5rem, 8px) !important;
     flex: 0 0 auto !important;
 }
 
@@ -127,14 +138,25 @@
     .post-reader-localized-context .sidebar {
         top: 0 !important;
         left: auto !important;
+        right: 0 !important;
+        bottom: 0 !important;
         width: min(440px,42%) !important;
+        max-width: 42% !important;
         height: 100dvh !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+        border-top: 0 !important;
+        border-right: 0 !important;
+        border-bottom: 0 !important;
         border-left: 1px solid rgba(246,201,108,.18) !important;
+        transform: translate3d(0,0,0) !important;
+        visibility: visible !important;
+    }
+
+    .post-reader-localized-context .sidebar.hidden-comments {
+        transform: translate3d(104%,0,0) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
     }
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-.post-reader-localized-context .awtsmoos-chrome-controls { gap: max(.5rem, 8px); }
