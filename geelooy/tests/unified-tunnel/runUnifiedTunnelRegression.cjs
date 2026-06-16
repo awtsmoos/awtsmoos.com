@@ -3,7 +3,7 @@ const { spawnSync } = require("child_process");
 
 /**
  * B"H
- * Chapter 79: The regression menorah gained OpenAPI and budget proof flames.
+ * Chapter 82: The regression menorah gained async jobs, carrier gates, and write smoke.
  */
 const tests = [
   "geelooy/apps/tunnel/agent/testing/manifestGenerationSmoke.cjs",
@@ -25,6 +25,10 @@ const tests = [
   "geelooy/apps/tunnel/agent/tools/fs/test/renderLabActions.test.cjs",
   "geelooy/apps/tunnel/agent/tools/fs/test/commandTreeCore.test.cjs",
   "geelooy/apps/tunnel/agent/tools/fs/test/commandTreeBudgetVisualize.test.cjs",
+  "geelooy/api/tunnel/control/routes/test/protectedFsCarrierNormalize.test.cjs",
+  "geelooy/apps/tunnel/agent/tools/fs/test/writeActionsSmoke.test.cjs",
+  "geelooy/apps/tunnel/agent/tools/fs/test/commandAsyncJobs.test.cjs",
+  "geelooy/apps/tunnel/agent/tools/fs/test/commandOutputPagination.test.cjs",
   "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/render-lab/testRenderLab.mjs",
   "geelooy/tests/unified-tunnel/commandSimulationParity.test.mjs",
   "geelooy/tests/unified-tunnel/browserTabRegistrationSmoke.test.mjs",

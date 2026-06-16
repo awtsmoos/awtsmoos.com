@@ -11,10 +11,10 @@ const liveYamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-a
 
 /**
  * B"H
- * Chapter 409: The YAML learned to carry full commandTree seeds.
+ * Chapter 411: The YAML learned command rivers, tree seeds, and paging vessels.
  * Legacy GPT Actions still call one endpoint. The query vessel now explicitly
  * accepts tree/vars/budget carriers so agents can run a one-line commandTree
- * without hiding the real plan in an unsupported field.
+ * without hiding the real plan in an unsupported field. It also exposes command job polling and paged output.
  */
 const baseConfig = {
   root,
@@ -36,18 +36,18 @@ const stringParams = [
   ["selector"], ["chromePath"], ["userDataDir"], ["host", "127.0.0.1"], ["index", "index.html"], ["serverId"], ["sandboxId"], ["entry"], ["format", "png"],
   ["runtime"], ["engine"], ["mode"], ["readMode"], ["writeMode"], ["searchMode"], ["kind"], ["xml"], ["xmlInput"], ["writesXml"], ["filesXml"], ["bundle"], ["part"],
   ["continuationPrompt"], ["continuationPrompt64"], ["provider"], ["providerId"], ["agent"], ["agentId"], ["model"], ["apiKey"], ["apiKey64"], ["message"], ["message64"],
-  ["prompt"], ["prompt64"], ["system"], ["system64"], ["taskId"], ["title"], ["outputDir"], ["fileName"], ["summaryAgentId"], ["summaryFileName"], ["parentTaskId"], ["rootTaskId"], ["taskKind"], ["treeId"], ["nodeId"]
+  ["prompt"], ["prompt64"], ["system"], ["system64"], ["taskId"], ["title"], ["outputDir"], ["fileName"], ["summaryAgentId"], ["summaryFileName"], ["parentTaskId"], ["rootTaskId"], ["taskKind"], ["treeId"], ["nodeId"], ["outputId"], ["outputRef"], ["resultId"], ["resultRef"], ["jobId"], ["stream"]
 ];
 const integerParams = [
   ["offsetChars", 0], ["maxChars", 12000], ["totalMaxChars", 24000], ["offsetBytes", 0], ["maxBytes", 24000], ["maxFiles", 5], ["maxResults", 80], ["page", 1], ["pageSize", 50],
-  ["cursor", 0], ["nextCursor"], ["maxInlineBytes", 12000], ["depth", 2], ["limit", 150], ["timeoutMs", 240000], ["maxText", 4000], ["maxSteps", 50], ["maxIterations", 20],
+  ["cursor", 0], ["nextCursor"], ["maxInlineBytes", 12000], ["maxInlineChars", 12000], ["pageChars", 12000], ["depth", 2], ["limit", 150], ["timeoutMs", 240000], ["maxText", 4000], ["maxSteps", 50], ["maxIterations", 20],
   ["budgetPerutas"], ["budget"], ["maxPerutas"], ["estimatedPerutas"], ["ttlSeconds"],
   ["port", 9222], ["chromePort", 9222], ["waitMs", 800], ["pollMs", 1000], ["settleMs", 2500], ["startupWaitMs", 1200], ["maxDepth", 3], ["maxChildrenPerTask", 8],
   ["maxTotalTasks", 80], ["pollIntervalMs", 7000], ["promotionCycles", 7], ["agentCycles", 8], ["chapterCycles", 8], ["providerTimeoutMs", 45000]
 ];
 const booleanParams = [
   ["checkSyntax", true], ["runtimeCheck", false], ["regex", false], ["replaceAll", true], ["dryRun", true], ["confirm", false], ["includeDirs", false], ["write", false],
-  ["snapshot", true], ["headless", false], ["fullPage", true], ["allowWrite"], ["allowSecrets"], ["enableLocalHttpProxy"], ["allowCommands"], ["stream"], ["guidanceDebug", false],
+  ["snapshot", true], ["headless", false], ["fullPage", true], ["allowWrite"], ["allowSecrets"], ["enableLocalHttpProxy"], ["allowCommands"], ["stream"], ["async"], ["asyncCommand"], ["background"], ["guidanceDebug", false],
   ["debugGuidance", false], ["allowRecursiveSpawn", true], ["continueCurrent", false], ["open", false], ["wait", false], ["optional", false], ["required", true], ["continueOnError", false]
 ];
 
@@ -62,7 +62,7 @@ function fsPathLines() {
     "    get:",
     "      operationId: awtsmoosTunnelAction",
     "      summary: Unified tunnel action endpoint.",
-    "      description: B\"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use commandTree tree/vars/budget fields, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.",
+    "      description: B\"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.",
     "      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]",
     "      parameters:",
     "        - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }",
@@ -128,8 +128,16 @@ function yaml() {
     "        BH: { type: string }",
     "        error: { type: string }",
     "        message: { type: string }",
+    "        outputId: { type: string }",
+    "        outputRef: { type: string }",
+    "        jobId: { type: string }",
+    "        statusPayload: { type: object, additionalProperties: true }",
+    "        stdoutPagePayload: { type: object, additionalProperties: true }",
+    "        stderrPagePayload: { type: object, additionalProperties: true }",
     "        nextRequest: { type: object, additionalProperties: true }",
     "        nextPagePayload: { type: object, additionalProperties: true }",
+    "        nextStdoutPagePayload: { type: object, additionalProperties: true }",
+    "        nextStderrPagePayload: { type: object, additionalProperties: true }",
     "        nextScanRequest: { type: object, additionalProperties: true }",
     "        aiGuidance: { type: object, additionalProperties: true }",
     "        finalInstruction:",
@@ -169,9 +177,10 @@ console.log(JSON.stringify({
   generatedYaml: path.relative(root, yamlPath),
   generatedLiveYaml: path.relative(root, liveYamlPath),
   hasFsOAuth: yamlText.includes("operationId: awtsmoosTunnelAction") && yamlText.includes("OAuth2"),
-  hasLegacyActions: ["read", "bulk", "tree", "simulateRuntime", "aiAgentMessage"].every(x => yamlText.includes(`              - ${x}`)),
+  hasLegacyActions: ["read", "bulk", "tree", "write", "bulkWrite", "writeIfHash", "simulateRuntime", "aiAgentMessage"].every(x => yamlText.includes(`              - ${x}`)),
   hasNewModeParams: ["mode", "readMode", "writeMode", "xml", "writesXml", "cursor", "guidanceDebug"].every(x => yamlText.includes(`name: ${x}`)),
   hasCommandTreeParams: ["tree", "tree64", "vars", "vars64", "budgetPerutas", "treeId"].every(x => yamlText.includes(`name: ${x}`)),
+  hasCommandPagingParams: ["commandOutputPage", "commandStart", "commandStatus", "commandJobOutputPage", "outputId", "jobId", "stream", "offsetChars", "maxChars", "asyncCommand", "background"].every(x => yamlText.includes(x.startsWith("command") ? `              - ${x}` : `name: ${x}`)),
   hasChatGptActions: ["chatgptLogin", "chatgptMessage", "chatgptContinueConversation"].every(x => yamlText.includes(`              - ${x}`)),
   hasRuntimeParams: ["actionsJson64", "browserActions64", "pageActions64", "engine"].every(x => yamlText.includes(`name: ${x}`))
 }, null, 2));

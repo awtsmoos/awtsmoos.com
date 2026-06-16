@@ -137,6 +137,7 @@ tools/fs/bulkPage.js
 tools/fs/bulkRead.js
 tools/fs/chromeRuntime.js
 tools/fs/cognitionCommandNames.js
+tools/fs/commandJobStore.js
 tools/fs/commandOutputStore.js
 tools/fs/connectedFiles.js
 tools/fs/connectedRefs.js

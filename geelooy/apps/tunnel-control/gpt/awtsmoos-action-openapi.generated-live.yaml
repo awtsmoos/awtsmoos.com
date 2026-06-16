@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use commandTree tree/vars/budget fields, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
+      description: B"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
@@ -128,8 +128,12 @@ paths:
               - chromeWaitForSelector
               - command
               - commandBatch
+              - commandCancel
               - commandFailureClassifier
               - commandIntentClassifier
+              - commandJobCancel
+              - commandJobOutputPage
+              - commandJobStatus
               - commandMemoryDelete
               - commandMemoryFork
               - commandMemoryGet
@@ -138,12 +142,15 @@ paths:
               - commandMemoryRun
               - commandMemorySave
               - commandOutputPage
+              - commandPoll
               - commandPresetDelete
               - commandPresetGet
               - commandPresetList
               - commandPresetRun
               - commandPresetSave
               - commandRun
+              - commandStart
+              - commandStatus
               - commandTreeCancel
               - commandTreeDryRun
               - commandTreeExplain
@@ -605,6 +612,12 @@ paths:
         - { name: taskKind, in: query, schema: { type: string } }
         - { name: treeId, in: query, schema: { type: string } }
         - { name: nodeId, in: query, schema: { type: string } }
+        - { name: outputId, in: query, schema: { type: string } }
+        - { name: outputRef, in: query, schema: { type: string } }
+        - { name: resultId, in: query, schema: { type: string } }
+        - { name: resultRef, in: query, schema: { type: string } }
+        - { name: jobId, in: query, schema: { type: string } }
+        - { name: stream, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
@@ -617,6 +630,8 @@ paths:
         - { name: cursor, in: query, schema: { type: integer, default: 0 } }
         - { name: nextCursor, in: query, schema: { type: integer } }
         - { name: maxInlineBytes, in: query, schema: { type: integer, default: 12000 } }
+        - { name: maxInlineChars, in: query, schema: { type: integer, default: 12000 } }
+        - { name: pageChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: depth, in: query, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, schema: { type: integer, default: 150 } }
         - { name: timeoutMs, in: query, schema: { type: integer, default: 240000 } }
@@ -658,6 +673,9 @@ paths:
         - { name: enableLocalHttpProxy, in: query, schema: { type: boolean } }
         - { name: allowCommands, in: query, schema: { type: boolean } }
         - { name: stream, in: query, schema: { type: boolean } }
+        - { name: async, in: query, schema: { type: boolean } }
+        - { name: asyncCommand, in: query, schema: { type: boolean } }
+        - { name: background, in: query, schema: { type: boolean } }
         - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: allowRecursiveSpawn, in: query, schema: { type: boolean, default: true } }
@@ -691,8 +709,16 @@ components:
         BH: { type: string }
         error: { type: string }
         message: { type: string }
+        outputId: { type: string }
+        outputRef: { type: string }
+        jobId: { type: string }
+        statusPayload: { type: object, additionalProperties: true }
+        stdoutPagePayload: { type: object, additionalProperties: true }
+        stderrPagePayload: { type: object, additionalProperties: true }
         nextRequest: { type: object, additionalProperties: true }
         nextPagePayload: { type: object, additionalProperties: true }
+        nextStdoutPagePayload: { type: object, additionalProperties: true }
+        nextStderrPagePayload: { type: object, additionalProperties: true }
         nextScanRequest: { type: object, additionalProperties: true }
         aiGuidance: { type: object, additionalProperties: true }
         finalInstruction:
