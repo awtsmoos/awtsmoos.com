@@ -325,6 +325,7 @@ paths:
               - packageScriptRunner
               - parallelActionBatch
               - pathDoctor
+              - pathHints
               - payloadEcho
               - payloadShapeInfer
               - perfBudgetCheck
@@ -403,6 +404,7 @@ paths:
               - schemaRoundTripTest
               - scriptDiscovery
               - search
+              - searchPathHints
               - secretScan
               - securityHeadersCheck
               - selectString

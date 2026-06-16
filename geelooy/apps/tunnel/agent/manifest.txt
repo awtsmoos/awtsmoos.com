@@ -217,6 +217,7 @@ tools/fs/nodeDomRuntime/vmContext.js
 tools/fs/pagedSearch.js
 tools/fs/pagedTree.js
 tools/fs/pathGuard.js
+tools/fs/pathHints.js
 tools/fs/plainPayload.js
 tools/fs/previewRegistry.js
 tools/fs/projectInfo.js
@@ -256,6 +257,7 @@ tools/fs/symbolOutline.js
 tools/fs/tree.js
 tools/fs/workflowExpressions.js
 tools/fs/workflowRunner.js
+tools/fs/writePayload.js
 tools/fs/xmlWrites.js
 tools/relay/browserApi.js
 tools/relay/chatgptRelay.js
