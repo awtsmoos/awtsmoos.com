@@ -1,0 +1,18 @@
+// B"H
+/** @file PlayerFacingStarterZoneAudit.js @description Proves starter systems are visible: NPC gossip, quest flow, loot, services, death recovery, minimap/HUD contracts. */
+import { npcInteractionIndex, openNpcInteraction } from "../npc/NpcInteractionRuntime.js";
+import { gossipPayload } from "../npc/GossipRuntime.js";
+import { questOfferPayload, acceptQuest, progressQuestObjective, turnInQuest } from "../missions/QuestGossipRuntime.js";
+import { questTrackerPayload } from "../missions/QuestTrackerRuntime.js";
+import { questMarkersPayload } from "../missions/QuestMarkerRuntime.js";
+import { makeLootableCorpse, lootAll, lootSparklePayload } from "../loot/LootRuntime.js";
+import { trainerPayload } from "../trainers/TrainerRuntime.js";
+import { openVendor } from "../social/VendorRuntime.js";
+import { restAtInn } from "../social/InnRuntime.js";
+import { markPlayerDead } from "../death/DeathRuntime.js";
+import { spiritHealerPayload } from "../death/SpiritHealerRuntime.js";
+import { starterZoneHudPayload } from "../../ui/StarterZoneHudRuntime.js";
+function auditOlam() { const events = [], player = { level:8, perutah:200, inventory:{ slots:[], actionSlots:[], equipment:{} }, mesh:{ position:{ x:0, y:0, z:0 }, rotation:{ y:0 } }, maxHp:100, hp:100, maxKoach:50, koach:50 }; return { player, ayshPeula:(...a)=>events.push(a), events }; }
+function hasService(index, service) { return index.npcs.some(n => (n.services || []).includes(service)); }
+export function runPlayerFacingStarterZoneAudit() { const olam = auditOlam(), index = npcInteractionIndex(), gossip = gossipPayload(olam, "rebbe"), offer = questOfferPayload(olam, "the_first_shliach"), accepted = acceptQuest(olam, "the_first_shliach"), p1 = progressQuestObjective(olam, "the_first_shliach", "talk_rebbe"), p2 = progressQuestObjective(olam, "the_first_shliach", "discover_rebbe_house"), tracker = questTrackerPayload(olam), markers = questMarkersPayload(olam), turnedIn = turnInQuest(olam, "the_first_shliach"), lootCorpse = makeLootableCorpse(olam, { id:"audit_deer", species:"deer", level:1, name:"Audit Deer" }), sparkle = lootSparklePayload(olam), looted = lootAll(olam, lootCorpse.corpseId), trainers = trainerPayload(olam), vendor = openVendor(olam, "toolmaker"), inn = restAtInn(olam), death = markPlayerDead(olam, "audit"), spirit = spiritHealerPayload(olam), hud = starterZoneHudPayload(olam), interaction = openNpcInteraction(olam, "rebbe"); const servicesOk = ["quest","trainer","vendor","repair","inn","hearth","bank","mailbox","profession","guard"].every(s => hasService(index, s)); const ok = servicesOk && gossip.ok && gossip.choices.length >= 2 && offer.buttons.accept && accepted.ok && p1.ok && p2.ok && tracker.completedReady.length >= 1 && markers.count >= 1 && turnedIn.ok && sparkle.corpses.length >= 1 && looted.ok && trainers.trainers.length >= 4 && Array.isArray(vendor.items) && Boolean(inn.rested) && Boolean(death?.ghost) && spirit.open && Boolean(hud.questTracker && hud.questMarkers && hud.minimap) && interaction.ok; return { ok, servicesOk, npcServices:index.npcs.length, gossipChoices:gossip.choices.length, offerState:offer.state, accepted:accepted.ok, progress:[p1.ok,p2.ok], trackerReady:tracker.completedReady.length, markers:markers.count, turnedIn:turnedIn.ok, loot:{ sparkle:sparkle.corpses.length, looted:looted.ok }, trainers:trainers.trainers.length, vendorItems:vendor.items.length, innRested:Boolean(inn.rested), deathGhost:Boolean(death?.ghost), spiritOpen:spirit.open, hudOk:Boolean(hud.questTracker && hud.questMarkers && hud.minimap), interactionOk:interaction.ok, events:olam.events.length }; }
+export default { runPlayerFacingStarterZoneAudit };
