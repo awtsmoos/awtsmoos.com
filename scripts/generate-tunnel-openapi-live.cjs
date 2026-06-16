@@ -29,7 +29,7 @@ const actions = Object.keys(buildActions(baseConfig, { action: "list" }, null)).
 const stringParams = [
   ["p", "."], ["path"], ["paths"], ["files"], ["files64"], ["writes"], ["edits"], ["from"], ["to"], ["source"], ["dest"], ["target"], ["targetVessel"], ["vessel"], ["fallback"],
   ["fs"], ["cwd", "."], ["root"], ["content"], ["content64"], ["find"], ["find64"], ["replace"], ["replace64"], ["query"], ["query64"], ["text"], ["text64"],
-  ["goal"], ["goal64"], ["command"], ["command64"], ["script"], ["script64"], ["scriptText"], ["expression"], ["expression64"], ["html"], ["html64"],
+  ["goal"], ["goal64"], ["command"], ["command64"], ["commands"], ["commands64"], ["script"], ["script64"], ["scriptText"], ["expression"], ["expression64"], ["html"], ["html64"],
   ["testCode"], ["testCode64"], ["workflow"], ["workflow64"], ["workflowName"], ["tree"], ["tree64"], ["commandTree"], ["commandTree64"], ["vars"], ["vars64"], ["steps"], ["steps64"], ["params"], ["params64"], ["probes"], ["probes64"],
   ["interactions"], ["interactions64"], ["actions"], ["actions64"], ["actionsJson"], ["actionsJson64"], ["browserActions"], ["browserActions64"], ["pageActions"], ["pageActions64"],
   ["returnValues"], ["returnValues64"], ["values"], ["values64"], ["url"], ["urlPath"], ["method", "GET"], ["headers"], ["headers64"], ["body"], ["body64"], ["bodyEncoding", "utf8"],
@@ -62,7 +62,7 @@ function fsPathLines() {
     "    get:",
     "      operationId: awtsmoosTunnelAction",
     "      summary: Unified tunnel action endpoint.",
-    "      description: B\"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.",
+    "      description: B\"H. Run one tunnel action. Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.",
     "      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]",
     "      parameters:",
     "        - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }",

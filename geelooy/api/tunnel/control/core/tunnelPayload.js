@@ -89,6 +89,31 @@ function preferBodyOr64($i, body, plainName, encodedName, fallback = "") {
   return from64(queryValue($i, encodedName, "")) || fallback;
 }
 
+/**
+ * B"H
+ * A little mercy for wandering agents at the command gate.
+ * The canonical vessel is command/command64, but older callers sometimes send
+ * commands/commands64. We accept the alias, normalize to command, and keep the
+ * live schema honest so the next emissary does not trip over yesterday's map.
+ */
+function preferBodyOr64Alias($i, body, primaryName, aliases, encodedName, encodedAliases = [], fallback = "") {
+  if (body && body[primaryName] !== undefined) return String(body[primaryName] ?? "");
+  const primaryQuery = queryPlainOrUndefined($i, primaryName);
+  if (primaryQuery !== undefined) return String(primaryQuery ?? "");
+  for (const alias of aliases) {
+    if (body && body[alias] !== undefined) return String(body[alias] ?? "");
+    const aliasQuery = queryPlainOrUndefined($i, alias);
+    if (aliasQuery !== undefined) return String(aliasQuery ?? "");
+  }
+  const encodedPrimary = from64(queryValue($i, encodedName, ""));
+  if (encodedPrimary) return encodedPrimary;
+  for (const alias of encodedAliases) {
+    const encodedAlias = from64(queryValue($i, alias, ""));
+    if (encodedAlias) return encodedAlias;
+  }
+  return fallback;
+}
+
 function arrayBodyOr64($i, body, plainName, encodedName, fallback = []) {
   if (body && Array.isArray(body[plainName])) return body[plainName];
   if (body && typeof body[plainName] === "string") return parsePlainListText(body[plainName], fallback);
@@ -244,7 +269,7 @@ function buildFsPayload($i) {
     includeDirs: boolFrom($i, body, "includeDirs", false),
     write: boolFrom($i, body, "write", false),
 
-    command: preferBodyOr64($i, body, "command", "command64"),
+    command: preferBodyOr64Alias($i, body, "command", ["commands"], "command64", ["commands64"]),
     scriptText: preferBodyOr64($i, body, "scriptText", "script64"),
     input: objectBodyOr64($i, body, "input", "input64", {}),
     shell: valueFrom($i, body, "shell", ""),
