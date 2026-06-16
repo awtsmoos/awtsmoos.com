@@ -1,21 +1,24 @@
 ﻿// B"H
 /**
  * @file awtsmoosDbFsAdapter.js
- * @chapter The Reader Gate Learns Lightning
+ * @chapter The Reader Gate Learns Lightning, And The Ancient Vessel Is Honored
  * @description
- * A DosDB bridge into AwtsmoosDB VirtualFs v3.
+ * A DosDB bridge into AwtsmoosDB VirtualFs v3, with a careful compatibility
+ * doorway for older family vessels that are not VirtualFs databases at all.
  *
- * The crisis revealed by stress traces was not disk I/O. The disk read itself
- * was a tiny spark. The delay was repeated ceremony: open the same DB, load the
- * same manifest, search the same route, decode the same posts object, then do
- * it again a thousand times as though the Awtsmoos had not already spoken the
- * world into being from absolute nothing the instant before.
+ * Some production socialPacked files wear the `.fs.awtsdb` garment while their
+ * first bytes are the ancient AwtsmoosBinaryJSON object magic (`Aj`). Those
+ * files begin with ordinary serialized object data, not with the modern
+ * 64-byte AwtsmoosDB superblock. If the modern writer opens them as full
+ * AwtsmoosDB vessels, the allocator reads the letters of `format` as a cosmic
+ * cursor and tries to write beyond the end of the universe.
  *
- * This bridge now keeps read-only vessels open, caches route findings, caches
- * stat answers, and caches decoded file values behind filesystem mtime/size
- * seals. Writers still use the shared writer cache and invalidate read caches
- * for the touched family. No DB architecture is replaced; the existing vessels
- * are simply no longer forced to reincarnate for every glance.
+ * So this bridge now asks the vessel what it is before writing:
+ * - modern VirtualFs `.awtsdb` files keep using `db.fs.*`
+ * - raw AwtsmoosBinaryJSON object files use the legacy object reader/writer
+ *
+ * Thus the old letters are not overwritten, the new routes still breathe, and
+ * the post records may be edited in place without tearing the firmament.
  */
 
 const fs = require("fs");
@@ -51,6 +54,26 @@ function clearReadCachesForFile(file) {
   for (const cache of [readValueCache(), readFindCache(), readStatCache()]) {
     for (const key of cache.keys()) if (String(key).startsWith(prefix)) cache.delete(key);
   }
+}
+
+function readMagic(file) {
+  try {
+    const fd = fs.openSync(file, "r");
+    try {
+      const buf = Buffer.alloc(2);
+      fs.readSync(fd, buf, 0, 2, 0);
+      return buf.toString("utf8");
+    } finally {
+      fs.closeSync(fd);
+    }
+  } catch {
+    return "";
+  }
+}
+
+function isRawAwtsmoosJsonFile(file) {
+  const magic = readMagic(file);
+  return magic === "Aj" || magic === "Aa";
 }
 
 function openAwtsmoosDb(file, options = {}) {
@@ -195,9 +218,60 @@ class AwtsmoosDbFamilyFs {
   hasAnyFile() { return Object.values(this.files).some(file => fs.existsSync(file)) || this.hasCommentShard(); }
   close() { this.dbs.clear(); }
   dbPathForFamily(family) { return this.files[family]; }
+  rawFamilyFile(family) {
+    const file = this.dbPathForFamily(family);
+    return file && fs.existsSync(file) && isRawAwtsmoosJsonFile(file) ? file : null;
+  }
+  rawCollectionFor(id, mode = "read") {
+    const clean = normalizePath(id).replace(/\/$/, "");
+    const family = familyOrderFor(clean)[0];
+    if (!family) return null;
+    const file = this.rawFamilyFile(family);
+    if (!file) return null;
+    if (mode === "write") fs.mkdirSync(path.dirname(file), { recursive: true });
+    return { family, file, clean };
+  }
+  rawBuffer(file) { return new awtsmoosJSON.fileBuffer(file); }
+  rawInvalidate(file) {
+    clearReadCachesForFile(file);
+    closeReadOnlyHandlesForFile(file);
+  }
+  async rawGet(id, options = {}) {
+    const raw = this.rawCollectionFor(id, "read");
+    if (!raw) return undefined;
+    const fb = this.rawBuffer(raw.file);
+    if (options?.access) return { isFile: true, size: fb.length, path: raw.clean, family: raw.family, legacyRaw: true };
+    if (!(await awtsmoosJSON.isAwtsmoosObject(fb))) return undefined;
+    if (options?.propertyMap || options?.arrayFilter) {
+      return awtsmoosJSON.mapObject(fb, options.propertyMap || {}, null, options.arrayFilter);
+    }
+    return awtsmoosJSON.deserializeBinary(fb);
+  }
+  async rawGetObjectKeys(id) {
+    const raw = this.rawCollectionFor(id, "read");
+    if (!raw) return null;
+    const fb = this.rawBuffer(raw.file);
+    if (!(await awtsmoosJSON.isAwtsmoosObject(fb))) return [];
+    return awtsmoosJSON.getKeys(fb);
+  }
+  async rawSetObjectKey(id, key, value) {
+    const raw = this.rawCollectionFor(id, "write");
+    if (!raw || key === undefined) return undefined;
+    const result = awtsmoosJSON.appendToObj(raw.file, { key, value });
+    this.rawInvalidate(raw.file);
+    return { success: { legacyRaw: true, family: raw.family, path: raw.clean, key, result } };
+  }
+  async rawDeleteObjectKey(id, key) {
+    const raw = this.rawCollectionFor(id, "write");
+    if (!raw || key === undefined) return undefined;
+    const result = awtsmoosJSON.deleteKeyFromObj(raw.file, key);
+    this.rawInvalidate(raw.file);
+    return { success: { legacyRaw: true, family: raw.family, path: raw.clean, key, result } };
+  }
   dbForFamily(family, id = "", create = false, mode = "write") {
     const file = this.dbPathForFamily(family, id, create);
     if (!file || (!create && !fs.existsSync(file))) return null;
+    if (isRawAwtsmoosJsonFile(file)) return null;
     if (create) fs.mkdirSync(path.dirname(file), { recursive: true });
     if (mode === "read") return openReadOnlyAwtsmoosDb(file);
     const key = `${family}:${file}`;
@@ -210,7 +284,10 @@ class AwtsmoosDbFamilyFs {
     return fn(db);
   }
   familiesFor(id, mode = "write") {
-    return familyOrderFor(id).filter(family => mode === "read" ? fs.existsSync(this.dbPathForFamily(family, id, false)) : this.dbForFamily(family, id));
+    return familyOrderFor(id).filter(family => {
+      if (this.rawFamilyFile(family)) return true;
+      return mode === "read" ? fs.existsSync(this.dbPathForFamily(family, id, false)) : this.dbForFamily(family, id);
+    });
   }
   cachedStat(file, db, candidate) {
     const key = cacheKey([file, candidate]);
@@ -224,7 +301,7 @@ class AwtsmoosDbFamilyFs {
   find(id, mode = "write") {
     const clean = normalizePath(id);
     if (mode === "read") {
-      const familyList = this.familiesFor(clean, mode);
+      const familyList = this.familiesFor(clean, mode).filter(family => !this.rawFamilyFile(family));
       const findKey = cacheKey(["find", this.rootDir, this.heichelId, clean, familyList.join(",")]);
       const seals = familyList.map(family => fileSeal(this.dbPathForFamily(family))).join("|");
       const cached = readFindCache().get(findKey);
@@ -239,7 +316,7 @@ class AwtsmoosDbFamilyFs {
       }
       return found;
     }
-    return this.findUncached(clean, mode, this.familiesFor(clean, mode));
+    return this.findUncached(clean, mode, this.familiesFor(clean, mode).filter(family => !this.rawFamilyFile(family)));
   }
   findUncached(clean, mode, families) {
     for (const family of families) {
@@ -262,6 +339,8 @@ class AwtsmoosDbFamilyFs {
   }
   fileBuffer(found) { return new FileBuffer(found.db, found.path, found.stat?.size || 0); }
   async getObjectKeys(id) {
+    const rawKeys = await this.rawGetObjectKeys(id);
+    if (rawKeys) return rawKeys;
     const found = this.find(id, "read");
     if (!found) return null;
     if (found.dir) return found.db.fs.ls(found.path).map(stripKnownExtension);
@@ -269,6 +348,8 @@ class AwtsmoosDbFamilyFs {
     return await awtsmoosJSON.isAwtsmoosObject(fb) ? awtsmoosJSON.getKeys(fb) : [];
   }
   async get(id, options = {}) {
+    const rawValue = await this.rawGet(id, options);
+    if (rawValue !== undefined) return rawValue;
     const found = this.find(id, "read");
     if (!found) return undefined;
     if (found.dir) return found.db.fs.ls(found.path).map(stripKnownExtension);
@@ -294,6 +375,13 @@ class AwtsmoosDbFamilyFs {
     return value;
   }
   async write(id, value) {
+    const raw = this.rawCollectionFor(id, "write");
+    if (raw) {
+      const buffer = serializeValue(value, raw.clean);
+      fs.writeFileSync(raw.file, buffer);
+      this.rawInvalidate(raw.file);
+      return { success: { legacyRaw: true, family: raw.family, path: raw.clean, bytes: buffer.length } };
+    }
     const vpath = writePath(id);
     const family = familyOrderFor(vpath)[0];
     if (!family) return undefined;
@@ -314,7 +402,12 @@ class AwtsmoosDbFamilyFs {
     const wrote = await this.write(id, obj);
     return result === undefined ? wrote : { success: result, wrote };
   }
-  async appendToObj(id, { key, value } = {}) { if (key === undefined) return undefined; return this.mutateObject(id, obj => { obj[key] = value; return { key, value }; }); }
+  async appendToObj(id, { key, value } = {}) {
+    if (key === undefined) return undefined;
+    const raw = this.rawCollectionFor(id, "write");
+    if (raw) return this.rawSetObjectKey(id, key, value);
+    return this.mutateObject(id, obj => { obj[key] = value; return { key, value }; });
+  }
   async updateEntry(id, payload = {}) { return this.appendToObj(id, payload); }
   async setObjectKey(id, key, value) { return this.appendToObj(id, { key, value }); }
   async appendToArrayAtKey(id, { key, shtar } = {}) {
@@ -326,7 +419,12 @@ class AwtsmoosDbFamilyFs {
       return { key, count: arr.length, appended: true };
     });
   }
-  async deleteObjectKey(id, key) { if (key === undefined) return undefined; return this.mutateObject(id, obj => { const existed = key in obj; delete obj[key]; return { key, existed }; }); }
+  async deleteObjectKey(id, key) {
+    if (key === undefined) return undefined;
+    const raw = this.rawCollectionFor(id, "write");
+    if (raw) return this.rawDeleteObjectKey(id, key);
+    return this.mutateObject(id, obj => { const existed = key in obj; delete obj[key]; return { key, existed }; });
+  }
   async getObjectKey(id, key) { const value = await this.get(id, { propertyMap: { [key]: true } }); return value && typeof value === "object" ? value[key] : undefined; }
   async delete(id, recursive = false) {
     const found = this.find(id, "write");
@@ -380,5 +478,3 @@ class AwtsmoosDbFsRouter {
 }
 
 module.exports = { AwtsmoosDbFsRouter, BlobFileBuffer: FileBuffer, FileBuffer, familyDbFiles, commentsSeriesDbFile, commentsPostDbFile, familyOrderFor, heichelFromPath, normalizePath, clearReadCachesForFile };
-
-
