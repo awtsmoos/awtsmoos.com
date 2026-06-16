@@ -2,11 +2,9 @@
 /**
  * @module CommentHolderFactory
  * @description
- * Chapter 77: The inline holder becomes a vertical chamber.
- *
- * It never creates a horizontal flex river. Each alias holder is a page-like
- * block under the verse or paragraph, with its own summary gate and one vertical
- * list of insight cards.
+ * Chapter 305: The legacy holder also learns silence.
+ * No repeated author crown, no extra proclamation: just a compact comments gate
+ * and the eager inline list beneath it.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -14,14 +12,13 @@ import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifest
 export function makeInlineCommentHolder(alias, parent, idx) {
     const blueprint = {
         tag: "div",
-        attr: { class: "commentator inline-holder marginal-gloss-shelter", "data-alias": alias, "data-idx": idx },
+        attr: { class: "commentator inline-holder marginal-gloss-shelter", "data-alias": alias, "data-idx": idx, "aria-label": "Inline comments" },
         children: [
             {
                 tag: "button",
-                attr: { class: "inline-summary-btn active", type: "button" },
+                attr: { class: "inline-summary-btn active", type: "button", "aria-expanded": "true", title: "Toggle inline comments" },
                 children: [
-                    { tag: "span", attr: { class: "inline-summary-icon" }, children: ["💬"] },
-                    { tag: "span", attr: { class: "inline-summary-text" }, children: [`Insights (@${alias})`] }
+                    { tag: "span", attr: { class: "inline-summary-text awtsmoos-inline-trigger-title" }, children: ["Comments"] }
                 ],
                 events: { click: event => toggleInlineList(event.currentTarget) }
             },
@@ -37,4 +34,5 @@ function toggleInlineList(button) {
     const isHidden = list.hidden || getComputedStyle(list).display === "none";
     list.hidden = !isHidden;
     button.classList.toggle("active", isHidden);
+    button.setAttribute("aria-expanded", String(isHidden));
 }

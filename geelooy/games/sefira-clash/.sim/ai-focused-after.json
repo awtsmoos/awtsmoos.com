@@ -1,0 +1,81 @@
+[
+  {
+    "map": "beit-midrash-bouncer",
+    "ok": true,
+    "failures": [],
+    "warnings": [],
+    "aiDriven": true,
+    "states": {
+      "Chase": 776,
+      "Recover": 383,
+      "PlatformSeek": 3267,
+      "Attack": 2575,
+      "ForceApproach": 1503
+    },
+    "opportunities": {
+      "Chase": 776,
+      "Recovery": 383,
+      "LandingIntercept": 3267,
+      "GuaranteedAttack": 2575,
+      "ForceEngage": 1503
+    },
+    "longestNoPressureWindow": 56,
+    "longestSameOpportunityWindow": 500,
+    "attackCommands": 2747,
+    "activeAttackFrames": 2478,
+    "damagePerMinute": 459,
+    "koCount": 8
+  },
+  {
+    "map": "merkava-pinball-court",
+    "ok": true,
+    "failures": [],
+    "warnings": [],
+    "aiDriven": true,
+    "states": {
+      "PlatformSeek": 3900,
+      "Chase": 1139,
+      "Attack": 3537,
+      "ForceApproach": 114
+    },
+    "opportunities": {
+      "LandingIntercept": 3900,
+      "Chase": 1139,
+      "GuaranteedAttack": 3537,
+      "ForceEngage": 114
+    },
+    "longestNoPressureWindow": 39,
+    "longestSameOpportunityWindow": 609,
+    "attackCommands": 3780,
+    "activeAttackFrames": 3649,
+    "damagePerMinute": 526,
+    "koCount": 7
+  },
+  {
+    "map": "malchus-meadow",
+    "ok": true,
+    "failures": [],
+    "warnings": [],
+    "aiDriven": true,
+    "states": {
+      "Chase": 1073,
+      "Recover": 130,
+      "PlatformSeek": 1743,
+      "ForceApproach": 4784,
+      "Attack": 1084
+    },
+    "opportunities": {
+      "Chase": 1073,
+      "Recovery": 130,
+      "LandingIntercept": 1743,
+      "ForceEngage": 4784,
+      "GuaranteedAttack": 1084
+    },
+    "longestNoPressureWindow": 236,
+    "longestSameOpportunityWindow": 1680,
+    "attackCommands": 1197,
+    "activeAttackFrames": 1231,
+    "damagePerMinute": 454,
+    "koCount": 3
+  }
+]

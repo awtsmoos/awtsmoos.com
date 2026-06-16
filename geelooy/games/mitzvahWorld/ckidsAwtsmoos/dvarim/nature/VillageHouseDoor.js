@@ -1,151 +1,29 @@
 // B"H
 /**
  * @file VillageHouseDoor.js
- * @description
- * Chapter 346: The gray ghost behind the door is banished.
- *
- * Every invisible helper is invisible as an Object3D, not merely as a material.
- * The closed collider exists only for physics, and when the door opens it leaves
- * both the octree and the rendered scene. The doorway becomes true passage.
+ * @description Lockable house door: one contract with yard gates; closed blocks, open removes collider.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 import { material as texturedMaterial } from "./villagePicture/geometryKit.js";
 import { COTTAGE, doorLeafLocal, doorwayLocalOffset } from "./villagePicture/cottage/cottageContract.js?v=wide-door-low-floor-20260603-bh346";
-
+import { registerLock, toggleLockable } from "../../systems/locks/LockStateRuntime.js";
+import { emitLockUi } from "../../systems/locks/LockUiRuntime.js";
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const wood = color => texturedMaterial(color, { textureMode: "wood" });
 const brass = color => texturedMaterial(color, { textureMode: "stone", emissive: 0x2a1800, emissiveIntensity: 0.12 });
 const invisibleMat = () => new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
-
-function decorate(mesh, owner, ray = false) {
-  Object.assign(mesh.userData ||= {}, { addToOctree: false, skipOctree: true, noOctree: true, skipRaycast: !ray, renderHelper: !ray });
-  mesh.nivraAwtsmoos = owner;
-  return mesh;
-}
-function part(root, owner, name, pos, size, mat, ray = false) {
-  const mesh = decorate(new THREE.Mesh(new THREE.BoxGeometry(...size), mat), owner, ray);
-  mesh.name = name;
-  mesh.position.set(...pos);
-  if (!ray && mat?.opacity === 0) mesh.visible = false;
-  root.add(mesh);
-  return mesh;
-}
-
+function decorate(mesh, owner, ray = false) { Object.assign(mesh.userData ||= {}, { addToOctree: false, skipOctree: true, noOctree: true, skipRaycast: !ray, renderHelper: !ray }); mesh.nivraAwtsmoos = owner; return mesh; }
+function part(root, owner, name, pos, size, mat, ray = false) { const mesh = decorate(new THREE.Mesh(new THREE.BoxGeometry(...size), mat), owner, ray); mesh.name = name; mesh.position.set(...pos); if (!ray && mat?.opacity === 0) mesh.visible = false; root.add(mesh); return mesh; }
 export default class VillageHouseDoor extends Domem {
-  type = "interactiveDoor";
-  heesHawveh = true;
-
-  constructor(op = {}, olam) {
-    super({ ...op, golem: null, isSolid: false, interactable: true }, olam);
-    this.options = op;
-    this.scaleValue = COTTAGE.scale;
-    this.open = Boolean(op.open);
-    this.openAngle = num(op.openAngle, -1.55);
-    this.target = this.open ? this.openAngle : 0;
-    this.angle = this.target;
-    this.proximity = num(op.proximity, 9.5);
-    this.colliderAdded = false;
-  }
-
-  async heescheel(olam) {
-    this.olam = olam;
-    this.mesh = this.buildDoor();
-    this.mesh.position.copy(this.position.vector3());
-    this.mesh.rotation.y = num(this.rotation?.y, 0);
-    this.mesh.scale.setScalar(this.scaleValue);
-    this.mesh.nivraAwtsmoos = this;
-    await olam.hoyseef(this);
-    this.syncDoorCollider(true);
-    if (olam.interactableNivrayim && !olam.interactableNivrayim.includes(this)) olam.interactableNivrayim.push(this);
-    this.isReady = true;
-  }
-
-  buildDoor() {
-    const leaf = doorLeafLocal();
-    const root = new THREE.Group();
-    root.name = this.name || "VillageHouseDoor_true_passage_when_open";
-    this.hinge = new THREE.Group();
-    this.hinge.position.set(leaf.hingeX, leaf.centerY, leaf.z);
-    const cx = leaf.width / 2;
-    part(this.hinge, this, "door_leaf_fills_only_when_closed", [cx, 0, 0], [leaf.width, leaf.height, leaf.thickness], wood(0x74411d));
-    part(this.hinge, this, "door_top_bar", [cx, leaf.height * 0.26, -0.045], [leaf.width * 0.86, 0.04, 0.034], wood(0x321806));
-    part(this.hinge, this, "door_mid_bar", [cx, 0, -0.047], [leaf.width * 0.78, 0.034, 0.034], wood(0x321806));
-    part(this.hinge, this, "door_bottom_bar", [cx, -leaf.height * 0.26, -0.045], [leaf.width * 0.86, 0.035, 0.034], wood(0x321806));
-    part(this.hinge, this, "door_knob_contract", [leaf.width - 0.08, -0.02, -0.058], [0.03, 0.03, 0.026], brass(0xffd05a));
-    const click = part(root, this, "door_click_box_invisible_contract", [0, leaf.centerY, leaf.z], [leaf.width + 0.42, leaf.height + 0.42, 0.66], invisibleMat(), true);
-    click.material.visible = false;
-    this.closedSolid = new THREE.Mesh(new THREE.BoxGeometry(leaf.width + 0.04, leaf.height + 0.02, 0.11), invisibleMat());
-    this.closedSolid.name = "closed_door_octree_body_hidden_removed_when_open";
-    this.closedSolid.position.set(cx, 0, 0.01);
-    this.closedSolid.nivraAwtsmoos = this;
-    this.closedSolid.visible = false;
-    this.closedSolid.material.visible = false;
-    this.hinge.add(this.closedSolid);
-    root.add(this.hinge);
-    root.traverse(child => { child.nivraAwtsmoos = this; child.frustumCulled = false; });
-    return root;
-  }
-
-  alignToHouseTransform(houseMesh) {
-    if (!this.mesh || !houseMesh?.isObject3D) return false;
-    const o = doorwayLocalOffset();
-    const point = new THREE.Vector3(o.x, o.y, o.z);
-    houseMesh.localToWorld(point);
-    this.mesh.position.copy(point);
-    houseMesh.getWorldQuaternion(this.mesh.quaternion);
-    this.mesh.scale.setScalar(COTTAGE.scale);
-    this.mesh.updateMatrixWorld(true);
-    this.syncDoorCollider(true);
-    return true;
-  }
-
-  setSolidActive(active) {
-    if (!this.closedSolid) return;
-    this.closedSolid.visible = false;
-    this.closedSolid.material.visible = false;
-    Object.assign(this.closedSolid.userData ||= {}, {
-      isSolid: active,
-      explicitCollision: active,
-      villageDoorClosedCollider: true,
-      skipOctree: !active,
-      noOctree: !active,
-      skipRaycast: !active
-    });
-  }
-
-  removeDoorCollider() {
-    this.setSolidActive(false);
-    if (this.closedSolid && this.olam?.worldOctree?.removeMesh) this.olam.worldOctree.removeMesh(this.closedSolid);
-    this.colliderAdded = false;
-  }
-
-  syncDoorCollider(force = false) {
-    if (!this.closedSolid || !this.olam?.worldOctree) return;
-    if (this.open || Math.abs(this.angle) > 0.08) return this.removeDoorCollider();
-    if (force) this.removeDoorCollider();
-    this.setSolidActive(true);
-    if (!this.colliderAdded) {
-      this.closedSolid.updateMatrixWorld(true);
-      this.colliderAdded = Boolean(this.olam.worldOctree.addObject(this.closedSolid));
-    }
-  }
-
-  ayshPeula(peula) {
-    if (peula === "mouseEnter") return this.olam?.ayshPeula?.("ui event", "tooltip", { show: true, text: this.open ? "Close door" : "Open door" });
-    if (peula === "mouseLeave") return this.olam?.ayshPeula?.("ui event", "tooltip", { show: false });
-    if (peula !== "accepted interaction" && peula !== "pointerdown") return super.ayshPeula?.(peula);
-    this.open = !this.open;
-    this.target = this.open ? this.openAngle : 0;
-    if (this.open) this.removeDoorCollider();
-    this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: this.open ? "Door opened" : "Door closed", color: "#ffd35b", replace: true });
-    return true;
-  }
-
-  heesHawvoos(dt) {
-    this.angle += (this.target - this.angle) * Math.min(1, dt * 11);
-    if (this.hinge) this.hinge.rotation.y = this.angle;
-    if (this.open || Math.abs(this.angle) > 0.08) this.removeDoorCollider();
-    else this.syncDoorCollider();
-  }
+  type = "interactiveDoor"; heesHawveh = true;
+  constructor(op = {}, olam) { super({ ...op, golem: null, isSolid: false, interactable: true }, olam); this.options = op; this.scaleValue = COTTAGE.scale; this.open = Boolean(op.open); this.openAngle = num(op.openAngle, -1.55); this.target = this.open ? this.openAngle : 0; this.angle = this.target; this.proximity = num(op.proximity, 9.5); this.colliderAdded = false; this.lock = null; }
+  async heescheel(olam) { this.olam = olam; this.mesh = this.buildDoor(); this.mesh.position.copy(this.position.vector3()); this.mesh.rotation.y = num(this.rotation?.y, 0); this.mesh.scale.setScalar(this.scaleValue); this.mesh.nivraAwtsmoos = this; await olam.hoyseef(this); this.lock = registerLock(olam, { lockId: this.options.lockId || `${this.name || "house_door"}_lock`, keyId: this.options.keyId, locked: this.options.locked === true, ownerNpcId: this.options.ownerNpcId }); this.syncDoorCollider(true); if (olam.interactableNivrayim && !olam.interactableNivrayim.includes(this)) olam.interactableNivrayim.push(this); this.isReady = true; }
+  buildDoor() { const leaf = doorLeafLocal(), root = new THREE.Group(); root.name = this.name || "VillageHouseDoor_lockable_true_passage"; this.hinge = new THREE.Group(); this.hinge.position.set(leaf.hingeX, leaf.centerY, leaf.z); const cx = leaf.width / 2; part(this.hinge, this, "door_leaf_lockable", [cx, 0, 0], [leaf.width, leaf.height, leaf.thickness], wood(0x74411d)); part(this.hinge, this, "door_top_bar", [cx, leaf.height * 0.26, -0.045], [leaf.width * 0.86, 0.04, 0.034], wood(0x321806)); part(this.hinge, this, "door_mid_bar", [cx, 0, -0.047], [leaf.width * 0.78, 0.034, 0.034], wood(0x321806)); part(this.hinge, this, "door_bottom_bar", [cx, -leaf.height * 0.26, -0.045], [leaf.width * 0.86, 0.035, 0.034], wood(0x321806)); part(this.hinge, this, "door_knob_contract", [leaf.width - 0.08, -0.02, -0.058], [0.03, 0.03, 0.026], brass(0xffd05a)); const click = part(root, this, "door_click_box_invisible_contract", [0, leaf.centerY, leaf.z], [leaf.width + 0.42, leaf.height + 0.42, 0.66], invisibleMat(), true); click.material.visible = false; this.closedSolid = new THREE.Mesh(new THREE.BoxGeometry(leaf.width + 0.04, leaf.height + 0.02, 0.11), invisibleMat()); this.closedSolid.name = "closed_door_octree_body_hidden_removed_when_open"; this.closedSolid.position.set(cx, 0, 0.01); this.closedSolid.nivraAwtsmoos = this; this.closedSolid.visible = false; this.closedSolid.material.visible = false; this.hinge.add(this.closedSolid); root.add(this.hinge); root.traverse(child => { child.nivraAwtsmoos = this; child.frustumCulled = false; }); return root; }
+  alignToHouseTransform(houseMesh) { if (!this.mesh || !houseMesh?.isObject3D) return false; const o = doorwayLocalOffset(), point = new THREE.Vector3(o.x, o.y, o.z); houseMesh.localToWorld(point); this.mesh.position.copy(point); houseMesh.getWorldQuaternion(this.mesh.quaternion); this.mesh.scale.setScalar(COTTAGE.scale); this.mesh.updateMatrixWorld(true); this.syncDoorCollider(true); return true; }
+  setSolidActive(active) { if (!this.closedSolid) return; this.closedSolid.visible = false; this.closedSolid.material.visible = false; Object.assign(this.closedSolid.userData ||= {}, { isSolid: active, explicitCollision: active, villageDoorClosedCollider: true, lockId: this.lock?.lockId, skipOctree: !active, noOctree: !active, skipRaycast: !active }); }
+  removeDoorCollider() { this.setSolidActive(false); this.olam?.worldOctree?.removeMesh?.(this.closedSolid); this.colliderAdded = false; }
+  syncDoorCollider(force = false) { if (!this.closedSolid || !this.olam?.worldOctree) return; if (this.open || Math.abs(this.angle) > 0.08) return this.removeDoorCollider(); if (force) this.removeDoorCollider(); this.setSolidActive(true); if (!this.colliderAdded) { this.closedSolid.updateMatrixWorld(true); this.colliderAdded = Boolean(this.olam.worldOctree.addObject(this.closedSolid)); } }
+  ayshPeula(peula) { if (peula === "mouseEnter") return emitLockUi(this.olam, this.lock); if (peula === "mouseLeave") return this.olam?.ayshPeula?.("ui event", "tooltip", { show: false }); if (peula !== "accepted interaction" && peula !== "pointerdown") return super.ayshPeula?.(peula); const result = toggleLockable(this.olam, this.lock); if (!result.ok) return emitLockUi(this.olam, result.lock), result; this.lock = result.lock; this.open = Boolean(result.open); this.target = this.open ? this.openAngle : 0; if (this.open) this.removeDoorCollider(); this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: this.open ? "Door opened" : "Door closed", color: "#ffd35b", replace: true }); emitLockUi(this.olam, this.lock); return result; }
+  heesHawvoos(dt) { this.angle += (this.target - this.angle) * Math.min(1, dt * 11); if (this.hinge) this.hinge.rotation.y = this.angle; if (this.open || Math.abs(this.angle) > 0.08) this.removeDoorCollider(); else this.syncDoorCollider(); }
 }

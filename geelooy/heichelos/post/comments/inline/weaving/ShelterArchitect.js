@@ -2,18 +2,17 @@
 /**
  * @module ShelterArchitect
  * @description
- * Chapter 94: The inline shelter loses its inline costume.
- * The Awtsmoos makes shelter, label, and status plain DOM nodes. CSS alone
- * decides the visible garment, preventing old light-theme inline styles from
- * crushing the mobile reader.
+ * Chapter 303: The shelter label becomes a whisper.
+ * The Awtsmoos keeps semantic orientation for screen readers while removing the
+ * repeated visual proclamation that crowded the reader between verse and note.
  */
 
 function ensureIntro(shelter) {
     let intro = shelter.querySelector(":scope > .awtsmoos-inline-shelter-label");
     if (intro) return intro;
     intro = document.createElement("div");
-    intro.className = "awtsmoos-inline-shelter-label";
-    intro.textContent = "Inline commentary";
+    intro.className = "awtsmoos-inline-shelter-label awtsmoos-inline-quiet-label";
+    intro.textContent = "Comments";
     shelter.prepend(intro);
     return intro;
 }
@@ -28,6 +27,7 @@ export class ShelterArchitect {
             vessel.appendChild(shelter);
         }
         shelter.setAttribute("aria-live", "polite");
+        shelter.setAttribute("aria-label", "Inline comments");
         ensureIntro(shelter);
         return shelter;
     }

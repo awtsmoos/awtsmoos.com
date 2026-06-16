@@ -1,3 +1,0 @@
-geelooy/games/dove/index.html
-geelooy/games/emojis/index.html
-geelooy/games/index.html

@@ -1,7 +1,4 @@
 // B"H
-/**
- * @file VillageFieldTrees.js
- * @description Chapter 1018: field entries route to geelooy/libs hero vessels.
- */
-import Forest from "./forest.js?v=only-geelooy-libs-hero-tree-20260614-bh1";
+/** @file VillageTreeField.js @description Field tree requests spawn only procedural-core VillageHeroTree instances. */
+import Forest from "./forest.js?v=exclusive-procedural-core-tree-20260614-bh3";
 export default Forest;

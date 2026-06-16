@@ -5,78 +5,39 @@ const path = require("path");
 
 const SECRET_ROOT = path.join(os.homedir(), ".awtsmoos-secrets");
 
-const PROVIDERS = Object.freeze({
-  minimax: {
-    id: "minimax",
-    name: "MiniMax",
-    envKey: "MINIMAX_API_KEY",
-    fileEnvKey: "MINIMAX_API_KEY_FILE",
-    defaultKeyFile: path.join(SECRET_ROOT, "minimax.key"),
-    endpoint: "https://api.minimax.io/v1/chat/completions",
-    defaultModel: "MiniMax-M2.7",
-    contextWindow: 196000,
-    extraBody: { reasoning_split: true }
-  },
-  openrouter: {
-    id: "openrouter",
-    name: "OpenRouter",
-    envKey: "OPENROUTER_API_KEY",
-    fileEnvKey: "OPENROUTER_API_KEY_FILE",
-    defaultKeyFile: path.join(SECRET_ROOT, "openrouter.key"),
-    endpoint: "https://openrouter.ai/api/v1/chat/completions",
-    defaultModel: "openai/gpt-4o-mini",
-    contextWindow: 128000
-  },
-  groq: {
-    id: "groq",
-    name: "Groq",
-    envKey: "GROQ_API_KEY",
-    fileEnvKey: "GROQ_API_KEY_FILE",
-    defaultKeyFile: path.join(SECRET_ROOT, "groq.key"),
-    endpoint: "https://api.groq.com/openai/v1/chat/completions",
-    defaultModel: "llama-3.3-70b-versatile",
-    contextWindow: 128000
-  }
-});
-
 /**
  * B"H
- * Chapter 367: The Key Left The Palace And Became A Sealed Well.
+ * Chapter 20: The local council received DeepSeek without scattering keys.
  *
- * The repo is not a vault. Provider keys may live in ~/.awtsmoos-secrets, far
- * from awtsmoos.com, while the code only drinks from the well at runtime.
+ * These providers are OpenAI-compatible chat-completion rivers. Direct Gemini
+ * and Anthropic should use dedicated adapters rather than pretending their
+ * payloads are identical.
  */
-function clean(value) { return String(value || "").trim().toLowerCase(); }
+const PROVIDERS = Object.freeze({
+  minimax: provider("minimax", "MiniMax", "MINIMAX_API_KEY", "https://api.minimax.io/v1/chat/completions", "MiniMax-M2.7", 196000, { reasoning_split: true }),
+  openrouter: provider("openrouter", "OpenRouter", "OPENROUTER_API_KEY", "https://openrouter.ai/api/v1/chat/completions", "openai/gpt-4o-mini", 128000),
+  deepseek: provider("deepseek", "DeepSeek", "DEEPSEEK_API_KEY", "https://api.deepseek.com/chat/completions", "deepseek-chat", 64000),
+  groq: provider("groq", "Groq", "GROQ_API_KEY", "https://api.groq.com/openai/v1/chat/completions", "llama-3.3-70b-versatile", 128000)
+});
 
-function providerFor(id = "openrouter") {
-  const provider = PROVIDERS[clean(id)];
-  if (!provider) throw new Error("Unknown AI provider: " + id);
-  return provider;
+function provider(id, name, envKey, endpoint, defaultModel, contextWindow, extraBody = null) {
+  const upper = id.toUpperCase().replace(/[^A-Z0-9]+/g, "_");
+  return { id, name, envKey, fileEnvKey: `${upper}_API_KEY_FILE`, defaultKeyFile: path.join(SECRET_ROOT, `${id}.key`), endpoint, defaultModel, contextWindow, extraBody, openAICompatible: true };
 }
+
+function clean(value) { return String(value || "").trim().toLowerCase(); }
+function providerFor(id = "openrouter") { const provider = PROVIDERS[clean(id)]; if (!provider) throw new Error("Unknown AI provider: " + id); return provider; }
 
 function listProviders(config = {}) {
   return Object.values(PROVIDERS).map(provider => {
     const key = providerKey(config, provider.id);
-    return {
-      id: provider.id,
-      name: provider.name,
-      endpoint: provider.endpoint,
-      defaultModel: provider.defaultModel,
-      hasKey: Boolean(key),
-      keyMask: maskKey(key),
-      keySource: key ? providerKeySource(config, provider.id) : ""
-    };
+    return { id: provider.id, name: provider.name, endpoint: provider.endpoint, defaultModel: provider.defaultModel, contextWindow: provider.contextWindow, hasKey: Boolean(key), keyMask: maskKey(key), keySource: key ? providerKeySource(config, provider.id) : "" };
   });
 }
 
 function providerKey(config = {}, providerId = "") {
   const provider = providerFor(providerId);
-  return config.aiAgents?.providerKeys?.[provider.id]
-    || process.env[provider.envKey]
-    || readKeyFile(process.env[provider.fileEnvKey])
-    || readKeyFile(config.aiAgents?.providerKeyFiles?.[provider.id])
-    || readKeyFile(provider.defaultKeyFile)
-    || "";
+  return config.aiAgents?.providerKeys?.[provider.id] || process.env[provider.envKey] || readKeyFile(process.env[provider.fileEnvKey]) || readKeyFile(config.aiAgents?.providerKeyFiles?.[provider.id]) || readKeyFile(provider.defaultKeyFile) || "";
 }
 
 function providerKeySource(config = {}, providerId = "") {
@@ -89,21 +50,8 @@ function providerKeySource(config = {}, providerId = "") {
   return "";
 }
 
-function readKeyFile(file) {
-  if (!file) return "";
-  try { return fs.readFileSync(path.resolve(String(file)), "utf8").trim(); }
-  catch { return ""; }
-}
-
-function providerHeaders(provider, apiKey) {
-  const headers = { "Content-Type": "application/json", Authorization: "Bearer " + apiKey };
-  if (provider.id === "openrouter") headers["X-Title"] = "Awtsmoos Tunnel Agent Council";
-  return headers;
-}
-
-function maskKey(key = "") {
-  const text = String(key || "");
-  return text ? text.slice(0, 6) + "..." + text.slice(-4) : "";
-}
+function readKeyFile(file) { if (!file) return ""; try { return fs.readFileSync(path.resolve(String(file)), "utf8").trim(); } catch { return ""; } }
+function providerHeaders(provider, apiKey) { const headers = { "Content-Type": "application/json", Authorization: "Bearer " + apiKey }; if (provider.id === "openrouter") headers["X-Title"] = "Awtsmoos Tunnel Agent Council"; return headers; }
+function maskKey(key = "") { const text = String(key || ""); return text ? text.slice(0, 6) + "..." + text.slice(-4) : ""; }
 
 module.exports = { PROVIDERS, clean, listProviders, maskKey, providerFor, providerHeaders, providerKey, providerKeySource, readKeyFile };

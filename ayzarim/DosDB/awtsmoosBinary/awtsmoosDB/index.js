@@ -65,8 +65,14 @@ class AwtsmoosDB {
       compression: true,
       autoCompress: true,
       reuseFreedSpace: false,
+      readOnly: false,
       ...options
     };
+
+    if (this.options.readOnly) {
+      this.options.wal = false;
+      this.options.reuseFreedSpace = false;
+    }
 
     this.pager = new Pager(filePath);
     this.pager.db = this;
@@ -159,6 +165,11 @@ class AwtsmoosDB {
     if (this.sparseArrays && typeof this.sparseArrays.load === 'function') this.sparseArrays.load();
 
     if (rootSealLength === 0) {
+      if (this.options.readOnly) {
+        const err = new Error(`B\"H readOnly AwtsmoosDB cannot initialize an empty database: ${this.pager.filePath}`);
+        err.code = 'AWTSMOOS_DB_READONLY_EMPTY';
+        throw err;
+      }
       const DictionaryEngine = require('./structure/dictionary/index.js');
       const StableAnchor = require('./structure/anchor/stable.js');
       const startDict = new DictionaryEngine(this.allocator);
@@ -178,10 +189,14 @@ class AwtsmoosDB {
     if (this.options.debug) {
       console.log(`B"H - Existence manifests at root address [${this.rootPtrRaw.toString('hex')}]`);
     }
-    if (this.schema && typeof this.schema.load === 'function') this.schema.load();
-    if (this.indexes && typeof this.indexes.hasStoredIndexes === 'function') this.indexes.hasStoredIndexes();
-    if (this.transactions && typeof this.transactions.recover === 'function') this.transactions.recover();
-    this._ensureFormatMeta();
+    if (!this.options.readOnly) {
+      if (!this.options.readOnly) {
+      if (this.schema && typeof this.schema.load === 'function') this.schema.load();
+      if (this.indexes && typeof this.indexes.hasStoredIndexes === 'function') this.indexes.hasStoredIndexes();
+      if (this.transactions && typeof this.transactions.recover === 'function') this.transactions.recover();
+      this._ensureFormatMeta();
+    }
+    }
   }
 
   /**
@@ -190,6 +205,7 @@ class AwtsmoosDB {
    * @returns {void}
    */
   _flushSuperblock(seal = this.rootPtrRaw) {
+    if (this.options.readOnly) throw new Error('B\"H readOnly AwtsmoosDB refused superblock flush');
     if (!seal) return;
 
     const layout = Buffer.alloc(64).fill(0);
@@ -237,6 +253,7 @@ class AwtsmoosDB {
    * @returns {void}
    */
   _saveFreeListSeal() {
+    if (this.options.readOnly) return;
     const ranges = (this.allocator.freeList || [])
       .filter(r => r && r.offset >= 64 && r.length > 0)
       .map(r => ({ offset: r.offset, length: r.length }));
@@ -260,10 +277,10 @@ class AwtsmoosDB {
    * @returns {void}
    */
   close() {
-    this.waitForIdle({
-      closing: true
-    });
-    if (this.sparseArrays) this.sparseArrays.flush();
+    if (!this.options.readOnly) {
+      this.waitForIdle({ closing: true });
+      if (this.sparseArrays) this.sparseArrays.flush();
+    }
     this.pager.close();
     if (this.processLock) this.processLock.release();
     this._structureCache.clear();
@@ -283,6 +300,7 @@ class AwtsmoosDB {
    * @returns {void}
    */
   _ensureFormatMeta() {
+    if (this.options.readOnly) return;
     if (!this.root.__awtsmoos_meta__) {
       this.root.__awtsmoos_meta__ = { format: 1, createdAt: Date.now() };
     }
@@ -294,6 +312,7 @@ class AwtsmoosDB {
    * @returns {void}
    */
   waitForIdle(options = {}) {
+    if (this.options.readOnly) return;
     waitForIdleCore(this, options);
   }
 
@@ -303,6 +322,7 @@ class AwtsmoosDB {
    * @returns {*} Callback result.
    */
   batch(fn) {
+    if (this.options.readOnly) return fn();
     const prevStatus = this.pager.isBatching;
     this.pager.isBatching = true;
 
@@ -476,6 +496,11 @@ class AwtsmoosDB {
    * @returns {void}
    */
   _guardWrite(path, value, op) {
+    if (this.options.readOnly) {
+      const err = new Error(`B\"H readOnly AwtsmoosDB refused ${op || 'write'} at ${path || '/'}`);
+      err.code = 'AWTSMOOS_DB_READONLY_WRITE';
+      throw err;
+    }
     if (this.schema) this.schema.check(path, value, op);
   }
 
@@ -580,6 +605,7 @@ class AwtsmoosDB {
    * @returns {*} Stored value.
    */
   set(key, value) {
+    this._guardWrite(String(key), value, 'set');
     this.root[key] = value;
     return value;
   }
@@ -605,6 +631,7 @@ class AwtsmoosDB {
    * @returns {boolean} True when deletion was accepted.
    */
   delete(key) {
+    this._guardWrite(String(key), undefined, 'delete');
     this._rememberVersion(String(key), this.root[key], true);
     return delete this.root[key];
   }
@@ -679,6 +706,7 @@ class AwtsmoosDB {
    * @returns {*} Restored value.
    */
   restore(key, index = -1) {
+    this._guardWrite(String(key), undefined, 'restore');
     const list = this.history(key);
     const item = index < 0 ? list[list.length + index] : list[index];
     if (!item) return undefined;
@@ -710,6 +738,7 @@ class AwtsmoosDB {
    * @returns {object} Reclaimed-space summary.
    */
   gc() {
+    if (this.options.readOnly) return { ok: false, readOnly: true, errors: ['readOnly gc refused'] };
     const report = this.verify();
     if (report.ok) {
       this.allocator.freeList = report.free;
@@ -750,6 +779,11 @@ class AwtsmoosDB {
   }
 
   _writeChainSafe(ptr, data) {
+    if (this.options.readOnly) {
+      const err = new Error('B\"H readOnly AwtsmoosDB refused chain write');
+      err.code = 'AWTSMOOS_DB_READONLY_WRITE';
+      throw err;
+    }
     if (ptr && ptr.offset !== undefined) {
       this.pager.writeExact(ptr.offset, data);
       this.mutationCount++;

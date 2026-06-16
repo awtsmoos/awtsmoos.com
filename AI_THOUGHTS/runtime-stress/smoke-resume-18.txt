@@ -1,2 +1,0 @@
-geelooy/games/rebbe-runner/index.html
-geelooy/games/scribe-journey/index.html

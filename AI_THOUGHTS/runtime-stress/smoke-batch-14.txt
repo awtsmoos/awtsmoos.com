@@ -1,3 +1,0 @@
-geelooy/games/neshama-quest/index.html
-geelooy/games/ohr-hagnuz/index.html
-geelooy/games/pong/index.html

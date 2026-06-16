@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
+      description: B"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use commandTree tree/vars/budget fields, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
@@ -79,6 +79,7 @@ paths:
               - apiContractDiscover
               - apiSmokeTest
               - applyPatch
+              - appModeMatrix
               - architectureScore
               - assertAction
               - astOutline
@@ -184,6 +185,7 @@ paths:
               - detectDeadConcepts
               - docsGeneratedFreshness
               - doctorAll
+              - domDomRenderLab
               - duplicateBasenames
               - duplicateConceptScan
               - emptyDir
@@ -193,6 +195,11 @@ paths:
               - envDoctor
               - envFileAudit
               - environmentVirtualizer
+              - ephemeralDelete
+              - ephemeralList
+              - ephemeralMeta
+              - ephemeralPage
+              - ephemeralSearch
               - errorCluster
               - failedActionMemory
               - failingTestTriage
@@ -213,6 +220,7 @@ paths:
               - gitDiffSmart
               - gitDoctor
               - gitIgnoreDoctor
+              - gitIgnoreHygiene
               - gitMergeDoctor
               - gitPatchSummary
               - gitRemoteHealth
@@ -242,7 +250,6 @@ paths:
               - insertBeforeScope
               - inspectHumanConfusion
               - inspectRenderStorms
-              - inspectRuntime
               - installPlan
               - installScriptParityCheck
               - intentDriftDetector
@@ -260,11 +267,9 @@ paths:
               - largeFileSplitPlanner
               - lastActionReplay
               - lastFailureExplain
-              - launchPreview
               - lazyContextPack
               - lintRunner
               - list
-              - listPreviews
               - liveAgentVersionCompare
               - localVsPublicRouteDiff
               - lockfileDoctor
@@ -278,6 +283,7 @@ paths:
               - md
               - merkavaCommandTree
               - merkavaParserSmoke
+              - merkavaRenderLab
               - merkavaVsChromeDiff
               - merkavaWorkflowRun
               - microPatchPlanner
@@ -322,9 +328,20 @@ paths:
               - portKillSafe
               - portList
               - powershellCompatibilityCheck
+              - previewActionResult
               - previewBranchMatrix
               - previewBuildRunner
-              - previewLogs
+              - previewCollection
+              - previewCreate
+              - previewExposeLocalServer
+              - previewFile
+              - previewFolder
+              - previewList
+              - previewLiveCommand
+              - previewPage
+              - previewRevoke
+              - previewSettingsGet
+              - previewSettingsSet
               - probeCoverageMap
               - processDoctor
               - processFind
@@ -340,6 +357,7 @@ paths:
               - recentFiles
               - regexFallbackDetector
               - releasePack
+              - renderModeMatrix
               - repairPatchSuggester
               - replaceFunction
               - replaceFunctionBody
@@ -349,7 +367,6 @@ paths:
               - replaceScopeBody
               - replaceSymbol
               - repoDoctor
-              - restartPreview
               - restoreSnapshotPlan
               - retryAction
               - reviewPack
@@ -411,7 +428,6 @@ paths:
               - staticServerLogs
               - staticServerStart
               - staticServerStop
-              - stopPreview
               - superviseRuntime
               - symbolContextPack
               - symbolOutline
@@ -445,6 +461,8 @@ paths:
               - universalAppManifest
               - uploadImage
               - virtualDomDiff
+              - virtualDomScreenshot
+              - virtualDomSnapshot
               - waitForPort
               - waitForUrl
               - watchTestOnce
@@ -504,6 +522,12 @@ paths:
         - { name: workflow, in: query, schema: { type: string } }
         - { name: workflow64, in: query, schema: { type: string } }
         - { name: workflowName, in: query, schema: { type: string } }
+        - { name: tree, in: query, schema: { type: string } }
+        - { name: tree64, in: query, schema: { type: string } }
+        - { name: commandTree, in: query, schema: { type: string } }
+        - { name: commandTree64, in: query, schema: { type: string } }
+        - { name: vars, in: query, schema: { type: string } }
+        - { name: vars64, in: query, schema: { type: string } }
         - { name: steps, in: query, schema: { type: string } }
         - { name: steps64, in: query, schema: { type: string } }
         - { name: params, in: query, schema: { type: string } }
@@ -578,6 +602,8 @@ paths:
         - { name: parentTaskId, in: query, schema: { type: string } }
         - { name: rootTaskId, in: query, schema: { type: string } }
         - { name: taskKind, in: query, schema: { type: string } }
+        - { name: treeId, in: query, schema: { type: string } }
+        - { name: nodeId, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
@@ -596,6 +622,11 @@ paths:
         - { name: maxText, in: query, schema: { type: integer, default: 4000 } }
         - { name: maxSteps, in: query, schema: { type: integer, default: 50 } }
         - { name: maxIterations, in: query, schema: { type: integer, default: 20 } }
+        - { name: budgetPerutas, in: query, schema: { type: integer } }
+        - { name: budget, in: query, schema: { type: integer } }
+        - { name: maxPerutas, in: query, schema: { type: integer } }
+        - { name: estimatedPerutas, in: query, schema: { type: integer } }
+        - { name: ttlSeconds, in: query, schema: { type: integer } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
         - { name: chromePort, in: query, schema: { type: integer, default: 9222 } }
         - { name: waitMs, in: query, schema: { type: integer, default: 800 } }
@@ -632,6 +663,9 @@ paths:
         - { name: continueCurrent, in: query, schema: { type: boolean, default: false } }
         - { name: open, in: query, schema: { type: boolean, default: false } }
         - { name: wait, in: query, schema: { type: boolean, default: false } }
+        - { name: optional, in: query, schema: { type: boolean, default: false } }
+        - { name: required, in: query, schema: { type: boolean, default: true } }
+        - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:

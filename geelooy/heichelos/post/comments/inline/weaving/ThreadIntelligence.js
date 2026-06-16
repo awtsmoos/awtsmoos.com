@@ -2,9 +2,8 @@
 /**
  * @file ThreadIntelligence.js
  * @description
- * Chapter 132: The gateway stops copying the comment body.
- * The inline trigger is now a status doorway, not a second excerpt. The full
- * comment appears exactly once: inside the shared comment card below.
+ * Chapter 304: The gate speaks once and stops repeating names.
+ * The Awtsmoos makes the trigger a quiet count, not another biography or title.
  */
 
 function textFrom(value) {
@@ -16,14 +15,7 @@ function textFrom(value) {
 }
 
 function stripMarkup(value) {
-    return String(value || "")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/&nbsp;/g, " ")
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/\s+/g, " ")
-        .trim();
+    return String(value || "").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
 }
 
 export function getCommentAlias(comment, fallback = "commentator") {
@@ -36,7 +28,7 @@ export function getCommentPreview(comment) {
 
 export function getCommentStamp(comment) {
     const candidate = comment?.createdAt || comment?.timestamp || comment?.time || comment?.date || comment?.dayuh?.createdAt;
-    if (!candidate) return "recently woven";
+    if (!candidate) return "recent";
     const date = new Date(candidate);
     if (Number.isNaN(date.getTime())) return String(candidate);
     return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(date);
@@ -54,26 +46,25 @@ export function connectShelterToVessel(shelter, vessel, coords = {}) {
     if (sub !== undefined && sub !== null) vessel.dataset.inlineAnchorSub = sub;
 }
 
-function insightPhrase(count) {
-    if (!count) return "Ready for inline insights.";
-    return count === 1 ? "1 inline insight loaded." : `${count} inline insights loaded.`;
+function countPhrase(count) {
+    if (!count) return "No comments yet";
+    return count === 1 ? "1 comment" : `${count} comments`;
 }
 
 export function hydrateGateSummary(gate, comments = []) {
     if (!gate) return;
     const usable = comments.filter(Boolean);
     const count = usable.length;
-    const latest = usable[count - 1];
     const preview = gate.querySelector(".awtsmoos-inline-trigger-preview");
     const meta = gate.querySelector(".awtsmoos-inline-trigger-meta");
-    const alias = gate.dataset.alias || getCommentAlias(latest);
-    if (preview) preview.textContent = insightPhrase(count);
-    if (meta) {
-        const stamp = latest ? getCommentStamp(latest) : "waiting";
-        meta.textContent = count ? `Latest by @${getCommentAlias(latest, alias)} · ${stamp}` : `@${alias} · ready`;
-    }
-    gate.dataset.inlinePreview = latest ? getCommentPreview(latest) : "";
-    gate.dataset.inlineLatestAuthor = latest ? getCommentAlias(latest, alias) : alias;
+    const title = gate.querySelector(".awtsmoos-inline-trigger-title");
+    const sub = gate.querySelector(".awtsmoos-inline-trigger-subtitle");
+    if (title) title.textContent = "Comments";
+    if (sub) sub.textContent = countPhrase(count);
+    if (preview) preview.textContent = "";
+    if (meta) meta.textContent = "";
+    gate.dataset.inlinePreview = usable[count - 1] ? getCommentPreview(usable[count - 1]) : "";
+    gate.dataset.inlineLatestAuthor = usable[count - 1] ? getCommentAlias(usable[count - 1], gate.dataset.alias) : (gate.dataset.alias || "");
 }
 
 function setFocusState(node, on) {
@@ -98,7 +89,5 @@ export function bindReadingFocus(gate, vessel) {
     gate.addEventListener("mouseenter", enter);
     gate.addEventListener("focusin", enter);
     gate.addEventListener("mouseleave", leave);
-    gate.addEventListener("focusout", event => {
-        if (!gate.contains(event.relatedTarget)) leave();
-    });
+    gate.addEventListener("focusout", event => { if (!gate.contains(event.relatedTarget)) leave(); });
 }

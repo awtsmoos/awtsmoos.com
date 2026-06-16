@@ -10,7 +10,10 @@ const { buildHttpActions } = require("./actionGroups/httpActionsGroup.js");
 const { buildStaticServerActions } = require("./actionGroups/staticServerActions.js");
 const { buildIsolatedActions } = require("./actionGroups/isolatedActions.js");
 const { buildWorkflowActions } = require("./actionGroups/workflowActions.js");
+const { buildCommandTreeActions } = require("./actionGroups/commandTreeActions.js");
 const { buildPreviewActions } = require("./actionGroups/previewActions.js");
+const { buildEphemeralActions } = require("./actionGroups/ephemeralActions.js");
+const { buildRenderLabActions } = require("./actionGroups/renderLabActions.js");
 const { buildRuntimeActions } = require("./actionGroups/runtimeActions.js");
 const { buildProcessActions } = require("./actionGroups/processActions.js");
 const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
@@ -28,10 +31,7 @@ const AGENT_VERSION = "split-agent-1.5.0";
 
 /**
  * B"H
- * Chapter 411: The registry became honest about every public door.
- * Chrome helpers, command diagnostics, old aliases, generated-image vessels,
- * and consolidated modes are born from this single action map before YAML and
- * manifests are forged by the Awtsmoos breath inside the tunnel.
+ * Chapter 427: CommandTree is registered last so no older shallow shim can hide it.
  */
 function buildActions(config, payload, ws) {
   const ctx = { config, payload, ws, version: AGENT_VERSION };
@@ -54,10 +54,13 @@ function buildActions(config, payload, ws) {
     ...buildChatGptActions(ctx),
     ...buildActionHistoryActions(ctx, buildActions),
     ...buildPreviewActions(ctx),
+    ...buildEphemeralActions(ctx),
+    ...buildRenderLabActions(ctx),
     ...buildRuntimeActions(ctx),
     ...buildProcessActions(ctx),
     ...buildWorkflowActions(ctx, buildActions),
-    ...buildQualityActions(ctx)
+    ...buildQualityActions(ctx),
+    ...buildCommandTreeActions(ctx, buildActions)
   };
 }
 

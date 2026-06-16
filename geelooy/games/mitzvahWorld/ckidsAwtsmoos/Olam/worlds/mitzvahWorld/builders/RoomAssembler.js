@@ -1,68 +1,28 @@
+// B"H
 /**
- * B"H
- * ════════════════════════════════════════════════════════════════════════
- *   THE ASSEMBLER OF SPACES — RoomAssembler.js
- *   ────────────────────────────────────────────
- *   Updated to utilize the Universal Geometry Engine.
- * ════════════════════════════════════════════════════════════════════════
+ * @file RoomAssembler.js
+ * @description Assembles rooms from parser-clear walls, windows, floors, and manifest furniture.
  */
-
-import * as THREE from '/games/scripts/build/three.module.js';
-import { makeWall, makeFloor, makeWindow } from '../wallUtils.js';
-import { GeometryEngine } from '../GeometryEngine.js';
-import { FURNITURE_BLUEPRINTS } from '../data/manifests/FurnitureManifest.js';
-
-/**
- * @function assembleRoom
- */
+import * as THREE from "/games/scripts/build/three.module.js";
+import { makeWall, makeFloor, makeWindow } from "./wallUtils.js";
+import { GeometryEngine } from "../GeometryEngine.js?v=awtsmoos-geometry-engine-20260614-bh2";
+import { FURNITURE_BLUEPRINTS } from "../data/manifests/FurnitureManifest.js";
+function roomWalls(roomDef) { return roomDef && roomDef.walls ? roomDef.walls : {}; }
+function wallData(walls, key) { return walls && walls[key] ? walls[key] : {}; }
+function hidden(walls, key) { return wallData(walls, key).hidden === true; }
+function hasWindow(walls, key) { return wallData(walls, key).hasWindow === true; }
+function hasDoor(walls, key) { return wallData(walls, key).hasDoor === true; }
+function triple(value, fallback) { return Array.isArray(value) ? value : fallback; }
+function addNorth(roomGroup, wallMat, walls, rw, rh, hd, mh, t, olam) { if (hidden(walls,"north")) return; makeWall(roomGroup, wallMat, 0, mh, -hd, rw, rh, t, olam); if (hasWindow(walls,"north")) makeWindow(roomGroup, 0, mh, -hd - .01, 1, 1, "z"); }
+function addSouth(roomGroup, wallMat, walls, rw, rh, hd, hw, mh, t, olam) { if (hidden(walls,"south")) return; const doorW = hasDoor(walls,"south") ? 1.2 : 0; if (doorW > 0) { const sideW = (rw - doorW) / 2; makeWall(roomGroup, wallMat, -(hw - sideW / 2), mh, hd, sideW, rh, t, olam); makeWall(roomGroup, wallMat, (hw - sideW / 2), mh, hd, sideW, rh, t, olam); makeWall(roomGroup, wallMat, 0, rh - .5, hd, doorW, 1, t, olam); } else makeWall(roomGroup, wallMat, 0, mh, hd, rw, rh, t, olam); }
+function addFurniture(roomGroup, furniture, olam) { for (const item of furniture || []) { const blueprint = FURNITURE_BLUEPRINTS[item.type]; if (!blueprint) continue; const furnitureGroup = GeometryEngine.manifest(blueprint, { vars:item.props || {}, olam }); const p = triple(item.position, [0,0,0]); furnitureGroup.position.set(p[0], p[1], p[2]); roomGroup.add(furnitureGroup); } }
 export async function assembleRoom(parentGroup, roomDef, materials, olam = null) {
-  const { wallMat, floorMat } = materials;
-  const { position, size, walls = {}, furniture = [] } = roomDef;
-  const [rx, ry, rz] = position;
-  const [rw, rh, rd] = size;
-  const t = 0.2;
-
-  const roomGroup = new THREE.Group();
-  roomGroup.position.set(rx, ry, rz);
-  parentGroup.add(roomGroup);
-
-  const hw = rw / 2;
-  const hd = rd / 2;
-  const mh = rh / 2;
-
-  // ── 1. Floor ──
-  makeFloor(roomGroup, floorMat, 0, rw, rd, olam);
-
-  // ── 2. Walls ──
-  if (!walls.north?.hidden) {
-    makeWall(roomGroup, wallMat, 0, mh, -hd, rw, rh, t, olam);
-    if (walls.north?.hasWindow) makeWindow(roomGroup, 0, mh, -hd - 0.01, 1, 1, 'z');
-  }
-  if (!walls.south?.hidden) {
-    const doorW = walls.south?.hasDoor ? 1.2 : 0;
-    if (doorW > 0) {
-      const sideW = (rw - doorW) / 2;
-      makeWall(roomGroup, wallMat, -(hw - sideW / 2), mh, hd, sideW, rh, t, olam);
-      makeWall(roomGroup, wallMat,  (hw - sideW / 2), mh, hd, sideW, rh, t, olam);
-      makeWall(roomGroup, wallMat, 0, rh - 0.5, hd, doorW, 1, t, olam);
-    } else {
-      makeWall(roomGroup, wallMat, 0, mh, hd, rw, rh, t, olam);
-    }
-  }
-  if (!walls.east?.hidden) makeWall(roomGroup, wallMat, hw, mh, 0, t, rh, rd, olam);
-  if (!walls.west?.hidden) makeWall(roomGroup, wallMat, -hw, mh, 0, t, rh, rd, olam);
-
-  // ── 3. Furniture (Pure Data Engine) ──
-  for (const item of furniture) {
-    const blueprint = FURNITURE_BLUEPRINTS[item.type];
-    if (blueprint) {
-      const furnitureGroup = GeometryEngine.manifest(blueprint, { 
-        vars: item.props, 
-        olam 
-      });
-      const [ix, iy, iz] = item.position || [0,0,0];
-      furnitureGroup.position.set(ix, iy, iz);
-      roomGroup.add(furnitureGroup);
-    }
-  }
+  const wallMat = materials.wallMat, floorMat = materials.floorMat, position = triple(roomDef.position, [0,0,0]), size = triple(roomDef.size, [6,3,6]), walls = roomWalls(roomDef);
+  const rw = size[0], rh = size[1], rd = size[2], t = .2, hw = rw/2, hd = rd/2, mh = rh/2;
+  const roomGroup = new THREE.Group(); roomGroup.position.set(position[0], position[1], position[2]); parentGroup.add(roomGroup);
+  makeFloor(roomGroup, floorMat, 0, rw, rd, olam); addNorth(roomGroup, wallMat, walls, rw, rh, hd, mh, t, olam); addSouth(roomGroup, wallMat, walls, rw, rh, hd, hw, mh, t, olam);
+  if (!hidden(walls,"east")) makeWall(roomGroup, wallMat, hw, mh, 0, t, rh, rd, olam);
+  if (!hidden(walls,"west")) makeWall(roomGroup, wallMat, -hw, mh, 0, t, rh, rd, olam);
+  addFurniture(roomGroup, roomDef.furniture || [], olam);
+  return roomGroup;
 }

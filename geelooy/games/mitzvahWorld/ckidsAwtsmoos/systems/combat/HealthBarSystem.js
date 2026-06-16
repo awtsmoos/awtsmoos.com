@@ -1,263 +1,32 @@
-/**
- * B"H
- * ════════════════════════════════════════════════════════════════════════
- *   THE CROWN OF VITALITY — HealthBarSystem.js
- *   ──────────────────────────────────────────────────────────────────
- *
- *   📜 THE PSALM OF THE LIFE-FORCE CROWN:
- *   Above each head a crown of light does gleam,
- *   Red for the wounded, green for those supreme,
- *   The Awtsmoos breathes life into every bar,
- *   Displaying the soul-force near and far!
- *
- *   @module HealthBarSystem
- *   @description Renders floating health bars above enemy heads
- *   using THREE.Sprite billboards. Efficient, no HTML overlay needed.
- * ════════════════════════════════════════════════════════════════════════
- */
-
+﻿// B"H
+/** @file HealthBarSystem.js @description Compact health-bar/nameplate bridge that stays visual-only and delegates rich UI to runtime payloads. */
 import * as THREE from '/games/scripts/build/three.module.js';
-
-function makeCanvas(width, height) {
-    if (typeof document !== 'undefined') {
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        return canvas;
-    }
-    if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(width, height);
-    return null;
-}
-
-function rounded(ctx, x, y, w, h, r) {
-    if (typeof ctx.roundRect === 'function') {
-        ctx.roundRect(x, y, w, h, r);
-        return;
-    }
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-}
-
-/**
- * B"H
- * @class HealthBarSystem
- * @description Manages sprite-based health bars that float above entities.
- */
+function hpOf(enemy) { return Number(enemy?.hp ?? enemy?.health?.current ?? enemy?.currentStats?.health ?? 0); }
+function maxHpOf(enemy) { return Math.max(1, Number(enemy?.maxHp ?? enemy?.health?.max ?? enemy?.currentStats?.maxHealth ?? 1)); }
+function posOf(enemy) { return enemy?.mesh?.position || enemy?.modelMesh?.position || enemy?.position || null; }
 export default class HealthBarSystem {
-    constructor() {
-        /** @type {Map<string, Object>} Map of entity ID to health bar data */
-        this.bars = new Map();
-        this.selected = null;
-        this.selectedBar = null;
-    }
-
-    /**
-     * B"H - Creates a health bar for an entity.
-     * @param {Object} entity - The entity (Mazik) to attach the bar to.
-     */
-    createBar(entity) {
-        if (!entity || !entity.mesh) return;
-        if (this.bars.has(entity.name)) return;
-
-        // B"H - Background bar (dark red)
-        const bgCanvas = this._createBarCanvas(1.0, '#330000', '#660000');
-        const bgTexture = new THREE.CanvasTexture(bgCanvas);
-        const bgMat = new THREE.SpriteMaterial({
-            map: bgTexture, transparent: true, depthTest: false
-        });
-        const bgSprite = new THREE.Sprite(bgMat);
-        bgSprite.scale.set(2.2, 0.3, 1);
-
-        // B"H - Foreground bar (green to red gradient)
-        const fgCanvas = this._createBarCanvas(1.0, '#00ff00', '#00cc00');
-        const fgTexture = new THREE.CanvasTexture(fgCanvas);
-        const fgMat = new THREE.SpriteMaterial({
-            map: fgTexture, transparent: true, depthTest: false
-        });
-        const fgSprite = new THREE.Sprite(fgMat);
-        fgSprite.scale.set(2.0, 0.25, 1);
-
-        // B"H - Name label
-        const nameCanvas = this._createNameCanvas(entity.name || "Mazik");
-        const nameTex = new THREE.CanvasTexture(nameCanvas);
-        const nameMat = new THREE.SpriteMaterial({
-            map: nameTex, transparent: true, depthTest: false
-        });
-        const nameSprite = new THREE.Sprite(nameMat);
-        nameSprite.scale.set(3.0, 0.5, 1);
-
-        // B"H - Assemble the container
-        const container = new THREE.Group();
-        container.add(bgSprite);
-        container.add(fgSprite);
-        nameSprite.position.y = 0.35;
-        container.add(nameSprite);
-
-        entity.mesh.add(container);
-        container.position.y = 2.5; // Float above head
-
-        this.bars.set(entity.name, {
-            container,
-            bgSprite,
-            fgSprite,
-            fgCanvas,
-            fgTexture,
-            fgMat,
-            bgMat,
-            bgTexture,
-            nameMat,
-            nameTex,
-            nameSprite,
-            entity
-        });
-        container.visible = false;
-    }
-
-    /** @param {object|null} entity The one creature whose life crown is revealed. */
-    setSelected(entity) {
-        this.selected = entity || null;
-        this.selectedBar = entity ? this.bars.get(entity.name) || null : null;
-        for (const bar of this.bars.values()) bar.container.visible = bar === this.selectedBar;
-    }
-
-    /**
-     * B"H - Updates all health bars. Called every frame.
-     * @param {THREE.Camera} camera - The active camera for billboard orientation.
-     */
-    update(camera) {
-        const bar = this.selectedBar;
-        const entity = bar?.entity;
-        if (!bar || !entity?.mesh) return;
-        bar.container.visible = entity.hp > 0;
-
-        // B"H - Calculate health ratio
-        const maxHp = entity.maxHp || entity.options?.maxHp || 100;
-        const currentHp = entity.hp !== undefined ? entity.hp : maxHp;
-        const ratio = Math.max(0, Math.min(1, currentHp / maxHp));
-
-        // B"H - Update foreground bar width and color
-        bar.fgSprite.scale.x = 2.0 * ratio;
-        bar.fgSprite.position.x = -(1.0 - ratio) * 1.0;
-
-        if (bar.lastRatio !== ratio) { this._updateBarColor(bar, ratio); bar.lastRatio = ratio; }
-
-        if (camera) bar.container.quaternion.copy(camera.quaternion);
-
-        bar.container.visible = currentHp > 0;
-    }
-
-    /**
-     * B"H - Redraws the bar canvas with the appropriate health color.
-     */
-    _updateBarColor(bar, ratio) {
-        const ctx = bar.fgCanvas.getContext('2d');
-        const w = bar.fgCanvas.width;
-        const h = bar.fgCanvas.height;
-
-        ctx.clearRect(0, 0, w, h);
-
-        // B"H - Color lerp: green(1.0) -> yellow(0.5) -> red(0.0)
-        let r, g;
-        if (ratio > 0.5) {
-            const t = (ratio - 0.5) * 2;
-            r = Math.floor(255 * (1 - t));
-            g = 255;
-        } else {
-            const t = ratio * 2;
-            r = 255;
-            g = Math.floor(255 * t);
-        }
-
-        const color = `rgb(${r}, ${g}, 0)`;
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        rounded(ctx, 4, 4, w - 8, h - 8, 8);
-        ctx.fill();
-
-        // B"H - Inner glow
-        ctx.fillStyle = `rgba(255, 255, 255, 0.3)`;
-        ctx.beginPath();
-        rounded(ctx, 4, 4, w - 8, (h - 8) * 0.4, 8);
-        ctx.fill();
-
-        bar.fgTexture.needsUpdate = true;
-    }
-
-    /**
-     * B"H - Creates a rounded bar canvas.
-     */
-    _createBarCanvas(fillRatio, color1, color2) {
-        const canvas = makeCanvas(256, 32);
-        if (!canvas) return { width: 1, height: 1, getContext: () => null };
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return canvas;
-
-        const gradient = ctx.createLinearGradient(0, 0, 0, 32);
-        gradient.addColorStop(0, color1);
-        gradient.addColorStop(1, color2);
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        rounded(ctx, 2, 2, (256 - 4) * fillRatio, 28, 6);
-        ctx.fill();
-
-        return canvas;
-    }
-
-    /**
-     * B"H - Creates a name label canvas.
-     */
-    _createNameCanvas(name) {
-        const canvas = makeCanvas(512, 64);
-        if (!canvas) return { width: 1, height: 1, getContext: () => null };
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return canvas;
-
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        ctx.beginPath();
-        rounded(ctx, 10, 5, 492, 54, 10);
-        ctx.fill();
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 36px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(name, 256, 32);
-
-        return canvas;
-    }
-
-    /**
-     * B"H - Removes a health bar for a specific entity.
-     */
-    removeBar(entityName) {
-        const bar = this.bars.get(entityName);
-        if (!bar) return;
-        if (bar.entity?.mesh) {
-            bar.entity.mesh.remove(bar.container);
-        }
-        bar.fgMat.dispose();
-        bar.fgTexture.dispose();
-        bar.bgMat.dispose();
-        bar.bgTexture.dispose();
-        bar.nameMat.dispose();
-        bar.nameTex.dispose();
-        if (this.selectedBar === bar) { this.selectedBar = null; this.selected = null; }
-        this.bars.delete(entityName);
-    }
-
-    /**
-     * B"H - Cleans up all health bars.
-     */
-    dispose() {
-        for (const [id, bar] of this.bars) {
-            this.removeBar(id);
-        }
-    }
+  constructor() { this.bars = new Map(); this.selected = null; }
+  makeTexture(enemy) {
+    if (typeof document === 'undefined') return null;
+    const canvas = document.createElement('canvas'); canvas.width = 256; canvas.height = 64;
+    const ctx = canvas.getContext('2d'); const pct = Math.max(0, Math.min(1, hpOf(enemy) / maxHpOf(enemy)));
+    ctx.clearRect(0, 0, 256, 64); ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(8, 14, 240, 24);
+    ctx.fillStyle = pct > .5 ? '#76ff8a' : pct > .25 ? '#ffd966' : '#ff7777'; ctx.fillRect(10, 16, 236 * pct, 20);
+    ctx.strokeStyle = enemy === this.selected ? '#ffd700' : '#ffffff'; ctx.lineWidth = 3; ctx.strokeRect(8, 14, 240, 24);
+    ctx.fillStyle = '#ffffff'; ctx.font = '14px sans-serif'; ctx.fillText(enemy?.name || enemy?.mesh?.name || 'Target', 10, 56);
+    return new THREE.CanvasTexture(canvas);
+  }
+  createBar(enemy) {
+    if (!enemy || this.bars.has(enemy.name)) return this.bars.get(enemy?.name) || null;
+    const texture = this.makeTexture(enemy); if (!texture) return null;
+    const material = new THREE.SpriteMaterial({ map:texture, transparent:true, depthTest:false });
+    const sprite = new THREE.Sprite(material); sprite.scale.set(3.2, .8, 1); sprite.userData.enemy = enemy;
+    enemy.mesh?.add?.(sprite); sprite.position.set(0, 2.5, 0); this.bars.set(enemy.name, { enemy, sprite, texture, material }); return sprite;
+  }
+  removeBar(name) { const row = this.bars.get(name); if (!row) return false; row.sprite?.parent?.remove?.(row.sprite); row.texture?.dispose?.(); row.material?.dispose?.(); this.bars.delete(name); return true; }
+  setSelected(enemy) { this.selected = enemy || null; this.refreshAll(); }
+  refresh(enemy) { const row = this.bars.get(enemy?.name); if (!row) return this.createBar(enemy); row.texture?.dispose?.(); row.texture = this.makeTexture(enemy); if (row.material) row.material.map = row.texture, row.material.needsUpdate = true; return row; }
+  refreshAll() { for (const { enemy } of this.bars.values()) this.refresh(enemy); }
+  update(camera) { for (const { enemy, sprite } of this.bars.values()) { if (!sprite || !posOf(enemy)) continue; sprite.visible = hpOf(enemy) > 0; if (camera && sprite.quaternion) sprite.quaternion.copy(camera.quaternion); this.refresh(enemy); } }
+  dispose() { for (const name of [...this.bars.keys()]) this.removeBar(name); this.selected = null; }
 }

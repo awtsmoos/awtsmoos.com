@@ -1,28 +1,40 @@
 // B"H
-/**
- * @file RegionColliderRuntime.js
- * @description Chapter 973: hard blockers are grounded, merged into one geometry, then baked once.
- */
+/** @file RegionColliderRuntime.js @description Author final-position-ready merged collider geometry; octree insertion waits for scene-root finalization. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { mergeGeometries } from "/games/scripts/jsm/utils/BufferGeometryUtils.js";
 import { groundY } from "./RegionGround.js";
 import { sealHardCollider, sealRegionVisual } from "./RegionSeal.js";
-import { bakeDetachedCollider } from "../../../../../dvarim/nature/OctreeBakeClone.js";
-const hiddenMat = () => new THREE.MeshBasicMaterial({ visible: false });
-function boxGeometryAt(x, y, z, sx, sy, sz, yaw = 0) {
-  const g = new THREE.BoxGeometry(1, 1, 1);
-  const m = new THREE.Matrix4().compose(new THREE.Vector3(x, y + sy * .5, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, yaw, 0)), new THREE.Vector3(sx, sy, sz));
-  g.applyMatrix4(m); return g;
+import { parcelCollisionManifest, auditManifest } from "../parcels/ParcelCollisionManifest.js";
+import { houseColliderSlabs } from "./RegionHouseColliderPlan.js";
+function mat() { return new THREE.MeshBasicMaterial({ visible:false, color:0xff00ff, wireframe:true }); }
+function houseList(report) { return report && Array.isArray(report.houses) ? report.houses : []; }
+function parcelList(report) { const h = houseList(report); return Array.isArray(h.parcels) ? h.parcels : h.map(x => x.parcel).filter(Boolean); }
+function slabWorldCenter(slab) { const yaw = slab.yaw || 0, lx = slab.center[0], lz = slab.center[2]; return { x:slab.x + Math.cos(yaw) * lx + Math.sin(yaw) * lz, z:slab.z - Math.sin(yaw) * lx + Math.cos(yaw) * lz }; }
+function slabGeometry(olam, slab) {
+  const g = new THREE.BoxGeometry(1, 1, 1), yaw = slab.yaw || 0, center = slabWorldCenter(slab);
+  const p = new THREE.Vector3(center.x, groundY(olam, center.x, center.z) + slab.center[1], center.z);
+  const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, yaw, 0));
+  g.applyMatrix4(new THREE.Matrix4().compose(p, q, new THREE.Vector3(slab.size[0], slab.size[1], slab.size[2])));
+  g.userData = { sourceName:slab.houseId, slabName:slab.name, doorwayGap:true, visibleTwin:true, measuredShell:true, centerGrounded:true, groundSampleX:center.x, groundSampleZ:center.z };
+  return g;
 }
-function houseSpecs(report = {}) { return (report.houses || []).map(h => ({ name: h.id, x: h.x, z: h.z, sx: 8, sy: 4.2, sz: 6, yaw: 0 })); }
+function houseSlabSpecs(report = {}) { return houseList(report).filter(h => Number.isFinite(h.x) && Number.isFinite(h.z)).flatMap(h => houseColliderSlabs(h)); }
+function disposeSourceGeometries(geos, merged) { for (const g of geos) if (g !== merged && typeof g.dispose === "function") g.dispose(); }
+function manifestStats(report) {
+  const parcels = parcelList(report), manifest = report?.houses?.parcelCollisionManifest || parcelCollisionManifest(parcels), audit = auditManifest(manifest);
+  return { parcels:parcels.length, manifestCount:manifest.length, auditOk:audit.ok, fenceSegments:manifest.reduce((n, m) => n + (m.fences?.length || 0), 0), gates:manifest.filter(m => m.gate?.required).length, doors:manifest.filter(m => m.door?.required).length, audit };
+}
 export function buildRegionColliderRuntime(olam, report = {}) {
-  const root = new THREE.Group(); root.name = "living_region_merged_octree_colliders";
-  const specs = [...houseSpecs(report), { name: "ancient_tree", x: -205, z: 112, sx: 4, sy: 10, sz: 4 }, { name: "stone_circle", x: 168, z: -88, sx: 18, sy: 1.4, sz: 18 }];
-  const geos = specs.map(s => boxGeometryAt(s.x, groundY(olam, s.x, s.z), s.z, s.sx, s.sy, s.sz, s.yaw || 0));
-  const merged = mergeGeometries(geos, false) || geos[0];
-  const mesh = new THREE.Mesh(merged, hiddenMat()); mesh.name = "living_region_single_merged_hard_collider"; mesh.updateMatrixWorld(true); sealHardCollider(mesh, { mergedRegionCollider: true, sourceCount: specs.length });
-  const added = []; bakeDetachedCollider(mesh, olam, added); root.add(mesh); root.visible = false;
-  for (const g of geos) if (g !== merged) g.dispose?.();
-  root.userData.stats = { colliderBodies: specs.length, mergedCollider: true, accepted: added.length, triangles: Math.ceil((merged.index?.count || merged.attributes.position?.count || 0) / 3) };
-  olam.__livingRegionDetachedColliders = added; return sealRegionVisual(root, { colliderDebugVisual: false, detachedColliderAuthoringRoot: true });
+  const root = new THREE.Group(); root.name = "living_region_wall_slab_colliders_pending_final_batch";
+  const specs = houseSlabSpecs(report), pstats = manifestStats(report), houses = houseList(report).length;
+  if (!specs.length) { root.userData.stats = { houses, colliderBodies:0, houseSlabs:0, invisibleWallsPurged:true, doorwaysSealed:false, centerGrounded:true, waitsForFinalScenePlacement:true, ...pstats }; olam.__livingRegionDetachedColliders = []; return sealRegionVisual(root, { detachedColliderAuthoringRoot:true, parcelManifest:true }); }
+  const geos = specs.map(s => slabGeometry(olam, s)), merged = mergeGeometries(geos, false) || geos[0];
+  const mesh = new THREE.Mesh(merged, mat()); mesh.name = "final_batch_merged_house_wall_slabs_with_front_door_gaps";
+  sealHardCollider(mesh, { mergedRegionCollider:true, sourceCount:houses, slabCount:specs.length, visibleTwinRequired:true, parcelManifest:true, doorwaysSealed:false, centerGrounded:true, waitsForFinalScenePlacement:true, pendingFinalOctreeBatch:true, finalPositionConfirmed:false });
+  root.add(mesh); root.visible = typeof globalThis !== "undefined" && Boolean(globalThis.__AWTSMOOS_SHOW_REGION_COLLIDERS__);
+  disposeSourceGeometries(geos, merged);
+  root.userData.stats = { houses, colliderBodies:1, houseSlabs:specs.length, accepted:0, invisibleWallsPurged:true, doorwaysSealed:false, centerGrounded:true, waitsForFinalScenePlacement:true, mergedFastPath:true, ...pstats };
+  olam.__livingRegionDetachedColliders = [];
+  return sealRegionVisual(root, { detachedColliderAuthoringRoot:true, parcelManifest:true, houseSlabColliders:true, centerGrounded:true, waitsForFinalScenePlacement:true });
 }
+export { slabWorldCenter };

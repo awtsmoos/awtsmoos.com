@@ -7,19 +7,18 @@ const { BIN } = require("./constants.js");
 
 /**
  * B"H
- * Chapter 377: Search Learned To Leave A Door Open.
- * A huge tree is not searched as one drowning flood. The action scans one file
- * page, returns result pages inside that scan, and when more files remain it
- * gives a nextScanRequest so the caller may continue the exact journey.
+ * Chapter: Search Became A Million-File River.
+ *
+ * No hard 3,000-file ceiling remains. The scan is cursor-paged, the response is
+ * page-sized, and the server-side peruta guard decides whether the scale is
+ * affordable before this agent is asked to spend the machine's breath.
  */
-function clamp(value, fallback, min, max) {
+function num(value, fallback) {
   const n = Number(value);
-  if (!Number.isFinite(n)) return fallback;
-  return Math.max(min, Math.min(max, Math.floor(n)));
+  return Number.isFinite(n) && n >= 0 ? Math.floor(n) : fallback;
 }
 
 function escapeRegex(text) { return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-
 function sortResults(results, sortBy) {
   const key = String(sortBy || "path");
   const pick = { path: x => x.path, line: x => x.line, mtime: x => -x.mtimeMs, size: x => -x.sizeBytes }[key] || (x => x.path);
@@ -30,7 +29,7 @@ async function collectFiles(config, rootPath, start, maxFiles) {
   const files = [];
   const wanted = start + maxFiles + 1;
   const rootFull = safePath(config, rootPath || ".");
-  try { if ((await fsp.stat(rootFull)).isFile()) return { files: [rootPath || "."], hasMore: false, totalVisited: 1 }; } catch (_) {}
+  try { if ((await fsp.stat(rootFull)).isFile()) return { files: start ? [] : [rootPath || "."], hasMore: false, totalVisited: 1 }; } catch (_) {}
   let visited = 0;
   async function walk(rel) {
     if (visited >= wanted) return;
@@ -57,7 +56,7 @@ async function searchFile(config, rel, matcher, maxFileBytes, results, maxResult
   const full = safePath(config, rel);
   assertNotSecret(config, full);
   const st = await fsp.stat(full);
-  if (st.size > maxFileBytes) return "too_large";
+  if (maxFileBytes > 0 && st.size > maxFileBytes) return "too_large";
   const lines = (await fsp.readFile(full, "utf8")).split(/\r?\n/);
   for (let i = 0; i < lines.length && results.length < maxResults; i++) {
     if (matcher.test(lines[i])) results.push({ path: rel, line: i + 1, preview: lines[i].slice(0, 500), mtimeMs: st.mtimeMs, sizeBytes: st.size });
@@ -71,13 +70,13 @@ async function bulkSearch(config, payload = {}) {
   const rootPath = payload.path || payload.p || ".";
   const query = String(payload.query || payload.find || "");
   if (!query) return { ok: false, action: payload.action || "bulkSearch", error: "missing_query" };
-  const page = clamp(payload.page, 1, 1, 100000);
-  const pageSize = clamp(payload.pageSize || payload.limit, 25, 1, 200);
-  const fileCursor = clamp(payload.fileCursor || payload.cursor, 0, 0, 10000000);
-  const maxFiles = clamp(payload.maxFiles, 500, 1, 3000);
-  const maxResults = clamp(payload.maxResults, 1000, 1, 5000);
-  const maxFileBytes = clamp(payload.maxFileBytes, 800000, 1000, 2000000);
-  const matcher = payload.regex ? new RegExp(query, "i") : new RegExp(escapeRegex(query), "i");
+  const page = Math.max(1, num(payload.page, 1));
+  const pageSize = Math.max(1, num(payload.pageSize || payload.limit, 100));
+  const fileCursor = num(payload.fileCursor || payload.cursor, 0);
+  const maxFiles = Math.max(1, num(payload.maxFiles, pageSize));
+  const maxResults = Math.max(1, num(payload.maxResults, Math.max(pageSize, 1000)));
+  const maxFileBytes = num(payload.maxFileBytes, 0);
+  const matcher = payload.regex ? new RegExp(query, payload.caseSensitive ? "" : "i") : new RegExp(escapeRegex(query), payload.caseSensitive ? "" : "i");
   const scan = await collectFiles(config, rootPath, fileCursor, maxFiles);
   const results = [];
   let skippedFiles = 0;
@@ -98,11 +97,27 @@ function result(config, payload, ctx) {
   const nextResultRequest = hasNextResultPage ? baseRequest(payload, ctx, { page: ctx.page + 1, fileCursor: ctx.fileCursor }) : null;
   const nextScanRequest = hasNextScan ? baseRequest(payload, ctx, { page: 1, fileCursor: ctx.fileCursor + ctx.scan.files.length }) : null;
   return {
-    ok: true, action: payload.action || "bulkSearch", root: config.root, path: ctx.rootPath, absolutePath: safePath(config, ctx.rootPath), query: ctx.query,
-    page: ctx.page, pageSize: ctx.pageSize, fileCursor: ctx.fileCursor, nextFileCursor: hasNextScan ? ctx.fileCursor + ctx.scan.files.length : null,
-    totalResults: ctx.results.length, returnedResults: pageResults.length, hasNextPage: hasNextResultPage, nextPage: hasNextResultPage ? ctx.page + 1 : null,
-    hasNextScan, nextRequest: nextResultRequest || nextScanRequest, nextResultRequest, nextScanRequest,
-    scannedFiles: ctx.scan.files.length, skippedFiles: ctx.skippedFiles, partial: hasNextResultPage || hasNextScan || ctx.results.length >= ctx.maxResults,
+    ok: true,
+    action: payload.action || "bulkSearch",
+    root: config.root,
+    path: ctx.rootPath,
+    absolutePath: safePath(config, ctx.rootPath),
+    query: ctx.query,
+    page: ctx.page,
+    pageSize: ctx.pageSize,
+    fileCursor: ctx.fileCursor,
+    nextFileCursor: hasNextScan ? ctx.fileCursor + ctx.scan.files.length : null,
+    totalResults: ctx.results.length,
+    returnedResults: pageResults.length,
+    hasNextPage: hasNextResultPage,
+    nextPage: hasNextResultPage ? ctx.page + 1 : null,
+    hasNextScan,
+    nextRequest: nextResultRequest || nextScanRequest,
+    nextResultRequest,
+    nextScanRequest,
+    scannedFiles: ctx.scan.files.length,
+    skippedFiles: ctx.skippedFiles,
+    partial: hasNextResultPage || hasNextScan || ctx.results.length >= ctx.maxResults,
     message: hasNextScan ? "This is one search page. Send nextScanRequest to continue searching more files." : "Search page complete.",
     results: pageResults
   };
@@ -112,4 +127,4 @@ function baseRequest(payload, ctx, extra) {
   return { action: payload.action || "bulkSearch", p: ctx.rootPath, query: ctx.query, regex: !!payload.regex, pageSize: ctx.pageSize, maxFiles: ctx.maxFiles, maxResults: ctx.maxResults, maxFileBytes: ctx.maxFileBytes, ...extra };
 }
 
-module.exports = { bulkSearch, collectFiles };
+module.exports = { bulkSearch, collectFiles, searchFile };

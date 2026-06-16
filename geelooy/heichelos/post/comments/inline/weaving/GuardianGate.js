@@ -2,11 +2,11 @@
 /**
  * @module GuardianGate
  * @description
- * Chapter 86: The gateway stops shouting sideways.
+ * Chapter 302: The inline gate becomes quiet.
  *
- * This is the visible inline commentary doorway. It deliberately emits no
- * inline styles. The Awtsmoos lets CSS own layout, so every inline insight is a
- * vertical readable chamber instead of a cramped horizontal artifact.
+ * The Awtsmoos asks for the comment to sit near the verse, not behind a parade
+ * of repeated author names. This gate keeps one small toggle and a count; the
+ * full light appears in the cards already present in the DOM.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -25,15 +25,19 @@ function cardsIn(gate) {
     return gate.querySelectorAll(".awtsmoos-inline-commentary-root, .inline-comment[data-cid]");
 }
 
+function countText(count) {
+    if (count === 1) return "1 comment";
+    return `${count} comments`;
+}
+
 function updateCount(gate) {
     const count = cardsIn(gate).length;
     const badge = gate.querySelector(".awtsmoos-inline-trigger-count");
-    if (badge) badge.textContent = String(count);
-    const noun = count === 1 ? "insight" : "insights";
     const sub = gate.querySelector(".awtsmoos-inline-trigger-subtitle");
-    if (sub) sub.textContent = `${count} inline ${noun}`;
     const button = gate.querySelector(".awtsmoos-inline-trigger");
-    if (button) button.setAttribute("aria-label", `Toggle ${count} inline ${noun} for @${gate.dataset.alias || "commentator"}`);
+    if (badge) badge.textContent = String(count);
+    if (sub) sub.textContent = countText(count);
+    if (button) button.setAttribute("aria-label", `Toggle ${countText(count)} for this verse`);
     return count;
 }
 
@@ -43,15 +47,13 @@ function toggleInlineList(button, gate, list) {
     if (list) list.hidden = isCollapsed;
 }
 
-function previewBlueprint(alias) {
+function previewBlueprint() {
     return {
-        tag: "div",
+        tag: "span",
         attr: { class: "awtsmoos-inline-trigger-copy" },
         children: [
-            { tag: "span", attr: { class: "awtsmoos-inline-trigger-title" }, children: ["Inline Commentary"] },
-            { tag: "span", attr: { class: "awtsmoos-inline-trigger-subtitle" }, children: [`@${alias}`] },
-            { tag: "span", attr: { class: "awtsmoos-inline-trigger-preview" }, children: ["Tap to reveal insights below."] },
-            { tag: "span", attr: { class: "awtsmoos-inline-trigger-meta" }, children: [`@${alias} · ready`] }
+            { tag: "strong", attr: { class: "awtsmoos-inline-trigger-title" }, children: ["Comments"] },
+            { tag: "span", attr: { class: "awtsmoos-inline-trigger-subtitle" }, children: ["loading"] }
         ]
     };
 }
@@ -66,22 +68,18 @@ export class GuardianGate {
                 "data-idx": verseIdx,
                 ...(subIdx !== null && subIdx !== undefined ? { "data-sub": subIdx } : {}),
                 role: "region",
-                "aria-label": `Inline commentary by ${alias}`
+                "aria-label": `Inline comments for this verse`
             },
             children: [
                 {
                     tag: "button",
                     attr: {
                         class: "inline-summary-btn active awtsmoos-inline-trigger",
-                        title: `Toggle inline insights for ${alias}`,
+                        title: "Toggle inline comments",
                         type: "button",
                         "aria-expanded": "true"
                     },
-                    children: [
-                        { tag: "span", attr: { class: "awtsmoos-inline-trigger-sigil" }, children: ["✦"] },
-                        previewBlueprint(alias),
-                        { tag: "span", attr: { class: "awtsmoos-inline-trigger-count", "aria-label": "inline comment count" }, children: ["0"] }
-                    ],
+                    children: [previewBlueprint(), { tag: "span", attr: { class: "awtsmoos-inline-trigger-count", "aria-label": "inline comment count" }, children: ["0"] }],
                     events: {
                         keydown: event => {
                             if (event.key !== "ArrowDown") return;
@@ -110,7 +108,5 @@ export class GuardianGate {
         return gate;
     }
 
-    static updateCount(gate) {
-        return updateCount(gate);
-    }
+    static updateCount(gate) { return updateCount(gate); }
 }

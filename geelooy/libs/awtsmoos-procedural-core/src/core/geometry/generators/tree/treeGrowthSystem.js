@@ -179,7 +179,7 @@ export class TreeGrowthSystem {
             
             const size = sizeBase * this.rng.random(1.0 - (lConf.sizeVariance||0), 1.0 + (lConf.sizeVariance||0));
             
-            this.geo.addLeaf(pos, size, rot, lConf.tint);
+            this.geo.addLeaf(pos, size, rot, lConf.tint || lConf.color || [0.2, 0.65, 0.18, 1]);
         }
     }
 }

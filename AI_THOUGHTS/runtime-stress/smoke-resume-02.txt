@@ -1,2 +1,0 @@
-geelooy/apps/tunnel/index.html
-geelooy/apps/video-editor/index.html

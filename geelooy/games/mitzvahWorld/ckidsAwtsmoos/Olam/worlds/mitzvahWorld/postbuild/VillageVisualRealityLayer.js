@@ -1,19 +1,15 @@
 // B"H
 /**
  * @file VillageVisualRealityLayer.js
- * @description
- * Chapter 943: no cart hovers above the King's earth.
- * Every crate, rug, garden twig, barrel and cart is wrapped in a terrain-grounded
- * local vessel. The Awtsmoos gives each prop a foot, and the foot kisses the
- * procedural ground instead of floating like a forgotten dream.
+ * @description Grounded village clutter uses the same polish ground law and parser-clear material vessels.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import TerrainMath from "../../../../dvarim/terrain/core/TerrainMath.js";
-import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=webgl-progress-materials-20260612-bh1";
+import { yAt } from "./VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
+import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh2";
 const KEY = "__awtsmoosVillageVisualRealityLayer";
-function yAt(olam, x, z) { const law = olam?.awtsmoosTerrainLaw; if (!law?.data) return 0; return (law.position?.y || 0) + TerrainMath.calculateHeightAt(x - (law.position?.x || 0), z - (law.position?.z || 0), law.data); }
-function add(g, kind, mat, x, z, s, rot = 0, y = 0) { const m = rvMesh(kind, mat, [x, y + s[1] * .5, z], s, [0, rot, 0], { repeat: 2 }); g.add(m); return m; }
-function grounded(root, olam, name, x, z, rot = 0, build = () => {}) { const wrap = new THREE.Group(); wrap.name = name; wrap.position.set(x, yAt(olam, x, z) + .015, z); wrap.rotation.y = rot; build(wrap); root.add(wrap); return wrap; }
+function sceneOf(context, olam) { return context && context.scene ? context.scene : olam && olam.scene ? olam.scene : null; }
+function add(g, kind, mat, x, z, s, rot = 0, y = 0) { const m = rvMesh(kind, mat, [x, y + s[1] * .5, z], s, [0, rot, 0], { repeat:2 }); g.add(m); return m; }
+function grounded(root, olam, name, x, z, rot, build) { const wrap = new THREE.Group(); wrap.name = name; wrap.position.set(x, yAt(olam, x, z) + .015, z); wrap.rotation.y = rot || 0; build(wrap); root.add(wrap); return wrap; }
 function barrel(g, x, z, r = 0) { add(g,"cylinder","darkWood",x,z,[.32,.7,.32],r); add(g,"box","wood",x,z,[.72,.06,.72],r,.34); }
 function crate(g, x, z, r = 0) { add(g,"box","wood",x,z,[.55,.5,.55],r); add(g,"box","darkWood",x,z,[.62,.08,.62],r,.5); }
 function sack(g, x, z) { add(g,"sphere","burlap",x,z,[.33,.48,.28]); }
@@ -25,9 +21,9 @@ function cluster(g, x, z, r = 0) { barrel(g,x,z,r); crate(g,x+.72,z-.18,r+.2); s
 function build(olam) {
   const g = rvGroup("village_ram_shader_exterior_clutter_layer_grounded");
   const spots = [[-36,22,.2],[48,38,-.4],[108,58,.1],[-92,-38,.7],[155,-70,-.3],[-160,88,.5],[18,-18,.4]];
-  for (const [x,z,r] of spots) grounded(g, olam, "grounded_clutter", x, z, r, wrap => { cluster(wrap,0,0,0); if (Math.abs(x)<80) rugLine(wrap,1.15,.6,0); if (z>20) garden(wrap,-1.1,.7); });
+  for (const spot of spots) { const x=spot[0], z=spot[1], r=spot[2]; grounded(g, olam, "grounded_clutter", x, z, r, wrap => { cluster(wrap,0,0,0); if (Math.abs(x)<80) rugLine(wrap,1.15,.6,0); if (z>20) garden(wrap,-1.1,.7); }); }
   grounded(g, olam, "grounded_cart_left", -20, 12, .4, wrap => cartLocal(wrap, 0, 0, 0));
   grounded(g, olam, "grounded_cart_right", 82, 47, -.2, wrap => cartLocal(wrap, 0, 0, 0));
   rvSeal(g); return g;
 }
-export async function ensureVillageVisualRealityLayer(context = {}) { const olam = context.olam || context; const scene = context.scene || olam.scene; if (!scene || !olam || olam[KEY]) return olam?.[KEY] || null; const g = build(olam); scene.add(g); olam[KEY] = g; return g; }
+export async function ensureVillageVisualRealityLayer(context = {}) { const olam = context.olam || context, scene = sceneOf(context, olam); if (!scene || !olam) return null; if (olam[KEY]) return olam[KEY]; const g = build(olam); scene.add(g); olam[KEY] = g; return g; }

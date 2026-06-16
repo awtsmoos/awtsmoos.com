@@ -1,19 +1,19 @@
-﻿// B"H
+// B"H
 const fs = require("fs");
 const path = require("path");
 
 /**
  * B"H
- * Chapter 405: The agent manifest learned its outside relay relatives.
- * The installer root is not exactly the source root: agent files land at `/`,
- * and selected `geelooy/ai` relay files land at `/ai`. The manifest generator
- * now owns both truths so installs can boot in a clean universe.
+ * Chapter 57: The manifest stopped packing its own proving ground.
+ *
+ * Installer packages must contain the runtime vessel, not the laboratory that
+ * tests the vessel. Testing folders stay in source and regression runners.
  */
 const ROOT = __dirname;
 const REPO_ROOT = path.resolve(ROOT, "../../../..");
 const OUT = path.join(ROOT, "manifest.txt");
-const VERSION = process.env.AWTSMOOS_AGENT_MANIFEST_VERSION || "1.0.53";
-const SKIP_DIRS = new Set(["node_modules", ".git", ".awtsmoos", ".cache"]);
+const VERSION = process.env.AWTSMOOS_AGENT_MANIFEST_VERSION || "1.0.55";
+const SKIP_DIRS = new Set(["node_modules", ".git", ".awtsmoos", ".cache", "testing", "test", "tests"]);
 const SKIP_NAMES = new Set(["manifest.txt"]);
 const EXTERNAL_DIRS = [
   { source: path.join(REPO_ROOT, "geelooy/ai/relay/split-browser"), dest: "ai/relay/split-browser" }
@@ -23,7 +23,7 @@ function slash(value) { return String(value || "").replace(/\\/g, "/"); }
 function ignored(full, name) {
   if (SKIP_NAMES.has(name) || SKIP_DIRS.has(name)) return true;
   const s = slash(full);
-  return /\/testing\/\.tmp/.test(s) || /(^|\/)\.tmp-/.test(s) || /\/\.smoke-server/.test(s);
+  return /(^|\/)testing(\/|$)/.test(s) || /(^|\/)tests(\/|$)/.test(s) || /(^|\/)test(\/|$)/.test(s) || /\.test\.(cjs|mjs|js)$/.test(s) || /\/\.tmp-/.test(s) || /\/\.smoke-server/.test(s);
 }
 function walk(dir, out = [], base = ROOT, prefix = "") {
   if (!fs.existsSync(dir)) return out;
@@ -53,8 +53,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { buildManifest, walk, slash, agentFiles, externalFiles };
-
-
-
-
+module.exports = { buildManifest, walk, slash, agentFiles, externalFiles, ignored };

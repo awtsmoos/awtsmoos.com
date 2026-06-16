@@ -1,51 +1,18 @@
 // B"H
 /**
  * @file GeometryEngine.js
- * @description
- * Chapter 1008: local procedural tree creation is removed from mitzvahWorld.
- * This engine can still manifest normal geometry and grass/tubes, but tree
- * vessels must come from /libs/awtsmoos3d/tree/heroTree.js through the current
- * advanced tree renderers, never the old procedural tree generator.
+ * @description Manifest geometry engine with parser-clear variable resolution and no legacy tree generator.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { getMaterial } from './materials/MaterialFactory.js';
-import { GeometryModifiers } from './GeometryModifiers.js';
-import { ProceduralGeometryFactory } from './ProceduralGeometryFactory.js';
+import * as THREE from "/games/scripts/build/three.module.js";
+import { getMaterial } from "./materials/MaterialFactory.js?v=awtsmoos-material-factory-20260614-bh2";
+import { GeometryModifiers } from "./GeometryModifiers.js?v=awtsmoos-geometry-modifiers-20260614-bh2";
+import { ProceduralGeometryFactory } from "./ProceduralGeometryFactory.js?v=awtsmoos-procedural-geometry-20260614-bh2";
+function varsOf(blueprint, context) { return Object.assign({}, blueprint.variables || {}, context.vars || {}); }
+function resolveWith(vars, value) { if (typeof value !== "string" || !value.includes("$")) return value; let expression = value; for (const key of Object.keys(vars).sort((a,b)=>b.length-a.length)) expression = expression.split("$" + key).join(vars[key]); try { return new Function(`return (${expression.replace(/\$/g, "")})`)(); } catch (_) { return expression; } }
+function list(value) { return Array.isArray(value) ? value : []; }
 export class GeometryEngine {
-  static manifest(blueprint, context = {}) {
-    const group = new THREE.Group();
-    const vars = { ...(blueprint.variables || {}), ...(context.vars || {}) };
-    const resolve = val => {
-      if (typeof val !== 'string' || !val.includes('$')) return val;
-      let expression = val;
-      for (const k of Object.keys(vars).sort((a, b) => b.length - a.length)) expression = expression.split('$' + k).join(vars[k]);
-      try { return new Function(`return (${expression.replace(/\$/g, '')})`)(); } catch { return expression; }
-    };
-    const localContext = { ...context, vars, resolve };
-    (blueprint.components || []).forEach(comp => { try { this._processComponent(group, comp, localContext); } catch (e) { console.error('B"H - GeometryEngine component error', comp, e); } });
-    return group;
-  }
-  static _processComponent(group, comp, ctx) {
-    const { resolve } = ctx;
-    if (comp.type === 'repeat') { const count = resolve(comp.count), offset = (comp.offset || [0,0,0]).map(resolve); for (let i = 0; i < count; i++) { const subGroup = this.manifest(comp.component, { ...ctx, vars: { ...ctx.vars, INDEX: i } }); subGroup.position.set(offset[0] * i, offset[1] * i, offset[2] * i); group.add(subGroup); } return; }
-    if (comp.blueprint) { const bp = ctx.blueprints?.[comp.blueprint]; if (bp) { const subGroup = this.manifest(bp, { ...ctx, vars: { ...ctx.vars, ...(comp.vars || {}) } }); const [px, py, pz] = (comp.position || [0,0,0]).map(resolve); subGroup.position.set(px, py, pz); group.add(subGroup); return; } }
-    this._createMesh(comp, resolve).forEach(m => group.add(m));
-  }
-  static _createMesh(comp, resolve) {
-    const { type, params = [], position = [0,0,0], rotation = [0,0,0], material = 'JERUSALEM_STONE', isSolid = true } = comp;
-    const p = params.map(resolve); let geo;
-    if (type === 'box') geo = new THREE.BoxGeometry(...p);
-    else if (type === 'cylinder') geo = new THREE.CylinderGeometry(...p);
-    else if (type === 'sphere') geo = new THREE.SphereGeometry(...p);
-    else if (type === 'plane') geo = new THREE.PlaneGeometry(...p);
-    else if (type === 'icosphere') geo = new THREE.IcosahedronGeometry(...p);
-    else if (type === 'proceduralGrass') geo = ProceduralGeometryFactory.createGrass(comp.options || {});
-    else if (type === 'proceduralTube') { const opts = { ...comp.options }; if (opts.path) opts.path = opts.path.map(p => new THREE.Vector3(...p.map(resolve))); if (opts.bezier?.points) opts.bezier.points = opts.bezier.points.map(p => new THREE.Vector3(...p.map(resolve))); geo = ProceduralGeometryFactory.createTube(opts); }
-    if (!geo) return [];
-    if (comp.modifiers) geo = GeometryModifiers.applyModifiers(geo, comp.modifiers, resolve);
-    const mesh = new THREE.Mesh(geo, getMaterial(material));
-    const [px, py, pz] = position.map(resolve), [rx, ry, rz] = rotation.map(resolve);
-    mesh.position.set(px, py, pz); mesh.rotation.set(rx, ry, rz); mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.isSolid = isSolid !== false;
-    return [mesh];
-  }
+  static manifest(blueprint, context = {}) { const group = new THREE.Group(), vars = varsOf(blueprint, context), resolve = value => resolveWith(vars, value); const local = Object.assign({}, context, { vars, resolve }); for (const comp of list(blueprint.components)) { try { this._processComponent(group, comp, local); } catch (error) { console.error("B\"H - GeometryEngine component error", comp, error); } } return group; }
+  static _processComponent(group, comp, ctx) { const resolve = ctx.resolve; if (comp.type === "repeat") { const count = resolve(comp.count) || 0, offset = list(comp.offset || [0,0,0]).map(resolve); for (let i=0; i<count; i++) { const sub = this.manifest(comp.component, Object.assign({}, ctx, { vars:Object.assign({}, ctx.vars, { INDEX:i }) })); sub.position.set(offset[0]*i, offset[1]*i, offset[2]*i); group.add(sub); } return; } if (comp.blueprint && ctx.blueprints && ctx.blueprints[comp.blueprint]) { const sub = this.manifest(ctx.blueprints[comp.blueprint], Object.assign({}, ctx, { vars:Object.assign({}, ctx.vars, comp.vars || {}) })); const p = list(comp.position || [0,0,0]).map(resolve); sub.position.set(p[0], p[1], p[2]); group.add(sub); return; } for (const mesh of this._createMesh(comp, resolve)) group.add(mesh); }
+  static _geometry(type, params, comp, resolve) { if (type === "box") return new THREE.BoxGeometry(...params); if (type === "cylinder") return new THREE.CylinderGeometry(...params); if (type === "sphere") return new THREE.SphereGeometry(...params); if (type === "plane") return new THREE.PlaneGeometry(...params); if (type === "icosphere") return new THREE.IcosahedronGeometry(...params); if (type === "proceduralGrass") return ProceduralGeometryFactory.createGrass(comp.options || {}); if (type === "proceduralTube") { const opts = Object.assign({}, comp.options || {}); if (opts.path) opts.path = opts.path.map(p => new THREE.Vector3(...p.map(resolve))); if (opts.bezier && opts.bezier.points) opts.bezier.points = opts.bezier.points.map(p => new THREE.Vector3(...p.map(resolve))); return ProceduralGeometryFactory.createTube(opts); } return null; }
+  static _createMesh(comp, resolve) { const type = comp.type, params = list(comp.params || []).map(resolve), position = list(comp.position || [0,0,0]).map(resolve), rotation = list(comp.rotation || [0,0,0]).map(resolve), material = comp.material || "JERUSALEM_STONE", isSolid = comp.isSolid !== false; let geo = this._geometry(type, params, comp, resolve); if (!geo) return []; if (comp.modifiers) geo = GeometryModifiers.applyModifiers(geo, comp.modifiers, resolve); const mesh = new THREE.Mesh(geo, getMaterial(material)); mesh.position.set(position[0], position[1], position[2]); mesh.rotation.set(rotation[0], rotation[1], rotation[2]); mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.isSolid = isSolid; return [mesh]; }
 }

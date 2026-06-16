@@ -10,17 +10,15 @@ import { mountChrome } from "../features/chrome.js";
 import { mountTerminal } from "../features/terminal.js";
 import { mountPrompt } from "../features/prompt.js";
 import { mountUsage } from "../features/usage.js";
+import { mountCompute } from "../features/compute.js";
+import { mountPreviewGateway } from "../features/previewGateway.js";
 import { mountAiAgents } from "../features/aiAgents.js";
 import { mountLive } from "../features/live.js";
 import { safeMount } from "./safeMount.js";
 
 /**
  * B"H
- * Chapter 372: The Live Nerve Was Threaded Through The Old Body.
- *
- * Feature vessels exist before they breathe. Here every chamber receives its
- * listener, and LIVE receives the tunnel-name reader so agent traffic can keep
- * moving even while other panes are open.
+ * Chapter 421: Preview Gateway listeners were fastened into the shell.
  */
 export async function mountLegacyFeatures(getTunnelName) {
   mountFeatureVessels();
@@ -33,6 +31,8 @@ export async function mountLegacyFeatures(getTunnelName) {
   await safeMount("terminal", () => mountTerminal());
   await safeMount("prompt", () => mountPrompt());
   await safeMount("usage", () => mountUsage());
+  await safeMount("compute", () => mountCompute());
+  await safeMount("previewGateway", () => mountPreviewGateway());
   await safeMount("aiAgents", () => mountAiAgents(getTunnelName));
   await safeMount("live", () => mountLive(getTunnelName));
   await safeMount("chrome", () => mountChrome(getTunnelName));

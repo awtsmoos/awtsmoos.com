@@ -1,2 +1,0 @@
-geelooy/games/index.html
-geelooy/games/kabbalah-shooter/index.html

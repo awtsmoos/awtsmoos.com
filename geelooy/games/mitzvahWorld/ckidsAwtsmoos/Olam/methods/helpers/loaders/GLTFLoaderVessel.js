@@ -24,7 +24,7 @@ function traceModelLoad(stage, payload = {}) {
     globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.push(data);
     globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__ = globalThis.__AWTSMOOS_MODEL_LOAD_TRACE__.slice(-180);
   } catch {}
-  console.info('B"H | MODEL_LOAD_TRACE', data);
+  if (globalThis.__AWTSMOOS_MODEL_LOAD_LOGS__ === true) console.info('B"H | MODEL_LOAD_TRACE', data);
 }
 
 /** @param {string} url Original URL. @returns {string} Canonical URL. */

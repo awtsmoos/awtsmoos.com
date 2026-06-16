@@ -11,13 +11,13 @@
  */
 import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=village-combat-20260611-bh802';
 import Utils from '../../../utils.js';
-import ChossidDirect from '../../../chayim/chossid/index.js?v=village-polish-20260612-bh810';
+import ChossidDirect from '../../../chayim/chossid/index.js?v=zone-reality-20260614-bh813';
 import SolidBlockDirect from '../../../dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh620';
 import MovingPlatformDirect from '../../../dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh620';
 import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=lava-camera-axis-20260609-bh640';
 import FallResetTriggerDirect from '../../../dvarim/hazards/FallResetTrigger.js?v=lava-camera-axis-20260609-bh640';
 import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js?v=route-alias-targetpath-20260609-bh620';
-import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=village-polish-20260612-bh810';
+import InteractiveNpcDirect from '../../../dvarim/npc/InteractiveNpc.js?v=zone-reality-20260614-bh817';
 
 const DIRECT_TYPES = {
   Chossid: ChossidDirect,

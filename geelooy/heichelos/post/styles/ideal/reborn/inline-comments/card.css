@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 159: Inline cards inherit only the right scale.
- * The header and author chips stay small. The Hebrew comment body is the only
- * chamber allowed to become almost as large as the source text.
+ * Chapter 301: The inline card keeps the lamp and loses the luggage.
+ * The body remains a vessel for Torah speech, close enough to the verse that
+ * the eye can learn without delay.
  */
 
 .post-reader-localized-context .comments-holder-inline,
@@ -10,14 +10,13 @@
 .post-reader-localized-context .thread-alias-group {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
-    gap: 1.15rem !important;
+    gap: clamp(.65rem, 2vw, .9rem) !important;
     width: 100% !important;
     min-width: 0 !important;
     overflow-x: clip !important;
 }
 
 .post-reader-localized-context .comments-holder-inline[hidden] { display: none !important; }
-
 .post-reader-localized-context .inline-comment,
 .post-reader-localized-context .awtsmoos-inline-card-v3,
 .post-reader-localized-context .awtsmoos-readable-inline-card {
@@ -26,48 +25,48 @@
     gap: 0 !important;
     width: 100% !important;
     min-width: 0 !important;
-    border: 1px solid rgba(246, 201, 108, .38) !important;
-    border-radius: 28px !important;
-    background: radial-gradient(circle at 50% 12%, rgba(139,92,246,.2), transparent 17rem), linear-gradient(180deg, rgba(7,16,31,.99), rgba(2,6,15,.99)) !important;
+    border: 1px solid rgba(246, 201, 108, .32) !important;
+    border-radius: clamp(18px, 3.5vw, 22px) !important;
+    background: linear-gradient(180deg, rgba(7,16,31,.98), rgba(2,6,15,.99)) !important;
     color: var(--inline-text-white) !important;
-    box-shadow: 0 22px 62px rgba(0,0,0,.42), 0 0 0 1px rgba(139,92,246,.14) !important;
+    box-shadow: 0 14px 36px rgba(0,0,0,.34), 0 0 0 1px rgba(139,92,246,.10) !important;
     overflow: hidden !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-card-header {
     display: grid !important;
-    grid-template-columns: 44px minmax(0, 1fr) !important;
-    gap: .65rem !important;
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    gap: .5rem !important;
     align-items: center !important;
-    padding: .8rem !important;
-    background: rgba(7,13,27,.88) !important;
-    border-bottom: 1px solid rgba(255,255,255,.11) !important;
+    min-height: 0 !important;
+    padding: .5rem .62rem !important;
+    background: rgba(7,13,27,.82) !important;
+    border-bottom: 1px solid rgba(255,255,255,.09) !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-avatar {
     display: grid !important;
     place-items: center !important;
-    width: 42px !important;
-    height: 42px !important;
+    width: 34px !important;
+    height: 34px !important;
     border-radius: 999px !important;
-    color: #ffffff !important;
+    color: #fff !important;
     background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%) !important;
-    font: 950 1rem/1 var(--font-ui) !important;
-    box-shadow: 0 0 22px rgba(139,92,246,.46) !important;
+    font: 950 .78rem/1 var(--font-ui) !important;
+    box-shadow: 0 0 14px rgba(139,92,246,.34) !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-focus { display: none !important; }
-.post-reader-localized-context .awtsmoos-inline-card-heading { display: grid !important; gap: .2rem !important; min-width: 0 !important; }
-
+.post-reader-localized-context .awtsmoos-inline-card-heading { display: grid !important; gap: .1rem !important; min-width: 0 !important; }
 .post-reader-localized-context .section.heb .awtsmoos-inline-title,
 .post-reader-localized-context .awtsmoos-inline-title,
 .post-reader-localized-context .section.heb .inline-comment .comment-author-link,
 .post-reader-localized-context .inline-comment .comment-author-link {
-    color: #ffffff !important;
+    color: #fff !important;
     font-family: var(--font-ui) !important;
-    font-size: var(--post-ui-chip-size, 14px) !important;
-    font-weight: 950 !important;
-    line-height: 1.16 !important;
+    font-size: clamp(12px, 2.7vw, 14px) !important;
+    font-weight: 930 !important;
+    line-height: 1.12 !important;
     overflow-wrap: anywhere !important;
 }
 
@@ -77,9 +76,9 @@
 .post-reader-localized-context .inline-comment .awtsmoos-comment-meta {
     color: var(--inline-edge-gold) !important;
     font-family: var(--font-ui) !important;
-    font-size: var(--post-inline-meta-size, 12px) !important;
-    font-weight: 850 !important;
-    line-height: 1.25 !important;
+    font-size: clamp(10px, 2.4vw, 12px) !important;
+    font-weight: 820 !important;
+    line-height: 1.16 !important;
 }
 
 .post-reader-localized-context .section.heb .awtsmoos-inline-body,
@@ -90,45 +89,21 @@
 .post-reader-localized-context .inline-comment .comment-text-root {
     direction: rtl !important;
     text-align: center !important;
-    padding: clamp(1.1rem, 4.4vw, 1.85rem) !important;
+    padding: clamp(.8rem, 3vw, 1.2rem) !important;
     color: var(--inline-text-white) !important;
     font-family: var(--font-content) !important;
-    font-size: var(--post-inline-body-size, 38px) !important;
-    font-weight: 800 !important;
-    line-height: 1.44 !important;
-    text-shadow: 0 10px 30px rgba(0,0,0,.6) !important;
+    font-size: clamp(25px, 6.7vw, 34px) !important;
+    font-weight: 780 !important;
+    line-height: 1.38 !important;
+    text-shadow: 0 8px 22px rgba(0,0,0,.48) !important;
     overflow-wrap: anywhere !important;
 }
 
 .post-reader-localized-context .section.heb .inline-comment .awtsmoos-comment-body *,
 .post-reader-localized-context .inline-comment .awtsmoos-comment-body *,
 .post-reader-localized-context .awtsmoos-inline-body *,
-.post-reader-localized-context .inline-comment .comment-body-vessel * {
-    color: inherit !important;
-    font: inherit !important;
-    line-height: inherit !important;
-    text-shadow: inherit !important;
-}
-
-.post-reader-localized-context .awtsmoos-inline-action-dock {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: .7rem !important;
-    padding: 0 .9rem .9rem !important;
-}
-
-.post-reader-localized-context .awtsmoos-inline-action {
-    min-height: 54px !important;
-    border: 1px solid rgba(246,201,108,.24) !important;
-    border-radius: 18px !important;
-    background: linear-gradient(180deg, rgba(24,29,49,.95), rgba(11,15,31,.98)) !important;
-    color: #fffdf5 !important;
-    font: 900 var(--post-ui-chip-size, 14px)/1 var(--font-ui) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
-}
-
+.post-reader-localized-context .inline-comment .comment-body-vessel * { color: inherit !important; font: inherit !important; line-height: inherit !important; text-shadow: inherit !important; }
+.post-reader-localized-context .awtsmoos-inline-action-dock { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: .5rem !important; padding: 0 .65rem .65rem !important; }
+.post-reader-localized-context .awtsmoos-inline-action { min-height: 44px !important; border: 1px solid rgba(246,201,108,.22) !important; border-radius: 14px !important; background: linear-gradient(180deg, rgba(24,29,49,.92), rgba(11,15,31,.98)) !important; color: #fffdf5 !important; font: 850 clamp(12px, 2.6vw, 14px)/1 var(--font-ui) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.07) !important; }
 .post-reader-localized-context .inline-comment img { max-width: 100% !important; height: auto !important; }
-
-@media (min-width: 560px) {
-    .post-reader-localized-context .awtsmoos-inline-action-dock { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
-}
+@media (min-width: 560px) { .post-reader-localized-context .awtsmoos-inline-action-dock { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }

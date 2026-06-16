@@ -1,4 +1,0 @@
-[direct] afterCollect {"target":"geelooy/games/sulam-ha-sod/index.html","fileCount":123}
-[direct] afterRun {"ms":7594,"ok":true,"errors":[],"timers":0}
-[direct:caught] TypeError: (raw.console || []).slice is not a function
-    at /storage/emulated/0/Documents/git/awtsmoos.com/AI_THOUGHTS/runtime-stress/probe-assembler-direct.cjs:15:140

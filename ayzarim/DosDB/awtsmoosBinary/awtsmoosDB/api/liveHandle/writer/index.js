@@ -25,6 +25,28 @@ const PackedArray = require('../../packed/liveArray.js');
 
 class Writer {
     /**
+     * @method _assertWritable
+     * @description Stops every writer doorway when this DB is a witness-only vessel.
+     */
+    _assertWritable(op = 'write') {
+        if (this.db && this.db.options && this.db.options.readOnly) {
+            const err = new Error(`B\"H readOnly AwtsmoosDB refused ${op}`);
+            err.code = 'AWTSMOOS_DB_READONLY_WRITE';
+            throw err;
+        }
+    }
+    /**
+     * @method _assertWritable
+     * @description Stops every writer doorway when this DB is a witness-only vessel.
+     */
+    _assertWritable(op = 'write') {
+        if (this.db && this.db.options && this.db.options.readOnly) {
+            const err = new Error(`B\"H readOnly AwtsmoosDB refused ${op}`);
+            err.code = 'AWTSMOOS_DB_READONLY_WRITE';
+            throw err;
+        }
+    }
+    /**
      * @constructor
      * @param {Object} handle - The internal soul-state of the LiveHandle.
      */
@@ -88,6 +110,7 @@ class Writer {
      * @description Materializes a key-value pair into the structure.
      */
     set(key, value, options = {}) {
+        this._assertWritable('set');
         const isPtr = options === true || (options && options.isPtr);
         const skipIndexes = options && typeof options === 'object' && options.skipIndexes;
         if (!isPtr && this.db._guardWrite) this.db._guardWrite(this._lockPath(key), value, 'set');
@@ -119,6 +142,7 @@ class Writer {
      * @description Appends a value to a sequential container.
      */
     push(value, options = {}) {
+        this._assertWritable('push');
         const effectiveType = this._getEffectiveType();
         const scribe = this._getScribe();
         
@@ -144,6 +168,7 @@ class Writer {
      * @description Slashes and heals segments of a sequence.
      */
     splice(...args) {
+        this._assertWritable('splice');
         const effectiveType = this._getEffectiveType();
         const scribe = this._getScribe();
         
@@ -166,6 +191,7 @@ class Writer {
      * @description Withdraws a specific name from existence.
      */
     delete(key) {
+        this._assertWritable('delete');
         if (this.db._guardWrite) this.db._guardWrite(this._lockPath(key), undefined, 'delete');
         if (this.db.turbo && this.db.turbo.captureDelete(this.handle, key)) {
             if (this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
@@ -195,6 +221,7 @@ class Writer {
      * @description Wraps ordinary sync handle mutations in an internal path lock.
      */
     _autoWrite(key, fn) {
+        this._assertWritable('autoWrite');
         if (!this.db.concurrent || typeof this.db.concurrent.autoWrite !== 'function') {
             return fn();
         }

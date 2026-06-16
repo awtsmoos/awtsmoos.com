@@ -9,7 +9,11 @@
     "wok": "node test",
     "ship": "node scripts/ship.mjs",
     "ship:status": "git status --short && git remote -v",
-    "ssh:awtsmoos": "ssh awtsmoos-root",
+    "ssh:awtsmoos": "node scripts/bh.mjs",
+    "bh:ssh": "node scripts/bh.mjs",
+    "bh:ssh:set-password": "node scripts/bh.mjs --set-password",
+    "bh:ssh:forget-password": "node scripts/bh.mjs --forget-password",
+    "bh:ssh:info": "node scripts/bh.mjs --credential-info",
     "test": "npm run test:routes && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client",
     "test:ai": "node geelooy/ai/tests/harness/run.cjs all",
     "test:ai:stress": "AWTSMOOS_AI_TEST_ROUNDS=5 node geelooy/ai/tests/harness/run.cjs all",
@@ -37,8 +41,8 @@
     "test:packed-engine": "node geelooy/api/social/helper/test/packedEngine.test.js",
     "test:platform-ops": "node geelooy/api/social/helper/test/platformOps.test.js",
     "test:platform-execution": "node geelooy/api/social/helper/test/platformExecution.test.js",
-    "bh": "node scripts/ship.mjs && bash scripts/bh-password.sh",
-    "ship:bh": "node scripts/ship.mjs && bash scripts/bh-password.sh"
+    "bh": "node scripts/ship.mjs && node scripts/bh.mjs",
+    "ship:bh": "node scripts/ship.mjs && node scripts/bh.mjs"
   },
   "author": "",
   "license": "ISC"

@@ -1,0 +1,8 @@
+// B"H
+/** @file WildlifeNeedSystem.js @description Hunger, thirst, fear, fatigue, social, territory pressure. */
+import { clamp01, dataOf, hash } from './LifeMath.js';
+const SPECIES = Object.freeze({ fox:{ hunger:.035, thirst:.018, fatigue:.018, social:.006 }, rabbit:{ hunger:.028, thirst:.02, fatigue:.014, social:.022 }, deer:{ hunger:.022, thirst:.018, fatigue:.012, social:.03 }, goat:{ hunger:.02, thirst:.018, fatigue:.012, social:.02 }, frog:{ hunger:.018, thirst:.03, fatigue:.01, social:.012 }, bird:{ hunger:.026, thirst:.014, fatigue:.018, social:.026 } });
+function rates(species) { return SPECIES[species] || SPECIES.rabbit; }
+export function ensureNeeds(actor) { const data = dataOf(actor); if (!data.needs) data.needs = { hunger:hash(data.motion && data.motion.seed,1), thirst:hash(data.motion && data.motion.seed,2)*.4, fear:0, fatigue:0, social:.3, territory:.2 }; return data.needs; }
+export function tickNeeds(actor, dt, context = {}) { const data = dataOf(actor), needs = ensureNeeds(actor), r = rates(data.species); needs.hunger = clamp01(needs.hunger + r.hunger * dt); needs.thirst = clamp01(needs.thirst + r.thirst * dt); needs.fatigue = clamp01(needs.fatigue + r.fatigue * dt * (context.active ? 1.7 : .65)); needs.social = clamp01(needs.social + r.social * dt); needs.fear = clamp01(needs.fear * Math.exp(-dt * .38) + (context.threat ? .35 : 0)); needs.territory = clamp01(context.outsideTerritory ? needs.territory + dt * .08 : needs.territory * Math.exp(-dt * .1)); return needs; }
+export function satisfy(actor, kind, amount = .1) { const needs = ensureNeeds(actor); needs[kind] = clamp01((needs[kind] || 0) - amount); return needs; }

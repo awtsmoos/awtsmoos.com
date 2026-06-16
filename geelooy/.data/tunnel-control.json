@@ -4236,6 +4236,1527 @@
       "path": "pulse_mpxhyw4s/apps/pulse-garden/index.html",
       "bytes": 6707,
       "ok": true
+    },
+    {
+      "at": 1781509064809,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awt-browser-code-6117:list",
+      "path": ".",
+      "bytes": 395,
+      "ok": true
+    },
+    {
+      "at": 1781509064832,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awt-browser-code-6117:commandRun",
+      "path": ".",
+      "bytes": 414,
+      "ok": true
+    },
+    {
+      "at": 1781509064853,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": ".",
+      "bytes": 376,
+      "ok": true
+    },
+    {
+      "at": 1781509064873,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "browser-smoke/hello.txt",
+      "bytes": 389,
+      "ok": false
+    },
+    {
+      "at": 1781509064899,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "browser-smoke/hello.txt",
+      "bytes": 1799,
+      "ok": false
+    },
+    {
+      "at": 1781509065042,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awt-browser-code-6117:list",
+      "path": ".",
+      "bytes": 395,
+      "ok": true
+    },
+    {
+      "at": 1781509065074,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awt-browser-code-6117:commandRun",
+      "path": ".",
+      "bytes": 414,
+      "ok": true
+    },
+    {
+      "at": 1781509065087,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": ".",
+      "bytes": 376,
+      "ok": true
+    },
+    {
+      "at": 1781509065104,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "browser-smoke/hello.txt",
+      "bytes": 389,
+      "ok": false
+    },
+    {
+      "at": 1781509065122,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "browser-smoke/hello.txt",
+      "bytes": 1799,
+      "ok": false
+    },
+    {
+      "at": 1781509097476,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/hello.txt",
+      "bytes": 1649,
+      "ok": true
+    },
+    {
+      "at": 1781509097495,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/hello.txt",
+      "bytes": 917,
+      "ok": true
+    },
+    {
+      "at": 1781509097518,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localBrowserSmoke1781509097082/browser-smoke",
+      "bytes": 600,
+      "ok": true
+    },
+    {
+      "at": 1781509097681,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localBrowserSmoke1781509097622/browser-smoke/hello.txt",
+      "bytes": 1649,
+      "ok": true
+    },
+    {
+      "at": 1781509097728,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localBrowserSmoke1781509097622/browser-smoke/hello.txt",
+      "bytes": 917,
+      "ok": true
+    },
+    {
+      "at": 1781509097825,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localBrowserSmoke1781509097622/browser-smoke",
+      "bytes": 600,
+      "ok": true
+    },
+    {
+      "at": 1781509115679,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:configGet",
+      "path": ".",
+      "bytes": 383,
+      "ok": true
+    },
+    {
+      "at": 1781509118180,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509118195,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509118199,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509121191,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509121203,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509121216,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509123180,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509123192,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509123201,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509126183,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509126195,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509126201,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509128177,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509128190,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509128201,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509131183,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509131196,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509131204,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509133205,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509133221,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 357,
+      "ok": true
+    },
+    {
+      "at": 1781509133237,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509136177,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509136196,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509136205,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509136213,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 1793,
+      "ok": false
+    },
+    {
+      "at": 1781509138206,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2281,
+      "ok": true
+    },
+    {
+      "at": 1781509138215,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 357,
+      "ok": true
+    },
+    {
+      "at": 1781509138226,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 551,
+      "ok": true
+    },
+    {
+      "at": 1781509141193,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509141238,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 344,
+      "ok": true
+    },
+    {
+      "at": 1781509141255,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509143175,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509143183,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 344,
+      "ok": true
+    },
+    {
+      "at": 1781509143195,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509146190,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509146220,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509146228,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509148166,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509148173,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509148180,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509151197,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509151211,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509151228,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509153180,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509153191,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509153196,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509156179,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509156191,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509156197,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509158178,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509158189,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509158195,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509161216,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509161229,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 344,
+      "ok": true
+    },
+    {
+      "at": 1781509161244,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509163174,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509163187,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509163192,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509166178,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509166190,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509166196,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509168174,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509168186,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509168192,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509171196,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509171257,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 344,
+      "ok": true
+    },
+    {
+      "at": 1781509171296,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509173174,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509173186,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509173191,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509185200,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2277,
+      "ok": true
+    },
+    {
+      "at": 1781509185211,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509185226,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 528,
+      "ok": true
+    },
+    {
+      "at": 1781509245228,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 375,
+      "ok": true
+    },
+    {
+      "at": 1781509245236,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 375,
+      "ok": true
+    },
+    {
+      "at": 1781509245253,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 524,
+      "ok": true
+    },
+    {
+      "at": 1781509305212,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2265,
+      "ok": true
+    },
+    {
+      "at": 1781509305221,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 346,
+      "ok": true
+    },
+    {
+      "at": 1781509305237,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 519,
+      "ok": true
+    },
+    {
+      "at": 1781509365214,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2276,
+      "ok": true
+    },
+    {
+      "at": 1781509365229,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 512,
+      "ok": true
+    },
+    {
+      "at": 1781509365240,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 512,
+      "ok": true
+    },
+    {
+      "at": 1781509425208,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2274,
+      "ok": true
+    },
+    {
+      "at": 1781509425221,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 523,
+      "ok": true
+    },
+    {
+      "at": 1781509425225,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 523,
+      "ok": true
+    },
+    {
+      "at": 1781509485203,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2279,
+      "ok": true
+    },
+    {
+      "at": 1781509485216,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 521,
+      "ok": true
+    },
+    {
+      "at": 1781509485222,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 521,
+      "ok": true
+    },
+    {
+      "at": 1781509545197,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2290,
+      "ok": true
+    },
+    {
+      "at": 1781509545213,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 526,
+      "ok": true
+    },
+    {
+      "at": 1781509545222,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 526,
+      "ok": true
+    },
+    {
+      "at": 1781509605212,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2283,
+      "ok": true
+    },
+    {
+      "at": 1781509605237,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 537,
+      "ok": true
+    },
+    {
+      "at": 1781509605265,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 537,
+      "ok": true
+    },
+    {
+      "at": 1781509665193,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2249,
+      "ok": true
+    },
+    {
+      "at": 1781509665225,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 347,
+      "ok": true
+    },
+    {
+      "at": 1781509665241,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 530,
+      "ok": true
+    },
+    {
+      "at": 1781509725208,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2288,
+      "ok": true
+    },
+    {
+      "at": 1781509725222,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 496,
+      "ok": true
+    },
+    {
+      "at": 1781509725231,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 496,
+      "ok": true
+    },
+    {
+      "at": 1781509785231,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2272,
+      "ok": true
+    },
+    {
+      "at": 1781509785248,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 356,
+      "ok": true
+    },
+    {
+      "at": 1781509785265,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 535,
+      "ok": true
+    },
+    {
+      "at": 1781509845195,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2284,
+      "ok": true
+    },
+    {
+      "at": 1781509845206,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 357,
+      "ok": true
+    },
+    {
+      "at": 1781509845221,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 519,
+      "ok": true
+    },
+    {
+      "at": 1781509905203,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentList",
+      "path": ".",
+      "bytes": 2265,
+      "ok": true
+    },
+    {
+      "at": 1781509905214,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:aiAgentTaskList",
+      "path": ".",
+      "bytes": 361,
+      "ok": true
+    },
+    {
+      "at": 1781509905229,
+      "userId": "local-browser-test-1781508694762",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:actionHistoryList",
+      "path": ".",
+      "bytes": 531,
+      "ok": true
+    },
+    {
+      "at": 1781509998222,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "=list&path=.&targetVessel=browser-tab:list",
+      "path": ".",
+      "bytes": 3372,
+      "ok": false
+    },
+    {
+      "at": 1781509998294,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781509998269.txt",
+      "bytes": 400,
+      "ok": false
+    },
+    {
+      "at": 1781509998333,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781509998269.txt",
+      "bytes": 1784,
+      "ok": false
+    },
+    {
+      "at": 1781509998410,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localBrowserSmoke1781509097082/browser-smoke",
+      "bytes": 402,
+      "ok": false
+    },
+    {
+      "at": 1781509999650,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "=list&path=.&targetVessel=browser-tab:list",
+      "path": ".",
+      "bytes": 3372,
+      "ok": false
+    },
+    {
+      "at": 1781509999734,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781509999704.txt",
+      "bytes": 400,
+      "ok": false
+    },
+    {
+      "at": 1781509999770,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781509999704.txt",
+      "bytes": 1784,
+      "ok": false
+    },
+    {
+      "at": 1781509999819,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localBrowserSmoke1781509097082/browser-smoke",
+      "bytes": 402,
+      "ok": false
+    },
+    {
+      "at": 1781510017366,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awt-browser-code-6117:list",
+      "path": ".",
+      "bytes": 395,
+      "ok": true
+    },
+    {
+      "at": 1781510017445,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781510017402.txt",
+      "bytes": 400,
+      "ok": false
+    },
+    {
+      "at": 1781510017490,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781510017402.txt",
+      "bytes": 1784,
+      "ok": false
+    },
+    {
+      "at": 1781510017548,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localBrowserSmoke1781509097082/browser-smoke",
+      "bytes": 402,
+      "ok": false
+    },
+    {
+      "at": 1781510018803,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awt-browser-code-6117:list",
+      "path": ".",
+      "bytes": 395,
+      "ok": true
+    },
+    {
+      "at": 1781510018886,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781510018847.txt",
+      "bytes": 400,
+      "ok": false
+    },
+    {
+      "at": 1781510018944,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localBrowserSmoke1781509097082/browser-smoke/fixed-1781510018847.txt",
+      "bytes": 1784,
+      "ok": false
+    },
+    {
+      "at": 1781510018996,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localBrowserSmoke1781509097082/browser-smoke",
+      "bytes": 402,
+      "ok": false
+    },
+    {
+      "at": 1781510041714,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localFixSmoke1781510041491/browser-smoke/fixed-1781510041491.txt",
+      "bytes": 1735,
+      "ok": true
+    },
+    {
+      "at": 1781510041778,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localFixSmoke1781510041491/browser-smoke/fixed-1781510041491.txt",
+      "bytes": 961,
+      "ok": true
+    },
+    {
+      "at": 1781510041835,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localFixSmoke1781510041491/browser-smoke",
+      "bytes": 637,
+      "ok": true
+    },
+    {
+      "at": 1781510043177,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localFixSmoke1781510042994/browser-smoke/fixed-1781510042994.txt",
+      "bytes": 1735,
+      "ok": true
+    },
+    {
+      "at": 1781510043216,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localFixSmoke1781510042994/browser-smoke/fixed-1781510042994.txt",
+      "bytes": 961,
+      "ok": true
+    },
+    {
+      "at": 1781510043268,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localFixSmoke1781510042994/browser-smoke",
+      "bytes": 637,
+      "ok": true
+    },
+    {
+      "at": 1781510138718,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localFixSmoke1781510138253/browser-smoke/fixed-1781510138253.txt",
+      "bytes": 1728,
+      "ok": true
+    },
+    {
+      "at": 1781510138769,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localFixSmoke1781510138253/browser-smoke/fixed-1781510138253.txt",
+      "bytes": 638,
+      "ok": true
+    },
+    {
+      "at": 1781510138825,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localFixSmoke1781510138253/browser-smoke",
+      "bytes": 630,
+      "ok": true
+    },
+    {
+      "at": 1781510140079,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "localFixSmoke1781510139886/browser-smoke/fixed-1781510139886.txt",
+      "bytes": 1728,
+      "ok": true
+    },
+    {
+      "at": 1781510140169,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "localFixSmoke1781510139886/browser-smoke/fixed-1781510139886.txt",
+      "bytes": 638,
+      "ok": true
+    },
+    {
+      "at": 1781510140228,
+      "userId": "local-browser-test-1781509970115",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "localFixSmoke1781510139886/browser-smoke",
+      "bytes": 630,
+      "ok": true
+    },
+    {
+      "at": 1781510268351,
+      "userId": "local-browser-test-1781510267541",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "finalListFix1781510267885/browser-smoke/final-1781510267885.txt",
+      "bytes": 1727,
+      "ok": true
+    },
+    {
+      "at": 1781510268464,
+      "userId": "local-browser-test-1781510267541",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "finalListFix1781510267885/browser-smoke/final-1781510267885.txt",
+      "bytes": 650,
+      "ok": true
+    },
+    {
+      "at": 1781510268515,
+      "userId": "local-browser-test-1781510267541",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "finalListFix1781510267885/browser-smoke",
+      "bytes": 632,
+      "ok": true
+    },
+    {
+      "at": 1781510269975,
+      "userId": "local-browser-test-1781510269561",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "finalListFix1781510269833/browser-smoke/final-1781510269833.txt",
+      "bytes": 1727,
+      "ok": true
+    },
+    {
+      "at": 1781510270017,
+      "userId": "local-browser-test-1781510269561",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "finalListFix1781510269833/browser-smoke/final-1781510269833.txt",
+      "bytes": 650,
+      "ok": true
+    },
+    {
+      "at": 1781510270075,
+      "userId": "local-browser-test-1781510269561",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "finalListFix1781510269833/browser-smoke",
+      "bytes": 632,
+      "ok": true
+    },
+    {
+      "at": 1781510387586,
+      "userId": "local-browser-test-1781510386753",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "finalReally1781510387112/smoke/file-1781510387112.txt",
+      "bytes": 1643,
+      "ok": true
+    },
+    {
+      "at": 1781510387659,
+      "userId": "local-browser-test-1781510386753",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "finalReally1781510387112/smoke/file-1781510387112.txt",
+      "bytes": 632,
+      "ok": true
+    },
+    {
+      "at": 1781510387712,
+      "userId": "local-browser-test-1781510386753",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "finalReally1781510387112/smoke",
+      "bytes": 601,
+      "ok": true
+    },
+    {
+      "at": 1781510389150,
+      "userId": "local-browser-test-1781510388660",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:write",
+      "path": "finalReally1781510388977/smoke/file-1781510388977.txt",
+      "bytes": 1643,
+      "ok": true
+    },
+    {
+      "at": 1781510389204,
+      "userId": "local-browser-test-1781510388660",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:read",
+      "path": "finalReally1781510388977/smoke/file-1781510388977.txt",
+      "bytes": 632,
+      "ok": true
+    },
+    {
+      "at": 1781510389259,
+      "userId": "local-browser-test-1781510388660",
+      "keyId": null,
+      "action": "awtsmoos-virtual-os:list",
+      "path": "finalReally1781510388977/smoke",
+      "bytes": 601,
+      "ok": true
     }
-  ]
+  ],
+  "perutaAccounts": {
+    "new-free-user": {
+      "balance": 10000,
+      "paidBalance": 0,
+      "freeBalance": 10000,
+      "lastDailyGrant": "2026-06-16",
+      "ledger": [
+        {
+          "at": 1781562619622,
+          "kind": "daily_grant",
+          "perutas": 5000,
+          "balance": 5000,
+          "freeBalance": 5000,
+          "paidBalance": 0
+        },
+        {
+          "at": 1781568138074,
+          "kind": "daily_grant",
+          "perutas": 5000,
+          "balance": 10000,
+          "freeBalance": 10000,
+          "paidBalance": 0
+        }
+      ],
+      "plan": "free"
+    }
+  }
 }

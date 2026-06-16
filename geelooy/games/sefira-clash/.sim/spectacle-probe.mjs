@@ -1,38 +1,28 @@
-import { stepSpectacleFromEvents } from '../js/spectacle/spectacleEvents.js';
+﻿import { stepSpectacleFromEvents } from '../js/spectacle/spectacleEvents.js';
 import { stepSpectacleState } from '../js/spectacle/spectacleState.js';
 
 /**
  * B"H
- * Spectacle probe.
- *
- * Chapter 13: in the silent headless chamber, no canvas flashes and no player
- * gasps, but the Awtsmoos renews even numbers from nothing. This probe asks the
- * brawl one question: when a mythic hit occurs, does visible pressure awaken?
+ * Spectacle probe with player-only screen flash law.
+ * AI-on-AI hits may make local rings. The white screen and camera quake awaken
+ * only when the human fighter is the one being hit.
  */
-const state = {
-  frame: 1,
-  fighters: [
-    { id: 'attacker', x: 100, y: 200, dna: { hue: 24 } },
-    { id: 'target', x: 190, y: 210, dna: { hue: 205 } }
-  ],
-  events: [{
-    type: 'hit', attackerId: 'attacker', targetId: 'target',
-    x: 170, y: 150, force: 62, damage: 24, koDanger: true,
-    color: '#fff1a6', side: 1, vector: { x: 1, y: -0.45 }
-  }]
-};
+const aiHit = makeState(false);
+stepSpectacleFromEvents(aiHit);
+assert((aiHit.spectacle.flash || 0) === 0, 'AI-on-AI hit must not flash the whole screen');
+assert((aiHit.spectacle.shake || 0) === 0, 'AI-on-AI hit must not camera shake');
+assert(aiHit.spectacle.rings.length === 1, 'AI-on-AI hit should keep local shock ring');
+assert(aiHit.spectacle.afterimages.length === 2, 'AI-on-AI hit should keep body afterimages');
 
-stepSpectacleFromEvents(state);
-assert(state.spectacle.flash > 0.3, 'mythic hit should create flash');
-assert(state.spectacle.shake > 8, 'mythic hit should create camera shake');
-assert(state.spectacle.rings.length === 1, 'mythic hit should create shock ring');
-assert(state.spectacle.streaks.length === 1, 'mythic hit should create launch streak');
-assert(state.spectacle.afterimages.length === 2, 'mythic hit should remember both bodies');
-const flash = state.spectacle.flash;
-stepSpectacleState(state);
-assert(state.spectacle.flash < flash, 'spectacle pressure should decay');
-console.log(JSON.stringify({ ok: true, spectacle: state.spectacle }, null, 2));
-
-function assert(condition, message) {
-  if (!condition) throw new Error(message);
-}
+const playerHit = makeState(true);
+stepSpectacleFromEvents(playerHit);
+assert(playerHit.spectacle.flash > 0.3, 'player-target mythic hit should create flash');
+assert(playerHit.spectacle.shake > 8, 'player-target mythic hit should create camera shake');
+assert(playerHit.spectacle.rings.length === 1, 'player-target hit should create shock ring');
+assert(playerHit.spectacle.streaks.length === 1, 'player-target hit should create launch streak');
+const flash = playerHit.spectacle.flash;
+stepSpectacleState(playerHit);
+assert(playerHit.spectacle.flash < flash, 'spectacle pressure should decay');
+console.log(JSON.stringify({ ok: true, aiHit: aiHit.spectacle, playerHit: playerHit.spectacle }, null, 2));
+function makeState(playerTarget) { return { frame: 1, fighters: [{ id: 'attacker', x: 100, y: 200, dna: { hue: 24 } }, { id: 'target', human: playerTarget, x: 190, y: 210, dna: { hue: 205 } }], events: [{ type: 'hit', attackerId: 'attacker', targetId: 'target', x: 170, y: 150, force: 62, damage: 24, koDanger: true, color: '#fff1a6', side: 1, vector: { x: 1, y: -0.45 } }] }; }
+function assert(condition, message) { if (!condition) throw new Error(message); }

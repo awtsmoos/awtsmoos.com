@@ -1,5 +1,0 @@
-geelooy/games/mitzvahWorld/documentation/introduction.html
-geelooy/games/mitzvahWorld/index.html
-geelooy/games/mitzvahWorld/main.html
-geelooy/games/mitzvahWorld/secretEditor.html
-geelooy/games/neshama-quest/index.html

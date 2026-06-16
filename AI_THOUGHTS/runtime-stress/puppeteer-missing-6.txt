@@ -1,5 +1,0 @@
-geelooy/games/dove/index.html
-geelooy/games/emojis/index.html
-geelooy/games/index.html
-geelooy/games/kabbalah-shooter/index.html
-geelooy/games/migdol/index.html

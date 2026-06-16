@@ -1,7 +1,8 @@
 /* B"H
- * Chapter 292: The shell keeps beauty; scroll-root owns the river.
- * The document receives the night background and typography, while the repaired
- * reader scroll contract lives only in `scroll-root.css` to prevent selector war.
+ * Chapter 300: The shell keeps beauty; the browser keeps the river.
+ *
+ * The Awtsmoos breathes through native page scroll. This file paints the night
+ * vessel and refuses nested page traps or synthetic motion.
  */
 
 html,
@@ -18,12 +19,7 @@ body {
     -webkit-font-smoothing: antialiased !important;
 }
 
-body {
-    margin: 0 !important;
-    color: var(--awt-text) !important;
-    font-family: var(--font-ui) !important;
-    overscroll-behavior-y: contain !important;
-}
+body { margin: 0 !important; color: var(--awt-text) !important; font-family: var(--font-ui) !important; }
 
 .all.post-reader-localized-context.awtsmoos-reader-vision {
     position: relative !important;
@@ -52,9 +48,8 @@ body {
     backdrop-filter: blur(14px) saturate(125%) !important;
 }
 
-.post-reader-localized-context > .main {
-    position: static !important;
-    display: block !important;
+.post-reader-localized-context > .main,
+.post-reader-localized-context .scroll-view-wrapper {
     width: 100% !important;
     max-width: 100% !important;
     min-height: calc(100dvh - var(--awt-header-space)) !important;
@@ -62,24 +57,20 @@ body {
     max-height: none !important;
     overflow-x: clip !important;
     overflow-y: visible !important;
-    padding-bottom: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
     touch-action: pan-y !important;
+}
+
+.post-reader-localized-context > .main {
+    position: static !important;
+    display: block !important;
+    padding-bottom: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
 }
 
 .post-reader-localized-context .scroll-view-wrapper {
     position: relative !important;
     z-index: var(--z-reader) !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: calc(100dvh - var(--awt-header-space)) !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
     padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
-    touch-action: pan-y !important;
     transform: translateZ(0) !important;
-    overscroll-behavior-y: contain;
 }
 
 .post-reader-localized-context #realPost.content {
@@ -93,11 +84,5 @@ body {
     overflow-y: visible !important;
 }
 
-@media (min-width: 901px) {
-    .post-reader-localized-context .scroll-view-wrapper { padding-inline: clamp(2rem, 7vw, 8rem) !important; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html,
-    body { scroll-behavior: auto !important; }
-}
+@media (min-width: 901px) { .post-reader-localized-context .scroll-view-wrapper { padding-inline: clamp(2rem, 7vw, 8rem) !important; } }
+@media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto !important; } }

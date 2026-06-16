@@ -2,83 +2,30 @@
 /**
  * @file fallbackBody.js
  * @description
- * Chapter 6: The Chossid Never Vanishes From The Wall.
- *
- * The Awtsmoos revealed the exact danger: `modelMesh` may exist while carrying
- * no visible renderable garment. Existence is not visibility. This fallback now
- * asks the scene graph whether a real mesh can be seen; if not, a simple body is
- * attached to the moving player root so it follows physics no matter what the
- * remote GLB does.
+ * Chapter 7: The Chossid Never Becomes A Floating Black Head. The fallback body
+ * remains a feature, but its hair, beard, hat, and face are anchored to a simple
+ * readable silhouette for mobile. A real GLB still wins when truly visible.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { hasVisibleLivingRenderable } from '../../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js';
-
 const FALLBACK_NAME = 'BASIC_VISIBLE_CHOSSID_BODY';
-
-/**
- * Ensures the player has either a visible GLB garment or a visible fallback.
- *
- * @param {object} chossid Player entity.
- * @returns {boolean} True when fallback is visible.
- */
-export function ensureFallbackBody(chossid) {
-  const host = fallbackHost(chossid);
-  if (!host?.isObject3D) return false;
-  const existing = host.getObjectByName?.(FALLBACK_NAME);
-  const hasReal = hasVisibleRenderable(chossid?.modelMesh);
-  if (hasReal) {
-    existing?.removeFromParent?.();
-    return false;
-  }
-  const body = existing || buildFallbackBody(chossid);
-  if (!existing) host.add(body);
-  body.visible = true;
-  body.position.set(0, 0, 0);
-  body.rotation.set(0, 0, 0);
-  body.scale.set(1, 1, 1);
-  return true;
-}
-
-/** @param {object} chossid Player. @returns {THREE.Object3D|null} Moving host. */
-function fallbackHost(chossid) {
-  return chossid?.mesh?.isObject3D ? chossid.mesh : chossid?.modelMesh || null;
-}
-
-/** @param {THREE.Object3D|null} root Model root. @returns {boolean} Visible mesh exists. */
-export function hasVisibleRenderable(root) {
-  return hasVisibleLivingRenderable(root);
-}
-
-/** @param {object} chossid Player entity. @returns {THREE.Group} Fallback body. */
+export function ensureFallbackBody(chossid) { const host = fallbackHost(chossid); if (!host?.isObject3D) return false; const existing = host.getObjectByName?.(FALLBACK_NAME); const hasReal = hasVisibleRenderable(chossid?.modelMesh); if (hasReal) { existing?.removeFromParent?.(); return false; } const body = existing || buildFallbackBody(chossid); if (!existing) host.add(body); body.visible = true; body.position.set(0,0,0); body.rotation.set(0,0,0); body.scale.set(1,1,1); return true; }
+function fallbackHost(chossid) { return chossid?.mesh?.isObject3D ? chossid.mesh : chossid?.modelMesh || null; }
+export function hasVisibleRenderable(root) { return hasVisibleLivingRenderable(root); }
+function material(color, rough = true) { const m = new THREE.MeshLambertMaterial({ color }); m.transparent = false; m.opacity = 1; m.depthWrite = true; m.userData.mobileStablePlayerMaterial = true; return m; }
 function buildFallbackBody(chossid) {
-  const body = new THREE.Group();
-  body.name = FALLBACK_NAME;
+  const body = new THREE.Group(); body.name = FALLBACK_NAME;
   body.add(
-    part('BASIC_VISIBLE_CHOSSID_ROBE', new THREE.BoxGeometry(0.85, 1.45, 0.55), 0x1f6fff, 0.8),
-    part('BASIC_VISIBLE_CHOSSID_HEAD', new THREE.BoxGeometry(0.45, 0.45, 0.45), 0xf1d0a8, 1.75),
-    part('BASIC_VISIBLE_CHOSSID_HAT', new THREE.BoxGeometry(0.65, 0.22, 0.65), 0x111111, 2.08)
+    part('BASIC_VISIBLE_CHOSSID_ROBE', new THREE.BoxGeometry(0.82, 1.35, 0.52), 0xf8f3df, 0.76),
+    part('BASIC_VISIBLE_CHOSSID_TROUSERS', new THREE.BoxGeometry(0.42, 0.58, 0.38), 0x242424, 0.2),
+    part('BASIC_VISIBLE_CHOSSID_HEAD', new THREE.BoxGeometry(0.42, 0.42, 0.40), 0xf0c08d, 1.52),
+    part('BASIC_VISIBLE_CHOSSID_HAIR_CAP', new THREE.BoxGeometry(0.44, 0.12, 0.42), 0x2b1b10, 1.76),
+    part('BASIC_VISIBLE_CHOSSID_HAT', new THREE.BoxGeometry(0.56, 0.18, 0.56), 0x2c2117, 1.94),
+    part('BASIC_VISIBLE_CHOSSID_BEARD', new THREE.BoxGeometry(0.34, 0.42, 0.18), 0xc46f23, 1.25, 0, 0, -0.22)
   );
-  stamp(body, chossid);
-  return body;
+  [-.26,.26].forEach(x => body.add(part('BASIC_VISIBLE_CHOSSID_ARM', new THREE.BoxGeometry(0.18, 0.82, 0.2), 0xf8f3df, 0.78, x, 0, 0)));
+  [-.18,.18].forEach(x => body.add(part('BASIC_VISIBLE_CHOSSID_LEG', new THREE.BoxGeometry(0.18, 0.76, 0.22), 0x242424, -0.22, x, 0, 0)));
+  stamp(body, chossid); return body;
 }
-
-/** @param {THREE.Object3D} root Tree. @param {object} chossid Player. */
-function stamp(root, chossid) {
-  Object.assign(root.userData ||= {}, { isLiving: true, isPlayer: true, isPlayerFallback: true, skipOctree: true, noOctree: true });
-  root.nivraAwtsmoos = chossid;
-  root.traverse(child => {
-    Object.assign(child.userData ||= {}, { isLiving: true, isPlayer: true, skipOctree: true, noOctree: true });
-    child.frustumCulled = false;
-    child.nivraAwtsmoos = chossid;
-  });
-}
-
-/** @returns {THREE.Mesh} Visible fallback mesh part. */
-function part(name, geometry, color, y) {
-  const mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color }));
-  mesh.name = name;
-  mesh.position.y = y;
-  mesh.castShadow = true;
-  mesh.receiveShadow = true;
-  return mesh;
-}
+function stamp(root, chossid) { Object.assign(root.userData ||= {}, { isLiving:true, isPlayer:true, isPlayerFallback:true, mobileStableHead:true, skipOctree:true, noOctree:true }); root.nivraAwtsmoos = chossid; root.traverse(child => { Object.assign(child.userData ||= {}, { isLiving:true, isPlayer:true, skipOctree:true, noOctree:true }); child.frustumCulled = false; child.nivraAwtsmoos = chossid; if (child.material) { child.material.transparent = false; child.material.opacity = 1; child.material.depthWrite = true; child.material.needsUpdate = true; } }); }
+function part(name, geometry, color, y, x = 0, _unused = 0, z = 0) { const mesh = new THREE.Mesh(geometry, material(color)); mesh.name = name; mesh.position.set(x, y, z); mesh.castShadow = true; mesh.receiveShadow = true; return mesh; }

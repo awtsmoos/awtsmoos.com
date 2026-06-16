@@ -1,2 +1,0 @@
-geelooy/games/chess/index.html
-geelooy/games/chess/magic.html

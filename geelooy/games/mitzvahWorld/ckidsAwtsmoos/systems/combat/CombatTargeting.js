@@ -1,27 +1,47 @@
-// B"H
-/**
- * @file CombatTargeting.js
- * @description
- * Chapter 711: mobile selection has a fallback if raycast misses.
- * A fox is selectable by visible ray proxy, by body mesh, or by nearest screen
- * projection under the finger. No old tree ray path is involved.
- */
+﻿// B"H
+/** @file CombatTargeting.js @description Mobile-friendly target wrappers for wildlife, with fat selection bubbles and safe proxy ownership. */
 import * as THREE from "/games/scripts/build/three.module.js";
-const DEFAULT_HP = { fox: 45, rabbit: 12, deer: 35, goat: 28, frog: 8, bird: 6 };
-function live(candidate) { return candidate?.mesh && !candidate.isDead && Number(candidate.hp ?? 1) > 0; }
-function speciesOf(group) { return group?.userData?.species || group?.userData?.motion?.species || "target"; }
-function nameOf(group) { const s = speciesOf(group); return group?.name || `wild_${s}`; }
-function ensureWildlifeTarget(group) { if (!group?.isObject3D || !group.userData?.wildlifeActor) return null; if (!group.userData.combatTarget) { const species = speciesOf(group), hp = DEFAULT_HP[species] || 20; group.userData.combatHp = group.userData.combatHp ?? hp; group.userData.combatMaxHp = group.userData.combatMaxHp ?? hp; group.userData.combatTarget = { mesh: group, isReady: true, name: nameOf(group), def: { species, color: species === "fox" ? 0xd46a24 : 0x8bcf68 }, get hp() { return group.userData.combatHp || 0; }, get maxHp() { return group.userData.combatMaxHp || hp; }, get isDead() { return group.userData.combatHp <= 0 || !group.visible; }, takeDamage(amount = 0) { group.userData.combatHp = Math.max(0, Number(group.userData.combatHp || hp) - Math.max(0, Number(amount) || 0)); group.userData.lastDamageAt = Date.now(); group.scale.setScalar(group.userData.combatHp <= 0 ? 0.001 : 1); if (group.userData.combatHp <= 0) { group.visible = false; group.userData.refined = true; } } }; } return group.userData.combatTarget; }
-export function collectCombatTargets(olam, enemies = []) { const out = enemies.filter(live); const root = olam?.__livingRegionWildlifeRoot; root?.children?.forEach(child => { const t = ensureWildlifeTarget(child); if (live(t) && !out.includes(t)) out.push(t); }); return out; }
+import { ensureCreatureLevel } from "../progression/CreatureLevelRuntime.js";
+const DEFAULT_HP = Object.freeze({ fox:180, rabbit:95, deer:260, goat:240, frog:120, bird:150, target:100 });
+const SELECT_RADIUS = Object.freeze({ frog:1.65, rabbit:1.55, bird:1.8, fox:2.0, deer:2.35, goat:2.05, target:1.7 });
+function dataOf(o) { if (o && !o.userData) o.userData = {}; return o?.userData || {}; }
+function rootOf(o) { let n = o; while (n) { const d = dataOf(n); if (d.combatTargetOwner) return d.combatTargetOwner.mesh || d.combatTargetOwner; if (d.proceduralSkinnedAnimal || d.wildlifeActor || d.selectableCombatTarget || d.combatTargetProxy) return n; n = n.parent; } return o; }
+function speciesOf(o) { const d = dataOf(o); return d.species || d.motion?.species || d.profile?.species || o?.def?.species || "target"; }
+function nameOf(o) { const d = dataOf(o), s = speciesOf(o); return d.targetName || d.displayName || o?.name || `Wild ${s}`; }
+function healthOf(o) { const d = dataOf(o); if (d.health) return d.health; if (d.combatHp === undefined) { const hp = DEFAULT_HP[speciesOf(o)] || DEFAULT_HP.target; d.combatHp = hp; d.combatMaxHp = hp; } return { get current() { return d.combatHp || 0; }, set current(v) { d.combatHp = Math.max(0, Number(v) || 0); }, get max() { return d.combatMaxHp || 1; }, set max(v) { d.combatMaxHp = Math.max(1, Number(v) || 1); } }; }
+function bubbleRadius(species) { return SELECT_RADIUS[species] || SELECT_RADIUS.target; }
+function markChildren(root, wrapper) { root?.traverse?.(child => { const d = dataOf(child); d.combatTargetOwner = wrapper; d.selectableCombatTarget = true; d.skipRaycast = false; }); }
+function ensureSelectionBubble(root, species) { const d = dataOf(root); if (d.selectionBubble) return d.selectionBubble; const geom = new THREE.SphereGeometry(bubbleRadius(species), 10, 8); const mat = new THREE.MeshBasicMaterial({ transparent:true, opacity:0, depthWrite:false }); const bubble = new THREE.Mesh(geom, mat); bubble.name = `${root.name || species}_selection_bubble`; bubble.visible = false; bubble.userData = { combatTargetProxy:true, selectableCombatTarget:true, species, skipOctree:true, noOctree:true, skipRaycast:false }; root.add(bubble); d.selectionBubble = bubble; return bubble; }
+export function isLiveTarget(t) { const h = t?.health || healthOf(t?.mesh); return Boolean(t && t.mesh && t.mesh.visible !== false && !t.isDead && Number(h?.current ?? t.hp ?? 1) > 0); }
+export function makeCombatTarget(object, playerLevel = 1) {
+  const root = rootOf(object); if (!root?.isObject3D) return null;
+  const d = dataOf(root); if (!d.proceduralSkinnedAnimal && !d.wildlifeActor && !d.selectableCombatTarget && !d.isEnemy && !d.combatTargetProxy) return null;
+  if (d.combatTargetWrapper) { ensureCreatureLevel(d.combatTargetWrapper, playerLevel); return d.combatTargetWrapper; }
+  const h = healthOf(root), species = speciesOf(root);
+  const wrapper = { mesh:root, isReady:true, get name() { return nameOf(root); }, get hp() { return Number(h.current ?? 0); }, get maxHp() { return Number(h.max ?? 1); }, get health() { return h; }, get isDead() { return Number(h.current ?? 0) <= 0 || root.visible === false; }, def:{ species, color:species === "fox" ? 0xd46a24 : 0x8bcf68 }, takeDamage(amount = 0, source = {}) { if (typeof root.takeDamage === "function") return root.takeDamage(amount, source); h.current = Math.max(0, Number(h.current || 0) - Math.max(0, Number(amount) || 0)); dataOf(root).lastDamageAt = Date.now(); if (h.current <= 0) { root.visible = false; dataOf(root).dead = true; } return amount; } };
+  d.combatTargetWrapper = wrapper; d.combatTargetOwner = wrapper; d.selectableCombatTarget = true;
+  const bubble = ensureSelectionBubble(root, species); bubble.userData.combatTargetOwner = wrapper;
+  markChildren(root, wrapper);
+  ensureCreatureLevel(wrapper, playerLevel);
+  return wrapper;
+}
+function traverse(root, fn) { root?.traverse?.(fn); }
+export function collectCombatTargets(olam, enemies = []) {
+  const out = [], level = Number((olam?.player || olam?.chossid)?.level || 1);
+  for (const e of enemies || []) { ensureCreatureLevel(e, level); if (isLiveTarget(e) && !out.includes(e)) out.push(e); }
+  for (const root of [olam?.scene, olam?.__livingRegionWildlifeRoot, olam?.nivrayimGroup].filter(Boolean)) traverse(root, o => { const t = makeCombatTarget(o, level); if (isLiveTarget(t) && !out.includes(t)) out.push(t); });
+  return out;
+}
 export default class CombatTargeting {
-  constructor(olam, onChange) { this.olam = olam; this.onChange = onChange; this.selected = null; this.raycaster = new THREE.Raycaster(); this.marker = this.createMarker(); this.lastPointer = new THREE.Vector2(); }
-  createMarker() { const g = new THREE.RingGeometry(1.25, 1.65, 48), m = new THREE.MeshBasicMaterial({ color: 0xffd95a, side: THREE.DoubleSide, transparent: true, opacity: .92, depthWrite: false }); const ring = new THREE.Mesh(g, m); ring.rotation.x = -Math.PI / 2; ring.visible = false; ring.userData.skipOctree = true; this.olam?.scene?.add?.(ring); return ring; }
-  pointer() { const p = this.olam?.pointer || this.olam?.mouse || this.olam?.ayin?.pointer; if (p && Number.isFinite(p.x) && Number.isFinite(p.y)) return p; return this.lastPointer.set(0, 0); }
-  selectableObjects(candidates) { const objects = []; for (const target of candidates.filter(live)) target.mesh.traverse?.(o => { if (o.isMesh && o.visible !== false && o.userData?.skipRaycast !== true) objects.push(o); }); if (!objects.length) candidates.filter(live).forEach(t => objects.push(t.mesh)); return objects; }
-  selectFromPointer(enemies = []) { const camera = this.olam?.camera || this.olam?.activeCamera; if (!camera) return "none"; const candidates = collectCombatTargets(this.olam, enemies); const pointer = this.pointer(); this.raycaster.setFromCamera(pointer, camera); const hit = this.raycaster.intersectObjects(this.selectableObjects(candidates), true)[0]; const target = hit ? this.findTarget(hit.object, candidates) : this.nearestProjectedTarget(pointer, camera, candidates); if (!target) return "none"; if (target === this.selected) return "confirmed"; this.set(target); return "selected"; }
-  nearestProjectedTarget(pointer, camera, candidates) { const pos = new THREE.Vector3(); let best = null, score = Infinity; for (const target of candidates.filter(live)) { target.mesh.getWorldPosition(pos); const projected = pos.clone().project(camera); if (projected.z < -1 || projected.z > 1) continue; const dx = projected.x - pointer.x, dy = projected.y - pointer.y, d = Math.sqrt(dx * dx + dy * dy); if (d < 0.18 && d < score) { best = target; score = d; } } return best; }
-  findTarget(object, targets) { let n = object; while (n) { const direct = ensureWildlifeTarget(n); if (direct) return direct; const found = targets.find(t => t === n.nivraAwtsmoos || t?.mesh === n || t?.mesh === n.parent); if (found) return found; n = n.parent; } return null; }
-  set(target) { this.selected = live(target) ? target : null; this.marker.visible = Boolean(this.selected?.mesh); this.onChange?.(this.selected); }
-  update() { if (!live(this.selected)) return this.set(null); const p = this.selected.mesh.position; this.marker.position.set(p.x, p.y + .1, p.z); this.marker.rotation.z += .016; }
+  constructor(olam, onChange) { this.olam = olam; this.onChange = onChange; this.selected = null; this.raycaster = new THREE.Raycaster(); this.lastPointer = new THREE.Vector2(); this.marker = this.createMarker(); }
+  createMarker() { const ring = new THREE.Mesh(new THREE.RingGeometry(1.25, 1.65, 48), new THREE.MeshBasicMaterial({ color:0xffd95a, side:THREE.DoubleSide, transparent:true, opacity:.92, depthWrite:false })); ring.rotation.x = -Math.PI / 2; ring.visible = false; ring.userData.skipOctree = true; this.olam?.scene?.add?.(ring); return ring; }
+  pointer() { const p = this.olam?.pointer || this.olam?.mouse || this.olam?.ayin?.pointer; return p && Number.isFinite(p.x) && Number.isFinite(p.y) ? p : this.lastPointer.set(0, 0); }
+  selectableObjects(candidates) { const objects = []; for (const t of candidates.filter(isLiveTarget)) { const bubble = dataOf(t.mesh).selectionBubble; if (bubble) objects.push(bubble); t.mesh.traverse?.(o => { if ((o.isMesh || o.isSkinnedMesh) && o.visible !== false && dataOf(o).skipRaycast !== true) objects.push(o); }); } return objects.length ? objects : candidates.filter(isLiveTarget).map(t => t.mesh); }
+  selectFromPointer(enemies = []) { const camera = this.olam?.camera || this.olam?.activeCamera || this.olam?.ayin?.camera; if (!camera) return "none"; const candidates = collectCombatTargets(this.olam, enemies); this.raycaster.setFromCamera(this.pointer(), camera); const hit = this.raycaster.intersectObjects(this.selectableObjects(candidates), true)[0]; const target = hit ? this.findTarget(hit.object, candidates) : this.nearestProjectedTarget(this.pointer(), camera, candidates); if (!target) return "none"; if (target === this.selected) return "confirmed"; this.set(target); return "selected"; }
+  nearestProjectedTarget(pointer, camera, candidates) { const pos = new THREE.Vector3(); let best = null, score = Infinity; for (const target of candidates.filter(isLiveTarget)) { target.mesh.getWorldPosition(pos); const pr = pos.clone().project(camera); const d = Math.hypot(pr.x - pointer.x, pr.y - pointer.y); const species = target.def?.species || "target"; const allowance = species === "frog" ? .38 : species === "bird" ? .32 : .28; if (pr.z >= -1 && pr.z <= 1 && d < allowance && d < score) { best = target; score = d; } } return best; }
+  nearestInRange(origin, forward, candidates, range = 50, cone = -1) { let best = null, score = Infinity; for (const t of candidates.filter(isLiveTarget)) { const v = t.mesh.position.clone().sub(origin), dist = v.length(); if (dist > range) continue; const dot = forward ? forward.dot(v.clone().setY(0).normalize()) : 1; if (dot < cone) continue; const s = dist - dot * 4; if (s < score) { score = s; best = t; } } return best; }
+  findTarget(object, targets) { let n = object; while (n) { const owner = dataOf(n).combatTargetOwner; if (isLiveTarget(owner)) return owner; const direct = makeCombatTarget(n, Number((this.olam?.player || this.olam?.chossid)?.level || 1)); if (isLiveTarget(direct)) return direct; const found = targets.find(t => t?.mesh === n || t?.mesh === n.parent || t === n.nivraAwtsmoos); if (isLiveTarget(found)) return found; n = n.parent; } return null; }
+  set(target) { this.selected = isLiveTarget(target) ? target : null; this.marker.visible = Boolean(this.selected?.mesh); this.onChange?.(this.selected); }
+  update() { if (!isLiveTarget(this.selected)) return this.set(null); const p = this.selected.mesh.position; this.marker.position.set(p.x, p.y + .1, p.z); this.marker.rotation.z += .016; }
   dispose() { this.marker.removeFromParent(); this.marker.geometry.dispose(); this.marker.material.dispose(); }
 }

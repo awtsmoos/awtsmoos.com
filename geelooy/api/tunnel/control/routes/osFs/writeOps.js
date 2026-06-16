@@ -3,9 +3,14 @@ const crypto = require("crypto");
 const { sp } = require("../../../../social/helper/_awtsmoos.constants.js");
 const { cleanPath, dbPath, splitPath } = require("./path.js");
 const { aliasOwned } = require("./aliases.js");
+const { publicUrlReport } = require("./publicUrls.js");
 const { readWhole } = require("./listRead.js");
 const { syntaxAfterWrite } = require("./syntaxAfterWrite.js");
 
+/**
+ * B"H
+ * Chapter 30: Every hosted write now carries a public-route lantern.
+ */
 function sha256(text) {
   return crypto.createHash("sha256").update(String(text ?? ""), "utf8").digest("hex");
 }
@@ -25,14 +30,19 @@ async function assertWritable($i, userId, payload, needInner = true) {
   return { parsed };
 }
 
+function changedPacket(action, parsed, payload) {
+  return { type: "AWTSMOOS_OS_CHANGED", action, aliasId: parsed.aliasId, path: cleanPath(payload.path || payload.p || "."), publicUrl: publicUrlReport(payload, parsed), at: Date.now() };
+}
+
 async function writeFile($i, userId, payload) {
   const got = await assertWritable($i, userId, payload);
   if (got.error) return got.error;
   const absolutePath = dbPath(sp, got.parsed.aliasId, got.parsed.innerPath);
   const wr = await $i.db.write(absolutePath, payload.content ?? "");
-  broadcast($i, { type: "AWTSMOOS_OS_CHANGED", action: payload.action || "write", aliasId: got.parsed.aliasId, path: cleanPath(payload.path || "."), at: Date.now() });
+  const publicUrl = publicUrlReport(payload, got.parsed);
+  broadcast($i, changedPacket(payload.action || "write", got.parsed, payload));
   const syntax = syntaxAfterWrite(absolutePath);
-  return { ok: true, action: payload.action || "write", path: cleanPath(payload.path || "."), absolutePath, wr, ...(syntax ? { syntax } : {}) };
+  return { ok: true, action: payload.action || "write", path: cleanPath(payload.path || payload.p || "."), absolutePath, wr, publicUrl, ...(syntax ? { syntax } : {}) };
 }
 
 async function makeFolder($i, userId, payload) {
@@ -40,8 +50,9 @@ async function makeFolder($i, userId, payload) {
   if (got.error) return got.error;
   const absolutePath = dbPath(sp, got.parsed.aliasId, got.parsed.innerPath);
   const wr = await $i.db.write(absolutePath);
-  broadcast($i, { type: "AWTSMOOS_OS_CHANGED", action: "makeFolder", aliasId: got.parsed.aliasId, path: cleanPath(payload.path || "."), at: Date.now() });
-  return { ok: true, action: payload.action || "makeFolder", path: cleanPath(payload.path || "."), absolutePath, wr };
+  const publicUrl = publicUrlReport(payload, got.parsed);
+  broadcast($i, changedPacket("makeFolder", got.parsed, payload));
+  return { ok: true, action: payload.action || "makeFolder", path: cleanPath(payload.path || payload.p || "."), absolutePath, wr, publicUrl };
 }
 
 async function deletePath($i, userId, payload) {
@@ -49,8 +60,9 @@ async function deletePath($i, userId, payload) {
   if (got.error) return got.error;
   const absolutePath = dbPath(sp, got.parsed.aliasId, got.parsed.innerPath);
   const deleted = await $i.db.delete(absolutePath);
-  broadcast($i, { type: "AWTSMOOS_OS_CHANGED", action: payload.action || "delete", aliasId: got.parsed.aliasId, path: cleanPath(payload.path || "."), at: Date.now() });
-  return { ok: true, action: payload.action || "delete", path: cleanPath(payload.path || "."), absolutePath, deleted };
+  const publicUrl = publicUrlReport(payload, got.parsed);
+  broadcast($i, changedPacket(payload.action || "delete", got.parsed, payload));
+  return { ok: true, action: payload.action || "delete", path: cleanPath(payload.path || payload.p || "."), absolutePath, deleted, publicUrl };
 }
 
 async function writeIfHash($i, userId, payload) {

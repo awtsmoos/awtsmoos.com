@@ -1,14 +1,13 @@
-// B"H
+﻿// B"H
 /**
  * @file controls.js
  * @description
- * Chapter 9: Platformer-safe controls with old-stable movement fallback.
+ * Chapter 36: The Hands Became Deliberate.
  *
- * Restored from the known stable movement era. The player reads `olam.inputs`
- * and raw `keyStates` backup exactly where movement flags are copied each
- * frame. This removes later experimental movement drift.
+ * The Awtsmoos no longer assumes every mobile breath is a sprint. Movement
+ * reads the current input vessel exactly: forward means forward, Shift means
+ * run, and lava freeze means silence until the countdown completes.
  */
-
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ";
 const CAMERA_FPS_TOGGLE = "KeyT";
@@ -16,67 +15,69 @@ const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const DISMOUNT_KEY = "KeyX";
 
+/** @param {object} olam World. @param {...string} codes Key codes. @returns {boolean} */
 function keyOn(olam, ...codes) {
   return codes.some(code => !!olam?.keyStates?.[code]);
+}
+
+/** @param {object} inputs Input flags. @param {string} key Flag name. @returns {boolean} */
+function flag(inputs, key) {
+  return inputs?.[key] === true;
 }
 
 export default {
   /** Copies input state into movement flags every frame. */
   controls() {
+    this.resetMoving();
+    if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
     if (this.isDriving && this.drivingVehicle) {
       if (this.olam.keyStates?.[DISMOUNT_KEY]) this.drivingVehicle.dismount?.();
       return;
     }
-
-    this.resetMoving();
     if (this.olam.showingImportantMessage) return;
 
     const inputs = this.olam.inputs || {};
     this.moving.running = inputs.RUNNING !== false || keyOn(this.olam, "ShiftLeft", "ShiftRight");
-    this.moving.forward = !!inputs.FORWARD || keyOn(this.olam, "KeyW", "ArrowUp");
-    this.moving.backward = !!inputs.BACKWARD || keyOn(this.olam, "KeyS", "ArrowDown");
-    this.moving.turningLeft = !!inputs.LEFT_ROTATE || keyOn(this.olam, "KeyA", "ArrowLeft");
-    this.moving.turningRight = !!inputs.RIGHT_ROTATE || keyOn(this.olam, "KeyD", "ArrowRight");
-    this.moving.stridingLeft = !!inputs.LEFT_STRIDE || keyOn(this.olam, "KeyQ");
-    this.moving.stridingRight = !!inputs.RIGHT_STRIDE || keyOn(this.olam, "KeyE");
-    this.moving.jump = !!inputs.JUMP || keyOn(this.olam, "Space");
-    this.moving.down = !!inputs.DOWN || keyOn(this.olam, "KeyX");
-    this.moving.up = !!inputs.UP;
-
+    this.moving.forward = flag(inputs, "FORWARD") || keyOn(this.olam, "KeyW", "ArrowUp");
+    this.moving.backward = flag(inputs, "BACKWARD") || keyOn(this.olam, "KeyS", "ArrowDown");
+    this.moving.turningLeft = flag(inputs, "LEFT_ROTATE") || keyOn(this.olam, "KeyA", "ArrowLeft");
+    this.moving.turningRight = flag(inputs, "RIGHT_ROTATE") || keyOn(this.olam, "KeyD", "ArrowRight");
+    this.moving.stridingLeft = flag(inputs, "LEFT_STRIDE") || keyOn(this.olam, "KeyQ");
+    this.moving.stridingRight = flag(inputs, "RIGHT_STRIDE") || keyOn(this.olam, "KeyE");
+    this.moving.jump = flag(inputs, "JUMP") || keyOn(this.olam, "Space");
+    this.moving.down = flag(inputs, "DOWN") || keyOn(this.olam, "KeyX");
+    this.moving.up = flag(inputs, "UP");
     this.cameraControls();
   },
 
-  /** Kept for compatibility; the light platformer has no footstep audio here. */
   movingSounds() {},
 
-  /** Simple camera pan keys. */
   cameraControls() {
     if (this.olam.keyStates?.[CAMERA_PAN_UP]) this.olam.ayin?.panUp?.();
     else if (this.olam.keyStates?.[CAMERA_PAN_DOWN]) this.olam.ayin?.panDown?.();
   },
 
-  /** Old dialogue numeric controls are inert when no dialogue exists. */
   dialogueControls(event) {
     if (!this.interactingWith) return;
     const n = Number.parseInt(event?.key, 10);
     if (n >= 1 && n <= 9) this.interactingWith.toggleToOption?.(n - 1);
   },
 
-  /** Installs only safe mouse/key listeners. */
   setupInputListeners(olam) {
     olam.on("mousedown", event => {
+      if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
       if (event.button === 0) this.handleClick?.(event) || this.shoot?.();
       if (event.button === 2) this.getRealActiveItemInstance?.();
     });
 
     olam.on("keypressed", async event => {
+      if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
       this.ayshPeula("keypressed", event);
       this.dialogueControls(event);
       await this.handlePlatformerKey(event);
     });
   },
 
-  /** Routes platformer-safe key commands. */
   async handlePlatformerKey(event = {}) {
     switch (event.code) {
       case "NumLock":
@@ -110,7 +111,6 @@ export default {
     }
   },
 
-  /** Uses a nearby simple interactable or a harmless selected tool. */
   async activateNearbyOrTool() {
     const activeItem = this.getActiveItem?.();
     if (activeItem?.isPainter) {
@@ -121,20 +121,17 @@ export default {
       });
       return;
     }
-
     const target = this.interactingWith || this.approachedEntities?.[0];
     if (target?.ayshPeula) target.ayshPeula("accepted interaction", this);
     else this.shoot?.();
   },
 
-  /** Selects a focused dialogue/object only if that legacy focus exists. */
   async selectFocusedThing() {
     if (this.selected) return void this.selectMenuOption?.();
     if (this.interactingWith?.selectOption) return void await this.interactingWith.selectOption();
     if (this.intersected) return void await this.selectIntersected?.();
   },
 
-  /** Rotates focus through simple interactables. */
   cycleApproachedEntities() {
     if (!Array.isArray(this.approachedEntities) || this.approachedEntities.length <= 1) return;
     const last = this.approachedEntities.shift();
@@ -145,9 +142,6 @@ export default {
     current?._showInteractionPrompt?.();
   },
 
-  /** Compatibility no-op for removed building preview rotation. */
   resetPreviewRotation() { this.placementRotation = 0; },
-
-  /** Compatibility no-op for removed visual editor. */
   handleEditorClick() {}
 };

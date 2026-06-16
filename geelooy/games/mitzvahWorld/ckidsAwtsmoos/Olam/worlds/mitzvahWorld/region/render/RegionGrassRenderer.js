@@ -1,20 +1,27 @@
-// B"H
-/**
- * @file RegionGrassRenderer.js
- * @description
- * Chapter 1000: grass becomes grainy, varied, and materially dense.
- * The Awtsmoos adds tufts, seed heads, road-cleared blades, and color noise so
- * the ground is no longer a flat green whisper.
- */
+﻿// B"H
+/** @file RegionGrassRenderer.js @description Mobile-safe grass avoids roads, houses, yards, and parcel gates. */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { makeInstancedLayer } from "./RegionInstancer.js?v=leaflet-grass-tuft-20260614-bh1";
+import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20260614-bh2";
 import { rand } from "./RegionRandom.js";
 import { sealRegionVisual } from "./RegionSeal.js";
-import { qualityCount } from "./RegionQuality.js?v=region-quality-20260612-bh1";
-import { ecologyKind, roadMask } from "../../postbuild/VillagePolishGround.js?v=polish-ground-20260614-bh1";
-export function buildGrassRenderer(olam, report = {}) { const root = new THREE.Group(); root.name = "living_region_complex_grainy_grass_field"; const specs = report.instances?.grass || []; addGrass(root, olam, specs); return sealRegionVisual(root, { complexGrainyGrass: true }); }
-export function buildWheatRenderer(olam, report = {}) { const farmCells = (report.ecology?.cells || []).filter(c => c.biome === "farmBelt"); const count = qualityCount(olam, Math.min(5200, Math.max(1600, farmCells.length * 4))); return makeInstancedLayer({ olam, name: "living_region_farm_wheat_field_dense_heads", geometry: "grassTuft", material: "straw", count, build: i => { const c = farmCells[i % Math.max(1, farmCells.length)] || { x: -145, z: -55 }; return { x: c.x + (rand(i, 1) - .5) * 6, z: c.z + (rand(i, 2) - .5) * 6, sx: .48, sy: 1.55 + rand(i, 6) * 1.05, sz: .48, yaw: rand(i, 7) * 6.28, lift: .018, color: i % 4 ? 0xd5bf62 : 0xf3db83 }; } }); }
-function addGrass(root, olam, specs) { const base = specs.length ? Math.min(13000, Math.max(specs.length * 3, specs.length + 2600)) : 11800; const count = qualityCount(olam, base); root.add(makeInstancedLayer({ olam, name: "grainy_grass_blades_road_cleared", geometry: "blade", material: "grass", count, build: i => ecologyGrass(point(specs, i, count), i, false) })); root.add(makeInstancedLayer({ olam, name: "complex_grass_tuft_clusters", geometry: "grassTuft", material: "grass", count: Math.floor(count * .55), build: i => ecologyGrass(point(specs, i + 9917, count), i, true) })); root.add(makeInstancedLayer({ olam, name: "tiny_seed_head_speckles", geometry: "flower", material: "straw", count: Math.floor(count * .12), build: i => seed(point(specs, i + 4411, count), i) })); root.userData.stats = { grassBlades: count, grassTufts: Math.floor(count * .55), seedHeads: Math.floor(count * .12) }; }
-function point(specs, i, count) { if (specs.length) { const s = specs[i % specs.length], jitter = i >= specs.length ? 2.4 : .35; return { x: s.x + (rand(i, 10) - .5) * jitter, z: s.z + (rand(i, 11) - .5) * jitter, a: i * 2.399 }; } const ring = Math.sqrt(i / count) * 225, a = i * 2.399963; return { x: Math.cos(a) * ring + (rand(i, 2) - .5) * 13, z: Math.sin(a) * ring * .64 + (rand(i, 3) - .5) * 13, a }; }
-function ecologyGrass(p, i, tuft) { const kind = ecologyKind(p.x, p.z), road = roadMask(p.x, p.z, 9); const sparse = kind === "village-square" ? .34 : kind === "trampled-road-edge" ? .24 : 1; const tall = kind === "sacred-grove" ? 1.85 : kind === "orchard" ? 1.22 : kind === "wild" ? 1.45 : .68; const noise = rand(i, 15); return { x: p.x, z: p.z, sx: ((tuft ? .62 : .38) + rand(i, 4) * (tuft ? .5 : .44)) * sparse, sy: ((tuft ? .72 : .48) + rand(i, 5) * 1.45) * tall * (1 - road * .64), sz: (tuft ? .62 : .42) * sparse, yaw: p.a + rand(i, 6) * 2.4, lift: .014, color: kind === "sacred-grove" ? (noise > .5 ? 0x3f9b45 : 0x68bd58) : kind === "orchard" ? (noise > .5 ? 0x78cc5c : 0x95dd76) : kind === "trampled-road-edge" ? 0xa69a55 : noise > .72 ? 0x8cd66b : noise < .18 ? 0x4fa84a : 0x65c457 }; }
-function seed(p, i) { const road = roadMask(p.x, p.z, 7); return { x: p.x, z: p.z, sx: .035 + rand(i, 3) * .045, sy: .035 + rand(i, 4) * .05, sz: .035 + rand(i, 5) * .045, yaw: p.a, lift: .68 + rand(i, 6) * .55, color: road > .4 ? 0xb8a85f : 0xe2d374 }; }
+import { qualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
+import { createProceduralCoreGrassField, advanceProceduralGrass } from "./ProceduralCoreGrassField.js?v=shader-grass-uniform-fix-20260615-bh904";
+import { grassExclusionsFromReport, auditGrassExclusions } from "./RegionGrassExclusion.js";
+function reportGrass(report) { return report && report.instances && Array.isArray(report.instances.grass) ? report.instances.grass : []; }
+function farmCells(report) { const cells = report && report.ecology && Array.isArray(report.ecology.cells) ? report.ecology.cells : []; return cells.filter(cell => cell.biome === "farmBelt"); }
+export function buildGrassRenderer(olam, report = {}) {
+  const root = new THREE.Group(), specs = reportGrass(report), exclusions = grassExclusionsFromReport(report), audit = auditGrassExclusions(report);
+  const count = qualityCount(olam, 22000);
+  const grass = createProceduralCoreGrassField(olam, specs, count, { exclusions });
+  root.name = "living_region_mobile_safe_short_green_grass";
+  root.add(grass);
+  root.userData.tick = dt => advanceProceduralGrass(grass, dt);
+  root.userData.stats = { ...grass.userData.stats, grassExclusionAudit:audit, complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, onlyProceduralCoreGrass:true, avoidsCottages:true, avoidsYards:true };
+  return sealRegionVisual(root, { complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, proceduralCoreGrass:true, avoidsCottages:true, avoidsYards:true });
+}
+export function buildWheatRenderer(olam, report = {}) {
+  const cells = farmCells(report), count = qualityCount(olam, Math.min(5200, Math.max(1600, cells.length * 4)));
+  return makeInstancedLayer({ olam, name:"living_region_farm_wheat_field_dense_heads", geometry:"grassTuft", material:"straw", count, build:i => { const c = cells[i % Math.max(1, cells.length)] || { x:-145, z:-55 }; return { x:c.x + (rand(i,1)-.5)*6, z:c.z + (rand(i,2)-.5)*6, sx:.48, sy:1.55 + rand(i,6)*1.05, sz:.48, yaw:rand(i,7)*6.28, lift:.018, color:i%4 ? 0xd5bf62 : 0xf3db83 }; } });
+}
+
+

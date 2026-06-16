@@ -1,3 +1,0 @@
-geelooy/apps/editor/old/index.html
-geelooy/apps/exe-emulator/index.html
-geelooy/apps/index.html

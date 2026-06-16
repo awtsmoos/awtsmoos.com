@@ -1,5 +1,0 @@
-geelooy/games/Merkava/index.html
-geelooy/games/Nachash/index.html
-geelooy/games/adventure/index.html
-geelooy/games/brick-blast/index.html
-geelooy/games/cards/index.html

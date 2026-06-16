@@ -1,8 +1,0 @@
-{
-  "total": 22,
-  "passed": 21,
-  "failed": 1,
-  "failedCases": [
-    "path2d-curves-clip-and-fill-rules"
-  ]
-}

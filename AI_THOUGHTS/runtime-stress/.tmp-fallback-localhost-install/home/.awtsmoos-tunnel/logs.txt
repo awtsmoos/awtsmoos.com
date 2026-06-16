@@ -1,8 +1,0 @@
-[2026-06-12T10:09:09.914Z] B"H Awtsmoos split agent starting.
-[2026-06-12T10:09:09.916Z] Config root dir: C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com\AI_THOUGHTS\runtime-stress\.tmp-fallback-localhost-install\home\.awtsmoos-tunnel
-[2026-06-12T10:09:09.917Z] Tunnel name: awt-sandbox-fallback
-[2026-06-12T10:09:09.917Z] Project root: C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com
-[2026-06-12T10:09:09.918Z] Limits: {"MAX_INFLIGHT":8,"MAX_QUEUE":1000,"REQUEST_MAX_AGE_MS":45000,"MAX_RESPONSE_BYTES":83886080,"MAX_PROXY_BYTES":33554432}
-[2026-06-12T10:09:09.945Z] Local tunnel API: http://127.0.0.1:3989
-[2026-06-12T10:09:09.945Z] Local ChatGPT browser relay: http://127.0.0.1:3989/relay/control
-[2026-06-12T10:09:10.152Z] Tunnel connected: awt-sandbox-fallback root: C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com

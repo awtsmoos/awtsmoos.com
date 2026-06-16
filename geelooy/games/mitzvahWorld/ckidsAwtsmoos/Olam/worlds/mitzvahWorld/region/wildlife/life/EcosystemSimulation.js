@@ -1,0 +1,5 @@
+// B"H
+/** @file EcosystemSimulation.js @description Population pressure: predators, prey, grass, migration. */
+import { dataOf, clamp01 } from './LifeMath.js';
+export function tickEcosystem(store, actors = [], dt = 1 / 60) { if (!store.ecosystem) store.ecosystem = { grass:.72, rabbits:0, foxes:0, deer:0, pressure:0, migrations:0 }; const e = store.ecosystem; e.rabbits = actors.filter(a => dataOf(a).species === 'rabbit' && !(dataOf(a).health || {}).dead).length; e.foxes = actors.filter(a => dataOf(a).species === 'fox' && !(dataOf(a).health || {}).dead).length; e.deer = actors.filter(a => dataOf(a).species === 'deer' && !(dataOf(a).health || {}).dead).length; e.grass = clamp01(e.grass + dt * .006 - (e.rabbits + e.deer) * dt * .00018); e.pressure = clamp01(e.foxes / Math.max(1, e.rabbits + e.deer)); if (e.pressure > .65) e.migrations += dt * .03; actors.forEach(a => { const d = dataOf(a); d.ecosystemPressure = d.species === 'fox' ? 1 - e.pressure : e.pressure; }); return e; }
+export function ecosystemSummary(store) { return store.ecosystem || { grass:0, rabbits:0, foxes:0, deer:0, pressure:0, migrations:0 }; }

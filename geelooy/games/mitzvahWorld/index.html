@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,21 +6,37 @@
   <title>Awtsmoos - Mitzvah World 3D</title>
   <link rel="stylesheet" href="./main.css?v=final-colliders-all-lava-rewritten-20260609-bh573">
   <style>
-    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
-    #ikar { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
+    body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
+    #ikar { width:100vw; height:100vh; position:absolute; top:0; left:0; }
+    #mitzvahUiBridge { position:fixed; inset:0; pointer-events:none; z-index:9000; font-family:system-ui, sans-serif; color:#fff; }
+    #mitzvahTopLeft, #mitzvahTopRight, #mitzvahBottomCenter { position:absolute; display:flex; flex-direction:column; gap:6px; max-width:360px; }
+    #mitzvahTopLeft { top:12px; left:12px; }
+    #mitzvahTopRight { top:12px; right:12px; align-items:flex-end; }
+    #mitzvahBottomCenter { left:50%; bottom:18px; transform:translateX(-50%); align-items:center; }
+    .mitzvahPanel { background:rgba(5,10,20,.68); border:1px solid rgba(255,215,128,.45); border-radius:8px; padding:8px 10px; backdrop-filter:blur(3px); font-size:12px; line-height:1.35; box-shadow:0 0 18px rgba(0,0,0,.35); }
+    .mitzvahPanel strong { color:#ffd966; }
+    #awtsmoosUiSinks { display:none !important; }
   </style>
 </head>
 <body>
-  <div id="ikar"></div>
+  <div id="ikar" shaym="ikar"></div>
+  <div id="awtsmoosUiSinks" aria-hidden="true">
+    <div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div>
+  </div>
+  <div id="mitzvahUiBridge" aria-hidden="true">
+    <div id="mitzvahTopLeft"></div>
+    <div id="mitzvahTopRight"></div>
+    <div id="mitzvahBottomCenter"></div>
+  </div>
   <script type="importmap">
-  {
-    "imports": {
-      "three": "/games/scripts/build/three.module.js",
-      "three/addons/": "/games/scripts/jsm/",
-      "three/examples/jsm/": "/games/scripts/jsm/"
-    }
-  }
+  { "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }
   </script>
-  <script type="module" src="./index.js?compact=true&v=village-polish-20260612-bh811"></script>
+  <script type="module" src="./index.js?compact=true&v=direct-worker-actionbar-roots-20260615-bh916"></script>
 </body>
 </html>
+
+
+
+
+
+

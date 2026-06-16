@@ -1,20 +1,42 @@
 # B"H
-# Awtsmoos tunnel/runtime artifacts and local AI model cache
+# B"H Awtsmoos tunnel generated artifacts
 .awtsmoos/
-.Awtsmoos/
+.awtsmoos/actions/
+.awtsmoos/actions/results/
+.awtsmoos/previews/
+.awtsmoos/tmp/
 .awtsmoos-tmp/
+.Awtsmoos/
+.Awtsmoos/actions/
+.Awtsmoos/actions/results/
+.Awtsmoos/previews/
+.Awtsmoos/tmp/
 .Awtsmoos-tmp/
-
-# Tunnel logs / generated local runtime state
 *.awtsmoos.log
-
-# Optional local tunnel overrides
 .awtsmoos.local.json
 .awtsmoos.config.local.json
 .Awtsmoos.local.json
 .Awtsmoos.config.local.json
 
-# Command output spill files
+# AI planning / generated thought archives
+AI_THOUGHTS/
+ai_thoughts/
+
+# Generated AwtsDB/search shard artifacts
+searchPacked/
+*.bin
+*.awtsbin
+*.awtsdb
+*.awtsdb-wal
+*.awtsdb.tmp
+*.awtsidx
+
+# Logs and runtime spill files
+.logs/
+*.log
+*.out.log
+*.err.log
+npm-start.log
 command-output/
 
 # OS/editor noise

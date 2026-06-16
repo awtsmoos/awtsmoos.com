@@ -1,34 +1,6 @@
-
-/**
- * B"H
- * @file TreeShapePostProcess.js
- * @description
- * Tree appearance post-processing for Mitzvah World.
- */
-
-import * as THREE from "/games/scripts/build/three.module.js";
-import { upgradeTreeFoliage } from "/games/mitzvahWorld/utils/3d/procedural/nature/TreeFoliageUpgrade.js";
-
-/**
- * B"H
- * Applies better foliage to a tree object.
- *
- * @param {any} tree
- * Tree group or mesh.
- *
- * @param {Object} options
- * Foliage options.
- *
- * @returns {any}
- * Same tree.
- */
-export function applyTreeShapePostProcess(tree, options = {}) {
-  try {
-    return upgradeTreeFoliage(THREE, tree, options);
-  } catch (error) {
-    console.error(
-      `B"H | TREE_FOLIAGE_UPGRADE_ERROR | message=${error?.message || String(error)}`
-    );
-    return tree;
-  }
-}
+// B"H
+/** @file TreeShapePostProcess.js @description Tree foliage upgrade hook without optional-chain syntax. */
+function messageOf(error) { return error && error.message ? error.message : String(error); }
+function mark(node) { if (!node.userData) node.userData = {}; node.userData.treePostProcessed = true; node.userData.skipOctree = true; node.userData.noOctree = true; }
+export function postProcessTreeShape(root) { try { if (root && typeof root.traverse === "function") root.traverse(mark); else if (root) mark(root); return root; } catch (error) { console.warn(`B"H | TREE_FOLIAGE_UPGRADE_ERROR | message=${messageOf(error)}`); return root; } }
+export default postProcessTreeShape;

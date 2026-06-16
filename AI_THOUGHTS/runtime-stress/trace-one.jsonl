@@ -1,4 +1,0 @@
-{"at":"2026-06-01T19:35:27.226Z","stage":"start","target":"geelooy/apps/tunnel-control/index.html"}
-{"at":"2026-06-01T19:35:27.492Z","stage":"after-collectOptions","entry":"geelooy/apps/tunnel-control/index.html","fileCount":107,"envOk":true,"diagnostics":[]}
-{"at":"2026-06-01T19:35:27.933Z","stage":"after-serviceImport","hasSim":"function"}
-{"at":"2026-06-01T19:35:28.296Z","stage":"after-simulateRuntime","ok":true,"engine":"merkava","values":{}}

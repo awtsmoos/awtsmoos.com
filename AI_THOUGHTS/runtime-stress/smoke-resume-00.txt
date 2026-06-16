@@ -1,2 +1,0 @@
-geelooy/apps/rebbe/index.html
-geelooy/apps/transcribe/index.html

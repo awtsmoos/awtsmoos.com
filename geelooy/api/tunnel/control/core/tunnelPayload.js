@@ -1,8 +1,10 @@
-// B"H
+﻿// B"H
 const { bodyJson } = require("./bodyPayload.js");
 const { flatQueryArray } = require("./indexedQueryArrays.js");
 
 const FOUR_MINUTES_MS = 240000;
+const ONE_DAY_MS = 86400000;
+const VERY_LARGE_INT = Number.MAX_SAFE_INTEGER;
 
 function from64(value) {
   if (!value) return "";
@@ -43,9 +45,12 @@ function numberFrom($i, body, name, fallback) {
   return Number.isFinite(n) ? n : fallback;
 }
 
-function intFrom($i, body, name, fallback, max = Number.MAX_SAFE_INTEGER) {
+function intFrom($i, body, name, fallback, max = VERY_LARGE_INT) {
   const n = numberFrom($i, body, name, fallback);
-  return Number.isFinite(n) ? Math.max(0, Math.min(Math.floor(n), max)) : fallback;
+  if (!Number.isFinite(n)) return fallback;
+  const normalized = Math.max(0, Math.floor(n));
+  if (Number.isFinite(max) && max >= VERY_LARGE_INT) return normalized;
+  return normalized;
 }
 
 function parseJsonText(value, fallback) {
@@ -244,7 +249,7 @@ function buildFsPayload($i) {
     input: objectBodyOr64($i, body, "input", "input64", {}),
     shell: valueFrom($i, body, "shell", ""),
     cwd: valueFrom($i, body, "cwd", ""),
-    timeoutMs: intFrom($i, body, "timeoutMs", FOUR_MINUTES_MS, FOUR_MINUTES_MS),
+    timeoutMs: intFrom($i, body, "timeoutMs", FOUR_MINUTES_MS, ONE_DAY_MS),
 
     url: valueFrom($i, body, "url", ""),
     selector: valueFrom($i, body, "selector", ""),
@@ -345,3 +350,7 @@ module.exports = {
   actionRequiredScope,
   actionNeedsWrite: action => actionRequiredScope(action) === "tunnel.write"
 };
+
+
+
+

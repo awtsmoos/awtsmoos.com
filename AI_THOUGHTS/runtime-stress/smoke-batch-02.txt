@@ -1,3 +1,0 @@
-geelooy/apps/merkava-native-browser/samples/webgl-native.html
-geelooy/apps/merkava-native-browser/tmp-chrome-webgl/index.html
-geelooy/apps/pdf-to-img/index.html

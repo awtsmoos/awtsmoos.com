@@ -32,7 +32,7 @@ function traceVisibility(chossid, stage, extra = {}) {
   chossid.olam.__movementTrace ||= [];
   chossid.olam.__movementTrace.push({ kind: 'MODEL_VISIBILITY_TRACE', ...payload });
   chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-260);
-  console.info('B"H | MODEL_VISIBILITY_TRACE', payload);
+  if (globalThis.__AWTSMOOS_MODEL_VISIBILITY_LOGS__ === true) console.info('B"H | MODEL_VISIBILITY_TRACE', payload);
 }
 
 /** @param {object} chossid Player entity. @returns {boolean} True when real or fallback visible. */

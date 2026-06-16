@@ -1,33 +1,7 @@
-
-/**
- * B"H
- * @file ChossidNpcSceneScan.js
- * @description
- * Detects whether chossid.glb NPCs already exist in the scene.
- */
-
-/**
- * B"H
- * Counts NPC roots in a scene.
- *
- * @param {Object} scene
- * THREE.Scene.
- *
- * @returns {number}
- * NPC count.
- */
-export function countChossidNpcs(scene) {
-  let count = 0;
-
-  if (!scene || typeof scene.traverse !== "function") {
-    return 0;
-  }
-
-  scene.traverse(child => {
-    if (child?.userData?.isNpc === true) {
-      count++;
-    }
-  });
-
-  return count;
-}
+// B"H
+/** @file ChossidNpcSceneScan.js @description Scene NPC scan without optional chaining. */
+function dataOf(child) { return child && child.userData ? child.userData : {}; }
+function nameOf(child) { return String(child && child.name ? child.name : "").toLowerCase(); }
+export function scanChossidNpcScene(scene) { const out = []; if (!scene || typeof scene.traverse !== "function") return out; scene.traverse(child => { const data = dataOf(child); if (data.isNpc === true || data.mitzvahWorldNpcRoot === true || nameOf(child).startsWith("npc_")) out.push(child); }); return out; }
+export function countChossidNpcScene(scene) { return scanChossidNpcScene(scene).length; }
+export default scanChossidNpcScene;

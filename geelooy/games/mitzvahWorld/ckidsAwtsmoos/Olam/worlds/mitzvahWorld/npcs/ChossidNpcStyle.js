@@ -1,40 +1,9 @@
-/**
- * B\"H
- * @file ChossidNpcStyle.js
- * @description
- * Lightweight style variations for shared chossid.glb NPCs.
- */
-
-const PALETTES = Object.freeze({
-  default: { emissive: 0x000000, emissiveIntensity: 0 },
-  scholar: { emissive: 0x003366, emissiveIntensity: 0.08 },
-  healer: { emissive: 0x006633, emissiveIntensity: 0.08 },
-  merchant: { emissive: 0x664400, emissiveIntensity: 0.08 },
-  guardian: { emissive: 0x660000, emissiveIntensity: 0.08 }
-});
-
-function getRole(def) {
-  return def.role || def.faction || "default";
-}
-
-export function applyChossidNpcStyle(npc, def = {}) {
-  const role = getRole(def);
-  const palette = PALETTES[role] || PALETTES.default;
-
-  npc.userData.styleRole = role;
-  npc.userData.equipped = def.equipped || {};
-
-  npc.traverse(child => {
-    if (!child?.isMesh || !child.material) return;
-
-    const materials = Array.isArray(child.material) ? child.material : [child.material];
-    materials.forEach(material => {
-      if (!material) return;
-      if (material.emissive && palette.emissive) material.emissive.setHex(palette.emissive);
-      if ("emissiveIntensity" in material) material.emissiveIntensity = palette.emissiveIntensity;
-      material.needsUpdate = true;
-    });
-  });
-
-  return npc;
-}
+// B"H
+/** @file ChossidNpcStyle.js @description Lightweight style variations for shared chossid.glb NPCs, parser-clear. */
+const PALETTES = Object.freeze({ default:{ emissive:0x000000, emissiveIntensity:0, coat:0x27344d, shirt:0xf2ead8, pants:0x171b24 }, scholar:{ emissive:0x003366, emissiveIntensity:.05, coat:0x244f8c, shirt:0xe7f0ff, pants:0x17233b }, healer:{ emissive:0x006633, emissiveIntensity:.05, coat:0x2f7654, shirt:0xf1ead7, pants:0x20372d }, merchant:{ emissive:0x664400, emissiveIntensity:.05, coat:0x8a5a24, shirt:0xffe1a3, pants:0x4a301b }, guardian:{ emissive:0x660000, emissiveIntensity:.05, coat:0x7d3030, shirt:0xeee4d4, pants:0x251719 } });
+function getRole(def) { return def.role || def.faction || "default"; }
+function cloneMaterialTree(material) { return Array.isArray(material) ? material.map(item => item.clone()) : material.clone(); }
+function paletteFor(role) { return PALETTES[role] || PALETTES.default; }
+function clothingColor(name, palette) { if (/coat|jacket|robe|vest/.test(name)) return palette.coat; if (/shirt/.test(name)) return palette.shirt; if (/pant|trouser|leg/.test(name)) return palette.pants; return null; }
+function styleMesh(child, palette) { if (!child.isMesh || !child.material) return; child.material = cloneMaterialTree(child.material); const materials = Array.isArray(child.material) ? child.material : [child.material]; const color = clothingColor(String(child.name || "").toLowerCase(), palette); materials.forEach(material => { if (!material) return; if (color && material.color) material.color.setHex(color); if (material.emissive && palette.emissive) material.emissive.setHex(palette.emissive); if ("emissiveIntensity" in material) material.emissiveIntensity = palette.emissiveIntensity; material.needsUpdate = true; }); }
+export function applyChossidNpcStyle(npc, def = {}) { const role = getRole(def), palette = paletteFor(role); npc.userData.styleRole = role; npc.userData.equipped = def.equipped || {}; npc.traverse(child => styleMesh(child, palette)); return npc; }

@@ -1,3 +1,9 @@
 // B"H
-/** @file WheatFieldLayer.js @description Wheat instance plan. */
-export function wheatFieldLayer(){return {count:18000,rows:42,wind:true,harvestStates:['young','gold','cut']};}
+/** @file WheatFieldLayer.js @description Wheat plans now derive from parcel gardens and farm plots. */
+import { planParcels } from "../parcels/ParcelPlanner.js";
+export function wheatFieldLayer(options = {}) {
+  const parcels = options.parcels || planParcels({ count: options.count || 16 });
+  const wheatGardens = parcels.map(p => p.garden).filter(g => g?.crop === "wheat");
+  return { count: 18000, rows: 42, wind: true, harvestStates: ["tilled", "planted", "young", "ripe", "cut", "separated"], plots: wheatGardens.map(g => ({ id: g.id, parcelId: g.parcelId, crop: "wheat", beds: g.beds })) };
+}
+export default { wheatFieldLayer };

@@ -1,114 +1,21 @@
-/**
- * B"H
- * @file EmeraldVoidFeaturePostBuild.js
- * @description
- * Chapter 4: The Invisible Contract Became Touch.
- * Entrances, room doorways, mezuzos, NPC spawn points, borrowing desks,
- * tower motor rooms, and feature counts are pulled from compact data and
- * marked in the scene. The Awtsmoos turns forgotten props into inspectable
- * vessels without heavy geometry or mobile pain.
- */
-
-import * as THREE from '/games/scripts/build/three.module.js';
-import { EMERALD_HOUSE_LOTS } from '../data/nefashos/EmeraldVoidStreet.js';
-import { EMERALD_VOID_GENERATED_DISTRICT } from '../data/nefashos/EmeraldVoidGeneratedDistrict.js';
-import { createDoorMesh } from '../doors/DoorMeshFactory.js';
-import { createDoorState, toggleDoorState } from '../doors/DoorState.js';
-
-const FEATURES = [...EMERALD_HOUSE_LOTS, ...EMERALD_VOID_GENERATED_DISTRICT];
-const GOLD = () => new THREE.MeshLambertMaterial({ color: 0xd8b547 });
-const MARK = () => new THREE.MeshBasicMaterial({ color: 0x40ffbc, transparent: true, opacity: 0.35 });
-
-function makeDoor(def, house, index, kind) {
-  const door = createDoorMesh({ name: `${house.id}_${def.id || kind}_${index}` });
-  const [hx, hy, hz] = house.position || [0, 0, 0];
-  door.position.set(hx + (index % 3) * 1.6 - 1.6, hy + 1.05, hz - 4.25 - index * 0.08);
-  door.userData.emeraldFeature = kind;
-  door.userData.houseId = house.id;
-  door.userData.room = def.room || null;
-  door.userData.hasMezuzah = Boolean(def.hasMezuzah);
-  door.userData.clickToToggle = true;
-
-  const state = createDoorState({ openRotationY: Math.PI * 0.55 });
-  door.userData.doorState = state;
-  door.toggleDoor = () => toggleDoorState(state);
-  door.userData.onInteract = () => door.toggleDoor();
-  return door;
-}
-
-function makeMezuzah(door) {
-  const mezuzah = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.42, 0.04), GOLD());
-  mezuzah.name = `${door.name}_mezuzah`;
-  mezuzah.position.copy(door.position).add(new THREE.Vector3(0.72, 0.28, -0.09));
-  mezuzah.userData.emeraldFeature = 'mezuzah';
-  mezuzah.userData.houseId = door.userData.houseId;
-  return mezuzah;
-}
-
-function makeNpcMarker(house, spawn, index) {
-  const [hx, hy, hz] = house.position || [0, 0, 0];
-  const [sx, sy, sz] = spawn.position || [0, 0, 0];
-  const marker = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 8), MARK());
-  marker.name = `${house.id}_${spawn.id || 'npc'}_spawn`;
-  marker.position.set(hx + sx, hy + sy + 0.35, hz + sz);
-  marker.userData.emeraldFeature = 'npcSpawnPoint';
-  marker.userData.houseId = house.id;
-  marker.userData.room = spawn.room || null;
-  marker.userData.index = index;
-  return marker;
-}
-
-function makeDeskMarker(house) {
-  const [x, y, z] = house.position || [0, 0, 0];
-  const desk = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.8, 0.7), GOLD());
-  desk.name = `${house.id}_borrowing_desk`;
-  desk.position.set(x, y + 0.4, z - 1.2);
-  desk.userData.emeraldFeature = 'borrowingSystem';
-  desk.userData.houseId = house.id;
-  desk.userData.items = house.props?.borrowingSystem?.items || [];
-  return desk;
-}
-
-function houseDoors(house) {
-  const props = house.props || {};
-  return [
-    ...(props.entrances || []).map((door, index) => [door, index, 'frontDoor']),
-    ...(props.interiorDoorways || []).map((door, index) => [door, index + 10, 'roomDoor']),
-    ...(props.stairs?.hasDoor ? [[{ id: 'stairs_door', hasMezuzah: true }, 20, 'stairDoor']] : []),
-    ...(props.motorRoom?.hasDoor ? [[{ id: 'motor_room', hasMezuzah: props.motorRoom.hasMezuzah }, 30, 'motorRoomDoor']] : [])
-  ];
-}
-
-export async function ensureEmeraldVoidFeatures(context = {}) {
-  const scene = context.scene || context.olam?.scene;
-  if (!scene) throw new Error('Cannot ensure Emerald Void features without scene');
-  if (scene.userData.emeraldVoidFeaturesReady) return [];
-
-  const made = [];
-  const counts = { houses: 0, skyscrapers: 0, doors: 0, mezuzos: 0, npcSpawns: 0, borrowingSystems: 0 };
-
-  for (const house of FEATURES) {
-    if (house.type === 'skyscraper') counts.skyscrapers++;
-    if (String(house.type).includes('House')) counts.houses++;
-
-    for (const [doorDef, index, kind] of houseDoors(house)) {
-      const door = makeDoor(doorDef, house, index, kind);
-      scene.add(door); made.push(door); counts.doors++;
-      if (doorDef.hasMezuzah) { const mezuzah = makeMezuzah(door); scene.add(mezuzah); made.push(mezuzah); counts.mezuzos++; }
-    }
-
-    for (const [index, spawn] of (house.props?.npcSpawnPoints || []).entries()) {
-      const marker = makeNpcMarker(house, spawn, index);
-      scene.add(marker); made.push(marker); counts.npcSpawns++;
-    }
-
-    if (house.props?.borrowingSystem?.enabled) {
-      const desk = makeDeskMarker(house);
-      scene.add(desk); made.push(desk); counts.borrowingSystems++;
-    }
-  }
-
-  scene.userData.emeraldVoidFeaturesReady = true;
-  scene.userData.emeraldVoidFeatureCounts = counts;
-  return made;
-}
+// B"H
+/** @file EmeraldVoidFeaturePostBuild.js @description Emerald house doors, mezuzos, NPC markers, desks, and counts without optional syntax. */
+import * as THREE from "/games/scripts/build/three.module.js";
+import { EMERALD_HOUSE_LOTS } from "../data/nefashos/EmeraldVoidStreet.js";
+import { EMERALD_VOID_GENERATED_DISTRICT } from "../data/nefashos/EmeraldVoidGeneratedDistrict.js";
+import { createDoorMesh } from "../doors/DoorMeshFactory.js";
+import { createDoorState, toggleDoorState } from "../doors/DoorState.js?v=awtsmoos-door-state-20260614-bh2";
+const FEATURES = [].concat(EMERALD_HOUSE_LOTS, EMERALD_VOID_GENERATED_DISTRICT);
+function materialLambert(color) { return new THREE.MeshLambertMaterial({ color }); }
+function materialMarker() { return new THREE.MeshBasicMaterial({ color:0x40ffbc, transparent:true, opacity:.35 }); }
+function positionOf(house) { return Array.isArray(house.position) ? house.position : [0, 0, 0]; }
+function propsOf(house) { return house && house.props ? house.props : {}; }
+function makeDoor(def, house, index, kind) { const door = createDoorMesh({ name:`${house.id}_${def.id || kind}_${index}` }); const p = positionOf(house); door.position.set(p[0] + (index % 3) * 1.6 - 1.6, p[1] + 1.05, p[2] - 4.25 - index * .08); Object.assign(door.userData, { emeraldFeature:kind, houseId:house.id, room:def.room || null, hasMezuzah:Boolean(def.hasMezuzah), clickToToggle:true, interactionLayer:"explicit-interaction" }); const state = createDoorState({ openRotationY:Math.PI * .55 }); door.userData.doorState = state; door.toggleDoor = () => toggleDoorState(state); door.userData.onInteract = () => door.toggleDoor(); return door; }
+function makeMezuzah(door) { const mezuzah = new THREE.Mesh(new THREE.BoxGeometry(.08, .42, .04), materialLambert(0xd8b547)); mezuzah.name = `${door.name}_mezuzah`; mezuzah.position.copy(door.position).add(new THREE.Vector3(.72, .28, -.09)); mezuzah.userData.emeraldFeature = "mezuzah"; mezuzah.userData.houseId = door.userData.houseId; return mezuzah; }
+function makeNpcMarker(house, spawn, index) { const hp = positionOf(house), sp = Array.isArray(spawn.position) ? spawn.position : [0, 0, 0]; const marker = new THREE.Mesh(new THREE.SphereGeometry(.22, 8, 8), materialMarker()); marker.name = `${house.id}_${spawn.id || "npc"}_spawn`; marker.position.set(hp[0] + sp[0], hp[1] + sp[1] + .35, hp[2] + sp[2]); Object.assign(marker.userData, { emeraldFeature:"npcSpawnPoint", houseId:house.id, room:spawn.room || null, index, skipOctree:true, noOctree:true }); return marker; }
+function borrowingItems(house) { const props = propsOf(house), system = props.borrowingSystem || {}; return Array.isArray(system.items) ? system.items : []; }
+function makeDeskMarker(house) { const p = positionOf(house); const desk = new THREE.Mesh(new THREE.BoxGeometry(1.4, .8, .7), materialLambert(0xd8b547)); desk.name = `${house.id}_borrowing_desk`; desk.position.set(p[0], p[1] + .4, p[2] - 1.2); Object.assign(desk.userData, { emeraldFeature:"borrowingSystem", houseId:house.id, items:borrowingItems(house), interactionLayer:"explicit-interaction" }); return desk; }
+function doorEntries(house) { const props = propsOf(house), out = []; const entrances = Array.isArray(props.entrances) ? props.entrances : []; const interiors = Array.isArray(props.interiorDoorways) ? props.interiorDoorways : []; entrances.forEach((door, index) => out.push([door, index, "frontDoor"])); interiors.forEach((door, index) => out.push([door, index + 10, "roomDoor"])); if (props.stairs && props.stairs.hasDoor) out.push([{ id:"stairs_door", hasMezuzah:true }, 20, "stairDoor"]); if (props.motorRoom && props.motorRoom.hasDoor) out.push([{ id:"motor_room", hasMezuzah:Boolean(props.motorRoom.hasMezuzah) }, 30, "motorRoomDoor"]); return out; }
+function sceneOf(context) { const olam = context && context.olam ? context.olam : null; return context && context.scene ? context.scene : olam && olam.scene ? olam.scene : null; }
+function add(scene, made, object) { scene.add(object); made.push(object); return object; }
+export async function ensureEmeraldVoidFeatures(context = {}) { const scene = sceneOf(context); if (!scene) throw new Error("Cannot ensure Emerald Void features without scene"); if (scene.userData.emeraldVoidFeaturesReady) return []; const made = [], counts = { houses:0, skyscrapers:0, doors:0, mezuzos:0, npcSpawns:0, borrowingSystems:0 }; for (const house of FEATURES) { const props = propsOf(house); if (house.type === "skyscraper") counts.skyscrapers++; if (String(house.type || "").includes("House")) counts.houses++; for (const entry of doorEntries(house)) { const door = add(scene, made, makeDoor(entry[0], house, entry[1], entry[2])); counts.doors++; if (entry[0].hasMezuzah) { add(scene, made, makeMezuzah(door)); counts.mezuzos++; } } const spawns = Array.isArray(props.npcSpawnPoints) ? props.npcSpawnPoints : []; spawns.forEach((spawn, index) => { add(scene, made, makeNpcMarker(house, spawn, index)); counts.npcSpawns++; }); const borrowing = props.borrowingSystem || {}; if (borrowing.enabled) { add(scene, made, makeDeskMarker(house)); counts.borrowingSystems++; } } scene.userData.emeraldVoidFeaturesReady = true; scene.userData.emeraldVoidFeatureCounts = counts; return made; }

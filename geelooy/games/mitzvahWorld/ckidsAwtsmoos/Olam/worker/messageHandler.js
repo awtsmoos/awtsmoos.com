@@ -4,7 +4,7 @@
  * @description
  * Chapter 159: The worker imports the direct mobile movement handler.
  */
-import coreHandlers from "./handlers/core.js?v=village-polish-20260612-bh811";
+import coreHandlers from "./handlers/core.js?v=zone-reality-20260614-bh817";
 import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
 import uiHandlers from "./handlers/ui.js?v=village-polish-20260612-bh810";
 import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";

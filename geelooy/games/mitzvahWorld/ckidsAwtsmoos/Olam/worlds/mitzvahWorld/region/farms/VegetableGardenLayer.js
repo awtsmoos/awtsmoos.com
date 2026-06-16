@@ -1,3 +1,9 @@
 // B"H
-/** @file VegetableGardenLayer.js @description Vegetable rows and crates. */
-export function vegetableGardenLayer(){return {beds:14,crops:['carrotSkin','potatoSkin','onionSkin','cabbageLeaf'],props:['crate','barrel','wateringCan']};}
+/** @file VegetableGardenLayer.js @description Vegetable/herb/orchard beds from parcel gardens. */
+import { planParcels } from "../parcels/ParcelPlanner.js";
+export function vegetableGardenLayer(options = {}) {
+  const parcels = options.parcels || planParcels({ count: options.count || 16 });
+  const gardens = parcels.map(p => p.garden).filter(g => g?.crop !== "wheat");
+  return { beds: gardens.reduce((n, g) => n + (g.beds?.length || 0), 0), crops: ["carrotSkin", "potatoSkin", "onionSkin", "cabbageLeaf", "herb", "orchard"], props: ["crate", "barrel", "wateringCan"], plots: gardens };
+}
+export default { vegetableGardenLayer };

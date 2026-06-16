@@ -4,18 +4,11 @@ const os = require("os");
 const { loadConfig, saveConfigPatch, HOME } = require("../../../lib/config.js");
 const { openSystemExplorer } = require("../../../lib/open.js");
 const { driveRoots, rootBrowse } = require("../rootBrowser.js");
+const { ensureGitignoreHygiene } = require("../gitIgnoreHygiene.js");
 
 /**
  * B"H
- * Chapter 334: The Broken Double Rule Was Melted Into One Crown.
- *
- * Public config reveals power, not secrets. The Awtsmoos lets the dashboard see
- * whether AI-agent keys exist, while the raw keys stay sealed in the local
- * config chamber.
- *
- * @param {object} config Local config.
- * @param {string} version Agent version.
- * @returns {object} Browser-safe config.
+ * Chapter 335: Config revealed the garden fence around generated flowers.
  */
 function publicConfig(config, version) {
   return {
@@ -28,6 +21,7 @@ function publicConfig(config, version) {
     allowCommands: config.allowCommands,
     enableLocalHttpProxy: config.enableLocalHttpProxy,
     aiAgents: publicAiAgents(config.aiAgents),
+    gitHygiene: config.gitHygiene,
     tools: config.tools,
     command: config.command,
     chrome: config.chrome,
@@ -42,10 +36,7 @@ function publicConfig(config, version) {
 
 function publicAiAgents(aiAgents = {}) {
   const providerKeys = aiAgents.providerKeys || {};
-  return {
-    agents: aiAgents.agents || [],
-    providers: Object.fromEntries(Object.entries(providerKeys).map(([id, key]) => [id, { hasKey: true, keyMask: maskKey(key) }]))
-  };
+  return { agents: aiAgents.agents || [], providers: Object.fromEntries(Object.entries(providerKeys).map(([id, key]) => [id, { hasKey: true, keyMask: maskKey(key) }])) };
 }
 
 function maskKey(key = "") {
@@ -63,6 +54,7 @@ async function handleConfigSet(payload, ws, version) {
   for (const key of ["root", "local", "relay", "tunnelName"]) if (payload[key]) patch[key] = String(payload[key]);
   for (const key of ["allowWrite", "allowSecrets", "allowCommands", "enableLocalHttpProxy"]) if (typeof payload[key] === "boolean") patch[key] = payload[key];
   if (payload.tools && typeof payload.tools === "object") patch.tools = payload.tools;
+  if (payload.gitHygiene && typeof payload.gitHygiene === "object") patch.gitHygiene = payload.gitHygiene;
   if (payload.continuationPrompt !== undefined) patch.continuationPrompt = String(payload.continuationPrompt || "");
   if (payload.commandConfig && typeof payload.commandConfig === "object") patch.command = payload.commandConfig;
   if (payload.chrome && typeof payload.chrome === "object") patch.chrome = payload.chrome;
@@ -72,8 +64,9 @@ async function handleConfigSet(payload, ws, version) {
     if (!stat.isDirectory()) throw new Error("Root must be a directory.");
   }
   const next = saveConfigPatch(patch);
+  const gitignore = await ensureGitignoreHygiene(next, "config-set");
   registerAgain(ws, next, version);
-  return { ok: true, action: "configSet", config: publicConfig(next, version) };
+  return { ok: true, action: "configSet", config: publicConfig(next, version), gitignore };
 }
 
 function buildConfigActions(ctx) {
@@ -82,6 +75,7 @@ function buildConfigActions(ctx) {
   return {
     async configGet() { return { ok: true, action, config: publicConfig(loadConfig(), version) }; },
     async configSet() { return await handleConfigSet(payload, ws, version); },
+    async gitIgnoreHygiene() { return { ok: true, action: "gitIgnoreHygiene", result: await ensureGitignoreHygiene(config, "manual-action") }; },
     async roots() { return { ok: true, action, roots: driveRoots(), home: HOME, cwd: process.cwd() }; },
     async rootBrowse() { return await rootBrowse(payload); },
     async rootSelect() {
@@ -90,8 +84,9 @@ function buildConfigActions(ctx) {
       const stat = await fsp.stat(chosen);
       if (!stat.isDirectory()) return { ok: false, action, error: "not_a_directory", chosen };
       const next = saveConfigPatch({ root: chosen });
+      const gitignore = await ensureGitignoreHygiene(next, "root-select");
       registerAgain(ws, next, version);
-      return { ok: true, action, chosen, config: publicConfig(next, version) };
+      return { ok: true, action, chosen, config: publicConfig(next, version), gitignore };
     },
     async openRoot() { const target = payload.root || config.root; openSystemExplorer(target); return { ok: true, action, opened: target }; },
     async finishAndContinue() {

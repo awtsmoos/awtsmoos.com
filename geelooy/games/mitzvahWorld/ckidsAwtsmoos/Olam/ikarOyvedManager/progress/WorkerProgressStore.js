@@ -4,7 +4,7 @@
  * @description
  * Chapter 434: every worker breath reaches the visible veil.
  */
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=loading-progress-20260614-bh1";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=zone-reality-20260614-bh817";
 export function ensureWorkerProgressStore() {
   if (!window.__AWTSMOOS_WORKER_PROGRESS__) window.__AWTSMOOS_WORKER_PROGRESS__ = { lastStage: "not-started", lastAt: Date.now(), history: [] };
   return window.__AWTSMOOS_WORKER_PROGRESS__;

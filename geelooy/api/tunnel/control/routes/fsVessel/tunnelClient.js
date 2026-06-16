@@ -1,15 +1,15 @@
 // B"H
 
+const { VESSEL_TYPES, isBrowserVesselDescriptor, normalizeVesselType } = require("./vesselTypes.js");
+const { nativeCapabilities } = require("./capabilities.js");
+
 /**
  * B"H
- * Chapter 3: The native tunnels marched like iron rivers under the palace.
+ * Chapter 11: Native iron stopped swallowing the browser flame.
  *
- * This module knows only living websocket tunnel clients. It does not decide
- * policy. It only lists, finds, and sends into the real local agent when the
- * resolver has already chosen that vessel.
- *
- * @param {object} client Websocket client registered as a tunnel.
- * @returns {object} Public tunnel descriptor.
+ * The websocket registry may contain local Node tunnels and browser-tab tunnels.
+ * Native helpers now filter out browser and hosted descriptors so old auto logic
+ * does not accidentally route shell-shaped requests into a browser tab.
  */
 function publicNativeTunnel(client) {
   return {
@@ -25,76 +25,33 @@ function publicNativeTunnel(client) {
     tools: client.tools || null,
     chrome: client.chrome || null,
     command: client.command || null,
+    capabilities: nativeCapabilities(client),
     registeredAt: client.registeredAt || null,
-    kind: "native-tunnel"
+    kind: VESSEL_TYPES.NATIVE,
+    vesselType: VESSEL_TYPES.NATIVE
   };
 }
 
-/**
- * B"H
- * Lists latest native tunnel clients by tunnel name.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {Array<object>} Latest registered native tunnel clients.
- */
+function isNativeTunnelClient(client = {}) {
+  if (!client.isTunnel || !client.tunnelName) return false;
+  if (isBrowserVesselDescriptor(client)) return false;
+  const type = normalizeVesselType(client.vesselType || client.kind || client.type);
+  return !type || type === VESSEL_TYPES.NATIVE;
+}
+
 function listNativeTunnelClients($i) {
   const latest = new Map();
   if (!$i.ws?.clients) return [];
-
   for (const client of $i.ws.clients) {
-    if (!client.isTunnel || !client.tunnelName) continue;
+    if (!isNativeTunnelClient(client)) continue;
     const old = latest.get(client.tunnelName);
-    if (!old || (client.registeredAt || 0) >= (old.registeredAt || 0)) {
-      latest.set(client.tunnelName, client);
-    }
+    if (!old || (client.registeredAt || 0) >= (old.registeredAt || 0)) latest.set(client.tunnelName, client);
   }
-
   return [...latest.values()];
 }
 
-/**
- * B"H
- * Lists public native tunnel descriptors.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {Array<object>} Public descriptors.
- */
-function listNativeTunnels($i) {
-  return listNativeTunnelClients($i).map(publicNativeTunnel);
-}
+function listNativeTunnels($i) { return listNativeTunnelClients($i).map(publicNativeTunnel); }
+function findNativeTunnelClient($i, tunnelName) { return listNativeTunnelClients($i).find(client => client.tunnelName === tunnelName) || null; }
+async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) { return await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs); }
 
-/**
- * B"H
- * Finds a native tunnel client by name.
- *
- * @param {object} $i Awtsmoos route context.
- * @param {string} tunnelName Requested tunnel name.
- * @returns {object|null} Native tunnel client or null.
- */
-function findNativeTunnelClient($i, tunnelName) {
-  return listNativeTunnelClients($i).find(
-    client => client.tunnelName === tunnelName
-  ) || null;
-}
-
-/**
- * B"H
- * Sends the payload through the websocket relay to a native agent.
- *
- * @param {object} $i Awtsmoos route context.
- * @param {string} tunnelName Native tunnel name.
- * @param {object} payload Action payload.
- * @param {number} timeoutMs Timeout in milliseconds.
- * @returns {Promise<object>} Native agent result.
- */
-async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) {
-  return await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs);
-}
-
-module.exports = {
-  findNativeTunnelClient,
-  listNativeTunnelClients,
-  listNativeTunnels,
-  publicNativeTunnel,
-  sendNativeTunnel
-};
+module.exports = { findNativeTunnelClient, isNativeTunnelClient, listNativeTunnelClients, listNativeTunnels, publicNativeTunnel, sendNativeTunnel };

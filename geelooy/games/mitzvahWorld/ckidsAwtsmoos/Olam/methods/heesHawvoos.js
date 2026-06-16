@@ -10,6 +10,7 @@
  */
 import UniversePulsator from '../oyved/UniversePulsator.js';
 import RenderTrace from './canvas/RenderTrace.js?v=village-polish-20260612-bh811';
+import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?v=zone-reality-20260614-bh817';
 
 const FOCUS_MOVING_EPSILON_SQ = 0.0001;
 const VANITY_TYPES = new Set(['LineSegments', 'Line', 'Points', 'AxesHelper', 'GridHelper', 'BoxHelper']);
@@ -130,6 +131,19 @@ function warnOncePerEntity(self, nivra, error) {
   console.warn('B"H | ENTITY_LOOP_FAILED_ONCE', { type: nivra?.type, name: nivra?.name, ...compactError(error) });
 }
 
+function confirmRenderedFrame(self, loopCounter, activeEye) {
+  if (!self.__firstRenderConfirmed) {
+    self.__firstRenderConfirmed = true;
+    safeRenderTrace('heesHawvoos:first_render_confirmed', {
+      frame: loopCounter,
+      sceneChildren: self.scene?.children?.length || 0,
+      cameraPosition: activeEye.position ? copyVector(activeEye.position) : null
+    });
+    self.ayshPeula?.('rendered first time');
+  }
+  signalWorldFinalReady(self, { frame: loopCounter });
+}
+
 export default class HeesHawvoosManager {
   async heesHawvoos() {
     const self = this;
@@ -181,12 +195,12 @@ export default class HeesHawvoosManager {
       const result = typeof self.renderer.renderAsync === 'function' ? self.renderer.renderAsync(self.scene, activeEye) : self.renderer.render(self.scene, activeEye);
       if (result?.then) {
         self.__renderInFlight = true;
-        result.catch(error => handleRenderFailure(self, loopCounter, error)).finally(() => { self.__renderInFlight = false; });
-      }
-      if (loopCounter > 3 && !self.__firstRenderConfirmed) {
-        self.__firstRenderConfirmed = true;
-        safeRenderTrace('heesHawvoos:first_render_confirmed', { frame: loopCounter, sceneChildren: self.scene?.children?.length || 0, cameraPosition: activeEye.position ? copyVector(activeEye.position) : null });
-        self.ayshPeula?.('rendered first time');
+        result
+          .then(() => confirmRenderedFrame(self, loopCounter, activeEye))
+          .catch(error => handleRenderFailure(self, loopCounter, error))
+          .finally(() => { self.__renderInFlight = false; });
+      } else {
+        confirmRenderedFrame(self, loopCounter, activeEye);
       }
     } catch (renderErr) { handleRenderFailure(self, loopCounter, renderErr); }
   }

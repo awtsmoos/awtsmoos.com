@@ -1,8 +1,0 @@
-B"H - Starting instance of email.
-Task Runner: Starting background polling for generic jobs...
-Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
-B"H - HTTP listening on port 8080.
-Server running at http://127.0.0.1:8080/
-Time: 1781287765246
-B"H - Awtsmoos mail listening to you, port 25.
-B"H - Email server running on port 25.

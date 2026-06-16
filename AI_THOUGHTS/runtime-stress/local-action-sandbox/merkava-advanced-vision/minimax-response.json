@@ -1,9 +1,0 @@
-{
-  "type": "error",
-  "error": {
-    "type": "unprocessable_entity_error",
-    "message": "input new_sensitive, messages[0]'s content[1] image is sensitive, please check your input (1026)",
-    "http_code": "422"
-  },
-  "request_id": "066dcbbd3cf4836041911b868e6d311f"
-}

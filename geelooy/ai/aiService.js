@@ -10,8 +10,9 @@ import { makeGeminiService } from "./js/services/geminiService.js";
 /**
  * B"H — Thin AI service registry.
  *
- * Provider behavior lives in small provider modules. Provider key prompts now
- * remain provider key prompts; they do not summon the ChatGPT extension gate.
+ * Chapter 21: The browser AI panel received another river without changing the
+ * bridge. DeepSeek joins the OpenAI-compatible family; Gemini and ChatGPT keep
+ * their dedicated transports.
  */
 class AIServiceHandler {
   geminiChatCache = null;
@@ -37,6 +38,7 @@ class AIServiceHandler {
       gemini: makeGeminiService(this),
       minimax: makeOpenAICompatibleService(this, "minimax"),
       openrouter: makeOpenAICompatibleService(this, "openrouter"),
+      deepseek: makeOpenAICompatibleService(this, "deepseek"),
       groq: makeOpenAICompatibleService(this, "groq")
     };
   }
@@ -63,9 +65,7 @@ class AIServiceHandler {
     console.log(`Switched to ${this.services[newService].name}`);
   }
 
-  async getActiveService() {
-    return this.services[this.activeAIService];
-  }
+  async getActiveService() { return this.services[this.activeAIService]; }
 
   async getKey() {
     if (!this.dbHandler.db) await this.dbHandler.init();

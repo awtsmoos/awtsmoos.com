@@ -5,31 +5,20 @@ import { rememberTunnelName } from "../../state/state.js";
 
 /**
  * B"H
- * Chapter 377: Tunnel Discovery Became A Single Clear Door.
+ * Chapter 22: Discovery learned the recommended vessel.
  */
 export function extractTunnelName(got) {
   if (!got) return "";
-
-  return (
-    got.tunnelName ||
-    got.device?.tunnelName ||
-    got.tunnel?.tunnelName ||
-    got.device?.name ||
-    got.name ||
-    ""
-  );
+  return got.recommended?.tunnelName || got.tunnelName || got.device?.tunnelName || got.tunnel?.tunnelName || got.device?.name || got.name || got.virtualDevice?.tunnelName || "";
 }
 
 export function applyDiscoveredTunnelName(got, getTunnelName) {
   const current = getTunnelName();
   if (current) return current;
-
   const discovered = extractTunnelName(got);
   if (!discovered) return "";
-
   const field = $("tunnelName");
   if (field) field.value = discovered;
   rememberTunnelName(discovered);
-
   return discovered;
 }

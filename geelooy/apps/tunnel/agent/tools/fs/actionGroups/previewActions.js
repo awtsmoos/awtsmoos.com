@@ -1,172 +1,58 @@
 // B"H
 
-const { staticServerStart, staticServerStop, staticServerLogs } = require("../staticServers.js");
-const { create, get, list, stop } = require("../previewRegistry.js");
-const { detectRuntime } = require("../runtimeDetect.js");
-const { createRuntimeManifest, withPreview } = require("../runtimeManifest.js");
-const { safePath } = require("../pathGuard.js");
-
-
-function absRoot(config, payload) {
-    const requested = payload.path || payload.p || payload.root || ".";
-    return safePath(config, requested);
+function baseUrl(payload = {}) {
+  return String(payload.controlBaseUrl || "https://awtsmoos.com/api/tunnel/control/fs/auto").replace(/\/fs\/[^/]+$/, "");
 }
 
-function controlUrl(payload, action, extra = {}) {
-    if (!payload.controlBaseUrl) return "";
-    const params = new URLSearchParams({ action, ...extra });
-    return payload.controlBaseUrl + "?" + params.toString();
+function encode(value) { return Buffer.from(String(value || ""), "utf8").toString("base64"); }
+
+/**
+ * B"H
+ * Chapter: The native agent learned to ask the web-gate for a screen.
+ *
+ * These actions return canonical API URLs/payloads. The server-side Preview
+ * Gateway owns policy, auth, AI permissions, and public/private visibility.
+ */
+function createPayload(payload, kind, extra = {}) {
+  return {
+    kind,
+    title: payload.title || extra.title || "Awtsmoos Preview",
+    path: payload.path || payload.p || extra.path || ".",
+    actionId: payload.actionId || extra.actionId || "",
+    tunnelName: payload.tunnelName || payload.targetVessel || "awtsmoos-virtual-os",
+    targetVessel: payload.targetVessel || payload.tunnelName || "awtsmoos-virtual-os",
+    visibility: payload.visibility || "private",
+    ttlSeconds: payload.ttlSeconds || 3600,
+    allowDownload: payload.allowDownload === true || payload.allowDownload === "true",
+    allowFolderBrowse: payload.allowFolderBrowse !== false && payload.allowFolderBrowse !== "false",
+    allowSearch: payload.allowSearch !== false && payload.allowSearch !== "false",
+    createdBy: payload.createdBy || "ai",
+    ai: payload.ai !== false,
+    ...extra
+  };
 }
 
-function previewProxyUrl(payload, url) {
-    if (!payload.tunnelName || !url) return "";
-    const base = "https://awtsmoos.com/api/tunnel/control/preview/" + encodeURIComponent(payload.tunnelName);
-    const params = new URLSearchParams({ url64: Buffer.from(String(url), "utf8").toString("base64") });
-    return base + "?" + params.toString();
-}
-
-function localPreviewUrl(runtime, server) {
-    if (server?.url) return server.url;
-    if (runtime.port) return `http://localhost:${runtime.port}/`;
-    return "";
-}
-
-function previewDescriptor(payload, preview, server = null) {
-    const url = preview.url || localPreviewUrl(preview.runtime, server);
-    const publicUrl = preview.publicUrl || previewProxyUrl(payload, url);
-    const hydrated = {
-        ...preview,
-        url,
-        localUrl: url,
-        publicUrl,
-        chatgptFetchUrl: url
-            ? controlUrl(payload, "httpRequest", { url, method: "GET", maxChars: payload.maxChars || 12000 })
-            : "",
-        chatgptLogsUrl: controlUrl(payload, "previewLogs", { id: preview.id }),
-        chatgptStopUrl: controlUrl(payload, "stopPreview", { id: preview.id }),
-        chatgptRestartUrl: controlUrl(payload, "restartPreview", { id: preview.id })
-    };
-
-    return {
-        ...hydrated,
-        manifest: withPreview(preview.manifest || createRuntimeManifest(preview.runtime, {
-            projectPath: preview.root,
-            localUrl: url,
-            publicUrl,
-            chatgptFetchUrl: hydrated.chatgptFetchUrl
-        }), hydrated),
-        note: "localUrl opens on the user's machine. chatgptFetchUrl lets ChatGPT fetch the preview through the authenticated tunnel action."
-    };
+function previewUrl(payload, preview) {
+  const b = baseUrl(payload);
+  return `${b}/preview/create?preview64=${encode(JSON.stringify(preview))}`;
 }
 
 function buildPreviewActions(ctx) {
-    const { config, payload } = ctx;
-
-    return {
-        async inspectRuntime() {
-            const root = absRoot(config, payload);
-            const runtime = detectRuntime(root);
-            const manifest = createRuntimeManifest(runtime, { projectPath: root });
-            return {
-                ok: true,
-                action: "inspectRuntime",
-                root,
-                runtime,
-                manifest
-            };
-        },
-
-        async launchPreview() {
-            const root = absRoot(config, payload);
-            const runtime = detectRuntime(root);
-            const id = payload.id || `preview-${Date.now()}`;
-            let server = null;
-
-            if (runtime.kind === "static" || runtime.kind === "frontend" || runtime.kind === "fullstack") {
-                const port = Number(payload.port || runtime.port || 5180);
-                server = await staticServerStart(config, {
-                    ...payload,
-                    path: payload.path || payload.p || ".",
-                    port,
-                    host: payload.host || "127.0.0.1",
-                    index: payload.index || "index.html",
-                    spaFallback: payload.spaFallback !== false,
-                    cors: payload.cors === true,
-                    serverId: payload.serverId || id
-                });
-            }
-
-            const url = localPreviewUrl(runtime, server);
-            const publicUrl = previewProxyUrl(payload, url);
-            const manifest = createRuntimeManifest(runtime, {
-                projectPath: root,
-                entry: runtime.entry || null,
-                port: server?.port || runtime.port || null,
-                localUrl: url,
-                publicUrl,
-                chatgptFetchUrl: url ? controlUrl(payload, "httpRequest", { url, method: "GET", maxChars: payload.maxChars || 12000 }) : "",
-                logsUrl: controlUrl(payload, "previewLogs", { id }),
-                stopUrl: controlUrl(payload, "stopPreview", { id }),
-                restartUrl: controlUrl(payload, "restartPreview", { id })
-            });
-
-            const preview = create({
-                id,
-                root,
-                runtime,
-                status: server?.ok === false ? "error" : "running",
-                url,
-                localUrl: url,
-                publicUrl,
-                serverId: server?.serverId || null,
-                manifest,
-                logs: [
-                    `Detected runtime: ${runtime.kind}/${runtime.type}`,
-                    server?.url ? `Static preview server: ${server.url}` : `Preview URL: ${url || "none"}`
-                ]
-            });
-
-            return {
-                ok: preview.status !== "error",
-                action: "launchPreview",
-                preview: previewDescriptor(payload, preview, server)
-            };
-        },
-
-        async listPreviews() {
-            return {
-                ok: true,
-                action: "listPreviews",
-                previews: list().map(preview => previewDescriptor(payload, preview))
-            };
-        },
-
-        async previewLogs() {
-            const preview = get(payload.id);
-            if (!preview) return { ok: false, action: "previewLogs", error: "preview_not_found", id: payload.id };
-            let serverLogs = null;
-            if (preview.serverId) serverLogs = await staticServerLogs({ serverId: preview.serverId, maxLogs: payload.maxLogs || 200 });
-            return {
-                ok: true,
-                action: "previewLogs",
-                id: payload.id,
-                logs: preview.logs || [],
-                serverLogs
-            };
-        },
-
-        async stopPreview() {
-            const preview = stop(payload.id);
-            if (preview?.serverId) await staticServerStop({ serverId: preview.serverId });
-            return { ok: !!preview, action: "stopPreview", preview };
-        },
-
-        async restartPreview() {
-            const old = payload.id ? stop(payload.id) : null;
-            if (old?.serverId) await staticServerStop({ serverId: old.serverId });
-            return await this.launchPreview();
-        }
-    };
+  const { payload } = ctx;
+  return {
+    async previewSettingsGet() { return { ok: true, action: "previewSettingsGet", url: `${baseUrl(payload)}/preview/settings` }; },
+    async previewSettingsSet() { return { ok: true, action: "previewSettingsSet", url: `${baseUrl(payload)}/preview/settings/set`, settings: payload.settings || payload.content || {} }; },
+    async previewList() { return { ok: true, action: "previewList", url: `${baseUrl(payload)}/preview/list` }; },
+    async previewRevoke() { return { ok: true, action: "previewRevoke", url: `${baseUrl(payload)}/preview/revoke?previewId=${encodeURIComponent(payload.previewId || payload.id || "")}` }; },
+    async previewCreate() { const preview = createPayload(payload, payload.kind || "file"); return { ok: true, action: "previewCreate", preview, url: previewUrl(payload, preview) }; },
+    async previewFile() { const preview = createPayload(payload, "file"); return { ok: true, action: "previewFile", preview, url: previewUrl(payload, preview) }; },
+    async previewFolder() { const preview = createPayload(payload, "folder"); return { ok: true, action: "previewFolder", preview, url: previewUrl(payload, preview) }; },
+    async previewPage() { const preview = createPayload(payload, "page", { html: payload.html || payload.content || "", css: payload.css || "", data: payload.data || null }); return { ok: true, action: "previewPage", preview, url: previewUrl(payload, preview) }; },
+    async previewCollection() { const preview = createPayload(payload, "collection", { items: payload.items || payload.files || [] }); return { ok: true, action: "previewCollection", preview, url: previewUrl(payload, preview) }; },
+    async previewLiveCommand() { const preview = createPayload(payload, "live", { commandId: payload.commandId || payload.actionId || "" }); return { ok: true, action: "previewLiveCommand", preview, url: previewUrl(payload, preview) }; },
+    async previewActionResult() { const preview = createPayload(payload, "action", { actionId: payload.actionId || payload.id || "" }); return { ok: true, action: "previewActionResult", preview, url: previewUrl(payload, preview) }; },
+    async previewExposeLocalServer() { const url = payload.url || (payload.port ? `http://127.0.0.1:${payload.port}${payload.proxyPath || "/"}` : ""); const preview = createPayload(payload, "proxy", { url, port: payload.port || null, path: payload.proxyPath || "/" }); return { ok: true, action: "previewExposeLocalServer", preview, url: previewUrl(payload, preview), proxyUrl: `${baseUrl(payload)}/preview/${encodeURIComponent(payload.tunnelName || "auto")}?url64=${encode(url)}` }; }
+  };
 }
 
-module.exports = { buildPreviewActions };
+module.exports = { buildPreviewActions, createPayload, previewUrl };

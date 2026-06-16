@@ -89,7 +89,7 @@ export function createAwtsmoosThreeBufferGeometry(THREE, renderData, options = {
 
   setAttribute(THREE, geometry, "position", positions, 3);
   setAttribute(THREE, geometry, "normal", normals, 3);
-  setAttribute(THRE, geometry, "uv", uvs, 2);
+  setAttribute(THREE, geometry, "uv", uvs, 2);
 
   if (colors) {
     const itemSize = colors.length % 4 === 0 ? 4 : 3;
@@ -97,7 +97,8 @@ export function createAwtsmoosThreeBufferGeometry(THREE, renderData, options = {
   }
 
   if (indices && indices.length) {
-    const maxIndex = Math.max(...Array.from(indices));
+    let maxIndex = 0;
+    for (let i = 0; i < indices.length; i++) maxIndex = Math.max(maxIndex, indices[i]);
     const typed = indices instanceof Uint16Array || indices instanceof Uint32Array
       ? indices
       : maxIndex > 65535

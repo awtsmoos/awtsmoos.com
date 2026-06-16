@@ -31,8 +31,8 @@ export default {
         const rotY = this.rotation ? this.rotation.y : 0;
         const forwardX = Math.sin(rotY);
         const forwardZ = Math.cos(rotY);
-        const sideX = -Math.cos(rotY);
-        const sideZ = Math.sin(rotY);
+        const sideX = Math.cos(rotY);
+        const sideZ = -Math.sin(rotY);
 
         if (this.moving.forward || this.movingAutomatically) {
             this.isWalking = true; isWalkingForward = true;

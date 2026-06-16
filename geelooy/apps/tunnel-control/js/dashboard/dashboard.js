@@ -3,70 +3,64 @@
 import { h } from "../ui/core/html.js";
 import { DASHBOARD_ORDER, PANE_META } from "../router/paneMeta.js";
 import { createDashboardCard } from "./dashboardCard.js";
-import { metric } from "./dashboardSections.js";
 import { createPagedCardGrid } from "./dashboardPager.js";
+import { createModeCards, createModeLinks, CANONICAL_OS_URL, CODE_EDITOR_URL, NATIVE_TUNNEL_URL, CUSTOM_GPT_URL } from "../features/modes/modeCards.js";
+import { buildHealthMatrix, summarizeHealth } from "../features/health/matrix.js";
 
 /**
  * B"H
- * Chapter 10: The palace stopped scrolling and became a control room.
+ * Chapter 12: The first screen stopped shouting.
  *
- * The Awtsmoos reveals every workspace through one clean grid of gates. Nothing
- * heavy renders on the home page; each card opens its own subpage only when the
- * user chooses it.
- *
- * @param {object} ctx Runtime context.
- * @returns {HTMLElement} Dashboard.
+ * Tunnel Control opens as a clean landing: one intense hero, three modes, easy
+ * install/restart instructions, important links, then the main grid. Heavy live
+ * streams, JSON, health details, and logs remain inside focused tiles.
  */
-export function createDashboard(ctx) {
+export function createDashboard(ctx = {}) {
   return h("section", {
-    classes: ["awt-dashboard"],
+    classes: ["awt-dashboard", "awt-landing"],
     attrs: { id: "awtDashboard" },
-    children: [
-      h("header", { classes: ["awt-dashboard-head"], children: intro(ctx) }),
-      createPagedCardGrid(cards()),
-      h("p", { classes: ["awt-dashboard-note"], text: "Open a tile to enter its focused control page. The dashboard stays grid-first and low-scroll." })
-    ]
+    children: [hero(ctx), createModeCards(ctx.device || {}), installPanel(), linksPanel(), createPagedCardGrid(cards())]
   });
 }
 
-/**
- * B"H
- * Creates the compact professional dashboard header.
- *
- * @param {object} ctx Runtime context.
- * @returns {HTMLElement[]} Header nodes.
- */
-function intro(ctx) {
-  return [
-    h("div", { classes: ["awt-mini-kicker"], text: "B\"H AWTSMOOS TUNNEL CONTROL" }),
-    h("h2", { text: "Control Panel" }),
-    h("p", { text: "Choose a workspace. Details, forms, logs, and JSON stay inside their own pages." }),
-    h("div", { classes: ["awt-dashboard-metrics"], children: metrics(ctx) })
-  ];
+export function dashboardHealthSummary(ctx = {}) {
+  return summarizeHealth(buildHealthMatrix(ctx));
 }
 
-/**
- * B"H
- * Builds compact live facts without stretching the page.
- *
- * @param {object} ctx Runtime context.
- * @returns {HTMLElement[]} Metric nodes.
- */
-function metrics(ctx) {
-  return [
-    metric("Runtime", ctx.runtime?.id || "active"),
-    metric("Tunnel", ctx.runtime?.tunnel?.name || ctx.getTunnelName() || "transport"),
-    metric("Root", ctx.runtime?.activeRoot || ctx.getProjectPath() || "."),
-    metric("Sections", String(cards().length))
-  ];
+function hero(ctx) {
+  const summary = dashboardHealthSummary(ctx);
+  return h("header", { classes: ["awt-landing-hero"], children: [
+    h("div", { classes: ["awt-hero-copy"], children: [
+      h("div", { classes: ["awt-mini-kicker"], text: "B\"H AWTSMOOS TUNNEL CONTROL" }),
+      h("h2", { text: "One control room. Three ways in." }),
+      h("p", { text: "Choose native tunnel, browser-tab code vessel, or the one canonical Awtsmoos Virtual OS. The noisy consoles stay behind the grid until you open them." })
+    ] }),
+    h("div", { classes: ["awt-hero-status"], children: [
+      h("strong", { text: `${summary.ready}/${summary.total}` }),
+      h("span", { text: "readiness signals" }),
+      h("small", { text: ctx.runtime?.tunnel?.name || ctx.getTunnelName?.() || "No selected tunnel yet" })
+    ] })
+  ] });
 }
 
-/**
- * B"H
- * Builds existing action/workspace cards.
- *
- * @returns {HTMLButtonElement[]} Cards.
- */
+function installPanel() {
+  return h("section", { classes: ["awt-install-strip"], children: [
+    h("article", { children: [h("b", { text: "First time" }), h("p", { text: "Open the native tunnel app, install the agent, then refresh. It gives local files, commands, and Chrome." }), h("a", { attrs: { href: NATIVE_TUNNEL_URL, target: "_blank", rel: "noopener" }, text: "Install native tunnel" })] }),
+    h("article", { children: [h("b", { text: "Already installed" }), h("p", { text: "Run the installer again. It refreshes the agent, reuses your saved tunnel name, and restarts cleanly." }), h("a", { attrs: { href: NATIVE_TUNNEL_URL, target: "_blank", rel: "noopener" }, text: "Restart / refresh" })] }),
+    h("article", { children: [h("b", { text: "No install" }), h("p", { text: "Use the hosted OS or code tab vessel. They should be one Virtual OS identity across awtsmoos.com/os and app routes." }), h("a", { attrs: { href: CANONICAL_OS_URL, target: "_blank", rel: "noopener" }, text: "Open Awtsmoos OS" })] })
+  ] });
+}
+
+function linksPanel() {
+  return h("section", { classes: ["awt-landing-links"], children: [
+    h("div", { children: [h("strong", { text: "Fast links" }), h("span", { text: "OS, code editor, tunnel installer, and the custom Shliach agent." })] }),
+    createModeLinks(),
+    h("a", { classes: ["awt-gpt-link"], attrs: { href: CUSTOM_GPT_URL, target: "_blank", rel: "noopener" }, text: "Talk to Awtsmoos Shliach Agent" })
+  ] });
+}
+
 function cards() {
   return DASHBOARD_ORDER.map(key => createDashboardCard(key, PANE_META[key]));
 }
+
+export const landingLinks = Object.freeze({ os: CANONICAL_OS_URL, code: CODE_EDITOR_URL, tunnel: NATIVE_TUNNEL_URL, gpt: CUSTOM_GPT_URL });

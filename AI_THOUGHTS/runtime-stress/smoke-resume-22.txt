@@ -1,2 +1,0 @@
-geelooy/games/tests/3/index.html
-geelooy/games/tests/tree/index.html

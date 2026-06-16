@@ -1,60 +1,18 @@
 // B"H
 /**
  * @file heroTree.js
- * @description
- * Chapter 74: The hero tree's bark and leaves are shader snapshots.
- * Branches and leaves remain instanced; their diffuse maps are baked once by
- * custom shaders through the active renderer, then held still for speed.
+ * @description Chapter 75: no leaf planes remain; leaves are textured 3D leaflets.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { finite, hash, setInstance, segmentBetween } from "../math.js";
 import { finishInstanced, markDecorative } from "../decor.js";
-import { lambertBark, lambertLeaf } from "../lambert.js?v=shader-lambert-20260604-bh437";
-
-const trunkGeo = h => new THREE.CylinderGeometry(0.72, 1.16, h, 14, 6);
-const limbGeo = () => new THREE.CylinderGeometry(0.07, 0.2, 1, 8, 1);
-const leafGeo = () => { const g = new THREE.PlaneGeometry(0.58, 0.82); g.translate(0, 0.3, 0); return g; };
-
-function crownPoint(i, op) {
-  const a = i * 2.399963 + hash(i, 4, 8) * 0.55;
-  const r = finite(op.crownRadius, 5.4) * Math.sqrt(hash(i, 2, 7));
-  const y = finite(op.trunkHeight, 7.5) * 0.68 + hash(i, 4, 8) * finite(op.crownHeight, 3.8);
-  return new THREE.Vector3(Math.cos(a) * r, y, Math.sin(a) * r * 0.74);
-}
-
-function placeLimb(mesh, i, h) {
-  const a = i * 2.399963 + hash(i, 1, 1);
-  const start = new THREE.Vector3(0, h * (0.42 + hash(i, 2, 2) * 0.42), 0);
-  const end = start.clone().add(new THREE.Vector3(Math.cos(a) * (2 + hash(i, 3, 3) * 3.4), 0.5 + hash(i, 4, 4) * 1.8, Math.sin(a) * (1.4 + hash(i, 5, 5) * 2.7)));
-  const seg = segmentBetween(start, end);
-  setInstance(mesh, i, seg.mid, seg.q, new THREE.Vector3(0.85, seg.length, 0.85));
-}
-
-function placeLeaf(mesh, i, op) {
-  const p = crownPoint(i, op);
-  const q = new THREE.Quaternion().setFromEuler(new THREE.Euler((hash(i, 9, 1) - 0.5) * 0.85, hash(i, 9, 2) * Math.PI * 2, (hash(i, 9, 3) - 0.5) * 0.9));
-  const s = new THREE.Vector3(0.65 + hash(i, 3, 1) * 1.45, 0.7 + hash(i, 3, 2) * 1.05, 1);
-  setInstance(mesh, i, p, q, s);
-}
-
-/** @param {Object} op @param {Object} ctx @returns {THREE.Group} */
-export function createHeroTree(op = {}, ctx = {}) {
-  const h = finite(op.trunkHeight, 7.5);
-  const limbsN = Math.max(8, Math.floor(finite(op.limbCount, 30)));
-  const leavesN = Math.max(90, Math.floor(finite(op.leafCount, 480)));
-  const group = new THREE.Group();
-  const renderCtx = { renderer: ctx.renderer || ctx.olam?.renderer || op.renderer };
-  group.name = op.name || "AwtsmoosHeroTree_reusable_lambert";
-  const trunk = new THREE.Mesh(trunkGeo(h), lambertBark(finite(op.barkColor, 0x5a351d), renderCtx));
-  const limbs = new THREE.InstancedMesh(limbGeo(), lambertBark(finite(op.branchColor, 0x4d2d19), renderCtx), limbsN);
-  const leaves = new THREE.InstancedMesh(leafGeo(), lambertLeaf(finite(op.leafColor, 0x5fa83a), renderCtx), leavesN);
-  trunk.position.y = h / 2;
-  for (let i = 0; i < limbsN; i += 1) placeLimb(limbs, i, h);
-  for (let i = 0; i < leavesN; i += 1) placeLeaf(leaves, i, op);
-  finishInstanced([limbs, leaves]);
-  group.add(trunk, limbs, leaves);
-  group.position.set(finite(op.position?.x), finite(op.position?.y), finite(op.position?.z));
-  group.rotation.y = finite(op.rotationY, 0);
-  group.scale.setScalar(finite(op.scale, 1));
-  return markDecorative(group);
-}
+import { lambertBark, lambertLeaf } from "../lambert.js?v=leaflet-textures-20260614-bh1";
+const trunkGeo = h => new THREE.CylinderGeometry(.72,1.16,h,14,6);
+const limbGeo = () => new THREE.CylinderGeometry(.07,.2,1,8,1);
+function leafletGeo(){ const s=new THREE.Shape(); s.moveTo(0,.5); s.bezierCurveTo(.34,.32,.36,-.22,0,-.52); s.bezierCurveTo(-.36,-.22,-.34,.32,0,.5); const g=new THREE.ExtrudeGeometry(s,{depth:.025,bevelEnabled:true,bevelSize:.012,bevelThickness:.01,bevelSegments:1}); g.rotateX(Math.PI/2); g.translate(0,.1,0); g.computeVertexNormals(); return g; }
+function berryGeo(){ return new THREE.SphereGeometry(.06,6,4); }
+function crownPoint(i,op){ const cluster=Math.floor(i/7),slot=i%7,a=cluster*2.399963+hash(cluster,4,8)*.35,r=finite(op.crownRadius,5.4)*(.28+.68*Math.sqrt(hash(cluster,2,7))),baseY=finite(op.trunkHeight,7.5)*.66+hash(cluster,4,8)*finite(op.crownHeight,3.8);const spread=.34+.22*hash(cluster,7,3),local=(slot-3)*.31;return new THREE.Vector3(Math.cos(a)*r+Math.cos(a+Math.PI/2)*local*spread,baseY+(slot%3-1)*.2+hash(i,8,5)*.22,Math.sin(a)*r*.74+Math.sin(a+Math.PI/2)*local*spread); }
+function placeLimb(mesh,i,h){ const a=i*2.399963+hash(i,1,1), start=new THREE.Vector3(0,h*(.42+hash(i,2,2)*.42),0), end=start.clone().add(new THREE.Vector3(Math.cos(a)*(2+hash(i,3,3)*3.4),.5+hash(i,4,4)*1.8,Math.sin(a)*(1.4+hash(i,5,5)*2.7))); const seg=segmentBetween(start,end); setInstance(mesh,i,seg.mid,seg.q,new THREE.Vector3(.85,seg.length,.85)); }
+function placeLeaf(mesh,i,op){ const p=crownPoint(i,op),cluster=Math.floor(i/7),fan=(i%7-3)*.16,a=cluster*2.399963; const q=new THREE.Quaternion().setFromEuler(new THREE.Euler((hash(i,9,1)-.5)*.75,a+fan,(hash(i,9,3)-.5)*.8)); const s=.32+hash(i,3,1)*.34; setInstance(mesh,i,p,q,new THREE.Vector3(s,s*(.74+hash(i,3,2)*.28),.34+hash(i,3,3)*.2)); }
+function placeBerry(mesh,i,op){ const p=crownPoint(i*7+13,op); const q=new THREE.Quaternion(); setInstance(mesh,i,p,q,new THREE.Vector3(1,1,1)); }
+export function createHeroTree(op={},ctx={}){ const h=finite(op.trunkHeight,7.5), limbsN=Math.max(8,Math.floor(finite(op.limbCount,24))), leavesN=Math.max(126,Math.floor(finite(op.leafCount,294))), berryN=Math.floor(leavesN/34); const group=new THREE.Group(), renderCtx={renderer:ctx.renderer||ctx.olam?.renderer||op.renderer}; group.name=op.name||"AwtsmoosHeroTree_textured_3d_leaflets"; const trunk=new THREE.Mesh(trunkGeo(h),lambertBark(finite(op.barkColor,0x5a351d),renderCtx)); const limbs=new THREE.InstancedMesh(limbGeo(),lambertBark(finite(op.branchColor,0x4d2d19),renderCtx),limbsN); const leaves=new THREE.InstancedMesh(leafletGeo(),lambertLeaf(finite(op.leafColor,0x5fa83a),renderCtx),leavesN); const berries=new THREE.InstancedMesh(berryGeo(),new THREE.MeshLambertMaterial({color:op.fruitColor||0xd56b32}),berryN); trunk.position.y=h/2; for(let i=0;i<limbsN;i++)placeLimb(limbs,i,h); for(let i=0;i<leavesN;i++)placeLeaf(leaves,i,op); for(let i=0;i<berryN;i++)placeBerry(berries,i,op); finishInstanced([limbs,leaves,berries]); group.add(trunk,limbs,leaves,berries); group.position.set(finite(op.position?.x),finite(op.position?.y),finite(op.position?.z)); group.rotation.y=finite(op.rotationY,0); group.scale.setScalar(finite(op.scale,1)); group.userData.textured3DLeaflets=true; group.userData.noLeafPlanes=true; group.userData.leafClusters=Math.ceil(leavesN/7);return markDecorative(group); }

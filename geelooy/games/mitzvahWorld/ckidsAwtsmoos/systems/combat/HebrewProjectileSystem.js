@@ -1,154 +1,23 @@
 // B"H
+/** @file HebrewProjectileSystem.js @description Hebrew letters/arrows that refine moving targets with homing correction. */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { getRandomLetter, getLetterByIndex } from './WeaponRegistry.js';
-
-/**
- * @file HebrewProjectileSystem.js
- * @description Chapter 90: the projectile vessel no longer whispers a phantom
- * `Olam/olamDynamic.js` path inside JSDoc. The Awtsmoos keeps the import graph
- * pure for mobile Chrome and for every seer that follows string paths.
- */
-function makeCanvas(width, height) {
-  if (typeof document !== 'undefined') {
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    return canvas;
-  }
-  if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(width, height);
-  return null;
-}
-
-function makeLetterSprite(letter, color, size) {
-  const canvas = makeCanvas(128, 128);
-  if (!canvas) return makeFallbackMesh(letter, color, size);
-  canvas.width = 128;
-  canvas.height = 128;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return makeFallbackMesh(letter, color, size);
-  ctx.clearRect(0, 0, 128, 128);
-  ctx.fillStyle = '#ffffff';
-  ctx.shadowColor = '#ffe680';
-  ctx.shadowBlur = 18;
-  ctx.font = 'bold 96px serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(letter, 64, 64);
-  const texture = new THREE.CanvasTexture(canvas);
-  const material = new THREE.SpriteMaterial({ map: texture, color: new THREE.Color(color), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
-  const sprite = new THREE.Sprite(material);
-  sprite.scale.set(size, size, size);
-  return sprite;
-}
-
-function makeFallbackMesh(letter, color, size) {
-  const material = new THREE.MeshBasicMaterial({ color: new THREE.Color(color) });
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(size * 0.3, size * 0.3, size * 0.3), material);
-  mesh.userData.letter = letter;
-  return mesh;
-}
-
+import { isLiveTarget } from './CombatTargeting.js?v=mmo-phase2-levels-20260615-bh1';
+function makeCanvas(w, h) { if (typeof document !== 'undefined') { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; } if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(w, h); return null; }
+function fallback(letter, color, size) { const mesh = new THREE.Mesh(new THREE.BoxGeometry(size * .3, size * .3, size * .3), new THREE.MeshBasicMaterial({ color:new THREE.Color(color) })); mesh.userData.letter = letter; return mesh; }
+function sprite(letter, color, size) { const canvas = makeCanvas(128, 128); if (!canvas) return fallback(letter, color, size); const ctx = canvas.getContext('2d'); if (!ctx) return fallback(letter, color, size); ctx.clearRect(0, 0, 128, 128); ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffe680'; ctx.shadowBlur = 18; ctx.font = 'bold 96px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(letter, 64, 64); const tex = new THREE.CanvasTexture(canvas), mat = new THREE.SpriteMaterial({ map:tex, color:new THREE.Color(color), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false }); const s = new THREE.Sprite(mat); s.scale.set(size, size, size); return s; }
+function targetPoint(t) { return t?.mesh?.position?.clone?.().add(new THREE.Vector3(0, .85, 0)) || new THREE.Vector3(); }
 export default class HebrewProjectileSystem {
-  /** @param {object} olam Runtime world vessel. */
-  constructor(olam) {
-    this.olam = olam;
-    this.projectiles = [];
-    this.projectileGroup = new THREE.Group();
-    this.projectileGroup.name = 'HebrewProjectiles';
-    if (olam.scene) olam.scene.add(this.projectileGroup);
-  }
-
-  /** @param {object} weaponDef Weapon definition. @param {THREE.Vector3} origin Origin. @param {THREE.Vector3} direction Direction. @returns {void} */
-  fire(weaponDef, origin, direction) {
-    if (!weaponDef?.projectile) return;
-    const proj = weaponDef.projectile;
-    const burstCount = proj.burst || 1;
-    for (let i = 0; i < burstCount; i += 1) this.spawnProjectile(weaponDef, proj, burstCount, i, origin, direction);
-  }
-
-  spawnProjectile(weaponDef, proj, burstCount, index, origin, direction) {
-    const letter = proj.letter === 'ALL' ? getLetterByIndex(index) : (burstCount > 1 ? getRandomLetter() : proj.letter);
-    const mesh = makeLetterSprite(letter, proj.color, proj.size);
-    mesh.position.copy(origin);
-    const dir = this.spreadDirection(direction, proj.spread || 0);
-    this.projectileGroup.add(mesh);
-    this.projectiles.push({ mesh, velocity: dir.multiplyScalar(proj.speed), damage: weaponDef.damage, lifetime: proj.lifetime, age: 0, letter });
-  }
-
-  spreadDirection(direction, spread) {
-    const dir = direction.clone();
-    if (spread <= 0) return dir;
-    const axis = new THREE.Vector3(0, 1, 0);
-    dir.applyAxisAngle(axis, (Math.random() - 0.5) * spread);
-    const horizAxis = new THREE.Vector3().crossVectors(dir, axis).normalize();
-    if (horizAxis.length() > 0.01) dir.applyAxisAngle(horizAxis, (Math.random() - 0.5) * spread * 0.3);
-    return dir;
-  }
-
-  /** @param {number} dt Delta seconds. @param {Array<object>} enemies Enemies. @returns {void} */
-  update(dt, enemies = []) {
-    const toRemove = [];
-    for (let i = 0; i < this.projectiles.length; i += 1) {
-      const p = this.projectiles[i];
-      p.age += dt;
-      if (p.age >= p.lifetime) { toRemove.push(i); continue; }
-      p.mesh.position.add(p.velocity.clone().multiplyScalar(dt));
-      this.fadeProjectile(p);
-      if (this.hitAnyEnemy(p, enemies)) toRemove.push(i);
-    }
-    for (let i = toRemove.length - 1; i >= 0; i -= 1) this.removeAt(toRemove[i]);
-  }
-
-  fadeProjectile(p) {
-    const ratio = p.age / p.lifetime;
-    if (p.mesh.material) p.mesh.material.opacity = Math.max(0, 1 - ratio * ratio);
-    const pulse = 1 + Math.sin(p.age * 15) * 0.2;
-    const last = p.mesh.userData.lastPulse || 1;
-    p.mesh.scale.multiplyScalar(pulse / last);
-    p.mesh.userData.lastPulse = pulse;
-  }
-
-  hitAnyEnemy(p, enemies) {
-    for (const enemy of enemies) {
-      if (!enemy?.mesh || !enemy.isReady || enemy.hp <= 0) continue;
-      if (p.mesh.position.distanceTo(enemy.mesh.position) >= 2) continue;
-      enemy.takeDamage?.(p.damage);
-      this.spawnHitEffect(p.mesh.position.clone(), p.letter);
-      return true;
-    }
-    return false;
-  }
-
-  spawnHitEffect(position, letter) {
-    const mesh = makeLetterSprite(letter, '#ffff00', 1.5);
-    mesh.position.copy(position);
-    this.projectileGroup.add(mesh);
-    let age = 0;
-    const flashUpdate = () => {
-      age += 0.016;
-      mesh.scale.multiplyScalar(1.05);
-      if (mesh.material) mesh.material.opacity = Math.max(0, 1 - age * 4);
-      if (age > 0.3) this.disposeMesh(mesh);
-      else if (typeof requestAnimationFrame === 'function') requestAnimationFrame(flashUpdate);
-    };
-    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(flashUpdate);
-  }
-
-  removeAt(index) {
-    const p = this.projectiles[index];
-    if (p?.mesh) this.disposeMesh(p.mesh);
-    this.projectiles.splice(index, 1);
-  }
-
-  disposeMesh(mesh) {
-    this.projectileGroup.remove(mesh);
-    mesh.material?.map?.dispose?.();
-    mesh.material?.dispose?.();
-    mesh.geometry?.dispose?.();
-  }
-
-  dispose() {
-    for (const p of this.projectiles) if (p.mesh) this.disposeMesh(p.mesh);
-    this.projectiles = [];
-  }
+  constructor(olam) { this.olam = olam; this.projectiles = []; this.projectileGroup = new THREE.Group(); this.projectileGroup.name = 'HebrewProjectiles'; if (olam.scene) this.olam.scene.add(this.projectileGroup); }
+  fire(weaponDef, origin, direction, options = {}) { if (!weaponDef?.projectile) return; const proj = weaponDef.projectile, burst = proj.burst || 1; for (let i = 0; i < burst; i++) this.spawnProjectile(weaponDef, proj, burst, i, origin, direction, options); }
+  spawnProjectile(weaponDef, proj, burst, index, origin, direction, options = {}) { const letter = proj.letter === 'ALL' ? getLetterByIndex(index) : (burst > 1 ? getRandomLetter() : proj.letter), mesh = sprite(letter, proj.color, proj.size), dir = this.spreadDirection(direction, proj.spread || 0); mesh.position.copy(origin); this.projectileGroup.add(mesh); this.projectiles.push({ mesh, velocity:dir.multiplyScalar(proj.speed), damage:weaponDef.damage, lifetime:proj.lifetime, age:0, letter, weaponId:weaponDef.id, target:options.target || null, onHit:options.onHit || null, context:options.context || {}, refine:Boolean(options.refine || options.context?.projectileRefine), correction:options.refine ? .18 : .08, antiAir:weaponDef.type === 'ranged' || weaponDef.id === 'keshes_haemes' }); }
+  spreadDirection(direction, spread) { const dir = direction.clone(); if (spread <= 0) return dir; dir.applyAxisAngle(new THREE.Vector3(0, 1, 0), (Math.random() - .5) * spread); return dir; }
+  steer(p) { if (!p.target || !isLiveTarget(p.target)) return; const speed = p.velocity.length(), desired = targetPoint(p.target).sub(p.mesh.position).normalize().multiplyScalar(speed); p.velocity.lerp(desired, p.correction || .08); p.mesh.userData.refiningMovingTarget = p.refine; }
+  update(dt, enemies = []) { const remove = []; for (let i = 0; i < this.projectiles.length; i++) { const p = this.projectiles[i]; p.age += dt; this.steer(p); if (p.age >= p.lifetime) { remove.push(i); continue; } p.mesh.position.add(p.velocity.clone().multiplyScalar(dt)); this.fadeProjectile(p); if (this.hitAnyEnemy(p, enemies)) remove.push(i); } for (let i = remove.length - 1; i >= 0; i--) this.removeAt(remove[i]); }
+  fadeProjectile(p) { const ratio = p.age / p.lifetime; if (p.mesh.material) p.mesh.material.opacity = Math.max(0, 1 - ratio * ratio); const pulse = 1 + Math.sin(p.age * 15) * .2, last = p.mesh.userData.lastPulse || 1; p.mesh.scale.multiplyScalar(pulse / last); p.mesh.userData.lastPulse = pulse; }
+  hitAnyEnemy(p, enemies) { const ordered = p.target ? [p.target, ...enemies.filter(e => e !== p.target)] : enemies; for (const enemy of ordered) { if (!isLiveTarget(enemy)) continue; const radius = enemy.def?.species === 'bird' ? 2.8 : 2.1; if (p.mesh.position.distanceTo(targetPoint(enemy)) >= radius) continue; const dealt = p.onHit ? p.onHit(enemy, p.damage, p.context) : enemy.takeDamage?.(p.damage, { weaponId:p.weaponId, antiAir:p.antiAir, source:'hebrew_projectile' }); this.spawnHitEffect(p.mesh.position.clone(), p.letter); this.olam.__lastProjectileHit = { at:Date.now(), weaponId:p.weaponId, refine:p.refine, target:enemy.name }; return dealt !== false; } return false; }
+  spawnHitEffect(position, letter) { const mesh = sprite(letter, '#ffff00', 1.5); mesh.position.copy(position); this.projectileGroup.add(mesh); let age = 0; const flash = () => { age += .016; mesh.scale.multiplyScalar(1.05); if (mesh.material) mesh.material.opacity = Math.max(0, 1 - age * 4); if (age > .3) this.disposeMesh(mesh); else if (typeof requestAnimationFrame === 'function') requestAnimationFrame(flash); }; if (typeof requestAnimationFrame === 'function') requestAnimationFrame(flash); }
+  removeAt(index) { const p = this.projectiles[index]; if (p?.mesh) this.disposeMesh(p.mesh); this.projectiles.splice(index, 1); }
+  disposeMesh(mesh) { this.projectileGroup.remove(mesh); mesh.material?.map?.dispose?.(); mesh.material?.dispose?.(); mesh.geometry?.dispose?.(); }
+  dispose() { for (const p of this.projectiles) if (p.mesh) this.disposeMesh(p.mesh); this.projectiles = []; }
 }

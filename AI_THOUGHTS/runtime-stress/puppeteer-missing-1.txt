@@ -1,5 +1,0 @@
-geelooy/apps/merkava-native-browser/samples/frontend.html
-geelooy/apps/merkava-native-browser/samples/webgl-native.html
-geelooy/apps/merkava-native-browser/tmp-chrome-webgl/index.html
-geelooy/apps/pdf-to-img/index.html
-geelooy/apps/piano/index.html

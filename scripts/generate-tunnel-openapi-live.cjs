@@ -11,10 +11,10 @@ const liveYamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-a
 
 /**
  * B"H
- * Chapter 408: The YAML remained one old door with newer inner roads.
- * Legacy GPT Actions still call `awtsmoosTunnelAction?action=read` and friends.
- * New agents may pass `mode`, XML write vessels, pagination cursors, and runtime
- * browser-action payloads through the same GET route.
+ * Chapter 409: The YAML learned to carry full commandTree seeds.
+ * Legacy GPT Actions still call one endpoint. The query vessel now explicitly
+ * accepts tree/vars/budget carriers so agents can run a one-line commandTree
+ * without hiding the real plan in an unsupported field.
  */
 const baseConfig = {
   root,
@@ -30,24 +30,25 @@ const stringParams = [
   ["p", "."], ["path"], ["paths"], ["files"], ["files64"], ["writes"], ["edits"], ["from"], ["to"], ["source"], ["dest"], ["target"], ["targetVessel"], ["vessel"], ["fallback"],
   ["fs"], ["cwd", "."], ["root"], ["content"], ["content64"], ["find"], ["find64"], ["replace"], ["replace64"], ["query"], ["query64"], ["text"], ["text64"],
   ["goal"], ["goal64"], ["command"], ["command64"], ["script"], ["script64"], ["scriptText"], ["expression"], ["expression64"], ["html"], ["html64"],
-  ["testCode"], ["testCode64"], ["workflow"], ["workflow64"], ["workflowName"], ["steps"], ["steps64"], ["params"], ["params64"], ["probes"], ["probes64"],
+  ["testCode"], ["testCode64"], ["workflow"], ["workflow64"], ["workflowName"], ["tree"], ["tree64"], ["commandTree"], ["commandTree64"], ["vars"], ["vars64"], ["steps"], ["steps64"], ["params"], ["params64"], ["probes"], ["probes64"],
   ["interactions"], ["interactions64"], ["actions"], ["actions64"], ["actionsJson"], ["actionsJson64"], ["browserActions"], ["browserActions64"], ["pageActions"], ["pageActions64"],
   ["returnValues"], ["returnValues64"], ["values"], ["values64"], ["url"], ["urlPath"], ["method", "GET"], ["headers"], ["headers64"], ["body"], ["body64"], ["bodyEncoding", "utf8"],
   ["selector"], ["chromePath"], ["userDataDir"], ["host", "127.0.0.1"], ["index", "index.html"], ["serverId"], ["sandboxId"], ["entry"], ["format", "png"],
   ["runtime"], ["engine"], ["mode"], ["readMode"], ["writeMode"], ["searchMode"], ["kind"], ["xml"], ["xmlInput"], ["writesXml"], ["filesXml"], ["bundle"], ["part"],
   ["continuationPrompt"], ["continuationPrompt64"], ["provider"], ["providerId"], ["agent"], ["agentId"], ["model"], ["apiKey"], ["apiKey64"], ["message"], ["message64"],
-  ["prompt"], ["prompt64"], ["system"], ["system64"], ["taskId"], ["title"], ["outputDir"], ["fileName"], ["summaryAgentId"], ["summaryFileName"], ["parentTaskId"], ["rootTaskId"], ["taskKind"]
+  ["prompt"], ["prompt64"], ["system"], ["system64"], ["taskId"], ["title"], ["outputDir"], ["fileName"], ["summaryAgentId"], ["summaryFileName"], ["parentTaskId"], ["rootTaskId"], ["taskKind"], ["treeId"], ["nodeId"]
 ];
 const integerParams = [
   ["offsetChars", 0], ["maxChars", 12000], ["totalMaxChars", 24000], ["offsetBytes", 0], ["maxBytes", 24000], ["maxFiles", 5], ["maxResults", 80], ["page", 1], ["pageSize", 50],
   ["cursor", 0], ["nextCursor"], ["maxInlineBytes", 12000], ["depth", 2], ["limit", 150], ["timeoutMs", 240000], ["maxText", 4000], ["maxSteps", 50], ["maxIterations", 20],
+  ["budgetPerutas"], ["budget"], ["maxPerutas"], ["estimatedPerutas"], ["ttlSeconds"],
   ["port", 9222], ["chromePort", 9222], ["waitMs", 800], ["pollMs", 1000], ["settleMs", 2500], ["startupWaitMs", 1200], ["maxDepth", 3], ["maxChildrenPerTask", 8],
   ["maxTotalTasks", 80], ["pollIntervalMs", 7000], ["promotionCycles", 7], ["agentCycles", 8], ["chapterCycles", 8], ["providerTimeoutMs", 45000]
 ];
 const booleanParams = [
   ["checkSyntax", true], ["runtimeCheck", false], ["regex", false], ["replaceAll", true], ["dryRun", true], ["confirm", false], ["includeDirs", false], ["write", false],
   ["snapshot", true], ["headless", false], ["fullPage", true], ["allowWrite"], ["allowSecrets"], ["enableLocalHttpProxy"], ["allowCommands"], ["stream"], ["guidanceDebug", false],
-  ["debugGuidance", false], ["allowRecursiveSpawn", true], ["continueCurrent", false], ["open", false], ["wait", false]
+  ["debugGuidance", false], ["allowRecursiveSpawn", true], ["continueCurrent", false], ["open", false], ["wait", false], ["optional", false], ["required", true], ["continueOnError", false]
 ];
 
 function scalar(value) { return typeof value === "string" ? JSON.stringify(value) : String(value); }
@@ -61,7 +62,7 @@ function fsPathLines() {
     "    get:",
     "      operationId: awtsmoosTunnelAction",
     "      summary: Unified tunnel action endpoint.",
-    "      description: B\"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.",
+    "      description: B\"H. Run one tunnel action. Old YAML remains compatible: action aliases still work. New callers can use commandTree tree/vars/budget fields, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.",
     "      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]",
     "      parameters:",
     "        - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }",
@@ -170,6 +171,7 @@ console.log(JSON.stringify({
   hasFsOAuth: yamlText.includes("operationId: awtsmoosTunnelAction") && yamlText.includes("OAuth2"),
   hasLegacyActions: ["read", "bulk", "tree", "simulateRuntime", "aiAgentMessage"].every(x => yamlText.includes(`              - ${x}`)),
   hasNewModeParams: ["mode", "readMode", "writeMode", "xml", "writesXml", "cursor", "guidanceDebug"].every(x => yamlText.includes(`name: ${x}`)),
+  hasCommandTreeParams: ["tree", "tree64", "vars", "vars64", "budgetPerutas", "treeId"].every(x => yamlText.includes(`name: ${x}`)),
   hasChatGptActions: ["chatgptLogin", "chatgptMessage", "chatgptContinueConversation"].every(x => yamlText.includes(`              - ${x}`)),
   hasRuntimeParams: ["actionsJson64", "browserActions64", "pageActions64", "engine"].every(x => yamlText.includes(`name: ${x}`))
 }, null, 2));

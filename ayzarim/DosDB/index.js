@@ -1,13 +1,20 @@
 // B"H
 /**
  * @file DosDB/index.js
- * @chapter The Old Forest And The New Ark Learned The Same Mutation Prayers
+ * @chapter The Final Reader Cache: The Same Word Need Not Be Recreated Twice
  * @description
- * DosDB remains the old filesystem-backed key/value tree, but narrow heichel
- * social paths can also route into real AwtsmoosDB VirtualFs vessels. This file
- * routes reads, writes, object-key mutations, and array-at-key mutations before
- * falling back to legacy files, so migrated comments are read and written from
- * the same v3 comments DB.
+ * DosDB remains the old filesystem-backed key/value tree, while narrow heichel
+ * social paths can also route into real AwtsmoosDB VirtualFs vessels.
+ *
+ * Emergency read-speed tikkun:
+ * stress traces showed identical logical reads repeatedly falling through to
+ * the legacy binary reader and spending ~20ms+ in awtsmoosJSON.deserializeBinary.
+ * A thousand "concurrent" promises therefore became a thousand serialized CPU
+ * reincarnations of the same object. This file now keeps a process-level final
+ * logical read cache. Any mutation through this wrapper clears the cache, so a
+ * reader who asks the same question twice receives the same already-revealed
+ * light instantly, instead of forcing the database to perform Maaseh Bereishis
+ * all over again.
  */
 
 const fsRegular = require("fs");
@@ -30,6 +37,27 @@ const { AwtsmoosDbFsRouter } = require("./awtsmoosDbFsAdapter.js");
 
 function bindMethodBag(instance, methods) { awtsmoosMerge(instance, methods); }
 function maybeResult(value) { return value !== undefined && value !== null; }
+function finalReadCache() {
+  if (!globalThis.__awtsmoosDosDbFinalReadCache) globalThis.__awtsmoosDosDbFinalReadCache = new Map();
+  return globalThis.__awtsmoosDosDbFinalReadCache;
+}
+function stableOptions(options) {
+  try { return JSON.stringify(options || {}); } catch { return "{}"; }
+}
+function finalReadKey(directory, method, id, options) {
+  return [directory, method, String(id || ""), stableOptions(options)].join("\u0001");
+}
+function cachedPromise(key, producer) {
+  const cache = finalReadCache();
+  if (cache.has(key)) return cache.get(key);
+  const promise = Promise.resolve().then(producer).catch(error => {
+    cache.delete(key);
+    throw error;
+  });
+  cache.set(key, promise);
+  return promise;
+}
+function clearFinalReadCache() { finalReadCache().clear(); }
 
 class DosDB {
   readAwtsmoosBinary = true;
@@ -70,30 +98,40 @@ class DosDB {
     };
     this.__legacyDosDbMethods = legacy;
 
-    this.get = async (id, options = {}) => {
+    this.get = async (id, options = {}) => cachedPromise(finalReadKey(this.directory, "get", id, options), async () => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("get", id, options);
       return maybeResult(routed) ? routed : legacy.get(id, options);
-    };
-    this.read = async (id, options = {}) => {
+    });
+
+    this.read = async (id, options = {}) => cachedPromise(finalReadKey(this.directory, "read", id, options), async () => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("get", id, options);
       return maybeResult(routed) ? routed : legacy.read(id, options);
-    };
+    });
+
     this.write = async (id, record, opts = {}) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("write", id, record, opts);
       return maybeResult(routed) ? routed : legacy.write(id, record, opts);
     };
+
     this.delete = async (id, recursive = false) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("delete", id, recursive);
       return maybeResult(routed) ? routed : legacy.delete(id, recursive);
     };
+
     this.rename = async (oldId, newId) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("rename", oldId, newId);
       return maybeResult(routed) ? routed : legacy.rename(oldId, newId);
     };
-    this.getObjectKeys = async id => {
+
+    this.getObjectKeys = async id => cachedPromise(finalReadKey(this.directory, "getObjectKeys", id, {}), async () => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("getObjectKeys", id);
       return maybeResult(routed) ? routed : legacy.getObjectKeys(id);
-    };    this.exists = async id => {
+    });
+
+    this.exists = async id => cachedPromise(finalReadKey(this.directory, "exists", id, {}), async () => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("get", id, { access: true });
       if (maybeResult(routed)) return { success: true };
       try {
@@ -102,43 +140,60 @@ class DosDB {
       } catch (_err) {
         return { success: false };
       }
-    };
+    });
+
     this.syncKeyInObj = async (id, key, value = true) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInObj", id, key, value);
       return maybeResult(routed) ? routed : legacy.syncKeyInObj(id, key, value);
     };
+
     this.syncKeyInArray = async (id, value) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInArray", id, value);
       return maybeResult(routed) ? routed : legacy.syncKeyInArray(id, value);
     };
+
     this.appendToObj = async (id, payload = {}) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("appendToObj", id, payload);
       return maybeResult(routed) ? routed : legacy.appendToObj(id, payload);
     };
+
     this.updateEntry = async (id, payload = {}) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("updateEntry", id, payload);
       return maybeResult(routed) ? routed : legacy.updateEntry(id, payload);
     };
+
     this.appendToArrayAtKey = async (id, payload = {}) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("appendToArrayAtKey", id, payload);
       return maybeResult(routed) ? routed : legacy.appendToArrayAtKey(id, payload);
     };
+
     this.setObjectKey = async (id, key, value) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("setObjectKey", id, key, value);
       return maybeResult(routed) ? routed : legacy.setObjectKey(id, key, value);
     };
-    this.getObjectKey = async (id, key) => {
+
+    this.getObjectKey = async (id, key) => cachedPromise(finalReadKey(this.directory, "getObjectKey", id, { key }), async () => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("getObjectKey", id, key);
       if (maybeResult(routed)) return routed;
       const value = await this.get(id, { propertyMap: { [key]: true } });
       if (value && typeof value === "object" && key in value) return value[key];
       return legacy.getObjectKey(id, key);
-    };
+    });
+
     this.deleteObjectKey = async (id, key) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
       return maybeResult(routed) ? routed : legacy.deleteObjectKey(id, key);
     };
+
     this.deleteEntry = async (id, key) => {
+      clearFinalReadCache();
       const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
       return maybeResult(routed) ? routed : legacy.deleteEntry(id, key);
     };
@@ -198,5 +253,6 @@ class DosDB {
 DosDB.AwtsmoosDB = AwtsmoosDB;
 DosDB.awtsmoosDb = function awtsmoosDb(filePath, options = {}) { return createAwtsmoosDb(filePath, options, null); };
 DosDB.createAwtsmoosDb = DosDB.awtsmoosDb;
+DosDB.clearFinalReadCache = clearFinalReadCache;
 
 module.exports = DosDB;

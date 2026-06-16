@@ -1,5 +1,0 @@
-geelooy/apps/editor/old/index.html
-geelooy/apps/exe-emulator/index.html
-geelooy/apps/index.html
-geelooy/apps/lyric-sync/index.html
-geelooy/apps/merkava-native-browser/samples/browser-shell.html

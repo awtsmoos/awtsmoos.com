@@ -1,67 +1,10 @@
-
-/**
- * B"H
- * @file EnsureChossidNpcs.js
- * @description
- * Ensures visible NPCs exist. No fake meshes. Only chossid.glb.
- */
-
+// B"H
+/** @file EnsureChossidNpcs.js @description Ensures visible real chossid.glb NPCs exist, without optional-chain parser paths. */
 import { CHOSSID_NPC_DEFS } from "./ChossidNpcDefs.js";
-import { buildChossidNpc } from "./ChossidNpcBuilder.js";
-import { countSpawnedNpcRoots } from "./SceneNpcScan.js";
-import { getVisibleNpcPositions } from "./HouseNpcPositions.js";
-
-/**
- * B"H
- * Builds final defs with positions near actual houses if possible.
- *
- * @param {any} scene
- * Scene.
- *
- * @returns {Object[]}
- * Definitions.
- */
-function makeVisibleDefs(scene) {
-  const positions = getVisibleNpcPositions(scene);
-
-  return CHOSSID_NPC_DEFS.map((def, index) => ({
-    ...def,
-    position: positions[index % positions.length] || def.position
-  }));
-}
-
-/**
- * B"H
- * Ensures real chossid NPCs are visible.
- *
- * @param {Object} context
- * Context.
- *
- * @returns {Promise<any[]>}
- * Added NPCs.
- */
-export async function ensureChossidNpcs(context) {
-  const olam = context?.olam;
-  const scene = context?.scene || olam?.scene;
-
-  if (!olam || !scene) {
-    throw new Error("Cannot spawn chossid NPCs without olam and scene");
-  }
-
-  if (countSpawnedNpcRoots(scene) > 0) {
-    return [];
-  }
-
-  const added = [];
-  const settings = scene.userData?.mitzvahWorldSettings || {};
-  const limit = Number.isFinite(settings.npcLimit) ? settings.npcLimit : 4;
-  const defs = makeVisibleDefs(scene).slice(0, limit);
-
-  for (const def of defs) {
-    const npc = await buildChossidNpc(olam, def);
-    scene.add(npc);
-    added.push(npc);
-  }
-
-  return added;
-}
+import { buildChossidNpc } from "./ChossidNpcBuilder.js?v=awtsmoos-npc-builder-20260614-bh2";
+import { countSpawnedNpcRoots } from "./SceneNpcScan.js?v=awtsmoos-scene-npc-scan-20260614-bh2";
+import { getVisibleNpcPositions } from "./HouseNpcPositions.js?v=awtsmoos-house-npc-positions-20260614-bh2";
+function makeVisibleDefs(scene) { const positions = getVisibleNpcPositions(scene); return CHOSSID_NPC_DEFS.map((def, index) => ({ ...def, position:positions[index % positions.length] || def.position })); }
+function sceneOf(context) { const olam = context ? context.olam : null; return context && context.scene ? context.scene : olam && olam.scene ? olam.scene : null; }
+function npcLimit(scene) { const data = scene && scene.userData ? scene.userData : {}; const settings = data.mitzvahWorldSettings || {}; return Number.isFinite(settings.npcLimit) ? settings.npcLimit : 4; }
+export async function ensureChossidNpcs(context) { const olam = context ? context.olam : null, scene = sceneOf(context); if (!olam || !scene) throw new Error("Cannot spawn chossid NPCs without olam and scene"); if (countSpawnedNpcRoots(scene) > 0) return []; const added = [], defs = makeVisibleDefs(scene).slice(0, npcLimit(scene)); for (const def of defs) { const npc = await buildChossidNpc(olam, def); scene.add(npc); added.push(npc); } return added; }

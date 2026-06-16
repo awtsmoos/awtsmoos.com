@@ -61,7 +61,7 @@ export function groundVillageNow(olam, made = [], final = true, source = "manual
   const summary = { source, final, ...summarize(report), terrain: olam.awtsmoosTerrainLaw?.source };
   diagEvent("village-grounding", summary);
   diagThrottle("village-grounding-summary", summary, 2200);
-  console.info('B"H | VILLAGE_GROUNDING_SUMMARY', summary);
+  if (globalThis.__AWTSMOOS_GROUNDING_LOGS__ === true) console.info('B"H | VILLAGE_GROUNDING_SUMMARY', summary);
   return report;
 }
 export function scheduleVillageGrounding(olam, made = []) { if (!isVillageWorld(olam, made) || olam.__villageGroundingScheduled) return; olam.__villageGroundingScheduled = true; const raf = globalThis.requestAnimationFrame || (fn => setTimeout(fn, 32)); const afterFrames = (frames, fn) => frames <= 0 ? fn() : raf(() => afterFrames(frames - 1, fn)); afterFrames(2, () => setTimeout(() => groundVillageNow(olam, made, false, "visual-settle-1"), 180)); afterFrames(5, () => setTimeout(() => groundVillageNow(olam, made, false, "visual-settle-2"), 700)); afterFrames(8, () => setTimeout(() => groundVillageNow(olam, made, true, "final-collider-bake"), 1650)); }

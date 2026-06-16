@@ -1,7 +1,6 @@
 /* B"H
- * Chapter 128: The final seal stops crushing living typography.
- * The Awtsmoos forbids sideways motion, but it never again uses a sidebar
- * wildcard that can flatten comment bodies or Scroll Details into dull dust.
+ * Chapter 309: Mobile chrome holds its shape without trapping the river.
+ * The Awtsmoos forbids sideways chaos, but page motion remains native and free.
  */
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar,
@@ -45,9 +44,13 @@
     font-family: var(--font-ui) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-viewport {
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-viewport,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panels {
     display: block !important;
     width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: clip !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view {
@@ -58,18 +61,6 @@
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view.active-view {
     display: flex !important;
     flex-direction: column !important;
-}
-
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content {
-    display: block !important;
-    width: 100% !important;
-}
-
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panels {
-    display: block !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    overflow-x: clip !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel {
@@ -112,9 +103,3 @@
     min-width: 0 !important;
     max-width: 100% !important;
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-.post-reader-localized-context .awtsmoos-sidebar-shell:where(:not(.awtsmoos-mobile-polish-off)) { overscroll-behavior: contain; }

@@ -3,6 +3,7 @@ const fsp = require("fs/promises");
 const path = require("path");
 const crypto = require("crypto");
 const { safePath } = require("./pathGuard.js");
+const { ensureGitignoreHygiene } = require("./gitIgnoreHygiene.js");
 
 const DIR = ".awtsmoos/actions";
 const LOG = `${DIR}/history.jsonl`;
@@ -15,10 +16,7 @@ const DEFAULT_MAX_RESULT_FILES = 160;
 
 /**
  * B"H
- * Chapter 365: The Ledger Covered The Flame Before It Wrote.
- *
- * Every action is remembered, but keys are sealed before history receives
- * them. The Awtsmoos gives speech to the task without letting secret fire leak.
+ * Chapter 366: The ledger wrote memory, then cleaned the git doorway.
  */
 function id(prefix = "act") {
   return `${prefix}_${Date.now().toString(36)}_${crypto.randomBytes(4).toString("hex")}`;
@@ -40,6 +38,7 @@ function clamp(value, min, max, fallback) {
 async function ensure(config) {
   await fsp.mkdir(safePath(config, DIR), { recursive: true });
   await fsp.mkdir(safePath(config, RES), { recursive: true });
+  await ensureGitignoreHygiene(config, "action-ledger");
 }
 
 async function record(config, input, output, meta = {}) {
@@ -143,4 +142,4 @@ async function unlinkSafe(config, rel) {
 function patch(input, patchObj = {}) { return { ...input, ...patchObj }; }
 function replaceAt(input, key, find, replace) { const out = JSON.parse(JSON.stringify(input)); let box = out; const parts = String(key || "").split(".").filter(Boolean); while (parts.length > 1) box = box[parts.shift()] ??= {}; box[parts[0]] = String(box[parts[0]] ?? "").split(find).join(replace); return out; }
 
-module.exports = { record, list, get, patch, replaceAt, id, garbageCollect, retention, redact };
+module.exports = { record, list, get, patch, replaceAt, id, garbageCollect, retention, redact, ensure };

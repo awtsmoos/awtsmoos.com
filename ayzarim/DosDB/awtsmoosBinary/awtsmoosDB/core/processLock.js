@@ -2,21 +2,31 @@
 
 /**
  * @file core/processLock.js
- * @chapter One Writer At The Gate
+ * @chapter One Writer, Many Witnesses At The Gate
  * @description
  * Cross-process lock files for direct Node usage.
  *
- * Default mode is exclusive, preserving the existing one-writer safety.
- * Shared/read mode is available through options:
+ * The Awtsmoos breathes one world into being every instant: one writer may
+ * shape the vessel, while many readers may stand at the riverbank and behold
+ * the current. This lock protects writer-vs-writer corruption, while allowing
+ * read/shared opens to coexist with an active writer when the caller explicitly
+ * opens in shared/read/readOnly mode.
  *
- *   new AwtsmoosDB(path, { processLockMode: 'shared' })
- *   new AwtsmoosDB(path, { lockMode: 'shared' })
- *   new AwtsmoosDB(path, { readOnly: true })
+ * Usage:
+ *
+ *   new AwtsmoosDB(path)                                // exclusive writer
+ *   new AwtsmoosDB(path, { processLockMode: 'shared' }) // reader/shared
+ *   new AwtsmoosDB(path, { lockMode: 'shared' })        // reader/shared
+ *   new AwtsmoosDB(path, { readOnly: true })            // reader/shared
  *
  * Safety notes:
- * - Exclusive opens block other exclusive opens and active shared readers.
+ * - Exclusive opens still block other exclusive opens.
  * - Shared opens can coexist with other shared opens.
- * - Shared opens block while an exclusive writer is alive.
+ * - Shared opens are now allowed while an exclusive writer is alive.
+ * - Exclusive opens are now allowed while shared readers are alive.
+ * - This file-level policy does not turn live reads into snapshot-isolated
+ *   reads. Callers that require a perfectly stable read should use backup or
+ *   snapshot logic above this lock layer.
  * - Stale lock files are swept when their owning PID no longer exists.
  */
 
@@ -36,7 +46,7 @@ class ProcessLock {
 
   /**
    * @method acquire
-   * @description Acquires an exclusive or shared process lock.
+   * @description Acquires an exclusive writer lock or a shared reader marker.
    * @param {object} [options={}] - Lock options.
    * @returns {boolean} True when acquired.
    */
@@ -61,7 +71,7 @@ class ProcessLock {
 
   /**
    * @method release
-   * @description Releases this process lock.
+   * @description Releases this process lock or shared reader marker.
    * @returns {void}
    */
   release() {
@@ -88,11 +98,6 @@ class ProcessLock {
     this._cleanStaleExclusive();
     this._cleanStaleReaders();
 
-    const activeReaders = this._activeReaders();
-    if (activeReaders.length) {
-      throw this._busy(`B"H: database has active shared readers: ${this.dbPath}`);
-    }
-
     try {
       this.fd = fs.openSync(this.filePath, 'wx');
       fs.writeSync(this.fd, JSON.stringify(this._meta('exclusive')));
@@ -111,18 +116,13 @@ class ProcessLock {
         if (!fs.existsSync(this.filePath)) return this._acquireExclusive(options);
       }
 
-      throw this._busy(`B"H: database is already open by another process: ${this.filePath}`);
+      throw this._busy(`B"H: database already has an active exclusive writer: ${this.filePath}`);
     }
   }
 
   _acquireShared(options) {
     this._cleanStaleExclusive();
     this._cleanStaleReaders();
-
-    if (fs.existsSync(this.filePath) && !this._sameProcess(this.filePath)) {
-      throw this._busy(`B"H: database has an active exclusive writer: ${this.filePath}`);
-    }
-
     fs.mkdirSync(this.readerDir, { recursive: true });
 
     const safePid = String(process.pid).replace(/[^0-9]/g, '');
@@ -151,7 +151,8 @@ class ProcessLock {
       pid: process.pid,
       mode,
       at: Date.now(),
-      dbPath: this.dbPath
+      dbPath: this.dbPath,
+      policy: 'one-writer-many-readers'
     };
   }
 

@@ -1,0 +1,191 @@
+/* B"H */
+
+.awt-landing {
+  gap: clamp(14px, 1.8vw, 22px);
+}
+
+.awt-landing-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+  gap: 18px;
+  align-items: stretch;
+  padding: clamp(20px, 3.2vw, 42px);
+  border: 1px solid rgba(109, 203, 255, .18);
+  border-radius: 30px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(83, 137, 255, .26), transparent 32%),
+    radial-gradient(circle at 84% 10%, rgba(255, 215, 115, .18), transparent 28%),
+    linear-gradient(135deg, rgba(6, 15, 31, .96), rgba(15, 34, 63, .86));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .36);
+}
+
+.awt-landing-hero::after {
+  content: "";
+  position: absolute;
+  inset: -80px -140px auto auto;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: conic-gradient(from 140deg, rgba(115, 217, 255, .04), rgba(255,255,255,.18), rgba(255, 196, 87, .08), rgba(115, 217, 255, .04));
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+.awt-hero-copy,
+.awt-hero-status {
+  position: relative;
+  z-index: 1;
+}
+
+.awt-hero-copy h2 {
+  max-width: 860px;
+  margin: 8px 0 10px;
+  font-size: clamp(2.25rem, 6vw, 5.7rem);
+  line-height: .88;
+  letter-spacing: -.07em;
+}
+
+.awt-hero-copy p {
+  max-width: 780px;
+  margin: 0;
+  color: rgba(236, 246, 255, .78);
+  font-size: clamp(.98rem, 1.25vw, 1.18rem);
+  line-height: 1.45;
+}
+
+.awt-hero-status {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 24px;
+  background: rgba(255,255,255,.065);
+  text-align: center;
+}
+
+.awt-hero-status strong {
+  font-size: clamp(2rem, 4vw, 4.2rem);
+  line-height: 1;
+}
+
+.awt-hero-status span {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(255, 220, 130, .95);
+}
+
+.awt-hero-status small {
+  max-width: 210px;
+  color: rgba(236, 246, 255, .64);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.awt-mode-card-grid,
+.awt-install-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.awt-landing-card,
+.awt-install-strip article,
+.awt-landing-links {
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
+  box-shadow: 0 18px 54px rgba(0,0,0,.22);
+}
+
+.awt-landing-card,
+.awt-install-strip article {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 190px;
+  padding: 18px;
+}
+
+.awt-landing-card strong,
+.awt-install-strip b,
+.awt-landing-links strong {
+  font-size: 1.06rem;
+  letter-spacing: -.02em;
+}
+
+.awt-card-kicker {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,.1);
+  color: rgba(255, 221, 135, .96);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .68rem;
+  font-weight: 950;
+}
+
+.awt-landing-card p,
+.awt-install-strip p,
+.awt-landing-links span {
+  margin: 0;
+  color: rgba(232,242,255,.72);
+  line-height: 1.42;
+}
+
+.awt-landing-card a,
+.awt-install-strip a,
+.awt-landing-links a {
+  width: fit-content;
+  align-self: end;
+  border-radius: 999px;
+  padding: 10px 13px;
+  color: white;
+  text-decoration: none;
+  font-weight: 900;
+  background: linear-gradient(135deg, rgba(67, 143, 255, .9), rgba(139, 93, 255, .82));
+  box-shadow: 0 12px 28px rgba(45, 103, 255, .24);
+}
+
+.awt-landing-card.is-virtual a,
+.awt-gpt-link {
+  background: linear-gradient(135deg, rgba(255, 199, 82, .95), rgba(255, 91, 142, .82)) !important;
+}
+
+.awt-install-strip article:nth-child(2) a {
+  background: linear-gradient(135deg, rgba(57, 223, 139, .86), rgba(50, 170, 255, .78));
+}
+
+.awt-landing-links {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.6fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+}
+
+.awt-mode-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.awt-mode-links a {
+  background: rgba(255,255,255,.075);
+  box-shadow: none;
+}
+
+@media (max-width: 980px) {
+  .awt-landing-hero,
+  .awt-landing-links {
+    grid-template-columns: 1fr;
+  }
+  .awt-mode-card-grid,
+  .awt-install-strip {
+    grid-template-columns: 1fr;
+  }
+}

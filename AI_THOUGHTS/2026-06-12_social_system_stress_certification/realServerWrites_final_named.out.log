@@ -1,6 +1,0 @@
-B"H REQUEST GET /api/social/keys/verify?apiKey=probe
-B"H REQUEST GET /api/social/keys/verify?apiKey=probe
-B"H REQUEST GET /api/social/keys/verify?apiKey=probe
-B"H RESPONSE GET /api/social/keys/verify?apiKey=probe 200
-B"H REQUEST GET /api/social/keys/verify
-B"H RESPONSE GET /api/social/keys/verify 200

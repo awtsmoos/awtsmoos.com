@@ -29,7 +29,7 @@ self.addEventListener("unhandledrejection", event => {
   shellPost("ERROR_TEXT", text);
 });
 
-import("./core/entry/WorkerEntrypoint.js?compact=true&v=village-polish-20260612-bh811")
+import("./core/entry/WorkerEntrypoint.js?compact=true&v=zone-reality-20260614-bh817")
   .then(module => {
     if (!module || typeof module.startOyvedEntrypoint !== "function") throw new Error("WorkerEntrypoint.js loaded but did not export startOyvedEntrypoint");
     shellPost("worker_text_log", "OYVED_SHELL imported WorkerEntrypoint.js");

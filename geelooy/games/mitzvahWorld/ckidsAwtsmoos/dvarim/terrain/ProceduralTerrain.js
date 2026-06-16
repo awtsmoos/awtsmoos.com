@@ -13,7 +13,7 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import Domem from "../../chayim/domem/index.js";
 import TerrainGeometryEmanator from "./core/TerrainGeometryEmanator.js";
-import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=typed-ground-no-safety-slab-20260609-bh621";
+import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=zone-reality-20260614-bh817";
 const hiddenGroundMaterial = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0 });
 const n = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 function triangleCount(geometry) {
@@ -84,9 +84,9 @@ export default class ProceduralTerrain extends Domem {
     if (this.isSolid) {
       this.createAndInsertCollider();
       if (!this.noSafetySlab) this.createAndInsertSafetySlab();
-      else console.info("B\"H | TERRAIN_SAFETY_SLAB_SKIPPED", { name: this.mesh.name, reason: "noSafetySlab", textureType: this.terrainData.textureType });
+      else if(globalThis.__AWTSMOOS_TERRAIN_LOGS__===true)console.info("B\"H | TERRAIN_SAFETY_SLAB_SKIPPED", { name: this.mesh.name, reason: "noSafetySlab", textureType: this.terrainData.textureType });
     } else {
-      console.info("B\"H | TERRAIN_VISUAL_ONLY_NO_COLLIDER", { name: this.mesh.name, textureType: this.terrainData.textureType });
+      if(globalThis.__AWTSMOOS_TERRAIN_LOGS__===true)console.info("B\"H | TERRAIN_VISUAL_ONLY_NO_COLLIDER", { name: this.mesh.name, textureType: this.terrainData.textureType });
     }
     this.isReady = true;
   }
@@ -104,7 +104,7 @@ export default class ProceduralTerrain extends Domem {
     Object.assign(this.colliderMesh.userData, { visualReference: this.mesh, triangleCount: triangleCount(geometry) });
     this.colliderMesh.updateMatrixWorld(true);
     const added = this.olam?.worldOctree?.addObject(this.colliderMesh) || false;
-    console.info("B\"H | TERRAIN_COLLIDER_INSERT", { added, triangles: triangleCount(geometry), name: this.colliderMesh.name });
+    if(globalThis.__AWTSMOOS_TERRAIN_LOGS__===true)console.info("B\"H | TERRAIN_COLLIDER_INSERT", { added, triangles: triangleCount(geometry), name: this.colliderMesh.name });
   }
   createAndInsertSafetySlab() {
     const w = this.terrainData.width + 28;
@@ -117,7 +117,7 @@ export default class ProceduralTerrain extends Domem {
     solidFlags(this.safetySlab, "abyss-safety-slab");
     this.safetySlab.updateMatrixWorld(true);
     const added = this.olam?.worldOctree?.addObject(this.safetySlab) || false;
-    console.info("B\"H | TERRAIN_SAFETY_SLAB_INSERT", { added, width: w, depth: d, y });
+    if(globalThis.__AWTSMOOS_TERRAIN_LOGS__===true)console.info("B\"H | TERRAIN_SAFETY_SLAB_INSERT", { added, width: w, depth: d, y });
   }
   heesHawvoos() {}
 }

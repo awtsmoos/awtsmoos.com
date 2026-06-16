@@ -5,6 +5,7 @@
  * reaching through private folders.
  */
 export { simulateRuntime, runtimeWorkflow, normalizeOptions, instrumentFiles } from "./core/simulateRuntime.js";
+export { runRenderLab, runRenderMode, renderReportHtml } from "./render-lab/renderLab.js";
 export { compileMerkavaRuntime, runMerkavaRuntime, simulateMerkavaRuntime, compileAndRunMerkavaJs, inspectMerkava } from "./merkava/merkavaRuntime.js";
 export {
   compileMerkavaRuntime as compileMd2Runtime,

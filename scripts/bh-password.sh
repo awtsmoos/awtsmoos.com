@@ -1,5 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 # B"H
-set -e
-
-ssh root@awtsmoos.com './BH.sh'
+set -euo pipefail
+node scripts/bh.mjs "$@"

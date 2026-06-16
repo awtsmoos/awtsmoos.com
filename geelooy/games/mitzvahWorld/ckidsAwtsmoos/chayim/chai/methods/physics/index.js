@@ -1,14 +1,13 @@
-// B"H
+﻿// B"H
 /**
  * @file physics/index.js
  * @description
- * Chapter 323: the feet obey the Chossid, not the orbiting eye.
+ * Chapter 321: The player stands on the terrain law even when the octree blinks.
  *
- * Git history revealed the true old law: W/A/S/D were born from
- * `player.rotation.y`, with the model offset showing diagonal/backpedal intent.
- * The camera may circle like a witness around the vessel, but it is not the
- * commander of the feet. Only FPS mode binds the player heading back to the
- * camera yaw, because there the eye and body are one face.
+ * The Awtsmoos taught the harsh lesson: an octree can be busy, subdividing, or
+ * missing a mobile frame, but the earth already published its height function.
+ * Physics now asks both witnesses: first collision geometry, then terrain law.
+ * A failed ray no longer means abyss.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Tzomayach from "../../../tzomayach.js";
@@ -16,15 +15,12 @@ import TerrainMath from "../../../../dvarim/terrain/core/TerrainMath.js";
 import { solveMovingSolid } from "../../../../dvarim/movers/runtime/movingSolidSolver.js";
 
 const groundRay = new THREE.Ray();
-const cameraEuler = new THREE.Euler(0, 0, 0, 'YXZ');
 const MOVING_EPSILON_SQ = 0.0001;
 const steepSlopeY = () => Math.cos(THREE.MathUtils.degToRad(50));
 const finite = value => Number.isFinite(Number(value));
 const numeric = (value, fallback) => finite(value) ? Number(value) : fallback;
 const normAngle = angle => Math.atan2(Math.sin(angle), Math.cos(angle));
 
-function quietWarn(...args) { if (globalThis.__AWTSMOOS_DEBUG__ === true) console.warn(...args); }
-function quietLog(...args) { if (globalThis.__AWTSMOOS_DEBUG__ === true) console.log(...args); }
 function capsuleFromFeet(feet, height, radius) {
   const r = Math.max(0.01, numeric(radius, 0.45));
   const h = Math.max(r * 2, numeric(height, 1.5));
@@ -47,44 +43,32 @@ function terrainLawHit(player) {
   return { distance: start.y - y, position: new THREE.Vector3(start.x, y, start.z), normal: new THREE.Vector3(0, 1, 0), object: { name: "awtsmoosTerrainLawFallback" }, lawFallback: true };
 }
 function bestGroundHit(player) {
-  groundRay.origin.copy(player.collider.start); groundRay.direction.set(0, -1, 0);
+  groundRay.origin.copy(player.collider.start);
+  groundRay.direction.set(0, -1, 0);
   const oct = player.olam?.worldOctree?.rayIntersect?.(groundRay) || false;
   const law = terrainLawHit(player);
-  if (!law) return oct; if (!oct) return law;
+  if (!law) return oct;
+  if (!oct) return law;
   if (!oct.normal || oct.normal.y <= steepSlopeY()) return law;
   if (law.distance >= -0.5 && law.distance < oct.distance + 0.35) return law;
   return oct;
 }
 function setAnim(player, key, options) {
-  const resolved = player.getChaweeyoos(key); if (!resolved) return;
-  const guard = `${key}:${resolved}`; if (player.__lastAnimKey === guard && !options?.force) return;
-  player.__lastAnimKey = guard; player.playChaweeyoos(resolved, options);
-}
-function cameraYaw(player) {
-  const camera = player?.olam?.ayin?.camera;
-  if (!camera?.quaternion) return numeric(player.rotation?.y, 0);
-  cameraEuler.setFromQuaternion(camera.quaternion, 'YXZ');
-  return cameraEuler.y;
-}
-function movementRootYaw(player) {
-  if (player?.olam?.ayin?.isFPS) {
-    const yaw = cameraYaw(player);
-    player.rotation.y = normAngle(yaw);
-    return player.rotation.y;
-  }
-  return numeric(player.rotation?.y, 0);
+  const resolved = player.getChaweeyoos(key);
+  if (!resolved) return;
+  const guard = `${key}:${resolved}`;
+  if (player.__lastAnimKey === guard && !options?.force) return;
+  player.__lastAnimKey = guard;
+  player.playChaweeyoos(resolved, options);
 }
 function movementDirection(player) {
   const direction = new THREE.Vector3();
-  const moving = player.moving || {};
-  const rotY = movementRootYaw(player);
-  const forwardX = Math.sin(rotY), forwardZ = Math.cos(rotY);
-  const sideX = -Math.cos(rotY), sideZ = Math.sin(rotY);
-  const forward = moving.forward || player.movingAutomatically;
-  const back = moving.backward;
+  const moving = player.moving || {}, rotY = player.rotation?.y || 0;
+  const forwardX = Math.sin(rotY), forwardZ = Math.cos(rotY), sideX = Math.cos(rotY), sideZ = -Math.sin(rotY);
+  const forward = moving.forward || player.movingAutomatically, back = moving.backward;
   player.isWalking = false;
   if (forward) { player.isWalking = true; direction.x += forwardX; direction.z += forwardZ; player.targetRotateOffset = 0; }
-  else if (back) { player.isWalking = true; direction.x -= forwardX; direction.z -= forwardZ; player.targetRotateOffset = Math.PI; }
+  else if (back) { player.isWalking = true; direction.x -= forwardX; direction.z -= forwardZ; player.targetRotateOffset = -Math.PI; }
   if (moving.stridingLeft) {
     player.isWalking = true; direction.x -= sideX; direction.z -= sideZ; player.targetRotateOffset = Math.PI / 2;
     if (forward) player.targetRotateOffset -= Math.PI / 4; else if (back) player.targetRotateOffset += Math.PI / 4;
@@ -117,7 +101,9 @@ function syncVisual(player, dt) {
   player.nonRotatingEmptyForMovement?.position?.copy?.(player.mesh.position);
   if (player.emptyCopy && player.modelMesh) player.emptyCopy.rotation.copy(player.modelMesh.rotation);
   if (player.activeRay && player.olam?.ayin?.isFPS && player.rayAnchor) {
-    const camera = player.olam.ayin.camera; player.rayAnchor.position.copy(camera.position); player.rayAnchor.rotation.y = cameraYaw(player);
+    const camera = player.olam.ayin.camera;
+    player.rayAnchor.position.copy(camera.position);
+    player.rayAnchor.rotation.y = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ').y;
   }
   player.updateSpheres?.(dt);
 }
@@ -127,7 +113,7 @@ function applyLockedAirTrajectory(player) { if (!player.__airTrajectoryLocked) r
 
 export default {
   setPosition(vec3) {
-    if (!vec3 || !finite(vec3.x) || !finite(vec3.y) || !finite(vec3.z)) return quietWarn("B\"H: invalid player feet position ignored.");
+    if (!vec3 || !finite(vec3.x) || !finite(vec3.y) || !finite(vec3.z)) return console.warn("B\"H: invalid player feet position ignored.");
     if (!this.collider?.start || !this.collider?.end) return;
     this.collider.radius = numeric(this.radius, this.collider.radius || 0.45);
     const capsule = capsuleFromFeet(vec3, this.height, this.collider.radius);
@@ -135,15 +121,19 @@ export default {
     clearAirTrajectory(this); this.isTeleporting = true;
   },
   collisions() {
-    const result = this.olam?.worldOctree?.capsuleIntersect?.(this.collider); if (!result) return;
+    const result = this.olam?.worldOctree?.capsuleIntersect?.(this.collider);
+    if (!result) return;
     this.collider.translate(result.normal.multiplyScalar(result.depth));
     this.velocity.addScaledVector(result.normal, -result.normal.dot(this.velocity));
     if (this.__airTrajectoryLocked) { this.__airVelocityX = this.velocity.x; this.__airVelocityZ = this.velocity.z; }
   },
   async calculateOffset() {
-    if (!this.onFloor) return; await new Promise(resolve => requestAnimationFrame(resolve));
-    const raycaster = new THREE.Raycaster(); raycaster.set(this.collider.start, new THREE.Vector3(0, -1, 0));
-    const hits = raycaster.intersectObjects(this.olam.scene.children, true); if (hits.length > 0) this.offset = hits[0].distance;
+    if (!this.onFloor) return;
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    const raycaster = new THREE.Raycaster();
+    raycaster.set(this.collider.start, new THREE.Vector3(0, -1, 0));
+    const hits = raycaster.intersectObjects(this.olam.scene.children, true);
+    if (hits.length > 0) this.offset = hits[0].distance;
   },
   getCapsule() { if (!this.collider) return null; return { radius: this.collider.radius, height: (this.collider.end.y - this.collider.start.y) + (this.collider.radius * 2) }; },
   heesHawvoos(dt) {
@@ -164,25 +154,36 @@ export default {
   _solveDynamicBodies(phase = "unknown") {
     if (this.__spikeColliderDisabled) return false;
     const bodies = this.olam?.dynamicBodies; if (!Array.isArray(bodies) || bodies.length === 0) return false;
-    let supported = false; for (const body of bodies) { if (body?.type !== "movingBlock") continue; const result = solveMovingSolid(body, this); supported ||= Boolean(result?.hit && String(result.type || "").startsWith("top")); }
+    let supported = false;
+    for (const body of bodies) { if (body?.type !== "movingBlock") continue; const result = solveMovingSolid(body, this); supported ||= Boolean(result?.hit && String(result.type || "").startsWith("top")); }
     this.__lastDynamicSolvePhase = phase; return supported;
   },
   _checkNaNAndReset() {
     if (!this.mesh) return false;
     if (finite(this.mesh.position.x) && finite(this.mesh.position.y) && finite(this.mesh.position.z)) return false;
-    quietWarn("B\"H: Player position NaN; resetting.", { was: this.mesh.position.clone() });
-    this.velocity.set(0, 0, 0); clearAirTrajectory(this); this.setPosition(new THREE.Vector3(0, 10, 0)); if (this.olam?.ayin) this.olam.ayin.currentDistance = 5; return true;
+    console.warn("B\"H: Player position NaN; resetting.", { was: this.mesh.position.clone() });
+    this.velocity.set(0, 0, 0); clearAirTrajectory(this); this.setPosition(new THREE.Vector3(0, 10, 0));
+    if (this.olam?.ayin) this.olam.ayin.currentDistance = 5;
+    return true;
   },
   _updateSubSystems(deltaTime) { this.updateRayColor?.(); this.updateHandState?.(); this.updateBlockHighlight?.(); this.updateParticles?.(deltaTime); this.activeObject?.mesh?.userData?.onUpdate?.(deltaTime); },
-  _checkGround() { const hit = bestGroundHit(this); this.onFloor = Boolean(hit && hit.normal.y > steepSlopeY() && hit.distance <= this.collider.radius + 0.35 && hit.distance >= -1.0); this.groundHitResult = hit; if (this.onFloor) clearAirTrajectory(this); },
+  _checkGround() {
+    const hit = bestGroundHit(this);
+    this.onFloor = Boolean(hit && hit.normal.y > steepSlopeY() && hit.distance <= this.collider.radius + 0.35 && hit.distance >= -1.0);
+    this.groundHitResult = hit;
+    if (this.onFloor) clearAirTrajectory(this);
+  },
   _applyPhysicsForces(deltaTime, isWorldBusy) {
     const damping = Math.exp(-20 * deltaTime) - 1;
-    if (!this.onFloor) { if (!isWorldBusy && this.olam) this.velocity.y -= this.olam.GRAVITY * deltaTime; else this.velocity.y = Math.min(0, this.velocity.y); if (!this.__airTrajectoryLocked) { this.velocity.x += this.velocity.x * damping * 0.1; this.velocity.z += this.velocity.z * damping * 0.1; } }
-    else this.velocity.y += this.velocity.y * damping;
+    if (!this.onFloor) {
+      if (!isWorldBusy && this.olam) this.velocity.y -= this.olam.GRAVITY * deltaTime; else this.velocity.y = Math.min(0, this.velocity.y);
+      if (!this.__airTrajectoryLocked) { this.velocity.x += this.velocity.x * damping * 0.1; this.velocity.z += this.velocity.z * damping * 0.1; }
+    } else this.velocity.y += this.velocity.y * damping;
     this.velocity.y = Math.max(this.velocity.y, -50);
   },
   _calculateMovementVelocity(deltaTime = 1 / 60) {
-    const dir = movementDirection(this); if (!this.onFloor && applyLockedAirTrajectory(this)) return;
+    const dir = movementDirection(this);
+    if (!this.onFloor && applyLockedAirTrajectory(this)) return;
     const moving = dir.lengthSq() > 0, gaitScale = this.moving?.running ? numeric(this.runModeScale, 1) : numeric(this.walkModeScale, 0.58);
     const speed = numeric(this.speed, 6) * numeric(this.speedScale, 1) * gaitScale;
     const targetX = moving ? dir.x * speed : 0, targetZ = moving ? dir.z * speed : 0;
@@ -191,16 +192,47 @@ export default {
     this.velocity.x += (targetX - this.velocity.x) * alpha; this.velocity.z += (targetZ - this.velocity.z) * alpha;
     if (!moving && Math.abs(this.velocity.x) + Math.abs(this.velocity.z) < 0.0004) { this.velocity.x *= 0.5; this.velocity.z *= 0.5; }
   },
-  _handleJump() { if (this.onFloor && this.moving.jump) { this.jumped = true; this.onFloor = false; captureAirTrajectory(this); this.velocity.y = this.jumpHeight; this.__supportedByDynamicBody = null; this.__dynamicCarrierFrames = 0; if (!this.didJump) { this.didJump = true; this.__lastAnimKey = null; this.ayshPeula("jumped", this); } } else if (this.didJump && !this.moving.jump) this.didJump = false; },
-  _executeMovement(deltaTime) { const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime); const steps = Math.min(10, Math.ceil(deltaPosition.length() / (this.collider.radius * 0.5))); if (!this.olam?.worldOctree) return this.collider.translate(deltaPosition); const stepDelta = steps > 1 ? deltaPosition.clone().divideScalar(steps) : deltaPosition; for (let i = 0; i < Math.max(1, steps); i += 1) { this.collider.translate(stepDelta); this.collisions(); } },
-  _resolveGroundCollision() { const hit = bestGroundHit(this); this.onFloor = Boolean(hit && hit.normal.y > steepSlopeY() && hit.distance <= this.collider.radius + 0.45); if (!this.onFloor || this.velocity.y > 0) return; const depth = this.collider.radius - hit.distance; if (depth > -0.02) this.collider.translate(hit.normal.clone().multiplyScalar(Math.max(0, depth))); this.velocity.projectOnPlane(hit.normal); this.velocity.y = 0; clearAirTrajectory(this); },
-  _checkAbyss() { const law = terrainLawHit(this); if (law && this.collider.start.y < law.position.y + this.collider.radius - 2) { quietWarn("B\"H | PLAYER_TERRAIN_LAW_RECOVERY", { fromY: this.collider.start.y, groundY: law.position.y }); this.velocity.set(0, 0, 0); clearAirTrajectory(this); this.setPosition(new THREE.Vector3(this.collider.start.x, law.position.y, this.collider.start.z)); return; } if (this.collider?.start?.y >= -100) return; quietLog("B\"H: Player fell into abyss. Respawning."); this.velocity.set(0, 0, 0); clearAirTrajectory(this); this.setPosition(new THREE.Vector3(0, 10, 0)); },
+  _handleJump() {
+    if (this.onFloor && this.moving.jump) { this.jumped = true; this.onFloor = false; captureAirTrajectory(this); this.velocity.y = this.jumpHeight; this.__supportedByDynamicBody = null; this.__dynamicCarrierFrames = 0; if (!this.didJump) { this.didJump = true; this.__lastAnimKey = null; this.ayshPeula("jumped", this); } }
+    else if (this.didJump && !this.moving.jump) this.didJump = false;
+  },
+  _executeMovement(deltaTime) {
+    const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
+    const steps = Math.min(10, Math.ceil(deltaPosition.length() / (this.collider.radius * 0.5)));
+    if (!this.olam?.worldOctree) return this.collider.translate(deltaPosition);
+    const stepDelta = steps > 1 ? deltaPosition.clone().divideScalar(steps) : deltaPosition;
+    for (let i = 0; i < Math.max(1, steps); i += 1) { this.collider.translate(stepDelta); this.collisions(); }
+  },
+  _resolveGroundCollision() {
+    const hit = bestGroundHit(this);
+    this.onFloor = Boolean(hit && hit.normal.y > steepSlopeY() && hit.distance <= this.collider.radius + 0.45);
+    if (!this.onFloor || this.velocity.y > 0) return;
+    const depth = this.collider.radius - hit.distance;
+    if (depth > -0.02) this.collider.translate(hit.normal.clone().multiplyScalar(Math.max(0, depth)));
+    this.velocity.projectOnPlane(hit.normal); this.velocity.y = 0; clearAirTrajectory(this);
+  },
+  _checkAbyss() {
+    const law = terrainLawHit(this);
+    if (law && this.collider.start.y < law.position.y + this.collider.radius - 2) {
+      console.warn("B\"H | PLAYER_TERRAIN_LAW_RECOVERY", { fromY: this.collider.start.y, groundY: law.position.y });
+      this.velocity.set(0, 0, 0); clearAirTrajectory(this); this.setPosition(new THREE.Vector3(this.collider.start.x, law.position.y, this.collider.start.z)); return;
+    }
+    if (this.collider?.start?.y >= -100) return;
+    console.log("B\"H: Player fell into abyss. Respawning."); this.velocity.set(0, 0, 0); clearAirTrajectory(this); this.setPosition(new THREE.Vector3(0, 10, 0));
+  },
   _updateAnimationState(deltaTime) {
     const rotationSpeed = this.rotationSpeed * deltaTime; this.isTurning = false;
     if (this.moving.turningLeft || this.moving.turningRight) { if (!this.isWalking && this.onFloor) { setAnim(this, this.moving.turningLeft ? "left turn" : "right turn"); this.isTurning = true; } this.rotation.y = normAngle(this.rotation.y + (this.moving.turningLeft ? rotationSpeed : -rotationSpeed)); this.ayshPeula("rotate", this.rotation.y); }
-    if (this.onFloor) { if (this.jumped && !this.moving.jump) { this.jumped = false; if (!this.hitFloor) { this.hitFloor = true; this.__lastAnimKey = null; this.ayshPeula("hit floor", this); } } if (this.isWalking) { setAnim(this, "run"); if (!this.startedWalking) { this.startedWalking = true; this.ayshPeula("started walking", this); } } else if (!this.isTurning) setAnim(this, "idle"); if (!this.isWalking && this.startedWalking) { this.startedWalking = false; this.ayshPeula("stopped walking", this); } this.fallingFrames = 0; return; }
+    if (this.onFloor) {
+      if (this.jumped && !this.moving.jump) { this.jumped = false; if (!this.hitFloor) { this.hitFloor = true; this.__lastAnimKey = null; this.ayshPeula("hit floor", this); } }
+      if (this.isWalking) { setAnim(this, "run"); if (!this.startedWalking) { this.startedWalking = true; this.ayshPeula("started walking", this); } } else if (!this.isTurning) setAnim(this, "idle");
+      if (!this.isWalking && this.startedWalking) { this.startedWalking = false; this.ayshPeula("stopped walking", this); }
+      this.fallingFrames = 0; return;
+    }
     if (this.startedWalking) { this.startedWalking = false; this.ayshPeula("stopped walking", this); }
-    if (this.velocity.y > 0 && this.jumped) { this.fallingFrames = 0; setAnim(this, "jump", { loop: false }); } else if (this.velocity.y < -9) { this.fallingFrames = 0; setAnim(this, "falling"); } else if (!this.jumped && this.velocity.y < -3 && ++this.fallingFrames > 14) setAnim(this, "falling");
+    if (this.velocity.y > 0 && this.jumped) { this.fallingFrames = 0; setAnim(this, "jump", { loop: false }); }
+    else if (this.velocity.y < -9) { this.fallingFrames = 0; setAnim(this, "falling"); }
+    else if (!this.jumped && this.velocity.y < -3 && ++this.fallingFrames > 14) setAnim(this, "falling");
   },
   _syncMesh(deltaTime) { syncVisual(this, deltaTime); }
 };

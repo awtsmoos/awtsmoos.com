@@ -1,28 +1,23 @@
 /**
  * B"H
- * Clean hero-first fighter renderer.
+ * V3-only fighter renderer.
  *
- * Chapter 215: the old noisy effects step back. Labels remain, shields remain,
- * but the pixel storm no longer devours the fighter during hits.
+ * Chapter 230: old capsule visuals are not drawn. The new sculpted v3 hero is
+ * the primary body; effects are quiet; labels stay small and above.
  */
 import { fighterColor } from './fighter/colors.js';
-import { renderLanguage } from './fighter/bodyLanguage.js';
 import { drawLabels } from './fighter/labels.js';
-import { drawChargeAura, drawDangerAura, drawDodgeStreak, drawShield } from './fighter/auras.js';
-import { drawHeroFighter } from './fighter/hero/renderer.js';
+import { drawShield } from './fighter/auras.js';
+import { drawCharacter } from './v3/character/CharacterRenderer.js';
 
 export function drawFighters(ctx, fighters) {
-  for (const fighter of fighters) drawFighter(ctx, fighter);
+  for (const f of fighters) drawFighter(ctx, f);
 }
 
 function drawFighter(ctx, f) {
   if (f.dead || f.hidden || f.respawnTimer) return;
   const color = fighterColor(f);
-  const lang = renderLanguage(f);
-  if (f.chargeGlow && !f.rapidAttack) drawChargeAura(ctx, f, color);
-  if (f.danger || lang.panic > 0.72) drawDangerAura(ctx, f);
-  if (f.airDodge) drawDodgeStreak(ctx, f, color);
-  drawHeroFighter(ctx, f, color);
+  drawCharacter(ctx, f, color);
   drawLabels(ctx, f);
   if (f.blocking) drawShield(ctx, f);
 }

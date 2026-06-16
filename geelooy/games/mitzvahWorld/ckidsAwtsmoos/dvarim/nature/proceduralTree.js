@@ -1,4 +1,4 @@
 // B"H
-/** @file currentApprovedTreeAlias.js @description Removed legacy body; delegates to approved tree wrapper. */
-import VillageHeroTree from "./VillageHeroTree.js?v=only-geelooy-libs-hero-tree-20260614-bh1";
+/** @file proceduralTree.js @description Legacy class name preserved; implementation is procedural-core tree wrapper only. */
+import VillageHeroTree from "./VillageHeroTree.js?v=exclusive-procedural-core-tree-20260614-bh3";
 export default VillageHeroTree;

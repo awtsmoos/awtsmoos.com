@@ -1,13 +1,11 @@
 // B"H
 /**
  * B"H
- * Chapter 159: Each Model River Was Given A Measured Shore.
+ * Chapter 19: More rivers joined the same guarded sea.
  *
- * Provider definitions are data, not scattered conditionals. Context windows,
- * endpoints, keys, models, and stream quirks all live here so every caller can
- * trim memory and render progress with the same truth. ChatGPT browser mode is
- * a local tunnel provider: it has no API key and speaks through the user's
- * manually authenticated debug Chrome profile.
+ * Provider definitions are data, not scattered conditionals. OpenAI-compatible
+ * providers can join the Awtsmoos tool bridge immediately; non-compatible
+ * protocols should receive dedicated adapters instead of being faked.
  */
 export const AI_PROVIDERS = Object.freeze({
   minimax: {
@@ -19,7 +17,8 @@ export const AI_PROVIDERS = Object.freeze({
     endpoint: "https://api.minimax.io/v1/chat/completions",
     defaultModel: "MiniMax-M2.7",
     contextWindow: 196000,
-    extraBody: { reasoning_split: true }
+    extraBody: { reasoning_split: true },
+    openAICompatible: true
   },
   openrouter: {
     id: "openrouter",
@@ -29,7 +28,19 @@ export const AI_PROVIDERS = Object.freeze({
     storageKey: "openrouter",
     endpoint: "https://openrouter.ai/api/v1/chat/completions",
     defaultModel: "openai/gpt-4o-mini",
-    contextWindow: 128000
+    contextWindow: 128000,
+    openAICompatible: true
+  },
+  deepseek: {
+    id: "deepseek",
+    name: "DeepSeek",
+    apiKeyUrl: "https://platform.deepseek.com/api_keys",
+    envKey: "DEEPSEEK_API_KEY",
+    storageKey: "deepseek",
+    endpoint: "https://api.deepseek.com/chat/completions",
+    defaultModel: "deepseek-chat",
+    contextWindow: 64000,
+    openAICompatible: true
   },
   groq: {
     id: "groq",
@@ -39,7 +50,8 @@ export const AI_PROVIDERS = Object.freeze({
     storageKey: "groq",
     endpoint: "https://api.groq.com/openai/v1/chat/completions",
     defaultModel: "llama-3.3-70b-versatile",
-    contextWindow: 128000
+    contextWindow: 128000,
+    openAICompatible: true
   },
   chatgpt: {
     id: "chatgpt",
@@ -65,21 +77,10 @@ export const AI_PROVIDERS = Object.freeze({
   }
 });
 
-/**
- * B"H — returns provider metadata or throws a clear error.
- * @param {string} id Provider id.
- * @returns {object} Provider config.
- */
 export function getProvider(id = "openrouter") {
   const provider = AI_PROVIDERS[id];
   if (!provider) throw new Error(`Unknown AI provider: ${id}`);
   return provider;
 }
 
-/**
- * B"H — lists provider configs for settings UIs and tests.
- * @returns {object[]} Provider configs.
- */
-export function listProviders() {
-  return Object.values(AI_PROVIDERS);
-}
+export function listProviders() { return Object.values(AI_PROVIDERS); }

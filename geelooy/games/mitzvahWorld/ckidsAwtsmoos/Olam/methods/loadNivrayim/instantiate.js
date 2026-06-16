@@ -20,7 +20,7 @@ function logMissing(type) {
 }
 
 function logMezuzah(stage, data = {}) {
-  console.info('B"H | MEZUZAH_INSTANTIATE_DIRECT', { stage, ...data });
+  if (globalThis.__AWTSMOOS_DOOR_LOGS__ === true) console.info('B"H | MEZUZAH_INSTANTIATE_DIRECT', { stage, ...data });
 }
 
 function makeNivra(context, type, options) {

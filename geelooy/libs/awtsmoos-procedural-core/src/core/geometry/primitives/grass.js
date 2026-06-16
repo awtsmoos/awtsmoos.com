@@ -1,76 +1,53 @@
-
 // B"H
 /**
  * @file grass.js
- * @brief Generates instanced grass fields constrained strictly to defined patches.
+ * @brief Deterministic curved multi-blade grass tufts for living terrain fields.
  */
-export function createGrassFieldMesh(params) {
-    const count = params.count || 1000;
-    const width = params.width || 20; 
-    const bladeW = params.bladeWidth || 0.1;
-    const bladeH = params.bladeHeight || 1.0;
-    const seed = params.seed || 777;
-    const patches = params.patches ||[];
-
-    const hash = (x, z) => {
-        const h = Math.sin(x * 12.9898 + z * 78.233 + seed) * 43758.5453;
-        return h - Math.floor(h);
-    };
-
-    const hw = bladeW / 2;
-    const positions =[ -hw, 0, 0, hw, 0, 0, 0, bladeH, 0 ];
-    const indices = [0, 1, 2];
-    const normals =[ 0, 0, 1, 0, 0, 1, 0, 0, 1 ];
-    const colors =[ 0,1,0,1, 0,1,0,1, 0,1,0,1 ];
-
-    const instanceOffsets = [];
-    const instanceScales =[];
-    const instanceRotations =[];
-    
-    let generated = 0;
-    let attempts = 0;
-    
-    // B"H - Spatial Distibution Engine
-    while (generated < count && attempts < count * 15) {
-        attempts++;
-        
-        let x, z;
-        
-        if (patches.length > 0) {
-            // Pick a random patch to spawn in
-            const patch = patches[Math.floor(Math.random() * patches.length)];
-            const px = patch[0], pz = patch[2], radius = patch[3];
-            
-            // Random point strictly within the circular patch
-            const r = radius * Math.sqrt(Math.random());
-            const theta = Math.random() * 2 * Math.PI;
-            x = px + r * Math.cos(theta);
-            z = pz + r * Math.sin(theta);
-            
-            // Taper the edges with noise so the meadow fades into dirt naturally
-            const distRatio = r / radius;
-            if (distRatio > 0.6 && hash(x*0.1, z*0.1) < (distRatio - 0.5)*2.5) {
-                continue; 
-            }
-        } else {
-            // Fallback
-            x = (Math.random() - 0.5) * width;
-            z = (Math.random() - 0.5) * width;
-            if (hash(x * 0.1, z * 0.1) < 0.5) continue;
-        }
-
-        instanceOffsets.push(x, 0, z);
-        instanceScales.push(0.7 + Math.random() * 0.6);
-        instanceRotations.push(Math.random() * Math.PI * 2);
-        generated++;
-    }
-
-    return {
-        positions, indices, normals, colors,
-        instanceOffsets: new Float32Array(instanceOffsets),
-        instanceScales: new Float32Array(instanceScales),
-        instanceRotations: new Float32Array(instanceRotations),
-        instanceCount: generated,
-        drawMode: 'TRIANGLES'
-    };
+const TAU = Math.PI * 2;
+const fract = v => v - Math.floor(v);
+function rand(a, b, s = 1) { return fract(Math.sin(a * 12.9898 + b * 78.233 + s * 37.719) * 43758.5453); }
+function blade(out, width, height, bend, yaw) {
+  const start = out.positions.length / 3, hw = width * .5;
+  const c = Math.cos(yaw), s = Math.sin(yaw);
+  const push = (x, y, z, u, v) => {
+    const bx = x + bend * y * y, bz = z;
+    out.positions.push(bx * c - bz * s, y * height, bx * s + bz * c);
+    out.normals.push(-bend, .7, .25); out.uvs.push(u, v);
+  };
+  push(-hw, 0, 0, 0, 0); push(hw, 0, 0, 1, 0);
+  push(-hw * .55, .58, .01, 0, .58); push(hw * .55, .58, .01, 1, .58);
+  push(0, 1, .018, .5, 1);
+  out.indices.push(start, start + 1, start + 2, start + 1, start + 3, start + 2, start + 2, start + 3, start + 4);
+}
+function tuftGeometry(blades = 7) {
+  const out = { positions: [], normals: [], uvs: [], indices: [], colors: [] };
+  for (let i = 0; i < blades; i++) {
+    blade(out, .05 + rand(i,1)*.055, .75 + rand(i,2)*.55, (rand(i,3)-.5)*.34, i / blades * TAU + rand(i,4));
+  }
+  for (let i = 0; i < out.positions.length / 3; i++) out.colors.push(.25, .75, .18, 1);
+  return out;
+}
+function pickPoint(patches, width, i, seed) {
+  if (!patches.length) return [(rand(i,seed)-.5)*width, (rand(i,seed+7)-.5)*width];
+  const p = patches[Math.floor(rand(i,seed+2) * patches.length) % patches.length];
+  const r = p[3] * Math.sqrt(rand(i, seed + 3));
+  const a = rand(i, seed + 4) * TAU;
+  return [p[0] + Math.cos(a) * r, p[2] + Math.sin(a) * r];
+}
+export function createGrassFieldMesh(params = {}) {
+  const count = params.count || 1000, width = params.width || 20, seed = params.seed || 777;
+  const geometry = tuftGeometry(params.blades || 7), patches = params.patches || [];
+  const instanceOffsets = [], instanceScales = [], instanceRotations = [], instanceBends = [];
+  let generated = 0, attempts = 0;
+  while (generated < count && attempts < count * 20) {
+    attempts++;
+    const [x, z] = pickPoint(patches, width, attempts, seed);
+    if (patches.length && rand(Math.floor(x*.2), Math.floor(z*.2), seed) < .08) continue;
+    instanceOffsets.push(x, 0, z);
+    instanceScales.push(.72 + rand(attempts, seed + 6) * .88);
+    instanceRotations.push(rand(attempts, seed + 8) * TAU);
+    instanceBends.push(.4 + rand(attempts, seed + 9) * .9);
+    generated++;
+  }
+  return { ...geometry, instanceOffsets:new Float32Array(instanceOffsets), instanceScales:new Float32Array(instanceScales), instanceRotations:new Float32Array(instanceRotations), instanceBends:new Float32Array(instanceBends), instanceCount:generated, drawMode:"TRIANGLES" };
 }

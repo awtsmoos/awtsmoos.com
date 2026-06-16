@@ -1,2 +1,0 @@
-geelooy/games/sulam-ha-sod/index.html
-geelooy/games/tests/1/index.html

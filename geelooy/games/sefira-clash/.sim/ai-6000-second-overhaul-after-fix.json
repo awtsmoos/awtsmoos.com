@@ -1,0 +1,30 @@
+{
+  "map": "beit-midrash-bouncer",
+  "ok": true,
+  "failures": [],
+  "warnings": [],
+  "aiDriven": true,
+  "states": {
+    "Chase": 6815,
+    "Recover": 489,
+    "PlatformSeek": 3302,
+    "Attack": 4338,
+    "ForceApproach": 1731
+  },
+  "opportunities": {
+    "Chase": 6815,
+    "Recovery": 489,
+    "LandingIntercept": 3302,
+    "GuaranteedAttack": 4338,
+    "ForceEngage": 1731
+  },
+  "longestNoPressureWindow": 114,
+  "longestSameOpportunityWindow": 511,
+  "attackCommands": 4709,
+  "activeAttackFrames": 4724,
+  "damagePerMinute": 82,
+  "koCount": 12,
+  "maxParticles": 0,
+  "framesRun": 6000,
+  "simMs": 6011
+}

@@ -1,11 +1,8 @@
 // B"H
-/**
- * @file axe.js
- * @description Chapter 1014: axe recognizes only current library hero trees.
- */
+/** @file axe.js @description Axe recognizes only procedural-core tree vessels. */
 import Tool from "../tool.js";
 import * as THREE from '/games/scripts/build/three.module.js';
-function isCurrentTreeObject(obj) { let n = obj; while (n) { if (n.userData?.advancedGeelooyLibsTree || n.userData?.heroTree || n.userData?.generatedHeroTree || n.type === 'villageHeroTree') return n; n = n.parent; } return null; }
+function isCurrentTreeObject(obj) { let n = obj; while (n) { const data = n.userData || {}; if (data.proceduralCoreTree && data.onlyApprovedTreeSource) return n; if (n.type === 'villageHeroTree' && data.onlyApprovedTreeSource) return n; n = n.parent; } return null; }
 export default class Axe extends Tool {
   constructor(op, olam) { super(op, olam); this.olam = olam; if (!op.golem) this.golem = { guf: { BoxGeometry: [0.1, 1.5, 0.1] }, toyr: { MeshStandardMaterial: { color: "#4e342e" } }, parts: [{ golem: { BoxGeometry: [0.6, 0.4, 0.1] }, toyr: { MeshStandardMaterial: { color: "#9e9e9e", metalness: 0.8, roughness: 0.2 } }, offset: { x: 0.2, y: 0.6, z: 0 } }] }; }
   async shoot() { const player = this.olam.player || this.olam.chossid; if (!player) return; const ray = new THREE.Raycaster(player.getRayStart(), player.getRayDirection()); const hit = ray.intersectObjects(this.olam.scene.children, true).find(h => isCurrentTreeObject(h.object)); if (!hit || hit.distance >= 8) return; const treeObj = isCurrentTreeObject(hit.object); if (player.spawnHebrewParticles) player.spawnHebrewParticles(hit.point, 10); this.olam.playSound?.("awtsmoos://dingSound", { pitch: 0.5 }); treeObj.userData.treeHp = (treeObj.userData.treeHp ?? 3) - 1; if (treeObj.userData.treeHp <= 0) { this.olam.ayshPeula("ui event", "effectsOverlay", { text: "WOOD GATHERED", color: "#8d6e63" }); this.olam.addObject?.("Collectable", { itemId: "wood_log", itemName: "Cedar Log", itemType: "resource", amount: 3, position: hit.point.clone().add(new THREE.Vector3(0, 1, 0)), color: "#5d4037", meshType: "box", sellValue: 15 }); treeObj.visible = false; } else this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Chop...", color: "#a1887f" }); }

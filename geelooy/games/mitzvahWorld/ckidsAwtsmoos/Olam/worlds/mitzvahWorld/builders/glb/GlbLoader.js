@@ -1,49 +1,15 @@
+// B"H
 /**
- * @fileoverview
- * B"H
- * The Loader of Vessels now remembers the first breath by path. When the
- * Awtsmoos allows a GLB to descend once into the scene, later callers receive
- * that same promise instead of tearing open another network gate.
- *
- * @module GlbLoader
+ * @file GlbLoader.js
+ * @description Shared GLB promise cache without logical assignment; one vessel, many callers.
  */
-
-import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
-
-/** @constant {GLTFLoader} _LOADER - Shared loader instance. */
-const _LOADER = new GLTFLoader();
-
-/** @constant {Map<string, Promise<import('three').Group>>} GLB_PROMISES */
-const GLB_PROMISES = globalThis.__AWTSMOOS_GLB_PROMISES ||= new Map();
-
-/**
- * B"H
- * Loads a GLB path once per runtime and returns the cached promise after that.
- *
- * @param {string} path - URL path to the GLB file.
- * @returns {Promise<import('three').Group>} Loaded scene root with animations.
- */
+import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js";
+const LOADER = new GLTFLoader();
+function cache() { if (typeof globalThis === "undefined") return new Map(); if (!globalThis.__AWTSMOOS_GLB_PROMISES) globalThis.__AWTSMOOS_GLB_PROMISES = new Map(); return globalThis.__AWTSMOOS_GLB_PROMISES; }
+function sceneFrom(gltf) { const root = gltf && gltf.scene ? gltf.scene : gltf && gltf.scenes && gltf.scenes[0] ? gltf.scenes[0] : null; if (!root) throw new Error("GLB loaded without scene root"); root.animations = gltf.animations || []; return root; }
 export function loadGlb(path) {
-  if (GLB_PROMISES.has(path)) return GLB_PROMISES.get(path);
-
-  const promise = new Promise((resolve, reject) => {
-    _LOADER.load(
-      path,
-      (gltf) => {
-        const root = gltf.scene;
-        root.animations = gltf.animations || [];
-        resolve(root);
-      },
-      () => {},
-      (err) => {
-        GLB_PROMISES.delete(path);
-        reject(err);
-      },
-    );
-  });
-
-  GLB_PROMISES.set(path, promise);
-  return promise;
+  const promises = cache(); if (promises.has(path)) return promises.get(path);
+  const promise = new Promise((resolve, reject) => { LOADER.load(path, gltf => resolve(sceneFrom(gltf)), () => {}, error => { promises.delete(path); reject(error); }); });
+  promises.set(path, promise); return promise;
 }
-
 export default loadGlb;

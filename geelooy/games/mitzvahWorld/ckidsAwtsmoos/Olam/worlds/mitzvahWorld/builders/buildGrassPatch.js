@@ -1,66 +1,18 @@
-/**
- * B"H
- * ════════════════════════════════════════════════════════════════════════
- *   THE BLADE OF PRAISE — buildGrassPatch.js
- *   ──────────────────────────────────────────
- *   Enhanced with realistic 3D grass blade geometry.
- *   Each blade is a tapered, V-shaped mesh that catches the light.
- * ════════════════════════════════════════════════════════════════════════
- */
-
-import * as THREE from '/games/scripts/build/three.module.js';
-import { createGrassMaterial } from './shaders/GrassShader.js';
-import { NATURE_RULES } from '../data/manifests/NatureRules.js';
-
+// B"H
+/** @file buildGrassPatch.js @description Deterministic procedural-core tuft grass patch, no random shimmer and no optional parser paths. */
+import * as THREE from "/games/scripts/build/three.module.js";
+import { createGrassMaterial } from "./shaders/GrassShader.js";
+import { NATURE_RULES } from "../data/manifests/NatureRules.js";
+import { createGrassFieldMesh } from "/libs/awtsmoos-procedural-core/src/core/geometry/primitives/grass.js";
+function propsOf(def) { return def && def.props ? def.props : {}; }
+function positionOf(def) { return def && Array.isArray(def.position) ? def.position : [0,0,0]; }
+function bindWind(olam, mesh) { if (!olam || !olam.tzimtzum || typeof olam.tzimtzum.onUpdate !== "function") return; const speed = NATURE_RULES.grass.animation.swaySpeed || 1; olam.tzimtzum.onUpdate((t, dt) => { if (mesh.material && mesh.material.uniforms && mesh.material.uniforms.time) mesh.material.uniforms.time.value += dt * speed; }); }
 export async function buildGrassPatch(scene, physics, def, olam = null) {
-  const { count = 800, radius = 60 } = def.props || {};
-  const [px, py, pz] = def.position || [0, 0, 0];
-
-  // ── 1. Create a Realistic Grass Blade Geometry ──
-  const shape = new THREE.Shape();
-  shape.moveTo(-0.05, 0);
-  shape.lineTo(0.05, 0);
-  shape.lineTo(0.02, 0.6);
-  shape.lineTo(-0.02, 0.6);
-  shape.closePath();
-
-  const geo = new THREE.ExtrudeGeometry(shape, {
-    depth: 0.02,
-    bevelEnabled: false
-  });
-  geo.rotateX(Math.PI / 2); // Lay it flat so it stands up after instance rotation
-  geo.translate(0, 0, 0.3); // Pivot at the base
-
-  const mat = createGrassMaterial();
-  const mesh = new THREE.InstancedMesh(geo, mat, count);
-  mesh.position.set(px, py, pz);
-
+  const props = propsOf(def), count = props.count || 1200, radius = props.radius || 60, seed = props.seed || 770;
+  const pos = positionOf(def), data = createGrassFieldMesh({ count, seed, patches:[[0,0,0,radius]], blades:7 });
+  const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(data.positions, 3)); geo.setIndex(data.indices); geo.computeVertexNormals();
+  const mesh = new THREE.InstancedMesh(geo, createGrassMaterial(), data.instanceCount); mesh.name = def.id || "deterministic_procedural_core_grass_patch"; mesh.position.set(pos[0] || 0, pos[1] || 0, pos[2] || 0); mesh.frustumCulled = true;
   const dummy = new THREE.Object3D();
-  for (let i = 0; i < count; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const r = Math.sqrt(Math.random()) * radius;
-    const x = Math.cos(angle) * r;
-    const z = Math.sin(angle) * r;
-
-    dummy.position.set(x, 0, z);
-    dummy.rotation.set(
-      (Math.random() - 0.5) * 0.2, // Slight tilt
-      Math.random() * Math.PI,
-      0
-    );
-    dummy.scale.setScalar(0.4 + Math.random() * 1.2);
-    dummy.updateMatrix();
-    mesh.setMatrixAt(i, dummy.matrix);
-  }
-
-  mesh.instanceMatrix.needsUpdate = true;
-
-  if (olam?.tzimtzum) {
-    const { swaySpeed = 1.0 } = NATURE_RULES.grass.animation;
-    olam.tzimtzum.onUpdate((t, dt) => {
-      if (mat.uniforms?.time) mat.uniforms.time.value += dt * swaySpeed;
-    });
-  }
-
-  return [mesh];
+  for (let i=0; i<data.instanceCount; i++) { dummy.position.set(data.instanceOffsets[i*3], 0, data.instanceOffsets[i*3+2]); dummy.rotation.set(0, data.instanceRotations[i], 0); dummy.scale.setScalar(data.instanceScales[i]); dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix); }
+  mesh.instanceMatrix.needsUpdate = true; bindWind(olam, mesh); return [mesh];
 }

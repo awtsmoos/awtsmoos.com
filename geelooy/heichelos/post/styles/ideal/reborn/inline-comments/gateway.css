@@ -1,8 +1,7 @@
 /* B"H
- * Chapter 157: The gateway is protected from verse-scale thunder.
- * These selectors intentionally outrank the reader's Hebrew section rules.
- * Inline headers are small signposts; only the comment body may approach the
- * size of the holy text.
+ * Chapter 295: The gateway becomes a small mezuzah, not a billboard.
+ * The Awtsmoos leaves the inline command visible, tappable, and dignified while
+ * cutting away the ceremonial air that hid the comment below the fold.
  */
 
 .post-reader-localized-context .section.heb .inline-summary-btn,
@@ -12,18 +11,15 @@
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     justify-items: stretch !important;
-    gap: .55rem !important;
+    gap: .32rem !important;
     width: 100% !important;
     min-height: 0 !important;
-    padding: clamp(.75rem, 3vw, 1rem) !important;
-    border: 1px solid rgba(244, 114, 182, .34) !important;
-    border-radius: 22px !important;
-    background:
-        radial-gradient(circle at 0% 0%, rgba(139, 92, 246, .24), transparent 10rem),
-        radial-gradient(circle at 100% 100%, rgba(41, 213, 238, .13), transparent 10rem),
-        linear-gradient(180deg, rgba(8, 15, 31, .96), rgba(4, 8, 18, .98)) !important;
+    padding: clamp(.5rem, 1.8vw, .68rem) clamp(.62rem, 2.2vw, .82rem) !important;
+    border: 1px solid rgba(244, 114, 182, .26) !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, rgba(8, 15, 31, .94), rgba(4, 8, 18, .98)) !important;
     color: var(--inline-text-white) !important;
-    box-shadow: 0 18px 48px var(--inline-shadow-purple), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    box-shadow: 0 10px 26px rgba(79,70,229,.2), inset 0 1px 0 rgba(255,255,255,.07) !important;
     text-align: center !important;
 }
 
@@ -34,9 +30,11 @@
 
 .post-reader-localized-context .section.heb .awtsmoos-inline-trigger-copy,
 .post-reader-localized-context .awtsmoos-inline-trigger-copy {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: .38rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .22rem .5rem !important;
     width: 100% !important;
     min-width: 0 !important;
 }
@@ -46,51 +44,43 @@
     justify-self: center !important;
     color: #ffffff !important;
     font-family: var(--font-ui) !important;
-    font-size: var(--post-inline-label-size, 12px) !important;
+    font-size: clamp(12px, 2.8vw, 14px) !important;
     font-weight: 950 !important;
-    line-height: 1.15 !important;
-    letter-spacing: .12em !important;
+    line-height: 1.05 !important;
+    letter-spacing: .08em !important;
     text-transform: uppercase !important;
-    text-shadow: 0 6px 16px rgba(0,0,0,.5) !important;
+    text-shadow: none !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
 }
 
 .post-reader-localized-context .section.heb .awtsmoos-inline-trigger-subtitle,
-.post-reader-localized-context .awtsmoos-inline-trigger-subtitle {
+.post-reader-localized-context .awtsmoos-inline-trigger-subtitle,
+.post-reader-localized-context .section.heb .awtsmoos-inline-trigger-meta,
+.post-reader-localized-context .awtsmoos-inline-trigger-meta {
     justify-self: center !important;
     color: var(--inline-edge-gold) !important;
     font-family: var(--font-ui) !important;
-    font-size: var(--post-inline-meta-size, 12px) !important;
-    font-weight: 900 !important;
-    line-height: 1.2 !important;
+    font-size: clamp(10px, 2.5vw, 12px) !important;
+    font-weight: 850 !important;
+    line-height: 1.12 !important;
 }
 
 .post-reader-localized-context .section.heb .awtsmoos-inline-trigger-preview,
 .post-reader-localized-context .awtsmoos-inline-trigger-preview {
     direction: ltr !important;
     width: 100% !important;
-    padding: .65rem .85rem !important;
-    border: 1px solid rgba(255,255,255,.12) !important;
-    border-radius: 16px !important;
-    background: rgba(2,6,23,.52) !important;
+    padding: .42rem .6rem !important;
+    border: 1px solid rgba(255,255,255,.1) !important;
+    border-radius: 12px !important;
+    background: rgba(2,6,23,.42) !important;
     color: var(--inline-text-white) !important;
     font-family: var(--font-ui) !important;
-    font-size: var(--post-inline-summary-size, 13px) !important;
-    font-weight: 900 !important;
-    line-height: 1.28 !important;
+    font-size: clamp(11px, 2.7vw, 13px) !important;
+    font-weight: 820 !important;
+    line-height: 1.22 !important;
     text-align: center !important;
-    text-shadow: 0 7px 18px rgba(0,0,0,.5) !important;
+    text-shadow: none !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
-}
-
-.post-reader-localized-context .section.heb .awtsmoos-inline-trigger-meta,
-.post-reader-localized-context .awtsmoos-inline-trigger-meta {
-    justify-self: center !important;
-    color: var(--inline-text-blue) !important;
-    font-family: var(--font-ui) !important;
-    font-size: var(--post-inline-meta-size, 12px) !important;
-    font-weight: 850 !important;
-    line-height: 1.28 !important;
 }

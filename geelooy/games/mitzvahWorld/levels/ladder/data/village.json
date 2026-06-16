@@ -61,37 +61,58 @@
     "ProceduralTerrain": [
       {
         "name": "stable_physics_terrain_lawful_textured_ground",
-        "width": 190,
-        "depth": 190,
-        "segments": 72,
-        "collisionSegments": 12,
+        "width": 520,
+        "depth": 420,
+        "segments": 112,
+        "collisionSegments": 20,
         "isSolid": true,
         "noSafetySlab": true,
         "textureType": "safegrass",
-        "textureSize": 512,
-        "microNoise": 0.026,
+        "textureSize": 384,
+        "microNoise": 0.055,
         "mobileTone": "soft-clear-meadow-green",
         "points": [
           {
-            "x": -95,
-            "z": -95,
+            "x": -260,
+            "z": -210,
             "y": 0
           },
           {
-            "x": 95,
-            "z": -95,
+            "x": 260,
+            "z": -210,
             "y": 0
           },
           {
-            "x": 95,
-            "z": 95,
+            "x": 260,
+            "z": 210,
             "y": 0
           },
           {
-            "x": -95,
-            "z": 95,
+            "x": -260,
+            "z": 210,
             "y": 0
           }
+        ],
+        "hills": [
+          { "x": -175, "z": 92, "height": 17, "radius": 78 },
+          { "x": 168, "z": 105, "height": 23, "radius": 86 },
+          { "x": -198, "z": -126, "height": 12, "radius": 72 },
+          { "x": 188, "z": -132, "height": 19, "radius": 82 },
+          { "x": 26, "z": 174, "height": 9, "radius": 65 }
+        ],
+        "plateaus": [
+          { "x": 0, "z": 4, "rx": 72, "rz": 58, "y": 0 },
+          { "x": -118, "z": -48, "rx": 35, "rz": 28, "y": 1.2 }
+        ],
+        "roads": [
+          { "width": 11, "feather": 10, "flatten": 0.88, "points": [[-190, 78], [-110, 48], [-42, 24], [0, 8], [68, -12], [158, -58]] },
+          { "width": 8, "feather": 7, "flatten": 0.8, "points": [[-34, -164], [-22, -82], [-8, -12], [18, 78], [44, 156]] }
+        ],
+        "dirtPatches": [
+          { "x": 0, "z": 8, "radius": 34, "strength": 0.48 },
+          { "x": -122, "z": -48, "radius": 28, "strength": 0.72 },
+          { "x": 112, "z": 46, "radius": 31, "strength": 0.58 },
+          { "x": -72, "z": 108, "radius": 24, "strength": 0.42 }
         ],
         "position": {
           "x": 0,

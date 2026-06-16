@@ -1,3 +1,0 @@
-geelooy/apps/lyric-sync/index.html
-geelooy/apps/merkava-native-browser/samples/browser-shell.html
-geelooy/apps/merkava-native-browser/samples/frontend.html

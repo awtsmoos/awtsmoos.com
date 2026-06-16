@@ -54,7 +54,7 @@ export default class VillageFenceCollider extends Domem {
     this.mesh.updateMatrixWorld(true);
     this.mesh.traverse(child => { if (child.isMesh && child.userData?.isVillageFenceCollider) bakeDetachedCollider(child, olam, added); });
     this._octreeMeshes = added;
-    console.info("B\"H | FENCE_RECIPE_MIRROR_COLLIDERS_ADDED", { name: this.name, added: added.length, targetName: this.targetName, count: this.count, scale: this.scaleValue, origin: this.mesh.position, rotationY: this.mesh.rotation.y });
+    if (globalThis.__AWTSMOOS_COLLISION_AUDIT__ === true) console.debug("B\"H | FENCE_RECIPE_MIRROR_COLLIDERS_ADDED", { name: this.name, added: added.length, targetName: this.targetName, count: this.count, scale: this.scaleValue, origin: this.mesh.position, rotationY: this.mesh.rotation.y });
     return added.length;
   }
   removeFinalCollidersFromOctree(olam = this.olam) { removeDetachedColliders(olam, this._octreeMeshes); this._octreeMeshes = []; }

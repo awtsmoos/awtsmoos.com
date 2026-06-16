@@ -1,0 +1,35 @@
+{
+  "map": "merkava-pinball-court",
+  "ok": true,
+  "failures": [],
+  "warnings": [
+    "sustained idle near enemy",
+    "zero damage"
+  ],
+  "aiDriven": true,
+  "states": {
+    "PlatformSeek": 7777,
+    "Chase": 2331,
+    "Attack": 5149,
+    "ForceApproach": 2002,
+    "Recover": 207,
+    "Idle": 13353
+  },
+  "opportunities": {
+    "LandingIntercept": 7777,
+    "Chase": 2331,
+    "GuaranteedAttack": 5149,
+    "ForceEngage": 2002,
+    "Recovery": 207,
+    "none": 13353
+  },
+  "longestNoPressureWindow": 127,
+  "longestSameOpportunityWindow": 13327,
+  "attackCommands": 7000,
+  "activeAttackFrames": 6256,
+  "damagePerMinute": 0,
+  "koCount": 17,
+  "maxParticles": 0,
+  "framesRun": 18000,
+  "simMs": 68589
+}

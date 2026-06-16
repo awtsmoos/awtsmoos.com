@@ -1,9 +1,0 @@
-{
-  "createdAt": "2026-06-02T05:01:34.540Z",
-  "provider": "minimax",
-  "endpoint": "openai-compatible-chat",
-  "keyUsed": "sk-cp-1Z...J-JQ",
-  "status": 200,
-  "ok": true,
-  "bodyPreview": "{\"id\":\"066d96ae1d647ba51c7be805d464ae14\",\"choices\":[{\"finish_reason\":\"length\",\"index\":0,\"message\":{\"content\":\"<think>\\nThe user says \\\"Awts\\n</think>\\n\\n\",\"role\":\"assistant\",\"name\":\"MiniMax AI\",\"audio_content\":\"\",\"reasoning\":\"The user says \\\"Awts\"}}],\"created\":1780376494,\"model\":\"MiniMax-M2.7\",\"object\":\"chat.completion\",\"usage\":{\"total_tokens\":33,\"total_characters\":0,\"prompt_tokens\":25,\"completion_tokens\":8,\"completion_tokens_details\":{\"reasoning_tokens\":8},\"prompt_tokens_details\":{\"cached_token"
-}

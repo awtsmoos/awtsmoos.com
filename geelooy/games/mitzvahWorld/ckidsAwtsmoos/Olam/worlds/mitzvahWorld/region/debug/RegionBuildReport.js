@@ -1,38 +1,13 @@
 // B"H
-/**
- * @file RegionBuildReport.js
- * @description Chapter 1011: the report now counts both the seed village and kingdom kernel.
- */
-export function buildRegionReport(data) {
-  const instances = data.instances?.summary || {};
-  const ecology = data.ecology?.summary || {};
-  const kingdom = data.kingdom?.summary || {};
-  const roads = countRoads(data.roads);
-  const summary = {
-    ecologyCells: ecology.cells || 0,
-    biomes: data.biomes?.zones?.length || data.biomes?.length || 0,
-    roads,
-    houses: data.houses?.length || 0,
-    wildlife: data.wildlife?.animals?.length || data.wildlife?.territories?.length || 0,
-    npcSchedules: data.npcSchedules?.schedules?.length || data.npcSchedules?.length || 0,
-    hardColliders: data.colliders?.hard?.length || 0,
-    visibleInstances: instances.total || 0,
-    grass: instances.grass || 0,
-    flowers: instances.flowers || 0,
-    trees: instances.trees || 0,
-    rocks: instances.rocks || 0,
-    kingdomChunks: kingdom.chunks || 0,
-    kingdomActiveChunks: kingdom.activeChunks || 0,
-    kingdomBudgetMode: kingdom.budget?.mode || "unknown"
-  };
-  return { ok: true, kind: "mitzvah-region-stack", version: "region-report-v4-kingdom-kernel", createdAt: Date.now(), ...data, summary };
-}
-
-function countRoads(roads = {}) {
-  let total = 0;
-  for (const value of Object.values(roads)) {
-    if (Array.isArray(value)) total += value.filter(v => v?.points).length;
-    else if (value?.points) total += 1;
-  }
-  return total;
+/** @file RegionBuildReport.js @description Compact proof that the living region stack has terrain, ecology, budget, and vessels. */
+function dataOf(value) { return value || {}; }
+function len(value) { return Array.isArray(value) ? value.length : 0; }
+function summaryOf(value) { return value && value.summary ? value.summary : {}; }
+function kingdomBudgetMode(kingdom) { const summary = summaryOf(kingdom); return summary.budget && summary.budget.mode ? summary.budget.mode : "unknown"; }
+function countRoads(roads = {}) { let total = 0; for (const value of Object.values(roads)) { if (Array.isArray(value)) total += value.filter(v => v && v.points).length; else if (value && value.points) total += 1; } return total; }
+export function buildRegionReport(data = {}) {
+  const instances = summaryOf(data.instances), ecology = summaryOf(data.ecology), kingdom = summaryOf(data.kingdom);
+  const wildlife = data.wildlife || {}, npcSchedules = data.npcSchedules || {}, colliders = data.colliders || {};
+  const summary = { ecologyCells:ecology.cells || 0, biomes:data.biomes && data.biomes.zones ? data.biomes.zones.length : len(data.biomes), roads:countRoads(data.roads), houses:len(data.houses), wildlife:wildlife.animals ? wildlife.animals.length : len(wildlife.territories), npcSchedules:npcSchedules.schedules ? npcSchedules.schedules.length : len(npcSchedules), hardColliders:colliders.hard ? colliders.hard.length : 0, visibleInstances:instances.total || 0, grass:instances.grass || 0, flowers:instances.flowers || 0, trees:instances.trees || 0, rocks:instances.rocks || 0, kingdomChunks:kingdom.chunks || 0, kingdomActiveChunks:kingdom.activeChunks || 0, kingdomBudgetMode:kingdomBudgetMode(data.kingdom) };
+  return Object.assign({ ok:true, kind:"mitzvah-region-stack", version:"region-report-v5-parser-clear-kingdom-kernel", createdAt:Date.now() }, dataOf(data), { summary });
 }

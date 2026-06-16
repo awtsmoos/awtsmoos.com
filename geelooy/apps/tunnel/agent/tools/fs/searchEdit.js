@@ -1,5 +1,4 @@
 // B"H
-
 const fsp = require("fs/promises");
 const path = require("path");
 const crypto = require("crypto");
@@ -10,17 +9,15 @@ const { bulkSearch } = require("./pagedSearch.js");
 
 /**
  * B"H
- * Chapter 425: Search And Patch Accepted The Loose Scroll.
+ * Chapter: Grep stopped pretending a few hundred lines were the whole sea.
  *
- * Grep can page before drowning, deadlines can stop the walk, and patch edits
- * may arrive inside params/content/body/query/edits/edits64. Still, the action
- * remains a whole-file rewrite beneath the hood, never a blind partial patch.
+ * All search-shaped actions now flow through the paged search river unless the
+ * caller explicitly stays tiny. No byte/file ceiling is used as abuse control;
+ * perutas and nextRequest pagination carry that burden.
  */
-function clamp(n, fallback, min, max) { n = Number(n); if (!Number.isFinite(n)) return fallback; return Math.max(min, Math.min(max, Math.floor(n))); }
+function num(value, fallback) { const n = Number(value); return Number.isFinite(n) && n >= 0 ? Math.floor(n) : fallback; }
 function sha256(buf) { return crypto.createHash("sha256").update(buf).digest("hex"); }
 function escapeRegex(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-function deadline(payload = {}) { const ms = Number(payload.deadlineMs || payload.maxDurationMs || payload.searchTimeoutMs || 0); return ms > 0 ? Date.now() + ms : Infinity; }
-function expired(until) { return Date.now() > until; }
 
 async function statPath(config, payload = {}) {
   const p = payload.path || payload.p || ".";
@@ -38,54 +35,17 @@ async function readLines(config, payload = {}) {
   const ext = path.extname(full).toLowerCase();
   assertNotSecret(config, full);
   if (BIN.has(ext)) throw new Error("Refusing binary file as text: " + ext);
-  const startLine = clamp(payload.startLine, 1, 1, 10000000);
-  const endLine = clamp(payload.endLine, startLine + 200, startLine, startLine + 1000);
+  const startLine = Math.max(1, num(payload.startLine, 1));
+  const endLine = Math.max(startLine, num(payload.endLine || payload.limit, startLine + 250));
   const text = await fsp.readFile(full, "utf8");
   const lines = text.split(/\r?\n/);
   const selected = lines.slice(startLine - 1, endLine);
-  return { ok: true, action: "readLines", path: p, absolutePath: full, startLine, endLine: Math.min(endLine, lines.length), totalLines: lines.length, returnedLines: selected.length, content: selected.map((line, i) => String(startLine + i).padStart(5, " ") + " | " + line).join("\n"), truncatedBefore: startLine > 1, truncatedAfter: endLine < lines.length, guidance: endLine < lines.length ? "Continue with startLine=" + (endLine + 1) + " and endLine=" + Math.min(endLine + 250, lines.length) + "." : null };
+  return { ok: true, action: "readLines", path: p, absolutePath: full, startLine, endLine: Math.min(endLine, lines.length), totalLines: lines.length, returnedLines: selected.length, content: selected.map((line, i) => String(startLine + i).padStart(5, " ") + " | " + line).join("\n"), truncatedBefore: startLine > 1, truncatedAfter: endLine < lines.length, guidance: endLine < lines.length ? "Continue with startLine=" + (endLine + 1) + "." : null };
 }
 
 async function grep(config, payload = {}) {
   if (!config.tools.fsRead) throw new Error("fsRead disabled.");
-  const rootPath = payload.path || payload.p || ".";
-  const query = String(payload.query || payload.find || "");
-  if (!query) return { ok: false, action: "grep", error: "missing_query" };
-  if (payload.usePaged === true || payload.paginate || payload.cursor || payload.fileCursor || Number(payload.page) > 1 || /bulkSearch|bulkSearchPage|semanticSearch/.test(String(payload.action || ''))) return await bulkSearch(config, { ...payload, action: payload.action || "grep" });
-  const isRegex = !!payload.regex;
-  const maxFiles = clamp(payload.maxFiles, 100, 1, 800);
-  const maxResults = clamp(payload.maxResults, 80, 1, 300);
-  const maxFileBytes = clamp(payload.maxFileBytes, 800000, 1000, 2000000);
-  const until = deadline(payload);
-  const rootFull = safePath(config, rootPath);
-  const matcher = isRegex ? new RegExp(query, "i") : new RegExp(escapeRegex(query), "i");
-  const results = [];
-  let scannedFiles = 0, skippedFiles = 0, timedOut = false;
-  async function walk(rel) {
-    if (scannedFiles >= maxFiles || results.length >= maxResults || expired(until)) { timedOut ||= expired(until); return; }
-    let items = [];
-    try { items = await listDirDetailed(config, rel || "."); } catch (_) { return; }
-    for (const item of items) {
-      if (scannedFiles >= maxFiles || results.length >= maxResults || expired(until)) { timedOut ||= expired(until); return; }
-      const childRel = rel && rel !== "." ? rel.replace(/[\\/]+$/, "") + "/" + item.name : item.name;
-      if (item.isDirectory) { if (!["node_modules", ".git", ".next", "dist", "build", ".cache"].includes(item.name)) await walk(childRel); continue; }
-      const ext = path.extname(item.name).toLowerCase();
-      if (BIN.has(ext)) continue;
-      const full = safePath(config, childRel);
-      assertNotSecret(config, full);
-      const st = await fsp.stat(full);
-      if (st.size > maxFileBytes) { skippedFiles++; continue; }
-      scannedFiles++;
-      const lines = (await fsp.readFile(full, "utf8")).split(/\r?\n/);
-      for (let i = 0; i < lines.length && results.length < maxResults; i++) {
-        if (expired(until)) { timedOut = true; return; }
-        if (matcher.test(lines[i])) results.push({ path: childRel, line: i + 1, preview: lines[i].slice(0, 500) });
-        matcher.lastIndex = 0;
-      }
-    }
-  }
-  await walk(rootPath === "." ? "." : rootPath);
-  return { ok: true, action: payload.action || "grep", root: config.root, path: rootPath, absolutePath: rootFull, query, regex: isRegex, scannedFiles, skippedFiles, maxFiles, maxResults, returnedResults: results.length, timedOut, partial: timedOut || scannedFiles >= maxFiles || results.length >= maxResults, guidance: "If partial=true, use usePaged=true/cursor or narrow path/query/raise limits.", results };
+  return await bulkSearch(config, { ...payload, action: payload.action || "grep", query: payload.query || payload.find || payload.pattern || "", pageSize: payload.pageSize || payload.limit || payload.maxResults || 100, maxFiles: payload.maxFiles || payload.pageSize || payload.limit || 1000 });
 }
 
 async function replaceRange(config, payload = {}) {
@@ -96,8 +56,8 @@ async function replaceRange(config, payload = {}) {
   const ext = path.extname(full).toLowerCase();
   assertNotSecret(config, full);
   if (BIN.has(ext)) throw new Error("Refusing binary file for replaceRange: " + ext);
-  const startLine = clamp(payload.startLine, 1, 1, 10000000);
-  const endLine = clamp(payload.endLine, startLine, startLine, 10000000);
+  const startLine = Math.max(1, num(payload.startLine, 1));
+  const endLine = Math.max(startLine, num(payload.endLine, startLine));
   const replacement = String(payload.content || payload.replace || "");
   const before = await fsp.readFile(full, "utf8");
   const lines = before.split(/\r?\n/);
@@ -126,9 +86,9 @@ async function applyPatch(config, payload = {}) {
     const find = String(edit.find || "");
     const replace = String(edit.replace || "");
     if (!find) { results.push({ ok: false, error: "missing_find" }); continue; }
-    const beforeEdit = text;
     const pattern = edit.regex ? new RegExp(find, edit.replaceAll === false ? "" : "g") : new RegExp(escapeRegex(find), edit.replaceAll === false ? "" : "g");
     const matches = text.match(pattern) || [];
+    const beforeEdit = text;
     text = text.replace(pattern, replace);
     results.push({ ok: true, matches: matches.length, changed: beforeEdit !== text });
   }

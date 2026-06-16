@@ -1,5 +1,0 @@
-geelooy/apps/rebbe/index.html
-geelooy/apps/transcribe/index.html
-geelooy/apps/tunnel-control/index.html
-geelooy/apps/tunnel-control/privacy.html
-geelooy/apps/tunnel/index.html

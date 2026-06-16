@@ -1,0 +1,5 @@
+﻿// B"H
+/** @file MapRevealRuntime.js @description Reveals minimap/fog markers from landmarks, corpse, hearth, dungeon, and travel state. */
+export function mapRevealPayload(player = {}) { const discovered = Object.keys(player.discoveryState?.landmarks || {}); const dungeons = Object.keys(player.discoveryState?.dungeons || {}); const subzones = Object.keys(player.discoveryState?.subzones || {}); return { discovered, dungeons, subzones, markers:[...discovered.map(id => ({ id, type:"landmark", revealed:true })), ...dungeons.map(id => ({ id, type:"dungeon", revealed:true })), ...subzones.map(id => ({ id, type:"subzone", revealed:true }))], corpse:player.deathState?.corpse || null, hearth:player.hearth || null, fog:{ revealed:[...discovered, ...dungeons, ...subzones] } }; }
+export function emitMapReveal(olam) { const payload = mapRevealPayload(olam?.player || olam?.chossid || {}); olam?.ayshPeula?.("ui event", "mapReveal", payload); olam?.ayshPeula?.("ui event", "minimap", payload); return payload; }
+export default { mapRevealPayload, emitMapReveal };

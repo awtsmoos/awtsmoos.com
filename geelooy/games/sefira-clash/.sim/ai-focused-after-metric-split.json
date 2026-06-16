@@ -1,0 +1,103 @@
+[
+  {
+    "map": "beit-midrash-bouncer",
+    "ok": true,
+    "failures": [],
+    "warnings": [
+      "sustained idle near enemy"
+    ],
+    "aiDriven": true,
+    "damageEnd": 297,
+    "peakDamage": 912,
+    "damageFrames": 2957,
+    "longestNoPressureWindow": 94,
+    "longestSameOpportunityWindow": 507,
+    "attackCommands": 3970,
+    "activeAttackFrames": 3656,
+    "damagePerMinute": 297,
+    "koCount": 11,
+    "maxParticles": 240,
+    "framesRun": 3000,
+    "simMs": 3632,
+    "states": {
+      "Chase": 2101,
+      "Recover": 794,
+      "PlatformSeek": 4335,
+      "Attack": 3446,
+      "ForceApproach": 1007
+    },
+    "opportunities": {
+      "Chase": 2101,
+      "Recovery": 794,
+      "LandingIntercept": 4335,
+      "GuaranteedAttack": 3446,
+      "ForceEngage": 1007
+    }
+  },
+  {
+    "map": "merkava-pinball-court",
+    "ok": true,
+    "failures": [],
+    "warnings": [],
+    "aiDriven": true,
+    "damageEnd": 525,
+    "peakDamage": 1086,
+    "damageFrames": 2974,
+    "longestNoPressureWindow": 60,
+    "longestSameOpportunityWindow": 461,
+    "attackCommands": 4036,
+    "activeAttackFrames": 4252,
+    "damagePerMinute": 525,
+    "koCount": 12,
+    "maxParticles": 240,
+    "framesRun": 3000,
+    "simMs": 4315,
+    "states": {
+      "PlatformSeek": 6220,
+      "Chase": 2085,
+      "Attack": 3155,
+      "ForceApproach": 1149,
+      "Recover": 155
+    },
+    "opportunities": {
+      "LandingIntercept": 6220,
+      "Chase": 2085,
+      "GuaranteedAttack": 3155,
+      "ForceEngage": 1149,
+      "Recovery": 155
+    }
+  },
+  {
+    "map": "malchus-meadow",
+    "ok": true,
+    "failures": [],
+    "warnings": [],
+    "aiDriven": true,
+    "damageEnd": 333,
+    "peakDamage": 645,
+    "damageFrames": 2790,
+    "longestNoPressureWindow": 53,
+    "longestSameOpportunityWindow": 1783,
+    "attackCommands": 3246,
+    "activeAttackFrames": 2490,
+    "damagePerMinute": 333,
+    "koCount": 4,
+    "maxParticles": 170,
+    "framesRun": 3000,
+    "simMs": 2825,
+    "states": {
+      "Chase": 2702,
+      "Recover": 130,
+      "PlatformSeek": 5170,
+      "ForceApproach": 4565,
+      "Attack": 1392
+    },
+    "opportunities": {
+      "Chase": 2702,
+      "Recovery": 130,
+      "LandingIntercept": 5170,
+      "ForceEngage": 4565,
+      "GuaranteedAttack": 1392
+    }
+  }
+]

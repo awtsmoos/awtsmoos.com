@@ -2,9 +2,9 @@
 /**
  * @module SharedCommentCardFactory
  * @description
- * Chapter 215: The visual card delegates actions to the single action gate.
- * Copy/Edit/Reply/Share/Delete all pass through comments/actions/menu.js, so
- * object-shaped comments and legacy strings behave the same in sidebar and inline.
+ * Chapter 306: Sidebar and inline stop echoing each other.
+ * The Awtsmoos gives inline cards a tiny coordinate crown, while sidebar cards
+ * keep their author crown and avoid duplicate Reply/Copy/Share under More.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -14,11 +14,13 @@ import { isAliasInline } from "../../state/inline/RegistryLogic.js";
 import { expandPathToComment } from "../tree.js";
 import { getRealCommentSubSection, parseRealDayuh } from "../../logic/inlineManifest/realCommentCoordinate.js";
 
+const NOISY_TITLES = /^(insight|inline insight\s*\d*|inline commentary|commentary)$/i;
+
 function aliasOf(comment) { return comment?.author || comment?.aliasId || comment?.owner || "unknown"; }
 function rawTitleOf(comment) { return comment?.dayuh?.title || comment?.content?.title || comment?.title || ""; }
 function cleanTitleOf(comment) {
     const title = String(rawTitleOf(comment) || "").trim();
-    return title && title.toLowerCase() !== "insight" ? title : "";
+    return title && !NOISY_TITLES.test(title) ? title : "";
 }
 
 function coordOf(comment) {
@@ -28,12 +30,12 @@ function coordOf(comment) {
     const parts = [];
     if (verse !== undefined && verse !== null && verse !== "root") parts.push(`Verse ${Number(verse) + 1}`);
     if (sub !== null) parts.push(`Para ${Number(sub) + 1}`);
-    return parts.join(", ") || "Post insight";
+    return parts.join(", ") || "Post";
 }
 
 function locateComment(comment) {
     const cid = CSS.escape(String(comment?.id || ""));
-    const target = document.querySelector(`.inline-comment[data-cid="${cid}"]`) || document.querySelector(`.awtsmoos-sidebar-comment-card[data-cid="${cid}"]`);
+    const target = document.querySelector(`.inline-comment[data-cid="${cid}"], .awtsmoos-sidebar-comment-card[data-cid="${cid}"]`);
     if (!target) return;
     expandPathToComment(target);
     target.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -66,20 +68,11 @@ function sidebarActionDock(comment) {
     ] };
 }
 
-function moreOptions(mode) {
-    if (mode === "inline") return ["Reply", "Copy", "Share", "Edit"];
-    return ["Reply", "Copy", "Share", "Edit", "Locate", "Delete"];
-}
-
+function moreOptions(mode) { return mode === "inline" ? ["Reply", "Copy", "Share", "Edit"] : ["Edit", "Locate", "Delete"]; }
 function moreMenu(comment, mode) {
     return { tag: "details", attr: { class: `menu-chariot awtsmoos-comment-more awtsmoos-${mode}-comment-menu` }, children: [
-        { tag: "summary", attr: { class: "menu-btn comment-chip-action", "aria-label": "Comment actions" }, children: [mode === "inline" ? "⋯" : "More"] },
-        { tag: "div", attr: { class: "menu-dropdown" }, children: moreOptions(mode).map(option => ({
-            tag: "button",
-            attr: { class: "menu-item", type: "button" },
-            children: [option],
-            events: { click: event => menuAction(option, comment, event) }
-        })) }
+        { tag: "summary", attr: { class: "menu-btn comment-chip-action", "aria-label": "More comment actions" }, children: [mode === "inline" ? "⋯" : "More"] },
+        { tag: "div", attr: { class: "menu-dropdown" }, children: moreOptions(mode).map(option => ({ tag: "button", attr: { class: "menu-item", type: "button" }, children: [option], events: { click: event => menuAction(option, comment, event) } })) }
     ] };
 }
 
@@ -88,18 +81,19 @@ function authorPortal(alias) {
 }
 
 function header(comment, mode) {
+    if (mode === "inline") return { tag: "header", attr: { class: "awtsmoos-comment-card-header awtsmoos-inline-card-header" }, children: [
+        { tag: "span", attr: { class: "awtsmoos-comment-coordinate" }, children: [coordOf(comment)] }, moreMenu(comment, mode)
+    ] };
     const alias = aliasOf(comment);
     return { tag: "header", attr: { class: "awtsmoos-comment-card-header" }, children: [
         { tag: "div", attr: { class: "awtsmoos-comment-avatar" }, children: [String(alias).charAt(0).toUpperCase()] },
-        { tag: "div", attr: { class: "awtsmoos-comment-heading" }, children: [authorPortal(alias), { tag: "span", attr: { class: "awtsmoos-comment-coordinate" }, children: [coordOf(comment)] }] },
-        mode === "inline" ? moreMenu(comment, mode) : null
+        { tag: "div", attr: { class: "awtsmoos-comment-heading" }, children: [authorPortal(alias), { tag: "span", attr: { class: "awtsmoos-comment-coordinate" }, children: [coordOf(comment)] }] }
     ] };
 }
 
 function titleBand(comment) {
     const title = cleanTitleOf(comment);
-    if (!title) return null;
-    return { tag: "div", attr: { class: "awtsmoos-comment-title-band", dir: "auto" }, children: [title] };
+    return title ? { tag: "div", attr: { class: "awtsmoos-comment-title-band", dir: "auto" }, children: [title] } : null;
 }
 
 export function makeSharedCommentCard(comment, { mode = "sidebar" } = {}) {
@@ -109,8 +103,8 @@ export function makeSharedCommentCard(comment, { mode = "sidebar" } = {}) {
     const classes = ["comment-content", "awtsmoos-card", "awtsmoos-shared-comment-card", modeClass, isAliasInline(alias) ? "is-inline-enabled" : ""].filter(Boolean).join(" ");
     const card = BlueprintManifestor.manifest({
         tag: "article",
-        attr: { class: classes, "data-cid": comment.id, "data-alias": alias, "data-from-alias": alias, id: `comment-${comment.id}` },
-        children: [header(comment, mode), titleBand(comment), { tag: "div", attr: { class: "comment-text-root awtsmoos-comment-body" } }, mode === "sidebar" ? sidebarActionDock(comment) : null, mode === "sidebar" ? moreMenu(comment, mode) : null]
+        attr: { class: classes, "data-cid": comment.id, "data-alias": alias, "data-from-alias": alias, id: `comment-${comment.id}`, dir: "auto" },
+        children: [header(comment, mode), titleBand(comment), { tag: "div", attr: { class: "comment-text-root awtsmoos-comment-body", dir: "auto" } }, mode === "sidebar" ? sidebarActionDock(comment) : null, mode === "sidebar" ? moreMenu(comment, mode) : null]
     });
     populateCommentElement(comment, card.querySelector(".comment-text-root"));
     return card;

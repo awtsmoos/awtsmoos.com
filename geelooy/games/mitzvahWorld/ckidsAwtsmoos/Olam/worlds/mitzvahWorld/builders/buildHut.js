@@ -1,76 +1,19 @@
-/**
- * B"H
- * ════════════════════════════════════════════════════════════════════════
- *   THE DWELLING PLACE — buildHut.js
- *   ──────────────────────────────────
- *   "Make Me a sanctuary and I will dwell among them." — Shemos 25:8
- *
- *   Even the simplest hut is a Mishkan in miniature.
- *   Four walls. A roof. A door gap facing south (toward warmth).
- *   Inside: the potential for holiness, for learning, for prayer.
- *
- *   Architecture: 4 wall boxes + 1 pyramidal roof (ConeGeometry).
- *   All walls registered with the worldOctree through wallUtils.
- * ════════════════════════════════════════════════════════════════════════
- * @module buildHut
- */
-
-import * as THREE from '/games/scripts/build/three.module.js';
-import { makeWall } from './wallUtils.js';
-
-/**
- * @function buildHut
- * @param {THREE.Scene}  scene
- * @param {Object|null}  physics
- * @param {Object}       def
- * @param {Object|null}  olam - Olam context for octree insertion
- * @returns {Promise<THREE.Group[]>}
- */
+// B"H
+/** @module buildHut @description Grainy textured grounded cottages with beams, door, windows, and honest walls. */
+import * as THREE from "/games/scripts/build/three.module.js";
+import { makeWall } from "./wallUtils.js";
+import { materialWithTexture } from "../materials/ProceduralTextureKit.js";
+function deco(group, name, mat, pos, scale){const m=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),mat);m.name=name;m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;m.userData={hutDecor:true,skipOctree:true,noOctree:true};group.add(m);return m;}
+function roof(group, w, d, h){const mat=materialWithTexture("wood",{size:384});const shape=new THREE.Shape();shape.moveTo(-w*.62,0);shape.lineTo(0,h*.64);shape.lineTo(w*.62,0);shape.lineTo(-w*.62,0);const geo=new THREE.ExtrudeGeometry(shape,{depth:d*1.22,bevelEnabled:false});geo.translate(0,0,-d*.61);const mesh=new THREE.Mesh(geo,mat);mesh.name="grainy_wooden_gable_roof";mesh.position.y=h;mesh.castShadow=true;mesh.receiveShadow=true;mesh.userData={isSolid:true,hutRoof:true};group.add(mesh);return mesh;}
 export async function buildHut(scene, physics, def, olam = null) {
-  const {
-    wallColor  = 0xf5deb3,
-    roofColor  = 0x8b2500,
-    width      = 6,
-    depth      = 6,
-    wallHeight = 3,
-  } = def.props || {};
-
-  const [px, py, pz] = def.position || [0, 0, 0];
-  const t = 0.3;
-
-  const wallMat = new THREE.MeshLambertMaterial({ color: wallColor });
-  const roofMat = new THREE.MeshLambertMaterial({ color: roofColor });
-
-  const group = new THREE.Group();
-  group.position.set(px, py, pz);
-  group.name = def.id;
-
-  const hw = width / 2;
-  const hd = depth / 2;
-  const mh = wallHeight / 2;
-
-  // ── Walls (all registered with octree via wallUtils) ──
-  makeWall(group, wallMat, 0, mh, -hd, width, wallHeight, t, olam);     // North
-  makeWall(group, wallMat, hw, mh, 0, t, wallHeight, depth, olam);      // East
-  makeWall(group, wallMat, -hw, mh, 0, t, wallHeight, depth, olam);     // West
-  // South: two halves with door gap
-  const doorW = 1.2;
-  const sideW = (width - doorW) / 2;
-  makeWall(group, wallMat, -(hw - sideW / 2), mh, hd, sideW, wallHeight, t, olam);
-  makeWall(group, wallMat,  (hw - sideW / 2), mh, hd, sideW, wallHeight, t, olam);
-
-  // ── Roof ──
-  const roofGeo  = new THREE.ConeGeometry(
-    Math.max(hw, hd) * 1.3,
-    wallHeight * 0.6,
-    4,
-  );
-  const roofMesh = new THREE.Mesh(roofGeo, roofMat);
-  roofMesh.position.set(0, wallHeight + (wallHeight * 0.3), 0);
-  roofMesh.rotation.y = Math.PI / 4;
-  roofMesh.castShadow = true;
-  roofMesh.userData.isSolid = true; // B"H: Peaked roof is solid
-  group.add(roofMesh);
-
+  const p=def.props||{}, width=p.width||6, depth=p.depth||6, wallHeight=p.wallHeight||3;
+  const [px,py,pz]=def.position||[0,0,0], t=.3, hw=width/2, hd=depth/2, mh=wallHeight/2;
+  const wallMat=materialWithTexture("brick",{size:384}), wood=materialWithTexture("wood",{size:384}), glass=materialWithTexture("glass",{size:192});
+  const group=new THREE.Group(); group.position.set(px,py,pz); group.name=def.id||"awtsmoos_grainy_hut";
+  makeWall(group,wallMat,0,mh,-hd,width,wallHeight,t,olam); makeWall(group,wallMat,hw,mh,0,t,wallHeight,depth,olam); makeWall(group,wallMat,-hw,mh,0,t,wallHeight,depth,olam);
+  const doorW=1.35, sideW=(width-doorW)/2; makeWall(group,wallMat,-(hw-sideW/2),mh,hd,sideW,wallHeight,t,olam); makeWall(group,wallMat,(hw-sideW/2),mh,hd,sideW,wallHeight,t,olam);
+  roof(group,width,depth,wallHeight); deco(group,"dark_wood_door",wood,[0,1,hd+.18],[doorW*.72,2,.16]);
+  for(const s of[-1,1]){deco(group,`window_${s}`,glass,[s*hw*.52,1.85,hd+.19],[.72,.62,.08]);deco(group,`beam_front_${s}`,wood,[s*hw*.72,wallHeight*.52,hd+.22],[.16,wallHeight,.18]);}
+  deco(group,"ridge_beam",wood,[0,wallHeight*1.67,0],[.2,.18,depth*1.28]);
   return [group];
 }

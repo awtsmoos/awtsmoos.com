@@ -1,4 +1,4 @@
-// B"H
+﻿// B"H
 /**
  * @file browser-fs.js
  * @brief Filesystem bridge for the code editor when the browser tab itself becomes a tunnel.
@@ -21,7 +21,7 @@ export const BROWSER_TUNNEL_FS_ACTIONS = Object.freeze([
     'read64', 'md', 'bulk', 'grep', 'findFiles', 'fileHashes', 'write',
     'bulkWrite', 'writeIfHash', 'bulkWriteIfHashes', 'findReplace',
     'replaceRange', 'applyPatch', 'mkdirp', 'ensureFile', 'touch',
-    'deleteFile', 'deleteTree', 'emptyDir'
+    'deleteFile', 'deleteTree', 'emptyDir', 'rg', 'selectString', 'selectStringFile'
 ]);
 
 const encoder = new TextEncoder();
@@ -323,7 +323,19 @@ export const BrowserTunnelFS = {
         return { ok: true, action: 'tree', path: payload.path || '.', treeText: await walk(payload.path || '.', '', 0) };
     },
 
-    async grep(payload = {}) {
+    async rg(payload = {}) {
+        return await this.grep(payload);
+    },
+
+    async selectString(payload = {}) {
+        return await this.grep(payload);
+    },
+
+    async selectStringFile(payload = {}) {
+        return await this.grep(payload);
+    },
+
+async grep(payload = {}) {
         const matcher = regexFromPayload(payload);
         const results = [];
         await walkFiles(payload.path || '.', async item => {
@@ -429,3 +441,11 @@ export const BrowserTunnelFS = {
         return { ok: true, action: payload.action || 'delete', path: payload.path || payload.p, absolutePath: r.item.path };
     }
 };
+
+
+
+
+
+
+
+
