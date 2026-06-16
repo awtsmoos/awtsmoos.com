@@ -7,23 +7,23 @@
  * crowns are never dragged back into yesterday's cut-off edge.
  */
 
-@import url("./ideal/reborn/tokens.css?v=native-scroll-006");
-@import url("./ideal/reborn/shell.css?v=native-scroll-006");
-@import url("./ideal/reborn/reader.css?v=native-scroll-006");
-@import url("./ideal/reborn/settings.css?v=native-scroll-006");
-@import url("./ideal/reborn/sidebar.css?v=native-scroll-006");
-@import url("./ideal/reborn/panels.css?v=native-scroll-006");
-@import url("./ideal/reborn/panel-rows.css?v=native-scroll-006");
-@import url("./ideal/reborn/panel-controls.css?v=native-scroll-006");
-@import url("./ideal/reborn/comments.css?v=native-scroll-006");
-@import url("./ideal/reborn/comment-composer.css?v=native-scroll-006");
-@import url("./ideal/reborn/inline-comments.css?v=native-scroll-006");
-@import url("./ideal/reborn/inline-action-menu.css?v=native-scroll-006");
-@import url("./ideal/reborn/context-menu.css?v=native-scroll-006");
-@import url("./ideal/reborn/details.css?v=native-scroll-006");
-@import url("./ideal/reborn/actions.css?v=native-scroll-006");
-@import url("./ideal/reborn/button-hover.css?v=native-scroll-006");
-@import url("./ideal/reborn/mobile-sidebar-reset.css?v=native-scroll-006");
-@import url("./ideal/reborn/live-mobile-corrections.css?v=native-scroll-006");
-@import url("./ideal/reborn/inline-comments/compact-audit.css?v=native-scroll-006");
-@import url("./reader-controls/live-template.css?v=native-scroll-006");
+@import url("./ideal/reborn/tokens.css?v=native-scroll-008");
+@import url("./ideal/reborn/shell.css?v=native-scroll-008");
+@import url("./ideal/reborn/reader.css?v=native-scroll-008");
+@import url("./ideal/reborn/settings.css?v=native-scroll-008");
+@import url("./ideal/reborn/sidebar.css?v=native-scroll-008");
+@import url("./ideal/reborn/panels.css?v=native-scroll-008");
+@import url("./ideal/reborn/panel-rows.css?v=native-scroll-008");
+@import url("./ideal/reborn/panel-controls.css?v=native-scroll-008");
+@import url("./ideal/reborn/comments.css?v=native-scroll-008");
+@import url("./ideal/reborn/comment-composer.css?v=native-scroll-008");
+@import url("./ideal/reborn/inline-comments.css?v=native-scroll-008");
+@import url("./ideal/reborn/inline-action-menu.css?v=native-scroll-008");
+@import url("./ideal/reborn/context-menu.css?v=native-scroll-008");
+@import url("./ideal/reborn/details.css?v=native-scroll-008");
+@import url("./ideal/reborn/actions.css?v=native-scroll-008");
+@import url("./ideal/reborn/button-hover.css?v=native-scroll-008");
+@import url("./ideal/reborn/mobile-sidebar-reset.css?v=native-scroll-008");
+@import url("./ideal/reborn/live-mobile-corrections.css?v=native-scroll-008");
+@import url("./ideal/reborn/inline-comments/compact-audit.css?v=native-scroll-008");
+@import url("./reader-controls/live-template.css?v=native-scroll-008");

@@ -134,45 +134,58 @@
  */
 .post-reader-localized-context .awtsmoos-auto-scroll-floating { min-width: 68px; }
 /* B"H
- * Chapter 350: Mobile controls return to the crown.
- * The A and I gates no longer sleep as a pale side-column over the holy text;
- * they rise above the scroll as a small crown, clear of the letters below.
+ * Chapter 353: The A and I gates cling to the left stone.
+ * No script hand moves them. CSS alone fixes them: both visible, far left,
+ * lower than the chrome, never sliced by the viewport edge.
  */
 @media (max-width: 900px) {
     .post-reader-localized-context .awtsmoos-floating-controls {
-        top: calc(var(--awt-safe-top, env(safe-area-inset-top, 0px)) + 58px) !important;
-        left: 50% !important;
+        position: fixed !important;
+        top: calc(env(safe-area-inset-top, 0px) + 116px) !important;
+        left: 0 !important;
         right: auto !important;
         bottom: auto !important;
-        width: max-content !important;
-        max-width: calc(100vw - 96px) !important;
-        height: auto !important;
-        max-height: 52px !important;
-        transform: translate3d(-50%, 0, 0) !important;
+        transform: none !important;
+        translate: none !important;
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: center !important;
+        justify-content: flex-start !important;
         gap: 8px !important;
-        padding: 6px !important;
-        border: 1px solid rgba(246,201,108,.24) !important;
-        border-radius: 999px !important;
-        background: rgba(3, 8, 18, .82) !important;
-        box-shadow: 0 12px 30px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08) !important;
-        backdrop-filter: blur(12px) saturate(135%) !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: calc(100vw - 4px) !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 0 0 4px !important;
+        overflow: visible !important;
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
         pointer-events: none !important;
-        z-index: calc(var(--z-controls, 140) + 60) !important;
+        z-index: 2147483000 !important;
     }
 
     .post-reader-localized-context .awtsmoos-floating-controls button {
-        width: 40px !important;
-        height: 40px !important;
-        min-width: 40px !important;
-        min-height: 40px !important;
-        border-radius: 999px !important;
-        background: rgba(255,255,255,.94) !important;
+        position: static !important;
+        transform: none !important;
+        translate: none !important;
+        display: inline-grid !important;
+        place-items: center !important;
+        flex: 0 0 50px !important;
+        width: 50px !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+        height: 50px !important;
+        min-height: 50px !important;
+        max-height: 50px !important;
+        margin: 0 !important;
+        border-radius: 14px !important;
+        background: rgba(255,255,255,.95) !important;
         color: #08111f !important;
-        font-size: 1.08rem !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        overflow: visible !important;
+        pointer-events: auto !important;
     }
 }
-
