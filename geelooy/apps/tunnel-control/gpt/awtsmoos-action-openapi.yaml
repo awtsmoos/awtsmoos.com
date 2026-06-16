@@ -137,6 +137,7 @@ paths:
               - commandMemoryPatch
               - commandMemoryRun
               - commandMemorySave
+              - commandOutputPage
               - commandPresetDelete
               - commandPresetGet
               - commandPresetList

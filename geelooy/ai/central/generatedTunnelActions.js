@@ -104,6 +104,7 @@ export const GENERATED_TUNNEL_ACTIONS = Object.freeze([
   "commandMemoryPatch",
   "commandMemoryRun",
   "commandMemorySave",
+  "commandOutputPage",
   "commandPresetDelete",
   "commandPresetGet",
   "commandPresetList",

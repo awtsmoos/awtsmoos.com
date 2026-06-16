@@ -104,6 +104,7 @@ const actions = [
   "commandMemoryPatch",
   "commandMemoryRun",
   "commandMemorySave",
+  "commandOutputPage",
   "commandPresetDelete",
   "commandPresetGet",
   "commandPresetList",
