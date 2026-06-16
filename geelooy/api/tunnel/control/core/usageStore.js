@@ -1,4 +1,4 @@
-// B"H
+﻿// B"H
 
 const { readStore, writeStore } = require("./store.js");
 
@@ -168,3 +168,4 @@ function secondRate(action) { return /chrome|browser/i.test(action) ? BROWSER_SE
 function trimLedger(account) { account.ledger = account.ledger || []; while (account.ledger.length > 1000) account.ledger.shift(); }
 
 module.exports = { BYTE_PERUTA_COST, COMMAND_SECOND_PERUTAS, DAILY_FREE_PERUTAS, FILE_PERUTA_COST, MAX_FREE_BALANCE, PLANS, PURCHASE_URL, REQUEST_PERUTA_COST, addPerutas, canAfford, chargeUsage, estimatePayloadCost, estimateUsageCost, grantDailyPerutas, recordUsage, usageSummary };
+
