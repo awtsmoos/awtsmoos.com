@@ -1,15 +1,22 @@
 // B"H
-/** @file index.js @description Event listener bundle imports the fresh door/world-state combat input bridge. */
-import userInput from "./userInput.js?v=world-state-door-input-20260615-bh920";
-import labels from "./labels.js";
-import minimap from "./minimap.js";
-import resizing from "./resizing.js?v=village-combat-20260611-bh805";
-import destroy from "./destroy.js";
-import chossidReactions from "./chossidRaections.js";
-import shlichus from "./shlichus.js";
-import environment from "./environment.js";
-import misc from "./misc.js";
-export default function() {
+/**
+ * @file index.js
+ * @description
+ * Event listener bundle imports the fresh door/world-state combat input bridge.
+ * Chapter: the old listener URL carried a poisoned browser module record, so
+ * every listener now receives a new seal and the road stops boxing itself.
+ */
+import userInput from "./userInput.js?v=npc-runtime-cachebreak-20260616-bh1";
+import labels from "./labels.js?v=npc-runtime-cachebreak-20260616-bh1";
+import minimap from "./minimap.js?v=npc-runtime-cachebreak-20260616-bh1";
+import resizing from "./resizing.js?v=npc-runtime-cachebreak-20260616-bh1";
+import destroy from "./destroy.js?v=npc-runtime-cachebreak-20260616-bh1";
+import chossidReactions from "./chossidRaections.js?v=npc-runtime-cachebreak-20260616-bh1";
+import shlichus from "./shlichus.js?v=npc-runtime-cachebreak-20260616-bh1";
+import environment from "./environment.js?v=npc-runtime-cachebreak-20260616-bh1";
+import misc from "./misc.js?v=npc-runtime-cachebreak-20260616-bh1";
+
+export default function bindAllListeners() {
   userInput.bind(this)();
   labels.bind(this)();
   minimap.bind(this)();

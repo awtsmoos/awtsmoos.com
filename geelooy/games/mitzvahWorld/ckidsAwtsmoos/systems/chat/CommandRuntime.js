@@ -8,7 +8,7 @@ import { readSefer, learnPassage } from "../torah/TorahSpellbookRuntime.js";
 import { missionUiPayload } from "../missions/MissionRuntime.js";
 import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
 import { performDelivery } from "../missions/DeliveryRuntime.js";
-import { performTalk } from "../npc/NpcInteractionRuntime.js";
+import { performTalk } from "../npc/NpcInteractionRuntime.js?v=npc-perform-talk-20260616-bh1";
 import { farmAction } from "../farming/FarmInteractionRuntime.js";
 import { beginSeparation, doSeparationStep } from "../halacha/TerumahMaaserRuntime.js";
 import { collectFromNearbySource } from "../loot/CollectSourceRuntime.js";

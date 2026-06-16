@@ -2,57 +2,44 @@
 /**
  * @file SafeModuleImport.js
  * @description
- * Chapter 66: The Awtsmoos tears the false mirror from the worker gate.
- *
- * The old boot path tried a Blob-module fallback after a normal import failed.
- * In mobile Chromium, a child failure inside that Blob collapses into a vague
- * `Failed to fetch dynamically imported module: blob:...` message. The worker
- * then loses the true URL of the missing file or export. This vessel refuses
- * that fog: every ledger import now drinks from the exact resolved URL and every
- * failure report names the exact URL, required export, and expected ending.
+ * Chapter 67: When an import becomes a silent prison, the Awtsmoos breaks the
+ * wall with named progress and a generous timeout. No more boxing, no more
+ * invisible waiting: every vessel says which URL it enters and whether it came
+ * back from the mist.
  */
 import { workerImportLog, postTextToMain } from "../log/WorkerTextLogger.js";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
 import { resolveModuleRecord } from "./ModuleUrlResolver.js";
 import { makeModuleFailureText, makeModuleStartText, makeModuleSuccessText } from "./ModuleLoadText.js";
 import { requireModuleExport } from "./ModuleExportValidator.js";
 
-/**
- * Imports an exact browser module URL without Blob indirection.
- *
- * @param {{url:string,label:string}} resolved
- * Resolved module ledger record.
- *
- * @returns {Promise<any>}
- * Imported module namespace.
- *
- * @throws {Error}
- * Re-throws the browser import failure so the caller can wrap it with the real
- * URL. The Awtsmoos is revealed by exact names, not by temporary mirrors.
- */
-async function importResolvedUrl(resolved) {
-  workerImportLog.info?.(makeModuleStartText(resolved));
-  return await import(resolved.url);
+const IMPORT_TIMEOUT_MS = 45000;
+
+function timeoutImport(resolved) {
+  return new Promise((_, reject) => {
+    setTimeout(() => {
+      const error = new Error(`Timed out importing ${resolved.label} after ${IMPORT_TIMEOUT_MS}ms at ${resolved.url}`);
+      error.name = "AwtsmoosImportTimeout";
+      reject(error);
+    }, IMPORT_TIMEOUT_MS);
+  });
 }
 
-/**
- * Imports one ledger module and validates its required export.
- *
- * @param {{key:string,label:string,relativePath:string,expectedEnd:string,requiredExport?:string}} record
- * Module path ledger record.
- *
- * @returns {Promise<{record:Object,module:any,required:any}>}
- * Resolved record, module namespace, and required export value.
- *
- * @throws {Error}
- * Throws when the file cannot be fetched as a real module or the required export
- * is absent. The error is also posted to the main thread as text.
- */
+async function importResolvedUrl(resolved) {
+  workerImportLog.info?.(makeModuleStartText(resolved));
+  postWorkerProgress(`module:${resolved.key || resolved.label}:import:start`);
+  const module = await Promise.race([import(resolved.url), timeoutImport(resolved)]);
+  postWorkerProgress(`module:${resolved.key || resolved.label}:import:done`);
+  return module;
+}
+
 export async function importLedgerModule(record) {
   const resolved = resolveModuleRecord(record);
-
   try {
     const module = await importResolvedUrl(resolved);
+    postWorkerProgress(`module:${resolved.key || resolved.label}:export-check:start`);
     const required = requireModuleExport(module, resolved);
+    postWorkerProgress(`module:${resolved.key || resolved.label}:export-check:done`);
     workerImportLog.info?.(makeModuleSuccessText(resolved));
     return { record: resolved, module, required };
   } catch (error) {
@@ -64,7 +51,6 @@ export async function importLedgerModule(record) {
       requiredExport: resolved.requiredExport,
       error
     });
-
     workerImportLog.error(text);
     postTextToMain("worker_import_error_text", text);
     throw error;
