@@ -5,7 +5,7 @@ function readPanelLayout(panelId){
     return [...panel.querySelectorAll('.key')].map(key=>({note:key.dataset.note,isBlack:key.classList.contains('black-key'),x:key.offsetLeft,width:key.offsetWidth})).filter(key=>key.note&&key.width>0);
 }
 function readKeyboardLayout(){return {bottom:readPanelLayout('keyboard-bottom'),top:readPanelLayout('keyboard-top')};}
-function recorderTuning(fps){return {liveRenderBudgetMs:7,liveMaxFramesPerPump:1,livePumpIntervalMs:280,liveEncodeLatency:.55,maxLiveBacklog:1.35,eventHistoryLimit:100000,exportFps:fps,finalFrameBatch:8};}
+function recorderTuning(fps){return {livePumpIntervalMs:150,liveEncodeLatency:.42,liveCatchupFrames:2,eventHistoryLimit:120000,exportFps:fps,finalFrameBatch:8};}
 export function makeVideoConfig(){
     const isVertical=window.innerHeight>window.innerWidth;
     const resolution=isVertical?{width:720,height:1280}:{width:1280,height:720};

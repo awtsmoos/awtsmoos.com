@@ -1,7 +1,9 @@
-/* B"H */
+﻿/* B"H
+Frame queue: few VideoFrames in memory, each closed as soon as MediaBunny accepts it.
+*/
 self.AwtsVideoBase = self.AwtsVideoBase || {};
 self.AwtsVideoBase.addCanvasFrame = async function addCanvasFrame(instance, framePayload) {
-    while (instance.frameQueue.length >= instance.maxCacheFrames) await new Promise(r => setTimeout(r, 10));
+    while (instance.frameQueue.length >= instance.maxCacheFrames) await new Promise(r => setTimeout(r, 8));
     await instance.frameDrawingFunction({ payload: instance.config, ctx: instance.ctx, canvas: instance.canvas }, framePayload);
     const frame = new VideoFrame(instance.canvas, {
         timestamp: Math.max(0, Math.round(framePayload.time * 1_000_000)),

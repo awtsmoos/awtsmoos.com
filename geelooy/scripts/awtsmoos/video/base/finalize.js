@@ -1,4 +1,6 @@
-/* B"H */
+﻿/* B"H
+Finalize: if using StreamTarget, assemble final Blob from IndexedDB parts without one giant output buffer.
+*/
 self.AwtsVideoBase = self.AwtsVideoBase || {};
 self.AwtsVideoBase.finalizeOutput = async function finalizeOutput(instance, audioBufferShim) {
     instance._postStatus('Finalizing video track...');
@@ -6,7 +8,7 @@ self.AwtsVideoBase.finalizeOutput = async function finalizeOutput(instance, audi
     if (timeRemaining > 0.001) await instance.addFrame({ time: instance.lastQueuedTime, duration: timeRemaining });
     while (instance.frameQueue.length || instance.isEncoding) {
         if (!instance.isEncoding && instance.frameQueue.length) instance._processFrameQueue();
-        await new Promise(resolve => setTimeout(resolve, 50));
+        await new Promise(resolve => setTimeout(resolve, 40));
     }
     instance.videoSampleSource.close();
     instance._postStatus('Encoding audio...');
@@ -14,5 +16,13 @@ self.AwtsVideoBase.finalizeOutput = async function finalizeOutput(instance, audi
     instance.audioBufferSource.close();
     instance._postStatus('Muxing video file...');
     await instance.output.finalize();
-    return new Blob([instance.output.target.buffer], { type: instance.output.format.mimeType });
+    const target = instance.output.target;
+    if (target.awtsmoosWait) {
+        await target.awtsmoosWait();
+        const parts = await self.AwtsVideoBase.idbReadChunks(target.awtsmoosIdbSession);
+        const blob = new Blob(parts, { type: target.awtsmoosMimeType || instance.output.format.mimeType });
+        await self.AwtsVideoBase.idbClearChunks(target.awtsmoosIdbSession);
+        return blob;
+    }
+    return new Blob([target.buffer], { type: instance.output.format.mimeType });
 };
