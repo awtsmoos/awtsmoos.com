@@ -100,8 +100,8 @@ function tick() {
     const bassOctave = Math.max(1, avgOctave - 2 + octaveOffset);
     const finalFreq = baseFreq * Math.pow(2, bassOctave);
 
-    const nodes = createSynthNode(false, true); // isBass = true
-    startSynth(nodes, finalFreq);
+    const nodes = createSynthNode(false, true, { inputId: 'auto-bass', coords: { x: 0, y: 160 } });
+    startSynth(nodes, finalFreq, targetNote + bassOctave);
     currentBassNotes.push(nodes);
 
     beatCounter++;

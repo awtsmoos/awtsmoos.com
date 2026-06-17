@@ -1,0 +1,2 @@
+// B"H
+export function startingZoneInstallReport(execution = {}) { return { zone:execution.zone?.manifest?.id || null, visualPackets:execution.visualPackets?.length || 0, colliders:execution.colliderRuntime?.colliders || 0, animals:execution.animalControllers?.length || 0, lootTables:execution.lootRegistry?.tables || 0, dialogueHooks:execution.dialogueHooks?.hooks || 0, atmosphere:execution.atmospherePackets?.length || 0, registry:execution.registry || null }; }

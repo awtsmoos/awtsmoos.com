@@ -4,7 +4,7 @@
 
 export const ALL_WAVEFORMS = [
     'triangle', 'sine', 'sawtooth', 'square',
-    'pulse', 'detuned-saw', 'wobble', 'crystalline', 'tonewheel',
+    'wet-electric-keys', 'pulse', 'detuned-saw', 'wobble', 'crystalline', 'tonewheel',
     'super-fm', 'pluck', 'formant', 'rave-lead', 'hard-bass',
     'acid-pulse', 'hyper-saw', 'growl-bass', 'neuro-bass',
     'trance-gate', 'hardstyle', 'reese-bass', 'digital-hoover',
@@ -50,6 +50,7 @@ export function createCustomWaves(audioContext) {
             imag.crystalline[1] = 1; imag.tonewheel[1] = 1; imag.pluck[1] = 1; imag['super-fm'][1] = 0.8;
             imag['bell-ep'][1] = 2.0; imag['organ-drawbar'][1] = 0.8; imag['metal-hit'][1] = 1.2;
             imag['sub-osc'][1] = 1.0; imag['fifths-saw'][1] = 1.0; imag['shimmer-sine'][1] = 2.0;
+            imag['wet-electric-keys'][1] = 1.65;
         }
 
         // --- EXISTING EXTENSIONS ---
@@ -64,6 +65,12 @@ export function createCustomWaves(audioContext) {
         if (i === 3) imag['sub-osc'][i] = 0.5; if (i === 5) imag['sub-osc'][i] = 0.1;
         if (i % 3 === 0 && i !== 0) imag['fifths-saw'][i] = (2 / (Math.PI * i)) * 0.7; 
         if (i === 3 || i === 5 || i === 7 || i === 11) imag['shimmer-sine'][i] = 1 / (i * 0.5);
+        if (i === 2) imag['wet-electric-keys'][i] = 0.34;
+        if (i === 3) imag['wet-electric-keys'][i] = 0.82;
+        if (i === 4) imag['wet-electric-keys'][i] = 0.52;
+        if (i === 6) imag['wet-electric-keys'][i] = 0.31;
+        if (i === 9 || i === 13) imag['wet-electric-keys'][i] = 0.22;
+        if (i > 16 && i < 42) imag['wet-electric-keys'][i] += (0.13 / i) * (1 + Math.sin(i * 0.7));
 
         // --- NEW SOUNDS ---
         

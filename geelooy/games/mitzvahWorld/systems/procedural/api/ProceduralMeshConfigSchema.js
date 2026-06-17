@@ -1,0 +1,4 @@
+// B"H
+import { meshError } from "./ProceduralMeshErrors.js";
+export function normalizeMeshConfig(config = {}) { if (!config || typeof config !== "object") throw meshError("config must be object"); const primitive = config.primitive || config.recipe || config.kind; if (!primitive) throw meshError("primitive/recipe/kind required", config); return { id:config.id || `${primitive}_${Date.now()}`, primitive, recipe:config.recipe || primitive, position:config.position || [0,0,0], rotation:config.rotation || [0,0,0], scale:config.scale || [1,1,1], modifiers:config.modifiers || [], material:config.material || {}, shader:config.shader || null, group:config.group || "ungrouped", source:config }; }
+export function validateMeshConfig(config = {}) { return { ok:true, config:normalizeMeshConfig(config) }; }

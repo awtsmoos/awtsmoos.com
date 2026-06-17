@@ -12,7 +12,7 @@ export function cacheElements() {
     const ids = [
         'start-button', 'start-screen', 'app-container', 'keyboard-container',
         'top-scrollbars-container', 'middle-scrollbar-container', 'left-ui-container',
-        'settings-bar', 'waveform-select', 'octave-select', 'key-width-slider',
+        'settings-bar', 'sound-preset-select', 'waveform-select', 'octave-select', 'key-width-slider',
         'play-chords-checkbox', 'always-dual-checkbox', 'independent-scroll-checkbox',
         'advanced-synth-toggle', 'chord-settings-toggle', 'audio-io-toggle',
         'restore-defaults-button', 'visual-effects-menu', 'effect-select',
@@ -21,7 +21,8 @@ export function cacheElements() {
         'attack-slider', 'decay-slider', 'sustain-slider', 'release-slider',
         'waveform2-select', 'osc-mix-slider', 'detune-slider', 'pitch-depth-slider',
         'pitch-attack-slider', 'filter-cutoff-slider', 'filter-q-slider',
-        'lfo-rate-slider', 'lfo-depth-slider', 'reverb-slider',
+        'lfo-rate-slider', 'lfo-depth-slider', 'effect-mode-select', 'chorus-slider',
+        'delay-slider', 'delay-time-slider', 'delay-feedback-slider', 'saturation-slider', 'reverb-slider',
         'chord-mode-select', 'chord-octave-select', 'chord-waveform-select',
         'record-audio-button', 'record-video-button', 'record-sheet-button',
         'mic-button', 'video-progress', 'visual-effects-toggle',

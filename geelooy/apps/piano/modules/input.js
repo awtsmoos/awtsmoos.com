@@ -3,8 +3,9 @@
 // piano/modules/input.js
 import { AudioState } from './audio.js';
 import { createSynthNode, startSynth, stopSynth, activeNotes, currentChordNodes, currentChordRoot, clearCurrentChord, setCurrentChordRoot } from './synth.js';
+import { deferRelease, clearDeferred } from './performance/pedal.js';
 import { elements, setScroll, scrollState, activeScroller, updateScrollbarThumbs } from './ui.js';
-import { isVideoRecording, videoKeyDownMap, videoRecordingData } from './recorder.js';
+import { recordingState, logVideoKeyDown, logVideoKeyUp } from './recorder.js';
 import { isSheetRecording, sheetRecordingStartTime, sheetNotes } from './recorder.js';
 
 export const noteFrequencies = {
@@ -61,54 +62,46 @@ function handlePointerUpOrCancel(e) {
 }
 
 // --- KEYBOARD LOGIC ---
-// Map 'a'..'j' to notes relative to C4 (or selected octave)
-// We defined the UI labels in ui.js, now we implement the logic
 const KEY_TO_NOTE_OFFSET = {
-    'a': {n:'C', o:4}, 'w': {n:'C#', o:4}, 's': {n:'D', o:4}, 'e': {n:'D#', o:4}, 'd': {n:'E', o:4},
-    'f': {n:'F', o:4}, 't': {n:'F#', o:4}, 'g': {n:'G', o:4}, 'y': {n:'G#', o:4}, 'h': {n:'A', o:4},
-    'u': {n:'A#', o:4}, 'j': {n:'B', o:4},
-    'k': {n:'C', o:5}, 'o': {n:'C#', o:5}, 'l': {n:'D', o:5}, 'p': {n:'D#', o:5}, ';': {n:'E', o:5}, "'": {n:'F', o:5}
+    'a': {n:'C', o:0}, 'w': {n:'C#', o:0}, 's': {n:'D', o:0}, 'e': {n:'D#', o:0}, 'd': {n:'E', o:0},
+    'f': {n:'F', o:0}, 't': {n:'F#', o:0}, 'g': {n:'G', o:0}, 'y': {n:'G#', o:0}, 'h': {n:'A', o:0},
+    'u': {n:'A#', o:0}, 'j': {n:'B', o:0},
+    'k': {n:'C', o:1}, 'o': {n:'C#', o:1}, 'l': {n:'D', o:1}, 'p': {n:'D#', o:1}, ';': {n:'E', o:1}, "'": {n:'F', o:1}
 };
+
+function noteNameForKeyboardMapping(mapping) {
+    const startOctave = parseInt(elements.octaveSelect.value || '0', 10);
+    return `${mapping.n}${startOctave + mapping.o}`;
+}
 
 function handleKeyDown(e) {
     if (e.repeat || e.ctrlKey || e.metaKey || e.target.tagName === 'INPUT') return;
     const key = e.key.toLowerCase();
     const mapping = KEY_TO_NOTE_OFFSET[key];
-    if (mapping) {
-        // Virtual pointer ID for keyboard
-        const pid = `kb-${key}`;
-        if (activeNotes.has(pid)) return;
-        
-        // Find DOM element to light it up
-        // Note name construction:
-        // We need to match the UI. If default is C4, then 'a' is C4.
-        // But the keyboard generator starts at elements.octaveSelect.value.
-        // Let's rely on the text labels we generated or just construct noteName.
-        // Ideally we assume user wants to play what's labeled. 
-        // We labeled 'a' as C4 if active octave is 4.
-        // Let's just assume the mapping is relative to C4.
-        
-        const noteName = mapping.n + mapping.o;
-        const keyElement = document.querySelector(`.key[data-note="${noteName}"]`);
-        
-        if (keyElement) {
-             const keyRect = keyElement.getBoundingClientRect();
-             triggerNoteOn(noteName, pid, { x: keyRect.width/2, y: keyRect.height/2 }, keyElement);
-        }
-    }
+    if (!mapping) return;
+
+    const pid = `kb-${key}`;
+    if (activeNotes.has(pid)) return;
+
+    const noteName = noteNameForKeyboardMapping(mapping);
+    const keyElement = document.querySelector(`.key[data-note="${noteName}"]`);
+    if (!keyElement) return;
+
+    const keyRect = keyElement.getBoundingClientRect();
+    triggerNoteOn(noteName, pid, { x: keyRect.width / 2, y: keyRect.height / 2 }, keyElement);
 }
 
 function handleKeyUp(e) {
     const key = e.key.toLowerCase();
-    if (KEY_TO_NOTE_OFFSET[key]) {
-        triggerNoteOff(`kb-${key}`);
-    }
+    if (KEY_TO_NOTE_OFFSET[key]) triggerNoteOff(`kb-${key}`);
 }
 
 // --- CORE NOTE TRIGGERS ---
 
-function triggerNoteOn(noteName, inputId, coords, keyElement) {
+export function triggerNoteOn(noteName, inputId, coords, keyElement) {
     const note = noteName.replace(/\d/g, '');
+    keyElement = keyElement || document.querySelector(`.key[data-note="${noteName}"]`);
+    if (!keyElement) return;
     const octave = parseInt(noteName.match(/\d+/g));
     const frequency = noteFrequencies[note] * Math.pow(2, octave);
 
@@ -116,24 +109,15 @@ function triggerNoteOn(noteName, inputId, coords, keyElement) {
     if (elements.playChordsCheckbox.checked) triggerChord(note, octave, frequency);
 
     // Play Main Note
-    const synthNodes = createSynthNode(false);
+    clearDeferred(inputId);
+    const synthNodes = createSynthNode(false, false, { inputId, coords });
     if (synthNodes) {
-        startSynth(synthNodes, frequency);
+        startSynth(synthNodes, frequency, noteName);
         activeNotes.set(inputId, { synthNodes, keyElement });
         keyElement.classList.add('active');
         
         // Logging
-        if (isVideoRecording) {
-             videoKeyDownMap.set(noteName, { startTime: AudioState.context.currentTime, x: coords.x, y: coords.y });
-             // Send immediate event for Touch Point
-             // (We need access to worker, doing via recorder helper later or direct postMessage if exposed)
-             // For now we rely on the recorder module's logging mechanism which polls activeNotes or key events?
-             // The original code pushed to videoRecordingData in logVideoFrame.
-             // We need to maintain that flow or improve it.
-             // Updated design: UI updates drive the worker in `ui.js` via `sendFrameStateToWorker`.
-             // But key events need to be sent. We can call a helper in recorder.
-             // See recorder.js `logKeyEvent`
-        }
+        if (recordingState.isVideoRecording) logVideoKeyDown(noteName, coords);
 
         if (isSheetRecording) {
             activeNotes.get(inputId).sheetMusicStartTime = AudioState.context.currentTime - sheetRecordingStartTime;
@@ -141,10 +125,10 @@ function triggerNoteOn(noteName, inputId, coords, keyElement) {
     }
 }
 
-function triggerNoteOff(inputId) {
+export function triggerNoteOff(inputId) {
     const activeNote = activeNotes.get(inputId);
     if (activeNote) {
-        stopSynth(activeNote.synthNodes);
+        if (!deferRelease(inputId, activeNote)) stopSynth(activeNote.synthNodes);
         activeNote.keyElement.classList.remove('active');
         const noteName = activeNote.keyElement.dataset.note;
         activeNotes.delete(inputId);
@@ -162,9 +146,7 @@ function triggerNoteOff(inputId) {
                  duration: endTime - activeNote.sheetMusicStartTime
              });
         }
-        // Video log up event handled in recorder's flush or similar
-        // Actually we need to log the UP event for video.
-        // We will expose a hook in recorder.
+        if (recordingState.isVideoRecording) logVideoKeyUp(noteName);
     }
 }
 
@@ -189,9 +171,9 @@ function triggerChord(note, octave, frequency) {
     const nodesList = [];
     chordNotes.forEach(name => {
         const freq = noteFrequencies[name] * Math.pow(2, chordOctave);
-        const nodes = createSynthNode(true);
+        const nodes = createSynthNode(true, false, { inputId: `chord-${name}`, coords: { x: 0, y: 0 } });
         if (nodes) {
-            startSynth(nodes, freq);
+            startSynth(nodes, freq, name + chordOctave);
             nodesList.push(nodes);
         }
     });

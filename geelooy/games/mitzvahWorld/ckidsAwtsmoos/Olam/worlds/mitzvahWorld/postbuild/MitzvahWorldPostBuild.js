@@ -1,8 +1,5 @@
 // B"H
-/**
- * @file MitzvahWorldPostBuild.js
- * @description Every changed polish layer receives a fresh import breath and parser-clear handoff.
- */
+/** Active postbuild: region, life, polish, sun, Torah loop, and JSON movie universe. */
 import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteractionSchema.js";
 import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js";
 import { ensureNpcRoles } from "./NpcRolePostBuild.js";
@@ -12,20 +9,24 @@ import { ensureVillageVisualRealityLayer } from "./VillageVisualRealityLayer.js?
 import { ensureVillageBotanicalRealityLayer } from "./VillageBotanicalRealityLayer.js?v=awtsmoos-botanical-reality-20260614-bh3";
 import { ensureVillageEcologyRealityLayer } from "./VillageEcologyRealityLayer.js?v=awtsmoos-ecology-reality-20260614-bh3";
 import { ensureVillageWorldPolishPass } from "./VillageWorldPolishPass.js?v=awtsmoos-world-polish-20260614-bh2";
+import { ensureHyperRealSunLensFlareLayer } from "./HyperRealSunLensFlareLayer.js?v=awtsmoos-hyper-real-sun-20260616-bh1";
+import { ensureLivingTorahQuestLoop } from "./LivingTorahQuestLoop.js?v=awtsmoos-living-torah-loop-20260616-bh1";
+import { ensureUniverseJsonPostBuild } from "./UniverseJsonPostBuild.js?v=awtsmoos-movie-universe-20260616-bh1";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?v=ecology-data-spine-20260612-bh1";
 import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=mobile-region-grass-wildlife-20260615-bh903";
 import { getVillageShaderTextureStats } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh3";
 import { ecologyMaterialStats } from "../../../../dvarim/nature/villagePicture/EcologySpecialMaterials.js?v=awtsmoos-ecology-materials-20260614-bh3";
 import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js";
-function sourceOf(context) { if (context && context.worldData && context.worldData.shaym) return context.worldData.shaym; return context && context.source ? context.source : null; }
+function sourceOf(context) { return context?.worldData?.shaym || context?.source || null; }
 function mark(stage, data = {}) { postWorkerProgress(`postbuild:${stage}`, data); }
-function errorMessage(error) { return error && error.message ? error.message : String(error); }
-async function safeStep(name, task) { const startedAt = performance.now(); mark(`${name}:start`); try { const value = await task(); mark(`${name}:done`, { elapsedMs:Math.round(performance.now() - startedAt) }); return { ok:true, value }; } catch (error) { const message = errorMessage(error); mark(`${name}:error`, { message }); console.warn("B\"H | MITZVAH_POSTBUILD_STEP_FAILED", { name, message }); return { ok:false, error:message }; } }
-function countArray(result) { return Array.isArray(result.value) ? result.value.length : 0; }
-function one(result) { return result.value ? 1 : 0; }
+function err(error) { return error?.message || String(error); }
+async function safeStep(name, task) { const t = performance.now(); mark(`${name}:start`); try { const value = await task(); mark(`${name}:done`, { elapsedMs:Math.round(performance.now() - t) }); return { ok:true, value }; } catch (e) { const message = err(e); mark(`${name}:error`, { message }); console.warn("B\"H | MITZVAH_POSTBUILD_STEP_FAILED", { name, message }); return { ok:false, error:message }; } }
+function countArray(r) { return Array.isArray(r.value) ? r.value.length : 0; }
+function one(r) { return r.value ? 1 : 0; }
 function skippedWarm(kind, stats) { return { skipped:true, kind, reason:"runtime-proof-first-fast-materials", stats }; }
-function regionSummary(result) { return result.value && result.value.summary ? result.value.summary : null; }
-function livingStats(result) { return result.value && result.value.userData ? result.value.userData.stats || null : null; }
+function regionSummary(r) { return r.value?.summary || null; }
+function livingStats(r) { return r.value?.userData?.stats || null; }
+function stepLine(r, extra = {}) { return { ok:r.ok, error:r.error || null, ...extra }; }
 export async function runMitzvahWorldPostBuild(context = {}) {
   mark("start", { source:sourceOf(context), proofFirst:true });
   const regionStack = await safeStep("regionStack", () => ensureMitzvahRegionDirector(context));
@@ -39,7 +40,10 @@ export async function runMitzvahWorldPostBuild(context = {}) {
   const botanicalReality = await safeStep("botanicalReality", () => ensureVillageBotanicalRealityLayer(context));
   const ecologyReality = await safeStep("ecologyReality", () => ensureVillageEcologyRealityLayer(context));
   const worldPolish = await safeStep("worldPolish", () => ensureVillageWorldPolishPass(context));
+  const hyperSun = await safeStep("hyperRealSunLensFlare", () => ensureHyperRealSunLensFlareLayer(context));
+  const torahLoop = await safeStep("livingTorahQuestLoop", () => ensureLivingTorahQuestLoop(context));
+  const movieUniverse = await safeStep("movieUniverseJson", () => ensureUniverseJsonPostBuild(context));
   const summary = regionSummary(regionStack) || {};
-  mark("done", { regionStack:one(regionStack), livingRuntime:one(livingRuntime), worldPolish:one(worldPolish), visibleInstances:summary.visibleInstances || 0, npcSchedules:summary.npcSchedules || 0 });
-  return { skipped:false, reason:"postbuild-proof-first-full-region-runtime-polished-cache-fresh", source:sourceOf(context), steps:{ regionStack:{ ok:regionStack.ok, summary:regionSummary(regionStack), error:regionStack.error || null }, livingRegionRuntime:{ ok:livingRuntime.ok, stats:livingStats(livingRuntime), error:livingRuntime.error || null }, woodCollectibles:{ ok:woodCollectibles.ok, authored:WOOD_COLLECTIBLES.length, added:countArray(woodCollectibles), error:woodCollectibles.error || null }, roleMarkedNpcs:{ ok:roleMarkedNpcs.ok, authored:Object.keys(NPC_ROLES).length, marked:countArray(roleMarkedNpcs), error:roleMarkedNpcs.error || null }, battleLayer:{ ok:battleLayer.ok, added:countArray(battleLayer), error:battleLayer.error || null }, shaderTextureWarm:{ ok:shaderWarm.ok, value:shaderWarm.value || null, error:shaderWarm.error || null }, ecologyMaterialWarm:{ ok:ecologyWarm.ok, value:ecologyWarm.value || null, error:ecologyWarm.error || null }, visualReality:{ ok:visualReality.ok, added:one(visualReality), error:visualReality.error || null }, botanicalReality:{ ok:botanicalReality.ok, added:one(botanicalReality), error:botanicalReality.error || null }, ecologyReality:{ ok:ecologyReality.ok, added:one(ecologyReality), counts:livingStats(ecologyReality), error:ecologyReality.error || null }, worldPolish:{ ok:worldPolish.ok, added:one(worldPolish), steps:worldPolish.value ? worldPolish.value.steps || null : null, error:worldPolish.error || null } } };
+  mark("done", { regionStack:one(regionStack), livingRuntime:one(livingRuntime), worldPolish:one(worldPolish), hyperSun:one(hyperSun), torahLoop:one(torahLoop), movieUniverse:one(movieUniverse), visibleInstances:summary.visibleInstances || 0, npcSchedules:summary.npcSchedules || 0 });
+  return { skipped:false, reason:"postbuild-full-region-sun-torah-json-movie-universe", source:sourceOf(context), steps:{ regionStack:stepLine(regionStack, { summary:regionSummary(regionStack) }), livingRegionRuntime:stepLine(livingRuntime, { stats:livingStats(livingRuntime) }), woodCollectibles:stepLine(woodCollectibles, { authored:WOOD_COLLECTIBLES.length, added:countArray(woodCollectibles) }), roleMarkedNpcs:stepLine(roleMarkedNpcs, { authored:Object.keys(NPC_ROLES).length, marked:countArray(roleMarkedNpcs) }), battleLayer:stepLine(battleLayer, { added:countArray(battleLayer) }), shaderTextureWarm:stepLine(shaderWarm, { value:shaderWarm.value || null }), ecologyMaterialWarm:stepLine(ecologyWarm, { value:ecologyWarm.value || null }), visualReality:stepLine(visualReality, { added:one(visualReality) }), botanicalReality:stepLine(botanicalReality, { added:one(botanicalReality) }), ecologyReality:stepLine(ecologyReality, { added:one(ecologyReality), counts:livingStats(ecologyReality) }), worldPolish:stepLine(worldPolish, { added:one(worldPolish), steps:worldPolish.value?.steps || null }), hyperRealSunLensFlare:stepLine(hyperSun, { added:one(hyperSun), stats:livingStats(hyperSun) }), livingTorahQuestLoop:stepLine(torahLoop, { added:one(torahLoop), stats:livingStats(torahLoop), summary:regionSummary(torahLoop) }), movieUniverseJson:stepLine(movieUniverse, { added:one(movieUniverse), stats:livingStats(movieUniverse), summary:regionSummary(movieUniverse) }) } };
 }

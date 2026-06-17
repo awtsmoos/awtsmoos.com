@@ -7,16 +7,41 @@ import {
     cacheElements, elements, generateKeyboard, handleKeyboardResize, 
     updateScrollbarThumbs, scrollState, setScroll 
 } from './modules/ui.js';
-import { setupInputListeners, noteNames } from './modules/input.js';
+import { setupInputListeners, noteNames, triggerNoteOn, triggerNoteOff } from './modules/input.js';
 import { updateAllActiveNotesParameters } from './modules/synth.js';
 import { toggleAudioRecording, toggleVideoRecording, toggleSheetRecording } from './modules/recorder.js';
 import { startAccompaniment, stopAccompaniment } from './modules/accompaniment.js';
+import { initMidi } from './modules/performance/midi.js';
+import { setSustainPedal } from './modules/performance/pedal.js';
+import { activeNotes, stopSynth } from './modules/synth.js';
+import { SOUND_PRESET_LIST, getSoundPreset, applyPresetToElements } from './modules/sound/presets.js';
+import { EFFECT_MODE_LIST, getEffectMode } from './modules/effects/effectPresets.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     cacheElements();
     
     // --- POPULATE SELECTS ---
     function populateSelects() {
+        if (elements.soundPresetSelect) {
+            elements.soundPresetSelect.innerHTML = '';
+            SOUND_PRESET_LIST.forEach(preset => {
+                const opt = document.createElement('option');
+                opt.value = preset.id;
+                opt.textContent = preset.label;
+                elements.soundPresetSelect.appendChild(opt);
+            });
+            elements.soundPresetSelect.value = 'awtsmoos-dream-electric';
+        }
+        if (elements.effectModeSelect) {
+            elements.effectModeSelect.innerHTML = '';
+            EFFECT_MODE_LIST.forEach(mode => {
+                const opt = document.createElement('option');
+                opt.value = mode.id;
+                opt.textContent = mode.label;
+                elements.effectModeSelect.appendChild(opt);
+            });
+            elements.effectModeSelect.value = 'balanced';
+        }
         const selects = [elements.waveformSelect, elements.waveform2Select, elements.chordWaveformSelect, elements.bassWaveformSelect];
         selects.forEach(sel => {
             if(!sel) return;
@@ -28,10 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 sel.appendChild(opt);
             });
         });
-        elements.waveformSelect.value = 'sine';
-        elements.waveform2Select.value = 'sawtooth';
-        elements.chordWaveformSelect.value = 'triangle';
-        if(elements.bassWaveformSelect) elements.bassWaveformSelect.value = 'hard-bass';
+        applyPresetToElements(elements, getSoundPreset(elements.soundPresetSelect?.value));
     }
 
     elements.startButton.addEventListener('click', async () => {
@@ -47,6 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         loadSettings();
         generateKeyboard(noteNames);
         setupInputListeners();
+        initMidi({
+            onNoteOn: (noteName, velocity, midiNote) => triggerNoteOn(noteName, `midi-${midiNote}`, { x: 0, y: 180 * velocity }),
+            onNoteOff: (_noteName, midiNote) => triggerNoteOff(`midi-${midiNote}`),
+            onPedal: down => setSustainPedal(down, activeNotes, stopSynth)
+        }).catch(err => console.warn('MIDI init skipped', err));
         loadScrollState();
         
         // Start accompaniment loop (it checks checkbox internally)
@@ -80,12 +107,28 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.recordVideoButton.addEventListener('click', toggleVideoRecording);
     elements.recordSheetButton.addEventListener('click', toggleSheetRecording);
 
+    if (elements.soundPresetSelect) elements.soundPresetSelect.addEventListener('change', () => {
+        applyPresetToElements(elements, getSoundPreset(elements.soundPresetSelect.value));
+        updateAllActiveNotesParameters();
+        if (AudioState.lfo) {
+            AudioState.lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRateSlider.value), AudioState.context.currentTime, 0.01);
+            AudioState.lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepthSlider.value), AudioState.context.currentTime, 0.01);
+        }
+        saveSettings();
+    });
+
+    if (elements.effectModeSelect) elements.effectModeSelect.addEventListener('change', () => {
+        applyEffectModeToElements(elements.effectModeSelect.value);
+        updateAllActiveNotesParameters();
+        saveSettings();
+    });
+
     // Synth Params
     const paramIds = [
-        'waveformSelect', 'chordWaveformSelect', 'bassWaveformSelect', 'playChordsCheckbox', 'chordModeSelect', 'chordOctaveSelect',
+        'soundPresetSelect', 'waveformSelect', 'chordWaveformSelect', 'bassWaveformSelect', 'playChordsCheckbox', 'chordModeSelect', 'chordOctaveSelect',
         'attackSlider', 'decaySlider', 'sustainSlider', 'releaseSlider',
         'waveform2Select', 'oscMixSlider', 'detuneSlider', 'pitchDepthSlider', 'pitchAttackSlider',
-        'filterCutoffSlider', 'filterQSlider', 'lfoRateSlider', 'lfoDepthSlider', 'reverbSlider'
+        'filterCutoffSlider', 'filterQSlider', 'lfoRateSlider', 'lfoDepthSlider', 'effectModeSelect', 'chorusSlider', 'delaySlider', 'delayTimeSlider', 'delayFeedbackSlider', 'saturationSlider', 'reverbSlider'
     ];
     paramIds.forEach(key => {
         if(elements[key]) elements[key].addEventListener('input', () => {
@@ -106,6 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     elements.restoreDefaultsButton.addEventListener('click', restoreDefaults);
 });
+
+
+function applyEffectModeToElements(modeId) {
+    const mode = getEffectMode(modeId);
+    if (elements.chorusSlider) elements.chorusSlider.value = mode.chorusSend;
+    if (elements.delaySlider) elements.delaySlider.value = mode.delaySend;
+    if (elements.delayTimeSlider) elements.delayTimeSlider.value = mode.delayTime;
+    if (elements.delayFeedbackSlider) elements.delayFeedbackSlider.value = mode.delayFeedback;
+    if (elements.saturationSlider) elements.saturationSlider.value = mode.saturationDrive;
+    if (elements.reverbSlider) elements.reverbSlider.value = mode.reverbSend;
+}
 
 async function toggleMic() {
     if (AudioState.microphoneSource) {
