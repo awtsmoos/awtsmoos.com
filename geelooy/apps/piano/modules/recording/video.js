@@ -15,7 +15,7 @@ export async function toggleVideoRecording(){
     recordingState.videoStartTime=AudioState.context.currentTime;
     worker.postMessage({type:'INITIALIZE_RENDERER',payload:makeVideoConfig()});
     recordingState.isVideoRecording=true;
-    elements.videoProgress.textContent='Recording video... live preview is throttled for smooth playing.';
+    elements.videoProgress.textContent='Live encoding safely with backpressure. Keep playing.';
     btn.textContent='Stop Video';
 }
 function stopVideo(btn){
@@ -25,5 +25,5 @@ function stopVideo(btn){
     stopMediaRecorder();
     recordingState.isVideoRecording=false;
     btn.textContent='Processing Video...';
-    elements.videoProgress.textContent='Saving audio chunks and rendering final video...';
+    elements.videoProgress.textContent='Finishing remaining encoded tail...';
 }
