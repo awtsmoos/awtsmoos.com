@@ -1,52 +1,88 @@
 ﻿/* B"H
-A wet electric voice: reed body, pickup softness, lowpass rain, chorus ocean.
+GSN-Cardboard-style voice: Osc1, Osc2, Noise, AmpEnv, Env1 filter snap, Env2 pitch bite, LFO movement.
+One small graph, big sound, no cargo-lag.
 */
 import { AudioState } from './audio.js';
 import { elements } from './ui.js';
 import { customWaves } from './waveforms.js';
 import { readPresetFromElements } from './sound/presets.js';
 import { createVelocity, humanize } from './sound/velocity.js';
-import { createTransient, startTransient } from './sound/transients.js';
 import { setChorusAmount } from './sound/chorus.js';
 import { setDelay } from './effects/delay.js';
 import { createSaturator } from './sound/saturation.js';
-import { createSampleVoice } from './sound/sampleEngine.js';
-import { createFmPair, startFm, stopFm } from './sound/fmEngine.js';
-import { pedalState } from './performance/pedal.js';
-import { createSympatheticResonance, rememberStrike, repetitionFactor } from './performance/resonance.js';
-const BASE_GAIN_OSC=.27, CHORD_GAIN_MULTIPLIER=.25;
-export const activeNotes=new Map(); export let currentChordNodes=[]; export let currentChordRoot=null; export let noteHistory=[];
-export function getADSR(){return{attack:val(elements.attackSlider,.018),decay:val(elements.decaySlider,.46),sustain:val(elements.sustainSlider,.86)};}
-export function createSynthNode(isChord=false,isBass=false,options={}){
- const ctx=AudioState.context,preset=readPresetFromElements(elements),velocity=createVelocity(options.inputId,options.coords),human=humanize(preset,velocity);
- const osc1=ctx.createOscillator(),osc2=ctx.createOscillator(),gain1=ctx.createGain(),gain2=ctx.createGain(),body=ctx.createGain(),bark=ctx.createGain(),amp=ctx.createGain();
- const pan=ctx.createStereoPanner?ctx.createStereoPanner():ctx.createGain(),mud=ctx.createBiquadFilter(),reed=ctx.createBiquadFilter(),filter=ctx.createBiquadFilter(),tine=ctx.createBiquadFilter(),air=ctx.createBiquadFilter(),saturator=createSaturator(ctx,preset.saturationDrive*(preset.pickupDrive||1));
- osc1.connect(gain1); osc2.connect(gain2); gain1.connect(body); gain2.connect(body); body.connect(mud); mud.connect(reed); reed.connect(bark); bark.connect(amp); amp.connect(pan); pan.connect(filter); filter.connect(tine); tine.connect(air); air.connect(saturator);
- saturator.connect(AudioState.masterGain); saturator.connect(AudioState.convolver); if(AudioState.chorus)saturator.connect(AudioState.chorus.input); if(AudioState.delayRack)saturator.connect(AudioState.delayRack.input);
- const nodes={osc1,osc2,gain1,gain2,body,bark,noteGain:amp,pan,mud,reed,filter,tine,air,saturator,preset,velocity,human,isChord,isBass,lfoConnected:false}; applyCurrentParameters(nodes,isChord,isBass); return nodes;
+
+const MAIN_GAIN = .31, CHORD_GAIN = .13, BASS_GAIN = .22;
+const noiseCache = new WeakMap();
+export const activeNotes = new Map();
+export let currentChordNodes = [], currentChordRoot = null, noteHistory = [];
+
+export function getADSR() {
+    return { attack: num(elements.attackSlider, .006), decay: num(elements.decaySlider, .24), sustain: num(elements.sustainSlider, .5) };
 }
-export function applyCurrentParameters(nodes,isChord,isBass=false){
- const ctx=AudioState.context,preset=readPresetFromElements(elements),now=ctx.currentTime,wave1=isBass?(elements.bassWaveformSelect?.value||preset.bassWave||'triangle'):(isChord?preset.chordWave:preset.wave1);
- applyWave(nodes.osc1,wave1); applyWave(nodes.osc2,preset.wave2); nodes.gain1.gain.setTargetAtTime(1-preset.oscMix,now,.025); nodes.gain2.gain.setTargetAtTime(preset.oscMix,now,.025);
- nodes.body.gain.setTargetAtTime((preset.bodyGain||1.5)*(isBass?.85:1),now,.035); nodes.bark.gain.setTargetAtTime(1+(nodes.velocity-.86)*(preset.barkAmount||0),now,.03);
- nodes.mud.type='peaking'; nodes.mud.frequency.setTargetAtTime(isBass?180:260,now,.04); nodes.mud.Q.setTargetAtTime(.72,now,.04); nodes.mud.gain.setTargetAtTime(preset.mudLift??2.2,now,.04);
- nodes.reed.type='peaking'; nodes.reed.frequency.setTargetAtTime(isBass?360:720,now,.04); nodes.reed.Q.setTargetAtTime(.9,now,.04); nodes.reed.gain.setTargetAtTime(isBass?1.2:3.2,now,.04);
- nodes.filter.type='lowpass'; nodes.filter.frequency.setTargetAtTime(clamp(preset.filterCutoff*nodes.human.brightness,120,9200),now,.04); nodes.filter.Q.setTargetAtTime(clamp(preset.filterQ,.2,8),now,.04);
- nodes.tine.type='peaking'; nodes.tine.frequency.setTargetAtTime(2450,now,.04); nodes.tine.Q.setTargetAtTime(1.2,now,.04); nodes.tine.gain.setTargetAtTime(preset.tineCut??-4,now,.04);
- nodes.air.type='highshelf'; nodes.air.frequency.setTargetAtTime(4800,now,.04); nodes.air.gain.setTargetAtTime(preset.stageTone??-7,now,.04); if(nodes.pan.pan)nodes.pan.pan.setTargetAtTime(nodes.human.pan*(preset.stereoSpread||.6),now,.04);
- connectLfo(nodes); scheduleGain(nodes,preset,isChord,isBass); AudioState.wetGain.gain.setTargetAtTime(preset.reverbSend,now,.06); setChorusAmount(AudioState.chorus,preset.chorusSend,now); setDelay(AudioState.delayRack,preset.delaySend||0,now,preset.delayTime,preset.delayFeedback);
+export function createSynthNode(isChord = false, isBass = false, options = {}) {
+    const ctx = AudioState.context, p = readPresetFromElements(elements), v = createVelocity(options.inputId, options.coords), h = humanize(p, v);
+    const osc1 = ctx.createOscillator(), osc2 = ctx.createOscillator(), noiseGain = ctx.createGain(), g1 = ctx.createGain(), g2 = ctx.createGain(), mix = ctx.createGain();
+    const filter = ctx.createBiquadFilter(), amp = ctx.createGain(), drive = createSaturator(ctx, p.saturationDrive || 2.2), pan = ctx.createStereoPanner ? ctx.createStereoPanner() : ctx.createGain();
+    const lfo = ctx.createOscillator(), lfoGain = ctx.createGain();
+    osc1.connect(g1); osc2.connect(g2); g1.connect(mix); g2.connect(mix); noiseGain.connect(mix); mix.connect(filter); filter.connect(amp); amp.connect(drive); drive.connect(pan); pan.connect(AudioState.masterGain);
+    lfo.connect(lfoGain); lfoGain.connect(filter.frequency);
+    if (AudioState.convolver) pan.connect(AudioState.convolver);
+    if (AudioState.chorus) pan.connect(AudioState.chorus.input);
+    if (AudioState.delayRack) pan.connect(AudioState.delayRack.input);
+    const nodes = { osc1, osc2, noiseGain, g1, g2, mix, filter, amp, drive, pan, lfo, lfoGain, noise: null, preset: p, velocity: v, human: h, isChord, isBass };
+    applyCurrentParameters(nodes, isChord, isBass);
+    return nodes;
 }
-function scheduleGain(nodes,preset,isChord,isBass){
- const ctx=AudioState.context,adsr=getADSR(),now=ctx.currentTime; let peak=BASE_GAIN_OSC*nodes.velocity*repetitionFactor(nodes.noteName||'',now)*(1+preset.oscMix*.12); if(isChord)peak*=CHORD_GAIN_MULTIPLIER; if(isBass)peak*=.7;
- nodes.noteGain.gain.cancelScheduledValues(now); nodes.noteGain.gain.setValueAtTime(Math.max(.0001,nodes.noteGain.gain.value||.0001),now); nodes.noteGain.gain.linearRampToValueAtTime(peak,now+(isBass?.014:adsr.attack)); nodes.noteGain.gain.setTargetAtTime(peak*adsr.sustain,now+adsr.attack,adsr.decay+.001);
+export function applyCurrentParameters(n, isChord, isBass = false) {
+    const ctx = AudioState.context, now = ctx.currentTime, p = readPresetFromElements(elements);
+    n.preset = p;
+    applyWave(n.osc1, isBass ? (p.bassWave || 'triangle') : (isChord ? p.chordWave : p.wave1));
+    applyWave(n.osc2, p.wave2);
+    n.g1.gain.setTargetAtTime(1 - clamp(p.oscMix, 0, .95), now, .01);
+    n.g2.gain.setTargetAtTime(clamp(p.oscMix, 0, .95), now, .01);
+    n.noiseGain.gain.setTargetAtTime(p.noiseGain || 0, now, .02);
+    n.mix.gain.setTargetAtTime(p.sourceGain || 1, now, .015);
+    n.filter.type = p.filterType || 'lowpass';
+    n.filter.Q.setTargetAtTime(clamp(p.filterQ || 6, .1, 22), now, .012);
+    n.filter.frequency.setTargetAtTime(clamp((p.filterCutoff || 900) * n.human.brightness, 45, 9000), now, .018);
+    n.lfo.frequency.setTargetAtTime(clamp(p.lfoRate || 0, 0, 18), now, .02);
+    n.lfoGain.gain.setTargetAtTime(clamp(p.lfoToFilter || 0, 0, 1600), now, .03);
+    if (n.pan.pan) n.pan.pan.setTargetAtTime(n.human.pan * (p.stereoSpread || .35), now, .025);
+    AudioState.wetGain?.gain.setTargetAtTime(p.reverbSend || 0, now, .05);
+    setChorusAmount(AudioState.chorus, p.chorusSend || 0, now);
+    setDelay(AudioState.delayRack, p.delaySend || 0, now, p.delayTime, p.delayFeedback);
 }
-export function startSynth(nodes,frequency,noteName=''){
- const ctx=AudioState.context,now=ctx.currentTime,p=nodes.preset; nodes.noteName=noteName; nodes.osc1.frequency.setValueAtTime(frequency,now); nodes.osc2.frequency.setValueAtTime(frequency,now); nodes.osc1.detune.setValueAtTime(val(elements.pitchDepthSlider,0)*.08+nodes.human.drift,now); nodes.osc2.detune.setValueAtTime(p.detuneCents+nodes.human.drift,now);
- nodes.fm=createFmPair(ctx,nodes.osc1,frequency,p,nodes.velocity); nodes.transient=createTransient(ctx,nodes.filter,frequency,nodes.velocity,p); nodes.sampleVoice=createSampleVoice(ctx,nodes.filter,p,noteName); nodes.sympathetic=createSympatheticResonance(ctx,nodes.filter,frequency,pedalState.sustain,nodes.velocity); rememberStrike(noteName,now,nodes.velocity);
- nodes.osc1.start(now); nodes.osc2.start(now); startFm(nodes.fm,now); startTransient(nodes.transient,now); if(nodes.sampleVoice)nodes.sampleVoice.source.start(now); if(nodes.sympathetic)nodes.sympathetic.osc.start(now);
+export function startSynth(n, frequency, noteName = '') {
+    const ctx = AudioState.context, now = ctx.currentTime, p = n.preset, adsr = getADSR();
+    n.noteName = noteName;
+    const pitchKick = p.env2PitchCents || 0, base1 = frequency, base2 = frequency;
+    n.osc1.frequency.setValueAtTime(base1 * cents(pitchKick), now);
+    n.osc2.frequency.setValueAtTime(base2 * cents(pitchKick * .45), now);
+    n.osc1.frequency.exponentialRampToValueAtTime(base1, now + Math.max(.025, p.env2Decay || .11));
+    n.osc2.frequency.exponentialRampToValueAtTime(base2, now + Math.max(.025, p.env2Decay || .11));
+    n.osc1.detune.setValueAtTime(n.human.drift - (p.detuneCents || 0) * .5, now);
+    n.osc2.detune.setValueAtTime(n.human.drift + (p.detuneCents || 0) * .5, now);
+    if ((p.noiseGain || 0) > 0) n.noise = startNoise(ctx, n.noiseGain, now);
+    const peak = (n.isChord ? CHORD_GAIN : n.isBass ? BASS_GAIN : MAIN_GAIN) * n.velocity * (p.outputTrim || 1);
+    const attack = Math.max(.002, p.attack || adsr.attack), decay = Math.max(.012, p.decay || adsr.decay), sustain = p.sustain ?? adsr.sustain;
+    n.amp.gain.cancelScheduledValues(now); n.amp.gain.setValueAtTime(.0001, now); n.amp.gain.linearRampToValueAtTime(peak, now + attack); n.amp.gain.setTargetAtTime(peak * sustain, now + attack, decay);
+    const baseCut = clamp((p.filterCutoff || 900) * n.human.brightness, 45, 8500), topCut = clamp(baseCut * (p.env1FilterMult || 3.8), 80, 10000);
+    n.filter.frequency.cancelScheduledValues(now); n.filter.frequency.setValueAtTime(topCut, now); n.filter.frequency.exponentialRampToValueAtTime(baseCut, now + Math.max(.035, p.env1Decay || .24));
+    n.lfo.start(now); n.osc1.start(now); n.osc2.start(now);
 }
-export function stopSynth(nodes){if(!nodes)return; const ctx=AudioState.context,now=ctx.currentTime,release=val(elements.releaseSlider,1.05); nodes.noteGain.gain.cancelScheduledValues(now); nodes.noteGain.gain.setValueAtTime(Math.max(.0001,nodes.noteGain.gain.value),now); nodes.noteGain.gain.exponentialRampToValueAtTime(.0001,now+release); const stopTime=now+release+.14; stopFm(nodes.fm,stopTime); [nodes.osc1,nodes.osc2,nodes.sampleVoice?.source,nodes.sympathetic?.osc].forEach(n=>stopNode(n,stopTime)); nodes.osc1.onended=()=>cleanup(nodes);}
-export function updateAllActiveNotesParameters(){[...activeNotes.values()].map(n=>n.synthNodes).concat(currentChordNodes).forEach(nodes=>nodes&&applyCurrentParameters(nodes,currentChordNodes.includes(nodes),nodes.isBass));}
-function applyWave(osc,wave){customWaves[wave]?osc.setPeriodicWave(customWaves[wave]):osc.type=wave;} function connectLfo(nodes){if(!nodes.lfoConnected&&AudioState.lfo?.gain){try{AudioState.lfo.gain.connect(nodes.filter.frequency);nodes.lfoConnected=true;}catch(_){}}}
-function cleanup(nodes){if(nodes.lfoConnected)try{AudioState.lfo?.gain?.disconnect(nodes.filter.frequency);}catch(_){}} function stopNode(node,time){try{node?.stop(time);}catch(_){}} function val(el,fallback){return parseFloat(el?.value??fallback);} function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
-export function setCurrentChordNodes(nodes){currentChordNodes=nodes;} export function setCurrentChordRoot(root){currentChordRoot=root;} export function clearCurrentChord(){currentChordNodes.forEach(n=>stopSynth(n)); currentChordNodes=[]; currentChordRoot=null;}
+export function stopSynth(n) {
+    if (!n) return;
+    const ctx = AudioState.context, now = ctx.currentTime, release = Math.max(.03, num(elements.releaseSlider, n.preset.release || .5));
+    n.amp.gain.cancelScheduledValues(now); n.amp.gain.setValueAtTime(Math.max(.0001, n.amp.gain.value || .0001), now); n.amp.gain.exponentialRampToValueAtTime(.0001, now + release);
+    [n.osc1, n.osc2, n.noise, n.lfo].forEach(node => stopNode(node, now + release + .04));
+}
+export function updateAllActiveNotesParameters() { [...activeNotes.values()].map(x => x.synthNodes).concat(currentChordNodes).forEach(n => n && applyCurrentParameters(n, currentChordNodes.includes(n), n.isBass)); }
+export function setCurrentChordNodes(nodes) { currentChordNodes = nodes; }
+export function setCurrentChordRoot(root) { currentChordRoot = root; }
+export function clearCurrentChord() { currentChordNodes.forEach(n => stopSynth(n)); currentChordNodes = []; currentChordRoot = null; }
+function startNoise(ctx, target, when) { let b = noiseCache.get(ctx); if (!b) { b = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; noiseCache.set(ctx, b); } const s = ctx.createBufferSource(); s.buffer = b; s.loop = true; s.connect(target); s.start(when); return s; }
+function applyWave(osc, wave) { customWaves[wave] ? osc.setPeriodicWave(customWaves[wave]) : osc.type = ['sine','square','sawtooth','triangle'].includes(wave) ? wave : 'sawtooth'; }
+function stopNode(node, time) { try { node?.stop(time); } catch (_) {} }
+function num(el, fallback) { return parseFloat(el?.value ?? fallback); }
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+function cents(v) { return Math.pow(2, v / 1200); }

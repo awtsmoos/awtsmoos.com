@@ -1,46 +1,20 @@
 ﻿/* B"H
-A warmer cardboard-synth inspired preset atlas: lowpass before glitter, water before glass.
+GSN Cardboard-style patches: sources, AMP ENV, ENV1 filter, ENV2 pitch, LFO, wet effects.
 */
 import { getEffectMode } from '../effects/effectPresets.js';
-
-const BASE = {
-    wave1:'wet-electric-keys', wave2:'bell-ep', chordWave:'wet-electric-keys', bassWave:'tonewheel',
-    attack:.018, decay:.46, sustain:.86, release:1.05, oscMix:.12, detuneCents:3.2,
-    pitchDepth:3.5, pitchAttack:.008, filterCutoff:4050, filterQ:1.45, lfoRate:1.35, lfoDepth:72,
-    fmRatio:1.5, fmIndex:.075, fmTone:'warm', stereoSpread:.62, driftCents:2.1,
-    transientGain:.028, transientMs:10, saturationDrive:1.42, effectMode:'dream', chorusSend:.68,
-    delaySend:.085, delayTime:.31, delayFeedback:.18, reverbSend:.44,
-    bodyGain:1.54, barkAmount:.045, pickupDrive:.9, stageTone:-7.4, mudLift:2.4, tineCut:-4.8
-};
-
+const BASE = { wave1:'sawtooth', wave2:'square', chordWave:'sawtooth', bassWave:'triangle', attack:.004, decay:.2, sustain:.48, release:.42, oscMix:.36, detuneCents:9, filterType:'lowpass', filterCutoff:820, filterQ:9, env1FilterMult:4.2, env1Decay:.22, env2PitchCents:18, env2Decay:.09, lfoRate:3.2, lfoToFilter:75, stereoSpread:.38, driftCents:1.2, saturationDrive:2.45, effectMode:'gsnCardboard', chorusSend:.34, delaySend:.16, delayTime:.23, delayFeedback:.3, reverbSend:.32, sourceGain:1.08, noiseGain:.024, outputTrim:1 };
 const rows = [
-['awtsmoos-dream-electric','Awtsmoos Dream Electric',{}],
-['awtsmoos-main-wet-keys','Awtsmoos Main Wet Keys',{filterCutoff:3650,chorusSend:.74,reverbSend:.52,delaySend:.1,bodyGain:1.62}],
-['awtsmoos-cardboard-wet','Awtsmoos Cardboard Wet',{wave2:'soft-pad',attack:.022,release:1.24,oscMix:.18,filterCutoff:3350,lfoRate:.88,lfoDepth:110,chorusSend:.78,reverbSend:.58,bodyGain:1.5}],
-['awtsmoos-deep-rhodes','Awtsmoos Deep Rhodes',{attack:.024,decay:.58,sustain:.84,release:1.35,oscMix:.2,filterCutoff:3450,fmIndex:.06,chorusSend:.7,reverbSend:.48,bodyGain:1.72}],
-['awtsmoos-velvet-wurli','Awtsmoos Velvet Wurli',{wave1:'growl',wave2:'wet-electric-keys',attack:.014,decay:.34,sustain:.74,release:.88,oscMix:.08,filterCutoff:3850,fmTone:'bark',fmIndex:.16,saturationDrive:1.75,barkAmount:.18,chorusSend:.55,reverbSend:.34}],
-['awtsmoos-club-wet-ep','Awtsmoos Club Wet EP',{attack:.012,sustain:.82,release:.82,filterCutoff:4550,filterQ:1.8,chorusSend:.8,delaySend:.12,reverbSend:.5,saturationDrive:1.58}],
-['awtsmoos-gospel-cloud','Awtsmoos Gospel Cloud',{attack:.018,decay:.42,sustain:.9,release:1.28,filterCutoff:4300,chorusSend:.82,reverbSend:.6,bodyGain:1.64}],
-['awtsmoos-arena-wet-stage','Awtsmoos Arena Wet Stage',{attack:.02,sustain:.88,release:1.45,filterCutoff:4700,chorusSend:.86,delaySend:.15,reverbSend:.68,bodyGain:1.52}],
-['websynth-8op-fm-glass','WebSynth 8-Op FM Glass',{wave1:'sine',wave2:'crystalline',oscMix:.44,filterCutoff:7600,filterQ:2.7,fmIndex:.85,fmTone:'bright',chorusSend:.44,reverbSend:.5,stageTone:-3.5,bodyGain:.95}],
-['websynth-operator-bells','WebSynth Operator Bells',{wave1:'bell-ep',wave2:'metal-hit',oscMix:.34,attack:.006,decay:.86,sustain:.24,release:1.7,fmTone:'glass',fmIndex:.78,reverbSend:.7,bodyGain:.82,stageTone:-2.5}],
-['wavetable-morph-pad','Wavetable Morph Pad',{wave1:'soft-pad',wave2:'hyper-saw',attack:.42,sustain:.82,release:2.8,fmTone:'pad',chorusSend:.74,reverbSend:.88,filterCutoff:6200}],
-['waveedit-glass-table','WaveEdit Glass Table',{wave1:'crystalline',wave2:'shimmer-sine',filterQ:5,fmTone:'glass',fmIndex:.72,reverbSend:.7,filterCutoff:7200}],
-['bitcrush-chip-lab','Bitcrush Chip Lab',{wave1:'8-bit',wave2:'chiptune',attack:.002,release:.22,filterQ:9,fmTone:'crush',saturationDrive:2.6,bodyGain:.7,filterCutoff:5100}],
-['wavefolder-brass','Wavefolder Brass Stack',{wave1:'brass-ensemble',wave2:'growl',filterQ:8,fmTone:'fold',saturationDrive:2.6,barkAmount:.22,filterCutoff:5600}],
-['ott-hyper-pad','OTT Hyper Pad',{wave1:'hyper-saw',wave2:'soft-pad',attack:.12,sustain:.86,release:1.7,chorusSend:.68,bodyGain:.95,filterCutoff:6400}],
-['granular-clouds','Granular Clouds',{wave1:'drops',wave2:'angel',attack:.18,release:2.4,fmIndex:.32,reverbSend:.9,bodyGain:.8,filterCutoff:5600}],
-['modular-random-keys','Modular Random Keys',{wave1:'wobble',wave2:'wet-electric-keys',filterQ:6,fmIndex:.38,delaySend:.17,filterCutoff:4300}],
-['fm-bass-matrix','FM Bass Matrix',{wave1:'super-fm',wave2:'neuro-bass',filterCutoff:1800,filterQ:7,fmTone:'bass',saturationDrive:2.7,bodyGain:1.4}],
-['reese-warp','Reese Warp',{wave1:'reese-bass',wave2:'digital-hoover',detuneCents:18,filterCutoff:2400,bodyGain:1.3}],
-['acid-filter-lab','Acid Filter Lab',{wave1:'acid-pulse',wave2:'sawtooth',attack:.002,release:.25,filterCutoff:3600,filterQ:14,saturationDrive:3.2,barkAmount:.35}],
-['dx-wet-ep','DX Wet EP',{wave1:'wet-electric-keys',wave2:'shimmer-sine',attack:.018,release:1.16,filterCutoff:4800,fmTone:'warm',fmIndex:.28,reverbSend:.44,stageTone:-5.2}],
-['warm-rhodes-cloud','Warm Rhodes Cloud',{wave1:'wet-electric-keys',wave2:'bell-ep',attack:.032,release:1.35,filterCutoff:3300,fmTone:'warm',fmIndex:.18,reverbSend:.52,bodyGain:1.68}],
-['wurli-bark','Wurli Bark',{wave1:'growl',wave2:'wet-electric-keys',attack:.012,release:.62,filterCutoff:3900,fmTone:'bark',saturationDrive:2,barkAmount:.34}],
-['cinematic-synth-keys','Cinematic Synth Keys',{wave1:'hyper-saw',wave2:'shimmer-sine',attack:.08,release:1.55,fmTone:'pad',reverbSend:.82,filterCutoff:5800}],
-['vocal-formant-choir','Vocal Formant Choir',{wave1:'vox',wave2:'angel',attack:.09,release:1.8,filterQ:9,reverbSend:.84,filterCutoff:5200}],
-['physical-pluck-lab','Physical Pluck Lab',{wave1:'pluck',wave2:'koto',attack:.003,sustain:.28,release:.9,transientGain:.22,filterCutoff:5000}],
-['hoover-rave-cloud','Hoover Rave Cloud',{wave1:'digital-hoover',wave2:'trance-gate',detuneCents:22,saturationDrive:2.2,filterCutoff:5200}]
+['awtsmoos-dream-electric','GSN Cardboard Source',{}],
+['awtsmoos-main-wet-keys','GSN Wet Env Lead',{filterCutoff:680,filterQ:12,env1FilterMult:5.7,env1Decay:.28,env2PitchCents:26,noiseGain:.04,delaySend:.22,reverbSend:.4,chorusSend:.42,saturationDrive:2.85}],
+['awtsmoos-cardboard-wet','GSN Squelchy Bass',{wave1:'square',wave2:'sawtooth',filterCutoff:460,filterQ:16,oscMix:.43,noiseGain:.045,env1FilterMult:7.2,env1Decay:.35,env2PitchCents:32,lfoToFilter:110,delaySend:.15}],
+['awtsmoos-deep-rhodes','Env Electric Keys',{wave1:'triangle',wave2:'sawtooth',filterCutoff:1180,filterQ:4,oscMix:.2,detuneCents:5,env1FilterMult:2.4,env2PitchCents:5,noiseGain:.01,chorusSend:.58,reverbSend:.44,saturationDrive:1.7}],
+['awtsmoos-velvet-wurli','Driven Env Wurli',{wave1:'square',wave2:'triangle',filterCutoff:1320,filterQ:6,oscMix:.27,detuneCents:4,env1FilterMult:2.9,env2PitchCents:7,saturationDrive:3.1,chorusSend:.28}],
+['websynth-8op-fm-glass','Clean Glass Source',{wave1:'sine',wave2:'triangle',filterCutoff:3200,filterQ:2,oscMix:.5,detuneCents:2,noiseGain:0,env1FilterMult:1.2,env2PitchCents:0,saturationDrive:1.15,chorusSend:.22,reverbSend:.38}],
+['bitcrush-chip-lab','Square Env Chip',{wave1:'square',wave2:'square',filterCutoff:1800,filterQ:12,oscMix:.5,detuneCents:0,noiseGain:.018,env1FilterMult:3.8,env2PitchCents:12,saturationDrive:3.7,release:.16}],
+['acid-filter-lab','Acid ENV1 Filter',{wave1:'sawtooth',wave2:'square',filterCutoff:540,filterQ:18,oscMix:.28,env1FilterMult:9,env1Decay:.16,env2PitchCents:20,lfoRate:5.5,lfoToFilter:150,saturationDrive:3.6}],
+['warm-rhodes-cloud','Warm Env Cloud',{wave1:'triangle',wave2:'sine',filterCutoff:1450,filterQ:3,oscMix:.24,detuneCents:3,env1FilterMult:1.8,env2PitchCents:3,chorusSend:.62,reverbSend:.48,saturationDrive:1.45}],
+['hoover-rave-cloud','Detuned Source Stack',{wave1:'sawtooth',wave2:'sawtooth',filterCutoff:1700,filterQ:5,oscMix:.5,detuneCents:24,env1FilterMult:2.6,env2PitchCents:10,chorusSend:.5,delaySend:.18,saturationDrive:2.6}],
+['granular-clouds','Noise Env Pad',{wave1:'triangle',wave2:'sawtooth',filterCutoff:900,filterQ:8,oscMix:.12,noiseGain:.11,attack:.05,release:1.4,env1FilterMult:2.1,env1Decay:.8,env2PitchCents:0,reverbSend:.65,delaySend:.22}]
 ];
 export const SOUND_PRESETS = Object.fromEntries(rows.map(([id,label,patch]) => [id,{...BASE,...patch,id,label}]));
 export const PREMIUM_PRESET = SOUND_PRESETS['awtsmoos-dream-electric'];
@@ -48,13 +22,9 @@ export const SOUND_PRESET_LIST = Object.values(SOUND_PRESETS);
 export function getSoundPreset(id){return SOUND_PRESETS[id] || PREMIUM_PRESET;}
 export function readPresetFromElements(elements){
     const base=getSoundPreset(elements.soundPresetSelect?.value), mode=getEffectMode(elements.effectModeSelect?.value || base.effectMode);
-    return {...base,...mode,wave1:elements.waveformSelect?.value||base.wave1,wave2:elements.waveform2Select?.value||base.wave2,chordWave:elements.chordWaveformSelect?.value||base.chordWave,bassWave:elements.bassWaveformSelect?.value||base.bassWave,oscMix:num(elements.oscMixSlider,base.oscMix),detuneCents:num(elements.detuneSlider,base.detuneCents),filterCutoff:num(elements.filterCutoffSlider,base.filterCutoff),filterQ:num(elements.filterQSlider,base.filterQ),chorusSend:num(elements.chorusSlider,base.chorusSend??mode.chorusSend),delaySend:num(elements.delaySlider,base.delaySend??mode.delaySend),delayTime:num(elements.delayTimeSlider,base.delayTime??mode.delayTime),delayFeedback:num(elements.delayFeedbackSlider,base.delayFeedback??mode.delayFeedback),saturationDrive:num(elements.saturationSlider,base.saturationDrive??mode.saturationDrive),reverbSend:num(elements.reverbSlider,base.reverbSend??mode.reverbSend)};
+    return {...base,...mode,wave1:elements.waveformSelect?.value||base.wave1,wave2:elements.waveform2Select?.value||base.wave2,chordWave:elements.chordWaveformSelect?.value||base.chordWave,bassWave:elements.bassWaveformSelect?.value||base.bassWave,attack:num(elements.attackSlider,base.attack),decay:num(elements.decaySlider,base.decay),sustain:num(elements.sustainSlider,base.sustain),release:num(elements.releaseSlider,base.release),oscMix:num(elements.oscMixSlider,base.oscMix),detuneCents:num(elements.detuneSlider,base.detuneCents),filterCutoff:num(elements.filterCutoffSlider,base.filterCutoff),filterQ:num(elements.filterQSlider,base.filterQ),lfoRate:num(elements.lfoRateSlider,base.lfoRate),lfoToFilter:(num(elements.lfoDepthSlider,base.lfoToFilter/100)/100)*900,chorusSend:num(elements.chorusSlider,base.chorusSend??mode.chorusSend),delaySend:num(elements.delaySlider,base.delaySend??mode.delaySend),delayTime:num(elements.delayTimeSlider,base.delayTime??mode.delayTime),delayFeedback:num(elements.delayFeedbackSlider,base.delayFeedback??mode.delayFeedback),saturationDrive:num(elements.saturationSlider,base.saturationDrive??mode.saturationDrive),reverbSend:num(elements.reverbSlider,base.reverbSend??mode.reverbSend)};
 }
 export function applyPresetToElements(elements,preset){
-    set(elements.waveformSelect,preset.wave1); set(elements.waveform2Select,preset.wave2); set(elements.chordWaveformSelect,preset.chordWave); set(elements.bassWaveformSelect,preset.bassWave);
-    set(elements.attackSlider,preset.attack); set(elements.decaySlider,preset.decay); set(elements.sustainSlider,preset.sustain); set(elements.releaseSlider,preset.release);
-    set(elements.oscMixSlider,preset.oscMix); set(elements.detuneSlider,preset.detuneCents); set(elements.pitchDepthSlider,preset.pitchDepth); set(elements.pitchAttackSlider,preset.pitchAttack);
-    set(elements.filterCutoffSlider,preset.filterCutoff); set(elements.filterQSlider,preset.filterQ); set(elements.lfoRateSlider,preset.lfoRate); set(elements.lfoDepthSlider,preset.lfoDepth);
-    const mode=getEffectMode(preset.effectMode); set(elements.effectModeSelect,mode.id); set(elements.chorusSlider,preset.chorusSend??mode.chorusSend); set(elements.delaySlider,preset.delaySend??mode.delaySend); set(elements.delayTimeSlider,preset.delayTime??mode.delayTime); set(elements.delayFeedbackSlider,preset.delayFeedback??mode.delayFeedback); set(elements.saturationSlider,preset.saturationDrive??mode.saturationDrive); set(elements.reverbSlider,preset.reverbSend??mode.reverbSend);
+    set(elements.waveformSelect,preset.wave1); set(elements.waveform2Select,preset.wave2); set(elements.chordWaveformSelect,preset.chordWave); set(elements.bassWaveformSelect,preset.bassWave); set(elements.attackSlider,preset.attack); set(elements.decaySlider,preset.decay); set(elements.sustainSlider,preset.sustain); set(elements.releaseSlider,preset.release); set(elements.oscMixSlider,preset.oscMix); set(elements.detuneSlider,preset.detuneCents); set(elements.pitchDepthSlider,preset.env2PitchCents); set(elements.pitchAttackSlider,preset.env2Decay); set(elements.filterCutoffSlider,preset.filterCutoff); set(elements.filterQSlider,preset.filterQ); set(elements.lfoRateSlider,preset.lfoRate); set(elements.lfoDepthSlider,(preset.lfoToFilter||0)/9); const mode=getEffectMode(preset.effectMode); set(elements.effectModeSelect,mode.id); set(elements.chorusSlider,preset.chorusSend??mode.chorusSend); set(elements.delaySlider,preset.delaySend??mode.delaySend); set(elements.delayTimeSlider,preset.delayTime??mode.delayTime); set(elements.delayFeedbackSlider,preset.delayFeedback??mode.delayFeedback); set(elements.saturationSlider,preset.saturationDrive??mode.saturationDrive); set(elements.reverbSlider,preset.reverbSend??mode.reverbSend);
 }
-function num(el,fallback){return parseFloat(el?.value || fallback);} function set(el,value){if(el&&value!==undefined)el.value=String(value);}
+function num(el,fallback){return parseFloat(el?.value ?? fallback);} function set(el,value){if(el&&value!==undefined)el.value=String(value);}

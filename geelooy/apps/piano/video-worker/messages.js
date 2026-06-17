@@ -1,12 +1,11 @@
-﻿/* B"H
-The live worker may breathe, but it must not swallow the musician.
-Old events are trimmed; final rendering still receives the whole song shape through surviving key spans.
+/* B"H
+Realtime preview returns, but throttled: one small frame pump at a time, never a render storm.
 */
 self.PianoVideo = self.PianoVideo || {};
 PianoVideo.initializeRenderer = async function initializeRenderer(payload) {
     const s = PianoVideo.state;
     PianoVideo.resetState(payload);
-    s.eventHistoryLimit = payload.eventHistoryLimit || 700;
+    s.eventHistoryLimit = payload.eventHistoryLimit || 50000;
     s.renderer = new MediaBunnyBase(payload, PianoVideo.drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
     await s.renderer.start();
     s.masterKeyboardLayout = PianoVideo.calculateMasterLayout(payload.style.userKeyWidth);
@@ -17,7 +16,7 @@ PianoVideo.initializeRenderer = async function initializeRenderer(payload) {
     PianoVideo.cacheKeyRenders(payload.style.userKeyWidth, rowH * .95);
     PianoVideo.setBaseOffsets();
     s.processingInterval = setInterval(() => PianoVideo.scheduleRenderPump(0), payload.livePumpIntervalMs || 180);
-    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Realtime preview armed; final render waits for Stop.' } });
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Recording with live fantasy preview.' } });
 };
 PianoVideo.handleRenderEvent = function handleRenderEvent(type, payload) {
     if (payload.start !== undefined || type === 'KEY_DOWN') payload.effectTriggered = false;
@@ -27,7 +26,8 @@ PianoVideo.handleRenderEvent = function handleRenderEvent(type, payload) {
 PianoVideo.queueRenderEvent = function queueRenderEvent(event) {
     const s = PianoVideo.state;
     s.eventQueue.push(event);
-    PianoVideo.pruneEventQueue();
+    const over = s.eventQueue.length - (s.eventHistoryLimit || 50000);
+    if (over > 0) s.eventQueue.splice(0, over);
 };
 self.onmessage = async e => {
     const { type, payload } = e.data;
