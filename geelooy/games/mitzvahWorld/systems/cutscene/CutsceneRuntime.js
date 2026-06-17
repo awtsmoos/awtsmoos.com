@@ -1,0 +1,9 @@
+// B"H
+import { CutsceneState } from "./CutsceneState.js";
+import { compileCutscene } from "./CutsceneCompiler.js";
+import { stepCutscene } from "./CutscenePlaybackStepper.js";
+import { CutscenePlaybackQueue } from "./CutscenePlaybackQueue.js";
+import { routeCutsceneBeats } from "./CutsceneTrackRouter.js";
+import { cutscenePlaybackReport } from "./CutscenePlaybackReport.js";
+export class CutsceneRuntime { constructor(scenes = []) { this.scenes = new Map(); this.state = new CutsceneState(); this.queue = new CutscenePlaybackQueue(); scenes.forEach(s => this.register(s)); } register(scene = {}) { const compiled = scene.timeline ? scene : compileCutscene(scene); this.scenes.set(compiled.id, compiled); return compiled; } play(id) { const scene = this.scenes.get(id); if (!scene) return { ok:false, error:`missing:${id}` }; this.currentScene = scene; this.state.start(id); return { ok:true, scene, state:this.state.snapshot() }; } pause(){ return this.state.pause(); } resume(){ return this.state.resume(); } stop(reason="manual"){ return this.state.stop(reason); } step(delta = 0) { if (!this.currentScene || !this.state.current) return { ok:false, packets:[] }; const stepped = stepCutscene(this.state.current, this.currentScene.timeline, delta); this.state.current = stepped.cursor; const packets = routeCutsceneBeats(stepped.active); this.queue.pushAll(packets); if (stepped.finished) this.stop("finished"); return { ok:true, active:stepped.active, packets, finished:stepped.finished, queue:this.queue.snapshot() }; } snapshot(){ return { scenes:this.scenes.size, state:this.state.snapshot(), queue:this.queue.snapshot(), report:cutscenePlaybackReport(this) }; } }
+export default CutsceneRuntime;

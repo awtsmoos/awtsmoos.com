@@ -1,10 +1,27 @@
 // B"H
 /**
  * @file commands.js
- * @brief Command palette action ledger with Code Chat and Vibe separated.
+ * @brief Command palette action ledger with Treasury OS synced to OS/start menu.
  */
 
+const treasury = [
+  { id: 'treasury-home', label: 'Treasury: Open Treasury OS', action: 'open-url:/api/tunnel/control/treasury/home', icon: 'brain-circuit' },
+  { id: 'treasury-budgets', label: 'Treasury: Budgets', action: 'open-url:/api/tunnel/control/treasury/budgets', icon: 'brain-circuit' },
+  { id: 'treasury-forecast', label: 'Treasury: Forecast', action: 'open-url:/api/tunnel/control/treasury/forecast', icon: 'brain-circuit' },
+  { id: 'treasury-marketplace', label: 'Treasury: Marketplace', action: 'open-url:/api/tunnel/control/treasury/marketplace', icon: 'brain-circuit' },
+  { id: 'treasury-agents', label: 'Treasury: Agents', action: 'open-url:/api/tunnel/control/treasury/agents', icon: 'brain-circuit' },
+  { id: 'treasury-providers', label: 'Treasury: Providers', action: 'open-url:/api/tunnel/control/treasury/providers', icon: 'brain-circuit' },
+  { id: 'treasury-graph', label: 'Treasury: Graph', action: 'open-url:/api/tunnel/control/treasury/graph', icon: 'brain-circuit' },
+  { id: 'treasury-advisor', label: 'Treasury: Advisor', action: 'open-url:/api/tunnel/control/treasury/advisor', icon: 'brain-circuit' },
+  { id: 'treasury-reputation', label: 'Treasury: Reputation', action: 'open-url:/api/tunnel/control/treasury/reputation', icon: 'brain-circuit' },
+  { id: 'treasury-bank', label: 'Treasury: Bank', action: 'open-url:/api/tunnel/control/bank', icon: 'brain-circuit' },
+  { id: 'treasury-compute', label: 'Treasury: Compute', action: 'open-url:/api/tunnel/control/compute', icon: 'brain-circuit' },
+  { id: 'tunnel-control', label: 'Awtsmoos: Tunnel Control', action: 'open-url:/apps/tunnel-control/', icon: 'globe' },
+  { id: 'virtual-os', label: 'Awtsmoos: Virtual OS', action: 'open-url:/os', icon: 'globe' }
+];
+
 export const PALETTE_COMMANDS = [
+  ...treasury,
   { id: 'docs', label: 'Help: Documentation', action: 'show-docs', icon: 'brain' },
   { id: 'save', label: 'File: Save', action: 'save', icon: 'save' },
   { id: 'new-file', label: 'File: New File', action: 'new-temp-file', icon: 'file' },

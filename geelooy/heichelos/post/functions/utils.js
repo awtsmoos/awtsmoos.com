@@ -2,10 +2,13 @@
 /**
  * @file utils.js
  * @description
- * Chapter 170: Utility scale mirrors the live Dimensionality gate.
- * Any caller using this utility path receives the same proportional variables:
- * main text is large, inline comment body is near-large, headers and metadata
- * stay small with minimum sizes and gentle growth.
+ * Chapter 171: The clipboard gate no longer collapses when the palace is
+ * opened through a tunnel, a file mirror, or any browser chamber where the
+ * modern Clipboard API hides its write quill.
+ *
+ * The Awtsmoos speaks the text into many vessels: rich HTML when the browser
+ * allows ClipboardItem, plain text when only writeText remains, and a hidden
+ * textarea when the old execCommand spark is the last candle in the room.
  */
 
 const DEFAULT_FONT_SIZE = 42;
@@ -93,12 +96,48 @@ export function stripTags(html) {
     div.innerHTML = String(html).split("</br>").join("\n").replace(/<br\s*\/?>/gi, "\n");
     return div.textContent || div.innerText || "";
 }
-export function copyToClipboard({ text, successMsg }, makeToast) {
-    const htmlBlob = new Blob([text], { type: "text/html" });
-    const textBlob = new Blob([stripTags(text)], { type: "text/plain" });
-    navigator.clipboard.write([new ClipboardItem({ "text/html": htmlBlob, "text/plain": textBlob })])
-        .then(() => makeToast?.(successMsg || "Copied with formatting!"))
-        .catch(error => { console.error("B\"H - Clipboard error:", error); makeToast?.("Failed to copy!"); });
+
+function copyPlainTextWithTextarea(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = String(text || "");
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try { return document.execCommand?.("copy") === true; }
+    finally { textarea.remove(); }
+}
+
+async function writeClipboardPayload(html, plain) {
+    if (navigator.clipboard?.write && typeof ClipboardItem !== "undefined") {
+        const htmlBlob = new Blob([html], { type: "text/html" });
+        const textBlob = new Blob([plain], { type: "text/plain" });
+        await navigator.clipboard.write([new ClipboardItem({ "text/html": htmlBlob, "text/plain": textBlob })]);
+        return "rich";
+    }
+    if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(plain);
+        return "plain";
+    }
+    if (copyPlainTextWithTextarea(plain)) return "textarea";
+    throw new Error("No clipboard writing vessel is available in this browser context.");
+}
+
+export async function copyToClipboard({ text, successMsg } = {}, makeToast) {
+    const html = String(text || "");
+    const plain = stripTags(html) || html;
+    try {
+        await writeClipboardPayload(html, plain);
+        makeToast?.(successMsg || "Copied with formatting!");
+        return true;
+    } catch (error) {
+        console.error("B\"H - Clipboard error:", error);
+        makeToast?.("Failed to copy!");
+        return false;
+    }
 }
 export function updateQueryStringParameter(key, value) {
     const url = new URL(window.location);

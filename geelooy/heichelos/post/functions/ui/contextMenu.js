@@ -2,15 +2,14 @@
 /**
  * @file contextMenu.js
  * @description
- * Chapter 248: The menu stops being a shattered row of teeth.
+ * Chapter 249: The Copy Entire Post button now gathers the post from its
+ * actual living data before it asks the visible DOM for crumbs.
  *
- * A reader touch summons one sovereign sheet. On phones it rises from the
- * bottom like a black-gold ark; on larger screens it clamps near the finger.
- * The actions remain data-driven and the menu closes on outside intent without
- * stealing the scroll river.
+ * The Awtsmoos arranges title, series, post id, and every section/sub-section
+ * into a readable scroll. If the data vessel is absent, the DOM still speaks.
  */
 
-import { copyToClipboard, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
+import { copyToClipboard, stripTags, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 import { makeToast } from "/heichelos/post/functions/ui.js";
 
 const MENU_ID = "custom-context-menu";
@@ -18,33 +17,48 @@ const MOBILE_QUERY = "(max-width: 760px)";
 
 const removeExistingMenu = () => document.getElementById(MENU_ID)?.remove();
 const selectedText = () => String(window.getSelection?.().toString?.() || "");
+const asText = value => stripTags(String(value ?? "")).replace(/\n{3,}/g, "\n\n").trim();
+
+function dataSections() {
+    if (Array.isArray(window.sectionDayuh)) return window.sectionDayuh;
+    if (Array.isArray(window.post?.dayuh?.sections)) return window.post.dayuh.sections;
+    if (Array.isArray(window.post?.sections)) return window.post.sections;
+    return [];
+}
+
+function flattenSection(section) {
+    if (Array.isArray(section)) return section.flat(Infinity).map(asText).filter(Boolean);
+    const text = asText(section?.text ?? section?.content ?? section);
+    return text ? [text] : [];
+}
 
 function compilePostText() {
-    const title = window.post?.title || "";
-    const series = window.series?.prateem?.name || "";
-    const header = [series, title].filter(Boolean).join("\n");
-    const source = Array.isArray(window.sectionDayuh) ? window.sectionDayuh : [];
-    const body = source.map(section => Array.isArray(section) ? section.flat(Infinity).join("\n") : section || "").join("\n\n");
-    if (body.trim()) return `${header ? `${header}\n\n---\n\n` : ""}${body}`;
-    return document.getElementById("realPost")?.innerText || "";
+    const title = asText(window.post?.title || window.post?.name || "");
+    const series = asText(window.series?.prateem?.name || window.series?.name || "");
+    const postId = window.post?.id || window.post?.postId || "";
+    const header = ["B\"H", series, title, postId && `Post: ${postId}`].filter(Boolean).join("\n");
+    const sections = dataSections().map((section, index) => {
+        const lines = flattenSection(section);
+        if (!lines.length) return "";
+        const body = lines.map((line, sub) => lines.length > 1 ? `${index + 1}.${sub + 1} ${line}` : line).join("\n");
+        return `Section ${index + 1}\n${body}`;
+    }).filter(Boolean).join("\n\n");
+    if (sections.trim()) return `${header ? `${header}\n\n---\n\n` : ""}${sections}`;
+    return asText(document.getElementById("realPost")?.innerText || "");
 }
 
 function sectionPayload(event) {
     const target = event?.target || document.body;
     const subSection = target.closest?.(".sub-awtsmoos") || null;
     const mainSection = target.closest?.(".section") || null;
-    return {
-        idx: mainSection?.dataset?.awtsmoosIdx ?? null,
-        sub: subSection?.dataset?.awtsmoosSub ?? null,
-        subSection,
-        mainSection
-    };
+    return { idx: mainSection?.dataset?.awtsmoosIdx ?? null, sub: subSection?.dataset?.awtsmoosSub ?? null, subSection, mainSection };
 }
 
 function sectionText(idx, sub) {
-    const sec = window.sectionDayuh?.[idx];
-    if (sub !== null && Array.isArray(sec)) return sec[sub] || sec.join("\n");
-    return Array.isArray(sec) ? sec.join("\n") : sec || "";
+    const sec = dataSections()?.[idx];
+    const lines = flattenSection(sec);
+    if (sub !== null && lines[sub]) return lines[sub];
+    return lines.join("\n");
 }
 
 async function openCommentTarget(idx, sub) {
@@ -78,10 +92,7 @@ function actionBlueprints(event) {
     return blueprints.map(([label, icon, action]) => ({ label, icon, action }));
 }
 
-function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-}
-
+function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
 function placeDesktop(menu, x, y) {
     menu.classList.remove("awtsmoos-mobile-sheet");
     menu.style.left = "0px";
@@ -92,7 +103,6 @@ function placeDesktop(menu, x, y) {
     menu.style.left = `${clamp(x + 10, margin, window.innerWidth - rect.width - margin)}px`;
     menu.style.top = `${clamp(y + 10, margin, window.innerHeight - rect.height - margin)}px`;
 }
-
 function placeMenu(menu, x, y) {
     const isMobile = window.matchMedia?.(MOBILE_QUERY)?.matches;
     if (isMobile) {
@@ -128,12 +138,10 @@ function renderMenu(x, y, actions) {
     menu.className = "awtsmoos-reader-action-sheet";
     menu.setAttribute("role", "menu");
     menu.setAttribute("aria-label", "Reader actions");
-
     const crown = document.createElement("div");
     crown.className = "awtsmoos-context-crown";
     crown.textContent = "Reader Actions";
     menu.appendChild(crown);
-
     actions.forEach(({ label, icon, action }) => {
         const item = document.createElement("button");
         item.type = "button";
@@ -147,15 +155,11 @@ function renderMenu(x, y, actions) {
         });
         menu.appendChild(item);
     });
-
     placeMenu(menu, x, y);
     bindClose(menu);
 }
 
-export async function showCustomContextMenu(x, y, event) {
-    renderMenu(x, y, actionBlueprints(event));
-}
-
+export async function showCustomContextMenu(x, y, event) { renderMenu(x, y, actionBlueprints(event)); }
 function toggleFullscreen() {
     if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
     else document.exitFullscreen?.();

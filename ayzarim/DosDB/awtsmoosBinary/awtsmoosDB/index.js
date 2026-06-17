@@ -158,11 +158,14 @@ class AwtsmoosDB {
     this.pager.init();
     this.allocator.init();
 
+    const legacySuperblockless = Boolean(this.allocator && this.allocator.legacySuperblockless);
     const sb = this.pager.readExact(0, 64) || Buffer.alloc(64).fill(0);
     const rootSealLength = sb.readUInt8(8);
-    this._loadFreeListSeal(sb);
-    if (this.turbo && typeof this.turbo.load === 'function') this.turbo.load();
-    if (this.sparseArrays && typeof this.sparseArrays.load === 'function') this.sparseArrays.load();
+    if (!legacySuperblockless) {
+      this._loadFreeListSeal(sb);
+      if (this.turbo && typeof this.turbo.load === 'function') this.turbo.load();
+      if (this.sparseArrays && typeof this.sparseArrays.load === 'function') this.sparseArrays.load();
+    }
 
     if (rootSealLength === 0) {
       if (this.options.readOnly) {
@@ -189,13 +192,11 @@ class AwtsmoosDB {
     if (this.options.debug) {
       console.log(`B"H - Existence manifests at root address [${this.rootPtrRaw.toString('hex')}]`);
     }
-    if (!this.options.readOnly) {
-      if (!this.options.readOnly) {
+    if (!this.options.readOnly && !legacySuperblockless) {
       if (this.schema && typeof this.schema.load === 'function') this.schema.load();
       if (this.indexes && typeof this.indexes.hasStoredIndexes === 'function') this.indexes.hasStoredIndexes();
       if (this.transactions && typeof this.transactions.recover === 'function') this.transactions.recover();
       this._ensureFormatMeta();
-    }
     }
   }
 

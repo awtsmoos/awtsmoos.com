@@ -1,0 +1,3 @@
+// B"H
+export function applyDialogueConsequence(state = {}, consequence = {}) { const out = JSON.parse(JSON.stringify(state || {})); if (consequence.type === "remember") (out.memory ||= []).push(consequence.key); if (consequence.type === "relationship") out.relationships = { ...(out.relationships || {}), [consequence.target]:(out.relationships?.[consequence.target] || 0) + (consequence.delta || 0) }; if (consequence.type === "quest") out.quests = { ...(out.quests || {}), [consequence.id]:consequence.state || "started" }; return out; }
+export function applyDialogueConsequences(state = {}, consequences = []) { return consequences.reduce(applyDialogueConsequence, state); }

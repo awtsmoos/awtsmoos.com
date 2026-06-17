@@ -1,4 +1,4 @@
-﻿// B"H
+// B"H
 
 const { me } = require("./me.js");
 const { device } = require("./device.js");
@@ -8,7 +8,31 @@ const { apiKeys } = require("./apiKeys.js");
 const { createApiKey } = require("./createApiKey.js");
 const { revokeApiKey } = require("./revokeApiKey.js");
 const { usage } = require("./usage.js");
-const { compute, computeCapture } = require("./compute.js");
+const { compute, computeCapture, computeHistory, computeReceipt, computeSubscription } = require("./compute.js");
+const { bank } = require("./bank.js");
+const { flow } = require("./flow.js");
+const { treasury } = require("./treasury.js");
+const { treasuryHome } = require("./treasury/home.js");
+const { treasuryBudgets } = require("./treasury/budgets.js");
+const { treasuryForecast } = require("./treasury/forecast.js");
+const { treasuryMarketplace } = require("./treasury/marketplace.js");
+const { treasuryAgents } = require("./treasury/agents.js");
+const { treasuryProviders } = require("./treasury/providers.js");
+const { treasuryGraph } = require("./treasury/graph.js");
+const { treasuryAdvisor } = require("./treasury/advisor.js");
+const { treasuryReputation } = require("./treasury/reputation.js");
+const { budgets } = require("./budgets.js");
+const { reputation } = require("./reputation.js");
+const { organization } = require("./organization.js");
+const { agentEconomy } = require("./agentEconomy.js");
+const { marketplace } = require("./marketplace.js");
+const { receiptCertificate } = require("./receiptCertificate.js");
+const { provider } = require("./provider.js");
+const { refund } = require("./refund.js");
+const { adminVault } = require("./adminVault.js");
+const { resourceAccounting } = require("./resourceAccounting.js");
+const { treasuryTest } = require("./treasuryTest.js");
+const { adminPerutas } = require("./adminPerutas.js");
 const { protectedFs } = require("./protectedFs.js");
 const { previewProxy } = require("./previewProxy.js");
 const { previewCreate, previewList, previewRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
@@ -25,10 +49,7 @@ const { blobView } = require("./blobView.js");
 const { blobManifest } = require("./blobManifest.js");
 const { handoff } = require("./handoff.js");
 
-/**
- * B"H
- * Chapter 76: Ephemeral AI result routes became first-class doors.
- */
+/** B"H: The route table names every treasury chamber explicitly. */
 const routeTable = {
   me,
   device,
@@ -38,8 +59,35 @@ const routeTable = {
   "api-keys/create": createApiKey,
   "api-keys/revoke": revokeApiKey,
   usage,
+  bank,
+  treasury,
+  "treasury/home": treasuryHome,
+  "treasury/budgets": treasuryBudgets,
+  "treasury/forecast": treasuryForecast,
+  "treasury/marketplace": treasuryMarketplace,
+  "treasury/agents": treasuryAgents,
+  "treasury/providers": treasuryProviders,
+  "treasury/graph": treasuryGraph,
+  "treasury/advisor": treasuryAdvisor,
+  "treasury/reputation": treasuryReputation,
+  budgets,
+  reputation,
+  flow,
+  organization,
+  "agent-economy": agentEconomy,
+  marketplace,
+  provider,
+  refund,
+  "admin-vault": adminVault,
+  "resource-accounting": resourceAccounting,
+  "treasury-test": treasuryTest,
+  "receipt/certificate": receiptCertificate,
   compute,
   "compute/capture": computeCapture,
+  "compute/history": computeHistory,
+  "compute/receipt": computeReceipt,
+  "compute/subscription": computeSubscription,
+  "admin/perutas": adminPerutas,
   bootstrap,
   "ephemeral/list": ephemeralList,
   "ephemeral/:resultId/page": ephemeralPage,

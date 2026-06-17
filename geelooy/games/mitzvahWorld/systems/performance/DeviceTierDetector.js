@@ -1,0 +1,3 @@
+// B"H
+export function detectDeviceTier(win = globalThis.window, nav = globalThis.navigator) { const w = Number(win?.innerWidth || 1024), h = Number(win?.innerHeight || 768); const cores = Number(nav?.hardwareConcurrency || 4); const mem = Number(nav?.deviceMemory || 4); const mobile = w <= 820 || h <= 720 || /Android|iPhone|iPad|Mobile/i.test(nav?.userAgent || ""); const score = (cores * .5) + (mem * .75) + (mobile ? -2 : 2); const tier = score >= 8 ? "high" : score >= 4 ? "medium" : "low"; return { tier, mobile, width:w, height:h, cores, memory:mem, score }; }
+export default detectDeviceTier;

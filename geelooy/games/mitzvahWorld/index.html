@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Awtsmoos - Mitzvah World 3D</title>
   <link rel="stylesheet" href="./main.css?v=player-facing-starter-ui-20260615-bh1">
+  <link rel="stylesheet" href="./styles/mobile-ui-overlap-fix.css?v=all-at-once-mobile-perf-visual-20260617-bh1" data-awtsmoos-mobile-overlap-fix="true">
   <style>
     :root { --gold:#ffd966; --blue:#12203b; --ink:#050814; --paper:#f8e4b0; --red:#ff6b4a; --green:#9be27a; --gray:#9ca3af; }
     body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
@@ -49,6 +50,9 @@
   <script type="importmap">
   { "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }
   </script>
+  <script type="module" src="./systems/ui/OpenWorldUiMobilePatch.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
+  <script type="module" src="./systems/performance/PerformanceModeBootstrap.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
+  <script type="module" src="./systems/visuals/VisualTuningBootstrap.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
   <script type="module" src="./index.js?compact=true&v=player-facing-starter-ui-20260615-bh1"></script>
   <script type="module" src="./systems/vehicles/VehicleAutoBoot.js?v=vehicle-world-expansion-20260616-bh1"></script>
   <script type="module" src="./systems/autoplay/AutoPlayBoot.js?v=autoplay-debug-harness-20260616-bh1"></script>

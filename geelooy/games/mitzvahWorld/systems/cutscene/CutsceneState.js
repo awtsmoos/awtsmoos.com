@@ -1,0 +1,3 @@
+// B"H
+export class CutsceneState { constructor() { this.current = null; this.history = []; } start(id) { this.current = { sceneId:id, time:0, playing:true, paused:false, completedBeatIds:[] }; this.history.push({ type:"start", id, at:new Date().toISOString() }); return this.current; } pause(){ if(this.current) this.current.paused = true; return this.current; } resume(){ if(this.current) this.current.paused = false; return this.current; } stop(reason="complete") { this.history.push({ type:"stop", id:this.current?.sceneId, reason, at:new Date().toISOString() }); this.current = null; return this.history[this.history.length-1]; } snapshot(){ return { current:this.current, history:this.history.slice(-25) }; } }
+export default CutsceneState;

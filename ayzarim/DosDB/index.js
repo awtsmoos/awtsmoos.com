@@ -59,6 +59,24 @@ function cachedPromise(key, producer) {
 }
 function clearFinalReadCache() { finalReadCache().clear(); }
 
+function awtsmoosSidecarPathFor(directory, id) {
+  const cleanParts = String(id || "").replace(/^[A-Za-z]:/, "").replace(/\\/g, "/").split("/").filter(Boolean);
+  return path.join(directory, ...cleanParts) + ".awtsmoosJSON";
+}
+
+async function readAwtsmoosArraySidecar(directory, id) {
+  const sidecar = awtsmoosSidecarPathFor(directory, id);
+  try {
+    const data = await fs.readFile(sidecar);
+    if (!awtsmoosBinary.isAwtsmoosObject(data)) return { exists: true, value: null, path: sidecar };
+    const value = awtsmoosBinary.deserializeBinary(data);
+    return { exists: true, value, path: sidecar };
+  } catch (error) {
+    if (error && error.code === "ENOENT") return { exists: false, value: null, path: sidecar };
+    throw error;
+  }
+}
+
 class DosDB {
   readAwtsmoosBinary = true;
 
@@ -98,14 +116,38 @@ class DosDB {
     };
     this.__legacyDosDbMethods = legacy;
 
+    const routedLooksLikeBrokenCollection = async id => {
+      const routedKeys = await this.__awtsmoosDbFsRouter.maybe("getObjectKeys", id);
+      let legacyKeys = null;
+      try { legacyKeys = await legacy.getObjectKeys(id); } catch (_error) { legacyKeys = null; }
+      const routedList = Array.isArray(routedKeys) ? routedKeys : null;
+      const legacyList = Array.isArray(legacyKeys) ? legacyKeys : null;
+      if (!routedList || !legacyList || !legacyList.length) return { broken: false, routedKeys, legacyKeys };
+      const hasProbe = routedList.includes("__awtsmoos_agent_legacy_raw_write_probe_do_not_keep__");
+      const shorterThanLegacy = routedList.length < legacyList.length;
+      return { broken: hasProbe || shorterThanLegacy, routedKeys, legacyKeys };
+    };
+
     this.get = async (id, options = {}) => cachedPromise(finalReadKey(this.directory, "get", id, options), async () => {
+      if (!options || Object.keys(options).length === 0) {
+        const sidecar = await readAwtsmoosArraySidecar(this.directory, id);
+        if (sidecar.exists && Array.isArray(sidecar.value)) return sidecar.value;
+      }
       const routed = await this.__awtsmoosDbFsRouter.maybe("get", id, options);
-      return maybeResult(routed) ? routed : legacy.get(id, options);
+      if (maybeResult(routed)) {
+        const comparison = await routedLooksLikeBrokenCollection(id);
+        return comparison.broken ? legacy.get(id, options) : routed;
+      }
+      return legacy.get(id, options);
     });
 
     this.read = async (id, options = {}) => cachedPromise(finalReadKey(this.directory, "read", id, options), async () => {
       const routed = await this.__awtsmoosDbFsRouter.maybe("get", id, options);
-      return maybeResult(routed) ? routed : legacy.read(id, options);
+      if (maybeResult(routed)) {
+        const comparison = await routedLooksLikeBrokenCollection(id);
+        return comparison.broken ? legacy.read(id, options) : routed;
+      }
+      return legacy.read(id, options);
     });
 
     this.write = async (id, record, opts = {}) => {
@@ -127,8 +169,21 @@ class DosDB {
     };
 
     this.getObjectKeys = async id => cachedPromise(finalReadKey(this.directory, "getObjectKeys", id, {}), async () => {
-      const routed = await this.__awtsmoosDbFsRouter.maybe("getObjectKeys", id);
-      return maybeResult(routed) ? routed : legacy.getObjectKeys(id);
+      const sidecar = await readAwtsmoosArraySidecar(this.directory, id);
+      if (sidecar.exists && Array.isArray(sidecar.value)) return sidecar.value;
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return comparison.legacyKeys;
+      let directValue;
+      try { directValue = await legacy.get(id); } catch (_error) { directValue = undefined; }
+      if (Array.isArray(directValue)) return directValue;
+      let directKeys = maybeResult(comparison.routedKeys) ? comparison.routedKeys : undefined;
+      if (directKeys === undefined) {
+        try { directKeys = await legacy.getObjectKeys(id); }
+        catch (_error) { directKeys = undefined; }
+      }
+      if (Array.isArray(directKeys) && directKeys.length) return directKeys;
+      if (directValue && typeof directValue === "object" && !Buffer.isBuffer(directValue)) return Object.keys(directValue);
+      return directKeys || [];
     });
 
     this.exists = async id => cachedPromise(finalReadKey(this.directory, "exists", id, {}), async () => {
@@ -144,36 +199,55 @@ class DosDB {
 
     this.syncKeyInObj = async (id, key, value = true) => {
       clearFinalReadCache();
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return legacy.syncKeyInObj(id, key, value);
       const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInObj", id, key, value);
       return maybeResult(routed) ? routed : legacy.syncKeyInObj(id, key, value);
     };
 
     this.syncKeyInArray = async (id, value) => {
       clearFinalReadCache();
-      const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInArray", id, value);
-      return maybeResult(routed) ? routed : legacy.syncKeyInArray(id, value);
+      const sidecar = await readAwtsmoosArraySidecar(this.directory, id);
+      let arr = Array.isArray(sidecar.value) ? sidecar.value : [];
+      if (!arr.includes(value)) {
+        arr = [...arr, value];
+        const serialized = awtsmoosBinary.serializeJSON(arr);
+        await fs.mkdir(path.dirname(sidecar.path), { recursive: true });
+        await fs.writeFile(sidecar.path, serialized);
+        clearFinalReadCache();
+        return { success: { written: sidecar.path, serialized: serialized.length, inputArray: arr, appended: value } };
+      }
+      return { success: { written: sidecar.path, inputArray: arr, alreadyPresent: value } };
     };
 
     this.appendToObj = async (id, payload = {}) => {
       clearFinalReadCache();
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return legacy.appendToObj(id, payload);
       const routed = await this.__awtsmoosDbFsRouter.maybe("appendToObj", id, payload);
       return maybeResult(routed) ? routed : legacy.appendToObj(id, payload);
     };
 
     this.updateEntry = async (id, payload = {}) => {
       clearFinalReadCache();
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return legacy.updateEntry(id, payload);
       const routed = await this.__awtsmoosDbFsRouter.maybe("updateEntry", id, payload);
       return maybeResult(routed) ? routed : legacy.updateEntry(id, payload);
     };
 
     this.appendToArrayAtKey = async (id, payload = {}) => {
       clearFinalReadCache();
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return legacy.appendToArrayAtKey(id, payload);
       const routed = await this.__awtsmoosDbFsRouter.maybe("appendToArrayAtKey", id, payload);
       return maybeResult(routed) ? routed : legacy.appendToArrayAtKey(id, payload);
     };
 
     this.setObjectKey = async (id, key, value) => {
       clearFinalReadCache();
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return legacy.setObjectKey(id, key, value);
       const routed = await this.__awtsmoosDbFsRouter.maybe("setObjectKey", id, key, value);
       return maybeResult(routed) ? routed : legacy.setObjectKey(id, key, value);
     };
@@ -188,12 +262,34 @@ class DosDB {
 
     this.deleteObjectKey = async (id, key) => {
       clearFinalReadCache();
+      const arrayInfo = await (legacy.getArrayAtPath ? legacy.getArrayAtPath(id) : this.getArrayAtPath(id)).catch(() => null);
+      const directArray = await legacy.get(id).catch(() => null);
+      const candidateArray = Array.isArray(arrayInfo?.success) && arrayInfo.success.length
+        ? arrayInfo.success
+        : (Array.isArray(directArray) ? directArray : null);
+      if (candidateArray) {
+        const filtered = candidateArray.filter(item => item !== key);
+        if (filtered.length !== candidateArray.length) {
+          const serialized = awtsmoosBinary.serializeJSON(filtered);
+          const cleanParts = String(id || "").replace(/^[A-Za-z]:/, "").replace(/\\/g, "/").split("/").filter(Boolean);
+          const sidecarPath = arrayInfo?.myPath && String(arrayInfo.myPath).endsWith(".awtsmoosJSON")
+            ? arrayInfo.myPath
+            : path.join(this.directory, ...cleanParts) + ".awtsmoosJSON";
+          await fs.writeFile(sidecarPath, serialized);
+          clearFinalReadCache();
+          return { success: { written: sidecarPath, serialized: serialized.length, inputArray: filtered, removed: key } };
+        }
+      }
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return legacy.deleteObjectKey(id, key);
       const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
       return maybeResult(routed) ? routed : legacy.deleteObjectKey(id, key);
     };
 
     this.deleteEntry = async (id, key) => {
       clearFinalReadCache();
+      const comparison = await routedLooksLikeBrokenCollection(id);
+      if (comparison.broken) return legacy.deleteEntry(id, key);
       const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
       return maybeResult(routed) ? routed : legacy.deleteEntry(id, key);
     };
