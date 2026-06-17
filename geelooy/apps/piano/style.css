@@ -1,4 +1,4 @@
-
+﻿
 /* B"H */
 
 :root { 
@@ -312,3 +312,29 @@ body, html {
 #settings-bar::-webkit-scrollbar { width: 8px; }
 #settings-bar::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
 #settings-bar::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* B"H live realtime fantasy effects */
+#live-effect-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9998;
+}
+.live-effect-particle {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    animation: liveParticleDrift 1.05s ease-out forwards;
+    will-change: transform, opacity;
+    text-shadow: 0 1px 2px rgba(0,0,0,.45);
+}
+.live-effect-particle.note { font-size: 30px; color: white; }
+.live-effect-particle.hebrew { color: #7ffcff; }
+.live-effect-particle.touch { color: #00ffff; font-size: 54px; }
+@keyframes liveParticleDrift {
+    from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    to { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.55); }
+}

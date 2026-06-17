@@ -43,8 +43,8 @@
                     </div>
                     <div id="visual-effects-menu" class="nested-menu settings-content">
                         <div class="setting-item">
-                            <label for="myFPS">fps:</label><input id="myFPS" type="number" value="24">
-                            <label for="effect-select">Visual Effect:</label>
+                            <label for="myFPS">FPS:</label><input id="myFPS" type="number" min="8" max="30" step="1" value="24">
+                            <label for="effect-route-select">Effects Where:</label><select id="effect-route-select" class="control-select"><option value="both" selected>Realtime + Video</option><option value="realtime">Realtime Only</option><option value="video">Video Only</option><option value="none">Neither</option></select><label for="effect-select">Visual Effect:</label>
                             <select id="effect-select" class="control-select">
                                 <option value="explosion" selected>Explosion (Live Assist)</option>
                                 <option value="touchpoint">Touch Point (Lightweight)</option>
@@ -127,3 +127,4 @@
     <script type="module" src="main.js"></script>
 </body>
 </html>
+

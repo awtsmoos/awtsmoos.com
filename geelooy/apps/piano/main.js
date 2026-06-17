@@ -165,7 +165,7 @@ function saveSettings() {
     const saved = {};
     Object.keys(elements).forEach(k => {
         const el = elements[k];
-        if (el && (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'range')) saved[k] = el.type === 'checkbox' ? el.checked : el.value;
+        if (el && (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'range' || el.type === 'number')) saved[k] = el.type === 'checkbox' ? el.checked : el.value;
     });
     localStorage.setItem('pianoSettings', JSON.stringify(saved));
 }
@@ -203,3 +203,4 @@ function restoreDefaults() {
     localStorage.removeItem('pianoScrollState');
     location.reload();
 }
+

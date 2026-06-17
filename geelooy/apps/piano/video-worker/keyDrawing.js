@@ -1,5 +1,5 @@
 ﻿/* B"H
-Key drawing is where the video keyboard becomes a fountain: every actual note can name its own emoji burst.
+Key drawing: active keys always render; fantasy effects obey video route.
 */
 self.PianoVideo = self.PianoVideo || {};
 PianoVideo.collectActiveKeys = function collectActiveKeys(time, deltaTime) {
@@ -15,7 +15,7 @@ PianoVideo.renderKey = function renderKey(ctx, key, keyScreenX, yStart, activeKe
     const target = isActive ? 1 : 0;
     key.pressAnimation += Math.abs(key.pressAnimation - target) > .01 ? (target - key.pressAnimation) * 12 * deltaTime : target - key.pressAnimation;
     const whiteH = unscaledRowHeight * .95, press = key.pressAnimation * 4, yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteH);
-    if (isActive && data && !data.effectTriggered) {
+    if (isActive && data && !data.effectTriggered && cfg.renderMode !== 'none') {
         const ex = keyScreenX + (data.x / zoomFactor), ey = yPos + (data.y / zoomFactor), label = data.note || key.note;
         cfg.renderMode === 'explosion' ? PianoVideo.createRichExplosion(ex, ey, label) : PianoVideo.createTouchEvent(ex, ey);
         PianoVideo.state.shockwaves.push({ x: ex, y: ey, life: 1, size: 0 }); data.effectTriggered = true;

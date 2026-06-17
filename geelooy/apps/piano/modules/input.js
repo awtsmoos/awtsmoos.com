@@ -6,6 +6,7 @@ import { createSynthNode, startSynth, stopSynth, activeNotes, currentChordRoot, 
 import { deferRelease, clearDeferred } from './performance/pedal.js';
 import { elements, setScroll, scrollState, activeScroller } from './ui.js';
 import { recordingState, logVideoKeyDown, logVideoKeyUp, logTextNote } from './recorder.js';
+import { showRealtimeEffect } from './visual/liveEffects.js';
 
 export const noteFrequencies = { C:16.35, 'C#':17.32, D:18.35, 'D#':19.45, E:20.6, F:21.83, 'F#':23.12, G:24.5, 'G#':25.96, A:27.5, 'A#':29.14, B:30.87 };
 export const noteNames = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
@@ -58,7 +59,7 @@ export function triggerNoteOn(noteName, inputId, coords, keyElement) {
     if (elements.playChordsCheckbox.checked) triggerChord(note, octave);
     clearDeferred(inputId);
     const synthNodes = createSynthNode(false, false, { inputId, coords }); if (!synthNodes) return;
-    startSynth(synthNodes, frequency, noteName); activeNotes.set(inputId, { synthNodes, keyElement }); keyElement.classList.add('active');
+    startSynth(synthNodes, frequency, noteName); activeNotes.set(inputId, { synthNodes, keyElement }); keyElement.classList.add('active'); showRealtimeEffect(keyElement, noteName, coords);
     if (recordingState.isVideoRecording) logVideoKeyDown(noteName, coords);
     if (recordingState.isTextRecording) logTextNote(noteName);
     if (recordingState.isSheetRecording) activeNotes.get(inputId).sheetMusicStartTime = AudioState.context.currentTime - recordingState.sheetRecordingStartTime;
@@ -102,3 +103,4 @@ function handleDocumentPointerMove(e) {
     const dx = e.clientX - activeScroller.startX, max = activeScroller.thumb.parentElement.clientWidth - activeScroller.thumb.offsetWidth;
     setScroll(Math.max(0, Math.min(max, activeScroller.startThumbX + dx)) * activeScroller.scrollRatio, activeScroller.logicalIndex);
 }
+
