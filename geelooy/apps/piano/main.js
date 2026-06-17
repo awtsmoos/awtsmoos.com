@@ -1,156 +1,125 @@
-﻿
-/* B"H */
+﻿/* B"H */
 // piano/main.js
 import { initAudio, AudioState } from './modules/audio.js';
 import { createCustomWaves, ALL_WAVEFORMS } from './modules/waveforms.js';
-import { 
-    cacheElements, elements, generateKeyboard, handleKeyboardResize, 
-    updateScrollbarThumbs, scrollState, setScroll 
-} from './modules/ui.js';
+import { cacheElements, elements, generateKeyboard, handleKeyboardResize, updateScrollbarThumbs, scrollState, setScroll } from './modules/ui.js';
 import { setupInputListeners, noteNames, triggerNoteOn, triggerNoteOff } from './modules/input.js';
-import { updateAllActiveNotesParameters } from './modules/synth.js';
+import { updateAllActiveNotesParameters, activeNotes, stopSynth } from './modules/synth.js';
 import { toggleAudioRecording, toggleVideoRecording, toggleSheetRecording, toggleTextRecording } from './modules/recorder.js';
-import { startAccompaniment, stopAccompaniment } from './modules/accompaniment.js';
+import { startAccompaniment } from './modules/accompaniment.js';
 import { initMidi } from './modules/performance/midi.js';
 import { setSustainPedal } from './modules/performance/pedal.js';
-import { activeNotes, stopSynth } from './modules/synth.js';
 import { SOUND_PRESET_LIST, getSoundPreset, applyPresetToElements } from './modules/sound/presets.js';
 import { EFFECT_MODE_LIST, getEffectMode } from './modules/effects/effectPresets.js';
 
+const DEFAULT_PRESET_ID = 'awtsmoos-dream-electric';
+const DEFAULT_START_OCTAVE = '0';
+const DEFAULT_VIEW_OCTAVE = 3;
+
+function populateSelects() {
+    fillSelect(elements.soundPresetSelect, SOUND_PRESET_LIST, 'id', 'label');
+    fillSelect(elements.effectModeSelect, EFFECT_MODE_LIST, 'id', 'label');
+    [elements.waveformSelect, elements.waveform2Select, elements.chordWaveformSelect, elements.bassWaveformSelect]
+        .forEach(sel => fillWaveSelect(sel));
+    if (elements.soundPresetSelect) elements.soundPresetSelect.value = DEFAULT_PRESET_ID;
+    applyPresetToElements(elements, getSoundPreset(elements.soundPresetSelect?.value));
+    if (elements.octaveSelect) elements.octaveSelect.value = DEFAULT_START_OCTAVE;
+}
+
+function fillSelect(select, items, valueKey, labelKey) {
+    if (!select) return;
+    select.innerHTML = '';
+    items.forEach(item => select.append(new Option(item[labelKey], item[valueKey])));
+}
+
+function fillWaveSelect(select) {
+    if (!select) return;
+    select.innerHTML = '';
+    ALL_WAVEFORMS.forEach(wave => select.append(new Option(formatWaveName(wave), wave)));
+}
+
+function formatWaveName(wave) { return wave.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()); }
+
 document.addEventListener('DOMContentLoaded', () => {
     cacheElements();
-    
-    // --- POPULATE SELECTS ---
-    function populateSelects() {
-        if (elements.soundPresetSelect) {
-            elements.soundPresetSelect.innerHTML = '';
-            SOUND_PRESET_LIST.forEach(preset => {
-                const opt = document.createElement('option');
-                opt.value = preset.id;
-                opt.textContent = preset.label;
-                elements.soundPresetSelect.appendChild(opt);
-            });
-            elements.soundPresetSelect.value = 'awtsmoos-dream-electric';
-        }
-        if (elements.effectModeSelect) {
-            elements.effectModeSelect.innerHTML = '';
-            EFFECT_MODE_LIST.forEach(mode => {
-                const opt = document.createElement('option');
-                opt.value = mode.id;
-                opt.textContent = mode.label;
-                elements.effectModeSelect.appendChild(opt);
-            });
-            elements.effectModeSelect.value = 'balanced';
-        }
-        const selects = [elements.waveformSelect, elements.waveform2Select, elements.chordWaveformSelect, elements.bassWaveformSelect];
-        selects.forEach(sel => {
-            if(!sel) return;
-            sel.innerHTML = '';
-            ALL_WAVEFORMS.forEach(wave => {
-                const opt = document.createElement('option');
-                opt.value = wave;
-                opt.textContent = wave.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-                sel.appendChild(opt);
-            });
-        });
-        applyPresetToElements(elements, getSoundPreset(elements.soundPresetSelect?.value));
-    }
+    bindChromeToggles();
+    bindRecordingButtons();
+    bindControlEvents();
+    elements.startButton.addEventListener('click', startApp);
+    elements.restoreDefaultsButton.addEventListener('click', restoreDefaults);
+});
 
-    elements.startButton.addEventListener('click', async () => {
-        const success = initAudio();
-        if (!success) { alert("Audio Init Failed"); return; }
-        
-        populateSelects();
-        createCustomWaves(AudioState.context);
-        
-        elements.startScreen.style.display = 'none';
-        elements.appContainer.style.display = 'flex';
-        
-        loadSettings();
-        generateKeyboard(noteNames);
-        setupInputListeners();
-        initMidi({
-            onNoteOn: (noteName, velocity, midiNote) => triggerNoteOn(noteName, `midi-${midiNote}`, { x: 0, y: 180 * velocity }),
-            onNoteOff: (_noteName, midiNote) => triggerNoteOff(`midi-${midiNote}`),
-            onPedal: down => setSustainPedal(down, activeNotes, stopSynth)
-        }).catch(err => console.warn('MIDI init skipped', err));
-        loadScrollState();
-        
-        // Start accompaniment loop (it checks checkbox internally)
-        startAccompaniment();
-    });
-    
-    // --- EVENT BINDING ---
-    // UI Toggles
+async function startApp() {
+    if (!initAudio()) { alert('Audio Init Failed'); return; }
+    populateSelects();
+    createCustomWaves(AudioState.context);
+    elements.startScreen.style.display = 'none';
+    elements.appContainer.style.display = 'flex';
+    loadSettings();
+    if (elements.soundPresetSelect?.value === DEFAULT_PRESET_ID) applyPresetToElements(elements, getSoundPreset(DEFAULT_PRESET_ID));
+    generateKeyboard(noteNames);
+    setupInputListeners();
+    initMidi({
+        onNoteOn: (noteName, velocity, midiNote) => triggerNoteOn(noteName, `midi-${midiNote}`, { x: 0, y: 180 * velocity }),
+        onNoteOff: (_noteName, midiNote) => triggerNoteOff(`midi-${midiNote}`),
+        onPedal: down => setSustainPedal(down, activeNotes, stopSynth)
+    }).catch(err => console.warn('MIDI init skipped', err));
+    loadScrollState();
+    startAccompaniment();
+}
+
+function bindChromeToggles() {
     elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
     elements.visualEffectsToggle.addEventListener('click', () => elements.visualEffectsMenu.classList.toggle('visible'));
     elements.advancedSynthToggle.addEventListener('click', () => elements.advancedSynthMenu.classList.toggle('visible'));
     elements.chordSettingsToggle.addEventListener('click', () => elements.chordSettingsMenu.classList.toggle('visible'));
     elements.audioIoToggle.addEventListener('click', () => elements.audioIoMenu.classList.toggle('visible'));
+}
 
-    // Resizing
-    ['keyWidthSlider', 'octaveSelect', 'alwaysDualCheckbox', 'independentScrollCheckbox', 'desktopKeysCheckbox'].forEach(key => {
-        if(elements[key]) elements[key].addEventListener('input', () => {
-             handleKeyboardResize(noteNames);
-             saveSettings();
-        });
-    });
-
-    // Audio Controls
-    elements.masterVolumeSlider.addEventListener('input', () => {
-        AudioState.masterGain.gain.setTargetAtTime(parseFloat(elements.masterVolumeSlider.value), AudioState.context.currentTime, 0.01);
-        saveSettings();
-    });
-
-    // Recording
+function bindRecordingButtons() {
     elements.recordAudioButton.addEventListener('click', toggleAudioRecording);
     elements.recordVideoButton.addEventListener('click', toggleVideoRecording);
     elements.recordSheetButton.addEventListener('click', toggleSheetRecording);
     if (elements.recordTextButton) elements.recordTextButton.addEventListener('click', toggleTextRecording);
+}
 
-    if (elements.soundPresetSelect) elements.soundPresetSelect.addEventListener('change', () => {
-        applyPresetToElements(elements, getSoundPreset(elements.soundPresetSelect.value));
-        updateAllActiveNotesParameters();
-        if (AudioState.lfo) {
-            AudioState.lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRateSlider.value), AudioState.context.currentTime, 0.01);
-            AudioState.lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepthSlider.value), AudioState.context.currentTime, 0.01);
-        }
+function bindControlEvents() {
+    ['keyWidthSlider', 'octaveSelect', 'alwaysDualCheckbox', 'independentScrollCheckbox', 'desktopKeysCheckbox'].forEach(key => {
+        if (elements[key]) elements[key].addEventListener('input', () => { handleKeyboardResize(noteNames); saveSettings(); });
+    });
+    elements.masterVolumeSlider.addEventListener('input', () => {
+        AudioState.masterGain.gain.setTargetAtTime(parseFloat(elements.masterVolumeSlider.value), AudioState.context.currentTime, 0.01);
         saveSettings();
     });
-
-    if (elements.effectModeSelect) elements.effectModeSelect.addEventListener('change', () => {
-        applyEffectModeToElements(elements.effectModeSelect.value);
-        updateAllActiveNotesParameters();
-        saveSettings();
-    });
-
-    // Synth Params
-    const paramIds = [
-        'soundPresetSelect', 'waveformSelect', 'chordWaveformSelect', 'bassWaveformSelect', 'playChordsCheckbox', 'chordModeSelect', 'chordOctaveSelect',
-        'attackSlider', 'decaySlider', 'sustainSlider', 'releaseSlider',
-        'waveform2Select', 'oscMixSlider', 'detuneSlider', 'pitchDepthSlider', 'pitchAttackSlider',
-        'filterCutoffSlider', 'filterQSlider', 'lfoRateSlider', 'lfoDepthSlider', 'effectModeSelect', 'chorusSlider', 'delaySlider', 'delayTimeSlider', 'delayFeedbackSlider', 'saturationSlider', 'reverbSlider'
-    ];
-    paramIds.forEach(key => {
-        if(elements[key]) elements[key].addEventListener('input', () => {
-            updateAllActiveNotesParameters();
-            // LFO special update?
-            // Handled inside updateAllActive or separate?
-            // LFO rate is global.
-            if(key.includes('lfo')) {
-                AudioState.lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRateSlider.value), AudioState.context.currentTime, 0.01);
-                AudioState.lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepthSlider.value), AudioState.context.currentTime, 0.01);
-            }
-            saveSettings();
-        });
-    });
-    
-    // Mic
+    bindPresetControls();
+    bindSynthControls();
     elements.micButton.addEventListener('click', toggleMic);
-    
-    elements.restoreDefaultsButton.addEventListener('click', restoreDefaults);
-});
+}
 
+function bindPresetControls() {
+    elements.soundPresetSelect?.addEventListener('change', () => {
+        applyPresetToElements(elements, getSoundPreset(elements.soundPresetSelect.value));
+        refreshActiveSound();
+    });
+    elements.effectModeSelect?.addEventListener('change', () => {
+        applyEffectModeToElements(elements.effectModeSelect.value);
+        refreshActiveSound();
+    });
+}
+
+function bindSynthControls() {
+    const ids = ['waveformSelect', 'waveform2Select', 'chordWaveformSelect', 'bassWaveformSelect', 'playChordsCheckbox', 'chordModeSelect', 'chordOctaveSelect', 'attackSlider', 'decaySlider', 'sustainSlider', 'releaseSlider', 'oscMixSlider', 'detuneSlider', 'pitchDepthSlider', 'pitchAttackSlider', 'filterCutoffSlider', 'filterQSlider', 'lfoRateSlider', 'lfoDepthSlider', 'chorusSlider', 'delaySlider', 'delayTimeSlider', 'delayFeedbackSlider', 'saturationSlider', 'reverbSlider'];
+    ids.forEach(key => elements[key]?.addEventListener('input', () => refreshActiveSound(key)));
+}
+
+function refreshActiveSound(key = '') {
+    updateAllActiveNotesParameters();
+    if (key.includes('lfo') && AudioState.lfo) {
+        AudioState.lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRateSlider.value), AudioState.context.currentTime, 0.01);
+        AudioState.lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepthSlider.value), AudioState.context.currentTime, 0.01);
+    }
+    saveSettings();
+}
 
 function applyEffectModeToElements(modeId) {
     const mode = getEffectMode(modeId);
@@ -163,75 +132,74 @@ function applyEffectModeToElements(modeId) {
 }
 
 async function toggleMic() {
-    if (AudioState.microphoneSource) {
-        AudioState.microphoneSource.mediaStream.getTracks().forEach(t => t.stop());
-        AudioState.microphoneSource.disconnect();
-        AudioState.microphoneSource = null;
-        elements.micButton.classList.remove('mic-active');
-        elements.micButton.textContent = 'Enable Mic';
-        elements.micVolumeSlider.disabled = true;
-    } else {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            AudioState.microphoneSource = AudioState.context.createMediaStreamSource(stream);
-            AudioState.microphoneGain = AudioState.context.createGain();
-            AudioState.micPlaybackGain = AudioState.context.createGain();
-            
-            AudioState.microphoneGain.gain.value = parseFloat(elements.micVolumeSlider.value);
-            AudioState.micPlaybackGain.gain.value = elements.micPlaybackCheckbox.checked ? 1.0 : 0.0;
-            
-            AudioState.microphoneSource.connect(AudioState.microphoneGain);
-            AudioState.microphoneGain.connect(AudioState.mediaStreamDestination);
-            AudioState.microphoneGain.connect(AudioState.micPlaybackGain);
-            AudioState.micPlaybackGain.connect(AudioState.masterGain);
-            
-            elements.micButton.classList.add('mic-active');
-            elements.micButton.textContent = 'Disable Mic';
-            elements.micVolumeSlider.disabled = false;
-        } catch(e) {
-            alert("Mic Access Denied");
-        }
-    }
+    if (AudioState.microphoneSource) return disableMic();
+    try { await enableMic(); } catch (_) { alert('Mic Access Denied'); }
 }
 
-// Persistence
+async function enableMic() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    AudioState.microphoneSource = AudioState.context.createMediaStreamSource(stream);
+    AudioState.microphoneGain = AudioState.context.createGain();
+    AudioState.micPlaybackGain = AudioState.context.createGain();
+    AudioState.microphoneGain.gain.value = parseFloat(elements.micVolumeSlider.value);
+    AudioState.micPlaybackGain.gain.value = elements.micPlaybackCheckbox.checked ? 1 : 0;
+    AudioState.microphoneSource.connect(AudioState.microphoneGain);
+    AudioState.microphoneGain.connect(AudioState.mediaStreamDestination);
+    AudioState.microphoneGain.connect(AudioState.micPlaybackGain);
+    AudioState.micPlaybackGain.connect(AudioState.masterGain);
+    elements.micButton.classList.add('mic-active');
+    elements.micButton.textContent = 'Disable Mic';
+    elements.micVolumeSlider.disabled = false;
+}
+
+function disableMic() {
+    AudioState.microphoneSource.mediaStream.getTracks().forEach(t => t.stop());
+    AudioState.microphoneSource.disconnect();
+    AudioState.microphoneSource = null;
+    elements.micButton.classList.remove('mic-active');
+    elements.micButton.textContent = 'Enable Mic';
+    elements.micVolumeSlider.disabled = true;
+}
+
 function saveSettings() {
-    const s = {};
+    const saved = {};
     Object.keys(elements).forEach(k => {
         const el = elements[k];
-        if (el && (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'range')) {
-            s[k] = el.type === 'checkbox' ? el.checked : el.value;
-        }
+        if (el && (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'range')) saved[k] = el.type === 'checkbox' ? el.checked : el.value;
     });
-    localStorage.setItem('pianoSettings', JSON.stringify(s));
+    localStorage.setItem('pianoSettings', JSON.stringify(saved));
 }
 
 function loadSettings() {
-    const s = JSON.parse(localStorage.getItem('pianoSettings'));
-    if (s) {
-        Object.keys(s).forEach(k => {
-            if (elements[k]) {
-                if (elements[k].type === 'checkbox') elements[k].checked = s[k];
-                else elements[k].value = s[k];
-            }
-        });
-    }
+    const saved = JSON.parse(localStorage.getItem('pianoSettings'));
+    if (!saved) return;
+    Object.keys(saved).forEach(k => {
+        if (!elements[k]) return;
+        if (elements[k].type === 'checkbox') elements[k].checked = saved[k];
+        else elements[k].value = saved[k];
+    });
 }
 
 function loadScrollState() {
-    const s = JSON.parse(localStorage.getItem('pianoScrollState'));
-    if (s) {
-        scrollState.x = s.x || 0;
-        scrollState.x2 = s.x2;
+    const saved = JSON.parse(localStorage.getItem('pianoScrollState'));
+    if (saved) {
+        scrollState.x = saved.x || 0;
+        scrollState.x2 = saved.x2 || 0;
         setScroll(scrollState.x, 0);
-        if(scrollState.x2) setScroll(scrollState.x2, 1);
-        updateScrollbarThumbs();
-    }
+        if (scrollState.x2) setScroll(scrollState.x2, 1);
+    } else setDefaultThirdOctaveScroll();
+    updateScrollbarThumbs();
+}
+
+function setDefaultThirdOctaveScroll() {
+    const width = parseInt(elements.keyWidthSlider.value || '130', 10);
+    const c3Scroll = width * 7 * DEFAULT_VIEW_OCTAVE;
+    setScroll(c3Scroll, 0);
+    if (elements.independentScrollCheckbox?.checked) setScroll(0, 1);
 }
 
 function restoreDefaults() {
     localStorage.removeItem('pianoSettings');
+    localStorage.removeItem('pianoScrollState');
     location.reload();
 }
-
-

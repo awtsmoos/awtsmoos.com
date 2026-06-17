@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 956: loadNivrayim now emits a truthful worker-world report.
+ * @description Chapter 957: loadNivrayim emits postbuild truth, not a shadow.
  */
 import instantiate from "./instantiateMezuzahDirect.js?v=village-polish-20260612-bh810";
 import lifecycle from "./lifecycle.js";
@@ -17,13 +17,8 @@ function registerPlayerSouls(olam, list, stage) { let count = 0; for (const nivr
 async function safeAssetSize(nivra) { if (typeof nivra?.getSize !== "function") return 0; try { const size = await nivra.getSize(); return Number.isFinite(Number(size)) ? Number(size) : 0; } catch (error) { diagEvent("asset-size-skip", { name: nivra?.name, type: nivra?.type, reason: error?.message || String(error) }, "warn"); return 0; } }
 function mark(stage, fields = {}) { postWorkerProgress(`load-nivrayim:${stage}`, fields); }
 function authoredCount(nivrayim) { if (!nivrayim || typeof nivrayim !== "object") return 0; if (Array.isArray(nivrayim)) return nivrayim.length; return Object.values(nivrayim).reduce((sum, value) => sum + (Array.isArray(value) ? value.length : value && typeof value === "object" ? Object.keys(value).length : 0), 0); }
-function publishWorldReport(olam, scene, nivrayimMade, startedAt) {
-  const report = makeWorkerWorldReport({ olam, scene, nivrayim:nivrayimMade, elapsedMs:performance.now() - startedAt, source:olam?.baseInfo?.id || olam?.baseInfo?.shaym || null });
-  olam.__awtsmoosWorkerWorldReport = report;
-  mark("world-report", { worldReport:report });
-  diagEvent("worker-world-report", report);
-  return report;
-}
+function publishWorldReport(olam, scene, nivrayimMade, startedAt, postbuild) { const report = makeWorkerWorldReport({ olam, scene, nivrayim:nivrayimMade, elapsedMs:performance.now() - startedAt, source:olam?.baseInfo?.id || olam?.baseInfo?.shaym || null, postbuild }); olam.__awtsmoosWorkerWorldReport = report; mark("world-report", { worldReport:report }); diagEvent("worker-world-report", report); return report; }
+async function runPostbuildTruth(olam, scene, nivrayimMade) { const started = performance.now(); try { await runMitzvahWorldPostBuild({ olam, scene, nivrayim:nivrayimMade, worldData:olam.baseInfo || {}, source:olam.baseInfo?.id || olam.baseInfo?.shaym || null }); olam.__mitzvahWorldPostBuildDone = true; return { ok:true, elapsedMs:Math.round(performance.now() - started), source:"runMitzvahWorldPostBuild" }; } catch (error) { olam.__mitzvahWorldPostBuildDone = false; return { ok:false, elapsedMs:Math.round(performance.now() - started), source:"runMitzvahWorldPostBuild", error:error?.message || String(error) }; } }
 export default class LoadNivrayim {
   async addObject(type, options) { return await instantiate.addObject.call(this, type, options); }
   async loadNivrayim(nivrayim) {
@@ -41,13 +36,11 @@ export default class LoadNivrayim {
       mark("afterBriyah:start"); await lifecycle.runAfterBriyah.call(this, nivrayimMade); mark("afterBriyah:done"); registerPlayerSouls(this, nivrayimMade, "after-afterBriyah");
       mark("village-grounding:schedule:start"); scheduleVillageGrounding(this, nivrayimMade); mark("village-grounding:schedule:done");
       mark("entry-runtime:start"); applyEntryRuntime(this, nivrayim || {}); mark("entry-runtime:done");
-      mark("postbuild:start"); await runMitzvahWorldPostBuild({ olam:this, scene:this.scene, nivrayim:nivrayimMade, worldData:this.baseInfo || {}, source:this.baseInfo?.id || this.baseInfo?.shaym || null }); mark("postbuild:done");
-      const worldReport = publishWorldReport(this, this.scene, nivrayimMade, startedAt);
+      mark("postbuild:start"); const postbuild = await runPostbuildTruth(this, this.scene, nivrayimMade); mark(postbuild.ok ? "postbuild:done" : "postbuild:error", { postbuild });
+      const worldReport = publishWorldReport(this, this.scene, nivrayimMade, startedAt, postbuild);
       this.ayshPeula("updateProgress", { loadedNivrayim:Date.now(), workerWorldReport:worldReport });
       if (!this.enlightened && typeof this.ohr === "function") { try { this.ohr(); } catch (error) { console.error("B\"H - Lighting resistance encountered:", error); } }
       diagEvent("load-nivrayim-complete", { count:nivrayimMade.length, totalSize, offlineEcology:true, workerWorldReport:worldReport }); TimeTracker.finish("LOAD_NIVRAYIM", "Souls loaded; worker truth report emitted."); mark("done", { count:nivrayimMade.length, elapsedMs:Math.round(performance.now() - startedAt) }); return nivrayimMade || [];
-    } catch (error) {
-      console.error("B\"H - THE CREATION PROTOCOL HIT A REAL LOAD FAILURE:", error); diagEvent("load-nivrayim-failed", { message:error?.message || String(error) }, "error"); mark("error", { message:error?.message || String(error), stack:String(error?.stack || "").slice(0, 700) }); return [];
-    }
+    } catch (error) { console.error("B\"H - THE CREATION PROTOCOL HIT A REAL LOAD FAILURE:", error); diagEvent("load-nivrayim-failed", { message:error?.message || String(error) }, "error"); mark("error", { message:error?.message || String(error), stack:String(error?.stack || "").slice(0, 700) }); return []; }
   }
 }
