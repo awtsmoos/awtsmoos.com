@@ -21,43 +21,26 @@
     .mitzvahPanel strong, .mitzvahTitle { color:var(--gold); font-weight:800; letter-spacing:.02em; }
     .mitzvahPanel small { color:#d9e3ff; opacity:.85; }
     .mitzvahChoice, .mitzvahBtn { display:block; margin-top:6px; padding:7px 9px; border-radius:7px; background:rgba(255,217,102,.12); border:1px solid rgba(255,217,102,.28); color:#fff3c4; }
-    .mitzvahReward { color:var(--green); }
-    .mitzvahWarn { color:var(--red); }
-    .mitzvahQuestLine { margin-top:4px; color:#f3f4f6; }
-    .mitzvahDone { color:var(--green); }
-    .mitzvahMuted { color:var(--gray); }
+    .mitzvahReward { color:var(--green); }.mitzvahWarn { color:var(--red); }.mitzvahQuestLine { margin-top:4px; color:#f3f4f6; }.mitzvahDone { color:var(--green); }.mitzvahMuted { color:var(--gray); }
     .mitzvahMarker { position:absolute; transform:translate(-50%, -100%); color:var(--gold); font-weight:900; text-shadow:0 2px 6px #000, 0 0 10px var(--gold); font-size:28px; }
-    .mitzvahMarker.gray { color:#cbd5e1; text-shadow:0 2px 6px #000; }
-    .mitzvahSparkle { color:#ffe8a3; animation:mitzvahPulse 1.2s ease-in-out infinite; }
-    .mitzvahCastTrack { height:10px; border-radius:8px; background:#111827; border:1px solid rgba(255,255,255,.2); overflow:hidden; margin-top:6px; }
-    .mitzvahCastFill { height:100%; background:linear-gradient(90deg, #f59e0b, #fde68a); }
+    .mitzvahMarker.gray { color:#cbd5e1; text-shadow:0 2px 6px #000; }.mitzvahSparkle { color:#ffe8a3; animation:mitzvahPulse 1.2s ease-in-out infinite; }
+    .mitzvahCastTrack { height:10px; border-radius:8px; background:#111827; border:1px solid rgba(255,255,255,.2); overflow:hidden; margin-top:6px; }.mitzvahCastFill { height:100%; background:linear-gradient(90deg, #f59e0b, #fde68a); }
     @keyframes mitzvahPulse { 0%,100%{opacity:.65; transform:scale(1)} 50%{opacity:1; transform:scale(1.08)} }
     #awtsmoosUiSinks { display:none !important; }
   </style>
 </head>
 <body>
   <div id="ikar" shaym="ikar"></div>
-  <div id="awtsmoosUiSinks" aria-hidden="true">
-    <div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div>
-  </div>
-  <div id="mitzvahUiBridge" aria-hidden="true">
-    <div id="mitzvahWorldMarkers"></div>
-    <div id="mitzvahTopLeft"></div>
-    <div id="mitzvahTopRight"></div>
-    <div id="mitzvahCenter"></div>
-    <div id="mitzvahBottomCenter"></div>
-  </div>
-  <script type="importmap">
-  { "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }
-  </script>
+  <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div></div>
+  <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
+  <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
   <script type="module" src="./systems/ui/OpenWorldUiMobilePatch.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
   <script type="module" src="./systems/performance/PerformanceModeBootstrap.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
   <script type="module" src="./systems/visuals/VisualTuningBootstrap.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
+  <script type="module" src="./systems/schools/SchoolChecklistUi.js?v=starter-station-school-20260617-bh1"></script>
   <script type="module" src="./index.js?compact=true&v=player-facing-starter-ui-20260615-bh1"></script>
   <script type="module" src="./systems/vehicles/VehicleAutoBoot.js?v=vehicle-world-expansion-20260616-bh1"></script>
   <script type="module" src="./systems/autoplay/AutoPlayBoot.js?v=autoplay-debug-harness-20260616-bh1"></script>
-  <script type="module" src="./systems/ui/universe/UniversePastePanel.js"></script>
-  <script type="module" src="./systems/universe/UniverseManifestWindowBridge.js"></script>
-  <script type="module" src="./systems/ui/universe/UniverseRuntimeInspector.js"></script>
+  <script type="module" src="./systems/ui/universe/UniversePastePanel.js"></script><script type="module" src="./systems/universe/UniverseManifestWindowBridge.js"></script><script type="module" src="./systems/ui/universe/UniverseRuntimeInspector.js"></script>
 </body>
 </html>
