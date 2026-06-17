@@ -1,5 +1,5 @@
 ﻿/* B"H
-Finalize: if using StreamTarget, assemble final Blob from IndexedDB parts without one giant output buffer.
+Finalize: IDB range target returns a valid Blob without BufferTarget's giant RAM buffer.
 */
 self.AwtsVideoBase = self.AwtsVideoBase || {};
 self.AwtsVideoBase.finalizeOutput = async function finalizeOutput(instance, audioBufferShim) {
@@ -14,15 +14,9 @@ self.AwtsVideoBase.finalizeOutput = async function finalizeOutput(instance, audi
     instance._postStatus('Encoding audio...');
     await instance.audioBufferSource.add(new self.AudioBuffer(audioBufferShim));
     instance.audioBufferSource.close();
-    instance._postStatus('Muxing video file...');
+    instance._postStatus('Muxing playable MP4 file...');
     await instance.output.finalize();
     const target = instance.output.target;
-    if (target.awtsmoosWait) {
-        await target.awtsmoosWait();
-        const parts = await self.AwtsVideoBase.idbReadChunks(target.awtsmoosIdbSession);
-        const blob = new Blob(parts, { type: target.awtsmoosMimeType || instance.output.format.mimeType });
-        await self.AwtsVideoBase.idbClearChunks(target.awtsmoosIdbSession);
-        return blob;
-    }
-    return new Blob([target.buffer], { type: instance.output.format.mimeType });
+    if (target.awtsmoosIdbRangeSession) return AwtsVideoBase.idbRangeTargetToBlob(target);
+    return new Blob([target.buffer], { type: instance.output.format.mimeType || 'video/mp4' });
 };
