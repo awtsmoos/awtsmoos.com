@@ -7,6 +7,8 @@ PianoVideo.state = {
     lastRenderedTime: 0,
     isFinalizing: false,
     processingInterval: null,
+    renderPumpActive: false,
+    renderPumpTimer: null,
     masterKeyboardLayout: null,
     bottomKeyboardLayout: [],
     topKeyboardLayout: [],
@@ -24,6 +26,9 @@ PianoVideo.resetState = function resetState(config) {
     s.eventQueue = [];
     s.lastRenderedTime = 0;
     s.isFinalizing = false;
+    s.renderPumpActive = false;
+    if (s.renderPumpTimer) clearTimeout(s.renderPumpTimer);
+    s.renderPumpTimer = null;
     s.bottomKeyboardLayout = [];
     s.topKeyboardLayout = [];
     s.particles = [];

@@ -5,19 +5,19 @@ function readPanelLayout(panelId) {
     const panel = document.getElementById(panelId);
     if (!panel) return [];
     return [...panel.querySelectorAll('.key')]
-        .map(key => ({
-            note: key.dataset.note,
-            isBlack: key.classList.contains('black-key'),
-            x: key.offsetLeft,
-            width: key.offsetWidth
-        }))
+        .map(key => ({ note: key.dataset.note, isBlack: key.classList.contains('black-key'), x: key.offsetLeft, width: key.offsetWidth }))
         .filter(key => key.note && key.width > 0);
 }
 
 function readKeyboardLayout() {
+    return { bottom: readPanelLayout('keyboard-bottom'), top: readPanelLayout('keyboard-top') };
+}
+
+function liveEncoderTuning(fps) {
     return {
-        bottom: readPanelLayout('keyboard-bottom'),
-        top: readPanelLayout('keyboard-top')
+        liveRenderBudgetMs: fps > 30 ? 10 : 14,
+        liveMaxFramesPerPump: fps > 30 ? 2 : 3,
+        livePumpIntervalMs: fps > 30 ? 70 : 90
     };
 }
 
@@ -33,12 +33,10 @@ export function makeVideoConfig() {
         alwaysDual: elements.alwaysDualCheckbox.checked,
         independentScroll: elements.independentScrollCheckbox.checked,
         isVertical,
-        style: {
-            userKeyWidth: parseInt(elements.keyWidthSlider.value, 10),
-            userViewportWidth: elements.keyboardContainer.clientWidth
-        },
+        style: { userKeyWidth: parseInt(elements.keyWidthSlider.value, 10), userViewportWidth: elements.keyboardContainer.clientWidth },
         initialScrollX: scrollState.x,
         initialScrollX2: scrollState.x2 || 0,
-        keyboardLayout: readKeyboardLayout()
+        keyboardLayout: readKeyboardLayout(),
+        ...liveEncoderTuning(fps)
     };
 }

@@ -1,7 +1,11 @@
-/* B"H */
+﻿/* B"H */
 import { AudioState } from '../audio.js';
 import { scrollState } from '../ui.js';
 import { recordingState } from './state.js';
+
+let lastScrollPostAt = 0;
+let lastScrollX = null;
+let lastScrollX2 = null;
 
 export function logVideoKeyDown(noteName, coords = { x: 0, y: 0 }) {
     if (!recordingState.isVideoRecording || !recordingState.videoWorker || recordingState.videoKeyDownMap.has(noteName)) return;
@@ -17,7 +21,15 @@ export function logVideoKeyUp(noteName, explicitStopTime) {
     recordingState.videoKeyDownMap.delete(noteName);
 }
 
-export function sendFrameStateToWorker() {
+export function sendFrameStateToWorker(force = false) {
     if (!recordingState.isVideoRecording || !recordingState.videoWorker) return;
-    recordingState.videoWorker.postMessage({ type: 'UPDATE_SCROLL', payload: { time: AudioState.context.currentTime - recordingState.videoStartTime, scrollX: scrollState.x, scrollX2: scrollState.x2 || 0 } });
+    const now = performance.now();
+    const x = scrollState.x || 0;
+    const x2 = scrollState.x2 || 0;
+    const moved = Math.abs((lastScrollX ?? x) - x) > 2 || Math.abs((lastScrollX2 ?? x2) - x2) > 2;
+    if (!force && (!moved || now - lastScrollPostAt < 125)) return;
+    lastScrollPostAt = now;
+    lastScrollX = x;
+    lastScrollX2 = x2;
+    recordingState.videoWorker.postMessage({ type: 'UPDATE_SCROLL', payload: { time: AudioState.context.currentTime - recordingState.videoStartTime, scrollX: x, scrollX2: x2 } });
 }

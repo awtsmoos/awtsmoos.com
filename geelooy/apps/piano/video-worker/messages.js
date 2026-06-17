@@ -11,12 +11,12 @@ PianoVideo.initializeRenderer = async function initializeRenderer(payload) {
     const rowH = (payload.resolution.height / zoom) / ((payload.alwaysDual || payload.isVertical) ? 2 : 1);
     PianoVideo.cacheKeyRenders(payload.style.userKeyWidth, rowH * .95);
     PianoVideo.setBaseOffsets();
-    s.processingInterval = setInterval(PianoVideo.processEventQueue, 500);
+    s.processingInterval = setInterval(() => PianoVideo.scheduleRenderPump(0), payload.livePumpIntervalMs || 90);
 };
 PianoVideo.handleRenderEvent = function handleRenderEvent(type, payload) {
     if (payload.start !== undefined || type === 'KEY_DOWN') payload.effectTriggered = false;
     PianoVideo.state.eventQueue.push({ type, payload });
-    PianoVideo.processEventQueue();
+    if (type !== 'UPDATE_SCROLL') PianoVideo.scheduleRenderPump(0);
 };
 self.onmessage = async e => {
     const { type, payload } = e.data;
