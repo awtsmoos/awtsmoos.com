@@ -1,10 +1,11 @@
-/* B"H */
+﻿/* B"H */
 import { elements } from '../ui.js';
 import { recordingState, setVideoWorker } from './state.js';
 import { downloadBlob } from './download.js';
 
 export function createVideoWorker() {
-    const worker = new Worker('./synth-video-worker.js');
+    const cacheKey = Date.now();
+    const worker = new Worker(`./synth-video-worker.js?bh=${cacheKey}`);
     worker.onmessage = event => handleWorkerMessage(worker, event.data);
     setVideoWorker(worker);
     return worker;
