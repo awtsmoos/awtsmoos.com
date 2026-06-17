@@ -1,4 +1,4 @@
-
+﻿
 /* B"H */
 // piano/main.js
 import { initAudio, AudioState } from './modules/audio.js';
@@ -9,7 +9,7 @@ import {
 } from './modules/ui.js';
 import { setupInputListeners, noteNames, triggerNoteOn, triggerNoteOff } from './modules/input.js';
 import { updateAllActiveNotesParameters } from './modules/synth.js';
-import { toggleAudioRecording, toggleVideoRecording, toggleSheetRecording } from './modules/recorder.js';
+import { toggleAudioRecording, toggleVideoRecording, toggleSheetRecording, toggleTextRecording } from './modules/recorder.js';
 import { startAccompaniment, stopAccompaniment } from './modules/accompaniment.js';
 import { initMidi } from './modules/performance/midi.js';
 import { setSustainPedal } from './modules/performance/pedal.js';
@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.recordAudioButton.addEventListener('click', toggleAudioRecording);
     elements.recordVideoButton.addEventListener('click', toggleVideoRecording);
     elements.recordSheetButton.addEventListener('click', toggleSheetRecording);
+    if (elements.recordTextButton) elements.recordTextButton.addEventListener('click', toggleTextRecording);
 
     if (elements.soundPresetSelect) elements.soundPresetSelect.addEventListener('change', () => {
         applyPresetToElements(elements, getSoundPreset(elements.soundPresetSelect.value));
@@ -232,3 +233,5 @@ function restoreDefaults() {
     localStorage.removeItem('pianoSettings');
     location.reload();
 }
+
+

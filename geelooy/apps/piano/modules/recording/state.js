@@ -1,4 +1,4 @@
-/* B"H */
+﻿/* B"H */
 export const recordingState = {
     isVideoRecording: false,
     videoStartTime: 0,
@@ -8,7 +8,9 @@ export const recordingState = {
     mediaRecorder: null,
     isSheetRecording: false,
     sheetNotes: [],
-    sheetRecordingStartTime: 0
+    sheetRecordingStartTime: 0,
+    isTextRecording: false,
+    textNotes: []
 };
 export const getIsVideoRecording = () => recordingState.isVideoRecording;
 export const getVideoKeyDownMap = () => recordingState.videoKeyDownMap;

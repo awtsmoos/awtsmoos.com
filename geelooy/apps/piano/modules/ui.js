@@ -1,4 +1,4 @@
-
+﻿
 /* B"H */
 // piano/modules/ui.js
 import { sendFrameStateToWorker } from './recorder.js';
@@ -24,7 +24,7 @@ export function cacheElements() {
         'lfo-rate-slider', 'lfo-depth-slider', 'effect-mode-select', 'chorus-slider',
         'delay-slider', 'delay-time-slider', 'delay-feedback-slider', 'saturation-slider', 'reverb-slider',
         'chord-mode-select', 'chord-octave-select', 'chord-waveform-select',
-        'record-audio-button', 'record-video-button', 'record-sheet-button',
+        'record-audio-button', 'record-video-button', 'record-sheet-button', 'record-text-button',
         'mic-button', 'video-progress', 'visual-effects-toggle',
         'custom-scrollbar-container', 'custom-scrollbar-thumb',
         'custom-scrollbar-container-top', 'custom-scrollbar-thumb-top',
@@ -239,3 +239,5 @@ export function updateScrollbarThumbs() {
         setup(kbTop, null, null, 0); 
     }
 }
+
+
