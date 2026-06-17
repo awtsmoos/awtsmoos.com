@@ -1,4 +1,4 @@
-
+﻿
 /* B"H */
 // piano/modules/input.js
 import { AudioState } from './audio.js';
@@ -6,7 +6,6 @@ import { createSynthNode, startSynth, stopSynth, activeNotes, currentChordNodes,
 import { deferRelease, clearDeferred } from './performance/pedal.js';
 import { elements, setScroll, scrollState, activeScroller, updateScrollbarThumbs } from './ui.js';
 import { recordingState, logVideoKeyDown, logVideoKeyUp } from './recorder.js';
-import { isSheetRecording, sheetRecordingStartTime, sheetNotes } from './recorder.js';
 
 export const noteFrequencies = {
     'C': 16.35, 'C#': 17.32, 'D': 18.35, 'D#': 19.45, 'E': 20.60, 'F': 21.83,
@@ -119,8 +118,8 @@ export function triggerNoteOn(noteName, inputId, coords, keyElement) {
         // Logging
         if (recordingState.isVideoRecording) logVideoKeyDown(noteName, coords);
 
-        if (isSheetRecording) {
-            activeNotes.get(inputId).sheetMusicStartTime = AudioState.context.currentTime - sheetRecordingStartTime;
+        if (recordingState.isSheetRecording) {
+            activeNotes.get(inputId).sheetMusicStartTime = AudioState.context.currentTime - recordingState.sheetRecordingStartTime;
         }
     }
 }
@@ -138,9 +137,9 @@ export function triggerNoteOff(inputId) {
             clearCurrentChord();
         }
 
-        if (isSheetRecording && activeNote.sheetMusicStartTime !== undefined) {
-             const endTime = AudioState.context.currentTime - sheetRecordingStartTime;
-             sheetNotes.push({
+        if (recordingState.isSheetRecording && activeNote.sheetMusicStartTime !== undefined) {
+             const endTime = AudioState.context.currentTime - recordingState.sheetRecordingStartTime;
+             recordingState.sheetNotes.push({
                  note: noteName,
                  start: activeNote.sheetMusicStartTime,
                  duration: endTime - activeNote.sheetMusicStartTime
@@ -237,3 +236,5 @@ function handleDocumentPointerMove(e) {
     const newKbX = newThumbX * activeScroller.scrollRatio;
     setScroll(newKbX, activeScroller.logicalIndex);
 }
+
+

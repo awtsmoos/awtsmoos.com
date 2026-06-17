@@ -2,11 +2,11 @@
 /**
  * @file contextMenu.js
  * @description
- * Chapter 249: The Copy Entire Post button now gathers the post from its
- * actual living data before it asks the visible DOM for crumbs.
+ * Chapter 250: The full-post copy becomes one simple breath.
  *
- * The Awtsmoos arranges title, series, post id, and every section/sub-section
- * into a readable scroll. If the data vessel is absent, the DOM still speaks.
+ * No post id. No section numbers. No sub-section coordinates. Only the series
+ * name, the post name, and then the complete body gathered from the live data
+ * in one smooth scroll, as the Awtsmoos unifies every fragment without labels.
  */
 
 import { copyToClipboard, stripTags, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
@@ -35,16 +35,12 @@ function flattenSection(section) {
 function compilePostText() {
     const title = asText(window.post?.title || window.post?.name || "");
     const series = asText(window.series?.prateem?.name || window.series?.name || "");
-    const postId = window.post?.id || window.post?.postId || "";
-    const header = ["B\"H", series, title, postId && `Post: ${postId}`].filter(Boolean).join("\n");
-    const sections = dataSections().map((section, index) => {
-        const lines = flattenSection(section);
-        if (!lines.length) return "";
-        const body = lines.map((line, sub) => lines.length > 1 ? `${index + 1}.${sub + 1} ${line}` : line).join("\n");
-        return `Section ${index + 1}\n${body}`;
-    }).filter(Boolean).join("\n\n");
-    if (sections.trim()) return `${header ? `${header}\n\n---\n\n` : ""}${sections}`;
-    return asText(document.getElementById("realPost")?.innerText || "");
+    const header = [series, title].filter(Boolean).join("\n");
+    const body = dataSections().flatMap(flattenSection).filter(Boolean).join("\n\n");
+    if (body.trim()) return `${header ? `${header}\n\n` : ""}${body}`;
+    return [header, asText(document.getElementById("realPost")?.innerText || "")]
+        .filter(Boolean)
+        .join("\n\n");
 }
 
 function sectionPayload(event) {

@@ -1,20 +1,42 @@
 // B"H
 /**
  * @file WorkerProgressStore.js
- * @description
- * Chapter 434: every worker breath reaches the visible veil.
+ * @description Chapter 435: the worker breath now keeps its vessels, not only its names.
  */
 import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=zone-reality-20260614-bh817";
+function trimArray(value, max) { return Array.isArray(value) ? value.slice(-max) : []; }
+function clonePayload(payload) { if (!payload || typeof payload !== "object") return null; try { return JSON.parse(JSON.stringify(payload)); } catch { return { uncloneable: true, stage: payload.stage || null }; } }
 export function ensureWorkerProgressStore() {
-  if (!window.__AWTSMOOS_WORKER_PROGRESS__) window.__AWTSMOOS_WORKER_PROGRESS__ = { lastStage: "not-started", lastAt: Date.now(), history: [] };
-  return window.__AWTSMOOS_WORKER_PROGRESS__;
+  if (!window.__AWTSMOOS_WORKER_PROGRESS__) window.__AWTSMOOS_WORKER_PROGRESS__ = { lastStage: "not-started", lastAt: Date.now(), history: [], payloads: [] };
+  const store = window.__AWTSMOOS_WORKER_PROGRESS__;
+  if (!Array.isArray(store.history)) store.history = [];
+  if (!Array.isArray(store.payloads)) store.payloads = [];
+  window.__AWTSMOOS_WORKER_PROGRESS_PAYLOADS__ = store.payloads;
+  window.__AWTSMOOS_WORLD_REPORT__ = () => window.__AWTSMOOS_LAST_WORLD_REPORT__ || null;
+  return store;
 }
-export function recordWorkerProgress(stage) {
+function publishWorldReport(payload) {
+  const report = payload?.worldReport || payload?.payload?.workerWorldReport || payload?.workerWorldReport || null;
+  if (!report) return null;
+  window.__AWTSMOOS_LAST_WORLD_REPORT__ = report;
+  window.__AWTSMOOS_WORKER_WORLD_REPORT__ = report;
+  window.dispatchEvent?.(new CustomEvent("awtsmoos-worker-world-report", { detail: report }));
+  return report;
+}
+export function recordWorkerProgress(stage, payload = null) {
   const store = ensureWorkerProgressStore();
-  store.lastStage = String(stage || "unknown");
-  store.lastAt = Date.now();
-  store.history.push(`${new Date().toISOString()} ${store.lastStage}`);
-  if (store.history.length > 160) store.history.shift();
-  LoadingProgress.workerProgress({ stage: store.lastStage, at: store.lastAt });
+  const at = Date.now();
+  const cleanPayload = clonePayload(payload);
+  store.lastStage = String(stage || payload?.stage || "unknown");
+  store.lastAt = at;
+  store.lastPayload = cleanPayload;
+  store.history.push(`${new Date(at).toISOString()} ${store.lastStage}`);
+  store.payloads.push({ at, stage: store.lastStage, payload: cleanPayload });
+  store.history = trimArray(store.history, 180);
+  store.payloads = trimArray(store.payloads, 80);
+  window.__AWTSMOOS_WORKER_PROGRESS_PAYLOADS__ = store.payloads;
+  publishWorldReport(cleanPayload || payload);
+  LoadingProgress.workerProgress({ ...(cleanPayload || {}), stage: store.lastStage, at });
+  return store;
 }
 export function getWorkerProgressAge() { const store = ensureWorkerProgressStore(); return Date.now() - store.lastAt; }
