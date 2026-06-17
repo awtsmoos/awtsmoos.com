@@ -1,13 +1,20 @@
-/* B"H */
+﻿/* B"H
+Every key impact throws sparks, Hebrew letters, and real emoji glyphs back into the video.
+*/
 self.PianoVideo = self.PianoVideo || {};
-PianoVideo.createRichExplosion = function createRichExplosion(x, y) {
+PianoVideo.createRichExplosion = function createRichExplosion(x, y, note = '') {
     const s = PianoVideo.state, density = PianoVideo.PARTICLE_DENSITY;
     if (s.particles.length + density > PianoVideo.MAX_PARTICLES) s.particles.splice(0, s.particles.length + density - PianoVideo.MAX_PARTICLES);
-    for (let i = 0; i < density; i++) { const a = Math.random() * Math.PI * 2, speed = Math.random() * 250 + 75, p = { x, y, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, life: Math.random() * 3 + 1.5, initialLife: -1, radius: 0 }; const r = Math.random();
-        if (r < .4) { p.type = 'hebrew'; p.content = PianoVideo.HEBREW_LETTERS[Math.floor(Math.random() * PianoVideo.HEBREW_LETTERS.length)]; p.hue = Math.random() * 360; p.radius = Math.random() * 4 + 3; }
-        else if (r < .6) { p.type = 'emoji'; p.content = PianoVideo.EMOJIS[Math.floor(Math.random() * PianoVideo.EMOJIS.length)]; p.radius = Math.random() * 6 + 5; }
-        else if (r < .8) { p.type = 'spark'; p.life = Math.random() + .5; p.radius = Math.random() * 1.5 + 1; }
-        else { p.type = 'bubble'; p.vy = -Math.random() * 50 - 25; p.life = Math.random() * 4 + 2; p.radius = Math.random() * 8 + 4; }
+    const noteParticle = { x, y:y-18, vx:0, vy:-80, life:1.8, initialLife:-1, type:'noteEmoji', content:`🎹 ${note || 'BH'} ✨`, radius:13, hue:180 };
+    s.particles.push(noteParticle);
+    for (let i = 0; i < density; i++) {
+        const a = Math.random() * Math.PI * 2, speed = Math.random() * 260 + 80;
+        const p = { x, y, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, life: Math.random() * 2.8 + 1.3, initialLife: -1, radius: 0, spin:(Math.random()-.5)*3 };
+        const r = Math.random();
+        if (r < .28) { p.type = 'hebrew'; p.content = PianoVideo.HEBREW_LETTERS[Math.floor(Math.random() * PianoVideo.HEBREW_LETTERS.length)]; p.hue = Math.random() * 360; p.radius = Math.random() * 5 + 5; }
+        else if (r < .68) { p.type = 'emoji'; p.content = PianoVideo.EMOJIS[Math.floor(Math.random() * PianoVideo.EMOJIS.length)]; p.radius = Math.random() * 9 + 8; p.life += .6; }
+        else if (r < .86) { p.type = 'spark'; p.life = Math.random() + .55; p.radius = Math.random() * 2 + 1.2; }
+        else { p.type = 'bubble'; p.vy = -Math.random() * 70 - 25; p.life = Math.random() * 4 + 2; p.radius = Math.random() * 9 + 5; }
         s.particles.push(p);
     }
 };
