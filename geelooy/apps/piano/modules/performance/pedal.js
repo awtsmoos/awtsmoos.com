@@ -1,14 +1,11 @@
-/* B"H
-The sustain pedal is patience: released fingers still sing until the foot opens the gate.
+﻿/* B"H
+The sustain pedal is mercy with a broom: it lets notes linger, then releases every remembered vessel.
 */
 export const pedalState = { sustain: false, heldReleases: new Map() };
 export function setSustainPedal(down, activeNotes, stopSynth) {
     pedalState.sustain = !!down;
     if (pedalState.sustain) return;
-    pedalState.heldReleases.forEach((note, id) => {
-        if (!activeNotes.has(id)) stopSynth(note.synthNodes);
-    });
-    pedalState.heldReleases.clear();
+    flushDeferred(activeNotes, stopSynth);
 }
 export function deferRelease(inputId, activeNote) {
     if (!pedalState.sustain) return false;
@@ -16,3 +13,8 @@ export function deferRelease(inputId, activeNote) {
     return true;
 }
 export function clearDeferred(inputId) { pedalState.heldReleases.delete(inputId); }
+export function clearAllDeferred() { pedalState.heldReleases.clear(); pedalState.sustain = false; }
+function flushDeferred(activeNotes, stopSynth) {
+    pedalState.heldReleases.forEach((note, id) => { if (!activeNotes.has(id)) stopSynth(note.synthNodes); });
+    pedalState.heldReleases.clear();
+}

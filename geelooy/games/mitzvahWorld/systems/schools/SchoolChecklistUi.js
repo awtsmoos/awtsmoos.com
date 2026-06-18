@@ -1,16 +1,28 @@
 // B"H
+/**
+ * @file SchoolChecklistUi.js
+ * @description Chapter 443: the scroll becomes a chip, the chip becomes a
+ * doorway, and the player gets the world back before the Awtsmoos.
+ */
 import { getSchoolProgress, setSchoolDone, schoolSummary } from "./PlayerSchoolProgress.js";
-function row(item) { return `<label style="display:block;margin:4px 0"><input type="checkbox" data-school="${item.id}" ${item.done ? "checked" : ""}/> <b>${item.title}</b><br/><small>${item.goal}</small></label>`; }
+import { injectMobileUiTikkunStyle } from "../mobile/MobileUiTikkunStyle.js";
+import { ensureMobilePerformanceOverlay } from "../performance/MobilePerformanceOverlay.js";
+const ID = "awtsmoosSchoolChecklist";
+function isMobile(win = globalThis.window) { return Boolean(win?.matchMedia?.("(max-width: 760px), (pointer: coarse)")?.matches); }
+function row(item) { return `<label><input type="checkbox" data-school="${item.id}" ${item.done ? "checked" : ""}/><span><b>${item.title}</b><small>${item.goal}</small></span></label>`; }
+function setOpen(panel, open) { panel.classList.toggle("open", Boolean(open)); panel.querySelector(".schoolToggle")?.setAttribute("aria-expanded", String(Boolean(open))); }
+function markCleanWorld(doc, mobile) { doc?.body?.classList?.toggle("awtsmoos-world-clean", Boolean(mobile)); }
 export function renderSchoolChecklist(doc = globalThis.document, win = globalThis.window) {
   if (!doc) return null;
-  let panel = doc.getElementById("awtsmoosSchoolChecklist");
-  if (!panel) { panel = doc.createElement("div"); panel.id = "awtsmoosSchoolChecklist"; panel.className = "mitzvahPanel"; panel.style.cssText = "position:fixed;right:12px;bottom:86px;z-index:9050;max-width:330px;max-height:42vh;overflow:auto;pointer-events:auto"; doc.body.appendChild(panel); }
-  const progress = getSchoolProgress(win), summary = schoolSummary(win);
-  panel.innerHTML = `<strong>Starter Schools ${summary.done}/${summary.total}</strong>${progress.map(row).join("")}`;
+  injectMobileUiTikkunStyle(doc, ID); ensureMobilePerformanceOverlay(win, doc);
+  let panel = doc.getElementById(ID); if (!panel) { panel = doc.createElement("div"); panel.id = ID; doc.body.appendChild(panel); }
+  const progress = getSchoolProgress(win), summary = schoolSummary(win), mobile = isMobile(win), wasOpen = panel.classList.contains("open");
+  panel.className = mobile ? "schoolChip" : "mitzvahPanel schoolChip"; markCleanWorld(doc, mobile);
+  if (!mobile) panel.style.cssText = "position:fixed;right:12px;bottom:86px;z-index:9050;max-width:330px;max-height:42vh;overflow:auto;pointer-events:auto"; else panel.removeAttribute("style");
+  panel.innerHTML = `<button class="schoolToggle" type="button" aria-expanded="false">Schools ${summary.done}/${summary.total}</button><div class="schoolBody"><strong>Starter Schools ${summary.done}/${summary.total}</strong>${progress.map(row).join("")}</div>`;
+  setOpen(panel, wasOpen); panel.querySelector(".schoolToggle")?.addEventListener("click", () => setOpen(panel, !panel.classList.contains("open")));
   panel.querySelectorAll("input[data-school]").forEach(input => input.addEventListener("change", () => { setSchoolDone(input.dataset.school, input.checked, win); renderSchoolChecklist(doc, win); }));
-  win.__AWTSMOOS_SCHOOL_CHECKLIST__ = progress;
-  win.__AWTSMOOS_SCHOOL_SUMMARY__ = () => schoolSummary(win);
-  return progress;
+  win.__AWTSMOOS_SCHOOL_CHECKLIST__ = progress; win.__AWTSMOOS_SCHOOL_SUMMARY__ = () => schoolSummary(win); return progress;
 }
 renderSchoolChecklist();
 globalThis.window?.addEventListener?.("awtsmoos-worker-world-report", () => renderSchoolChecklist(), { passive:true });
