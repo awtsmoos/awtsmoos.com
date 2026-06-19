@@ -1,0 +1,3 @@
+// B"H
+import { AxisOfActionGuard } from './AxisOfActionGuard.js';import { EyeLineMatchGuard } from './EyeLineMatchGuard.js';import { CutSeverityEstimator } from './CutSeverityEstimator.js';import { CutSmoother } from './CutSmoother.js';import { ShotHistoryStore } from './ShotHistoryStore.js';import { ContinuityPlan } from './ContinuityPlan.js';
+export class ShotContinuityEngine{static apply(plan={},state){const prev=ShotHistoryStore.last(state)||{};let out=AxisOfActionGuard.apply({...plan},prev);out=EyeLineMatchGuard.apply(out);const severity=CutSeverityEstimator.estimate(prev,out);out=CutSmoother.apply(out,severity);out.continuity=ContinuityPlan.make({cutSeverity:severity,transition:out.transition});ShotHistoryStore.push(state,out);return out;}}

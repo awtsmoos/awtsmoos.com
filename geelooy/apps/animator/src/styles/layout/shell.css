@@ -1,0 +1,18 @@
+/* B"H - Desktop shell grid. */
+.app-shell {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: clamp(220px, 21vw, 330px) 6px minmax(0, 1fr) 6px clamp(210px, 20vw, 300px);
+  grid-template-rows: minmax(0, 1fr) 6px clamp(110px, 18vh, 190px);
+  width: var(--aw-real-vw, 100vw);
+  height: var(--aw-real-vh, 100dvh);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 52% 18%, rgba(93, 116, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 30% 82%, rgba(0, 220, 255, 0.08), transparent 30%),
+    linear-gradient(135deg, #03040a 0%, #0b0d18 55%, #020308 100%);
+}
+
+.scrollable { overflow: auto; }
+.hud-overlay { position: absolute; inset: 0; pointer-events: none; }

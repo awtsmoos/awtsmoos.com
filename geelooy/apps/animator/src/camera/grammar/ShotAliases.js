@@ -1,0 +1,2 @@
+// B"H
+export class ShotAliases{static map={cu:'closeUp',bcu:'bigCloseUp',ecu:'extremeCloseUp',mcu:'mediumCloseUp',ms:'mediumShot',mfs:'mediumFullShot',ews:'extremeWideShot',ws:'wideShot',fs:'fullShot',ots:'overTheShoulder',pov:'pointOfViewShot',insert:'insertShot',food:'foodInsert',hands:'handsInsert',hero:'heroShot',comedy:'comedyWide'};static resolve(name='mediumShot'){return this.map[String(name)]||name;}}

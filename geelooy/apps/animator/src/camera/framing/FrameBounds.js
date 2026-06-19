@@ -1,0 +1,2 @@
+// B"H
+export class FrameBounds { static combine(targets=[]){if(!targets.length)return{x:0,y:0,w:220,h:240};const xs=targets.map(t=>t.bounds?.x??t.position?.x??0),ys=targets.map(t=>t.bounds?.y??t.position?.y??0),rs=targets.map(t=>(t.bounds?.x??t.position?.x??0)+(t.bounds?.w??80)),bs=targets.map(t=>(t.bounds?.y??t.position?.y??0)+(t.bounds?.h??200));const minX=Math.min(...xs),minY=Math.min(...ys),maxX=Math.max(...rs),maxY=Math.max(...bs);return{x:(minX+maxX)/2,y:(minY+maxY)/2,w:maxX-minX,h:maxY-minY};} }

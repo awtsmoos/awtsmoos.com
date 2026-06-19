@@ -1,0 +1,3 @@
+// B"H
+import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
+export class StablePayos2D { static build(data={},c={},m={}){if(!(data.payos||data.archetype==='sage'||data.style==='goal_board_sage'))return null;const col=data.colors?.hairDark||'#120905';return G.group('stable_payos',null,[-1,1].map(side=>G.path(`payos_${side}`,[{type:'move',x:side*(m.headRX+3),y:m.headY-18},{type:'quad',cx:side*(m.headRX+10),cy:m.headY+4,x:side*(m.headRX+3),y:m.headY+25},{type:'quad',cx:side*(m.headRX+12),cy:m.headY+36,x:side*(m.headRX+1),y:m.headY+45}],{stroke:col,lineWidth:4,lineCap:'round'})));} }

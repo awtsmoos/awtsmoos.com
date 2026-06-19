@@ -1,0 +1,15 @@
+// B"H
+export const DEFAULT_STORYBOARD_BEATS = [
+  { start:200,end:1800,shotIntent:'group',targets:['rabbi_left','rabbi_right','table_book','soup_bowl'],movementIntent:'pullOut',speaker:'rabbi_left',listener:'rabbi_right',text:'The whole room teaches first: shelves, light, table, and two friends.',emotion:'warm',gesture:'open_hand' },
+  { start:1950,end:3500,shotIntent:'dialogue',targets:['rabbi_left','rabbi_right'],speaker:'rabbi_left',listener:'rabbi_right',text:'Now we hold a centered two-shot, stable enough for thought.',emotion:'focused',gesture:'explain' },
+  { start:3650,end:5200,shotIntent:'overTheShoulder',targets:['rabbi_left','rabbi_right'],speaker:'rabbi_right',listener:'rabbi_left',text:'Over the shoulder, the listener gives depth to the speaker.',emotion:'curious',gesture:'open_explain' },
+  { start:5350,end:6800,shotIntent:'reaction',targets:['rabbi_left'],movementIntent:'pushIn',speaker:'rabbi_left',listener:'rabbi_right',text:'The close-up belongs to the eyes before it belongs to the mouth.',emotion:'amazed',gesture:'touch_chest' },
+  { start:6950,end:8350,shotIntent:'reaction',targets:['rabbi_right'],speaker:'rabbi_right',listener:'rabbi_left',text:'A beard, a hat, a smile, and a listening nod can carry a cut.',emotion:'delighted',gesture:'soft_nod' },
+  { start:8500,end:10000,shotIntent:'foodInsert',targets:['soup_bowl','bread_plate'],speaker:'rabbi_left',listener:'rabbi_right',text:'Insert: soup, bread, steam, table warmth.',emotion:'proud',gesture:'point' },
+  { start:10150,end:11650,shotIntent:'objectInsert',targets:['table_book','open_note'],speaker:'rabbi_right',listener:'rabbi_left',text:'Insert: the sefer opens the next idea.',emotion:'thinking',gesture:'present',prop:{id:'table_book',propType:'book',action:'hop',from:{x:0,y:-104},to:{x:10,y:-108},height:7,size:38,color:'#1c2c4a'} },
+  { start:11800,end:13700,shotIntent:'dialogue',targets:['rabbi_left','rabbi_right','table_book'],speaker:'rabbi_left',listener:'rabbi_right',text:'Return wider so the table still participates.',emotion:'warm',gesture:'wide_explain' },
+  { start:13850,end:15500,shotIntent:'reaction',targets:['rabbi_right'],movementIntent:'pushIn',speaker:'rabbi_right',listener:'rabbi_left',text:'The listener reacts while the speaker breathes.',emotion:'playful',gesture:'open_hand' },
+  { start:15650,end:17600,shotIntent:'dialogue',targets:['rabbi_left','rabbi_right'],angleIntent:'hero',speaker:'rabbi_left',listener:'rabbi_right',text:'Low angle for dignity, but still calm and centered.',emotion:'proud',gesture:'bless' },
+  { start:17750,end:19700,shotIntent:'group',targets:['rabbi_left','rabbi_right','soup_bowl','table_book'],speaker:'rabbi_right',listener:'rabbi_left',text:'High enough to remember the table geography.',emotion:'relieved',gesture:'showBook' },
+  { start:19850,end:22400,shotIntent:'group',targets:['rabbi_left','rabbi_right','table_book','soup_bowl'],movementIntent:'pullOut',speaker:'rabbi_left',listener:'rabbi_right',text:'Final breath: stable, warm, detailed, and ready for more.',emotion:'delighted',gesture:'celebrate' }
+];

@@ -1,0 +1,3 @@
+// B"H
+import { MovementPlan } from './MovementPlan.js';import { PushInPlanner } from './PushInPlanner.js';import { PullOutPlanner } from './PullOutPlanner.js';import { PanPlanner } from './PanPlanner.js';import { FollowPlanner } from './FollowPlanner.js';import { RevealMovePlanner } from './RevealMovePlanner.js';
+export class CameraMovePlanner{static plan(event={},shotType='mediumShot'){const t=`${event.movementIntent||''} ${event.shotIntent||''} ${shotType}`;if(/push|dramatic|emotion|close/.test(t))return PushInPlanner.plan();if(/pull|ending/.test(t))return PullOutPlanner.plan();if(/pan/.test(t))return PanPlanner.plan();if(/follow|track|walk/.test(t))return FollowPlanner.plan();if(/reveal/.test(t))return RevealMovePlanner.plan();return MovementPlan.make('static');}}

@@ -1,0 +1,4 @@
+// B"H
+const colors={left:{jacket:'#111827',pants:'#0b0d12',shirt:'#fff4df',skin:'#d19a73',hair:'#1b110b',hairDark:'#080503',beard:'#2a1a10',beardDark:'#0f0905',hat:'#050505'},right:{jacket:'#f5ead9',pants:'#151515',shirt:'#fff9ef',skin:'#d6a17a',hair:'#24150d',hairDark:'#0b0603',beard:'#2a1a10',beardDark:'#0f0905',hat:'#050505'}};
+const sage=(id,name,x,cols,flipX=false)=>({id,name,archetype:'sage',style:'goal_board_sage',hatType:'blackHat',beard:true,payos:true,glasses:id==='rabbi_right',position:{x,y:0,scale:.94},view:'threeQuarter',flipX,emotion:'warm',locomotion:'idle',gesture:'open_hand',motionMode:'settled',bodyProfile:'expressiveLeader',expressionProfile:'warm_teacher',gazeMode:'sceneAware',actingPersonality:'gentle_scholar',speechEnergy:1.05,colors:cols});
+export const SCHOLAR_CHARACTERS={rabbi_left:sage('rabbi_left','Rabbi Left',-118,colors.left,false),rabbi_right:sage('rabbi_right','Rabbi Right',118,colors.right,true)};

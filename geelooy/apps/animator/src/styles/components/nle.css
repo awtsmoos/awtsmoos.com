@@ -1,0 +1,61 @@
+/* B"H - Compact non-linear editor. */
+#aw-nle-mount { position: absolute; inset: auto 10px calc(env(safe-area-inset-bottom, 0px) + 8px) 10px; z-index: 80; pointer-events: auto; }
+.aw-nle-shell { width: 100%; overflow: hidden; border: 1px solid var(--aw-line-strong); border-radius: 16px; background: rgba(9, 12, 20, 0.94); color: var(--aw-text); box-shadow: var(--aw-shadow); backdrop-filter: blur(12px); transition: height 180ms ease, transform 180ms ease, opacity 180ms ease; }
+.aw-nle-toolbar { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-bottom: 1px solid var(--aw-line); overflow-x: auto; }
+.aw-nle-btn { padding: 5px 9px; font-size: 11px; white-space: nowrap; }
+.aw-nle-time { margin-left: auto; min-width: max-content; color: var(--aw-muted); font-size: 12px; }
+.aw-nle-body { display: grid; grid-template-columns: 120px 1fr 132px; height: 84px; min-height: 0; }
+.aw-nle-tracks,
+.aw-nle-inspector { overflow: hidden; padding: 7px; background: rgba(255, 255, 255, 0.04); }
+.aw-nle-track-name,
+.aw-nle-field { height: 20px; overflow: hidden; font-size: 11px; color: var(--aw-muted); }
+.aw-nle-clips { position: relative; overflow-x: auto; overflow-y: hidden; background: rgba(0, 0, 0, 0.22); }
+.aw-nle-lane { position: relative; height: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.aw-nle-clip { position: absolute; top: 2px; height: 16px; padding: 0 8px; font-size: 10px; background: rgba(100, 170, 255, 0.34); white-space: nowrap; }
+.aw-nle-clip.selected { outline: 2px solid rgba(255, 255, 255, 0.75); }
+.aw-nle-playhead { position: absolute; top: 0; bottom: 0; width: 2px; z-index: 5; pointer-events: none; background: rgba(255, 255, 255, 0.86); box-shadow: 0 0 9px rgba(255, 255, 255, 0.65); }
+.aw-nle-mode-collapsed { height: 48px !important; }
+.aw-nle-mode-compact { height: 126px !important; }
+.aw-nle-mode-expanded { height: min(236px, 42vh) !important; }
+.aw-nle-collapsed-body { display: flex; gap: 10px; align-items: center; height: 24px; overflow: hidden; padding: 0 12px 7px; color: var(--aw-muted); font-size: 12px; }
+.aw-nle-collapsed-body strong { color: #fff; min-width: max-content; }
+.aw-nle-collapsed-body span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aw-nle-mode-collapsed .aw-nle-toolbar { border-bottom: 0; }
+.aw-nle-mode-compact .aw-nle-body { height: 84px !important; }
+.aw-nle-mode-expanded .aw-nle-body { height: 194px !important; }
+
+/* B"H - Manifest toolbar and dense-track presentation. */
+.nle-toolbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.nle-play-button { padding: 2px 8px; }
+.nle-time-readout { min-width: 60px; font-size: 0.75rem; }
+.nle-toolbar-separator { width: 1px; height: 16px; background: var(--aw-line); }
+.nle-toolbar-zoom { display: flex; gap: 4px; }
+.nle-toolbar-spacer { flex: 1; }
+.nle-add-actor-button { background: #113355; border-color: #225588; }
+.nle-add-prop-button { background: #553311; border-color: #885522; }
+.nle-dense-group-name { color: #00ffcc; font-weight: 800; }
+.nle-dense-group-count { margin-left: 10px; color: #666; font-size: 8px; }
+
+/* B"H - Manifest toolbar and dense-track presentation. */
+.nle-toolbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.nle-play-button { padding: 2px 8px; }
+.nle-time-readout { min-width: 60px; font-size: 0.75rem; }
+.nle-toolbar-separator { width: 1px; height: 16px; background: var(--aw-line); }
+.nle-toolbar-zoom { display: flex; gap: 4px; }
+.nle-toolbar-spacer { flex: 1; }
+.nle-add-actor-button { background: #113355; border-color: #225588; }
+.nle-add-prop-button { background: #553311; border-color: #885522; }
+.nle-dense-group-name { color: #00ffcc; font-weight: 800; }
+.nle-dense-group-count { margin-left: 10px; color: #666; font-size: 8px; }

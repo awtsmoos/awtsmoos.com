@@ -1,0 +1,3 @@
+// B"H
+import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
+export class PlatePropRenderer { static build(p={}){const s=p.size||44;return G.group('prod_plate',null,[G.ellipse('plate_shadow',0,s*.25,s*1.1,s*.2,0,{fill:'rgba(0,0,0,.16)'}),G.ellipse('plate_outer',0,0,s,s*.32,0,{fill:'#f9fbff',stroke:'#789',lineWidth:2}),G.ellipse('plate_inner',0,0,s*.62,s*.18,0,{fill:'rgba(220,238,255,.45)',stroke:'#9ab',lineWidth:1}),G.rect('bread_a',{x:-s*.35,y:-s*.18,width:s*.34,height:s*.22,fill:'#e2b35e',stroke:'#7b421f',lineWidth:1}),G.rect('bread_b',{x:s*.02,y:-s*.15,width:s*.34,height:s*.22,fill:'#f0c36a',stroke:'#7b421f',lineWidth:1})]);} }
