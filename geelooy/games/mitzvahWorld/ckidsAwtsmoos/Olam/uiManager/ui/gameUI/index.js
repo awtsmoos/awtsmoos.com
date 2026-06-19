@@ -22,7 +22,7 @@ import { Toast } from "./components/Toast.js?v=ray-ground-ui-20260602-bh126";
 import { InteractionPrompt } from "./components/InteractionPrompt.js?v=ray-ground-ui-20260602-bh126";
 import { PerutahProgress } from "./perutahProgress.js?v=village-hud-born-hidden-20260603-bh366";
 const isMobileLike = typeof navigator !== "undefined" && /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
-const sideRoots = ["torahSkills", "torahSpellbook", "knowledgeMenu", "skillBar", "torahCodex", "objectiveProgress", "torahActionBar", "macroPanel", "farmPanel", "combatLog", "questTracker"];
+const sideRoots = ["torahSkills", "torahSpellbook", "knowledgeMenu", "skillBar", "torahCodex", "objectiveProgress", "torahActionBar", "macroPanel", "farmPanel", "combatLog", "questTracker", "chatPanel", "mapReveal", "minimap", "carcassPanel", "lootSparkle", "loot", "bagState"];
 function root(shaym) { return document.querySelector(`[shaym="${shaym}"]`); }
 function payload(event) { return event && typeof event === "object" && "detail" in event ? event.detail || {} : event || {}; }
 function esc(value, fallback = "") { return String(value ?? fallback).replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;" }[ch])); }

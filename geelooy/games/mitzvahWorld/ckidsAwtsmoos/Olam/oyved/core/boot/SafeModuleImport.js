@@ -13,7 +13,7 @@ import { resolveModuleRecord } from "./ModuleUrlResolver.js";
 import { makeModuleFailureText, makeModuleStartText, makeModuleSuccessText } from "./ModuleLoadText.js";
 import { requireModuleExport } from "./ModuleExportValidator.js";
 
-const IMPORT_TIMEOUT_MS = 45000;
+const IMPORT_TIMEOUT_MS = 120000;
 
 function timeoutImport(resolved) {
   return new Promise((_, reject) => {

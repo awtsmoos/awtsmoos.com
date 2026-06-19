@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "base": "http://127.0.0.1:59802",
+  "base": "http://127.0.0.1:59372",
   "repoRoot": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com",
   "results": [
     {
@@ -79,7 +79,7 @@
       "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/divine_systems/render/core/PixelRatioGovernor.js?v=test",
       "status": 200,
       "type": "text/javascript; charset=utf-8",
-      "preview": "// B\"H\n/**\n * @file PixelRatioGovernor.js\n * The real renderer is born in the worker through OffscreenCanvas. This file\n * is therefore the throat of performanc"
+      "preview": "// B\"H\n/**\n * @file PixelRatioGovernor.js\n * The worker owns the real canvas. Here the Awtsmoos lowers fragment cost\n * before pixels become heat. This is aggre"
     }
   ]
 }

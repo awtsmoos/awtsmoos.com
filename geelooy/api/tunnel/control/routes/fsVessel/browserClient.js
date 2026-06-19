@@ -45,6 +45,12 @@ function publicBrowserTunnel(client) {
 
 function listBrowserTunnels($i) { return listBrowserTunnelClients($i).map(publicBrowserTunnel); }
 function findBrowserTunnelClient($i, tunnelName) { return listBrowserTunnelClients($i).find(client => client.tunnelName === tunnelName) || null; }
-async function sendBrowserTunnel($i, tunnelName, payload, timeoutMs) { return await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs); }
+async function sendBrowserTunnel($i, tunnelName, payload, timeoutMs) {
+  const result = await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs);
+  if (payload.controlRequestId && result.controlRequestId && result.controlRequestId !== payload.controlRequestId) {
+    return { BH: "B\"H", ok: false, status: 409, error: "tunnel_response_request_id_mismatch", expectedControlRequestId: payload.controlRequestId, actualControlRequestId: result.controlRequestId, tunnelName };
+  }
+  return result;
+}
 
 module.exports = { findBrowserTunnelClient, listBrowserTunnelClients, listBrowserTunnels, publicBrowserTunnel, sendBrowserTunnel };

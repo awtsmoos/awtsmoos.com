@@ -498,6 +498,7 @@ function proxyLocalHttp(config, data, ws) {
       ws.send(JSON.stringify({
         type: "TUNNEL_RESPONSE",
         id: data.id,
+        controlRequestId: data.payload?.controlRequestId,
         status: res.statusCode,
         headers: res.headers,
         body: Buffer.concat(chunks).toString("base64")
@@ -509,6 +510,7 @@ function proxyLocalHttp(config, data, ws) {
     ws.send(JSON.stringify({
       type: "TUNNEL_RESPONSE",
       id: data.id,
+      controlRequestId: data.payload?.controlRequestId,
       status: 502,
       headers: { "content-type": "text/plain" },
       body: Buffer.from(err.message).toString("base64")
@@ -546,7 +548,7 @@ async function connect() {
     try {
       if (data.payload && data.payload.kind === "fs") {
         const result = await handleFs(currentConfig, data.payload);
-        currentWs.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, ...result }));
+        currentWs.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, controlRequestId: data.payload?.controlRequestId, ...result }));
         return;
       }
 
@@ -555,6 +557,7 @@ async function connect() {
       currentWs.send(JSON.stringify({
         type: "TUNNEL_RESPONSE",
         id: data.id,
+        controlRequestId: data.payload?.controlRequestId,
         ok: false,
         status: 500,
         error: e.message,

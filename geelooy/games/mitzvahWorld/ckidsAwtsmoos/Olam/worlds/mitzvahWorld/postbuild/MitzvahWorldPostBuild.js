@@ -3,7 +3,9 @@
 import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteractionSchema.js";
 import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js";
 import { ensureNpcRoles } from "./NpcRolePostBuild.js";
+import { ensureNpc3DMarkers } from "./Npc3DMarkerPostBuild.js?v=awtsmoos-npc-3d-markers-20260619-bh1";
 import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
+import { ensureWildlifeCarcassLoot } from "./WildlifeCarcassLootPostBuild.js?v=awtsmoos-carcass-loot-20260619-bh1";
 import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js?v=awtsmoos-battle-layer-20260614-bh2";
 import { ensureVillageVisualRealityLayer } from "./VillageVisualRealityLayer.js?v=awtsmoos-visual-reality-20260614-bh3";
 import { ensureVillageBotanicalRealityLayer } from "./VillageBotanicalRealityLayer.js?v=awtsmoos-botanical-reality-20260614-bh3";
@@ -12,6 +14,7 @@ import { ensureVillageWorldPolishPass } from "./VillageWorldPolishPass.js?v=awts
 import { ensureHyperRealSunLensFlareLayer } from "./HyperRealSunLensFlareLayer.js?v=awtsmoos-hyper-real-sun-20260616-bh1";
 import { ensureLivingTorahQuestLoop } from "./LivingTorahQuestLoop.js?v=awtsmoos-living-torah-loop-20260616-bh1";
 import { ensureUniverseJsonPostBuild } from "./UniverseJsonPostBuild.js?v=awtsmoos-movie-universe-20260616-bh1";
+import { ensureProceduralWorldRuntime } from "../procedural/ProceduralWorldRuntime.js?v=awtsmoos-json-world-runtime-20260619-bh1";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?v=ecology-data-spine-20260612-bh1";
 import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=mobile-region-grass-wildlife-20260615-bh903";
 import { getVillageShaderTextureStats } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh3";
@@ -33,7 +36,10 @@ export async function runMitzvahWorldPostBuild(context = {}) {
   const livingRuntime = await safeStep("livingRegionRuntime", () => ensureLivingRegionRuntime(context, regionStack.value || {}));
   const woodCollectibles = await safeStep("woodCollectibles", () => ensureWoodCollectibles(context));
   const roleMarkedNpcs = await safeStep("roleMarkedNpcs", () => ensureNpcRoles(context));
+  const npc3DMarkers = await safeStep("npc3DMarkers", () => ensureNpc3DMarkers(context));
+  const proceduralWorld = await safeStep("proceduralWorldJson", () => ensureProceduralWorldRuntime(context));
   const battleLayer = await safeStep("battleLayer", () => ensureGeneratedBattleLayer(context));
+  const carcassLoot = await safeStep("wildlifeCarcassLoot", () => ensureWildlifeCarcassLoot(context));
   const shaderWarm = await safeStep("shaderTextureWarm", () => skippedWarm("villageShaderTextures", getVillageShaderTextureStats()));
   const ecologyWarm = await safeStep("ecologyMaterialWarm", () => skippedWarm("ecologyMaterials", ecologyMaterialStats()));
   const visualReality = await safeStep("visualReality", () => ensureVillageVisualRealityLayer(context));
@@ -44,6 +50,6 @@ export async function runMitzvahWorldPostBuild(context = {}) {
   const torahLoop = await safeStep("livingTorahQuestLoop", () => ensureLivingTorahQuestLoop(context));
   const movieUniverse = await safeStep("movieUniverseJson", () => ensureUniverseJsonPostBuild(context));
   const summary = regionSummary(regionStack) || {};
-  mark("done", { regionStack:one(regionStack), livingRuntime:one(livingRuntime), worldPolish:one(worldPolish), hyperSun:one(hyperSun), torahLoop:one(torahLoop), movieUniverse:one(movieUniverse), visibleInstances:summary.visibleInstances || 0, npcSchedules:summary.npcSchedules || 0 });
-  return { skipped:false, reason:"postbuild-full-region-sun-torah-json-movie-universe", source:sourceOf(context), steps:{ regionStack:stepLine(regionStack, { summary:regionSummary(regionStack) }), livingRegionRuntime:stepLine(livingRuntime, { stats:livingStats(livingRuntime) }), woodCollectibles:stepLine(woodCollectibles, { authored:WOOD_COLLECTIBLES.length, added:countArray(woodCollectibles) }), roleMarkedNpcs:stepLine(roleMarkedNpcs, { authored:Object.keys(NPC_ROLES).length, marked:countArray(roleMarkedNpcs) }), battleLayer:stepLine(battleLayer, { added:countArray(battleLayer) }), shaderTextureWarm:stepLine(shaderWarm, { value:shaderWarm.value || null }), ecologyMaterialWarm:stepLine(ecologyWarm, { value:ecologyWarm.value || null }), visualReality:stepLine(visualReality, { added:one(visualReality) }), botanicalReality:stepLine(botanicalReality, { added:one(botanicalReality) }), ecologyReality:stepLine(ecologyReality, { added:one(ecologyReality), counts:livingStats(ecologyReality) }), worldPolish:stepLine(worldPolish, { added:one(worldPolish), steps:worldPolish.value?.steps || null }), hyperRealSunLensFlare:stepLine(hyperSun, { added:one(hyperSun), stats:livingStats(hyperSun) }), livingTorahQuestLoop:stepLine(torahLoop, { added:one(torahLoop), stats:livingStats(torahLoop), summary:regionSummary(torahLoop) }), movieUniverseJson:stepLine(movieUniverse, { added:one(movieUniverse), stats:livingStats(movieUniverse), summary:regionSummary(movieUniverse) }) } };
+  mark("done", { regionStack:one(regionStack), livingRuntime:one(livingRuntime), worldPolish:one(worldPolish), hyperSun:one(hyperSun), torahLoop:one(torahLoop), movieUniverse:one(movieUniverse), proceduralWorld:one(proceduralWorld), visibleInstances:summary.visibleInstances || 0, npcSchedules:summary.npcSchedules || 0 });
+  return { skipped:false, reason:"postbuild-full-region-sun-torah-json-movie-universe-procedural-loot-ui", source:sourceOf(context), steps:{ regionStack:stepLine(regionStack, { summary:regionSummary(regionStack) }), livingRegionRuntime:stepLine(livingRuntime, { stats:livingStats(livingRuntime) }), woodCollectibles:stepLine(woodCollectibles, { authored:WOOD_COLLECTIBLES.length, added:countArray(woodCollectibles) }), roleMarkedNpcs:stepLine(roleMarkedNpcs, { authored:Object.keys(NPC_ROLES).length, marked:countArray(roleMarkedNpcs) }), npc3DMarkers:stepLine(npc3DMarkers, { marked:countArray(npc3DMarkers) }), proceduralWorldJson:stepLine(proceduralWorld, { added:one(proceduralWorld), stats:livingStats(proceduralWorld) }), battleLayer:stepLine(battleLayer, { added:countArray(battleLayer) }), wildlifeCarcassLoot:stepLine(carcassLoot, { added:one(carcassLoot) }), shaderTextureWarm:stepLine(shaderWarm, { value:shaderWarm.value || null }), ecologyMaterialWarm:stepLine(ecologyWarm, { value:ecologyWarm.value || null }), visualReality:stepLine(visualReality, { added:one(visualReality) }), botanicalReality:stepLine(botanicalReality, { added:one(botanicalReality) }), ecologyReality:stepLine(ecologyReality, { added:one(ecologyReality), counts:livingStats(ecologyReality) }), worldPolish:stepLine(worldPolish, { added:one(worldPolish), steps:worldPolish.value?.steps || null }), hyperRealSunLensFlare:stepLine(hyperSun, { added:one(hyperSun), stats:livingStats(hyperSun) }), livingTorahQuestLoop:stepLine(torahLoop, { added:one(torahLoop), stats:livingStats(torahLoop), summary:regionSummary(torahLoop) }), movieUniverseJson:stepLine(movieUniverse, { added:one(movieUniverse), stats:livingStats(movieUniverse), summary:regionSummary(movieUniverse) }) } };
 }

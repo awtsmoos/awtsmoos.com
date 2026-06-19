@@ -557,7 +557,7 @@ class TunnelRuntime extends EventEmitter {
       try {
         if (data.payload && data.payload.kind === "fs") {
           const result = await handleFs(currentConfig, data.payload);
-          currentWs.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, ...result }));
+          currentWs.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, controlRequestId: data.payload?.controlRequestId, ...result }));
           return;
         }
 
@@ -567,6 +567,7 @@ class TunnelRuntime extends EventEmitter {
           currentWs.send(JSON.stringify({
             type: "TUNNEL_RESPONSE",
             id: data.id,
+            controlRequestId: data.payload?.controlRequestId,
             ok: false,
             status: 403,
             error: "Local HTTP proxy disabled."
@@ -576,6 +577,7 @@ class TunnelRuntime extends EventEmitter {
         currentWs.send(JSON.stringify({
           type: "TUNNEL_RESPONSE",
           id: data.id,
+          controlRequestId: data.payload?.controlRequestId,
           ok: false,
           status: 500,
           error: e.message,
@@ -804,6 +806,7 @@ function proxyLocalHttp(config, data, ws) {
       ws.send(JSON.stringify({
         type: "TUNNEL_RESPONSE",
         id: data.id,
+        controlRequestId: data.payload?.controlRequestId,
         status: res.statusCode,
         headers: res.headers,
         body: Buffer.concat(chunks).toString("base64")
@@ -815,6 +818,7 @@ function proxyLocalHttp(config, data, ws) {
     ws.send(JSON.stringify({
       type: "TUNNEL_RESPONSE",
       id: data.id,
+      controlRequestId: data.payload?.controlRequestId,
       status: 502,
       headers: { "content-type": "text/plain" },
       body: Buffer.from(err.message).toString("base64")
@@ -995,6 +999,7 @@ function gptPrompt(c) {
     'project path: .',
     'targetVessel: native-local',
     'conversationName: choose a short stable task name and send it on every action.',
+    'Route memory: once you successfully call this concrete tunnel with conversationName, later calls in the same conversation may use tunnelName auto and will stay on the selected native tunnel. To switch, explicitly call a different tunnel or targetVessel.',
     '',
     'Start by listing the project folder with targetVessel native-local.',
     'Then inspect package.json, README files, and the main entry files.',

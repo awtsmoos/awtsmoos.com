@@ -61,6 +61,7 @@ function safeSend(ws, obj) {
     const tiny = {
       type: "TUNNEL_RESPONSE",
       id: obj?.id,
+      controlRequestId: obj?.controlRequestId,
       ok: false,
       status: 500,
       error: "safe_send_failed",
@@ -96,6 +97,7 @@ function proxyLocalHttp(config, data, ws) {
     return safeSend(ws, {
       type: "TUNNEL_RESPONSE",
       id: data.id,
+      controlRequestId: data.payload?.controlRequestId,
       ok: false,
       status: 403,
       error: "Local HTTP proxy disabled."
@@ -120,6 +122,7 @@ function proxyLocalHttp(config, data, ws) {
         return safeSend(ws, {
           type: "TUNNEL_RESPONSE",
           id: data.id,
+          controlRequestId: data.payload?.controlRequestId,
           ok: false,
           status: 413,
           error: "local_proxy_response_too_large",
@@ -131,9 +134,10 @@ function proxyLocalHttp(config, data, ws) {
     });
     res.on("end", () => {
       if (!aborted) safeSend(ws, {
-        type: "TUNNEL_RESPONSE",
-        id: data.id,
-        status: res.statusCode,
+      type: "TUNNEL_RESPONSE",
+      id: data.id,
+      controlRequestId: data.payload?.controlRequestId,
+      status: res.statusCode,
         headers: res.headers,
         body: Buffer.concat(chunks).toString("base64")
       });
@@ -142,6 +146,7 @@ function proxyLocalHttp(config, data, ws) {
   req.on("error", err => safeSend(ws, {
     type: "TUNNEL_RESPONSE",
     id: data.id,
+    controlRequestId: data.payload?.controlRequestId,
     status: 502,
     headers: { "content-type": "text/plain" },
     body: Buffer.from(err.message).toString("base64")
@@ -178,6 +183,7 @@ function enqueueRequest(ws, data) {
   if (requestQueue.length >= MAX_QUEUE) return safeSend(ws, {
     type: "TUNNEL_RESPONSE",
     id: data.id,
+    controlRequestId: data.payload?.controlRequestId,
     ok: false,
     status: 429,
     error: "agent_queue_full",
@@ -200,6 +206,7 @@ function drainQueue() {
       safeSend(item.ws, {
         type: "TUNNEL_RESPONSE",
         id: item.data.id,
+        controlRequestId: item.data.payload?.controlRequestId,
         ok: false,
         status: 504,
         error: "agent_queue_timeout",
@@ -230,6 +237,7 @@ async function runRequest(ws, data, enqueuedAt) {
     safeSend(ws, {
       type: "TUNNEL_RESPONSE",
       id: data.id,
+      controlRequestId: data.payload?.controlRequestId,
       queuedMs: Math.max(0, Date.now() - enqueuedAt),
       queueStats: {
         inflight: inflight.size,
@@ -243,6 +251,7 @@ async function runRequest(ws, data, enqueuedAt) {
     safeSend(ws, {
       type: "TUNNEL_RESPONSE",
       id: data.id,
+      controlRequestId: data.payload?.controlRequestId,
       ok: false,
       status: 500,
       error: e.message,

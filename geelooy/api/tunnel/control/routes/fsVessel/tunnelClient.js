@@ -52,6 +52,12 @@ function listNativeTunnelClients($i) {
 
 function listNativeTunnels($i) { return listNativeTunnelClients($i).map(publicNativeTunnel); }
 function findNativeTunnelClient($i, tunnelName) { return listNativeTunnelClients($i).find(client => client.tunnelName === tunnelName) || null; }
-async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) { return await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs); }
+async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) {
+  const result = await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs);
+  if (payload.controlRequestId && result.controlRequestId && result.controlRequestId !== payload.controlRequestId) {
+    return { BH: "B\"H", ok: false, status: 409, error: "tunnel_response_request_id_mismatch", expectedControlRequestId: payload.controlRequestId, actualControlRequestId: result.controlRequestId, tunnelName };
+  }
+  return result;
+}
 
 module.exports = { findNativeTunnelClient, isNativeTunnelClient, listNativeTunnelClients, listNativeTunnels, publicNativeTunnel, sendNativeTunnel };

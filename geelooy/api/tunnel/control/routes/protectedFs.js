@@ -1,4 +1,5 @@
 // B"H
+const crypto = require("crypto");
 const { json } = require("../core/respond.js");
 const { currentIdentity } = require("../core/auth.js");
 const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.js");
@@ -12,6 +13,7 @@ const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const { routeHints, withRouteHints } = require("./fsVessel/queryHints.js");
 const { autoCreatePreviewResult } = require("../preview/previewAutoCreate.js");
 const { ensureConversation, recordConversationEvent } = require("../core/conversationStore.js");
+const { applyRoutePreference, rememberRoutePreference } = require("../core/routePreferenceStore.js");
 
 const FOUR_MINUTES_MS = 240000;
 const ONE_DAY_MS = 86400000;
@@ -43,10 +45,10 @@ async function protectedFs($i, vars) {
   const ident = currentIdentity($i);
   const rawPayload = normalizeCarriers(buildFsPayload($i), $i);
   const hints = routeHints($i);
-  const tunnelName = vars.tunnelName;
+  const requestedTunnelName = vars.tunnelName;
   const payload = withRouteHints(rawPayload, hints);
-  payload.tunnelName = tunnelName;
-  payload.controlBaseUrl = controlBaseUrl(tunnelName);
+  payload.tunnelName = requestedTunnelName;
+  payload.controlBaseUrl = controlBaseUrl(requestedTunnelName);
   if (!ident.ok) return authFailure($i, payload, ident);
   const denied = scopeFailure($i, ident, payload);
   if (denied) return denied;
@@ -59,6 +61,12 @@ async function protectedFs($i, vars) {
   const conversation = ensureConversation(ident.userId, payload);
   payload.conversationId = conversation.id;
   payload.conversationName = conversation.name;
+  const route = applyRoutePreference(ident.userId, conversation.id, requestedTunnelName, payload);
+  const tunnelName = route.tunnelName;
+  payload.requestedTunnelName = requestedTunnelName;
+  payload.tunnelName = tunnelName;
+  payload.controlRequestId = payload.controlRequestId || requestId();
+  if (route.sticky) payload.stickyRoute = route.sticky;
   const vessel = resolveFsVessel({ $i, userId: ident.userId, tunnelName, payload, timeoutMs: requestTimeoutMs });
   return await runResolvedVessel($i, ident, payload, vessel, affordability);
 }
@@ -148,6 +156,7 @@ async function runResolvedVessel($i, ident, payload, vessel, affordability) {
     const result = await vessel.send();
     const withPreview = autoCreatePreviewResult(ident, payload, result);
     const withAccount = maybeAttachAccountSave(ident, payload, withPreview);
+    withAccount.controlRequestId = payload.controlRequestId;
     withAccount.estimatedPerutas = affordability.estimatedPerutas;
     withAccount.estimatedBytes = affordability.estimatedBytes;
     withAccount.estimatedFiles = affordability.estimatedFiles;
@@ -155,6 +164,7 @@ async function runResolvedVessel($i, ident, payload, vessel, affordability) {
     publishHandoff(vessel.tunnelName || payload.tunnelName, { action: payload.action, result: withAccount });
     const shaped = attachActionGuidance(maybeExternalize(withAccount, payload), payload);
     recordFsUsage(ident, payload, shaped, result.ok !== false, Date.now() - started);
+    shaped.routePreference = rememberRoutePreference(ident.userId, payload.conversationId, vessel, payload);
     recordActionEvent(ident, payload, shaped, vessel);
     return json($i, shaped, shaped.status || result.status || 200);
   } catch (e) {
@@ -188,5 +198,6 @@ function parse64(value, fallback = {}) { if (!value) return fallback; try { retu
 function firstDefined(...values) { return values.find(value => value !== undefined && value !== null); }
 function mergeObject(target, source) { if (!source || typeof source !== "object" || Array.isArray(source)) return target; for (const [key, value] of Object.entries(source)) if (value !== undefined) target[key] = value; return target; }
 function isCommandTree(action) { return /commandTree|awtsmoosCommandTree|merkavaCommandTree/.test(String(action || "")); }
+function requestId() { return "ctl_" + Date.now().toString(36) + "_" + crypto.randomBytes(8).toString("hex"); }
 
 module.exports = { boundedTunnelTimeout, protectedFs, ONE_DAY_MS, normalizeCarriers };

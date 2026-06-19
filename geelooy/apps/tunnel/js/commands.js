@@ -24,6 +24,7 @@ export function buildGptText(tunnelName, projectPath) {
     "project path: " + projectPath,
     "targetVessel: native-local",
     "conversationName: give each user task a short stable name before the first tool call, such as 'homepage polish 2026-06-19'. Include conversationName on every action.",
+    "Route memory: once you successfully call this concrete tunnel with conversationName, later calls in the same conversation may use tunnelName auto and will stay on the selected native tunnel. To switch, explicitly call a different tunnel or targetVessel.",
     "",
     "Start by registering/listing the project folder with targetVessel native-local, then inspect package.json, README files, and the main entry files.",
     "Do not read node_modules, .git, dist, build, .next, coverage, or private secret files.",

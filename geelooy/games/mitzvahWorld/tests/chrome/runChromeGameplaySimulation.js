@@ -47,10 +47,10 @@ function bootExpression() {
 
 async function waitForPlayable(cdp, log) {
   let last = {};
-  for (let index = 0; index < 90; index += 1) {
+  for (let index = 0; index < 360; index += 1) {
     try {
       last = await quickEval(cdp, bootExpression(), 2500);
-      if (last?.errors || (last?.canvases > 0 && (last?.bootLoaded || last?.perf))) return last;
+      if (last?.errors || (last?.canvases > 0 && last?.bootLoaded)) return last;
     } catch (error) { log.warn("CDP_BOOT_POLL_RETRY", error.message, { index }); }
     await pause(300);
   }
