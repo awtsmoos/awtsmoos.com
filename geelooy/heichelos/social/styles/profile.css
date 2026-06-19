@@ -1,0 +1,69 @@
+/* B"H */
+/**
+ * Chapter 66: The profile becomes a tree-lit courtyard.
+ * The Awtsmoos lets alias identity, statistics, heichel branches, series
+ * chambers, posts, and comments stand in visible order without flattening
+ * the living activity of the soul into dust.
+ */
+.awt-profile-hero {
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+}
+.awt-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.awt-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: var(--awt-surface-strong);
+  color: var(--awt-accent);
+  font-weight: 800;
+}
+.awt-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.awt-profile-activity {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+.awt-profile-activity h3,
+.awt-profile-activity h4 {
+  margin: 0;
+}
+.awt-activity-tree {
+  display: grid;
+  gap: 12px;
+}
+.awt-activity-heichel {
+  border: 1px solid var(--awt-border);
+  border-radius: var(--awt-radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 14px;
+}
+.awt-activity-series {
+  border-left: 2px solid var(--awt-accent);
+  margin-top: 12px;
+  padding-left: 12px;
+}
+.awt-activity-series ul {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+.awt-activity-item {
+  color: var(--awt-muted);
+}
+.awt-empty {
+  color: var(--awt-muted);
+  margin: 0;
+}

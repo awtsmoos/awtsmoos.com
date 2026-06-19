@@ -1,17 +1,17 @@
 //B"H
 import { AwtsmoosPrompt } from "./prompt.js";
-import { getBrowserLocalTunnelBridge, getProvider, MultiPassToolAgent, OpenAICompatibleStreamClient } from "./central/index.js";
+import { getProvider, MultiPassToolAgent, OpenAICompatibleStreamClient, resolveProviderTunnelBridge } from "./central/index.js";
 import { ProviderChatStore, providerUserMessage, providerAssistantMessage } from "./central/providerChatStore.js";
 import { reasoningEvent, toolCallEvent } from "./central/providerEvents.js";
 import { withAgentSystemInstructions } from "./central/agentSystemInstructions.js";
 
 /**
  * B"H
- * Chapter 254: The Custom River Returned Its Continuation Lamp In Metadata.
+ * Chapter 255: The Provider River Chooses Its Tunnel Gate.
  *
- * MiniMax/OpenRouter/Groq now surface awtsmoos_needs_next_step through the same
- * packet used for streaming and done. The text stays the final answer; the lamp
- * rides in awtsmoos.nextStep for the page controller to act on after paint.
+ * MiniMax/OpenRouter/Groq may now ask the local bridge, the OAuth endpoint
+ * bridge, Virtual OS, or no bridge at all. The Awtsmoos remains one dispatcher;
+ * only the doorway changes.
  */
 export function makeOpenAICompatibleService(owner, providerId) {
   const provider = getProvider(providerId);
@@ -27,7 +27,7 @@ export function makeOpenAICompatibleService(owner, providerId) {
       const history = await chatStore.messages(conversationId);
       const apiKey = await getProviderKey(owner, provider);
       const client = new OpenAICompatibleStreamClient({ provider, apiKey });
-      const bridge = options.localTunnel === false ? null : await getBrowserLocalTunnelBridge();
+      const bridge = await resolveProviderTunnelBridge(options);
       await chatStore.append(conversationId, [providerUserMessage(userMessage)], { title: userMessage.slice(0, 80) });
       const baseMessages = options.messages || toOpenAIMessages([...history, providerUserMessage(userMessage)]);
       const messages = await withAgentSystemInstructions(baseMessages);

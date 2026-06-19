@@ -1,0 +1,27 @@
+/* B"H */
+/**
+ * Chapter 60: The composer receives chambers for each section.
+ * Inputs, section cards, asset rows, and upload lanes stand visibly apart,
+ * so image, audio, and file vessels can attach to the exact text they serve.
+ */
+.awt-composer { display: grid; gap: 12px; padding: 18px; }
+.awt-composer input, .awt-composer textarea {
+  width: 100%;
+  border: 1px solid var(--awt-border);
+  border-radius: var(--awt-radius-md);
+  background: rgba(0,0,0,.22);
+  color: var(--awt-text);
+  padding: 12px;
+}
+.awt-composer-section {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--awt-border);
+  border-radius: var(--awt-radius-md);
+  background: rgba(255,255,255,.04);
+  padding: 14px;
+}
+.awt-section-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.awt-dropzone { border: 1px dashed var(--awt-border); border-radius: var(--awt-radius-md); padding: 16px; color: var(--awt-muted); }
+.awt-asset-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.awt-asset-pill { background: var(--awt-surface-strong); border-radius: 999px; color: var(--awt-muted); padding: 7px 10px; }

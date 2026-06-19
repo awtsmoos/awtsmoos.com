@@ -1,0 +1,3 @@
+/* B"H */
+.awt-audio, .awt-image, .awt-file { border: 1px solid var(--awt-border); border-radius: var(--awt-radius-md); padding: 10px; background: var(--awt-surface); }
+.awt-image { min-height: 120px; display: grid; place-items: center; color: var(--awt-muted); }

@@ -1,0 +1,13 @@
+{
+  "scope": "node-dom-fake-webgl",
+  "ok": false,
+  "issues": [
+    {
+      "severity": "error",
+      "code": "NODE_SIMULATION_CRASH",
+      "message": "win.setTimeout is not a function",
+      "detail": {},
+      "at": "2026-06-19T05:36:01.182Z"
+    }
+  ]
+}

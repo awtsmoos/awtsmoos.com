@@ -1,0 +1,44 @@
+/* B"H */
+/**
+ * Chapter 76: Discovery receives form, rhythm, and spacious breath.
+ * Trending sparks, graph totals, active vessels, and timeline events become
+ * a dashboard instead of loose facts.
+ */
+.awt-discovery-panel {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+.awt-discovery-panel h2,
+.awt-discovery-panel h3 {
+  margin: 0;
+}
+.awt-discovery-shelf {
+  display: grid;
+  gap: 10px;
+}
+.awt-discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+.awt-discovery-node,
+.awt-timeline-event {
+  border: 1px solid var(--awt-border);
+  border-radius: var(--awt-radius-md);
+  background: rgba(255,255,255,.05);
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+.awt-discovery-node strong {
+  overflow-wrap: anywhere;
+}
+.awt-timeline-list {
+  display: grid;
+  gap: 10px;
+}
+.awt-timeline-event p {
+  margin: 0;
+  color: var(--awt-muted);
+}

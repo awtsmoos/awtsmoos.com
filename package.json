@@ -31,7 +31,7 @@
     "test:css-quality": "node geelooy/style/test/cssQuality.test.js",
     "test:live-smoke": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs",
     "test:platform-ui": "node geelooy/heichelos/heichel/modules/test/platformPanelNodeSimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/notificationsPanelNodeSimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/platformCoverageStatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserApiSurfaceStatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserApiRequestShapes.test.mjs && node geelooy/heichelos/heichel/modules/test/platformOpsApi.test.mjs && node geelooy/heichelos/heichel/modules/test/socialGraphFoundation.test.mjs && node geelooy/heichelos/heichel/modules/test/recursiveSocialLayer.test.mjs",
-    "test:comments": "for f in geelooy/api/social/helper/comments/test/*.js; do node \"$f\"; done",
+    "test:comments": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js",
     "test:api-keys": "node geelooy/api/social/helper/test/apiKeys.test.js",
     "test:graph": "node geelooy/api/social/helper/test/socialGraph.test.js",
     "test:node-client": "node --check geelooy/scripts/awtsmoos/api/social/nodeClient.mjs",

@@ -13,7 +13,9 @@ let folderMap = {};
  * B"H
  * Browser controller: years open, events unfold, and every event/track button
  * shares the same cache, ZIP, bookmark, and playlist law. The Awtsmoos refuses
- * duplicate systems and lets one archive river feed all visible surfaces.
+ * duplicate systems and lets one archive river feed all visible surfaces. Even
+ * a closed folder-card playlist click now expands into playable tracks before
+ * entering the custom playlist chamber.
  * @param {string} colId Column id to reveal on mobile.
  * @returns {void}
  */
@@ -87,7 +89,7 @@ export async function handleTrackAction(action, track) {
     'download-event': () => handlers.onDownloadEvent(item, state.currentTracks),
     'cache-event': () => handlers.onCacheEvent(item, state.currentTracks),
     'bookmark-folder': () => handlers.onBookmark(item),
-    'playlist-event': () => Render.openAddToPlaylist(state.currentTracks.map(t => Render.playlistTrackItem(t, item))),
+    'playlist-event': () => openTracksAsPlaylistItems(state.currentTracks, item),
     'playlist-track': () => Render.openAddToPlaylist([Render.playlistTrackItem(track, item)]),
     'play-row': () => handleTrackSelect(state.currentTracks.indexOf(track)),
     download: () => handlers.onDownloadTrack(track, item),
@@ -103,7 +105,7 @@ export async function handleFolderAction(action, folder) {
   if (action === 'download-event') return handlers.onDownloadEvent(item);
   if (action === 'cache-event') return handlers.onCacheEvent(item);
   if (action === 'bookmark-folder') return handlers.onBookmark(item);
-  if (action === 'playlist-event') return Render.openAddToPlaylist([item]);
+  if (action === 'playlist-event') return addFolderEventToPlaylist(item);
 }
 
 export async function openBookmark(item) {
@@ -113,6 +115,23 @@ export async function openBookmark(item) {
   if (folderIndex === -1) return Render.log('BOOKMARK FOLDER NOT FOUND', true);
   await handleFolderSelect(folderIndex);
   if (item.type === 'track') await openBookmarkedTrack(item);
+}
+
+async function addFolderEventToPlaylist(item) {
+  Render.log(`EXPANDING PLAYLIST EVENT: ${item.title}`);
+  try {
+    const tracks = await Network.fetchFolder(item.year, item.folder);
+    return openTracksAsPlaylistItems(tracks, item);
+  } catch (error) {
+    console.error(error);
+    Render.log('EVENT PLAYLIST EXPANSION FAILED; ADDING EVENT SHELL', true);
+    return Render.openAddToPlaylist([item]);
+  }
+}
+
+function openTracksAsPlaylistItems(tracks, item) {
+  const items = (tracks || []).map(track => Render.playlistTrackItem(track, item));
+  return Render.openAddToPlaylist(items.length ? items : [item]);
 }
 
 async function openBookmarkedTrack(item) {

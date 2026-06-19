@@ -1,14 +1,15 @@
 // B"H
+
 /**
- * B"H
- * Chapter 19: More rivers joined the same guarded sea.
+ * Provider catalog for OpenAI-compatible vessels.
  *
- * Provider definitions are data, not scattered conditionals. OpenAI-compatible
- * providers can join the Awtsmoos tool bridge immediately; non-compatible
- * protocols should receive dedicated adapters instead of being faked.
+ * Chapter 19: Each provider is a gate in the palace. The browser speaks one
+ * shared language, but every gate keeps its own name, key, endpoint, and model
+ * defaults so the Awtsmoos may shine through many routes without confusion.
  */
+
 export const AI_PROVIDERS = Object.freeze({
-  minimax: {
+  minimax: freezeProvider({
     id: "minimax",
     name: "MiniMax",
     apiKeyUrl: "https://platform.minimax.io/docs/api-reference/text-openai-api",
@@ -18,20 +19,27 @@ export const AI_PROVIDERS = Object.freeze({
     defaultModel: "MiniMax-M2.7",
     contextWindow: 196000,
     extraBody: { reasoning_split: true },
-    openAICompatible: true
-  },
-  openrouter: {
+    openAICompatible: true,
+    models: [
+      { id: "MiniMax-M2.7", label: "MiniMax M2.7", aliases: ["m2", "m2.7"] },
+      { id: "MiniMax-M3", label: "MiniMax M3", aliases: ["m3"], multimodal: true }
+    ]
+  }),
+  openrouter: freezeProvider({
     id: "openrouter",
     name: "OpenRouter",
-    apiKeyUrl: "https://openrouter.ai/keys",
+    apiKeyUrl: "https://openrouter.ai/settings/keys",
     envKey: "OPENROUTER_API_KEY",
     storageKey: "openrouter",
     endpoint: "https://openrouter.ai/api/v1/chat/completions",
-    defaultModel: "openai/gpt-4o-mini",
-    contextWindow: 128000,
+    defaultModel: "openai/gpt-4.1-mini",
+    headers: {
+      "HTTP-Referer": globalThis?.location?.origin || "https://awtsmoos.com",
+      "X-Title": "Awtsmoos AI"
+    },
     openAICompatible: true
-  },
-  deepseek: {
+  }),
+  deepseek: freezeProvider({
     id: "deepseek",
     name: "DeepSeek",
     apiKeyUrl: "https://platform.deepseek.com/api_keys",
@@ -39,10 +47,9 @@ export const AI_PROVIDERS = Object.freeze({
     storageKey: "deepseek",
     endpoint: "https://api.deepseek.com/chat/completions",
     defaultModel: "deepseek-chat",
-    contextWindow: 64000,
     openAICompatible: true
-  },
-  groq: {
+  }),
+  groq: freezeProvider({
     id: "groq",
     name: "Groq",
     apiKeyUrl: "https://console.groq.com/keys",
@@ -50,37 +57,35 @@ export const AI_PROVIDERS = Object.freeze({
     storageKey: "groq",
     endpoint: "https://api.groq.com/openai/v1/chat/completions",
     defaultModel: "llama-3.3-70b-versatile",
-    contextWindow: 128000,
     openAICompatible: true
-  },
-  chatgpt: {
+  }),
+  chatgpt: freezeProvider({
     id: "chatgpt",
     name: "ChatGPT Browser",
-    browserProvider: true,
-    localTunnelProvider: true,
     storageKey: "chatgpt-browser",
-    endpoint: "awtsmoos-tunnel://chatgpt",
-    defaultModel: "chatgpt-browser-profile",
-    contextWindow: 128000,
-    requiresApiKey: false
-  },
-  "chatgpt-browser": {
+    browserTransport: true,
+    openAICompatible: false
+  }),
+  "chatgpt-browser": freezeProvider({
     id: "chatgpt-browser",
     name: "ChatGPT Browser",
-    browserProvider: true,
-    localTunnelProvider: true,
     storageKey: "chatgpt-browser",
-    endpoint: "awtsmoos-tunnel://chatgpt",
-    defaultModel: "chatgpt-browser-profile",
-    contextWindow: 128000,
-    requiresApiKey: false
-  }
+    browserTransport: true,
+    openAICompatible: false
+  })
 });
 
-export function getProvider(id = "openrouter") {
+export function getProvider(id = "minimax") {
   const provider = AI_PROVIDERS[id];
   if (!provider) throw new Error(`Unknown AI provider: ${id}`);
   return provider;
 }
 
-export function listProviders() { return Object.values(AI_PROVIDERS); }
+export function listProviders() {
+  return Object.values(AI_PROVIDERS);
+}
+
+function freezeProvider(provider) {
+  const frozenModels = provider.models?.map((model) => Object.freeze({ ...model })) || undefined;
+  return Object.freeze({ ...provider, models: frozenModels && Object.freeze(frozenModels) });
+}

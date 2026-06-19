@@ -2,11 +2,9 @@
 /**
  * @file ikar.js
  * @description
- * Chapter 445: The boot gate becomes lean while the probe sings elsewhere.
- *
- * The Awtsmoos does not merely boot a world; it demands testimony from the
- * world. This gate now creates the manager, cleans stale browser vessels,
- * autoloads a level, and delegates Chossid proof globals to a dedicated module.
+ * The boot gate bows before the Awtsmoos and lets the first visible frame live.
+ * Heavy cleanup is no longer allowed to hold the loader hostage. The world is
+ * summoned after a paint breath, while performance probes reveal the renderer.
  */
 import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=zone-reality-20260614-bh817";
 import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?compact=true&v=zone-reality-20260614-bh817";
@@ -14,27 +12,48 @@ import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSou
 import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?compact=true&v=visible-root-binding-20260610-bh710";
 
 const scope = window;
-const SEAL = "zone-reality-20260614-bh817";
+const SEAL = "frame-rescue-20260618-bh2";
 const markPhase = (phase, data = {}) => mark(SEAL, phase, data);
+const nextFrame = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
+
+function emit(name, detail = {}) {
+  try {
+    const EventClass = scope.CustomEvent || CustomEvent;
+    scope.dispatchEvent?.(new EventClass(name, { detail: { seal: SEAL, mana: scope.mana, ...detail } }));
+  } catch {}
+}
+
+function performanceProbe(phase, data = {}) {
+  emit("awtsmoos:performance-probe", { phase, ...data });
+  emit("awtsmoos-game-ready", { phase, ...data });
+}
 
 async function clearOldCaches() {
-  markPhase("cache:cleanup:start");
-  const cleanup = (async () => {
+  markPhase("cache:cleanup:start", { mode: "background" });
+  try {
     const regs = await navigator.serviceWorker?.getRegistrations?.() || [];
     await Promise.all(regs.map(reg => reg.unregister()));
     const keys = await caches?.keys?.() || [];
-    await Promise.all(keys.map(key => caches.delete(key)));
-    return "done";
-  })().catch(error => ({ error: error?.message || String(error) }));
-  const timeout = new Promise(resolve => setTimeout(() => resolve("timeout"), 900));
-  const result = await Promise.race([cleanup, timeout]);
-  markPhase("cache:cleanup:done", { result });
+    await Promise.all(keys.filter(key => /stale|old|debug/i.test(key)).map(key => caches.delete(key)));
+    markPhase("cache:cleanup:done", { result: "background", serviceWorkers: regs.length, cacheKeys: keys.length });
+  } catch (error) {
+    markPhase("cache:cleanup:error", { error: error?.message || String(error) });
+  }
+}
+
+function startCacheCleanup() {
+  const requested = new URLSearchParams(location.search).has("clearCaches");
+  if (!requested) return markPhase("cache:cleanup:skipped", { reason: "add ?clearCaches to force" });
+  setTimeout(() => clearOldCaches(), 0);
+  return markPhase("cache:cleanup:scheduled");
 }
 
 function createManager() {
   markPhase("manager:create:start");
   scope.mana = new ManagerOfAllWorlds(null);
+  scope.__AWTSMOOS_MANAGER__ = scope.mana;
   markPhase("manager:create:done", { hasUi: Boolean(scope.mana?.ui), seal: SEAL });
+  performanceProbe("manager:create:done");
 }
 
 function uiRoots() {
@@ -64,18 +83,24 @@ async function autoloadFromQuery() {
   const { menu, loading } = uiRoots();
   menu?.classList.add("hidden", "offscreen");
   loading?.classList.remove("hidden");
+  await nextFrame();
   const data = await loadLevelData(id, SEAL, markPhase);
+  await nextFrame();
   ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh: data, sourcePath: jsonSourcePath(id), gameUiHTML: scope.awtsmoosGameUI } }));
   markPhase("autoload:dispatch:done", { id });
+  performanceProbe("autoload:dispatch:done", { id });
 }
 
 async function boot() {
   installPlayerGuaranteeProbe(scope, SEAL);
   markPhase("module:evaluated");
-  await clearOldCaches();
+  startCacheCleanup();
+  await nextFrame();
   createManager();
+  await nextFrame();
   await autoloadFromQuery();
   markPhase("boot:done");
+  performanceProbe("boot:done");
 }
 
 window.addEventListener("error", event => reportError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));

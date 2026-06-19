@@ -5,7 +5,9 @@
  * B"H
  * Search results become a premium archive river: the Awtsmoos gathers every
  * event-card spark, every track-row ember, and every selected checkbox into one
- * obvious, touchable, offline-ready library surface.
+ * obvious, touchable, offline-ready library surface. Event cards no longer drop
+ * empty shells into playlists; they ask the controller to expand into playable
+ * tracks before the custom playlist receives the light.
  * @param {Array<object>} results Event search results from the date index.
  * @param {object|Function} handlers Search action callbacks.
  * @returns {void}
@@ -36,7 +38,7 @@ function summary(count, selected, actions) {
 function card(item, index, actions, selected) {
   const node = el('article', 'date-result premium-event-card');
   node.__searchItem = item;
-  node.innerHTML = `<div class="result-head"><div><div class="result-date">${safe(item.month)} ${safe(item.day)}, ${safe(item.year)}</div><div class="result-title">${safe(item.title || item.folder || 'Untitled event')}</div></div><div class="event-action-grid"><button class="result-action open">Open</button><button class="result-action playlist">Playlist</button><button class="result-action cache">Cache</button><button class="result-action zip">ZIP</button><button class="result-action bookmark">Bookmark</button></div></div><button class="result-action result-expand">Show tracks</button><div class="event-files hidden"><div class="track-selection-toolbar"><label><input class="select-event-tracks" type="checkbox"> Select all tracks in event</label><button class="result-action add-event-selected">Add event selection</button></div><div class="event-file-list"><div class="search-empty small">Open tracks to load files</div></div></div>`;
+  node.innerHTML = `<div class="result-head"><div><div class="result-date">${safe(item.month)} ${safe(item.day)}, ${safe(item.year)}</div><div class="result-title">${safe(item.title || item.folder || 'Untitled event')}</div></div><div class="event-action-grid"><button class="result-action play-event">Play</button><button class="result-action open">Open</button><button class="result-action playlist">Playlist</button><button class="result-action cache">Cache</button><button class="result-action zip">ZIP</button><button class="result-action bookmark">Bookmark</button></div></div><button class="result-action result-expand">Show tracks</button><div class="event-files hidden"><div class="track-selection-toolbar"><label><input class="select-event-tracks" type="checkbox"> Select all tracks in event</label><button class="result-action add-event-selected">Add event selection</button></div><div class="event-file-list"><div class="search-empty small">Open tracks to load files</div></div></div>`;
   bindEventActions(node, item, actions);
   const state = { loaded: false, tracks: [] };
   node.querySelector('.result-expand').onclick = e => toggleFiles(e, node, item, actions, selected, state);
@@ -47,8 +49,9 @@ function card(item, index, actions, selected) {
 
 function bindEventActions(node, item, actions) {
   const bind = (sel, fn) => { node.querySelector(sel).onclick = e => act(e, fn); };
+  bind('.play-event', () => actions.onPlayEvent?.(item) || actions.onOpen?.(item));
   bind('.open', () => actions.onOpen?.(item));
-  bind('.playlist', () => actions.onAddToPlaylist?.([item]));
+  bind('.playlist', () => actions.onAddEventToPlaylist?.(item) || actions.onAddToPlaylist?.([item]));
   bind('.cache', () => actions.onCacheEvent?.(item));
   bind('.zip', () => actions.onDownloadEvent?.(item));
   bind('.bookmark', () => actions.onBookmark?.(item));

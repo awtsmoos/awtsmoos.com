@@ -7,12 +7,12 @@ import { simpleGeminiResponse } from "./js/services/geminiApi.js";
 import { makeChatGPTService } from "./js/services/chatgptService.js";
 import { makeGeminiService } from "./js/services/geminiService.js";
 
+export const DEFAULT_AI_SERVICE = "minimax";
+export const ACTIVE_AI_SERVICE_STORAGE_KEY = "awtsmoosActiveAIService";
+
 /**
- * B"H — Thin AI service registry.
- *
- * Chapter 21: The browser AI panel received another river without changing the
- * bridge. DeepSeek joins the OpenAI-compatible family; Gemini and ChatGPT keep
- * their dedicated transports.
+ * B"H — MiniMax is the default gate. ChatGPT is only summoned when selected;
+ * the other OpenAI-shaped vessels inherit the local Awtsmoos tunnel bridge.
  */
 class AIServiceHandler {
   geminiChatCache = null;
@@ -21,15 +21,16 @@ class AIServiceHandler {
 
   constructor() {
     this.dbHandler = new IndexedDBHandler("AIAppDB");
-    this.activeAIService = "chatgpt";
-    this.chatgptMode = localStorage.getItem("awtsmoosChatGPTMode") || "regular";
+    this.chatgptMode = readStorage("awtsmoosChatGPTMode") || "regular";
     this.services = this.createServices();
+    this.activeAIService = this.resolveService(readStorage(ACTIVE_AI_SERVICE_STORAGE_KEY));
   }
 
   async init() {
     await this.dbHandler.init();
     this.instance = new AwtsmoosGPTify();
     this.services = this.createServices();
+    this.activeAIService = this.resolveService(this.activeAIService);
   }
 
   createServices() {
@@ -43,55 +44,74 @@ class AIServiceHandler {
     };
   }
 
+  resolveService(serviceId = "") {
+    return this.services?.[serviceId] ? serviceId : DEFAULT_AI_SERVICE;
+  }
+
   async newConversation() {
     this.geminiChatCache = null;
     this.instance = new AwtsmoosGPTify();
     this.services = this.createServices();
+    this.activeAIService = this.resolveService(this.activeAIService);
   }
 
   setChatGPTMode(mode = "regular") {
     this.chatgptMode = mode;
-    localStorage.setItem("awtsmoosChatGPTMode", mode);
+    writeStorage("awtsmoosChatGPTMode", mode);
   }
 
   getChatGPTModePayload() {
+    if (!this.isChatGPTSelected()) return {};
     if (this.chatgptMode !== "awtsmoos-vibe-coder") return {};
     return { conversation_mode: { kind: "gizmo_interaction", gizmo_id: "g-6a03feea8398819192067ae3dbfa449c" } };
   }
 
   switchService(newService) {
-    if (!this.services[newService]) return console.log("Service not found!");
+    if (!this.services[newService]) {
+      console.log("Service not found!");
+      return false;
+    }
     this.activeAIService = newService;
+    writeStorage(ACTIVE_AI_SERVICE_STORAGE_KEY, newService);
     console.log(`Switched to ${this.services[newService].name}`);
+    return true;
+  }
+
+  isChatGPTSelected() {
+    return this.activeAIService === "chatgpt" || this.activeAIService === "chatgpt-browser";
   }
 
   async getActiveService() { return this.services[this.activeAIService]; }
 
   async getKey() {
-    if (!this.dbHandler.db) await this.dbHandler.init();
-    let key = await this.dbHandler.read("api-keys", "gemini");
-    window.geminiApiKey = key;
-    if (!window.geminiApiKey) {
-      window.geminiApiKey = await AwtsmoosPrompt.go({
-        title: "B\"H — Gemini API Key",
-        headerTxt: "What's your <a href='https://aistudio.google.com/apikey' target='_blank' rel='noreferrer'>Gemini API key</a>?",
-        placeholderTxt: "Gemini API key",
-        showExtensionActions: false,
-        okText: "Save key"
-      });
-      await this.dbHandler.write("api-keys", "gemini", window.geminiApiKey);
+    let k = await this.dbHandler.get("apiKeys", "gemini");
+    if (!k) {
+      k = prompt("Enter your Gemini API key");
+      if (k) await this.dbHandler.add("apiKeys", { service: "gemini", key: k });
     }
-    return window.geminiApiKey;
+    return k;
   }
 
   async awtsmoosAi(options = {}) {
-    const params = typeof options === "string" ? { prompt: options } : (options || {});
-    const apiKey = await this.getKey();
-    const raw = await simpleGeminiResponse({ ...params, apiKey });
-    const json = JSON.parse(raw);
-    const text = json.map(item => item.candidates.map(candidate => candidate.content.parts[0].text).join("")).join("").trim();
-    return params.full ? { text, json } : text;
+    try {
+      const key = await this.getKey();
+      const model = options.model || "gemini-2.0-flash";
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+      const prompt = new AwtsmoosPrompt({
+        promptName: "legacy-gemini-direct",
+        promptText: typeof options.prompt === "string" ? options.prompt : "",
+        systemInstruction: options.systemInstruction,
+        metadata: { source: "AIServiceHandler.awtsmoosAi" }
+      });
+      return await simpleGeminiResponse({ endpoint, prompt: prompt.promptText, systemInstruction: prompt.systemInstruction });
+    } catch (err) { console.error(err); }
   }
 }
 
+function readStorage(key) {
+  try { return typeof localStorage === "undefined" ? "" : localStorage.getItem(key); } catch { return ""; }
+}
+function writeStorage(key, value) {
+  try { if (typeof localStorage !== "undefined") localStorage.setItem(key, value); } catch {}
+}
 export default AIServiceHandler;

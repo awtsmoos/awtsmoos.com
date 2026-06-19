@@ -1,0 +1,150 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-19T04:47:19.973Z",
+  "url": "http://127.0.0.1:56732/geelooy/games/mitzvahWorld/index.html?path=village.json",
+  "browser": {
+    "name": "Chrome",
+    "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "candidates": [
+      [
+        "CHROME_PATH",
+        ""
+      ],
+      [
+        "Chrome",
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome x86",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome local",
+        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Edge",
+        "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge x86",
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge local",
+        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Microsoft\\Edge\\Application\\msedge.exe"
+      ]
+    ]
+  },
+  "level": "village.json",
+  "boot": {
+    "readyState": "complete",
+    "canvasCount": 0,
+    "bootStarted": true,
+    "bootLoaded": true,
+    "errorCount": 0,
+    "lastError": null,
+    "perf": {
+      "tier": "medium",
+      "mobile": true,
+      "renderScale": 0.8,
+      "budget": {
+        "grassDistance": 55,
+        "treeDistance": 140,
+        "npcDistance": 95,
+        "particleLimit": 80,
+        "shadowMode": "simple",
+        "cssBlur": false
+      },
+      "rendererApplied": false,
+      "rendererFound": false,
+      "rendererState": {
+        "applied": false,
+        "cap": 0.82
+      },
+      "seal": "frame-rescue-20260618-bh1"
+    },
+    "url": "http://127.0.0.1:56732/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "waitedMs": 503.19999998807907
+  },
+  "sample": {
+    "frames": 90,
+    "avgFrameMs": 50.12777777777778,
+    "fps": 19.94901917322398,
+    "canvases": 1,
+    "title": "Awtsmoos - Mitzvah World 3D",
+    "perf": {
+      "tier": "medium",
+      "mobile": true,
+      "renderScale": 0.8,
+      "budget": {
+        "grassDistance": 55,
+        "treeDistance": 140,
+        "npcDistance": 95,
+        "particleLimit": 80,
+        "shadowMode": "simple",
+        "cssBlur": false
+      },
+      "rendererApplied": false,
+      "rendererFound": false,
+      "rendererState": {
+        "applied": false,
+        "cap": 0.82
+      },
+      "seal": "frame-rescue-20260618-bh1"
+    },
+    "boot": {
+      "at": "2026-06-19T04:47:22.695Z",
+      "keys": [],
+      "seal": "overhead-quest-markers-20260615-bh4"
+    },
+    "errors": 0,
+    "url": "http://127.0.0.1:56732/geelooy/games/mitzvahWorld/index.html?path=village.json"
+  },
+  "issueLog": {
+    "scope": "chrome-real-browser",
+    "ok": true,
+    "issues": [
+      {
+        "severity": "warn",
+        "code": "LOW_BROWSER_FPS",
+        "message": "Measured browser FPS fell under 55.",
+        "detail": {
+          "frames": 90,
+          "avgFrameMs": 50.12777777777778,
+          "fps": 19.94901917322398,
+          "canvases": 1,
+          "title": "Awtsmoos - Mitzvah World 3D",
+          "perf": {
+            "tier": "medium",
+            "mobile": true,
+            "renderScale": 0.8,
+            "budget": {
+              "grassDistance": 55,
+              "treeDistance": 140,
+              "npcDistance": 95,
+              "particleLimit": 80,
+              "shadowMode": "simple",
+              "cssBlur": false
+            },
+            "rendererApplied": false,
+            "rendererFound": false,
+            "rendererState": {
+              "applied": false,
+              "cap": 0.82
+            },
+            "seal": "frame-rescue-20260618-bh1"
+          },
+          "boot": {
+            "at": "2026-06-19T04:47:22.695Z",
+            "keys": [],
+            "seal": "overhead-quest-markers-20260615-bh4"
+          },
+          "errors": 0,
+          "url": "http://127.0.0.1:56732/geelooy/games/mitzvahWorld/index.html?path=village.json"
+        },
+        "at": "2026-06-19T04:47:27.300Z"
+      }
+    ]
+  }
+}

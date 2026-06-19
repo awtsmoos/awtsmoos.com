@@ -1,0 +1,89 @@
+/* B"H */
+/* Rebbe Premium Design System: ancient archive, future glass, one-thumb Torah media. */
+:root {
+  --rebbe-bg: #030507;
+  --rebbe-panel: rgba(7, 12, 18, 0.78);
+  --rebbe-panel-strong: rgba(7, 12, 18, 0.94);
+  --rebbe-border: rgba(242, 197, 93, 0.28);
+  --rebbe-gold: #f2c55d;
+  --rebbe-gold-soft: rgba(242, 197, 93, 0.14);
+  --rebbe-cyan: #38f8ff;
+  --rebbe-cyan-soft: rgba(56, 248, 255, 0.14);
+  --rebbe-text: #f7f2df;
+  --rebbe-muted: #a9b2b8;
+  --rebbe-danger: #ff4f7a;
+  --rebbe-radius: 18px;
+  --rebbe-touch: 46px;
+  --rebbe-shadow: 0 22px 80px rgba(0,0,0,.5), 0 0 42px rgba(56,248,255,.08);
+  --font-primary: Inter, "Segoe UI", system-ui, sans-serif;
+  --font-tech: Inter, "Segoe UI", system-ui, sans-serif;
+}
+body {
+  background:
+    radial-gradient(circle at top left, rgba(242,197,93,.16), transparent 34vw),
+    radial-gradient(circle at 78% 16%, rgba(56,248,255,.13), transparent 32vw),
+    linear-gradient(145deg, #020304, #081018 48%, #010203);
+  color: var(--rebbe-text);
+}
+button, .btn-tool, .track, .year-item, .folder-item, .pl-card, .pl-item, .bulk-pill { min-height: var(--rebbe-touch); }
+button, .btn-tool, .bulk-pill {
+  border: 1px solid var(--rebbe-border);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(242,197,93,.16), rgba(56,248,255,.08));
+  color: var(--rebbe-text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+button:hover, .btn-tool:hover, .bulk-pill:hover,
+button:focus-visible, .btn-tool:focus-visible, .bulk-pill:focus-visible {
+  border-color: var(--rebbe-cyan);
+  box-shadow: 0 0 0 3px rgba(56,248,255,.2), 0 0 28px rgba(56,248,255,.15);
+  outline: none;
+}
+.topbar, #player-bar, .column, .modal, .glass, #ctx-menu {
+  background: var(--rebbe-panel);
+  border: 1px solid var(--rebbe-border);
+  box-shadow: var(--rebbe-shadow);
+  backdrop-filter: blur(18px) saturate(150%);
+}
+.topbar { border-radius: 0 0 var(--rebbe-radius) var(--rebbe-radius); padding-inline: max(14px, env(safe-area-inset-left)); }
+#app-shell { gap: 14px; padding: 14px; }
+.column { border-radius: var(--rebbe-radius); overflow: hidden; }
+.column h2, .modal h2, .pl-card-title { color: var(--rebbe-gold); letter-spacing: .04em; }
+.track, .year-item, .folder-item, .result-card, .pl-card, .pl-item {
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 16px;
+  background: rgba(255,255,255,.035);
+}
+.track:hover, .year-item:hover, .folder-item:hover, .result-card:hover, .pl-card:hover, .pl-item:hover {
+  border-color: rgba(56,248,255,.5);
+  background: linear-gradient(135deg, rgba(56,248,255,.12), rgba(242,197,93,.08));
+}
+.pl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.pl-card { padding: 16px; position: relative; overflow: hidden; }
+.pl-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--rebbe-gold-soft), transparent 44%); pointer-events: none; }
+.pl-actions, .pl-toolbar, .bulk-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.pl-item { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px; }
+.pl-item-title { font-weight: 700; color: var(--rebbe-text); }
+.pl-item-meta, .pl-stat, .muted { color: var(--rebbe-muted); }
+.pl-recovery { color: var(--rebbe-gold); border: 1px dashed var(--rebbe-border); border-radius: 999px; padding: 3px 8px; font-size: 11px; }
+#player-bar {
+  margin: 10px max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  border-radius: 24px;
+}
+#studio-fab { border-radius: 999px; background: linear-gradient(135deg, var(--rebbe-gold), var(--rebbe-cyan)); color: #020304; font-weight: 900; }
+.modal { border-radius: 24px; max-width: min(1080px, calc(100vw - 24px)); }
+input, select, textarea { border-radius: 14px; border: 1px solid var(--rebbe-border); background: rgba(0,0,0,.35); color: var(--rebbe-text); }
+@media (min-width: 900px) {
+  #app-shell { grid-template-columns: minmax(220px, .7fr) minmax(280px, .9fr) minmax(420px, 1.4fr); }
+}
+@media (max-width: 760px) {
+  body { overflow: hidden; }
+  .topbar { position: sticky; top: 0; z-index: 40; }
+  #app-shell { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 124px; }
+  .column { flex: 0 0 calc(100vw - 28px); scroll-snap-align: center; }
+  #player-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; }
+  .tools { overflow-x: auto; padding-bottom: 4px; }
+  .pl-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (prefers-contrast: more) { :root { --rebbe-border: rgba(242,197,93,.8); --rebbe-panel: #050505; } }

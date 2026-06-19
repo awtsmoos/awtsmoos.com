@@ -1,0 +1,32 @@
+/* B"H */
+/** Chapter 96: The shell becomes a rift-palace of panels and pressure. */
+.awt-shell, .awtsmoos-social-root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--awt-rift);
+  position: relative;
+  overflow: hidden;
+}
+.awt-shell::before, .awtsmoos-social-root::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: var(--awt-gradient-brutal);
+  opacity: .12;
+  filter: blur(70px);
+  animation: awtRift 18s ease-in-out infinite;
+}
+.awt-topbar, .awt-sidebar, .awt-main {
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--awt-border);
+  background: rgba(10, 4, 20, .68);
+  backdrop-filter: blur(22px) saturate(1.25);
+  box-shadow: var(--awt-shadow-brutal);
+}
+.awt-topbar { display: flex; justify-content: space-between; gap: 16px; padding: 16px 22px; }
+.awt-layout { display: grid; grid-template-columns: minmax(180px, 260px) 1fr; gap: 18px; padding: 18px; }
+.awt-sidebar { border-radius: var(--awt-radius-lg); padding: 18px; }
+.awt-main { border-radius: var(--awt-radius-lg); padding: 18px; min-width: 0; }
+@media (max-width: 760px) { .awt-layout { grid-template-columns: 1fr; padding: 10px; } .awt-sidebar { order: 2; } }

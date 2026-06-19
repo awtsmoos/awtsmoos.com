@@ -2,14 +2,25 @@
 /**
  * @module MobileHeichelNavigationLayout
  * @description
- * Chapter 40: The notification gate stops stealing the traveler.
- * The Awtsmoos gives it an inline menu plus a new-tab door.
+ * Chapter 41: The modal remembered its hidden fork in the road.
+ * The Awtsmoos breathes one select into the chamber, and posts, questions,
+ * answers, series, and heichel gates again know which vessel they reveal.
  */
 export function getFullLayoutBlueprint(actions) {
-    return { tag: 'div', attr: { class: 'geelooy-social-shell heichel-mobile-navigation' }, ref: 'pageContainer', children: [
-        topbar(actions), drawer(), { tag: 'main', attr: { class: 'geelooy-main-stage' }, children: [hero(), contentPanel(actions)] },
-        bottomNav(), { tag: 'div', attr: { id: 'toast-container' }, ref: 'toastContainer' }, bulkBar(), modal(actions)
-    ] };
+    return {
+        tag: 'div',
+        attr: { class: 'geelooy-social-shell heichel-mobile-navigation' },
+        ref: 'pageContainer',
+        children: [
+            topbar(actions),
+            drawer(),
+            { tag: 'main', attr: { class: 'geelooy-main-stage' }, children: [hero(), contentPanel(actions)] },
+            bottomNav(),
+            { tag: 'div', attr: { id: 'toast-container' }, ref: 'toastContainer' },
+            bulkBar(),
+            modal(actions)
+        ]
+    };
 }
 
 function topbar(actions) {
@@ -78,6 +89,24 @@ function bulkBar() {
 function modal(actions) {
     return { tag: 'div', attr: { class: 'modal-gate-hidden', role: 'dialog', 'aria-modal': 'true', 'aria-hidden': 'true' }, ref: 'modalRoot', children: [
         { tag: 'div', attr: { class: 'gate-backdrop' }, ref: 'modalBackdrop', events: { click: actions.closeModal } },
-        { tag: 'div', attr: { class: 'gate-chamber' }, children: [{ tag: 'h3', ref: 'modalTitle' }, { tag: 'form', ref: 'modalForm', events: { submit: actions.onModalSubmit }, children: [{ tag: 'input', attr: { type: 'text', required: true, placeholder: 'Title' }, ref: 'modalTitleInput' }, { tag: 'textarea', attr: { placeholder: 'Description' }, ref: 'modalDescTextarea' }, { tag: 'input', attr: { type: 'text', placeholder: 'Custom ID' }, ref: 'modalIdInput' }, { tag: 'div', attr: { class: 'gate-actions' }, children: [{ tag: 'button', attr: { type: 'button' }, ref: 'modalCancelBtn', children: ['Cancel'] }, { tag: 'button', attr: { type: 'submit' }, children: ['Save'] }] }] }] }
+        { tag: 'div', attr: { class: 'gate-chamber' }, children: [
+            { tag: 'h3', ref: 'modalTitle' },
+            { tag: 'form', ref: 'modalForm', events: { submit: actions.onModalSubmit }, children: [
+                { tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [
+                    option('post', 'Post'), option('question', 'Question'), option('answer', 'Answer'), option('series', 'Series')
+                ] },
+                { tag: 'input', attr: { type: 'text', required: true, placeholder: 'Title' }, ref: 'modalTitleInput' },
+                { tag: 'textarea', attr: { placeholder: 'Description' }, ref: 'modalDescTextarea' },
+                { tag: 'input', attr: { type: 'text', placeholder: 'Custom ID' }, ref: 'modalIdInput' },
+                { tag: 'div', attr: { class: 'gate-actions' }, children: [
+                    { tag: 'button', attr: { type: 'button' }, ref: 'modalCancelBtn', children: ['Cancel'] },
+                    { tag: 'button', attr: { type: 'submit' }, children: ['Save'] }
+                ] }
+            ] }
+        ] }
     ] };
+}
+
+function option(value, label) {
+    return { tag: 'option', attr: { value }, children: [label] };
 }

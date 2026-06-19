@@ -1,0 +1,37 @@
+/* B"H */
+/**
+ * Chapter 94: Tokens become lightning bones.
+ * Every surface drinks from brutal gradients, rift shadows, and living motion.
+ */
+:root {
+  --awt-bg: #07020f;
+  --awt-surface: rgba(17, 8, 32, .78);
+  --awt-surface-strong: rgba(31, 12, 58, .9);
+  --awt-border: rgba(255, 255, 255, .16);
+  --awt-text: #fff8ff;
+  --awt-muted: #cdb9df;
+  --awt-fire: #ff2bd6;
+  --awt-sun: #ffd166;
+  --awt-cyan: #00e5ff;
+  --awt-violet: #7c3cff;
+  --awt-green: #7cffc4;
+  --awt-radius-sm: 10px;
+  --awt-radius-md: 18px;
+  --awt-radius-lg: 30px;
+  --awt-gradient-brutal: conic-gradient(from 160deg, var(--awt-fire), var(--awt-cyan), var(--awt-green), var(--awt-sun), var(--awt-fire));
+  --awt-rift: radial-gradient(circle at 18% 12%, rgba(255,43,214,.35), transparent 34%), radial-gradient(circle at 82% 4%, rgba(0,229,255,.3), transparent 36%), linear-gradient(135deg, #08020f, #19072d 50%, #030812);
+  --awt-shadow-brutal: 0 0 0 1px rgba(255,255,255,.14), 0 24px 80px rgba(255,43,214,.22), 0 0 70px rgba(0,229,255,.16);
+}
+@keyframes awtRift {
+  0% { filter: hue-rotate(0deg); transform: translate3d(0,0,0) scale(1); }
+  50% { filter: hue-rotate(35deg); transform: translate3d(0,-2px,0) scale(1.01); }
+  100% { filter: hue-rotate(0deg); transform: translate3d(0,0,0) scale(1); }
+}
+@keyframes awtPulse {
+  0%,100% { box-shadow: var(--awt-shadow-brutal); }
+  50% { box-shadow: 0 0 0 1px rgba(255,255,255,.3), 0 0 95px rgba(255,43,214,.44); }
+}
+@keyframes awtScan {
+  from { background-position: 0 0; }
+  to { background-position: 180px 180px; }
+}

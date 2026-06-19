@@ -1,0 +1,264 @@
+
+> simulate:chrome
+> node tests/chrome/runChromeSimulation.js
+
+{
+  "ok": false,
+  "startedAt": "2026-06-19T05:26:24.808Z",
+  "url": "http://127.0.0.1:55971/geelooy/games/mitzvahWorld/index.html?path=village.json",
+  "browser": {
+    "name": "Chrome",
+    "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "candidates": [
+      [
+        "CHROME_PATH",
+        ""
+      ],
+      [
+        "Chrome",
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome x86",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome local",
+        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Edge",
+        "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge x86",
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge local",
+        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Microsoft\\Edge\\Application\\msedge.exe"
+      ]
+    ]
+  },
+  "level": "village.json",
+  "snapshot": {
+    "readyState": "complete",
+    "url": "http://127.0.0.1:55971/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "title": "Awtsmoos - Mitzvah World 3D",
+    "canvases": 1,
+    "bootStarted": true,
+    "bootLoaded": true,
+    "errors": 0,
+    "lastError": null,
+    "perf": {
+      "tier": "high",
+      "mobile": false,
+      "renderScale": 0.95,
+      "budget": {
+        "grassDistance": 120,
+        "treeDistance": 245,
+        "npcDistance": 180,
+        "particleLimit": 220,
+        "shadowMode": "soft",
+        "cssBlur": true,
+        "maxDistantActors": 70
+      },
+      "rendererFound": false,
+      "rendererApplied": false,
+      "rendererState": {
+        "applied": false
+      },
+      "discovery": {
+        "found": false,
+        "path": null,
+        "visited": 68,
+        "roots": [
+          "mana",
+          "__AWTSMOOS_MANAGER__",
+          "ikar"
+        ]
+      },
+      "attempts": 728,
+      "seal": "frame-rescue-20260618-real-bh2"
+    },
+    "discovery": {
+      "found": false,
+      "path": null,
+      "visited": 68,
+      "roots": [
+        "mana",
+        "__AWTSMOOS_MANAGER__",
+        "ikar"
+      ]
+    },
+    "attempts": 728,
+    "now": 28462.69999998808
+  },
+  "stats": {
+    "canvases": 1,
+    "rendererFound": false,
+    "rendererApplied": false,
+    "pixelRatio": null,
+    "shadowMode": null,
+    "rendererInfo": false,
+    "rendererShadow": false,
+    "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-renderer-missing awtsmoos-visual-tuned"
+  },
+  "issueLog": {
+    "scope": "chrome-real-browser",
+    "ok": false,
+    "issues": [
+      {
+        "severity": "warn",
+        "code": "CDP_POLL_RETRY",
+        "message": "CDP timeout: Runtime.evaluate",
+        "detail": {
+          "index": 19
+        },
+        "at": "2026-06-19T05:26:44.430Z"
+      },
+      {
+        "severity": "error",
+        "code": "PERF_RENDERER_NOT_FOUND",
+        "message": "Performance mode did not find renderer.",
+        "detail": {
+          "snapshot": {
+            "readyState": "complete",
+            "url": "http://127.0.0.1:55971/geelooy/games/mitzvahWorld/index.html?path=village.json",
+            "title": "Awtsmoos - Mitzvah World 3D",
+            "canvases": 1,
+            "bootStarted": true,
+            "bootLoaded": true,
+            "errors": 0,
+            "lastError": null,
+            "perf": {
+              "tier": "high",
+              "mobile": false,
+              "renderScale": 0.95,
+              "budget": {
+                "grassDistance": 120,
+                "treeDistance": 245,
+                "npcDistance": 180,
+                "particleLimit": 220,
+                "shadowMode": "soft",
+                "cssBlur": true,
+                "maxDistantActors": 70
+              },
+              "rendererFound": false,
+              "rendererApplied": false,
+              "rendererState": {
+                "applied": false
+              },
+              "discovery": {
+                "found": false,
+                "path": null,
+                "visited": 68,
+                "roots": [
+                  "mana",
+                  "__AWTSMOOS_MANAGER__",
+                  "ikar"
+                ]
+              },
+              "attempts": 728,
+              "seal": "frame-rescue-20260618-real-bh2"
+            },
+            "discovery": {
+              "found": false,
+              "path": null,
+              "visited": 68,
+              "roots": [
+                "mana",
+                "__AWTSMOOS_MANAGER__",
+                "ikar"
+              ]
+            },
+            "attempts": 728,
+            "now": 28462.69999998808
+          },
+          "stats": {
+            "canvases": 1,
+            "rendererFound": false,
+            "rendererApplied": false,
+            "pixelRatio": null,
+            "shadowMode": null,
+            "rendererInfo": false,
+            "rendererShadow": false,
+            "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-renderer-missing awtsmoos-visual-tuned"
+          }
+        },
+        "at": "2026-06-19T05:26:58.445Z"
+      },
+      {
+        "severity": "error",
+        "code": "PERF_RENDERER_NOT_APPLIED",
+        "message": "Performance mode did not clamp renderer.",
+        "detail": {
+          "snapshot": {
+            "readyState": "complete",
+            "url": "http://127.0.0.1:55971/geelooy/games/mitzvahWorld/index.html?path=village.json",
+            "title": "Awtsmoos - Mitzvah World 3D",
+            "canvases": 1,
+            "bootStarted": true,
+            "bootLoaded": true,
+            "errors": 0,
+            "lastError": null,
+            "perf": {
+              "tier": "high",
+              "mobile": false,
+              "renderScale": 0.95,
+              "budget": {
+                "grassDistance": 120,
+                "treeDistance": 245,
+                "npcDistance": 180,
+                "particleLimit": 220,
+                "shadowMode": "soft",
+                "cssBlur": true,
+                "maxDistantActors": 70
+              },
+              "rendererFound": false,
+              "rendererApplied": false,
+              "rendererState": {
+                "applied": false
+              },
+              "discovery": {
+                "found": false,
+                "path": null,
+                "visited": 68,
+                "roots": [
+                  "mana",
+                  "__AWTSMOOS_MANAGER__",
+                  "ikar"
+                ]
+              },
+              "attempts": 728,
+              "seal": "frame-rescue-20260618-real-bh2"
+            },
+            "discovery": {
+              "found": false,
+              "path": null,
+              "visited": 68,
+              "roots": [
+                "mana",
+                "__AWTSMOOS_MANAGER__",
+                "ikar"
+              ]
+            },
+            "attempts": 728,
+            "now": 28462.69999998808
+          },
+          "stats": {
+            "canvases": 1,
+            "rendererFound": false,
+            "rendererApplied": false,
+            "pixelRatio": null,
+            "shadowMode": null,
+            "rendererInfo": false,
+            "rendererShadow": false,
+            "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-renderer-missing awtsmoos-visual-tuned"
+          }
+        },
+        "at": "2026-06-19T05:26:58.445Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+/* B"H */
+/**
+ * Chapter 83: Notification groups receive a quiet glow.
+ * The digest becomes readable: totals above, clustered motion below, and every
+ * card holding enough breath for the user to understand what changed.
+ */
+.awt-notification-panel {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+.awt-notification-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.awt-notification-head h2 {
+  margin: 0;
+}
+.awt-notification-list {
+  display: grid;
+  gap: 10px;
+}
+.awt-notification-group {
+  border: 1px solid var(--awt-border);
+  border-radius: var(--awt-radius-md);
+  background: rgba(255,255,255,.05);
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+.awt-notification-group p {
+  margin: 0;
+  color: var(--awt-muted);
+}

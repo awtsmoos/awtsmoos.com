@@ -1,0 +1,5 @@
+/* B"H */
+.awt-comment-tree { display: grid; gap: 10px; }
+.awt-comment { border-left: 2px solid var(--awt-border); padding: 10px 0 10px 14px; }
+.awt-comment strong { color: var(--awt-accent); }
+.awt-comment p { margin: 6px 0 0; color: var(--awt-muted); }

@@ -11,7 +11,8 @@ const blobCache = new Map();
  * B"H
  * Builds the one action table for search, events, tracks, playlists, cache, and
  * ZIP. No parallel kingdom: the Awtsmoos lets every button drink from the same
- * known archive streams and the same IndexedDB store.
+ * known archive streams and the same IndexedDB store. Event shells are now
+ * escorted toward playable tracks before the playlist vessel seals around them.
  * @param {object} app Optional app callbacks for playback and playlist picker.
  * @returns {object} Stable callbacks consumed by result and playlist UI.
  */
@@ -28,12 +29,21 @@ export function createSearchResultHandlers(app = {}) {
     onCacheTrack: cacheTrack,
     onBookmarkTrack: bookmarkTrack,
     onAddToPlaylist: items => app.onAddToPlaylist?.(items),
+    onAddEventToPlaylist: item => app.onAddEventToPlaylist?.(item) || addEventToPlaylist(item, app),
+    onPlayEvent: item => app.onPlayEvent?.(item) || openResult(item),
     onPlayTrack: (track, item) => openResult({ ...item, track }),
     onDownloadPlaylist: downloadPlaylist,
     onCachePlaylist: cachePlaylist,
     onRefreshCachedPlaylist: cachePlaylist,
     onRemoveCachedPlaylist: removeCachedPlaylist
   };
+}
+
+async function addEventToPlaylist(item, app = {}) {
+  const tracks = await loadTracks(item);
+  const items = tracks.map(track => Render.playlistTrackItem(track, item));
+  if (items.length) return app.onAddToPlaylist?.(items) || Render.openAddToPlaylist(items);
+  return app.onAddToPlaylist?.([item]) || Render.openAddToPlaylist([item]);
 }
 
 async function openResult(item) {

@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- B"H -->
+<html lang="en" data-social-revamp="1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Awtsmoos Social Revamp Demo</title>
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+  <noscript>B"H — JavaScript is required to reveal the social revamp demo.</noscript>
+  <div data-social-revamp-root></div>
+  <script type="module">
+    import { mountSocialRevampWhenRequested } from '../app/bridge.js';
+
+    mountSocialRevampWhenRequested({
+      data: {
+        profile: {
+          name: 'Demo Alias',
+          bio: 'A living preview of feed, composer, media, profile, and comment tree vessels.',
+          posts: 2,
+          comments: 4,
+          heichelos: 1
+        },
+        posts: [
+          {
+            title: 'Image and audio post section',
+            author: 'Demo Alias',
+            heichel: 'Demo Heichel',
+            summary: 'This card proves the new shell can show media-aware post previews.',
+            media: ['image', 'audio']
+          },
+          {
+            title: 'Series-organized revelation',
+            author: 'Series Builder',
+            heichel: 'Nested Heichel',
+            summary: 'A second card stands ready for series and heichel feed organization.',
+            media: ['file']
+          }
+        ],
+        comments: [
+          {
+            author: 'Root Commenter',
+            text: 'The comment tree begins here.',
+            replies: [
+              { author: 'Reply Alias', text: 'Replies remain branches, not flattened dust.' }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
+</body>
+</html>

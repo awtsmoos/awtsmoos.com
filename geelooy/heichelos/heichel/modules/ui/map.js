@@ -1,143 +1,127 @@
-
+// B"H
 /**
- * B"H
  * @module LibraryBlueprint
  * @description
- * Before a stone was laid in the physical heavens, the blueprints 
- * were drawn in the Wisdom of the Awtsmoos. This module contains 
- * the JSON mappings that define every gate, pillar, and shelf 
- * within the Great Library.
- */
-
-/**
- * @function getLibraryLayout
- * @description Returns the JSON structure of the entire page.
- * @param {Object} actions - Event handlers to be woven into the manifestation.
+ * Chapter 44: The old map folds into a smaller parchment without losing a gate.
+ * The Awtsmoos contracts the palace into fewer lines, and every shelf, modal,
+ * sidebar, and grid still stands exactly where the visitor expects it.
  */
 export function getLibraryLayout(actions) {
+    return div('heichel-page-container', [
+        div('main-content-wrapper', [
+            sidebarToggle(actions.toggleSidebar),
+            mainStage(actions),
+            sidebar()
+        ], { ref: 'pageContainer' }),
+        { tag: 'div', attr: { id: 'toast-container' }, ref: 'toastContainer' },
+        createBulkActionBar(),
+        createCreationModal(actions.onModalSubmit, actions.closeModal)
+    ]);
+}
+
+function mainStage(actions) {
+    return div('heichel-main-stage', [header(actions), contentPanel(actions)]);
+}
+
+function header(actions) {
     return {
-        tag: 'div',
-        attr: { class: 'heichel-page-container' },
-        ref: 'pageContainer',
+        tag: 'header',
+        attr: { class: 'heichel-header' },
         children: [
-            {
-                tag: 'div',
-                attr: { class: 'main-content-wrapper' },
-                children: [
-                    {
-                        tag: 'button',
-                        attr: { id: 'sidebar-toggle-btn', class: 'sidebar-toggle', title: 'Toggle Sidebar' },
-                        ref: 'sidebarToggleBtn',
-                        children: ['›'],
-                        events: { click: actions.toggleSidebar }
-                    },
-                    {
-                        tag: 'div',
-                        attr: { class: 'heichel-main-stage' },
-                        children: [
-                            // 1. Header Chamber
-                            {
-                                tag: 'header',
-                                attr: { class: 'heichel-header' },
-                                children: [
-                                    { tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle' },
-                                    {
-                                        tag: 'div',
-                                        attr: { class: 'heichel-search-wrapper' },
-                                        children: [
-                                            { 
-                                                tag: 'input', 
-                                                attr: { type: 'text', id: 'heichel-search-input', placeholder: 'Search...' },
-                                                ref: 'searchInput',
-                                                events: { input: actions.onSearch }
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        tag: 'div',
-                                        attr: { id: 'seriesNameAndInfo', class: 'hidden' },
-                                        ref: 'seriesInfoArea',
-                                        children: [
-                                            { tag: 'h2', attr: { id: 'seriesNm' }, ref: 'seriesTitle' },
-                                            { tag: 'p', attr: { id: 'seriesDesc' }, ref: 'seriesDesc' },
-                                            { tag: 'div', attr: { id: 'seriesControls' }, ref: 'seriesControls' }
-                                        ]
-                                    }
-                                ]
-                            },
-                            // 2. Content Viewports
-                            {
-                                tag: 'div',
-                                attr: { class: 'heichel-content-panel' },
-                                children: [
-                                    {
-                                        tag: 'nav',
-                                        attr: { class: 'content-tabs' },
-                                        children: [
-                                            { tag: 'button', attr: { id: 'postsTab', class: 'tab Active' }, ref: 'postsTab', children: ['Posts'], events: { click: () => actions.switchView('posts') } },
-                                            { tag: 'button', attr: { id: 'seriesTab', class: 'tab' }, ref: 'seriesTab', children: ['Series'], events: { click: () => actions.switchView('series') } }
-                                        ]
-                                    },
-                                    {
-                                        tag: 'div',
-                                        attr: { class: 'content-views' },
-                                        children: [
-                                            createGridStructure('posts', 'postsList', 'loadingPosts'),
-                                            createGridStructure('series', 'seriesList', 'loadingSeries', true)
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    // 3. Sidebar Anchor
-                    {
-                        tag: 'aside',
-                        attr: { class: 'heichel-sidebar' },
-                        ref: 'sidebar',
-                        children: [
-                            { tag: 'div', attr: { id: 'breadcrumb-container' }, ref: 'breadcrumb' },
-                            { tag: 'h2', attr: { id: 'sidebar-title' }, children: ['About this Realm'] },
-                            {
-                                tag: 'div',
-                                attr: { class: 'editor-controls-area' },
-                                ref: 'controlsArea',
-                                children: [
-                                    { tag: 'div', attr: { class: 'series-controls' }, ref: 'seriesControlsContainer' },
-                                    { tag: 'div', attr: { class: 'posts-controls hidden' }, ref: 'postsControls' }
-                                ]
-                            },
-                            {
-                                tag: 'div',
-                                attr: { class: 'editors-section' },
-                                ref: 'editorsSection',
-                                children: [
-                                    { tag: 'div', attr: { class: 'editors-title' }, children: ['Editors:'] },
-                                    { tag: 'div', attr: { class: 'editors-holder' }, ref: 'editorHolder' }
-                                ]
-                            },
-                            { tag: 'p', attr: { id: 'sidebar-description' }, ref: 'heichelDescription' }
-                        ]
-                    }
-                ]
-            },
-            // Overlays
-            { tag: 'div', attr: { id: 'toast-container' }, ref: 'toastContainer' },
-            createBulkActionBar(),
-            createCreationModal(actions.onModalSubmit, actions.closeModal)
+            { tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle' },
+            div('heichel-search-wrapper', [searchInput(actions.onSearch)]),
+            seriesInfo()
         ]
     };
 }
 
-function createGridStructure(cls, listRef, loadRef, hidden = false) {
+function contentPanel(actions) {
+    return div('heichel-content-panel', [
+        { tag: 'nav', attr: { class: 'content-tabs' }, children: tabs(actions) },
+        div('content-views', [
+            createGridStructure('posts', 'postsList', 'loadingPosts'),
+            createGridStructure('series', 'seriesList', 'loadingSeries', true)
+        ])
+    ]);
+}
+
+function sidebarToggle(onClick) {
+    return {
+        tag: 'button',
+        attr: { id: 'sidebar-toggle-btn', class: 'sidebar-toggle', title: 'Toggle Sidebar' },
+        ref: 'sidebarToggleBtn',
+        children: ['›'],
+        events: { click: onClick }
+    };
+}
+
+function searchInput(onInput) {
+    return {
+        tag: 'input',
+        attr: { type: 'text', id: 'heichel-search-input', placeholder: 'Search...' },
+        ref: 'searchInput',
+        events: { input: onInput }
+    };
+}
+
+function seriesInfo() {
     return {
         tag: 'div',
-        attr: { class: `view ${cls} ${hidden ? 'hidden' : ''}` },
+        attr: { id: 'seriesNameAndInfo', class: 'hidden' },
+        ref: 'seriesInfoArea',
         children: [
-            { tag: 'div', attr: { id: listRef, class: 'grid-container' }, ref: listRef },
-            { tag: 'div', attr: { id: loadRef, class: 'loading-spinner hidden' }, ref: loadRef, children: ['B"H - Manifesting...'] }
+            { tag: 'h2', attr: { id: 'seriesNm' }, ref: 'seriesTitle' },
+            { tag: 'p', attr: { id: 'seriesDesc' }, ref: 'seriesDesc' },
+            { tag: 'div', attr: { id: 'seriesControls' }, ref: 'seriesControls' }
         ]
     };
+}
+
+function tabs(actions) {
+    return [
+        tab('postsTab', 'Posts', 'tab Active', () => actions.switchView('posts')),
+        tab('seriesTab', 'Series', 'tab', () => actions.switchView('series'))
+    ];
+}
+
+function tab(ref, label, className, onClick) {
+    return { tag: 'button', attr: { id: ref, class: className }, ref, children: [label], events: { click: onClick } };
+}
+
+function sidebar() {
+    return {
+        tag: 'aside',
+        attr: { class: 'heichel-sidebar' },
+        ref: 'sidebar',
+        children: [
+            { tag: 'div', attr: { id: 'breadcrumb-container' }, ref: 'breadcrumb' },
+            { tag: 'h2', attr: { id: 'sidebar-title' }, children: ['About this Realm'] },
+            editorControls(),
+            editorsSection(),
+            { tag: 'p', attr: { id: 'sidebar-description' }, ref: 'heichelDescription' }
+        ]
+    };
+}
+
+function editorControls() {
+    return div('editor-controls-area', [
+        div('series-controls', [], { ref: 'seriesControlsContainer' }),
+        div('posts-controls hidden', [], { ref: 'postsControls' })
+    ], { ref: 'controlsArea' });
+}
+
+function editorsSection() {
+    return div('editors-section', [
+        div('editors-title', ['Editors:']),
+        div('editors-holder', [], { ref: 'editorHolder' })
+    ], { ref: 'editorsSection' });
+}
+
+function createGridStructure(cls, listRef, loadRef, hidden = false) {
+    return div(`view ${cls} ${hidden ? 'hidden' : ''}`, [
+        { tag: 'div', attr: { id: listRef, class: 'grid-container' }, ref: listRef },
+        { tag: 'div', attr: { id: loadRef, class: 'loading-spinner hidden' }, ref: loadRef, children: ['B"H - Manifesting...'] }
+    ]);
 }
 
 function createBulkActionBar() {
@@ -147,11 +131,7 @@ function createBulkActionBar() {
         ref: 'bulkActionsBar',
         children: [
             { tag: 'span', attr: { id: 'selection-count' }, ref: 'selectionCount' },
-            { 
-                tag: 'div', 
-                attr: { class: 'actions' }, 
-                children: [{ tag: 'button', attr: { id: 'bulk-delete-btn', class: 'danger' }, ref: 'bulkDeleteBtn', children: ['Delete Selected'] }] 
-            },
+            div('actions', [{ tag: 'button', attr: { id: 'bulk-delete-btn', class: 'danger' }, ref: 'bulkDeleteBtn', children: ['Delete Selected'] }]),
             { tag: 'button', attr: { id: 'exit-selection-mode-btn' }, ref: 'exitSelectionBtn', children: ['Done'] }
         ]
     };
@@ -164,37 +144,30 @@ function createCreationModal(onSubmit, onCancel) {
         ref: 'modalRoot',
         children: [
             { tag: 'div', attr: { class: 'modal-backdrop' }, ref: 'modalBackdrop', events: { click: onCancel } },
-            {
-                tag: 'div',
-                attr: { class: 'modal-content' },
-                children: [
-                    { tag: 'h3', attr: { id: 'modal-title' }, ref: 'modalTitle' },
-                    {
-                        tag: 'form',
-                        attr: { id: 'creation-form' },
-                        ref: 'modalForm',
-                        events: { submit: onSubmit },
-                        children: [
-                            { tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [
-                                { tag: 'option', attr: { value: 'post' }, children: ['Regular Post'] },
-                                { tag: 'option', attr: { value: 'question' }, children: ['Question'] },
-                                { tag: 'option', attr: { value: 'answer' }, children: ['Answer'] }
-                            ] },
-                            { tag: 'input', attr: { type: 'text', id: 'modal-input-title', required: true, placeholder: 'Title' }, ref: 'modalTitleInput' },
-                            { tag: 'textarea', attr: { id: 'modal-input-description', placeholder: 'Description' }, ref: 'modalDescTextarea' },
-                            { tag: 'input', attr: { type: 'text', id: 'modal-input-id', placeholder: 'Custom ID (Optional)' }, ref: 'modalIdInput' },
-                            {
-                                tag: 'div',
-                                attr: { class: 'modal-actions' },
-                                children: [
-                                    { tag: 'button', attr: { type: 'button', id: 'modal-cancel-btn' }, ref: 'modalCancelBtn', children: ['Cancel'], events: { click: onCancel } },
-                                    { tag: 'button', attr: { type: 'submit', id: 'modal-submit-btn' }, children: ['Manifest'] }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
+            div('modal-content', [
+                { tag: 'h3', attr: { id: 'modal-title' }, ref: 'modalTitle' },
+                modalForm(onSubmit, onCancel)
+            ])
         ]
     };
 }
+
+function modalForm(onSubmit, onCancel) {
+    return {
+        tag: 'form',
+        attr: { id: 'creation-form' },
+        ref: 'modalForm',
+        events: { submit: onSubmit },
+        children: [contentTypeSelect(), textInput('modal-input-title', 'Title', 'modalTitleInput', true), textarea(), textInput('modal-input-id', 'Custom ID (Optional)', 'modalIdInput'), modalActions(onCancel)]
+    };
+}
+
+function contentTypeSelect() {
+    return { tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [option('post', 'Regular Post'), option('question', 'Question'), option('answer', 'Answer')] };
+}
+
+function option(value, label) { return { tag: 'option', attr: { value }, children: [label] }; }
+function textarea() { return { tag: 'textarea', attr: { id: 'modal-input-description', placeholder: 'Description' }, ref: 'modalDescTextarea' }; }
+function textInput(id, placeholder, ref, required = false) { return { tag: 'input', attr: { type: 'text', id, required, placeholder }, ref }; }
+function modalActions(onCancel) { return div('modal-actions', [{ tag: 'button', attr: { type: 'button', id: 'modal-cancel-btn' }, ref: 'modalCancelBtn', children: ['Cancel'], events: { click: onCancel } }, { tag: 'button', attr: { type: 'submit', id: 'modal-submit-btn' }, children: ['Manifest'] }]); }
+function div(className, children, rest = {}) { return { tag: 'div', attr: { class: className }, children, ...rest }; }

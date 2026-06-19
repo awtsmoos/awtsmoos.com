@@ -1,0 +1,10 @@
+/* B"H */
+/** Chapter 97: Feed cards become thunder tablets. */
+.awt-feed { display: grid; gap: 18px; }
+.awt-post-card { position: relative; overflow: hidden; border: 1px solid var(--awt-border); border-radius: var(--awt-radius-lg); background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.025)); box-shadow: var(--awt-shadow-brutal); padding: 18px; transform-style: preserve-3d; }
+.awt-post-card::before { content: ""; position: absolute; inset: -2px; background: var(--awt-gradient-brutal); opacity: .17; filter: blur(18px); z-index: -1; animation: awtPulse 6s ease-in-out infinite; }
+.awt-post-card:hover { transform: translateY(-4px) rotateX(1deg); border-color: rgba(0,229,255,.42); }
+.awt-card-head, .awt-card-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.awt-post-title { margin: 0; font-size: clamp(1.2rem, 2vw, 2rem); background: var(--awt-gradient-brutal); -webkit-background-clip: text; color: transparent; }
+.awt-post-summary { color: var(--awt-muted); line-height: 1.65; }
+.awt-stat-row { display: flex; gap: 8px; flex-wrap: wrap; }

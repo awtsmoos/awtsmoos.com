@@ -1,5 +1,5 @@
-﻿/* B"H
-Input is the gate of breath. It binds once, releases always, and Escape returns the whole palace to silence.
+/* B"H
+Input is the gate of breath. The Awtsmoos binds desktop glyphs to rendered vessels and releases them by physical code.
 */
 import { AudioState } from './audio.js';
 import { createSynthNode, startSynth, stopSynth, activeNotes, currentChordRoot, clearCurrentChord, setCurrentChordRoot, setCurrentChordNodes, panicStopAll, enforceVoiceLimit } from './synth.js';
@@ -7,11 +7,11 @@ import { deferRelease, clearDeferred, clearAllDeferred } from './performance/ped
 import { elements, setScroll, scrollState, activeScroller } from './ui.js';
 import { recordingState, logVideoKeyDown, logVideoKeyUp, logTextNote } from './recorder.js';
 import { showRealtimeEffect } from './visual/liveEffects.js';
+import { keyForEvent, keyboardInputId, boundNoteForKey, keyElementForBinding } from './keyboard/bindings.js';
 export const noteFrequencies = { C:16.35, 'C#':17.32, D:18.35, 'D#':19.45, E:20.6, F:21.83, 'F#':23.12, G:24.5, 'G#':25.96, A:27.5, 'A#':29.14, B:30.87 };
 export const noteNames = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const major7thChords = { C:['C','E','G','B'], D:['D','F#','A','C#'], E:['E','G#','B','D#'], F:['F','A','C','E'], G:['G','B','D','F#'], A:['A','C#','E','G#'], B:['B','D#','F#','A#'] };
 const minor7thChords = { C:['C','D#','G','A#'], D:['D','F','A','C'], E:['E','G','B','D'], F:['F','G#','C','D#'], G:['G','A#','D','F'], A:['A','C','E','G'], B:['B','D','F#','A'] };
-const KEY_TO_NOTE_OFFSET = { a:{n:'C',o:0}, w:{n:'C#',o:0}, s:{n:'D',o:0}, e:{n:'D#',o:0}, d:{n:'E',o:0}, f:{n:'F',o:0}, t:{n:'F#',o:0}, g:{n:'G',o:0}, y:{n:'G#',o:0}, h:{n:'A',o:0}, u:{n:'A#',o:0}, j:{n:'B',o:0}, k:{n:'C',o:1}, o:{n:'C#',o:1}, l:{n:'D',o:1}, p:{n:'D#',o:1}, ';':{n:'E',o:1}, "'":{n:'F',o:1} };
 let listenersBound = false;
 export function setupInputListeners() {
     if (listenersBound) return; listenersBound = true;
@@ -30,15 +30,19 @@ function handlePointerUpOrCancel(e) {
     if (activeScroller.isDragging) { activeScroller.thumb.style.cursor = 'grab'; activeScroller.isDragging = false; localStorage.setItem('pianoScrollState', JSON.stringify(scrollState)); }
     triggerNoteOff(e.pointerId);
 }
-function noteNameForKeyboardMapping(mapping) { const startOctave = parseInt(elements.octaveSelect.value || '0', 10); return `${mapping.n}${startOctave + mapping.o}`; }
 function handleKeyDown(e) {
     if (e.key === 'Escape') { panicEverything(); return; }
-    if (e.repeat || e.ctrlKey || e.metaKey || ['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
-    const mapping = KEY_TO_NOTE_OFFSET[e.key.toLowerCase()]; if (!mapping) return; const pid = `kb-${e.key.toLowerCase()}`; if (activeNotes.has(pid)) return;
-    const noteName = noteNameForKeyboardMapping(mapping), keyElement = document.querySelector(`.key[data-note="${noteName}"]`); if (!keyElement) return;
-    const rect = keyElement.getBoundingClientRect(); triggerNoteOn(noteName, pid, { x: rect.width / 2, y: rect.height / 2 }, keyElement);
+    if (e.repeat || ['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
+    const binding = keyForEvent(e); if (!binding) return;
+    const pid = keyboardInputId(e); if (activeNotes.has(pid)) return;
+    const noteName = boundNoteForKey(binding); if (!noteName) return;
+    const keyElement = keyElementForBinding(binding, noteName); if (!keyElement) return;
+    e.preventDefault(); const rect = keyElement.getBoundingClientRect(); triggerNoteOn(noteName, pid, { x: rect.width / 2, y: rect.height / 2 }, keyElement);
 }
-function handleKeyUp(e) { if (KEY_TO_NOTE_OFFSET[e.key.toLowerCase()]) triggerNoteOff(`kb-${e.key.toLowerCase()}`); }
+function handleKeyUp(e) {
+    const pid = keyboardInputId(e); if (!activeNotes.has(pid)) return;
+    e.preventDefault(); triggerNoteOff(pid);
+}
 export function triggerNoteOn(noteName, inputId, coords, keyElement) {
     const note = noteName.replace(/\d/g, ''); keyElement = keyElement || document.querySelector(`.key[data-note="${noteName}"]`); if (!keyElement) return;
     if (activeNotes.has(inputId)) triggerNoteOff(inputId); enforceVoiceLimit();
@@ -69,4 +73,3 @@ function handleScrollbarPointerDown(e, index) {
     thumb.setPointerCapture(e.pointerId); thumb.style.cursor = 'grabbing';
 }
 function handleDocumentPointerMove(e) { if (!activeScroller.isDragging) return; e.preventDefault(); const dx = e.clientX - activeScroller.startX, max = activeScroller.thumb.parentElement.clientWidth - activeScroller.thumb.offsetWidth; setScroll(Math.max(0, Math.min(max, activeScroller.startThumbX + dx)) * activeScroller.scrollRatio, activeScroller.logicalIndex); }
-

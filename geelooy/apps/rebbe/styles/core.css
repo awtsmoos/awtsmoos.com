@@ -1,4 +1,5 @@
 /* B"H */
+@import url("./rebbe-premium.css");
 /* CORE STYLES - PERFORMANCE OPTIMIZED */
 
 :root {
@@ -8,7 +9,6 @@
     --c-lime: #00ff66;
     --c-yellow: #ffcc00;
     --c-white: #e0e0e0;
-    
     --font-primary: 'Courier New', monospace;
     --font-tech: 'Segoe UI', sans-serif;
 }
@@ -25,39 +25,38 @@ body {
     color: var(--c-white);
     font-family: var(--font-primary);
     height: 100vh;
-    overflow: hidden; /* Prevent body scroll */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
 .hidden { display: none !important; }
 
-/* Scrollbars */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: #000; }
 ::-webkit-scrollbar-thumb { background: #333; }
 ::-webkit-scrollbar-thumb:hover { background: var(--c-cyan); }
 
-/* Simple Background */
 #app-root {
-    position: relative; z-index: 10; display: flex; flex-direction: column; height: 100%;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-/* Reduced Glitch Effect for text */
 .glitch { position: relative; color: var(--c-cyan); }
-
-/* Utility Classes */
 .btn-tool { cursor: pointer; }
 input:focus, select:focus, textarea:focus { outline: 1px solid var(--c-cyan); }
 
-/* TERMINAL STYLES (Moved here for core consistency) */
 #terminal-wrap {
-    height: 150px; 
-    background: rgba(0,0,0,0.9); 
-    border-top: 2px solid var(--c-lime); 
-    padding: 10px; 
+    height: 150px;
+    background: rgba(0,0,0,0.9);
+    border-top: 2px solid var(--c-lime);
+    padding: 10px;
     z-index: 90;
-    display: flex; flex-direction: column;
+    display: flex;
+    flex-direction: column;
     flex-shrink: 0;
 }
 #terminal-wrap.hidden { display: none !important; }
