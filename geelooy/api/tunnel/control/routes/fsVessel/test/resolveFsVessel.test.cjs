@@ -17,6 +17,11 @@ const $i = ctx([native, browser]);
 assert.strictEqual(requestedVesselType("awtsmoos-virtual-os", {}), "virtual-os");
 assert.strictEqual(requestedVesselType("native-one", { targetVessel: "browser-tab" }), "browser-tab");
 assert.strictEqual(requestedVesselType("auto", { targetVessel: "native-local" }), "native-tunnel");
+assert.strictEqual(requestedVesselType("native-one", { fallback: "virtual-os" }), "");
+assert.strictEqual(requestedVesselType("native-one", { routeHints: { fallback: "virtual-os" } }), "");
+assert.strictEqual(requestedVesselType("native-one", { root: "awtsmoos-virtual-os" }), "");
+assert.strictEqual(requestedVesselType("native-one", { routeHints: { root: "awtsmoos-virtual-os" } }), "");
+assert.strictEqual(requestedVesselType("auto", { fallback: "virtual-os" }), "virtual-os");
 
 let v = resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "virtual-os" } });
 assert.strictEqual(v.kind, "virtual-os");
@@ -34,6 +39,21 @@ assert.strictEqual(v.tunnelName, "native-one");
 v = resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "native" } });
 assert.strictEqual(v.kind, "native-tunnel");
 assert.strictEqual(v.reason, "explicit_native");
+
+for (const action of ["read", "list", "commandBatch"]) {
+  v = resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { action, fallback: "virtual-os" } });
+  assert.strictEqual(v.kind, "native-tunnel");
+  assert.strictEqual(v.tunnelName, "native-one");
+  assert.strictEqual(v.reason, "exact_native_tunnel");
+}
+
+v = resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { action: "read", routeHints: { fallback: "virtual-os" } } });
+assert.strictEqual(v.kind, "native-tunnel");
+assert.strictEqual(v.reason, "exact_native_tunnel");
+
+v = resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { action: "read", routeHints: { root: "awtsmoos-virtual-os" } } });
+assert.strictEqual(v.kind, "native-tunnel");
+assert.strictEqual(v.reason, "exact_native_tunnel");
 
 v = resolveFsVessel({ $i, userId: "u", tunnelName: "auto", payload: {} });
 assert.strictEqual(v.kind, "browser-tab");

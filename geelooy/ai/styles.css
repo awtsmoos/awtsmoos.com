@@ -1,8 +1,6 @@
 /*B"H
-Chapter 389: The Cascade Became A River With The Seal At The Delta.
-The Awtsmoos lets every palace speak in order: tokens, rooms, events, desktop,
-mobile, effects, and finally the overlap seal that protects the automation
-panel from swallowing its own buttons.
+Chapter 430: The root cascade became a river with a fresh public seal.
+Every imported chamber is still split; the final polish arrives last like dawn.
 */
 @import "./css/ideal/tokens.css";
 @import "./css/ideal/shell.css";
@@ -26,3 +24,8 @@ panel from swallowing its own buttons.
 @import "./css/showcase-cards.css";
 @import "./css/performance-override.css";
 @import "./css/right-panel/mobile-overlap-kill.css";
+@import "./css/bug-polish/manifest.css";
+
+:root {
+  --awtsmoos-style-build: ui-total-polish-2026-06-19-01;
+}

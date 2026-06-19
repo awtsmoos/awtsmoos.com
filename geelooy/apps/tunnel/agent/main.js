@@ -27,7 +27,9 @@ const { nativeRegistrationPacket } = require("./lib/registration.js");
 
 const log = makeLogger(ROOT);
 const CPU_COUNT = Math.max(1, os.cpus?.().length || 1);
-const MAX_INFLIGHT = boundedNumber(process.env.AWTSMOOS_MAX_INFLIGHT, Math.min(16, Math.max(8, CPU_COUNT * 2)), 1, 64);
+const STRICT_ORDERING = process.env.AWTSMOOS_STRICT_ORDERING !== "0";
+const DEFAULT_MAX_INFLIGHT = STRICT_ORDERING ? 1 : Math.min(16, Math.max(8, CPU_COUNT * 2));
+const MAX_INFLIGHT = boundedNumber(process.env.AWTSMOOS_MAX_INFLIGHT, DEFAULT_MAX_INFLIGHT, 1, 64);
 const MAX_QUEUE = boundedNumber(process.env.AWTSMOOS_MAX_QUEUE, 1000, 0, 10000);
 const REQUEST_MAX_AGE_MS = boundedNumber(process.env.AWTSMOOS_REQUEST_MAX_AGE_MS, 24 * 60 * 60 * 1000, 1000, 7 * 24 * 60 * 60 * 1000);
 const MAX_PROXY_BYTES = boundedNumber(process.env.AWTSMOOS_MAX_PROXY_BYTES, 32 * 1024 * 1024, 1024 * 1024, 256 * 1024 * 1024);
@@ -82,6 +84,7 @@ function memorySnapshot() {
     maxQueue: MAX_QUEUE,
     reconnectAttempt,
     wasEverConnected,
+    strictOrdering: STRICT_ORDERING,
     inlineLimitBytes: inlineLimit()
   };
 }
@@ -155,6 +158,7 @@ function register(ws) {
     agentVersion: AGENT_VERSION,
     limits: {
       maxInflight: MAX_INFLIGHT,
+      strictOrdering: STRICT_ORDERING,
       maxQueue: MAX_QUEUE,
       requestMaxAgeMs: REQUEST_MAX_AGE_MS,
       maxProxyBytes: MAX_PROXY_BYTES,

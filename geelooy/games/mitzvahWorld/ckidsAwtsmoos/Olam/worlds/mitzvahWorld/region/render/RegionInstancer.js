@@ -18,7 +18,7 @@ export function makeInstancedLayer({ olam, name, geometry = "box", material = "g
   const safeCount = Math.max(0, Math.floor(Number(count) || 0));
   const mesh = new THREE.InstancedMesh(regionGeometry(geometry), regionMaterial(material, { simple, side: sideFor(geometry) }), safeCount);
   mesh.name = name || `region_instanced_${geometry}_${material}`;
-  mesh.frustumCulled = true; mesh.castShadow = false; mesh.receiveShadow = true;
+  mesh.frustumCulled = true; mesh.castShadow = false; mesh.receiveShadow = false;
   const color = new THREE.Color();
   for (let i = 0; i < safeCount; i++) applyInstance(olam, mesh, color, build(i) || {}, i);
   mesh.instanceMatrix.needsUpdate = true;

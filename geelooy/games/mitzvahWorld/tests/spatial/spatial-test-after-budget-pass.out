@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "stats": {
+    "staticItems": 1501,
+    "staticNodes": 985,
+    "movingItems": 600,
+    "movingCells": 77
+  },
+  "nearStatic": 1,
+  "nearMoving": 1
+}

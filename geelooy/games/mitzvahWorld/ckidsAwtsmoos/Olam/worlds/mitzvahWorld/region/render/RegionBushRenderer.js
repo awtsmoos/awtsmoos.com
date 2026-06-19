@@ -2,7 +2,7 @@
 /** @file RegionBushRenderer.js @description Shrubs grow as grounded organic clusters, quality-aware and texture-aware. */
 import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20260614-bh2";
 import { rand } from "./RegionRandom.js";
-import { qualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
+import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
 function reportBushes(report) { return report && report.instances && Array.isArray(report.instances.bushes) ? report.instances.bushes : []; }
 function bushSpec(i) {
   const a = i * 1.71, radius = 72 + rand(i, 2) * 130;
@@ -11,6 +11,6 @@ function bushSpec(i) {
 function fromSpec(spec, i) { const base = bushSpec(i); base.x = Number.isFinite(Number(spec.x)) ? Number(spec.x) : base.x; base.z = Number.isFinite(Number(spec.z)) ? Number(spec.z) : base.z; return base; }
 export function buildBushRenderer(olam, report = {}) {
   const specs = reportBushes(report);
-  const count = qualityCount(olam, specs.length ? Math.min(1200, specs.length) : 640);
+  const count = budgetedQualityCount(olam, specs.length ? Math.min(1200, specs.length) : 640, "treeDistance", 640) * 2;
   return makeInstancedLayer({ olam, name:"living_region_grounded_bush_and_shrub_clusters", geometry:"canopy", material:"cabbageLeaf", count, build:i => specs.length ? fromSpec(specs[i % specs.length], i) : bushSpec(i) });
 }

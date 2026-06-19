@@ -1,12 +1,15 @@
 <!--B"H awtsmoos ai semantic cockpit-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-awtsmoos-build="ui-total-polish-2026-06-19-01">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Awtsmoos AI Cockpit</title>
+  <style>:root { --awtsmoos-html-build: "ui-total-polish-2026-06-19-01"; }</style>
   <script>
     (() => {
+      const build = 'ui-total-polish-2026-06-19-01';
+      document.documentElement.dataset.awtsmoosBuild = build;
       const params = new URLSearchParams(location.search);
       const forced = params.get('awtsmoosFx');
       const valid = new Set(['off', 'low', 'high']);
@@ -18,7 +21,7 @@
       document.documentElement.classList.add(`awts-fx-${mode}`);
     })();
   </script>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=ui-total-polish-2026-06-19-01">
 </head>
 <body>
   <header class="mobile-app-crown" aria-label="Awtsmoos mobile header">
@@ -33,22 +36,20 @@
     <main class="main"><div id="transport-status" class="transport-status" aria-live="polite"></div><div id="chat-box" class="chat-box" aria-live="polite"></div><div id="composer-resizer" class="composer-resizer" aria-hidden="true"></div><div class="input-area"><textarea id="message-input" placeholder="Type your message…"></textarea><button id="send-button">Send</button><input id="attachment-input" type="file" accept="image/*" multiple hidden></div><div class="attachment-tools"><label class="attach-button" for="attachment-input">＋ Image</label><div id="attachment-tray" class="attachment-tray"></div></div></main>
     <div id="right-resizer" class="resize-bar" aria-hidden="true"></div><aside id="automation-panel" class="automation-panel" aria-label="Automation pipeline settings"></aside>
   </div>
-  <script type="module" src="index.js"></script>
+  <script type="module" src="index.js?v=ui-total-polish-2026-06-19-01"></script>
   <script type="module">
-    import { mountPerformanceMode } from './js/app/performanceMode.js';
-    import { mountEmbeddedMode } from './js/app/embeddedMode.js';
-    import { mountDesktopShell } from './js/app/desktopShell.js';
-    import { mountProviderKeyPanel } from './js/app/providerKeyPanel.js';
-    import { mountMobileChrome } from './js/app/mobileChrome.js';
-    import { mountMobileControlCenter } from './js/app/mobileControlCenter.js';
-    import { mountMobileSuggestions } from './js/app/mobileSuggestions.js';
-    import { mountLayoutState } from './js/app/layoutState.js';
-    import { mountEmptyState } from './js/app/emptyState.js';
-    import { mountVisionDemo } from './js/app/visionDemo.js';
-    import { mountShowcaseChrome } from './js/app/showcaseChrome.js';
-    const mountAwtsmoosChrome = () => {
-      mountPerformanceMode(); mountEmbeddedMode(); mountDesktopShell(); mountProviderKeyPanel(); mountMobileChrome(); mountMobileControlCenter(); mountMobileSuggestions(); mountLayoutState(); mountEmptyState(); mountVisionDemo(); mountShowcaseChrome();
-    };
+    import { mountPerformanceMode } from './js/app/performanceMode.js?v=ui-total-polish-2026-06-19-01';
+    import { mountEmbeddedMode } from './js/app/embeddedMode.js?v=ui-total-polish-2026-06-19-01';
+    import { mountDesktopShell } from './js/app/desktopShell.js?v=ui-total-polish-2026-06-19-01';
+    import { mountProviderKeyPanel } from './js/app/providerKeyPanel.js?v=ui-total-polish-2026-06-19-01';
+    import { mountMobileChrome } from './js/app/mobileChrome.js?v=ui-total-polish-2026-06-19-01';
+    import { mountMobileControlCenter } from './js/app/mobileControlCenter.js?v=ui-total-polish-2026-06-19-01';
+    import { mountMobileSuggestions } from './js/app/mobileSuggestions.js?v=ui-total-polish-2026-06-19-01';
+    import { mountLayoutState } from './js/app/layoutState.js?v=ui-total-polish-2026-06-19-01';
+    import { mountEmptyState } from './js/app/emptyState.js?v=ui-total-polish-2026-06-19-01';
+    import { mountVisionDemo } from './js/app/visionDemo.js?v=ui-total-polish-2026-06-19-01';
+    import { mountShowcaseChrome } from './js/app/showcaseChrome.js?v=ui-total-polish-2026-06-19-01';
+    const mountAwtsmoosChrome = () => { mountPerformanceMode(); mountEmbeddedMode(); mountDesktopShell(); mountProviderKeyPanel(); mountMobileChrome(); mountMobileControlCenter(); mountMobileSuggestions(); mountLayoutState(); mountEmptyState(); mountVisionDemo(); mountShowcaseChrome(); };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountAwtsmoosChrome, { once: true }); else mountAwtsmoosChrome();
   </script>
   <nav class="mobile-bottom-dock" aria-label="Mobile rooms"><button class="mobile-nav-conversations" type="button"><span>▢</span><em>Chats</em></button><button class="mobile-nav-search" type="button"><span>⌕</span><em>Search</em></button><button class="mobile-nav-chat" type="button"><span>◌</span><em>AI Chat</em></button><button class="mobile-nav-automation" type="button"><span>⌘</span><em>Tools</em></button><button class="mobile-nav-settings" type="button"><span>⚙</span><em>Settings</em></button></nav>

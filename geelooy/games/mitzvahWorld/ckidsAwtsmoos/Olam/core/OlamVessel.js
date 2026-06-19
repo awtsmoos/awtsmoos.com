@@ -1,5 +1,5 @@
 // B"H
-/** @module OlamVessel @description Worker root: direct imports, spatial truth, debug vessels. */
+/** @module OlamVessel @description Worker root: keep proven octrees intact and expose diagnostics only. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
 import OlamGrafting from "./OlamGraftingPlain.js?v=combat-diagnostic-graft-20260615-bh918";
@@ -12,17 +12,16 @@ import PlacementManager from "../interaction/PlacementManager.js?compact=true";
 import CombatManager from "../../systems/combat/CombatManager.js?v=mobile-assisted-range-20260615-bh917";
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=world-state-store-20260615-bh1";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=android-settings-render-20260612-bh1";
-import { installDynamicSpatialWorld } from "../../../systems/spatial/DynamicSpatialWorld.js?v=dynamic-spatial-world-20260617-bh2";
 
 const SAFE_SKY = 0x5d8fa8;
 
 function targetSnapshot(target) {
   if (!target) return null;
-  return {
-    name: target.name || target.mesh?.name || target.userData?.displayName || null,
-    hp: target.hp ?? target.health?.current ?? target.userData?.health?.current ?? null,
-    max: target.maxHp ?? target.health?.max ?? target.userData?.health?.max ?? null
-  };
+  return { name: target.name || target.mesh?.name || target.userData?.displayName || null, hp: target.hp ?? target.health?.current ?? target.userData?.health?.current ?? null, max: target.maxHp ?? target.health?.max ?? target.userData?.health?.max ?? null };
+}
+
+function octreeStats(olam) {
+  return { world: Boolean(olam?.worldOctree), interactive: Boolean(olam?.interactiveOctree), dynamicSidecar: Boolean(globalThis.__AWTS_DYNAMIC_SPATIAL__) };
 }
 
 function exposeDebug(olam) {
@@ -31,14 +30,8 @@ function exposeDebug(olam) {
     globalThis.__AWTS_OLAM__ = olam;
     globalThis.__AWTS_WORLD_STATE__ = olam.__awtsmoosWorldState;
     globalThis.__AWTS_WORLD_STATE_SNAPSHOT__ = () => worldStateSnapshot(olam);
-    globalThis.__AWTS_SPATIAL_DIAG__ = () => olam.dynamicSpatial?.snapshot?.() || null;
-    globalThis.__AWTS_COMBAT_DIAG__ = () => ({
-      trace: olam.__combatInputTrace || [],
-      attempt: olam.__lastCombatAttackAttempt || null,
-      result: olam.__lastCombatAttackResult || null,
-      failure: olam.__lastAttackFailure || null,
-      target: targetSnapshot(olam.__selectedCombatTarget)
-    });
+    globalThis.__AWTS_SPATIAL_DIAG__ = () => octreeStats(olam);
+    globalThis.__AWTS_COMBAT_DIAG__ = () => ({ trace: olam.__combatInputTrace || [], attempt: olam.__lastCombatAttackAttempt || null, result: olam.__lastCombatAttackResult || null, failure: olam.__lastAttackFailure || null, target: targetSnapshot(olam.__selectedCombatTarget) });
   } catch {}
 }
 
@@ -52,7 +45,6 @@ export default class Olam extends Nivra {
     this._activeCamera = null;
     OlamProperties.apply(this);
     ensureWorldState(this);
-    installDynamicSpatialWorld(this);
     exposeDebug(this);
     this._facultiesGrafted = OlamGrafting.graft(this);
     this._facultiesGrafted.then(() => this.finishConstructorSetup()).catch(error => {
@@ -63,7 +55,6 @@ export default class Olam extends Nivra {
   finishConstructorSetup() {
     try {
       exposeDebug(this);
-      installDynamicSpatialWorld(this);
       this.worldOctree.olam = this;
       this.interactiveOctree.olam = this;
       this.ayin = new Ayin(this);
@@ -107,7 +98,6 @@ export default class Olam extends Nivra {
     await this._facultiesGrafted;
     await OlamInit.execute(this);
     this.installBaseVisibility();
-    installDynamicSpatialWorld(this);
     exposeDebug(this);
   }
 }

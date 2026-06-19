@@ -1,18 +1,18 @@
 // B"H
 /**
  * @file PixelRatioGovernor.js
- * The real renderer is born in the worker through OffscreenCanvas. This file
- * is therefore the throat of performance: every initial and resize pixel ratio
- * is lowered here before the worker receives its dimensions.
+ * The worker owns the real canvas. Here the Awtsmoos lowers fragment cost
+ * before pixels become heat. This is aggressive speed mode, not a fake 60fps
+ * claim: every change must be measured by the Chrome gameplay report.
  */
 export const PIXEL_RATIO_LIMITS = Object.freeze({
-  min: 0.5,
+  min: 0.34,
   max: 1.0,
-  initialMax: 0.82,
-  resizeMax: 0.78,
-  mobileMax: 0.62,
-  hugeScreenMax: 0.68,
-  lowMemoryMax: 0.58
+  initialMax: 0.44,
+  resizeMax: 0.42,
+  mobileMax: 0.38,
+  hugeScreenMax: 0.38,
+  lowMemoryMax: 0.36
 });
 
 function n(value, fallback = 0) {
@@ -30,9 +30,9 @@ function mobileSettings(sourceWindow = globalThis.window) {
 }
 
 function qualityCap(settings = {}) {
-  if (settings.quality === "beauty") return 0.92;
-  if (settings.quality === "balanced") return 0.78;
-  return 0.66;
+  if (settings.quality === "beauty") return 0.58;
+  if (settings.quality === "balanced") return 0.46;
+  return 0.38;
 }
 
 function isMobileViewport(width, height, sourceWindow = globalThis.window) {
@@ -50,7 +50,7 @@ export function resolvePixelRatioCap(options = {}) {
   const phase = String(options.phase || "render");
   const caps = [PIXEL_RATIO_LIMITS.max, phase === "initial" ? PIXEL_RATIO_LIMITS.initialMax : PIXEL_RATIO_LIMITS.resizeMax];
   if (isMobileViewport(width, height, options.sourceWindow)) caps.push(PIXEL_RATIO_LIMITS.mobileMax);
-  if (cssPixels >= 1200000) caps.push(PIXEL_RATIO_LIMITS.hugeScreenMax);
+  if (cssPixels >= 900000) caps.push(PIXEL_RATIO_LIMITS.hugeScreenMax);
   if (memoryGb > 0 && memoryGb <= 4) caps.push(PIXEL_RATIO_LIMITS.lowMemoryMax);
   if (options.settings) caps.push(qualityCap(options.settings));
   return Math.max(PIXEL_RATIO_LIMITS.min, Math.min(...caps));
@@ -76,7 +76,7 @@ export function measureRenderViewport(sourceWindow = globalThis.window, phase = 
   const settings = mobileSettings(sourceWindow);
   const memoryGb = n(sourceWindow?.navigator?.deviceMemory, 8);
   const pixelRatio = resolvePixelRatio({ raw: rawPixelRatio, width, height, phase, memoryGb, settings, sourceWindow });
-  const report = { width, height, rawPixelRatio, pixelRatio, memoryGb, phase, quality: settings.quality || "speed", applied: pixelRatio < rawPixelRatio };
+  const report = { width, height, rawPixelRatio, pixelRatio, memoryGb, phase, quality: settings.quality || "speed", applied: pixelRatio < rawPixelRatio, seal: "speed-pixel-governor-bh4" };
   publishReport(sourceWindow, report);
   return report;
 }

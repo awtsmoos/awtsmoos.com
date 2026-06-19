@@ -1,6 +1,6 @@
 """B"H
 
-Command-line entry point for the resumable transcription batch.
+Command-line entry point for the resumable Yiddish transcription batch.
 """
 
 from __future__ import annotations
@@ -15,21 +15,21 @@ from .media_index import AudioItem, iter_audio
 from .output_paths import is_complete, transcript_paths
 from .renderers import write_json, write_srt, write_txt, write_vtt
 from .settings import BatchSettings
-from .whisper_engine import TranslationEngine
+from .whisper_engine import TranscriptionEngine
 
 
 def parse_args() -> argparse.Namespace:
     """Parse CLI knobs for the archive procession."""
 
-    parser = argparse.ArgumentParser(description="Offline Rebbe audio subtitle transcriber.")
+    parser = argparse.ArgumentParser(description="Offline Rebbe audio Yiddish subtitle transcriber.")
     parser.add_argument("--source", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
-    parser.add_argument("--model", default="small")
-    parser.add_argument("--language", default="he")
-    parser.add_argument("--task", default="transcribe", choices=["translate", "transcribe"])
+    parser.add_argument("--model", default="tiny")
+    parser.add_argument("--language", default="yi")
+    parser.add_argument("--task", default="transcribe", choices=["transcribe"])
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--compute-type", default="int8")
-    parser.add_argument("--beam-size", default=3, type=int)
+    parser.add_argument("--beam-size", default=1, type=int)
     parser.add_argument("--max-files", default=None, type=int)
     parser.add_argument("--year-start", default=5740, type=int)
     parser.add_argument("--year-end", default=5752, type=int)
@@ -46,8 +46,8 @@ def build_settings(args: argparse.Namespace) -> BatchSettings:
         model_name=args.model,
         device=args.device,
         compute_type=args.compute_type,
-        task=args.task,
-        language=args.language or None,
+        task="transcribe",
+        language=args.language or "yi",
         beam_size=args.beam_size,
         vad_filter=not args.no_vad,
         max_files=args.max_files,
@@ -87,7 +87,7 @@ def write_error(paths, error: BaseException) -> None:
 
 
 def main() -> int:
-    """Run the complete resumable batch."""
+    """Run the complete resumable Yiddish transcription batch."""
 
     settings = build_settings(parse_args())
     if not settings.source_root.exists():
@@ -96,9 +96,10 @@ def main() -> int:
     items = iter_audio(settings)
     span = f"{settings.priority_start}-{settings.priority_end}"
     print(f"Discovered {len(items)} matching audio files for Hebrew years {span}.")
+    print(f"Task=transcribe Language={settings.language} Model={settings.model_name}")
     if not items:
         return 0
-    engine = TranslationEngine(settings)
+    engine = TranscriptionEngine(settings)
     for index, item in enumerate(items, start=1):
         paths = transcript_paths(settings, item)
         if is_complete(paths):
@@ -106,7 +107,7 @@ def main() -> int:
             continue
         print(f"[{index}/{len(items)}] START {item.relative_path}", flush=True)
         try:
-            result = engine.translate(item.path)
+            result = engine.transcribe(item.path)
             write_success(item, paths, result)
             print(f"[{index}/{len(items)}] DONE {item.relative_path}", flush=True)
         except Exception as error:

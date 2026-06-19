@@ -10,7 +10,7 @@ function add(root, olam, kind, mat, x, z, scale, yoff = 0, yaw = 0) {
   const mesh = new THREE.Mesh(regionGeometry(kind), regionMaterial(mat, { simple:false }));
   mesh.name = `landmark_${mat}_${root.children.length}`;
   mesh.position.set(x, groundY(olam, x, z) + yoff + scale[1] * .5, z);
-  mesh.scale.set(scale[0], scale[1], scale[2]); mesh.rotation.y = yaw; mesh.castShadow = true; mesh.receiveShadow = true;
+  mesh.scale.set(scale[0], scale[1], scale[2]); mesh.rotation.y = yaw; mesh.castShadow = false; mesh.receiveShadow = false;
   root.add(mesh); return mesh;
 }
 export function buildLandmarkRenderer(olam, report = {}) {

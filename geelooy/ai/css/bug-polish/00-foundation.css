@@ -1,0 +1,61 @@
+/*B"H
+Chapter 432: Foundation light thickened into a cockpit sky.
+The Awtsmoos paints depth without drowning the words.
+*/
+:root {
+  --bug-polish-build: ui-total-polish-2026-06-19-01;
+  --bug-ink: #f4fbff;
+  --bug-muted: #9fb7ca;
+  --bug-faint: #6f879b;
+  --bug-cyan: #42e8ff;
+  --bug-violet: #9c64ff;
+  --bug-gold: #ffd38a;
+  --bug-danger: #ff6d9a;
+  --bug-surface: rgba(7, 16, 31, .78);
+  --bug-surface-strong: rgba(10, 22, 42, .92);
+  --bug-line: rgba(124, 235, 255, .20);
+  --bug-line-hot: rgba(76, 239, 255, .48);
+  --bug-shadow: 0 24px 90px rgba(0, 0, 0, .38);
+  --bug-glow: 0 0 70px rgba(49, 219, 255, .16);
+  --bug-polish-bg: radial-gradient(circle at 8% 4%, rgba(58, 230, 255, .24), transparent 28rem), radial-gradient(circle at 88% 12%, rgba(154, 91, 255, .22), transparent 30rem), radial-gradient(circle at 45% 100%, rgba(255, 182, 93, .10), transparent 34rem), linear-gradient(135deg, #030714 0%, #061225 46%, #060815 100%);
+}
+html, body { min-height: 100%; background: var(--bug-polish-bg); color: var(--bug-ink); }
+body { overflow: hidden; text-rendering: optimizeLegibility; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 35%, black, transparent 72%);
+}
+*, *::before, *::after { box-sizing: border-box; }
+button, select, textarea, input { font: inherit; color-scheme: dark; }
+button, select, textarea, input, .attach-button { color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible, .attach-button:focus-visible {
+  outline: 2px solid rgba(69, 238, 255, .96);
+  outline-offset: 3px;
+}
+::selection { background: rgba(74, 233, 255, .32); color: white; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: rgba(4, 10, 20, .44); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(61, 232, 255, .65), rgba(155, 98, 255, .62));
+  border-radius: 999px;
+  border: 2px solid rgba(5, 12, 25, .92);
+}
+.container { position: relative; z-index: 1; gap: 10px; padding: 10px; background: transparent; }
+.sidebar, .main, .automation-panel {
+  border: 1px solid var(--bug-line);
+  background: linear-gradient(180deg, rgba(8, 18, 35, .92), rgba(5, 11, 22, .84));
+  box-shadow: var(--bug-shadow), var(--bug-glow), inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+.resize-bar {
+  border-radius: 999px;
+  background: linear-gradient(180deg, transparent, rgba(75,236,255,.46), transparent);
+}

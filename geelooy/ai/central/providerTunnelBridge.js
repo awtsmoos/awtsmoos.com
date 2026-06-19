@@ -3,20 +3,36 @@ import { getBrowserLocalTunnelBridge } from "./browserLocalTunnelBridge.js";
 import { EndpointTunnelBridge, makeVirtualOsTunnelBridge } from "./endpointTunnelBridge.js";
 
 /**
- * B"H — One decision gate for provider tool transport.
- * MiniMax, OpenRouter, Groq, and friends may use local tunnel, Awtsmoos OAuth
- * endpoint tunnel, Virtual OS endpoint, or direct provider calls.
+ * B"H
+ * Chapter 417: The bridge learned which worlds may touch loopback.
+ *
+ * A public HTTPS page is not a local cave. Chrome seals 127.0.0.1 behind the
+ * private-network gate, so the default must be direct provider traffic unless
+ * the caller explicitly chooses endpoint, virtual OS, or a genuinely local page.
  */
 export async function resolveProviderTunnelBridge(options = {}) {
-  if (options.localTunnel === false || tunnelMode(options) === "direct") return null;
   const mode = tunnelMode(options);
+  if (options.localTunnel === false || mode === "direct") return null;
   if (mode === "endpoint" || mode === "awtsmoos") return endpointBridge(options);
   if (mode === "virtual-os" || mode === "virtual") return virtualBridge(options);
-  return await getBrowserLocalTunnelBridge();
+  if (mode === "local" && canUseBrowserLocalTunnel(options)) return await getBrowserLocalTunnelBridge();
+  return null;
 }
 
 export function tunnelMode(options = {}) {
-  return String(options.tunnelMode || options.tunnelTransport || options.bridge || "local").toLowerCase();
+  const explicit = options.tunnelMode || options.tunnelTransport || options.bridge;
+  if (explicit) return String(explicit).toLowerCase();
+  return canUseBrowserLocalTunnel(options) ? "local" : "direct";
+}
+
+export function canUseBrowserLocalTunnel(options = {}) {
+  if (options.localTunnel === false) return false;
+  if (options.allowPublicLocalTunnel === true) return true;
+  const loc = options.location || globalThis.location;
+  if (!loc) return false;
+  const protocol = String(loc.protocol || "").toLowerCase();
+  const host = String(loc.hostname || "").toLowerCase();
+  return protocol === "file:" || host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "[::1]";
 }
 
 function endpointBridge(options = {}) {

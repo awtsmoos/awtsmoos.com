@@ -7,6 +7,7 @@ function meshOf(actor) { return actor && actor.mesh ? actor.mesh : null; }
 function positionOfActor(actor) { const mesh = meshOf(actor); return mesh ? mesh.position : null; }
 export class DynamicActorPartition {
   constructor({ near = 48, mid = 120, far = 260 } = {}) { this.near = near; this.mid = mid; this.far = far; this.stats = { epoch:0, checks:0, updated:0, skipped:0, raycasts:0 }; }
+  configure(options = {}) { this.near = Number(options.near) || this.near; this.mid = Number(options.mid) || this.mid; this.far = Number(options.far) || this.far; return this; }
   playerPosition(olam) { if (!olam) return null; if (olam.player && olam.player.mesh) return olam.player.mesh.position; if (olam.chossid && olam.chossid.mesh) return olam.chossid.mesh.position; if (olam.camera) return olam.camera.position; return null; }
   selected(olam) { if (!olam || !olam.combatManager) return null; if (olam.combatManager.targeting && olam.combatManager.targeting.selected) return olam.combatManager.targeting.selected; return olam.combatManager.selectedTarget || null; }
   tier(actor, olam) { const selected = this.selected(olam); if (ACTIVE.has(actor && actor.stateName) || selected === actor || meshOf(selected) === meshOf(actor)) return "critical"; const position = positionOfActor(actor), player = this.playerPosition(olam); if (!position || !player) return "near"; const distance = position.distanceTo(player); return distance < this.near ? "near" : distance < this.mid ? "mid" : distance < this.far ? "far" : "sleep"; }

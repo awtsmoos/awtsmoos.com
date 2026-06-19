@@ -1,0 +1,173 @@
+{
+  "ok": false,
+  "startedAt": "2026-06-19T06:56:00.857Z",
+  "issueLog": {
+    "scope": "chrome-real-browser",
+    "ok": false,
+    "issues": [
+      {
+        "severity": "error",
+        "code": "CHROME_CONSOLE_ERROR",
+        "message": "B\"H | 2026-06-19T06:56:26.271Z | ERROR | OYVED_MANAGER | Module failed || label=Olam core direct vessel || relativePath=../../../core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || url=http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || expectedEnd=/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js || requiredExport=default || browserError=Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || repoOnlyFix=create the exact missing file or correct that file export || serverSideFixNeeded=false || stack=TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920",
+        "detail": {
+          "type": "error",
+          "args": [
+            {
+              "type": "string",
+              "value": "B\"H | 2026-06-19T06:56:26.271Z | ERROR | OYVED_MANAGER | Module failed || label=Olam core direct vessel || relativePath=../../../core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || url=http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || expectedEnd=/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js || requiredExport=default || browserError=Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || repoOnlyFix=create the exact missing file or correct that file export || serverSideFixNeeded=false || stack=TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920"
+            }
+          ],
+          "executionContextId": 2,
+          "timestamp": 1781852186271.864,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "line",
+                "scriptId": "130",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
+                "lineNumber": 44,
+                "columnNumber": 12
+              },
+              {
+                "functionName": "error",
+                "scriptId": "130",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
+                "lineNumber": 76,
+                "columnNumber": 9
+              },
+              {
+                "functionName": "interceptWorkerMessage",
+                "scriptId": "127",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=zone-reality-20260614-bh817",
+                "lineNumber": 24,
+                "columnNumber": 911
+              },
+              {
+                "functionName": "OlamWorkerManager.eved.onmessage",
+                "scriptId": "107",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager.js?v=android-manager-20260612-bh2",
+                "lineNumber": 15,
+                "columnNumber": 789
+              }
+            ]
+          }
+        },
+        "at": "2026-06-19T06:56:26.272Z"
+      },
+      {
+        "severity": "error",
+        "code": "CHROME_CONSOLE_ERROR",
+        "message": "B\"H | 2026-06-19T06:56:26.273Z | ERROR | OYVED_MANAGER | Worker module import failed || TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || stack=TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js",
+        "detail": {
+          "type": "error",
+          "args": [
+            {
+              "type": "string",
+              "value": "B\"H | 2026-06-19T06:56:26.273Z | ERROR | OYVED_MANAGER | Worker module import failed || TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || stack=TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js"
+            }
+          ],
+          "executionContextId": 2,
+          "timestamp": 1781852186273.282,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "line",
+                "scriptId": "130",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
+                "lineNumber": 44,
+                "columnNumber": 12
+              },
+              {
+                "functionName": "error",
+                "scriptId": "130",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
+                "lineNumber": 76,
+                "columnNumber": 9
+              },
+              {
+                "functionName": "interceptWorkerMessage",
+                "scriptId": "127",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=zone-reality-20260614-bh817",
+                "lineNumber": 24,
+                "columnNumber": 911
+              },
+              {
+                "functionName": "OlamWorkerManager.eved.onmessage",
+                "scriptId": "107",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager.js?v=android-manager-20260612-bh2",
+                "lineNumber": 15,
+                "columnNumber": 789
+              }
+            ]
+          }
+        },
+        "at": "2026-06-19T06:56:26.273Z"
+      },
+      {
+        "severity": "error",
+        "code": "CHROME_CONSOLE_ERROR",
+        "message": "B\"H | 2026-06-19T06:56:26.273Z | ERROR | OYVED_MANAGER | Worker module import failed || TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || stack=TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js",
+        "detail": {
+          "type": "error",
+          "args": [
+            {
+              "type": "string",
+              "value": "B\"H | 2026-06-19T06:56:26.273Z | ERROR | OYVED_MANAGER | Worker module import failed || TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || stack=TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=world-state-door-runtime-vessel-20260615-bh920 || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js"
+            }
+          ],
+          "executionContextId": 2,
+          "timestamp": 1781852186273.624,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "line",
+                "scriptId": "130",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
+                "lineNumber": 44,
+                "columnNumber": 12
+              },
+              {
+                "functionName": "error",
+                "scriptId": "130",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
+                "lineNumber": 76,
+                "columnNumber": 9
+              },
+              {
+                "functionName": "handleError",
+                "scriptId": "127",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=zone-reality-20260614-bh817",
+                "lineNumber": 23,
+                "columnNumber": 85
+              },
+              {
+                "functionName": "interceptWorkerMessage",
+                "scriptId": "127",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=zone-reality-20260614-bh817",
+                "lineNumber": 24,
+                "columnNumber": 1040
+              },
+              {
+                "functionName": "OlamWorkerManager.eved.onmessage",
+                "scriptId": "107",
+                "url": "http://127.0.0.1:65229/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager.js?v=android-manager-20260612-bh2",
+                "lineNumber": 15,
+                "columnNumber": 789
+              }
+            ]
+          }
+        },
+        "at": "2026-06-19T06:56:26.274Z"
+      },
+      {
+        "severity": "error",
+        "code": "CHROME_GAMEPLAY_SIMULATION_CRASH",
+        "message": "CDP timeout: Runtime.evaluate",
+        "detail": {
+          "stack": "Error: CDP timeout: Runtime.evaluate\n    at Timeout._onTimeout (file:///C:/Users/Yackov%20Yitzchak/Documents/WoW/BH/awtsmoos.com/geelooy/games/mitzvahWorld/tests/chrome/ChromeDevTools.js:36:16)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+        },
+        "at": "2026-06-19T06:56:56.207Z"
+      }
+    ]
+  }
+}

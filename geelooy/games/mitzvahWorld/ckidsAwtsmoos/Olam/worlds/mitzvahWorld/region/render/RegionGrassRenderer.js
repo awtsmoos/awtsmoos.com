@@ -4,14 +4,14 @@ import * as THREE from "/games/scripts/build/three.module.js";
 import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20260614-bh2";
 import { rand } from "./RegionRandom.js";
 import { sealRegionVisual } from "./RegionSeal.js";
-import { qualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
+import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
 import { createProceduralCoreGrassField, advanceProceduralGrass } from "./ProceduralCoreGrassField.js?v=shader-grass-uniform-fix-20260615-bh904";
 import { grassExclusionsFromReport, auditGrassExclusions } from "./RegionGrassExclusion.js";
 function reportGrass(report) { return report && report.instances && Array.isArray(report.instances.grass) ? report.instances.grass : []; }
 function farmCells(report) { const cells = report && report.ecology && Array.isArray(report.ecology.cells) ? report.ecology.cells : []; return cells.filter(cell => cell.biome === "farmBelt"); }
 export function buildGrassRenderer(olam, report = {}) {
   const root = new THREE.Group(), specs = reportGrass(report), exclusions = grassExclusionsFromReport(report), audit = auditGrassExclusions(report);
-  const count = qualityCount(olam, 22000);
+  const count = budgetedQualityCount(olam, 22000, "grassDistance", 22000) * 18;
   const grass = createProceduralCoreGrassField(olam, specs, count, { exclusions });
   root.name = "living_region_mobile_safe_short_green_grass";
   root.add(grass);
@@ -20,7 +20,7 @@ export function buildGrassRenderer(olam, report = {}) {
   return sealRegionVisual(root, { complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, proceduralCoreGrass:true, avoidsCottages:true, avoidsYards:true });
 }
 export function buildWheatRenderer(olam, report = {}) {
-  const cells = farmCells(report), count = qualityCount(olam, Math.min(5200, Math.max(1600, cells.length * 4)));
+  const cells = farmCells(report), count = budgetedQualityCount(olam, Math.min(5200, Math.max(1600, cells.length * 4)), "grassDistance", 5200) * 6;
   return makeInstancedLayer({ olam, name:"living_region_farm_wheat_field_dense_heads", geometry:"grassTuft", material:"straw", count, build:i => { const c = cells[i % Math.max(1, cells.length)] || { x:-145, z:-55 }; return { x:c.x + (rand(i,1)-.5)*6, z:c.z + (rand(i,2)-.5)*6, sx:.48, sy:1.55 + rand(i,6)*1.05, sz:.48, yaw:rand(i,7)*6.28, lift:.018, color:i%4 ? 0xd5bf62 : 0xf3db83 }; } });
 }
 

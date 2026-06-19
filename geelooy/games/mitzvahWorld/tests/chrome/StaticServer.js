@@ -1,7 +1,7 @@
 // B"H
 /**
- * Static server: a small mizbeach for files. The Awtsmoos permits Chrome to
- * drink modules through HTTP while old root aliases still find geelooy.
+ * Static server: Chrome drinks local modules through HTTP. Root aliases are
+ * explicit so browser tests match the production-ish geelooy path map.
  */
 import fs from "node:fs";
 import http from "node:http";
@@ -26,6 +26,7 @@ function cleanUrlPath(urlPath) {
 function aliasPath(cleanPath) {
   if (cleanPath.startsWith("/games/")) return `/geelooy${cleanPath}`;
   if (cleanPath.startsWith("/scripts/")) return `/geelooy${cleanPath}`;
+  if (cleanPath.startsWith("/libs/")) return `/geelooy${cleanPath}`;
   return cleanPath;
 }
 

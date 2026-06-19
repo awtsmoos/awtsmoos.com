@@ -11,10 +11,12 @@
 import UniversePulsator from '../oyved/UniversePulsator.js';
 import RenderTrace from './canvas/RenderTrace.js?v=village-polish-20260612-bh811';
 import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?v=zone-reality-20260614-bh817';
+import { getDynamicActorPartition } from '../worlds/mitzvahWorld/runtime/DynamicActorPartition.js?v=awtsmoos-dynamic-partition-20260614-bh2';
 
 const FOCUS_MOVING_EPSILON_SQ = 0.0001;
 const VANITY_TYPES = new Set(['LineSegments', 'Line', 'Points', 'AxesHelper', 'GridHelper', 'BoxHelper']);
 const MAX_ENTITY_WARNINGS = 10;
+const PARTITIONED_TYPES = new Set(['interactiveNpc', 'customNpc', 'medabeir', 'mazik', 'enemy', 'animal', 'wildlife']);
 
 function ensureWorkerWindowVessel() {
   if (typeof globalThis.window !== 'undefined') return globalThis.window;
@@ -31,6 +33,19 @@ function shouldDriveOctreeFocus(nivra, self) {
   const moving = nivra.moving || {};
   const hasIntent = Boolean(moving.forward || moving.backward || moving.stridingLeft || moving.stridingRight || moving.turningLeft || moving.turningRight || moving.jump || nivra.movingAutomatically || nivra.navTarget || nivra.currentPath || nivra._isMoving);
   return hasIntent || ((nivra.velocity?.lengthSq?.() || 0) > FOCUS_MOVING_EPSILON_SQ);
+}
+
+function budgetOf() { return globalThis?.__AWTSMOOS_PERFORMANCE_MODE__?.budget || {}; }
+
+function partitionFor(self) {
+  const b = budgetOf();
+  return getDynamicActorPartition(self).configure({ near:b.npcDistance || 48, mid:(b.npcDistance || 48) * 1.8, far:(b.treeDistance || 120) * 2.2 });
+}
+
+function shouldPartitionNivra(nivra, self) {
+  if (!nivra || nivra === self.chossid || nivra === self.player || nivra.type === 'chossid') return false;
+  if (nivra.type === 'livingRegionTicker' || nivra.type === 'discoveryTicker') return false;
+  return Boolean(nivra.mesh && (PARTITIONED_TYPES.has(nivra.type) || nivra.userData?.wildlifeActor || nivra.isNpc || nivra.isEnemy));
 }
 
 function isWorkerHostileRenderNode(node) {
@@ -178,11 +193,14 @@ export default class HeesHawvoosManager {
   }
 
   updateNivrayim(self, dt) {
+    const partition = partitionFor(self);
     for (const nivra of self.nivrayim || []) {
       if (nivra?.isReady && nivra?.heesHawveh && typeof nivra.heesHawvoos === 'function') {
+        if (shouldPartitionNivra(nivra, self) && !partition.shouldUpdate(nivra, self)) continue;
         try { nivra.heesHawvoos(dt); } catch (err) { warnOncePerEntity(self, nivra, err); }
       }
     }
+    self.__AWTSMOOS_DYNAMIC_PARTITION_STATS__ = partition.stats;
   }
 
   renderFrame(self, loopCounter) {

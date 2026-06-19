@@ -8,7 +8,7 @@ import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20
 import { samplePolyline, offsetPoint } from "./RegionPolyline.js?v=awtsmoos-polyline-20260614-bh2";
 import { rand } from "./RegionRandom.js";
 import { sealRegionVisual } from "./RegionSeal.js";
-import { qualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
+import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
 function reportFlowers(report) { return report && report.instances && Array.isArray(report.instances.flowers) ? report.instances.flowers : []; }
 function specFlower(spec, i) { const scale = Number(spec.scale || 1); return { x:spec.x, z:spec.z, sx:.12 + scale*.08, sy:.08 + scale*.08, sz:.12 + scale*.08, yaw:rand(i,5)*6.28, lift:.42 + rand(i,6)*.18, color:i % 3 ? 0xf6e58d : 0xc78df6 }; }
 function mainRoadPoints(roads) { const main = roads && roads.main ? roads.main : {}; return Array.isArray(main.points) ? main.points : []; }
@@ -17,8 +17,8 @@ function fallbackFlower(spots, i) { const base = spots[i % Math.max(1, spots.len
 export function buildFlowerRenderer(olam, roads = {}, report = {}) {
   const root = new THREE.Group(); root.name = "living_region_grounded_wildflower_fields";
   const specs = reportFlowers(report);
-  if (specs.length) { const count = qualityCount(olam, Math.min(3200, specs.length)); root.add(makeInstancedLayer({ olam, name:"instanced_ecology_flower_heads", geometry:"flower", material:"daisyPetal", count, build:i => specFlower(specs[i % specs.length], i) })); }
-  else { const spots = roadSpots(roads), count = qualityCount(olam, Math.min(1800, spots.length * 6 + 500)); root.add(makeInstancedLayer({ olam, name:"instanced_roadside_daisy_and_lavender_heads", geometry:"flower", material:"daisyPetal", count, build:i => fallbackFlower(spots, i) })); }
+  if (specs.length) { const count = budgetedQualityCount(olam, Math.min(3200, specs.length), "grassDistance", 3200) * 3; root.add(makeInstancedLayer({ olam, name:"instanced_ecology_flower_heads", geometry:"flower", material:"daisyPetal", count, build:i => specFlower(specs[i % specs.length], i) })); }
+  else { const spots = roadSpots(roads), count = budgetedQualityCount(olam, Math.min(1800, spots.length * 6 + 500), "grassDistance", 1800) * 3; root.add(makeInstancedLayer({ olam, name:"instanced_roadside_daisy_and_lavender_heads", geometry:"flower", material:"daisyPetal", count, build:i => fallbackFlower(spots, i) })); }
   root.userData.stats = { flowers:root.children.reduce((n,c)=>n + (c.count || 0), 0), groundedFlowers:true };
   return sealRegionVisual(root, { groundedFlowers:true });
 }

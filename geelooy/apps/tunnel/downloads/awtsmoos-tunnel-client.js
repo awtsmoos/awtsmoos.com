@@ -522,6 +522,7 @@ function proxyLocalHttp(config, data, ws) {
 async function connect() {
   const config = await readConfig();
   const ws = new TinyWebSocket(config.relay);
+  let tunnelQueue = Promise.resolve();
 
   ws.on("open", () => {
     ws.send(JSON.stringify(nativeRegistrationPacket(config)));
@@ -532,21 +533,26 @@ async function connect() {
     console.log("Writes:", config.allowWrite ? "enabled" : "disabled");
   });
 
-  ws.on("message", async msg => {
+  ws.on("message", msg => {
     const data = JSON.parse(msg);
 
     if (data.type !== "TUNNEL_REQUEST") return;
+    tunnelQueue = tunnelQueue.then(() => answerTunnelRequest(config, ws, data)).catch(error => {
+      console.log("Tunnel FIFO handler error:", error.message);
+    });
+  });
 
+  async function answerTunnelRequest(currentConfig, currentWs, data) {
     try {
       if (data.payload && data.payload.kind === "fs") {
-        const result = await handleFs(config, data.payload);
-        ws.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, ...result }));
+        const result = await handleFs(currentConfig, data.payload);
+        currentWs.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, ...result }));
         return;
       }
 
-      proxyLocalHttp(config, data, ws);
+      proxyLocalHttp(currentConfig, data, currentWs);
     } catch (e) {
-      ws.send(JSON.stringify({
+      currentWs.send(JSON.stringify({
         type: "TUNNEL_RESPONSE",
         id: data.id,
         ok: false,
@@ -555,7 +561,7 @@ async function connect() {
         stack: e.stack
       }));
     }
-  });
+  }
 
   ws.on("close", () => {
     console.log("Tunnel closed. Reconnecting in 2 seconds...");

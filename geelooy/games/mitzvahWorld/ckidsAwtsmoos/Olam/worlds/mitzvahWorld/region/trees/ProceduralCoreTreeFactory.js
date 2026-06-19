@@ -33,7 +33,7 @@ function materials(kind) {
 export function createProceduralCoreTree(kind = "oak", variant = 0) {
   const group = new THREE.Group(), geometry = geometries(kind, variant % 4), material = materials(kind);
   const branches = new THREE.Mesh(geometry.branches, material.bark), leaves = new THREE.Mesh(geometry.leaves, material.leaves);
-  branches.name = "procedural_core_tree_branches"; leaves.name = "procedural_core_cutout_leaf_canopy"; leaves.receiveShadow = true; branches.receiveShadow = true; group.add(branches, leaves);
+  branches.name = "procedural_core_tree_branches"; leaves.name = "procedural_core_cutout_leaf_canopy"; leaves.receiveShadow = false; branches.receiveShadow = false; branches.castShadow = false; leaves.castShadow = false; group.add(branches, leaves);
   Object.assign(group.userData, { proceduralCoreTree:true, treeKind:kind, windUniform:material.leaves.userData.windUniform }); return group;
 }
 export function advanceProceduralTreeWind(root, dt) {

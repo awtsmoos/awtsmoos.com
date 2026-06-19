@@ -91,7 +91,7 @@ function samplePatch(patches, i) { const p = patches[i % patches.length], angle 
 export function createProceduralCoreGrassField(olam, specs = [], count = 22000, options = {}) {
   const patches = patchesFromSpecs(specs), exclusions = options.exclusions || [], offsets = [], scales = [], rotations = [], tints = [], bends = [];
   let rejectedRoad = 0, rejectedVillage = 0, tries = 0;
-  const target = Math.min(Math.max(1200, Math.floor(count)), 22000), maxTries = target * 4;
+  const target = Math.min(Math.max(360, Math.floor(count)), 22000), maxTries = target * 4;
   while (scales.length < target && tries < maxTries) {
     const i = tries++, p = samplePatch(patches, i), x = p.x, z = p.z;
     if (roadMask(x, z, 7) > .5) { rejectedRoad++; continue; }

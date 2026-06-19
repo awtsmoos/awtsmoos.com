@@ -532,6 +532,7 @@ class TunnelRuntime extends EventEmitter {
 
     const config = loadConfig();
     const ws = new TinyWebSocket(config.relay);
+    let tunnelQueue = Promise.resolve();
     this.ws = ws;
 
     ws.on("open", () => {
@@ -544,21 +545,26 @@ class TunnelRuntime extends EventEmitter {
       this.emit("change");
     });
 
-    ws.on("message", async msg => {
+    ws.on("message", msg => {
       const data = JSON.parse(msg);
       if (data.type !== "TUNNEL_REQUEST") return;
+      tunnelQueue = tunnelQueue.then(() => answerTunnelRequest(config, ws, data)).catch(error => {
+        log("Tunnel FIFO handler error:", error.message);
+      });
+    });
 
+    async function answerTunnelRequest(currentConfig, currentWs, data) {
       try {
         if (data.payload && data.payload.kind === "fs") {
-          const result = await handleFs(config, data.payload);
-          ws.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, ...result }));
+          const result = await handleFs(currentConfig, data.payload);
+          currentWs.send(JSON.stringify({ type: "TUNNEL_RESPONSE", id: data.id, ...result }));
           return;
         }
 
-        if (config.enableLocalHttpProxy) {
-          proxyLocalHttp(config, data, ws);
+        if (currentConfig.enableLocalHttpProxy) {
+          proxyLocalHttp(currentConfig, data, currentWs);
         } else {
-          ws.send(JSON.stringify({
+          currentWs.send(JSON.stringify({
             type: "TUNNEL_RESPONSE",
             id: data.id,
             ok: false,
@@ -567,7 +573,7 @@ class TunnelRuntime extends EventEmitter {
           }));
         }
       } catch (e) {
-        ws.send(JSON.stringify({
+        currentWs.send(JSON.stringify({
           type: "TUNNEL_RESPONSE",
           id: data.id,
           ok: false,
@@ -576,7 +582,7 @@ class TunnelRuntime extends EventEmitter {
           stack: e.stack
         }));
       }
-    });
+    }
 
     ws.on("close", () => {
       this.connected = false;

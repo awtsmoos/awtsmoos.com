@@ -28,6 +28,17 @@ async function waitForPage(debugPort) {
   throw new Error("Chrome DevTools page target did not appear.");
 }
 
+async function removeProfile(dir) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    try { await rm(dir, { recursive: true, force: true }); return; }
+    catch (error) {
+      if (error?.code !== "EBUSY" && error?.code !== "EPERM") throw error;
+      await new Promise(resolve => setTimeout(resolve, 180 + attempt * 90));
+    }
+  }
+  await rm(dir, { recursive: true, force: true });
+}
+
 export async function launchChrome(browserPath, targetUrl, debugPort = 9223, options = {}) {
   const userDataDir = await mkdtemp(path.join(os.tmpdir(), "mitzvah-chrome-"));
   const args = [
@@ -37,11 +48,13 @@ export async function launchChrome(browserPath, targetUrl, debugPort = 9223, opt
     "--no-default-browser-check",
     "--disable-background-timer-throttling",
     "--disable-renderer-backgrounding",
+    "--disable-frame-rate-limit",
+    "--disable-gpu-vsync",
     `--window-size=${options.width || 1280},${options.height || 720}`,
     targetUrl
   ];
   if (options.headless !== false) args.unshift("--headless=new");
   const proc = spawn(browserPath, args, { stdio: "ignore" });
   const page = await waitForPage(debugPort);
-  return { page, debugPort, userDataDir, close: async () => { proc.kill(); await rm(userDataDir, { recursive: true, force: true }); } };
+  return { page, debugPort, userDataDir, close: async () => { proc.kill(); await removeProfile(userDataDir); } };
 }
