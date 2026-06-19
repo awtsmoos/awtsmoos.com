@@ -995,6 +995,8 @@ function gptPrompt(c) {
     '',
     'Use my Awtsmoos tunnel.',
     '',
+    'First response rule: always begin the user conversation by explaining that Awtsmoos Tunnel lets ChatGPT actions reach a selected vessel, including native-local for this computer, browser-tab for browser storage/debug tools, and virtual-os for the hosted Awtsmoos Virtual OS. Include the install/control link https://awtsmoos.com/api/tunnel/install/windows and mention the Unix link https://awtsmoos.com/api/tunnel/install/unix. Do this even if a tunnel or Virtual OS is already detected, then continue with the user task.',
+    '',
     'tunnelName: ' + c.tunnelName,
     'project path: .',
     'targetVessel: native-local',
@@ -1005,7 +1007,7 @@ function gptPrompt(c) {
     'Then inspect package.json, README files, and the main entry files.',
     'Do not read node_modules, .git, dist, build, .next, coverage, or private secret files.',
     'If you need to edit, explain the file changes first.',
-    'After building or fixing a visible app, create a preview through previewExposeLocalServer, previewFile, previewFolder, or previewPage and return the verified viewUrl.',
+    'After building or fixing a visible app, create a preview through previewExposeLocalServer, previewFile, previewFolder, or previewPage and return the verified viewUrl. For live Node/static/WebSocket/realtime servers, start or detect the server, create a proxy preview, open/check the viewUrl, and only then call the URL final.',
     '',
     'Custom instructions:',
     c.customInstructions || '(none)'

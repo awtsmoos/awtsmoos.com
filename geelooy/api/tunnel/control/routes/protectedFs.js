@@ -4,7 +4,7 @@ const { json } = require("../core/respond.js");
 const { currentIdentity } = require("../core/auth.js");
 const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.js");
 const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
-const { canAfford, chargeUsage, recordUsage, usageSummary } = require("../core/usageStore.js");
+const { canAfford, chargeUsage, recordUsage } = require("../core/usageStore.js");
 const { maybeExternalize } = require("../core/responseModes.js");
 const { publishHandoff } = require("../core/handoffStore.js");
 const { attachActionGuidance } = require("../core/actionGuidance.js");
@@ -192,7 +192,8 @@ function recordActionEvent(ident, payload, result, vessel) {
   });
 }
 function maybeAttachAccountSave(ident, payload, result) { if (payload.action !== "aiAgentSetProviderKey") return result; if (!shouldSaveRemote(payload)) return result; const accountProviderKey = saveAccountProviderKey(ident.userId, payload); return { ...result, accountProviderKey }; }
-function recordFsUsage(ident, payload, result, ok, durationMs) { const bytes = responseBytes(result); const entry = { userId: ident.userId, keyId: ident.keyId || null, action: `${payload.tunnelName || "auto"}:${payload.action}`, path: payload.path || payload.absolutePath || payload.cwd || payload.url || null, bytes, files: result.returnedCount || result.returnedResults || result.returnedRows || result.count || 0, seconds: Math.max(0, Number(durationMs || 0) / 1000), ok }; recordUsage(entry); const peruta = chargeUsage(entry); result.peruta = peruta; result.usage = usageSummary(ident.userId); }
+function recordFsUsage(ident, payload, result, ok, durationMs) { const bytes = responseBytes(result); const entry = { userId: ident.userId, keyId: ident.keyId || null, action: `${payload.tunnelName || "auto"}:${payload.action}`, path: payload.path || payload.absolutePath || payload.cwd || payload.url || null, bytes, files: result.returnedCount || result.returnedResults || result.returnedRows || result.count || 0, seconds: Math.max(0, Number(durationMs || 0) / 1000), ok }; recordUsage(entry); result.peruta = compactPerutaReceipt(chargeUsage(entry)); }
+function compactPerutaReceipt(peruta = {}) { return { chargedPerutas: peruta.chargedPerutas || 0, category: peruta.category || "routing", balance: peruta.balance || 0, plan: peruta.plan || "free", purchaseUrl: peruta.purchaseUrl }; }
 function parseCarrier(value, fallback = {}) { if (value === undefined || value === null || value === "") return fallback; if (typeof value === "object") return value; try { return JSON.parse(String(value)); } catch (_) { return fallback === undefined ? value : fallback; } }
 function parse64(value, fallback = {}) { if (!value) return fallback; try { return JSON.parse(Buffer.from(String(value), "base64").toString("utf8")); } catch (_) { return fallback; } }
 function firstDefined(...values) { return values.find(value => value !== undefined && value !== null); }

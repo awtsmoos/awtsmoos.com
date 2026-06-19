@@ -23,54 +23,26 @@ function Test-AllManifestFiles($root, $entry, $files) {
   foreach ($filePath in $files) { if (-not (Test-Path (Join-Path $root $filePath))) { return $false } }
   return $true
 }
-function File-Url($origin, $baseUrl, $filePath) {
-  if ($filePath.StartsWith('ai/')) { return $origin.TrimEnd('/') + '/' + $filePath }
-  return $baseUrl.TrimEnd('/') + '/' + $filePath
-}
-function Install-AwtsmoosFiles($root, $origin, $baseUrl, $files) {
+function Install-AwtsmoosBundles($root, $origin, $manifestUrl) {
+  $bundleManifestUrl = $origin.TrimEnd('/') + '/api/tunnel/install/bundle-manifest'
+  Write-Host 'Installing from Awtsmoos ZIP bundle...'
+  $bundleManifest = (Download-Text $bundleManifestUrl) | ConvertFrom-Json
+  if (-not $bundleManifest.bundles -or $bundleManifest.bundles.Count -lt 1) { throw 'No bundles returned. Bundle install is required.' }
+  $tmp = Join-Path $root '.bundle-downloads'
+  New-Item -ItemType Directory -Force -Path $tmp | Out-Null
   $client = New-Object System.Net.WebClient
   try {
-    $total = $files.Count
-    $index = 0
-    foreach ($filePath in $files) {
-      $index++
-      if (-not (Test-SafeRelativePath $filePath)) { throw ('Unsafe manifest path: ' + $filePath) }
-      $dest = Join-Path $root $filePath
-      $parent = Split-Path $dest -Parent
-      New-Item -ItemType Directory -Force -Path $parent | Out-Null
-      if (($index % 25) -eq 1 -or $index -eq $total) { Write-Host ('Downloading file fallback ' + $index + '/' + $total + ': ' + $filePath) }
-      $client.DownloadFile((File-Url $origin $baseUrl $filePath), $dest)
+    foreach ($bundle in $bundleManifest.bundles) {
+      $zipPath = Join-Path $tmp ($bundle.name + '.zip')
+      $url = if ([string]$bundle.url -match '^https?://') { [string]$bundle.url } else { $origin.TrimEnd('/') + $bundle.url }
+      Write-Host ('Downloading bundle ' + $bundle.name + '...')
+      $client.DownloadFile($url, $zipPath)
+      Write-Host ('Expanding bundle ' + $bundle.name + '...')
+      Expand-Archive -Force -Path $zipPath -DestinationPath $root
     }
   } finally {
     $client.Dispose()
-  }
-}
-function Install-AwtsmoosBundles($root, $origin, $manifestUrl) {
-  try {
-    $bundleManifestUrl = $manifestUrl + '?bundle=manifest'
-    Write-Host 'Trying Awtsmoos ZIP bundle install...'
-    $bundleManifest = (Download-Text $bundleManifestUrl) | ConvertFrom-Json
-    if (-not $bundleManifest.bundles -or $bundleManifest.bundles.Count -lt 1) { throw 'No bundles returned.' }
-    $tmp = Join-Path $root '.bundle-downloads'
-    New-Item -ItemType Directory -Force -Path $tmp | Out-Null
-    $client = New-Object System.Net.WebClient
-    try {
-      foreach ($bundle in $bundleManifest.bundles) {
-        $zipPath = Join-Path $tmp ($bundle.name + '.zip')
-        $url = $origin.TrimEnd('/') + $bundle.url
-        Write-Host ('Downloading bundle ' + $bundle.name + '...')
-        $client.DownloadFile($url, $zipPath)
-        Write-Host ('Expanding bundle ' + $bundle.name + '...')
-        Expand-Archive -Force -Path $zipPath -DestinationPath $root
-      }
-    } finally {
-      $client.Dispose()
-    }
     Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
-    return $true
-  } catch {
-    Write-Host ('Bundle install failed; falling back to per-file install: ' + $_.Exception.Message) -ForegroundColor Yellow
-    return $false
   }
 }
 
@@ -80,7 +52,6 @@ $root = EnvOr 'AWTSMOOS_INSTALL_ROOT' $defaultRoot
 $config = Join-Path $root 'config.json'
 $statePath = Join-Path $root 'install-state.txt'
 $manifestUrl = $origin + '/apps/tunnel/agent/manifest.txt'
-$baseUrl = $origin + '/apps/tunnel/agent'
 New-Item -ItemType Directory -Force -Path $root | Out-Null
 
 if (-not (Test-Path $config)) {
@@ -105,11 +76,8 @@ $hasCompleteInstall = Test-AllManifestFiles $root $entry $files
 if ($installedVersion -eq $version -and $hasCompleteInstall) { Write-Host ('Awtsmoos version ' + $version + ' already installed and complete.') }
 else {
   if ($installedVersion -eq $version) { Write-Host ('Repairing incomplete Awtsmoos version ' + $version + '...') } else { Write-Host ('Installing Awtsmoos version ' + $version + '...') }
-  $bundleOk = Install-AwtsmoosBundles $root $origin $manifestUrl
-  if (-not $bundleOk -or -not (Test-AllManifestFiles $root $entry $files)) {
-    Install-AwtsmoosFiles $root $origin $baseUrl $files
-  }
-  if (-not (Test-AllManifestFiles $root $entry $files)) { throw 'Install verification failed after bundle/per-file install.' }
+  Install-AwtsmoosBundles $root $origin $manifestUrl
+  if (-not (Test-AllManifestFiles $root $entry $files)) { throw 'Bundle install verification failed. No file fallback is available by policy.' }
   Write-Utf8NoBom $statePath $version
 }
 if (IsTrueEnv 'AWTSMOOS_SKIP_START') { Write-Host 'AWTSMOOS_SKIP_START set; install verified without starting agent.'; exit 0 }

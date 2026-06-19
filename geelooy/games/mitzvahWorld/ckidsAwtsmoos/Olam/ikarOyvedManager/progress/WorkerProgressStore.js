@@ -19,7 +19,7 @@ function cloneLight(value, depth = 0) {
 }
 function cloneWorldReport(report) {
   if (!report || typeof report !== "object") return null;
-  const keep = ["at", "sceneChildren", "nivrayim", "trees", "buildings", "npcs", "npcCount", "octree", "combat", "postbuild", "starterStation", "schoolChecklist"];
+  const keep = ["at", "sceneChildren", "nivrayim", "trees", "buildings", "npcs", "npcCount", "octree", "combat", "postbuild", "movieGeneration", "starterStation", "schoolChecklist"];
   const out = {}; for (const key of keep) if (key in report) out[key] = cloneLight(report[key], 0); return out;
 }
 function clonePayload(payload) {

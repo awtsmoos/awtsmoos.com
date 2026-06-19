@@ -21,6 +21,23 @@ const KEY = "__awtsmoosNpc3DMarker";
 function dataOf(object) { object.userData ||= {}; return object.userData; }
 
 /**
+ * Gives a floating marker a tiny living pulse.
+ *
+ * @param {THREE.Group} marker Marker group.
+ * @param {string} type Marker type.
+ * @returns {THREE.Group} Same marker.
+ */
+function animateMarker(marker, type) {
+  const seed = (type || "dialogue").length * .37;
+  marker.onBeforeRender = () => {
+    const time = performance.now() * .001 + seed;
+    marker.position.y = 2.65 + Math.sin(time * 2.2) * .08;
+    marker.rotation.y = Math.sin(time * 1.4) * .2;
+  };
+  return marker;
+}
+
+/**
  * Marker color for a role type.
  *
  * @param {string} type Marker type.
@@ -67,7 +84,7 @@ export function createNpc3DMarker(type = "dialogue") {
   else if (type === "debate" || type === "dialogue") root.add(new THREE.Mesh(new THREE.TorusGeometry(.26,.055,8,18,Math.PI*1.55), new THREE.MeshBasicMaterial({ color })), box([.13,.32,.11], [.16,-.12,0], color), dot(color));
   else root.add(new THREE.Mesh(new THREE.OctahedronGeometry(.34), new THREE.MeshBasicMaterial({ color })));
   root.position.y = 2.65; root.userData = { npc3DMarker:true, markerType:type };
-  return root;
+  return animateMarker(root, type);
 }
 
 /**

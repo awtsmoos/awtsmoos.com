@@ -26,17 +26,47 @@ function assertInstallerScripts() {
   assert(windows.includes("AWTSMOOS_INSTALL_ROOT"));
   assert(windows.includes("AWTSMOOS_SKIP_START"));
   assert(windows.includes("Stop-OldAwtsAgent $root $entry"));
+  assert(!windows.includes("Install-AwtsmoosFiles"));
+  assert(!windows.includes("per-file install"));
   assert(unix.includes("AWTSMOOS_INSTALL_ROOT"));
   assert(unix.includes("AWTSMOOS_SKIP_START"));
   assert(unix.includes('pkill -f "$ROOT/$ENTRY"'));
+  assert(!unix.includes("install_awtsmoos_files"));
+  assert(!unix.includes("falling back to per-file"));
   const bash = spawnSync("bash", ["-n", path.join(DOWNLOADS, "unix.sh")], { encoding: "utf8" });
   if (!bash.error) assert.strictEqual(bash.status, 0, bash.stderr);
 }
 
+function sourcePathFor(filePath) {
+  return filePath.startsWith("ai/") ? path.join(GEELOOY, filePath) : path.join(AGENT, filePath);
+}
+function createBundleZip(zipPath) {
+  const staging = path.join(TMP, "bundle-staging");
+  rmrf(staging); mkdirp(staging);
+  const [_version, entry, ...files] = manifestLines();
+  for (const filePath of [entry, ...files]) {
+    const src = sourcePathFor(filePath);
+    const dest = path.join(staging, filePath);
+    mkdirp(path.dirname(dest));
+    fs.copyFileSync(src, dest);
+  }
+  rmrf(zipPath);
+  const ps = spawnSync("powershell", ["-NoProfile", "-Command", `Compress-Archive -Force -Path '${staging}\\*' -DestinationPath '${zipPath}'`], { encoding: "utf8" });
+  assert.strictEqual(ps.status, 0, ps.stdout + ps.stderr);
+  return zipPath;
+}
 function startStatic(root) {
+  const zipPath = createBundleZip(path.join(TMP, "awtsmoos-agent.zip"));
   const server = http.createServer((req, res) => {
     const url = new URL(req.url, "http://127.0.0.1");
-    if (url.searchParams.has("bundle")) return void (res.writeHead(404), res.end("no bundle"));
+    if (url.searchParams.has("bundle") || url.pathname === "/api/tunnel/install/bundle-manifest") {
+      res.writeHead(200, { "content-type": "application/json; charset=utf-8" });
+      return void res.end(JSON.stringify({ bundles: [{ name: "agent", url: "/awtsmoos-agent.zip" }] }));
+    }
+    if (url.pathname === "/awtsmoos-agent.zip" || url.pathname === "/api/tunnel/install/agent.zip") {
+      res.writeHead(200, { "content-type": "application/zip" });
+      return void fs.createReadStream(zipPath).pipe(res);
+    }
     const rel = decodeURIComponent(url.pathname).replace(/^\/+/, "");
     const full = path.resolve(root, rel);
     if (!full.startsWith(root) || !fs.existsSync(full) || fs.statSync(full).isDirectory()) return void (res.writeHead(404), res.end("missing"));

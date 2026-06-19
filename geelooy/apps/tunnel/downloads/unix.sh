@@ -64,28 +64,19 @@ install_awtsmoos_bundles() {
   tmp="$ROOT/.bundle-downloads"
   rm -rf "$tmp"
   mkdir -p "$tmp"
-  echo "Trying Awtsmoos ZIP bundle install..."
-  if ! curl -fsSL --retry 3 --retry-delay 1 "$MANIFEST_URL?bundle=manifest" -o "$tmp/bundles.json"; then return 1; fi
+  echo "Installing from Awtsmoos ZIP bundle..."
+  curl -fsSL --retry 3 --retry-delay 1 "$origin/api/tunnel/install/bundle-manifest" -o "$tmp/bundles.json"
   node -e "const fs=require('fs'); const j=JSON.parse(fs.readFileSync(process.argv[1],'utf8')); if(!j.bundles||!j.bundles.length) process.exit(2); for(const b of j.bundles) console.log(b.name+' '+b.url);" "$tmp/bundles.json" > "$tmp/bundles.txt"
   while read -r name url; do
     [ -z "$name" ] && continue
     zip_file="$tmp/$name.zip"
     echo "Downloading bundle $name..."
-    curl -fsSL --retry 3 --retry-delay 1 "$origin$url" -o "$zip_file"
+    case "$url" in http*) full="$url" ;; *) full="$origin$url" ;; esac
+    curl -fsSL --retry 3 --retry-delay 1 "$full" -o "$zip_file"
     echo "Expanding bundle $name..."
     extract_zip "$zip_file"
   done < "$tmp/bundles.txt"
   rm -rf "$tmp"
-}
-
-install_awtsmoos_files() {
-  printf '%s\n' "$FILES" | while IFS= read -r file_path; do
-    [ -z "$file_path" ] && continue
-    assert_safe_manifest_path "$file_path"
-    mkdir -p "$(dirname "$ROOT/$file_path")"
-    echo "Downloading $file_path..."
-    if [[ "$file_path" == ai/* ]]; then curl -fsSL --retry 3 --retry-delay 1 "$origin/$file_path" -o "$ROOT/$file_path"; else if [[ "$file_path" == ai/* ]]; then curl -fsSL --retry 3 --retry-delay 1 "$origin/$file_path" -o "$ROOT/$file_path"; else curl -fsSL --retry 3 --retry-delay 1 "$BASE_URL/$file_path" -o "$ROOT/$file_path"; fi; fi
-  done
 }
 
 MANIFEST="$(curl -fsSL "$MANIFEST_URL")"
@@ -105,11 +96,8 @@ if [ "$INSTALLED" = "$VERSION" ] && all_manifest_files_exist; then
   echo "Awtsmoos version $VERSION already installed and complete."
 else
   if [ "$INSTALLED" = "$VERSION" ]; then echo "Repairing incomplete Awtsmoos version $VERSION..."; else echo "Installing Awtsmoos version $VERSION..."; fi
-  if ! install_awtsmoos_bundles || ! all_manifest_files_exist; then
-    echo "Bundle install failed or incomplete; falling back to per-file install."
-    install_awtsmoos_files
-  fi
-  all_manifest_files_exist || { echo "Install verification failed after bundle/per-file install."; exit 1; }
+  install_awtsmoos_bundles
+  all_manifest_files_exist || { echo "Bundle install verification failed. No file fallback is available by policy."; exit 1; }
   printf '%s\n' "$VERSION" > "$STATE"
 fi
 

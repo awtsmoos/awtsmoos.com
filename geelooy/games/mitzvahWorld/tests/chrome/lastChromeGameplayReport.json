@@ -2,8 +2,8 @@
   "ok": true,
   "headed": false,
   "durationMs": 180000,
-  "startedAt": "2026-06-19T17:52:10.662Z",
-  "url": "http://127.0.0.1:59266/geelooy/games/mitzvahWorld/index.html?path=village.json",
+  "startedAt": "2026-06-19T18:34:46.395Z",
+  "url": "http://127.0.0.1:62584/geelooy/games/mitzvahWorld/index.html?path=village.json",
   "browser": {
     "name": "Chrome",
     "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -87,7 +87,7 @@
           "ikar"
         ]
       },
-      "attempts": 27,
+      "attempts": 18,
       "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
     },
     "pixelGovernor": {
@@ -101,42 +101,42 @@
       "applied": true,
       "seal": "speed-pixel-governor-bh4"
     },
-    "url": "http://127.0.0.1:59266/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "url": "http://127.0.0.1:62584/geelooy/games/mitzvahWorld/index.html?path=village.json",
     "title": "Awtsmoos - Mitzvah World 3D"
   },
   "sample": {
-    "durationMs": 180027.89999997616,
-    "frameCount": 32781,
-    "avgFrameMs": 5.491260181202162,
-    "fps": 182.1075612886143,
+    "durationMs": 180028.89999997616,
+    "frameCount": 33681,
+    "avgFrameMs": 5.344401888304625,
+    "fps": 187.11167702195849,
     "p95FrameMs": 17.79999999998836,
-    "p99FrameMs": 19.39999999999418,
-    "worstFrameMs": 3877.2000000000007,
-    "droppedFrames": 83,
-    "longFrames": 46,
+    "p99FrameMs": 19.5,
+    "worstFrameMs": 269.5,
+    "droppedFrames": 68,
+    "longFrames": 30,
     "actions": {
-      "keydown:KeyW": 62,
-      "mouseSweep": 62,
-      "combatClick": 122,
-      "keydown:Space": 61,
-      "keyup:Space": 61,
-      "keydown:KeyE": 61,
-      "keyup:KeyE": 62,
-      "keydown:KeyQ": 61,
-      "keyup:KeyQ": 62,
-      "keydown:Digit1": 61,
-      "keyup:Digit1": 61,
-      "keydown:Digit2": 61,
-      "keyup:Digit2": 61,
-      "keydown:KeyF": 61,
-      "keyup:KeyF": 61,
-      "keydown:Enter": 61,
-      "keyup:Enter": 61,
-      "keydown:KeyA": 61,
-      "keyup:KeyA": 62,
-      "keydown:KeyD": 61,
-      "keyup:KeyD": 62,
-      "keyup:KeyW": 62,
+      "keydown:KeyW": 63,
+      "mouseSweep": 63,
+      "combatClick": 125,
+      "keydown:Space": 63,
+      "keyup:Space": 63,
+      "keydown:KeyE": 63,
+      "keyup:KeyE": 64,
+      "keydown:KeyQ": 63,
+      "keyup:KeyQ": 64,
+      "keydown:Digit1": 63,
+      "keyup:Digit1": 63,
+      "keydown:Digit2": 63,
+      "keyup:Digit2": 62,
+      "keydown:KeyF": 62,
+      "keyup:KeyF": 62,
+      "keydown:Enter": 62,
+      "keyup:Enter": 62,
+      "keydown:KeyA": 62,
+      "keyup:KeyA": 63,
+      "keydown:KeyD": 62,
+      "keyup:KeyD": 63,
+      "keyup:KeyW": 63,
       "keyup:KeyS": 1
     },
     "canvases": 1,
@@ -185,7 +185,7 @@
           "ikar"
         ]
       },
-      "attempts": 29,
+      "attempts": 19,
       "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
     },
     "pixelGovernor": {
@@ -199,8 +199,8 @@
       "applied": true,
       "seal": "speed-pixel-governor-bh4"
     },
-    "dialogueLikeNodes": 15,
-    "url": "http://127.0.0.1:59266/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "dialogueLikeNodes": 13,
+    "url": "http://127.0.0.1:62584/geelooy/games/mitzvahWorld/index.html?path=village.json",
     "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-no-expensive-css awtsmoos-visual-tuned awtsmoos-worker-pixel-governed"
   },
   "issueLog": {
