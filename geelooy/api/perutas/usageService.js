@@ -4,11 +4,38 @@ const { estimate, payloadEstimate, round } = require("./economyMath.js");
 const { pushLedger, usageEvent, usageFor } = require("./ledgerService.js");
 const { PURCHASE_URL, tierFor } = require("./tierService.js");
 
-/** B"H: Observe-only economy until the whole treasury UI and DB are done. */
+/** B"H: Peruta preflight is enforced unless explicitly opened for diagnostics. */
 function canAfford(store, userId, payload = {}, meta = {}) {
   const { account, tier } = grantDaily(store, userId, Date.now(), meta);
   const estimated = payloadEstimate(payload);
-  return { ok: true, enforcement: "observe_only", balance: account.balances[estimated.category], plan: tier.code, tier, ...estimated, shortfall: 0, purchaseUrl: PURCHASE_URL, messageForAi: null };
+  const balance = Number(account.balances[estimated.category] || 0);
+  const shortfall = round(Math.max(0, Number(estimated.estimatedPerutas || 0) - balance));
+  const observe = process.env.PERUTA_OBSERVE_ONLY === "1";
+  const ok = tier.master || observe || shortfall <= 0;
+  return {
+    ok,
+    enforcement: observe ? "observe_only" : "enforced",
+    balance,
+    plan: tier.code,
+    tier,
+    ...estimated,
+    shortfall,
+    purchaseUrl: PURCHASE_URL,
+    messageForAi: ok ? null : insufficientMessage(balance, estimated, shortfall)
+  };
+}
+
+function insufficientMessage(balance, estimated, shortfall) {
+  return [
+    "INSUFFICIENT PERUTAS.",
+    `ACTION: ${estimated.action}`,
+    `CATEGORY: ${estimated.category}`,
+    `ESTIMATED PERUTAS: ${estimated.estimatedPerutas}`,
+    `CURRENT BALANCE: ${balance}`,
+    `SHORTFALL: ${shortfall}`,
+    `BUY OR UPGRADE: ${PURCHASE_URL}`,
+    "DO NOT KEEP RETRYING the same expensive action. Reduce scope, lower maxFiles/maxBytes/timeoutMs, or ask the user to add Perutas."
+  ].join("\n");
 }
 function charge(store, entry = {}) {
   const userId = entry.userId || "anonymous";

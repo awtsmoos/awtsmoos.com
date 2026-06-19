@@ -59,6 +59,11 @@ async function smoke({ installRoot, tempHome, projectRoot, relay }) {
     const reg = await relay.waitFor(m => m.type === "TUNNEL_REGISTER");
     assert.strictEqual(reg.name, "awt-installed-agent-smoke");
     assert.strictEqual(path.resolve(reg.root), path.resolve(projectRoot));
+    assert.strictEqual(reg.vesselType, "native-local");
+    assert.strictEqual(reg.targetVessel, "local-tunnel");
+    assert.strictEqual(reg.localTunnel, true);
+    assert.strictEqual(reg.virtualOs, false);
+    assert.strictEqual(reg.capabilities.storage, "native-filesystem");
     relay.send({ type: "TUNNEL_REQUEST", id: "w", payload: { kind: "fs", action: "write", path: "out.txt", content: "BHY isolated" } });
     assert.strictEqual((await relay.waitFor(m => m.id === "w")).ok, true);
     relay.send({ type: "TUNNEL_REQUEST", id: "r", payload: { kind: "fs", action: "read", path: "out.txt" } });

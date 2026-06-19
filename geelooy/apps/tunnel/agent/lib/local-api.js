@@ -162,9 +162,9 @@ function normalizeTool(body = {}, deps) {
   const config = deps.configLoader();
   if (body.kind) payload.kind = body.kind;
   else if (RELAY_ACTIONS?.[action]) payload.kind = "relay";
-  else if (buildActions(config, { action }, null)[action]) payload.kind = "fs";
   else if (COMMAND_ACTIONS?.[action]) payload.kind = "command";
   else if (CHROME_ACTIONS?.[action]) payload.kind = "chrome";
+  else if (buildActions(config, { action }, null)[action]) payload.kind = "fs";
   else payload.kind = "fs";
   return payload;
 }

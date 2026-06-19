@@ -21,7 +21,7 @@ function walk(dir) {
     const full = path.join(dir, ent.name);
     const rel = path.relative(agentDir, full).replaceAll("\\", "/");
     if (ent.isDirectory()) {
-      if (rel.includes("/testing/") || rel === "tools/fs/testing") continue;
+      if (rel === "testing" || rel.startsWith("testing/") || rel.includes("/testing/") || rel === "tools/fs/testing") continue;
       out.push(...walk(full));
       continue;
     }

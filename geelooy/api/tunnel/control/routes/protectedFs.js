@@ -11,6 +11,7 @@ const { saveAccountProviderKey, shouldSaveRemote } = require("../core/accountAiC
 const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const { routeHints, withRouteHints } = require("./fsVessel/queryHints.js");
 const { autoCreatePreviewResult } = require("../preview/previewAutoCreate.js");
+const { ensureConversation, recordConversationEvent } = require("../core/conversationStore.js");
 
 const FOUR_MINUTES_MS = 240000;
 const ONE_DAY_MS = 86400000;
@@ -55,6 +56,9 @@ async function protectedFs($i, vars) {
   try { requestTimeoutMs = boundedTunnelTimeout(payload.timeoutMs); } catch (error) { return timeoutFailure($i, payload, error); }
   const affordability = canAfford(ident.userId, payload);
   if (!affordability.ok) return insufficientPerutas($i, payload, affordability);
+  const conversation = ensureConversation(ident.userId, payload);
+  payload.conversationId = conversation.id;
+  payload.conversationName = conversation.name;
   const vessel = resolveFsVessel({ $i, userId: ident.userId, tunnelName, payload, timeoutMs: requestTimeoutMs });
   return await runResolvedVessel($i, ident, payload, vessel, affordability);
 }
@@ -151,6 +155,7 @@ async function runResolvedVessel($i, ident, payload, vessel, affordability) {
     publishHandoff(vessel.tunnelName || payload.tunnelName, { action: payload.action, result: withAccount });
     const shaped = attachActionGuidance(maybeExternalize(withAccount, payload), payload);
     recordFsUsage(ident, payload, shaped, result.ok !== false, Date.now() - started);
+    recordActionEvent(ident, payload, shaped, vessel);
     return json($i, shaped, shaped.status || result.status || 200);
   } catch (e) {
     const failure = attachActionGuidance({ BH: "B\"H", ok: false, error: e.message, stack: e.stack }, payload);
@@ -158,6 +163,23 @@ async function runResolvedVessel($i, ident, payload, vessel, affordability) {
     publishHandoff(payload.tunnelName, { action: payload.action, result: failure });
     return json($i, failure, e.status || 500);
   }
+}
+function recordActionEvent(ident, payload, result, vessel) {
+  recordConversationEvent(ident.userId, {
+    conversationId: payload.conversationId,
+    conversationName: payload.conversationName,
+    kind: /^preview/i.test(payload.action || "") ? "preview" : "action",
+    action: payload.action,
+    title: result.title || result.preview?.title || payload.action,
+    ok: result.ok !== false,
+    tunnelName: vessel.tunnelName || payload.tunnelName,
+    targetVessel: payload.targetVessel || vessel.kind,
+    path: payload.path || payload.url || payload.cwd,
+    previewId: result.previewId || result.createdPreview?.id,
+    viewUrl: result.viewUrl || result.url,
+    peruta: result.peruta,
+    summary: result.error || result.guidance || result.routeReason || ""
+  });
 }
 function maybeAttachAccountSave(ident, payload, result) { if (payload.action !== "aiAgentSetProviderKey") return result; if (!shouldSaveRemote(payload)) return result; const accountProviderKey = saveAccountProviderKey(ident.userId, payload); return { ...result, accountProviderKey }; }
 function recordFsUsage(ident, payload, result, ok, durationMs) { const bytes = responseBytes(result); const entry = { userId: ident.userId, keyId: ident.keyId || null, action: `${payload.tunnelName || "auto"}:${payload.action}`, path: payload.path || payload.absolutePath || payload.cwd || payload.url || null, bytes, files: result.returnedCount || result.returnedResults || result.returnedRows || result.count || 0, seconds: Math.max(0, Number(durationMs || 0) / 1000), ok }; recordUsage(entry); const peruta = chargeUsage(entry); result.peruta = peruta; result.usage = usageSummary(ident.userId); }

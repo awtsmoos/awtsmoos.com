@@ -14,13 +14,16 @@ function encode(value) { return Buffer.from(String(value || ""), "utf8").toStrin
  * Gateway owns policy, auth, AI permissions, and public/private visibility.
  */
 function createPayload(payload, kind, extra = {}) {
+  const target = payload.targetVessel || payload.tunnelName || "native-local";
   return {
     kind,
     title: payload.title || extra.title || "Awtsmoos Preview",
     path: payload.path || payload.p || extra.path || ".",
     actionId: payload.actionId || extra.actionId || "",
-    tunnelName: payload.tunnelName || payload.targetVessel || "awtsmoos-virtual-os",
-    targetVessel: payload.targetVessel || payload.tunnelName || "awtsmoos-virtual-os",
+    tunnelName: payload.tunnelName || "auto",
+    targetVessel: target,
+    conversationId: payload.conversationId || "",
+    conversationName: payload.conversationName || payload.conversation || "",
     visibility: payload.visibility || "private",
     ttlSeconds: payload.ttlSeconds || 3600,
     allowDownload: payload.allowDownload === true || payload.allowDownload === "true",

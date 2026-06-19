@@ -1,5 +1,9 @@
 // B"H
 const assert = require("assert");
+const os = require("os");
+const path = require("path");
+
+process.env.__awtsdir = path.join(os.tmpdir(), "awt-peruta-guard-" + Date.now());
 const { PURCHASE_URL, canAfford } = require("../../core/usageStore.js");
 
 const got = canAfford("new-free-user", { action: "bulk", maxFiles: 999999999, maxBytes: 999999999999, timeoutMs: 86400000 });

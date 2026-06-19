@@ -1,6 +1,7 @@
 // B"H
 const crypto = require("crypto");
 const { readStore, writeStore } = require("../core/store.js");
+const { attachConversationToPreview } = require("../core/conversationStore.js");
 const { DEFAULT_SETTINGS, aiPolicyCheck, deniesSecretPath, mergedSettings, normalizePreview } = require("./previewPolicy.js");
 
 function id(prefix = "view") {
@@ -46,7 +47,7 @@ function createPreview(userId, input = {}) {
   if (["file", "folder"].includes(normalized.kind) && deniesSecretPath(sourcePath, bucket.settings)) return { ok: false, error: "preview_secret_path_denied", path: sourcePath };
   const previewId = id("view");
   const at = now();
-  const preview = {
+  const preview = attachConversationToPreview({
     BH: "B\"H",
     ok: true,
     id: previewId,
@@ -67,7 +68,7 @@ function createPreview(userId, input = {}) {
     expiresAt: at + normalized.ttlSeconds * 1000,
     openedCount: 0,
     revoked: false
-  };
+  }, input);
   bucket.previews[previewId] = preview;
   writeStore(store);
   return withUrls(preview);

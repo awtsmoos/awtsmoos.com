@@ -22,5 +22,7 @@ function walk(node) { return [node, ...(node.children || []).flatMap(child => ty
 const nodes = walk(root);
 assert(nodes.some(node => node.id === "createPreviewBtn" || node.attrs?.id === "createPreviewBtn"));
 assert(nodes.some(node => node.id === "allowAiCreatePublic" || node.attrs?.id === "allowAiCreatePublic"));
-assert(nodes.some(node => node.textContent === "Publish private screens from any vessel"));
+assert(nodes.some(node => node.id === "conversationName" || node.attrs?.id === "conversationName"));
+assert(nodes.some(node => node.id === "previewFrame" || node.attrs?.id === "previewFrame"));
+assert(nodes.some(node => node.textContent === "Publish live screens from any vessel"));
 console.log("BHY preview gateway render tests passed");

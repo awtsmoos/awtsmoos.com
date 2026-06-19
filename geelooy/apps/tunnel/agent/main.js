@@ -23,6 +23,7 @@ const { handleChrome } = require("./tools/chrome/index.js");
 const { handleRelay } = require("./tools/relay/index.js");
 const { AGENT_VERSION } = require("./tools/fs/actions.js");
 const { compactForSend, jsonBytes, inlineLimit } = require("./lib/response-size.js");
+const { nativeRegistrationPacket } = require("./lib/registration.js");
 
 const log = makeLogger(ROOT);
 const CPU_COUNT = Math.max(1, os.cpus?.().length || 1);
@@ -149,18 +150,9 @@ function proxyLocalHttp(config, data, ws) {
 function register(ws) {
   const config = loadConfig();
   ws.lastSeenAt = Date.now();
-  ws.sendJson({
-    type: "TUNNEL_REGISTER",
-    name: config.tunnelName,
-    deviceName: os.hostname(),
-    root: config.root || HOME,
-    allowWrite: config.allowWrite,
-    allowSecrets: config.allowSecrets,
-    allowCommands: config.allowCommands,
+  ws.sendJson(nativeRegistrationPacket({
+    config,
     agentVersion: AGENT_VERSION,
-    tools: config.tools,
-    chrome: config.chrome,
-    command: config.command,
     limits: {
       maxInflight: MAX_INFLIGHT,
       maxQueue: MAX_QUEUE,
@@ -172,7 +164,7 @@ function register(ws) {
       staleMs: WATCHDOG_STALE_MS,
       inlineLimitBytes: inlineLimit()
     }
-  });
+  }));
   wasEverConnected = true;
   reconnectAttempt = 0;
   log("Tunnel connected:", config.tunnelName, "root:", config.root || HOME);

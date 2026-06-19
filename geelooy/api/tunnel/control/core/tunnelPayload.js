@@ -333,7 +333,9 @@ function buildFsPayload($i) {
     page: intFrom($i, body, "page", 1, 1000000),
     pageSize: intFrom($i, body, "pageSize", 50, 1000),
     sort: valueFrom($i, body, "sort", ""),
-    order: valueFrom($i, body, "order", "asc")
+    order: valueFrom($i, body, "order", "asc"),
+    conversationId: valueFrom($i, body, "conversationId", ""),
+    conversationName: valueFrom($i, body, "conversationName", valueFrom($i, body, "conversation", ""))
   };
 
   for (const key of ["root", "local", "relay", "setTunnelName"]) {
@@ -375,7 +377,6 @@ module.exports = {
   actionRequiredScope,
   actionNeedsWrite: action => actionRequiredScope(action) === "tunnel.write"
 };
-
 
 
 

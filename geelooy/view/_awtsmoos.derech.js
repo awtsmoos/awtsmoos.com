@@ -1,5 +1,5 @@
 // B"H
-const { view, viewRaw, viewWs } = require("../api/tunnel/control/routes/view.js");
+const { view, viewProxy, viewRaw, viewWs } = require("../api/tunnel/control/routes/view.js");
 
 /**
  * B"H
@@ -13,6 +13,7 @@ const { view, viewRaw, viewWs } = require("../api/tunnel/control/routes/view.js"
 module.exports = {
   dynamicRoutes: async $i => {
     await $i.use(":previewId/raw", vars => viewRaw($i, vars || {}));
+    await $i.use(":previewId/proxy", vars => viewProxy($i, vars || {}));
     await $i.use(":previewId/ws", vars => viewWs($i, vars || {}));
     await $i.use(":previewId", vars => view($i, vars || {}));
   }

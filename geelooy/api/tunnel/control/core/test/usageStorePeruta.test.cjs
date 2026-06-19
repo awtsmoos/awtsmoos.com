@@ -9,10 +9,10 @@ process.env.__awtsdir = dir;
 
 const usage = require("../usageStore.js");
 const first = usage.usageSummary("user-one");
-assert.strictEqual(usage.DAILY_FREE_PERUTAS, 5000);
-assert.strictEqual(usage.MAX_FREE_BALANCE, 15000);
+assert.strictEqual(usage.DAILY_FREE_PERUTAS, 100000);
+assert.strictEqual(usage.MAX_FREE_BALANCE, 300000);
 assert.strictEqual(usage.PURCHASE_URL, "https://awtsmoos.com/compute");
-assert(first.perutaBalance >= 5000);
+assert(first.perutaBalance >= 100000);
 const estimate = usage.estimatePayloadCost({ action: "bulkSearch", maxFiles: 1000000, maxBytes: 1000000000, timeoutMs: 7200000 });
 assert(estimate.estimatedPerutas > 0);
 const afford = usage.canAfford("user-one", { action: "bulkSearch", maxFiles: 999999999, maxBytes: 999999999999, timeoutMs: 86400000 });

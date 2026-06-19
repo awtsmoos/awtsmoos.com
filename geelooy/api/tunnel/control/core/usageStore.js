@@ -18,8 +18,8 @@ const PLANS = economy.TIERS;
  * B"H
  * Chapter 488: The old local ledger became a compatibility veil. The real
  * economy now lives in server-side Peruta services with split routing, compute,
- * storage, and GPU balances. Preflight is observe-only until the full bank UI,
- * admin panel, and database migration are complete.
+ * storage, and GPU balances. Preflight now enforces balances unless the server
+ * explicitly sets PERUTA_OBSERVE_ONLY=1 for diagnostics.
  */
 function withStore(fn) {
   const store = readStore();

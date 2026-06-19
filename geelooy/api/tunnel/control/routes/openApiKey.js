@@ -32,6 +32,53 @@ paths:
                 required:
                   - ok
 
+  /api/tunnel/control/conversations/register:
+    get:
+      operationId: awtsmoosConversationRegisterWithApiKey
+      summary: Register a named work conversation for grouped tunnel history and previews.
+      security: []
+      parameters:
+        - name: apiKey
+          in: query
+          required: true
+          schema: { type: string }
+        - name: conversationName
+          in: query
+          required: true
+          schema: { type: string }
+          description: Short stable task name. Send the returned conversationId on later actions.
+        - name: conversationId
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        "200":
+          description: Conversation registration response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /api/tunnel/control/conversations/list:
+    get:
+      operationId: awtsmoosConversationListWithApiKey
+      summary: List grouped tunnel conversations, previews, and recent actions.
+      security: []
+      parameters:
+        - name: apiKey
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Conversation list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
   /api/tunnel/control/fs/{tunnelName}:
     get:
       operationId: awtsmoosTunnelActionWithApiKey
@@ -86,6 +133,29 @@ paths:
           schema:
             type: string
             default: "."
+        - name: targetVessel
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - native-local
+              - native
+              - browser-tab
+              - virtual-os
+          description: Use native-local for local files, browser-tab for browser storage, virtual-os for the hosted virtual OS.
+        - name: conversationId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Stable id returned by conversation registration.
+        - name: conversationName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Short stable task name for grouped action history and previews.
         - name: depth
           in: query
           required: false

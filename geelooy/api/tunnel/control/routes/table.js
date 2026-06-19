@@ -36,7 +36,8 @@ const { adminPerutas } = require("./adminPerutas.js");
 const { protectedFs } = require("./protectedFs.js");
 const { previewProxy } = require("./previewProxy.js");
 const { previewCreate, previewList, previewRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
-const { view, viewRaw, viewWs } = require("./view.js");
+const { view, viewProxy, viewRaw, viewWs } = require("./view.js");
+const { conversationGet, conversationList, conversationRegister } = require("./conversations.js");
 const { ephemeralMeta, ephemeralPage, ephemeralSearch, ephemeralDelete, ephemeralList } = require("./ephemeral.js");
 const { openApi } = require("./openApi.js");
 const { openApiKey } = require("./openApiKey.js");
@@ -100,7 +101,11 @@ const routeTable = {
   "preview/update": previewUpdate,
   "preview/settings": previewSettingsGet,
   "preview/settings/set": previewSettingsSet,
+  "conversations/register": conversationRegister,
+  "conversations/list": conversationList,
+  "conversations/get": conversationGet,
   "view/:previewId/raw": viewRaw,
+  "view/:previewId/proxy": viewProxy,
   "view/:previewId/ws": viewWs,
   "view/:previewId": view,
   "handoff/:tunnelName": handoff,

@@ -3,7 +3,7 @@ const VESSEL_TYPES = Object.freeze({ NATIVE: "native-tunnel", BROWSER: "browser-
 
 function normalizeVesselType(value = "") {
   const text = String(value || "").trim().toLowerCase();
-  if (["native", "native-tunnel", "local", "local-tunnel"].includes(text)) return VESSEL_TYPES.NATIVE;
+  if (["native", "native-local", "native-tunnel", "local", "local-tunnel"].includes(text)) return VESSEL_TYPES.NATIVE;
   if (["browser", "browser-tab", "tab", "code-tab", "apps-code"].includes(text)) return VESSEL_TYPES.BROWSER;
   if (["virtual", "virtual-os", "awtsmoos-os", "awtsmoos-virtual-os", "hosted"].includes(text)) return VESSEL_TYPES.VIRTUAL_OS;
   return text || "";

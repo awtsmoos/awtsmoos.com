@@ -16,6 +16,7 @@ const $i = ctx([native, browser]);
 
 assert.strictEqual(requestedVesselType("awtsmoos-virtual-os", {}), "virtual-os");
 assert.strictEqual(requestedVesselType("native-one", { targetVessel: "browser-tab" }), "browser-tab");
+assert.strictEqual(requestedVesselType("auto", { targetVessel: "native-local" }), "native-tunnel");
 
 let v = resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "virtual-os" } });
 assert.strictEqual(v.kind, "virtual-os");
@@ -25,6 +26,10 @@ assert.strictEqual(v.reason, "explicit_virtual_os");
 v = resolveFsVessel({ $i, userId: "u", tunnelName: "browser-one", payload: { targetVessel: "browser-tab" } });
 assert.strictEqual(v.kind, "browser-tab");
 assert.strictEqual(v.reason, "explicit_browser_tab");
+
+v = resolveFsVessel({ $i, userId: "u", tunnelName: "auto", payload: { targetVessel: "native-local" } });
+assert.strictEqual(v.kind, "native-tunnel");
+assert.strictEqual(v.tunnelName, "native-one");
 
 v = resolveFsVessel({ $i, userId: "u", tunnelName: "native-one", payload: { targetVessel: "native" } });
 assert.strictEqual(v.kind, "native-tunnel");

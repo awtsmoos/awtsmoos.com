@@ -3,6 +3,7 @@ const fsp = require("fs/promises");
 const os = require("os");
 const { loadConfig, saveConfigPatch, HOME } = require("../../../lib/config.js");
 const { openSystemExplorer } = require("../../../lib/open.js");
+const { nativeRegistrationPacket } = require("../../../lib/registration.js");
 const { driveRoots, rootBrowse } = require("../rootBrowser.js");
 const { ensureGitignoreHygiene } = require("../gitIgnoreHygiene.js");
 
@@ -46,7 +47,7 @@ function maskKey(key = "") {
 
 function registerAgain(ws, config, version) {
   if (!ws || !ws.opened) return;
-  ws.sendJson({ type: "TUNNEL_REGISTER", name: config.tunnelName, deviceName: os.hostname(), root: config.root, allowWrite: config.allowWrite, allowSecrets: config.allowSecrets, allowCommands: config.allowCommands, agentVersion: version });
+  ws.sendJson(nativeRegistrationPacket({ config, agentVersion: version }));
 }
 
 async function handleConfigSet(payload, ws, version) {

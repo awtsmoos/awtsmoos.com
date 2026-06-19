@@ -74,7 +74,7 @@ export function buildFsUrl(tunnelName, opts = {}) {
   attachAiPayload(u, { ...opts, targetVessel: targetName });
   if (typeof opts.regex === "boolean") u.searchParams.set("regex", String(opts.regex));
   if (typeof opts.replaceAll === "boolean") u.searchParams.set("replaceAll", String(opts.replaceAll));
-  for (const key of ["root", "local", "relay", "setTunnelName", "shell", "cwd", "url", "selector", "chromePath", "userDataDir", "id", "query"]) if (opts[key]) u.searchParams.set(key, opts[key]);
+  for (const key of ["root", "local", "relay", "setTunnelName", "shell", "cwd", "url", "selector", "chromePath", "userDataDir", "id", "query", "conversationId", "conversationName"]) if (opts[key]) u.searchParams.set(key, opts[key]);
   for (const key of ["allowWrite", "allowSecrets", "enableLocalHttpProxy", "allowCommands", "stream"]) if (typeof opts[key] === "boolean") u.searchParams.set(key, String(opts[key]));
   setJson(u, "tools", opts.tools); setJson(u, "chrome", opts.chrome); setJson(u, "commandConfig", opts.commandConfig); setJson(u, "aiAgents", opts.aiAgents); setJson(u, "messages", opts.messages);
   if (typeof opts.script === "string") setText(u, "script", opts.script); else setJson(u, "script", opts.script);

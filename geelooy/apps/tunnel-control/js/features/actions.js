@@ -81,6 +81,8 @@ async function runSelectedAction(getTunnelName) {
 function buildOptions() {
   const action = $("actionName").value;
   const opts = { action, path: $("actionPath").value, maxChars: $("maxChars").value };
+  if ($("conversationId")?.value) opts.conversationId = $("conversationId").value;
+  if ($("conversationName")?.value) opts.conversationName = $("conversationName").value;
   if (action === "tree") Object.assign(opts, { depth: $("treeDepth")?.value || 2, limit: $("treeLimit")?.value || 120 });
   if (action === "write") opts.content = $("writeContent").value;
   if (action === "bulk") opts.paths = splitLines($("bulkPaths").value);

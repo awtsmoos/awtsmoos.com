@@ -24,8 +24,16 @@ function resolveFsVessel(options = {}) {
   const browsers = listBrowserTunnels($i);
 
   if (target === VESSEL_TYPES.VIRTUAL_OS) return virtualVessel($i, userId, payload, "explicit_virtual_os");
-  if (target === VESSEL_TYPES.BROWSER) return browser ? browserVessel($i, name, payload, timeoutMs, publicBrowserTunnel(browser), "explicit_browser_tab") : missingVessel(name, natives, browsers, "browser_tab_not_connected");
-  if (target === VESSEL_TYPES.NATIVE) return native ? nativeVessel($i, name, payload, timeoutMs, publicNativeTunnel(native), "explicit_native") : missingVessel(name, natives, browsers, "native_tunnel_not_connected");
+  if (target === VESSEL_TYPES.BROWSER) {
+    if (browser) return browserVessel($i, name, payload, timeoutMs, publicBrowserTunnel(browser), "explicit_browser_tab");
+    if (isAutoTunnelName(name) && browsers.length === 1) return browserVessel($i, browsers[0].tunnelName, payload, timeoutMs, browsers[0], "explicit_browser_auto_single");
+    return missingVessel(name, natives, browsers, "browser_tab_not_connected");
+  }
+  if (target === VESSEL_TYPES.NATIVE) {
+    if (native) return nativeVessel($i, name, payload, timeoutMs, publicNativeTunnel(native), "explicit_native");
+    if (isAutoTunnelName(name) && natives.length === 1) return nativeVessel($i, natives[0].tunnelName, payload, timeoutMs, natives[0], "explicit_native_auto_single");
+    return missingVessel(name, natives, browsers, "native_tunnel_not_connected");
+  }
 
   if (browser) return browserVessel($i, name, payload, timeoutMs, publicBrowserTunnel(browser), "exact_browser_tab");
   if (native) return nativeVessel($i, name, payload, timeoutMs, publicNativeTunnel(native), "exact_native_tunnel");

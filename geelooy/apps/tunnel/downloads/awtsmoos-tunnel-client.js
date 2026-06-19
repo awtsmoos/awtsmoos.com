@@ -238,6 +238,47 @@ async function readConfig() {
   };
 }
 
+/**
+ * B"H
+ * Chapter 480: Even the small client received a passport.
+ *
+ * The relay must never guess whether this is a hosted Virtual OS, browser
+ * storage, or the user's native machine. The old lightweight client therefore
+ * declares its vessel identity in data before any request begins its journey.
+ *
+ * @param {object} config Local client config.
+ * @returns {object} Native local registration packet.
+ */
+function nativeRegistrationPacket(config) {
+  return {
+    type: "TUNNEL_REGISTER",
+    protocolVersion: "awtsmoos-tunnel-v2",
+    name: config.tunnelName,
+    tunnelName: config.tunnelName,
+    vesselType: "native-local",
+    targetVessel: "local-tunnel",
+    localTunnel: true,
+    browserAgent: false,
+    virtualOs: false,
+    deviceName: os.hostname(),
+    root: config.root,
+    allowWrite: config.allowWrite,
+    allowSecrets: config.allowSecrets,
+    capabilities: {
+      vesselType: "native-local",
+      targetVessel: "local-tunnel",
+      fsList: true,
+      fsTree: true,
+      fsRead: true,
+      fsWrite: config.allowWrite !== false,
+      fsBulk: true,
+      httpProxy: true,
+      storage: "native-filesystem"
+    },
+    tools: { fsList: true, fsTree: true, fsRead: true, fsWrite: config.allowWrite !== false, fsBulk: true, httpProxy: true }
+  };
+}
+
 function safePath(config, given) {
   const root = path.resolve(config.root);
   const input = given || ".";
@@ -483,13 +524,7 @@ async function connect() {
   const ws = new TinyWebSocket(config.relay);
 
   ws.on("open", () => {
-    ws.send(JSON.stringify({
-      type: "TUNNEL_REGISTER",
-      name: config.tunnelName,
-      deviceName: os.hostname(),
-      root: config.root,
-      allowWrite: config.allowWrite
-    }));
+    ws.send(JSON.stringify(nativeRegistrationPacket(config)));
 
     console.log('B"H Awtsmoos tunnel connected.');
     console.log("Tunnel name:", config.tunnelName);

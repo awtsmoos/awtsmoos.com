@@ -168,6 +168,50 @@ function saveConfig(patch) {
 
 /**
  * B"H
+ * Chapter 481: The control app stopped wearing a nameless cloak.
+ *
+ * The browser page may keep a virtual storage vessel, and the hosted account may
+ * keep a Virtual OS, but this process is the native local machine. It declares
+ * that truth as plain JSON so routing can remain exact when multiple vessels
+ * share a tunnel name, a prompt, or a moment of confusing thunder.
+ *
+ * @param {object} config Local app config.
+ * @returns {object} Native local registration packet.
+ */
+function nativeRegistrationPacket(config) {
+  return {
+    type: "TUNNEL_REGISTER",
+    protocolVersion: "awtsmoos-tunnel-v2",
+    name: config.tunnelName,
+    tunnelName: config.tunnelName,
+    vesselType: "native-local",
+    targetVessel: "local-tunnel",
+    localTunnel: true,
+    browserAgent: false,
+    virtualOs: false,
+    deviceName: os.hostname(),
+    root: config.root,
+    allowWrite: config.allowWrite,
+    allowSecrets: config.allowSecrets,
+    allowCommands: false,
+    capabilities: {
+      vesselType: "native-local",
+      targetVessel: "local-tunnel",
+      fsList: config.tools?.fsList !== false,
+      fsTree: config.tools?.fsTree !== false,
+      fsRead: config.tools?.fsRead !== false,
+      fsWrite: config.tools?.fsWrite !== false && config.allowWrite !== false,
+      fsBulk: config.tools?.fsBulk !== false,
+      httpProxy: config.tools?.httpProxy !== false && config.enableLocalHttpProxy !== false,
+      chrome: !!config.enableChromeDebugTools,
+      storage: "native-filesystem"
+    },
+    tools: config.tools
+  };
+}
+
+/**
+ * B"H
  * Sends JSON from local server.
  *
  * @param {object} res HTTP response.
@@ -494,13 +538,7 @@ class TunnelRuntime extends EventEmitter {
       this.connected = true;
       this.lastError = "";
 
-      ws.send(JSON.stringify({
-        type: "TUNNEL_REGISTER",
-        name: config.tunnelName,
-        deviceName: os.hostname(),
-        root: config.root,
-        allowWrite: config.allowWrite
-      }));
+      ws.send(JSON.stringify(nativeRegistrationPacket(config)));
 
       log("Tunnel connected:", config.tunnelName, "root:", config.root);
       this.emit("change");
@@ -949,11 +987,14 @@ function gptPrompt(c) {
     '',
     'tunnelName: ' + c.tunnelName,
     'project path: .',
+    'targetVessel: native-local',
+    'conversationName: choose a short stable task name and send it on every action.',
     '',
-    'Start by listing the project folder.',
+    'Start by listing the project folder with targetVessel native-local.',
     'Then inspect package.json, README files, and the main entry files.',
     'Do not read node_modules, .git, dist, build, .next, coverage, or private secret files.',
     'If you need to edit, explain the file changes first.',
+    'After building or fixing a visible app, create a preview through previewExposeLocalServer, previewFile, previewFolder, or previewPage and return the verified viewUrl.',
     '',
     'Custom instructions:',
     c.customInstructions || '(none)'

@@ -47,14 +47,29 @@ function startStatic(root) {
 }
 
 function installWithPowerShell({ origin, installRoot, projectRoot, relay, localApiPort }) {
-  const run = spawnSync("powershell", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", path.join(DOWNLOADS, "windows.ps1")], {
-    encoding: "utf8", timeout: 120000,
+  const child = spawn("powershell", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", path.join(DOWNLOADS, "windows.ps1")], {
     env: { ...process.env, AWTSMOOS_INSTALL_ORIGIN: origin, AWTSMOOS_INSTALL_ROOT: installRoot, AWTSMOOS_TUNNEL_NAME: "awt-isolated-install-test", AWTSMOOS_RELAY: relay, AWTSMOOS_PROJECT_ROOT: projectRoot, AWTSMOOS_LOCAL_API_PORT: String(localApiPort), AWTSMOOS_SKIP_START: "1", AWTSMOOS_SKIP_OPEN_CONTROL: "1" }
   });
-  if (run.error) throw run.error;
-  assert.strictEqual(run.status, 0, run.stdout + run.stderr);
-  assert(run.stdout.includes("AWTSMOOS_SKIP_START set"));
-  return run.stdout;
+  return new Promise((resolve, reject) => {
+    let stdout = "", stderr = "";
+    const timeout = setTimeout(() => {
+      child.kill("SIGKILL");
+      reject(new Error("installer timeout\n" + stdout + stderr));
+    }, 120000);
+    child.stdout.on("data", c => stdout += c.toString());
+    child.stderr.on("data", c => stderr += c.toString());
+    child.on("error", error => { clearTimeout(timeout); reject(error); });
+    child.on("exit", code => {
+      clearTimeout(timeout);
+      try {
+        assert.strictEqual(code, 0, stdout + stderr);
+        assert(stdout.includes("AWTSMOOS_SKIP_START set"));
+        resolve(stdout);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  });
 }
 
 function verifyInstall(root) {
@@ -98,6 +113,11 @@ async function smokeInstalled({ installRoot, tempHome, projectRoot, relay }) {
     const reg = await relay.waitFor(m => m.type === "TUNNEL_REGISTER", 15000);
     assert.strictEqual(reg.name, "awt-isolated-install-test");
     assert.strictEqual(path.resolve(reg.root), path.resolve(projectRoot));
+    assert.strictEqual(reg.vesselType, "native-local");
+    assert.strictEqual(reg.targetVessel, "local-tunnel");
+    assert.strictEqual(reg.localTunnel, true);
+    assert.strictEqual(reg.virtualOs, false);
+    assert.strictEqual(reg.capabilities.storage, "native-filesystem");
     relay.send({ type: "TUNNEL_REQUEST", id: "w", payload: { kind: "fs", action: "write", path: "out.txt", content: "BHY isolated" } });
     assert.strictEqual((await relay.waitFor(m => m.id === "w")).ok, true);
     relay.send({ type: "TUNNEL_REQUEST", id: "r", payload: { kind: "fs", action: "read", path: "out.txt" } });
@@ -119,7 +139,7 @@ async function main() {
   const staticSite = await startStatic(GEELOOY);
   try {
     const localApiPort = await freePort();
-    const installerTail = installWithPowerShell({ origin: staticSite.origin, installRoot, projectRoot, relay: relayUrl, localApiPort }).split(/\r?\n/).slice(-8);
+    const installerTail = (await installWithPowerShell({ origin: staticSite.origin, installRoot, projectRoot, relay: relayUrl, localApiPort })).split(/\r?\n/).slice(-8);
     const installed = verifyInstall(installRoot);
     const smoke = await smokeInstalled({ installRoot, tempHome, projectRoot, relay });
     console.log(JSON.stringify({ ok: true, suite: "isolated-tunnel-install-smoke", installed: { version: installed.version, fileCount: installed.fileCount }, smoke, installerTail }, null, 2));

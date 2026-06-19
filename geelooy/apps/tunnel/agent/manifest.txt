@@ -1,5 +1,5 @@
 B"H
-1.0.57
+1.0.63
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -23,7 +23,6 @@ ai/relay/split-browser/http.cjs
 ai/relay/split-browser/index.js
 ai/relay/split-browser/jsPreamble.cjs
 ai/relay/split-browser/logger.cjs
-ai/relay/split-browser/manifest.json
 ai/relay/split-browser/originPolicy.cjs
 ai/relay/split-browser/proxy.cjs
 ai/relay/split-browser/relayApi.cjs
@@ -37,7 +36,9 @@ lib/local-api.js
 lib/local-browser-relay.js
 lib/log.js
 lib/open.js
+lib/registration.js
 lib/response-size.js
+lib/split-browser-require.js
 lib/tool-schema-catalog.js
 lib/ws.js
 main.js
@@ -161,8 +162,8 @@ tools/fs/image/writeImage.js
 tools/fs/index.js
 tools/fs/isolatedHtml.js
 tools/fs/isolatedJs.js
-tools/fs/jsonTools.js
 tools/fs/jsWriteVerifier.js
+tools/fs/jsonTools.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
 tools/fs/nodeCheckMany.js
