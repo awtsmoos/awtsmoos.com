@@ -12,7 +12,7 @@ import PlacementManager from "../interaction/PlacementManager.js?compact=true";
 import CombatManager from "../../systems/combat/CombatManager.js?v=mobile-assisted-range-20260615-bh917";
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=world-state-store-20260615-bh1";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=android-settings-render-20260612-bh1";
-import { installDynamicSpatialWorld } from "../../../../systems/spatial/DynamicSpatialWorld.js?v=dynamic-spatial-world-20260617-bh2";
+import { installDynamicSpatialWorld } from "../../../systems/spatial/DynamicSpatialWorld.js?v=dynamic-spatial-world-20260617-bh2";
 
 const SAFE_SKY = 0x5d8fa8;
 

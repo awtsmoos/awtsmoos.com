@@ -6,29 +6,33 @@ const ITEM_COUNTS = [10, 100, 1000, 10000];
 
 /**
  * B"H
- * The browser calls this name from main.js. It receives the real IndexedDB Store
- * vessel, writes real playlists, proves reorder/playback/delete, then cleans its
- * own footprints so the user's library is not scorched by the stress fire.
+ * Browser and console compatible stress entry. It accepts either
+ * runPlaylistStressTest(Store, options) or runPlaylistStressTest(options), then
+ * writes real playlists through IndexedDB and cleans every stress footprint.
  */
-export async function runPlaylistStressTest(Store, options = {}) {
+export async function runPlaylistStressTest(StoreOrOptions, maybeOptions = {}) {
+  const explicitStore = hasStoreShape(StoreOrOptions);
+  const Store = explicitStore ? StoreOrOptions : await defaultStore();
+  const options = explicitStore ? maybeOptions : StoreOrOptions || {};
   assertStore(Store);
+  if (typeof Store.initDB === 'function') await Store.initDB();
   const playlistCount = bounded(options.playlists, 3, 1, 25);
   const itemCount = bounded(options.items, 75, 1, 500);
   const prefix = `stress:${Date.now()}:${Math.random().toString(36).slice(2)}`;
-  const ids = Array.from({ length: playlistCount }, (_, i) => `${prefix}:${i}`);
+  const ids = Array.from({ length: playlistCount }, (_, index) => `${prefix}:${index}`);
   const items = makeItems(itemCount);
   const startedAt = Date.now();
   try {
-    for (let i = 0; i < ids.length; i++) await Store.savePlaylist({ id: ids[i], title: `B\"H Stress ${i}`, items, sortOrder: startedAt + i });
+    for (let index = 0; index < ids.length; index++) await Store.savePlaylist({ id: ids[index], title: `B\"H Stress ${index}`, items, sortOrder: startedAt + index });
     const restored = await Promise.all(ids.map(id => Store.getPlaylist(id)));
-    assert(restored.every(pl => pl?.items?.length === itemCount), 'real store restore mismatch');
+    assert(restored.every(playlist => playlist?.items?.length === itemCount), 'real store restore mismatch');
     await Store.reorderPlaylistItem(ids[0], itemCount - 1, 0);
     await Store.touchPlaylistPlayback(ids[0], { index: Math.min(3, itemCount - 1), time: 18 }, { loop: 'playlist', shuffle: true });
     const first = await Store.getPlaylist(ids[0]);
     assert(first.playback.loop === 'playlist', 'real store playback loop mismatch');
     assert(Boolean(first.playback.shuffle), 'real store playback shuffle mismatch');
     assert(first.items.length === itemCount, 'real store reorder count mismatch');
-    const listed = (await Store.listPlaylists()).filter(pl => ids.includes(pl.id));
+    const listed = (await Store.listPlaylists()).filter(playlist => ids.includes(playlist.id));
     assert(listed.length === playlistCount, 'real store list mismatch');
     return { ok: true, mode: 'indexeddb', playlistCount, itemCount, stats: playlistStatsSnapshot(first), elapsedMs: Date.now() - startedAt };
   } finally {
@@ -49,9 +53,8 @@ export async function stressCase(playlistCount, itemCount) {
   for (let index = 0; index < playlistCount; index++) await store.save({ id: `pl-${index}`, title: `Stress ${index}`, items: baseItems });
   const restored = await store.list();
   assert(restored.length === playlistCount, 'restore count mismatch');
-  assert(restored.every(pl => pl.items.length === itemCount), 'item count mismatch');
-  const reloaded = JSON.parse(JSON.stringify(restored));
-  assert(reloaded[0].items.length === itemCount, 'reload count mismatch');
+  assert(restored.every(playlist => playlist.items.length === itemCount), 'item count mismatch');
+  assert(JSON.parse(JSON.stringify(restored))[0].items.length === itemCount, 'reload count mismatch');
   await store.reorder('pl-0', itemCount - 1, 0);
   await store.shuffle('pl-0');
   await store.touchPlayback('pl-0', { index: 3, time: 18 }, { loop: 'playlist', shuffle: true });
@@ -77,10 +80,9 @@ class MemoryPlaylistStore {
   async export(id) { const playlist = await this.get(id); return { playlist, json: JSON.stringify(playlist) }; }
 }
 
-function makeItems(count) {
-  return Array.from({ length: count }, (_, index) => index % 25 === 0 ? { year: '5748', folder: `Legacy ${index}` } : { type: 'track', title: `Track ${index}`, year: '5748', folder: `Folder ${index % 12}`, path: `/archive/${index}.mp3`, duration: 60 + (index % 300) });
-}
-
+async function defaultStore() { return import('../../store.js'); }
+function hasStoreShape(value) { return Boolean(value && typeof value.savePlaylist === 'function'); }
+function makeItems(count) { return Array.from({ length: count }, (_, index) => index % 25 === 0 ? { year: '5748', folder: `Legacy ${index}` } : { type: 'track', title: `Track ${index}`, year: '5748', folder: `Folder ${index % 12}`, path: `/archive/${index}.mp3`, duration: 60 + (index % 300) }); }
 function assertStore(Store) { ['savePlaylist', 'listPlaylists', 'getPlaylist', 'removePlaylist', 'reorderPlaylistItem', 'touchPlaylistPlayback'].forEach(name => assert(typeof Store?.[name] === 'function', `Store missing ${name}`)); }
 function bounded(value, fallback, min, max) { const number = Number(value ?? fallback); return Math.max(min, Math.min(max, Number.isFinite(number) ? Math.floor(number) : fallback)); }
 function assert(condition, message) { if (!condition) throw new Error(message); }
