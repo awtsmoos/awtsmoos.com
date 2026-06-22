@@ -14,12 +14,17 @@ const BODY_LIMIT = 16 * 1024 * 1024;
 const BINARY_LIMIT = 64 * 1024 * 1024;
 const DEFAULT_HOST = "127.0.0.1";
 const DEFAULT_PORT = 3977;
+const LISTEN_BACKLOG = 4096;
+const CATALOG_CACHE_MS = 1000;
+let catalogCache = null;
 function createLocalApiServer(deps = {}) { return http.createServer((req, res) => route(req, res, makeDeps(deps))); }
 function startLocalApiServer(options = {}) {
   const log = options.log || (() => {}); const config = (options.configLoader || loadConfig)(); const settings = localSettings(config); if (!settings.enabled) return null;
   const server = createLocalApiServer(options); let port = settings.port, attempts = 0;
-  server.on("error", err => { if (err.code === "EADDRINUSE" && attempts < 20) { attempts++; port++; return server.listen(port, settings.host); } log("Local tunnel API error:", err.message); });
-  server.listen(port, settings.host, () => { server.awtsmoosLocalUrl = `http://${settings.host}:${port}`; log("Local tunnel API:", server.awtsmoosLocalUrl); log("Local ChatGPT browser relay:", `${server.awtsmoosLocalUrl}/relay/control`); }); return server;
+  server.keepAliveTimeout = 65000; server.headersTimeout = 70000; server.requestTimeout = 0; server.maxRequestsPerSocket = 0;
+  server.on("clientError", err => log("Local tunnel API client error:", err.code || err.message));
+  server.on("error", err => { if (err.code === "EADDRINUSE" && attempts < 20) { attempts++; port++; return server.listen(port, settings.host, LISTEN_BACKLOG); } log("Local tunnel API error:", err.message); });
+  server.listen(port, settings.host, LISTEN_BACKLOG, () => { server.awtsmoosLocalUrl = `http://${settings.host}:${port}`; log("Local tunnel API:", server.awtsmoosLocalUrl); log("Local ChatGPT browser relay:", `${server.awtsmoosLocalUrl}/relay/control`); }); return server;
 }
 function makeDeps(deps) { return { configLoader:deps.configLoader || loadConfig, fsHandler:deps.fsHandler || ((p,w)=>handleFs(p,w)), commandHandler:deps.commandHandler || (p=>handleCommand(p)), chromeHandler:deps.chromeHandler || (p=>handleChrome(p)), relayHandler:deps.relayHandler || ((p,c)=>handleRelay(p,c)), streamingHandler:deps.streamingHandler || (p=>handleStreaming(p)), jsonRelayHandler:deps.jsonRelayHandler || (p=>jsonRelay(p)) }; }
 function localSettings(config = {}) { const localApi = config.localApi || {}; return { enabled:process.env.AWTSMOOS_LOCAL_API !== "0" && localApi.enabled !== false, host:process.env.AWTSMOOS_LOCAL_API_HOST || localApi.host || DEFAULT_HOST, port:bounded(process.env.AWTSMOOS_LOCAL_API_PORT || localApi.port, DEFAULT_PORT) }; }
@@ -39,12 +44,19 @@ async function callStreamingBinary(req, res, deps, match) {
   const chunk = await readBody(req, BINARY_LIMIT, false); const payload = { kind:"streaming", action:"streamingHlsSegmentPush", sessionId:match.sessionId, name:match.name, duration:Number(req.headers["x-awtsmoos-duration"] || 2), index:Number(req.headers["x-awtsmoos-index"] || 0), contentType:req.headers["content-type"] || "video/mp2t", chunk64:chunk.toString("base64") };
   return endJson(res, 200, await deps.streamingHandler(payload));
 }
-function health(res, deps) { const config = deps.configLoader(); const catalog = makeCatalog(config); return endJson(res, 200, { ok:true, local:true, agentVersion:AGENT_VERSION, tunnelName:config.tunnelName, root:config.root || HOME, browserRelay:{ controlUrl:"http://127.0.0.1:3977/relay/control", chatgptUrl:"http://127.0.0.1:3977/chatgpt" }, actions:catalog.actions, toolCatalog:{ count:catalog.tools.length, names:catalog.names }, streaming:{ actions:Object.keys(STREAMING_ACTIONS), binaryHls:"/streaming/hls-segment/:sessionId/:name" } }); }
-function actions(res, deps) { return endJson(res, 200, makeCatalog(deps.configLoader())); }
-function tools(res, deps) { const c = makeCatalog(deps.configLoader()); return endJson(res, 200, { ok:true, tools:c.tools, actions:c.actions, names:c.names }); }
-function schemas(res, deps) { const c = makeCatalog(deps.configLoader()); return endJson(res, 200, { ok:true, schemas:c.schemas, tools:c.tools, actions:c.actions }); }
-function manifest(res, deps) { return endJson(res, 200, makeCatalog(deps.configLoader())); }
+function health(res, deps) { const config = deps.configLoader(); const catalog = cachedCatalog(config); return endJson(res, 200, { ok:true, local:true, agentVersion:AGENT_VERSION, tunnelName:config.tunnelName, root:config.root || HOME, browserRelay:{ controlUrl:"http://127.0.0.1:3977/relay/control", chatgptUrl:"http://127.0.0.1:3977/chatgpt" }, actions:catalog.actions, toolCatalog:{ count:catalog.tools.length, names:catalog.names }, streaming:{ actions:Object.keys(STREAMING_ACTIONS), binaryHls:"/streaming/hls-segment/:sessionId/:name" } }); }
+function actions(res, deps) { return endJson(res, 200, cachedCatalog(deps.configLoader())); }
+function tools(res, deps) { const c = cachedCatalog(deps.configLoader()); return endJson(res, 200, { ok:true, tools:c.tools, actions:c.actions, names:c.names }); }
+function schemas(res, deps) { const c = cachedCatalog(deps.configLoader()); return endJson(res, 200, { ok:true, schemas:c.schemas, tools:c.tools, actions:c.actions }); }
+function manifest(res, deps) { return endJson(res, 200, cachedCatalog(deps.configLoader())); }
 function makeCatalog(config) { const fsNames = Object.keys(buildActions(config, { action:"list" }, null)); const catalog = buildToolCatalog({ config, fsActionNames:fsNames, commandActionNames:Object.keys(COMMAND_ACTIONS || {}), chromeActionNames:Object.keys(CHROME_ACTIONS || {}), relayActionNames:Object.keys(RELAY_ACTIONS || {}), agentVersion:AGENT_VERSION }); catalog.actions.streaming = Object.keys(STREAMING_ACTIONS || {}); catalog.names = [...new Set([...catalog.names, ...catalog.actions.streaming])]; return catalog; }
+function cachedCatalog(config = {}) {
+  const key = [AGENT_VERSION, config.tunnelName || "", config.root || HOME].join("|");
+  const now = Date.now();
+  if (catalogCache && catalogCache.key === key && now - catalogCache.createdAt <= CATALOG_CACHE_MS) return catalogCache.value;
+  catalogCache = { key, createdAt:now, value:makeCatalog(config) };
+  return catalogCache.value;
+}
 function normalizeTool(body = {}, deps) { const action = body.name || body.action || body.tool || body.function?.name || ""; const args = body.arguments || body.args || body.payload || {}; const payload = { ...args, action }; const config = deps.configLoader(); if (body.kind) payload.kind = body.kind; else if (STREAMING_ACTIONS?.[action]) payload.kind = "streaming"; else if (RELAY_ACTIONS?.[action]) payload.kind = "relay"; else if (COMMAND_ACTIONS?.[action]) payload.kind = "command"; else if (CHROME_ACTIONS?.[action]) payload.kind = "chrome"; else if (buildActions(config, { action }, null)[action]) payload.kind = "fs"; else payload.kind = "fs"; return payload; }
 async function callTool(res, deps, body) { const payload = normalizeTool(body, deps); const calls = { fs:callFs, command:callCommand, chrome:callChrome, relay:callRelay, streaming:callStreaming }; return (calls[payload.kind] || callFs)(res, deps, payload); }
 async function callContext(res, deps, body) { return callFs(res, deps, { action:body.action || "aiContextPack", ...body }); }
