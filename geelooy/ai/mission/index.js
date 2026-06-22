@@ -14,5 +14,8 @@ module.exports = {
   ...require("./shadowWork"),
   ...require("./multipleChoice"),
   ...require("./promptBuilder"),
+  ...require("./concurrencyPolicy"),
+  ...require("./agentLeaseStore"),
+  ...require("./routeHealth"),
   ...require("./missionRunner")
 };
