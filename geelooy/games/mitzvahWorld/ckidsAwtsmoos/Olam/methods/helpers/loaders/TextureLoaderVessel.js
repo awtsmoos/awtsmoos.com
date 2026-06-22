@@ -1,4 +1,3 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import AssetCache from '../../../../utils/assetCache/index.js';
@@ -12,45 +11,64 @@ function textureCacheKey({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }
 }
 
 function canPersistUrl(url) {
-    return typeof url === 'string' &&
-        !url.startsWith('data:') &&
-        !url.startsWith('blob:');
+    return typeof url === 'string' && !url.startsWith('data:') && !url.startsWith('blob:');
+}
+
+function rendererAnisotropy() {
+    try {
+        const renderer = globalThis.__AWTSMOOS_RENDERER__ || globalThis.renderer || globalThis.mana?.renderer;
+        return renderer?.capabilities?.getMaxAnisotropy?.() || 8;
+    } catch {
+        return 8;
+    }
+}
+
+function applyRealisticTextureDefaults(texture, { shouldRepeat, repeatX, repeatY }) {
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.magFilter = THREE.LinearFilter;
+    texture.minFilter = THREE.LinearMipmapLinearFilter;
+    texture.generateMipmaps = true;
+    texture.anisotropy = Math.max(Number(texture.anisotropy) || 1, Math.min(16, rendererAnisotropy()));
+    if (shouldRepeat) {
+        texture.wrapS = THREE.MirroredRepeatWrapping;
+        texture.wrapT = THREE.MirroredRepeatWrapping;
+        texture.repeat.set(repeatX, repeatY);
+    } else {
+        texture.wrapS = THREE.ClampToEdgeWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+    }
+    texture.userData ||= {};
+    texture.userData.awtsmoosRealisticTextureDefaults = {
+        mipmaps: true,
+        anisotropy: texture.anisotropy,
+        mirroredRepeat: Boolean(shouldRepeat),
+        repeatX,
+        repeatY,
+        at: Date.now()
+    };
+    texture.needsUpdate = true;
 }
 
 /**
  * B"H
  * @class TextureLoaderVessel
  * @description
- * ==============================================================================
- * 🎨 THE PAINTER OF LIGHT (BEZALEL) 🎨
- * ==============================================================================
- * TextureLoaderVessel governs the extraction of flat 2D maps, intercepting calls 
- * to dynamic `awtsmoostex://` namespaces and safely compiling image blocks 
- * asynchronously utilizing the absolute non-blocking power of `createImageBitmap`.
+ * The painter of light now refuses blurry, pixelated maps at the gate: every
+ * loaded texture receives mipmaps, linear filtering, anisotropy, color space,
+ * and optional mirrored repeat before it enters the world.
  */
 export default class TextureLoaderVessel {
-    /**
-     * @method load
-     * @description Fetches raw colors into unified memory chunks.
-     * @param {Object} options 
-     * @param {string} options.url 
-     * @param {boolean} [options.shouldRepeat=false]
-     * @returns {Promise<THREE.Texture|null>}
-     */
     static async load({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
         if (!url) {
-            LoaderMonitor.logLoad("TEXTURE", "null", "ABORTED");
+            LoaderMonitor.logLoad('TEXTURE', 'null', 'ABORTED');
             return null;
         }
-
         const cacheKey = textureCacheKey({ url, shouldRepeat, repeatX, repeatY });
         if (texturePromiseCache.has(cacheKey)) {
-            LoaderMonitor.logLoad("TEXTURE", url, "MEMORY_CACHE_HIT");
+            LoaderMonitor.logLoad('TEXTURE', url, 'MEMORY_CACHE_HIT');
             return await texturePromiseCache.get(cacheKey);
         }
-
-        LoaderMonitor.logLoad("TEXTURE", url, "INIT_BREATH");
-
+        LoaderMonitor.logLoad('TEXTURE', url, 'INIT_BREATH');
         const promise = this.loadUncached({ url, shouldRepeat, repeatX, repeatY });
         texturePromiseCache.set(cacheKey, promise);
         return await promise;
@@ -58,44 +76,26 @@ export default class TextureLoaderVessel {
 
     static async loadUncached({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
         const finalUrl = await ProceduralTextureInterceptor.intercept(url);
-
         try {
             let blob = canPersistUrl(finalUrl) ? await AssetCache.get(finalUrl) : null;
-
             if (!blob) {
                 const response = await fetch(finalUrl);
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
                 blob = await response.blob();
-
-                if (canPersistUrl(finalUrl)) {
-                    await AssetCache.put(finalUrl, blob);
-                }
+                if (canPersistUrl(finalUrl)) await AssetCache.put(finalUrl, blob);
             }
-            
-            // Asynchronous decoding on background thread logic
             const imageBitmap = await createImageBitmap(blob, { imageOrientation: 'flipY' });
-            
             const texture = new THREE.Texture(imageBitmap);
-            texture.colorSpace = THREE.SRGBColorSpace;
-            
-            if (shouldRepeat) {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.repeat.set(repeatX, repeatY);
-            }
-            
-            texture.needsUpdate = true;
-
-            // Absolute barrier to prevent corrupted shaders attempting math on undefined space
+            applyRealisticTextureDefaults(texture, { shouldRepeat, repeatX, repeatY });
             if (!texture.matrix) texture.matrix = new THREE.Matrix3();
             if (texture.channel === undefined) texture.channel = 0;
-
-            LoaderMonitor.logLoad("TEXTURE", url, "PAINTED");
+            LoaderMonitor.logLoad('TEXTURE', url, 'PAINTED_REALISTIC');
             return texture;
-        } catch(err) {
-            LoaderMonitor.logLoad("TEXTURE", url, "FAILED");
+        } catch (err) {
+            LoaderMonitor.logLoad('TEXTURE', url, 'FAILED');
             console.warn(`B"H - ⚠️ Visual fetch collapsed: ${finalUrl}`, err.message);
-            return null; 
+            texturePromiseCache.delete(textureCacheKey({ url, shouldRepeat, repeatX, repeatY }));
+            return null;
         }
     }
 }

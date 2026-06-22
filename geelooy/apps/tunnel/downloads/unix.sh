@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 # B"H
 set -euo pipefail
 
@@ -9,6 +9,8 @@ origin="${origin%/}"
 ROOT="${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}"
 CONFIG="$ROOT/config.json"
 STATE="$ROOT/install-state.txt"
+MANIFEST_STATE="$ROOT/install-manifest.sha256"
+MANIFEST_COPY="$ROOT/installed-manifest.txt"
 MANIFEST_URL="$origin/apps/tunnel/agent/manifest.txt"
 BASE_URL="$origin/apps/tunnel/agent"
 
@@ -32,9 +34,13 @@ EOF
 fi
 
 trim_manifest_lines() {
-  printf '%s\n' "$1" |
-    sed '1s/^\xEF\xBB\xBF//' |
-    awk '{ gsub(/\r/, ""); sub(/^[[:space:]]+/, ""); sub(/[[:space:]]+$/, ""); if ($0 != "" && $0 != "B\"H" && $0 != "# B\"H") print }'
+  printf '%s\n' "$1" | sed '1s/^\xEF\xBB\xBF//' | awk '{ gsub(/\r/, ""); sub(/^[[:space:]]+/, ""); sub(/[[:space:]]+$/, ""); if ($0 != "" && $0 != "B\"H" && $0 != "# B\"H") print }'
+}
+
+manifest_hash() {
+  if command -v shasum >/dev/null 2>&1; then printf '%s' "$1" | shasum -a 256 | awk '{print $1}';
+  elif command -v sha256sum >/dev/null 2>&1; then printf '%s' "$1" | sha256sum | awk '{print $1}';
+  else printf '%s' "$1" | node -e "const c=require('crypto');let d='';process.stdin.on('data',x=>d+=x);process.stdin.on('end',()=>console.log(c.createHash('sha256').update(d).digest('hex')));"; fi
 }
 
 assert_safe_manifest_path() {
@@ -62,8 +68,7 @@ extract_zip() {
 
 install_awtsmoos_bundles() {
   tmp="$ROOT/.bundle-downloads"
-  rm -rf "$tmp"
-  mkdir -p "$tmp"
+  rm -rf "$tmp"; mkdir -p "$tmp"
   echo "Installing from Awtsmoos ZIP bundle..."
   curl -fsSL --retry 3 --retry-delay 1 "$origin/api/tunnel/install/bundle-manifest" -o "$tmp/bundles.json"
   node -e "const fs=require('fs'); const j=JSON.parse(fs.readFileSync(process.argv[1],'utf8')); if(!j.bundles||!j.bundles.length) process.exit(2); for(const b of j.bundles) console.log(b.name+' '+b.url);" "$tmp/bundles.json" > "$tmp/bundles.txt"
@@ -84,21 +89,25 @@ LINES="$(trim_manifest_lines "$MANIFEST")"
 VERSION="$(printf '%s\n' "$LINES" | sed -n '1p')"
 ENTRY="$(printf '%s\n' "$LINES" | sed -n '2p')"
 FILES="$(printf '%s\n' "$LINES" | sed '1,2d' || true)"
+HASH="$(manifest_hash "$LINES")"
 
 [ -n "$VERSION" ] && [ -n "$ENTRY" ] || { echo "Manifest is missing version or entry."; exit 1; }
 [ "$ENTRY" = "main.js" ] || { echo "Bad manifest entry: $ENTRY"; exit 1; }
 [ -n "$FILES" ] || { echo "Manifest has no files."; exit 1; }
 assert_safe_manifest_path "$ENTRY"
 
-INSTALLED=""
+INSTALLED=""; INSTALLED_HASH=""
 [ -f "$STATE" ] && INSTALLED="$(tr -d '[:space:]' < "$STATE")"
-if [ "$INSTALLED" = "$VERSION" ] && all_manifest_files_exist; then
-  echo "Awtsmoos version $VERSION already installed and complete."
+[ -f "$MANIFEST_STATE" ] && INSTALLED_HASH="$(tr -d '[:space:]' < "$MANIFEST_STATE")"
+if [ "$INSTALLED" = "$VERSION" ] && [ "$INSTALLED_HASH" = "$HASH" ] && all_manifest_files_exist; then
+  echo "Awtsmoos version $VERSION manifest $HASH already installed and complete."
 else
-  if [ "$INSTALLED" = "$VERSION" ]; then echo "Repairing incomplete Awtsmoos version $VERSION..."; else echo "Installing Awtsmoos version $VERSION..."; fi
+  if [ "$INSTALLED" = "$VERSION" ]; then echo "Repairing Awtsmoos version $VERSION because manifest changed/incomplete..."; else echo "Installing Awtsmoos version $VERSION..."; fi
   install_awtsmoos_bundles
   all_manifest_files_exist || { echo "Bundle install verification failed. No file fallback is available by policy."; exit 1; }
   printf '%s\n' "$VERSION" > "$STATE"
+  printf '%s\n' "$HASH" > "$MANIFEST_STATE"
+  printf '%s\n' "$LINES" > "$MANIFEST_COPY"
 fi
 
 if [ "${AWTSMOOS_SKIP_START:-}" = "1" ] || [ "${AWTSMOOS_SKIP_START:-}" = "true" ]; then echo "AWTSMOOS_SKIP_START set; install verified without starting agent."; exit 0; fi
@@ -106,5 +115,3 @@ pkill -f "$ROOT/$ENTRY" 2>/dev/null || true
 echo
 echo "Starting Awtsmoos background agent..."
 if [ "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" = "1" ] || [ "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" = "true" ]; then node "$ROOT/$ENTRY"; else node "$ROOT/$ENTRY" --open-control; fi
-
-

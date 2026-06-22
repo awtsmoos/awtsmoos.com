@@ -1,6 +1,13 @@
 /* B"H
-The bin is a chamber of raw sparks before timeline order descends.
+The bin receives sparks and names them before the editor bends time.
 */
-export function createBin() { return { assets:[sample('asset-canvas','Canvas capture','canvas'), sample('asset-stream','Live stream capture','stream')] }; }
-export function addAsset(bin, input = {}) { const asset = { id:input.id || `asset-${crypto.randomUUID?.() || Date.now()}`, name:input.name || 'Untitled asset', kind:input.kind || 'media', duration:Number(input.duration || 0), createdAt:Date.now() }; bin.assets.push(asset); return asset; }
-function sample(id, name, kind) { return { id, name, kind, duration:0, createdAt:Date.now() }; }
+export function createBin() {
+  return { selectedAssetId:'asset-canvas', assets:[asset('asset-canvas','Canvas capture','canvas',12), asset('asset-stream','Live stream capture','stream',12)] };
+}
+export function addAsset(bin, input = {}) {
+  const item = asset(input.id || `asset-${crypto.randomUUID?.() || Date.now()}`, input.name || 'Untitled asset', input.kind || 'media', Number(input.duration || 8));
+  bin.assets.push(item); bin.selectedAssetId = item.id; return item;
+}
+export function selectAsset(bin, id) { if (bin.assets.some(a => a.id === id)) bin.selectedAssetId = id; return selectedAsset(bin); }
+export function selectedAsset(bin) { return bin.assets.find(a => a.id === bin.selectedAssetId) || bin.assets[0] || null; }
+function asset(id, name, kind, duration) { return { id, name, kind, duration, createdAt:Date.now() }; }

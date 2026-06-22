@@ -28,5 +28,10 @@ aside { padding:14px; background:#0a1020; border-radius:18px; } aside button { w
 #sourceList li.selected-source,#sceneList li.active { background:#24335d; color:#83ffe7; border-color:#83ffe788; }
 #status,#nleExport { color:#9fb4ff; line-height:1.45; }.nle-panel { margin-top:18px; padding:18px; display:grid; grid-template-columns:1fr 1.4fr 1.2fr; gap:14px; }
 .nle-panel button { width:100%; margin-top:8px; }
+
+.track strong { display:block; margin-bottom:6px; }
+.clip-lane { position:relative; height:44px; background:#060b18; border:1px solid #233150; border-radius:12px; overflow:hidden; }
+.clip { position:absolute; top:6px; height:30px; min-width:54px; padding:0 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; box-shadow:none; background:#2656d9; border-color:#83ffe766; }
+.clip.active { background:#13a88b; color:#041015; }
 @media (max-width:1250px){ .control-grid,.stream-health{grid-template-columns:repeat(3,1fr)} .studio-grid,.nle-panel{grid-template-columns:1fr} }
 @media (max-width:760px){ .control-grid,.stream-health{grid-template-columns:1fr}.topbar{display:block}.record-controls{margin-top:18px}.stage-wrap{min-height:300px}.nesher-shell{width:94vw;padding:14px 0} }
