@@ -21,6 +21,11 @@ function css(checklistId) { return `
   body.awtsmoos-world-clean [class*='actionBar'],body.awtsmoos-world-clean [class*='inventoryBar'],body.awtsmoos-world-clean [class*='hotbar']{opacity:.42!important;transform:translateY(18px)!important}
   .awtsmoos-perf-chip{position:fixed;left:8px;top:104px;z-index:9200;padding:5px 7px;border-radius:8px;background:rgba(0,0,0,.58);color:#c9f7ff;font:700 11px/1.25 ui-monospace,monospace;pointer-events:none}
 }
+#${checklistId}.schoolChip .schoolToggle{border:1px solid rgba(255,216,104,.72);border-radius:9px;padding:7px 10px;background:rgba(8,12,18,.72);color:#ffe68a;font-weight:900;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+#${checklistId}.schoolChip .schoolBody{display:none;margin-top:6px;width:min(260px,42vw);max-height:34vh;overflow:auto;border:1px solid rgba(255,216,104,.38);border-radius:9px;padding:9px;background:rgba(7,10,14,.82);box-shadow:0 8px 18px rgba(0,0,0,.24)}
+#${checklistId}.schoolChip.open .schoolBody{display:block}
+#${checklistId}.schoolChip label{display:grid;grid-template-columns:18px 1fr;gap:6px;margin:6px 0;color:#e9edf7;font-size:11px;line-height:1.25}
+#${checklistId}.schoolChip input{width:16px;height:16px} #${checklistId}.schoolChip b{font-size:11px;color:#fff2aa} #${checklistId}.schoolChip small{display:block;font-size:10px;line-height:1.2;color:#cbd3df}
 `; }
 export function injectMobileUiTikkunStyle(doc = globalThis.document, checklistId = "awtsmoosSchoolChecklist") { if (!doc || doc.getElementById(STYLE_ID)) return; const style = doc.createElement("style"); style.id = STYLE_ID; style.textContent = css(checklistId); doc.head.appendChild(style); }
 export default injectMobileUiTikkunStyle;

@@ -296,6 +296,24 @@ paths:
               - merkavaWorkflowRun
               - microPatchPlanner
               - minimalReproGenerator
+              - missionAddTask
+              - missionAnswer
+              - missionAttachJob
+              - missionAuto
+              - missionCompleteTask
+              - missionDiscover
+              - missionEvidence
+              - missionGet
+              - missionGraph
+              - missionHeartbeat
+              - missionList
+              - missionNext
+              - missionQuestion
+              - missionReport
+              - missionStart
+              - missionSupervise
+              - missionTimeline
+              - missionVerify
               - mkdirp
               - modelToolCompatibility
               - moduleGraphCompleteness

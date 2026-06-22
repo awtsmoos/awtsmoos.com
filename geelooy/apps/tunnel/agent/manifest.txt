@@ -1,5 +1,5 @@
 B"H
-1.0.65
+1.0.75
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -23,6 +23,7 @@ ai/relay/split-browser/http.cjs
 ai/relay/split-browser/index.js
 ai/relay/split-browser/jsPreamble.cjs
 ai/relay/split-browser/logger.cjs
+ai/relay/split-browser/manifest.json
 ai/relay/split-browser/originPolicy.cjs
 ai/relay/split-browser/proxy.cjs
 ai/relay/split-browser/relayApi.cjs
@@ -119,6 +120,7 @@ tools/fs/actionGroups/fileOpsActions.js
 tools/fs/actionGroups/httpActionsGroup.js
 tools/fs/actionGroups/imageActions.js
 tools/fs/actionGroups/isolatedActions.js
+tools/fs/actionGroups/missionActions.js
 tools/fs/actionGroups/previewActions.js
 tools/fs/actionGroups/processActions.js
 tools/fs/actionGroups/projectActions.js
@@ -162,10 +164,12 @@ tools/fs/image/writeImage.js
 tools/fs/index.js
 tools/fs/isolatedHtml.js
 tools/fs/isolatedJs.js
-tools/fs/jsWriteVerifier.js
 tools/fs/jsonTools.js
+tools/fs/jsWriteVerifier.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
+tools/fs/mission/core.js
+tools/fs/mission/index.js
 tools/fs/nodeCheckMany.js
 tools/fs/nodeDomRuntime/actions/assertText.js
 tools/fs/nodeDomRuntime/actions/assertValue.js
@@ -267,3 +271,9 @@ tools/relay/index.js
 tools/relay/jsonRelay.js
 tools/relay/settings.js
 tools/relay/streams.js
+tools/streaming/docs/BINARY_ROUTE_TODO.md
+tools/streaming/docs/README.md
+tools/streaming/forward.js
+tools/streaming/hls.js
+tools/streaming/index.js
+tools/streaming/sessions.js

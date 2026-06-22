@@ -31,4 +31,21 @@ async function chromeTestUrl(payload = {}) {
   const snap = payload.snapshot === false ? null : await pageSnapshot({ ...payload, maxText:Math.min(Number(payload.maxText || 2500), 8000) }); const logRead = readChromeLogs({ maxLogs:payload.maxLogs || 120 }); const errors = logRead.logs.filter(x => x.level === "error" || x.source.includes("exception") || x.source.includes("loadingFailed")); const ok = navigation.ok !== false && (payload.assertNoConsoleErrors ? errors.length === 0 : true);
   return { ok, action:"chromeTestUrl", url, navigation, selector:payload.selector || "", errorCount:errors.length, errors:compactLogs({ ...logRead, logs:errors }, 40), snapshot:snap ? valueSummary(snap, Number(payload.maxSnapshotChars || 12000)) : null, logs:compactLogs(logRead, payload.maxLogs || 80) };
 }
-module.exports = { chromeScreenshot, chromeNetwork, chromeAccessibilitySnapshot, chromeTestUrl };
+
+async function chromeDoctor(payload = {}) {
+  const report = { ok: true, action: payload.action || "chromeDoctor", url: payload.url || "", checks: {} };
+  if (payload.url) report.checks.navigation = await chromeTestUrl({ ...payload, snapshot: payload.snapshot !== false });
+  report.checks.network = await chromeNetwork({ ...payload, failedOnly: payload.failedOnly !== false });
+  report.checks.accessibility = payload.accessibility === false ? null : await safe(() => chromeAccessibilitySnapshot(payload));
+  report.checks.screenshot = payload.screenshot === false ? null : await safe(() => chromeScreenshot({ ...payload, inline: false }));
+  const logRead = readChromeLogs({ maxLogs: payload.maxLogs || 200 });
+  const errors = logRead.logs.filter(x => x.level === "error" || /exception|loadingFailed|failed/i.test(String(x.source || "")));
+  report.logs = compactLogs(logRead, payload.maxLogs || 100);
+  report.errors = compactLogs({ ...logRead, logs: errors }, 50);
+  report.errorCount = errors.length;
+  report.ok = Object.values(report.checks).every(x => !x || x.ok !== false) && (!payload.assertNoConsoleErrors || errors.length === 0);
+  return report;
+}
+async function safe(fn) { try { return await fn(); } catch (e) { return { ok: false, error: e.message }; } }
+
+module.exports = { chromeScreenshot, chromeNetwork, chromeAccessibilitySnapshot, chromeTestUrl, chromeDoctor };

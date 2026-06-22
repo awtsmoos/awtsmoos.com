@@ -1,0 +1,23 @@
+{
+  "files": {
+    "segment-1-1.ts": {
+      "bytes": 10716
+    },
+    "playlist-1.m3u8": {
+      "bytes": 145
+    },
+    "master.m3u8": {
+      "bytes": 122
+    }
+  },
+  "events": [
+    {
+      "kind": "segment",
+      "info": {}
+    },
+    {
+      "kind": "playlist",
+      "content": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-PLAYLIST-TYPE:VOD\n#EXT-X-TARGETDURATION:1\n#EXT-X-INDEPENDENT-SEGMENTS\n\n#EXTINF:1,\nsegment-1-1.ts\n\n#EXT-X-ENDLIST\n"
+    }
+  ]
+}

@@ -3,10 +3,10 @@
  * @class State
  * @description Runtime memory vessel for Ohr HaGnuz.
  *
- * Chapter 199: The bag entered the soul's memory. The Awtsmoos has no body and
- * no form, yet a traveler carries coins, clothes, remedies, and a journal. The
- * battle state now also carries phase timers so the sugya can breathe between
- * impact, reply, and reward.
+ * Chapter 207: Memory learned the language of giving. The Awtsmoos creates the
+ * world from ayin every instant, yet the finite traveler must remember what is
+ * still in the house, what was given, which declaration lines awakened, and
+ * whether joy was shared. This is the new heart of the game.
  */
 export class State {
   static ActiveRealm = 'OVERWORLD';
@@ -19,6 +19,7 @@ export class State {
   static Sefiros = { chochmah: 0, binah: 0, daat: 0 };
   static Equipment = { garment: 'WHITE_LINEN' };
   static Inventory = { money: 0, garments: ['WHITE_LINEN'], books: [], journal: { opened: true, notes: [] }, items: { spark: 0, scroll: 0, chest: 0, key: 0, book: 0, mitzvah: 0, tea: 0, ink: 0, balm: 0 } };
+  static Gifts = { inventory: {}, given: {}, blessingRemembered: false, joyShared: false, declaration: { unlocked: [], total: 6 }, history: [] };
   static TorahKnowledge = { booksRead: 0, power: 0, stats: { chochmah: 0, binah: 0, daat: 0 } };
   static TorahCodex = { routes: {}, quotes: {}, fusions: {}, affinity: { Mishnah: 0, Chassidus: 0, Kabbalah: 0, Niggun: 0 } };
   static Skills = {};
@@ -31,7 +32,7 @@ export class State {
   static VisitedMaps = { Overworld_Main: true };
   static Story = { beats: {}, active: 'First Light', chapter: 1 };
   static Dialogue = { open: false, glyph: null, label: '', lines: [], index: 0, questId: null, mode: 'intro' };
-  static Message = 'Act 1: First Light. Talk to ג, gather one spark א, then return.';
+  static Message = 'Act 1: First Light. Talk to ג, then walk east to the Garden of Ungiven Things.';
   static MessageTTL = 1200;
   static BattleFx = [];
 
@@ -56,24 +57,19 @@ export class State {
     market: { map: 'River_East', start: { x: 3, y: 5 }, target: { x: 27, y: 5 } },
     orchard: { map: 'Market_West', start: { x: 3, y: 6 }, target: { x: 27, y: 6 } },
     quest: { map: 'Overworld_Main', start: { x: 10, y: 2 }, target: { x: 2, y: 2 } },
+    gifts: { map: 'Rambam_Garden', start: { x: 2, y: 5 }, target: { x: 2, y: 2 } },
+    declaration: { map: 'House_Of_Forgetting', start: { x: 2, y: 6 }, target: { x: 13, y: 6 } },
     skills: { map: 'Chamber_Eit', start: { x: 6, y: 2 }, target: { x: 7, y: 2 } }
   } };
 
   static setFrameDeltaScale(scale = 1) { this.FrameDeltaScale = Math.max(0.5, Math.min(1.6, Number(scale) || 1)); }
   static isUiBlocking() { return !!this.UiPanel || !!this.Dialogue.open; }
   static clearPath() { this.HeroPath = []; this.PathTarget = null; }
-
-  static resetHero(x, y, dir = 'd') {
-    const r = this.Resolution;
-    this.Hero = { cx: x, cy: y, dx: x * r, dy: y * r, dir, moving: false, stepTick: 0 };
-    this.clearPath();
-    this.rememberMap(this.MapId);
-  }
-
+  static resetHero(x, y, dir = 'd') { const r = this.Resolution; this.Hero = { cx: x, cy: y, dx: x * r, dy: y * r, dir, moving: false, stepTick: 0 }; this.clearPath(); this.rememberMap(this.MapId); }
   static rememberMap(mapId) { if (mapId) this.VisitedMaps[mapId] = true; }
   static openPanel(panel) { this.UiPanel = this.UiPanel === panel ? null : panel; if (this.UiPanel) this.closeDialogue(false); this.clearPath(); this.releaseIntents(); if (panel && this.UiPanel) this.say(`${panel[0].toUpperCase()}${panel.slice(1)} opened.`, 90); }
   static openDialogue({ glyph, label, lines, questId = null, index = 0, mode = 'intro' }) { this.UiPanel = null; this.clearPath(); this.releaseIntents(); this.Dialogue = { open: true, glyph, label, lines: lines || [], index, questId, mode }; this.say(`${label || 'Guide'}: ${this.Dialogue.lines[this.Dialogue.index] || ''}`, 900); }
-  static closeDialogue(speak = true) { if (!this.Dialogue.open) return; this.Dialogue = { open: false, glyph: null, label: '', lines: [], index: 0, questId: null, mode: 'intro' }; this.releaseIntents(); if (speak) this.say('Dialogue closed. Use Journal to track the next mission.', 180); }
+  static closeDialogue(speak = true) { if (!this.Dialogue.open) return; this.Dialogue = { open: false, glyph: null, label: '', lines: [], index: 0, questId: null, mode: 'intro' }; this.releaseIntents(); if (speak) this.say('Dialogue closed. Use Journal to track the next step.', 180); }
   static dialogueNext(delta = 1) { if (!this.Dialogue.open) return; const max = Math.max(0, this.Dialogue.lines.length - 1); this.Dialogue.index = Math.max(0, Math.min(max, this.Dialogue.index + delta)); this.say(`${this.Dialogue.label}: ${this.Dialogue.lines[this.Dialogue.index] || ''}`, 900); }
   static nextStoryBeat(key, total) { const current = this.Story.beats[key] || 0; this.Story.beats[key] = Math.min(current + 1, total); return Math.min(current, Math.max(0, total - 1)); }
   static say(message, ttl = 360) { this.Message = message; this.MessageTTL = ttl; }

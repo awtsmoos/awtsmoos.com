@@ -4,7 +4,7 @@
  * @description Chapter 653: Android receives a small control room.
  */
 const KEY = "awtsmoosMobileSettings";
-const DEFAULTS = { invertY: true, invertX: true, uiScale: 1, actionLift: 128, quality: "speed", reducedMotion: true };
+const DEFAULTS = { invertY: true, invertX: true, uiScale: 1, actionLift: 128, quality: "balanced", reducedMotion: true };
 function read() { try { return { ...DEFAULTS, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch { return { ...DEFAULTS }; } }
 function save(s) { localStorage.setItem(KEY, JSON.stringify(s)); apply(s); }
 function worker() { return window.mana?.socket?.eved || window.mana?.eved || null; }

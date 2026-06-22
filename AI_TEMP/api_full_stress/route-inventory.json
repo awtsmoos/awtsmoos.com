@@ -1,0 +1,854 @@
+[
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/alias/default"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/user/:user/aliases"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/user/:user/aliases/details"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/user/:user/aliases/:alias"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/user/:user/aliases/:alias/details"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/aliases/checkOrGenerateId"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/aliases"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/aliases/details"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/alias/:alias/ownership"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/aliases/:alias/ownership"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/alias/:alias"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/aliases/:alias"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/alias/:alias/details"
+  },
+  {
+    "file": "_awtsmoos.alias.js",
+    "route": "/aliases/:alias/details"
+  },
+  {
+    "file": "_awtsmoos.assets.js",
+    "route": "/assets/:alias/upload"
+  },
+  {
+    "file": "_awtsmoos.assets.js",
+    "route": "/assets/:alias"
+  },
+  {
+    "file": "_awtsmoos.assets.js",
+    "route": "/assets/:alias/:asset/bind"
+  },
+  {
+    "file": "_awtsmoos.assets.js",
+    "route": "/assets/:alias/manifest/:asset"
+  },
+  {
+    "file": "_awtsmoos.assets.js",
+    "route": "/assets/:alias/:kind/:asset"
+  },
+  {
+    "file": "_awtsmoos.content.js",
+    "route": "/content/heichelos/:heichel/posts"
+  },
+  {
+    "file": "_awtsmoos.content.js",
+    "route": "/content/heichelos/:heichel/questions"
+  },
+  {
+    "file": "_awtsmoos.content.js",
+    "route": "/content/heichelos/:heichel/questions/:question/answers"
+  },
+  {
+    "file": "_awtsmoos.content.js",
+    "route": "/content/heichelos/:heichel/posts/:post/sections"
+  },
+  {
+    "file": "_awtsmoos.content.js",
+    "route": "/content/repost"
+  },
+  {
+    "file": "_awtsmoos.content.js",
+    "route": "/content/share"
+  },
+  {
+    "file": "_awtsmoos.counter.js",
+    "route": "/counters"
+  },
+  {
+    "file": "_awtsmoos.counter.js",
+    "route": "/counters/:counter"
+  },
+  {
+    "file": "_awtsmoos.counter.js",
+    "route": "/counters/:counter/increaseCount"
+  },
+  {
+    "file": "_awtsmoos.derech.js",
+    "route": "/fetch/:url"
+  },
+  {
+    "file": "_awtsmoos.editor.js",
+    "route": "/editor/posts/drafts"
+  },
+  {
+    "file": "_awtsmoos.editor.js",
+    "route": "/editor/posts/drafts/:alias/:draft"
+  },
+  {
+    "file": "_awtsmoos.editor.js",
+    "route": "/editor/posts/drafts/publish"
+  },
+  {
+    "file": "_awtsmoos.editor.js",
+    "route": "/editor/heichelos/:heichel/posts/:post/verses/:verse/delete-preview"
+  },
+  {
+    "file": "_awtsmoos.editor.js",
+    "route": "/editor/heichelos/:heichel/posts/:post/verses/:verse"
+  },
+  {
+    "file": "_awtsmoos.editor.js",
+    "route": "/editor/heichelos/:heichel/posts/:post/subsections/:subsection/delete-preview"
+  },
+  {
+    "file": "_awtsmoos.editor.js",
+    "route": "/editor/heichelos/:heichel/posts/:post/subsections/:subsection"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id/children"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id/edges"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id/range-reference/preview"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id/range-reference/attach"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id/snapshot"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id/fork"
+  },
+  {
+    "file": "_awtsmoos.entities.js",
+    "route": "/entities/universe/:type/:id/dna"
+  },
+  {
+    "file": "_awtsmoos.fileSystem.js",
+    "route": "/aliases/:alias/fileSystem/copyEntry"
+  },
+  {
+    "file": "_awtsmoos.fileSystem.js",
+    "route": "/aliases/:alias/fileSystem/moveEntry"
+  },
+  {
+    "file": "_awtsmoos.fileSystem.js",
+    "route": "/aliases/:alias/fileSystem/readFile"
+  },
+  {
+    "file": "_awtsmoos.fileSystem.js",
+    "route": "/aliases/:alias/fileSystem/makeFile"
+  },
+  {
+    "file": "_awtsmoos.fileSystem.js",
+    "route": "/aliases/:alias/fileSystem/delete"
+  },
+  {
+    "file": "_awtsmoos.fileSystem.js",
+    "route": "/aliases/:alias/fileSystem/makeFolder"
+  },
+  {
+    "file": "_awtsmoos.fileSystem.js",
+    "route": "/aliases/:alias/fileSystem/readFolder"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/settings/full"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/members"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/invites"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/invites/:invite/accept"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/submissions/full"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/submissions/:submission/approve"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/submissions/:submission/reject"
+  },
+  {
+    "file": "_awtsmoos.governance.js",
+    "route": "/heichelos/:heichel/submissions/:submission/publish"
+  },
+  {
+    "file": "_awtsmoos.graph.js",
+    "route": "/graph/entity/resolve"
+  },
+  {
+    "file": "_awtsmoos.graph.js",
+    "route": "/graph/references"
+  },
+  {
+    "file": "_awtsmoos.graph.js",
+    "route": "/graph/reposts"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/heichelos/:heichel/roles/:role"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/heichelos/:heichel/settings/submissions"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/heichelActions/generateHeichelId"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/heichelos/:heichel/editors"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/heichelos/:heichel"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/alias/:alias/heichelos"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/alias/:alias/heichelos/details"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/alias/:alias/heichelos/:heichel"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/heichelos/searchByAliasOwner/:aliasId"
+  },
+  {
+    "file": "_awtsmoos.heichel.js",
+    "route": "/alias/:alias/heichelos/:heichel/ownership"
+  },
+  {
+    "file": "_awtsmoos.keys.js",
+    "route": "/keys"
+  },
+  {
+    "file": "_awtsmoos.keys.js",
+    "route": "/keys/verify"
+  },
+  {
+    "file": "_awtsmoos.keys.js",
+    "route": "/keys/:key/revoke"
+  },
+  {
+    "file": "_awtsmoos.living.js",
+    "route": "/living/heichelos/:heichel/series/:series/posts/:post"
+  },
+  {
+    "file": "_awtsmoos.living.js",
+    "route": "/living/heichelos/:heichel/posts/:post"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/universe/mirror"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/universe/:thread/link"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/notify/subscribe"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/notify/getLatest"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/unread/count"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/delete/:messageId"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/get/:mailId/"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/get/:mailId/read"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/sendTo/:toAlias/from/:fromAlias"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/get"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/thread/delete/:threadId"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/settings/get"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/settings/save"
+  },
+  {
+    "file": "_awtsmoos.mail.js",
+    "route": "/mail/approve/:senderId"
+  },
+  {
+    "file": "_awtsmoos.migrations.js",
+    "route": "/migrations/posts/v2/dryRun"
+  },
+  {
+    "file": "_awtsmoos.migrations.js",
+    "route": "/migrations/posts/v2/run"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/path"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/nodes/:node"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/nodes/:node/children"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/nodes"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/mount/entity/:type/:id"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/mount/assets/:alias"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/migrations/dry-run"
+  },
+  {
+    "file": "_awtsmoos.nodeOs.js",
+    "route": "/node-os/migrations/run"
+  },
+  {
+    "file": "_awtsmoos.notifications.js",
+    "route": "/notifications/fanout"
+  },
+  {
+    "file": "_awtsmoos.notifications.js",
+    "route": "/notifications/:alias/unread/count"
+  },
+  {
+    "file": "_awtsmoos.notifications.js",
+    "route": "/notifications/:alias/poll"
+  },
+  {
+    "file": "_awtsmoos.notifications.js",
+    "route": "/notifications/:alias/:notification/read"
+  },
+  {
+    "file": "_awtsmoos.notifications.js",
+    "route": "/notifications/:alias"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/stats"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/snapshot"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/integrity"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/repair/posts/manifests"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/read"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/keys"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/compact"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/feed/materialize"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/migrations/posts/v2/dryRun"
+  },
+  {
+    "file": "_awtsmoos.packed.js",
+    "route": "/packed/migrations/posts/v2/run"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/live/publish"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/live/subscribe"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/live/presence"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/live/replay"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/abuse/rateLimit/check"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/search/index"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/search/query"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/relationships/:alias"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/relationships/:alias/:type/:target"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/media/register"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/media/attach"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/mod/reports"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/mod/actions"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/mod/queues"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/mod/escalations"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/jobs/enqueue"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/analytics/metric"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/cache/set"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/sync/op"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/permissions/compile"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/federation/import"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/graph/transaction"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/jobs/run"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/notifications/digest/:alias"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/cache/get"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/cache/invalidate"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/sync/pull/:alias"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/feed/home"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/feed/heichel/:heichel"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/feed/trending"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/feed/discover"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/comments/thread/append"
+  },
+  {
+    "file": "_awtsmoos.platform.js",
+    "route": "/comments/thread/:post/ranked"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/aliases/:alias/postsMade/heichel/:heichel/pathToSeries/:pathive"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/aliases/:alias/postsMade/heichelos"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/aliases/:alias/postsMade/heichel/:heichel/series"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/submittedPosts"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/submittedPosts/approve"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/submittedPosts/deny"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/series/:series/posts"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/series/:series/posts/details"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/series/:series/post/:post"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/series/:series/post/:post/delete"
+  },
+  {
+    "file": "_awtsmoos.posts.js",
+    "route": "/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/meta"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/openapi.json"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profiles/batch"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profiles/:alias"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profiles/:alias/activity"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profiles/:alias/analytics"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profiles/:alias/graph"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profiles/:alias/history"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/search"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/feed"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/trending"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/recommendations/:alias"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/follows/:alias"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/followers/:type/:id"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/bulk"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/events"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/heichelos/discover"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/meta"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/batch"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/feed"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/templates"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/:alias/posts"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/:alias/comments"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/:alias/activity"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/:alias/tree"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/:alias/series-tree"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/:alias/heichelos"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/profile/:alias"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/alias/:alias/history"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/alias/:alias/profile"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
+    "route": "/alias/:alias/profile/template"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/addNewSeries"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/details"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/subSeriesDetails"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/subSeries"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/subSeries/details"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/parent"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/breadcrumb"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/editSeriesDetails"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/changeSubSeriesInSeries"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:parentSeriesId/clearSubSeries/:seriesId"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/deleteSeries/:seriesId"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/addContentToSeries"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/deleteContentFromSeries"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/series/:series/changePostsInSeries"
+  },
+  {
+    "file": "_awtsmoos.series.js",
+    "route": "/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId"
+  }
+]

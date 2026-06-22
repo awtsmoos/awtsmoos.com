@@ -32,6 +32,7 @@ function shaderMaterial() {
       attribute float instanceBend;
       varying float vHeight;
       varying float vTint;
+      varying float vBladeNoise;
       void main() {
         vec3 p = position;
         p.xz *= instanceScale;
@@ -47,6 +48,7 @@ function shaderMaterial() {
         world.x += sin(time * 1.4 + instanceOffset.x * 0.05 + instanceOffset.z * 0.04) * 0.025 * p.y;
         vHeight = clamp(position.y, 0.0, 1.0);
         vTint = instanceTint;
+        vBladeNoise = fract(sin(dot(instanceOffset.xz, vec2(12.9898, 78.233))) * 43758.5453);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(world, 1.0);
       }
     `,
@@ -54,12 +56,17 @@ function shaderMaterial() {
       precision mediump float;
       varying float vHeight;
       varying float vTint;
+      varying float vBladeNoise;
       void main() {
-        vec3 low = vec3(0.12, 0.42, 0.10);
-        vec3 high = vec3(0.48, 0.86, 0.24);
-        vec3 warm = vec3(0.34, 0.72, 0.18);
-        vec3 color = mix(low, high, smoothstep(0.0, 1.0, vHeight));
-        color = mix(color, warm, vTint * 0.35);
+        vec3 root = vec3(0.09, 0.31, 0.07);
+        vec3 leaf = vec3(0.34, 0.74, 0.18);
+        vec3 tip = vec3(0.72, 0.91, 0.30);
+        vec3 dry = vec3(0.58, 0.52, 0.22);
+        float stripe = step(0.54, fract(vBladeNoise * 19.0 + vHeight * 3.2));
+        vec3 color = mix(root, leaf, smoothstep(0.0, 0.72, vHeight));
+        color = mix(color, tip, smoothstep(0.68, 1.0, vHeight) * 0.42);
+        color = mix(color, dry, smoothstep(0.70, 1.0, vTint) * 0.28);
+        color *= 0.86 + stripe * 0.18 + vBladeNoise * 0.08;
         gl_FragColor = vec4(color, 1.0);
       }
     `
@@ -88,10 +95,10 @@ function addAttrs(g, base, offsets, scales, rotations, tints, bends) {
 }
 function patchesFromSpecs(specs) { return specs.length ? specs.slice(0, 900).map(s => [Number(s.x) || 0, Number(s.z) || 0, 5.8]) : [[-70, 30, 240], [105, -35, 150]]; }
 function samplePatch(patches, i) { const p = patches[i % patches.length], angle = rand(i, 11) * Math.PI * 2, r = Math.sqrt(rand(i, 12)) * p[2]; return { x:p[0] + Math.cos(angle) * r, z:p[1] + Math.sin(angle) * r * .55 }; }
-export function createProceduralCoreGrassField(olam, specs = [], count = 22000, options = {}) {
+export function createProceduralCoreGrassField(olam, specs = [], count = 3600, options = {}) {
   const patches = patchesFromSpecs(specs), exclusions = options.exclusions || [], offsets = [], scales = [], rotations = [], tints = [], bends = [];
   let rejectedRoad = 0, rejectedVillage = 0, tries = 0;
-  const target = Math.min(Math.max(360, Math.floor(count)), 22000), maxTries = target * 4;
+  const target = Math.min(Math.max(360, Math.floor(count)), 4200), maxTries = target * 4;
   while (scales.length < target && tries < maxTries) {
     const i = tries++, p = samplePatch(patches, i), x = p.x, z = p.z;
     if (roadMask(x, z, 7) > .5) { rejectedRoad++; continue; }

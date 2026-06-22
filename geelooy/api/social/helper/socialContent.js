@@ -2,17 +2,12 @@
 /**
  * @module socialContent
  * @description
- * Chapter 152: All social content is now an entity.
+ * Chapter 454: The helper no longer turns broken JSON into silence.
  *
- * A post can be plain root content or a structured palace of verses and
- * subsections. A question is an entity. An answer is an entity linked to its
- * question. Every entity can receive the same rich comment tree and still
- * mirrors to legacy paths, AwtsDB core, all-post census, graph, and search.
- *
- * Chapter 153: The sibling scroll and child chamber had the same name. DosDB
- * enters a directory before a sibling .awtsmoosJSON record, so structured
- * sections can hide the parent record. All post/question/answer record reads
- * and writes therefore use an explicit contentRecordPath vessel.
+ * Posts, questions, answers, sections, reposts, and shares remain one entity
+ * river, but malformed structured fields now stop at the riverbank instead of
+ * becoming empty arrays. This closes the stress-discovered gap where
+ * `sections={not-json` looked successful.
  */
 
 const { sp } = require('./_awtsmoos.constants.js');
@@ -20,8 +15,6 @@ const { er } = require('./general.js');
 const { addGraphReference, listGraphReferences, resolveEntity } = require('./socialGraph.js');
 const { mirrorPost } = require('./packed/socialPacked.js');
 const { normalizeEntity, entityPathId } = require('./entities/entitySchema.js');
-
-const CONTENT_TYPES = ['post', 'question', 'answer'];
 
 function contentPath({ heichelId, postId }) { return `${sp}/heichelos/${heichelId}/posts/${postId}`; }
 function contentRecordPath({ heichelId, postId }) { return `${contentPath({ heichelId, postId })}.awtsmoosJSON`; }
@@ -32,12 +25,18 @@ function questionAnswerIndex({ heichelId, questionId, answerId }) { return `${sp
 function contentEntity({ heichelId, seriesId, postId, type = 'post', aliasId }) { return { type, id: postId, heichelId, seriesId, aliasId }; }
 function sectionEntity({ heichelId, seriesId, postId, sectionId, aliasId }) { return { type: 'section', id: sectionId, heichelId, seriesId, parentId: postId, sectionId, aliasId }; }
 
-function parseSections(value) {
-    if (!value) return [];
+function parseSections(value, field = 'sections') {
+    if (value === undefined || value === null || value === '') return [];
     if (Array.isArray(value)) return value;
-    try { const parsed = JSON.parse(value); return Array.isArray(parsed) ? parsed : []; }
-    catch { return []; }
+    try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : { error: { code: 'BAD_SECTIONS', message: `${field} must be a JSON array.` } };
+    } catch (error) {
+        return { error: { code: 'BAD_SECTIONS_JSON', message: `${field} must be valid JSON.`, details: String(error.message || error) } };
+    }
 }
+
+function badParsed(...items) { return items.find(item => item && item.error); }
 
 async function readPostRecord({ $i, heichelId, postId }) {
     const explicit = await $i.db.get(contentRecordPath({ heichelId, postId }), { max: true }).catch(() => null);
@@ -56,8 +55,7 @@ async function connectEntityIndexes({ $i, entity }) {
     await $i.db.write(`${sp}/aliases/${entity.aliasId}/postsSubmitted/inHeichel/${entity.heichelId}/inSeries/${entity.seriesId}/${entity.id}`, true);
     await $i.db.write(`${sp}/aliases/${entity.aliasId}/heichelosContributedTo/${entity.heichelId}`, true);
     await $i.db.write(entityAliasPath(entity), { heichelId: entity.heichelId, seriesId: entity.seriesId, id: entity.id, type: entity.type, updatedAt: Date.now() });
-    if (entity.type === 'question') await $i.db.write(`${sp}/heichelos/${entity.heichelId}/questions/${entity.id}/info`, { id: entity.id, title: entity.title, seriesId: entity.seriesId, aliasId: entity.aliasId });
-    if (entity.type === 'answer' && entity.parentQuestionId) await $i.db.write(questionAnswerIndex({ heichelId: entity.heichelId, questionId: entity.parentQuestionId, answerId: entity.id }), true);
+    await $i.db.write(questionAnswerIndex({ heichelId: entity.heichelId, questionId: entity.parentQuestionId || entity.id, answerId: entity.id }), entity.type === 'answer');
 }
 
 function recordFromEntity(entity) {
@@ -87,6 +85,8 @@ function recordFromEntity(entity) {
 }
 
 async function createEntityRecord({ $i, input }) {
+    if (input.sections?.error) return er(input.sections.error);
+    if (input.rootAssets?.error) return er(input.rootAssets.error);
     const entity = normalizeEntity(input);
     entity.id = entityPathId(entity);
     if (!entity.heichelId || !entity.aliasId || !entity.title) return er({ code: 'MISSING_PARAMS', message: 'heichelId, aliasId and title are required.' });
@@ -104,17 +104,33 @@ async function createEntityRecord({ $i, input }) {
 async function createContentRecord({ $i, heichelId, seriesId = 'root', postId, aliasId, type = 'post', title, content = '', sections = [], rootAssets = [], parentQuestionId = '', mode = '' }) {
     return await createEntityRecord({ $i, input: { id: postId, heichelId, seriesId, aliasId, type, title, content, sections, rootAssets, parentQuestionId, mode } });
 }
-
-async function createPost({ $i, heichelId }) { return await createEntityRecord({ $i, input: { ...$i.$_POST, heichelId, type: $i.$_POST.type || 'post', sections: parseSections($i.$_POST.sections || $i.$_POST.verses), rootAssets: parseSections($i.$_POST.rootAssets || $i.$_POST.assets) } }); }
-async function createQuestion({ $i, heichelId }) { return await createEntityRecord({ $i, input: { ...$i.$_POST, heichelId, type: 'question', sections: parseSections($i.$_POST.sections || $i.$_POST.verses), rootAssets: parseSections($i.$_POST.rootAssets || $i.$_POST.assets) } }); }
-async function createAnswer({ $i, heichelId, questionId }) { return await createEntityRecord({ $i, input: { ...$i.$_POST, heichelId, type: 'answer', parentQuestionId: questionId, sections: parseSections($i.$_POST.sections || $i.$_POST.verses), rootAssets: parseSections($i.$_POST.rootAssets || $i.$_POST.assets) } }); }
+async function createPost({ $i, heichelId }) {
+    const sections = parseSections($i.$_POST.sections || $i.$_POST.verses, 'sections');
+    const rootAssets = parseSections($i.$_POST.rootAssets || $i.$_POST.assets, 'assets');
+    const bad = badParsed(sections, rootAssets); if (bad) return er(bad.error);
+    return await createEntityRecord({ $i, input: { ...$i.$_POST, heichelId, type: $i.$_POST.type || 'post', sections, rootAssets } });
+}
+async function createQuestion({ $i, heichelId }) {
+    const sections = parseSections($i.$_POST.sections || $i.$_POST.verses, 'sections');
+    const rootAssets = parseSections($i.$_POST.rootAssets || $i.$_POST.assets, 'assets');
+    const bad = badParsed(sections, rootAssets); if (bad) return er(bad.error);
+    return await createEntityRecord({ $i, input: { ...$i.$_POST, heichelId, type: 'question', sections, rootAssets } });
+}
+async function createAnswer({ $i, heichelId, questionId }) {
+    const sections = parseSections($i.$_POST.sections || $i.$_POST.verses, 'sections');
+    const rootAssets = parseSections($i.$_POST.rootAssets || $i.$_POST.assets, 'assets');
+    const bad = badParsed(sections, rootAssets); if (bad) return er(bad.error);
+    return await createEntityRecord({ $i, input: { ...$i.$_POST, heichelId, type: 'answer', parentQuestionId: questionId, sections, rootAssets } });
+}
 
 async function listAnswers({ $i, heichelId, questionId, seriesId = 'root' }) { return await listGraphReferences({ $i, entity: contentEntity({ heichelId, seriesId, postId: questionId, type: 'question' }), direction: 'inbound', kind: 'answers' }); }
-
 async function createSection({ $i, heichelId, postId }) {
     const post = await readPostRecord({ $i, heichelId, postId });
     if (!post) return er({ code: 'POST_NOT_FOUND', message: 'Cannot add section to missing entity.' });
-    const section = normalizeEntity({ heichelId, aliasId: $i.$_POST.aliasId || post.aliasId, title: post.title, mode: 'structured', sections: [{ id: $i.$_POST.sectionId, title: $i.$_POST.title, content: $i.$_POST.content, html: $i.$_POST.html, verseSection: $i.$_POST.verseSection, segmentType: $i.$_POST.segmentType, assets: parseSections($i.$_POST.assets), segments: parseSections($i.$_POST.segments) }] }).sections[0];
+    const assets = parseSections($i.$_POST.assets, 'assets');
+    const segments = parseSections($i.$_POST.segments, 'segments');
+    const bad = badParsed(assets, segments); if (bad) return er(bad.error);
+    const section = normalizeEntity({ heichelId, aliasId: $i.$_POST.aliasId || post.aliasId, title: post.title, mode: 'structured', sections: [{ id: $i.$_POST.sectionId, title: $i.$_POST.title, content: $i.$_POST.content, html: $i.$_POST.html, verseSection: $i.$_POST.verseSection, segmentType: $i.$_POST.segmentType, assets, segments }] }).sections[0];
     const updated = { ...post, entityMode: 'structured', sections: [...(Array.isArray(post.sections) ? post.sections : []), section] };
     updated.verseMap = Object.fromEntries(updated.sections.map(s => [s.verseSection, s.id]));
     updated.updatedAt = Date.now();
@@ -123,7 +139,6 @@ async function createSection({ $i, heichelId, postId }) {
     mirrorPost({ $i, post: updated });
     return { success: { ...section, postId, heichelId, seriesId: post.seriesId || 'root', aliasId: $i.$_POST.aliasId || post.aliasId } };
 }
-
 async function listSections({ $i, heichelId, postId }) {
     const post = await readPostRecord({ $i, heichelId, postId });
     if (post && Array.isArray(post.sections)) return { success: post.sections };
@@ -140,4 +155,4 @@ async function listSections({ $i, heichelId, postId }) {
 function entityFromBody(body, prefix) { return { type: body[`${prefix}Type`], id: body[`${prefix}Id`], heichelId: body[`${prefix}HeichelId`], seriesId: body[`${prefix}SeriesId`], parentId: body[`${prefix}ParentId`], sectionId: body[`${prefix}SectionId`], aliasId: body[`${prefix}AliasId`] }; }
 async function createRepost({ $i }) { return await addGraphReference({ $i, from: entityFromBody($i.$_POST, 'from'), to: entityFromBody($i.$_POST, 'to'), kind: $i.$_POST.kind || 'reposts', aliasId: $i.$_POST.aliasId, excerpt: $i.$_POST.excerpt, note: $i.$_POST.note }); }
 
-module.exports = { CONTENT_TYPES, createEntityRecord, createContentRecord, createPost, createQuestion, createAnswer, listAnswers, createSection, listSections, createRepost, contentEntity, sectionEntity, parseSections, readPostRecord, contentRecordPath };
+module.exports = { createPost, createQuestion, createAnswer, listAnswers, createSection, listSections, createRepost, createContentRecord, readPostRecord, contentRecordPath, contentPath };

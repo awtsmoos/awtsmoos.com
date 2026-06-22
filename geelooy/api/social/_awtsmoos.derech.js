@@ -2,10 +2,12 @@
 /**
  * @module SocialApiDerech
  * @description
- * Chapter 190: The social API gate opens to the recursive entity universe, the
- * Node OS filesystem layer, and now the harmless living read-only bridge. Old
- * APIs remain mounted; new APIs add safer, richer alternate views over the same
- * living data, as the Awtsmoos reveals one light through many vessels.
+ * Chapter 435: Route precedence is clarified for one unified social API.
+ *
+ * The modern canonical routes from `_awtsmoos.profile.js` are mounted early so
+ * `/api/social/meta`, `/api/social/search`, `/api/social/feed`, and
+ * `/api/social/heichelos/discover` cannot be swallowed by older dynamic legacy
+ * routes. All old endpoints remain mounted afterward.
  */
 
 const aliases = require("./_awtsmoos.alias.js");
@@ -59,13 +61,8 @@ module.exports = async $i => {
     await $i.use({
         "/": async () => ({ BH: "yes", session: $i.request.user }),
         "/fetch/:url": async vars => await fetchProxy($i, vars),
+        ...profile(vessel),
         ...aliases(vessel),
-        ...heichelos(vessel),
-        ...posts(vessel),
-        ...counters(vessel),
-        ...mail(vessel),
-        ...fileSystem({ $i }),
-        ...nodeOs(vessel),
         ...keys(vessel),
         ...graph(vessel),
         ...content(vessel),
@@ -74,11 +71,16 @@ module.exports = async $i => {
         ...assets(vessel),
         ...editor(vessel),
         ...governance(vessel),
-        ...profile(vessel),
         ...notifications(vessel),
         ...packed(vessel),
         ...platform(vessel),
         ...migrations(vessel),
+        ...heichelos(vessel),
+        ...posts(vessel),
+        ...counters(vessel),
+        ...mail(vessel),
+        ...fileSystem({ $i }),
+        ...nodeOs(vessel),
         ...comments(vessel),
         ...series(vessel)
     });

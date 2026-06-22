@@ -1,25 +1,40 @@
-/* B"H tabs: five quiet gates, no clutter. */
+/* B"H
+ * Chapter 446: The tabs are not filters; they are doors in a living identity.
+ */
 .profile-tabs {
+  position: sticky;
+  top: .5rem;
+  z-index: 15;
   display: flex;
-  gap: .35rem;
+  gap: .45rem;
   overflow-x: auto;
-  padding: .35rem;
-  border: 1px solid var(--pp-line);
-  border-radius: 1rem;
-  background: rgba(255,255,255,.045);
+  margin: 1rem 0;
+  padding: .45rem;
+  border: 1px solid rgba(121, 84, 40, .18);
+  border-radius: 999px;
+  background: rgba(255, 252, 243, .82);
+  box-shadow: 0 .85rem 2rem rgba(62, 37, 12, .10), inset 0 1px 0 rgba(255,255,255,.8);
+  backdrop-filter: blur(16px) saturate(130%);
 }
 .profile-tabs button {
   flex: 0 0 auto;
+  min-height: 2.55rem;
   border: 0;
-  border-radius: .8rem;
-  padding: .7rem .85rem;
+  border-radius: 999px;
+  padding: 0 .9rem;
   background: transparent;
-  color: var(--pp-muted);
-  font-weight: 850;
+  color: rgba(38, 26, 14, .72);
+  font: inherit;
+  font-size: .77rem;
+  font-weight: 950;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
+.profile-tabs button:hover { background: rgba(255,255,255,.65); }
 .profile-tabs button.active {
-  background: linear-gradient(135deg, #efc46b, #9a672c);
-  color: #170f08;
+  background: linear-gradient(135deg, #2d253d, #8c3518 72%, #d09b48);
+  color: #fff8df;
+  box-shadow: 0 .75rem 1.5rem rgba(94, 44, 14, .18);
 }
-.profile-card-list { display: grid; gap: .8rem; }
-.profile-empty-card { padding: 1rem; border: 1px dashed var(--pp-line); border-radius: 1rem; color: var(--pp-muted); text-align: center; }
+.profile-tabs button:focus-visible { outline: 3px solid rgba(214, 168, 79, .48); outline-offset: 2px; }

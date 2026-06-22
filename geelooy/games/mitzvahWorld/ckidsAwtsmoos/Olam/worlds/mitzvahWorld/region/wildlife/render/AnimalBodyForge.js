@@ -1,22 +1,40 @@
 // B"H
 /**
  * @file AnimalBodyForge.js
- * @description Compatibility facade for upgraded opaque SkinnedMesh animals plus
- * solid readability cores. Advanced anatomy stays; mobile visibility gets a
- * sealed inner vessel so no animal can look see-through or vanish.
+ * @description
+ * Single-mesh animal facade. The previous readability core added many child
+ * meshes; the new covenant returns exactly the one compiled animal mesh. The
+ * Awtsmoos lets realism live in vertices, bones, material intent, and userData,
+ * not in a pile of extra boxes glued to a fox.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { createAnimalRenderable } from "../skinned/AnimalRenderableFactory.js?v=animal-realism-opaque-20260615-bh920";
-import { assertAnimalRenderable } from "../skinned/AnimalRenderableAudit.js?v=binding-safe-closed-animal-audit-20260615-bh1";
+import { createAnimalRenderable } from "../skinned/AnimalRenderableFactory.js?v=single-mesh-animals-20260621-bh1";
+import { assertAnimalRenderable } from "../skinned/AnimalRenderableAudit.js?v=single-mesh-animals-20260621-bh1";
+
 const SCALE = Object.freeze({ rabbit:.55, frog:.42, bird:.45, fox:.72, goat:.85, deer:.95, cow:1.18 });
 const DISPLAY = Object.freeze({ rabbit:"Rabbit", frog:"Frog", bird:"Bird", fox:"Fox", goat:"Goat", deer:"Deer", cow:"Cow" });
-const COLOR = Object.freeze({ rabbit:0xc8b79a, frog:0x2fa64a, bird:0x5b5b4a, fox:0xb8642b, goat:0xb58c5c, deer:0x9b6534, cow:0xd9cbb5 });
-function sealPart(child) { child.userData ||= {}; Object.assign(child.userData, { animalPart:true, skipOctree:true, noOctree:true, selectableCombatTarget:true, skipRaycast:false, opacitySealed:true }); const mats = Array.isArray(child.material) ? child.material : [child.material]; mats.filter(Boolean).forEach(mat => { mat.transparent = false; mat.opacity = 1; mat.depthWrite = true; mat.depthTest = true; mat.alphaTest = 0; mat.side = THREE.DoubleSide; mat.needsUpdate = true; mat.userData ||= {}; mat.userData.animalOpacitySealed = true; }); }
-function mat(species, shade = 1) { const c = new THREE.Color(COLOR[species] || 0x888866).multiplyScalar(shade); return new THREE.MeshLambertMaterial({ color:c, side:THREE.DoubleSide, transparent:false, opacity:1, depthWrite:true, depthTest:true }); }
-function mesh(geometry, material, name, x=0, y=0, z=0) { const m = new THREE.Mesh(geometry, material); m.name = name; m.position.set(x,y,z); m.userData.solidAnimalCorePart = true; sealPart(m); return m; }
-function leg(species, x, z, h=.58) { return mesh(new THREE.CylinderGeometry(.045, .06, h, 10), mat(species,.72), "solid_leg", x, h/2, z); }
-function horns(root, species, y, z) { if (!["goat","deer","cow"].includes(species)) return; const material = new THREE.MeshLambertMaterial({ color:0xd8c39a, transparent:false, opacity:1, depthWrite:true }); [-.12,.12].forEach(x => { const h = species === "deer" ? .42 : .32; root.add(mesh(new THREE.ConeGeometry(.04, h, 10), material, "solid_horn", x, y+h/2, z)); }); }
-function makeCore(species) { const root = new THREE.Group(); root.name = `${species}_solid_readability_core`; root.userData = { solidAnimalCore:true, skipOctree:true, noOctree:true, selectableCombatTarget:true, opacitySealed:true }; const bodyScale = species === "cow" ? [1.05,.55,1.42] : species === "deer" ? [.72,.46,1.05] : species === "frog" ? [.5,.18,.46] : species === "bird" ? [.36,.24,.44] : species === "rabbit" ? [.48,.3,.62] : species === "fox" ? [.62,.32,.92] : [.68,.44,.88]; const body = mesh(new THREE.SphereGeometry(.5, 16, 10), mat(species), "solid_body", 0, bodyScale[1]*.95, 0); body.scale.set(...bodyScale); root.add(body); const headY = species === "frog" ? .34 : bodyScale[1]*1.55, headZ = species === "bird" ? .3 : -.48; const head = mesh(new THREE.SphereGeometry(.28, 14, 8), mat(species,1.08), "solid_head", 0, headY, headZ); head.scale.set(species === "frog" ? .95 : .82, species === "frog" ? .55 : .78, species === "bird" ? .75 : .9); root.add(head); if (species !== "bird") [-.23,.23].forEach(x => [-.28,.28].forEach(z => root.add(leg(species,x,z,species === "frog" ? .18 : species === "cow" ? .78 : .52)))); if (species === "frog") [-.18,.18].forEach(x => root.add(mesh(new THREE.SphereGeometry(.07,8,6), new THREE.MeshLambertMaterial({ color:0xf0e9c0 }), "solid_frog_eye", x, .47, -.18))); horns(root, species, headY, headZ-.04); root.traverse(sealPart); return root; }
-function tuneAdvanced(root) { root.traverse(sealPart); }
-export function buildAnimal(species = "rabbit", data = {}) { const root = createAnimalRenderable(species, data), displayName = DISPLAY[species] || "Animal"; root.name = `animal_${species}_${data.id || "wild"}`; Object.assign(root.userData, { displayName, targetName:displayName, debugName:`opaque_realistic_procedural_${species}_${data.id || "wild"}` }); root.scale.multiplyScalar(Number.isFinite(Number(data.visualScale)) ? Number(data.visualScale) : SCALE[species] || .65); tuneAdvanced(root); const core = makeCore(species); core.renderOrder = -1; root.add(core); Object.assign(root.userData, { solidReadabilityCore:true, opacitySealed:true, normalizedSpeciesScale:root.scale.x }); root.userData.audit = assertAnimalRenderable(root); return root; }
+
+function countMeshes(root) {
+  let count = 0;
+  root?.traverse?.(child => { if (child?.isMesh || child?.isSkinnedMesh) count += 1; });
+  return count;
+}
+
+export function buildAnimal(species = "rabbit", data = {}) {
+  const mesh = createAnimalRenderable(species, data);
+  const displayName = DISPLAY[species] || "Animal";
+  mesh.name = `single_mesh_animal_${species}_${data.id || "wild"}`;
+  mesh.scale.multiplyScalar(Number.isFinite(Number(data.visualScale)) ? Number(data.visualScale) : SCALE[species] || .65);
+  Object.assign(mesh.userData, {
+    displayName,
+    targetName:displayName,
+    debugName:`single_mesh_opaque_realistic_${species}_${data.id || "wild"}`,
+    singleMeshAnimal:true,
+    renderMeshCount:countMeshes(mesh),
+    normalizedSpeciesScale:mesh.scale.x,
+    opacitySealed:true
+  });
+  mesh.userData.audit = { ...assertAnimalRenderable(mesh), singleMeshVerified:countMeshes(mesh) === 1, renderMeshCount:countMeshes(mesh) };
+  return mesh;
+}
+
 export default buildAnimal;

@@ -10,16 +10,16 @@ const DEFAULT_TIMEOUT_MS = 7000;
 const DEPENDENCIES = [
   ["THREE", "/games/scripts/build/three.module.js"],
   ["Nivra", "../../chayim/nivra.js?v=village-combat-20260611-bh804"],
-  ["OlamGrafting", "./OlamGraftingPlain.js?v=combat-diagnostic-graft-20260615-bh918"],
+  ["OlamGrafting", "./OlamGraftingPlain.js?v=fast-wildlife-render-20260621-bh1"],
   ["OlamProperties", "../properties/index.js?v=village-combat-20260611-bh804"],
   ["OlamInit", "./OlamInit.js?v=village-combat-20260611-bh804"],
   ["Ayin", "../camera/index.js?v=village-combat-20260611-bh804"],
   ["UserProgressManager", "../../systems/UserProgressManager.js?v=village-combat-20260611-bh804"],
   ["Yichud", "../interaction/Yichud.js?compact=true"],
   ["PlacementManager", "../interaction/PlacementManager.js?compact=true"],
-  ["CombatManager", "../../systems/combat/CombatManager.js?v=mobile-assisted-range-20260615-bh917"],
+  ["CombatManager", "../../systems/combat/CombatManager.js?v=combat-cache-budget-20260621-bh1"],
   ["WorldStateStore", "../../systems/worldState/WorldStateStore.js?v=world-state-store-20260615-bh1"],
-  ["PixelRatioGovernor", "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=android-settings-render-20260612-bh1"]
+  ["PixelRatioGovernor", "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=crisp-render-20260621-bh2"]
 ];
 
 function absoluteUrl(path) {

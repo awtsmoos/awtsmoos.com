@@ -1,12 +1,12 @@
 /**
  * B"H
  * @module MobileControls
- * @description Touch UI, dialogue trees, relationship map, mission tracker, and Bag.
+ * @description Phone-first UI for missions, map, bag, Musag Dex, gifts, and declaration.
  *
- * Chapter 203: The Bag swallowed the Journal and did not destroy it. The
- * Awtsmoos has no body and no form, yet the player should feel possessions as
- * one vessel: money, clothing, consumables, mission ledger, and battle notes all
- * sit together inside the traveling bag.
+ * Chapter 210: The player stopped needing prophecy to know what to do. The
+ * Awtsmoos has no body and no form, yet the screen now reveals the next step,
+ * the gifts in the house, the gifts already given, the Musag Dex, and the final
+ * declaration lines. A hidden world must still give readable instructions.
  */
 import { State } from '../../binah/State.js';
 import { BATTLE_BUTTONS, DIRECTION_BUTTONS, OVERWORLD_BUTTONS } from './MobileControlSchema.js';
@@ -17,6 +17,9 @@ import { dexRows, dexLine } from '../../yesod/musag/MusagDex.js';
 import { zoneThemeForMap } from '../../data/concepts/TorahCodexIndex.js';
 import { QuestIndex } from '../../data/QuestIndex.js';
 import { bagRows, clothesRows, ensureBag, journalRows } from '../../yesod/bag/BagRuntime.js';
+import { giftRows } from '../../yesod/rambam/GiftRuntime.js';
+import { declarationRows } from '../../yesod/rambam/DeclarationRuntime.js';
+import { finalDeclarationReady } from '../../yesod/rambam/FinalDeclarationRuntime.js';
 
 const HOLD_INTENTS = new Set(['U', 'D', 'L', 'R']);
 const PULSE_FRAMES = 5;
@@ -28,13 +31,14 @@ const ensureIntents = () => (window.AwtsmoosIntents ||= { U: 0, D: 0, L: 0, R: 0
 const questHtml = () => `<aside class="ohr-world-card" aria-live="polite"><b>✦ Current Mission</b><span data-ohr-message>Talk to ג. Follow one step at a time.</span></aside>`;
 const activeMission = () => questSummary().active[0] || null;
 const routeRows = () => routeSummary().map((line, i) => [`Route ${i + 1}`, line]);
+const giftPanelRows = () => [['Declaration Ready', finalDeclarationReady() ? 'yes — enter the House of Forgetting' : 'not yet'], ['— Gifts —', ''], ...giftRows(), ['— Declaration —', ''], ...declarationRows()];
 
 const relationshipRows = () => {
   const qs = questSummary();
   const active = qs.active[0];
   const giver = active ? QuestIndex[active.id]?.giver : 'ג';
   const chain = qs.completed.slice(-4).map(id => QuestIndex[id]?.giver || id).join(' → ') || 'Start at ג';
-  return [['Current guide', giver], ['Current mission', active?.title || qs.next], ['Recent chain', chain], ['Meaning', 'NPCs are soul-functions; follow giver → task → return.'], ['How to talk', 'Tap NPC to face, then press Talk.']];
+  return [['Current guide', giver], ['Current mission', active?.title || qs.next], ['Recent chain', chain], ['Gift Road', 'Garden → Receiver Court → House of Forgetting'], ['How to talk', 'Tap NPC to face, then press Talk.']];
 };
 
 const panels = {
@@ -43,15 +47,15 @@ const panels = {
     const codex = codexSummary();
     const zone = zoneThemeForMap(State.MapId);
     return { title: `Act ${State.Story.chapter}: ${State.Story.active}`, intro: `${zone.name}: ${zone.mood}`, rows: [
-      ['Next', questSummary().next], ['Zuzim', State.Inventory.money || 0], ['Soul Path', `${codex.soul.name} (${codex.soul.category})`], ['Light', `${State.Stats.light}/${State.Stats.maxLight}`],
-      ['Level', State.Stats.level], ['Garment', titleCase(State.Equipment.garment)], ['Musag Dex', dexLine()], ...routeRows().slice(0, 2)] };
+      ['Next', questSummary().next], ['Declaration', finalDeclarationReady() ? 'ready' : 'incomplete'], ['Zuzim', State.Inventory.money || 0], ['Soul Path', `${codex.soul.name} (${codex.soul.category})`],
+      ['Light', `${State.Stats.light}/${State.Stats.maxLight}`], ['Level', State.Stats.level], ['Garment', titleCase(State.Equipment.garment)], ['Musag Dex', dexLine()], ...routeRows().slice(0, 2)] };
   },
   map: () => {
     const zone = zoneThemeForMap(State.MapId);
-    return { title: 'Relationship Map', intro: `${zone.name}: ${zone.mood}. This is who to follow, not just coordinates.`, rows: relationshipRows() };
+    return { title: 'Relationship Map', intro: `${zone.name}: ${zone.mood}. Follow giver → task → receiver.`, rows: relationshipRows() };
   },
-  journal: () => ({ title: 'Journal inside Bag', intro: questSummary().next, rows: [...journalRows(), ...codexRows(), ...dexRows()] }),
-  items: () => ({ title: 'Bag', intro: 'Money, consumables, clothes, and the Journal are all carried here.', rows: [...bagRows(), ['— Clothes —', ''], ...clothesRows(), ['— Journal —', ''], ...journalRows()] })
+  journal: () => ({ title: 'Journal / Declaration', intro: questSummary().next, rows: [...journalRows(), ['— Gift Ledger —', ''], ...giftRows(), ['— Declaration —', ''], ...declarationRows(), ['— Codex —', ''], ...codexRows(), ['— Musag Dex —', ''], ...dexRows()] }),
+  items: () => ({ title: 'Bag / Gifts', intro: 'Money, consumables, clothing, gifts, and declaration progress.', rows: [...bagRows(), ['— Gifts & Declaration —', ''], ...giftPanelRows(), ['— Clothes —', ''], ...clothesRows()] })
 };
 
 export class MobileControls {
@@ -88,22 +92,12 @@ export class MobileControls {
     node.addEventListener('click', e => this.intentClick(e, intent));
   }
 
-  static intentDown(e, node, intent) {
-    e.preventDefault(); node.setPointerCapture?.(e.pointerId);
-    if (State.isUiBlocking()) return this.releaseAll();
-    ensureIntents()[intent] = 1;
-    if (!HOLD_INTENTS.has(intent)) this.pulses[intent] = PULSE_FRAMES;
-  }
+  static intentDown(e, node, intent) { e.preventDefault(); node.setPointerCapture?.(e.pointerId); if (State.isUiBlocking()) return this.releaseAll(); ensureIntents()[intent] = 1; if (!HOLD_INTENTS.has(intent)) this.pulses[intent] = PULSE_FRAMES; }
   static intentUp(e, node, intent) { e.preventDefault(); node.releasePointerCapture?.(e.pointerId); if (HOLD_INTENTS.has(intent)) ensureIntents()[intent] = 0; else this.pulses[intent] = Math.max(this.pulses[intent] || 0, PULSE_FRAMES); }
   static intentClick(e, intent) { if (!intent || HOLD_INTENTS.has(intent) || State.isUiBlocking()) return; e.preventDefault(); this.pulses[intent] = Math.max(this.pulses[intent] || 0, PULSE_FRAMES); ensureIntents()[intent] = 1; }
   static action(e, action) { if (action) { e.preventDefault(); State.openPanel(action); this.releaseAll(); } }
   static panelClick(e) { if (e.target?.closest?.('[data-close-panel]')) State.openPanel(null); }
-  static dialogueClick(e) {
-    if (e.target?.closest?.('[data-dialogue-close]')) State.closeDialogue(true);
-    if (e.target?.closest?.('[data-dialogue-next]')) State.dialogueNext(1);
-    if (e.target?.closest?.('[data-dialogue-back]')) State.dialogueNext(-1);
-    if (e.target?.closest?.('[data-dialogue-mission]')) { State.closeDialogue(false); State.openPanel('journal'); }
-  }
+  static dialogueClick(e) { if (e.target?.closest?.('[data-dialogue-close]')) State.closeDialogue(true); if (e.target?.closest?.('[data-dialogue-next]')) State.dialogueNext(1); if (e.target?.closest?.('[data-dialogue-back]')) State.dialogueNext(-1); if (e.target?.closest?.('[data-dialogue-mission]')) { State.closeDialogue(false); State.openPanel('journal'); } }
 
   static update() {
     if (!this.root) return;
@@ -136,10 +130,6 @@ export class MobileControls {
     shell.dataset.open = 'true';
   }
 
-  static tickPulses() {
-    const intents = ensureIntents();
-    if (State.isUiBlocking()) return this.releaseAll();
-    Object.keys(this.pulses).forEach(intent => { if (this.pulses[intent] > 0) { intents[intent] = 1; this.pulses[intent] -= 1; } else { intents[intent] = 0; delete this.pulses[intent]; } });
-  }
+  static tickPulses() { const intents = ensureIntents(); if (State.isUiBlocking()) return this.releaseAll(); Object.keys(this.pulses).forEach(intent => { if (this.pulses[intent] > 0) { intents[intent] = 1; this.pulses[intent] -= 1; } else { intents[intent] = 0; delete this.pulses[intent]; } }); }
   static releaseAll() { const intents = ensureIntents(); ['U', 'D', 'L', 'R', 'A', 'B'].forEach(key => { intents[key] = 0; }); this.pulses = {}; }
 }

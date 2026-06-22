@@ -1,0 +1,192 @@
+{
+  "support": [
+    {
+      "name": "vp9",
+      "supported": true,
+      "config": {
+        "alpha": "discard",
+        "bitrate": 4000000,
+        "bitrateMode": "variable",
+        "codec": "vp09.00.10.08",
+        "contentHint": "",
+        "framerate": 30,
+        "hardwareAcceleration": "no-preference",
+        "height": 720,
+        "latencyMode": "quality",
+        "width": 1280
+      }
+    },
+    {
+      "name": "h264_baseline",
+      "supported": true,
+      "config": {
+        "alpha": "discard",
+        "bitrate": 4000000,
+        "bitrateMode": "variable",
+        "codec": "avc1.42001f",
+        "contentHint": "",
+        "framerate": 30,
+        "hardwareAcceleration": "no-preference",
+        "height": 720,
+        "latencyMode": "quality",
+        "width": 1280
+      }
+    },
+    {
+      "name": "h264_main",
+      "supported": true,
+      "config": {
+        "alpha": "discard",
+        "bitrate": 4000000,
+        "bitrateMode": "variable",
+        "codec": "avc1.4d401f",
+        "contentHint": "",
+        "framerate": 30,
+        "hardwareAcceleration": "no-preference",
+        "height": 720,
+        "latencyMode": "quality",
+        "width": 1280
+      }
+    },
+    {
+      "name": "h264_high",
+      "supported": true,
+      "config": {
+        "alpha": "discard",
+        "bitrate": 4000000,
+        "bitrateMode": "variable",
+        "codec": "avc1.64001f",
+        "contentHint": "",
+        "framerate": 30,
+        "hardwareAcceleration": "no-preference",
+        "height": 720,
+        "latencyMode": "quality",
+        "width": 1280
+      }
+    },
+    {
+      "name": "hevc",
+      "supported": false,
+      "config": {
+        "alpha": "discard",
+        "bitrate": 4000000,
+        "bitrateMode": "variable",
+        "codec": "hev1.1.6.L93.B0",
+        "contentHint": "",
+        "framerate": 30,
+        "hardwareAcceleration": "no-preference",
+        "height": 720,
+        "latencyMode": "quality",
+        "width": 1280
+      }
+    },
+    {
+      "name": "av1",
+      "supported": true,
+      "config": {
+        "alpha": "discard",
+        "bitrate": 4000000,
+        "bitrateMode": "variable",
+        "codec": "av01.0.08M.08",
+        "contentHint": "",
+        "framerate": 30,
+        "hardwareAcceleration": "no-preference",
+        "height": 720,
+        "latencyMode": "quality",
+        "width": 1280
+      }
+    }
+  ],
+  "rec720": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "seconds": 20,
+    "frames": 600,
+    "size": 2606665,
+    "encodeLoopMs": 4708.199999999255,
+    "flushMs": 15061.199999999255,
+    "totalMs": 19769.39999999851,
+    "realtimeFactor": 1.0116644915880861
+  },
+  "stream720": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "seconds": 20,
+    "frames": 600,
+    "totalMs": 16801.79999999702,
+    "realtimeFactor": 1.1903486531207101,
+    "sessionId": "stream-mqoezhtb-a042007c",
+    "pieces": [
+      {
+        "kind": "header",
+        "timestamp": 0,
+        "bytes": 4315
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 0,
+        "bytes": 172440
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 2000,
+        "bytes": 216702
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 4000,
+        "bytes": 210080
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 6000,
+        "bytes": 207196
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 8000,
+        "bytes": 203439
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 10000,
+        "bytes": 214272
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 12000,
+        "bytes": 211587
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 14000,
+        "bytes": 218489
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 16000,
+        "bytes": 104806
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 17000,
+        "bytes": 101870
+      },
+      {
+        "kind": "cluster",
+        "timestamp": 18000,
+        "bytes": 212094
+      }
+    ],
+    "counters": {
+      "chunks": 12,
+      "bytes": 2077290,
+      "forwarded": 0,
+      "failed": 0,
+      "hlsSegments": 0,
+      "hlsBytes": 0
+    }
+  }
+}

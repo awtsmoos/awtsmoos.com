@@ -6,4 +6,4 @@
  *
  * Compatibility imports now receive the same jump-smooth camera vessel.
  */
-export { default } from './core/OlamVessel.js?v=lava-camera-axis-20260609-bh640';
+export { default } from './core/OlamVessel.js?v=instanced-roads-20260621-bh1';

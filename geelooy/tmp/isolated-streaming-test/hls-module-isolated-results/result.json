@@ -1,0 +1,142 @@
+{
+  "stopped": {
+    "sessionId": "stream-mqofzg7j-e52ff303",
+    "frames": 30,
+    "uploaded": 11844,
+    "files": [
+      "segment-1-1.ts",
+      "playlist-1.m3u8",
+      "master.m3u8"
+    ],
+    "segments": 1,
+    "playlists": 2,
+    "playlist": {
+      "ok": true,
+      "action": "streamingHlsPlaylist",
+      "playlist": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:1\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:1.000,\nsegment-1-1.ts\n#EXT-X-ENDLIST\n",
+      "forwarded": {
+        "forwarded": false,
+        "reason": "not_requested"
+      },
+      "session": {
+        "id": "stream-mqofzg7j-e52ff303",
+        "createdAt": 1782085987279,
+        "updatedAt": 1782085987330,
+        "status": "open",
+        "connector": "custom",
+        "mode": "direct",
+        "ingest": {},
+        "hls": {
+          "sequence": 0,
+          "targetDuration": 1,
+          "maxSegments": 6,
+          "segments": [
+            {
+              "name": "segment-1-1.ts",
+              "duration": 1,
+              "bytes": 11844,
+              "contentType": "video/mp2t",
+              "createdAt": 1782085987330
+            }
+          ],
+          "contentType": "video/mp2t"
+        },
+        "counters": {
+          "chunks": 1,
+          "bytes": 11844,
+          "forwarded": 0,
+          "failed": 0,
+          "hlsSegments": 1,
+          "hlsBytes": 11844
+        },
+        "lastError": null
+      }
+    },
+    "errors": []
+  },
+  "status": {
+    "status": 200,
+    "json": {
+      "ok": true,
+      "action": "streamingSessionStatus",
+      "session": {
+        "id": "stream-mqofzg7j-e52ff303",
+        "createdAt": 1782085987279,
+        "updatedAt": 1782085987343,
+        "status": "closed",
+        "connector": "custom",
+        "mode": "direct",
+        "ingest": {},
+        "hls": {
+          "sequence": 0,
+          "targetDuration": 1,
+          "maxSegments": 6,
+          "segments": [
+            {
+              "name": "segment-1-1.ts",
+              "duration": 1,
+              "bytes": 11844,
+              "contentType": "video/mp2t",
+              "createdAt": 1782085987330
+            }
+          ],
+          "contentType": "video/mp2t"
+        },
+        "counters": {
+          "chunks": 1,
+          "bytes": 11844,
+          "forwarded": 0,
+          "failed": 0,
+          "hlsSegments": 1,
+          "hlsBytes": 11844
+        },
+        "lastError": null
+      }
+    }
+  },
+  "playlist": {
+    "status": 200,
+    "json": {
+      "ok": true,
+      "action": "streamingHlsPlaylist",
+      "playlist": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:1\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:1.000,\nsegment-1-1.ts\n#EXT-X-ENDLIST\n",
+      "forwarded": {
+        "forwarded": false,
+        "reason": "not_requested"
+      },
+      "session": {
+        "id": "stream-mqofzg7j-e52ff303",
+        "createdAt": 1782085987279,
+        "updatedAt": 1782085987343,
+        "status": "closed",
+        "connector": "custom",
+        "mode": "direct",
+        "ingest": {},
+        "hls": {
+          "sequence": 0,
+          "targetDuration": 1,
+          "maxSegments": 6,
+          "segments": [
+            {
+              "name": "segment-1-1.ts",
+              "duration": 1,
+              "bytes": 11844,
+              "contentType": "video/mp2t",
+              "createdAt": 1782085987330
+            }
+          ],
+          "contentType": "video/mp2t"
+        },
+        "counters": {
+          "chunks": 1,
+          "bytes": 11844,
+          "forwarded": 0,
+          "failed": 0,
+          "hlsSegments": 1,
+          "hlsBytes": 11844
+        },
+        "lastError": null
+      }
+    }
+  }
+}

@@ -13,18 +13,16 @@ export default class UniversePulsator {
     this.isRunning = false;
     this._reqId = null;
     this._frameCount = 0;
+    this._usesTimer = false;
+    this._targetFrameMs = 1000 / 60;
   }
 
   /** @returns {void} Starts the constant frame river. */
   ignite() {
     if (this.isRunning) return;
     const scope = typeof self !== 'undefined' ? self : globalThis;
-    if (!scope.requestAnimationFrame) {
-      scope.requestAnimationFrame = callback => setTimeout(() => callback(performance.now()), 16);
-    }
-    if (!scope.cancelAnimationFrame) {
-      scope.cancelAnimationFrame = id => clearTimeout(id);
-    }
+    this._usesTimer = !scope.requestAnimationFrame || globalThis.__AWTSMOOS_USE_WORKER_TIMER__ === true;
+    globalThis.__AWTSMOOS_PULSATOR_MODE__ = this._usesTimer ? "worker-60hz-timer" : "requestAnimationFrame";
     this.isRunning = true;
     this.lastTime = performance.now();
     this._tick(this.lastTime);
@@ -34,13 +32,17 @@ export default class UniversePulsator {
   stop() {
     this.isRunning = false;
     const scope = typeof self !== 'undefined' ? self : globalThis;
-    if (this._reqId != null) scope.cancelAnimationFrame?.(this._reqId);
+    if (this._reqId != null) {
+      if (this._usesTimer) clearTimeout(this._reqId);
+      else scope.cancelAnimationFrame?.(this._reqId);
+    }
     this._reqId = null;
   }
 
   /** @param {number} currentTime RAF time. @returns {void} */
   _tick(currentTime) {
     if (!this.isRunning) return;
+    const tickStartedAt = performance.now();
     let dt = (currentTime - this.lastTime) / 1000;
     this.lastTime = currentTime;
     if (Number.isNaN(dt) || dt > 0.05 || dt <= 0) dt = 0.0166;
@@ -53,7 +55,11 @@ export default class UniversePulsator {
     }
     if (this.isRunning) {
       const scope = typeof self !== 'undefined' ? self : globalThis;
-      this._reqId = scope.requestAnimationFrame(time => this._tick(time));
+      const elapsedMs = performance.now() - tickStartedAt;
+      const delayMs = Math.max(0, Math.round(this._targetFrameMs - elapsedMs));
+      this._reqId = this._usesTimer || !scope.requestAnimationFrame
+        ? setTimeout(() => this._tick(performance.now()), delayMs)
+        : scope.requestAnimationFrame(time => this._tick(time));
     }
   }
 }

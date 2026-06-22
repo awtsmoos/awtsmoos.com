@@ -19,6 +19,7 @@ const PALETTES = Object.freeze({
 function hash(x, y, seed = 1) { const value = Math.sin(x * 127.1 + y * 311.7 + seed * 91.3) * 43758.5453; return value - Math.floor(value); }
 function noise(x, y, seed = 1) { const ix = Math.floor(x), iy = Math.floor(y), fx = smooth(x - ix), fy = smooth(y - iy); return lerp(lerp(hash(ix, iy, seed), hash(ix + 1, iy, seed), fx), lerp(hash(ix, iy + 1, seed), hash(ix + 1, iy + 1, seed), fx), fy); }
 function fbm(x, y, seed) { return noise(x, y, seed) * 0.52 + noise(x * 2.07, y * 2.07, seed + 11) * 0.31 + noise(x * 4.13, y * 4.13, seed + 29) * 0.17; }
+function ridgeNoise(x, y, seed) { const n = fbm(x, y, seed); return 1 - Math.abs(n * 2 - 1); }
 function segmentDistance(px, pz, a, b) { const ax = Number(a?.[0] || 0), az = Number(a?.[1] || 0), bx = Number(b?.[0] || 0), bz = Number(b?.[1] || 0), dx = bx - ax, dz = bz - az, lengthSq = dx * dx + dz * dz || 1; const t = Math.max(0, Math.min(1, ((px - ax) * dx + (pz - az) * dz) / lengthSq)); return Math.hypot(px - (ax + dx * t), pz - (az + dz * t)); }
 function roadMask(x, z, roads = []) { let mask = 0; for (const road of roads) for (let i = 1; i < (road?.points || []).length; i += 1) { const d = segmentDistance(x, z, road.points[i - 1], road.points[i]), width = Number(road.width || 9) * 0.5, feather = Number(road.feather || 8); mask = Math.max(mask, 1 - smooth(Math.max(0, d - width) / Math.max(0.001, feather))); } return Math.max(0, Math.min(1, mask)); }
 function patchMask(x,z,patches=[]){let mask=0;for(const patch of patches){const dx=x-Number(patch.x||0),dz=z-Number(patch.z||0),radius=Math.max(1,Number(patch.radius||20)),d=Math.hypot(dx,dz)/radius;mask=Math.max(mask,(1-smooth(Math.min(1,d)))*Number(patch.strength??1));}return Math.max(0,Math.min(1,mask));}
@@ -28,15 +29,18 @@ function put(data, index, rgb) { data[index] = clamp(rgb[0]); data[index + 1] = 
 function makeTexture(terrain = {}, size = 768) {
   const data = new Uint8Array(size * size * 4), width = Number(terrain.width || 320), depth = Number(terrain.depth || 300), roads = terrain.roads || [], patches=terrain.dirtPatches||[], palette = PALETTES[typeOf(terrain)];
   for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
-    const u = x / (size - 1), v = y / (size - 1), wx = (u - 0.5) * width, wz = (v - 0.5) * depth, broad = fbm(u * 9.2, v * 9.2, 40), fine = fbm(u * 48, v * 48, 91), blade = Math.max(0, Math.sin((u * 173 + v * 37 + fine * 8) * Math.PI)), road = roadMask(wx, wz, roads), dirt=Math.max(road,patchMask(wx,wz,patches)), stone = smooth(Math.max(0, fbm(u * 22 - 2, v * 22 + 5, 76) - 0.7) / 0.23);
-    let color = mix(palette.lo, palette.hi, broad * 0.64 + fine * 0.22 + blade * blade * .14);
-    color = mix(color, palette.road, dirt * (.72 + fine * .28));
+    const u = x / (size - 1), v = y / (size - 1), wx = (u - 0.5) * width, wz = (v - 0.5) * depth, broad = fbm(u * 9.2, v * 9.2, 40), fine = fbm(u * 58, v * 58, 91), grit = fbm(u * 144, v * 144, 181), blade = Math.max(0, Math.sin((u * 211 + v * 59 + fine * 9) * Math.PI)), road = roadMask(wx, wz, roads), dirt=Math.max(road,patchMask(wx,wz,patches)), stone = smooth(Math.max(0, fbm(u * 22 - 2, v * 22 + 5, 76) - 0.66) / 0.25), crack = smooth(Math.max(0, ridgeNoise(u * 38, v * 38, 312) - .78) / .18);
+    let color = mix(palette.lo, palette.hi, broad * 0.58 + fine * 0.24 + blade * blade * .18);
+    color = mix(color, [palette.hi[0] + 18, palette.hi[1] + 20, palette.hi[2] + 8], Math.max(0, blade - .72) * (1 - dirt));
+    color = mix(color, palette.road, dirt * (.70 + fine * .26));
+    color = mix(color, [palette.road[0] * .62, palette.road[1] * .58, palette.road[2] * .54], dirt * crack * .58);
+    color = mix(color, [palette.road[0] + 48, palette.road[1] + 38, palette.road[2] + 24], dirt * grit * .16);
     color = mix(color, palette.stone, stone * (1 - road * 0.5));
     if (typeOf(terrain) === 'safegrass' && hash(Math.floor(u * 130), Math.floor(v * 130), 601) > 0.986 && road < 0.2) color = [color[0] + 86, color[1] + 38, color[2] + (hash(x, y, 77) > 0.5 ? 90 : -12)];
     put(data, (y * size + x) * 4, color);
   }
-  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType); texture.colorSpace=THREE.SRGBColorSpace; texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping; texture.magFilter = THREE.LinearFilter; texture.minFilter = THREE.LinearMipmapLinearFilter; texture.generateMipmaps = true; texture.anisotropy=4; texture.needsUpdate = true; return texture;
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType); texture.colorSpace=THREE.SRGBColorSpace; texture.wrapS = texture.wrapT = THREE.RepeatWrapping; texture.repeat.set(Math.max(2, width / 90), Math.max(2, depth / 90)); texture.magFilter = THREE.LinearFilter; texture.minFilter = THREE.LinearMipmapLinearFilter; texture.generateMipmaps = true; texture.anisotropy=8; texture.needsUpdate = true; return texture;
 }
 export default class TerrainMaterialScribe {
-  static async scribe(data = {}) { const size = Math.max(192, Math.min(384, Number(data.textureSize || 384))); globalThis.postMessage?.({type:"worker_progress",stage:"texture:terrain:start",percent:12}); const material=new THREE.MeshLambertMaterial({ color: 0xffffff, map: makeTexture(data, size), side: THREE.DoubleSide }); material.userData.proceduralTerrainTexture=true; globalThis.postMessage?.({type:"worker_progress",stage:"texture:terrain:done",percent:100}); return material; }
+  static async scribe(data = {}) { const size = Math.max(384, Math.min(768, Number(data.textureSize || 512))); globalThis.postMessage?.({type:"worker_progress",stage:"texture:terrain:start",percent:12}); const material=new THREE.MeshLambertMaterial({ color: 0xffffff, map: makeTexture(data, size), side: THREE.DoubleSide }); material.userData.proceduralTerrainTexture=true; globalThis.postMessage?.({type:"worker_progress",stage:"texture:terrain:done",percent:100}); return material; }
 }

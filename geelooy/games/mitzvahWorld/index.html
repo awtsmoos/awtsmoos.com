@@ -5,22 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Awtsmoos - Mitzvah World 3D</title>
   <link rel="stylesheet" href="./main.css?v=player-facing-starter-ui-20260615-bh1">
-  <link rel="stylesheet" href="./styles/mobile-ui-overlap-fix.css?v=all-at-once-mobile-perf-visual-20260617-bh1" data-awtsmoos-mobile-overlap-fix="true">
+  <link rel="stylesheet" href="./styles/mobile-ui-overlap-fix.css?v=step-by-step-20260621-bh1" data-awtsmoos-mobile-overlap-fix="true">
   <style>
     :root { --gold:#ffd966; --blue:#12203b; --ink:#050814; --paper:#f8e4b0; --red:#ff6b4a; --green:#9be27a; --gray:#9ca3af; }
     body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
+    canvas, img, video, #ikar { image-rendering:auto !important; }
     #ikar { width:100vw; height:100vh; position:absolute; inset:0; }
     #mitzvahUiBridge { position:fixed; inset:0; pointer-events:none; z-index:9000; font-family:system-ui, sans-serif; color:white; }
     #mitzvahTopLeft, #mitzvahTopRight, #mitzvahBottomCenter, #mitzvahCenter, #mitzvahWorldMarkers { position:absolute; display:flex; gap:8px; }
-    #mitzvahTopLeft { top:12px; left:12px; flex-direction:column; width:360px; }
-    #mitzvahTopRight { top:12px; right:12px; flex-direction:column; align-items:flex-end; width:360px; }
+    #mitzvahTopLeft { top:8px; left:8px; flex-direction:column; width:min(280px, 30vw); }
+    #mitzvahTopRight { top:8px; right:8px; flex-direction:column; align-items:flex-end; width:min(240px, 26vw); }
     #mitzvahBottomCenter { left:50%; bottom:18px; transform:translateX(-50%); flex-direction:column; align-items:center; width:min(560px, 90vw); }
-    #mitzvahCenter { left:50%; top:50%; transform:translate(-50%,-50%); flex-direction:column; width:min(520px, 92vw); }
+    #mitzvahCenter { left:50%; top:50%; transform:translate(-50%,-50%); flex-direction:column; width:min(420px, 72vw); }
     #mitzvahWorldMarkers { inset:0; display:block; overflow:hidden; }
-    .mitzvahPanel { pointer-events:auto; background:linear-gradient(180deg, rgba(12,18,35,.94), rgba(4,7,14,.88)); border:1px solid rgba(255,217,102,.55); border-radius:10px; padding:10px 12px; backdrop-filter:blur(4px); font-size:12px; line-height:1.35; box-shadow:0 0 24px rgba(0,0,0,.45), inset 0 0 16px rgba(255,217,102,.05); }
+    .mitzvahPanel { pointer-events:auto; position:relative; background:linear-gradient(180deg, rgba(12,18,35,.82), rgba(4,7,14,.74)); border:1px solid rgba(255,217,102,.42); border-radius:8px; padding:7px 9px; backdrop-filter:none; font-size:10px; line-height:1.25; box-shadow:0 5px 14px rgba(0,0,0,.32), inset 0 0 10px rgba(255,217,102,.04); max-height:34vh; overflow:auto; }
+    .mitzvahPanelHead { display:flex; align-items:center; justify-content:space-between; gap:8px; position:sticky; top:-7px; z-index:2; padding:1px 0 5px; background:linear-gradient(180deg, rgba(12,18,35,.96), rgba(12,18,35,.66)); }
+    .mitzvahPanelControls { display:flex; gap:4px; margin-left:auto; }
+    .mitzvahMini { width:24px; height:24px; border-radius:999px; border:1px solid rgba(255,217,102,.55); background:rgba(0,0,0,.38); color:#fff3c4; font-weight:900; line-height:1; }
+    .mitzvahMini:hover, .mitzvahMini:focus { background:rgba(255,217,102,.22); outline:1px solid rgba(255,217,102,.85); }
+    .mitzvahCollapsed .mitzvahPanelBody { display:none; }
+    .mitzvahCollapsed { max-height:42px !important; overflow:hidden !important; }
     .mitzvahPanel strong, .mitzvahTitle { color:var(--gold); font-weight:800; letter-spacing:.02em; }
     .mitzvahPanel small { color:#d9e3ff; opacity:.85; }
-    .mitzvahChoice, .mitzvahBtn { display:block; margin-top:6px; padding:7px 9px; border-radius:7px; background:rgba(255,217,102,.12); border:1px solid rgba(255,217,102,.28); color:#fff3c4; }
+    .mitzvahChoice, .mitzvahBtn { display:block; margin-top:5px; padding:6px 8px; border-radius:7px; background:rgba(255,217,102,.12); border:1px solid rgba(255,217,102,.28); color:#fff3c4; font-size:11px; }
     .mitzvahReward { color:var(--green); }.mitzvahWarn { color:var(--red); }.mitzvahQuestLine { margin-top:4px; color:#f3f4f6; }.mitzvahDone { color:var(--green); }.mitzvahMuted { color:var(--gray); }
     .mitzvahMarker { position:absolute; transform:translate(-50%, -100%); color:var(--gold); font-weight:900; text-shadow:0 2px 6px #000, 0 0 10px var(--gold); font-size:28px; }
     .mitzvahMarker.gray { color:#cbd5e1; text-shadow:0 2px 6px #000; }.mitzvahSparkle { color:#ffe8a3; animation:mitzvahPulse 1.2s ease-in-out infinite; }
@@ -35,10 +42,12 @@
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
   <script type="module" src="./systems/ui/OpenWorldUiMobilePatch.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
-  <script type="module" src="./systems/performance/PerformanceModeBootstrap.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
-  <script type="module" src="./systems/visuals/VisualTuningBootstrap.js?v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
-  <script type="module" src="./systems/schools/SchoolChecklistUi.js?v=starter-station-school-20260617-bh1"></script>
-  <script type="module" src="./index.js?compact=true&v=player-facing-starter-ui-20260615-bh1"></script>
+  <script type="module" src="./systems/ui/AncientScrollUiPolish.js?v=step-by-step-20260621-bh1"></script>
+  <script type="module" src="./systems/performance/PerformanceModeBootstrap.js?v=step-by-step-20260621-bh1"></script>
+  <script type="module" src="./index.js?compact=true&v=step-by-step-20260621-bh1"></script>
+  <script type="module" src="./systems/visuals/VisualTuningBootstrap.js?v=step-by-step-20260621-bh1"></script>
+  <script type="module" src="./systems/performance/PostLoadFpsProbe.js?v=step-by-step-20260621-bh1"></script>
+  <script type="module" src="./systems/schools/SchoolChecklistUi.js?v=top-layer-chip-20260621-bh1"></script>
   <script type="module" src="./systems/vehicles/VehicleAutoBoot.js?v=vehicle-world-expansion-20260616-bh1"></script>
   <script type="module" src="./systems/autoplay/AutoPlayBoot.js?v=autoplay-debug-harness-20260616-bh1"></script>
   <script type="module" src="./systems/ui/universe/UniversePastePanel.js"></script><script type="module" src="./systems/universe/UniverseManifestWindowBridge.js"></script><script type="module" src="./systems/ui/universe/UniverseRuntimeInspector.js"></script>

@@ -1,0 +1,37 @@
+<!-- B"H -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nesher Studio — Awtsmoos Recorder</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="nesher-shell">
+    <section class="topbar">
+      <div><p class="eyebrow">B"H / local canvas studio</p><h1>Nesher Studio</h1></div>
+      <div class="record-controls">
+        <button id="recordButton">Start Recording</button>
+        <button id="fmp4StreamButton">Start YouTube HLS</button>
+        <button id="addMonitor">Add Monitor</button>
+        <button id="addDisplay">Add Tab/Window + Audio</button>
+        <button id="addWebcam">Add Webcam</button>
+      </div>
+    </section>
+    <section class="control-grid">
+      <label>Width <input id="canvasWidth" type="number" value="1280" min="320" step="16" /></label>
+      <label>Height <input id="canvasHeight" type="number" value="720" min="240" step="16" /></label>
+      <label>FPS <input id="fps" type="number" value="30" min="1" max="60" /></label>
+      <label>Browser URL <input id="iframeUrl" value="https://awtsmoos.com" /></label>
+      <button id="applySize">Apply Size</button><button id="addCanvas">Add 2D Canvas</button><button id="addIframe">Add Iframe Plate</button><button id="addBrowser">Add Browser Source</button>
+    </section>
+    <section class="studio-grid">
+      <aside class="scene-panel"><h2>Scenes</h2><ol id="sceneList"></ol><button id="addScene">New Scene</button><button id="duplicateScene">Duplicate Scene</button></aside>
+      <div class="stage-wrap"><canvas id="stage"></canvas></div>
+      <aside><h2>Sources</h2><ol id="sourceList"></ol><div class="layer-buttons"><button id="layerUp">Layer Up</button><button id="layerDown">Layer Down</button><button id="duplicateSource">Duplicate</button><button id="removeSource">Remove</button></div><p id="status">Ready. Recording uses WebCodecs; streaming uses H.264 MPEG-TS HLS for YouTube-shaped ingest.</p></aside>
+    </section>
+  </main>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

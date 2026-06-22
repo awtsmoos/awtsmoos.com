@@ -6,6 +6,7 @@
 import { BasePortals } from './PortalIndexBase.js';
 import { ExtraPortals } from './PortalIndexExtra.js';
 import { MidgamePortals } from './PortalIndexMidgame.js';
+import { RambamPortals } from './PortalIndexRambam.js';
 
 const mergePortalShards = (...shards) => {
   const merged = {};
@@ -17,4 +18,4 @@ const mergePortalShards = (...shards) => {
   return merged;
 };
 
-export const Portals = mergePortalShards(MidgamePortals, ExtraPortals, BasePortals);
+export const Portals = mergePortalShards(RambamPortals, MidgamePortals, ExtraPortals, BasePortals);

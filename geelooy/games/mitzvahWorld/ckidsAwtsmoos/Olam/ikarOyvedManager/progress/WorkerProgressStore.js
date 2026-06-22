@@ -5,7 +5,7 @@
  * main thread. The report remains a lamp; it is no longer a boulder cloned on
  * every heartbeat.
  */
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=zone-reality-20260617-99-watchdog-bh";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=visible-canvas-watchdog-20260621-bh2";
 const FINAL_STAGES = new Set(["world_final_ready", "loadedWorld", "canvas_transferred"]);
 let pendingProgress = null, progressTimer = null;
 function trimArray(value, max) { return Array.isArray(value) ? value.slice(-max) : []; }

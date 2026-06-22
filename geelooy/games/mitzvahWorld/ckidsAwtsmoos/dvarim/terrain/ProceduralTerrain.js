@@ -13,7 +13,7 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import Domem from "../../chayim/domem/index.js";
 import TerrainGeometryEmanator from "./core/TerrainGeometryEmanator.js";
-import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=zone-reality-20260614-bh817";
+import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?v=vivid-ground-20260621-bh1";
 const hiddenGroundMaterial = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0 });
 const n = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 function triangleCount(geometry) {

@@ -2,11 +2,12 @@
 /**
  * @file controls.js
  * @description
- * Chapter 36: The Hands Became Deliberate.
+ * Chapter 37: The Lateral Gates Were Switched Exactly.
  *
- * The Awtsmoos no longer assumes every mobile breath is a sprint. Movement
- * reads the current input vessel exactly: forward means forward, Shift means
- * run, and lava freeze means silence until the countdown completes.
+ * The Awtsmoos breathes intention into the hands. Q and E were mirror-doors
+ * that opened on the wrong side of the meadow. This whole vessel now declares
+ * the switch in one clear place: E strides left, Q strides right, while every
+ * other movement covenant remains untouched.
  */
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ";
@@ -14,6 +15,8 @@ const CAMERA_FPS_TOGGLE = "KeyT";
 const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const DISMOUNT_KEY = "KeyX";
+const LEFT_STRIDE_KEY = "KeyE";
+const RIGHT_STRIDE_KEY = "KeyQ";
 
 /** @param {object} olam World. @param {...string} codes Key codes. @returns {boolean} */
 function keyOn(olam, ...codes) {
@@ -42,8 +45,8 @@ export default {
     this.moving.backward = flag(inputs, "BACKWARD") || keyOn(this.olam, "KeyS", "ArrowDown");
     this.moving.turningLeft = flag(inputs, "LEFT_ROTATE") || keyOn(this.olam, "KeyA", "ArrowLeft");
     this.moving.turningRight = flag(inputs, "RIGHT_ROTATE") || keyOn(this.olam, "KeyD", "ArrowRight");
-    this.moving.stridingLeft = flag(inputs, "LEFT_STRIDE") || keyOn(this.olam, "KeyQ");
-    this.moving.stridingRight = flag(inputs, "RIGHT_STRIDE") || keyOn(this.olam, "KeyE");
+    this.moving.stridingLeft = flag(inputs, "LEFT_STRIDE") || keyOn(this.olam, LEFT_STRIDE_KEY);
+    this.moving.stridingRight = flag(inputs, "RIGHT_STRIDE") || keyOn(this.olam, RIGHT_STRIDE_KEY);
     this.moving.jump = flag(inputs, "JUMP") || keyOn(this.olam, "Space");
     this.moving.down = flag(inputs, "DOWN") || keyOn(this.olam, "KeyX");
     this.moving.up = flag(inputs, "UP");

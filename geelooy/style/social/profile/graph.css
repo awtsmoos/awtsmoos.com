@@ -1,0 +1,40 @@
+/* B"H — Chapter 450: The graph appears as constellations before it becomes stars. */
+.profile-graph-preview header {
+  display: flex;
+  justify-content: space-between;
+  gap: .75rem;
+  align-items: end;
+}
+.profile-graph-preview header p { margin: 0; color: rgba(35,23,13,.62); font-weight: 900; }
+.profile-graph-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  padding: .85rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,.56);
+  border: 1px solid rgba(121,84,40,.14);
+}
+.graph-node {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  border-radius: 999px;
+  padding: .2rem .65rem;
+  color: #24170d;
+  background: rgba(214,168,79,.22);
+  font-weight: 900;
+  font-size: .8rem;
+}
+.graph-node.alias { background: rgba(123, 92, 214, .18); }
+.graph-node.heichel { background: rgba(214, 168, 79, .28); }
+.graph-node.post { background: rgba(70, 133, 101, .18); }
+.profile-graph-edges {
+  max-height: 14rem;
+  overflow: auto;
+  border-radius: 1rem;
+  background: rgba(36,26,54,.88);
+  color: #fff8df;
+  padding: .85rem;
+}
+.profile-graph-edges p { margin: .3rem 0; font-size: .78rem; overflow-wrap: anywhere; }

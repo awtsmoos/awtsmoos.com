@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "suite": "runAllPerformanceAudits",
+  "results": [
+    {
+      "test": "tests/performance/postLoadFpsSmoke.js",
+      "ok": true,
+      "stdout": "{\n  \"ok\": true,\n  \"test\": \"postLoadFpsSmoke\"\n}",
+      "stderr": ""
+    },
+    {
+      "test": "tests/performance/noPixelatedTextureAudit.js",
+      "ok": true,
+      "stdout": "{\n  \"ok\": true,\n  \"test\": \"noPixelatedTextureAudit\",\n  \"scanned\": 2480\n}",
+      "stderr": ""
+    },
+    {
+      "test": "tests/performance/animalLodAndSingleMeshAudit.js",
+      "ok": true,
+      "stdout": "{\n  \"ok\": true,\n  \"test\": \"animalLodAndSingleMeshAudit\"\n}",
+      "stderr": ""
+    },
+    {
+      "test": "tests/performance/npcSchedulerAudit.js",
+      "ok": true,
+      "stdout": "{\n  \"ok\": true,\n  \"test\": \"npcSchedulerAudit\"\n}",
+      "stderr": ""
+    }
+  ]
+}

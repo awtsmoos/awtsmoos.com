@@ -1,23 +1,97 @@
 // B"H
-/** @file AnimalRenderableFactory.js @description Abstract animal compiler -> opaque textured multi-part animated renderable. */
+/**
+ * @file AnimalRenderableFactory.js
+ * @description
+ * Single-mesh animal compiler. The Awtsmoos gathers fur, ears, tail, horns,
+ * and life into one skinned vessel instead of scattering the creature into many
+ * draw-call fragments. Health, targeting, kosher flags, and animation remain in
+ * userData; visual bars/attachments are deliberately not separate meshes.
+ */
 import { ensureRenderBackend } from "../../../../../../rendering/RendererProvider.js";
-import { speciesProfile } from "../render/AnimalSpeciesProfiles.js?v=animal-realism-20260615-bh920";
-import { createAnimalRigBlueprint } from "./AnimalRigBlueprints.js?v=animal-realism-20260615-bh920";
-import { createAnimalSurfaceBlueprint } from "./AnimalSurfaceBlueprint.js?v=animal-realism-20260615-bh920";
-import { solveAnimalSkinWeights } from "./AnimalSkinWeightSolver.js?v=animal-realism-20260615-bh920";
-import { animalMaterialIntent, attachmentMaterialIntent, healthMaterialIntent, animalCombatStats } from "./AnimalMaterialIntent.js?v=animal-realism-20260615-bh920";
-import { animalAttachmentBlueprints } from "./AnimalAttachmentBlueprints.js?v=animal-realism-20260615-bh920";
-import { animalAnimationBlueprints } from "./AnimalAnimationBlueprints.js?v=animal-realism-20260615-bh920";
-import { attachAnimalAnimationController } from "./AnimalAnimationController.js?v=animal-realism-20260615-bh920";
+import { speciesProfile } from "../render/AnimalSpeciesProfiles.js?v=single-mesh-animals-20260621-bh1";
+import { createAnimalRigBlueprint } from "./AnimalRigBlueprints.js?v=single-mesh-animals-20260621-bh1";
+import { createAnimalSurfaceBlueprint } from "./AnimalSurfaceBlueprint.js?v=single-mesh-animals-20260621-bh1";
+import { solveAnimalSkinWeights } from "./AnimalSkinWeightSolver.js?v=single-mesh-animals-20260621-bh1";
+import { animalMaterialIntent, animalCombatStats } from "./AnimalMaterialIntent.js?v=single-mesh-animals-20260621-bh1";
+import { animalAnimationBlueprints } from "./AnimalAnimationBlueprints.js?v=single-mesh-animals-20260621-bh1";
+import { attachAnimalAnimationController } from "./AnimalAnimationController.js?v=single-mesh-animals-20260621-bh1";
+
 const DISPLAY = Object.freeze({ fox:"Fox", rabbit:"Rabbit", deer:"Deer", goat:"Goat", cow:"Cow", frog:"Frog", bird:"Bird" });
+const KOSHER = new Set(["cow", "goat", "deer"]);
 function displayName(species) { return DISPLAY[species] || "Animal"; }
-function boxData(s = [1,1,1]) { const x=s[0]/2,y=s[1]/2,z=s[2]/2; return { positions:[-x,-y,-z,x,-y,-z,x,y,-z,-x,y,-z,-x,-y,z,x,-y,z,x,y,z,-x,y,z], indices:[0,1,2,0,2,3,4,6,5,4,7,6,0,4,5,0,5,1,1,5,6,1,6,2,2,6,7,2,7,3,3,7,4,3,4,0] }; }
-function setPos(obj, p=[0,0,0], s=[1,1,1]) { if (obj.position) obj.position.set(p[0],p[1],p[2]); if (obj.scale) obj.scale.set(s[0],s[1],s[2]); return obj; }
-function sealObjectOpacity(obj) { obj?.traverse?.(child => { const mats = Array.isArray(child.material) ? child.material : [child.material]; mats.filter(Boolean).forEach(mat => { mat.transparent = false; mat.opacity = 1; mat.depthWrite = true; mat.depthTest = true; mat.alphaTest = 0; mat.needsUpdate = true; mat.userData ||= {}; mat.userData.animalOpacitySealed = true; }); }); }
-function addAttachments(backend, root, skeletonPack, list, species) { let count = 0; for (const a of list) { const bone = skeletonPack.boneMap[a.bone]; if (!bone) continue; const mesh = backend.mesh({ geometry:backend.geometry(boxData(a.scale)), material:backend.material(attachmentMaterialIntent(a.kind, species)), name:`animal_${species}_${a.kind}_${a.bone}` }); setPos(mesh, a.pos, [1,1,1]); backend.mark(mesh, { animalAttachment:true, animalMaterialPart:a.kind, animalSpecies:species, opacitySealed:true }); backend.attach(bone, mesh); count++; } return count; }
-function addHealth(backend, root, hostile) { const mats = healthMaterialIntent(hostile), bg = backend.mesh({ geometry:backend.geometry(boxData([.86,.045,.045])), material:backend.material(mats.bg), name:"health_bar_bg" }), fg = backend.mesh({ geometry:backend.geometry(boxData([.8,.055,.05])), material:backend.material(mats.fg), name:"health_bar_fill" }); setPos(bg,[0,1.65,0]); setPos(fg,[0,1.656,.015]); backend.mark(bg,{ healthBarPart:true, skipOctree:true }); backend.mark(fg,{ healthBarPart:true, skipOctree:true }); backend.attach(root,bg); backend.attach(root,fg); root.userData.healthBar = { bg, fg }; }
-function updateHealthBar(root) { const h = root.userData?.health || {}, bar = root.userData?.healthBar || {}; if (!bar.fg || !h.max) return; const pct = Math.max(0, Math.min(1, h.current / h.max)); if (bar.fg.scale) bar.fg.scale.x = pct; if (bar.fg.position) bar.fg.position.x = -(.8 - .8 * pct) * .5; }
-function deterministicEvade(root, source) { const data = root.userData || {}, h = data.health || {}, seed = (h.hitsTaken || 0) * 97 + String(data.species || "").length * 31; const wave = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1; const chance = h.evasion + (data.airborne && !source?.antiAir ? h.flightEvasion : 0); return wave < chance; }
-function attachCombatMethods(root) { root.takeDamage = (amount = 0, source = {}) => { const data = root.userData || {}, h = data.health; if (!h || h.dead) return 0; h.hitsTaken += 1; if (deterministicEvade(root, source)) { h.lastResult = "evaded"; return 0; } const raw = Math.max(1, Number(amount) || 1), minGate = Math.max(1, h.max / h.minHitsToKill), reduced = Math.max(1, raw * (1 - h.armor)), applied = Math.min(reduced, minGate); h.current = Math.max(0, h.current - applied); Object.assign(h, { lastResult:"damaged", lastDamage:applied }); updateHealthBar(root); if (h.current <= 0) { h.dead = true; data.state = "dead"; data.animalAnimationController?.play("death", .08); } return applied; }; root.healAnimal = amount => { const h = root.userData.health; h.current = Math.min(h.max, h.current + Math.max(0, Number(amount) || 0)); updateHealthBar(root); }; }
-export function createAnimalRenderable(species = "rabbit", data = {}) { const backend = ensureRenderBackend(), profile = speciesProfile(species), rig = createAnimalRigBlueprint(species, profile), surface = createAnimalSurfaceBlueprint(species, profile), stats = animalCombatStats(species, data), skin = solveAnimalSkinWeights(surface, rig); surface.skinIndices = skin.skinIndices; surface.skinWeights = skin.skinWeights; const skeletonPack = backend.skeleton(rig), skinned = backend.skinnedMesh({ geometry:backend.geometry(surface), material:backend.material(animalMaterialIntent(species, profile)), skeletonPack, name:`${species}_closed_body_skinned_mesh` }); const root = backend.group(`animal_${species}_${data.id || "wild"}`); backend.attach(root, skinned); backend.mark(root, { wildlifeActor:true, species, displayName:displayName(species), targetName:displayName(species), debugName:`opaque_realistic_skinned_${species}_${data.id || "wild"}`, profile, proceduralSkinnedAnimal:true, usesRenderBackend:true, renderBackend:backend.name, skinnedMesh:skinned, skeletonPack, boneCount:skeletonPack.bones.length, surfaceMetadata:surface.metadata || null, health:{ current:stats.maxHealth, max:stats.maxHealth, armor:stats.armor, evasion:stats.evasion, flightEvasion:stats.flightEvasion, minHitsToKill:stats.minHitsToKill, hitsTaken:0, dead:false }, faction:species === "fox" ? "hostile" : "neutral", selectableCombatTarget:true, realisticAnimal:true, realisticBodyUpgrade:true, opacitySealed:true, attackDifficult:true, airborne:species === "bird", kosherEligible:["cow","goat","deer"].includes(species), carcassEnabled:true }); const attachmentCount = addAttachments(backend, root, skeletonPack, animalAttachmentBlueprints(species, profile), species); addHealth(backend, root, species === "fox"); const clips = animalAnimationBlueprints(species), controller = attachAnimalAnimationController(backend, root, clips); backend.mark(root, { animalAnimationController:controller, clipCount:Object.keys(controller.actions || {}).length, attachmentMaterialCount:attachmentCount, multiMaterialAnimal:attachmentCount > 3, bindingSafe:root.userData.bindingSafe, removedAnimationTracks:root.userData.removedAnimationTracks || [] }); attachCombatMethods(root); updateHealthBar(root); sealObjectOpacity(root); return root; }
+
+function sealMesh(mesh) {
+  const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+  for (const mat of mats.filter(Boolean)) {
+    mat.transparent = false; mat.opacity = 1; mat.depthWrite = true; mat.depthTest = true; mat.alphaTest = 0;
+    mat.needsUpdate = true; mat.userData ||= {}; mat.userData.singleMeshAnimalMaterial = true;
+  }
+  mesh.userData ||= {};
+  Object.assign(mesh.userData, { singleMeshAnimal:true, animalPart:false, selectableCombatTarget:true, skipRaycast:false });
+}
+
+function updateHealthState(root) {
+  const h = root.userData?.health;
+  if (!h?.max) return;
+  root.userData.healthPct = Math.max(0, Math.min(1, h.current / h.max));
+}
+
+function deterministicEvade(root, source) {
+  const h = root.userData?.health || {}, species = root.userData?.species || "";
+  const seed = (h.hitsTaken || 0) * 97 + species.length * 31;
+  const wave = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
+  return wave < (h.evasion + (root.userData.airborne && !source?.antiAir ? h.flightEvasion : 0));
+}
+
+function attachCombatMethods(root) {
+  root.takeDamage = (amount = 0, source = {}) => {
+    const h = root.userData.health;
+    if (!h || h.dead) return 0;
+    h.hitsTaken += 1;
+    if (deterministicEvade(root, source)) { h.lastResult = "evaded"; return 0; }
+    const raw = Math.max(1, Number(amount) || 1);
+    const minGate = Math.max(1, h.max / h.minHitsToKill);
+    const applied = Math.min(Math.max(1, raw * (1 - h.armor)), minGate);
+    h.current = Math.max(0, h.current - applied);
+    Object.assign(h, { lastResult:"damaged", lastDamage:applied, dead:h.current <= 0 });
+    updateHealthState(root);
+    if (h.dead) root.userData.animalAnimationController?.play?.("death", .08);
+    return applied;
+  };
+  root.healAnimal = amount => {
+    const h = root.userData.health;
+    h.current = Math.min(h.max, h.current + Math.max(0, Number(amount) || 0));
+    h.dead = false; updateHealthState(root);
+  };
+}
+
+export function createAnimalRenderable(species = "rabbit", data = {}) {
+  const backend = ensureRenderBackend();
+  const profile = speciesProfile(species);
+  const rig = createAnimalRigBlueprint(species, profile);
+  const surface = createAnimalSurfaceBlueprint(species, profile);
+  const skin = solveAnimalSkinWeights(surface, rig);
+  surface.skinIndices = skin.skinIndices;
+  surface.skinWeights = skin.skinWeights;
+  const skeletonPack = backend.skeleton(rig);
+  const mesh = backend.skinnedMesh({ geometry:backend.geometry(surface), material:backend.material(animalMaterialIntent(species, profile)), skeletonPack, name:`single_mesh_${species}_${data.id || "wild"}` });
+  const stats = animalCombatStats(species, data);
+  backend.mark(mesh, {
+    wildlifeActor:true, species, displayName:displayName(species), targetName:displayName(species),
+    debugName:`single_mesh_realistic_${species}_${data.id || "wild"}`, profile,
+    proceduralSkinnedAnimal:true, singleMeshAnimal:true, renderMeshCount:1, renderBackend:backend.name,
+    skinnedMesh:mesh, skeletonPack, boneCount:skeletonPack.bones.length, surfaceMetadata:surface.metadata || null,
+    health:{ current:stats.maxHealth, max:stats.maxHealth, armor:stats.armor, evasion:stats.evasion, flightEvasion:stats.flightEvasion, minHitsToKill:stats.minHitsToKill, hitsTaken:0, dead:false },
+    faction:species === "fox" ? "hostile" : "neutral", selectableCombatTarget:true, realisticAnimal:true,
+    realisticBodyUpgrade:true, opacitySealed:true, attackDifficult:true, airborne:species === "bird",
+    kosherEligible:KOSHER.has(species), carcassEnabled:true
+  });
+  sealMesh(mesh);
+  const controller = attachAnimalAnimationController(backend, mesh, animalAnimationBlueprints(species));
+  backend.mark(mesh, { animalAnimationController:controller, clipCount:Object.keys(controller.actions || {}).length, meshChildrenAllowed:0 });
+  attachCombatMethods(mesh);
+  updateHealthState(mesh);
+  return mesh;
+}
+
 export default createAnimalRenderable;

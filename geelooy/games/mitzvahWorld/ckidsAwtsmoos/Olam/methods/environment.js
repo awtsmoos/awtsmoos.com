@@ -8,7 +8,7 @@
  * Now supercharged with the IntenseSkySystem, forging realistic scattering and lens flares.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import WeatherEffects from './WeatherEffects.js';
+import WeatherEffects from './WeatherEffects.js?v=crisp-background-budget-20260621-bh2';
 import IntenseSkySystem from '../../dvarim/nature/sky/IntenseSkySystem.js'; // B"H!
 
 export default class Environment {
@@ -47,8 +47,11 @@ export default class Environment {
      * update - The constant pulse of the universe.
      */
     update(dt) {
+        this.__environmentAcc = (this.__environmentAcc || 0) + (Number(dt) || 0);
+        const step = Math.min(0.25, this.__environmentAcc || dt);
+        this.__environmentAcc = 0;
         // 1. Advance the Cosmic Clock
-        this.gameTime = (this.gameTime + dt * this.timeSpeed) % 24;
+        this.gameTime = (this.gameTime + step * this.timeSpeed) % 24;
 
         // 2. Update the Intense Sky (which moves the sun and lens flares)
         const cam = this.olam.activeCamera || (this.olam.ayin ? this.olam.ayin.camera : null);
@@ -68,7 +71,7 @@ export default class Environment {
 
         // 3. Weather Phenomena
         if (this.weatherEffects) {
-             this.weatherEffects.update(dt, this.weatherType, this.weatherIntensity, this.gameTime);
+             this.weatherEffects.update(step, this.weatherType, this.weatherIntensity, this.gameTime);
         }
     }
 }

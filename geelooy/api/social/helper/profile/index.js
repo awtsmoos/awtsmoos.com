@@ -2,8 +2,11 @@
 /**
  * @module ProfileAggregator
  * @description
- * Chapter 59: The Awtsmoos gathers alias, template, posts, comments, palaces,
- * trees, stats, and recent activity into one public profile vessel.
+ * Chapter 418: The alias becomes a small social universe.
+ *
+ * Posts, comments, Heichelos, tree, activity, and private return-history now
+ * gather into one profile vessel. The public story is visible, while the
+ * history stream is alias-scoped so the logged-in user can resume their path.
  */
 
 const { listTemplates } = require("./templates.js");
@@ -14,16 +17,19 @@ const { commentsByAlias } = require("./comments.js");
 const { treeByAlias } = require("./tree.js");
 const { profileStats } = require("./stats.js");
 const { recentActivity } = require("./activity.js");
+const { getHistory, recordHistory, clearHistory } = require("./history.js");
 
 async function aggregateProfile({ $i, aliasId }) {
     const identity = await readProfileIdentity({ $i, aliasId });
     if (!identity) return null;
-    const [posts, comments, heichelos, tree] = await Promise.all([
+    const [posts, comments, heichelos, tree, history] = await Promise.all([
         postsByAlias({ $i, aliasId }),
         commentsByAlias({ $i, aliasId }),
         profileHeichelos($i, aliasId),
-        treeByAlias({ $i, aliasId })
+        treeByAlias({ $i, aliasId }),
+        getHistory({ $i, aliasId, limit: 40 })
     ]);
+    const activity = recentActivity({ posts, comments, limit: 40 });
     return {
         ...identity,
         templates: listTemplates(),
@@ -33,9 +39,26 @@ async function aggregateProfile({ $i, aliasId }) {
         heichelos,
         tree,
         seriesTree: tree,
-        activity: recentActivity({ posts, comments }),
-        pinned: posts.slice(0, 1)
+        activity,
+        history,
+        pinned: posts.slice(0, 1),
+        dashboard: {
+            continueReading: history.slice(0, 6),
+            recentActivity: activity.slice(0, 8),
+            recentPosts: posts.slice(0, 8),
+            recentComments: comments.slice(0, 8)
+        }
     };
 }
 
-module.exports = { aggregateProfile, postsByAlias, commentsByAlias, treeByAlias, profileHeichelos };
+module.exports = {
+    aggregateProfile,
+    postsByAlias,
+    commentsByAlias,
+    treeByAlias,
+    profileHeichelos,
+    getHistory,
+    recordHistory,
+    clearHistory,
+    recentActivity
+};

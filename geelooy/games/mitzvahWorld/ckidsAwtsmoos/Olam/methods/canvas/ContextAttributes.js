@@ -6,10 +6,8 @@
  *
  * The renderer was failing before the scene could draw: Chrome reported the GPU
  * as disabled while trying to create the OffscreenCanvas WebGL context. The
- * safest repair is to stop asking for expensive or fragile context flags. No
- * antialias, no logarithmic depth buffer, no high-performance demand: first let
- * the browser give us any stable WebGL vessel, then the small Level 1 scene can
- * draw normally.
+ * current village keeps the fragile flags off, but explicitly asks for the
+ * high-performance adapter so real gameplay does not crawl on dual-GPU systems.
  */
 export default class ContextAttributes {
   /**
@@ -25,7 +23,7 @@ export default class ContextAttributes {
       stencil: false,
       premultipliedAlpha: false,
       preserveDrawingBuffer: false,
-      powerPreference: "default",
+      powerPreference: "high-performance",
       failIfMajorPerformanceCaveat: false
     };
   }

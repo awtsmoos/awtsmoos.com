@@ -21,6 +21,10 @@ const ACTIONS = {
   chromeNetwork: chromeExtras.chromeNetwork,
   chromeAccessibilitySnapshot: chromeExtras.chromeAccessibilitySnapshot,
   chromeTestUrl: chromeExtras.chromeTestUrl,
+  chromeDoctor: chromeExtras.chromeDoctor,
+  browserDoctor: chromeExtras.chromeDoctor,
+  browserTrace: chromeExtras.chromeDoctor,
+  browserInspect: chromeExtras.chromeDoctor,
 
   chromeCookies: chromeSession.chromeCookies,
   chromeCookieSet: chromeSession.chromeCookieSet,

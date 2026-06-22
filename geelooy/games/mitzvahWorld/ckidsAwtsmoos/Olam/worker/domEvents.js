@@ -3,7 +3,7 @@
 import KeyboardEmissary from './input/KeyboardEmissary.js?v=npc-scroll-pass-through-20260609-bh638';
 import MouseEmissary from './input/MouseEmissary.js?v=npc-scroll-pass-through-20260609-bh638';
 import TouchOrchestrator from './input/TouchOrchestrator.js?v=android-settings-joystick-20260612-bh2';
-import { measureRenderViewport } from '../../divine_systems/render/core/PixelRatioGovernor.js?v=android-settings-render-20260612-bh1';
+import { measureRenderViewport } from '../../divine_systems/render/core/PixelRatioGovernor.js?v=crisp-render-20260621-bh2';
 const SEAL = 'android-dom-events-20260612-bh2';
 export default function setupDomEvents(manager) {
   const { eved } = manager;

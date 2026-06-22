@@ -2,11 +2,11 @@
 /**
  * @module AssetUpload
  * @description
- * Chapter 138: Alias-owned binary uploads and public serving.
- *
- * Multipart is primary; base64 form fields remain as a test and older-client
- * fallback. Every binary spark lands under its alias, receives a manifest, and
- * can be served back by public path with the correct MIME for images/audio.
+ * Chapter 470: Alias-owned binary uploads and public serving become immediately
+ * visible to the Awtsmoos OS. Multipart remains primary; base64 form fields keep
+ * older tests and clients alive. Every image/audio spark lands under its alias,
+ * receives a manifest, gains OS and virtual-OS paths at birth, and can be served
+ * back by public path with the correct MIME.
  */
 
 const fs = require('fs');
@@ -21,15 +21,27 @@ const { writeAssetManifest, listAssetManifests, readAssetManifest } = require('.
 
 function safeText(value, max = 180) { return String(value || '').replace(/[<>]/g, '').trim().slice(0, max); }
 function assetIdFromSegment(value) { return safeText(String(value || '').replace(/\.[a-z0-9]+$/i, ''), 140); }
+function osPaths(aliasId, assetId) { return { ownerOsPath: `/os/aliases/${aliasId}/assets/${assetId}`, virtualOsPath: `/awtsmoos-os/assets/${aliasId}/${assetId}`, vaultPath: `/socialAssets/aliases/${aliasId}/${assetId}` }; }
 
 function attachedTo(fields = {}) {
-  return { kind: safeText(fields.attachKind || fields.kind || 'post', 32), postId: safeText(fields.postId || '', 80), verseId: safeText(fields.verseId || fields.verseSection || '', 80), subsectionId: safeText(fields.subsectionId || fields.segmentId || '', 80), commentId: safeText(fields.commentId || '', 80) };
+  return {
+    kind: safeText(fields.attachKind || fields.kind || 'post', 32),
+    postId: safeText(fields.postId || '', 80),
+    verseId: safeText(fields.verseId || fields.verseSection || '', 80),
+    subsectionId: safeText(fields.subsectionId || fields.segmentId || '', 80),
+    commentId: safeText(fields.commentId || '', 80)
+  };
 }
 
 function base64Fallback($i) {
   const body = $i.$_POST || {};
   if (!body.fileBase64) return [];
-  return [{ fieldName: 'file', originalName: body.filename || 'upload.bin', mime: body.mime || 'application/octet-stream', buffer: Buffer.from(String(body.fileBase64), 'base64') }];
+  return [{
+    fieldName: 'file',
+    originalName: body.filename || 'upload.bin',
+    mime: body.mime || 'application/octet-stream',
+    buffer: Buffer.from(String(body.fileBase64), 'base64')
+  }];
 }
 
 function fieldsFrom($i, parsed) { return { ...($i.$_POST || {}), ...(parsed.fields || {}) }; }
@@ -49,7 +61,21 @@ async function saveOne({ $i, aliasId, file, fields }) {
   const storagePath = aliasAssetFile({ $i, aliasId, kind: valid.kind, assetId, mime: file.mime, originalName: file.originalName });
   fs.mkdirSync(path.dirname(storagePath), { recursive: true });
   fs.writeFileSync(storagePath, file.buffer);
-  const manifest = await writeAssetManifest({ $i, manifest: { id: assetId, aliasId, ownerAlias: aliasId, type: valid.kind, mime: file.mime, size: file.buffer.length, originalName: safeText(file.originalName || 'upload.bin', 180), storagePath, publicPath: publicAssetPath({ aliasId, kind: valid.kind, assetId, mime: file.mime, originalName: file.originalName }), attachedTo: attachedTo(fields), createdAt: Date.now() } });
+  const manifest = await writeAssetManifest({ $i, manifest: {
+    id: assetId,
+    aliasId,
+    ownerAlias: aliasId,
+    type: valid.kind,
+    mime: file.mime,
+    size: file.buffer.length,
+    originalName: safeText(file.originalName || 'upload.bin', 180),
+    storagePath,
+    publicPath: publicAssetPath({ aliasId, kind: valid.kind, assetId, mime: file.mime, originalName: file.originalName }),
+    ...osPaths(aliasId, assetId),
+    attachedTo: attachedTo(fields),
+    bindings: [],
+    createdAt: Date.now()
+  } });
   return { success: manifest };
 }
 
@@ -89,4 +115,4 @@ async function serveAsset({ $i, aliasId, assetId }) {
   return fs.readFileSync(manifest.storagePath);
 }
 
-module.exports = { uploadAssets, listAssets, getAssetManifest, serveAsset, attachedTo };
+module.exports = { uploadAssets, listAssets, getAssetManifest, serveAsset, attachedTo, osPaths };

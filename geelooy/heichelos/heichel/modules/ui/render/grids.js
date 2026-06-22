@@ -2,11 +2,11 @@
 /**
  * @module MobileNavigationGrids
  * @description
- * Chapter 111: Each card becomes a real little control palace.
+ * Chapter 403: The card is no longer a dumb tile; it is a tiny sanctuary.
  *
- * The three-dot menu no longer leaks, Bookmark actually persists locally,
- * Manage opens a sane bottom sheet, and every social action closes its vessel
- * before sending light through the API. Reader navigation remains untouched.
+ * Every visible button has a known behavior. Every card protects its menu from
+ * leaking clicks. Every series footer now reveals sub-series counts, because an
+ * empty-looking root can secretly be a ladder of worlds.
  */
 
 import { DOMElements } from "../../dom.js";
@@ -48,8 +48,32 @@ function cardMedia(data) {
 }
 
 function cardBody(data, type) {
-    const meta = type === "series" ? `${data.postCount} posts · ${data.followersCount} followers` : `${data.sectionsCount} sections · ${data.commentsCount} comments`;
-    return { tag: "div", attr: { class: "nav-card-body" }, children: [{ tag: "div", attr: { class: "nav-card-title-row" }, children: [{ tag: "h2", children: [data.title] }, { tag: "span", attr: { class: "nav-card-chevron" }, children: ["›"] }] }, { tag: "p", children: [data.description || (type === "series" ? "Open this series path." : "Open this reader post.")] }, { tag: "footer", children: [meta] }] };
+    return { tag: "div", attr: { class: "nav-card-body" }, children: [titleRow(data), descriptionNode(data, type), metaFooter(data, type)] };
+}
+
+function titleRow(data) {
+    return { tag: "div", attr: { class: "nav-card-title-row" }, children: [{ tag: "h2", children: [data.title] }, { tag: "span", attr: { class: "nav-card-chevron" }, children: ["›"] }] };
+}
+
+function descriptionNode(data, type) {
+    return { tag: "p", children: [data.description || (type === "series" ? "Open this series path." : "Open this reader post.")] };
+}
+
+function metaFooter(data, type) {
+    const meta = type === "series" ? seriesMeta(data) : postMeta(data);
+    return { tag: "footer", attr: { class: "nav-card-meta" }, children: meta.map(label => ({ tag: "span", children: [label] })) };
+}
+
+function seriesMeta(data) {
+    return [unit(data.subSeriesCount, "sub-series", "sub-series"), unit(data.postCount, "post", "posts"), unit(data.followersCount, "follower", "followers")];
+}
+
+function postMeta(data) {
+    return [unit(data.sectionsCount, "section", "sections"), unit(data.commentsCount, "comment", "comments")];
+}
+
+function unit(value, singular, plural) {
+    return `${value} ${value === 1 ? singular : plural}`;
 }
 
 function cardMenuBlueprint(data, navigator, appState, sourceItem) {

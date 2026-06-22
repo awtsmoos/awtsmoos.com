@@ -6,6 +6,7 @@ const { sendFrame } = require("./websocket/core/frameWriter.js");
 const { routeMessage } = require("./websocket/apps/messageRouter.js");
 const { sendToAlias } = require("./websocket/apps/aliasRouting.js");
 const { sendTunnelRequest } = require("./websocket/apps/tunnelRelay.js");
+const { forgetClient } = require("./websocket/apps/socialLive.js");
 
 class AwtsmoosSocket {
   constructor(db) {
@@ -100,6 +101,7 @@ class AwtsmoosSocket {
   }
 
   removeClient(client) {
+    forgetClient(this, client);
     this.clients.delete(client);
 
     if (client.aliasId) {

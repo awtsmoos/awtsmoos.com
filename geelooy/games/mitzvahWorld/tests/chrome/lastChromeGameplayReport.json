@@ -1,12 +1,10 @@
 {
-  "ok": true,
+  "ok": false,
   "headed": false,
-  "durationMs": 180000,
-  "startedAt": "2026-06-19T18:34:46.395Z",
-  "url": "http://127.0.0.1:62584/geelooy/games/mitzvahWorld/index.html?path=village.json",
+  "startedAt": "2026-06-21T22:18:05.853Z",
   "browser": {
-    "name": "Chrome",
-    "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "name": "none",
+    "path": "",
     "candidates": [
       [
         "CHROME_PATH",
@@ -22,7 +20,7 @@
       ],
       [
         "Chrome local",
-        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe"
+        ""
       ],
       [
         "Edge",
@@ -34,178 +32,52 @@
       ],
       [
         "Edge local",
-        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Microsoft\\Edge\\Application\\msedge.exe"
+        ""
       ]
     ]
   },
-  "boot": {
-    "readyState": "complete",
-    "canvases": 1,
-    "bootLoaded": true,
-    "errors": 0,
-    "lastError": null,
-    "perf": {
-      "tier": "high",
-      "mobile": false,
-      "renderScale": 0.72,
-      "budget": {
-        "grassDistance": 42,
-        "treeDistance": 105,
-        "npcDistance": 84,
-        "particleLimit": 44,
-        "shadowMode": "off",
-        "cssBlur": false,
-        "maxDistantActors": 22,
-        "seal": "speed-scene-budget-bh4"
-      },
-      "mainRendererFound": false,
-      "mainRendererApplied": false,
-      "rendererFound": true,
-      "rendererApplied": true,
-      "workerPixelRatioApplied": true,
-      "workerPixelRatioState": {
-        "width": 1264,
-        "height": 625,
-        "rawPixelRatio": 1,
-        "pixelRatio": 0.38,
-        "memoryGb": 8,
-        "phase": "resize",
-        "quality": "speed",
-        "applied": true,
-        "seal": "speed-pixel-governor-bh4"
-      },
-      "rendererState": {
-        "applied": false
-      },
-      "discovery": {
-        "found": false,
-        "path": null,
-        "visited": 10,
-        "roots": [
-          "mana",
-          "__AWTSMOOS_MANAGER__",
-          "ikar"
-        ]
-      },
-      "attempts": 18,
-      "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
-    },
-    "pixelGovernor": {
-      "width": 1264,
-      "height": 625,
-      "rawPixelRatio": 1,
-      "pixelRatio": 0.38,
-      "memoryGb": 8,
-      "phase": "resize",
-      "quality": "speed",
-      "applied": true,
-      "seal": "speed-pixel-governor-bh4"
-    },
-    "url": "http://127.0.0.1:62584/geelooy/games/mitzvahWorld/index.html?path=village.json",
-    "title": "Awtsmoos - Mitzvah World 3D"
-  },
-  "sample": {
-    "durationMs": 180028.89999997616,
-    "frameCount": 33681,
-    "avgFrameMs": 5.344401888304625,
-    "fps": 187.11167702195849,
-    "p95FrameMs": 17.79999999998836,
-    "p99FrameMs": 19.5,
-    "worstFrameMs": 269.5,
-    "droppedFrames": 68,
-    "longFrames": 30,
-    "actions": {
-      "keydown:KeyW": 63,
-      "mouseSweep": 63,
-      "combatClick": 125,
-      "keydown:Space": 63,
-      "keyup:Space": 63,
-      "keydown:KeyE": 63,
-      "keyup:KeyE": 64,
-      "keydown:KeyQ": 63,
-      "keyup:KeyQ": 64,
-      "keydown:Digit1": 63,
-      "keyup:Digit1": 63,
-      "keydown:Digit2": 63,
-      "keyup:Digit2": 62,
-      "keydown:KeyF": 62,
-      "keyup:KeyF": 62,
-      "keydown:Enter": 62,
-      "keyup:Enter": 62,
-      "keydown:KeyA": 62,
-      "keyup:KeyA": 63,
-      "keydown:KeyD": 62,
-      "keyup:KeyD": 63,
-      "keyup:KeyW": 63,
-      "keyup:KeyS": 1
-    },
-    "canvases": 1,
-    "errors": 0,
-    "lastError": null,
-    "perf": {
-      "tier": "high",
-      "mobile": false,
-      "renderScale": 0.72,
-      "budget": {
-        "grassDistance": 42,
-        "treeDistance": 105,
-        "npcDistance": 84,
-        "particleLimit": 44,
-        "shadowMode": "off",
-        "cssBlur": false,
-        "maxDistantActors": 22,
-        "seal": "speed-scene-budget-bh4"
-      },
-      "mainRendererFound": false,
-      "mainRendererApplied": false,
-      "rendererFound": true,
-      "rendererApplied": true,
-      "workerPixelRatioApplied": true,
-      "workerPixelRatioState": {
-        "width": 1264,
-        "height": 625,
-        "rawPixelRatio": 1,
-        "pixelRatio": 0.38,
-        "memoryGb": 8,
-        "phase": "initial",
-        "quality": "speed",
-        "applied": true,
-        "seal": "speed-pixel-governor-bh4"
-      },
-      "rendererState": {
-        "applied": false
-      },
-      "discovery": {
-        "found": false,
-        "path": null,
-        "visited": 10,
-        "roots": [
-          "mana",
-          "__AWTSMOOS_MANAGER__",
-          "ikar"
-        ]
-      },
-      "attempts": 19,
-      "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
-    },
-    "pixelGovernor": {
-      "width": 1264,
-      "height": 625,
-      "rawPixelRatio": 1,
-      "pixelRatio": 0.38,
-      "memoryGb": 8,
-      "phase": "initial",
-      "quality": "speed",
-      "applied": true,
-      "seal": "speed-pixel-governor-bh4"
-    },
-    "dialogueLikeNodes": 13,
-    "url": "http://127.0.0.1:62584/geelooy/games/mitzvahWorld/index.html?path=village.json",
-    "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-no-expensive-css awtsmoos-visual-tuned awtsmoos-worker-pixel-governed"
-  },
   "issueLog": {
     "scope": "chrome-real-browser",
-    "ok": true,
-    "issues": []
+    "ok": false,
+    "issues": [
+      {
+        "severity": "error",
+        "code": "NO_BROWSER_FOUND",
+        "message": "No Chrome or Edge executable found.",
+        "detail": {
+          "candidates": [
+            [
+              "CHROME_PATH",
+              ""
+            ],
+            [
+              "Chrome",
+              "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+            ],
+            [
+              "Chrome x86",
+              "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+            ],
+            [
+              "Chrome local",
+              ""
+            ],
+            [
+              "Edge",
+              "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+            ],
+            [
+              "Edge x86",
+              "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+            ],
+            [
+              "Edge local",
+              ""
+            ]
+          ]
+        },
+        "at": "2026-06-21T22:18:05.863Z"
+      }
+    ]
   }
 }

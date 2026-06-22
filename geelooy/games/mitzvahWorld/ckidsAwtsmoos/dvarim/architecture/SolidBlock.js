@@ -30,7 +30,7 @@ function makeTexture(seed, baseHex, role) {
   const style = styleFor(seed, role), key = `${seed}:${baseHex}:${style}:role-v2`; if (cache.has(key)) return cache.get(key).clone();
   const size = 64, h = hashText(seed), base = readableBase(baseHex, style), data = new Uint8Array(size * size * 4);
   for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) { const i = (y * size + x) * 4, s = shadeFor(style, x, y, h), edge = x < 2 || y < 2 || x > 61 || y > 61 ? -22 : 0; data[i] = clamp(base[0] + s + edge); data[i + 1] = clamp(base[1] + s + edge); data[i + 2] = clamp(base[2] + s * 0.55 + edge); data[i + 3] = 255; }
-  const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType); tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping; tex.magFilter = THREE.NearestFilter; tex.minFilter = THREE.NearestFilter; tex.generateMipmaps = false; tex.repeat.set(3.5 + (h % 2), 3.2 + ((h >> 3) % 2)); tex.needsUpdate = true; cache.set(key, tex); return tex.clone();
+  const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType); tex.wrapS = THREE.MirroredRepeatWrapping; tex.wrapT = THREE.MirroredRepeatWrapping; tex.magFilter = THREE.LinearFilter; tex.minFilter = THREE.LinearFilter; tex.generateMipmaps = true; tex.repeat.set(3.5 + (h % 2), 3.2 + ((h >> 3) % 2)); tex.needsUpdate = true; cache.set(key, tex); return tex.clone();
 }
 
 function makeTopMarker(owner) {

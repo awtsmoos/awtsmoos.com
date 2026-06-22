@@ -30,8 +30,8 @@ function copperTexture() {
     data[i + 3] = 255;
   }
   const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
-  texture.wrapS = THREE.RepeatWrapping; texture.wrapT = THREE.RepeatWrapping;
-  texture.magFilter = THREE.NearestFilter; texture.minFilter = THREE.NearestFilter;
+  texture.wrapS = THREE.MirroredRepeatWrapping; texture.wrapT = THREE.MirroredRepeatWrapping;
+  texture.magFilter = THREE.LinearFilter; texture.minFilter = THREE.LinearFilter;
   texture.repeat.set(1.6, 1.6); texture.needsUpdate = true;
   return texture;
 }

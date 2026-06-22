@@ -4,7 +4,7 @@
  * @description Chapter 12: Quiet bh17 canvas setup.
  */
 import WebGLGuard from "./canvas/WebGLGuard.js";
-import RendererFactory from "./canvas/RendererFactory.js?v=lean-l1-20260528-bh17";
+import RendererFactory from "./canvas/RendererFactory.js?v=high-performance-context-20260621-bh1";
 import ViewportSizer from "./canvas/ViewportSizer.js";
 import ContextMonitor from "./canvas/ContextMonitor.js";
 import UIRectifier from "./ui/UIRectifier.js";
@@ -27,6 +27,8 @@ export default class MasterCanvasSetup {
         height: this.height || 768,
         phase: "initial"
       });
+      canvas.width = Math.max(1, Math.floor((this.width || 1024) * optimizedRatio));
+      canvas.height = Math.max(1, Math.floor((this.height || 768) * optimizedRatio));
       this.renderer.setPixelRatio(optimizedRatio);
       this.ayshPeula("canvased");
     } catch (err) {
@@ -44,6 +46,13 @@ export default class MasterCanvasSetup {
     this.height = sizing.newHeight;
     if (!this.renderer) return;
     this.renderer.setSize(this.width, this.height, false);
+    const ratio = this.renderer.getPixelRatio?.() || 1;
+    const targetWidth = Math.max(1, Math.floor(this.width * ratio));
+    const targetHeight = Math.max(1, Math.floor(this.height * ratio));
+    if (this.renderer.domElement) {
+      this.renderer.domElement.width = targetWidth;
+      this.renderer.domElement.height = targetHeight;
+    }
     this.refreshCameraAspect?.();
     await UIRectifier.rectify(this, this.width, this.height);
   }

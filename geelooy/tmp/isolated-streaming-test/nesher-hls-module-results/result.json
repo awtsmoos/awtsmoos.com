@@ -1,0 +1,189 @@
+{
+  "browser": {
+    "sessionId": "stream-mqog56im-ad62302a",
+    "frames": 104,
+    "pieces": [
+      {
+        "path": "segment-1-1.ts",
+        "bytes": 34028
+      },
+      {
+        "path": "playlist-1.m3u8",
+        "bytes": 128
+      },
+      {
+        "path": "master.m3u8",
+        "bytes": 125
+      },
+      {
+        "path": "segment-1-2.ts",
+        "bytes": 31396
+      },
+      {
+        "path": "playlist-1.m3u8",
+        "bytes": 154
+      },
+      {
+        "path": "master.m3u8",
+        "bytes": 125
+      },
+      {
+        "path": "segment-1-3.ts",
+        "bytes": 40608
+      },
+      {
+        "path": "playlist-1.m3u8",
+        "bytes": 180
+      },
+      {
+        "path": "master.m3u8",
+        "bytes": 125
+      },
+      {
+        "path": "segment-1-4.ts",
+        "bytes": 19364
+      },
+      {
+        "path": "playlist-1.m3u8",
+        "bytes": 219
+      },
+      {
+        "path": "master.m3u8",
+        "bytes": 125
+      },
+      {
+        "path": "playlist-1.m3u8",
+        "bytes": 235
+      }
+    ],
+    "uploaded": 125396,
+    "errors": []
+  },
+  "status": {
+    "status": 200,
+    "json": {
+      "ok": true,
+      "action": "streamingSessionStatus",
+      "session": {
+        "id": "stream-mqog56im-ad62302a",
+        "createdAt": 1782086254654,
+        "updatedAt": 1782086258085,
+        "status": "closed",
+        "connector": "custom",
+        "mode": "direct",
+        "ingest": {},
+        "hls": {
+          "sequence": 0,
+          "targetDuration": 1,
+          "maxSegments": 6,
+          "segments": [
+            {
+              "name": "segment-1-1.ts",
+              "duration": 1,
+              "bytes": 34028,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086255664
+            },
+            {
+              "name": "segment-1-2.ts",
+              "duration": 1,
+              "bytes": 31396,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086256655
+            },
+            {
+              "name": "segment-1-3.ts",
+              "duration": 1,
+              "bytes": 40608,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086257640
+            },
+            {
+              "name": "segment-1-4.ts",
+              "duration": 1,
+              "bytes": 19364,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086258081
+            }
+          ],
+          "contentType": "video/mp2t"
+        },
+        "counters": {
+          "chunks": 4,
+          "bytes": 125396,
+          "forwarded": 0,
+          "failed": 0,
+          "hlsSegments": 4,
+          "hlsBytes": 125396
+        },
+        "lastError": null
+      }
+    }
+  },
+  "playlist": {
+    "status": 200,
+    "json": {
+      "ok": true,
+      "action": "streamingHlsPlaylist",
+      "playlist": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:1\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:1.000,\nsegment-1-1.ts\n#EXTINF:1.000,\nsegment-1-2.ts\n#EXTINF:1.000,\nsegment-1-3.ts\n#EXTINF:1.000,\nsegment-1-4.ts\n#EXT-X-ENDLIST\n",
+      "forwarded": {
+        "forwarded": false,
+        "reason": "not_requested"
+      },
+      "session": {
+        "id": "stream-mqog56im-ad62302a",
+        "createdAt": 1782086254654,
+        "updatedAt": 1782086258085,
+        "status": "closed",
+        "connector": "custom",
+        "mode": "direct",
+        "ingest": {},
+        "hls": {
+          "sequence": 0,
+          "targetDuration": 1,
+          "maxSegments": 6,
+          "segments": [
+            {
+              "name": "segment-1-1.ts",
+              "duration": 1,
+              "bytes": 34028,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086255664
+            },
+            {
+              "name": "segment-1-2.ts",
+              "duration": 1,
+              "bytes": 31396,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086256655
+            },
+            {
+              "name": "segment-1-3.ts",
+              "duration": 1,
+              "bytes": 40608,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086257640
+            },
+            {
+              "name": "segment-1-4.ts",
+              "duration": 1,
+              "bytes": 19364,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086258081
+            }
+          ],
+          "contentType": "video/mp2t"
+        },
+        "counters": {
+          "chunks": 4,
+          "bytes": 125396,
+          "forwarded": 0,
+          "failed": 0,
+          "hlsSegments": 4,
+          "hlsBytes": 125396
+        },
+        "lastError": null
+      }
+    }
+  }
+}

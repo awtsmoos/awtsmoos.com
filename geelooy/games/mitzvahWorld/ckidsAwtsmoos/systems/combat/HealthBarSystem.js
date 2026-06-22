@@ -21,12 +21,12 @@ export default class HealthBarSystem {
     const texture = this.makeTexture(enemy); if (!texture) return null;
     const material = new THREE.SpriteMaterial({ map:texture, transparent:true, depthTest:false });
     const sprite = new THREE.Sprite(material); sprite.scale.set(3.2, .8, 1); sprite.userData.enemy = enemy;
-    enemy.mesh?.add?.(sprite); sprite.position.set(0, 2.5, 0); this.bars.set(enemy.name, { enemy, sprite, texture, material }); return sprite;
+    enemy.mesh?.add?.(sprite); sprite.position.set(0, 2.5, 0); this.bars.set(enemy.name, { enemy, sprite, texture, material, lastHp:hpOf(enemy), lastMax:maxHpOf(enemy), selected:enemy === this.selected }); return sprite;
   }
   removeBar(name) { const row = this.bars.get(name); if (!row) return false; row.sprite?.parent?.remove?.(row.sprite); row.texture?.dispose?.(); row.material?.dispose?.(); this.bars.delete(name); return true; }
-  setSelected(enemy) { this.selected = enemy || null; this.refreshAll(); }
-  refresh(enemy) { const row = this.bars.get(enemy?.name); if (!row) return this.createBar(enemy); row.texture?.dispose?.(); row.texture = this.makeTexture(enemy); if (row.material) row.material.map = row.texture, row.material.needsUpdate = true; return row; }
-  refreshAll() { for (const { enemy } of this.bars.values()) this.refresh(enemy); }
-  update(camera) { for (const { enemy, sprite } of this.bars.values()) { if (!sprite || !posOf(enemy)) continue; sprite.visible = hpOf(enemy) > 0; if (camera && sprite.quaternion) sprite.quaternion.copy(camera.quaternion); this.refresh(enemy); } }
+  setSelected(enemy) { this.selected = enemy || null; this.refreshAll(true); }
+  refresh(enemy, force = false) { const row = this.bars.get(enemy?.name); if (!row) return this.createBar(enemy); const hp = hpOf(enemy), max = maxHpOf(enemy), selected = enemy === this.selected; if (!force && row.lastHp === hp && row.lastMax === max && row.selected === selected) return row; row.lastHp = hp; row.lastMax = max; row.selected = selected; row.texture?.dispose?.(); row.texture = this.makeTexture(enemy); if (row.material) row.material.map = row.texture, row.material.needsUpdate = true; return row; }
+  refreshAll(force = false) { for (const { enemy } of this.bars.values()) this.refresh(enemy, force); }
+  update(camera, refresh = false) { for (const { enemy, sprite } of this.bars.values()) { if (!sprite || !posOf(enemy)) continue; sprite.visible = hpOf(enemy) > 0; if (camera && sprite.quaternion) sprite.quaternion.copy(camera.quaternion); if (refresh) this.refresh(enemy); } }
   dispose() { for (const name of [...this.bars.keys()]) this.removeBar(name); this.selected = null; }
 }

@@ -1,0 +1,52 @@
+{
+  "files": {
+    "segment-1-1.ts": {
+      "bytes": 34780
+    },
+    "playlist-1.m3u8": {
+      "bytes": 196
+    },
+    "master.m3u8": {
+      "bytes": 125
+    },
+    "segment-1-2.ts": {
+      "bytes": 33276
+    },
+    "segment-1-3.ts": {
+      "bytes": 32148
+    }
+  },
+  "events": [
+    {
+      "kind": "segment",
+      "path": "",
+      "duration": 0
+    },
+    {
+      "kind": "playlist",
+      "length": 128
+    },
+    {
+      "kind": "segment",
+      "path": "",
+      "duration": 0
+    },
+    {
+      "kind": "playlist",
+      "length": 154
+    },
+    {
+      "kind": "segment",
+      "path": "",
+      "duration": 0
+    },
+    {
+      "kind": "playlist",
+      "length": 180
+    },
+    {
+      "kind": "playlist",
+      "length": 196
+    }
+  ]
+}

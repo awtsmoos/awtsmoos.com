@@ -7,7 +7,7 @@
  * old UI abstraction can lose it, so mobile never stares at a silent bar.
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=zone-reality-20260614-bh817";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=visible-canvas-watchdog-20260621-bh2";
 import { DIRECT } from "./ui/domKit.js?v=npc-scroll-pass-through-20260609-bh638";
 import { directFallback } from "./ui/fallbacks.js?v=village-polish-20260612-bh810";
 import { showSpikeResetOverlay } from "./ui/effects.js?v=lava-camera-axis-20260609-bh640";

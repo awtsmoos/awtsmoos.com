@@ -6,13 +6,13 @@
  * claim: every change must be measured by the Chrome gameplay report.
  */
 export const PIXEL_RATIO_LIMITS = Object.freeze({
-  min: 0.34,
+  min: 0.72,
   max: 1.0,
-  initialMax: 0.44,
-  resizeMax: 0.42,
-  mobileMax: 0.38,
-  hugeScreenMax: 0.38,
-  lowMemoryMax: 0.36
+  initialMax: 1.0,
+  resizeMax: 1.0,
+  mobileMax: 0.86,
+  hugeScreenMax: 0.9,
+  lowMemoryMax: 0.78
 });
 
 function n(value, fallback = 0) {
@@ -30,9 +30,9 @@ function mobileSettings(sourceWindow = globalThis.window) {
 }
 
 function qualityCap(settings = {}) {
-  if (settings.quality === "beauty") return 0.58;
-  if (settings.quality === "balanced") return 0.46;
-  return 0.38;
+  if (settings.quality === "speed") return 0.78;
+  if (settings.quality === "balanced") return 0.9;
+  return 1.0;
 }
 
 function isMobileViewport(width, height, sourceWindow = globalThis.window) {
@@ -76,7 +76,7 @@ export function measureRenderViewport(sourceWindow = globalThis.window, phase = 
   const settings = mobileSettings(sourceWindow);
   const memoryGb = n(sourceWindow?.navigator?.deviceMemory, 8);
   const pixelRatio = resolvePixelRatio({ raw: rawPixelRatio, width, height, phase, memoryGb, settings, sourceWindow });
-  const report = { width, height, rawPixelRatio, pixelRatio, memoryGb, phase, quality: settings.quality || "speed", applied: pixelRatio < rawPixelRatio, seal: "speed-pixel-governor-bh4" };
+  const report = { width, height, rawPixelRatio, pixelRatio, memoryGb, phase, quality: settings.quality || "balanced", applied: pixelRatio < rawPixelRatio, seal: "crisp-pixel-governor-bh5" };
   publishReport(sourceWindow, report);
   return report;
 }

@@ -1,35 +1,36 @@
 /* B"H
- * Chapter 12: The mobile river made room for thumbs and endings.
+ * Chapter 415: The small screen is not a lesser world.
  */
-@media (min-width: 900px) {
-  .geelooy-main-stage,
-  .heichel-main-stage { padding-top: 1rem; }
-}
-
-@media (max-width: 760px) {
-  .hero-stats > *,
-  .heichel-hero-stats > * { flex: 1 1 8rem; }
-
-  .geelooy-main-stage,
-  .heichel-main-stage {
-    width: min(100% - 1rem, 74rem);
-  }
-
-  .heichel-nav-panel {
-    padding: .8rem;
+@media (max-width: 860px) {
+  .dynamic-grid,
+  .heichel-grid,
+  .series-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   }
 }
 
-@media (max-width: 520px) {
-  .geelooy-heichel-hero h1,
-  .heichel-hero h1 { font-size: clamp(2rem, 12vw, 3.25rem); }
+@media (max-width: 560px) {
+  .dynamic-grid,
+  .heichel-grid,
+  .series-grid { grid-template-columns: 1fr; }
+  .hero-description { font-size: .96rem; }
+  .nav-card { min-height: 8.6rem; }
+}
 
-  .nav-card {
-    border-radius: 1rem;
-    padding: .68rem;
-    gap: .65rem;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
   }
+}
 
-  .nav-card p { font-size: .92rem; }
-  .geelooy-bottom-nav { width: min(96vw, 33rem); }
+@media (prefers-contrast: more) {
+  .nav-card,
+  .heichel-nav-panel,
+  .geelooy-heichel-hero,
+  .tab-gates { border-color: rgba(36,22,11,.45); }
+  .nav-card p,
+  .hero-description { color: #24160b; }
 }

@@ -1,17 +1,17 @@
 /**
  * B"H
  * @module MusagDex
- * @description Pokédex-like collection for living Torah concepts.
+ * @description Pokemon-like collection, mastery, and evolution for living concepts.
  *
- * Chapter 170: The Dex learned species, mastery, and evolution. The Awtsmoos
- * has no body and no form, yet every wild Musag now enters a record with its
- * element, weakness, teaching, sweetening count, and evolution name. The player
- * is no longer only winning fights; the player is collecting revealed ideas.
+ * Chapter 209: The monsters admitted they were thoughts asking for tikkun. The
+ * Awtsmoos has no body and no form, yet every wild Musag now enters the Dex,
+ * gains mastery through repeated sweetening, and reveals an evolution teaching
+ * when the player returns to the same idea with patience instead of conquest.
  */
 import { State } from '../../binah/State.js';
-import { speciesByEncounter } from '../../data/concepts/MusagSpecies.js';
+import { MusagSpecies, speciesByEncounter } from '../../data/concepts/MusagSpecies.js';
 
-const ensureDex = () => {
+export const ensureDex = () => {
   State.MusagDex ||= { found: {}, mastery: {}, species: {}, evolutions: {} };
   State.MusagDex.found ||= {};
   State.MusagDex.mastery ||= {};
@@ -20,53 +20,69 @@ const ensureDex = () => {
   return State.MusagDex;
 };
 
-export const isMusag = encounter => !!speciesByEncounter(encounter) || !!encounter?.name?.startsWith('Wild Musag');
-
-export const recordMusag = (encounter, win = false) => {
-  if (!isMusag(encounter)) return null;
-  const dex = ensureDex();
+export const speciesIdFor = encounter => {
+  if (!encounter) return null;
+  if (encounter.speciesId && MusagSpecies[encounter.speciesId]) return encounter.speciesId;
   const species = speciesByEncounter(encounter);
-  const id = species?.id || encounter.name.replace('Wild Musag: ', '').toLowerCase().replace(/\s+/g, '_');
-  dex.found[id] ||= entryFor(id, encounter, species);
-  dex.species[id] = species || dex.species[id] || null;
-  dex.found[id].seen += 1;
-  dex.found[id].lastFoundMap = State.MapId;
-  if (win) sweetenEntry(dex, id, species);
-  return dex.found[id];
+  if (species?.id) return species.id;
+  if (!String(encounter.name || '').startsWith('Wild Musag')) return null;
+  return String(encounter.name).replace(/^Wild Musag:\s*/i, '').toLowerCase().replace(/\s+/g, '_');
 };
+
+export const isMusag = encounter => !!speciesIdFor(encounter);
 
 const entryFor = (id, encounter, species) => ({
   id,
   name: species ? `Wild Musag: ${species.name}` : encounter.name,
-  glyph: species?.glyph || encounter.glyph,
-  element: species?.element || 'Unknown',
-  weakTo: species?.weakTo || 'Torah',
-  teaching: species?.teaching || encounter.lesson,
+  glyph: species?.glyph || encounter.glyph || '?',
+  element: species?.element || encounter.element || 'Unknown',
+  weakTo: species?.weakTo || encounter.weakTo || 'Torah',
+  route: species?.route || encounter.route || 'Unknown Route',
+  teaching: species?.teaching || encounter.lesson || 'A hidden concept asks to be sweetened.',
   firstFoundMap: State.MapId,
   lastFoundMap: State.MapId,
   seen: 0,
   sweetened: 0,
-  lastLesson: encounter.lesson
+  lastLesson: encounter.lesson || species?.teaching || ''
 });
 
-const sweetenEntry = (dex, id, species) => {
-  dex.found[id].sweetened += 1;
-  dex.mastery[id] = masteryTier(dex.found[id].sweetened);
-  if (species && dex.found[id].sweetened >= 3) dex.evolutions[id] = species.evolution;
-};
-
-const masteryTier = count => {
+export const masteryTier = count => {
   if (count >= 10) return 'gold';
   if (count >= 5) return 'silver';
   if (count >= 2) return 'bronze';
   return 'revealed';
 };
 
+export const discoverMusag = encounter => recordMusag(encounter, false);
+
+export const recordMusag = (encounter, win = false) => {
+  const id = speciesIdFor(encounter);
+  if (!id) return null;
+  const dex = ensureDex();
+  const species = MusagSpecies[id] || speciesByEncounter(encounter) || null;
+  dex.found[id] ||= entryFor(id, encounter, species);
+  dex.species[id] = species;
+  dex.found[id].seen += 1;
+  dex.found[id].lastFoundMap = State.MapId;
+  dex.found[id].lastLesson = encounter.lesson || dex.found[id].lastLesson;
+  if (win) recordMusagVictory(id, species);
+  return dex.found[id];
+};
+
+export const recordMusagVictory = (id, species = MusagSpecies[id] || null) => {
+  const dex = ensureDex();
+  const entry = dex.found[id];
+  if (!entry) return null;
+  entry.sweetened += 1;
+  dex.mastery[id] = masteryTier(entry.sweetened);
+  if (species && entry.sweetened >= 3) dex.evolutions[id] = species.evolution;
+  return entry;
+};
+
 export const musagStatBonus = () => {
   const dex = ensureDex();
   return Object.entries(dex.found).reduce((sum, [id, entry]) => {
-    const species = dex.species[id];
-    const stat = species?.stat || 'daat';
+    const stat = dex.species[id]?.stat || 'daat';
     sum[stat] = (sum[stat] || 0) + Math.floor((entry.sweetened || 0) / 2);
     return sum;
   }, {});
@@ -80,21 +96,23 @@ export const dexSummary = () => {
     glyph: entry.glyph,
     element: entry.element,
     weakTo: entry.weakTo,
+    route: entry.route,
     sweetened: entry.sweetened,
+    seen: entry.seen,
     mastery: dex.mastery[entry.id] || 'revealed',
-    evolution: dex.evolutions[entry.id] || null
-  }));
+    evolution: dex.evolutions[entry.id] || null,
+    teaching: entry.teaching
+  })).sort((a, b) => b.sweetened - a.sweetened || a.name.localeCompare(b.name));
 };
 
 export const dexRows = () => {
   const list = dexSummary();
   if (!list.length) return [['Musag Dex', '0 revealed']];
-  return list.slice(0, 6).map(entry => [entry.name, `${entry.mastery} • ${entry.sweetened} sweetened${entry.evolution ? ` → ${entry.evolution}` : ''}`]);
+  return list.slice(0, 8).map(e => [e.name, `${e.mastery} • seen ${e.seen} • sweetened ${e.sweetened}${e.evolution ? ` → ${e.evolution}` : ''}`]);
 };
 
 export const dexLine = () => {
   const list = dexSummary();
   if (!list.length) return 'Musag Dex: 0 revealed';
-  const evolved = list.filter(e => e.evolution).length;
-  return `Musag Dex: ${list.length} revealed | Evolved ${evolved}`;
+  return `Musag Dex: ${list.length} revealed | ${list.filter(e => e.evolution).length} evolved`;
 };

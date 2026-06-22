@@ -1,7 +1,7 @@
 ﻿// B"H
 /** @file AdvancedTreeOnly.js @description Procedural-core tree gateway with visual-only leaves and real cylinder trunk colliders. */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { createProceduralCoreTree } from "../trees/ProceduralCoreTreeFactory.js?v=awtsmoos-tree-core-20260614-bh2";
+import { createProceduralCoreTree } from "../trees/ProceduralCoreTreeFactory.js?v=vivid-canopy-20260621-bh1";
 import { groundY } from "./RegionGround.js";
 const TREE_FLAG = Object.freeze({ advancedGeelooyLibsTree:true, onlyApprovedTreeSource:true, treeSource:"/libs/awtsmoos-procedural-core/src/core", villageDecor:true, skipOctree:true, noOctree:true, skipRaycast:true });
 const COLLIDER_FLAG = Object.freeze({ isTreeTrunkCollider:true, addToOctree:true, skipOctree:false, noOctree:false, skipRaycast:true, visibleCollider:false });

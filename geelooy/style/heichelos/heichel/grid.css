@@ -1,31 +1,36 @@
 /* B"H
- * Chapter 8: The shelves widened and every artifact found a square of light.
+ * Chapter 406: The shelves breathe, the bottom altar no longer covers them.
  */
 .dynamic-grid,
 .heichel-grid,
 .series-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
-  gap: var(--heichel-gap, clamp(.8rem, 2vw, 1.15rem));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
+  gap: var(--heichel-gap, clamp(.9rem, 2.1vw, 1.35rem));
   align-items: stretch;
 }
 
 .grid-realms,
-.viewport {
-  min-width: 0;
-}
+.viewport { min-width: 0; }
 
 .viewport {
   display: grid;
-  gap: .8rem;
+  gap: .95rem;
+  padding-bottom: clamp(5.5rem, 12vh, 7.5rem);
 }
 
 .sacred-loading,
 .empty-glow-msg {
   border: 1px dashed rgba(122,82,31,.25);
   border-radius: 1.2rem;
-  padding: 1rem;
-  background: rgba(255,255,255,.58);
+  padding: 1.1rem;
+  background: rgba(255,255,255,.66);
   color: var(--awt-ink-soft, rgba(35,24,12,.72));
-  font-weight: 800;
+  font-weight: 900;
+}
+
+@media (min-width: 1080px) {
+  .dynamic-grid,
+  .heichel-grid,
+  .series-grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
 }

@@ -9,17 +9,25 @@ const ROAD_LIMIT = 120;
 const UP = new THREE.Vector3(0, 1, 0);
 function addRoad(root, olam, road, material, width, spacing, name) {
   const points = samplePolyline((road && road.points) || [], spacing).slice(0, ROAD_LIMIT);
+  if (!points.length) return;
   const mat = regionMaterial(material, { simple:false });
   const geo = new THREE.BoxGeometry(1, 1, 1);
+  const mesh = new THREE.InstancedMesh(geo, mat, points.length);
+  const dummy = new THREE.Object3D();
+  mesh.name = `${name}_instanced`;
   for (let i=0; i<points.length; i++) {
-    const p = points[i], mesh = new THREE.Mesh(geo, mat);
-    mesh.name = `${name}_${i}`;
-    mesh.position.set(p.x, groundY(olam, p.x, p.z) + .035, p.z);
-    mesh.quaternion.setFromUnitVectors(UP, groundNormal(olam, p.x, p.z));
-    mesh.rotateY(p.yaw || 0); mesh.scale.set(width, .06, spacing * .86); mesh.receiveShadow = true;
-    Object.assign(mesh.userData, { regionRoad:true, visualOnly:true, skipOctree:true, noOctree:true, groundedRoad:true });
-    root.add(mesh);
+    const p = points[i];
+    dummy.position.set(p.x, groundY(olam, p.x, p.z) + .035, p.z);
+    dummy.quaternion.setFromUnitVectors(UP, groundNormal(olam, p.x, p.z));
+    dummy.rotateY(p.yaw || 0);
+    dummy.scale.set(width, .06, spacing * .86);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(i, dummy.matrix);
   }
+  mesh.instanceMatrix.needsUpdate = true;
+  mesh.receiveShadow = true;
+  Object.assign(mesh.userData, { regionRoad:true, visualOnly:true, skipOctree:true, noOctree:true, groundedRoad:true, instancedRoad:true, roadPieces:points.length });
+  root.add(mesh);
 }
 export function buildRoadRenderer(olam, roads = {}) {
   const root = new THREE.Group(); root.name = "living_region_grounded_roads_no_float";

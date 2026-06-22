@@ -4,7 +4,7 @@
  * @description Chapter 12: Renderer uses bh17 conservative WebGL attributes.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import ContextAttributes from "./ContextAttributes.js?v=lean-l1-20260528-bh17";
+import ContextAttributes from "./ContextAttributes.js?v=high-performance-context-20260621-bh1";
 
 export default class RendererFactory {
   /** Creates a WebGL renderer for the transferred OffscreenCanvas. */

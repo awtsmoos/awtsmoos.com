@@ -11,6 +11,6 @@ function bushSpec(i) {
 function fromSpec(spec, i) { const base = bushSpec(i); base.x = Number.isFinite(Number(spec.x)) ? Number(spec.x) : base.x; base.z = Number.isFinite(Number(spec.z)) ? Number(spec.z) : base.z; return base; }
 export function buildBushRenderer(olam, report = {}) {
   const specs = reportBushes(report);
-  const count = budgetedQualityCount(olam, specs.length ? Math.min(1200, specs.length) : 640, "treeDistance", 640) * 2;
+  const count = Math.min(520, budgetedQualityCount(olam, specs.length ? Math.min(520, specs.length) : 360, "treeDistance", 520));
   return makeInstancedLayer({ olam, name:"living_region_grounded_bush_and_shrub_clusters", geometry:"canopy", material:"cabbageLeaf", count, build:i => specs.length ? fromSpec(specs[i % specs.length], i) : bushSpec(i) });
 }

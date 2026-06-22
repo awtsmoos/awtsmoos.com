@@ -4,13 +4,13 @@ const DEPS = [
   ["loadingPlain", "../methods/loadingPlain.js"],
   ["entityLogic", "../methods/entityLogic.js"],
   ["hebrewLetters", "../methods/hebrewLetters.js"],
-  ["heesHawvoos", "../methods/heesHawvoos.js?v=zone-reality-20260614-bh817"],
+  ["heesHawvoos", "../methods/heesHawvoos.js?v=worker-raf-clock-20260621-bh1"],
   ["HelpersBridge", "../methods/helpers.js?v=visible-root-binding-20260610-bh710"],
   ["loadNivrayim", "../methods/loadNivrayim/index.js?v=zone-reality-20260614-bh817"],
   ["placeholderAndEntities", "../methods/placeholderAndEntities/index.js"],
   ["hoyseef", "../methods/hoyseef.js"],
   ["sealayk", "../methods/sealayk.js"],
-  ["bindAllListeners", "../eventListeners/index.js?v=npc-runtime-cachebreak-20260616-bh1"],
+  ["bindAllListeners", "../eventListeners/index.js?v=crisp-background-budget-20260621-bh1"],
   ["npcRuntime", "../npc/NpcInteractionRuntime.js?v=npc-runtime-exports-20260616-bh1"]
 ];
 

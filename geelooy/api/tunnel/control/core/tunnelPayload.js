@@ -130,6 +130,13 @@ function objectBodyOr64($i, body, plainName, encodedName, fallback = null) {
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
+function mergeParamsIntoBody(body) {
+  if (!body || typeof body !== "object") return body || {};
+  const params = typeof body.params === "string" ? parseJsonText(body.params, null) : body.params;
+  if (!params || typeof params !== "object" || Array.isArray(params)) return body;
+  return { ...params, ...body, params };
+}
+
 function plainStructuredOr64($i, body, plainName, encodedName, fallback = null) {
   if (body && body[plainName] !== undefined) {
     const value = body[plainName];
@@ -171,6 +178,7 @@ function actionKind(action) {
   action = String(action || "");
   if (FS_WORKFLOW_ACTIONS.has(action)) return "fs";
   if (["inspectRuntime", "launchPreview", "listPreviews", "previewLogs", "stopPreview", "restartPreview"].includes(action)) return "tunnel.read";
+  if (action.startsWith("mission")) return "fs";
   if (action.startsWith("chrome") || action === "httpUseChromeCookies") return "chrome";
   if (action.startsWith("command") || action === "nodeScriptRun") return "command";
   if (action === "nodeCheck" || action === "nodeCheckTree") return "command";
@@ -186,170 +194,178 @@ function actionKind(action) {
  */
 function buildFsPayload($i) {
   const body = bodyJson($i);
-  const action = valueFrom($i, body, "action", "list");
+  const mergedBody = mergeParamsIntoBody(body);
+  const action = valueFrom($i, mergedBody, "action", "list");
   const kind = actionKind(action);
-  const p = valueFrom($i, body, "p", valueFrom($i, body, "path", "."));
+  const p = valueFrom($i, mergedBody, "p", valueFrom($i, mergedBody, "path", "."));
 
   const payload = {
     kind,
     action,
     path: p,
-    absolutePath: valueFrom($i, body, "absolutePath", ""),
-    paths: arrayWithIndexed($i, body, "paths", "paths64", [], {
+    absolutePath: valueFrom($i, mergedBody, "absolutePath", ""),
+    paths: arrayWithIndexed($i, mergedBody, "paths", "paths64", [], {
       prefixes: ["f", "file", "path", "paths"],
       brackets: ["paths", "files"]
     }),
-    files: plainStructuredOr64($i, body, "files", "files64", null),
-    writes: plainStructuredOr64($i, body, "writes", "writes64", null),
-    edits: plainStructuredOr64($i, body, "edits", "edits64", []),
-    ranges: arrayBodyOr64($i, body, "ranges", "ranges64", []),
+    files: plainStructuredOr64($i, mergedBody, "files", "files64", null),
+    writes: plainStructuredOr64($i, mergedBody, "writes", "writes64", null),
+    edits: plainStructuredOr64($i, mergedBody, "edits", "edits64", []),
+    ranges: arrayBodyOr64($i, mergedBody, "ranges", "ranges64", []),
 
-    depth: intFrom($i, body, "depth", 2),
-    limit: intFrom($i, body, "limit", 150),
-    maxChars: intFrom($i, body, "maxChars", 12000),
-    totalMaxChars: intFrom($i, body, "totalMaxChars", 24000),
-    maxFiles: intFrom($i, body, "maxFiles", 5, 500),
-    maxRanges: intFrom($i, body, "maxRanges", 20, 60),
-    maxEntries: intFrom($i, body, "maxEntries", 3000, 20000),
-    offsetChars: intFrom($i, body, "offsetChars", 0),
-    maxBytes: intFrom($i, body, "maxBytes", 24000),
-    offsetBytes: intFrom($i, body, "offsetBytes", 0),
-    startLine: intFrom($i, body, "startLine", 1),
-    endLine: intFrom($i, body, "endLine", 250),
-    maxResults: intFrom($i, body, "maxResults", 80, 500),
-    maxFileBytes: intFrom($i, body, "maxFileBytes", 800000),
-    sinceMinutes: intFrom($i, body, "sinceMinutes", 120),
-    minBytes: intFrom($i, body, "minBytes", 500000),
-    modifiedAfterMs: intFrom($i, body, "modifiedAfterMs", 0),
-    indent: intFrom($i, body, "indent", 2, 8),
+    depth: intFrom($i, mergedBody, "depth", 2),
+    limit: intFrom($i, mergedBody, "limit", 150),
+    maxChars: intFrom($i, mergedBody, "maxChars", 12000),
+    totalMaxChars: intFrom($i, mergedBody, "totalMaxChars", 24000),
+    maxFiles: intFrom($i, mergedBody, "maxFiles", 5, 500),
+    maxRanges: intFrom($i, mergedBody, "maxRanges", 20, 60),
+    maxEntries: intFrom($i, mergedBody, "maxEntries", 3000, 20000),
+    offsetChars: intFrom($i, mergedBody, "offsetChars", 0),
+    maxBytes: intFrom($i, mergedBody, "maxBytes", 24000),
+    offsetBytes: intFrom($i, mergedBody, "offsetBytes", 0),
+    startLine: intFrom($i, mergedBody, "startLine", 1),
+    endLine: intFrom($i, mergedBody, "endLine", 250),
+    maxResults: intFrom($i, mergedBody, "maxResults", 80, 500),
+    maxFileBytes: intFrom($i, mergedBody, "maxFileBytes", 800000),
+    sinceMinutes: intFrom($i, mergedBody, "sinceMinutes", 120),
+    minBytes: intFrom($i, mergedBody, "minBytes", 500000),
+    modifiedAfterMs: intFrom($i, mergedBody, "modifiedAfterMs", 0),
+    indent: intFrom($i, mergedBody, "indent", 2, 8),
 
-    content: preferBodyOr64($i, body, "content", "content64"),
-    find: preferBodyOr64($i, body, "find", "find64"),
-    query: preferBodyOr64($i, body, "query", "query64"),
-    replace: preferBodyOr64($i, body, "replace", "replace64"),
-    expectedSha256: valueFrom($i, body, "expectedSha256", ""),
-    sha256: valueFrom($i, body, "sha256", ""),
-    ext: valueFrom($i, body, "ext", ""),
-    from: valueFrom($i, body, "from", ""),
-    to: valueFrom($i, body, "to", ""),
-    source: valueFrom($i, body, "source", ""),
-    dest: valueFrom($i, body, "dest", ""),
-    target: valueFrom($i, body, "target", ""),
-    expectedSourceSha256: valueFrom($i, body, "expectedSourceSha256", ""),
-    dryRun: boolFrom($i, body, "dryRun", true),
-    confirm: boolFrom($i, body, "confirm", false),
-    headers: objectBodyOr64($i, body, "headers", "headers64", {}),
-    body: preferBodyOr64($i, body, "body", "body64"),
-    bodyEncoding: valueFrom($i, body, "bodyEncoding", "utf8"),
-    method: valueFrom($i, body, "method", "GET"),
-    cookieJarName: valueFrom($i, body, "cookieJarName", ""),
-    jar: valueFrom($i, body, "jar", ""),
-    useCookies: boolFrom($i, body, "useCookies", true),
-    saveCookies: boolFrom($i, body, "saveCookies", true),
-    followRedirects: boolFrom($i, body, "followRedirects", true),
-    maxRedirects: intFrom($i, body, "maxRedirects", 5, 10),
-    responseBodyMode: valueFrom($i, body, "responseBodyMode", "text"),
-    saveResponseTo: valueFrom($i, body, "saveResponseTo", valueFrom($i, body, "to", "")),
-    includeValues: boolFrom($i, body, "includeValues", false),
-    name: valueFrom($i, body, "name", ""),
-    value: valueFrom($i, body, "value", ""),
-    domain: valueFrom($i, body, "domain", ""),
+    content: preferBodyOr64($i, mergedBody, "content", "content64"),
+    find: preferBodyOr64($i, mergedBody, "find", "find64"),
+    query: preferBodyOr64($i, mergedBody, "query", "query64"),
+    replace: preferBodyOr64($i, mergedBody, "replace", "replace64"),
+    expectedSha256: valueFrom($i, mergedBody, "expectedSha256", ""),
+    sha256: valueFrom($i, mergedBody, "sha256", ""),
+    ext: valueFrom($i, mergedBody, "ext", ""),
+    from: valueFrom($i, mergedBody, "from", ""),
+    to: valueFrom($i, mergedBody, "to", ""),
+    source: valueFrom($i, mergedBody, "source", ""),
+    dest: valueFrom($i, mergedBody, "dest", ""),
+    target: valueFrom($i, mergedBody, "target", ""),
+    expectedSourceSha256: valueFrom($i, mergedBody, "expectedSourceSha256", ""),
+    dryRun: boolFrom($i, mergedBody, "dryRun", true),
+    confirm: boolFrom($i, mergedBody, "confirm", false),
+    headers: objectBodyOr64($i, mergedBody, "headers", "headers64", {}),
+    body: preferBodyOr64($i, mergedBody, "body", "body64"),
+    bodyEncoding: valueFrom($i, mergedBody, "bodyEncoding", "utf8"),
+    method: valueFrom($i, mergedBody, "method", "GET"),
+    cookieJarName: valueFrom($i, mergedBody, "cookieJarName", ""),
+    jar: valueFrom($i, mergedBody, "jar", ""),
+    useCookies: boolFrom($i, mergedBody, "useCookies", true),
+    saveCookies: boolFrom($i, mergedBody, "saveCookies", true),
+    followRedirects: boolFrom($i, mergedBody, "followRedirects", true),
+    maxRedirects: intFrom($i, mergedBody, "maxRedirects", 5, 10),
+    responseBodyMode: valueFrom($i, mergedBody, "responseBodyMode", "text"),
+    saveResponseTo: valueFrom($i, mergedBody, "saveResponseTo", valueFrom($i, mergedBody, "to", "")),
+    includeValues: boolFrom($i, mergedBody, "includeValues", false),
+    name: valueFrom($i, mergedBody, "name", ""),
+    value: valueFrom($i, mergedBody, "value", ""),
+    domain: valueFrom($i, mergedBody, "domain", ""),
     path: p,
-    expires: valueFrom($i, body, "expires", ""),
-    secure: boolFrom($i, body, "secure", false),
-    httpOnly: boolFrom($i, body, "httpOnly", false),
-    sameSite: valueFrom($i, body, "sameSite", ""),
-    storageType: valueFrom($i, body, "storageType", ""),
-    localStorage: objectBodyOr64($i, body, "localStorage", "localStorage64", {}),
-    sessionStorage: objectBodyOr64($i, body, "sessionStorage", "sessionStorage64", {}),
-    cookies: arrayBodyOr64($i, body, "cookies", "cookies64", []),
+    expires: valueFrom($i, mergedBody, "expires", ""),
+    secure: boolFrom($i, mergedBody, "secure", false),
+    httpOnly: boolFrom($i, mergedBody, "httpOnly", false),
+    sameSite: valueFrom($i, mergedBody, "sameSite", ""),
+    storageType: valueFrom($i, mergedBody, "storageType", ""),
+    localStorage: objectBodyOr64($i, mergedBody, "localStorage", "localStorage64", {}),
+    sessionStorage: objectBodyOr64($i, mergedBody, "sessionStorage", "sessionStorage64", {}),
+    cookies: arrayBodyOr64($i, mergedBody, "cookies", "cookies64", []),
 
-    regex: boolFrom($i, body, "regex", false),
-    replaceAll: boolFrom($i, body, "replaceAll", true),
-    includeDirs: boolFrom($i, body, "includeDirs", false),
-    write: boolFrom($i, body, "write", false),
+    regex: boolFrom($i, mergedBody, "regex", false),
+    replaceAll: boolFrom($i, mergedBody, "replaceAll", true),
+    includeDirs: boolFrom($i, mergedBody, "includeDirs", false),
+    write: boolFrom($i, mergedBody, "write", false),
 
-    command: preferBodyOr64Alias($i, body, "command", ["commands"], "command64", ["commands64"]),
-    scriptText: preferBodyOr64($i, body, "scriptText", "script64"),
-    input: objectBodyOr64($i, body, "input", "input64", {}),
-    shell: valueFrom($i, body, "shell", ""),
-    cwd: valueFrom($i, body, "cwd", ""),
-    timeoutMs: intFrom($i, body, "timeoutMs", FOUR_MINUTES_MS, ONE_DAY_MS),
+    command: preferBodyOr64Alias($i, mergedBody, "command", ["commands"], "command64", ["commands64"]),
+    jobId: valueFrom($i, mergedBody, "jobId", valueFrom($i, mergedBody, "id", "")),
+    id: valueFrom($i, mergedBody, "id", valueFrom($i, mergedBody, "jobId", "")),
+    stream: valueFrom($i, mergedBody, "stream", "stdout"),
+    waitTimeoutMs: intFrom($i, mergedBody, "waitTimeoutMs", 240000, ONE_DAY_MS),
+    pollIntervalMs: intFrom($i, mergedBody, "pollIntervalMs", 1000, 30000),
+    intervalMs: intFrom($i, mergedBody, "intervalMs", 1000, 30000),
+    inlineOutput: boolFrom($i, mergedBody, "inlineOutput", true),
+    scriptText: preferBodyOr64($i, mergedBody, "scriptText", "script64"),
+    input: objectBodyOr64($i, mergedBody, "input", "input64", {}),
+    shell: valueFrom($i, mergedBody, "shell", ""),
+    cwd: valueFrom($i, mergedBody, "cwd", ""),
+    timeoutMs: intFrom($i, mergedBody, "timeoutMs", FOUR_MINUTES_MS, ONE_DAY_MS),
 
-    url: valueFrom($i, body, "url", ""),
-    selector: valueFrom($i, body, "selector", ""),
-    text: preferBodyOr64($i, body, "text", "text64"),
-    expression: preferBodyOr64($i, body, "expression", "expression64"),
-    script: arrayBodyOr64($i, body, "script", "script64", []),
-    port: intFrom($i, body, "port", 9222, 65535),
-    chromePath: valueFrom($i, body, "chromePath", ""),
-    userDataDir: valueFrom($i, body, "userDataDir", ""),
-    headless: boolFrom($i, body, "headless", false),
-    clearLogs: boolFrom($i, body, "clearLogs", false),
-    snapshot: boolFrom($i, body, "snapshot", true),
-    fullPage: boolFrom($i, body, "fullPage", true),
-    failedOnly: boolFrom($i, body, "failedOnly", true),
-    assertNoConsoleErrors: boolFrom($i, body, "assertNoConsoleErrors", false),
-    maxLogs: intFrom($i, body, "maxLogs", 200, 1000),
-    waitMs: intFrom($i, body, "waitMs", 0, 30000),
-    selectorTimeoutMs: intFrom($i, body, "selectorTimeoutMs", 10000, FOUR_MINUTES_MS),
-    maxText: intFrom($i, body, "maxText", 4000, 30000),
-    maxHtml: intFrom($i, body, "maxHtml", 0, 100000),
-    format: valueFrom($i, body, "format", "png"),
-    host: valueFrom($i, body, "host", ""),
-    index: valueFrom($i, body, "index", ""),
-    serverId: valueFrom($i, body, "serverId", ""),
-    spaFallback: boolFrom($i, body, "spaFallback", false),
-    cors: boolFrom($i, body, "cors", false),
-    keepServer: boolFrom($i, body, "keepServer", false),
-    keepSandbox: boolFrom($i, body, "keepSandbox", false),
-    sandboxId: valueFrom($i, body, "sandboxId", ""),
-    entry: valueFrom($i, body, "entry", ""),
-    urlPath: valueFrom($i, body, "urlPath", ""),
-    testCode: preferBodyOr64($i, body, "testCode", "testCode64"),
-    html: preferBodyOr64($i, body, "html", "html64"),
-    actionsJson: preferBodyOr64($i, body, "actionsJson", "actionsJson64"),
-    browserActions: plainStructuredOr64($i, body, "browserActions", "browserActions64", null),
-    pageActions: plainStructuredOr64($i, body, "pageActions", "pageActions64", null),
-    actionsJson: preferBodyOr64($i, body, "actionsJson", "actionsJson64"),
-    browserActions: plainStructuredOr64($i, body, "browserActions", "browserActions64", null),
-    pageActions: plainStructuredOr64($i, body, "pageActions", "pageActions64", null),
-    packageJson: objectBodyOr64($i, body, "packageJson", "packageJson64", null),
-    checkOnly: boolFrom($i, body, "checkOnly", false),
-    workflowName: valueFrom($i, body, "workflowName", ""),
-    workflow: objectBodyOr64($i, body, "workflow", "workflow64", null),
-    steps: arrayBodyOr64($i, body, "steps", "steps64", []),
-    probes: arrayBodyOr64($i, body, "probes", "probes64", []),
-    interactions: arrayBodyOr64($i, body, "interactions", "interactions64", []),
-    returnValues: arrayBodyOr64($i, body, "returnValues", "returnValues64", []),
-    values: arrayBodyOr64($i, body, "values", "values64", []),
-    params: objectBodyOr64($i, body, "params", "params64", {}),
-    maxSteps: intFrom($i, body, "maxSteps", 50, 100),
-    maxIterations: intFrom($i, body, "maxIterations", 20, 100),
-    maxStepOutputChars: intFrom($i, body, "maxStepOutputChars", 12000, 60000),
-    responseMode: valueFrom($i, body, "responseMode", "inline"),
-    maxInlineBytes: intFrom($i, body, "maxInlineBytes", 12000, 1000000),
-    ttlSeconds: intFrom($i, body, "ttlSeconds", 300, 900),
-    page: intFrom($i, body, "page", 1, 1000000),
-    pageSize: intFrom($i, body, "pageSize", 50, 1000),
-    sort: valueFrom($i, body, "sort", ""),
-    order: valueFrom($i, body, "order", "asc"),
-    conversationId: valueFrom($i, body, "conversationId", ""),
-    conversationName: valueFrom($i, body, "conversationName", valueFrom($i, body, "conversation", ""))
+    url: valueFrom($i, mergedBody, "url", ""),
+    selector: valueFrom($i, mergedBody, "selector", ""),
+    text: preferBodyOr64($i, mergedBody, "text", "text64"),
+    expression: preferBodyOr64($i, mergedBody, "expression", "expression64"),
+    script: arrayBodyOr64($i, mergedBody, "script", "script64", []),
+    port: intFrom($i, mergedBody, "port", 9222, 65535),
+    chromePath: valueFrom($i, mergedBody, "chromePath", ""),
+    userDataDir: valueFrom($i, mergedBody, "userDataDir", ""),
+    headless: boolFrom($i, mergedBody, "headless", false),
+    clearLogs: boolFrom($i, mergedBody, "clearLogs", false),
+    snapshot: boolFrom($i, mergedBody, "snapshot", true),
+    fullPage: boolFrom($i, mergedBody, "fullPage", true),
+    failedOnly: boolFrom($i, mergedBody, "failedOnly", true),
+    assertNoConsoleErrors: boolFrom($i, mergedBody, "assertNoConsoleErrors", false),
+    maxLogs: intFrom($i, mergedBody, "maxLogs", 200, 1000),
+    waitMs: intFrom($i, mergedBody, "waitMs", 0, 30000),
+    selectorTimeoutMs: intFrom($i, mergedBody, "selectorTimeoutMs", 10000, FOUR_MINUTES_MS),
+    maxText: intFrom($i, mergedBody, "maxText", 4000, 30000),
+    maxHtml: intFrom($i, mergedBody, "maxHtml", 0, 100000),
+    format: valueFrom($i, mergedBody, "format", "png"),
+    host: valueFrom($i, mergedBody, "host", ""),
+    index: valueFrom($i, mergedBody, "index", ""),
+    serverId: valueFrom($i, mergedBody, "serverId", ""),
+    spaFallback: boolFrom($i, mergedBody, "spaFallback", false),
+    cors: boolFrom($i, mergedBody, "cors", false),
+    keepServer: boolFrom($i, mergedBody, "keepServer", false),
+    keepSandbox: boolFrom($i, mergedBody, "keepSandbox", false),
+    sandboxId: valueFrom($i, mergedBody, "sandboxId", ""),
+    entry: valueFrom($i, mergedBody, "entry", ""),
+    urlPath: valueFrom($i, mergedBody, "urlPath", ""),
+    testCode: preferBodyOr64($i, mergedBody, "testCode", "testCode64"),
+    html: preferBodyOr64($i, mergedBody, "html", "html64"),
+    actionsJson: preferBodyOr64($i, mergedBody, "actionsJson", "actionsJson64"),
+    browserActions: plainStructuredOr64($i, mergedBody, "browserActions", "browserActions64", null),
+    pageActions: plainStructuredOr64($i, mergedBody, "pageActions", "pageActions64", null),
+    actionsJson: preferBodyOr64($i, mergedBody, "actionsJson", "actionsJson64"),
+    browserActions: plainStructuredOr64($i, mergedBody, "browserActions", "browserActions64", null),
+    pageActions: plainStructuredOr64($i, mergedBody, "pageActions", "pageActions64", null),
+    packageJson: objectBodyOr64($i, mergedBody, "packageJson", "packageJson64", null),
+    checkOnly: boolFrom($i, mergedBody, "checkOnly", false),
+    workflowName: valueFrom($i, mergedBody, "workflowName", ""),
+    workflow: objectBodyOr64($i, mergedBody, "workflow", "workflow64", null),
+    steps: arrayBodyOr64($i, mergedBody, "steps", "steps64", []),
+    probes: arrayBodyOr64($i, mergedBody, "probes", "probes64", []),
+    interactions: arrayBodyOr64($i, mergedBody, "interactions", "interactions64", []),
+    returnValues: arrayBodyOr64($i, mergedBody, "returnValues", "returnValues64", []),
+    values: arrayBodyOr64($i, mergedBody, "values", "values64", []),
+    params: objectBodyOr64($i, mergedBody, "params", "params64", {}),
+    maxSteps: intFrom($i, mergedBody, "maxSteps", 50, 100),
+    maxIterations: intFrom($i, mergedBody, "maxIterations", 20, 100),
+    maxStepOutputChars: intFrom($i, mergedBody, "maxStepOutputChars", 12000, 60000),
+    responseMode: valueFrom($i, mergedBody, "responseMode", "inline"),
+    maxInlineBytes: intFrom($i, mergedBody, "maxInlineBytes", 12000, 1000000),
+    ttlSeconds: intFrom($i, mergedBody, "ttlSeconds", 300, 900),
+    page: intFrom($i, mergedBody, "page", 1, 1000000),
+    pageSize: intFrom($i, mergedBody, "pageSize", 50, 1000),
+    sort: valueFrom($i, mergedBody, "sort", ""),
+    order: valueFrom($i, mergedBody, "order", "asc"),
+    conversationId: valueFrom($i, mergedBody, "conversationId", ""),
+    conversationName: valueFrom($i, mergedBody, "conversationName", valueFrom($i, mergedBody, "conversation", ""))
   };
 
   for (const key of ["root", "local", "relay", "setTunnelName"]) {
-    const value = valueFrom($i, body, key, "");
+    const value = valueFrom($i, mergedBody, key, "");
     if (value) payload[key === "setTunnelName" ? "tunnelName" : key] = value;
   }
 
   for (const key of ["tools", "chrome", "commandConfig"]) {
-    const value = objectBodyOr64($i, body, key, key + "64", null);
+    const value = objectBodyOr64($i, mergedBody, key, key + "64", null);
     if (value) payload[key] = value;
   }
 
   for (const key of ["allowWrite", "allowSecrets", "enableLocalHttpProxy", "allowCommands"]) {
-    const value = boolValue(valueFrom($i, body, key, undefined));
+    const value = boolValue(valueFrom($i, mergedBody, key, undefined));
     if (value !== undefined) payload[key] = value;
   }
 
@@ -359,6 +375,7 @@ function buildFsPayload($i) {
 function actionRequiredScope(action) {
   action = String(action || "");
   if (FS_WORKFLOW_ACTIONS.has(action)) return "tunnel.write";
+  if (action.startsWith("mission")) return "tunnel.write";
   if (action.startsWith("command") || action === "nodeScriptRun") return "tunnel.command";
   if (action === "nodeCheck" || action === "nodeCheckTree" || action === "isolatedJsTest" || action === "isolatedNodeCheck") return "tunnel.command";
   if (action.startsWith("chrome") || action === "isolatedHtmlTest") return "tunnel.browser";

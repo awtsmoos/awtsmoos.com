@@ -1,0 +1,12 @@
+/* B"H — Chapter 449: History is a gentle lantern, not surveillance. */
+.profile-history-card footer,
+.profile-post-card footer,
+.profile-comment-card footer {
+  margin-top: .65rem;
+  color: rgba(35,23,13,.58);
+  font-size: .82rem;
+  font-weight: 900;
+}
+.profile-history-card small { color: #8b4e12; font-weight: 950; }
+.profile-history-card h3 { margin: .35rem 0; }
+.profile-history-card p { color: rgba(35,23,13,.7); overflow-wrap: anywhere; }

@@ -1,19 +1,26 @@
 /**
  * B"H
  * @module TileLexicon
- * @description Glyph roles for every NPC, object, door, musag, and story guide.
+ * @description Glyph roles for every NPC, object, door, musag, and gift-law symbol.
  *
- * Chapter 184: The letters became a cast list. The Awtsmoos has no body and no
- * form, yet every person in the player's road now has a role: talker, merchant,
- * trainer, challenger, healer, guardian, dream-walker, middah guide, shadow,
- * or final soul-root. No guide should become a battle unless marked battle=true.
+ * Chapter 206: The tiles confessed where they belong. The Awtsmoos has no body
+ * and no form, yet every symbol now says whether it is road, teacher, produce,
+ * receiver, gate, or living concept. The Garden of Ungiven Things can finally
+ * be played instead of merely imagined.
  */
 import { MidgameTiles } from './TileLexiconMidgame.js';
+import { GiftLawIndex } from './rambam/GiftLawIndex.js';
+import { RecipientIndex } from './rambam/RecipientIndex.js';
 
 const npc = (label, extra = {}) => ({ kind: 'npc', pass: true, ground: '2', label, role: 'guide', dialogueOnly: true, ...extra });
 const grassNpc = (label, extra = {}) => ({ kind: 'npc', pass: true, ground: '1', label, role: 'guide', dialogueOnly: true, ...extra });
 const fightNpc = (label, encounter = 'trainer', extra = {}) => ({ kind: 'npc', pass: true, ground: '2', label, role: 'trainer', encounter, battle: true, ...extra });
 const obj = (label, extra = {}) => ({ kind: 'object', pass: true, ground: '.', label, ...extra });
+const giftTile = gift => ({ kind: 'gift', pass: true, ground: '1', label: gift.name, gift: gift.id, questItem: gift.id });
+const receiverTile = receiver => ({ kind: 'receiver', pass: true, ground: '2', label: receiver.name, receiver: receiver.id });
+
+const GiftTiles = Object.fromEntries(Object.values(GiftLawIndex).map(g => [g.glyph, giftTile(g)]));
+const ReceiverTiles = Object.fromEntries(Object.values(RecipientIndex).map(r => [r.glyph, receiverTile(r)]));
 
 const CoreTiles = {
   '0': { kind: 'floor', pass: true, ground: '.' }, '1': { kind: 'grass', pass: true, ground: '1', wildChance: 0.055 }, '2': { kind: 'road', pass: true, ground: '2' },
@@ -40,7 +47,9 @@ const CoreTiles = {
   'ן': { kind: 'musag', pass: true, ground: '1', encounter: 'wildOhrChozer', battle: true, label: 'Wild Ohr Chozer' },
   'ב': obj('Sefer Stand', { book: 'mishnahSeeds', quest: 'sefarim_path' }), 'ע': obj('Etz Chaim Table', { book: 'TanyaFlame' }), 'ל': obj('Luminous Lamp', { book: 'ZoharLamp' }),
   'א': { kind: 'object', pass: true, ground: '1', questItem: 'spark', label: 'Hidden Spark' }, 'פ': obj('Lost Parchment', { questItem: 'scroll' }), 'ת': obj('Locked Teivah', { questItem: 'chest' }),
-  '⌂': { kind: 'synagogue', pass: true, ground: '2', quest: 'village_minyan', label: 'Small Synagogue' }, '✡': { kind: 'mitzvah', pass: true, ground: '2', label: 'Mitzvah Station' }
+  '⌂': { kind: 'synagogue', pass: true, ground: '2', quest: 'village_minyan', label: 'Small Synagogue' }, '✡': { kind: 'mitzvah', pass: true, ground: '2', label: 'Mitzvah Station' },
+  ...GiftTiles,
+  ...ReceiverTiles
 };
 
 export const TileLexicon = { ...CoreTiles, ...MidgameTiles };
@@ -49,5 +58,5 @@ export const isPassableGlyph = glyph => !!tileMeta(glyph).pass;
 export const groundGlyph = glyph => tileMeta(glyph).ground || glyph;
 export const isDoorGlyph = glyph => tileMeta(glyph).kind === 'door';
 export const isEdgeGlyph = glyph => tileMeta(glyph).kind === 'edge';
-export const isEncounterGlyph = glyph => ['npc', 'musag'].includes(tileMeta(glyph).kind);
-export const isObjectGlyph = glyph => tileMeta(glyph).kind === 'object';
+export const isEncounterGlyph = glyph => ['npc', 'musag', 'receiver'].includes(tileMeta(glyph).kind);
+export const isObjectGlyph = glyph => ['object', 'gift'].includes(tileMeta(glyph).kind);

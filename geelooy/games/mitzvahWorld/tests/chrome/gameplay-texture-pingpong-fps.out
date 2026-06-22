@@ -1,0 +1,83 @@
+{
+  "ok": false,
+  "headed": false,
+  "startedAt": "2026-06-21T22:18:05.853Z",
+  "browser": {
+    "name": "none",
+    "path": "",
+    "candidates": [
+      [
+        "CHROME_PATH",
+        ""
+      ],
+      [
+        "Chrome",
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome x86",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome local",
+        ""
+      ],
+      [
+        "Edge",
+        "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge x86",
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge local",
+        ""
+      ]
+    ]
+  },
+  "issueLog": {
+    "scope": "chrome-real-browser",
+    "ok": false,
+    "issues": [
+      {
+        "severity": "error",
+        "code": "NO_BROWSER_FOUND",
+        "message": "No Chrome or Edge executable found.",
+        "detail": {
+          "candidates": [
+            [
+              "CHROME_PATH",
+              ""
+            ],
+            [
+              "Chrome",
+              "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+            ],
+            [
+              "Chrome x86",
+              "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+            ],
+            [
+              "Chrome local",
+              ""
+            ],
+            [
+              "Edge",
+              "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+            ],
+            [
+              "Edge x86",
+              "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+            ],
+            [
+              "Edge local",
+              ""
+            ]
+          ]
+        },
+        "at": "2026-06-21T22:18:05.863Z"
+      }
+    ]
+  }
+}

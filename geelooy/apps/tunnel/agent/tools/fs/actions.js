@@ -24,6 +24,7 @@ const { buildAiAgentActions } = require("./actionGroups/aiAgentActions.js");
 const { buildActionHistoryActions } = require("./actionGroups/actionHistoryActions.js");
 const { buildChromeActions } = require("./actionGroups/chromeActions.js");
 const { buildCommandActions } = require("./actionGroups/commandActions.js");
+const { buildMissionActions } = require("./actionGroups/missionActions.js");
 const { buildChatGptActions } = require("../chatgpt/index.js");
 const ledger = require("./actionLedger.js");
 
@@ -31,7 +32,9 @@ const AGENT_VERSION = "split-agent-1.5.0";
 
 /**
  * B"H
- * Chapter 427: CommandTree is registered last so no older shallow shim can hide it.
+ * Chapter 516: A mission layer entered without breaking the old gates.
+ * It lives beside the existing action families and tells the agent to continue
+ * until evidence and definition-of-done gates breathe together.
  */
 function buildActions(config, payload, ws) {
   const ctx = { config, payload, ws, version: AGENT_VERSION };
@@ -47,6 +50,7 @@ function buildActions(config, payload, ws) {
     ...buildImageActions(ctx),
     ...buildChromeActions(ctx),
     ...buildCommandActions(ctx),
+    ...buildMissionActions(ctx),
     ...buildCognitionActions(ctx),
     ...buildCommandPresetActions(ctx, buildActions),
     ...buildAiTemplateActions(ctx, buildActions),

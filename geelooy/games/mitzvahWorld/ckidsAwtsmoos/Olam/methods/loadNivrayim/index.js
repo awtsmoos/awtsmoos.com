@@ -9,7 +9,7 @@ import TimeTracker from "../../../utils/TimeTracker.js";
 import { diagEvent, installDiagnosticsNotice } from "../../../utils/AwtsmoosDiagnostics.js?v=village-diagnostics-20260612-bh2";
 import { scheduleVillageGrounding } from "./villageGrounding.js?v=village-grounding-law-20260612-bh1";
 import { applyEntryRuntime } from "./entryRuntime/applyEntryRuntime.js";
-import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=mobile-postbuild-region-20260615-bh903";
+import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=instanced-roads-20260621-bh1";
 import { postWorkerProgress } from "../../oyved/core/protocol/WorkerProtocol.js";
 import { makeWorkerWorldReport } from "../../../../systems/visuals/WorkerWorldReport.js";
 import { ensureStarterStationZone } from "../../../../systems/starterStation/StarterStationBuilder.js";

@@ -13,7 +13,7 @@ import resizing from "./resizing.js?v=npc-runtime-cachebreak-20260616-bh1";
 import destroy from "./destroy.js?v=npc-runtime-cachebreak-20260616-bh1";
 import chossidReactions from "./chossidRaections.js?v=npc-runtime-cachebreak-20260616-bh1";
 import shlichus from "./shlichus.js?v=npc-runtime-cachebreak-20260616-bh1";
-import environment from "./environment.js?v=npc-runtime-cachebreak-20260616-bh1";
+import environment from "./environment.js?v=crisp-background-budget-20260621-bh1";
 import misc from "./misc.js?v=npc-runtime-cachebreak-20260616-bh1";
 
 export default function bindAllListeners() {

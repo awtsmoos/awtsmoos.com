@@ -17,7 +17,7 @@ import { ensureLivingTorahQuestLoop } from "./LivingTorahQuestLoop.js?v=awtsmoos
 import { ensureUniverseJsonPostBuild } from "./UniverseJsonPostBuild.js?v=awtsmoos-movie-universe-20260616-bh1";
 import { ensureProceduralWorldRuntime } from "../procedural/ProceduralWorldRuntime.js?v=awtsmoos-json-world-runtime-20260619-bh1";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?v=ecology-data-spine-20260612-bh1";
-import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=mobile-region-grass-wildlife-20260615-bh903";
+import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=instanced-roads-20260621-bh1";
 import { getVillageShaderTextureStats } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh3";
 import { ecologyMaterialStats } from "../../../../dvarim/nature/villagePicture/EcologySpecialMaterials.js?v=awtsmoos-ecology-materials-20260614-bh3";
 import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js";

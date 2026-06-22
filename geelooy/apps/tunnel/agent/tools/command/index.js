@@ -7,6 +7,7 @@ const { instantTests } = require("./instantTests.js");
 const {
   startCommandJob,
   commandStatus,
+  commandWait,
   commandJobOutputPage,
   cancelCommandJob
 } = require("../fs/commandJobStore.js");
@@ -28,8 +29,9 @@ function aliases(fn, names) {
 const ACTIONS = {
   ...aliases((config, payload) => runCommand(config, payload), COMMAND_RUN_ALIASES),
   ...aliases((config, payload) => runNodeScript(config, payload), NODE_SCRIPT_ALIASES),
-  ...aliases((config, payload) => startCommandJob(config, payload), ["commandStart", "commandJobStart", "commandAsync"]),
-  ...aliases((config, payload) => commandStatus(config, payload), ["commandStatus", "commandPoll", "commandJobStatus"]),
+  ...aliases((config, payload) => startCommandJob(config, payload), ["commandStart", "commandJobStart", "commandAsync", "jobStart"]),
+  ...aliases((config, payload) => commandStatus(config, payload), ["commandStatus", "commandPoll", "commandJobStatus", "jobStatus"]),
+  ...aliases((config, payload) => commandWait(config, payload), ["commandWait", "commandJobWait", "waitForJob", "jobWait"]),
   ...aliases((config, payload) => commandJobOutputPage(config, payload), ["commandJobOutputPage"]),
   ...aliases((config, payload) => commandJobOutputPage(config, payload), ["commandOutputPage"]),
   ...aliases((config, payload) => cancelCommandJob(config, payload), ["commandCancel", "commandJobCancel"]),

@@ -2,11 +2,9 @@
 /**
  * @module MailSocialLayout
  * @description
- * Chapter 25: Messages become a connected chamber of the social network.
- *
- * The existing quantum mail engine remains intact. This layout only wraps it
- * with the immense Geelooy page language: a sanctuary shell, social title, and
- * navigation back to profile, Heichelos, notifications, and the home feed.
+ * Chapter 464: The mail chamber now wears the new unified Social Hub tag. Mail,
+ * notifications, live sockets, and social API panels are no longer scattered
+ * doors; they are one networked vessel.
  */
 
 import { renderSidebar } from './sidebar.js';
@@ -28,6 +26,7 @@ export function renderAppLayout(ui, root) {
                 children: [
                     { tag: 'a', attrs: { href: '/' }, textContent: 'Geelooy' },
                     { tag: 'strong', textContent: 'Messages / Mail' },
+                    { tag: 'a', classList: ['mail-social-hub-tag'], attrs: { href: '/social', title: 'Open unified Social Hub' }, textContent: 'Social Hub' },
                     { tag: 'a', attrs: { href: '/notifications' }, textContent: 'Notifications' }
                 ]
             },
@@ -46,7 +45,7 @@ export function renderAppLayout(ui, root) {
                 children: [
                     { tag: 'a', attrs: { href: '/' }, textContent: 'Home' },
                     { tag: 'a', attrs: { href: '/heichelos' }, textContent: 'Heichelos' },
-                    { tag: 'a', attrs: { href: '/heichelos/submit' }, textContent: '+' },
+                    { tag: 'a', attrs: { href: '/social' }, textContent: 'Social' },
                     { tag: 'a', attrs: { href: '/email' }, textContent: 'Messages' },
                     { tag: 'a', attrs: { href: '/profile' }, textContent: 'Profile' }
                 ]

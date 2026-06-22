@@ -9,3 +9,24 @@
 @import "./social-shell-parts/bottom-nav.css";
 @import "./social-shell-parts/empty.css";
 @import "./social-shell-parts/mobile.css";
+
+/* B"H — Unified Social Hub tag for the new one-API system. */
+.mail-social-hub-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  border-radius: 999px;
+  padding: 0 .85rem;
+  color: #fff8df !important;
+  text-decoration: none;
+  font-weight: 950;
+  letter-spacing: .02em;
+  background: linear-gradient(135deg, #241b35, #8c3518 70%, #d6a84f);
+  box-shadow: 0 .75rem 1.5rem rgba(80, 37, 18, .28), inset 0 1px 0 rgba(255,255,255,.22);
+}
+.mail-bottom-nav a[href="/social"] {
+  color: #fff8df;
+  background: linear-gradient(135deg, #241b35, #8c3518 70%, #d6a84f);
+  border-radius: 999px;
+  padding: .35rem .65rem;
+}

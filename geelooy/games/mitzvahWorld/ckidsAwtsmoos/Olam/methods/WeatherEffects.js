@@ -79,20 +79,20 @@ export default class WeatherEffects {
         }
 
         // 2. Rain Update (Basic Falling)
-        if (this.olam.player) {
-            // Keep centered on player
-            this.rainParticles.position.x = this.olam.player.mesh.position.x;
-            this.rainParticles.position.z = this.olam.player.mesh.position.z;
+        const raining = intensity > 0;
+        this.rainParticles.visible = raining;
+        if (raining) {
+            if (this.olam.player) {
+                this.rainParticles.position.x = this.olam.player.mesh.position.x;
+                this.rainParticles.position.z = this.olam.player.mesh.position.z;
+            }
+            const positions = this.rainParticles.geometry.attributes.position.array;
+            for(let i=1; i<positions.length; i+=3) {
+                positions[i] -= 20 * dt;
+                if(positions[i] < 0) positions[i] = 50;
+            }
+            this.rainParticles.geometry.attributes.position.needsUpdate = true;
         }
-        
-        // Manual rain loop
-        const positions = this.rainParticles.geometry.attributes.position.array;
-        for(let i=1; i<positions.length; i+=3) {
-            positions[i] -= 20 * dt;
-            if(positions[i] < 0) positions[i] = 50;
-        }
-        this.rainParticles.geometry.attributes.position.needsUpdate = true;
-        this.rainParticles.visible = (intensity > 0);
 
         // 3. Rainbow
         const isRaining = type === 'RAIN' && intensity > 0.2;

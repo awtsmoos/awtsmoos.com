@@ -1,0 +1,60 @@
+/* B"H */
+/**
+ * Chapter 479: The uploader is a small gate in the social palace. It welcomes
+ * image, voice, audio, and future media sparks without disturbing old forms.
+ */
+.bh-social-media-actions,
+.bh-social-asset-preview,
+.bh-social-drop-zone {
+  border: 1px solid rgba(120, 145, 190, 0.35);
+  border-radius: 14px;
+  padding: 12px;
+  margin: 10px 0;
+  background: rgba(30, 42, 72, 0.08);
+}
+.bh-social-media-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.bh-social-media-actions button,
+.bh-social-drop-zone {
+  cursor: pointer;
+}
+.bh-social-drop-zone.is-dragging {
+  outline: 3px dashed rgba(90, 155, 255, 0.7);
+  background: rgba(90, 155, 255, 0.12);
+}
+.bh-social-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+}
+.bh-social-asset {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  color: inherit;
+  text-decoration: none;
+}
+.bh-social-asset img,
+.bh-social-asset audio {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+}
+.bh-social-asset figcaption,
+.bh-social-asset small {
+  display: block;
+  opacity: 0.82;
+  word-break: break-word;
+}
+.bh-social-voice-note {
+  border-left: 3px solid rgba(90,155,255,0.8);
+  padding-left: 10px;
+  margin: 10px 0;
+}

@@ -1,0 +1,135 @@
+{
+  "ui": {
+    "mid": {
+      "status": "YouTube-shaped HLS stream running. Session stream-mqog3nsd-c0d9b302.",
+      "button": "Stop YouTube HLS"
+    },
+    "done": {
+      "status": "YouTube HLS stopped: 55 frames, 1 segment(s), 31020 uploaded bytes.",
+      "button": "Start YouTube HLS",
+      "rows": [
+        "1. 2D Canvas120,120 · 380×214 · canvas"
+      ]
+    }
+  },
+  "list": {
+    "status": 200,
+    "json": {
+      "ok": true,
+      "action": "streamingSessionList",
+      "sessions": [
+        {
+          "id": "stream-mqog3nsd-c0d9b302",
+          "createdAt": 1782086183725,
+          "updatedAt": 1782086185580,
+          "status": "closed",
+          "connector": "custom",
+          "mode": "direct",
+          "ingest": {},
+          "hls": {
+            "sequence": 0,
+            "targetDuration": 2,
+            "maxSegments": 6,
+            "segments": [
+              {
+                "name": "segment-1-1.ts",
+                "duration": 2,
+                "bytes": 31020,
+                "contentType": "video/mp2t",
+                "createdAt": 1782086185566
+              }
+            ],
+            "contentType": "video/mp2t"
+          },
+          "counters": {
+            "chunks": 1,
+            "bytes": 31020,
+            "forwarded": 0,
+            "failed": 0,
+            "hlsSegments": 1,
+            "hlsBytes": 31020
+          },
+          "lastError": null
+        }
+      ]
+    }
+  },
+  "latest": {
+    "id": "stream-mqog3nsd-c0d9b302",
+    "createdAt": 1782086183725,
+    "updatedAt": 1782086185580,
+    "status": "closed",
+    "connector": "custom",
+    "mode": "direct",
+    "ingest": {},
+    "hls": {
+      "sequence": 0,
+      "targetDuration": 2,
+      "maxSegments": 6,
+      "segments": [
+        {
+          "name": "segment-1-1.ts",
+          "duration": 2,
+          "bytes": 31020,
+          "contentType": "video/mp2t",
+          "createdAt": 1782086185566
+        }
+      ],
+      "contentType": "video/mp2t"
+    },
+    "counters": {
+      "chunks": 1,
+      "bytes": 31020,
+      "forwarded": 0,
+      "failed": 0,
+      "hlsSegments": 1,
+      "hlsBytes": 31020
+    },
+    "lastError": null
+  },
+  "playlist": {
+    "status": 200,
+    "json": {
+      "ok": true,
+      "action": "streamingHlsPlaylist",
+      "playlist": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:2\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:2.000,\nsegment-1-1.ts\n#EXT-X-ENDLIST\n",
+      "forwarded": {
+        "forwarded": false,
+        "reason": "not_requested"
+      },
+      "session": {
+        "id": "stream-mqog3nsd-c0d9b302",
+        "createdAt": 1782086183725,
+        "updatedAt": 1782086185580,
+        "status": "closed",
+        "connector": "custom",
+        "mode": "direct",
+        "ingest": {},
+        "hls": {
+          "sequence": 0,
+          "targetDuration": 2,
+          "maxSegments": 6,
+          "segments": [
+            {
+              "name": "segment-1-1.ts",
+              "duration": 2,
+              "bytes": 31020,
+              "contentType": "video/mp2t",
+              "createdAt": 1782086185566
+            }
+          ],
+          "contentType": "video/mp2t"
+        },
+        "counters": {
+          "chunks": 1,
+          "bytes": 31020,
+          "forwarded": 0,
+          "failed": 0,
+          "hlsSegments": 1,
+          "hlsBytes": 31020
+        },
+        "lastError": null
+      }
+    }
+  }
+}

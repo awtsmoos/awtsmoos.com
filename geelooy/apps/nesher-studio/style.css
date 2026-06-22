@@ -1,0 +1,27 @@
+/* B"H: the dark room where sparks enter ordered frames. */
+:root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; background:#080a12; color:#ecf2ff; }
+body { margin:0; min-height:100vh; background:radial-gradient(circle at top,#16213f,#070912 58%); }
+button,input { font:inherit; border-radius:12px; border:1px solid #33415f; padding:.7rem .9rem; }
+button { cursor:pointer; background:#7c5cff; color:white; font-weight:800; box-shadow:0 12px 34px #0008; }
+input { background:#0d1324; color:#eef5ff; width:100%; box-sizing:border-box; }
+.nesher-shell { width:min(1500px,96vw); margin:0 auto; padding:28px 0; }
+.topbar,.control-grid,.studio-grid { background:#101827cc; border:1px solid #26324d; border-radius:24px; box-shadow:0 24px 80px #0007; }
+.topbar { display:flex; justify-content:space-between; gap:20px; padding:24px; align-items:center; }
+h1 { margin:.1rem 0 0; font-size:clamp(2rem,5vw,4rem); }
+.eyebrow { color:#9fb4ff; text-transform:uppercase; letter-spacing:.14em; margin:0; font-size:.78rem; }
+.record-controls { display:flex; gap:12px; flex-wrap:wrap; }
+.control-grid { margin:18px 0; padding:18px; display:grid; grid-template-columns:repeat(7,minmax(120px,1fr)); gap:12px; align-items:end; }
+.control-grid label { color:#b9c7e8; font-size:.85rem; display:grid; gap:6px; }
+.studio-grid { display:grid; grid-template-columns:230px 1fr 330px; gap:18px; padding:18px; }
+.stage-wrap { display:grid; place-items:center; min-height:560px; background:#05070d; border-radius:18px; overflow:auto; }
+#stage { max-width:100%; height:auto; background:#151515; border:1px solid #3b4561; touch-action:none; }
+aside { padding:14px; background:#0a1020; border-radius:18px; }
+aside button { width:100%; margin:.35rem 0; }
+.layer-buttons { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:.7rem 0; }
+.layer-buttons button { margin:0; padding:.55rem; }
+#sourceList,#sceneList { padding-left:1.2rem; color:#cbd8ff; }
+#sceneList li,#sourceList li { cursor:pointer; padding:.45rem; border-radius:10px; margin:.25rem 0; border:1px solid transparent; background:#10182c; }
+#sourceList li span { display:block; color:#9fb4ff; font-size:.78rem; margin-top:.15rem; }
+#sourceList li.selected-source,#sceneList li.active { background:#24335d; color:#83ffe7; border-color:#83ffe788; }
+#status { color:#9fb4ff; line-height:1.45; }
+@media (max-width:1100px){ .control-grid,.studio-grid{grid-template-columns:1fr}.topbar{display:block}.record-controls{margin-top:18px} }

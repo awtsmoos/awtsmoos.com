@@ -1,83 +1,78 @@
 /* B"H
- * Chapter 41: The top rail becomes calm, compact, and non-destructive.
- * The hamburger is a button, the notification spark opens an inline menu, and
- * no accidental navigation steals the Heichel from the reader.
+ * Chapter 411: The top gate becomes quiet command, not clutter.
  */
 .heichel-mobile-topbar {
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 60;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: .75rem;
   align-items: center;
-  gap: .7rem;
-  padding: .65rem clamp(.75rem, 3vw, 1.25rem);
-  background: rgba(155, 213, 255, .9);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(28, 65, 95, .18);
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  padding: max(.55rem, env(safe-area-inset-top)) clamp(.7rem, 2vw, 1.2rem) .55rem;
+  background: linear-gradient(180deg, rgba(255,246,226,.9), rgba(255,246,226,.58));
+  border-bottom: 1px solid rgba(122,82,31,.12);
+  backdrop-filter: blur(18px) saturate(135%);
 }
-
-.topbar-title {
-  display: grid;
-  justify-items: center;
-  line-height: 1.05;
-  color: #140f0a;
-}
-
-.topbar-title strong { font-size: clamp(1.05rem, 4vw, 1.35rem); }
-.topbar-title small { font-size: .76rem; font-weight: 850; }
 
 .topbar-icon {
   display: grid;
   place-items: center;
-  width: clamp(3rem, 16vw, 4.8rem);
-  min-width: 3rem;
-  height: 3rem;
-  border: 1px solid rgba(70, 44, 15, .16);
+  width: 2.85rem;
+  height: 2.85rem;
+  border: 1px solid rgba(122,82,31,.18);
   border-radius: 1rem;
-  background: linear-gradient(145deg, #f7dfae, #e5c58b);
-  color: #1f1408;
-  font: inherit;
+  background: rgba(255,255,255,.66);
+  color: #2b2235;
+  font-size: 1.2rem;
   font-weight: 950;
-  text-decoration: none;
-  box-shadow: .28rem .38rem 0 rgba(0,0,0,.18);
+  box-shadow: 0 .65rem 1.45rem rgba(75,45,10,.11), inset 0 1px 0 rgba(255,255,255,.85);
 }
 
-.topbar-icon:active { transform: translateY(1px); box-shadow: .15rem .22rem 0 rgba(0,0,0,.16); }
-
-.topbar-notification-menu {
-  position: relative;
-  justify-self: end;
+.topbar-title {
+  min-width: 0;
+  display: grid;
+  line-height: 1.05;
 }
 
-.topbar-notification-menu summary {
-  list-style: none;
-  cursor: pointer;
+.topbar-title strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #1d1711;
+  font-size: 1.02rem;
+  font-weight: 950;
 }
 
+.topbar-title small {
+  color: rgba(49,35,20,.64);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.topbar-notification-menu { position: relative; }
+.topbar-notification-menu summary { list-style: none; cursor: pointer; }
 .topbar-notification-menu summary::-webkit-details-marker { display: none; }
-
 .topbar-menu-panel {
   position: absolute;
   right: 0;
-  top: calc(100% + .45rem);
-  width: min(15rem, 72vw);
-  display: grid;
-  gap: .35rem;
-  border: 1px solid var(--heichel-line, rgba(122,82,31,.18));
+  top: calc(100% + .55rem);
+  min-width: 13rem;
+  padding: .55rem;
   border-radius: 1rem;
-  padding: .45rem;
-  background: rgba(255, 250, 240, .97);
-  box-shadow: var(--awt-elevation-3, 0 1.2rem 2.8rem rgba(42,25,8,.28));
+  border: 1px solid rgba(122,82,31,.18);
+  background: rgba(255,252,244,.94);
+  box-shadow: 0 1rem 2.2rem rgba(54,29,9,.18);
 }
-
 .topbar-menu-panel a {
-  border-radius: .8rem;
-  padding: .7rem .85rem;
+  display: block;
+  padding: .7rem .8rem;
+  border-radius: .75rem;
   color: #24160b;
   text-decoration: none;
   font-weight: 900;
 }
-
-.topbar-menu-panel a:hover,
-.topbar-menu-panel a:focus-visible { background: rgba(214,168,79,.18); }
+.topbar-menu-panel a:hover { background: rgba(214,168,79,.18); }

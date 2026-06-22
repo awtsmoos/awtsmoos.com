@@ -75,10 +75,18 @@ export async function buildWindowedHouse(scene, physics, def, olam = null) {
     makeWindow(group, -hw - 0.01, winY, 0, 1.5, 1.2, 'x');
   }
 
-  // ── Flat roof slab ──
-  const roofGeo  = new THREE.BoxGeometry(width + 0.6, 0.3, depth + 0.6);
+  // ── Gable roof ──
+  const roofShape = new THREE.Shape();
+  const roofW = width + 0.8, roofD = depth + 0.8, roofRise = Math.max(0.9, width * 0.18);
+  roofShape.moveTo(-roofW / 2, 0);
+  roofShape.lineTo(0, roofRise);
+  roofShape.lineTo(roofW / 2, 0);
+  roofShape.lineTo(-roofW / 2, 0);
+  const roofGeo = new THREE.ExtrudeGeometry(roofShape, { depth:roofD, bevelEnabled:false });
+  roofGeo.translate(0, 0, -roofD / 2);
   const roofMesh = new THREE.Mesh(roofGeo, roofMat);
-  roofMesh.position.set(0, totalH + 0.15, 0);
+  roofMesh.position.set(0, totalH, 0);
+  roofMesh.name = `${def.id}_clean_gable_roof`;
   roofMesh.castShadow = true;
   roofMesh.userData.isSolid = true;
   group.add(roofMesh);

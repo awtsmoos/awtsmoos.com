@@ -1,0 +1,49 @@
+/* B"H */
+/**
+ * Chapter 468: A small visible pulse, fixed to the lower edge, refusing to let
+ * the page pretend it is alone. The Awtsmoos creates every visitor anew every
+ * instant, and the badge shines that counted togetherness.
+ */
+.bh-page-presence-badge {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2147480000;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  max-width: min(320px, calc(100vw - 36px));
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 999px;
+  background: rgba(14, 22, 45, 0.88);
+  color: white;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+  backdrop-filter: blur(12px);
+  font: 13px/1.25 system-ui, -apple-system, Segoe UI, sans-serif;
+}
+.bh-page-presence-orb {
+  min-width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 20%, #ffffff, #92d7ff 35%, #3566ff 100%);
+  color: #071225;
+  font-weight: 900;
+}
+.bh-page-presence-copy {
+  display: grid;
+  gap: 2px;
+}
+.bh-page-presence-copy strong {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.bh-page-presence-copy span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.82;
+}

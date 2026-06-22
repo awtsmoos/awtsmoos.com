@@ -39,12 +39,21 @@ export async function buildMultiRoomHouse(scene, physics, def, olam = null) {
   }
 
   // ── 2. Unified Roof (Calculated from bounding box of rooms) ──
-  // For now, we'll just add a large flat slab for simplicity,
-  // or the layout could specify a roof.
   if (layout.length > 0) {
-    const roofGeo = new THREE.BoxGeometry(20, 0.4, 15);
+    const box = new THREE.Box3().setFromObject(group);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3()).sub(group.position);
+    const roofW = Math.max(8, size.x + 1.0), roofD = Math.max(7, size.z + 1.0), roofRise = Math.max(1.0, roofW * 0.16);
+    const roofShape = new THREE.Shape();
+    roofShape.moveTo(-roofW / 2, 0);
+    roofShape.lineTo(0, roofRise);
+    roofShape.lineTo(roofW / 2, 0);
+    roofShape.lineTo(-roofW / 2, 0);
+    const roofGeo = new THREE.ExtrudeGeometry(roofShape, { depth:roofD, bevelEnabled:false });
+    roofGeo.translate(0, 0, -roofD / 2);
     const roofMesh = new THREE.Mesh(roofGeo, roofMat);
-    roofMesh.position.set(0, 3.7, 0);
+    roofMesh.position.set(center.x, box.max.y - group.position.y, center.z);
+    roofMesh.name = `${def.id}_layout_gable_roof`;
     roofMesh.castShadow = true;
     roofMesh.userData.isSolid = true;
     group.add(roofMesh);
