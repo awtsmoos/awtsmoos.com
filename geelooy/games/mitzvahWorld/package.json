@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "profile:stephen": "node tools/stephenMiniProfiler.mjs --url=http://localhost:8080/games/mitzvahWorld/ --duration=9000",
     "simulate:headless": "node tests/headless/runHeadlessSimulation.js --repeat=5",
     "simulate:headless:stress": "node tests/headless/runHeadlessSimulation.js --repeat=20",
     "simulate:chrome": "node tests/chrome/runChromeSimulation.js",
