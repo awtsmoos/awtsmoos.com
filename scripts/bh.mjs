@@ -29,7 +29,10 @@ async function main() {
   let password = loadPassword();
   if (!password) {
     password = await promptPassword(`SSH password for ${username}@${host}: `);
-    if (args.has("--save-password")) savePassword(password);
+    if (!args.has("--no-save-password")) {
+      const saved = savePassword(password);
+      console.log(JSON.stringify({ ok: true, passwordSaved: true, saved }, null, 2));
+    }
   }
 
   const result = await execAwtsmoosSsh({ host, username, port, password }, remoteCommand);
