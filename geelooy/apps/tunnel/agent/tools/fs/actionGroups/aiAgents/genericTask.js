@@ -44,8 +44,8 @@ async function askDelegate(config, task, cycle, previous) {
 async function waitForFamily(config, task, limits) {
   const rootId = task.input.rootTaskId || task.rootTaskId || task.id;
   let guard = 0;
-  while (store.activeFamily(rootId).filter(t => t.id !== task.id).length && guard++ < limits.maxTotalTasks * 3) {
-    store.event(task, "Polling child family.", { active: store.activeFamily(rootId).map(t => t.id) });
+  while (store.activeFamily(rootId, task).filter(t => t.id !== task.id).length && guard++ < limits.maxTotalTasks * 3) {
+    store.event(task, "Polling child family.", { active: store.activeFamily(rootId, task).map(t => t.id) });
     await sleep(limits.pollIntervalMs);
   }
 }

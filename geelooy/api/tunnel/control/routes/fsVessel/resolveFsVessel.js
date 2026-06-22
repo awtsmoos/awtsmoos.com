@@ -57,11 +57,17 @@ function autoVessel($i, userId, payload, timeoutMs, natives, browsers) {
 }
 
 function nativeVessel($i, tunnelName, payload, timeoutMs, device, reason) {
-  return { kind: VESSEL_TYPES.NATIVE, tunnelName, device, reason, async send() { const result = await sendNativeTunnel($i, tunnelName, payload, timeoutMs); return { ...result, vessel: VESSEL_TYPES.NATIVE, tunnelName, routeReason: reason }; } };
+  return { kind: VESSEL_TYPES.NATIVE, tunnelName, device, reason, async send() { const routedPayload = withProjectRoot(payload, device); const result = await sendNativeTunnel($i, tunnelName, routedPayload, timeoutMs); return { ...result, vessel: VESSEL_TYPES.NATIVE, tunnelName, routeReason: reason }; } };
 }
 
 function browserVessel($i, tunnelName, payload, timeoutMs, device, reason) {
-  return { kind: VESSEL_TYPES.BROWSER, tunnelName, device, reason, async send() { const result = await sendBrowserTunnel($i, tunnelName, payload, timeoutMs); return { ...result, vessel: VESSEL_TYPES.BROWSER, tunnelName, routeReason: reason }; } };
+  return { kind: VESSEL_TYPES.BROWSER, tunnelName, device, reason, async send() { const routedPayload = withProjectRoot(payload, device); const result = await sendBrowserTunnel($i, tunnelName, routedPayload, timeoutMs); return { ...result, vessel: VESSEL_TYPES.BROWSER, tunnelName, routeReason: reason }; } };
+}
+
+function withProjectRoot(payload = {}, device = {}) {
+  if (payload.projectRoot || !device.root) return payload;
+  payload.projectRoot = device.root;
+  return payload;
 }
 
 function virtualVessel($i, userId, payload, reason) {

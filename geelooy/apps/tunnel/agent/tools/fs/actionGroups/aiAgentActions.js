@@ -19,16 +19,17 @@ const CARRIER_KEYS = ["params", "content", "text", "body", "query", "goal", "mes
  * becomes easier to hold.
  */
 function buildAiAgentActions(ctx) {
-  const raw = actionPayload(ctx.payload);
+  const config = loadConfig();
+  const raw = scopedPayload(actionPayload(ctx.payload), config);
   return {
     async agent() { return await consolidatedAgent(raw); },
     async aiAgentList() { return listAll(); },
     async aiAgentConfigSet() { return setConfig(raw); },
     async aiAgentSetProviderKey() { return setProviderKey(raw); },
     async aiAgentRemoveProviderKey() { return removeProviderKey(raw); },
-    async aiAgentMessage() { return sendAgentMessage(loadConfig(), raw); },
-    async aiAgentSpawnTask() { return tasks.spawnTask(loadConfig(), raw); },
-    async aiAgentSpawnNovel() { return tasks.spawnTask(loadConfig(), { ...raw, kind: "novelOrchestra" }); },
+    async aiAgentMessage() { return sendAgentMessage(config, raw); },
+    async aiAgentSpawnTask() { return tasks.spawnTask(config, raw); },
+    async aiAgentSpawnNovel() { return tasks.spawnTask(config, { ...raw, kind: "novelOrchestra" }); },
     async aiAgentTaskStatus() { return tasks.status(raw); },
     async aiAgentTaskResult() { return tasks.result(raw); },
     async aiAgentTaskList() { return tasks.list(raw); }
@@ -36,17 +37,19 @@ function buildAiAgentActions(ctx) {
 }
 
 async function consolidatedAgent(payload = {}) {
+  const config = loadConfig();
+  payload = scopedPayload(payload, config);
   const mode = String(payload.mode || payload.agentMode || "message").trim();
   if (mode === "list") return listAll();
   if (mode === "config") return setConfig(payload);
   if (mode === "setKey") return setProviderKey(payload);
   if (mode === "removeKey") return removeProviderKey(payload);
-  if (mode === "spawn") return tasks.spawnTask(loadConfig(), payload);
-  if (mode === "novel") return tasks.spawnTask(loadConfig(), { ...payload, kind: "novelOrchestra" });
+  if (mode === "spawn") return tasks.spawnTask(config, payload);
+  if (mode === "novel") return tasks.spawnTask(config, { ...payload, kind: "novelOrchestra" });
   if (mode === "status") return tasks.status(payload);
   if (mode === "result") return tasks.result(payload);
   if (mode === "tasks") return tasks.list(payload);
-  return sendAgentMessage(loadConfig(), payload);
+  return sendAgentMessage(config, payload);
 }
 
 function actionPayload(payload = {}) {
@@ -97,6 +100,14 @@ function normalizeAliases(payload = {}) {
 
 function hasPrompt(payload = {}) {
   return Boolean(String(payload.message || payload.prompt || payload.goal || "").trim());
+}
+
+function scopedPayload(payload = {}, config = loadConfig()) {
+  return {
+    ...payload,
+    projectRoot: payload.projectRoot || config.root || "",
+    tunnelName: payload.tunnelName || config.tunnelName || ""
+  };
 }
 
 function listAll() {
@@ -154,4 +165,4 @@ function taskActions() { return ["agent", "aiAgentSpawnTask", "aiAgentSpawnNovel
 function clean(value) { return String(value || "").trim().toLowerCase(); }
 function failure(error, extra = {}) { return { ok: false, action: "aiAgent", error, ...extra }; }
 
-module.exports = { actionPayload, buildAiAgentActions, consolidatedAgent };
+module.exports = { actionPayload, buildAiAgentActions, consolidatedAgent, scopedPayload };

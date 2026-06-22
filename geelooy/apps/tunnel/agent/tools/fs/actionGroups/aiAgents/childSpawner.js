@@ -26,7 +26,7 @@ function allowedSpecs(config, parent, specs) {
   const maxChildren = input.kind === "novelOrchestra" ? Math.max(configured, all.length) : configured;
   const maxTotal = Number(input.maxTotalTasks || config.aiAgents?.maxTotalTasks || 80);
   const rootId = input.rootTaskId || parent.rootTaskId || parent.id;
-  const room = Math.max(0, maxTotal - store.countFamily(rootId));
+  const room = Math.max(0, maxTotal - store.countFamily(rootId, parent));
   return all.slice(0, Math.min(maxChildren, room));
 }
 

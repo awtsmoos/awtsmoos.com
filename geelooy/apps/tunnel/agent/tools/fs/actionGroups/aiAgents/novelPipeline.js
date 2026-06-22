@@ -55,8 +55,8 @@ async function writeChapter(config, task, outputDir) {
 async function waitForChildren(config, task) {
   const limits = taskLimits(config, task.input);
   let guard = 0;
-  while (store.childrenOf(task.id).some(x => ["queued", "running"].includes(x.status)) && guard++ < limits.maxTotalTasks * 3) {
-    store.event(task, "Polling novel children.", { active: store.childrenOf(task.id).filter(x => ["queued", "running"].includes(x.status)).map(x => x.id) });
+  while (store.childrenOf(task.id, task).some(x => ["queued", "running"].includes(x.status)) && guard++ < limits.maxTotalTasks * 3) {
+    store.event(task, "Polling novel children.", { active: store.childrenOf(task.id, task).filter(x => ["queued", "running"].includes(x.status)).map(x => x.id) });
     await sleep(limits.pollIntervalMs);
   }
 }

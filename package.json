@@ -47,7 +47,8 @@
     "ship:bh": "node scripts/ship.mjs && node scripts/bh.mjs",
     "verify:agents-tunnel-access": "node scripts/verify-agents-tunnel-access.mjs",
     "stress:tunnel-control": "node scripts/stress-tunnel-control-actions.mjs",
-    "stress:root-search": "node scripts/stress-root-search.mjs"
+    "stress:root-search": "node scripts/stress-root-search.mjs",
+    "stress:mission-engine": "node scripts/stress-mission-engine.mjs"
   },
   "author": "",
   "license": "ISC"

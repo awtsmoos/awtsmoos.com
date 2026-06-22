@@ -60,6 +60,7 @@ function requestExpectation(id, name, payload, timeoutMs) {
     clientRequestId: payload?.clientRequestId || "",
     agentSessionId: payload?.agentSessionId || "",
     logicalAgentId: payload?.logicalAgentId || "",
+    projectRoot: payload?.projectRoot || payload?.root || "",
     nonce: payload?.nonce || "",
     createdAt: Date.now(),
     timeoutMs
@@ -99,6 +100,7 @@ function mismatchResponse(expected, data, flags) {
     clientRequestMismatch: !!flags.clientRequestMismatch,
     agentSessionMismatch: !!flags.agentSessionMismatch,
     logicalAgentMismatch: !!flags.logicalAgentMismatch,
+    projectRootMismatch: !!flags.projectRootMismatch,
     nonceMismatch: !!flags.nonceMismatch,
     expected,
     actual: {
@@ -109,6 +111,7 @@ function mismatchResponse(expected, data, flags) {
       clientRequestId: data?.clientRequestId || "",
       agentSessionId: data?.agentSessionId || "",
       logicalAgentId: data?.logicalAgentId || "",
+      projectRoot: data?.projectRoot || data?.root || "",
       nonce: data?.nonce || "",
       action: data?.action || "",
       actualAction: data?.actualAction || "",
@@ -124,11 +127,12 @@ function validateTunnelResponse(expected, data) {
   const flags = {
     wrongTunnel: !!actualTunnel && actualTunnel !== expected.tunnelName,
     actionMismatch: !!expected.requestedAction && !!actualAction && !allowedActionAlias(expected.requestedAction, actualAction),
-    controlRequestMismatch: !!expected.controlRequestId && !!data?.controlRequestId && data.controlRequestId !== expected.controlRequestId,
-    clientRequestMismatch: !!expected.clientRequestId && !!data?.clientRequestId && data.clientRequestId !== expected.clientRequestId,
-    agentSessionMismatch: !!expected.agentSessionId && !!data?.agentSessionId && data.agentSessionId !== expected.agentSessionId,
-    logicalAgentMismatch: !!expected.logicalAgentId && !!data?.logicalAgentId && data.logicalAgentId !== expected.logicalAgentId,
-    nonceMismatch: !!expected.nonce && !!data?.nonce && data.nonce !== expected.nonce
+    controlRequestMismatch: !!expected.controlRequestId && data?.controlRequestId !== expected.controlRequestId,
+    clientRequestMismatch: !!expected.clientRequestId && data?.clientRequestId !== expected.clientRequestId,
+    agentSessionMismatch: !!expected.agentSessionId && data?.agentSessionId !== expected.agentSessionId,
+    logicalAgentMismatch: !!expected.logicalAgentId && data?.logicalAgentId !== expected.logicalAgentId,
+    projectRootMismatch: !!expected.projectRoot && (data?.projectRoot || data?.root) !== expected.projectRoot,
+    nonceMismatch: !!expected.nonce && data?.nonce !== expected.nonce
   };
   return Object.values(flags).some(Boolean) ? { ok: false, response: mismatchResponse(expected, data, flags) } : { ok: true };
 }

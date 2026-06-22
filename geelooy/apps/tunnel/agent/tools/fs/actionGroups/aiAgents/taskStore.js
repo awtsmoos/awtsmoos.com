@@ -1,6 +1,7 @@
 // B"H
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const { ROOT } = require("../../../../lib/config.js");
 
 const TASK_ROOT = path.join(ROOT, "ai-agent-tasks");
@@ -14,18 +15,20 @@ const memory = new Map();
  * disk ledger records lineage, status, events, and results so the main agent
  * can poll without guessing while the Awtsmoos renews the forest in truth.
  */
-function ensureTaskRoot() { fs.mkdirSync(TASK_ROOT, { recursive: true }); }
-function taskPath(id) { return path.join(TASK_ROOT, id + ".json"); }
+function ensureTaskRoot(namespace = "") { fs.mkdirSync(taskRoot(namespace), { recursive: true }); }
+function taskRoot(namespace = "") { return namespace ? path.join(TASK_ROOT, safeName(namespace)) : TASK_ROOT; }
+function taskPath(id, namespace = "") { return path.join(taskRoot(namespace), id + ".json"); }
 function now() { return new Date().toISOString(); }
 function makeTaskId(prefix = "task") {
   return prefix + "_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
 }
 
 function createTask(input = {}) {
-  ensureTaskRoot();
+  const namespace = taskNamespace(input);
+  ensureTaskRoot(namespace);
   const id = input.taskId || makeTaskId(input.kind || "task");
   return saveTask({
-    id, ok: true, status: "queued", input,
+    id, ok: true, status: "queued", input, taskNamespace: namespace,
     parentTaskId: input.parentTaskId || null,
     rootTaskId: input.rootTaskId || input.taskId || id,
     childTaskIds: [], events: [], output: null, error: null,
@@ -34,37 +37,51 @@ function createTask(input = {}) {
 }
 
 function saveTask(task) {
-  ensureTaskRoot(); task.updatedAt = now();
-  fs.writeFileSync(taskPath(task.id), JSON.stringify(task, null, 2), "utf8");
-  memory.set(task.id, task); return task;
+  const namespace = task.taskNamespace || taskNamespace(task.input || {});
+  task.taskNamespace = namespace;
+  ensureTaskRoot(namespace); task.updatedAt = now();
+  fs.writeFileSync(taskPath(task.id, namespace), JSON.stringify(task, null, 2), "utf8");
+  memory.set(memoryKey(namespace, task.id), task); return task;
 }
 
-function readTask(id) {
+function readTask(id, scope = null) {
   if (!id) return null;
-  if (memory.has(id)) return memory.get(id);
-  const file = taskPath(id);
+  const namespace = scope ? taskNamespace(scope) : "";
+  if (namespace && memory.has(memoryKey(namespace, id))) return memory.get(memoryKey(namespace, id));
+  if (!namespace) {
+    for (const [key, task] of memory.entries()) if (key.endsWith(":" + id)) return task;
+  }
+  const file = namespace ? taskPath(id, namespace) : findTaskPath(id);
   if (!fs.existsSync(file)) return null;
   const task = JSON.parse(fs.readFileSync(file, "utf8"));
-  memory.set(id, task); return task;
+  memory.set(memoryKey(task.taskNamespace || namespace || taskNamespace(task.input || {}), task.id), task); return task;
 }
 
-function allTasks() {
-  ensureTaskRoot();
-  return fs.readdirSync(TASK_ROOT).filter(n => n.endsWith(".json"))
-    .map(n => readTask(n.replace(/\.json$/, ""))).filter(Boolean);
+function allTasks(scope = null) {
+  const namespace = scope ? taskNamespace(scope) : "";
+  ensureTaskRoot(namespace);
+  return taskFiles(namespace).map(file => {
+    try {
+      const task = JSON.parse(fs.readFileSync(file, "utf8"));
+      memory.set(memoryKey(task.taskNamespace || namespace || taskNamespace(task.input || {}), task.id), task);
+      return task;
+    } catch (_) {
+      return null;
+    }
+  }).filter(Boolean);
 }
 
-function listTasks(limit = 50) {
-  return allTasks().sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, limit);
+function listTasks(limit = 50, scope = null) {
+  return allTasks(scope).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, limit);
 }
 
-function family(rootId) {
-  return allTasks().filter(t => t.id === rootId || t.rootTaskId === rootId || t.input?.rootTaskId === rootId);
+function family(rootId, scope = null) {
+  return allTasks(scope).filter(t => t.id === rootId || t.rootTaskId === rootId || t.input?.rootTaskId === rootId);
 }
 
-function countFamily(rootId) { return family(rootId).length; }
-function activeFamily(rootId) { return family(rootId).filter(t => ["queued", "running"].includes(t.status)); }
-function childrenOf(parentId) { return allTasks().filter(t => t.parentTaskId === parentId || t.input?.parentTaskId === parentId); }
+function countFamily(rootId, scope = null) { return family(rootId, scope).length; }
+function activeFamily(rootId, scope = null) { return family(rootId, scope).filter(t => ["queued", "running"].includes(t.status)); }
+function childrenOf(parentId, scope = null) { return allTasks(scope).filter(t => t.parentTaskId === parentId || t.input?.parentTaskId === parentId); }
 
 function event(task, message, extra = {}) {
   task.events.push({ at: now(), message, ...extra }); return saveTask(task);
@@ -81,4 +98,36 @@ function attachChild(parent, child) {
   return event(parent, "Child delegate spawned.", { childTaskId: child.id, childKind: child.input?.kind });
 }
 
-module.exports = { TASK_ROOT, activeFamily, allTasks, attachChild, childrenOf, complete, countFamily, createTask, event, fail, family, listTasks, readTask, running, saveTask };
+function taskNamespace(input = {}) {
+  const explicit = input.taskNamespace || input.agentTaskNamespace;
+  if (explicit) return safeName(explicit);
+  const projectRoot = input.projectRoot || input.root || "";
+  const tunnelName = input.tunnelName || "";
+  const logicalAgentId = input.logicalAgentId || "";
+  const basis = [projectRoot, tunnelName, logicalAgentId].filter(Boolean).join("\0") || "default";
+  return "ns_" + crypto.createHash("sha256").update(basis).digest("hex").slice(0, 24);
+}
+function safeName(value) {
+  const clean = String(value || "").trim().replace(/[^a-zA-Z0-9._-]+/g, "_").replace(/^_+|_+$/g, "");
+  return clean.slice(0, 80) || "default";
+}
+function memoryKey(namespace, id) { return `${namespace || "legacy"}:${id}`; }
+function taskFiles(namespace = "") {
+  const root = taskRoot(namespace);
+  try {
+    return fs.readdirSync(root, { withFileTypes: true })
+      .flatMap(item => {
+        const full = path.join(root, item.name);
+        if (item.isFile() && item.name.endsWith(".json")) return [full];
+        if (!namespace && item.isDirectory()) return taskFiles(item.name);
+        return [];
+      });
+  } catch (_) {
+    return [];
+  }
+}
+function findTaskPath(id) {
+  return taskFiles("").find(file => path.basename(file) === id + ".json") || taskPath(id);
+}
+
+module.exports = { TASK_ROOT, activeFamily, allTasks, attachChild, childrenOf, complete, countFamily, createTask, event, fail, family, listTasks, readTask, running, saveTask, taskNamespace };

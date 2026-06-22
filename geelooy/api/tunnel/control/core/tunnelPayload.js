@@ -204,6 +204,7 @@ function buildFsPayload($i) {
     action,
     path: p,
     absolutePath: valueFrom($i, mergedBody, "absolutePath", ""),
+    projectRoot: valueFrom($i, mergedBody, "projectRoot", ""),
     paths: arrayWithIndexed($i, mergedBody, "paths", "paths64", [], {
       prefixes: ["f", "file", "path", "paths"],
       brackets: ["paths", "files"]
@@ -394,6 +395,5 @@ module.exports = {
   actionRequiredScope,
   actionNeedsWrite: action => actionRequiredScope(action) === "tunnel.write"
 };
-
 
 

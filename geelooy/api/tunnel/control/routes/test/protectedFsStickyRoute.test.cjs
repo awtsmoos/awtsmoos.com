@@ -11,7 +11,7 @@ const { protectedFs } = require("../protectedFs.js");
 const { resolveFsVessel } = require("../fsVessel/resolveFsVessel.js");
 
 function client(tunnelName) {
-  return { isTunnel: true, isAlive: true, tunnelName, registeredAt: Date.now(), allowWrite: true, allowCommands: true, vesselType: "native-local" };
+  return { isTunnel: true, isAlive: true, tunnelName, root: "/projects/mitzvah-world", registeredAt: Date.now(), allowWrite: true, allowCommands: true, vesselType: "native-local" };
 }
 
 function route(action, p = {}, tunnelName = "auto", onSend = null) {
@@ -54,7 +54,7 @@ function route(action, p = {}, tunnelName = "auto", onSend = null) {
       conversationName,
       actions: JSON.stringify([{ action: "list", payload: { path: "AI_THOUGHTS" } }])
     }, "auto", (name, payload) => {
-      calls.push({ name, action: payload.action, conversationName: payload.conversationName, controlRequestId: payload.controlRequestId });
+      calls.push({ name, action: payload.action, conversationName: payload.conversationName, controlRequestId: payload.controlRequestId, clientRequestId: payload.clientRequestId, agentSessionId: payload.agentSessionId, logicalAgentId: payload.logicalAgentId, projectRoot: payload.projectRoot, nonce: payload.nonce });
     });
     return run.promise.then(text => JSON.parse(text));
   });
@@ -64,6 +64,10 @@ function route(action, p = {}, tunnelName = "auto", onSend = null) {
   assert.strictEqual(calls.length, 250);
   assert(calls.every(call => call.name === "awt-yackov-yitzchak-3750"), "all concurrent calls should use sticky native tunnel");
   assert.strictEqual(new Set(calls.map(call => call.controlRequestId)).size, 250, "controlRequestId must be unique per call");
+  assert.strictEqual(new Set(calls.map(call => call.clientRequestId)).size, 250, "clientRequestId must be unique per call");
+  assert.strictEqual(new Set(calls.map(call => call.nonce)).size, 250, "nonce must be unique per call");
+  assert(calls.every(call => call.agentSessionId && call.logicalAgentId), "agent session and logical agent ids must be attached");
+  assert(calls.every(call => call.projectRoot === "/projects/mitzvah-world"), "routed project root must be attached");
 
   const hotCalls = [];
   const hotCtx = {

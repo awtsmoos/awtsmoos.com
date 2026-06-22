@@ -63,9 +63,9 @@ async function protectedFs($i, vars) {
   payload.conversationName = conversation.name;
   const route = applyRoutePreference(ident.userId, conversation.id, requestedTunnelName, payload);
   const tunnelName = route.tunnelName;
-  payload.requestedTunnelName = requestedTunnelName;
+  payload.requestedTunnelName = requestedTunnelName || tunnelName;
   payload.tunnelName = tunnelName;
-  payload.controlRequestId = payload.controlRequestId || requestId();
+  attachCorrelation(payload, ident, tunnelName);
   if (route.sticky) payload.stickyRoute = route.sticky;
   const vessel = resolveFsVessel({ $i, userId: ident.userId, tunnelName, payload, timeoutMs: requestTimeoutMs });
   return await runResolvedVessel($i, ident, payload, vessel, affordability);
@@ -199,6 +199,22 @@ function parse64(value, fallback = {}) { if (!value) return fallback; try { retu
 function firstDefined(...values) { return values.find(value => value !== undefined && value !== null); }
 function mergeObject(target, source) { if (!source || typeof source !== "object" || Array.isArray(source)) return target; for (const [key, value] of Object.entries(source)) if (value !== undefined) target[key] = value; return target; }
 function isCommandTree(action) { return /commandTree|awtsmoosCommandTree|merkavaCommandTree/.test(String(action || "")); }
-function requestId() { return "ctl_" + Date.now().toString(36) + "_" + crypto.randomBytes(8).toString("hex"); }
+function attachCorrelation(payload, ident, tunnelName) {
+  payload.controlRequestId = payload.controlRequestId || requestId("ctl");
+  payload.clientRequestId = payload.clientRequestId || payload.requestId || requestId("client");
+  payload.logicalAgentId = payload.logicalAgentId || payload.agentClientId || logicalAgentId(ident, payload);
+  payload.agentSessionId = payload.agentSessionId || sessionId(ident, payload, tunnelName);
+  payload.nonce = payload.nonce || requestId("nonce");
+}
+function logicalAgentId(ident, payload) {
+  return ["agent", ident.userId || "anonymous", payload.conversationId || payload.conversationName || "default"].map(slug).join(":");
+}
+function sessionId(ident, payload, tunnelName) {
+  return ["session", ident.userId || "anonymous", tunnelName || "auto", payload.conversationId || payload.conversationName || "default"].map(slug).join(":");
+}
+function slug(value) {
+  return String(value || "").toLowerCase().replace(/[^a-z0-9._:-]+/g, "-").replace(/^-+|-+$/g, "") || "x";
+}
+function requestId(prefix = "ctl") { return prefix + "_" + Date.now().toString(36) + "_" + crypto.randomBytes(8).toString("hex"); }
 
 module.exports = { boundedTunnelTimeout, protectedFs, ONE_DAY_MS, normalizeCarriers };

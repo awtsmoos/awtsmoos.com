@@ -2,7 +2,7 @@
 Before bytes are born, ask the browser which vessels it can truly hold.
 */
 export function createExportPlan(state) {
-  return { engine:'WebCodecs', videoCodec:'avc1.42E01E', audioCodec:'mp4a.40.2', container:'MP4 or MPEG-TS HLS', width:state.width, height:state.height, fps:state.fps, status:'planned', probe:null };
+  return { engine:'WebCodecs', videoCodec:'avc1.42E01E', audioCodec:'mp4a.40.2', container:'MP4 preview + MPEG-TS HLS stream', width:state.width, height:state.height, fps:state.fps, status:'planned', probe:null };
 }
 export function describeExport(plan) {
   const probe = plan.probe ? ` | probe: video ${word(plan.probe.video)}, audio ${word(plan.probe.audio)}` : '';

@@ -34,20 +34,20 @@ async function execute(config, task) {
   return runGenericTask(config, task, runTask);
 }
 function status(payload = {}) {
-  const task = store.readTask(payload.taskId || payload.id);
+  const task = store.readTask(payload.taskId || payload.id, payload);
   if (!task) return { ok: false, action: "aiAgentTaskStatus", error: "unknown_task" };
-  return { ok: true, action: "aiAgentTaskStatus", task, children: store.childrenOf(task.id), activeFamily: store.activeFamily(task.rootTaskId || task.id).map(t => t.id) };
+  return { ok: true, action: "aiAgentTaskStatus", task, children: store.childrenOf(task.id, task), activeFamily: store.activeFamily(task.rootTaskId || task.id, task).map(t => t.id) };
 }
 function result(payload = {}) {
-  const task = store.readTask(payload.taskId || payload.id);
+  const task = store.readTask(payload.taskId || payload.id, payload);
   if (!task) return { ok: false, action: "aiAgentTaskResult", error: "unknown_task" };
   return { ok: task.status === "complete", action: "aiAgentTaskResult", status: task.status, output: task.output, error: task.error, task };
 }
-function list(payload = {}) { return { ok: true, action: "aiAgentTaskList", tasks: store.listTasks(Number(payload.limit || 50)) }; }
+function list(payload = {}) { return { ok: true, action: "aiAgentTaskList", taskNamespace: store.taskNamespace(payload), tasks: store.listTasks(Number(payload.limit || 50), payload) }; }
 function normalizeInput(config, payload = {}) {
   const limits = taskLimits(config, payload);
   const rootTaskId = payload.rootTaskId || payload.taskId || null;
-  return { kind: taskKind(payload), title: payload.title || "Delegated AI task", agentId: payload.agentId || payload.agent || "minimax-deep", summaryAgentId: payload.summaryAgentId, provider: payload.provider || "minimax", model: payload.model, prompt: payload.prompt || payload.message, messages: payload.messages, system: payload.system, outputDir: payload.outputDir, fileName: payload.fileName, summaryFileName: payload.summaryFileName, stream: payload.stream !== false, parentTaskId: payload.parentTaskId || null, rootTaskId, depth: taskDepth(payload), ...limits };
+  return { kind: taskKind(payload), title: payload.title || "Delegated AI task", agentId: payload.agentId || payload.agent || "minimax-deep", summaryAgentId: payload.summaryAgentId, provider: payload.provider || "minimax", model: payload.model, prompt: payload.prompt || payload.message, messages: payload.messages, system: payload.system, outputDir: payload.outputDir, fileName: payload.fileName, summaryFileName: payload.summaryFileName, stream: payload.stream !== false, parentTaskId: payload.parentTaskId || null, rootTaskId, depth: taskDepth(payload), projectRoot: payload.projectRoot || config.root || "", tunnelName: payload.tunnelName || config.tunnelName || "", logicalAgentId: payload.logicalAgentId || "", taskNamespace: payload.taskNamespace || payload.agentTaskNamespace || "", ...limits };
 }
 function taskKind(payload = {}) {
   const chosen = payload.taskKind || payload.aiTaskKind || payload.kind;
