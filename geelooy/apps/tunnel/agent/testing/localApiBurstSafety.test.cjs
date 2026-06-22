@@ -9,6 +9,8 @@ assert(source.includes("const LISTEN_BACKLOG = 4096;"), "local API backlog must 
 assert(source.includes("const CATALOG_CACHE_MS = 1000;"), "catalog cache must protect health/action bursts");
 assert(source.includes("server.requestTimeout = 0"), "local API must not impose tiny request timeouts");
 assert(source.includes("cachedCatalog(config)"), "health must use cached catalog");
+assert(source.includes('"/healthz":healthz'), "compact healthz must exist for burst liveness checks");
+assert(source.includes('searchParams?.get("summary")'), "health summary mode must avoid large catalog payloads");
 assert(source.includes("server.on(\"clientError\""), "client errors must be observed without crashing");
 
 console.log(JSON.stringify({ ok: true, suite: "local-api-burst-safety" }, null, 2));

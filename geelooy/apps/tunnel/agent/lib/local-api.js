@@ -30,10 +30,10 @@ function makeDeps(deps) { return { configLoader:deps.configLoader || loadConfig,
 function localSettings(config = {}) { const localApi = config.localApi || {}; return { enabled:process.env.AWTSMOOS_LOCAL_API !== "0" && localApi.enabled !== false, host:process.env.AWTSMOOS_LOCAL_API_HOST || localApi.host || DEFAULT_HOST, port:bounded(process.env.AWTSMOOS_LOCAL_API_PORT || localApi.port, DEFAULT_PORT) }; }
 async function route(req, res, deps) {
   setCors(res); if (req.method === "OPTIONS") return endJson(res, 204, {});
-  try { const url = new URL(req.url || "/", "http://127.0.0.1"); if (await handleLocalBrowserRelay(req, res, deps, url)) return; if (req.method === "GET") return routeGet(res, deps, url.pathname); if (req.method !== "POST") return endJson(res, 404, { ok:false, error:"unknown_local_api_route" }); return routePost(req, res, deps, url); }
+  try { const url = new URL(req.url || "/", "http://127.0.0.1"); if (await handleLocalBrowserRelay(req, res, deps, url)) return; if (req.method === "GET") return routeGet(res, deps, url); if (req.method !== "POST") return endJson(res, 404, { ok:false, error:"unknown_local_api_route" }); return routePost(req, res, deps, url); }
   catch (e) { return endJson(res, 500, { ok:false, error:e.message }); }
 }
-async function routeGet(res, deps, path) { const routes = { "/health":health, "/actions":actions, "/tools":tools, "/schemas":schemas, "/manifest":manifest, "/relay/health":relayHealth, "/relay/open-login":relayOpenLogin, "/relay/cookies":relayCookies, "/streaming":streamingStatus, "/streaming/status":streamingStatus }; return routes[path] ? routes[path](res, deps) : endJson(res, 404, { ok:false, error:"unknown_local_api_route" }); }
+async function routeGet(res, deps, url) { const routes = { "/health":health, "/healthz":healthz, "/actions":actions, "/tools":tools, "/schemas":schemas, "/manifest":manifest, "/relay/health":relayHealth, "/relay/open-login":relayOpenLogin, "/relay/cookies":relayCookies, "/streaming":streamingStatus, "/streaming/status":streamingStatus }; return routes[url.pathname] ? routes[url.pathname](res, deps, url) : endJson(res, 404, { ok:false, error:"unknown_local_api_route" }); }
 async function routePost(req, res, deps, url) {
   const binary = binaryHlsMatch(url.pathname); if (binary) return callStreamingBinary(req, res, deps, binary);
   const body = await readBody(req, BODY_LIMIT, true); const routes = { "/fs":callFs, "/command":callCommand, "/chrome":callChrome, "/tool":callTool, "/context":callContext, "/relay":callRelay, "/relay/fetch":callRelayFetch, "/relay/body":callRelayBody, "/relay/json":callJsonRelay, "/json-relay":callJsonRelay, "/jason/relay":callJasonRelay, "/streaming":callStreaming, "/streaming/start":callStreamingStart, "/streaming/chunk":callStreamingChunk, "/streaming/stop":callStreamingStop, "/streaming/status":callStreamingStatus };
@@ -44,7 +44,14 @@ async function callStreamingBinary(req, res, deps, match) {
   const chunk = await readBody(req, BINARY_LIMIT, false); const payload = { kind:"streaming", action:"streamingHlsSegmentPush", sessionId:match.sessionId, name:match.name, duration:Number(req.headers["x-awtsmoos-duration"] || 2), index:Number(req.headers["x-awtsmoos-index"] || 0), contentType:req.headers["content-type"] || "video/mp2t", chunk64:chunk.toString("base64") };
   return endJson(res, 200, await deps.streamingHandler(payload));
 }
-function health(res, deps) { const config = deps.configLoader(); const catalog = cachedCatalog(config); return endJson(res, 200, { ok:true, local:true, agentVersion:AGENT_VERSION, tunnelName:config.tunnelName, root:config.root || HOME, browserRelay:{ controlUrl:"http://127.0.0.1:3977/relay/control", chatgptUrl:"http://127.0.0.1:3977/chatgpt" }, actions:catalog.actions, toolCatalog:{ count:catalog.tools.length, names:catalog.names }, streaming:{ actions:Object.keys(STREAMING_ACTIONS), binaryHls:"/streaming/hls-segment/:sessionId/:name" } }); }
+function health(res, deps, url) {
+  const config = deps.configLoader();
+  if (url?.searchParams?.get("summary") === "1" || url?.searchParams?.get("summary") === "true") return endJson(res, 200, healthSummary(config));
+  const catalog = cachedCatalog(config);
+  return endJson(res, 200, { ...healthSummary(config), browserRelay:{ controlUrl:"http://127.0.0.1:3977/relay/control", chatgptUrl:"http://127.0.0.1:3977/chatgpt" }, actions:catalog.actions, toolCatalog:{ count:catalog.tools.length, names:catalog.names }, streaming:{ actions:Object.keys(STREAMING_ACTIONS), binaryHls:"/streaming/hls-segment/:sessionId/:name" } });
+}
+function healthz(res, deps) { return endJson(res, 200, healthSummary(deps.configLoader())); }
+function healthSummary(config = {}) { return { ok:true, local:true, agentVersion:AGENT_VERSION, tunnelName:config.tunnelName, root:config.root || HOME }; }
 function actions(res, deps) { return endJson(res, 200, cachedCatalog(deps.configLoader())); }
 function tools(res, deps) { const c = cachedCatalog(deps.configLoader()); return endJson(res, 200, { ok:true, tools:c.tools, actions:c.actions, names:c.names }); }
 function schemas(res, deps) { const c = cachedCatalog(deps.configLoader()); return endJson(res, 200, { ok:true, schemas:c.schemas, tools:c.tools, actions:c.actions }); }
