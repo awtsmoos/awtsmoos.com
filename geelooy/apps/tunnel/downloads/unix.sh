@@ -66,6 +66,22 @@ extract_zip() {
   fi
 }
 
+assert_zip_signature() {
+  zip_file="$1"
+  node - "$zip_file" <<'NODE'
+const fs = require("fs");
+const file = process.argv[2];
+const fd = fs.openSync(file, "r");
+const buf = Buffer.alloc(4);
+try {
+  fs.readSync(fd, buf, 0, 4, 0);
+} finally {
+  fs.closeSync(fd);
+}
+if (buf.toString("hex") !== "504b0304") process.exit(1);
+NODE
+}
+
 install_awtsmoos_bundles() {
   tmp="$ROOT/.bundle-downloads"
   rm -rf "$tmp"; mkdir -p "$tmp"
@@ -78,6 +94,7 @@ install_awtsmoos_bundles() {
     echo "Downloading bundle $name..."
     case "$url" in http*) full="$url" ;; *) full="$origin$url" ;; esac
     curl -fsSL --retry 3 --retry-delay 1 "$full" -o "$zip_file"
+    assert_zip_signature "$zip_file" || { echo "Downloaded bundle $name is not a ZIP archive: $full"; exit 1; }
     echo "Expanding bundle $name..."
     extract_zip "$zip_file"
   done < "$tmp/bundles.txt"

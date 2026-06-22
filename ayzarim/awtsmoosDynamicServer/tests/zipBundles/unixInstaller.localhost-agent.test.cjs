@@ -7,6 +7,7 @@ const path = require("path");
 const { spawn, spawnSync } = require("child_process");
 const { maybeSendBundle } = require("../../zipBundles/bundleRoute.js");
 const { parseManifest } = require("../../zipBundles/bundleManifest.js");
+const { buildAgentZip, manifestFiles } = require("../../../../geelooy/api/tunnel/install/tools/zipBundle.js");
 
 /**
  * B"H
@@ -36,6 +37,16 @@ function server() {
       if (url.pathname === "/apps/tunnel/agent/manifest.txt" && url.searchParams.get("bundle")) {
         const sent = await maybeSendBundle({ filePath: manifestPath, dependencies: { fs: fsp, request: { method: "GET", socket: { remoteAddress: "unix-test" }, headers: {}, yeser: {} }, response: responseAdapter(res), paramKinds: { GET: Object.fromEntries(url.searchParams.entries()) } } });
         if (!sent) { res.statusCode = 500; res.end("bundle not sent"); }
+        return;
+      }
+      if (url.pathname === "/api/tunnel/install/bundle-manifest") {
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
+        res.end(JSON.stringify({ ok: true, files: manifestFiles(repoRoot).length, bundles: [{ name: "agent", url: "/api/tunnel/install/agent.zip" }] }));
+        return;
+      }
+      if (url.pathname === "/api/tunnel/install/agent.zip") {
+        res.setHeader("Content-Type", "application/zip");
+        res.end(buildAgentZip(repoRoot));
         return;
       }
       const full = safeFile(path.join(repoRoot, "geelooy"), url.pathname);

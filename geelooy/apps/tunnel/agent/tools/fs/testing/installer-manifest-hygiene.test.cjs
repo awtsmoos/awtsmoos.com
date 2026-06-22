@@ -6,7 +6,25 @@ const path = require("path");
 const agentRoot = path.resolve(__dirname, "../../..");
 const geelooyRoot = path.resolve(agentRoot, "../../..");
 const manifestPath = path.join(agentRoot, "manifest.txt");
-const forbiddenNames = new Set(["manifest.txt", "testing"]);
+const forbiddenNames = new Set([
+  "manifest.txt",
+  "test",
+  "tests",
+  "testing",
+  "node_modules",
+  ".git",
+  ".awtsmoos",
+  ".cache",
+  "__MACOSX",
+  ".DS_Store",
+  ".AppleDouble",
+  ".LSOverride",
+  ".Spotlight-V100",
+  ".TemporaryItems",
+  ".Trashes",
+  ".VolumeIcon.icns",
+  ".fseventsd"
+]);
 const relaySplitBrowser = path.join(geelooyRoot, "ai/relay/split-browser");
 
 /**
@@ -15,7 +33,7 @@ const relaySplitBrowser = path.join(geelooyRoot, "ai/relay/split-browser");
  * This mirrors buildManifest.mjs and rebuild-manifest.cjs exclusions.
  */
 function skip(rel, name) {
-  return forbiddenNames.has(name) || rel.includes("/.tmp-") || rel.includes("/.smoke-server") || rel.endsWith(".test.cjs") || rel.endsWith(".test.js") || rel.endsWith(".map");
+  return forbiddenNames.has(name) || name.startsWith("._") || rel.includes("/.tmp-") || rel.includes("/.smoke-server") || rel.endsWith(".test.cjs") || rel.endsWith(".test.mjs") || rel.endsWith(".test.js");
 }
 function walk(dir, base, prefix = "") {
   let files = [];
@@ -27,9 +45,9 @@ function walk(dir, base, prefix = "") {
     if (entry.isDirectory()) files = files.concat(walk(full, base, prefix));
     else if (entry.isFile()) files.push(rel);
   }
-  return files.sort();
+  return files.sort((a, b) => a.localeCompare(b));
 }
-function walkRelayFiles() { return walk(relaySplitBrowser, relaySplitBrowser, "ai/relay/split-browser").filter(file => /\.(cjs|js)$/.test(file)); }
+function walkRelayFiles() { return walk(relaySplitBrowser, relaySplitBrowser, "ai/relay/split-browser"); }
 function parseManifest(text) {
   const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).filter(line => line !== 'B"H' && line !== '# B"H');
   return { version: lines[0], entry: lines[1], files: lines.slice(2) };
@@ -37,7 +55,7 @@ function parseManifest(text) {
 
 const raw = fs.readFileSync(manifestPath, "utf8");
 const parsed = parseManifest(raw);
-const actual = [...new Set([...walk(agentRoot, agentRoot), ...walkRelayFiles()])].sort();
+const actual = [...new Set([...walk(agentRoot, agentRoot), ...walkRelayFiles()])].sort((a, b) => a.localeCompare(b));
 
 assert.match(parsed.version, /^\d+\.\d+\.\d+$/);
 assert.strictEqual(parsed.entry, "main.js");

@@ -4,9 +4,10 @@ const fs = require("fs");
 const fsp = require("fs/promises");
 const http = require("http");
 const path = require("path");
-const { spawn } = require("child_process");
+const { spawn, spawnSync } = require("child_process");
 const { maybeSendBundle } = require("../../zipBundles/bundleRoute.js");
 const { parseManifest } = require("../../zipBundles/bundleManifest.js");
+const { buildAgentZip, manifestFiles } = require("../../../../geelooy/api/tunnel/install/tools/zipBundle.js");
 
 /**
  * B"H
@@ -22,6 +23,13 @@ const home = path.join(sandbox, "home");
 const installRoot = path.join(home, ".awtsmoos-tunnel");
 const apiPort = 3988;
 
+function powershellCommand() {
+  for (const cmd of ["powershell.exe", "pwsh", "powershell"]) {
+    const probe = spawnSync(cmd, ["-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"], { encoding: "utf8" });
+    if (probe.status === 0) return cmd;
+  }
+  return null;
+}
 function responseAdapter(res) { return { statusCode: 200, setHeader: (k, v) => res.setHeader(k, v), end: body => res.end(body) }; }
 function safeFile(root, rel) {
   const full = path.resolve(root, rel.replace(/^\/+/, ""));
@@ -38,6 +46,16 @@ function localServer() {
         if (!sent) { res.statusCode = 500; res.end("bundle not sent"); }
         return;
       }
+      if (url.pathname === "/api/tunnel/install/bundle-manifest") {
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
+        res.end(JSON.stringify({ ok: true, files: manifestFiles(repoRoot).length, bundles: [{ name: "agent", url: "/api/tunnel/install/agent.zip" }] }));
+        return;
+      }
+      if (url.pathname === "/api/tunnel/install/agent.zip") {
+        res.setHeader("Content-Type", "application/zip");
+        res.end(buildAgentZip(repoRoot));
+        return;
+      }
       const full = safeFile(publicRoot, url.pathname);
       if (!fs.existsSync(full) || fs.statSync(full).isDirectory()) { res.statusCode = 404; res.end("missing"); return; }
       res.end(fs.readFileSync(full));
@@ -45,12 +63,13 @@ function localServer() {
   });
 }
 
-function runPowerShell(script) {
+function runPowerShell(command, script) {
   return new Promise((resolve, reject) => {
-    const ps = spawn("powershell.exe", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script], { cwd: repoRoot, env: { ...process.env, USERPROFILE: home, AWTSMOOS_INSTALL_ORIGIN: "http://127.0.0.1:8080", AWTSMOOS_INSTALL_ROOT: installRoot, AWTSMOOS_SKIP_START: "1", AWTSMOOS_TUNNEL_NAME: "awt-sandbox-localhost-zip", AWTSMOOS_LOCAL_API_PORT: String(apiPort), AWTSMOOS_PROJECT_ROOT: repoRoot, AWTSMOOS_SKIP_OPEN_CONTROL: "1" } });
+    const ps = spawn(command, ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script], { cwd: repoRoot, env: { ...process.env, USERPROFILE: home, AWTSMOOS_INSTALL_ORIGIN: "http://127.0.0.1:8080", AWTSMOOS_INSTALL_ROOT: installRoot, AWTSMOOS_SKIP_START: "1", AWTSMOOS_TUNNEL_NAME: "awt-sandbox-localhost-zip", AWTSMOOS_LOCAL_API_PORT: String(apiPort), AWTSMOOS_PROJECT_ROOT: repoRoot, AWTSMOOS_SKIP_OPEN_CONTROL: "1" } });
     let stdout = "", stderr = "";
     ps.stdout.on("data", c => stdout += c);
     ps.stderr.on("data", c => stderr += c);
+    ps.on("error", reject);
     ps.on("exit", code => code === 0 ? resolve({ stdout, stderr }) : reject(new Error(`PowerShell failed ${code}\n${stdout}\n${stderr}`)));
   });
 }
@@ -83,6 +102,8 @@ function startInstalledAgent() {
 }
 
 (async () => {
+  const ps = powershellCommand();
+  if (!ps) { console.log(JSON.stringify({ ok: true, skipped: true, reason: "powershell_not_available" }, null, 2)); return; }
   fs.rmSync(sandbox, { recursive: true, force: true });
   await fsp.mkdir(home, { recursive: true });
   const server = localServer();
@@ -90,7 +111,7 @@ function startInstalledAgent() {
   let agent = null;
   try {
     const manifest = parseManifest(fs.readFileSync(manifestPath, "utf8"));
-    const install = await runPowerShell("& 'geelooy/apps/tunnel/downloads/windows.ps1'");
+    const install = await runPowerShell(ps, "& 'geelooy/apps/tunnel/downloads/windows.ps1'");
     assert.ok(fs.existsSync(path.join(installRoot, manifest.entry)), "installed main.js missing");
     for (const file of manifest.files) assert.ok(fs.existsSync(path.join(installRoot, file)), "installed file missing: " + file);
     agent = startInstalledAgent();

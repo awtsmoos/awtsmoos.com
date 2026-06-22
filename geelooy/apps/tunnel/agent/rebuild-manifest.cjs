@@ -11,11 +11,36 @@ const path = require("path");
 const ROOT = __dirname;
 const REPO_ROOT = path.resolve(ROOT, "../../../..");
 const OUT = path.join(ROOT, "manifest.txt");
-const SKIP_DIRS = new Set(["node_modules", ".git", ".awtsmoos", ".cache", "testing", "test", "tests"]);
-const SKIP_NAMES = new Set(["manifest.txt"]);
+const SKIP_DIRS = new Set(["node_modules", ".git", ".awtsmoos", ".cache", "testing", "test", "tests", "__MACOSX"]);
+const SKIP_NAMES = new Set([
+  "manifest.txt",
+  ".DS_Store",
+  ".AppleDouble",
+  ".LSOverride",
+  ".Spotlight-V100",
+  ".TemporaryItems",
+  ".Trashes",
+  ".VolumeIcon.icns",
+  ".fseventsd"
+]);
 const EXTERNAL_DIRS = [{ source: path.join(REPO_ROOT, "geelooy/ai/relay/split-browser"), dest: "ai/relay/split-browser" }];
 
 function slash(value) { return String(value || "").replace(/\\/g, "/"); }
+function pathSegments(value) { return slash(value).split("/").filter(Boolean); }
+function isMacMetadataName(name) {
+  return name === ".DS_Store" || name.startsWith("._");
+}
+function shouldSkipManifestPath(value) {
+  const normalized = slash(value).trim();
+  if (!normalized) return true;
+  const segments = pathSegments(normalized);
+  if (!segments.length) return true;
+  return segments.some(segment => (
+    SKIP_DIRS.has(segment) ||
+    SKIP_NAMES.has(segment) ||
+    isMacMetadataName(segment)
+  ));
+}
 function readCurrentVersion() {
   try {
     const version = fs.readFileSync(OUT, "utf8").split(/\r?\n/).map(x => x.trim()).find(x => /^\d+\.\d+\.\d+$/.test(x));
@@ -31,6 +56,7 @@ function nextVersion() {
   return `${major}.${minor}.${patch + 1}`;
 }
 function ignored(full, name) {
+  if (shouldSkipManifestPath(name) || shouldSkipManifestPath(path.relative(ROOT, full))) return true;
   if (SKIP_NAMES.has(name) || SKIP_DIRS.has(name)) return true;
   const s = slash(full);
   return /(^|\/)testing(\/|$)/.test(s) || /(^|\/)tests(\/|$)/.test(s) || /(^|\/)test(\/|$)/.test(s) || /\.test\.(cjs|mjs|js)$/.test(s) || /\/\.tmp-/.test(s) || /\/\.smoke-server/.test(s);
@@ -62,4 +88,4 @@ function main() {
   console.log(JSON.stringify({ ok: true, manifest: slash(path.relative(process.cwd(), OUT)), version: built.version, files: built.files.length }, null, 2));
 }
 if (require.main === module) main();
-module.exports = { buildManifest, walk, slash, agentFiles, externalFiles, ignored, nextVersion };
+module.exports = { buildManifest, walk, slash, agentFiles, externalFiles, ignored, nextVersion, shouldSkipManifestPath };

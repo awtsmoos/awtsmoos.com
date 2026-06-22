@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const { geelooyRoot } = require("./sourceFile.js");
 
-const AGENT_ROOT = path.join(geelooyRoot(), "apps", "tunnel", "agent");
+const DEFAULT_GEELOOY_ROOT = geelooyRoot();
+const AGENT_ROOT = path.join(DEFAULT_GEELOOY_ROOT, "apps", "tunnel", "agent");
 const encoder = new TextEncoder();
 
 /**
@@ -14,12 +15,24 @@ const encoder = new TextEncoder();
  *
  * @returns {Buffer} ZIP archive containing the tunnel agent manifest.
  */
-function buildAgentZip() {
-  const entries = manifestFiles().map(filePath => ({
-    path: filePath,
-    data: fs.readFileSync(sourcePathFor(filePath)),
-    date: new Date(2026, 0, 1)
-  }));
+function buildAgentZip(repoRoot) {
+  const roots = resolveRoots(repoRoot);
+  const entries = manifestFiles(roots).flatMap(filePath => {
+    const sourcePath = sourcePathFor(filePath, roots);
+    if (!sourcePath) return [];
+    let stat;
+    try {
+      stat = fs.statSync(sourcePath);
+    } catch (_) {
+      return [];
+    }
+    if (!stat.isFile()) return [];
+    return [{
+      path: slash(filePath),
+      data: fs.readFileSync(sourcePath),
+      date: new Date(2026, 0, 1)
+    }];
+  });
   return buildZip(entries);
 }
 
@@ -29,12 +42,13 @@ function buildAgentZip() {
  *
  * @returns {string[]} Entry file followed by manifest files.
  */
-function manifestFiles() {
-  const lines = fs.readFileSync(path.join(AGENT_ROOT, "manifest.txt"), "utf8")
+function manifestFiles(roots = resolveRoots()) {
+  if (typeof roots === "string") roots = resolveRoots(roots);
+  const lines = fs.readFileSync(path.join(roots.agentRoot, "manifest.txt"), "utf8")
     .split(/\r?\n/)
     .map(line => line.trim())
     .filter(line => line && line !== 'B"H' && line !== '# B"H');
-  return [lines[1], ...lines.slice(2)];
+  return [lines[1], ...lines.slice(2)].filter(isSafeManifestPath);
 }
 
 /**
@@ -44,10 +58,46 @@ function manifestFiles() {
  * @param {string} filePath Manifest-relative path.
  * @returns {string} Absolute source file path.
  */
-function sourcePathFor(filePath) {
-  return filePath.startsWith("ai/")
-    ? path.join(geelooyRoot(), filePath)
-    : path.join(AGENT_ROOT, filePath);
+function sourcePathFor(filePath, roots = resolveRoots()) {
+  if (!isSafeManifestPath(filePath)) return null;
+  const root = filePath.startsWith("ai/") ? roots.geelooyRoot : roots.agentRoot;
+  const full = path.resolve(root, filePath);
+  return isInside(root, full) ? full : null;
+}
+
+function resolveRoots(repoRoot) {
+  const geelooy = repoRoot
+    ? path.join(path.resolve(repoRoot), "geelooy")
+    : DEFAULT_GEELOOY_ROOT;
+  return {
+    geelooyRoot: geelooy,
+    agentRoot: path.join(geelooy, "apps", "tunnel", "agent")
+  };
+}
+
+function slash(value) {
+  return String(value || "").replace(/\\/g, "/");
+}
+
+function isInside(root, full) {
+  const relative = path.relative(path.resolve(root), path.resolve(full));
+  return relative === "" || (!!relative && !relative.startsWith("..") && !path.isAbsolute(relative));
+}
+
+function isSafeManifestPath(filePath) {
+  const normalized = slash(filePath).trim();
+  if (!normalized || normalized.startsWith("/") || normalized.includes("\0")) return false;
+  const segments = normalized.split("/").filter(Boolean);
+  if (!segments.length || segments.join("/") !== normalized) return false;
+  return !segments.some(segment => (
+    segment === "." ||
+    segment === ".." ||
+    segment === ".DS_Store" ||
+    segment === "__MACOSX" ||
+    segment === "node_modules" ||
+    segment === ".git" ||
+    segment.startsWith("._")
+  ));
 }
 
 /**
@@ -154,4 +204,4 @@ function dosStamp(date) {
   };
 }
 
-module.exports = { buildAgentZip, manifestFiles };
+module.exports = { buildAgentZip, manifestFiles, isSafeManifestPath, sourcePathFor };

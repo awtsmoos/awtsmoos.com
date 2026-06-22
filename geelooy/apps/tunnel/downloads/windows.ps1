@@ -11,6 +11,16 @@ function Stop-OldAwtsAgent($root, $entry) { $agentPath = [Regex]::Escape((Join-P
 function Get-ManifestLines($text) { return @([regex]::Split($text, '\r?\n') | ForEach-Object { $_.Trim().TrimStart([char]0xFEFF) } | Where-Object { $_ -ne '' -and $_ -ne 'B"H' -and $_ -ne '# B"H' }) }
 function Test-SafeRelativePath($filePath) { if ([string]::IsNullOrWhiteSpace($filePath)) { return $false }; if ($filePath.StartsWith('/') -or $filePath.StartsWith('\') -or $filePath.Contains('..') -or $filePath -match '\s') { return $false }; return $true }
 function Test-AllManifestFiles($root, $entry, $files) { if (-not (Test-Path (Join-Path $root $entry))) { return $false }; foreach ($filePath in $files) { if (-not (Test-SafeRelativePath $filePath)) { throw ('Unsafe manifest path: ' + $filePath) }; if (-not (Test-Path (Join-Path $root $filePath))) { return $false } }; return $true }
+function Test-ZipSignature($path) {
+  if (-not (Test-Path $path)) { return $false }
+  $fs = [System.IO.File]::OpenRead($path)
+  try {
+    if ($fs.Length -lt 4) { return $false }
+    $bytes = New-Object byte[] 4
+    [void]$fs.Read($bytes, 0, 4)
+    return ($bytes[0] -eq 0x50 -and $bytes[1] -eq 0x4b -and $bytes[2] -eq 0x03 -and $bytes[3] -eq 0x04)
+  } finally { $fs.Dispose() }
+}
 function Install-AwtsmoosBundles($root, $origin) {
   $bundleManifestUrl = $origin.TrimEnd('/') + '/api/tunnel/install/bundle-manifest'
   Write-Host 'Installing from Awtsmoos ZIP bundle...'
@@ -25,6 +35,7 @@ function Install-AwtsmoosBundles($root, $origin) {
       $url = if ([string]$bundle.url -match '^https?://') { [string]$bundle.url } else { $origin.TrimEnd('/') + $bundle.url }
       Write-Host ('Downloading bundle ' + $bundle.name + '...')
       $client.DownloadFile($url, $zipPath)
+      if (-not (Test-ZipSignature $zipPath)) { throw ('Downloaded bundle ' + $bundle.name + ' is not a ZIP archive: ' + $url) }
       Write-Host ('Expanding bundle ' + $bundle.name + '...')
       Expand-Archive -Force -Path $zipPath -DestinationPath $root
     }

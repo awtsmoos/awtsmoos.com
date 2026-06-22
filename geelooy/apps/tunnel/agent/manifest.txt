@@ -1,8 +1,7 @@
 B"H
-1.0.81
+1.0.82
 main.js
 
-.DS_Store
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
 ai/relay/split-browser/automation.cjs
