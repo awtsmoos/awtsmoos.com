@@ -18,7 +18,8 @@ async function sleep(ms) { await new Promise(resolve => setTimeout(resolve, ms))
 
 assert.equal(shouldRunSync({}), false);
 assert.equal(shouldRunSync({ sync: true }), true);
-const started = await actions({ action: 'command', command: 'node -e "console.log(123)"' }).command();
+const node = JSON.stringify(process.execPath);
+const started = await actions({ action: 'command', command: `${node} -e "console.log(123)"` }).command();
 assert.equal(started.ok, true);
 assert.equal(started.mode, 'async_job');
 assert.ok(started.jobId);
@@ -33,7 +34,7 @@ for (let i = 0; i < 80; i += 1) {
 assert.equal(status.ok, true);
 assert.match(page.content, /123/);
 assert.notEqual(status.status, 'job_not_found_or_expired');
-const sync = await actions({ action: 'command', command: 'node -e "console.log(456)"', sync: true }).command();
+const sync = await actions({ action: 'command', command: `${node} -e "console.log(456)"`, sync: true }).command();
 assert.equal(sync.ok, true);
 assert.match(sync.stdout, /456/);
 console.log(JSON.stringify({ ok: true, checks: ['default-async-job', 'status', 'output-page', 'sync-opt-in'] }, null, 2));

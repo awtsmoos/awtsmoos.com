@@ -1,5 +1,6 @@
 // B"H
 const FOUR_MINUTES_MS = 240000;
+const ONE_DAY_MS = 86400000;
 
 function bool(value) {
   return value === true || value === "true" || value === 1 || value === "1";
@@ -15,7 +16,7 @@ function bool(value) {
 function boundedTimeout(value) {
   const n = Number(value || FOUR_MINUTES_MS);
   if (!Number.isFinite(n)) return FOUR_MINUTES_MS;
-  return Math.max(1000, Math.min(Math.floor(n), FOUR_MINUTES_MS));
+  return Math.max(1000, Math.min(Math.floor(n), ONE_DAY_MS));
 }
 
 function closeOldTunnel(ctx, client, name) {
@@ -147,7 +148,9 @@ function handleTunnelResponse(ctx, data) {
 
 /**
  * B"H
- * Sends one request to the connected agent and waits up to four minutes.
+ * Sends one request to the connected agent and waits up to the bounded API
+ * ceiling. Long-running work should still prefer async job actions, but the
+ * relay no longer turns valid large timeoutMs values into premature 504s.
  * The pending entry remembers the requested action, tunnel, and correlation
  * fields so crossed results fail closed instead of becoming false success.
  *
@@ -177,4 +180,4 @@ function sendTunnelRequest(ctx, name, payload, timeout = FOUR_MINUTES_MS) {
   });
 }
 
-module.exports = { FOUR_MINUTES_MS, handleTunnelRegister, handleTunnelResponse, sendTunnelRequest, validateTunnelResponse };
+module.exports = { FOUR_MINUTES_MS, ONE_DAY_MS, boundedTimeout, handleTunnelRegister, handleTunnelResponse, sendTunnelRequest, validateTunnelResponse };

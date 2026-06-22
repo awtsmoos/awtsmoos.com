@@ -17,10 +17,10 @@ const { compactForSend, jsonBytes, inlineLimit } = require("./lib/response-size.
 const { nativeRegistrationPacket } = require("./lib/registration.js");
 const log = makeLogger(ROOT);
 const CPU_COUNT = Math.max(1, os.cpus?.().length || 1);
-const STRICT_ORDERING = process.env.AWTSMOOS_STRICT_ORDERING !== "0";
-const DEFAULT_MAX_INFLIGHT = STRICT_ORDERING ? 1 : Math.min(16, Math.max(8, CPU_COUNT * 2));
-const MAX_INFLIGHT = boundedNumber(process.env.AWTSMOOS_MAX_INFLIGHT, DEFAULT_MAX_INFLIGHT, 1, 64);
-const MAX_QUEUE = boundedNumber(process.env.AWTSMOOS_MAX_QUEUE, 1000, 0, 10000);
+const STRICT_ORDERING = process.env.AWTSMOOS_STRICT_ORDERING === "1";
+const DEFAULT_MAX_INFLIGHT = STRICT_ORDERING ? 1 : Math.min(64, Math.max(16, CPU_COUNT * 4));
+const MAX_INFLIGHT = boundedNumber(process.env.AWTSMOOS_MAX_INFLIGHT, DEFAULT_MAX_INFLIGHT, 1, 128);
+const MAX_QUEUE = boundedNumber(process.env.AWTSMOOS_MAX_QUEUE, 5000, 0, 50000);
 const REQUEST_MAX_AGE_MS = boundedNumber(process.env.AWTSMOOS_REQUEST_MAX_AGE_MS, 86400000, 1000, 604800000);
 const MAX_PROXY_BYTES = boundedNumber(process.env.AWTSMOOS_MAX_PROXY_BYTES, 268435456, 1048576, 1073741824);
 const RECONNECT_MIN_MS = boundedNumber(process.env.AWTSMOOS_RECONNECT_MIN_MS, 1000, 250, 60000);
