@@ -12,7 +12,7 @@ const P = Object.freeze({ grass:[[22,64,20],[56,132,48],PALE_GREEN,[42,86,30]], 
 function keyName(value) { return String(value || "stone").toLowerCase(); }
 function kindFor(value) { const name = keyName(value); if (name.includes("grass")) return "grass"; if (name.includes("leaf") || name.includes("cabbage") || name.includes("onion") || name.includes("frog")) return "leaf"; if (name.includes("brick")) return "brick"; if (name.includes("wood") || name.includes("bark")) return "wood"; if (name.includes("gold")) return "gold"; if (name.includes("glass")) return "glass"; if (name.includes("water")) return "water"; if (name.includes("fur") || name.includes("feather")) return "fur"; if (name.includes("fabric") || name.includes("linen") || name.includes("cotton")) return "fabric"; if (name.includes("flower") || name.includes("petal") || name.includes("mushroom")) return "flower"; if (name.includes("dirt") || name.includes("earth") || name.includes("trail") || name.includes("skin") || name.includes("straw")) return "dirt"; return "stone"; }
 function speedMode() { return globalThis?.__AWTSMOOS_PERFORMANCE_MODE__?.budget?.seal === "speed-scene-budget-bh4"; }
-function textureSize(size, resolved) { const raw = Number(size) || (resolved === "dirt" ? 512 : 384); if (!speedMode()) return raw; return Math.min(raw, resolved === "grass" || resolved === "leaf" ? 192 : 160); }
+function textureSize(size, resolved) { return Number(size) || (resolved === "dirt" || resolved === "grass" || resolved === "leaf" ? 512 : 384); }
 function hash(x, y, s = 1) { const v = Math.sin(x * 12.9898 + y * 78.233 + s * 37.719) * 43758.5453; return v - Math.floor(v); }
 function clamp(v) { return Math.max(0, Math.min(255, v | 0)); }
 function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
@@ -50,13 +50,13 @@ export function proceduralTexture(kind = "stone", size = 384) {
   const data = new Uint8Array(size * size * 4);
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) { const c = patternedColor(resolved, x, y, size), i = (y * size + x) * 4; data[i] = c[0]; data[i + 1] = c[1]; data[i + 2] = c[2]; data[i + 3] = 255; }
   const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
-  tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(resolved === "dirt" ? 6 : 3, resolved === "dirt" ? 6 : 3); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8; tex.needsUpdate = true; tex.userData.proceduralTextureKit = resolved; tex.userData.intenseGrain = resolved === "dirt";
+  tex.wrapS = THREE.MirroredRepeatWrapping; tex.wrapT = THREE.MirroredRepeatWrapping; tex.repeat.set(resolved === "dirt" || resolved === "grass" ? 8 : 4, resolved === "dirt" || resolved === "grass" ? 8 : 4); tex.magFilter = THREE.LinearFilter; tex.minFilter = THREE.LinearMipmapLinearFilter; tex.generateMipmaps = true; tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 16; tex.needsUpdate = true; tex.userData.proceduralTextureKit = resolved; tex.userData.intenseGrain = resolved === "dirt"; tex.userData.pingPongRepeat = true;
   cache.set(key, tex); return tex;
 }
 export function materialWithTexture(kind = "stone", options = {}) {
   const side = options.side === undefined ? THREE.FrontSide : options.side, resolved = kindFor(kind);
   const map = proceduralTexture(kind, textureSize(options.size, resolved));
-  map.anisotropy = speedMode() ? 1 : map.anisotropy;
+  map.anisotropy = Math.max(8, map.anisotropy || 1);
   const mat = new THREE.MeshLambertMaterial({ color:0xffffff, map, side, transparent:Boolean(options.transparent), alphaTest:options.alphaTest || 0 });
   mat.name = `awtsmoos_grainy_textured_${kind}`; mat.userData = { proceduralTextureKit:resolved, grainyNoise:true, intenseGrain:resolved === "dirt", noSolidColor:true }; return mat;
 }

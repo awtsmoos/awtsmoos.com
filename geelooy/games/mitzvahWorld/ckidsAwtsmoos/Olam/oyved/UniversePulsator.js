@@ -14,6 +14,7 @@ export default class UniversePulsator {
     this._reqId = null;
     this._frameCount = 0;
     this._usesTimer = false;
+    this._messagePump = null;
     this._targetFrameMs = 1000 / 60;
   }
 
@@ -21,8 +22,14 @@ export default class UniversePulsator {
   ignite() {
     if (this.isRunning) return;
     const scope = typeof self !== 'undefined' ? self : globalThis;
-    this._usesTimer = !scope.requestAnimationFrame || globalThis.__AWTSMOOS_USE_WORKER_TIMER__ === true;
-    globalThis.__AWTSMOOS_PULSATOR_MODE__ = this._usesTimer ? "worker-60hz-timer" : "requestAnimationFrame";
+    const isWorker = typeof document === "undefined";
+    this._usesTimer = isWorker || !scope.requestAnimationFrame || globalThis.__AWTSMOOS_USE_WORKER_TIMER__ === true;
+    if (this._usesTimer && typeof MessageChannel !== "undefined") {
+      const channel = new MessageChannel();
+      channel.port1.onmessage = () => this._tick(performance.now());
+      this._messagePump = channel;
+    }
+    globalThis.__AWTSMOOS_PULSATOR_MODE__ = this._messagePump ? "worker-message-pump" : this._usesTimer ? "worker-fast-timer" : "requestAnimationFrame";
     this.isRunning = true;
     this.lastTime = performance.now();
     this._tick(this.lastTime);
@@ -36,6 +43,8 @@ export default class UniversePulsator {
       if (this._usesTimer) clearTimeout(this._reqId);
       else scope.cancelAnimationFrame?.(this._reqId);
     }
+    try { this._messagePump?.port1?.close?.(); this._messagePump?.port2?.close?.(); } catch (_) {}
+    this._messagePump = null;
     this._reqId = null;
   }
 
@@ -56,8 +65,9 @@ export default class UniversePulsator {
     if (this.isRunning) {
       const scope = typeof self !== 'undefined' ? self : globalThis;
       const elapsedMs = performance.now() - tickStartedAt;
-      const delayMs = Math.max(0, Math.round(this._targetFrameMs - elapsedMs));
-      this._reqId = this._usesTimer || !scope.requestAnimationFrame
+      const delayMs = this._usesTimer ? 0 : Math.max(0, Math.round(this._targetFrameMs - elapsedMs));
+      if (this._messagePump) this._messagePump.port2.postMessage(0);
+      else this._reqId = this._usesTimer || !scope.requestAnimationFrame
         ? setTimeout(() => this._tick(performance.now()), delayMs)
         : scope.requestAnimationFrame(time => this._tick(time));
     }

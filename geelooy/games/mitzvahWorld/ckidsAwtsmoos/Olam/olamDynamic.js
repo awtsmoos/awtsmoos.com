@@ -6,4 +6,4 @@
  *
  * Compatibility imports now receive the same jump-smooth camera vessel.
  */
-export { default } from './core/OlamVessel.js?v=instanced-roads-20260621-bh1';
+export { default } from './core/OlamVessel.js?v=fps-guardian-full-gameplay-20260622-bh1';

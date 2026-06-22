@@ -81,13 +81,46 @@ async function runSelectedAction(getTunnelName) {
 function buildOptions() {
   const action = $("actionName").value;
   const opts = { action, path: $("actionPath").value, maxChars: $("maxChars").value };
+  const item = ACTION_CATALOG.find(entry => entry.name === action);
   if ($("conversationId")?.value) opts.conversationId = $("conversationId").value;
   if ($("conversationName")?.value) opts.conversationName = $("conversationName").value;
+  if (item?.defaults?.needsMissionGoal) Object.assign(opts, missionStartOptions());
+  if (item?.defaults?.needsMissionId) opts.missionId = $("missionId")?.value || opts.missionId;
+  if (item?.defaults?.needsMissionAutopilot) Object.assign(opts, missionAutopilotOptions(action));
+  if (item?.defaults?.needsMissionMail) Object.assign(opts, missionMailOptions(action));
   if (action === "tree") Object.assign(opts, { depth: $("treeDepth")?.value || 2, limit: $("treeLimit")?.value || 120 });
   if (action === "write") opts.content = $("writeContent").value;
   if (action === "bulk") opts.paths = splitLines($("bulkPaths").value);
   if (action === "bulkWrite") opts.files = parseBulkWrite();
   return opts;
+}
+
+function missionStartOptions() {
+  return {
+    goal: $("missionGoal")?.value || "Autonomous tunnel mission",
+    auto: true,
+    selfMail: Boolean(($("selfEmail")?.value || "").trim()),
+    maxAutopilotRounds: $("missionRounds")?.value || 8,
+    maxSelfBrainstormCycles: $("missionRounds")?.value || 8,
+    definitionOfDone: ["implementation exists", "verification passed", "stress coverage"]
+  };
+}
+
+function missionAutopilotOptions(action) {
+  const answer = $("missionAnswer")?.value || "";
+  const opts = { rounds: $("missionRounds")?.value || 8, selfEmail: $("selfEmail")?.value || "", mail: Boolean(($("selfEmail")?.value || "").trim()) };
+  if (action === "missionBrainstorm" && answer) opts.answers = [answer];
+  return opts;
+}
+
+function missionMailOptions(action) {
+  const note = $("missionAnswer")?.value || "";
+  return {
+    to: $("selfEmail")?.value || "",
+    selfEmail: $("selfEmail")?.value || "",
+    summary: note,
+    body: action === "missionSelfMailDraft" ? note : undefined
+  };
 }
 
 /**
@@ -106,8 +139,12 @@ function setValue(id, value) { const node = $(id); if (node) node.value = value;
 function setText(id, value) { const node = $(id); if (node) node.textContent = value; }
 function openDetails(id) { $(id)?.closest("details")?.setAttribute("open", "open"); }
 function toggleAdvancedFields(defaults) {
-  for (const id of ["writeContent", "bulkPaths", "bulkWriteJson"]) $(id)?.closest("label")?.classList.add("is-muted");
+  for (const id of ["writeContent", "bulkPaths", "bulkWriteJson", "missionGoal", "missionId", "missionRounds", "selfEmail", "missionAnswer"]) $(id)?.closest("label")?.classList.add("is-muted");
   if (defaults.needsContent) $("writeContent")?.closest("label")?.classList.remove("is-muted");
   if (defaults.needsBulk) $("bulkPaths")?.closest("label")?.classList.remove("is-muted");
   if (defaults.needsBulkWrite) $("bulkWriteJson")?.closest("label")?.classList.remove("is-muted");
+  if (defaults.needsMissionGoal) $("missionGoal")?.closest("label")?.classList.remove("is-muted");
+  if (defaults.needsMissionId) $("missionId")?.closest("label")?.classList.remove("is-muted");
+  if (defaults.needsMissionAutopilot) { $("missionRounds")?.closest("label")?.classList.remove("is-muted"); $("missionAnswer")?.closest("label")?.classList.remove("is-muted"); }
+  if (defaults.needsMissionMail || defaults.needsMissionAutopilot || defaults.needsMissionGoal) $("selfEmail")?.closest("label")?.classList.remove("is-muted");
 }

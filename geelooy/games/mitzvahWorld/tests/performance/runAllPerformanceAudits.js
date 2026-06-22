@@ -9,7 +9,8 @@ const tests = [
   "tests/performance/postLoadFpsSmoke.js",
   "tests/performance/noPixelatedTextureAudit.js",
   "tests/performance/animalLodAndSingleMeshAudit.js",
-  "tests/performance/npcSchedulerAudit.js"
+  "tests/performance/npcSchedulerAudit.js",
+  "tests/performance/fpsGuardianAudit.js"
 ];
 const results = [];
 for (const test of tests) {

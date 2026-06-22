@@ -30,6 +30,11 @@ export function usage() {
         field("actionName", "Action", { value: "list", readOnly: true, className: "span-4" }),
         field("actionPath", "Path", { value: ".", className: "span-5" }),
         field("maxChars", "Max chars", { type: "number", value: "12000", className: "span-3" }),
+        field("missionGoal", "Mission goal", { value: "Keep working until the mission is verified.", className: "span-6" }),
+        field("missionId", "Mission id", { placeholder: "mission id from missionStart/report", className: "span-3" }),
+        field("missionRounds", "Autopilot rounds", { type: "number", value: "8", min: "1", className: "span-3" }),
+        field("selfEmail", "Self-mail recipient", { placeholder: "optional agent email", className: "span-6" }),
+        area("missionAnswer", "Mission answer / checkpoint note", "D let tunnel choose next question forever"),
         area("writeContent", "Write content", ""),
         area("bulkPaths", "Bulk paths", ""),
         area("bulkWriteJson", "Bulk write JSON", "[]")

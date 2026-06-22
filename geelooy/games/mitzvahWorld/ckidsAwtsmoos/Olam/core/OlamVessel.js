@@ -2,7 +2,7 @@
 /** @module OlamVessel @description Worker root: keep proven octrees intact and expose diagnostics only. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
-import OlamGrafting from "./OlamGraftingPlain.js?v=instanced-roads-20260621-bh1";
+import OlamGrafting from "./OlamGraftingPlain.js?v=fps-guardian-full-gameplay-20260622-bh1";
 import OlamProperties from "../properties/index.js?v=village-combat-20260611-bh804";
 import OlamInit from "./OlamInit.js?v=village-combat-20260611-bh804";
 import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";
@@ -11,7 +11,7 @@ import Yichud from "../interaction/Yichud.js?compact=true";
 import PlacementManager from "../interaction/PlacementManager.js?compact=true";
 import CombatManager from "../../systems/combat/CombatManager.js?v=combat-cache-budget-20260621-bh1";
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=world-state-store-20260615-bh1";
-import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=crisp-render-20260621-bh2";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
 
 const SAFE_SKY = 0x5d8fa8;
 

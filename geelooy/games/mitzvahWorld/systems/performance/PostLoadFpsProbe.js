@@ -35,7 +35,8 @@ function report(win, frameMs) {
     visual:win.__AWTSMOOS_VISUAL_TUNING__ || null,
     textures:win.__AWTSMOOS_TEXTURE_PINGPONG_REPORT__ || null,
     beauty:win.__AWTSMOOS_BEAUTY_TUNING__ || null,
-    scrollUi:win.__AWTSMOOS_SCROLL_UI__ || null
+    scrollUi:win.__AWTSMOOS_SCROLL_UI__ || null,
+    fpsGuardian:win.__AWTSMOOS_FPS_GUARDIAN__ ? { stage:win.__AWTSMOOS_FPS_GUARDIAN__.stage, config:win.__AWTSMOOS_FPS_GUARDIAN__.config, avgFps:win.__AWTSMOOS_FPS_GUARDIAN__.avgFps, minFps:win.__AWTSMOOS_FPS_GUARDIAN__.minFps, stable60:win.__AWTSMOOS_FPS_GUARDIAN__.stable60, history:win.__AWTSMOOS_FPS_GUARDIAN__.history } : null
   };
   win.__AWTSMOOS_POST_LOAD_FPS_REPORT__ = result;
   return result;

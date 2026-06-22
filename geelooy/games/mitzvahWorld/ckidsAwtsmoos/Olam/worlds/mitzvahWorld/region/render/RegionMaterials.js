@@ -1,7 +1,7 @@
 ﻿// B"H
 /** @file RegionMaterials.js @description Cached grainy procedural materials for every named ecology vessel. */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?v=intense-dirt-grain-20260615-bh904";
+import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?v=ping-pong-crisp-textures-20260622-bh1";
 const cache = new Map();
 const ALIASES = Object.freeze({
   grass:"grass", cabbageLeaf:"leaf", leaf:"leaf", mossPatch:"grass", frogSkin:"leaf", onionSkin:"leaf",
@@ -29,5 +29,4 @@ export function regionMaterial(kind = "grass", options = {}) {
   return mat;
 }
 export function materialStats() { return { materials:cache.size, aliases:Object.keys(ALIASES).length, allTextured:true, grainyNoise:true }; }
-
 

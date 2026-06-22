@@ -3,7 +3,8 @@
  * @file LivingTorahQuestLoop.js
  * @description The melamed speaks, Torah becomes a quest, and coins learn purpose.
  */
-import { LEVEL_ONE_LEARNING_PROMPTS, LEVEL_ONE_SEFORIM, LEVEL_ONE_TORAH_SKILLS } from "../data/levelOne/LevelOneLearning.js";
+import { LEVEL_ONE_LEARNING_PROMPTS, LEVEL_ONE_SEFORIM, LEVEL_ONE_SHLICHUS_MOVES, LEVEL_ONE_TORAH_SKILLS } from "../data/levelOne/LevelOneLearning.js?v=full-shlichus-moves-20260622-bh1";
+import { QUEST_LEDGER } from "../data/manifests/QuestLedger.js?v=full-shlichus-moves-20260622-bh1";
 import { MarketplaceRuntime } from "../economy/MarketplaceRuntime.js";
 import { RuntimeQuestAdapter } from "../runtime/RuntimeQuestAdapter.js";
 import { ensureWorldStateLedger } from "../runtime/WorldStateLedger.js";
@@ -31,7 +32,7 @@ function buySefer(player) {
   return market.buy({ buyer:player, itemId:"village_siddur_book", qty:1, demand:1 });
 }
 function buildSummary({ interaction, quest, purchase, knowledge, player }) {
-  return { loopId:"npc_torah_quest_loop", npcId:NPC_ID, questId:QUEST_ID, interaction, quest, purchase, knowledge, sefer:LEVEL_ONE_SEFORIM.siddur_basic, prompt:LEVEL_ONE_LEARNING_PROMPTS.first_sefer_ask, playerSnapshot:{ coins:player.coins, inventory:player.inventory, reputation:player.reputation } };
+  return { loopId:"npc_torah_quest_loop", npcId:NPC_ID, questId:QUEST_ID, interaction, quest, purchase, knowledge, sefer:LEVEL_ONE_SEFORIM.siddur_basic, prompt:LEVEL_ONE_LEARNING_PROMPTS.first_sefer_ask, moveBook:LEVEL_ONE_SHLICHUS_MOVES, questLedger:QUEST_LEDGER, playerSnapshot:{ coins:player.coins, inventory:player.inventory, reputation:player.reputation } };
 }
 export async function ensureLivingTorahQuestLoop(context = {}) {
   const olam = context.olam || context;

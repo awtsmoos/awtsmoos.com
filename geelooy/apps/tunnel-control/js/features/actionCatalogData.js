@@ -19,6 +19,12 @@ export const ACTION_CATALOG = Object.freeze([
   action("configGet", "Get config", "Inspect tunnel config.", "System", ["safe"], { path: "." }),
   action("runtimeSnapshot", "Runtime snapshot", "Capture runtime state.", "System", ["status"], { path: "." }),
   action("actionHistoryList", "Action history", "List recent action history.", "System", ["status"], { path: "." }),
+  action("missionStart", "Start mission", "Create a durable autonomous mission.", "Mission", ["autopilot"], { path: ".", needsMissionGoal: true }),
+  action("missionAutopilot", "Run autopilot", "Let the tunnel self-question and continue without human input until done or blocked.", "Mission", ["autopilot", "safe"], { path: ".", needsMissionId: true, needsMissionAutopilot: true }),
+  action("missionBrainstorm", "Self brainstorm", "Run bounded multiple-choice self-questions for a mission.", "Mission", ["autopilot"], { path: ".", needsMissionId: true, needsMissionAutopilot: true }),
+  action("missionCheckpoint", "Mission checkpoint", "Persist a checkpoint and optional self-mail draft.", "Mission", ["status"], { path: ".", needsMissionId: true, needsMissionMail: true }),
+  action("missionSelfMailDraft", "Self-mail draft", "Draft an agent checkpoint email without sending it.", "Mission", ["status"], { path: ".", needsMissionId: true, needsMissionMail: true }),
+  action("missionReport", "Mission report", "Load current mission status, counts, and continuation gate.", "Mission", ["status"], { path: ".", needsMissionId: true }),
   action("commandBatch", "Command batch", "Run approved command batches.", "Automation", ["advanced"], { path: "." }),
   action("browserDoctor", "Browser doctor", "Diagnose browser control.", "Automation", ["browser"], { path: "." })
 ]);

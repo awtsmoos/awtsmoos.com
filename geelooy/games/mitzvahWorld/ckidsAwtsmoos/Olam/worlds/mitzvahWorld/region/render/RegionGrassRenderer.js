@@ -11,16 +11,14 @@ function reportGrass(report) { return report && report.instances && Array.isArra
 function farmCells(report) { const cells = report && report.ecology && Array.isArray(report.ecology.cells) ? report.ecology.cells : []; return cells.filter(cell => cell.biome === "farmBelt"); }
 export function buildGrassRenderer(olam, report = {}) {
   const root = new THREE.Group(), specs = reportGrass(report), exclusions = grassExclusionsFromReport(report), audit = auditGrassExclusions(report);
-  const count = Math.min(3600, budgetedQualityCount(olam, 3600, "grassDistance", 3600));
-  const grass = createProceduralCoreGrassField(olam, specs, count, { exclusions });
+  const count = Math.min(720, budgetedQualityCount(olam, 720, "grassDistance", 720));
+  const grass = createProceduralCoreGrassField(olam, specs, count, { exclusions, forceFallbackMaterial:true });
   root.name = "living_region_mobile_safe_short_green_grass";
   root.add(grass);
-  root.userData.tick = dt => advanceProceduralGrass(grass, dt);
-  root.userData.stats = { ...grass.userData.stats, grassExclusionAudit:audit, complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, onlyProceduralCoreGrass:true, avoidsCottages:true, avoidsYards:true };
+  root.userData.stats = { ...grass.userData.stats, grassExclusionAudit:audit, complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, onlyProceduralCoreGrass:true, static60FpsGrass:true, avoidsCottages:true, avoidsYards:true };
   return sealRegionVisual(root, { complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, proceduralCoreGrass:true, avoidsCottages:true, avoidsYards:true });
 }
 export function buildWheatRenderer(olam, report = {}) {
   const cells = farmCells(report), count = Math.min(1400, budgetedQualityCount(olam, Math.min(1400, Math.max(520, cells.length * 2)), "grassDistance", 1400));
   return makeInstancedLayer({ olam, name:"living_region_farm_wheat_field_dense_heads", geometry:"grassTuft", material:"straw", count, build:i => { const c = cells[i % Math.max(1, cells.length)] || { x:-145, z:-55 }; return { x:c.x + (rand(i,1)-.5)*6, z:c.z + (rand(i,2)-.5)*6, sx:.48, sy:1.55 + rand(i,6)*1.05, sz:.48, yaw:rand(i,7)*6.28, lift:.018, color:i%4 ? 0xd5bf62 : 0xf3db83 }; } });
 }
-

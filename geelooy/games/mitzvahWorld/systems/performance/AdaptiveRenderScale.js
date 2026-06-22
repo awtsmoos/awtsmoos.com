@@ -1,26 +1,20 @@
 // B"H
 /**
- * Aggressive render mercy. The Awtsmoos does not need wasteful pixels to be
- * seen; fewer shaded fragments means more living frames.
+ * Native-crisp render contract. Performance mode may budget world work, but it
+ * must not win frames by lowering the real gameplay pixel density.
  */
 export function adaptiveRenderScale(tier = {}) {
-  if (tier.tier === "high" && !tier.mobile) return 1;
-  if (tier.tier === "medium" && !tier.mobile) return 0.92;
-  if (tier.tier === "medium") return 0.84;
-  return tier.mobile ? 0.78 : 0.82;
+  return 1;
 }
 
 export function pixelRatioCap(tier = {}) {
-  if (tier.tier === "high" && !tier.mobile) return 1;
-  if (tier.tier === "medium" && !tier.mobile) return 0.92;
-  if (tier.tier === "medium") return 0.86;
-  return tier.mobile ? 0.78 : 0.82;
+  return 1;
 }
 
 export function desiredPixelRatio(win = globalThis.window, tier = {}, scale = 1) {
   const native = Number(win?.devicePixelRatio || 1);
   const cap = pixelRatioCap(tier);
-  const pixelRatio = Math.max(0.72, Math.min(cap, native * scale));
+  const pixelRatio = Math.max(1, Math.min(cap, native * scale));
   return { native, cap, scale, pixelRatio };
 }
 

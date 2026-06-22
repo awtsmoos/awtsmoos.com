@@ -10,7 +10,7 @@ const DEFAULT_TIMEOUT_MS = 7000;
 const DEPENDENCIES = [
   ["THREE", "/games/scripts/build/three.module.js"],
   ["Nivra", "../../chayim/nivra.js?v=village-combat-20260611-bh804"],
-  ["OlamGrafting", "./OlamGraftingPlain.js?v=fast-wildlife-render-20260621-bh1"],
+  ["OlamGrafting", "./OlamGraftingPlain.js?v=fps-guardian-full-gameplay-20260622-bh1"],
   ["OlamProperties", "../properties/index.js?v=village-combat-20260611-bh804"],
   ["OlamInit", "./OlamInit.js?v=village-combat-20260611-bh804"],
   ["Ayin", "../camera/index.js?v=village-combat-20260611-bh804"],
@@ -19,7 +19,7 @@ const DEPENDENCIES = [
   ["PlacementManager", "../interaction/PlacementManager.js?compact=true"],
   ["CombatManager", "../../systems/combat/CombatManager.js?v=combat-cache-budget-20260621-bh1"],
   ["WorldStateStore", "../../systems/worldState/WorldStateStore.js?v=world-state-store-20260615-bh1"],
-  ["PixelRatioGovernor", "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=crisp-render-20260621-bh2"]
+  ["PixelRatioGovernor", "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1"]
 ];
 
 function absoluteUrl(path) {

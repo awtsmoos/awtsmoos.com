@@ -8,6 +8,7 @@ const { spawnSync } = require("child_process");
 const tests = [
   "geelooy/apps/tunnel/agent/testing/manifestGenerationSmoke.cjs",
   "geelooy/tests/unified-tunnel/stressUnifiedTunnel.cjs",
+  "geelooy/tests/unified-tunnel/tunnelFullActionRouteStress.test.mjs",
   "geelooy/tests/unified-tunnel/allActionsStress.test.cjs",
   "geelooy/tests/unified-tunnel/tunnelActionCoverageAudit.cjs",
   "geelooy/tests/unified-tunnel/openApiCommandTreeParams.test.cjs",
@@ -61,12 +62,14 @@ const tests = [
   "geelooy/apps/tunnel-control/js/features/test/aiAgentsTargetVessel.test.mjs",
   "geelooy/apps/tunnel-control/js/features/test/computeRender.test.mjs",
   "geelooy/apps/tunnel-control/js/features/test/previewGatewayRender.test.mjs",
+  "geelooy/apps/tunnel-control/js/features/test/usageMissionActions.test.mjs",
   "geelooy/apps/tunnel-control/js/features/status/test/statusCards.test.mjs",
   "geelooy/apps/tunnel-control/js/features/status/test/renderDeviceNice.test.mjs",
   "geelooy/apps/tunnel-control/js/features/modes/test/modeCards.test.mjs",
   "geelooy/apps/tunnel-control/js/features/vessels/test/vesselSelector.test.mjs",
   "geelooy/apps/tunnel-control/js/features/health/test/healthMatrix.test.mjs",
-  "geelooy/apps/tunnel-control/js/dashboard/test/dashboardHealth.test.mjs"
+  "geelooy/apps/tunnel-control/js/dashboard/test/dashboardHealth.test.mjs",
+  "geelooy/apps/tunnel/agent/testing/missionAutopilotSelfMail.test.cjs"
 ];
 
 const started = Date.now();
@@ -81,4 +84,3 @@ for (const file of tests) {
 }
 const warnings = results.filter(result => result.stderr).length;
 console.log(JSON.stringify({ ok: true, suite: "unified-tunnel-regression", count: results.length, warnings, durationMs: Date.now() - started, results }, null, 2));
-

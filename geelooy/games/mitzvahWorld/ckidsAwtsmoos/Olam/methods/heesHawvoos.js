@@ -8,7 +8,7 @@
  * debug catch. In worker-land that name is void. This module therefore raises a
  * tiny harmless mirror before rendering, so the canvas can keep singing.
  */
-import UniversePulsator from '../oyved/UniversePulsator.js?v=worker-raf-clock-20260621-bh1';
+import UniversePulsator from '../oyved/UniversePulsator.js?v=worker-message-pump-20260622-bh1';
 import RenderTrace from './canvas/RenderTrace.js?v=village-polish-20260612-bh811';
 import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?v=zone-reality-20260614-bh817';
 import { getDynamicActorPartition } from '../worlds/mitzvahWorld/runtime/DynamicActorPartition.js?v=awtsmoos-dynamic-partition-20260614-bh2';

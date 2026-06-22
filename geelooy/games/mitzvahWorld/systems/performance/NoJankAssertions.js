@@ -21,7 +21,8 @@ export function assertPostLoadFps(report) {
     maxFrameMs:report.maxFrameMs,
     counters:globalThis.__AWTSMOOS_FRAME_COUNTERS__?.report?.() || null,
     npc:report.npc || null,
-    spatial:report.spatial || null
+    spatial:report.spatial || null,
+    fpsGuardian:report.fpsGuardian || globalThis.__AWTSMOOS_FPS_GUARDIAN__ || null
   };
   if (ok) console.info("B'H NoJankAssertions: 60fps target held in post-load sample", payload);
   else console.warn("B'H NoJankAssertions: FPS target missed; optimize the listed counters", payload);

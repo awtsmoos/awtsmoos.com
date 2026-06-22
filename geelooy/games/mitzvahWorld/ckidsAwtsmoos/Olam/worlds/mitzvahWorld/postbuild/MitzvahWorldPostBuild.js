@@ -13,11 +13,11 @@ import { ensureVillageBotanicalRealityLayer } from "./VillageBotanicalRealityLay
 import { ensureVillageEcologyRealityLayer } from "./VillageEcologyRealityLayer.js?v=awtsmoos-ecology-reality-20260614-bh3";
 import { ensureVillageWorldPolishPass } from "./VillageWorldPolishPass.js?v=awtsmoos-world-polish-20260614-bh2";
 import { ensureHyperRealSunLensFlareLayer } from "./HyperRealSunLensFlareLayer.js?v=awtsmoos-hyper-real-sun-20260616-bh1";
-import { ensureLivingTorahQuestLoop } from "./LivingTorahQuestLoop.js?v=awtsmoos-living-torah-loop-20260616-bh1";
+import { ensureLivingTorahQuestLoop } from "./LivingTorahQuestLoop.js?v=full-shlichus-moves-20260622-bh1";
 import { ensureUniverseJsonPostBuild } from "./UniverseJsonPostBuild.js?v=awtsmoos-movie-universe-20260616-bh1";
 import { ensureProceduralWorldRuntime } from "../procedural/ProceduralWorldRuntime.js?v=awtsmoos-json-world-runtime-20260619-bh1";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?v=ecology-data-spine-20260612-bh1";
-import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=instanced-roads-20260621-bh1";
+import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=fps-guardian-full-gameplay-20260622-bh1";
 import { getVillageShaderTextureStats } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh3";
 import { ecologyMaterialStats } from "../../../../dvarim/nature/villagePicture/EcologySpecialMaterials.js?v=awtsmoos-ecology-materials-20260614-bh3";
 import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js";
@@ -28,6 +28,7 @@ async function safeStep(name, task) { const t = performance.now(); mark(`${name}
 function countArray(r) { return Array.isArray(r.value) ? r.value.length : 0; }
 function one(r) { return r.value ? 1 : 0; }
 function skippedWarm(kind, stats) { return { skipped:true, kind, reason:"runtime-proof-first-fast-materials", stats }; }
+function skippedRenderLayer(kind) { return { skipped:true, kind, reason:"living-region-runtime-owns-this-visual-layer-for-native-crisp-fps" }; }
 function regionSummary(r) { return r.value?.summary || null; }
 function livingStats(r) { return r.value?.userData?.stats || null; }
 function stepLine(r, extra = {}) { return { ok:r.ok, error:r.error || null, ...extra }; }

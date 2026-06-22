@@ -300,6 +300,9 @@ paths:
               - missionAnswer
               - missionAttachJob
               - missionAuto
+              - missionAutopilot
+              - missionBrainstorm
+              - missionCheckpoint
               - missionCompleteTask
               - missionDiscover
               - missionEvidence
@@ -310,6 +313,7 @@ paths:
               - missionNext
               - missionQuestion
               - missionReport
+              - missionSelfMailDraft
               - missionStart
               - missionSupervise
               - missionTimeline

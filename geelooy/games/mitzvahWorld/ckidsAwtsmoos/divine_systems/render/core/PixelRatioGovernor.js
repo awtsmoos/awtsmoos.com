@@ -1,18 +1,17 @@
 // B"H
 /**
  * @file PixelRatioGovernor.js
- * The worker owns the real canvas. Here the Awtsmoos lowers fragment cost
- * before pixels become heat. This is aggressive speed mode, not a fake 60fps
- * claim: every change must be measured by the Chrome gameplay report.
+ * The worker owns the real canvas. The game must remain native-crisp; frame
+ * wins belong in batching, culling, and scheduler budgets, not blurry pixels.
  */
 export const PIXEL_RATIO_LIMITS = Object.freeze({
-  min: 0.72,
+  min: 1.0,
   max: 1.0,
   initialMax: 1.0,
   resizeMax: 1.0,
-  mobileMax: 0.86,
-  hugeScreenMax: 0.9,
-  lowMemoryMax: 0.78
+  mobileMax: 1.0,
+  hugeScreenMax: 1.0,
+  lowMemoryMax: 1.0
 });
 
 function n(value, fallback = 0) {
@@ -30,8 +29,6 @@ function mobileSettings(sourceWindow = globalThis.window) {
 }
 
 function qualityCap(settings = {}) {
-  if (settings.quality === "speed") return 0.78;
-  if (settings.quality === "balanced") return 0.9;
   return 1.0;
 }
 

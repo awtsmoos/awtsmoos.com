@@ -17,7 +17,8 @@ const config = { root, allowCommands: true, allowWrite: true, allowSecrets: true
     cwd: ".",
     maxChars: 1000,
     maxBytes: 100000,
-    allowCommands: true
+    allowCommands: true,
+    inline: true
   };
   const actions = buildActions(config, payload, null);
   const got = await actions.command();

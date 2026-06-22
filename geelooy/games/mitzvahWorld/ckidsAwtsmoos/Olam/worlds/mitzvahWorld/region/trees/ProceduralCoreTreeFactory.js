@@ -13,7 +13,7 @@ function leafTexture() {
   if (MATERIALS.has("leafTexture")) return MATERIALS.get("leafTexture");
   const size = 128, data = new Uint8Array(size * size * 4);
   for (let y=0; y<size; y++) for (let x=0; x<size; x++) { const u=x/(size-1)*2-1, v=y/(size-1)*2-1; const edge=Math.abs(u)/Math.max(.08, Math.sin((v+1)*Math.PI*.5)); const serration=Math.sin((v+1)*38)*.045; const inside=edge<.88+serration && Math.abs(v)<.96; const vein=Math.max(0,1-Math.abs(u)*26)*.34; const grain=((x*17+y*31)%23)/23; const i=(y*size+x)*4; data[i]=45+grain*35+vein*70; data[i+1]=112+grain*70+vein*52; data[i+2]=28+grain*22; data[i+3]=inside ? 255 : 0; }
-  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat); texture.colorSpace = THREE.SRGBColorSpace; texture.wrapS = texture.wrapT = THREE.RepeatWrapping; texture.magFilter = THREE.LinearFilter; texture.minFilter = THREE.LinearMipmapLinearFilter; texture.generateMipmaps = true; texture.needsUpdate = true; MATERIALS.set("leafTexture", texture); return texture;
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat); texture.colorSpace = THREE.SRGBColorSpace; texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping; texture.magFilter = THREE.LinearFilter; texture.minFilter = THREE.LinearMipmapLinearFilter; texture.generateMipmaps = true; texture.anisotropy = 16; texture.needsUpdate = true; texture.userData ||= {}; texture.userData.pingPongRepeat = true; MATERIALS.set("leafTexture", texture); return texture;
 }
 function geometries(kind, variant) {
   const key = `${kind}:${variant}`; if (GEOMETRIES.has(key)) return GEOMETRIES.get(key);

@@ -3,7 +3,7 @@ import { getJson } from "./http.js";
 import { b64Json, b64Text } from "../lib/base64.js";
 import { authHeaders, getActiveApiKey } from "./keySession.js";
 import { log } from "../logger.js";
-import { currentTargetVesselName, VIRTUAL_OS_TUNNEL } from "../features/vessels/selector.js";
+import { VIRTUAL_OS_TUNNEL } from "../features/vessels/selector.js";
 
 const SESSION_OK_ACTIONS = new Set([
   "configGet", "configSet", "roots", "rootBrowse", "rootSelect", "openRoot",
@@ -53,15 +53,25 @@ function attachAiPayload(u, opts = {}) {
 }
 
 export function resolveTargetTunnelName(tunnelName = "", opts = {}) {
-  return String(opts.tunnelName || opts.targetVessel || opts.vessel || currentTargetVesselName(tunnelName) || tunnelName || VIRTUAL_OS_TUNNEL).trim();
+  const explicitTunnel = String(opts.tunnelName || tunnelName || "").trim();
+  const explicitVessel = String(opts.targetVessel || opts.vessel || "").trim();
+  const tunnelKey = explicitTunnel.toLowerCase();
+  const vesselKey = explicitVessel.toLowerCase();
+  const virtualAliases = new Set(["virtual", "virtual-os", "awtsmoos-os", VIRTUAL_OS_TUNNEL]);
+  const vesselTypeAliases = new Set(["native", "native-local", "native-tunnel", "local", "local-tunnel", "browser", "browser-tab", "tab", "code-tab", "apps-code"]);
+  if (virtualAliases.has(tunnelKey) || virtualAliases.has(vesselKey)) return VIRTUAL_OS_TUNNEL;
+  if (explicitTunnel && tunnelKey !== "auto") return explicitTunnel;
+  if (explicitVessel && !vesselTypeAliases.has(vesselKey)) return explicitVessel;
+  return "auto";
 }
 
 export function buildFsUrl(tunnelName, opts = {}) {
   const targetName = resolveTargetTunnelName(tunnelName, opts);
+  const queryTarget = String(opts.targetVessel || opts.vessel || targetName || "").trim();
   const u = new URL("/api/tunnel/control/fs/" + encodeURIComponent(targetName), location.origin);
   u.searchParams.set("action", opts.action || "list");
   u.searchParams.set("p", opts.path || opts.p || ".");
-  if (targetName) u.searchParams.set("targetVessel", targetName);
+  if (queryTarget) u.searchParams.set("targetVessel", queryTarget);
   if (opts.absolutePath) u.searchParams.set("absolutePath", opts.absolutePath);
   for (const key of ["depth", "limit", "maxChars", "totalMaxChars", "maxFiles", "offsetChars", "maxBytes", "offsetBytes", "timeoutMs", "port", "maxDepth", "maxChildrenPerTask", "maxTotalTasks"]) setNum(u, key, opts[key]);
   setText(u, "content", opts.content); setJson(u, "paths", opts.paths); setJson(u, "files", opts.files); setJson(u, "writes", opts.writes);
@@ -71,7 +81,7 @@ export function buildFsUrl(tunnelName, opts = {}) {
     setText(u, "message", opts.message); setText(u, "prompt", opts.prompt); setText(u, "system", opts.system);
   }
   setText(u, "expression", opts.expression);
-  attachAiPayload(u, { ...opts, targetVessel: targetName });
+  attachAiPayload(u, { ...opts, targetVessel: queryTarget });
   if (typeof opts.regex === "boolean") u.searchParams.set("regex", String(opts.regex));
   if (typeof opts.replaceAll === "boolean") u.searchParams.set("replaceAll", String(opts.replaceAll));
   for (const key of ["root", "local", "relay", "setTunnelName", "shell", "cwd", "url", "selector", "chromePath", "userDataDir", "id", "query", "conversationId", "conversationName"]) if (opts[key]) u.searchParams.set(key, opts[key]);

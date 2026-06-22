@@ -5,7 +5,7 @@ import { samplePolyline } from "./RegionPolyline.js?v=awtsmoos-polyline-20260614
 import { regionMaterial } from "./RegionMaterials.js?v=awtsmoos-materials-20260614-bh2";
 import { groundY, groundNormal } from "./RegionGround.js";
 import { sealRegionVisual } from "./RegionSeal.js";
-const ROAD_LIMIT = 120;
+const ROAD_LIMIT = 28;
 const UP = new THREE.Vector3(0, 1, 0);
 function addRoad(root, olam, road, material, width, spacing, name) {
   const points = samplePolyline((road && road.points) || [], spacing).slice(0, ROAD_LIMIT);
@@ -31,12 +31,12 @@ function addRoad(root, olam, road, material, width, spacing, name) {
 }
 export function buildRoadRenderer(olam, roads = {}) {
   const root = new THREE.Group(); root.name = "living_region_grounded_roads_no_float";
-  addRoad(root, olam, roads.main, "yellowBrick", 5.2, 5.4, "main_yellow_road");
-  addRoad(root, olam, roads.farm, "dirt", 3.8, 6.2, "farm_dirt_road");
-  addRoad(root, olam, roads.orchard, "packedEarth", 3.2, 6.6, "orchard_lane");
-  addRoad(root, olam, roads.forest, "leafTrail", 2.6, 7.4, "forest_trail");
-  for (const trail of roads.animalTrails || []) addRoad(root, olam, trail, "softTrail", 1.45, 9, trail.id || "animal_trail");
-  addRoad(root, olam, roads.marshBoardwalk, "wood", 2.6, 6.5, "marsh_boardwalk");
+  addRoad(root, olam, roads.main, "yellowBrick", 5.2, 9.2, "main_yellow_road");
+  addRoad(root, olam, roads.farm, "dirt", 3.8, 11.5, "farm_dirt_road");
+  addRoad(root, olam, roads.orchard, "packedEarth", 3.2, 12.5, "orchard_lane");
+  addRoad(root, olam, roads.forest, "leafTrail", 2.6, 14, "forest_trail");
+  for (const trail of (roads.animalTrails || []).slice(0, 1)) addRoad(root, olam, trail, "softTrail", 1.45, 16, trail.id || "animal_trail");
+  addRoad(root, olam, roads.marshBoardwalk, "wood", 2.6, 12, "marsh_boardwalk");
   root.userData.stats = { roadPieces:root.children.length, groundedRoads:true, proofSafeRoads:true };
   return sealRegionVisual(root, { groundedRoads:true });
 }

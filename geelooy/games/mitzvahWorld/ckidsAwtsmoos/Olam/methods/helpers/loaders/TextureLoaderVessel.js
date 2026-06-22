@@ -80,7 +80,7 @@ export default class TextureLoaderVessel {
             texture.colorSpace = THREE.SRGBColorSpace;
             
             if (shouldRepeat) {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
                 texture.repeat.set(repeatX, repeatY);
             }
             
