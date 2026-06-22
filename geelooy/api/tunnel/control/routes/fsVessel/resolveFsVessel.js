@@ -42,9 +42,9 @@ function resolveFsVessel(options = {}) {
 }
 
 function requestedVesselType(tunnelName, payload = {}) {
-  if (isVirtualOsTunnelName(tunnelName)) return VESSEL_TYPES.VIRTUAL_OS;
   const explicit = normalizeVesselType(payload.targetVessel || payload.vessel || payload.fs || payload.routeHints?.targetVessel || "");
   if (explicit) return explicit;
+  if (isVirtualOsTunnelName(tunnelName)) return VESSEL_TYPES.VIRTUAL_OS;
   if (isAutoTunnelName(tunnelName) && (hintsWantVirtualOs(payload.routeHints || {}) || hintsWantVirtualOs(payload))) return VESSEL_TYPES.VIRTUAL_OS;
   return "";
 }
