@@ -1,0 +1,26 @@
+<!-- B"H: A vessel for mitzvah hachlatas, where private resolve and profile-visible sparks each have a place. -->
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mitzvah Pushkuh</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="shell">
+<section class="hero">
+  <p class="eyebrow">B"H · Geelooy Hachlata Vessel</p><h1>Mitzvah Pushkuh</h1>
+  <p class="lede">Deposit mitzvah hachlatas, fulfilled actions, and quiet victories. Keep them private, reveal them on your profile, or mark them as communal sparks.</p>
+</section>
+<section class="stage" aria-label="Animated pushkuh">
+  <canvas id="pushkuhCanvas"></canvas>
+  <div class="glass-card stats"><span id="totalDeposits">0</span><small>real deposits</small><span id="publicDeposits">0</span><small>profile / communal sparks</small><span id="streakCount">0</span><small>day ner tamid</small></div>
+</section>
+<section class="quick glass-card"><h2>Quick Hachlatas</h2><div id="templateButtons" class="chips"></div></section>
+<section class="control-grid">
+<form id="depositForm" class="glass-card form-card">
+  <label>What are you putting in?</label><input id="titleInput" maxlength="90" placeholder="Learn, give, call, forgive, help..." required>
+  <div class="triple"><p><label>Category</label><select id="typeInput"><option>Tzedakah</option><option>Torah</option><option>Chesed</option><option>Tefillah</option><option>Ahavas Yisroel</option><option>Personal Growth</option></select></p><p><label>Status</label><select id="statusInput"><option>Accepted</option><option>Fulfilled</option><option>Growing</option></select></p><p><label>Visibility</label><select id="visibilityInput"><option>Private</option><option>Profile</option><option>Communal</option></select></p></div>
+  <label>Intensity</label><input id="intensityInput" type="range" min="1" max="5" value="2">
+  <label>Intention / story</label><textarea id="noteInput" maxlength="260" placeholder="Optional: why this hachlata matters..."></textarea>
+  <button type="submit">Drop Into Pushkuh</button>
+</form>
+<section class="glass-card profile-card"><h2>Profile Sparks</h2><p>These are share-ready drafts for the real Geelooy social/profile API once wired.</p><div id="profileList" class="spark-list"></div></section>
+</section>
+<section class="glass-card ledger-card"><div class="ledger-head"><h2>Inside the Pushkuh</h2><button id="clearButton">Reset Demo</button></div><div id="ledgerList" class="ledger-list"></div></section>
+</main><script type="module" src="src/app.js"></script></body></html>

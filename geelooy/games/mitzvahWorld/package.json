@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "profile:external-gameplay": "node /Users/awtsmoos/Documents/mitzvahWorldPerformanceReports/mitzvahWorldProfiler.mjs --url=http://localhost:8080/games/mitzvahWorld/?path=village --duration=12000",
     "profile:gameplay": "node tools/actualGameplayProfiler.mjs --url=http://localhost:8080/games/mitzvahWorld/ --duration=9000",
     "profile:actual-gameplay": "node tools/actualGameplayProfiler.mjs --url=http://localhost:8080/games/mitzvahWorld/ --duration=9000",
     "simulate:headless": "node tests/headless/runHeadlessSimulation.js --repeat=5",
@@ -15,6 +16,11 @@
     "test:emerald:stress": "node tests/emerald/runEmeraldTests.js --repeat=100 && node tests/emerald/emeraldGameplayAudit.mjs && npm run test:emerald:visual && node tests/emerald/emeraldGeometryDoorStress.mjs && node tests/emerald/runEmeraldDeepAudit.js",
     "test:audit": "node tests/audits/entryStyleAudit.mjs && node tests/audits/noExtraCodeAudit.mjs",
     "test:all": "node tests/audits/runAllMitzvahWorldTests.mjs",
-    "bench:mitzvah": "node tests/audits/benchmarkMitzvahWorld.mjs"
+    "bench:mitzvah": "node tests/audits/benchmarkMitzvahWorld.mjs",
+    "test:hyperreal": "node tests/visuals/hyperrealTexturePolicyAudit.mjs && node tests/visuals/terrainTextureDensityAudit.mjs && node tests/performance/gameplayBudgetSchedulerAudit.mjs && node tests/performance/lightningWorldGenerationAudit.mjs && node tests/performance/animalSingleMesh60FpsAudit.mjs && node tests/visuals/animalHyperrealSilhouetteAudit.mjs && node tests/visuals/treeAuthorityAudit.mjs && node tests/performance/instancedForestDrawCallAudit.mjs && node tests/visuals/houseDetailAudit.mjs && node tests/performance/villageDrawCallAudit.mjs && node tests/gameplay/missionDensityNoFrameCostAudit.mjs && node tests/ui/shlichusBookLifecycleAudit.mjs && node tests/ui/noGameplayBlockingOverlayAudit.mjs && node tests/visuals/contactShadowEdgeWearAudit.mjs",
+    "test:living-world": "node tests/realism/livingWorldSystemsAudit.mjs && node tests/realism/ecosystemVillageStoryAudit.mjs && node tests/performance/livingWorldNoFrameCostAudit.mjs",
+    "test:infinite-realism-fast": "node tests/performance/infiniteRealismFastRuntimeAudit.mjs",
+    "test:texture-story-fast": "node tests/performance/textureStoryFastAudit.mjs",
+    "test:world-memory": "node tests/realism/worldMemoryRuntimeAudit.mjs"
   }
 }

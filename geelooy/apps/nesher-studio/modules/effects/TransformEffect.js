@@ -1,0 +1,3 @@
+/* B"H */
+export function createTransformEffect(input = {}) { return { kind:'TransformEffect', enabled:input.enabled ?? true, position:input.position || { x:0, y:0 }, scale:input.scale || { x:1, y:1 }, rotation:Number(input.rotation || 0), opacity:Number(input.opacity ?? 1) }; }
+export function applyTransformEffect(target, effect) { if (!effect.enabled) return target; target.x = (target.x || 0) + effect.position.x; target.y = (target.y || 0) + effect.position.y; target.w = (target.w || 1) * effect.scale.x; target.h = (target.h || 1) * effect.scale.y; target.rotation = (target.rotation || 0) + effect.rotation; target.opacity = (target.opacity ?? 1) * effect.opacity; return target; }

@@ -1,0 +1,5 @@
+// B"H
+export function detailLayersFor(kind="default"){const map={terrain:["macro-color","medium-dirt","micro-normal","cavity-wetness"],grass:["macro-patches","blade-noise","root-dirt"],wall:["plaster-grain","edge-wear","cavity-dirt"],roof:["tile-band","moss-edge","roughness-noise"],animal:["fur-flow","underbelly-mask","marking-mask","roughness-breakup"],bark:["vertical-grain","crack-cavity","edge-highlight"]};return map[kind]||["micro-noise","roughness-breakup"]}
+export function materialDetailIntent(kind,scale=1){return{kind,layers:detailLayersFor(kind),macroScale:Math.max(1,scale*64),microScale:Math.max(1,scale*4),edgeWear:kind!=="ui",contactDirt:["terrain","wall","roof","bark"].includes(kind),at:Date.now()}}
+export function stampDetailIntent(material,kind,scale=1){if(!material)return null;material.userData||={};material.userData.hyperrealDetailIntent=materialDetailIntent(kind,scale);material.needsUpdate=true;return material.userData.hyperrealDetailIntent}
+export default {detailLayersFor,materialDetailIntent,stampDetailIntent};

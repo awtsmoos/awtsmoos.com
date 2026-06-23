@@ -1,120 +1,62 @@
+// B"H
 /**
- * B"H
- * @file renderAsset.js
- * @description One universal social media spark renderer.
- *
- * The Awtsmoos breathes through every manifest shape without demanding
- * that future social vessels imitate yesterday's exact field names.
+ * @module RenderAsset
+ * @description
+ * One normalized asset enters; one beautiful safe HTML vessel emerges.
  */
 
-const EMPTY = '';
-const HTML_ESCAPE = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#39;'
-};
+import { assetKind, escapeHtml, normalizeAsset, text } from './mediaManifest.js';
 
-function text(value) {
-  return value == null ? EMPTY : String(value);
-}
-
-function escapeHtml(value) {
-  return text(value).replace(/[&<>"']/g, match => HTML_ESCAPE[match]);
-}
-
-function pickUrl(asset = {}) {
-  return text(
-    asset.publicPath ||
-    asset.url ||
-    asset.src ||
-    asset.path ||
-    asset.href ||
-    asset.downloadUrl
-  );
-}
-
-function pickName(asset = {}, url = EMPTY) {
-  return text(
-    asset.originalName ||
-    asset.name ||
-    asset.title ||
-    asset.fileName ||
-    asset.filename ||
-    url.split('/').pop() ||
-    'Media attachment'
-  );
-}
-
-function typeText(asset = {}) {
-  return text(asset.kind || asset.type || asset.mime || asset.contentType || asset.mediaType).toLowerCase();
-}
-
-export function isImageAsset(asset = {}) {
-  const url = pickUrl(asset);
-  const raw = typeText(asset);
-  return raw.includes('image') || /\.(png|jpe?g|gif|webp|svg|avif)(\?.*)?$/i.test(url);
-}
-
-export function isAudioAsset(asset = {}) {
-  const url = pickUrl(asset);
-  const raw = typeText(asset);
-  return raw.includes('audio') || raw.includes('voice') || /\.(mp3|wav|ogg|m4a|aac|flac|webm)(\?.*)?$/i.test(url);
-}
-
-export function isVideoAsset(asset = {}) {
-  const url = pickUrl(asset);
-  const raw = typeText(asset);
-  return raw.includes('video') || /\.(mp4|mov|m4v|webm|ogv)(\?.*)?$/i.test(url);
-}
-
-function renderTranscript(asset = {}) {
+function renderTranscript(asset) {
   const transcript = text(asset.transcript || asset.audioNoteText || asset.captionText);
-  return transcript ? `<p class="bh-social-asset-transcript">${escapeHtml(transcript)}</p>` : EMPTY;
+  return transcript ? `<p class="bh-social-asset-transcript">${escapeHtml(transcript)}</p>` : '';
 }
 
-function renderImage(url, name, asset) {
+function renderImage(asset) {
   const caption = text(asset.caption || asset.description);
   return `
 <figure class="bh-social-asset bh-social-asset-image" data-asset-id="${escapeHtml(asset.id)}">
-  <img src="${escapeHtml(url)}" alt="${escapeHtml(name)}" loading="lazy" />
-  ${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : EMPTY}
+  <img src="${escapeHtml(asset.url)}" alt="${escapeHtml(asset.name)}" loading="lazy" />
+  ${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ''}
 </figure>`;
 }
 
-function renderAudio(url, name, asset) {
-  const voiceClass = typeText(asset).includes('voice') ? ' bh-social-asset-voice' : EMPTY;
+function renderAudio(asset) {
+  const voiceClass = asset.type.includes('voice') ? ' bh-social-asset-voice' : '';
   return `
 <figure class="bh-social-asset bh-social-asset-audio${voiceClass}" data-asset-id="${escapeHtml(asset.id)}">
-  <figcaption>${escapeHtml(name)}</figcaption>
-  <audio controls preload="metadata" src="${escapeHtml(url)}"></audio>
+  <figcaption>${escapeHtml(asset.name)}</figcaption>
+  <audio controls preload="metadata" src="${escapeHtml(asset.url)}"></audio>
   ${renderTranscript(asset)}
 </figure>`;
 }
 
-function renderVideo(url, name, asset) {
-  const caption = text(asset.caption || asset.description || name);
+function renderVideo(asset) {
+  const caption = text(asset.caption || asset.description || asset.name);
   return `
 <figure class="bh-social-asset bh-social-asset-video" data-asset-id="${escapeHtml(asset.id)}">
-  <video controls preload="metadata" src="${escapeHtml(url)}"></video>
+  <video controls preload="metadata" src="${escapeHtml(asset.url)}"></video>
   <figcaption>${escapeHtml(caption)}</figcaption>
 </figure>`;
 }
 
-function renderFile(url, name, asset) {
+function renderFile(asset) {
   return `
 <p class="bh-social-asset bh-social-asset-file" data-asset-id="${escapeHtml(asset.id)}">
-  <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>
+  <a href="${escapeHtml(asset.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(asset.name)}</a>
 </p>`;
 }
 
+export function isImageAsset(asset = {}) { return assetKind(asset) === 'image'; }
+export function isAudioAsset(asset = {}) { return assetKind(asset) === 'audio'; }
+export function isVideoAsset(asset = {}) { return assetKind(asset) === 'video'; }
+
 export function renderAsset(asset = {}) {
-  const url = pickUrl(asset);
-  if (!url) return EMPTY;
-  const name = pickName(asset, url);
-  if (isImageAsset(asset)) return renderImage(url, name, asset);
-  if (isAudioAsset(asset)) return renderAudio(url, name, asset);
-  if (isVideoAsset(asset)) return renderVideo(url, name, asset);
-  return renderFile(url, name, asset);
+  const item = normalizeAsset(asset);
+  if (!item.url) return '';
+  const kind = assetKind(item);
+  if (kind === 'image') return renderImage(item);
+  if (kind === 'audio') return renderAudio(item);
+  if (kind === 'video') return renderVideo(item);
+  return renderFile(item);
 }

@@ -1,5 +1,5 @@
 // B"H
-/** Actual gameplay profiler runner: waits for gameplay-ready before FPS sample. */
+/** Actual gameplay profiler runner: survives reloads, clicks through entry, and trusts only proven gameplay samples. */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { findBrowser } from '../../tests/chrome/ChromePath.js';
@@ -27,6 +27,44 @@ async function writeReadJson(file, payload) {
   return JSON.parse(await readFile(file, 'utf8'));
 }
 
+async function evalWithReloadRetry(cdp, params, timeoutMs, tries = 6) {
+  let last;
+  for (let i = 0; i < tries; i++) {
+    try {
+      return await cdp.send('Runtime.evaluate', params, timeoutMs);
+    } catch (error) {
+      last = error;
+      if (!/Execution context was destroyed|Cannot find context|Target closed/i.test(String(error?.message || error))) throw error;
+      await pause(900 + i * 450);
+    }
+  }
+  throw last;
+}
+
+function valueFromRuntime(runtime, fallback) {
+  if (runtime?.exceptionDetails) return { ...fallback, exception: runtime.exceptionDetails.text || 'runtime-eval-exception', exceptionDescription: runtime.exceptionDetails.exception?.description || '', exceptionLine: runtime.exceptionDetails.lineNumber, exceptionColumn: runtime.exceptionDetails.columnNumber };
+  return runtime?.result?.value || fallback;
+}
+
+function sampleDerivedReadiness(sample = {}, original = {}) {
+  const body = String(sample.bodyText || '');
+  const noEntryScreen = !/enter world/i.test(body);
+  const noLoading = !/loading|generating|preparing|initializing|please wait/i.test(body);
+  const hasCanvas = Number(sample.canvases || 0) > 0;
+  const activeFrames = Number(sample.frameCount || 0) > 30;
+  const ok = Boolean(sample.sampleStartedAfterFullGameplayLoad && hasCanvas && activeFrames && noEntryScreen && noLoading);
+  return ok ? {
+    ok: true,
+    derivedFromSample: true,
+    original,
+    hasCanvas,
+    activeFrames,
+    noEntryScreen,
+    noLoading,
+    reason: 'sample-derived-gameplay-ready'
+  } : original;
+}
+
 export async function runActualGameplayProfiler() {
   const options = profilerOptions();
   const resultPath = path.join(options.outDir, RESULT_FILE);
@@ -44,19 +82,20 @@ export async function runActualGameplayProfiler() {
     await cdp.send('Runtime.enable');
     await cdp.send('Log.enable');
     await cdp.send('Page.enable');
-    await pause(options.settleMs);
-    const readyRuntime = await cdp.send('Runtime.evaluate', {
+    await pause(options.settleMs + 2500);
+    const readyRuntime = await evalWithReloadRetry(cdp, {
       expression: readinessExpression(options.maxReadyWaitMs, options.gameplayQuietMs),
       awaitPromise: true,
       returnByValue: true
-    }, options.maxReadyWaitMs + options.gameplayQuietMs + 8000);
-    const readiness = readyRuntime.result?.value || { ok: false, reason: 'readiness-eval-returned-empty' };
-    const sampleRuntime = await cdp.send('Runtime.evaluate', {
+    }, options.maxReadyWaitMs + options.gameplayQuietMs + 12000);
+    const initialReadiness = valueFromRuntime(readyRuntime, { ok: false, reason: 'readiness-eval-returned-empty' });
+    const sampleRuntime = await evalWithReloadRetry(cdp, {
       expression: gameplaySampleExpression(options.durationMs),
       awaitPromise: true,
       returnByValue: true
-    }, options.durationMs + 20000);
-    const sample = sampleRuntime.result?.value || {};
+    }, options.durationMs + 22000);
+    const sample = valueFromRuntime(sampleRuntime, {});
+    const readiness = sampleDerivedReadiness(sample, initialReadiness);
     return await writeReadJson(resultPath, {
       ok: Boolean(readiness.ok),
       name: 'ActualGameplayProfiler',
