@@ -6,13 +6,6 @@ function bool(value) {
   return value === true || value === "true" || value === 1 || value === "1";
 }
 
-/**
- * B"H
- * Bounds tunnel waits so long commands can breathe, but dead requests still return.
- *
- * @param {*} value Requested timeout.
- * @returns {number} Bounded timeout.
- */
 function boundedTimeout(value) {
   const n = Number(value || FOUR_MINUTES_MS);
   if (!Number.isFinite(n)) return FOUR_MINUTES_MS;
@@ -22,9 +15,7 @@ function boundedTimeout(value) {
 function closeOldTunnel(ctx, client, name) {
   const old = ctx.tunnels.get(name);
   if (!old || old === client) return;
-  try {
-    old.send({ type: "TUNNEL_REPLACED", name, message: "A newer tunnel agent registered with the same tunnel name." });
-  } catch (e) {}
+  try { old.send({ type: "TUNNEL_REPLACED", name, message: "A newer tunnel agent registered with the same tunnel name." }); } catch (e) {}
   try { old.socket.end(); } catch (e) {}
   try { ctx.clients.delete(old); } catch (e) {}
 }
@@ -51,18 +42,25 @@ function handleTunnelRegister(ctx, client, data) {
   client.send({ type: "TUNNEL_ACK", ok: true, name, replacedOlderConnection: true });
 }
 
-function requestExpectation(id, name, payload, timeoutMs) {
+function requestExpectation(id, name, payload = {}, timeoutMs) {
   return {
     id,
     tunnelName: name,
-    requestedTunnelName: payload?.requestedTunnelName || payload?.tunnelName || name,
-    requestedAction: String(payload?.action || ""),
-    controlRequestId: payload?.controlRequestId || "",
-    clientRequestId: payload?.clientRequestId || "",
-    agentSessionId: payload?.agentSessionId || "",
-    logicalAgentId: payload?.logicalAgentId || "",
-    projectRoot: payload?.projectRoot || payload?.root || "",
-    nonce: payload?.nonce || "",
+    requestedTunnelName: payload.requestedTunnelName || payload.tunnelName || name,
+    requestedAction: String(payload.action || ""),
+    expectedVessel: payload.targetVessel || payload.vessel || "",
+    expectedRouteReason: payload.targetVessel === "native-tunnel" ? "native" : "",
+    controlRequestId: payload.controlRequestId || "",
+    clientRequestId: payload.clientRequestId || "",
+    agentSessionId: payload.agentSessionId || "",
+    logicalAgentId: payload.logicalAgentId || "",
+    projectRoot: payload.projectRoot || payload.root || "",
+    nonce: payload.nonce || "",
+    jobId: payload.jobId || payload.id || "",
+    stream: payload.stream || "",
+    cwd: payload.cwd || "",
+    command: payload.command || "",
+    path: payload.path || payload.p || "",
     createdAt: Date.now(),
     timeoutMs
   };
@@ -74,7 +72,7 @@ function allowedActionAlias(requestAction, actualAction) {
     command: ["commandRun", "commandStart"],
     commandRun: ["commandStart", "commandRun"],
     commandStart: ["commandStart", "commandRun"],
-    commandStatus: ["commandStatus", "commandStart"],
+    commandStatus: ["commandStatus"],
     commandWait: ["commandWait"],
     commandJobOutputPage: ["commandJobOutputPage"],
     commandOutputPage: ["commandJobOutputPage"],
@@ -88,6 +86,22 @@ function actualActionOf(data = {}) {
   return String(data.actualAction || data.action || "");
 }
 
+function actualJobId(data = {}) {
+  return data.jobId || data.statusPayload?.jobId || data.waitPayload?.jobId || data.stdoutPagePayload?.jobId || data.stderrPagePayload?.jobId || data.stdout?.jobId || data.stderr?.jobId || "";
+}
+
+function actualStream(data = {}) {
+  return data.stream || data.stdout?.stream || data.stderr?.stream || "";
+}
+
+function valueMismatch(expectedValue, actualValue) {
+  return !!expectedValue && actualValue !== undefined && actualValue !== null && actualValue !== "" && actualValue !== expectedValue;
+}
+
+function missingOrMismatch(expectedValue, actualValue) {
+  return !!expectedValue && actualValue !== expectedValue;
+}
+
 function mismatchResponse(expected, data, flags) {
   return {
     BH: "B\"H",
@@ -95,25 +109,25 @@ function mismatchResponse(expected, data, flags) {
     status: 409,
     error: "tunnel_response_correlation_mismatch",
     correlationMismatch: true,
-    actionMismatch: !!flags.actionMismatch,
-    wrongTunnel: !!flags.wrongTunnel,
-    controlRequestMismatch: !!flags.controlRequestMismatch,
-    clientRequestMismatch: !!flags.clientRequestMismatch,
-    agentSessionMismatch: !!flags.agentSessionMismatch,
-    logicalAgentMismatch: !!flags.logicalAgentMismatch,
-    projectRootMismatch: !!flags.projectRootMismatch,
-    nonceMismatch: !!flags.nonceMismatch,
+    ...flags,
     expected,
     actual: {
       id: data?.id || "",
       tunnelName: data?.tunnelName || data?.actualTunnelName || "",
       requestedTunnelName: data?.requestedTunnelName || "",
+      vessel: data?.vessel || data?.targetVessel || "",
+      routeReason: data?.routeReason || "",
       controlRequestId: data?.controlRequestId || "",
       clientRequestId: data?.clientRequestId || "",
       agentSessionId: data?.agentSessionId || "",
       logicalAgentId: data?.logicalAgentId || "",
       projectRoot: data?.projectRoot || data?.root || "",
       nonce: data?.nonce || "",
+      jobId: actualJobId(data),
+      stream: actualStream(data),
+      cwd: data?.cwd || "",
+      command: data?.command || "",
+      path: data?.path || data?.absolutePath || "",
       action: data?.action || "",
       actualAction: data?.actualAction || "",
       requestAction: data?.requestAction || ""
@@ -121,19 +135,28 @@ function mismatchResponse(expected, data, flags) {
   };
 }
 
-function validateTunnelResponse(expected, data) {
+function validateTunnelResponse(expected, data = {}) {
   if (!expected) return { ok: true };
   const actualAction = actualActionOf(data);
-  const actualTunnel = data?.tunnelName || data?.actualTunnelName || expected.tunnelName;
+  const actualTunnel = data.tunnelName || data.actualTunnelName || "";
+  const actualVessel = data.vessel || data.targetVessel || "";
+  const routeReason = String(data.routeReason || "");
   const flags = {
-    wrongTunnel: !!actualTunnel && actualTunnel !== expected.tunnelName,
+    wrongTunnel: missingOrMismatch(expected.tunnelName, actualTunnel),
     actionMismatch: !!expected.requestedAction && !!actualAction && !allowedActionAlias(expected.requestedAction, actualAction),
-    controlRequestMismatch: !!expected.controlRequestId && data?.controlRequestId !== expected.controlRequestId,
-    clientRequestMismatch: !!expected.clientRequestId && data?.clientRequestId !== expected.clientRequestId,
-    agentSessionMismatch: !!expected.agentSessionId && data?.agentSessionId !== expected.agentSessionId,
-    logicalAgentMismatch: !!expected.logicalAgentId && data?.logicalAgentId !== expected.logicalAgentId,
-    projectRootMismatch: !!expected.projectRoot && (data?.projectRoot || data?.root) !== expected.projectRoot,
-    nonceMismatch: !!expected.nonce && data?.nonce !== expected.nonce
+    controlRequestMismatch: missingOrMismatch(expected.controlRequestId, data.controlRequestId),
+    clientRequestMismatch: missingOrMismatch(expected.clientRequestId, data.clientRequestId),
+    agentSessionMismatch: missingOrMismatch(expected.agentSessionId, data.agentSessionId),
+    logicalAgentMismatch: missingOrMismatch(expected.logicalAgentId, data.logicalAgentId),
+    projectRootMismatch: missingOrMismatch(expected.projectRoot, data.projectRoot || data.root),
+    nonceMismatch: missingOrMismatch(expected.nonce, data.nonce),
+    vesselMismatch: valueMismatch(expected.expectedVessel, actualVessel),
+    routeReasonMismatch: !!expected.expectedRouteReason && !!routeReason && !routeReason.includes(expected.expectedRouteReason),
+    jobIdMismatch: valueMismatch(expected.jobId, actualJobId(data)),
+    streamMismatch: /^command(Job)?OutputPage$/.test(expected.requestedAction) && valueMismatch(expected.stream, actualStream(data)),
+    cwdMismatch: /^(command|commandRun|commandStart)$/.test(expected.requestedAction) && valueMismatch(expected.cwd, data.cwd),
+    commandMismatch: /^(command|commandRun|commandStart)$/.test(expected.requestedAction) && valueMismatch(expected.command, data.command),
+    pathMismatch: !/^command/.test(expected.requestedAction) && valueMismatch(expected.path, data.path || data.absolutePath)
   };
   return Object.values(flags).some(Boolean) ? { ok: false, response: mismatchResponse(expected, data, flags) } : { ok: true };
 }
@@ -146,20 +169,6 @@ function handleTunnelResponse(ctx, data) {
   pending.resolve(validation.ok ? data : validation.response);
 }
 
-/**
- * B"H
- * Sends one request to the connected agent and waits up to the bounded API
- * ceiling. Long-running work should still prefer async job actions, but the
- * relay no longer turns valid large timeoutMs values into premature 504s.
- * The pending entry remembers the requested action, tunnel, and correlation
- * fields so crossed results fail closed instead of becoming false success.
- *
- * @param {object} ctx Relay context.
- * @param {string} name Tunnel name.
- * @param {object} payload Agent payload.
- * @param {number} [timeout=240000] Timeout in ms.
- * @returns {Promise<object>} Agent response.
- */
 function sendTunnelRequest(ctx, name, payload, timeout = FOUR_MINUTES_MS) {
   const tunnel = ctx.tunnels.get(name);
   if (!tunnel) return Promise.reject(new Error("No tunnel connected: " + name));
@@ -180,4 +189,13 @@ function sendTunnelRequest(ctx, name, payload, timeout = FOUR_MINUTES_MS) {
   });
 }
 
-module.exports = { FOUR_MINUTES_MS, ONE_DAY_MS, boundedTimeout, handleTunnelRegister, handleTunnelResponse, sendTunnelRequest, validateTunnelResponse };
+module.exports = {
+  FOUR_MINUTES_MS,
+  ONE_DAY_MS,
+  boundedTimeout,
+  handleTunnelRegister,
+  handleTunnelResponse,
+  sendTunnelRequest,
+  validateTunnelResponse,
+  requestExpectation
+};
