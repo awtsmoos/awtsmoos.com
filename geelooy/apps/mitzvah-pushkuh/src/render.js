@@ -1,47 +1,13 @@
 // B"H
-// Rendering the revealed sparks without exposing what the user kept private.
-import { stats } from "./state.js";
-
-export function render(entries) {
-  const s = stats(entries);
-  setText("totalDeposits", s.total);
-  setText("publicDeposits", s.publicCount);
-  setText("streakCount", s.streak);
-  renderLedger(entries);
-  renderProfile(entries.filter(item => item.profileVisible));
-}
-
-export function renderTemplates(templates, onPick) {
-  const target = document.getElementById("templateButtons");
-  target.innerHTML = templates.map(item => `<button class="chip" data-title="${escapeHtml(item)}">${escapeHtml(item)}</button>`).join("");
-  target.querySelectorAll("button").forEach(button => button.addEventListener("click", () => onPick(button.dataset.title)));
-}
-
-function setText(id, value) { document.getElementById(id).textContent = value; }
-
-function renderLedger(entries) {
-  const list = document.getElementById("ledgerList");
-  list.innerHTML = entries.map(entryTemplate).join("") || "<p>The pushkuh is open. Drop the first hachlata.</p>";
-}
-
-function renderProfile(entries) {
-  const list = document.getElementById("profileList");
-  list.innerHTML = entries.map(profileTemplate).join("") || "<p>No public sparks yet.</p>";
-}
-
-function entryTemplate(entry) {
-  return `<article class="entry ${entry.demo ? "demo" : ""}"><b>${escapeHtml(entry.title)}</b><div class="meta">${escapeHtml(entry.type)} · ${escapeHtml(entry.status)} · ${escapeHtml(entry.visibility)} · ${dateLabel(entry)}</div>${entry.note ? `<p>${escapeHtml(entry.note)}</p>` : ""}<div class="meter"><span style="width:${entry.intensity * 20}%"></span></div></article>`;
-}
-
-function profileTemplate(entry) {
-  const status = entry.socialDraft?.status || entry.status;
-  return `<article class="spark"><b>${escapeHtml(entry.title)}</b><div class="meta">${escapeHtml(status)} · ${escapeHtml(entry.type)} · ${escapeHtml(entry.visibility)}</div><p>${escapeHtml(entry.note || "A mitzvah spark was placed in the pushkuh.")}</p></article>`;
-}
-
-function dateLabel(entry) {
-  return new Date(entry.createdAt).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
-}
-
-function escapeHtml(value) {
-  return String(value).replace(/[&<>'"]/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[char]));
-}
+// Every render is an invitation, not a leaderboard.
+import{archiveFilter,isOverdue,stats,timeLabel}from"./state.js";
+let selectedFilter="all";
+export function setFilter(filter){selectedFilter=filter;document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter))}
+export function render(entries,onSelect){const s=stats(entries);text("totalDeposits",s.total);text("fulfilledCount",s.fulfilled);text("activeCount",s.active);text("vesselLevel",s.level);renderArchive(entries,onSelect);renderProfile(entries.filter(e=>e.profileVisible&&!e.demo))}
+export function renderTemplates(templates,onPick){const box=document.getElementById("templateButtons");box.innerHTML=templates.map(t=>`<button type="button" class="chip" data-title="${esc(t)}">${esc(t)}</button>`).join("");box.querySelectorAll("button").forEach(b=>b.onclick=()=>onPick(b.dataset.title))}
+export function detailHtml(entry){return`<p class="eyebrow">${esc(entry.type)} · ${esc(entry.visibility)}</p><h3>${esc(entry.title)}</h3><p>${esc(entry.note||"No written story. The spark itself is the story.")}</p><div class="meta">State: ${esc(entry.status)} · ${esc(timeLabel(entry))}</div><div class="meter"><span style="width:${entry.intensity*20}%"></span></div><span class="tag">${isOverdue(entry)?"Timed spark asks for return":"Living spark"}</span>`}
+function renderArchive(entries,onSelect){const list=document.getElementById("ledgerList");const rows=archiveFilter(entries,selectedFilter);list.innerHTML=rows.map(card).join("")||"<p class='meta'>No hachlatos here yet. Forge one and drop it into the vessel.</p>";list.querySelectorAll(".entry").forEach(btn=>btn.onclick=()=>onSelect(btn.dataset.id))}
+function renderProfile(entries){const list=document.getElementById("profileList");list.innerHTML=entries.slice(0,8).map(e=>`<article class="spark"><b>${esc(e.title)}</b><div class="meta">${esc(e.type)} · ${esc(e.status)} · invitation spark</div><p>${esc(e.note||"A quiet light was made public to encourage another beginning.")}</p></article>`).join("")||"<p class='meta'>No public sparks. Private growth is still completely real.</p>"}
+function card(e){const over=isOverdue(e);return`<button class="entry" data-id="${e.id}"><b>${esc(e.title)}</b><div class="meta">${esc(e.type)} · ${esc(e.status)} · ${esc(timeLabel(e))}</div><div class="meter"><span style="width:${e.intensity*20}%"></span></div><span class="tag">${over?"time limit":"${e.visibility}"}</span></button>`}
+function text(id,value){document.getElementById(id).textContent=value}
+function esc(v){return String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]))}

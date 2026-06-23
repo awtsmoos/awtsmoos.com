@@ -2,9 +2,9 @@
 const crypto = require("crypto");
 const { readStore, writeStore } = require("./store.js");
 
-const MAX_EVENTS_PER_CONVERSATION = 300;
-const MAX_CONVERSATIONS_PER_USER = 80;
-
+const MAX_EVENTS_PER_CONVERSATION = 100;
+const MAX_CONVERSATIONS_PER_USER = 30;
+const MAX_PUBLIC_EVENTS = 8;
 /**
  * B"H
  * Chapter 489: The chat received a ledger with rooms.
@@ -24,31 +24,26 @@ function ensureConversation(userId, input = {}) {
   const id = cleanId(input.conversationId) || idFromName(input.conversationName) || dateId();
   const existing = bucket.conversations[id] || null;
   const now = Date.now();
+
   bucket.conversations[id] = {
     id,
     name: cleanName(input.conversationName || existing?.name || defaultName(now)),
     createdAt: existing?.createdAt || now,
     updatedAt: now,
     lastAction: existing?.lastAction || "",
-    events: existing?.events || []
+    events: Array.isArray(existing?.events) ? existing.events.slice(0, MAX_EVENTS_PER_CONVERSATION) : []
   };
+
   prune(bucket);
   writeStore(store);
-  return bucket.conversations[id];
+  return publicConversation(bucket.conversations[id], true);
 }
 
-/**
- * B"H
- * Chapter 490: Every action became a footprint.
- *
- * @param {string} userId Owner id.
- * @param {object} input Event data.
- * @returns {object} Stored event and conversation.
- */
 function recordConversationEvent(userId, input = {}) {
   const store = readStore();
   const bucket = userBucket(store, userId);
   const convo = ensureInStore(bucket, input);
+
   const event = {
     id: "evt_" + crypto.randomBytes(8).toString("hex"),
     at: Date.now(),
@@ -64,27 +59,50 @@ function recordConversationEvent(userId, input = {}) {
     peruta: input.peruta || null,
     summary: input.summary || ""
   };
+
+  convo.events = Array.isArray(convo.events) ? convo.events : [];
   convo.events.unshift(event);
   convo.events = convo.events.slice(0, MAX_EVENTS_PER_CONVERSATION);
   convo.updatedAt = event.at;
   convo.lastAction = event.action || event.kind;
+
   prune(bucket);
   writeStore(store);
+
   return { ok: true, conversation: publicConversation(convo), event };
 }
 
-function listConversations(userId) {
+function listConversations(userId, options = {}) {
   const store = readStore();
-  const bucket = userBucket(store, userId);
-  return Object.values(bucket.conversations)
-    .sort((a, b) => b.updatedAt - a.updatedAt)
-    .map(publicConversation);
+  return listConversationsFromStore(store, userId, options);
 }
 
 function getConversation(userId, id) {
   const store = readStore();
   const convo = userBucket(store, userId).conversations[String(id || "")];
   return convo ? publicConversation(convo, true) : null;
+}
+
+function listConversationsFromStore(store, userId, options = {}) {
+  const includeEvents = !!options.includeEvents;
+  const limit = clampNumber(options.limit, MAX_CONVERSATIONS_PER_USER, 1, MAX_CONVERSATIONS_PER_USER);
+  const bucket = userBucket(store, userId);
+
+  return Object.values(bucket.conversations)
+    .sort((a, b) => Number(b.updatedAt || 0) - Number(a.updatedAt || 0))
+    .slice(0, limit)
+    .map(convo => publicConversation(convo, includeEvents));
+}
+
+function getConversationBucketSnapshot(userId) {
+  const store = readStore();
+  const bucket = userBucket(store, userId);
+  const conversations = Object.values(bucket.conversations)
+    .sort((a, b) => Number(b.updatedAt || 0) - Number(a.updatedAt || 0))
+    .slice(0, MAX_CONVERSATIONS_PER_USER)
+    .map(convo => publicConversation(convo, true));
+
+  return { conversations };
 }
 
 function attachConversationToPreview(preview, input = {}) {
@@ -98,14 +116,16 @@ function attachConversationToPreview(preview, input = {}) {
 function userBucket(store, userId) {
   store.conversationHistory = store.conversationHistory || { users: {} };
   const users = store.conversationHistory.users;
-  users[userId] = users[userId] || { conversations: {} };
-  users[userId].conversations = users[userId].conversations || {};
-  return users[userId];
+  const safeUserId = String(userId || "anonymous");
+  users[safeUserId] = users[safeUserId] || { conversations: {} };
+  users[safeUserId].conversations = users[safeUserId].conversations || {};
+  return users[safeUserId];
 }
 
 function ensureInStore(bucket, input) {
   const id = cleanId(input.conversationId) || idFromName(input.conversationName) || dateId();
   const now = Date.now();
+
   bucket.conversations[id] = bucket.conversations[id] || {
     id,
     name: cleanName(input.conversationName || defaultName(now)),
@@ -114,25 +134,49 @@ function ensureInStore(bucket, input) {
     lastAction: "",
     events: []
   };
+
   if (input.conversationName) bucket.conversations[id].name = cleanName(input.conversationName);
+  bucket.conversations[id].events = Array.isArray(bucket.conversations[id].events)
+    ? bucket.conversations[id].events.slice(0, MAX_EVENTS_PER_CONVERSATION)
+    : [];
+
   return bucket.conversations[id];
 }
 
 function publicConversation(convo, includeEvents = false) {
+  const events = Array.isArray(convo.events) ? convo.events : [];
+
   return {
     id: convo.id,
     name: convo.name,
     createdAt: convo.createdAt,
     updatedAt: convo.updatedAt,
     lastAction: convo.lastAction,
-    eventCount: convo.events?.length || 0,
-    events: includeEvents ? convo.events || [] : (convo.events || []).slice(0, 8)
+    eventCount: events.length,
+    events: includeEvents
+      ? events.slice(0, MAX_EVENTS_PER_CONVERSATION)
+      : events.slice(0, MAX_PUBLIC_EVENTS)
   };
 }
 
 function prune(bucket) {
-  const ordered = Object.values(bucket.conversations).sort((a, b) => b.updatedAt - a.updatedAt);
-  bucket.conversations = Object.fromEntries(ordered.slice(0, MAX_CONVERSATIONS_PER_USER).map(x => [x.id, x]));
+  const ordered = Object.values(bucket.conversations)
+    .sort((a, b) => Number(b.updatedAt || 0) - Number(a.updatedAt || 0))
+    .slice(0, MAX_CONVERSATIONS_PER_USER);
+
+  for (const convo of ordered) {
+    convo.events = Array.isArray(convo.events)
+      ? convo.events.slice(0, MAX_EVENTS_PER_CONVERSATION)
+      : [];
+  }
+
+  bucket.conversations = Object.fromEntries(ordered.map(x => [x.id, x]));
+}
+
+function clampNumber(value, fallback, min, max) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(Math.floor(n), max));
 }
 
 function cleanId(value) {
@@ -160,6 +204,8 @@ module.exports = {
   attachConversationToPreview,
   ensureConversation,
   getConversation,
+  getConversationBucketSnapshot,
   listConversations,
+  listConversationsFromStore,
   recordConversationEvent
 };

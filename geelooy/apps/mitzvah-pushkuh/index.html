@@ -1,26 +1,23 @@
-<!-- B"H: A vessel for mitzvah hachlatas, where private resolve and profile-visible sparks each have a place. -->
+<!-- B"H: Not a dashboard, but a playable vessel where hachlata becomes light. -->
 <!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mitzvah Pushkuh</title><link rel="stylesheet" href="style.css"></head>
-<body><main class="shell">
-<section class="hero">
-  <p class="eyebrow">B"H · Geelooy Hachlata Vessel</p><h1>Mitzvah Pushkuh</h1>
-  <p class="lede">Deposit mitzvah hachlatas, fulfilled actions, and quiet victories. Keep them private, reveal them on your profile, or mark them as communal sparks.</p>
-</section>
-<section class="stage" aria-label="Animated pushkuh">
-  <canvas id="pushkuhCanvas"></canvas>
-  <div class="glass-card stats"><span id="totalDeposits">0</span><small>real deposits</small><span id="publicDeposits">0</span><small>profile / communal sparks</small><span id="streakCount">0</span><small>day ner tamid</small></div>
-</section>
-<section class="quick glass-card"><h2>Quick Hachlatas</h2><div id="templateButtons" class="chips"></div></section>
-<section class="control-grid">
-<form id="depositForm" class="glass-card form-card">
-  <label>What are you putting in?</label><input id="titleInput" maxlength="90" placeholder="Learn, give, call, forgive, help..." required>
-  <div class="triple"><p><label>Category</label><select id="typeInput"><option>Tzedakah</option><option>Torah</option><option>Chesed</option><option>Tefillah</option><option>Ahavas Yisroel</option><option>Personal Growth</option></select></p><p><label>Status</label><select id="statusInput"><option>Accepted</option><option>Fulfilled</option><option>Growing</option></select></p><p><label>Visibility</label><select id="visibilityInput"><option>Private</option><option>Profile</option><option>Communal</option></select></p></div>
-  <label>Intensity</label><input id="intensityInput" type="range" min="1" max="5" value="2">
-  <label>Intention / story</label><textarea id="noteInput" maxlength="260" placeholder="Optional: why this hachlata matters..."></textarea>
-  <button type="submit">Drop Into Pushkuh</button>
-</form>
-<section class="glass-card profile-card"><h2>Profile Sparks</h2><p>These are share-ready drafts for the real Geelooy social/profile API once wired.</p><div id="profileList" class="spark-list"></div></section>
-</section>
-<section class="glass-card ledger-card"><div class="ledger-head"><h2>Inside the Pushkuh</h2><button id="clearButton">Reset Demo</button></div><div id="ledgerList" class="ledger-list"></div></section>
-</main><script type="module" src="src/app.js"></script></body></html>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070313"><title>Mitzvah Pushkuh · Living Vessel</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<div class="aurora" aria-hidden="true"></div><main class="app-shell">
+<header class="hero glass"><p class="eyebrow">B"H · Living Hachlata Vessel</p>
+<h1>Drop light into the world.</h1><p>Forge a mitzvah spark, give it a time boundary, then drag or touch it into the pushkuh. Old hachlatos stay alive in the archive.</p>
+<div class="hud" aria-live="polite"><span><b id="totalDeposits">0</b> sparks</span><span><b id="fulfilledCount">0</b> fulfilled</span><span><b id="activeCount">0</b> active vows</span><span><b id="vesselLevel">1</b> vessel level</span></div></header>
+<section class="game-grid"><aside class="forge glass"><h2>Forge a Spark</h2>
+<form id="depositForm"><label>Hachlata</label><input id="titleInput" maxlength="96" placeholder="Learn, give, call, forgive, help..." required>
+<div class="quick-row" id="templateButtons"></div><div class="split"><p><label>Path</label><select id="typeInput"><option>Tzedakah</option><option>Torah</option><option>Chesed</option><option>Tefillah</option><option>Ahavas Yisroel</option><option>Personal Growth</option></select></p><p><label>Visibility</label><select id="visibilityInput"><option>Private</option><option>Profile</option><option>Communal</option></select></p></div>
+<div class="split"><p><label>State</label><select id="statusInput"><option>Accepted</option><option>Growing</option><option>Fulfilled</option></select></p><p><label>Time Limit</label><select id="deadlineInput"><option value="none">No limit</option><option value="18m">18 minutes</option><option value="1h">1 hour</option><option value="today">Today</option><option value="3d">3 days</option><option value="7d">7 days</option></select></p></div>
+<label>Spiritual force <span id="intensityLabel">3</span>/5</label><input id="intensityInput" type="range" min="1" max="5" value="3">
+<label>Inner story</label><textarea id="noteInput" maxlength="320" placeholder="Optional: the kavana, struggle, or reason..."></textarea>
+<button class="primary" type="submit">Create Spark</button></form>
+<div class="spark-orb" id="sparkOrb" draggable="true" role="button" tabindex="0" aria-label="Drag this spark into the vessel"><span></span><em>drag me</em></div>
+<button class="secondary" id="tapDepositButton">Touch-drop into vessel</button></aside>
+<section class="vessel-wrap glass" id="dropZone" aria-label="Drop zone for hachlata spark"><canvas id="pushkuhCanvas"></canvas><div class="vessel-copy"><p>Drag the spark here</p><strong id="dropHint">The vessel is listening.</strong></div></section>
+<aside class="archive glass"><div class="archive-head"><h2>Old Hachlatos</h2><button id="clearButton">Reset</button></div><div class="filters" id="filters"><button data-filter="all" class="active">All</button><button data-filter="active">Active</button><button data-filter="fulfilled">Fulfilled</button><button data-filter="overdue">Timed</button></div><div id="ledgerList" class="ledger-list"></div></aside></section>
+<section class="profile glass"><h2>Public Inspiration, Not Trophies</h2><p>Profile and communal sparks become humble invitations for another person to begin.</p><div id="profileList" class="profile-list"></div></section>
+</main><dialog id="detailDialog"><article class="detail glass"><button id="closeDetail" class="x">×</button><div id="detailBody"></div><div class="detail-actions"><button id="fulfillButton">Mark fulfilled</button><button id="relightButton">Relight as new</button><button id="deleteButton">Remove</button></div></article></dialog>
+<script type="module" src="src/app.js"></script></body></html>
