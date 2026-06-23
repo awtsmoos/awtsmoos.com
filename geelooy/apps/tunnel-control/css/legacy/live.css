@@ -1,0 +1,71 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 55: Live rows learned to breathe in glass.
+ */
+.awt-live-console {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 14px;
+}
+.awt-live-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 12px;
+  min-height: 520px;
+}
+.awt-live-sidebar {
+  max-height: 620px;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.awt-live-group {
+  width: 100%;
+  display: grid;
+  gap: 3px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+.awt-live-group.is-active {
+  border-color: var(--awt-line-hot);
+  outline: 2px solid rgba(94, 220, 255, .14);
+}
+.awt-live-group :where(strong, small),
+.awt-live-row :where(strong, small) { overflow-wrap: anywhere; }
+.awt-live-group :where(small),
+.awt-live-row :where(small) { color: var(--awt-muted); }
+.awt-live-viewport {
+  position: relative;
+  min-height: 480px;
+  overflow: auto;
+  contain: strict;
+  border: 1px solid var(--awt-line);
+  border-radius: var(--awt-radius-3);
+  background: var(--awt-card-bg-strong);
+}
+.awt-live-spacer { position: relative; width: 100%; }
+.awt-live-window { position: absolute; inset: 0 0 auto; }
+.awt-live-row {
+  height: 76px;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 120px;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--awt-line-soft);
+  background: rgba(255, 255, 255, .035);
+}
+.awt-live-row[data-ok="false"] { background: rgba(255, 85, 115, .12); }
+.awt-live-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--awt-muted);
+  font-size: .78rem;
+}
+.awt-live-status-ok { color: var(--awt-green); }
+.awt-live-status-fail { color: var(--awt-red); }
+@media (max-width: 860px) {
+  .awt-live-layout { grid-template-columns: 1fr; }
+  .awt-live-row { height: 112px; grid-template-columns: 1fr; align-items: start; }
+}

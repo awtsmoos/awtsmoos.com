@@ -1,0 +1,62 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 56: Mission rooms stopped overlapping their own speech.
+ */
+.awt-room-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 12px;
+  min-height: 560px;
+}
+.awt-room-list {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  max-height: 680px;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.awt-room-item {
+  width: 100%;
+  display: grid;
+  gap: 3px;
+  text-align: left;
+}
+.awt-room-item.is-active {
+  border-color: var(--awt-line-hot);
+  outline: 2px solid rgba(94, 220, 255, .14);
+}
+.awt-room-item :where(strong, small),
+.awt-room-header { overflow-wrap: anywhere; }
+.awt-room-item :where(small),
+.awt-room-message :where(small) { color: var(--awt-muted); }
+.awt-room-main { display: grid; grid-template-rows: auto minmax(260px, 1fr) auto; }
+.awt-room-header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--awt-line-soft);
+  font-weight: 850;
+}
+.awt-room-messages {
+  min-height: 260px;
+  max-height: 520px;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  overflow: auto;
+  padding-right: 2px;
+}
+.awt-room-message {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--awt-line-soft);
+  border-radius: var(--awt-radius-2);
+  background: rgba(255, 255, 255, .04);
+}
+.awt-room-message.is-user {
+  border-color: rgba(94, 220, 255, .30);
+  background: rgba(94, 220, 255, .10);
+}
+.awt-room-message :where(p) { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .awt-room-layout { grid-template-columns: 1fr; } }
