@@ -17,5 +17,9 @@ module.exports = {
   ...require("./concurrencyPolicy"),
   ...require("./agentLeaseStore"),
   ...require("./routeHealth"),
+  ...require("./stopGuard"),
+  ...require("./blockerClassifier"),
+  ...require("./responseRewriter"),
+  ...require("./autonomyLoop"),
   ...require("./missionRunner")
 };

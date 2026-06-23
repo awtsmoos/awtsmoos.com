@@ -1,11 +1,17 @@
 // B"H
 
-const DEFAULT_KEEP_GOING_PROMPT = "Keep going. Give me a list of all remaining necessary things, then do them one by one with real verification after every action.";
-const DEFAULT_CONCLUDE_PROMPT = "At the end, inspect the confusing/uncertain action results, call the conclude/final-summary step if truly complete, and call finishAndContinue with the remaining task list if anything remains.";
+const DEFAULT_KEEP_GOING_PROMPT = "Keep going. List all remaining necessary things, then do them one by one with real verification. Do not ask the user to continue while safe autonomous work remains.";
+const DEFAULT_CONCLUDE_PROMPT = "Conclude only when no remaining work, no nextAction, no active nodes, no missing verification, and no confusing result remain. Otherwise call finishAndContinue.";
+
+const HARD_AUTONOMY_PROMPT = [
+  "Mission rule: never ask 'should I continue', 'would you like me to', or 'let me know' while safe autonomous work remains.",
+  "Before asking the user, prove a blocker: user decision/secret/unsafe action required, safe actions tried, checkpoint written, exact nextIfApproved recorded.",
+  "If work remains, continue with the smallest safe inspect/test/checkpoint action and call finishAndContinue instead of a polite stop."
+].join(" ");
 
 const GUIDANCE_PROMPTS = [
   "Keep going; do not stop on a partial success. List what remains and execute the next real action.",
-  "Do not forget to inspect the confusing action at the end; now keep exploring with real tool results.",
+  "Do not ask the user to continue. If safe work remains, do the next inspect/test/checkpoint step now.",
   "Keep thinking of a list of all remaining things and continue doing them one by one.",
   "Pause only to verify, not to quit. If anything is uncertain, run the next diagnostic.",
   "Make a fresh checklist from the latest result, choose the smallest safe item, and do it now.",
@@ -18,8 +24,8 @@ const GUIDANCE_PROMPTS = [
   "If an action looks generic, find the handler and replace the generic path with a real implementation.",
   "Keep exploring: trace registration, payload parsing, dispatcher mapping, and response shaping.",
   "Keep a living list: done, unverified, blocked, next. Then execute next immediately.",
-  "Do not forget the final confusing corner: auth errors, rate limits, catch blocks, and early returns need guidance too.",
-  "Brainstorm more possible hidden issues, then test the highest-risk one with a concrete command.",
+  "Do not forget hidden corners: auth errors, rate limits, catch blocks, early returns, and stale route assumptions.",
+  "Brainstorm hidden issues, then test the highest-risk one with a concrete command.",
   "Continue until tests pass and the live response shape proves the change is actually active.",
   "Read the real file before editing. After editing, run syntax and the relevant harness.",
   "If the server may be cached, say so precisely and verify the local code anyway.",
@@ -45,66 +51,53 @@ const GUIDANCE_PROMPTS = [
   "Do not forget to call finishAndContinue when autonomous work should continue beyond this response."
 ];
 
-/**
- * B"H
- * Chapter 381: One spark, not a swarm.
- * The ChatGPT agent should receive one guidance prompt by default. The full
- * council of prompts appears only when guidanceDebug=true, so normal action
- * responses remain sharp, small, and usable.
- */
 function seedForAction(action = "") {
   const letters = String(action || "");
   return letters.split("").reduce((sum, ch) => sum + ch.charCodeAt(0), letters.length);
 }
-
 function randomIndex(action = "") {
   const salt = Math.floor(Date.now() / 60000);
   return Math.abs(seedForAction(action) + salt) % GUIDANCE_PROMPTS.length;
 }
-
 function guidanceForAction(action = "") {
-  return GUIDANCE_PROMPTS[randomIndex(action)];
+  return `${HARD_AUTONOMY_PROMPT} ${GUIDANCE_PROMPTS[randomIndex(action)]}`;
 }
-
 function guidancePackForAction(action = "") {
   const seed = seedForAction(action);
-  return [0, 7, 17, 29, 37].map(offset => GUIDANCE_PROMPTS[(seed + offset) % GUIDANCE_PROMPTS.length]);
+  return [0, 7, 17, 29, 37].map(offset => `${HARD_AUTONOMY_PROMPT} ${GUIDANCE_PROMPTS[(seed + offset) % GUIDANCE_PROMPTS.length]}`);
 }
-
 function actionChecklistPrompt(action = "") {
-  return `For action ${String(action || "unknown")}: write the remaining task list, inspect confusing results, do the next item, verify with a real result, then continue or conclude explicitly.`;
+  return `For action ${String(action || "unknown")}: write remaining work, inspect confusing results, do the next safe item, verify with a real result, and continue. Ask the user only with blocker proof.`;
 }
-
 function debugWanted(payload = {}) {
   return payload.guidanceDebug === true || payload.guidanceDebug === "true" || payload.debugGuidance === true || payload.debugGuidance === "true";
 }
-
 function guidancePayload(action, payload) {
-  const base = { keepGoing: true, prompt: guidanceForAction(action) };
+  const base = { keepGoing: true, prompt: guidanceForAction(action), hardAutonomy: true, askUserRequiresBlockerProof: true };
   if (!debugWanted(payload)) return base;
   return {
     ...base,
     prompts: guidancePackForAction(action),
     keepGoingPrompt: DEFAULT_KEEP_GOING_PROMPT,
     remainingWorkPrompt: "Keep thinking of a list of all remaining things. Do them one by one. After each action, verify with a real result and continue.",
-    confusingActionPrompt: "Do not forget to inspect the confusing action at the end: partial outputs, empty ok=true responses, skipped actions, generic support, catch paths, and cached live routes.",
+    confusingActionPrompt: "Inspect partial outputs, empty ok=true responses, skipped actions, generic support, catch paths, cached live routes, and missing payload fields.",
     concludePrompt: DEFAULT_CONCLUDE_PROMPT,
-    concludeReminder: "At the end of the work loop, call the conclude/final-summary step when available. If not done, call finishAndContinue with the remaining task list.",
-    taskLoop: "List necessary things to do; do them one by one; verify each step; inspect confusing results; continue until no unverified work remains.",
+    concludeReminder: "Conclude only if no work remains. If not done, call finishAndContinue with remaining tasks.",
+    askUserProof: "Ask user only if blocked by decision/secret/unsafe action and include safeActionsTried plus nextIfApproved.",
+    taskLoop: "List necessary things; do them one by one; verify each step; inspect confusing results; continue until no unverified work remains.",
     actionChecklistPrompt: actionChecklistPrompt(action)
   };
 }
-
 function attachActionGuidance(result, payload = {}) {
   if (!result || typeof result !== "object" || Array.isArray(result)) return result;
   if (result.aiGuidance) return result;
   const action = payload.action || result.action || "unknown";
   return { ...result, aiGuidance: guidancePayload(action, payload) };
 }
-
 module.exports = {
   DEFAULT_KEEP_GOING_PROMPT,
   DEFAULT_CONCLUDE_PROMPT,
+  HARD_AUTONOMY_PROMPT,
   GUIDANCE_PROMPTS,
   guidanceForAction,
   guidancePackForAction,
