@@ -245,6 +245,71 @@ pre {
 .awt-live-status-ok { color: var(--ok); }
 .awt-live-status-fail { color: var(--danger); }
 
+.awt-room-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 12px;
+  min-height: 560px;
+}
+.awt-room-list {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  overflow: auto;
+  max-height: 680px;
+}
+.awt-room-item {
+  width: 100%;
+  display: grid;
+  gap: 3px;
+  text-align: left;
+}
+.awt-room-item.is-active {
+  border-color: var(--accent);
+  outline: 2px solid rgba(15, 118, 110, .12);
+}
+.awt-room-item strong,
+.awt-room-header {
+  overflow-wrap: anywhere;
+}
+.awt-room-item small,
+.awt-room-message small {
+  color: var(--muted);
+}
+.awt-room-main {
+  grid-template-rows: auto minmax(260px, 1fr) auto;
+}
+.awt-room-header {
+  font-weight: 700;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.awt-room-messages {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  overflow: auto;
+  min-height: 260px;
+  max-height: 520px;
+  padding-right: 2px;
+}
+.awt-room-message {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+.awt-room-message.is-user {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+.awt-room-message p {
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
 .awt-install-command { margin-top: 12px; }
 a { color: var(--accent-2); }
 .badges, .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -259,6 +324,6 @@ a { color: var(--accent-2); }
 @media (max-width: 860px) {
   .awt-control-shell { grid-template-columns: 1fr; }
   .awt-side-rail, .side-rail, aside { position: static; max-height: none; }
-  .awt-live-layout { grid-template-columns: 1fr; }
+  .awt-live-layout, .awt-room-layout { grid-template-columns: 1fr; }
   .awt-live-row { grid-template-columns: 1fr; height: 112px; align-items: start; }
 }

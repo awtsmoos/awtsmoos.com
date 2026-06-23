@@ -10,6 +10,7 @@ function mid(p){return p.missionId||p.id||p.target||'';}
 async function use(config,payload,fn){const m=await M.load(config,mid(payload));if(!m)return {ok:false,action:payload.action,error:'mission_not_found',missionId:mid(payload)};const out=await fn(m);await M.save(config,m);return out;}
 function nxt(m,payload={}){return M.nextStep(m,{autoAdvance:payload.auto===true||payload.auto==='true'||m.automation?.enabled});}
 function withNext(ok,m,payload){return {...ok,next:ok.next||nxt(m,payload),mission:M.report(m)};}
+function matchesProject(m,payload={}){const q=String(payload.q||payload.query||payload.projectRoot||payload.root||payload.directory||'').toLowerCase();if(!q)return true;const room=C.ensure(m);return [m.id,m.goal,room.projectRoot,payload.projectRoot].map(v=>String(v||'').toLowerCase()).filter(Boolean).some(v=>v.includes(q)||q.includes(v));}
 
 /**
  * B"H
@@ -61,11 +62,15 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=mergedPayload
   async missionLoopQueue(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopQueue',...L.queue(m,payload)},m,payload));},
   async missionLoopWatchdog(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopWatchdog',watchdog:L.watchdog(m,payload),...L.pulse(m,{...payload,replenishFamilies:4})},m,payload));},
   async missionLoopCheckpoint(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopCheckpoint',...L.checkpointLoop(m,payload)},m,payload));},
+  async missionProjectDiscover(){const all=await M.all(config);const missions=all.filter(m=>matchesProject(m,payload)).slice(0,Number(payload.limit||20)).map(m=>({mission:M.report(m),collaboration:C.status(m),score:m.collaboration?2:1,updatedAt:m.updatedAt}));return {ok:true,action:'missionProjectDiscover',count:missions.length,missions,next:missions[0]?{action:'missionProjectJoin',missionId:missions[0].mission.id,projectRoot:payload.projectRoot||payload.root||payload.directory||'',agentId:payload.agentId||payload.logicalAgentId||'agent'}:{action:'missionStart',goal:payload.goal||payload.q||'New mission room',projectRoot:payload.projectRoot||payload.root||payload.directory||''},mustCallNext:missions[0]?{action:'missionProjectJoin',missionId:missions[0].mission.id,projectRoot:payload.projectRoot||payload.root||payload.directory||'',agentId:payload.agentId||payload.logicalAgentId||'agent'}:null,finalAnswerAllowed:false,mustContinue:true};},
   async missionProjectJoin(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectJoin',...C.join(m,payload)},m,payload));},
   async missionProjectStatus(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectStatus',collaboration:C.status(m)},m,payload));},
   async missionProjectInvite(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectInvite',invitePrompt:C.inviteText(m,payload),collaboration:C.status(m)},m,payload));},
+  async missionRoomUserMessage(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomUserMessage',...C.userMessage(m,payload)},m,payload));},
+  async missionRoomSettings(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomSettings',...C.settings(m,payload)},m,payload));},
   async missionAgentSync(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentSync',...C.sync(m,payload)},m,payload));},
   async missionAgentMessage(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentMessage',...C.message(m,payload)},m,payload));},
+  async missionAgentRespond(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentRespond',...C.respond(m,payload)},m,payload));},
   async missionAgentDelegate(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentDelegate',...C.delegate(m,payload)},m,payload));},
   async missionAgentClaim(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentClaim',...C.claim(m,payload)},m,payload));},
   async missionAgentHeartbeat(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentHeartbeat',...C.heartbeat(m,payload)},m,payload));},

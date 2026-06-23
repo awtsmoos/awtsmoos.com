@@ -38,11 +38,16 @@ function ensure(m) {
     updatedAt: now(),
     agents: {},
     messages: [],
+    userMessages: [],
     delegations: [],
     claims: [],
     heartbeats: [],
     audits: [],
-    invitePrompts: []
+    invitePrompts: [],
+    settings: {
+      blockOnUserMessage: true,
+      allowContinuePhrases: ['continue', 'go on', 'proceed', 'keep going', 'resume']
+    }
   };
   m.collaboration.updatedAt = now();
   return m.collaboration;
@@ -68,9 +73,12 @@ function status(m) {
     projectRoot: room.projectRoot,
     agents: Object.values(room.agents).map(publicAgent),
     messages: room.messages.slice(-50),
+    userMessages: room.userMessages.slice(-50),
+    openUserMessages: openUserMessages(room),
     openDelegations: room.delegations.filter(d => !['done', 'blocked', 'cancelled'].includes(d.status)),
     activeClaims: room.claims.filter(c => c.status === 'active'),
     latestAudit: room.audits[room.audits.length - 1] || null,
+    settings: room.settings,
     invitePrompt: inviteText(m, {})
   };
 }
@@ -156,6 +164,87 @@ function message(m, input = {}) {
   event(m, 'mission_agent_message', msg.subject || msg.body.slice(0, 120), { messageId: msg.id, fromAgent: from, toAgent: msg.toAgent });
   return response(m, { message: msg, collaboration: status(m) });
 }
+function userMessage(m, input = {}) {
+  const room = ensure(m);
+  const body = text(input.body || input.message || input.text || input.prompt);
+  const allowContinue = input.allowContinue === true || input.allowContinue === 'true' || impliesContinue(body, room);
+  const msg = {
+    id: input.messageId || id('user_msg'),
+    at: now(),
+    from: 'user',
+    toAgent: text(input.toAgent || input.to || 'all'),
+    subject: text(input.subject || input.title),
+    body,
+    allowContinue,
+    requiresResponse: input.requiresResponse !== false && input.requiresResponse !== 'false' && !allowContinue,
+    status: allowContinue ? 'continue' : 'open',
+    responses: []
+  };
+  room.userMessages.push(msg);
+  room.messages.push({
+    id: msg.id,
+    at: msg.at,
+    fromAgent: 'user',
+    toAgent: msg.toAgent,
+    kind: 'user-message',
+    subject: msg.subject,
+    body: msg.body,
+    references: [],
+    requiresResponse: msg.requiresResponse
+  });
+  event(m, 'mission_room_user_message', msg.subject || msg.body.slice(0, 120), { messageId: msg.id, allowContinue, requiresResponse: msg.requiresResponse });
+  return response(m, {
+    userMessage: msg,
+    collaboration: status(m),
+    mustCallNext: allowContinue ? { action: 'missionLoopPulse', missionId: m.id, auto: true } : { action: 'missionAgentSync', missionId: m.id, userMessageId: msg.id, blockOnUserMessage: true }
+  });
+}
+function respond(m, input = {}) {
+  const room = ensure(m);
+  const by = agentId(input);
+  const messageId = text(input.messageId || input.userMessageId);
+  const target = messageId ? room.userMessages.find(x => x.id === messageId) : openUserMessages(room)[0];
+  const reply = {
+    id: id('reply'),
+    at: now(),
+    agentId: by,
+    body: text(input.body || input.message || input.text || input.response),
+    impliesContinue: input.allowContinue === true || input.allowContinue === 'true' || impliesContinue(input.body || input.message || input.text || input.response, room)
+  };
+  if (target) {
+    target.responses ||= [];
+    target.responses.push(reply);
+    target.status = reply.impliesContinue ? 'continue' : 'answered';
+  }
+  room.messages.push({
+    id: reply.id,
+    at: reply.at,
+    fromAgent: by,
+    toAgent: 'user',
+    kind: 'agent-response',
+    subject: target?.subject || '',
+    body: reply.body,
+    references: [],
+    requiresResponse: false
+  });
+  event(m, 'mission_agent_responded_to_user', reply.body.slice(0, 120), { messageId: target?.id || '', agentId: by });
+  return response(m, {
+    response: reply,
+    userMessage: target || null,
+    collaboration: status(m),
+    mustCallNext: { action: 'missionLoopPulse', missionId: m.id, auto: true }
+  });
+}
+function settings(m, input = {}) {
+  const room = ensure(m);
+  room.settings = {
+    ...room.settings,
+    blockOnUserMessage: input.blockOnUserMessage === undefined ? room.settings.blockOnUserMessage : input.blockOnUserMessage === true || input.blockOnUserMessage === 'true',
+    allowContinuePhrases: arr(input.allowContinuePhrases || input.phrases).length ? arr(input.allowContinuePhrases || input.phrases) : room.settings.allowContinuePhrases
+  };
+  event(m, 'mission_room_settings', 'Room settings updated', room.settings);
+  return response(m, { settings: room.settings, collaboration: status(m) });
+}
 function delegate(m, input = {}) {
   const room = ensure(m);
   const from = agentId(input);
@@ -225,6 +314,15 @@ function sync(m, input = {}) {
   const room = ensure(m);
   const idValue = agentId(input);
   if (input.agentId || input.logicalAgentId || input.agentName) heartbeat(m, { ...input, agentId: idValue, status: input.status || 'syncing' });
+  const openUser = room.settings?.blockOnUserMessage === false ? [] : openUserMessages(room).filter(msg => msg.toAgent === 'all' || msg.toAgent === idValue);
+  if (openUser.length) {
+    return response(m, {
+      collaboration: status(m),
+      blockingUserMessages: openUser,
+      nextInstruction: 'A user message is open in the room. Respond or infer continue before taking more work.',
+      mustCallNext: { action: 'missionAgentRespond', missionId: m.id, agentId: idValue, userMessageId: openUser[0].id }
+    });
+  }
   return response(m, { collaboration: status(m), nextInstruction: 'Pick an unclaimed delegation or queue item, then call missionAgentClaim before touching files.' });
 }
 function audit(m, input = {}) {
@@ -284,5 +382,13 @@ function response(m, extra = {}) {
     mustContinue: true
   };
 }
+function openUserMessages(room) {
+  return (room.userMessages || []).filter(msg => msg.requiresResponse && msg.status === 'open' && !msg.allowContinue);
+}
+function impliesContinue(value, room) {
+  const textValue = String(value || '').toLowerCase();
+  const phrases = room.settings?.allowContinuePhrases || ['continue', 'go on', 'proceed', 'keep going', 'resume'];
+  return phrases.some(phrase => textValue.includes(String(phrase).toLowerCase()));
+}
 
-module.exports = { ensure, status, join, heartbeat, message, delegate, claim, sync, audit, complete, inviteText };
+module.exports = { ensure, status, join, heartbeat, message, userMessage, respond, settings, delegate, claim, sync, audit, complete, inviteText };

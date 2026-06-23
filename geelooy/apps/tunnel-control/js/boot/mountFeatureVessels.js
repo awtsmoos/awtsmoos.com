@@ -10,6 +10,7 @@ import { compute } from "../features/compute.js";
 import { previewGateway } from "../features/previewGateway.js";
 import { aiAgents } from "../features/aiAgents.js";
 import { live } from "../features/live.js";
+import { missionRooms } from "../features/missionRooms.js";
 import { account } from "../features/account.js";
 import { install } from "../features/install.js";
 import { rootPicker } from "../features/rootPicker.js";
@@ -24,7 +25,7 @@ export function mountFeatureVessels() {
   const stage = document.createElement("div");
   stage.id = "awtFeatureVessels";
   stage.hidden = true;
-  stage.append(setup(), keys(), explorer(), terminal(), chrome(), promptPage(), usage(), compute(), previewGateway(), aiAgents(), live(), account(), install(), rootPicker());
+  stage.append(setup(), keys(), explorer(), terminal(), chrome(), promptPage(), usage(), compute(), previewGateway(), aiAgents(), live(), missionRooms(), account(), install(), rootPicker());
   document.body.append(stage);
   return stage;
 }

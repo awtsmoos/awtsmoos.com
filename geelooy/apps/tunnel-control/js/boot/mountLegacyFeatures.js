@@ -14,6 +14,7 @@ import { mountCompute } from "../features/compute.js";
 import { mountPreviewGateway } from "../features/previewGateway.js";
 import { mountAiAgents } from "../features/aiAgents.js";
 import { mountLive } from "../features/live.js";
+import { mountMissionRooms } from "../features/missionRooms.js";
 import { safeMount } from "./safeMount.js";
 
 /**
@@ -35,5 +36,6 @@ export async function mountLegacyFeatures(getTunnelName) {
   await safeMount("previewGateway", () => mountPreviewGateway());
   await safeMount("aiAgents", () => mountAiAgents(getTunnelName));
   await safeMount("live", () => mountLive(getTunnelName));
+  await safeMount("missionRooms", () => mountMissionRooms(getTunnelName));
   await safeMount("chrome", () => mountChrome(getTunnelName));
 }
