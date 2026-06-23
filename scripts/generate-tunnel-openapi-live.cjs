@@ -9,13 +9,8 @@ const aiActionsPath = path.join(root, "geelooy/ai/central/generatedTunnelActions
 const yamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml");
 const liveYamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml");
 
-/**
- * B"H
- * Chapter 411: The YAML learned command rivers, tree seeds, and paging vessels.
- * Legacy GPT Actions still call one endpoint. The query vessel now explicitly
- * accepts tree/vars/budget carriers so agents can run a one-line commandTree
- * without hiding the real plan in an unsupported field. It also exposes command job polling and paged output.
- */
+const OPENAI_AGENT_MISSION_RULE = "OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. After every action, inspect aiGuidance. If work remains, do the smallest safe inspect/test/checkpoint action and call finishAndContinue with remaining tasks instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved.";
+
 const baseConfig = {
   root,
   allowWrite: true,
@@ -62,13 +57,14 @@ function fsPathLines() {
     "    get:",
     "      operationId: awtsmoosTunnelAction",
     "      summary: Unified tunnel action endpoint.",
-    "      description: B\"H. Run one tunnel action. Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.",
+    `      description: B\"H. Run one tunnel action. ${OPENAI_AGENT_MISSION_RULE} Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.`,
     "      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]",
     "      parameters:",
     "        - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }",
     "        - name: action",
     "          in: query",
     "          required: true",
+    "          description: Select the tunnel action. If work remains after any action, use finishAndContinue instead of asking the user whether to continue.",
     "          schema:",
     "            type: string",
     "            enum:",
@@ -77,7 +73,7 @@ function fsPathLines() {
     ...integerParams.map(([name, def]) => paramLine(name, "integer", def)),
     ...booleanParams.map(([name, def]) => paramLine(name, "boolean", def)),
     "      responses:",
-    "        \"200\": { description: OK, content: { application/json: { schema: { $ref: \"#/components/schemas/AnyResponse\" } } } }"
+    "        \"200\": { description: OK. Inspect aiGuidance; when aiGuidance.keepGoing is true or work remains, continue with the next safe action or finishAndContinue instead of asking the user to continue., content: { application/json: { schema: { $ref: \"#/components/schemas/AnyResponse\" } } } }"
   ];
 }
 
@@ -86,8 +82,8 @@ function yaml() {
     "openapi: 3.1.0",
     "info:",
     "  title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface",
-    "  version: 6.0.0-generated",
-    "  description: B\"H. Generated from the local tunnel registry. One backward-compatible action endpoint exposes old aliases and new mode-based internals.",
+    "  version: 6.1.0-generated",
+    `  description: B\"H. Generated from the local tunnel registry. ${OPENAI_AGENT_MISSION_RULE} One backward-compatible action endpoint exposes old aliases and new mode-based internals.`,
     "servers:",
     "  - url: https://awtsmoos.com",
     "paths:",
@@ -139,7 +135,7 @@ function yaml() {
     "        nextStdoutPagePayload: { type: object, additionalProperties: true }",
     "        nextStderrPagePayload: { type: object, additionalProperties: true }",
     "        nextScanRequest: { type: object, additionalProperties: true }",
-    "        aiGuidance: { type: object, additionalProperties: true }",
+    "        aiGuidance: { type: object, additionalProperties: true, description: Read this after every action. If keepGoing/hardAutonomy is true, continue or call finishAndContinue; do not ask the user to continue unless blocked with proof. }",
     "        finalInstruction:",
     "          type: object",
     "          additionalProperties: true",
@@ -182,5 +178,6 @@ console.log(JSON.stringify({
   hasCommandTreeParams: ["tree", "tree64", "vars", "vars64", "budgetPerutas", "treeId"].every(x => yamlText.includes(`name: ${x}`)),
   hasCommandPagingParams: ["commandOutputPage", "commandStart", "commandStatus", "commandJobOutputPage", "outputId", "jobId", "stream", "offsetChars", "maxChars", "asyncCommand", "background"].every(x => yamlText.includes(x.startsWith("command") ? `              - ${x}` : `name: ${x}`)),
   hasChatGptActions: ["chatgptLogin", "chatgptMessage", "chatgptContinueConversation"].every(x => yamlText.includes(`              - ${x}`)),
-  hasRuntimeParams: ["actionsJson64", "browserActions64", "pageActions64", "engine"].every(x => yamlText.includes(`name: ${x}`))
+  hasRuntimeParams: ["actionsJson64", "browserActions64", "pageActions64", "engine"].every(x => yamlText.includes(`name: ${x}`)),
+  hasHardAutonomyOpenApi: yamlText.includes("OpenAI agent mission rule") && yamlText.includes("finishAndContinue") && yamlText.includes("blocked with proof")
 }, null, 2));
