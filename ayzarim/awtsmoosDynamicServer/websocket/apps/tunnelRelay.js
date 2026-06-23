@@ -1,4 +1,5 @@
 // B"H
+const path = require("path");
 const FOUR_MINUTES_MS = 240000;
 const ONE_DAY_MS = 86400000;
 
@@ -43,11 +44,12 @@ function handleTunnelRegister(ctx, client, data) {
 }
 
 function requestExpectation(id, name, payload = {}, timeoutMs) {
+  const requestedAction = String(payload.action || "");
   return {
     id,
     tunnelName: name,
     requestedTunnelName: payload.requestedTunnelName || payload.tunnelName || name,
-    requestedAction: String(payload.action || ""),
+    requestedAction,
     expectedVessel: payload.targetVessel || payload.vessel || "",
     expectedRouteReason: payload.targetVessel === "native-tunnel" ? "native" : "",
     controlRequestId: payload.controlRequestId || "",
@@ -60,7 +62,8 @@ function requestExpectation(id, name, payload = {}, timeoutMs) {
     stream: payload.stream || "",
     cwd: payload.cwd || "",
     command: payload.command || "",
-    path: payload.path || payload.p || "",
+    path: requestedPaths(payload, requestedAction)[0] || "",
+    paths: requestedPaths(payload, requestedAction),
     createdAt: Date.now(),
     timeoutMs
   };
@@ -106,6 +109,59 @@ function shouldCheckPath(action = "") {
   return /^(read|read64|readBytes|write|writeIfHash|stat|copy|move|delete|tree|list|find|grep|rg|touch|mkdirp|ensureFile|bulk|bulkWrite|bulkRead|readLines|readManyLines|connectedFiles|largeFiles|fileHashes|recentFiles)$/.test(String(action));
 }
 
+function cleanPathValue(value) {
+  if (typeof value !== "string") return "";
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === ".") return "";
+  return path.normalize(trimmed);
+}
+
+function requestedPaths(payload = {}, action = "") {
+  if (!shouldCheckPath(action)) return [];
+  const raw = [];
+  for (const key of ["path", "p", "absolutePath"]) raw.push(payload[key]);
+  if (/^(copy|move)$/.test(action)) raw.push(payload.source, payload.dest, payload.to, payload.from);
+  if (/^(read|read64|readBytes|stat|write|writeIfHash|delete|touch|ensureFile)$/.test(action)) raw.push(payload.source, payload.dest);
+  return raw.map(cleanPathValue).filter(Boolean);
+}
+
+function actualPaths(data = {}) {
+  const raw = [
+    data.path,
+    data.absolutePath,
+    data.source,
+    data.dest,
+    data.file?.path,
+    data.file?.absolutePath,
+    data.result?.path,
+    data.result?.absolutePath
+  ];
+  return raw.map(cleanPathValue).filter(Boolean);
+}
+
+function pathMatches(expectedPath, actualPath, root = "") {
+  const expected = cleanPathValue(expectedPath);
+  const actual = cleanPathValue(actualPath);
+  if (!expected || !actual) return false;
+  if (path.isAbsolute(expected)) return path.resolve(actual) === path.resolve(expected);
+  if (actual === expected) return true;
+  if (actual.endsWith(`${path.sep}${expected}`)) return true;
+  if (root) {
+    const rooted = path.resolve(root, expected);
+    return path.resolve(actual) === rooted;
+  }
+  return false;
+}
+
+function pathMismatch(expected = {}, data = {}) {
+  if (!shouldCheckPath(expected.requestedAction)) return false;
+  const expectedPaths = Array.isArray(expected.paths) ? expected.paths : [expected.path].filter(Boolean);
+  if (!expectedPaths.length) return false;
+  const actual = actualPaths(data);
+  if (!actual.length) return false;
+  return expectedPaths.some(expectedPath => !actual.some(actualPath => pathMatches(expectedPath, actualPath, expected.projectRoot)));
+}
+
 function mismatchResponse(expected, data, flags) {
   return {
     BH: "B\"H",
@@ -132,6 +188,7 @@ function mismatchResponse(expected, data, flags) {
       cwd: data?.cwd || "",
       command: data?.command || "",
       path: data?.path || data?.absolutePath || "",
+      paths: actualPaths(data),
       action: data?.action || "",
       actualAction: data?.actualAction || "",
       requestAction: data?.requestAction || ""
@@ -160,7 +217,7 @@ function validateTunnelResponse(expected, data = {}) {
     streamMismatch: /^command(Job)?OutputPage$/.test(expected.requestedAction) && valueMismatch(expected.stream, actualStream(data)),
     cwdMismatch: /^(command|commandRun|commandStart)$/.test(expected.requestedAction) && valueMismatch(expected.cwd, data.cwd),
     commandMismatch: /^(command|commandRun|commandStart)$/.test(expected.requestedAction) && valueMismatch(expected.command, data.command),
-    pathMismatch: shouldCheckPath(expected.requestedAction) && valueMismatch(expected.path, data.path || data.absolutePath)
+    pathMismatch: pathMismatch(expected, data)
   };
   return Object.values(flags).some(Boolean) ? { ok: false, response: mismatchResponse(expected, data, flags) } : { ok: true };
 }

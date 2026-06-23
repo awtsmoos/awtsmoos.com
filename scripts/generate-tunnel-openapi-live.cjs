@@ -9,7 +9,7 @@ const aiActionsPath = path.join(root, "geelooy/ai/central/generatedTunnelActions
 const yamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml");
 const liveYamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml");
 
-const OPENAI_AGENT_MISSION_RULE = "OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved.";
+const OPENAI_AGENT_MISSION_RULE = "OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved.";
 
 const baseConfig = {
   root,
@@ -31,7 +31,8 @@ const stringParams = [
   ["selector"], ["chromePath"], ["userDataDir"], ["host", "127.0.0.1"], ["index", "index.html"], ["serverId"], ["sandboxId"], ["entry"], ["format", "png"],
   ["runtime"], ["engine"], ["mode"], ["readMode"], ["writeMode"], ["searchMode"], ["kind"], ["xml"], ["xmlInput"], ["writesXml"], ["filesXml"], ["bundle"], ["part"],
   ["continuationPrompt"], ["continuationPrompt64"], ["provider"], ["providerId"], ["agent"], ["agentId"], ["model"], ["apiKey"], ["apiKey64"], ["message"], ["message64"],
-  ["prompt"], ["prompt64"], ["system"], ["system64"], ["taskId"], ["title"], ["outputDir"], ["fileName"], ["summaryAgentId"], ["summaryFileName"], ["parentTaskId"], ["rootTaskId"], ["taskKind"], ["treeId"], ["nodeId"], ["outputId"], ["outputRef"], ["resultId"], ["resultRef"], ["jobId"], ["stream"]
+  ["prompt"], ["prompt64"], ["system"], ["system64"], ["taskId"], ["title"], ["outputDir"], ["fileName"], ["summaryAgentId"], ["summaryFileName"], ["parentTaskId"], ["rootTaskId"], ["taskKind"], ["treeId"], ["nodeId"], ["outputId"], ["outputRef"], ["resultId"], ["resultRef"], ["jobId"], ["stream"],
+  ["missionId"], ["definitionOfDone"], ["step"], ["stageTitle"], ["brainstorm"], ["plan"], ["planned"], ["actual"], ["delta"], ["filesToTouch"], ["whyEachFile"], ["chunks"], ["chunkId"], ["chunkTitle"], ["tests"], ["testsRun"], ["risks"], ["evidence"], ["filesTouched"], ["touchedFiles"], ["pendingNextAction"], ["nextAction"], ["resumeInstruction"], ["stateId"], ["nextStep"]
 ];
 const integerParams = [
   ["offsetChars", 0], ["maxChars", 12000], ["totalMaxChars", 24000], ["offsetBytes", 0], ["maxBytes", 24000], ["maxFiles", 5], ["maxResults", 80], ["page", 1], ["pageSize", 50],
@@ -43,7 +44,8 @@ const integerParams = [
 const booleanParams = [
   ["checkSyntax", true], ["runtimeCheck", false], ["regex", false], ["replaceAll", true], ["dryRun", true], ["confirm", false], ["includeDirs", false], ["write", false],
   ["snapshot", true], ["headless", false], ["fullPage", true], ["allowWrite"], ["allowSecrets"], ["enableLocalHttpProxy"], ["allowCommands"], ["stream"], ["async"], ["asyncCommand"], ["background"], ["guidanceDebug", false],
-  ["debugGuidance", false], ["allowRecursiveSpawn", true], ["continueCurrent", false], ["open", false], ["wait", false], ["optional", false], ["required", true], ["continueOnError", false]
+  ["debugGuidance", false], ["allowRecursiveSpawn", true], ["continueCurrent", false], ["open", false], ["wait", false], ["optional", false], ["required", true], ["continueOnError", false],
+  ["readBeforeWrite", true], ["fullRewriteRequired", true]
 ];
 
 function scalar(value) { return typeof value === "string" ? JSON.stringify(value) : String(value); }
@@ -137,11 +139,15 @@ function yaml() {
     "        nextScanRequest: { type: object, additionalProperties: true }",
     "        finalAnswerAllowed: { type: boolean, description: False means the agent must not send a final answer yet. }",
     "        mustContinue: { type: boolean, description: True means answer multipleChoiceSelfInterrogation and call mustCallNext or finishAndContinue. }",
-    "        mustCallNext: { type: object, additionalProperties: true, description: Next action payload the agent should call instead of asking the user to continue. }",
+    "        mustCallNext: { type: object, additionalProperties: true, description: Next action payload the agent should call instead of asking the user to continue. Step protocol actions return missionStepPlan, missionFilesToTouch, missionStepExecute, missionStepReview, missionStepDelta, missionExpand, missionRefrigerate, missionThaw, or missionNextPlan here. }",
     "        multipleChoiceSelfInterrogation: { type: object, additionalProperties: true, description: Forced self-question with A/B/C/D choices; choose B when safe autonomous work remains. }",
     "        blockerProofRequired: { type: object, additionalProperties: true, description: Required proof before asking the user. }",
     "        stopRule: { type: string }",
     "        aiGuidance: { type: object, additionalProperties: true, description: Read this after every action. If keepGoing/hardAutonomy or mustContinue is true, answer the forced self-interrogation and continue; do not ask the user unless blocked with proof. }",
+    "        stepPlan: { type: object, additionalProperties: true, description: Durable mission step/chunk plan containing id, missionId, step, stageTitle, brainstorm, plan, chunks, planned, actual, delta, createdAt, updatedAt. }",
+    "        chunk: { type: object, additionalProperties: true, description: Planned chunk with filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, and status. }",
+    "        gate: { type: object, additionalProperties: true, description: Required pre-execution gates such as readBeforeWrite and fullRewriteRequired. }",
+    "        review: { type: object, additionalProperties: true, description: Actual-vs-planned step review, missing reads, missing rewrites, missing tests, and missing file work. }",
     "        finalInstruction:",
     "          type: object",
     "          additionalProperties: true",

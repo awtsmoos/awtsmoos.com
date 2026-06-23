@@ -5,6 +5,9 @@ const DEFAULT_CONCLUDE_PROMPT = "Conclude only when no remaining work, no nextAc
 
 const HARD_AUTONOMY_PROMPT = [
   "Mission rule: never ask 'should I continue', 'would you like me to', or 'let me know' while safe autonomous work remains.",
+  "Before every file-modifying or file-intending stage, call missionStepBrainstorm, missionStepPlan, missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls.",
+  "Every chunk plan must list filesToTouch, whyEachFile, readBeforeWrite true, and fullRewriteRequired true; after execution call missionStepReview, then missionStepDelta or missionExpand.",
+  "For long missions, refrigerate before pausing, thaw after context loss, create missionNextPlan after each review, and keep generating tests, docs, risk, observability, and improvement work.",
   "Before asking the user, prove a blocker: user decision/secret/unsafe action required, safe actions tried, checkpoint written, exact nextIfApproved recorded.",
   "If work remains, answer the forced multiple-choice self-interrogation, call mustCallNext, and use finishAndContinue instead of a polite stop."
 ].join(" ");
@@ -94,8 +97,8 @@ function forcedQuestion(result = {}, action = "") {
     text: "Is this mission truly complete?",
     prompt: "Forced self-interrogation before any final answer.",
     choices: [
-      { key: "A", text: "Yes, verified complete", action: "finish_only_if_all_gates_pass" },
-      { key: "B", text: "No, safe autonomous work remains", action: "continue_with_next_safe_action" },
+      { key: "A", text: "Complete only if all gates pass", action: "finish_only_if_all_gates_pass" },
+      { key: "B", text: "Continue via next plan", action: "continue_with_missionNextPlan_or_next_safe_action" },
       { key: "C", text: "Blocked by required user decision/secret/unsafe action", action: "ask_user_with_blocker_proof" },
       { key: "D", text: "Unsafe/destructive to continue", action: "stop_with_safety_reason" }
     ],
@@ -104,6 +107,7 @@ function forcedQuestion(result = {}, action = "") {
   };
 }
 function mustCallNext(result = {}, payload = {}, action = "") {
+  if (result.mustCallNext && typeof result.mustCallNext === "object") return result.mustCallNext;
   const missionId = missionIdOf(result, payload);
   const next = resultNext(result);
   if (next?.question && missionId) return { action: "missionAnswer", missionId, answer: next.autoSuggestedAnswer || "B safe autonomous work remains" };

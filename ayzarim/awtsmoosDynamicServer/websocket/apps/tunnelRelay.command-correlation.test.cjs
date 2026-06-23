@@ -114,4 +114,57 @@ assert.equal(wrongCommand.ok, false);
 assert.equal(wrongCommand.response.commandMismatch, true);
 assert.equal(wrongCommand.response.cwdMismatch, true);
 
+const wrongReadPath = validateTunnelResponse({
+  ...base,
+  requestedAction: "readBytes",
+  expectedVessel: "native-tunnel",
+  expectedRouteReason: "native",
+  jobId: "",
+  stream: "",
+  path: "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/tunnel/agent/tools/fs/mission/expansion.js",
+  paths: ["/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/tunnel/agent/tools/fs/mission/expansion.js"]
+}, {
+  id: "relay-req-1",
+  action: "readBytes",
+  actualAction: "readBytes",
+  tunnelName: "awt-awtsmoos-7320",
+  vessel: "native-tunnel",
+  routeReason: "explicit_native",
+  controlRequestId: "ctl-a",
+  clientRequestId: "client-a",
+  agentSessionId: "session-a",
+  logicalAgentId: "agent-a",
+  projectRoot: "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com",
+  nonce: "nonce-a",
+  absolutePath: "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/mitzvah-pushkuh/index.html"
+});
+assert.equal(wrongReadPath.ok, false);
+assert.equal(wrongReadPath.response.pathMismatch, true);
+
+const missionPathReturn = validateTunnelResponse({
+  ...base,
+  requestedAction: "missionStepBrainstorm",
+  expectedVessel: "native-tunnel",
+  expectedRouteReason: "native",
+  jobId: "",
+  stream: "",
+  path: "",
+  paths: []
+}, {
+  id: "relay-req-1",
+  action: "missionStepBrainstorm",
+  actualAction: "missionStepBrainstorm",
+  tunnelName: "awt-awtsmoos-7320",
+  vessel: "native-tunnel",
+  routeReason: "explicit_native",
+  controlRequestId: "ctl-a",
+  clientRequestId: "client-a",
+  agentSessionId: "session-a",
+  logicalAgentId: "agent-a",
+  projectRoot: "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com",
+  nonce: "nonce-a",
+  path: ".awtsmoos/missions/mission_1/mission.json"
+});
+assert.equal(missionPathReturn.ok, true);
+
 console.log(JSON.stringify({ ok: true, suite: "tunnel-relay-command-correlation" }, null, 2));

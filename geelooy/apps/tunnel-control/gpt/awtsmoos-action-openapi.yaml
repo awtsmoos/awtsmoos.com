@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
   version: 6.1.0-generated
-  description: B"H. Generated from the local tunnel registry. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. One backward-compatible action endpoint exposes old aliases and new mode-based internals.
+  description: B"H. Generated from the local tunnel registry. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. One backward-compatible action endpoint exposes old aliases and new mode-based internals.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
+      description: B"H. Run one tunnel action. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
@@ -304,25 +304,35 @@ paths:
               - missionAutopilot
               - missionBrainstorm
               - missionCheckpoint
+              - missionChunkPlan
               - missionCompleteTask
               - missionDiscover
               - missionEvidence
               - missionEvidenceDebt
               - missionExpand
               - missionFamilies
+              - missionFilesToTouch
               - missionGet
               - missionGraph
               - missionHeartbeat
               - missionImprovementPlan
               - missionList
               - missionNext
+              - missionNextPlan
               - missionPlanDelta
               - missionPostCompletion
               - missionQuestion
+              - missionRefrigerate
               - missionReport
               - missionSelfMailDraft
               - missionStart
+              - missionStepBrainstorm
+              - missionStepDelta
+              - missionStepExecute
+              - missionStepPlan
+              - missionStepReview
               - missionSupervise
+              - missionThaw
               - missionTimeline
               - missionVerify
               - mkdirp
@@ -651,6 +661,31 @@ paths:
         - { name: resultRef, in: query, schema: { type: string } }
         - { name: jobId, in: query, schema: { type: string } }
         - { name: stream, in: query, schema: { type: string } }
+        - { name: missionId, in: query, schema: { type: string } }
+        - { name: definitionOfDone, in: query, schema: { type: string } }
+        - { name: step, in: query, schema: { type: string } }
+        - { name: stageTitle, in: query, schema: { type: string } }
+        - { name: brainstorm, in: query, schema: { type: string } }
+        - { name: plan, in: query, schema: { type: string } }
+        - { name: planned, in: query, schema: { type: string } }
+        - { name: actual, in: query, schema: { type: string } }
+        - { name: delta, in: query, schema: { type: string } }
+        - { name: filesToTouch, in: query, schema: { type: string } }
+        - { name: whyEachFile, in: query, schema: { type: string } }
+        - { name: chunks, in: query, schema: { type: string } }
+        - { name: chunkId, in: query, schema: { type: string } }
+        - { name: chunkTitle, in: query, schema: { type: string } }
+        - { name: tests, in: query, schema: { type: string } }
+        - { name: testsRun, in: query, schema: { type: string } }
+        - { name: risks, in: query, schema: { type: string } }
+        - { name: evidence, in: query, schema: { type: string } }
+        - { name: filesTouched, in: query, schema: { type: string } }
+        - { name: touchedFiles, in: query, schema: { type: string } }
+        - { name: pendingNextAction, in: query, schema: { type: string } }
+        - { name: nextAction, in: query, schema: { type: string } }
+        - { name: resumeInstruction, in: query, schema: { type: string } }
+        - { name: stateId, in: query, schema: { type: string } }
+        - { name: nextStep, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
@@ -718,6 +753,8 @@ paths:
         - { name: optional, in: query, schema: { type: boolean, default: false } }
         - { name: required, in: query, schema: { type: boolean, default: true } }
         - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
+        - { name: readBeforeWrite, in: query, schema: { type: boolean, default: true } }
+        - { name: fullRewriteRequired, in: query, schema: { type: boolean, default: true } }
       responses:
         "200": { description: OK. Inspect aiGuidance; when aiGuidance.keepGoing is true or work remains, continue with the next safe action or finishAndContinue instead of asking the user to continue., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:
@@ -755,11 +792,15 @@ components:
         nextScanRequest: { type: object, additionalProperties: true }
         finalAnswerAllowed: { type: boolean, description: False means the agent must not send a final answer yet. }
         mustContinue: { type: boolean, description: True means answer multipleChoiceSelfInterrogation and call mustCallNext or finishAndContinue. }
-        mustCallNext: { type: object, additionalProperties: true, description: Next action payload the agent should call instead of asking the user to continue. }
+        mustCallNext: { type: object, additionalProperties: true, description: Next action payload the agent should call instead of asking the user to continue. Step protocol actions return missionStepPlan, missionFilesToTouch, missionStepExecute, missionStepReview, missionStepDelta, missionExpand, missionRefrigerate, missionThaw, or missionNextPlan here. }
         multipleChoiceSelfInterrogation: { type: object, additionalProperties: true, description: Forced self-question with A/B/C/D choices; choose B when safe autonomous work remains. }
         blockerProofRequired: { type: object, additionalProperties: true, description: Required proof before asking the user. }
         stopRule: { type: string }
         aiGuidance: { type: object, additionalProperties: true, description: Read this after every action. If keepGoing/hardAutonomy or mustContinue is true, answer the forced self-interrogation and continue; do not ask the user unless blocked with proof. }
+        stepPlan: { type: object, additionalProperties: true, description: Durable mission step/chunk plan containing id, missionId, step, stageTitle, brainstorm, plan, chunks, planned, actual, delta, createdAt, updatedAt. }
+        chunk: { type: object, additionalProperties: true, description: Planned chunk with filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, and status. }
+        gate: { type: object, additionalProperties: true, description: Required pre-execution gates such as readBeforeWrite and fullRewriteRequired. }
+        review: { type: object, additionalProperties: true, description: Actual-vs-planned step review, missing reads, missing rewrites, missing tests, and missing file work. }
         finalInstruction:
           type: object
           additionalProperties: true

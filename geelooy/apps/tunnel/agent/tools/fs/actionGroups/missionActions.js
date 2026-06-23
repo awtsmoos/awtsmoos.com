@@ -1,10 +1,13 @@
 // B"H
 const M = require('../mission/index.js');
 const X = require('../mission/expansion.js');
+const S = require('../mission/stepProtocol.js');
+function parsedParams(params){if(!params)return {};if(typeof params==='object'&&!Array.isArray(params))return params;if(typeof params==='string'){try{const parsed=JSON.parse(params);return parsed&&typeof parsed==='object'&&!Array.isArray(parsed)?parsed:{};}catch{return {};}}return {};}
+function mergedPayload(payload={}){const decoded=parsedParams(payload.params);return {...decoded,...payload};}
 function mid(p){return p.missionId||p.id||p.target||'';}
 async function use(config,payload,fn){const m=await M.load(config,mid(payload));if(!m)return {ok:false,action:payload.action,error:'mission_not_found',missionId:mid(payload)};const out=await fn(m);await M.save(config,m);return out;}
 function nxt(m,payload={}){return M.nextStep(m,{autoAdvance:payload.auto===true||payload.auto==='true'||m.automation?.enabled});}
-function withNext(ok,m,payload){return {...ok,next:nxt(m,payload),mission:M.report(m)};}
+function withNext(ok,m,payload){return {...ok,next:ok.next||nxt(m,payload),mission:M.report(m)};}
 
 /**
  * B"H
@@ -12,7 +15,7 @@ function withNext(ok,m,payload){return {...ok,next:nxt(m,payload),mission:M.repo
  * These actions expose expansion, evidence debt, planned-vs-actual deltas,
  * post-completion improvement mode, and mission families to ChatGPT agents.
  */
-function buildMissionActions(ctx){const {config,payload}=ctx;return {
+function buildMissionActions(ctx){const {config}=ctx;const payload=mergedPayload(ctx.payload||{});return {
   async missionStart(){const m=await M.create(config,payload);const expansion=X.expand(m,payload);await M.save(config,m);return {ok:true,action:'missionStart',missionId:m.id,mission:M.report(m),expansion,next:nxt(m,payload),path:`${M.DIR}/${m.id}/mission.json`};},
   async missionGet(){const m=await M.load(config,mid(payload));return m?{ok:true,action:'missionGet',mission:m,next:nxt(m,payload)}:{ok:false,action:'missionGet',error:'mission_not_found'};},
   async missionList(){const ms=await M.all(config);return {ok:true,action:'missionList',count:ms.length,missions:ms.map(M.report)};},
@@ -40,6 +43,16 @@ function buildMissionActions(ctx){const {config,payload}=ctx;return {
   async missionVerify(){return use(config,payload,m=>{const verification=M.verify(m);const after=verification.ok?X.postCompletion(m,{verification:'verified complete, entering improvement mode'}):X.expand(m,payload);return withNext({ok:true,action:'missionVerify',verification,after},m,payload);});},
   async missionReport(){return use(config,payload,m=>withNext({ok:true,action:'missionReport',report:M.report(m)},m,payload));},
   async missionTimeline(){return use(config,payload,m=>({ok:true,action:'missionTimeline',timeline:M.timeline(m)}));},
-  async missionGraph(){return use(config,payload,m=>({ok:true,action:'missionGraph',graph:M.graph(m)}));}
+  async missionGraph(){return use(config,payload,m=>({ok:true,action:'missionGraph',graph:M.graph(m)}));},
+  async missionStepBrainstorm(){return use(config,payload,m=>withNext({ok:true,action:'missionStepBrainstorm',...S.brainstorm(m,payload)},m,payload));},
+  async missionStepPlan(){return use(config,payload,m=>withNext({ok:true,action:'missionStepPlan',...S.stepPlan(m,payload)},m,payload));},
+  async missionFilesToTouch(){return use(config,payload,m=>withNext({ok:true,action:'missionFilesToTouch',...S.filesToTouch(m,payload)},m,payload));},
+  async missionChunkPlan(){return use(config,payload,m=>withNext({ok:true,action:'missionChunkPlan',...S.chunkPlan(m,payload)},m,payload));},
+  async missionStepExecute(){return use(config,payload,m=>withNext({ok:true,action:'missionStepExecute',...S.execute(m,payload)},m,payload));},
+  async missionStepReview(){return use(config,payload,m=>withNext({ok:true,action:'missionStepReview',...S.review(m,payload)},m,payload));},
+  async missionStepDelta(){return use(config,payload,m=>withNext({ok:true,action:'missionStepDelta',...S.delta(m,payload)},m,payload));},
+  async missionRefrigerate(){return use(config,payload,async m=>withNext({ok:true,action:'missionRefrigerate',...(await S.refrigerate(config,m,payload))},m,payload));},
+  async missionThaw(){return use(config,payload,m=>withNext({ok:true,action:'missionThaw',...S.thaw(m,payload)},m,payload));},
+  async missionNextPlan(){return use(config,payload,m=>withNext({ok:true,action:'missionNextPlan',...S.nextPlan(m,payload)},m,payload));}
 };}
-module.exports={buildMissionActions};
+module.exports={buildMissionActions,mergedPayload};
