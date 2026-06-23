@@ -2,6 +2,7 @@
 const M = require('../mission/index.js');
 const X = require('../mission/expansion.js');
 const S = require('../mission/stepProtocol.js');
+const L = require('../mission/loopEngine.js');
 function parsedParams(params){if(!params)return {};if(typeof params==='object'&&!Array.isArray(params))return params;if(typeof params==='string'){try{const parsed=JSON.parse(params);return parsed&&typeof parsed==='object'&&!Array.isArray(parsed)?parsed:{};}catch{return {};}}return {};}
 function mergedPayload(payload={}){const decoded=parsedParams(payload.params);return {...decoded,...payload};}
 function mid(p){return p.missionId||p.id||p.target||'';}
@@ -53,6 +54,11 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=mergedPayload
   async missionStepDelta(){return use(config,payload,m=>withNext({ok:true,action:'missionStepDelta',...S.delta(m,payload)},m,payload));},
   async missionRefrigerate(){return use(config,payload,async m=>withNext({ok:true,action:'missionRefrigerate',...(await S.refrigerate(config,m,payload))},m,payload));},
   async missionThaw(){return use(config,payload,m=>withNext({ok:true,action:'missionThaw',...S.thaw(m,payload)},m,payload));},
-  async missionNextPlan(){return use(config,payload,m=>withNext({ok:true,action:'missionNextPlan',...S.nextPlan(m,payload)},m,payload));}
+  async missionNextPlan(){return use(config,payload,m=>withNext({ok:true,action:'missionNextPlan',...S.nextPlan(m,payload)},m,payload));},
+  async missionLoopSeed(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopSeed',...L.seed(m,payload)},m,payload));},
+  async missionLoopPulse(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopPulse',...L.pulse(m,payload)},m,payload));},
+  async missionLoopQueue(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopQueue',...L.queue(m,payload)},m,payload));},
+  async missionLoopWatchdog(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopWatchdog',watchdog:L.watchdog(m,payload),...L.pulse(m,{...payload,replenishFamilies:4})},m,payload));},
+  async missionLoopCheckpoint(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopCheckpoint',...L.checkpointLoop(m,payload)},m,payload));}
 };}
 module.exports={buildMissionActions,mergedPayload};

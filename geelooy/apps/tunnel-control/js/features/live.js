@@ -1,113 +1,246 @@
 // B"H
 import { h, out, $ } from "../ui/dom.js";
-import { callFs } from "../api/tunnel.js";
+import { getJson } from "../api/http.js";
 import { readLocalSetting, saveLocalSetting } from "../state/storage.js";
 
-const LIVE_KEY = "awtLiveTrafficHistory";
-const STREAMS = ["all", "agents", "tasks", "actions", "sockets", "external", "errors", "system"];
-let timer = null;
-let channel = null;
-let history = [];
+const SETTINGS_KEY = "awtLiveCallsSettings";
+const ROW_HEIGHT = 76;
+const DEFAULT_SETTINGS = { groupBy: "conversation", filter: "", limit: 300, pollMs: 2500 };
 
-/**
- * B"H
- * Chapter 415: The wire-room learned to show the hands of the outside agent.
- *
- * Tunnel Control does not need to flood the landing page. The LIVE tile is the
- * theater: external AI writes, socket reconnect pulses, tool calls, and action
- * history appear like a Codex/Claude stream, but from the Awtsmoos vessels.
- */
+let timer = null;
+let state = {
+  settings: { ...DEFAULT_SETTINGS },
+  events: [],
+  groups: [],
+  selectedGroup: "",
+  selectedEvent: null,
+  scrollTop: 0,
+  running: false,
+  lastError: ""
+};
+
 export function live() {
   return h("section", { className: "pane awt-live-console", data: { pane: "live" } }, [
     h("div", { className: "page-head" }, [
       h("p", { className: "eyebrow", text: "LIVE" }),
-      h("h2", { text: "External AI action stream" }),
-      h("p", { text: "Watch tool calls, task updates, sockets, reconnects, and external-agent writes flowing through native, code-editor, and Virtual OS vessels." })
+      h("h2", { text: "Tunnel calls" }),
+      h("p", { text: "Monitor grouped tunnel calls from all recorded chats. The list is virtualized so it can stay open during long agent runs." })
     ]),
     h("article", { className: "panel stack awt-live-control" }, [
-      h("div", { className: "form-grid" }, [streamSelect(), limitInput(), h("label", {}, ["Poll ms", h("input", { id: "livePollMs", type: "number", min: "1000", value: "2500" })])]),
-      h("div", { className: "button-row" }, [button("startLiveBtn", "Start live stream", "primary"), button("stopLiveBtn", "Stop"), button("refreshLiveBtn", "Refresh now"), button("clearLiveBtn", "Clear local history")]),
-      h("div", { id: "liveSocketState", className: "notice awt-live-socket-state", text: "Socket idle. When an external AI writes to this vessel, action frames appear here." })
+      h("div", { className: "form-grid" }, [
+        label("Group", h("select", { id: "liveGroupBy" }, ["conversation", "tunnel", "action", "vessel", "ok"].map(value => h("option", { value, text: value })))),
+        label("Filter", h("input", { id: "liveFilter", placeholder: "action, chat, tunnel, path..." })),
+        label("Limit", h("input", { id: "liveLimit", type: "number", min: "20", max: "1000", value: "300" })),
+        label("Poll ms", h("input", { id: "livePollMs", type: "number", min: "1000", value: "2500" }))
+      ]),
+      h("div", { className: "button-row" }, [
+        button("startLiveBtn", "Start", "primary"),
+        button("stopLiveBtn", "Stop"),
+        button("refreshLiveBtn", "Refresh"),
+        button("clearLiveBtn", "Reset view")
+      ]),
+      h("div", { id: "liveSocketState", className: "notice", text: "Live calls idle." })
     ]),
-    h("article", { className: "panel stack awt-live-stage" }, [h("div", { className: "awt-live-board", id: "liveBoard" })]),
-    h("article", { className: "panel stack" }, [h("h3", { text: "Raw stream frame" }), out("liveOut", "No live frame yet.")])
+    h("article", { className: "awt-live-layout" }, [
+      h("aside", { id: "liveGroups", className: "panel awt-live-sidebar" }),
+      h("section", { className: "panel awt-live-stage" }, [
+        h("div", { className: "awt-live-meta", id: "liveSummary", text: "No events loaded." }),
+        h("div", { className: "awt-live-viewport", id: "liveViewport" }, [
+          h("div", { className: "awt-live-spacer", id: "liveSpacer" }, [
+            h("div", { className: "awt-live-window", id: "liveWindow" })
+          ])
+        ])
+      ])
+    ]),
+    h("article", { className: "panel stack" }, [h("h3", { text: "Selected frame" }), out("liveOut", "No live frame selected.")])
   ]);
 }
 
-export function mountLive(getTunnelName) {
+export function mountLive() {
   if (!$("startLiveBtn")) return;
-  $("startLiveBtn").onclick = () => start(getTunnelName);
+  $("startLiveBtn").onclick = start;
   $("stopLiveBtn").onclick = stop;
-  $("refreshLiveBtn").onclick = () => sample(getTunnelName, "manual");
-  $("clearLiveBtn").onclick = clearHistory;
-  $("liveStreamFilter").onchange = render;
-  $("liveLimit").onchange = render;
-  window.addEventListener("focus", () => sample(getTunnelName, "focus"));
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) sample(getTunnelName, "visible"); });
-  restore().then(() => { render(); start(getTunnelName); });
+  $("refreshLiveBtn").onclick = () => refresh("manual");
+  $("clearLiveBtn").onclick = resetView;
+  $("liveGroupBy").onchange = updateSettings;
+  $("liveFilter").oninput = debounce(updateSettings, 250);
+  $("liveLimit").onchange = updateSettings;
+  $("livePollMs").onchange = updateSettings;
+  $("liveViewport").addEventListener("scroll", () => {
+    state.scrollTop = $("liveViewport").scrollTop;
+    renderRows();
+  });
+  restore().then(() => {
+    hydrateInputs();
+    start();
+  });
 }
 
-function streamSelect() { return h("label", {}, ["Stream", h("select", { id: "liveStreamFilter" }, STREAMS.map(value => h("option", { value, text: value }))) ]); }
-function limitInput() { return h("label", {}, ["History limit", h("input", { id: "liveLimit", type: "number", min: "20", value: "80" })]); }
+function label(text, child) { return h("label", {}, [text, child]); }
 function button(id, text, className = "") { return h("button", { id, text, className }); }
 
-function start(getTunnelName) {
+async function restore() {
+  const saved = await readLocalSetting(SETTINGS_KEY, DEFAULT_SETTINGS);
+  state.settings = { ...DEFAULT_SETTINGS, ...(saved || {}) };
+}
+
+async function persist() {
+  await saveLocalSetting(SETTINGS_KEY, state.settings);
+}
+
+function hydrateInputs() {
+  if ($("liveGroupBy")) $("liveGroupBy").value = state.settings.groupBy;
+  if ($("liveFilter")) $("liveFilter").value = state.settings.filter;
+  if ($("liveLimit")) $("liveLimit").value = String(state.settings.limit);
+  if ($("livePollMs")) $("livePollMs").value = String(state.settings.pollMs);
+}
+
+async function updateSettings() {
+  state.settings = {
+    groupBy: $("liveGroupBy")?.value || "conversation",
+    filter: $("liveFilter")?.value || "",
+    limit: clamp(Number($("liveLimit")?.value || 300), 20, 1000),
+    pollMs: clamp(Number($("livePollMs")?.value || 2500), 1000, 60000)
+  };
+  await persist();
+  if (state.running) start();
+  else await refresh("settings");
+}
+
+function start() {
   stop();
-  channel = "BroadcastChannel" in window ? new BroadcastChannel("awtsmoos:live-agent-traffic") : null;
-  if (channel) channel.onmessage = event => addEvent({ stream: "external", title: "External vessel frame", detail: event.data, source: "BroadcastChannel" });
-  setState("Live bridge running. Code editor and Virtual OS tabs can broadcast tool-call frames into this room.");
-  sample(getTunnelName, "start");
-  timer = setInterval(() => sample(getTunnelName, "interval"), Number($("livePollMs")?.value || 2500));
+  state.running = true;
+  setStatus("Live calls running.");
+  refresh("start");
+  timer = setInterval(() => refresh("interval"), state.settings.pollMs);
 }
 
 function stop() {
   if (timer) clearInterval(timer);
   timer = null;
-  if (channel) channel.close();
-  channel = null;
-  setState("Live bridge stopped. Local history remains.");
+  state.running = false;
+  setStatus("Live calls stopped.");
 }
 
-async function sample(getTunnelName, reason = "sample") {
-  const tunnelName = getTunnelName?.() || window.awtsGetTunnelName?.() || "";
-  if (!tunnelName) {
-    addEvent({ stream: "system", title: `Live sample skipped: ${reason}`, detail: { reason: "missing tunnelName" }, source: "local" });
-    await persist(); render(); return;
+async function resetView() {
+  state.events = [];
+  state.groups = [];
+  state.selectedGroup = "";
+  state.selectedEvent = null;
+  state.scrollTop = 0;
+  state.lastError = "";
+  render();
+  setStatus("Live view reset.");
+}
+
+async function refresh(reason = "refresh") {
+  try {
+    const url = new URL("/api/tunnel/control/live-calls", location.origin);
+    url.searchParams.set("groupBy", state.settings.groupBy);
+    url.searchParams.set("limit", String(state.settings.limit));
+    if (state.settings.filter) url.searchParams.set("filter", state.settings.filter);
+    const got = await getJson(url.toString(), { credentials: "include" });
+    if (got.ok === false) throw new Error(got.error || "live_calls_failed");
+    state.events = got.events || [];
+    state.groups = got.groups || [];
+    if (!state.selectedGroup && state.groups[0]) state.selectedGroup = state.groups[0].key;
+    state.lastError = "";
+    setStatus(`Live calls updated: ${got.total || 0} total, ${state.events.length} loaded (${reason}).`);
+  } catch (error) {
+    state.lastError = error.message || String(error);
+    setStatus(`Live calls error: ${state.lastError}`);
   }
-  addEvent({ stream: "sockets", title: `Reconnect pulse: ${reason}`, detail: { tunnelName }, source: "local" });
-  const frames = await Promise.allSettled([agentFrame(tunnelName), taskFrame(tunnelName), actionFrame(tunnelName)]);
-  frames.forEach(frame => frame.status === "fulfilled" ? frame.value.forEach(addEvent) : addEvent({ stream: "errors", title: "Live sample failed", detail: String(frame.reason), source: "live" }));
-  channel?.postMessage({ at: Date.now(), reason, count: history.length, tunnelName });
-  await persist(); render();
+  render();
 }
 
-async function agentFrame(tunnelName) {
-  const got = await callFs(tunnelName, { action: "aiAgentList" });
-  return [event("agents", "Agent council", got, `${(got.agents || []).filter(a => a.ready).length}/${(got.agents || []).length} ready`)];
-}
-async function taskFrame(tunnelName) {
-  const got = await callFs(tunnelName, { action: "aiAgentTaskList", limit: 50 });
-  const tasks = got.tasks || [];
-  return [event("tasks", "Task list", got, `${tasks.filter(t => t.status === "running").length} running · ${tasks.length} total`), ...tasks.slice(0, 8).map(task => event("tasks", `${task.status}: ${task.input?.title || task.id}`, task, task.id))];
-}
-async function actionFrame(tunnelName) {
-  const got = await callFs(tunnelName, { action: "actionHistoryList", limit: 40 });
-  if (got.ok === false) return [event("actions", "Action history unavailable", got, got.error || "not available")];
-  const actions = got.items || got.history || got.actions || [];
-  return [event("actions", "Tool-call history", got, `${actions.length} actions`), ...actions.slice(0, 10).map(item => event("external", item.action || item.name || item.id || "tool call", item, item.status || item.vessel || item.id || "record"))];
-}
-function event(stream, title, detail, sub = "") { return { stream, title, sub, detail, source: "tunnel", at: Date.now(), id: `${stream}_${Date.now()}_${Math.random().toString(36).slice(2)}` }; }
-function addEvent(entry) { history.unshift({ id: entry.id || `live_${Date.now()}_${Math.random().toString(36).slice(2)}`, at: entry.at || Date.now(), stream: entry.stream || "system", title: entry.title || "Live event", sub: entry.sub || "", source: entry.source || "ui", detail: entry.detail || {} }); history.splice(300); }
-async function restore() { history = await readLocalSetting(LIVE_KEY, []); }
-async function persist() { await saveLocalSetting(LIVE_KEY, history); }
-async function clearHistory() { history = []; await persist(); render(); setState("Local live traffic history cleared."); }
 function render() {
-  const board = $("liveBoard"); if (!board) return;
-  const stream = $("liveStreamFilter")?.value || "all";
-  const limit = Number($("liveLimit")?.value || 80);
-  const shown = history.filter(item => stream === "all" || item.stream === stream).slice(0, limit);
-  board.replaceChildren(...shown.map(card));
-  $("liveOut").textContent = JSON.stringify({ total: history.length, stream, shown: shown.length, latest: shown[0] || null }, null, 2);
+  renderGroups();
+  renderRows();
+  renderSummary();
+  renderSelected();
 }
-function card(item) { return h("div", { className: `awt-live-event awt-live-${item.stream}`, data: { stream: item.stream }, children: [h("span", { className: "awt-live-kind", text: item.stream }), h("strong", { text: item.title }), h("small", { text: `${new Date(item.at).toLocaleTimeString()} · ${item.source}${item.sub ? " · " + item.sub : ""}` })] }); }
-function setState(text) { if ($("liveSocketState")) $("liveSocketState").textContent = text; }
+
+function renderGroups() {
+  const root = $("liveGroups");
+  if (!root) return;
+  const groups = state.groups.length ? state.groups : [{ key: "all", title: "All calls", count: state.events.length, ok: 0, failed: 0, lastAt: Date.now() }];
+  root.replaceChildren(...groups.map(group => h("button", {
+    className: `awt-live-group ${state.selectedGroup === group.key ? "is-active" : ""}`,
+    on: { click: () => { state.selectedGroup = group.key; state.scrollTop = 0; $("liveViewport").scrollTop = 0; render(); } }
+  }, [
+    h("strong", { text: group.title || group.key }),
+    h("small", { text: `${group.count} calls · ${group.failed || 0} failed · ${time(group.lastAt)}` })
+  ])));
+}
+
+function selectedEvents() {
+  if (!state.selectedGroup) return state.events;
+  const groupBy = state.settings.groupBy;
+  return state.events.filter(event => (event.groupKeys?.[groupBy] || event.conversationId || "unknown") === state.selectedGroup);
+}
+
+function renderRows() {
+  const viewport = $("liveViewport");
+  const spacer = $("liveSpacer");
+  const win = $("liveWindow");
+  if (!viewport || !spacer || !win) return;
+  const events = selectedEvents();
+  spacer.style.height = `${Math.max(events.length * ROW_HEIGHT, viewport.clientHeight || ROW_HEIGHT)}px`;
+  const start = Math.max(0, Math.floor(viewport.scrollTop / ROW_HEIGHT) - 4);
+  const visible = Math.ceil((viewport.clientHeight || 480) / ROW_HEIGHT) + 8;
+  const slice = events.slice(start, start + visible);
+  win.style.transform = `translateY(${start * ROW_HEIGHT}px)`;
+  win.replaceChildren(...slice.map(row));
+}
+
+function row(event) {
+  return h("button", {
+    className: "awt-live-row",
+    data: { ok: event.ok !== false },
+    on: { click: () => { state.selectedEvent = event; renderSelected(); } }
+  }, [
+    h("span", { className: "awt-live-kind", text: event.kind || "action" }),
+    h("span", {}, [
+      h("strong", { text: event.title || event.action || event.id }),
+      h("span", { className: "awt-live-meta" }, [
+        h("span", { text: event.conversationName || event.conversationId || "conversation" }),
+        h("span", { text: event.tunnelName || "tunnel" }),
+        h("span", { text: event.targetVessel || "vessel" }),
+        h("span", { text: event.path || "" })
+      ])
+    ]),
+    h("span", { className: event.ok === false ? "awt-live-status-fail" : "awt-live-status-ok", text: `${event.ok === false ? "failed" : "ok"} · ${time(event.at)}` })
+  ]);
+}
+
+function renderSummary() {
+  const events = selectedEvents();
+  const text = `${events.length} visible calls · ${state.events.length} loaded · grouped by ${state.settings.groupBy}${state.lastError ? " · " + state.lastError : ""}`;
+  if ($("liveSummary")) $("liveSummary").textContent = text;
+}
+
+function renderSelected() {
+  const selected = state.selectedEvent || selectedEvents()[0] || null;
+  if ($("liveOut")) $("liveOut").textContent = JSON.stringify(selected || { ok: true, message: "No live frame selected." }, null, 2);
+}
+
+function setStatus(text) {
+  if ($("liveSocketState")) $("liveSocketState").textContent = text;
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(Number.isFinite(value) ? value : min, max));
+}
+
+function time(value) {
+  const n = Number(value || 0);
+  return n ? new Date(n).toLocaleTimeString() : "unknown";
+}
+
+function debounce(fn, ms) {
+  let t = null;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), ms);
+  };
+}

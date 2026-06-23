@@ -30,12 +30,12 @@ async function testAiListAndMessage() {
   stubMiniMax(); const $i = ctx(seed("alice", "virtual context"));
   const list = await supportAction("aiAgentList", { action: "aiAgentList" }, next => dispatchFor($i, "alice", next));
   assert.equal(list.ok, true); assert.equal(list.vessel, "virtual-os"); assert.ok(list.agents.some(a => a.id === "minimax-deep"));
-  const msg = await supportAction("aiAgentMessage", { action: "aiAgentMessage", provider: "minimax", agentId: "minimax-deep", path: "home/notes/a.txt", message: "say hello" }, next => dispatchFor($i, "alice", next));
+  const msg = await supportAction("aiAgentMessage", { action: "aiAgentMessage", provider: "minimax", apiKey: "test-minimax-key", agentId: "minimax-deep", path: "home/notes/a.txt", message: "say hello" }, next => dispatchFor($i, "alice", next));
   assert.equal(msg.ok, true); assert.equal(msg.vessel, "virtual-os"); assert.match(msg.text, /VOS_OK/);
 }
 async function testSpawnAndOutput() {
   stubMiniMax(); tasks.length = 0; const $i = ctx(seed("alice", "spawn context"));
-  const spawn = await supportAction("aiAgentSpawnTask", { action: "aiAgentSpawnTask", provider: "minimax", agentId: "minimax-deep", path: "home/notes/a.txt", message: "write result", outputDir: "home/out", fileName: "ai.md" }, next => dispatchFor($i, "alice", next));
+  const spawn = await supportAction("aiAgentSpawnTask", { action: "aiAgentSpawnTask", provider: "minimax", apiKey: "test-minimax-key", agentId: "minimax-deep", path: "home/notes/a.txt", message: "write result", outputDir: "home/out", fileName: "ai.md" }, next => dispatchFor($i, "alice", next));
   assert.equal(spawn.ok, true); assert.equal(spawn.vessel, "virtual-os");
   await new Promise(resolve => setTimeout(resolve, 20));
   const status = await supportAction("aiAgentTaskStatus", { taskId: spawn.taskId }, next => dispatchFor($i, "alice", next));

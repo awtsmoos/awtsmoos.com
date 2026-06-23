@@ -7,6 +7,7 @@ const HARD_AUTONOMY_PROMPT = [
   "Mission rule: never ask 'should I continue', 'would you like me to', or 'let me know' while safe autonomous work remains.",
   "Before every file-modifying or file-intending stage, call missionStepBrainstorm, missionStepPlan, missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls.",
   "Every chunk plan must list filesToTouch, whyEachFile, readBeforeWrite true, and fullRewriteRequired true; after execution call missionStepReview, then missionStepDelta or missionExpand.",
+  "For hour-scale autonomous work, call missionLoopSeed once, then missionLoopPulse repeatedly; use returned mustCallNext to convert loop obligations into missionStepBrainstorm and the step/chunk protocol.",
   "For long missions, refrigerate before pausing, thaw after context loss, create missionNextPlan after each review, and keep generating tests, docs, risk, observability, and improvement work.",
   "Before asking the user, prove a blocker: user decision/secret/unsafe action required, safe actions tried, checkpoint written, exact nextIfApproved recorded.",
   "If work remains, answer the forced multiple-choice self-interrogation, call mustCallNext, and use finishAndContinue instead of a polite stop."
@@ -111,6 +112,7 @@ function mustCallNext(result = {}, payload = {}, action = "") {
   const missionId = missionIdOf(result, payload);
   const next = resultNext(result);
   if (next?.question && missionId) return { action: "missionAnswer", missionId, answer: next.autoSuggestedAnswer || "B safe autonomous work remains" };
+  if (missionId && /mission(Expand|PostCompletion|Verify|StepReview|StepDelta|NextPlan|Loop)/.test(String(action || ""))) return { action: "missionLoopPulse", missionId, auto: true };
   if (missionId) return { action: "missionNext", missionId, auto: true };
   if (action === "finishAndContinue") return null;
   return { action: "finishAndContinue", continuationPrompt: DEFAULT_KEEP_GOING_PROMPT };

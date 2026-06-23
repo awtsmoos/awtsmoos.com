@@ -38,6 +38,7 @@ const { previewProxy } = require("./previewProxy.js");
 const { previewCreate, previewList, previewRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
 const { view, viewProxy, viewRaw, viewWs } = require("./view.js");
 const { conversationGet, conversationList, conversationRegister } = require("./conversations.js");
+const { liveCalls } = require("./liveCalls.js");
 const { ephemeralMeta, ephemeralPage, ephemeralSearch, ephemeralDelete, ephemeralList } = require("./ephemeral.js");
 const { openApi } = require("./openApi.js");
 const { openApiKey } = require("./openApiKey.js");
@@ -104,6 +105,7 @@ const routeTable = {
   "conversations/register": conversationRegister,
   "conversations/list": conversationList,
   "conversations/get": conversationGet,
+  "live-calls": liveCalls,
   "view/:previewId/raw": viewRaw,
   "view/:previewId/proxy": viewProxy,
   "view/:previewId/ws": viewWs,

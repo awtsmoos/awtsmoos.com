@@ -49,7 +49,11 @@ async function handleVirtualAiAction(action, payload = {}, dispatch) {
 }
 
 function config(payload = {}) {
-  return mergeAccountKeys(loadConfig(), payload.__awtsmoosUserId);
+  const cfg = mergeAccountKeys(loadConfig(), payload.__awtsmoosUserId);
+  const provider = String(payload.provider || payload.providerId || "").trim().toLowerCase();
+  const apiKey = String(payload.apiKey || "").trim();
+  if (!provider || !apiKey) return cfg;
+  return { ...cfg, aiAgents: { ...(cfg.aiAgents || {}), providerKeys: { ...(cfg.aiAgents?.providerKeys || {}), [provider]: apiKey } } };
 }
 
 function listVirtualAgents(payload = {}) {
