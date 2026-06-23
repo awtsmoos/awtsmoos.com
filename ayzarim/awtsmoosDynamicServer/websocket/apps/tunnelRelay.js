@@ -72,7 +72,7 @@ function allowedActionAlias(requestAction, actualAction) {
     command: ["commandRun", "commandStart"],
     commandRun: ["commandStart", "commandRun"],
     commandStart: ["commandStart", "commandRun"],
-    commandStatus: ["commandStatus"],
+    commandStatus: ["commandStatus", "commandStart"],
     commandWait: ["commandWait"],
     commandJobOutputPage: ["commandJobOutputPage"],
     commandOutputPage: ["commandJobOutputPage"],
