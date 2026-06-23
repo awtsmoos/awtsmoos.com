@@ -9,7 +9,7 @@ const aiActionsPath = path.join(root, "geelooy/ai/central/generatedTunnelActions
 const yamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml");
 const liveYamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml");
 
-const OPENAI_AGENT_MISSION_RULE = "OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. After every action, inspect aiGuidance. If work remains, do the smallest safe inspect/test/checkpoint action and call finishAndContinue with remaining tasks instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved.";
+const OPENAI_AGENT_MISSION_RULE = "OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved.";
 
 const baseConfig = {
   root,
@@ -135,7 +135,13 @@ function yaml() {
     "        nextStdoutPagePayload: { type: object, additionalProperties: true }",
     "        nextStderrPagePayload: { type: object, additionalProperties: true }",
     "        nextScanRequest: { type: object, additionalProperties: true }",
-    "        aiGuidance: { type: object, additionalProperties: true, description: Read this after every action. If keepGoing/hardAutonomy is true, continue or call finishAndContinue; do not ask the user to continue unless blocked with proof. }",
+    "        finalAnswerAllowed: { type: boolean, description: False means the agent must not send a final answer yet. }",
+    "        mustContinue: { type: boolean, description: True means answer multipleChoiceSelfInterrogation and call mustCallNext or finishAndContinue. }",
+    "        mustCallNext: { type: object, additionalProperties: true, description: Next action payload the agent should call instead of asking the user to continue. }",
+    "        multipleChoiceSelfInterrogation: { type: object, additionalProperties: true, description: Forced self-question with A/B/C/D choices; choose B when safe autonomous work remains. }",
+    "        blockerProofRequired: { type: object, additionalProperties: true, description: Required proof before asking the user. }",
+    "        stopRule: { type: string }",
+    "        aiGuidance: { type: object, additionalProperties: true, description: Read this after every action. If keepGoing/hardAutonomy or mustContinue is true, answer the forced self-interrogation and continue; do not ask the user unless blocked with proof. }",
     "        finalInstruction:",
     "          type: object",
     "          additionalProperties: true",
@@ -179,5 +185,6 @@ console.log(JSON.stringify({
   hasCommandPagingParams: ["commandOutputPage", "commandStart", "commandStatus", "commandJobOutputPage", "outputId", "jobId", "stream", "offsetChars", "maxChars", "asyncCommand", "background"].every(x => yamlText.includes(x.startsWith("command") ? `              - ${x}` : `name: ${x}`)),
   hasChatGptActions: ["chatgptLogin", "chatgptMessage", "chatgptContinueConversation"].every(x => yamlText.includes(`              - ${x}`)),
   hasRuntimeParams: ["actionsJson64", "browserActions64", "pageActions64", "engine"].every(x => yamlText.includes(`name: ${x}`)),
-  hasHardAutonomyOpenApi: yamlText.includes("OpenAI agent mission rule") && yamlText.includes("finishAndContinue") && yamlText.includes("blocked with proof")
+  hasHardAutonomyOpenApi: yamlText.includes("OpenAI agent mission rule") && yamlText.includes("finishAndContinue") && yamlText.includes("blocked with proof"),
+  hasForcedMissionProtocol: ["finalAnswerAllowed", "mustContinue", "mustCallNext", "multipleChoiceSelfInterrogation", "blockerProofRequired"].every(x => yamlText.includes(x))
 }, null, 2));

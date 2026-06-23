@@ -6,7 +6,7 @@ const DEFAULT_CONCLUDE_PROMPT = "Conclude only when no remaining work, no nextAc
 const HARD_AUTONOMY_PROMPT = [
   "Mission rule: never ask 'should I continue', 'would you like me to', or 'let me know' while safe autonomous work remains.",
   "Before asking the user, prove a blocker: user decision/secret/unsafe action required, safe actions tried, checkpoint written, exact nextIfApproved recorded.",
-  "If work remains, continue with the smallest safe inspect/test/checkpoint action and call finishAndContinue instead of a polite stop."
+  "If work remains, answer the forced multiple-choice self-interrogation, call mustCallNext, and use finishAndContinue instead of a polite stop."
 ].join(" ");
 
 const GUIDANCE_PROMPTS = [
@@ -67,13 +67,80 @@ function guidancePackForAction(action = "") {
   return [0, 7, 17, 29, 37].map(offset => `${HARD_AUTONOMY_PROMPT} ${GUIDANCE_PROMPTS[(seed + offset) % GUIDANCE_PROMPTS.length]}`);
 }
 function actionChecklistPrompt(action = "") {
-  return `For action ${String(action || "unknown")}: write remaining work, inspect confusing results, do the next safe item, verify with a real result, and continue. Ask the user only with blocker proof.`;
+  return `For action ${String(action || "unknown")}: write remaining work, inspect confusing results, answer multiple-choice self-interrogation, call mustCallNext if present, verify with a real result, and continue.`;
 }
 function debugWanted(payload = {}) {
   return payload.guidanceDebug === true || payload.guidanceDebug === "true" || payload.debugGuidance === true || payload.debugGuidance === "true";
 }
-function guidancePayload(action, payload) {
-  const base = { keepGoing: true, prompt: guidanceForAction(action), hardAutonomy: true, askUserRequiresBlockerProof: true };
+function missionIdOf(result = {}, payload = {}) {
+  return result.missionId || result.mission?.id || result.report?.id || payload.missionId || payload.id || "";
+}
+function resultNext(result = {}) {
+  return result.next || result.heartbeat?.next || result.autopilot?.final?.report?.continuation || null;
+}
+function nextKeepsGoing(result = {}) {
+  const next = resultNext(result);
+  if (next && typeof next.keepGoing === "boolean") return next.keepGoing;
+  if (next && typeof next.continueWorking === "boolean") return next.continueWorking;
+  if (result.finalAnswerAllowed === true || result.done === true) return false;
+  if (result.ok === false) return false;
+  return true;
+}
+function forcedQuestion(result = {}, action = "") {
+  const next = resultNext(result);
+  if (next?.question) return next.question;
+  return {
+    id: `forced_${Date.now()}`,
+    text: "Is this mission truly complete?",
+    prompt: "Forced self-interrogation before any final answer.",
+    choices: [
+      { key: "A", text: "Yes, verified complete", action: "finish_only_if_all_gates_pass" },
+      { key: "B", text: "No, safe autonomous work remains", action: "continue_with_next_safe_action" },
+      { key: "C", text: "Blocked by required user decision/secret/unsafe action", action: "ask_user_with_blocker_proof" },
+      { key: "D", text: "Unsafe/destructive to continue", action: "stop_with_safety_reason" }
+    ],
+    expectedAnswerFormat: "A|B|C|D plus proof. Choose B unless all gates are verified or C/D has blocker proof.",
+    requiredChoiceWhenWorkRemains: "B"
+  };
+}
+function mustCallNext(result = {}, payload = {}, action = "") {
+  const missionId = missionIdOf(result, payload);
+  const next = resultNext(result);
+  if (next?.question && missionId) return { action: "missionAnswer", missionId, answer: next.autoSuggestedAnswer || "B safe autonomous work remains" };
+  if (missionId) return { action: "missionNext", missionId, auto: true };
+  if (action === "finishAndContinue") return null;
+  return { action: "finishAndContinue", continuationPrompt: DEFAULT_KEEP_GOING_PROMPT };
+}
+function forcedMissionProtocol(result = {}, payload = {}) {
+  const action = payload.action || result.action || "unknown";
+  const keepGoing = nextKeepsGoing(result);
+  const question = forcedQuestion(result, action);
+  return {
+    finalAnswerAllowed: !keepGoing,
+    mustContinue: keepGoing,
+    mustCallNext: keepGoing ? mustCallNext(result, payload, action) : null,
+    multipleChoiceSelfInterrogation: question,
+    stopRule: "Do not produce a final answer while mustContinue is true. Answer the multiple-choice self-interrogation and call mustCallNext.",
+    blockerProofRequired: {
+      safeActionsTried: "required before asking user",
+      whyUserNeeded: "required before asking user",
+      checkpointOrHandoffStatus: "required before asking user",
+      nextIfApproved: "required before asking user"
+    }
+  };
+}
+function guidancePayload(action, payload, result) {
+  const protocol = forcedMissionProtocol(result || {}, payload || {});
+  const base = {
+    keepGoing: protocol.mustContinue,
+    prompt: guidanceForAction(action),
+    hardAutonomy: true,
+    askUserRequiresBlockerProof: true,
+    finalAnswerAllowed: protocol.finalAnswerAllowed,
+    mustContinue: protocol.mustContinue,
+    mustCallNext: protocol.mustCallNext,
+    multipleChoiceSelfInterrogation: protocol.multipleChoiceSelfInterrogation
+  };
   if (!debugWanted(payload)) return base;
   return {
     ...base,
@@ -90,9 +157,11 @@ function guidancePayload(action, payload) {
 }
 function attachActionGuidance(result, payload = {}) {
   if (!result || typeof result !== "object" || Array.isArray(result)) return result;
-  if (result.aiGuidance) return result;
   const action = payload.action || result.action || "unknown";
-  return { ...result, aiGuidance: guidancePayload(action, payload) };
+  const protocol = forcedMissionProtocol(result, payload);
+  const generated = guidancePayload(action, payload, result);
+  const guidance = result.aiGuidance ? { ...generated, ...result.aiGuidance, finalAnswerAllowed: protocol.finalAnswerAllowed, mustContinue: protocol.mustContinue, mustCallNext: protocol.mustCallNext, multipleChoiceSelfInterrogation: protocol.multipleChoiceSelfInterrogation } : generated;
+  return { ...result, ...protocol, aiGuidance: guidance };
 }
 module.exports = {
   DEFAULT_KEEP_GOING_PROMPT,
@@ -103,5 +172,6 @@ module.exports = {
   guidancePackForAction,
   actionChecklistPrompt,
   attachActionGuidance,
+  forcedMissionProtocol,
   guidancePayload
 };
