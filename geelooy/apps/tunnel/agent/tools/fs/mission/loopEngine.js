@@ -103,6 +103,17 @@ function arr(v) {
   }
   return [];
 }
+function rawItems(v) {
+  if (Array.isArray(v)) return v;
+  if (typeof v === 'string' && v.trim()) {
+    try {
+      const parsed = JSON.parse(v);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {}
+    return arr(v);
+  }
+  return [];
+}
 function num(v, fallback) {
   const n = Number(v);
   return Number.isFinite(n) && n >= 0 ? Math.floor(n) : fallback;
@@ -181,7 +192,7 @@ function pulse(m, input = {}) {
 }
 function queue(m, input = {}) {
   const loop = ensure(m);
-  const items = arr(input.add || input.items).map(title => queueItem(input.family || 'manual', title, input));
+  const items = rawItems(input.add || input.items).map(item => queueItem(input.family || 'manual', item, input));
   loop.queue.unshift(...items);
   for (const item of items) addTask(m, item.title, { status: 'open', kind: 'long-run-manual' });
   event(m, 'mission_loop_queue', `Queued ${items.length} items`, { items: items.length });
@@ -244,17 +255,20 @@ function nextActionPayload(m, extra = {}) {
   return { action: 'missionLoopPulse', missionId: m.id, auto: true };
 }
 function queueItem(family, title, input = {}) {
+  const source = title && typeof title === 'object' ? title : {};
+  const itemFamily = source.family || family;
+  const itemTitle = source.title || source.step || source.name || title;
   return {
     id: id('work'),
-    family,
-    title: String(title || `${family} work`),
+    family: String(itemFamily || 'manual'),
+    title: String(itemTitle || `${itemFamily || family} work`),
     status: 'open',
-    priority: num(input.priority, priorityOf(family)),
+    priority: num(source.priority ?? input.priority, priorityOf(itemFamily || family)),
     createdAt: now(),
     updatedAt: now(),
-    why: input.why || `Keep mission improving through ${family} review.`,
-    tests: arr(input.tests),
-    risks: arr(input.risks)
+    why: source.why || input.why || `Keep mission improving through ${itemFamily || family} review.`,
+    tests: arr(source.tests || input.tests),
+    risks: arr(source.risks || input.risks)
   };
 }
 function priorityOf(family) {
