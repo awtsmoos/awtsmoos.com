@@ -3,6 +3,7 @@ const M = require('../mission/index.js');
 const X = require('../mission/expansion.js');
 const S = require('../mission/stepProtocol.js');
 const L = require('../mission/loopEngine.js');
+const C = require('../mission/collaboration.js');
 function parsedParams(params){if(!params)return {};if(typeof params==='object'&&!Array.isArray(params))return params;if(typeof params==='string'){try{const parsed=JSON.parse(params);return parsed&&typeof parsed==='object'&&!Array.isArray(parsed)?parsed:{};}catch{return {};}}return {};}
 function mergedPayload(payload={}){const decoded=parsedParams(payload.params);return {...decoded,...payload};}
 function mid(p){return p.missionId||p.id||p.target||'';}
@@ -59,6 +60,16 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=mergedPayload
   async missionLoopPulse(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopPulse',...L.pulse(m,payload)},m,payload));},
   async missionLoopQueue(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopQueue',...L.queue(m,payload)},m,payload));},
   async missionLoopWatchdog(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopWatchdog',watchdog:L.watchdog(m,payload),...L.pulse(m,{...payload,replenishFamilies:4})},m,payload));},
-  async missionLoopCheckpoint(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopCheckpoint',...L.checkpointLoop(m,payload)},m,payload));}
-};}
+  async missionLoopCheckpoint(){return use(config,payload,m=>withNext({ok:true,action:'missionLoopCheckpoint',...L.checkpointLoop(m,payload)},m,payload));},
+  async missionProjectJoin(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectJoin',...C.join(m,payload)},m,payload));},
+  async missionProjectStatus(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectStatus',collaboration:C.status(m)},m,payload));},
+  async missionProjectInvite(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectInvite',invitePrompt:C.inviteText(m,payload),collaboration:C.status(m)},m,payload));},
+  async missionAgentSync(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentSync',...C.sync(m,payload)},m,payload));},
+  async missionAgentMessage(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentMessage',...C.message(m,payload)},m,payload));},
+  async missionAgentDelegate(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentDelegate',...C.delegate(m,payload)},m,payload));},
+  async missionAgentClaim(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentClaim',...C.claim(m,payload)},m,payload));},
+  async missionAgentHeartbeat(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentHeartbeat',...C.heartbeat(m,payload)},m,payload));},
+  async missionAgentAudit(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentAudit',...C.audit(m,payload)},m,payload));},
+  async missionAgentComplete(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentComplete',...C.complete(m,payload)},m,payload));}
+};} 
 module.exports={buildMissionActions,mergedPayload};

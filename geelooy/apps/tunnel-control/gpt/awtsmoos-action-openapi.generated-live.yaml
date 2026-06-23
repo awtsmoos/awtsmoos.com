@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
   version: 6.1.0-generated
-  description: B"H. Generated from the local tunnel registry. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. One backward-compatible action endpoint exposes old aliases and new mode-based internals.
+  description: B"H. Generated from the local tunnel registry. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. Optional extra ChatGPT sessions can join the same project by calling missionProjectJoin with the missionId, then missionAgentSync, missionAgentClaim before touching files, missionAgentMessage or missionAgentDelegate to coordinate, missionAgentHeartbeat while working, missionAgentAudit to detect overlaps/leaks, and missionAgentComplete when a claimed chunk is finished. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. One backward-compatible action endpoint exposes old aliases and new mode-based internals.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
+      description: B"H. Run one tunnel action. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. Optional extra ChatGPT sessions can join the same project by calling missionProjectJoin with the missionId, then missionAgentSync, missionAgentClaim before touching files, missionAgentMessage or missionAgentDelegate to coordinate, missionAgentHeartbeat while working, missionAgentAudit to detect overlaps/leaks, and missionAgentComplete when a claimed chunk is finished. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
@@ -298,6 +298,13 @@ paths:
               - microPatchPlanner
               - minimalReproGenerator
               - missionAddTask
+              - missionAgentAudit
+              - missionAgentClaim
+              - missionAgentComplete
+              - missionAgentDelegate
+              - missionAgentHeartbeat
+              - missionAgentMessage
+              - missionAgentSync
               - missionAnswer
               - missionAttachJob
               - missionAuto
@@ -326,6 +333,9 @@ paths:
               - missionNextPlan
               - missionPlanDelta
               - missionPostCompletion
+              - missionProjectInvite
+              - missionProjectJoin
+              - missionProjectStatus
               - missionQuestion
               - missionRefrigerate
               - missionReport
@@ -700,6 +710,21 @@ paths:
         - { name: filter, in: query, schema: { type: string } }
         - { name: q, in: query, schema: { type: string } }
         - { name: why, in: query, schema: { type: string } }
+        - { name: projectRoot, in: query, schema: { type: string } }
+        - { name: directory, in: query, schema: { type: string } }
+        - { name: logicalAgentId, in: query, schema: { type: string } }
+        - { name: agentSessionId, in: query, schema: { type: string } }
+        - { name: agentName, in: query, schema: { type: string } }
+        - { name: role, in: query, schema: { type: string } }
+        - { name: capabilities, in: query, schema: { type: string } }
+        - { name: fromAgent, in: query, schema: { type: string } }
+        - { name: toAgent, in: query, schema: { type: string } }
+        - { name: subject, in: query, schema: { type: string } }
+        - { name: references, in: query, schema: { type: string } }
+        - { name: delegationId, in: query, schema: { type: string } }
+        - { name: claimId, in: query, schema: { type: string } }
+        - { name: currentAction, in: query, schema: { type: string } }
+        - { name: currentStep, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
@@ -739,6 +764,8 @@ paths:
         - { name: agentCycles, in: query, schema: { type: integer, default: 8 } }
         - { name: chapterCycles, in: query, schema: { type: integer, default: 8 } }
         - { name: providerTimeoutMs, in: query, schema: { type: integer, default: 45000 } }
+        - { name: leaseMs, in: query, schema: { type: integer, default: 3600000 } }
+        - { name: staleMs, in: query, schema: { type: integer, default: 900000 } }
         - { name: checkSyntax, in: query, schema: { type: boolean, default: true } }
         - { name: runtimeCheck, in: query, schema: { type: boolean, default: false } }
         - { name: regex, in: query, schema: { type: boolean, default: false } }
@@ -769,6 +796,7 @@ paths:
         - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
         - { name: readBeforeWrite, in: query, schema: { type: boolean, default: true } }
         - { name: fullRewriteRequired, in: query, schema: { type: boolean, default: true } }
+        - { name: requiresResponse, in: query, schema: { type: boolean, default: false } }
       responses:
         "200": { description: OK. Inspect aiGuidance; when aiGuidance.keepGoing is true or work remains, continue with the next safe action or finishAndContinue instead of asking the user to continue., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:

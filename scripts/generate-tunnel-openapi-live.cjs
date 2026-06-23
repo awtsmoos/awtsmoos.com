@@ -9,7 +9,7 @@ const aiActionsPath = path.join(root, "geelooy/ai/central/generatedTunnelActions
 const yamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml");
 const liveYamlPath = path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml");
 
-const OPENAI_AGENT_MISSION_RULE = "OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved.";
+const OPENAI_AGENT_MISSION_RULE = "OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. Optional extra ChatGPT sessions can join the same project by calling missionProjectJoin with the missionId, then missionAgentSync, missionAgentClaim before touching files, missionAgentMessage or missionAgentDelegate to coordinate, missionAgentHeartbeat while working, missionAgentAudit to detect overlaps/leaks, and missionAgentComplete when a claimed chunk is finished. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved.";
 
 const baseConfig = {
   root,
@@ -33,20 +33,22 @@ const stringParams = [
   ["continuationPrompt"], ["continuationPrompt64"], ["provider"], ["providerId"], ["agent"], ["agentId"], ["model"], ["apiKey"], ["apiKey64"], ["message"], ["message64"],
   ["prompt"], ["prompt64"], ["system"], ["system64"], ["taskId"], ["title"], ["outputDir"], ["fileName"], ["summaryAgentId"], ["summaryFileName"], ["parentTaskId"], ["rootTaskId"], ["taskKind"], ["treeId"], ["nodeId"], ["outputId"], ["outputRef"], ["resultId"], ["resultRef"], ["jobId"], ["stream"],
   ["missionId"], ["definitionOfDone"], ["step"], ["stageTitle"], ["brainstorm"], ["plan"], ["planned"], ["actual"], ["delta"], ["filesToTouch"], ["whyEachFile"], ["chunks"], ["chunkId"], ["chunkTitle"], ["tests"], ["testsRun"], ["risks"], ["evidence"], ["filesTouched"], ["touchedFiles"], ["pendingNextAction"], ["nextAction"], ["resumeInstruction"], ["stateId"], ["nextStep"],
-  ["focus"], ["families"], ["family"], ["add"], ["items"], ["groupBy"], ["filter"], ["q"], ["why"]
+    ["focus"], ["families"], ["family"], ["add"], ["items"], ["groupBy"], ["filter"], ["q"], ["why"],
+    ["projectRoot"], ["directory"], ["logicalAgentId"], ["agentSessionId"], ["agentName"], ["role"], ["capabilities"], ["fromAgent"], ["toAgent"], ["subject"], ["references"], ["delegationId"], ["claimId"], ["currentAction"], ["currentStep"]
 ];
 const integerParams = [
   ["offsetChars", 0], ["maxChars", 12000], ["totalMaxChars", 24000], ["offsetBytes", 0], ["maxBytes", 24000], ["maxFiles", 5], ["maxResults", 80], ["page", 1], ["pageSize", 50],
   ["cursor", 0], ["nextCursor"], ["maxInlineBytes", 12000], ["maxInlineChars", 12000], ["pageChars", 12000], ["depth", 2], ["limit", 150], ["timeoutMs", 240000], ["maxText", 4000], ["maxSteps", 50], ["maxIterations", 20],
   ["budgetPerutas"], ["budget"], ["maxPerutas"], ["estimatedPerutas"], ["ttlSeconds"],
   ["port", 9222], ["chromePort", 9222], ["waitMs", 800], ["pollMs", 1000], ["settleMs", 2500], ["startupWaitMs", 1200], ["maxDepth", 3], ["maxChildrenPerTask", 8],
-  ["maxTotalTasks", 80], ["pollIntervalMs", 7000], ["promotionCycles", 7], ["agentCycles", 8], ["chapterCycles", 8], ["providerTimeoutMs", 45000]
+    ["maxTotalTasks", 80], ["pollIntervalMs", 7000], ["promotionCycles", 7], ["agentCycles", 8], ["chapterCycles", 8], ["providerTimeoutMs", 45000],
+    ["leaseMs", 3600000], ["staleMs", 900000]
 ];
 const booleanParams = [
   ["checkSyntax", true], ["runtimeCheck", false], ["regex", false], ["replaceAll", true], ["dryRun", true], ["confirm", false], ["includeDirs", false], ["write", false],
   ["snapshot", true], ["headless", false], ["fullPage", true], ["allowWrite"], ["allowSecrets"], ["enableLocalHttpProxy"], ["allowCommands"], ["stream"], ["async"], ["asyncCommand"], ["background"], ["guidanceDebug", false],
   ["debugGuidance", false], ["allowRecursiveSpawn", true], ["continueCurrent", false], ["open", false], ["wait", false], ["optional", false], ["required", true], ["continueOnError", false],
-  ["readBeforeWrite", true], ["fullRewriteRequired", true]
+    ["readBeforeWrite", true], ["fullRewriteRequired", true], ["requiresResponse", false]
 ];
 
 function scalar(value) { return typeof value === "string" ? JSON.stringify(value) : String(value); }
