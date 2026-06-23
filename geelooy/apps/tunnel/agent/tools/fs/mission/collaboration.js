@@ -49,6 +49,17 @@ function ensure(m) {
       allowContinuePhrases: ['continue', 'go on', 'proceed', 'keep going', 'resume']
     }
   };
+  m.collaboration.agents ||= {};
+  m.collaboration.messages ||= [];
+  m.collaboration.userMessages ||= [];
+  m.collaboration.delegations ||= [];
+  m.collaboration.claims ||= [];
+  m.collaboration.heartbeats ||= [];
+  m.collaboration.audits ||= [];
+  m.collaboration.invitePrompts ||= [];
+  m.collaboration.settings ||= {};
+  if (m.collaboration.settings.blockOnUserMessage === undefined) m.collaboration.settings.blockOnUserMessage = true;
+  if (!Array.isArray(m.collaboration.settings.allowContinuePhrases)) m.collaboration.settings.allowContinuePhrases = ['continue', 'go on', 'proceed', 'keep going', 'resume'];
   m.collaboration.updatedAt = now();
   return m.collaboration;
 }
