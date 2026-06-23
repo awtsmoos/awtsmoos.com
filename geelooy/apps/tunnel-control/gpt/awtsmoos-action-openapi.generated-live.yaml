@@ -307,11 +307,17 @@ paths:
               - missionCompleteTask
               - missionDiscover
               - missionEvidence
+              - missionEvidenceDebt
+              - missionExpand
+              - missionFamilies
               - missionGet
               - missionGraph
               - missionHeartbeat
+              - missionImprovementPlan
               - missionList
               - missionNext
+              - missionPlanDelta
+              - missionPostCompletion
               - missionQuestion
               - missionReport
               - missionSelfMailDraft

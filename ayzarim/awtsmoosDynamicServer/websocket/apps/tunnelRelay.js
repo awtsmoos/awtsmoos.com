@@ -102,6 +102,10 @@ function missingOrMismatch(expectedValue, actualValue) {
   return !!expectedValue && actualValue !== expectedValue;
 }
 
+function shouldCheckPath(action = "") {
+  return /^(read|read64|readBytes|write|writeIfHash|stat|copy|move|delete|tree|list|find|grep|rg|touch|mkdirp|ensureFile|bulk|bulkWrite|bulkRead|readLines|readManyLines|connectedFiles|largeFiles|fileHashes|recentFiles)$/.test(String(action));
+}
+
 function mismatchResponse(expected, data, flags) {
   return {
     BH: "B\"H",
@@ -156,7 +160,7 @@ function validateTunnelResponse(expected, data = {}) {
     streamMismatch: /^command(Job)?OutputPage$/.test(expected.requestedAction) && valueMismatch(expected.stream, actualStream(data)),
     cwdMismatch: /^(command|commandRun|commandStart)$/.test(expected.requestedAction) && valueMismatch(expected.cwd, data.cwd),
     commandMismatch: /^(command|commandRun|commandStart)$/.test(expected.requestedAction) && valueMismatch(expected.command, data.command),
-    pathMismatch: !/^command/.test(expected.requestedAction) && valueMismatch(expected.path, data.path || data.absolutePath)
+    pathMismatch: shouldCheckPath(expected.requestedAction) && valueMismatch(expected.path, data.path || data.absolutePath)
   };
   return Object.values(flags).some(Boolean) ? { ok: false, response: mismatchResponse(expected, data, flags) } : { ok: true };
 }
@@ -197,5 +201,6 @@ module.exports = {
   handleTunnelResponse,
   sendTunnelRequest,
   validateTunnelResponse,
-  requestExpectation
+  requestExpectation,
+  shouldCheckPath
 };
