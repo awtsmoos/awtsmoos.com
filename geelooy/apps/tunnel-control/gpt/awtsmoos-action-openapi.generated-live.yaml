@@ -6,7 +6,7 @@ info:
     B"H. The explicit action argument is the requested action.
     responseFocus is advisory unless mustAnswerGate=true.
     Passive actions must not be replaced by responseFocus.nextAction.
-    For action integrity, pass intendedAction or params.action.
+    For action integrity, pass top-level action. Nested params.action is only a missing-action fallback and must not override an explicit action.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -32,7 +32,7 @@ paths:
     B"H. The explicit action argument is the requested action.
     responseFocus is advisory unless mustAnswerGate=true.
     Passive actions must not be replaced by responseFocus.nextAction.
-    For action integrity, pass intendedAction or params.action. Use guidanceDebug=true only when raw protocol details are needed.
+    For action integrity, pass top-level action. Nested params.action is only a missing-action fallback and must not override an explicit action. Use guidanceDebug=true only when raw protocol details are needed.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
@@ -572,10 +572,10 @@ paths:
         - { name: text64, in: query, schema: { type: string } }
         - { name: goal, in: query, schema: { type: string } }
         - { name: goal64, in: query, schema: { type: string } }
-        - { name: params, in: query, schema: { type: string }, description: JSON carrier. May include action/intendedAction/jobId/stream. }
+        - { name: params, in: query, schema: { type: string }, description: JSON carrier. May include fallback action/intendedAction only when top-level action is absent; jobId/stream are always promoted. }
         - { name: params64, in: query, schema: { type: string }, description: Base64 JSON carrier. }
-        - { name: intendedAction, in: query, schema: { type: string }, description: Immutable action seal; backend may recover this when an adapter rewrites top-level action. }
-        - { name: expectedAction, in: query, schema: { type: string }, description: Alias of intendedAction used for action integrity checks. }
+        - { name: intendedAction, in: query, schema: { type: string }, description: Fallback action seal; backend may recover this only when top-level action is absent. }
+        - { name: expectedAction, in: query, schema: { type: string }, description: Alias of intendedAction used only as a missing-action fallback. }
         - { name: actions, in: query, schema: { type: string } }
         - { name: actions64, in: query, schema: { type: string } }
         - { name: actionsJson, in: query, schema: { type: string } }

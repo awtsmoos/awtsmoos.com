@@ -29,6 +29,22 @@ function payloadEcho(payload) {
   };
 }
 
+/**
+ * B"H
+ * Chapter 534: The testing mirror and the route drink from one well.
+ * Older tests called normalizeCarriers directly. Instead of preserving a dead
+ * second normalizer, this helper now wraps buildFsPayload with the same shaped
+ * route context used by the protected endpoint. The Awtsmoos unifies the
+ * hidden carrier river and the public guarded gate.
+ */
+function normalizeCarriers(body = {}, $i = {}) {
+  const paramKinds = {
+    ...($i.paramKinds || {}),
+    POST: { ...($i.paramKinds?.POST || {}), ...body }
+  };
+  return buildFsPayload({ ...$i, paramKinds, $_POST: paramKinds.POST });
+}
+
 async function protectedFs($i, vars) {
   const ident = currentIdentity($i);
   if (!ident.ok) {
@@ -45,9 +61,7 @@ async function protectedFs($i, vars) {
     return json($i, { BH: "B\"H", ok: false, error: payload.payloadError, action: payload.action }, 400);
   }
 
-  if (payload.action === "payloadEcho") {
-    return json($i, payloadEcho(payload), 200);
-  }
+  if (payload.action === "payloadEcho") return json($i, payloadEcho(payload), 200);
 
   if (ident.kind === "session" && !mayUseSessionForDashboard(payload)) {
     return json($i, {
@@ -69,12 +83,7 @@ async function protectedFs($i, vars) {
 
   try {
     const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload);
-    const out = {
-      ...result,
-      requestAction: payload.action,
-      actualAction: result?.action || ""
-    };
-
+    const out = { ...result, requestAction: payload.action, actualAction: result?.action || "" };
     recordUsage({
       userId: ident.userId,
       keyId: ident.keyId || null,
@@ -83,11 +92,9 @@ async function protectedFs($i, vars) {
       bytes: responseBytes(out),
       ok: out.ok !== false
     });
-
     if (!out || typeof out !== "object") {
       return json($i, { BH: "B\"H", ok: false, error: "empty_tunnel_response", requestAction: payload.action }, 502);
     }
-
     return json($i, out, out.status || 200);
   } catch (e) {
     recordUsage({
@@ -101,4 +108,4 @@ async function protectedFs($i, vars) {
   }
 }
 
-module.exports = { protectedFs };
+module.exports = { protectedFs, normalizeCarriers };

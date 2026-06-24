@@ -1,11 +1,11 @@
 /* B"H */
 /**
  * B"H
- * Chapter 53: One gate, many obedient rivers.
+ * Chapter 54: The last word restores the road.
  *
- * The Awtsmoos reveals this stylesheet as the only public doorway. The future
- * bundle carries the full beautiful palace. The legacy bundle follows after it,
- * divided into small vessels that style only rooms not already owned upstream.
+ * Future and legacy may argue, but final-normal-scroll.css is the closing psak:
+ * the page scrolls normally and no extra floating UI rules the screen.
  */
 @import url("./future/index.css");
 @import url("./legacy/index.css");
+@import url("./final-normal-scroll.css");

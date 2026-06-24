@@ -13,18 +13,22 @@ const { buildPreviewActions } = require("./actionGroups/previewActions.js");
 const { buildRuntimeActions } = require("./actionGroups/runtimeActions.js");
 const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
 const { buildQualityActions } = require("./actionGroups/qualityActions.js");
+const { buildMissionActions } = require("./actionGroups/missionActions.js");
 
 const AGENT_VERSION = "split-agent-1.5.0";
 
 function payloadEcho(payload) {
-  return {
-    BH: "B\"H",
-    ok: true,
-    action: "payloadEcho",
-    payload
-  };
+  return { BH: "B\"H", ok: true, action: "payloadEcho", payload };
 }
 
+/**
+ * B"H
+ * Chapter 531: The missing room returned to the palace.
+ * The mission actions were written like a fiery constellation, but the central
+ * registry did not spread them into the living action map. A tunnel can only
+ * reveal the vessels it names. Now the mission rooms enter the registry openly,
+ * and every agent may knock on missionStart without finding an empty doorway.
+ */
 function buildActions(config, payload, ws) {
   const ctx = { config, payload, ws, version: AGENT_VERSION };
   const actions = {
@@ -51,27 +55,22 @@ function buildActions(config, payload, ws) {
     ...buildPreviewActions(ctx),
     ...buildRuntimeActions(ctx),
     ...buildCognitionActions(ctx),
-    ...buildQualityActions(ctx, buildActions)
+    ...buildQualityActions(ctx, buildActions),
+    ...buildMissionActions(ctx)
   };
 
   if (actions.commandRun && !actions.command) actions.command = actions.commandRun;
   if (actions.commandStart && !actions.commandRun) actions.commandRun = actions.commandStart;
   if (actions.commandStart && !actions.command) actions.command = actions.commandStart;
-
   return actions;
 }
 
 async function handleFsAction(payload, ws) {
   const config = loadConfig();
   const action = payload.action;
-
-  if (!action) {
-    return { ok: false, status: 400, error: "missing_action" };
-  }
-
+  if (!action) return { ok: false, status: 400, error: "missing_action" };
   const actions = buildActions(config, payload, ws);
   const fn = actions[action];
-
   if (!fn) {
     return {
       ok: false,
@@ -81,12 +80,10 @@ async function handleFsAction(payload, ws) {
       availableActions: Object.keys(actions).sort()
     };
   }
-
   const result = await fn();
   if (!result || typeof result !== "object") {
     return { ok: false, status: 502, action, error: "empty_action_response" };
   }
-
   if (!result.action) result.action = action;
   return result;
 }
@@ -95,9 +92,4 @@ function publicConfigWithVersion(config) {
   return publicConfig(config, AGENT_VERSION);
 }
 
-module.exports = {
-  handleFsAction,
-  publicConfig: publicConfigWithVersion,
-  buildActions,
-  AGENT_VERSION
-};
+module.exports = { handleFsAction, publicConfig: publicConfigWithVersion, buildActions, AGENT_VERSION };

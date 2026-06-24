@@ -1,87 +1,16 @@
 /* B"H */
-@layer awt.views {
-  /** B"H: home mode scrolls like a living page, not a locked box. */
-  body.awt-home-mode { overflow-y: auto; overflow-x: hidden; }
-  body.awt-home-mode .awt-control-shell {
-    display: block;
-    min-height: 100svh;
-  }
-  body.awt-home-mode .awt-control-side,
-  body.awt-home-mode .awt-side-tabs,
-  body.awt-home-mode .awt-rail-status {
-    display: none !important;
-  }
-  body.awt-home-mode .awt-control-main,
-  body.awt-home-mode #awtDashboard {
-    width: 100%;
-    min-height: 100svh;
-  }
-  body.awt-home-mode .awt-workspace-stage,
-  body.awt-workspace-mode .awt-dashboard {
-    display: none !important;
-  }
-  .awt-mission-os {
-    box-sizing: border-box;
-    display: grid;
-    gap: clamp(12px, 2vw, 22px);
-    min-height: 100svh;
-    overflow: visible;
-    padding: clamp(16px, 3vw, 36px);
-  }
-  .awt-mission-hero { max-width: 980px; }
-  .awt-mission-hero h2 {
-    font-size: clamp(2rem, 5vw, 4.9rem);
-    letter-spacing: -0.06em;
-    line-height: 0.92;
-    margin: 0;
-  }
-  .awt-mission-hero p {
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    margin: 12px 0 0;
-    max-width: 760px;
-    opacity: 0.78;
-  }
-  .awt-mission-status {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
-  }
-  .awt-mission-stat {
-    background: color-mix(in srgb, canvas 70%, transparent);
-    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-    border-radius: 18px;
-    min-width: 0;
-    padding: 12px 14px;
-  }
-  .awt-mission-stat span {
-    display: block;
-    font-size: 0.74rem;
-    letter-spacing: 0.12em;
-    opacity: 0.62;
-    text-transform: uppercase;
-  }
-  .awt-mission-stat strong {
-    display: block;
-    margin-top: 5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .awt-mission-grid {
-    display: grid;
-    gap: clamp(10px, 1.6vw, 18px);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-    min-height: 0;
-    overflow: visible;
-    padding: 2px 2px 24px;
-  }
-  .awt-mission-grid .awt-action-card {
-    align-content: start;
-    min-height: 150px;
-    text-align: left;
-  }
-  @media (max-width: 720px) {
-    .awt-mission-os { padding: 14px; }
-    .awt-mission-grid .awt-action-card { min-height: 135px; }
-  }
+@layer awt.views{
+  /** B"H Chapter 418: The home grid stopped being a locked viewport. */
+  body.awt-home-mode,body.awt-home-mode html{height:auto!important;overflow-y:auto!important;overflow-x:hidden!important}
+  body.awt-home-mode .awt-control-shell{display:block;min-height:100svh;height:auto!important;overflow:visible!important}
+  body.awt-home-mode .awt-control-side,body.awt-home-mode .awt-side-tabs,body.awt-home-mode .awt-rail-status{display:none!important}
+  body.awt-home-mode .awt-control-main,body.awt-home-mode #awtDashboard{width:100%;min-height:100svh;height:auto!important;overflow:visible!important}
+  body.awt-home-mode .awt-workspace-stage,body.awt-workspace-mode .awt-dashboard{display:none!important}
+  .awt-mission-os{box-sizing:border-box;display:grid;gap:clamp(12px,2vw,22px);min-height:100svh;height:auto!important;overflow:visible!important;padding:clamp(16px,3vw,36px)}
+  .awt-mission-hero{max-width:980px}.awt-mission-hero h2{font-size:clamp(2rem,5vw,4.9rem);letter-spacing:-.06em;line-height:.92;margin:0}.awt-mission-hero p{font-size:clamp(1rem,1.5vw,1.2rem);margin:12px 0 0;max-width:760px;opacity:.78}
+  .awt-mission-status{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+  .awt-mission-stat{background:color-mix(in srgb,canvas 70%,transparent);border:1px solid color-mix(in srgb,currentColor 18%,transparent);border-radius:18px;min-width:0;padding:12px 14px}.awt-mission-stat span{display:block;font-size:.74rem;letter-spacing:.12em;opacity:.62;text-transform:uppercase}.awt-mission-stat strong{display:block;margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .awt-mission-grid{display:grid;gap:clamp(10px,1.6vw,18px);grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));min-height:0;height:auto!important;overflow:visible!important;padding:2px 2px 36px}
+  .awt-mission-grid .awt-action-card{align-content:start;min-height:150px;text-align:left;overflow:hidden}
+  @media(max-width:720px){.awt-mission-os{padding:14px}.awt-mission-grid .awt-action-card{min-height:135px}}
 }

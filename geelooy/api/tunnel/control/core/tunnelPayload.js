@@ -51,12 +51,28 @@ function actionKind(action) {
   return "fs";
 }
 
+function carrierAction(params, params64) {
+  return params.intendedAction || params.expectedAction || params.action ||
+    params64.intendedAction || params64.expectedAction || params64.action || "";
+}
+
+/**
+ * B"H
+ * Chapter 533: The outer king keeps the crown.
+ * Old YAML carriers may bring jobId, stream, cwd, tree, and even a fallback
+ * action when the adapter forgot the route. But they may not overthrow an
+ * explicit top-level action. payloadEcho remains payloadEcho, list remains list,
+ * and commandStatus no longer becomes finishAndContinue from a nested whisper.
+ */
 function buildFsPayload($i) {
   const query = queryMap($i);
   const body = bodyJson($i) || {};
-  const params = parseJson(body.params ?? query.params, {});
-  const params64 = parse64(body.params64 ?? query.params64, {});
-
+  const queryParams = parseJson(query.params, {});
+  const bodyParams = parseJson(body.params, {});
+  const params = { ...queryParams, ...bodyParams };
+  const queryParams64 = parse64(query.params64, {});
+  const bodyParams64 = parse64(body.params64, {});
+  const params64 = { ...queryParams64, ...bodyParams64 };
   const raw = {};
   mergeDefined(raw, query);
   mergeDefined(raw, body);
@@ -64,20 +80,18 @@ function buildFsPayload($i) {
   mergeDefined(raw, params64);
 
   const originalAction = body.action || query.action || "";
-  const sealedAction = params.action || params.intendedAction || params.expectedAction ||
-    params64.action || params64.intendedAction || params64.expectedAction;
-
-  const action = validAction(sealedAction) ? sealedAction : validAction(originalAction) ? originalAction : "";
-  if (!action) {
-    return { ok: false, action: "", kind: "fs", payloadError: "missing_action" };
-  }
+  const fallbackAction = carrierAction(params, params64);
+  const action = validAction(originalAction) ? originalAction : validAction(fallbackAction) ? fallbackAction : "";
+  if (!action) return { ok: false, action: "", kind: "fs", payloadError: "missing_action" };
 
   const pathValue = raw.p || raw.path || ".";
+  const jobId = raw.jobId || raw.id || raw.job || raw.taskId || "";
+  const recovered = Boolean(!validAction(originalAction) && validAction(fallbackAction));
   const payload = {
     kind: actionKind(action),
     action,
-    adapterAction: originalAction && originalAction !== action ? originalAction : undefined,
-    actionRecoveredFromCarrier: Boolean(sealedAction && sealedAction !== originalAction),
+    adapterAction: recovered ? originalAction || undefined : undefined,
+    actionRecoveredFromCarrier: recovered,
     path: pathValue,
     p: pathValue,
     absolutePath: raw.absolutePath || "",
@@ -93,7 +107,8 @@ function buildFsPayload($i) {
     offsetBytes: num(raw.offsetBytes, 0, 0, 100000000),
     startLine: num(raw.startLine, 1, 1, 10000000),
     endLine: num(raw.endLine, 250, 1, 10000000),
-    jobId: raw.jobId || raw.id || raw.job || raw.taskId || "",
+    jobId,
+    id: jobId,
     stream: raw.stream || "",
     command: raw.command || from64(raw.command64),
     scriptText: raw.scriptText || from64(raw.script64),
@@ -118,6 +133,16 @@ function buildFsPayload($i) {
     replaceAll: boolValue(raw.replaceAll) !== false,
     dryRun: boolValue(raw.dryRun),
     confirm: boolValue(raw.confirm),
+    inlineOutput: boolValue(raw.inlineOutput),
+    async: boolValue(raw.async),
+    streamLogs: boolValue(raw.streamLogs),
+    maxInlineChars: raw.maxInlineChars || "",
+    budgetPerutas: raw.budgetPerutas ?? raw.budget ?? null,
+    vars: raw.vars || parse64(raw.vars64, {}),
+    tree: parseJson(raw.tree, parse64(raw.tree64, raw.tree || null)),
+    workflow: parseJson(raw.workflow, parse64(raw.workflow64, raw.workflow || null)),
+    steps: raw.steps || parse64(raw.steps64, null),
+    nodes: raw.nodes || parse64(raw.nodes64, null),
     paths: raw.paths || parse64(raw.paths64, []),
     files: raw.files || parse64(raw.files64, null),
     writes: raw.writes || parse64(raw.writes64, null),

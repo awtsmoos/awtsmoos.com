@@ -1,34 +1,9 @@
 /* B"H */
-/**
- * B"H
- * Chapter 417: Live calls gathered by current chat, without a side rail.
- */
-.awt-live-console .page-head p { max-width: 58rem; }
-.awt-live-control { gap: 14px; }
-.awt-live-layout { display: grid; gap: 14px; grid-template-columns: 1fr; }
-.awt-live-sidebar { display: flex; flex-wrap: wrap; gap: 8px; align-content: start; max-height: none; overflow: visible; }
-.awt-live-group {
-  min-width: min(100%, 220px); flex: 1 1 220px; display: grid; gap: 4px; text-align: left;
-  padding: 10px 12px; border-radius: 16px; border: 1px solid rgba(113,214,255,.18);
-  background: rgba(40,124,255,.08);
-}
-.awt-live-group.is-active { border-color: rgba(83,255,172,.45); background: rgba(31,170,91,.12); }
-.awt-live-stage { min-height: 440px; max-height: min(72vh, 760px); overflow: hidden; }
-.awt-live-viewport { height: min(62vh, 660px); overflow: auto; position: relative; }
-.awt-live-spacer { position: relative; min-height: 100%; }
-.awt-live-window { position: absolute; inset: 0 0 auto 0; display: grid; gap: 8px; }
-.awt-live-row {
-  min-height: 68px; display: grid; grid-template-columns: 110px minmax(0, 1fr) 150px; gap: 10px;
-  align-items: center; padding: 10px; border: 1px solid rgba(166,218,255,.14); border-radius: 14px;
-  background: rgba(255,255,255,.045); text-align: left;
-}
-.awt-live-row[data-ok="false"] { border-color: rgba(255,112,128,.32); background: rgba(255,112,128,.08); }
-.awt-live-kind { color: var(--awt-cyan); font-size: .7rem; font-weight: 950; text-transform: uppercase; letter-spacing: .08em; }
-.awt-live-meta { display: flex; flex-wrap: wrap; gap: 6px; color: var(--awt-muted); font-size: .74rem; }
-.awt-live-status-ok { color: var(--awt-green); font-weight: 900; }
-.awt-live-status-fail { color: #ff9aa8; font-weight: 900; }
-.awt-live-console :where(pre, code, .notice) { overflow-wrap: anywhere; white-space: pre-wrap; }
-@media (max-width: 720px) {
-  .awt-live-row { grid-template-columns: 1fr; }
-  .awt-live-group { flex-basis: 100%; }
-}
+/** B"H Chapter 902: Live became a command table. */
+.awt-live-console .page-head p{max-width:58rem}.awt-live-control{gap:12px}.awt-live-control .form-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+.awt-live-layout{display:grid;gap:12px;grid-template-columns:1fr}.awt-live-sidebar{display:flex;flex-wrap:wrap;gap:8px;align-content:start;max-height:none;overflow:visible}
+.awt-live-group{min-width:min(100%,180px);flex:1 1 180px;display:grid;gap:3px;text-align:left;padding:10px 12px;border-radius:14px;border:1px solid rgba(113,214,255,.18);background:rgba(40,124,255,.08)}
+.awt-live-group.is-active{border-color:rgba(83,255,172,.45);background:rgba(31,170,91,.12)}.awt-live-stage{min-height:360px;max-height:none;overflow:visible}.awt-live-viewport{height:560px;max-height:70vh;overflow:auto;position:relative;border-radius:16px}
+.awt-live-spacer{position:relative;min-height:100%}.awt-live-window{position:absolute;inset:0 0 auto 0;display:grid;gap:6px}.awt-live-row{min-height:68px;display:grid;grid-template-columns:100px minmax(0,1fr) 140px;gap:10px;align-items:center;padding:10px;border:1px solid rgba(166,218,255,.14);border-radius:12px;background:rgba(255,255,255,.045);text-align:left}
+.awt-live-row[data-ok="false"]{border-color:rgba(255,112,128,.32);background:rgba(255,112,128,.08)}.awt-live-kind{color:var(--awt-cyan);font-size:.7rem;font-weight:950;text-transform:uppercase;letter-spacing:.08em}.awt-live-meta{display:flex;flex-wrap:wrap;gap:6px;color:var(--awt-muted);font-size:.74rem}.awt-live-status-ok{color:var(--awt-green);font-weight:900}.awt-live-status-fail{color:#ff9aa8;font-weight:900}.awt-live-console :where(pre,code,.notice){overflow-wrap:anywhere;white-space:pre-wrap}
+@media(max-width:720px){.awt-live-row{grid-template-columns:1fr}.awt-live-group{flex-basis:100%}.awt-live-viewport{height:460px}}

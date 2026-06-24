@@ -1,75 +1,8 @@
-/* B"H
- * Chapter 803: The side panels fell silent.
- *
- * The Awtsmoos leaves no second throne on the right, no diagnostic drawer over
- * the road, and no beauty rail pretending to be navigation. Any stale portal
- * that returns is hidden until it can be reborn as an in-page card.
- */
-:root {
-  --tc-page-max: 1480px;
-  --tc-page-pad: clamp(12px, 2.5vw, 32px);
-}
-
-body.awt-no-side-rails,
-body:has(.control-room-grid),
-body:has(.mission-room-grid),
-body:has(.room-grid),
-body:has(.awt-room-console) {
-  overflow-x: hidden;
-}
-
-body.awt-no-side-rails .awt-beauty-layer,
-body.awt-no-side-rails .beauty-control-layer,
-body.awt-no-side-rails .beauty-layer,
-body.awt-no-side-rails .control-beauty-layer,
-body.awt-no-side-rails .diagnostics-drawer,
-body.awt-no-side-rails .diagnostics-panel,
-body.awt-no-side-rails .diagnostics-fab,
-body.awt-no-side-rails .event-stream-panel,
-body.awt-no-side-rails .live-event-stream,
-body.awt-no-side-rails .session-timeline,
-body.awt-no-side-rails .timeline-panel,
-body:has(.awt-room-console) .awt-beauty-layer,
-body:has(.awt-room-console) .diagnostics-drawer,
-body:has(.awt-room-console) .diagnostics-panel,
-body:has(.awt-room-console) .diagnostics-fab,
-body:has(.control-room-grid) .awt-beauty-layer,
-body:has(.control-room-grid) .diagnostics-drawer,
-body:has(.control-room-grid) .diagnostics-panel,
-body:has(.control-room-grid) .diagnostics-fab {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
-body.awt-no-side-rails .awt-control-shell,
-body.awt-no-side-rails .future-shell,
-body.awt-no-side-rails .mission-control-os,
-body.awt-no-side-rails main {
-  width: 100% !important;
-  max-width: none !important;
-  margin-inline: 0 !important;
-}
-
-body.awt-no-side-rails .awt-control-main,
-body:has(.awt-room-console) .awt-control-main,
-body:has(.control-room-grid) .awt-control-main {
-  width: min(100%, var(--tc-page-max)) !important;
-  margin-inline: auto !important;
-  padding-inline: var(--tc-page-pad) !important;
-}
-
-body.awt-no-side-rails .awt-control-main > *,
-body:has(.awt-room-console) .awt-control-main > *,
-body:has(.control-room-grid) .awt-control-main > * {
-  max-width: 100%;
-}
-
-@media (max-width: 760px) {
-  :root { --tc-page-pad: 10px; }
-  body.awt-no-side-rails .awt-control-main,
-  body:has(.awt-room-console) .awt-control-main,
-  body:has(.control-room-grid) .awt-control-main {
-    padding-inline: 0 !important;
-  }
-}
+/* B"H Chapter 804: No extra UI means no extra UI. */
+:root{--tc-page-max:1480px;--tc-page-pad:clamp(12px,2.5vw,32px)}
+html,body,body.awt-no-side-rails,body.awt-workspace-mode,body:has(.awt-room-console){height:auto!important;min-height:100%!important;overflow-y:auto!important;overflow-x:hidden!important}
+body.awt-no-side-rails .awt-beauty-layer,body.awt-no-side-rails .beauty-control-layer,body.awt-no-side-rails .beauty-layer,body.awt-no-side-rails .control-beauty-layer,body.awt-no-side-rails .awt-diagnostics-drawer,body.awt-no-side-rails .awt-diagnostics-toggle,body.awt-no-side-rails .diagnostics-drawer,body.awt-no-side-rails .diagnostics-panel,body.awt-no-side-rails .diagnostics-fab,body.awt-no-side-rails .event-stream-panel,body.awt-no-side-rails .live-event-stream,body.awt-no-side-rails .session-timeline,body.awt-no-side-rails .timeline-panel,body:has(.awt-room-console) .awt-diagnostics-drawer,body:has(.awt-room-console) .awt-diagnostics-toggle,body:has(.awt-room-console) .awt-beauty-layer,body:has(.control-room-grid) .awt-diagnostics-drawer,body:has(.control-room-grid) .awt-diagnostics-toggle,body:has(.control-room-grid) .awt-beauty-layer{display:none!important;visibility:hidden!important;pointer-events:none!important}
+body.awt-no-side-rails .awt-control-shell,body.awt-no-side-rails .future-shell,body.awt-no-side-rails .mission-control-os,body.awt-no-side-rails main,body:has(.awt-room-console) .awt-control-shell,body:has(.awt-room-console) main{width:100%!important;max-width:none!important;min-height:100svh!important;height:auto!important;margin-inline:0!important;overflow:visible!important}
+body.awt-no-side-rails .awt-control-main,body:has(.awt-room-console) .awt-control-main,body:has(.control-room-grid) .awt-control-main{width:min(100%,var(--tc-page-max))!important;height:auto!important;min-height:100svh!important;margin-inline:auto!important;padding-inline:var(--tc-page-pad)!important;overflow:visible!important}
+body.awt-no-side-rails .awt-control-main>*,body:has(.awt-room-console) .awt-control-main>*,body:has(.control-room-grid) .awt-control-main>*{max-width:100%;overflow:visible}
+@media(max-width:760px){:root{--tc-page-pad:10px}body.awt-no-side-rails .awt-control-main,body:has(.awt-room-console) .awt-control-main,body:has(.control-room-grid) .awt-control-main{padding-inline:0!important}}

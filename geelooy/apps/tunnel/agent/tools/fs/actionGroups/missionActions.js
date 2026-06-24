@@ -21,7 +21,7 @@ function matchesProject(m,payload={}){const q=String(payload.q||payload.query||p
  * post-completion improvement mode, and mission families to ChatGPT agents.
  */
 function buildMissionActions(ctx){const {config}=ctx;const payload=mergedPayload(ctx.payload||{});return {
-  async missionStart(){const startPayload={...payload,metadata:{...(payload.metadata||{}),projectRoot:payload.projectRoot||payload.root||payload.directory||payload.metadata?.projectRoot||''}};const m=await M.create(config,startPayload);const expansion=X.expand(m,payload);await M.save(config,m);return {ok:true,action:'missionStart',missionId:m.id,mission:M.report(m),expansion,next:nxt(m,payload),path:`${M.DIR}/${m.id}/mission.json`};},
+  async missionStart(){const startPayload={...payload,metadata:{...(payload.metadata||{}),projectRoot:payload.projectRoot||payload.root||payload.directory||payload.metadata?.projectRoot||''}};const m=await M.create(config,startPayload);const shouldExpand=payload.expand===true||payload.expand==='true'||payload.autoExpand===true||payload.autoExpand==='true';const expansion=shouldExpand?X.expand(m,payload):null;await M.save(config,m);return {ok:true,action:'missionStart',missionId:m.id,mission:M.report(m),expansion,next:nxt(m,payload),path:`${M.DIR}/${m.id}/mission.json`};},
   async missionGet(){const m=await M.load(config,mid(payload));return m?{ok:true,action:'missionGet',mission:m,next:nxt(m,payload)}:{ok:false,action:'missionGet',error:'mission_not_found'};},
   async missionList(){const ms=await M.all(config);return {ok:true,action:'missionList',count:ms.length,missions:ms.map(M.report)};},
   async missionAddTask(){return use(config,payload,m=>withNext({ok:true,action:'missionAddTask',task:M.addTask(m,payload.title||payload.task||payload.text,payload)},m,payload));},
@@ -45,7 +45,7 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=mergedPayload
   async missionImprovementPlan(){return use(config,payload,m=>withNext({ok:true,action:'missionImprovementPlan',improvementPlan:X.improvementPlan(m,payload)},m,payload));},
   async missionPostCompletion(){return use(config,payload,m=>withNext({ok:true,action:'missionPostCompletion',postCompletion:X.postCompletion(m,payload)},m,{...payload,auto:true}));},
   async missionSupervise(){return use(config,payload,m=>withNext({ok:true,action:'missionSupervise',...M.supervise(m),expansionHint:'If verdict is stop, call missionPostCompletion before final answer.'},m,payload));},
-  async missionVerify(){return use(config,payload,m=>{const verification=M.verify(m);const after=verification.ok?X.postCompletion(m,{verification:'verified complete, entering improvement mode'}):X.expand(m,payload);return withNext({ok:true,action:'missionVerify',verification,after},m,payload);});},
+  async missionVerify(){return use(config,payload,m=>{const verification=M.verify(m);const shouldExpand=payload.expand===true||payload.expand==='true'||payload.autoExpand===true||payload.autoExpand==='true';const after=verification.ok?X.postCompletion(m,{verification:'verified complete, entering improvement mode'}):(shouldExpand?X.expand(m,payload):null);return withNext({ok:true,action:'missionVerify',verification,after},m,payload);});},
   async missionReport(){return use(config,payload,m=>withNext({ok:true,action:'missionReport',report:M.report(m)},m,payload));},
   async missionTimeline(){return use(config,payload,m=>({ok:true,action:'missionTimeline',timeline:M.timeline(m)}));},
   async missionGraph(){return use(config,payload,m=>({ok:true,action:'missionGraph',graph:M.graph(m)}));},
