@@ -32,7 +32,7 @@ function cleanMode(payload = {}, fallback = "text") {
 }
 
 async function selectStringFile(config, payload) {
-  const p = payload.path || payload.p || ".";
+  const p = pathFromCwd(config, payload, payload.path || payload.p || ".");
   const full = safePath(config, p);
   const pattern = payload.pattern || payload.query || payload.find;
   if (!pattern) return { ok: false, action: "selectStringFile", error: "pattern_required" };
@@ -75,16 +75,31 @@ async function consolidatedSearch(config, payload) {
   return await bulkSearch(config, { ...payload, action: payload.action || "search" });
 }
 
+function pathFromCwd(config, payload, p) {
+  const given = p || ".";
+  if (path.isAbsolute(given)) return given;
+  const cwd = payload.cwd || payload.basePath || payload.base || "";
+  if (!cwd) return given;
+  const root = path.resolve(config.root);
+  const base = path.isAbsolute(cwd) ? path.resolve(cwd) : path.resolve(root, cwd);
+  const full = path.resolve(base, given);
+  if (!full.toLowerCase().startsWith(root.toLowerCase())) throw new Error("Path outside allowed project root: " + full);
+  return path.relative(root, full).replace(/\\/g, "/") || ".";
+}
+
 function baseRead(config, payload, action, p) {
-  return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p),
+  const resolvedPath = p || ".";
+  return { ok: true, action, root: config.root, path: resolvedPath, absolutePath: safePath(config, resolvedPath),
     maxChars: Number(payload.maxChars || 12000), offsetChars: Number(payload.offsetChars || 0),
     maxBytes: Number(payload.maxBytes || 24000), offsetBytes: Number(payload.offsetBytes || 0) };
 }
 
 function buildReadActions(ctx) {
-  const { config, payload } = ctx;
-  const action = payload.action || "list";
-  const p = payload.path || payload.p || ".";
+  const { config } = ctx;
+  const incomingPayload = ctx.payload || {};
+  const action = incomingPayload.action || "list";
+  const p = pathFromCwd(config, incomingPayload, incomingPayload.path || incomingPayload.p || ".");
+  const payload = { ...incomingPayload, path: p, p };
   const base = baseRead(config, payload, action, p);
   return readActions(config, payload, action, p, base);
 }

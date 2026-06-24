@@ -1,44 +1,41 @@
 /* B"H */
 /**
  * B"H
- * Chapter 44: The shell kept its bones and softened its speech.
+ * Chapter 802: The sidebar became dust beneath the single throne.
  *
- * The Awtsmoos forms the sidebar as a narrow riverbank and the main workspace
- * as a wide sea. Technical names may fracture like lightning so they do not
- * burst the vessel, but ordinary runtime prose now flows as readable water.
+ * The Awtsmoos pours Tunnel Control through one scrollable main vessel. No rail
+ * is allocated, no hidden column reserves space, and every card must wrap inside
+ * the page instead of overlapping the next breath.
  */
 .awt-control-shell {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: clamp(248px, 19vw, 292px) minmax(0, 1fr);
-  gap: clamp(14px, 1.4vw, 22px);
-  padding: clamp(12px, 1.4vw, 20px);
+  width: 100%;
+  min-height: 100svh;
+  display: block;
+  padding: clamp(10px, 2vw, 24px);
+  overflow: visible;
 }
 
-.awt-control-side {
-  position: sticky;
-  top: clamp(12px, 1.4vw, 20px);
-  max-height: calc(100vh - clamp(24px, 2.8vw, 40px));
-  overflow: auto;
-  display: grid;
-  grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
-  align-content: start;
-  gap: 12px;
-  padding: 14px;
-  border-radius: var(--awt-radius-5);
-  background: var(--awt-sidebar-bg) !important;
+.awt-control-side,
+.awt-side-tabs,
+.awt-home-button,
+.awt-nav-button,
+.awt-rail-status {
+  display: none !important;
 }
 
 .awt-control-main {
+  width: min(100%, 1480px);
   min-width: 0;
+  min-height: calc(100svh - clamp(20px, 4vw, 48px));
   display: grid;
-  gap: clamp(14px, 1.4vw, 22px);
+  gap: clamp(14px, 1.6vw, 24px);
   align-content: start;
+  margin-inline: auto;
+  overflow: visible;
 }
 
 .awt-brand-block,
 .awt-runtime-switcher,
-.awt-rail-status,
 .awt-user-chip {
   display: grid;
   gap: 10px;
@@ -48,7 +45,8 @@
   background: rgba(255, 255, 255, .035);
 }
 
-.awt-brand-row {
+.awt-brand-row,
+.awt-user-chip {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 10px;
@@ -56,7 +54,6 @@
 }
 
 .awt-brand-logo,
-.awt-nav-icon,
 .awt-action-icon,
 .awt-pane-icon {
   display: grid;
@@ -69,7 +66,6 @@
   height: 44px;
   border-radius: 16px;
   background: rgba(40, 124, 255, .14);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 0 26px rgba(40,124,255,.18);
 }
 
 .awt-brand-block h1 {
@@ -81,101 +77,12 @@
 
 .awt-brand-block p,
 .awt-runtime-caption,
-.awt-user-chip small,
-.awt-rail-status small {
+.awt-user-chip small {
   margin: 0;
   color: var(--awt-muted);
   font-size: .78rem;
   line-height: 1.35;
-}
-
-.awt-brand-block p,
-.awt-runtime-caption {
   overflow-wrap: anywhere;
-}
-
-.awt-rail-status span {
-  color: var(--awt-dim);
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-size: .68rem;
-  font-weight: 900;
-}
-
-.awt-rail-status strong {
-  color: var(--awt-green);
-  font-size: .88rem;
-  text-transform: uppercase;
-}
-
-.awt-side-tabs { display: grid; gap: 7px; }
-
-.awt-home-button,
-.awt-nav-button {
-  width: 100%;
-  min-height: 48px;
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-  padding: 9px 10px;
-  border: 1px solid transparent;
-  border-radius: 14px;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-  transition: transform var(--awt-fast), border-color var(--awt-fast), background var(--awt-fast), box-shadow var(--awt-fast);
-}
-
-.awt-home-button {
-  color: var(--awt-ink);
-  background: var(--awt-nav-active);
-  border-color: rgba(40,124,255,.28);
-}
-
-.awt-home-button > svg,
-.awt-home-button .awt-svg-icon,
-.awt-nav-icon .awt-svg-icon {
-  width: 22px;
-  height: 22px;
-}
-
-.awt-nav-copy {
-  display: grid;
-  gap: 2px;
-}
-
-.awt-nav-copy strong,
-.awt-home-button strong {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: .88rem;
-}
-
-.awt-nav-copy small {
-  color: var(--awt-dim);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: .70rem;
-}
-
-.awt-nav-button:hover,
-.awt-nav-button.active,
-.awt-control-shell [aria-selected="true"] {
-  background: rgba(40, 124, 255, .16);
-  border-color: rgba(40,124,255,.24);
-}
-
-.awt-nav-button.is-files .awt-svg-icon { color: var(--awt-icon-green); }
-.awt-nav-button.is-automation .awt-svg-icon { color: var(--awt-icon-orange); }
-.awt-nav-button.is-ai .awt-svg-icon { color: var(--awt-icon-pink); }
-.awt-nav-button.is-system .awt-svg-icon { color: var(--awt-icon-purple); }
-
-.awt-user-chip {
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
 }
 
 .awt-user-chip > span {
@@ -188,7 +95,6 @@
   font-weight: 950;
 }
 
-.awt-user-chip strong { display: block; font-size: .88rem; }
 .awt-runtime-grid { display: grid; gap: 14px; }
 
 .awt-runtime-card {
@@ -202,41 +108,13 @@
   overflow: hidden;
 }
 
-.awt-runtime-card-top {
-  min-width: 0;
-  display: grid;
-  gap: 4px;
-}
-
 .awt-runtime-card-top strong,
-.awt-runtime-card-top span {
-  min-width: 0;
-  display: block;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.awt-runtime-card-top span {
-  color: var(--awt-muted);
-  font-size: .82rem;
-}
-
+.awt-runtime-card-top span,
 .awt-runtime-card p {
   min-width: 0;
-  margin: 0;
-  color: var(--awt-muted);
-  line-height: 1.35;
-  overflow-wrap: normal;
-  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
-.awt-runtime-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.awt-runtime-actions button {
-  flex: 1 1 132px;
-  min-width: 0;
-}
+.awt-runtime-card-top span, .awt-runtime-card p { color: var(--awt-muted); }
+.awt-runtime-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.awt-runtime-actions button { flex: 1 1 132px; min-width: 0; }

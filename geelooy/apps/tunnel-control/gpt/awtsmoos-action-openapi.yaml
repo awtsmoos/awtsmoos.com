@@ -637,7 +637,10 @@ paths:
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
         - { name: dryRun, in: query, schema: { type: boolean, default: true } }
         - { name: confirm, in: query, schema: { type: boolean, default: false } }
-        - { name: stream, in: query, schema: { type: boolean } }
+        - { name: stream, in: query, schema: { type: string, enum: [stdout, stderr] } }
+        - { name: torahUnlimitedWait, in: query, schema: { type: boolean } }
+        - { name: unlimitedWait, in: query, schema: { type: boolean } }
+        - { name: maxWaitMs, in: query, schema: { type: integer } }
         - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }

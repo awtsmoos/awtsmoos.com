@@ -55,9 +55,13 @@ function normalizeCarriers(payload = {}, $i = {}) {
     const encoded = firstDefined(payload[key + "64"], query[key + "64"], body[key + "64"]);
     if (encoded) merged[key] = parse64(encoded, merged[key]);
   }
-  for (const key of ["outputId", "outputRef", "resultId", "resultRef", "jobId", "stream", "pageToken", "cursorToken", "maxInlineChars", "pageChars", "async", "asyncCommand", "background", "continuationPrompt", "multipleChoiceAnswer", "choice", "answer", "intendedAction", "expectedAction"]) {
+  for (const key of ["outputId", "outputRef", "resultId", "resultRef", "jobId", "pageToken", "cursorToken", "maxInlineChars", "pageChars", "async", "asyncCommand", "background", "continuationPrompt", "multipleChoiceAnswer", "choice", "answer", "intendedAction", "expectedAction", "torahUnlimitedWait", "unlimitedWait", "maxWaitMs"]) {
     const value = firstDefined(payload[key], query[key], body[key]);
     if (value !== undefined && value !== "") merged[key] = value;
+  }
+  const topStream = firstDefined(payload.stream, query.stream, body.stream);
+  if (isExplicitStream(topStream) || !isExplicitStream(merged.stream)) {
+    if (topStream !== undefined && topStream !== "") merged.stream = topStream;
   }
   hydrateActionStepsFromActionsJson(merged);
   normalizeAsyncPayload(merged);
@@ -80,6 +84,10 @@ function recoveredKindForAction(action, fallback) {
   if (text.startsWith("chrome")) return "chrome";
   return fallback || "fs";
 }
+function isExplicitStream(value) {
+  return String(value || "").toLowerCase() === "stdout" || String(value || "").toLowerCase() === "stderr";
+}
+
 function hydrateActionStepsFromActionsJson(merged) { const actionJson = parseCarrier(merged.actionsJson, null); if (!actionJson) return merged; if (isLegacyBulkActionBatch(merged.action, actionJson, merged)) { merged.action = "actionBatch"; merged.compatibilityAlias = "bulk_actionsJson_to_actionBatch"; } if (isBatchLikeAction(merged.action)) hydrateBatchLikePayload(merged, actionJson); if (isCommandTree(merged.action)) hydrateCommandTreePayload(merged, actionJson); return merged; }
 function hydrateBatchLikePayload(merged, actionJson) { const steps = stepsFromCarrier(actionJson); if (steps.length && (!Array.isArray(merged.steps) || !merged.steps.length)) merged.steps = steps; if (steps.length && (!Array.isArray(merged.actions) || !merged.actions.length)) merged.actions = steps; if (actionJson && typeof actionJson === "object" && !Array.isArray(actionJson)) { if (actionJson.workflow && !merged.workflow) merged.workflow = actionJson.workflow; if (actionJson.vars && !merged.vars) merged.vars = actionJson.vars; } }
 function hydrateCommandTreePayload(merged, actionJson) { if (!merged.tree && actionJson && typeof actionJson === "object") merged.tree = actionJson; const steps = stepsFromCarrier(actionJson); if ((!merged.steps || !merged.steps.length) && steps.length) merged.steps = steps; if (merged.tree && typeof merged.tree === "object") { if (merged.tree.vars && !merged.vars) merged.vars = merged.tree.vars; if (merged.tree.budgetPerutas && !merged.budgetPerutas) merged.budgetPerutas = merged.tree.budgetPerutas; } }

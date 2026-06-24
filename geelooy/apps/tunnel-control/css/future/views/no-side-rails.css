@@ -1,84 +1,75 @@
 /* B"H
- * No rails, no cages: the Awtsmoos breathes this route as one wide vessel.
- * The tunnel-control landing screen must never be strangled by diagnostic,
- * beauty, event-stream, or timeline side panels. They can live in rooms;
- * they cannot hover over the room chooser.
+ * Chapter 803: The side panels fell silent.
+ *
+ * The Awtsmoos leaves no second throne on the right, no diagnostic drawer over
+ * the road, and no beauty rail pretending to be navigation. Any stale portal
+ * that returns is hidden until it can be reborn as an in-page card.
  */
-
 :root {
-  --tc-page-max: 1240px;
-  --tc-page-pad: clamp(18px, 4vw, 56px);
-  --tc-card-min: min(100%, 250px);
+  --tc-page-max: 1480px;
+  --tc-page-pad: clamp(12px, 2.5vw, 32px);
 }
 
+body.awt-no-side-rails,
 body:has(.control-room-grid),
 body:has(.mission-room-grid),
-body:has(.room-grid) {
+body:has(.room-grid),
+body:has(.awt-room-console) {
   overflow-x: hidden;
 }
 
-body:has(.control-room-grid) .beauty-control-layer,
-body:has(.control-room-grid) .beauty-layer,
-body:has(.control-room-grid) .control-beauty-layer,
+body.awt-no-side-rails .awt-beauty-layer,
+body.awt-no-side-rails .beauty-control-layer,
+body.awt-no-side-rails .beauty-layer,
+body.awt-no-side-rails .control-beauty-layer,
+body.awt-no-side-rails .diagnostics-drawer,
+body.awt-no-side-rails .diagnostics-panel,
+body.awt-no-side-rails .diagnostics-fab,
+body.awt-no-side-rails .event-stream-panel,
+body.awt-no-side-rails .live-event-stream,
+body.awt-no-side-rails .session-timeline,
+body.awt-no-side-rails .timeline-panel,
+body:has(.awt-room-console) .awt-beauty-layer,
+body:has(.awt-room-console) .diagnostics-drawer,
+body:has(.awt-room-console) .diagnostics-panel,
+body:has(.awt-room-console) .diagnostics-fab,
+body:has(.control-room-grid) .awt-beauty-layer,
 body:has(.control-room-grid) .diagnostics-drawer,
 body:has(.control-room-grid) .diagnostics-panel,
-body:has(.control-room-grid) .diagnostics-fab,
-body:has(.control-room-grid) .event-stream-panel,
-body:has(.control-room-grid) .live-event-stream,
-body:has(.control-room-grid) .session-timeline,
-body:has(.control-room-grid) .timeline-panel,
-body:has(.mission-room-grid) .beauty-control-layer,
-body:has(.mission-room-grid) .beauty-layer,
-body:has(.mission-room-grid) .control-beauty-layer,
-body:has(.mission-room-grid) .diagnostics-drawer,
-body:has(.mission-room-grid) .diagnostics-panel,
-body:has(.mission-room-grid) .diagnostics-fab,
-body:has(.mission-room-grid) .event-stream-panel,
-body:has(.mission-room-grid) .live-event-stream,
-body:has(.mission-room-grid) .session-timeline,
-body:has(.mission-room-grid) .timeline-panel,
-body:has(.room-grid) .beauty-control-layer,
-body:has(.room-grid) .beauty-layer,
-body:has(.room-grid) .control-beauty-layer,
-body:has(.room-grid) .diagnostics-drawer,
-body:has(.room-grid) .diagnostics-panel,
-body:has(.room-grid) .diagnostics-fab,
-body:has(.room-grid) .event-stream-panel,
-body:has(.room-grid) .live-event-stream,
-body:has(.room-grid) .session-timeline,
-body:has(.room-grid) .timeline-panel {
+body:has(.control-room-grid) .diagnostics-fab {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
-body:has(.control-room-grid) .app-shell,
-body:has(.control-room-grid) .future-shell,
-body:has(.control-room-grid) .mission-control-os,
-body:has(.control-room-grid) main,
-body:has(.mission-room-grid) .app-shell,
-body:has(.mission-room-grid) .future-shell,
-body:has(.mission-room-grid) .mission-control-os,
-body:has(.mission-room-grid) main,
-body:has(.room-grid) .app-shell,
-body:has(.room-grid) .future-shell,
-body:has(.room-grid) .mission-control-os,
-body:has(.room-grid) main {
+body.awt-no-side-rails .awt-control-shell,
+body.awt-no-side-rails .future-shell,
+body.awt-no-side-rails .mission-control-os,
+body.awt-no-side-rails main {
   width: 100% !important;
   max-width: none !important;
   margin-inline: 0 !important;
-  padding-right: var(--tc-page-pad) !important;
 }
 
-body:has(.control-room-grid) .app-shell > *,
-body:has(.mission-room-grid) .app-shell > *,
-body:has(.room-grid) .app-shell > * {
-  max-width: var(--tc-page-max);
-  margin-inline: auto;
+body.awt-no-side-rails .awt-control-main,
+body:has(.awt-room-console) .awt-control-main,
+body:has(.control-room-grid) .awt-control-main {
+  width: min(100%, var(--tc-page-max)) !important;
+  margin-inline: auto !important;
+  padding-inline: var(--tc-page-pad) !important;
 }
 
-@media (max-width: 900px) {
-  :root {
-    --tc-page-pad: 16px;
+body.awt-no-side-rails .awt-control-main > *,
+body:has(.awt-room-console) .awt-control-main > *,
+body:has(.control-room-grid) .awt-control-main > * {
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  :root { --tc-page-pad: 10px; }
+  body.awt-no-side-rails .awt-control-main,
+  body:has(.awt-room-console) .awt-control-main,
+  body:has(.control-room-grid) .awt-control-main {
+    padding-inline: 0 !important;
   }
 }

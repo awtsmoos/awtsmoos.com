@@ -5,11 +5,7 @@ const KEY = "awt.missionRooms.selection";
 
 /**
  * B"H
- * Chapter 701: The room remembered its doorway.
- *
- * A mission room is not a passing panel; it is a chamber with a remembered
- * threshold. This small vessel stores only the identity needed to rejoin after
- * reconnect, refresh, or browser return.
+ * Chapter 710: The room carried tools and command traces in memory.
  */
 export function createRoomState() {
   return {
@@ -17,18 +13,21 @@ export function createRoomState() {
     selectedMissionId: "",
     selected: null,
     lastResult: null,
+    tools: [],
+    toolFilter: "",
+    commandRows: [],
+    liveGroups: [],
     timer: 0,
+    discoverTimer: 0,
+    toolsTimer: 0,
     busy: false,
     lastHeartbeatAt: 0
   };
 }
 
 export function loadSelection() {
-  try {
-    return JSON.parse(localStorage.getItem(KEY) || "{}");
-  } catch {
-    return {};
-  }
+  try { return JSON.parse(localStorage.getItem(KEY) || "{}"); }
+  catch { return {}; }
 }
 
 export function saveSelection(data = {}) {
@@ -62,4 +61,8 @@ export function projectRoot() {
 export function pollMs() {
   const ms = Number(document.getElementById("roomPollMs")?.value || 5000);
   return Number.isFinite(ms) ? Math.max(1500, ms) : 5000;
+}
+
+export function toolFilter() {
+  return document.getElementById("roomToolFilter")?.value || "";
 }

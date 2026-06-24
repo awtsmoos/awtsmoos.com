@@ -40,10 +40,14 @@ function firstJob(payload, nested) {
 }
 
 function normalizeStream(payload, nested) {
-  for (const item of nested) if (item.stream) return item.stream;
+  for (const item of nested) if (explicitStream(item.stream)) return String(item.stream).toLowerCase();
   if (payload.stderr || payload.logStream === "stderr" || payload.stderrPagePayload) return "stderr";
-  if (payload.stream) return payload.stream;
+  if (explicitStream(payload.stream)) return String(payload.stream).toLowerCase();
   return "stdout";
+}
+function explicitStream(value) {
+  const text = String(value || "").toLowerCase();
+  return text === "stdout" || text === "stderr";
 }
 
 function firstNumber(payload, nested, keys, fallback) {

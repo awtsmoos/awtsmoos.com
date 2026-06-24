@@ -17,7 +17,6 @@ import { bindNavigationButtons } from "../router/bindNavigation.js";
 import { createActiveWorkspaceRuntime } from "../runtime/activeWorkspaceRuntime.js";
 import { mountPointerField } from "../interactions/pointerField.js";
 import { mountCardTilt } from "../interactions/cardTilt.js";
-import { mountBeautyLayer } from "../beauty/index.js";
 import { getProjectPath, getTunnelName } from "./bootAccessors.js";
 import { hydrateFields, hydratePermissionClasses } from "./bootHydrate.js";
 import { hydrateRuntimeMesh } from "./bootRuntimeMesh.js";
@@ -25,47 +24,38 @@ import { showFatalBootError } from "./bootFatal.js";
 
 /**
  * B"H
- * Chapter 409: Boot Opened The Beauty Gate.
+ * Chapter 410: The rail returned to nothing, and the road could breathe.
  *
- * The Awtsmoos does not add beauty after life as a sticker. The beauty layer is
- * mounted after the shell, when the real runtime, panes, and permissions have
- * been revealed by inspection and can become living controls.
+ * The Awtsmoos writes the control room as one open field. Beauty remains in
+ * light, motion, cards, and readable order; no fixed side palace mounts over
+ * the work, and no diagnostic river steals the scroll from the main path.
  */
 export async function startTunnelControl() {
   try {
-    log("boot modular control center v3300");
-
+    log("boot modular control center v3301 no side rails");
     const session = await resolveSession();
     if (!session.loggedIn) return showLoginGate();
-
     const tunnel = await resolveActiveTunnel();
     if (!tunnel.ok) return showNoTunnelView();
-
     hydrateFields(tunnel);
     hydratePermissionClasses(tunnel);
-
     const localRuntime = createActiveWorkspaceRuntime({
       tunnel,
       activeRoot: tunnel.root,
       authState: session,
       workspaceMode: "runtime-os"
     });
-
     const discoveredDevices = await discoverDevices();
     const runtime = hydrateRuntimeMesh(localRuntime, discoveredDevices);
     window.awtsGetTunnelName = getTunnelName;
-
     wireInputs(getTunnelName);
     await mountLegacyFeatures(getTunnelName);
     renderPrompt(getTunnelName);
-
     mountShell({ session, runtime, getTunnelName, getProjectPath });
     mountPointerField();
     mountCardTilt();
     bindNavigationButtons();
-    mountBeautyLayer();
     mountUiRepair(getTunnelName);
-
     await refreshInitialStatus();
     await loadInitialConfig();
     mountPolling();
@@ -76,27 +66,17 @@ export async function startTunnelControl() {
 }
 
 async function discoverDevices() {
-  try {
-    return await devices();
-  } catch (e) {
-    error("devices discovery failed", e);
-    return null;
-  }
+  try { return await devices(); }
+  catch (e) { error("devices discovery failed", e); return null; }
 }
 
 async function refreshInitialStatus() {
-  await Promise.allSettled([
-    refreshLogin(),
-    refreshDevice(getTunnelName)
-  ]);
+  await Promise.allSettled([refreshLogin(), refreshDevice(getTunnelName)]);
 }
 
 async function loadInitialConfig() {
-  try {
-    await loadConfig(getTunnelName);
-  } catch (e) {
-    error("initial loadConfig failed", e);
-  }
+  try { await loadConfig(getTunnelName); }
+  catch (e) { error("initial loadConfig failed", e); }
 }
 
 function mountPolling() {

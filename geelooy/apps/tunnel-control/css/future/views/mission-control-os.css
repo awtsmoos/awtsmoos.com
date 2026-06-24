@@ -1,6 +1,7 @@
 /* B"H */
 @layer awt.views {
-  body.awt-home-mode { overflow: hidden; }
+  /** B"H: home mode scrolls like a living page, not a locked box. */
+  body.awt-home-mode { overflow-y: auto; overflow-x: hidden; }
   body.awt-home-mode .awt-control-shell {
     display: block;
     min-height: 100svh;
@@ -12,8 +13,8 @@
   }
   body.awt-home-mode .awt-control-main,
   body.awt-home-mode #awtDashboard {
-    min-height: 100svh;
     width: 100%;
+    min-height: 100svh;
   }
   body.awt-home-mode .awt-workspace-stage,
   body.awt-workspace-mode .awt-dashboard {
@@ -23,9 +24,8 @@
     box-sizing: border-box;
     display: grid;
     gap: clamp(12px, 2vw, 22px);
-    grid-template-rows: auto auto 1fr;
     min-height: 100svh;
-    overflow: hidden;
+    overflow: visible;
     padding: clamp(16px, 3vw, 36px);
   }
   .awt-mission-hero { max-width: 980px; }
@@ -44,7 +44,7 @@
   .awt-mission-status {
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
   }
   .awt-mission-stat {
     background: color-mix(in srgb, canvas 70%, transparent);
@@ -70,11 +70,10 @@
   .awt-mission-grid {
     display: grid;
     gap: clamp(10px, 1.6vw, 18px);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
     min-height: 0;
-    overflow: auto;
-    overscroll-behavior: contain;
-    padding: 2px 2px 12px;
+    overflow: visible;
+    padding: 2px 2px 24px;
   }
   .awt-mission-grid .awt-action-card {
     align-content: start;
@@ -82,15 +81,7 @@
     text-align: left;
   }
   @media (max-width: 720px) {
-    body.awt-home-mode { overflow: auto; }
-    .awt-mission-os,
-    .awt-mission-grid { overflow: visible; }
-    .awt-mission-status,
-    .awt-mission-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .awt-mission-os { padding: 14px; }
     .awt-mission-grid .awt-action-card { min-height: 135px; }
-  }
-  @media (max-width: 430px) {
-    .awt-mission-status,
-    .awt-mission-grid { grid-template-columns: 1fr; }
   }
 }

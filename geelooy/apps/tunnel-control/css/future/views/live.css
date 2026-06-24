@@ -1,86 +1,34 @@
 /* B"H */
 /**
  * B"H
- * Chapter 416: The live river became a command filmstrip.
- *
- * External AI writes, socket reconnects, tool calls, and task frames should feel
- * like a living Codex/Claude action stream without bloating the landing page.
+ * Chapter 417: Live calls gathered by current chat, without a side rail.
  */
 .awt-live-console .page-head p { max-width: 58rem; }
 .awt-live-control { gap: 14px; }
-.awt-live-socket-state {
-  border-color: rgba(111, 230, 255, .24) !important;
-  background:
-    linear-gradient(90deg, rgba(89, 207, 255, .10), rgba(255,255,255,.03)),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 18px);
+.awt-live-layout { display: grid; gap: 14px; grid-template-columns: 1fr; }
+.awt-live-sidebar { display: flex; flex-wrap: wrap; gap: 8px; align-content: start; max-height: none; overflow: visible; }
+.awt-live-group {
+  min-width: min(100%, 220px); flex: 1 1 220px; display: grid; gap: 4px; text-align: left;
+  padding: 10px 12px; border-radius: 16px; border: 1px solid rgba(113,214,255,.18);
+  background: rgba(40,124,255,.08);
 }
-.awt-live-stage {
-  max-height: min(68vh, 720px);
-  overflow: hidden;
+.awt-live-group.is-active { border-color: rgba(83,255,172,.45); background: rgba(31,170,91,.12); }
+.awt-live-stage { min-height: 440px; max-height: min(72vh, 760px); overflow: hidden; }
+.awt-live-viewport { height: min(62vh, 660px); overflow: auto; position: relative; }
+.awt-live-spacer { position: relative; min-height: 100%; }
+.awt-live-window { position: absolute; inset: 0 0 auto 0; display: grid; gap: 8px; }
+.awt-live-row {
+  min-height: 68px; display: grid; grid-template-columns: 110px minmax(0, 1fr) 150px; gap: 10px;
+  align-items: center; padding: 10px; border: 1px solid rgba(166,218,255,.14); border-radius: 14px;
+  background: rgba(255,255,255,.045); text-align: left;
 }
-.awt-live-board {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 12px;
-  max-height: min(58vh, 610px);
-  overflow: auto;
-  padding-right: 6px;
-  scrollbar-gutter: stable;
-}
-.awt-live-board::before {
-  content: "";
-  grid-column: 1 / -1;
-  height: 4px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgba(112, 230, 255, .7), rgba(255, 213, 111, .7), transparent);
-  animation: awt-live-scan 2.6s linear infinite;
-}
-.awt-live-event {
-  min-width: 0;
-  display: grid;
-  gap: 7px;
-  padding: 14px;
-  border: 1px solid rgba(166,218,255,.16);
-  border-radius: var(--awt-radius-2);
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.026)),
-    radial-gradient(circle at top right, rgba(82, 164, 255, .12), transparent 38%);
-  overflow-wrap: anywhere;
-  box-shadow: 0 14px 38px rgba(0,0,0,.18);
-}
-.awt-live-event strong { line-height: 1.08; }
-.awt-live-event small { color: var(--awt-muted); line-height: 1.25; }
-.awt-live-kind {
-  width: max-content;
-  max-width: 100%;
-  padding: 4px 9px;
-  border-radius: 999px;
-  color: var(--awt-cyan);
-  background: rgba(119,236,255,.12);
-  font-size: .7rem;
-  font-weight: 950;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-}
-.awt-live-agents .awt-live-kind { color: var(--awt-gold); background: rgba(255,215,127,.12); }
-.awt-live-tasks .awt-live-kind { color: var(--awt-pink); background: rgba(255,123,212,.12); }
-.awt-live-actions .awt-live-kind { color: var(--awt-blue); background: rgba(135,164,255,.13); }
-.awt-live-external {
-  border-color: rgba(255, 210, 116, .26);
-  background:
-    linear-gradient(135deg, rgba(255, 188, 80, .13), rgba(255,255,255,.025)),
-    radial-gradient(circle at top right, rgba(255, 87, 140, .13), transparent 42%);
-}
-.awt-live-external .awt-live-kind { color: #ffd978; background: rgba(255, 214, 120, .14); }
-.awt-live-errors .awt-live-kind { color: #ff9aa8; background: rgba(255,112,128,.13); }
-.awt-live-sockets .awt-live-kind { color: var(--awt-green); background: rgba(125,255,186,.12); }
+.awt-live-row[data-ok="false"] { border-color: rgba(255,112,128,.32); background: rgba(255,112,128,.08); }
+.awt-live-kind { color: var(--awt-cyan); font-size: .7rem; font-weight: 950; text-transform: uppercase; letter-spacing: .08em; }
+.awt-live-meta { display: flex; flex-wrap: wrap; gap: 6px; color: var(--awt-muted); font-size: .74rem; }
+.awt-live-status-ok { color: var(--awt-green); font-weight: 900; }
+.awt-live-status-fail { color: #ff9aa8; font-weight: 900; }
 .awt-live-console :where(pre, code, .notice) { overflow-wrap: anywhere; white-space: pre-wrap; }
-@keyframes awt-live-scan {
-  0% { transform: translateX(-18%); opacity: .5; }
-  50% { opacity: 1; }
-  100% { transform: translateX(18%); opacity: .5; }
-}
-@media (max-width: 620px) {
-  .awt-live-board { grid-template-columns: 1fr; }
-  .awt-live-control .button-row > * { width: 100%; }
+@media (max-width: 720px) {
+  .awt-live-row { grid-template-columns: 1fr; }
+  .awt-live-group { flex-basis: 100%; }
 }
