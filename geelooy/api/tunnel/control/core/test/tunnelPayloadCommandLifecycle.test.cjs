@@ -25,4 +25,23 @@ assert.equal(payload.stream, "stderr");
 assert.equal(payload.waitTimeoutMs, 7000);
 assert.equal(payload.pollIntervalMs, 123);
 assert.equal(payload.inlineOutput, false);
-console.log(JSON.stringify({ ok: true, checks: ["params-jobId-promoted", "lifecycle-fields-promoted"] }, null, 2));
+
+/**
+ * B"H
+ * Chapter 536: A dropped action is repaired only when the command itself bears
+ * witness. This keeps commandRun usable through fragile adapters without
+ * reopening the params.action override wound.
+ */
+const inferred = buildFsPayload({
+  paramKinds: {
+    POST: { command: "echo BH", cwd: "/tmp" },
+    GET: {}
+  }
+});
+assert.equal(inferred.kind, "command");
+assert.equal(inferred.action, "commandRun");
+assert.equal(inferred.command, "echo BH");
+assert.equal(inferred.cwd, "/tmp");
+assert.equal(inferred.actionRecoveredFromCarrier, true);
+
+console.log(JSON.stringify({ ok: true, checks: ["params-jobId-promoted", "lifecycle-fields-promoted", "command-action-inferred"] }, null, 2));

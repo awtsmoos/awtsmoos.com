@@ -56,13 +56,18 @@ function carrierAction(params, params64) {
     params64.intendedAction || params64.expectedAction || params64.action || "";
 }
 
+function inferredAction(raw) {
+  if (raw.command || raw.command64 || raw.script || raw.scriptText || raw.script64) return "commandRun";
+  if (raw.jobId || raw.id || raw.job || raw.taskId) return raw.stream ? "commandJobOutputPage" : "commandStatus";
+  return "";
+}
+
 /**
  * B"H
- * Chapter 533: The outer king keeps the crown.
- * Old YAML carriers may bring jobId, stream, cwd, tree, and even a fallback
- * action when the adapter forgot the route. But they may not overthrow an
- * explicit top-level action. payloadEcho remains payloadEcho, list remains list,
- * and commandStatus no longer becomes finishAndContinue from a nested whisper.
+ * Chapter 535: Even when the messenger drops the name, the deed testifies.
+ * The explicit action still rules. Carrier action remains only a missing-action
+ * fallback. But when a flaky adapter sends a command body without the action
+ * query, the command itself becomes a witness and safely recovers commandRun.
  */
 function buildFsPayload($i) {
   const query = queryMap($i);
@@ -81,12 +86,13 @@ function buildFsPayload($i) {
 
   const originalAction = body.action || query.action || "";
   const fallbackAction = carrierAction(params, params64);
-  const action = validAction(originalAction) ? originalAction : validAction(fallbackAction) ? fallbackAction : "";
+  const inferred = inferredAction(raw);
+  const action = validAction(originalAction) ? originalAction : validAction(fallbackAction) ? fallbackAction : inferred;
   if (!action) return { ok: false, action: "", kind: "fs", payloadError: "missing_action" };
 
   const pathValue = raw.p || raw.path || ".";
   const jobId = raw.jobId || raw.id || raw.job || raw.taskId || "";
-  const recovered = Boolean(!validAction(originalAction) && validAction(fallbackAction));
+  const recovered = Boolean(!validAction(originalAction) && (validAction(fallbackAction) || inferred));
   const payload = {
     kind: actionKind(action),
     action,
@@ -110,7 +116,7 @@ function buildFsPayload($i) {
     jobId,
     id: jobId,
     stream: raw.stream || "",
-    command: raw.command || from64(raw.command64),
+    command: raw.command || raw.script || from64(raw.command64) || from64(raw.script64),
     scriptText: raw.scriptText || from64(raw.script64),
     content: raw.content || from64(raw.content64),
     find: raw.find || from64(raw.find64),
