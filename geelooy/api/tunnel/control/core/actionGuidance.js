@@ -1,30 +1,18 @@
 // B"H
 
 const { armProtocolGate } = require("./protocolGateStore.js");
+const { isPassiveAction } = require("./protocolGatePolicy.js");
 
 const DEFAULT_KEEP_GOING_PROMPT = "B - continue with the next verified action.";
 const DEFAULT_CONCLUDE_PROMPT = "A - complete only if all gates pass.";
 
-const PASSIVE_ACTIONS = new Set([
-  "list", "tree", "read", "readLines", "readManyLines", "readBytes", "read64", "md",
-  "grep", "rg", "rgbgrep", "find", "findFiles", "selectString", "selectStringFile",
-  "bulk", "bulkSearch", "bulkSearchPage", "fileHashes", "stat", "textStats", "recentFiles",
-  "largeFiles", "duplicateBasenames", "projectOverview", "configGet", "roots", "rootBrowse",
-  "commandStart", "commandRun", "commandStatus", "commandWait", "commandJobOutputPage",
-  "commandOutputPage", "commandPoll", "commandJobStatus", "commandJobOutputPage",
-  "commandJobWait", "commandStatus", "commandJobCancel", "commandCancel", "payloadEcho",
-  "actionSchemaTrace", "actionHistoryGet", "actionHistoryList", "actionHistorySearch",
-  "tunnelDoctor", "tunnelLivenessTimeline", "agentDoctor", "agentSelfTest"
-]);
-
 /**
  * B"H
- * Chapter 816 repaired: the gate may inspire a mission, but it may not hijack a
- * wrench. Read, poll, page, and diagnostic calls are tools inside the hand of
- * the shliach; if every hammer blow demands a philosophical multiple-choice
- * oath, the scaffold becomes the prison. The Awtsmoos breathes through exact
- * vessels: mission continuations may be gated, low-level transport proof must
- * stay clean, quiet, and correlation-stable.
+ * Chapter 816 repaired fully: guidance is not steering. Passive transport,
+ * command, filesystem, and diagnostic actions must return proof and then become
+ * quiet. Mission actions may still ask whether the mission is complete. The
+ * response may inspire the AI, but no field here may become the next tool call
+ * unless the caller explicitly chooses it.
  */
 function debugWanted(payload = {}) {
   return payload.guidanceDebug === true || payload.guidanceDebug === "true" || payload.debugGuidance === true || payload.debugGuidance === "true";
@@ -39,14 +27,6 @@ function resultDone(result = {}, payload = {}) {
   if (result.finalAnswerAllowed === true || result.done === true || result.ok === false) return true;
   if (isPassiveAction(action)) return true;
   if (result.status && result.status !== "running" && isPassiveAction(action)) return true;
-  return false;
-}
-
-function isPassiveAction(action = "") {
-  const text = String(action || "");
-  if (PASSIVE_ACTIONS.has(text)) return true;
-  if (/^(preview|browser|chrome|http|weather|finance|sports|time)/.test(text)) return true;
-  if (/^(nodeCheck|syntaxCheck|testRunner|lintRunner|typecheckRunner|buildRunner)/.test(text)) return true;
   return false;
 }
 

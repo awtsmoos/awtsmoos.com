@@ -35,9 +35,9 @@ function shape(input = {}, mid = id()) {
   };
 }
 async function ensure(config) { await fsp.mkdir(dir(config), { recursive: true }); }
-async function save(config, m) { m.updatedAt = now(); await fsp.mkdir(dir(config, m.id), { recursive: true }); await fsp.writeFile(file(config, m.id), JSON.stringify(m, null, 2), 'utf8'); return m; }
+async function save(config, m) { m.updatedAt = now(); await fsp.mkdir(dir(config, m.id), { recursive: true }); const target = file(config, m.id); const tmp = safePath(config, `${DIR}/${clean(m.id)}/mission.${process.pid}.${Date.now()}.${crypto.randomBytes(4).toString('hex')}.tmp`); await fsp.writeFile(tmp, JSON.stringify(m, null, 2), 'utf8'); await fsp.rename(tmp, target); return m; }
 async function create(config, input = {}) { await ensure(config); const m = shape(input, input.id || id()); event(m, 'created', 'Mission created', { goal: m.goal }); return save(config, m); }
-async function load(config, mid) { try { return JSON.parse(await fsp.readFile(file(config, mid), 'utf8')); } catch { return null; } }
+async function load(config, mid) { for (let attempt = 0; attempt < 8; attempt++) { try { return JSON.parse(await fsp.readFile(file(config, mid), 'utf8')); } catch { if (attempt === 7) return null; await new Promise(resolve => setTimeout(resolve, 5 + attempt * 5)); } } return null; }
 async function all(config) { await ensure(config); const ents = await fsp.readdir(dir(config), { withFileTypes: true }).catch(() => []); const out = []; for (const e of ents) if (e.isDirectory()) { const m = await load(config, e.name); if (m) out.push(m); } return out.sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt))); }
 function event(m, type, msg, data = {}) { m.events ||= []; m.events.push({ at: now(), type, msg, data }); m.updatedAt = now(); return m; }
 function addTask(m, title, extra = {}) { const t = { id: extra.id || id('task'), title: String(title || extra.title || 'task'), status: extra.status || 'open', createdAt: now(), evidence: [] }; m.tasks.push(t); event(m, 'task_added', t.title, { taskId: t.id }); return t; }

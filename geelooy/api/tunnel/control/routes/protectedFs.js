@@ -37,7 +37,49 @@ async function protectedFs($i, vars) {
   const vessel = resolveFsVessel({ $i, userId: ident.userId, tunnelName, payload, timeoutMs: requestTimeoutMs });
   return await runResolvedVessel($i, ident, payload, vessel, affordability);
 }
-function normalizeCarriers(payload = {}, $i = {}) { const merged = { ...payload }, query = $i.paramKinds?.GET || $i.$_GET || {}, body = $i.paramKinds?.POST || {}; mergeObject(merged, parseCarrier(payload.params, {})); mergeObject(merged, parseCarrier(query.params, {})); mergeObject(merged, parseCarrier(body.params, {})); mergeObject(merged, parse64(query.params64 || body.params64 || payload.params64, {})); for (const key of ["tree", "vars", "steps", "actions", "commandTree", "workflow"]) { const value = firstDefined(payload[key], query[key], body[key]); if (value !== undefined && value !== "") merged[key] = parseCarrier(value, value); const encoded = firstDefined(payload[key + "64"], query[key + "64"], body[key + "64"]); if (encoded) merged[key] = parse64(encoded, merged[key]); } for (const key of ["outputId", "outputRef", "resultId", "resultRef", "jobId", "stream", "pageToken", "cursorToken", "maxInlineChars", "pageChars", "async", "asyncCommand", "background", "continuationPrompt", "multipleChoiceAnswer", "choice", "answer"]) { const value = firstDefined(payload[key], query[key], body[key]); if (value !== undefined && value !== "") merged[key] = value; } hydrateActionStepsFromActionsJson(merged); normalizeAsyncPayload(merged); return merged; }
+function normalizeCarriers(payload = {}, $i = {}) {
+  const merged = { ...payload }, query = $i.paramKinds?.GET || $i.$_GET || {}, body = $i.paramKinds?.POST || {};
+  const originalAction = merged.action;
+  const carriers = [parseCarrier(payload.params, {}), parseCarrier(query.params, {}), parseCarrier(body.params, {}), parse64(query.params64 || body.params64 || payload.params64, {})];
+  for (const carrier of carriers) mergeObject(merged, carrier);
+  const intendedAction = firstExplicitAction(carriers, payload, query, body);
+  if (intendedAction && intendedAction !== originalAction) {
+    merged.adapterAction = originalAction;
+    merged.action = intendedAction;
+    merged.actionRecoveredFromCarrier = true;
+    merged.kind = recoveredKindForAction(intendedAction, merged.kind);
+  }
+  for (const key of ["tree", "vars", "steps", "actions", "commandTree", "workflow"]) {
+    const value = firstDefined(payload[key], query[key], body[key]);
+    if (value !== undefined && value !== "") merged[key] = parseCarrier(value, value);
+    const encoded = firstDefined(payload[key + "64"], query[key + "64"], body[key + "64"]);
+    if (encoded) merged[key] = parse64(encoded, merged[key]);
+  }
+  for (const key of ["outputId", "outputRef", "resultId", "resultRef", "jobId", "stream", "pageToken", "cursorToken", "maxInlineChars", "pageChars", "async", "asyncCommand", "background", "continuationPrompt", "multipleChoiceAnswer", "choice", "answer", "intendedAction", "expectedAction"]) {
+    const value = firstDefined(payload[key], query[key], body[key]);
+    if (value !== undefined && value !== "") merged[key] = value;
+  }
+  hydrateActionStepsFromActionsJson(merged);
+  normalizeAsyncPayload(merged);
+  return merged;
+}
+
+function firstExplicitAction(carriers, payload = {}, query = {}, body = {}) {
+  for (const source of carriers) {
+    if (!source || typeof source !== "object" || Array.isArray(source)) continue;
+    const value = source.intendedAction || source.expectedAction || source.action;
+    if (validActionCarrier(value)) return String(value);
+  }
+  const value = firstDefined(payload.intendedAction, payload.expectedAction, query.intendedAction, query.expectedAction, body.intendedAction, body.expectedAction);
+  return validActionCarrier(value) ? String(value) : "";
+}
+function validActionCarrier(value) { return typeof value === "string" && /^[A-Za-z][A-Za-z0-9]*$/.test(value); }
+function recoveredKindForAction(action, fallback) {
+  const text = String(action || "");
+  if (text.startsWith("command") || text === "command" || text === "nodeScriptRun" || text === "nodeCheck" || text === "nodeCheckTree") return "command";
+  if (text.startsWith("chrome")) return "chrome";
+  return fallback || "fs";
+}
 function hydrateActionStepsFromActionsJson(merged) { const actionJson = parseCarrier(merged.actionsJson, null); if (!actionJson) return merged; if (isLegacyBulkActionBatch(merged.action, actionJson, merged)) { merged.action = "actionBatch"; merged.compatibilityAlias = "bulk_actionsJson_to_actionBatch"; } if (isBatchLikeAction(merged.action)) hydrateBatchLikePayload(merged, actionJson); if (isCommandTree(merged.action)) hydrateCommandTreePayload(merged, actionJson); return merged; }
 function hydrateBatchLikePayload(merged, actionJson) { const steps = stepsFromCarrier(actionJson); if (steps.length && (!Array.isArray(merged.steps) || !merged.steps.length)) merged.steps = steps; if (steps.length && (!Array.isArray(merged.actions) || !merged.actions.length)) merged.actions = steps; if (actionJson && typeof actionJson === "object" && !Array.isArray(actionJson)) { if (actionJson.workflow && !merged.workflow) merged.workflow = actionJson.workflow; if (actionJson.vars && !merged.vars) merged.vars = actionJson.vars; } }
 function hydrateCommandTreePayload(merged, actionJson) { if (!merged.tree && actionJson && typeof actionJson === "object") merged.tree = actionJson; const steps = stepsFromCarrier(actionJson); if ((!merged.steps || !merged.steps.length) && steps.length) merged.steps = steps; if (merged.tree && typeof merged.tree === "object") { if (merged.tree.vars && !merged.vars) merged.vars = merged.tree.vars; if (merged.tree.budgetPerutas && !merged.budgetPerutas) merged.budgetPerutas = merged.tree.budgetPerutas; } }

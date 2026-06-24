@@ -178,7 +178,9 @@ function message(m, input = {}) {
 function userMessage(m, input = {}) {
   const room = ensure(m);
   const body = text(input.body || input.message || input.text || input.prompt);
-  const allowContinue = input.allowContinue === true || input.allowContinue === 'true' || impliesContinue(body, room);
+  const explicitAllowContinue = input.allowContinue === true || input.allowContinue === 'true';
+  const explicitBlockContinue = input.allowContinue === false || input.allowContinue === 'false';
+  const allowContinue = explicitAllowContinue || (!explicitBlockContinue && impliesContinue(body, room));
   const msg = {
     id: input.messageId || id('user_msg'),
     at: now(),

@@ -15,6 +15,7 @@ const { handleStreaming } = require("./tools/streaming/index.js");
 const { AGENT_VERSION } = require("./tools/fs/actions.js");
 const { compactForSend, jsonBytes, inlineLimit } = require("./lib/response-size.js");
 const { nativeRegistrationPacket } = require("./lib/registration.js");
+const { maybeSelfUpdate, restartIntoUpdatedAgent } = require("./lib/self-update.js");
 
 const log = makeLogger(ROOT);
 const CPU_COUNT = Math.max(1, os.cpus?.().length || 1);
@@ -186,6 +187,25 @@ function proxyLocalHttp(config, data, ws) {
   req.end();
 }
 
+async function registerOrUpdate(ws, myGeneration) {
+  const config = loadConfig();
+  try {
+    const update = await maybeSelfUpdate({ config });
+    if (update && update.updated) {
+      log("Tunnel self-update installed:", JSON.stringify({ version: update.version, hash: update.hash, entry: update.entry }));
+      try { ws.close(true); } catch (_) {}
+      restartIntoUpdatedAgent();
+      process.exit(0);
+      return;
+    }
+    if (update && update.wouldUpdate) log("Tunnel self-update dry-run:", JSON.stringify(update));
+  } catch (error) {
+    log("Tunnel self-update check failed; continuing current agent:", error && (error.stack || error.message || String(error)));
+  }
+  if (myGeneration !== generation || !ws || ws.closed) return;
+  register(ws);
+}
+
 function register(ws) {
   const config = loadConfig();
   ws.lastSeenAt = Date.now();
@@ -308,7 +328,7 @@ function connect() {
   ws.lastSeenAt = Date.now();
   activeWs = ws;
   startWatchdog(ws, myGeneration);
-  ws.on("open", () => { if (myGeneration === generation) register(ws); });
+  ws.on("open", () => { if (myGeneration === generation) registerOrUpdate(ws, myGeneration); });
   ws.on("message", msg => {
     if (myGeneration !== generation) return;
     ws.lastSeenAt = Date.now();

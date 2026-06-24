@@ -10,6 +10,8 @@ const DIR = ".awtsmoos/command-jobs";
 const TTL_MS = 2 * 60 * 60 * 1000;
 const DEFAULT_PAGE_CHARS = 12000;
 const MAX_PAGE_CHARS = 250000;
+const DEFAULT_HTTP_SAFE_WAIT_MS = 25000;
+const TORAH_UNLIMITED_WAIT_MS = 24 * 60 * 60 * 1000;
 const TERMINAL_STATUSES = new Set(["completed", "failed", "timed_out", "cancelled"]);
 const JOBS = new Map();
 
@@ -60,7 +62,7 @@ async function startCommandJob(config = {}, payload = {}) {
   return {
     ok: true, action: "commandStart", jobId, status: "running", command, cwd, shell, timeoutMs,
     statusPayload: { action: "commandStatus", jobId },
-    waitPayload: { action: "commandWait", jobId, waitTimeoutMs: timeoutMs, pollIntervalMs: 1000 },
+    waitPayload: { action: "commandWait", jobId, waitTimeoutMs: waitCapMs(), pollIntervalMs: 1000 },
     stdoutPagePayload: { action: "commandJobOutputPage", jobId, stream: "stdout", offsetChars: 0, maxChars: DEFAULT_PAGE_CHARS },
     stderrPagePayload: { action: "commandJobOutputPage", jobId, stream: "stderr", offsetChars: 0, maxChars: DEFAULT_PAGE_CHARS },
     aiInstructions: "Command is running asynchronously. Use commandWait for one-call completion, commandStatus for polling, and commandJobOutputPage for paged logs."
@@ -96,7 +98,9 @@ async function commandStatus(config = {}, payload = {}) {
 async function commandWait(config = {}, payload = {}) {
   const jobId = cleanId(payload.jobId || payload.id || "");
   if (!jobId) return { ok: false, action: "commandWait", error: "missing_jobId", status: "missing_jobId" };
-  const timeoutMs = Math.min(Number(payload.waitTimeoutMs || payload.timeoutMs || 240000), 24 * 60 * 60 * 1000);
+  const requestedTimeoutMs = Number(payload.waitTimeoutMs || payload.timeoutMs || waitCapMs());
+  const capMs = waitCapMs(payload);
+  const timeoutMs = Math.min(Number.isFinite(requestedTimeoutMs) ? requestedTimeoutMs : capMs, capMs);
   const intervalMs = Math.max(25, Math.min(Number(payload.intervalMs || payload.pollIntervalMs || 1000), 30000));
   const startedAt = Date.now();
   let status = null;
@@ -110,7 +114,7 @@ async function commandWait(config = {}, payload = {}) {
     }
     await new Promise(resolve => setTimeout(resolve, intervalMs));
   }
-  return { ok: false, action: "commandWait", error: "wait_timeout", status: "wait_timeout", waitedMs: Date.now() - startedAt, lastStatus: status };
+  return { ok: true, action: "commandWait", status: status?.status === "running" ? "running" : "wait_timeout", done: false, waitTimedOut: true, httpSafeWaitMs: capMs, torahUnlimitedWait: torahUnlimitedEnabled(payload), waitedMs: Date.now() - startedAt, lastStatus: status, statusPayload: { action: "commandStatus", jobId }, nextWaitPayload: { action: "commandWait", jobId, waitTimeoutMs: capMs, pollIntervalMs: intervalMs } };
 }
 
 async function commandJobOutputPage(config = {}, payload = {}) {
@@ -147,6 +151,19 @@ async function cancelCommandJob(config = {}, payload = {}) {
   }
   const meta = await readMeta(config, jobId);
   return { ok: true, action: "commandCancel", jobId, cancelled: false, status: meta?.status || "missing" };
+}
+
+function torahUnlimitedEnabled(payload = {}) {
+  const raw = payload.torahUnlimitedWait ?? payload.unlimitedWait ?? process.env.AWTSMOOS_TORAH_UNLIMITED_WAIT ?? process.env.AWTSMOOS_UNLIMITED_WAIT ?? "";
+  return raw === true || String(raw).toLowerCase() === "1" || String(raw).toLowerCase() === "true" || String(raw).toLowerCase() === "yes" || String(raw).toLowerCase() === "on";
+}
+function waitCapMs(payload = {}) {
+  if (torahUnlimitedEnabled(payload)) return boundedWaitMs(payload.maxWaitMs || process.env.AWTSMOOS_MAX_WAIT_MS || TORAH_UNLIMITED_WAIT_MS);
+  return boundedWaitMs(process.env.AWTSMOOS_HTTP_SAFE_WAIT_MS || DEFAULT_HTTP_SAFE_WAIT_MS);
+}
+function boundedWaitMs(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.max(100, Math.min(Math.floor(n), TORAH_UNLIMITED_WAIT_MS)) : DEFAULT_HTTP_SAFE_WAIT_MS;
 }
 
 function statusResponse(jobId, meta, payload = {}) {

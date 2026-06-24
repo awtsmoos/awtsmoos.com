@@ -1,5 +1,5 @@
 B"H
-1.0.103
+1.0.107
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -39,6 +39,7 @@ lib/log.js
 lib/open.js
 lib/registration.js
 lib/response-size.js
+lib/self-update.js
 lib/split-browser-require.js
 lib/tool-schema-catalog.js
 lib/ws.js
