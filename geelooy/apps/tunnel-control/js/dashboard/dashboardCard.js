@@ -7,57 +7,42 @@ import { createIcon } from "../ui/iconRegistry.js";
 
 /**
  * B"H
- * Chapter 26: The dashboard tile received a drawn flame.
+ * Chapter 906: Every card confessed its rank.
  *
- * The Awtsmoos lets every tile keep its human label, while the icon becomes a
- * CSS-tinted SVG vessel matching the lucid blue/green/purple picture language.
- *
- * @param {string} key Pane key.
- * @param {object} meta Pane metadata.
- * @returns {HTMLButtonElement} Card button.
+ * A command center must know what is core and what is advanced. The tile still
+ * opens the same pane, but it now carries enough truth for layout, emphasis,
+ * keyboard search, and the mission-room crown.
  */
 export function createDashboardCard(key, meta = {}) {
   const group = meta.group || "core";
+  const isCore = (meta.badges || []).includes("core");
   const card = h("button", {
-    classes: ["awt-action-card", `is-${group}`],
-    attrs: { type: "button", "data-awt-navigate": key, "data-awt-group": group },
-    children: [
-      h("div", { classes: ["awt-action-icon", `is-${group}`], children: [createIcon(meta.icon || key, group)] }),
-      h("div", { classes: ["awt-action-copy"], children: [
-        h("strong", { text: meta.title || key }),
-        h("span", { text: meta.desc || "Open this workspace." }),
-        h("div", { classes: ["awt-card-meta"], children: metaChips(meta) })
-      ] })
-    ]
+    classes: ["awt-action-card", `is-${group}`, isCore ? "is-core" : "is-advanced", key === "missionRooms" ? "is-primary-mission" : ""],
+    attrs: { type: "button", "data-awt-navigate": key, "data-awt-key": key, "data-awt-group": group, "data-awt-core": String(isCore) },
+    children: [icon(meta, key, group), copy(key, meta, group)]
   });
-  card.addEventListener("click", event => {
-    event.preventDefault();
-    activatePane(key);
-  });
+  card.addEventListener("click", event => { event.preventDefault(); activatePane(key); });
   return card;
 }
 
-/**
- * B"H
- * Builds small card chips.
- *
- * @param {object} meta Pane metadata.
- * @returns {HTMLElement[]} Chips.
- */
-function metaChips(meta) {
-  const chips = [chip(PAGE_GROUPS[meta.group] || meta.group || "Core", "group")];
+function icon(meta, key, group) {
+  return h("div", { classes: ["awt-action-icon", `is-${group}`], children: [createIcon(meta.icon || key, group)] });
+}
+
+function copy(key, meta, group) {
+  return h("div", { classes: ["awt-action-copy"], children: [
+    h("strong", { text: meta.title || key }),
+    h("span", { text: meta.desc || "Open this workspace." }),
+    h("div", { classes: ["awt-card-meta"], children: metaChips(meta, group) })
+  ] });
+}
+
+function metaChips(meta, group) {
+  const chips = [chip(PAGE_GROUPS[group] || group || "Core", "group")];
   for (const badge of meta.badges || []) chips.push(chip(badge, badge));
   return chips;
 }
 
-/**
- * B"H
- * Makes one chip.
- *
- * @param {string} label Chip text.
- * @param {string} kind Chip kind.
- * @returns {HTMLElement} Chip.
- */
 function chip(label, kind) {
   return h("span", { classes: ["awt-card-chip", `is-${kind}`], text: label });
 }

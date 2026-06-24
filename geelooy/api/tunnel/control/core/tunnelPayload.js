@@ -56,10 +56,19 @@ function carrierAction(params, params64) {
     params64.intendedAction || params64.expectedAction || params64.action || "";
 }
 
+function hasCommandIntent(raw) {
+  return Boolean(raw.command || raw.command64 || raw.script || raw.scriptText || raw.script64);
+}
+
 function inferredAction(raw) {
-  if (raw.command || raw.command64 || raw.script || raw.scriptText || raw.script64) return "commandRun";
+  if (hasCommandIntent(raw)) return "commandRun";
   if (raw.jobId || raw.id || raw.job || raw.taskId) return raw.stream ? "commandJobOutputPage" : "commandStatus";
   return "";
+}
+
+function effectiveOriginalAction(originalAction, raw) {
+  if (originalAction === "configGet" && hasCommandIntent(raw)) return "";
+  return originalAction;
 }
 
 /**
@@ -87,12 +96,13 @@ function buildFsPayload($i) {
   const originalAction = body.action || query.action || "";
   const fallbackAction = carrierAction(params, params64);
   const inferred = inferredAction(raw);
-  const action = validAction(originalAction) ? originalAction : validAction(fallbackAction) ? fallbackAction : inferred;
+  const outerAction = effectiveOriginalAction(originalAction, raw);
+  const action = validAction(outerAction) ? outerAction : validAction(fallbackAction) ? fallbackAction : inferred;
   if (!action) return { ok: false, action: "", kind: "fs", payloadError: "missing_action" };
 
   const pathValue = raw.p || raw.path || ".";
   const jobId = raw.jobId || raw.id || raw.job || raw.taskId || "";
-  const recovered = Boolean(!validAction(originalAction) && (validAction(fallbackAction) || inferred));
+  const recovered = Boolean(!validAction(outerAction) && (validAction(fallbackAction) || inferred));
   const payload = {
     kind: actionKind(action),
     action,

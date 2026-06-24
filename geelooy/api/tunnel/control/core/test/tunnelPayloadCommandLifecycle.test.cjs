@@ -44,4 +44,15 @@ assert.equal(inferred.command, "echo BH");
 assert.equal(inferred.cwd, "/tmp");
 assert.equal(inferred.actionRecoveredFromCarrier, true);
 
-console.log(JSON.stringify({ ok: true, checks: ["params-jobId-promoted", "lifecycle-fields-promoted", "command-action-inferred"] }, null, 2));
+const rescued = buildFsPayload({
+  paramKinds: {
+    POST: { action: "configGet", command: "printf rescued", cwd: "/tmp" },
+    GET: {}
+  }
+});
+assert.equal(rescued.kind, "command");
+assert.equal(rescued.action, "commandRun");
+assert.equal(rescued.adapterAction, "configGet");
+assert.equal(rescued.command, "printf rescued");
+
+console.log(JSON.stringify({ ok: true, checks: ["params-jobId-promoted", "lifecycle-fields-promoted", "command-action-inferred", "configGet-command-rescued"] }, null, 2));
