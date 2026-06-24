@@ -6,6 +6,7 @@ const { buildProjectActions } = require("./actionGroups/projectActions.js");
 const { buildWriteActions } = require("./actionGroups/writeActions.js");
 const { buildFileOpsActions } = require("./actionGroups/fileOpsActions.js");
 const { buildHttpActions } = require("./actionGroups/httpActionsGroup.js");
+const { buildCommandActions } = require("./actionGroups/commandActions.js");
 const { buildStaticServerActions } = require("./actionGroups/staticServerActions.js");
 const { buildIsolatedActions } = require("./actionGroups/isolatedActions.js");
 const { buildWorkflowActions } = require("./actionGroups/workflowActions.js");
@@ -13,6 +14,7 @@ const { buildPreviewActions } = require("./actionGroups/previewActions.js");
 const { buildRuntimeActions } = require("./actionGroups/runtimeActions.js");
 const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
 const { buildQualityActions } = require("./actionGroups/qualityActions.js");
+const { buildBatchAliasActions } = require("./actionGroups/batchAliasActions.js");
 const { buildMissionActions } = require("./actionGroups/missionActions.js");
 
 const AGENT_VERSION = "split-agent-1.5.0";
@@ -21,33 +23,36 @@ function payloadEcho(payload) {
   return { BH: "B\"H", ok: true, action: "payloadEcho", payload };
 }
 
+function actionSchemaTrace(payload) {
+  return {
+    BH: "B\"H",
+    ok: true,
+    action: "actionSchemaTrace",
+    requestedAction: payload.action,
+    adapterAction: payload.adapterAction || null,
+    actionRecoveredFromCarrier: !!payload.actionRecoveredFromCarrier,
+    kind: payload.kind,
+    keys: Object.keys(payload).sort()
+  };
+}
+
 /**
  * B"H
- * Chapter 531: The missing room returned to the palace.
- * The mission actions were written like a fiery constellation, but the central
- * registry did not spread them into the living action map. A tunnel can only
- * reveal the vessels it names. Now the mission rooms enter the registry openly,
- * and every agent may knock on missionStart without finding an empty doorway.
+ * Chapter 538: The echo returned from the hall of mirrors.
+ * Some cognition maps declared names like payloadEcho and actionSchemaTrace,
+ * accidentally stealing the tiny truthful mirrors used by stress tests and
+ * batch integrity probes. The registry now builds the great palace, then seals
+ * these two core actions last so no later imagination can disguise them.
  */
 function buildActions(config, payload, ws) {
   const ctx = { config, payload, ws, version: AGENT_VERSION };
   const actions = {
-    payloadEcho: async () => payloadEcho(payload),
-    actionSchemaTrace: async () => ({
-      BH: "B\"H",
-      ok: true,
-      action: "actionSchemaTrace",
-      requestedAction: payload.action,
-      adapterAction: payload.adapterAction || null,
-      actionRecoveredFromCarrier: !!payload.actionRecoveredFromCarrier,
-      kind: payload.kind,
-      keys: Object.keys(payload).sort()
-    }),
     ...buildConfigActions(ctx),
     ...buildReadActions(ctx),
     ...buildProjectActions(ctx),
     ...buildFileOpsActions(ctx),
     ...buildHttpActions(ctx),
+    ...buildCommandActions(ctx),
     ...buildStaticServerActions(ctx),
     ...buildIsolatedActions(ctx),
     ...buildWriteActions(ctx),
@@ -56,7 +61,10 @@ function buildActions(config, payload, ws) {
     ...buildRuntimeActions(ctx),
     ...buildCognitionActions(ctx),
     ...buildQualityActions(ctx, buildActions),
-    ...buildMissionActions(ctx)
+    ...buildBatchAliasActions(ctx, buildActions),
+    ...buildMissionActions(ctx),
+    payloadEcho: async () => payloadEcho(payload),
+    actionSchemaTrace: async () => actionSchemaTrace(payload)
   };
 
   if (actions.commandRun && !actions.command) actions.command = actions.commandRun;

@@ -2,44 +2,24 @@
 /**
  * @module SocialProfileRoutes
  * @description
- * Chapter 451: The unified social gate now refuses to wrap errors in success.
- *
- * A route that says `ok: true` while carrying an inner error confuses the whole
- * kingdom. Follow validation and bulk parsing now surface structured errors at
- * the top level while preserving all canonical and legacy profile doors.
+ * Chapter 545: The old gates remain, and a new living-card gate opens under
+ * canonical `/api/social`, gathering profile, presence, inbox, memory, graph,
+ * relationships, and reputation into one civilization face.
  */
 
 const { er } = require("./helper/general.js");
 const { listTemplates } = require("./helper/profile/templates.js");
+const { livingProfileCard } = require("./helper/profile/livingCard.js");
 const {
-    aggregateProfile,
-    postsByAlias,
-    commentsByAlias,
-    treeByAlias,
-    profileHeichelos,
-    getHistory,
-    recordHistory,
-    clearHistory,
-    recentActivity
+    aggregateProfile, postsByAlias, commentsByAlias, treeByAlias,
+    profileHeichelos, getHistory, recordHistory, clearHistory, recentActivity
 } = require("./helper/profile/index.js");
 const { updateProfile, updateTemplate } = require("./helper/profile/writeProfile.js");
 const { openApiDoc } = require("./helper/profile/openapi.js");
 const {
-    apiMeta,
-    batchProfiles,
-    profileFeed,
-    search,
-    trending,
-    recommendations,
-    analytics,
-    heichelDiscover,
-    graph,
-    bulk,
-    events,
-    listFollows,
-    follow,
-    unfollow,
-    followers
+    apiMeta, batchProfiles, profileFeed, search, trending, recommendations,
+    analytics, heichelDiscover, graph, bulk, events, listFollows, follow,
+    unfollow, followers
 } = require("./helper/profile/discovery.js");
 const { getQuery, csv, ok, fail, paginate } = require("./helper/profile/apiTools.js");
 
@@ -58,17 +38,14 @@ function okOrFail(result, $i) {
 }
 function bulkInputOrError($i) {
     const input = mergedInput($i);
-    if (Array.isArray(input.ops)) return null;
-    if (!input.ops) return null;
+    if (Array.isArray(input.ops) || !input.ops) return null;
     try {
         const parsed = JSON.parse(input.ops);
-        if (!Array.isArray(parsed)) return { code: "BAD_BULK_OPS", message: "ops must be an array." };
-        return null;
+        return Array.isArray(parsed) ? null : { code: "BAD_BULK_OPS", message: "ops must be an array." };
     } catch (error) {
         return { code: "BAD_BULK_JSON", message: "ops must be valid JSON.", details: String(error.message || error) };
     }
 }
-
 async function profileOrError($i, aliasId) {
     const reserved = await reservedProfileRoute($i, aliasId);
     if (reserved) return reserved;
@@ -86,11 +63,16 @@ async function activityForAlias({ $i, aliasId }) {
     const [posts, comments] = await Promise.all([postsByAlias({ $i, aliasId }), commentsByAlias({ $i, aliasId })]);
     return { success: recentActivity({ posts, comments, limit: 80 }) };
 }
+async function livingCardOrError({ $i, userid, aliasId }) {
+    const card = await livingProfileCard({ $i, userid, aliasId });
+    return card ? ok(card, { query: getQuery($i) }) : fail("PROFILE_NOT_FOUND", `@${aliasId} was not found.`);
+}
 
 module.exports = ({ $i, userid } = {}) => ({
     "/meta": async () => is($i, "GET") ? ok(apiMeta(), { query: getQuery($i) }) : badMethod("Use GET."),
     "/openapi.json": async () => is($i, "GET") ? ok(openApiDoc(), { query: getQuery($i), extra: { contentType: "application/openapi+json" } }) : badMethod("Use GET."),
     "/profiles/batch": async () => is($i, "GET") ? paged(await batchProfiles({ $i, aliases: aliases($i), query: getQuery($i) }), $i, { limit: 25, max: 50 }) : badMethod("Use GET."),
+    "/profiles/:alias/living-card": async vars => is($i, "GET") ? await livingCardOrError({ $i, userid, aliasId: vars.alias }) : badMethod("Use GET."),
     "/profiles/:alias": async vars => {
         if (!is($i, "GET")) return badMethod("Use GET.");
         const data = await aggregateProfile({ $i, aliasId: vars.alias });

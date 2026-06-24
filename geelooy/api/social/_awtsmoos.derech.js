@@ -2,11 +2,8 @@
 /**
  * @module SocialApiDerech
  * @description
- * Chapter 532: Route precedence is clarified for one unified social API.
- *
- * The modern canonical routes mount first. Communication overview now joins
- * profile, notifications, mail, and live-room hints without restoring any
- * `/api/v2/social` shadow and without disturbing old social endpoints.
+ * Chapter 552: Route precedence stays unified under `/api/social`, while the
+ * civilization event engine is mounted additively before legacy chambers.
  */
 
 const aliases = require("./_awtsmoos.alias.js");
@@ -25,6 +22,7 @@ const entities = require("./_awtsmoos.entities.js");
 const living = require("./_awtsmoos.living.js");
 const thoughts = require("./_awtsmoos.thoughts.js");
 const communications = require("./_awtsmoos.communications.js");
+const civilization = require("./_awtsmoos.civilization.js");
 const assets = require("./_awtsmoos.assets.js");
 const editor = require("./_awtsmoos.editor.js");
 const governance = require("./_awtsmoos.governance.js");
@@ -64,6 +62,7 @@ module.exports = async $i => {
         "/fetch/:url": async vars => await fetchProxy($i, vars),
         ...profile(vessel),
         ...communications(vessel),
+        ...civilization(vessel),
         ...aliases(vessel),
         ...keys(vessel),
         ...graph(vessel),

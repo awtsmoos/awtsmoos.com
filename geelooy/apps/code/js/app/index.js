@@ -14,6 +14,7 @@ import { StorageOrchestrator } from './storage-orchestrator.js';
 import { GitOrchestrator } from './git-orchestrator.js';
 import { FullscreenManager } from './fullscreen-manager.js';
 import { registerCodeTabTunnel } from '../tunnel/tabTunnelRegistrar.js';
+import { SocialInboxPanel } from '../social/inbox-panel.js';
 
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
@@ -33,6 +34,7 @@ export const App = {
             
             const { Tabs } = await import('../tabs/index.js');
             await Tabs.activate(State.activeTabId || null);
+            await SocialInboxPanel.init();
 
             UI.hideLoading();
             UI.showToast("B\"H: Reality Stabilized.", 'success');

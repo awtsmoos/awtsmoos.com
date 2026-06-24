@@ -3,18 +3,17 @@ import createProfileDropdown from '/scripts/awtsmoos/social/profileDropdown.js';
 import AwtsmoosOS from "./awtsmoosOs.js";
 import menuItems from "./startMenu.js";
 import { VirtualOSTunnelAgent } from "./tunnel-agent.js";
+import { initSocialInboxBridge } from "./socialInboxBridge.js";
 
 /**
  * B"H
- * Chapter 30: The desktop breathed; the tunnel waited behind the glass.
- *
- * The OS keeps its old behavior and also exposes `VirtualOSTunnelAgent` on
- * window. A logged-in user may call `VirtualOSTunnelAgent.start()` or set the
- * localStorage flag to make this virtual machine discoverable as a tunnel.
+ * Chapter 541: The desktop breathed; the tunnel waited behind the glass, and
+ * now the civilization inbox glows in the taskbar as a small moon.
  */
 const os = new AwtsmoosOS();
 window.os = os;
 window.VirtualOSTunnelAgent = VirtualOSTunnelAgent;
+window.AwtsmoosSocialInbox = initSocialInboxBridge({ os });
 
 function createWindow(title, content) { os.addWindow({ title, content }); }
 
@@ -67,6 +66,7 @@ document.getElementById('desktop').addEventListener('dblclick', event => {
   mainContainer.insertBefore(topHeader, mainContainer.firstChild);
   addEventListener("awtsmoosAliasChange", async () => { await os.start(); });
   createProfileDropdown(existingLogin);
+  window.AwtsmoosSocialInbox.renderBadge(document.getElementById('task-area')).catch(() => {});
 })();
 
 export { createWindow, os };

@@ -1,9 +1,9 @@
 {
   "ok": true,
   "headed": false,
-  "durationMs": 20000,
-  "startedAt": "2026-06-23T20:51:18.055Z",
-  "url": "http://127.0.0.1:51925/geelooy/games/mitzvahWorld/index.html?path=village.json",
+  "durationMs": 12000,
+  "startedAt": "2026-06-24T20:28:03.469Z",
+  "url": "http://127.0.0.1:50602/geelooy/games/mitzvahWorld/index.html?path=village.json",
   "browser": {
     "name": "macOS Chrome",
     "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -135,7 +135,7 @@
           "ikar"
         ]
       },
-      "attempts": 14,
+      "attempts": 15,
       "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
     },
     "pixelGovernor": {
@@ -149,191 +149,4573 @@
       "applied": false,
       "seal": "crisp-pixel-governor-bh5"
     },
-    "url": "http://127.0.0.1:51925/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "url": "http://127.0.0.1:50602/geelooy/games/mitzvahWorld/index.html?path=village.json",
     "title": "Awtsmoos - Mitzvah World 3D"
   },
   "sample": {
-    "durationMs": 20033.5,
-    "frameCount": 2834,
-    "avgFrameMs": 7.059280169371912,
-    "fps": 141.65750274917525,
-    "onePercentLowFps": 10.649627263045835,
-    "pointOnePercentLowFps": 5.662514156285408,
-    "p95FrameMs": 18.69999999999709,
-    "p99FrameMs": 93.89999999999964,
-    "p999FrameMs": 176.59999999999945,
-    "worstFrameMs": 243.89999999999964,
-    "droppedFrames": 87,
-    "longFrames": 64,
-    "worstInputGap": 373.8999999985099,
+    "durationMs": 12027.200000017881,
+    "frameCount": 1490,
+    "avgFrameMs": 8.054832214777102,
+    "fps": 124.14907888030696,
+    "onePercentLowFps": 10.030090270812547,
+    "pointOnePercentLowFps": 5.973715651135019,
+    "p95FrameMs": 32.29999999999927,
+    "p99FrameMs": 99.69999999999891,
+    "p999FrameMs": 167.39999999999964,
+    "worstFrameMs": 334.3000000000002,
+    "droppedFrames": 69,
+    "longFrames": 42,
+    "worstInputGap": 395.60000002384186,
     "actions": {
-      "keydown:KeyW": 6,
-      "mouseSweep": 6,
-      "combatClick": 11,
-      "keydown:Space": 6,
-      "keyup:Space": 6,
-      "keydown:KeyE": 6,
-      "keyup:KeyE": 7,
-      "keydown:KeyQ": 6,
-      "keyup:KeyQ": 7,
-      "keydown:Digit1": 6,
-      "keyup:Digit1": 6,
-      "keydown:Digit2": 6,
-      "keyup:Digit2": 6,
-      "keydown:KeyF": 6,
-      "keydown:Enter": 6,
-      "keyup:KeyF": 6,
-      "keyup:Enter": 6,
-      "keydown:KeyA": 5,
-      "keyup:KeyA": 6,
-      "keydown:KeyD": 5,
-      "keyup:KeyD": 6,
-      "keyup:KeyW": 6,
+      "keydown:KeyW": 4,
+      "mouseSweep": 4,
+      "combatClick": 7,
+      "keydown:Space": 4,
+      "keyup:Space": 4,
+      "keydown:KeyE": 4,
+      "keyup:KeyE": 5,
+      "keydown:KeyQ": 4,
+      "keyup:KeyQ": 5,
+      "keydown:Digit1": 3,
+      "keyup:Digit1": 3,
+      "keydown:Digit2": 3,
+      "keyup:Digit2": 3,
+      "keydown:KeyF": 3,
+      "keyup:KeyF": 3,
+      "keydown:Enter": 3,
+      "keydown:KeyA": 3,
+      "keyup:Enter": 3,
+      "keyup:KeyA": 4,
+      "keydown:KeyD": 3,
+      "keyup:KeyD": 4,
+      "keyup:KeyW": 4,
       "keyup:KeyS": 1
     },
-    "memorySamples": 4,
-    "memoryGrowthBytes": 40820,
-    "longTaskCount": 58,
+    "memorySamples": 2,
+    "memoryGrowthBytes": 1713678,
+    "longTaskCount": 34,
     "longTasks": [
       {
         "name": "self",
         "entryType": "longtask",
-        "startTime": 13146.40000000596,
-        "duration": 96,
-        "at": 10099.40000000596
+        "startTime": 9169.699999988079,
+        "duration": 114,
+        "at": 3601.9000000059605,
+        "recent": [
+          {
+            "at": 3596.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3596.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3596.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3598.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3598.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3598.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3598.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3598.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3602.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3602.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3699.2000000178814,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3699.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3702.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3717.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3717.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3717.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3717.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3717.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
       },
       {
         "name": "self",
         "entryType": "longtask",
-        "startTime": 13468.70000000298,
-        "duration": 255,
-        "at": 10421.70000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 13901.20000000298,
-        "duration": 135,
-        "at": 10854.20000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 14169.20000000298,
-        "duration": 53,
-        "at": 11122.20000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 14469.60000000149,
-        "duration": 86,
-        "at": 11422.60000000149
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 14652.60000000149,
-        "duration": 100,
-        "at": 11605.60000000149
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 15094.70000000298,
-        "duration": 111,
-        "at": 12047.70000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 15470.20000000298,
-        "duration": 126,
-        "at": 12423.20000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 15906.10000000149,
-        "duration": 65,
-        "at": 12859.10000000149
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 16093.40000000596,
-        "duration": 99,
-        "at": 13046.40000000596
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 16362.20000000298,
-        "duration": 78,
-        "at": 13315.20000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 16520.10000000149,
-        "duration": 52,
-        "at": 13473.10000000149
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 16846.20000000298,
-        "duration": 126,
-        "at": 13799.20000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 17279.80000000447,
-        "duration": 67,
-        "at": 14232.80000000447
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 17549.60000000149,
-        "duration": 59,
-        "at": 14502.60000000149
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 17677.20000000298,
-        "duration": 88,
-        "at": 14630.20000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 17974.10000000149,
-        "duration": 142,
-        "at": 14927.10000000149
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 19349.80000000447,
-        "duration": 53,
-        "at": 16302.80000000447
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 19403.70000000298,
-        "duration": 50,
-        "at": 16356.70000000298
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 20102,
+        "startTime": 9515.799999982119,
         "duration": 60,
-        "at": 17055
+        "at": 3948,
+        "recent": [
+          {
+            "at": 3941.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3941.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3941.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3946.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3946.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3946.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3946.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3946.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3948.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3948.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3948.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3948.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 3948.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4035,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4035.2000000178814,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4035.2000000178814,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4035.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4035.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 9687.699999988079,
+        "duration": 81,
+        "at": 4119.9000000059605,
+        "recent": [
+          {
+            "at": 4100.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4100.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4100.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4113.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4113.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4113.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4113.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4113.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4120.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4120.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4120.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4120.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4121,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4207.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4207.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4219,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4219,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4219,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 10023.399999976158,
+        "duration": 72,
+        "at": 4455.5999999940395,
+        "recent": [
+          {
+            "at": 4450.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4450.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4452,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4452,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4452,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4452,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4454.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4454.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4454.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4454.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4456,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4456,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4456,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4456,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4529.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4529.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4529.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4529.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 10258.5,
+        "duration": 98,
+        "at": 4690.700000017881,
+        "recent": [
+          {
+            "at": 4681.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4682.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4682.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4685.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4686.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4686.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4686.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4686.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4690.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4690.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4690.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4690.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4690.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4793,
+            "type": "mutation",
+            "count": 3,
+            "nodes": 1,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              },
+              {
+                "name": "DIV.menu.hidden.offscreen",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 4793,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4793,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4793,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4793,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 10564.399999976158,
+        "duration": 132,
+        "at": 4996.5999999940395,
+        "recent": [
+          {
+            "at": 4954.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4956.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4956.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4956.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4962.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4962.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4962.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4970.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4970.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4970.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4982.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4982.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4982.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 4982.700000017881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 1,
+            "top": [
+              {
+                "name": "DIV.menu.hidden.offscreen",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 5129.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5129.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5129.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5129.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 11137.799999982119,
+        "duration": 165,
+        "at": 5570,
+        "recent": [
+          {
+            "at": 5564.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5564.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5566,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5566,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5566,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5567.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5567.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5567.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5568.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5568.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5569,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5570.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5570.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5570.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5571.0999999940395,
+            "type": "mutation",
+            "count": 3,
+            "nodes": 6,
+            "top": [
+              {
+                "name": "DIV#genesisSubActionText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisWorkerText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisProgressLog.genesis-progress-log",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 5739.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5739.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5739.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 11413.299999982119,
+        "duration": 142,
+        "at": 5845.5,
+        "recent": [
+          {
+            "at": 5843.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5843.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5843.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5844.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5844.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5844.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5844.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5844.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5845.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5845.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5845.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5845.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5845.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5989,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5989.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5989.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5989.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 5989.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 12221.399999976158,
+        "duration": 59,
+        "at": 6653.5999999940395,
+        "recent": [
+          {
+            "at": 6649.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6649.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6650.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6650.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6651,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6651,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6652.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6652.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6652.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6652.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6654,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6654,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6654,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6654,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6727,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6727,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6727.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6727.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 12503.5,
+        "duration": 102,
+        "at": 6935.700000017881,
+        "recent": [
+          {
+            "at": 6931.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6933.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6933.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6933.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6933.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6934.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6934.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6934.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 6934.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7037,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7037.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7037.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7037.4000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7040.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7041,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7041,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7041.0999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7041.0999999940395,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 1,
+            "top": [
+              {
+                "name": "DIV.menu.hidden.offscreen",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 12757.09999999404,
+        "duration": 65,
+        "at": 7189.300000011921,
+        "recent": [
+          {
+            "at": 7179.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7182.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7182.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7182.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7182.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7186.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7186.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7186.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7186.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7187.800000011921,
+            "type": "mutation",
+            "count": 3,
+            "nodes": 6,
+            "top": [
+              {
+                "name": "DIV#genesisSubActionText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisWorkerText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisProgressLog.genesis-progress-log",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 7189.5999999940395,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7189.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7189.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7189.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7256.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7256.9000000059605,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7257,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 7257,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 13776.899999976158,
+        "duration": 52,
+        "at": 8209.09999999404,
+        "recent": [
+          {
+            "at": 8194.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8201.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8201.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8204.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8204.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8204.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8205,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8205,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8209.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8209.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8209.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8209.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8209.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8262.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8262.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8262.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8262.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8262.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 13877.899999976158,
+        "duration": 103,
+        "at": 8310.09999999404,
+        "recent": [
+          {
+            "at": 8308.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8308.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8308.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8308.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8308.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8308.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8410.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8410.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8410.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8410.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8410.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8410.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8414.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8414.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8414.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8414.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8414.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8414.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 14041.09999999404,
+        "duration": 79,
+        "at": 8473.300000011921,
+        "recent": [
+          {
+            "at": 8471.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8472,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8472.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8472.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8472.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8472.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8473.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8473.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8473.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8473.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8473.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8473.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8568.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8568.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8568.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8568.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8568.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 8568.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 14620.09999999404,
+        "duration": 63,
+        "at": 9052.300000011921,
+        "recent": [
+          {
+            "at": 9030.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9031.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9031.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9031.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9036.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9036.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9036.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9036.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9039.700000017881,
+            "type": "input",
+            "input": "keydown:KeyF"
+          },
+          {
+            "at": 9052.200000017881,
+            "type": "mutation",
+            "count": 66,
+            "nodes": 144,
+            "top": [
+              {
+                "name": "DIV#mitzvahWorldMarkers",
+                "count": 56
+              },
+              {
+                "name": "SECTION#uiQuestTracker.mitzvahPanel",
+                "count": 4
+              },
+              {
+                "name": "SECTION#uiQuestMarkers.mitzvahPanel",
+                "count": 4
+              },
+              {
+                "name": "SECTION#uiGossip.mitzvahPanel",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9053.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9053.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9053.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9053.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9116.800000011921,
+            "type": "mutation",
+            "count": 3,
+            "nodes": 1,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              },
+              {
+                "name": "DIV.menu.hidden.offscreen",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 9117.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9117.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9117.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 14841.5,
+        "duration": 82,
+        "at": 9273.700000017881,
+        "recent": [
+          {
+            "at": 9252.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9252.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9254.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9254.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9254.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9254.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9267.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9267.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9267.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9267.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9274.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9274.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9274.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9297.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9356.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9356.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9356.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9356.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 15129.09999999404,
+        "duration": 169,
+        "at": 9561.300000011921,
+        "recent": [
+          {
+            "at": 9554.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9554.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9555.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9556,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9556,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9556,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9559.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9559.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9559.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9559.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9561.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9561.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9561.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9563,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9817.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9817.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9817.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9817.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 15470.799999982119,
+        "duration": 53,
+        "at": 9903,
+        "recent": [
+          {
+            "at": 9899.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9899.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9901.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9901.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9901.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9901.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9901.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9902.800000011921,
+            "type": "input",
+            "input": "keydown:KeyD"
+          },
+          {
+            "at": 9903.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9903.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9903.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9903.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9903.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9959.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9959.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9959.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9959.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 9960.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 16774.899999976158,
+        "duration": 92,
+        "at": 11207.09999999404,
+        "recent": [
+          {
+            "at": 11202.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11202.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11204.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11204.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11204.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11204.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11205.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11205.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11206,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11206,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11207.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11207.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11207.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11207.40000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11301.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11301.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11301.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11301.90000000596,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 17345.5,
+        "duration": 62,
+        "at": 11777.700000017881,
+        "recent": [
+          {
+            "at": 11740.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11740.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11771.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11771.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11771.59999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11771.700000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11771.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11779,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11781.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11833.5,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11833.800000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11834.09999999404,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11840.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11840.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11840.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11840.200000017881,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11840.300000011921,
+            "type": "mutation",
+            "count": 2,
+            "nodes": 0,
+            "top": [
+              {
+                "name": "DIV.rectangle",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "at": 11840.300000011921,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 1,
+            "top": [
+              {
+                "name": "DIV.menu.hidden.offscreen",
+                "count": 1
+              }
+            ]
+          }
+        ]
       }
     ],
     "canvases": 1,
@@ -382,7 +4764,7 @@
           "ikar"
         ]
       },
-      "attempts": 51,
+      "attempts": 46,
       "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
     },
     "pixelGovernor": {
@@ -398,12 +4780,12 @@
     },
     "guardian": {
       "stage": 2,
-      "avgFps": 321.9,
-      "minFps": 19.84,
+      "avgFps": 330.56,
+      "minFps": 13.77,
       "stable60": false,
       "history": [
         {
-          "at": 1782247880929,
+          "at": 1782332889946,
           "stage": 2,
           "name": "ten-minute-guarantee",
           "reason": "boot-conservative",
@@ -414,47 +4796,1130 @@
       ]
     },
     "budget": {
-      "tier": "ultra",
-      "scale": 1,
+      "tier": "survival",
+      "scale": 0.28,
       "fpsTarget": 60,
       "reason": {
-        "fps": 152.6872964169379,
-        "p95FrameMs": 22.5,
+        "fps": 125.15644555694618,
+        "p95FrameMs": 38.20000000000073,
+        "p99FrameMs": 80.39999999999964,
+        "p999FrameMs": 80.39999999999964,
+        "worstFrameMs": 80.39999999999964,
+        "longFrames": 9,
         "drawCalls": 0,
         "triangles": 0,
         "visibleMeshes": 0,
-        "heap": 7004792,
-        "pressure": 0
+        "heap": 7218900,
+        "pressure": 3
       },
       "rendering": {
-        "shadowScale": 1,
-        "maxPixelRatio": 2,
-        "postprocessing": true
+        "shadowScale": 0.28,
+        "maxPixelRatio": 1,
+        "postprocessing": false
       },
       "simulation": {
-        "nearHz": 30,
-        "midHz": 6,
-        "farHz": 1,
+        "nearHz": 10,
+        "midHz": 2,
+        "farHz": 0.2,
         "horizonMode": "statistical"
       },
       "density": {
-        "animals": 1,
-        "npcs": 1,
-        "foliage": 1,
-        "missions": 7,
-        "villageProps": 1
+        "animals": 0.28,
+        "npcs": 0.28,
+        "foliage": 0.28,
+        "missions": 2,
+        "villageProps": 0.28
       },
       "cheapMetrics": true,
       "lastFrame": {
-        "fps": 152.6872964169379,
-        "p95FrameMs": 22.5,
-        "p99FrameMs": 54.30000000000291
+        "fps": 125.15644555694618,
+        "p95FrameMs": 38.20000000000073,
+        "p99FrameMs": 80.39999999999964
       },
       "seal": "cheap-quality-director-20260623-bh5"
     },
+    "mainThreadPressure": {
+      "messageTypes": {},
+      "dispatchTypes": {
+        "keydown": 102,
+        "mousemove": 11,
+        "pointerdown": 7,
+        "mousedown": 7,
+        "pointerup": 7,
+        "mouseup": 7,
+        "click": 7,
+        "keyup": 99,
+        "mitzvah-world:performance-budget": 2,
+        "playerProgress": 1,
+        "level": 1,
+        "xp": 1,
+        "xpToNext": 1,
+        "hp": 1,
+        "maxHp": 1,
+        "koach": 1,
+        "maxKoach": 1,
+        "combatXp": 1,
+        "torahXp": 1,
+        "shlichusXp": 1,
+        "explorationXp": 1,
+        "restedXp": 1,
+        "gameHUD": 1,
+        "updateStats": 1,
+        "xpBar": 1,
+        "inventoryScreen": 1,
+        "updateSlots": 1,
+        "updateEquipment": 1,
+        "updateWallet": 1,
+        "awtsInventoryUpdate": 1,
+        "awtsInventoryOpen": 1,
+        "action bar": 1,
+        "updateActionSlots": 1
+      },
+      "mutationCount": 13747,
+      "mutationNodes": 785,
+      "mutationTargets": [
+        {
+          "name": "DIV.rectangle",
+          "count": 13298
+        },
+        {
+          "name": "DIV#mitzvahWorldMarkers",
+          "count": 167
+        },
+        {
+          "name": "DIV.menu.hidden.offscreen",
+          "count": 95
+        },
+        {
+          "name": "DIV#genesisSubActionText.genesis-stage-note",
+          "count": 33
+        },
+        {
+          "name": "DIV#genesisWorkerText.genesis-stage-note",
+          "count": 33
+        },
+        {
+          "name": "DIV#genesisProgressLog.genesis-progress-log",
+          "count": 33
+        },
+        {
+          "name": "DIV.wardrobe-tabs",
+          "count": 21
+        },
+        {
+          "name": "DIV.slots",
+          "count": 18
+        },
+        {
+          "name": "SECTION#uiQuestTracker.mitzvahPanel",
+          "count": 12
+        },
+        {
+          "name": "SECTION#uiQuestMarkers.mitzvahPanel",
+          "count": 12
+        },
+        {
+          "name": "SECTION#uiGossip.mitzvahPanel",
+          "count": 6
+        },
+        {
+          "name": "DIV.selected-label",
+          "count": 3
+        },
+        {
+          "name": "DIV#genesisProgressBar.barMitzvah",
+          "count": 2
+        },
+        {
+          "name": "DIV#genesisWorkerBar.genesis-stage-fill",
+          "count": 2
+        },
+        {
+          "name": "DIV.loading-radial-core",
+          "count": 2
+        },
+        {
+          "name": "DIV#mitzvahTopRight",
+          "count": 2
+        },
+        {
+          "name": "DIV.store-container.hidden",
+          "count": 2
+        },
+        {
+          "name": "DIV#genesisWorldBar.genesis-stage-fill",
+          "count": 1
+        },
+        {
+          "name": "H3#genesisActionText.txtLoad.info",
+          "count": 1
+        },
+        {
+          "name": "DIV#genesisPercentText.radial-percent",
+          "count": 1
+        },
+        {
+          "name": "DIV#mitzvahCenter",
+          "count": 1
+        },
+        {
+          "name": "DIV#inventoryScreen.awtsmoosInventoryViewer.hidden",
+          "count": 1
+        },
+        {
+          "name": "DIV#actionBar.awtsmoosAction.combat-action-dock.open.inventory-open",
+          "count": 1
+        }
+      ],
+      "worstDispatch": [
+        {
+          "at": 9043.5,
+          "ms": 8.599999994039536,
+          "type": "keydown",
+          "target": "CANVAS"
+        },
+        {
+          "at": 1981.9000000059605,
+          "ms": 6.300000011920929,
+          "type": "keydown",
+          "target": "#document"
+        },
+        {
+          "at": 5507.5999999940395,
+          "ms": 5.100000023841858,
+          "type": "keydown",
+          "target": "#document"
+        },
+        {
+          "at": 4858.5999999940395,
+          "ms": 4.300000011920929,
+          "type": "keydown",
+          "target": "node"
+        },
+        {
+          "at": 9039.700000017881,
+          "ms": 3.699999988079071,
+          "type": "keydown",
+          "target": "#document"
+        },
+        {
+          "at": 12012.800000011921,
+          "ms": 3.199999988079071,
+          "type": "keyup",
+          "target": "CANVAS"
+        }
+      ],
+      "worstMutations": [
+        {
+          "at": 11870.09999999404,
+          "count": 3,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            },
+            {
+              "name": "DIV.menu.hidden.offscreen",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 12020.40000000596,
+          "count": 3,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            },
+            {
+              "name": "DIV.menu.hidden.offscreen",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 11726.700000017881,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11726.700000017881,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11726.700000017881,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11726.700000017881,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11728.09999999404,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11728.09999999404,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11728.09999999404,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11728.09999999404,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11728.200000017881,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11730.200000017881,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11730.40000000596,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11730.40000000596,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11730.40000000596,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11730.40000000596,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11734.5,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11740.300000011921,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11740.59999999404,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11740.59999999404,
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        }
+      ],
+      "recentMarks": [
+        {
+          "at": 11922.800000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11923,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11923.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11931.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11931.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11931.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11931.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11931.200000017881,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11934.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11934.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11934.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11934.09999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11934.200000017881,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11935.40000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11935.40000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11935.5,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11935.5,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11935.5,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11940.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11941,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11941,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11941,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11941,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11942.5,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11942.5,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11942.59999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11942.59999999404,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11942.700000017881,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11950,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11950,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11950,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11950,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11950.200000017881,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11952.800000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11952.800000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11952.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11952.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11952.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11954.800000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11954.800000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11954.800000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11954.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 11954.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12006.300000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12008.800000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12008.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12008.90000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12009,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12010.90000000596,
+          "type": "input",
+          "input": "keyup:KeyQ"
+        },
+        {
+          "at": 12020.300000011921,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12020.40000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12020.40000000596,
+          "type": "mutation",
+          "count": 3,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            },
+            {
+              "name": "DIV.menu.hidden.offscreen",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 12020.40000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12020.40000000596,
+          "type": "mutation",
+          "count": 2,
+          "nodes": 0,
+          "top": [
+            {
+              "name": "DIV.rectangle",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "at": 12021,
+          "type": "input",
+          "input": "keyup:KeyW"
+        },
+        {
+          "at": 12021.40000000596,
+          "type": "input",
+          "input": "keyup:KeyA"
+        },
+        {
+          "at": 12021.59999999404,
+          "type": "input",
+          "input": "keyup:KeyS"
+        },
+        {
+          "at": 12022.40000000596,
+          "type": "input",
+          "input": "keyup:KeyD"
+        },
+        {
+          "at": 12022.800000011921,
+          "type": "input",
+          "input": "keyup:KeyQ"
+        },
+        {
+          "at": 12023.59999999404,
+          "type": "input",
+          "input": "keyup:KeyE"
+        }
+      ]
+    },
     "emerald": false,
     "dialogueLikeNodes": 3,
-    "url": "http://127.0.0.1:51925/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "url": "http://127.0.0.1:50602/geelooy/games/mitzvahWorld/index.html?path=village.json",
     "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-no-expensive-css awtsmoos-renderer-missing awtsmoos-fps-guardian-active"
   },
   "issueLog": {

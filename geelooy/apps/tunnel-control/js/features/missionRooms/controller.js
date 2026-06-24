@@ -1,15 +1,14 @@
 // B"H
 
 import { $ } from "../../ui/dom.js";
-import { roomAction, discoverPayload, docsCatalog, liveCalls } from "./api.js";
-import { createRoomState, loadSelection, saveSelection, paramsSelection, agentId, projectRoot, pollMs, toolFilter } from "./state.js";
-import { renderAll, renderList, renderRoom, renderOut, renderTools, renderCommands, setStatus } from "./render.js";
+import { roomAction, discoverPayload, liveCalls, joinPayload, statusPayload } from "./api.js";
+import { createRoomState, loadSelection, saveSelection, paramsSelection, agentId, projectRoot, pollMs } from "./state.js";
+import { renderAll, renderList, renderRoom, renderOut, renderCommands, setStatus } from "./render.js";
 import { heartbeat } from "./loop.js";
 import { send, copyRoomLink } from "./messages.js";
-import { normalizeTools } from "./tools.js";
 import { commandRowsFrom } from "./commands.js";
 
-/** B"H: Rooms watch tools and current-chat tunnel calls. */
+/** B"H: rooms first; selected-room tunnel calls second. */
 export function createRoomController(getTunnelName) {
   const state = createRoomState();
   const api = payload => roomAction(getTunnelName, payload);
@@ -21,19 +20,16 @@ function mount(state, api) {
   bind(state, api);
   hydrateInputs(state);
   discover(state, api, "boot").then(() => rejoin(state, api)).catch(errorStatus);
-  refreshTools(state).catch(errorStatus);
-  refreshCommands(state).catch(errorStatus);
+  refreshCalls(state).catch(() => {});
   schedule(state, api);
 }
 
 function bind(state, api) {
   $("discoverRoomsBtn").onclick = () => discover(state, api, "manual");
   $("refreshRoomBtn").onclick = () => refresh(state, api);
-  $("refreshRoomToolsBtn").onclick = () => refreshTools(state);
   $("sendRoomMessageBtn").onclick = () => send(state, api, false);
   $("allowRoomContinueBtn").onclick = () => send(state, api, true);
   $("copyRoomLinkBtn").onclick = () => copyRoomLink(state);
-  $("roomToolFilter")?.addEventListener("input", () => { state.toolFilter = toolFilter(); renderTools(state); });
   $("roomProjectRoot")?.addEventListener("change", () => discover(state, api, "filter"));
   document.addEventListener("visibilitychange", () => { if (!document.hidden) wake(state, api); });
 }
@@ -48,7 +44,6 @@ function hydrateInputs(state) {
 async function wake(state, api) {
   await discover(state, api, "visible");
   await refresh(state, api, true);
-  await refreshCommands(state);
 }
 
 async function discover(state, api, reason = "refresh") {
@@ -56,40 +51,24 @@ async function discover(state, api, reason = "refresh") {
   state.lastResult = got;
   state.missions = got.missions || [];
   preserveSelection(state);
-  setStatus(`Showing ${state.missions.length} rooms, ${state.tools.length} tools, ${state.commandRows.length} command rows (${reason}).`);
+  setStatus(`Showing ${state.missions.length} available rooms (${reason}).`);
   renderList(state, { join: id => join(state, api, id) });
   renderOut(got);
 }
 
 function preserveSelection(state) {
-  if (!state.missions.some(row => row.mission?.id === state.selectedMissionId)) {
-    state.selectedMissionId = state.missions[0]?.mission?.id || "";
-  }
-}
-
-async function refreshTools(state) {
-  state.tools = normalizeTools(await docsCatalog());
-  state.toolFilter = toolFilter();
-  renderTools(state);
-  setStatus(`Loaded ${state.tools.length} tunnel tools from live docs route.`);
-}
-
-async function refreshCommands(state) {
-  const live = await liveCalls(state.selectedMissionId || projectRoot());
-  state.liveGroups = live.groups || [];
-  state.commandRows = commandRowsFrom(state, live);
-  renderCommands(state);
+  if (!state.missions.some(row => row.mission?.id === state.selectedMissionId)) state.selectedMissionId = state.missions[0]?.mission?.id || "";
 }
 
 async function rejoin(state, api) { if (state.selectedMissionId) await join(state, api, state.selectedMissionId, true); }
 
 async function join(state, api, missionId, quiet = false) {
   state.selectedMissionId = missionId;
-  state.selected = await api({ action: "missionProjectJoin", targetVessel: "native-tunnel", missionId, agentId: agentId(), role: "human-room", capabilities: "comment,steer,approve,block", projectRoot: projectRoot() });
+  state.selected = await api({ ...joinPayload(missionId), agentId: agentId(), role: "human-room", capabilities: "comment,steer,approve,block", projectRoot: projectRoot() });
   state.lastResult = state.selected;
   saveSelection({ missionId, projectRoot: projectRoot(), agentId: agentId() });
-  if (!quiet) setStatus(`Joined room ${missionId}.`);
-  await refreshCommands(state).catch(() => {});
+  await refreshCalls(state).catch(() => {});
+  if (!quiet) setStatus(`Opened room ${missionId}.`);
   renderAll(state, { join: id => join(state, api, id) });
 }
 
@@ -98,20 +77,27 @@ async function refresh(state, api, quiet = false) {
   state.busy = true;
   try {
     await heartbeat(state, api);
-    state.selected = await api({ action: "missionProjectStatus", targetVessel: "native-tunnel", missionId: state.selectedMissionId });
+    state.selected = await api(statusPayload(state.selectedMissionId));
     state.lastResult = state.selected;
-    await refreshCommands(state).catch(() => {});
-    if (!quiet) setStatus(`Room loaded: ${state.selectedMissionId}`);
+    await refreshCalls(state).catch(() => {});
+    if (!quiet) setStatus(`Room refreshed: ${state.selectedMissionId}`);
     renderRoom(state); renderCommands(state); renderOut(state.selected);
   } catch (err) { errorStatus(err); }
   finally { state.busy = false; }
 }
 
+async function refreshCalls(state) {
+  const live = await liveCalls(state.selectedMissionId || projectRoot());
+  state.liveGroups = live.groups || [];
+  state.commandRows = commandRowsFrom(state, live);
+  renderCommands(state);
+}
+
 function schedule(state, api) {
-  clearInterval(state.discoverTimer); clearInterval(state.timer); clearInterval(state.toolsTimer);
-  state.discoverTimer = setInterval(() => discover(state, api, "auto").catch(errorStatus), Math.max(3500, pollMs() * 2));
+  clearInterval(state.discoverTimer); clearInterval(state.timer); clearInterval(state.callsTimer);
+  state.discoverTimer = setInterval(() => discover(state, api, "auto").catch(errorStatus), Math.max(4500, pollMs() * 3));
   state.timer = setInterval(() => refresh(state, api, true), pollMs());
-  state.toolsTimer = setInterval(() => refreshCommands(state).catch(errorStatus), Math.max(5000, pollMs()));
+  state.callsTimer = setInterval(() => refreshCalls(state).catch(() => {}), Math.max(3000, pollMs()));
 }
 
 function errorStatus(error) { setStatus(error?.message || String(error)); }

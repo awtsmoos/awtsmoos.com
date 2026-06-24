@@ -203,7 +203,7 @@ function validateTunnelResponse(expected, data = {}) {
   const actualVessel = data.vessel || data.targetVessel || "";
   const routeReason = String(data.routeReason || "");
   const flags = {
-    wrongTunnel: missingOrMismatch(expected.tunnelName, actualTunnel),
+    wrongTunnel: valueMismatch(expected.tunnelName, actualTunnel),
     actionMismatch: !!expected.requestedAction && !!actualAction && !allowedActionAlias(expected.requestedAction, actualAction),
     controlRequestMismatch: missingOrMismatch(expected.controlRequestId, data.controlRequestId),
     clientRequestMismatch: missingOrMismatch(expected.clientRequestId, data.clientRequestId),

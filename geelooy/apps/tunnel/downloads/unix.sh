@@ -12,8 +12,10 @@ STATE="$ROOT/install-state.txt"
 MANIFEST_STATE="$ROOT/install-manifest.sha256"
 MANIFEST_COPY="$ROOT/installed-manifest.txt"
 MANIFEST_URL="$origin/apps/tunnel/agent/manifest.txt"
-BASE_URL="$origin/apps/tunnel/agent"
-
+ENTRY="main.js"
+PID_FILE="$ROOT/agent.pid"
+SUP_PID_FILE="$ROOT/supervisor.pid"
+SUPERVISOR="$ROOT/awtsmoos-supervisor.sh"
 mkdir -p "$ROOT"
 command -v node >/dev/null 2>&1 || { echo "Node.js not found"; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo "curl not found"; exit 1; }
@@ -73,11 +75,7 @@ const fs = require("fs");
 const file = process.argv[2];
 const fd = fs.openSync(file, "r");
 const buf = Buffer.alloc(4);
-try {
-  fs.readSync(fd, buf, 0, 4, 0);
-} finally {
-  fs.closeSync(fd);
-}
+try { fs.readSync(fd, buf, 0, 4, 0); } finally { fs.closeSync(fd); }
 if (buf.toString("hex") !== "504b0304") process.exit(1);
 NODE
 }
@@ -101,6 +99,76 @@ install_awtsmoos_bundles() {
   rm -rf "$tmp"
 }
 
+write_supervisor() {
+cat > "$SUPERVISOR" <<'SUP'
+#!/usr/bin/env bash
+# B"H Awtsmoos forever supervisor
+set -u
+ROOT="${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}"
+ENTRY="${AWTSMOOS_ENTRY:-main.js}"
+PID_FILE="$ROOT/agent.pid"
+SUP_PID_FILE="$ROOT/supervisor.pid"
+LOG_FILE="$ROOT/agent-supervisor.log"
+STOP_FILE="$ROOT/stop-supervisor"
+MIN_SLEEP="${AWTSMOOS_SUPERVISOR_MIN_SLEEP:-2}"
+MAX_SLEEP="${AWTSMOOS_SUPERVISOR_MAX_SLEEP:-30}"
+mkdir -p "$ROOT"
+echo $$ > "$SUP_PID_FILE"
+rm -f "$STOP_FILE"
+log(){ printf '[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$*" >> "$LOG_FILE"; }
+is_alive(){ [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
+find_agent_pid(){ pgrep -f "^node $ROOT/$ENTRY( |$)" | grep -v "^$$$" | head -1 || true; }
+adopted="${AWTSMOOS_ADOPT_PID:-}"
+if ! is_alive "$adopted"; then adopted="$(find_agent_pid)"; fi
+if is_alive "$adopted"; then echo "$adopted" > "$PID_FILE"; log "adopted existing agent pid $adopted"; fi
+sleep_for="$MIN_SLEEP"
+while [ ! -f "$STOP_FILE" ]; do
+  pid=""
+  [ -f "$PID_FILE" ] && pid="$(cat "$PID_FILE" 2>/dev/null || true)"
+  if is_alive "$pid"; then sleep 5; continue; fi
+  extant="$(find_agent_pid)"
+  if is_alive "$extant"; then echo "$extant" > "$PID_FILE"; log "adopted discovered agent pid $extant"; sleep 5; continue; fi
+  log "starting agent: node $ROOT/$ENTRY"
+  nohup node "$ROOT/$ENTRY" >> "$ROOT/agent.log" 2>&1 &
+  pid=$!
+  echo "$pid" > "$PID_FILE"
+  log "agent pid $pid started"
+  sleep "$sleep_for"
+  if is_alive "$pid"; then sleep_for="$MIN_SLEEP"; else log "agent pid $pid exited quickly; backing off"; sleep_for=$((sleep_for * 2)); [ "$sleep_for" -gt "$MAX_SLEEP" ] && sleep_for="$MAX_SLEEP"; fi
+done
+log "stop file present; supervisor exiting"
+SUP
+chmod +x "$SUPERVISOR"
+}
+
+is_alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
+find_agent_pid() { pgrep -f "^node $ROOT/$ENTRY( |$)" | head -1 || true; }
+find_supervisor_pid() { pgrep -f "$SUPERVISOR" | head -1 || true; }
+
+start_supervisor() {
+  write_supervisor
+  current_pid="$(find_agent_pid)"
+  [ -n "$current_pid" ] && echo "$current_pid" > "$PID_FILE"
+  supervisor_pid="$(find_supervisor_pid)"
+  if is_alive "$supervisor_pid"; then
+    echo "$supervisor_pid" > "$SUP_PID_FILE"
+    echo "Awtsmoos supervisor already running: $supervisor_pid"
+  else
+    AWTSMOOS_ADOPT_PID="$current_pid" nohup "$SUPERVISOR" > "$ROOT/supervisor-stdout.log" 2>&1 &
+    supervisor_pid=$!
+    echo "$supervisor_pid" > "$SUP_PID_FILE"
+    echo "Awtsmoos supervisor started: $supervisor_pid"
+  fi
+}
+
+restart_agent_by_pid() {
+  pid="$(find_agent_pid)"
+  if is_alive "$pid"; then
+    echo "Restarting Awtsmoos agent by PID: $pid"
+    kill "$pid" 2>/dev/null || true
+  fi
+}
+
 MANIFEST="$(curl -fsSL "$MANIFEST_URL")"
 LINES="$(trim_manifest_lines "$MANIFEST")"
 VERSION="$(printf '%s\n' "$LINES" | sed -n '1p')"
@@ -113,12 +181,13 @@ HASH="$(manifest_hash "$LINES")"
 [ -n "$FILES" ] || { echo "Manifest has no files."; exit 1; }
 assert_safe_manifest_path "$ENTRY"
 
-INSTALLED=""; INSTALLED_HASH=""
+INSTALLED=""; INSTALLED_HASH=""; UPDATED=0
 [ -f "$STATE" ] && INSTALLED="$(tr -d '[:space:]' < "$STATE")"
 [ -f "$MANIFEST_STATE" ] && INSTALLED_HASH="$(tr -d '[:space:]' < "$MANIFEST_STATE")"
 if [ "$INSTALLED" = "$VERSION" ] && [ "$INSTALLED_HASH" = "$HASH" ] && all_manifest_files_exist; then
   echo "Awtsmoos version $VERSION manifest $HASH already installed and complete."
 else
+  UPDATED=1
   if [ "$INSTALLED" = "$VERSION" ]; then echo "Repairing Awtsmoos version $VERSION because manifest changed/incomplete..."; else echo "Installing Awtsmoos version $VERSION..."; fi
   install_awtsmoos_bundles
   all_manifest_files_exist || { echo "Bundle install verification failed. No file fallback is available by policy."; exit 1; }
@@ -128,7 +197,12 @@ else
 fi
 
 if [ "${AWTSMOOS_SKIP_START:-}" = "1" ] || [ "${AWTSMOOS_SKIP_START:-}" = "true" ]; then echo "AWTSMOOS_SKIP_START set; install verified without starting agent."; exit 0; fi
-pkill -f "$ROOT/$ENTRY" 2>/dev/null || true
-echo
-echo "Starting Awtsmoos background agent..."
-if [ "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" = "1" ] || [ "${AWTSMOOS_SKIP_OPEN_CONTROL:-}" = "true" ]; then node "$ROOT/$ENTRY"; else node "$ROOT/$ENTRY" --open-control; fi
+start_supervisor
+if [ "$UPDATED" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "true" ]; then restart_agent_by_pid; fi
+sleep 1
+agent_pid="$(find_agent_pid)"
+supervisor_pid="$(find_supervisor_pid)"
+echo "Awtsmoos agent PID: ${agent_pid:-starting}"
+echo "Awtsmoos supervisor PID: ${supervisor_pid:-missing}"
+echo "Local tunnel API: http://127.0.0.1:${AWTSMOOS_LOCAL_API_PORT:-3977}"
+echo "Awtsmoos installer complete. The agent is supervised in the background."

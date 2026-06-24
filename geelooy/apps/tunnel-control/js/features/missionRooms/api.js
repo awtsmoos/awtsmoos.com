@@ -4,11 +4,11 @@ import { getJson } from "../../api/http.js";
 
 /**
  * B"H
- * Chapter 709: The room bridge learned the whole tool alphabet.
+ * Chapter 716: The room asks only for rooms and room-scoped tool fire.
  *
- * The Awtsmoos does not let Mission Rooms guess what the tunnel can do. The
- * room asks the same docs route that feeds agents, then displays every action
- * as a visible instrument in the mission chamber.
+ * Global tool codex belongs to the Tool Codex page. Mission Rooms now asks the
+ * bridge for rooms, room status, room messages, and live calls filtered to the
+ * selected chamber so the human sees what this room is doing to the tunnel.
  */
 export async function roomAction(getTunnelName, payload) {
   const tunnel = encodeURIComponent(getTunnelName?.() || "auto");
@@ -21,16 +21,10 @@ export async function roomAction(getTunnelName, payload) {
   return got;
 }
 
-export async function docsCatalog() {
-  const got = await getJson(new URL("/api/tunnel/control/docs.json", location.origin).toString(), { credentials: "include" });
-  if (got.ok === false) throw new Error(got.error || "docs_catalog_failed");
-  return got;
-}
-
 export async function liveCalls(filter = "") {
   const url = new URL("/api/tunnel/control/live-calls", location.origin);
   url.searchParams.set("groupBy", "conversation");
-  url.searchParams.set("limit", "200");
+  url.searchParams.set("limit", "120");
   if (filter) url.searchParams.set("filter", filter);
   const got = await getJson(url.toString(), { credentials: "include" });
   if (got.ok === false) throw new Error(got.error || "live_calls_failed");
@@ -38,7 +32,15 @@ export async function liveCalls(filter = "") {
 }
 
 export function discoverPayload(projectRoot, agentId) {
-  return { action: "missionProjectDiscover", targetVessel: "native-tunnel", projectRoot, q: projectRoot || "", agentId, limit: 40 };
+  return { action: "missionProjectDiscover", targetVessel: "native-tunnel", projectRoot, q: projectRoot || "", agentId, limit: 80 };
+}
+
+export function joinPayload(missionId) {
+  return { action: "missionProjectJoin", targetVessel: "native-tunnel", missionId };
+}
+
+export function statusPayload(missionId) {
+  return { action: "missionProjectStatus", targetVessel: "native-tunnel", missionId };
 }
 
 export function heartbeatPayload(missionId, agentId, note = "control-room refresh") {

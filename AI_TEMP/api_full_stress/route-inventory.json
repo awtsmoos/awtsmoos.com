@@ -693,6 +693,10 @@
   },
   {
     "file": "_awtsmoos.profile.js",
+    "route": "/profiles/:alias/living-card"
+  },
+  {
+    "file": "_awtsmoos.profile.js",
     "route": "/profiles/:alias"
   },
   {

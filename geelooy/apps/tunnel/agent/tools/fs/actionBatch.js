@@ -95,13 +95,15 @@ async function runActionStep(step, ctx, runAction, options) {
   ctx.error = { message: lastError?.message || "action_failed", stack: lastError?.stack || "", step: step.action || step.type || null };
   record(ctx, step, { ok: false, error: ctx.error });
   if (step.onError) await runSteps(asSteps(step.onError), ctx, runAction, options);
-  else if (options.stopOnError && step.stopOnError !== false) throw lastError;
+  else if (options.stopOnError && step.stopOnError !== false) throw (lastError || new Error(result?.error || result?.message || ctx.error?.message || "action_failed"));
 }
 
 async function invokeAction(step, ctx, runAction) {
   const action = step.action || step.type || step.call;
   if (!action) return { ok: true, skipped: true, reason: "missing_action" };
-  const payload = await resolvePayload({ ...(step.payload || step.with || {}), action }, ctx, runAction);
+  const inline = { ...step };
+  for (const key of ["action", "type", "call", "payload", "with", "then", "onError", "retry", "retries", "saveAs", "id", "name", "if", "when", "condition", "parallel", "forEach", "until", "while", "assert", "do", "else"]) delete inline[key];
+  const payload = await resolvePayload({ ...inline, ...(step.payload || step.with || {}), action }, ctx, runAction);
   return await runAction(payload);
 }
 
@@ -124,7 +126,9 @@ function fusePayload(payload = {}) {
   for (const key of B64_KEYS) Object.assign(out, objectish(parseBase64Json(out[key], {})));
   for (const key of CARRIER_KEYS) {
     const parsed = parseJson(out[key], null);
-    if (Array.isArray(parsed)) out.steps = parsed;
+    if (Array.isArray(parsed)) {
+      if (parsed.length > 0 || !Array.isArray(out.steps)) out.steps = parsed;
+    }
     else if (parsed && typeof parsed === "object") Object.assign(out, parsed);
   }
   return out;

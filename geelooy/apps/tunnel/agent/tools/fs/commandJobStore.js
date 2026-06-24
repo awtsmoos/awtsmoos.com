@@ -35,7 +35,7 @@ async function startCommandJob(config = {}, payload = {}) {
   };
   await writeMeta(config, jobId, meta);
   const child = childProcess.spawn(command, { cwd, shell, windowsHide: true, detached: false });
-  const live = { child, meta, writes: [] };
+  const live = { child, meta, writes: [], chains: { stdout: Promise.resolve(), stderr: Promise.resolve() } };
   const timer = setTimeout(() => { meta.timedOut = true; killChild(child); }, timeoutMs);
   JOBS.set(jobId, live);
   child.stdout.on("data", chunk => append(config, jobId, "stdout", chunk));
@@ -169,12 +169,28 @@ async function append(config, jobId, stream, chunk) {
   const live = JOBS.get(jobId);
   const text = Buffer.isBuffer(chunk) ? chunk.toString("utf8") : String(chunk || "");
   if (live) live.meta[`${stream}Chars`] = Number(live.meta[`${stream}Chars`] || 0) + text.length;
-  const write = fsp.appendFile(safePath(config, `${DIR}/${jobId}/${stream}.txt`), text, "utf8").catch(() => {});
+  const write = enqueueStreamWrite(config, jobId, stream, text, live);
   if (live) {
     live.writes.push(write);
     write.finally(() => { live.writes = live.writes.filter(item => item !== write); });
   }
   await write;
+}
+
+/**
+ * B"H
+ * Chapter 537: The stream sparks now walk single-file through the gate.
+ * Burst chunks may arrive in order, yet unordered append promises can overtake
+ * one another on disk. Each stream receives its own chain, preserving stdout
+ * and stderr order while still allowing both rivers to flow at once.
+ */
+function enqueueStreamWrite(config, jobId, stream, text, live) {
+  const file = safePath(config, `${DIR}/${jobId}/${stream}.txt`);
+  if (!live) return fsp.appendFile(file, text, "utf8").catch(() => {});
+  const previous = live.chains?.[stream] || Promise.resolve();
+  const next = previous.then(() => fsp.appendFile(file, text, "utf8")).catch(() => {});
+  live.chains[stream] = next.catch(() => {});
+  return next;
 }
 
 async function waitForWrites(jobId) {
