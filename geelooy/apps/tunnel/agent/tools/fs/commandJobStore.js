@@ -15,13 +15,12 @@ const JOBS = new Map();
 
 /**
  * B"H
- * Chapter 514: The watcher learned not to resurrect what the child had ended.
- *
- * A status reader is a witness, not a king. It may refresh counts in memory,
- * but it must never write an old running snapshot over the close handler's
- * completed truth. Under parallel waits, that old behavior turned tiny finished
- * commands into ghosts. The Awtsmoos breathes; the job dies once; the metadata
- * must not deny it.
+ * Chapter 514 repaired again: metadata became an atomic scroll.
+ * Under heavy parallel waits, one reader could open meta.json while another
+ * writer was replacing its breath. The reader saw half a word, called the job
+ * missing, and commandWait returned without a status. Now the scroll is written
+ * aside and renamed whole; readers retry before declaring absence. The Awtsmoos
+ * speaks in complete letters even when many sparks run at once.
  */
 async function startCommandJob(config = {}, payload = {}) {
   if (!allowed(config, payload)) return { ok: false, action: "commandStart", error: "commands_disabled" };
@@ -82,9 +81,9 @@ async function finishJob(config, jobId, meta, patch = {}) {
 
 async function commandStatus(config = {}, payload = {}) {
   const jobId = cleanId(payload.jobId || payload.id || "");
-  if (!jobId) return { ok: false, action: "commandStatus", error: "missing_jobId" };
+  if (!jobId) return { ok: false, action: "commandStatus", error: "missing_jobId", status: "missing_jobId" };
   const meta = await readMeta(config, jobId);
-  if (!meta) return { ok: false, action: "commandStatus", error: "job_not_found_or_expired", jobId };
+  if (!meta) return { ok: false, action: "commandStatus", error: "job_not_found_or_expired", status: "missing", jobId };
   await refreshCounts(config, jobId, meta);
   const live = JOBS.get(jobId);
   if (live && !TERMINAL_STATUSES.has(meta.status)) {
@@ -96,7 +95,7 @@ async function commandStatus(config = {}, payload = {}) {
 
 async function commandWait(config = {}, payload = {}) {
   const jobId = cleanId(payload.jobId || payload.id || "");
-  if (!jobId) return { ok: false, action: "commandWait", error: "missing_jobId" };
+  if (!jobId) return { ok: false, action: "commandWait", error: "missing_jobId", status: "missing_jobId" };
   const timeoutMs = Math.min(Number(payload.waitTimeoutMs || payload.timeoutMs || 240000), 24 * 60 * 60 * 1000);
   const intervalMs = Math.max(25, Math.min(Number(payload.intervalMs || payload.pollIntervalMs || 1000), 30000));
   const startedAt = Date.now();
@@ -111,7 +110,7 @@ async function commandWait(config = {}, payload = {}) {
     }
     await new Promise(resolve => setTimeout(resolve, intervalMs));
   }
-  return { ok: false, action: "commandWait", error: "wait_timeout", waitedMs: Date.now() - startedAt, lastStatus: status };
+  return { ok: false, action: "commandWait", error: "wait_timeout", status: "wait_timeout", waitedMs: Date.now() - startedAt, lastStatus: status };
 }
 
 async function commandJobOutputPage(config = {}, payload = {}) {
@@ -152,7 +151,7 @@ async function cancelCommandJob(config = {}, payload = {}) {
 
 function statusResponse(jobId, meta, payload = {}) {
   return {
-    ok: true, action: "commandStatus", ...meta, running: meta.status === "running",
+    ...meta, ok: true, action: "commandStatus", running: meta.status === "running",
     stdoutPagePayload: { action: "commandJobOutputPage", jobId, stream: "stdout", offsetChars: Math.max(0, Number(payload.stdoutOffsetChars || 0)), maxChars: boundedPageChars(payload.maxChars || DEFAULT_PAGE_CHARS) },
     stderrPagePayload: { action: "commandJobOutputPage", jobId, stream: "stderr", offsetChars: Math.max(0, Number(payload.stderrOffsetChars || 0)), maxChars: boundedPageChars(payload.maxChars || DEFAULT_PAGE_CHARS) }
   };
@@ -190,12 +189,22 @@ async function refreshCounts(config, jobId, meta) {
 }
 
 async function writeMeta(config, jobId, meta) {
-  await fsp.writeFile(safePath(config, `${DIR}/${jobId}/meta.json`), JSON.stringify(meta, null, 2), "utf8");
+  const dir = `${DIR}/${jobId}`;
+  const tmp = `${dir}/meta.${process.pid}.${Date.now()}.${crypto.randomBytes(4).toString("hex")}.tmp`;
+  const body = JSON.stringify(meta, null, 2);
+  await fsp.writeFile(safePath(config, tmp), body, "utf8");
+  await fsp.rename(safePath(config, tmp), safePath(config, `${dir}/meta.json`));
 }
 
 async function readMeta(config, jobId) {
-  try { return JSON.parse(await fsp.readFile(safePath(config, `${DIR}/${jobId}/meta.json`), "utf8")); }
-  catch (_) { return null; }
+  for (let attempt = 0; attempt < 8; attempt++) {
+    try { return JSON.parse(await fsp.readFile(safePath(config, `${DIR}/${jobId}/meta.json`), "utf8")); }
+    catch (error) {
+      if (attempt === 7) return null;
+      await new Promise(resolve => setTimeout(resolve, 5 + attempt * 5));
+    }
+  }
+  return null;
 }
 
 async function readText(config, rel) {

@@ -1,6 +1,11 @@
 // B"H
 
-/** B"H — Chapter 817: Aliases became honest names, not false mismatches. */
+/**
+ * B"H — Chapter 817 repaired: aliases are accepted only at the public doorway.
+ * Once a request reaches the tunnel response contract, commandStatus must not be
+ * allowed to disguise commandStart, and commandWait must not borrow the robe of
+ * commandStatus. Correlation exists to catch exactly that fracture.
+ */
 function verifyTunnelResponse(result = {}, payload = {}, tunnelName = "") {
   const errors = [];
   requireMatch(errors, "controlRequestId", payload.controlRequestId, result.controlRequestId);
@@ -31,10 +36,10 @@ function allowedActionAlias(expected, actual) {
   const aliases = {
     command: ["command", "commandRun", "commandStart"],
     commandRun: ["command", "commandRun", "commandStart"],
-    commandWait: ["commandWait", "commandStatus", "commandStart"],
-    commandJobOutputPage: ["commandJobOutputPage"],
-    commandStatus: ["commandStatus", "commandStart"],
     commandOutputPage: ["commandJobOutputPage", "commandOutputPage"],
+    commandPoll: ["commandStatus"],
+    commandJobStatus: ["commandStatus"],
+    commandJobWait: ["commandWait"],
     nodeCheckFiles: ["nodeCheckFiles", "nodeCheckMany"],
     nodeCheckMany: ["nodeCheckFiles", "nodeCheckMany"]
   };

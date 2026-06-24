@@ -1,27 +1,84 @@
-/* B"H */
-@layer awt.views {
-  body.awt-no-side-rails .awt-control-shell,
-  .awt-no-side-rail-shell {
-    display: block;
-    width: 100%;
-  }
+/* B"H
+ * No rails, no cages: the Awtsmoos breathes this route as one wide vessel.
+ * The tunnel-control landing screen must never be strangled by diagnostic,
+ * beauty, event-stream, or timeline side panels. They can live in rooms;
+ * they cannot hover over the room chooser.
+ */
 
-  body.awt-no-side-rails .awt-control-main,
-  .awt-no-side-rail-shell .awt-control-main {
-    min-height: 100svh;
-    width: 100%;
-  }
+:root {
+  --tc-page-max: 1240px;
+  --tc-page-pad: clamp(18px, 4vw, 56px);
+  --tc-card-min: min(100%, 250px);
+}
 
-  .awt-control-side,
-  .awt-side-tabs,
-  .awt-rail-status,
-  [class*="side-tabs"],
-  [class*="rail-status"] {
-    display: none !important;
-    inline-size: 0 !important;
-    max-inline-size: 0 !important;
-    overflow: hidden !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
+body:has(.control-room-grid),
+body:has(.mission-room-grid),
+body:has(.room-grid) {
+  overflow-x: hidden;
+}
+
+body:has(.control-room-grid) .beauty-control-layer,
+body:has(.control-room-grid) .beauty-layer,
+body:has(.control-room-grid) .control-beauty-layer,
+body:has(.control-room-grid) .diagnostics-drawer,
+body:has(.control-room-grid) .diagnostics-panel,
+body:has(.control-room-grid) .diagnostics-fab,
+body:has(.control-room-grid) .event-stream-panel,
+body:has(.control-room-grid) .live-event-stream,
+body:has(.control-room-grid) .session-timeline,
+body:has(.control-room-grid) .timeline-panel,
+body:has(.mission-room-grid) .beauty-control-layer,
+body:has(.mission-room-grid) .beauty-layer,
+body:has(.mission-room-grid) .control-beauty-layer,
+body:has(.mission-room-grid) .diagnostics-drawer,
+body:has(.mission-room-grid) .diagnostics-panel,
+body:has(.mission-room-grid) .diagnostics-fab,
+body:has(.mission-room-grid) .event-stream-panel,
+body:has(.mission-room-grid) .live-event-stream,
+body:has(.mission-room-grid) .session-timeline,
+body:has(.mission-room-grid) .timeline-panel,
+body:has(.room-grid) .beauty-control-layer,
+body:has(.room-grid) .beauty-layer,
+body:has(.room-grid) .control-beauty-layer,
+body:has(.room-grid) .diagnostics-drawer,
+body:has(.room-grid) .diagnostics-panel,
+body:has(.room-grid) .diagnostics-fab,
+body:has(.room-grid) .event-stream-panel,
+body:has(.room-grid) .live-event-stream,
+body:has(.room-grid) .session-timeline,
+body:has(.room-grid) .timeline-panel {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body:has(.control-room-grid) .app-shell,
+body:has(.control-room-grid) .future-shell,
+body:has(.control-room-grid) .mission-control-os,
+body:has(.control-room-grid) main,
+body:has(.mission-room-grid) .app-shell,
+body:has(.mission-room-grid) .future-shell,
+body:has(.mission-room-grid) .mission-control-os,
+body:has(.mission-room-grid) main,
+body:has(.room-grid) .app-shell,
+body:has(.room-grid) .future-shell,
+body:has(.room-grid) .mission-control-os,
+body:has(.room-grid) main {
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+  padding-right: var(--tc-page-pad) !important;
+}
+
+body:has(.control-room-grid) .app-shell > *,
+body:has(.mission-room-grid) .app-shell > *,
+body:has(.room-grid) .app-shell > * {
+  max-width: var(--tc-page-max);
+  margin-inline: auto;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --tc-page-pad: 16px;
   }
 }

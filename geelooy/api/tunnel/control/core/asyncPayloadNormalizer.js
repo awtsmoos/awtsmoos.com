@@ -6,8 +6,11 @@ const NESTED_FIELDS = ["params", "waitPayload", "statusPayload", "stdoutPagePayl
 
 /**
  * B"H
- * Chapter 820: The old agents arrived with crooked cups, and the gate poured
- * the coffee into one clean vessel instead of refusing them.
+ * Chapter 820 repaired: nested async payloads now speak before defaults.
+ * buildFsPayload gives command pages a merciful default of stdout, but a caller
+ * may carry params.stream=stderr inside the old schema cup. If the default
+ * speaks first, stderr is buried alive. The Awtsmoos reveals the explicit nested
+ * spark before the broad daylight of fallback stdout.
  */
 function normalizeAsyncPayload(payload = {}) {
   if (!ASYNC_ACTIONS.has(String(payload.action || ""))) return payload;
@@ -23,27 +26,32 @@ function normalizeAsyncPayload(payload = {}) {
 function nestedObjects(payload) {
   return NESTED_FIELDS.map(key => parseMaybe(payload[key])).filter(value => value && typeof value === "object");
 }
+
 function parseMaybe(value) {
   if (!value) return null;
   if (typeof value === "object") return value;
   try { return JSON.parse(String(value)); } catch { return null; }
 }
+
 function firstJob(payload, nested) {
   for (const key of JOB_FIELDS) if (payload[key]) return payload[key];
   for (const item of nested) for (const key of JOB_FIELDS) if (item[key]) return item[key];
   return "";
 }
+
 function normalizeStream(payload, nested) {
-  if (payload.stream) return payload.stream;
-  if (payload.stderr || payload.logStream === "stderr" || payload.stderrPagePayload) return "stderr";
   for (const item of nested) if (item.stream) return item.stream;
+  if (payload.stderr || payload.logStream === "stderr" || payload.stderrPagePayload) return "stderr";
+  if (payload.stream) return payload.stream;
   return "stdout";
 }
+
 function firstNumber(payload, nested, keys, fallback) {
   for (const key of keys) if (payload[key] !== undefined && payload[key] !== "") return payload[key];
   for (const item of nested) for (const key of keys) if (item[key] !== undefined && item[key] !== "") return item[key];
   return fallback;
 }
+
 function missingJobId(action) {
   return {
     ok: false,
