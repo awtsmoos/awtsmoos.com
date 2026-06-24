@@ -2,14 +2,12 @@
 
 const { VESSEL_TYPES, isBrowserVesselDescriptor } = require("./vesselTypes.js");
 const { browserCapabilities } = require("./capabilities.js");
+const { verifyTunnelResponse } = require("./responseContract.js");
 
 /**
  * B"H
- * Chapter 10: The browser tab entered the registry without stealing the throne.
- *
- * Native clients and browser clients both arrive through websocket clients, but
- * the browser tab must be named honestly. These helpers filter and describe only
- * browser-tab vessels, leaving native policy in tunnelClient.js.
+ * Chapter 10 and 811: The browser tab entered honestly, and its replies now
+ * must wear the same request seal as native tunnel replies.
  */
 function listBrowserTunnelClients($i) {
   const latest = new Map();
@@ -43,14 +41,17 @@ function publicBrowserTunnel(client) {
   };
 }
 
-function listBrowserTunnels($i) { return listBrowserTunnelClients($i).map(publicBrowserTunnel); }
-function findBrowserTunnelClient($i, tunnelName) { return listBrowserTunnelClients($i).find(client => client.tunnelName === tunnelName) || null; }
+function listBrowserTunnels($i) {
+  return listBrowserTunnelClients($i).map(publicBrowserTunnel);
+}
+
+function findBrowserTunnelClient($i, tunnelName) {
+  return listBrowserTunnelClients($i).find(client => client.tunnelName === tunnelName) || null;
+}
+
 async function sendBrowserTunnel($i, tunnelName, payload, timeoutMs) {
   const result = await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs);
-  if (payload.controlRequestId && result.controlRequestId && result.controlRequestId !== payload.controlRequestId) {
-    return { BH: "B\"H", ok: false, status: 409, error: "tunnel_response_request_id_mismatch", expectedControlRequestId: payload.controlRequestId, actualControlRequestId: result.controlRequestId, tunnelName };
-  }
-  return result;
+  return verifyTunnelResponse(result, payload, tunnelName);
 }
 
 module.exports = { findBrowserTunnelClient, listBrowserTunnelClients, listBrowserTunnels, publicBrowserTunnel, sendBrowserTunnel };

@@ -26,6 +26,7 @@ const { buildChromeActions } = require("./actionGroups/chromeActions.js");
 const { buildCommandActions } = require("./actionGroups/commandActions.js");
 const { buildMissionActions } = require("./actionGroups/missionActions.js");
 const { buildChatGptActions } = require("../chatgpt/index.js");
+const { buildBatchAliasActions } = require("./actionGroups/batchAliasActions.js");
 const ledger = require("./actionLedger.js");
 
 const AGENT_VERSION = "split-agent-1.5.0";
@@ -64,7 +65,8 @@ function buildActions(config, payload, ws) {
     ...buildProcessActions(ctx),
     ...buildWorkflowActions(ctx, buildActions),
     ...buildQualityActions(ctx),
-    ...buildCommandTreeActions(ctx, buildActions)
+    ...buildCommandTreeActions(ctx, buildActions),
+    ...buildBatchAliasActions(ctx, buildActions)
   };
 }
 

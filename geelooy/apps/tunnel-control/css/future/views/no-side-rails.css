@@ -1,0 +1,27 @@
+/* B"H */
+@layer awt.views {
+  body.awt-no-side-rails .awt-control-shell,
+  .awt-no-side-rail-shell {
+    display: block;
+    width: 100%;
+  }
+
+  body.awt-no-side-rails .awt-control-main,
+  .awt-no-side-rail-shell .awt-control-main {
+    min-height: 100svh;
+    width: 100%;
+  }
+
+  .awt-control-side,
+  .awt-side-tabs,
+  .awt-rail-status,
+  [class*="side-tabs"],
+  [class*="rail-status"] {
+    display: none !important;
+    inline-size: 0 !important;
+    max-inline-size: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+}

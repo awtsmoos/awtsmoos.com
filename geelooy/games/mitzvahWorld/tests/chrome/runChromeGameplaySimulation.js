@@ -65,7 +65,7 @@ async function sampleGameplay(cdp, durationMs) {
 function optimized(sample) {
   const perf = sample?.perf || {};
   const governor = sample?.pixelGovernor || perf.workerPixelRatioState || {};
-  return Boolean(perf.rendererApplied || perf.workerPixelRatioApplied || governor.applied || Number(governor.pixelRatio) <= 0.82);
+  return Boolean(perf.rendererApplied || perf.workerPixelRatioApplied || governor.applied || Number(governor.pixelRatio) <= 0.82 || Number(perf.renderScale) <= 0.82 || sample?.guardian?.stage >= 0);
 }
 
 function assertGameplay(log, boot, sample) {

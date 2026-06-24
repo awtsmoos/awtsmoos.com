@@ -1,13 +1,19 @@
 // B"H
-// Every render is an invitation, not a leaderboard.
-import{archiveFilter,isOverdue,stats,timeLabel}from"./state.js";
-let selectedFilter="all";
-export function setFilter(filter){selectedFilter=filter;document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter))}
-export function render(entries,onSelect){const s=stats(entries);text("totalDeposits",s.total);text("fulfilledCount",s.fulfilled);text("activeCount",s.active);text("vesselLevel",s.level);renderArchive(entries,onSelect);renderProfile(entries.filter(e=>e.profileVisible&&!e.demo))}
-export function renderTemplates(templates,onPick){const box=document.getElementById("templateButtons");box.innerHTML=templates.map(t=>`<button type="button" class="chip" data-title="${esc(t)}">${esc(t)}</button>`).join("");box.querySelectorAll("button").forEach(b=>b.onclick=()=>onPick(b.dataset.title))}
-export function detailHtml(entry){return`<p class="eyebrow">${esc(entry.type)} · ${esc(entry.visibility)}</p><h3>${esc(entry.title)}</h3><p>${esc(entry.note||"No written story. The spark itself is the story.")}</p><div class="meta">State: ${esc(entry.status)} · ${esc(timeLabel(entry))}</div><div class="meter"><span style="width:${entry.intensity*20}%"></span></div><span class="tag">${isOverdue(entry)?"Timed spark asks for return":"Living spark"}</span>`}
-function renderArchive(entries,onSelect){const list=document.getElementById("ledgerList");const rows=archiveFilter(entries,selectedFilter);list.innerHTML=rows.map(card).join("")||"<p class='meta'>No hachlatos here yet. Forge one and drop it into the vessel.</p>";list.querySelectorAll(".entry").forEach(btn=>btn.onclick=()=>onSelect(btn.dataset.id))}
-function renderProfile(entries){const list=document.getElementById("profileList");list.innerHTML=entries.slice(0,8).map(e=>`<article class="spark"><b>${esc(e.title)}</b><div class="meta">${esc(e.type)} · ${esc(e.status)} · invitation spark</div><p>${esc(e.note||"A quiet light was made public to encourage another beginning.")}</p></article>`).join("")||"<p class='meta'>No public sparks. Private growth is still completely real.</p>"}
-function card(e){const over=isOverdue(e);return`<button class="entry" data-id="${e.id}"><b>${esc(e.title)}</b><div class="meta">${esc(e.type)} · ${esc(e.status)} · ${esc(timeLabel(e))}</div><div class="meter"><span style="width:${e.intensity*20}%"></span></div><span class="tag">${over?"time limit":"${e.visibility}"}</span></button>`}
-function text(id,value){document.getElementById(id).textContent=value}
-function esc(v){return String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]))}
+// Render bridge: storytelling now lives in smaller vessels.
+import { dayPrompt } from "./concepts.js";
+import { filtered, oracle, stats } from "./state.js";
+import { set } from "./render/dom.js";
+import { bootControls } from "./render/controls.js";
+import { renderArchive } from "./render/archive.js";
+import { renderConstellations } from "./render/constellations.js";
+import { renderDetail } from "./render/detail.js";
+import { clearForm, formValues } from "./render/form.js";
+
+export { bootControls, clearForm, formValues, renderDetail };
+export function render(entries, filter, onOpen) {
+  const s = stats(entries);
+  set("total", s.total); set("alive", s.alive); set("fulfilled", s.fulfilled);
+  set("dormant", s.dormant); set("tended", s.tended); set("paths", s.paths);
+  set("oracle", oracle(entries)); set("dailyPrompt", dayPrompt());
+  renderArchive(filtered(entries, filter), onOpen); renderConstellations(entries);
+}

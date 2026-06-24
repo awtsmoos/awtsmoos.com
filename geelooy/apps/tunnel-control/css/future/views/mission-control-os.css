@@ -1,0 +1,96 @@
+/* B"H */
+@layer awt.views {
+  body.awt-home-mode { overflow: hidden; }
+  body.awt-home-mode .awt-control-shell {
+    display: block;
+    min-height: 100svh;
+  }
+  body.awt-home-mode .awt-control-side,
+  body.awt-home-mode .awt-side-tabs,
+  body.awt-home-mode .awt-rail-status {
+    display: none !important;
+  }
+  body.awt-home-mode .awt-control-main,
+  body.awt-home-mode #awtDashboard {
+    min-height: 100svh;
+    width: 100%;
+  }
+  body.awt-home-mode .awt-workspace-stage,
+  body.awt-workspace-mode .awt-dashboard {
+    display: none !important;
+  }
+  .awt-mission-os {
+    box-sizing: border-box;
+    display: grid;
+    gap: clamp(12px, 2vw, 22px);
+    grid-template-rows: auto auto 1fr;
+    min-height: 100svh;
+    overflow: hidden;
+    padding: clamp(16px, 3vw, 36px);
+  }
+  .awt-mission-hero { max-width: 980px; }
+  .awt-mission-hero h2 {
+    font-size: clamp(2rem, 5vw, 4.9rem);
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+    margin: 0;
+  }
+  .awt-mission-hero p {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    margin: 12px 0 0;
+    max-width: 760px;
+    opacity: 0.78;
+  }
+  .awt-mission-status {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .awt-mission-stat {
+    background: color-mix(in srgb, canvas 70%, transparent);
+    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    border-radius: 18px;
+    min-width: 0;
+    padding: 12px 14px;
+  }
+  .awt-mission-stat span {
+    display: block;
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    opacity: 0.62;
+    text-transform: uppercase;
+  }
+  .awt-mission-stat strong {
+    display: block;
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .awt-mission-grid {
+    display: grid;
+    gap: clamp(10px, 1.6vw, 18px);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 2px 2px 12px;
+  }
+  .awt-mission-grid .awt-action-card {
+    align-content: start;
+    min-height: 150px;
+    text-align: left;
+  }
+  @media (max-width: 720px) {
+    body.awt-home-mode { overflow: auto; }
+    .awt-mission-os,
+    .awt-mission-grid { overflow: visible; }
+    .awt-mission-status,
+    .awt-mission-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .awt-mission-grid .awt-action-card { min-height: 135px; }
+  }
+  @media (max-width: 430px) {
+    .awt-mission-status,
+    .awt-mission-grid { grid-template-columns: 1fr; }
+  }
+}

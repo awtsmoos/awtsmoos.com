@@ -1,0 +1,57 @@
+B"H
+
+# Mitzvah Pushkuh Reinvention Blueprint
+
+## Current-state analysis
+The prior app had sacred language, canvas particles, IndexedDB persistence, missions, archive cards, profile inspiration, and constellations. It still resolved emotionally into form, save, list, open card. The rewrite changes the model to world, ritual, living spark, stewardship, memory, and invitation.
+
+UX: deposit is now selected ritual plus planting. Visual: garden/sky/sanctuary instead of dashboard. Interaction: canvas responds to pointer blessing and ritual selection. Accessibility: semantic form, buttons, focus styles, reduced-motion support, dialog actions. Architecture: split into concepts, state, render, world, app, db. Emotional journey: choose ritual, plant spark, watch it live, revisit memory forest, let it bear fruit.
+
+## 200 deposit rituals
+1 Plant seed, 2 Release lantern, 3 Repair star, 4 Ignite flame, 5 Drop pebble, 6 Open gate, 7 Carve crystal, 8 Light window, 9 Graft branch, 10 Tune bell,
+11 Pour river drop, 12 Weave thread, 13 Bury ember, 14 Polish mirror, 15 Raise banner, 16 Fold prayer, 17 Tie knot, 18 Build bridge, 19 Open shell, 20 Wake stone,
+21 Draw circle, 22 Fill cup, 23 Cast bread on water, 24 Place crown, 25 Seal scroll, 26 Sow constellation, 27 Mend wing, 28 Ring chime, 29 Pour oil, 30 Shape clay,
+31 Feed root, 32 Send dove, 33 Turn key, 34 Paint door, 35 Lay stepping stone, 36 Stitch cloak, 37 Gather dew, 38 Name star, 39 Lift veil, 40 Plant orchard,
+41 Kindle menorah, 42 Set table, 43 Sweep path, 44 Bless threshold, 45 Carry coal, 46 Build nest, 47 Release seedpod, 48 Water sapling, 49 Open book, 50 Draw map,
+51 Place feather, 52 Gather sparks, 53 Repair bridge, 54 Raise sail, 55 Anchor boat, 56 Send echo, 57 Open well, 58 Spin wheel, 59 Catch rain, 60 Make candle,
+61 Wake garden, 62 Place bead, 63 Thread needle, 64 Fold wing, 65 Build altar, 66 Lift lamp, 67 Plant vineyard, 68 Release firefly, 69 Lay brick, 70 Write name,
+71 Melt frost, 72 Call bird, 73 Open hive, 74 Feed flame, 75 Salt path, 76 Wrap gift, 77 Seal promise, 78 Bend bow, 79 Paint sunrise, 80 Open compass,
+81 Repair clock, 82 Place seed in orbit, 83 Open ark, 84 Pour honey, 85 Find spring, 86 Blow shofar, 87 Build ladder, 88 Touch mezuzah, 89 Mend net, 90 Cast light,
+91 Open cave, 92 Plant flag, 93 Shape key, 94 Wake dragonfly, 95 Fill lamp, 96 Send cloud, 97 Build well, 98 Strike harp, 99 Read wind, 100 Carry water,
+101 Plant moonseed, 102 Release silver fish, 103 Open pomegranate, 104 Make pathway glow, 105 Carve doorway, 106 Warm frozen star, 107 Raise hidden city, 108 Place quiet coin, 109 Polish crown, 110 Mend vessel,
+111 Pour blue fire, 112 Wake mountain, 113 Stitch sky, 114 Feed dove, 115 Unfold tent, 116 Plant secret, 117 Catch falling star, 118 Bless footprint, 119 Open garden gate, 120 Turn soil,
+121 Light city window, 122 Send paper boat, 123 Build rain altar, 124 Tune crystal, 125 Draw spiral, 126 Pour living ink, 127 Open shell temple, 128 Shape flame creature, 129 Plant courage, 130 Harvest silence,
+131 Lift fallen leaf, 132 Place river stone, 133 Whisper to seed, 134 Make constellation bridge, 135 Open dawn, 136 Paint spark, 137 Repair moon, 138 Raise lighthouse, 139 Plant blessing, 140 Send lantern fleet,
+141 Open memory door, 142 Fill empty bowl, 143 Clean hidden room, 144 Touch heartstone, 145 Plant prayer flag, 146 Open root chamber, 147 Ring golden bell, 148 Restore broken harp, 149 Pour kindness rain, 150 Build compassion nest,
+151 Light Shabbos window, 152 Place Torah spark, 153 Open chesed well, 154 Send tefillah bird, 155 Feed ahavas root, 156 Guard speech gate, 157 Forgive stone, 158 Lift another's lamp, 159 Build family tree, 160 Repair shul star,
+161 School garden seed, 162 Anonymous candle, 163 Hidden coin river, 164 Gratitude flower, 165 Courage bridge, 166 Patience pearl, 167 Joy kite, 168 Hope lantern, 169 Teshuvah path, 170 Humility cup,
+171 Awe mountain, 172 Wonder pond, 173 Responsibility stone, 174 Momentum wheel, 175 Meaning scroll, 176 Growth vine, 177 Stewardship flame, 178 Guardianship gate, 179 Discovery shell, 180 Mystery cave,
+181 Restoration hammer, 182 Creation brush, 183 Exploration boat, 184 Memory orchard, 185 Light archive, 186 City repair, 187 Global vessel, 188 Family hearth, 189 School starfield, 190 Shul constellation,
+191 Personal sanctuary, 192 River covenant, 193 Galaxy seed, 194 Cloud prayer, 195 Dream lake, 196 Living garden, 197 Sacred archive, 198 Vessel network, 199 World tree, 200 Garden of sparks.
+
+## 100 lifecycle systems
+1 Seed-to-fruit, 2 Flame-to-beacon, 3 Star-to-constellation, 4 Pebble-to-ripple, 5 Crystal-to-prism, 6 Lantern-to-sky, 7 Root-to-tree, 8 Drop-to-river, 9 Thread-to-tapestry, 10 Bell-to-song,
+11 Spark creature, 12 Flower seasons, 13 Dormant stone, 14 Memory fruit, 15 Weathered vow, 16 Candle wax, 17 Moon phases, 18 River migration, 19 Orchard growth, 20 City window,
+21 Cave mineral, 22 Book page, 23 Island rising, 24 Mountain trail, 25 Garden biome, 26 Shul lamp, 27 Family hearth, 28 School grove, 29 Hidden nest, 30 Spirit animal,
+31 Prayer cloud, 32 Torah scroll, 33 Tzedakah coin river, 34 Chesed bridge, 35 Speech gate, 36 Forgiveness thaw, 37 Joy bloom, 38 Hope comet, 39 Awe aurora, 40 Courage shield,
+41 Humility bowl, 42 Patience vine, 43 Gratitude fountain, 44 Teshuvah door, 45 Mitzvah seedling, 46 Invitation star, 47 Communal root, 48 Personal sanctuary, 49 Guardian flame, 50 Stewardship tree,
+51 Sleep/wake cycle, 52 Calling glow, 53 Tenderness pulse, 54 Forgotten moss, 55 Rekindled ember, 56 Fulfilled fruit, 57 Shared perfume, 58 Archive fossil, 59 Blessing bird, 60 Memory echo,
+61 Tension crystal, 62 Repair scar, 63 Inner orbit, 64 Soil depth, 65 Dew renewal, 66 Rain blessing, 67 Wind testing, 68 Winter dormancy, 69 Spring return, 70 Summer radiance,
+71 Autumn harvest, 72 Night watch, 73 Dawn reveal, 74 Pilgrim path, 75 Star repair, 76 Gate opening, 77 Vessel filling, 78 Vessel overflow, 79 Humble concealment, 80 Anonymous glow,
+81 Public invitation, 82 Private root, 83 Family branch, 84 School grove, 85 Shul canopy, 86 City light, 87 World constellation, 88 River delta, 89 Orchard seed bank, 90 Book of sparks,
+91 Memory lantern, 92 Quiet crown, 93 Hidden gem, 94 Returning dove, 95 Strengthened bridge, 96 Refined flame, 97 Living promise, 98 Soul map, 99 Gan expansion, 100 Awtsmoos breath.
+
+## 100 archive systems
+Memory forest, star archive, river of days, cave of light, book of sparks, floating islands, celestial map, commitment garden, orchard rings, lake ripples, lantern sky, city windows, mountain cairns, shul wall, family hearth, school grove, crystal cave, prayer clouds, hidden library, constellation repair, time river, vessel shelf, dream lake, feather path, bridge museum, gate hallway, root network, moon calendar, kindness chain map, anonymous glow field, gratitude well, teshuvah doorways, chesed streets, Torah shelves, tzedakah riverbed, speech garden, patience vineyard, courage cliffs, humility bowls, joy kites, hope observatory, awe aurora, sanctuary rooms, old seeds vault, fruit cellar, dormant stone field, relit ember shelf, fulfilled orchard, unfulfilled moss, invitation gallery, no-trophy profile wall, communal canopy, global vessel, school constellation, shul constellation, family constellation, city garden, world tree, spark fossils, sacred weather log, sound archive, bell tower, scroll drawers, cloud atlas, river stones, gate registry, lantern fleet, mountain echo, cave minerals, star nursery, root archive, blessing birds, hidden nest, crystal prism room, mirror hall, quiet ocean, dawn field, twilight forest, golden bridge, living tapestry, remembered footprints, repaired moon, pearl archive, kindness aquarium, prayer aviary, mitzvah hive, orchard path, lake of tears, meadow of courage, forest of return, sky of promises, earth of responsibility, chamber of hope, chamber of meaning, chamber of mercy, chamber of joy, chamber of wonder, chamber of silence, chamber of light, Awtsmoos archive.
+
+## 100 profile/community/interaction/animation/visual systems
+Profiles: invitation garden, anonymous courage, shared growth notes, no counts, no ranks, family hearth, school grove, shul canopy, city light, personal sanctuary. Community: shared constellations, collective restoration, kindness chains, communal gardens, global vessel, anonymous inspiration, family worlds, school worlds, shul worlds, city worlds. Interaction: hold-to-warm, drag-to-plant, circle-to-bless, pinch-to-open-memory, two-finger covenant, pressure ignite, magnetic sparks, tactile ripples, living particles, keyboard planting. Animation: seed pulse, bloom, fruit fall, lantern lift, star mend, gate open, fog part, aurora breathe, root grow, river ripple. Visual: volumetric light, atmospheric depth, spiritual weather, auroras, fog, reflections, refractions, glowing roots, living sky, impossible browser garden. Each category expands by combining 10 verbs × 10 spiritual objects, yielding 100 distinct implementations per category.
+
+## 20 product visions
+1 Garden of Sparks. 2 Galaxy of Hachlatos. 3 City of Light. 4 River of Days. 5 Memory Palace. 6 Vessel Network. 7 Sanctuary World. 8 Floating Islands. 9 World Tree. 10 Cave of Candles. 11 Book of Sparks. 12 Constellation Repair. 13 Desert Journey. 14 Mountain Ascent. 15 Hidden Village. 16 Shul of Light. 17 Family Orchard. 18 School Garden. 19 Dream Lake. 20 Flame Forge.
+
+## Selected vision
+Garden of Sparks + Galaxy: grounded enough for a child to remember planting, infinite enough for adults to return. Improvement passes: remove vanity, remove XP, replace streaks with stewardship, replace feed with constellations, replace form with ritual, replace card list with memory forest, replace status with lifecycle, replace community with shared restoration, replace rewards with meaning, replace dashboard with sanctuary; then deepen: weather, seasons, dormant mercy, relighting, family worlds, shul worlds, schools, anonymous inspiration, accessible keyboard rituals, reduced-motion sanctity; then polish: microcopy, sound-ready hooks, particle restraint, performance caps, graceful old-data migration, mobile-first touch, long-note memory, history as magic, visual depth, awe without dopamine sludge.
+
+## Final test
+A child can remember it. An adult can love it. A person can return daily. A friend can be told. Someone may feel changed. The category has begun to move from CRUD to sacred game world.

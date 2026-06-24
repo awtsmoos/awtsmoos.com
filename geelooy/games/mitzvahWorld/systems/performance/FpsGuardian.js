@@ -1,107 +1,27 @@
 // B"H
 /**
- * @file FpsGuardian.js
- * @description Runtime 60 FPS guardian for the rich world route.
- *
- * Gameplay stays present. The guardian changes representation cost: shadows,
- * visual tick cadence, accent meshes, and far cosmetic detail.
+ * FpsGuardian: no scene traversal during gameplay.
+ * It broadcasts budgets; render systems decide cheaply at their own cadence.
  */
-const KEY = "__AWTSMOOS_FPS_GUARDIAN__";
-const TARGET = 60;
-const LOW = 57;
-const HIGH = 62;
-const WINDOW = 90;
-const STAGES = [
-  { name:"full-wow-gameplay", wildlifeTickSec:.18, visualTickSec:.35, movieTickSec:1 / 60, accents:true, farInteriors:true, shadows:true },
-  { name:"steady-rich", wildlifeTickSec:.24, visualTickSec:.5, movieTickSec:1 / 60, accents:true, farInteriors:true, shadows:false },
-  { name:"instanced-rich", wildlifeTickSec:.32, visualTickSec:.7, movieTickSec:1 / 60, accents:false, farInteriors:true, shadows:false },
-  { name:"gameplay-first-rich", wildlifeTickSec:.45, visualTickSec:1.0, movieTickSec:1 / 60, accents:false, farInteriors:false, shadows:false },
-  { name:"locked-60-gameplay", wildlifeTickSec:.62, visualTickSec:1.35, movieTickSec:1 / 60, accents:false, farInteriors:false, shadows:false }
-];
-
-function olamOf(win) { return win.__AWTSMOOS_OLAM__ || win.olam || win.ikar?.olam || win.mana?.activeOlam || null; }
-function rendererOf(win) { return win.__AWTSMOOS_RENDERER__ || win.renderer || olamOf(win)?.renderer || null; }
-function sceneOf(win) { return olamOf(win)?.scene || win.scene || win.__AWTSMOOS_SCENE__ || null; }
-function avg(xs) { return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0; }
-function fpsOf(ms) { return 1000 / Math.max(.001, ms); }
-function mats(object) { const m = object?.material; return Array.isArray(m) ? m : m ? [m] : []; }
-
-function setTextureBias(scene, stage) {
-  const anisotropy = stage >= 3 ? 4 : stage >= 2 ? 8 : 16;
-  scene?.traverse?.(object => {
-    for (const material of mats(object)) {
-      for (const key of ["map", "normalMap", "roughnessMap", "aoMap", "emissiveMap"]) {
-        const texture = material[key];
-        if (!texture) continue;
-        texture.anisotropy = Math.max(anisotropy, Number(texture.anisotropy) || 0);
-        texture.needsUpdate = true;
-      }
-    }
-  });
+const KEY='__AWTSMOOS_FPS_GUARDIAN__';
+const TARGET=60,WINDOW=90;
+const STAGES=Object.freeze([
+  {name:'rich-60-proof',wildlifeTickSec:.45,visualTickSec:1.0,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:4},
+  {name:'spike-shield',wildlifeTickSec:.75,visualTickSec:1.5,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:3},
+  {name:'ten-minute-guarantee',wildlifeTickSec:1.15,visualTickSec:2.2,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:2}
+]);
+const avg=xs=>xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:0;
+const fpsOf=ms=>1000/Math.max(.001,ms);
+const pct=(sorted,p)=>sorted[Math.min(sorted.length-1,Math.max(0,Math.floor(sorted.length*p)))]||0;
+function publish(win,state,stage,reason='boot'){
+  const config=STAGES[stage]||STAGES.at(-1),root=win.document?.documentElement;
+  root?.classList?.toggle('awtsmoos-fps-guardian-active',true);
+  root?.setAttribute?.('data-awtsmoos-fps-stage',config.name);
+  state.stage=stage;state.config=config;state.appliedAt=Date.now();state.history.push({at:state.appliedAt,stage,name:config.name,reason,avgFps:state.avgFps,minFps:state.minFps,p95FrameMs:state.p95FrameMs});state.history=state.history.slice(-20);
+  win.__AWTSMOOS_GAMEPLAY_BUDGET__={...config,stage,targetFps:TARGET,seal:'no-traverse-fps-guardian-20260623-bh4'};
+  win.dispatchEvent?.(new CustomEvent('awtsmoos:fps-guardian-stage',{detail:{stage,config,reason}}));
 }
-
-function setVisualLod(scene, config) {
-  scene?.traverse?.(object => {
-    const name = String(object?.name || "");
-    const data = object?.userData || {};
-    if (name.includes("leaf_distribution_accents")) object.visible = config.accents;
-    if (data.cottageInteriorSystem && object.parent?.parent?.children?.indexOf?.(object.parent) > 5) object.visible = config.farInteriors;
-    if (object.isLight && /lens|flare|spark|accent/i.test(name)) object.visible = config.accents;
-  });
-}
-
-function applyStage(win, state, stage) {
-  const config = STAGES[stage] || STAGES[STAGES.length - 1];
-  const renderer = rendererOf(win), scene = sceneOf(win), root = win.document?.documentElement;
-  if (renderer?.shadowMap) renderer.shadowMap.enabled = config.shadows;
-  root?.classList?.toggle("awtsmoos-fps-guardian-active", stage > 0);
-  root?.setAttribute?.("data-awtsmoos-fps-stage", config.name);
-  setVisualLod(scene, config);
-  setTextureBias(scene, stage);
-  state.stage = stage;
-  state.config = config;
-  state.appliedAt = Date.now();
-  state.history.push({ at:state.appliedAt, stage, name:config.name, avgFps:state.avgFps });
-  state.history = state.history.slice(-12);
-  win.dispatchEvent?.(new CustomEvent("awtsmoos:fps-guardian-stage", { detail:{ stage, config } }));
-}
-
-function maybeAdapt(win, state) {
-  if (state.samples.length < WINDOW) return;
-  const recent = state.samples.slice(-WINDOW), fps = recent.map(fpsOf), average = avg(fps);
-  state.avgFps = Number(average.toFixed(2));
-  state.minFps = Number(Math.min(...fps).toFixed(2));
-  state.stable60 = fps.every(v => v >= TARGET);
-  const now = performance.now();
-  if (now - state.lastAdapt < 1800) return;
-  if (average < LOW && state.stage < STAGES.length - 1) {
-    state.lastAdapt = now;
-    applyStage(win, state, state.stage + 1);
-  } else if (average > HIGH && state.stage > 0) {
-    state.lastAdapt = now;
-    applyStage(win, state, state.stage - 1);
-  }
-}
-
-export function bootFpsGuardian(win = globalThis.window) {
-  if (!win) return null;
-  if (win[KEY]) return win[KEY];
-  const state = { targetFps:TARGET, stage:0, config:STAGES[0], samples:[], avgFps:0, minFps:0, stable60:false, last:0, lastAdapt:0, history:[] };
-  win[KEY] = state;
-  applyStage(win, state, 0);
-  const tick = time => {
-    if (state.last) {
-      const dt = time - state.last;
-      if (dt > 0 && dt < 250) state.samples.push(dt);
-      if (state.samples.length > WINDOW * 4) state.samples.splice(0, state.samples.length - WINDOW * 4);
-      maybeAdapt(win, state);
-    }
-    state.last = time;
-    win.requestAnimationFrame(tick);
-  };
-  win.requestAnimationFrame(tick);
-  return state;
-}
-
+function adapt(win,state){if(state.samples.length<WINDOW)return;const recent=state.samples.slice(-WINDOW),sorted=recent.slice().sort((a,b)=>a-b),fps=recent.map(fpsOf);state.avgFps=Number(avg(fps).toFixed(2));state.minFps=Number(Math.min(...fps).toFixed(2));state.p95FrameMs=Number(pct(sorted,.95).toFixed(2));state.p99FrameMs=Number(pct(sorted,.99).toFixed(2));state.longFrames=recent.filter(v=>v>34).length;state.stable60=state.minFps>=TARGET&&state.p95FrameMs<=20;const now=performance.now();if(now-state.lastAdapt<3000)return;if((state.minFps<55||state.p95FrameMs>26||state.longFrames>3)&&state.stage<STAGES.length-1){state.lastAdapt=now;publish(win,state,state.stage+1,'spike');}}
+export function bootFpsGuardian(win=globalThis.window){if(!win)return null;if(win[KEY])return win[KEY];const state={targetFps:TARGET,stage:2,config:STAGES[2],samples:[],avgFps:0,minFps:0,p95FrameMs:0,p99FrameMs:0,longFrames:0,stable60:false,last:0,lastAdapt:0,history:[]};win[KEY]=state;publish(win,state,2,'boot-conservative');const tick=t=>{if(state.last){const dt=t-state.last;if(dt>0&&dt<250)state.samples.push(dt);if(state.samples.length>WINDOW*5)state.samples.splice(0,state.samples.length-WINDOW*5);adapt(win,state);}state.last=t;win.requestAnimationFrame(tick);};win.requestAnimationFrame(tick);return state;}
 bootFpsGuardian();
 export default bootFpsGuardian;

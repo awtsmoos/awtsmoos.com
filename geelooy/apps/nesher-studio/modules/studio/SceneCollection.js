@@ -1,21 +1,4 @@
-/* B"H
-SceneCollection: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createSceneCollection(input = {}) {
-  return {
-    id: input.id || `scenecollection-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'SceneCollection',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeSceneCollection(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateSceneCollection(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createSceneCollection(input = {}) { return { kind:'SceneCollection', id:input.id || `collection-${Date.now()}`, name:input.name || 'Scene Collection', scenes:input.scenes || [], activeSceneId:input.activeSceneId || input.scenes?.[0]?.id || null }; }
+export function addCollectionScene(collection, scene) { collection.scenes.push(scene); collection.activeSceneId ||= scene.id; return scene; }
+export function setActiveScene(collection, sceneId) { if (collection.scenes.some(s=>s.id===sceneId)) collection.activeSceneId = sceneId; return collection; }

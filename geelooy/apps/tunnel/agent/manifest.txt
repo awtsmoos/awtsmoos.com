@@ -1,5 +1,5 @@
 B"H
-1.0.98
+1.0.102
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -107,6 +107,7 @@ tools/fs/actionGroups/aiAgents/taskRunner.js
 tools/fs/actionGroups/aiAgents/taskStore.js
 tools/fs/actionGroups/aiTemplateActions.js
 tools/fs/actionGroups/aiTemplateCatalog.js
+tools/fs/actionGroups/batchAliasActions.js
 tools/fs/actionGroups/chromeActions.js
 tools/fs/actionGroups/cognitionActions.js
 tools/fs/actionGroups/commandActions.js

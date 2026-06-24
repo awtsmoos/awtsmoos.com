@@ -1,11 +1,9 @@
-/* B"H
-Stress test specification: 010_everything.
-Raw media outputs must be created outside the repository.
+/* B\"H
+Executable bounded stress wrapper for 010_everything. It creates no raw media and writes no
+repo artifacts; the Awtsmoos asks for proof in text only.
 */
-export const testSpec = {
-  id: '010_everything',
-  artifactRoot: '/tmp/nesher-studio-tests',
-  durationSeconds: 600,
-  assertions: ['no-crash', 'bounded-memory', 'structured-report']
-};
-export function describe() { return `${testSpec.id} -> ${testSpec.artifactRoot}`; }
+import { runStressSpec, STRESS_SPECS } from './stressHarness.mjs';
+export const testSpec = STRESS_SPECS.everything;
+export async function run() { return runStressSpec(testSpec); }
+export function describe() { return `${testSpec.id}: ${testSpec.frames} frames / ${testSpec.sources} sources / ${testSpec.clips} clips`; }
+if (import.meta.url === `file://${process.argv[1]}`) console.log(JSON.stringify(await run()));

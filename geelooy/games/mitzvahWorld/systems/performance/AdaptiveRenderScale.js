@@ -1,29 +1,32 @@
 // B"H
 /**
- * Native-crisp render contract. Performance mode may budget world work, but it
- * must not win frames by lowering the real gameplay pixel density.
+ * AdaptiveRenderScale: FPS-first pixel contract.
+ * Realism must come from memory, story, audio, variation fields, and schedules;
+ * if frames shake, pixel ratio yields before civilization does.
  */
-export function adaptiveRenderScale(tier = {}) {
-  return 1;
+export function adaptiveRenderScale(tier={}){
+  if(tier.mobile) return .62;
+  if(tier.tier==='low') return .66;
+  if(tier.tier==='medium') return .74;
+  return .82;
 }
-
-export function pixelRatioCap(tier = {}) {
-  return 1;
+export function pixelRatioCap(tier={}){
+  if(tier.mobile) return .68;
+  if(tier.tier==='low') return .72;
+  if(tier.tier==='medium') return .78;
+  return .82;
 }
-
-export function desiredPixelRatio(win = globalThis.window, tier = {}, scale = 1) {
-  const native = Number(win?.devicePixelRatio || 1);
-  const cap = pixelRatioCap(tier);
-  const pixelRatio = Math.max(1, Math.min(cap, native * scale));
-  return { native, cap, scale, pixelRatio };
+export function desiredPixelRatio(win=globalThis.window,tier={},scale=adaptiveRenderScale(tier)){
+  const native=Number(win?.devicePixelRatio||1);
+  const cap=pixelRatioCap(tier);
+  const pixelRatio=Math.max(.55,Math.min(cap,native*scale));
+  return{native,cap,scale,pixelRatio,applied:pixelRatio<native};
 }
-
-export function applyRenderScale(renderer, scale, win = globalThis.window, tier = {}) {
-  if (!renderer || typeof renderer.setPixelRatio !== "function") return { applied: false };
-  const state = desiredPixelRatio(win, tier, scale);
+export function applyRenderScale(renderer,scale,win=globalThis.window,tier={}){
+  if(!renderer||typeof renderer.setPixelRatio!=='function')return{applied:false};
+  const state=desiredPixelRatio(win,tier,scale);
   renderer.setPixelRatio(state.pixelRatio);
-  renderer.info && (renderer.info.autoReset = true);
-  return { applied: true, ...state };
+  if(renderer.info)renderer.info.autoReset=true;
+  return{applied:true,...state};
 }
-
 export default adaptiveRenderScale;

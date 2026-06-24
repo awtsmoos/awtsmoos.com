@@ -1,5 +1,4 @@
 // B"H
-/** Generated public tunnel action surface. Rebuild with node scripts/generate-tunnel-openapi-live.cjs */
 const actions = [
   "absoluteImportMapper",
   "abstractionLeakTrace",
@@ -129,6 +128,7 @@ const actions = [
   "commandTreeStatus",
   "commandTreeValidate",
   "commandTreeVisualize",
+  "commandWait",
   "conditionExpressionTester",
   "configDriftScan",
   "configGet",

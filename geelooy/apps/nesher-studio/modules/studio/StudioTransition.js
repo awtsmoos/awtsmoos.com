@@ -1,21 +1,4 @@
-/* B"H
-StudioTransition: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createStudioTransition(input = {}) {
-  return {
-    id: input.id || `studiotransition-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'StudioTransition',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeStudioTransition(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateStudioTransition(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createStudioTransition(input = {}) { return { kind:'StudioTransition', type:input.type || 'cut', duration:Number(input.duration || 0), progress:0 }; }
+export function applyTransition(transition, t) { transition.progress = Math.max(0, Math.min(1, transition.duration ? t / transition.duration : 1)); return transition; }
+export function transitionComplete(transition) { return transition.progress >= 1; }

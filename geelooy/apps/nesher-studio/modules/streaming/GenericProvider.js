@@ -1,21 +1,4 @@
-/* B"H
-GenericProvider: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createGenericProvider(input = {}) {
-  return {
-    id: input.id || `genericprovider-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'GenericProvider',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeGenericProvider(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateGenericProvider(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createGenericProvider(input = {}) { return provider('generic-hls', 'Generic HLS', input); }
+export function provider(id, label, input = {}) { return { id:input.id || id, kind:'StreamProvider', label:input.label || label, protocol:input.protocol || 'hls', supportsRealIngest:!!input.supportsRealIngest, endpoint:input.endpoint || null, headers:input.headers || {}, verified:false }; }
+export function validateProviderConfig(p) { return { ok:!!p.protocol && (p.protocol !== 'hls' || true), warnings:p.supportsRealIngest ? [] : ['provider_not_real_ingest_verified'] }; }

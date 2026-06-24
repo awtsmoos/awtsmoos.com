@@ -1,24 +1,14 @@
 // B"H
-/**
- * @file RegionFlowerRenderer.js
- * @description Flower fields grow from roads, ecology specs, and deterministic grounded petals.
- */
+/** @file RegionFlowerRenderer.js @description More flower heads through layered instancing and seasonal memory. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20260614-bh2";
 import { samplePolyline, offsetPoint } from "./RegionPolyline.js?v=awtsmoos-polyline-20260614-bh2";
 import { rand } from "./RegionRandom.js";
 import { sealRegionVisual } from "./RegionSeal.js";
 import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
-function reportFlowers(report) { return report && report.instances && Array.isArray(report.instances.flowers) ? report.instances.flowers : []; }
-function specFlower(spec, i) { const scale = Number(spec.scale || 1); return { x:spec.x, z:spec.z, sx:.12 + scale*.08, sy:.08 + scale*.08, sz:.12 + scale*.08, yaw:rand(i,5)*6.28, lift:.42 + rand(i,6)*.18, color:i % 3 ? 0xf6e58d : 0xc78df6 }; }
-function mainRoadPoints(roads) { const main = roads && roads.main ? roads.main : {}; return Array.isArray(main.points) ? main.points : []; }
-function roadSpots(roads) { const path = samplePolyline(mainRoadPoints(roads), 5), spots = []; path.forEach((p, i) => { spots.push(offsetPoint(p, 3.4 + rand(i,1)*2)); spots.push(offsetPoint(p, -3.4 - rand(i,2)*2)); }); return spots; }
-function fallbackFlower(spots, i) { const base = spots[i % Math.max(1, spots.length)] || { x:0, z:0 }; return { x:base.x + (rand(i,3)-.5)*4, z:base.z + (rand(i,4)-.5)*4, sx:.16, sy:.07, sz:.16, yaw:rand(i,5)*6.28, lift:.42 + rand(i,6)*.18, color:i % 5 ? 0xffee88 : 0xd6a7ff }; }
-export function buildFlowerRenderer(olam, roads = {}, report = {}) {
-  const root = new THREE.Group(); root.name = "living_region_grounded_wildflower_fields";
-  const specs = reportFlowers(report);
-  if (specs.length) { const count = Math.min(900, budgetedQualityCount(olam, Math.min(900, specs.length), "grassDistance", 900)); root.add(makeInstancedLayer({ olam, name:"instanced_ecology_flower_heads", geometry:"flower", material:"daisyPetal", count, build:i => specFlower(specs[i % specs.length], i) })); }
-  else { const spots = roadSpots(roads), count = Math.min(700, budgetedQualityCount(olam, Math.min(700, spots.length * 3 + 180), "grassDistance", 700)); root.add(makeInstancedLayer({ olam, name:"instanced_roadside_daisy_and_lavender_heads", geometry:"flower", material:"daisyPetal", count, build:i => fallbackFlower(spots, i) })); }
-  root.userData.stats = { flowers:root.children.reduce((n,c)=>n + (c.count || 0), 0), groundedFlowers:true };
-  return sealRegionVisual(root, { groundedFlowers:true });
-}
+const P=Object.freeze([0xffee88,0xd6a7ff,0xffffff,0xff9bd2,0x9be27a,0x7dd3fc,0xfbbf24,0xff7a7a,0xc084fc,0xfef08a]);
+function reps(r){return r?.instances&&Array.isArray(r.instances.flowers)?r.instances.flowers:[];} function pts(roads){return Array.isArray(roads?.main?.points)?roads.main.points:[];} function road(roads){const path=samplePolyline(pts(roads),3.2),out=[];path.forEach((p,i)=>{out.push(offsetPoint(p,2+rand(i,1)*7));out.push(offsetPoint(p,-2-rand(i,2)*7));});return out;}
+function meadow(i,ring=1){const a=i*2.399963,r=16+Math.sqrt(rand(i,11))*235*ring;return{x:Math.cos(a)*r+(rand(i,5)-.5)*22,z:Math.sin(a)*r*.68+(rand(i,6)-.5)*18};}
+function flowerAt(b,i,scale=1,lift=.42){const s=(.08+rand(i,7)*.16)*scale;return{x:b.x+(rand(i,3)-.5)*6,z:b.z+(rand(i,4)-.5)*6,sx:s,sy:.045+rand(i,8)*.075,sz:s,yaw:rand(i,9)*6.28,lift:lift+rand(i,10)*.24,color:P[i%P.length]};}
+function spec(s,i){return flowerAt({x:+s.x||0,z:+s.z||0},i,+s.scale||1,.42);} function buildLayer(olam,name,count,bases,offset,scale,lift,specs){return makeInstancedLayer({olam,name,geometry:'flower',material:'daisyPetal',count,build:i=>specs.length?spec(specs[(i+offset)%specs.length],i+offset):flowerAt(bases[(i+offset)%Math.max(1,bases.length)]||meadow(i+offset,scale),i+offset,scale,lift)});}
+export function buildFlowerRenderer(olam,roads={},report={}){const root=new THREE.Group();root.name='living_region_many_head_wildflower_lod_fields'; const specs=reps(report),bases=[...road(roads),...Array.from({length:80},(_,i)=>meadow(i,1))]; const near=Math.min(1400,Math.max(900,budgetedQualityCount(olam,1200,'grassDistance',1400))),mid=1300,far=900; root.add(buildLayer(olam,'near_many_wildflower_heads',near,bases,0,1.1,.42,specs)); root.add(buildLayer(olam,'mid_tiny_wildflower_color_heads',mid,bases,2000,.72,.34,specs)); root.add(buildLayer(olam,'far_meadow_flower_sparkles',far,bases,5000,.45,.26,specs)); root.userData.stats={flowers:near+mid+far,near,mid,far,drawCalls:3,seasonalMemory:true,species:P.length,moreFlowerHeads:true,smartFlowerLOD:true,hyperrealWithoutGeometryDebt:true}; root.userData.worldMemory={spring:'dense bloom',summer:'gold lavender blue',rain:'brighter roadsides',drought:'seed heads and sparse petals'}; return sealRegionVisual(root,{groundedFlowers:true,seasonalMemory:true,hyperrealFlowers:true,moreFlowerHeads:true,smartLOD:true});}

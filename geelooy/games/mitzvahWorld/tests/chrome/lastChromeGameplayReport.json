@@ -1,83 +1,465 @@
 {
-  "ok": false,
+  "ok": true,
   "headed": false,
-  "startedAt": "2026-06-21T22:18:05.853Z",
+  "durationMs": 20000,
+  "startedAt": "2026-06-23T20:51:18.055Z",
+  "url": "http://127.0.0.1:51925/geelooy/games/mitzvahWorld/index.html?path=village.json",
   "browser": {
-    "name": "none",
-    "path": "",
+    "name": "macOS Chrome",
+    "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "candidates": [
       [
         "CHROME_PATH",
         ""
       ],
       [
-        "Chrome",
-        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-      ],
-      [
-        "Chrome x86",
-        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-      ],
-      [
-        "Chrome local",
+        "CHROME_BIN",
         ""
       ],
       [
-        "Edge",
+        "GOOGLE_CHROME_BIN",
+        ""
+      ],
+      [
+        "macOS Chrome",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "macOS Chrome Canary",
+        "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+      ],
+      [
+        "macOS Chromium",
+        "/Applications/Chromium.app/Contents/MacOS/Chromium"
+      ],
+      [
+        "macOS Edge",
+        "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+      ],
+      [
+        "macOS user Chrome",
+        "/Users/awtsmoos/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "Linux google-chrome",
+        "/usr/bin/google-chrome"
+      ],
+      [
+        "Linux google-chrome-stable",
+        "/usr/bin/google-chrome-stable"
+      ],
+      [
+        "Linux chromium",
+        "/usr/bin/chromium"
+      ],
+      [
+        "Linux chromium-browser",
+        "/usr/bin/chromium-browser"
+      ],
+      [
+        "Linux Edge",
+        "/usr/bin/microsoft-edge"
+      ],
+      [
+        "Windows Chrome",
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Windows Chrome x86",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Windows Chrome local",
+        ""
+      ],
+      [
+        "Windows Edge",
         "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
       ],
       [
-        "Edge x86",
+        "Windows Edge x86",
         "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
       ],
       [
-        "Edge local",
+        "Windows Edge local",
         ""
       ]
     ]
   },
+  "boot": {
+    "readyState": "complete",
+    "canvases": 1,
+    "bootLoaded": true,
+    "errors": 0,
+    "lastError": null,
+    "perf": {
+      "tier": "high",
+      "mobile": false,
+      "renderScale": 0.82,
+      "budget": {
+        "grassDistance": 42,
+        "treeDistance": 105,
+        "npcDistance": 84,
+        "particleLimit": 44,
+        "shadowMode": "off",
+        "cssBlur": false,
+        "maxDistantActors": 22,
+        "seal": "speed-scene-budget-bh4"
+      },
+      "mainRendererFound": false,
+      "mainRendererApplied": false,
+      "rendererFound": true,
+      "rendererApplied": false,
+      "workerPixelRatioApplied": false,
+      "workerPixelRatioState": {
+        "width": 1280,
+        "height": 577,
+        "rawPixelRatio": 1,
+        "pixelRatio": 1,
+        "memoryGb": 8,
+        "phase": "resize",
+        "quality": "balanced",
+        "applied": false,
+        "seal": "crisp-pixel-governor-bh5"
+      },
+      "rendererState": {
+        "applied": false
+      },
+      "discovery": {
+        "found": false,
+        "path": null,
+        "visited": 10,
+        "roots": [
+          "mana",
+          "__AWTSMOOS_MANAGER__",
+          "ikar"
+        ]
+      },
+      "attempts": 14,
+      "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
+    },
+    "pixelGovernor": {
+      "width": 1280,
+      "height": 577,
+      "rawPixelRatio": 1,
+      "pixelRatio": 1,
+      "memoryGb": 8,
+      "phase": "resize",
+      "quality": "balanced",
+      "applied": false,
+      "seal": "crisp-pixel-governor-bh5"
+    },
+    "url": "http://127.0.0.1:51925/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "title": "Awtsmoos - Mitzvah World 3D"
+  },
+  "sample": {
+    "durationMs": 20033.5,
+    "frameCount": 2834,
+    "avgFrameMs": 7.059280169371912,
+    "fps": 141.65750274917525,
+    "onePercentLowFps": 10.649627263045835,
+    "pointOnePercentLowFps": 5.662514156285408,
+    "p95FrameMs": 18.69999999999709,
+    "p99FrameMs": 93.89999999999964,
+    "p999FrameMs": 176.59999999999945,
+    "worstFrameMs": 243.89999999999964,
+    "droppedFrames": 87,
+    "longFrames": 64,
+    "worstInputGap": 373.8999999985099,
+    "actions": {
+      "keydown:KeyW": 6,
+      "mouseSweep": 6,
+      "combatClick": 11,
+      "keydown:Space": 6,
+      "keyup:Space": 6,
+      "keydown:KeyE": 6,
+      "keyup:KeyE": 7,
+      "keydown:KeyQ": 6,
+      "keyup:KeyQ": 7,
+      "keydown:Digit1": 6,
+      "keyup:Digit1": 6,
+      "keydown:Digit2": 6,
+      "keyup:Digit2": 6,
+      "keydown:KeyF": 6,
+      "keydown:Enter": 6,
+      "keyup:KeyF": 6,
+      "keyup:Enter": 6,
+      "keydown:KeyA": 5,
+      "keyup:KeyA": 6,
+      "keydown:KeyD": 5,
+      "keyup:KeyD": 6,
+      "keyup:KeyW": 6,
+      "keyup:KeyS": 1
+    },
+    "memorySamples": 4,
+    "memoryGrowthBytes": 40820,
+    "longTaskCount": 58,
+    "longTasks": [
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 13146.40000000596,
+        "duration": 96,
+        "at": 10099.40000000596
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 13468.70000000298,
+        "duration": 255,
+        "at": 10421.70000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 13901.20000000298,
+        "duration": 135,
+        "at": 10854.20000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 14169.20000000298,
+        "duration": 53,
+        "at": 11122.20000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 14469.60000000149,
+        "duration": 86,
+        "at": 11422.60000000149
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 14652.60000000149,
+        "duration": 100,
+        "at": 11605.60000000149
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 15094.70000000298,
+        "duration": 111,
+        "at": 12047.70000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 15470.20000000298,
+        "duration": 126,
+        "at": 12423.20000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 15906.10000000149,
+        "duration": 65,
+        "at": 12859.10000000149
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 16093.40000000596,
+        "duration": 99,
+        "at": 13046.40000000596
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 16362.20000000298,
+        "duration": 78,
+        "at": 13315.20000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 16520.10000000149,
+        "duration": 52,
+        "at": 13473.10000000149
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 16846.20000000298,
+        "duration": 126,
+        "at": 13799.20000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 17279.80000000447,
+        "duration": 67,
+        "at": 14232.80000000447
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 17549.60000000149,
+        "duration": 59,
+        "at": 14502.60000000149
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 17677.20000000298,
+        "duration": 88,
+        "at": 14630.20000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 17974.10000000149,
+        "duration": 142,
+        "at": 14927.10000000149
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 19349.80000000447,
+        "duration": 53,
+        "at": 16302.80000000447
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 19403.70000000298,
+        "duration": 50,
+        "at": 16356.70000000298
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 20102,
+        "duration": 60,
+        "at": 17055
+      }
+    ],
+    "canvases": 1,
+    "errors": 0,
+    "lastError": null,
+    "perf": {
+      "tier": "high",
+      "mobile": false,
+      "renderScale": 0.82,
+      "budget": {
+        "grassDistance": 42,
+        "treeDistance": 105,
+        "npcDistance": 84,
+        "particleLimit": 44,
+        "shadowMode": "off",
+        "cssBlur": false,
+        "maxDistantActors": 22,
+        "seal": "speed-scene-budget-bh4"
+      },
+      "mainRendererFound": false,
+      "mainRendererApplied": false,
+      "rendererFound": true,
+      "rendererApplied": false,
+      "workerPixelRatioApplied": false,
+      "workerPixelRatioState": {
+        "width": 1280,
+        "height": 577,
+        "rawPixelRatio": 1,
+        "pixelRatio": 1,
+        "memoryGb": 8,
+        "phase": "resize",
+        "quality": "balanced",
+        "applied": false,
+        "seal": "crisp-pixel-governor-bh5"
+      },
+      "rendererState": {
+        "applied": false
+      },
+      "discovery": {
+        "found": false,
+        "path": null,
+        "visited": 68,
+        "roots": [
+          "mana",
+          "__AWTSMOOS_MANAGER__",
+          "ikar"
+        ]
+      },
+      "attempts": 51,
+      "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
+    },
+    "pixelGovernor": {
+      "width": 1280,
+      "height": 577,
+      "rawPixelRatio": 1,
+      "pixelRatio": 1,
+      "memoryGb": 8,
+      "phase": "resize",
+      "quality": "balanced",
+      "applied": false,
+      "seal": "crisp-pixel-governor-bh5"
+    },
+    "guardian": {
+      "stage": 2,
+      "avgFps": 321.9,
+      "minFps": 19.84,
+      "stable60": false,
+      "history": [
+        {
+          "at": 1782247880929,
+          "stage": 2,
+          "name": "ten-minute-guarantee",
+          "reason": "boot-conservative",
+          "avgFps": 0,
+          "minFps": 0,
+          "p95FrameMs": 0
+        }
+      ]
+    },
+    "budget": {
+      "tier": "ultra",
+      "scale": 1,
+      "fpsTarget": 60,
+      "reason": {
+        "fps": 152.6872964169379,
+        "p95FrameMs": 22.5,
+        "drawCalls": 0,
+        "triangles": 0,
+        "visibleMeshes": 0,
+        "heap": 7004792,
+        "pressure": 0
+      },
+      "rendering": {
+        "shadowScale": 1,
+        "maxPixelRatio": 2,
+        "postprocessing": true
+      },
+      "simulation": {
+        "nearHz": 30,
+        "midHz": 6,
+        "farHz": 1,
+        "horizonMode": "statistical"
+      },
+      "density": {
+        "animals": 1,
+        "npcs": 1,
+        "foliage": 1,
+        "missions": 7,
+        "villageProps": 1
+      },
+      "cheapMetrics": true,
+      "lastFrame": {
+        "fps": 152.6872964169379,
+        "p95FrameMs": 22.5,
+        "p99FrameMs": 54.30000000000291
+      },
+      "seal": "cheap-quality-director-20260623-bh5"
+    },
+    "emerald": false,
+    "dialogueLikeNodes": 3,
+    "url": "http://127.0.0.1:51925/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-no-expensive-css awtsmoos-renderer-missing awtsmoos-fps-guardian-active"
+  },
   "issueLog": {
     "scope": "chrome-real-browser",
-    "ok": false,
-    "issues": [
-      {
-        "severity": "error",
-        "code": "NO_BROWSER_FOUND",
-        "message": "No Chrome or Edge executable found.",
-        "detail": {
-          "candidates": [
-            [
-              "CHROME_PATH",
-              ""
-            ],
-            [
-              "Chrome",
-              "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-            ],
-            [
-              "Chrome x86",
-              "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-            ],
-            [
-              "Chrome local",
-              ""
-            ],
-            [
-              "Edge",
-              "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
-            ],
-            [
-              "Edge x86",
-              "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
-            ],
-            [
-              "Edge local",
-              ""
-            ]
-          ]
-        },
-        "at": "2026-06-21T22:18:05.863Z"
-      }
-    ]
+    "ok": true,
+    "issues": []
   }
 }

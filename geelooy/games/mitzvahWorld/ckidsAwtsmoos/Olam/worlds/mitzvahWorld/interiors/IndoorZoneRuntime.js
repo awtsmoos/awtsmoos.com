@@ -1,30 +1,4 @@
-/**
- * B"H
- * Chapter 25: The Air Changed Its Name Indoors.
- */
-
-export class IndoorZoneRuntime {
-  constructor(zones = {}) {
-    this.zones = zones;
-    this.currentZoneId = null;
-  }
-
-  enter(zoneId) {
-    const zone = this.zones[zoneId];
-    if (!zone) throw new Error(`Unknown indoor zone: ${zoneId}`);
-    this.currentZoneId = zoneId;
-    return { zoneId, audio: zone.audio || 'indoor', lighting: zone.lighting || 'warm' };
-  }
-
-  leave() {
-    const zoneId = this.currentZoneId;
-    this.currentZoneId = null;
-    return { zoneId, audio: 'outdoor', lighting: 'world' };
-  }
-
-  snapshot() {
-    return { currentZoneId: this.currentZoneId };
-  }
-}
-
+// B"H
+/** @file IndoorZoneRuntime.js @description Interiors change audio, light, ownership, and memory without loading a new world. */
+export class IndoorZoneRuntime { constructor(zones={}){ this.zones=zones; this.currentZoneId=null; this.history=[]; } addZone(id,zone){ this.zones[id]=zone; return zone; } enter(zoneId, actorId="player"){ const zone=this.zones[zoneId]; if(!zone) throw new Error(`Unknown indoor zone: ${zoneId}`); this.currentZoneId=zoneId; const row={ action:"enter", zoneId, actorId, at:Date.now() }; this.history.unshift(row); this.history=this.history.slice(0,40); return { zoneId, owner:zone.owner, family:zone.family, audio:zone.audio||"indoor", lighting:zone.lighting||"warm", permissions:zone.permissions||"guest" }; } leave(actorId="player"){ const zoneId=this.currentZoneId; this.currentZoneId=null; this.history.unshift({ action:"leave", zoneId, actorId, at:Date.now() }); return { zoneId, audio:"outdoor", lighting:"world" }; } snapshot(){ return { currentZoneId:this.currentZoneId, zones:Object.keys(this.zones).length, history:this.history.slice(0,8) }; } }
 export default IndoorZoneRuntime;

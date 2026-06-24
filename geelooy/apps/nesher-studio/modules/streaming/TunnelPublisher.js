@@ -1,21 +1,5 @@
-/* B"H
-TunnelPublisher: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createTunnelPublisher(input = {}) {
-  return {
-    id: input.id || `tunnelpublisher-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'TunnelPublisher',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeTunnelPublisher(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateTunnelPublisher(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createTunnelPublisher(input = {}) { return { kind:'TunnelPublisher', base:input.base || 'http://127.0.0.1:3977', sessionId:input.sessionId || null, queue:input.queue || [] }; }
+export function enqueueTunnelSegment(publisher, segment) { publisher.queue.push(segment); return segment; }
+export function markTunnelStarted(publisher, sessionId) { publisher.sessionId = sessionId; return publisher; }
+export function flushTunnelQueue(publisher, sender = async x => x) { const queued = [...publisher.queue]; publisher.queue.length = 0; return Promise.all(queued.map(sender)); }

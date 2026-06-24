@@ -1,19 +1,5 @@
 // B"H
-// The game loop: forge, drag, drop, remember, relight.
-import{createPushkuhCanvas}from"./canvas.js";
-import{demoEntries,loadEntries,makeEntry,removeEntry,relightEntry,saveEntries,templates,updateEntry}from"./state.js";
-import{detailHtml,render,renderTemplates,setFilter}from"./render.js";
-const $=id=>document.getElementById(id);const form=$("depositForm"),orb=$("sparkOrb"),dropZone=$("dropZone"),dialog=$("detailDialog");const pushkuh=createPushkuhCanvas($("pushkuhCanvas"));let entries=loadEntries();let selectedId=null;if(!entries.length)entries=demoEntries();pushkuh.seed(entries);renderTemplates(templates,t=>{$("titleInput").value=t;chargeOrb()});render(entries,selectEntry);expose();
-form.addEventListener("submit",e=>{e.preventDefault();deposit()});$("tapDepositButton").onclick=deposit;$("intensityInput").oninput=chargeOrb;$("filters").onclick=e=>{if(e.target.dataset.filter){setFilter(e.target.dataset.filter);render(entries,selectEntry)}};$("clearButton").onclick=()=>{entries=[];persist()};$("closeDetail").onclick=()=>dialog.close();$("fulfillButton").onclick=fulfillSelected;$("deleteButton").onclick=deleteSelected;$("relightButton").onclick=relightSelected;orb.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain","spark")});dropZone.addEventListener("dragover",e=>{e.preventDefault();hot(true)});dropZone.addEventListener("dragleave",()=>hot(false));dropZone.addEventListener("drop",e=>{e.preventDefault();hot(false);deposit()});orb.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();deposit()}});enableTouchDrag();chargeOrb();
-function readForm(){return{title:$("titleInput").value,type:$("typeInput").value,status:$("statusInput").value,visibility:$("visibilityInput").value,intensity:$("intensityInput").value,note:$("noteInput").value,deadline:$("deadlineInput").value}}
-function deposit(){if(!form.reportValidity())return;const entry=makeEntry(readForm());entries=[entry,...entries.filter(e=>!e.demo)];saveEntries(entries);render(entries,selectEntry);pushkuh.drop(entry);form.reset();$("intensityInput").value=3;chargeOrb();flash("Spark entered. The vessel remembers.")}
-function selectEntry(id){selectedId=id;const entry=entries.find(e=>e.id===id);if(!entry)return;$("detailBody").innerHTML=detailHtml(entry);dialog.showModal()}
-function fulfillSelected(){if(!selectedId)return;entries=updateEntry(entries,selectedId,{status:"Fulfilled",fulfilledAt:new Date().toISOString()});persist();selectEntry(selectedId)}
-function deleteSelected(){if(!selectedId)return;entries=removeEntry(entries,selectedId);selectedId=null;persist();dialog.close()}
-function relightSelected(){const entry=entries.find(e=>e.id===selectedId);if(!entry)return;const fresh=relightEntry(entry);entries=[fresh,...entries];persist();pushkuh.drop(fresh);dialog.close()}
-function persist(){saveEntries(entries);pushkuh.seed(entries);render(entries,selectEntry)}
-function chargeOrb(){const n=$("intensityInput").value;$("intensityLabel").textContent=n;orb.style.transform=`scale(${.9+n*.035})`;orb.style.filter=`saturate(${1+n*.16})`}
-function hot(v){dropZone.classList.toggle("drag-over",v);pushkuh.setHot(v);$("dropHint").textContent=v?"Release the spark." : "The vessel is listening."}
-function flash(msg){$("dropHint").textContent=msg;setTimeout(()=>$("dropHint").textContent="The vessel is listening.",1600)}
-function enableTouchDrag(){let dragging=false;orb.addEventListener("pointerdown",e=>{dragging=true;orb.setPointerCapture(e.pointerId)});orb.addEventListener("pointermove",e=>{if(!dragging)return;const r=dropZone.getBoundingClientRect();hot(e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom)});orb.addEventListener("pointerup",e=>{if(!dragging)return;dragging=false;const r=dropZone.getBoundingClientRect();const inside=e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom;hot(false);if(inside)deposit()})}
-function expose(){window.mitzvahPushkuh={version:"3.0.0",getEntries:()=>entries,depositTest(){const e=makeEntry({title:"Runtime test spark",type:"Chesed",status:"Accepted",visibility:"Profile",intensity:5,note:"Test",deadline:"18m"});entries=[e,...entries.filter(x=>!x.demo)];persist();pushkuh.drop(e);return e}}}
+// Bootstrap only: the garden's limbs now live in smaller vessels.
+import { startGarden } from "./app/controller.js";
+
+startGarden();

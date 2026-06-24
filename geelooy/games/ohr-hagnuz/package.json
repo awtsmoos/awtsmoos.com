@@ -1,0 +1,9 @@
+{
+  "name": "ohr-hagnuz",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:rpg": "for t in tests/rpg/*.test.mjs src/tests/*.mjs; do echo \"===== $t =====\"; node \"$t\"; done",
+    "test:retention": "node tests/rpg/allRemainingRetention.test.mjs"
+  }
+}

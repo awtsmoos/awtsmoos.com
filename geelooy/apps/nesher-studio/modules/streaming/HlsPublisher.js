@@ -1,21 +1,5 @@
-/* B"H
-HlsPublisher: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createHlsPublisher(input = {}) {
-  return {
-    id: input.id || `hlspublisher-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'HlsPublisher',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeHlsPublisher(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateHlsPublisher(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+import { buildMediaPlaylist } from '../export/HlsExporter.js';
+export function createHlsPublisher(input = {}) { return { kind:'HlsPublisher', targetDuration:input.targetDuration || 2, segments:input.segments || [], uploadedBytes:0 }; }
+export function addHlsSegment(pub, segment) { const model = { name:segment.name || `seg-${String(pub.segments.length).padStart(6,'0')}.ts`, duration:Number(segment.duration || pub.targetDuration), bytes:segment.bytes || 0 }; pub.segments.push(model); pub.uploadedBytes += Number(model.bytes || 0); return model; }
+export function hlsPlaylist(pub, end = false) { return buildMediaPlaylist(pub.segments, { targetDuration:pub.targetDuration, end }); }

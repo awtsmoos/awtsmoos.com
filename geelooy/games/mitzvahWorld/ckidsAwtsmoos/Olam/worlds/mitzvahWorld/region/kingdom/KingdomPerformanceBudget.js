@@ -1,11 +1,12 @@
 // B"H
-/** @file KingdomPerformanceBudget.js @description Vast kingdom vision, bounded frame vessel, parser-clear. */
-const DEFAULT_CAPS = Object.freeze({ cpuMs:5.5, drawCalls:180, activeNpcs:20, activeAnimals:80, activeChunks:24, visibleInstances:12000, hardColliders:96, eventsPerTick:24 });
-function summaryOf(value) { return value && value.summary ? value.summary : {}; }
-function kingdomSummary(report) { return report && report.kingdom && report.kingdom.summary ? report.kingdom.summary : {}; }
-function recentEvents(report) { return report && report.kingdom && report.kingdom.events && Array.isArray(report.kingdom.events.recent) ? report.kingdom.events.recent : []; }
-function degradeFor(mode) { if (mode === "emergency") return ["sleep-far-chunks", "collapse-npc-crowds", "animal-impostors", "ornament-off"]; if (mode === "reduced") return ["time-slice-ai", "reduce-far-animation", "chunk-summary-wildlife"]; if (mode === "guarded") return ["prefer-instancing", "defer-ornament"]; return []; }
-export function createKingdomPerformanceBudget(overrides = {}) { const caps = Object.freeze(Object.assign({}, DEFAULT_CAPS, overrides)); return { version:"kingdom-budget-v2-parser-clear", caps, mode:"full", pressure:{}, degrade:[] }; }
-export function measureBudgetPressure(budget, demand = {}) { const pressure = {}; for (const key of Object.keys(budget.caps)) { const cap = budget.caps[key], value = Number(demand[key] || 0); pressure[key] = cap > 0 ? value / cap : 0; } const peak = Math.max(0, ...Object.values(pressure)); const mode = peak > 1.35 ? "emergency" : peak > 1 ? "reduced" : peak > .72 ? "guarded" : "full"; return Object.assign({}, budget, { mode, pressure, degrade:degradeFor(mode) }); }
-export function kingdomDemandFromReport(report = {}) { const s = summaryOf(report), k = kingdomSummary(report); return { activeNpcs:Math.min(s.npcSchedules || 0, 20), activeAnimals:Math.min(s.wildlife || 0, 80), visibleInstances:s.visibleInstances || 0, hardColliders:s.hardColliders || 0, activeChunks:k.activeChunks || 1, drawCalls:20 + Math.ceil((s.visibleInstances || 0) / 800), eventsPerTick:recentEvents(report).length }; }
-export function budgetSummary(budget) { return { version:budget.version, mode:budget.mode, caps:budget.caps, degrade:budget.degrade }; }
+/** @file KingdomPerformanceBudget.js @description Strict frame covenant: more world, bounded vessel. */
+const DEFAULT_CAPS = Object.freeze({ frameMs:16.67, cpuMs:5.2, drawCalls:260, materials:48, activeNpcs:24, activeAnimals:96, activeChunks:18, visibleInstances:22000, hardColliders:140, eventsPerTick:20, raycasts:6 });
+const STEPS = Object.freeze({ full:[], guarded:["time-slice-ai","reduce-far-animation"], reduced:["sleep-far-chunks","animal-mid-proxies","npc-4hz"], emergency:["statistical-far-world","pause-ornaments","hard-cap-raycasts","collapse-distant-actors"] });
+function num(v){ return Number.isFinite(Number(v)) ? Number(v) : 0; }
+function peakOf(pressure){ return Math.max(0, ...Object.values(pressure)); }
+function modeOf(peak){ return peak > 1.25 ? "emergency" : peak > 1 ? "reduced" : peak > .72 ? "guarded" : "full"; }
+export function createKingdomPerformanceBudget(overrides = {}) { return { version:"kingdom-budget-v3-60fps-covenant", caps:Object.freeze({ ...DEFAULT_CAPS, ...overrides }), mode:"full", pressure:{}, degrade:[] }; }
+export function measureBudgetPressure(budget, demand = {}) { const pressure = {}; for (const key of Object.keys(budget.caps)) pressure[key] = budget.caps[key] > 0 ? num(demand[key]) / budget.caps[key] : 0; const mode = modeOf(peakOf(pressure)); return { ...budget, mode, pressure, degrade:STEPS[mode] || [] }; }
+export function kingdomDemandFromReport(report = {}) { const s = report.summary || report.stats || {}, k = report.kingdom?.summary || {}; return { frameMs:num(s.frameMs || s.avgFrameMs), drawCalls:num(s.drawCalls), materials:num(s.materials), activeNpcs:num(s.npcSchedules || s.npcs), activeAnimals:num(s.wildlife || s.animals), visibleInstances:num(s.visibleInstances), hardColliders:num(s.hardColliders), activeChunks:num(k.activeChunks || 1), eventsPerTick:num(report.kingdom?.events?.recent?.length), raycasts:num(s.raycasts) }; }
+export function budgetSummary(budget) { return { version:budget.version, mode:budget.mode, caps:budget.caps, degrade:budget.degrade, pressure:budget.pressure }; }
+export default { createKingdomPerformanceBudget, measureBudgetPressure, kingdomDemandFromReport, budgetSummary };

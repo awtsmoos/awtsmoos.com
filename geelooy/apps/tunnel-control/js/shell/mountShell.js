@@ -1,9 +1,7 @@
-
 // B"H
 
 import { h } from "../ui/core/html.js";
 import { normalizePaneHeadings } from "../router/paneHeadings.js";
-import { createSideRail } from "./sideRail.js";
 import { createDashboard } from "../dashboard/dashboard.js";
 import { createWorkspaceStage } from "./workspaceStage.js";
 import { mountWorkspaceMode } from "./workspaceMode.js";
@@ -11,11 +9,10 @@ import { collectPanes } from "./domCollect.js";
 
 /**
  * B"H
- * Moves panes into the workspace stack.
+ * Chapter 801: The side rail dissolved into the central command firmament.
  *
- * @param {HTMLElement[]} panes Pane elements.
- * @param {HTMLElement} stack Destination stack.
- * @returns {void}
+ * Tunnel Control is not a sideways list anymore. The Awtsmoos opens one clean
+ * control surface: grid first, focused page second, no side tabs of any kind.
  */
 function movePanes(panes, stack) {
   for (const pane of panes) {
@@ -26,13 +23,7 @@ function movePanes(panes, stack) {
 
 /**
  * B"H
- * Chapter 4: The Portals Must Survive the Palace Rebuild.
- *
- * Some feature vessels are not panes. The root picker, browser dialogs, and
- * future overlays live as portals. If body.replaceChildren() burns the old
- * staging root without first saving them, their event listeners and DOM vanish.
- *
- * @returns {HTMLElement[]} Portal nodes to keep beside the shell.
+ * Preserves modal/portal vessels while the shell is reborn.
  */
 function collectPortals() {
   return Array.from(document.querySelectorAll("#rootPickerModal, [data-awt-portal], .awt-portal"));
@@ -40,7 +31,7 @@ function collectPortals() {
 
 /**
  * B"H
- * Mounts the multi-page shell from real controls.
+ * Mounts a rail-free multi-page Mission Control OS.
  *
  * @param {object} ctx Runtime context.
  * @returns {void}
@@ -56,20 +47,16 @@ export function mountShell(ctx) {
   normalizePaneHeadings();
 
   const shell = h("div", {
-    classes: ["awt-control-shell"],
+    classes: ["awt-control-shell", "awt-no-side-rail-shell"],
     children: [
-      createSideRail(ctx),
       h("main", {
         classes: ["awt-control-main"],
-        children: [
-          createDashboard(ctx),
-          stage
-        ]
+        children: [createDashboard(ctx), stage]
       })
     ]
   });
 
-  document.body.classList.add("awt-pro-ready");
+  document.body.classList.add("awt-pro-ready", "awt-no-side-rails");
   document.body.replaceChildren(shell, ...portals);
 
   mountWorkspaceMode();

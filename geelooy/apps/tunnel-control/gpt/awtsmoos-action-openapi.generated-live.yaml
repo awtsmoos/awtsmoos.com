@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
-  title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 6.1.0-generated
-  description: B"H. Generated from the local tunnel registry. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. Optional extra ChatGPT sessions should not require a supplied mission id: first call missionProjectDiscover with projectRoot/root/q, join the best matching room with missionProjectJoin, then missionAgentSync, missionAgentClaim before touching files, missionAgentMessage or missionAgentDelegate to coordinate, missionAgentHeartbeat while working, missionAgentAudit to detect overlaps/leaks, and missionAgentComplete when a claimed chunk is finished. If missionAgentSync reports open user room messages, call missionAgentRespond before continuing unless the user message clearly says continue/go on/proceed/keep going/resume. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. One backward-compatible action endpoint exposes old aliases and new mode-based internals.
+  title: Awtsmoos Tunnel Control GPT Actions
+  version: 7.0.0-generated
+  description: B"H. After every response, obey responseFocus.oneMainThing. If multipleChoiceSelfInterrogation is present, answer with multipleChoiceAnswer/choice/answer before any unrelated action. If ignored, the server returns allCapsPrompt and blocks continuation.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -23,15 +23,14 @@ paths:
   /api/tunnel/control/fs/{tunnelName}:
     get:
       operationId: awtsmoosTunnelAction
-      summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. OpenAI agent mission rule: never ask the user 'should I continue', 'would you like me to', 'let me know', or similar while safe autonomous work remains. For hour-scale missions call missionLoopSeed, then repeatedly call missionLoopPulse and obey mustCallNext; this creates renewable obligations across tests, docs, schema, compatibility, observability, rollback, 504 resilience, path correlation, UX, research, and future-risk families. Before every file-modifying or file-intending stage, call missionStepBrainstorm then missionStepPlan then missionFilesToTouch or missionChunkPlan, then missionStepExecute before ordinary tool calls. Each chunk must record step, stageTitle, filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, then missionStepReview, missionStepDelta or missionExpand, missionRefrigerate before pausing, missionThaw after context loss, and missionNextPlan to continue improvement. Optional extra ChatGPT sessions should not require a supplied mission id: first call missionProjectDiscover with projectRoot/root/q, join the best matching room with missionProjectJoin, then missionAgentSync, missionAgentClaim before touching files, missionAgentMessage or missionAgentDelegate to coordinate, missionAgentHeartbeat while working, missionAgentAudit to detect overlaps/leaks, and missionAgentComplete when a claimed chunk is finished. If missionAgentSync reports open user room messages, call missionAgentRespond before continuing unless the user message clearly says continue/go on/proceed/keep going/resume. After every action, inspect aiGuidance, finalAnswerAllowed, mustContinue, mustCallNext, and multipleChoiceSelfInterrogation. If mustContinue is true, answer the multiple-choice self-interrogation and call mustCallNext or finishAndContinue instead of stopping. Ask the user only when blocked by a required decision, secret, or unsafe/destructive action, and include blocker proof: safeActionsTried, exact whyUserNeeded, checkpoint/handoff status, and nextIfApproved. Old YAML remains compatible: action aliases still work, including commands/commands64 as aliases for command/command64. New callers can use commandTree tree/vars/budget fields, commandStart/commandStatus/commandJobOutputPage async command jobs, commandOutputPage sync output paging, mode/readMode/writeMode, XML write payloads, cursor pagination, Chrome-first simulateRuntime, and AI-agent params through the same GET endpoint.
+      summary: Run one tunnel action.
+      description: B"H. After every response, obey responseFocus.oneMainThing. If multipleChoiceSelfInterrogation is present, answer with multipleChoiceAnswer/choice/answer before any unrelated action. If ignored, the server returns allCapsPrompt and blocks continuation. Use guidanceDebug=true only when raw protocol details are needed.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
-        - { name: tunnelName, in: path, required: true, schema: { type: string }, description: Connected tunnel name, auto, or awtsmoos-virtual-os for hosted Virtual OS. }
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
         - name: action
           in: query
           required: true
-          description: Select the tunnel action. If work remains after any action, use finishAndContinue instead of asking the user whether to continue.
           schema:
             type: string
             enum:
@@ -163,6 +162,7 @@ paths:
               - commandTreeStatus
               - commandTreeValidate
               - commandTreeVisualize
+              - commandWait
               - conditionExpressionTester
               - configDriftScan
               - configGet
@@ -546,23 +546,9 @@ paths:
               - writeImage
               - writePayloadSizer
               - yamlValidate
-        - { name: p, in: query, schema: { type: string, default: "." } }
+        - { name: p, in: query, schema: { type: string } }
         - { name: path, in: query, schema: { type: string } }
-        - { name: paths, in: query, schema: { type: string } }
-        - { name: files, in: query, schema: { type: string } }
-        - { name: files64, in: query, schema: { type: string } }
-        - { name: writes, in: query, schema: { type: string } }
-        - { name: edits, in: query, schema: { type: string } }
-        - { name: from, in: query, schema: { type: string } }
-        - { name: to, in: query, schema: { type: string } }
-        - { name: source, in: query, schema: { type: string } }
-        - { name: dest, in: query, schema: { type: string } }
-        - { name: target, in: query, schema: { type: string } }
-        - { name: targetVessel, in: query, schema: { type: string } }
-        - { name: vessel, in: query, schema: { type: string } }
-        - { name: fallback, in: query, schema: { type: string } }
-        - { name: fs, in: query, schema: { type: string } }
-        - { name: cwd, in: query, schema: { type: string, default: "." } }
+        - { name: cwd, in: query, schema: { type: string } }
         - { name: root, in: query, schema: { type: string } }
         - { name: content, in: query, schema: { type: string } }
         - { name: content64, in: query, schema: { type: string } }
@@ -572,88 +558,46 @@ paths:
         - { name: replace64, in: query, schema: { type: string } }
         - { name: query, in: query, schema: { type: string } }
         - { name: query64, in: query, schema: { type: string } }
+        - { name: command, in: query, schema: { type: string } }
+        - { name: command64, in: query, schema: { type: string } }
         - { name: text, in: query, schema: { type: string } }
         - { name: text64, in: query, schema: { type: string } }
         - { name: goal, in: query, schema: { type: string } }
         - { name: goal64, in: query, schema: { type: string } }
-        - { name: command, in: query, schema: { type: string } }
-        - { name: command64, in: query, schema: { type: string } }
-        - { name: commands, in: query, schema: { type: string } }
-        - { name: commands64, in: query, schema: { type: string } }
-        - { name: script, in: query, schema: { type: string } }
-        - { name: script64, in: query, schema: { type: string } }
-        - { name: scriptText, in: query, schema: { type: string } }
-        - { name: expression, in: query, schema: { type: string } }
-        - { name: expression64, in: query, schema: { type: string } }
-        - { name: html, in: query, schema: { type: string } }
-        - { name: html64, in: query, schema: { type: string } }
-        - { name: testCode, in: query, schema: { type: string } }
-        - { name: testCode64, in: query, schema: { type: string } }
-        - { name: workflow, in: query, schema: { type: string } }
-        - { name: workflow64, in: query, schema: { type: string } }
-        - { name: workflowName, in: query, schema: { type: string } }
-        - { name: tree, in: query, schema: { type: string } }
-        - { name: tree64, in: query, schema: { type: string } }
-        - { name: commandTree, in: query, schema: { type: string } }
-        - { name: commandTree64, in: query, schema: { type: string } }
-        - { name: vars, in: query, schema: { type: string } }
-        - { name: vars64, in: query, schema: { type: string } }
-        - { name: steps, in: query, schema: { type: string } }
-        - { name: steps64, in: query, schema: { type: string } }
         - { name: params, in: query, schema: { type: string } }
         - { name: params64, in: query, schema: { type: string } }
-        - { name: probes, in: query, schema: { type: string } }
-        - { name: probes64, in: query, schema: { type: string } }
-        - { name: interactions, in: query, schema: { type: string } }
-        - { name: interactions64, in: query, schema: { type: string } }
         - { name: actions, in: query, schema: { type: string } }
         - { name: actions64, in: query, schema: { type: string } }
         - { name: actionsJson, in: query, schema: { type: string } }
         - { name: actionsJson64, in: query, schema: { type: string } }
-        - { name: browserActions, in: query, schema: { type: string } }
-        - { name: browserActions64, in: query, schema: { type: string } }
-        - { name: pageActions, in: query, schema: { type: string } }
-        - { name: pageActions64, in: query, schema: { type: string } }
-        - { name: returnValues, in: query, schema: { type: string } }
-        - { name: returnValues64, in: query, schema: { type: string } }
-        - { name: values, in: query, schema: { type: string } }
-        - { name: values64, in: query, schema: { type: string } }
+        - { name: writes, in: query, schema: { type: string } }
+        - { name: writes64, in: query, schema: { type: string } }
+        - { name: files, in: query, schema: { type: string } }
+        - { name: files64, in: query, schema: { type: string } }
+        - { name: paths, in: query, schema: { type: string } }
+        - { name: paths64, in: query, schema: { type: string } }
         - { name: url, in: query, schema: { type: string } }
-        - { name: urlPath, in: query, schema: { type: string } }
-        - { name: method, in: query, schema: { type: string, default: "GET" } }
-        - { name: headers, in: query, schema: { type: string } }
-        - { name: headers64, in: query, schema: { type: string } }
-        - { name: body, in: query, schema: { type: string } }
-        - { name: body64, in: query, schema: { type: string } }
-        - { name: bodyEncoding, in: query, schema: { type: string, default: "utf8" } }
         - { name: selector, in: query, schema: { type: string } }
-        - { name: chromePath, in: query, schema: { type: string } }
-        - { name: userDataDir, in: query, schema: { type: string } }
-        - { name: host, in: query, schema: { type: string, default: "127.0.0.1" } }
-        - { name: index, in: query, schema: { type: string, default: "index.html" } }
-        - { name: serverId, in: query, schema: { type: string } }
-        - { name: sandboxId, in: query, schema: { type: string } }
-        - { name: entry, in: query, schema: { type: string } }
-        - { name: format, in: query, schema: { type: string, default: "png" } }
-        - { name: runtime, in: query, schema: { type: string } }
-        - { name: engine, in: query, schema: { type: string } }
-        - { name: mode, in: query, schema: { type: string } }
-        - { name: readMode, in: query, schema: { type: string } }
-        - { name: writeMode, in: query, schema: { type: string } }
-        - { name: searchMode, in: query, schema: { type: string } }
-        - { name: kind, in: query, schema: { type: string } }
-        - { name: xml, in: query, schema: { type: string } }
-        - { name: xmlInput, in: query, schema: { type: string } }
-        - { name: writesXml, in: query, schema: { type: string } }
-        - { name: filesXml, in: query, schema: { type: string } }
-        - { name: bundle, in: query, schema: { type: string } }
-        - { name: part, in: query, schema: { type: string } }
+        - { name: targetVessel, in: query, schema: { type: string } }
+        - { name: vessel, in: query, schema: { type: string } }
+        - { name: fallback, in: query, schema: { type: string } }
+        - { name: jobId, in: query, schema: { type: string } }
+        - { name: stream, in: query, schema: { type: string } }
         - { name: continuationPrompt, in: query, schema: { type: string } }
         - { name: continuationPrompt64, in: query, schema: { type: string } }
+        - { name: multipleChoiceAnswer, in: query, schema: { type: string } }
+        - { name: choice, in: query, schema: { type: string } }
+        - { name: answer, in: query, schema: { type: string } }
+        - { name: missionId, in: query, schema: { type: string } }
+        - { name: projectRoot, in: query, schema: { type: string } }
+        - { name: logicalAgentId, in: query, schema: { type: string } }
+        - { name: agentSessionId, in: query, schema: { type: string } }
+        - { name: agentId, in: query, schema: { type: string } }
+        - { name: agentName, in: query, schema: { type: string } }
+        - { name: claimId, in: query, schema: { type: string } }
+        - { name: delegationId, in: query, schema: { type: string } }
         - { name: provider, in: query, schema: { type: string } }
         - { name: providerId, in: query, schema: { type: string } }
-        - { name: agent, in: query, schema: { type: string } }
-        - { name: agentId, in: query, schema: { type: string } }
         - { name: model, in: query, schema: { type: string } }
         - { name: apiKey, in: query, schema: { type: string } }
         - { name: apiKey64, in: query, schema: { type: string } }
@@ -663,153 +607,33 @@ paths:
         - { name: prompt64, in: query, schema: { type: string } }
         - { name: system, in: query, schema: { type: string } }
         - { name: system64, in: query, schema: { type: string } }
-        - { name: taskId, in: query, schema: { type: string } }
-        - { name: title, in: query, schema: { type: string } }
-        - { name: outputDir, in: query, schema: { type: string } }
-        - { name: fileName, in: query, schema: { type: string } }
-        - { name: summaryAgentId, in: query, schema: { type: string } }
-        - { name: summaryFileName, in: query, schema: { type: string } }
-        - { name: parentTaskId, in: query, schema: { type: string } }
-        - { name: rootTaskId, in: query, schema: { type: string } }
-        - { name: taskKind, in: query, schema: { type: string } }
-        - { name: treeId, in: query, schema: { type: string } }
-        - { name: nodeId, in: query, schema: { type: string } }
-        - { name: outputId, in: query, schema: { type: string } }
-        - { name: outputRef, in: query, schema: { type: string } }
-        - { name: resultId, in: query, schema: { type: string } }
-        - { name: resultRef, in: query, schema: { type: string } }
-        - { name: jobId, in: query, schema: { type: string } }
-        - { name: stream, in: query, schema: { type: string } }
-        - { name: missionId, in: query, schema: { type: string } }
-        - { name: definitionOfDone, in: query, schema: { type: string } }
-        - { name: step, in: query, schema: { type: string } }
-        - { name: stageTitle, in: query, schema: { type: string } }
-        - { name: brainstorm, in: query, schema: { type: string } }
-        - { name: plan, in: query, schema: { type: string } }
-        - { name: planned, in: query, schema: { type: string } }
-        - { name: actual, in: query, schema: { type: string } }
-        - { name: delta, in: query, schema: { type: string } }
-        - { name: filesToTouch, in: query, schema: { type: string } }
-        - { name: whyEachFile, in: query, schema: { type: string } }
-        - { name: chunks, in: query, schema: { type: string } }
-        - { name: chunkId, in: query, schema: { type: string } }
-        - { name: chunkTitle, in: query, schema: { type: string } }
-        - { name: tests, in: query, schema: { type: string } }
-        - { name: testsRun, in: query, schema: { type: string } }
-        - { name: risks, in: query, schema: { type: string } }
-        - { name: evidence, in: query, schema: { type: string } }
-        - { name: filesTouched, in: query, schema: { type: string } }
-        - { name: touchedFiles, in: query, schema: { type: string } }
-        - { name: pendingNextAction, in: query, schema: { type: string } }
-        - { name: nextAction, in: query, schema: { type: string } }
-        - { name: resumeInstruction, in: query, schema: { type: string } }
-        - { name: stateId, in: query, schema: { type: string } }
-        - { name: nextStep, in: query, schema: { type: string } }
-        - { name: focus, in: query, schema: { type: string } }
-        - { name: families, in: query, schema: { type: string } }
-        - { name: family, in: query, schema: { type: string } }
-        - { name: add, in: query, schema: { type: string } }
-        - { name: items, in: query, schema: { type: string } }
-        - { name: groupBy, in: query, schema: { type: string } }
-        - { name: filter, in: query, schema: { type: string } }
-        - { name: q, in: query, schema: { type: string } }
-        - { name: why, in: query, schema: { type: string } }
-        - { name: projectRoot, in: query, schema: { type: string } }
-        - { name: directory, in: query, schema: { type: string } }
-        - { name: logicalAgentId, in: query, schema: { type: string } }
-        - { name: agentSessionId, in: query, schema: { type: string } }
-        - { name: agentName, in: query, schema: { type: string } }
-        - { name: role, in: query, schema: { type: string } }
-        - { name: capabilities, in: query, schema: { type: string } }
-        - { name: fromAgent, in: query, schema: { type: string } }
-        - { name: toAgent, in: query, schema: { type: string } }
-        - { name: subject, in: query, schema: { type: string } }
-        - { name: references, in: query, schema: { type: string } }
-        - { name: delegationId, in: query, schema: { type: string } }
-        - { name: claimId, in: query, schema: { type: string } }
-        - { name: currentAction, in: query, schema: { type: string } }
-        - { name: currentStep, in: query, schema: { type: string } }
-        - { name: messageId, in: query, schema: { type: string } }
-        - { name: userMessageId, in: query, schema: { type: string } }
-        - { name: response, in: query, schema: { type: string } }
-        - { name: allowContinuePhrases, in: query, schema: { type: string } }
-        - { name: phrases, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
-        - { name: offsetBytes, in: query, schema: { type: integer, default: 0 } }
-        - { name: maxBytes, in: query, schema: { type: integer, default: 24000 } }
         - { name: maxFiles, in: query, schema: { type: integer, default: 5 } }
-        - { name: maxResults, in: query, schema: { type: integer, default: 80 } }
-        - { name: page, in: query, schema: { type: integer, default: 1 } }
-        - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
-        - { name: cursor, in: query, schema: { type: integer, default: 0 } }
-        - { name: nextCursor, in: query, schema: { type: integer } }
-        - { name: maxInlineBytes, in: query, schema: { type: integer, default: 12000 } }
-        - { name: maxInlineChars, in: query, schema: { type: integer, default: 12000 } }
-        - { name: pageChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: depth, in: query, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, schema: { type: integer, default: 150 } }
         - { name: timeoutMs, in: query, schema: { type: integer, default: 240000 } }
-        - { name: maxText, in: query, schema: { type: integer, default: 4000 } }
-        - { name: maxSteps, in: query, schema: { type: integer, default: 50 } }
-        - { name: maxIterations, in: query, schema: { type: integer, default: 20 } }
-        - { name: budgetPerutas, in: query, schema: { type: integer } }
-        - { name: budget, in: query, schema: { type: integer } }
-        - { name: maxPerutas, in: query, schema: { type: integer } }
-        - { name: estimatedPerutas, in: query, schema: { type: integer } }
-        - { name: ttlSeconds, in: query, schema: { type: integer } }
+        - { name: page, in: query, schema: { type: integer, default: 1 } }
+        - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
-        - { name: chromePort, in: query, schema: { type: integer, default: 9222 } }
-        - { name: waitMs, in: query, schema: { type: integer, default: 800 } }
-        - { name: pollMs, in: query, schema: { type: integer, default: 1000 } }
-        - { name: settleMs, in: query, schema: { type: integer, default: 2500 } }
-        - { name: startupWaitMs, in: query, schema: { type: integer, default: 1200 } }
-        - { name: maxDepth, in: query, schema: { type: integer, default: 3 } }
-        - { name: maxChildrenPerTask, in: query, schema: { type: integer, default: 8 } }
-        - { name: maxTotalTasks, in: query, schema: { type: integer, default: 80 } }
         - { name: pollIntervalMs, in: query, schema: { type: integer, default: 7000 } }
-        - { name: promotionCycles, in: query, schema: { type: integer, default: 7 } }
-        - { name: agentCycles, in: query, schema: { type: integer, default: 8 } }
-        - { name: chapterCycles, in: query, schema: { type: integer, default: 8 } }
-        - { name: providerTimeoutMs, in: query, schema: { type: integer, default: 45000 } }
         - { name: leaseMs, in: query, schema: { type: integer, default: 3600000 } }
-        - { name: staleMs, in: query, schema: { type: integer, default: 900000 } }
-        - { name: checkSyntax, in: query, schema: { type: boolean, default: true } }
-        - { name: runtimeCheck, in: query, schema: { type: boolean, default: false } }
+        - { name: allowWrite, in: query, schema: { type: boolean } }
+        - { name: allowCommands, in: query, schema: { type: boolean } }
+        - { name: allowSecrets, in: query, schema: { type: boolean } }
+        - { name: enableLocalHttpProxy, in: query, schema: { type: boolean } }
         - { name: regex, in: query, schema: { type: boolean, default: false } }
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
         - { name: dryRun, in: query, schema: { type: boolean, default: true } }
         - { name: confirm, in: query, schema: { type: boolean, default: false } }
-        - { name: includeDirs, in: query, schema: { type: boolean, default: false } }
-        - { name: write, in: query, schema: { type: boolean, default: false } }
-        - { name: snapshot, in: query, schema: { type: boolean, default: true } }
-        - { name: headless, in: query, schema: { type: boolean, default: false } }
-        - { name: fullPage, in: query, schema: { type: boolean, default: true } }
-        - { name: allowWrite, in: query, schema: { type: boolean } }
-        - { name: allowSecrets, in: query, schema: { type: boolean } }
-        - { name: enableLocalHttpProxy, in: query, schema: { type: boolean } }
-        - { name: allowCommands, in: query, schema: { type: boolean } }
         - { name: stream, in: query, schema: { type: boolean } }
-        - { name: async, in: query, schema: { type: boolean } }
-        - { name: asyncCommand, in: query, schema: { type: boolean } }
-        - { name: background, in: query, schema: { type: boolean } }
         - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
-        - { name: allowRecursiveSpawn, in: query, schema: { type: boolean, default: true } }
-        - { name: continueCurrent, in: query, schema: { type: boolean, default: false } }
-        - { name: open, in: query, schema: { type: boolean, default: false } }
-        - { name: wait, in: query, schema: { type: boolean, default: false } }
-        - { name: optional, in: query, schema: { type: boolean, default: false } }
-        - { name: required, in: query, schema: { type: boolean, default: true } }
-        - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
-        - { name: readBeforeWrite, in: query, schema: { type: boolean, default: true } }
-        - { name: fullRewriteRequired, in: query, schema: { type: boolean, default: true } }
-        - { name: requiresResponse, in: query, schema: { type: boolean, default: false } }
-        - { name: allowContinue, in: query, schema: { type: boolean, default: false } }
         - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }
+        - { name: allowContinue, in: query, schema: { type: boolean, default: false } }
       responses:
-        "200": { description: OK. Inspect aiGuidance; when aiGuidance.keepGoing is true or work remains, continue with the next safe action or finishAndContinue instead of asking the user to continue., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+        "200": { description: OK. Read responseFocus first. If multipleChoiceSelfInterrogation exists, answer it before any unrelated action., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:
     get:
       operationId: awtsmoosPreviewProxy
@@ -819,7 +643,6 @@ paths:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
         - { name: url, in: query, schema: { type: string } }
         - { name: maxChars, in: query, schema: { type: integer, default: 500000 } }
-        - { name: timeoutMs, in: query, schema: { type: integer, default: 30000 } }
       responses:
         "200": { description: Preview response body }
 components:
@@ -829,37 +652,18 @@ components:
       additionalProperties: true
       properties:
         ok: { type: boolean }
-        BH: { type: string }
         error: { type: string }
-        message: { type: string }
-        outputId: { type: string }
-        outputRef: { type: string }
+        action: { type: string }
         jobId: { type: string }
-        statusPayload: { type: object, additionalProperties: true }
-        stdoutPagePayload: { type: object, additionalProperties: true }
-        stderrPagePayload: { type: object, additionalProperties: true }
-        nextRequest: { type: object, additionalProperties: true }
-        nextPagePayload: { type: object, additionalProperties: true }
-        nextStdoutPagePayload: { type: object, additionalProperties: true }
-        nextStderrPagePayload: { type: object, additionalProperties: true }
-        nextScanRequest: { type: object, additionalProperties: true }
-        finalAnswerAllowed: { type: boolean, description: False means the agent must not send a final answer yet. }
-        mustContinue: { type: boolean, description: True means answer multipleChoiceSelfInterrogation and call mustCallNext or finishAndContinue. }
-        mustCallNext: { type: object, additionalProperties: true, description: Next action payload the agent should call instead of asking the user to continue. Step protocol actions return missionStepPlan, missionFilesToTouch, missionStepExecute, missionStepReview, missionStepDelta, missionExpand, missionRefrigerate, missionThaw, or missionNextPlan here. }
-        multipleChoiceSelfInterrogation: { type: object, additionalProperties: true, description: Forced self-question with A/B/C/D choices; choose B when safe autonomous work remains. }
-        blockerProofRequired: { type: object, additionalProperties: true, description: Required proof before asking the user. }
-        stopRule: { type: string }
-        aiGuidance: { type: object, additionalProperties: true, description: Read this after every action. If keepGoing/hardAutonomy or mustContinue is true, answer the forced self-interrogation and continue; do not ask the user unless blocked with proof. }
-        stepPlan: { type: object, additionalProperties: true, description: Durable mission step/chunk plan containing id, missionId, step, stageTitle, brainstorm, plan, chunks, planned, actual, delta, createdAt, updatedAt. }
-        chunk: { type: object, additionalProperties: true, description: Planned chunk with filesToTouch, whyEachFile, readBeforeWrite=true, fullRewriteRequired=true, tests, risks, and status. }
-        gate: { type: object, additionalProperties: true, description: Required pre-execution gates such as readBeforeWrite and fullRewriteRequired. }
-        review: { type: object, additionalProperties: true, description: Actual-vs-planned step review, missing reads, missing rewrites, missing tests, and missing file work. }
-        finalInstruction:
-          type: object
-          additionalProperties: true
-          properties:
-            role: { type: string }
-            content: { type: string }
+        content: { type: string }
+        responseFocus: { type: object, additionalProperties: true }
+        awtsmoosNext: { type: object, additionalProperties: true }
+        multipleChoiceSelfInterrogation: { type: object, additionalProperties: true }
+        allCapsPrompt: { type: string }
+        acceptedAnswerFormat: { type: string }
+        mustContinue: { type: boolean }
+        mustCallNext: { type: object, additionalProperties: true }
+        finalAnswerAllowed: { type: boolean }
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -869,8 +673,8 @@ components:
           tokenUrl: https://awtsmoos.com/api/oauth/token
           scopes:
             profile: Basic identity access.
-            tunnel.read: Read tunnel state and Virtual OS content.
-            tunnel.write: Modify files in authorized local or Virtual OS roots.
-            tunnel.command: Execute command-class diagnostics where permitted.
-            tunnel.browser: Browser automation where permitted.
+            tunnel.read: Read tunnel state.
+            tunnel.write: Modify authorized files.
+            tunnel.command: Execute command diagnostics.
+            tunnel.browser: Browser automation.
             tunnel.admin: Administrative tunnel operations.

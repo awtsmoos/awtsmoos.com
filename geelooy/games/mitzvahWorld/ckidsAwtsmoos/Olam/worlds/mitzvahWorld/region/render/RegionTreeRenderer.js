@@ -1,36 +1,20 @@
 // B"H
-/** @file RegionTreeRenderer.js @description Region forest delegates only to bbox-grounded procedural-core tree API. */
+/** @file RegionTreeRenderer.js @description More forest through rings: detailed near, simple mid, far silhouettes. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { rand } from "./RegionRandom.js";
 import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
 import { sealRegionVisual } from "./RegionSeal.js";
 import { groundY } from "./RegionGround.js";
 import { regionMaterial } from "./RegionMaterials.js?v=ping-pong-crisp-textures-20260622-bh1";
-function reportTrees(report) { return report && report.instances && Array.isArray(report.instances.trees) ? report.instances.trees : []; }
-function fallbackSpecs(count) { return Array.from({ length:count }, (_, i) => { const a=i*2.399963, r=120+rand(i,1)*118; return { x:-70+Math.cos(a)*r, z:32+Math.sin(a)*r*.62, kind:i%7===0?"apple":i%5===0?"pine":"oak", age:i%11===0?"ancient":"mature" }; }); }
-function optionsFromSpec(spec, index) { return { ...spec, name:`advanced_region_tree_${spec.kind || "oak"}_${index}`, rotationY:rand(index,10)*Math.PI*2, scale:spec.age === "ancient" ? 1.12 : .82 + rand(index,11)*.34 }; }
-function makeLayer(name, geometry, material, count) { const mesh = new THREE.InstancedMesh(geometry, material, count); mesh.name = name; mesh.castShadow = false; mesh.receiveShadow = true; Object.assign(mesh.userData ||= {}, { instancedForestPart:true, visualOnly:true, skipOctree:true, noOctree:true }); return mesh; }
-function place(dummy, mesh, i, x, y, z, sx, sy, sz, yaw = 0) { dummy.position.set(x, y, z); dummy.rotation.set(0, yaw, 0); dummy.scale.set(sx, sy, sz); dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix); }
-export function buildTreeRenderer(olam, report = {}) {
-  const fromReport = reportTrees(report), specs = fromReport.length ? fromReport : fallbackSpecs(144), count = Math.min(budgetedQualityCount(olam, specs.length, "treeDistance", 144), 144);
-  const root = new THREE.Group(); root.name = "living_region_procedural_core_tree_forest";
-  const trunk = makeLayer("instanced_textured_tree_trunks", new THREE.CylinderGeometry(.22, .36, 1, 7), regionMaterial("barkOak", { simple:true }), count);
-  const canopy = makeLayer("instanced_pingpong_leaf_canopy_masses", new THREE.IcosahedronGeometry(1, 1), regionMaterial("leaf", { simple:true }), count * 3);
-  const accent = makeLayer("instanced_leaf_distribution_accents", new THREE.IcosahedronGeometry(1, 0), regionMaterial("mossPatch", { simple:true }), count * 2);
-  const dummy = new THREE.Object3D(), colliders = [];
-  for (let i=0; i<count; i++) {
-    const spec = optionsFromSpec(specs[i % specs.length], i), x = Number(spec.x) || 0, z = Number(spec.z) || 0, y = groundY(olam, x, z), s = Number(spec.scale) || 1, h = 4.4 * s, yaw = spec.rotationY || 0;
-    place(dummy, trunk, i, x, y + h * .36, z, .55 * s, h, .55 * s, yaw);
-    place(dummy, canopy, i * 3, x, y + h * .92, z, 1.8 * s, 1.18 * s, 1.55 * s, yaw);
-    place(dummy, canopy, i * 3 + 1, x - .58 * s, y + h * .78, z + .18 * s, 1.24 * s, .82 * s, 1.1 * s, yaw + .8);
-    place(dummy, canopy, i * 3 + 2, x + .52 * s, y + h * .84, z - .32 * s, 1.16 * s, .76 * s, 1.04 * s, yaw - .7);
-    place(dummy, accent, i * 2, x - .28 * s, y + h * 1.08, z - .18 * s, .72 * s, .38 * s, .62 * s, yaw + 1.6);
-    place(dummy, accent, i * 2 + 1, x + .34 * s, y + h * .7, z + .42 * s, .56 * s, .32 * s, .5 * s, yaw - 1.2);
-    colliders.push({ id:`tree_trunk_${i}`, category:"tree-trunk", owner:spec.name, position:[x, y + h * .36, z], size:[.62 * s, h, .62 * s], yaw:0, exactTrunk:true });
-  }
-  trunk.instanceMatrix.needsUpdate = canopy.instanceMatrix.needsUpdate = accent.instanceMatrix.needsUpdate = true;
-  root.add(trunk, canopy, accent);
-  root.userData.colliderSources = colliders;
-  root.userData.stats = { trees:count, instancedForest:true, drawCalls:3, canopyClusters:count * 3, leafAccents:count * 2, bboxGroundedTrees:true, colliderSources:colliders.length, performanceBudget:"full-forest-instanced-wow-gameplay" };
-  return sealRegionVisual(root, { instancedForest:true, proceduralCoreTrees:true, bboxGroundedTrees:true });
-}
+const ANCHORS=Object.freeze([[18,28,"olive","mature"],[-34,42,"oak","mature"],[46,-18,"apple","mature"],[-62,-24,"oak","ancient"],[84,64,"pine","mature"],[118,86,"oak","mature"],[-96,18,"apple","mature"],[22,96,"willow","mature"],[-128,72,"oak","ancient"],[146,26,"pine","mature"],[72,-72,"apple","mature"],[-42,-86,"olive","mature"]]);
+function reportTrees(r){return r?.instances&&Array.isArray(r.instances.trees)?r.instances.trees:[];} function fallback(n){return Array.from({length:n},(_,i)=>{const a=i*2.399963,r=48+Math.sqrt(rand(i,1))*260;return{x:-25+Math.cos(a)*r,z:32+Math.sin(a)*r*.72,kind:i%7===0?'apple':i%5===0?'pine':'oak',age:i%13===0?'ancient':'mature'};});}
+function specs(report){return [...ANCHORS.map((a,i)=>({x:a[0],z:a[1],kind:a[2],age:a[3],name:`starter_visible_tree_${i}`,starterAnchor:true})),...(reportTrees(report).length?reportTrees(report):fallback(520))];}
+function layer(name,geo,mat,count){const m=new THREE.InstancedMesh(geo,mat,count);m.name=name;m.castShadow=false;m.receiveShadow=true;Object.assign(m.userData,{instancedForestPart:true,visualOnly:true,skipOctree:true,noOctree:true});return m;}
+function place(d,m,i,x,y,z,sx,sy,sz,yaw=0){d.position.set(x,y,z);d.rotation.set(0,yaw,0);d.scale.set(sx,sy,sz);d.updateMatrix();m.setMatrixAt(i,d.matrix);}
+function opt(s,i){return{...s,name:s.name||`lod_tree_${i}`,yaw:rand(i,9)*6.28,scale:s.age==='ancient'?1.22:.78+rand(i,10)*.52};}
+export function buildTreeRenderer(olam,report={}){const all=specs(report),near=Math.min(160,Math.max(96,budgetedQualityCount(olam,160,'treeDistance',160))),mid=220,far=420,root=new THREE.Group();root.name='living_region_many_tree_lod_forest'; const d=new THREE.Object3D(),colliders=[];
+ const trunk=layer('near_instanced_textured_trunks',new THREE.CylinderGeometry(.22,.36,1,7),regionMaterial('barkOak',{simple:true}),near); const canopy=layer('near_instanced_leaf_canopy_heads',new THREE.IcosahedronGeometry(1,1),regionMaterial('leaf',{simple:true}),near*3); const accent=layer('near_instanced_leaf_accent_heads',new THREE.IcosahedronGeometry(1,0),regionMaterial('mossPatch',{simple:true}),near*2);
+ const midCanopy=layer('mid_lod_forest_canopy_clouds',new THREE.IcosahedronGeometry(1,0),regionMaterial('leaf',{simple:true}),mid); const farTrunk=layer('far_lod_tree_silhouette_posts',new THREE.CylinderGeometry(.18,.24,1,5),regionMaterial('barkOak',{simple:true}),far);
+ for(let i=0;i<near;i++){const s=opt(all[i%all.length],i),x=+s.x||0,z=+s.z||0,y=groundY(olam,x,z),q=s.scale,h=4.2*q;place(d,trunk,i,x,y+h*.36,z,.52*q,h,.52*q,s.yaw);place(d,canopy,i*3,x,y+h*.94,z,1.75*q,1.16*q,1.5*q,s.yaw);place(d,canopy,i*3+1,x-.58*q,y+h*.8,z+.2*q,1.18*q,.78*q,1.04*q,s.yaw+.8);place(d,canopy,i*3+2,x+.54*q,y+h*.86,z-.32*q,1.08*q,.72*q,.98*q,s.yaw-.7);place(d,accent,i*2,x-.28*q,y+h*1.08,z-.18*q,.68*q,.34*q,.58*q,s.yaw+1.6);place(d,accent,i*2+1,x+.34*q,y+h*.7,z+.42*q,.52*q,.3*q,.46*q,s.yaw-1.2);colliders.push({id:`tree_trunk_${i}`,category:'tree-trunk',owner:s.name,position:[x,y+h*.36,z],size:[.58*q,h,.58*q],exactTrunk:true,starterAnchor:!!s.starterAnchor});}
+ for(let i=0;i<mid;i++){const s=opt(all[(i+near)%all.length],i+near),x=+s.x||0,z=+s.z||0,y=groundY(olam,x,z),q=s.scale*.95;place(d,midCanopy,i,x,y+3.8*q,z,2.2*q,1.5*q,1.9*q,s.yaw);} for(let i=0;i<far;i++){const s=opt(all[(i+near+mid)%all.length],i+near+mid),x=+s.x||0,z=+s.z||0,y=groundY(olam,x,z),q=s.scale*.8;place(d,farTrunk,i,x,y+1.9*q,z,.42*q,3.8*q,.42*q,s.yaw);}
+ [trunk,canopy,accent,midCanopy,farTrunk].forEach(m=>m.instanceMatrix.needsUpdate=true); root.add(trunk,canopy,accent,midCanopy,farTrunk); root.userData.colliderSources=colliders; root.userData.stats={trees:near+mid+far,nearTrees:near,midTrees:mid,farTrees:far,visibleMinimum:near,starterAnchorTrees:ANCHORS.length,drawCalls:5,lodForest:true,moreTrees:true,smartLOD:true,colliderSources:colliders.length}; return sealRegionVisual(root,{instancedForest:true,manyTrees:true,smartLOD:true,bboxGroundedTrees:true});}

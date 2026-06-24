@@ -1,62 +1,21 @@
 /* B"H */
 /**
  * B"H
- * Chapter 56: Mission rooms stopped overlapping their own speech.
+ * Chapter 64: Mission Rooms ignited into a contained command reactor.
  */
-.awt-room-layout {
-  display: grid;
-  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
-  gap: 12px;
-  min-height: 560px;
-}
-.awt-room-list {
-  display: grid;
-  gap: 8px;
-  align-content: start;
-  max-height: 680px;
-  overflow: auto;
-  scrollbar-gutter: stable;
-}
-.awt-room-item {
-  width: 100%;
-  display: grid;
-  gap: 3px;
-  text-align: left;
-}
-.awt-room-item.is-active {
-  border-color: var(--awt-line-hot);
-  outline: 2px solid rgba(94, 220, 255, .14);
-}
-.awt-room-item :where(strong, small),
-.awt-room-header { overflow-wrap: anywhere; }
-.awt-room-item :where(small),
-.awt-room-message :where(small) { color: var(--awt-muted); }
-.awt-room-main { display: grid; grid-template-rows: auto minmax(260px, 1fr) auto; }
-.awt-room-header {
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--awt-line-soft);
-  font-weight: 850;
-}
-.awt-room-messages {
-  min-height: 260px;
-  max-height: 520px;
-  display: grid;
-  align-content: start;
-  gap: 8px;
-  overflow: auto;
-  padding-right: 2px;
-}
-.awt-room-message {
-  display: grid;
-  gap: 4px;
-  padding: 10px;
-  border: 1px solid var(--awt-line-soft);
-  border-radius: var(--awt-radius-2);
-  background: rgba(255, 255, 255, .04);
-}
-.awt-room-message.is-user {
-  border-color: rgba(94, 220, 255, .30);
-  background: rgba(94, 220, 255, .10);
-}
+.awt-room-console { height: 100%; min-height: 0; grid-template-rows: auto auto minmax(0, 1fr) auto; overflow: hidden; }
+.awt-room-console .page-head h2 { color: #effff1; letter-spacing: -.055em; text-shadow: 0 0 30px rgba(65,255,131,.44); }
+.awt-room-layout { min-height: 0; height: 100%; display: grid; grid-template-columns: minmax(210px, 285px) minmax(0, 1fr); gap: 12px; overflow: hidden; }
+.awt-room-list { display: grid; gap: 8px; align-content: start; max-height: 100%; overflow: auto; scrollbar-gutter: stable; }
+.awt-room-list.panel, .awt-room-main.panel { border-color: rgba(105,255,157,.34); background: linear-gradient(90deg, rgba(125,255,166,.035) 1px, transparent 1px), linear-gradient(rgba(125,255,166,.03) 1px, transparent 1px), linear-gradient(160deg, rgba(0,70,36,.78), rgba(0,12,6,.92)); background-size: 26px 26px, 26px 26px, auto; box-shadow: inset 0 0 46px rgba(54,255,124,.08), 0 0 40px rgba(42,255,116,.12); }
+.awt-room-item { width: 100%; display: grid; gap: 3px; text-align: left; border-color: rgba(102,255,155,.24); background: rgba(0,0,0,.20); box-shadow: inset 0 0 18px rgba(69,255,132,.04); }
+.awt-room-item.is-active { border-color: rgba(196,255,212,.90); outline: 2px solid rgba(94,255,160,.24); box-shadow: 0 0 34px rgba(60,255,126,.24), inset 0 0 24px rgba(96,255,151,.07); }
+.awt-room-item :where(strong, small), .awt-room-header { overflow-wrap: anywhere; }
+.awt-room-item :where(small), .awt-room-message :where(small) { color: rgba(226,255,234,.70); }
+.awt-room-main { min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+.awt-room-header { padding-bottom: 8px; border-bottom: 1px solid rgba(94,255,160,.26); color: #effff1; font-weight: 950; letter-spacing: .035em; text-transform: uppercase; }
+.awt-room-messages { min-height: 0; display: grid; align-content: start; gap: 8px; overflow: auto; padding-right: 2px; }
+.awt-room-message { display: grid; gap: 4px; padding: 10px; border: 1px solid rgba(94,255,160,.22); border-radius: var(--awt-radius-2); background: rgba(2,48,27,.60); box-shadow: inset 0 0 24px rgba(78,255,139,.055); }
+.awt-room-message.is-user { border-color: rgba(153,255,188,.56); background: rgba(31,255,116,.15); box-shadow: 0 0 24px rgba(50,255,126,.08); }
 .awt-room-message :where(p) { margin: 0; overflow-wrap: anywhere; }
-@media (max-width: 860px) { .awt-room-layout { grid-template-columns: 1fr; } }
+@media (max-width: 860px) { .awt-room-layout { grid-template-columns: 1fr; } .awt-room-list { max-height: 34vh; } }

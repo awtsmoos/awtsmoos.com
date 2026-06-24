@@ -1,23 +1,4 @@
-/**
- * B"H
- * Chapter 32: The Chossid Walked Where Time Whispered.
- */
-
-export class NpcScheduleRuntime {
-  constructor(schedules = {}) {
-    this.schedules = schedules;
-  }
-
-  activity(npcId, phase) {
-    const schedule = this.schedules[npcId] || {};
-    return schedule[phase] || schedule.default || { action: 'stand', place: 'street' };
-  }
-
-  apply(npc, phase) {
-    const plan = this.activity(npc.id || npc.name, phase);
-    npc.userData = { ...(npc.userData || {}), currentActivity: plan.action, targetPlace: plan.place };
-    return plan;
-  }
-}
-
+// B"H
+/** @file NpcScheduleRuntime.js @description NPCs live by phase: learn, work, eat, pray, prepare, sleep. */
+export class NpcScheduleRuntime { constructor(schedules={}){ this.schedules=schedules; } phaseFor(clock={phase:"morning"}){ return clock.phase || "morning"; } activity(npcId,phase){ const s=this.schedules[npcId]||{}; return s[phase] || s.default || { action:phase==="night"?"sleep":"walk", place:phase==="morning"?"beis_midrash":"street" }; } apply(npc,phaseOrClock){ const phase=typeof phaseOrClock==="string"?phaseOrClock:this.phaseFor(phaseOrClock); const plan=this.activity(npc.id||npc.name,phase); npc.userData={ ...(npc.userData||{}), currentActivity:plan.action, targetPlace:plan.place, schedulePhase:phase, updateHz:phase==="night"?1:4 }; return plan; } }
 export default NpcScheduleRuntime;

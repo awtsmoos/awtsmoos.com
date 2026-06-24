@@ -1,21 +1,4 @@
-/* B"H
-Mp4Exporter: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createMp4Exporter(input = {}) {
-  return {
-    id: input.id || `mp4exporter-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'Mp4Exporter',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeMp4Exporter(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateMp4Exporter(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createMp4Exporter(input = {}) { return { kind:'Mp4Exporter', extension:'mp4', mime:'video/mp4', videoCodec:input.videoCodec || 'avc1.42E01F', audioCodec:input.audioCodec || 'mp4a.40.2', fastStart:input.fastStart ?? true }; }
+export function describeMp4Artifact(job, bytes = 0) { return { kind:'mp4', name:`${safe(job.name)}.mp4`, mime:'video/mp4', bytes, status:'descriptor-only' }; }
+function safe(name='export') { return String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'export'; }

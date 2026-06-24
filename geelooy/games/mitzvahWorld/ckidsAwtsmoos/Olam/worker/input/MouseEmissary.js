@@ -1,104 +1,13 @@
-
+// B"H
 /**
- * @file MouseEmissary.js
- * @description
- * ╔══════════════════════════════════════════════════════════════════════════════╗
- * ║  CHAPTER 3: THE COMPASS OF THE GAZE — TIKKUN OF THE INVISIBLE BARRIER     ║
- * ║                                                                              ║
- * ║  "His eyes roam over the whole earth..." (Divrei HaYamim II 16:9)          ║
- * ║                                                                              ║
- * ║  The mouse is the guiding hand of the soul in the digital realm.           ║
- * ║  Every motion, every click, every scroll of the wheel is a decree           ║
- * ║  from the player — a directive that must reach the Worker (the Oyved)      ║
- * ║  WITHOUT interference from the UI Garments layered above.                  ║
- * ║                                                                              ║
- * ║  B"H UPDATE: By breaking the UI distinction filter, grabbing and looking    ║
- * ║  works smoothly under ANY state, effectively turning the user intention    ║
- * ║  towards multiple vessels equally and successfully.                        ║
- * ╚══════════════════════════════════════════════════════════════════════════════╝
- *
- * @module MouseEmissary
+ * MouseEmissary: the gaze crosses the worker boundary only as fast as frames can breathe.
+ * Clicks remain immediate; motion is coalesced so realism never becomes input stampede.
  */
 import SefiraOfInput from './SefiraOfInput.js?v=npc-scroll-pass-through-20260609-bh638';
- 
-export default class MouseEmissary {
- 
-    /**
-     * @method bind
-     * @description
-     * Binds all mouse events on the window and routes them to the worker.
-     * @param {Worker} worker - The Oyved (laboring worker thread).
-     * @returns {void}
-     */
-    static bind(worker) {
-        let isLeftDown = false;
-        let isRightDown = false;
- 
-        // ───────────────────────────────────────────────────────
-        // MOUSEDOWN — Send to worker universally without boundaries
-        // ───────────────────────────────────────────────────────
-        window.addEventListener('mousedown', (e) => {
-            const isUI = SefiraOfInput.isUI(e.target); // Resolves seamlessly to false!
-            if (isUI) return;
- 
-            // Track left/right button state for camera drag ALL THE TIME. 
-            // The veil of the UI no longer hides the eyes!
-            if (e.button === 0) isLeftDown = true;
-            if (e.button === 2) isRightDown = true;
- 
-            worker.postMessage({
-                mousedown: SefiraOfInput.cleanseEvent(e)
-            });
-        });
- 
-        // ───────────────────────────────────────────────────────
-        // MOUSEUP — Always relay, reset drag state
-        // ───────────────────────────────────────────────────────
-        window.addEventListener('mouseup', (e) => {
-            isLeftDown = false;
-            isRightDown = false;
-            worker.postMessage({
-                mouseup: SefiraOfInput.cleanseEvent(e)
-            });
-        });
- 
-        // ───────────────────────────────────────────────────────
-        // MOUSEMOVE — Relay always; universally transmit camera Drag when anchored
-        // ───────────────────────────────────────────────────────
-        window.addEventListener('mousemove', (e) => {
-            const data = SefiraOfInput.cleanseEvent(e);
- 
-            if (isLeftDown || isRightDown) {
-                worker.postMessage({
-                    cameraDrag: {
-                        dx: e.movementX || 0,
-                        dy: e.movementY || 0
-                    }
-                });
-            }
- 
-            worker.postMessage({ mousemove: data });
-        });
- 
-        // ───────────────────────────────────────────────────────
-        // WHEEL — ALWAYS send to worker, regardless of target.
-        // ───────────────────────────────────────────────────────
-        window.addEventListener('wheel', (e) => {
-            const isUI = SefiraOfInput.isUI(e.target);
-            if (isUI) return;
- 
-            // Prevent page scroll natively
-            if (e.cancelable) {
-                e.preventDefault();
-            }
- 
-            // ALWAYS forward the wheel event to the worker
-            worker.postMessage({
-                wheel: SefiraOfInput.cleanseEvent(e)
-            });
-        }, { passive: false });
- 
-        // B"H: silent
-
-    }
+const now=()=>performance?.now?.()||Date.now();
+function post(worker,payload){try{worker?.postMessage?.(payload);}catch(error){console.warn('B"H | MouseEmissary post failed',error);}}
+function makeMotionFlush(worker){let scheduled=false,lastMove=null,drag={dx:0,dy:0,active:false};function flush(){scheduled=false;if(drag.active){post(worker,{cameraDrag:{dx:drag.dx,dy:drag.dy}});drag={dx:0,dy:0,active:false};}if(lastMove){post(worker,{mousemove:lastMove});lastMove=null;}}return function queue(e,isDragging){lastMove=SefiraOfInput.cleanseEvent(e);if(isDragging){drag.dx+=e.movementX||0;drag.dy+=e.movementY||0;drag.active=true;}if(!scheduled){scheduled=true;requestAnimationFrame(flush);}};}
+export default class MouseEmissary{
+  static bind(worker){let isLeftDown=false,isRightDown=false,lastDownAt=0,lastDownButton=null;const queueMotion=makeMotionFlush(worker);window.addEventListener('mousedown',e=>{if(SefiraOfInput.isUI(e.target))return;const at=now();if(e.button===lastDownButton&&at-lastDownAt<32)return;lastDownAt=at;lastDownButton=e.button;if(e.button===0)isLeftDown=true;if(e.button===2)isRightDown=true;post(worker,{mousedown:SefiraOfInput.cleanseEvent(e)});},{passive:true});window.addEventListener('mouseup',e=>{isLeftDown=false;isRightDown=false;post(worker,{mouseup:SefiraOfInput.cleanseEvent(e)});},{passive:true});window.addEventListener('mousemove',e=>{queueMotion(e,isLeftDown||isRightDown);},{passive:true});window.addEventListener('wheel',e=>{if(SefiraOfInput.isUI(e.target))return;if(e.cancelable)e.preventDefault();post(worker,{wheel:SefiraOfInput.cleanseEvent(e)});},{passive:false});}
 }
+

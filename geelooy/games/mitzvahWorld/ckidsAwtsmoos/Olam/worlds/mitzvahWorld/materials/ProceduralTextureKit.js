@@ -1,62 +1,16 @@
 // B"H
-/**
- * @file ProceduralTextureKit.js
- * @description Grain, veins, bark rings, stone flecks, cloth threads, flower
- * dust, fur softness, and now dense dirt strata. This keeps texture features;
- * it does not flatten the world into colors.
- */
+/** @file ProceduralTextureKit.js @description Tiny textures, vast illusion: mirrored repeat, macro stains, micro grain, mipmapped forever. */
 import * as THREE from "/games/scripts/build/three.module.js";
-const cache = new Map();
-const PALE = [238, 226, 199], PALE_GREEN = [134, 196, 86], PALE_BLUE = [126, 194, 222], PALE_GOLD = [255, 224, 92];
-const P = Object.freeze({ grass:[[22,64,20],[56,132,48],PALE_GREEN,[42,86,30]], leaf:[[28,76,25],[72,146,48],[154,214,86],[18,50,18]], dirt:[[42,27,15],[96,58,28],[184,124,62],[25,17,10]], stone:[[82,80,74],[146,140,126],[226,218,192],[96,96,92]], brick:[[72,30,24],[128,52,38],[190,82,54],[165,135,105]], wood:[[38,22,12],[86,48,22],[154,94,42],[56,32,16]], gold:[[96,62,10],[180,126,28],PALE_GOLD,[140,82,12]], fabric:[[72,66,54],[132,122,96],[224,210,166],[96,88,70]], flower:[[170,120,80],[232,210,130],[255,244,194],[210,170,100]], fur:[[92,72,48],[164,126,78],PALE,[52,36,24]], glass:[[78,130,146],[130,190,205],PALE_BLUE,[54,96,120]], water:[[42,110,146],[86,180,218],[170,230,245],[28,78,120]] });
-function keyName(value) { return String(value || "stone").toLowerCase(); }
-function kindFor(value) { const name = keyName(value); if (name.includes("grass")) return "grass"; if (name.includes("leaf") || name.includes("cabbage") || name.includes("onion") || name.includes("frog")) return "leaf"; if (name.includes("brick")) return "brick"; if (name.includes("wood") || name.includes("bark")) return "wood"; if (name.includes("gold")) return "gold"; if (name.includes("glass")) return "glass"; if (name.includes("water")) return "water"; if (name.includes("fur") || name.includes("feather")) return "fur"; if (name.includes("fabric") || name.includes("linen") || name.includes("cotton")) return "fabric"; if (name.includes("flower") || name.includes("petal") || name.includes("mushroom")) return "flower"; if (name.includes("dirt") || name.includes("earth") || name.includes("trail") || name.includes("skin") || name.includes("straw")) return "dirt"; return "stone"; }
-function speedMode() { return globalThis?.__AWTSMOOS_PERFORMANCE_MODE__?.budget?.seal === "speed-scene-budget-bh4"; }
-function textureSize(size, resolved) { return Number(size) || (resolved === "dirt" || resolved === "grass" || resolved === "leaf" ? 512 : 384); }
-function hash(x, y, s = 1) { const v = Math.sin(x * 12.9898 + y * 78.233 + s * 37.719) * 43758.5453; return v - Math.floor(v); }
-function clamp(v) { return Math.max(0, Math.min(255, v | 0)); }
-function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
-function noisy(c, amount) { return [clamp(c[0]+amount), clamp(c[1]+amount), clamp(c[2]+amount)]; }
-function dirtColor(x, y, size, p) {
-  const u = x / size, v = y / size;
-  const macro = hash(Math.floor(u * 18), Math.floor(v * 18), 22), micro = hash(x, y, 31), pebble = hash(Math.floor(x / 3), Math.floor(y / 3), 41);
-  const wagon = Math.abs(Math.sin(u * 26 + Math.sin(v * 11) * .9));
-  const stratum = Math.sin(v * 190 + hash(Math.floor(u * 16), 0, 9) * 3.4);
-  let color = mix(p[0], p[1], .2 + macro * .7);
-  color = mix(color, p[2], Math.max(0, stratum) * .16);
-  color = mix(color, p[3], (1 - wagon) * .18);
-  if (pebble > .94) color = mix(color, [210,165,105], .55);
-  if (pebble < .035) color = mix(color, [18,13,8], .62);
-  const grain = (micro - .5) * 48 + (hash(x, y, 72) > .82 ? 18 : 0);
-  return noisy(color, grain);
-}
-function patternedColor(kind, x, y, size) {
-  const u = x / size, v = y / size, p = P[kind] || P.stone;
-  if (kind === "dirt") return dirtColor(x, y, size, p);
-  const macro = hash(Math.floor(u * 12), Math.floor(v * 12), 2), micro = hash(x, y, 9), fiber = Math.sin(u * 70 + v * 11);
-  let color = mix(p[0], p[1], macro * .6 + micro * .3);
-  if (kind === "grass") color = mix(color, micro > .62 ? p[2] : p[3], .25 + Math.max(0, fiber) * .25);
-  if (kind === "wood") color = mix(color, p[2], Math.pow(.5 + .5 * fiber, 5) * .6);
-  if (kind === "leaf") color = mix(color, p[2], Math.pow(.5 + .5 * Math.sin((u - .5) * 90), 8) * .45);
-  if (kind === "water" || kind === "glass") color = mix(color, p[2], Math.pow(.5 + .5 * Math.sin((u + v) * 44), 6) * .5);
-  if (kind === "fur") color = mix(color, p[2], Math.pow(.5 + .5 * Math.sin(u * 96 + v * 14), 5) * .42);
-  if (kind === "brick" && (x % 48 < 3 || y % 28 < 3)) color = p[3];
-  const grain = (hash(x, y, 14) - .5) * 28;
-  return noisy(color, grain);
-}
-export function proceduralTexture(kind = "stone", size = 384) {
-  const resolved = kindFor(kind), key = resolved + ":" + size + ":grain2";
-  if (cache.has(key)) return cache.get(key);
-  const data = new Uint8Array(size * size * 4);
-  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) { const c = patternedColor(resolved, x, y, size), i = (y * size + x) * 4; data[i] = c[0]; data[i + 1] = c[1]; data[i + 2] = c[2]; data[i + 3] = 255; }
-  const tex = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
-  tex.wrapS = THREE.MirroredRepeatWrapping; tex.wrapT = THREE.MirroredRepeatWrapping; tex.repeat.set(resolved === "dirt" || resolved === "grass" ? 8 : 4, resolved === "dirt" || resolved === "grass" ? 8 : 4); tex.magFilter = THREE.LinearFilter; tex.minFilter = THREE.LinearMipmapLinearFilter; tex.generateMipmaps = true; tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 16; tex.needsUpdate = true; tex.userData.proceduralTextureKit = resolved; tex.userData.intenseGrain = resolved === "dirt"; tex.userData.pingPongRepeat = true;
-  cache.set(key, tex); return tex;
-}
-export function materialWithTexture(kind = "stone", options = {}) {
-  const side = options.side === undefined ? THREE.FrontSide : options.side, resolved = kindFor(kind);
-  const map = proceduralTexture(kind, textureSize(options.size, resolved));
-  map.anisotropy = Math.max(8, map.anisotropy || 1);
-  const mat = new THREE.MeshLambertMaterial({ color:0xffffff, map, side, transparent:Boolean(options.transparent), alphaTest:options.alphaTest || 0 });
-  mat.name = `awtsmoos_grainy_textured_${kind}`; mat.userData = { proceduralTextureKit:resolved, grainyNoise:true, intenseGrain:resolved === "dirt", noSolidColor:true }; return mat;
-}
+const cache=new Map();
+const P=Object.freeze({grass:[[12,38,13],[42,118,34],[132,205,82],[28,76,24],[190,225,118]],leaf:[[16,56,20],[54,132,42],[132,210,74],[22,70,24]],dirt:[[38,24,14],[102,62,30],[180,112,54],[24,16,10]],stone:[[70,70,68],[138,134,122],[220,214,194],[96,92,88]],wood:[[34,20,11],[92,50,22],[170,98,42],[55,32,16]],flower:[[155,88,142],[255,224,112],[255,245,210],[118,210,122]],fur:[[78,58,38],[158,118,74],[230,214,188],[44,30,20]],water:[[36,105,145],[74,176,222],[166,232,250],[22,72,118]],brick:[[70,28,22],[138,56,38],[198,88,58],[154,128,98]],fabric:[[66,60,50],[132,122,96],[224,210,166],[94,84,68]],gold:[[86,55,8],[184,128,28],[255,226,85],[138,82,12]]});
+function kindFor(v){const n=String(v||'stone').toLowerCase(); if(/grass|moss/.test(n))return'grass'; if(/leaf|cabbage|onion/.test(n))return'leaf'; if(/dirt|earth|trail|skin|straw/.test(n))return'dirt'; if(/wood|bark/.test(n))return'wood'; if(/flower|petal|mushroom/.test(n))return'flower'; if(/fur|feather|animal/.test(n))return'fur'; if(/water/.test(n))return'water'; if(/brick/.test(n))return'brick'; if(/fabric|linen|cotton/.test(n))return'fabric'; if(/gold/.test(n))return'gold'; return'stone';}
+const clamp=v=>Math.max(0,Math.min(255,v|0)); const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];
+function h(x,y,s=1){const v=Math.sin(x*12.9898+y*78.233+s*43.17)*43758.5453;return v-Math.floor(v);} function noise(c,a){return [clamp(c[0]+a),clamp(c[1]+a),clamp(c[2]+a)];}
+function cell(x,y,size,s){const u=x/size,v=y/size;return h(Math.floor(u*s),Math.floor(v*s),s);}
+function color(kind,x,y,size){const p=P[kind]||P.stone,u=x/size,v=y/size,macro=cell(x,y,size,11),micro=h(x,y,9),vein=Math.sin(u*88+v*19+h(Math.floor(v*20),0,5)*5);let c=mix(p[0],p[1],.18+macro*.64);
+ if(kind==='grass'){const blade=Math.max(Math.abs(Math.sin(u*140+macro*8)),Math.abs(Math.sin(v*91+micro*3))); c=mix(c,p[2],Math.pow(blade,7)*.5); c=mix(c,p[4]||p[2],cell(x,y,size,31)*.18);}
+ else if(kind==='dirt'){if(h(Math.floor(x/3),Math.floor(y/3),22)>.93)c=mix(c,p[2],.55); if(vein>.72)c=mix(c,p[3],.35);}
+ else if(kind==='wood'){c=mix(c,p[2],Math.pow(.5+.5*vein,5)*.65);} else if(kind==='leaf'){c=mix(c,p[2],Math.pow(.5+.5*vein,8)*.45);} else if(kind==='flower'){c=mix(c,p[2],Math.pow(.5+.5*Math.sin((u+v)*72),9)*.55);} else if(kind==='fur'){c=mix(c,p[2],Math.pow(.5+.5*vein,5)*.38);} else if(kind==='water'){c=mix(c,p[2],Math.pow(.5+.5*Math.sin((u+v)*46),6)*.55);} else if(kind==='brick'&&(x%44<3||y%26<3))c=p[3];
+ return noise(c,(micro-.5)*34);}
+export function proceduralTexture(kind='stone',size=0){const resolved=kindFor(kind),finalSize=Number(size)||(/grass|leaf|dirt/.test(resolved)?256:192),key=`${resolved}:${finalSize}:hyperrepeat5`; if(cache.has(key))return cache.get(key); const data=new Uint8Array(finalSize*finalSize*4); for(let y=0;y<finalSize;y++)for(let x=0;x<finalSize;x++){const c=color(resolved,x,y,finalSize),i=(y*finalSize+x)*4;data[i]=c[0];data[i+1]=c[1];data[i+2]=c[2];data[i+3]=255;} const t=new THREE.DataTexture(data,finalSize,finalSize,THREE.RGBAFormat); const rep={grass:56,dirt:28,leaf:22,flower:18,fur:12,water:16}[resolved]||10; t.wrapS=t.wrapT=THREE.MirroredRepeatWrapping; t.repeat.set(rep,rep); t.magFilter=THREE.LinearFilter; t.minFilter=THREE.LinearMipmapLinearFilter; t.generateMipmaps=true; t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=16; t.needsUpdate=true; t.userData={proceduralTextureKit:resolved,pingPongRepeat:true,hyperRepeat:true,smallTexture:true,nonPixelated:true,repeat:rep}; cache.set(key,t); return t;}
+export function materialWithTexture(kind='stone',options={}){const r=kindFor(kind),map=proceduralTexture(kind,options.size); const mat=new THREE.MeshLambertMaterial({color:0xffffff,map,side:options.side===undefined?THREE.FrontSide:options.side,transparent:!!options.transparent,alphaTest:options.alphaTest||0}); mat.name=`awtsmoos_hyperrepeat_${kind}`; mat.userData={proceduralTextureKit:r,pingPongRepeat:true,hyperRepeat:true,smallTexture:true,nonPixelated:true,noSolidColor:true}; return mat;}

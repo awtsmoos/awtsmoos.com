@@ -1,5 +1,4 @@
 // B"H
-/** Generated ESM tunnel action list for every AI agent bridge. Rebuild with node scripts/generate-tunnel-openapi-live.cjs */
 export const GENERATED_TUNNEL_ACTIONS = Object.freeze([
   "absoluteImportMapper",
   "abstractionLeakTrace",
@@ -129,6 +128,7 @@ export const GENERATED_TUNNEL_ACTIONS = Object.freeze([
   "commandTreeStatus",
   "commandTreeValidate",
   "commandTreeVisualize",
+  "commandWait",
   "conditionExpressionTester",
   "configDriftScan",
   "configGet",

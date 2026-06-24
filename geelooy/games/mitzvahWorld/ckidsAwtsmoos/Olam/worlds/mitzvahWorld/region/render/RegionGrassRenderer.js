@@ -1,24 +1,16 @@
-﻿// B"H
-/** @file RegionGrassRenderer.js @description Mobile-safe grass avoids roads, houses, yards, and parcel gates. */
+// B"H
+/** @file RegionGrassRenderer.js @description More grass by texture + tiered tufts, not pixel cost. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20260614-bh2";
 import { rand } from "./RegionRandom.js";
 import { sealRegionVisual } from "./RegionSeal.js";
 import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
-import { createProceduralCoreGrassField, advanceProceduralGrass } from "./ProceduralCoreGrassField.js?v=vivid-cheap-grass-20260621-bh1";
+import { createProceduralCoreGrassField } from "./ProceduralCoreGrassField.js?v=vivid-cheap-grass-20260621-bh1";
 import { grassExclusionsFromReport, auditGrassExclusions } from "./RegionGrassExclusion.js";
-function reportGrass(report) { return report && report.instances && Array.isArray(report.instances.grass) ? report.instances.grass : []; }
-function farmCells(report) { const cells = report && report.ecology && Array.isArray(report.ecology.cells) ? report.ecology.cells : []; return cells.filter(cell => cell.biome === "farmBelt"); }
-export function buildGrassRenderer(olam, report = {}) {
-  const root = new THREE.Group(), specs = reportGrass(report), exclusions = grassExclusionsFromReport(report), audit = auditGrassExclusions(report);
-  const count = Math.min(720, budgetedQualityCount(olam, 720, "grassDistance", 720));
-  const grass = createProceduralCoreGrassField(olam, specs, count, { exclusions, forceFallbackMaterial:true });
-  root.name = "living_region_mobile_safe_short_green_grass";
-  root.add(grass);
-  root.userData.stats = { ...grass.userData.stats, grassExclusionAudit:audit, complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, onlyProceduralCoreGrass:true, static60FpsGrass:true, avoidsCottages:true, avoidsYards:true };
-  return sealRegionVisual(root, { complexGrainyGrass:false, mobileSafeGrass:true, blackSpikeSafe:true, proceduralCoreGrass:true, avoidsCottages:true, avoidsYards:true });
-}
-export function buildWheatRenderer(olam, report = {}) {
-  const cells = farmCells(report), count = Math.min(1400, budgetedQualityCount(olam, Math.min(1400, Math.max(520, cells.length * 2)), "grassDistance", 1400));
-  return makeInstancedLayer({ olam, name:"living_region_farm_wheat_field_dense_heads", geometry:"grassTuft", material:"straw", count, build:i => { const c = cells[i % Math.max(1, cells.length)] || { x:-145, z:-55 }; return { x:c.x + (rand(i,1)-.5)*6, z:c.z + (rand(i,2)-.5)*6, sx:.48, sy:1.55 + rand(i,6)*1.05, sz:.48, yaw:rand(i,7)*6.28, lift:.018, color:i%4 ? 0xd5bf62 : 0xf3db83 }; } });
-}
+import { regionMaterial } from "./RegionMaterials.js?v=ping-pong-crisp-textures-20260622-bh2";
+const CARPETS=Object.freeze([[0,0,720,480,-.02],[-160,-70,260,170,-.014],[150,60,280,185,-.012],[0,145,360,135,-.016]]);
+function reportGrass(r){return r?.instances&&Array.isArray(r.instances.grass)?r.instances.grass:[];} function farmCells(r){const c=r?.ecology&&Array.isArray(r.ecology.cells)?r.ecology.cells:[];return c.filter(x=>x.biome==='farmBelt');}
+function carpet([x,z,w,h,y],i){const g=new THREE.PlaneGeometry(w,h,1,1);g.rotateX(-Math.PI/2);const m=new THREE.Mesh(g,regionMaterial('grass',{side:THREE.DoubleSide}));m.name=`hyperrepeat_grass_carpet_${i}`;m.position.set(x,y,z);m.receiveShadow=true;m.castShadow=false;m.frustumCulled=false;Object.assign(m.userData,{pingPongGrassCarpet:true,hyperRepeat:true,smallTexture:true,nonPixelated:true,visualOnly:true,skipOctree:true,noOctree:true,carpetIndex:i});return m;}
+function addCarpets(root){CARPETS.forEach((c,i)=>root.add(carpet(c,i)));}
+export function buildGrassRenderer(olam,report={}){const root=new THREE.Group(),specs=reportGrass(report),ex=grassExclusionsFromReport(report),audit=auditGrassExclusions(report); const near=Math.max(1800,Math.min(3600,budgetedQualityCount(olam,3200,'grassDistance',3600))); const grass=createProceduralCoreGrassField(olam,specs,near,{exclusions:ex,forceFallbackMaterial:false}); root.name='living_region_more_grass_hyperrepeat_lod_system'; addCarpets(root); root.add(grass); root.userData.stats={...grass.userData.stats,carpetPatches:CARPETS.length,carpetDrawCalls:CARPETS.length,nearTufts:near,perceivedBlades:near*18,pingPongRepeat:true,hyperRepeat:true,nonPixelated:true,smallTexture:true,moreGrass:true,smartGrassLOD:true,grassExclusionAudit:audit}; return sealRegionVisual(root,{layeredPingPongGrass:true,hyperRepeatGrass:true,moreGrass:true,smartLOD:true,nonPixelated:true});}
+export function buildWheatRenderer(olam,report={}){const cells=farmCells(report),count=Math.min(1800,budgetedQualityCount(olam,Math.min(1800,Math.max(720,cells.length*3)),'grassDistance',1800));return makeInstancedLayer({olam,name:'living_region_more_wheat_heads',geometry:'grassTuft',material:'straw',count,build:i=>{const c=cells[i%Math.max(1,cells.length)]||{x:-145,z:-55};return{x:c.x+(rand(i,1)-.5)*6,z:c.z+(rand(i,2)-.5)*6,sx:.44,sy:1.45+rand(i,6)*1.1,sz:.44,yaw:rand(i,7)*6.28,lift:.018,color:i%4?0xd5bf62:0xf3db83};}});}

@@ -1,21 +1,6 @@
-/* B"H
-FramePool: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createFramePool(input = {}) {
-  return {
-    id: input.id || `framepool-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'FramePool',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeFramePool(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateFramePool(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createFramePool(input = {}) { return { kind:'FramePool', maxSize:input.maxSize || 120, frames:input.frames || [], recycled:0, closed:0 }; }
+export function pushFrame(pool, frame) { pool.frames.push({ frame, at:Date.now() }); while (pool.frames.length > pool.maxSize) closeOldestFrame(pool); return frame; }
+export function takeFrame(pool) { return pool.frames.shift()?.frame || null; }
+export function closeOldestFrame(pool) { const item = pool.frames.shift(); item?.frame?.close?.(); pool.closed += item ? 1 : 0; return item?.frame || null; }
+export function drainFramePool(pool) { while (pool.frames.length) closeOldestFrame(pool); return pool; }

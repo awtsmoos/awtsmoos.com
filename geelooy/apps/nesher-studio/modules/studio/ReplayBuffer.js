@@ -1,21 +1,4 @@
-/* B"H
-ReplayBuffer: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createReplayBuffer(input = {}) {
-  return {
-    id: input.id || `replaybuffer-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'ReplayBuffer',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeReplayBuffer(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateReplayBuffer(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createReplayBuffer(input = {}) { return { kind:'ReplayBuffer', seconds:input.seconds || 30, frames:[], fps:input.fps || 30, maxFrames:(input.seconds || 30) * (input.fps || 30) }; }
+export function pushReplayFrame(buffer, frame) { buffer.frames.push({ at:Date.now(), frame }); while (buffer.frames.length > buffer.maxFrames) buffer.frames.shift(); return buffer; }
+export function exportReplayDescriptor(buffer) { return { kind:'replay-buffer', frames:buffer.frames.length, seconds:buffer.seconds }; }

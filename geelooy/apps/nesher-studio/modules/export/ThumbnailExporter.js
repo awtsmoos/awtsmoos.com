@@ -1,21 +1,3 @@
-/* B"H
-ThumbnailExporter: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createThumbnailExporter(input = {}) {
-  return {
-    id: input.id || `thumbnailexporter-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'ThumbnailExporter',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeThumbnailExporter(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateThumbnailExporter(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createThumbnailExporter(input = {}) { return { kind:'ThumbnailExporter', format:input.format || 'png', width:input.width || 1280, height:input.height || 720, time:Number(input.time || 0) }; }
+export function describeThumbnailArtifact(job, options = {}) { return { kind:'thumbnail', name:`${job.id || 'export'}-${options.time || 0}.${options.format || 'png'}`, mime:`image/${options.format || 'png'}`, status:'descriptor-only' }; }

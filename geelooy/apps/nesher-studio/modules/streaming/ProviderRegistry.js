@@ -1,21 +1,9 @@
-/* B"H
-ProviderRegistry: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createProviderRegistry(input = {}) {
-  return {
-    id: input.id || `providerregistry-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'ProviderRegistry',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeProviderRegistry(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateProviderRegistry(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+import { createGenericProvider } from './GenericProvider.js';
+import { createCustomProvider } from './CustomProvider.js';
+import { createYouTubeProvider } from './YouTubeProvider.js';
+import { createTwitchProvider } from './TwitchProvider.js';
+import { createFacebookProvider } from './FacebookProvider.js';
+export function createProviderRegistry(input = {}) { const providers = input.providers || [createGenericProvider(), createCustomProvider(), createYouTubeProvider(), createTwitchProvider(), createFacebookProvider()]; return { kind:'ProviderRegistry', providers }; }
+export function getProvider(registry, id) { return registry.providers.find(p => p.id === id) || null; }
+export function registerProvider(registry, provider) { registry.providers = registry.providers.filter(p => p.id !== provider.id).concat(provider); return provider; }

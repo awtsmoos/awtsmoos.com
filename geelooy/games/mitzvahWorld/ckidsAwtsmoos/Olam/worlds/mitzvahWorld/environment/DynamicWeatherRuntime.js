@@ -1,27 +1,5 @@
-/**
- * B"H
- * Chapter 30: Rain Wrote Emerald Letters On Stone.
- */
-
-export class DynamicWeatherRuntime {
-  constructor(states = ['clear', 'fog', 'rain', 'storm']) {
-    this.states = states;
-    this.index = 0;
-  }
-
-  current() {
-    const name = this.states[this.index];
-    return {
-      name,
-      wetness: name === 'rain' || name === 'storm' ? 1 : 0,
-      visibility: name === 'fog' ? 0.45 : 1
-    };
-  }
-
-  advance() {
-    this.index = (this.index + 1) % this.states.length;
-    return this.current();
-  }
-}
-
+// B"H
+/** @file DynamicWeatherRuntime.js @description Weather is consequence first, visuals second. */
+const STATES=Object.freeze({ clear:{wetness:0,wind:.18,growth:.02,damage:0}, fog:{wetness:.18,wind:.08,growth:.03,visibility:.45}, rain:{wetness:1,wind:.35,growth:.12,wells:.2,mud:.8}, storm:{wetness:1,wind:1,growth:.08,damage:.28,mud:1}, drought:{wetness:0,wind:.24,growth:-.12,migration:.35} });
+export class DynamicWeatherRuntime { constructor(states=Object.keys(STATES)){ this.states=states; this.index=0; this.memory=[]; } current(){ const name=this.states[this.index], data=STATES[name]||STATES.clear; return { name, visibility:data.visibility ?? 1, ...data }; } advance(reason="cycle"){ this.index=(this.index+1)%this.states.length; const now=this.current(); this.memory.unshift({ ...now, reason, at:Date.now() }); this.memory=this.memory.slice(0,40); return now; } consequences(){ const w=this.current(); return { mud:w.mud||0, cropGrowth:w.growth||0, repairNeed:w.damage||0, migration:w.migration||0, wells:w.wells||0 }; } }
 export default DynamicWeatherRuntime;

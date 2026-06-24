@@ -1,54 +1,13 @@
 // B"H
 /**
- * @file WorldPerformanceBudget.js
- * A measured covenant: more revelation when frames are strong, less hidden labor
- * when the vessel groans. The Awtsmoos is infinite; the GPU is not.
+ * WorldPerformanceBudget: FPS law includes spikes, not only averages.
+ * The world may remain infinite in memory; representation bows to p99 pain.
  */
-export const QUALITY_TIERS = Object.freeze({
-  ULTRA: "ultra",
-  HIGH: "high",
-  BALANCED: "balanced",
-  SURVIVAL: "survival"
-});
-function n(v, fallback = 0) { const x = Number(v); return Number.isFinite(x) ? x : fallback; }
-export function classifyPerformanceBudget(input = {}) {
-  const fps = n(input.fps, 60);
-  const p95 = n(input.p95FrameMs, fps ? 1000 / fps : 16.67);
-  const drawCalls = n(input.drawCalls ?? input.renderer?.render?.calls, 0);
-  const triangles = n(input.triangles ?? input.scene?.triangles, 0);
-  const visibleMeshes = n(input.visibleMeshes ?? input.scene?.visibleMeshes, 0);
-  const heap = n(input.usedJSHeapSize ?? input.memory?.usedJSHeapSize, 0);
-  const pressure = [fps < 45, p95 > 28, drawCalls > 1400, triangles > 1800000, visibleMeshes > 2400, heap > 900_000_000].filter(Boolean).length;
-  const tier = pressure >= 3 || fps < 45 ? QUALITY_TIERS.SURVIVAL : fps < 55 || pressure === 2 ? QUALITY_TIERS.BALANCED : fps < 60 || pressure === 1 ? QUALITY_TIERS.HIGH : QUALITY_TIERS.ULTRA;
-  const scale = tier === QUALITY_TIERS.ULTRA ? 1 : tier === QUALITY_TIERS.HIGH ? 0.82 : tier === QUALITY_TIERS.BALANCED ? 0.58 : 0.32;
-  return {
-    tier,
-    scale,
-    fpsTarget: 60,
-    reason: { fps, p95FrameMs:p95, drawCalls, triangles, visibleMeshes, heap, pressure },
-    rendering: {
-      shadowScale: tier === QUALITY_TIERS.SURVIVAL ? 0.35 : tier === QUALITY_TIERS.BALANCED ? 0.55 : tier === QUALITY_TIERS.HIGH ? 0.78 : 1,
-      maxPixelRatio: tier === QUALITY_TIERS.SURVIVAL ? 1 : tier === QUALITY_TIERS.BALANCED ? 1.15 : tier === QUALITY_TIERS.HIGH ? 1.5 : 2,
-      postprocessing: tier === QUALITY_TIERS.ULTRA || tier === QUALITY_TIERS.HIGH
-    },
-    simulation: {
-      nearHz: tier === QUALITY_TIERS.SURVIVAL ? 12 : tier === QUALITY_TIERS.BALANCED ? 20 : 30,
-      midHz: tier === QUALITY_TIERS.SURVIVAL ? 2 : tier === QUALITY_TIERS.BALANCED ? 4 : 6,
-      farHz: tier === QUALITY_TIERS.SURVIVAL ? 0.2 : 1,
-      horizonMode: "statistical"
-    },
-    density: {
-      animals: Math.max(0.2, scale),
-      npcs: Math.max(0.25, scale),
-      foliage: Math.max(0.22, scale),
-      missions: tier === QUALITY_TIERS.SURVIVAL ? 2 : tier === QUALITY_TIERS.BALANCED ? 4 : 7,
-      villageProps: Math.max(0.25, scale)
-    }
-  };
-}
-export function mergeRuntimeBudget(previous, next) {
-  if (!previous) return next;
-  if (!next) return previous;
-  return { ...previous, ...next, reason:{...previous.reason, ...next.reason}, rendering:{...previous.rendering, ...next.rendering}, simulation:{...previous.simulation, ...next.simulation}, density:{...previous.density, ...next.density} };
-}
+export const QUALITY_TIERS=Object.freeze({ULTRA:'ultra',HIGH:'high',BALANCED:'balanced',SURVIVAL:'survival'});
+const num=(v,f=0)=>{const x=Number(v);return Number.isFinite(x)?x:f;};
+function tierScale(tier){return tier===QUALITY_TIERS.ULTRA?.92:tier===QUALITY_TIERS.HIGH?.74:tier===QUALITY_TIERS.BALANCED?.5:.28;}
+function pressureFlags({fps,p95,p99,p999,worst,longFrames,drawCalls,triangles,visibleMeshes,heap}){return[fps<45,p95>28,p99>42,p999>90,worst>140,longFrames>8,drawCalls>1400,triangles>1800000,visibleMeshes>2400,heap>900_000_000];}
+export function classifyPerformanceBudget(input={}){const fps=num(input.fps,60),p95=num(input.p95FrameMs,fps?1000/fps:16.67),p99=num(input.p99FrameMs,p95),p999=num(input.p999FrameMs,p99),worst=num(input.worstFrameMs,p999),longFrames=num(input.longFrames,0),drawCalls=num(input.drawCalls??input.renderer?.render?.calls,0),triangles=num(input.triangles??input.scene?.triangles,0),visibleMeshes=num(input.visibleMeshes??input.scene?.visibleMeshes,0),heap=num(input.usedJSHeapSize??input.memory?.usedJSHeapSize,0);const flags=pressureFlags({fps,p95,p99,p999,worst,longFrames,drawCalls,triangles,visibleMeshes,heap});const pressure=flags.filter(Boolean).length;let tier=QUALITY_TIERS.ULTRA;if(pressure>=5||fps<45||p99>80||worst>180)tier=QUALITY_TIERS.SURVIVAL;else if(pressure>=3||fps<55||p99>55||longFrames>12)tier=QUALITY_TIERS.BALANCED;else if(pressure>=1||fps<60||p99>34||longFrames>0)tier=QUALITY_TIERS.HIGH;const scale=tierScale(tier);return{tier,scale,fpsTarget:60,reason:{fps,p95FrameMs:p95,p99FrameMs:p99,p999FrameMs:p999,worstFrameMs:worst,longFrames,drawCalls,triangles,visibleMeshes,heap,pressure},rendering:{shadowScale:tier===QUALITY_TIERS.SURVIVAL?.28:tier===QUALITY_TIERS.BALANCED?.45:tier===QUALITY_TIERS.HIGH?.62:.82,maxPixelRatio:tier===QUALITY_TIERS.SURVIVAL?1:tier===QUALITY_TIERS.BALANCED?1.1:tier===QUALITY_TIERS.HIGH?1.25:1.45,postprocessing:tier===QUALITY_TIERS.ULTRA},simulation:{nearHz:tier===QUALITY_TIERS.SURVIVAL?10:tier===QUALITY_TIERS.BALANCED?16:24,midHz:tier===QUALITY_TIERS.SURVIVAL?2:tier===QUALITY_TIERS.BALANCED?3:5,farHz:tier===QUALITY_TIERS.SURVIVAL?.2:1,horizonMode:'statistical'},density:{animals:Math.max(.2,scale),npcs:Math.max(.25,scale),foliage:Math.max(.22,scale),missions:tier===QUALITY_TIERS.SURVIVAL?2:tier===QUALITY_TIERS.BALANCED?4:6,villageProps:Math.max(.25,scale)}};}
+export function mergeRuntimeBudget(previous,next){if(!previous)return next;if(!next)return previous;return{...previous,...next,reason:{...previous.reason,...next.reason},rendering:{...previous.rendering,...next.rendering},simulation:{...previous.simulation,...next.simulation},density:{...previous.density,...next.density}};}
 export default classifyPerformanceBudget;
+

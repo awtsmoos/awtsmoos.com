@@ -7,6 +7,11 @@
 @import url("./views/gate.css") layer(awt.views);
 @import url("./views/shell.css") layer(awt.views);
 @import url("./views/dashboard.css") layer(awt.views);
+@import url("./views/mission-control-os.css") layer(awt.views);
+@import url("./views/mission-rooms-grid.css") layer(awt.views);
+@import url("./views/no-side-rails.css") layer(awt.views);
+@import url("./views/response-focus.css") layer(awt.views);
+@import url("./views/obedience-monitor.css") layer(awt.views);
 @import url("./views/landing.css") layer(awt.views);
 @import url("./views/health.css") layer(awt.views);
 @import url("./views/compute.css") layer(awt.views);

@@ -76,6 +76,38 @@
     "route": "/assets/:alias/:kind/:asset"
   },
   {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/overview"
+  },
+  {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/live-map"
+  },
+  {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/notification-digest"
+  },
+  {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/inbox"
+  },
+  {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/inbox/unread"
+  },
+  {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/inbox/:item/read"
+  },
+  {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/threads/:thread"
+  },
+  {
+    "file": "_awtsmoos.communications.js",
+    "route": "/communications/:alias/threads/:thread/read"
+  },
+  {
     "file": "_awtsmoos.content.js",
     "route": "/content/heichelos/:heichel/posts"
   },
@@ -850,5 +882,33 @@
   {
     "file": "_awtsmoos.series.js",
     "route": "/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId"
+  },
+  {
+    "file": "_awtsmoos.thoughts.js",
+    "route": "/thoughts/feed"
+  },
+  {
+    "file": "_awtsmoos.thoughts.js",
+    "route": "/thoughts/thread/:thoughtId"
+  },
+  {
+    "file": "_awtsmoos.thoughts.js",
+    "route": "/thoughts/:thoughtId/reactions"
+  },
+  {
+    "file": "_awtsmoos.thoughts.js",
+    "route": "/thoughts/:thoughtId/replies"
+  },
+  {
+    "file": "_awtsmoos.thoughts.js",
+    "route": "/thoughts/:entityType/:entityId/stats"
+  },
+  {
+    "file": "_awtsmoos.thoughts.js",
+    "route": "/thoughts/:thoughtId"
+  },
+  {
+    "file": "_awtsmoos.thoughts.js",
+    "route": "/thoughts/:entityType/:entityId"
   }
 ]

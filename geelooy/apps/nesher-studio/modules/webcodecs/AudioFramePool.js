@@ -1,21 +1,6 @@
-/* B"H
-AudioFramePool: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createAudioFramePool(input = {}) {
-  return {
-    id: input.id || `audioframepool-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'AudioFramePool',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeAudioFramePool(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateAudioFramePool(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createAudioFramePool(input = {}) { return { kind:'AudioFramePool', maxSize:input.maxSize || 240, frames:input.frames || [], closed:0 }; }
+export function pushAudioFrame(pool, frame) { pool.frames.push({ frame, at:Date.now() }); while (pool.frames.length > pool.maxSize) closeOldestAudioFrame(pool); return frame; }
+export function takeAudioFrame(pool) { return pool.frames.shift()?.frame || null; }
+export function closeOldestAudioFrame(pool) { const item = pool.frames.shift(); item?.frame?.close?.(); pool.closed += item ? 1 : 0; return item?.frame || null; }
+export function drainAudioFramePool(pool) { while (pool.frames.length) closeOldestAudioFrame(pool); return pool; }

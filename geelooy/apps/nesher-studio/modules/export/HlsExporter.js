@@ -1,21 +1,3 @@
-/* B"H
-HlsExporter: scaffold touched for the total Nesher mission.
-Awtsmoos turns a blank file into a vessel; tests must turn this vessel into proof.
-*/
-export function createHlsExporter(input = {}) {
-  return {
-    id: input.id || `hlsexporter-${crypto.randomUUID?.() || Date.now()}`,
-    kind: 'HlsExporter',
-    enabled: input.enabled ?? true,
-    status: input.status || 'planned',
-    config: input.config || {},
-    stats: input.stats || {},
-    children: input.children || []
-  };
-}
-export function describeHlsExporter(node) {
-  return `${node.kind}:${node.status}`;
-}
-export function updateHlsExporter(node, patch = {}) {
-  return Object.assign(node, patch, { updatedAt: Date.now() });
-}
+/* B"H */
+export function createHlsExporter(input = {}) { return { kind:'HlsExporter', playlist:'index.m3u8', segmentType:input.segmentType || 'mpeg-ts', targetDuration:input.targetDuration || 2, maxSegments:input.maxSegments || 6 }; }
+export function buildMediaPlaylist(segments = [], options = {}) { const target = options.targetDuration || Math.ceil(Math.max(1, ...segments.map(s => s.duration || 1))); return ['#EXTM3U','#EXT-X-VERSION:3',`#EXT-X-TARGETDURATION:${target}`,'#EXT-X-MEDIA-SEQUENCE:0',...segments.flatMap(s => [`#EXTINF:${Number(s.duration || target).toFixed(3)},`, s.name]), options.end ? '#EXT-X-ENDLIST' : ''].filter(Boolean).join('\n'); }

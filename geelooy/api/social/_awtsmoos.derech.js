@@ -2,12 +2,11 @@
 /**
  * @module SocialApiDerech
  * @description
- * Chapter 435: Route precedence is clarified for one unified social API.
+ * Chapter 532: Route precedence is clarified for one unified social API.
  *
- * The modern canonical routes from `_awtsmoos.profile.js` are mounted early so
- * `/api/social/meta`, `/api/social/search`, `/api/social/feed`, and
- * `/api/social/heichelos/discover` cannot be swallowed by older dynamic legacy
- * routes. All old endpoints remain mounted afterward.
+ * The modern canonical routes mount first. Communication overview now joins
+ * profile, notifications, mail, and live-room hints without restoring any
+ * `/api/v2/social` shadow and without disturbing old social endpoints.
  */
 
 const aliases = require("./_awtsmoos.alias.js");
@@ -24,6 +23,8 @@ const graph = require("./_awtsmoos.graph.js");
 const content = require("./_awtsmoos.content.js");
 const entities = require("./_awtsmoos.entities.js");
 const living = require("./_awtsmoos.living.js");
+const thoughts = require("./_awtsmoos.thoughts.js");
+const communications = require("./_awtsmoos.communications.js");
 const assets = require("./_awtsmoos.assets.js");
 const editor = require("./_awtsmoos.editor.js");
 const governance = require("./_awtsmoos.governance.js");
@@ -62,12 +63,14 @@ module.exports = async $i => {
         "/": async () => ({ BH: "yes", session: $i.request.user }),
         "/fetch/:url": async vars => await fetchProxy($i, vars),
         ...profile(vessel),
+        ...communications(vessel),
         ...aliases(vessel),
         ...keys(vessel),
         ...graph(vessel),
         ...content(vessel),
         ...entities(vessel),
         ...living(vessel),
+        ...thoughts(vessel),
         ...assets(vessel),
         ...editor(vessel),
         ...governance(vessel),

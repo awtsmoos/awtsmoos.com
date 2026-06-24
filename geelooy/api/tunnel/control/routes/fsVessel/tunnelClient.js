@@ -2,14 +2,12 @@
 
 const { VESSEL_TYPES, isBrowserVesselDescriptor, normalizeVesselType } = require("./vesselTypes.js");
 const { nativeCapabilities } = require("./capabilities.js");
+const { verifyTunnelResponse } = require("./responseContract.js");
 
 /**
  * B"H
- * Chapter 11: Native iron stopped swallowing the browser flame.
- *
- * The websocket registry may contain local Node tunnels and browser-tab tunnels.
- * Native helpers now filter out browser and hosted descriptors so old auto logic
- * does not accidentally route shell-shaped requests into a browser tab.
+ * Chapter 11 and 810: Native iron stopped swallowing the browser flame, and
+ * every native response now must show the seal of the exact request.
  */
 function publicNativeTunnel(client) {
   return {
@@ -50,14 +48,17 @@ function listNativeTunnelClients($i) {
   return [...latest.values()];
 }
 
-function listNativeTunnels($i) { return listNativeTunnelClients($i).map(publicNativeTunnel); }
-function findNativeTunnelClient($i, tunnelName) { return listNativeTunnelClients($i).find(client => client.tunnelName === tunnelName) || null; }
+function listNativeTunnels($i) {
+  return listNativeTunnelClients($i).map(publicNativeTunnel);
+}
+
+function findNativeTunnelClient($i, tunnelName) {
+  return listNativeTunnelClients($i).find(client => client.tunnelName === tunnelName) || null;
+}
+
 async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) {
   const result = await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs);
-  if (payload.controlRequestId && result.controlRequestId && result.controlRequestId !== payload.controlRequestId) {
-    return { BH: "B\"H", ok: false, status: 409, error: "tunnel_response_request_id_mismatch", expectedControlRequestId: payload.controlRequestId, actualControlRequestId: result.controlRequestId, tunnelName };
-  }
-  return result;
+  return verifyTunnelResponse(result, payload, tunnelName);
 }
 
 module.exports = { findNativeTunnelClient, isNativeTunnelClient, listNativeTunnelClients, listNativeTunnels, publicNativeTunnel, sendNativeTunnel };
