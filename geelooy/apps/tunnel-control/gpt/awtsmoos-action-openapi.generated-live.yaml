@@ -332,6 +332,14 @@ paths:
               - missionGraph
               - missionHeartbeat
               - missionImprovementPlan
+              - missionConstitution
+              - missionContinuity
+              - missionCourt
+              - missionEntropy
+              - missionLease
+              - missionLeaseRenew
+              - missionRecovery
+              - missionSpawnNext
               - missionList
               - missionLoopCheckpoint
               - missionLoopPulse

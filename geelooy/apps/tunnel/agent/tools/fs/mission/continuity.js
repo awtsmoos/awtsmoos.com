@@ -1,14 +1,18 @@
 // B"H
 const M = require('./core.js');
-const X = require('./expansion.js');
+const Lease = require('./lease.js');
+const Constitution = require('./constitution.js');
 
 function text(m) {
   return JSON.stringify({
-    goal: m.goal, tasks: m.tasks, evidence: m.evidence,
-    blockers: m.blockers, discoveries: m.discoveries, events: m.events
+    goal: m.goal,
+    tasks: m.tasks,
+    evidence: m.evidence,
+    blockers: m.blockers,
+    discoveries: m.discoveries,
+    events: m.events
   }).toLowerCase();
 }
-
 function evidenceDebt(m) {
   const debt = [];
   for (const task of m.tasks || []) {
@@ -24,7 +28,6 @@ function evidenceDebt(m) {
   if (!(m.evidence || []).length) debt.push({ kind: 'missing-evidence', need: 'Record observed evidence before completion.' });
   return debt;
 }
-
 function discoveryDebt(m) {
   const body = text(m);
   const required = ['todo', 'failing test', 'regression', 'blocking', 'security', 'restart', 'stress'];
@@ -32,7 +35,6 @@ function discoveryDebt(m) {
     .filter(name => body.includes(name) && !body.includes(`${name}:resolved`))
     .map(name => ({ kind: 'discovery', name, need: `Resolve or explicitly dismiss discovered ${name}.` }));
 }
-
 function confidence(m) {
   const c = M.counts(m);
   const task = c.totalTasks ? c.doneTasks / c.totalTasks : 0;
@@ -41,27 +43,36 @@ function confidence(m) {
   const score = Math.round(((task * 0.45) + (evidence * 0.35) + (question * 0.2)) * 100);
   return { score, task, evidence, question };
 }
-
 function entropy(m) {
-  const events = (m.events || []).slice(-12).map(e => e.type + ':' + e.message);
+  const events = (m.events || []).slice(-12).map(e => `${e.type}:${e.msg || e.message || ''}`);
   const unique = new Set(events).size;
-  return { repeated: events.length - unique, stagnant: events.length >= 8 && unique <= 3 };
+  const constitution = Constitution.entropy(m);
+  return { repeated: events.length - unique, stagnant: events.length >= 8 && unique <= 3, ...constitution };
 }
-
+function blockedByUser(m) {
+  const userMessages = m.collaboration?.openUserMessages || m.collaboration?.userMessages || [];
+  return userMessages.some(x => x.requiresResponse && x.status === 'open') || false;
+}
+function shouldEnforceConstitution(input = {}) {
+  return input.enforceConstitution === true || input.enforceConstitution === 'true' || input.alwaysMore === true || input.alwaysMore === 'true';
+}
 function nextAction(m, verdict) {
+  const leaseNext = Lease.nextAction(m);
   if (verdict.blocked) return { action: 'missionAgentSync', missionId: m.id, blockOnUserMessage: true };
+  if (leaseNext) return leaseNext;
   if (verdict.evidenceDebt.length) return { action: 'missionEvidenceDebt', missionId: m.id };
   if (verdict.discoveryDebt.length) return { action: 'missionDiscover', missionId: m.id };
   if (!M.verify(m).ok) return { action: 'missionNext', missionId: m.id, auto: true };
-  if (verdict.confidence.score < 85) return { action: 'missionImprovementPlan', missionId: m.id };
+  if (verdict.constitutionEnforced && !verdict.constitution.ok) return Constitution.nextAction(m, verdict.constitution);
+  if (verdict.confidence.score < verdict.minConfidence) return { action: 'missionImprovementPlan', missionId: m.id };
   return { action: 'missionVerify', missionId: m.id, expand: false };
 }
 
 /**
  * B"H
- * Chapter 541: The court that keeps the candle burning without hallucinating.
- * It does not loop forever. It keeps going while proof, discovery, confidence,
- * or blocking gates demand more work, and it permits rest only after evidence.
+ * Chapter 541: The court learned the hourglass is also a menorah.
+ * A mission may finish only when proof is honest; and when long-run mode is
+ * invoked, the constitution asks again: what more can be revealed before rest?
  */
 function court(m, input = {}) {
   const verify = M.verify(m);
@@ -69,17 +80,23 @@ function court(m, input = {}) {
   const dd = discoveryDebt(m);
   const conf = confidence(m);
   const ent = entropy(m);
-  const userMessages = m.collaboration?.openUserMessages || m.collaboration?.userMessages || [];
-  const blocked = userMessages.some(x => x.requiresResponse && x.status === 'open') || false;
+  const lease = Lease.status(m, input);
+  const constitution = Constitution.review(m);
+  const constitutionEnforced = shouldEnforceConstitution(input);
+  const minConfidence = Number(input.minConfidence || 85);
+  const blocked = blockedByUser(m);
   const issues = [];
   if (!verify.ok) issues.push(...verify.issues, 'definition_of_done_not_court_approved');
   if (ed.length) issues.push('evidence_debt');
   if (dd.length) issues.push('discovery_debt');
-  if (conf.score < Number(input.minConfidence || 85)) issues.push('low_confidence');
+  if (conf.score < minConfidence) issues.push('low_confidence');
   if (ent.stagnant) issues.push('entropy_stagnation');
+  if (lease.expired && !lease.canRenew) issues.push('lease_expired');
+  if (lease.softDeadline && lease.canRenew) issues.push('lease_soft_deadline');
+  if (constitutionEnforced && !constitution.ok) issues.push('constitution_debt');
   if (blocked) issues.push('blocking_user_message');
   const ok = issues.length === 0;
-  const verdict = { ok, blocked, verification: verify, evidenceDebt: ed, discoveryDebt: dd, confidence: conf, entropy: ent, issues };
+  const verdict = { ok, blocked, verification: verify, evidenceDebt: ed, discoveryDebt: dd, confidence: conf, minConfidence, entropy: ent, lease, constitution, constitutionEnforced, issues };
   verdict.mustCallNext = ok ? { action: 'missionHeartbeat', missionId: m.id, note: 'court approved' } : nextAction(m, verdict);
   verdict.finalAnswerAllowed = ok;
   verdict.mustContinue = !ok;
@@ -91,10 +108,13 @@ function court(m, input = {}) {
   };
   return verdict;
 }
-
 function spawnMissions(m, input = {}) {
   const verdict = court(m, input);
-  const seeds = [...verdict.discoveryDebt, ...verdict.evidenceDebt].slice(0, Number(input.limit || 5));
+  const seeds = [
+    ...verdict.discoveryDebt,
+    ...verdict.evidenceDebt,
+    ...(verdict.constitutionEnforced ? verdict.constitution.missing.map(name => ({ kind: 'constitution', need: `Satisfy constitution gate: ${name}` })) : [])
+  ].slice(0, Number(input.limit || 5));
   m.spawnedMissions ||= [];
   const spawned = seeds.map(seed => {
     const child = { id: M.id('spawn'), parentMissionId: m.id, goal: seed.need, reason: seed.kind, status: 'proposed', createdAt: new Date().toISOString() };
@@ -103,7 +123,6 @@ function spawnMissions(m, input = {}) {
   });
   return { spawned, verdict };
 }
-
 function heartbeat(m, input = {}) {
   const verdict = court(m, input);
   const hb = { at: new Date().toISOString(), verdict, report: M.report(m), recovery: recovery(m) };
@@ -111,7 +130,6 @@ function heartbeat(m, input = {}) {
   m.continuityHeartbeats.push(hb);
   return hb;
 }
-
 function recovery(m) {
   return {
     missionId: m.id,
@@ -119,7 +137,10 @@ function recovery(m) {
     next: M.continuation(m),
     unfinishedTasks: (m.tasks || []).filter(t => t.status !== 'done').map(t => t.id),
     openJobs: (m.jobs || []).filter(j => !j.finishedAt && j.status !== 'done').map(j => j.id),
-    openUserMessages: m.collaboration?.openUserMessages || []
+    openUserMessages: m.collaboration?.openUserMessages || [],
+    lease: Lease.status(m),
+    entropy: Constitution.entropy(m),
+    constitution: Constitution.review(m)
   };
 }
 
