@@ -38,7 +38,7 @@ const { previewProxy } = require("./previewProxy.js");
 const { previewCreate, previewList, previewRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
 const { view, viewProxy, viewRaw, viewWs } = require("./view.js");
 const { conversationGet, conversationList, conversationRegister } = require("./conversations.js");
-const { liveCalls } = require("./liveCalls.js");
+const { liveCalls, liveCallsStream } = require("./liveCalls.js");
 const { ephemeralMeta, ephemeralPage, ephemeralSearch, ephemeralDelete, ephemeralList } = require("./ephemeral.js");
 const { openApi } = require("./openApi.js");
 const { openApiKey } = require("./openApiKey.js");
@@ -51,76 +51,23 @@ const { blobView } = require("./blobView.js");
 const { blobManifest } = require("./blobManifest.js");
 const { handoff } = require("./handoff.js");
 
-/** B"H: The route table names every treasury chamber explicitly. */
+/**
+ * B"H
+ * Chapter 913: The route table opened a stream beside the snapshot.
+ */
 const routeTable = {
-  me,
-  device,
-  devices,
-  "my-device": myDevice,
-  "api-keys": apiKeys,
-  "api-keys/create": createApiKey,
-  "api-keys/revoke": revokeApiKey,
-  usage,
-  bank,
-  treasury,
-  "treasury/home": treasuryHome,
-  "treasury/budgets": treasuryBudgets,
-  "treasury/forecast": treasuryForecast,
-  "treasury/marketplace": treasuryMarketplace,
-  "treasury/agents": treasuryAgents,
-  "treasury/providers": treasuryProviders,
-  "treasury/graph": treasuryGraph,
-  "treasury/advisor": treasuryAdvisor,
-  "treasury/reputation": treasuryReputation,
-  budgets,
-  reputation,
-  flow,
-  organization,
-  "agent-economy": agentEconomy,
-  marketplace,
-  provider,
-  refund,
-  "admin-vault": adminVault,
-  "resource-accounting": resourceAccounting,
-  "treasury-test": treasuryTest,
-  "receipt/certificate": receiptCertificate,
-  compute,
-  "compute/capture": computeCapture,
-  "compute/history": computeHistory,
-  "compute/receipt": computeReceipt,
-  "compute/subscription": computeSubscription,
-  "admin/perutas": adminPerutas,
-  bootstrap,
-  "ephemeral/list": ephemeralList,
-  "ephemeral/:resultId/page": ephemeralPage,
-  "ephemeral/:resultId/search": ephemeralSearch,
-  "ephemeral/:resultId/delete": ephemeralDelete,
-  "ephemeral/:resultId": ephemeralMeta,
-  "preview/create": previewCreate,
-  "preview/list": previewList,
-  "preview/revoke": previewRevoke,
-  "preview/update": previewUpdate,
-  "preview/settings": previewSettingsGet,
-  "preview/settings/set": previewSettingsSet,
-  "conversations/register": conversationRegister,
-  "conversations/list": conversationList,
-  "conversations/get": conversationGet,
-  "live-calls": liveCalls,
-  "view/:previewId/raw": viewRaw,
-  "view/:previewId/proxy": viewProxy,
-  "view/:previewId/ws": viewWs,
-  "view/:previewId": view,
-  "handoff/:tunnelName": handoff,
-  "blob/:blobId/manifest": blobManifest,
-  "blob/:blobId/view": blobView,
-  "blob/:blobId": blob,
-  "preview/:tunnelName": previewProxy,
-  "fs/awtsmoos-os": osFs,
-  "fs/:tunnelName": protectedFs,
-  openapi: openApi,
-  "openapi-key": openApiKey,
-  docs: docsHtml,
-  "docs.json": docsJson
+  me, device, devices, "my-device": myDevice, "api-keys": apiKeys, "api-keys/create": createApiKey, "api-keys/revoke": revokeApiKey, usage, bank,
+  treasury, "treasury/home": treasuryHome, "treasury/budgets": treasuryBudgets, "treasury/forecast": treasuryForecast, "treasury/marketplace": treasuryMarketplace,
+  "treasury/agents": treasuryAgents, "treasury/providers": treasuryProviders, "treasury/graph": treasuryGraph, "treasury/advisor": treasuryAdvisor, "treasury/reputation": treasuryReputation,
+  budgets, reputation, flow, organization, "agent-economy": agentEconomy, marketplace, provider, refund, "admin-vault": adminVault, "resource-accounting": resourceAccounting,
+  "treasury-test": treasuryTest, "receipt/certificate": receiptCertificate, compute, "compute/capture": computeCapture, "compute/history": computeHistory, "compute/receipt": computeReceipt,
+  "compute/subscription": computeSubscription, "admin/perutas": adminPerutas, bootstrap, "ephemeral/list": ephemeralList, "ephemeral/:resultId/page": ephemeralPage,
+  "ephemeral/:resultId/search": ephemeralSearch, "ephemeral/:resultId/delete": ephemeralDelete, "ephemeral/:resultId": ephemeralMeta, "preview/create": previewCreate,
+  "preview/list": previewList, "preview/revoke": previewRevoke, "preview/update": previewUpdate, "preview/settings": previewSettingsGet, "preview/settings/set": previewSettingsSet,
+  "conversations/register": conversationRegister, "conversations/list": conversationList, "conversations/get": conversationGet, "live-calls": liveCalls, "live-calls/stream": liveCallsStream,
+  "view/:previewId/raw": viewRaw, "view/:previewId/proxy": viewProxy, "view/:previewId/ws": viewWs, "view/:previewId": view, "handoff/:tunnelName": handoff,
+  "blob/:blobId/manifest": blobManifest, "blob/:blobId/view": blobView, "blob/:blobId": blob, "preview/:tunnelName": previewProxy, "fs/awtsmoos-os": osFs,
+  "fs/:tunnelName": protectedFs, openapi: openApi, "openapi-key": openApiKey, docs: docsHtml, "docs.json": docsJson
 };
 
 module.exports = { routeTable };

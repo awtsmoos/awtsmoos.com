@@ -2,6 +2,7 @@
 const M = require('./core.js');
 const Lease = require('./lease.js');
 const Constitution = require('./constitution.js');
+const Innovation = require('./innovationPolicy.js');
 
 function text(m) {
   return JSON.stringify({
@@ -64,6 +65,7 @@ function nextAction(m, verdict) {
   if (verdict.discoveryDebt.length) return { action: 'missionDiscover', missionId: m.id };
   if (!M.verify(m).ok) return { action: 'missionNext', missionId: m.id, auto: true };
   if (verdict.constitutionEnforced && !verdict.constitution.ok) return Constitution.nextAction(m, verdict.constitution);
+  if (verdict.issues?.includes('minimum_innovation_window')) return { action: 'missionImprovementPlan', missionId: m.id, focus: 'minimum_innovation_window' };
   if (verdict.confidence.score < verdict.minConfidence) return { action: 'missionImprovementPlan', missionId: m.id };
   return { action: 'missionVerify', missionId: m.id, expand: false };
 }
@@ -94,9 +96,11 @@ function court(m, input = {}) {
   if (lease.expired && !lease.canRenew) issues.push('lease_expired');
   if (lease.softDeadline && lease.canRenew) issues.push('lease_soft_deadline');
   if (constitutionEnforced && !constitution.ok) issues.push('constitution_debt');
+  const innovation = Innovation.assess(m, { completionGateOk: issues.length === 0 && verify.ok });
+  if (!innovation.finalAnswerAllowed && verify.ok && !ed.length && !dd.length && conf.score >= minConfidence) issues.push('minimum_innovation_window');
   if (blocked) issues.push('blocking_user_message');
   const ok = issues.length === 0;
-  const verdict = { ok, blocked, verification: verify, evidenceDebt: ed, discoveryDebt: dd, confidence: conf, minConfidence, entropy: ent, lease, constitution, constitutionEnforced, issues };
+  const verdict = { ok, blocked, verification: verify, evidenceDebt: ed, discoveryDebt: dd, confidence: conf, minConfidence, entropy: ent, lease, constitution, constitutionEnforced, innovation, issues };
   verdict.mustCallNext = ok ? { action: 'missionHeartbeat', missionId: m.id, note: 'court approved' } : nextAction(m, verdict);
   verdict.finalAnswerAllowed = ok;
   verdict.mustContinue = !ok;
@@ -104,7 +108,8 @@ function court(m, input = {}) {
     oneMainThing: ok ? 'Mission court approved completion with proof.' : 'Continue the court-mandated mission action before unrelated work.',
     mustAnswerGate: !ok,
     expectedAction: verdict.mustCallNext.action,
-    recommendedAnswer: ok ? 'Report completion with evidence.' : 'Call mustCallNext and continue with proof.'
+    recommendedAnswer: ok ? 'Report completion with evidence.' : 'Call mustCallNext and continue with proof.',
+    innovationContinuation: innovation
   };
   return verdict;
 }

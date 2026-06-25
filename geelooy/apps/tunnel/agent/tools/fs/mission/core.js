@@ -1,109 +1,51 @@
 // B"H
-const fsp = require('fs/promises');
-const crypto = require('crypto');
-const { safePath } = require('../pathGuard.js');
 const Lease = require('./lease.js');
 const Constitution = require('./constitution.js');
-
-const DIR = '.awtsmoos/missions';
-const LETTERS = 'ABCDE'.split('');
-
-function id(prefix = 'mission') { return `${prefix}_${Date.now().toString(36)}_${crypto.randomBytes(5).toString('hex')}`; }
-function clean(v) { return String(v || '').replace(/[^a-zA-Z0-9_-]/g, ''); }
-function dir(config, mid = '') { return safePath(config, mid ? `${DIR}/${clean(mid)}` : DIR); }
-function file(config, mid) { return safePath(config, `${DIR}/${clean(mid)}/mission.json`); }
-function list(v, f = []) { if (Array.isArray(v)) return v.map(String).filter(Boolean); if (typeof v === 'string' && v.trim()) return v.split(/\r?\n|,/).map(x => x.trim()).filter(Boolean); return f; }
-function now() { return new Date().toISOString(); }
-function num(v, f) { const n = Number(v); return Number.isFinite(n) && n >= 0 ? n : f; }
-function autonomyPolicy(input = {}) { return { neverAskHumanUntilBlocked: input.neverAskHumanUntilBlocked !== false, allowSelfQuestions: input.allowSelfQuestions !== false, allowSelfBrainstorm: input.allowSelfBrainstorm !== false, allowSelfMail: input.allowSelfMail === true || input.selfMail === true, requireHumanForDestructive: input.requireHumanForDestructive !== false, minRuntimeBeforeHumanQuestionMs: num(input.minRuntimeBeforeHumanQuestionMs, 1800000), maxRepeatedFailureBeforeHuman: num(input.maxRepeatedFailureBeforeHuman, 5), maxSelfBrainstormCycles: num(input.maxSelfBrainstormCycles, 12), selfQuestionEveryActions: num(input.selfQuestionEveryActions, 3), selfQuestionEveryMs: num(input.selfQuestionEveryMs, 300000), maxAutopilotRounds: num(input.maxAutopilotRounds, 200), mailEveryRounds: num(input.mailEveryRounds, 10), startedAtMs: Date.now() }; }
-
-/**
- * B"H
- * Chapter 522: The tunnel became a street-corner guide.
- * It asks, parses, chooses, remembers, sleeps, wakes, and asks again. One answer
- * may hand the question-pen back to the tunnel, so the mission can keep walking
- * until completion gates truly close.
- */
-function shape(input = {}, mid = id()) {
-  return {
-    BH: 'B"H', id: clean(mid), goal: String(input.goal || input.prompt || input.query || 'Untitled mission'),
-    status: 'active', phase: 'planning', createdAt: now(), updatedAt: now(), heartbeatAt: now(),
-    definitionOfDone: list(input.definitionOfDone || input.criteria, ['implementation exists', 'evidence recorded', 'verification passed', 'supervisor accepts completion']),
-    tasks: [], evidence: [], events: [], questions: [], answers: [], discoveries: [], blockers: [], jobs: [], scripts: [], brainstorms: [], mail: [], checkpoints: [], escalations: [],
-    stepPlans: [], chunkPlans: [], refrigeratedStates: [], thawHistory: [], nextPlans: [], longRun: null, collaboration: null,
-    automation: { enabled: input.auto === true || input.automation === true, cycles: 0, maxCycles: Number(input.maxCycles || 1000), mode: input.mode || 'guided' },
-    autonomyPolicy: autonomyPolicy(input),
-    metadata: input.metadata || {},
-    lease: Lease.create(input),
-    constitution: { entropyThreshold: num(input.entropyThreshold, 25) }
-  };
-}
-async function ensure(config) { await fsp.mkdir(dir(config), { recursive: true }); }
-async function save(config, m) { m.updatedAt = now(); await fsp.mkdir(dir(config, m.id), { recursive: true }); const target = file(config, m.id); const tmp = safePath(config, `${DIR}/${clean(m.id)}/mission.${process.pid}.${Date.now()}.${crypto.randomBytes(4).toString('hex')}.tmp`); await fsp.writeFile(tmp, JSON.stringify(m, null, 2), 'utf8'); await fsp.rename(tmp, target); return m; }
-async function create(config, input = {}) { await ensure(config); const m = shape(input, input.id || id()); event(m, 'created', 'Mission created', { goal: m.goal }); return save(config, m); }
-async function load(config, mid) { for (let attempt = 0; attempt < 8; attempt++) { try { return JSON.parse(await fsp.readFile(file(config, mid), 'utf8')); } catch { if (attempt === 7) return null; await new Promise(resolve => setTimeout(resolve, 5 + attempt * 5)); } } return null; }
-async function all(config) { await ensure(config); const ents = await fsp.readdir(dir(config), { withFileTypes: true }).catch(() => []); const out = []; for (const e of ents) if (e.isDirectory()) { const m = await load(config, e.name); if (m) out.push(m); } return out.sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt))); }
-function event(m, type, msg, data = {}) { m.events ||= []; m.events.push({ at: now(), type, msg, data }); m.updatedAt = now(); return m; }
-function addTask(m, title, extra = {}) { const t = { id: extra.id || id('task'), title: String(title || extra.title || 'task'), status: extra.status || 'open', createdAt: now(), evidence: [] }; m.tasks.push(t); event(m, 'task_added', t.title, { taskId: t.id }); return t; }
-function completeTask(m, tid, eid = '') { const t = m.tasks.find(x => x.id === tid || x.title === tid); if (!t) return null; t.status = 'done'; t.completedAt = now(); if (eid) t.evidence.push(eid); event(m, 'task_completed', t.title, { taskId: t.id }); return t; }
-function evidence(m, input = {}) { const e = { id: input.id || id('evidence'), kind: input.kind || 'note', claim: String(input.claim || input.message || input.text || input.query || ''), proof: input.proof || input.output || input.data || null, ok: input.ok !== false, at: now() }; m.evidence.push(e); event(m, 'evidence', e.claim, { evidenceId: e.id }); return e; }
-function counts(m) { const tasks = m.tasks || []; return { totalTasks: tasks.length, doneTasks: tasks.filter(t => t.status === 'done').length, openTasks: tasks.filter(t => t.status !== 'done').length, evidence: (m.evidence || []).length, blockers: (m.blockers || []).length, questions: (m.questions || []).length, answers: (m.answers || []).length, jobs: (m.jobs || []).length }; }
-function dod(m) { const c = counts(m); const text = JSON.stringify(m.evidence || []).toLowerCase(); const checks = (m.definitionOfDone || []).map(name => ({ name, ok: text.includes(String(name).toLowerCase()) || text.includes('verification passed') })); const ok = c.openTasks === 0 && c.totalTasks > 0 && c.evidence > 0 && c.blockers === 0 && checks.every(x => x.ok || /evidence|verification|supervisor/i.test(x.name)); return { ok, counts: c, checks }; }
-function continuation(m) { Lease.touch(m, { renew: true }); const d = dod(m); if (m.status === 'blocked') return { continueWorking: false, reason: 'mission_blocked', dod: d }; if (m.status === 'done' && d.ok) return { continueWorking: false, reason: 'mission_done', dod: d }; return { continueWorking: true, reason: d.ok ? 'ready_for_completion_court' : 'definition_of_done_not_satisfied', dod: d, nextPrompt: 'Keep going: inspect, execute, verify, record evidence, then reassess.' }; }
-function scriptFor(m) { const c = counts(m); if (c.totalTasks === 0) return 'AFTER_START'; if (c.openTasks > 0 && c.evidence === 0) return 'AFTER_TASK_NO_EVIDENCE'; if (c.openTasks > 0) return 'AFTER_PARTIAL'; if (c.evidence > 0 && !dod(m).ok) return 'AFTER_EVIDENCE'; if (dod(m).ok && m.status !== 'done') return 'BEFORE_DONE'; return 'KEEP_GOING'; }
-function scriptText(name) { return ({ AFTER_START: 'Create the first concrete task. Do not ask the user unless impossible.', AFTER_TASK_NO_EVIDENCE: 'There is an open task with no proof. Execute or verify it next.', AFTER_PARTIAL: 'Some work is open. Finish an open task or attach a long job.', AFTER_EVIDENCE: 'Evidence exists but completion gates still fail. Add missing proof, tasks, or questions.', BEFORE_DONE: 'Completion gates look satisfied. Run final critic/verifier before reporting done.', KEEP_GOING: 'Continue until the mission is actually done.' })[name] || 'Continue.'; }
-function choice(key, text, action, payload = {}) { return { key, text, action, payload }; }
-function question(m, mode = 'normal') { const c = counts(m); const script = scriptFor(m); let choices; if (c.totalTasks === 0) choices = [choice('A', 'Create implementation task', 'add_task', { title: 'implement next concrete step' }), choice('B', 'Create verification task', 'add_task', { title: 'verify behavior' }), choice('C', 'Record blocker', 'block', {}), choice('D', 'Let tunnel choose next question forever', 'auto', {}), choice('E', 'Show mission report', 'report', {})]; else if (c.openTasks > 0) choices = [choice('A', 'Finish first open task', 'complete_first_task', {}), choice('B', 'Attach or poll long-running job', 'attach_job', {}), choice('C', 'Record verification evidence', 'evidence', { claim: 'verification passed' }), choice('D', 'Let tunnel choose next question forever', 'auto', {}), choice('E', 'Run discovery pass', 'discover', {})]; else choices = [choice('A', 'Run completion court', 'verify', {}), choice('B', 'Add stress-test evidence', 'evidence', { claim: 'verification passed stress coverage' }), choice('C', 'Reopen a missing task', 'add_task', { title: 'address discovered gap' }), choice('D', 'Let tunnel choose next question forever', 'auto', {}), choice('E', 'Mark done only if gates pass', 'done_if_ready', {})]; return { id: id('q'), at: now(), script, prompt: scriptText(script), text: mode === 'auto' ? 'Tunnel-selected next move: choose or allow auto-advance.' : 'What should happen next?', choices, expectedAnswerFormat: 'A|B|C|D|E plus optional reason. D enables tunnel-authored continuation.' }; }
-function parseAnswer(answer, q) { const raw = String(answer || '').trim(); const key = raw.match(/\b([A-E])\b/i)?.[1]?.toUpperCase() || raw.match(/^[A-E]/i)?.[0]?.toUpperCase(); const choice = (q.choices || []).find(c => c.key === key) || (q.choices || []).find(c => raw.toLowerCase().includes(c.text.toLowerCase())); return { raw, key: choice?.key || key || '', choice: choice || null, confidence: choice ? 1 : 0.25, reason: raw.replace(/^[A-E][).:-]?\s*/i, '') }; }
-function ask(m, answer = '', mode = 'normal') { const q = question(m, mode); const parsed = answer ? parseAnswer(answer, q) : null; m.questions.push({ ...q, parsed }); if (parsed) m.answers.push({ at: now(), questionId: q.id, ...parsed }); event(m, 'question', q.text, { questionId: q.id, parsed }); return { question: q, parsed }; }
-function applyChoice(m, parsed) { const act = parsed?.choice?.action || ''; if (!act) return { applied: false, message: 'No parseable choice. Ask again.' }; if (act === 'auto') { m.automation.enabled = true; m.automation.mode = 'tunnel-authored'; event(m, 'auto_enabled', 'Tunnel will author next questions.'); return { applied: true, auto: true, message: 'Automation enabled.' }; } if (act === 'add_task') return { applied: true, task: addTask(m, parsed.choice.payload.title) }; if (act === 'complete_first_task') { const t = (m.tasks || []).find(x => x.status !== 'done'); return { applied: true, task: t ? completeTask(m, t.id) : null }; } if (act === 'evidence') return { applied: true, evidence: evidence(m, parsed.choice.payload) }; if (act === 'discover') return { applied: true, discoveries: discover(m) }; if (act === 'verify') return { applied: true, verification: verify(m) }; if (act === 'done_if_ready') { const v = verify(m); if (v.ok) m.status = 'done'; return { applied: true, verification: v, status: m.status }; } if (act === 'block') { m.status = 'blocked'; m.blockers.push({ at: now(), reason: parsed.reason || 'agent selected blocker' }); return { applied: true, blocked: true }; } if (act === 'attach_job') return { applied: true, message: 'Use missionAttachJob with a jobId and purpose.' }; return { applied: false, message: 'Unknown action.' }; }
-function answer(m, input = {}) { const q = question(m); const parsed = parseAnswer(input.answer || input.text || input.message || input.choice, q); m.questions.push({ ...q, parsed }); m.answers.push({ at: now(), questionId: q.id, ...parsed }); const applied = applyChoice(m, parsed); const next = nextStep(m, { autoAdvance: m.automation.enabled }); event(m, 'answer', parsed.raw, { parsed, applied, next }); return { parsed, applied, next }; }
-function nextStep(m, opts = {}) { const leaseState = Lease.touch(m, { renew: opts.renewLease !== false }); m.heartbeatAt = now(); const cont = continuation(m); const v = verify(m); if (!cont.continueWorking && v.ok) return { keepGoing: false, done: true, verdict: 'done', report: report(m), lease: leaseState }; const q = question(m, opts.autoAdvance ? 'auto' : 'normal'); const response = { keepGoing: true, done: false, verdict: 'continue', messageToAgent: scriptText(q.script), question: q, expectedAnswerFormat: q.expectedAnswerFormat, report: report(m), prewrittenResponse: q.prompt, ...missionGateResponse(m, q) }; if (opts.autoAdvance && m.automation.enabled && m.automation.cycles < m.automation.maxCycles) { m.automation.cycles += 1; response.autoSuggestedAnswer = autoAnswer(m, q); response.autoInstruction = 'Call missionAnswer with this answer, or override with A-E.'; } return response; }
+const StrictAnswer = require('./strictAnswer.js');
+const Innovation = require('./innovationPolicy.js');
+const AnswerLedger = require('./answerLedger.js');
+const Utils = require('./coreUtils.js');
+const { createState } = require('./coreState.js');
+const { createRecords } = require('./coreRecords.js');
+const { createStorage } = require('./coreStorage.js');
+const { createReports } = require('./coreReports.js');
+const { createGates } = require('./coreGates.js');
+const { createWork } = require('./coreWork.js');
+const { createAnswers } = require('./coreAnswers.js');
+const { createSteps } = require('./coreSteps.js');
+const { createAutonomy } = require('./coreAutonomy.js');
 
 /**
  * B"H
- * Chapter 539: The agent may not slip out the side door.
- * Every living mission question now carries a hard response-focus gate: choose
- * A-E, call the next mission action, and keep revealing the work until the
- * vessel is honestly complete or explicitly blocked.
+ * Chapter 548: The giant palace became rooms with windows.
+ * Core now assembles small vessels: utils, state, storage, records, reports,
+ * gates, work, answers, steps, and autonomy. The public API stays whole; the
+ * internals stop shouting over each other.
  */
-function missionGateResponse(m, q, extra = {}) {
-  const answer = autoAnswer(m, q);
-  return {
-    multipleChoiceSelfInterrogation: {
-      questionId: q.id,
-      prompt: q.prompt,
-      text: q.text,
-      choices: q.choices,
-      expectedAnswerFormat: q.expectedAnswerFormat,
-      recommendedAnswer: answer
-    },
-    responseFocus: {
-      oneMainThing: 'Answer the mission multiple-choice gate before any unrelated action.',
-      mustAnswerGate: true,
-      expectedAnswerFormat: q.expectedAnswerFormat,
-      recommendedAnswer: answer
-    },
-    mustCallNext: extra.mustCallNext || { action: 'missionAnswer', missionId: m.id, answer },
-    finalAnswerAllowed: false,
-    mustContinue: true,
-    allCapsPrompt: 'ANSWER THE MISSION GATE FIRST, THEN CONTINUE THE PLAN WITH PROOF.'
-  };
-}
+const env = { ...Utils, Lease, Constitution, StrictAnswer, Innovation, AnswerLedger };
+Object.assign(env, createState(env));
+Object.assign(env, createRecords(env));
+Object.assign(env, createStorage(env));
+Object.assign(env, createReports(env));
+Object.assign(env, createGates(env));
+Object.assign(env, createWork(env));
+Object.assign(env, createAnswers(env));
+Object.assign(env, createSteps(env));
+Object.assign(env, createAutonomy(env));
 
-function autoAnswer(m, q) { const c = counts(m); if (c.totalTasks === 0) return 'A create the first concrete task'; if (c.openTasks > 0 && c.evidence === 0) return 'C record verification evidence'; if (c.openTasks > 0) return 'A finish first open task'; if (!verify(m).ok) return 'A run completion court'; return 'E mark done only if gates pass'; }
-function discover(m) { const names = ['unfinished_work','hidden_bugs','verification_gap','performance','documentation','future_evolution']; const text = JSON.stringify(m.evidence || []).toLowerCase(); const discoveries = names.map(name => ({ name, ok: text.includes(name) || text.includes('verification'), recommendation: text.includes(name) ? 'covered' : 'inspect_' + name })); m.discoveries.push({ at: now(), discoveries }); event(m, 'discovery', 'Discovery pass completed'); return discoveries; }
-function attachJob(m, input = {}) { const job = { id: input.jobId || input.id || id('job'), purpose: input.purpose || input.goal || 'long-running work', status: input.status || 'attached', expectedSignal: input.expectedSignal || '', timeoutMs: Number(input.timeoutMs || 7200000), attachedAt: now(), lastPollAt: null }; m.jobs.push(job); event(m, 'job_attached', job.purpose, { jobId: job.id }); return job; }
-function heartbeat(m, input = {}) { m.heartbeatAt = now(); if (input.note) event(m, 'heartbeat', input.note); return { at: m.heartbeatAt, keepGoing: continuation(m).continueWorking, next: nextStep(m, { autoAdvance: m.automation.enabled }) }; }
-function verify(m) { const d = dod(m); const issues = []; if (!m.tasks.length) issues.push('no_tasks'); if (!m.evidence.length) issues.push('no_evidence'); if (!m.questions.length) issues.push('no_self_questions'); return { ok: d.ok && issues.length === 0, dod: d, issues }; }
-function supervise(m) { const decision = continuation(m); return { ok: true, verdict: decision.continueWorking ? 'continue' : 'stop', decision, instruction: decision.continueWorking ? decision.nextPrompt : 'Mission may report completion.' }; }
-function report(m) { const lease = Lease.status(m); const constitution = Constitution.review(m); return { id: m.id, goal: m.goal, status: m.status, phase: m.phase, counts: counts(m), stepProtocol: { stepPlans: (m.stepPlans || []).length, chunkPlans: (m.chunkPlans || []).length, refrigeratedStates: (m.refrigeratedStates || []).length, thawHistory: (m.thawHistory || []).length, nextPlans: (m.nextPlans || []).length }, longRun: m.longRun ? { cycles: m.longRun.cycles || 0, queueOpen: (m.longRun.queue || []).filter(item => item.status !== 'done').length, familiesOpen: (m.longRun.families || []).filter(item => item.status !== 'done').length, pulses: (m.longRun.pulses || []).length, watchdog: (m.longRun.watchdog || []).length } : null, collaboration: m.collaboration ? { projectId: m.collaboration.id, agents: Object.keys(m.collaboration.agents || {}).length, messages: (m.collaboration.messages || []).length, delegations: (m.collaboration.delegations || []).length, activeClaims: (m.collaboration.claims || []).filter(c => c.status === 'active').length, audits: (m.collaboration.audits || []).length } : null, automation: m.automation, lease, constitution, continuation: continuation(m), updatedAt: m.updatedAt, heartbeatAt: m.heartbeatAt }; }
-function timeline(m) { return [...(m.events || []), ...(m.evidence || []).map(e => ({ at: e.at, type: 'evidence', msg: e.claim }))].sort((a, b) => String(a.at).localeCompare(String(b.at))); }
-function graph(m) { const nodes = [{ id: m.id, kind: 'mission', label: m.goal }], edges = []; for (const t of m.tasks) { nodes.push({ id: t.id, kind: 'task', label: t.title }); edges.push({ from: m.id, to: t.id, kind: 'has_task' }); } for (const e of m.evidence) { nodes.push({ id: e.id, kind: 'evidence', label: e.claim }); edges.push({ from: m.id, to: e.id, kind: 'has_evidence' }); } for (const j of m.jobs) { nodes.push({ id: j.id, kind: 'job', label: j.purpose }); edges.push({ from: m.id, to: j.id, kind: 'has_job' }); } return { nodes, edges }; }
-function askHumanDecision(m, input = {}) { const policy = m.autonomyPolicy || autonomyPolicy({}); const runtimeMs = Date.now() - Number(policy.startedAtMs || Date.now()); const repeated = Math.max(...Object.values((m.events || []).filter(e => e.type === 'failure').reduce((acc, e) => { const k = e.msg || 'failure'; acc[k] = (acc[k] || 0) + 1; return acc; }, {})), 0); const destructive = input.destructive === true || /delete|remove|kill|reset|secret|credential/i.test(String(input.intent || input.action || '')); const mustAsk = !!(destructive && policy.requireHumanForDestructive) || repeated >= policy.maxRepeatedFailureBeforeHuman || (m.status === 'blocked' && runtimeMs >= policy.minRuntimeBeforeHumanQuestionMs); return { askHuman: mustAsk, runtimeMs, repeatedFailures: repeated, destructive, reason: mustAsk ? (destructive ? 'destructive_requires_human' : repeated >= policy.maxRepeatedFailureBeforeHuman ? 'repeated_failures' : 'blocked_after_min_runtime') : 'keep_self_working' }; }
-function checkpoint(m, input = {}) { const cp = { id: input.id || id('checkpoint'), at: now(), kind: input.kind || 'autopilot', summary: input.summary || `Mission ${m.status}; ${counts(m).doneTasks}/${counts(m).totalTasks} tasks done.`, report: report(m), next: continuation(m).nextPrompt || '', mailDraftId: '' }; m.checkpoints ||= []; m.checkpoints.push(cp); event(m, 'checkpoint', cp.summary, { checkpointId: cp.id }); if ((m.autonomyPolicy || {}).allowSelfMail && input.mail !== false) cp.mailDraftId = selfMailDraft(m, { kind: 'checkpoint', checkpointId: cp.id, to: input.to || input.email || input.selfEmail || '' }).id; return cp; }
-function selfMailDraft(m, input = {}) { const c = counts(m); const subject = input.subject || `Mission checkpoint: ${m.goal}`.slice(0, 120); const body = input.body || [`B"H`, `Mission: ${m.goal}`, `Status: ${m.status}`, `Tasks: ${c.doneTasks}/${c.totalTasks} done`, `Evidence: ${c.evidence}`, `Questions: ${c.questions}`, `Answers: ${c.answers}`, `Next: ${(continuation(m).nextPrompt || 'continue')}`, `Report: ${JSON.stringify(report(m))}`].join('\n'); const draft = { id: input.id || id('mail'), at: now(), kind: input.kind || 'checkpoint', to: String(input.to || input.email || ''), subject, body, status: input.to || input.email ? 'ready_to_send' : 'draft_missing_recipient' }; m.mail ||= []; m.mail.push(draft); event(m, 'self_mail_draft', subject, { mailId: draft.id, status: draft.status }); return draft; }
-function brainstorm(m, input = {}) { const policy = m.autonomyPolicy || autonomyPolicy({}); const rounds = Math.min(num(input.rounds || input.cycles, policy.maxSelfBrainstormCycles), policy.maxSelfBrainstormCycles); const run = { id: input.id || id('brainstorm'), at: now(), rounds: [], stopped: '', askHuman: false }; for (let i = 0; i < rounds; i++) { const gate = askHumanDecision(m, input); if (gate.askHuman) { run.stopped = gate.reason; run.askHuman = true; break; } if (!continuation(m).continueWorking) { run.stopped = 'mission_not_continuing'; break; } const q = question(m, 'auto'); const answerText = input.answers?.[i] || autoAnswer(m, q); const parsed = parseAnswer(answerText, q); m.questions.push({ ...q, parsed, selfBrainstorm: true }); m.answers.push({ at: now(), questionId: q.id, ...parsed, selfBrainstorm: true }); const applied = applyChoice(m, parsed); m.automation.cycles = num(m.automation.cycles, 0) + 1; const round = { index: i, questionId: q.id, answer: answerText, parsed, applied, verification: verify(m) }; run.rounds.push(round); event(m, 'self_brainstorm_round', answerText, { brainstormId: run.id, index: i, applied }); } if (!run.stopped) run.stopped = run.rounds.length >= rounds ? 'round_limit' : 'complete'; m.brainstorms ||= []; m.brainstorms.push(run); event(m, 'self_brainstorm', run.stopped, { brainstormId: run.id, rounds: run.rounds.length }); return run; }
-function autopilot(m, input = {}) { const policy = m.autonomyPolicy || autonomyPolicy({}); m.automation.enabled = input.enabled !== false; m.automation.mode = 'autopilot'; const rounds = Math.min(num(input.rounds || input.maxRounds, policy.maxAutopilotRounds), policy.maxAutopilotRounds); const out = { id: input.id || id('autopilot'), at: now(), rounds: [], checkpoints: [], mail: [], stopped: '', askHuman: false, final: null }; for (let i = 0; i < rounds; i++) { const gate = askHumanDecision(m, input); if (gate.askHuman) { out.stopped = gate.reason; out.askHuman = true; m.escalations ||= []; m.escalations.push({ at: now(), reason: gate.reason, gate }); break; } if (!continuation(m).continueWorking) { out.stopped = 'mission_not_continuing'; break; } const run = brainstorm(m, { rounds: 1, answers: input.answers || [] }); out.rounds.push(run.rounds[0] || { stopped: run.stopped }); if ((i + 1) % Math.max(1, policy.mailEveryRounds) === 0 || input.checkpointEveryRound === true) { const cp = checkpoint(m, { kind: 'autopilot', summary: `Autopilot round ${i + 1}/${rounds}`, mail: input.mail !== false, to: input.to || input.email || input.selfEmail || '' }); out.checkpoints.push(cp); if (cp.mailDraftId) out.mail.push(cp.mailDraftId); } } if (!out.stopped) out.stopped = out.rounds.length >= rounds ? 'round_limit' : 'complete'; out.final = { report: report(m), verification: verify(m), askHuman: askHumanDecision(m, input) }; event(m, 'autopilot', out.stopped, { autopilotId: out.id, rounds: out.rounds.length, askHuman: out.askHuman }); return out; }
-
-module.exports = { DIR, id, clean, dir, file, ensure, create, load, save, all, shape, event, addTask, completeTask, evidence, counts, dod, continuation, scriptFor, scriptText, question, parseAnswer, ask, applyChoice, answer, nextStep, missionGateResponse, autoAnswer, discover, attachJob, heartbeat, verify, supervise, report, timeline, graph, autonomyPolicy, askHumanDecision, checkpoint, selfMailDraft, brainstorm, autopilot, Lease, Constitution };
+module.exports = {
+  DIR: env.DIR, id: env.id, clean: env.clean, dir: env.dir, file: env.file,
+  ensure: env.ensure, create: env.create, load: env.load, save: env.save, all: env.all,
+  shape: env.shape, event: env.event, addTask: env.addTask, completeTask: env.completeTask,
+  evidence: env.evidence, counts: env.counts, dod: env.dod, continuation: env.continuation,
+  scriptFor: env.scriptFor, scriptText: env.scriptText, question: env.question,
+  answerInputText: env.answerInputText, parseAnswer: env.parseAnswer, ask: env.ask,
+  applyChoice: env.applyChoice, answer: env.answer, nextStep: env.nextStep,
+  missionGateResponse: env.missionGateResponse, autoAnswer: env.autoAnswer,
+  discover: env.discover, attachJob: env.attachJob, heartbeat: env.heartbeat,
+  verify: env.verify, supervise: env.supervise, report: env.report,
+  timeline: env.timeline, graph: env.graph, autonomyPolicy: env.autonomyPolicy,
+  askHumanDecision: env.askHumanDecision, checkpoint: env.checkpoint,
+  selfMailDraft: env.selfMailDraft, brainstorm: env.brainstorm, autopilot: env.autopilot,
+  Lease, Constitution, StrictAnswer, Innovation, AnswerLedger
+};

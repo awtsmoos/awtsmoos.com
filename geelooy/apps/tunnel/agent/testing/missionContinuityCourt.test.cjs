@@ -17,7 +17,7 @@ function call(config, payload) { return buildActions(config, payload, null)[payl
 (async () => {
   const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'awts-continuity-'));
   const config = { root, allowWrite: true, allowCommands: true, tools: { fsRead: true, fsWrite: true, fsBulk: true, command: true } };
-  const start = await call(config, { action: 'missionStart', goal: 'continuity court', definitionOfDone: ['court passed'], expand: false });
+  const start = await call(config, { action: 'missionStart', goal: 'continuity court', definitionOfDone: ['court passed'], minimumInnovationWindowMs: 0, expand: false });
   const missionId = start.missionId;
 
   let court = await call(config, { action: 'missionCourt', missionId });
@@ -30,7 +30,7 @@ function call(config, payload) { return buildActions(config, payload, null)[payl
   const task = await call(config, { action: 'missionAddTask', missionId, title: 'finish continuity court' });
   const ev = await call(config, { action: 'missionEvidence', missionId, claim: 'court passed', kind: 'test', proof: 'observed test proof' });
   await call(config, { action: 'missionCompleteTask', missionId, taskId: task.task.id, evidenceId: ev.evidence.id, expand: false });
-  await call(config, { action: 'missionQuestion', missionId, answer: 'E mark done only if gates pass' });
+  await call(config, { action: 'missionQuestion', missionId, answer: 'E' });
 
   court = await call(config, { action: 'missionCourt', missionId, minConfidence: 40 });
   assert.equal(court.court.ok, true);

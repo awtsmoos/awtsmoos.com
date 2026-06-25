@@ -33,13 +33,14 @@ function assertGate(next, label) {
     action: "missionStart",
     goal: "forced gates and blocking",
     definitionOfDone: ["gate proof passed"],
+    minimumInnovationWindowMs: 0,
     expand: false
   });
   assert.equal(started.ok, true);
   assertGate(started.next, "missionStart");
   const missionId = started.missionId;
 
-  const answerA = await action(config, { action: "missionAnswer", missionId, answer: "A create implementation task" });
+  const answerA = await action(config, { action: "missionAnswer", missionId, answer: "A" });
   assert.equal(answerA.ok, true);
   assert(answerA.applied.task, "answer A should create a task");
   assertGate(answerA.next, "answerA next");
@@ -54,7 +55,7 @@ function assertGate(next, label) {
   assert.equal(completed.expansion, null);
   assertGate(completed.next, "complete next");
 
-  const question = await action(config, { action: "missionQuestion", missionId, answer: "E mark done only if gates pass" });
+  const question = await action(config, { action: "missionQuestion", missionId, answer: "E" });
   assert.equal(question.ok, true);
   assertGate(question.next, "question next");
 

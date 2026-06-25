@@ -3,9 +3,9 @@
 export const DEFAULT_AGENT = "control-room-human";
 const KEY = "awt.missionRooms.selection";
 
-/** B"H: State for rooms plus the selected room's tunnel-call stream. */
+/** B"H: Room state with selected-room WebSocket lifecycle. */
 export function createRoomState() {
-  return { missions: [], selectedMissionId: "", selected: null, lastResult: null, commandRows: [], liveGroups: [], timer: 0, discoverTimer: 0, callsTimer: 0, busy: false, lastHeartbeatAt: 0 };
+  return { missions: [], selectedMissionId: "", selected: null, timeline: [], lastResult: null, timer: 0, discoverTimer: 0, busy: false, socket: null, socketMode: "idle", socketError: "", socketReconnect: 0, socketOpenedAt: 0 };
 }
 
 export function loadSelection() {
@@ -13,9 +13,7 @@ export function loadSelection() {
 }
 
 export function saveSelection(data = {}) {
-  try {
-    localStorage.setItem(KEY, JSON.stringify({ missionId: data.missionId || "", projectRoot: data.projectRoot || "", agentId: data.agentId || DEFAULT_AGENT, savedAt: new Date().toISOString() }));
-  } catch {}
+  try { localStorage.setItem(KEY, JSON.stringify({ missionId: data.missionId || "", projectRoot: data.projectRoot || "", agentId: data.agentId || DEFAULT_AGENT, savedAt: new Date().toISOString() })); } catch {}
 }
 
 export function paramsSelection() {

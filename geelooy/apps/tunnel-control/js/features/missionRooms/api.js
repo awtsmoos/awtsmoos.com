@@ -2,14 +2,7 @@
 
 import { getJson } from "../../api/http.js";
 
-/**
- * B"H
- * Chapter 716: The room asks only for rooms and room-scoped tool fire.
- *
- * Global tool codex belongs to the Tool Codex page. Mission Rooms now asks the
- * bridge for rooms, room status, room messages, and live calls filtered to the
- * selected chamber so the human sees what this room is doing to the tunnel.
- */
+/** B"H: Mission Rooms talks only to mission room endpoints. */
 export async function roomAction(getTunnelName, payload) {
   const tunnel = encodeURIComponent(getTunnelName?.() || "auto");
   const url = new URL(`/api/tunnel/control/fs/${tunnel}`, location.origin);
@@ -21,28 +14,26 @@ export async function roomAction(getTunnelName, payload) {
   return got;
 }
 
-export async function liveCalls(filter = "") {
-  const url = new URL("/api/tunnel/control/live-calls", location.origin);
-  url.searchParams.set("groupBy", "conversation");
-  url.searchParams.set("limit", "120");
-  if (filter) url.searchParams.set("filter", filter);
-  const got = await getJson(url.toString(), { credentials: "include" });
-  if (got.ok === false) throw new Error(got.error || "live_calls_failed");
-  return got;
+/** B"H: WebSocket-first room stream URL, scoped by tunnel and mission id. */
+export function roomSocketUrl(getTunnelName, missionId) {
+  const url = new URL("/api/tunnel/control/mission-room/ws", location.origin.replace(/^http/, "ws"));
+  url.searchParams.set("tunnelName", getTunnelName?.() || "auto");
+  url.searchParams.set("missionId", missionId || "");
+  return url.toString();
 }
 
 export function discoverPayload(projectRoot, agentId) {
   return { action: "missionProjectDiscover", targetVessel: "native-tunnel", projectRoot, q: projectRoot || "", agentId, limit: 80 };
 }
 
-export function joinPayload(missionId) {
-  return { action: "missionProjectJoin", targetVessel: "native-tunnel", missionId };
+export function joinPayload(missionId, input = {}) {
+  return { action: "missionProjectJoin", targetVessel: "native-tunnel", missionId, ...input };
 }
 
 export function statusPayload(missionId) {
   return { action: "missionProjectStatus", targetVessel: "native-tunnel", missionId };
 }
 
-export function heartbeatPayload(missionId, agentId, note = "control-room refresh") {
-  return { action: "missionAgentHeartbeat", targetVessel: "native-tunnel", missionId, agentId, status: "observing", currentAction: "mission-room-watch", note };
+export function timelinePayload(missionId) {
+  return { action: "missionTimeline", targetVessel: "native-tunnel", missionId };
 }
