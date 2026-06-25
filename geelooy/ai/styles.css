@@ -1,6 +1,6 @@
 /*B"H
-Chapter 430: The root cascade became a river with a fresh public seal.
-Every imported chamber is still split; the final polish arrives last like dawn.
+Chapter 571: The root cascade remains split, and the civilization polish arrives
+last as a soft crown over every AI surface.
 */
 @import "./css/ideal/tokens.css";
 @import "./css/ideal/shell.css";
@@ -25,7 +25,8 @@ Every imported chamber is still split; the final polish arrives last like dawn.
 @import "./css/performance-override.css";
 @import "./css/right-panel/mobile-overlap-kill.css";
 @import "./css/bug-polish/manifest.css";
+@import "./css/civilization/page-polish.css";
 
 :root {
-  --awtsmoos-style-build: ui-total-polish-2026-06-19-01;
+  --awtsmoos-style-build: ui-total-polish-2026-06-24-civilization-01;
 }
