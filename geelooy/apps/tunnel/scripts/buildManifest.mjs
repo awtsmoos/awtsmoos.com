@@ -1,79 +1,26 @@
 // B"H
 import fs from "fs";
 import path from "path";
+import { createRequire } from "module";
 import { fileURLToPath } from "url";
 
+const require = createRequire(import.meta.url);
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-const tunnelDir = path.resolve(scriptDir, "..");
-const agentDir = path.join(tunnelDir, "agent");
+const agentDir = path.resolve(scriptDir, "../agent");
 const manifestPath = path.join(agentDir, "manifest.txt");
+const { buildManifest, slash } = require(path.join(agentDir, "rebuild-manifest.cjs"));
 
 /**
  * B"H
- * Chapter 396: The Installer Scroll Refused The Deprecated Shadow.
+ * Chapter 396, sealed: Two scribes became one quill.
  *
- * The manifest is text only: blessing, version, entry, and downloadable files.
- * The stale JSON name is not mentioned because it is no longer a vessel.
+ * The public installer and the agent bundle must read the same scroll. This
+ * legacy script now delegates to the canonical agent manifest smith so macOS
+ * ghosts, test files, and external relay files cannot drift between builders.
  */
-function walk(dir) {
-  const out = [];
-  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, ent.name);
-    const rel = path.relative(agentDir, full).replaceAll("\\", "/");
-    if (ent.isDirectory()) {
-      if (rel === "testing" || rel.startsWith("testing/") || rel.includes("/testing/") || rel === "tools/fs/testing") continue;
-      out.push(...walk(full));
-      continue;
-    }
-    if (!ent.isFile()) continue;
-    if (rel === "manifest.txt" || rel.includes("/.tmp-") || rel.endsWith(".test.cjs") || rel.endsWith(".test.js") || rel.endsWith(".map")) continue;
-    out.push(rel);
-  }
-  return out;
-}
-function oldVersion() {
-  try {
-    const lines = fs.readFileSync(manifestPath, "utf8").split(/\r?\n/).map(v => v.trim()).filter(Boolean);
-    return lines[1] || "1.0.0";
-  } catch (_e) { return "1.0.0"; }
-}
-function bump(version) {
-  const parts = String(version || "1.0.0").split(".").map(v => parseInt(v, 10) || 0);
-  while (parts.length < 3) parts.push(0);
-  parts[2] += 1;
-  return parts.join(".");
-}
-const version = bump(oldVersion());
-const publicRoot = path.resolve(tunnelDir, "../..");
-const relaySplitBrowserDir = path.join(publicRoot, "ai/relay/split-browser");
-
-function walkPublic(dir) {
-  const out = [];
-  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (ent.name.startsWith(".")) continue;
-    const full = path.join(dir, ent.name);
-    const rel = path.relative(publicRoot, full).replaceAll("\\", "/");
-
-    if (ent.isDirectory()) {
-      out.push(...walkPublic(full));
-      continue;
-    }
-
-    if (!ent.isFile()) continue;
-    if (!rel.endsWith(".cjs") && !rel.endsWith(".js")) continue;
-
-    out.push(rel);
-  }
-  return out;
-}
-
-const publicFiles = walkPublic(relaySplitBrowserDir);
-const files = [...walk(agentDir), ...publicFiles].sort();
-
-
-
-fs.writeFileSync(manifestPath, ['B"H', version, "main.js", "", ...files, ""].join("\n"), "utf8");
+const built = buildManifest();
+fs.writeFileSync(manifestPath, built.text, "utf8");
 console.log(`B"H wrote manifest`);
-console.log(`manifest ${manifestPath}`);
-console.log(`version ${version}`);
-console.log(`files ${files.length}`);
+console.log(`manifest ${slash(manifestPath)}`);
+console.log(`version ${built.version}`);
+console.log(`files ${built.files.length}`);

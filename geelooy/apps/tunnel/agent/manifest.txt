@@ -1,8 +1,7 @@
 B"H
-1.0.117
+1.0.120
 main.js
 
-.DS_Store
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
 ai/relay/split-browser/automation.cjs
@@ -24,6 +23,7 @@ ai/relay/split-browser/http.cjs
 ai/relay/split-browser/index.js
 ai/relay/split-browser/jsPreamble.cjs
 ai/relay/split-browser/logger.cjs
+ai/relay/split-browser/manifest.json
 ai/relay/split-browser/originPolicy.cjs
 ai/relay/split-browser/proxy.cjs
 ai/relay/split-browser/relayApi.cjs
@@ -133,7 +133,6 @@ tools/fs/actionGroups/remoteModuleCompat.js
 tools/fs/actionGroups/renderLabActions.js
 tools/fs/actionGroups/runtimeActions.js
 tools/fs/actionGroups/staticServerActions.js
-tools/fs/actionGroups/test/missionContinuityActions.test.mjs
 tools/fs/actionGroups/virtualChromeActions.js
 tools/fs/actionGroups/workflowActions.js
 tools/fs/actionGroups/writeActions.js
@@ -168,8 +167,8 @@ tools/fs/image/writeImage.js
 tools/fs/index.js
 tools/fs/isolatedHtml.js
 tools/fs/isolatedJs.js
-tools/fs/jsWriteVerifier.js
 tools/fs/jsonTools.js
+tools/fs/jsWriteVerifier.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
 tools/fs/mission/collaboration.js
