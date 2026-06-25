@@ -1,9 +1,10 @@
-﻿// B"H
-/** @file ProfessionRuntime.js @description Profession XP and rank state for one-player completion. */
-import ProfessionRegistry, { professionById } from "./ProfessionRegistry.js";
-function playerOf(olam) { return olam?.player || olam?.chossid || null; }
-function next(rank) { return 50 + Math.max(1, rank) * 35; }
-export function ensureProfessions(olam) { const p = playerOf(olam); if (!p) return null; p.professions ||= {}; for (const def of ProfessionRegistry) p.professions[def.id] ||= { id:def.id, rank:1, xp:0, xpToNext:next(1) }; return p.professions; }
-export function grantProfessionXp(olam, id, amount = 1) { if (!professionById(id)) return false; const row = ensureProfessions(olam)?.[id]; if (!row) return false; row.xp += Math.max(0, Math.floor(Number(amount) || 0)); while (row.xp >= row.xpToNext) { row.xp -= row.xpToNext; row.rank++; row.xpToNext = next(row.rank); } olam?.ayshPeula?.("ui event", "profession", row); return row; }
-export function professionsPayload(olam) { return { professions:ProfessionRegistry, state:ensureProfessions(olam) || {} }; }
-export default { ensureProfessions, grantProfessionXp, professionsPayload };
+// B"H
+/**
+ * ProfessionRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+import { craft } from './RecipeRuntime.js';
+export function createProfessionRuntime(store={}){ const skill=store.professions||={}; return { craft(recipe,bag){ const out=craft(recipe,bag); if(out.ok)skill[recipe]=(skill[recipe]||0)+1; globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:crafted',{detail:{recipe,out,skill}})); return out; }, skill(){return {...skill};} }; }
+export default createProfessionRuntime;

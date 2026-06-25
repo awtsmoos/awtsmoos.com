@@ -1,5 +1,10 @@
-﻿// B"H
-/** @file PriceRuntime.js @description Vendor prices with reputation discount hooks. */
-function standingDiscount(standing = "stranger") { return ({ friendly:.05, honored:.1, revered:.15, beloved:.2 }[standing] || 0); }
-export function priceFor(player, item, mode = "buy", factionId = "village") { const base = Number(item?.price ?? item?.sellValue ?? 1); const standing = player?.reputation?.[factionId]?.standing || "stranger"; const discount = mode === "buy" ? standingDiscount(standing) : 0; const multiplier = mode === "sell" ? .35 : 1 - discount; return Math.max(1, Math.ceil(base * multiplier)); }
-export default { priceFor };
+// B"H
+/**
+ * PriceRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+export function reputationDiscount(rep=0){ return Math.min(.25,Math.max(0,Number(rep)||0)/1000); }
+export function finalPrice(base=1,rep=0){ return Math.max(1,Math.round(Number(base||1)*(1-reputationDiscount(rep)))); }
+export default { reputationDiscount, finalPrice };

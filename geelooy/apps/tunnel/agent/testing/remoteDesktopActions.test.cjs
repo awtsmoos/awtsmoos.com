@@ -1,0 +1,37 @@
+// B"H
+const assert = require('assert');
+const { buildActions } = require('../tools/fs/actions.js');
+const { resetForTests } = require('../tools/fs/remoteDesktop/store.js');
+(async () => {
+  resetForTests();
+  const config = { root: process.cwd(), allowWrite: false, allowSecrets: false };
+  let actions = buildActions(config, { action:'remoteDesktopPolicy' }, null);
+  const policy = await actions.remoteDesktopPolicy();
+  assert.equal(policy.ok, true);
+  assert.equal(policy.policy.controlRequiresGrant, true);
+  actions = buildActions(config, { action:'remoteDesktopCreateSession', mode:'control', target:'Chrome tab', requester:'tester' }, null);
+  const created = await actions.remoteDesktopCreateSession();
+  assert.equal(created.session.status, 'pending-consent');
+  const sessionId = created.session.id;
+  actions = buildActions(config, { action:'remoteDesktopInputEvent', sessionId, type:'click', x:1, y:2 }, null);
+  const blocked = await actions.remoteDesktopInputEvent();
+  assert.equal(blocked.ok, false);
+  assert.equal(blocked.error, 'remote_desktop_session_not_open');
+  actions = buildActions(config, { action:'remoteDesktopGrantConsent', sessionId, grantMode:'watch' }, null);
+  const watch = await actions.remoteDesktopGrantConsent();
+  assert.equal(watch.session.watchGranted, true);
+  assert.equal(watch.session.controlGranted, false);
+  actions = buildActions(config, { action:'remoteDesktopInputEvent', sessionId, type:'click' }, null);
+  const noControl = await actions.remoteDesktopInputEvent();
+  assert.equal(noControl.error, 'remote_desktop_control_not_granted');
+  actions = buildActions(config, { action:'remoteDesktopGrantConsent', sessionId, grantMode:'control' }, null);
+  const control = await actions.remoteDesktopGrantConsent();
+  assert.equal(control.session.controlGranted, true);
+  actions = buildActions(config, { action:'remoteDesktopOffer', sessionId, sdp:'secret-sdp' }, null);
+  assert.equal((await actions.remoteDesktopOffer()).ok, true);
+  actions = buildActions(config, { action:'remoteDesktopInputEvent', sessionId, type:'click', x:10, y:20 }, null);
+  assert.equal((await actions.remoteDesktopInputEvent()).ok, true);
+  actions = buildActions(config, { action:'remoteDesktopRevoke', sessionId, reason:'test done' }, null);
+  assert.equal((await actions.remoteDesktopRevoke()).session.status, 'closed');
+  console.log(JSON.stringify({ ok:true, sessionId, checks:['policy','create','watch grant','control gate','signal','input','revoke'] }, null, 2));
+})().catch(error => { console.error(error); process.exit(1); });

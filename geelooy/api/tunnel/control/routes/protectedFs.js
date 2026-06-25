@@ -5,9 +5,20 @@ const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.j
 const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
 
+/**
+ * B"H
+ * Chapter 921: Session-safe room collaboration entered the protected gate.
+ *
+ * The Awtsmoos distinguishes collaboration from raw file/terminal power. A
+ * logged-in dashboard session may list/open/message mission rooms, while shell,
+ * file writes, Chrome control, and dangerous diagnostics still require the key.
+ */
 const SESSION_SAFE_ACTIONS = new Set([
   "configGet", "configSet", "roots", "rootBrowse", "rootSelect", "openRoot",
-  "chromeFind", "chromeStatus", "payloadEcho", "actionSchemaTrace"
+  "chromeFind", "chromeStatus", "payloadEcho", "actionSchemaTrace",
+  "missionProjectDiscover", "missionProjectJoin", "missionProjectStatus",
+  "missionTimeline", "missionRoomUserMessage", "missionAgentHeartbeat",
+  "missionAgentMessage", "missionAgentRespond", "missionAgentSync"
 ]);
 
 function responseBytes(obj) {
@@ -19,48 +30,26 @@ function mayUseSessionForDashboard(payload) {
 }
 
 function payloadEcho(payload) {
-  return {
-    BH: "B\"H",
-    ok: true,
-    action: "payloadEcho",
-    requestAction: "payloadEcho",
-    actualAction: "payloadEcho",
-    payload
-  };
+  return { BH: "B\"H", ok: true, action: "payloadEcho", requestAction: "payloadEcho", actualAction: "payloadEcho", payload };
 }
 
 /**
  * B"H
  * Chapter 534: The testing mirror and the route drink from one well.
- * Older tests called normalizeCarriers directly. Instead of preserving a dead
- * second normalizer, this helper now wraps buildFsPayload with the same shaped
- * route context used by the protected endpoint. The Awtsmoos unifies the
- * hidden carrier river and the public guarded gate.
  */
 function normalizeCarriers(body = {}, $i = {}) {
-  const paramKinds = {
-    ...($i.paramKinds || {}),
-    POST: { ...($i.paramKinds?.POST || {}), ...body }
-  };
+  const paramKinds = { ...($i.paramKinds || {}), POST: { ...($i.paramKinds?.POST || {}), ...body } };
   return buildFsPayload({ ...$i, paramKinds, $_POST: paramKinds.POST });
 }
 
 async function protectedFs($i, vars) {
   const ident = currentIdentity($i);
   if (!ident.ok) {
-    return json($i, {
-      BH: "B\"H",
-      ok: false,
-      error: ident.error || "not_authenticated",
-      help: "Log in, use OAuth Bearer token, or use x-awtsmoos-api-key."
-    }, 401);
+    return json($i, { BH: "B\"H", ok: false, error: ident.error || "not_authenticated", help: "Log in, use OAuth Bearer token, or use x-awtsmoos-api-key." }, 401);
   }
 
   const payload = buildFsPayload($i);
-  if (payload.payloadError) {
-    return json($i, { BH: "B\"H", ok: false, error: payload.payloadError, action: payload.action }, 400);
-  }
-
+  if (payload.payloadError) return json($i, { BH: "B\"H", ok: false, error: payload.payloadError, action: payload.action }, 400);
   if (payload.action === "payloadEcho") return json($i, payloadEcho(payload), 200);
 
   if (ident.kind === "session" && !mayUseSessionForDashboard(payload)) {
@@ -84,26 +73,11 @@ async function protectedFs($i, vars) {
   try {
     const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload);
     const out = { ...result, requestAction: payload.action, actualAction: result?.action || "" };
-    recordUsage({
-      userId: ident.userId,
-      keyId: ident.keyId || null,
-      action: payload.action,
-      path: payload.path || payload.cwd || payload.url || null,
-      bytes: responseBytes(out),
-      ok: out.ok !== false
-    });
-    if (!out || typeof out !== "object") {
-      return json($i, { BH: "B\"H", ok: false, error: "empty_tunnel_response", requestAction: payload.action }, 502);
-    }
+    recordUsage({ userId: ident.userId, keyId: ident.keyId || null, action: payload.action, path: payload.path || payload.cwd || payload.url || null, bytes: responseBytes(out), ok: out.ok !== false });
+    if (!out || typeof out !== "object") return json($i, { BH: "B\"H", ok: false, error: "empty_tunnel_response", requestAction: payload.action }, 502);
     return json($i, out, out.status || 200);
   } catch (e) {
-    recordUsage({
-      userId: ident.userId,
-      keyId: ident.keyId || null,
-      action: payload.action,
-      path: payload.path || payload.cwd || payload.url || null,
-      ok: false
-    });
+    recordUsage({ userId: ident.userId, keyId: ident.keyId || null, action: payload.action, path: payload.path || payload.cwd || payload.url || null, ok: false });
     return json($i, { BH: "B\"H", ok: false, error: e.message, stack: e.stack }, 500);
   }
 }

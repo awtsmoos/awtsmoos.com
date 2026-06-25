@@ -1,6 +1,9 @@
 // B"H
-/** @file HiddenCaveRuntime.js @description Entry checks and warnings for Hidden Cave. */
-import MiniDungeonRegistry from "./MiniDungeonRegistry.js";
-export function canEnterHiddenCave(player) { const d = MiniDungeonRegistry.hidden_cave; return Number(player?.level || 1) >= d.levelRange[0]; }
-export function enterHiddenCave(olam) { const p = olam?.player || olam?.chossid; const ok = canEnterHiddenCave(p); olam?.ayshPeula?.("ui event", "effectsOverlay", { text: ok ? "Entering Hidden Cave" : "DANGEROUS CAVE", color: ok ? "#d7c8ff" : "#ff4b43" }); return ok; }
-export default { canEnterHiddenCave, enterHiddenCave };
+/**
+ * HiddenCaveRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+export function createHiddenCaveRuntime(){ let stage=0; const stages=['enter','learn_pattern','calm_spark','return']; return { next(){stage=Math.min(stage+1,stages.length-1); return stages[stage];}, current(){return stages[stage];}, reset(){stage=0;} }; }
+export default createHiddenCaveRuntime;

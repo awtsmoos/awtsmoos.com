@@ -24,6 +24,7 @@
 @import url("./views/workspace.css") layer(awt.views);
 @import url("./views/portals.css") layer(awt.views);
 @import url("./views/runtime-mesh.css") layer(awt.views);
+@import url("./views/remote-desktop.css") layer(awt.views);
 @import url("./views/pro-control.css") layer(awt.views);
 @import url("./views/beauty.css") layer(awt.views);
 @import url("./interaction/controls.css") layer(awt.controls);

@@ -1,10 +1,12 @@
-﻿// B"H
-/** @file TrainerRegistry.js @description Solo trainer catalog: ranks unfold without forcing a party. */
-export const TrainerRegistry = Object.freeze([
-  { id:"rebbe_trainer", npc:"Rebbe", teaches:["shemaUnity", "amidahArrow"], ranks:[1,2,3,4] },
-  { id:"melamed_trainer", npc:"Melamed", teaches:["tanyaWarmth", "mishnahClarity"], ranks:[1,2,3] },
-  { id:"sofer_trainer", npc:"Scribe", teaches:["chumashLight", "zoharRay"], profession:"sofer", ranks:[1,2,3] },
-  { id:"niggun_trainer", npc:"Niggun Singer", teaches:["tehillimSong"], ranks:[1,2,3,4] }
-]);
-export function trainerById(id) { return TrainerRegistry.find(t => t.id === id) || null; }
-export default TrainerRegistry;
+// B"H
+/**
+ * TrainerRegistry
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+import { STARTER_CLASS_PATHS } from '../tutorial/StarterClassPathRegistry.js';
+export const TRAINERS = Object.freeze(STARTER_CLASS_PATHS.map(path=>({ id:path.trainer, path:path.id, title:path.title+' Trainer', ability:path.ability, lesson:path.fantasy })));
+export const getTrainer=id=>TRAINERS.find(t=>t.id===id)||null;
+export const trainerForPath=path=>TRAINERS.find(t=>t.path===path)||TRAINERS[0];
+export default { TRAINERS, getTrainer, trainerForPath };

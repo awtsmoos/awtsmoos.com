@@ -1,5 +1,9 @@
 // B"H
-/** @file BankRuntime.js @description Storehouse/bank state for the village. */
-export function ensureBank(olam) { const p = olam?.player || olam?.chossid || olam; p.bankState ||= { slots: [] }; return p.bankState; }
-export function openBank(olam) { const payload = { open: true, bank: ensureBank(olam) }; olam?.ayshPeula?.("ui event", "bankPanel", payload); return payload; }
-export default { ensureBank, openBank };
+/**
+ * BankRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+export function createBankRuntime(store={}){ const bank=store.bank||=[]; return { deposit(item){bank.push({...item,storedAt:Date.now()});return bank.length;}, withdraw(id){const i=bank.findIndex(x=>x.id===id);return i>=0?bank.splice(i,1)[0]:null;}, list(){return bank.map(x=>({...x}));} }; }
+export default createBankRuntime;

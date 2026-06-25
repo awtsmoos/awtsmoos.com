@@ -1,16 +1,26 @@
-﻿// B"H
-/** @file MissionObjectiveRuntime.js @description Progress active objectives with exact, typed, and payload-aware matching. */
-import { ensureMissionState, progressMission } from "./MissionRuntime.js";
-function keysFor(type = "", payload = {}) { return [type, payload.id && `${type}:${payload.id}`, payload.zone && `${type}:${payload.zone}`, payload.rareId && `${type}:${payload.rareId}`, payload.factionId && `${type}:${payload.factionId}`, payload.profession && `${type}:${payload.profession}`, payload.bossId && `${type}:${payload.bossId}`].filter(Boolean); }
-function matchesObjective(obj, objectiveType, payload = {}) { const keys = keysFor(objectiveType, payload); return keys.includes(obj.type) || keys.includes(obj.id) || obj.type === objectiveType || obj.id === objectiveType; }
-export function progressActiveObjectives(olam, objectiveType, amount = 1, payload = {}) {
-  const state = ensureMissionState(olam); if (!state) return [];
-  const touched = [];
-  for (const mission of Object.values(state.active || {})) for (const obj of mission.objectives || []) {
-    if (!matchesObjective(obj, objectiveType, payload)) continue;
-    const result = progressMission(olam, mission.id, obj.id || objectiveType, amount);
-    if (result) touched.push({ missionId:mission.id, objectiveId:obj.id || objectiveType, progress:result.progress, required:result.required });
-  }
-  olam?.ayshPeula?.("ui event", "objectiveProgress", { objectiveType, payload, touched }); return touched;
+// B"H
+/**
+ * MissionObjectiveRuntime
+ * The Awtsmoos lets every tiny act count without reviving the old per-frame scan.
+ * Compatibility exports are preserved for worker imports and Torah/progress code.
+ */
+export function objectiveDone(objective = {}, event = {}) {
+  return objective.kind === event.kind && (!objective.target || objective.target === event.target);
 }
-export default { progressActiveObjectives };
+export function progressActiveObjectives(olamOrRuntime = {}, kind = 'generic', amount = 1) {
+  const runtime = olamOrRuntime.missionRuntime || olamOrRuntime.__missionRuntime || olamOrRuntime;
+  const active = runtime?.state?.().active || runtime?.activeMissions || olamOrRuntime.activeMissions || {};
+  const progressed = [];
+  for (const mission of Object.values(active)) {
+    const hit = (mission.objectives || []).some(objective => objective.kind === kind || objective.target === kind || objective.recipe === kind);
+    if (!hit) continue;
+    mission.progress = Math.min((mission.objectives?.[0]?.count || Infinity), (mission.progress || 0) + amount);
+    progressed.push({ id: mission.id, progress: mission.progress });
+  }
+  globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:objective-progress', { detail: { kind, amount, progressed } }));
+  return progressed;
+}
+export function createMissionObjectiveRuntime(runtime = {}) {
+  return { objectiveDone, progress(kind, amount = 1) { return progressActiveObjectives(runtime, kind, amount); } };
+}
+export default { objectiveDone, progressActiveObjectives, createMissionObjectiveRuntime };

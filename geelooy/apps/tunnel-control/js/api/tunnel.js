@@ -6,10 +6,10 @@ import { log } from "../logger.js";
 import { VIRTUAL_OS_TUNNEL } from "../features/vessels/selector.js";
 import { attachRequestGuard, validateResponseGuard } from "./requestGuard.js";
 
-const SESSION_OK_ACTIONS = new Set(["configGet", "configSet", "roots", "rootBrowse", "rootSelect", "openRoot", "aiAgentList", "aiAgentSetProviderKey", "aiAgentRemoveProviderKey", "aiAgentMessage", "aiAgentSpawnTask", "aiAgentSpawnNovel", "aiAgentTaskStatus", "aiAgentTaskResult", "aiAgentTaskList", "aiAgentConfigSet", "actionHistoryList", "actionHistoryGet", "actionHistorySearch", "actionHistoryExplain", "actionHistoryDiff", "chromeFind", "chromeLaunch", "chromeStatus", "chromeNavigate", "chromeWaitForSelector", "chromeClick", "chromeType", "chromeEval", "chromeRunScript"]);
+const SESSION_OK_ACTIONS = new Set(["configGet", "configSet", "roots", "rootBrowse", "rootSelect", "openRoot", "aiAgentList", "aiAgentSetProviderKey", "aiAgentRemoveProviderKey", "aiAgentMessage", "aiAgentSpawnTask", "aiAgentSpawnNovel", "aiAgentTaskStatus", "aiAgentTaskResult", "aiAgentTaskList", "aiAgentConfigSet", "actionHistoryList", "actionHistoryGet", "actionHistorySearch", "actionHistoryExplain", "actionHistoryDiff", "chromeFind", "chromeLaunch", "chromeStatus", "chromeNavigate", "chromeWaitForSelector", "chromeClick", "chromeType", "chromeEval", "chromeRunScript", "remoteDesktopPolicy", "remoteDesktopCreateSession", "remoteDesktopConsentStatus", "remoteDesktopGrantConsent", "remoteDesktopRevoke", "remoteDesktopSessionList", "remoteDesktopOffer", "remoteDesktopAnswer", "remoteDesktopIceCandidate", "remoteDesktopFramePush", "remoteDesktopInputEvent", "remoteDesktopAuditLog", "missionProjectDiscover", "missionProjectJoin", "missionProjectStatus", "missionTimeline", "missionRoomUserMessage", "missionAgentHeartbeat", "missionAgentMessage", "missionAgentRespond"]);
 const AI_ACTIONS = new Set(["aiAgentList", "aiAgentSetProviderKey", "aiAgentRemoveProviderKey", "aiAgentMessage", "aiAgentSpawnTask", "aiAgentSpawnNovel", "aiAgentTaskStatus", "aiAgentTaskResult", "aiAgentTaskList", "aiAgentConfigSet"]);
 
-/** B"H — Chapter 808: The URL carried its seal through the storm. */
+/** B"H — Chapter 920: The room endpoints entered by the same guarded gate. */
 function setNum(u, name, value) { if (value !== undefined && value !== null && value !== "") u.searchParams.set(name, String(value)); }
 function setText(u, name, value) { if (value !== undefined && value !== null && value !== "") u.searchParams.set(name + "64", b64Text(value)); }
 function setJson(u, name, value) { if (value !== undefined && value !== null) u.searchParams.set(name + "64", b64Json(value)); }
@@ -41,9 +41,9 @@ export function buildFsUrl(tunnelName, rawOpts = {}) {
   setText(u, "content", opts.content); setJson(u, "paths", opts.paths); setJson(u, "files", opts.files); setJson(u, "writes", opts.writes);
   setText(u, "find", opts.find); setText(u, "replace", opts.replace); setText(u, "command", opts.command);
   if (!AI_ACTIONS.has(opts.action || "")) { setText(u, "text", opts.text); setText(u, "apiKey", opts.apiKey); setText(u, "message", opts.message); setText(u, "prompt", opts.prompt); setText(u, "system", opts.system); }
-  setText(u, "expression", opts.expression); attachAiPayload(u, { ...opts, targetVessel: queryTarget });
+  setText(u, "expression", opts.expression); setText(u, "sdp", opts.sdp); setText(u, "candidate", opts.candidate); setText(u, "frame", opts.frame); attachAiPayload(u, { ...opts, targetVessel: queryTarget });
   for (const key of ["regex", "replaceAll", "allowWrite", "allowSecrets", "enableLocalHttpProxy", "allowCommands", "stream"]) if (typeof opts[key] === "boolean") u.searchParams.set(key, String(opts[key]));
-  for (const key of ["root", "local", "relay", "setTunnelName", "shell", "cwd", "url", "selector", "chromePath", "userDataDir", "id", "query", "conversationId", "conversationName", "jobId", "stream"]) if (opts[key]) u.searchParams.set(key, opts[key]);
+  for (const key of ["root", "local", "relay", "setTunnelName", "shell", "cwd", "url", "selector", "chromePath", "userDataDir", "id", "sessionId", "mode", "grantMode", "target", "requester", "type", "inputType", "x", "y", "key", "reason", "contentType", "bytes", "query", "conversationId", "conversationName", "jobId", "stream", "missionId", "agentId", "role", "capabilities", "projectRoot", "status", "currentAction", "note"]) if (opts[key]) u.searchParams.set(key, opts[key]);
   setJson(u, "tools", opts.tools); setJson(u, "chrome", opts.chrome); setJson(u, "commandConfig", opts.commandConfig); setJson(u, "aiAgents", opts.aiAgents); setJson(u, "messages", opts.messages); if (typeof opts.script === "string") setText(u, "script", opts.script); else setJson(u, "script", opts.script); setJson(u, "input", opts.input);
   return u.toString();
 }

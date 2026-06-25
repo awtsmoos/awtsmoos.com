@@ -1,6 +1,10 @@
-﻿// B"H
-/** @file QuestChainAudit.js @description Audits mission chains and breadcrumb bridges. */
-import MissionRegistry from "./MissionRegistry.js";
-import { BreadcrumbRegistry } from "./BreadcrumbRuntime.js";
-export function runQuestChainAudit() { const ids = new Set(MissionRegistry.map(m => m.id)); const brokenNext = MissionRegistry.flatMap(m => (m.nextMissions || []).filter(id => !ids.has(id)).map(id => `${m.id}->${id}`)); const brokenBread = BreadcrumbRegistry.filter(b => !ids.has(b.from)); return { ok:brokenNext.length === 0 && brokenBread.length === 0 && MissionRegistry.length >= 20, missions:MissionRegistry.length, brokenNext, brokenBread:brokenBread.map(b => b.from) }; }
-export default { runQuestChainAudit };
+// B"H
+/**
+ * QuestChainAudit
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+import { STARTER_MISSIONS } from './MissionRegistry.js';
+export function auditQuestChains(){ const ids=new Set(); const duplicates=[]; for(const m of STARTER_MISSIONS){ if(ids.has(m.id))duplicates.push(m.id); ids.add(m.id); } return { ok:!duplicates.length && STARTER_MISSIONS.every(m=>m.chain&&m.objectives?.length), count:STARTER_MISSIONS.length, duplicates }; }
+export default auditQuestChains;

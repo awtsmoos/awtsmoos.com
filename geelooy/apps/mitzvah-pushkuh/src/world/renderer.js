@@ -1,32 +1,34 @@
 // B"H
-// The renderer now uses cached heavens and only animates the living breath.
+// Lightning renderer: cached heavens, atlas fire, tiny light buffer, adaptive mercy.
 import { colorFor } from "./palette.js";
+import { createAtlas } from "./atlas.js";
 import { createEffects } from "./effects.js";
 import { createLayers } from "./layers.js";
+import { createLightBuffer } from "./light-buffer.js";
 import { drawScene } from "./scene.js";
 import { bodies, body, drawConstellations, drawReflections, drawSpark, moveBodies } from "./entities.js";
-import { qualityFor } from "./quality.js";
+import { emergencyQuality, qualityFor } from "./quality.js";
 
 export function createRenderer(canvas, opts = {}) {
   let ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
-  let cssW = 1, cssH = 1, w = 1, h = 1, t = 0, last = 0, paused = false, layers = null;
-  let entries = [], sparks = [], pointer = null, q = qualityFor(1, 1, opts.reduced), effects = createEffects(q);
+  let w = 1, h = 1, t = 0, last = 0, bad = 0, paused = false, layers = null, tools = {};
+  let baseQ = qualityFor(1, 1, opts.reduced), q = baseQ, entries = [], sparks = [], pointer = null, effects = createEffects(q);
   function resize(width, height, dpr) {
-    cssW = Math.max(1, width || cssW); cssH = Math.max(1, height || cssH);
-    q = qualityFor(cssW, cssH, opts.reduced); q.dpr = dpr || q.dpr;
-    w = Math.floor(cssW * q.dpr); h = Math.floor(cssH * q.dpr); canvas.width = w; canvas.height = h;
-    layers = createLayers(w, h, q); effects = createEffects(q); setEntries(entries);
+    baseQ = qualityFor(Math.max(1, width), Math.max(1, height), opts.reduced); baseQ.dpr = Math.min(baseQ.dpr, dpr || baseQ.dpr); q = baseQ;
+    w = Math.floor(width * q.dpr); h = Math.floor(height * q.dpr); canvas.width = w; canvas.height = h;
+    layers = createLayers(w, h, q); tools = { atlas: createAtlas(), light: createLightBuffer(w, h) }; effects = createEffects(q); setEntries(entries);
   }
   function setEntries(next = []) { entries = next; sparks = bodies(entries, w, h, q); }
-  function plant(entry) { const s = body(entry, w, h, true); sparks.push(s); sparks = sparks.slice(-q.maxBodies); effects.shock(w / 2, h * .34, colorFor(entry), 2.4); }
-  function bless(point, power = 1) { pointer = scalePoint(point); effects.trace(pointer); effects.burst(pointer.x, pointer.y, "#8feaff", .34 * power); }
-  function strike(point) { bless(point, 2.15); if (pointer) effects.shock(pointer.x, pointer.y, "#ffe08a", 1.9); }
+  function plant(entry) { const s = body(entry, w, h, true); sparks.push(s); sparks = sparks.slice(-q.maxBodies); effects.shock(w / 2, h * .34, colorFor(entry), q.emergency ? .6 : 1.4); }
+  function bless(point, power = 1) { pointer = scalePoint(point); if (!q.emergency) { effects.trace(pointer); effects.burst(pointer.x, pointer.y, "#8feaff", .22 * power); } }
+  function strike(point) { bless(point, 1); if (!q.emergency && pointer) effects.shock(pointer.x, pointer.y, "#ffe08a", 1); }
   function frame(now = performance.now()) {
-    if (paused) return; const dt = Math.min(2, Math.max(.5, (now - last) / 16.67 || 1)); last = now; t += .016 * dt;
-    drawScene(ctx, w, h, t, q, layers); moveBodies(sparks, pointer, t, dt); effects.move(dt);
-    drawConstellations(ctx, sparks, q); sparks.forEach(s => drawSpark(ctx, s, t, q)); drawReflections(ctx, sparks, h, q); effects.draw(ctx); halo();
+    if (paused) return; const delta = now - last || 16.67; last = now; adapt(delta); const dt = Math.min(1.5, Math.max(.75, delta / 16.67)); t += .016 * dt;
+    tools.light?.clear(); drawScene(ctx, w, h, t, q, layers, tools); moveBodies(sparks, pointer, t, dt); effects.move(dt);
+    drawConstellations(ctx, sparks, q); for (let i = 0; i < sparks.length; i++) drawSpark(ctx, sparks[i], t, q, tools);
+    drawReflections(ctx, sparks, h, q); effects.draw(ctx, tools); tools.light?.flush(ctx, w, h);
   }
-  function halo() { if (!pointer) return; ctx.save(); ctx.globalCompositeOperation = "screen"; ctx.strokeStyle = "rgba(143,234,255,.8)"; ctx.lineWidth = 2; ctx.shadowBlur = 22; ctx.shadowColor = "#8feaff"; ctx.beginPath(); ctx.arc(pointer.x, pointer.y, 36 + Math.sin(t * 8) * 5, 0, 7); ctx.stroke(); ctx.restore(); }
+  function adapt(delta) { bad = delta > 19 ? bad + 1 : Math.max(0, bad - 1); if (bad > 24 && !q.emergency) { q = emergencyQuality(baseQ); effects = createEffects(q); setEntries(entries); } }
   function scalePoint(point) { return { x: point.x * q.dpr, y: point.y * q.dpr }; }
   function setPaused(value) { paused = value; }
   return { resize, setEntries, plant, bless, strike, frame, setPaused };

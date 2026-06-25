@@ -1,7 +1,9 @@
-﻿// B"H
-/** @file BuybackRuntime.js @description Remembers recently sold items for solo vendor forgiveness. */
-function playerOf(olam) { return olam?.player || olam?.chossid || null; }
-export function ensureBuyback(olam) { const p = playerOf(olam); if (!p) return null; p.buyback ||= []; return p.buyback; }
-export function noteSoldItem(olam, item, value = 0) { const b = ensureBuyback(olam); if (!b || !item) return false; b.unshift({ item, value, at:Date.now() }); while (b.length > 12) b.pop(); return b[0]; }
-export function buybackPayload(olam) { return { items:ensureBuyback(olam) || [] }; }
-export default { ensureBuyback, noteSoldItem, buybackPayload };
+// B"H
+/**
+ * BuybackRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+export function createBuybackRuntime(){ let rows=[]; return { add(item){rows.unshift({...item,at:Date.now()});rows=rows.slice(0,12);return rows;}, list(){return rows;}, take(id){const i=rows.findIndex(x=>x.id===id);return i>=0?rows.splice(i,1)[0]:null;} }; }
+export default createBuybackRuntime;

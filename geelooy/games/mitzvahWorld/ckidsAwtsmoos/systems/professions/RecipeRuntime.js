@@ -1,7 +1,10 @@
-﻿// B"H
-/** @file RecipeRuntime.js @description Profession recipe registry and craft payload for solo completion. */
-import { grantProfessionXp } from "./ProfessionRuntime.js";
-export const RecipeRegistry = Object.freeze([{ id:"simple_meal", profession:"cooking", inputs:["basar_shechuta"], output:"hearty_meal", xp:12 }, { id:"basic_klaf", profession:"sofer", inputs:["kosher_cow_leather"], output:"tefillin_parchment", xp:18 }, { id:"separated_bread", profession:"halacha", inputs:["separated_wheat_bundle"], output:"kosher_bread", xp:10 }]);
-export function recipeById(id) { return RecipeRegistry.find(r => r.id === id) || null; }
-export function craftRecipe(olam, id) { const r = recipeById(id); if (!r) return { ok:false, reason:"unknown-recipe" }; const xp = grantProfessionXp(olam, r.profession, r.xp || 1); olam?.ayshPeula?.("ui event", "recipeCraft", { recipe:r, xp }); return { ok:true, recipe:r, xp }; }
-export default { RecipeRegistry, recipeById, craftRecipe };
+// B"H
+/**
+ * RecipeRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+export const RECIPES=Object.freeze({ starter_challah:{needs:['flour','water'],makes:'challah'}, kind_letter:{needs:['paper','ink'],makes:'letter'}, repair_wood:{needs:['wood','tool'],makes:'fixed_bench'}, simple_candle:{needs:['wax','wick'],makes:'candle'} });
+export function craft(recipeId,bag=[]){ const r=RECIPES[recipeId]; if(!r)return{ok:false,error:'missing'}; return {ok:true,item:{id:r.makes,name:r.makes.replaceAll('_',' ')},used:r.needs}; }
+export default { RECIPES, craft };

@@ -1,13 +1,16 @@
 // B"H
-// Offscreen chamber: the cosmic garden renders away from the typing hand.
+// Worker clock: chase 60 with rAF when present, timer when hidden from it.
 import { createRenderer } from "./renderer.js";
 
-let renderer, timer = 0;
-function tick(now = performance.now()) {
-  renderer?.frame(now); timer = setTimeout(() => tick(performance.now()), 16);
+let renderer, timer = 0, raf = 0;
+const frame = now => { renderer?.frame(now || performance.now()); schedule(); };
+function schedule() {
+  if (!renderer) return;
+  if (self.requestAnimationFrame) raf = self.requestAnimationFrame(frame);
+  else timer = setTimeout(() => frame(performance.now()), 16);
 }
 function start(canvas, width, height, dpr, reduced) {
-  renderer = createRenderer(canvas, { reduced }); renderer.resize(width, height, dpr); tick();
+  renderer = createRenderer(canvas, { reduced }); renderer.resize(width, height, dpr); schedule();
 }
 self.onmessage = ({ data }) => {
   if (!data) return;
@@ -19,5 +22,5 @@ self.onmessage = ({ data }) => {
   if (data.type === "bless") renderer.bless(data.point, data.power);
   if (data.type === "strike") renderer.strike(data.point);
   if (data.type === "pause") renderer.setPaused(data.value);
-  if (data.type === "stop") { clearTimeout(timer); renderer = null; }
+  if (data.type === "stop") { clearTimeout(timer); self.cancelAnimationFrame?.(raf); renderer = null; }
 };

@@ -1,21 +1,10 @@
-﻿// B"H
-/** @file MissionRuntime.js @description Shlichus runtime with rewards, reputation, breadcrumbs, and recursion-safe tracker payloads. */
-import MissionRegistry, { getMission } from "./MissionRegistry.js";
-import { publishMissionEvent } from "./MissionEventBus.js";
-import { rewardMissionXp } from "../progression/XpRewardRuntime.js";
-import { addBagItem } from "../inventory/BagRuntime.js";
-import { grantReputation } from "../reputation/ReputationRuntime.js";
-import { emitBreadcrumbs } from "./BreadcrumbRuntime.js";
-function cloneMission(m) { return JSON.parse(JSON.stringify(m)); }
-function playerOf(olam) { return olam?.player || olam?.chossid || null; }
-function stateOf(olam) { const p = playerOf(olam); if (!p) return null; p.missionState ||= { active:{}, completed:{}, discovered:MissionRegistry.map(m => m.id), breadcrumbs:[] }; return p.missionState; }
-function grantItems(olam, items = [], silent = false) { const granted = []; for (const id of items || []) { const item = addBagItem(olam, id, { silent }); if (item) granted.push(item.id || id); } return granted; }
-function factionForMission(mission) { const text = `${mission?.title || ""} ${mission?.giverNpc || ""}`.toLowerCase(); if (mission?.rewards?.factionId) return mission.rewards.factionId; if (text.includes("farm")) return "farmers_guild"; if (text.includes("scribe") || text.includes("letter") || text.includes("sefer")) return "sofer_guild"; if (text.includes("rebbe")) return "yerushalayim"; return "village"; }
-export function ensureMissionState(olam) { return stateOf(olam); }
-export function availableMissions(olam) { const state = stateOf(olam) || { completed:{}, active:{} }; return MissionRegistry.filter(m => !state.completed[m.id] && !state.active[m.id] && (m.prerequisites || []).every(id => state.completed[id])); }
-export function acceptMission(olam, id) { const state = stateOf(olam), mission = getMission(id); if (!state || !mission || state.completed[id]) return false; const active = state.active[id] ||= cloneMission(mission); const starterItems = grantItems(olam, mission.startItems || [], false); publishMissionEvent(olam, "accepted", { id, title:mission.title, starterItems }); olam?.ayshPeula?.("ui event", "effectsOverlay", { text:"NEW SHLICHUS", color:"#ffd700" }); emitMissionUi(olam); return active; }
-export function progressMission(olam, id, objectiveId, amount = 1) { const state = stateOf(olam), mission = state?.active?.[id]; if (!mission) return false; const obj = mission.objectives.find(o => o.id === objectiveId || o.type === objectiveId); if (!obj) return false; obj.progress = Math.min(obj.required, Number(obj.progress || 0) + Math.max(1, amount)); publishMissionEvent(olam, "progress", { id, objectiveId:obj.id, progress:obj.progress, required:obj.required }); if (mission.objectives.every(o => Number(o.progress || 0) >= Number(o.required || 1))) completeMission(olam, id); emitMissionUi(olam); return obj; }
-export function completeMission(olam, id) { const state = stateOf(olam), mission = state?.active?.[id]; if (!mission) return false; delete state.active[id]; state.completed[id] = { title:mission.title, at:Date.now() }; const itemRewards = grantItems(olam, mission.rewards?.items || [], false); const xp = rewardMissionXp(olam, mission.rewards?.xp || 75, mission.title); const factionId = factionForMission(mission); const reputation = grantReputation(olam, factionId, Math.max(10, Math.floor(Number(mission.rewards?.xp || 75) / 5)), mission.title); const breadcrumbs = emitBreadcrumbs(olam); state.breadcrumbs = breadcrumbs.breadcrumbs || []; publishMissionEvent(olam, "completed", { id, title:mission.title, rewards:mission.rewards, itemRewards, reputation, breadcrumbs }); olam?.ayshPeula?.("ui event", "effectsOverlay", { text:"SHLICHUS COMPLETE", color:"#ffd700" }); emitMissionUi(olam); return { ...mission, xp, reputation, breadcrumbs }; }
-export function missionUiPayload(olam) { const state = stateOf(olam) || { active:{}, completed:{}, breadcrumbs:[] }; return { open:false, allMissions:MissionRegistry, available:availableMissions(olam), active:Object.values(state.active), completed:state.completed, breadcrumbs:state.breadcrumbs || [] }; }
-export function emitMissionUi(olam) { const payload = missionUiPayload(olam); const p = playerOf(olam); if (!p?.missionState) return false; olam?.ayshPeula?.("ui event", "shlichusBook", { ...payload, updateShlichus:payload.active }); olam?.ayshPeula?.("ui event", "missionTrackerHUD", { active:payload.active.slice(0, 4), breadcrumbs:payload.breadcrumbs }); return payload; }
-export default { ensureMissionState, availableMissions, acceptMission, progressMission, completeMission, missionUiPayload, emitMissionUi };
+// B"H
+/**
+ * MissionRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+import { getMission } from './MissionRegistry.js';
+export function createMissionRuntime(store={}){ const active=store.activeMissions||={}; const complete=store.completedMissions||=[]; return { accept(id){const m=getMission(id); if(m&&!active[id]&&!complete.includes(id))active[id]={...m,progress:0}; return active[id]||null;}, progress(id,n=1){if(!active[id])return null; active[id].progress+=n; return active[id];}, finish(id){const m=active[id]; if(!m)return null; delete active[id]; if(!complete.includes(id))complete.push(id); globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:mission-complete',{detail:m})); return m;}, state(){return {active,complete};} }; }
+export default createMissionRuntime;

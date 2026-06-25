@@ -1,17 +1,10 @@
-﻿// B"H
-/** @file NpcStoryRuntime.js @description Dialogue trees, reputation gates, trainer/vendor/inn hints, breadcrumbs, elites, and dungeon introductions. */
-import MissionRegistry from "../missions/MissionRegistry.js";
-import { SeferIndex } from "../../tochen/torah/SeferIndex.js";
-import { unlockedBreadcrumbs } from "../missions/BreadcrumbRuntime.js";
-function playerOf(olam) { return olam?.player || olam?.chossid || null; }
-function key(npc) { return npc?.id || npc?.name || npc?.role || "npc"; }
-function norm(s = "") { return String(s).toLowerCase(); }
-export function ensureNpcStoryState(olam) { const p = playerOf(olam); if (!p) return null; p.npcStoryState ||= { heard:{}, trust:{}, unlockedHints:{} }; return p.npcStoryState; }
-export function npcRole(npc = {}) { const r = norm(npc.role || npc.npcRole || npc.name || npc.id); if (r.includes("rebbe") || r.includes("melamed") || r.includes("trainer")) return "trainer"; if (r.includes("inn")) return "innkeeper"; if (r.includes("vendor") || r.includes("baker") || r.includes("merchant")) return "vendor"; if (r.includes("guard")) return "guard"; if (r.includes("scribe") || r.includes("sofer")) return "scribe"; return "villager"; }
-function reputationLine(olam, factionId = "village") { const rep = playerOf(olam)?.reputation?.[factionId]; return rep ? `Your standing is ${rep.standing} with ${factionId}.` : `Serve the village and your name will become known.`; }
-function missionLine(npc) { const mission = MissionRegistry.find(m => m.giverNpc === npc?.name) || MissionRegistry.find(m => (npc?.customData?.missionIds || []).includes(m.id)); return mission ? `I know a shlichus called ${mission.title}.` : null; }
-function seferLine(npc) { const sefer = Object.values(SeferIndex).find(s => (npc?.customData?.teachSefarim || []).includes(s.id)); return sefer ? `I can help you begin learning from ${sefer.name}.` : null; }
-export function npcStoryLines(npc, olam) { const role = npcRole(npc), base = Array.isArray(npc?.customData?.storyLines || npc?.dialogues) ? [...(npc.customData?.storyLines || npc.dialogues)] : [`B"H - I am ${npc?.name || "a villager"}, placed here for your shlichus.`]; const lines = [...base]; const m = missionLine(npc), s = seferLine(npc); if (m) lines.push(m); if (s) lines.push(s); if (role === "trainer") lines.push("Train ranks when your level and avodah can hold the light."); if (role === "vendor") lines.push("Buy, sell, repair nearby, and check buyback before regret becomes heavy."); if (role === "innkeeper") lines.push("Bind your hearth here and rest so your XP becomes doubled sweetness."); if (role === "guard") lines.push("Elites are soloable, but only if you read the warning and prepare."); if (role === "scribe") lines.push("Letters, sefarim, and sofer craft open deeper roads."); for (const b of unlockedBreadcrumbs(playerOf(olam) || {})) lines.push(`Road hint: ${b.to} opens toward ${b.zone}.`); lines.push(reputationLine(olam)); return lines; }
-export function hearNpcStory(npc, olam) { const s = ensureNpcStoryState(olam); if (!s) return null; const id = key(npc); s.heard[id] = (s.heard[id] || 0) + 1; s.trust[id] = Math.min(100, (s.trust[id] || 0) + 3); const lines = npcStoryLines(npc, olam); olam?.ayshPeula?.("ui event", "npcStory", { npcId:id, name:npc?.name, role:npcRole(npc), heard:s.heard[id], trust:s.trust[id], lines }); return s.heard[id]; }
-export function npcStoryResponses(npc, olam) { return npcStoryLines(npc, olam).slice(0, 5).map((line, i) => ({ text:i === 0 ? "Tell me your story." : `Ask: ${line.slice(0, 32)}`, line, action:() => { hearNpcStory(npc, olam); olam?.ayshPeula?.("ui event", "toast", { message:line, type:"info" }); } })); }
-export default { ensureNpcStoryState, npcRole, npcStoryLines, hearNpcStory, npcStoryResponses };
+// B"H
+/**
+ * NpcStoryRuntime
+ * The Awtsmoos breathes the starter village into ordered life: service, story,
+ * memory, training, profession, reputation, and performance-safe wonder.
+ */
+
+export function storyLine(npc={},ctx={}){ const name=npc.name||'A villager'; const rep=ctx.reputation||0; if(rep>50)return name+' smiles: your kindness is known here.'; if(ctx.weather==='rain')return name+' hurries under the awning.'; return name+' has a small need and a larger hope.'; }
+export function createNpcStoryRuntime(){ return { line:storyLine, rumor(){return 'The hidden courtyard is quieter when people help each other first.';} }; }
+export default createNpcStoryRuntime;
