@@ -1,23 +1,20 @@
 // B"H
 /**
  * @module SovereignUIArchitect
- * @description
- * Chapter 18: The button and the door finally spoke the same word.
- *
- * The Awtsmoos binds visible controls to visible states: the drawer button now
- * toggles `sidebar-open`, the exact class owned by CSS, and the Filter button
- * actively focuses and reapplies the current search instead of standing as a
- * painted prop.
+ * @description The Heichel renderer now births the Awtsmoos OS kernel before
+ * the old grids: command galaxy, dock, status pulse, and context rail.
  */
-
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
 import { DOMElements, clearRegistry } from '../dom.js';
 import { VoidPurifier } from '../utils/VoidPurifier.js';
+import { renderCommandPalette, runCommand } from './awtsmoos-os/commands.js';
+import { activateDistrict, renderHeichelWorldState } from './heichel-os/world-panel.js';
 
 export { notify } from './render/toast.js';
 export { updateHeichelHeader, renderBreadcrumb } from './render/header.js';
 export { renderContentGrids } from './render/grids.js';
+export { renderHeichelWorldState };
 
 export function manifestWorld(navigator, mountPoint = document.body) {
     clearRegistry();
@@ -27,11 +24,17 @@ export function manifestWorld(navigator, mountPoint = document.body) {
         applyFilter: () => applyCurrentFilter(navigator),
         switchView: view => navigator.switchView(view),
         closeModal: () => import('../modal.js').then(module => module.closeModal()),
-        onModalSubmit: event => event.preventDefault()
+        onModalSubmit: event => event.preventDefault(),
+        focusCommand: () => DOMElements.osCommandInput?.focus(),
+        openCommand: () => DOMElements.osCommandPalette?.classList.remove('hidden'),
+        onOsCommand: event => renderCommandPalette(DOMElements.osCommandPalette, event.target.value),
+        runOsCommand: command => runCommand(command),
+        activateHeichelDistrict: name => activateDistrict(name)
     };
     const rootVessel = ScribeOfManifestation.speakElement(getFullLayoutBlueprint(actions));
     const target = mountPoint.querySelector('.main') || mountPoint;
     target.replaceChildren(rootVessel);
+    renderCommandPalette(DOMElements.osCommandPalette, '');
 }
 
 function toggleSidebarDoor() {
@@ -69,11 +72,13 @@ export function showLoading() {
     DOMElements.loadingSeries?.classList.remove('hidden');
     DOMElements.postsList?.replaceChildren();
     DOMElements.seriesList?.replaceChildren();
+    if (DOMElements.osStatusText) DOMElements.osStatusText.textContent = 'Loading AwtsmoosDB projections';
 }
 
 export function hideLoading() {
     DOMElements.loadingPosts?.classList.add('hidden');
     DOMElements.loadingSeries?.classList.add('hidden');
+    if (DOMElements.osStatusText) DOMElements.osStatusText.textContent = 'AwtsmoosDB projections revealed';
 }
 
 export function updateActiveTab(view) {

@@ -1,8 +1,10 @@
 /* B"H
- * Chapter 574: The river stays native; the commentary remains close, and the
- * civilization polish is imported last as a gentle final garment.
+ * Chapter 582: The reader remains native and split, but now the shared
+ * civilization covenant enters before the reborn scroll garments.
  */
 
+@import url("../../../shared/civilization/tokens.css");
+@import url("../../../shared/civilization/primitives.css");
 @import url("./ideal/reborn/tokens.css?v=native-scroll-012");
 @import url("./ideal/reborn/shell.css?v=native-scroll-012");
 @import url("./ideal/reborn/reader.css?v=native-scroll-012");
@@ -23,4 +25,4 @@
 @import url("./ideal/reborn/live-mobile-corrections.css?v=native-scroll-012");
 @import url("./ideal/reborn/inline-comments/compact-audit.css?v=native-scroll-012");
 @import url("./reader-controls/live-template.css?v=native-scroll-012");
-@import url("./civilization/page-polish.css?v=civilization-polish-001");
+@import url("./civilization/page-polish.css?v=civilization-polish-002");

@@ -361,6 +361,8 @@ input[type="text"]:focus, textarea:focus {
     .sidebar-toggle { display: none; }
 }
 
+@import url('./revamped-partials/awtsmoos-os-kernel.css');
+@import url('./revamped-partials/heichel-os-world.css');
 @import url('./revamped-partials/platform-panels.css');
 @import url('./revamped-partials/notifications.css');
 

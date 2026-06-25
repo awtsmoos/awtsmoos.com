@@ -1,10 +1,5 @@
 // B"H
-/**
- * NpcStoryRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
-export function storyLine(npc={},ctx={}){ const name=npc.name||'A villager'; const rep=ctx.reputation||0; if(rep>50)return name+' smiles: your kindness is known here.'; if(ctx.weather==='rain')return name+' hurries under the awning.'; return name+' has a small need and a larger hope.'; }
-export function createNpcStoryRuntime(){ return { line:storyLine, rumor(){return 'The hidden courtyard is quieter when people help each other first.';} }; }
-export default createNpcStoryRuntime;
+/** Story runtime compresses causal state into a playable village beat. */
+export function npcStoryBeat(npc={}, state={}){ const memories=(state.npcMemories?.[npc.id]||[]).slice(-2); const rumor=(state.rumors||[]).slice(-1)[0]; return { npcId:npc.id, title:`${npc.name||npc.id} has a day`, place:npc.currentPlace||npc.home, line:rumor?.currentText || memories.at(-1)?.text || 'The village breathes quietly.', memories }; }
+export function villageStoryPayload(state={}){ return (state.npcs||[]).map(n=>npcStoryBeat(n,state)); }
+export default { npcStoryBeat, villageStoryPayload };

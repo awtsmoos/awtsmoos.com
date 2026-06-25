@@ -1,7 +1,7 @@
 // B"H
 /**
  * @module platformPanelActions
- * @description Action conductor for the advanced Awtsmoos platform panel.
+ * @description Action conductor for the AwtsmoosDB civilization platform panel.
  */
 import {
   getHeichelFeed, getFeedHome, getTrendingFeed, getDiscoverFeed,
@@ -9,10 +9,12 @@ import {
   setLivePresence, replayLiveEvents, getPackedStats, getPackedSnapshot,
   pullSync, pushSyncOp, getCache, setCache, invalidateCache,
   materializeFeed, checkRateLimit, runGraphTransaction, listGraphTransactions,
-  createNotificationDigest, appendThreadComment, getRankedThread
+  createNotificationDigest, appendThreadComment, getRankedThread,
+  getCivilizationState, getCivilizationFeed, listCivilizationSubscriptions,
+  subscribeCivilization, recordCivilizationEvent, getCivilizationEntityState
 } from '../api/platform.js';
 import { platformOps } from '../api/platformOps.js';
-import { failAction, namedItems, renderDb, renderList, renderOps, setStatus } from './platformPanelRender.js';
+import { failAction, namedItems, renderCivilization, renderDb, renderList, renderOps, setStatus } from './platformPanelRender.js';
 
 export async function handleSearch(event, ctx) {
   event.preventDefault();
@@ -34,6 +36,7 @@ export async function runAction(action, ctx) {
 }
 
 const actionRituals = {
+  civilization: renderCivilizationPulse,
   feed: renderFeed,
   presence: renderPresence,
   db: renderPackedDb,
@@ -49,6 +52,33 @@ const actionRituals = {
   permissions: renderPermissions,
   ops: renderOperations
 };
+
+async function renderCivilizationPulse(ctx) {
+  const actorId = ctx.aliasId || 'anonymous';
+  const targetId = ctx.heichelId || 'global';
+  await subscribeCivilization({ aliasId: actorId, subject: targetId, options: { source: 'platform-panel' } });
+  await recordCivilizationEvent({
+    type: 'ui.platform.opened',
+    actor: { type: 'alias', id: actorId },
+    target: { type: 'heichel', id: targetId },
+    payload: { panel: 'platform', storage: 'AwtsmoosDB' },
+    context: { route: globalThis.location?.pathname || globalThis.window?.location?.pathname || '', source: 'frontend' },
+    targetAliases: actorId === 'anonymous' ? [] : [actorId]
+  });
+  const [state, feed, subscriptions, entity] = await Promise.all([
+    getCivilizationState(),
+    getCivilizationFeed({ aliasId: actorId, limit: 12 }),
+    listCivilizationSubscriptions({ aliasId: actorId }),
+    getCivilizationEntityState({ type: 'heichel', id: targetId })
+  ]);
+  if (!state || !feed || !subscriptions) return failAction(ctx, 'Civilization failed', 'Unable to load civilization state.');
+  renderCivilization(ctx, {
+    state: state.success || state,
+    feed: feed.success || [],
+    subscriptions: subscriptions.success || [],
+    entity: entity?.success || null
+  });
+}
 
 async function renderFeed(ctx) {
   const materialized = await materializeFeed({ heichelId: ctx.heichelId, aliasId: ctx.aliasId });
@@ -84,7 +114,7 @@ async function renderPresence(ctx) {
 async function renderPackedDb(ctx) {
   const stats = await getPackedStats();
   const snapshot = await getPackedSnapshot();
-  if (!stats || !snapshot) return failAction(ctx, 'DB failed', 'Unable to load packed DB sharing state.');
+  if (!stats || !snapshot) return failAction(ctx, 'DB failed', 'Unable to load AwtsmoosDB sharing state.');
   renderDb(ctx, stats.success || [], snapshot.success || {});
 }
 

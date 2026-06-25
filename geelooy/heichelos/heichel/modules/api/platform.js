@@ -1,12 +1,13 @@
 //B"H
 /**
  * @module PlatformAPI
- * @description Browser helpers for live/feed/search/sync/packed platform routes.
+ * @description Browser helpers for live/feed/search/sync/AwtsmoosDB platform routes.
  */
 import { AwtsmoosRequest, BASE_API_URL } from './base.js';
 
 const api = path => `${BASE_API_URL}${path.replace(/^\/+/, '')}`;
 const body = value => new URLSearchParams(value);
+const json = value => JSON.stringify(value || {});
 
 export async function getFeedHome({ aliasId = '', limit = 20 } = {}) {
   return await AwtsmoosRequest.fetch(api(`feed/home?${new URLSearchParams({ aliasId, limit })}`));
@@ -29,11 +30,11 @@ export async function searchSocial({ q, domain = '' } = {}) {
 }
 
 export async function indexSearchDocument({ domain = 'post', id, text = '', entity = {} } = {}) {
-  return await AwtsmoosRequest.post(api('search/index'), body({ domain, id, text, entity: JSON.stringify(entity) }));
+  return await AwtsmoosRequest.post(api('search/index'), body({ domain, id, text, entity: json(entity) }));
 }
 
 export async function publishLiveEvent({ channel, type = 'ui', actor = '', payload = {} } = {}) {
-  return await AwtsmoosRequest.post(api('live/publish'), body({ channel, type, actor, payload: JSON.stringify(payload) }));
+  return await AwtsmoosRequest.post(api('live/publish'), body({ channel, type, actor, payload: json(payload) }));
 }
 
 export async function subscribeLiveChannel({ aliasId, channel } = {}) {
@@ -65,7 +66,7 @@ export async function getCache({ key } = {}) {
 }
 
 export async function setCache({ key, value = {}, ttlMs = 60000 } = {}) {
-  return await AwtsmoosRequest.post(api('cache/set'), body({ key, value: JSON.stringify(value), ttlMs }));
+  return await AwtsmoosRequest.post(api('cache/set'), body({ key, value: json(value), ttlMs }));
 }
 
 export async function invalidateCache({ key } = {}) {
@@ -73,7 +74,7 @@ export async function invalidateCache({ key } = {}) {
 }
 
 export async function pushSyncOp({ aliasId, op = 'ui.sync', payload = {} } = {}) {
-  return await AwtsmoosRequest.post(api('sync/op'), body({ aliasId, op, payload: JSON.stringify(payload) }));
+  return await AwtsmoosRequest.post(api('sync/op'), body({ aliasId, op, payload: json(payload) }));
 }
 
 export async function checkRateLimit({ subject, bucket = 'ui', limit = 120, cost = 1 } = {}) {
@@ -102,4 +103,28 @@ export async function appendThreadComment({ postId, commentId, parentId = '', al
 
 export async function getRankedThread({ postId } = {}) {
   return await AwtsmoosRequest.fetch(api(`comments/thread/${encodeURIComponent(postId)}/ranked`));
+}
+
+export async function getCivilizationState() {
+  return await AwtsmoosRequest.fetch(api('civilization/state'));
+}
+
+export async function getCivilizationFeed({ aliasId = '', limit = 20 } = {}) {
+  return await AwtsmoosRequest.fetch(api(`civilization/feed/${encodeURIComponent(aliasId || 'anonymous')}?${new URLSearchParams({ limit })}`));
+}
+
+export async function listCivilizationSubscriptions({ aliasId = '' } = {}) {
+  return await AwtsmoosRequest.fetch(api(`civilization/subscriptions/${encodeURIComponent(aliasId || 'anonymous')}`));
+}
+
+export async function subscribeCivilization({ aliasId = '', subject = 'all', options = {} } = {}) {
+  return await AwtsmoosRequest.post(api(`civilization/subscriptions/${encodeURIComponent(aliasId || 'anonymous')}`), body({ subject, options: json(options) }));
+}
+
+export async function recordCivilizationEvent({ type = 'ui.pulse', actor = {}, target = {}, payload = {}, context = {}, targetAliases = [] } = {}) {
+  return await AwtsmoosRequest.post(api('civilization/events'), body({ type, actor: json(actor), target: json(target), payload: json(payload), context: json(context), targetAliases: JSON.stringify(targetAliases || []) }));
+}
+
+export async function getCivilizationEntityState({ type, id } = {}) {
+  return await AwtsmoosRequest.fetch(api(`civilization/entities/${encodeURIComponent(type || 'entity')}/${encodeURIComponent(id || 'root')}/state`));
 }

@@ -1,5 +1,4 @@
 // B"H
-
 const { me } = require("./me.js");
 const { device } = require("./device.js");
 const { devices } = require("./devices.js");
@@ -11,6 +10,24 @@ const { usage } = require("./usage.js");
 const { compute, computeCapture, computeHistory, computeReceipt, computeSubscription } = require("./compute.js");
 const { bank } = require("./bank.js");
 const { flow } = require("./flow.js");
+const { protectedFs } = require("./protectedFs.js");
+const { previewProxy } = require("./previewProxy.js");
+const { previewCreate, previewList, previewRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
+const { view, viewProxy, viewRaw, viewWs } = require("./view.js");
+const { conversationGet, conversationList, conversationRegister } = require("./conversations.js");
+const { liveCalls, liveCallsStream } = require("./liveCalls.js");
+const { missionRoomStream } = require("./missionRoomStream.js");
+const { ephemeralMeta, ephemeralPage, ephemeralSearch, ephemeralDelete, ephemeralList } = require("./ephemeral.js");
+const { openApi } = require("./openApi.js");
+const { openApiKey } = require("./openApiKey.js");
+const { docsHtml } = require("./docsHtml.js");
+const { docsJson } = require("./docsJson.js");
+const { bootstrap } = require("./bootstrap.js");
+const { osFs } = require("./osFs.js");
+const { blob } = require("./blob.js");
+const { blobView } = require("./blobView.js");
+const { blobManifest } = require("./blobManifest.js");
+const { handoff } = require("./handoff.js");
 const { treasury } = require("./treasury.js");
 const { treasuryHome } = require("./treasury/home.js");
 const { treasuryBudgets } = require("./treasury/budgets.js");
@@ -33,28 +50,8 @@ const { adminVault } = require("./adminVault.js");
 const { resourceAccounting } = require("./resourceAccounting.js");
 const { treasuryTest } = require("./treasuryTest.js");
 const { adminPerutas } = require("./adminPerutas.js");
-const { protectedFs } = require("./protectedFs.js");
-const { previewProxy } = require("./previewProxy.js");
-const { previewCreate, previewList, previewRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
-const { view, viewProxy, viewRaw, viewWs } = require("./view.js");
-const { conversationGet, conversationList, conversationRegister } = require("./conversations.js");
-const { liveCalls, liveCallsStream } = require("./liveCalls.js");
-const { ephemeralMeta, ephemeralPage, ephemeralSearch, ephemeralDelete, ephemeralList } = require("./ephemeral.js");
-const { openApi } = require("./openApi.js");
-const { openApiKey } = require("./openApiKey.js");
-const { docsHtml } = require("./docsHtml.js");
-const { docsJson } = require("./docsJson.js");
-const { bootstrap } = require("./bootstrap.js");
-const { osFs } = require("./osFs.js");
-const { blob } = require("./blob.js");
-const { blobView } = require("./blobView.js");
-const { blobManifest } = require("./blobManifest.js");
-const { handoff } = require("./handoff.js");
 
-/**
- * B"H
- * Chapter 913: The route table opened a stream beside the snapshot.
- */
+/** B"H Chapter 1005: The route table opened a room stream beside live calls. */
 const routeTable = {
   me, device, devices, "my-device": myDevice, "api-keys": apiKeys, "api-keys/create": createApiKey, "api-keys/revoke": revokeApiKey, usage, bank,
   treasury, "treasury/home": treasuryHome, "treasury/budgets": treasuryBudgets, "treasury/forecast": treasuryForecast, "treasury/marketplace": treasuryMarketplace,
@@ -65,9 +62,8 @@ const routeTable = {
   "ephemeral/:resultId/search": ephemeralSearch, "ephemeral/:resultId/delete": ephemeralDelete, "ephemeral/:resultId": ephemeralMeta, "preview/create": previewCreate,
   "preview/list": previewList, "preview/revoke": previewRevoke, "preview/update": previewUpdate, "preview/settings": previewSettingsGet, "preview/settings/set": previewSettingsSet,
   "conversations/register": conversationRegister, "conversations/list": conversationList, "conversations/get": conversationGet, "live-calls": liveCalls, "live-calls/stream": liveCallsStream,
-  "view/:previewId/raw": viewRaw, "view/:previewId/proxy": viewProxy, "view/:previewId/ws": viewWs, "view/:previewId": view, "handoff/:tunnelName": handoff,
-  "blob/:blobId/manifest": blobManifest, "blob/:blobId/view": blobView, "blob/:blobId": blob, "preview/:tunnelName": previewProxy, "fs/awtsmoos-os": osFs,
-  "fs/:tunnelName": protectedFs, openapi: openApi, "openapi-key": openApiKey, docs: docsHtml, "docs.json": docsJson
+  "mission-room/stream": missionRoomStream, "view/:previewId/raw": viewRaw, "view/:previewId/proxy": viewProxy, "view/:previewId/ws": viewWs, "view/:previewId": view,
+  "handoff/:tunnelName": handoff, "blob/:blobId/manifest": blobManifest, "blob/:blobId/view": blobView, "blob/:blobId": blob, "preview/:tunnelName": previewProxy,
+  "fs/awtsmoos-os": osFs, "fs/:tunnelName": protectedFs, openapi: openApi, "openapi-key": openApiKey, docs: docsHtml, "docs.json": docsJson
 };
-
 module.exports = { routeTable };

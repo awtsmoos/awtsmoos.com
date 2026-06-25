@@ -1,10 +1,5 @@
 // B"H
-/**
- * MissionRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
-import { getMission } from './MissionRegistry.js';
-export function createMissionRuntime(store={}){ const active=store.activeMissions||={}; const complete=store.completedMissions||=[]; return { accept(id){const m=getMission(id); if(m&&!active[id]&&!complete.includes(id))active[id]={...m,progress:0}; return active[id]||null;}, progress(id,n=1){if(!active[id])return null; active[id].progress+=n; return active[id];}, finish(id){const m=active[id]; if(!m)return null; delete active[id]; if(!complete.includes(id))complete.push(id); globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:mission-complete',{detail:m})); return m;}, state(){return {active,complete};} }; }
+/** MissionRuntime: accepts, progresses, and finishes state-born quests. */
+import { STARTER_MISSIONS, missionsForState } from './MissionRegistry.js';
+export function createMissionRuntime(store=globalThis.__MITZVAH_WORLD_STATE__||{}){ store.activeMissions ||= {}; store.completedMissions ||= []; function available(){ return missionsForState(store).filter(m=>!store.activeMissions[m.id]&&!store.completedMissions.includes(m.id)); } function accept(id){ const found=[...STARTER_MISSIONS,...available()].find(m=>m.id===id); if(!found) return null; return store.activeMissions[id]={...found,acceptedAt:Date.now(),source:'world_state'}; } function progress(kind,amount=1){ const rows=[]; for(const m of Object.values(store.activeMissions)){ for(const o of m.objectives||[]) if(o.kind===kind){ o.done=Math.min(o.needed,(o.done||0)+amount); rows.push({missionId:m.id,objective:o}); } } return rows; } function finish(id){ const m=store.activeMissions[id]; if(!m || !(m.objectives||[]).every(o=>(o.done||0)>=o.needed)) return false; delete store.activeMissions[id]; store.completedMissions.push(id); return m; } return { store, available, accept, progress, finish, all(){return {active:store.activeMissions,completed:store.completedMissions,available:available()};} }; }
 export default createMissionRuntime;

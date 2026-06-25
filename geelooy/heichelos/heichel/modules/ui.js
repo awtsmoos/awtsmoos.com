@@ -82,6 +82,16 @@ export function renderContentGrids(content, navigator, state) {
     Render.renderContentGrids(content, navigator, state);
 }
 
+/**
+ * Renders the Phase 6 Heichel OS district state.
+ *
+ * @param {object} payload - Heichel, content, access, and series state.
+ * @returns {void}
+ */
+export function renderHeichelWorldState(payload) {
+    Render.renderHeichelWorldState(payload);
+}
+
 /** @returns {void} Shows all loading vessels. */
 export function showLoading() {
     Render.showLoading();

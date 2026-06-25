@@ -1,10 +1,6 @@
 // B"H
-/**
- * WorldEventRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
-import EVENTS from './StartingZoneEventRegistry.js';
-export function createWorldEventRuntime(){ return { due(slot){return EVENTS.filter(e=>e.at===slot);}, announce(slot){const due=this.due(slot); due.forEach(e=>globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:world-event',{detail:e}))); return due;} }; }
+/** WorldEventRuntime spawns cheap JSON life: no graphics, only causal sparks. */
+const EVENTS = ['baker_delivers_bread','child_runs_across_square','guard_patrol_passes','merchant_opens_stall','villager_sweeps_porch','scholar_walks_to_study_house','dog_barks_at_stranger','bird_flock_scatters','wagon_arrives','rain_starts','lamp_is_lit','market_bell_rings','tzedakah_box_emptied','traveler_enters_village','elderly_npc_asks_help','apprentice_drops_tools','cow_escapes','child_loses_letter','storm_damages_roof','farmer_becomes_sick','bread_shortage_begins','guest_needs_meal','rabbi_gives_short_lesson'];
+export function applyEventToState(store={}, event={}){ store.eventFeed ||= []; store.eventFeed.push(event); store.eventFeed=store.eventFeed.slice(-80); store.economy ||= {}; store.villageProjects ||= {}; if(event.type==='bread_shortage_begins') store.economy.bread=Math.min(store.economy.bread||0,1); if(event.type==='farmer_becomes_sick') store.villageProjects.farmerSick=1; if(event.type==='storm_damages_roof') store.villageProjects.roofDamaged=1; if(event.type==='lamp_is_lit') store.economy.candle=Math.max(0,(store.economy.candle||0)-1); return event; }
+export function createWorldEventRuntime(store=globalThis.__MITZVAH_WORLD_STATE__||{}){ let cursor=0; function ambient(reason='tick'){ const type=EVENTS[cursor++%EVENTS.length]; return applyEventToState(store,{ type, reason, at:Date.now(), payload:{ place:type.includes('bread')?'bakery':'market_square' } }); } return { ambient, apply:event=>applyEventToState(store,event), events:EVENTS }; }
 export default createWorldEventRuntime;

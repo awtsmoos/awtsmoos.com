@@ -1,10 +1,7 @@
 // B"H
-/**
- * NpcInteractionRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
+/** NPC interactions turn memory, reputation, and rumors into visible dialogue. */
 import { gossipPayload } from './GossipRuntime.js';
-export function createNpcInteractionRuntime(npcs=[]){ return { open(id,ctx={}){ const npc=npcs.find(n=>(n.id||n.npcId)===id)||{id,name:'Villager'}; const payload=gossipPayload(npc,ctx); globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:gossip',{detail:payload})); return payload; }, nearest(){ return npcs[0]||null; } }; }
-export default createNpcInteractionRuntime;
+import { createNpcMemoryRuntime } from './NpcMemoryRuntime.js';
+export function npcInteractionIndex(npcs=[]){ return Object.fromEntries(npcs.map(n=>[n.id||n.npcId,n])); }
+export function openNpcInteraction(npcId='villager', context={}, npcs=[]){ const store=context.store||globalThis.__MITZVAH_WORLD_STATE__||{}; const memory=createNpcMemoryRuntime(store); const npc=npcInteractionIndex(npcs)[npcId] || { id:npcId, name:npcId }; memory.remember(npcId,{kind:'player_spoke',text:'The player stopped to speak.',place:context.place||npc.currentPlace}); const effects=memory.effects(npcId); return { npcId, name:npc.name, greeting:effects.greetingTone==='warm'?`${npc.name} remembers your kindness.`:effects.greetingTone==='wary'?`${npc.name} watches carefully.`:`${npc.name} greets you.`, memoryEffects:effects, gossip:gossipPayload(npcId,store), serviceHint:npc.workplace, questBias:effects.questBias }; }
+export default { openNpcInteraction, npcInteractionIndex };

@@ -9,6 +9,7 @@
   min-height: 100dvh;
   position: relative;
   overflow-x: clip;
+  overflow-y: auto;
   padding-bottom: max(var(--floating-clearance, 5.5rem), calc(env(safe-area-inset-bottom) + 5.5rem));
   font-family: "Space Grotesk", Inter, system-ui, sans-serif;
 }

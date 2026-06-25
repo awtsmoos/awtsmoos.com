@@ -1,172 +1,178 @@
 {
   "ok": false,
-  "startedAt": "2026-06-25T02:03:30.595Z",
+  "headed": false,
+  "startedAt": "2026-06-25T02:11:46.875Z",
+  "browser": {
+    "name": "none",
+    "path": "",
+    "candidates": [
+      [
+        "CHROME_PATH",
+        ""
+      ],
+      [
+        "CHROME_BIN",
+        ""
+      ],
+      [
+        "GOOGLE_CHROME_BIN",
+        ""
+      ],
+      [
+        "macOS Chrome",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "macOS Chrome Canary",
+        "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+      ],
+      [
+        "macOS Chromium",
+        "/Applications/Chromium.app/Contents/MacOS/Chromium"
+      ],
+      [
+        "macOS Edge",
+        "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+      ],
+      [
+        "macOS user Chrome",
+        "/data/data/com.termux/files/home/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "Linux google-chrome",
+        "/usr/bin/google-chrome"
+      ],
+      [
+        "Linux google-chrome-stable",
+        "/usr/bin/google-chrome-stable"
+      ],
+      [
+        "Linux chromium",
+        "/usr/bin/chromium"
+      ],
+      [
+        "Linux chromium-browser",
+        "/usr/bin/chromium-browser"
+      ],
+      [
+        "Linux Edge",
+        "/usr/bin/microsoft-edge"
+      ],
+      [
+        "Windows Chrome",
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Windows Chrome x86",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Windows Chrome local",
+        ""
+      ],
+      [
+        "Windows Edge",
+        "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Windows Edge x86",
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Windows Edge local",
+        ""
+      ]
+    ]
+  },
   "issueLog": {
     "scope": "chrome-real-browser",
     "ok": false,
     "issues": [
       {
         "severity": "error",
-        "code": "CHROME_CONSOLE_ERROR",
-        "message": "B\"H | 2026-06-25T02:03:48.178Z | ERROR | OYVED_MANAGER | Module failed || label=Olam core direct vessel || relativePath=../../../core/OlamVessel.js?v=fps-guardian-full-gameplay-20260622-bh1 || url=http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=fps-guardian-full-gameplay-20260622-bh1 || expectedEnd=/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js || requiredExport=default || browserError=The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || repoOnlyFix=create the exact missing file or correct that file export || serverSideFixNeeded=false || stack=SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery'",
+        "code": "NO_BROWSER_FOUND",
+        "message": "No Chrome or Edge executable found.",
         "detail": {
-          "type": "error",
-          "args": [
-            {
-              "type": "string",
-              "value": "B\"H | 2026-06-25T02:03:48.178Z | ERROR | OYVED_MANAGER | Module failed || label=Olam core direct vessel || relativePath=../../../core/OlamVessel.js?v=fps-guardian-full-gameplay-20260622-bh1 || url=http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=fps-guardian-full-gameplay-20260622-bh1 || expectedEnd=/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js || requiredExport=default || browserError=The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || repoOnlyFix=create the exact missing file or correct that file export || serverSideFixNeeded=false || stack=SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery'"
-            }
-          ],
-          "executionContextId": 2,
-          "timestamp": 1782353028178.979,
-          "stackTrace": {
-            "callFrames": [
-              {
-                "functionName": "line",
-                "scriptId": "68",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
-                "lineNumber": 44,
-                "columnNumber": 12
-              },
-              {
-                "functionName": "error",
-                "scriptId": "68",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
-                "lineNumber": 76,
-                "columnNumber": 9
-              },
-              {
-                "functionName": "interceptWorkerMessage",
-                "scriptId": "65",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=worker-gameplay-fps-20260621-bh1",
-                "lineNumber": 25,
-                "columnNumber": 1003
-              },
-              {
-                "functionName": "OlamWorkerManager.eved.onmessage",
-                "scriptId": "53",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager.js?v=android-manager-20260612-bh2",
-                "lineNumber": 15,
-                "columnNumber": 789
-              }
+          "candidates": [
+            [
+              "CHROME_PATH",
+              ""
+            ],
+            [
+              "CHROME_BIN",
+              ""
+            ],
+            [
+              "GOOGLE_CHROME_BIN",
+              ""
+            ],
+            [
+              "macOS Chrome",
+              "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            ],
+            [
+              "macOS Chrome Canary",
+              "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+            ],
+            [
+              "macOS Chromium",
+              "/Applications/Chromium.app/Contents/MacOS/Chromium"
+            ],
+            [
+              "macOS Edge",
+              "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+            ],
+            [
+              "macOS user Chrome",
+              "/data/data/com.termux/files/home/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            ],
+            [
+              "Linux google-chrome",
+              "/usr/bin/google-chrome"
+            ],
+            [
+              "Linux google-chrome-stable",
+              "/usr/bin/google-chrome-stable"
+            ],
+            [
+              "Linux chromium",
+              "/usr/bin/chromium"
+            ],
+            [
+              "Linux chromium-browser",
+              "/usr/bin/chromium-browser"
+            ],
+            [
+              "Linux Edge",
+              "/usr/bin/microsoft-edge"
+            ],
+            [
+              "Windows Chrome",
+              "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+            ],
+            [
+              "Windows Chrome x86",
+              "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+            ],
+            [
+              "Windows Chrome local",
+              ""
+            ],
+            [
+              "Windows Edge",
+              "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+            ],
+            [
+              "Windows Edge x86",
+              "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+            ],
+            [
+              "Windows Edge local",
+              ""
             ]
-          }
+          ]
         },
-        "at": "2026-06-25T02:03:48.180Z"
-      },
-      {
-        "severity": "error",
-        "code": "CHROME_CONSOLE_ERROR",
-        "message": "B\"H | 2026-06-25T02:03:48.179Z | ERROR | OYVED_MANAGER | Worker module import failed || SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || stack=SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js",
-        "detail": {
-          "type": "error",
-          "args": [
-            {
-              "type": "string",
-              "value": "B\"H | 2026-06-25T02:03:48.179Z | ERROR | OYVED_MANAGER | Worker module import failed || SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || stack=SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js"
-            }
-          ],
-          "executionContextId": 2,
-          "timestamp": 1782353028179.225,
-          "stackTrace": {
-            "callFrames": [
-              {
-                "functionName": "line",
-                "scriptId": "68",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
-                "lineNumber": 44,
-                "columnNumber": 12
-              },
-              {
-                "functionName": "error",
-                "scriptId": "68",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
-                "lineNumber": 76,
-                "columnNumber": 9
-              },
-              {
-                "functionName": "interceptWorkerMessage",
-                "scriptId": "65",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=worker-gameplay-fps-20260621-bh1",
-                "lineNumber": 25,
-                "columnNumber": 1003
-              },
-              {
-                "functionName": "OlamWorkerManager.eved.onmessage",
-                "scriptId": "53",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager.js?v=android-manager-20260612-bh2",
-                "lineNumber": 15,
-                "columnNumber": 789
-              }
-            ]
-          }
-        },
-        "at": "2026-06-25T02:03:48.183Z"
-      },
-      {
-        "severity": "error",
-        "code": "CHROME_CONSOLE_ERROR",
-        "message": "B\"H | 2026-06-25T02:03:48.179Z | ERROR | OYVED_MANAGER | Worker module import failed || SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || stack=SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js",
-        "detail": {
-          "type": "error",
-          "args": [
-            {
-              "type": "string",
-              "value": "B\"H | 2026-06-25T02:03:48.179Z | ERROR | OYVED_MANAGER | Worker module import failed || SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || stack=SyntaxError: The requested module '../../../../../systems/world/ZoneDiscoveryRuntime.js' does not provide an export named 'updateZoneDiscovery' || cause=none || Meaning=a static module URL failed or a required export was missing || RepoOnlyFix=add the exact missing file or export the exact value requested || ServerSideFilesEver=false || PermanentFixApplied=Worker imports Olam core directly from ckidsAwtsmoos/Olam/core/OlamVessel.js instead of fragile ckidsAwtsmoos/Olam/index.js"
-            }
-          ],
-          "executionContextId": 2,
-          "timestamp": 1782353028179.414,
-          "stackTrace": {
-            "callFrames": [
-              {
-                "functionName": "line",
-                "scriptId": "68",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
-                "lineNumber": 44,
-                "columnNumber": 12
-              },
-              {
-                "functionName": "error",
-                "scriptId": "68",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/log/MainTextLogger.js",
-                "lineNumber": 76,
-                "columnNumber": 9
-              },
-              {
-                "functionName": "handleError",
-                "scriptId": "65",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=worker-gameplay-fps-20260621-bh1",
-                "lineNumber": 24,
-                "columnNumber": 85
-              },
-              {
-                "functionName": "interceptWorkerMessage",
-                "scriptId": "65",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=worker-gameplay-fps-20260621-bh1",
-                "lineNumber": 25,
-                "columnNumber": 1132
-              },
-              {
-                "functionName": "OlamWorkerManager.eved.onmessage",
-                "scriptId": "53",
-                "url": "http://127.0.0.1:49601/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/ikarOyvedManager.js?v=android-manager-20260612-bh2",
-                "lineNumber": 15,
-                "columnNumber": 789
-              }
-            ]
-          }
-        },
-        "at": "2026-06-25T02:03:48.184Z"
-      },
-      {
-        "severity": "error",
-        "code": "CHROME_GAMEPLAY_SIMULATION_CRASH",
-        "message": "CDP timeout: Runtime.evaluate",
-        "detail": {
-          "stack": "Error: CDP timeout: Runtime.evaluate\n    at Timeout._onTimeout (file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/tests/chrome/ChromeDevTools.js:36:16)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
-        },
-        "at": "2026-06-25T02:04:17.977Z"
+        "at": "2026-06-25T02:11:46.903Z"
       }
     ]
   }

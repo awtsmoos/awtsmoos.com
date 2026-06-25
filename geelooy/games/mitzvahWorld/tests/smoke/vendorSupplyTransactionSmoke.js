@@ -1,0 +1,38 @@
+// B"H
+import assert from 'node:assert/strict';
+import { createVendorRuntime } from '../../ckidsAwtsmoos/systems/social/VendorRuntime.js';
+import { applyVendorPurchase } from '../../ckidsAwtsmoos/systems/economy/EconomyTransactionRuntime.js';
+import { createLivingWorldRuntime } from '../../ckidsAwtsmoos/systems/livingWorld/LivingWorldRuntime.js';
+import { resetLivingWorldState } from '../../ckidsAwtsmoos/systems/livingWorld/LivingWorldState.js';
+import { saveWorldState, loadWorldState } from '../../ckidsAwtsmoos/systems/worldState/WorldStateStore.js';
+
+const box = new Map();
+globalThis.localStorage = { getItem:k=>box.get(k)||null, setItem:(k,v)=>box.set(k,String(v)), removeItem:k=>box.delete(k), clear:()=>box.clear() };
+globalThis.localStorage.clear();
+saveWorldState({});
+const store = resetLivingWorldState({ economy:{ bread:2, demand:{ bread:5 }, prices:{ bread:5 } } });
+const vendor = createVendorRuntime([{ id:'warm_bread', name:'Warm Bread', price:5 }], { store, vendorId:'bakery' });
+const beforePrice = vendor.list()[0].price;
+const bought = vendor.buy('warm_bread');
+assert.equal(bought.ok, true, 'vendor buy succeeds with supply');
+assert.equal(store.economy.bread, 1, 'vendor buy decrements bread supply');
+assert.equal(store.economyTransactions.length, 1, 'transaction row recorded');
+assert.ok(store.eventFeed.some(e=>e.type==='vendor-purchase'), 'event feed records vendor purchase');
+assert.ok(vendor.list()[0].price >= beforePrice, 'lower supply does not lower price');
+vendor.buy('warm_bread');
+const empty = vendor.buy('warm_bread');
+assert.equal(empty.ok, false, 'buy fails when supply empty');
+assert.equal(empty.error, 'out_of_stock');
+const legacy = createVendorRuntime([{ id:'warm_bread', name:'Warm Bread', price:5 }]).buy('warm_bread');
+assert.equal(legacy.ok, true, 'legacy no-context buy still succeeds');
+assert.equal(legacy.transaction, null, 'legacy no-context buy has no transaction row');
+const directStore = resetLivingWorldState({ economy:{ bread:1, demand:{ bread:5 }, prices:{ bread:5 } } });
+const direct = applyVendorPurchase({ id:'warm_bread', price:5 }, { store:directStore, price:7, vendorId:'direct' });
+assert.equal(direct.remaining, 0, 'direct transaction decrements supply');
+const runtimeStore = resetLivingWorldState({ economy:{ bread:1, demand:{ bread:5 }, prices:{ bread:5 } } });
+const runtime = createLivingWorldRuntime(globalThis, { store:runtimeStore, skipWorldStateHydration:true });
+const runtimeBuy = runtime.buyVendorItem({ id:'warm_bread', price:5 }, { price:6, vendorId:'runtime' });
+assert.equal(runtimeBuy.ok, true, 'runtime vendor buy succeeds');
+assert.equal(runtime.store.economy.bread, 0, 'runtime vendor buy decrements runtime store');
+assert.ok(loadWorldState().livingWorld.economyTransactions?.length > 0, 'runtime buy persists transaction');
+console.log('vendorSupplyTransactionSmoke passed');

@@ -1,7 +1,9 @@
 /*B"H
-Chapter 571: The root cascade remains split, and the civilization polish arrives
-last as a soft crown over every AI surface.
+Chapter 578: The AI cascade drinks first from shared civilization tokens, then
+keeps every local organ alive, then crowns everything with page polish.
 */
+@import "../shared/civilization/tokens.css";
+@import "../shared/civilization/primitives.css";
 @import "./css/ideal/tokens.css";
 @import "./css/ideal/shell.css";
 @import "./css/ideal/sidebar.css";
@@ -28,5 +30,5 @@ last as a soft crown over every AI surface.
 @import "./css/civilization/page-polish.css";
 
 :root {
-  --awtsmoos-style-build: ui-total-polish-2026-06-24-civilization-01;
+  --awtsmoos-style-build: ui-total-polish-2026-06-25-living-civilization-02;
 }

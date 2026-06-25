@@ -1,10 +1,11 @@
 // B"H
-/**
- * NpcScheduleRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
-import { dailyRole } from './VillageDailyLifeRuntime.js';
-export function createNpcScheduleRuntime(npcs=[]){ let cursor=0; return { tick(hour=new Date().getHours(),budget={}){ const cap=budget.maxTasksPerTick||3; const out=[]; for(let i=0;i<Math.min(cap,npcs.length);i++){const npc=npcs[cursor++%npcs.length]; out.push({id:npc.id||npc.npcId,role:dailyRole(hour)});} return out;}, schedule(npcId,hour){return {npcId,role:dailyRole(hour),updatedAt:Date.now()};} }; }
+/** NPC schedules: every low-cost tick reveals a villager walking through purpose. */
+const DAY = [[5,'wake'],[6,'daven'],[8,'work'],[11,'market'],[13,'deliver'],[15,'learn'],[17,'visit_family'],[19,'gossip'],[21,'sleep']];
+const PLACES = { wake:'home', daven:'beis_midrash', work:'workplace', market:'market_square', deliver:'village_roads', learn:'beis_midrash', visit_family:'home', gossip:'village_well', sleep:'home', emergency_response:'incident_site' };
+export function dailyRole(hour=new Date().getHours(), context={}){ if(context.emergency) return 'emergency_response'; let role='sleep'; for(const [at,name] of DAY) if(hour>=at) role=name; return role; }
+export function schedulePlace(npc={}, role=dailyRole()){ return npc[`${role}Place`] || npc[PLACES[role]] || PLACES[role] || 'market_square'; }
+export function movementIntentFor(npc={}, from='home', to='market_square', reason='schedule', hour=0){ return { npcId:npc.id||npc.npcId||'villager', from, to, reason, urgency:reason==='emergency_response'?'high':'normal', startedAt:hour*3600000, estimatedArrival:hour*3600000 + (reason==='emergency_response'?15000:45000) }; }
+export function ensureNpcSchedule(npc={}, hour=new Date().getHours(), context={}){ const role=dailyRole(hour,context); const place=schedulePlace(npc,role); return { npcId:npc.id||npc.npcId||'villager', role, place, hour, updatedAt:Date.now(), reason:role }; }
+export function updateNpcSchedule(npc={}, hour=new Date().getHours(), budget={}, state=null){ const schedule=ensureNpcSchedule(npc,hour,budget); const from=npc.currentPlace||npc.home||'home'; npc.currentRole=schedule.role; npc.currentPlace=schedule.place; npc.schedule=schedule; schedule.movementIntent=movementIntentFor(npc,from,schedule.place,schedule.role,hour); if(state){ state.npcSchedules[schedule.npcId]=schedule; } return schedule; }
+export function createNpcScheduleRuntime(npcs=[]){ let cursor=0; return { tick(hour=new Date().getHours(),budget={},state=null){ const cap=Math.max(1,Math.min(Number(budget.maxTasksPerTick||3),npcs.length||1)); const out=[]; for(let i=0;i<cap && npcs.length;i++){ out.push(updateNpcSchedule(npcs[cursor++%npcs.length],hour,budget,state)); } return out; }, schedule(npcId,hour){ return updateNpcSchedule({id:npcId},hour); } }; }
 export default createNpcScheduleRuntime;

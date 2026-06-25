@@ -2,11 +2,7 @@ openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
   version: 7.0.0-generated
-  description: |-
-    B"H. The explicit action argument is the requested action.
-    responseFocus is advisory unless mustAnswerGate=true.
-    Passive actions must not be replaced by responseFocus.nextAction.
-    For action integrity, pass top-level action. Nested params.action is only a missing-action fallback and must not override an explicit action.
+  description: B"H. After every response, obey responseFocus.oneMainThing. If multipleChoiceSelfInterrogation is present, answer with multipleChoiceAnswer/choice/answer before any unrelated action. If ignored, the server returns allCapsPrompt and blocks continuation.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -28,11 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Run one tunnel action.
-      description: |-
-    B"H. The explicit action argument is the requested action.
-    responseFocus is advisory unless mustAnswerGate=true.
-    Passive actions must not be replaced by responseFocus.nextAction.
-    For action integrity, pass top-level action. Nested params.action is only a missing-action fallback and must not override an explicit action. Use guidanceDebug=true only when raw protocol details are needed.
+      description: B"H. After every response, obey responseFocus.oneMainThing. If multipleChoiceSelfInterrogation is present, answer with multipleChoiceAnswer/choice/answer before any unrelated action. If ignored, the server returns allCapsPrompt and blocks continuation. Use guidanceDebug=true only when raw protocol details are needed.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
@@ -61,33 +53,17 @@ paths:
               - affectedComponents
               - affectedRoutes
               - affectedTests
-              - agent
               - agentDoctor
               - agentSelfTest
               - agentVersionSkewCheck
-              - aiAgentConfigSet
-              - aiAgentList
-              - aiAgentMessage
-              - aiAgentRemoveProviderKey
-              - aiAgentSetProviderKey
-              - aiAgentSpawnNovel
-              - aiAgentSpawnTask
-              - aiAgentTaskList
-              - aiAgentTaskResult
-              - aiAgentTaskStatus
               - aiCommandBatch
               - aiContextPack
-              - aiTemplateGet
-              - aiTemplateList
-              - aiTemplateRender
-              - aiTemplateRun
               - aiWorkflowLang
               - aiWorkflowRun
               - apiContractCheck
               - apiContractDiscover
               - apiSmokeTest
               - applyPatch
-              - appModeMatrix
               - architectureScore
               - assertAction
               - astOutline
@@ -104,22 +80,11 @@ paths:
               - buildRunner
               - bulk
               - bulkDebugPayload
-              - bulkSearch
-              - bulkSearchPage
               - bulkWrite
               - bulkWriteIfHashes
               - bundleTrace
               - capabilityParityAudit
               - changeImpactGraph
-              - chatgptContinueConversation
-              - chatgptCurrentConversation
-              - chatgptListConversations
-              - chatgptLogin
-              - chatgptMessage
-              - chatgptNewConversation
-              - chatgptOpenLogin
-              - chatgptSendMessage
-              - chatgptStatus
               - chromeClick
               - chromeEval
               - chromeEvalSlim
@@ -128,6 +93,7 @@ paths:
               - chromeLogs
               - chromeNavigate
               - chromeRunScript
+              - chromeScreenshot
               - chromeSnapshot
               - chromeSnapshotScoped
               - chromeStatus
@@ -151,11 +117,6 @@ paths:
               - commandMemorySave
               - commandOutputPage
               - commandPoll
-              - commandPresetDelete
-              - commandPresetGet
-              - commandPresetList
-              - commandPresetRun
-              - commandPresetSave
               - commandRun
               - commandStart
               - commandStatus
@@ -202,7 +163,6 @@ paths:
               - detectDeadConcepts
               - docsGeneratedFreshness
               - doctorAll
-              - domDomRenderLab
               - duplicateBasenames
               - duplicateConceptScan
               - emptyDir
@@ -212,17 +172,11 @@ paths:
               - envDoctor
               - envFileAudit
               - environmentVirtualizer
-              - ephemeralDelete
-              - ephemeralList
-              - ephemeralMeta
-              - ephemeralPage
-              - ephemeralSearch
               - errorCluster
               - failedActionMemory
               - failingTestTriage
               - fileHashes
               - fileTreeDiff
-              - find
               - findFiles
               - finishAndContinue
               - forEachActionBatch
@@ -257,7 +211,6 @@ paths:
               - httpRequest
               - httpSessionClear
               - httpTrace
-              - imageWrite
               - importResolverExplain
               - inferArchitecture
               - inferBusinessRules
@@ -300,7 +253,6 @@ paths:
               - md
               - merkavaCommandTree
               - merkavaParserSmoke
-              - merkavaRenderLab
               - merkavaVsChromeDiff
               - merkavaWorkflowRun
               - microPatchPlanner
@@ -318,48 +270,112 @@ paths:
               - missionAttachJob
               - missionAuto
               - missionAutopilot
+              - missionBoredomCheck
               - missionBrainstorm
               - missionCheckpoint
               - missionChunkPlan
+              - missionCollaborationUserMessage
               - missionCompleteTask
+              - missionConstitution
+              - missionContinuity
+              - missionCourt
+              - missionCycle
               - missionDiscover
+              - missionEarlyFinalAttempt
+              - missionEntropy
               - missionEvidence
               - missionEvidenceDebt
               - missionExpand
               - missionFamilies
               - missionFilesToTouch
+              - missionFinalize
               - missionGet
               - missionGraph
               - missionHeartbeat
               - missionImprovementPlan
-              - missionConstitution
-              - missionContinuity
-              - missionCourt
-              - missionEntropy
+              - missionInnovationLedger
               - missionLease
               - missionLeaseRenew
-              - missionRecovery
-              - missionSpawnNext
               - missionList
               - missionLoopCheckpoint
               - missionLoopPulse
               - missionLoopQueue
               - missionLoopSeed
               - missionLoopWatchdog
+              - missionMetadataStatus
               - missionNext
               - missionNextPlan
+              - missionNoveltyScore
               - missionPlanDelta
               - missionPostCompletion
               - missionProjectDiscover
               - missionProjectInvite
               - missionProjectJoin
               - missionProjectStatus
+              - missionProtocolAnswer
+              - missionProtocolFinalizeCheck
+              - missionProtocolNext
+              - missionProtocolReview
+              - missionProtocolSimulate
+              - missionProtocolStage
+              - missionProtocolStart
+              - missionProtocolStatus
               - missionQuestion
+              - missionQueueAdd
+              - missionQueueComplete
+              - missionQueueStatus
+              - missionRecovery
               - missionRefrigerate
               - missionReport
+              - missionRoleRotate
+              - missionRoomAcceptSplit
+              - missionRoomBrainstorm
+              - missionRoomClaimFile
+              - missionRoomClaimTask
+              - missionRoomCreate
+              - missionRoomCreateSubMissions
+              - missionRoomDiscoverAgents
+              - missionRoomFileConflicts
+              - missionRoomFindActive
+              - missionRoomHandoffPack
+              - missionRoomHeartbeat
+              - missionRoomInbox
+              - missionRoomInnovationLedger
+              - missionRoomInviteAgent
+              - missionRoomJoin
+              - missionRoomLoopCourt
+              - missionRoomLoopPulse
+              - missionRoomLoopStatus
+              - missionRoomMergeCourt
+              - missionRoomMergeReports
+              - missionRoomMessage
+              - missionRoomProposeSplit
+              - missionRoomRealChatSimulate
+              - missionRoomRecoverInterrupt
+              - missionRoomRecoverStaleAgent
+              - missionRoomReleaseFile
+              - missionRoomReplay
+              - missionRoomSchedulerResume
+              - missionRoomSchedulerRun
+              - missionRoomSelfImprovePulse
               - missionRoomSettings
+              - missionRoomSimulate
+              - missionRoomStatus
+              - missionRoomSummit
+              - missionRoomTrustScore
               - missionRoomUserMessage
+              - missionRoomWakeAgent
+              - missionRoomWatchdog
+              - missionSelfImproveCourt
+              - missionSelfImprovePulse
+              - missionSelfImproveRunBounded
+              - missionSelfImproveSchedulerResume
+              - missionSelfImproveSchedulerRun
+              - missionSelfImproveSchedulerStatus
+              - missionSelfImproveStart
+              - missionSelfImproveStatus
               - missionSelfMailDraft
+              - missionSpawnNext
               - missionStart
               - missionStepBrainstorm
               - missionStepDelta
@@ -399,7 +415,6 @@ paths:
               - packageScriptRunner
               - parallelActionBatch
               - pathDoctor
-              - pathHints
               - payloadEcho
               - payloadShapeInfer
               - perfBudgetCheck
@@ -440,7 +455,50 @@ paths:
               - recentFiles
               - regexFallbackDetector
               - releasePack
-              - renderModeMatrix
+              - remoteDesktopAnswer
+              - remoteDesktopAsk
+              - remoteDesktopAuditLog
+              - remoteDesktopBookmark
+              - remoteDesktopBrowserPeerScript
+              - remoteDesktopCapabilityMatrix
+              - remoteDesktopChromeFramePlan
+              - remoteDesktopChromeFramePush
+              - remoteDesktopChromeScreenshotPush
+              - remoteDesktopConsentStatus
+              - remoteDesktopCreateSession
+              - remoteDesktopDenyConsent
+              - remoteDesktopEngineRoadmap
+              - remoteDesktopExport
+              - remoteDesktopFeatureCatalog
+              - remoteDesktopFrameLatest
+              - remoteDesktopFramePush
+              - remoteDesktopFutureCatalog
+              - remoteDesktopGrantConsent
+              - remoteDesktopGrantInput
+              - remoteDesktopHeartbeat
+              - remoteDesktopHelperSkeletons
+              - remoteDesktopIceCandidate
+              - remoteDesktopInputEvent
+              - remoteDesktopNativeHelperPlan
+              - remoteDesktopOffer
+              - remoteDesktopPause
+              - remoteDesktopPeerConnectionPlan
+              - remoteDesktopPeerStateTemplate
+              - remoteDesktopPermissionContract
+              - remoteDesktopPermissionProfile
+              - remoteDesktopPlatformCapabilities
+              - remoteDesktopPolicy
+              - remoteDesktopResume
+              - remoteDesktopRevoke
+              - remoteDesktopRisk
+              - remoteDesktopScreenshotSourcePlan
+              - remoteDesktopSessionList
+              - remoteDesktopSessionNote
+              - remoteDesktopSessionSummary
+              - remoteDesktopSignalSummary
+              - remoteDesktopUniversalGraph
+              - remoteDesktopUniversalRoadmap
+              - remoteDesktopUniversalVision
               - repairPatchSuggester
               - replaceFunction
               - replaceFunctionBody
@@ -453,8 +511,6 @@ paths:
               - restoreSnapshotPlan
               - retryAction
               - reviewPack
-              - rg
-              - rgbgrep
               - rootBrowse
               - roots
               - rootSelect
@@ -477,12 +533,9 @@ paths:
               - sandboxRootDoctor
               - schemaRoundTripTest
               - scriptDiscovery
-              - search
-              - searchPathHints
               - secretScan
               - securityHeadersCheck
               - selectString
-              - selectStringFile
               - selfHealingCommandRegistry
               - selfHealPreview
               - semanticCache
@@ -492,7 +545,6 @@ paths:
               - semanticPackageGenerator
               - semanticPipeline
               - semanticRefactor
-              - semanticSearch
               - semanticSearchRuntime
               - serverHealthProbe
               - serverRestart
@@ -543,14 +595,10 @@ paths:
               - tunnelLivenessTimeline
               - typecheckRunner
               - universalAppManifest
-              - uploadImage
               - virtualDomDiff
-              - virtualDomScreenshot
-              - virtualDomSnapshot
               - waitForPort
               - waitForUrl
               - watchTestOnce
-              - windowsExeSmokeTest
               - workflowGet
               - workflowList
               - workflowRun
@@ -559,7 +607,6 @@ paths:
               - workspaceDoctor
               - write
               - writeIfHash
-              - writeImage
               - writePayloadSizer
               - yamlValidate
         - { name: p, in: query, schema: { type: string } }
@@ -580,10 +627,8 @@ paths:
         - { name: text64, in: query, schema: { type: string } }
         - { name: goal, in: query, schema: { type: string } }
         - { name: goal64, in: query, schema: { type: string } }
-        - { name: params, in: query, schema: { type: string }, description: JSON carrier. May include fallback action/intendedAction only when top-level action is absent; jobId/stream are always promoted. }
-        - { name: params64, in: query, schema: { type: string }, description: Base64 JSON carrier. }
-        - { name: intendedAction, in: query, schema: { type: string }, description: Fallback action seal; backend may recover this only when top-level action is absent. }
-        - { name: expectedAction, in: query, schema: { type: string }, description: Alias of intendedAction used only as a missing-action fallback. }
+        - { name: params, in: query, schema: { type: string } }
+        - { name: params64, in: query, schema: { type: string } }
         - { name: actions, in: query, schema: { type: string } }
         - { name: actions64, in: query, schema: { type: string } }
         - { name: actionsJson, in: query, schema: { type: string } }
@@ -645,16 +690,13 @@ paths:
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
         - { name: dryRun, in: query, schema: { type: boolean, default: true } }
         - { name: confirm, in: query, schema: { type: boolean, default: false } }
-        - { name: stream, in: query, schema: { type: string, enum: [stdout, stderr] } }
-        - { name: torahUnlimitedWait, in: query, schema: { type: boolean } }
-        - { name: unlimitedWait, in: query, schema: { type: boolean } }
-        - { name: maxWaitMs, in: query, schema: { type: integer } }
+        - { name: stream, in: query, schema: { type: boolean } }
         - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }
         - { name: allowContinue, in: query, schema: { type: boolean, default: false } }
       responses:
-        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+        "200": { description: OK. Read responseFocus first. If multipleChoiceSelfInterrogation exists, answer it before any unrelated action., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:
     get:
       operationId: awtsmoosPreviewProxy

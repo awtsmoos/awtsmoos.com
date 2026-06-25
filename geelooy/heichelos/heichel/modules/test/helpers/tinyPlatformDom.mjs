@@ -82,7 +82,7 @@ function buildPlatformPanelShell(panel) {
   const toggle = document.createElement('button');
   toggle.className = 'awtsmoos-platform-toggle';
   toggle.setAttribute('aria-expanded', 'false');
-  toggle.textContent = 'Platform';
+  toggle.textContent = 'AwtsmoosDB';
   panel.appendChild(toggle);
 
   const body = document.createElement('section');
@@ -92,7 +92,7 @@ function buildPlatformPanelShell(panel) {
 
   const status = document.createElement('small');
   status.setAttribute('data-platform-status', '');
-  status.textContent = 'ready';
+  status.textContent = 'awakening';
   body.appendChild(status);
 
   const form = document.createElement('form');
@@ -104,7 +104,7 @@ function buildPlatformPanelShell(panel) {
 
   const actions = document.createElement('div');
   actions.className = 'awtsmoos-platform-actions';
-  for (const action of ['feed', 'presence', 'db', 'cache', 'sync', 'searchIndex', 'graph', 'thread', 'digest', 'media', 'relationships', 'jobs', 'permissions', 'ops']) {
+  for (const action of ['civilization', 'db', 'feed', 'presence', 'graph', 'searchIndex', 'digest', 'thread', 'relationships', 'media', 'cache', 'sync', 'jobs', 'permissions', 'ops']) {
     const button = document.createElement('button');
     button.setAttribute('data-platform-action', action);
     button.dataset.platformAction = action;

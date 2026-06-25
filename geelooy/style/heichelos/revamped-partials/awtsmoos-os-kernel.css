@@ -1,0 +1,37 @@
+/* B"H - Awtsmoos Civilization OS kernel */
+.awtsmoos-os-kernel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 22rem);
+    gap: 1rem;
+    margin: 0 0 1rem;
+}
+.awtsmoos-command-center,
+.awtsmoos-live-pulse,
+.awtsmoos-context-rail,
+.awtsmoos-os-dock {
+    border: var(--border-ui);
+    background: color-mix(in srgb, var(--bg-surface) 88%, var(--color-accent));
+    box-shadow: var(--shadow-ui);
+}
+.awtsmoos-command-center { grid-column: 1 / -1; display: grid; gap: .65rem; padding: .8rem; position: relative; }
+.command-sigil { position: absolute; inset-inline-start: .8rem; inset-block-start: .8rem; min-width: 2.65rem; padding-inline: 0; }
+.awtsmoos-command-center input { padding-inline-start: 3.8rem; min-height: 3.1rem; }
+.command-quick-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.command-quick-row button { min-height: 2.55rem; padding: .45rem .8rem; }
+.command-palette { display: grid; gap: .35rem; padding: .5rem; border: var(--border-ui); background: var(--bg-surface); }
+.command-palette.hidden { display: none; }
+.command-palette a { color: var(--color-ink); font-weight: 800; text-decoration: none; padding: .45rem .6rem; }
+.awtsmoos-os-dock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .45rem; padding: .65rem; }
+.awtsmoos-os-dock a { display: grid; gap: .2rem; text-decoration: none; color: var(--color-ink); padding: .55rem; border: 1px solid currentColor; background: rgba(255,255,255,.45); }
+.awtsmoos-os-dock span { font-size: 1.25rem; }
+.awtsmoos-live-pulse { display: flex; align-items: center; gap: .7rem; padding: .8rem; }
+.pulse-orb { width: .9rem; height: .9rem; border-radius: 999px; background: var(--color-primary); box-shadow: 0 0 0 .35rem color-mix(in srgb, var(--color-primary) 22%, transparent); }
+.awtsmoos-context-rail { padding: .9rem; display: grid; gap: .45rem; }
+.rail-kicker { margin: 0; font-size: .75rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--color-primary); }
+.awtsmoos-context-rail h2,
+.awtsmoos-context-rail p { margin: 0; }
+@media (max-width: 900px) {
+    .awtsmoos-os-kernel { grid-template-columns: 1fr; }
+    .awtsmoos-os-dock { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .awtsmoos-context-rail { display: none; }
+}

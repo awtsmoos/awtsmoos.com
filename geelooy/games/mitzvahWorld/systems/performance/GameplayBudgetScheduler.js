@@ -1,8 +1,9 @@
 // B"H
 /**
- * GameplayBudgetScheduler: due tasks are not a stampede.
- * The scheduler carries debt across frames, caps work per tick, and now obeys
- * the selective realism governor so distant realism sleeps instead of stutters.
+ * GameplayBudgetScheduler
+ * Due tasks are not a stampede. The scheduler caps work per tick, obeys the
+ * selective realism governor, and gives the living world one tiny turn only
+ * when there is budget to breathe.
  */
 import { interestRing } from './InterestRings.js';
 function activeBudget() {
@@ -21,9 +22,16 @@ function taskHz(task, ring, budget) {
   if (ring.name === 'mid') return Math.min(ring.hz, budget.realism?.animation?.farHz || ring.hz);
   return Math.min(ring.hz, budget.realism?.ai?.farHz || ring.hz);
 }
+function maybeStepLivingWorld(ran, cap, budget) {
+  const living = globalThis.__MITZVAH_WORLD_LIVING_WORLD__;
+  if (!living?.step || ran >= cap) return null;
+  if (budget.realism?.level === 'rescue') return null;
+  return living.step('gameplay-budget-spare-slot');
+}
 export function createGameplayBudgetScheduler({ now = () => performance.now(), player = () => ({ x:0, z:0 }), maxTasksPerTick = 3, maxMsPerTick = 1.8 } = {}) {
   const tasks = [];
   let cursor = 0;
+  let lastLivingStep = null;
   return {
     add(task) { const row = { ...task, last:0, debt:0, ran:0 }; tasks.push(row); return row; },
     tick(time = now()) {
@@ -37,9 +45,10 @@ export function createGameplayBudgetScheduler({ now = () => performance.now(), p
         if (now() - start > msCap) { task.debt += 1; break; }
         task.last = time; task.debt = 0; task.ran += 1; task.run?.(ring, b); ran += 1;
       }
+      if (now() - start <= msCap) lastLivingStep = maybeStepLivingWorld(ran, cap, b) || lastLivingStep;
       return ran;
     },
-    report() { return { tasks:tasks.length, cursor, names:tasks.map(t => t.name), budget:activeBudget(), seal:'realism-aware-gameplay-budget-scheduler-20260624-bh1' }; }
+    report() { return { tasks:tasks.length, cursor, names:tasks.map(t => t.name), budget:activeBudget(), livingWorld:lastLivingStep, seal:'living-world-aware-gameplay-budget-scheduler-20260625-bh1' }; }
   };
 }
 export default createGameplayBudgetScheduler;
