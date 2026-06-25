@@ -25,7 +25,8 @@ function assertScripts() {
   assert(windows.includes("Stop-OldAwtsAgent $root $entry"));
   assert(unix.includes("AWTSMOOS_INSTALL_ROOT"));
   assert(unix.includes("AWTSMOOS_SKIP_START"));
-  assert(unix.includes('pkill -f "$ROOT/$ENTRY"'));
+  assert(unix.includes("stop_existing_runtime"));
+  assert(unix.includes("wait_for_pids_to_exit"));
 }
 function startStatic(root) {
   const server = http.createServer((req, res) => {

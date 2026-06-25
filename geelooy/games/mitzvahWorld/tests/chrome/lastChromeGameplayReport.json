@@ -1,9 +1,9 @@
 {
   "ok": true,
   "headed": false,
-  "durationMs": 12000,
-  "startedAt": "2026-06-24T20:28:03.469Z",
-  "url": "http://127.0.0.1:50602/geelooy/games/mitzvahWorld/index.html?path=village.json",
+  "durationMs": 20000,
+  "startedAt": "2026-06-25T00:03:01.819Z",
+  "url": "http://127.0.0.1:60756/geelooy/games/mitzvahWorld/index.html?path=village.json",
   "browser": {
     "name": "macOS Chrome",
     "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -135,7 +135,7 @@
           "ikar"
         ]
       },
-      "attempts": 15,
+      "attempts": 13,
       "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
     },
     "pixelGovernor": {
@@ -149,2431 +149,183 @@
       "applied": false,
       "seal": "crisp-pixel-governor-bh5"
     },
-    "url": "http://127.0.0.1:50602/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "url": "http://127.0.0.1:60756/geelooy/games/mitzvahWorld/index.html?path=village.json",
     "title": "Awtsmoos - Mitzvah World 3D"
   },
   "sample": {
-    "durationMs": 12027.200000017881,
-    "frameCount": 1490,
-    "avgFrameMs": 8.054832214777102,
-    "fps": 124.14907888030696,
-    "onePercentLowFps": 10.030090270812547,
-    "pointOnePercentLowFps": 5.973715651135019,
-    "p95FrameMs": 32.29999999999927,
-    "p99FrameMs": 99.69999999999891,
-    "p999FrameMs": 167.39999999999964,
-    "worstFrameMs": 334.3000000000002,
-    "droppedFrames": 69,
-    "longFrames": 42,
-    "worstInputGap": 395.60000002384186,
+    "durationMs": 20011.80000001192,
+    "frameCount": 1337,
+    "avgFrameMs": 14.965370231871296,
+    "fps": 66.82093289415121,
+    "onePercentLowFps": 52.910052910051384,
+    "pointOnePercentLowFps": 8.952551477170973,
+    "p95FrameMs": 18.700000000000728,
+    "p99FrameMs": 18.900000000000546,
+    "p999FrameMs": 111.70000000000027,
+    "worstFrameMs": 130.19999999999982,
+    "droppedFrames": 4,
+    "longFrames": 4,
+    "worstInputGap": 307.30000001192093,
     "actions": {
-      "keydown:KeyW": 4,
-      "mouseSweep": 4,
-      "combatClick": 7,
-      "keydown:Space": 4,
-      "keyup:Space": 4,
-      "keydown:KeyE": 4,
-      "keyup:KeyE": 5,
-      "keydown:KeyQ": 4,
-      "keyup:KeyQ": 5,
-      "keydown:Digit1": 3,
-      "keyup:Digit1": 3,
-      "keydown:Digit2": 3,
-      "keyup:Digit2": 3,
-      "keydown:KeyF": 3,
-      "keyup:KeyF": 3,
-      "keydown:Enter": 3,
-      "keydown:KeyA": 3,
-      "keyup:Enter": 3,
-      "keyup:KeyA": 4,
-      "keydown:KeyD": 3,
-      "keyup:KeyD": 4,
-      "keyup:KeyW": 4,
+      "keydown:KeyW": 6,
+      "mouseSweep": 6,
+      "combatClick": 11,
+      "keydown:Space": 6,
+      "keyup:Space": 6,
+      "keydown:KeyE": 6,
+      "keyup:KeyE": 7,
+      "keydown:KeyQ": 6,
+      "keyup:KeyQ": 7,
+      "keydown:Digit1": 6,
+      "keyup:Digit1": 6,
+      "keydown:Digit2": 6,
+      "keyup:Digit2": 6,
+      "keydown:KeyF": 6,
+      "keyup:KeyF": 6,
+      "keydown:Enter": 6,
+      "keyup:Enter": 6,
+      "keydown:KeyA": 5,
+      "keyup:KeyA": 6,
+      "keydown:KeyD": 5,
+      "keyup:KeyD": 6,
+      "keyup:KeyW": 6,
       "keyup:KeyS": 1
     },
-    "memorySamples": 2,
-    "memoryGrowthBytes": 1713678,
-    "longTaskCount": 34,
+    "memorySamples": 4,
+    "memoryGrowthBytes": 3866500,
+    "longTaskCount": 3,
     "longTasks": [
       {
         "name": "self",
         "entryType": "longtask",
-        "startTime": 9169.699999988079,
-        "duration": 114,
-        "at": 3601.9000000059605,
-        "recent": [
-          {
-            "at": 3596.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3596.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3596.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3598.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3598.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3598.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3598.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3598.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3602.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3602.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3699.2000000178814,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3699.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3702.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3717.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3717.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3717.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3717.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3717.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 9515.799999982119,
-        "duration": 60,
-        "at": 3948,
-        "recent": [
-          {
-            "at": 3941.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3941.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3941.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3946.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3946.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3946.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3946.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3946.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3948.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3948.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3948.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3948.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 3948.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4035,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4035.2000000178814,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4035.2000000178814,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4035.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4035.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 9687.699999988079,
-        "duration": 81,
-        "at": 4119.9000000059605,
-        "recent": [
-          {
-            "at": 4100.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4100.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4100.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4113.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4113.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4113.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4113.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4113.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4120.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4120.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4120.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4120.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4121,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4207.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4207.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4219,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4219,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4219,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 10023.399999976158,
-        "duration": 72,
-        "at": 4455.5999999940395,
-        "recent": [
-          {
-            "at": 4450.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4450.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4452,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4452,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4452,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4452,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4454.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4454.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4454.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4454.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4456,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4456,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4456,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4456,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4529.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4529.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4529.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4529.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 10258.5,
-        "duration": 98,
-        "at": 4690.700000017881,
-        "recent": [
-          {
-            "at": 4681.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4682.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4682.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4685.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4686.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4686.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4686.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4686.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4690.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4690.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4690.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4690.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4690.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4793,
-            "type": "mutation",
-            "count": 3,
-            "nodes": 1,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              },
-              {
-                "name": "DIV.menu.hidden.offscreen",
-                "count": 1
-              }
-            ]
-          },
-          {
-            "at": 4793,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4793,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4793,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4793,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 10564.399999976158,
-        "duration": 132,
-        "at": 4996.5999999940395,
-        "recent": [
-          {
-            "at": 4954.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4956.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4956.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4956.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4962.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4962.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4962.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4970.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4970.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4970.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4982.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4982.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4982.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 4982.700000017881,
-            "type": "mutation",
-            "count": 1,
-            "nodes": 1,
-            "top": [
-              {
-                "name": "DIV.menu.hidden.offscreen",
-                "count": 1
-              }
-            ]
-          },
-          {
-            "at": 5129.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5129.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5129.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5129.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 11137.799999982119,
-        "duration": 165,
-        "at": 5570,
-        "recent": [
-          {
-            "at": 5564.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5564.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5566,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5566,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5566,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5567.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5567.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5567.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5568.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5568.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5569,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5570.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5570.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5570.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5571.0999999940395,
-            "type": "mutation",
-            "count": 3,
-            "nodes": 6,
-            "top": [
-              {
-                "name": "DIV#genesisSubActionText.genesis-stage-note",
-                "count": 1
-              },
-              {
-                "name": "DIV#genesisWorkerText.genesis-stage-note",
-                "count": 1
-              },
-              {
-                "name": "DIV#genesisProgressLog.genesis-progress-log",
-                "count": 1
-              }
-            ]
-          },
-          {
-            "at": 5739.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5739.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5739.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 11413.299999982119,
-        "duration": 142,
-        "at": 5845.5,
-        "recent": [
-          {
-            "at": 5843.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5843.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5843.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5844.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5844.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5844.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5844.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5844.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5845.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5845.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5845.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5845.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5845.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5989,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5989.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5989.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5989.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 5989.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 12221.399999976158,
+        "startTime": 2706.699999988079,
         "duration": 59,
-        "at": 6653.5999999940395,
+        "at": 246.5,
         "recent": [
           {
-            "at": 6649.5,
+            "at": 58.400000005960464,
             "type": "mutation",
-            "count": 2,
-            "nodes": 0,
+            "count": 5,
+            "nodes": 8,
             "top": [
               {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6649.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
+                "name": "H3#genesisActionText.txtLoad.info",
+                "count": 1
+              },
               {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6650.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
+                "name": "DIV#genesisSubActionText.genesis-stage-note",
+                "count": 1
+              },
               {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6650.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
+                "name": "DIV#genesisWorkerText.genesis-stage-note",
+                "count": 1
+              },
               {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6651,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
+                "name": "DIV.loading-radial-core",
+                "count": 1
+              },
               {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6651,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6652.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6652.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6652.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6652.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6654,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6654,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6654,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6654,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6727,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6727,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6727.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6727.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 12503.5,
-        "duration": 102,
-        "at": 6935.700000017881,
-        "recent": [
-          {
-            "at": 6931.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6933.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6933.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6933.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6933.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6934.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6934.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6934.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 6934.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7037,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7037.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7037.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7037.4000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7040.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7041,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7041,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7041.0999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7041.0999999940395,
-            "type": "mutation",
-            "count": 1,
-            "nodes": 1,
-            "top": [
-              {
-                "name": "DIV.menu.hidden.offscreen",
+                "name": "DIV#genesisProgressLog.genesis-progress-log",
                 "count": 1
               }
             ]
+          },
+          {
+            "at": 307.5,
+            "type": "input",
+            "input": "keydown:KeyW"
           }
         ]
       },
       {
         "name": "self",
         "entryType": "longtask",
-        "startTime": 12757.09999999404,
-        "duration": 65,
-        "at": 7189.300000011921,
+        "startTime": 2818.0999999940395,
+        "duration": 87,
+        "at": 357.90000000596046,
         "recent": [
           {
-            "at": 7179.200000017881,
+            "at": 58.400000005960464,
             "type": "mutation",
-            "count": 2,
-            "nodes": 0,
+            "count": 5,
+            "nodes": 8,
             "top": [
               {
-                "name": "DIV.rectangle",
-                "count": 2
+                "name": "H3#genesisActionText.txtLoad.info",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisSubActionText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisWorkerText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV.loading-radial-core",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisProgressLog.genesis-progress-log",
+                "count": 1
               }
             ]
           },
           {
-            "at": 7182.5,
+            "at": 307.5,
+            "type": "input",
+            "input": "keydown:KeyW"
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 3011.7999999821186,
+        "duration": 131,
+        "at": 551.5999999940395,
+        "recent": [
+          {
+            "at": 58.400000005960464,
             "type": "mutation",
-            "count": 2,
-            "nodes": 0,
+            "count": 5,
+            "nodes": 8,
             "top": [
               {
-                "name": "DIV.rectangle",
-                "count": 2
+                "name": "H3#genesisActionText.txtLoad.info",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisSubActionText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisWorkerText.genesis-stage-note",
+                "count": 1
+              },
+              {
+                "name": "DIV.loading-radial-core",
+                "count": 1
+              },
+              {
+                "name": "DIV#genesisProgressLog.genesis-progress-log",
+                "count": 1
               }
             ]
           },
           {
-            "at": 7182.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
+            "at": 307.5,
+            "type": "input",
+            "input": "keydown:KeyW"
           },
           {
-            "at": 7182.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
+            "at": 448.19999998807907,
+            "type": "input",
+            "input": "mouseSweep"
           },
           {
-            "at": 7182.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7186.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7186.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7186.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7186.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7187.800000011921,
+            "at": 451.80000001192093,
             "type": "mutation",
             "count": 3,
             "nodes": 6,
@@ -2593,2124 +345,21 @@
             ]
           },
           {
-            "at": 7189.5999999940395,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7189.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7189.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7189.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7256.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7256.9000000059605,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7257,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 7257,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 13776.899999976158,
-        "duration": 52,
-        "at": 8209.09999999404,
-        "recent": [
-          {
-            "at": 8194.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8201.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8201.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8204.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8204.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8204.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8205,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8205,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8209.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8209.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8209.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8209.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8209.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8262.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8262.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8262.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8262.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8262.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 13877.899999976158,
-        "duration": 103,
-        "at": 8310.09999999404,
-        "recent": [
-          {
-            "at": 8308.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8308.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8308.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8308.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8308.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8308.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8410.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8410.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8410.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8410.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8410.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8410.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8414.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8414.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8414.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8414.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8414.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8414.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 14041.09999999404,
-        "duration": 79,
-        "at": 8473.300000011921,
-        "recent": [
-          {
-            "at": 8471.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8472,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8472.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8472.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8472.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8472.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8473.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8473.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8473.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8473.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8473.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8473.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8568.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8568.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8568.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8568.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8568.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 8568.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 14620.09999999404,
-        "duration": 63,
-        "at": 9052.300000011921,
-        "recent": [
-          {
-            "at": 9030.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9031.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9031.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9031.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9036.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9036.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9036.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9036.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9039.700000017881,
-            "type": "input",
-            "input": "keydown:KeyF"
-          },
-          {
-            "at": 9052.200000017881,
-            "type": "mutation",
-            "count": 66,
-            "nodes": 144,
-            "top": [
-              {
-                "name": "DIV#mitzvahWorldMarkers",
-                "count": 56
-              },
-              {
-                "name": "SECTION#uiQuestTracker.mitzvahPanel",
-                "count": 4
-              },
-              {
-                "name": "SECTION#uiQuestMarkers.mitzvahPanel",
-                "count": 4
-              },
-              {
-                "name": "SECTION#uiGossip.mitzvahPanel",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9053.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9053.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9053.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9053.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9116.800000011921,
+            "at": 539.5999999940395,
             "type": "mutation",
             "count": 3,
-            "nodes": 1,
+            "nodes": 6,
             "top": [
               {
-                "name": "DIV.rectangle",
-                "count": 2
+                "name": "DIV#genesisSubActionText.genesis-stage-note",
+                "count": 1
               },
               {
-                "name": "DIV.menu.hidden.offscreen",
+                "name": "DIV#genesisWorkerText.genesis-stage-note",
                 "count": 1
-              }
-            ]
-          },
-          {
-            "at": 9117.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
+              },
               {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9117.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9117.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 14841.5,
-        "duration": 82,
-        "at": 9273.700000017881,
-        "recent": [
-          {
-            "at": 9252.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9252.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9254.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9254.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9254.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9254.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9267.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9267.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9267.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9267.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9274.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9274.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9274.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9297.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9356.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9356.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9356.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9356.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 15129.09999999404,
-        "duration": 169,
-        "at": 9561.300000011921,
-        "recent": [
-          {
-            "at": 9554.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9554.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9555.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9556,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9556,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9556,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9559.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9559.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9559.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9559.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9561.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9561.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9561.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9563,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9817.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9817.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9817.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9817.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 15470.799999982119,
-        "duration": 53,
-        "at": 9903,
-        "recent": [
-          {
-            "at": 9899.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9899.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9901.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9901.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9901.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9901.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9901.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9902.800000011921,
-            "type": "input",
-            "input": "keydown:KeyD"
-          },
-          {
-            "at": 9903.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9903.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9903.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9903.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9903.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9959.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9959.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9959.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9959.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 9960.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 16774.899999976158,
-        "duration": 92,
-        "at": 11207.09999999404,
-        "recent": [
-          {
-            "at": 11202.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11202.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11204.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11204.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11204.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11204.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11205.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11205.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11206,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11206,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11207.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11207.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11207.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11207.40000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11301.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11301.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11301.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11301.90000000596,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "self",
-        "entryType": "longtask",
-        "startTime": 17345.5,
-        "duration": 62,
-        "at": 11777.700000017881,
-        "recent": [
-          {
-            "at": 11740.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11740.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11771.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11771.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11771.59999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11771.700000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11771.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11779,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11781.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11833.5,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11833.800000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11834.09999999404,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11840.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11840.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11840.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11840.200000017881,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11840.300000011921,
-            "type": "mutation",
-            "count": 2,
-            "nodes": 0,
-            "top": [
-              {
-                "name": "DIV.rectangle",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "at": 11840.300000011921,
-            "type": "mutation",
-            "count": 1,
-            "nodes": 1,
-            "top": [
-              {
-                "name": "DIV.menu.hidden.offscreen",
+                "name": "DIV#genesisProgressLog.genesis-progress-log",
                 "count": 1
               }
             ]
@@ -4746,7 +395,7 @@
         "rawPixelRatio": 1,
         "pixelRatio": 1,
         "memoryGb": 8,
-        "phase": "resize",
+        "phase": "initial",
         "quality": "balanced",
         "applied": false,
         "seal": "crisp-pixel-governor-bh5"
@@ -4764,7 +413,7 @@
           "ikar"
         ]
       },
-      "attempts": 46,
+      "attempts": 52,
       "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
     },
     "pixelGovernor": {
@@ -4773,19 +422,19 @@
       "rawPixelRatio": 1,
       "pixelRatio": 1,
       "memoryGb": 8,
-      "phase": "resize",
+      "phase": "initial",
       "quality": "balanced",
       "applied": false,
       "seal": "crisp-pixel-governor-bh5"
     },
     "guardian": {
       "stage": 2,
-      "avgFps": 330.56,
-      "minFps": 13.77,
+      "avgFps": 97.19,
+      "minFps": 42.92,
       "stable60": false,
       "history": [
         {
-          "at": 1782332889946,
+          "at": 1782345783917,
           "stage": 2,
           "name": "ten-minute-guarantee",
           "reason": "boot-conservative",
@@ -4796,146 +445,205 @@
       ]
     },
     "budget": {
-      "tier": "survival",
-      "scale": 0.28,
+      "tier": "ultra",
+      "scale": 0.92,
       "fpsTarget": 60,
       "reason": {
-        "fps": 125.15644555694618,
-        "p95FrameMs": 38.20000000000073,
-        "p99FrameMs": 80.39999999999964,
-        "p999FrameMs": 80.39999999999964,
-        "worstFrameMs": 80.39999999999964,
-        "longFrames": 9,
+        "fps": 62.019350037211645,
+        "p95FrameMs": 18.700000000000728,
+        "p99FrameMs": 18.799999999999272,
+        "p999FrameMs": 18.799999999999272,
+        "worstFrameMs": 18.799999999999272,
+        "longFrames": 0,
         "drawCalls": 0,
         "triangles": 0,
         "visibleMeshes": 0,
-        "heap": 7218900,
-        "pressure": 3
+        "heap": 8853972,
+        "pressure": 0
       },
       "rendering": {
-        "shadowScale": 0.28,
-        "maxPixelRatio": 1,
-        "postprocessing": false
+        "shadowScale": 0.82,
+        "maxPixelRatio": 1.45,
+        "postprocessing": true
       },
       "simulation": {
-        "nearHz": 10,
-        "midHz": 2,
-        "farHz": 0.2,
+        "nearHz": 24,
+        "midHz": 5,
+        "farHz": 1,
         "horizonMode": "statistical"
       },
       "density": {
-        "animals": 0.28,
-        "npcs": 0.28,
-        "foliage": 0.28,
-        "missions": 2,
-        "villageProps": 0.28
+        "animals": 0.92,
+        "npcs": 0.92,
+        "foliage": 0.92,
+        "missions": 6,
+        "villageProps": 0.92
       },
       "cheapMetrics": true,
       "lastFrame": {
-        "fps": 125.15644555694618,
-        "p95FrameMs": 38.20000000000073,
-        "p99FrameMs": 80.39999999999964
+        "fps": 62.019350037211645,
+        "p95FrameMs": 18.700000000000728,
+        "p99FrameMs": 18.799999999999272
       },
       "seal": "cheap-quality-director-20260623-bh5"
     },
     "mainThreadPressure": {
       "messageTypes": {},
       "dispatchTypes": {
-        "keydown": 102,
-        "mousemove": 11,
-        "pointerdown": 7,
-        "mousedown": 7,
-        "pointerup": 7,
-        "mouseup": 7,
-        "click": 7,
-        "keyup": 99,
-        "mitzvah-world:performance-budget": 2,
-        "playerProgress": 1,
-        "level": 1,
-        "xp": 1,
-        "xpToNext": 1,
-        "hp": 1,
-        "maxHp": 1,
-        "koach": 1,
-        "maxKoach": 1,
-        "combatXp": 1,
-        "torahXp": 1,
-        "shlichusXp": 1,
-        "explorationXp": 1,
-        "restedXp": 1,
-        "gameHUD": 1,
-        "updateStats": 1,
-        "xpBar": 1,
-        "inventoryScreen": 1,
-        "updateSlots": 1,
-        "updateEquipment": 1,
-        "updateWallet": 1,
-        "awtsInventoryUpdate": 1,
-        "awtsInventoryOpen": 1,
-        "action bar": 1,
-        "updateActionSlots": 1
+        "keydown": 174,
+        "mitzvah-world:deferred-boot-loaded": 1,
+        "mousemove": 17,
+        "pointerdown": 11,
+        "mousedown": 11,
+        "pointerup": 11,
+        "mouseup": 11,
+        "click": 11,
+        "keyup": 171,
+        "mitzvah-world:performance-budget": 7,
+        "playerProgress": 45,
+        "level": 45,
+        "xp": 45,
+        "xpToNext": 45,
+        "hp": 45,
+        "maxHp": 45,
+        "koach": 45,
+        "maxKoach": 45,
+        "combatXp": 45,
+        "torahXp": 45,
+        "shlichusXp": 45,
+        "explorationXp": 45,
+        "restedXp": 45,
+        "gameHUD": 46,
+        "updateStats": 46,
+        "xpBar": 45,
+        "inventoryScreen": 5,
+        "updateSlots": 5,
+        "updateEquipment": 5,
+        "updateWallet": 5,
+        "awtsInventoryUpdate": 5,
+        "awtsInventoryOpen": 5,
+        "action bar": 5,
+        "updateActionSlots": 5,
+        "awtsmoos-worker-world-report": 1,
+        "awtsmoos:pixel-ratio-governed": 1,
+        "torahSkills": 116,
+        "updateSkills": 216,
+        "objectiveProgress": 288,
+        "objectiveType": 288,
+        "payload": 288,
+        "touched": 288,
+        "torahSpellbook": 72,
+        "open": 240,
+        "sefarim": 72,
+        "learned": 72,
+        "allMoves": 72,
+        "mastery": 72,
+        "knowledgeMenu": 72,
+        "updateKnowledge": 72,
+        "skillBar": 100,
+        "torahCodex": 72,
+        "routes": 72,
+        "passages": 72,
+        "affinity": 72,
+        "fusions": 72,
+        "soul": 72,
+        "torahActionBar": 28,
+        "slots": 28,
+        "macroPanel": 20,
+        "macros": 20,
+        "effectsOverlay": 20,
+        "text": 44,
+        "color": 20,
+        "combatLog": 12,
+        "category": 12,
+        "floatingCombatText": 12,
+        "combatUnitFrames": 34,
+        "player": 34,
+        "target": 34,
+        "weapon": 34,
+        "nameplates": 8,
+        "plates": 8,
+        "awtsmoos:worker-gameplay-fps": 5,
+        "chatPanel": 4,
+        "activeTab": 4,
+        "input": 4,
+        "messages": 4,
+        "tabs": 4,
+        "visible": 4
       },
-      "mutationCount": 13747,
-      "mutationNodes": 785,
+      "mutationCount": 273,
+      "mutationNodes": 412,
       "mutationTargets": [
         {
-          "name": "DIV.rectangle",
-          "count": 13298
+          "name": "DIV",
+          "count": 36
         },
         {
-          "name": "DIV#mitzvahWorldMarkers",
-          "count": 167
+          "name": "DIV.unit-name",
+          "count": 34
+        },
+        {
+          "name": "DIV.unit-level",
+          "count": 34
+        },
+        {
+          "name": "DIV.unit-hp-text",
+          "count": 34
+        },
+        {
+          "name": "DIV.unit-portrait",
+          "count": 34
         },
         {
           "name": "DIV.menu.hidden.offscreen",
-          "count": 95
+          "count": 14
         },
         {
-          "name": "DIV#genesisSubActionText.genesis-stage-note",
-          "count": 33
+          "name": "DIV.unit-koach-fill",
+          "count": 14
         },
         {
-          "name": "DIV#genesisWorkerText.genesis-stage-note",
-          "count": 33
+          "name": "DIV#inventoryScreen.awtsmoosInventoryViewer",
+          "count": 10
         },
         {
-          "name": "DIV#genesisProgressLog.genesis-progress-log",
-          "count": 33
+          "name": "DIV.empty",
+          "count": 8
         },
         {
-          "name": "DIV.wardrobe-tabs",
-          "count": 21
-        },
-        {
-          "name": "DIV.slots",
-          "count": 18
-        },
-        {
-          "name": "SECTION#uiQuestTracker.mitzvahPanel",
-          "count": 12
-        },
-        {
-          "name": "SECTION#uiQuestMarkers.mitzvahPanel",
-          "count": 12
-        },
-        {
-          "name": "SECTION#uiGossip.mitzvahPanel",
+          "name": "DIV#actionBar.awtsmoosAction.combat-action-dock.open.inventory-open.onscreen",
           "count": 6
         },
         {
-          "name": "DIV.selected-label",
+          "name": "DIV.mainAv",
+          "count": 6
+        },
+        {
+          "name": "DIV.gameUi",
+          "count": 6
+        },
+        {
+          "name": "DIV.store-container.hidden",
+          "count": 5
+        },
+        {
+          "name": "DIV.level-select-container.hidden.offscreen",
+          "count": 4
+        },
+        {
+          "name": "DIV#genesisSubActionText.genesis-stage-note",
           "count": 3
         },
         {
-          "name": "DIV#genesisProgressBar.barMitzvah",
-          "count": 2
+          "name": "DIV#genesisWorkerText.genesis-stage-note",
+          "count": 3
         },
         {
-          "name": "DIV#genesisWorkerBar.genesis-stage-fill",
-          "count": 2
+          "name": "DIV#genesisProgressLog.genesis-progress-log",
+          "count": 3
         },
         {
-          "name": "DIV.loading-radial-core",
+          "name": "HTML.awtsmoos-mobile.awtsmoos-fast-ui.awtsmoos-hide-world-markers.awtsmoos-ui-compact-ready.awt",
           "count": 2
         },
         {
@@ -4943,19 +651,23 @@
           "count": 2
         },
         {
-          "name": "DIV.store-container.hidden",
+          "name": "DIV.slots",
           "count": 2
         },
         {
-          "name": "DIV#genesisWorldBar.genesis-stage-fill",
-          "count": 1
+          "name": "CANVAS",
+          "count": 2
         },
         {
           "name": "H3#genesisActionText.txtLoad.info",
           "count": 1
         },
         {
-          "name": "DIV#genesisPercentText.radial-percent",
+          "name": "DIV.loading-radial-core",
+          "count": 1
+        },
+        {
+          "name": "DIV.loading",
           "count": 1
         },
         {
@@ -4963,955 +675,1281 @@
           "count": 1
         },
         {
-          "name": "DIV#inventoryScreen.awtsmoosInventoryViewer.hidden",
+          "name": "SECTION#uiGossip.mitzvahPanel",
+          "count": 1
+        },
+        {
+          "name": "SECTION#uiQuestTracker.mitzvahPanel",
+          "count": 1
+        },
+        {
+          "name": "SECTION#uiQuestMarkers.mitzvahPanel",
           "count": 1
         },
         {
           "name": "DIV#actionBar.awtsmoosAction.combat-action-dock.open.inventory-open",
           "count": 1
+        },
+        {
+          "name": "DIV.wardrobe-tabs",
+          "count": 1
         }
       ],
       "worstDispatch": [
         {
-          "at": 9043.5,
-          "ms": 8.599999994039536,
-          "type": "keydown",
-          "target": "CANVAS"
-        },
-        {
-          "at": 1981.9000000059605,
-          "ms": 6.300000011920929,
+          "at": 1982.300000011921,
+          "ms": 4,
           "type": "keydown",
           "target": "#document"
-        },
-        {
-          "at": 5507.5999999940395,
-          "ms": 5.100000023841858,
-          "type": "keydown",
-          "target": "#document"
-        },
-        {
-          "at": 4858.5999999940395,
-          "ms": 4.300000011920929,
-          "type": "keydown",
-          "target": "node"
-        },
-        {
-          "at": 9039.700000017881,
-          "ms": 3.699999988079071,
-          "type": "keydown",
-          "target": "#document"
-        },
-        {
-          "at": 12012.800000011921,
-          "ms": 3.199999988079071,
-          "type": "keyup",
-          "target": "CANVAS"
         }
       ],
       "worstMutations": [
         {
-          "at": 11870.09999999404,
-          "count": 3,
-          "nodes": 1,
+          "at": 738.9000000059605,
+          "count": 18,
+          "nodes": 17,
           "top": [
             {
-              "name": "DIV.rectangle",
+              "name": "DIV.menu.hidden.offscreen",
+              "count": 14
+            },
+            {
+              "name": "DIV",
               "count": 2
             },
             {
-              "name": "DIV.menu.hidden.offscreen",
+              "name": "DIV.loading",
+              "count": 1
+            },
+            {
+              "name": "HTML.awtsmoos-mobile.awtsmoos-fast-ui.awtsmoos-hide-world-markers.awtsmoos-ui-compact-ready.awt",
               "count": 1
             }
           ]
         },
         {
-          "at": 12020.40000000596,
-          "count": 3,
-          "nodes": 1,
+          "at": 3673.699999988079,
+          "count": 6,
+          "nodes": 11,
           "top": [
             {
-              "name": "DIV.rectangle",
+              "name": "DIV#inventoryScreen.awtsmoosInventoryViewer",
               "count": 2
             },
             {
-              "name": "DIV.menu.hidden.offscreen",
+              "name": "DIV.store-container.hidden",
+              "count": 1
+            },
+            {
+              "name": "DIV#actionBar.awtsmoosAction.combat-action-dock.open.inventory-open",
+              "count": 1
+            },
+            {
+              "name": "DIV.wardrobe-tabs",
+              "count": 1
+            },
+            {
+              "name": "DIV.slots",
               "count": 1
             }
           ]
         },
         {
-          "at": 11726.700000017881,
-          "count": 2,
-          "nodes": 0,
+          "at": 1986.699999988079,
+          "count": 6,
+          "nodes": 9,
           "top": [
             {
-              "name": "DIV.rectangle",
+              "name": "DIV#mitzvahTopRight",
               "count": 2
+            },
+            {
+              "name": "DIV#mitzvahCenter",
+              "count": 1
+            },
+            {
+              "name": "SECTION#uiGossip.mitzvahPanel",
+              "count": 1
+            },
+            {
+              "name": "SECTION#uiQuestTracker.mitzvahPanel",
+              "count": 1
+            },
+            {
+              "name": "SECTION#uiQuestMarkers.mitzvahPanel",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11726.700000017881,
-          "count": 2,
-          "nodes": 0,
+          "at": 14394.300000011921,
+          "count": 6,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-fill",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11726.700000017881,
-          "count": 2,
+          "at": 12871.59999999404,
+          "count": 6,
           "nodes": 0,
           "top": [
             {
-              "name": "DIV.rectangle",
+              "name": "DIV#actionBar.awtsmoosAction.combat-action-dock.open.inventory-open.onscreen",
               "count": 2
+            },
+            {
+              "name": "DIV.level-select-container.hidden.offscreen",
+              "count": 2
+            },
+            {
+              "name": "BODY.awts-reduced-motion",
+              "count": 1
+            },
+            {
+              "name": "HTML.awtsmoos-mobile.awtsmoos-fast-ui.awtsmoos-hide-world-markers.awtsmoos-ui-compact-ready.awt",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11726.700000017881,
-          "count": 2,
+          "at": 12922.59999999404,
+          "count": 6,
           "nodes": 0,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.mainAv",
+              "count": 6
             }
           ]
         },
         {
-          "at": 11728.09999999404,
-          "count": 2,
+          "at": 12922.800000011921,
+          "count": 6,
           "nodes": 0,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.gameUi",
+              "count": 6
             }
           ]
         },
         {
-          "at": 11728.09999999404,
-          "count": 2,
-          "nodes": 0,
+          "at": 58.400000005960464,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "H3#genesisActionText.txtLoad.info",
+              "count": 1
+            },
+            {
+              "name": "DIV#genesisSubActionText.genesis-stage-note",
+              "count": 1
+            },
+            {
+              "name": "DIV#genesisWorkerText.genesis-stage-note",
+              "count": 1
+            },
+            {
+              "name": "DIV.loading-radial-core",
+              "count": 1
+            },
+            {
+              "name": "DIV#genesisProgressLog.genesis-progress-log",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11728.09999999404,
-          "count": 2,
-          "nodes": 0,
+          "at": 14567,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11728.09999999404,
-          "count": 2,
-          "nodes": 0,
+          "at": 14743.90000000596,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11728.200000017881,
-          "count": 2,
-          "nodes": 0,
+          "at": 14949.59999999404,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11730.200000017881,
-          "count": 2,
-          "nodes": 0,
+          "at": 15114,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11730.40000000596,
-          "count": 2,
-          "nodes": 0,
+          "at": 15325.59999999404,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11730.40000000596,
-          "count": 2,
-          "nodes": 0,
+          "at": 15643.40000000596,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11730.40000000596,
-          "count": 2,
-          "nodes": 0,
+          "at": 15702.5,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11730.40000000596,
-          "count": 2,
-          "nodes": 0,
+          "at": 15870.300000011921,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11734.5,
-          "count": 2,
-          "nodes": 0,
+          "at": 15880.199999988079,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11740.300000011921,
-          "count": 2,
-          "nodes": 0,
+          "at": 19173.69999998808,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11740.59999999404,
-          "count": 2,
-          "nodes": 0,
+          "at": 19232.69999998808,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         },
         {
-          "at": 11740.59999999404,
-          "count": 2,
-          "nodes": 0,
+          "at": 19387,
+          "count": 5,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
             }
           ]
         }
       ],
       "recentMarks": [
         {
-          "at": 11922.800000011921,
+          "at": 17366.69999998808,
           "type": "mutation",
-          "count": 2,
-          "nodes": 0,
+          "count": 4,
+          "nodes": 8,
           "top": [
             {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11923,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11923.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11931.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11931.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11931.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11931.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11931.200000017881,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11934.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11934.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11934.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11934.09999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11934.200000017881,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11935.40000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11935.40000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11935.5,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11935.5,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11935.5,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11940.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11941,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11941,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11941,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11941,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11942.5,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11942.5,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11942.59999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11942.59999999404,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11942.700000017881,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11950,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11950,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11950,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11950,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11950.200000017881,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11952.800000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11952.800000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11952.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11952.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11952.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11954.800000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11954.800000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11954.800000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11954.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 11954.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12006.300000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12008.800000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12008.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12008.90000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12009,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12010.90000000596,
-          "type": "input",
-          "input": "keyup:KeyQ"
-        },
-        {
-          "at": 12020.300000011921,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12020.40000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12020.40000000596,
-          "type": "mutation",
-          "count": 3,
-          "nodes": 1,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
+              "name": "DIV.unit-name",
+              "count": 1
             },
             {
-              "name": "DIV.menu.hidden.offscreen",
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
               "count": 1
             }
           ]
         },
         {
-          "at": 12020.40000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12020.40000000596,
-          "type": "mutation",
-          "count": 2,
-          "nodes": 0,
-          "top": [
-            {
-              "name": "DIV.rectangle",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "at": 12021,
+          "at": 17382.30000001192,
           "type": "input",
           "input": "keyup:KeyW"
         },
         {
-          "at": 12021.40000000596,
-          "type": "input",
-          "input": "keyup:KeyA"
+          "at": 17476.80000001192,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
         },
         {
-          "at": 12021.59999999404,
-          "type": "input",
-          "input": "keyup:KeyS"
+          "at": 17542.40000000596,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
         },
         {
-          "at": 12022.40000000596,
+          "at": 17601.69999998808,
           "type": "input",
-          "input": "keyup:KeyD"
+          "input": "combatClick",
+          "x": 607.9830630658356,
+          "y": 234.66405524793572
         },
         {
-          "at": 12022.800000011921,
+          "at": 17627.5,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 4,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 17627.69999998808,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 17634.19999998808,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 4,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 17634.40000000596,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 17750.40000000596,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 17823.40000000596,
+          "type": "input",
+          "input": "keydown:KeyW"
+        },
+        {
+          "at": 17934.40000000596,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18042.19999998808,
+          "type": "input",
+          "input": "mouseSweep"
+        },
+        {
+          "at": 18121.90000000596,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18207.59999999404,
+          "type": "dispatch",
+          "name": "awtsmoos:worker-gameplay-fps",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 18262.19999998808,
+          "type": "input",
+          "input": "combatClick",
+          "x": 678.7486907343606,
+          "y": 295.1943796428893
+        },
+        {
+          "at": 18308.30000001192,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 4,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18308.5,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18315.90000000596,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 4,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18316.09999999404,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18350.5,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18482.5,
+          "type": "input",
+          "input": "keydown:Space"
+        },
+        {
+          "at": 18514.69999998808,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18555,
+          "type": "input",
+          "input": "keyup:Space"
+        },
+        {
+          "at": 18696.59999999404,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18702.09999999404,
+          "type": "input",
+          "input": "keydown:KeyE"
+        },
+        {
+          "at": 18772.80000001192,
+          "type": "input",
+          "input": "keyup:KeyE"
+        },
+        {
+          "at": 18862.30000001192,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 18921.69999998808,
+          "type": "input",
+          "input": "keydown:KeyQ"
+        },
+        {
+          "at": 18992.90000000596,
           "type": "input",
           "input": "keyup:KeyQ"
         },
         {
-          "at": 12023.59999999404,
+          "at": 19039.69999998808,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19142.09999999404,
+          "type": "input",
+          "input": "keydown:Digit1"
+        },
+        {
+          "at": 19173.69999998808,
+          "type": "mutation",
+          "count": 5,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19180.19999998808,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 4,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19180.30000001192,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19212.59999999404,
+          "type": "input",
+          "input": "keyup:Digit1"
+        },
+        {
+          "at": 19214.40000000596,
+          "type": "dispatch",
+          "name": "awtsmoos:worker-gameplay-fps",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 19227.90000000596,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19232.69999998808,
+          "type": "mutation",
+          "count": 5,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19234.80000001192,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19362,
+          "type": "input",
+          "input": "keydown:Digit2"
+        },
+        {
+          "at": 19387,
+          "type": "mutation",
+          "count": 5,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19388.59999999404,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 4,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19388.90000000596,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19421.40000000596,
+          "type": "mutation",
+          "count": 5,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-koach-fill",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19433.19999998808,
+          "type": "input",
+          "input": "keyup:Digit2"
+        },
+        {
+          "at": 19582.40000000596,
+          "type": "input",
+          "input": "keydown:KeyF"
+        },
+        {
+          "at": 19653.90000000596,
+          "type": "input",
+          "input": "keyup:KeyF"
+        },
+        {
+          "at": 19677.30000001192,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19801.69999998808,
+          "type": "input",
+          "input": "keydown:Enter"
+        },
+        {
+          "at": 19872.40000000596,
+          "type": "input",
+          "input": "keyup:Enter"
+        },
+        {
+          "at": 19908.80000001192,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19918.19999998808,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 1,
+          "top": [
+            {
+              "name": "DIV",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 19945.80000001192,
+          "type": "mutation",
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 20009.40000000596,
+          "type": "input",
+          "input": "keyup:KeyW"
+        },
+        {
+          "at": 20009.5,
+          "type": "input",
+          "input": "keyup:KeyA"
+        },
+        {
+          "at": 20009.69999998808,
+          "type": "input",
+          "input": "keyup:KeyS"
+        },
+        {
+          "at": 20009.80000001192,
+          "type": "input",
+          "input": "keyup:KeyD"
+        },
+        {
+          "at": 20009.80000001192,
+          "type": "input",
+          "input": "keyup:KeyQ"
+        },
+        {
+          "at": 20009.80000001192,
           "type": "input",
           "input": "keyup:KeyE"
         }
@@ -5919,8 +1957,8 @@
     },
     "emerald": false,
     "dialogueLikeNodes": 3,
-    "url": "http://127.0.0.1:50602/geelooy/games/mitzvahWorld/index.html?path=village.json",
-    "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-no-expensive-css awtsmoos-renderer-missing awtsmoos-fps-guardian-active"
+    "url": "http://127.0.0.1:60756/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-perf-active awtsmoos-no-expensive-css awtsmoos-renderer-missing awtsmoos-fps-guardian-active awtsmoos-gameplay-dom-quiet"
   },
   "issueLog": {
     "scope": "chrome-real-browser",

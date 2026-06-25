@@ -1,0 +1,43 @@
+/* B"H
+ * Chapter 556: The cockpit lists the recent sparks as collapsible vessels.
+ */
+.civilization-cockpit {
+  display: grid;
+  gap: 10px;
+  width: min(92vw, 860px);
+  max-height: min(78vh, 720px);
+  overflow: auto;
+}
+.civilization-cockpit header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+.civilization-cockpit h3 {
+  margin: 0;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0,246,255,.35);
+}
+.civilization-event-card {
+  border: 1px solid rgba(0,246,255,.22);
+  border-radius: 12px;
+  background: var(--civ-panel-bg);
+  overflow: hidden;
+}
+.civilization-event-card summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  color: var(--neon-cyan);
+  font-family: var(--font-code, monospace);
+  font-weight: 900;
+  list-style: none;
+}
+.civilization-event-card pre {
+  margin: 0;
+  padding: 12px;
+  color: var(--color-text-secondary);
+  background: rgba(0,0,0,.3);
+  white-space: pre-wrap;
+  font-size: 12px;
+}

@@ -4,11 +4,13 @@ import AwtsmoosOS from "./awtsmoosOs.js";
 import menuItems from "./startMenu.js";
 import { VirtualOSTunnelAgent } from "./tunnel-agent.js";
 import { initSocialInboxBridge } from "./socialInboxBridge.js";
+import { initCivilizationDesktop } from "./civilization/desktop.js";
+import { renderCivilizationStartFeed } from "./civilization/start-menu-feed.js";
 
 /**
  * B"H
- * Chapter 541: The desktop breathed; the tunnel waited behind the glass, and
- * now the civilization inbox glows in the taskbar as a small moon.
+ * Chapter 567: The desktop breathed; now civilization icons stand on the blue
+ * field and the start menu whispers the latest sparks.
  */
 const os = new AwtsmoosOS();
 window.os = os;
@@ -31,6 +33,7 @@ document.getElementById('start-button').onclick = async () => {
     li.onclick = () => menuItems[item]?.({ os });
     menuItemsContainer.appendChild(li);
   });
+  await renderCivilizationStartFeed(menu).catch(() => {});
   menu.classList.remove('hidden');
   menu.style.display = 'block';
   function clickOutside(event) {
@@ -64,8 +67,9 @@ document.getElementById('desktop').addEventListener('dblclick', event => {
   topHeader.appendChild(loginWrapper);
   topHeader.appendChild(fsBtn);
   mainContainer.insertBefore(topHeader, mainContainer.firstChild);
-  addEventListener("awtsmoosAliasChange", async () => { await os.start(); });
+  addEventListener("awtsmoosAliasChange", async () => { await os.start(); initCivilizationDesktop({ os }); });
   createProfileDropdown(existingLogin);
+  initCivilizationDesktop({ os });
   window.AwtsmoosSocialInbox.renderBadge(document.getElementById('task-area')).catch(() => {});
 })();
 

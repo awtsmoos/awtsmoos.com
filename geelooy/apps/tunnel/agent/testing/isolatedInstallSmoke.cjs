@@ -14,7 +14,7 @@ const AGENT = path.join(GEELOOY, "apps", "tunnel", "agent");
 const TMP = path.join(REPO, ".awtsmoos", "tmp-install-tests");
 
 const read = file => fs.readFileSync(file, "utf8").replace(/^\uFEFF/, "");
-const rmrf = file => fs.rmSync(file, { recursive: true, force: true });
+const rmrf = file => fs.rmSync(file, { recursive: true, force: true, maxRetries: 8, retryDelay: 100 });
 const mkdirp = file => fs.mkdirSync(file, { recursive: true });
 
 function manifestLines() { return read(path.join(AGENT, "manifest.txt")).split(/\r?\n/).map(x => x.trim()).filter(x => x && x !== 'B"H' && x !== '# B"H'); }
@@ -30,7 +30,8 @@ function assertInstallerScripts() {
   assert(!windows.includes("per-file install"));
   assert(unix.includes("AWTSMOOS_INSTALL_ROOT"));
   assert(unix.includes("AWTSMOOS_SKIP_START"));
-  assert(unix.includes('pkill -f "$ROOT/$ENTRY"'));
+  assert(unix.includes("stop_existing_runtime"));
+  assert(unix.includes("wait_for_pids_to_exit"));
   assert(!unix.includes("install_awtsmoos_files"));
   assert(!unix.includes("falling back to per-file"));
   const bash = spawnSync("bash", ["-n", path.join(DOWNLOADS, "unix.sh")], { encoding: "utf8" });
@@ -52,7 +53,11 @@ function createBundleZip(zipPath) {
   }
   rmrf(zipPath);
   const ps = spawnSync("powershell", ["-NoProfile", "-Command", `Compress-Archive -Force -Path '${staging}\\*' -DestinationPath '${zipPath}'`], { encoding: "utf8" });
-  assert.strictEqual(ps.status, 0, ps.stdout + ps.stderr);
+  if (!ps.error && ps.status === 0) return zipPath;
+  const zip = spawnSync("zip", ["-qr", zipPath, "."], { cwd: staging, encoding: "utf8" });
+  if (!zip.error && zip.status === 0) return zipPath;
+  const py = spawnSync("python3", ["-m", "zipfile", "-c", zipPath, "."], { cwd: staging, encoding: "utf8" });
+  assert.strictEqual(py.status, 0, (ps.stdout || "") + (ps.stderr || "") + (zip.stdout || "") + (zip.stderr || "") + (py.stdout || "") + (py.stderr || ""));
   return zipPath;
 }
 function startStatic(root) {
@@ -102,6 +107,36 @@ function installWithPowerShell({ origin, installRoot, projectRoot, relay, localA
   });
 }
 
+function installWithUnix({ origin, installRoot, projectRoot, relay, localApiPort }) {
+  const child = spawn("bash", [path.join(DOWNLOADS, "unix.sh")], {
+    env: { ...process.env, AWTSMOOS_INSTALL_ORIGIN: origin, AWTSMOOS_INSTALL_ROOT: installRoot, AWTSMOOS_TUNNEL_NAME: "awt-isolated-install-test", AWTSMOOS_RELAY: relay, AWTSMOOS_PROJECT_ROOT: projectRoot, AWTSMOOS_LOCAL_API_PORT: String(localApiPort), AWTSMOOS_SKIP_START: "1", AWTSMOOS_SKIP_OPEN_CONTROL: "1" }
+  });
+  return new Promise((resolve, reject) => {
+    let stdout = "", stderr = "";
+    const timeout = setTimeout(() => { child.kill("SIGKILL"); reject(new Error("unix installer timeout\n" + stdout + stderr)); }, 120000);
+    child.stdout.on("data", c => stdout += c.toString());
+    child.stderr.on("data", c => stderr += c.toString());
+    child.on("error", error => { clearTimeout(timeout); reject(error); });
+    child.on("exit", code => {
+      clearTimeout(timeout);
+      try {
+        assert.strictEqual(code, 0, stdout + stderr);
+        assert(stdout.includes("AWTSMOOS_SKIP_START set"));
+        resolve(stdout);
+      } catch (error) { reject(error); }
+    });
+  });
+}
+
+function hasPowerShell() {
+  const got = spawnSync("powershell", ["-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"], { encoding: "utf8" });
+  return !got.error && got.status === 0;
+}
+
+function installWithPlatform(opts) {
+  return hasPowerShell() ? installWithPowerShell(opts) : installWithUnix(opts);
+}
+
 function verifyInstall(root) {
   const [version, entry, ...files] = manifestLines();
   assert.strictEqual(entry, "main.js");
@@ -118,7 +153,7 @@ class Relay {
   async start() { this.server = net.createServer(socket => this.attach(socket)); await new Promise(resolve => this.server.listen(0, "127.0.0.1", resolve)); return `ws://127.0.0.1:${this.server.address().port}`; }
   close() { try { this.socket?.destroy(); } catch {} try { this.server?.close(); } catch {} }
   attach(socket) { this.socket = socket; let head = Buffer.alloc(0); socket.on("data", chunk => { if (!this.ready) { head = Buffer.concat([head, chunk]); const end = head.indexOf("\r\n\r\n"); if (end < 0) return; const key = /Sec-WebSocket-Key:\s*(.+)/i.exec(head.slice(0, end).toString("utf8"))[1].trim(); const accept = crypto.createHash("sha1").update(key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").digest("base64"); socket.write(["HTTP/1.1 101 Switching Protocols", "Upgrade: websocket", "Connection: Upgrade", "Sec-WebSocket-Accept: " + accept, "", ""].join("\r\n")); this.ready = true; const rest = head.slice(end + 4); if (rest.length) this.frames(rest); return; } this.frames(chunk); }); }
-  frames(chunk) { this.buffer = Buffer.concat([this.buffer, chunk]); while (true) { const got = clientFrame(this.buffer); if (!got) return; this.buffer = this.buffer.slice(got.consumed); this.messages.push(JSON.parse(got.payload.toString("utf8"))); } }
+  frames(chunk) { this.buffer = Buffer.concat([this.buffer, chunk]); while (true) { const got = clientFrame(this.buffer); if (!got) return; this.buffer = this.buffer.slice(got.consumed); try { this.messages.push(JSON.parse(got.payload.toString("utf8"))); } catch (_) { /* ignore non-json control/binary frames in smoke harness */ } } }
   send(obj) { this.socket.write(serverFrame(JSON.stringify(obj))); }
   waitFor(fn, ms = 12000) { return new Promise((resolve, reject) => { const start = Date.now(); const t = setInterval(() => { const got = this.messages.find(fn); if (got) return clearInterval(t), resolve(got); if (Date.now() - start > ms) return clearInterval(t), reject(new Error("mock relay timeout")); }, 20); }); }
 }
@@ -169,7 +204,7 @@ async function main() {
   const staticSite = await startStatic(GEELOOY);
   try {
     const localApiPort = await freePort();
-    const installerTail = (await installWithPowerShell({ origin: staticSite.origin, installRoot, projectRoot, relay: relayUrl, localApiPort })).split(/\r?\n/).slice(-8);
+    const installerTail = (await installWithPlatform({ origin: staticSite.origin, installRoot, projectRoot, relay: relayUrl, localApiPort })).split(/\r?\n/).slice(-8);
     const installed = verifyInstall(installRoot);
     const smoke = await smokeInstalled({ installRoot, tempHome, projectRoot, relay });
     console.log(JSON.stringify({ ok: true, suite: "isolated-tunnel-install-smoke", installed: { version: installed.version, fileCount: installed.fileCount }, smoke, installerTail }, null, 2));

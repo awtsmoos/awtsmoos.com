@@ -1,7 +1,7 @@
 // B"H
 /** @file index.js @description UI bridge with close/collapse covenant, NPC gossip, quests, loot, and boot gate. */
 let bootStarted = false;
-const SEAL = "ui-collapse-eq-switch-20260621-bh1";
+const SEAL = "ui-dom-idempotent-markers-20260624-bh2";
 const esc = v => String(v ?? "").replace(/[&<>'"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[c]));
 const trace = () => window.__AWTSMOOS_BOOT_TRACE__ === true;
 
@@ -38,8 +38,10 @@ function mount(parentId, id, title, body = "", cls = "") {
   if (parentId === "mitzvahCenter") [...parent.children].forEach(ch => { if (ch.id !== id) ch.remove(); });
   let el = document.getElementById(id);
   if (!el) { el = document.createElement("section"); el.id = id; el.className = `mitzvahPanel ${cls}`.trim(); parent.appendChild(el); }
-  el.innerHTML = `<div class="mitzvahPanelHead"><div class="mitzvahTitle">${esc(title)}</div>${controls(id)}</div><div class="mitzvahPanelBody">${body}</div>`;
-  el.dataset.updatedAt = String(Date.now());
+  const html = `<div class="mitzvahPanelHead"><div class="mitzvahTitle">${esc(title)}</div>${controls(id)}</div><div class="mitzvahPanelBody">${body}</div>`;
+  if (el.__awtsmoosPanelHtml === html) return el;
+  el.__awtsmoosPanelHtml = html;
+  el.innerHTML = html;
   return el;
 }
 
@@ -53,11 +55,36 @@ function npcPositionFromOlam(npcId) { const olam = olamOf(window), list = olam?.
 function projectWorldPosition(pos) { const camera = window.__AWTSMOOS_CAMERA__ || window.camera || window.mana?.camera || window.ikar?.camera; const THREE = window.THREE; if (!pos || !camera || !THREE?.Vector3) return null; const v = new THREE.Vector3(pos.x || 0, (pos.y || 0) + 3, pos.z || 0).project(camera); return { x:(v.x * .5 + .5) * innerWidth, y:(-v.y * .5 + .5) * innerHeight, projected:true }; }
 function fallbackMarkerPosition(i, count) { const n = Math.max(1, count), step = Math.min(92, Math.max(46, innerWidth / (n + 1))); return { x:Math.min(innerWidth - 44, 44 + i * step), y:128 + (i % 3) * 44, projected:false }; }
 
+function worldMarkersHidden() { return document.documentElement.classList.contains("awtsmoos-hide-world-markers"); }
+function markerPayloadKey(marks) { return JSON.stringify(marks.map(m => [m.npcId, m.missionId, m.marker, m.npcName, m.title, m.x, m.y])); }
+function clearMarkerRoot(root) { if (!root || root.__awtsmoosMarkerKey === "empty") return; root.replaceChildren(); root.__awtsmoosMarkerKey = "empty"; root.__awtsmoosMarkerSummary = { count:0, projected:0, hidden:true }; }
 function renderWorldQuestMarkers(p = {}) {
-  const root = document.getElementById("mitzvahWorldMarkers"); if (!root) return null; root.innerHTML = "";
+  const root = document.getElementById("mitzvahWorldMarkers"); if (!root) return null;
   const marks = (p.markers || []).slice(0, 14);
-  marks.forEach((m, i) => { const pos = projectWorldPosition(npcPositionFromOlam(m.npcId)) || fallbackMarkerPosition(i, marks.length); const el = document.createElement("button"); el.type = "button"; el.className = `mitzvahMarker ${markerGray(m.marker) ? "gray" : ""}`.trim(); el.style.left = `${Math.round(pos.x)}px`; el.style.top = `${Math.round(pos.y)}px`; el.title = `${m.npcName}: ${m.title}`; el.dataset.npc = m.npcId; el.dataset.mission = m.missionId; el.dataset.marker = m.marker; el.textContent = markerSymbol(m.marker); el.onclick = () => window.__MITZVAH_NPC_INTERACTION__?.open?.(m.npcId); root.appendChild(el); });
-  return { count:marks.length, projected:marks.filter(m => projectWorldPosition(npcPositionFromOlam(m.npcId))).length };
+  if (worldMarkersHidden() || !marks.length) { clearMarkerRoot(root); return root.__awtsmoosMarkerSummary || { count:0, projected:0, hidden:true }; }
+  const positioned = marks.map((m, i) => ({ mark:m, pos:projectWorldPosition(npcPositionFromOlam(m.npcId)) || fallbackMarkerPosition(i, marks.length) }));
+  const key = markerPayloadKey(positioned.map(({ mark, pos }) => ({ ...mark, x:Math.round(pos.x), y:Math.round(pos.y) })));
+  if (root.__awtsmoosMarkerKey === key) return root.__awtsmoosMarkerSummary || { count:marks.length, projected:0, cached:true };
+  const frag = document.createDocumentFragment();
+  let projected = 0;
+  positioned.forEach(({ mark:m, pos }) => {
+    if (pos.projected) projected += 1;
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = `mitzvahMarker ${markerGray(m.marker) ? "gray" : ""}`.trim();
+    el.style.cssText = `left:${Math.round(pos.x)}px;top:${Math.round(pos.y)}px`;
+    el.title = `${m.npcName}: ${m.title}`;
+    el.dataset.npc = m.npcId;
+    el.dataset.mission = m.missionId;
+    el.dataset.marker = m.marker;
+    el.textContent = markerSymbol(m.marker);
+    el.onclick = () => window.__MITZVAH_NPC_INTERACTION__?.open?.(m.npcId);
+    frag.appendChild(el);
+  });
+  root.replaceChildren(frag);
+  root.__awtsmoosMarkerKey = key;
+  root.__awtsmoosMarkerSummary = { count:marks.length, projected };
+  return root.__awtsmoosMarkerSummary;
 }
 
 function renderQuestTracker(p = {}) { return mount("mitzvahTopRight", "uiQuestTracker", "Shlichus Tracker", rows(p.active, q => `<div class="mitzvahQuestLine ${q.complete ? "mitzvahDone" : ""}"><b>${esc(q.line || q.title)}</b>${rows(q.objectives, o => `<br><small class="${o.complete ? "mitzvahDone" : ""}">${esc(o.line || o.text)}</small>`)}${q.returnTo ? `<br><small>Return to ${esc(q.returnTo)}</small>` : ""}</div>`)); }

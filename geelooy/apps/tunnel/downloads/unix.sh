@@ -16,6 +16,7 @@ ENTRY="main.js"
 PID_FILE="$ROOT/agent.pid"
 SUP_PID_FILE="$ROOT/supervisor.pid"
 SUPERVISOR="$ROOT/awtsmoos-supervisor.sh"
+STOP_FILE="$ROOT/stop-supervisor"
 mkdir -p "$ROOT"
 command -v node >/dev/null 2>&1 || { echo "Node.js not found"; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo "curl not found"; exit 1; }
@@ -143,29 +144,53 @@ chmod +x "$SUPERVISOR"
 
 is_alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
 find_agent_pid() { pgrep -f "^node $ROOT/$ENTRY( |$)" | head -1 || true; }
+find_agent_pids() { pgrep -f "^node $ROOT/$ENTRY( |$)" || true; }
 find_supervisor_pid() { pgrep -f "$SUPERVISOR" | head -1 || true; }
+find_supervisor_pids() { pgrep -f "$SUPERVISOR" || true; }
+
+wait_for_pids_to_exit() {
+  label="$1"; shift || true
+  pids="$*"
+  [ -z "$pids" ] && return 0
+  for _ in 1 2 3 4 5 6 7 8 9 10; do
+    alive=""
+    for pid in $pids; do is_alive "$pid" && alive="$alive $pid"; done
+    [ -z "$alive" ] && return 0
+    sleep 0.3
+  done
+  for pid in $pids; do is_alive "$pid" && { echo "Force killing stale Awtsmoos $label PID: $pid"; kill -9 "$pid" 2>/dev/null || true; }; done
+}
+
+stop_existing_runtime() {
+  write_supervisor
+  agent_pids="$(find_agent_pids | tr '\n' ' ')"
+  supervisor_pids="$(find_supervisor_pids | tr '\n' ' ')"
+  if [ -n "$supervisor_pids" ]; then
+    echo "Stopping Awtsmoos supervisor PID(s): $supervisor_pids"
+    touch "$STOP_FILE"
+    for pid in $supervisor_pids; do kill "$pid" 2>/dev/null || true; done
+    wait_for_pids_to_exit "supervisor" $supervisor_pids
+  fi
+  if [ -n "$agent_pids" ]; then
+    echo "Stopping Awtsmoos agent PID(s): $agent_pids"
+    for pid in $agent_pids; do kill "$pid" 2>/dev/null || true; done
+    wait_for_pids_to_exit "agent" $agent_pids
+  fi
+  rm -f "$STOP_FILE" "$PID_FILE" "$SUP_PID_FILE"
+}
 
 start_supervisor() {
   write_supervisor
-  current_pid="$(find_agent_pid)"
-  [ -n "$current_pid" ] && echo "$current_pid" > "$PID_FILE"
+  rm -f "$STOP_FILE"
   supervisor_pid="$(find_supervisor_pid)"
   if is_alive "$supervisor_pid"; then
     echo "$supervisor_pid" > "$SUP_PID_FILE"
     echo "Awtsmoos supervisor already running: $supervisor_pid"
   else
-    AWTSMOOS_ADOPT_PID="$current_pid" nohup "$SUPERVISOR" > "$ROOT/supervisor-stdout.log" 2>&1 &
+    nohup "$SUPERVISOR" > "$ROOT/supervisor-stdout.log" 2>&1 &
     supervisor_pid=$!
     echo "$supervisor_pid" > "$SUP_PID_FILE"
     echo "Awtsmoos supervisor started: $supervisor_pid"
-  fi
-}
-
-restart_agent_by_pid() {
-  pid="$(find_agent_pid)"
-  if is_alive "$pid"; then
-    echo "Restarting Awtsmoos agent by PID: $pid"
-    kill "$pid" 2>/dev/null || true
   fi
 }
 
@@ -197,8 +222,8 @@ else
 fi
 
 if [ "${AWTSMOOS_SKIP_START:-}" = "1" ] || [ "${AWTSMOOS_SKIP_START:-}" = "true" ]; then echo "AWTSMOOS_SKIP_START set; install verified without starting agent."; exit 0; fi
+if [ "$UPDATED" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "true" ]; then stop_existing_runtime; fi
 start_supervisor
-if [ "$UPDATED" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "true" ]; then restart_agent_by_pid; fi
 sleep 1
 agent_pid="$(find_agent_pid)"
 supervisor_pid="$(find_supervisor_pid)"

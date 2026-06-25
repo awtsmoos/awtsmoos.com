@@ -76,6 +76,26 @@
     "route": "/assets/:alias/:kind/:asset"
   },
   {
+    "file": "_awtsmoos.civilization.js",
+    "route": "/civilization/events"
+  },
+  {
+    "file": "_awtsmoos.civilization.js",
+    "route": "/civilization/feed/:alias"
+  },
+  {
+    "file": "_awtsmoos.civilization.js",
+    "route": "/civilization/entities/:type/:id/state"
+  },
+  {
+    "file": "_awtsmoos.civilization.js",
+    "route": "/civilization/subscriptions/:alias"
+  },
+  {
+    "file": "_awtsmoos.civilization.js",
+    "route": "/civilization/state"
+  },
+  {
     "file": "_awtsmoos.communications.js",
     "route": "/communications/:alias/overview"
   },

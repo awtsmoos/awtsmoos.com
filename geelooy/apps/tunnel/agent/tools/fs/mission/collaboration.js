@@ -387,12 +387,30 @@ function complete(m, input = {}) {
 }
 function response(m, extra = {}) {
   const next = extra.mustCallNext || { action: 'missionAgentSync', missionId: m.id, auto: true };
+  const blocking = (Array.isArray(extra.blockingUserMessages) && extra.blockingUserMessages.length) || (extra.userMessage && extra.userMessage.requiresResponse && extra.userMessage.status === 'open');
   return {
     ...extra,
     next,
     mustCallNext: next,
     finalAnswerAllowed: false,
-    mustContinue: true
+    mustContinue: true,
+    responseFocus: {
+      oneMainThing: blocking ? 'Respond to the open user room message before any unrelated work.' : 'Continue the mission room protocol before any unrelated action.',
+      mustAnswerGate: true,
+      expectedAction: next.action,
+      recommendedAnswer: blocking ? 'Respond to the blocking user message with proof or explicit continue.' : 'Call the listed mustCallNext action.'
+    },
+    multipleChoiceSelfInterrogation: blocking ? {
+      prompt: 'A user message is blocking this mission room.',
+      text: 'What must happen next?',
+      choices: [
+        { key: 'A', text: 'Respond to the user message now', action: 'missionAgentRespond', payload: next },
+        { key: 'B', text: 'Stop unrelated work until user message is answered', action: 'blocked_wait', payload: {} },
+        { key: 'C', text: 'Only continue if the user explicitly said continue', action: 'require_continue_phrase', payload: {} }
+      ],
+      expectedAnswerFormat: 'A|B|C and then call mustCallNext.'
+    } : null,
+    allCapsPrompt: blocking ? 'USER MESSAGE BLOCKS THE ROOM. RESPOND FIRST.' : 'KEEP THE MISSION ROOM PROTOCOL MOVING.'
   };
 }
 function openUserMessages(room) {

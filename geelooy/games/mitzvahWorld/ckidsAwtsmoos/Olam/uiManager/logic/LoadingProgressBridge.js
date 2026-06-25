@@ -1,36 +1,85 @@
 // B"H
 /**
  * @file LoadingProgressBridge.js
- * @description Chapter 437: the loading veil no longer freezes at ninety-nine.
- * The Awtsmoos breathes through evidence first, then a guarded watchdog only
- * after the worker has proven world and canvas readiness.
+ * @description
+ * Chapter 919: The veil now leaves as soon as the canvas is alive. Chrome
+ * proved genesis progress nodes were mutating deep into playable gameplay.
+ * This bridge paints boot progress only before play; visible canvas or first
+ * gameplay input starts a short grace window, then all loading DOM is removed.
  */
-const IDS = Object.freeze({ total:"genesisProgressBar", world:"genesisWorldBar", worker:"genesisWorkerBar", texture:"genesisTextureBar", action:"genesisActionText", sub:"genesisSubActionText", percent:"genesisPercentText", workerText:"genesisWorkerText", textureText:"genesisTextureText", log:"genesisProgressLog" });
-const STAGES = Object.freeze([["entrypoint",5],["boot-runner",10],["angelic-invoker",16],["vessel_ready",20],["message:pawsawch",24],["soul-loader",28],["load-nivrayim:parse",32],["load-nivrayim:asset-size",35],["load-nivrayim:heescheel",48],["load-nivrayim:madeAll",52],["load-nivrayim:placeholder",58],["load-nivrayim:ready",64],["load-nivrayim:afterBriyah",68],["load-nivrayim:entry-runtime",71],["postbuild:regionStack",74],["postbuild:livingRegionRuntime",77],["postbuild:battleLayer",80],["postbuild:visualReality",83],["postbuild:botanicalReality",86],["postbuild:ecologyReality",89],["postbuild:landmarks",91],["postbuild:atmosphere",92],["postbuild:npcLife",93],["postbuild:interactionLayers",94],["postbuild:finalGrounding",96],["postbuild:treeRuntimeAudit",97],["postbuild:runtimeVisualAudit",98],["postbuild:ready-for-first-render",99],["canvas_transferred",99],["loadedWorld",99],["world_final_ready",100]]);
-const state = { total:0, world:0, worker:0, texture:0, lastAt:0, hidden:false, finalReady:false, loadedWorld:false, canvasTransferred:false, renderReady:false, log:[] };
-let heartbeat = null, hideTimer = null, softTimer = null, paintQueued = false, pending = null;
+const IDS = Object.freeze({
+  total:"genesisProgressBar", world:"genesisWorldBar", worker:"genesisWorkerBar", texture:"genesisTextureBar",
+  action:"genesisActionText", sub:"genesisSubActionText", percent:"genesisPercentText",
+  workerText:"genesisWorkerText", textureText:"genesisTextureText", log:"genesisProgressLog"
+});
+const STAGES = Object.freeze([
+  ["entrypoint",5],["boot-runner",10],["angelic-invoker",16],["vessel_ready",20],["message:pawsawch",24],
+  ["soul-loader",28],["load-nivrayim:parse",32],["load-nivrayim:heescheel",48],["load-nivrayim:madeAll",52],
+  ["load-nivrayim:ready",64],["postbuild:regionStack",74],["postbuild:battleLayer",80],["postbuild:visualReality",83],
+  ["postbuild:npcLife",93],["postbuild:ready-for-first-render",99],["canvas_transferred",99],["loadedWorld",99],["world_final_ready",100]
+]);
+const state = { total:0, world:0, worker:0, texture:0, hidden:false, finalReady:false, log:[], lastStyle:new Map(), firstCanvasAt:0, firstInputAt:0, startedAt:Date.now() };
+let heartbeat = null, hideTimer = null, paintQueued = false, pending = null;
 const doc = () => typeof document === "undefined" ? null : document;
 const byId = id => doc()?.getElementById(id) || null;
 const clamp = value => Math.max(0, Math.min(100, Number(value) || 0));
-function stagePercent(stage = "") { const clean = String(stage); for (const [prefix, percent] of STAGES) if (clean.startsWith(prefix)) return percent; return state.total; }
-function text(id, value) { const node = byId(id); if (node && value != null && node.textContent !== String(value)) node.textContent = String(value); }
-function bar(key, value) { state[key] = Math.max(state[key], clamp(value)); const node = byId(IDS[key]); if (node) node.style.width = `${state[key]}%`; }
-function title(stage) { if (stage === "world_final_ready") return "World ready"; if (stage.includes("finalGrounding")) return "Grounding every living form..."; if (stage.includes("texture")) return "Preparing textures..."; if (stage.includes("postbuild")) return "Building the finished zone..."; if (stage.includes("load-nivrayim")) return "Creating the world..."; return "Opening the world..."; }
-function record(message) { if (!message || state.log.at(-1) === message) return; state.log.push(message); state.log = state.log.slice(-5); text(IDS.log, state.log.join("\n")); }
-function rememberStage(stage) { state.loadedWorld ||= stage === "loadedWorld"; state.canvasTransferred ||= stage === "canvas_transferred"; state.renderReady ||= stage.includes("ready-for-first-render") || stage === "world_final_ready"; }
-function visibleCanvasReady() { const canvas = doc()?.querySelector?.("canvas"); return Boolean(canvas && canvas.clientWidth > 0 && canvas.clientHeight > 0); }
-function shouldSoftFinalize() { return !state.finalReady && (((state.loadedWorld || visibleCanvasReady()) && state.canvasTransferred) || state.renderReady); }
-function queueSoftFinalize(reason) { if (softTimer || !shouldSoftFinalize()) return; softTimer = setTimeout(() => { softTimer = null; if (shouldSoftFinalize()) markFinalReady(reason || "worker readiness watchdog"); }, 1600); }
-function paint(input = {}) { if (!doc() || state.hidden) return; const stage = String(input.stage || input.kind || "progress"); rememberStage(stage); state.lastAt = Date.now(); if (stage === "world_final_ready") state.finalReady = true; const total = input.total ?? input.amount ?? stagePercent(stage); bar("total", state.finalReady ? total : Math.min(99, total)); if (input.world != null || stage.includes("load") || stage.includes("postbuild")) bar("world", input.world ?? stagePercent(stage)); if (input.worker != null || stage) bar("worker", input.worker ?? stagePercent(stage)); if (input.texture != null) bar("texture", input.texture); text(IDS.percent, `${Math.round(state.total)}%`); text(IDS.action, input.action || title(stage)); text(IDS.sub, input.subAction || input.label || stage.replace(/:/g, " ")); text(IDS.workerText, stage.replace(/[-:]/g, " ").slice(0, 72)); if (input.textureLabel) text(IDS.textureText, input.textureLabel); doc()?.querySelector?.(".loading-radial-core")?.style?.setProperty?.("--load", `${Math.round(state.total)}%`); record(input.log || input.subAction || stage); if (state.finalReady && input.hide !== false) scheduleHide(180); else queueSoftFinalize("world and canvas ready"); }
-export function update(input = {}) { pending = { ...(pending || {}), ...input }; if (paintQueued) return; paintQueued = true; const flush = () => { paintQueued = false; const next = pending; pending = null; paint(next || {}); }; (typeof requestAnimationFrame === "function" ? requestAnimationFrame : setTimeout)(flush, 16); }
-export function workerProgress(data = {}) { const stage = String(data.stage || data.text || "worker"), isTexture = stage.includes("texture"), pct = clamp(data.percent ?? (stage.endsWith(":done") ? 100 : 12)); update({ stage, action:title(stage), subAction:data.label || stage, texture:isTexture ? pct : undefined, textureLabel:isTexture ? `${stage.replace(/:/g," ")} ${pct}%` : undefined }); }
-export function textureProgress(data = {}) { const percent = clamp(data.percent); update({ stage:`texture:${data.stage || "progress"}`, texture:percent, textureLabel:`${data.type || data.kind || "texture"} ${percent}%` }); }
-export function markFinalReady(reason = "first rendered frame confirmed") { state.finalReady = true; paint({ stage:"world_final_ready", total:100, world:100, worker:100, texture:100, subAction:reason, hide:true }); }
-export function hideLoading() { record("Waiting for the first rendered frame..."); queueSoftFinalize("hide requested after worker readiness"); }
-export function scheduleHide(ms = 180) { if (hideTimer || state.hidden || !state.finalReady) return; hideTimer = setTimeout(reallyHide, ms); }
-function reallyHide() { if (!state.finalReady || state.hidden) return; state.hidden = true; stopLoadingHeartbeat(); doc()?.querySelectorAll?.(".loading,.loadingContent").forEach(node => { node.classList.add("hidden"); node.style.display = "none"; }); }
-function heartbeatTick() { if (state.hidden) return; const shell = doc()?.querySelector?.(".loading"); if (shell) shell.dataset.heartbeat = String(Math.floor(Date.now() / 1000) % 4); if (shouldSoftFinalize() && Date.now() - state.lastAt > 1400) queueSoftFinalize("stale readiness signal"); if (!state.finalReady && visibleCanvasReady() && state.total >= 99 && Date.now() - state.lastAt > 3200) markFinalReady("visible canvas watchdog"); }
-export function startLoadingHeartbeat() { if (heartbeat || !doc()) return; heartbeat = setInterval(heartbeatTick, 700); }
+function stagePercent(stage = "") { for (const [prefix, percent] of STAGES) if (String(stage).startsWith(prefix)) return percent; return state.total; }
+function visibleCanvasReady() { const c = doc()?.querySelector?.("canvas"); return Boolean(c && c.clientWidth > 0 && c.clientHeight > 0); }
+function gameplayStarted() { return visibleCanvasReady() || state.firstInputAt > 0 || Boolean(window.__AWTSMOOS_BOOT_LOADED__); }
+function noteCanvas() { if (visibleCanvasReady() && !state.firstCanvasAt) state.firstCanvasAt = Date.now(); }
+function shouldQuiesceNow() {
+  noteCanvas();
+  const now = Date.now();
+  if (state.finalReady) return true;
+  if (state.firstInputAt && now - state.firstInputAt > 250) return true;
+  if (state.firstCanvasAt && now - state.firstCanvasAt > 700) return true;
+  if (visibleCanvasReady() && now - state.startedAt > 1800) return true;
+  return false;
+}
+function writeText(id, value) { const node = byId(id), next = value == null ? "" : String(value); if (node && node.textContent !== next) node.textContent = next; }
+function writeWidth(id, percent) { const node = byId(id), next = `${Math.round(clamp(percent))}%`; if (!node || state.lastStyle.get(id) === next) return; state.lastStyle.set(id, next); node.style.width = next; }
+function bar(key, value) { const next = Math.max(state[key], clamp(value)); if (state[key] === next) return; state[key] = next; writeWidth(IDS[key], next); }
+function title(stage) { if (stage === "world_final_ready") return "World ready"; if (stage.includes("texture")) return "Preparing textures..."; if (stage.includes("postbuild")) return "Building the finished zone..."; if (stage.includes("load-nivrayim")) return "Creating the world..."; return "Opening the world..."; }
+function record(message) { if (!message || state.log.at(-1) === message) return; state.log.push(message); state.log = state.log.slice(-3); writeText(IDS.log, state.log.join("\n")); }
+function setRadialLoad() { const node = doc()?.querySelector?.(".loading-radial-core"), next = `${Math.round(state.total)}%`; if (node && state.lastStyle.get("radial") !== next) { state.lastStyle.set("radial", next); node.style.setProperty("--load", next); } }
+function paint(input = {}) {
+  if (!doc() || state.hidden) return;
+  if (shouldQuiesceNow()) return markFinalReady("canvas playable");
+  const stage = String(input.stage || input.kind || "progress"), total = input.total ?? input.amount ?? stagePercent(stage);
+  state.finalReady ||= stage === "world_final_ready";
+  bar("total", state.finalReady ? total : Math.min(99, total));
+  if (input.world != null || stage.includes("load") || stage.includes("postbuild")) bar("world", input.world ?? stagePercent(stage));
+  if (input.worker != null || stage) bar("worker", input.worker ?? stagePercent(stage));
+  if (input.texture != null) bar("texture", input.texture);
+  writeText(IDS.percent, `${Math.round(state.total)}%`); writeText(IDS.action, input.action || title(stage));
+  writeText(IDS.sub, input.subAction || input.label || stage.replace(/:/g, " ")); writeText(IDS.workerText, stage.replace(/[-:]/g, " ").slice(0, 72));
+  if (input.textureLabel) writeText(IDS.textureText, input.textureLabel);
+  setRadialLoad(); record(input.log || input.subAction || stage);
+  if (state.finalReady || stage === "world_final_ready") scheduleHide(60);
+}
+export function update(input = {}) { if (state.hidden) return; if (shouldQuiesceNow()) return markFinalReady("playable update gate"); pending = { ...(pending || {}), ...input }; if (paintQueued) return; paintQueued = true; const flush = () => { paintQueued = false; const next = pending; pending = null; paint(next || {}); }; (typeof requestAnimationFrame === "function" ? requestAnimationFrame : setTimeout)(flush, 16); }
+export function workerProgress(data = {}) { update({ stage:String(data.stage || data.text || "worker"), action:title(String(data.stage || "worker")), subAction:data.label || data.stage }); }
+export function textureProgress(data = {}) { update({ stage:`texture:${data.stage || "progress"}`, texture:clamp(data.percent), textureLabel:`${data.type || data.kind || "texture"} ${clamp(data.percent)}%` }); }
+export function markFinalReady(reason = "first rendered frame confirmed") { if (state.hidden) return; state.finalReady = true; state.total = state.world = state.worker = state.texture = 100; scheduleHide(reason === "instant" ? 0 : 40); }
+export function hideLoading() { markFinalReady("hide requested"); }
+export function scheduleHide(ms = 40) { if (hideTimer || state.hidden) return; hideTimer = setTimeout(reallyHide, ms); }
+function removeAll(selector) { doc()?.querySelectorAll?.(selector)?.forEach(node => node.remove()); }
+function reallyHide() {
+  if (state.hidden) return;
+  state.hidden = true; pending = null; stopLoadingHeartbeat();
+  removeAll(".loading,.loadingContent,.menu .rectangle");
+  doc()?.querySelectorAll?.(".menu.hidden.offscreen").forEach(node => node.remove());
+  doc()?.documentElement?.classList?.add?.("awtsmoos-gameplay-dom-quiet");
+}
+function heartbeatTick() { if (state.hidden) return; if (shouldQuiesceNow()) markFinalReady("heartbeat playable gate"); }
+export function startLoadingHeartbeat() { if (heartbeat || !doc() || state.hidden) return; heartbeat = setInterval(heartbeatTick, 250); }
 export function stopLoadingHeartbeat() { if (heartbeat) clearInterval(heartbeat); heartbeat = null; }
-if (typeof window !== "undefined") { window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress, textureProgress, hideLoading, markFinalReady, seal:"zone-reality-20260617-99-watchdog-bh" }; window.addEventListener("awtsmoos-texture-progress", event => textureProgress(event.detail || {})); startLoadingHeartbeat(); }
+function noteInput() { if (!state.firstInputAt) state.firstInputAt = Date.now(); }
+if (typeof window !== "undefined") {
+  window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress, textureProgress, hideLoading, markFinalReady, seal:"early-gameplay-dom-quiet-20260624-bh2" };
+  window.addEventListener("awtsmoos-texture-progress", event => textureProgress(event.detail || {}));
+  window.addEventListener("keydown", noteInput, { capture:true, passive:true });
+  window.addEventListener("pointerdown", noteInput, { capture:true, passive:true });
+  startLoadingHeartbeat();
+}
 export default { update, workerProgress, textureProgress, hideLoading, markFinalReady, scheduleHide, startLoadingHeartbeat, stopLoadingHeartbeat };

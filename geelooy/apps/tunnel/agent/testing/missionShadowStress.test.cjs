@@ -1,7 +1,7 @@
 // B"H
 const assert = require('assert');
 const http = require('http');
-const port = Number(process.env.AWTSMOOS_SHADOW_PORT || 4977);
+const port = Number(process.env.AWTSMOOS_SHADOW_PORT || 3977);
 const total = Number(process.env.AWTSMOOS_SHADOW_STRESS_N || 24);
 
 function post(path, body) {

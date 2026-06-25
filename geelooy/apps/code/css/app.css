@@ -1,6 +1,6 @@
 /* B"H - Single entry CSS aggregator for /apps/code
- * Chapter 11: The Awtsmoos added a view-host gate so every editor surface can
- * become full ocean when its tab is active, especially the Browser AI chamber.
+ * Chapter 562: The civilization layer entered as a modular glow, not a tangled
+ * overwrite, so the old editor ocean keeps its waves.
  */
 
 @import url('./variables.css');
@@ -39,6 +39,12 @@
 /* VIBE */
 @import url('./vibe/main.css');
 @import url('./vibe/chat-vessels.css');
+
+/* CIVILIZATION */
+@import url('./civilization/tokens.css');
+@import url('./civilization/hud.css');
+@import url('./civilization/event-rain.css');
+@import url('./civilization/cockpit.css');
 
 /* EFFECTS */
 @import url('./effects.css');
