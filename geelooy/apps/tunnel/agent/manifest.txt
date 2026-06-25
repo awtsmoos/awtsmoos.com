@@ -1,5 +1,5 @@
 B"H
-1.0.120
+1.0.121
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -171,15 +171,28 @@ tools/fs/jsonTools.js
 tools/fs/jsWriteVerifier.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
+tools/fs/mission/answerLedger.js
 tools/fs/mission/collaboration.js
 tools/fs/mission/constitution.js
 tools/fs/mission/continuity.js
 tools/fs/mission/core.js
+tools/fs/mission/coreAnswers.js
+tools/fs/mission/coreAutonomy.js
+tools/fs/mission/coreGates.js
+tools/fs/mission/coreRecords.js
+tools/fs/mission/coreReports.js
+tools/fs/mission/coreState.js
+tools/fs/mission/coreSteps.js
+tools/fs/mission/coreStorage.js
+tools/fs/mission/coreUtils.js
+tools/fs/mission/coreWork.js
 tools/fs/mission/expansion.js
 tools/fs/mission/index.js
+tools/fs/mission/innovationPolicy.js
 tools/fs/mission/lease.js
 tools/fs/mission/loopEngine.js
 tools/fs/mission/stepProtocol.js
+tools/fs/mission/strictAnswer.js
 tools/fs/nodeCheckMany.js
 tools/fs/nodeDomRuntime/actions/assertText.js
 tools/fs/nodeDomRuntime/actions/assertValue.js
