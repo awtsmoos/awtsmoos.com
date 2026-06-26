@@ -25,7 +25,7 @@ const SKIP_NAMES = new Set([
 ]);
 const EXTERNAL_DIRS = [
   { source: path.join(REPO_ROOT, "geelooy/ai/relay/split-browser"), dest: "ai/relay/split-browser" },
-  { source: path.join(REPO_ROOT, "ayzarim/dosdb/awtsmoosBinary/awtsmoosdb"), dest: "ayzarim/dosdb/awtsmoosBinary/awtsmoosdb" }
+  { source: path.join(REPO_ROOT, "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB"), dest: "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB" }
 ];
 
 function slash(value) { return String(value || "").replace(/\\/g, "/"); }
