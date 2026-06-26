@@ -21,6 +21,8 @@
     "test:living-world": "node tests/realism/livingWorldSystemsAudit.mjs && node tests/realism/ecosystemVillageStoryAudit.mjs && node tests/performance/livingWorldNoFrameCostAudit.mjs",
     "test:infinite-realism-fast": "node tests/performance/infiniteRealismFastRuntimeAudit.mjs",
     "test:texture-story-fast": "node tests/performance/textureStoryFastAudit.mjs",
-    "test:world-memory": "node tests/realism/worldMemoryRuntimeAudit.mjs"
+    "test:world-memory": "node tests/realism/worldMemoryRuntimeAudit.mjs",
+    "test:starter-zone": "node tests/gameplay/starterZoneSeamlessIntegrationAudit.mjs && node tests/gameplay/starterGameplaySimulationAudit.mjs",
+    "test:village-activity": "node tests/gameplay/villageActivitySchedulerAudit.mjs"
   }
 }
