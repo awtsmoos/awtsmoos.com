@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 7.0.0-generated
-  description: B"H. After every response, obey responseFocus.oneMainThing. If multipleChoiceSelfInterrogation is present, answer with multipleChoiceAnswer/choice/answer before any unrelated action. If ignored, the server returns allCapsPrompt and blocks continuation.
+  version: 7.0.1-generated
+  description: B'H. Read responseFocus. Answer multipleChoiceSelfInterrogation before unrelated actions.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Run one tunnel action.
-      description: B"H. After every response, obey responseFocus.oneMainThing. If multipleChoiceSelfInterrogation is present, answer with multipleChoiceAnswer/choice/answer before any unrelated action. If ignored, the server returns allCapsPrompt and blocks continuation. Use guidanceDebug=true only when raw protocol details are needed.
+      description: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
@@ -690,13 +690,12 @@ paths:
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
         - { name: dryRun, in: query, schema: { type: boolean, default: true } }
         - { name: confirm, in: query, schema: { type: boolean, default: false } }
-        - { name: stream, in: query, schema: { type: boolean } }
         - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }
         - { name: allowContinue, in: query, schema: { type: boolean, default: false } }
       responses:
-        "200": { description: OK. Read responseFocus first. If multipleChoiceSelfInterrogation exists, answer it before any unrelated action., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+        "200": { description: OK. Read responseFocus first., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:
     get:
       operationId: awtsmoosPreviewProxy
