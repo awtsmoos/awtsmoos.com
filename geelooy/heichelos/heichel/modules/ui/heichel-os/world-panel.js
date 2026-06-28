@@ -2,9 +2,9 @@
 /**
  * @module HeichelOsWorldPanel
  * @description
- * Phase 6: every Heichel becomes a small operating system. This module renders
- * the living districts without owning storage: Overview, Timeline, Series,
- * Knowledge, People, Assets, Events, Moderation, Graph, and Storage.
+ * The Heichel OS panel is optional incense, not a brittle pillar. If older
+ * templates, delayed render passes, or partial CSS vessels omit one node, this
+ * module now bows and continues instead of shattering the page.
  */
 const DISTRICTS = [
   ['overview', 'Overview'], ['timeline', 'Timeline'], ['series', 'Series'],
@@ -13,28 +13,16 @@ const DISTRICTS = [
 ];
 
 export function heichelWorldPanel(actions = {}) {
-  return {
-    tag: 'section',
-    attr: { class: 'heichel-os-world-panel', 'aria-label': 'Heichel operating system districts' },
-    children: [districtDock(actions), statusGrid(), districtViewport()]
-  };
+  return { tag: 'section', attr: { class: 'heichel-os-world-panel', 'aria-label': 'Heichel operating system districts' }, children: [districtDock(actions), statusGrid(), districtViewport()] };
 }
 
 export function renderHeichelWorldState({ heichel = {}, content = {}, ownsIt = false, currentSeries = 'root' } = {}) {
   const root = document.querySelector('[data-heichel-os-world]');
   if (!root) return;
-  const counts = {
-    posts: count(content.posts),
-    series: count(content.subSeries),
-    mode: ownsIt ? 'owner' : 'visitor',
-    currentSeries
-  };
-  root.querySelector('[data-heichel-os-name]').textContent = heichel.name || heichel.title || 'Living Heichel';
-  root.querySelector('[data-heichel-os-desc]').textContent = heichel.description || 'Objects, graph, events, and projections are loading from the live runtime.';
-  root.querySelector('[data-heichel-os-count="posts"]').textContent = counts.posts;
-  root.querySelector('[data-heichel-os-count="series"]').textContent = counts.series;
-  root.querySelector('[data-heichel-os-count="mode"]').textContent = counts.mode;
-  root.querySelector('[data-heichel-os-count="currentSeries"]').textContent = counts.currentSeries;
+  const counts = { posts: count(content.posts), series: count(content.subSeries), mode: ownsIt ? 'owner' : 'visitor', currentSeries };
+  setText(root, '[data-heichel-os-name]', heichel.name || heichel.title || 'Living Heichel');
+  setText(root, '[data-heichel-os-desc]', heichel.description || 'Objects, graph, events, and projections are loading from the live runtime.');
+  Object.entries(counts).forEach(([key, value]) => setText(root, `[data-heichel-os-count="${key}"]`, value));
 }
 
 export function activateDistrict(name = 'overview') {
@@ -43,58 +31,35 @@ export function activateDistrict(name = 'overview') {
   root.querySelectorAll('[data-heichel-district]').forEach(button => {
     button.classList.toggle('active', button.dataset.heichelDistrict === name);
   });
-  const title = root.querySelector('[data-heichel-district-title]');
+  setText(root, '[data-heichel-district-title]', districtTitle(name));
   const body = root.querySelector('[data-heichel-district-body]');
-  if (!title || !body) return;
-  title.textContent = districtTitle(name);
-  body.replaceChildren(...districtCopy(name).map(line => paragraph(line)));
+  if (body) body.replaceChildren(...districtCopy(name).map(line => paragraph(line)));
 }
 
 function districtDock(actions) {
-  return {
-    tag: 'div',
-    attr: { class: 'heichel-os-district-dock', 'data-heichel-os-world': 'true' },
-    children: [
-      { tag: 'div', attr: { class: 'heichel-os-world-heading' }, children: [
-        { tag: 'p', attr: { class: 'hero-kicker' }, children: ['Heichel OS'] },
-        { tag: 'h2', attr: { 'data-heichel-os-name': 'true' }, children: ['Living Heichel'] },
-        { tag: 'p', attr: { 'data-heichel-os-desc': 'true' }, children: ['Objects, graph, events, and projections are loading.'] }
-      ] },
-      { tag: 'div', attr: { class: 'heichel-os-district-buttons' }, children: DISTRICTS.map(([id, label], index) => ({
-        tag: 'button',
-        attr: { type: 'button', class: index === 0 ? 'active' : '', 'data-heichel-district': id },
-        children: [label],
-        events: { click: () => (actions.activateHeichelDistrict || activateDistrict)(id) }
-      })) }
-    ]
-  };
+  return { tag: 'div', attr: { class: 'heichel-os-district-dock', 'data-heichel-os-world': 'true' }, children: [
+    { tag: 'div', attr: { class: 'heichel-os-world-heading' }, children: [
+      { tag: 'p', attr: { class: 'hero-kicker' }, children: ['Heichel OS'] },
+      { tag: 'h2', attr: { 'data-heichel-os-name': 'true' }, children: ['Living Heichel'] },
+      { tag: 'p', attr: { 'data-heichel-os-desc': 'true' }, children: ['Objects, graph, events, and projections are loading.'] }
+    ] },
+    { tag: 'div', attr: { class: 'heichel-os-district-buttons' }, children: DISTRICTS.map(([id, label], index) => ({
+      tag: 'button', attr: { type: 'button', class: index === 0 ? 'active' : '', 'data-heichel-district': id }, children: [label],
+      events: { click: () => (actions.activateHeichelDistrict || activateDistrict)(id) }
+    })) }
+  ] };
 }
 
 function statusGrid() {
-  return {
-    tag: 'div', attr: { class: 'heichel-os-status-grid' }, children: [
-      statusCard('posts', 'Posts'), statusCard('series', 'Series'), statusCard('mode', 'Access'), statusCard('currentSeries', 'Series path')
-    ]
-  };
+  return { tag: 'div', attr: { class: 'heichel-os-status-grid' }, children: [statusCard('posts', 'Posts'), statusCard('series', 'Series'), statusCard('mode', 'Access'), statusCard('currentSeries', 'Series path')] };
 }
-
 function statusCard(key, label) {
-  return { tag: 'article', attr: { class: 'heichel-os-status-card' }, children: [
-    { tag: 'strong', attr: { 'data-heichel-os-count': key }, children: ['0'] }, { tag: 'small', children: [label] }
-  ] };
+  return { tag: 'article', attr: { class: 'heichel-os-status-card' }, children: [{ tag: 'strong', attr: { 'data-heichel-os-count': key }, children: ['0'] }, { tag: 'small', children: [label] }] };
 }
-
 function districtViewport() {
-  return { tag: 'article', attr: { class: 'heichel-os-district-viewport' }, children: [
-    { tag: 'h3', attr: { 'data-heichel-district-title': 'true' }, children: ['Overview'] },
-    { tag: 'div', attr: { 'data-heichel-district-body': 'true' }, children: districtCopy('overview').map(line => ({ tag: 'p', children: [line] })) }
-  ] };
+  return { tag: 'article', attr: { class: 'heichel-os-district-viewport' }, children: [{ tag: 'h3', attr: { 'data-heichel-district-title': 'true' }, children: ['Overview'] }, { tag: 'div', attr: { 'data-heichel-district-body': 'true' }, children: districtCopy('overview').map(line => ({ tag: 'p', children: [line] })) }] };
 }
-
-function districtTitle(name) {
-  return (DISTRICTS.find(([id]) => id === name)?.[1] || 'Overview');
-}
-
+function districtTitle(name) { return (DISTRICTS.find(([id]) => id === name)?.[1] || 'Overview'); }
 function districtCopy(name) {
   return {
     overview: ['The Heichel is the city shell: live posts, nested series, permissions, and graph context in one operating surface.'],
@@ -109,11 +74,6 @@ function districtCopy(name) {
     storage: ['Storage will show AwtsmoosDB-backed projections, packed compatibility stats, and shard health.']
   }[name] || ['This district is waiting to receive its live route.'];
 }
-
-function paragraph(text) {
-  const p = document.createElement('p');
-  p.textContent = text;
-  return p;
-}
-
+function setText(root, selector, value) { const node = root.querySelector(selector); if (node) node.textContent = value; }
+function paragraph(text) { const p = document.createElement('p'); p.textContent = text; return p; }
 function count(value) { return Array.isArray(value) ? value.length : 0; }

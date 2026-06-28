@@ -1,0 +1,6 @@
+/* B"H Chapter 632: the home page folds into one clear column. */
+@media (max-width: 760px) {
+  .geelooy-home-shell { padding-inline: .75rem; padding-bottom: var(--floating-clearance, 6rem); }
+  .feed-grid { grid-template-columns: 1fr; }
+  .sanctuary-card, .post-card, .discovery-card, .composer-card, .civilization-dashboard { border-radius: 1.1rem; }
+}

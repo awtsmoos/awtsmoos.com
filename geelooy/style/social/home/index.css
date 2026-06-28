@@ -1,4 +1,4 @@
-/* B"H home page entry: imports only. */
+/* B"H home page entry: imports only; guards live in owned modules. */
 @import "/style/heichelos/class-coverage/index.css";
 @import "/style/foundation/index.css";
 @import "./shell.css";
@@ -13,3 +13,4 @@
 @import "./accessibility.css";
 @import "./beauty/index.css";
 @import "./legend/index.css";
+@import "./guards/index.css";

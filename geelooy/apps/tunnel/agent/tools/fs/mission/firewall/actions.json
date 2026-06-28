@@ -1,5 +1,15 @@
 {
-  "evidence": ["read", "read64", "grep", "findFiles", "list", "tree", "commandRun", "commandWait", "commandStatus", "commandJobOutputPage"],
-  "risky": ["write", "writeIfHash", "bulkWrite", "deleteFile", "deleteTree", "applyPatch", "moveFile", "moveTree"],
+  "evidence": [
+    "read", "read64", "readLines", "readManyLines", "bulk", "bulkRead", "readMany",
+    "grep", "rg", "selectString", "find", "findFiles", "list", "tree", "stat",
+    "connectedFiles", "fileHashes", "gitDiffSmart", "gitStatusDeep",
+    "commandRun", "command", "shellCommand", "commandStart", "commandWait", "commandStatus",
+    "commandPoll", "commandJobStatus", "commandJobWait", "commandJobOutputPage", "commandOutputPage",
+    "buildRunner", "testRunner", "lintRunner", "typecheckRunner"
+  ],
+  "risky": [
+    "write", "writeIfHash", "bulkWrite", "deleteFile", "deleteTree", "applyPatch",
+    "moveFile", "moveTree", "mkdirp", "touch", "emptyDir", "copyFile", "copyTree"
+  ],
   "neutral": ["payloadEcho", "actionSchemaTrace"]
 }

@@ -1,0 +1,7 @@
+/* B"H Chapter 627: narrow screens are whole worlds, not broken echoes. */
+@media (max-width: 760px) {
+  .main, main, .page, .awts-page { padding-inline: min(var(--awts-page-pad), 4vw); }
+  .grid, .dynamic-grid, .heichel-grid, .series-grid, .feed-grid, .cards-grid { grid-template-columns: 1fr; }
+  .modal-card, .awtsmoos-modal, dialog { width: calc(100vw - 1rem); max-height: calc(100dvh - 1rem); border-radius: min(var(--awts-radius), 20px); }
+  .drawer, .sidebar, .heichel-library-sidebar { max-width: 100vw; }
+}

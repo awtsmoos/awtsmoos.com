@@ -1,0 +1,10 @@
+/* B"H Chapter 633: color vessels for the Heichelos board. */
+:root {
+  --spaces-bg: #080c1a;
+  --spaces-card: #fffaf1;
+  --spaces-muted: #6f6876;
+  --spaces-gold: #b9853f;
+  --spaces-gold-light: #f5ca70;
+  --spaces-line: rgba(67,46,24,.14);
+  --spaces-shadow: 0 1.2rem 3rem rgba(8,10,24,.24);
+}

@@ -7,7 +7,7 @@ export class ContinuityValidator {
       arcInsideDuration: arc.every(mark => mark.at >= 0 && mark.at <= scene.duration),
       eyeTracksForCast: Object.keys(plan.eyeContact || {}).length === Object.keys(scene.initialCharacters || {}).length,
       propStateForProps: Object.keys(plan.propStates || {}).length === (scene.initialProps || []).length,
-      dashboardReady: plan.dashboard?.health === 'directed_scene_ready',
+      planReadyBeforeDashboard: Boolean(plan.storyArc && plan.relationships && plan.composition),
       silenceBeatsExist: (plan.silenceBeats || []).length === arc.length,
       environmentalMemoryExists: (plan.environmentalMemory || []).length === arc.length
     };

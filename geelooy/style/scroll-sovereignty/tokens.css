@@ -1,0 +1,7 @@
+/* B"H Chapter 622: shared spacing sparks for every page river. */
+:root {
+  --floating-clearance: max(5.5rem, calc(4.5rem + env(safe-area-inset-bottom)));
+  --awts-page-pad: clamp(.85rem, 2.5vw, 1.5rem);
+  --awts-radius: clamp(16px, 2vw, 28px);
+  --awts-focus: 0 0 0 4px rgba(245, 186, 91, .22);
+}

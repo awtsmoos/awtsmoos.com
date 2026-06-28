@@ -1,0 +1,4 @@
+/* B"H Chapter 631: inputs and tabs remain touchable and contained. */
+.composer-card textarea, .composer-card input, .composer-card select { width: 100%; }
+.home-tabs, .feed-tabs { overflow-x: auto; scrollbar-width: thin; justify-content: flex-start; }
+.home-tabs > *, .feed-tabs > * { flex: 0 0 auto; }

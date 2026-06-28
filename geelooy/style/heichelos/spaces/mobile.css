@@ -1,0 +1,7 @@
+/* B"H Chapter 637: the gallery becomes a single calm column on phones. */
+@media (max-width: 680px) {
+  .social-spaces-shell { width: min(100%, calc(100vw - .75rem)); margin-top: .5rem; }
+  .spaces-hero { display: grid; border-radius: 1.35rem; padding: 1rem; }
+  .spaces-create { white-space: normal; }
+  .space-body { grid-template-columns: 1fr; }
+}

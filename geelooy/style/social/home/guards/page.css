@@ -1,0 +1,5 @@
+/* B"H Chapter 629: the social home shell breathes without overflow. */
+.geelooy-home-shell, .home-page, .social-home, .home-feed, .feed-shell, .composer-shell { min-width: 0; width: 100%; }
+.geelooy-home-shell { overflow-x: hidden; padding-inline: clamp(.75rem, 2vw, 1.5rem); }
+.home-feed, .feed-list, .feed-grid { display: grid; gap: clamp(.8rem, 2vw, 1.35rem); }
+.feed-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }

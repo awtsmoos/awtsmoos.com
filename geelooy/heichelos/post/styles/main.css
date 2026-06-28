@@ -1,28 +1,40 @@
 /* B"H
- * Chapter 582: The reader remains native and split, but now the shared
- * civilization covenant enters before the reborn scroll garments.
+ * Chapter 602: The reader CSS graph walks real files. Cache sigils belong in
+ * HTML links, not inside @import paths, so the parser and browser both enter
+ * the same palace without hallucinating phantom filenames.
  */
-
 @import url("../../../shared/civilization/tokens.css");
 @import url("../../../shared/civilization/primitives.css");
-@import url("./ideal/reborn/tokens.css?v=native-scroll-012");
-@import url("./ideal/reborn/shell.css?v=native-scroll-012");
-@import url("./ideal/reborn/reader.css?v=native-scroll-012");
-@import url("./ideal/reborn/settings.css?v=native-scroll-012");
-@import url("./ideal/reborn/sidebar.css?v=native-scroll-012");
-@import url("./ideal/reborn/panels.css?v=native-scroll-012");
-@import url("./ideal/reborn/panel-rows.css?v=native-scroll-012");
-@import url("./ideal/reborn/panel-controls.css?v=native-scroll-012");
-@import url("./ideal/reborn/comments.css?v=native-scroll-012");
-@import url("./ideal/reborn/comment-composer.css?v=native-scroll-012");
-@import url("./ideal/reborn/inline-comments.css?v=native-scroll-012");
-@import url("./ideal/reborn/inline-action-menu.css?v=native-scroll-012");
-@import url("./ideal/reborn/context-menu.css?v=native-scroll-012");
-@import url("./ideal/reborn/details.css?v=native-scroll-012");
-@import url("./ideal/reborn/actions.css?v=native-scroll-012");
-@import url("./ideal/reborn/button-hover.css?v=native-scroll-012");
-@import url("./ideal/reborn/mobile-sidebar-reset.css?v=native-scroll-012");
-@import url("./ideal/reborn/live-mobile-corrections.css?v=native-scroll-012");
-@import url("./ideal/reborn/inline-comments/compact-audit.css?v=native-scroll-012");
-@import url("./reader-controls/live-template.css?v=native-scroll-012");
-@import url("./civilization/page-polish.css?v=civilization-polish-002");
+@import url("./ideal/reborn/tokens.css");
+@import url("./ideal/reborn/shell.css");
+@import url("./ideal/reborn/reader.css");
+@import url("./ideal/reborn/settings.css");
+@import url("./ideal/reborn/sidebar.css");
+@import url("./ideal/reborn/panels.css");
+@import url("./ideal/reborn/panel-rows.css");
+@import url("./ideal/reborn/panel-controls.css");
+@import url("./ideal/reborn/comments.css");
+@import url("./ideal/reborn/comment-composer.css");
+@import url("./ideal/reborn/inline-comments.css");
+@import url("./ideal/reborn/inline-action-menu.css");
+@import url("./ideal/reborn/context-menu.css");
+@import url("./ideal/reborn/details.css");
+@import url("./ideal/reborn/actions.css");
+@import url("./ideal/reborn/button-hover.css");
+@import url("./ideal/reborn/mobile-sidebar-reset.css");
+@import url("./ideal/reborn/live-mobile-corrections.css");
+@import url("./ideal/reborn/inline-comments/compact-audit.css");
+@import url("./reader-controls/live-template.css");
+@import url("./civilization/page-polish.css");
+html, body { min-height: 100%; overflow-x: hidden; }
+body { margin: 0; background: var(--awtsmoos-bg, #090b15); }
+img, video, canvas, svg { max-width: 100%; height: auto; }
+button, input, textarea, select { font: inherit; max-width: 100%; }
+[data-reader-root], .post-reader, .reader-shell, .awtsmoos-reader-shell { min-width: 0; }
+.reader-main, .reader-content, .post-content { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  body { min-height: 100dvh; }
+  .reader-shell, .awtsmoos-reader-shell { width: 100%; max-width: 100vw; }
+  .reader-sidebar, .settings-panel, .comments-panel { max-width: 100vw; }
+  .reader-main, .reader-content { padding-inline: clamp(1rem, 4vw, 1.5rem); }
+}

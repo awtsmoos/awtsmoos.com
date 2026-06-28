@@ -7,6 +7,7 @@ const here = path.dirname(new URL(import.meta.url).pathname);
 const fsTesting = path.resolve(here, '..');
 const repo = path.resolve(fsTesting, '../../../../../../');
 const tests = [
+  path.join(here, 'missionLiveWorkLoopStress.mjs'),
   path.join(fsTesting, 'action-registry-stress.test.cjs'),
   path.join(fsTesting, 'all-actions-source-stress.test.cjs'),
   path.join(fsTesting, 'connected-files-pagination-stress.test.cjs'),

@@ -1,0 +1,6 @@
+/* B"H Chapter 634: the spaces gallery holds its borders. */
+html, body { min-width: 0; overflow-x: hidden; }
+body { background: radial-gradient(circle at 18% 0%, #25173a, var(--spaces-bg) 45%, #050712); }
+a { text-decoration: none; overflow-wrap: anywhere; }
+.social-spaces-shell { width: min(74rem, calc(100vw - 1rem)); margin: 1rem auto 5rem; display: grid; gap: 1rem; color: #171624; min-width: 0; }
+.spaces-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; min-width: 0; }

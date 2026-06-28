@@ -1,0 +1,10 @@
+/* B"H Chapter 623: the base river has no sideways exile. */
+html { min-width: 0; overflow-x: hidden; scroll-behavior: smooth; text-size-adjust: 100%; }
+body { min-width: 0; min-height: 100dvh; margin: 0; overflow-x: hidden; overflow-y: auto; -webkit-font-smoothing: antialiased; }
+*, *::before, *::after { box-sizing: border-box; }
+img, picture, video, canvas, svg, iframe { max-width: 100%; height: auto; }
+iframe { border: 0; }
+pre, code, kbd, samp { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
+pre { overflow: auto; }
+button, input, textarea, select { font: inherit; max-width: 100%; }
+a { overflow-wrap: anywhere; }

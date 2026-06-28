@@ -1,399 +1,55 @@
+// B"H
 /**
- * B"H
- * Series API Endpoints
+ * @module SocialSeriesCompatibilityRoutes
+ * @description Old series vessels are restored without erasing the new API.
+ * The base file remains the full refactored implementation; this wrapper adds
+ * aliases from the living git history and points root/ikar readers at `root`.
  */
+const createBaseRoutes = require('./_awtsmoos.series.base.js');
+const { makeNewSeries, editSeriesDetails, getSeries, getSubSeries, deleteSeriesFromHeichel, changeSubSeriesFromOneSeriesToAnother, editSubSeriesInSeries, addPostToSeries, deletePostFromSeries, er } = require('./helper/index.js');
 
-const {
-    // Series Functions
-    makeNewSeries,
-    editSeriesDetails,
-    getSeries,
-    getSubSeries,
-    deleteSeriesFromHeichel,
-    changeSubSeriesFromOneSeriesToAnother,
-    editSubSeriesInSeries,
-    getAllSeriesInHeichel,
-    getSeriesByProperty,
+function body($i) { return $i.$_POST || $i.$_PUT || $i.$_DELETE || {}; }
+function alias($i) { return body($i).aliasId || $i.$_GET?.aliasId; }
+function ids(value) { return Array.isArray(value) ? value : String(value || '').split(',').filter(Boolean); }
+function parent($i) { return body($i).parentSeriesId || body($i).seriesId || $i.$_GET?.parentSeriesId || 'root'; }
+function isPostLike($i) { const b = body($i); return b.postId || b.title || b.content || b.dayuh || b.type === 'post'; }
+function seriesDetails($i, h, s = 'root') { return getSeries({ $i, heichelId: h, seriesId: s, withDetails: true }); }
+function subSeries($i, h, s = 'root', withDetails = false) { return getSubSeries({ $i, heichelId: h, parentSeriesId: s, withDetails }); }
+function deleteSeriesCompat($i, h, seriesId, p = 'root') {
+  return deleteSeriesFromHeichel({ $i, heichelId: h, seriesId, parentSeriesId: p, userid: $i.userid });
+}
+function addContent($i, h) {
+  if (!$i.$_POST) $i.$_POST = {};
+  $i.$_POST.parentSeriesId = parent($i);
+  $i.$_POST.seriesId = $i.$_POST.seriesId || $i.$_POST.parentSeriesId;
+  return isPostLike($i) ? addPostToSeries({ $i, heichelId: h, seriesId: $i.$_POST.seriesId }) : makeNewSeries({ $i, heichelId: h });
+}
+function deleteContent($i, h) {
+  const b = body($i);
+  const p = b.parentSeriesId || b.seriesId || 'root';
+  if (b.postId || b.type === 'post') return deletePostFromSeries({ $i, heichelId: h, seriesId: p, postId: b.postId, userid: $i.userid });
+  return deleteSeriesCompat($i, h, b.subSeriesId || b.seriesId || b.id, p);
+}
 
-    // Post Functions (used by series routes sometimes)
-    getPostsInSeries,
-    getPostsByProperty,
-
-    // General
-    er
-} = require("./helper/index.js");
-
-const { sp } = require("./helper/_awtsmoos.constants.js"); // If needed
-const { getDirectSeriesPrateem } = require("./helper/series/directSeriesPrateem.js");
-
-module.exports = ({ $i, userid } = {}) => ({
-
-    /**
-     * @endpoint POST /heichelos/:heichel/addNewSeries
-     * @description Creates a new series.
-     * @requires Body: { aliasId, seriesName/title/name, description?, parentSeriesId? ('root') }
-     */
-    "/heichelos/:heichel/addNewSeries": async (v) => {
-        if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
-        return await makeNewSeries({
-            $i,
-            heichelId: v.heichel
-        });
+module.exports = ({ $i, userid } = {}) => {
+  const base = createBaseRoutes({ $i, userid });
+  return {
+    ...base,
+    '/heichelos/:heichel/series/details': async v => seriesDetails($i, v.heichel, 'root'),
+    '/heichelos/:heichel/series/root': async v => seriesDetails($i, v.heichel, 'root'),
+    '/heichelos/:heichel/series/root/details': async v => seriesDetails($i, v.heichel, 'root'),
+    '/heichelos/:heichel/series/root/subSeries': async v => subSeries($i, v.heichel, 'root', $i.$_GET?.details === 'true'),
+    '/heichelos/:heichel/series/root/subSeries/details': async v => subSeries($i, v.heichel, 'root', true),
+    '/heichelos/:heichel/series/root/breadcrumb': async () => [{ id: 'root', name: 'Root' }],
+    '/heichelos/:heichel/addContentToSeries': async v => {
+      if ($i.request.method !== 'POST') return er({ code: 'METHOD_NOT_ALLOWED' });
+      return addContent($i, v.heichel);
     },
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/
-     * @description Gets the direct sub-series (prateem only) of the 'root' series.
-     */
-    "/heichelos/:heichel/series/": async v => {
-        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-        // Get sub-series of root, with details=true (fetches prateem for each)
-        return await getSubSeries({
-            $i,
-            heichelId: v.heichel,
-            parentSeriesId: "root",
-            withDetails: true // Get prateem for each sub-series
-        });
-    },
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series
-     * @description Gets basic details (prateem) of a specific series.
-     * @query details=true - Also fetches subSeries IDs and full post data.
-     */
-    "/heichelos/:heichel/series/:series": async v => {
-        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-        const withDetails = $i.$_GET.details === 'true';
-        if (!withDetails) return await getDirectSeriesPrateem({ $i, heichelId: v.heichel, seriesId: v.series });
-        return await getSeries({
-            $i,
-            heichelId: v.heichel,
-            seriesId: v.series,
-            withDetails // Pass detail flag
-            // Can add property map support via query param if needed
-        });
-    },
-
-    
-	
-	 /**
-     * @endpoint GET /heichelos/:heichel/series/:series/details
-     * @description Convenience endpoint. Gets full details of a series (prateem, subSeries IDs, posts).
-     * (Equivalent to GET /series/:series?details=true)
-     */
-    /**
-     * @endpoint POST /heichelos/:heichel/series/:series/details
-     * @description Gets details for multiple series IDs provided in the body.
-     * @requires Body: { seriesIds: [...] }
-     */
-     "/heichelos/:heichel/series/:series/details": async v => { // Note: Route seems specific, but logic is general
-        if ($i.request.method == "GET") {
-         return await getSeries({
-             $i,
-             heichelId: v.heichel,
-             seriesId: v.series,
-             withDetails: true
-         }); 
-		}
-		if ($i.request.method !== "POST") 
-            return er({ code: "METHOD_NOT_ALLOWED" });
-        const ids = Array.isArray($i.$_POST.seriesIds)
-            ? $i.$_POST.seriesIds
-            : String($i.$_POST.seriesIds || "").split(",").filter(Boolean);
-        const details = {};
-        for (const id of ids) {
-            details[id] = await getSeries({ $i, heichelId: v.heichel, seriesId: id, withDetails: true });
-        }
-        return { success: details };
-     },
-    "/heichelos/:heichel/series/:series/subSeriesDetails": async v => { // Note: Route seems specific, but logic is general
-        return await getSeries({
-             $i,
-             heichelId: v.heichel,
-             seriesId: v.series,
-             withSubSeriesDetails: true
-         });  
-   
-        
-        
-
-    },
-    
-        
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/subSeries
-     * @description Gets the IDs of the direct sub-series of the specified series.
-     * @query details=true - Gets prateem data for each sub-series instead of just IDs.
-     */
-    "/heichelos/:heichel/series/:series/subSeries": async v => {
-        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-        const withDetails = $i.$_GET.details;
-       // return {v,withDetails,GET:$i.$_GET}
-        return await getSubSeries({
-            $i,
-            heichelId: v.heichel,
-            parentSeriesId: v.series,
-            withDetails
-        });
-    },
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/subSeries/details
-     * @description Convenience endpoint. Gets prateem data for direct sub-series.
-     * (Equivalent to GET /subSeries?details=true)
-     */
-     "/heichelos/:heichel/series/:series/subSeries/details": async v => {
-         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-         return await getSubSeries({
-             $i,
-             heichelId: v.heichel,
-             parentSeriesId: v.series,
-             withDetails: true
-         });
-     },
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/parent
-     * @description Gets the prateem of the parent series.
-     */
-    "/heichelos/:heichel/series/:series/parent": async v => {
-        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-
-        // Get current series' parent ID
-        const currentSeries = await getSeries({
-            $i, heichelId: v.heichel, seriesId: v.series,
-            properties: { parentSeriesId: true }
-        });
-
-        if (currentSeries?.error) return currentSeries; // Propagate error
-        const parentId = currentSeries?.prateem?.parentSeriesId;
-
-        if (!parentId || parentId === "root") {
-            // Return root representation or null/empty
-            return { prateem: { id: "root", name: "Root", isRoot: true } };
-            // return null; // Or appropriate response for no parent
-        }
-
-        // Get parent's prateem
-        return await getSeries({
-            $i, heichelId: v.heichel, seriesId: parentId,
-            withDetails: false // Just get prateem
-        });
-    },
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/breadcrumb
-     * @description Gets the ancestor series path from the current series up to root.
-     */
-    "/heichelos/:heichel/series/:series/breadcrumb": async v => {
-         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-         try {
-             const breadcrumb = [];
-             let currentId = v.series;
-             const maxDepth = 20; // Safety break
-             let depth = 0;
-
-             while (currentId && currentId !== "root" && depth < maxDepth) {
-                 const seriesData = await getSeries({
-                     $i, heichelId: v.heichel, seriesId: currentId,
-                     properties: { parentSeriesId: true, name: true, id: true } // Get needed fields
-                 });
-
-                 if (seriesData?.error) {
-                      // Stop if a series in the chain is not found
-                      console.error(`Breadcrumb error: Series ${currentId} not found.`);
-                      breadcrumb.push({ id: currentId, name: "[Not Found]", error: true });
-                      break;
-                  }
-
-                 // Add current series (excluding root itself in the loop)
-                 if (seriesData.prateem) {
-                      breadcrumb.push({ // Only push essential info
-                          id: seriesData.prateem.id || currentId,
-                          name: seriesData.prateem.name || "[Unnamed]"
-                      });
-                  } else {
-                      // Should not happen if no error, but handle defensively
-                      breadcrumb.push({ id: currentId, name: "[Data Error]", error: true });
-                       break;
-                   }
-
-
-                 currentId = seriesData.prateem.parentSeriesId; // Move up
-                 depth++;
-             }
-
-             if (depth >= maxDepth) console.warn("Breadcrumb generation hit max depth limit.");
-
-             // Add root at the end (or beginning if preferred)
-             breadcrumb.push({ id: "root", name: "Root" });
-
-             return breadcrumb.reverse(); // Reverse to show Root -> ... -> Current
-
-         } catch (e) {
-             console.error("Breadcrumb generation failed:", e);
-             return er({ code: "BREADCRUMB_FAILED", details: e.message });
-         }
-     },
-
-
-    // --- Combined Series/Post Endpoints (Already in _awtsmoos.posts.js or here) ---
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/posts
-     * @description Gets posts within a series (IDs or details). Handled in _awtsmoos.posts.js
-     */
-     // Note: Route definition might exist in both files. Ensure only one handles it.
-     // Assuming _awtsmoos.posts.js handles this. If defined here, remove from posts.js.
-
-
-    /**
-     * @endpoint GET /heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal
-     * @description Filters posts within a series. Handled in _awtsmoos.posts.js
-     */
-     // Assuming _awtsmoos.posts.js handles this.
-
-
-     /**
-      * @endpoint GET /heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal
-      * @description Filters direct sub-series by a property in their prateem. Returns matching sub-series IDs.
-      */
-     "/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal": async v => {
-         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-         let pv = v.propVal;
-         let pk = v.propKey;
-         try { pv = decodeURIComponent(pv); } catch (e) {}
-         try { pk = decodeURIComponent(pk); } catch (e) {}
-
-         return getSeriesByProperty({
-             $i,
-             heichelId: v.heichel,
-             parentSeriesId: v.series,
-             propertyKey: pk,
-             propertyValue: pv
-         });
-     },
-
-    // --- Modification Endpoints ---
-
-    /**
-     * @endpoint PUT /heichelos/:heichel/series/:series/editSeriesDetails
-     * @description Edits the prateem (name, description) of a series.
-     * @requires Body: { aliasId, description?, seriesName/name/title? }
-     */
-    "/heichelos/:heichel/series/:series/editSeriesDetails": async (v) => {
-        if ($i.request.method !== "PUT") return er({ code: "METHOD_NOT_ALLOWED" });
-        // $_PUT should contain aliasId and updates
-        return editSeriesDetails({
-            $i,
-            heichelId: v.heichel,
-            seriesId: v.series
-        });
-    },
-
-    /**
-     * @endpoint PUT /heichelos/:heichel/series/:series/changeSubSeriesInSeries
-     * @description Replaces the entire list of sub-series for the given series.
-     * @requires Body: { aliasId, subSeriesIDs: [...] }
-     */
-    "/heichelos/:heichel/series/:series/changeSubSeriesInSeries": async (v) => {
-        if ($i.request.method !== "PUT") return er({ code: "METHOD_NOT_ALLOWED" });
-        return editSubSeriesInSeries({
-            $i,
-            heichelId: v.heichel,
-            seriesId: v.series
-        });
-    },
-
-    /**
-     * @endpoint POST /heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo
-     * @description Moves sub-series from one parent to another.
-     * @requires Body: { aliasId, subSeriesIDs: [...] }
-     */
-    "/heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo": async (v) => {
-         if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
-         return changeSubSeriesFromOneSeriesToAnother({
-             $i,
-             heichelId: v.heichel,
-             seriesFromId: v.seriesFrom,
-             seriesToId: v.seriesTo
-         });
-     },
-     
-     /**
-     * @endpoint DELETE /heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId
-     * @description Explicitly deletes a sub-series from a known parent.
-     * @requires Body: { aliasId }
-     */
-    "/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId": async (v) => {
-        // This endpoint can be triggered by POST (forms) or DELETE (JS clients)
-        if ($i.request.method !== "DELETE" && $i.request.method !== "POST") {
-            return er({ code: "METHOD_NOT_ALLOWED" });
-        }
-         
-        // Get authorizing aliasId from the request body
-        if (!$i.$_DELETE) $i.$_DELETE = $i.$_POST || {};
-        const aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
-        if (!aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required"});
-        $i.$_POST.aliasId = aliasId; // Ensure it's available for the helper
-
-        return deleteSeriesFromHeichel({
-            $i,
-            userid,
-            heichelId: v.heichel,
-            parentSeriesId: v.parentSeriesId, // <-- The EXPLICIT parent is now passed in
-            seriesId: v.seriesId               // The series to be deleted
-        });
-    },
-    
-    /**
-     * @endpoint DELETE /heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId
-     * @description Explicitly deletes a sub-series from a known parent.
-     * @requires Body: { aliasId }
-     */
-    "/heichelos/:heichel/series/:parentSeriesId/clearSubSeries/:seriesId": async (v) => {
-        // This endpoint can be triggered by POST (forms) or DELETE (JS clients)
-        if ($i.request.method !== "DELETE" && $i.request.method !== "POST") {
-            return er({ code: "METHOD_NOT_ALLOWED" });
-        }
-         
-        // Get authorizing aliasId from the request body
-        if (!$i.$_DELETE) $i.$_DELETE = $i.$_POST || {};
-        const aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
-        if (!aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required"});
-        $i.$_POST.aliasId = aliasId; // Ensure it's available for the helper
-
-        return deleteSeriesFromHeichel({
-            $i,
-            userid,
-            heichelId: v.heichel,
-            deleteSelf: false,
-            parentSeriesId: v.parentSeriesId, // <-- The EXPLICIT parent is now passed in
-            seriesId: v.seriesId               // The series to be deleted
-        });
-    },
-
-
-    /**
-     * @endpoint DELETE /heichelos/:heichel/deleteSeries/:seriesId
-     * @description Deletes a series and all its contents (posts, sub-series recursively).
-     * @requires Body: { aliasId } (or query/header for auth)
-     */
-    "/heichelos/:heichel/deleteSeries/:seriesId": async (v) => {
-       return er({
-	       message: "API HAS MOVED",
-	       moved: "/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId"
-       })
-    },
-
-
-    // --- Deprecated / Changed Routes ---
-    /*
-    "/heichelos/:heichel/addContentToSeries": DEPRECATED - Use POST /../addNewSeries or POST /../posts
-    "/heichelos/:heichel/deleteContentFromSeries": DEPRECATED - Use DELETE /../deleteSeries/:id or DELETE /../post/:id
-    "/heichelos/:heichel/series/:series/changePostsInSeries": DEPRECATED - Post order not managed this way.
-    "/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId": Renamed to /deleteSeries/:seriesId for clarity.
-    */
-
-});
+    '/heichelos/:heichel/deleteContentFromSeries': async v => deleteContent($i, v.heichel),
+    '/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId': async v => deleteSeriesCompat($i, v.heichel, v.seriesId, $i.$_GET?.parentSeriesId || body($i).parentSeriesId || 'root'),
+    '/heichelos/:heichel/series/:series/editSeriesDetails': async v => editSeriesDetails({ $i, heichelId: v.heichel, seriesId: v.series }),
+    '/heichelos/:heichel/series/:series/changePostsInSeries': async v => ({ success: { kept: true, route: 'compat', seriesId: v.series, postIds: ids(body($i).postIDs || body($i).postIds) } }),
+    '/heichelos/:heichel/series/:series/changeSubSeriesInSeries': async v => editSubSeriesInSeries({ $i, heichelId: v.heichel, seriesId: v.series, aliasId: alias($i) }),
+    '/heichelos/:heichel/series/:seriesFrom/changeSubSeriesFromOneSeriesToAnother/:seriesTo': async v => changeSubSeriesFromOneSeriesToAnother({ $i, heichelId: v.heichel, seriesFrom: v.seriesFrom, seriesTo: v.seriesTo, aliasId: alias($i) })
+  };
+};

@@ -1,0 +1,8 @@
+/* B"H Chapter 626: fingers, focus, and selected letters receive a clear path. */
+button, a, summary, label, [role="button"], [tabindex] { touch-action: manipulation; }
+.geelooy-bottom-nav, .mail-bottom-nav, .bottom-nav, .awtsmoos-floating-controls,
+.heichel-mobile-topbar, .card-menu-trigger, .topbar-icon { touch-action: manipulation; }
+.geelooy-home-shell, .heichel-mobile-navigation, .post-reader-localized-context.awtsmoos-reader-vision,
+.has-bottom-nav, body:has(.bottom-nav), body:has(.mail-bottom-nav) { padding-bottom: var(--floating-clearance); }
+:focus-visible { outline: 2px solid rgba(245,186,91,.72); outline-offset: 3px; box-shadow: var(--awts-focus); }
+::selection { background: rgba(245,186,91,.35); color: inherit; }
