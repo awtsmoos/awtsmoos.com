@@ -1,14 +1,10 @@
 // B"H
 /**
  * @module SovereignNavigator
- * @description
- * Chapter 88: The Navigator reads path, query, and search with one clean map.
- *
- * The mobile Heichel page must scroll like a real list: no hidden content, no
- * trapped height, no mismatched route. This module keeps the route stable and
- * delegates local search to the tiny filter covenant.
+ * @description Chapter 644: the navigator canonizes broken root/error URLs back
+ * into the living root series. It reads old query routes and new path routes but
+ * refuses to preserve stray error/index fragments as fake content.
  */
-
 import { appState } from "./state.js";
 import * as api from "../api.js";
 import * as ui from "./ui.js";
@@ -17,11 +13,7 @@ import { handleDelete, handleShare } from "./navigator/actions.js";
 import { filterLoadedContent } from "./ui/searchFilter.js";
 
 export class HeichelNavigator {
-    constructor(heichelId) {
-        appState.heichelId = heichelId;
-        this.currentView = "posts";
-    }
-
+    constructor(heichelId) { appState.heichelId = heichelId; this.currentView = "posts"; }
     async initialize() {
         window.curAlias = window.curAlias || "seeker";
         try {
@@ -38,58 +30,45 @@ export class HeichelNavigator {
             document.body.innerHTML = `<div class="void-error">FATAL: ${error.message}</div>`;
         }
     }
-
-    async loadContent(seriesId) {
-        return await loadContent(this, seriesId);
-    }
-
+    async loadContent(seriesId) { return await loadContent(this, canonicalSeries(seriesId)); }
     async navigateTo(seriesId) {
-        const url = `${baseHeichelPath()}/series/${encodeURIComponent(seriesId)}?view=${encodeURIComponent(this.currentView)}`;
+        const safeSeries = canonicalSeries(seriesId);
+        const url = safeSeries === "root" ? `${baseHeichelPath()}?view=${encodeURIComponent(this.currentView)}` : `${baseHeichelPath()}/series/${encodeURIComponent(safeSeries)}?view=${encodeURIComponent(this.currentView)}`;
         window.history.pushState({ path: url }, "", url);
-        await this.loadContent(seriesId);
+        await this.loadContent(safeSeries);
     }
-
     switchView(newView, force = false) {
         if (!force && this.currentView === newView) return;
-        this.currentView = newView;
+        this.currentView = newView === "series" ? "series" : "posts";
         ui.updateActiveTab(this.currentView);
         this.updateURL();
     }
-
     updateURL() {
-        const seriesPath = appState.currentSeries && appState.currentSeries !== "root" ? `/series/${encodeURIComponent(appState.currentSeries)}` : "";
-        const url = `${baseHeichelPath()}${seriesPath}?view=${encodeURIComponent(this.currentView)}`;
-        window.history.replaceState({ path: url }, "", url);
+        const series = canonicalSeries(appState.currentSeries);
+        const seriesPath = series !== "root" ? `/series/${encodeURIComponent(series)}` : "";
+        window.history.replaceState({ path: `${baseHeichelPath()}${seriesPath}` }, "", `${baseHeichelPath()}${seriesPath}?view=${encodeURIComponent(this.currentView)}`);
     }
-
-    deleteSingleItem(item) {
-        return handleDelete(this, item);
-    }
-
-    clearSingleItem(item) {
-        return handleDelete(this, item, true);
-    }
-
-    handleShareClick(item) {
-        return handleShare(item);
-    }
-
-    filterContent(query) {
-        ui.renderContentGrids(filterLoadedContent(appState.currentContent || { posts: [], subSeries: [] }, query), this, appState);
-    }
+    deleteSingleItem(item) { return handleDelete(this, item); }
+    clearSingleItem(item) { return handleDelete(this, item, true); }
+    handleShareClick(item) { return handleShare(item); }
+    filterContent(query) { ui.renderContentGrids(filterLoadedContent(appState.currentContent || { posts: [], subSeries: [] }, query), this, appState); }
 }
-
 function readInitialRoute() {
     const params = new URLSearchParams(window.location.search);
-    return { view: params.get("view") || "posts", seriesId: params.get("series") || seriesFromPath() || "root" };
+    return { view: params.get("view") === "series" ? "series" : "posts", seriesId: canonicalSeries(params.get("series") || seriesFromPath() || "root") };
 }
-
 function seriesFromPath() {
     const segments = window.location.pathname.split("/").filter(Boolean);
     const index = segments.indexOf("series");
-    return index === -1 || !segments[index + 1] ? null : decodeURIComponent(segments[index + 1]);
+    if (index === -1 || !segments[index + 1]) return null;
+    const seriesId = decodeURIComponent(segments[index + 1]);
+    const tail = decodeURIComponent(segments[index + 2] || "");
+    if (seriesId === "root" && (tail === "error" || tail === "undefined" || tail === "null")) return "root";
+    return seriesId;
 }
-
-function baseHeichelPath() {
-    return `/heichelos/${encodeURIComponent(appState.heichelId)}`;
+function canonicalSeries(seriesId) {
+    const text = String(seriesId || "root").trim();
+    if (!text || text === "error" || text === "undefined" || text === "null") return "root";
+    return text;
 }
+function baseHeichelPath() { return `/heichelos/${encodeURIComponent(appState.heichelId)}`; }
