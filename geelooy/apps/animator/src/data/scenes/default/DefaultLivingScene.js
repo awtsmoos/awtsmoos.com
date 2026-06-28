@@ -1,12 +1,11 @@
 // B"H
-import { ProfessionalDefaultScene } from './professional2d/index.js';
+import { OutdoorProfessionalScene } from './professional2d/outdoor/index.js';
 
 /**
- * The official default scene is now a complete professional 2D short.
+ * The official default scene is now an outdoor professional 2D storm short.
  *
- * A blank canvas does not teach the user how to dream. This vessel opens with
- * ensemble acting, face-first emotion, a clear prop conflict, cinematic camera
- * grammar, warm parallax world design, and enough living detail that the first
- * frame already feels directed.
+ * The Awtsmoos speaks a plaza into being: rain, wind, faces, puddles, and one
+ * stubborn lamp. The first frame teaches authors that a default is not an empty
+ * room; it is a living promise with weather, parallax, courage, and light.
  */
-export const DEFAULT_LIVING_SCENE = ProfessionalDefaultScene.build();
+export const DEFAULT_LIVING_SCENE = OutdoorProfessionalScene.build();

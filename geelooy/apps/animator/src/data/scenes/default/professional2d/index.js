@@ -6,3 +6,5 @@ export { ProfessionalBeats } from './ProfessionalBeats.js';
 export { PROFESSIONAL_CAMERAS, PROFESSIONAL_SHOT_FLOW } from './ProfessionalCameras.js';
 export { PROFESSIONAL_WORLD } from './ProfessionalWorld.js';
 export { ProfessionalQualityGate } from './ProfessionalQualityGate.js';
+export { OutdoorProfessionalScene } from './outdoor/OutdoorProfessionalScene.js';
+export { OutdoorQualityGate } from './outdoor/OutdoorQualityGate.js';

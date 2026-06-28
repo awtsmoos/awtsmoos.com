@@ -1,7 +1,11 @@
 // B"H
+import { OutdoorQualityGate } from './outdoor/OutdoorQualityGate.js';
 
 export class ProfessionalQualityGate {
   static audit(scene = {}) {
+    if (scene.scene?.environment === 'professional_2d_outdoor_plaza') {
+      return OutdoorQualityGate.audit(scene);
+    }
     const json = JSON.stringify(scene);
     const metrics = {
       professionalWorld: scene.scene?.style === 'professional_2d_workshop',

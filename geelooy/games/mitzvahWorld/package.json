@@ -55,6 +55,19 @@
     "test:asset-pipeline": "node tests/headless/assetPipelineAudit.mjs",
     "test:gameplay-matrix": "node tests/headless/gameplayVerificationMatrixAudit.mjs",
     "test:browser-proof-contract": "node tests/headless/browserProofContractAudit.mjs",
-    "test:hardening-audits": "npm run test:boot-runtime-integrity && npm run test:render-architecture-hardening && npm run test:simulation-ownership && npm run test:event-architecture && npm run test:allocation-audit && npm run test:world-sleep-policy && npm run test:ui-ownership && npm run test:asset-pipeline && npm run test:gameplay-matrix && npm run test:browser-proof-contract"
+    "test:hardening-audits": "npm run test:boot-runtime-integrity && npm run test:render-architecture-hardening && npm run test:simulation-ownership && npm run test:event-architecture && npm run test:allocation-audit && npm run test:world-sleep-policy && npm run test:ui-ownership && npm run test:asset-pipeline && npm run test:gameplay-matrix && npm run test:browser-proof-contract",
+    "audit:architecture:graph": "node tests/headless/importGraphAudit.mjs",
+    "audit:architecture:ownership": "node tests/headless/runtimeOwnershipGraphAudit.mjs",
+    "audit:architecture:boundaries": "node tests/headless/systemBoundaryAudit.mjs && node tests/headless/boundaryCrossingReviewAudit.mjs",
+    "audit:architecture:unreachable": "node tests/headless/unreachableBreakdownAudit.mjs",
+    "audit:architecture:abstractions": "node tests/headless/deadAbstractionAudit.mjs && node tests/headless/deadAbstractionReviewAudit.mjs",
+    "audit:architecture:state": "node tests/headless/stateMutationAudit.mjs && node tests/headless/stateMutationHotspotReviewAudit.mjs",
+    "audit:architecture:debt": "node tests/headless/technicalDebtRankingAudit.mjs && node tests/headless/topDebtInvestigationAudit.mjs",
+    "audit:architecture:confidence": "node tests/headless/removalBlastRadiusAudit.mjs && node tests/headless/deletionConfidenceAudit.mjs",
+    "audit:architecture:tiers": "node tests/headless/browserEvidenceTierAudit.mjs",
+    "audit:architecture:regression": "node tests/headless/architectureRegressionSnapshotAudit.mjs && node tests/headless/architectureRegressionCompareAudit.mjs",
+    "audit:architecture:index": "node tests/headless/architectureReportIndexAudit.mjs",
+    "audit:architecture:readback": "node tests/headless/finalArchitectureReadbackAudit.mjs",
+    "test:architecture-health": "npm run test:feature-classification && npm run test:feature-cleanup-ledger && npm run test:owner-contracts && npm run audit:full-removal-plan && npm run audit:architecture:graph && npm run audit:architecture:ownership && npm run audit:architecture:boundaries && node tests/headless/prototypeBootIsolationAudit.mjs && node tests/headless/featureMaturityIndexAudit.mjs && npm run audit:architecture:tiers && npm run audit:architecture:unreachable && npm run audit:architecture:abstractions && node tests/headless/dependencyInstabilityAudit.mjs && node tests/headless/eventPropagationGraphAudit.mjs && npm run audit:architecture:state && node tests/headless/temporalDependencyAudit.mjs && npm run audit:architecture:debt && npm run audit:architecture:confidence && npm run audit:architecture:regression && node tests/headless/architectureHealthDashboardAudit.mjs && npm run audit:architecture:index && npm run audit:architecture:readback"
   }
 }

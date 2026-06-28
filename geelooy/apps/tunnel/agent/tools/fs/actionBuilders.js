@@ -1,0 +1,76 @@
+// B"H
+const { buildConfigActions } = require('./actionGroups/configActions.js');
+const { buildReadActions } = require('./actionGroups/readActions.js');
+const { buildProjectActions } = require('./actionGroups/projectActions.js');
+const { buildWriteActions } = require('./actionGroups/writeActions.js');
+const { buildFileOpsActions } = require('./actionGroups/fileOpsActions.js');
+const { buildHttpActions } = require('./actionGroups/httpActionsGroup.js');
+const { buildCommandActions } = require('./actionGroups/commandActions.js');
+const { buildStaticServerActions } = require('./actionGroups/staticServerActions.js');
+const { buildIsolatedActions } = require('./actionGroups/isolatedActions.js');
+const { buildWorkflowActions } = require('./actionGroups/workflowActions.js');
+const { buildPreviewActions } = require('./actionGroups/previewActions.js');
+const { buildRuntimeActions } = require('./actionGroups/runtimeActions.js');
+const { buildCognitionActions } = require('./actionGroups/cognitionActions.js');
+const { buildQualityActions } = require('./actionGroups/qualityActions.js');
+const { buildBatchAliasActions } = require('./actionGroups/batchAliasActions.js');
+const { buildActionHistoryActions } = require('./actionGroups/actionHistoryActions.js');
+const { buildMissionActions } = require('./actionGroups/missionActions.js');
+const { buildMissionEightStepActions } = require('./actionGroups/missionEightStepActions.js');
+const { buildMissionDaemonActions } = require('./actionGroups/missionDaemonActions.js');
+const { buildMissionWatchdogActions } = require('./actionGroups/missionWatchdogActions.js');
+const { buildMissionBootActions } = require('./actionGroups/missionBootActions.js');
+const { buildMissionMetaActions } = require('./actionGroups/missionMetaActions.js');
+const { buildContinuationActions } = require('./actionGroups/continuationActions.js');
+const { buildChromeActions } = require('./actionGroups/chromeActions.js');
+const { buildRemoteDesktopActions } = require('./actionGroups/remoteDesktopActions.js');
+
+/**
+ * B"H
+ * A small chamber for the many action gates.
+ * The Awtsmoos breathes one dispatcher through many vessels, so the root
+ * handler can guard mission fire without drowning in import thunder.
+ */
+function payloadEcho(payload) {
+  return { BH: 'B"H', ok: true, action: 'payloadEcho', payload };
+}
+
+function actionSchemaTrace(payload) {
+  return {
+    BH: 'B"H',
+    ok: true,
+    action: 'actionSchemaTrace',
+    requestedAction: payload.action,
+    adapterAction: payload.adapterAction || null,
+    actionRecoveredFromCarrier: !!payload.actionRecoveredFromCarrier,
+    kind: payload.kind,
+    keys: Object.keys(payload).sort()
+  };
+}
+
+function addCommandAliases(actions) {
+  if (actions.commandRun && !actions.command) actions.command = actions.commandRun;
+  if (actions.commandStart && !actions.commandRun) actions.commandRun = actions.commandStart;
+  if (actions.commandStart && !actions.command) actions.command = actions.commandStart;
+  return actions;
+}
+
+function buildActions(config, payload, ws, version) {
+  const ctx = { config, payload, ws, version };
+  return addCommandAliases({
+    ...buildConfigActions(ctx), ...buildReadActions(ctx), ...buildProjectActions(ctx),
+    ...buildFileOpsActions(ctx), ...buildHttpActions(ctx), ...buildCommandActions(ctx),
+    ...buildStaticServerActions(ctx), ...buildIsolatedActions(ctx), ...buildWriteActions(ctx),
+    ...buildWorkflowActions(ctx, buildActions), ...buildPreviewActions(ctx), ...buildRuntimeActions(ctx),
+    ...buildCognitionActions(ctx), ...buildQualityActions(ctx, buildActions),
+    ...buildBatchAliasActions(ctx, buildActions), ...buildActionHistoryActions(ctx, buildActions),
+    ...buildMissionActions(ctx), ...buildMissionEightStepActions(ctx),
+    ...buildMissionDaemonActions(ctx, buildActions), ...buildMissionWatchdogActions(ctx, buildActions),
+    ...buildMissionBootActions(ctx, buildActions), ...buildMissionMetaActions(ctx),
+    ...buildContinuationActions(ctx, buildActions), ...buildChromeActions(ctx),
+    ...buildRemoteDesktopActions(ctx), payloadEcho: async () => payloadEcho(payload),
+    actionSchemaTrace: async () => actionSchemaTrace(payload)
+  });
+}
+
+module.exports = { buildActions };
