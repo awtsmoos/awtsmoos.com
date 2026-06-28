@@ -10,3 +10,7 @@ export { CinematicCompositionSolver } from './CinematicCompositionSolver.js';
 export { RhythmEngine } from './RhythmEngine.js';
 export { StoryArcGraph } from './StoryArcGraph.js';
 export { DirectorDashboard } from './DirectorDashboard.js';
+export { SilenceBeatEngine } from './SilenceBeatEngine.js';
+export { LivingPropStateEngine } from './LivingPropStateEngine.js';
+export { EnvironmentalMemoryEngine } from './EnvironmentalMemoryEngine.js';
+export { ContinuityValidator } from './ContinuityValidator.js';

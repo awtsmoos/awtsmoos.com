@@ -6,6 +6,8 @@ const KEEP = [
   'responseShape', 'outputRef', 'outputBackend', 'responseBytes', 'inlineLimitBytes',
   'missionWriteToken', 'stopAudit', 'minimumRunRequired', 'minimumUntil',
   'remainingMinimumMs', 'stopAllowed', 'whyStopDenied', 'forever',
-  'missionExplanation', 'actionId', 'inputRef', 'replayable', 'retention'
+  'missionExplanation', 'actionId', 'inputRef', 'replayable', 'retention',
+  'workQueue', 'liveActionToPerform', 'fileWorkRequired', 'debtShrank',
+  'filesTouched', 'testsRun', 'missionWorkLoop', 'missionWorkRequired'
 ];
 module.exports = { KEEP };

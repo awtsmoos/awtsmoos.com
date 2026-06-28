@@ -9,21 +9,23 @@ import { CinematicCompositionSolver } from './CinematicCompositionSolver.js';
 import { RhythmEngine } from './RhythmEngine.js';
 import { StoryArcGraph } from './StoryArcGraph.js';
 import { DirectorDashboard } from './DirectorDashboard.js';
+import { SilenceBeatEngine } from './SilenceBeatEngine.js';
+import { LivingPropStateEngine } from './LivingPropStateEngine.js';
+import { EnvironmentalMemoryEngine } from './EnvironmentalMemoryEngine.js';
+import { ContinuityValidator } from './ContinuityValidator.js';
 
 export class DirectingEngine {
   static outdoorStormLantern(scene) {
-    const storyArc = StoryArcGraph.outdoorStormLantern();
-    const relationships = RelationshipMatrix.build();
+    const storyArc = StoryArcGraph.outdoorStormLantern(), relationships = RelationshipMatrix.build();
     const plan = {
-      storyArc, relationships,
-      lighting: EmotionalLightingEngine.build(storyArc),
+      storyArc, relationships, lighting: EmotionalLightingEngine.build(storyArc),
       performance: PerformanceGraph.build(scene.initialCharacters, storyArc),
-      eyeContact: EyeContactDirector.build(relationships, storyArc),
-      weatherNarrative: WeatherNarrativeTimeline.build(storyArc),
-      directorNotes: DirectorNotesEngine.build(storyArc),
-      composition: CinematicCompositionSolver.build(scene.cameras, storyArc),
-      rhythm: RhythmEngine.build(storyArc)
+      eyeContact: EyeContactDirector.build(relationships, storyArc), weatherNarrative: WeatherNarrativeTimeline.build(storyArc),
+      directorNotes: DirectorNotesEngine.build(storyArc), composition: CinematicCompositionSolver.build(scene.cameras, storyArc),
+      rhythm: RhythmEngine.build(storyArc), silenceBeats: SilenceBeatEngine.build(storyArc),
+      propStates: LivingPropStateEngine.build(scene.initialProps, storyArc), environmentalMemory: EnvironmentalMemoryEngine.build(storyArc)
     };
-    return { ...plan, dashboard: DirectorDashboard.build(scene, plan) };
+    const withDashboard = { ...plan, dashboard: DirectorDashboard.build(scene, plan) };
+    return { ...withDashboard, continuity: ContinuityValidator.audit(scene, withDashboard) };
   }
 }
