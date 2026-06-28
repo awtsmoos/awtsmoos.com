@@ -1,6 +1,7 @@
 // B"H
 const fs = require('fs');
 const path = require('path');
+const Markers = require('./markers.js');
 const IGNORE = new Set(['.git','node_modules','.awtsmoos','.Awtsmoos','dist','build','.next']);
 const CODE = new Set(['.js','.mjs','.cjs','.ts','.tsx','.jsx','.css','.html','.json','.md']);
 function walk(root, dir='.', out=[]) {
@@ -19,8 +20,8 @@ function file(root, rel) {
   const full = path.join(root, rel); let text = '', stat = null;
   try { text = fs.readFileSync(full, 'utf8'); stat = fs.statSync(full); } catch {}
   const lines = text ? text.split(/\r?\n/).length : 0;
-  return { path: rel, ext: path.extname(rel), bytes: stat?.size || 0, lines,
-    todo: /TODO|FIXME|HACK|XXX/i.test(text), syntaxTarget: /\.(mjs|cjs|js)$/i.test(rel) };
+  const markers = Markers.find(text).slice(0, 8).map(x => ({ lineNumber: x.lineNumber, preview: x.line.trim().slice(0, 160) }));
+  return { path: rel, ext: path.extname(rel), bytes: stat?.size || 0, lines, todo: markers.length > 0, markers, syntaxTarget: /\.(mjs|cjs|js)$/i.test(rel) };
 }
 function discover(config={}, payload={}) {
   const root = path.resolve(config.root || process.cwd(), payload.path || payload.p || '.');

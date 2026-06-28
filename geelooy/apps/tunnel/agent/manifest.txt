@@ -1,5 +1,5 @@
 B"H
-1.0.173
+1.0.174
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -850,6 +850,7 @@ tools/fs/mission/heartbeat/store.js
 tools/fs/mission/improvement/dashboard.js
 tools/fs/mission/improvement/discover.js
 tools/fs/mission/improvement/loop.js
+tools/fs/mission/improvement/markers.js
 tools/fs/mission/improvement/score.js
 tools/fs/mission/improvement/simulate.js
 tools/fs/mission/improvement/transaction.js

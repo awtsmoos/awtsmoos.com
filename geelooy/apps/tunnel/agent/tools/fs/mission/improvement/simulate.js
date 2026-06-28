@@ -2,7 +2,7 @@
 function actionFor(item={}) {
   if (item.kind === 'verify-syntax') return { action:'commandRun', command:`node --check ${item.path}`, cwd:'.' };
   if (item.kind === 'split-large-file') return { action:'readManyLines', ranges:[{ path:item.path, startLine:1, endLine:160 }] };
-  if (item.kind === 'technical-debt') return { action:'grep', path:item.path, query:'TODO|FIXME|HACK|XXX' };
+  if (item.kind === 'technical-debt') return { action:'readManyLines', ranges:(item.markers || []).slice(0, 4).map(m => ({ path:item.path, startLine:Math.max(1, m.lineNumber - 3), endLine:m.lineNumber + 3 })) };
   return { action:'read', path:item.path };
 }
 function simulate(ranked=[], payload={}) {
