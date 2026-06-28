@@ -1,5 +1,5 @@
 B"H
-1.0.163
+1.0.166
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -932,6 +932,9 @@ tools/fs/mission/watchdog/index.js
 tools/fs/mission/watchdog/recover.js
 tools/fs/mission/watchdog/status.js
 tools/fs/mission/watchdog/tick.js
+tools/fs/mission/workQueue/fromGoal.js
+tools/fs/mission/workQueue/index.js
+tools/fs/mission/workQueue/progress.js
 tools/fs/mission/writeAuth/create.js
 tools/fs/mission/writeAuth/index.js
 tools/fs/mission/writeAuth/store.js

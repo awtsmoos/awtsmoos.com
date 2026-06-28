@@ -1,30 +1,25 @@
 // B"H
 const Plan = require('./plan.js');
 const Store = require('./store.js');
-
-function repeatCount(m) {
-  return Store.ensure(m).rounds.length;
+const Work = require('../workQueue/index.js');
+function repeatCount(m) { return Store.ensure(m).rounds.length; }
+function loopWarning(count, summary = {}) {
+  if (count >= 3 && Number(summary.done || 0) === 0) return 'NON_PROGRESSING_MISSION_LOOP: no concrete work debt has been completed after multiple rounds.';
+  if (count >= 3) return 'MISSION_CONTINUATION_LOOP: continuing because remaining work debt still exists.';
+  return '';
 }
-
-function loopWarning(count) {
-  return count >= 3 ? 'POSSIBLE_RECURSIVE_RECOVERY_LOOP: repeatBetter created multiple next8 rounds.' : '';
-}
-
-/**
- * B"H
- * Repeat better may continue, but it must say why and count its own footsteps.
- */
+function remainingTitles(summary = {}) { return (summary.remaining || []).map(x => `${x.kind}: ${x.title}`); }
 function better(m, input = {}) {
   const prev = Store.current(m);
   if (prev) prev.status = 'reviewed';
-  const gaps = (prev?.steps || []).filter(s => s.status !== 'done').map(s => `Recover ${s.title}`);
-  const insights = (prev?.steps || []).map(s => `Improve after ${s.title}`).slice(0, 8);
-  const steps = (gaps.length ? gaps : insights).concat(['simplify response', 'verify live', 'write receipt', 'repeat better']).slice(0, 8);
+  const summary = Work.summary(m);
   const count = repeatCount(m) + 1;
-  const round = Plan.create(m, { ...input, previousRoundId: prev?.id || '', title: 'Better next 8 steps', steps });
-  round.repeatCount = count;
-  round.loopWarning = loopWarning(count);
-  return round;
+  const steps = remainingTitles(summary).slice(0, 8);
+  if (!steps.length) steps.push('Run final live verification', 'Review git diff', 'Confirm release conditions', 'Prepare final answer');
+  const round = Plan.create(m, { ...input, previousRoundId: prev?.id || '', title: 'Find remaining concrete work', steps });
+  round.round.repeatCount = count;
+  round.round.loopWarning = loopWarning(count, summary);
+  round.round.workQueueProgress = summary;
+  return { ...round, repeatCount: count, loopWarning: round.round.loopWarning, workQueue: summary, repeatMeaning: 'find_remaining_work_not_blind_repeat' };
 }
-
-module.exports = { better, repeatCount, loopWarning };
+module.exports = { better, repeatCount, loopWarning, remainingTitles };
