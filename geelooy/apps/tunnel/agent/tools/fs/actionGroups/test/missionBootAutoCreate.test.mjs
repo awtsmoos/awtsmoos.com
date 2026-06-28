@@ -1,0 +1,21 @@
+// B"H
+import { createRequire } from 'module';
+import fs from 'fs/promises';
+import os from 'os';
+import path from 'path';
+import assert from 'assert/strict';
+const require = createRequire(import.meta.url);
+const Boot = require('../../mission/boot/index.js');
+const Lock = require('../../mission/lock/index.js');
+const { buildActions } = require('../../actions.js');
+const root = await fs.mkdtemp(path.join(os.tmpdir(), 'boot-auto-create-'));
+const config = { root, repoRoot: process.cwd(), tools:{ fsRead:true, fsWrite:true }, allowWrite:true };
+assert.equal(Lock.active(config), null);
+const out = await Boot.resume(config, { autoCreateMission:true, tick:false, goal:'zero prompt boot mission', minimumRuntimeMs:1000 }, buildActions);
+assert.equal(out.ok, true);
+assert.equal(out.resumed, true);
+assert(out.created.missionId);
+const lock = Lock.active(config);
+assert.equal(lock.missionId, out.created.missionId);
+assert.equal(lock.lastMustCallNext.action, 'missionNext8Plan');
+console.log(JSON.stringify({ ok:true, created:out.created.missionId, next:lock.lastMustCallNext.action }, null, 2));

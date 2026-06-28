@@ -1,15 +1,9 @@
 // B"H
 /**
  * StartingExperienceRuntime
- *
- * Chapter 1: The village no longer waits as a list in a scroll. The first ten
- * minutes awaken as a living covenant: movement, chesed, training, craft,
- * danger, and homecoming. Each beat writes memory, emits UI, and remains cheap.
- *
- * Chapter 3: The Awtsmoos removes noise from the river. A real player may speak
- * to Miriam and deliver bread, and both are chesed, but the first chesed step
- * should become one milestone, not an infinite echo. Repeated signals refresh
- * the HUD without duplicating completed story memory.
+ * The starter arc is now idempotent and save-coalesced: one signal produces one
+ * saved starter payload, not a persist plus a UI persist. The first village can
+ * teach without stealing the frame budget.
  */
 import { getStarterClassPath, listStarterClassPaths } from './StarterClassPathRegistry.js';
 import { TUTORIAL_STEPS, tutorialProgress, getTutorialStep } from './TutorialStepRegistry.js';
@@ -20,8 +14,7 @@ const EVENT = 'mitzvah-world:starter-experience';
 const cap = (xs = [], n = 40) => xs.slice(-n);
 const clone = value => JSON.parse(JSON.stringify(value ?? null));
 const now = () => Date.now();
-const ids = () => TUTORIAL_STEPS.map(step => step.id);
-
+const stepIds = () => TUTORIAL_STEPS.map(step => step.id);
 function Custom(type, detail) { const Ctor = globalThis.CustomEvent; return Ctor ? new Ctor(type, { detail }) : { type, detail }; }
 function unique(list = []) { return [...new Set(list.filter(Boolean))]; }
 function resolveStore(source) {
@@ -33,7 +26,7 @@ function resolveStore(source) {
   return store;
 }
 function ensureState(store) {
-  const completed = unique(store.startingExperience?.completed || store.tutorialProgress?.completed || []);
+  const completed = unique(store.startingExperience?.completed || store.tutorialProgress?.completed || []).filter(x => stepIds().includes(x));
   const progress = tutorialProgress(completed);
   store.tutorialProgress ||= { completed:[], hints:[], started:false, events:[] };
   store.startingExperience ||= { chosenPath:null, completed:[], hints:[], started:false, events:[] };
@@ -45,24 +38,25 @@ function ensureState(store) {
 }
 function payloadFor(store, type, payload) {
   const state = ensureState(store);
-  const progress = tutorialProgress(state.completed || []);
-  return { type, payload, state:clone(state), progress, steps:TUTORIAL_STEPS, paths:listStarterClassPaths(), at:now() };
+  return { type, payload, state:clone(state), progress:tutorialProgress(state.completed || []), steps:TUTORIAL_STEPS, paths:listStarterClassPaths(), at:now() };
 }
-function persist(store, reason) {
+function syncProgress(store, reason) {
   const state = ensureState(store);
-  const completed = unique(state.completed || []);
+  const completed = unique(state.completed || []).filter(x => stepIds().includes(x));
   store.tutorialProgress = { ...(store.tutorialProgress || {}), completed, hints:cap(state.hints || []), started:state.started, chosenPath:state.chosenPath, total:TUTORIAL_STEPS.length, next:tutorialProgress(completed).next?.id || null, lastReason:reason, updatedAt:now() };
+  return state;
+}
+function saveStarter(store, reason) {
   commitUiPayloads(store);
   const saved = saveLivingWorldState(store);
   persistLivingWorldToWorldState(saved, { reason:`starter-experience:${reason}` });
   return saved;
 }
-function emit(scope, store, type, payload) {
+function emit(scope, store, type, payload, reason) {
   const detail = payloadFor(store, type, payload);
   store.uiPayloads ||= {};
   store.uiPayloads.starterExperience = detail;
-  const saved = saveLivingWorldState(store);
-  persistLivingWorldToWorldState(saved, { reason:`starter-experience:ui:${type}` });
+  if (reason) saveStarter(store, reason);
   scope?.dispatchEvent?.(Custom(EVENT, detail));
   if (scope !== globalThis) globalThis.dispatchEvent?.(Custom(EVENT, detail));
   scope?.__MITZVAH_UI_BRIDGE__?.receive?.('starterExperience', detail);
@@ -79,38 +73,41 @@ export function createStartingExperienceRuntime(source = globalThis, options = {
     current() { return payloadFor(store, 'current', null); },
     start(reason = 'manual') {
       const first = !state.started;
-      state.started = true; state.startedAt ||= now();
+      state.started = true;
+      state.startedAt ||= now();
       if (first) record(state, 'start', { reason });
-      persist(store, `start:${reason}`);
-      return emit(scope, store, first ? 'start' : 'start-refresh', this.current());
+      syncProgress(store, `start:${reason}`);
+      return emit(scope, store, first ? 'start' : 'start-refresh', this.current(), `start:${reason}`);
     },
     choosePath(id = 'learner') {
       const next = getStarterClassPath(id);
       const changed = state.chosenPath?.id !== next.id;
       state.chosenPath = next;
       if (changed) record(state, 'path', state.chosenPath);
-      persist(store, `path:${state.chosenPath.id}`);
-      return emit(scope, store, changed ? 'path' : 'path-refresh', state.chosenPath);
+      syncProgress(store, `path:${state.chosenPath.id}`);
+      return emit(scope, store, changed ? 'path' : 'path-refresh', state.chosenPath, `path:${state.chosenPath.id}`);
     },
     complete(id, evidence = {}) {
       const step = getTutorialStep(id);
       const wasDone = state.completed.includes(step.id);
       if (!wasDone) state.completed.push(step.id);
-      state.completed = unique(state.completed).filter(x => ids().includes(x));
+      state.completed = unique(state.completed).filter(x => stepIds().includes(x));
       state.lastCompleted = step.id;
       state.lastEvidence = { stepId:step.id, evidence, repeated:wasDone, at:now() };
       if (!wasDone) record(state, 'complete', { step, evidence });
-      persist(store, `${wasDone ? 'repeat' : 'complete'}:${step.id}`);
-      return emit(scope, store, wasDone ? 'complete-refresh' : 'complete', { step, evidence, repeated:wasDone });
+      const reason = `${wasDone ? 'repeat' : 'complete'}:${step.id}`;
+      syncProgress(store, reason);
+      return emit(scope, store, wasDone ? 'complete-refresh' : 'complete', { step, evidence, repeated:wasDone }, reason);
     },
-    completeCurrent(evidence = {}) { const next = tutorialProgress(state.completed || []).next; return next ? this.complete(next.id, evidence) : emit(scope, store, 'complete-all', evidence); },
+    completeCurrent(evidence = {}) { const next = tutorialProgress(state.completed || []).next; return next ? this.complete(next.id, evidence) : emit(scope, store, 'complete-all', evidence, 'complete-all'); },
     hint() {
       const next = tutorialProgress(state.completed || []).next || TUTORIAL_STEPS.at(-1);
       const changed = next && state.hints.at(-1) !== next.id;
       if (changed) state.hints.push(next.id);
       if (changed) record(state, 'hint', next);
-      persist(store, `hint:${next?.id || 'none'}`);
-      return emit(scope, store, changed ? 'hint' : 'hint-refresh', next);
+      const reason = `hint:${next?.id || 'none'}`;
+      syncProgress(store, reason);
+      return emit(scope, store, changed ? 'hint' : 'hint-refresh', next, reason);
     },
     advanceForSignal(signal, evidence = {}) { return this.complete(completionMap(signal), evidence); },
     snapshot() { return payloadFor(store, 'snapshot', null); }

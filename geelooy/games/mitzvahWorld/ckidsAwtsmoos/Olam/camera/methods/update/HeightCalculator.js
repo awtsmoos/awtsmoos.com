@@ -1,6 +1,6 @@
 
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js';
+import { THREE } from '../../../rendering/ThreeAdapter.js';
 
 /**
  * @module HeightCalculator

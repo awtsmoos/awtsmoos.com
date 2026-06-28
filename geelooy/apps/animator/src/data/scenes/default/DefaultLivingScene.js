@@ -1,9 +1,12 @@
 // B"H
-import { GoalBoardEasyAPI } from '../../../authoring/goalBoard/index.js';
+import { ProfessionalDefaultScene } from './professional2d/index.js';
 
 /**
- * Default scene now comes from the easy authoring layer.
- * One preset call reveals the whole vessel: room, characters, props,
- * camera grammar, dialogue, inserts, movement, and quality metadata.
+ * The official default scene is now a complete professional 2D short.
+ *
+ * A blank canvas does not teach the user how to dream. This vessel opens with
+ * ensemble acting, face-first emotion, a clear prop conflict, cinematic camera
+ * grammar, warm parallax world design, and enough living detail that the first
+ * frame already feels directed.
  */
-export const DEFAULT_LIVING_SCENE = GoalBoardEasyAPI.scene();
+export const DEFAULT_LIVING_SCENE = ProfessionalDefaultScene.build();

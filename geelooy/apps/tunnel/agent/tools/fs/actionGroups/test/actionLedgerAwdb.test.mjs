@@ -1,0 +1,20 @@
+// B"H
+import { createRequire } from 'module';
+import fs from 'fs/promises';
+import fss from 'fs';
+import os from 'os';
+import path from 'path';
+import assert from 'assert/strict';
+const require = createRequire(import.meta.url);
+const ledger = require('../../actionLedger.js');
+const root = await fs.mkdtemp(path.join(os.tmpdir(), 'ledger-awdb-'));
+const config = { root };
+const out = await ledger.record(config, { action: 'payloadEcho', apiKey: 'sk-test-secret-abcdefghijklmnop' }, { ok: true, action: 'payloadEcho', value: 7 });
+const list = await ledger.list(config, 5);
+const got = await ledger.get(config, out.actionId);
+assert.equal(list[0].actionId, out.actionId);
+assert.equal(got.output.value, 7);
+assert.equal(got.entry.input.apiKey, '[REDACTED]');
+assert.equal(fss.existsSync(path.join(root, '.awtsmoos/actions/awtsmoos-actions.awdb')), true);
+assert.equal(fss.existsSync(path.join(root, '.awtsmoos/actions/history.jsonl')), false);
+console.log(JSON.stringify({ ok: true, actionId: out.actionId, backend: 'awtsmoosdb' }, null, 2));

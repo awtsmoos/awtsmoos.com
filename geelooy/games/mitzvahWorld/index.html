@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Awtsmoos - Mitzvah World 3D</title>
+  <link rel="manifest" href="./manifest.json">
   <link rel="stylesheet" href="./main.css?v=player-facing-starter-ui-20260615-bh1">
   <link rel="stylesheet" href="./styles/mobile-ui-overlap-fix.css?v=step-by-step-20260621-bh1" data-awtsmoos-mobile-overlap-fix="true">
   <style>
@@ -42,8 +43,10 @@
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
   <script type="module" src="./systems/ui/OpenWorldUiMobilePatch.js?compact=true&v=all-at-once-mobile-perf-visual-20260617-bh1"></script>
+  <script type="module" src="./systems/mobile/MobileCleanHudRuntime.js?compact=true&v=world-first-ui-20260626-bh1"></script>
   <script type="module" src="./systems/performance/PerformanceModeBootstrap.js?compact=true&v=fps-guardian-20260622-bh1"></script>
   <script type="module" src="./systems/performance/RuntimeBudgetBootstrap.js?compact=true&v=master-realism-fast-fps-20260622-bh1"></script>
+  <script type="module" src="./systems/performance/BrowserFrameTraceHarness.js?compact=true&v=real-browser-trace-20260628-bh1"></script>
   <script type="module" src="./systems/performance/RealismFastFpsBootstrap.js?compact=true&v=fast-fps-alias-20260626-bh1"></script>
   <script type="module" src="./systems/realism/InfiniteRealismBootstrap.js?compact=true&v=infinite-realism-20260626-bh1"></script>
   <script type="module" src="./systems/story/StoryBootstrap.js?compact=true&v=story-memory-fast-20260626-bh1"></script>

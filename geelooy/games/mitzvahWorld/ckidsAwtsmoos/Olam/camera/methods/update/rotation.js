@@ -10,7 +10,7 @@
  * update loop. It is modified asynchronously by the user's intent (`cameraDrag`). 
  * This file merely applies smooth following logic if the user releases control.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import { THREE } from '../../../rendering/ThreeAdapter.js';
 
 export function handleRotation() {
     if (!this.target || !this.target.mesh) return;

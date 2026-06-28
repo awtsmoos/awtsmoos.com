@@ -1,0 +1,6 @@
+// B"H
+const V = require('./verdict.js'); const Token = require('../releaseToken/index.js'); const Explain = require('../releaseExplain/index.js');
+function guard(config, lock, result = {}, payload = {}) { if (result.action !== 'missionFinalize') return result; const v = V.verdict(config, lock, result); v.explanation = Explain.explain(v); if (!v.ok) return deny(result, lock, v); if (!Token.verify(lock, payload.releaseToken)) return token(result, lock, v); return { ...result, releaseCourt:{ ...v, releaseTokenAccepted:true }, finalAnswerAllowed:true, mustContinue:false }; }
+function deny(result, lock, v) { return { ...result, finalAnswerAllowed:false, mustContinue:true, releaseCourt:v, releaseExplanation:v.explanation, mustCallNext: result.mustCallNext || lock?.lastMustCallNext || { action:'missionNext', missionId:lock?.missionId } }; }
+function token(result, lock, v) { const releaseToken = Token.create(lock || {}); if (lock) lock.releaseToken = releaseToken; return { ...result, finalAnswerAllowed:false, mustContinue:true, releaseCourt:{ ...v, issue:'release_token_required' }, releaseExplanation:'Release token required after court passes.', releaseToken, mustCallNext:{ action:'missionFinalize', missionId:lock?.missionId, releaseToken } }; }
+module.exports = { guard, verdict: V.verdict };

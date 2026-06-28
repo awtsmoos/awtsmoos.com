@@ -1,18 +1,5 @@
-
-/**
- * B"H
- * @module SceneProperties
- * @description 
- * 🎭 THE STAGE OF THE DRAMA (TIFERET) 🎭
- * 
- * Holds the core graphical groupings.
- */
-import * as THREE from '/games/scripts/build/three.module.js';
-
-export const getSceneProperties = () => ({
-    scene: new THREE.Scene(),
-    nivrayimGroup: new THREE.Group(),
-    ohros: [],
-    enlightened: false,
-    objectsInScene: []
-});
+// B"H
+/** @module SceneProperties @description Core scene vessels through the ThreeAdapter seam. */
+import { Scene, Group } from '../rendering/ThreeAdapter.js';
+export const getSceneProperties = () => ({ scene:new Scene(), nivrayimGroup:new Group(), ohros:[], enlightened:false, objectsInScene:[] });
+export default getSceneProperties;

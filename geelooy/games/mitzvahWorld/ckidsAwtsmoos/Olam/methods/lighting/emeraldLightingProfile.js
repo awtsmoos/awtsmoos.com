@@ -1,6 +1,6 @@
 // B"H
 /** @file emeraldLightingProfile.js @description Chapter 449: Complete Emerald lighting profile. */
-import * as THREE from '/games/scripts/build/three.module.js';
+import { THREE } from '../../rendering/ThreeAdapter.js';
 import { applyEmeraldFog } from './fogRig.js';
 import { GOLDEN_HOUR } from './goldenHourPalette.js';
 import { createEmeraldHemisphere } from './hemisphereRig.js';
