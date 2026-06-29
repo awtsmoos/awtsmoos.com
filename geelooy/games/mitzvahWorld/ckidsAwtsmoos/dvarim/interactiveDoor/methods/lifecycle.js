@@ -11,8 +11,13 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import { DOOR_DEFAULTS } from '../constants.js';
 
+function doorUserData(door) {
+  if (!door?.mesh) return {};
+  door.mesh.userData ||= {};
+  return door.mesh.userData;
+}
 function removeDoorCollider(door) {
-  Object.assign(door.mesh?.userData ||= {}, { isOpen: true, isSolid: false, passableDoor: true });
+  Object.assign(doorUserData(door), { isOpen: true, isSolid: false, passableDoor: true });
   if (!door._removedFromOctree && door.isSolid && door.olam?.worldOctree) {
     door.olam.worldOctree.removeMesh(door.mesh);
     door._removedFromOctree = true;
@@ -21,7 +26,7 @@ function removeDoorCollider(door) {
 }
 function addDoorColliderIfClosed(door) {
   if (door.isOpen || door._isMoving) return;
-  Object.assign(door.mesh?.userData ||= {}, { isOpen: false, isSolid: true, passableDoor: false });
+  Object.assign(doorUserData(door), { isOpen: false, isSolid: true, passableDoor: false });
   door.isSolid = true;
   if (door._removedFromOctree && door.isSolid && door.olam?.worldOctree) {
     door.olam.worldOctree.addObject(door.mesh);
@@ -51,7 +56,8 @@ export default {
     this.mesh.rotation.y = this.baseRotY;
     this.currentAngle = Number.isFinite(Number(this.currentAngle)) ? Number(this.currentAngle) : 0;
     this.targetAngle = Number.isFinite(Number(this.targetAngle)) ? Number(this.targetAngle) : 0;
-    Object.assign(this.mesh.userData ||= {}, { isSolid: !this.isOpen, isDoor: true, explicitCollision: true, isOpen: !!this.isOpen, passableDoor: !!this.isOpen });
+    this.mesh.userData ||= {};
+    Object.assign(this.mesh.userData, { isSolid: !this.isOpen, isDoor: true, explicitCollision: true, isOpen: !!this.isOpen, passableDoor: !!this.isOpen });
     this.isSolid = true;
     await olam.hoyseef(this);
     if (this.olam.interactiveOctree) this.olam.interactiveOctree.fromGraphNode(this.mesh);
@@ -73,7 +79,7 @@ export default {
     }
     this.mesh.rotation.y = this.baseRotY + this.currentAngle;
     this.mesh.updateMatrixWorld(true);
-    Object.assign(this.mesh.userData ||= {}, { isOpen: !!this.isOpen, isSolid: !this.isOpen && !this._isMoving, passableDoor: !!this.isOpen || !!this._isMoving });
+    Object.assign(doorUserData(this), { isOpen: !!this.isOpen, isSolid: !this.isOpen && !this._isMoving, passableDoor: !!this.isOpen || !!this._isMoving });
     if (!this.isOpen && !this._isMoving) addDoorColliderIfClosed(this);
   }
 };
