@@ -1,13 +1,13 @@
 // B"H
 const BASE = {
-  letter: [5, 5, 8, 42], bench: [7, 9, 8, 72], bush: [8, 15, 13, 108],
-  cedar: [12, 30, 28, 145], cart: [13, 48, 16, 28], house: [18, 82, 28, 205],
-  arch: [20, 128, 32, 235], tower: [22, 170, 48, 260], cloud: [18, 230, 16, 188],
-  star: [24, 330, 24, 56], gate: [26, 560, 36, 294]
+  letter: [4, 6, 10, 42], bench: [7, 12, 9, 72], bush: [9, 20, 16, 108],
+  cedar: [14, 42, 44, 145], cart: [14, 70, 18, 28], house: [22, 135, 42, 205],
+  arch: [24, 210, 48, 235], tower: [28, 310, 86, 260], cloud: [22, 390, 24, 188],
+  star: [27, 520, 32, 56], gate: [34, 900, 66, 294]
 };
-const WORLD = [[42, 1], [188, 1.16], [265, 1.3], [310, 1.45]];
+const WORLD = [[42, 1], [188, 1.18], [265, 1.38], [310, 1.62]];
 
-/** B"H: Power remains, but scale bows to playability. */
+/** B"H: Bigger rewards and blockers, still below the old wall-devouring scale. */
 export function tier(kind, worldIndex) {
   const b = BASE[kind] || BASE.letter;
   const w = WORLD[worldIndex % WORLD.length];

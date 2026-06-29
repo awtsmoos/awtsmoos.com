@@ -1,0 +1,12 @@
+/* B"H mini mail: embedded, fast, respectful of the Heichel page. */
+.heichel-mobile-navigation .mini-mail-panel {
+  position: fixed; right: clamp(.6rem, 2vw, 1rem); bottom: calc(max(.6rem, env(safe-area-inset-bottom)) + 4.5rem); z-index: 970;
+  width: min(92vw, 27rem); height: min(72vh, 38rem); display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  border: 1px solid rgba(255,255,255,.16); border-radius: 1.2rem; overflow: hidden; background: #fff8ea; box-shadow: 0 .9rem 2rem rgba(0,0,0,.25);
+}
+.heichel-mobile-navigation .mini-mail-panel.hidden { display: none; }
+.heichel-mobile-navigation .mini-mail-panel header { display: flex; justify-content: space-between; align-items: center; padding: .7rem .85rem; background: #252540; color: #fff7df; }
+.heichel-mobile-navigation .mini-mail-panel header button { border: 0; border-radius: 999px; width: 2rem; height: 2rem; background: rgba(255,255,255,.14); color: #fff7df; cursor: pointer; }
+.heichel-mobile-navigation .mini-mail-panel iframe { width: 100%; height: 100%; border: 0; background: white; }
+.heichel-mobile-navigation .mini-mail-panel > a { padding: .7rem .85rem; background: #f3dfbc; color: #24160b; font-weight: 900; text-align: center; text-decoration: none; }
+@media (max-width: 620px) { .heichel-mobile-navigation .mini-mail-panel { inset: var(--heichel-topbar-height, 4rem) .5rem 4.9rem .5rem; width: auto; height: auto; } }

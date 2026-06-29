@@ -1,40 +1,40 @@
-
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-const _tempBox = new THREE.Box3();
+/**
+ * @file capsuleIntersect.js
+ * @description
+ * Player collision asks for the deepest real surface inside the capsule bubble.
+ * The response stays a single correction normal so walking slides along walls
+ * instead of jittering through them.
+ */
+import {
+  bubbleStats,
+  capsuleBubbleBox,
+  leafNodesInsideBubble,
+  pendingOctreesInsideBubble
+} from "./query/CollisionBubbleQuery.js";
+
+function deeper(current, next) {
+  if (!next) return current;
+  if (!current || next.depth > current.depth) return next;
+  return current;
+}
 
 export default {
-    capsuleIntersect(capsule) {
-        // B"H: Find the deepest single collision result.
-        // We do NOT accumulate corrections here — that corrupts the normal.
-        // Instead return the single strongest hit so the caller can act on a
-        // real surface normal (used to determine onFloor, slide along walls, etc.)
-        let bestResult = null;
+  capsuleIntersect(capsule) {
+    const bubble = capsuleBubbleBox(capsule);
+    const nodes = leafNodesInsideBubble(this, bubble);
+    const satellites = pendingOctreesInsideBubble(this, bubble);
+    let bestResult = null;
 
-        const capsuleBox = _tempBox;
-        capsuleBox.min.copy(capsule.start).min(capsule.end).subScalar(capsule.radius);
-        capsuleBox.max.copy(capsule.start).max(capsule.end).addScalar(capsule.radius);
-
-        const checkOctree = (octree) => {
-            const result = octree.capsuleIntersect(capsule);
-            if (result) {
-                if (!bestResult || result.depth > bestResult.depth) {
-                    bestResult = result;
-                }
-            }
-        };
-
-        if (this.root) {
-            const candidates = this._findLeafNodesInBox(this.root, capsuleBox);
-            for (const node of candidates) {
-                if (node.physics) checkOctree(node.physics);
-            }
-        }
-
-        for (const sat of this._pendingOctrees) {
-            if (sat.box.intersectsBox(capsuleBox)) checkOctree(sat);
-        }
-
-        return bestResult || false;
+    for (const node of nodes) {
+      if (node.physics) bestResult = deeper(bestResult, node.physics.capsuleIntersect(capsule));
     }
+
+    for (const satellite of satellites) {
+      bestResult = deeper(bestResult, satellite.capsuleIntersect(capsule));
+    }
+
+    this.__lastCapsuleBubbleStats = bubbleStats("capsule", nodes, satellites);
+    return bestResult || false;
+  }
 };

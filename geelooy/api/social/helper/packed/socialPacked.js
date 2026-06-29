@@ -1,40 +1,31 @@
 //B"H
 /**
  * @module SocialShardCompat
- * @description Chapter 620: Legacy packed function names remain as public
- * compatibility vessels, but every record now lives in AwtsmoosDB native shards.
+ * @description Chapter 643: packed mirrors are servants, not tyrants. If the
+ * AwtsmoosDB shard root is unavailable, primary social writes continue and the
+ * mirror reports a soft failure instead of tearing down the request.
  */
 const { logicalKey } = require('./shardPaths.js');
 const { RECORD_TYPES, makeEnvelope } = require('./recordEnvelope.js');
 const { makeEntityManifest, entityManifestKey } = require('./entityManifest.js');
 const store = require('../awtsmoosDb/shardStore.js');
-function resolveDbRoot() { return store.info().path; }
-function envelope({ op = 'put', key, value, meta = {}, type }) {
-  return makeEnvelope({ op, key, value, meta, type });
-}
+function resolveDbRoot() { try { return store.info().path; } catch (e) { return ''; } }
+function envelope({ op = 'put', key, value, meta = {}, type }) { return makeEnvelope({ op, key, value, meta, type }); }
 function writePacked({ shard = 'core', key, value, op = 'put', meta = {}, type }) {
   const record = envelope({ op, key, value, meta, type });
-  store.put({ shard, parts: ['records', key], value: record, meta: { ...meta, compat: 'awtsmoosdb-shard' } });
+  try { store.put({ shard, parts: ['records', key], value: record, meta: { ...meta, compat: 'awtsmoosdb-shard' } }); }
+  catch (error) { record.mirrorError = String(error.message || error); }
   return record;
 }
-function readPacked({ shard = 'core', key }) {
-  const record = store.get({ shard, parts: ['records', key] });
-  return record?.value || null;
-}
+function readPacked({ shard = 'core', key }) { try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; } }
 function listPackedRecords({ shard = 'core' }) {
   const latest = new Map();
-  for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) {
-    const value = record.value;
-    if (value?.key) latest.set(value.key, value);
-  }
+  try { for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) if (record.value?.key) latest.set(record.value.key, record.value); }
+  catch { return []; }
   return [...latest.values()];
 }
-function writeManifest({ $i, manifest }) {
-  return writePacked({ $i, shard: 'meta', key: entityManifestKey(manifest), value: manifest, meta: { kind: 'entityManifest', entityKind: manifest.kind } });
-}
-function writeIndex({ $i, key, value, meta }) {
-  return writePacked({ $i, shard: 'search', key, value, meta: { kind: 'materializedIndex', ...meta } });
-}
+function writeManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: entityManifestKey(manifest), value: manifest, meta: { kind: 'entityManifest', entityKind: manifest.kind } }); }
+function writeIndex({ $i, key, value, meta }) { return writePacked({ $i, shard: 'search', key, value, meta: { kind: 'materializedIndex', ...meta } }); }
 function appendEvent({ $i, type, actor = '', entity = {}, data = {} }) {
   const event = { id: `${type}_${Date.now()}_${Math.random().toString(36).slice(2)}`, type, actor, entity, data, createdAt: Date.now() };
   return writePacked({ $i, shard: 'events', key: logicalKey(['events', type, event.id]), value: event, meta: { kind: 'socialEvent', type } });
@@ -70,7 +61,7 @@ function mirrorNotification({ $i, notification }) {
   appendEvent({ $i, type: 'notification.mirrored', actor: notification.fromAliasId || '', entity: { kind: 'notification', id: notification.id }, data: { toAliasId: notification.toAliasId, type: notification.type } });
   return write;
 }
-function shardFileStats({ shard }) { return { files: [{ file: resolveDbRoot(), exists: true, bytes: 0, mtimeMs: 0, engine: 'AwtsmoosDB', shard }], bytes: 0 }; }
+function shardFileStats({ shard }) { return { files: [{ file: resolveDbRoot(), exists: Boolean(resolveDbRoot()), bytes: 0, mtimeMs: 0, engine: 'AwtsmoosDB', shard }], bytes: 0 }; }
 function shardStats({ shard = 'core' }) {
   const records = listPackedRecords({ shard });
   const keys = new Set(records.map(r => r.key).filter(Boolean));

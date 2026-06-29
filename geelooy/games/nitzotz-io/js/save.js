@@ -11,12 +11,12 @@ export function saveGame(save) {
 }
 
 export function defaults() {
-  return { best: 0, completed: [], perf: 'medium', haptics: true, postfx: false, uiScale: 1 };
+  return { best: 0, completed: [], perf: 'high', haptics: true, postfx: true, uiScale: 1 };
 }
 
-/** B"H: Fewer vessels, more revelation. */
+/** B"H: Density honors the smoke-tested chunk windows exactly. */
 export function objectBudget(perf) {
-  return perf === 'low' ? 10 : perf === 'high' ? 22 : 16;
+  return perf === 'low' ? 10 : perf === 'high' ? 24 : 20;
 }
 
 export function streamRadius(perf) {

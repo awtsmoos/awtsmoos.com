@@ -48,6 +48,10 @@ function syncProgress(store, reason) {
 }
 function saveStarter(store, reason) {
   commitUiPayloads(store);
+  if (store.__deferStarterPersistence) {
+    store.__starterDeferredReason = reason;
+    return store;
+  }
   const saved = saveLivingWorldState(store);
   persistLivingWorldToWorldState(saved, { reason:`starter-experience:${reason}` });
   return saved;
@@ -110,6 +114,14 @@ export function createStartingExperienceRuntime(source = globalThis, options = {
       return emit(scope, store, changed ? 'hint' : 'hint-refresh', next, reason);
     },
     advanceForSignal(signal, evidence = {}) { return this.complete(completionMap(signal), evidence); },
+    flushDeferred(reason = 'deferred') {
+      const previous = store.__deferStarterPersistence;
+      delete store.__deferStarterPersistence;
+      delete store.__starterDeferredReason;
+      const saved = saveStarter(store, reason);
+      if (previous) store.__deferStarterPersistence = previous;
+      return saved;
+    },
     snapshot() { return payloadFor(store, 'snapshot', null); }
   };
   scope.__MITZVAH_STARTER_EXPERIENCE__ = api;

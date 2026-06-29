@@ -1,44 +1,23 @@
 // B"H
 /**
  * @module Composer
- * @description
- * Chapter 59: The composer is no longer a blank mouth.
- * The Awtsmoos gives it sections, assets, heichel, series, visibility, and
- * publish intent, so every future post can be built as a living structure.
+ * @description Chapter 182: the simple home box hides an orchestra: choose your
+ * profile Heichel by default, find others quickly, then unfold verses, images,
+ * subsections, and comment targets when the soul asks for depth.
  */
 import { h } from './render.js';
 import { createDraft } from '../composer/composerDraft.js';
-
 export function Composer(draftInput = {}) {
-    const draft = createDraft(draftInput);
-    return h('form', { class: 'awt-panel awt-composer', id: 'composer' }, [
-        h('div', { class: 'awt-section-meta' }, [
-            h('span', { class: 'awt-chip' }, [`Kind: ${draft.kind}`]),
-            h('span', { class: 'awt-chip' }, [`Heichel: ${draft.heichelId || 'unassigned'}`]),
-            h('span', { class: 'awt-chip' }, [`Series: ${draft.seriesId || 'none'}`]),
-            h('span', { class: 'awt-chip' }, [`Visibility: ${draft.visibility}`])
-        ]),
-        h('input', { name: 'title', placeholder: 'Title of the revelation', value: draft.title }),
-        ...draft.sections.map(section => sectionEditor(section, draft.assets)),
-        h('button', { class: 'awt-btn primary', type: 'submit' }, ['Publish / Submit'])
-    ]);
+  const draft = createDraft(draftInput);
+  return h('form', { class: 'awt-panel awt-composer', id: 'composer' }, [
+    h('div', { class: 'awt-section-meta' }, [h('span', { class: 'awt-chip' }, [`Posting as: ${draft.aliasId || 'alias'}`]), h('span', { class: 'awt-chip' }, [`Default: ${draft.heichelId || 'profile Heichel'}`]), h('span', { class: 'awt-chip' }, [`Series: ${draft.seriesId}`])]),
+    h('input', { name: 'title', placeholder: 'What are you revealing?', value: draft.title }),
+    targetPicker(draft),
+    h('textarea', { name: 'root', rows: '3', placeholder: 'Root thought. Add verses below when needed.' }, [draft.verses[0]?.body || '']),
+    h('details', { class: 'awt-hidden-drums' }, [h('summary', {}, ['Verses, images, subsections, comments']), ...draft.verses.map(verseEditor), h('div', { class: 'awt-comment-map' }, ['Comments supported at root, per verse, and per subsection.'])]),
+    h('button', { class: 'awt-btn primary', type: 'submit' }, ['Submit for review / publish'])
+  ]);
 }
-
-function sectionEditor(section, assets) {
-    const sectionAssets = assets.filter(asset => asset.sectionId === section.sectionId);
-    return h('section', { class: 'awt-composer-section', 'data-section-id': section.sectionId }, [
-        h('div', { class: 'awt-section-meta' }, [
-            h('span', { class: 'awt-chip' }, [`${section.sectionId}`]),
-            h('span', { class: 'awt-chip' }, [`Order: ${section.order}`])
-        ]),
-        h('input', { name: `${section.sectionId}-title`, placeholder: 'Section title', value: section.title }),
-        h('textarea', { name: `${section.sectionId}-body`, rows: '5', placeholder: 'Write this section...' }, [section.body]),
-        assetLane(sectionAssets),
-        h('div', { class: 'awt-dropzone' }, [`Attach image, audio, or file to ${section.sectionId}`])
-    ]);
-}
-
-function assetLane(assets) {
-    if (!assets.length) return h('div', { class: 'awt-asset-row' }, [h('span', { class: 'awt-asset-pill' }, ['No assets yet'])]);
-    return h('div', { class: 'awt-asset-row' }, assets.map(asset => h('span', { class: 'awt-asset-pill' }, [`${asset.kind}: ${asset.label}`])));
-}
+function targetPicker(draft) { return h('section', { class: 'awt-target-picker' }, [h('label', {}, ['Share to Heichelos']), h('input', { name: 'heichelSearch', placeholder: 'Find a Heichel to share into...' }), h('div', { class: 'awt-target-list' }, draft.targets.map(t => h('label', { class: 'awt-chip' }, [h('input', { type: 'checkbox', name: 'targetHeichelIds', value: t.heichelId, checked: 'checked' }), ` ${t.label || t.heichelId}`]))) ]); }
+function verseEditor(verse) { return h('section', { class: 'awt-composer-section', 'data-verse-section': verse.verseSection }, [h('div', { class: 'awt-section-meta' }, [h('span', { class: 'awt-chip' }, [`Verse ${verse.verseSection}`]), h('span', { class: 'awt-chip' }, [`${verse.subsections.length} subsections`])]), h('input', { name: `${verse.verseSection}-title`, placeholder: 'Verse title', value: verse.title }), h('textarea', { name: `${verse.verseSection}-body`, rows: '4', placeholder: 'Verse text...' }, [verse.body]), assetLane(verse.assets), h('div', { class: 'awt-dropzone' }, [`Attach image/audio/file to ${verse.verseSection}`]), ...verse.subsections.map(sub => h('div', { class: 'awt-subsection', 'data-subsection-id': sub.id }, [h('input', { value: sub.title, placeholder: 'Subsection title' }), h('textarea', { rows: '3' }, [sub.content]), assetLane(sub.assets)]))]); }
+function assetLane(assets) { if (!assets.length) return h('div', { class: 'awt-asset-row' }, [h('span', { class: 'awt-asset-pill' }, ['No assets yet'])]); return h('div', { class: 'awt-asset-row' }, assets.map(asset => h('span', { class: 'awt-asset-pill' }, [`${asset.kind}: ${asset.label}`]))); }

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { layoutModeForWidth } from '../modules/ui/LayoutMode.js';
+import { createPanelTabs, activatePanelTab } from '../modules/ui/PanelTabs.js';
+import { createInspectorModel, updateInspectorSection } from '../modules/inspector/InspectorModel.js';
+assert.equal(layoutModeForWidth(500), 'mobile');
+const tabs = createPanelTabs(['bin','timeline']);
+assert.equal(activatePanelTab(tabs, 'timeline'), 'timeline');
+const inspector = createInspectorModel('clip-1');
+assert.equal(updateInspectorSection(inspector, 'audio', { mute:true }).mute, true);
+console.log('B"H ui inspector smoke passed');

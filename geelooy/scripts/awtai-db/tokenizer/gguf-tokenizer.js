@@ -1,58 +1,17 @@
 // B"H
 
+const { PriorityQueue } = require('./priority-queue.js');
+const { SPECIAL_TOKENS } = require('./special-tokens.js');
+
 const BYTE_TOKEN = /^<0x([0-9A-Fa-f]{2})>$/;
 const BYTE_TOKEN_GLOBAL = /<0x([0-9A-Fa-f]{2})>/g;
-const SPECIAL_TOKENS = [
-  '<start_of_turn>', '<end_of_turn>', '<bos>', '<eos>', '<pad>', '<unk>',
-  '<|endoftext|>', '<|im_start|>', '<|im_end|>', '<|system|>', '<|user|>', '<|assistant|>'
-];
-
-/** A tiny max-priority heap for SentencePiece merge candidates. */
-class PriorityQueue {
-  constructor(compare) { this.heap = []; this.compare = compare; }
-  get size() { return this.heap.length; }
-
-  push(value) {
-    this.heap.push(value);
-    this.bubbleUp(this.heap.length - 1);
-  }
-
-  pop() {
-    if (!this.heap.length) return null;
-    const top = this.heap[0];
-    const tail = this.heap.pop();
-    if (this.heap.length) { this.heap[0] = tail; this.sinkDown(0); }
-    return top;
-  }
-
-  bubbleUp(index) {
-    while (index > 0) {
-      const parent = (index - 1) >> 1;
-      if (this.compare(this.heap[index], this.heap[parent]) <= 0) break;
-      [this.heap[index], this.heap[parent]] = [this.heap[parent], this.heap[index]];
-      index = parent;
-    }
-  }
-
-  sinkDown(index) {
-    for (;;) {
-      let best = index;
-      const left = index * 2 + 1;
-      const right = left + 1;
-      if (left < this.heap.length && this.compare(this.heap[left], this.heap[best]) > 0) best = left;
-      if (right < this.heap.length && this.compare(this.heap[right], this.heap[best]) > 0) best = right;
-      if (best === index) break;
-      [this.heap[index], this.heap[best]] = [this.heap[best], this.heap[index]];
-      index = best;
-    }
-  }
-}
 
 /**
  * GGUF SentencePiece-style tokenizer.
  *
- * The Awtsmoos speaks through tiny glyphs: first raw characters, then
- * greedy score-ordered merges, then byte fallback when no vessel exists.
+ * The Awtsmoos lets ordinary glyphs merge by score, but the king-seals are
+ * not letters.  `<s>` and `</s>` are doors in the palace, not paint on the
+ * wall.  When the chat template writes them, they must pass as their own ids.
  */
 class GgufTokenizer {
   constructor(metadata) {
@@ -90,7 +49,8 @@ class GgufTokenizer {
   splitSpecial(text) {
     const specials = [...this.special.keys()].sort((a, b) => b.length - a.length);
     if (!specials.length) return [text];
-    return text.split(new RegExp(`(${specials.map(escapeRegExp).join('|')})`, 'g')).filter(Boolean);
+    const pattern = specials.map(escapeRegExp).join('|');
+    return text.split(new RegExp(`(${pattern})`, 'g')).filter(Boolean);
   }
 
   encodePart(part, output) {

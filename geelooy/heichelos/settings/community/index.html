@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Community Settings</title>
+  <link rel="stylesheet" href="/style/heichelos/heichel/index.css">
+  <script defer src="/heichelos/settings/community/app.js"></script>
+</head>
+<body>
+  <main class="heichel-community-settings awt-panel">
+    <header>
+      <p class="awt-eyebrow">B"H · Heichel gates</p>
+      <h1>Community Settings</h1>
+      <p>Load a Heichel, tune the public publishing gates, and save as a moderator.</p>
+    </header>
+    <form id="settings">
+      <section class="awt-settings-section">
+        <h2>Identity</h2>
+        <label>Heichel ID <input name="heichelId" placeholder="Heichel ID" required></label>
+        <label>Moderator alias <input name="aliasId" placeholder="Alias for saving"></label>
+      </section>
+      <section class="awt-settings-section">
+        <h2>Publishing gates</h2>
+        <label><input type="checkbox" name="allowPublicSubmissions"> Allow public submissions</label>
+        <label><input type="checkbox" name="requireModeratorApproval"> Require moderator approval</label>
+        <label><input type="checkbox" name="allowAnonymous"> Allow anonymous</label>
+        <label><input type="checkbox" name="allowGuestViewing"> Allow guest viewing</label>
+      </section>
+      <section class="awt-settings-section">
+        <h2>Content types</h2>
+        <label><input type="checkbox" name="allowQuestions"> Allow questions</label>
+        <label><input type="checkbox" name="allowAnswers"> Allow answers</label>
+        <label><input type="checkbox" name="allowPosts"> Allow posts</label>
+        <label><input type="checkbox" name="allowSeries"> Allow series</label>
+        <label><input type="checkbox" name="allowComments"> Allow comments</label>
+        <label><input type="checkbox" name="allowPolls"> Allow polls</label>
+        <label><input type="checkbox" name="commentModeration"> Moderate comments</label>
+      </section>
+      <div class="awt-action-row">
+        <button type="button" id="load">Load</button>
+        <button id="save">Save</button>
+      </div>
+    </form>
+    <section aria-live="polite" id="status"></section>
+    <pre id="out"></pre>
+  </main>
+</body>
+</html>

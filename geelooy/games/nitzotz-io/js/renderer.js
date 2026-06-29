@@ -5,10 +5,7 @@ import { renderFrame } from './render/frame.js';
 import { resizeCanvas } from './render/viewport.js';
 import { createGL } from './webgl.js';
 
-/**
- * B"H
- * Renderer shell: resize, frame, and the silence between frames are separated.
- */
+/** B"H: PostFX is now conditional mercy, not a permanent burden. */
 export function createRenderer(canvas) {
   const renderer = createGL(canvas);
   const fx = createPostFX(renderer.gl);
@@ -19,7 +16,8 @@ export function createRenderer(canvas) {
   return {
     resize,
     render(world) {
-      if (fx.enabled !== !!world.save.postfx) resize(world.save.postfx);
+      const wantFx = !!world.save.postfx && !!world.performance?.postfx;
+      if (fx.enabled !== wantFx) resize(wantFx);
       renderFrame(renderer, fx, screen, world, canvas);
     }
   };

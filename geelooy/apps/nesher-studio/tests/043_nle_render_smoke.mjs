@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { createTimeline, addClip } from '../modules/nle/timeline.js';
+import { createBin } from '../modules/nle/bin.js';
+import { createExportPlan } from '../modules/nle/exportPlan.js';
+import { renderNle } from '../modules/nle/renderNle.js';
+const state = { width:1280, height:720, fps:30, bin:createBin(), timeline:createTimeline() };
+addClip(state.timeline, { name:'Render smoke', duration:3 });
+state.exportPlan = createExportPlan(state);
+const dom = { nleBin:{ innerHTML:'' }, nleTimeline:{ innerHTML:'' }, nleExport:{ textContent:'' } };
+renderNle(state, dom);
+assert.match(dom.nleTimeline.innerHTML, /Render smoke/);
+assert.match(dom.nleExport.textContent, /timeline:/);
+console.log('B"H nle render smoke passed');

@@ -22,6 +22,7 @@ import { createProfessionRuntime } from '../professions/ProfessionRuntime.js';
 import { createVillageActivityScheduler } from '../village/VillageActivitySchedulerRuntime.js';
 import { pulsePolicy, framePolicy } from '../core/SimulationPulsePolicy.js';
 import { publishLivingWorld } from '../ui/WorldPresentationBus.js';
+import { advanceVillageForPolicy, budgetedLivingWorldFrame } from './LivingWorldFrameStep.js';
 
 const SAVE_INTERVAL_MS = 1500;
 function cap(scope) { const b = scope.__MITZVAH_WORLD_REALISM_BUDGET__ || {}; return Math.max(1, Math.min(5, Number(b.scheduler?.maxTasksPerTick || b.maxTasksPerTick || 3))); }
@@ -60,7 +61,7 @@ export function createLivingWorldRuntime(scope = globalThis, options = {}) {
     const opts = normalizeOptions(rawOptions);
     const policy = pulsePolicy(opts, runtimeState.ticks);
     store.clockHour = hour;
-    const village = villageScheduler.advanceTo(hour, reason, { persist:false, emit:policy.emit });
+    const village = advanceVillageForPolicy(store, villageScheduler, hour, reason, policy);
     const directedEvent = policy.shouldRunStory() ? worldEventDirector.pulse(`step:${reason}`, { phase:village.phase, persist:false, emit:policy.emit }) : null;
     const schedule = applySchedules(hour, policy);
     const event = policy.shouldRunStory() ? worldEvents.ambient(reason) : null;
@@ -80,7 +81,7 @@ export function createLivingWorldRuntime(scope = globalThis, options = {}) {
     start(reason = 'manual') { runtimeState.started = true; State.addEventFeed(store, { type:'living-world-start', reason }); flush(`start:${reason}`); return api; },
     stop(reason = 'manual') { runtimeState.started = false; State.addEventFeed(store, { type:'living-world-stop', reason }); flush(`stop:${reason}`); return api; },
     step,
-    frame(reason = 'frame', hour = store.clockHour) { const policy = framePolicy(runtimeState.ticks); return step(reason, hour, policy); },
+    frame(reason = 'frame', hour = store.clockHour) { framePolicy(runtimeState.ticks); return budgetedLivingWorldFrame(store, runtimeState, reason, hour); },
     flush,
     villageHour(hour, reason = 'manual') { const result = villageScheduler.advanceTo(hour, reason, { persist:false }); flush(`village:${result.phase}`); return result; },
     directWorldEvent(reason = 'manual', options = {}) { const result = worldEventDirector.pulse(reason, { ...options, persist:false }); flush(`world-event:${result?.id || 'none'}`); return result; },

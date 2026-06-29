@@ -2,10 +2,17 @@
 /**
  * @file interaction.js
  * @description
- * Emergency repair for click intention. Friendly NPCs now receive the real
- * mouse button/context payload, so left-click targets and right-click can open
- * dialogue instead of the old broken second-left-click path.
+ * The player click covenant: hover discovers, click selects, right-click opens
+ * friendly talk/doors, and attacks happen only through explicit combat actions.
  */
+import {
+  clearCombatTarget,
+  highlightTarget,
+  isInteractiveTarget,
+  isNpcTarget,
+  selectCombatTarget
+} from "./ClickTargetPolicy.js?v=click-target-policy-20260629-bh1";
+
 function explicitInteractionPayload(player, event = {}) {
   const button = Number.isFinite(Number(event?.button)) ? Number(event.button) : 0;
   const type = event?.type || (button === 2 ? "contextmenu" : "click");
@@ -26,49 +33,10 @@ function explicitInteractionPayload(player, event = {}) {
   };
 }
 
-function isInteractiveNivra(niv) {
-  return niv?.type === "customNpc"
-    || niv?.type === "medabeir"
-    || niv?.type === "interactiveNpc"
-    || niv?.type === "cottageDoor"
-    || niv?.dialogue
-    || niv?.dialogues
-    || niv?.type === "interactiveDoor";
-}
-
-function ownerFromHit(ob, hit) {
-  let cursor = hit?.nivraAwtsmoos || ob?.nivraAwtsmoos || ob;
+function ownerFromHit(object, hit) {
+  let cursor = hit?.nivraAwtsmoos || object?.nivraAwtsmoos || object;
   while (cursor && !cursor.nivraAwtsmoos && cursor.parent) cursor = cursor.parent;
   return cursor?.nivraAwtsmoos || hit?.nivraAwtsmoos || null;
-}
-
-function npcLike(niv) {
-  return ["customNpc", "medabeir", "interactiveNpc"].includes(niv?.type);
-}
-
-function attackableNivra(niv) {
-  const data = niv?.mesh?.userData || niv?.userData || {};
-  if (!niv || isInteractiveNivra(niv) || npcLike(niv)) return false;
-  if (data.friendly || data.peaceful || data.domestic || niv.friendly || niv.peaceful) return false;
-  return Boolean(
-    data.enemy || data.hostile || data.creature || data.wildlife || data.attackable ||
-    niv.enemy || niv.hostile || niv.attackable || niv.type === "animal" || niv.type === "creature"
-  );
-}
-
-function selectCombatTarget(player, niv, event = {}) {
-  if (!attackableNivra(niv)) return false;
-  if (player.combatTarget?.mesh) highlight(player.combatTarget.mesh, false);
-  player.combatTarget = niv;
-  player.olam.__selectedCombatTarget = niv;
-  niv.__targetedAt = Date.now();
-  highlight(niv.mesh, true, 0xdd3322);
-  player.olam?.ayshPeula?.("ui event", "effectsOverlay", {
-    text: `Target ${niv.name || niv.constructor?.itemName || "enemy"}. Use ATK/SWD/BOW to attack.`,
-    color: "#ffcf6a"
-  });
-  event?.preventDefault?.();
-  return true;
 }
 
 function setPointerFromEvent(olam, event = {}) {
@@ -79,16 +47,9 @@ function setPointerFromEvent(olam, event = {}) {
   olam.pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 }
 
-function highlight(rootObj, active, colorHex = 0x00ff00) {
-  rootObj?.traverse?.(child => {
-    if (!child.isMesh || !child.material) return;
-    const mats = Array.isArray(child.material) ? child.material : [child.material];
-    mats.forEach(mat => {
-      if (!mat.emissive) return;
-      mat.emissive.setHex(active ? colorHex : 0x000000);
-      if (mat.emissiveIntensity !== undefined) mat.emissiveIntensity = active ? 0.6 : 1;
-    });
-  });
+function openInteractiveTarget(player, target, event) {
+  target.ayshPeula?.("accepted interaction", explicitInteractionPayload(player, event));
+  return true;
 }
 
 export default {
@@ -106,31 +67,28 @@ export default {
     event?.preventDefault?.();
     setPointerFromEvent(this.olam, event);
     this.checkHover?.(this.olam, true);
-    const niv = this.intersected?.niv;
-    if (!niv) {
+
+    const target = this.intersected?.niv;
+    if (!target) {
       this.clearNpcTarget?.();
       return false;
     }
-    if (isInteractiveNivra(niv)) {
-      niv.ayshPeula?.("accepted interaction", explicitInteractionPayload(this, event));
-      return true;
-    }
-    if (event.button !== 2 && selectCombatTarget(this, niv, event)) return true;
+
+    if (isInteractiveTarget(target)) return openInteractiveTarget(this, target, event);
+    if (event.button !== 2 && selectCombatTarget(this, target, event)) return true;
     this.selectIntersected?.();
     return true;
   },
 
   clearNpcTarget() {
-    if (this.targetedNpc?.mesh) highlight(this.targetedNpc.mesh, false);
-    if (this.combatTarget?.mesh) highlight(this.combatTarget.mesh, false);
+    if (this.targetedNpc?.mesh) highlightTarget(this.targetedNpc.mesh, false);
     this.targetedNpc = null;
-    this.combatTarget = null;
-    if (this.olam) this.olam.__selectedCombatTarget = null;
+    clearCombatTarget(this);
   },
 
   async selectIntersected() {
     if (!this.intersected || this.selected) return;
-    highlight(this.intersected.niv.mesh, true, 0xdd0022);
+    highlightTarget(this.intersected.niv.mesh, true, 0xdd0022);
     this.selected = this.intersected;
     await this.olam.ayshPeula("ui event", "effectsOverlay", { text: "SELECTED", color: "#ffd95a" });
   },
@@ -144,22 +102,25 @@ export default {
 
   toggleSelectedMenu() {},
   selectMenuOption() {},
-  setEntityHighlight(rootObj, active, colorHex = 0x00ff00) { highlight(rootObj, active, colorHex); },
+  setEntityHighlight(rootObj, active, colorHex = 0x00ff00) { highlightTarget(rootObj, active, colorHex); },
 
   async checkHover(olam, nohtml = true) {
     if (!olam.isLookingForSomething) return;
     if (olam.isOverUI || this.state === "talking" || this.nivraTalkingTo) return this.removeIntersected();
+
     const hit = olam.ayin.getHovered(this.getRayStart(), this.getRayDirection());
-    const niv = ownerFromHit(hit?.object, hit);
-    if (this.intersected && this.intersected.niv !== niv) this.removeIntersected();
-    if (!niv || niv.wasSealayked || niv.type === "chossid") return;
-    if (this.intersected?.niv !== niv) {
-      niv.ayshPeula?.("mouseEnter", this);
-      this.intersected = { niv, ob: hit?.object, hit };
+    const target = ownerFromHit(hit?.object, hit);
+    if (this.intersected && this.intersected.niv !== target) this.removeIntersected();
+    if (!target || target.wasSealayked || target.type === "chossid") return;
+
+    if (this.intersected?.niv !== target) {
+      target.ayshPeula?.("mouseEnter", this);
+      this.intersected = { niv: target, ob: hit?.object, hit };
     }
-    olam.hoveredNivra = niv;
-    if (!nohtml && npcLike(niv)) {
-      await olam.ayshPeula("ui event", "effectsOverlay", { text: `TARGET ${niv.name || "NPC"}`, color: "#ffd95a" });
+
+    olam.hoveredNivra = target;
+    if (!nohtml && isNpcTarget(target)) {
+      await olam.ayshPeula("ui event", "effectsOverlay", { text: `TARGET ${target.name || "NPC"}`, color: "#ffd95a" });
     }
   }
 };

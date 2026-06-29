@@ -1,12 +1,15 @@
 // B"H
 const KINDS = ['letter', 'bench', 'bush', 'cedar', 'cart', 'house', 'arch', 'tower', 'cloud', 'star', 'gate'];
 
-/** B"H: Rare giant vessels are rare again; common life fills the streets. */
+/** B"H: Real streets need landmarks, blockers, food, and temptation. */
 export function chooseKind(hood, rand, index) {
-  const drift = rand() < 0.68 ? -2 : rand() < 0.9 ? -1 : 1;
-  const gatePenalty = index % 7 ? -1 : 0;
-  const tier = clamp(hood.tier + drift + gatePenalty, 0, KINDS.length - 1);
-  return KINDS[tier];
+  if (index % 19 === 0) return 'gate';
+  if (index % 13 === 0) return 'tower';
+  if (index % 11 === 0) return rand() < 0.5 ? 'arch' : 'star';
+  if (hood.name === 'Forest' && rand() < 0.52) return rand() < 0.7 ? 'cedar' : 'bush';
+  if (hood.name === 'Market' && rand() < 0.58) return rand() < 0.55 ? 'cart' : 'bench';
+  const drift = rand() < 0.36 ? -1 : rand() < 0.76 ? 0 : 2;
+  return KINDS[clamp(hood.tier + drift, 0, KINDS.length - 1)];
 }
 
 function clamp(value, min, max) {

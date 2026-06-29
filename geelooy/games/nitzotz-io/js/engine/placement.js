@@ -1,11 +1,18 @@
 // B"H
 import { TAU } from '../math.js';
 
-/** B"H: Objects enter by rings, leaving roads for the eye and player. */
+/** B"H: Dense city blocks form streets, plazas, alleys, and dangerous lanes. */
 export function placeObject(center, index, budget, rand) {
-  const lane = index % 8;
-  const ring = Math.floor(index / 8);
-  const angle = lane / 8 * TAU + ring * 0.37 + rand() * 0.18;
-  const radius = 74 + ring * 64 + rand() * 28 + (index % 3) * 10;
-  return { x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius };
+  const row = Math.floor(index / 7);
+  const col = index % 7;
+  const avenue = col - 3;
+  const depth = row - Math.floor(budget / 14);
+  const grid = 76 + rand() * 18;
+  const swirl = (row % 3) * 0.21 + rand() * 0.12;
+  const plaza = index % 11 === 0 ? 1.7 : 1;
+  const x = center.x + avenue * grid * plaza + Math.sin(depth + swirl) * 32;
+  const y = center.y + depth * grid * 0.92 + Math.cos(avenue - swirl) * 38;
+  if (index % 17) return { x, y };
+  const angle = rand() * TAU;
+  return { x: center.x + Math.cos(angle) * 430, y: center.y + Math.sin(angle) * 430 };
 }

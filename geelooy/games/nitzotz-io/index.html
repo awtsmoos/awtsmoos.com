@@ -8,18 +8,30 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <canvas id="game"></canvas><canvas id="map"></canvas>
+  <canvas id="game"></canvas>
+  <canvas id="map"></canvas>
   <section class="hud">
     <div><b>Nitzotz.io</b><span id="worldText"> Assiyah</span></div>
-    <div class="meters"><label>Sparks <meter id="sparkMeter" min="0" max="1" value="0"></meter></label><label>Vessel <span id="sizeText">24</span></label><label>Time <span id="timeText">120</span></label><label>Sefirah <span id="sefText">Malchus</span></label><label>Combo <span id="comboText">x1.0</span></label><label>Best <span id="bestText">0</span></label></div>
+    <div class="meters">
+      <label>Sparks <meter id="sparkMeter" min="0" max="1" value="0"></meter></label>
+      <label>Vessel <span id="sizeText">24</span></label>
+      <label>Time <span id="timeText">120</span></label>
+      <label>Sefirah <span id="sefText">Malchus</span></label>
+      <label>Combo <span id="comboText">x1.0</span></label>
+      <label>Best <span id="bestText">0</span></label>
+    </div>
     <p id="message">B'H · press Begin. Gather, grow, unlock worlds.</p>
   </section>
   <section id="overlay" class="overlay"><div>
-    <h1>Nitzotz.io Worlds</h1><p>Raw WebGL ascent through Four Worlds. Streaming chunks, render commands, and optional PostFX pipeline.</p>
-    <div class="settings"><button data-perf="low">Low</button><button data-perf="medium">Medium</button><button data-perf="high">High</button><button id="hapticBtn">Haptics</button><button id="postfxBtn">PostFX</button></div>
+    <h1>Nitzotz.io Worlds</h1>
+    <p>Raw WebGL ascent through Four Worlds. Streaming chunks, render commands, and optional PostFX pipeline.</p>
+    <div class="settings">
+      <button data-perf="low">Low</button><button data-perf="medium">Medium</button><button data-perf="high">High</button>
+      <button id="hapticBtn">Haptics</button><button id="postfxBtn">PostFX</button>
+    </div>
     <button id="startBtn">Begin the Ascent</button><button id="restartBtn">Restart</button>
   </div></section>
   <div id="stick"><i></i></div><button id="pulse">Ohr</button>
-  <script type="module" src="./js/main.js"></script><script src="/register.js"></script>
+  <script type="module" src="./js/main.js?v=20260629_60fps2"></script>
 </body>
 </html>

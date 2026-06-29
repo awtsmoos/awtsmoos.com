@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { createBackpressureController, shouldAcceptFrame, queuePressure } from '../modules/recording/core/EncoderBackpressureController.js';
+import { createEncodeQueueSampler, pushQueueSample, queueSampleSummary } from '../modules/recording/core/EncodeQueueSampler.js';
+const c = createBackpressureController({ maxQueue:2 });
+assert.equal(shouldAcceptFrame(c, 3), false);
+assert.equal(queuePressure(c, 3), 'critical');
+const s = createEncodeQueueSampler();
+pushQueueSample(s, 1); pushQueueSample(s, 3);
+assert.equal(queueSampleSummary(s).max, 3);
+console.log('B"H recording core smoke passed');

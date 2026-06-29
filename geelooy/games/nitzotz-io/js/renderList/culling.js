@@ -1,12 +1,10 @@
 // B"H
+import { quality } from '../performance.js';
 import { renderSettings } from './settings.js';
 
-/**
- * B"H
- * The world is abundant, but the eye needs a path; this gate chooses wisely.
- */
+/** B"H: The crowded world is filtered by distance, danger, and frame-breath. */
 export function visibleObjects(world) {
-  const cfg = renderSettings(world.save.perf);
+  const cfg = renderSettings(world.save.perf, quality(world));
   const player = world.player;
   const camera = world.camera;
   return world.level.objects
@@ -29,5 +27,6 @@ function keepObject(object, player, camera, cfg) {
 function scoreObject(object, player) {
   const distance = Math.hypot(object.x - player.x, object.y - player.y);
   const edible = object.r < player.r * 1.2 ? -180 : 0;
-  return { object, score: distance + object.r * 1.6 + edible };
+  const landmark = object.sparks > 250 ? -80 : 0;
+  return { object, score: distance + object.r * 1.5 + edible + landmark };
 }

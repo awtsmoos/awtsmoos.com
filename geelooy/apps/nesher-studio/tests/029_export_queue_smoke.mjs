@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { createExportQueue, enqueueExport, runNextExport, queueStats } from '../modules/export/ExportQueue.js';
+import { createExportCancelToken, throwIfCancelled } from '../modules/export/jobs/ExportCancelToken.js';
+const queue = createExportQueue();
+enqueueExport(queue, { name:'scene export' });
+const token = createExportCancelToken();
+const job = await runNextExport(queue, async () => { throwIfCancelled(token); return { url:'memory://ok' }; });
+assert.equal(job.status, 'complete');
+assert.equal(queueStats(queue).complete, 1);
+console.log('B"H export queue smoke passed');

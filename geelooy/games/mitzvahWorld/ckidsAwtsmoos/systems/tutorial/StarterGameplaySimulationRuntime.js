@@ -34,6 +34,7 @@ export async function simulateStarterGameplay(options = {}) {
   const store = loadLivingWorldState();
   store.economy.flour = Math.max(1, Number(store.economy?.flour || 0));
   store.economy.grain = Math.max(3, Number(store.economy?.grain || 0));
+  store.__deferStarterPersistence = options.deferPersistence !== false;
   scope.__MITZVAH_WORLD_STATE__ = store;
   const runtime = ensureStarterExperience(scope);
   const bridge = installStarterSignalBridge(scope, runtime);
@@ -46,6 +47,7 @@ export async function simulateStarterGameplay(options = {}) {
   const crafted = craftItem(store, 'challah', 'player');
   bridge.emit('combat', { target:'courtyard_disturbance', result:{ ok:true, calm:true } });
   const hearth = bindHearth({ id:'village_inn', x:4, y:0, z:-6 });
+  runtime.flushDeferred?.('simulated-full-gameplay-complete');
   const snapshot = runtime.snapshot();
   return { ok:snapshot.progress.done === snapshot.progress.total, snapshot, signals:{ ...bridge.counts }, npc, trained, profession, crafted, hearth, events:events.length };
 }

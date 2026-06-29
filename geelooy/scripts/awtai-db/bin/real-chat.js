@@ -8,7 +8,9 @@ const { runChat } = require('../decode/chat-loop.js');
  *
  * Full prompt is the default vessel.  Streaming is explicit: token text goes
  * to stdout as it is born, while final evidence JSON goes to stderr so the
- * user can see the answer without losing measurements.
+ * user can see the answer without losing measurements.  The CLI also exposes
+ * a minimum-new-token gate, because a model that smells EOS too early can bow
+ * before it speaks; we let it say a few words, then honor the closing seal.
  */
 function main() {
   const model = process.argv[2];
@@ -33,6 +35,7 @@ function usage() {
 function readOptions() {
   return {
     maxNewTokens: numberEnv('AWTAI_MAX_NEW', 1),
+    minNewTokens: numberEnv('AWTAI_MIN_NEW', 0),
     promptTokens: optionalNumberEnv('AWTAI_PROMPT_TOKENS'),
     maxRamKvTokens: numberEnv('AWTAI_MAX_RAM_KV', 64),
     rawPrompt: boolEnv('AWTAI_RAW_PROMPT'),

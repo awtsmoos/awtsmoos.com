@@ -1,53 +1,32 @@
 // B"H
-/**
- * @module MobileHeichelNavigationLayout
- * @description
- * Chapter 741: The Heichel name becomes the pinned crown of the interface.
- * The browsing shell changes; the post viewer and content rendering stay sealed.
- */
+/** @module MobileHeichelNavigationLayout @description Browse shell: tree and mini-mail stay in-page. */
 export function getFullLayoutBlueprint(actions) {
-    return { tag: 'div', attr: { class: 'geelooy-social-shell heichel-mobile-navigation' }, ref: 'pageContainer', children: [topbar(actions), drawer(), { tag: 'main', attr: { class: 'geelooy-main-stage' }, children: [hero(), contentPanel(actions)] }, bottomNav(), { tag: 'div', attr: { id: 'toast-container' }, ref: 'toastContainer' }, bulkBar(), modal(actions)] };
+    return { tag: 'div', attr: { class: 'geelooy-social-shell heichel-mobile-navigation' }, ref: 'pageContainer', children: [topbar(actions), drawer(), { tag: 'main', attr: { class: 'geelooy-main-stage' }, children: [hero(), contentPanel(actions)] }, bottomNav(actions), miniMail(actions), { tag: 'div', attr: { id: 'toast-container' }, ref: 'toastContainer' }, bulkBar(), modal(actions)] };
 }
-
-function topbar(actions) {
-    return { tag: 'header', attr: { class: 'heichel-mobile-topbar' }, children: [
-        { tag: 'button', attr: { id: 'sidebar-toggle-btn', class: 'topbar-icon', type: 'button', 'aria-label': 'Open navigation', 'aria-expanded': 'false' }, ref: 'sidebarToggleBtn', children: ['☰'], events: { click: actions.toggleSidebar } },
-        { tag: 'div', attr: { class: 'topbar-title' }, children: [{ tag: 'strong', ref: 'topbarHeichelTitle', children: ['Heichel'] }, { tag: 'small', ref: 'topbarHeichelContext', children: ['Collection navigation'] }] },
-        { tag: 'details', attr: { class: 'topbar-notification-menu' }, children: [
-            { tag: 'summary', attr: { class: 'topbar-icon', 'aria-label': 'Open menu' }, children: ['⋯'] },
-            { tag: 'div', attr: { class: 'topbar-menu-panel' }, children: [menuLink('/', 'Home'), menuLink('/heichelos', 'Heichelos'), menuLink('/profile', 'Profile')] }
-        ] }
-    ] };
-}
-
+function topbar(actions) { return { tag: 'header', attr: { class: 'heichel-mobile-topbar' }, children: [
+    { tag: 'button', attr: { id: 'sidebar-toggle-btn', class: 'topbar-icon', type: 'button', 'aria-label': 'Open navigation', 'aria-expanded': 'false' }, ref: 'sidebarToggleBtn', children: ['☰'], events: { click: actions.toggleSidebar } },
+    { tag: 'div', attr: { class: 'topbar-title' }, children: [{ tag: 'strong', ref: 'topbarHeichelTitle', children: ['Heichel'] }, { tag: 'small', ref: 'topbarHeichelContext', children: ['Collection navigation'] }] },
+    { tag: 'details', attr: { class: 'topbar-notification-menu' }, children: [{ tag: 'summary', attr: { class: 'topbar-icon', 'aria-label': 'Open menu' }, children: ['⋯'] }, { tag: 'div', attr: { class: 'topbar-menu-panel' }, children: [menuLink('/', 'Home'), menuLink('/heichelos', 'Heichelos'), menuLink('/profile', 'Profile')] }] }
+] }; }
 function menuLink(href, label) { return { tag: 'a', attr: { href }, children: [label] }; }
-
-function hero() {
-    return { tag: 'section', attr: { class: 'geelooy-heichel-hero', 'aria-labelledby': 'heichel-main-title' }, children: [
-        { tag: 'div', attr: { class: 'heichel-hero-glow', 'aria-hidden': 'true' } },
-        { tag: 'div', attr: { class: 'heichel-hero-copy' }, children: [
-            { tag: 'div', attr: { class: 'heichel-seal', 'aria-hidden': 'true' }, children: ['⚜'] },
-            { tag: 'p', attr: { class: 'hero-kicker' }, children: ['Current Heichel'] },
-            { tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle' },
-            { tag: 'p', attr: { class: 'hero-description' }, ref: 'heichelDescription' }
-        ] },
-        { tag: 'div', attr: { class: 'hero-stats', 'aria-label': 'Collection areas' }, children: ['About', 'Heichelos', 'Series', 'Posts'].map(label => ({ tag: 'span', children: [label] })) }
-    ] };
-}
-
-function contentPanel(actions) {
-    return { tag: 'section', attr: { class: 'heichel-nav-panel', 'aria-label': 'Heichel browsing' }, children: [
-        { tag: 'nav', attr: { id: 'breadcrumb-container', class: 'breadcrumb-river', 'aria-label': 'Series path' }, ref: 'breadcrumb' },
-        { tag: 'div', attr: { id: 'seriesNameAndInfo', class: 'series-heading hidden' }, ref: 'seriesInfoArea', children: [{ tag: 'p', attr: { class: 'series-label' }, children: ['Current Series'] }, { tag: 'h2', ref: 'seriesTitle' }, { tag: 'p', ref: 'seriesDesc' }, { tag: 'div', attr: { id: 'seriesControls' }, ref: 'seriesControls' }] },
-        { tag: 'div', attr: { class: 'series-search-row' }, children: [{ tag: 'input', attr: { type: 'search', placeholder: 'Search series and posts...', 'aria-label': 'Search series and posts' }, ref: 'searchInput', events: { input: actions.onSearch } }, { tag: 'button', attr: { type: 'button', class: 'filter-chip', 'aria-pressed': 'false' }, ref: 'filterButton', children: ['Filter'], events: { click: actions.applyFilter } }] },
-        { tag: 'nav', attr: { class: 'tab-gates geelooy-tabs', 'aria-label': 'Browse content type' }, children: [{ tag: 'button', attr: { class: 'tab Active', type: 'button' }, ref: 'postsTab', children: ['Timeline'], events: { click: () => actions.switchView('posts') } }, { tag: 'button', attr: { class: 'tab', type: 'button' }, ref: 'seriesTab', children: ['Series'], events: { click: () => actions.switchView('series') } }] },
-        { tag: 'div', attr: { class: 'grid-realms' }, children: [grid('posts', 'postsList', 'loadingPosts'), grid('series', 'seriesList', 'loadingSeries', true)] }
-    ] };
-}
-
+function hero() { return { tag: 'section', attr: { class: 'geelooy-heichel-hero', 'aria-labelledby': 'heichel-main-title' }, children: [
+    { tag: 'div', attr: { class: 'heichel-hero-glow', 'aria-hidden': 'true' } },
+    { tag: 'div', attr: { class: 'heichel-hero-copy' }, children: [{ tag: 'div', attr: { class: 'heichel-seal', 'aria-hidden': 'true' }, children: ['⚜'] }, { tag: 'p', attr: { class: 'hero-kicker' }, children: ['Current Heichel'] }, { tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle' }, { tag: 'p', attr: { class: 'hero-description' }, ref: 'heichelDescription' }] },
+    { tag: 'div', attr: { class: 'hero-stats', 'aria-label': 'Collection areas' }, children: ['About', 'Heichelos', 'Series', 'Posts'].map(label => ({ tag: 'span', children: [label] })) }
+] }; }
+function contentPanel(actions) { return { tag: 'section', attr: { class: 'heichel-nav-panel', 'aria-label': 'Heichel browsing' }, ref: 'browsePanel', children: [
+    { tag: 'nav', attr: { id: 'breadcrumb-container', class: 'breadcrumb-river', 'aria-label': 'Series path' }, ref: 'breadcrumb' },
+    { tag: 'div', attr: { id: 'seriesNameAndInfo', class: 'series-heading hidden' }, ref: 'seriesInfoArea', children: [{ tag: 'p', attr: { class: 'series-label' }, children: ['Current Series'] }, { tag: 'h2', ref: 'seriesTitle' }, { tag: 'p', ref: 'seriesDesc' }, { tag: 'div', attr: { id: 'seriesControls' }, ref: 'seriesControls' }] },
+    { tag: 'div', attr: { class: 'series-search-row' }, children: [{ tag: 'input', attr: { type: 'search', placeholder: 'Search series and posts...', 'aria-label': 'Search series and posts' }, ref: 'searchInput', events: { input: actions.onSearch } }, { tag: 'button', attr: { type: 'button', class: 'filter-chip', 'aria-pressed': 'false' }, ref: 'filterButton', children: ['Filter'], events: { click: actions.applyFilter } }] },
+    { tag: 'nav', attr: { class: 'tab-gates geelooy-tabs', 'aria-label': 'Browse content type' }, children: [tab('Timeline', 'posts', actions, true), tab('Tree', 'series', actions)] },
+    { tag: 'div', attr: { class: 'grid-realms' }, children: [grid('posts', 'postsList', 'loadingPosts'), grid('series', 'seriesList', 'loadingSeries', true)] }
+] }; }
+function tab(label, view, actions, active = false) { return { tag: 'button', attr: { class: `tab ${active ? 'Active' : ''}`, type: 'button' }, ref: view === 'posts' ? 'postsTab' : 'seriesTab', children: [label], events: { click: () => actions.switchView(view) } }; }
 function grid(type, listRef, loadRef, hidden = false) { return { tag: 'div', attr: { class: `viewport ${type} ${hidden ? 'hidden' : ''}` }, ref: `${type}Viewport`, children: [{ tag: 'div', attr: { class: 'dynamic-grid', 'aria-live': 'polite' }, ref: listRef }, { tag: 'div', attr: { class: 'sacred-loading hidden', 'aria-label': `Loading ${type}` }, ref: loadRef }] }; }
 function drawer() { return { tag: 'aside', attr: { class: 'geelooy-mobile-drawer' }, children: ['Home', 'Heichelos', 'Series', 'Messages', 'Profile'].map(label => ({ tag: 'a', attr: { href: label === 'Home' ? '/' : `/${label.toLowerCase()}` }, children: [label] })) }; }
-function bottomNav() { return { tag: 'nav', attr: { class: 'geelooy-bottom-nav', 'aria-label': 'Primary mobile navigation' }, children: [['Home', '/'], ['Tree', '#seriesNameAndInfo'], ['Create', '/heichelos/submit'], ['Inbox', '/email'], ['Profile', '/profile']].map(([label, href]) => ({ tag: 'a', attr: { href }, children: [label] })) }; }
+function bottomNav(actions) { return { tag: 'nav', attr: { class: 'geelooy-bottom-nav', 'aria-label': 'Primary mobile navigation' }, children: [navLink('Home', '/'), navButton('Tree', actions.openTree), navLink('Create', '/heichelos/submit'), navButton('Inbox', actions.openMiniMail), navLink('Profile', '/profile')] }; }
+function navLink(label, href) { return { tag: 'a', attr: { href }, children: [label] }; }
+function navButton(label, click) { return { tag: 'button', attr: { type: 'button' }, children: [label], events: { click } }; }
+function miniMail(actions) { return { tag: 'aside', attr: { class: 'mini-mail-panel hidden', 'aria-label': 'Mini mail' }, ref: 'miniMailPanel', children: [{ tag: 'header', children: [{ tag: 'strong', children: ['Mini Mail'] }, { tag: 'button', attr: { type: 'button', 'aria-label': 'Close mini mail' }, children: ['×'], events: { click: actions.closeMiniMail } }] }, { tag: 'iframe', attr: { title: 'Awtsmoos Mail', src: '/email?embedded=1' } }, { tag: 'a', attr: { href: '/email', target: '_blank', rel: 'noopener' }, children: ['Open full mail'] }] }; }
 function bulkBar() { return { tag: 'div', attr: { id: 'bulk-actions-bar', class: 'hidden-void' }, ref: 'bulkActionsBar', children: [{ tag: 'span', ref: 'selectionCount' }, { tag: 'button', attr: { class: 'ritual-btn danger', type: 'button' }, ref: 'bulkDeleteBtn', children: ['Delete'] }, { tag: 'button', attr: { class: 'ritual-btn', type: 'button' }, ref: 'exitSelectionBtn', children: ['Cancel'] }] }; }
-function modal(actions) { return { tag: 'div', attr: { class: 'modal-gate-hidden', role: 'dialog', 'aria-modal': 'true', 'aria-hidden': 'true' }, ref: 'modalRoot', children: [{ tag: 'div', attr: { class: 'gate-backdrop' }, ref: 'modalBackdrop', events: { click: actions.closeModal } }, { tag: 'div', attr: { class: 'gate-chamber' }, children: [{ tag: 'h3', ref: 'modalTitle' }, { tag: 'form', ref: 'modalForm', events: { submit: actions.onModalSubmit }, children: [{ tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [option('post', 'Post'), option('question', 'Question'), option('answer', 'Answer'), option('series', 'Series')] }, { tag: 'input', attr: { type: 'text', required: true, placeholder: 'Title' }, ref: 'modalTitleInput' }, { tag: 'textarea', attr: { placeholder: 'Description' }, ref: 'modalDescTextarea' }, { tag: 'input', attr: { type: 'text', placeholder: 'Custom ID' }, ref: 'modalIdInput' }, { tag: 'div', attr: { class: 'gate-actions' }, children: [{ tag: 'button', attr: { type: 'button' }, ref: 'modalCancelBtn', children: ['Cancel'] }, { tag: 'button', attr: { type: 'submit' }, children: ['Save'] }] }] }] }] }; }
-function option(value, label) { return { tag: 'option', attr: { value }, children: [label] }; }
+function modal(actions) { return { tag: 'div', attr: { class: 'modal-gate-hidden', role: 'dialog', 'aria-modal': 'true', 'aria-hidden': 'true' }, ref: 'modalRoot', children: [{ tag: 'div', attr: { class: 'gate-backdrop' }, ref: 'modalBackdrop', events: { click: actions.closeModal } }] }; }

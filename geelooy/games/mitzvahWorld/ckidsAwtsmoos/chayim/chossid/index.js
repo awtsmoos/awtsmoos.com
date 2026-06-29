@@ -16,6 +16,7 @@ import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
 import updateMethods from './methods/update.js?v=zone-reality-20260614-bh812';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 import { ensurePlayerLevel } from '../../systems/progression/PlayerLevelRuntime.js';
+import { isAttackableTarget } from './methods/ClickTargetPolicy.js?v=click-target-policy-20260629-bh1';
 function leanGolem() { return { guf: { BoxGeometry: [0.9, 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: 0x1f6fff } } }; }
 function makeInventory(chossid) { const inventory = new InventoryManager(chossid); inventory.equipment ||= {}; inventory.slots ||= []; inventory.actionSlots ||= []; return inventory; }
 function numberOr(value, fallback) { return Number.isFinite(Number(value)) ? Number(value) : fallback; }
@@ -46,9 +47,7 @@ export default class Chossid extends Chai {
   resetPreviewRotation() { this.placementRotation = 0; }
   shoot() {
     const target = this.combatTarget || this.olam?.__selectedCombatTarget || this.olam?.combatManager?.target;
-    const data = target?.mesh?.userData || target?.userData || {};
-    const friendly = data.friendly || data.peaceful || data.domestic || target?.friendly || target?.peaceful;
-    if (!target || friendly) {
+    if (!isAttackableTarget(target)) {
       this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "Select an enemy first.", color: "#ffd95a" });
       return false;
     }

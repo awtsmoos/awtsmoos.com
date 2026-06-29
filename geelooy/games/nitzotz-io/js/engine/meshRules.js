@@ -1,9 +1,9 @@
 // B"H
 
-/** B"H: Mesh rules bind gameplay radius to readable visual scale. */
+/** B"H: Visual scale gets richer silhouettes without swallowing the eye. */
 export const RULES = {
-  letter: ['letter', 0.62, 1.0], bench: ['cube', 1.0, 0.28], bush: ['sphere', 0.9, 0.68],
-  cedar: ['tree', 0.86, 1.18], cart: ['cylinder', 0.82, 0.54], house: ['cube', 1.06, 0.82],
-  arch: ['arch', 1.05, 1.02], tower: ['cube', 0.9, 1.18], cloud: ['cloud', 1.12, 0.72],
-  star: ['star', 1.05, 0.82], gate: ['gate', 1.08, 1.12]
+  letter: ['letter', 0.72, 1.15], bench: ['cube', 1.2, 0.34], bush: ['sphere', 1.06, 0.78],
+  cedar: ['tree', 0.95, 1.28], cart: ['cylinder', 0.96, 0.62], house: ['cube', 1.18, 1.0],
+  arch: ['arch', 1.18, 1.18], tower: ['cube', 1.04, 1.28], cloud: ['cloud', 1.25, 0.82],
+  star: ['star', 1.2, 0.98], gate: ['gate', 1.22, 1.22]
 };

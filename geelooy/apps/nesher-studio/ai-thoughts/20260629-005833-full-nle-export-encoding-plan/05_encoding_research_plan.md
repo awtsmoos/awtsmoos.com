@@ -1,0 +1,3 @@
+# B"H
+
+Research findings from current docs: MDN says WebCodecs codec selection should use fully specified codec strings where needed; Chrome docs position WebCodecs for editors/streaming needing direct control; MDN/Chromium expose VideoEncoder queue observation and support probing through isConfigSupported; Mediabunny docs describe media sources as the backpressure path and add() returning promises; Mediabunny official pages describe browser-side reading/writing/conversion for MP4, WebM, HLS, metadata and raw/decoded media. Decision: keep webm-muxer bridge stable; put Mediabunny packet muxing behind experimental modules until a local browser proof exists.
