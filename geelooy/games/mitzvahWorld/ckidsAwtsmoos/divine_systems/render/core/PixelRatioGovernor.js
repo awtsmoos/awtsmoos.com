@@ -1,17 +1,17 @@
 // B"H
 /**
  * @file PixelRatioGovernor.js
- * The worker owns the real canvas. Gameplay stays FPS-first: the governor may
- * lower internal pixel ratio before the world is allowed to miss frame budget.
+ * The worker owns the real canvas. Gameplay stays crisp-first at native DPR,
+ * while still capping excessive retina cost before it hurts frame pacing.
  */
 export const PIXEL_RATIO_LIMITS = Object.freeze({
-  min: 0.62,
-  max: 1.0,
-  initialMax: 0.82,
-  resizeMax: 0.82,
-  mobileMax: 0.68,
-  hugeScreenMax: 0.74,
-  lowMemoryMax: 0.68
+  min: 1.0,
+  max: 1.35,
+  initialMax: 1.2,
+  resizeMax: 1.2,
+  mobileMax: 1.0,
+  hugeScreenMax: 1.0,
+  lowMemoryMax: 1.0
 });
 
 function n(value, fallback = 0) {
@@ -29,9 +29,9 @@ function mobileSettings(sourceWindow = globalThis.window) {
 }
 
 function qualityCap(settings = {}) {
-  if (settings.quality === "performance") return 0.68;
-  if (settings.quality === "crisp") return 0.92;
-  return 0.82;
+  if (settings.quality === "performance") return 1.0;
+  if (settings.quality === "crisp") return 1.25;
+  return 1.0;
 }
 
 function isMobileViewport(width, height, sourceWindow = globalThis.window) {
@@ -56,7 +56,7 @@ export function resolvePixelRatioCap(options = {}) {
 }
 
 export function resolvePixelRatio(options = {}) {
-  const raw = Math.max(0.62, n(options.raw, 1));
+  const raw = Math.max(1, n(options.raw, 1));
   const cap = resolvePixelRatioCap(options);
   return clamp(Math.min(raw, cap), PIXEL_RATIO_LIMITS.min, PIXEL_RATIO_LIMITS.max);
 }
@@ -71,7 +71,7 @@ function publishReport(sourceWindow, report) {
 export function measureRenderViewport(sourceWindow = globalThis.window, phase = "resize") {
   const width = Math.max(1, Math.floor(n(sourceWindow?.innerWidth, 1024)));
   const height = Math.max(1, Math.floor(n(sourceWindow?.innerHeight, 768)));
-  const rawPixelRatio = Math.max(0.62, n(sourceWindow?.devicePixelRatio, 1));
+  const rawPixelRatio = Math.max(1, n(sourceWindow?.devicePixelRatio, 1));
   const settings = mobileSettings(sourceWindow);
   const memoryGb = n(sourceWindow?.navigator?.deviceMemory, 8);
   const pixelRatio = resolvePixelRatio({ raw: rawPixelRatio, width, height, phase, memoryGb, settings, sourceWindow });

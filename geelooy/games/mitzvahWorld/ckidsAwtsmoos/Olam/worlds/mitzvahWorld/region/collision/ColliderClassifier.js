@@ -19,26 +19,48 @@ function num(value, fallback = 0) {
   return Number.isFinite(Number(value)) ? Number(value) : fallback;
 }
 
-function houseHardCollider(house = {}) {
-  return {
-    type: "house",
-    category: "cottage-wall",
-    id: house.id || house.name || `house_${num(house.x)}_${num(house.z)}`,
-    owner: house.id || house.name,
-    x: num(house.x),
-    z: num(house.z),
-    yaw: num(house.yaw),
-    size: [num(house.sx, 8), num(house.sy, 4.2), num(house.sz, 6)],
-    visibleTwin: true
-  };
-}
-
 function localToWorld(record = {}, localX = 0, localZ = 0) {
   const yaw = num(record.yaw);
   return {
     x: num(record.x) + Math.cos(yaw) * localX + Math.sin(yaw) * localZ,
     z: num(record.z) - Math.sin(yaw) * localX + Math.cos(yaw) * localZ
   };
+}
+
+function wallRecord(house = {}, id, localX, localZ, size, yawOffset = 0) {
+  const center = localToWorld(house, localX, localZ);
+  const owner = house.id || house.name || `house_${num(house.x)}_${num(house.z)}`;
+  return {
+    type: "house-wall",
+    category: "cottage-wall",
+    id: `${owner}_${id}`,
+    owner,
+    x: center.x,
+    z: center.z,
+    yaw: num(house.yaw) + yawOffset,
+    size,
+    visibleTwin: true
+  };
+}
+
+function houseHardColliders(house = {}) {
+  const sx = num(house.sx, 8);
+  const sy = num(house.sy, 4.2);
+  const sz = num(house.sz, 6);
+  const thick = 0.32;
+  const doorWidth = Math.min(sx * 0.55, Math.max(1.05, num(house.doorWidth ?? house.door?.width, 1.28)));
+  const doorHeight = Math.min(sy - 0.2, Math.max(1.7, num(house.doorHeight ?? house.door?.height, 2.15)));
+  const sideW = Math.max(0.18, (sx - doorWidth) / 2);
+  const sideX = doorWidth / 2 + sideW / 2;
+  const lintelH = Math.max(0.18, sy - doorHeight);
+  return [
+    wallRecord(house, "front_left_jamb", -sideX, sz / 2, [sideW, doorHeight, thick]),
+    wallRecord(house, "front_right_jamb", sideX, sz / 2, [sideW, doorHeight, thick]),
+    { ...wallRecord(house, "front_lintel", 0, sz / 2, [sx, lintelH, thick]), liftY: doorHeight },
+    wallRecord(house, "back_wall", 0, -sz / 2, [sx, sy, thick]),
+    wallRecord(house, "left_wall", -sx / 2, 0, [thick, sy, sz]),
+    wallRecord(house, "right_wall", sx / 2, 0, [thick, sy, sz])
+  ];
 }
 
 function doorCollider(house = {}) {
@@ -102,7 +124,7 @@ function cliffRecords(ecology = {}) {
 }
 
 export function classifyRegionColliders({ houses = [], roads = {}, instances = {}, ecology = {} } = {}) {
-  const houseRecords = list(houses).map(houseHardCollider);
+  const houseRecords = list(houses).flatMap(houseHardColliders);
   const doorRecords = list(houses).map(doorCollider).filter(Boolean);
   const hard = [
     ...houseRecords,

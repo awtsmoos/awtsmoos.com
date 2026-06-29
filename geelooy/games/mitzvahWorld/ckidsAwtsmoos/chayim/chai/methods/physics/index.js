@@ -13,6 +13,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import Tzomayach from "../../../tzomayach.js";
 import TerrainMath from "../../../../dvarim/terrain/core/TerrainMath.js";
 import { solveMovingSolid } from "../../../../dvarim/movers/runtime/movingSolidSolver.js";
+import { clampVisibleBodyAboveFeet } from "./VisualGroundClamp.js?v=visual-ground-clamp-20260629-bh1";
 
 const groundRay = new THREE.Ray();
 const MOVING_EPSILON_SQ = 0.0001;
@@ -114,6 +115,7 @@ function syncVisual(player, dt) {
     if (parentedToRoot) player.modelMesh.position.set(0, numeric(player.modelMesh.userData?.visualGroundOffsetY, 0), 0);
     else { player.modelMesh.position.copy(player.mesh.position); player.modelMesh.position.y += numeric(player.modelMesh.userData?.visualGroundOffsetY, 0); }
   }
+  clampVisibleBodyAboveFeet(player);
   player.emptyCopy?.position?.copy?.(player.mesh.position);
   player.nonRotatingEmptyForMovement?.position?.copy?.(player.mesh.position);
   if (player.emptyCopy && player.modelMesh) player.emptyCopy.rotation.copy(player.modelMesh.rotation);

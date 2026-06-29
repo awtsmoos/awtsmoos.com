@@ -17,7 +17,7 @@ export function applyRenderBudget(scope = globalThis, budget = scope.__MITZVAH_W
   const rendering = budget?.rendering || {};
   const report = { at:Date.now(), applied:false, renderer:Boolean(renderer), scene:Boolean(scene), tier:budget?.tier || 'unknown', lights:0, shadowCasters:0 };
   if (!renderer || !budget) return report;
-  const pixelRatio = clamp(rendering.maxPixelRatio || 1.25, 0.75, Math.max(1, scope.devicePixelRatio || 1));
+  const pixelRatio = clamp(rendering.maxPixelRatio || 1.25, 1, Math.max(1, scope.devicePixelRatio || 1));
   try { renderer.setPixelRatio?.(pixelRatio); report.pixelRatio = pixelRatio; } catch (error) { report.pixelRatioError = error.message; }
   try {
     if (renderer.shadowMap) {

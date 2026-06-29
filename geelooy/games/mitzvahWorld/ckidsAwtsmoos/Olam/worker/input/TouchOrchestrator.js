@@ -5,7 +5,7 @@
  */
 import SefiraOfInput from './SefiraOfInput.js?v=npc-scroll-pass-through-20260609-bh638';
 
-const SEAL = 'eq-switched-joystick-20260621-bh1';
+const SEAL = 'natural-tap-joystick-20260629-bh1';
 const WALK = ['KeyW', 'KeyS', 'KeyQ', 'KeyE'];
 const MOBILE_RE = /Mobile|Android|iPhone|iPad|iPod/i;
 
@@ -21,8 +21,12 @@ function touchCapable() {
 }
 
 function settings() {
-  const fallback = { invertY: true, invertX: true, deadzone: 10, camera: 1 };
-  try { return { ...fallback, ...JSON.parse(localStorage.getItem('awtsmoosMobileSettings') || '{}') }; }
+  const fallback = { invertY: false, invertX: false, deadzone: 10, camera: 1, naturalJoystick: true };
+  try {
+    const stored = JSON.parse(localStorage.getItem('awtsmoosMobileSettings') || '{}');
+    if (stored.naturalJoystick !== true) return { ...stored, invertY: false, invertX: false, naturalJoystick: true, deadzone: stored.deadzone || fallback.deadzone, camera: stored.camera || fallback.camera };
+    return { ...fallback, ...stored };
+  }
   catch { return fallback; }
 }
 
@@ -111,12 +115,12 @@ function bindPointer(worker, active) {
 }
 
 function bindTouch(worker, active) {
-  let jid = null, jo = null, gid = null, gl = null, pid = null, pl = 0;
+  let jid = null, jo = null, gid = null, gl = null, pid = null, pl = 0, gm = false;
   window.addEventListener('touchstart', e => {
     for (const t of list(e.changedTouches)) {
       if (isJoy(t.target) && jid === null) { jid = t.identifier; jo = { x: t.pageX, y: t.pageY }; drive(worker, jo, t, active, 'touch'); e.preventDefault(); e.stopPropagation(); continue; }
       if (isUi(t.target)) continue;
-      if (gid === null) { gid = t.identifier; gl = { x: t.pageX, y: t.pageY }; post(worker, 'mousedown', { button: 2, clientX: t.clientX, clientY: t.clientY, seal: SEAL }); }
+      if (gid === null) { gid = t.identifier; gl = { x: t.pageX, y: t.pageY }; gm = false; post(worker, 'touchstart', { button: 0, clientX: t.clientX, clientY: t.clientY, pointerType:'touch', isTouch:true, seal: SEAL }); }
       else if (pid === null && t.identifier !== gid) { pid = t.identifier; const first = by(e.touches, gid); if (first) pl = dist(first, t); }
       e.preventDefault();
     }
@@ -125,10 +129,10 @@ function bindTouch(worker, active) {
     const joy = by(e.touches, jid); if (joy && jo) drive(worker, jo, joy, active, 'touch');
     const gaze = by(e.touches, gid), pinch = by(e.touches, pid), cam = Number(settings().camera) || 1;
     if (gaze && pinch) { const nd = dist(gaze, pinch), delta = nd - pl; if (Math.abs(delta) > 1) post(worker, 'wheel', { deltaY: -delta * 3.5, seal: SEAL }); pl = nd; e.preventDefault(); return; }
-    if (gaze && gl) { const dx = gaze.pageX - gl.x, dy = gaze.pageY - gl.y; if (Math.abs(dx) + Math.abs(dy) > 0) post(worker, 'cameraDrag', { dx: dx * 2.2 * cam, dy: dy * 1.4 * cam, seal: SEAL }); gl = { x: gaze.pageX, y: gaze.pageY }; }
+    if (gaze && gl) { const dx = gaze.pageX - gl.x, dy = gaze.pageY - gl.y; if (Math.abs(dx) + Math.abs(dy) > 6) { gm = true; post(worker, 'cameraDrag', { dx: dx * 2.2 * cam, dy: dy * 1.4 * cam, seal: SEAL }); } gl = { x: gaze.pageX, y: gaze.pageY }; }
     if (joy || gaze) e.preventDefault();
   }, { passive: false, capture: true });
-  const end = e => { for (const t of list(e.changedTouches)) { if (t.identifier === jid) { jid = null; jo = null; release(worker, active); } if (t.identifier === gid) { gid = null; gl = null; post(worker, 'mouseup', { button: 2, seal: SEAL }); } if (t.identifier === pid) { pid = null; pl = 0; } } };
+  const end = e => { for (const t of list(e.changedTouches)) { if (t.identifier === jid) { jid = null; jo = null; release(worker, active); } if (t.identifier === gid) { if (!gm) post(worker, 'pointerdown', { button: 0, clientX: t.clientX, clientY: t.clientY, pointerType:'touch', isTouch:true, seal: SEAL }); gid = null; gl = null; gm = false; } if (t.identifier === pid) { pid = null; pl = 0; } } };
   window.addEventListener('touchend', end, { passive: false, capture: true });
   window.addEventListener('touchcancel', end, { passive: false, capture: true });
 }

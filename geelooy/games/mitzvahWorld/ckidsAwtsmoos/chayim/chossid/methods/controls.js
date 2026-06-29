@@ -69,6 +69,8 @@ export default {
 
   setupInputListeners(olam) {
     olam.on("mousedown", event => passMouseToWorld(this, event));
+    olam.on("pointerdown", event => passMouseToWorld(this, { ...event, button: Number(event?.button || 0), type: "pointerdown" }));
+    olam.on("touchstart", event => passMouseToWorld(this, { ...event, button: 0, type: "touchstart", pointerType: "touch", isTouch: true, isTap: true }));
     olam.on("contextmenu", event => passMouseToWorld(this, { ...event, button: 2, type: "contextmenu" }));
     olam.on("keypressed", async event => {
       if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;

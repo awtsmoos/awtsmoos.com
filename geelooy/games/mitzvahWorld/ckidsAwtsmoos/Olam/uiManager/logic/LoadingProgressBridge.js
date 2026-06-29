@@ -32,8 +32,8 @@ function shouldQuiesceNow() {
   const now = Date.now();
   if (state.finalReady) return true;
   if (state.firstInputAt && now - state.firstInputAt > 250) return true;
-  if (state.firstCanvasAt && now - state.firstCanvasAt > 700) return true;
-  if (visibleCanvasReady() && now - state.startedAt > 1800) return true;
+  if (state.firstCanvasAt && now - state.firstCanvasAt > 1450) return true;
+  if (visibleCanvasReady() && now - state.startedAt > 2600) return true;
   return false;
 }
 function writeText(id, value) { const node = byId(id), next = value == null ? "" : String(value); if (node && node.textContent !== next) node.textContent = next; }

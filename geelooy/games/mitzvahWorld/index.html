@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="./styles/mobile-ui-overlap-fix.css?v=step-by-step-20260621-bh1" data-awtsmoos-mobile-overlap-fix="true">
   <style>
     :root { --gold:#ffd966; --blue:#12203b; --ink:#050814; --paper:#f8e4b0; --red:#ff6b4a; --green:#9be27a; --gray:#9ca3af; }
-    body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
+    body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#5f86d6; }
     canvas, img, video, #ikar { image-rendering:auto !important; }
     #ikar { width:100vw; height:100vh; position:absolute; inset:0; }
     #mitzvahUiBridge { position:fixed; inset:0; pointer-events:none; z-index:9000; font-family:system-ui, sans-serif; color:white; }
@@ -34,10 +34,16 @@
     .mitzvahMarker.gray { color:#cbd5e1; text-shadow:0 2px 6px #000; }.mitzvahSparkle { color:#ffe8a3; animation:mitzvahPulse 1.2s ease-in-out infinite; }
     .mitzvahCastTrack { height:10px; border-radius:8px; background:#111827; border:1px solid rgba(255,255,255,.2); overflow:hidden; margin-top:6px; }.mitzvahCastFill { height:100%; background:linear-gradient(90deg, #f59e0b, #fde68a); }
     @keyframes mitzvahPulse { 0%,100%{opacity:.65; transform:scale(1)} 50%{opacity:1; transform:scale(1.08)} }
+    .loading { position:fixed; inset:0; z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:radial-gradient(circle at 50% 28%, #b7e6ff 0, #6fa0e6 34%, #31527c 72%, #111827 100%); color:#fff8cf; font:900 18px/1.2 system-ui,sans-serif; text-align:center; }
+    .loading::before { content:""; width:84px; height:84px; border-radius:999px; border:3px solid rgba(255,217,102,.96); box-shadow:0 0 26px rgba(255,217,102,.55), inset 0 0 22px rgba(255,255,255,.22); background:linear-gradient(145deg, rgba(42,102,148,.95), rgba(12,28,48,.96)); }
+    .loadingContent { padding:10px 14px; border-radius:8px; background:rgba(7,12,24,.62); border:1px solid rgba(255,217,102,.55); box-shadow:0 8px 28px rgba(0,0,0,.3); }
+    .loadingContent small { display:block; margin-top:5px; color:#dff8ff; font-size:12px; font-weight:800; }
+    @media(max-width:760px){#mitzvahBottomCenter{bottom:calc(82px + env(safe-area-inset-bottom,0px));width:min(68vw,290px)!important;gap:4px!important;pointer-events:none!important}#mitzvahBottomCenter .mitzvahPanel{font-size:11px!important;line-height:1.15!important;padding:7px 9px!important;max-height:16vh!important}#mitzvahBottomCenter .mitzvahPanel:nth-child(n+2){display:none!important}.floating-text{max-width:min(68vw,260px)!important;white-space:normal!important;text-align:center!important;padding:8px 10px!important;font-size:15px!important;line-height:1.16!important}}
     #awtsmoosUiSinks { display:none !important; }
   </style>
 </head>
 <body>
+  <div class="loading"><div class="loadingContent">Loading Mitzvah World<small>Preparing the starter zone...</small></div></div>
   <div id="ikar" shaym="ikar"></div>
   <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div></div>
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>

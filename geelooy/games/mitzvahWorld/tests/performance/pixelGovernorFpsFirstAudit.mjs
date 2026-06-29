@@ -13,10 +13,10 @@ const sourceWindow = {
   CustomEvent:globalThis.CustomEvent
 };
 
-assert.equal(resolvePixelRatio({ raw:1, width:1366, height:625, phase:"resize", memoryGb:8, sourceWindow }) <= 0.82, true, "desktop DPR1 should be allowed to cap below native for FPS");
+assert.equal(resolvePixelRatio({ raw:1, width:1366, height:625, phase:"resize", memoryGb:8, sourceWindow }), 1, "DPR1 must remain native sharp");
 const report = measureRenderViewport(sourceWindow, "resize");
-assert.equal(report.pixelRatio <= 0.82, true, "viewport report should publish capped worker pixel ratio");
-assert.equal(report.applied, true, "worker pixel governor should mark cap as applied");
-assert.equal(sourceWindow.__AWTSMOOS_PIXEL_RATIO_GOVERNOR__.applied, true, "report should publish to window");
+assert.equal(report.pixelRatio, 1, "viewport report should publish native worker pixel ratio");
+assert.equal(report.applied, false, "native DPR should not be marked as degraded");
+assert.equal(sourceWindow.__AWTSMOOS_PIXEL_RATIO_GOVERNOR__.applied, false, "report should publish to window");
 
 console.log(JSON.stringify({ ok:true, test:"pixelGovernorFpsFirstAudit", pixelRatio:report.pixelRatio, applied:report.applied }, null, 2));

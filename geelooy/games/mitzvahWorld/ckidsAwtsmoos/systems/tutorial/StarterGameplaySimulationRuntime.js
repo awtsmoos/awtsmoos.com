@@ -30,7 +30,15 @@ function ensureEvents(scope) {
 export async function simulateStarterGameplay(options = {}) {
   const scope = options.scope || baseScope();
   const events = ensureEvents(scope);
-  if (options.reset !== false) resetLivingWorldState({});
+  if (options.reset !== false) {
+    resetLivingWorldState({});
+    scope.__MITZVAH_STARTER_SIGNAL_BRIDGE__?.dispose?.();
+    if (scope !== globalThis) globalThis.__MITZVAH_STARTER_SIGNAL_BRIDGE__?.dispose?.();
+    delete scope.__MITZVAH_STARTER_SIGNAL_BRIDGE__;
+    if (scope !== globalThis) delete globalThis.__MITZVAH_STARTER_SIGNAL_BRIDGE__;
+    delete scope.__MITZVAH_STARTER_EXPERIENCE__;
+    if (scope !== globalThis) delete globalThis.__MITZVAH_STARTER_EXPERIENCE__;
+  }
   const store = loadLivingWorldState();
   store.economy.flour = Math.max(1, Number(store.economy?.flour || 0));
   store.economy.grain = Math.max(3, Number(store.economy?.grain || 0));
@@ -47,7 +55,7 @@ export async function simulateStarterGameplay(options = {}) {
   const crafted = craftItem(store, 'challah', 'player');
   bridge.emit('combat', { target:'courtyard_disturbance', result:{ ok:true, calm:true } });
   const hearth = bindHearth({ id:'village_inn', x:4, y:0, z:-6 });
-  runtime.flushDeferred?.('simulated-full-gameplay-complete');
+  if (options.flushPersistence === true) runtime.flushDeferred?.('simulated-full-gameplay-complete');
   const snapshot = runtime.snapshot();
   return { ok:snapshot.progress.done === snapshot.progress.total, snapshot, signals:{ ...bridge.counts }, npc, trained, profession, crafted, hearth, events:events.length };
 }

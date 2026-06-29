@@ -1,25 +1,22 @@
 // B"H
 /**
- * AdaptiveRenderScale: FPS-first pixel contract.
- * Realism must come from memory, story, audio, variation fields, and schedules;
- * if frames shake, pixel ratio yields before civilization does.
+ * AdaptiveRenderScale: crisp native pixel contract.
+ * Realism and frame safety now come from LOD, spatial bubbles, and simulation
+ * throttles; mobile should not become blurry just to hide expensive content.
  */
 export function adaptiveRenderScale(tier={}){
-  if(tier.mobile) return .62;
-  if(tier.tier==='low') return .66;
-  if(tier.tier==='medium') return .74;
-  return .82;
+  return 1;
 }
 export function pixelRatioCap(tier={}){
-  if(tier.mobile) return .68;
-  if(tier.tier==='low') return .72;
-  if(tier.tier==='medium') return .78;
-  return .82;
+  if(tier.mobile) return 1;
+  if(tier.tier==='low') return 1;
+  if(tier.tier==='medium') return 1;
+  return 1.25;
 }
 export function desiredPixelRatio(win=globalThis.window,tier={},scale=adaptiveRenderScale(tier)){
   const native=Number(win?.devicePixelRatio||1);
   const cap=pixelRatioCap(tier);
-  const pixelRatio=Math.max(.55,Math.min(cap,native*scale));
+  const pixelRatio=Math.max(1,Math.min(cap,native*scale));
   return{native,cap,scale,pixelRatio,applied:pixelRatio<native};
 }
 export function applyRenderScale(renderer,scale,win=globalThis.window,tier={}){

@@ -12,17 +12,23 @@ import {
   isNpcTarget,
   selectCombatTarget
 } from "./ClickTargetPolicy.js?v=click-target-policy-20260629-bh1";
+import {
+  explainNpcWait,
+  npcInteractionDecision,
+  selectNpcTarget
+} from "../../../dvarim/npc/NpcTargetRuntime.js?v=npc-visible-target-20260628-bh1";
 
 function explicitInteractionPayload(player, event = {}) {
   const button = Number.isFinite(Number(event?.button)) ? Number(event.button) : 0;
   const type = event?.type || (button === 2 ? "contextmenu" : "click");
+  const isTouch = event?.isTouch === true || event?.pointerType === "touch" || String(type).includes("touch");
   return {
     type,
     explicit: true,
     isPointer: true,
-    isTap: false,
-    isTouch: false,
-    pointerType: "mouse",
+    isTap: Boolean(event?.isTap || isTouch),
+    isTouch,
+    pointerType: isTouch ? "touch" : "mouse",
     button,
     buttons: Number(event?.buttons || 0),
     contextMenu: button === 2 || type === "contextmenu",
@@ -74,6 +80,16 @@ export default {
       return false;
     }
 
+    if (isNpcTarget(target)) {
+      const payload = explicitInteractionPayload(this, event);
+      const decision = npcInteractionDecision(target, payload);
+      if (decision.action === "open") return openInteractiveTarget(this, target, event);
+      selectNpcTarget(target, payload);
+      if (decision.action === "wait") {
+        this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: explainNpcWait(target, payload), color: "#8de8ff" });
+      }
+      return true;
+    }
     if (isInteractiveTarget(target)) return openInteractiveTarget(this, target, event);
     if (event.button !== 2 && selectCombatTarget(this, target, event)) return true;
     this.selectIntersected?.();

@@ -3,6 +3,8 @@
  * @file slots.js
  * @description Renders the inventory grid. Enhanced for Worker compatibility and closure stability.
  */
+import { resolveItemIcon } from "../../../../systems/inventory/ItemIconResolver.js";
+
 export default function updateSlots(e, $, ui) {
     const data = e.detail || e;
     const slotsData = data.slots || (Array.isArray(data) ? data : []); 
@@ -51,15 +53,16 @@ export default function updateSlots(e, $, ui) {
             let textIcon = null;
 
             if (slotData) {
-                const isUrl = slotData.icon && (slotData.icon.includes('/') || slotData.icon.includes('data:'));
+                const resolvedIcon = resolveItemIcon(slotData);
+                const isUrl = resolvedIcon && (resolvedIcon.includes('/') || resolvedIcon.includes('data:'));
                 
                 if (isUrl) {
                     if (slotData.isTintable && slotData.customData && slotData.customData.color) {
                         const color = slotData.customData.color;
                         iconStyle = {
                             backgroundColor: color,
-                            maskImage: "url(" + slotData.icon + ")",
-                            WebkitMaskImage: "url(" + slotData.icon + ")",
+                            maskImage: "url(" + resolvedIcon + ")",
+                            WebkitMaskImage: "url(" + resolvedIcon + ")",
                             maskSize: "contain",
                             WebkitMaskSize: "contain",
                             maskRepeat: "no-repeat",
@@ -71,11 +74,11 @@ export default function updateSlots(e, $, ui) {
                         className = 'slotBtn tinted-icon';
                     } else {
                         iconStyle = { 
-                            backgroundImage: "url(" + slotData.icon + ")"
+                            backgroundImage: "url(" + resolvedIcon + ")"
                         };
                     }
-                } else if (slotData.icon) {
-                    textIcon = slotData.icon;
+                } else if (resolvedIcon) {
+                    textIcon = resolvedIcon;
                     iconStyle = {
                         display: 'flex',
                         justifyContent: 'center',

@@ -27,7 +27,7 @@ html.awtsmoos-renderer-missing:not(.awtsmoos-worker-pixel-governed) canvas{outli
 
 function workerPixelState(win) {
   const state = win?.__AWTSMOOS_PIXEL_RATIO_GOVERNOR__ || null;
-  const applied = Boolean(state && (state.applied || Number(state.pixelRatio) <= 0.82));
+  const applied = Boolean(state && Number.isFinite(Number(state.pixelRatio)));
   return { state, applied };
 }
 

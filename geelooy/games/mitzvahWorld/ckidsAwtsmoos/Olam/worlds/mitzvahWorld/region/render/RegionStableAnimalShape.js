@@ -8,6 +8,8 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import { SIZE, TINT } from "./RegionWildlifeData.js?v=wildlife-visible-report-20260628-bh1";
 
+const LOCAL_BOX = new THREE.Box3();
+
 const ACCENT = Object.freeze({
   fox: 0xffc27a,
   rabbit: 0xe6dbc8,
@@ -83,12 +85,15 @@ export function buildStableAnimal(species = "rabbit", data = {}) {
   addLegs(root, color);
   addTail(root, species, accent);
   root.scale.multiplyScalar(speciesScale(species));
+  root.updateWorldMatrix(true, true);
+  LOCAL_BOX.setFromObject(root);
+  const groundLift = Math.max(0.08, -LOCAL_BOX.min.y + 0.035);
   Object.assign(root.userData ||= {}, {
     stableNormalAnimal: true,
     species,
     displayName: species,
     targetName: species,
-    profile: { speed: species === "fox" ? 1.1 : 0.78, groundLift: 0.18 },
+    profile: { speed: species === "fox" ? 1.1 : 0.78, groundLift },
     health: { current: 120, max: 120, dead: false, hitsTaken: 0 },
     faction: species === "fox" ? "hostile" : "neutral"
   });

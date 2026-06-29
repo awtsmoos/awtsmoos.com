@@ -31,7 +31,10 @@ function makeDb() {
   assert.equal(defaults.requireModeratorApproval, true);
   assert.equal(await permissions.canSubmit({ $i, heichelId: 'h1', aliasId: 'writer', contentType: 'post', verifyHeichelAuthority: verify }), true);
   assert.equal(await permissions.canApprove({ $i, heichelId: 'h1', aliasId: 'writer', verifyHeichelAuthority: verify }), false);
-  await settings.updateCommunitySettings({ $i, heichelId: 'h1', patch: { allowQuestions: false } });
+  await settings.updateCommunitySettings({ $i, heichelId: 'h1', patch: { allowQuestions: 'false', allowPolls: 'true' } });
+  const normalized = await settings.getCommunitySettings({ $i, heichelId: 'h1' });
+  assert.equal(normalized.allowQuestions, false);
+  assert.equal(normalized.allowPolls, true);
   assert.equal(await permissions.canSubmit({ $i, heichelId: 'h1', aliasId: 'writer', contentType: 'question', verifyHeichelAuthority: verify }), false);
   await settings.updateCommunitySettings({ $i, heichelId: 'h1', patch: { allowQuestions: true } });
   const seen = [];

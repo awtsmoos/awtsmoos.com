@@ -79,18 +79,23 @@ export const Toast = {
      * @param {Object} ui - The UI system.
      */
     show(message, type = "info", ui) {
+        const container = document.querySelector('[shaym="toast"], .toast-container');
+        const mobile = window.innerWidth <= 760 || /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+        if (mobile) container?.querySelectorAll?.(".toast")?.forEach(node => node.remove());
         const toast = ui.html({
             parent: "toast",
             className: `toast toast-${type}`,
             style: {
                 background: "rgba(10, 10, 30, 0.95)",
                 border: `1px solid ${type === "error" ? "#ff4444" : "#00f3ff"}`,
-                padding: "15px 30px",
-                borderRadius: "15px",
+                padding: mobile ? "8px 11px" : "15px 30px",
+                borderRadius: "8px",
                 color: "white",
                 fontFamily: "Outfit, sans-serif",
                 fontWeight: "700",
-                fontSize: "16px",
+                fontSize: mobile ? "13px" : "16px",
+                lineHeight: "1.14",
+                maxWidth: mobile ? "min(68vw, 260px)" : "min(80vw, 520px)",
                 boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
                 animation: "toastIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), toastOut 0.5s 2.5s forwards",
                 pointerEvents: "auto",
@@ -103,7 +108,7 @@ export const Toast = {
             if (toast && toast.parentNode) {
                 toast.parentNode.removeChild(toast);
             }
-        }, 3000);
+        }, mobile ? 1450 : 3000);
     },
 
     /**

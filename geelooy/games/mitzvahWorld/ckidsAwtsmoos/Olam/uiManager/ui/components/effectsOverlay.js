@@ -27,14 +27,19 @@ function particle(parent, text, className, ms = 1600) {
 
 function floatingText(parent, data) {
   if (!parent?.appendChild || !data?.text) return;
-  const el = document.createElement("div");
+  const mobile = window.innerWidth <= 760 || /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+  const el = mobile ? (parent.__awtsmoosSingleFloatingText ||= document.createElement("div")) : document.createElement("div");
   el.className = "floating-text";
   el.textContent = data.text;
   el.style.color = data.color || "white";
   el.style.left = `${window.innerWidth / 2}px`;
-  el.style.top = `${window.innerHeight / 2}px`;
-  parent.appendChild(el);
-  setTimeout(() => el.remove(), data.effect === "spikeDeath" ? 4500 : 1600);
+  el.style.top = `${mobile ? Math.round(window.innerHeight * 0.58) : window.innerHeight / 2}px`;
+  el.style.maxWidth = mobile ? "min(68vw, 260px)" : "";
+  el.style.fontSize = mobile ? "15px" : "";
+  if (!el.parentNode) parent.appendChild(el);
+  clearTimeout(el.__awtsmoosRemoveTimer);
+  el.__awtsmoosRemoveTimer = setTimeout(() => { if (!mobile || parent.__awtsmoosSingleFloatingText === el) el.remove(); }, data.effect === "spikeDeath" ? 4500 : 1200);
+  while (!mobile && parent.querySelectorAll?.(".floating-text")?.length > 3) parent.querySelector(".floating-text")?.remove();
 }
 
 function installResetGate(parent) {
