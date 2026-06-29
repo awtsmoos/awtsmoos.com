@@ -1,8 +1,10 @@
 // B"H
 import { ProductionRoomBackdrop } from '../../core/renderer/scene/productionRoom/ProductionRoomBackdrop.js';
+import { ProfessionalQualityGate } from '../../data/scenes/default/professional2d/index.js';
 
 export class GoalBoardQualityGate {
   static audit(scene = {}) {
+    if (scene.scene?.style === 'professional_2d_workshop') return ProfessionalQualityGate.audit(scene);
     const json = JSON.stringify(scene);
     const room = JSON.stringify(ProductionRoomBackdrop.build({ width: 720, height: 1280 }));
     const metrics = this.metrics(scene, json, room);

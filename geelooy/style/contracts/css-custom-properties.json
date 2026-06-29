@@ -1,6 +1,6 @@
 {
   "BH": "B\"H",
-  "version": 1,
+  "version": 2,
   "properties": [
     {
       "name": "--home-pointer-x",
@@ -20,7 +20,57 @@
     {
       "name": "--floating-clearance",
       "owner": "global-scroll",
-      "files": ["geelooy/style/awtsmoos-scroll-sovereignty.css"]
+      "files": ["geelooy/style/scroll-sovereignty/tokens.css"]
+    },
+    {
+      "name": "--awts-page-pad",
+      "owner": "global-scroll",
+      "files": ["geelooy/style/scroll-sovereignty/tokens.css"]
+    },
+    {
+      "name": "--awts-radius",
+      "owner": "global-scroll",
+      "files": ["geelooy/style/scroll-sovereignty/tokens.css"]
+    },
+    {
+      "name": "--awts-focus",
+      "owner": "global-scroll",
+      "files": ["geelooy/style/scroll-sovereignty/tokens.css"]
+    },
+    {
+      "name": "--spaces-bg",
+      "owner": "heichelos-spaces",
+      "files": ["geelooy/style/heichelos/spaces/tokens.css"]
+    },
+    {
+      "name": "--spaces-card",
+      "owner": "heichelos-spaces",
+      "files": ["geelooy/style/heichelos/spaces/tokens.css"]
+    },
+    {
+      "name": "--spaces-muted",
+      "owner": "heichelos-spaces",
+      "files": ["geelooy/style/heichelos/spaces/tokens.css"]
+    },
+    {
+      "name": "--spaces-gold",
+      "owner": "heichelos-spaces",
+      "files": ["geelooy/style/heichelos/spaces/tokens.css"]
+    },
+    {
+      "name": "--spaces-gold-light",
+      "owner": "heichelos-spaces",
+      "files": ["geelooy/style/heichelos/spaces/tokens.css"]
+    },
+    {
+      "name": "--spaces-line",
+      "owner": "heichelos-spaces",
+      "files": ["geelooy/style/heichelos/spaces/tokens.css"]
+    },
+    {
+      "name": "--spaces-shadow",
+      "owner": "heichelos-spaces",
+      "files": ["geelooy/style/heichelos/spaces/tokens.css"]
     }
   ]
 }

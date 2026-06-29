@@ -1,0 +1,2 @@
+// B'H
+export function createECS(){let next=1;const comps=new Map();return{entity(){return next++},add(id,type,data){if(!comps.has(type))comps.set(type,new Map());comps.get(type).set(id,data);return data},get(id,type){return comps.get(type)?.get(id)},remove(id,type){comps.get(type)?.delete(id)},query(...types){const base=comps.get(types[0])||new Map(),out=[];for(const id of base.keys()){const row=types.map(t=>comps.get(t)?.get(id));if(row.every(Boolean))out.push([id,...row])}return out},clear(){comps.clear();next=1}}}

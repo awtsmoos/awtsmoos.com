@@ -1,33 +1,38 @@
 // B"H
 import { h } from "../ui/core/html.js";
 import { callFs } from "../api/tunnel.js";
-import { resultCard } from "../ui/api.js";
 let currentSessionId = "";
-/** B"H — Chapter 913: The remote eye received a visible consent table. */
+/** B"H — Chapter 934: The panel became a peer, a graph, and a helper gate. */
 export function createRemoteDesktopPanel() {
   const out = h("div", { attrs:{ id:"remoteDesktopOut" }, classes:["awt-remote-output"] });
-  const session = input("remoteDesktopSessionId", "Session id", "Created session appears here");
-  const target = input("remoteDesktopTarget", "Target", "Chrome tab / local desktop");
-  const requester = input("remoteDesktopRequester", "Requester", "Awtsmoos operator");
-  const mode = select("remoteDesktopMode", "Requested mode", [["watch","Watch only"],["control","Watch + control"]]);
-  const grant = select("remoteDesktopGrantMode", "Grant mode", [["watch","Grant watch"],["control","Grant control"]]);
-  const click = button("Create request", () => run(out, { action:"remoteDesktopCreateSession", mode:val(mode), target:val(target), requester:val(requester) }, data => setSession(session, data?.session?.id)));
-  const policy = button("Policy", () => run(out, { action:"remoteDesktopPolicy" }));
-  const grantBtn = button("Grant consent", () => run(out, { action:"remoteDesktopGrantConsent", sessionId:val(session), grantMode:val(grant) }));
-  const revoke = button("Revoke", () => run(out, { action:"remoteDesktopRevoke", sessionId:val(session), reason:"UI revoke" }));
-  const offer = button("Mock offer", () => run(out, { action:"remoteDesktopOffer", sessionId:val(session), sdp:"ui-redacted-offer" }));
-  const inputBtn = button("Test click event", () => run(out, { action:"remoteDesktopInputEvent", sessionId:val(session), type:"click", x:42, y:24 }));
-  const audit = button("Audit", () => run(out, { action:"remoteDesktopAuditLog", sessionId:val(session) }));
-  return h("section", { classes:["awt-remote-desktop-panel"], children:[
-    h("div", { classes:["awt-zone-head"], children:[h("h3", { text:"Remote Desktop Tunnel" }), h("p", { text:"Consent-first watch/control session orchestration. No silent capture. No input until local control grant." })] }),
-    h("div", { classes:["awt-remote-grid"], children:[target, requester, mode, grant, session] }),
-    h("div", { classes:["awt-quick-actions"], children:[policy, click, grantBtn, offer, inputBtn, audit, revoke] }),
-    out
-  ] });
+  const fields = formFields();
+  const actions = actionRows(out, fields);
+  return h("section", { classes:["awt-remote-desktop-panel"], children:[head(), h("div", { classes:["awt-remote-grid"], children:Object.values(fields) }), h("div", { classes:["awt-quick-actions"], children:actions.map(([t,f]) => button(t,f)) }), out] });
 }
+function actionRows(out, f) { return [
+  ["Caps", () => run(out, { action:"remoteDesktopPlatformCapabilities" })], ["Helpers", () => run(out, { action:"remoteDesktopHelperSkeletons" })], ["Peer state", () => run(out, { action:"remoteDesktopPeerStateTemplate", sessionId:id(f) })], ["Peer script", () => run(out, { action:"remoteDesktopBrowserPeerScript" })], ["Create local offer", () => createPeerOffer(out, f)],
+  ["49 features", () => run(out, { action:"remoteDesktopFeatureCatalog" })], ["100 future", () => run(out, { action:"remoteDesktopFutureCatalog" })], ["Universal", () => run(out, { action:"remoteDesktopUniversalVision" })], ["Graph", () => run(out, { action:"remoteDesktopUniversalGraph" })], ["Policy", () => run(out, { action:"remoteDesktopPolicy" })],
+  ["Create ask", () => createAsk(out, f)], ["Review ask", () => runSession(out, f, "remoteDesktopAsk")], ["Contract", () => runSession(out, f, "remoteDesktopPermissionContract")], ["Summary", () => runSession(out, f, "remoteDesktopSessionSummary")], ["Signals", () => runSession(out, f, "remoteDesktopSignalSummary")], ["Risk", () => runSession(out, f, "remoteDesktopRisk")], ["Profile", () => runSession(out, f, "remoteDesktopPermissionProfile")],
+  ["Grant", () => run(out, { action:"remoteDesktopGrantConsent", sessionId:id(f), grantMode:fieldValue(f.grant) })], ["Grant mouse", () => run(out, { action:"remoteDesktopGrantInput", sessionId:id(f), family:"mouse" })], ["Grant keyboard", () => run(out, { action:"remoteDesktopGrantInput", sessionId:id(f), family:"keyboard" })],
+  ["Heartbeat", () => run(out, { action:"remoteDesktopHeartbeat", sessionId:id(f), fingerprint:"ui-heartbeat" })], ["Mock frame", () => run(out, { action:"remoteDesktopFramePush", sessionId:id(f), contentType:"image/svg+xml", frame64:mockFrame() })], ["Chrome frame", () => run(out, { action:"remoteDesktopChromeFramePush", sessionId:id(f), snapshot:"Chrome snapshot text seam." })], ["CDP screenshot", () => run(out, { action:"remoteDesktopChromeScreenshotPush", sessionId:id(f), format:"jpeg", quality:"65" })], ["Latest frame", () => runSession(out, f, "remoteDesktopFrameLatest")],
+  ["Pause", () => run(out, { action:"remoteDesktopPause", sessionId:id(f), reason:"user paused" })], ["Resume", () => run(out, { action:"remoteDesktopResume", sessionId:id(f), reason:"user resumed" })], ["Bookmark", () => run(out, { action:"remoteDesktopBookmark", sessionId:id(f), label:"important moment" })], ["Export", () => run(out, { action:"remoteDesktopExport" })], ["Audit", () => runSession(out, f, "remoteDesktopAuditLog")], ["Deny", () => run(out, { action:"remoteDesktopDenyConsent", sessionId:id(f), reason:"Denied in UI after review" })], ["Revoke", () => run(out, { action:"remoteDesktopRevoke", sessionId:id(f), reason:"UI revoke" })]
+]; }
+function head() { return h("div", { classes:["awt-zone-head"], children:[h("h3", { text:"Remote Desktop Control" }), h("p", { text:"Consent, frames, CDP screenshots, WebRTC scaffolding, native helper skeletons, and graph vision." })] }); }
+function formFields() { return { requester:input("remoteDesktopRequester", "Requester", "Awtsmoos operator"), contact:input("remoteDesktopRequesterContact", "Requester contact", "phone/email/room id"), target:input("remoteDesktopTarget", "Target", "Chrome tab / local desktop"), purpose:input("remoteDesktopPurpose", "Purpose", "Explain exactly why access is needed"), scope:input("remoteDesktopScope", "Scope", "One app/tab/current screen only"), ttl:input("remoteDesktopTtl", "Expires in seconds", "1800"), mode:select("remoteDesktopMode", "Requested mode", [["watch","Watch only"],["control","Watch + control"]]), grant:select("remoteDesktopGrantMode", "Grant mode", [["watch","Grant watch"],["control","Grant control"]]), session:input("remoteDesktopSessionId", "Session id", "Created session appears here") }; }
+function createAsk(out, f) { run(out, { action:"remoteDesktopCreateSession", requester:fieldValue(f.requester), requesterContact:fieldValue(f.contact), target:fieldValue(f.target), purpose:fieldValue(f.purpose), scope:fieldValue(f.scope), ttlSeconds:fieldValue(f.ttl), mode:fieldValue(f.mode) }, data => setSession(f.session, data?.session?.id)); }
+async function createPeerOffer(out, f) { if (!window.RTCPeerConnection) return out.replaceChildren(render({ ok:false, action:"createPeerOffer", error:"RTCPeerConnection unavailable" })); const pc = new RTCPeerConnection({ iceServers:[] }); pc.createDataChannel("heartbeat"); const offer = await pc.createOffer(); await pc.setLocalDescription(offer); const fingerprint = (offer.sdp.match(/a=fingerprint:.*/)||["not-found"])[0]; await run(out, { action:"remoteDesktopOffer", sessionId:id(f), sdp:offer.sdp, fingerprint }); }
+function render(value) { const box = h("div", { classes:["awt-result-card", value?.ok === false ? "awt-result-error" : "awt-result-ok"] }); box.append(h("strong", { text:value?.action || (value?.ok === false ? "Action failed" : "Result") })); if (value?.graph) box.append(graph(value.graph)); if (value?.frame?.frame64) box.append(frame(value.frame)); if (Array.isArray(value?.features)) box.append(cards(value.features)); if (Array.isArray(value?.systems)) box.append(cards(value.systems)); for (const [k,v] of Object.entries(value || {})) if (!["features","systems","graph","frame"].includes(k) && v && typeof v === "object") box.append(section(k, v)); box.append(raw(value)); return box; }
+function graph(g) { return h("section", { classes:["awt-graph-card"], children:[h("strong", { text:`Graph: ${g.nodes?.length || 0} nodes · ${g.edges?.length || 0} edges` }), h("div", { classes:["awt-graph-nodes"], children:(g.nodes||[]).map(n => h("span", { text:n.label || n.id })) }), h("div", { classes:["awt-graph-edges"], children:(g.edges||[]).slice(0,80).map(e => h("small", { text:`${e.from} → ${e.to}` })) })] }); }
+function cards(items) { return h("div", { classes:["awt-remote-card-grid"], children:items.slice(0,100).map(item => h("article", { classes:["awt-mini-card"], children:[h("strong", { text:item.title || item.id }), h("small", { text:[item.category,item.engine,item.status,item.stage].filter(Boolean).join(" · ") })] })) }); }
+function section(title, data) { return h("section", { classes:["awt-mini-card"], children:[h("strong", { text:title }), h("pre", { text:JSON.stringify(data, null, 2).slice(0,1800) })] }); }
+function frame(data) { return h("figure", { classes:["awt-frame-card"], children:[h("img", { attrs:{ alt:"latest remote frame", src:`data:${data.contentType};base64,${data.frame64}` } }), h("figcaption", { text:`${data.contentType} · ${data.bytes} bytes` })] }); }
+function raw(value) { return h("details", { children:[h("summary", { text:"Raw JSON" }), h("pre", { text:JSON.stringify(value, null, 2).slice(0,12000) })] }); }
+function runSession(out, fields, action) { return run(out, { action, sessionId:id(fields) }); }
 function input(id, label, placeholder) { return h("label", { classes:["field"], children:[h("span", { text:label }), h("input", { attrs:{ id, placeholder } })] }); }
 function select(id, label, pairs) { return h("label", { classes:["field"], children:[h("span", { text:label }), h("select", { attrs:{ id }, children:pairs.map(([value,text]) => h("option", { attrs:{ value }, text })) })] }); }
 function button(text, onClick) { const b = h("button", { attrs:{ type:"button" }, text }); b.addEventListener("click", onClick); return b; }
-function val(node) { return node.querySelector("input,select")?.value || node.value || ""; }
-function setSession(field, id) { currentSessionId = id || currentSessionId; const input = field.querySelector("input"); if (input && currentSessionId) input.value = currentSessionId; }
-async function run(out, payload, after) { out.replaceChildren(resultCard({ ok:true, uiMessage:"Running " + payload.action + "..." })); const data = await callFs(window.awtsGetTunnelName?.() || "auto", payload); after?.(data); out.replaceChildren(resultCard(data)); }
+function fieldValue(label) { return label.querySelector("input,select")?.value || ""; }
+function id(fields) { return fieldValue(fields.session); }
+function setSession(field, idValue) { currentSessionId = idValue || currentSessionId; const input = field.querySelector("input"); if (input && currentSessionId) input.value = currentSessionId; }
+function mockFrame() { return btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180"><rect width="100%" height="100%" fill="#031"/><text x="24" y="92" fill="#9f9">B&quot;H remote frame</text></svg>`); }
+async function run(out, payload, after) { out.replaceChildren(render({ ok:true, action:payload.action, uiMessage:"Running..." })); const data = await callFs(window.awtsGetTunnelName?.() || "auto", payload); after?.(data); out.replaceChildren(render(data)); }

@@ -12,7 +12,12 @@
     var(--heichel-bg);
   position: relative;
   overflow-x: clip;
+<<<<<<< HEAD
   padding-bottom: max(var(--floating-clearance), calc(env(safe-area-inset-bottom) + var(--floating-clearance)));
+=======
+  overflow-y: auto;
+  padding-bottom: max(var(--floating-clearance, 5.5rem), calc(env(safe-area-inset-bottom) + 5.5rem));
+>>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b
   font-family: "Space Grotesk", Inter, system-ui, sans-serif;
 }
 .heichel-mobile-navigation .geelooy-main-stage {

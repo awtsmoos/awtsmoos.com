@@ -21,38 +21,18 @@ import { tiferesBattlefieldVast } from './tiferesBattlefieldVast.js';
 import { treeOfLifeArena } from './treeOfLifeArena.js';
 import { upgradeLevel } from './upgradeLevels.js';
 import { yesodMoonEngine } from './yesodMoonEngine.js';
+import { ADVENTURE_MAPS } from '../adventure/adventureLevels.js';
 
-/**
- * B"H
- * Map registry with global level upgrades.
- *
- * Chapter 242: every map passes through one final tikkun before battle. Walls,
- * ceilings, hole arrays, and danger-map rules become consistent across all
- * heichalos while each original arena keeps its layout and name.
- */
+/** B"H — Map registry with VS arenas and fifty Adventure gates. */
 const RAW_MAPS = [
-  beitMidrashBouncer,
-  merkavaPinballCourt,
-  tiferesBattlefieldVast,
-  malchusEndlessMeadow,
-  binahTowerLabyrinth,
-  kesserCrownRift,
-  gevurahForgeExpanse,
-  chesedRiverBridges,
-  netzachCauseway,
-  hodMirrorPalace,
-  yesodMoonEngine,
-  alephRiftExpanse,
-  merkavaBattlefield,
-  treeOfLifeArena,
-  sevenHeichalos,
-  throneOfFire,
-  crystalSefirah,
-  abyssOfDin,
-  riverOfLight,
-  templeOfEchoes,
-  celestialGate,
-  crownRuins
+  beitMidrashBouncer, merkavaPinballCourt, tiferesBattlefieldVast,
+  malchusEndlessMeadow, binahTowerLabyrinth, kesserCrownRift,
+  gevurahForgeExpanse, chesedRiverBridges, netzachCauseway,
+  hodMirrorPalace, yesodMoonEngine, alephRiftExpanse,
+  merkavaBattlefield, treeOfLifeArena, sevenHeichalos, throneOfFire,
+  crystalSefirah, abyssOfDin, riverOfLight, templeOfEchoes,
+  celestialGate, crownRuins
 ];
 
 export const MAPS = RAW_MAPS.map(upgradeLevel);
+export { ADVENTURE_MAPS };

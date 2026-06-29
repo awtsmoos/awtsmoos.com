@@ -1,9 +1,18 @@
 /* B"H
+<<<<<<< HEAD
  * Chapter 576: The reader graph stays inside its owned ideal sanctuary.
  * The CSS watchman asked that sacred reader domains remain owned by ideal.
  * Cache tokens and civilization garnish step aside so the river is verifiable.
  */
 
+=======
+ * Chapter 602: The reader CSS graph walks real files. Cache sigils belong in
+ * HTML links, not inside @import paths, so the parser and browser both enter
+ * the same palace without hallucinating phantom filenames.
+ */
+@import url("../../../shared/civilization/tokens.css");
+@import url("../../../shared/civilization/primitives.css");
+>>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/shell.css");
 @import url("./ideal/reborn/reader.css");
@@ -24,3 +33,19 @@
 @import url("./ideal/reborn/live-mobile-corrections.css");
 @import url("./ideal/reborn/inline-comments/compact-audit.css");
 @import url("./reader-controls/live-template.css");
+<<<<<<< HEAD
+=======
+@import url("./civilization/page-polish.css");
+html, body { min-height: 100%; overflow-x: hidden; }
+body { margin: 0; background: var(--awtsmoos-bg, #090b15); }
+img, video, canvas, svg { max-width: 100%; height: auto; }
+button, input, textarea, select { font: inherit; max-width: 100%; }
+[data-reader-root], .post-reader, .reader-shell, .awtsmoos-reader-shell { min-width: 0; }
+.reader-main, .reader-content, .post-content { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  body { min-height: 100dvh; }
+  .reader-shell, .awtsmoos-reader-shell { width: 100%; max-width: 100vw; }
+  .reader-sidebar, .settings-panel, .comments-panel { max-width: 100vw; }
+  .reader-main, .reader-content { padding-inline: clamp(1rem, 4vw, 1.5rem); }
+}
+>>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b

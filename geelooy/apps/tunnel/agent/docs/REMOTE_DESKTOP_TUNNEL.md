@@ -1,30 +1,33 @@
 B"H
 
-# Remote Desktop Tunnel
+# Remote Desktop Tunnel: Large Next Layer
 
-This is the first shipping action surface for remote desktop orchestration in the Awtsmoos Tunnel agent. It intentionally does not perform silent OS capture or silent input injection. It creates a consent-first session ledger, WebRTC-style signaling slots, frame intake, input-event gates, and audit trails.
+## New in this layer
 
-## Actions
+- `remoteDesktopPermissionContract` returns a hash-sealed permission contract with copyable text.
+- `remoteDesktopSessionSummary` returns human-readable lifecycle, grants, countdown, and audit trail.
+- `remoteDesktopSignalSummary` returns peer signaling and heartbeat summary.
+- Android helper skeleton files now exist under `agent/docs/helper-skeletons/android`.
+- Desktop helper skeleton files now exist under `agent/docs/helper-skeletons/desktop`.
+- Tunnel Control now has Contract, Summary, and Signals buttons.
 
-- `remoteDesktopPolicy` returns allowed modes, TTL, and input types.
-- `remoteDesktopCreateSession` creates a pending session.
-- `remoteDesktopConsentStatus` returns consent and session state.
-- `remoteDesktopGrantConsent` grants `watch` or `control` locally.
-- `remoteDesktopOffer`, `remoteDesktopAnswer`, and `remoteDesktopIceCandidate` store redacted signaling events.
-- `remoteDesktopFramePush` records a frame envelope for watch-only prototypes.
-- `remoteDesktopInputEvent` accepts allowlisted input only after control is granted.
-- `remoteDesktopAuditLog` returns recent audit entries.
-- `remoteDesktopRevoke` closes the session.
+## Helper skeletons created
 
-## Required next UI layer
+Android:
+- `README.md`
+- `ConsentActivity.kt`
+- `CaptureService.kt`
 
-The local UI must show a visible consent prompt before calling `remoteDesktopGrantConsent`. Control mode must be a second explicit grant, not implied by watch mode. Every active session needs an always-visible indicator and one-click revoke.
+Desktop:
+- `README.md`
+- `main.ts`
 
-## MVP ladder
+These are not installed services; they are concrete source skeletons and consent contracts for the native helper implementation.
 
-1. Watch-only tab capture.
-2. WebRTC signaling with heartbeat.
-3. Frame preview in Tunnel Control.
-4. Explicit control grant.
-5. Input relay through allowlisted events.
-6. Native screen helper only after platform-specific permission UX is designed.
+## Current active guarantees
+
+- Permission contract hash is deterministic for the current consent body.
+- Session summaries expose countdown and grant state.
+- Signal summaries expose fingerprints and heartbeats.
+- Pause/revoke still block frame/signaling/input flows.
+- Mouse and keyboard grants remain separate.

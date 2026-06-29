@@ -4,9 +4,9 @@ const path = require("path");
 
 /**
  * B"H
- * Chapter 493: The inner manifest smith refused inherited stillness.
- * Every ordinary call bumps from manifest.txt. A force override must be named
- * AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE so accidental env cannot freeze users.
+ * Chapter 628: The manifest learned to carry only living vessels.
+ * Split browser and AwtsmoosDB travel with the installed agent, while backups,
+ * tests, smoke scraps, and old husks remain behind in the source wilderness.
  */
 const ROOT = __dirname;
 const REPO_ROOT = path.resolve(ROOT, "../../../..");
@@ -23,23 +23,21 @@ const SKIP_NAMES = new Set([
   ".VolumeIcon.icns",
   ".fseventsd"
 ]);
-const EXTERNAL_DIRS = [{ source: path.join(REPO_ROOT, "geelooy/ai/relay/split-browser"), dest: "ai/relay/split-browser" }];
+const EXTERNAL_DIRS = [
+  { source: path.join(REPO_ROOT, "geelooy/ai/relay/split-browser"), dest: "ai/relay/split-browser" },
+  { source: path.join(REPO_ROOT, "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB"), dest: "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB" }
+];
 
 function slash(value) { return String(value || "").replace(/\\/g, "/"); }
 function pathSegments(value) { return slash(value).split("/").filter(Boolean); }
-function isMacMetadataName(name) {
-  return name === ".DS_Store" || name.startsWith("._");
-}
+function isMacMetadataName(name) { return name === ".DS_Store" || name.startsWith("._"); }
+function isGeneratedArtifact(value) { return /\.bak$/.test(value) || /\.before-/.test(value) || /\.tmp-/.test(value) || /\.smoke-server/.test(value); }
 function shouldSkipManifestPath(value) {
   const normalized = slash(value).trim();
-  if (!normalized) return true;
+  if (!normalized || isGeneratedArtifact(normalized)) return true;
   const segments = pathSegments(normalized);
   if (!segments.length) return true;
-  return segments.some(segment => (
-    SKIP_DIRS.has(segment) ||
-    SKIP_NAMES.has(segment) ||
-    isMacMetadataName(segment)
-  ));
+  return segments.some(segment => SKIP_DIRS.has(segment) || SKIP_NAMES.has(segment) || isMacMetadataName(segment));
 }
 function readCurrentVersion() {
   try {
@@ -59,7 +57,7 @@ function ignored(full, name) {
   if (shouldSkipManifestPath(name) || shouldSkipManifestPath(path.relative(ROOT, full))) return true;
   if (SKIP_NAMES.has(name) || SKIP_DIRS.has(name)) return true;
   const s = slash(full);
-  return /(^|\/)testing(\/|$)/.test(s) || /(^|\/)tests(\/|$)/.test(s) || /(^|\/)test(\/|$)/.test(s) || /\.test\.(cjs|mjs|js)$/.test(s) || /\/\.tmp-/.test(s) || /\/\.smoke-server/.test(s);
+  return /(^|\/)testing(\/|$)/.test(s) || /(^|\/)tests(\/|$)/.test(s) || /(^|\/)test(\/|$)/.test(s) || /\.test\.(cjs|mjs|js)$/.test(s);
 }
 function walk(dir, out = [], base = ROOT, prefix = "") {
   if (!fs.existsSync(dir)) return out;

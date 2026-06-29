@@ -1,0 +1,67 @@
+/* B"H
+ * Chapter 576: Living cards, pulse, heat, density, reputation, trails, zoom maps,
+ * universal search, and object notifications become reusable CSS vessels.
+ */
+.civ-card,
+.civ-living-card {
+  border: 1px solid color-mix(in srgb, var(--civ-accent, var(--civ-knowledge)) 34%, transparent);
+  border-radius: var(--civ-radius-lg);
+  color: var(--civ-text);
+  background: linear-gradient(135deg, rgba(49,215,255,.08), rgba(178,129,255,.06)), var(--civ-surface);
+  box-shadow: var(--civ-shadow);
+  backdrop-filter: blur(18px) saturate(1.15);
+}
+.civ-card { padding: clamp(14px, 3vw, 24px); }
+.civ-living-card { display: grid; gap: 12px; padding: 16px; }
+.civ-card-title,
+.civ-pulse-title {
+  color: var(--civ-accent, var(--civ-knowledge));
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.civ-presence-orb {
+  width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+  background: var(--civ-presence); box-shadow: 0 0 14px var(--civ-presence);
+}
+.civ-heat-0 { opacity: .62; }
+.civ-heat-1 { box-shadow: 0 0 18px rgba(49,215,255,.16); }
+.civ-heat-2 { box-shadow: 0 0 28px rgba(49,215,255,.28); }
+.civ-heat-3 { box-shadow: 0 0 38px rgba(255,72,255,.35); }
+.civ-density-shallow::after { content: 'shallow'; }
+.civ-density-medium::after { content: 'medium'; }
+.civ-density-deep::after { content: 'deep'; }
+.civ-density-node::after { content: 'civilization node'; }
+.civ-density-legendary::after { content: 'legendary'; }
+[class*='civ-density-']::after {
+  display: inline-flex; margin-inline-start: 8px; padding: 3px 7px; border-radius: 999px;
+  border: 1px solid rgba(49,215,255,.26); color: var(--civ-memory); font: 800 10px/1 ui-monospace, monospace;
+  text-transform: uppercase; letter-spacing: .08em;
+}
+.civ-pulse-panel,
+.civ-search-shell,
+.civ-timeline,
+.civ-memory-trail,
+.civ-reputation-grid,
+.civ-zoom-map,
+.civ-notification-object {
+  border: 1px solid rgba(49,215,255,.18);
+  border-radius: var(--civ-radius);
+  background: rgba(2, 7, 18, .72);
+  box-shadow: 0 12px 34px rgba(0,0,0,.28);
+}
+.civ-pulse-panel,
+.civ-search-shell { padding: 12px; }
+.civ-search-shell { display: flex; align-items: center; gap: 8px; }
+.civ-search-shell input { flex: 1; min-width: 0; border: 1px solid rgba(49,215,255,.22); border-radius: 999px; background: rgba(255,255,255,.06); color: var(--civ-text); padding: 10px 13px; }
+.civ-search-shell input:focus { outline: none; box-shadow: var(--civ-ring); }
+.civ-timeline { position: relative; padding: 14px; }
+.civ-timeline::before { content: ''; position: absolute; inset-block: 16px; inset-inline-start: 20px; width: 2px; background: linear-gradient(var(--civ-knowledge), var(--civ-ai), var(--civ-authority)); }
+.civ-memory-trail { display: flex; gap: 8px; overflow-x: auto; padding: 10px; }
+.civ-trail-node { flex: 0 0 auto; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: 6px 10px; color: var(--civ-memory); }
+.civ-reputation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; padding: 10px; }
+.civ-rep-axis { border-radius: 12px; padding: 8px; background: rgba(255,255,255,.045); }
+.civ-zoom-map { min-height: 220px; background-image: radial-gradient(circle, rgba(49,215,255,.35) 1px, transparent 1px); background-size: 28px 28px; }
+.civ-notification-object { padding: 10px 12px; border-inline-start: 4px solid var(--civ-accent, var(--civ-knowledge)); }
+@media (max-width: 760px) { .civ-search-shell { flex-direction: column; align-items: stretch; } .civ-card { border-radius: 18px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }

@@ -6,10 +6,15 @@ import { FoliageGenerator } from '../../generators/foliage.js';
 import { LayerRenderer } from './LayerRenderer.js';
 import { WorldEntities } from '../../generators/WorldEntities.js';
 import { FoodKitchenBackdrop } from './FoodKitchenBackdrop.js';
+import { ProfessionalWorkshopWorld } from './worlds/ProfessionalWorkshopWorld.js';
 
-/** World renderer. Production 2D scenes may replace the old city backdrop. */
+/** World renderer. The Awtsmoos paints a living stage before actors speak. */
 export class SceneRenderer {
   static render(ctx, scene = {}, width, height, time, camera, appState) {
+    if (scene?.style === 'professional_2d_workshop') {
+      ProfessionalWorkshopWorld.render(ctx, scene, width, height, time, camera, appState);
+      return;
+    }
     if (scene?.style === 'healthy_lunch_2d_production') {
       FoodKitchenBackdrop.render(ctx, scene, width, height, time);
       return;
@@ -17,7 +22,7 @@ export class SceneRenderer {
     this.renderLegacy(ctx, scene, width, height, time, camera, appState);
   }
 
-  static renderLegacy(ctx, scene, width, height, time, camera, appState) {
+  static renderLegacy(ctx, scene, width, height, time, camera) {
     const camX = camera.x, camY = camera.y, zoom = camera.zoom;
     const centerX = width / 2, centerY = height / 2;
     const timeOfDay = scene.timeOfDay || 0;
@@ -41,7 +46,12 @@ export class SceneRenderer {
 
   static drawCosmos(ctx, w, h, time, cycle) {
     ctx.fillStyle = '#fff'; const intensity = (cycle - 0.6) / 0.4;
-    for (let i = 0; i < 80; i++) { let x = (Math.sin(i * 721) * 10000) % w; if (x < 0) x += w; let y = (Math.cos(i * 311) * 10000) % (h * 0.6); if (y < 0) y += h * 0.6; ctx.globalAlpha = (Math.sin(i + time * 0.005) + 1) / 2 * intensity; ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill(); }
+    for (let i = 0; i < 80; i++) {
+      let x = (Math.sin(i * 721) * 10000) % w; if (x < 0) x += w;
+      let y = (Math.cos(i * 311) * 10000) % (h * 0.6); if (y < 0) y += h * 0.6;
+      ctx.globalAlpha = (Math.sin(i + time * 0.005) + 1) / 2 * intensity;
+      ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
+    }
     ctx.globalAlpha = 1;
   }
 }

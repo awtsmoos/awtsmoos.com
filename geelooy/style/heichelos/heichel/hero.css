@@ -4,7 +4,7 @@
 .geelooy-heichel-hero {
   position: relative;
   overflow: hidden;
-  min-height: clamp(10rem, 24vw, 16rem);
+  min-height: 220px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;

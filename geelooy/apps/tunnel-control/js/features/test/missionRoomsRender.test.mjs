@@ -21,21 +21,23 @@ global.document = {
   querySelectorAll() { return []; }
 };
 
+/** B"H: Initial lobby may have lobby search/refresh, but no selected-room workspace/debug stream. */
 const { missionRooms } = await import("../missionRooms.js");
 const root = missionRooms();
 function walk(node) { return [node, ...(node.children || []).flatMap(child => typeof child === "object" ? walk(child) : [])]; }
 const nodes = walk(root);
 
-for (const id of ["roomLobby", "roomStatus", "roomList", "roomWorkspace"]) {
+for (const id of ["roomLobby", "roomStatus", "roomList", "roomWorkspace", "roomSearch", "roomFilter", "discoverRoomsBtn"]) {
   assert(nodes.some(node => node.id === id || node.attrs?.id === id), `${id} exists`);
 }
 
-const visibleDebugIds = ["roomCommandTable", "roomCommandsHeader", "roomProjectRoot", "roomPollMs", "discoverRoomsBtn", "refreshRoomBtn"];
-for (const id of visibleDebugIds) {
+const forbiddenSelectedRoomIds = ["roomCommandTable", "roomCommandsHeader", "roomProjectRoot", "roomPollMs", "refreshRoomBtn", "roomMessage", "sendRoomMessageBtn"];
+for (const id of forbiddenSelectedRoomIds) {
   assert(!nodes.some(node => node.id === id || node.attrs?.id === id), `${id} is not in initial Mission Rooms lobby`);
 }
 
 const text = nodes.map(node => node.textContent || "").join("\n");
 assert(!/Room tunnel calls|Tool Catalog|Live Calls|Command Stream/i.test(text), "initial lobby has no diagnostic labels");
+assert(/Mission Control/i.test(text), "room OS title exists");
 assert(nodes.some(node => String(node.className || "").includes("awt-room-lobby")), "room lobby exists");
-console.log("BHY mission rooms room-first render tests passed");
+console.log("BHY mission rooms room-OS render tests passed");

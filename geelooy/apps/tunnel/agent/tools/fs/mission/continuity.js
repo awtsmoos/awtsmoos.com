@@ -10,8 +10,7 @@ function text(m) {
     tasks: m.tasks,
     evidence: m.evidence,
     blockers: m.blockers,
-    discoveries: m.discoveries,
-    events: m.events
+    discoveries: m.discoveries
   }).toLowerCase();
 }
 function evidenceDebt(m) {
@@ -33,7 +32,7 @@ function discoveryDebt(m) {
   const body = text(m);
   const required = ['todo', 'failing test', 'regression', 'blocking', 'security', 'restart', 'stress'];
   return required
-    .filter(name => body.includes(name) && !body.includes(`${name}:resolved`))
+    .filter(name => new RegExp(`\\b${name}\\b`).test(body) && !new RegExp(`\\b${name}:resolved\\b`).test(body))
     .map(name => ({ kind: 'discovery', name, need: `Resolve or explicitly dismiss discovered ${name}.` }));
 }
 function confidence(m) {

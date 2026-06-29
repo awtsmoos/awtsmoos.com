@@ -1,11 +1,7 @@
 // B"H
-/**
- * NpcInteractionRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
+/** NPC interactions turn memory, reputation, rumors, and starter arc signals into visible dialogue. */
 import { gossipPayload } from './GossipRuntime.js';
+<<<<<<< HEAD
 import { npcServices } from "./NpcServiceRegistry.js";
 function allNpcs(olam){ return [olam?.npcs, olam?.nivrayim, olam?.interactables].flat().filter(Boolean).filter(n => n.interactable || n.options?.interactable || n.mesh?.userData?.npcId || /npc|rebbe|baker|guard|merchant|villager/i.test(String(n.name || n.id || ""))); }
 function emit(scope,name,payload){ scope.__MITZVAH_UI_BRIDGE__?.receive?.(name,payload); try{ scope.dispatchEvent?.(new CustomEvent(`mitzvah-world:${name}`,{detail:payload})); }catch{} }
@@ -16,3 +12,20 @@ export function npcInteractionIndex(){ return { npcs:npcServices() }; }
 export function openNpcInteraction(olam={},id="rebbe"){ const npc=npcServices().find(n=>n.id===id)||npcServices()[0]; const payload=gossipPayload(npc,{}); olam.__activeNpcInteraction=payload; olam.ayshPeula?.("ui event","npcGossip",payload); return { ok:true, ...payload }; }
 export function performTalk(olam={},id=""){ const npcs=[...allNpcs(olam),...npcServices()], npc=findNpc(npcs,id); if(!npc) return { ok:false, reason:"no-npc" }; const payload=gossipPayload(npc,{}); olam.__activeNpcInteraction=payload; olam.ayshPeula?.("ui event","npcGossip",payload); return { ok:true, npc, payload }; }
 export default createNpcInteractionRuntime;
+=======
+import { createNpcMemoryRuntime } from './NpcMemoryRuntime.js';
+function event(type, detail) { globalThis.dispatchEvent?.(new CustomEvent(type, { detail })); return detail; }
+export function npcInteractionIndex(npcs = []) { return Object.fromEntries(npcs.map(n => [n.id || n.npcId, n])); }
+export function openNpcInteraction(npcId = 'villager', context = {}, npcs = []) {
+  const store = context.store || globalThis.__MITZVAH_WORLD_STATE__ || {};
+  const memory = createNpcMemoryRuntime(store);
+  const npc = npcInteractionIndex(npcs)[npcId] || { id:npcId, name:npcId };
+  memory.remember(npcId, { kind:'player_spoke', text:'The player stopped to speak.', place:context.place || npc.currentPlace });
+  const effects = memory.effects(npcId);
+  const payload = { npcId, name:npc.name, greeting:effects.greetingTone === 'warm' ? `${npc.name} remembers your kindness.` : effects.greetingTone === 'wary' ? `${npc.name} watches carefully.` : `${npc.name} greets you.`, memoryEffects:effects, gossip:gossipPayload(npcId, store), serviceHint:npc.workplace, questBias:effects.questBias };
+  event('mitzvah-world:starter-signal', { signal:'npc', evidence:payload });
+  return payload;
+}
+export function performTalk(npcId = 'villager', textOrContext = {}, npcs = []) { const context = typeof textOrContext === 'string' ? { text:textOrContext } : textOrContext; return openNpcInteraction(npcId, context, npcs); }
+export default { openNpcInteraction, npcInteractionIndex, performTalk };
+>>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b

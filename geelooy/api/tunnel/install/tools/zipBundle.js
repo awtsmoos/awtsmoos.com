@@ -9,30 +9,34 @@ const encoder = new TextEncoder();
 
 /**
  * B"H
- * Chapter 612: The installer asked for one bundle, not a thousand crumbs.
- * This forge writes a plain ZIP from the manifest itself, so the bootstrap
- * receives one whole vessel and either rises complete or fails clean.
+ * Chapter 629: The ZIP learned not to lie by omission.
+ * Manifest paths now resolve through their true roots, and missing vessels
+ * explode before publication instead of disappearing inside the bundle.
  *
- * @returns {Buffer} ZIP archive containing the tunnel agent manifest.
+ * @returns {Buffer} ZIP archive containing every manifest file.
  */
 function buildAgentZip(repoRoot) {
   const roots = resolveRoots(repoRoot);
+  const missing = [];
   const entries = manifestFiles(roots).flatMap(filePath => {
     const sourcePath = sourcePathFor(filePath, roots);
-    if (!sourcePath) return [];
-    let stat;
-    try {
-      stat = fs.statSync(sourcePath);
-    } catch (_) {
+    if (!sourcePath || !fs.existsSync(sourcePath)) {
+      missing.push(filePath);
       return [];
     }
-    if (!stat.isFile()) return [];
-    return [{
-      path: slash(filePath),
-      data: fs.readFileSync(sourcePath),
-      date: new Date(2026, 0, 1)
-    }];
+    const stat = fs.statSync(sourcePath);
+    if (!stat.isFile()) {
+      missing.push(filePath);
+      return [];
+    }
+    return [{ path: slash(filePath), data: fs.readFileSync(sourcePath), date: new Date(2026, 0, 1) }];
   });
+  if (missing.length) {
+    const err = new Error(`agent_zip_manifest_missing: ${missing.slice(0, 30).join(", ")}`);
+    err.code = "AGENT_ZIP_MANIFEST_MISSING";
+    err.missing = missing;
+    throw err;
+  }
   return buildZip(entries);
 }
 
@@ -56,57 +60,44 @@ function manifestFiles(roots = resolveRoots()) {
  * Maps manifest paths to their true source roots.
  *
  * @param {string} filePath Manifest-relative path.
- * @returns {string} Absolute source file path.
+ * @returns {string|null} Absolute source file path.
  */
 function sourcePathFor(filePath, roots = resolveRoots()) {
   if (!isSafeManifestPath(filePath)) return null;
-  const root = filePath.startsWith("ai/") ? roots.geelooyRoot : roots.agentRoot;
+  const root = rootFor(filePath, roots);
   const full = path.resolve(root, filePath);
   return isInside(root, full) ? full : null;
 }
 
+function rootFor(filePath, roots) {
+  if (filePath.startsWith("ai/")) return roots.geelooyRoot;
+  if (filePath.startsWith("ayzarim/")) return roots.repoRoot;
+  return roots.agentRoot;
+}
+
 function resolveRoots(repoRoot) {
-  const geelooy = repoRoot
-    ? path.join(path.resolve(repoRoot), "geelooy")
-    : DEFAULT_GEELOOY_ROOT;
-  return {
-    geelooyRoot: geelooy,
-    agentRoot: path.join(geelooy, "apps", "tunnel", "agent")
-  };
+  const repo = repoRoot ? path.resolve(repoRoot) : path.resolve(DEFAULT_GEELOOY_ROOT, "..");
+  const geelooy = path.join(repo, "geelooy");
+  return { repoRoot: repo, geelooyRoot: geelooy, agentRoot: path.join(geelooy, "apps", "tunnel", "agent") };
 }
 
-function slash(value) {
-  return String(value || "").replace(/\\/g, "/");
-}
-
+function slash(value) { return String(value || "").replace(/\\/g, "/"); }
 function isInside(root, full) {
   const relative = path.relative(path.resolve(root), path.resolve(full));
   return relative === "" || (!!relative && !relative.startsWith("..") && !path.isAbsolute(relative));
 }
-
 function isSafeManifestPath(filePath) {
   const normalized = slash(filePath).trim();
   if (!normalized || normalized.startsWith("/") || normalized.includes("\0")) return false;
   const segments = normalized.split("/").filter(Boolean);
   if (!segments.length || segments.join("/") !== normalized) return false;
-  return !segments.some(segment => (
-    segment === "." ||
-    segment === ".." ||
-    segment === ".DS_Store" ||
-    segment === "__MACOSX" ||
-    segment === "node_modules" ||
-    segment === ".git" ||
-    segment.startsWith("._")
-  ));
+  return !segments.some(segment => segment === "." || segment === ".." || segment === ".DS_Store" || segment === "__MACOSX" || segment === "node_modules" || segment === ".git" || segment.startsWith("._"));
 }
 
 /**
  * B"H
  * Builds an uncompressed ZIP buffer with local headers, central directory,
  * and the closing seal.
- *
- * @param {{path:string,data:Buffer,date:Date}[]} entries Files to include.
- * @returns {Buffer} ZIP bytes.
  */
 function buildZip(entries) {
   const parts = [];
@@ -172,14 +163,6 @@ function buildZip(entries) {
   return Buffer.concat(parts);
 }
 
-/**
- * B"H
- * Seals each file with CRC, the little signature that tells the unzipper the
- * body arrived exactly as spoken.
- *
- * @param {Buffer} data File bytes.
- * @returns {number} Unsigned CRC32.
- */
 function crc32(data) {
   let crc = 0xffffffff;
   for (const byte of data) {
@@ -188,20 +171,9 @@ function crc32(data) {
   }
   return (crc ^ 0xffffffff) >>> 0;
 }
-
-/**
- * B"H
- * Converts a date into the old DOS timestamp language ZIP still understands.
- *
- * @param {Date} date JavaScript date.
- * @returns {{date:number,time:number}} ZIP timestamp fields.
- */
 function dosStamp(date) {
   const year = Math.max(1980, date.getFullYear());
-  return {
-    date: ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate(),
-    time: (date.getHours() << 11) | (date.getMinutes() << 5) | (date.getSeconds() >> 1)
-  };
+  return { date: ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate(), time: (date.getHours() << 11) | (date.getMinutes() << 5) | (date.getSeconds() >> 1) };
 }
 
-module.exports = { buildAgentZip, manifestFiles, isSafeManifestPath, sourcePathFor };
+module.exports = { buildAgentZip, manifestFiles, isSafeManifestPath, sourcePathFor, resolveRoots };

@@ -1,0 +1,46 @@
+// B"H
+/** Smoke tests existing domains: lifecycle, persistence/UI/event, no broad new features. */
+import { resetLivingWorldState, loadLivingWorldState } from '../../ckidsAwtsmoos/systems/livingWorld/LivingWorldState.js';
+import { createLivingWorldRuntime } from '../../ckidsAwtsmoos/systems/livingWorld/LivingWorldRuntime.js';
+import { createMissionRuntime } from '../../ckidsAwtsmoos/systems/missions/MissionRuntime.js';
+import { openNpcInteraction } from '../../ckidsAwtsmoos/systems/npc/NpcInteractionRuntime.js';
+import { trainProfession } from '../../ckidsAwtsmoos/systems/professions/ProfessionTrainingRuntime.js';
+import { craftItem } from '../../ckidsAwtsmoos/systems/professions/ProfessionRuntime.js';
+import { bindHearth, getHearth } from '../../ckidsAwtsmoos/systems/social/HearthRuntime.js';
+import { applyVendorPurchase } from '../../ckidsAwtsmoos/systems/economy/EconomyTransactionRuntime.js';
+import { applyEconomyPricing } from '../../ckidsAwtsmoos/systems/economy/EconomyPricingRuntime.js';
+import { createStartingExperienceRuntime } from '../../ckidsAwtsmoos/systems/tutorial/StartingExperienceRuntime.js';
+function assert(ok, msg) { if (!ok) throw new Error(msg); }
+const memory = new Map();
+globalThis.localStorage = { getItem:k => memory.get(k) || null, setItem:(k,v) => memory.set(k,String(v)), removeItem:k => memory.delete(k) };
+globalThis.CustomEvent ||= class CustomEvent { constructor(type, init={}) { this.type = type; this.detail = init.detail; } };
+const events = [];
+globalThis.dispatchEvent = e => { events.push(e); return true; };
+resetLivingWorldState({ economy:{ grain:6, flour:3, bread:2, wax:2, candle:1, demand:{ bread:5, candle:3, soup:2 }, prices:{ bread:5, candle:4, soup:3 } } });
+const living = createLivingWorldRuntime(globalThis, { skipWorldStateHydration:true });
+const store = living.store;
+const missions = createMissionRuntime(store);
+const accepted = missions.accept('deliver_flour_for_bread_shortage') || living.acceptMission('deliver_flour_for_bread_shortage');
+assert(accepted, 'missions/quests should accept a real mission');
+openNpcInteraction('miriam_baker', { store, place:'bakery' }, store.npcs);
+assert(events.some(e => e.type === 'mitzvah-world:starter-signal'), 'NPC interaction should emit gameplay signal');
+trainProfession(store, 'baker');
+const crafted = craftItem(store, 'challah', 'player');
+assert(crafted && store.economy.bread >= 2, 'profession/crafting should craft bread');
+applyEconomyPricing(store, { reason:'domain-smoke' });
+const bought = applyVendorPurchase({ id:'bread', price:store.economy.prices.bread || 5 }, { store, buyer:'player' });
+assert(bought, 'economy/vendor should accept purchase call');
+const hearth = bindHearth({ id:'village_inn', x:4, y:0, z:-6 });
+assert(getHearth().id === hearth.id, 'travel/hearth should persist bind');
+const starter = createStartingExperienceRuntime(store, { scope:globalThis });
+starter.start('domain-smoke');
+starter.advanceForSignal('movement');
+assert(starter.snapshot().progress.done >= 1, 'starter/tutorial should advance');
+living.villageHour(14, 'domain-smoke');
+living.directWorldEvent('domain-smoke', { forceId:'bread_shortage', phase:'afternoon' });
+const saved = loadLivingWorldState();
+assert(saved.uiPayloads?.villageActivity?.phase, 'village activity UI payload should persist');
+assert(saved.uiPayloads?.worldEventDirector?.last?.id, 'world director UI payload should persist');
+assert((saved.eventFeed || []).length > 0, 'event feed should contain domain events');
+const result = { ok:true, domains:['missions','npc','professions','economy-vendor','travel-hearth','starter','village-activity','world-director'], events:events.length, activeMissions:Object.keys(store.activeMissions || {}), ui:Object.keys(saved.uiPayloads || {}) };
+console.log(JSON.stringify(result, null, 2));

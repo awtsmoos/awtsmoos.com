@@ -1,0 +1,3 @@
+// B"H
+function normalize(payload = {}) { const action = String(payload.action || ''); const known = new Set(['fs','command','chrome','relay','streaming']); if (known.has(payload.kind) && payload.kind !== 'tunnel.read' && payload.kind !== 'tunnel.write') return payload.kind; if (action.startsWith('mission')) return 'fs'; if (action.startsWith('command') || action === 'nodeScriptRun' || action === 'nodeCheck' || action === 'nodeCheckTree') return 'command'; if (action.startsWith('chrome')) return 'chrome'; if (action.startsWith('relay')) return 'relay'; if (action.startsWith('streaming')) return 'streaming'; return payload.kind || 'fs'; }
+module.exports = { normalize };

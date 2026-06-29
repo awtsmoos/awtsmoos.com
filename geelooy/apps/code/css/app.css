@@ -1,21 +1,19 @@
 /* B"H - Single entry CSS aggregator for /apps/code
- * Chapter 562: The civilization layer entered as a modular glow, not a tangled
- * overwrite, so the old editor ocean keeps its waves.
+ * Chapter 601: Code inherits shared object-layer panels in addition to the
+ * universal civilization covenant.
  */
-
+@import url('../../../shared/civilization/tokens.css');
+@import url('../../../shared/civilization/primitives.css');
+@import url('../../../shared/civilization/object-layer.css');
 @import url('./variables.css');
 @import url('./base.css');
 @import url('./layout.css');
 @import url('./components.css');
 @import url('./view-hosts.css');
-
-/* UI SUBMODULES */
 @import url('./ui/menus.css');
 @import url('./ui/notifications.css');
 @import url('./ui/dialogs.css');
 @import url('./ui/selection-menu.css');
-
-/* VIEWS */
 @import url('./views/workspace.css');
 @import url('./views/tabs.css');
 @import url('./views/editor.css');
@@ -24,28 +22,18 @@
 @import url('./views/terminal.css');
 @import url('./views/browser.css');
 @import url('./views/virtual-os.css');
-
-/* FEATURES */
 @import url('./zip-explorer.css');
 @import url('./tab-manager.css');
 @import url('./search.css');
 @import url('./ai-studio.css');
-
-/* FILE COMMANDER */
 @import url('./file-commander/layout.css');
 @import url('./file-commander/grid.css');
 @import url('./file-commander/details.css');
-
-/* VIBE */
 @import url('./vibe/main.css');
 @import url('./vibe/chat-vessels.css');
-
-/* CIVILIZATION */
 @import url('./civilization/tokens.css');
 @import url('./civilization/hud.css');
 @import url('./civilization/event-rain.css');
 @import url('./civilization/cockpit.css');
-
-/* EFFECTS */
 @import url('./effects.css');
 @import url('./visuals.css');

@@ -1,13 +1,7 @@
 // B"H
 const chrome = require("../../chrome/actions.js");
 const { wantsVirtualChrome, virtualChrome } = require("./virtualChromeActions.js");
-
-/**
- * B"H
- * Chapter 413: One browser tongue, two bodies.
- * By default these actions use real Chrome/CDP. With engine=node-dom,
- * runtime=node-dom, or virtualDom=true, the same verbs run in the virtual DOM.
- */
+/** B"H — Chapter 930: Chrome yielded real pixels when the vessel allows it. */
 function buildChromeActions(ctx) {
   const payload = ctx.payload || {};
   const route = action => wantsVirtualChrome(payload) ? virtualChrome(action, payload) : chrome[action](payload);
@@ -22,8 +16,8 @@ function buildChromeActions(ctx) {
     async chromeType() { return await route("chromeType"); },
     async chromeLogs() { return wantsVirtualChrome(payload) ? { ok: true, action: "chromeLogs", engine: "node-dom", logs: [] } : await chrome.chromeLogs(payload); },
     async chromeSnapshot() { return await route("chromeSnapshot"); },
+    async chromeScreenshot() { return wantsVirtualChrome(payload) ? { ok:false, action:"chromeScreenshot", error:"virtual_chrome_no_pixels" } : await chrome.chromeScreenshot(payload); },
     async chromeRunScript() { return await route("chromeRunScript"); }
   };
 }
-
 module.exports = { buildChromeActions };

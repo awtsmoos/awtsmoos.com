@@ -7,16 +7,18 @@ const { recordUsage } = require("../core/usageStore.js");
 
 /**
  * B"H
- * Chapter 921: Session-safe room collaboration entered the protected gate.
+ * Chapter 1007: The dashboard may read the ledger without wielding the sword.
  *
- * The Awtsmoos distinguishes collaboration from raw file/terminal power. A
- * logged-in dashboard session may list/open/message mission rooms, while shell,
- * file writes, Chrome control, and dangerous diagnostics still require the key.
+ * Collaboration stays session-safe. History inspection is also session-safe so
+ * Room OS can show real deeds. Replay, patch, replace, template promotion, and
+ * macro execution remain outside this list because they can execute work.
  */
 const SESSION_SAFE_ACTIONS = new Set([
   "configGet", "configSet", "roots", "rootBrowse", "rootSelect", "openRoot",
   "chromeFind", "chromeStatus", "payloadEcho", "actionSchemaTrace",
-  "missionProjectDiscover", "missionProjectJoin", "missionProjectStatus",
+  "actionHistoryList", "actionHistoryGet", "actionHistorySearch",
+  "actionHistoryExplain", "actionHistoryDiff", "commandMemoryList", "commandMemoryGet",
+  "missionStart", "missionProjectDiscover", "missionProjectJoin", "missionProjectStatus",
   "missionTimeline", "missionRoomUserMessage", "missionAgentHeartbeat",
   "missionAgentMessage", "missionAgentRespond", "missionAgentSync"
 ]);
@@ -57,7 +59,7 @@ async function protectedFs($i, vars) {
       BH: "B\"H",
       ok: false,
       error: "api_key_or_oauth_required",
-      details: "File, terminal, write, and Chrome control actions require x-awtsmoos-api-key or OAuth.",
+      details: "File, terminal, write, replay, and Chrome control actions require x-awtsmoos-api-key or OAuth.",
       neededScope: actionRequiredScope(payload.action)
     }, 401);
   }

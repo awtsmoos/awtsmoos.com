@@ -1,10 +1,4 @@
 // B"H
-/**
- * ReputationRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
-import { reputationDelta } from './VillageReputationRules.js';
-export function createReputationRuntime(store={}){ const rep=store.reputation||={village:0}; return { add(kind,faction='village'){rep[faction]=(rep[faction]||0)+reputationDelta(kind); globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:reputation',{detail:{faction,value:rep[faction],kind}})); return rep[faction];}, get(faction='village'){return rep[faction]||0;} }; }
+/** ReputationRuntime: public factions and hidden virtues respond to causes. */
+export function createReputationRuntime(store=globalThis.__MITZVAH_WORLD_STATE__||{}){ store.reputation ||= { village:0, merchants:0, poorFamilies:0, scholars:0, children:0, guards:0, travelers:0, animals:0, virtues:{} }; function add(kind='reliability', scope='village', amount=1){ store.reputation[scope]=(store.reputation[scope]||0)+amount; store.reputation.virtues[kind]=(store.reputation.virtues[kind]||0)+amount; return snapshot(); } function applyReward(reward={}){ for(const [scope,amount] of Object.entries(reward.reputation||{})) add('reliability',scope,amount); return snapshot(); } function priceFactor(scope='merchants'){ const rep=store.reputation[scope]||0; return Math.max(0.75,Math.min(1.25,1-rep*0.02)); } function snapshot(){ return JSON.parse(JSON.stringify(store.reputation)); } return { add, applyReward, priceFactor, snapshot }; }
 export default createReputationRuntime;

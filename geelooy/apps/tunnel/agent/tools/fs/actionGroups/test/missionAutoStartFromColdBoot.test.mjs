@@ -1,0 +1,24 @@
+// B"H
+import { createRequire } from 'module';
+import fs from 'fs/promises';
+import os from 'os';
+import path from 'path';
+import assert from 'assert/strict';
+const require = createRequire(import.meta.url);
+const Boot = require('../../mission/boot/index.js');
+const Lock = require('../../mission/lock/index.js');
+const { buildActions } = require('../../actions.js');
+const root = await fs.mkdtemp(path.join(os.tmpdir(), 'mission-auto-start-'));
+const config = { root, repoRoot: process.cwd(), tools:{ fsRead:true, fsWrite:true }, allowWrite:true };
+let out = await Boot.resume(config, { autoMission:true, tick:false, minimumRuntimeMs:3600000, goal:'cold boot autonomous mission' }, buildActions);
+assert.equal(out.ok, true);
+assert.equal(out.resumed, true);
+assert.equal(out.autoStart.started, true);
+assert(out.autoStart.missionId);
+let lock = Lock.active(config);
+assert.equal(lock.missionId, out.autoStart.missionId);
+assert.equal(lock.lastMustCallNext.action, 'missionNext8Plan');
+let second = await Boot.resume(config, { autoMission:true, tick:false }, buildActions);
+assert.equal(second.autoStart, null);
+assert.equal(second.resumed, true);
+console.log(JSON.stringify({ ok:true, missionId:lock.missionId, next:lock.lastMustCallNext.action, secondAutoStart:second.autoStart }, null, 2));

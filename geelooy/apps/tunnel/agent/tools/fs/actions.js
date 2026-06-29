@@ -1,57 +1,71 @@
 // B"H
-const { loadConfig } = require("../../lib/config.js");
-const { buildConfigActions, publicConfig } = require("./actionGroups/configActions.js");
-const { buildReadActions } = require("./actionGroups/readActions.js");
-const { buildProjectActions } = require("./actionGroups/projectActions.js");
-const { buildWriteActions } = require("./actionGroups/writeActions.js");
-const { buildFileOpsActions } = require("./actionGroups/fileOpsActions.js");
-const { buildHttpActions } = require("./actionGroups/httpActionsGroup.js");
-const { buildCommandActions } = require("./actionGroups/commandActions.js");
-const { buildStaticServerActions } = require("./actionGroups/staticServerActions.js");
-const { buildIsolatedActions } = require("./actionGroups/isolatedActions.js");
-const { buildWorkflowActions } = require("./actionGroups/workflowActions.js");
-const { buildPreviewActions } = require("./actionGroups/previewActions.js");
-const { buildRuntimeActions } = require("./actionGroups/runtimeActions.js");
-const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
-const { buildQualityActions } = require("./actionGroups/qualityActions.js");
-const { buildBatchAliasActions } = require("./actionGroups/batchAliasActions.js");
-const { buildMissionActions } = require("./actionGroups/missionActions.js");
-const { buildRemoteDesktopActions } = require("./actionGroups/remoteDesktopActions.js");
+const { loadConfig } = require('../../lib/config.js');
+const { publicConfig } = require('./actionGroups/configActions.js');
+const Payload = require('./actionGroups/missionActionPayload.js');
+const { buildActions: makeActions } = require('./actionBuilders.js');
+const ActiveGuard = require('./mission/activeGuard/index.js');
+const Focus = require('./mission/response/compact.js');
+const Lock = require('./mission/lock/index.js');
+const Court = require('./mission/releaseCourt/index.js');
+const Receipts = require('./mission/toolReceipts/index.js');
+const Firewall = require('./mission/firewall/index.js');
+const Final = require('./mission/finalInterceptor/index.js');
+const StopAudit = require('./mission/stopAudit/index.js');
+const Ledger = require('./actionLedger.js');
+const Mission = require('./mission/index.js');
 
-const AGENT_VERSION = "split-agent-1.5.0";
-function payloadEcho(payload) { return { BH: "B\"H", ok: true, action: "payloadEcho", payload }; }
-function actionSchemaTrace(payload) {
-  return { BH: "B\"H", ok: true, action: "actionSchemaTrace", requestedAction: payload.action, adapterAction: payload.adapterAction || null, actionRecoveredFromCarrier: !!payload.actionRecoveredFromCarrier, kind: payload.kind, keys: Object.keys(payload).sort() };
+const AGENT_VERSION = 'split-agent-2.0.0';
+
+function isFirewallStepAuthorized(firewallResult) {
+  return !!firewallResult && firewallResult.ok === true && firewallResult.authorized === true && firewallResult.kind === 'missionNeedsStepAuthorization';
 }
-/**
- * B"H
- * Chapter 912: The action palace gained a window for remote sight.
- * It does not seize the desktop; it exposes guarded consent actions so a human
- * can permit watch or control while every signal leaves footprints in the audit.
- */
-function buildActions(config, payload, ws) {
-  const ctx = { config, payload, ws, version: AGENT_VERSION };
-  const actions = {
-    ...buildConfigActions(ctx), ...buildReadActions(ctx), ...buildProjectActions(ctx), ...buildFileOpsActions(ctx),
-    ...buildHttpActions(ctx), ...buildCommandActions(ctx), ...buildStaticServerActions(ctx), ...buildIsolatedActions(ctx),
-    ...buildWriteActions(ctx), ...buildWorkflowActions(ctx, buildActions), ...buildPreviewActions(ctx), ...buildRuntimeActions(ctx),
-    ...buildCognitionActions(ctx), ...buildQualityActions(ctx, buildActions), ...buildBatchAliasActions(ctx, buildActions),
-    ...buildMissionActions(ctx), ...buildRemoteDesktopActions(ctx), payloadEcho: async () => payloadEcho(payload), actionSchemaTrace: async () => actionSchemaTrace(payload)
-  };
-  if (actions.commandRun && !actions.command) actions.command = actions.commandRun;
-  if (actions.commandStart && !actions.commandRun) actions.commandRun = actions.commandStart;
-  if (actions.commandStart && !actions.command) actions.command = actions.commandStart;
-  return actions;
+function buildActions(config, payload, ws) { return makeActions(config, payload, ws, AGENT_VERSION); }
+function missingAction() { return { ok: false, status: 400, error: 'missing_action' }; }
+function unknownAction(action, actions) { return { ok: false, status: 400, action, error: 'Unknown fs action: ' + action, availableActions: Object.keys(actions).sort() }; }
+function firewallBlock(action, firewallResult, active, payload) { return Focus.compact({ ok: false, action, ...firewallResult, finalAnswerAllowed: false, mustContinue: true, mustCallNext: active.lastMustCallNext }, payload); }
+async function recorded(config, payload, output) { return Ledger.record(config, payload, output, { historyBackend: 'awtsmoosdb', deviceState: true, jsonl: false, gitRepoStorage: false }); }
+async function healthyActive(config) {
+  const active = Lock.active(config);
+  if (!active?.missionId) return active;
+  try { if (await Mission.load(config, active.missionId)) return active; } catch {}
+  Lock.clear(config);
+  return null;
 }
-async function handleFsAction(payload, ws) {
-  const config = loadConfig(); const action = payload.action;
-  if (!action) return { ok: false, status: 400, error: "missing_action" };
-  const actions = buildActions(config, payload, ws); const fn = actions[action];
-  if (!fn) return { ok: false, status: 400, action, error: "Unknown fs action: " + action, availableActions: Object.keys(actions).sort() };
+async function runAction(action, actions) {
+  const fn = actions[action];
+  if (!fn) return unknownAction(action, actions);
   const result = await fn();
-  if (!result || typeof result !== "object") return { ok: false, status: 502, action, error: "empty_action_response" };
+  if (!result || typeof result !== 'object') return { ok: false, status: 502, action, error: 'empty_action_response' };
   if (!result.action) result.action = action;
   return result;
 }
+function finishAction(config, payload, result) {
+  const beforeLock = Lock.active(config);
+  let output = Court.guard(config, beforeLock, result, payload);
+  output = Final.intercept(beforeLock, output);
+  const stopAudit = StopAudit.after(config, beforeLock, output);
+  const lock = Lock.after(config, payload, output);
+  const receipt = Receipts.after(config, payload, output);
+  if (lock && String(output.action || '').startsWith('mission')) output.releaseStatus = lock.releaseStatus || 'locked';
+  if (receipt) output.missionToolReceipt = receipt;
+  if (stopAudit) output.stopAudit = stopAudit;
+  return Focus.compact(output, payload);
+}
+async function handleFsAction(rawPayload, ws) {
+  const config = loadConfig(), payload = Payload.mergedPayload(rawPayload || {}), action = payload.action;
+  if (!action) return recorded(config, payload, missingAction());
+  const active = await healthyActive(config);
+  let firewallResult = null;
+  if (active) {
+    firewallResult = Firewall.check(config, action, active, payload);
+    if (!firewallResult.ok) return recorded(config, payload, firewallBlock(action, firewallResult, active, payload));
+  }
+  if (!isFirewallStepAuthorized(firewallResult)) {
+    const block = await ActiveGuard.check(config, payload);
+    if (block) return recorded(config, payload, Focus.compact(block, payload));
+  }
+  const actions = buildActions(config, payload, ws);
+  return recorded(config, payload, finishAction(config, payload, await runAction(action, actions)));
+}
 function publicConfigWithVersion(config) { return publicConfig(config, AGENT_VERSION); }
-module.exports = { handleFsAction, publicConfig: publicConfigWithVersion, buildActions, AGENT_VERSION };
+module.exports = { handleFsAction, publicConfig: publicConfigWithVersion, buildActions, AGENT_VERSION, isFirewallStepAuthorized, healthyActive };

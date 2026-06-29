@@ -7,7 +7,7 @@
  * when NPC/UI capture is active. The Awtsmoos makes the camera quiet during a
  * panel, records compact frame spikes, and keeps the smooth follow river.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import { THREE } from '../../../rendering/ThreeAdapter.js';
 import { diagThrottle, markFrameSpike } from '../../../../utils/AwtsmoosDiagnostics.js';
 
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;

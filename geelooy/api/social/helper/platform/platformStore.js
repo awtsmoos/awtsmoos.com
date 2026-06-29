@@ -1,17 +1,14 @@
 //B"H
-/** Platform persistence helpers built on packed social shards. */
-const { logicalKey } = require('../packed/shardPaths.js');
-const { writePacked, readPacked, listPackedRecords } = require('../packed/socialPacked.js');
-
-function put({ $i, shard = 'audit', parts, value, meta = {} }) {
-  const key = logicalKey(parts);
-  writePacked({ $i, shard, key, value: { ...value, updatedAt: value.updatedAt || Date.now() }, meta });
-  return { key, value };
+/** Platform persistence helpers built directly on AwtsmoosDB native shards. */
+const { put: dbPut, get: dbGet, list: dbList, key: logicalKey } = require('../awtsmoosDb/shardStore.js');
+function put({ shard = 'events', parts, value, meta = {} }) {
+  const record = dbPut({ shard, parts, value: { ...value, updatedAt: value.updatedAt || Date.now() }, meta });
+  return { key: record.key, value: record.value };
 }
-function get({ $i, shard = 'audit', parts }) {
-  return readPacked({ $i, shard, key: logicalKey(parts) });
+function get({ shard = 'events', parts }) {
+  return dbGet({ shard, parts });
 }
-function list({ $i, shard = 'audit', predicate = () => true }) {
-  return listPackedRecords({ $i, shard }).filter(predicate);
+function list({ shard = 'events', predicate = () => true }) {
+  return dbList({ shard, predicate });
 }
 module.exports = { put, get, list, logicalKey };

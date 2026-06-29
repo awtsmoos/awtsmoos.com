@@ -1,12 +1,10 @@
 // B"H
-/**
- * HearthRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
-
+/** Hearth runtime: the player gets a true home return in the village and the starter arc hears it. */
 const KEY='mitzvahWorld.hearth';
-export function bindHearth(place={ id:'village_inn', x:0, y:0, z:0 }){ const data={...place,boundAt:Date.now()}; globalThis.localStorage?.setItem?.(KEY,JSON.stringify(data)); globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:hearth-bound',{detail:data})); return data; }
-export function getHearth(){ try{return JSON.parse(globalThis.localStorage?.getItem?.(KEY)||'null')||{id:'village_inn',x:0,y:0,z:0};}catch{return {id:'village_inn',x:0,y:0,z:0};} }
-export function recallHearth(){ const dest=getHearth(); globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:travel-request',{detail:{kind:'hearth',dest}})); return dest; }
+let memory={ id:'village_inn', x:4, y:0, z:-6 };
+function storage(){ try{return globalThis.localStorage||null;}catch{return null;} }
+function event(type,detail){ globalThis.dispatchEvent?.(new CustomEvent(type,{detail})); return detail; }
+export function bindHearth(place={ id:'village_inn', x:4, y:0, z:-6 }){ const data={...place,boundAt:Date.now()}; memory=data; try{storage()?.setItem?.(KEY,JSON.stringify(data));}catch{} event('mitzvah-world:hearth-bound',data); event('mitzvah-world:starter-signal',{ signal:'hearth', evidence:data }); return data; }
+export function getHearth(){ try{return JSON.parse(storage()?.getItem?.(KEY)||'null')||memory;}catch{return memory;} }
+export function recallHearth(){ const dest=getHearth(); event('mitzvah-world:travel-request',{kind:'hearth',dest}); return dest; }
 export default { bindHearth, getHearth, recallHearth };

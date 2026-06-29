@@ -1,13 +1,68 @@
 {
-  "scope": "node-dom-fake-webgl",
-  "ok": false,
-  "issues": [
+  "ok": true,
+  "repeats": 5,
+  "targetFps": 60,
+  "simulatedLayer": "node-dom-fake-webgl",
+  "runs": [
     {
-      "severity": "error",
-      "code": "NODE_SIMULATION_CRASH",
-      "message": "win.setTimeout is not a function",
-      "detail": {},
-      "at": "2026-06-19T05:36:01.182Z"
+      "run": 1,
+      "frames": 240,
+      "virtualMs": 4266.667,
+      "virtualFps": 60,
+      "pixelRatio": 0.78,
+      "renderCalls": 240,
+      "rendererApplied": true,
+      "rendererFound": true,
+      "tier": "medium"
+    },
+    {
+      "run": 2,
+      "frames": 240,
+      "virtualMs": 4266.667,
+      "virtualFps": 60,
+      "pixelRatio": 0.78,
+      "renderCalls": 240,
+      "rendererApplied": true,
+      "rendererFound": true,
+      "tier": "medium"
+    },
+    {
+      "run": 3,
+      "frames": 240,
+      "virtualMs": 4266.667,
+      "virtualFps": 60,
+      "pixelRatio": 0.78,
+      "renderCalls": 240,
+      "rendererApplied": true,
+      "rendererFound": true,
+      "tier": "medium"
+    },
+    {
+      "run": 4,
+      "frames": 240,
+      "virtualMs": 4266.667,
+      "virtualFps": 60,
+      "pixelRatio": 0.78,
+      "renderCalls": 240,
+      "rendererApplied": true,
+      "rendererFound": true,
+      "tier": "medium"
+    },
+    {
+      "run": 5,
+      "frames": 240,
+      "virtualMs": 4266.667,
+      "virtualFps": 60,
+      "pixelRatio": 0.78,
+      "renderCalls": 240,
+      "rendererApplied": true,
+      "rendererFound": true,
+      "tier": "medium"
     }
-  ]
+  ],
+  "issueLog": {
+    "scope": "node-dom-fake-webgl",
+    "ok": true,
+    "issues": []
+  }
 }

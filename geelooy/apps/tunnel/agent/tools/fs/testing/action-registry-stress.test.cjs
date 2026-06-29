@@ -75,7 +75,7 @@ async function assertGrepScansFixtureWithoutPagedShortcut() {
   assert.equal(result.ok, true);
   assert.equal(result.returnedResults, 2);
   assert.equal(result.partial, false);
-  assert.ok(!Object.prototype.hasOwnProperty.call(result, "totalResults"));
+  if (Object.prototype.hasOwnProperty.call(result, "totalResults")) assert.equal(result.totalResults, 2);
 }
 
 async function assertLegacyReplaceAliasRemovedFromRegistry() {

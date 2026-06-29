@@ -1,7 +1,10 @@
 /* B"H
- * Chapter 569: The apps directory becomes a living launch garden while its old
- * selectors remain as roots for every existing page.
+ * Chapter 580: The apps directory becomes a living launch garden while its old
+ * selectors remain as roots for every existing page, now joined to the universal
+ * civilization design covenant.
  */
+@import url('../shared/civilization/tokens.css');
+@import url('../shared/civilization/primitives.css');
 :root {
   --apps-bg: #030713;
   --apps-panel: rgba(8, 18, 34, .78);

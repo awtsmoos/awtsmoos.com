@@ -2,8 +2,6 @@
  * B"H
  * Legacy map export bridge.
  *
- * Chapter 13: the old doorway remains, but behind it every arena now lives in
- * its own chamber. Existing imports keep working while the architecture has
- * already become modular, readable, and ready for many more heichalos.
+ * Chapter 307: one doorway now exports both VS arenas and Adventure levels.
  */
-export { MAPS } from './maps/index.js';
+export { ADVENTURE_MAPS, MAPS } from './maps/index.js';

@@ -1,0 +1,10 @@
+// B'H
+import { hsl, heightAt } from '../math.js';
+export function buildRenderList(w,time){const a=[];terrain(a,w);for(const o of w.level.objects)if(!o.taken)object(a,o,1,time);for(const o of w.absorbers)object(a,o,o.life/.65,time,true);for(const q of w.particles)a.push(cmd('sphere',[q.x,q.z,q.y],[q.r,q.r,q.r],0,hsl(q.hue,92,70),q.life,.9));portal(a,w.player,time,w.input.pulse);if(w.sefirah>=5)radar(a,w);return a}
+function terrain(a,w){a.push(cmd('plane',[0,-18,0],[w.level.bounds,1,w.level.bounds],0,hsl(w.level.hue,45,13),1,0));for(let x=-2;x<=2;x++)for(let y=-2;y<=2;y++){const px=x*520,py=y*520,h=heightAt(px,py,w.level.worldIndex);a.push(cmd('disc',[px,h-9,py],[260,1,260],0,hsl(w.level.hue+20*x+15*y,55,18),.16,0))}}
+function object(a,o,fade,time,wobble=false){const sc=wobble?1+.18*Math.sin(time*20+o.id):1,y=o.z+o.h*.5+(1-fade)*130,rot=o.rot+(wobble?(1-fade)*9:0);shadow(a,o.x,o.y,o.z,Math.max(o.sx,o.sz)*1.2,.22*fade);if(o.shape==='tree'){a.push(cmd('cylinder',[o.x,o.z+o.h*.22,o.y],[o.r*.22,o.h*.22,o.r*.22],rot,[.35,.2,.09],fade,0));a.push(cmd('sphere',[o.x,o.z+o.h*.78,o.y],[o.r*sc,o.r*.9*sc,o.r*sc],rot,o.color,.96*fade,.12));return}a.push(cmd(mesh(o.shape),[o.x,y,o.y],[o.sx*sc,o.h*.5*sc,o.sz*sc],rot,o.color,.96*fade,.16))}
+function portal(a,p,t,pulse){shadow(a,p.x,p.y,p.z,p.r*1.5,.32);a.push(cmd('sphere',[p.x,p.z+p.h*.55,p.y],[p.r*.82,p.r*.82,p.r*.82],t,[.72,.86,1],.94,p.glow+.3));a.push(cmd('ring',[p.x,p.z+p.h*.58,p.y],[p.r*1.45,p.r*1.45,p.r*1.45],t*2.4,[1,.85,.32],.72,pulse?1:.25));a.push(cmd('ring',[p.x,p.z+p.h*.92,p.y],[p.r*1.05,p.r*1.05,p.r*1.05],-t*1.7,[.55,.9,1],.55,.45))}
+function radar(a,w){for(const o of w.level.objects)if(!o.taken&&o.r<w.player.r*1.2&&Math.hypot(o.x-w.player.x,o.y-w.player.y)<520)a.push(cmd('ring',[o.x,o.z+8,o.y],[o.r*1.8,o.r*1.8,o.r*1.8],0,[.9,.95,1],.22,.6))}
+function shadow(a,x,z,h,rad,alpha){a.push(cmd('disc',[x,h+.02,z],[rad,1,rad*.72],0,[0,0,0],alpha,0))}
+function mesh(s){return ['sphere','ring','cylinder','star','letter','arch'].includes(s)?s:'cube'}
+function cmd(mesh,pos,scale,rot,color,alpha,glow){return{mesh,pos,scale,rot,color,alpha,glow}}

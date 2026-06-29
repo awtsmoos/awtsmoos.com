@@ -1,0 +1,1755 @@
+{
+  "ok": true,
+  "visiblePayloadReceived": 36,
+  "panelName": "livingWorldVisible",
+  "firstVisible": {
+    "ambientFeed": {
+      "events": [
+        {
+          "type": "baker_delivers_bread",
+          "reason": "visible-bridge",
+          "at": 1782417587309,
+          "payload": {
+            "place": "bakery"
+          }
+        }
+      ],
+      "text": [
+        "baker delivers bread"
+      ]
+    },
+    "questTracker": {
+      "active": [
+        {
+          "id": "repair_beis_midrash_bench",
+          "title": "Repair the Beis Midrash Bench",
+          "objectives": [
+            {
+              "kind": "repair_bench",
+              "needed": 1,
+              "done": 0
+            }
+          ],
+          "source": "world_state"
+        }
+      ]
+    },
+    "questMarkers": {
+      "markers": [
+        {
+          "npcId": "miriam_baker",
+          "missionId": "miriam_baker",
+          "marker": "exclamation",
+          "npcName": "miriam baker",
+          "title": "daven"
+        },
+        {
+          "npcId": "rebbe_akiva",
+          "missionId": "rebbe_akiva",
+          "marker": "exclamation",
+          "npcName": "rebbe akiva",
+          "title": "daven"
+        },
+        {
+          "npcId": "levi_guard",
+          "missionId": "levi_guard",
+          "marker": "exclamation",
+          "npcName": "levi guard",
+          "title": "daven"
+        },
+        {
+          "npcId": "repair_beis_midrash_bench",
+          "missionId": "repair_beis_midrash_bench",
+          "marker": "question",
+          "npcName": "beis midrash",
+          "title": "quest"
+        }
+      ]
+    },
+    "npcGossip": {
+      "open": false,
+      "npcId": "miriam_baker",
+      "npcName": "Miriam",
+      "greeting": "The player delivered bread.",
+      "choices": [
+        {
+          "id": "rumor_1782417587311_7kh6q",
+          "label": "The player delivered bread.",
+          "kind": "bread_delivery"
+        }
+      ]
+    },
+    "serviceMenu": {
+      "title": "Village Services",
+      "rows": [
+        "Hearth: inn_hearth",
+        "Visited: 0",
+        "Bread price: 5"
+      ]
+    },
+    "reputationSummary": {
+      "village": 8,
+      "merchants": 0,
+      "poorFamilies": 0,
+      "scholars": 0,
+      "children": 0,
+      "guards": 0,
+      "travelers": 0,
+      "animals": 0,
+      "virtues": {
+        "reliability": 3
+      }
+    },
+    "scheduleDebug": {
+      "miriam_baker": {
+        "npcId": "miriam_baker",
+        "role": "work",
+        "place": "bakery",
+        "hour": 9,
+        "updatedAt": 1782417587350,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "miriam_baker",
+          "from": "beis_midrash",
+          "to": "bakery",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 32400000,
+          "estimatedArrival": 32445000
+        }
+      },
+      "rebbe_akiva": {
+        "npcId": "rebbe_akiva",
+        "role": "work",
+        "place": "beis_midrash",
+        "hour": 10,
+        "updatedAt": 1782417587357,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "rebbe_akiva",
+          "from": "beis_midrash",
+          "to": "beis_midrash",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000
+        }
+      },
+      "levi_guard": {
+        "npcId": "levi_guard",
+        "role": "work",
+        "place": "village_gate",
+        "hour": 10,
+        "updatedAt": 1782417587357,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "levi_guard",
+          "from": "beis_midrash",
+          "to": "village_gate",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000
+        }
+      },
+      "betzalel_crafter": {
+        "npcId": "betzalel_crafter",
+        "role": "work",
+        "place": "workshop",
+        "hour": 10,
+        "updatedAt": 1782417587357,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "betzalel_crafter",
+          "from": "workshop",
+          "to": "workshop",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000
+        }
+      },
+      "tova_child": {
+        "npcId": "tova_child",
+        "role": "work",
+        "place": "schoolyard",
+        "hour": 9,
+        "updatedAt": 1782417587345,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "tova_child",
+          "from": "baker_home",
+          "to": "schoolyard",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 32400000,
+          "estimatedArrival": 32445000
+        }
+      }
+    },
+    "economySummary": {
+      "grain": 4,
+      "flour": 2,
+      "dough": 1,
+      "bread": 10,
+      "wood": 4,
+      "plank": 1,
+      "wax": 4,
+      "candle": 1,
+      "paper": 4,
+      "ink": 3,
+      "soup": 0,
+      "charity": 6,
+      "demand": {
+        "bread": 5,
+        "candle": 3,
+        "soup": 2
+      },
+      "prices": {
+        "bread": 3,
+        "candle": 6,
+        "soup": 5,
+        "warm_bread": 3,
+        "challah": 4,
+        "flour": 2,
+        "paper": 1,
+        "ink": 1,
+        "work_jacket": 10,
+        "small_siddur": 5,
+        "charity": 1,
+        "grain": 1,
+        "dough": 1,
+        "wood": 1,
+        "plank": 1,
+        "wax": 1,
+        "lastPricedAt": 1
+      },
+      "lastPricedAt": 1782417587358,
+      "lastPricingReason": "step:node-dom-sim-2"
+    },
+    "rawUiPayloads": {
+      "questTrackerRows": [
+        {
+          "id": "repair_beis_midrash_bench",
+          "title": "Repair the Beis Midrash Bench",
+          "objectives": [
+            {
+              "kind": "repair_bench",
+              "needed": 1,
+              "done": 0
+            }
+          ],
+          "source": "world_state"
+        }
+      ],
+      "npcGossipPayload": [
+        {
+          "id": "rumor_1782417587311_7kh6q",
+          "sourceNpc": "miriam_baker",
+          "originalText": "The player delivered bread.",
+          "currentText": "The player delivered bread.",
+          "truthValue": true,
+          "distortionAmount": 0.1,
+          "spreadCount": 1,
+          "heardBy": [
+            "miriam_baker",
+            "rebbe_akiva"
+          ],
+          "timestamp": 1782417587312,
+          "topic": "bread_delivery",
+          "emotionalTone": "warm"
+        }
+      ],
+      "serviceMenuPayload": {
+        "hearth": "inn_hearth",
+        "visited": [],
+        "economy": {
+          "bread": 5,
+          "candle": 6,
+          "soup": 5,
+          "warm_bread": 5,
+          "challah": 6,
+          "flour": 3,
+          "paper": 4,
+          "ink": 4,
+          "work_jacket": 15,
+          "small_siddur": 14,
+          "charity": 1,
+          "grain": 2,
+          "dough": 1,
+          "wood": 2,
+          "plank": 1,
+          "wax": 1,
+          "lastPricedAt": 1
+        }
+      },
+      "mapMarkerPayload": [
+        {
+          "urgency": "normal",
+          "startedAt": 21600000,
+          "estimatedArrival": 21645000,
+          "npcId": "miriam_baker",
+          "from": "baker_home",
+          "to": "beis_midrash",
+          "reason": "daven"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 21600000,
+          "estimatedArrival": 21645000,
+          "npcId": "rebbe_akiva",
+          "from": "rebbe_home",
+          "to": "beis_midrash",
+          "reason": "daven"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 21600000,
+          "estimatedArrival": 21645000,
+          "npcId": "levi_guard",
+          "from": "guard_house",
+          "to": "beis_midrash",
+          "reason": "daven"
+        },
+        {
+          "missionId": "repair_beis_midrash_bench",
+          "place": "beis_midrash",
+          "kind": "quest"
+        }
+      ],
+      "ambientEventFeedPayload": [
+        {
+          "type": "baker_delivers_bread",
+          "reason": "visible-bridge",
+          "at": 1782417587309,
+          "payload": {
+            "place": "bakery"
+          }
+        }
+      ],
+      "reputationSummaryPayload": {
+        "village": 8,
+        "merchants": 0,
+        "poorFamilies": 0,
+        "scholars": 0,
+        "children": 0,
+        "guards": 0,
+        "travelers": 0,
+        "animals": 0,
+        "virtues": {
+          "reliability": 3
+        }
+      },
+      "scheduleDebugPayload": {
+        "miriam_baker": {
+          "npcId": "miriam_baker",
+          "role": "work",
+          "place": "bakery",
+          "hour": 9,
+          "updatedAt": 1782417587350,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "miriam_baker",
+            "from": "beis_midrash",
+            "to": "bakery",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 32400000,
+            "estimatedArrival": 32445000
+          }
+        },
+        "rebbe_akiva": {
+          "npcId": "rebbe_akiva",
+          "role": "work",
+          "place": "beis_midrash",
+          "hour": 10,
+          "updatedAt": 1782417587357,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "rebbe_akiva",
+            "from": "beis_midrash",
+            "to": "beis_midrash",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "levi_guard": {
+          "npcId": "levi_guard",
+          "role": "work",
+          "place": "village_gate",
+          "hour": 10,
+          "updatedAt": 1782417587357,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "levi_guard",
+            "from": "beis_midrash",
+            "to": "village_gate",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "betzalel_crafter": {
+          "npcId": "betzalel_crafter",
+          "role": "work",
+          "place": "workshop",
+          "hour": 10,
+          "updatedAt": 1782417587357,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "betzalel_crafter",
+            "from": "workshop",
+            "to": "workshop",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "tova_child": {
+          "npcId": "tova_child",
+          "role": "work",
+          "place": "schoolyard",
+          "hour": 9,
+          "updatedAt": 1782417587345,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "tova_child",
+            "from": "baker_home",
+            "to": "schoolyard",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 32400000,
+            "estimatedArrival": 32445000
+          }
+        }
+      },
+      "economySummaryPayload": {
+        "grain": 4,
+        "flour": 2,
+        "dough": 1,
+        "bread": 10,
+        "wood": 4,
+        "plank": 1,
+        "wax": 4,
+        "candle": 1,
+        "paper": 4,
+        "ink": 3,
+        "soup": 0,
+        "charity": 6,
+        "demand": {
+          "bread": 5,
+          "candle": 3,
+          "soup": 2
+        },
+        "prices": {
+          "bread": 3,
+          "candle": 6,
+          "soup": 5,
+          "warm_bread": 3,
+          "challah": 4,
+          "flour": 2,
+          "paper": 1,
+          "ink": 1,
+          "work_jacket": 10,
+          "small_siddur": 5,
+          "charity": 1,
+          "grain": 1,
+          "dough": 1,
+          "wood": 1,
+          "plank": 1,
+          "wax": 1,
+          "lastPricedAt": 1
+        },
+        "lastPricedAt": 1782417587358,
+        "lastPricingReason": "step:node-dom-sim-2"
+      },
+      "socialConsequencesPayload": [],
+      "familyTrustPayload": {},
+      "economyTransactionsPayload": []
+    }
+  },
+  "pulseSummary": {
+    "installedAt": 1000,
+    "minIntervalMs": 250,
+    "lastAt": 1300,
+    "lastReason": "node-dom-worker-fps-2",
+    "count": 4,
+    "skipped": 1,
+    "missingRenderer": 0,
+    "lastSkippedReason": "none"
+  },
+  "trainedAbility": {
+    "ok": true,
+    "perutah": 34,
+    "rank": 1
+  },
+  "profession": {
+    "profession": "baker",
+    "rank": 1,
+    "learnedRecipes": [
+      "challah"
+    ],
+    "offers": [
+      {
+        "profession": "baker",
+        "recipeId": "challah",
+        "trainerId": "miriam_baker",
+        "requiredRank": 1,
+        "known": true,
+        "trainable": true,
+        "reason": "ready"
+      }
+    ]
+  },
+  "crafted": {
+    "id": "challah_1782417587337",
+    "recipeId": "challah",
+    "crafter": "player",
+    "kind": "crafted",
+    "at": 1782417587337
+  },
+  "purchase": {
+    "ok": true,
+    "transaction": {
+      "id": "vendor_1782417587338_bread",
+      "itemId": "warm_bread",
+      "economyKey": "bread",
+      "qty": 1,
+      "price": 5,
+      "vendorId": "bakery",
+      "at": 1782417587338
+    },
+    "economyKey": "bread",
+    "remaining": 6,
+    "prices": {
+      "bread": 4,
+      "candle": 6,
+      "soup": 5,
+      "warm_bread": 4,
+      "challah": 5,
+      "flour": 5,
+      "paper": 4,
+      "ink": 4,
+      "work_jacket": 15,
+      "small_siddur": 14,
+      "charity": 1,
+      "grain": 2,
+      "dough": 1,
+      "wood": 2,
+      "plank": 1,
+      "wax": 1,
+      "lastPricedAt": 1
+    },
+    "price": 5,
+    "perutah": 29
+  },
+  "resources": {
+    "elapsed": 4,
+    "gains": {
+      "grain": 4,
+      "flour": 4,
+      "wood": 4,
+      "wax": 3,
+      "paper": 4,
+      "ink": 3,
+      "charity": 2
+    },
+    "economy": {
+      "grain": 4,
+      "flour": 2,
+      "dough": 1,
+      "bread": 10,
+      "wood": 4,
+      "plank": 1,
+      "wax": 4,
+      "candle": 1,
+      "paper": 4,
+      "ink": 3,
+      "soup": 0,
+      "charity": 6,
+      "demand": {
+        "bread": 5,
+        "candle": 3,
+        "soup": 2
+      },
+      "prices": {
+        "bread": 3,
+        "candle": 6,
+        "soup": 5,
+        "warm_bread": 3,
+        "challah": 4,
+        "flour": 2,
+        "paper": 1,
+        "ink": 1,
+        "work_jacket": 10,
+        "small_siddur": 5,
+        "charity": 1,
+        "grain": 1,
+        "dough": 1,
+        "wood": 1,
+        "plank": 1,
+        "wax": 1,
+        "lastPricedAt": 1
+      },
+      "lastPricedAt": 1782417587358,
+      "lastPricingReason": "step:node-dom-sim-2"
+    }
+  },
+  "chain": {
+    "chainId": "bakery_kindness",
+    "activeNode": "feed_guest",
+    "completedNodes": [
+      "bring_flour",
+      "bake_challah"
+    ],
+    "next": {
+      "id": "feed_guest",
+      "missionId": "feed_hungry_guest",
+      "requires": "bake_challah"
+    }
+  },
+  "chain1": {
+    "chainId": "bakery_kindness",
+    "activeNode": "bake_challah",
+    "completedNodes": [
+      "bring_flour"
+    ],
+    "next": {
+      "id": "bake_challah",
+      "missionId": "learn_challah_from_miriam",
+      "requires": "bring_flour",
+      "unlocks": "feed_guest"
+    }
+  },
+  "chain2": {
+    "chainId": "bakery_kindness",
+    "activeNode": "feed_guest",
+    "completedNodes": [
+      "bring_flour",
+      "bake_challah"
+    ],
+    "next": {
+      "id": "feed_guest",
+      "missionId": "feed_hungry_guest",
+      "requires": "bake_challah"
+    }
+  },
+  "shefa": {
+    "malchus": 9,
+    "chesed": 3
+  },
+  "hashgacha": {
+    "type": "neighbor_offers_help",
+    "reason": "node-dom-sim",
+    "gift": {
+      "charity": 1
+    },
+    "at": 1782417587344
+  },
+  "ambient": {
+    "type": "ambient-conversation",
+    "speakers": [
+      "miriam_baker",
+      "tova_child"
+    ],
+    "text": "Miriam says: I heard a rumor near the market.",
+    "at": 1782417587345
+  },
+  "finalPayload": {
+    "ambientFeed": {
+      "events": [
+        {
+          "type": "baker_delivers_bread",
+          "reason": "visible-bridge",
+          "at": 1782417587309,
+          "payload": {
+            "place": "bakery"
+          }
+        },
+        {
+          "type": "vendor-purchase",
+          "id": "vendor_1782417587338_bread",
+          "itemId": "warm_bread",
+          "economyKey": "bread",
+          "qty": 1,
+          "price": 5,
+          "vendorId": "bakery",
+          "at": 1782417587338
+        },
+        {
+          "type": "quest-chain-advance",
+          "chainId": "bakery_kindness",
+          "completed": "bring_flour",
+          "next": "bake_challah",
+          "at": 1782417587343
+        },
+        {
+          "type": "quest-chain-advance",
+          "chainId": "bakery_kindness",
+          "completed": "bake_challah",
+          "next": "feed_guest",
+          "at": 1782417587343
+        },
+        {
+          "type": "neighbor_offers_help",
+          "reason": "node-dom-sim",
+          "gift": {
+            "charity": 1
+          },
+          "at": 1782417587344
+        },
+        {
+          "type": "ambient-conversation",
+          "speakers": [
+            "miriam_baker",
+            "tova_child"
+          ],
+          "text": "Miriam says: I heard a rumor near the market.",
+          "at": 1782417587345
+        },
+        {
+          "type": "child_runs_across_square",
+          "reason": "node-dom-sim-1",
+          "at": 1782417587351,
+          "payload": {
+            "place": "market_square"
+          }
+        },
+        {
+          "type": "guard_patrol_passes",
+          "reason": "node-dom-sim-2",
+          "at": 1782417587358,
+          "payload": {
+            "place": "market_square"
+          }
+        }
+      ],
+      "text": [
+        "quest-chain-advance",
+        "quest-chain-advance",
+        "neighbor offers help",
+        "ambient-conversation",
+        "child runs across square",
+        "guard patrol passes"
+      ]
+    },
+    "questTracker": {
+      "active": [
+        {
+          "id": "repair_beis_midrash_bench",
+          "title": "Repair the Beis Midrash Bench",
+          "objectives": [
+            {
+              "kind": "repair_bench",
+              "needed": 1,
+              "done": 0
+            }
+          ],
+          "source": "world_state"
+        }
+      ]
+    },
+    "questMarkers": {
+      "markers": [
+        {
+          "npcId": "rebbe_akiva",
+          "missionId": "rebbe_akiva",
+          "marker": "exclamation",
+          "npcName": "rebbe akiva",
+          "title": "daven"
+        },
+        {
+          "npcId": "levi_guard",
+          "missionId": "levi_guard",
+          "marker": "exclamation",
+          "npcName": "levi guard",
+          "title": "daven"
+        },
+        {
+          "npcId": "betzalel_crafter",
+          "missionId": "betzalel_crafter",
+          "marker": "exclamation",
+          "npcName": "betzalel crafter",
+          "title": "work"
+        },
+        {
+          "npcId": "tova_child",
+          "missionId": "tova_child",
+          "marker": "exclamation",
+          "npcName": "tova child",
+          "title": "work"
+        },
+        {
+          "npcId": "miriam_baker",
+          "missionId": "miriam_baker",
+          "marker": "exclamation",
+          "npcName": "miriam baker",
+          "title": "work"
+        },
+        {
+          "npcId": "rebbe_akiva",
+          "missionId": "rebbe_akiva",
+          "marker": "exclamation",
+          "npcName": "rebbe akiva",
+          "title": "work"
+        },
+        {
+          "npcId": "levi_guard",
+          "missionId": "levi_guard",
+          "marker": "exclamation",
+          "npcName": "levi guard",
+          "title": "work"
+        },
+        {
+          "npcId": "betzalel_crafter",
+          "missionId": "betzalel_crafter",
+          "marker": "exclamation",
+          "npcName": "betzalel crafter",
+          "title": "work"
+        },
+        {
+          "npcId": "repair_beis_midrash_bench",
+          "missionId": "repair_beis_midrash_bench",
+          "marker": "question",
+          "npcName": "beis midrash",
+          "title": "quest"
+        }
+      ]
+    },
+    "npcGossip": {
+      "open": false,
+      "npcId": "miriam_baker",
+      "npcName": "Miriam",
+      "greeting": "The player helped Miriam.",
+      "choices": [
+        {
+          "id": "rumor_1782417587311_7kh6q",
+          "label": "The player helped Miriam.",
+          "kind": "bread_delivery"
+        }
+      ]
+    },
+    "serviceMenu": {
+      "title": "Village Services",
+      "rows": [
+        "Hearth: inn_hearth",
+        "Visited: 0",
+        "Bread price: 3"
+      ]
+    },
+    "reputationSummary": {
+      "village": 8,
+      "merchants": 0,
+      "poorFamilies": 0,
+      "scholars": 0,
+      "children": 0,
+      "guards": 0,
+      "travelers": 0,
+      "animals": 0,
+      "virtues": {
+        "reliability": 3
+      }
+    },
+    "scheduleDebug": {
+      "miriam_baker": {
+        "npcId": "miriam_baker",
+        "role": "work",
+        "place": "bakery",
+        "hour": 9,
+        "updatedAt": 1782417587350,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "miriam_baker",
+          "from": "beis_midrash",
+          "to": "bakery",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 32400000,
+          "estimatedArrival": 32445000
+        }
+      },
+      "rebbe_akiva": {
+        "npcId": "rebbe_akiva",
+        "role": "work",
+        "place": "beis_midrash",
+        "hour": 10,
+        "updatedAt": 1782417587357,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "rebbe_akiva",
+          "from": "beis_midrash",
+          "to": "beis_midrash",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000
+        }
+      },
+      "levi_guard": {
+        "npcId": "levi_guard",
+        "role": "work",
+        "place": "village_gate",
+        "hour": 10,
+        "updatedAt": 1782417587357,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "levi_guard",
+          "from": "beis_midrash",
+          "to": "village_gate",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000
+        }
+      },
+      "betzalel_crafter": {
+        "npcId": "betzalel_crafter",
+        "role": "work",
+        "place": "workshop",
+        "hour": 10,
+        "updatedAt": 1782417587357,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "betzalel_crafter",
+          "from": "workshop",
+          "to": "workshop",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000
+        }
+      },
+      "tova_child": {
+        "npcId": "tova_child",
+        "role": "work",
+        "place": "schoolyard",
+        "hour": 9,
+        "updatedAt": 1782417587345,
+        "reason": "work",
+        "movementIntent": {
+          "npcId": "tova_child",
+          "from": "baker_home",
+          "to": "schoolyard",
+          "reason": "work",
+          "urgency": "normal",
+          "startedAt": 32400000,
+          "estimatedArrival": 32445000
+        }
+      }
+    },
+    "economySummary": {
+      "grain": 4,
+      "flour": 2,
+      "dough": 1,
+      "bread": 10,
+      "wood": 4,
+      "plank": 1,
+      "wax": 4,
+      "candle": 1,
+      "paper": 4,
+      "ink": 3,
+      "soup": 0,
+      "charity": 6,
+      "demand": {
+        "bread": 5,
+        "candle": 3,
+        "soup": 2
+      },
+      "prices": {
+        "bread": 3,
+        "candle": 6,
+        "soup": 5,
+        "warm_bread": 3,
+        "challah": 4,
+        "flour": 2,
+        "paper": 1,
+        "ink": 1,
+        "work_jacket": 10,
+        "small_siddur": 5,
+        "charity": 1,
+        "grain": 1,
+        "dough": 1,
+        "wood": 1,
+        "plank": 1,
+        "wax": 1,
+        "lastPricedAt": 1
+      },
+      "lastPricedAt": 1782417587358,
+      "lastPricingReason": "step:node-dom-sim-2"
+    },
+    "rawUiPayloads": {
+      "questTrackerRows": [
+        {
+          "id": "repair_beis_midrash_bench",
+          "title": "Repair the Beis Midrash Bench",
+          "objectives": [
+            {
+              "kind": "repair_bench",
+              "needed": 1,
+              "done": 0
+            }
+          ],
+          "source": "world_state"
+        }
+      ],
+      "npcGossipPayload": [
+        {
+          "id": "rumor_1782417587311_7kh6q",
+          "sourceNpc": "miriam_baker",
+          "originalText": "The player delivered bread.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.30000000000000004,
+          "spreadCount": 3,
+          "heardBy": [
+            "miriam_baker",
+            "rebbe_akiva",
+            "levi_guard",
+            "betzalel_crafter"
+          ],
+          "timestamp": 1782417587358,
+          "topic": "bread_delivery",
+          "emotionalTone": "warm"
+        }
+      ],
+      "serviceMenuPayload": {
+        "hearth": "inn_hearth",
+        "visited": [],
+        "economy": {
+          "bread": 3,
+          "candle": 6,
+          "soup": 5,
+          "warm_bread": 3,
+          "challah": 4,
+          "flour": 2,
+          "paper": 1,
+          "ink": 1,
+          "work_jacket": 10,
+          "small_siddur": 5,
+          "charity": 1,
+          "grain": 1,
+          "dough": 1,
+          "wood": 1,
+          "plank": 1,
+          "wax": 1,
+          "lastPricedAt": 1
+        }
+      },
+      "mapMarkerPayload": [
+        {
+          "urgency": "normal",
+          "startedAt": 21600000,
+          "estimatedArrival": 21645000,
+          "npcId": "rebbe_akiva",
+          "from": "rebbe_home",
+          "to": "beis_midrash",
+          "reason": "daven"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 21600000,
+          "estimatedArrival": 21645000,
+          "npcId": "levi_guard",
+          "from": "guard_house",
+          "to": "beis_midrash",
+          "reason": "daven"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 32400000,
+          "estimatedArrival": 32445000,
+          "npcId": "betzalel_crafter",
+          "from": "crafter_home",
+          "to": "workshop",
+          "reason": "work"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 32400000,
+          "estimatedArrival": 32445000,
+          "npcId": "tova_child",
+          "from": "baker_home",
+          "to": "schoolyard",
+          "reason": "work"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 32400000,
+          "estimatedArrival": 32445000,
+          "npcId": "miriam_baker",
+          "from": "beis_midrash",
+          "to": "bakery",
+          "reason": "work"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000,
+          "npcId": "rebbe_akiva",
+          "from": "beis_midrash",
+          "to": "beis_midrash",
+          "reason": "work"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000,
+          "npcId": "levi_guard",
+          "from": "beis_midrash",
+          "to": "village_gate",
+          "reason": "work"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000,
+          "npcId": "betzalel_crafter",
+          "from": "workshop",
+          "to": "workshop",
+          "reason": "work"
+        },
+        {
+          "missionId": "repair_beis_midrash_bench",
+          "place": "beis_midrash",
+          "kind": "quest"
+        }
+      ],
+      "ambientEventFeedPayload": [
+        {
+          "type": "baker_delivers_bread",
+          "reason": "visible-bridge",
+          "at": 1782417587309,
+          "payload": {
+            "place": "bakery"
+          }
+        },
+        {
+          "type": "vendor-purchase",
+          "id": "vendor_1782417587338_bread",
+          "itemId": "warm_bread",
+          "economyKey": "bread",
+          "qty": 1,
+          "price": 5,
+          "vendorId": "bakery",
+          "at": 1782417587338
+        },
+        {
+          "type": "quest-chain-advance",
+          "chainId": "bakery_kindness",
+          "completed": "bring_flour",
+          "next": "bake_challah",
+          "at": 1782417587343
+        },
+        {
+          "type": "quest-chain-advance",
+          "chainId": "bakery_kindness",
+          "completed": "bake_challah",
+          "next": "feed_guest",
+          "at": 1782417587343
+        },
+        {
+          "type": "neighbor_offers_help",
+          "reason": "node-dom-sim",
+          "gift": {
+            "charity": 1
+          },
+          "at": 1782417587344
+        },
+        {
+          "type": "ambient-conversation",
+          "speakers": [
+            "miriam_baker",
+            "tova_child"
+          ],
+          "text": "Miriam says: I heard a rumor near the market.",
+          "at": 1782417587345
+        },
+        {
+          "type": "child_runs_across_square",
+          "reason": "node-dom-sim-1",
+          "at": 1782417587351,
+          "payload": {
+            "place": "market_square"
+          }
+        },
+        {
+          "type": "guard_patrol_passes",
+          "reason": "node-dom-sim-2",
+          "at": 1782417587358,
+          "payload": {
+            "place": "market_square"
+          }
+        }
+      ],
+      "reputationSummaryPayload": {
+        "village": 8,
+        "merchants": 0,
+        "poorFamilies": 0,
+        "scholars": 0,
+        "children": 0,
+        "guards": 0,
+        "travelers": 0,
+        "animals": 0,
+        "virtues": {
+          "reliability": 3
+        }
+      },
+      "scheduleDebugPayload": {
+        "miriam_baker": {
+          "npcId": "miriam_baker",
+          "role": "work",
+          "place": "bakery",
+          "hour": 9,
+          "updatedAt": 1782417587350,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "miriam_baker",
+            "from": "beis_midrash",
+            "to": "bakery",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 32400000,
+            "estimatedArrival": 32445000
+          }
+        },
+        "rebbe_akiva": {
+          "npcId": "rebbe_akiva",
+          "role": "work",
+          "place": "beis_midrash",
+          "hour": 10,
+          "updatedAt": 1782417587357,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "rebbe_akiva",
+            "from": "beis_midrash",
+            "to": "beis_midrash",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "levi_guard": {
+          "npcId": "levi_guard",
+          "role": "work",
+          "place": "village_gate",
+          "hour": 10,
+          "updatedAt": 1782417587357,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "levi_guard",
+            "from": "beis_midrash",
+            "to": "village_gate",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "betzalel_crafter": {
+          "npcId": "betzalel_crafter",
+          "role": "work",
+          "place": "workshop",
+          "hour": 10,
+          "updatedAt": 1782417587357,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "betzalel_crafter",
+            "from": "workshop",
+            "to": "workshop",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "tova_child": {
+          "npcId": "tova_child",
+          "role": "work",
+          "place": "schoolyard",
+          "hour": 9,
+          "updatedAt": 1782417587345,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "tova_child",
+            "from": "baker_home",
+            "to": "schoolyard",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 32400000,
+            "estimatedArrival": 32445000
+          }
+        }
+      },
+      "economySummaryPayload": {
+        "grain": 4,
+        "flour": 2,
+        "dough": 1,
+        "bread": 10,
+        "wood": 4,
+        "plank": 1,
+        "wax": 4,
+        "candle": 1,
+        "paper": 4,
+        "ink": 3,
+        "soup": 0,
+        "charity": 6,
+        "demand": {
+          "bread": 5,
+          "candle": 3,
+          "soup": 2
+        },
+        "prices": {
+          "bread": 3,
+          "candle": 6,
+          "soup": 5,
+          "warm_bread": 3,
+          "challah": 4,
+          "flour": 2,
+          "paper": 1,
+          "ink": 1,
+          "work_jacket": 10,
+          "small_siddur": 5,
+          "charity": 1,
+          "grain": 1,
+          "dough": 1,
+          "wood": 1,
+          "plank": 1,
+          "wax": 1,
+          "lastPricedAt": 1
+        },
+        "lastPricedAt": 1782417587358,
+        "lastPricingReason": "step:node-dom-sim-2"
+      },
+      "socialConsequencesPayload": [],
+      "familyTrustPayload": {},
+      "economyTransactionsPayload": [
+        {
+          "id": "vendor_1782417587338_bread",
+          "itemId": "warm_bread",
+          "economyKey": "bread",
+          "qty": 1,
+          "price": 5,
+          "vendorId": "bakery",
+          "at": 1782417587338
+        }
+      ]
+    }
+  },
+  "worldState": {
+    "version": 1,
+    "updatedAt": 1782417587362,
+    "currentDay": 1,
+    "currentSeason": "spring",
+    "clockHour": 10,
+    "hearthLocation": "inn_hearth",
+    "npcMemories": {
+      "miriam_baker": [
+        {
+          "kind": "schedule_seen",
+          "text": "Went to beis_midrash for daven.",
+          "role": "daven",
+          "place": "beis_midrash",
+          "at": 1782417587309
+        },
+        {
+          "kind": "delivered",
+          "text": "The player delivered bread.",
+          "fact": "bread_delivery",
+          "at": 1782417587311
+        },
+        {
+          "kind": "schedule_seen",
+          "text": "Went to bakery for work.",
+          "role": "work",
+          "place": "bakery",
+          "at": 1782417587351
+        },
+        {
+          "kind": "delivered",
+          "text": "The player delivered bread.",
+          "fact": "bread_delivery",
+          "at": 1782417587351
+        },
+        {
+          "kind": "delivered",
+          "text": "The player delivered bread.",
+          "fact": "bread_delivery",
+          "at": 1782417587358
+        }
+      ],
+      "rebbe_akiva": [
+        {
+          "kind": "schedule_seen",
+          "text": "Went to beis_midrash for daven.",
+          "role": "daven",
+          "place": "beis_midrash",
+          "at": 1782417587309
+        },
+        {
+          "kind": "schedule_seen",
+          "text": "Went to beis_midrash for work.",
+          "role": "work",
+          "place": "beis_midrash",
+          "at": 1782417587358
+        }
+      ],
+      "levi_guard": [
+        {
+          "kind": "schedule_seen",
+          "text": "Went to beis_midrash for daven.",
+          "role": "daven",
+          "place": "beis_midrash",
+          "at": 1782417587309
+        },
+        {
+          "kind": "schedule_seen",
+          "text": "Went to village_gate for work.",
+          "role": "work",
+          "place": "village_gate",
+          "at": 1782417587358
+        }
+      ],
+      "betzalel_crafter": [
+        {
+          "kind": "schedule_seen",
+          "text": "Went to workshop for work.",
+          "role": "work",
+          "place": "workshop",
+          "at": 1782417587351
+        },
+        {
+          "kind": "schedule_seen",
+          "text": "Went to workshop for work.",
+          "role": "work",
+          "place": "workshop",
+          "at": 1782417587358
+        }
+      ],
+      "tova_child": [
+        {
+          "kind": "schedule_seen",
+          "text": "Went to schoolyard for work.",
+          "role": "work",
+          "place": "schoolyard",
+          "at": 1782417587351
+        }
+      ]
+    },
+    "movementIntents": [
+      {
+        "urgency": "normal",
+        "startedAt": 21600000,
+        "estimatedArrival": 21645000,
+        "npcId": "miriam_baker",
+        "from": "baker_home",
+        "to": "beis_midrash",
+        "reason": "daven"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 21600000,
+        "estimatedArrival": 21645000,
+        "npcId": "rebbe_akiva",
+        "from": "rebbe_home",
+        "to": "beis_midrash",
+        "reason": "daven"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 21600000,
+        "estimatedArrival": 21645000,
+        "npcId": "levi_guard",
+        "from": "guard_house",
+        "to": "beis_midrash",
+        "reason": "daven"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 32400000,
+        "estimatedArrival": 32445000,
+        "npcId": "betzalel_crafter",
+        "from": "crafter_home",
+        "to": "workshop",
+        "reason": "work"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 32400000,
+        "estimatedArrival": 32445000,
+        "npcId": "tova_child",
+        "from": "baker_home",
+        "to": "schoolyard",
+        "reason": "work"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 32400000,
+        "estimatedArrival": 32445000,
+        "npcId": "miriam_baker",
+        "from": "beis_midrash",
+        "to": "bakery",
+        "reason": "work"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 36000000,
+        "estimatedArrival": 36045000,
+        "npcId": "rebbe_akiva",
+        "from": "beis_midrash",
+        "to": "beis_midrash",
+        "reason": "work"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 36000000,
+        "estimatedArrival": 36045000,
+        "npcId": "levi_guard",
+        "from": "beis_midrash",
+        "to": "village_gate",
+        "reason": "work"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 36000000,
+        "estimatedArrival": 36045000,
+        "npcId": "betzalel_crafter",
+        "from": "workshop",
+        "to": "workshop",
+        "reason": "work"
+      }
+    ],
+    "rumors": [
+      {
+        "id": "rumor_1782417587311_7kh6q",
+        "sourceNpc": "miriam_baker",
+        "originalText": "The player delivered bread.",
+        "currentText": "The player helped Miriam.",
+        "truthValue": true,
+        "distortionAmount": 0.30000000000000004,
+        "spreadCount": 3,
+        "heardBy": [
+          "miriam_baker",
+          "rebbe_akiva",
+          "levi_guard",
+          "betzalel_crafter"
+        ],
+        "timestamp": 1782417587358,
+        "topic": "bread_delivery",
+        "emotionalTone": "warm"
+      }
+    ],
+    "activeMissions": {
+      "repair_beis_midrash_bench": {
+        "id": "repair_beis_midrash_bench",
+        "title": "Repair the Beis Midrash Bench",
+        "trigger": "bench_broken",
+        "place": "beis_midrash",
+        "objectives": [
+          {
+            "kind": "repair_bench",
+            "needed": 1,
+            "done": 0
+          }
+        ],
+        "reward": {
+          "reputation": {
+            "scholars": 2
+          },
+          "memory": "crafted"
+        },
+        "acceptedAt": 1782417587310,
+        "source": "world_state"
+      }
+    },
+    "completedMissions": [],
+    "familyTrust": {},
+    "socialConsequences": [],
+    "apologies": [],
+    "economyTransactions": [
+      {
+        "id": "vendor_1782417587338_bread",
+        "itemId": "warm_bread",
+        "economyKey": "bread",
+        "qty": 1,
+        "price": 5,
+        "vendorId": "bakery",
+        "at": 1782417587338
+      }
+    ],
+    "reputation": {
+      "village": 8,
+      "merchants": 0,
+      "poorFamilies": 0,
+      "scholars": 0,
+      "children": 0,
+      "guards": 0,
+      "travelers": 0,
+      "animals": 0,
+      "virtues": {
+        "reliability": 3
+      }
+    },
+    "economy": {
+      "grain": 4,
+      "flour": 2,
+      "dough": 1,
+      "bread": 10,
+      "wood": 4,
+      "plank": 1,
+      "wax": 4,
+      "candle": 1,
+      "paper": 4,
+      "ink": 3,
+      "soup": 0,
+      "charity": 6,
+      "demand": {
+        "bread": 5,
+        "candle": 3,
+        "soup": 2
+      },
+      "prices": {
+        "bread": 3,
+        "candle": 6,
+        "soup": 5,
+        "warm_bread": 3,
+        "challah": 4,
+        "flour": 2,
+        "paper": 1,
+        "ink": 1,
+        "work_jacket": 10,
+        "small_siddur": 5,
+        "charity": 1,
+        "grain": 1,
+        "dough": 1,
+        "wood": 1,
+        "plank": 1,
+        "wax": 1,
+        "lastPricedAt": 1
+      },
+      "lastPricedAt": 1782417587358,
+      "lastPricingReason": "step:node-dom-sim-2"
+    },
+    "craftedItems": [
+      {
+        "id": "challah_1782417587311",
+        "recipeId": "challah",
+        "crafter": "miriam_baker",
+        "kind": "crafted",
+        "at": 1782417587311
+      },
+      {
+        "id": "challah_1782417587337",
+        "recipeId": "challah",
+        "crafter": "player",
+        "kind": "crafted",
+        "at": 1782417587337
+      },
+      {
+        "id": "challah_1782417587351",
+        "recipeId": "challah",
+        "crafter": "miriam_baker",
+        "kind": "crafted",
+        "at": 1782417587351
+      },
+      {
+        "id": "challah_1782417587358",
+        "recipeId": "challah",
+        "crafter": "miriam_baker",
+        "kind": "crafted",
+        "at": 1782417587358
+      }
+    ],
+    "servicesVisited": [],
+    "ambientEvents": [
+      {
+        "type": "vendor-purchase",
+        "id": "vendor_1782417587338_bread",
+        "itemId": "warm_bread",
+        "economyKey": "bread",
+        "qty": 1,
+        "price": 5,
+        "vendorId": "bakery",
+        "at": 1782417587338
+      }
+    ],
+    "villageProjects": {
+      "benchRepair": 0,
+      "hospitality": 0,
+      "charityNetwork": 1
+    },
+    "tutorialProgress": {},
+    "eventFeed": [
+      {
+        "type": "baker_delivers_bread",
+        "reason": "visible-bridge",
+        "at": 1782417587309,
+        "payload": {
+          "place": "bakery"
+        }
+      },
+      {
+        "type": "vendor-purchase",
+        "id": "vendor_1782417587338_bread",
+        "itemId": "warm_bread",
+        "economyKey": "bread",
+        "qty": 1,
+        "price": 5,
+        "vendorId": "bakery",
+        "at": 1782417587338
+      },
+      {
+        "type": "quest-chain-advance",
+        "chainId": "bakery_kindness",
+        "completed": "bring_flour",
+        "next": "bake_challah",
+        "at": 1782417587343
+      },
+      {
+        "type": "quest-chain-advance",
+        "chainId": "bakery_kindness",
+        "completed": "bake_challah",
+        "next": "feed_guest",
+        "at": 1782417587343
+      },
+      {
+        "type": "neighbor_offers_help",
+        "reason": "node-dom-sim",
+        "gift": {
+          "charity": 1
+        },
+        "at": 1782417587344
+      },
+      {
+        "type": "ambient-conversation",
+        "speakers": [
+          "miriam_baker",
+          "tova_child"
+        ],
+        "text": "Miriam says: I heard a rumor near the market.",
+        "at": 1782417587345
+      },
+      {
+        "type": "child_runs_across_square",
+        "reason": "node-dom-sim-1",
+        "at": 1782417587351,
+        "payload": {
+          "place": "market_square"
+        }
+      },
+      {
+        "type": "guard_patrol_passes",
+        "reason": "node-dom-sim-2",
+        "at": 1782417587358,
+        "payload": {
+          "place": "market_square"
+        }
+      }
+    ],
+    "reason": "step:node-dom-sim-2"
+  }
+}

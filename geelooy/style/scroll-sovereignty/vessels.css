@@ -1,0 +1,11 @@
+/* B"H Chapter 624: visible vessels may grow, but not pierce the viewport. */
+.awtsmoospage, .all, .main, main, article, section, header, footer, nav,
+.geelooy-home-shell, .geelooy-social-shell, .heichel-mobile-navigation,
+.geelooy-main-stage, .heichel-nav-panel, .grid-realms, .viewport,
+.dynamic-grid, .scroll-view-wrapper, #realPost, #virtual-scroll-container {
+  min-width: 0; max-width: 100%; max-height: none !important; overflow-y: visible !important;
+}
+.main, main, .page, .awts-page, .geelooy-home-shell, .geelooy-social-shell { width: 100%; }
+.card, .nav-card, .post-card, .series-card, .profile-card, .discovery-card,
+.feed-card, .sanctuary-card, .modal-card, .panel, .surface { min-width: 0; overflow-wrap: anywhere; }
+.grid, .dynamic-grid, .heichel-grid, .series-grid, .feed-grid, .cards-grid { min-width: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }

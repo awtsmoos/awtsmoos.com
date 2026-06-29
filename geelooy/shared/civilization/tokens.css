@@ -1,0 +1,37 @@
+/* B"H
+ * Chapter 575: One civilization token covenant for every room of the site.
+ */
+:root {
+  --civ-bg-0: #02040b;
+  --civ-bg-1: #06111f;
+  --civ-surface: rgba(8, 18, 34, .78);
+  --civ-surface-2: rgba(15, 31, 55, .72);
+  --civ-glass: rgba(255,255,255,.07);
+  --civ-text: #f7fbff;
+  --civ-muted: #aabbd4;
+  --civ-faint: #667792;
+  --civ-knowledge: #31d7ff;
+  --civ-authority: #ffbf3f;
+  --civ-creation: #3cffb0;
+  --civ-ai: #b281ff;
+  --civ-governance: #ff8a2a;
+  --civ-conflict: #ff4d6d;
+  --civ-memory: #8be9fd;
+  --civ-presence: #a8ff00;
+  --civ-archived: #8792a2;
+  --civ-radius: 18px;
+  --civ-radius-lg: 28px;
+  --civ-gap: 14px;
+  --civ-ring: 0 0 0 2px rgba(49,215,255,.55), 0 0 0 8px rgba(49,215,255,.13);
+  --civ-shadow: 0 24px 80px rgba(0,0,0,.42), 0 0 38px rgba(49,215,255,.10);
+  --civ-hot-shadow: 0 18px 60px rgba(0,0,0,.45), 0 0 42px rgba(255,72,255,.18);
+}
+.civ-semantic-knowledge { --civ-accent: var(--civ-knowledge); }
+.civ-semantic-authority { --civ-accent: var(--civ-authority); }
+.civ-semantic-creation { --civ-accent: var(--civ-creation); }
+.civ-semantic-ai { --civ-accent: var(--civ-ai); }
+.civ-semantic-governance { --civ-accent: var(--civ-governance); }
+.civ-semantic-conflict { --civ-accent: var(--civ-conflict); }
+.civ-semantic-memory { --civ-accent: var(--civ-memory); }
+.civ-semantic-presence { --civ-accent: var(--civ-presence); }
+.civ-semantic-archived { --civ-accent: var(--civ-archived); }

@@ -1,20 +1,31 @@
 // B"H
 /**
  * @module SovereignUIArchitect
+<<<<<<< HEAD
  * @description
  * Chapter 419: The palace learned to breathe from one root.
  * The Awtsmoos hides in no border hack. The Heichel renders from a named root,
  * focuses clean search, sanitizes series text, and keeps old scripts as ash.
+=======
+ * @description The Heichel renderer now births the Awtsmoos OS kernel before
+ * the old grids: command galaxy, dock, status pulse, and context rail.
+>>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b
  */
-
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
 import { DOMElements, clearRegistry } from '../dom.js';
+<<<<<<< HEAD
 import { safeDisplayText } from './textSanitizer.js';
+=======
+import { VoidPurifier } from '../utils/VoidPurifier.js';
+import { renderCommandPalette, runCommand } from './awtsmoos-os/commands.js';
+import { activateDistrict, renderHeichelWorldState } from './heichel-os/world-panel.js';
+>>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b
 
 export { notify } from './render/toast.js';
 export { updateHeichelHeader, renderBreadcrumb } from './render/header.js';
 export { renderContentGrids } from './render/grids.js';
+export { renderHeichelWorldState };
 
 export function manifestWorld(navigator, mountPoint = document.body) {
     clearRegistry();
@@ -24,11 +35,17 @@ export function manifestWorld(navigator, mountPoint = document.body) {
         applyFilter: () => applyCurrentFilter(navigator),
         switchView: view => navigator.switchView(view),
         closeModal: () => import('../modal.js').then(module => module.closeModal()),
-        onModalSubmit: event => event.preventDefault()
+        onModalSubmit: event => event.preventDefault(),
+        focusCommand: () => DOMElements.osCommandInput?.focus(),
+        openCommand: () => DOMElements.osCommandPalette?.classList.remove('hidden'),
+        onOsCommand: event => renderCommandPalette(DOMElements.osCommandPalette, event.target.value),
+        runOsCommand: command => runCommand(command),
+        activateHeichelDistrict: name => activateDistrict(name)
     };
     const rootVessel = ScribeOfManifestation.speakElement(getFullLayoutBlueprint(actions));
     const target = mountPoint.querySelector('.main') || mountPoint;
     target.replaceChildren(rootVessel);
+    renderCommandPalette(DOMElements.osCommandPalette, '');
 }
 
 function toggleSidebarDoor() {
@@ -64,11 +81,13 @@ export function showLoading() {
     DOMElements.loadingSeries?.classList.remove('hidden');
     DOMElements.postsList?.replaceChildren();
     DOMElements.seriesList?.replaceChildren();
+    if (DOMElements.osStatusText) DOMElements.osStatusText.textContent = 'Loading AwtsmoosDB projections';
 }
 
 export function hideLoading() {
     DOMElements.loadingPosts?.classList.add('hidden');
     DOMElements.loadingSeries?.classList.add('hidden');
+    if (DOMElements.osStatusText) DOMElements.osStatusText.textContent = 'AwtsmoosDB projections revealed';
 }
 
 export function updateActiveTab(view) {

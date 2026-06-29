@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-002">
         <link rel="stylesheet" href="/style/social/alias.css">
     </head>
     <body>
@@ -13,40 +14,16 @@
         </div>
         <script type="module">
             //B"H
-            import {
-                getAliasOwnership,
-                getAliasDetails
-            } from "/scripts/awtsmoos/api/social/alias.js";
-            import {
-                makeAliasPage
-            } from "/scripts/awtsmoos/social/aliasPage.js";
-
+            import { getAliasOwnership, getAliasDetails } from "/scripts/awtsmoos/api/social/alias.js";
+            import { makeAliasPage } from "/scripts/awtsmoos/social/aliasPage.js";
             const alias = decodeURIComponent(location.pathname.replace(/^\/@\/?/, ""));
             const container = document.querySelector(".alias-container");
-
             async function go() {
-                if (!alias) {
-                    container.textContent = "B'H — no alias selected.";
-                    return;
-                }
-
-                const [ownership, details] = await Promise.all([
-                    getAliasOwnership(alias),
-                    getAliasDetails(alias)
-                ]);
-
-                if (!details || details.error) {
-                    container.textContent = `B'H — @${alias} was not found.`;
-                    return;
-                }
-
-                await makeAliasPage({
-                    details,
-                    ownership: ownership?.code === "YES",
-                    container
-                });
+                if (!alias) { container.textContent = "B'H — no alias selected."; return; }
+                const [ownership, details] = await Promise.all([getAliasOwnership(alias), getAliasDetails(alias)]);
+                if (!details || details.error) { container.textContent = `B'H — @${alias} was not found.`; return; }
+                await makeAliasPage({ details, ownership: ownership?.code === "YES", container });
             }
-
             await go();
         </script>
     </body>

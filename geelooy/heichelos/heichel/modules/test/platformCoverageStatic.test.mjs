@@ -14,7 +14,7 @@ const revamped = fs.readFileSync('geelooy/style/heichelos/heichel.revamped.css',
 
 const renderedActions = [...panel.matchAll(/\['([^']+)',\s*'[^']+'\]/g)].map(match => match[1]);
 assert.deepEqual(renderedActions, [...new Set(renderedActions)], 'platformPanel renders duplicate actions');
-assert.deepEqual(renderedActions.sort(), ['cache', 'db', 'digest', 'feed', 'graph', 'jobs', 'media', 'ops', 'permissions', 'presence', 'relationships', 'searchIndex', 'sync', 'thread'].sort());
+assert.deepEqual(renderedActions.sort(), ['cache', 'civilization', 'db', 'digest', 'feed', 'graph', 'jobs', 'media', 'ops', 'permissions', 'presence', 'relationships', 'searchIndex', 'sync', 'thread'].sort());
 assert.match(notificationsPanel, /aria-expanded/, 'notifications toggle must expose expanded state');
 assert.match(notificationsPanel, /setInterval/, 'notifications panel must poll for live updates');
 assert.match(notificationsPanel, /markNotificationRead/, 'notifications panel must expose mark-read flow');
@@ -42,8 +42,8 @@ for (const token of [
   assert.ok(ops.includes(token), `missing browser platform op: ${token}`);
 }
 
-assert.match(desktopCss, /width:\s*min\(24rem,\s*calc\(100vw - 1\.5rem\)\)/, 'desktop panel must stay inside viewport');
-assert.match(desktopCss, /max-height:\s*min\(34rem,\s*74vh\)/, 'desktop panel must cap height');
+assert.match(desktopCss, /width:\s*min\(27rem,\s*calc\(100vw - 1\.5rem\)\)/, 'desktop panel must stay inside viewport');
+assert.match(desktopCss, /max-height:\s*min\(38rem,\s*78vh\)/, 'desktop panel must cap height');
 assert.match(desktopCss, /min-height:\s*2\.75rem/, 'platform touch targets must be at least 44px-ish');
 assert.match(mobileCss, /@media \(max-width:\s*760px\)/, 'mobile platform breakpoint missing');
 assert.match(mobileCss, /width:\s*auto/, 'mobile platform panel must use fluid width');

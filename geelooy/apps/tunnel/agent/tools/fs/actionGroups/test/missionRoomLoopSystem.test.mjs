@@ -1,0 +1,64 @@
+// B"H
+import { createRequire } from 'module';
+import fs from 'fs/promises';
+import os from 'os';
+import path from 'path';
+import assert from 'assert/strict';
+const require = createRequire(import.meta.url);
+const { buildMissionActions } = require('../missionActions.js');
+async function action(config, name, payload = {}) {
+  const actions = buildMissionActions({ config, payload: { action: name, ...payload } });
+  const out = await actions[name]();
+  assert.equal(out.ok, true, `${name} ok`);
+  assert.equal(out.action, name, `${name} action`);
+  return out;
+}
+const params = value => ({ params: JSON.stringify(value) });
+async function main() {
+  const base = await fs.mkdtemp(path.join(os.tmpdir(), 'room-loop-'));
+  const rootA = path.join(base, 'git', 'project-a');
+  const rootB = path.join(base, 'elsewhere', 'project-b');
+  await fs.mkdir(rootA, { recursive: true });
+  await fs.mkdir(rootB, { recursive: true });
+  const metaRoot = path.join(base, '.awtsmoos-global-meta');
+  const configA = { root: rootA, metadataRoot: metaRoot };
+  const configB = { root: rootB, metadataRoot: metaRoot };
+  const start = await action(configA, 'missionStart', params({ goal: 'global loop room', metadata: { projectRoot: rootA }, minimumInnovationWindowMs: 0 }));
+  const missionId = start.missionId;
+  await action(configA, 'missionRoomCreate', params({ missionId, projectRoot: rootA, roomName: 'Loop Room' }));
+  await action(configA, 'missionRoomJoin', params({ missionId, agentId: 'agent_a', role: 'worker' }));
+  await action(configA, 'missionRoomMessage', params({ missionId, agentId: 'agent_a', message: 'registry seed', interrupt: false }));
+  const metaA = await action(configA, 'missionMetadataStatus', params({ projectRoot: rootA }));
+  const metaB = await action(configB, 'missionMetadataStatus', params({ projectRoot: rootB }));
+  assert.equal(metaA.metadata.metadataRoot, metaB.metadata.metadataRoot);
+  assert.equal(metaA.metadata.globalMetadataRoot, true);
+  assert(metaA.metadata.activeRooms.some(r => r.missionId === missionId));
+  const found = await action(configB, 'missionRoomFindActive', params({ projectRoot: rootA, agentId: 'agent_b' }));
+  assert.equal(found.discovery.mustCallNext.missionId, missionId);
+  const wake = await action(configA, 'missionRoomWakeAgent', params({ missionId, agentId: 'agent_b', projectRoot: rootA }));
+  assert.equal(wake.wake.agent.agentId, 'agent_b');
+  assert(wake.wake.brainstorm.ideas.length >= 10);
+  const inbox = await action(configA, 'missionRoomInbox', params({ missionId, agentId: 'agent_b' }));
+  assert.equal(inbox.inbox.agentId, 'agent_b');
+  const fileA = await action(configA, 'missionRoomClaimFile', params({ missionId, agentId: 'agent_a', file: 'geelooy/apps/tunnel/a.js' }));
+  assert.equal(fileA.claimFile.conflicts.length, 0);
+  const fileB = await action(configA, 'missionRoomClaimFile', params({ missionId, agentId: 'agent_b', file: 'geelooy/apps/tunnel/a.js' }));
+  assert.equal(fileB.claimFile.conflicts.length, 1);
+  const pulseConflict = await action(configA, 'missionRoomLoopPulse', params({ missionId, agentId: 'agent_b' }));
+  assert.equal(pulseConflict.pulse.stage, 'blocked_file_conflict');
+  await action(configA, 'missionRoomReleaseFile', params({ missionId, agentId: 'agent_b', file: 'geelooy/apps/tunnel/a.js' }));
+  const courtOk = await action(configA, 'missionRoomMergeCourt', params({ missionId, staleAfterMs: 999999999 }));
+  assert.equal(courtOk.court.ok, true);
+  const userMsg = await action(configA, 'missionRoomUserMessage', params({ missionId, message: 'block now', currentWork: 'loop running' }));
+  assert.equal(userMsg.roomStatus.counts.blockingInterrupts, 1);
+  const courtBlocked = await action(configA, 'missionRoomMergeCourt', params({ missionId, staleAfterMs: 999999999 }));
+  assert.equal(courtBlocked.court.ok, false);
+  assert(courtBlocked.court.issues.includes('open_interrupts'));
+  await action(configA, 'missionRoomRecoverInterrupt', params({ missionId, agentId: 'agent_a', interruptId: userMsg.interrupt.id }));
+  const stale = await action(configA, 'missionRoomWatchdog', params({ missionId, staleAfterMs: 0 }));
+  assert(stale.watchdog.stale.length >= 1);
+  const recovered = await action(configA, 'missionRoomRecoverStaleAgent', params({ missionId, agentId: 'agent_b', staleAgentId: 'agent_a' }));
+  assert.equal(recovered.recovery.ok, true);
+  console.log(JSON.stringify({ ok: true, missionId, metaRoot }, null, 2));
+}
+main().catch(error => { console.error(error); process.exit(1); });

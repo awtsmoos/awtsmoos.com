@@ -1,0 +1,23 @@
+// B"H
+import { createRequire } from 'module';
+import fs from 'fs/promises';
+import os from 'os';
+import path from 'path';
+import assert from 'assert/strict';
+const require = createRequire(import.meta.url);
+const Lock = require('../../mission/lock/index.js');
+const Watchdog = require('../../mission/watchdog/index.js');
+const Court = require('../../mission/releaseCourt/index.js');
+const Heart = require('../../mission/heartbeat/index.js');
+const root = await fs.mkdtemp(path.join(os.tmpdir(), 'mission-watchdog-court-'));
+const config = { root, repoRoot: process.cwd() };
+const lock = Lock.start(config, { action:'missionStart', missionId:'m1' }, { minimumRuntimeMs:3600000 });
+assert.equal(lock.lastMustCallNext.action, 'missionNext8Plan');
+assert.equal(Heart.read(config, 'm1').active, true);
+const status = Watchdog.status(config);
+assert.equal(status.active, true);
+const guarded = Court.guard(config, lock, { ok:true, action:'missionFinalize', finalAnswerAllowed:true, mustContinue:false }, {});
+assert.equal(guarded.finalAnswerAllowed, false);
+assert.equal(guarded.mustContinue, true);
+assert(guarded.releaseCourt.issues.includes('minimum_time_not_met'));
+console.log(JSON.stringify({ ok:true, next:lock.lastMustCallNext.action, court:guarded.releaseCourt.issues }, null, 2));

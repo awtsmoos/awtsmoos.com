@@ -1,0 +1,140 @@
+/* B"H - home civilization dashboard, feed layers, object inspector */
+.awtsmoos-civilization-dashboard {
+  align-items: start;
+}
+.civilization-command-card,
+.civilization-object-inspector,
+.civilization-feed-orb {
+  position: relative;
+}
+.home-command-galaxy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .55rem;
+  margin: 1rem 0;
+}
+.home-command-galaxy input {
+  min-width: 0;
+  min-height: 2.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(112, 77, 26, .22);
+  padding: 0 .9rem;
+  background: rgba(255,255,255,.78);
+  color: inherit;
+}
+.home-command-galaxy button,
+.civilization-layer-tabs button {
+  min-height: 2.65rem;
+}
+.civilization-layer-tabs {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.civilization-layer-tabs button {
+  white-space: nowrap;
+}
+.civilization-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .55rem;
+  margin: .75rem 0;
+}
+.civilization-metric-card {
+  display: grid;
+  gap: .2rem;
+  padding: .75rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(112, 77, 26, .18);
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 .55rem 1.5rem rgba(54, 32, 8, .09);
+}
+.civilization-metric-card strong {
+  font-size: clamp(1.1rem, 4vw, 1.8rem);
+  line-height: 1;
+}
+.civilization-metric-card small {
+  opacity: .72;
+  font-weight: 850;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.home-post-card[data-object-type] {
+  cursor: pointer;
+}
+.home-post-card[data-object-type]:focus,
+.home-post-card[data-object-type]:hover {
+  outline: 2px solid rgba(138, 75, 0, .45);
+  outline-offset: 4px;
+}
+.universal-object-card {
+  display: grid;
+  gap: .65rem;
+}
+.object-type-row,
+.object-action-row,
+.object-meta-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  align-items: center;
+}
+.object-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.85rem;
+  padding: .25rem .55rem;
+  border-radius: 999px;
+  background: rgba(138, 75, 0, .09);
+  border: 1px solid rgba(138, 75, 0, .16);
+  font-size: .76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.object-action-row a,
+.object-action-row button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.35rem;
+  padding: .35rem .75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(112, 77, 26, .18);
+  background: rgba(255,255,255,.7);
+  color: inherit;
+  text-decoration: none;
+  font-weight: 900;
+  cursor: pointer;
+}
+.civilization-object-inspector {
+  display: grid;
+  gap: .7rem;
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+}
+.object-inspector-body {
+  display: grid;
+  gap: .6rem;
+}
+.object-inspector-section {
+  display: grid;
+  gap: .35rem;
+  padding: .65rem;
+  border: 1px solid rgba(112, 77, 26, .16);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.55);
+  overflow-wrap: anywhere;
+}
+.object-inspector-section h3,
+.object-inspector-section p,
+.object-inspector-section pre {
+  margin: 0;
+}
+.object-inspector-section pre {
+  white-space: pre-wrap;
+  font-size: .76rem;
+  max-height: 16rem;
+  overflow: auto;
+}
+@media (max-width: 980px) {
+  .civilization-metrics { grid-template-columns: 1fr; }
+  .home-command-galaxy { grid-template-columns: 1fr; }
+}

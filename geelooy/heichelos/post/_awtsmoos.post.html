@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <script>
+      // B"H: stale /series/root/error must return to the Heichel shell before reader logic paints ghosts.
+      (function guardBrokenRootReaderRoute(){
+        var parts = location.pathname.split('/').filter(Boolean);
+        var i = parts.indexOf('series');
+        if (i > -1 && parts[i + 1] === 'root' && ['error','undefined','null'].includes(parts[i + 2] || '')) {
+          location.replace('/heichelos/' + encodeURIComponent(parts[1] || '') + '?view=series');
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=native-scroll-012" type="text/css">
     <link rel="stylesheet" href="/heichelos/post/styles/main.css?v=native-scroll-012" type="text/css">
     <link rel="stylesheet" href="/heichelos/post/styles/reader-controls/live-template.css?v=native-scroll-012" type="text/css">

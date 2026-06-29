@@ -5,13 +5,16 @@ const S = require('../mission/stepProtocol.js');
 const L = require('../mission/loopEngine.js');
 const C = require('../mission/collaboration.js');
 const K = require('../mission/continuity.js');
+const PS = require('../mission/protocolSimulator.js');
 const P = require('./missionActionPayload.js');
+const SI = require('./missionSelfImproveActions.js');
 const MISSION_LOCKS = new Map();
 function mid(p){return p.missionId||p.id||p.target||'';}
 async function use(config,payload,fn){const missionId=mid(payload);return withMissionLock(config,missionId,async()=>{const m=await M.load(config,missionId);if(!m)return {ok:false,action:payload.action,error:'mission_not_found',missionId};const out=await fn(m);await M.save(config,m);return out;});}
 async function withMissionLock(config, missionId, fn){const key=`${config.root||process.cwd()}::${missionId||'none'}`;const previous=MISSION_LOCKS.get(key)||Promise.resolve();let release;const current=new Promise(resolve=>{release=resolve;});MISSION_LOCKS.set(key,previous.then(()=>current,current));await previous.catch(()=>{});try{return await fn();}finally{release();if(MISSION_LOCKS.get(key)===current)MISSION_LOCKS.delete(key);}}
 function nxt(m,payload={}){return M.nextStep(m,{autoAdvance:payload.auto===true||payload.auto==='true'||m.automation?.enabled});}
 function withNext(ok,m,payload){return {...ok,next:ok.next||nxt(m,payload),mission:M.report(m)};}
+function metaPayload(payload={},config={}){return {...payload,__configRoot:config.root,__metadataRoot:config.metadataRoot};}
 function matchesProject(m,payload={}){const q=String(payload.q||payload.query||payload.projectRoot||payload.root||payload.directory||'').toLowerCase();if(!q)return true;const room=C.ensure(m);const meta=m.metadata||{};const candidates=[m.id,m.goal,room.projectRoot,meta.projectRoot,meta.root,meta.directory,meta.project].map(v=>String(v||'').toLowerCase()).filter(Boolean);return candidates.some(v=>v.includes(q)||q.includes(v));}
 
 /**
@@ -21,6 +24,7 @@ function matchesProject(m,payload={}){const q=String(payload.q||payload.query||p
  * post-completion improvement mode, and mission families to ChatGPT agents.
  */
 function buildMissionActions(ctx){const {config}=ctx;const payload=P.mergedPayload(ctx.payload||{});return {
+  ...SI.buildSelfImproveActions({config,payload,M,use,withNext,metaPayload}),
   async missionStart(){const startPayload=P.normalizeStartPayload(payload);const m=await M.create(config,startPayload);const shouldExpand=payload.expand===true||payload.expand==='true'||payload.autoExpand===true||payload.autoExpand==='true';const expansion=shouldExpand?X.expand(m,payload):null;await M.save(config,m);return {ok:true,action:'missionStart',missionId:m.id,mission:M.report(m),expansion,next:nxt(m,payload),path:`${M.DIR}/${m.id}/mission.json`};},
   async missionGet(){const m=await M.load(config,mid(payload));return m?{ok:true,action:'missionGet',mission:m,next:nxt(m,payload)}:{ok:false,action:'missionGet',error:'mission_not_found'};},
   async missionList(){const ms=await M.all(config);return {ok:true,action:'missionList',count:ms.length,missions:ms.map(M.report)};},
@@ -28,7 +32,7 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=P.mergedPaylo
   async missionCompleteTask(){return use(config,payload,m=>{const task=M.completeTask(m,payload.taskId||payload.task||payload.title,payload.evidenceId);const shouldExpand=payload.expand===true||payload.expand==='true'||payload.autoExpand===true||payload.autoExpand==='true';const expansion=shouldExpand?X.expand(m,{planned:payload.planned,actual:payload.actual||task?.title}):null;return withNext({ok:true,action:'missionCompleteTask',task,expansion},m,payload);});},
   async missionEvidence(){return use(config,payload,m=>{const evidence=M.evidence(m,P.normalizeEvidencePayload(payload));const includeDebt=payload.includeEvidenceDebt===true||payload.includeEvidenceDebt==='true'||payload.expand===true||payload.expand==='true';const debt=includeDebt?X.evidenceDebt(m):[];return withNext({ok:true,action:'missionEvidence',evidence,evidenceDebt:debt},m,payload);});},
   async missionQuestion(){return use(config,payload,m=>withNext({ok:true,action:'missionQuestion',...M.ask(m,payload.answer)},m,payload));},
-  async missionNext(){return use(config,payload,m=>({ok:true,action:'missionNext',next:nxt(m,{...payload,auto:payload.auto??true}),expansionPrompt:'If next still shows work, call missionAnswer or missionExpand; do not ask user.'}));},
+  async missionNext(){return use(config,payload,m=>({ok:true,action:'missionNext',next:nxt(m,{...payload,auto:payload.auto??true}),nextRequiredAction:M.nextRequiredAction(m),queue:M.queueStatus(m),expansionPrompt:'If next still shows work, call missionAnswer, missionCycle, missionQueueComplete, or missionExpand; do not ask user.'}));},
   async missionAnswer(){return use(config,payload,m=>{const answer=M.answer(m,payload);const shouldExpand=payload.expand===true||payload.expand==='true'||payload.autoExpand===true||payload.autoExpand==='true';const expansion=shouldExpand?X.expand(m,payload):null;return withNext({ok:true,action:'missionAnswer',...answer,expansion},m,payload);});},
   async missionAuto(){return use(config,payload,m=>{m.automation.enabled=payload.enabled!==false&&payload.enabled!=='false';m.automation.mode='tunnel-authored';if(payload.maxCycles)m.automation.maxCycles=Number(payload.maxCycles);const expansion=X.expand(m,payload);return withNext({ok:true,action:'missionAuto',automation:m.automation,expansion},m,{...payload,auto:true});});},
   async missionAttachJob(){return use(config,payload,m=>withNext({ok:true,action:'missionAttachJob',job:M.attachJob(m,payload)},m,payload));},
@@ -54,7 +58,50 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=P.mergedPaylo
   async missionEntropy(){return use(config,payload,m=>withNext({ok:true,action:'missionEntropy',entropy:M.Constitution.entropy(m)},m,payload));},
   async missionConstitution(){return use(config,payload,m=>withNext({ok:true,action:'missionConstitution',constitution:M.Constitution.review(m),nextConstitutionAction:M.Constitution.nextAction(m,M.Constitution.review(m))},m,payload));},
   async missionVerify(){return use(config,payload,m=>{const verification=M.verify(m);const shouldExpand=payload.expand===true||payload.expand==='true'||payload.autoExpand===true||payload.autoExpand==='true';const after=verification.ok?(shouldExpand?X.postCompletion(m,{verification:'verified complete, entering improvement mode'}):null):(shouldExpand?X.expand(m,payload):null);return withNext({ok:true,action:'missionVerify',verification,after},m,payload);});},
-  async missionReport(){return use(config,payload,m=>withNext({ok:true,action:'missionReport',report:M.report(m)},m,payload));},
+  async missionReport(){return use(config,payload,m=>withNext({ok:true,action:'missionReport',report:M.report(m),reportIsFinal:false,finalizationAction:'missionFinalize'},m,payload));},
+  async missionProtocolStart(){return use(config,payload,m=>withNext({ok:true,action:'missionProtocolStart',protocol:M.protocolStart(m,payload),nextRequiredAction:M.protocolNext(m)},m,payload));},
+  async missionProtocolNext(){return use(config,payload,m=>withNext({ok:true,action:'missionProtocolNext',protocol:M.protocolStatus(m),nextRequiredAction:M.protocolNext(m)},m,payload));},
+  async missionProtocolStage(){return use(config,payload,m=>{const stageResult=M.protocolStage(config,m,payload);return withNext({ok:true,action:'missionProtocolStage',stageResult,error:stageResult.error||'',...(stageResult.ok?stageResult:{})},m,payload);});},
+  async missionProtocolAnswer(){return use(config,payload,m=>withNext({ok:true,action:'missionProtocolAnswer',protocolAnswer:M.protocolAnswer(m,payload),protocol:M.protocolStatus(m)},m,payload));},
+  async missionProtocolReview(){return use(config,payload,m=>withNext({ok:true,action:'missionProtocolReview',review:M.ProtocolReview.review(payload),protocol:M.protocolStatus(m)},m,payload));},
+  async missionProtocolStatus(){return use(config,payload,m=>withNext({ok:true,action:'missionProtocolStatus',protocol:M.protocolStatus(m),nextRequiredAction:M.protocolNext(m)},m,payload));},
+  async missionProtocolFinalizeCheck(){return use(config,payload,m=>withNext({ok:true,action:'missionProtocolFinalizeCheck',verdict:M.ProtocolFinalizationGuard.verdict(m,M)},m,payload));},
+  async missionProtocolSimulate(){return use(config,payload,m=>withNext({ok:true,action:'missionProtocolSimulate',simulation:PS.simulate(M,config,m,payload),protocol:M.protocolStatus(m)},m,payload));},
+  async missionRoomCreate(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomCreate',room:M.roomCreate(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomJoin(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomJoin',agent:M.roomJoin(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomStatus(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomStatus',roomStatus:M.roomStatus(m),agreement:M.roomAgreementStatus(m)},m,payload));},
+  async missionRoomMessage(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomMessage',message:M.roomMessage(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomDiscoverAgents(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomDiscoverAgents',discovery:M.roomDiscoverAgents(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomInviteAgent(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomInviteAgent',invite:M.roomInviteAgent(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomProposeSplit(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomProposeSplit',proposal:M.roomProposeSplit(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomAcceptSplit(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomAcceptSplit',acceptance:M.roomAcceptSplit(m,metaPayload(payload,config)),agreement:M.roomAgreementStatus(m),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomCreateSubMissions(){return use(config,payload,async m=>withNext({ok:true,action:'missionRoomCreateSubMissions',...(await M.roomCreateSubMissions(config,m,metaPayload(payload,config))),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomClaimTask(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomClaimTask',claim:M.roomClaimTask(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomHeartbeat(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomHeartbeat',heartbeat:M.roomHeartbeat(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomMergeReports(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomMergeReports',mergeReport:M.roomMergeReports(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomSimulate(){return use(config,payload,async m=>withNext({ok:true,action:'missionRoomSimulate',simulation:await M.roomSimulate(config,m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomFindActive(){return {ok:true,action:'missionRoomFindActive',discovery:await M.roomFindActive(config,metaPayload(payload,config)),finalAnswerAllowed:false,mustContinue:true};},
+  async missionMetadataStatus(){return {ok:true,action:'missionMetadataStatus',metadata:M.metadataStatus(config,metaPayload(payload,config)),finalAnswerAllowed:false,mustContinue:true};},
+  async missionRoomUserMessage(){return use(config,payload,m=>{const roomMsg=M.roomUserMessage(m,metaPayload(payload,config));const collab=C.userMessage(m,payload);return withNext({...collab,ok:true,action:'missionRoomUserMessage',...roomMsg,roomMessage:roomMsg.message,userMessage:collab.userMessage,collaboration:collab.collaboration,finalAnswerAllowed:false,mustContinue:true,mustCallNext:collab.mustCallNext||M.roomStatus(m).mustCallNext,responseFocus:collab.responseFocus,roomStatus:M.roomStatus(m)},m,payload);});},
+  async missionRoomBrainstorm(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomBrainstorm',brainstorm:M.roomBrainstorm(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomRecoverInterrupt(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomRecoverInterrupt',recovery:M.roomRecoverInterrupt(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomRealChatSimulate(){return use(config,payload,async m=>withNext({ok:true,action:'missionRoomRealChatSimulate',simulation:await M.roomRealChatSimulate(config,m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomWakeAgent(){return use(config,payload,async m=>withNext({ok:true,action:'missionRoomWakeAgent',wake:await M.roomWakeAgent(config,m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomInbox(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomInbox',inbox:M.roomInbox(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomLoopPulse(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomLoopPulse',pulse:M.roomLoopPulse(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomLoopStatus(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomLoopStatus',roomStatus:M.roomStatus(m),inbox:M.roomInbox(m,metaPayload(payload,config)),watchdog:M.roomWatchdog(m,metaPayload(payload,config)),fileConflicts:M.roomFileConflicts(m,metaPayload(payload,config))},m,payload));},
+  async missionRoomWatchdog(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomWatchdog',watchdog:M.roomWatchdog(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomRecoverStaleAgent(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomRecoverStaleAgent',recovery:M.roomRecoverStaleAgent(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomClaimFile(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomClaimFile',claimFile:M.roomClaimFile(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomReleaseFile(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomReleaseFile',releaseFile:M.roomReleaseFile(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomFileConflicts(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomFileConflicts',conflicts:M.roomFileConflicts(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionRoomMergeCourt(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomMergeCourt',court:M.roomMergeCourt(m,metaPayload(payload,config)),roomStatus:M.roomStatus(m)},m,payload));},
+  async missionCycle(){return use(config,payload,m=>withNext({ok:true,action:'missionCycle',cycle:M.cycle(m,payload),cycleStatus:M.CycleArtifacts.status(m)},m,payload));},
+  async missionQueueStatus(){return use(config,payload,m=>withNext({ok:true,action:'missionQueueStatus',queue:M.queueStatus(m),nextRequiredAction:M.nextRequiredAction(m)},m,payload));},
+  async missionQueueAdd(){return use(config,payload,m=>withNext({ok:true,action:'missionQueueAdd',item:M.queueAdd(m,payload),queue:M.queueStatus(m)},m,payload));},
+  async missionQueueComplete(){return use(config,payload,m=>withNext({ok:true,action:'missionQueueComplete',item:M.queueComplete(m,payload),queue:M.queueStatus(m),nextRequiredAction:M.nextRequiredAction(m)},m,payload));},
+  async missionFinalize(){return use(config,payload,m=>{const finalization=M.finalize(m,payload);return withNext({ok:true,action:'missionFinalize',finalizationAttempt:finalization,finalAnswerAllowed:finalization.finalAnswerAllowed===true,mustContinue:finalization.mustContinue!==false,mustCallNext:finalization.mustCallNext||null},m,payload);});},
+  async missionEarlyFinalAttempt(){return use(config,payload,m=>{const finalization=M.finalize(m,{...payload,reason:payload.reason||'explicit_early_final_attempt'});return withNext({ok:true,action:'missionEarlyFinalAttempt',earlyFinal:finalization,finalAnswerAllowed:false,mustContinue:true,mustCallNext:finalization.mustCallNext||M.nextRequiredAction(m)},m,payload);});},
   async missionTimeline(){return use(config,payload,m=>({ok:true,action:'missionTimeline',timeline:M.timeline(m)}));},
   async missionGraph(){return use(config,payload,m=>({ok:true,action:'missionGraph',graph:M.graph(m)}));},
   async missionStepBrainstorm(){return use(config,payload,m=>withNext({ok:true,action:'missionStepBrainstorm',...S.brainstorm(m,payload)},m,payload));},
@@ -76,7 +123,7 @@ function buildMissionActions(ctx){const {config}=ctx;const payload=P.mergedPaylo
   async missionProjectJoin(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectJoin',...C.join(m,payload)},m,payload));},
   async missionProjectStatus(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectStatus',collaboration:C.status(m)},m,payload));},
   async missionProjectInvite(){return use(config,payload,m=>withNext({ok:true,action:'missionProjectInvite',invitePrompt:C.inviteText(m,payload),collaboration:C.status(m)},m,payload));},
-  async missionRoomUserMessage(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomUserMessage',...C.userMessage(m,payload)},m,payload));},
+  async missionCollaborationUserMessage(){return use(config,payload,m=>withNext({ok:true,action:'missionCollaborationUserMessage',...C.userMessage(m,payload)},m,payload));},
   async missionRoomSettings(){return use(config,payload,m=>withNext({ok:true,action:'missionRoomSettings',...C.settings(m,payload)},m,payload));},
   async missionAgentSync(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentSync',...C.sync(m,payload)},m,payload));},
   async missionAgentMessage(){return use(config,payload,m=>withNext({ok:true,action:'missionAgentMessage',...C.message(m,payload)},m,payload));},

@@ -2,10 +2,33 @@
 
 import { $ } from "../../ui/dom.js";
 import { agentId } from "./state.js";
+import { normalizeRoomEvent } from "./events.js";
 
-/** B"H: Human voice enters only the selected mission room. */
+/** B"H: Human voice enters one selected room and immediately becomes an event. */
 export function messagePayload(missionId, body, forceContinue, blockAgents) {
-  return { action: "missionRoomUserMessage", targetVessel: "native-tunnel", missionId, agentId: agentId(), body: forceContinue ? `${body}\ncontinue`.trim() : body, requiresResponse: !forceContinue && blockAgents, allowContinue: forceContinue };
+  const clean = String(body || "").trim();
+  return {
+    action: "missionRoomUserMessage",
+    targetVessel: "native-tunnel",
+    missionId,
+    agentId: agentId(),
+    body: forceContinue ? `${clean}\ncontinue`.trim() : clean,
+    requiresResponse: !forceContinue && blockAgents,
+    allowContinue: !!forceContinue
+  };
+}
+
+export function optimisticMessageEvent(state, body, forceContinue = false) {
+  return normalizeRoomEvent({
+    missionId: state.selectedMissionId,
+    actor: "human",
+    target: "room",
+    type: forceContinue ? "continue-message" : "user-message",
+    title: body || "continue",
+    body,
+    at: new Date().toISOString(),
+    status: "sending"
+  }, { roomId: state.selectedMissionId });
 }
 
 export async function send(state, api, forceContinue = false) {
