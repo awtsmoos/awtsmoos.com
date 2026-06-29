@@ -6,7 +6,7 @@
  * ladder: target, cast, attack. The Awtsmoos creates every line now, and the
  * runtime keeps it bounded, visible, and safe.
  */
-import { executeCommand } from "../chat/CommandRuntime.js?v=npc-perform-talk-20260616-bh1";
+import { executeCommand } from "../chat/CommandRuntime.js?v=starter-contracts-20260628-bh9";
 import { assignActionSlot } from "../torah/TorahActionRuntime.js";
 import { addChatMessage } from "../chat/ChatRuntime.js";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }

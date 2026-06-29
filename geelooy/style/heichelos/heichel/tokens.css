@@ -1,8 +1,15 @@
-/* B"H Heichel tokens: one palace language. */
-:root {
-  --heichel-bg: linear-gradient(180deg, #fff8ec, #f1e0c3);
-  --heichel-panel: linear-gradient(145deg, rgba(255,252,245,.94), rgba(242,229,205,.86));
-  --heichel-line: rgba(122,82,31,.18);
-  --heichel-radius: 1.25rem;
-  --heichel-gap: clamp(.8rem, 2vw, 1.15rem);
+/* B"H Heichel tokens: one palace language under one root. */
+.heichel-os-document,
+.heichel-mobile-navigation {
+  --heichel-bg: linear-gradient(180deg, #fff8ec, #f0ddbb);
+  --heichel-panel: linear-gradient(145deg, rgba(255,253,247,.96), rgba(246,233,210,.88));
+  --heichel-line: rgba(122,82,31,.17);
+  --heichel-ink: #24160b;
+  --heichel-soft-ink: rgba(49,35,20,.72);
+  --heichel-gold: #d6a84f;
+  --heichel-rust: #8b2d16;
+  --heichel-night: #2b2235;
+  --heichel-radius: 1.35rem;
+  --heichel-gap: clamp(.8rem, 2vw, 1.2rem);
+  --floating-clearance: 6.6rem;
 }

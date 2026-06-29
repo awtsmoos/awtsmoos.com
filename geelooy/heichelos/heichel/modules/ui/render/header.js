@@ -2,22 +2,21 @@
 /**
  * @module HeaderManifest
  * @description
- * Chapter 290: Breadcrumbs gather before touching the page.
- *
- * The header and breadcrumb renderer now use fragments and DOM replacement,
- * reducing repeated layout contact while keeping the path of return clear.
+ * Chapter 417: The title remained a crown while the description was purified.
+ * No raw script tag gets a throne. No unsafe HTML becomes alive. The Awtsmoos
+ * lets the Heichel speak readable words only, soft as parchment after rain.
  */
 
 import { DOMElements } from '../../dom.js';
 import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
-import { VoidPurifier } from '../../utils/VoidPurifier.js';
+import { safeDisplayText } from '../textSanitizer.js';
 
 export function updateHeichelHeader(heichelData) {
     if (!heichelData) return;
-    const cleanName = VoidPurifier.purify(heichelData.name) || 'Revelation';
-    const cleanDesc = VoidPurifier.purify(heichelData.description);
-    if (DOMElements.mainTitle) DOMElements.mainTitle.textContent = cleanName;
-    if (DOMElements.heichelDescription) DOMElements.heichelDescription.textContent = cleanDesc;
+    const name = safeDisplayText(heichelData.name, 'Revelation');
+    const desc = safeDisplayText(heichelData.description, '');
+    if (DOMElements.mainTitle) DOMElements.mainTitle.textContent = name;
+    if (DOMElements.heichelDescription) DOMElements.heichelDescription.textContent = desc;
 }
 
 export function renderBreadcrumb(breadcrumbData, navigator) {
@@ -29,22 +28,12 @@ export function renderBreadcrumb(breadcrumbData, navigator) {
         separator.className = 'breadcrumb-separator';
         separator.textContent = '/';
         fragment.appendChild(separator);
-        const cleanCrumbName = VoidPurifier.purify(item.name) || '...';
-        fragment.appendChild(ScribeOfManifestation.speakElement(createCrumbBlueprint(cleanCrumbName, () => navigator.navigateTo(item.id))));
+        const name = safeDisplayText(item.name, '...');
+        fragment.appendChild(ScribeOfManifestation.speakElement(createCrumbBlueprint(name, () => navigator.navigateTo(item.id))));
     }
     DOMElements.breadcrumb.replaceChildren(fragment);
 }
 
 function createCrumbBlueprint(text, onClick) {
-    return {
-        tag: 'button',
-        attr: { class: 'breadcrumb-link', type: 'button' },
-        children: [text],
-        events: {
-            click: event => {
-                event.preventDefault();
-                onClick();
-            }
-        }
-    };
+    return { tag: 'button', attr: { class: 'breadcrumb-link', type: 'button' }, children: [text], events: { click: event => { event.preventDefault(); onClick(); } } };
 }

@@ -1,9 +1,10 @@
 // B"H
-import { GoalBoardEasyAPI } from '../../../authoring/goalBoard/index.js';
+import { OUTDOOR_PROFESSIONAL_SCENE } from './outdoorProfessional/OutdoorProfessionalScene.js';
 
 /**
- * Default scene now comes from the easy authoring layer.
- * One preset call reveals the whole vessel: room, characters, props,
- * camera grammar, dialogue, inserts, movement, and quality metadata.
+ * The default scene is now a living outdoor professional workshop.
+ * The old room was a candle in a sealed chamber; this is rain, rope,
+ * mud, lantern, breath, crowd-flow, and the Awtsmoos in code: a place
+ * that keeps existing when the camera turns away.
  */
-export const DEFAULT_LIVING_SCENE = GoalBoardEasyAPI.scene();
+export const DEFAULT_LIVING_SCENE = OUTDOOR_PROFESSIONAL_SCENE;

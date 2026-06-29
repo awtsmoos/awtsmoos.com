@@ -1,18 +1,19 @@
 // B"H
 import assert from 'node:assert/strict';
 import { DEFAULT_SCENE } from '../../src/data/scenes/default/index.js';
-import { GoalBoardQualityGate } from '../../src/authoring/goalBoard/index.js';
-import { EmotionLibrary } from '../../src/performance/face/EmotionLibrary.js';
 
-const audit = GoalBoardQualityGate.audit(DEFAULT_SCENE);
-assert.equal(DEFAULT_SCENE.scene.id, 'goal_board_warm_study_full_v3');
-assert.equal(DEFAULT_SCENE.scene.style, 'goal_board_warm_study');
-assert.equal(DEFAULT_SCENE.authoring.system, 'goalBoardEasyAPI');
-assert.ok(DEFAULT_SCENE.initialProps.length >= 10);
-assert.ok(DEFAULT_SCENE.events.length >= 35);
-assert.ok(audit.ok);
-assert.ok(DEFAULT_SCENE.initialCharacters.rabbi_left.beard === true);
-assert.ok(DEFAULT_SCENE.initialCharacters.rabbi_right.hatType === 'blackHat');
-assert.ok(EmotionLibrary.get('delighted').mouth.smile > 0.8);
-assert.ok(EmotionLibrary.get('skeptical').brows.squeeze > 0.2);
-console.log('B"H detailed default scene smoke passed');
+const scene = DEFAULT_SCENE;
+const json = JSON.stringify(scene);
+
+assert.equal(scene.id, 'outdoor_professional_default_scene_v1');
+assert.equal(scene.scene.style, 'outdoor_professional_cinematic');
+assert.equal(scene.authoring.system, 'outdoorProfessionalLivingWorld');
+assert.ok(Object.keys(scene.initialCharacters).length >= 7);
+assert.ok(scene.initialProps.length >= 10);
+assert.ok(scene.events.length >= 40);
+assert.ok(scene.scene.visualPromise.includes('off_camera'));
+assert.ok(json.includes('blinkTiming') && json.includes('eyeSaccades'));
+assert.ok(json.includes('puddle_accumulation') && json.includes('footprints'));
+assert.ok(json.includes('automaticReframing') && json.includes('occlusionAvoidance'));
+assert.equal(scene.directorBrain.score(scene), 100);
+console.log('B"H outdoor detailed default scene smoke passed');

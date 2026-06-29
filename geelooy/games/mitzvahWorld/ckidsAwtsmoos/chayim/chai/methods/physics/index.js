@@ -40,7 +40,9 @@ function terrainLawHit(player) {
   const lz = start.z - numeric(law.position?.z, 0);
   const y = numeric(law.position?.y, 0) + TerrainMath.calculateHeightAt(lx, lz, law.data);
   if (!finite(y)) return false;
-  return { distance: start.y - y, position: new THREE.Vector3(start.x, y, start.z), normal: new THREE.Vector3(0, 1, 0), object: { name: "awtsmoosTerrainLawFallback" }, lawFallback: true };
+  const e = 1.25, hx1 = TerrainMath.calculateHeightAt(lx + e, lz, law.data), hx0 = TerrainMath.calculateHeightAt(lx - e, lz, law.data), hz1 = TerrainMath.calculateHeightAt(lx, lz + e, law.data), hz0 = TerrainMath.calculateHeightAt(lx, lz - e, law.data);
+  const normal = new THREE.Vector3(-(hx1 - hx0) / (e * 2), 1, -(hz1 - hz0) / (e * 2)).normalize();
+  return { distance: start.y - y, position: new THREE.Vector3(start.x, y, start.z), normal, object: { name: "awtsmoosTerrainLawFallback" }, lawFallback: true };
 }
 function bestGroundHit(player) {
   groundRay.origin.copy(player.collider.start);
@@ -144,9 +146,10 @@ export default {
     this._updateSubSystems(deltaTime);
     const isWorldBusy = this.olam?.worldOctree ? this.olam.worldOctree.isProcessing : true;
     if (!needsOctreePhysics(this)) return this._idlePhysics(deltaTime);
+    if (this.collider?.start) this.__lastSafeFeet = new THREE.Vector3(this.collider.start.x, this.collider.start.y - this.collider.radius, this.collider.start.z);
     this._checkGround(); this._solveDynamicBodies("pre-forces"); this._applyPhysicsForces(deltaTime, isWorldBusy);
     this._calculateMovementVelocity(deltaTime); this._handleJump(); this._executeMovement(deltaTime);
-    this._resolveGroundCollision(); this._solveDynamicBodies("post-motion"); this._checkAbyss(); this._updateAnimationState(deltaTime); this._syncMesh(deltaTime);
+    this._resolveGroundCollision(); this._enforceTerrainSlopeLimit(); this._solveDynamicBodies("post-motion"); this._checkAbyss(); this._updateAnimationState(deltaTime); this._syncMesh(deltaTime);
     if (this.activeObject && typeof this.alignObject === 'function') this.alignObject();
     Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
   },
@@ -210,6 +213,16 @@ export default {
     const depth = this.collider.radius - hit.distance;
     if (depth > -0.02) this.collider.translate(hit.normal.clone().multiplyScalar(Math.max(0, depth)));
     this.velocity.projectOnPlane(hit.normal); this.velocity.y = 0; clearAirTrajectory(this);
+  },
+  _enforceTerrainSlopeLimit() {
+    const hit = terrainLawHit(this);
+    if (!hit || hit.normal.y >= steepSlopeY()) return false;
+    const safe = this.__lastSafeFeet;
+    if (!safe) return false;
+    this.velocity.x = 0; this.velocity.z = 0; clearAirTrajectory(this);
+    this.setPosition(new THREE.Vector3(safe.x, Math.max(safe.y, hit.position.y), safe.z));
+    this.__lastSlopeBlock = { at:Date.now(), normalY:hit.normal.y, x:hit.position.x, z:hit.position.z };
+    return true;
   },
   _checkAbyss() {
     const law = terrainLawHit(this);

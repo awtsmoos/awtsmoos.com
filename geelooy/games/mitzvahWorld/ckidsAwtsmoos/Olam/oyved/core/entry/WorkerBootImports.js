@@ -24,9 +24,9 @@ export async function importWorkerDependency(path, label) {
 }
 
 export function importBootModule() {
-  return importWorkerDependency("../boot/OlamDynamicBoot.js", "OlamDynamicBoot");
+  return importWorkerDependency("../boot/OlamDynamicBoot.js?v=starter-contracts-20260628-bh9", "OlamDynamicBoot");
 }
 
 export function importInterpreterModule() {
-  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js", "OyvedMessageInterpreter");
+  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js?v=starter-contracts-20260628-bh9", "OyvedMessageInterpreter");
 }

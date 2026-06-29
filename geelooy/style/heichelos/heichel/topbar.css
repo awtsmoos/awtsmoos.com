@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 411: The top gate becomes quiet command, not clutter.
+ * Chapter 422: The top gate narrows into dignity.
  */
-.heichel-mobile-topbar {
+.heichel-mobile-navigation .heichel-mobile-topbar {
   position: sticky;
   top: 0;
   z-index: 60;
@@ -12,12 +12,12 @@
   width: min(100%, 72rem);
   margin-inline: auto;
   padding: max(.55rem, env(safe-area-inset-top)) clamp(.7rem, 2vw, 1.2rem) .55rem;
-  background: linear-gradient(180deg, rgba(255,246,226,.9), rgba(255,246,226,.58));
+  background: linear-gradient(180deg, rgba(255,246,226,.92), rgba(255,246,226,.62));
+  border: 0;
   border-bottom: 1px solid rgba(122,82,31,.12);
   backdrop-filter: blur(18px) saturate(135%);
 }
-
-.topbar-icon {
+.heichel-mobile-navigation .topbar-icon {
   display: grid;
   place-items: center;
   width: 2.85rem;
@@ -25,54 +25,17 @@
   border: 1px solid rgba(122,82,31,.18);
   border-radius: 1rem;
   background: rgba(255,255,255,.66);
-  color: #2b2235;
+  color: var(--heichel-night);
   font-size: 1.2rem;
   font-weight: 950;
   box-shadow: 0 .65rem 1.45rem rgba(75,45,10,.11), inset 0 1px 0 rgba(255,255,255,.85);
 }
-
-.topbar-title {
-  min-width: 0;
-  display: grid;
-  line-height: 1.05;
-}
-
-.topbar-title strong {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #1d1711;
-  font-size: 1.02rem;
-  font-weight: 950;
-}
-
-.topbar-title small {
-  color: rgba(49,35,20,.64);
-  font-size: .72rem;
-  font-weight: 900;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
-.topbar-notification-menu { position: relative; }
-.topbar-notification-menu summary { list-style: none; cursor: pointer; }
-.topbar-notification-menu summary::-webkit-details-marker { display: none; }
-.topbar-menu-panel {
-  position: absolute;
-  right: 0;
-  top: calc(100% + .55rem);
-  min-width: 13rem;
-  padding: .55rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(122,82,31,.18);
-  background: rgba(255,252,244,.94);
-  box-shadow: 0 1rem 2.2rem rgba(54,29,9,.18);
-}
-.topbar-menu-panel a {
-  display: block;
-  padding: .7rem .8rem;
-  border-radius: .75rem;
-  color: #24160b;
-  text-decoration: none;
-  font-weight: 900;
-}
-.topbar-menu-panel a:hover { background: rgba(214,168,79,.18); }
+.heichel-mobile-navigation .topbar-title { min-width: 0; display: grid; line-height: 1.05; }
+.heichel-mobile-navigation .topbar-title strong { overflow: hidden; text-overflow: ellipsis; color: #1d1711; font-size: 1.02rem; font-weight: 950; }
+.heichel-mobile-navigation .topbar-title small { color: rgba(49,35,20,.64); font-size: .72rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.heichel-mobile-navigation .topbar-notification-menu { position: relative; }
+.heichel-mobile-navigation .topbar-notification-menu summary { list-style: none; cursor: pointer; }
+.heichel-mobile-navigation .topbar-notification-menu summary::-webkit-details-marker { display: none; }
+.heichel-mobile-navigation .topbar-menu-panel { position: absolute; right: 0; top: calc(100% + .55rem); min-width: 13rem; padding: .55rem; border-radius: 1rem; border: 1px solid rgba(122,82,31,.18); background: rgba(255,252,244,.94); box-shadow: 0 1rem 2.2rem rgba(54,29,9,.18); }
+.heichel-mobile-navigation .topbar-menu-panel a { display: block; padding: .7rem .8rem; border-radius: .75rem; color: var(--heichel-ink); text-decoration: none; font-weight: 900; }
+.heichel-mobile-navigation .topbar-menu-panel a:hover { background: rgba(214,168,79,.18); }

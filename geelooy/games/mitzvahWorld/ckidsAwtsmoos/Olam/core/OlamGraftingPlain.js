@@ -9,7 +9,7 @@ import loadNivrayim from "../methods/loadNivrayim/index.js?v=fps-guardian-full-g
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
-import bindAllListeners from "../eventListeners/index.js?v=crisp-background-budget-20260621-bh1";
+import bindAllListeners from "../eventListeners/index.js?v=starter-contracts-20260628-bh9";
 
 export default class OlamGraftingPlain {
   static async graft(olam) {

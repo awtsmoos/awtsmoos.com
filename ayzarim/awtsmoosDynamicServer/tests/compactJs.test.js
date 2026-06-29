@@ -27,6 +27,7 @@ async function run() {
   await testAstLinkCollection();
   await testSimpleLocalGraph();
   await testTemplateLiteralDefaultExport();
+  await testLogicalExpressionDefaultExport();
   await testResidualVendorExportList();
   await testSideEffectImportAndAliases();
   await testServerCompactGuards();
@@ -75,6 +76,25 @@ async function testTemplateLiteralDefaultExport() {
 
   const imported = await compileAndImport(rootDir, "entry.js");
   assert.strictEqual(imported.hasInstructions, true);
+}
+
+async function testLogicalExpressionDefaultExport() {
+  const rootDir = await makeTempRoot();
+  await fs.writeFile(path.join(rootDir, "runtime.js"), [
+    "const scope = globalThis;",
+    "scope.__compactRuntime ||= { ok:true };",
+    "export default scope.__compactRuntime || null;"
+  ].join("\n"));
+  await fs.writeFile(path.join(rootDir, "entry.js"), [
+    "import runtime from './runtime.js';",
+    "export const ok = runtime.ok === true;"
+  ].join("\n"));
+
+  const compiled = await compileSource(rootDir, "entry.js");
+  assert.doesNotMatch(compiled, /=\s*\|\|/);
+  const imported = await importSource(rootDir, compiled);
+  assert.strictEqual(imported.ok, true);
+  delete globalThis.__compactRuntime;
 }
 
 async function testResidualVendorExportList() {

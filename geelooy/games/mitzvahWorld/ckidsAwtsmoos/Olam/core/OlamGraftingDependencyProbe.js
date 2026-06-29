@@ -10,7 +10,7 @@ const DEPS = [
   ["placeholderAndEntities", "../methods/placeholderAndEntities/index.js"],
   ["hoyseef", "../methods/hoyseef.js"],
   ["sealayk", "../methods/sealayk.js"],
-  ["bindAllListeners", "../eventListeners/index.js?v=crisp-background-budget-20260621-bh1"],
+  ["bindAllListeners", "../eventListeners/index.js?v=starter-contracts-20260628-bh9"],
   ["npcRuntime", "../npc/NpcInteractionRuntime.js?v=npc-runtime-exports-20260616-bh1"]
 ];
 

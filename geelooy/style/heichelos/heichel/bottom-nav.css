@@ -1,7 +1,7 @@
 /* B"H
- * Chapter 407: The bottom orbit floats without devouring the last card.
+ * Chapter 427: The bottom orbit floats below content, not over it.
  */
-.geelooy-bottom-nav {
+.heichel-mobile-navigation .geelooy-bottom-nav {
   position: fixed;
   left: 50%;
   bottom: max(.55rem, env(safe-area-inset-bottom));
@@ -14,40 +14,15 @@
   padding: .38rem;
   border: 1px solid rgba(255,255,255,.13);
   border-radius: 1.25rem;
-  background: rgba(18, 18, 36, .91);
+  background: rgba(18,18,36,.91);
   box-shadow: 0 1rem 2rem rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.12);
   backdrop-filter: blur(18px) saturate(130%);
 }
-
-.geelooy-bottom-nav a {
-  display: grid;
-  place-items: center;
-  min-height: 2.65rem;
-  border-radius: .95rem;
-  color: #fff7df;
-  text-decoration: none;
-  font-size: .76rem;
-  font-weight: 900;
-  letter-spacing: .01em;
-}
-
-.geelooy-bottom-nav a:hover,
-.geelooy-bottom-nav a:focus-visible {
-  background: rgba(255,255,255,.1);
-  outline: none;
-}
-
-.geelooy-bottom-nav a:nth-child(3) {
-  margin-top: -.65rem;
-  min-height: 3.15rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--h-gold-2), var(--h-gold));
-  color: #160e05;
-  font-size: 1.1rem;
-  box-shadow: 0 .85rem 1.45rem rgba(0,0,0,.28);
-}
-
+.heichel-mobile-navigation .geelooy-bottom-nav a { display: grid; place-items: center; min-height: 2.65rem; border-radius: .95rem; color: #fff7df; text-decoration: none; font-size: .76rem; font-weight: 900; }
+.heichel-mobile-navigation .geelooy-bottom-nav a:hover,
+.heichel-mobile-navigation .geelooy-bottom-nav a:focus-visible { background: rgba(255,255,255,.1); outline: none; }
+.heichel-mobile-navigation .geelooy-bottom-nav a:nth-child(3) { margin-top: -.65rem; min-height: 3.15rem; border-radius: 999px; background: linear-gradient(135deg, var(--heichel-gold), #f0c977); color: #160e05; font-size: 1.1rem; box-shadow: 0 .85rem 1.45rem rgba(0,0,0,.28); }
 @media (max-width: 520px) {
-  .geelooy-bottom-nav { width: min(96vw, 34rem); }
-  .geelooy-bottom-nav a { font-size: .7rem; min-height: 2.55rem; }
+  .heichel-mobile-navigation .geelooy-bottom-nav { width: min(96vw, 34rem); }
+  .heichel-mobile-navigation .geelooy-bottom-nav a { font-size: .7rem; min-height: 2.55rem; }
 }

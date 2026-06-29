@@ -1,41 +1,42 @@
 /* B"H
- * Chapter 6: The search field stopped shrinking into a forgotten browser box.
+ * Chapter 423: Search became soft command, never a black box.
  */
-.series-search-row,
-.heichel-search {
+.heichel-mobile-navigation .series-search-row,
+.heichel-mobile-navigation .heichel-search {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: .65rem;
   align-items: center;
+  margin: .35rem 0 .85rem;
 }
-
-.series-search-row input,
-.heichel-search input,
-.heichel-search-field {
+.heichel-mobile-navigation .series-search-row input,
+.heichel-mobile-navigation .heichel-search input,
+.heichel-mobile-navigation .heichel-search-field {
   width: 100%;
-  min-height: 2.85rem;
-  border: 1px solid var(--heichel-line, rgba(122,82,31,.18));
+  min-height: 3rem;
+  border: 1px solid var(--heichel-line);
   border-radius: 999px;
   padding: .82rem 1rem;
   background: rgba(255,255,255,.78);
-  color: var(--awt-ink, #24160b);
+  color: var(--heichel-ink);
   font: inherit;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 .65rem 1.4rem rgba(75,45,10,.08);
 }
-
-.filter-chip {
-  min-height: 2.85rem;
-  border: 1px solid rgba(46,31,12,.3);
-  border-radius: .2rem;
-  padding: .65rem .95rem;
-  background: #fffaf0;
-  color: #261706;
-  box-shadow: .28rem .28rem 0 rgba(0,0,0,.75);
+.heichel-mobile-navigation .series-search-row input:focus { outline: 3px solid rgba(214,168,79,.42); border-color: rgba(124,30,8,.38); }
+.heichel-mobile-navigation .filter-chip {
+  min-height: 3rem;
+  border: 0;
+  border-radius: 999px;
+  padding: .65rem 1rem;
+  background: linear-gradient(135deg, var(--heichel-night), var(--heichel-rust));
+  color: #fff7df;
+  box-shadow: 0 .75rem 1.6rem rgba(68,29,12,.18);
   font-weight: 950;
-  text-transform: uppercase;
+  letter-spacing: .02em;
+  text-transform: none;
 }
-
 @media (max-width: 520px) {
-  .series-search-row { grid-template-columns: 1fr; }
-  .filter-chip { justify-self: start; }
+  .heichel-mobile-navigation .series-search-row { grid-template-columns: 1fr; }
+  .heichel-mobile-navigation .filter-chip { justify-self: stretch; }
 }

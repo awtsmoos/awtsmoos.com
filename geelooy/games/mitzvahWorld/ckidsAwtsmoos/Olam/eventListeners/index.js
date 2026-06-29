@@ -6,7 +6,7 @@
  * Chapter: the old listener URL carried a poisoned browser module record, so
  * every listener now receives a new seal and the road stops boxing itself.
  */
-import userInput from "./userInput.js?v=npc-runtime-cachebreak-20260616-bh1";
+import userInput from "./userInput.js?v=starter-contracts-20260628-bh9";
 import labels from "./labels.js?v=npc-runtime-cachebreak-20260616-bh1";
 import minimap from "./minimap.js?v=npc-runtime-cachebreak-20260616-bh1";
 import resizing from "./resizing.js?v=npc-runtime-cachebreak-20260616-bh1";

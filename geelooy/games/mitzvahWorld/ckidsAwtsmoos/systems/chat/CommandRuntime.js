@@ -5,21 +5,21 @@ import { openBag } from "../inventory/BagRuntime.js";
 import { buyItem, equipItem } from "../equipment/EquipmentRuntime.js";
 import { openTorahCodex, castTorahSlot } from "../torah/TorahActionRuntime.js";
 import { readSefer, learnPassage } from "../torah/TorahSpellbookRuntime.js";
-import { missionUiPayload } from "../missions/MissionRuntime.js";
+import { missionUiPayload } from "../missions/MissionRuntime.js?v=starter-contracts-20260628-bh9";
 import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
-import { performDelivery } from "../missions/DeliveryRuntime.js";
-import { performTalk } from "../npc/NpcInteractionRuntime.js?v=npc-perform-talk-20260616-bh1";
+import { performDelivery } from "../missions/DeliveryRuntime.js?v=starter-contracts-20260628-bh9";
+import { performTalk } from "../npc/NpcInteractionRuntime.js?v=starter-contracts-20260628-bh9";
 import { farmAction } from "../farming/FarmInteractionRuntime.js";
 import { beginSeparation, doSeparationStep } from "../halacha/TerumahMaaserRuntime.js";
 import { collectFromNearbySource } from "../loot/CollectSourceRuntime.js";
 import { openCarcassUi } from "../kosher/CarcassRuntime.js";
 import { processNearestCarcass } from "../kosher/KosherProcessingRuntime.js";
 import { craftTefillin, sellTefillin } from "../kosher/TefillinCraftingRuntime.js";
-import { openVendor } from "../social/VendorRuntime.js";
-import { restAtInn } from "../social/InnRuntime.js";
-import { openMailbox } from "../social/MailboxRuntime.js";
-import { openBank } from "../social/BankRuntime.js";
-import { repairThing } from "../social/RepairRuntime.js";
+import { openVendor } from "../social/VendorRuntime.js?v=starter-contracts-20260628-bh9";
+import { restAtInn } from "../social/InnRuntime.js?v=starter-contracts-20260628-bh9";
+import { openMailbox } from "../social/MailboxRuntime.js?v=starter-contracts-20260628-bh9";
+import { openBank } from "../social/BankRuntime.js?v=starter-contracts-20260628-bh9";
+import { repairThing } from "../social/RepairRuntime.js?v=starter-contracts-20260628-bh9";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function say(olam, tab, text, options = {}) { return addChatMessage(olam, tab, text, options); }
 function coords(olam) { const p = playerOf(olam)?.mesh?.position || {}; return `${Math.round(p.x || 0)}, ${Math.round(p.y || 0)}, ${Math.round(p.z || 0)}`; }

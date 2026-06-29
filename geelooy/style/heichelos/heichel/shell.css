@@ -1,38 +1,46 @@
 /* B"H
- * Chapter 1: The courtyard stopped pretending it was mist.
- * The Awtsmoos gives the Heichel shell one ground, one breath, and one
- * protected bottom clearing so fixed navigation never eats the final card.
+ * Chapter 421: The shell owns its world and does not leak selectors.
  */
+.heichel-os-document { margin: 0; background: #f4e4c7; }
+.heichel-os-page { min-height: 100dvh; background: var(--heichel-bg); }
 .heichel-mobile-navigation {
-  color: var(--awt-ink, #24160b);
-  background: var(--heichel-bg, linear-gradient(180deg, #fff8ec, #f1e0c3));
   min-height: 100dvh;
+  color: var(--heichel-ink);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255,228,157,.45), transparent 17rem),
+    radial-gradient(circle at 92% 18%, rgba(117,31,9,.13), transparent 18rem),
+    var(--heichel-bg);
   position: relative;
   overflow-x: clip;
-  padding-bottom: max(var(--floating-clearance, 5.5rem), calc(env(safe-area-inset-bottom) + 5.5rem));
+  padding-bottom: max(var(--floating-clearance), calc(env(safe-area-inset-bottom) + var(--floating-clearance)));
   font-family: "Space Grotesk", Inter, system-ui, sans-serif;
 }
-
-.geelooy-main-stage,
-.heichel-main-stage {
-  width: min(74rem, calc(100vw - clamp(1rem, 4vw, 3rem)));
-  margin: 0 auto;
+.heichel-mobile-navigation .geelooy-main-stage {
+  width: min(100%, 72rem);
+  margin-inline: auto;
   display: grid;
-  gap: var(--heichel-gap, clamp(.8rem, 2vw, 1.15rem));
-  padding-block: clamp(.7rem, 2vw, 1.3rem) 1rem;
+  gap: var(--heichel-gap);
+  padding: clamp(.85rem, 2vw, 1.4rem) clamp(.8rem, 3vw, 1.4rem) clamp(7rem, 14vh, 9rem);
 }
-
-.heichel-nav-panel {
+.heichel-mobile-navigation .heichel-nav-panel {
+  position: relative;
   display: grid;
   gap: clamp(.8rem, 2vw, 1.1rem);
-  border: 1px solid var(--heichel-line, rgba(122,82,31,.18));
-  border-radius: clamp(1.2rem, 4vw, 2rem);
-  padding: clamp(.9rem, 3vw, 1.25rem);
-  background: var(--heichel-panel, rgba(255,252,245,.92));
-  box-shadow: var(--awt-elevation-1, 0 .8rem 2rem rgba(77,49,17,.14));
+  margin-top: clamp(.8rem, 2vw, 1.25rem);
+  padding: clamp(.8rem, 2vw, 1.25rem);
+  border: 1px solid var(--heichel-line);
+  border-radius: clamp(1.35rem, 3vw, 2rem);
+  background: var(--heichel-panel);
+  box-shadow: 0 1.25rem 3.5rem rgba(75,45,10,.12), inset 0 1px 0 rgba(255,255,255,.74);
+  backdrop-filter: blur(14px) saturate(125%);
 }
-
-.hidden,
-.hidden-void {
-  display: none !important;
+.heichel-mobile-navigation .heichel-nav-panel::before {
+  content: "";
+  position: absolute;
+  inset: .6rem;
+  border: 1px solid rgba(255,255,255,.48);
+  border-radius: inherit;
+  pointer-events: none;
 }
+.heichel-mobile-navigation .hidden,
+.heichel-mobile-navigation .hidden-void { display: none !important; }

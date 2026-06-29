@@ -31,4 +31,13 @@ export function writeWorldState(state = {}) { return saveWorldState(state); }
 export function updateWorldState(fn) { return mutateWorldState(fn); }
 export function getWorldState(key, fallback = undefined) { return readWorldState(key, fallback); }
 export function setWorldState(key, value) { return mutateWorldState(state => { state[key] = value; return state; }); }
-export default { loadWorldState, saveWorldState, mutateWorldState, patchWorldState, readWorldState, writeWorldState, updateWorldState, getWorldState, setWorldState };
+export function ensureWorldState(target = {}) {
+  target.worldState ||= loadWorldState();
+  target.worldState.updatedAt ||= Date.now();
+  return target.worldState;
+}
+export function worldStateSnapshot(target = {}) {
+  const state = target.worldState || loadWorldState();
+  return { ...state, keys:Object.keys(state), updatedAt:state.updatedAt || 0 };
+}
+export default { loadWorldState, saveWorldState, mutateWorldState, patchWorldState, readWorldState, writeWorldState, updateWorldState, getWorldState, setWorldState, ensureWorldState, worldStateSnapshot };

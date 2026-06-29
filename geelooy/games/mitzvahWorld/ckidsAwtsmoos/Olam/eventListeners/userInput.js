@@ -3,10 +3,10 @@
 import PointerUpdater from "../methods/interaction/PointerUpdater.js";
 import { castTorahSlot, ensureTorahActionBar, openTorahCodex } from "../../systems/torah/TorahActionRuntime.js?v=mmo-chat-macros-20260615-bh1";
 import { openBag } from "../../systems/inventory/BagRuntime.js";
-import { ensureMissionState, missionUiPayload } from "../../systems/missions/MissionRuntime.js";
+import { ensureMissionState, missionUiPayload } from "../../systems/missions/MissionRuntime.js?v=starter-contracts-20260628-bh9";
 import { openChat, closeChat } from "../../systems/chat/ChatRuntime.js";
-import { executeCommand } from "../../systems/chat/CommandRuntime.js?v=npc-perform-talk-20260616-bh1";
-import { ensureMacros, openMacros, runMacro, assignMacroToSlot } from "../../systems/macros/MacroRuntime.js?v=npc-perform-talk-20260616-bh1";
+import { executeCommand } from "../../systems/chat/CommandRuntime.js?v=starter-contracts-20260628-bh9";
+import { ensureMacros, openMacros, runMacro, assignMacroToSlot } from "../../systems/macros/MacroRuntime.js?v=starter-contracts-20260628-bh9";
 import { toggleNearestDoor } from "../worlds/mitzvahWorld/region/houses/door/DoorInteractionRuntime.js?v=door-interaction-runtime-20260615-bh2";
 const WEAPON_KEYS = Object.freeze({ ShiftDigit1:"cherev_hakodesh", ShiftDigit2:"keshes_haemes", ShiftDigit3:"mateh_hatorah" });
 const TORAH_SLOT_KEYS = Object.freeze({ Digit1:1, Digit2:2, Digit3:3, Digit4:4, Digit5:5, Digit6:6, Digit7:7, Digit8:8, Digit9:9 });

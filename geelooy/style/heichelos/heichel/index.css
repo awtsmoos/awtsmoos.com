@@ -1,5 +1,4 @@
-/* B"H split Heichel mobile navigation entry: imports only. */
-@import "../class-coverage/index.css";
+/* B"H Heichel mobile navigation entry: owned, root-scoped vessels only. */
 @import "./tokens.css";
 @import "./shell.css";
 @import "./topbar.css";
@@ -19,5 +18,3 @@
 @import "./modal/index.css";
 @import "./responsive.css";
 @import "./accessibility.css";
-@import "./beauty/index.css";
-@import "./legend/index.css";

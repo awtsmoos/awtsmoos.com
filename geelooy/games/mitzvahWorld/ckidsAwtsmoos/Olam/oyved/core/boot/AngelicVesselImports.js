@@ -5,7 +5,7 @@
  * Awtsmoos summons OlamVessel and utils by exact filenames so mobile Chrome
  * receives JavaScript, not JSON error bodies.
  */
-import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js";
+import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?v=starter-contracts-20260628-bh9";
 import { importLedgerModule } from "./SafeModuleImport.js";
 
 /** @returns {Promise<{module:any,required:any,record:Object}>} Loaded Olam core module record. */

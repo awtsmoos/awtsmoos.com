@@ -1,36 +1,29 @@
 /* B"H
- * Chapter 406: The shelves breathe, the bottom altar no longer covers them.
+ * Chapter 425: The shelves make room for sticky gates and final cards.
  */
-.dynamic-grid,
-.heichel-grid,
-.series-grid {
+.heichel-mobile-navigation .dynamic-grid,
+.heichel-mobile-navigation .heichel-grid,
+.heichel-mobile-navigation .series-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
-  gap: var(--heichel-gap, clamp(.9rem, 2.1vw, 1.35rem));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--heichel-gap);
   align-items: stretch;
+  padding-top: .25rem;
 }
-
-.grid-realms,
-.viewport { min-width: 0; }
-
-.viewport {
-  display: grid;
-  gap: .95rem;
-  padding-bottom: clamp(5.5rem, 12vh, 7.5rem);
-}
-
-.sacred-loading,
-.empty-glow-msg {
+.heichel-mobile-navigation .grid-realms,
+.heichel-mobile-navigation .viewport { min-width: 0; }
+.heichel-mobile-navigation .viewport { display: grid; gap: .95rem; padding-bottom: clamp(6.5rem, 14vh, 8.75rem); scroll-margin-top: 8rem; }
+.heichel-mobile-navigation .sacred-loading,
+.heichel-mobile-navigation .empty-glow-msg {
   border: 1px dashed rgba(122,82,31,.25);
   border-radius: 1.2rem;
   padding: 1.1rem;
   background: rgba(255,255,255,.66);
-  color: var(--awt-ink-soft, rgba(35,24,12,.72));
+  color: var(--heichel-soft-ink);
   font-weight: 900;
 }
-
 @media (min-width: 1080px) {
-  .dynamic-grid,
-  .heichel-grid,
-  .series-grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+  .heichel-mobile-navigation .dynamic-grid,
+  .heichel-mobile-navigation .heichel-grid,
+  .heichel-mobile-navigation .series-grid { grid-template-columns: repeat(auto-fit, minmax(18.5rem, 1fr)); }
 }

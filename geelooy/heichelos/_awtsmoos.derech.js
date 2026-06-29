@@ -2,16 +2,18 @@
  * B"H
  * @module HeichelRouteGate
  * @description
- * Chapter 94: The Awtsmoos repairs the gate that the mobile styling pass shook.
+ * Chapter 578: The false reader path bows back into the Heichel gate.
  *
- * Server-rendered Heichel pages now use property-map query parameters for
- * post/heichel shell data, so HTML bootstraps carry only the fields the page
- * needs. Full post bodies still load where the reader actually needs content.
+ * The Awtsmoos creates route order every instant. A path like
+ * `/heichelos/ikar/series/root/error` is not a post; it is a malformed root
+ * series address. The server now renders the Heichel shell and lets the client
+ * normalize the browser URL instead of booting a fake reader.
  */
 
 module.exports = async $i => {
     await $i.use({
         "/": async () => await $i.$ga("_awtsmoos.index.html"),
+        "/:heichel/series/root/error": async vars => await renderHeichelShell(vars.heichel),
         "/:heichel/series/:series/index": async vars => await renderHeichelShell(vars.heichel),
         "/:heichel/series/:series": async vars => await renderHeichelShell(vars.heichel),
         "/:heichel/delete": async v => await renderDelete(v),
@@ -23,17 +25,9 @@ module.exports = async $i => {
         "/:heichel": async v => await renderHeichelShell(v.heichel)
     });
 
-    function qp(mapName, map) {
-        return new URLSearchParams({ [mapName]: JSON.stringify(map) }).toString();
-    }
-
-    function heichelFields() {
-        return qp("propertyMap", { id: true, name: true, title: true, description: true, author: true, createdAt: true, dayuh: true });
-    }
-
-    function postFields() {
-        return qp("propertyMap", { id: true, title: true, content: true, author: true, parentSeriesId: true, seriesId: true, createdAt: true, dayuh: true });
-    }
+    function qp(mapName, map) { return new URLSearchParams({ [mapName]: JSON.stringify(map) }).toString(); }
+    function heichelFields() { return qp("propertyMap", { id: true, name: true, title: true, description: true, author: true, createdAt: true, dayuh: true }); }
+    function postFields() { return qp("propertyMap", { id: true, title: true, content: true, author: true, parentSeriesId: true, seriesId: true, createdAt: true, dayuh: true }); }
 
     async function getHeichel(heichelId) {
         const hch = await $i.fetchAwtsmoos(`/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`);
@@ -77,14 +71,12 @@ module.exports = async $i => {
         const aliasDetails = post?.author ? await $i.fetchAwtsmoos(`/api/social/aliases/${encodeURIComponent(post.author)}?${qp("propertyMap", { id: true, name: true, title: true, description: true })}`) : null;
         if (aliasDetails && post?.author) aliasDetails.id = post.author;
         if (heichelDetails) heichelDetails.id = vars.heichel;
-        if (post) {
-            post.id = vars.post;
-            post.heichel = heichelDetails;
-        }
+        if (post) { post.id = vars.post; post.heichel = heichelDetails; }
         return await $i.$ga("./post/_awtsmoos.post.html", { heichel: heichelDetails, post, alias: aliasDetails });
     }
 
     async function renderIndexedPost(vars) {
+        if (vars.series === "root" && vars.index === "error") return await renderHeichelShell(vars.heichel);
         return await $i.$ga("./post/_awtsmoos.post.html", { heichel: vars.heichel, parentSeries: vars.series, indexInSeries: vars.index });
     }
 
@@ -92,17 +84,8 @@ module.exports = async $i => {
         const t = $i.$_GET.type;
         const alias = $i.$_GET.editingAlias;
         const $sd = { alias, returnURL: $i.$_GET.returnURL };
-        if (t === "post" || t === "series") {
-            $sd.type = t;
-            $sd.ttitle = t[0].toUpperCase() + t.substring(1);
-            $sd.tdesc = t === "post" ? "content" : "description";
-        } else if (t === "comment") {
-            $sd.parentType = $i.$_GET.parentType;
-            $sd.parentId = $i.$_GET.parentId;
-            $sd.type = "comment";
-            $sd.ttitle = "Comment";
-            $sd.tdesc = "content";
-        }
+        if (t === "post" || t === "series") { $sd.type = t; $sd.ttitle = t[0].toUpperCase() + t.substring(1); $sd.tdesc = t === "post" ? "content" : "description"; }
+        else if (t === "comment") { $sd.parentType = $i.$_GET.parentType; $sd.parentId = $i.$_GET.parentId; $sd.type = "comment"; $sd.ttitle = "Comment"; $sd.tdesc = "content"; }
         return $sd;
     }
 };

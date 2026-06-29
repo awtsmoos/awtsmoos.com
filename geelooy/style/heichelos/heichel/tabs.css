@@ -1,26 +1,25 @@
 /* B"H
- * Chapter 413: The two gates become royal, tactile, and unmistakable.
+ * Chapter 424: The Timeline/Series switcher floats without cutting cards.
  */
-.tab-gates,
-.geelooy-tabs {
+.heichel-mobile-navigation .tab-gates,
+.heichel-mobile-navigation .geelooy-tabs {
   position: sticky;
   top: 4.05rem;
   z-index: 45;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .42rem;
-  margin: .8rem 0 1.15rem;
+  margin: .25rem 0 .95rem;
   padding: .42rem;
   border: 1px solid rgba(122,82,31,.16);
   border-radius: 999px;
-  background: rgba(255,252,244,.7);
+  background: rgba(255,252,244,.82);
   box-shadow: 0 .9rem 2rem rgba(75,45,10,.1), inset 0 1px 0 rgba(255,255,255,.8);
   backdrop-filter: blur(16px) saturate(125%);
 }
-
-.tab,
-.geelooy-tabs button {
-  min-height: clamp(3rem, 7vw, 4.05rem);
+.heichel-mobile-navigation .tab,
+.heichel-mobile-navigation .geelooy-tabs button {
+  min-height: clamp(2.75rem, 6vw, 3.65rem);
   border: 0;
   border-radius: 999px;
   background: transparent;
@@ -31,31 +30,16 @@
   letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
 }
-
-.tab:hover,
-.geelooy-tabs button:hover { background: rgba(255,255,255,.62); }
-
-.tab.Active,
-.tab.active,
-.geelooy-tabs button.Active,
-.geelooy-tabs button.active {
-  background: linear-gradient(135deg, #332238 0%, #8b2d16 76%, #b45d21 100%);
-  color: #fff7df;
-  box-shadow: 0 .9rem 1.9rem rgba(68,29,12,.22), inset 0 1px 0 rgba(255,255,255,.18);
-  transform: translateY(-1px);
-}
-
-.tab:focus-visible,
-.geelooy-tabs button:focus-visible {
-  outline: 3px solid rgba(214,168,79,.52);
-  outline-offset: 3px;
-}
-
+.heichel-mobile-navigation .tab:hover,
+.heichel-mobile-navigation .geelooy-tabs button:hover { background: rgba(255,255,255,.62); }
+.heichel-mobile-navigation .tab.Active,
+.heichel-mobile-navigation .tab.active,
+.heichel-mobile-navigation .geelooy-tabs button.Active,
+.heichel-mobile-navigation .geelooy-tabs button.active { background: linear-gradient(135deg, var(--heichel-night) 0%, var(--heichel-rust) 78%); color: #fff7df; box-shadow: 0 .9rem 1.9rem rgba(68,29,12,.22), inset 0 1px 0 rgba(255,255,255,.18); }
 @media (max-width: 560px) {
-  .tab-gates,
-  .geelooy-tabs { top: 3.8rem; gap: .28rem; padding: .28rem; }
-  .tab,
-  .geelooy-tabs button { font-size: .76rem; min-height: 2.75rem; }
+  .heichel-mobile-navigation .tab-gates,
+  .heichel-mobile-navigation .geelooy-tabs { top: 3.8rem; gap: .28rem; padding: .28rem; }
+  .heichel-mobile-navigation .tab,
+  .heichel-mobile-navigation .geelooy-tabs button { font-size: .76rem; min-height: 2.65rem; }
 }

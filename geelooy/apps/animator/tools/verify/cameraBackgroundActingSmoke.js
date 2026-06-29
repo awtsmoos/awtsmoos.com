@@ -6,7 +6,13 @@ import { HEALTHY_LUNCH_SCENE } from '../../src/data/scenes/healthyLunch/index.js
 import { SpeechProcessor } from '../../src/core/app/director/logic/SpeechProcessor.js';
 import { DefaultSceneInstaller } from '../../src/core/app/DefaultSceneInstaller.js';
 
-const sceneNode = SceneComposer.build({ sceneData: { style: 'authored_world_2d' }, ctx: { width: 720, height: 1080 } });
+globalThis.window = { innerWidth: 360, innerHeight: 640, devicePixelRatio: 1 };
+globalThis.innerWidth = 360;
+globalThis.innerHeight = 640;
+globalThis.devicePixelRatio = 1;
+
+const ctx = { width: 720, height: 1080, canvas: { getBoundingClientRect: () => ({ width: 360, height: 640, left: 0, top: 0 }) } };
+const sceneNode = SceneComposer.build({ sceneData: { style: 'authored_world_2d' }, ctx });
 const root = StageLayerComposer.compose({ sceneNode, entityNodes: [{ id: 'actor_probe', type: 'group', children: [] }], cameraTransform: { x: 1, y: 2, scaleX: 3, scaleY: 3 }, dialogueNode: null, fadeNode: null });
 const rootJson = JSON.stringify(root);
 

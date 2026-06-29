@@ -2,18 +2,15 @@
 /**
  * @module SovereignUIArchitect
  * @description
- * Chapter 18: The button and the door finally spoke the same word.
- *
- * The Awtsmoos binds visible controls to visible states: the drawer button now
- * toggles `sidebar-open`, the exact class owned by CSS, and the Filter button
- * actively focuses and reapplies the current search instead of standing as a
- * painted prop.
+ * Chapter 419: The palace learned to breathe from one root.
+ * The Awtsmoos hides in no border hack. The Heichel renders from a named root,
+ * focuses clean search, sanitizes series text, and keeps old scripts as ash.
  */
 
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
 import { DOMElements, clearRegistry } from '../dom.js';
-import { VoidPurifier } from '../utils/VoidPurifier.js';
+import { safeDisplayText } from './textSanitizer.js';
 
 export { notify } from './render/toast.js';
 export { updateHeichelHeader, renderBreadcrumb } from './render/header.js';
@@ -54,10 +51,8 @@ function applyCurrentFilter(navigator) {
 export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesId) {
     if (currentSeriesId !== 'root' && seriesData && DOMElements.seriesInfoArea) {
         const prateem = seriesData.prateem || seriesData;
-        const cleanName = VoidPurifier.purify(prateem.name) || 'A Bound Sequence';
-        const rawDesc = prateem.description === 'undefined' ? '' : prateem.description;
-        DOMElements.seriesTitle.textContent = cleanName;
-        DOMElements.seriesDesc.textContent = VoidPurifier.purify(rawDesc);
+        DOMElements.seriesTitle.textContent = safeDisplayText(prateem.name, 'A Bound Sequence');
+        DOMElements.seriesDesc.textContent = safeDisplayText(prateem.description, '');
         DOMElements.seriesInfoArea.classList.remove('hidden');
         return;
     }
@@ -80,8 +75,8 @@ export function updateActiveTab(view) {
     const isPosts = view === 'posts';
     DOMElements.postsTab?.classList.toggle('Active', isPosts);
     DOMElements.seriesTab?.classList.toggle('Active', !isPosts);
-    const postsViewport = DOMElements.postsViewport || document.querySelector('.viewport.posts');
-    const seriesViewport = DOMElements.seriesViewport || document.querySelector('.viewport.series');
+    const postsViewport = DOMElements.postsViewport || document.querySelector('.heichel-mobile-navigation .viewport.posts');
+    const seriesViewport = DOMElements.seriesViewport || document.querySelector('.heichel-mobile-navigation .viewport.series');
     postsViewport?.classList.toggle('hidden', !isPosts);
     seriesViewport?.classList.toggle('hidden', isPosts);
 }

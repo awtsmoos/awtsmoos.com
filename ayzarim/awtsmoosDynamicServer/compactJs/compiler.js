@@ -319,7 +319,7 @@ function specifierExportAssignments(specifiers, prefix) {
 function defaultExportReplacement(record, node) {
   const declaration = node.declaration;
   const local = defaultLocalName(record, declaration);
-  let source = sourceForDefaultDeclaration(record, declaration);
+  let source = sourceForDefaultDeclaration(record, declaration, node);
   if (declaration.async && /^function\b/.test(source.trim())) source = `async ${source}`;
   if (declaration.id && declaration.id.name) return `${source}\n__exports.default = ${local};`;
   if (declaration.type === "Identifier") return `__exports.default = ${local};`;
@@ -387,26 +387,40 @@ function sourceForNamedDeclaration(record, declaration) {
   return record.source.slice(declaration.start, end > declaration.start ? end : declaration.end);
 }
 
-function sourceForDefaultDeclaration(record, declaration) {
+function sourceForDefaultDeclaration(record, declaration, exportNode = null) {
   if (!declaration) return "undefined";
-  const end = findDefaultDeclarationSourceEnd(record.source, declaration);
-  const safeEnd = end > declaration.start ? end : declaration.end;
-  return record.source.slice(declaration.start, stripTrailingSemicolonOffset(record.source, safeEnd));
+  const start = defaultDeclarationSourceStart(record.source, declaration, exportNode);
+  const end = findDefaultDeclarationSourceEnd(record.source, declaration, start);
+  const safeEnd = end > start ? end : declaration.end;
+  return record.source.slice(start, stripTrailingSemicolonOffset(record.source, safeEnd));
 }
 
 function exportDefaultReplacementEnd(record, node) {
   const declaration = node.declaration;
-  const end = declaration ? findDefaultDeclarationSourceEnd(record.source, declaration) : node.end;
+  const start = declaration ? defaultDeclarationSourceStart(record.source, declaration, node) : node.start;
+  const end = declaration ? findDefaultDeclarationSourceEnd(record.source, declaration, start) : node.end;
   return consumeTrailingSemicolon(record.source, end > node.start ? end : node.end);
 }
 
-function findDefaultDeclarationSourceEnd(source, declaration) {
+function defaultDeclarationSourceStart(source, declaration, exportNode = null) {
+  if (!declaration) return exportNode?.end || 0;
+  if (["FunctionDeclaration", "FunctionExpression", "ClassDeclaration", "ClassExpression"].includes(declaration.type)) return declaration.start;
+  const afterKeyword = exportNode ? findAfterExportDefault(source, exportNode.start) : -1;
+  return afterKeyword >= 0 ? afterKeyword : declaration.start;
+}
+
+function findAfterExportDefault(source, start) {
+  const match = String(source || "").slice(start).match(/^\s*export\s+default\b/);
+  return match ? skipWhitespace(source, start + match[0].length) : -1;
+}
+
+function findDefaultDeclarationSourceEnd(source, declaration, sourceStart = declaration?.start || 0) {
   if (!declaration) return -1;
   if (["FunctionDeclaration", "FunctionExpression", "ClassDeclaration", "ClassExpression"].includes(declaration.type)) {
     const end = findFunctionLikeEnd(source, declaration.start);
     return end > 0 ? end : declaration.end;
   }
-  return findStatementEnd(source, declaration.start);
+  return findStatementEnd(source, sourceStart);
 }
 
 function replaceRemainingDefaultExports(source) {

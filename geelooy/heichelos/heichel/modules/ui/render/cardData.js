@@ -2,22 +2,16 @@
 /**
  * @module MobileCardData
  * @description
- * Chapter 402: The little card confesses the forest inside the seed.
- *
- * Posts, comments, sections, followers, sub-series: each finite count is only a
- * garment for the One Who speaks it into being. This purifier refuses literal
- * garbage text such as `undefined`, preserves stable ids, and gives series cards
- * the sub-series count they deserved from the beginning.
+ * Chapter 418: Every card receives a name, a safe description, and a true key.
+ * The Awtsmoos turns API dialects into visible chambers without letting escaped
+ * HTML or `undefined` scratch the wall of the palace.
  */
 
 import { openRecordVessel } from "../../navigator/content-normalizer.js";
-import { VoidPurifier } from "../../utils/VoidPurifier.js";
+import { safeDisplayText } from "../textSanitizer.js";
 
 function clean(value, fallback = "") {
-    const purified = VoidPurifier.purify(value);
-    const text = String(purified || "").trim();
-    if (!text || text === "undefined" || text === "null") return fallback;
-    return text;
+    return safeDisplayText(value, fallback);
 }
 
 function count(value) {
@@ -33,7 +27,8 @@ function firstPresent(...values) {
 export function normalizeCardData(item, type) {
     const raw = openRecordVessel(type === "post" ? item : (item.prateem || item)) || {};
     const id = firstPresent(raw.id, raw.postId, raw.seriesId, raw.inputId, item.id, item.postId, item.seriesId);
-    const title = clean(firstPresent(raw.title, raw.name, id), type === "series" ? "Untitled Series" : "Untitled Post");
+    const fallback = type === "series" ? "Untitled Series" : "Untitled Post";
+    const title = clean(firstPresent(raw.title, raw.name, id), fallback);
     const description = clean(firstPresent(raw.description, raw.content, raw.excerpt), "").slice(0, 190);
     return {
         id,
