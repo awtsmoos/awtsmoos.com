@@ -1,65 +1,58 @@
 // B"H
 #include <node_api.h>
 #include <stdint.h>
+#include "awtai_fused_ffn.h"
 #include "awtai_project_threaded.h"
 #include "awtai_quant_dispatch.h"
 
-static napi_value fail(napi_env env, const char *msg) {
-  napi_throw_error(env, NULL, msg);
-  return NULL;
-}
+static napi_value fail(napi_env env, const char *msg) { napi_throw_error(env, NULL, msg); return NULL; }
+static int32_t i32_arg(napi_env env, napi_value v, const char *name) { int32_t out = 0; if (napi_get_value_int32(env, v, &out) != napi_ok) napi_throw_error(env, NULL, name); return out; }
+static int32_t threads_arg(napi_env env, napi_value *args, size_t argc, int index) { return argc <= (size_t)index ? 1 : i32_arg(env, args[index], "B'H invalid thread count"); }
 
-static int32_t i32_arg(napi_env env, napi_value v, const char *name) {
-  int32_t out = 0;
-  if (napi_get_value_int32(env, v, &out) != napi_ok) napi_throw_error(env, NULL, name);
-  return out;
-}
-
-static int32_t optional_threads(napi_env env, napi_value *args, size_t argc) {
-  if (argc < 6) return 1;
-  return i32_arg(env, args[5], "B'H invalid thread count");
+static int get_ta(napi_env env, napi_value value, napi_typedarray_type expect, void **data, size_t *len, const char *name) {
+  napi_typedarray_type type; size_t off; napi_value ab;
+  if (napi_get_typedarray_info(env, value, &type, len, data, &ab, &off) != napi_ok || type != expect) {
+    napi_throw_error(env, NULL, name); return 0;
+  }
+  return 1;
 }
 
 static napi_value project_rows(napi_env env, napi_callback_info info) {
-  size_t argc = 6;
-  napi_value args[6];
-  if (napi_get_cb_info(env, info, &argc, args, NULL, NULL) != napi_ok || argc < 5) {
-    return fail(env, "B'H projectRows(raw,type,rows,cols,input,threads) needs at least five args");
-  }
-  int32_t type = i32_arg(env, args[1], "B'H invalid ggml type");
-  int32_t rows = i32_arg(env, args[2], "B'H invalid rows");
-  int32_t cols = i32_arg(env, args[3], "B'H invalid cols");
-  int32_t threads = optional_threads(env, args, argc);
-  if (!awtai_type_supported(type)) return fail(env, "B'H native addon supports Q2_K/Q3_K/Q4_K/Q6_K only");
-  if (rows <= 0 || cols <= 0) return fail(env, "B'H invalid projection shape");
+  size_t argc = 6; napi_value args[6];
+  if (napi_get_cb_info(env, info, &argc, args, NULL, NULL) != napi_ok || argc < 5) return fail(env, "B'H projectRows args");
+  int type = i32_arg(env, args[1], "B'H invalid type"), rows = i32_arg(env, args[2], "B'H invalid rows"), cols = i32_arg(env, args[3], "B'H invalid cols"), threads = threads_arg(env, args, argc, 5);
+  void *raw = 0, *x = 0; size_t raw_len = 0, x_len = 0;
+  if (!get_ta(env, args[0], napi_uint8_array, &raw, &raw_len, "B'H raw must be Uint8Array")) return NULL;
+  if (!get_ta(env, args[4], napi_float32_array, &x, &x_len, "B'H input must be Float32Array")) return NULL;
+  if (!awtai_type_supported(type) || rows <= 0 || cols <= 0 || (int)x_len < cols) return fail(env, "B'H invalid projection");
+  if (raw_len < (size_t)awtai_row_bytes(type, cols) * (size_t)rows) return fail(env, "B'H short raw projection");
+  napi_value out_ab, out_ta; void *out = 0;
+  if (napi_create_arraybuffer(env, (size_t)rows * sizeof(float), &out, &out_ab) != napi_ok) return fail(env, "B'H output alloc failed");
+  awtai_project_threaded(type, raw, rows, cols, x, out, threads);
+  napi_create_typedarray(env, napi_float32_array, rows, out_ab, 0, &out_ta);
+  return out_ta;
+}
 
-  napi_typedarray_type raw_type, x_type;
-  size_t raw_len = 0, x_len = 0, raw_off = 0, x_off = 0;
-  napi_value raw_ab, x_ab;
-  void *raw_data = 0, *x_data = 0;
-  napi_get_typedarray_info(env, args[0], &raw_type, &raw_len, &raw_data, &raw_ab, &raw_off);
-  napi_get_typedarray_info(env, args[4], &x_type, &x_len, &x_data, &x_ab, &x_off);
-  if (raw_type != napi_uint8_array) return fail(env, "B'H raw must be Uint8Array");
-  if (x_type != napi_float32_array) return fail(env, "B'H input must be Float32Array");
-  if ((int32_t)x_len < cols) return fail(env, "B'H input shorter than cols");
-  int stride = awtai_row_bytes(type, cols);
-  if (raw_len < (size_t)stride * (size_t)rows) return fail(env, "B'H raw tensor shorter than rows*stride");
-
-  napi_value out_ab, out_ta;
-  void *out_data = 0;
-  if (napi_create_arraybuffer(env, (size_t)rows * sizeof(float), &out_data, &out_ab) != napi_ok) {
-    return fail(env, "B'H could not allocate output arraybuffer");
-  }
-  awtai_project_threaded(type, (const uint8_t *)raw_data, rows, cols, (const float *)x_data, (float *)out_data, threads);
-  if (napi_create_typedarray(env, napi_float32_array, rows, out_ab, 0, &out_ta) != napi_ok) {
-    return fail(env, "B'H could not create output Float32Array");
-  }
+static napi_value fused_ffn(napi_env env, napi_callback_info info) {
+  size_t argc = 10; napi_value args[10];
+  if (napi_get_cb_info(env, info, &argc, args, NULL, NULL) != napi_ok || argc < 9) return fail(env, "B'H fusedFfn args");
+  int gt = i32_arg(env, args[1], "B'H gate type"), ut = i32_arg(env, args[3], "B'H up type"), dt = i32_arg(env, args[5], "B'H down type"), hidden = i32_arg(env, args[6], "B'H hidden"), ffn = i32_arg(env, args[7], "B'H ffn"), threads = threads_arg(env, args, argc, 9);
+  void *gr = 0, *ur = 0, *dr = 0, *x = 0; size_t gl = 0, ul = 0, dl = 0, xl = 0;
+  if (!get_ta(env, args[0], napi_uint8_array, &gr, &gl, "B'H gate raw")) return NULL;
+  if (!get_ta(env, args[2], napi_uint8_array, &ur, &ul, "B'H up raw")) return NULL;
+  if (!get_ta(env, args[4], napi_uint8_array, &dr, &dl, "B'H down raw")) return NULL;
+  if (!get_ta(env, args[8], napi_float32_array, &x, &xl, "B'H ffn input")) return NULL;
+  if ((int)xl < hidden || gl < (size_t)awtai_row_bytes(gt, hidden) * (size_t)ffn || ul < (size_t)awtai_row_bytes(ut, hidden) * (size_t)ffn || dl < (size_t)awtai_row_bytes(dt, ffn) * (size_t)hidden) return fail(env, "B'H short fused ffn raw");
+  napi_value out_ab, out_ta; void *out = 0;
+  if (napi_create_arraybuffer(env, (size_t)hidden * sizeof(float), &out, &out_ab) != napi_ok) return fail(env, "B'H ffn alloc failed");
+  if (!awtai_fused_ffn(gt, gr, ut, ur, dt, dr, hidden, ffn, x, out, threads)) return fail(env, "B'H fused ffn failed");
+  napi_create_typedarray(env, napi_float32_array, hidden, out_ab, 0, &out_ta);
   return out_ta;
 }
 
 static napi_value init(napi_env env, napi_value exports) {
-  napi_property_descriptor desc = { "projectRows", 0, project_rows, 0, 0, 0, napi_default, 0 };
-  napi_define_properties(env, exports, 1, &desc);
+  napi_property_descriptor desc[] = { { "projectRows", 0, project_rows, 0, 0, 0, napi_default, 0 }, { "fusedFfn", 0, fused_ffn, 0, 0, 0, napi_default, 0 } };
+  napi_define_properties(env, exports, 2, desc);
   return exports;
 }
 

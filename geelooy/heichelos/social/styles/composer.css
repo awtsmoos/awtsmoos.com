@@ -6,6 +6,7 @@
  */
 .awt-composer { display: grid; gap: 12px; padding: 18px; }
 .awt-composer input, .awt-composer textarea {
+  box-sizing: border-box;
   width: 100%;
   border: 1px solid var(--awt-border);
   border-radius: var(--awt-radius-md);
@@ -13,6 +14,8 @@
   color: var(--awt-text);
   padding: 12px;
 }
+.awt-target-picker { display: grid; gap: 8px; }
+.awt-target-list, .awt-composer-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .awt-composer-section {
   display: grid;
   gap: 10px;

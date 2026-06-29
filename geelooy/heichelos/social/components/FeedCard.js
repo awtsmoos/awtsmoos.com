@@ -8,7 +8,7 @@
  */
 import { h } from './render.js';
 
-export function FeedCard(post = {}) {
+export function FeedCard(post = {}, actions = {}) {
     const media = (post.assets || []).map(asset => asset.label || asset.kind);
     const sectionCount = (post.sections || []).length;
 
@@ -24,9 +24,9 @@ export function FeedCard(post = {}) {
             sectionCount ? h('span', { class: 'awt-media-pill' }, [`${sectionCount} section${sectionCount === 1 ? '' : 's'}`]) : ''
         ].filter(Boolean)),
         h('div', { class: 'awt-card-actions' }, [
-            h('button', { class: 'awt-btn' }, [`Comment (${post.counts?.comments || 0})`]),
-            h('button', { class: 'awt-btn' }, ['Save']),
-            h('button', { class: 'awt-btn' }, ['Share'])
+            h('button', { class: 'awt-btn', type: 'button', onclick: () => actions.onComment?.(post) }, [`Comment (${post.counts?.comments || 0})`]),
+            h('button', { class: 'awt-btn', type: 'button', onclick: () => actions.onSave?.(post) }, ['Save']),
+            h('button', { class: 'awt-btn', type: 'button', onclick: () => actions.onShare?.(post) }, ['Share'])
         ])
     ]);
 }

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Community Moderation</title>
+  <link rel="stylesheet" href="/style/heichelos/heichel/index.css">
+  <script defer src="/heichelos/settings/community/moderation/app.js"></script>
+</head>
+<body>
+  <main class="heichel-community-moderation awt-panel">
+    <header>
+      <p class="awt-eyebrow">B&quot;H · Review queue</p>
+      <h1>Community Moderation</h1>
+      <p>Search pending and reviewed community submissions without loading the whole sea.</p>
+      <p><a href="/heichelos/settings/community/">Back to community settings</a></p>
+    </header>
+    <form id="filters">
+      <section class="awt-settings-section">
+        <h2>Queue filters</h2>
+        <label>Heichel ID <input name="heichelId" required placeholder="Heichel ID"></label>
+        <label>Moderator alias <input name="aliasId" placeholder="Alias for approve/reject"></label>
+        <label>Status
+          <select name="status">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+            <option value="all">All</option>
+          </select>
+        </label>
+        <label>Type
+          <select name="type">
+            <option value="">All types</option>
+            <option value="post">Posts</option>
+            <option value="question">Questions</option>
+            <option value="answer">Answers</option>
+            <option value="comment">Comments</option>
+            <option value="series">Series</option>
+            <option value="poll">Polls</option>
+          </select>
+        </label>
+        <label>Search <input name="search" placeholder="Title, body, author, id"></label>
+      </section>
+      <div class="awt-action-row">
+        <button id="load">Load queue</button>
+        <button type="button" id="more" hidden>Load more</button>
+      </div>
+    </form>
+    <section aria-live="polite" id="status"></section>
+    <section id="queue" class="awt-review-list"></section>
+  </main>
+</body>
+</html>

@@ -7,6 +7,7 @@ function graph(id = 'default') { if (!graphs.has(id)) graphs.set(id, Sample.samp
 function current(payload = {}) { return graph(graphId(payload)); }
 function objectPayload(payload = {}) { return payload.object || payload.node || payload; }
 function operations(payload = {}) { return payload.operations || payload.ops || []; }
+function watchPayload(payload = {}) { return payload.watcher || payload.watch || payload; }
 function buildVirtualOsGraphActions(ctx) {
   const { payload = {} } = ctx;
   return {
@@ -22,13 +23,12 @@ function buildVirtualOsGraphActions(ctx) {
     async virtualOsGraphDiff() { return { ok:true, action:'virtualOsGraphDiff', diff:current(payload).diff(payload.graph || payload.compare || payload.objects || payload.object || {}) }; },
     async virtualOsGraphTraverse() { return { ok:true, action:'virtualOsGraphTraverse', traversal:current(payload).traverse(payload) }; },
     async virtualOsGraphPathLookup() { return { ok:true, action:'virtualOsGraphPathLookup', object:current(payload).pathLookup(payload.path || payload.url || payload.id || payload.title || payload.query || '') }; },
-    async virtualOsGraphTransaction() { const result = current(payload).transaction(operations(payload)); return { action:'virtualOsGraphTransaction', ...result }; }
+    async virtualOsGraphTransaction() { const result = current(payload).transaction(operations(payload)); return { action:'virtualOsGraphTransaction', ...result }; },
+    async virtualOsGraphSubscribe() { return { ok:true, action:'virtualOsGraphSubscribe', watcher:current(payload).subscribe(watchPayload(payload)) }; },
+    async virtualOsGraphUnsubscribe() { return { ok:true, action:'virtualOsGraphUnsubscribe', watcher:current(payload).unsubscribe(payload.watcherId || payload.id) }; },
+    async virtualOsGraphWatchers() { return { ok:true, action:'virtualOsGraphWatchers', watchers:current(payload).watchers() }; },
+    async virtualOsGraphWatchPoll() { return { ok:true, action:'virtualOsGraphWatchPoll', result:current(payload).drain(payload.watcherId || payload.id, payload.limit) }; }
   };
 }
-/**
- * B"H
- * These actions are the public gates of the server mirror. Nothing hides in a
- * private chamber: search, delete, history, refs, diffs, traversals, path
- * lookup, and transactions all answer through the same object graph altar.
- */
+/** B"H: public graph gates now include listeners, so the tunnel can hear change without inventing a second river. */
 module.exports = { buildVirtualOsGraphActions };

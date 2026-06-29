@@ -1,0 +1,23 @@
+//B"H
+import assert from 'assert';
+import fs from 'fs';
+const html = fs.readFileSync('geelooy/heichelos/settings/community/moderation/index.html', 'utf8');
+const app = fs.readFileSync('geelooy/heichelos/settings/community/moderation/app.js', 'utf8');
+const settings = fs.readFileSync('geelooy/heichelos/settings/community/index.html', 'utf8');
+assert.match(settings, /settings\/community\/moderation/);
+assert.match(html, /id="filters"/);
+assert.match(html, /name="heichelId"/);
+assert.match(html, /name="aliasId"/);
+assert.match(html, /name="status"/);
+assert.match(html, /name="type"/);
+assert.match(html, /id="queue"/);
+assert.match(app, /\/moderation\?/);
+assert.match(app, /pendingControls/);
+assert.match(app, /already reviewed/);
+assert.match(app, /item\.status !== 'pending'/);
+assert.match(app, /selectorId/);
+assert.match(app, /window\.CSS\?\.escape/);
+assert.match(app, /data-action="approve"/);
+assert.match(app, /data-action="reject"/);
+assert.doesNotMatch(app, /innerHTML\s*\+=/);
+console.log('B"H moderationUiContract.test passed');

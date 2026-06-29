@@ -4,23 +4,23 @@
  * Every surface drinks from brutal gradients, rift shadows, and living motion.
  */
 :root {
-  --awt-bg: #07020f;
-  --awt-surface: rgba(17, 8, 32, .78);
-  --awt-surface-strong: rgba(31, 12, 58, .9);
-  --awt-border: rgba(255, 255, 255, .16);
-  --awt-text: #fff8ff;
-  --awt-muted: #cdb9df;
-  --awt-fire: #ff2bd6;
-  --awt-sun: #ffd166;
-  --awt-cyan: #00e5ff;
-  --awt-violet: #7c3cff;
-  --awt-green: #7cffc4;
-  --awt-radius-sm: 10px;
-  --awt-radius-md: 18px;
-  --awt-radius-lg: 30px;
-  --awt-gradient-brutal: conic-gradient(from 160deg, var(--awt-fire), var(--awt-cyan), var(--awt-green), var(--awt-sun), var(--awt-fire));
-  --awt-rift: radial-gradient(circle at 18% 12%, rgba(255,43,214,.35), transparent 34%), radial-gradient(circle at 82% 4%, rgba(0,229,255,.3), transparent 36%), linear-gradient(135deg, #08020f, #19072d 50%, #030812);
-  --awt-shadow-brutal: 0 0 0 1px rgba(255,255,255,.14), 0 24px 80px rgba(255,43,214,.22), 0 0 70px rgba(0,229,255,.16);
+  --awt-bg: #0b0d10;
+  --awt-surface: rgba(19, 23, 28, .88);
+  --awt-surface-strong: rgba(29, 35, 42, .96);
+  --awt-border: rgba(231, 237, 242, .14);
+  --awt-text: #f7faf8;
+  --awt-muted: #abb8b4;
+  --awt-fire: #d84f68;
+  --awt-sun: #d7b35a;
+  --awt-cyan: #45b7b0;
+  --awt-violet: #7a8cff;
+  --awt-green: #62c584;
+  --awt-radius-sm: 4px;
+  --awt-radius-md: 6px;
+  --awt-radius-lg: 8px;
+  --awt-gradient-brutal: linear-gradient(135deg, var(--awt-cyan), var(--awt-sun) 48%, var(--awt-fire));
+  --awt-rift: linear-gradient(135deg, #0b0d10, #12171b 48%, #111611);
+  --awt-shadow-brutal: 0 1px 0 rgba(255,255,255,.08), 0 18px 50px rgba(0,0,0,.32);
 }
 @keyframes awtRift {
   0% { filter: hue-rotate(0deg); transform: translate3d(0,0,0) scale(1); }

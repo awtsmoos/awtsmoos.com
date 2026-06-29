@@ -55,7 +55,7 @@ export async function simulateStarterGameplay(options = {}) {
   const crafted = craftItem(store, 'challah', 'player');
   bridge.emit('combat', { target:'courtyard_disturbance', result:{ ok:true, calm:true } });
   const hearth = bindHearth({ id:'village_inn', x:4, y:0, z:-6 });
-  if (options.flushPersistence === true) runtime.flushDeferred?.('simulated-full-gameplay-complete');
+  if (options.flushPersistence !== false) runtime.flushDeferred?.('simulated-full-gameplay-complete');
   const snapshot = runtime.snapshot();
   return { ok:snapshot.progress.done === snapshot.progress.total, snapshot, signals:{ ...bridge.counts }, npc, trained, profession, crafted, hearth, events:events.length };
 }

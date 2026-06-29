@@ -1,7 +1,7 @@
 // B"H
 export function createFeedApi(client) {
     return {
-        global: query => client.get(withQuery('/feed/global', query)),
+        global: query => client.get(withQuery('/feed', query)),
         heichel: (id, query) => client.get(withQuery('/feed/heichel/' + encodeURIComponent(id), query)),
         series: (id, query) => client.get(withQuery('/feed/series/' + encodeURIComponent(id), query)),
         alias: (id, query) => client.get(withQuery('/feed/alias/' + encodeURIComponent(id), query))

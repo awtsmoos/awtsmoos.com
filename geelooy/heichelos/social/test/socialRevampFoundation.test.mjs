@@ -36,7 +36,7 @@ const api = createSocialApi({
 
 const result = await api.feed.global({ limit: 2 });
 assert.equal(result.ok, true);
-assert.ok(result.data.url.includes('/feed/global'));
+assert.ok(result.data.url.includes('/feed?limit=2'));
 
 const sacredTitle = 'B"H Test';
 const view = FeedView({ posts: [{ title: sacredTitle, media: ['image'] }] });

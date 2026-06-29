@@ -7,21 +7,11 @@ let addon = null;
 let loadError = null;
 const SUPPORTED = new Set([10, 11, 12, 14]);
 
-/**
- * Native quant projection bridge.
- *
- * The packed row storm now divides itself across several native workers.
- * Each row is independent, each thread carries its candle, and the Awtsmoos
- * lets many sparks reveal one matvec without changing the answer.  Unsupported
- * formats still return to the verified JavaScript oracle.
- */
+/** Native quant bridges: rows today, fused layers tomorrow. */
 function getAddon() {
   if (addon || loadError) return addon;
-  try {
-    addon = require(path.join(__dirname, 'awtai_native.node'));
-  } catch (error) {
-    loadError = error;
-  }
+  try { addon = require(path.join(__dirname, 'awtai_native.node')); }
+  catch (error) { loadError = error; }
   return addon;
 }
 
@@ -31,6 +21,13 @@ function nativeProjectRows(raw, type, rows, cols, input) {
   return native.projectRows(raw, type, rows, cols, input, nativeThreads());
 }
 
+function nativeFfn(gateRaw, gateType, upRaw, upType, downRaw, downType, hidden, ffn, input) {
+  const native = getAddon();
+  if (!native || typeof native.fusedFfn !== 'function') return null;
+  if (!SUPPORTED.has(gateType) || !SUPPORTED.has(upType) || !SUPPORTED.has(downType)) return null;
+  return native.fusedFfn(gateRaw, gateType, upRaw, upType, downRaw, downType, hidden, ffn, input, nativeThreads());
+}
+
 function nativeThreads() {
   const value = Number(process.env.AWTAI_THREADS);
   if (Number.isFinite(value) && value > 0) return Math.min(16, Math.floor(value));
@@ -38,7 +35,13 @@ function nativeThreads() {
 }
 
 function nativeStatus() {
-  return { active: !!getAddon(), supported: [...SUPPORTED], threads: nativeThreads(), error: loadError ? String(loadError.message || loadError) : null };
+  return {
+    active: !!getAddon(),
+    supported: [...SUPPORTED],
+    threads: nativeThreads(),
+    fusedFfn: !!(getAddon() && addon.fusedFfn),
+    error: loadError ? String(loadError.message || loadError) : null,
+  };
 }
 
-module.exports = { nativeProjectRows, nativeStatus };
+module.exports = { nativeProjectRows, nativeFfn, nativeStatus };
