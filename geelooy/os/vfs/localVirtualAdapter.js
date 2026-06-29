@@ -1,0 +1,3 @@
+// B"H
+import { vfsNode } from "./node.js";
+export function localVirtualAdapter(os) { return { id:"virtual", async list(path = "/") { if (path === "/") return (await os.db.getAllStoreNames()).map(x => vfsNode(`/${x}`, "folder", { name:x })); return (await os.db.getAllKeys(path.replace(/^\//, ""))).map(x => vfsNode(`${path}/${x.name || x}`, x.type === "directory" ? "folder" : "file", x)); }, async read(path) { const parts = path.replace(/^\//, "").split("/"); const name = parts.pop(); return { ok:true, content:await os.db.Laynin(parts.join("/"), name) }; }, async stat(path) { return { ok:true, node:vfsNode(path, "file") }; } }; }

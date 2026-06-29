@@ -1,0 +1,2 @@
+// B"H
+export function processRecord(input = {}) { return { pid:input.pid || `pid:${Date.now().toString(36)}:${Math.random().toString(36).slice(2,6)}`, app:input.app || input.programId || "app", title:input.title || input.app || "Process", windows:input.windows || [], cwd:input.cwd || "/", env:{ ...(input.env || {}) }, permissions:input.permissions || ["read"], startedAt:new Date().toISOString(), status:input.status || "running" }; }

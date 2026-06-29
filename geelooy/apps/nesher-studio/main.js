@@ -1,4 +1,7 @@
-/* B"H */
+/* B"H
+Nesher Studio boot: the visible editor is a stage where pixels, sources, audio, export,
+and streaming are each given their appointed vessel without hiding the path.
+*/
 import { createState } from './modules/state.js';
 import { dom, setStatus, setStreamHealth, setProviderUi } from './modules/dom.js';
 import { makeWebcamSource, makeMonitorSource, makeDisplaySource, makeCanvasSource, makeIframeSource, makeBrowserSource } from './modules/sources.js';
@@ -7,6 +10,7 @@ import { bindDragging, drawStage, refreshSources, resizeStage } from './modules/
 import { bindScenes } from './modules/scenes.js';
 import { duplicateSelected, moveSelected, removeSelected } from './modules/layers.js';
 import { toggleRecording } from './modules/recorder.js';
+import { bindSizeControls } from './modules/recording/sizeControls.js';
 import { createYoutubeHlsMpegTsStreamer as createGenericHlsStreamer } from './modules/youtube/hlsMpegTsStreamer.js';
 import { STREAM_PROVIDERS, getProvider, formatSummary } from './modules/providers/streamProviders.js';
 import { createBin, addAsset, selectAsset, selectedAsset } from './modules/nle/bin.js';
@@ -14,13 +18,36 @@ import { createTimeline, addClip, selectClip } from './modules/nle/timeline.js';
 import { createExportPlan, probeWebCodecsExport } from './modules/nle/exportPlan.js';
 import { exportTimelinePreviewMp4 } from './modules/nle/browserExport.js';
 import { renderNle } from './modules/nle/renderNle.js';
-const state = createState(); let hlsStream = null, hlsFrameTimer = null, hlsHealthTimer = null, hlsPumping = false;
-const tunnelBase = new URLSearchParams(location.search).get('tunnelBase') || undefined; boot();
-function boot() { ensureNleState(); resizeStage(state); bindDragging(state); bindScenes(state); refreshSources(state); setupProviders(); renderNle(state, dom); setStreamHealth(); bindUi(); }
+
+const state = createState();
+let hlsStream = null, hlsFrameTimer = null, hlsHealthTimer = null, hlsPumping = false;
+const tunnelBase = new URLSearchParams(location.search).get('tunnelBase') || undefined;
+boot();
+
+function boot() {
+  ensureNleState(); resizeStage(state); bindDragging(state); bindScenes(state); refreshSources(state);
+  setupProviders(); bindCanvasSizing(); renderNle(state, dom); setStreamHealth(); bindUi();
+}
 function ensureNleState() { state.bin ||= createBin(); state.timeline ||= createTimeline(); state.exportPlan ||= createExportPlan(state); }
+function bindCanvasSizing() { bindSizeControls({ dom, state, resizeStage, createExportPlan, renderNle, setStatus }); }
 function setupProviders() { dom.streamProvider.innerHTML = STREAM_PROVIDERS.map(p => `<option value="${p.id}">${p.name}</option>`).join(''); dom.streamProvider.value = state.providerId; updateProviderUi(); }
-function bindUi() { dom.applySize.addEventListener('click', applySize); dom.addCanvas.addEventListener('click', () => add(makeCanvasSource())); dom.addIframe.addEventListener('click', () => add(makeIframeSource(dom.iframeUrl.value.trim()))); dom.addBrowser.addEventListener('click', () => add(makeBrowserSource(dom.iframeUrl.value.trim()))); dom.addWebcam.addEventListener('click', async () => guardedAdd(makeWebcamSource, 'Webcam')); dom.addMonitor.addEventListener('click', async () => guardedAdd(makeMonitorSource, 'Monitor capture')); dom.addDisplay.addEventListener('click', async () => guardedAdd(makeDisplaySource, 'Tab/window capture')); dom.layerUp.addEventListener('click', () => layerAction(() => moveSelected(state, 1), 'Layer moved up.')); dom.layerDown.addEventListener('click', () => layerAction(() => moveSelected(state, -1), 'Layer moved down.')); dom.duplicateSource.addEventListener('click', () => layerAction(() => duplicateSelected(state), 'Source duplicated.')); dom.removeSource.addEventListener('click', () => layerAction(() => removeSelected(state), 'Source removed.')); dom.recordButton.addEventListener('click', () => toggleRecording(state)); dom.fmp4StreamButton.addEventListener('click', toggleGenericHlsStream); dom.streamProvider.addEventListener('change', () => { state.providerId = dom.streamProvider.value; updateProviderUi(); }); dom.addBinAsset.addEventListener('click', addGeneratedAsset); dom.addTimelineClip.addEventListener('click', addSelectedClip); dom.prepareExport.addEventListener('click', runExportProbe); dom.nleBin.addEventListener('click', selectBinFromEvent); dom.nleTimeline.addEventListener('click', selectClipFromEvent); }
-function applySize() { state.width = +dom.canvasWidth.value; state.height = +dom.canvasHeight.value; state.fps = +dom.fps.value; state.exportPlan = createExportPlan(state); resizeStage(state); renderNle(state, dom); setStatus(`Stage resized to ${state.width}×${state.height} @ ${state.fps}fps.`); }
+function bindUi() {
+  dom.addCanvas.addEventListener('click', () => add(makeCanvasSource()));
+  dom.addIframe.addEventListener('click', () => add(makeIframeSource(dom.iframeUrl.value.trim())));
+  dom.addBrowser.addEventListener('click', () => add(makeBrowserSource(dom.iframeUrl.value.trim())));
+  dom.addWebcam.addEventListener('click', async () => guardedAdd(makeWebcamSource, 'Webcam'));
+  dom.addMonitor.addEventListener('click', async () => guardedAdd(makeMonitorSource, 'Monitor capture'));
+  dom.addDisplay.addEventListener('click', async () => guardedAdd(makeDisplaySource, 'Tab/window capture'));
+  dom.layerUp.addEventListener('click', () => layerAction(() => moveSelected(state, 1), 'Layer moved up.'));
+  dom.layerDown.addEventListener('click', () => layerAction(() => moveSelected(state, -1), 'Layer moved down.'));
+  dom.duplicateSource.addEventListener('click', () => layerAction(() => duplicateSelected(state), 'Source duplicated.'));
+  dom.removeSource.addEventListener('click', () => layerAction(() => removeSelected(state), 'Source removed.'));
+  dom.recordButton.addEventListener('click', () => toggleRecording(state));
+  dom.fmp4StreamButton.addEventListener('click', toggleGenericHlsStream);
+  dom.streamProvider.addEventListener('change', () => { state.providerId = dom.streamProvider.value; updateProviderUi(); });
+  dom.addBinAsset.addEventListener('click', addGeneratedAsset); dom.addTimelineClip.addEventListener('click', addSelectedClip);
+  dom.prepareExport.addEventListener('click', runExportProbe); dom.nleBin.addEventListener('click', selectBinFromEvent); dom.nleTimeline.addEventListener('click', selectClipFromEvent);
+}
 async function guardedAdd(factory, label) { try { add(await factory()); } catch (e) { setStatus(`${label} blocked or unavailable: ${e.message}`); } }
 function add(source) { addSource(state, source); refreshSources(state); drawStage(state); setStatus(`${source.name} added to the scene graph.`); }
 function layerAction(action, okMessage) { const ok = action(); refreshSources(state); drawStage(state); setStatus(ok ? okMessage : 'Choose a source first, or the action is unavailable.'); }

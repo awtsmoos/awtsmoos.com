@@ -1,8 +1,11 @@
-/* B"H */
+/* B"H
+DOM map: every visible control receives a name, so the studio can answer immediately.
+The Awtsmoos is not the element; the element is only a vessel for action.
+*/
 export const dom = {
   stage:el('stage'), status:el('status'), sourceList:el('sourceList'), sceneList:el('sceneList'), addScene:el('addScene'), duplicateScene:el('duplicateScene'),
   recordButton:el('recordButton'), fmp4StreamButton:el('fmp4StreamButton'), addWebcam:el('addWebcam'), addMonitor:el('addMonitor'), addDisplay:el('addDisplay'),
-  addCanvas:el('addCanvas'), addIframe:el('addIframe'), addBrowser:el('addBrowser'), applySize:el('applySize'), canvasWidth:el('canvasWidth'), canvasHeight:el('canvasHeight'), fps:el('fps'), iframeUrl:el('iframeUrl'),
+  addCanvas:el('addCanvas'), addIframe:el('addIframe'), addBrowser:el('addBrowser'), applySize:el('applySize'), resolutionPreset:el('resolutionPreset'), canvasWidth:el('canvasWidth'), canvasHeight:el('canvasHeight'), fps:el('fps'), iframeUrl:el('iframeUrl'),
   layerUp:el('layerUp'), layerDown:el('layerDown'), duplicateSource:el('duplicateSource'), removeSource:el('removeSource'), streamProvider:el('streamProvider'), streamProviderName:el('streamProviderName'), providerNote:el('providerNote'),
   streamCodec:el('streamCodec'), streamState:el('streamState'), streamSession:el('streamSession'), streamFrames:el('streamFrames'), streamSegments:el('streamSegments'), streamUploaded:el('streamUploaded'), streamErrors:el('streamErrors'),
   nleBin:el('nleBin'), nleTimeline:el('nleTimeline'), nleExport:el('nleExport'), addBinAsset:el('addBinAsset'), addTimelineClip:el('addTimelineClip'), prepareExport:el('prepareExport')

@@ -1,0 +1,3 @@
+// B"H
+export class VfsRegistry { constructor() { this.adapters = new Map(); } register(adapter) { this.adapters.set(adapter.id, adapter); return adapter; } adapterFor(path = "/") { if (String(path).startsWith("awtsmoos://tunnels")) return this.adapters.get("tunnel"); if (String(path).startsWith("awtsmoos://previews")) return this.adapters.get("preview"); return this.adapters.get("virtual"); } async list(path) { return await this.adapterFor(path)?.list(path); } async read(path) { return await this.adapterFor(path)?.read(path); } async stat(path) { return await this.adapterFor(path)?.stat(path); } }
+export function makeVfsRegistry() { return new VfsRegistry(); }

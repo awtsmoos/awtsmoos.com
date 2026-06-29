@@ -1,5 +1,5 @@
 B"H
-1.0.190
+1.0.191
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -649,6 +649,10 @@ lib/share/redact.js
 lib/share/registry.js
 lib/split-browser-require.js
 lib/tool-schema-catalog.js
+lib/virtualOsGraph/object.js
+lib/virtualOsGraph/registry.js
+lib/virtualOsGraph/sample.js
+lib/virtualOsGraph/types.js
 lib/ws.js
 main.js
 rebuild-manifest.cjs
@@ -758,6 +762,7 @@ tools/fs/actionGroups/runtimeActions.js
 tools/fs/actionGroups/shareActions.js
 tools/fs/actionGroups/staticServerActions.js
 tools/fs/actionGroups/virtualChromeActions.js
+tools/fs/actionGroups/virtualOsGraphActions.js
 tools/fs/actionGroups/workflowActions.js
 tools/fs/actionGroups/writeActions.js
 tools/fs/actionLedger.js

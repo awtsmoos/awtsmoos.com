@@ -1,0 +1,3 @@
+// B"H
+export const VS = `attribute vec3 aPos;attribute vec3 aNormal;uniform mat4 uVP;uniform vec3 uPos,uScale;uniform float uRot;varying float vLight;void main(){float c=cos(uRot),s=sin(uRot);vec3 p=vec3(aPos.x*uScale.x,aPos.y*uScale.y,aPos.z*uScale.z);p=vec3(p.x*c-p.z*s,p.y,p.x*s+p.z*c)+uPos;vec3 n=normalize(vec3(aNormal.x*c-aNormal.z*s,aNormal.y,aNormal.x*s+aNormal.z*c));vLight=.46+max(dot(n,normalize(vec3(-.35,.82,.45))),0.)*.58;gl_Position=uVP*vec4(p,1.);}`;
+export const FS = `precision mediump float;uniform vec3 uColor;uniform float uAlpha,uGlow;varying float vLight;void main(){gl_FragColor=vec4(uColor*(vLight+uGlow*.45),uAlpha);}`;

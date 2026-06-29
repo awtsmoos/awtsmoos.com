@@ -2,35 +2,58 @@
 /**
  * @module HeichelSafeText
  * @description
- * Chapter 416: The serpent-tag was swallowed before it could speak.
+ * Chapter 701: The open script mouth is sealed before it eats the page.
  *
- * The Awtsmoos creates text, tags, and the silence between them every instant.
- * This tiny gate accepts legacy descriptions that were saved as escaped HTML,
- * decodes their harmless words, removes executable chambers, and returns only
- * human-readable breath. No script is executed; no angle-bracket fossil is
- * displayed as a wound on the Heichel wall.
+ * The Awtsmoos creates letters, angle brackets, line breaks, and the quiet
+ * between them every instant. This gate is for display text only: it decodes
+ * legacy escaped markup, removes executable regions even when a closing tag is
+ * missing, turns ordinary HTML breaks into readable whitespace, and returns a
+ * plain string that is safe for textContent.
  */
 
-const EXECUTABLE_BLOCK = /<\s*(script|style|iframe|object|embed|link|meta|template|noscript)\b[\s\S]*?<\s*\/\s*\1\s*>/gi;
-const LONE_EXECUTABLE_TAG = /<\s*\/?\s*(script|style|iframe|object|embed|link|meta|template|noscript)\b[^>]*>/gi;
+const EXECUTABLE_NAMES = "script|style|iframe|object|embed|link|meta|template|noscript|svg|math";
+const EXEC_BLOCK = new RegExp(`<\\s*(${EXECUTABLE_NAMES})\\b[\\s\\S]*?<\\s*\\/\\s*\\1\\s*>`, "gi");
+const EXEC_OPEN_TO_END = new RegExp(`<\\s*(${EXECUTABLE_NAMES})\\b[\\s\\S]*$`, "i");
+const EXEC_TAG = new RegExp(`<\\s*\\/?\\s*(${EXECUTABLE_NAMES})\\b[^>]*>`, "gi");
+const BLOCK_BREAKS = /<\s*\/?\s*(p|div|section|article|header|footer|main|aside|li|ul|ol|blockquote|h[1-6]|br)\b[^>]*>/gi;
 const ANY_TAG = /<[^>]+>/g;
 
 export function safeDisplayText(value, fallback = "") {
     const decoded = decodeEntities(String(value ?? ""));
-    const normalized = decoded.replace(/\u0000/g, "").trim();
+    const normalized = normalizeNewlines(decoded).replace(/\u0000/g, "").trim();
     if (!normalized || /^(undefined|null)$/i.test(normalized)) return fallback;
-    return normalized
-        .replace(EXECUTABLE_BLOCK, " ")
-        .replace(LONE_EXECUTABLE_TAG, " ")
-        .replace(ANY_TAG, " ")
+    const withoutScripts = normalized
+        .replace(EXEC_BLOCK, "\n")
+        .replace(EXEC_OPEN_TO_END, "\n")
+        .replace(EXEC_TAG, "\n");
+    const readable = withoutScripts
         .replace(/\bon[a-z]+\s*=\s*(['"]).*?\1/gi, " ")
         .replace(/javascript\s*:/gi, " ")
-        .replace(/\s+/g, " ")
-        .trim() || fallback;
+        .replace(BLOCK_BREAKS, "\n")
+        .replace(ANY_TAG, " ")
+        .split("\n")
+        .map(line => line.replace(/[ \t\f\v]+/g, " ").trim())
+        .filter(Boolean)
+        .join("\n")
+        .trim();
+    return readable || fallback;
+}
+
+function normalizeNewlines(text) {
+    return text.replace(/\\r\\n/g, "\n").replace(/\\n/g, "\n").replace(/\r\n?/g, "\n");
 }
 
 function decodeEntities(text) {
-    if (!/[&][a-zA-Z#0-9]+;/.test(text)) return text;
+    let current = text;
+    for (let i = 0; i < 3 && /&(?:[a-zA-Z][a-zA-Z0-9]+|#\d+|#x[\da-fA-F]+);/.test(current); i++) {
+        const next = decodeOnce(current);
+        if (next === current) break;
+        current = next;
+    }
+    return current;
+}
+
+function decodeOnce(text) {
     if (typeof document !== "undefined") {
         const box = document.createElement("textarea");
         box.innerHTML = text;
@@ -41,5 +64,6 @@ function decodeEntities(text) {
         .replace(/&gt;/g, ">")
         .replace(/&amp;/g, "&")
         .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'");
+        .replace(/&#39;/g, "'")
+        .replace(/&#x27;/gi, "'");
 }

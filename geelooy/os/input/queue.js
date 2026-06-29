@@ -1,0 +1,2 @@
+// B"H
+export class InputQueue { constructor(limit = 300) { this.limit = limit; this.items = []; } push(type, data) { const e = { id:`input:${Date.now().toString(36)}:${this.items.length}`, type, data, at:new Date().toISOString() }; this.items.push(e); this.items = this.items.slice(-this.limit); return e; } drain() { const out = this.items; this.items = []; return out; } list() { return [...this.items]; } }

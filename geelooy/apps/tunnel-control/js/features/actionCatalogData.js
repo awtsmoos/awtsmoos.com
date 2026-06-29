@@ -36,6 +36,20 @@ export const ACTION_CATALOG = Object.freeze([
   action("remoteNativeDesktopRfbStop", "Stop fake VNC", "Stop a fake VNC server.", "Remote Desktop", ["vnc"], { id:"geelooy-rfb" }),
   action("remoteNativeDesktopPointer", "Fake desktop pointer", "Translate pointer event into virtual OS action.", "Remote Desktop", ["input"], { x:0, y:0, buttons:0 }),
   action("remoteNativeDesktopKeyboard", "Fake desktop keyboard", "Translate key event into virtual OS action.", "Remote Desktop", ["input"], { key:"A" }),
+
+  action("virtualOsGraphSample", "Virtual OS graph sample", "Show the unified desktop object graph sample.", "Virtual OS", ["graph","object"], {}),
+  action("virtualOsGraphStatus", "Virtual OS graph status", "Inspect server-side virtual OS graph state.", "Virtual OS", ["graph","status"], {}),
+  action("virtualOsGraphUpsert", "Virtual OS graph upsert", "Create/update a desktop object such as drive/window/preview/process.", "Virtual OS", ["graph","write"], { object:{ id:"preview:demo", type:"preview", title:"Demo Preview" } }),
+  action("virtualOsGraphGet", "Virtual OS graph get", "Fetch one object by id.", "Virtual OS", ["graph","read"], { id:"desktop:main" }),
+  action("virtualOsGraphSearch", "Virtual OS graph search", "Search desktop objects.", "Virtual OS", ["graph","search"], { query:"preview" }),
+  action("virtualOsGraphReset", "Virtual OS graph reset", "Reset one server-side graph namespace.", "Virtual OS", ["graph","danger-safe"], { graphId:"default" }),
+  action("virtualOsGraphDelete", "Virtual OS graph delete", "Delete one object while recording graph history.", "Virtual OS", ["graph","delete"], { id:"preview:demo" }),
+  action("virtualOsGraphHistory", "Virtual OS graph history", "Read the graph event log with optional id/type filters.", "Virtual OS", ["graph","history"], { limit:100 }),
+  action("virtualOsGraphReferences", "Virtual OS graph references", "Show refs, children, and reverse refs for one object.", "Virtual OS", ["graph","refs"], { id:"desktop:main" }),
+  action("virtualOsGraphDiff", "Virtual OS graph diff", "Compare supplied objects/graph against current graph state.", "Virtual OS", ["graph","diff"], { objects:[] }),
+  action("virtualOsGraphTraverse", "Virtual OS graph traverse", "Walk outbound or inbound graph references to a bounded depth.", "Virtual OS", ["graph","traverse"], { id:"desktop:main", direction:"out", depth:2 }),
+  action("virtualOsGraphPathLookup", "Virtual OS graph path lookup", "Resolve object by id, URL, path, title, or fuzzy query.", "Virtual OS", ["graph","lookup"], { path:"/desktop" }),
+  action("virtualOsGraphTransaction", "Virtual OS graph transaction", "Apply upsert/delete operations with rollback-on-error.", "Virtual OS", ["graph","transaction"], { operations:[{ op:"upsert", object:{ id:"preview:demo", type:"preview", title:"Demo Preview" } }] }),
   action("missionAwareUse", "Use active mission", "Bind ordinary actions to one Mission OS id.", "Mission", ["mission","receipt"], { missionId:"" }),
   action("missionAwareStatus", "Mission-aware status", "Show active Mission OS auto-receipt state.", "Mission", ["mission","status"], {}),
   action("previewReceiptAttach", "Attach preview receipt", "Attach a live preview URL as Mission OS evidence.", "Mission", ["receipt"], { needsMissionId:true, nodeId:"", url:"" }),
@@ -45,4 +59,4 @@ export const ACTION_CATALOG = Object.freeze([
   action("browserDoctor", "Browser doctor", "Diagnose browser control.", "Automation", ["browser"], {})
 ]);
 function action(name, title, desc, group, badges, defaults) { return { name, title, desc, group, badges, defaults }; }
-/** B"H: catalog now teaches auto-private previews and account grants. */
+/** B"H: catalog now exposes every Virtual OS graph gate instead of hiding new power. */

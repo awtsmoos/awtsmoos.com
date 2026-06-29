@@ -1,4 +1,4 @@
-/* B"H: desktop thunder, mobile flame, one studio vessel. */
+/* B"H: desktop thunder, mobile flame, one studio vessel with true size controls. */
 :root { color-scheme:dark; font-family:Inter,system-ui,sans-serif; background:#080a12; color:#ecf2ff; }
 body { margin:0; min-height:100vh; background:radial-gradient(circle at top,#16213f,#070912 58%); }
 button,input,select { font:inherit; border-radius:12px; border:1px solid #33415f; padding:.7rem .9rem; }
@@ -10,7 +10,7 @@ input,select { background:#0d1324; color:#eef5ff; width:100%; box-sizing:border-
 h1 { margin:.1rem 0 0; font-size:clamp(2rem,5vw,4rem); }
 h2 { margin-top:0; }.eyebrow { color:#9fb4ff; text-transform:uppercase; letter-spacing:.14em; margin:0; font-size:.78rem; }
 .record-controls { display:flex; gap:12px; flex-wrap:wrap; }
-.control-grid { margin:18px 0; padding:18px; display:grid; grid-template-columns:repeat(9,minmax(110px,1fr)); gap:12px; align-items:end; }
+.control-grid { margin:18px 0; padding:18px; display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; align-items:end; }
 .control-grid label { color:#b9c7e8; font-size:.85rem; display:grid; gap:6px; }
 .stream-health { margin:0 0 18px; padding:14px; display:grid; grid-template-columns:repeat(8,minmax(120px,1fr)); gap:10px; }
 .stream-health div,.nle-panel div { background:#0a1020; border:1px solid #273657; border-radius:16px; padding:10px 12px; }
@@ -28,10 +28,9 @@ aside { padding:14px; background:#0a1020; border-radius:18px; } aside button { w
 #sourceList li.selected-source,#sceneList li.active { background:#24335d; color:#83ffe7; border-color:#83ffe788; }
 #status,#nleExport { color:#9fb4ff; line-height:1.45; }.nle-panel { margin-top:18px; padding:18px; display:grid; grid-template-columns:1fr 1.4fr 1.2fr; gap:14px; }
 .nle-panel button { width:100%; margin-top:8px; }
-
 .track strong { display:block; margin-bottom:6px; }
 .clip-lane { position:relative; height:44px; background:#060b18; border:1px solid #233150; border-radius:12px; overflow:hidden; }
 .clip { position:absolute; top:6px; height:30px; min-width:54px; padding:0 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; box-shadow:none; background:#2656d9; border-color:#83ffe766; }
 .clip.active { background:#13a88b; color:#041015; }
-@media (max-width:1250px){ .control-grid,.stream-health{grid-template-columns:repeat(3,1fr)} .studio-grid,.nle-panel{grid-template-columns:1fr} }
+@media (max-width:1250px){ .stream-health{grid-template-columns:repeat(3,1fr)} .studio-grid,.nle-panel{grid-template-columns:1fr} }
 @media (max-width:760px){ .control-grid,.stream-health{grid-template-columns:1fr}.topbar{display:block}.record-controls{margin-top:18px}.stage-wrap{min-height:300px}.nesher-shell{width:94vw;padding:14px 0} }

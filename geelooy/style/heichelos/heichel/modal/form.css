@@ -1,4 +1,32 @@
-/* B"H modal form fields. */
-.gate-chamber form { display: grid; gap: .75rem; }
-.gate-chamber input, .gate-chamber textarea, .gate-chamber select { width: 100%; min-height: 3rem; border: 1px solid rgba(67,46,24,.18); border-radius: .9rem; padding: .85rem .95rem; background: #fffaf1; color: var(--h-ink); font: inherit; box-sizing: border-box; }
-.gate-chamber textarea { min-height: 7rem; resize: vertical; }
+/* B"H modal form fields, scoped to the Heichel root. */
+.heichel-mobile-navigation .gate-chamber form {
+  display: grid;
+  gap: .75rem;
+}
+
+.heichel-mobile-navigation .gate-chamber input,
+.heichel-mobile-navigation .gate-chamber textarea,
+.heichel-mobile-navigation .gate-chamber select,
+.heichel-mobile-navigation .heichel-content-type-select {
+  width: 100%;
+  min-height: 3rem;
+  border: 1px solid rgba(67, 46, 24, .18);
+  border-radius: .9rem;
+  padding: .85rem .95rem;
+  background: #fffaf1;
+  color: var(--h-ink, #24160b);
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.heichel-mobile-navigation .gate-chamber textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.heichel-mobile-navigation .heichel-complex-post-note {
+  margin: 0;
+  color: rgba(49, 35, 20, .72);
+  font-size: .9rem;
+  line-height: 1.45;
+}
