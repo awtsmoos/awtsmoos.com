@@ -1,0 +1,4 @@
+// B"H
+function roleOf(name){const n=name.toLowerCase();if(n.includes('embed')||n.includes('token_embd'))return'embed';if(n.includes('lm_head')||n==='output.weight')return'lm_head';if(n.includes('q_proj')||n.includes('attn_q')||n.includes('attention.wq'))return'attn_q';if(n.includes('k_proj')||n.includes('attn_k')||n.includes('attention.wk'))return'attn_k';if(n.includes('v_proj')||n.includes('attn_v')||n.includes('attention.wv'))return'attn_v';if(n.includes('o_proj')||n.includes('attn_out')||n.includes('attention.wo'))return'attn_out';if(n.includes('gate')||n.includes('w1'))return'ffn_gate';if(n.includes('up')||n.includes('w3'))return'ffn_up';if(n.includes('down')||n.includes('w2'))return'ffn_down';if(n.includes('norm'))return'norm';return'other';}
+function layerOf(name){const m=name.match(/(?:blk|layers|layer|h)\.(\d+)\./)||name.match(/\.(\d+)\./);return m?Number(m[1]):null;}
+module.exports={roleOf,layerOf};

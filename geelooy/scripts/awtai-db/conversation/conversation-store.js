@@ -1,0 +1,4 @@
+// B"H
+const fs=require('fs');const path=require('path');
+class ConversationStore{constructor(root){this.root=root;fs.mkdirSync(root,{recursive:true});}path(id){return path.join(this.root,id+'.json');}create(id,model,prompt){const c={id,model,prompt,messages:[{role:'user',content:prompt}],generated:[],createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};this.save(c);return c;}load(id){return JSON.parse(fs.readFileSync(this.path(id),'utf8'));}save(c){c.updatedAt=new Date().toISOString();fs.writeFileSync(this.path(c.id),JSON.stringify(c,null,2));return c;}append(id,role,content,tokens=[]){const c=this.load(id);c.messages.push({role,content,tokens,at:new Date().toISOString()});if(role==='assistant')c.generated.push(...tokens);return this.save(c);}list(){return fs.readdirSync(this.root).filter(x=>x.endsWith('.json')).map(x=>x.slice(0,-5));}}
+module.exports={ConversationStore};

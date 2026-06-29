@@ -1,0 +1,14 @@
+// B"H
+const Mission = require('../mission/index.js');
+const Classify = require('../mission/missionAware/classify.js');
+const Receipt = require('../mission/missionAware/receipt.js');
+const { loadConfig, saveConfigPatch } = require('../../../lib/config.js');
+function buildMissionAwareActions(ctx) { const { config, payload = {}, ws, version } = ctx; return {
+  async missionAwareClassify() { const actionName = payload.targetAction || payload.name || payload.actionName || ''; return { ok:true, action:'missionAwareClassify', targetAction:actionName, type:Classify.type(actionName), kind:Classify.kind(actionName), ignored:Classify.ignored(actionName) }; },
+  async missionAwareStatus() { const missionId = Receipt.missionId(payload, config); if (!missionId) return { ok:true, action:'missionAwareStatus', enabled:false, reason:'missing_missionId', configMission:loadConfig().mission }; const m = await Mission.load(config, missionId); return { ok:!!m, action:'missionAwareStatus', enabled:!!m, missionId, configMission:loadConfig().mission, prompt:m ? Mission.missionOsPrompt(m,{steer:true}) : null, receiptCount:m?.operatingSystem?.execution?.receipts?.length || 0 }; },
+  async missionAwareUse() { const missionId = payload.missionId || payload.id || payload.target || ''; if (!missionId) return { ok:false, action:'missionAwareUse', error:'missing_missionId' }; const m = await Mission.load(config, missionId); if (!m) return { ok:false, action:'missionAwareUse', error:'mission_not_found', missionId }; const next = saveConfigPatch({ mission:{ activeMissionId:missionId, autoAttachReceipts:payload.autoAttachReceipts !== false && payload.autoAttachReceipts !== 'false', requireKeepGoingInstruction:payload.requireKeepGoingInstruction !== false && payload.requireKeepGoingInstruction !== 'false' } }); return { ok:true, action:'missionAwareUse', missionId, configMission:next.mission, prompt:Mission.missionOsPrompt(m,{steer:true}) }; },
+  async missionAwareClear() { const next = saveConfigPatch({ mission:{ activeMissionId:'' } }); return { ok:true, action:'missionAwareClear', configMission:next.mission }; },
+  async missionAwareContract() { return { ok:true, action:'missionAwareContract', contract:{ how:'Pass missionId with any normal action, or call missionAwareUse once to set config.mission.activeMissionId. The registry wrapper records automatic Mission OS receipts and returns missionInstruction.', ignored:'mission* and actionHistory* are not auto-wrapped to avoid recursion.', proofFields:['missionAutoReceipt','missionInstruction','missionPrompt','missionAutoError'], keepGoing:'Returned missionInstruction tells the agent the next action instead of silently ending.' } }; }
+};}
+/** B"H: Agents can now bind a mission once, then ordinary tools remember the graph. */
+module.exports = { buildMissionAwareActions };

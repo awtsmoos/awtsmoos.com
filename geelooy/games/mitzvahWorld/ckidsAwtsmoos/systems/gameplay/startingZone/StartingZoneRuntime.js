@@ -1,7 +1,7 @@
 // B"H
 import { npcInteractionIndex } from "../../npc/NpcInteractionRuntime.js";
 import { STARTER_ACTION_BAR } from "./StarterActionBarData.js";
-import { makeOlam, instantiateSubzoneWorld } from "./StarterActorFactory.js";
+import { addDenseEnemyPack, makeOlam, instantiateSubzoneWorld } from "./StarterActorFactory.js";
 import { createCreatureBrain } from "./StarterCreatureBrain.js";
 import { createStarterPerformancePlan } from "./StarterPerformancePlan.js";
 import { StarterSpatialPartition } from "./StarterSpatialPartition.js";
@@ -67,6 +67,30 @@ export function createStartingZoneMmoRuntime(options = {}) {
   function performancePlan() {
     spatial.rebuild([...olam.npcs, ...olam.enemies, ...olam.doors]);
     return createStarterPerformancePlan(state, olam, spatial);
+  }
+
+  function spawnDenseEnemyPack(options = {}) {
+    const rows = addDenseEnemyPack(olam, options);
+    spatial.rebuild([...olam.npcs, ...olam.enemies, ...olam.doors]);
+    return rows;
+  }
+
+  function runDenseEnemyStress(options = {}) {
+    olam.player.position = vec(0, 0);
+    const spawned = spawnDenseEnemyPack({ count:options.count || 220, spread:options.spread || 26, center:olam.player.position, hostile:true });
+    const ai = brain.enemyTick(16.67);
+    const perf = performancePlan();
+    const nearby = olam.enemies.filter(e => Math.hypot((e.position.x || 0) - olam.player.position.x, (e.position.z || 0) - olam.player.position.z) <= state.frameBudget.updateBubble);
+    return {
+      spawned:spawned.length,
+      nearby:nearby.length,
+      ai,
+      perf,
+      throttled:nearby.filter(e => /throttled/.test(e.state)).length,
+      attacking:nearby.filter(e => ["attack", "charge", "chase", "kite"].includes(e.state)).length,
+      sharedBrainLoops:perf.sharedBrainLoops,
+      withinBudget:ai.active <= state.frameBudget.maxActiveEnemies && perf.activeWithinBudget
+    };
   }
 
   function runFullSimulation() {
@@ -143,6 +167,8 @@ export function createStartingZoneMmoRuntime(options = {}) {
     lootCorpse:combat.lootCorpse,
     serviceLoop,
     performancePlan,
+    spawnDenseEnemyPack,
+    runDenseEnemyStress,
     runFullSimulation
   };
 }

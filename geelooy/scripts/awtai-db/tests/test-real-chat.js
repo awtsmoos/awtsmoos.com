@@ -1,0 +1,2 @@
+// B"H
+const {runChat}=require('../decode/chat-loop.js');const model=process.argv[2];if(!model){console.error('Usage: node test-real-chat.js model.awtai-db');process.exit(1);}const out=runChat(model,'Hello',{promptTokens:1,maxNewTokens:1,maxRamKvTokens:1});console.log(JSON.stringify({ok:out.ok,generated:out.generated,text:out.text,maxRss:out.memory.maxRss,readBytes:out.stats.readBytes,kv:out.kv},null,2));

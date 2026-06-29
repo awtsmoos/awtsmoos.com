@@ -1,0 +1,4 @@
+// B"H
+function s(x){return Buffer.from(x,'utf8');}function u32(n){const b=Buffer.alloc(4);b.writeUInt32LE(n);return b;}function u64(n){const b=Buffer.alloc(8);b.writeBigUInt64LE(BigInt(n));return b;}function str(t){const b=s(t);return Buffer.concat([u64(b.length),b]);}
+function makeSyntheticGguf(){const parts=[];parts.push(s('GGUF'),u32(3),u64(1),u64(3));parts.push(str('general.name'),u32(8),str('synthetic-chat'));parts.push(str('general.alignment'),u32(4),u32(32));parts.push(str('tokenizer.ggml.tokens'),u32(9),u32(8),u64(4),str('<s>'),str('</s>'),str('H'),str('i'));parts.push(str('token_embd.weight'),u32(2),u64(4),u64(2),u32(0),u64(0));let head=Buffer.concat(parts);head=Buffer.concat([head,Buffer.alloc((32-head.length%32)%32)]);const data=Buffer.alloc(32);for(let i=0;i<8;i++)data.writeFloatLE(i/10,i*4);return Buffer.concat([head,data]);}
+module.exports={makeSyntheticGguf};

@@ -1,0 +1,3 @@
+// B"H
+const {rmsNormInto}=require('../kernels/rms-norm.js');const {projectTensor}=require('../kernels/matvec-stream.js');const {siluMulInto}=require('../kernels/activation.js');const {addInto}=require('../kernels/add.js');
+function ffnStep(ctx,layer,x){const {index,streamer,config,trace}=ctx;const norm=streamer.float(index.name(`blk.${layer}.ffn_norm.weight`));const h=new Float32Array(config.hidden);rmsNormInto(h,x,norm,config.eps);const gate=projectTensor(streamer,index.role('ffn_gate',layer),h,trace,`L${layer}-gate`);const up=projectTensor(streamer,index.role('ffn_up',layer),h,trace,`L${layer}-up`);siluMulInto(gate,gate,up);const down=projectTensor(streamer,index.role('ffn_down',layer),gate,trace,`L${layer}-down`);addInto(x,down);return x;}module.exports={ffnStep};

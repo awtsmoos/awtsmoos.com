@@ -1,0 +1,22 @@
+<!-- B"H -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AWTAI-DB GGUF Converter</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="shell">
+    <h1>AWTAI-DB GGUF Converter</h1>
+    <p class="sub">Disk-first model format prototype. Upload GGUF, receive an execution-packet AWTAI-DB file.</p>
+    <input id="file" type="file" accept=".gguf,application/octet-stream">
+    <button id="convert" disabled>Convert to AWTAI-DB</button>
+    <a id="download" hidden>Download converted model</a>
+    <pre id="log">B"H Waiting for GGUF...</pre>
+  </main>
+  <script src="../scripts/awtai-db/awtai-db.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

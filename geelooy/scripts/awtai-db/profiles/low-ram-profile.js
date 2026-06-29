@@ -1,0 +1,2 @@
+// B"H
+function lowRamProfile(options={}){return{maxRamKvTokens:Number(options.maxRamKvTokens??1),useDiskScratch:options.useDiskScratch!==false,keepLogitsInRam:false,spillKvToDisk:true,deleteScratchOnClose:options.deleteScratchOnClose!==false,maxNewTokens:Number(options.maxNewTokens??1),promptTokens:Number(options.promptTokens??1),sampleTopK:Number(options.sampleTopK??8)}}module.exports={lowRamProfile};

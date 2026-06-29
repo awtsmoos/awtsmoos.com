@@ -22,7 +22,7 @@
     "test:infinite-realism-fast": "node tests/performance/infiniteRealismFastRuntimeAudit.mjs",
     "test:texture-story-fast": "node tests/performance/textureStoryFastAudit.mjs",
     "test:world-memory": "node tests/realism/worldMemoryRuntimeAudit.mjs",
-    "test:starter-zone": "node tests/gameplay/starterZoneSeamlessIntegrationAudit.mjs && node tests/gameplay/starterGameplaySimulationAudit.mjs && node tests/gameplay/startingZoneMmoContractAudit.mjs",
+    "test:starter-zone": "node tests/gameplay/starterZoneSeamlessIntegrationAudit.mjs && node tests/gameplay/starterGameplaySimulationAudit.mjs && node tests/gameplay/startingZoneMmoContractAudit.mjs && node tests/gameplay/wardrobeEquipmentEndToEndAudit.mjs && node tests/gameplay/denseEnemyStressAudit.mjs",
     "test:village-activity": "node tests/gameplay/villageActivitySchedulerAudit.mjs",
     "test:world-director": "node tests/gameplay/worldEventDirectorAudit.mjs",
     "test:living-zone": "npm run test:starter-zone && npm run test:village-activity && npm run test:world-director",

@@ -1,0 +1,9 @@
+/* B"H */
+body { margin: 0; font-family: system-ui, sans-serif; background: #0b1020; color: #eef2ff; }
+.shell { max-width: 860px; margin: 48px auto; padding: 32px; background: #111936; border: 1px solid #2f3b67; border-radius: 18px; box-shadow: 0 20px 80px #0008; }
+h1 { margin-top: 0; font-size: 34px; }
+.sub { color: #bac7ff; }
+input, button, a { display: block; margin: 18px 0; font-size: 16px; }
+button, a { width: fit-content; border: 0; border-radius: 10px; padding: 12px 18px; background: #7c9cff; color: #071126; font-weight: 700; text-decoration: none; cursor: pointer; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+pre { white-space: pre-wrap; background: #071126; border-radius: 12px; padding: 18px; overflow: auto; }

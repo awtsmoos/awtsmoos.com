@@ -1,0 +1,4 @@
+// B"H
+const path=require('path');const {ConversationStore}=require('./conversation-store.js');const {runChat}=require('../decode/chat-loop.js');const {makeScratchDir,ensureDir}=require('../scratch/scratch-dir.js');const {lowRamProfile}=require('../profiles/low-ram-profile.js');
+class ChatManager{constructor(root){this.root=root;this.store=new ConversationStore(path.join(root,'conversations'));ensureDir(path.join(root,'kv'));}start(model,prompt,id='chat-'+Date.now()){this.store.create(id,model,prompt);return id;}reply(id,options={}){const c=this.store.load(id);const profile=lowRamProfile(options);const scratch=options.scratchDir||makeScratchDir('awtai-chat');const kvDir=path.join(scratch,'kv');const out=runChat(c.model,c.messages.map(m=>m.content).join('\n'),{...profile,kvDir,scratchDir:scratch});this.store.append(id,'assistant',out.text,out.generated);return{conversation:this.store.load(id),run:out,scratch};}}
+module.exports={ChatManager};

@@ -1,0 +1,2 @@
+// B"H
+const {AwtaiFile}=require('../storage/awtai-file.js');const model=process.argv[2];if(!model){console.error('Usage: node test-model-inspect.js model.awtai-db');process.exit(1);}const f=new AwtaiFile(model);console.log(JSON.stringify({ok:true,name:f.manifest.name,tensors:f.manifest.tensors.length,packets:f.manifest.packets.length,firstPacket:f.manifest.packets[0],tokens:(f.manifest.metadata['tokenizer.ggml.tokens']||[]).length},null,2));f.close();

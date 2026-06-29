@@ -1,0 +1,2 @@
+// B"H
+const {makeSyntheticGguf}=require('./synthetic-gguf.js');const {convertGgufBytes}=require('../awtai/converter.js');const {parseAwtaiDb}=require('../awtai/reader.js');const r=convertGgufBytes(makeSyntheticGguf(),{name:'synthetic'});const p=parseAwtaiDb(r.bytes);if(p.manifest.tensors.length!==1)throw new Error('tensor count');if(!p.manifest.diskFirst)throw new Error('disk flag');console.log(JSON.stringify({ok:true,tensors:p.manifest.tensors.length,packets:p.manifest.packets.length,bytes:r.bytes.length}));

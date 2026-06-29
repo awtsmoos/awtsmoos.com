@@ -109,7 +109,25 @@ export function createCreatureBrain(ctx) {
   function enemyTick(dtMs = 16.67) {
     const t = nowMs(clock);
     const bySpecies = new Map();
-    for (const enemy of olam.enemies) {
+    let activeSlots = 0;
+    const maxActive = Math.max(1, Number(state.frameBudget.maxActiveEnemies || 18));
+    const sortedEnemies = olam.enemies.slice().sort((a, b) => {
+      const ac = a.targetId === "player" || a.lastAttackedAt ? 0 : 1;
+      const bc = b.targetId === "player" || b.lastAttackedAt ? 0 : 1;
+      return ac - bc || dist(a.position, olam.player.position) - dist(b.position, olam.player.position);
+    });
+    for (const enemy of sortedEnemies) {
+      if (!enemy.dead && dist(enemy.position, olam.player.position) <= state.frameBudget.updateBubble) {
+        if (activeSlots >= maxActive && enemy.targetId !== "player") {
+          enemy.state = "throttled";
+          continue;
+        }
+        if (activeSlots >= maxActive && enemy.targetId === "player" && !enemy.lastAttackedAt) {
+          enemy.state = "combat-throttled";
+          continue;
+        }
+        activeSlots += 1;
+      }
       if (!bySpecies.has(enemy.species)) bySpecies.set(enemy.species, []);
       bySpecies.get(enemy.species).push(enemy);
     }

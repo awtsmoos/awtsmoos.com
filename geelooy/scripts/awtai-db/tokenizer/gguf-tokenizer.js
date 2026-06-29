@@ -1,0 +1,3 @@
+// B"H
+class GgufTokenizer{constructor(metadata){this.tokens=metadata['tokenizer.ggml.tokens']||[];this.scores=metadata['tokenizer.ggml.scores']||[];this.bos=Number(metadata['tokenizer.ggml.bos_token_id']||1);this.eos=Number(metadata['tokenizer.ggml.eos_token_id']||2);this.map=new Map();for(let i=0;i<this.tokens.length;i++)this.map.set(this.tokens[i],i);}encode(text){const out=[this.bos];let i=0;while(i<text.length){let best=null,bid=-1;for(const [tok,id] of this.map){if(tok.length>0&&text.startsWith(tok,i)&&(!best||tok.length>best.length)){best=tok;bid=id;}}if(best){out.push(bid);i+=best.length;}else{const ch=text[i++];out.push(this.map.get(ch)||this.eos);}}return out;}decode(ids){return ids.map(id=>this.tokens[id]||'').join('');}}
+module.exports={GgufTokenizer};

@@ -1,5 +1,5 @@
 B"H
-1.0.179
+1.0.190
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -611,12 +611,26 @@ docs/helper-skeletons/desktop/main.ts
 docs/helper-skeletons/desktop/README.md
 docs/REMOTE_DESKTOP_TUNNEL.md
 lib/config.js
+lib/fakeSsh/auth.js
+lib/fakeSsh/commands.js
+lib/fakeSsh/serverPlan.js
+lib/fakeSsh/session.js
+lib/fakeSsh/sftpAdapter.js
 lib/fakeSsh/shell.js
 lib/local-api.js
 lib/local-browser-relay.js
 lib/log.js
 lib/open.js
 lib/registration.js
+lib/remoteNativeDesktop/input/keyboard.js
+lib/remoteNativeDesktop/input/pointer.js
+lib/remoteNativeDesktop/protocolPlan.js
+lib/remoteNativeDesktop/rfb/framebuffer.js
+lib/remoteNativeDesktop/rfb/rawEncoder.js
+lib/remoteNativeDesktop/rfb/server.js
+lib/remoteNativeDesktop/scene/geelooyScene.js
+lib/remoteNativeDesktop/scene/painter.js
+lib/remoteNativeDesktop/sceneToFramebuffer.js
 lib/response-size.js
 lib/runtime/aliases.js
 lib/runtime/boot-resume-loop.js
@@ -720,6 +734,7 @@ tools/fs/actionGroups/imageActions.js
 tools/fs/actionGroups/isolatedActions.js
 tools/fs/actionGroups/missionActionPayload.js
 tools/fs/actionGroups/missionActions.js
+tools/fs/actionGroups/missionAwareActions.js
 tools/fs/actionGroups/missionBootActions.js
 tools/fs/actionGroups/missionDaemonActions.js
 tools/fs/actionGroups/missionEightStepActions.js
@@ -737,6 +752,7 @@ tools/fs/actionGroups/readActions.js
 tools/fs/actionGroups/remoteDesktopActions.js
 tools/fs/actionGroups/remoteDriveActions.js
 tools/fs/actionGroups/remoteModuleCompat.js
+tools/fs/actionGroups/remoteNativeDesktopActions.js
 tools/fs/actionGroups/renderLabActions.js
 tools/fs/actionGroups/runtimeActions.js
 tools/fs/actionGroups/shareActions.js
@@ -880,7 +896,12 @@ tools/fs/mission/metadataPath.js
 tools/fs/mission/metadataStore.js
 tools/fs/mission/minimalResponse/allow.js
 tools/fs/mission/minimalResponse/slim.js
+tools/fs/mission/missionAware/classify.js
+tools/fs/mission/missionAware/receipt.js
+tools/fs/mission/missionAware/summary.js
+tools/fs/mission/missionAware/wrap.js
 tools/fs/mission/missionOs/constitution.js
+tools/fs/mission/missionOs/continuation.js
 tools/fs/mission/missionOs/cycles.js
 tools/fs/mission/missionOs/graph.js
 tools/fs/mission/missionOs/index.js

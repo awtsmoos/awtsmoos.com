@@ -1,0 +1,4 @@
+// B"H
+const fs=require('fs');const path=require('path');
+class KvDiskCache{constructor(dir){this.dir=dir;fs.mkdirSync(dir,{recursive:true});this.count=0;this.bytes=0;}write(layer,pos,k,v){const file=path.join(this.dir,`L${layer}-P${pos}.bin`);const kb=Buffer.from(k.buffer,k.byteOffset,k.byteLength);const vb=Buffer.from(v.buffer,v.byteOffset,v.byteLength);const h=Buffer.alloc(8);h.writeUInt32LE(k.length,0);h.writeUInt32LE(v.length,4);fs.writeFileSync(file,Buffer.concat([h,kb,vb]));this.count++;this.bytes+=8+kb.length+vb.length;return file;}read(layer,pos){const file=path.join(this.dir,`L${layer}-P${pos}.bin`);const b=fs.readFileSync(file);const kl=b.readUInt32LE(0),vl=b.readUInt32LE(4);const k=new Float32Array(b.buffer,b.byteOffset+8,kl).slice();const v=new Float32Array(b.buffer,b.byteOffset+8+kl*4,vl).slice();return{k,v};}summary(){return{dir:this.dir,count:this.count,bytes:this.bytes};}}
+module.exports={KvDiskCache};

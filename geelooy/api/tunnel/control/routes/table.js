@@ -12,7 +12,7 @@ const { bank } = require("./bank.js");
 const { flow } = require("./flow.js");
 const { protectedFs } = require("./protectedFs.js");
 const { previewProxy } = require("./previewProxy.js");
-const { previewCreate, previewList, previewRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
+const { previewCreate, previewGrant, previewList, previewRevoke, previewAccessRevoke, previewSettingsGet, previewSettingsSet, previewUpdate } = require("./previewGateway.js");
 const { view, viewProxy, viewRaw, viewWs } = require("./view.js");
 const { conversationGet, conversationList, conversationRegister } = require("./conversations.js");
 const { liveCalls, liveCallsStream } = require("./liveCalls.js");
@@ -60,7 +60,7 @@ const routeTable = {
   "treasury-test": treasuryTest, "receipt/certificate": receiptCertificate, compute, "compute/capture": computeCapture, "compute/history": computeHistory, "compute/receipt": computeReceipt,
   "compute/subscription": computeSubscription, "admin/perutas": adminPerutas, bootstrap, "ephemeral/list": ephemeralList, "ephemeral/:resultId/page": ephemeralPage,
   "ephemeral/:resultId/search": ephemeralSearch, "ephemeral/:resultId/delete": ephemeralDelete, "ephemeral/:resultId": ephemeralMeta, "preview/create": previewCreate,
-  "preview/list": previewList, "preview/revoke": previewRevoke, "preview/update": previewUpdate, "preview/settings": previewSettingsGet, "preview/settings/set": previewSettingsSet,
+  "preview/list": previewList, "preview/revoke": previewRevoke, "preview/grant": previewGrant, "preview/access/revoke": previewAccessRevoke, "preview/update": previewUpdate, "preview/settings": previewSettingsGet, "preview/settings/set": previewSettingsSet,
   "conversations/register": conversationRegister, "conversations/list": conversationList, "conversations/get": conversationGet, "live-calls": liveCalls, "live-calls/stream": liveCallsStream,
   "mission-room/stream": missionRoomStream, "view/:previewId/raw": viewRaw, "view/:previewId/proxy": viewProxy, "view/:previewId/ws": viewWs, "view/:previewId": view,
   "handoff/:tunnelName": handoff, "blob/:blobId/manifest": blobManifest, "blob/:blobId/view": blobView, "blob/:blobId": blob, "preview/:tunnelName": previewProxy,

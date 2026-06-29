@@ -1,0 +1,15 @@
+// B"H
+const {AwtaiFile}=require('../storage/awtai-file.js');
+const {TensorIndex}=require('./tensor-index.js');
+const {GgufTokenizer}=require('../tokenizer/gguf-tokenizer.js');
+const {dequant}=require('../math/dequant.js');
+const {matvecRows}=require('../ops/matrix.js');
+const {rmsNorm,addInPlace,mulInPlace,siluInPlace,argmax}=require('../ops/vector.js');
+const {MemoryTrace}=require('../telemetry/memory.js');
+function rowsCols(t){return {cols:t.dims[0],rows:t.dims[1]||1};}
+function tensorVector(file,t){return dequant(file.tensorBytes(t),t.type,t.dims.reduce((a,b)=>a*b,1));}
+function project(file,t,x,trace,label){const rc=rowsCols(t); trace.mark('before-read-'+label); const raw=file.tensorBytes(t); trace.mark('after-read-'+label); const w=dequant(raw,t.type,rc.rows*rc.cols); trace.mark('after-dequant-'+label); const y=matvecRows(w,rc.rows,rc.cols,x); trace.mark('after-matvec-'+label); return y;}
+function embeddingFor(file,t,token){const rc=rowsCols(t);const all=tensorVector(file,t);const start=token*rc.cols;return all.slice(start,start+rc.cols);}
+function finalLogits(file,t,x,trace){const rc=rowsCols(t);const raw=file.tensorBytes(t);trace.mark('after-read-lm-head');const w=dequant(raw,t.type,rc.rows*rc.cols);trace.mark('after-dequant-lm-head');return matvecRows(w,rc.rows,rc.cols,x);}
+function runOneTokenFull(path,prompt){const trace=new MemoryTrace();trace.mark('start');const file=new AwtaiFile(path);try{trace.mark('after-open');const index=new TensorIndex(file.manifest);const tok=new GgufTokenizer(file.manifest.metadata);const ids=tok.encode(prompt);const token=ids[ids.length-1]||Number(file.manifest.metadata['tokenizer.ggml.bos_token_id']||1);const nLayer=Number(file.manifest.metadata['llama.block_count']);const eps=Number(file.manifest.metadata['llama.attention.layer_norm_rms_epsilon']||1e-5);let x=embeddingFor(file,index.role('embed'),token);trace.mark('after-embedding');for(let layer=0;layer<nLayer;layer++){const attnNorm=tensorVector(file,index.role('norm',layer));let h=rmsNorm(x,attnNorm,eps);const q=project(file,index.role('attn_q',layer),h,trace,`L${layer}-q`);const o=project(file,index.role('attn_out',layer),q,trace,`L${layer}-o`);addInPlace(x,o);trace.mark(`after-layer-${layer}-attn`);const ffnNorm=tensorVector(file,index.name(`blk.${layer}.ffn_norm.weight`));h=rmsNorm(x,ffnNorm,eps);const gate=project(file,index.role('ffn_gate',layer),h,trace,`L${layer}-gate`);const up=project(file,index.role('ffn_up',layer),h,trace,`L${layer}-up`);siluInPlace(gate);mulInPlace(gate,up);const down=project(file,index.role('ffn_down',layer),gate,trace,`L${layer}-down`);addInPlace(x,down);trace.mark(`after-layer-${layer}-ffn`);}const outNorm=tensorVector(file,index.name('output_norm.weight'));x=rmsNorm(x,outNorm,eps);trace.mark('after-final-norm');const logits=finalLogits(file,index.role('lm_head'),x,trace);const next=argmax(logits);trace.mark('after-sampling');return{ok:true,mode:'single-token-full-stack-no-kv-attention-approx',promptTokens:ids,nextToken:next,nextText:tok.decode([next]),memory:trace.summary()};}finally{file.close();}}
+module.exports={runOneTokenFull};

@@ -6,9 +6,11 @@
 const KEY='__AWTSMOOS_FPS_GUARDIAN__';
 const TARGET=60,WINDOW=90;
 const STAGES=Object.freeze([
-  {name:'rich-60-proof',wildlifeTickSec:.45,visualTickSec:1.0,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:4},
-  {name:'spike-shield',wildlifeTickSec:.75,visualTickSec:1.5,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:3},
-  {name:'ten-minute-guarantee',wildlifeTickSec:1.15,visualTickSec:2.2,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:2}
+  {name:'rich-60-proof',wildlifeTickSec:.45,visualTickSec:1.0,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:4,maxActiveEnemies:24,maxDistantActors:28},
+  {name:'spike-shield',wildlifeTickSec:.75,visualTickSec:1.5,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:3,maxActiveEnemies:20,maxDistantActors:24},
+  {name:'ten-minute-guarantee',wildlifeTickSec:1.15,visualTickSec:2.2,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:2,maxActiveEnemies:18,maxDistantActors:20},
+  {name:'hundreds-nearby-combat-clamp',wildlifeTickSec:1.7,visualTickSec:3.0,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:1,maxActiveEnemies:14,maxDistantActors:14},
+  {name:'emergency-exact-frame-pacer',wildlifeTickSec:2.4,visualTickSec:4.2,movieTickSec:1/60,accents:false,farInteriors:false,shadows:false,textureAniso:1,maxActiveEnemies:10,maxDistantActors:8}
 ]);
 const avg=xs=>xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:0;
 const fpsOf=ms=>1000/Math.max(.001,ms);

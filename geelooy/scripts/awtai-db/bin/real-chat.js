@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+// B"H
+const {runChat}=require('../decode/chat-loop.js');const model=process.argv[2];const prompt=process.argv.slice(3).join(' ')||'Hello';if(!model){console.error('Usage: real-chat model.awtai-db "prompt"');process.exit(1);}const maxNewTokens=Number(process.env.AWTAI_MAX_NEW||1);const promptTokens=Number(process.env.AWTAI_PROMPT_TOKENS||1);const maxRamKvTokens=Number(process.env.AWTAI_MAX_RAM_KV||2);try{console.log(JSON.stringify(runChat(model,prompt,{maxNewTokens,promptTokens,maxRamKvTokens}),null,2));}catch(e){console.error(JSON.stringify({ok:false,error:String(e.stack||e)},null,2));process.exit(2);}

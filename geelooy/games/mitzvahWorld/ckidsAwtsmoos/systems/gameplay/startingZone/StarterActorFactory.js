@@ -112,6 +112,21 @@ export function makeEnemy(species, index, subzone, center, spread = 20) {
   return enemy;
 }
 
+export function addDenseEnemyPack(olam, options = {}) {
+  const count = Math.max(0, Number(options.count || 0) | 0);
+  const speciesRows = options.species || ["fox", "wolf", "boar", "archer", "cow"];
+  const center = options.center || olam?.player?.position || { x:0, z:0 };
+  const spread = Number(options.spread || 24);
+  const subzone = { id:options.subzoneId || "stress_yard", bounds:{ x:center.x || 0, z:center.z || 0, radius:spread + 10 } };
+  const start = olam.enemies.length;
+  for (let i = 0; i < count; i++) {
+    const enemy = makeEnemy(speciesRows[i % speciesRows.length], start + i, subzone, center, spread);
+    if (options.hostile !== false) enemy.targetId = "player";
+    olam.enemies.push(enemy);
+  }
+  return olam.enemies.slice(start);
+}
+
 export function instantiateSubzoneWorld(olam, npcIndex) {
   let enemyIndex = 0;
   for (const subzone of STARTER_SUBZONES) {
