@@ -2,23 +2,20 @@
  * B"H
  * @module HeichelRouteGate
  * @description
- * Chapter 578: The false reader path bows back into the Heichel gate.
- *
- * The Awtsmoos creates route order every instant. A path like
- * `/heichelos/ikar/series/root/error` is not a post; it is a malformed root
- * series address. The server now renders the Heichel shell and lets the client
- * normalize the browser URL instead of booting a fake reader.
+ * Chapter 579: The global submit gate is no longer mistaken for a Heichel.
+ * Specific gates stand before dynamic realms, so `/heichelos/submit` opens the
+ * launch console while `/heichelos/:heichel` still opens a living palace.
  */
-
 module.exports = async $i => {
     await $i.use({
         "/": async () => await $i.$ga("_awtsmoos.index.html"),
+        "/submit": async () => await renderGlobalSubmit(),
         "/:heichel/series/root/error": async vars => await renderHeichelShell(vars.heichel),
         "/:heichel/series/:series/index": async vars => await renderHeichelShell(vars.heichel),
         "/:heichel/series/:series": async vars => await renderHeichelShell(vars.heichel),
         "/:heichel/delete": async v => await renderDelete(v),
         "/:heichel/edit": async () => await $i.$ga("_awtsmoos.submitToHeichel.html"),
-        "/:heichel/submit": async v => await renderSubmit(v),
+        "/:heichel/submit": async v => await renderSubmit(v.heichel),
         "/:heichel/submitPost": async v => await $i.$ga("./heichel/submit/_awtsmoos.post.html", { heichel: v.heichel }),
         "/:heichel/post/:post": async vars => await renderPost(vars),
         "/:heichel/series/:series/:index": async vars => await renderIndexedPost(vars),
@@ -41,6 +38,11 @@ module.exports = async $i => {
         return await $i.$ga("_awtsmoos.heichelNotFound.html");
     }
 
+    async function renderGlobalSubmit() {
+        const target = $i.$_GET.heichel || $i.$_GET.heichelId || "ikar";
+        return await renderSubmit(target);
+    }
+
     async function renderDelete(v) {
         const al = $i.$_GET.editingAlias;
         const doesOwn = await $i.fetchAwtsmoos(`/api/social/aliases/${al}/ownership`);
@@ -56,13 +58,13 @@ module.exports = async $i => {
         return await $i.$ga("_awtsmoos.deleteEntry.html", { heichel: v.heichel, aliasID: al, seriesId: $sd.parentSeriesId, $$sd: $sd });
     }
 
-    async function renderSubmit(v) {
+    async function renderSubmit(heichelId) {
         const $sd = getDetails();
         const zr = $i.$_GET.series || $i.$_GET.seriesId;
         const n = $sd.type === "comment" ? "comments" : $sd.type === "post" ? "posts" : $sd.type === "series" ? "addNewSeries" : "n";
-        $sd.endpoint = `/api/social/heichelos/${v.heichel}/${n}`;
+        $sd.endpoint = `/api/social/heichelos/${heichelId}/${n}`;
         $sd.method = "POST";
-        return await $i.$ga("_awtsmoos.submitToHeichel.html", { heichel: v.heichel, series: zr || "root", $$sd: $sd, endpointType: n });
+        return await $i.$ga("_awtsmoos.submitToHeichel.html", { heichel: heichelId, series: zr || "root", $$sd: $sd, endpointType: n });
     }
 
     async function renderPost(vars) {

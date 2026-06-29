@@ -1,2 +1,8 @@
 /* B"H - compatibility gate for the split home civilization dashboard. */
 @import "./civilization/index.css";
+.awtsmoos-civilization-dashboard { align-items: start; }
+.home-command-galaxy { min-width: 0; }
+.civilization-metrics { min-width: 0; }
+.universal-object-card { min-width: 0; }
+.civilization-object-inspector { min-width: 0; }
+.object-inspector-section { min-width: 0; }

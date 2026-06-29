@@ -1,0 +1,39 @@
+/* B"H
+ * Chapter 518: the home dashboard learns to answer in every weather.
+ */
+:where(.home-command-input, .home-command-action, .home-route-pill, .home-feed-refresh, .universal-object-card, .object-inspector-link):focus-visible {
+  outline: 3px solid rgba(255,255,255,.88);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 7px rgba(127,90,240,.24), 0 0 30px rgba(0,214,255,.32);
+}
+.home-feed-loading,
+.home-state-card,
+.home-error-state,
+.home-empty-state {
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(12,18,45,.82), rgba(46,24,76,.72));
+  box-shadow: 0 24px 80px rgba(0,0,0,.28);
+  color: rgba(255,255,255,.88);
+}
+.home-feed-list:empty::before,
+.object-inspector-body:empty::before {
+  content: "Awaiting a spark from the Awtsmoos graph.";
+  display: block;
+  padding: 1rem;
+  color: rgba(255,255,255,.72);
+}
+.home-error-state { border-color: rgba(255,111,145,.46); }
+.home-empty-state { border-color: rgba(0,214,255,.34); }
+.universal-object-card { scroll-margin: 90px; }
+.universal-object-card[data-selected="true"] { transform: translateY(-2px); }
+.civilization-object-inspector { position: sticky; top: 1rem; }
+@media (max-width: 760px) {
+  .civilization-object-inspector { position: static; }
+  .home-route-constellation { grid-template-columns: 1fr; }
+  .home-command-action { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  .universal-object-card[data-selected="true"] { transform: none; }
+}
