@@ -49,7 +49,8 @@
     "stress:tunnel-control": "node scripts/stress-tunnel-control-actions.mjs",
     "stress:root-search": "node scripts/stress-root-search.mjs",
     "stress:mission-engine": "node scripts/stress-mission-engine.mjs",
-    "test:mission-continuity-actions": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+    "test:mission-continuity-actions": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs",
+    "test:virtual-os": "node geelooy/tests/virtual-os/run-smokes.cjs"
   },
   "author": "",
   "license": "ISC"

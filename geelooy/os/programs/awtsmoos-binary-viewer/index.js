@@ -1,188 +1,25 @@
-//B"H
+// B"H
+import awtsmoosStyle from './style.js';
+import { copyPublicOrLocalUrl, openLocalFile, publishLocalFile } from '../../session/localFileAccess.js';
+export default ({ fileName, content, system, path, os } = {}) => {
+  const activeOs = os || system?.os; const id = 'awtsmoosBinaryViewer'; const root = document.createElement('div'); root.classList.add('awtsmoos-viewer-container');
+  const self = { id, div:root, content:() => content, fileName:() => fileName, init:() => {}, onresize() {} };
+  const toast = (text, type, tag, options) => system?.makeToast?.(text, type, tag, options);
+  const menuBar = document.createElement('div'); menuBar.classList.add('menu-bar');
+  menuBar.appendChild(createMenu('Awtsmoos', new Map([
+    ['Open in New Tab', async () => { openLocalFile(content, fileName); activeOs?.recordGraphEvent?.('file.preview', { path, fileName, mode:'local' }); await toast('Opened local IndexedDB preview. Log in for a permanent public alias URL.', 'info', 'local'); }],
+    ['Get Public URL', async () => copyPublicOrLocalUrl({ path, fileName, content, os:activeOs, toast })],
+    ['Publish Local File', async () => publishLocalFile({ path, fileName, content, os:activeOs, toast })],
+    ['Download', () => download(content, fileName, activeOs, path)]
+  ])));
+  const holder = document.createElement('div'); holder.classList.add('content-holder'); renderContent(holder, content); root.append(menuBar, holder); ensureStyle(id, awtsmoosStyle); setTimeout(() => holder.style.height = `calc(100% - ${menuBar.offsetHeight}px)`, 0); return self;
+};
+function renderContent(holder, content) { if (!(content instanceof Blob)) return holder.appendChild(textNode(`Raw Text Display:
 
-import awtsmoosStyle from "./style.js";
-export default ({
-	fileName, 
-	content,
-	system,
-	extension,
-	path
-} = {}) => {
-	var id = "awtsmoosBinaryViewer";
-	var self = {
-	    id,
-	    content: () => content,
-	    fileName: () => fileName,
-	    init: () => {},
-	    onresize() {}
-	};
-	
-	// Create the root container for the viewer
-	const viewerContainer = document.createElement('div');
-	viewerContainer.classList.add('awtsmoos-viewer-container');
-	self.div = viewerContainer;
-	
-	// Create the menu bar
-	const menuBar = document.createElement('div');
-	menuBar.classList.add('menu-bar');
-	var publicUrl = () => (
-		location.origin + 
-	          `/api/social/aliases/${
-	            curAlias
-	          }/fileSystem/readFile?${
-	            new URLSearchParams({
-	              path: path + "/" + fileName
-	            })
-	          }`
-	)
-	// Define Awtsmoos menu functions
-	var awtsmoosFuncs = new Map([
-		['Open in New Tab', async () => {
-		        if(!window.curAlias) {
-		          await system.makeToast("Not logged in with alias!");
-		          return;
-		        }
-		
-		
-		        var base = publicUrl()
-		        window.open(base);
-		
-		        await system.makeToast("opened public URL in new tab!")
-		      }],
-		      ['Get Public URL', async () => {
-		        if(!window.curAlias) {
-		          await system.makeToast("Not logged in with alias!");
-		          return;
-		        }
-		
-		
-		        var base = publicUrl()
-		        await navigator.clipboard.writeText(base);
-		
-		        await system.makeToast("Copied public URL to clipboard!")
-		      }],
-	    ['Download', () => {
-	        const blob = (content instanceof Blob) ? content : new Blob([content]);
-	        var u = URL.createObjectURL(blob);
-	        var a = document.createElement("a");
-	        a.href = u;
-	        a.download = fileName;
-	        a.click();
-	        URL.revokeObjectURL(u);
-	    }]
-	]);
-	
-	// Create the Awtsmoos menu
-	var awtsmoosMenu = createMenu("Awtsmoos", awtsmoosFuncs);
-	menuBar.appendChild(awtsmoosMenu);
-	
-	// Create the filename header
-	/*const fileNameHeader = document.createElement('div');
-	fileNameHeader.classList.add('file-name-header');
-	fileNameHeader.textContent = fileName;*/
-	
-	// Create the content holder
-	const contentHolder = document.createElement('div');
-	contentHolder.classList.add('content-holder');
-	
-	// Check content type and create appropriate viewer
-	if (content instanceof Blob) {
-	    const url = URL.createObjectURL(content);
-	    if (content.type.startsWith('image/')) {
-	        const img = document.createElement('img');
-	        img.src = url;
-	        img.style.maxWidth = '100%';
-	        img.style.maxHeight = '100%';
-	        img.style.objectFit = 'contain';
-	        contentHolder.appendChild(img);
-	    } else if (content.type === 'application/pdf') {
-	        const pdfEmbed = document.createElement('iframe');
-	        pdfEmbed.src = url;
-	        pdfEmbed.style.width = '100%';
-	        pdfEmbed.style.height = '100%';
-	        pdfEmbed.style.border = 'none';
-	        contentHolder.appendChild(pdfEmbed);
-	    } else if (content.type.startsWith('video/')) {
-	        const video = document.createElement('video');
-	        video.src = url;
-	        video.controls = true;
-	        video.style.maxWidth = '100%';
-	        video.style.maxHeight = '100%';
-	        contentHolder.appendChild(video);
-	    } else if (content.type.startsWith('audio/')) {
-	        const audio = document.createElement('audio');
-	        audio.src = url;
-	        audio.controls = true;
-	        contentHolder.appendChild(audio);
-	    } else {
-	        // Fallback for other binary types
-	        const pre = document.createElement('pre');
-	        const reader = new FileReader();
-	        reader.onload = function(e) {
-	            pre.textContent = e.target.result;
-	        };
-	        reader.readAsText(content);
-	        contentHolder.appendChild(pre);
-	    }
-	} else {
-	    // Fallback for non-blob content
-	    const pre = document.createElement('pre');
-	    pre.textContent = "Raw Text Display:\n\n" + content;
-	    contentHolder.appendChild(pre);
-	}
-	
-	
-	// Append elements to the viewer container
-	viewerContainer.appendChild(menuBar);
-	//viewerContainer.appendChild(fileNameHeader);
-	viewerContainer.appendChild(contentHolder);
-	
-	// Add CSS styles dynamically
-	const style = document.createElement('style');
-	style.textContent = awtsmoosStyle;
-	style.classList.add(id);
-	var sty = document.querySelector("." + id);
-	if (!sty)
-	    document.head.appendChild(style);
-	
-	// Calculate content height
-	var fileHeaderHeight =0// fileNameHeader.offsetHeight;
-	var menuBarHeight = menuBar.offsetHeight;
-	
-	function calculateContentHeight() {
-	    var heightAmount = fileHeaderHeight + menuBarHeight;
-	    var heightStr = `calc(100% - ${heightAmount}px)`;
-	    contentHolder.style.height = heightStr;
-	}
-	
-	// Run after elements are in the DOM to get correct heights
-	setTimeout(calculateContentHeight, 0);
-	
-	
-	// Utility function to create a menu dynamically
-	function createMenu(menuName, actionsMap) {
-	    const menu = document.createElement('div');
-	    menu.classList.add('menu-item');
-	    menu.textContent = menuName;
-	
-	    const menuOptions = document.createElement('div');
-	    menuOptions.classList.add(`awtsmoos-options`);
-	    actionsMap.forEach((func, action) => {
-	        const menuOption = document.createElement('div');
-	        menuOption.textContent = action;
-	        menuOption.addEventListener('click', func);
-	        menuOptions.appendChild(menuOption);
-	    });
-	
-	    menu.addEventListener('click', function(e) {
-	        e.stopPropagation();
-	        const isVisible = menuOptions.style.display === 'block';
-	        menuOptions.style.display = isVisible ? 'none' : 'block';
-	    });
-	
-	    menu.appendChild(menuOptions);
-	    return menu;
-	}
-	
-	return self;
-}
+${content}`)); const url = URL.createObjectURL(content); if (content.type.startsWith('image/')) holder.appendChild(media('img', url)); else if (content.type === 'application/pdf') holder.appendChild(media('iframe', url)); else if (content.type.startsWith('video/')) holder.appendChild(media('video', url, true)); else if (content.type.startsWith('audio/')) holder.appendChild(media('audio', url, true)); else { const reader = new FileReader(); const pre = textNode(''); reader.onload = e => pre.textContent = e.target.result; reader.readAsText(content); holder.appendChild(pre); } }
+function media(tag, url, controls = false) { const el = document.createElement(tag); el.src = url; if (controls) el.controls = true; el.style.cssText = tag === 'iframe' ? 'width:100%;height:100%;border:none' : 'max-width:100%;max-height:100%;object-fit:contain'; return el; }
+function textNode(text) { const pre = document.createElement('pre'); pre.textContent = text; return pre; }
+function download(content, fileName, os, path) { const blob = content instanceof Blob ? content : new Blob([content ?? '']); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = fileName; a.click(); URL.revokeObjectURL(url); os?.recordGraphEvent?.('file.download', { path, fileName }); }
+function createMenu(name, actions) { const menu = document.createElement('div'); menu.classList.add('menu-item'); menu.textContent = name; const options = document.createElement('div'); options.classList.add('awtsmoos-options'); actions.forEach((func, action) => { const item = document.createElement('div'); item.textContent = action; item.addEventListener('click', func); options.appendChild(item); }); menu.addEventListener('click', e => { e.stopPropagation(); options.style.display = options.style.display === 'block' ? 'none' : 'block'; }); menu.appendChild(options); return menu; }
+function ensureStyle(id, css) { if (document.querySelector(`.${id}`)) return; const style = document.createElement('style'); style.textContent = css; style.classList.add(id); document.head.appendChild(style); }
+/** B"H: binary preview, publish, and download are graph-visible and real-upload aware. */

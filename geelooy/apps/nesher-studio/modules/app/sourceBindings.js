@@ -3,19 +3,18 @@ Source bindings: each button invites a new vessel into the scene garden.
 The Awtsmoos is not the webcam, file, or visualizer; He is the instant it can appear.
 */
 import { addSource } from '../graph/sceneGraph.js';
-import {
-  makeAudioFileSource, makeBrowserSource, makeCanvasSource, makeDisplaySource,
-  makeIframeSource, makeImageFileSource, makeMonitorSource, makeVideoFileSource,
-  makeWebcamSource
-} from '../sources.js';
+import { makeAudioFileSource, makeBrowserSource, makeCanvasSource, makeDisplaySource, makeIframeSource, makeImageFileSource, makeMonitorSource, makeVideoFileSource, makeWebcamSource } from '../sources.js';
 import { makeAudioVisualizerSource } from '../visualizer/audioVisualizerSource.js';
+import { DEFAULT_VISUALIZER_SOURCE_FAMILY_ID, visualizerFamilyOptionsHtml } from '../visualizer/sourceFamilyRegistry.js';
 
 export function bindSourceControls({ dom, state, changed, setStatus }) {
+  setupVisualizerFamilies(dom);
   const add = source => addSceneSource({ state, source, changed });
   dom.addCanvas.onclick = () => add(makeCanvasSource());
   dom.addIframe.onclick = () => add(makeIframeSource(dom.iframeUrl.value.trim()));
   dom.addBrowser.onclick = () => add(makeBrowserSource(dom.iframeUrl.value.trim()));
   dom.addAudioVisualizer.onclick = () => add(makeAudioVisualizerSource(state));
+  dom.addVisualizerFamily.onclick = () => add(makeAudioVisualizerSource(state, dom.visualizerFamily.value));
   dom.addWebcam.onclick = () => guardedAdd(() => makeWebcamSource('both'), 'Webcam', add, setStatus);
   dom.addWebcamVideo.onclick = () => guardedAdd(() => makeWebcamSource('video'), 'Webcam video', add, setStatus);
   dom.addMic.onclick = () => guardedAdd(() => makeWebcamSource('audio'), 'Mic audio', add, setStatus);
@@ -24,6 +23,10 @@ export function bindSourceControls({ dom, state, changed, setStatus }) {
   dom.addDisplayVideo.onclick = () => guardedAdd(() => makeDisplaySource('video'), 'Display video', add, setStatus);
   dom.addDisplayAudio.onclick = () => guardedAdd(() => makeDisplaySource('audio'), 'Display audio', add, setStatus);
   bindFileButtons({ dom, add, setStatus });
+}
+function setupVisualizerFamilies(dom) {
+  dom.visualizerFamily.innerHTML = visualizerFamilyOptionsHtml();
+  dom.visualizerFamily.value = DEFAULT_VISUALIZER_SOURCE_FAMILY_ID;
 }
 function bindFileButtons({ dom, add, setStatus }) {
   dom.addImage.onclick = () => dom.imageFile.click(); dom.addVideoFile.onclick = () => dom.videoFile.click(); dom.addAudioFile.onclick = () => dom.audioFile.click();

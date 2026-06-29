@@ -2,18 +2,34 @@
 import System from "./system.js";
 import ResizableWindow from "./windows.js";
 import { programs, defaultPrograms, getDefaultProgram } from "./basicPrograms.js";
+
 export default class WindowHandler {
   constructor() { this.windows = []; this.taskArea = document.getElementById('task-area'); this.minimizedGroups = new Map(); }
   getExtension(title) { const i = String(title || '').lastIndexOf('.'); return i > -1 ? title.substring(i).toLowerCase() : '.js'; }
+
   addWindow(options) {
     const { title, content, path, os, programName = null, extension = null } = options;
     const ext = extension || this.getExtension(title || "");
-    const program = programName && programs[programName] ? programs[programName].launch : getDefaultProgram(ext);
+    const launcher = programName && programs[programName] ? programs[programName].launch : getDefaultProgram(ext);
     let finalContent = content, programInstance = null;
-    if (program) { const system = new System({ path, os }); programInstance = program({ os:system.os, path, title, fileName:title, content, system, extension:ext }); finalContent = programInstance?.div || content; }
-    const wind = new ResizableWindow({ title, content:finalContent, handler:this, programId:programName || defaultPrograms[ext] || 'advancedCodeEditor', hideTitleBar:options.hideTitleBar, isFullscreen:options.isFullscreen });
-    wind.id = wind.id || `win-${Date.now()}-${this.windows.length}`; wind.programInstance = programInstance; wind.onresize = e => programInstance?.onresize?.(e); programInstance?.init?.(); this.windows.push(wind); return wind;
+    if (launcher) {
+      const system = new System({ path, os });
+      programInstance = launcher({ os:system.os, path, title, fileName:title, content, system, extension:ext });
+      finalContent = programInstance?.div || content;
+    }
+    const wind = new ResizableWindow({
+      title, content:finalContent, handler:this,
+      programId:programName || defaultPrograms[ext] || 'advancedCodeEditor',
+      hideTitleBar:options.hideTitleBar, isFullscreen:options.isFullscreen
+    });
+    wind.programInstance = programInstance;
+    wind.onresize = event => programInstance?.onresize?.(event);
+    applyWindowIdentity(wind, options, this.windows.length);
+    programInstance?.init?.();
+    this.windows.push(wind);
+    return wind;
   }
+
   onminimize(window) { const id = window.programId; if (!this.minimizedGroups.has(id)) this.createMinimizedGroup(id, window); else this.addToMinimizedGroup(id, window); }
   createMinimizedGroup(id, window) { const taskItem = document.createElement('div'); taskItem.className = 'task-item'; taskItem.textContent = window.title.replace('.folder', ''); const group = { element:taskItem, windows:[window] }; taskItem.onclick = e => this.handleTaskClick(e, id); this.minimizedGroups.set(id, group); this.taskArea?.appendChild(taskItem); }
   addToMinimizedGroup(id, window) { const group = this.minimizedGroups.get(id); if (!group.windows.includes(window)) group.windows.push(window); group.element.classList.add('stacked'); group.element.dataset.count = group.windows.length; }
@@ -23,3 +39,26 @@ export default class WindowHandler {
   handleTaskClick(event, programId) { event.stopPropagation(); const group = this.minimizedGroups.get(programId); if (!group) return; document.querySelector('.task-group-popup')?.remove(); if (group.windows.length === 1) return group.windows[0].restore(); this.showTaskPopup(group); }
   showTaskPopup(group) { const popup = document.createElement('div'); popup.className = 'task-group-popup'; group.windows.forEach(win => { const item = document.createElement('div'); item.className = 'task-group-popup-item'; item.textContent = win.title; item.onclick = () => { win.restore(); popup.remove(); }; popup.appendChild(item); }); document.body.appendChild(popup); }
 }
+
+function applyWindowIdentity(windowRecord, options = {}, index = 0) {
+  const id = windowRecord.id || windowRecord.ID || `win-${Date.now()}-${index}`;
+  windowRecord.id = id;
+  windowRecord.processId = options.processId || windowRecord.processId || '';
+  const element = windowRecord.win;
+  if (!element) return;
+  element.classList?.add('window');
+  element.setAttribute?.('data-id', id);
+  element.setAttribute?.('data-window-id', id);
+  if (element.dataset) {
+    element.dataset.id = id;
+    element.dataset.windowId = id;
+    if (windowRecord.processId) element.dataset.processId = windowRecord.processId;
+  }
+  if (windowRecord.processId) element.setAttribute?.('data-process-id', windowRecord.processId);
+}
+
+/**
+ * B"H
+ * The handler stamps every surface with stable object identity: window id,
+ * process id, and the `.window` contract the tunnel can safely mirror.
+ */

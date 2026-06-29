@@ -1,8 +1,7 @@
 // B"H
-import { createElement } from "/scripts/awtsmoos/ui/basic.js";
-export default function driveShelf({ os, onNavigate }) {
-  const shelf = createElement({ tag:"div", attributes:{ class:"drive-shelf" } });
-  const drives = os?.drives?.list?.() || [];
-  shelf.append(...drives.map(d => createElement({ tag:"button", attributes:{ class:`drive-chip ${d.kind}` }, html:`${d.icon || "💾"} ${d.title}`, on:{ click:() => onNavigate(d.root) } })));
-  return shelf;
-}
+import { createElement } from '/scripts/awtsmoos/ui/basic.js';
+import { classForMount, iconForMount, labelForMount, mountBadge } from '../utils/mountClass.js';
+export default function driveShelf({ os, onNavigate }) { const shelf = createElement({ tag:'div', attributes:{ class:'drive-shelf' } }); shelf.append(...(os?.vfs?.mounts?.() || []).map(m => mountChip(os, m, onNavigate)), ...(os?.drives?.list?.() || []).map(d => driveChip(d, onNavigate))); return shelf; }
+function mountChip(os, mount, onNavigate) { const permission = os?.vfs?.can?.(mount.prefix, 'read') || {}; return createElement({ tag:'button', attributes:{ class:`drive-chip ${classForMount(mount)}`, title:mountBadge(mount, permission), 'data-adapter':mount.adapterId, 'data-permission':mount.permissionState, 'data-sync-state':mount.syncState, 'data-locality':mount.locality }, html:`${iconForMount(mount)} ${labelForMount(mount)} <small>${mount.permissionState}</small>`, on:{ click:() => onNavigate(mount.prefix) } }); }
+function driveChip(drive, onNavigate) { return createElement({ tag:'button', attributes:{ class:`drive-chip ${drive.kind || 'remote'} ${classForMount(drive.kind || drive.root)}`, title:`${drive.kind || 'drive'} · ${drive.root}` }, html:`${drive.icon || '💾'} ${drive.title} <small>${drive.kind || 'drive'}</small>`, on:{ click:() => onNavigate(drive.root) } }); }
+/** B"H: drive chips now reveal permission, adapter, locality, and sync state. */

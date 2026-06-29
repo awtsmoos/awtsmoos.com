@@ -1,0 +1,6 @@
+// B"H
+export default ({ os } = {}) => { const root = document.createElement('div'); root.className = 'awtsmoos-diagnostics-window'; render(root, os); const timer = setInterval(() => render(root, os), 3000); return { div:root, onclose:() => clearInterval(timer) }; };
+function render(root, os) { const graphEvents = os?.graph?.history?.({ limit:30 }) || []; root.innerHTML = `<h2>Developer Diagnostics</h2>`; root.append(section('Process manager', os?.processes?.list?.() || []), section('Graph event stream', graphEvents), section('Mounted adapters', os?.vfs?.mounts?.() || []), section('VFS registry', { mounts:os?.vfs?.mounts?.(), adapters:[...(os?.vfs?.adapters?.keys?.() || [])] }), section('Drive registry', os?.drives?.list?.() || []), section('Recent mutations', os?.recentMutations || []), section('Taskbar state', os?.taskbar?.snapshot?.() || {})); }
+function section(title, data) { const el = document.createElement('section'); el.innerHTML = `<h3>${title}</h3><pre>${escapeHtml(JSON.stringify(data, null, 2))}</pre>`; return el; }
+function escapeHtml(value) { return String(value || '').replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c])); }
+/** B"H: a developer window reads the living graph instead of guessing from silence. */

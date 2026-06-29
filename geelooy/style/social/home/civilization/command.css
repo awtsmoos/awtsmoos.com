@@ -1,0 +1,34 @@
+/* B"H - command mountain: the label now stands above the vessel. */
+.awtsmoos-civilization-dashboard { align-items: start; }
+.civilization-command-card,
+.civilization-object-inspector,
+.civilization-feed-orb { position: relative; }
+.home-command-galaxy {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .5rem;
+  margin: 1rem 0;
+  min-width: 0;
+}
+.home-command-label {
+  grid-column: 1 / -1;
+  max-width: 100%;
+  line-height: 1.22;
+  overflow-wrap: normal;
+}
+.home-search-vessel { width: 100%; min-width: 0; }
+.home-search-vessel input,
+.home-command-galaxy input {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(112, 77, 26, .22);
+  padding: 0 .9rem;
+  background: rgba(255,255,255,.78);
+  color: inherit;
+}
+.home-command-galaxy button,
+.civilization-layer-tabs button { min-height: 2.65rem; }
+.civilization-layer-tabs { overflow-x: auto; scrollbar-width: thin; }
+.civilization-layer-tabs button { white-space: nowrap; }

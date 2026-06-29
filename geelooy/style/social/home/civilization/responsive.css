@@ -1,0 +1,5 @@
+/* B"H - the dashboard folds without crushing the command line. */
+@media (max-width: 980px) {
+  .civilization-metrics { grid-template-columns: 1fr; }
+  .home-command-galaxy { grid-template-columns: 1fr; }
+}

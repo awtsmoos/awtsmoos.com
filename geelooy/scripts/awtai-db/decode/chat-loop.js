@@ -53,13 +53,6 @@ function runPrefill(ctx, trace, tokens, options) {
   }
 }
 
-/**
- * Generate answer tokens with an optional minimum length gate.
- *
- * A chat model may place EOS close to the first newline.  During the first
- * requested breaths we hide EOS so the answer can cross the threshold from
- * doorway into speech.  After that, EOS is honored again and the river may end.
- */
 function generate(ctx, state, tokenizer, tokens, options, trace) {
   const limit = Math.min(tokens.length, options.promptTokens ?? tokens.length);
   const minNewTokens = options.minNewTokens ?? 0;
@@ -85,7 +78,7 @@ function defaultCacheBytes() {
 
 function result(parts, trace) {
   const { scratch, tokens, state, tokenizer, config, kv, diskKv, stats, renderedPrompt, ctx } = parts;
-  return { ok: true, mode: 'cached-native-awtai-chat', scratch, renderedPrompt, promptTokens: tokens, generated: state.generated, text: tokenizer.decode(state.generated), topLogits: ctx.lastTopLogits, config, kv: kv.summary(), diskKv: diskKv ? diskKv.summary() : null, streamer: ctx.streamer.summary(), stats: stats.summary(), memory: trace.summary() };
+  return { ok: true, mode: 'cached-native-awtai-chat', scratch, renderedPrompt, promptTokens: tokens, generated: state.generated, text: tokenizer.decode(state.generated), topLogits: ctx.lastTopLogits, mmapLmHeadBytes: ctx.mmapLmHeadBytes || 0, config, kv: kv.summary(), diskKv: diskKv ? diskKv.summary() : null, streamer: ctx.streamer.summary(), stats: stats.summary(), memory: trace.summary() };
 }
 
 module.exports = { runChat };

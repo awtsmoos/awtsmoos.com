@@ -1,66 +1,28 @@
 // B"H
-export const ACTION_CATALOG = Object.freeze([
-  action("list", "List files", "Show directory entries. Auto-preview can return a private /view folder link.", "Files", ["safe","auto-preview"], { path:".", autoPreview:true }),
-  action("tree", "Tree view", "Show a bounded folder tree with optional private preview.", "Files", ["safe","auto-preview"], { path:".", needsTree:true, autoPreview:true }),
-  action("read", "Read file", "Read one file; safe paths return private /view links by default.", "Files", ["safe","auto-preview"], { path:"README.md", autoPreview:true }),
-  action("write", "Write file", "Rewrite one complete file.", "Files", ["advanced"], { path:"notes.txt", needsContent:true }),
-  action("sharePreviewFile", "Share file preview", "Create local scoped link plus hosted /view preview recipe.", "Remote Preview", ["share","view"], { path:"README.md", ttlSeconds:1800 }),
-  action("sharePreviewFolder", "Share folder preview", "Create a folder preview recipe and scoped local token.", "Remote Preview", ["share","folder"], { path:".", ttlSeconds:1800 }),
-  action("sharePreviewServer", "Share local server", "Create a local server /view proxy recipe.", "Remote Preview", ["share","proxy"], { port:3000, ttlSeconds:1800 }),
-  action("sharePreviewCommandJob", "Share command receipt", "Create a preview recipe for command/action output.", "Remote Preview", ["share","receipt"], { jobId:"", ttlSeconds:1800 }),
-  action("previewCreate", "Hosted preview create", "Return/create hosted preview URL/payload.", "Remote Preview", ["view"], { kind:"file", path:"README.md", visibility:"private" }),
-  action("previewExposeLocalServer", "Hosted server preview", "Return hosted /view proxy recipe for a local server.", "Remote Preview", ["view","proxy"], { port:3000, visibility:"private" }),
-  action("previewList", "List private previews", "List active previews for the logged-in owner account.", "Remote Preview", ["status","account"], {}),
-  action("previewGrant", "Grant preview access", "Invite account ids/emails to an owner-only preview.", "Remote Preview", ["share","account"], { previewId:"", access:{ userIds:[], emails:[] } }),
-  action("previewAccessRevoke", "Revoke preview access", "Remove invited account ids/emails from a private preview.", "Remote Preview", ["share","account"], { previewId:"", access:{ userIds:[], emails:[] } }),
-  action("previewSettingsSet", "Preview settings", "Toggle auto-preview and public-link permissions.", "Remote Preview", ["settings"], { settings:{ autoPreview:true, allowAiCreatePublic:false } }),
-  action("shareList", "List shares", "List active scoped shares.", "Remote Preview", ["status"], {}),
-  action("shareRevoke", "Revoke share", "Revoke one share by id/token.", "Remote Preview", ["safe"], { id:"" }),
-  action("shareRevokeAll", "Revoke all shares", "Close every scoped share for this root.", "Remote Preview", ["danger-safe"], {}),
-  action("shareAudit", "Share audit", "Read scoped-share audit events.", "Remote Preview", ["status"], { limit:100 }),
-  action("remoteDriveList", "Remote drives", "List owner-scoped read-only mounted roots.", "Remote Drive", ["safe"], {}),
-  action("remoteDriveTree", "Remote drive tree", "Browse a bounded tree through the drive guard.", "Remote Drive", ["safe"], { path:".", depth:2, limit:120 }),
-  action("remoteDriveRead", "Remote drive read", "Read a non-secret file through the drive guard.", "Remote Drive", ["safe"], { path:"README.md" }),
-  action("fakeSshAuth", "Fake SSH auth", "Create a verifier-backed fake SSH session.", "Fake SSH", ["ssh","auth"], { username:"", password:"" }),
-  action("fakeSshExec", "Fake SSH exec", "Run virtual shell commands over Geelooy mounts.", "Fake SSH", ["ssh"], { sessionId:"", command:"pwd" }),
-  action("fakeSshSftpList", "Fake SFTP list", "List virtual SFTP entries.", "Fake SSH", ["sftp"], { sessionId:"", path:"/tunnels/local" }),
-  action("fakeSshSftpRead", "Fake SFTP read", "Read a file through fake SFTP.", "Fake SSH", ["sftp","read"], { sessionId:"", path:"/tunnels/local/README.md" }),
-  action("fakeSshSftpWrite", "Fake SFTP write", "Write through fake SFTP when tunnel write is allowed.", "Fake SSH", ["sftp","write"], { sessionId:"", path:"/tunnels/local/tmp.txt", needsContent:true }),
-  action("fakeSshSftpMkdir", "Fake SFTP mkdir", "Create directory through guarded fake SFTP.", "Fake SSH", ["sftp","write"], { sessionId:"", path:"/tunnels/local/tmp" }),
-  action("fakeSshSftpRemove", "Fake SFTP remove", "Remove file/directory through guarded fake SFTP.", "Fake SSH", ["sftp","danger-safe"], { sessionId:"", path:"/tunnels/local/tmp.txt" }),
-  action("fakeSshServerStatus", "Fake SSH server status", "Show virtual shell/SFTP adapter readiness.", "Fake SSH", ["ssh","status"], {}),
-  action("remoteNativeDesktopPlan", "Fake desktop plan", "Show fake Geelooy computer architecture.", "Remote Desktop", ["vnc","plan"], {}),
-  action("remoteNativeDesktopRenderScene", "Render fake desktop", "Render a Geelooy scene into framebuffer metadata.", "Remote Desktop", ["vnc","pixels"], { scene:{ title:"Geelooy OS" } }),
-  action("remoteNativeDesktopRfbStart", "Start fake VNC", "Start localhost-only RFB/VNC fake Geelooy desktop.", "Remote Desktop", ["vnc","localhost"], { port:5905 }),
-  action("remoteNativeDesktopRfbStatus", "Fake VNC status", "Show running localhost fake VNC servers.", "Remote Desktop", ["vnc","status"], {}),
-  action("remoteNativeDesktopRfbStop", "Stop fake VNC", "Stop a fake VNC server.", "Remote Desktop", ["vnc"], { id:"geelooy-rfb" }),
-  action("remoteNativeDesktopPointer", "Fake desktop pointer", "Translate pointer event into virtual OS action.", "Remote Desktop", ["input"], { x:0, y:0, buttons:0 }),
-  action("remoteNativeDesktopKeyboard", "Fake desktop keyboard", "Translate key event into virtual OS action.", "Remote Desktop", ["input"], { key:"A" }),
+import { AUTOMATION_ACTIONS } from './actionCatalog/automationActions.js';
+import { FAKE_SSH_ACTIONS } from './actionCatalog/fakeSshActions.js';
+import { FILE_ACTIONS } from './actionCatalog/fileActions.js';
+import { MISSION_ACTIONS } from './actionCatalog/missionActions.js';
+import { REMOTE_DESKTOP_ACTIONS } from './actionCatalog/remoteDesktopActions.js';
+import { REMOTE_DRIVE_ACTIONS } from './actionCatalog/remoteDriveActions.js';
+import { REMOTE_PREVIEW_ACTIONS } from './actionCatalog/remotePreviewActions.js';
+import { VIRTUAL_OS_ACTIONS } from './actionCatalog/virtualOsActions.js';
 
-  action("virtualOsGraphSample", "Virtual OS graph sample", "Show the unified desktop object graph sample.", "Virtual OS", ["graph","object"], {}),
-  action("virtualOsGraphStatus", "Virtual OS graph status", "Inspect server-side virtual OS graph state.", "Virtual OS", ["graph","status"], {}),
-  action("virtualOsGraphUpsert", "Virtual OS graph upsert", "Create/update a desktop object such as drive/window/preview/process.", "Virtual OS", ["graph","write"], { object:{ id:"preview:demo", type:"preview", title:"Demo Preview" } }),
-  action("virtualOsGraphGet", "Virtual OS graph get", "Fetch one object by id.", "Virtual OS", ["graph","read"], { id:"desktop:main" }),
-  action("virtualOsGraphSearch", "Virtual OS graph search", "Search desktop objects.", "Virtual OS", ["graph","search"], { query:"preview" }),
-  action("virtualOsGraphReset", "Virtual OS graph reset", "Reset one server-side graph namespace.", "Virtual OS", ["graph","danger-safe"], { graphId:"default" }),
-  action("virtualOsGraphDelete", "Virtual OS graph delete", "Delete one object while recording graph history.", "Virtual OS", ["graph","delete"], { id:"preview:demo" }),
-  action("virtualOsGraphHistory", "Virtual OS graph history", "Read the graph event log with optional id/type filters.", "Virtual OS", ["graph","history"], { limit:100 }),
-  action("virtualOsGraphReferences", "Virtual OS graph references", "Show refs, children, and reverse refs for one object.", "Virtual OS", ["graph","refs"], { id:"desktop:main" }),
-  action("virtualOsGraphDiff", "Virtual OS graph diff", "Compare supplied objects/graph against current graph state.", "Virtual OS", ["graph","diff"], { objects:[] }),
-  action("virtualOsGraphTraverse", "Virtual OS graph traverse", "Walk outbound or inbound graph references to a bounded depth.", "Virtual OS", ["graph","traverse"], { id:"desktop:main", direction:"out", depth:2 }),
-  action("virtualOsGraphPathLookup", "Virtual OS graph path lookup", "Resolve object by id, URL, path, title, or fuzzy query.", "Virtual OS", ["graph","lookup"], { path:"/desktop" }),
-  action("virtualOsGraphTransaction", "Virtual OS graph transaction", "Apply upsert/delete operations with rollback-on-error.", "Virtual OS", ["graph","transaction"], { operations:[{ op:"upsert", object:{ id:"preview:demo", type:"preview", title:"Demo Preview" } }] }),
-  action("virtualOsGraphSubscribe", "Virtual OS graph subscribe", "Create a server-side graph watcher with id/type filters.", "Virtual OS", ["graph","watch"], { watcher:{ filter:{ objectType:"preview" } } }),
-  action("virtualOsGraphUnsubscribe", "Virtual OS graph unsubscribe", "Remove a server-side graph watcher.", "Virtual OS", ["graph","watch"], { watcherId:"" }),
-  action("virtualOsGraphWatchers", "Virtual OS graph watchers", "List active graph watchers and queued event counts.", "Virtual OS", ["graph","watch","status"], {}),
-  action("virtualOsGraphWatchPoll", "Virtual OS graph watch poll", "Drain queued events from a graph watcher.", "Virtual OS", ["graph","watch","events"], { watcherId:"", limit:100 }),
-  action("missionAwareUse", "Use active mission", "Bind ordinary actions to one Mission OS id.", "Mission", ["mission","receipt"], { missionId:"" }),
-  action("missionAwareStatus", "Mission-aware status", "Show active Mission OS auto-receipt state.", "Mission", ["mission","status"], {}),
-  action("previewReceiptAttach", "Attach preview receipt", "Attach a live preview URL as Mission OS evidence.", "Mission", ["receipt"], { needsMissionId:true, nodeId:"", url:"" }),
-  action("missionStart", "Start mission", "Create a durable autonomous mission.", "Mission", ["autopilot"], { needsMissionGoal:true }),
-  action("missionReport", "Mission report", "Load current mission status.", "Mission", ["status"], { needsMissionId:true }),
-  action("commandBatch", "Command batch", "Run approved command batches.", "Automation", ["advanced"], {}),
-  action("browserDoctor", "Browser doctor", "Diagnose browser control.", "Automation", ["browser"], {})
+/**
+ * B"H
+ * The control catalog is no longer one crowded tablet. Each family sings from
+ * a small module, then gathers here into the same public ACTION_CATALOG vessel
+ * used by the UI. Through that simple gathering, the Awtsmoos reveals the VFS
+ * gates beside graph, preview, mission, and automation gates: one surface, one
+ * responsibility, no duplicated OS.
+ */
+export const ACTION_CATALOG = Object.freeze([
+  ...FILE_ACTIONS,
+  ...REMOTE_PREVIEW_ACTIONS,
+  ...REMOTE_DRIVE_ACTIONS,
+  ...FAKE_SSH_ACTIONS,
+  ...REMOTE_DESKTOP_ACTIONS,
+  ...VIRTUAL_OS_ACTIONS,
+  ...MISSION_ACTIONS,
+  ...AUTOMATION_ACTIONS
 ]);
-function action(name, title, desc, group, badges, defaults) { return { name, title, desc, group, badges, defaults }; }
-/** B"H: catalog now exposes every Virtual OS graph gate instead of hiding new power. */

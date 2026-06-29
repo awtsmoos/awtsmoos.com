@@ -1,264 +1,35 @@
-//B"H
-import awtsmoosStyle from "./style.js";
-import codeify from 
-//"/scripts/awtsmoos/coding/make.js"; 
-"/scripts/awtsmoos/coding/pnimi.js"
-export default ({
-    fileName, 
-    content,
-    system,
-    extension,
-    path
-  } = {}) => {
-    
-    var id = "awtsmoosText";
-    var coded = null
-    var self = {
-      id,
-      content: () => contentDiv.value,
-      fileName: () => fileName,
-      init: () => {
-        coded?.init?.();
-      },
-      onresize() {
-        coded?.init()
-      }
-    }
-    
-    
-    var map = {
-      ".js": "javascript",
-      ".html":"html",
-      ".css":"css"
-    }
-    var type = map[extension];
-    
-    
-    // Create the root container for the editor
-    const editorContainer = document.createElement('div');
-    editorContainer.classList.add('awtsmoos-editor-container');
-    self.div = editorContainer;
-    
-    // Create the menu bar
-    const menuBar = document.createElement('div');
-    menuBar.classList.add('menu-bar');
-    window.customSaveFunction = () => system?.save(self);
-    // Functionality map for File and Edit menus
-    const fileFunctions = new Map([
-      ['New', () => system?.newFile(self)],
-      ['Open', () => system?.open(self)],
-      ['Save', () => system?.save(self)]
-    ]);
-  
-    const editFunctions = new Map([
-      ['Undo', () => document.execCommand('undo')],
-      ['Redo', () => document.execCommand('redo')],
-      ['Cut', () => document.execCommand('cut')],
-      ['Copy', () => document.execCommand('copy')],
-      ['Copy All', async () => {
-          var txt = self.content()
-          var txtc= await navigator.clipboard.writeText(txt)
-      }],
-      ['Paste', () => document.execCommand('paste')]
-    ]);
-
-      
-	var publicUrl = () => (
-		location.origin + 
-	          `/api/social/aliases/${
-	            curAlias
-	          }/fileSystem/readFile?${
-	            new URLSearchParams({
-	              path: path + "/" + fileName
-	            })
-	          }`
-	)
-    var awtsmoosFuncs = new Map([
-    ['Open in New Tab', async () => {
-        if(!window.curAlias) {
-          await system.makeToast("Not logged in with alias!");
-          return;
-        }
-
-
-        var base = publicUrl()
-        window.open(base);
-
-        await system.makeToast("opened public URL in new tab!")
-      }],
-      ['Get Public URL', async () => {
-        if(!window.curAlias) {
-          await system.makeToast("Not logged in with alias!");
-          return;
-        }
-
-
-        var base = publicUrl()
-        await navigator.clipboard.writeText(base);
-
-        await system.makeToast("Copied public URL to clipboard!")
-      }],
-      ['Download', () => {
-        var u = URL.createObjectURL(
-          new Blob([content])
-        );
-        var a  = document.createElement("a")
-        a.href = u;
-        a.download = fileName;
-        a.click()
-      }]
-    ]);
-    
-    
-  
-    // Create the File menu
-    const fileMenu = createMenu('File', fileFunctions);
-  
-    // Create the Edit menu
-    const editMenu = createMenu('Edit', editFunctions);
-    
-    
-    menuBar.appendChild(fileMenu);
-    menuBar.appendChild(editMenu);
-    
-    if(extension == ".js") {
-      var run = async () => {
-        var code = self.content();
-        try {
-          eval(`//B"H
-          (async () => {
-            ${code}  
-          })()`);
-        } catch(e) {
-
-        }
-      };
-      window.customRunFunction = run;
-      awtsmoosFuncs.set("Run", run)
-    }
-
-    var awtsmoosMenu = createMenu("Awtsmoos", awtsmoosFuncs);
-    
-    menuBar.appendChild(awtsmoosMenu);
-    
-  
-    // Create the filename header
-    const fileNameHeader = document.createElement('div');
-    //fileNameHeader.classList.add('file-name-header');
-   // fileNameHeader.textContent = fileName;
-
-
-  const contentDiv = document.createElement('textarea');
-  function overwriteKeydown(e) {
-	  
-	 
-	  if(e.target == contentDiv) {
-		  if(e.ctrlKey && e.code == "KeyS") {
-			  e.preventDefault();
-			  window?.customSaveFunction()
-			//  console.log("hov",e)
-		  }
-	  }
-  }
-  addEventListener("keydown", overwriteKeydown)
-
-  contentDiv. value = content;
-
-  const contentHolder = document.createElement('div');
-  // Create the content editable div
-  contentHolder.classList.add('content-holder');
-  contentHolder.appendChild(contentDiv)
-    
-    // Append elements to the editor container
-    editorContainer.appendChild(menuBar);
-   // editorContainer.appendChild(fileNameHeader);
-    editorContainer.appendChild(contentHolder);
-
-    
-    
-    
-    // Add CSS styles dynamically
-    const style = document.createElement('style');
-    style.textContent = getCSS();
-    style.classList.add(id);
-    var sty = document.querySelector("."+id);
-    if(!sty) 
-      document.head.appendChild(style);
-  
-  
-    document.body.appendChild(editorContainer)
-    var fileHeaderHeight = fileNameHeader.offsetHeight;
-    var menuBarHeight = menuBar.offsetHeight;
-    editorContainer.parentNode.removeChild(editorContainer);
-    function calculateContentHeight() {
-      var heightAmount = fileHeaderHeight + 
-            menuBarHeight;
-      var heightStr = `calc(100% - ${
-            heightAmount
-          }px);`
-      contentHolder.style.cssText = "height:"+heightStr;
-    }
-    
-    if(type) {
-    setTimeout(() => {
-      coded = new codeify(contentDiv, type)
-     // console.log(coded,"Coded",contentDiv);
-      window.coded=coded;
-      coded?.parent?.focus?.()
-      contentDiv?.focus()
-      }, 300)
-    }
-    
-    calculateContentHeight()
-    // Utility function to create a menu dynamically
-    function createMenu(menuName, actionsMap) {
-      const menu = document.createElement('div');
-      menu.classList.add('menu-item');
-      menu.textContent = menuName;
-      
-      const menuOptions = document.createElement('div');
-      menuOptions.classList.add(`awtsmoos-options`);
-      actionsMap.forEach((func, action) => {
-        const menuOption = document.createElement('div');
-        menuOption.textContent = action;
-        menuOption.addEventListener('click', func);
-        menuOptions.appendChild(menuOption);
-      });
-    
-      let isMenuVisible = true;  // Track the visibility state
-    
-      menu.addEventListener('click', function (e) {
-        e.stopPropagation(); // Prevent the click event from propagating to the document
-        if (isMenuVisible) {
-          menuOptions.style.display = 'none';  // Hide the menu
-          isMenuVisible = false;
-        } else {
-          menuOptions.style.display = 'block'; // Show the menu again
-          isMenuVisible = true;
-        }
-      });
-    
-      // Show menu when hovering
-      menu.addEventListener('mouseover', function () {
-        if (!isMenuVisible) {
-
-        }
-      });
-    
-      // Hide menu when mouse leaves
-      menu.addEventListener('mouseleave', function () {
-        if (isMenuVisible) {
-  
-        }
-      });
-    
-      menu.appendChild(menuOptions);
-      return menu;
-    }
-  
-    // Returns the refined CSS as a string
-    function getCSS() {
-      return awtsmoosStyle
-    }
-    return self;
+// B"H
+import awtsmoosStyle from './style.js';
+import codeify from '/scripts/awtsmoos/coding/pnimi.js';
+import { copyPublicOrLocalUrl, openLocalFile, publishLocalFile } from '../../session/localFileAccess.js';
+export default ({ fileName, content = '', system, extension, path, os } = {}) => {
+  const activeOs = os || system?.os; const id = 'awtsmoosText'; let coded = null;
+  const editor = document.createElement('div'); editor.classList.add('awtsmoos-editor-container');
+  const text = document.createElement('textarea'); text.value = content;
+  const self = { id, div:editor, content:() => text.value, fileName:() => fileName, init:() => coded?.init?.(), onresize:() => coded?.init?.() };
+  window.customSaveFunction = () => system?.save(self);
+  const menuBar = document.createElement('div'); menuBar.classList.add('menu-bar');
+  menuBar.append(createMenu('File', fileMenu(self, system)), createMenu('Edit', editMenu(self)), createMenu('Awtsmoos', awtsmoosMenu(self, { system, path, fileName, extension, os:activeOs })));
+  const holder = document.createElement('div'); holder.classList.add('content-holder'); holder.appendChild(text); editor.append(menuBar, holder);
+  ensureStyle(id, awtsmoosStyle); installSaveShortcut(text, self); document.body.appendChild(editor); holder.style.height = `calc(100% - ${menuBar.offsetHeight}px)`; editor.remove(); initCodeMirror(text, extension, value => { coded = value; }); return self;
+};
+function fileMenu(self, system) { return new Map([['New', () => system?.newFile?.(self)], ['Open', () => system?.open?.(self)], ['Save', () => system?.save?.(self)]]); }
+function editMenu(self) { return new Map([['Undo', () => document.execCommand('undo')], ['Redo', () => document.execCommand('redo')], ['Cut', () => document.execCommand('cut')], ['Copy', () => document.execCommand('copy')], ['Copy All', async () => navigator.clipboard?.writeText(self.content())], ['Paste', () => document.execCommand('paste')]]); }
+function awtsmoosMenu(self, { system, path, fileName, extension, os }) {
+  const toast = (text, type, tag, options) => system?.makeToast?.(text, type, tag, options);
+  const menu = new Map([
+    ['Open in New Tab', async () => { openLocalFile(self.content(), fileName); os?.recordGraphEvent?.('file.preview', { path, fileName, mode:'local' }); await toast('Opened local IndexedDB preview. Log in for a permanent public alias URL.', 'info', 'local'); }],
+    ['Get Public URL', async () => copyPublicOrLocalUrl({ path, fileName, content:self.content(), os, toast })],
+    ['Publish Local File', async () => publishLocalFile({ path, fileName, content:self.content(), os, toast })],
+    ['Download', () => download(self.content(), fileName, os, path)]
+  ]);
+  if (extension === '.js') { const run = runner(self); window.customRunFunction = run; menu.set('Run', run); } return menu;
 }
+function runner(self) { return async () => { try { eval(`//B"H
+(async () => { ${self.content()} })()`); } catch (e) { console.error(e); } }; }
+function download(content, fileName, os, path) { const url = URL.createObjectURL(new Blob([content ?? ''])); const a = document.createElement('a'); a.href = url; a.download = fileName; a.click(); URL.revokeObjectURL(url); os?.recordGraphEvent?.('file.download', { path, fileName }); }
+function installSaveShortcut(text, self) { addEventListener('keydown', e => { if (e.target === text && e.ctrlKey && e.code === 'KeyS') { e.preventDefault(); window.customSaveFunction?.(self); } }); }
+function initCodeMirror(text, extension, setCoded) { const type = { '.js':'javascript', '.html':'html', '.css':'css' }[extension]; if (!type) return; setTimeout(() => { const coded = new codeify(text, type); setCoded(coded); coded?.parent?.focus?.(); text?.focus(); }, 300); }
+function createMenu(menuName, actions) { const menu = document.createElement('div'); menu.classList.add('menu-item'); menu.textContent = menuName; const options = document.createElement('div'); options.classList.add('awtsmoos-options'); actions.forEach((func, action) => { const item = document.createElement('div'); item.textContent = action; item.addEventListener('click', func); options.appendChild(item); }); menu.addEventListener('click', e => { e.stopPropagation(); options.style.display = options.style.display === 'block' ? 'none' : 'block'; }); menu.appendChild(options); return menu; }
+function ensureStyle(id, css) { if (document.querySelector(`.${id}`)) return; const style = document.createElement('style'); style.textContent = css; style.classList.add(id); document.head.appendChild(style); }
+/** B"H: text preview, publish, and download now each leave graph footprints. */

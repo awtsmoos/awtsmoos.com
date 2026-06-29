@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import { createTimeline, selectedClip } from '../modules/nle/timeline.js';
+import { moveSelectedClipToNextTrack, nudgeSelectedClip, rippleDeleteSelectedClip, splitSelectedClip, timelineCommandSummary, trimSelectedClipBy } from '../modules/nle/timelineCommands.js';
+
+const timeline = createTimeline();
+const original = selectedClip(timeline);
+assert.ok(original);
+const pair = splitSelectedClip(timeline, .5);
+assert.equal(pair.length, 2);
+assert.equal(selectedClip(timeline).id, pair[1].id);
+const trimmed = trimSelectedClipBy(timeline, -1);
+assert.ok(trimmed.duration < pair[1].duration + 0.001);
+const nudged = nudgeSelectedClip(timeline, 1);
+assert.ok(nudged.start >= pair[1].start);
+const moved = moveSelectedClipToNextTrack(timeline);
+assert.equal(moved.trackId, 'audio-1');
+assert.match(timelineCommandSummary(timeline), /audio-1/);
+const removed = rippleDeleteSelectedClip(timeline);
+assert.equal(removed.id, moved.id);
+console.log('B"H NLE track commands smoke passed');

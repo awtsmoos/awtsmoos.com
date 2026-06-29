@@ -2,11 +2,13 @@
 The NLE view makes time visible: bin sparks above, timeline vessels below.
 */
 import { describeExport } from './exportPlan.js';
+import { timelineCommandSummary } from './timelineCommands.js';
 import { timelineSummary } from './timeline.js';
 export function renderNle(state, dom) {
   const assets = state.bin?.assets || [], tracks = state.timeline?.tracks || [], duration = Math.max(1, state.timeline?.duration || 1);
   dom.nleBin.innerHTML = renderAssets(assets, state);
   dom.nleTimeline.innerHTML = renderTracks(tracks, state, duration);
+  if (dom.nleSelectionSummary) dom.nleSelectionSummary.textContent = timelineCommandSummary(state.timeline);
   dom.nleExport.textContent = exportText(state);
 }
 function renderAssets(assets, state) {

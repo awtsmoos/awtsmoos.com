@@ -4,7 +4,8 @@ export const OBJECT_TYPES = Object.freeze([
   "preview", "mission", "terminal", "browser-tab", "display", "session",
   "input", "permission", "application", "notification", "device",
   "clipboard", "user", "ai", "mount", "transaction", "reference",
-  "scene", "workspace", "taskbar"
+  "scene", "workspace", "taskbar", "civilization", "feed", "post",
+  "comment", "alias", "heichel", "event", "metric", "inspector"
 ]);
 
 export const GRAPH_RIGHTS = Object.freeze([
@@ -22,7 +23,7 @@ export function normalizeList(value) {
 
 /**
  * B"H
- * The browser graph speaks the same nouns as the server mirror. Each noun is a
- * small throne: AI, clipboard, display, mount, taskbar, mission, and window.
- * No object wanders outside the palace without first receiving a name.
+ * The graph now receives social life as native OS speech: feed, post, comment,
+ * alias, heichel, event, metric, inspector, and civilization all enter the same
+ * palace as drives, windows, sessions, mounts, and previews.
  */
