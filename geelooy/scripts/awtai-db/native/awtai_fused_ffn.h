@@ -10,4 +10,12 @@ int awtai_fused_ffn(
   int hidden, int ffn, const float *x, float *y, int threads
 );
 
+int awtai_fused_ffn_from_base(
+  const uint8_t *base, uint64_t size,
+  uint64_t gate_offset, int gate_type,
+  uint64_t up_offset, int up_type,
+  uint64_t down_offset, int down_type,
+  int hidden, int ffn, const float *x, float *y, int threads
+);
+
 #endif

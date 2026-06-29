@@ -3,6 +3,7 @@ Benchmark report: raw encoding numbers become readable guidance.
 The Awtsmoos lets rows gather without a broken newline vessel.
 */
 import { gradeBenchmark, summarizeBenchmark } from './benchmarkGrade.js';
+import { formatCompactBenchmarkRecommendation } from './benchmarkCompactView.js';
 const NL = String.fromCharCode(10);
 
 export function formatSingleBenchmark(result) {
@@ -16,8 +17,7 @@ export function formatSingleBenchmark(result) {
   ].join(NL);
 }
 export function formatBenchmarkMatrix(matrix) {
-  const warnings = matrix.recommendationDetail?.warnings || [];
-  return [matrix.recommendation, ...warnings.map(w => `Warning: ${w}`), '', ...matrix.results.map(row)].join(NL);
+  return [formatCompactBenchmarkRecommendation(matrix), '', 'Detailed results:', ...matrix.results.map(row)].join(NL);
 }
 export function publicMatrixJson(matrix) {
   return { recommendation:matrix.recommendation, recommendationDetail:packDetail(matrix.recommendationDetail), best:pack(matrix.best), results:matrix.results.map(pack) };

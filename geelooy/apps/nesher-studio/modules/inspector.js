@@ -4,6 +4,7 @@ The panel reveals only the vessels relevant to the selected layer.
 */
 import { dom } from './dom.js';
 import { selectedSource } from './graph/sceneGraph.js';
+import { visualizerFamilyLabel } from './visualizer/sourceFamilyLabel.js';
 import { refreshVisualizerInspector } from './visualizer/visualizerInspector.js';
 
 export function refreshInspector(state) {
@@ -26,6 +27,8 @@ function updateCrop(state, key, afterChange) {
 function setCropInputs(crop) { cropEntries().forEach(([key, input]) => { input.value = clampCrop(crop[key]); }); }
 function cropEntries() { return [['left', dom.cropLeft], ['top', dom.cropTop], ['right', dom.cropRight], ['bottom', dom.cropBottom]]; }
 function cropId(key) { return `crop${key[0].toUpperCase()}${key.slice(1)}`; }
-function meta(source) { return `${source.type} · ${Math.round(source.w)}×${Math.round(source.h)} at ${Math.round(source.x)},${Math.round(source.y)}`; }
+function meta(source) { return [baseMeta(source), familyMeta(source)].filter(Boolean).join(' · '); }
+function baseMeta(source) { return `${source.type} · ${Math.round(source.w)}×${Math.round(source.h)} at ${Math.round(source.x)},${Math.round(source.y)}`; }
+function familyMeta(source) { const label = visualizerFamilyLabel(source); return label ? `Visualizer family: ${label}` : ''; }
 function clampCrop(value) { const n = Number(value || 0); return Math.max(0, Math.min(90, Number.isFinite(n) ? Math.round(n) : 0)); }
 function keepCropBreathing(crop) { if (crop.left + crop.right > 95) crop.right = Math.max(0, 95 - crop.left); if (crop.top + crop.bottom > 95) crop.bottom = Math.max(0, 95 - crop.top); }

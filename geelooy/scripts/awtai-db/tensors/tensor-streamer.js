@@ -3,15 +3,15 @@
 const { dequant } = require('../math/dequant.js');
 const { elements } = require('./tensor-shape.js');
 const { TensorByteCache } = require('./tensor-byte-cache.js');
+const { nativeOpenModelMap, nativeCloseModelMap } = require('../native/native-matvec.js');
 
 /**
  * Tensor access layer for the transformer runner.
  *
- * The old Awtsmoos GGUF worker cached loaded weights so one chat would not
- * reread the same mountain thousands of times.  This streamer keeps that
- * covenant while still allowing row-range reads for token embeddings.  Whole
- * projection tensors enter a bounded cache; small norm tensors become float
- * arrays once; the river of bytes no longer circles the same stone forever.
+ * The low-RAM covenant is not to make JavaScript carry mountains of tensor
+ * bytes.  When native mapping is available, this streamer opens one persistent
+ * mmap vessel for the whole `.awtai-db` file so fused native blocks can read
+ * tensor rows from file offsets without materializing raw tensor bodies in JS.
  */
 class TensorStreamer {
   constructor(file, stats, options = {}) {
@@ -19,6 +19,7 @@ class TensorStreamer {
     this.stats = stats;
     this.byteCache = new TensorByteCache(options.cacheBytes || 0);
     this.floatCache = new Map();
+    this.nativeMap = openNativeMap(file);
   }
 
   raw(tensor) {
@@ -38,6 +39,10 @@ class TensorStreamer {
     return bytes;
   }
 
+  offset(tensor) {
+    return this.file.tensorOffset(tensor);
+  }
+
   float(tensor) {
     const key = tensor && tensor.name;
     if (this.floatCache.has(key)) return this.floatCache.get(key);
@@ -49,7 +54,11 @@ class TensorStreamer {
   }
 
   summary() {
-    return { byteCache: this.byteCache.summary(), floatCacheEntries: this.floatCache.size };
+    return {
+      byteCache: this.byteCache.summary(),
+      floatCacheEntries: this.floatCache.size,
+      nativeMap: !!this.nativeMap
+    };
   }
 
   noteRead(length, name) {
@@ -62,7 +71,17 @@ class TensorStreamer {
 
   dispose() {
     this.floatCache.clear();
+    if (this.nativeMap) nativeCloseModelMap(this.nativeMap);
+    this.nativeMap = null;
   }
+}
+
+function openNativeMap(file) {
+  if (/^(0|false|no)$/.test(String(process.env.AWTAI_NATIVE_MODEL_MAP || '1'))) return null;
+  const path = file && file.file && file.file.path;
+  if (!path) return null;
+  try { return nativeOpenModelMap(path); }
+  catch (_) { return null; }
 }
 
 module.exports = { TensorStreamer };

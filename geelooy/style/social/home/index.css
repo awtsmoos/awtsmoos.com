@@ -15,3 +15,5 @@
 @import "./legend/index.css";
 @import "./guards/index.css";
 @import "./premium/index.css";
+@import "./civilization/states.css";
+@import "./civilization/mobile-command.css";

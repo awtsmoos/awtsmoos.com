@@ -2,68 +2,59 @@
 <?<script>
     /**
      * B"H
-     * The Awtsmoos gathers every Heichel into a social-space gallery. This page
-     * remains server-rendered for speed, but its vessels match the new Geelooy
-     * mockup: sacred cards, owner badges, descriptions, and creation flow.
+     * The Awtsmoos gathers every Heichel into a navigable civilization board:
+     * owner state, empty state, metadata, and routes remain server-rendered.
      */
     var alias = $_GET["alias"] || "";
+    var safeAlias = encodeURIComponent(alias || "");
     var doesOwn = false;
     if(alias) {
         var does = await fetchAwtsmoos("/api/social/alias/" + alias + "/ownership");
         if(does && does.yes) doesOwn = true;
     }
-
     function clean(value) {
-        if(!value) return "";
-        return (value + "").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/_/g, " ");
+        return (value || "").toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/_/g, " ");
     }
-
+    function slug(value) { return encodeURIComponent((value || "").toString()); }
     async function getHeichelos() {
         if(!alias) return [];
-        var result = await fetchAwtsmoos(`/api/social/heichelos/searchByAliasOwner/${alias}`);
+        var result = await fetchAwtsmoos("/api/social/heichelos/searchByAliasOwner/" + alias);
         return Array.isArray(result) ? result : [];
     }
-
     function heichelCard(w) {
-        var id = clean(w.id || w.heichelId || "");
-        var name = clean(w.name || id || "Unnamed Realm");
+        var rawId = w.id || w.heichelId || "";
+        var id = clean(rawId);
+        var name = clean(w.name || rawId || "Unnamed Realm");
         var desc = clean(w.description || "A sacred social space waiting for its voice.");
-        return /*html*/`
-            <article class="social-space-card">
-                <div class="space-banner"></div>
-                <div class="space-body">
-                    <div class="space-seal">♛</div>
-                    <div class="space-copy">
-                        <div class="space-title-row"><h2>${name}</h2><span>${doesOwn ? "Owner" : "Space"}</span></div>
-                        <p>${desc}</p>
-                        <div class="space-stats"><span>Members</span><span>Posts</span><span>Series</span></div>
-                    </div>
-                </div>
-                <div class="space-actions">
-                    <a href="/heichelos/${id}/">Open</a>
-                    ${doesOwn ? `<a href="/heichelos/${id}/?editingAlias=${alias}">Manage</a>` : ""}
-                </div>
-            </article>`;
+        var author = clean(w.author || alias || "unknown");
+        var manage = doesOwn ? '<a href="/heichelos/' + slug(rawId) + '/?editingAlias=' + safeAlias + '">Manage</a>' : "";
+        return '<article class="social-space-card" data-heichel-card data-heichel-id="' + id + '">' +
+            '<div class="space-banner"><span>' + (doesOwn ? "Owner surface" : "Public surface") + '</span></div>' +
+            '<div class="space-body"><div class="space-seal" aria-hidden="true">♛</div><div class="space-copy">' +
+            '<div class="space-title-row"><h2>' + name + '</h2><span>' + (doesOwn ? "Owner" : "Space") + '</span></div>' +
+            '<p>' + desc + '</p><div class="space-meta-line"><span>Author: ' + author + '</span><span>ID: ' + (id || "hidden") + '</span></div>' +
+            '<div class="space-stats"><span>Posts</span><span>Series</span><span>Roles</span><span>Submissions</span></div></div></div>' +
+            '<div class="space-actions"><a href="/heichelos/' + slug(rawId) + '/">Open</a><a href="/heichelos/submit?heichel=' + slug(rawId) + '">Submit</a>' + manage + '</div></article>';
     }
-
+    function emptyState() {
+        var message = alias ? "No Heichelos found for @" + clean(alias) + "." : "Choose an alias to reveal its Heichelos.";
+        var href = alias ? "/heichelos/manage-alias-heichelos?alias=" + safeAlias : "/profile";
+        var label = alias ? "Create Heichel" : "Choose Alias";
+        return '<article class="social-empty-card" data-heichelos-empty-state><h2>Quiet palace</h2><p>' + message + '</p><a href="' + href + '">' + label + '</a></article>';
+    }
     var heichelos = await getHeichelos();
-    var cards = heichelos.length ? heichelos.map(heichelCard).join("") : `<article class="social-empty-card">No Heichelos found for @${clean(alias)}.</article>`;
-
+    var cards = heichelos.length ? heichelos.map(heichelCard).join("") : emptyState();
+    var pageTitle = alias ? "@" + clean(alias) + "'s Heichelos" : "Heichelos";
+    var primaryAction = doesOwn ? '<a class="spaces-create" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '">Create Heichel</a>' : alias ? '<a class="spaces-create" href="/@' + safeAlias + '">View Profile</a>' : '<a class="spaces-create" href="/profile">Choose Alias</a>';
     return $a("nav/page.html", {
         centered: false,
-        tochen: /*html*/`
-            <title>@${clean(alias)}'s Heichelos</title>
-            <link rel="stylesheet" href="/style/heichelos/social-index.css">
-            <main class="social-spaces-shell">
-                <section class="spaces-hero">
-                    <div>
-                        <p class="spaces-kicker">Your Sacred Spaces</p>
-                        <h1>${alias ? `@${clean(alias)}'s Heichelos` : "Heichelos"}</h1>
-                        <p>Communities, libraries, series, and living rooms of light across Geelooy.</p>
-                    </div>
-                    ${doesOwn ? `<a class="spaces-create" href="/heichelos/manage-alias-heichelos?alias=${alias}">Create Heichel</a>` : alias ? `<a class="spaces-create" href="/@${alias}">View Profile</a>` : `<a class="spaces-create" href="/profile">Choose Alias</a>`}
-                </section>
-                <section class="spaces-grid" aria-label="Heichelos list">${cards}</section>
-            </main>`
+        tochen: '<title>' + pageTitle + '</title>' +
+            '<link rel="stylesheet" href="/style/heichelos/social-index.css?v=spaces-004">' +
+            '<main class="social-spaces-shell" data-heichelos-index data-heichelos-empty-ready>' +
+            '<section class="spaces-hero" aria-labelledby="spaces-title"><div><p class="spaces-kicker">Sacred Spaces Dashboard</p>' +
+            '<h1 id="spaces-title">' + pageTitle + '</h1><p>Communities, libraries, editor rooms, submissions, post previews, comments, roles, and graph metadata across Geelooy.</p></div>' +
+            '<div class="spaces-command-row">' + primaryAction + '<a class="spaces-secondary" href="/heichelos/submit">Submit Post</a></div></section>' +
+            '<section class="spaces-state-row" aria-label="Heichelos capabilities"><span>Landing</span><span>Roles</span><span>Editors</span><span>Submissions</span><span>Comments</span></section>' +
+            '<section class="spaces-grid" aria-label="Heichelos list">' + cards + '</section></main>'
     });
 </script>?>

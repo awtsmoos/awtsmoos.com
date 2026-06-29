@@ -22,6 +22,13 @@ static int clamp_threads(int threads, int rows) {
   return threads;
 }
 
+static int fits(uint64_t size, uint64_t off, int type, int rows, int cols) {
+  int row = awtai_row_bytes(type, cols);
+  if (row <= 0 || rows <= 0 || off > size) return 0;
+  uint64_t need = (uint64_t)row * (uint64_t)rows;
+  return need <= size - off;
+}
+
 static void *gate_up_worker(void *ptr) {
   aw_ffn_job *job = (aw_ffn_job *)ptr;
   awtai_project_range(job->gate_type, job->gate_raw, job->start, job->end, job->hidden, job->x, job->gate);
@@ -45,6 +52,12 @@ static void project_gate_up(aw_ffn_job *base, int ffn, int threads) {
   for (int t = 0; t < threads; t++) if (active[t]) pthread_join(tids[t], 0);
 }
 
+/*
+ * B"H
+ * Gate and up become flame, down becomes vessel, and the residual will receive
+ * the answer.  This routine keeps the old math but lets callers choose whether
+ * bytes came from JS buffers or from a single native mmap of the model file.
+ */
 int awtai_fused_ffn(int gate_type, const uint8_t *gate_raw, int up_type, const uint8_t *up_raw, int down_type, const uint8_t *down_raw, int hidden, int ffn, const float *x, float *y, int threads) {
   if (!awtai_type_supported(gate_type) || !awtai_type_supported(up_type) || !awtai_type_supported(down_type)) return 0;
   float *gate = (float *)malloc((size_t)ffn * sizeof(float));
@@ -57,4 +70,23 @@ int awtai_fused_ffn(int gate_type, const uint8_t *gate_raw, int up_type, const u
   free(gate);
   free(up);
   return ok;
+}
+
+int awtai_fused_ffn_from_base(
+  const uint8_t *base, uint64_t size,
+  uint64_t gate_offset, int gate_type,
+  uint64_t up_offset, int up_type,
+  uint64_t down_offset, int down_type,
+  int hidden, int ffn, const float *x, float *y, int threads
+) {
+  if (!base) return 0;
+  if (!fits(size, gate_offset, gate_type, ffn, hidden)) return 0;
+  if (!fits(size, up_offset, up_type, ffn, hidden)) return 0;
+  if (!fits(size, down_offset, down_type, hidden, ffn)) return 0;
+  return awtai_fused_ffn(
+    gate_type, base + gate_offset,
+    up_type, base + up_offset,
+    down_type, base + down_offset,
+    hidden, ffn, x, y, threads
+  );
 }

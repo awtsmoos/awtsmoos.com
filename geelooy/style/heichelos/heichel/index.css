@@ -21,3 +21,4 @@
 @import "./visual-polish.css";
 @import "./responsive.css";
 @import "./accessibility.css";
+@import "../revamped-partials/heichel-boot-states.css";

@@ -4,44 +4,42 @@ return $a("/nav/page.html", {
   centered: false,
   footer: true,
   tochen: /*html*/`
-    <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-003">
-    <link rel="stylesheet" href="/style/social/home/index.css?v=legend-003">
-    <main class="geelooy-home-shell legend-page-enter awtsmoos-civilization-dashboard" data-civilization-dashboard>
+    <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-004">
+    <link rel="stylesheet" href="/style/social/home/index.css?v=legend-004">
+    <main class="geelooy-home-shell legend-page-enter awtsmoos-civilization-dashboard" data-civilization-dashboard data-home-dashboard data-home-reduced-motion-safe>
       <div class="home-ambient-orb home-ambient-orb-one" aria-hidden="true"></div>
       <div class="home-ambient-orb home-ambient-orb-two" aria-hidden="true"></div>
 
-      <aside class="home-sanctuary-card civilization-command-card">
+      <aside class="home-sanctuary-card civilization-command-card" aria-labelledby="home-awtsmoos-title">
         <div class="home-logo-mark beauty-seal" aria-hidden="true">⚬</div>
         <p class="home-kicker">Awtsmoos Civilization OS</p>
-        <h1>Geelooy</h1>
-        <p class="home-hero-copy">A living social palace for heichelos, aliases, posts, comments, graph edges, notifications, messages, search, objects, and events.</p>
-
-        <form class="home-command-galaxy" data-home-command>
-          <label class="home-command-label" for="home-global-search">Search the living archive</label>
+        <h1 id="home-awtsmoos-title">Geelooy</h1>
+        <p class="home-hero-copy">A living dashboard for heichelos, aliases, posts, comments, graph edges, notifications, messages, object search, and API signals.</p>
+        <form class="home-command-galaxy" data-home-command data-home-search role="search">
+          <label class="home-command-label" for="home-global-search">Reveal the living archive</label>
           <div class="home-search-vessel">
-            <input id="home-global-search" name="q" type="search" placeholder="Search posts, heichelos, aliases..." aria-label="Search Geelooy" />
+            <input id="home-global-search" name="q" type="search" placeholder="Search posts, heichelos, aliases, graph objects..." autocomplete="off" aria-label="Search Geelooy" />
             <button type="submit">Reveal</button>
           </div>
+          <p class="home-search-hint">Try an alias, heichel id, post title, comment phrase, or graph object.</p>
         </form>
-
         <nav class="home-side-links" aria-label="Primary home actions">
-          <a href="/profile"><span>Your Profile</span><small>Identity and aliases</small></a>
-          <a href="/heichelos"><span>Your Heichelos</span><small>Rooms of thought</small></a>
-          <a href="/email"><span>Messages</span><small>Letters and replies</small></a>
+          <a href="/profile"><span>Your Profile</span><small>Identity, aliases, history</small></a>
+          <a href="/heichelos"><span>Heichelos</span><small>Rooms, roles, submissions</small></a>
+          <a href="/notifications"><span>Notifications</span><small>Unread signals</small></a>
           <a href="/heichelos/submit"><span>Create Post</span><small>Send a new spark</small></a>
         </nav>
-
         <section class="home-hero-stats" aria-label="Platform highlights">
           <article><strong>Live</strong><span>Feed runtime</span></article>
           <article><strong>Graph</strong><span>Connected objects</span></article>
-          <article><strong>OS</strong><span>Awtsmoos tools</span></article>
+          <article><strong>Safe</strong><span>Motion aware</span></article>
         </section>
       </aside>
 
-      <section class="home-feed-phone beauty-reveal civilization-feed-orb">
+      <section class="home-feed-phone beauty-reveal civilization-feed-orb" aria-labelledby="home-live-title">
         <header class="home-feed-header">
           <a class="home-menu-button" href="/heichelos" aria-label="Open Heichelos">☰</a>
-          <div class="home-feed-title"><strong>Geelooy Live</strong><span>Signals from the civilization stream</span></div>
+          <div class="home-feed-title"><strong id="home-live-title">Geelooy Live</strong><span>Signals from the civilization stream</span></div>
           <a class="home-profile-pill" href="/profile">Profile</a>
         </header>
         <nav class="home-feed-tabs civilization-layer-tabs" aria-label="Feed tabs">
@@ -51,7 +49,12 @@ return $a("/nav/page.html", {
           <button type="button" data-feed-mode="civilization">Civilization</button>
           <button type="button" data-feed-mode="search">Search</button>
         </nav>
-        <article class="home-composer"><span aria-hidden="true"></span><a href="/heichelos/submit">What's being revealed in your world?</a></article>
+        <article class="home-composer"><span aria-hidden="true"></span><a href="/heichelos/submit">What is being revealed in your world?</a></article>
+        <section class="home-status-rail" aria-label="Runtime states">
+          <article class="home-state-card" data-home-loading-state><strong>Loading</strong><span>Live feed opens safely.</span></article>
+          <article class="home-state-card" data-home-empty-state><strong>Empty</strong><span>Clear actions appear.</span></article>
+          <article class="home-state-card" data-home-error-state><strong>Error</strong><span>Failures stay readable.</span></article>
+        </section>
         <section class="civilization-metrics" data-civilization-metrics aria-live="polite"></section>
         <section class="home-feed-list" data-home-feed aria-live="polite">
           <article class="home-post-card home-feed-loading" data-feed-placeholder="live">
@@ -61,17 +64,25 @@ return $a("/nav/page.html", {
         </section>
       </section>
 
-      <aside class="home-discovery-card civilization-object-inspector" data-object-inspector id="awtsmoos-object-inspector">
+      <aside class="home-discovery-card civilization-object-inspector" data-object-inspector id="awtsmoos-object-inspector" aria-labelledby="home-inspector-title">
         <p class="home-kicker">Object Inspector</p>
-        <h2>Choose a living object</h2>
-        <p>Open any live card to reveal its object shape, route, graph hints, civilization state, and raw metadata.</p>
+        <h2 id="home-inspector-title">Choose a living object</h2>
+        <p>Open any live card to reveal route, graph hints, civilization state, and raw metadata.</p>
         <div class="home-inspector-chips" aria-label="Inspector capabilities"><span>Route</span><span>Graph</span><span>State</span><span>Raw</span></div>
-        <div class="object-inspector-body" data-object-inspector-body></div>
+        <div class="object-inspector-body" data-object-inspector-body>
+          <section class="object-inspector-section home-inspector-empty"><h3>Awaiting selection</h3><p>Keyboard users can focus a card and press Enter to inspect it.</p></section>
+        </div>
+        <nav class="home-route-constellation" aria-label="Civilization routes">
+          <a class="home-route-card" href="/heichelos">Heichelos</a>
+          <a class="home-route-card" href="/profile">Profiles</a>
+          <a class="home-route-card" href="/notifications">Alerts</a>
+          <a class="home-route-card" href="/api/social/packed/stats">Packed API</a>
+        </nav>
       </aside>
     </main>
-    <script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=legend-003"></script>
-    <script type="module" src="/scripts/awtsmoos/social/home/beauty/index.js?v=legend-003"></script>
-    <script type="module" src="/scripts/awtsmoos/social/home/legend/index.js?v=legend-003"></script>
+    <script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=legend-004"></script>
+    <script type="module" src="/scripts/awtsmoos/social/home/beauty/index.js?v=legend-004"></script>
+    <script type="module" src="/scripts/awtsmoos/social/home/legend/index.js?v=legend-004"></script>
     <script src="/register.js"></script>
   `
 })

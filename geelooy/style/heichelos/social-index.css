@@ -2,6 +2,7 @@
  * Chapter 19: My Heichelos becomes the sacred spaces board.
  */
 @import "/style/heichelos/class-coverage/index.css";
+@import "./spaces/civilization-board.css";
 :root {
     --spaces-bg: #080c1a;
     --spaces-card: #fffaf1;
@@ -11,7 +12,6 @@
     --spaces-line: rgba(67,46,24,.14);
     --spaces-shadow: 0 1.2rem 3rem rgba(8,10,24,.24);
 }
-
 body { background: radial-gradient(circle at 18% 0%, #25173a, var(--spaces-bg) 45%, #050712); }
 a { text-decoration: none; }
 .social-spaces-shell { width: min(74rem, calc(100vw - 1rem)); margin: 1rem auto 5rem; display: grid; gap: 1rem; color: #171624; }
@@ -21,7 +21,7 @@ a { text-decoration: none; }
 .spaces-kicker { margin: 7rem 0 .2rem; color: var(--spaces-gold); font-weight: 950; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
 .spaces-hero h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.6rem); letter-spacing: -.06em; }
 .spaces-hero p:not(.spaces-kicker) { margin: .35rem 0 0; color: var(--spaces-muted); max-width: 42rem; line-height: 1.55; }
-.spaces-create { border-radius: .95rem; padding: .85rem 1.05rem; background: linear-gradient(135deg, #5c3414, #9b6a2f); color: #fffaf1; font-weight: 900; white-space: nowrap; }
+.spaces-create, .spaces-secondary { border-radius: .95rem; padding: .85rem 1.05rem; background: linear-gradient(135deg, #5c3414, #9b6a2f); color: #fffaf1; font-weight: 900; white-space: nowrap; }
 .spaces-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1rem; }
 .social-space-card, .social-empty-card { border-radius: 1.45rem; background: linear-gradient(160deg, #fffdf7, #f8f0e2); border: 1px solid var(--spaces-line); box-shadow: 0 .45rem 1.2rem rgba(25,20,11,.08); overflow: hidden; }
 .space-banner { min-height: 7rem; background: linear-gradient(135deg, rgba(14,19,43,.94), rgba(185,133,63,.48)), radial-gradient(circle at 70% 20%, rgba(245,202,112,.65), transparent 8rem); }
