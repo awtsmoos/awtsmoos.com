@@ -57,7 +57,7 @@ function flushProgress() { progressTimer = null; const next = pendingProgress; p
 function queueProgress(stage, payload) {
   const data = { ...(payload || {}), stage, at:Date.now() };
   if (FINAL_STAGES.has(stage) || stage.includes("ready-for-first-render")) { pendingProgress = null; if (progressTimer) clearTimeout(progressTimer); progressTimer = null; LoadingProgress.workerProgress(data); return; }
-  pendingProgress = data; if (!progressTimer) progressTimer = setTimeout(flushProgress, 80);
+  pendingProgress = data; if (!progressTimer) progressTimer = setTimeout(flushProgress, 16);
 }
 export function recordWorkerProgress(stage, payload = null) {
   const store = ensureWorkerProgressStore(), at = Date.now(), cleanPayload = clonePayload(payload);

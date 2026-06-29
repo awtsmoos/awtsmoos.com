@@ -57,17 +57,32 @@ function paint(input = {}) {
   setRadialLoad(); record(input.log || input.subAction || stage);
   if (state.finalReady || stage === "world_final_ready") scheduleHide(60);
 }
-export function update(input = {}) { if (state.hidden) return; if (shouldQuiesceNow()) return markFinalReady("playable update gate"); pending = { ...(pending || {}), ...input }; if (paintQueued) return; paintQueued = true; const flush = () => { paintQueued = false; const next = pending; pending = null; paint(next || {}); }; (typeof requestAnimationFrame === "function" ? requestAnimationFrame : setTimeout)(flush, 16); }
+export function update(input = {}) {
+  if (state.hidden) return;
+  if (shouldQuiesceNow()) return markFinalReady("playable update gate");
+  pending = { ...(pending || {}), ...input };
+  if (paintQueued) return;
+  paintQueued = true;
+  const flush = () => { paintQueued = false; const next = pending; pending = null; paint(next || {}); };
+  (typeof requestAnimationFrame === "function" ? requestAnimationFrame : setTimeout)(flush, 16);
+}
 export function workerProgress(data = {}) { update({ stage:String(data.stage || data.text || "worker"), action:title(String(data.stage || "worker")), subAction:data.label || data.stage }); }
 export function textureProgress(data = {}) { update({ stage:`texture:${data.stage || "progress"}`, texture:clamp(data.percent), textureLabel:`${data.type || data.kind || "texture"} ${clamp(data.percent)}%` }); }
-export function markFinalReady(reason = "first rendered frame confirmed") { if (state.hidden) return; state.finalReady = true; state.total = state.world = state.worker = state.texture = 100; scheduleHide(reason === "instant" ? 0 : 40); }
+export function markFinalReady(reason = "first rendered frame confirmed") {
+  if (state.hidden) return;
+  state.finalReady = true; state.total = state.world = state.worker = state.texture = 100;
+  writeWidth(IDS.total, 100); writeWidth(IDS.world, 100); writeWidth(IDS.worker, 100); writeWidth(IDS.texture, 100);
+  writeText(IDS.percent, "100%"); writeText(IDS.action, "World ready"); writeText(IDS.sub, reason);
+  setRadialLoad(); scheduleHide(reason === "instant" ? 0 : 40);
+}
 export function hideLoading() { markFinalReady("hide requested"); }
 export function scheduleHide(ms = 40) { if (hideTimer || state.hidden) return; hideTimer = setTimeout(reallyHide, ms); }
 function removeAll(selector) { doc()?.querySelectorAll?.(selector)?.forEach(node => node.remove()); }
 function reallyHide() {
   if (state.hidden) return;
   state.hidden = true; pending = null; stopLoadingHeartbeat();
-  removeAll(".loading,.loadingContent,.menu .rectangle");
+  doc()?.querySelectorAll?.(".loading").forEach(node => node.classList.add("awtsmoos-loading-out"));
+  setTimeout(() => removeAll(".loading,.loadingContent,.menu .rectangle"), 90);
   doc()?.querySelectorAll?.(".menu.hidden.offscreen").forEach(node => node.remove());
   doc()?.documentElement?.classList?.add?.("awtsmoos-gameplay-dom-quiet");
 }
@@ -76,7 +91,10 @@ export function startLoadingHeartbeat() { if (heartbeat || !doc() || state.hidde
 export function stopLoadingHeartbeat() { if (heartbeat) clearInterval(heartbeat); heartbeat = null; }
 function noteInput() { if (!state.firstInputAt) state.firstInputAt = Date.now(); }
 if (typeof window !== "undefined") {
-  window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress, textureProgress, hideLoading, markFinalReady, seal:"early-gameplay-dom-quiet-20260624-bh2" };
+  const earlyQueue = Array.isArray(window.__AWTSMOOS_EARLY_LOADING_QUEUE__) ? window.__AWTSMOOS_EARLY_LOADING_QUEUE__.slice(-24) : [];
+  window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress, textureProgress, hideLoading, markFinalReady, seal:"real-progress-vortex-20260629-bh1" };
+  window.__AWTSMOOS_LOADING_BRIDGE_READY__ = true;
+  earlyQueue.forEach(item => update(item));
   window.addEventListener("awtsmoos-texture-progress", event => textureProgress(event.detail || {}));
   window.addEventListener("keydown", noteInput, { capture:true, passive:true });
   window.addEventListener("pointerdown", noteInput, { capture:true, passive:true });

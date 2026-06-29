@@ -3,17 +3,17 @@
 /**
  * B"H
  * The city may contain multitudes, yet the eye receives a measured procession.
- * These caps keep the revealed world readable before the adaptive governor even
- * begins to shed quality under stress.
+ * The Awtsmoos hides no beauty; it only spaces each spark so the browser can
+ * keep chanting at speed while the world remains legible.
  */
 const PRESETS = {
-  low: { maxObjects: 72, drawDistance: 1040, cameraCut: 210 },
-  medium: { maxObjects: 160, drawDistance: 1420, cameraCut: 250 },
-  high: { maxObjects: 190, drawDistance: 1740, cameraCut: 300 }
+  low: { maxObjects: 60, drawDistance: 980, cameraCut: 210 },
+  medium: { maxObjects: 132, drawDistance: 1340, cameraCut: 250 },
+  high: { maxObjects: 162, drawDistance: 1640, cameraCut: 300 }
 };
 
 export function renderSettings(perf = 'medium', quality = 1) {
   const p = PRESETS[perf] || PRESETS.medium;
   const q = Math.max(0.42, Math.min(1, quality));
-  return { maxObjects: Math.max(48, Math.floor(p.maxObjects * q)), drawDistance: p.drawDistance * (0.7 + q * 0.3), cameraCut: p.cameraCut };
+  return { maxObjects: Math.max(44, Math.floor(p.maxObjects * q)), drawDistance: p.drawDistance * (0.68 + q * 0.32), cameraCut: p.cameraCut };
 }

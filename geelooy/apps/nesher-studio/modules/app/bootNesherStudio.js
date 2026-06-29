@@ -7,6 +7,7 @@ import { dom, setStatus, setStreamHealth, setProviderUi } from '../dom.js';
 import { bindDragging, drawStage, refreshSources, resizeStage } from '../stage.js';
 import { bindScenes } from '../scenes.js';
 import { bindCropControls } from '../inspector.js';
+import { bindEncodingBenchmarkPanel } from '../encodingBenchmark/benchmarkPanel.js';
 import { renderNle } from '../nle/renderNle.js';
 import { bindVisualizerControls } from '../visualizer/visualizerInspector.js';
 import { bindCanvasSizing, startStageClock } from './canvasBindings.js';
@@ -19,16 +20,13 @@ import { bindRecordingControls, setupRecordingProfiles } from './recordingBindin
 import { bindSourceControls } from './sourceBindings.js';
 
 export function bootNesherStudio() {
-  const state = createState();
-  const changed = message => refreshStudio(state, message);
+  const state = createState(); const changed = message => refreshStudio(state, message);
   ensureNleState(state); resizeStage(state); bindDragging(state); bindScenes(state); refreshSources(state);
-  setupRecordingProfiles({ dom, state }); setupProviders({ dom, state, setProviderUi });
-  bindCanvasSizing({ dom, state, resizeStage, setStatus }); bindCropControls(state, changed);
-  bindVisualizerControls(state, changed); renderNle(state, dom); setStreamHealth();
-  bindSourceControls({ dom, state, changed, setStatus }); bindLayerControls({ dom, state, changed });
-  bindRecordingControls({ dom, state }); bindProviderControls({ dom, state, setProviderUi });
-  bindNleControls({ dom, state, setStatus }); createGenericHlsController(createStreamVessel(state)).bind();
-  startStageClock({ state, drawStage }); return state;
+  setupRecordingProfiles({ dom, state }); setupProviders({ dom, state, setProviderUi }); bindCanvasSizing({ dom, state, resizeStage, setStatus });
+  bindCropControls(state, changed); bindVisualizerControls(state, changed); bindEncodingBenchmarkPanel({ dom, state, setStatus });
+  renderNle(state, dom); setStreamHealth(); bindSourceControls({ dom, state, changed, setStatus }); bindLayerControls({ dom, state, changed });
+  bindRecordingControls({ dom, state }); bindProviderControls({ dom, state, setProviderUi }); bindNleControls({ dom, state, setStatus });
+  createGenericHlsController(createStreamVessel(state)).bind(); startStageClock({ state, drawStage }); return state;
 }
 function createStreamVessel(state) { return { dom, state, setStatus, setStreamHealth, drawStage, tunnelBase:readTunnelBase() }; }
 function refreshStudio(state, message) { refreshSources(state); drawStage(state); setStatus(message); }

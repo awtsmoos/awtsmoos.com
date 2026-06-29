@@ -10,7 +10,7 @@ export const dom = {
   streamCodec:el('streamCodec'), streamState:el('streamState'), streamSession:el('streamSession'), streamFrames:el('streamFrames'), streamSegments:el('streamSegments'), streamUploaded:el('streamUploaded'), streamErrors:el('streamErrors'),
   inspectorName:el('inspectorName'), inspectorMeta:el('inspectorMeta'), cropControls:el('cropControls'), cropLeft:el('cropLeft'), cropTop:el('cropTop'), cropRight:el('cropRight'), cropBottom:el('cropBottom'), cropReset:el('cropReset'),
   visualizerControls:el('visualizerControls'), visualizerPreset:el('visualizerPreset'), visualizerInput:el('visualizerInput'), visualizerSensitivity:el('visualizerSensitivity'), visualizerBars:el('visualizerBars'), visualizerText:el('visualizerText'), visualizerCustomJs:el('visualizerCustomJs'), visualizerReset:el('visualizerReset'),
-  nleBin:el('nleBin'), nleTimeline:el('nleTimeline'), nleExport:el('nleExport'), addBinAsset:el('addBinAsset'), addTimelineClip:el('addTimelineClip'), prepareExport:el('prepareExport')
+  nleBin:el('nleBin'), nleTimeline:el('nleTimeline'), nleExport:el('nleExport'), addBinAsset:el('addBinAsset'), addTimelineClip:el('addTimelineClip'), prepareExport:el('prepareExport'), runEncodingBenchmark:el('runEncodingBenchmark'), encodingBenchmarkOutput:el('encodingBenchmarkOutput')
 };
 export const ctx = dom.stage.getContext('2d', { alpha:false });
 export function setStatus(text) { dom.status.textContent = text; }

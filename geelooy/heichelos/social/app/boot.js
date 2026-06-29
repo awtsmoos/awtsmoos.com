@@ -173,9 +173,11 @@ function focusComposer(doc, post) {
 function savePost(post) {
     const key = 'awtsmoos-social-saved';
     const id = post.contentId || post.id || post.title || Date.now();
-    const stored = JSON.parse(globalThis.localStorage?.getItem(key) || '[]');
+    const storage = safeLocalStorage();
+    const stored = JSON.parse(storage?.getItem(key) || '[]');
     if (!stored.includes(id)) stored.push(id);
-    globalThis.localStorage?.setItem(key, JSON.stringify(stored));
+    storage?.setItem(key, JSON.stringify(stored));
+    return stored;
 }
 
 async function sharePost(post) {
@@ -183,4 +185,8 @@ async function sharePost(post) {
     const title = post.title || 'Awtsmoos Social';
     if (globalThis.navigator?.share) return globalThis.navigator.share({ title, url });
     if (globalThis.navigator?.clipboard) return globalThis.navigator.clipboard.writeText(url);
+}
+
+function safeLocalStorage() {
+    try { return globalThis.localStorage || null; } catch { return null; }
 }

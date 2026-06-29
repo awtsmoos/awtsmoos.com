@@ -1,0 +1,7 @@
+<!-- B"H -->
+<!doctype html><meta charset="utf-8"><title>Nesher Encoding Benchmark</title><body style="font-family:system-ui;background:#071120;color:#eaf2ff;padding:24px"><h1>B"H Nesher WebCodecs Benchmark Matrix</h1><button id="run">Run Matrix</button><pre id="out">Ready.</pre><script type="module">
+import { runEncodingBenchmarkMatrix } from '../modules/encodingBenchmark/benchmarkMatrix.js';
+import { formatBenchmarkMatrix, publicMatrixJson } from '../modules/encodingBenchmark/benchmarkReport.js';
+async function run(){ out.textContent = 'running matrix...'; const m = await runEncodingBenchmarkMatrix(undefined, r => out.textContent = `${r.label} done...`); const payload = { text:formatBenchmarkMatrix(m), ...publicMatrixJson(m) }; out.textContent = JSON.stringify(payload, null, 2); document.body.dataset.done = '1'; }
+run.onclick = run; if (new URLSearchParams(location.search).get('auto') === '1') run().catch(e => { out.textContent = 'ERROR:' + e.message; document.body.dataset.done = 'error'; });
+</script></body>

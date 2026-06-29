@@ -16,7 +16,7 @@ export function createDraft(seed = {}) {
 export function addSection(draft, input = {}) { return addVerse(draft, input); }
 export function addVerse(draft, input = {}) {
   const next = cloneDraft(draft); const order = next.verses.length;
-  next.verses.push(normalizeVerse({ id: `verse-${order}`, verseSection: `v${order + 1}`, order, ...input }));
+  next.verses.push(normalizeVerse({ id: `section-${order}`, verseSection: `section-${order}`, order, ...input }, order));
   next.sections = next.verses; return next;
 }
 export function updateSection(draft, sectionId, changes = {}) { return updateVerse(draft, sectionId, changes); }

@@ -3,15 +3,20 @@ import { hsl, heightAt } from '../math.js';
 import { quality } from '../performance.js';
 import { cmd } from './command.js';
 
-/** B"H: Terrain detail bows first when the frame needs air. */
+/**
+ * B"H
+ * The ground still sings beneath the player, but its chorus waits for spare
+ * breath. Roads remain as navigation bones; ornamental patches appear only when
+ * the frame has room to reveal them without swallowing motion.
+ */
 export function terrainCommands(commands, world) {
   const hue = world.level.hue;
   const q = quality(world);
   commands.push(cmd('plane', [0, -20, 0], [world.level.bounds, 1, world.level.bounds], 0, hsl(hue, 52, 10), 1, 0));
-  const lanes = q > 0.68 ? 2 : 1;
+  const lanes = q > 0.78 ? 2 : q > 0.52 ? 1 : 0;
   for (let x = -lanes; x <= lanes; x += 1) addRoad(commands, world, x, true);
   for (let y = -lanes; y <= lanes; y += 1) addRoad(commands, world, y, false);
-  if (q > 0.48) for (let x = -1; x <= 1; x += 1) for (let y = -1; y <= 1; y += 1) addPatch(commands, world, x, y);
+  if (q > 0.72) for (let x = -1; x <= 1; x += 1) for (let y = -1; y <= 1; y += 1) addPatch(commands, world, x, y);
 }
 
 function addRoad(commands, world, lane, vertical) {

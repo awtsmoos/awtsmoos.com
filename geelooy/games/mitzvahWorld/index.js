@@ -146,7 +146,23 @@ async function installBrowserHelpers() {
     window.__MITZVAH_LIVING_WORLD_UI_PULSE__ = pulse.installLivingWorldUiPulse?.(window, { minIntervalMs:1500, reason:"browser-helper-install" });
   } catch (e) { window.__MITZVAH_LIVING_WORLD_UI_PULSE_ERROR__ = safeClone(e); }
 }
-function bootIkarNow() { if (bootStarted || typeof window === "undefined" || !window.document) return; bootStarted = true; window.__AWTSMOOS_BOOT_STARTED__ = { at:new Date().toISOString(), readyState:document.readyState, seal:SEAL }; installSoloWowUiBridge(); installBrowserHelpers(); const url = `./ckidsAwtsmoos/ikar.js?compact=true&bh=${SEAL}`; import(url).then(m => { window.__AWTSMOOS_BOOT_LOADED__ = { at:new Date().toISOString(), keys:Object.keys(m || {}).slice(0, 20), seal:SEAL }; }).catch(e => describeAwtsmoosError(e, { label:"Index [Main]: Failed to load UI starter", phase:"dynamic import", moduleURL:new URL(url, import.meta.url).href })); }
+function bootIkarNow() {
+  if (bootStarted || typeof window === "undefined" || !window.document) return;
+  bootStarted = true;
+  window.__AWTSMOOS_BOOT_STARTED__ = { at:new Date().toISOString(), readyState:document.readyState, seal:SEAL };
+  window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:ui-bridge", total:28, action:"Preparing world controls...", subAction:"UI bridge installed" });
+  installSoloWowUiBridge();
+  installBrowserHelpers();
+  const url = `./ckidsAwtsmoos/ikar.js?compact=true&bh=${SEAL}`;
+  window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:import:start", total:32, action:"Importing world engine...", subAction:"ckidsAwtsmoos/ikar.js" });
+  import(url).then(m => {
+    window.__AWTSMOOS_BOOT_LOADED__ = { at:new Date().toISOString(), keys:Object.keys(m || {}).slice(0, 20), seal:SEAL };
+    window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:import:done", total:44, action:"World engine ready", subAction:"worker and canvas handshake next" });
+  }).catch(e => {
+    window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:import:error", total:100, action:"World engine failed", subAction:e?.message || String(e) });
+    describeAwtsmoosError(e, { label:"Index [Main]: Failed to load UI starter", phase:"dynamic import", moduleURL:new URL(url, import.meta.url).href });
+  });
+}
 window.addEventListener("error", e => describeAwtsmoosError(e.error || e.message, { label:"Global error", phase:"window.error", moduleURL:e.filename, line:e.lineno, column:e.colno }));
 window.addEventListener("unhandledrejection", e => describeAwtsmoosError(e.reason, { label:"Unhandled promise rejection", phase:"window.unhandledrejection" }));
 export async function heescheel(ctx) { if (trace()) console.info("B\"H - Index [Worker]: data-driven level hook.", Boolean(ctx)); }
