@@ -2,11 +2,11 @@
 
 /**
  * B"H
- * Chapter 18: The raw actions became named instruments.
+ * Chapter 19: The catalog learned guarded remote sight.
  *
- * Each action stays powerful, but the Awtsmoos places it in a visible catalog
- * before any form appears. The operator chooses first; only then does the field
- * vessel open.
+ * Share links, remote drives, preview receipts, and fake SSH are visible now,
+ * but every label reminds the operator that scope, expiry, audit, and revoke
+ * are the gates before any remote world opens.
  */
 export const ACTION_CATALOG = Object.freeze([
   action("list", "List files", "Show directory entries.", "Files", ["safe"], { path: "." }),
@@ -16,6 +16,20 @@ export const ACTION_CATALOG = Object.freeze([
   action("bulk", "Bulk read", "Read selected paths only.", "Files", ["advanced"], { path: ".", needsBulk: true }),
   action("write", "Write file", "Rewrite one complete file.", "Files", ["advanced"], { path: "notes.txt", needsContent: true }),
   action("bulkWrite", "Bulk write", "Rewrite multiple complete files.", "Files", ["advanced"], { path: ".", needsBulkWrite: true }),
+  action("sharePreviewFile", "Share file preview", "Create a scoped expiring secret URL for one file.", "Remote Preview", ["share","safe"], { path: "README.md", ttlSeconds: 1800 }),
+  action("sharePreviewServer", "Share local server", "Create a scoped live URL for a local server preview.", "Remote Preview", ["share","proxy"], { port: 3000, ttlSeconds: 1800 }),
+  action("sharePreviewCommandJob", "Share command receipt", "Create a scoped URL for command job output only.", "Remote Preview", ["share","receipt"], { jobId: "", ttlSeconds: 1800 }),
+  action("shareList", "List shares", "List active scoped shares for this root.", "Remote Preview", ["status"], { path: "." }),
+  action("shareRevoke", "Revoke share", "Revoke one share by id or token.", "Remote Preview", ["safe"], { id: "" }),
+  action("shareRevokeAll", "Revoke all shares", "Close every scoped share for this root.", "Remote Preview", ["danger-safe"], { path: "." }),
+  action("shareAudit", "Share audit", "Read scoped-share audit events.", "Remote Preview", ["status"], { limit: 100 }),
+  action("remoteDriveList", "Remote drives", "List owner-scoped read-only mounted roots.", "Remote Drive", ["safe"], { path: "." }),
+  action("remoteDriveTree", "Remote drive tree", "Browse a bounded tree through the drive guard.", "Remote Drive", ["safe"], { path: ".", depth: 2, limit: 120 }),
+  action("remoteDriveRead", "Remote drive read", "Read a non-secret file through the drive guard.", "Remote Drive", ["safe"], { path: "README.md" }),
+  action("fakeSshMounts", "Fake SSH mounts", "Show virtual SSH mount layout.", "Remote Drive", ["ssh","safe"], { cwd: "/" }),
+  action("fakeSshResolve", "Fake SSH resolve", "Resolve a virtual SSH path to a guarded root path.", "Remote Drive", ["ssh"], { cwd: "/tunnels/local", path: "." }),
+  action("previewReceiptAttach", "Attach preview receipt", "Attach a live preview URL as Mission OS evidence.", "Mission", ["receipt"], { needsMissionId: true, nodeId: "", url: "" }),
+  action("previewReceiptVerify", "Verify preview receipt", "Record remote preview verification for release court.", "Mission", ["receipt","verify"], { needsMissionId: true, nodeId: "", url: "", verified: true }),
   action("configGet", "Get config", "Inspect tunnel config.", "System", ["safe"], { path: "." }),
   action("runtimeSnapshot", "Runtime snapshot", "Capture runtime state.", "System", ["status"], { path: "." }),
   action("actionHistoryList", "Action history", "List recent action history.", "System", ["status"], { path: "." }),
@@ -36,19 +50,4 @@ export const ACTION_CATALOG = Object.freeze([
   action("commandBatch", "Command batch", "Run approved command batches.", "Automation", ["advanced"], { path: "." }),
   action("browserDoctor", "Browser doctor", "Diagnose browser control.", "Automation", ["browser"], { path: "." })
 ]);
-
-/**
- * B"H
- * Builds an action record.
- *
- * @param {string} name Action name.
- * @param {string} title UI title.
- * @param {string} desc Description.
- * @param {string} group Group.
- * @param {string[]} badges Badges.
- * @param {object} defaults Defaults.
- * @returns {object} Action metadata.
- */
-function action(name, title, desc, group, badges, defaults) {
-  return { name, title, desc, group, badges, defaults };
-}
+function action(name, title, desc, group, badges, defaults) { return { name, title, desc, group, badges, defaults }; }

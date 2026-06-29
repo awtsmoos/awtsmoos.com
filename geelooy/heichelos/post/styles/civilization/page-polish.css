@@ -1,17 +1,16 @@
 /* B"H
- * Chapter 604: Civilization polish bows before ideal ownership. This layer
- * shapes broad reading comfort only; sacred sidebar and view domains remain in
- * the ideal/reborn palace that owns them.
+ * Chapter 573: The reader becomes a civilization scroll: calmer measure, clearer
+ * focus, softer panels, and mobile respect without breaking reborn modules.
  */
 :root {
-  --reader-civ-glow: 0 18px 70px rgba(0,0,0,.18), 0 0 30px rgba(0,140,255,.08);
-  --reader-civ-ring: rgba(0,140,255,.32);
+  --reader-civ-glow: 0 18px 70px rgba(0,0,0,.18), 0 0 30px rgba(0, 140, 255, .08);
+  --reader-civ-ring: rgba(0, 140, 255, .32);
 }
 html { scroll-behavior: smooth; }
 body { text-rendering: optimizeLegibility; overflow-wrap: anywhere; }
 main, article, .reader, .post-reader, .post-content, .content, #content { line-height: 1.68; }
 article img, .post-content img, .content img, .reader img, video, iframe { max-width: 100%; height: auto; border-radius: clamp(10px, 2vw, 18px); }
-article, .post-shell, .reader-shell, .comments-panel, .comment-card, .inline-comment, .ai-thread, .settings-panel { box-shadow: var(--reader-civ-glow); }
+article, .post-shell, .reader-shell, .comments-panel, .comment-card, .inline-comment, .ai-thread, .settings-panel, .sidebar-panel { box-shadow: var(--reader-civ-glow); }
 a:focus-visible, button:focus-visible, summary:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--reader-civ-ring); outline-offset: 3px; box-shadow: 0 0 0 7px rgba(0,140,255,.10); }
 button, a, summary, [role="button"] { touch-action: manipulation; }
 pre, code { max-width: 100%; }

@@ -7,4 +7,5 @@ export const STARTER_MISSIONS = Object.freeze([
   { id:'clarify_kind_rumor', title:'Clarify the Kind Rumor', trigger:'rumor_distorted', place:'market_square', objectives:[{kind:'clarify_truth',needed:1,done:0}], reward:{reputation:{village:1}, memory:'honesty'} }
 ]);
 export function missionsForState(state={}){ const out=[]; if((state.economy?.bread||0)<3) out.push(STARTER_MISSIONS[0]); if(state.villageProjects?.farmerSick) out.push(STARTER_MISSIONS[1]); if((state.villageProjects?.benchRepair||0)<1) out.push(STARTER_MISSIONS[2]); if((state.rumors||[]).some(r=>r.distortionAmount>=0.5)) out.push(STARTER_MISSIONS[3]); return out; }
+export function getMission(id){ return STARTER_MISSIONS.find(m => m.id === id) || null; }
 export default STARTER_MISSIONS;

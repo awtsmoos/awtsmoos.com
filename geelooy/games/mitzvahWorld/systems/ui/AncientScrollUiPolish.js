@@ -13,7 +13,7 @@ const QUEST_IDS = new Set(["uiQuestTracker", "uiQuestMarkers", "uiQuestProgress"
 const CENTER_IDS = new Set(["uiQuestPanel", "uiGossip", "uiLootWindow", "uiSpiritHealer"]);
 function qs(id) { return document.getElementById(id); }
 function make(tag, attrs = {}, html = "") { const el = document.createElement(tag); Object.assign(el, attrs); el.innerHTML = html; return el; }
-function collapsed(el, yes = true) { el?.classList?.toggle("mitzvahCollapsed", yes); }
+function collapsed(el, yes = true) { el?.classList?.toggle("mitzvahCollapsed", yes); if (el) el.hidden = Boolean(yes); }
 
 function installStyle() {
   if (qs("ancientScrollUiStyle")) return;
@@ -24,6 +24,7 @@ function installStyle() {
     .mitzvahTitle, .mitzvahPanel strong, .mitzvahPanel small { color:#351d08 !important; }
     .mitzvahChoice, .mitzvahBtn { background:rgba(78,38,10,.12) !important; color:#251304 !important; border:1px solid rgba(74,38,14,.48) !important; }
     #mitzvahTopRight { width:auto !important; max-width:min(340px,42vw); pointer-events:none; }
+    .mitzvahCollapsed,[hidden] { display:none !important; }
     #mitzvahTopRight .mitzvahPanel:not(.scrollBookOpen) { display:none !important; }
     #uiQuestProgress { display:none !important; }
     #scrollBookButton { position:fixed; right:14px; top:14px; z-index:9200; pointer-events:auto; border-radius:999px; border:2px solid #6c3c17; background:linear-gradient(#f9e7ad,#b77a31); color:#2b1606; font:700 13px Georgia,serif; padding:9px 12px; box-shadow:0 5px 16px rgba(0,0,0,.35); }

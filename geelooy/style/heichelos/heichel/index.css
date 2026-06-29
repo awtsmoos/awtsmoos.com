@@ -13,17 +13,8 @@
 @import "./card.css";
 @import "./card-media.css";
 @import "./card-menu.css";
-@import "./series-list.css";
 @import "./bottom-nav.css";
 @import "./bulk-actions.css";
 @import "./modal/index.css";
 @import "./responsive.css";
-@import "./mobile.css";
 @import "./accessibility.css";
-<<<<<<< HEAD
-=======
-@import "./beauty/index.css";
-@import "./legend/index.css";
-@import "../revamped-partials/awtsmoos-os-kernel.css";
-@import "../revamped-partials/heichel-os-world.css";
->>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b

@@ -10,11 +10,7 @@ import UserProgressManager from "../../systems/UserProgressManager.js?v=village-
 import Yichud from "../interaction/Yichud.js?compact=true";
 import PlacementManager from "../interaction/PlacementManager.js?compact=true";
 import CombatManager from "../../systems/combat/CombatManager.js?v=combat-cache-budget-20260621-bh1";
-<<<<<<< HEAD
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=starter-contracts-20260628-bh9";
-=======
-import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=mobile-world-boot-exports-20260626-bh1";
->>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
 
 const SAFE_SKY = 0x5d8fa8;

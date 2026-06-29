@@ -61,12 +61,6 @@ async function renderAll(navigator, content, seriesData) {
     ui.renderBreadcrumb(appState.breadcrumb, navigator);
     await ui.renderSeriesInfo(seriesData, appState.heichelData, appState.currentSeries);
     ui.renderOwnerControls(appState.breadcrumb, navigator);
-    ui.renderHeichelWorldState({
-        heichel: appState.heichelData,
-        content,
-        ownsIt: appState.ownsIt,
-        currentSeries: appState.currentSeries
-    });
     ui.renderContentGrids(content, navigator, appState);
     if (appState.ownsIt) DND.initialize();
 }

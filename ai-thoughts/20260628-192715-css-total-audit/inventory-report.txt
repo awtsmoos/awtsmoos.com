@@ -1,0 +1,437 @@
+B"H CSS Inventory
+total_css_files= 1039
+
+--- top line counts ---
+   52307 total
+     565 geelooy/mawgawl/styles.css
+     559 geelooy/style/heichelos/revamped-partials/content.css
+     543 geelooy/scripts/awtsmoos/tts/index.css
+     502 geelooy/mawgawl/sefarim/styles.css
+     500 geelooy/os/styles.css
+     482 geelooy/style/social/alias.css
+     456 geelooy/db/explorer/styles.css
+     442 geelooy/apps/lyric-sync/style.css
+     418 geelooy/apps/code/css/tab-manager.css
+     389 geelooy/scripts/awtsmoos/zip/style.css
+     368 geelooy/style/heichelos/heichel.revamped.css
+     366 geelooy/scripts/awtsmoos/compiling/pe/style.css
+     366 geelooy/apps/compiler/style.css
+     363 geelooy/apps/animator/src/styles/components/inspector.css
+     343 geelooy/heichelos/post/styles/ideal/reborn/live-mobile-corrections.css
+     340 geelooy/apps/piano/style.css
+     334 geelooy/apps/archive-uploader/styles.css
+     333 geelooy/apps/audio-editor/style.css
+     324 geelooy/scripts/tricks/jem/style.css
+     318 geelooy/games/chess/style.css
+     315 geelooy/apps/awtsmoos-gguf/css/components.css
+     309 geelooy/style/forms.css
+     308 geelooy/style/social/alias-old.css
+     305 geelooy/style/heichelos/revamped-partials/live-main.css
+     304 geelooy/apps/captions/video/css/components.css
+     299 geelooy/apps/csv/css/style.css
+     288 geelooy/style/modalBuilder.css
+     277 geelooy/ai/css/chat.css
+     275 geelooy/style/social/profileStyles.css
+     266 geelooy/apps/rebbe/styles/studio.css
+     265 geelooy/heichelos/post/styles/ideal/reborn/comment-composer.css
+     263 geelooy/ai/css/ideal/chat.css
+     262 geelooy/apps/code/css/vibe/chat.css
+     257 geelooy/apps/tunnel/css/tunnel.css
+     239 geelooy/style/extreme-dropdown.css
+     233 geelooy/apps/wallet/style.css
+     228 geelooy/ai/css/automation-futuristic.css
+     225 geelooy/games/cards/style.css
+     225 geelooy/apps/code/css/vibe/manager.css
+     221 geelooy/apps/rebbe/style.css
+     220 geelooy/heichelos/post/styles/ideal/reborn/reader.css
+     219 geelooy/apps/rebbe/styles/ui.css
+     218 geelooy/heichelos/post/styles/ideal/sidebar-panels.css
+     216 geelooy/heichelos/post/styles/ideal/reborn/settings.css
+     216 geelooy/email/css/chat.css
+     214 geelooy/ai/css/stream-resume-hardening.css
+     208 geelooy/heichelos/post/styles/tabs.css
+     206 geelooy/style/home/headers.css
+     203 geelooy/apps/code/css/ai-studio.css
+     201 geelooy/apps/code/css/views/editor.css
+     200 geelooy/apps/captions/video/css/layout.css
+     199 geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-console.css
+     197 geelooy/heichelos/post/styles/comments/inline/editorial-intelligence.css
+     196 geelooy/apps/code/css/views/git.css
+     196 geelooy/ai/css/ideal/tokens.css
+     195 geelooy/ai/css/ideal/shell.css
+     191 geelooy/heichelos/post/styles/ideal/reborn/actions.css
+     190 geelooy/apps/tunnel-control/css/future/views/preview-gateway.css
+     188 geelooy/heichelos/post/styles/modules/approvals.css
+     187 geelooy/email/css/sidebar.css
+     186 geelooy/ai/css/event-cockpit.css
+     184 geelooy/apps/editor/style.css
+     179 geelooy/apps/code/css/views/workspace/header.css
+     177 geelooy/apps/tunnel-control/css/future/views/compute.css
+     175 geelooy/style/post.css
+     175 geelooy/games/migdol/style.css
+     174 geelooy/apps/awtsmoos-gguf/css/layout.css
+     172 geelooy/style/intense.css
+     172 geelooy/heichelos/post/styles/new-style.css
+     172 geelooy/games/shema-strike/style.css
+     171 geelooy/email/css/core.css
+     170 geelooy/apps/awtsmoos-gguf/css/views.css
+     169 geelooy/ai/css/embedded-mode.css
+     167 geelooy/apps/tunnel-control/css/future/views/landing.css
+     166 geelooy/heichelos/post/styles/inlineThreadStyles.css
+     165 geelooy/heichelos/post/styles/ideal/reborn/details.css
+     165 geelooy/apps/code/css/views/browser.css
+     164 geelooy/style/social/profile.css
+     162 geelooy/heichelos/post/styles/ideal/reborn/sidebar.css
+
+--- directory counts ---
+279 geelooy/heichelos/post
+120 geelooy/style/heichelos
+115 geelooy/ai/css
+102 geelooy/style/social
+79 geelooy/apps/code
+72 geelooy/style/foundation
+40 geelooy/apps/tunnel-control
+31 geelooy/style/social-system
+20 geelooy/heichelos/heichelos
+17 geelooy/apps/animator
+16 geelooy/email/css
+11 geelooy/scripts/awtsmoos
+11 geelooy/heichelos/social
+8 geelooy/apps/mitzvah-pushkuh
+7 geelooy/style/scroll-sovereignty
+7 geelooy/games/sulam-ha-sod
+7 geelooy/games/scribe-journey
+7 geelooy/apps/tunnel
+7 geelooy/apps/rebbe
+7 geelooy/apps/awtsmoos-gguf
+5 geelooy/apps/captions
+4 geelooy/scripts/tricks
+4 geelooy/games/sefira-clash
+3 geelooy/style/home
+3 geelooy/shared/civilization
+3 geelooy/heichelos/revamped-partials
+3 geelooy/games/mitzvahWorld
+3 geelooy/games/brick-blast
+2 geelooy/heichelos/heichel
+1 geelooy/style/toyr.css
+1 geelooy/style/post.css
+1 geelooy/style/modalBuilder.css
+1 geelooy/style/intense.css
+1 geelooy/style/forms.css
+1 geelooy/style/extreme-dropdown.css
+1 geelooy/style/bh.css
+1 geelooy/style/awtsmoos-scroll-sovereignty.css
+1 geelooy/scripts/core
+1 geelooy/profile/alias-manage
+1 geelooy/os/styles.css
+1 geelooy/os/civilization
+1 geelooy/mawgawl/styles.css
+1 geelooy/mawgawl/sefarim
+1 geelooy/heichelos/style.css
+1 geelooy/heichelos/new-style.css
+1 geelooy/games/tetris
+1 geelooy/games/style.css
+1 geelooy/games/shema-strike
+1 geelooy/games/rebbe-runner
+1 geelooy/games/pong
+1 geelooy/games/nitzotz-io
+1 geelooy/games/neshama-quest
+1 geelooy/games/migdol
+1 geelooy/games/dove
+1 geelooy/games/connect4
+1 geelooy/games/chess
+1 geelooy/games/cards
+1 geelooy/games/Nachash
+1 geelooy/games/KAVANAH
+1 geelooy/email/styles.css
+1 geelooy/db/explorer
+1 geelooy/control/styles.css
+1 geelooy/apps/wallet
+1 geelooy/apps/style.css
+1 geelooy/apps/piano
+1 geelooy/apps/nesher-studio
+1 geelooy/apps/lyric-sync
+1 geelooy/apps/exe-emulator
+1 geelooy/apps/editor
+1 geelooy/apps/csv
+1 geelooy/apps/compiler
+1 geelooy/apps/byteViewer
+1 geelooy/apps/audio-editor
+1 geelooy/apps/archive-uploader
+1 geelooy/ai/styles.css
+
+--- modified css status ---
+ M geelooy/heichelos/post/styles/civilization/page-polish.css
+ M geelooy/heichelos/post/styles/main.css
+ M geelooy/style/awtsmoos-scroll-sovereignty.css
+ M geelooy/style/heichelos/heichel.revamped.css
+ M geelooy/style/heichelos/heichel/hero.css
+ M geelooy/style/heichelos/heichel/index.css
+ M geelooy/style/heichelos/heichel/mobile.css
+ M geelooy/style/heichelos/heichel/responsive.css
+ M geelooy/style/heichelos/heichel/series-list.css
+ M geelooy/style/heichelos/heichel/shell.css
+ M geelooy/style/heichelos/revamped-partials/platform-panels.css
+ M geelooy/style/heichelos/social-index.css
+
+--- conflict markers ---
+geelooy/apps/audio-editor/style.css:279:/* =========================================
+geelooy/apps/audio-editor/style.css:281:   ========================================= */
+geelooy/apps/audio-editor/style.css:282:/* =========================================
+geelooy/apps/audio-editor/style.css:284:   ========================================= */
+geelooy/games/chess/style.css:2:/* =================================================================
+geelooy/games/chess/style.css:4:   ================================================================= */
+geelooy/os/styles.css:38:================================================================
+geelooy/os/styles.css:40:================================================================
+geelooy/os/styles.css:43:================================================================
+geelooy/os/styles.css:46:================================================================
+geelooy/os/styles.css:70:================================================================
+geelooy/os/styles.css:72:================================================================
+geelooy/os/styles.css:185:================================================================
+geelooy/os/styles.css:187:================================================================
+geelooy/os/styles.css:325:================================================================
+geelooy/os/styles.css:327:================================================================
+geelooy/scripts/core/design-system.css:48:==============================================
+geelooy/scripts/core/design-system.css:50:==============================================
+
+--- import lines missing-looking ---
+geelooy/ai/css/bug-polish/manifest.css:5:@import "./00-foundation.css";
+geelooy/ai/css/bug-polish/manifest.css:6:@import "./10-conversations.css";
+geelooy/ai/css/bug-polish/manifest.css:7:@import "./20-chat-composer.css";
+geelooy/ai/css/bug-polish/manifest.css:8:@import "./30-responsive.css";
+geelooy/ai/css/bug-polish/manifest.css:9:@import "./40-panels-transport.css";
+geelooy/ai/css/bug-polish/manifest.css:10:@import "./50-motion-depth.css";
+geelooy/ai/css/bug-polish/manifest.css:11:@import "./60-message-details.css";
+geelooy/ai/css/events/manifest.css:9:@import "./tokens.css";
+geelooy/ai/css/events/manifest.css:10:@import "./region.css";
+geelooy/ai/css/events/manifest.css:11:@import "./panel-chrome.css";
+geelooy/ai/css/events/manifest.css:12:@import "./thought-run.css";
+geelooy/ai/css/events/manifest.css:13:@import "./thought-stepper.css";
+geelooy/ai/css/events/manifest.css:14:@import "./tool-terminal.css";
+geelooy/ai/css/events/manifest.css:15:@import "./file-review.css";
+geelooy/ai/css/events/manifest.css:16:@import "./mobile.css";
+geelooy/ai/css/ideal/mobile.css:6:@import "./mobile/measure.css";
+geelooy/ai/css/ideal/mobile.css:7:@import "./mobile/scenes.css";
+geelooy/ai/css/ideal/mobile.css:8:@import "./mobile/crown.css";
+geelooy/ai/css/ideal/mobile.css:9:@import "./mobile/composer.css";
+geelooy/ai/css/ideal/mobile.css:10:@import "./mobile/control-center.css";
+geelooy/ai/css/ideal/mobile.css:11:@import "./mobile/suggestions.css";
+geelooy/ai/css/ideal/mobile.css:12:@import "./mobile/polish.css";
+geelooy/ai/css/ideal/mobile.css:13:@import "./mobile/visual-match.css";
+geelooy/ai/css/ideal/mobile.css:14:@import "./mobile/revamp.css";
+geelooy/ai/css/mobile-vessel.css:2:@import "./mobile/shell.css";
+geelooy/ai/css/mobile-vessel.css:3:@import "./mobile/panels.css";
+geelooy/ai/css/mobile-vessel.css:4:@import "./mobile/composer.css";
+geelooy/ai/css/mobile-vessel.css:5:@import "./mobile/panel-rails.css";
+geelooy/ai/css/mobile-vessel.css:6:@import "./mobile/prompt.css";
+geelooy/ai/css/mobile-vessel.css:7:@import "./mobile/surface-polish.css";
+geelooy/ai/css/mobile-vessel.css:8:@import "./mobile/focus-drawer.css";
+geelooy/ai/css/mobile-vessel.css:9:@import "./mobile/lightweight-feedback.css";
+geelooy/ai/css/mobile-vessel.css:10:@import "./mobile/drawer-overlay.css";
+geelooy/ai/css/panels.css:2:@import url("./panels/base.css");
+geelooy/ai/css/panels.css:3:@import url("./panels/collapsed.css");
+geelooy/ai/css/panels.css:4:@import url("./panels/resizers.css");
+geelooy/ai/css/panels.css:5:@import url("./panels/windowing.css");
+geelooy/ai/css/right-panel/manifest.css:9:@import "./tokens.css";
+geelooy/ai/css/right-panel/manifest.css:10:@import "./shell.css";
+geelooy/ai/css/right-panel/manifest.css:11:@import "./menu.css";
+geelooy/ai/css/right-panel/manifest.css:12:@import "./sections.css";
+geelooy/ai/css/right-panel/manifest.css:13:@import "./forms.css";
+geelooy/ai/css/right-panel/manifest.css:14:@import "./toggles.css";
+geelooy/ai/css/right-panel/manifest.css:15:@import "./actions.css";
+geelooy/ai/css/right-panel/manifest.css:16:@import "./fullscreen.css";
+geelooy/ai/css/right-panel/manifest.css:17:@import "./responsive.css";
+geelooy/ai/css/right-panel/manifest.css:18:@import "./mobile-overlap-kill.css";
+geelooy/ai/styles.css:5:@import "../shared/civilization/tokens.css";
+geelooy/ai/styles.css:6:@import "../shared/civilization/primitives.css";
+geelooy/ai/styles.css:7:@import "./css/ideal/tokens.css";
+geelooy/ai/styles.css:8:@import "./css/ideal/shell.css";
+geelooy/ai/styles.css:9:@import "./css/ideal/sidebar.css";
+geelooy/ai/styles.css:10:@import "./css/ideal/chat.css";
+geelooy/ai/styles.css:11:@import "./css/ideal/composer.css";
+geelooy/ai/styles.css:12:@import "./css/ideal/automation.css";
+geelooy/ai/styles.css:13:@import "./css/ideal/settings.css";
+geelooy/ai/styles.css:14:@import "./css/right-panel/manifest.css";
+geelooy/ai/styles.css:15:@import "./css/events/manifest.css";
+geelooy/ai/styles.css:16:@import "./css/transport.css";
+geelooy/ai/styles.css:17:@import "./css/transport-error-polish.css";
+geelooy/ai/styles.css:18:@import "./css/desktop-polish.css";
+geelooy/ai/styles.css:19:@import "./css/direct-desktop.css";
+geelooy/ai/styles.css:20:@import "./css/empty-state.css";
+geelooy/ai/styles.css:21:@import "./css/ideal/mobile.css";
+geelooy/ai/styles.css:22:@import "./css/embedded.css";
+geelooy/ai/styles.css:23:@import "./css/desktop-shell.css";
+geelooy/ai/styles.css:24:@import "./css/vision-engine.css";
+geelooy/ai/styles.css:25:@import "./css/atmosphere-engine.css";
+geelooy/ai/styles.css:26:@import "./css/showcase-cards.css";
+geelooy/ai/styles.css:27:@import "./css/performance-override.css";
+geelooy/ai/styles.css:28:@import "./css/right-panel/mobile-overlap-kill.css";
+geelooy/ai/styles.css:29:@import "./css/bug-polish/manifest.css";
+geelooy/ai/styles.css:30:@import "./css/civilization/page-polish.css";
+geelooy/apps/animator/src/index.css:2:@import './styles/base/tokens.css';
+geelooy/apps/animator/src/index.css:3:@import './styles/base/reset.css';
+geelooy/apps/animator/src/index.css:4:@import './styles/layout/shell.css';
+geelooy/apps/animator/src/index.css:5:@import './styles/layout/stage.css';
+geelooy/apps/animator/src/index.css:6:@import './styles/layout/sidebars.css';
+geelooy/apps/animator/src/index.css:7:@import './styles/layout/timeline.css';
+geelooy/apps/animator/src/index.css:8:@import './styles/components/chrome.css';
+geelooy/apps/animator/src/index.css:9:@import './styles/components/buttons.css';
+geelooy/apps/animator/src/index.css:10:@import './styles/components/editor-controls.css';
+geelooy/apps/animator/src/index.css:11:@import './styles/components/export-panel.css';
+geelooy/apps/animator/src/index.css:12:@import './styles/components/nle.css';
+geelooy/apps/animator/src/index.css:13:@import './styles/components/inspector.css';
+geelooy/apps/animator/src/index.css:14:@import './styles/components/perf.css';
+geelooy/apps/animator/src/index.css:15:@import './styles/components/revelation-modal.css';
+geelooy/apps/animator/src/index.css:16:@import './styles/components/workspace.css';
+geelooy/apps/animator/src/index.css:17:@import './styles/mobile/responsive.css';
+geelooy/apps/captions/video/css/variables.css:24:@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;700&display=swap');
+geelooy/apps/captions/video/style.css:16:        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Fira+Code&display=swap');
+geelooy/apps/code/css/app.css:5:@import url('../../../shared/civilization/tokens.css');
+geelooy/apps/code/css/app.css:6:@import url('../../../shared/civilization/primitives.css');
+geelooy/apps/code/css/app.css:7:@import url('../../../shared/civilization/object-layer.css');
+geelooy/apps/code/css/app.css:8:@import url('./variables.css');
+geelooy/apps/code/css/app.css:9:@import url('./base.css');
+geelooy/apps/code/css/app.css:10:@import url('./layout.css');
+geelooy/apps/code/css/app.css:11:@import url('./components.css');
+geelooy/apps/code/css/app.css:12:@import url('./view-hosts.css');
+geelooy/apps/code/css/app.css:13:@import url('./ui/menus.css');
+geelooy/apps/code/css/app.css:14:@import url('./ui/notifications.css');
+geelooy/apps/code/css/app.css:15:@import url('./ui/dialogs.css');
+geelooy/apps/code/css/app.css:16:@import url('./ui/selection-menu.css');
+geelooy/apps/code/css/app.css:17:@import url('./views/workspace.css');
+geelooy/apps/code/css/app.css:18:@import url('./views/tabs.css');
+geelooy/apps/code/css/app.css:19:@import url('./views/editor.css');
+geelooy/apps/code/css/app.css:20:@import url('./views/tools.css');
+geelooy/apps/code/css/app.css:21:@import url('./views/git.css');
+geelooy/apps/code/css/app.css:22:@import url('./views/terminal.css');
+geelooy/apps/code/css/app.css:23:@import url('./views/browser.css');
+geelooy/apps/code/css/app.css:24:@import url('./views/virtual-os.css');
+geelooy/apps/code/css/app.css:25:@import url('./zip-explorer.css');
+geelooy/apps/code/css/app.css:26:@import url('./tab-manager.css');
+geelooy/apps/code/css/app.css:27:@import url('./search.css');
+geelooy/apps/code/css/app.css:28:@import url('./ai-studio.css');
+geelooy/apps/code/css/app.css:29:@import url('./file-commander/layout.css');
+geelooy/apps/code/css/app.css:30:@import url('./file-commander/grid.css');
+geelooy/apps/code/css/app.css:31:@import url('./file-commander/details.css');
+geelooy/apps/code/css/app.css:32:@import url('./vibe/main.css');
+geelooy/apps/code/css/app.css:33:@import url('./vibe/chat-vessels.css');
+geelooy/apps/code/css/app.css:34:@import url('./civilization/tokens.css');
+geelooy/apps/code/css/app.css:35:@import url('./civilization/hud.css');
+geelooy/apps/code/css/app.css:36:@import url('./civilization/event-rain.css');
+geelooy/apps/code/css/app.css:37:@import url('./civilization/cockpit.css');
+geelooy/apps/code/css/app.css:38:@import url('./effects.css');
+geelooy/apps/code/css/app.css:39:@import url('./visuals.css');
+geelooy/apps/code/css/vibe/main.css:7:@import url('layout.css');
+geelooy/apps/code/css/vibe/main.css:8:@import url('resizer.css');
+geelooy/apps/code/css/vibe/main.css:9:@import url('tabs.css');
+geelooy/apps/code/css/vibe/main.css:10:@import url('chat.css');
+geelooy/apps/code/css/vibe/main.css:11:@import url('sidebar.css');
+geelooy/apps/code/css/vibe/main.css:12:@import url('ai-chat-panel.css');
+geelooy/apps/code/css/vibe/main.css:13:@import url('chat-vessels.css');
+geelooy/apps/code/css/vibe/main.css:14:@import url('manager.css');
+geelooy/apps/code/css/vibe/main.css:15:@import url('model-limits.css');
+geelooy/apps/code/css/views/virtual-os.css:3:@import url('./virtual-os/root.css');
+geelooy/apps/code/css/views/virtual-os.css:4:@import url('./virtual-os/wallpaper.css');
+geelooy/apps/code/css/views/virtual-os.css:5:@import url('./virtual-os/desktop/icons.css');
+geelooy/apps/code/css/views/virtual-os.css:6:@import url('./virtual-os/windows/base.css');
+geelooy/apps/code/css/views/virtual-os.css:7:@import url('./virtual-os/windows/titlebar.css');
+geelooy/apps/code/css/views/virtual-os.css:8:@import url('./virtual-os/windows/controls.css');
+geelooy/apps/code/css/views/virtual-os.css:9:@import url('./virtual-os/windows/resize.css');
+geelooy/apps/code/css/views/virtual-os.css:10:@import url('./virtual-os/taskbar/base.css');
+geelooy/apps/code/css/views/virtual-os.css:11:@import url('./virtual-os/taskbar/tasks.css');
+geelooy/apps/code/css/views/virtual-os.css:12:@import url('./virtual-os/start-menu/base.css');
+geelooy/apps/code/css/views/virtual-os.css:13:@import url('./virtual-os/start-menu/items.css');
+geelooy/apps/code/css/views/virtual-os.css:14:@import url('./virtual-os/apps/common.css');
+geelooy/apps/code/css/views/virtual-os.css:15:@import url('./virtual-os/apps/file-commander-window.css');
+geelooy/apps/code/css/views/virtual-os.css:16:@import url('./virtual-os/apps/browser.css');
+geelooy/apps/code/css/views/virtual-os.css:17:@import url('./virtual-os/apps/terminal.css');
+geelooy/apps/code/css/views/virtual-os.css:18:@import url('./virtual-os/apps/notepad.css');
+geelooy/apps/code/css/views/virtual-os.css:19:@import url('./virtual-os/apps/settings.css');
+geelooy/apps/code/css/views/virtual-os.css:20:@import url('./virtual-os/apps/task-manager.css');
+geelooy/apps/code/css/views/virtual-os.css:21:@import url('./virtual-os/apps/git-control.css');
+geelooy/apps/code/css/views/virtual-os.css:22:@import url('./virtual-os/diagnostics.css');
+geelooy/apps/code/css/views/workspace.css:3:@import url('workspace/header.css');
+geelooy/apps/code/css/views/workspace.css:4:@import url('workspace/tree.css');
+geelooy/apps/mitzvah-pushkuh/style.css:2:@import url("./styles/base.css");
+geelooy/apps/mitzvah-pushkuh/style.css:3:@import url("./styles/cosmic.css");
+geelooy/apps/mitzvah-pushkuh/style.css:4:@import url("./styles/layout.css");
+geelooy/apps/mitzvah-pushkuh/style.css:5:@import url("./styles/controls.css");
+geelooy/apps/mitzvah-pushkuh/style.css:6:@import url("./styles/cards.css");
+geelooy/apps/mitzvah-pushkuh/style.css:7:@import url("./styles/motion.css");
+geelooy/apps/mitzvah-pushkuh/style.css:8:@import url("./styles/responsive.css");
+geelooy/apps/rebbe/styles/core.css:2:@import url("./rebbe-premium.css");
+geelooy/apps/style.css:6:@import url('../shared/civilization/tokens.css');
+geelooy/apps/style.css:7:@import url('../shared/civilization/primitives.css');
+geelooy/apps/tunnel-control/css/app.css:10:@import url("./future/index.css");
+geelooy/apps/tunnel-control/css/app.css:11:@import url("./legacy/index.css");
+geelooy/apps/tunnel-control/css/app.css:12:@import url("./final-normal-scroll.css");
+geelooy/apps/tunnel-control/css/app.css:13:@import url("./legacy/awtsmoos-3d-return.css");
+geelooy/apps/tunnel-control/css/future/index.css:3:@import url("./core/tokens.css") layer(awt.tokens);
+geelooy/apps/tunnel-control/css/future/index.css:4:@import url("./core/reset.css") layer(awt.reset);
+geelooy/apps/tunnel-control/css/future/index.css:5:@import url("./core/frame.css") layer(awt.frame);
+geelooy/apps/tunnel-control/css/future/index.css:6:@import url("./surfaces/glass.css") layer(awt.surfaces);
+geelooy/apps/tunnel-control/css/future/index.css:7:@import url("./views/gate.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:8:@import url("./views/shell.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:9:@import url("./views/dashboard.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:10:@import url("./views/mission-control-os.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:11:@import url("./views/mission-rooms-grid.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:12:@import url("./views/no-side-rails.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:13:@import url("./views/response-focus.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:14:@import url("./views/obedience-monitor.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:15:@import url("./views/landing.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:16:@import url("./views/health.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:17:@import url("./views/compute.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:18:@import url("./views/preview-gateway.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:19:@import url("./views/kabbalah.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:20:@import url("./views/providers.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:21:@import url("./views/tasks.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:22:@import url("./views/command-center.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:23:@import url("./views/live.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:24:@import url("./views/workspace.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:25:@import url("./views/portals.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:26:@import url("./views/runtime-mesh.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:27:@import url("./views/remote-desktop.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:28:@import url("./views/pro-control.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:29:@import url("./views/beauty.css") layer(awt.views);
+geelooy/apps/tunnel-control/css/future/index.css:30:@import url("./interaction/controls.css") layer(awt.controls);
+geelooy/apps/tunnel-control/css/future/index.css:31:@import url("./interaction/states.css") layer(awt.states);
+geelooy/apps/tunnel-control/css/future/index.css:32:@import url("./interaction/motion.css") layer(awt.motion);
+geelooy/apps/tunnel-control/css/future/index.css:33:@import url("./core/responsive.css") layer(awt.responsive);
+geelooy/apps/tunnel-control/css/legacy/index.css:6:@import url("./live.css");
+geelooy/apps/tunnel-control/css/legacy/index.css:7:@import url("./rooms.css");
+geelooy/apps/tunnel-control/css/legacy/index.css:8:@import url("./utilities.css");
+geelooy/apps/tunnel-control/css/legacy/index.css:9:@import url("./green-grid.css");
+geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-bulk-runtime-actors/style.css:1:@import './theme.css'; body{background:url('./sprite.svg')}
+geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-files-pagination-stress/style.css:1:@import './theme.css?v=2'; body{background:url('./sprite.svg?hash=1')}
+geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-pagination/style.css:1:@import './theme.css'; body{background:url('./bg.svg')}
+geelooy/email/css/social-shell.css:2:@import "./social-shell-parts/base.css";
+geelooy/email/css/social-shell.css:3:@import "./social-shell-parts/topbar.css";
+geelooy/email/css/social-shell.css:4:@import "./social-shell-parts/frame.css";
+geelooy/email/css/social-shell.css:5:@import "./social-shell-parts/sidebar-theme.css";
+geelooy/email/css/social-shell.css:6:@import "./social-shell-parts/thread-list.css";
+geelooy/email/css/social-shell.css:7:@import "./social-shell-parts/tabs.css";
+geelooy/email/css/social-shell.css:8:@import "./social-shell-parts/chat-theme.css";
+geelooy/email/css/social-shell.css:9:@import "./social-shell-parts/bottom-nav.css";
+geelooy/email/css/social-shell.css:10:@import "./social-shell-parts/empty.css";
+geelooy/email/css/social-shell.css:11:@import "./social-shell-parts/mobile.css";
+geelooy/email/styles.css:5:@import url('../shared/civilization/tokens.css');
+geelooy/email/styles.css:6:@import url('../shared/civilization/primitives.css');
+geelooy/games/scribe-journey/style.css:2:@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rubik+Glitch&display=swap');
+geelooy/games/scribe-journey/style.css:3:@import url('./css/variables.css');
+geelooy/games/scribe-journey/style.css:4:@import url('./css/core.css');
+geelooy/games/scribe-journey/style.css:5:@import url('./css/ui.css');
+geelooy/games/scribe-journey/style.css:6:@import url('./css/battle.css');
+geelooy/games/scribe-journey/style.css:7:@import url('./css/effects.css');
+geelooy/games/scribe-journey/style.css:8:@import url('./css/controls.css');
+geelooy/games/sefira-clash/style.css:1:@import "./css/base.css";
+geelooy/games/sefira-clash/style.css:2:@import "./css/menu.css";
+geelooy/games/sefira-clash/style.css:3:@import "./css/touch.css";
+geelooy/games/sulam-ha-sod/css/game.css:8:@import url('./modules/base.css');
+geelooy/games/sulam-ha-sod/css/game.css:9:@import url('./modules/hud.css');
+geelooy/games/sulam-ha-sod/css/game.css:10:@import url('./modules/actions.css');
+geelooy/games/sulam-ha-sod/css/game.css:11:@import url('./modules/menu.css');
+geelooy/games/sulam-ha-sod/css/game.css:12:@import url('./modules/controls.css');
+geelooy/games/sulam-ha-sod/css/game.css:13:@import url('./modules/modal.css');
+geelooy/games/tetris/style.css:3:@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@900&display=swap');
+geelooy/heichelos/heichel/submit/style.css:6:@import url("/style/heichelos/class-coverage/index.css");
+geelooy/heichelos/heichelos/post/styles/main.css:9:@import url("./tokens/colors.css");

@@ -104,6 +104,7 @@ class DosDB {
       delete: this.delete?.bind(this),
       rename: this.rename?.bind(this),
       getObjectKeys: this.getObjectKeys?.bind(this),
+      getValue: this.getValue?.bind(this),
       syncKeyInObj: this.syncKeyInObj?.bind(this),
       syncKeyInArray: this.syncKeyInArray?.bind(this),
       appendToObj: this.appendToObj?.bind(this),
@@ -258,6 +259,15 @@ class DosDB {
       const value = await this.get(id, { propertyMap: { [key]: true } });
       if (value && typeof value === "object" && key in value) return value[key];
       return legacy.getObjectKey(id, key);
+    });
+
+    this.getValue = async (id, key, map) => cachedPromise(finalReadKey(this.directory, "getValue", id, { key, map }), async () => {
+      const routed = await this.__awtsmoosDbFsRouter.maybe("getObjectKey", id, key);
+      if (maybeResult(routed)) return routed;
+      const propertyMap = { [key]: map && typeof map === "object" ? map : true };
+      const value = await this.get(id, { propertyMap });
+      if (value && typeof value === "object" && !Buffer.isBuffer(value) && key in value) return value[key];
+      return legacy.getValue ? legacy.getValue(id, key, map) : legacy.getObjectKey(id, key);
     });
 
     this.deleteObjectKey = async (id, key) => {

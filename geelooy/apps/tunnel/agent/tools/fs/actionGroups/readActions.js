@@ -16,6 +16,7 @@ const { astOutline } = require('../astOutline.js');
 const { readOutputText } = require('../../../lib/response-size.js');
 function relativeFromCwd(config, payload, filePath) {
   const given = filePath || '.'; if (String(given).startsWith('awdb://')) return given;
+  if (String(payload.action || '').startsWith('fakeSsh')) return given;
   if (path.isAbsolute(given)) return path.relative(path.resolve(config.root), path.resolve(given)).replace(/\\/g, '/') || '.';
   const cwd = payload.cwd || payload.basePath || payload.base || ''; if (!cwd || cwd === '.') return given;
   const root = path.resolve(config.root), base = path.isAbsolute(cwd) ? path.resolve(cwd) : path.resolve(root, cwd), full = path.resolve(base, given);
@@ -41,4 +42,5 @@ function buildReadActions(ctx) {
     async findFiles() { return findFiles(config, payload); }, async fileHashes() { return fileHashes(config, payload); }, async astOutline() { return astOutline(config, payload); }, async symbolOutline() { return symbolOutline(config, payload); }, async connectedFiles() { return connectedFiles(config, payload); }
   };
 }
+/** B"H: virtual fake SSH paths may now pass through action construction without being mistaken for unsafe local cwd. */
 module.exports = { buildReadActions, relativeFromCwd };

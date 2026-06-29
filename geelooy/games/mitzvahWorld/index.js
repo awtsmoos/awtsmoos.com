@@ -4,6 +4,7 @@ let bootStarted = false;
 const SEAL = "ui-dom-idempotent-markers-living-world-20260625-bh1";
 const esc = v => String(v ?? "").replace(/[&<>'"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[c]));
 const trace = () => window.__AWTSMOOS_BOOT_TRACE__ === true;
+const DEFAULT_COLLAPSED = new Set(["uiQuestTracker", "uiQuestMarkers", "uiLivingWorldFeed", "uiLivingWorldSocial", "uiLivingWorldEconomy", "uiMiniMap", "uiQuestProgress", "uiNameplates", "uiCastBar"]);
 
 function safeClone(v, d = 0) {
   if (d > 3) return "[MaxDepth]";
@@ -26,7 +27,11 @@ function closePanel(id) {
 function togglePanel(id) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.classList.toggle("mitzvahCollapsed");
+  const collapsed = el.classList.toggle("mitzvahCollapsed");
+  el.hidden = collapsed;
+  window.__MITZVAH_UI_STATE__ ||= {};
+  window.__MITZVAH_UI_STATE__.expanded ||= {};
+  window.__MITZVAH_UI_STATE__.expanded[id] = !collapsed;
 }
 
 function controls(id) {
@@ -38,6 +43,10 @@ function mount(parentId, id, title, body = "", cls = "") {
   if (parentId === "mitzvahCenter") [...parent.children].forEach(ch => { if (ch.id !== id) ch.remove(); });
   let el = document.getElementById(id);
   if (!el) { el = document.createElement("section"); el.id = id; el.className = `mitzvahPanel ${cls}`.trim(); parent.appendChild(el); }
+  const expanded = Boolean(window.__MITZVAH_UI_STATE__?.expanded?.[id]);
+  const collapseByDefault = DEFAULT_COLLAPSED.has(id) && !expanded && parentId !== "mitzvahCenter";
+  el.classList.toggle("mitzvahCollapsed", collapseByDefault);
+  el.hidden = collapseByDefault;
   const html = `<div class="mitzvahPanelHead"><div class="mitzvahTitle">${esc(title)}</div>${controls(id)}</div><div class="mitzvahPanelBody">${body}</div>`;
   if (el.__awtsmoosPanelHtml === html) return el;
   el.__awtsmoosPanelHtml = html;

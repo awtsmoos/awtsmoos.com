@@ -1,5 +1,5 @@
 B"H
-1.0.174
+1.0.179
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -611,6 +611,7 @@ docs/helper-skeletons/desktop/main.ts
 docs/helper-skeletons/desktop/README.md
 docs/REMOTE_DESKTOP_TUNNEL.md
 lib/config.js
+lib/fakeSsh/shell.js
 lib/local-api.js
 lib/local-browser-relay.js
 lib/log.js
@@ -627,6 +628,11 @@ lib/runtime/local-proxy.js
 lib/runtime/memory.js
 lib/runtime/safe-send.js
 lib/self-update.js
+lib/share/audit.js
+lib/share/capability.js
+lib/share/policy.js
+lib/share/redact.js
+lib/share/registry.js
 lib/split-browser-require.js
 lib/tool-schema-catalog.js
 lib/ws.js
@@ -707,6 +713,7 @@ tools/fs/actionGroups/commandTreeVisualize.js
 tools/fs/actionGroups/configActions.js
 tools/fs/actionGroups/continuationActions.js
 tools/fs/actionGroups/ephemeralActions.js
+tools/fs/actionGroups/fakeSshActions.js
 tools/fs/actionGroups/fileOpsActions.js
 tools/fs/actionGroups/httpActionsGroup.js
 tools/fs/actionGroups/imageActions.js
@@ -718,17 +725,21 @@ tools/fs/actionGroups/missionDaemonActions.js
 tools/fs/actionGroups/missionEightStepActions.js
 tools/fs/actionGroups/missionImprovementActions.js
 tools/fs/actionGroups/missionMetaActions.js
+tools/fs/actionGroups/missionOperatingActions.js
 tools/fs/actionGroups/missionSelfImproveActions.js
 tools/fs/actionGroups/missionWatchdogActions.js
 tools/fs/actionGroups/previewActions.js
+tools/fs/actionGroups/previewReceiptActions.js
 tools/fs/actionGroups/processActions.js
 tools/fs/actionGroups/projectActions.js
 tools/fs/actionGroups/qualityActions.js
 tools/fs/actionGroups/readActions.js
 tools/fs/actionGroups/remoteDesktopActions.js
+tools/fs/actionGroups/remoteDriveActions.js
 tools/fs/actionGroups/remoteModuleCompat.js
 tools/fs/actionGroups/renderLabActions.js
 tools/fs/actionGroups/runtimeActions.js
+tools/fs/actionGroups/shareActions.js
 tools/fs/actionGroups/staticServerActions.js
 tools/fs/actionGroups/virtualChromeActions.js
 tools/fs/actionGroups/workflowActions.js
@@ -869,6 +880,15 @@ tools/fs/mission/metadataPath.js
 tools/fs/mission/metadataStore.js
 tools/fs/mission/minimalResponse/allow.js
 tools/fs/mission/minimalResponse/slim.js
+tools/fs/mission/missionOs/constitution.js
+tools/fs/mission/missionOs/cycles.js
+tools/fs/mission/missionOs/graph.js
+tools/fs/mission/missionOs/index.js
+tools/fs/mission/missionOs/phases.js
+tools/fs/mission/missionOs/promptFacts.js
+tools/fs/mission/missionOs/promptRenderer.js
+tools/fs/mission/missionOs/promptTemplates.js
+tools/fs/mission/missionOs/releaseCourt.js
 tools/fs/mission/oath/index.js
 tools/fs/mission/oath/store.js
 tools/fs/mission/protocolArtifacts.js

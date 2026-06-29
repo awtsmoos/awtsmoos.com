@@ -360,9 +360,9 @@ function publicExportNames(record, seen = new Set()) {
 function inferExportNamesFromSource(source) {
   const names = new Set();
   const text = String(source || "");
-  for (const match of text.matchAll(/(?:^|\n)\s*export\s+(?:async\s+)?(?:function|class)\s+([A-Za-z_$][\w$]*)/g)) names.add(match[1]);
-  for (const match of text.matchAll(/(?:^|\n)\s*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)/g)) names.add(match[1]);
-  for (const match of text.matchAll(/(?:^|\n)\s*export\s*\{([\s\S]*?)\}\s*(?:from\s*["\'][^"\']+["\'])?\s*;?/g)) {
+  for (const match of text.matchAll(/(?:^|[;\n])\s*export\s+(?:async\s+)?(?:function|class)\s+([A-Za-z_$][\w$]*)/g)) names.add(match[1]);
+  for (const match of text.matchAll(/(?:^|[;\n])\s*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)/g)) names.add(match[1]);
+  for (const match of text.matchAll(/(?:^|[;\n])\s*export\s*\{([\s\S]*?)\}\s*(?:from\s*["\'][^"\']+["\'])?\s*;?/g)) {
     for (const part of match[1].split(",")) {
       const cleaned = part.trim();
       if (!cleaned || cleaned === "default") continue;
@@ -372,7 +372,7 @@ function inferExportNamesFromSource(source) {
       else if (direct) names.add(direct[1]);
     }
   }
-  if (/(?:^|\n)\s*export\s+default\b/.test(text)) names.add("default");
+  if (/(?:^|[;\n])\s*export\s+default\b/.test(text)) names.add("default");
   return [...names];
 }
 
@@ -425,14 +425,15 @@ function findDefaultDeclarationSourceEnd(source, declaration, sourceStart = decl
 
 function replaceRemainingDefaultExports(source) {
   const text = String(source || "");
-  const pattern = /(^|\n)\s*export\s+default\s+/g;
+  const pattern = /(^|[;\n])\s*export\s+default\s+/g;
   let output = "", cursor = 0, match, count = 0;
   while ((match = pattern.exec(text))) {
+    if (!isTopLevelExportBoundary(text, match.index)) continue;
     const start = pattern.lastIndex;
     const end = findDefaultExportExpressionEnd(text, start);
     if (end <= start) continue;
-    const local = `__awtsmoosResidualDefault_${count++}`;
-    output += text.slice(cursor, match.index) + match[1] + `const ${local} = ${text.slice(start, end).trim()};\n__exports.default = ${local};`;
+    count++;
+    output += text.slice(cursor, match.index) + match[1] + `__exports.default = ${text.slice(start, end).trim()};`;
     cursor = consumeTrailingSemicolon(text, end);
     pattern.lastIndex = cursor;
   }
@@ -442,13 +443,20 @@ function replaceRemainingDefaultExports(source) {
 function replaceRemainingExportDeclarations(source) {
   const names = [];
   let output = String(source || "");
-  output = output.replace(/(^|\n)\s*export\s+(async\s+function\s+|function\s+|class\s+)([A-Za-z_$][\w$]*)/g, (_m, p, k, n) => { names.push(n); return p + k + n; });
-  output = output.replace(/(^|\n)\s*export\s+(const|let|var)\s+([A-Za-z_$][\w$]*)/g, (_m, p, k, n) => { names.push(n); return p + k + " " + n; });
+  output = output.replace(/(^|[;\n])\s*export\s+(async\s+function\s+|function\s+|class\s+)([A-Za-z_$][\w$]*)/g, (_m, p, k, n) => {
+    names.push(n);
+    return p + k + n;
+  });
+  output = output.replace(/(^|[;\n])\s*export\s+(const|let|var)\s+([A-Za-z_$][\w$]*)/g, (_m, p, k, n) => {
+    names.push(n);
+    return p + k + " " + n;
+  });
   return names.length ? output + "\n" + [...new Set(names)].map((name) => `__exports.${name} = ${name};`).join("\n") : output;
 }
 
 function replaceRemainingExportLists(source) {
-  return String(source || "").replace(/(^|\n)\s*export\s*\{([\s\S]*?)\}\s*;?/g, (_m, prefix, names) => {
+  const text = String(source || "");
+  return text.replace(/(^|[;\n])\s*export\s*\{([\s\S]*?)\}\s*;?/g, (_m, prefix, names) => {
     const lines = names.split(",").map((part) => part.trim()).filter(Boolean).map((part) => {
       const alias = part.match(/^([A-Za-z_$][\w$]*)\s+as\s+([A-Za-z_$][\w$]*)$/);
       const local = alias ? alias[1] : part;
@@ -457,6 +465,30 @@ function replaceRemainingExportLists(source) {
     }).filter(Boolean);
     return prefix + lines.join("\n");
   });
+}
+
+function isTopLevelExportBoundary(source, offset) {
+  if (offset <= 0) return true;
+  const stack = [];
+  for (let index = 0; index < offset; index++) {
+    const char = source[index], next = source[index + 1];
+    if (char === "\\") index++;
+    else if (char === "'" || char === '"') {
+      const end = skipQuotedString(source, index, char);
+      if (end >= offset) return false;
+      index = end;
+    } else if (char === "`") {
+      const end = findTemplateLiteralEnd(source, index);
+      if (end < 0 || end > offset) return false;
+      index = end - 1;
+    } else if (char === "/" && (next === "/" || next === "*")) {
+      const end = skipComment(source, index, next);
+      if (end >= offset) return false;
+      index = end;
+    } else if ("{[(".includes(char)) stack.push(char);
+    else if ((char === "}" && stack.at(-1) === "{") || (char === "]" && stack.at(-1) === "[") || (char === ")" && stack.at(-1) === "(")) stack.pop();
+  }
+  return stack.length === 0;
 }
 
 function applyReplacements(source, replacements) {

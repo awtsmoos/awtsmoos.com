@@ -19,10 +19,6 @@ function installFetchRecorder({ failPattern = '' } = {}) {
     const href = String(url);
     calls.push({ url: href, opts });
     if (failPattern && href.includes(failPattern)) return json({ error: 'offline' }, false, 503);
-    if (href.includes('civilization/state')) return json({ success: { eventCount: 4, subscriptionCount: 2, engine: 'AwtsmoosDB' } });
-    if (href.includes('civilization/feed/')) return json({ success: [{ id: 'civ-one', type: 'ui.platform.opened', title: 'Civilization Pulse' }] });
-    if (href.includes('civilization/subscriptions/')) return json({ success: [{ id: 'sub-one', subject: 'h', title: 'Subscribed Heichel' }] });
-    if (href.includes('civilization/entities/')) return json({ success: { eventCount: 1, lastEvent: { id: 'entity-one', type: 'heichel.pulse', title: 'Entity Pulse' } } });
     if (href.includes('packed/stats')) return json({ success: [{ shard: 'core', records: 7, logicalKeys: 5 }] });
     if (href.includes('packed/snapshot')) return json({ success: { manifests: 2, migrations: 1 } });
     if (href.includes('search/query')) return json({ success: [{ id: 'search-spark', title: 'Search Spark' }] });
@@ -69,12 +65,7 @@ async function testMountToggleAndDbRender() {
   assert.equal(mountPlatformPanel({ root: document.body }), null, 'mount should be idempotent');
   const actionNames = [...panel.querySelectorAll('[data-platform-action]')].map(button => button.dataset.platformAction);
   assert.deepEqual(actionNames, [...new Set(actionNames)], 'platform action buttons must not be duplicated');
-  assert.deepEqual(actionNames.sort(), ['cache', 'civilization', 'db', 'digest', 'feed', 'graph', 'jobs', 'media', 'ops', 'permissions', 'presence', 'relationships', 'searchIndex', 'sync', 'thread'].sort());
-  await action(panel, 'civilization').onclick();
-  assert.match(textOf(panel), /Civilization Pulse/);
-  assert.match(textOf(panel), /Entity Pulse/);
-  assert.ok(calls.some(call => call.url.includes('/api/social/civilization/state')));
-  await action(panel, 'db').onclick();
+  assert.deepEqual(actionNames.sort(), ['cache', 'db', 'digest', 'feed', 'graph', 'jobs', 'media', 'ops', 'permissions', 'presence', 'relationships', 'searchIndex', 'sync', 'thread'].sort());
   assert.match(textOf(panel), /core: 7 records \/ 5 keys/);
   assert.match(textOf(panel), /manifests: 2/);
   assert.ok(calls.some(call => call.url.endsWith('/api/social/packed/stats')));
@@ -111,8 +102,6 @@ async function testFeedPresenceAndSyncActionsMoveRealData() {
 
 async function testAdvancedActionsSurfaceEveryPlatformRouteFamily() {
   const { panel } = await mountWithFetch();
-  await action(panel, 'civilization').onclick();
-  assert.match(textOf(panel), /Civilization Pulse/);
   await action(panel, 'cache').onclick();
   assert.match(textOf(panel), /Cache/);
   await action(panel, 'searchIndex').onclick();
@@ -148,8 +137,7 @@ async function testServerFailureShowsLivingErrorState() {
     ['abuse/rateLimit/check', async panel => action(panel, 'presence').onclick()],
     ['live/replay', async panel => action(panel, 'presence').onclick()],
     ['sync/pull', async panel => action(panel, 'sync').onclick()],
-    ['packed/stats', async panel => action(panel, 'db').onclick()],
-    ['civilization/state', async panel => action(panel, 'civilization').onclick()]
+    ['packed/stats', async panel => action(panel, 'db').onclick()]
   ];
   for (const [failPattern, trigger] of failures) {
     const { panel } = await mountWithFetch({ failPattern });

@@ -1,34 +1,69 @@
+
 /**
  * B"H
  * @module SeriesAPI
  * @description
- * Series navigation speaks both tongues: the old `/details` route and the new
- * direct/subSeries routes. The root path is never allowed to become a fake
- * error post; it resolves through the real ikar series data.
+ * Just as the light descends through the Sefirot in a specific 
+ * order (Seder Histalshelus), the content of the library is organized 
+ * into Series. This module allows the seeker to traverse these 
+ * sequences, moving from General to Particular.
  */
+
 import { AwtsmoosRequest, BASE_API_URL } from './base.js';
 import { makeSeries } from "/scripts/awtsmoos/api/utils.js";
 
-function encoded(value, fallback = 'root') { return encodeURIComponent(value || fallback); }
-function base(heichelId) { return `${BASE_API_URL}heichelos/${encoded(heichelId, '')}`; }
-
-export async function getSeriesDetails(heichelId, seriesId = 'root') {
-    return AwtsmoosRequest.fetch(`${base(heichelId)}/series/${encoded(seriesId)}/details`);
+/**
+ * @function getSeriesDetails
+ * @description Gets the core definition of a series, including its list of children.
+ * @param {string} heichelId 
+ * @param {string} seriesId 
+ */
+export async function getSeriesDetails(heichelId, seriesId) {
+    return AwtsmoosRequest.fetch(`${BASE_API_URL}heichelos/${heichelId}/series/${seriesId}`);
 }
 
-export async function getSubSeriesDetails(heichelId, parentSeriesId = 'root') {
-    return AwtsmoosRequest.fetch(`${base(heichelId)}/series/${encoded(parentSeriesId)}/subSeries/details`);
+/**
+ * @function getSubSeriesDetails
+ * @description Unveils the details of the nested chambers within a parent series.
+ * @param {string} heichelId 
+ * @param {string} parentSeriesId 
+ */
+export async function getSubSeriesDetails(heichelId, parentSeriesId) {
+    return AwtsmoosRequest.fetch(`${BASE_API_URL}heichelos/${heichelId}/series/${parentSeriesId}/subSeries?details=true`);
 }
 
+/**
+ * @function createSeries
+ * @description Speaks a new series into existence.
+ * @param {Object} data - The blueprint of the new creation.
+ */
 export async function createSeries(data) {
-    const { heichelId, parentSeriesId = 'root', title, aliasId, inputId, description = '' } = data;
-    return makeSeries({ heichelId, parentSeriesId, title, aliasId: window.curAlias || aliasId, inputId, description });
+    const { heichelId, parentSeriesId, title, aliasId, inputId, description } = data;
+    // B"H - Utilizing the mystical utilities for the actual creation rite
+    const result = await makeSeries({
+         heichelId,
+         parentSeriesId,
+         title,
+         aliasId: window.curAlias || aliasId,
+         inputId,
+         description
+     });
+    return result;
 }
 
+
+/**
+ * @function editSeriesDetails
+ * @description Refines an existing series name/description without moving it.
+ */
 export async function editSeriesDetails({ heichelId, seriesId, aliasId, title, description }) {
     return AwtsmoosRequest.send(
-        `${base(heichelId)}/series/${encoded(seriesId)}/editSeriesDetails`,
+        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/editSeriesDetails`,
         "PUT",
-        new URLSearchParams({ aliasId, title, description })
+        new URLSearchParams({
+            aliasId,
+            title,
+            description
+        })
     );
 }

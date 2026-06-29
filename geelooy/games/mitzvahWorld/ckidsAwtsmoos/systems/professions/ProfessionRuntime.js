@@ -1,35 +1,83 @@
 // B"H
-<<<<<<< HEAD
-/**
- * ProfessionRuntime
- * The Awtsmoos breathes the starter village into ordered life: service, story,
- * memory, training, profession, reputation, and performance-safe wonder.
- */
+/** Professions: trained recipes, legacy crafting hooks, and UI-compatible XP. */
+import { craft } from "./RecipeRuntime.js";
+import { recipeKnown } from "./ProfessionTrainingRuntime.js";
 
-import { craft } from './RecipeRuntime.js';
-export function createProfessionRuntime(store={}){ const skill=store.professions||={}; return { craft(recipe,bag){ const out=craft(recipe,bag); if(out.ok)skill[recipe]=(skill[recipe]||0)+1; globalThis.dispatchEvent?.(new CustomEvent('mitzvah-world:crafted',{detail:{recipe,out,skill}})); return out; }, skill(){return {...skill};} }; }
-export function grantProfessionXp(olam={},profession="general",amount=1){ const p=olam.player||olam.chossid||olam; p.professions ||= {}; const row=p.professions[profession] ||= { xp:0, level:1 }; row.xp += Number(amount)||0; row.level = Math.max(1, Math.floor(row.xp / 100) + 1); olam.ayshPeula?.("ui event","professionXp",{ profession, amount, xp:row.xp, level:row.level }); return { profession, ...row }; }
-=======
-/** Professions create social objects; beverage realism is an existing recipe/key extension, not a new system. */
-import { recipeKnown } from './ProfessionTrainingRuntime.js';
-export const RECIPES = Object.freeze({ challah:{uses:{flour:1},produces:{bread:2},kind:'crafted'}, soup:{uses:{charity:1},produces:{soup:1},kind:'helped'}, tea:{uses:{water:1,honey:1},produces:{tea:2},kind:'served'}, candle:{uses:{wax:1},produces:{candle:2},kind:'crafted'}, repaired_bench:{uses:{plank:1},produces:{benchRepair:1},kind:'crafted'}, letter:{uses:{paper:1,ink:1},produces:{letter:1},kind:'returned_lost_object'} });
-function event(type, detail) { globalThis.dispatchEvent?.(new CustomEvent(type, { detail })); return detail; }
-export function craftItem(store = globalThis.__MITZVAH_WORLD_STATE__ || {}, recipeId = 'challah', crafter = 'player', options = {}) {
+export const RECIPES = Object.freeze({
+  challah:{ uses:{ flour:1 }, produces:{ bread:2 }, kind:"crafted" },
+  soup:{ uses:{ charity:1 }, produces:{ soup:1 }, kind:"helped" },
+  tea:{ uses:{ water:1, honey:1 }, produces:{ tea:2 }, kind:"served" },
+  candle:{ uses:{ wax:1 }, produces:{ candle:2 }, kind:"crafted" },
+  repaired_bench:{ uses:{ plank:1 }, produces:{ benchRepair:1 }, kind:"crafted" },
+  letter:{ uses:{ paper:1, ink:1 }, produces:{ letter:1 }, kind:"returned_lost_object" }
+});
+
+function event(type, detail) {
+  globalThis.dispatchEvent?.(new CustomEvent(type, { detail }));
+  return detail;
+}
+
+function ownerOf(target = {}) {
+  return target.player || target.chossid || target;
+}
+
+export function craftItem(store = globalThis.__MITZVAH_WORLD_STATE__ || {}, recipeId = "challah", crafter = "player", options = {}) {
   const recipe = RECIPES[recipeId];
   if (!recipe) return null;
-  if (options.requireTraining && !recipeKnown(store, recipeId)) return { ok:false, error:'recipe_not_trained', recipeId };
+  if (options.requireTraining && !recipeKnown(store, recipeId)) return { ok:false, error:"recipe_not_trained", recipeId };
   store.economy ||= {};
-  for (const [k,v] of Object.entries(recipe.uses)) if ((store.economy[k] || 0) < v) return null;
-  for (const [k,v] of Object.entries(recipe.uses)) store.economy[k] -= v;
-  for (const [k,v] of Object.entries(recipe.produces)) { if (k === 'benchRepair') { store.villageProjects ||= {}; store.villageProjects.benchRepair = (store.villageProjects.benchRepair || 0) + v; } else store.economy[k] = (store.economy[k] || 0) + v; }
+  for (const [key, amount] of Object.entries(recipe.uses)) if ((store.economy[key] || 0) < amount) return null;
+  for (const [key, amount] of Object.entries(recipe.uses)) store.economy[key] -= amount;
+  for (const [key, amount] of Object.entries(recipe.produces)) {
+    if (key === "benchRepair") {
+      store.villageProjects ||= {};
+      store.villageProjects.benchRepair = (store.villageProjects.benchRepair || 0) + amount;
+    } else {
+      store.economy[key] = (store.economy[key] || 0) + amount;
+    }
+  }
   const item = { id:`${recipeId}_${Date.now()}`, recipeId, crafter, kind:recipe.kind, at:Date.now() };
   store.craftedItems = [...(store.craftedItems || []), item].slice(-40);
-  event('mitzvah-world:profession-craft', { item, recipeId, crafter });
-  event('mitzvah-world:starter-signal', { signal:'profession', evidence:{ item, recipeId, crafter } });
+  event("mitzvah-world:profession-craft", { item, recipeId, crafter });
+  event("mitzvah-world:starter-signal", { signal:"profession", evidence:{ item, recipeId, crafter } });
   return item;
 }
-export function professionOutputs(store = null) { return store ? Object.keys(RECIPES).filter(id => recipeKnown(store, id)) : Object.keys(RECIPES); }
-export function grantProfessionXp(store = globalThis.__MITZVAH_WORLD_STATE__ || {}, profession = 'helper', amount = 1, reason = 'compat') { store.professionXp ||= {}; store.professionXp[profession] = (store.professionXp[profession] || 0) + amount; const payload = { profession, amount, total:store.professionXp[profession], reason, at:Date.now() }; event('mitzvah-world:profession-xp', payload); return payload; }
-export function createProfessionRuntime(store) { return { craft:(id,crafter,options) => craftItem(store,id,crafter,options), outputs:() => professionOutputs(store), allOutputs:() => Object.keys(RECIPES), grantXp:(profession, amount, reason) => grantProfessionXp(store, profession, amount, reason), recipes:RECIPES }; }
->>>>>>> 203e677cf2795021c8a1f733832a69b99c439c8b
+
+export function professionOutputs(store = null) {
+  return store ? Object.keys(RECIPES).filter(id => recipeKnown(store, id)) : Object.keys(RECIPES);
+}
+
+export function grantProfessionXp(target = globalThis.__MITZVAH_WORLD_STATE__ || {}, profession = "helper", amount = 1, reason = "compat") {
+  const owner = ownerOf(target);
+  const gain = Number(amount) || 0;
+  owner.professions ||= {};
+  const row = owner.professions[profession] ||= { xp:0, level:1 };
+  row.xp += gain;
+  row.level = Math.max(1, Math.floor(row.xp / 100) + 1);
+  target.professionXp ||= {};
+  target.professionXp[profession] = (target.professionXp[profession] || 0) + gain;
+  const payload = { profession, amount:gain, xp:row.xp, level:row.level, total:target.professionXp[profession], reason, at:Date.now() };
+  target.ayshPeula?.("ui event", "professionXp", payload);
+  event("mitzvah-world:profession-xp", payload);
+  return payload;
+}
+
+export function createProfessionRuntime(store = {}) {
+  const skill = store.professions ||= {};
+  return {
+    craft(recipeId, bagOrCrafter, options) {
+      if (RECIPES[recipeId]) return craftItem(store, recipeId, typeof bagOrCrafter === "string" ? bagOrCrafter : "player", options || {});
+      const out = craft(recipeId, bagOrCrafter);
+      if (out?.ok) skill[recipeId] = (skill[recipeId] || 0) + 1;
+      event("mitzvah-world:crafted", { recipe:recipeId, out, skill });
+      return out;
+    },
+    outputs:() => professionOutputs(store),
+    allOutputs:() => Object.keys(RECIPES),
+    grantXp:(profession, amount, reason) => grantProfessionXp(store, profession, amount, reason),
+    skill:() => ({ ...skill }),
+    recipes:RECIPES
+  };
+}
+
 export default createProfessionRuntime;

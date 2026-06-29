@@ -1,6 +1,7 @@
-/* B"H
- * Compatibility gate for older shell contracts.
- * Mobile behavior is distributed through responsive.css and the OS kernel.
- */
-@import "./responsive.css";
-@import "../revamped-partials/awtsmoos-os-kernel.css";
+/* B"H Heichel mobile: less crush, more breath. */
+@media (max-width: 620px) {
+  .heichel-main-stage { width: min(100vw - .9rem, 40rem); }
+  .heichel-hero { padding: 1rem; }
+  .heichel-tabs { border-radius: 1rem; }
+  .heichel-tabs button, .heichel-tab { flex: 1 1 8rem; }
+}
