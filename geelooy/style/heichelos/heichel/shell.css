@@ -1,55 +1,22 @@
-/* B"H
- * Chapter 721: The shell becomes a museum floor, and every shelf remembers the Root.
- */
+/* B"H fast shell: parchment without jank. */
 .heichel-os-document { margin: 0; background: #f3dfbc; }
 .heichel-os-page { min-height: 100dvh; background: var(--heichel-bg); }
 .heichel-mobile-navigation {
-  min-height: 100dvh;
-  color: var(--heichel-ink);
-  background:
-    radial-gradient(circle at 8% -8%, rgba(255,229,157,.56), transparent 22rem),
-    radial-gradient(circle at 96% 12%, rgba(126,48,22,.16), transparent 23rem),
-    linear-gradient(90deg, rgba(255,255,255,.24), transparent 18%, transparent 82%, rgba(96,54,12,.08)),
-    var(--heichel-bg);
-  position: relative;
-  overflow-x: clip;
+  --heichel-topbar-height: 4.15rem;
+  min-height: 100dvh; color: var(--heichel-ink); position: relative; overflow-x: clip;
   padding-bottom: max(var(--floating-clearance), calc(env(safe-area-inset-bottom) + var(--floating-clearance)));
+  background: linear-gradient(180deg, #fff8ea 0%, #f1ddb7 52%, #ead1a6 100%);
   font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
 }
-.heichel-mobile-navigation::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image: linear-gradient(rgba(99,66,26,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(99,66,26,.035) 1px, transparent 1px);
-  background-size: 3.5rem 3.5rem;
-  mask-image: linear-gradient(180deg, rgba(0,0,0,.72), transparent 80%);
-}
 .heichel-mobile-navigation .geelooy-main-stage {
-  width: min(100%, 82rem);
-  margin-inline: auto;
-  display: grid;
-  gap: clamp(1rem, 2.4vw, 1.65rem);
-  padding: clamp(.9rem, 2vw, 1.65rem) clamp(.85rem, 3vw, 1.8rem) clamp(7rem, 14vh, 9rem);
+  width: min(100%, 82rem); margin-inline: auto; display: grid; gap: clamp(.85rem, 2vw, 1.25rem);
+  padding: calc(var(--heichel-topbar-height) + clamp(.8rem, 2vw, 1.25rem)) clamp(.75rem, 2.4vw, 1.45rem) clamp(7rem, 14vh, 9rem);
 }
 .heichel-mobile-navigation .heichel-nav-panel {
-  position: relative;
-  display: grid;
-  gap: clamp(.9rem, 2vw, 1.25rem);
-  padding: clamp(.9rem, 2vw, 1.5rem);
-  border: 1px solid var(--heichel-line);
-  border-radius: var(--heichel-radius-large);
-  background: var(--heichel-panel);
-  box-shadow: var(--heichel-shadow-soft), inset 0 1px 0 rgba(255,255,255,.78);
-  backdrop-filter: blur(16px) saturate(128%);
-}
-.heichel-mobile-navigation .heichel-nav-panel::before {
-  content: "";
-  position: absolute;
-  inset: .65rem;
-  border: 1px solid rgba(255,255,255,.52);
-  border-radius: calc(var(--heichel-radius-large) - .35rem);
-  pointer-events: none;
+  position: relative; display: grid; gap: clamp(.8rem, 1.8vw, 1.1rem); padding: clamp(.75rem, 1.8vw, 1.15rem);
+  border: 1px solid var(--heichel-line); border-radius: var(--heichel-radius-large); background: rgba(255,250,239,.76);
+  box-shadow: 0 .55rem 1.3rem rgba(75,45,10,.08); contain: layout paint style;
 }
 .heichel-mobile-navigation .hidden,
 .heichel-mobile-navigation .hidden-void { display: none !important; }
+@media (max-width: 560px) { .heichel-mobile-navigation { --heichel-topbar-height: 3.85rem; } }

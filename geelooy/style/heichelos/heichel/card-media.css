@@ -1,22 +1,15 @@
-/* B"H
- * Chapter 727: The thumbnail pillar becomes a lit manuscript spine.
- */
+/* B"H fast manuscript spine: no filters, no expensive glass. */
 .nav-card-media,
 .heichel-card-media,
 .series-card-media {
-  min-height: 100%; border-radius: 1.12rem; position: relative; overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 44%, rgba(255,255,255,.24), transparent 1.6rem),
-    linear-gradient(155deg, rgba(25,25,44,.96) 0%, rgba(88,64,45,.8) 50%, rgba(224,194,126,.86) 100%),
-    var(--card-thumb, transparent);
-  background-size: cover; background-position: center; display: grid; place-items: center;
-  color: #fff8dc; font-weight: 950; font-size: 1.38rem; box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 .9rem 1.5rem rgba(68,45,16,.19);
+  min-height: 100%; border-radius: .95rem; position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #252035 0%, #6c553d 58%, #d7b36a 100%);
+  background-size: cover; background-position: center; display: grid; place-items: center; color: #fff8dc;
+  font-weight: 950; font-size: 1.22rem; contain: paint;
 }
-.nav-card-media::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,.16), transparent 35%, rgba(0,0,0,.12)); pointer-events: none; }
-.nav-card-media::after { content: ""; position: absolute; left: .55rem; top: .65rem; bottom: .65rem; width: 2px; border-radius: 999px; background: rgba(255,246,218,.45); }
+.nav-card-media::after { content: ""; position: absolute; left: .5rem; top: .55rem; bottom: .55rem; width: 2px; border-radius: 999px; background: rgba(255,246,218,.45); }
 .nav-card-media span {
-  position: relative; display: grid; place-items: center; width: 3.15rem; height: 3.15rem; border-radius: 999px;
-  background: rgba(255,255,255,.22); color: #fff7dc; text-shadow: 0 1px 0 rgba(0,0,0,.25); backdrop-filter: blur(7px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+  position: relative; display: grid; place-items: center; width: 2.65rem; height: 2.65rem; border-radius: 999px;
+  background: rgba(216,170,81,.72); color: #fff7dc; text-shadow: 0 1px 0 rgba(0,0,0,.18);
 }
-@media (max-width: 620px) { .nav-card-media { min-height: 5.7rem; border-radius: .95rem; } .nav-card-media span { width: 2.55rem; height: 2.55rem; } }
+@media (max-width: 620px) { .nav-card-media { min-height: 5.1rem; border-radius: .85rem; } .nav-card-media span { width: 2.3rem; height: 2.3rem; } }

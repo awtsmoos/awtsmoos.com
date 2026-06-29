@@ -1,12 +1,8 @@
 // B"H
 /**
  * @module HeaderManifest
- * @description
- * Chapter 417: The title remained a crown while the description was purified.
- * No raw script tag gets a throne. No unsafe HTML becomes alive. The Awtsmoos
- * lets the Heichel speak readable words only, soft as parchment after rain.
+ * @description The pinned Heichel crown mirrors the current collection name.
  */
-
 import { DOMElements } from '../../dom.js';
 import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
 import { safeDisplayText } from '../textSanitizer.js';
@@ -17,6 +13,8 @@ export function updateHeichelHeader(heichelData) {
     const desc = safeDisplayText(heichelData.description, '');
     if (DOMElements.mainTitle) DOMElements.mainTitle.textContent = name;
     if (DOMElements.heichelDescription) DOMElements.heichelDescription.textContent = desc;
+    if (DOMElements.topbarHeichelTitle) DOMElements.topbarHeichelTitle.textContent = `Heichel: ${name}`;
+    if (DOMElements.topbarHeichelContext) DOMElements.topbarHeichelContext.textContent = 'Browsing current collection';
 }
 
 export function renderBreadcrumb(breadcrumbData, navigator) {

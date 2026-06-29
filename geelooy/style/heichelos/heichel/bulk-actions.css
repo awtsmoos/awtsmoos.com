@@ -1,12 +1,10 @@
-/* B"H bulk action bar: selection floats as a deliberate command tray. */
+/* B"H fast bulk action command tray. */
 #bulk-actions-bar {
-  position: fixed; left: 50%; bottom: calc(max(.6rem, env(safe-area-inset-bottom)) + 4.7rem); transform: translateX(-50%); z-index: 62;
-  width: min(92vw, 38rem); display: flex; align-items: center; justify-content: space-between; gap: .75rem;
-  padding: .65rem .75rem; border: 1px solid rgba(255,255,255,.14); border-radius: 1.25rem;
-  background: linear-gradient(135deg, rgba(27,25,47,.96), rgba(83,40,24,.94)); color: #fff7df;
-  box-shadow: 0 1.1rem 2.5rem rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.12); backdrop-filter: blur(18px) saturate(130%);
+  position: fixed; left: 50%; bottom: calc(max(.6rem, env(safe-area-inset-bottom)) + 4.55rem); transform: translateX(-50%); z-index: 960;
+  width: min(92vw, 38rem); display: flex; align-items: center; justify-content: space-between; gap: .7rem; padding: .62rem .72rem;
+  border: 1px solid rgba(255,255,255,.14); border-radius: 1.1rem; background: #252540; color: #fff7df; box-shadow: 0 .65rem 1.2rem rgba(0,0,0,.24);
 }
 #bulk-actions-bar span { font-weight: 950; letter-spacing: -.01em; }
-#bulk-actions-bar .ritual-btn { min-height: 2.55rem; border: 0; border-radius: 999px; padding: .55rem .9rem; background: rgba(255,255,255,.14); color: #fff7df; font-weight: 900; cursor: pointer; }
-#bulk-actions-bar .ritual-btn.danger { background: linear-gradient(135deg, #8b2d16, #d6a84f); color: #160e05; }
+#bulk-actions-bar .ritual-btn { min-height: 2.45rem; border: 0; border-radius: 999px; padding: .52rem .85rem; background: rgba(255,255,255,.14); color: #fff7df; font-weight: 900; cursor: pointer; }
+#bulk-actions-bar .ritual-btn.danger { background: #e7c06f; color: #160e05; }
 @media (max-width: 520px) { #bulk-actions-bar { align-items: stretch; flex-wrap: wrap; } #bulk-actions-bar .ritual-btn { flex: 1 1 7rem; } }

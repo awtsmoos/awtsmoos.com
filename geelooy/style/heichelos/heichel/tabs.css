@@ -1,35 +1,25 @@
-/* B"H
- * Chapter 733: The Timeline/Series switcher becomes an intentional brass rail.
- */
+/* B"H fast Timeline/Series switcher under the fixed Heichel crown. */
 .heichel-mobile-navigation .tab-gates,
 .heichel-mobile-navigation .geelooy-tabs {
-  position: sticky; top: 4.15rem; z-index: 45;
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .42rem;
-  margin: .25rem 0 1rem; padding: .44rem; border: 1px solid rgba(122,82,31,.17); border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255,253,247,.9), rgba(248,235,212,.76));
-  box-shadow: 0 .95rem 2rem rgba(75,45,10,.11), inset 0 1px 0 rgba(255,255,255,.82);
-  backdrop-filter: blur(17px) saturate(130%);
-}
-.heichel-mobile-navigation .tab-gates::before {
-  content: ""; position: absolute; inset: .28rem; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(90deg, rgba(216,170,81,.12), transparent 40%, rgba(135,48,24,.08));
+  position: sticky; top: var(--heichel-topbar-height, 4.15rem); z-index: 45;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .35rem;
+  margin: .15rem 0 .85rem; padding: .34rem; border: 1px solid rgba(122,82,31,.16); border-radius: 999px;
+  background: rgba(255,250,239,.96); box-shadow: 0 .35rem .8rem rgba(75,45,10,.08);
 }
 .heichel-mobile-navigation .tab,
 .heichel-mobile-navigation .geelooy-tabs button {
-  position: relative; min-height: clamp(2.8rem, 6vw, 3.65rem); border: 0; border-radius: 999px;
-  background: transparent; color: rgba(36,22,11,.78); font: inherit; font-size: .85rem; font-weight: 950;
-  letter-spacing: .085em; text-transform: uppercase; cursor: pointer;
-  transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+  position: relative; min-height: clamp(2.55rem, 5.2vw, 3.2rem); border: 0; border-radius: 999px;
+  background: transparent; color: rgba(36,22,11,.78); font: inherit; font-size: .82rem; font-weight: 950;
+  letter-spacing: .075em; text-transform: uppercase; cursor: pointer; transition: background .12s ease, color .12s ease;
 }
 .heichel-mobile-navigation .tab:hover,
-.heichel-mobile-navigation .geelooy-tabs button:hover { background: rgba(255,255,255,.66); transform: translateY(-1px); }
+.heichel-mobile-navigation .geelooy-tabs button:hover { background: rgba(216,170,81,.14); }
 .heichel-mobile-navigation .tab.Active,
 .heichel-mobile-navigation .tab.active,
 .heichel-mobile-navigation .geelooy-tabs button.Active,
 .heichel-mobile-navigation .geelooy-tabs button.active {
-  background: linear-gradient(135deg, var(--heichel-night) 0%, var(--heichel-rust) 78%);
-  color: #fff7df; box-shadow: 0 .9rem 1.9rem rgba(68,29,12,.23), inset 0 1px 0 rgba(255,255,255,.18);
+  background: linear-gradient(135deg, var(--heichel-night) 0%, var(--heichel-rust) 78%); color: #fff7df;
 }
 .heichel-mobile-navigation .tab.Active::after,
-.heichel-mobile-navigation .tab.active::after { content: ""; position: absolute; left: 50%; bottom: .42rem; width: 1.5rem; height: 2px; border-radius: 999px; transform: translateX(-50%); background: rgba(255,239,190,.72); }
-@media (max-width: 560px) { .heichel-mobile-navigation .tab-gates, .heichel-mobile-navigation .geelooy-tabs { top: 3.85rem; gap: .3rem; padding: .3rem; } .heichel-mobile-navigation .tab, .heichel-mobile-navigation .geelooy-tabs button { font-size: .75rem; min-height: 2.7rem; } }
+.heichel-mobile-navigation .tab.active::after { content: ""; position: absolute; left: 50%; bottom: .38rem; width: 1.3rem; height: 2px; border-radius: 999px; transform: translateX(-50%); background: rgba(255,239,190,.72); }
+@media (max-width: 560px) { .heichel-mobile-navigation .tab-gates, .heichel-mobile-navigation .geelooy-tabs { gap: .25rem; padding: .26rem; } .heichel-mobile-navigation .tab, .heichel-mobile-navigation .geelooy-tabs button { font-size: .72rem; min-height: 2.5rem; } }

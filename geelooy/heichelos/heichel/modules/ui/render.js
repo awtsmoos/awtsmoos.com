@@ -1,12 +1,8 @@
 // B"H
 /**
  * @module SovereignUIArchitect
- * @description
- * Chapter 419: The palace learned to breathe from one root.
- * The Awtsmoos hides in no border hack. The Heichel renders from a named root,
- * focuses clean search, sanitizes series text, and keeps old scripts as ash.
+ * @description Fast browsing shell updates with a pinned current Heichel identity.
  */
-
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
 import { DOMElements, clearRegistry } from '../dom.js';
@@ -49,13 +45,17 @@ function applyCurrentFilter(navigator) {
 }
 
 export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesId) {
+    const heichelName = safeDisplayText(heichelGlobal?.name, 'Heichel');
     if (currentSeriesId !== 'root' && seriesData && DOMElements.seriesInfoArea) {
         const prateem = seriesData.prateem || seriesData;
-        DOMElements.seriesTitle.textContent = safeDisplayText(prateem.name, 'A Bound Sequence');
+        const seriesName = safeDisplayText(prateem.name, 'A Bound Sequence');
+        DOMElements.seriesTitle.textContent = seriesName;
         DOMElements.seriesDesc.textContent = safeDisplayText(prateem.description, '');
+        DOMElements.topbarHeichelContext && (DOMElements.topbarHeichelContext.textContent = `Series: ${seriesName}`);
         DOMElements.seriesInfoArea.classList.remove('hidden');
         return;
     }
+    DOMElements.topbarHeichelContext && (DOMElements.topbarHeichelContext.textContent = `Root of ${heichelName}`);
     DOMElements.seriesInfoArea?.classList.add('hidden');
 }
 

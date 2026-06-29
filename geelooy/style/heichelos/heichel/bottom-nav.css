@@ -1,14 +1,11 @@
-/* B"H
- * Chapter 729: The bottom orbit feels native, but the route remains the same.
- */
+/* B"H fast bottom orbit. */
 .heichel-mobile-navigation .geelooy-bottom-nav {
-  position: fixed; left: 50%; bottom: max(.6rem, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 50;
-  width: min(92vw, 35rem); display: grid; grid-template-columns: repeat(5, 1fr); gap: .26rem; padding: .4rem;
-  border: 1px solid rgba(255,255,255,.14); border-radius: 1.35rem; background: rgba(18,18,36,.92);
-  box-shadow: 0 1.1rem 2.2rem rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.13); backdrop-filter: blur(20px) saturate(135%);
+  position: fixed; left: 50%; bottom: max(.6rem, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 950;
+  width: min(92vw, 35rem); display: grid; grid-template-columns: repeat(5, 1fr); gap: .24rem; padding: .36rem;
+  border: 1px solid rgba(255,255,255,.14); border-radius: 1.25rem; background: #252540; box-shadow: 0 .65rem 1.25rem rgba(0,0,0,.25);
 }
-.heichel-mobile-navigation .geelooy-bottom-nav a { display: grid; place-items: center; min-height: 2.75rem; border-radius: 1rem; color: #fff7df; text-decoration: none; font-size: .76rem; font-weight: 900; transition: background .18s ease, transform .18s ease; }
+.heichel-mobile-navigation .geelooy-bottom-nav a { display: grid; place-items: center; min-height: 2.65rem; border-radius: .9rem; color: #fff7df; text-decoration: none; font-size: .74rem; font-weight: 900; }
 .heichel-mobile-navigation .geelooy-bottom-nav a:hover,
-.heichel-mobile-navigation .geelooy-bottom-nav a:focus-visible { background: rgba(255,255,255,.11); outline: none; transform: translateY(-1px); }
-.heichel-mobile-navigation .geelooy-bottom-nav a:nth-child(3) { margin-top: -.7rem; min-height: 3.25rem; border-radius: 999px; background: linear-gradient(135deg, var(--heichel-gold), #f0c977); color: #160e05; font-size: 1.08rem; box-shadow: 0 .9rem 1.5rem rgba(0,0,0,.29); }
-@media (max-width: 520px) { .heichel-mobile-navigation .geelooy-bottom-nav { width: min(96vw, 35rem); } .heichel-mobile-navigation .geelooy-bottom-nav a { font-size: .7rem; min-height: 2.6rem; } }
+.heichel-mobile-navigation .geelooy-bottom-nav a:focus-visible { background: rgba(255,255,255,.11); outline: none; }
+.heichel-mobile-navigation .geelooy-bottom-nav a:nth-child(3) { margin-top: -.6rem; min-height: 3.05rem; border-radius: 999px; background: #e7c06f; color: #160e05; font-size: 1.02rem; box-shadow: 0 .45rem .85rem rgba(0,0,0,.22); }
+@media (max-width: 520px) { .heichel-mobile-navigation .geelooy-bottom-nav { width: min(96vw, 35rem); } .heichel-mobile-navigation .geelooy-bottom-nav a { font-size: .68rem; min-height: 2.5rem; } }

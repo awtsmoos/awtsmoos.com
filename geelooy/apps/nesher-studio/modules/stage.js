@@ -1,18 +1,29 @@
-/* B"H */
+/* B"H
+Stage interaction: click a source to grasp it; click empty sky to release it.
+The canvas becomes an editor where selection is revealed and then nullified.
+*/
 import { dom, ctx } from './dom.js';
 import { reorderSource } from './layers.js';
+import { refreshInspector } from './inspector.js';
 import { renderScene } from './renderers/sceneRenderer.js';
 export function resizeStage(state) { dom.stage.width = state.width; dom.stage.height = state.height; drawStage(state); }
 export function drawStage(state, options = {}) { renderScene(ctx, state, options); }
-export function refreshSources(state) { dom.sourceList.innerHTML = ''; state.sources.forEach((source, index) => dom.sourceList.append(sourceRow(state, source, index))); }
+export function refreshSources(state) { dom.sourceList.innerHTML = ''; state.sources.forEach((source, index) => dom.sourceList.append(sourceRow(state, source, index))); refreshInspector(state); }
 export function bindDragging(state) {
-  dom.stage.addEventListener('pointerdown', event => { const p = point(event); const hit = [...state.sources].reverse().find(source => inside(source, p)); if (!hit || hit.locked) return; state.selectedId = hit.id; state.drag = { id:hit.id, dx:p.x - hit.x, dy:p.y - hit.y, mode:edgeMode(hit, p) }; dom.stage.setPointerCapture?.(event.pointerId); drawStage(state); refreshSources(state); });
+  dom.stage.addEventListener('pointerdown', event => pointerDown(state, event));
   dom.stage.addEventListener('pointermove', event => movePointer(state, point(event)));
   window.addEventListener('pointerup', () => { state.drag = null; }); window.addEventListener('keydown', event => keyMove(state, event));
 }
+function pointerDown(state, event) {
+  const p = point(event); const hit = [...state.sources].reverse().find(source => inside(source, p));
+  if (!hit) { state.selectedId = null; state.drag = null; drawStage(state); refreshSources(state); return; }
+  if (hit.locked) return; state.selectedId = hit.id; state.drag = { id:hit.id, dx:p.x - hit.x, dy:p.y - hit.y, mode:edgeMode(hit, p) };
+  dom.stage.setPointerCapture?.(event.pointerId); drawStage(state); refreshSources(state);
+}
 function sourceRow(state, source, index) {
   const li = document.createElement('li'); li.draggable = true; li.dataset.id = source.id; li.className = source.id === state.selectedId ? 'selected-source' : '';
-  li.innerHTML = `<strong>${index + 1}. ${escapeHtml(source.name)}</strong><span>${Math.round(source.x)},${Math.round(source.y)} · ${Math.round(source.w)}×${Math.round(source.h)} · ${source.type}</span>`;
+  const crop = source.crop && Object.values(source.crop).some(Boolean) ? ` · crop ${source.crop.left}/${source.crop.top}/${source.crop.right}/${source.crop.bottom}` : '';
+  li.innerHTML = `<strong>${index + 1}. ${escapeHtml(source.name)}</strong><span>${Math.round(source.x)},${Math.round(source.y)} · ${Math.round(source.w)}×${Math.round(source.h)} · ${source.type}${crop}</span>`;
   li.onclick = () => { state.selectedId = source.id; drawStage(state); refreshSources(state); };
   li.ondragstart = event => event.dataTransfer.setData('text/source-id', source.id); li.ondragover = event => event.preventDefault();
   li.ondrop = event => { event.preventDefault(); if (reorderSource(state, event.dataTransfer.getData('text/source-id'), source.id)) { refreshSources(state); drawStage(state); } };

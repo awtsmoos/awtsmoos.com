@@ -1,30 +1,23 @@
-/* B"H
- * Chapter 723: The top gate becomes glass over parchment, never an admin bar.
- */
+/* B"H fixed Heichel identity bar: fast, stable, always visible. */
 .heichel-mobile-navigation .heichel-mobile-topbar {
-  position: sticky; top: 0; z-index: 60;
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .8rem; align-items: center;
-  width: min(100%, 82rem); margin-inline: auto;
-  padding: max(.62rem, env(safe-area-inset-top)) clamp(.8rem, 2.2vw, 1.45rem) .62rem;
-  background: linear-gradient(180deg, rgba(255,248,235,.94), rgba(255,248,235,.64));
-  border-bottom: 1px solid rgba(122,82,31,.14);
-  backdrop-filter: blur(20px) saturate(140%);
+  position: fixed; inset: 0 0 auto 0; z-index: 1000;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .65rem; align-items: center;
+  min-height: var(--heichel-topbar-height, 4.15rem); padding: max(.52rem, env(safe-area-inset-top)) clamp(.75rem, 2vw, 1.2rem) .52rem;
+  background: rgba(255,248,235,.98); border-bottom: 1px solid rgba(122,82,31,.16);
+  box-shadow: 0 .35rem .9rem rgba(58,34,9,.09); transform: translateZ(0);
 }
 .heichel-mobile-navigation .topbar-icon {
-  display: grid; place-items: center; width: 3rem; height: 3rem;
-  border: 1px solid rgba(122,82,31,.18); border-radius: 1.05rem;
-  background: rgba(255,255,255,.72); color: var(--heichel-night);
-  font-size: 1.2rem; font-weight: 950;
-  box-shadow: 0 .7rem 1.55rem rgba(75,45,10,.12), inset 0 1px 0 rgba(255,255,255,.88);
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border: 1px solid rgba(122,82,31,.2); border-radius: .9rem;
+  background: #fffaf0; color: var(--heichel-night); font-size: 1.1rem; font-weight: 950; cursor: pointer;
 }
-.heichel-mobile-navigation .topbar-icon:hover { transform: translateY(-1px); background: rgba(255,255,255,.9); }
-.heichel-mobile-navigation .topbar-title { min-width: 0; display: grid; line-height: 1.05; }
-.heichel-mobile-navigation .topbar-title strong { overflow: hidden; text-overflow: ellipsis; color: #1d1711; font-size: 1.05rem; font-weight: 950; letter-spacing: -.025em; }
-.heichel-mobile-navigation .topbar-title small { color: var(--heichel-muted-ink); font-size: .72rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.heichel-mobile-navigation .topbar-icon:hover { background: #f4e3c4; }
+.heichel-mobile-navigation .topbar-title { min-width: 0; display: grid; gap: .08rem; line-height: 1.05; }
+.heichel-mobile-navigation .topbar-title strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #1d1711; font-size: clamp(.98rem, 2.5vw, 1.18rem); font-weight: 950; letter-spacing: -.025em; }
+.heichel-mobile-navigation .topbar-title small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--heichel-muted-ink); font-size: .68rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
 .heichel-mobile-navigation .topbar-notification-menu { position: relative; }
 .heichel-mobile-navigation .topbar-notification-menu summary { list-style: none; cursor: pointer; }
 .heichel-mobile-navigation .topbar-notification-menu summary::-webkit-details-marker { display: none; }
-.heichel-mobile-navigation .topbar-menu-panel { position: absolute; right: 0; top: calc(100% + .65rem); min-width: 14rem; padding: .55rem; border-radius: 1.1rem; border: 1px solid rgba(122,82,31,.18); background: rgba(255,252,244,.96); box-shadow: 0 1.2rem 2.6rem rgba(54,29,9,.2); }
-.heichel-mobile-navigation .topbar-menu-panel a { display: block; padding: .78rem .85rem; border-radius: .85rem; color: var(--heichel-ink); text-decoration: none; font-weight: 900; }
+.heichel-mobile-navigation .topbar-menu-panel { position: absolute; right: 0; top: calc(100% + .45rem); min-width: 12rem; padding: .45rem; border-radius: .95rem; border: 1px solid rgba(122,82,31,.18); background: #fffaf0; box-shadow: 0 .9rem 1.6rem rgba(54,29,9,.16); }
+.heichel-mobile-navigation .topbar-menu-panel a { display: block; min-height: 2.55rem; padding: .68rem .78rem; border-radius: .75rem; color: var(--heichel-ink); text-decoration: none; font-weight: 900; }
 .heichel-mobile-navigation .topbar-menu-panel a:hover { background: rgba(214,168,79,.18); }
+@media (max-width: 520px) { .heichel-mobile-navigation .heichel-mobile-topbar { gap: .5rem; } .heichel-mobile-navigation .topbar-icon { width: 2.55rem; height: 2.55rem; } }

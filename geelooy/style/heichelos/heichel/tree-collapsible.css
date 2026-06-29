@@ -1,30 +1,20 @@
-/* B"H
- * Chapter 739: Collapsible branches reveal nested Heichel paths in place.
- */
-.heichel-mobile-navigation .nav-card-actions { display: grid; align-content: start; gap: .45rem; }
+/* B"H fast collapsible branches: clear hierarchy, low paint cost. */
+.heichel-mobile-navigation .nav-card-actions { display: grid; align-content: start; gap: .4rem; }
 .heichel-mobile-navigation .series-expand-toggle {
-  display: grid; place-items: center; width: 2.8rem; height: 2.8rem;
-  border: 1px solid rgba(122,82,31,.2); border-radius: 1rem;
-  background: rgba(255,255,255,.68); color: #7b3a13; font-size: 1.2rem; font-weight: 950; cursor: pointer;
-  box-shadow: 0 .65rem 1.3rem rgba(74,45,10,.12), inset 0 1px 0 rgba(255,255,255,.8);
-  transition: transform .2s ease, background .2s ease;
+  display: grid; place-items: center; width: 2.55rem; height: 2.55rem; border: 1px solid rgba(122,82,31,.18); border-radius: .85rem;
+  background: #fffaf0; color: #7b3a13; font-size: 1.05rem; font-weight: 950; cursor: pointer; transition: background .12s ease;
 }
-.heichel-mobile-navigation .series-expand-toggle:hover { background: rgba(216,170,81,.18); transform: translateY(-1px); }
-.heichel-mobile-navigation .series-expand-toggle[aria-expanded="true"] { background: linear-gradient(135deg, var(--heichel-gold), #f0c977); color: #160e05; transform: rotate(180deg); }
+.heichel-mobile-navigation .series-expand-toggle:hover { background: rgba(216,170,81,.18); }
+.heichel-mobile-navigation .series-expand-toggle[aria-expanded="true"] { background: #e7c06f; color: #160e05; }
+.heichel-mobile-navigation .series-expand-toggle[aria-expanded="true"]::first-letter { transform: rotate(180deg); }
 .heichel-mobile-navigation .series-children-well {
-  grid-column: 1 / -1; display: grid; gap: .75rem; margin: .35rem .15rem 0 2.75rem; padding: .85rem 0 0 1rem;
-  border-left: 2px solid rgba(122,82,31,.18); animation: heichelBranchOpen .2s ease-out;
+  grid-column: 1 / -1; display: grid; gap: .65rem; margin: .25rem .1rem 0 2rem; padding: .7rem 0 0 .9rem; border-left: 2px solid rgba(122,82,31,.16);
 }
 .heichel-mobile-navigation .series-children-well[hidden] { display: none; }
-.heichel-mobile-navigation .series-children-well .nav-card {
-  min-height: 8.2rem; grid-template-columns: minmax(3.7rem, 4.7rem) minmax(0, 1fr) auto;
-  background: linear-gradient(145deg, rgba(255,253,247,.92), rgba(246,232,207,.82));
-}
-.heichel-mobile-navigation .series-children-well .nav-card::after { left: -1.08rem; top: 50%; width: 1rem; height: 2px; background: rgba(122,82,31,.2); }
+.heichel-mobile-navigation .series-children-well .nav-card { min-height: 7.7rem; grid-template-columns: minmax(3.4rem, 4.2rem) minmax(0, 1fr) auto; box-shadow: none; background: rgba(255,253,247,.74); }
+.heichel-mobile-navigation .series-children-well .nav-card::after { left: -.95rem; top: 50%; width: .9rem; height: 2px; background: rgba(122,82,31,.18); }
 .heichel-mobile-navigation .series-branch-loading,
 .heichel-mobile-navigation .series-branch-empty,
-.heichel-mobile-navigation .series-branch-error { padding: .8rem 1rem; border-radius: 1rem; border: 1px dashed rgba(122,82,31,.22); background: rgba(255,255,255,.55); color: var(--heichel-soft-ink); font-weight: 900; }
+.heichel-mobile-navigation .series-branch-error { padding: .75rem .9rem; border-radius: .9rem; border: 1px dashed rgba(122,82,31,.2); background: rgba(255,255,255,.62); color: var(--heichel-soft-ink); font-weight: 900; }
 .heichel-mobile-navigation .series-branch-error { color: #7b260f; }
-@keyframes heichelBranchOpen { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-@media (max-width: 620px) { .heichel-mobile-navigation .series-expand-toggle { width: 2.5rem; height: 2.5rem; } .heichel-mobile-navigation .series-children-well { margin-left: 1.2rem; padding-left: .8rem; } }
-@media (prefers-reduced-motion: reduce) { .heichel-mobile-navigation .series-children-well { animation: none; } .heichel-mobile-navigation .series-expand-toggle { transition: none; } }
+@media (max-width: 620px) { .heichel-mobile-navigation .series-expand-toggle { width: 2.35rem; height: 2.35rem; } .heichel-mobile-navigation .series-children-well { margin-left: .95rem; padding-left: .75rem; } }

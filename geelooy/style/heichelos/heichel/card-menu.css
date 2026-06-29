@@ -1,25 +1,18 @@
-/* B"H
- * Chapter 728: The three dots open a tiny polished drawer, not a wound.
- */
+/* B"H fast card menu: normal drawer, no blur. */
 .card-menu-spark { position: relative; align-self: start; z-index: 10; }
 .card-menu-trigger {
-  display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border: 1px solid rgba(122,82,31,.2);
-  border-radius: 1rem; background: linear-gradient(180deg, rgba(255,221,149,.96), rgba(213,161,75,.92));
-  color: #24160b; font-size: 1.35rem; font-weight: 950; line-height: 1; box-shadow: .25rem .3rem 0 rgba(26,27,34,.88), 0 .85rem 1.5rem rgba(74,45,10,.16); cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease;
+  display: grid; place-items: center; width: 2.55rem; height: 2.55rem; border: 1px solid rgba(122,82,31,.2); border-radius: .85rem;
+  background: #e7c06f; color: #24160b; font-size: 1.18rem; font-weight: 950; line-height: 1; cursor: pointer;
 }
 .card-menu-trigger:hover,
-.card-menu-trigger:focus-visible { outline: none; transform: translateY(-1px); box-shadow: .19rem .24rem 0 rgba(26,27,34,.88), 0 1rem 1.9rem rgba(74,45,10,.21); }
+.card-menu-trigger:focus-visible { outline: none; background: #f0cd7b; }
 .card-menu-panel {
-  position: absolute; right: 0; top: calc(100% + .6rem); min-width: 13rem; max-width: min(18rem, 82vw); display: none; padding: .55rem;
-  border: 1px solid rgba(122,82,31,.18); border-radius: 1.1rem; background: rgba(255,252,244,.97);
-  box-shadow: 0 1.25rem 2.9rem rgba(54,29,9,.23), inset 0 1px 0 rgba(255,255,255,.72); backdrop-filter: blur(16px) saturate(135%);
+  position: absolute; right: 0; top: calc(100% + .45rem); min-width: 12rem; max-width: min(17rem, 82vw); display: none; padding: .45rem;
+  border: 1px solid rgba(122,82,31,.18); border-radius: .95rem; background: #fffaf0; box-shadow: 0 .8rem 1.45rem rgba(54,29,9,.16);
 }
-.card-menu-panel::before { content: ""; position: absolute; right: 1rem; top: -.35rem; width: .7rem; height: .7rem; transform: rotate(45deg); background: rgba(255,252,244,.97); border-left: 1px solid rgba(122,82,31,.16); border-top: 1px solid rgba(122,82,31,.16); }
-.card-menu-spark.open .card-menu-panel { display: grid; gap: .22rem; animation: heichelMenuIn .16s ease-out; }
-.card-menu-action { width: 100%; min-height: 2.75rem; border: 0; border-radius: .82rem; padding: .6rem .75rem; background: transparent; color: #24160b; text-align: start; font-weight: 900; cursor: pointer; }
+.card-menu-spark.open .card-menu-panel { display: grid; gap: .2rem; }
+.card-menu-action { width: 100%; min-height: 2.55rem; border: 0; border-radius: .75rem; padding: .55rem .7rem; background: transparent; color: #24160b; text-align: start; font-weight: 900; cursor: pointer; }
 .card-menu-action:hover,
 .card-menu-action:focus-visible { outline: none; background: rgba(214,168,79,.18); }
 .card-menu-action.admin-action { color: #7b260f; }
-@keyframes heichelMenuIn { from { opacity: 0; transform: translateY(-4px) scale(.98); } to { opacity: 1; transform: none; } }
-@media (max-width: 620px) { .card-menu-trigger { width: 2.5rem; height: 2.5rem; border-radius: .85rem; } .card-menu-panel { right: -.35rem; } }
+@media (max-width: 620px) { .card-menu-trigger { width: 2.35rem; height: 2.35rem; } .card-menu-panel { right: -.35rem; } }
