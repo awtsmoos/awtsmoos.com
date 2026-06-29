@@ -46,9 +46,18 @@ export function createHouseDoorMesh(options = {}) {
   door.name = options.name || "working-house-door";
   door.position.set(
     options.x || 0,
-    options.y || 0.95,
+    options.y ?? ((options.height || 1.9) / 2),
     options.z || -1.01
   );
+  Object.assign(door.userData ||= {}, {
+    isDoor: true,
+    isSolid: options.solid !== false,
+    explicitCollision: options.solid !== false,
+    interactiveDoorFallback: true,
+    isOpen: false,
+    passableDoor: false,
+    colliderSize: [options.width || 1.1, options.height || 1.9, options.depth || 0.12]
+  });
 
   return door;
 }

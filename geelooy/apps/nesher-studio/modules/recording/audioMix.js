@@ -1,11 +1,11 @@
 /* B"H
-Audio mix: many captured rivers become one stream for the WebM vessel.
+Audio mix: many captured rivers become one track only when direct passage is impossible.
 No speaker is awakened here; the breath is routed only into a destination track.
 */
-import { collectRecordableAudioSources } from './sourceAudio.js';
+import { collectRecordableAudioStreams } from './sourceAudio.js';
 
 export async function createSourceAudioMix(sources = [], options = {}) {
-  const items = collectRecordableAudioSources(sources);
+  const items = collectRecordableAudioStreams(sources);
   if (!items.length) return inactiveMix('no live source audio');
   const AudioContextCtor = globalThis.AudioContext || globalThis.webkitAudioContext;
   if (!AudioContextCtor) return inactiveMix('AudioContext unavailable');
@@ -13,14 +13,14 @@ export async function createSourceAudioMix(sources = [], options = {}) {
   const ctx = new AudioContextCtor({ sampleRate });
   const destination = ctx.createMediaStreamDestination();
   const nodes = [];
-  for (const item of uniqueStreams(items)) connectStream(ctx, destination, item, nodes);
+  for (const item of items) connectStream(ctx, destination, item.stream, nodes);
   await ctx.resume?.();
   return {
     active:true,
     stream:destination.stream,
     sampleRate:ctx.sampleRate || sampleRate,
     numberOfChannels:options.numberOfChannels || 2,
-    sourceCount:nodes.length,
+    sourceCount:items.length,
     stop:async () => {
       nodes.forEach(node => safeDisconnect(node));
       destination.disconnect?.();
@@ -29,21 +29,12 @@ export async function createSourceAudioMix(sources = [], options = {}) {
   };
 }
 
-function connectStream(ctx, destination, item, nodes) {
-  const sourceNode = ctx.createMediaStreamSource(item.stream);
+function connectStream(ctx, destination, stream, nodes) {
+  const sourceNode = ctx.createMediaStreamSource(stream);
   const gain = ctx.createGain();
   gain.gain.value = 1;
   sourceNode.connect(gain).connect(destination);
   nodes.push(sourceNode, gain);
-}
-
-function uniqueStreams(items) {
-  const seen = new Set();
-  return items.filter(item => {
-    if (seen.has(item.stream)) return false;
-    seen.add(item.stream);
-    return true;
-  });
 }
 
 function inactiveMix(reason) {

@@ -1,52 +1,47 @@
 /* B"H
-WebCodecs WebM recorder: the picture is VP9, the breath is optional Opus,
-and the Awtsmoos gathers both into one file when source audio exists and can encode.
+Manual WebCodecs WebM recorder: no browser recorder, no surrender.
+Speed comes from VP8/VP9 profiles, queue discipline, and direct audio when possible.
 */
-import { createSourceAudioMix } from '../recording/audioMix.js';
 import { inactiveAudioEncoder, startMuxedAudioEncoder } from '../recording/audioEncoder.js';
-import { assertVideoWebCodecs, supportedOpusConfig } from '../recording/recorderGuards.js';
-import { describeAudioSources } from '../recording/sourceAudio.js';
+import { createManualAudioSource } from '../recording/manualAudioSource.js';
+import { getRecordingProfile } from '../recording/manualRecordingProfile.js';
+import { assertManualWebCodecs } from '../recording/recorderGuards.js';
 import { startVideoFramePump } from '../recording/videoFramePump.js';
-import { createWebmMuxer, finalizeWebmTarget } from '../recording/webmMuxerFactory.js';
+import { codecString, createWebmMuxer, finalizeWebmTarget } from '../recording/webmMuxerFactory.js';
 
-export async function startWebCodecsWebmRecorder({ canvas, fps, bitrate, drawFrame, sources = [], onStatus }) {
-  assertVideoWebCodecs();
-  const width = canvas.width, height = canvas.height;
-  let audioMix = null, video = null, audio = null;
+export async function startWebCodecsWebmRecorder({ canvas, fps, bitrate, profileId, drawFrame, sources = [], onStatus }) {
+  assertManualWebCodecs();
+  const profile = getRecordingProfile(profileId);
+  let audioSource = null, video = null, audio = null;
   try {
-    audioMix = await createSourceAudioMix(sources);
-    const audioConfig = await prepareAudioConfig(audioMix);
-    const muxAudio = audioConfig ? { ...audioMix, config:audioConfig } : null;
-    const { muxer, target } = await createWebmMuxer({ width, height, fps, audio:muxAudio });
-    video = await startVideoFramePump({ canvas, fps, bitrate, drawFrame, muxer, onStatus });
-    audio = muxAudio ? await startMuxedAudioEncoder({ audioMix, muxer, config:audioConfig, onStatus }) : inactiveAudioEncoder(audioMix?.reason || 'WebCodecs Opus audio encoder unavailable');
-    reportAudioState(audio, sources, onStatus);
-    return { stop:() => stopRecorder({ video, audio, audioMix, muxer, target }), pumpNow:video.pumpNow, get frames(){ return video.frames; }, get errors(){ return [...video.errors, ...audio.errors]; } };
+    audioSource = await createManualAudioSource(sources, { audioBitrate:profile.audioBitrate });
+    const { muxer, target } = await createWebmMuxer({ width:canvas.width, height:canvas.height, fps, video:profile, audio:audioSource });
+    video = await startVideoFramePump({ canvas, fps, bitrate, profile, drawFrame, muxer, onStatus });
+    audio = audioSource.active ? await startMuxedAudioEncoder({ audioSource, muxer, bitrate:profile.audioBitrate, onStatus }) : inactiveAudioEncoder(audioSource.reason);
+    reportState(profile, audioSource, onStatus);
+    return { stop:() => stopRecorder({ video, audio, audioSource, muxer, target, profile }), pumpNow:video.pumpNow, get frames(){ return video.frames; }, get errors(){ return [...video.errors, ...audio.errors]; } };
   } catch (error) {
-    await cleanupOpenPieces(video, audio, audioMix);
+    await cleanupOpenPieces(video, audio, audioSource);
     throw error;
   }
 }
 
-async function prepareAudioConfig(audioMix) {
-  if (!audioMix?.active) return null;
-  return supportedOpusConfig({ sampleRate:audioMix.sampleRate, numberOfChannels:audioMix.numberOfChannels });
+function reportState(profile, audioSource, onStatus) {
+  const audio = audioSource.active ? `${audioSource.mode} audio: ${audioSource.summary}` : `video-only: ${audioSource.reason}`;
+  onStatus?.(`Manual WebCodecs ${profile.label}; ${audio}.`);
 }
 
-function reportAudioState(audio, sources, onStatus) {
-  if (audio.active) onStatus?.(`Recording WebM with audio: ${describeAudioSources(sources)}.`);
-  else onStatus?.(`Recording video-only: ${audio.reason || describeAudioSources(sources)}.`);
-}
-
-async function stopRecorder({ video, audio, audioMix, muxer, target }) {
+async function stopRecorder({ video, audio, audioSource, muxer, target, profile }) {
   const videoResult = await video.stop();
   const audioResult = await audio.stop();
-  await audioMix?.stop?.();
+  if (!audioResult.active) await audioSource?.stop?.();
   muxer.finalize();
-  const codecs = audioResult.active ? 'vp9,opus' : 'vp9';
+  const codecs = codecString(profile.mimeCodec, audioResult.active);
   return {
     blob:finalizeWebmTarget(target, codecs),
     frames:videoResult.frames,
+    encodedFrames:videoResult.encodedFrames,
+    droppedFrames:videoResult.droppedFrames,
     audioFrames:audioResult.frames || 0,
     audioActive:!!audioResult.active,
     codec:videoResult.codec,
@@ -55,10 +50,10 @@ async function stopRecorder({ video, audio, audioMix, muxer, target }) {
   };
 }
 
-async function cleanupOpenPieces(video, audio, audioMix) {
+async function cleanupOpenPieces(video, audio, audioSource) {
   try { await video?.stop?.(); } catch {}
   try { await audio?.stop?.(); } catch {}
-  try { await audioMix?.stop?.(); } catch {}
+  try { await audioSource?.stop?.(); } catch {}
 }
 
-export { supportedVp9Config } from '../recording/recorderGuards.js';
+export { supportedVideoConfig as supportedVp9Config } from '../recording/recorderGuards.js';

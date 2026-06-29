@@ -1,44 +1,33 @@
 /* B"H
- * Chapter 426: The card grows whole beneath the switcher.
+ * Chapter 726: Every card becomes a small chamber in the living tree.
  */
 .heichel-mobile-navigation .nav-card,
 .heichel-mobile-navigation .heichel-card,
 .heichel-mobile-navigation .series-card {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(4.75rem, 5.5rem) minmax(0, 1fr) auto;
-  gap: clamp(.8rem, 2vw, 1.05rem);
-  align-items: stretch;
-  min-height: 11rem;
-  padding: clamp(.72rem, 1.8vw, .95rem);
-  overflow: visible;
-  isolation: isolate;
-  border: 1px solid rgba(98,62,20,.18);
-  border-radius: clamp(1.1rem, 2.2vw, 1.55rem);
-  background: radial-gradient(circle at 88% 8%, rgba(255,224,148,.36), transparent 9rem), linear-gradient(145deg, rgba(255,253,247,.98), rgba(246,233,209,.92));
-  color: var(--heichel-ink);
-  box-shadow: 0 1.15rem 2.75rem rgba(75,45,10,.13), inset 0 1px 0 rgba(255,255,255,.75);
-  cursor: pointer;
+  position: relative; display: grid; grid-template-columns: minmax(5rem, 6rem) minmax(0, 1fr) auto; gap: clamp(.85rem, 2vw, 1.15rem);
+  align-items: stretch; min-height: 12rem; padding: clamp(.82rem, 1.8vw, 1.05rem); overflow: visible; isolation: isolate;
+  border: 1px solid rgba(98,62,20,.18); border-radius: clamp(1.25rem, 2.2vw, 1.75rem);
+  background: radial-gradient(circle at 90% 0%, rgba(255,224,148,.4), transparent 9rem), linear-gradient(145deg, rgba(255,253,247,.99), rgba(246,232,207,.94));
+  color: var(--heichel-ink); box-shadow: var(--heichel-shadow-soft), inset 0 1px 0 rgba(255,255,255,.78); cursor: pointer;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
 }
-.heichel-mobile-navigation .nav-card::before { content: ""; position: absolute; inset: .55rem; z-index: -1; border-radius: 1rem; border: 1px solid rgba(255,255,255,.55); pointer-events: none; }
+.heichel-mobile-navigation .nav-card::before { content: ""; position: absolute; inset: .58rem; z-index: -1; border-radius: calc(1.15rem + .2vw); border: 1px solid rgba(255,255,255,.56); pointer-events: none; }
+.heichel-mobile-navigation .series-nav-card::after { content: ""; position: absolute; left: 3.55rem; top: calc(100% - .15rem); width: 2px; height: 1rem; background: linear-gradient(rgba(122,82,31,.22), transparent); pointer-events: none; }
 .heichel-mobile-navigation .nav-card:hover,
 .heichel-mobile-navigation .heichel-card:hover,
 .heichel-mobile-navigation .series-card:hover,
-.heichel-mobile-navigation .nav-card:focus-within { transform: translateY(-3px); border-color: rgba(124,30,8,.34); box-shadow: 0 1.75rem 4rem rgba(75,45,10,.18); }
-.heichel-mobile-navigation .nav-card.selected { outline: 3px solid rgba(214,168,79,.72); outline-offset: 3px; }
-.heichel-mobile-navigation .nav-card-body { min-width: 0; display: grid; align-content: center; gap: .55rem; padding-inline-end: .3rem; }
+.heichel-mobile-navigation .nav-card:focus-within { transform: translateY(-4px); border-color: rgba(124,30,8,.35); box-shadow: var(--heichel-shadow-lift); }
+.heichel-mobile-navigation .nav-card:active { transform: translateY(-1px) scale(.997); }
+.heichel-mobile-navigation .nav-card.selected { outline: 3px solid rgba(214,168,79,.72); outline-offset: 3px; box-shadow: 0 0 0 .35rem rgba(216,170,81,.14), var(--heichel-shadow-lift); }
+.heichel-mobile-navigation .nav-card-body { min-width: 0; display: grid; align-content: center; gap: .58rem; padding-inline-end: .35rem; }
 .heichel-mobile-navigation .nav-card-title-row { min-width: 0; display: flex; align-items: flex-start; justify-content: space-between; gap: .55rem; }
 .heichel-mobile-navigation .nav-card h2,
 .heichel-mobile-navigation .heichel-card h2,
-.heichel-mobile-navigation .series-card h2 { margin: 0; max-width: 100%; color: #1d1711; font-size: clamp(1.22rem, 3.4vw, 1.65rem); letter-spacing: -.04em; line-height: 1.04; overflow-wrap: anywhere; }
-.heichel-mobile-navigation .nav-card p { margin: 0; max-width: 44ch; color: var(--heichel-soft-ink); font-size: clamp(.94rem, 2.1vw, 1.05rem); line-height: 1.42; overflow-wrap: anywhere; }
-.heichel-mobile-navigation .nav-card-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .15rem; color: rgba(35,24,12,.65); font-size: .76rem; font-weight: 900; line-height: 1; }
+.heichel-mobile-navigation .series-card h2 { margin: 0; max-width: 100%; color: #1d1711; font-size: clamp(1.25rem, 3.2vw, 1.72rem); letter-spacing: -.045em; line-height: 1.04; overflow-wrap: anywhere; text-wrap: balance; }
+.heichel-mobile-navigation .nav-card p { margin: 0; max-width: 48ch; color: var(--heichel-soft-ink); font-size: clamp(.94rem, 2vw, 1.04rem); line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.heichel-mobile-navigation .nav-card-meta { display: flex; flex-wrap: wrap; gap: .38rem; margin-top: .15rem; color: rgba(35,24,12,.66); font-size: .75rem; font-weight: 900; line-height: 1; }
 .heichel-mobile-navigation .nav-card-meta span,
-.heichel-mobile-navigation .nav-card footer span { display: inline-flex; align-items: center; min-height: 1.55rem; padding: .34rem .5rem; border: 1px solid rgba(122,82,31,.16); border-radius: 999px; background: rgba(255,255,255,.58); }
-.heichel-mobile-navigation .nav-card-chevron { flex: 0 0 auto; color: #8a4b00; font-size: 1.45rem; line-height: .9; }
-@media (max-width: 620px) {
-  .heichel-mobile-navigation .nav-card,
-  .heichel-mobile-navigation .heichel-card,
-  .heichel-mobile-navigation .series-card { grid-template-columns: 4.65rem minmax(0, 1fr) auto; min-height: 9.5rem; gap: .7rem; }
-  .heichel-mobile-navigation .nav-card h2 { font-size: clamp(1.1rem, 6vw, 1.38rem); }
-}
+.heichel-mobile-navigation .nav-card footer span { display: inline-flex; align-items: center; min-height: 1.65rem; padding: .38rem .55rem; border: 1px solid rgba(122,82,31,.16); border-radius: 999px; background: rgba(255,255,255,.62); }
+.heichel-mobile-navigation .nav-card-chevron { flex: 0 0 auto; color: #8a4b00; font-size: 1.65rem; line-height: .9; transition: transform .2s ease; }
+.heichel-mobile-navigation .nav-card:hover .nav-card-chevron { transform: translateX(3px); }
+@media (max-width: 620px) { .heichel-mobile-navigation .nav-card, .heichel-mobile-navigation .heichel-card, .heichel-mobile-navigation .series-card { grid-template-columns: 4.8rem minmax(0, 1fr) auto; min-height: 10.25rem; gap: .75rem; } .heichel-mobile-navigation .nav-card h2 { font-size: clamp(1.1rem, 6vw, 1.42rem); } }

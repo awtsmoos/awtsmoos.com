@@ -1,42 +1,26 @@
 /* B"H
- * Chapter 423: Search became soft command, never a black box.
+ * Chapter 724: Search becomes a quiet command line in a library of light.
  */
 .heichel-mobile-navigation .series-search-row,
 .heichel-mobile-navigation .heichel-search {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: .65rem;
-  align-items: center;
-  margin: .35rem 0 .85rem;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .7rem; align-items: center; margin: .2rem 0 .6rem;
 }
 .heichel-mobile-navigation .series-search-row input,
 .heichel-mobile-navigation .heichel-search input,
 .heichel-mobile-navigation .heichel-search-field {
-  width: 100%;
-  min-height: 3rem;
-  border: 1px solid var(--heichel-line);
-  border-radius: 999px;
-  padding: .82rem 1rem;
-  background: rgba(255,255,255,.78);
-  color: var(--heichel-ink);
-  font: inherit;
-  font-weight: 800;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 .65rem 1.4rem rgba(75,45,10,.08);
+  width: 100%; min-height: 3.25rem; border: 1px solid var(--heichel-line); border-radius: 999px;
+  padding: .9rem 1.1rem; background: rgba(255,255,255,.8); color: var(--heichel-ink);
+  font: inherit; font-weight: 850; box-shadow: inset 0 1px 0 rgba(255,255,255,.82), 0 .7rem 1.6rem rgba(75,45,10,.08);
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
-.heichel-mobile-navigation .series-search-row input:focus { outline: 3px solid rgba(214,168,79,.42); border-color: rgba(124,30,8,.38); }
+.heichel-mobile-navigation .series-search-row input::placeholder { color: rgba(49,35,20,.45); }
+.heichel-mobile-navigation .series-search-row input:focus { outline: 3px solid rgba(214,168,79,.38); border-color: rgba(124,30,8,.4); background: #fffefa; }
 .heichel-mobile-navigation .filter-chip {
-  min-height: 3rem;
-  border: 0;
-  border-radius: 999px;
-  padding: .65rem 1rem;
-  background: linear-gradient(135deg, var(--heichel-night), var(--heichel-rust));
-  color: #fff7df;
-  box-shadow: 0 .75rem 1.6rem rgba(68,29,12,.18);
-  font-weight: 950;
-  letter-spacing: .02em;
-  text-transform: none;
+  min-height: 3.25rem; border: 0; border-radius: 999px; padding: .72rem 1.08rem;
+  background: linear-gradient(135deg, var(--heichel-night), var(--heichel-rust)); color: #fff7df;
+  box-shadow: 0 .85rem 1.7rem rgba(68,29,12,.2); font-weight: 950; letter-spacing: .02em; cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
-@media (max-width: 520px) {
-  .heichel-mobile-navigation .series-search-row { grid-template-columns: 1fr; }
-  .heichel-mobile-navigation .filter-chip { justify-self: stretch; }
-}
+.heichel-mobile-navigation .filter-chip:hover { transform: translateY(-1px); box-shadow: 0 1rem 2rem rgba(68,29,12,.23); }
+.heichel-mobile-navigation .filter-chip[aria-pressed="true"] { background: linear-gradient(135deg, #553018, var(--heichel-gold)); color: #170e05; }
+@media (max-width: 520px) { .heichel-mobile-navigation .series-search-row { grid-template-columns: 1fr; } .heichel-mobile-navigation .filter-chip { justify-self: stretch; } }

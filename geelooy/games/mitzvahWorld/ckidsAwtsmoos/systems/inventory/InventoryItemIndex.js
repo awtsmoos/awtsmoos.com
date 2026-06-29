@@ -2,8 +2,9 @@
 /** @file InventoryItemIndex.js @description MMO item index for sefarim, keys, kosher craft, farm produce, rewards, food, tools, and quest items. */
 import { SeferIds, seferItem } from "../../tochen/torah/SeferIndex.js";
 import { KeyRegistry, keyItem } from "../locks/KeyRegistry.js";
+import { decorateItemIcon } from "./ItemIconResolver.js";
 export const BAG_CATEGORIES = Object.freeze(["Sefarim", "Quest Items", "Materials", "Food", "Equipment", "Torah Artifacts"]);
-const keyItems = Object.fromEntries(Object.keys(KeyRegistry).map(id => [id, keyItem(id)]));
+const keyItems = Object.fromEntries(Object.keys(KeyRegistry).map(id => [id, decorateItemIcon(keyItem(id))]));
 const baseItems = {
   spark_fragment: { id:"spark_fragment", name:"Spark Fragment", category:"Torah Artifacts", icon:"SPARK", sellValue:1 },
   siddur_page: { id:"siddur_page", name:"Loose Siddur Page", category:"Quest Items", icon:"PAGE" },
@@ -31,7 +32,11 @@ const baseItems = {
   sturdy_watering_can: { id:"sturdy_watering_can", name:"Sturdy Watering Can", category:"Equipment", icon:"CAN", craft:2, price:25, sellValue:7, equipmentSlot:"tool" },
   ink_discount: { id:"ink_discount", name:"Ink Discount Token", category:"Quest Items", icon:"INK", sellValue:0 }
 };
-export const InventoryItemIndex = Object.freeze({ ...Object.fromEntries(SeferIds.map(id => [`sefer_${id}`, seferItem(id)])), ...keyItems, ...baseItems });
-export function itemById(id) { return InventoryItemIndex[id] || null; }
+export const InventoryItemIndex = Object.freeze({
+  ...Object.fromEntries(SeferIds.map(id => [`sefer_${id}`, decorateItemIcon(seferItem(id))])),
+  ...keyItems,
+  ...Object.fromEntries(Object.entries(baseItems).map(([id, item]) => [id, decorateItemIcon(item)]))
+});
+export function itemById(id) { const item = InventoryItemIndex[id] || null; return item ? decorateItemIcon(item) : null; }
 export function categoryOf(item) { return item?.category || "Materials"; }
 export default InventoryItemIndex;

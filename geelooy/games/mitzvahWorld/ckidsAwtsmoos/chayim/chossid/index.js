@@ -44,7 +44,16 @@ export default class Chossid extends Chai {
   getActiveItem() { return this.inventory?.actionSlots?.[Number.isInteger(this.selectedInventorySlot) ? this.selectedInventorySlot : 0] || null; }
   getRealActiveItemInstance() { const item = this.getActiveItem(); if (item?.className === 'ElementalStaff') this.olam?.ayshPeula("toolAltAction", item); return item; }
   resetPreviewRotation() { this.placementRotation = 0; }
-  shoot() { this.olam?.combatManager?.attack?.({ source: "chossid-shoot" }); }
+  shoot() {
+    const target = this.combatTarget || this.olam?.__selectedCombatTarget || this.olam?.combatManager?.target;
+    const data = target?.mesh?.userData || target?.userData || {};
+    const friendly = data.friendly || data.peaceful || data.domestic || target?.friendly || target?.peaceful;
+    if (!target || friendly) {
+      this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "Select an enemy first.", color: "#ffd95a" });
+      return false;
+    }
+    return this.olam?.combatManager?.attack?.({ source: "chossid-shoot", target });
+  }
   rememberApproach(entity) { if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity); }
   forgetApproach(entity) { const idx = this.approachedEntities.indexOf(entity); if (idx > -1) this.approachedEntities.splice(idx, 1); }
   async madeAll() { if (this.mesh) this.mesh.userData.isPlayer = true; this.updateAppearance?.(); this.setupDefaultInventory?.(); this.inventory?.updateUI?.(); this.recalculateStats(); ensurePlayerLevel(this, this.olam); }

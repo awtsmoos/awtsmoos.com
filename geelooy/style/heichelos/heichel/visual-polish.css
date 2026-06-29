@@ -1,3 +1,18 @@
-/* B"H Heichel visual polish: shared finishing layer. */
-.heichel-card p, .series-card p { color: var(--awt-ink-soft); line-height: 1.58; }
-.heichel-card small, .series-card small { color: rgba(32,21,8,.62); font-weight: 800; }
+/* B"H
+ * Chapter 736: Final browse-only polish, where tiny states become tactile.
+ */
+.heichel-mobile-navigation .breadcrumb-link,
+.heichel-mobile-navigation .breadcrumb-separator { display: inline-flex; align-items: center; }
+.heichel-mobile-navigation .breadcrumb-link {
+  min-height: 2.35rem; border: 1px solid rgba(122,82,31,.16); border-radius: 999px; padding: .45rem .75rem;
+  background: rgba(255,255,255,.62); color: var(--heichel-ink); font: inherit; font-weight: 900; cursor: pointer;
+}
+.heichel-mobile-navigation .breadcrumb-link:hover { background: rgba(216,170,81,.18); }
+.heichel-mobile-navigation .breadcrumb-separator { color: rgba(49,35,20,.42); padding-inline: .25rem; }
+.heichel-mobile-navigation details[open] > summary .topbar-icon,
+.heichel-mobile-navigation .topbar-notification-menu[open] summary { transform: translateY(-1px); }
+.heichel-mobile-navigation .nav-card[data-type="series"] .nav-card-media span { background: rgba(216,170,81,.28); }
+.heichel-mobile-navigation .nav-card[data-type="post"] .nav-card-media span { background: rgba(255,255,255,.2); }
+.heichel-mobile-navigation .viewport:not(.hidden) { animation: heichelViewportIn .22s ease-out; }
+@keyframes heichelViewportIn { from { opacity: .25; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .heichel-mobile-navigation .viewport:not(.hidden) { animation: none; } }

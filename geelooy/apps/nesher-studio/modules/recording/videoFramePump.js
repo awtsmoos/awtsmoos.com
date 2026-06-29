@@ -1,46 +1,58 @@
 /* B"H
-Video frame pump: the canvas is sampled in measured breaths.
-Each VideoFrame is born, encoded, closed, and returned to nothing.
+Manual video pump: fast WebCodecs without backlog.
+When the encoder queue swells, frames are skipped so the studio stays alive.
 */
-import { supportedVp9Config } from './recorderGuards.js';
+import { supportedVideoConfig } from './recorderGuards.js';
 
-export async function startVideoFramePump({ canvas, fps, bitrate, drawFrame, muxer, onStatus }) {
+export async function startVideoFramePump({ canvas, fps, bitrate, profile, drawFrame, muxer, onStatus }) {
   const width = canvas.width, height = canvas.height;
-  const config = await supportedVp9Config({ width, height, fps, bitrate });
-  const errors = [];
-  const encoder = new VideoEncoder({ output:(chunk, meta) => muxer.addVideoChunk(chunk, meta), error:e => errors.push(e.message || String(e)) });
-  encoder.configure(config);
-  let frameIndex = 0, stopped = false, pumping = false;
-  const frameDuration = Math.round(1000000 / fps);
-  const timer = setInterval(() => pump(), Math.max(16, Math.round(1000 / fps)));
-  await pump();
-  onStatus?.(`WebCodecs VP9 video recording ${width}×${height} @ ${fps}fps.`);
-  return { stop, pumpNow:pump, config, errors, get frames(){ return frameIndex; } };
+  const supported = await supportedVideoConfig({ width, height, fps, bitrate, profile });
+  const errors = [], maxQueue = profile.maxQueue || 2;
+  let frameIndex = 0, encodedFrames = 0, droppedFrames = 0, stopped = false, pumping = false;
+  let lastTimestamp = -1;
+  const startMs = performance.now();
+  const encoder = new VideoEncoder({ output:(chunk, meta) => { muxer.addVideoChunk(chunk, meta); encodedFrames += 1; }, error:e => errors.push(e.message || String(e)) });
+  encoder.configure(supported.config);
+  const frameMs = Math.max(16, Math.round(1000 / fps));
+  const timer = setInterval(() => pump(), frameMs);
+  await pump(true);
+  onStatus?.(`Manual ${profile.label} recording ${width}×${height}; queue cap ${maxQueue}.`);
+  return { stop, pumpNow:pump, config:supported.config, muxCodec:supported.muxCodec, mimeCodec:supported.mimeCodec, errors, get frames(){ return frameIndex; }, get dropped(){ return droppedFrames; } };
 
-  async function pump() {
+  async function pump(forceKeyFrame = false) {
     if (stopped || pumping) return;
+    if (encoder.encodeQueueSize > maxQueue) { droppedFrames += 1; return; }
     pumping = true;
     try {
       drawFrame?.();
-      const timestamp = frameIndex * frameDuration;
-      const frame = new VideoFrame(canvas, { timestamp, duration:frameDuration });
-      encoder.encode(frame, { keyFrame: frameIndex % Math.max(1, fps * 2) === 0 });
+      const timestamp = nextTimestamp(startMs, lastTimestamp);
+      lastTimestamp = timestamp;
+      const frame = new VideoFrame(canvas, { timestamp });
+      encoder.encode(frame, { keyFrame:forceKeyFrame || shouldKeyFrame(frameIndex, fps, profile) });
       frame.close();
       frameIndex += 1;
     } catch (e) {
-      const message = e.message || String(e);
-      errors.push(message);
-      onStatus?.(`WebCodecs frame error: ${message}`);
+      errors.push(e.message || String(e));
     } finally { pumping = false; }
   }
 
   async function stop() {
     stopped = true;
     clearInterval(timer);
-    if (pumping) await new Promise(resolve => setTimeout(resolve, 25));
-    if (frameIndex === 0) throw new Error(`WebCodecs recorder produced zero frames: ${errors.join('; ') || 'no frame pump'}`);
+    if (pumping) await new Promise(resolve => setTimeout(resolve, 20));
+    if (frameIndex === 0) throw new Error(`Manual WebCodecs recorder produced zero frames: ${errors.join('; ') || 'no frame pump'}`);
     await encoder.flush();
     encoder.close();
-    return { frames:frameIndex, codec:config.codec, errors:errors.slice() };
+    return { frames:frameIndex, encodedFrames, droppedFrames, codec:supported.config.codec, mimeCodec:supported.mimeCodec, errors:errors.slice() };
   }
+}
+
+function nextTimestamp(startMs, lastTimestamp) {
+  const now = Math.max(0, Math.round((performance.now() - startMs) * 1000));
+  return now <= lastTimestamp ? lastTimestamp + 1000 : now;
+}
+
+function shouldKeyFrame(frameIndex, fps, profile) {
+  const interval = Math.max(1, Math.round((profile.keyFrameSeconds || 2) * fps));
+  return frameIndex % interval === 0;
 }

@@ -107,7 +107,7 @@ export function createAwtsmoosThreeBufferGeometry(THREE, renderData, options = {
     geometry.setIndex(new THREE.BufferAttribute(typed, 1));
   }
 
-  if (!geometry.getAttribute("normal") && options.computeNormalsIfMissing !== false) {
+  if (options.preserveNormals !== true && options.computeNormalsIfMissing !== false) {
     geometry.computeVertexNormals();
   }
 

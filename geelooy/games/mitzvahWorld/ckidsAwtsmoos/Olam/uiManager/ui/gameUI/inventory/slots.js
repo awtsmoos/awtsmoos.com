@@ -3,14 +3,17 @@
  * @file slots.js
  * @description Chapter 29: Touch-first wardrobe slot renderer.
  */
+import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js";
+
 const categoryFor = item => item?.equipSlot || (item?.className === "Container" ? "all" : "all");
 const isVisibleFor = (item, filter) => !filter || filter === "all" || categoryFor(item) === filter || (filter === "acc" && ["rightHand", "leftHand"].includes(item?.equipSlot));
 const iconIsImage = icon => icon && (icon.includes("/") || icon.includes("data:"));
 
 function iconNode(item) {
   if (!item) return null;
-  if (iconIsImage(item.icon)) return { tag: "div", className: "slotBtn", style: { backgroundImage: `url("${item.icon}")` } };
-  return { tag: "div", className: "slotBtn", textContent: item.icon || "✦" };
+  const icon = resolveItemIcon(item);
+  if (iconIsImage(icon)) return { tag: "div", className: "slotBtn", style: { backgroundImage: `url("${icon}")` } };
+  return { tag: "div", className: "slotBtn", textContent: icon || "✦" };
 }
 
 function markSelected(root, el, item, index, sourceType) {

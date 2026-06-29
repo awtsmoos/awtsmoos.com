@@ -1,20 +1,105 @@
 // B"H
-/** @file RegionTreeRenderer.js @description More forest through rings: detailed near, simple mid, far silhouettes. */
+/**
+ * @file RegionTreeRenderer.js
+ * @description
+ * Region trees now route through the approved Awtsmoos procedural-core gateway
+ * for the visible forest, instead of the cheap chunky placeholder canopies.
+ */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { rand } from "./RegionRandom.js";
 import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
 import { sealRegionVisual } from "./RegionSeal.js";
-import { groundY } from "./RegionGround.js";
-import { regionMaterial } from "./RegionMaterials.js?v=ping-pong-crisp-textures-20260622-bh1";
-const ANCHORS=Object.freeze([[18,28,"olive","mature"],[-34,42,"oak","mature"],[46,-18,"apple","mature"],[-62,-24,"oak","ancient"],[84,64,"pine","mature"],[118,86,"oak","mature"],[-96,18,"apple","mature"],[22,96,"willow","mature"],[-128,72,"oak","ancient"],[146,26,"pine","mature"],[72,-72,"apple","mature"],[-42,-86,"olive","mature"]]);
-function reportTrees(r){return r?.instances&&Array.isArray(r.instances.trees)?r.instances.trees:[];} function fallback(n){return Array.from({length:n},(_,i)=>{const a=i*2.399963,r=48+Math.sqrt(rand(i,1))*260;return{x:-25+Math.cos(a)*r,z:32+Math.sin(a)*r*.72,kind:i%7===0?'apple':i%5===0?'pine':'oak',age:i%13===0?'ancient':'mature'};});}
-function specs(report){return [...ANCHORS.map((a,i)=>({x:a[0],z:a[1],kind:a[2],age:a[3],name:`starter_visible_tree_${i}`,starterAnchor:true})),...(reportTrees(report).length?reportTrees(report):fallback(520))];}
-function layer(name,geo,mat,count){const m=new THREE.InstancedMesh(geo,mat,count);m.name=name;m.castShadow=false;m.receiveShadow=true;Object.assign(m.userData,{instancedForestPart:true,visualOnly:true,skipOctree:true,noOctree:true});return m;}
-function place(d,m,i,x,y,z,sx,sy,sz,yaw=0){d.position.set(x,y,z);d.rotation.set(0,yaw,0);d.scale.set(sx,sy,sz);d.updateMatrix();m.setMatrixAt(i,d.matrix);}
-function opt(s,i){return{...s,name:s.name||`lod_tree_${i}`,yaw:rand(i,9)*6.28,scale:s.age==='ancient'?1.22:.78+rand(i,10)*.52};}
-export function buildTreeRenderer(olam,report={}){const all=specs(report),near=Math.min(160,Math.max(96,budgetedQualityCount(olam,160,'treeDistance',160))),mid=220,far=420,root=new THREE.Group();root.name='living_region_many_tree_lod_forest'; const d=new THREE.Object3D(),colliders=[];
- const trunk=layer('near_instanced_textured_trunks',new THREE.CylinderGeometry(.22,.36,1,7),regionMaterial('barkOak',{simple:true}),near); const canopy=layer('near_instanced_leaf_canopy_heads',new THREE.IcosahedronGeometry(1,1),regionMaterial('leaf',{simple:true}),near*3); const accent=layer('near_instanced_leaf_accent_heads',new THREE.IcosahedronGeometry(1,0),regionMaterial('mossPatch',{simple:true}),near*2);
- const midCanopy=layer('mid_lod_forest_canopy_clouds',new THREE.IcosahedronGeometry(1,0),regionMaterial('leaf',{simple:true}),mid); const farTrunk=layer('far_lod_tree_silhouette_posts',new THREE.CylinderGeometry(.18,.24,1,5),regionMaterial('barkOak',{simple:true}),far);
- for(let i=0;i<near;i++){const s=opt(all[i%all.length],i),x=+s.x||0,z=+s.z||0,y=groundY(olam,x,z),q=s.scale,h=4.2*q;place(d,trunk,i,x,y+h*.36,z,.52*q,h,.52*q,s.yaw);place(d,canopy,i*3,x,y+h*.94,z,1.75*q,1.16*q,1.5*q,s.yaw);place(d,canopy,i*3+1,x-.58*q,y+h*.8,z+.2*q,1.18*q,.78*q,1.04*q,s.yaw+.8);place(d,canopy,i*3+2,x+.54*q,y+h*.86,z-.32*q,1.08*q,.72*q,.98*q,s.yaw-.7);place(d,accent,i*2,x-.28*q,y+h*1.08,z-.18*q,.68*q,.34*q,.58*q,s.yaw+1.6);place(d,accent,i*2+1,x+.34*q,y+h*.7,z+.42*q,.52*q,.3*q,.46*q,s.yaw-1.2);colliders.push({id:`tree_trunk_${i}`,category:'tree-trunk',owner:s.name,position:[x,y+h*.36,z],size:[.58*q,h,.58*q],exactTrunk:true,starterAnchor:!!s.starterAnchor});}
- for(let i=0;i<mid;i++){const s=opt(all[(i+near)%all.length],i+near),x=+s.x||0,z=+s.z||0,y=groundY(olam,x,z),q=s.scale*.95;place(d,midCanopy,i,x,y+3.8*q,z,2.2*q,1.5*q,1.9*q,s.yaw);} for(let i=0;i<far;i++){const s=opt(all[(i+near+mid)%all.length],i+near+mid),x=+s.x||0,z=+s.z||0,y=groundY(olam,x,z),q=s.scale*.8;place(d,farTrunk,i,x,y+1.9*q,z,.42*q,3.8*q,.42*q,s.yaw);}
- [trunk,canopy,accent,midCanopy,farTrunk].forEach(m=>m.instanceMatrix.needsUpdate=true); root.add(trunk,canopy,accent,midCanopy,farTrunk); root.userData.colliderSources=colliders; root.userData.stats={trees:near+mid+far,nearTrees:near,midTrees:mid,farTrees:far,visibleMinimum:near,starterAnchorTrees:ANCHORS.length,drawCalls:5,lodForest:true,moreTrees:true,smartLOD:true,colliderSources:colliders.length}; return sealRegionVisual(root,{instancedForest:true,manyTrees:true,smartLOD:true,bboxGroundedTrees:true});}
+import { buildAdvancedTree, approvedTreeStats } from "./AdvancedTreeOnly.js?v=exclusive-procedural-core-tree-20260614-bh4";
+
+const ANCHORS = Object.freeze([
+  [18, 28, "olive", "mature"],
+  [-34, 42, "oak", "mature"],
+  [46, -18, "apple", "mature"],
+  [-62, -24, "oak", "ancient"],
+  [84, 64, "pine", "mature"],
+  [118, 86, "oak", "mature"],
+  [-96, 18, "apple", "mature"],
+  [22, 96, "willow", "mature"],
+  [-128, 72, "oak", "ancient"],
+  [146, 26, "pine", "mature"],
+  [72, -72, "apple", "mature"],
+  [-42, -86, "olive", "mature"]
+]);
+
+function reportTrees(report) {
+  return report?.instances && Array.isArray(report.instances.trees) ? report.instances.trees : [];
+}
+
+function fallback(count) {
+  return Array.from({ length: count }, (_, index) => {
+    const angle = index * 2.399963;
+    const radius = 48 + Math.sqrt(rand(index, 1)) * 260;
+    return {
+      x: -25 + Math.cos(angle) * radius,
+      z: 32 + Math.sin(angle) * radius * 0.72,
+      kind: index % 7 === 0 ? "apple" : index % 5 === 0 ? "pine" : "oak",
+      age: index % 13 === 0 ? "ancient" : "mature"
+    };
+  });
+}
+
+function specs(report) {
+  const anchored = ANCHORS.map((anchor, index) => ({
+    x: anchor[0],
+    z: anchor[1],
+    kind: anchor[2],
+    age: anchor[3],
+    name: `starter_procedural_core_tree_${index}`,
+    starterAnchor: true
+  }));
+  return [...anchored, ...(reportTrees(report).length ? reportTrees(report) : fallback(160))];
+}
+
+function optionsFor(source, index) {
+  return {
+    ...source,
+    name: source.name || `procedural_core_region_tree_${index}`,
+    x: Number(source.x) || 0,
+    z: Number(source.z) || 0,
+    kind: source.kind || source.species || "oak",
+    age: source.age || "mature",
+    rotationY: rand(index, 9) * Math.PI * 2,
+    scale: source.age === "ancient" ? 1.18 : 0.78 + rand(index, 10) * 0.36,
+    groundLift: 0.01
+  };
+}
+
+function addTree(root, olam, source, index) {
+  const tree = buildAdvancedTree(olam, optionsFor(source, index), index);
+  tree.userData.regionProceduralCoreTree = true;
+  tree.userData.skipRaycast = true;
+  root.add(tree);
+  return tree;
+}
+
+export function buildTreeRenderer(olam, report = {}) {
+  const all = specs(report);
+  const count = Math.min(96, Math.max(42, budgetedQualityCount(olam, 72, "treeDistance", 72)));
+  const root = new THREE.Group();
+  root.name = "living_region_procedural_core_tree_forest";
+  for (let index = 0; index < count; index++) addTree(root, olam, all[index % all.length], index);
+  const audit = approvedTreeStats(root);
+  root.userData.colliderSources = [];
+  root.userData.stats = {
+    trees: count,
+    nearTrees: count,
+    approvedProceduralCoreTrees: audit.approvedTreeObjects,
+    drawCallsEstimate: count * 2,
+    lodForest: false,
+    proceduralCoreForest: true,
+    colliderSources: 0
+  };
+  return sealRegionVisual(root, {
+    proceduralCoreForest: true,
+    onlyApprovedTreeSource: true,
+    manyTrees: true,
+    bboxGroundedTrees: true
+  });
+}
+
+export default buildTreeRenderer;

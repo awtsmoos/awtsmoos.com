@@ -1,6 +1,6 @@
 /* B"H
-Nesher Studio boot: the visible editor is a stage where pixels, sources, audio, export,
-and streaming are each given their appointed vessel without hiding the path.
+Nesher Studio boot: pixels, sources, audio, export, and streaming are each given
+an appointed vessel while manual WebCodecs carries the recording path.
 */
 import { createState } from './modules/state.js';
 import { dom, setStatus, setStreamHealth, setProviderUi } from './modules/dom.js';
@@ -11,6 +11,7 @@ import { bindScenes } from './modules/scenes.js';
 import { duplicateSelected, moveSelected, removeSelected } from './modules/layers.js';
 import { toggleRecording } from './modules/recorder.js';
 import { bindSizeControls } from './modules/recording/sizeControls.js';
+import { DEFAULT_PROFILE_ID, profileOptionsHtml } from './modules/recording/manualRecordingProfile.js';
 import { createYoutubeHlsMpegTsStreamer as createGenericHlsStreamer } from './modules/youtube/hlsMpegTsStreamer.js';
 import { STREAM_PROVIDERS, getProvider, formatSummary } from './modules/providers/streamProviders.js';
 import { createBin, addAsset, selectAsset, selectedAsset } from './modules/nle/bin.js';
@@ -26,9 +27,10 @@ boot();
 
 function boot() {
   ensureNleState(); resizeStage(state); bindDragging(state); bindScenes(state); refreshSources(state);
-  setupProviders(); bindCanvasSizing(); renderNle(state, dom); setStreamHealth(); bindUi();
+  setupRecordingProfiles(); setupProviders(); bindCanvasSizing(); renderNle(state, dom); setStreamHealth(); bindUi();
 }
 function ensureNleState() { state.bin ||= createBin(); state.timeline ||= createTimeline(); state.exportPlan ||= createExportPlan(state); }
+function setupRecordingProfiles() { dom.recordingProfile.innerHTML = profileOptionsHtml(); dom.recordingProfile.value = state.recordingProfile || DEFAULT_PROFILE_ID; }
 function bindCanvasSizing() { bindSizeControls({ dom, state, resizeStage, createExportPlan, renderNle, setStatus }); }
 function setupProviders() { dom.streamProvider.innerHTML = STREAM_PROVIDERS.map(p => `<option value="${p.id}">${p.name}</option>`).join(''); dom.streamProvider.value = state.providerId; updateProviderUi(); }
 function bindUi() {

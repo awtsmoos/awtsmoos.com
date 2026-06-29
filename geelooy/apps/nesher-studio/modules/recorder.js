@@ -1,10 +1,11 @@
 /* B"H
-Recorder bridge: the UI asks for a WebM, and the hidden paths of video plus audio are handed
-into the WebCodecs vessel. If no audio exists, the truth is spoken instead of hidden.
+Recorder bridge: manual WebCodecs only. No browser recorder. No surrender.
+Profiles tune speed and quality while every file remains born from explicit encoders.
 */
 import { dom, setStatus } from './dom.js';
 import { drawStage } from './stage.js';
 import { downloadBlob } from './download.js';
+import { bitrateForProfile, getRecordingProfile, profileSummary } from './recording/manualRecordingProfile.js';
 import { describeAudioSources } from './recording/sourceAudio.js';
 import { startWebCodecsWebmRecorder } from './webcodecs/webmRecorder.js';
 
@@ -16,39 +17,52 @@ async function startRecording(state) {
   cleanup(state, '', true);
   state.recording = true;
   dom.recordButton.textContent = 'Stop Recording';
-  const audioSummary = describeAudioSources(state.sources);
+  const profile = getRecordingProfile(dom.recordingProfile?.value);
   try {
-    state.webCodecsRecorder = await startWebCodecsWebmRecorder({
-      canvas:dom.stage,
-      fps:state.fps || 30,
-      bitrate:Math.max(900000, state.width * state.height * 2),
-      drawFrame:() => drawStage(state),
-      sources:state.sources,
-      onStatus:setStatus
-    });
-    setStatus(`Recording WebCodecs WebM; audio path: ${audioSummary}.`);
+    state.activeRecorder = await startWebCodecsWebmRecorder(recordingConfig(state, profile));
+    state.recordingProfile = profile.id;
+    setStatus(`Manual WebCodecs recording: ${profileSummary(profile)}; audio path: ${describeAudioSources(state.sources)}.`);
   } catch (e) {
-    cleanup(state, `WebCodecs recording failed: ${e.message}`);
+    cleanup(state, `Manual WebCodecs recording failed: ${e.message}`);
   }
 }
 
 async function stopRecording(state) {
-  if (!state.webCodecsRecorder) return cleanup(state, 'No active WebCodecs recorder.');
+  const recorder = state.activeRecorder;
+  if (!recorder) return cleanup(state, 'No active manual recorder.');
   state.recording = false;
-  dom.recordButton.textContent = 'Encoding...';
-  setStatus('Finalizing WebCodecs VP9 WebM with optional Opus audio...');
+  dom.recordButton.textContent = 'Finalizing...';
+  setStatus('Finalizing manual WebCodecs WebM...');
   try {
-    const result = await state.webCodecsRecorder.stop();
-    downloadBlob(result.blob, `BH-Nesher-Studio-WebCodecs-${Date.now()}.webm`);
-    const audio = result.audioActive ? `, ${result.audioFrames} audio frames, ${result.audioCodec}` : ', no muxed audio';
-    cleanup(state, `WebCodecs WebM downloaded: ${result.frames} video frames${audio}.`);
+    const result = await recorder.stop();
+    downloadBlob(result.blob, `BH-Nesher-Studio-Manual-WebCodecs-${Date.now()}.webm`);
+    cleanup(state, statusForResult(result));
   } catch (e) {
-    cleanup(state, `WebCodecs finalize failed: ${e.message}`);
+    cleanup(state, `Manual WebCodecs finalize failed: ${e.message}`);
   }
+}
+
+function recordingConfig(state, profile) {
+  return {
+    canvas:dom.stage,
+    fps:state.fps || 30,
+    bitrate:bitrateForProfile(state, profile),
+    profileId:profile.id,
+    drawFrame:() => drawStage(state),
+    sources:state.sources,
+    onStatus:setStatus
+  };
+}
+
+function statusForResult(result) {
+  const audio = result.audioActive ? `, Opus ${result.audioFrames} audio frames` : ', no muxed audio';
+  const drops = result.droppedFrames ? `, ${result.droppedFrames} dropped for speed` : '';
+  return `Manual WebCodecs WebM ready: ${result.encodedFrames || result.frames} encoded video frames${drops}${audio}. Link added to Recordings shelf.`;
 }
 
 function cleanup(state, message, quiet = false) {
   state.recording = false;
+  state.activeRecorder = null;
   state.webCodecsRecorder = null;
   dom.recordButton.textContent = 'Start Recording';
   if (!quiet) setStatus(message);

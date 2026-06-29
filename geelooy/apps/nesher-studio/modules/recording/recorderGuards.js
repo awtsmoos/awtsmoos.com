@@ -1,25 +1,24 @@
 /* B"H
-Recorder guards: gates before the encoder palace.
-The Awtsmoos may pour light through many browsers; this file names what is present.
+Recorder guards: no browser recorder is invited here.
+Only WebCodecs gates are checked before pixels and breath enter the manual vessel.
 */
-export function assertVideoWebCodecs() {
-  if (!('VideoEncoder' in globalThis) || !('VideoFrame' in globalThis)) {
-    throw new Error('WebCodecs VideoEncoder/VideoFrame are unavailable.');
-  }
+export function assertManualWebCodecs() {
+  if (!('VideoEncoder' in globalThis) || !('VideoFrame' in globalThis)) throw new Error('WebCodecs VideoEncoder/VideoFrame are unavailable.');
 }
 
 export function canEncodeAudio() {
   return 'AudioEncoder' in globalThis && 'MediaStreamTrackProcessor' in globalThis;
 }
 
-export async function supportedVp9Config({ width, height, fps, bitrate }) {
-  const requested = { codec:'vp09.00.10.08', width, height, bitrate, framerate:fps, latencyMode:'quality' };
+export async function supportedVideoConfig({ width, height, fps, bitrate, profile }) {
+  assertManualWebCodecs();
+  const requested = baseVideoConfig({ width, height, fps, bitrate, profile });
   const support = await VideoEncoder.isConfigSupported(requested);
-  if (!support.supported) throw new Error('WebCodecs VP9 encoder is not supported in this browser context.');
-  return support.config;
+  if (!support.supported) throw new Error(`WebCodecs ${profile.codec} video encoder is not supported here.`);
+  return { config:support.config, muxCodec:profile.muxCodec, mimeCodec:profile.mimeCodec };
 }
 
-export async function supportedOpusConfig({ sampleRate = 48000, numberOfChannels = 2, bitrate = 128000 } = {}) {
+export async function supportedOpusConfig({ sampleRate = 48000, numberOfChannels = 2, bitrate = 160000 } = {}) {
   if (!canEncodeAudio()) return null;
   const requested = { codec:'opus', sampleRate, numberOfChannels, bitrate };
   const support = await AudioEncoder.isConfigSupported(requested);
@@ -27,5 +26,19 @@ export async function supportedOpusConfig({ sampleRate = 48000, numberOfChannels
 }
 
 export function assertMuxerAudio(muxer) {
-  if (typeof muxer?.addAudioChunk !== 'function') throw new Error('webm-muxer audio chunk support is unavailable.');
+  if (typeof muxer?.addAudioChunk !== 'function') throw new Error('WebM muxer audio chunk support is unavailable.');
 }
+
+function baseVideoConfig({ width, height, fps, bitrate, profile }) {
+  return {
+    codec:profile.codec,
+    width,
+    height,
+    bitrate,
+    framerate:fps,
+    latencyMode:profile.latencyMode,
+    hardwareAcceleration:'prefer-hardware'
+  };
+}
+
+export { supportedVideoConfig as supportedVp9Config };

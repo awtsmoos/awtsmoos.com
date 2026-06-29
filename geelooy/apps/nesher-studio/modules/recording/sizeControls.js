@@ -1,16 +1,26 @@
 /* B"H
-Size controls: presets and custom dimensions stop being decorations and become stage reality.
-The canvas garment changes, the project remembers, and the frame is redrawn at once.
+Size controls: the default path preserves proportion.
+Only an explicit unlock lets width and height walk separately.
 */
+import { aspectOptionsHtml, ratioIdForSize, ratioValue, sizeWithLockedAspect } from './aspectRatio.js';
 import { RESOLUTION_PRESETS, CUSTOM_PRESET_ID, presetOptionsHtml, presetIdForSize, sanitizeSize, sizeForPreset } from './resolutionPresets.js';
 
 export function bindSizeControls({ dom, state, resizeStage, createExportPlan, renderNle, setStatus }) {
   dom.resolutionPreset.innerHTML = presetOptionsHtml();
+  dom.aspectRatio.innerHTML = aspectOptionsHtml();
+  dom.aspectLock.checked = state.aspectLock !== false;
   syncControlsFromState(dom, state);
-  dom.resolutionPreset.addEventListener('change', () => applyPreset({ dom, state, resizeStage, createExportPlan, renderNle, setStatus }));
-  dom.canvasWidth.addEventListener('input', () => markCustomWhenNeeded(dom));
-  dom.canvasHeight.addEventListener('input', () => markCustomWhenNeeded(dom));
-  dom.applySize.addEventListener('click', () => applyCustomSize({ dom, state, resizeStage, createExportPlan, renderNle, setStatus }));
+  const deps = { dom, state, resizeStage, createExportPlan, renderNle, setStatus };
+  dom.resolutionPreset.addEventListener('change', () => applyPreset(deps));
+  dom.aspectRatio.addEventListener('change', () => applyRatio(deps));
+  dom.aspectLock.addEventListener('change', () => applyCustomSize(deps));
+  dom.canvasWidth.addEventListener('input', () => lockDimension(deps, 'width'));
+  dom.canvasHeight.addEventListener('input', () => lockDimension(deps, 'height'));
+  dom.canvasWidth.addEventListener('change', () => applyCustomSize(deps));
+  dom.canvasHeight.addEventListener('change', () => applyCustomSize(deps));
+  dom.fps.addEventListener('change', () => applyCustomSize(deps));
+  dom.swapSize.addEventListener('click', () => swapSize(deps));
+  dom.applySize.addEventListener('click', () => applyCustomSize(deps));
 }
 
 export function syncControlsFromState(dom, state) {
@@ -18,42 +28,67 @@ export function syncControlsFromState(dom, state) {
   dom.canvasHeight.value = state.height;
   dom.fps.value = state.fps;
   dom.resolutionPreset.value = presetIdForSize(state.width, state.height);
+  dom.aspectRatio.value = ratioIdForSize(state.width, state.height);
 }
 
 export function applyPreset(deps) {
-  const { dom, state, setStatus } = deps;
-  if (dom.resolutionPreset.value === CUSTOM_PRESET_ID) return applyCustomSize(deps);
+  const { dom, state } = deps;
   const next = sizeForPreset(dom.resolutionPreset.value, state);
   dom.canvasWidth.value = next.width;
   dom.canvasHeight.value = next.height;
+  dom.aspectRatio.value = ratioIdForSize(next.width, next.height);
   dom.fps.value = sanitizeSize({ fps:dom.fps.value }).fps;
   applyStageSize(deps, `${labelForPreset(dom.resolutionPreset.value)} applied`);
+}
+
+export function applyRatio(deps) {
+  const { dom } = deps;
+  if (!dom.aspectLock.checked) return applyCustomSize(deps);
+  const ratio = ratioValue(dom.aspectRatio.value, dom.canvasWidth.value, dom.canvasHeight.value);
+  const locked = sizeWithLockedAspect({ width:dom.canvasWidth.value, height:dom.canvasHeight.value, ratio });
+  dom.canvasWidth.value = locked.width;
+  dom.canvasHeight.value = locked.height;
+  applyStageSize(deps, 'Aspect ratio applied');
+}
+
+export function lockDimension(deps, changed) {
+  const { dom } = deps;
+  dom.resolutionPreset.value = presetIdForSize(dom.canvasWidth.value, dom.canvasHeight.value);
+  if (!dom.aspectLock.checked) { dom.aspectRatio.value = ratioIdForSize(dom.canvasWidth.value, dom.canvasHeight.value); return; }
+  const ratio = ratioValue(dom.aspectRatio.value, dom.canvasWidth.value, dom.canvasHeight.value);
+  const locked = sizeWithLockedAspect({ width:dom.canvasWidth.value, height:dom.canvasHeight.value, changed, ratio });
+  dom.canvasWidth.value = locked.width;
+  dom.canvasHeight.value = locked.height;
+}
+
+export function swapSize(deps) {
+  const { dom } = deps;
+  const oldWidth = dom.canvasWidth.value;
+  dom.canvasWidth.value = dom.canvasHeight.value;
+  dom.canvasHeight.value = oldWidth;
+  dom.aspectRatio.value = ratioIdForSize(dom.canvasWidth.value, dom.canvasHeight.value);
+  applyStageSize(deps, 'Canvas orientation swapped');
 }
 
 export function applyCustomSize(deps) {
   const { dom } = deps;
   dom.resolutionPreset.value = presetIdForSize(dom.canvasWidth.value, dom.canvasHeight.value);
-  applyStageSize(deps, dom.resolutionPreset.value === CUSTOM_PRESET_ID ? 'Custom size applied' : 'Preset size applied');
+  dom.aspectRatio.value = ratioIdForSize(dom.canvasWidth.value, dom.canvasHeight.value);
+  applyStageSize(deps, 'Canvas size applied');
 }
 
 export function applyStageSize({ dom, state, resizeStage, createExportPlan, renderNle, setStatus }, label = 'Stage size applied') {
   const size = sanitizeSize({ width:dom.canvasWidth.value, height:dom.canvasHeight.value, fps:dom.fps.value });
-  state.width = size.width;
-  state.height = size.height;
-  state.fps = size.fps;
+  Object.assign(state, { width:size.width, height:size.height, fps:size.fps, aspectLock:dom.aspectLock.checked });
   state.commit?.('stage size');
   state.exportPlan = createExportPlan(state);
   resizeStage(state);
   renderNle(state, dom);
   syncControlsFromState(dom, state);
-  setStatus(`${label}: ${state.width}×${state.height} @ ${state.fps}fps.`);
+  setStatus(`${label}: ${state.width}×${state.height} @ ${state.fps}fps; aspect ${dom.aspectLock.checked ? 'locked' : 'unlocked'}.`);
   return size;
 }
 
-function markCustomWhenNeeded(dom) {
-  dom.resolutionPreset.value = presetIdForSize(dom.canvasWidth.value, dom.canvasHeight.value);
-}
-
 function labelForPreset(id) {
-  return RESOLUTION_PRESETS.find(preset => preset.id === id)?.label || 'Resolution preset';
+  return RESOLUTION_PRESETS.find(preset => preset.id === id)?.label || (id === CUSTOM_PRESET_ID ? 'Custom' : 'Resolution preset');
 }

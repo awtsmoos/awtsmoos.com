@@ -1,6 +1,6 @@
 /* B"H
 YouTube-shaped HLS stream: canvas -> Mediabunny CanvasSource -> H.264 MPEG-TS
-segments -> local tunnel raw HLS route. No MediaRecorder.
+segments -> local tunnel raw HLS route, all through explicit streaming machinery.
 */
 import { makeLocalTunnelStreaming } from '../streaming/localTunnelStreaming.js';
 const MEDIABUNNY_URL = 'https://esm.sh/mediabunny@1.46.0?bundle';

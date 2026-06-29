@@ -1,33 +1,30 @@
 /* B"H
-Audio encoder: the mixed stream becomes Opus chunks for the same WebM vessel.
-The breath is read, encoded, closed, and joined to the picture without hoarding.
+Manual audio encoder: direct external tracks and mixed tracks alike become Opus by WebCodecs.
+The first path avoids unnecessary mixing; the second path gathers many voices with care.
 */
 import { assertMuxerAudio, supportedOpusConfig } from './recorderGuards.js';
 
-export async function startMuxedAudioEncoder({ audioMix, muxer, config, onStatus } = {}) {
-  if (!audioMix?.active) return inactiveAudioEncoder(audioMix?.reason || 'no audio mix');
+export async function startMuxedAudioEncoder({ audioSource, muxer, bitrate = 160000, onStatus } = {}) {
+  if (!audioSource?.active) return inactiveAudioEncoder(audioSource?.reason || 'no audio source');
   assertMuxerAudio(muxer);
-  const track = audioMix.stream?.getAudioTracks?.()[0];
-  if (!track) return inactiveAudioEncoder('mixed stream has no audio track');
-  const audioConfig = config || await supportedOpusConfig({ sampleRate:audioMix.sampleRate, numberOfChannels:audioMix.numberOfChannels });
-  if (!audioConfig) return inactiveAudioEncoder('WebCodecs Opus audio encoder unavailable');
+  const config = await supportedOpusConfig({ sampleRate:audioSource.sampleRate, numberOfChannels:audioSource.numberOfChannels, bitrate });
+  if (!config) return inactiveAudioEncoder('WebCodecs Opus audio encoder unavailable');
   const errors = [];
   const encoder = new AudioEncoder({ output:(chunk, meta) => muxer.addAudioChunk(chunk, meta), error:e => errors.push(e.message || String(e)) });
-  encoder.configure(audioConfig);
-  const processor = new MediaStreamTrackProcessor({ track });
-  const reader = processor.readable.getReader();
+  encoder.configure(config);
+  const reader = new MediaStreamTrackProcessor({ track:audioSource.track }).readable.getReader();
   let stopped = false, frames = 0;
   const loop = readLoop();
-  onStatus?.(`Recording ${audioMix.sourceCount} mixed audio source${audioMix.sourceCount === 1 ? '' : 's'} as Opus.`);
-  return { active:true, config:audioConfig, errors, get frames(){ return frames; }, stop };
+  onStatus?.(`Manual Opus ${audioSource.mode} audio: ${audioSource.summary}.`);
+  return { active:true, config, errors, get frames(){ return frames; }, stop };
 
   async function readLoop() {
     while (!stopped) {
       const { done, value } = await reader.read();
-      if (done || stopped) { value?.close?.(); break; }
+      if (done) break;
       try { encoder.encode(value); frames += 1; }
       catch (e) { errors.push(e.message || String(e)); }
-      finally { value.close?.(); }
+      finally { value?.close?.(); }
     }
   }
 
@@ -37,7 +34,8 @@ export async function startMuxedAudioEncoder({ audioMix, muxer, config, onStatus
     await loop.catch(e => errors.push(e.message || String(e)));
     await encoder.flush();
     encoder.close();
-    return { active:true, frames, codec:audioConfig.codec, errors:errors.slice() };
+    await audioSource.stop?.();
+    return { active:true, frames, codec:config.codec, errors:errors.slice() };
   }
 }
 

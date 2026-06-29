@@ -1,6 +1,6 @@
 /* B"H
-Source audio discovery: the hidden river in each display stream is named before it is mixed.
-The Awtsmoos gives breath to tracks; this module only asks which tracks are alive.
+Source audio discovery: the hidden river in each captured stream is named before it is recorded.
+The Awtsmoos gives breath to tracks; this module asks which tracks are alive and unique.
 */
 export function collectRecordableAudioSources(sources = []) {
   return sources.flatMap(source => audioTracksForSource(source).map(track => ({
@@ -9,6 +9,15 @@ export function collectRecordableAudioSources(sources = []) {
     stream:source.stream,
     track
   })));
+}
+
+export function collectRecordableAudioStreams(sources = []) {
+  const seen = new Set();
+  return collectRecordableAudioSources(sources).filter(item => {
+    if (!item.stream || seen.has(item.stream)) return false;
+    seen.add(item.stream);
+    return true;
+  });
 }
 
 export function hasRecordableAudio(sources = []) {

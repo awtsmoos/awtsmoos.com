@@ -1,7 +1,6 @@
 /* B"H
 Nesher state: one project object, still friendly to the existing stage UI.
-The Awtsmoos hides the whole studio in this small vessel: scenes, sequences,
-assets, bins, streaming, export, undo, and selection breathing as one.
+The Awtsmoos hides scenes, sources, manual recording profiles, and locked aspect breath here.
 */
 import { makeScene, currentScene } from './graph/sceneGraph.js';
 import { createBin } from './nle/bin.js';
@@ -19,10 +18,11 @@ export function createState() {
   addProjectSequence(project, { id:'sequence-main', name:'Sequence 1' });
   project.currentSequenceId = 'sequence-main';
   const state = {
-    project, width:project.width, height:project.height, fps:project.fps, quality:.62, maxCacheFrames:10,
-    scenes:project.scenes, currentSceneId:project.currentSceneId, selectedId:null, drag:null,
-    recording:false, worker:null, frameTimer:null, startedAt:0, lastFrameTime:0, audioCapture:null,
-    providerId:project.streaming.providerId, bin, timeline, exportPlan:null,
+    project, width:project.width, height:project.height, fps:project.fps, aspectLock:true,
+    quality:.62, maxCacheFrames:10, recordingProfile:'speed-vp8', scenes:project.scenes,
+    currentSceneId:project.currentSceneId, selectedId:null, drag:null, recording:false,
+    worker:null, frameTimer:null, startedAt:0, lastFrameTime:0, audioCapture:null,
+    activeRecorder:null, providerId:project.streaming.providerId, bin, timeline, exportPlan:null,
     get sources() { return currentScene(this).sources; },
     get selection() { return project.selection; },
     commit(label = 'change') { return commitProjectState(this, label); }

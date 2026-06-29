@@ -1,38 +1,22 @@
 /* B"H
- * Chapter 405: The thumbnail becomes a narrow pillar of remembered gold.
+ * Chapter 727: The thumbnail pillar becomes a lit manuscript spine.
  */
 .nav-card-media,
 .heichel-card-media,
 .series-card-media {
-  min-height: 100%;
-  border-radius: 1rem;
+  min-height: 100%; border-radius: 1.12rem; position: relative; overflow: hidden;
   background:
-    radial-gradient(circle at 50% 48%, rgba(255,255,255,.22), transparent 1.45rem),
-    linear-gradient(155deg, rgba(23, 26, 45, .95) 0%, rgba(72, 66, 62, .76) 48%, rgba(224, 194, 126, .82) 100%),
+    radial-gradient(circle at 50% 44%, rgba(255,255,255,.24), transparent 1.6rem),
+    linear-gradient(155deg, rgba(25,25,44,.96) 0%, rgba(88,64,45,.8) 50%, rgba(224,194,126,.86) 100%),
     var(--card-thumb, transparent);
-  background-size: cover;
-  background-position: center;
-  display: grid;
-  place-items: center;
-  color: #fff8dc;
-  font-weight: 950;
-  font-size: 1.35rem;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), 0 .8rem 1.35rem rgba(68, 45, 16, .18);
+  background-size: cover; background-position: center; display: grid; place-items: center;
+  color: #fff8dc; font-weight: 950; font-size: 1.38rem; box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 .9rem 1.5rem rgba(68,45,16,.19);
 }
-
+.nav-card-media::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,.16), transparent 35%, rgba(0,0,0,.12)); pointer-events: none; }
+.nav-card-media::after { content: ""; position: absolute; left: .55rem; top: .65rem; bottom: .65rem; width: 2px; border-radius: 999px; background: rgba(255,246,218,.45); }
 .nav-card-media span {
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 999px;
-  background: rgba(255,255,255,.21);
-  color: #fff7dc;
-  text-shadow: 0 1px 0 rgba(0,0,0,.25);
-  backdrop-filter: blur(6px);
+  position: relative; display: grid; place-items: center; width: 3.15rem; height: 3.15rem; border-radius: 999px;
+  background: rgba(255,255,255,.22); color: #fff7dc; text-shadow: 0 1px 0 rgba(0,0,0,.25); backdrop-filter: blur(7px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
 }
-
-@media (max-width: 620px) {
-  .nav-card-media { min-height: 5.4rem; border-radius: .85rem; }
-  .nav-card-media span { width: 2.5rem; height: 2.5rem; }
-}
+@media (max-width: 620px) { .nav-card-media { min-height: 5.7rem; border-radius: .95rem; } .nav-card-media span { width: 2.55rem; height: 2.55rem; } }

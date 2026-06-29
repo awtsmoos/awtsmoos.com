@@ -3,14 +3,17 @@
  * @file equipment.js
  * @description Chapter 29: Equipment slots become thumb-readable vessels.
  */
+import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js";
+
 const labels = { head: "Hat", eyes: "Eyes", shirt: "Shirt", jacket: "Coat", legs: "Pants", feet: "Shoes", rightHand: "Tool", leftHand: "Hand" };
 const order = ["head", "eyes", "shirt", "jacket", "legs", "feet", "rightHand", "leftHand"];
 const isImage = icon => icon && (icon.includes("/") || icon.includes("data:"));
 
 function childFor(item) {
   if (!item) return [];
-  if (isImage(item.icon)) return [{ className: "slotBtn", style: { backgroundImage: `url("${item.icon}")` } }];
-  return [{ className: "slotBtn", textContent: item.icon || "✓" }];
+  const icon = resolveItemIcon(item);
+  if (isImage(icon)) return [{ className: "slotBtn", style: { backgroundImage: `url("${icon}")` } }];
+  return [{ className: "slotBtn", textContent: icon || "✓" }];
 }
 
 function bindEquipSlot(el, slotName, item, ui) {

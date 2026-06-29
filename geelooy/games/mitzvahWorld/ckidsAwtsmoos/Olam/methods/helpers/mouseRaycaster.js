@@ -2,11 +2,12 @@
 /**
  * @file mouseRaycaster.js
  * @description
- * Chapter 627: the raycaster is only a shliach. Target gathering and pointer
- * intention now live in small helpers, so this class simply aims the ray,
- * hovers, and delivers the full click covenant to the touched Nivra.
+ * Chapter 631: the raycaster is only a shliach. It aims, hovers, delivers
+ * pointer intention, and now clears a friendly NPC target when an explicit click
+ * lands on empty world instead of on a living speaker.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
+import { clearFriendlyNpcTarget } from "../../../dvarim/npc/NpcTargetRuntime.js?v=npc-visible-target-20260628-bh1";
 import {
   finitePayload,
   ownerFromHit,
@@ -26,11 +27,9 @@ function viewportRect(olam) {
 
 function hover(handler, hitNivra) {
   if (handler.currentHovered === hitNivra) return;
-
   if (handler.currentHovered) {
     handler.currentHovered.ayshPeula("mouseLeave", { type: "hover-leave" });
   }
-
   handler.currentHovered = hitNivra;
   handler.currentHovered.ayshPeula("mouseEnter", { type: "hover-enter" });
 }
@@ -39,6 +38,12 @@ function clearHover(handler) {
   if (!handler.currentHovered) return;
   handler.currentHovered.ayshPeula("mouseLeave", { type: "hover-leave" });
   handler.currentHovered = null;
+}
+
+function clearEmptyClick(handler, payload, isClick) {
+  if (!isClick) return;
+  stopBrowserContext(payload);
+  clearFriendlyNpcTarget(handler.olam);
 }
 
 export default class MouseInteractionHandler {
@@ -59,7 +64,11 @@ export default class MouseInteractionHandler {
 
     const hit = this.raycaster.intersectObjects(raycastTargets(this.olam), true)[0] || null;
     const hitNivra = ownerFromHit(hit);
-    if (!hitNivra?.interactable) return clearHover(this);
+    if (!hitNivra?.interactable) {
+      clearHover(this);
+      clearEmptyClick(this, payload, isClick);
+      return;
+    }
 
     hover(this, hitNivra);
     if (!isClick) return;

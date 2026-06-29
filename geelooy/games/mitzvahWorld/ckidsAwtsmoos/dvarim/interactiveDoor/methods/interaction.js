@@ -10,6 +10,10 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import { DOOR_DEFAULTS } from '../constants.js';
 
+function actorPlayer(actor) {
+    return actor?.player || actor?.actor || actor;
+}
+
 export default {
     _setupEventHandlers() {
         this.on("ready", () => {
@@ -26,7 +30,8 @@ export default {
             this._hideInteractionPrompt();
         });
 
-        this.on("accepted interaction", (player) => {
+        this.on("accepted interaction", (actor) => {
+            const player = actorPlayer(actor);
             if (player && player.mesh && this.mesh) {
                 this.mesh.updateMatrixWorld(true);
                 player.mesh.updateMatrixWorld(true);

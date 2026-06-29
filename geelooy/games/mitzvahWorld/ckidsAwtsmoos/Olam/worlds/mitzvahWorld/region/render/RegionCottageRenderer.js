@@ -1,24 +1,34 @@
 // B"H
-/** @file RegionCottageRenderer.js @description Visible cottage brick buildings, split roof/windows/yards, live doors, socketed interiors, and collider records. */
+/**
+ * @file RegionCottageRenderer.js
+ * @description
+ * Visible cottage renderer conductor. The Awtsmoos gathers house plans,
+ * assembles each home, installs live doors, and publishes house proof.
+ */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { groundY } from "./RegionGround.js";
-import { planHouses } from "../houses/HousePlanner.js?v=cottage-brick-plan-20260615-bh2";
-import { cottageSpec } from "../houses/CottageBrickBuilder.js?v=textured-wall-sections-20260621-bh1";
-import { buildCottageDoor } from "../houses/CottageDoorSystem.js?v=hinged-door-system-20260615-bh2";
-import { buildCottageInterior } from "../houses/CottageInteriorBuilder.js?v=socketed-interior-system-20260615-bh3";
-import { buildCottageRoof } from "../houses/cottage/CottageRoofBuilder.js?v=low-draw-textured-roof-20260622-bh1";
-import { buildCottageWindows } from "../houses/cottage/CottageWindowSystem.js?v=cottage-window-system-20260615-bh3";
-import { buildCottageYardProps } from "../houses/cottage/CottageYardPropBuilder.js?v=cottage-yard-story-20260615-bh3";
+import { planHouses } from "../houses/HousePlanner.js?v=starter-visible-houses-20260628-bh1";
 import { installDoorInteractionRuntime } from "../houses/door/DoorInteractionRuntime.js?v=door-interaction-runtime-20260615-bh2";
-import { updateDoorAnimations } from "../houses/door/DoorAnimationRuntime.js?v=door-animation-runtime-20260615-bh2";
-import { doorColliderSources } from "../houses/door/DoorColliderRuntime.js?v=door-collider-runtime-20260615-bh2";
-import { houseColliderSlabs } from "./RegionHouseColliderPlan.js";
-import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?v=ping-pong-crisp-textures-20260622-bh1";
-const WALL_MATERIAL = materialWithTexture("brick", { size:384 });
-function shellColliders(house) { return houseColliderSlabs(house).map(s => ({ id:`${s.houseId}_${s.name}_wall`, category:"cottage-wall", owner:s.houseId, position:s.center, size:s.size, yaw:0, doorGap:s.name.startsWith("front") ? { width:s.doorWidth, height:s.doorHeight } : null })); }
-function buildFastShell(house, spec) { const slabs = houseColliderSlabs(house), mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), WALL_MATERIAL, slabs.length); mesh.name = `${house.id}_instanced_collider_matched_cottage_walls`; const matrix = new THREE.Matrix4(); slabs.forEach((slab, index) => { matrix.compose(new THREE.Vector3(...slab.center), new THREE.Quaternion(), new THREE.Vector3(...slab.size)); mesh.setMatrixAt(index, matrix); }); mesh.instanceMatrix.needsUpdate = true; mesh.castShadow = false; mesh.receiveShadow = true; Object.assign(mesh.userData ||= {}, { cottageVisual:true, colliderMatchedShell:true, instancedColliderMatchedWalls:true, texturedBrickWall:true, houseId:house.id, wallPanels:slabs.length }); return mesh; }
-function place(root, house, olam) { root.position.set(house.x || 0, groundY(olam, house.x || 0, house.z || 0), house.z || 0); root.rotation.y = house.yaw || house.rotationY || 0; root.updateMatrixWorld?.(true); }
-function refreshDoorColliders(root) { const base = root.userData.baseColliderSources || []; const doors = doorColliderSources(root); root.userData.colliderSources = [...base.filter(r => !r.door), ...doors]; return root.userData.colliderSources; }
-function movingDoor(root) { let moving = false; root?.traverse?.(child => { const d = child.userData?.doorState; if (d && Math.abs(Number(d.targetAngle || 0) - Number(d.angle || 0)) > .006) moving = true; }); return moving; }
-export function buildCottageRenderer(olam, report = {}) { const root = new THREE.Group(); root.name = "real_cottage_brick_village_renderer"; const houses = planHouses({ ...report, count:24 }).slice(0, 24); const allBase = []; let colliderAcc = 0; for (const house of houses) { const cottage = new THREE.Group(); cottage.name = `real_cottage_${house.id}`; const spec = cottageSpec(house); const shell = buildFastShell(house, spec); const door = buildCottageDoor(house, spec); const roof = buildCottageRoof(house, spec); const wallColliders = shellColliders(house); cottage.add(shell, roof, door.root); if (root.children.length < 14) cottage.add(buildCottageWindows(house, spec)); if (root.children.length < 10) cottage.add(buildCottageYardProps(house)); if (root.children.length < 4) cottage.add(buildCottageInterior(house, spec).group); Object.assign(cottage.userData ||= {}, { cottageBuilding:true, houseId:house.id, house, baseColliderSources:[...wallColliders, door.collider], colliderSources:[...wallColliders, door.collider], doorState:door.state, splitRoof:true, splitWindows:root.children.length < 14, splitYard:root.children.length < 10, colliderMatchedShell:true, instancedWallPanels:true, wallPanels:shell.userData.wallPanels || 6 }); place(cottage, house, olam); root.add(cottage); allBase.push(...cottage.userData.baseColliderSources); } installDoorInteractionRuntime(olam, root); Object.assign(root.userData ||= {}, { cottageRenderer:true, cottageCount:houses.length, baseColliderSources:allBase, colliderSources:allBase, stats:{ cottages:houses.length, brickSystem:true, splitRoof:true, splitWindows:true, splitYard:true, doors:true, liveDoors:true, interiors:true, colliderMatchedShell:true, instancedWallPanels:true, wallPanels:houses.length * 6, colliderSources:allBase.length, fullVillageGameplay:true }, tick:dt => { const d = Number(dt) || 1 / 60; if (!movingDoor(root)) return; updateDoorAnimations(root, d); colliderAcc += d; if (colliderAcc < .25) return; colliderAcc = 0; root.userData.colliderSources = root.children.flatMap(refreshDoorColliders); root.userData.stats.colliderSources = root.userData.colliderSources.length; } }); return root; }
+import { makeCottage } from "./RegionCottageAssembly.js?v=starter-visible-houses-20260628-bh1";
+import { installCottageStats } from "./RegionCottageStats.js?v=starter-visible-houses-20260628-bh1";
+
+function addCottages(root, houses, olam) {
+  const allBase = [];
+  houses.forEach(house => {
+    const cottage = makeCottage(house, root, olam);
+    root.add(cottage);
+    allBase.push(...cottage.userData.baseColliderSources);
+  });
+  return allBase;
+}
+
+export function buildCottageRenderer(olam, report = {}) {
+  const root = new THREE.Group();
+  const houses = planHouses({ ...report, count: 24 }).slice(0, 24);
+  root.name = "real_cottage_brick_village_renderer";
+  const allBase = addCottages(root, houses, olam);
+  installDoorInteractionRuntime(olam, root);
+  installCottageStats(root, houses, allBase, olam);
+  return root;
+}
+
 export default buildCottageRenderer;

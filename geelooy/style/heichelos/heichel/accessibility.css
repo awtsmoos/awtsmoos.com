@@ -1,3 +1,11 @@
-/* B"H Heichel accessibility: visible focus and quieter motion. */
-.heichel-mobile-navigation :focus-visible { outline: 3px solid rgba(35,58,113,.55); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .heichel-card, .series-card { transition: none !important; } }
+/* B"H Heichel accessibility: focus is a visible covenant, motion is a choice. */
+.heichel-mobile-navigation :focus-visible { outline: 3px solid var(--heichel-focus); outline-offset: 3px; }
+.heichel-mobile-navigation button,
+.heichel-mobile-navigation a,
+.heichel-mobile-navigation input { -webkit-tap-highlight-color: rgba(216,170,81,.22); }
+@media (prefers-reduced-motion: reduce) {
+  .heichel-mobile-navigation .heichel-card,
+  .heichel-mobile-navigation .series-card,
+  .heichel-mobile-navigation .nav-card,
+  .heichel-mobile-navigation .sacred-loading { transition: none !important; animation: none !important; }
+}

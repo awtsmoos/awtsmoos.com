@@ -6,6 +6,8 @@
  * bursts. This module now renders only when visible and only when content keys
  * change; selection and equip marks mutate in place.
  */
+import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js";
+
 const PERSONAL_KEY = "awtsmoosMitzvahPersonalPerutas";
 const FALLBACK_ITEMS = [
   { id:"top_hat", name:"Black Hat", icon:"🎩", equipSlot:"head", isEquipped:true },
@@ -25,7 +27,7 @@ function category(item) { return item?.category || item?.equipSlot || (item?.cla
 function perutaItem() { const qty = perutas(); return { id:"personal_perutas", name:`Perutas x${qty}`, icon:"🪙", stackable:true, quantity:qty, locked:true, category:"currency" }; }
 function allItems() { return [perutaItem(), ...state.slots]; }
 function shownItems() { return allItems().map((item, index) => ({ item, index })).filter(row => row.item && (state.filter === "all" || category(row.item) === state.filter)); }
-function itemKey(item, index) { return [index,item?.id,item?.name,item?.icon,item?.equipSlot,item?.category,item?.quantity,item?.locked,item?.isEquipped].join(":"); }
+function itemKey(item, index) { return [index,item?.id,item?.name,resolveItemIcon(item),item?.equipSlot,item?.category,item?.quantity,item?.locked,item?.isEquipped].join(":"); }
 function slotsKey() { return `${state.filter}|${shownItems().map(({ item, index }) => itemKey(item, index)).join("|")}`; }
 function tabsKey() { return `${state.filter}|${TABS.map(t => t[0]).join("|")}`; }
 function send(inner) { const detail = { olamPeula:inner }; document.querySelector('[shaym="ikar"]')?.dispatchEvent(new CustomEvent("olamPeula", { bubbles:true, detail })); worker()?.postMessage?.(detail); }
@@ -68,7 +70,7 @@ function renderGrid(host, force = false) {
   for (const { item, index } of rows) {
     const card = document.createElement("button"); card.type = "button"; card.dataset.index = String(index);
     card.className = `inv-card ${item.locked ? "locked" : ""} ${item.isEquipped ? "equipped" : ""} ${state.selected?.index === index ? "selected" : ""}`;
-    card.innerHTML = `<span class="slotBtn">${item.icon || "✦"}</span><span class="slotName">${item.name || "Item"}</span>${item.isEquipped ? '<span class="equippedMark">✓</span>' : ""}`;
+    card.innerHTML = `<span class="slotBtn">${resolveItemIcon(item) || "✦"}</span><span class="slotName">${item.name || "Item"}</span>${item.isEquipped ? '<span class="equippedMark">✓</span>' : ""}`;
     card.addEventListener("pointerdown", event => { stop(event); state.selected = { item, index }; updateSelection(host); }, { passive:false });
     frag.appendChild(card);
   }

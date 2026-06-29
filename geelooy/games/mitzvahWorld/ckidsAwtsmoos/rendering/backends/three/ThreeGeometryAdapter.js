@@ -14,7 +14,7 @@ export function createThreeGeometry(data = {}) {
   if (data.skinIndices && data.skinIndices.length) geo.setAttribute("skinIndex", skinIndex(data.skinIndices));
   if (data.skinWeights && data.skinWeights.length) geo.setAttribute("skinWeight", f32(data.skinWeights, 4));
   if (data.indices && data.indices.length) geo.setIndex(indexAttr(data.indices));
-  if (!geo.attributes.normal) geo.computeVertexNormals();
+  if (!data.preserveNormals) geo.computeVertexNormals();
   geo.computeBoundingBox(); geo.computeBoundingSphere();
   geo.userData.awtsmoosAbstractGeometry = true;
   geo.userData.vertexCount = (data.positions || []).length / 3;

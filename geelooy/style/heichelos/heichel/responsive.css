@@ -1,36 +1,22 @@
 /* B"H
- * Chapter 415: The small screen is not a lesser world.
+ * Chapter 730: The small screen is not a lesser world; the wide screen is not an empty desert.
  */
+@media (min-width: 1180px) {
+  .heichel-mobile-navigation .heichel-nav-panel { padding: clamp(1.2rem, 2vw, 1.8rem); }
+}
 @media (max-width: 860px) {
-  .dynamic-grid,
-  .heichel-grid,
-  .series-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  }
+  .dynamic-grid, .heichel-grid, .series-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
 }
-
 @media (max-width: 560px) {
-  .dynamic-grid,
-  .heichel-grid,
-  .series-grid { grid-template-columns: 1fr; }
-  .hero-description { font-size: .96rem; }
-  .nav-card { min-height: 8.6rem; }
+  .dynamic-grid, .heichel-grid, .series-grid { grid-template-columns: 1fr; }
+  .hero-description { font-size: .98rem; line-height: 1.62; }
+  .nav-card { min-height: 9rem; }
+  .heichel-mobile-navigation .geelooy-main-stage { padding-inline: .7rem; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    transition-duration: .001ms !important;
-    animation-duration: .001ms !important;
-    animation-iteration-count: 1 !important;
-  }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
 }
-
 @media (prefers-contrast: more) {
-  .nav-card,
-  .heichel-nav-panel,
-  .geelooy-heichel-hero,
-  .tab-gates { border-color: rgba(36,22,11,.45); }
-  .nav-card p,
-  .hero-description { color: #24160b; }
+  .nav-card, .heichel-nav-panel, .geelooy-heichel-hero, .tab-gates { border-color: rgba(36,22,11,.48); }
+  .nav-card p, .hero-description, .series-heading p:not(.series-label) { color: #24160b; }
 }

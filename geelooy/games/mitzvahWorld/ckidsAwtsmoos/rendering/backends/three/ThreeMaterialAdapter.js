@@ -6,6 +6,11 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { createThreeTexture } from "./ThreeTextureAdapter.js";
+const creatureHints = /animal|creature|wildlife|fox|wolf|cow|goat|deer|bird|fur|hide|skinned/i;
+function wantsDoubleSide(intent = {}) {
+  if (intent.doubleSided === true) return true;
+  return creatureHints.test(`${intent.name || ""} ${intent.kind || ""} ${intent.species || ""} ${intent.role || ""} ${intent.texture?.name || ""}`);
+}
 function solidDefaults(intent = {}) {
   const transparent = intent.transparent === true;
   const opacity = Number.isFinite(Number(intent.opacity)) ? Number(intent.opacity) : 1;
@@ -16,7 +21,7 @@ function solidDefaults(intent = {}) {
     alphaTest:transparent ? Number(intent.alphaTest || .25) : 0,
     depthWrite:intent.depthWrite !== false,
     depthTest:intent.depthTest !== false,
-    side:intent.doubleSided ? THREE.DoubleSide : THREE.FrontSide
+    side:wantsDoubleSide(intent) ? THREE.DoubleSide : THREE.FrontSide
   };
 }
 function polish(mat, intent = {}) {

@@ -55,6 +55,21 @@ function bestGroundHit(player) {
   if (law.distance >= -0.5 && law.distance < oct.distance + 0.35) return law;
   return oct;
 }
+function clampToTerrainFloor(player, slack = 0.015) {
+  const law = terrainLawHit(player);
+  if (!law || !player?.collider?.start || !player?.collider?.end) return false;
+  const radius = numeric(player.collider.radius, numeric(player.radius, 0.45));
+  const minStartY = law.position.y + radius + slack;
+  if (player.collider.start.y >= minStartY) return false;
+  const lift = minStartY - player.collider.start.y;
+  player.collider.start.y += lift;
+  player.collider.end.y += lift;
+  if (player.velocity) player.velocity.y = Math.max(0, numeric(player.velocity.y, 0));
+  player.onFloor = true;
+  player.groundHitResult = law;
+  clearAirTrajectory(player);
+  return true;
+}
 function setAnim(player, key, options) {
   const resolved = player.getChaweeyoos(key);
   if (!resolved) return;
@@ -147,13 +162,14 @@ export default {
     const isWorldBusy = this.olam?.worldOctree ? this.olam.worldOctree.isProcessing : true;
     if (!needsOctreePhysics(this)) return this._idlePhysics(deltaTime);
     if (this.collider?.start) this.__lastSafeFeet = new THREE.Vector3(this.collider.start.x, this.collider.start.y - this.collider.radius, this.collider.start.z);
+    clampToTerrainFloor(this);
     this._checkGround(); this._solveDynamicBodies("pre-forces"); this._applyPhysicsForces(deltaTime, isWorldBusy);
     this._calculateMovementVelocity(deltaTime); this._handleJump(); this._executeMovement(deltaTime);
-    this._resolveGroundCollision(); this._enforceTerrainSlopeLimit(); this._solveDynamicBodies("post-motion"); this._checkAbyss(); this._updateAnimationState(deltaTime); this._syncMesh(deltaTime);
+    this._resolveGroundCollision(); clampToTerrainFloor(this); this._enforceTerrainSlopeLimit(); this._solveDynamicBodies("post-motion"); this._checkAbyss(); this._updateAnimationState(deltaTime); this._syncMesh(deltaTime);
     if (this.activeObject && typeof this.alignObject === 'function') this.alignObject();
     Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
   },
-  _idlePhysics(deltaTime) { this.velocity.set(0, 0, 0); clearAirTrajectory(this); this._syncMesh(deltaTime); if (this.activeObject && typeof this.alignObject === 'function') this.alignObject(); Tzomayach.prototype.heesHawvoos.call(this, deltaTime); },
+  _idlePhysics(deltaTime) { this.velocity.set(0, 0, 0); clearAirTrajectory(this); clampToTerrainFloor(this); this._syncMesh(deltaTime); if (this.activeObject && typeof this.alignObject === 'function') this.alignObject(); Tzomayach.prototype.heesHawvoos.call(this, deltaTime); },
   _solveDynamicBodies(phase = "unknown") {
     if (this.__spikeColliderDisabled) return false;
     const bodies = this.olam?.dynamicBodies; if (!Array.isArray(bodies) || bodies.length === 0) return false;

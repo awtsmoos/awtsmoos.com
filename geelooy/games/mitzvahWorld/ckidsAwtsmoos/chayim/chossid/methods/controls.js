@@ -1,13 +1,9 @@
-﻿// B"H
+// B"H
 /**
  * @file controls.js
  * @description
- * Chapter 37: The Lateral Gates Were Switched Exactly.
- *
- * The Awtsmoos breathes intention into the hands. Q and E were mirror-doors
- * that opened on the wrong side of the meadow. This whole vessel now declares
- * the switch in one clear place: E strides left, Q strides right, while every
- * other movement covenant remains untouched.
+ * Movement and action gates. Right-click now reaches `handleClick`, so NPCs can
+ * honor target-first/right-click dialogue and doors can toggle by explicit hit.
  */
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ";
@@ -18,18 +14,24 @@ const DISMOUNT_KEY = "KeyX";
 const LEFT_STRIDE_KEY = "KeyE";
 const RIGHT_STRIDE_KEY = "KeyQ";
 
-/** @param {object} olam World. @param {...string} codes Key codes. @returns {boolean} */
 function keyOn(olam, ...codes) {
   return codes.some(code => !!olam?.keyStates?.[code]);
 }
 
-/** @param {object} inputs Input flags. @param {string} key Flag name. @returns {boolean} */
 function flag(inputs, key) {
   return inputs?.[key] === true;
 }
 
+function passMouseToWorld(chossid, event = {}) {
+  if (chossid.__spikeDeathControlsFrozen || chossid.__spikeDefeated) return;
+  if (event.button === 2) event.preventDefault?.();
+  if (event.button === 0 || event.button === 2) {
+    chossid.handleClick?.(event);
+  }
+  if (event.button === 2) chossid.getRealActiveItemInstance?.();
+}
+
 export default {
-  /** Copies input state into movement flags every frame. */
   controls() {
     this.resetMoving();
     if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
@@ -38,7 +40,6 @@ export default {
       return;
     }
     if (this.olam.showingImportantMessage) return;
-
     const inputs = this.olam.inputs || {};
     this.moving.running = inputs.RUNNING !== false || keyOn(this.olam, "ShiftLeft", "ShiftRight");
     this.moving.forward = flag(inputs, "FORWARD") || keyOn(this.olam, "KeyW", "ArrowUp");
@@ -67,12 +68,8 @@ export default {
   },
 
   setupInputListeners(olam) {
-    olam.on("mousedown", event => {
-      if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
-      if (event.button === 0) this.handleClick?.(event) || this.shoot?.();
-      if (event.button === 2) this.getRealActiveItemInstance?.();
-    });
-
+    olam.on("mousedown", event => passMouseToWorld(this, event));
+    olam.on("contextmenu", event => passMouseToWorld(this, { ...event, button: 2, type: "contextmenu" }));
     olam.on("keypressed", async event => {
       if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
       this.ayshPeula("keypressed", event);
@@ -83,34 +80,19 @@ export default {
 
   async handlePlatformerKey(event = {}) {
     switch (event.code) {
-      case "NumLock":
-        this.movingAutomatically = !this.movingAutomatically;
-        break;
-      case DISMOUNT_KEY:
-        if (this.isDriving && this.drivingVehicle) this.drivingVehicle.dismount?.();
-        break;
-      case ACTION_TOGGLE:
-        await this.activateNearbyOrTool();
-        break;
-      case ACTION_SELECT:
-        await this.selectFocusedThing();
-        break;
+      case "NumLock": this.movingAutomatically = !this.movingAutomatically; break;
+      case DISMOUNT_KEY: if (this.isDriving && this.drivingVehicle) this.drivingVehicle.dismount?.(); break;
+      case ACTION_TOGGLE: await this.activateNearbyOrTool(); break;
+      case ACTION_SELECT: await this.selectFocusedThing(); break;
       case CAMERA_FPS_TOGGLE:
-        if (this.olam.ayin) {
-          this.olam.ayin.isFPS = !this.olam.ayin.isFPS;
-          this.olam.ayshPeula("setFPS", this.olam.ayin.isFPS);
-        }
+        if (this.olam.ayin) { this.olam.ayin.isFPS = !this.olam.ayin.isFPS; this.olam.ayshPeula("setFPS", this.olam.ayin.isFPS); }
         break;
       case "Space":
         this.olam.ayshPeula("setInput", { code: "Space" });
         setTimeout(() => this.olam.ayshPeula("setInputOut", { code: "Space" }), 80);
         break;
-      case "Tab":
-        event.preventDefault?.();
-        this.cycleApproachedEntities();
-        break;
-      default:
-        break;
+      case "Tab": event.preventDefault?.(); this.cycleApproachedEntities(); break;
+      default: break;
     }
   },
 
@@ -118,10 +100,7 @@ export default {
     const activeItem = this.getActiveItem?.();
     if (activeItem?.isPainter) {
       this.isPaintingMode = !this.isPaintingMode;
-      this.olam.ayshPeula("ui event", "effectsOverlay", {
-        text: this.isPaintingMode ? "Painting Mode: ON" : "Painting Mode: OFF",
-        color: this.isPaintingMode ? "#00ff00" : "#ff0000"
-      });
+      this.olam.ayshPeula("ui event", "effectsOverlay", { text: this.isPaintingMode ? "Painting Mode: ON" : "Painting Mode: OFF", color: this.isPaintingMode ? "#00ff00" : "#ff0000" });
       return;
     }
     const target = this.interactingWith || this.approachedEntities?.[0];
@@ -139,10 +118,9 @@ export default {
     if (!Array.isArray(this.approachedEntities) || this.approachedEntities.length <= 1) return;
     const last = this.approachedEntities.shift();
     this.approachedEntities.push(last);
-    const current = this.approachedEntities[0];
-    current?.ayshPeula?.("gained interaction focus", this);
+    this.approachedEntities[0]?.ayshPeula?.("gained interaction focus", this);
     last?.ayshPeula?.("lost interaction focus", this);
-    current?._showInteractionPrompt?.();
+    this.approachedEntities[0]?._showInteractionPrompt?.();
   },
 
   resetPreviewRotation() { this.placementRotation = 0; },

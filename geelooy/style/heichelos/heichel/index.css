@@ -13,8 +13,10 @@
 @import "./card.css";
 @import "./card-media.css";
 @import "./card-menu.css";
+@import "./tree-collapsible.css";
 @import "./bottom-nav.css";
 @import "./bulk-actions.css";
 @import "./modal/index.css";
+@import "./visual-polish.css";
 @import "./responsive.css";
 @import "./accessibility.css";

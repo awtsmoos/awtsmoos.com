@@ -1,15 +1,23 @@
-/* B"H Heichel tokens: one palace language under one root. */
+/* B"H Heichel tokens: parchment, ink, gold, and the quiet breath of the Awtsmoos. */
 .heichel-os-document,
 .heichel-mobile-navigation {
-  --heichel-bg: linear-gradient(180deg, #fff8ec, #f0ddbb);
-  --heichel-panel: linear-gradient(145deg, rgba(255,253,247,.96), rgba(246,233,210,.88));
-  --heichel-line: rgba(122,82,31,.17);
-  --heichel-ink: #24160b;
-  --heichel-soft-ink: rgba(49,35,20,.72);
-  --heichel-gold: #d6a84f;
-  --heichel-rust: #8b2d16;
-  --heichel-night: #2b2235;
-  --heichel-radius: 1.35rem;
-  --heichel-gap: clamp(.8rem, 2vw, 1.2rem);
-  --floating-clearance: 6.6rem;
+  --heichel-bg: linear-gradient(180deg, #fff9ef 0%, #f3dfbc 48%, #ead1a6 100%);
+  --heichel-panel: linear-gradient(145deg, rgba(255,253,247,.94), rgba(247,234,211,.86));
+  --heichel-panel-strong: linear-gradient(145deg, rgba(255,254,250,.98), rgba(242,224,191,.94));
+  --heichel-line: rgba(113,75,29,.18);
+  --heichel-line-strong: rgba(105,64,18,.32);
+  --heichel-ink: #23170d;
+  --heichel-soft-ink: rgba(49,35,20,.74);
+  --heichel-muted-ink: rgba(49,35,20,.56);
+  --heichel-gold: #d8aa51;
+  --heichel-gold-soft: rgba(216,170,81,.22);
+  --heichel-rust: #873018;
+  --heichel-night: #252035;
+  --heichel-radius: clamp(1.15rem, 2vw, 1.65rem);
+  --heichel-radius-large: clamp(1.7rem, 3vw, 2.65rem);
+  --heichel-gap: clamp(.9rem, 2vw, 1.35rem);
+  --heichel-shadow-soft: 0 1rem 2.5rem rgba(75,45,10,.11);
+  --heichel-shadow-lift: 0 1.8rem 4.5rem rgba(75,45,10,.18);
+  --heichel-focus: rgba(42,76,139,.56);
+  --floating-clearance: 6.9rem;
 }
