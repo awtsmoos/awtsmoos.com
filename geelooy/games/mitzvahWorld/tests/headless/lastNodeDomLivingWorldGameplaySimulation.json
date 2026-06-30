@@ -8,12 +8,12 @@
         {
           "type": "living-world-start",
           "reason": "node-dom-sim",
-          "at": 1782831005548
+          "at": 1782838995723
         },
         {
           "type": "living-world-start",
           "reason": "visible-bridge",
-          "at": 1782831005550
+          "at": 1782838995725
         },
         {
           "domain": "villageActivity",
@@ -22,7 +22,7 @@
           "mood": "quiet-light",
           "reason": "visible-bridge",
           "changed": true,
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "economy",
@@ -38,7 +38,7 @@
               "inn": true
             }
           },
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "worldEventDirector",
@@ -47,12 +47,12 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:visible-bridge",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782831005558,
+          "at": 1782838995730,
           "payload": {
             "place": "bakery"
           }
@@ -182,17 +182,17 @@
       "greeting": "The player delivered bread.",
       "choices": [
         {
-          "id": "rumor_1782831005553_bx97i",
+          "id": "rumor_1782838995728_bnka7",
           "label": "The village shifted into dawn.",
           "kind": "phase_dawn"
         },
         {
-          "id": "rumor_1782831005557_o8j9q",
+          "id": "rumor_1782838995730_qju7h",
           "label": "Wind loosened a plank near the bridge.",
           "kind": "repair_after_wind"
         },
         {
-          "id": "rumor_1782831005560_u2gia",
+          "id": "rumor_1782838995732_ezs1b",
           "label": "The player delivered bread.",
           "kind": "bread_delivery"
         }
@@ -226,14 +226,14 @@
         "role": "selling",
         "place": "market_square",
         "hour": 10,
-        "updatedAt": 1782831005587
+        "updatedAt": 1782838995751
       },
       "rebbe_akiva": {
         "npcId": "rebbe_akiva",
         "role": "work",
         "place": "beis_midrash",
         "hour": 10,
-        "updatedAt": 1782831005588,
+        "updatedAt": 1782838995752,
         "reason": "work",
         "movementIntent": {
           "npcId": "rebbe_akiva",
@@ -250,7 +250,7 @@
         "role": "work",
         "place": "village_gate",
         "hour": 10,
-        "updatedAt": 1782831005588,
+        "updatedAt": 1782838995752,
         "reason": "work",
         "movementIntent": {
           "npcId": "levi_guard",
@@ -267,7 +267,7 @@
         "role": "work",
         "place": "workshop",
         "hour": 10,
-        "updatedAt": 1782831005588,
+        "updatedAt": 1782838995752,
         "reason": "work",
         "movementIntent": {
           "npcId": "betzalel_crafter",
@@ -285,7 +285,7 @@
         "role": "learning",
         "place": "schoolyard",
         "hour": 10,
-        "updatedAt": 1782831005587
+        "updatedAt": 1782838995751
       }
     },
     "economySummary": {
@@ -338,7 +338,7 @@
         "plank": 1,
         "wax": 1
       },
-      "lastPricedAt": 1782831005588,
+      "lastPricedAt": 1782838995753,
       "lastPricingReason": "step:node-dom-sim-2"
     },
     "rawUiPayloads": {
@@ -376,7 +376,7 @@
       ],
       "npcGossipPayload": [
         {
-          "id": "rumor_1782831005553_bx97i",
+          "id": "rumor_1782838995728_bnka7",
           "sourceNpc": "village",
           "originalText": "The village shifted into dawn.",
           "currentText": "The village shifted into dawn.",
@@ -387,12 +387,12 @@
             "village",
             "miriam_baker"
           ],
-          "timestamp": 1782831005561,
+          "timestamp": 1782838995732,
           "topic": "phase_dawn",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005557_o8j9q",
+          "id": "rumor_1782838995730_qju7h",
           "sourceNpc": "betzalel_crafter",
           "originalText": "Wind loosened a plank near the bridge.",
           "currentText": "Wind loosened a plank near the bridge.",
@@ -403,12 +403,12 @@
             "betzalel_crafter",
             "miriam_baker"
           ],
-          "timestamp": 1782831005561,
+          "timestamp": 1782838995732,
           "topic": "repair_after_wind",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005560_u2gia",
+          "id": "rumor_1782838995732_ezs1b",
           "sourceNpc": "miriam_baker",
           "originalText": "The player delivered bread.",
           "currentText": "The player delivered bread.",
@@ -419,7 +419,7 @@
             "miriam_baker",
             "rebbe_akiva"
           ],
-          "timestamp": 1782831005561,
+          "timestamp": 1782838995732,
           "topic": "bread_delivery",
           "emotionalTone": "warm"
         }
@@ -460,8 +460,8 @@
       "mapMarkerPayload": [
         {
           "urgency": "normal",
-          "startedAt": 1782831005552,
-          "estimatedArrival": 1782831050552,
+          "startedAt": 1782838995728,
+          "estimatedArrival": 1782839040728,
           "npcId": "miriam_baker",
           "from": "baker_home",
           "to": "bakery",
@@ -469,8 +469,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005553,
-          "estimatedArrival": 1782831050553,
+          "startedAt": 1782838995728,
+          "estimatedArrival": 1782839040728,
           "npcId": "rebbe_akiva",
           "from": "rebbe_home",
           "to": "beis_midrash",
@@ -478,8 +478,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005553,
-          "estimatedArrival": 1782831050553,
+          "startedAt": 1782838995728,
+          "estimatedArrival": 1782839040728,
           "npcId": "levi_guard",
           "from": "guard_house",
           "to": "village_gate",
@@ -487,8 +487,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005553,
-          "estimatedArrival": 1782831050553,
+          "startedAt": 1782838995728,
+          "estimatedArrival": 1782839040728,
           "npcId": "betzalel_crafter",
           "from": "crafter_home",
           "to": "workshop",
@@ -496,8 +496,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005553,
-          "estimatedArrival": 1782831050553,
+          "startedAt": 1782838995728,
+          "estimatedArrival": 1782839040728,
           "npcId": "tova_child",
           "from": "baker_home",
           "to": "baker_home",
@@ -545,12 +545,12 @@
         {
           "type": "living-world-start",
           "reason": "node-dom-sim",
-          "at": 1782831005548
+          "at": 1782838995723
         },
         {
           "type": "living-world-start",
           "reason": "visible-bridge",
-          "at": 1782831005550
+          "at": 1782838995725
         },
         {
           "domain": "villageActivity",
@@ -559,7 +559,7 @@
           "mood": "quiet-light",
           "reason": "visible-bridge",
           "changed": true,
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "economy",
@@ -575,7 +575,7 @@
               "inn": true
             }
           },
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "worldEventDirector",
@@ -584,12 +584,12 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:visible-bridge",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782831005558,
+          "at": 1782838995730,
           "payload": {
             "place": "bakery"
           }
@@ -615,14 +615,14 @@
           "role": "selling",
           "place": "market_square",
           "hour": 10,
-          "updatedAt": 1782831005587
+          "updatedAt": 1782838995751
         },
         "rebbe_akiva": {
           "npcId": "rebbe_akiva",
           "role": "work",
           "place": "beis_midrash",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "rebbe_akiva",
@@ -639,7 +639,7 @@
           "role": "work",
           "place": "village_gate",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "levi_guard",
@@ -656,7 +656,7 @@
           "role": "work",
           "place": "workshop",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "betzalel_crafter",
@@ -674,7 +674,7 @@
           "role": "learning",
           "place": "schoolyard",
           "hour": 10,
-          "updatedAt": 1782831005587
+          "updatedAt": 1782838995751
         }
       },
       "economySummaryPayload": {
@@ -727,7 +727,7 @@
           "plank": 1,
           "wax": 1
         },
-        "lastPricedAt": 1782831005588,
+        "lastPricedAt": 1782838995753,
         "lastPricingReason": "step:node-dom-sim-2"
       },
       "socialConsequencesPayload": [],
@@ -797,7 +797,7 @@
         "changed": true,
         "reason": "visible-bridge",
         "pulse": 1,
-        "at": 1782831005553,
+        "at": 1782838995728,
         "transitions": [
           {
             "phase": "dawn",
@@ -863,7 +863,7 @@
             "changed": true,
             "reason": "visible-bridge",
             "pulse": 1,
-            "at": 1782831005553
+            "at": 1782838995728
           }
         ]
       },
@@ -875,9 +875,9 @@
           "npc": "betzalel_crafter",
           "ui": "Betzalel points to a plank that needs hands.",
           "missionId": "repair_bridge_plank",
-          "rumorId": "rumor_1782831005557_o8j9q",
+          "rumorId": "rumor_1782838995730_qju7h",
           "reason": "step:visible-bridge",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         "recent": [
           {
@@ -887,9 +887,9 @@
             "npc": "betzalel_crafter",
             "ui": "Betzalel points to a plank that needs hands.",
             "missionId": "repair_bridge_plank",
-            "rumorId": "rumor_1782831005557_o8j9q",
+            "rumorId": "rumor_1782838995730_qju7h",
             "reason": "step:visible-bridge",
-            "at": 1782831005557
+            "at": 1782838995730
           }
         ],
         "pulse": 1,
@@ -931,22 +931,22 @@
     ]
   },
   "crafted": {
-    "id": "challah_1782831005574",
+    "id": "challah_1782838995740",
     "recipeId": "challah",
     "crafter": "player",
     "kind": "crafted",
-    "at": 1782831005574
+    "at": 1782838995740
   },
   "purchase": {
     "ok": true,
     "transaction": {
-      "id": "vendor_1782831005575_bread",
+      "id": "vendor_1782838995741_bread",
       "itemId": "warm_bread",
       "economyKey": "bread",
       "qty": 1,
       "price": 5,
       "vendorId": "bakery",
-      "at": 1782831005575
+      "at": 1782838995741
     },
     "economyKey": "bread",
     "remaining": 6,
@@ -1038,7 +1038,7 @@
         "plank": 1,
         "wax": 1
       },
-      "lastPricedAt": 1782831005588,
+      "lastPricedAt": 1782838995753,
       "lastPricingReason": "step:node-dom-sim-2"
     }
   },
@@ -1091,7 +1091,7 @@
     "gift": {
       "charity": 1
     },
-    "at": 1782831005579
+    "at": 1782838995745
   },
   "ambient": {
     "type": "ambient-conversation",
@@ -1100,7 +1100,7 @@
       "tova_child"
     ],
     "text": "Miriam says: I heard a rumor near the market.",
-    "at": 1782831005579
+    "at": 1782838995745
   },
   "finalPayload": {
     "ambientFeed": {
@@ -1108,7 +1108,7 @@
         {
           "type": "living-world-start",
           "reason": "visible-bridge",
-          "at": 1782831005550
+          "at": 1782838995725
         },
         {
           "domain": "villageActivity",
@@ -1117,7 +1117,7 @@
           "mood": "quiet-light",
           "reason": "visible-bridge",
           "changed": true,
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "economy",
@@ -1133,7 +1133,7 @@
               "inn": true
             }
           },
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "worldEventDirector",
@@ -1142,39 +1142,39 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:visible-bridge",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782831005558,
+          "at": 1782838995730,
           "payload": {
             "place": "bakery"
           }
         },
         {
           "type": "vendor-purchase",
-          "id": "vendor_1782831005575_bread",
+          "id": "vendor_1782838995741_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782831005575
+          "at": 1782838995741
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bring_flour",
           "next": "bake_challah",
-          "at": 1782831005578
+          "at": 1782838995745
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bake_challah",
           "next": "feed_guest",
-          "at": 1782831005578
+          "at": 1782838995745
         },
         {
           "type": "neighbor_offers_help",
@@ -1182,7 +1182,7 @@
           "gift": {
             "charity": 1
           },
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "type": "ambient-conversation",
@@ -1191,7 +1191,7 @@
             "tova_child"
           ],
           "text": "Miriam says: I heard a rumor near the market.",
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "domain": "villageActivity",
@@ -1200,7 +1200,7 @@
           "mood": "purposeful",
           "reason": "node-dom-sim-1",
           "changed": true,
-          "at": 1782831005580
+          "at": 1782838995746
         },
         {
           "domain": "economy",
@@ -1216,7 +1216,7 @@
               "inn": true
             }
           },
-          "at": 1782831005580
+          "at": 1782838995746
         },
         {
           "domain": "worldEventDirector",
@@ -1225,12 +1225,12 @@
           "place": "village_gate",
           "missionId": "welcome_traveler",
           "reason": "step:node-dom-sim-1",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "type": "child_runs_across_square",
           "reason": "node-dom-sim-1",
-          "at": 1782831005582,
+          "at": 1782838995747,
           "payload": {
             "place": "market_square"
           }
@@ -1242,7 +1242,7 @@
           "mood": "purposeful",
           "reason": "node-dom-sim-2",
           "changed": false,
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "domain": "economy",
@@ -1258,7 +1258,7 @@
               "inn": true
             }
           },
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "domain": "worldEventDirector",
@@ -1267,12 +1267,12 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:node-dom-sim-2",
-          "at": 1782831005588
+          "at": 1782838995752
         },
         {
           "type": "guard_patrol_passes",
           "reason": "node-dom-sim-2",
-          "at": 1782831005588,
+          "at": 1782838995752,
           "payload": {
             "place": "market_square"
           }
@@ -1422,22 +1422,22 @@
       "greeting": "Wind loosened a plank near the bridge.",
       "choices": [
         {
-          "id": "rumor_1782831005560_u2gia",
+          "id": "rumor_1782838995732_ezs1b",
           "label": "The player helped Miriam.",
           "kind": "bread_delivery"
         },
         {
-          "id": "rumor_1782831005580_mtw15",
+          "id": "rumor_1782838995746_njncp",
           "label": "The player helped Miriam.",
           "kind": "phase_morning"
         },
         {
-          "id": "rumor_1782831005581_90hd5",
+          "id": "rumor_1782838995746_y1b3i",
           "label": "The player helped Miriam.",
           "kind": "traveler_arrives"
         },
         {
-          "id": "rumor_1782831005588_zjggu",
+          "id": "rumor_1782838995752_0u3yv",
           "label": "Wind loosened a plank near the bridge.",
           "kind": "repair_after_wind"
         }
@@ -1471,14 +1471,14 @@
         "role": "selling",
         "place": "market_square",
         "hour": 10,
-        "updatedAt": 1782831005587
+        "updatedAt": 1782838995751
       },
       "rebbe_akiva": {
         "npcId": "rebbe_akiva",
         "role": "work",
         "place": "beis_midrash",
         "hour": 10,
-        "updatedAt": 1782831005588,
+        "updatedAt": 1782838995752,
         "reason": "work",
         "movementIntent": {
           "npcId": "rebbe_akiva",
@@ -1495,7 +1495,7 @@
         "role": "work",
         "place": "village_gate",
         "hour": 10,
-        "updatedAt": 1782831005588,
+        "updatedAt": 1782838995752,
         "reason": "work",
         "movementIntent": {
           "npcId": "levi_guard",
@@ -1512,7 +1512,7 @@
         "role": "work",
         "place": "workshop",
         "hour": 10,
-        "updatedAt": 1782831005588,
+        "updatedAt": 1782838995752,
         "reason": "work",
         "movementIntent": {
           "npcId": "betzalel_crafter",
@@ -1530,7 +1530,7 @@
         "role": "learning",
         "place": "schoolyard",
         "hour": 10,
-        "updatedAt": 1782831005587
+        "updatedAt": 1782838995751
       }
     },
     "economySummary": {
@@ -1583,7 +1583,7 @@
         "plank": 1,
         "wax": 1
       },
-      "lastPricedAt": 1782831005588,
+      "lastPricedAt": 1782838995753,
       "lastPricingReason": "step:node-dom-sim-2"
     },
     "rawUiPayloads": {
@@ -1634,7 +1634,7 @@
       ],
       "npcGossipPayload": [
         {
-          "id": "rumor_1782831005557_o8j9q",
+          "id": "rumor_1782838995730_qju7h",
           "sourceNpc": "betzalel_crafter",
           "originalText": "Wind loosened a plank near the bridge.",
           "currentText": "The player helped Miriam.",
@@ -1647,12 +1647,12 @@
             "rebbe_akiva",
             "levi_guard"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "repair_after_wind",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005560_u2gia",
+          "id": "rumor_1782838995732_ezs1b",
           "sourceNpc": "miriam_baker",
           "originalText": "The player delivered bread.",
           "currentText": "The player helped Miriam.",
@@ -1665,12 +1665,12 @@
             "levi_guard",
             "betzalel_crafter"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "bread_delivery",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005580_mtw15",
+          "id": "rumor_1782838995746_njncp",
           "sourceNpc": "village",
           "originalText": "The village shifted into morning.",
           "currentText": "The player helped Miriam.",
@@ -1682,12 +1682,12 @@
             "miriam_baker",
             "rebbe_akiva"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "phase_morning",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005581_90hd5",
+          "id": "rumor_1782838995746_y1b3i",
           "sourceNpc": "levi_guard",
           "originalText": "A traveler reached the village gate.",
           "currentText": "The player helped Miriam.",
@@ -1699,12 +1699,12 @@
             "miriam_baker",
             "rebbe_akiva"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "traveler_arrives",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005588_zjggu",
+          "id": "rumor_1782838995752_0u3yv",
           "sourceNpc": "betzalel_crafter",
           "originalText": "Wind loosened a plank near the bridge.",
           "currentText": "Wind loosened a plank near the bridge.",
@@ -1715,7 +1715,7 @@
             "betzalel_crafter",
             "miriam_baker"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "repair_after_wind",
           "emotionalTone": "warm"
         }
@@ -1756,8 +1756,8 @@
       "mapMarkerPayload": [
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "miriam_baker",
           "from": "bakery",
           "to": "market_square",
@@ -1765,8 +1765,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "rebbe_akiva",
           "from": "beis_midrash",
           "to": "beis_midrash",
@@ -1774,8 +1774,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "levi_guard",
           "from": "village_gate",
           "to": "village_gate",
@@ -1783,8 +1783,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "betzalel_crafter",
           "from": "workshop",
           "to": "workshop",
@@ -1792,8 +1792,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "tova_child",
           "from": "schoolyard",
           "to": "schoolyard",
@@ -1846,7 +1846,7 @@
         {
           "type": "living-world-start",
           "reason": "visible-bridge",
-          "at": 1782831005550
+          "at": 1782838995725
         },
         {
           "domain": "villageActivity",
@@ -1855,7 +1855,7 @@
           "mood": "quiet-light",
           "reason": "visible-bridge",
           "changed": true,
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "economy",
@@ -1871,7 +1871,7 @@
               "inn": true
             }
           },
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "worldEventDirector",
@@ -1880,39 +1880,39 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:visible-bridge",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782831005558,
+          "at": 1782838995730,
           "payload": {
             "place": "bakery"
           }
         },
         {
           "type": "vendor-purchase",
-          "id": "vendor_1782831005575_bread",
+          "id": "vendor_1782838995741_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782831005575
+          "at": 1782838995741
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bring_flour",
           "next": "bake_challah",
-          "at": 1782831005578
+          "at": 1782838995745
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bake_challah",
           "next": "feed_guest",
-          "at": 1782831005578
+          "at": 1782838995745
         },
         {
           "type": "neighbor_offers_help",
@@ -1920,7 +1920,7 @@
           "gift": {
             "charity": 1
           },
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "type": "ambient-conversation",
@@ -1929,7 +1929,7 @@
             "tova_child"
           ],
           "text": "Miriam says: I heard a rumor near the market.",
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "domain": "villageActivity",
@@ -1938,7 +1938,7 @@
           "mood": "purposeful",
           "reason": "node-dom-sim-1",
           "changed": true,
-          "at": 1782831005580
+          "at": 1782838995746
         },
         {
           "domain": "economy",
@@ -1954,7 +1954,7 @@
               "inn": true
             }
           },
-          "at": 1782831005580
+          "at": 1782838995746
         },
         {
           "domain": "worldEventDirector",
@@ -1963,12 +1963,12 @@
           "place": "village_gate",
           "missionId": "welcome_traveler",
           "reason": "step:node-dom-sim-1",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "type": "child_runs_across_square",
           "reason": "node-dom-sim-1",
-          "at": 1782831005582,
+          "at": 1782838995747,
           "payload": {
             "place": "market_square"
           }
@@ -1980,7 +1980,7 @@
           "mood": "purposeful",
           "reason": "node-dom-sim-2",
           "changed": false,
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "domain": "economy",
@@ -1996,7 +1996,7 @@
               "inn": true
             }
           },
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "domain": "worldEventDirector",
@@ -2005,12 +2005,12 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:node-dom-sim-2",
-          "at": 1782831005588
+          "at": 1782838995752
         },
         {
           "type": "guard_patrol_passes",
           "reason": "node-dom-sim-2",
-          "at": 1782831005588,
+          "at": 1782838995752,
           "payload": {
             "place": "market_square"
           }
@@ -2036,14 +2036,14 @@
           "role": "selling",
           "place": "market_square",
           "hour": 10,
-          "updatedAt": 1782831005587
+          "updatedAt": 1782838995751
         },
         "rebbe_akiva": {
           "npcId": "rebbe_akiva",
           "role": "work",
           "place": "beis_midrash",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "rebbe_akiva",
@@ -2060,7 +2060,7 @@
           "role": "work",
           "place": "village_gate",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "levi_guard",
@@ -2077,7 +2077,7 @@
           "role": "work",
           "place": "workshop",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "betzalel_crafter",
@@ -2095,7 +2095,7 @@
           "role": "learning",
           "place": "schoolyard",
           "hour": 10,
-          "updatedAt": 1782831005587
+          "updatedAt": 1782838995751
         }
       },
       "economySummaryPayload": {
@@ -2148,20 +2148,20 @@
           "plank": 1,
           "wax": 1
         },
-        "lastPricedAt": 1782831005588,
+        "lastPricedAt": 1782838995753,
         "lastPricingReason": "step:node-dom-sim-2"
       },
       "socialConsequencesPayload": [],
       "familyTrustPayload": {},
       "economyTransactionsPayload": [
         {
-          "id": "vendor_1782831005575_bread",
+          "id": "vendor_1782838995741_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782831005575
+          "at": 1782838995741
         }
       ],
       "villageActivity": {
@@ -2228,7 +2228,7 @@
         "changed": false,
         "reason": "node-dom-sim-2",
         "pulse": 3,
-        "at": 1782831005587,
+        "at": 1782838995751,
         "transitions": [
           {
             "phase": "dawn",
@@ -2294,7 +2294,7 @@
             "changed": true,
             "reason": "visible-bridge",
             "pulse": 1,
-            "at": 1782831005553
+            "at": 1782838995728
           },
           {
             "phase": "morning",
@@ -2360,7 +2360,7 @@
             "changed": true,
             "reason": "node-dom-sim-1",
             "pulse": 2,
-            "at": 1782831005580
+            "at": 1782838995746
           },
           {
             "phase": "morning",
@@ -2426,7 +2426,7 @@
             "changed": false,
             "reason": "node-dom-sim-2",
             "pulse": 3,
-            "at": 1782831005587
+            "at": 1782838995751
           }
         ]
       },
@@ -2438,9 +2438,9 @@
           "npc": "betzalel_crafter",
           "ui": "Betzalel points to a plank that needs hands.",
           "missionId": "repair_bridge_plank",
-          "rumorId": "rumor_1782831005588_zjggu",
+          "rumorId": "rumor_1782838995752_0u3yv",
           "reason": "step:node-dom-sim-2",
-          "at": 1782831005588
+          "at": 1782838995752
         },
         "recent": [
           {
@@ -2450,9 +2450,9 @@
             "npc": "betzalel_crafter",
             "ui": "Betzalel points to a plank that needs hands.",
             "missionId": "repair_bridge_plank",
-            "rumorId": "rumor_1782831005557_o8j9q",
+            "rumorId": "rumor_1782838995730_qju7h",
             "reason": "step:visible-bridge",
-            "at": 1782831005557
+            "at": 1782838995730
           },
           {
             "id": "traveler_arrives",
@@ -2461,9 +2461,9 @@
             "npc": "levi_guard",
             "ui": "A traveler waits at the gate.",
             "missionId": "welcome_traveler",
-            "rumorId": "rumor_1782831005581_90hd5",
+            "rumorId": "rumor_1782838995746_y1b3i",
             "reason": "step:node-dom-sim-1",
-            "at": 1782831005581
+            "at": 1782838995747
           },
           {
             "id": "repair_after_wind",
@@ -2472,9 +2472,9 @@
             "npc": "betzalel_crafter",
             "ui": "Betzalel points to a plank that needs hands.",
             "missionId": "repair_bridge_plank",
-            "rumorId": "rumor_1782831005588_zjggu",
+            "rumorId": "rumor_1782838995752_0u3yv",
             "reason": "step:node-dom-sim-2",
-            "at": 1782831005588
+            "at": 1782838995752
           }
         ],
         "pulse": 3,
@@ -2484,7 +2484,7 @@
   },
   "worldState": {
     "version": 2,
-    "updatedAt": 1782831005590,
+    "updatedAt": 1782838995754,
     "currentDay": 1,
     "currentSeason": "spring",
     "clockHour": 10,
@@ -2497,20 +2497,20 @@
           "role": "kneading",
           "place": "bakery",
           "text": "Warm bread begins before the market wakes.",
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for daven.",
           "role": "daven",
           "place": "beis_midrash",
-          "at": 1782831005558
+          "at": 1782838995730
         },
         {
           "kind": "delivered",
           "text": "The player delivered bread.",
           "fact": "bread_delivery",
-          "at": 1782831005560
+          "at": 1782838995732
         },
         {
           "kind": "village_activity",
@@ -2518,20 +2518,20 @@
           "role": "selling",
           "place": "market_square",
           "text": "Miriam brings bread to the square.",
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "kind": "schedule_seen",
           "text": "Went to bakery for work.",
           "role": "work",
           "place": "bakery",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "kind": "delivered",
           "text": "The player delivered bread.",
           "fact": "bread_delivery",
-          "at": 1782831005582
+          "at": 1782838995747
         },
         {
           "kind": "village_activity",
@@ -2539,13 +2539,13 @@
           "role": "selling",
           "place": "market_square",
           "text": "Miriam brings bread to the square.",
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "kind": "delivered",
           "text": "The player delivered bread.",
           "fact": "bread_delivery",
-          "at": 1782831005588
+          "at": 1782838995752
         }
       ],
       "rebbe_akiva": [
@@ -2555,14 +2555,14 @@
           "role": "davening",
           "place": "beis_midrash",
           "text": "The beis midrash begins to hum.",
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for daven.",
           "role": "daven",
           "place": "beis_midrash",
-          "at": 1782831005558
+          "at": 1782838995730
         },
         {
           "kind": "village_activity",
@@ -2570,7 +2570,7 @@
           "role": "teaching",
           "place": "beis_midrash",
           "text": "A first lesson spills into the courtyard.",
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "kind": "village_activity",
@@ -2578,14 +2578,14 @@
           "role": "teaching",
           "place": "beis_midrash",
           "text": "A first lesson spills into the courtyard.",
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for work.",
           "role": "work",
           "place": "beis_midrash",
-          "at": 1782831005588
+          "at": 1782838995752
         }
       ],
       "levi_guard": [
@@ -2595,14 +2595,14 @@
           "role": "patrol",
           "place": "village_gate",
           "text": "The gate is watched while the village stretches.",
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for daven.",
           "role": "daven",
           "place": "beis_midrash",
-          "at": 1782831005558
+          "at": 1782838995730
         },
         {
           "kind": "village_activity",
@@ -2610,7 +2610,7 @@
           "role": "watching",
           "place": "village_gate",
           "text": "Travelers are counted at the gate.",
-          "at": 1782831005579
+          "at": 1782838995746
         },
         {
           "kind": "world_event_director",
@@ -2618,7 +2618,7 @@
           "phase": "morning",
           "place": "village_gate",
           "text": "A traveler waits at the gate.",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "kind": "village_activity",
@@ -2626,14 +2626,14 @@
           "role": "watching",
           "place": "village_gate",
           "text": "Travelers are counted at the gate.",
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "kind": "schedule_seen",
           "text": "Went to village_gate for work.",
           "role": "work",
           "place": "village_gate",
-          "at": 1782831005588
+          "at": 1782838995752
         }
       ],
       "betzalel_crafter": [
@@ -2643,7 +2643,7 @@
           "role": "opening",
           "place": "workshop",
           "text": "Tools are laid out like small promises.",
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "kind": "world_event_director",
@@ -2651,7 +2651,7 @@
           "phase": "dawn",
           "place": "bridge",
           "text": "Betzalel points to a plank that needs hands.",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         {
           "kind": "village_activity",
@@ -2659,14 +2659,14 @@
           "role": "crafting",
           "place": "workshop",
           "text": "The workshop taps with steady repairs.",
-          "at": 1782831005579
+          "at": 1782838995746
         },
         {
           "kind": "schedule_seen",
           "text": "Went to workshop for work.",
           "role": "work",
           "place": "workshop",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "kind": "village_activity",
@@ -2674,7 +2674,7 @@
           "role": "crafting",
           "place": "workshop",
           "text": "The workshop taps with steady repairs.",
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "kind": "world_event_director",
@@ -2682,14 +2682,14 @@
           "phase": "morning",
           "place": "bridge",
           "text": "Betzalel points to a plank that needs hands.",
-          "at": 1782831005588
+          "at": 1782838995752
         },
         {
           "kind": "schedule_seen",
           "text": "Went to workshop for work.",
           "role": "work",
           "place": "workshop",
-          "at": 1782831005588
+          "at": 1782838995752
         }
       ],
       "tova_child": [
@@ -2699,7 +2699,7 @@
           "role": "breakfast",
           "place": "baker_home",
           "text": "Children gather satchels near the doorway.",
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "kind": "village_activity",
@@ -2707,14 +2707,14 @@
           "role": "learning",
           "place": "schoolyard",
           "text": "Small voices answer the melamed together.",
-          "at": 1782831005579
+          "at": 1782838995746
         },
         {
           "kind": "schedule_seen",
           "text": "Went to schoolyard for work.",
           "role": "work",
           "place": "schoolyard",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "kind": "village_activity",
@@ -2722,15 +2722,15 @@
           "role": "learning",
           "place": "schoolyard",
           "text": "Small voices answer the melamed together.",
-          "at": 1782831005587
+          "at": 1782838995751
         }
       ]
     },
     "movementIntents": [
       {
         "urgency": "normal",
-        "startedAt": 1782831005552,
-        "estimatedArrival": 1782831050552,
+        "startedAt": 1782838995728,
+        "estimatedArrival": 1782839040728,
         "npcId": "miriam_baker",
         "from": "baker_home",
         "to": "bakery",
@@ -2738,8 +2738,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005553,
-        "estimatedArrival": 1782831050553,
+        "startedAt": 1782838995728,
+        "estimatedArrival": 1782839040728,
         "npcId": "rebbe_akiva",
         "from": "rebbe_home",
         "to": "beis_midrash",
@@ -2747,8 +2747,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005553,
-        "estimatedArrival": 1782831050553,
+        "startedAt": 1782838995728,
+        "estimatedArrival": 1782839040728,
         "npcId": "levi_guard",
         "from": "guard_house",
         "to": "village_gate",
@@ -2756,8 +2756,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005553,
-        "estimatedArrival": 1782831050553,
+        "startedAt": 1782838995728,
+        "estimatedArrival": 1782839040728,
         "npcId": "betzalel_crafter",
         "from": "crafter_home",
         "to": "workshop",
@@ -2765,8 +2765,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005553,
-        "estimatedArrival": 1782831050553,
+        "startedAt": 1782838995728,
+        "estimatedArrival": 1782839040728,
         "npcId": "tova_child",
         "from": "baker_home",
         "to": "baker_home",
@@ -2801,8 +2801,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005579,
-        "estimatedArrival": 1782831050579,
+        "startedAt": 1782838995745,
+        "estimatedArrival": 1782839040745,
         "npcId": "miriam_baker",
         "from": "beis_midrash",
         "to": "market_square",
@@ -2810,8 +2810,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005579,
-        "estimatedArrival": 1782831050579,
+        "startedAt": 1782838995745,
+        "estimatedArrival": 1782839040745,
         "npcId": "rebbe_akiva",
         "from": "beis_midrash",
         "to": "beis_midrash",
@@ -2819,8 +2819,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005579,
-        "estimatedArrival": 1782831050579,
+        "startedAt": 1782838995746,
+        "estimatedArrival": 1782839040746,
         "npcId": "levi_guard",
         "from": "beis_midrash",
         "to": "village_gate",
@@ -2828,8 +2828,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005579,
-        "estimatedArrival": 1782831050579,
+        "startedAt": 1782838995746,
+        "estimatedArrival": 1782839040746,
         "npcId": "betzalel_crafter",
         "from": "workshop",
         "to": "workshop",
@@ -2837,8 +2837,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005579,
-        "estimatedArrival": 1782831050579,
+        "startedAt": 1782838995746,
+        "estimatedArrival": 1782839040746,
         "npcId": "tova_child",
         "from": "baker_home",
         "to": "schoolyard",
@@ -2873,8 +2873,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005587,
-        "estimatedArrival": 1782831050587,
+        "startedAt": 1782838995751,
+        "estimatedArrival": 1782839040751,
         "npcId": "miriam_baker",
         "from": "bakery",
         "to": "market_square",
@@ -2882,8 +2882,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005587,
-        "estimatedArrival": 1782831050587,
+        "startedAt": 1782838995751,
+        "estimatedArrival": 1782839040751,
         "npcId": "rebbe_akiva",
         "from": "beis_midrash",
         "to": "beis_midrash",
@@ -2891,8 +2891,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005587,
-        "estimatedArrival": 1782831050587,
+        "startedAt": 1782838995751,
+        "estimatedArrival": 1782839040751,
         "npcId": "levi_guard",
         "from": "village_gate",
         "to": "village_gate",
@@ -2900,8 +2900,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005587,
-        "estimatedArrival": 1782831050587,
+        "startedAt": 1782838995751,
+        "estimatedArrival": 1782839040751,
         "npcId": "betzalel_crafter",
         "from": "workshop",
         "to": "workshop",
@@ -2909,8 +2909,8 @@
       },
       {
         "urgency": "normal",
-        "startedAt": 1782831005587,
-        "estimatedArrival": 1782831050587,
+        "startedAt": 1782838995751,
+        "estimatedArrival": 1782839040751,
         "npcId": "tova_child",
         "from": "schoolyard",
         "to": "schoolyard",
@@ -2946,7 +2946,7 @@
     ],
     "rumors": [
       {
-        "id": "rumor_1782831005553_bx97i",
+        "id": "rumor_1782838995728_bnka7",
         "sourceNpc": "village",
         "originalText": "The village shifted into dawn.",
         "currentText": "The player helped Miriam.",
@@ -2959,12 +2959,12 @@
           "rebbe_akiva",
           "levi_guard"
         ],
-        "timestamp": 1782831005588,
+        "timestamp": 1782838995752,
         "topic": "phase_dawn",
         "emotionalTone": "warm"
       },
       {
-        "id": "rumor_1782831005557_o8j9q",
+        "id": "rumor_1782838995730_qju7h",
         "sourceNpc": "betzalel_crafter",
         "originalText": "Wind loosened a plank near the bridge.",
         "currentText": "The player helped Miriam.",
@@ -2977,12 +2977,12 @@
           "rebbe_akiva",
           "levi_guard"
         ],
-        "timestamp": 1782831005588,
+        "timestamp": 1782838995752,
         "topic": "repair_after_wind",
         "emotionalTone": "warm"
       },
       {
-        "id": "rumor_1782831005560_u2gia",
+        "id": "rumor_1782838995732_ezs1b",
         "sourceNpc": "miriam_baker",
         "originalText": "The player delivered bread.",
         "currentText": "The player helped Miriam.",
@@ -2995,12 +2995,12 @@
           "levi_guard",
           "betzalel_crafter"
         ],
-        "timestamp": 1782831005588,
+        "timestamp": 1782838995752,
         "topic": "bread_delivery",
         "emotionalTone": "warm"
       },
       {
-        "id": "rumor_1782831005580_mtw15",
+        "id": "rumor_1782838995746_njncp",
         "sourceNpc": "village",
         "originalText": "The village shifted into morning.",
         "currentText": "The player helped Miriam.",
@@ -3012,12 +3012,12 @@
           "miriam_baker",
           "rebbe_akiva"
         ],
-        "timestamp": 1782831005588,
+        "timestamp": 1782838995752,
         "topic": "phase_morning",
         "emotionalTone": "warm"
       },
       {
-        "id": "rumor_1782831005581_90hd5",
+        "id": "rumor_1782838995746_y1b3i",
         "sourceNpc": "levi_guard",
         "originalText": "A traveler reached the village gate.",
         "currentText": "The player helped Miriam.",
@@ -3029,12 +3029,12 @@
           "miriam_baker",
           "rebbe_akiva"
         ],
-        "timestamp": 1782831005588,
+        "timestamp": 1782838995752,
         "topic": "traveler_arrives",
         "emotionalTone": "warm"
       },
       {
-        "id": "rumor_1782831005588_zjggu",
+        "id": "rumor_1782838995752_0u3yv",
         "sourceNpc": "betzalel_crafter",
         "originalText": "Wind loosened a plank near the bridge.",
         "currentText": "Wind loosened a plank near the bridge.",
@@ -3045,7 +3045,7 @@
           "betzalel_crafter",
           "miriam_baker"
         ],
-        "timestamp": 1782831005588,
+        "timestamp": 1782838995752,
         "topic": "repair_after_wind",
         "emotionalTone": "warm"
       }
@@ -3089,7 +3089,7 @@
           },
           "memory": "crafted"
         },
-        "acceptedAt": 1782831005559,
+        "acceptedAt": 1782838995731,
         "source": "world_state"
       },
       "welcome_traveler": {
@@ -3114,13 +3114,13 @@
     "apologies": [],
     "economyTransactions": [
       {
-        "id": "vendor_1782831005575_bread",
+        "id": "vendor_1782838995741_bread",
         "itemId": "warm_bread",
         "economyKey": "bread",
         "qty": 1,
         "price": 5,
         "vendorId": "bakery",
-        "at": 1782831005575
+        "at": 1782838995741
       }
     ],
     "reputation": {
@@ -3186,37 +3186,37 @@
         "plank": 1,
         "wax": 1
       },
-      "lastPricedAt": 1782831005588,
+      "lastPricedAt": 1782838995753,
       "lastPricingReason": "step:node-dom-sim-2"
     },
     "craftedItems": [
       {
-        "id": "challah_1782831005560",
+        "id": "challah_1782838995731",
         "recipeId": "challah",
         "crafter": "miriam_baker",
         "kind": "crafted",
-        "at": 1782831005560
+        "at": 1782838995731
       },
       {
-        "id": "challah_1782831005574",
+        "id": "challah_1782838995740",
         "recipeId": "challah",
         "crafter": "player",
         "kind": "crafted",
-        "at": 1782831005574
+        "at": 1782838995740
       },
       {
-        "id": "challah_1782831005582",
+        "id": "challah_1782838995747",
         "recipeId": "challah",
         "crafter": "miriam_baker",
         "kind": "crafted",
-        "at": 1782831005582
+        "at": 1782838995747
       },
       {
-        "id": "challah_1782831005588",
+        "id": "challah_1782838995752",
         "recipeId": "challah",
         "crafter": "miriam_baker",
         "kind": "crafted",
-        "at": 1782831005588
+        "at": 1782838995752
       }
     ],
     "servicesVisited": [],
@@ -3224,12 +3224,12 @@
       {
         "type": "living-world-start",
         "reason": "node-dom-sim",
-        "at": 1782831005548
+        "at": 1782838995723
       },
       {
         "type": "living-world-start",
         "reason": "visible-bridge",
-        "at": 1782831005550
+        "at": 1782838995725
       },
       {
         "domain": "villageActivity",
@@ -3238,7 +3238,7 @@
         "mood": "quiet-light",
         "reason": "visible-bridge",
         "changed": true,
-        "at": 1782831005553
+        "at": 1782838995728
       },
       {
         "domain": "economy",
@@ -3254,7 +3254,7 @@
             "inn": true
           }
         },
-        "at": 1782831005553
+        "at": 1782838995728
       },
       {
         "domain": "worldEventDirector",
@@ -3263,17 +3263,17 @@
         "place": "bridge",
         "missionId": "repair_bridge_plank",
         "reason": "step:visible-bridge",
-        "at": 1782831005557
+        "at": 1782838995730
       },
       {
         "type": "vendor-purchase",
-        "id": "vendor_1782831005575_bread",
+        "id": "vendor_1782838995741_bread",
         "itemId": "warm_bread",
         "economyKey": "bread",
         "qty": 1,
         "price": 5,
         "vendorId": "bakery",
-        "at": 1782831005575
+        "at": 1782838995741
       },
       {
         "domain": "villageActivity",
@@ -3282,7 +3282,7 @@
         "mood": "purposeful",
         "reason": "node-dom-sim-1",
         "changed": true,
-        "at": 1782831005580
+        "at": 1782838995746
       },
       {
         "domain": "economy",
@@ -3298,7 +3298,7 @@
             "inn": true
           }
         },
-        "at": 1782831005580
+        "at": 1782838995746
       },
       {
         "domain": "worldEventDirector",
@@ -3307,7 +3307,7 @@
         "place": "village_gate",
         "missionId": "welcome_traveler",
         "reason": "step:node-dom-sim-1",
-        "at": 1782831005581
+        "at": 1782838995747
       },
       {
         "domain": "villageActivity",
@@ -3316,7 +3316,7 @@
         "mood": "purposeful",
         "reason": "node-dom-sim-2",
         "changed": false,
-        "at": 1782831005587
+        "at": 1782838995751
       },
       {
         "domain": "economy",
@@ -3332,7 +3332,7 @@
             "inn": true
           }
         },
-        "at": 1782831005587
+        "at": 1782838995751
       },
       {
         "domain": "worldEventDirector",
@@ -3341,7 +3341,7 @@
         "place": "bridge",
         "missionId": "repair_bridge_plank",
         "reason": "step:node-dom-sim-2",
-        "at": 1782831005588
+        "at": 1782838995752
       }
     ],
     "villageProjects": {
@@ -3414,7 +3414,7 @@
       "changed": false,
       "reason": "node-dom-sim-2",
       "pulse": 3,
-      "at": 1782831005587,
+      "at": 1782838995751,
       "transitions": [
         {
           "phase": "dawn",
@@ -3480,7 +3480,7 @@
           "changed": true,
           "reason": "visible-bridge",
           "pulse": 1,
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "phase": "morning",
@@ -3546,7 +3546,7 @@
           "changed": true,
           "reason": "node-dom-sim-1",
           "pulse": 2,
-          "at": 1782831005580
+          "at": 1782838995746
         },
         {
           "phase": "morning",
@@ -3612,7 +3612,7 @@
           "changed": false,
           "reason": "node-dom-sim-2",
           "pulse": 3,
-          "at": 1782831005587
+          "at": 1782838995751
         }
       ]
     },
@@ -3635,9 +3635,9 @@
           "npc": "betzalel_crafter",
           "ui": "Betzalel points to a plank that needs hands.",
           "missionId": "repair_bridge_plank",
-          "rumorId": "rumor_1782831005557_o8j9q",
+          "rumorId": "rumor_1782838995730_qju7h",
           "reason": "step:visible-bridge",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         {
           "id": "traveler_arrives",
@@ -3646,9 +3646,9 @@
           "npc": "levi_guard",
           "ui": "A traveler waits at the gate.",
           "missionId": "welcome_traveler",
-          "rumorId": "rumor_1782831005581_90hd5",
+          "rumorId": "rumor_1782838995746_y1b3i",
           "reason": "step:node-dom-sim-1",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "id": "repair_after_wind",
@@ -3657,9 +3657,9 @@
           "npc": "betzalel_crafter",
           "ui": "Betzalel points to a plank that needs hands.",
           "missionId": "repair_bridge_plank",
-          "rumorId": "rumor_1782831005588_zjggu",
+          "rumorId": "rumor_1782838995752_0u3yv",
           "reason": "step:node-dom-sim-2",
-          "at": 1782831005588
+          "at": 1782838995752
         }
       ],
       "last": {
@@ -3669,9 +3669,9 @@
         "npc": "betzalel_crafter",
         "ui": "Betzalel points to a plank that needs hands.",
         "missionId": "repair_bridge_plank",
-        "rumorId": "rumor_1782831005588_zjggu",
+        "rumorId": "rumor_1782838995752_0u3yv",
         "reason": "step:node-dom-sim-2",
-        "at": 1782831005588
+        "at": 1782838995752
       },
       "pulses": 3,
       "hasLoop": false
@@ -3724,7 +3724,7 @@
       ],
       "npcGossipPayload": [
         {
-          "id": "rumor_1782831005557_o8j9q",
+          "id": "rumor_1782838995730_qju7h",
           "sourceNpc": "betzalel_crafter",
           "originalText": "Wind loosened a plank near the bridge.",
           "currentText": "The player helped Miriam.",
@@ -3737,12 +3737,12 @@
             "rebbe_akiva",
             "levi_guard"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "repair_after_wind",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005560_u2gia",
+          "id": "rumor_1782838995732_ezs1b",
           "sourceNpc": "miriam_baker",
           "originalText": "The player delivered bread.",
           "currentText": "The player helped Miriam.",
@@ -3755,12 +3755,12 @@
             "levi_guard",
             "betzalel_crafter"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "bread_delivery",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005580_mtw15",
+          "id": "rumor_1782838995746_njncp",
           "sourceNpc": "village",
           "originalText": "The village shifted into morning.",
           "currentText": "The player helped Miriam.",
@@ -3772,12 +3772,12 @@
             "miriam_baker",
             "rebbe_akiva"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "phase_morning",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005581_90hd5",
+          "id": "rumor_1782838995746_y1b3i",
           "sourceNpc": "levi_guard",
           "originalText": "A traveler reached the village gate.",
           "currentText": "The player helped Miriam.",
@@ -3789,12 +3789,12 @@
             "miriam_baker",
             "rebbe_akiva"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "traveler_arrives",
           "emotionalTone": "warm"
         },
         {
-          "id": "rumor_1782831005588_zjggu",
+          "id": "rumor_1782838995752_0u3yv",
           "sourceNpc": "betzalel_crafter",
           "originalText": "Wind loosened a plank near the bridge.",
           "currentText": "Wind loosened a plank near the bridge.",
@@ -3805,7 +3805,7 @@
             "betzalel_crafter",
             "miriam_baker"
           ],
-          "timestamp": 1782831005588,
+          "timestamp": 1782838995752,
           "topic": "repair_after_wind",
           "emotionalTone": "warm"
         }
@@ -3846,8 +3846,8 @@
       "mapMarkerPayload": [
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "miriam_baker",
           "from": "bakery",
           "to": "market_square",
@@ -3855,8 +3855,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "rebbe_akiva",
           "from": "beis_midrash",
           "to": "beis_midrash",
@@ -3864,8 +3864,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "levi_guard",
           "from": "village_gate",
           "to": "village_gate",
@@ -3873,8 +3873,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "betzalel_crafter",
           "from": "workshop",
           "to": "workshop",
@@ -3882,8 +3882,8 @@
         },
         {
           "urgency": "normal",
-          "startedAt": 1782831005587,
-          "estimatedArrival": 1782831050587,
+          "startedAt": 1782838995751,
+          "estimatedArrival": 1782839040751,
           "npcId": "tova_child",
           "from": "schoolyard",
           "to": "schoolyard",
@@ -3936,7 +3936,7 @@
         {
           "type": "living-world-start",
           "reason": "visible-bridge",
-          "at": 1782831005550
+          "at": 1782838995725
         },
         {
           "domain": "villageActivity",
@@ -3945,7 +3945,7 @@
           "mood": "quiet-light",
           "reason": "visible-bridge",
           "changed": true,
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "economy",
@@ -3961,7 +3961,7 @@
               "inn": true
             }
           },
-          "at": 1782831005553
+          "at": 1782838995728
         },
         {
           "domain": "worldEventDirector",
@@ -3970,39 +3970,39 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:visible-bridge",
-          "at": 1782831005557
+          "at": 1782838995730
         },
         {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782831005558,
+          "at": 1782838995730,
           "payload": {
             "place": "bakery"
           }
         },
         {
           "type": "vendor-purchase",
-          "id": "vendor_1782831005575_bread",
+          "id": "vendor_1782838995741_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782831005575
+          "at": 1782838995741
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bring_flour",
           "next": "bake_challah",
-          "at": 1782831005578
+          "at": 1782838995745
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bake_challah",
           "next": "feed_guest",
-          "at": 1782831005578
+          "at": 1782838995745
         },
         {
           "type": "neighbor_offers_help",
@@ -4010,7 +4010,7 @@
           "gift": {
             "charity": 1
           },
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "type": "ambient-conversation",
@@ -4019,7 +4019,7 @@
             "tova_child"
           ],
           "text": "Miriam says: I heard a rumor near the market.",
-          "at": 1782831005579
+          "at": 1782838995745
         },
         {
           "domain": "villageActivity",
@@ -4028,7 +4028,7 @@
           "mood": "purposeful",
           "reason": "node-dom-sim-1",
           "changed": true,
-          "at": 1782831005580
+          "at": 1782838995746
         },
         {
           "domain": "economy",
@@ -4044,7 +4044,7 @@
               "inn": true
             }
           },
-          "at": 1782831005580
+          "at": 1782838995746
         },
         {
           "domain": "worldEventDirector",
@@ -4053,12 +4053,12 @@
           "place": "village_gate",
           "missionId": "welcome_traveler",
           "reason": "step:node-dom-sim-1",
-          "at": 1782831005581
+          "at": 1782838995747
         },
         {
           "type": "child_runs_across_square",
           "reason": "node-dom-sim-1",
-          "at": 1782831005582,
+          "at": 1782838995747,
           "payload": {
             "place": "market_square"
           }
@@ -4070,7 +4070,7 @@
           "mood": "purposeful",
           "reason": "node-dom-sim-2",
           "changed": false,
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "domain": "economy",
@@ -4086,7 +4086,7 @@
               "inn": true
             }
           },
-          "at": 1782831005587
+          "at": 1782838995751
         },
         {
           "domain": "worldEventDirector",
@@ -4095,12 +4095,12 @@
           "place": "bridge",
           "missionId": "repair_bridge_plank",
           "reason": "step:node-dom-sim-2",
-          "at": 1782831005588
+          "at": 1782838995752
         },
         {
           "type": "guard_patrol_passes",
           "reason": "node-dom-sim-2",
-          "at": 1782831005588,
+          "at": 1782838995752,
           "payload": {
             "place": "market_square"
           }
@@ -4126,14 +4126,14 @@
           "role": "selling",
           "place": "market_square",
           "hour": 10,
-          "updatedAt": 1782831005587
+          "updatedAt": 1782838995751
         },
         "rebbe_akiva": {
           "npcId": "rebbe_akiva",
           "role": "work",
           "place": "beis_midrash",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "rebbe_akiva",
@@ -4150,7 +4150,7 @@
           "role": "work",
           "place": "village_gate",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "levi_guard",
@@ -4167,7 +4167,7 @@
           "role": "work",
           "place": "workshop",
           "hour": 10,
-          "updatedAt": 1782831005588,
+          "updatedAt": 1782838995752,
           "reason": "work",
           "movementIntent": {
             "npcId": "betzalel_crafter",
@@ -4185,7 +4185,7 @@
           "role": "learning",
           "place": "schoolyard",
           "hour": 10,
-          "updatedAt": 1782831005587
+          "updatedAt": 1782838995751
         }
       },
       "economySummaryPayload": {
@@ -4238,20 +4238,20 @@
           "plank": 1,
           "wax": 1
         },
-        "lastPricedAt": 1782831005588,
+        "lastPricedAt": 1782838995753,
         "lastPricingReason": "step:node-dom-sim-2"
       },
       "socialConsequencesPayload": [],
       "familyTrustPayload": {},
       "economyTransactionsPayload": [
         {
-          "id": "vendor_1782831005575_bread",
+          "id": "vendor_1782838995741_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782831005575
+          "at": 1782838995741
         }
       ],
       "villageActivity": {
@@ -4318,7 +4318,7 @@
         "changed": false,
         "reason": "node-dom-sim-2",
         "pulse": 3,
-        "at": 1782831005587,
+        "at": 1782838995751,
         "transitions": [
           {
             "phase": "dawn",
@@ -4384,7 +4384,7 @@
             "changed": true,
             "reason": "visible-bridge",
             "pulse": 1,
-            "at": 1782831005553
+            "at": 1782838995728
           },
           {
             "phase": "morning",
@@ -4450,7 +4450,7 @@
             "changed": true,
             "reason": "node-dom-sim-1",
             "pulse": 2,
-            "at": 1782831005580
+            "at": 1782838995746
           },
           {
             "phase": "morning",
@@ -4516,7 +4516,7 @@
             "changed": false,
             "reason": "node-dom-sim-2",
             "pulse": 3,
-            "at": 1782831005587
+            "at": 1782838995751
           }
         ]
       },
@@ -4528,9 +4528,9 @@
           "npc": "betzalel_crafter",
           "ui": "Betzalel points to a plank that needs hands.",
           "missionId": "repair_bridge_plank",
-          "rumorId": "rumor_1782831005588_zjggu",
+          "rumorId": "rumor_1782838995752_0u3yv",
           "reason": "step:node-dom-sim-2",
-          "at": 1782831005588
+          "at": 1782838995752
         },
         "recent": [
           {
@@ -4540,9 +4540,9 @@
             "npc": "betzalel_crafter",
             "ui": "Betzalel points to a plank that needs hands.",
             "missionId": "repair_bridge_plank",
-            "rumorId": "rumor_1782831005557_o8j9q",
+            "rumorId": "rumor_1782838995730_qju7h",
             "reason": "step:visible-bridge",
-            "at": 1782831005557
+            "at": 1782838995730
           },
           {
             "id": "traveler_arrives",
@@ -4551,9 +4551,9 @@
             "npc": "levi_guard",
             "ui": "A traveler waits at the gate.",
             "missionId": "welcome_traveler",
-            "rumorId": "rumor_1782831005581_90hd5",
+            "rumorId": "rumor_1782838995746_y1b3i",
             "reason": "step:node-dom-sim-1",
-            "at": 1782831005581
+            "at": 1782838995747
           },
           {
             "id": "repair_after_wind",
@@ -4562,9 +4562,9 @@
             "npc": "betzalel_crafter",
             "ui": "Betzalel points to a plank that needs hands.",
             "missionId": "repair_bridge_plank",
-            "rumorId": "rumor_1782831005588_zjggu",
+            "rumorId": "rumor_1782838995752_0u3yv",
             "reason": "step:node-dom-sim-2",
-            "at": 1782831005588
+            "at": 1782838995752
           }
         ],
         "pulse": 3,
@@ -4575,12 +4575,12 @@
       {
         "type": "living-world-start",
         "reason": "node-dom-sim",
-        "at": 1782831005548
+        "at": 1782838995723
       },
       {
         "type": "living-world-start",
         "reason": "visible-bridge",
-        "at": 1782831005550
+        "at": 1782838995725
       },
       {
         "domain": "villageActivity",
@@ -4589,7 +4589,7 @@
         "mood": "quiet-light",
         "reason": "visible-bridge",
         "changed": true,
-        "at": 1782831005553
+        "at": 1782838995728
       },
       {
         "domain": "economy",
@@ -4605,7 +4605,7 @@
             "inn": true
           }
         },
-        "at": 1782831005553
+        "at": 1782838995728
       },
       {
         "domain": "worldEventDirector",
@@ -4614,39 +4614,39 @@
         "place": "bridge",
         "missionId": "repair_bridge_plank",
         "reason": "step:visible-bridge",
-        "at": 1782831005557
+        "at": 1782838995730
       },
       {
         "type": "baker_delivers_bread",
         "reason": "visible-bridge",
-        "at": 1782831005558,
+        "at": 1782838995730,
         "payload": {
           "place": "bakery"
         }
       },
       {
         "type": "vendor-purchase",
-        "id": "vendor_1782831005575_bread",
+        "id": "vendor_1782838995741_bread",
         "itemId": "warm_bread",
         "economyKey": "bread",
         "qty": 1,
         "price": 5,
         "vendorId": "bakery",
-        "at": 1782831005575
+        "at": 1782838995741
       },
       {
         "type": "quest-chain-advance",
         "chainId": "bakery_kindness",
         "completed": "bring_flour",
         "next": "bake_challah",
-        "at": 1782831005578
+        "at": 1782838995745
       },
       {
         "type": "quest-chain-advance",
         "chainId": "bakery_kindness",
         "completed": "bake_challah",
         "next": "feed_guest",
-        "at": 1782831005578
+        "at": 1782838995745
       },
       {
         "type": "neighbor_offers_help",
@@ -4654,7 +4654,7 @@
         "gift": {
           "charity": 1
         },
-        "at": 1782831005579
+        "at": 1782838995745
       },
       {
         "type": "ambient-conversation",
@@ -4663,7 +4663,7 @@
           "tova_child"
         ],
         "text": "Miriam says: I heard a rumor near the market.",
-        "at": 1782831005579
+        "at": 1782838995745
       },
       {
         "domain": "villageActivity",
@@ -4672,7 +4672,7 @@
         "mood": "purposeful",
         "reason": "node-dom-sim-1",
         "changed": true,
-        "at": 1782831005580
+        "at": 1782838995746
       },
       {
         "domain": "economy",
@@ -4688,7 +4688,7 @@
             "inn": true
           }
         },
-        "at": 1782831005580
+        "at": 1782838995746
       },
       {
         "domain": "worldEventDirector",
@@ -4697,12 +4697,12 @@
         "place": "village_gate",
         "missionId": "welcome_traveler",
         "reason": "step:node-dom-sim-1",
-        "at": 1782831005581
+        "at": 1782838995747
       },
       {
         "type": "child_runs_across_square",
         "reason": "node-dom-sim-1",
-        "at": 1782831005582,
+        "at": 1782838995747,
         "payload": {
           "place": "market_square"
         }
@@ -4714,7 +4714,7 @@
         "mood": "purposeful",
         "reason": "node-dom-sim-2",
         "changed": false,
-        "at": 1782831005587
+        "at": 1782838995751
       },
       {
         "domain": "economy",
@@ -4730,7 +4730,7 @@
             "inn": true
           }
         },
-        "at": 1782831005587
+        "at": 1782838995751
       },
       {
         "domain": "worldEventDirector",
@@ -4739,12 +4739,12 @@
         "place": "bridge",
         "missionId": "repair_bridge_plank",
         "reason": "step:node-dom-sim-2",
-        "at": 1782831005588
+        "at": 1782838995752
       },
       {
         "type": "guard_patrol_passes",
         "reason": "node-dom-sim-2",
-        "at": 1782831005588,
+        "at": 1782838995752,
         "payload": {
           "place": "market_square"
         }
