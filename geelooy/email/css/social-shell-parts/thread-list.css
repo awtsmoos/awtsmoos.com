@@ -1,5 +1,16 @@
-/* B"H mail thread list vessel */
-.mail-social-sidebar .thread-list { min-height: 42vh; padding: 0 1rem 7rem; overflow-y: auto; }
-.mail-social-sidebar .thread-item { min-height: 5rem; background: rgba(255,255,255,.62); border-radius: 1rem; margin-bottom: .75rem; }
-.mail-social-sidebar .thread-item.active { background: linear-gradient(90deg, rgba(185,133,63,.2), rgba(255,255,255,.2)); border-left-color: #b9853f; }
-.thread-empty-state { margin: 1rem; padding: 1rem; border: 1px dashed rgba(67,46,24,.18); border-radius: 1rem; color: #6e6877; text-align: center; }
+/* B"H mail thread list: every transmission row is now a real button-door. */
+.mail-social-sidebar .thread-list {
+  min-height: 42vh;
+  padding: 0 1rem 7rem;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+.mail-social-sidebar .thread-item { appearance:none; width:100%; display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:center; min-height:5rem; margin:0 0 .75rem; padding:.8rem; text-align:left; font:inherit; color:inherit; background:rgba(255,255,255,.66); border:1px solid rgba(67,46,24,.08); border-radius:1rem; cursor:pointer; box-shadow:0 .45rem 1rem rgba(18,14,8,.05); }
+.mail-social-sidebar .thread-item:hover { background:#fffaf1; border-color:rgba(185,133,63,.22); transform:translateY(-1px); }
+.mail-social-sidebar .thread-item:focus-visible { outline:3px solid rgba(123,226,255,.7); outline-offset:2px; box-shadow:0 0 0 .35rem rgba(123,226,255,.16),0 .75rem 1.4rem rgba(18,14,8,.1); }
+.mail-social-sidebar .thread-item.active, .mail-social-sidebar .thread-item[aria-pressed="true"] { background:linear-gradient(90deg,rgba(185,133,63,.24),rgba(255,255,255,.82)); border-left:4px solid #b9853f; box-shadow:0 .8rem 1.5rem rgba(92,52,20,.12); }
+.thread-content { min-width:0; } .thread-top { display:flex; gap:.55rem; align-items:center; justify-content:space-between; } .thread-name { font-weight:900; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .thread-time { font-size:.74rem; color:#746a5d; white-space:nowrap; } .thread-snippet { margin-top:.18rem; color:#6e6877; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.thread-empty-state { margin:1rem; padding:1rem; border:1px dashed rgba(67,46,24,.2); border-radius:1rem; color:#5f5448; text-align:center; background:linear-gradient(150deg,rgba(255,255,255,.78),rgba(239,225,202,.72)); line-height:1.45; }
+.thread-empty-state strong { display:block; color:#2d1d12; font-size:1rem; margin-bottom:.25rem; }
+@media (max-width: 850px) { .mail-social-sidebar .thread-list { min-height:35dvh; padding:0 .75rem 6rem; } .mail-social-sidebar .thread-item { min-height:4.8rem; border-radius:.95rem; } }
+@media (prefers-reduced-motion: reduce) { .mail-social-sidebar .thread-item { transition:none!important; transform:none!important; } }

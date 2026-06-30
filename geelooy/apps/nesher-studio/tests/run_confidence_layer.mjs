@@ -24,7 +24,12 @@ const smokes = [
   'tests/053_no_media_recorder_guard_smoke.mjs',
   'tests/054_browser_confidence_layer_smoke.mjs',
   'tests/055_mock_generic_hls_controller_smoke.mjs',
-  'tests/056_benchmark_compact_view_smoke.mjs'
+  'tests/056_benchmark_compact_view_smoke.mjs',
+  'tests/057_hebrew_visualizer_models_smoke.mjs',
+  'tests/058_nle_advanced_commands_smoke.mjs',
+  'tests/059_encoding_smoke_mode_compact_smoke.mjs',
+  'tests/060_stage_crop_transform_smoke.mjs',
+  'tests/061_nle_ui_commands_smoke.mjs'
 ];
 let failures = 0;
 for (const smoke of smokes) failures += runSmoke(smoke);

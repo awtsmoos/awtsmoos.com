@@ -1,22 +1,12 @@
 #!/usr/bin/env node
 // B"H
-
 const { runChat } = require('../decode/chat-loop.js');
 
-/**
- * Real AWTAI chat CLI.
- *
- * Full prompt is the default vessel.  Streaming is explicit: token text goes
- * to stdout as it is born, while final evidence JSON goes to stderr so the
- * user can see the answer without losing measurements.  The CLI also exposes
- * a minimum-new-token gate, because a model that smells EOS too early can bow
- * before it speaks; we let it say a few words, then honor the closing seal.
- */
+/** Streaming answer on stdout, evidence JSON on stderr when requested. */
 function main() {
   const model = process.argv[2];
   const prompt = process.argv.slice(3).join(' ') || 'Hello';
   if (!model) return usage();
-
   try {
     const options = readOptions();
     const result = runChat(model, prompt, addStreaming(options));
@@ -38,10 +28,13 @@ function readOptions() {
     minNewTokens: numberEnv('AWTAI_MIN_NEW', 0),
     promptTokens: optionalNumberEnv('AWTAI_PROMPT_TOKENS'),
     maxRamKvTokens: numberEnv('AWTAI_MAX_RAM_KV', 64),
+    tensorCacheBytes: optionalNumberEnv('AWTAI_TENSOR_CACHE_BYTES'),
     rawPrompt: boolEnv('AWTAI_RAW_PROMPT'),
     addBos: !boolEnv('AWTAI_NO_BOS'),
+    addGenerationPrompt: !boolEnv('AWTAI_NO_GENERATION_PROMPT'),
     topK: numberEnv('AWTAI_TOP_K', 10),
     stream: boolEnv('AWTAI_STREAM'),
+    deleteScratchOnClose: boolEnv('AWTAI_DELETE_SCRATCH'),
   };
 }
 
@@ -68,7 +61,7 @@ function optionalNumberEnv(name) {
 }
 
 function boolEnv(name) {
-  return process.env[name] === '1' || process.env[name] === 'true';
+  return /^(1|true|yes)$/.test(String(process.env[name] || '0'));
 }
 
 main();

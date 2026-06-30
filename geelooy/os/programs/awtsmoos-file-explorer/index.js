@@ -1,31 +1,50 @@
 /*B"H*/
-import { createElement } from "/scripts/awtsmoos/ui/basic.js";
-import myStyles from "./styles/index.js";
-import { createState } from "./state.js";
-import createNavbar from "./components/navbar.js";
-import createSidebar from "./components/sidebar.js";
-import createFileView from "./components/fileView.js";
-import driveShelf from "./components/driveShelf.js";
-import { handlePaste } from "./utils/dragDrop.js";
-export default ({ os, path, title, system } = {}) => {
-  const state = createState(path);
-  const container = createElement({ tag:"div", attributes:{ class:"file-explorer", tabindex:"0" } });
-  const refreshAll = () => fileView.render();
-  const navigateTo = async newPath => { state.currentPath = newPath; state.remoteMode = String(newPath).startsWith('awtsmoos://'); navbar.updatePath(newPath); await fileView.render(); await sidebarComp.syncSelection(newPath); };
-  const enterSelectionMode = async initialPath => { state.selectionMode = true; await fileView.render(); container.querySelector(`[data-path="${initialPath}"]`)?.classList.add('selected'); renderSelectionActionBar(); };
-  const exitSelectionMode = async () => { state.selectionMode = false; container.querySelector('.selection-action-bar')?.remove(); await fileView.render(); };
-  const sidebarComp = createSidebar({ state, os, onNavigate:navigateTo, onRefresh:refreshAll });
-  const navbar = createNavbar({ state, os, onNavigate:navigateTo, onRefresh:refreshAll, sidebar:sidebarComp });
-  const fileView = createFileView({ state, os, onNavigate:navigateTo, onRefresh:refreshAll, system, onEnterSelectionMode:enterSelectionMode, onExitSelectionMode:exitSelectionMode });
-  const contentArea = createElement({ tag:'div', attributes:{ class:'file-explorer-content' }});
-  const resizer = createElement({ tag:'div', attributes:{ class:'sidebar-resizer' } });
-  resizer.addEventListener('mousedown', startResize);
+import { createElement } from '/scripts/awtsmoos/ui/basic.js';
+import myStyles from './styles/index.js';
+import { createState } from './state.js';
+import { createExplorerController } from './api/controller.js';
+import createNavbar from './components/navbar.js';
+import createSidebar from './components/sidebar.js';
+import createFileView from './components/fileView.js';
+import driveShelf from './components/driveShelf.js';
+import createSelectionBar from './components/selectionBar.js';
+import { handlePaste } from './utils/dragDrop.js';
+
+export default ({ os, path, system } = {}) => {
+  ensureStyles();
+  const state = createState(path || 'desktop.folder');
+  const controller = createExplorerController({ os, state, system });
+  const container = createElement({ tag:'div', attributes:{ class:'file-explorer', tabindex:'0', 'data-theme':state.theme, 'data-density':state.density } });
+  const contentArea = createElement({ tag:'div', attributes:{ class:'file-explorer-content' } });
+  const resizer = createElement({ tag:'div', attributes:{ class:'sidebar-resizer', role:'separator' } });
+  const navigateTo = async next => { await controller.navigate(next); navbar.updatePath(state.currentPath); toolbarUpdate(); fileView.draw(); await sidebarComp.syncSelection(state.currentPath); };
+  const refreshAll = async () => { await fileView.render(); toolbarUpdate(); await sidebarComp.syncSelection(state.currentPath); };
+  const enterSelectionMode = path => { state.selectionMode = true; controller.select(path); renderSelectionActionBar(); fileView.draw(); };
+  const exitSelectionMode = () => { state.selectionMode = false; controller.clearSelection(); container.querySelector('.selection-action-bar')?.remove(); fileView.draw(); };
+  const sidebarComp = createSidebar({ state, os, controller, onNavigate:navigateTo });
+  const navbar = createNavbar({ state, os, controller, onNavigate:navigateTo, onRefresh:refreshAll, onToggleSidebar:() => container.classList.toggle('sidebar-collapsed') });
+  const fileView = createFileView({ state, os, controller, onRefresh:refreshAll, system, onEnterSelectionMode:enterSelectionMode, onExitSelectionMode:exitSelectionMode });
+  resizer.addEventListener('mousedown', e => startResize(e, sidebarComp.dom));
   contentArea.append(sidebarComp.dom, resizer, fileView.dom);
-  container.append(driveShelf({ os, onNavigate:navigateTo }), navbar.dom, contentArea);
+  container.append(driveShelf({ os, controller, onNavigate:navigateTo }), navbar.dom, contentArea);
   container.addEventListener('paste', e => handlePaste(e, state.currentPath, os, system, refreshAll));
-  function startResize(e) { e.preventDefault(); const startX = e.touches ? e.touches[0].clientX : e.clientX; const startWidth = sidebarComp.dom.offsetWidth; const move = ev => { const x = ev.touches ? ev.touches[0].clientX : ev.clientX; sidebarComp.dom.style.width = Math.max(100, startWidth + x - startX) + 'px'; }; const stop = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', stop); }; document.addEventListener('mousemove', move); document.addEventListener('mouseup', stop); }
-  function renderSelectionActionBar() { const bar = createElement({ tag:'div', attributes:{ class:'selection-action-bar' }, children:[{ tag:'span', html:'Selected Items' }, { tag:'button', html:'Cut', on:{ click:() => { const paths = [...container.querySelectorAll('.selected')].map(el => el.dataset.path); os.clipboard = { action:'cut', paths, path:paths[0], name:paths[0]?.split('/').pop() }; exitSelectionMode(); }}}, { tag:'button', html:'Cancel', attributes:{ class:'cancel-btn' }, on:{ click:exitSelectionMode }}] }); container.appendChild(bar); }
-  const style = document.createElement("style"); style.innerHTML = myStyles; document.head.appendChild(style); navigateTo(state.currentPath);
-  return { div: container };
+  controller.on('explorer.selection.change', () => container.querySelector('.selection-action-bar')?.awtsUpdate?.());
+  navigateTo(state.currentPath);
+  function toolbarUpdate() { navbar.update?.(); }
+  function renderSelectionActionBar() { container.querySelector('.selection-action-bar')?.remove(); const bar = createSelectionBar({ controller, os, onCancel:exitSelectionMode }); bar.dom.awtsUpdate = bar.update; container.appendChild(bar.dom); }
+  return { div:container, controller };
 };
-/** B"H: Explorer now begins with drives, because a fake computer needs hard drives before it needs poetry. */
+
+function startResize(e, sidebar) {
+  e.preventDefault(); const startX = e.clientX; const startWidth = sidebar.offsetWidth;
+  const move = ev => { sidebar.style.width = `${Math.max(150, startWidth + ev.clientX - startX)}px`; };
+  const stop = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', stop); };
+  document.addEventListener('mousemove', move); document.addEventListener('mouseup', stop);
+}
+
+function ensureStyles() {
+  if (document.getElementById('awtsmoos-file-explorer-styles')) return;
+  const style = document.createElement('style'); style.id = 'awtsmoos-file-explorer-styles'; style.textContent = myStyles; document.head.appendChild(style);
+}
+
+/** B"H: the explorer is now a controller-driven surface where mounted worlds reveal themselves. */

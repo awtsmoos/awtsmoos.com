@@ -12,6 +12,7 @@ const { ChatState } = require('../state/chat-state.js');
 const { runToken } = require('./token-runner.js');
 const { renderPrompt } = require('./prompt-template.js');
 const { makeScratchDir, removeDir } = require('../scratch/scratch-dir.js');
+const { dirBytes } = require('../scratch/dir-size.js');
 const { nativeCreateAttentionSession, nativeResetAttentionSession } = require('../native/native-matvec.js');
 
 function runChat(model, prompt, options = {}) {
@@ -44,7 +45,9 @@ function openParts(file, stats, scratch, prompt, options, trace) {
   const tokens = tokenizer.encode(renderedPrompt, options.addBos !== false);
   const state = new ChatState(tokens.slice());
   const nativeAttention = createNativeAttention(config, tokens, options);
-  const ctx = { file, index, tokenizer, config, streamer, trace, stats, kv, diskKv, scratch, nativeAttention, generatedSoFar: tokens.slice(), topK: options.topK ?? 10, suppressTokenIds: [] };
+  const ctx = { file, index, tokenizer, config, streamer, trace, stats, kv, diskKv,
+    scratch, nativeAttention, generatedSoFar: tokens.slice(), topK: options.topK ?? 10,
+    suppressTokenIds: [], compiledTopKMaxRows: options.compiledTopKMaxRows };
   trace.mark('after-init');
   return { scratch, tokens, state, tokenizer, config, kv, diskKv, stats, renderedPrompt, ctx };
 }
@@ -79,9 +82,7 @@ function generate(ctx, state, tokenizer, tokens, options, trace) {
     ctx.suppressTokenIds = g < minNewTokens ? [tokenizer.eos] : [];
     const next = runToken(ctx, current, limit - 1 + g, true);
     ctx.suppressTokenIds = [];
-    state.append(next);
-    ctx.generatedSoFar.push(next);
-    current = next;
+    state.append(next); ctx.generatedSoFar.push(next); current = next;
     if (options.onToken) options.onToken(next, tokenizer.decode([next]));
     trace.mark(`after-generate-${g}`);
     if (next === tokenizer.eos && g >= minNewTokens) break;
@@ -90,8 +91,7 @@ function generate(ctx, state, tokenizer, tokens, options, trace) {
 
 function defaultCacheBytes() {
   const value = Number(process.env.AWTAI_TENSOR_CACHE_BYTES);
-  if (Number.isFinite(value) && value >= 0) return value;
-  return 1536 * 1024 * 1024;
+  return Number.isFinite(value) && value >= 0 ? value : 0;
 }
 
 function disposeCtx(ctx) {
@@ -101,7 +101,12 @@ function disposeCtx(ctx) {
 
 function result(parts, trace) {
   const { scratch, tokens, state, tokenizer, config, kv, diskKv, stats, renderedPrompt, ctx } = parts;
-  return { ok: true, mode: 'cached-native-awtai-chat', scratch, renderedPrompt, promptTokens: tokens, generated: state.generated, text: tokenizer.decode(state.generated), topLogits: ctx.lastTopLogits, mmapLmHeadBytes: ctx.mmapLmHeadBytes || 0, config, nativeAttention: !!ctx.nativeAttention, kv: kv.summary(), diskKv: diskKv ? diskKv.summary() : null, streamer: ctx.streamer.summary(), stats: stats.summary(), memory: trace.summary() };
+  return { ok: true, mode: 'cached-native-awtai-chat', scratch, renderedPrompt,
+    promptTokens: tokens, generated: state.generated, generatedCount: state.generated.length,
+    text: tokenizer.decode(state.generated), topLogits: ctx.lastTopLogits,
+    mmapLmHeadBytes: ctx.mmapLmHeadBytes || 0, tempBytes: dirBytes(scratch), config,
+    nativeAttention: !!ctx.nativeAttention, kv: kv.summary(), diskKv: diskKv ? diskKv.summary() : null,
+    streamer: ctx.streamer.summary(), stats: stats.summary(), memory: trace.summary() };
 }
 
 module.exports = { runChat };

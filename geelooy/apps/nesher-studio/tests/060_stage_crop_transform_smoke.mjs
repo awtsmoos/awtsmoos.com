@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import { makeScene } from '../modules/graph/sceneGraph.js';
+import { makeSourceNode } from '../modules/graph/sourceNode.js';
+import { cropBox, cropFromBox, cropHandleAt, resizedSourceBox } from '../modules/stage/stageGeometry.js';
+import { fitSelectedSource, resetSelectedTransform, setSelectedSourceScale, setStageTool } from '../modules/stage/stageTransformCommands.js';
+
+const source = makeSourceNode({ id:'s1', type:'canvas', x:10, y:20, w:200, h:100 });
+const scene = makeScene('scene-main', 'Scene', [source]);
+const state = { width:800, height:600, selectedId:'s1', scenes:[scene], currentSceneId:'scene-main', get sources() { return scene.sources; } };
+assert.equal(source.lockAspect, true);
+assert.equal(setStageTool(state, 'crop'), 'crop');
+assert.equal(cropHandleAt(source, { x:10, y:20 }), 'nw');
+source.crop = cropFromBox(source, { x:30, y:40, w:120, h:50 });
+assert.deepEqual(source.crop, { left:10, top:20, right:30, bottom:30 });
+assert.equal(Math.round(cropBox(source).w), 120);
+const box = resizedSourceBox(source, { x:410, y:90 }, true);
+assert.equal(Math.round(box.w / box.h), 2);
+setSelectedSourceScale(state, 50);
+assert.equal(source.w, 100); assert.equal(source.h, 50);
+fitSelectedSource(state, 'fit');
+assert.equal(source.w <= state.width && source.h <= state.height, true);
+resetSelectedTransform(state);
+assert.deepEqual(source.crop, { left:0, top:0, right:0, bottom:0 });
+assert.equal(source.scalePercent, 100);
+console.log('B"H stage crop transform smoke passed');

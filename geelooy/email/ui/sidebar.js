@@ -1,176 +1,98 @@
-
 // B"H
+/** @module MailSidebar — every thread is a real keyboard-openable door. */
 import { state, subscribe } from '../store.js';
 import { formatTime } from '../helpers.js';
 import { FX } from './fx.js';
 import { switchChat } from './chat.js';
 import createProfileDropdown from '/scripts/awtsmoos/social/profileDropdown.js';
 
-let _uiRef = null;
+let uiRef = null;
 
 export function renderSidebar(ui, parent) {
-    _uiRef = ui;
-    
-    // Subscribe to updates
-    subscribe((key, val) => {
-        if (key === 'snippets') renderThreadList();
-    });
-
-    // Header
-    ui.html({
-        parent,
-        tag: 'div',
-        classList: ['sidebar-header', 'mail-sidebar-header'],
-        children: [
-            { 
-                tag: 'div', 
-                classList: ['mail-sidebar-identity'],
-                children: [
-                    { tag: 'div', classList: ['brand-title'], textContent: 'Awtsmoos Mail' },
-                    // Mount Point for Profile Dropdown
-                    { 
-                        tag: 'div', 
-                        shaym: 'sidebarProfileMount',
-                        classList: ['mail-sidebar-profile-mount'],
-                        ready: (el) => {
-                            try {
-                                createProfileDropdown(el);
-                            } catch(e) { console.error("Profile Mount Error", e); }
-                        }
-                    }
-                ]
-            }
-        ]
-    });
-
-    // Compose Button
-    ui.html({
-        parent,
-        tag: 'button',
-        classList: ['fab-compose'],
-        textContent: '+ NEW TRANSMISSION',
-        events: {
-            click: () => {
-                const modal = ui.getHtml('composeModal');
-                if(modal) {
-                     modal.classList.remove('hidden');
-                     setTimeout(() => modal.classList.add('visible'), 10);
-                     if(FX.playSound) FX.playSound('hover');
-                }
-            }
-        }
-    });
-
-    // Tabs
-    ui.html({
-        parent,
-        tag: 'div', classList: ['tabs-container'],
-        children: [
-            { tag: 'button', classList: ['nav-tab', 'active'], textContent: 'Inbox', events: { click: (e) => updateTabs(e, 'inbox') } },
-            { tag: 'button', classList: ['nav-tab'], textContent: 'Requests', events: { click: (e) => updateTabs(e, 'requests') } }
-        ]
-    });
-
-    // Thread List Container
-    ui.html({ parent, tag: 'div', shaym: 'threadList', classList: ['thread-list'] });
+  uiRef = ui;
+  subscribe(key => { if (key === 'snippets') renderThreadList(); });
+  ui.html({ parent, tag:'div', classList:['sidebar-header','mail-sidebar-header'], children:[
+    { tag:'div', classList:['mail-sidebar-identity'], children:[
+      { tag:'div', classList:['brand-title'], textContent:'Awtsmoos Mail' },
+      { tag:'div', shaym:'sidebarProfileMount', classList:['mail-sidebar-profile-mount'], ready:mountProfile }
+    ]}
+  ]});
+  ui.html({ parent, tag:'button', classList:['fab-compose'], attributes:{ type:'button','aria-label':'Compose a new Awtsmoos transmission' }, textContent:'+ NEW TRANSMISSION', events:{ click:() => openCompose(ui) }});
+  ui.html({ parent, tag:'div', classList:['tabs-container'], attributes:{ role:'tablist','aria-label':'Mail views' }, children:[tab('Inbox','inbox',true), tab('Requests','requests',false)] });
+  ui.html({ parent, tag:'div', shaym:'threadList', classList:['thread-list'], attributes:{ 'aria-live':'polite' }});
 }
 
-function updateTabs(e, view) {
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    e.target.classList.add('active');
-    setView(view);
+function mountProfile(el) { try { createProfileDropdown(el); } catch (error) { console.error('Profile Mount Error', error); } }
+function openCompose(ui) {
+  const modal = ui.getHtml('composeModal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  setTimeout(() => modal.classList.add('visible'), 10);
+  FX.playSound?.('hover');
 }
-
-function setView(view) {
-    state.view = view;
-    renderThreadList();
+function tab(label, view, active) {
+  return { tag:'button', classList:['nav-tab', active ? 'active' : null].filter(Boolean), attributes:{ type:'button', role:'tab', 'aria-selected':String(active) }, textContent:label, events:{ click:event => updateTabs(event, view) } };
 }
-
-function formatHandle(str) {
-    if(!str) return "Unknown";
-    
-    // 1. Basic Decode
-    let formatted = str.replace(/_at_/g, '@');
-    
-    // 2. Remove redundant default domain suffix
-    // Example: coby@gmail.com@awtsmoos.com -> coby@gmail.com
-    const defaultDomain = "@awtsmoos.com"; // Adjust if your domain differs
-    
-    if (formatted.endsWith(defaultDomain)) {
-        const withoutSuffix = formatted.slice(0, -defaultDomain.length);
-        // Only strip if what remains is still a valid-ish handle (contains @ or at least 1 char)
-        if (withoutSuffix.length > 0) {
-            // If the remaining part is an email (has @), we definitely strip the federated suffix
-            if (withoutSuffix.includes('@')) {
-                formatted = withoutSuffix;
-            }
-            // If it's just a username "awtsmoos@awtsmoos.com", we might keep it or strip it depending on preference.
-            // Let's strip it to be clean: "awtsmoos"
-            else {
-               // Optional: formatted = withoutSuffix; 
-            }
-        }
-    }
-
-    return formatted;
+function updateTabs(event, view) {
+  document.querySelectorAll('.nav-tab').forEach(button => {
+    const active = button === event.currentTarget;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-selected', String(active));
+  });
+  state.view = view;
+  renderThreadList();
 }
-
-function getQuantumColor(name) {
-    let hash = 0;
-    if(!name) name = "?";
-    for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    const c = (hash & 0x00FFFFFF).toString(16).toUpperCase();
-    return `linear-gradient(135deg, #${("00000" + c).substr(-6)}44, #${("00000" + c).substr(-6)}aa)`;
+function formatHandle(value) {
+  if (!value) return 'Unknown';
+  let handle = String(value).replace(/_at_/g, '@');
+  const suffix = '@awtsmoos.com';
+  if (handle.endsWith(suffix)) {
+    const shorter = handle.slice(0, -suffix.length);
+    if (shorter.includes('@')) handle = shorter;
+  }
+  return handle;
 }
-
+function quantumColor(name = '?') {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  const hex = (`00000${(hash & 0x00FFFFFF).toString(16).toUpperCase()}`).slice(-6);
+  return `linear-gradient(135deg, #${hex}44, #${hex}aa)`;
+}
+function filteredThreads() {
+  const snippets = Array.isArray(state.snippets) ? state.snippets : [];
+  return snippets.filter(thread => state.view === 'requests' ? thread.status === 'request' : (!thread.status || thread.status === 'inbox'));
+}
+function emptyState(list) {
+  uiRef.html({ parent:list, tag:'div', classList:['thread-empty-state'], children:[
+    { tag:'strong', textContent:'No transmissions here yet' },
+    { tag:'span', textContent:'Choose New Transmission, open a profile, or wait for the next spark to arrive.' }
+  ]});
+}
+function openThread(thread, displayName) {
+  FX.playSound?.('hover');
+  switchChat(uiRef, thread.correspondent, displayName);
+  renderThreadList();
+}
+function renderThread(thread) {
+  const displayName = formatHandle(thread.correspondent || 'Unknown');
+  const active = state.activeThread === thread.correspondent;
+  uiRef.html({ parent:uiRef.getHtml('threadList'), tag:'button', classList:['thread-item', active ? 'active' : null].filter(Boolean), attributes:{ type:'button', 'aria-pressed':String(active), 'aria-label':`Open thread with ${displayName}` }, events:{ click:() => openThread(thread, displayName) }, children:[
+    { tag:'div', classList:['avatar-circle'], style:`background: ${quantumColor(displayName)}`, textContent:displayName[0].toUpperCase() },
+    { tag:'div', classList:['thread-content'], children:[
+      { tag:'div', classList:['thread-top'], children:[
+        { tag:'span', classList:['thread-name'], textContent:displayName },
+        { tag:'span', classList:['thread-time'], textContent:formatTime(thread.timeSent) }
+      ]},
+      { tag:'div', classList:['thread-snippet'], textContent:(thread.snippet || '...').substring(0, 72) }
+    ]}
+  ]});
+}
 export function renderThreadList() {
-    if (!_uiRef) return;
-    const list = _uiRef.getHtml('threadList');
-    list.innerHTML = '';
-
-    const threads = state.snippets ? state.snippets.filter(t => {
-        if(state.view === 'requests') return t.status === 'request';
-        return (!t.status || t.status === 'inbox');
-    }) : [];
-
-    if (threads.length === 0) {
-        _uiRef.html({ parent: list, tag: 'div', classList: ['thread-empty-state'], textContent: 'Void.' });
-        return;
-    }
-
-    threads.forEach(t => {
-        const rawName = t.correspondent || "Unknown";
-        const displayName = formatHandle(rawName);
-        const bg = getQuantumColor(displayName);
-        const isActive = state.activeThread === t.correspondent;
-        
-        _uiRef.html({
-            parent: list,
-            tag: 'div',
-            classList: ['thread-item', isActive ? 'active' : null].filter(Boolean),
-            events: {
-                click: () => { 
-                    if(FX.playSound) FX.playSound('hover'); 
-                    switchChat(_uiRef, t.correspondent, displayName);
-                    renderThreadList(); 
-                }
-            },
-            children: [
-                { tag: 'div', classList: ['avatar-circle'], style: `background: ${bg}`, textContent: displayName[0].toUpperCase() },
-                {
-                    tag: 'div', classList: ['thread-content'],
-                    children: [
-                        {
-                            tag: 'div', classList: ['thread-top'],
-                            children: [
-                                {tag:'span', classList:['thread-name'], textContent: displayName }, 
-                                {tag:'span', classList:['thread-time'], textContent: formatTime(t.timeSent) }
-                            ]
-                        },
-                        { tag: 'div', classList: ['thread-snippet'], textContent: (t.snippet || "...").substring(0, 40) }
-                    ]
-                }
-            ]
-        });
-    });
+  if (!uiRef) return;
+  const list = uiRef.getHtml('threadList');
+  if (!list) return;
+  list.replaceChildren();
+  const threads = filteredThreads();
+  if (!threads.length) return emptyState(list);
+  threads.forEach(renderThread);
 }
