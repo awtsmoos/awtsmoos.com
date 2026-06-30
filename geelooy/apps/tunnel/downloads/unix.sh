@@ -111,7 +111,7 @@ PID_FILE="$ROOT/agent.pid"
 SUP_PID_FILE="$ROOT/supervisor.pid"
 LOG_FILE="$ROOT/agent-supervisor.log"
 STOP_FILE="$ROOT/stop-supervisor"
-MIN_SLEEP="${AWTSMOOS_SUPERVISOR_MIN_SLEEP:-2}"
+MIN_SLEEP="${AWTSMOOS_SUPERVISOR_MIN_SLEEP:-1}"
 MAX_SLEEP="${AWTSMOOS_SUPERVISOR_MAX_SLEEP:-30}"
 mkdir -p "$ROOT"
 echo $$ > "$SUP_PID_FILE"
@@ -126,9 +126,9 @@ sleep_for="$MIN_SLEEP"
 while [ ! -f "$STOP_FILE" ]; do
   pid=""
   [ -f "$PID_FILE" ] && pid="$(cat "$PID_FILE" 2>/dev/null || true)"
-  if is_alive "$pid"; then sleep 5; continue; fi
+  if is_alive "$pid"; then sleep 2; continue; fi
   extant="$(find_agent_pid)"
-  if is_alive "$extant"; then echo "$extant" > "$PID_FILE"; log "adopted discovered agent pid $extant"; sleep 5; continue; fi
+  if is_alive "$extant"; then echo "$extant" > "$PID_FILE"; log "adopted discovered agent pid $extant"; sleep 2; continue; fi
   log "starting agent: node $ROOT/$ENTRY"
   nohup node "$ROOT/$ENTRY" >> "$ROOT/agent.log" 2>&1 &
   pid=$!
@@ -152,11 +152,11 @@ wait_for_pids_to_exit() {
   label="$1"; shift || true
   pids="$*"
   [ -z "$pids" ] && return 0
-  for _ in 1 2 3 4 5 6 7 8 9 10; do
+  for _ in 1 2 3 4 5; do
     alive=""
     for pid in $pids; do is_alive "$pid" && alive="$alive $pid"; done
     [ -z "$alive" ] && return 0
-    sleep 0.3
+    sleep 0.1
   done
   for pid in $pids; do is_alive "$pid" && { echo "Force killing stale Awtsmoos $label PID: $pid"; kill -9 "$pid" 2>/dev/null || true; }; done
 }
@@ -224,7 +224,7 @@ fi
 if [ "${AWTSMOOS_SKIP_START:-}" = "1" ] || [ "${AWTSMOOS_SKIP_START:-}" = "true" ]; then echo "AWTSMOOS_SKIP_START set; install verified without starting agent."; exit 0; fi
 if [ "$UPDATED" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "1" ] || [ "${AWTSMOOS_RESTART:-}" = "true" ]; then stop_existing_runtime; fi
 start_supervisor
-sleep 1
+sleep 0.2
 agent_pid="$(find_agent_pid)"
 supervisor_pid="$(find_supervisor_pid)"
 echo "Awtsmoos agent PID: ${agent_pid:-starting}"

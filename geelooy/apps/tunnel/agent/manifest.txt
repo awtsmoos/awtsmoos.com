@@ -1,5 +1,5 @@
 B"H
-1.0.191
+1.0.192
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -640,6 +640,7 @@ lib/runtime/kind.js
 lib/runtime/limits.js
 lib/runtime/local-proxy.js
 lib/runtime/memory.js
+lib/runtime/priority.js
 lib/runtime/safe-send.js
 lib/self-update.js
 lib/share/audit.js
@@ -649,10 +650,14 @@ lib/share/redact.js
 lib/share/registry.js
 lib/split-browser-require.js
 lib/tool-schema-catalog.js
+lib/virtualOsGraph/diff.js
 lib/virtualOsGraph/object.js
 lib/virtualOsGraph/registry.js
 lib/virtualOsGraph/sample.js
+lib/virtualOsGraph/transaction.js
+lib/virtualOsGraph/traversal.js
 lib/virtualOsGraph/types.js
+lib/virtualOsGraph/watchers.js
 lib/ws.js
 main.js
 rebuild-manifest.cjs

@@ -84,7 +84,11 @@ else {
   Write-Utf8NoBom $manifestCopyPath ($lines -join "`n")
 }
 if (IsTrueEnv 'AWTSMOOS_SKIP_START') { Write-Host 'AWTSMOOS_SKIP_START set; install verified without starting agent.'; exit 0 }
-Stop-OldAwtsAgent $root $entry
+$shouldRestart = (IsTrueEnv 'AWTSMOOS_RESTART') -or ($installedVersion -ne $version) -or ($installedHash -ne $manifestHash) -or (-not $hasCompleteInstall)
+if ($shouldRestart) { Stop-OldAwtsAgent $root $entry }
 Write-Host ''
 Write-Host 'Starting Awtsmoos background agent...' -ForegroundColor Green
-if (IsTrueEnv 'AWTSMOOS_SKIP_OPEN_CONTROL') { & node (Join-Path $root $entry) } else { & node (Join-Path $root $entry) --open-control }
+$argList = @((Join-Path $root $entry))
+if (-not (IsTrueEnv 'AWTSMOOS_SKIP_OPEN_CONTROL')) { $argList += '--open-control' }
+Start-Process -WindowStyle Hidden -FilePath 'node' -ArgumentList $argList -WorkingDirectory $root
+Write-Host 'Awtsmoos agent launched in background.'

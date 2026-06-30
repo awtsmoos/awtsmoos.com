@@ -32,7 +32,7 @@ setInterval(() => log('Memory:', JSON.stringify(snapshot())), 60000).unref();
 async function registerOrUpdate(ws, gen){
   const config = loadConfig();
   try {
-    const u = await maybeSelfUpdate({ config });
+    const u = await maybeSelfUpdate({ config, force: true });
     if (u?.updated) { log('Tunnel self-update installed:', JSON.stringify(u)); try { ws.close(true); } catch(_){} restartIntoUpdatedAgent(); process.exit(0); }
     if (u?.wouldUpdate) log('Tunnel self-update dry-run:', JSON.stringify(u));
   } catch(e) { log('Tunnel self-update check failed; continuing current agent:', e && (e.stack || e.message || String(e))); }
