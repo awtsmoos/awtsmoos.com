@@ -1,5 +1,5 @@
 B"H
-1.0.192
+1.0.194
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -633,7 +633,9 @@ lib/remoteNativeDesktop/scene/painter.js
 lib/remoteNativeDesktop/sceneToFramebuffer.js
 lib/response-size.js
 lib/runtime/aliases.js
+lib/runtime/background-update.js
 lib/runtime/boot-resume-loop.js
+lib/runtime/control-plane.js
 lib/runtime/correlation.js
 lib/runtime/envelope.js
 lib/runtime/kind.js

@@ -1,63 +1,51 @@
 // B"H
 
-function esc(value) {
-  return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-function html(body, statusCode = 200) {
-  return { statusCode, mimeType: "text/html; charset=utf-8", headers: { "Cache-Control": "private, no-store, max-age=0" }, response: body, body };
-}
+function esc(value) { return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function html(body, statusCode = 200) { return { statusCode, mimeType:"text/html; charset=utf-8", headers:{ "Cache-Control":"private, no-store, max-age=0" }, response:body, body }; }
+function compactId(id = "") { const s = String(id || ""); return s.length > 34 ? `${s.slice(0, 16)}…${s.slice(-12)}` : s; }
+function rawUrl(preview) { return preview.rawUrl || `/view/${encodeURIComponent(preview.id)}/raw`; }
 
 /**
  * B"H
- * Chapter: Every preview became a glowing page instead of a pasted wall.
+ * Chapter 1425: JSON receipts became trees, and no command name broke the sea.
  */
 function renderPreviewShell(preview, inner = "") {
-  return html(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>${esc(preview.title)}</title>${style()}</head><body><main class="awt-view"><header><p>B\"H · Awtsmoos Preview Gateway</p><h1>${esc(preview.title)}</h1><div class="chips"><span>${esc(preview.kind)}</span><span>${esc(preview.visibility)}</span><span>${esc(preview.targetVessel)}</span></div></header>${inner}<footer><code>${esc(preview.id)}</code><span>Expires ${new Date(preview.expiresAt).toLocaleString()}</span></footer></main></body></html>`);
+  const title = previewTitle(preview);
+  return html(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>${esc(title)}</title>${style()}</head><body><main class="awt-view"><header><p class="eyebrow">B\"H · Awtsmoos Preview Gateway</p><h1 title="${esc(title)}">${esc(title)}</h1><div class="chips"><span>${esc(labelForKind(preview))}</span><span>${esc(preview.visibility || "private")}</span><span>${esc(preview.previewDisplayHint || preview.targetVessel || "preview")}</span></div></header>${inner}${footer(preview)}</main>${script()}</body></html>`);
 }
-
 function renderPreview(preview, dynamic = {}) {
+  if (isAction(preview)) return renderPreviewShell(preview, actionBody(preview));
   if (preview.kind === "page") return renderPreviewShell(preview, pageBody(preview));
   if (preview.kind === "folder") return renderPreviewShell(preview, folderBody(preview, dynamic));
   if (preview.kind === "proxy") return renderPreviewShell(preview, proxyBody(preview));
   if (preview.kind === "live") return renderPreviewShell(preview, liveBody(preview));
   if (preview.kind === "collection") return renderPreviewShell(preview, collectionBody(preview));
+  if (looksJson(preview, dynamic)) return renderPreviewShell(preview, jsonBody(preview, dynamic, "JSON artifact"));
   return renderPreviewShell(preview, fileBody(preview, dynamic));
 }
-
-function fileBody(preview, dynamic = {}) {
-  const path = preview.source?.path || ".";
-  const content = dynamic.ok === false ? `<p class="warn">${esc(dynamic.error || "Unable to read file.")}</p>` : `<pre class="file-body">${esc(dynamic.content || dynamic.body || "")}</pre>`;
-  return `<section class="card"><h2>File preview</h2><dl><dt>Path</dt><dd><code>${esc(path)}</code></dd><dt>Raw metadata</dt><dd><a href="/view/${esc(preview.id)}/raw">JSON</a></dd></dl>${content}</section>`;
+function isAction(preview) { return preview.kind === "action" || preview.previewDisplayHint === "action-json"; }
+function previewTitle(preview) { return preview.title || (isAction(preview) ? "Action receipt" : "Awtsmoos preview"); }
+function labelForKind(preview) { if (isAction(preview)) return "Action receipt"; if (preview.kind === "file") return "File preview"; if (preview.kind === "folder") return "Folder browser"; return preview.kind || "preview"; }
+function actionBody(preview) {
+  const result = preview.source?.result || preview.result || preview.source || {};
+  const jobId = result.jobId || preview.source?.actionId || "";
+  const status = result.status || (result.exitCode === 0 ? "completed" : result.exitCode ? "failed" : "receipt");
+  return `<section class="card action-card"><div class="card-head"><div><p class="label">Command/action receipt</p><h2>${esc(compactId(jobId || preview.id))}</h2></div><span class="pill ${esc(String(status).toLowerCase())}">${esc(status)}</span></div>${jobId ? `<div class="copy-line"><code>${esc(jobId)}</code><button data-copy="${esc(jobId)}">Copy jobId</button></div>` : ""}<div class="actions"><a href="${esc(rawUrl(preview))}">Raw JSON</a>${linkPayload(result.stdoutPagePayload,"stdout page")}${linkPayload(result.stderrPagePayload,"stderr page")}${linkPayload(result.waitPayload,"wait/status")}</div>${jsonPanel("Receipt JSON", result)}</section>${jsonPanel("Preview metadata", preview, true)}`;
 }
-function folderBody(preview, dynamic = {}) {
-  const path = preview.source?.path || ".";
-  const items = (dynamic.detailedItems || dynamic.items || []).slice(0, 400);
-  const list = items.length ? `<div class="folder-list">${items.map(item => {
-    const name = typeof item === "string" ? item : item.name + (item.isDirectory ? "/" : "");
-    return `<span>${esc(name)}</span>`;
-  }).join("")}</div>` : `<p class="warn">${esc(dynamic.error || "No folder entries loaded.")}</p>`;
-  return `<section class="card"><h2>Folder browser</h2><p>Folder browsing is allowed: ${preview.allowFolderBrowse ? "yes" : "no"}. Search: ${preview.allowSearch ? "yes" : "no"}.</p><p><code>${esc(path)}</code></p>${list}</section>`;
-}
-function proxyBody(preview) {
-  const source = preview.source || {};
-  const target = source.url || (source.port ? `http://127.0.0.1:${source.port}${source.path || "/"}` : "");
-  const proxy = `/view/${encodeURIComponent(preview.id)}/proxy`;
-  return `<section class="card live"><h2>Local server proxy</h2><p>This preview forwards through the selected tunnel vessel.</p><p><a href="${esc(proxy)}" target="_blank" rel="noopener">Open raw proxy</a></p><p><code>${esc(target)}</code></p><iframe class="proxy-frame" src="${esc(proxy)}" title="${esc(preview.title)}"></iframe></section>`;
-}
-function liveBody(preview) {
-  return `<section class="card live"><h2>Live stream</h2><div id="stream">Waiting for websocket frames...</div><script>try{const ws=new WebSocket(location.href.replace(/^http/,'ws')+'/ws');ws.onmessage=e=>{const d=document.createElement('pre');d.textContent=e.data;document.getElementById('stream').prepend(d)}}catch(e){}</script></section>`;
-}
-function pageBody(preview) {
-  const source = preview.source || {};
-  return `<section class="card"><style>${source.css || ""}</style>${source.html || "<p>Empty generated page.</p>"}</section>`;
-}
-function collectionBody(preview) {
-  const items = Array.isArray(preview.source?.items) ? preview.source.items : [];
-  return `<section class="card"><h2>Collection</h2>${items.map(item => `<article><b>${esc(item.title || item.kind || "item")}</b><p>${esc(item.path || item.url || item.id || "")}</p></article>`).join("")}</section>`;
-}
-function style() {
-  return `<style>body{margin:0;background:#06101f;color:#eef7ff;font-family:Inter,system-ui,sans-serif}.awt-view{max-width:1400px;margin:auto;padding:28px}header{border:1px solid #2e5777;border-radius:28px;padding:28px;background:radial-gradient(circle at top right,#224d7a,transparent 45%),linear-gradient(135deg,#08182d,#101d38)}h1{font-size:clamp(2rem,7vw,5rem);line-height:.9;margin:.2em 0;letter-spacing:0}.chips{display:flex;gap:8px;flex-wrap:wrap}.chips span{border:1px solid #5acbff55;border-radius:999px;padding:7px 10px;color:#8be7ff}.card{margin-top:18px;border:1px solid #ffffff18;border-radius:12px;padding:22px;background:#ffffff0b;box-shadow:0 20px 70px #0007}.live{border-color:#ffd56f55;background:linear-gradient(135deg,#ffd56f18,#ffffff08)}.proxy-frame{width:100%;min-height:72vh;border:1px solid #8be7ff55;border-radius:10px;background:white;margin-top:16px}.folder-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.folder-list span{border:1px solid #ffffff18;border-radius:8px;padding:8px;background:#ffffff08}.warn{color:#ffd56f}.file-body{max-height:70vh;overflow:auto;background:#030812;border:1px solid #ffffff18;border-radius:8px;padding:14px}code,pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#ffd56f}a{color:#8be7ff}footer{opacity:.7;display:flex;justify-content:space-between;gap:10px;margin-top:18px}</style>`;
-}
-
+function linkPayload(payload, label) { return payload ? `<button data-copy='${esc(JSON.stringify(payload))}'>Copy ${esc(label)} payload</button>` : ""; }
+function fileBody(preview, dynamic = {}) { const path = preview.source?.path || preview.path || ""; const content = dynamic.ok === false ? `<p class="warn">${esc(dynamic.error || "Unable to read file.")}</p>` : `<pre class="file-body">${esc(dynamic.content || dynamic.body || "")}</pre>`; return `<section class="card"><h2>File preview</h2>${metaGrid({ Path:path || "(no path)", Kind:preview.kind, Raw:rawUrl(preview) })}${content}</section>`; }
+function folderBody(preview, dynamic = {}) { const path = preview.source?.path || preview.path || ""; const items = (dynamic.detailedItems || dynamic.items || []).slice(0,400); const list = items.length ? `<div class="folder-list">${items.map(item => `<span>${esc(typeof item === "string" ? item : item.name + (item.isDirectory ? "/" : ""))}</span>`).join("")}</div>` : `<p class="warn">${esc(dynamic.error || "No folder entries loaded.")}</p>`; return `<section class="card"><h2>Folder browser</h2>${metaGrid({ Path:path || "(root)", Browse:preview.allowFolderBrowse ? "yes" : "no", Search:preview.allowSearch ? "yes" : "no" })}${list}</section>`; }
+function proxyBody(preview) { const s = preview.source || {}, target = s.url || (s.port ? `http://127.0.0.1:${s.port}${s.path || "/"}` : ""), proxy = `/view/${encodeURIComponent(preview.id)}/proxy`; return `<section class="card live"><h2>Local server proxy</h2><p>This preview forwards through the selected tunnel vessel.</p><p><a href="${esc(proxy)}" target="_blank" rel="noopener">Open raw proxy</a></p><p><code>${esc(target)}</code></p><iframe class="proxy-frame" src="${esc(proxy)}" title="${esc(preview.title)}"></iframe></section>`; }
+function liveBody() { return `<section class="card live"><h2>Live stream</h2><div id="stream">Waiting for websocket frames...</div><script>try{const ws=new WebSocket(location.href.replace(/^http/,'ws')+'/ws');ws.onmessage=e=>{const d=document.createElement('pre');d.textContent=e.data;document.getElementById('stream').prepend(d)}}catch(e){}</script></section>`; }
+function pageBody(preview) { const s = preview.source || {}; return `<section class="card"><style>${s.css || ""}</style>${s.html || "<p>Empty generated page.</p>"}</section>`; }
+function collectionBody(preview) { const items = Array.isArray(preview.source?.items) ? preview.source.items : []; return `<section class="card"><h2>Collection</h2>${items.map(item => `<article><b>${esc(item.title || item.kind || "item")}</b><p>${esc(item.path || item.url || item.id || "")}</p></article>`).join("")}</section>`; }
+function looksJson(preview, dynamic) { return preview.previewDisplayHint === "json" || typeof dynamic.content === "object" || typeof preview.source?.result === "object"; }
+function jsonBody(preview, dynamic, title) { return `<section class="card">${jsonPanel(title, dynamic.content || preview.source?.result || preview.source || preview)}</section>`; }
+function jsonPanel(title, value, collapsed = false) { const json = JSON.stringify(value ?? null, null, 2); return `<details class="json-panel" ${collapsed ? "" : "open"}><summary><span>${esc(title)}</span><button data-copy='${esc(json)}'>Copy JSON</button></summary><div class="json-tools"><button data-expand>Expand all</button><button data-collapse>Collapse all</button></div><div class="json-tree">${jsonTree(value, "$")}</div><pre class="json-raw">${esc(json)}</pre></details>`; }
+function jsonTree(value, path) { if (value === null || typeof value !== "object") return jsonLeaf(path, value); const entries = Array.isArray(value) ? value.map((v,i)=>[i,v]) : Object.entries(value); const label = Array.isArray(value) ? `Array(${value.length})` : `Object(${entries.length})`; return `<details class="json-node" open><summary><button data-copy="${esc(path)}">path</button><strong>${esc(path)}</strong><em>${esc(label)}</em></summary>${entries.map(([k,v]) => { const child = `${path}${Array.isArray(value) ? `[${k}]` : `.${k}`}`; return `<div class="json-branch"><span class="json-key"><button data-copy="${esc(child)}">path</button>${esc(k)}</span>${jsonTree(v, child)}</div>`; }).join("")}</details>`; }
+function jsonLeaf(path, value) { const text = typeof value === "string" ? value : JSON.stringify(value); return `<code class="json-leaf"><button data-copy="${esc(path)}">path</button><button data-copy="${esc(text)}">value</button>${esc(text)}</code>`; }
+function metaGrid(obj) { return `<dl class="meta">${Object.entries(obj).map(([k,v]) => `<dt>${esc(k)}</dt><dd>${String(v).startsWith("/view/") ? `<a href="${esc(v)}">JSON</a>` : `<code>${esc(v)}</code>`}</dd>`).join("")}</dl>`; }
+function footer(preview) { return `<footer><code title="${esc(preview.id)}">${esc(compactId(preview.id))}</code><span>Expires ${preview.expiresAt ? new Date(preview.expiresAt).toLocaleString() : "unknown"}</span></footer>`; }
+function style() { return `<style>*{box-sizing:border-box}body{margin:0;background:#06101f;color:#eef7ff;font-family:Inter,system-ui,sans-serif;overflow-x:hidden}.awt-view{width:min(1400px,100%);margin:auto;padding:clamp(12px,4vw,28px)}header{max-width:100%;border:1px solid #2e5777;border-radius:clamp(18px,5vw,28px);padding:clamp(16px,5vw,28px);background:radial-gradient(circle at top right,#224d7a,transparent 45%),linear-gradient(135deg,#08182d,#101d38)}h1{font-size:clamp(1.6rem,10vw,4.5rem);line-height:1;margin:.2em 0;overflow-wrap:anywhere;word-break:break-word}.eyebrow,.label{color:#8be7ff;margin:0}.chips,.actions,.json-tools{display:flex;gap:8px;flex-wrap:wrap}.chips span,.pill,a,button{border:1px solid #5acbff55;border-radius:999px;padding:7px 10px;color:#8be7ff;background:#ffffff08;text-decoration:none}.pill{color:#fff}.completed{border-color:#8cff9b88}.failed{border-color:#ff8c8c88}.running{border-color:#ffd56f88}.card{max-width:100%;margin-top:18px;border:1px solid #ffffff18;border-radius:16px;padding:clamp(14px,4vw,22px);background:#ffffff0b;box-shadow:0 20px 70px #0007;overflow:hidden}.card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.card h2{overflow-wrap:anywhere}.copy-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.copy-line code{flex:1;min-width:0}.meta{display:grid;grid-template-columns:minmax(80px,160px) 1fr;gap:10px}.meta dt{color:#8be7ff}.folder-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}.folder-list span{border:1px solid #ffffff18;border-radius:8px;padding:8px;background:#ffffff08}.warn{color:#ffd56f}.file-body,.json-tree,.json-raw{max-height:70vh;overflow:auto;background:#030812;border:1px solid #ffffff18;border-radius:10px;padding:14px}.json-raw{display:none}.json-branch{margin-left:16px;border-left:1px solid #ffffff18;padding-left:10px}.json-key{color:#8be7ff;display:inline-flex;gap:6px;margin:4px 0}.json-leaf{display:block;margin:4px 0}.json-node summary{justify-content:flex-start}code,pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;color:#ffd56f}.proxy-frame{width:100%;min-height:72vh;border:1px solid #8be7ff55;border-radius:10px;background:white;margin-top:16px}summary{cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center;overflow-wrap:anywhere}footer{opacity:.75;display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}@media(max-width:700px){.meta{grid-template-columns:1fr}.card-head{display:block}.actions a,.actions button,.json-tools button{width:100%}}</style>`; }
+function script() { return `<script>document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b){navigator.clipboard&&navigator.clipboard.writeText(b.getAttribute('data-copy'));b.textContent='Copied';setTimeout(()=>b.textContent=b.textContent.replace('Copied','Copy'),900)}if(e.target.matches('[data-collapse]'))e.target.closest('.json-panel').querySelectorAll('details').forEach(d=>d.open=false);if(e.target.matches('[data-expand]'))e.target.closest('.json-panel').querySelectorAll('details').forEach(d=>d.open=true);});</script>`; }
 module.exports = { renderPreview, renderPreviewShell };

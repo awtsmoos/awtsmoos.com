@@ -2,38 +2,17 @@
 
 /**
  * B"H
- * Chapter 1227: The registry stopped mistaking a ghost for a gate.
+ * Chapter 1228: A stale name is not a locked gate for the doctor.
  *
- * A tunnel can remain registered after its heartbeat dies. Discovery may show
- * that stale vessel for diagnostics, but routing may not send work into it and
- * wait for nginx to bury the answer. These helpers split "known" from "alive".
+ * Registry liveness can lag behind websocket reality. Heavy work must not be
+ * routed into ghosts, but control-plane probes, status, cancel, output pages and
+ * doctors are the very messengers that prove whether the ghost is really gone.
  */
-function isLiveDevice(device = {}) {
-  return !!device && device.isAlive !== false;
-}
-
-function liveDevices(devices = []) {
-  return (devices || []).filter(isLiveDevice);
-}
-
-function staleDevices(devices = []) {
-  return (devices || []).filter(device => !isLiveDevice(device));
-}
-
-function deviceWarnings(nativeDevices = [], browserDevices = []) {
-  const stale = [...staleDevices(browserDevices), ...staleDevices(nativeDevices)];
-  if (!stale.length) return [];
-  return stale.map(device => ({
-    code: 'stale_tunnel_not_routable',
-    tunnelName: device.tunnelName || '',
-    kind: device.kind || device.vesselType || 'unknown',
-    isAlive: device.isAlive === false ? false : device.isAlive,
-    guidance: 'This tunnel is registered but not alive. Restart the local/browser tunnel before routing work to it.'
-  }));
-}
-
-function connectedNames(devices = []) {
-  return liveDevices(devices).map(device => device.tunnelName).filter(Boolean);
-}
-
-module.exports = { connectedNames, deviceWarnings, isLiveDevice, liveDevices, staleDevices };
+const CONTROL_ROUTE_ACTIONS = new Set(['heartbeat','tunnelHeartbeat','agentHeartbeat','ping','pong','status','tunnelStatus','agentStatus','commandStatus','commandPoll','commandJobStatus','jobStatus','commandJobOutputPage','commandOutputPage','commandCancel','commandJobCancel','commandWait','payloadEcho','configGet','tunnelDoctor','agentDoctor','runtimeSnapshot']);
+function isLiveDevice(device = {}) { return !!device && device.isAlive !== false; }
+function liveDevices(devices = []) { return (devices || []).filter(isLiveDevice); }
+function staleDevices(devices = []) { return (devices || []).filter(device => !isLiveDevice(device)); }
+function isControlRouteAction(payload = {}) { return CONTROL_ROUTE_ACTIONS.has(String(payload.action || '')); }
+function deviceWarnings(nativeDevices = [], browserDevices = []) { const stale = [...staleDevices(browserDevices), ...staleDevices(nativeDevices)]; if (!stale.length) return []; return stale.map(device => ({ code:'stale_tunnel_not_routable', tunnelName:device.tunnelName || '', kind:device.kind || device.vesselType || 'unknown', isAlive:device.isAlive === false ? false : device.isAlive, guidance:'Heavy routing is paused for this stale tunnel, but status/cancel/output/doctor control actions may still be attempted.' })); }
+function connectedNames(devices = []) { return liveDevices(devices).map(device => device.tunnelName).filter(Boolean); }
+module.exports = { CONTROL_ROUTE_ACTIONS, connectedNames, deviceWarnings, isControlRouteAction, isLiveDevice, liveDevices, staleDevices };

@@ -18,9 +18,14 @@ const checks = [
   ['scripts/awtsmoos/social/profileDropdown.js', ['awtsmoosLogin', 'awtsmoosLogout', 'awtsmoosAliasChange']],
   ['os/script.js', ['alias.change', 'login', 'logout']]
 ];
-for (const [file, needles] of checks) { const body = read(file); for (const needle of needles) assert(body.includes(needle), `${file} missing ${needle}`); }
+for (const [file, needles] of checks) {
+  const body = read(file);
+  for (const needle of needles) assert(body.includes(needle), `${file} missing ${needle}`);
+}
 assert(!read('os/system.js').includes('os?.db.Koysayv'), 'System.save must not write DB directly');
 assert(!read('os/contextMenuManager.js').includes('os.db'), 'context menu must not use os.db directly');
-assert(!read('os/programs/awtsmoos-file-explorer').includes?.('os.db'), 'placeholder');
+for (const file of ['api/controller.js', 'api/openers.js', 'components/fileView.js']) {
+  assert(!read(`os/programs/awtsmoos-file-explorer/${file}`).includes('os.db'), `${file} must not use os.db directly`);
+}
 console.log('B"H os-style-sequence-smoke passed');
 function assert(condition, message) { if (!condition) throw new Error(message); }
