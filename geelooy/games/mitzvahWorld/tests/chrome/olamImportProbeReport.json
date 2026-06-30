@@ -1,0 +1,45 @@
+{
+  "ok": false,
+  "browser": {
+    "name": "Chrome",
+    "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "candidates": [
+      [
+        "CHROME_PATH",
+        ""
+      ],
+      [
+        "Chrome",
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome x86",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Chrome local",
+        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Edge",
+        "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge x86",
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Edge local",
+        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Microsoft\\Edge\\Application\\msedge.exe"
+      ]
+    ]
+  },
+  "base": "http://127.0.0.1:58163",
+  "result": {
+    "ok": false,
+    "message": "Failed to resolve module specifier '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=probe-1781890288569'",
+    "name": "TypeError",
+    "stack": "TypeError: Failed to resolve module specifier '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=probe-1781890288569'\n    at <anonymous>:1:1"
+  },
+  "events": []
+}

@@ -1,0 +1,85 @@
+{
+  "ok": true,
+  "base": "http://127.0.0.1:61987",
+  "repoRoot": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com",
+  "results": [
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/** @module OlamVessel @description Worker root: proven core vessel with THREE usage through adapter. */\nimport { AmbientLight, Color, Fog } from \"../ren"
+    },
+    {
+      "urlPath": "/games/scripts/build/three.module.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "/**\nB\"H\n * @license\n * Copyright 2010-2025 Three.js Authors\n * SPDX-License-Identifier: MIT\n */\nimport { Matrix3, Vector2, Color, mergeUniforms, Vector3, CubeUV"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/chayim/nivra.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "/**\n * B\"H\n * @file nivra.js\n * Nivra class\n */\nimport {\n    Kav, Heeoolee\n} from \"./roochney.js\"\nvar nivrayimMade = 0;\nexport default class Nivra extends Heeoo"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamGraftingPlain.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/** @module OlamGraftingPlain @description Chapter 963: worker graft imports cache-fresh listener vessels so old NPC runtime poison cannot box the world."
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/properties/index.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/**\n * @module OlamProperties\n * @description\n * Chapter 40: Yesod Received The Quiet Input Vessel.\n *\n * The Awtsmoos gathers camera, scene, physics, in"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamInit.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/**\n * @module OlamInit\n * @description\n * Chapter 323: The boot bridge burns the stale DRACO path.\n *\n * This imports the no-remote-DRACO initializer wi"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/camera/index.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/**\n * @file index.js\n * @description\n * Chapter 53: The Ayin Imported The Breath-Smooth Follow.\n *\n * The Awtsmoos gives the camera a calmer mobile vess"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/systems/UserProgressManager.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "\n// B\"H\n/**\n * UserProgressManager - The Zikaron (Memory) of the player's journey.\n * Ensures that no spark of effort is lost, bridging worker logic and physica"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/Yichud.js?compact=true",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/**\n * @file Yichud.js\n * @description Chapter 1007: old procedural trees are not interactive targets.\n */\nimport Kav from \"./methods/Kav.js\";\nimport Ohr"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/PlacementManager.js?compact=true",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/**\n * @file PlacementManager.js\n * @description\n * Chapter 1009: placement no longer spawns old tree classes.\n * Build mode still places blocks/furnitur"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/systems/combat/CombatManager.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/** @file CombatManager.js @description Live combat integration: target truth, mobile strike, durability, death/corpse, threat/nameplates/castbars. */\nim"
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/systems/worldState/WorldStateStore.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/**\n * WorldStateStore\n *\n * The core vessel and newer starter systems use different property names. This\n * store keeps both names pointing at the same "
+    },
+    {
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/divine_systems/render/core/PixelRatioGovernor.js?v=test",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8",
+      "preview": "// B\"H\n/**\n * @file PixelRatioGovernor.js\n * The worker owns the real canvas. Gameplay stays crisp-first at native DPR,\n * while still capping excessive retina "
+    }
+  ]
+}
