@@ -30,6 +30,7 @@ async function startCommandJob(config = {}, payload = {}) {
   const meta = { BH:'B"H', jobId, action:'commandStart', command, cwd, shell, startedAt:new Date().toISOString(), status:'running', exitCode:null, signal:null, timedOut:false, stdoutChars:0, stderrChars:0, timeoutMs, storage:{ backend:'device-file', outsideProject:true, folder:jobDir(config, jobId) } };
   await writeMeta(config, jobId, meta);
   const child = childProcess.spawn(command, { cwd, shell, windowsHide:true, detached:false });
+  reniceChild(child, payload);
   const live = { child, meta, writes:[], chains:{ stdout:Promise.resolve(), stderr:Promise.resolve() } };
   const timer = setTimeout(() => { meta.timedOut = true; killChild(child); }, timeoutMs);
   JOBS.set(jobId, live);
@@ -48,7 +49,7 @@ async function finishJob(config, jobId, meta, patch = {}) {
 }
 async function commandStatus(config = {}, payload = {}) {
   const jobId = cleanId(payload.jobId || payload.id || ''); if (!jobId) return { ok:false, action:'commandStatus', error:'missing_jobId', status:'missing_jobId' };
-  await waitForWrites(jobId); const meta = await readMeta(config, jobId); if (!meta) return { ok:false, action:'commandStatus', error:'job_not_found_or_expired', status:'missing', jobId };
+  const meta = await readMeta(config, jobId); if (!meta) return { ok:false, action:'commandStatus', error:'job_not_found_or_expired', status:'missing', jobId };
   await refreshCounts(config, jobId, meta); const live = JOBS.get(jobId); if (live && !TERMINAL.has(meta.status)) { meta.status = live.meta.status || meta.status; meta.timedOut = !!(live.meta.timedOut || meta.timedOut); }
   return statusResponse(jobId, meta, payload);
 }
@@ -81,6 +82,16 @@ function torahUnlimitedEnabled(payload = {}) { const raw = payload.torahUnlimite
 function waitCapMs(payload = {}) { return boundedWaitMs(torahUnlimitedEnabled(payload) ? payload.maxWaitMs || process.env.AWTSMOOS_MAX_WAIT_MS || TORAH_UNLIMITED_WAIT_MS : process.env.AWTSMOOS_HTTP_SAFE_WAIT_MS || DEFAULT_HTTP_SAFE_WAIT_MS); }
 function boundedWaitMs(v) { const n = Number(v); return Number.isFinite(n) ? Math.max(100, Math.min(Math.floor(n), TORAH_UNLIMITED_WAIT_MS)) : DEFAULT_HTTP_SAFE_WAIT_MS; }
 function killChild(child) { try { child.kill('SIGTERM'); } catch {} }
+function reniceChild(child, payload = {}) {
+  if (process.platform === 'win32' || !child?.pid || payload.nice === false || payload.renice === false) return;
+  const nice = Math.max(0, Math.min(20, Number(payload.nice ?? process.env.AWTSMOOS_COMMAND_NICE ?? 10)));
+  if (!Number.isFinite(nice) || nice <= 0) return;
+  try {
+    const renice = childProcess.spawn('renice', ['-n', String(Math.floor(nice)), '-p', String(child.pid)], { stdio:'ignore', windowsHide:true });
+    renice.on('error', () => {});
+    renice.unref?.();
+  } catch {}
+}
 function allowed(config = {}, payload = {}) { return config.allowCommands === true || payload.allowCommands === true || String(payload.allowCommands).toLowerCase() === 'true'; }
 function resolveCwd(config, payload) { try { return safePath(config, payload.cwd || payload.path || payload.p || '.'); } catch { return config.root || process.cwd(); } }
 function boundedTimeout(v) { const n = Number(v || 86400000); return Math.max(100, Math.min(Number.isFinite(n) ? n : 120000, 86400000)); }

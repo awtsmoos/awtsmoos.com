@@ -1,5 +1,5 @@
 B"H
-1.0.194
+1.0.196
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -635,6 +635,7 @@ lib/response-size.js
 lib/runtime/aliases.js
 lib/runtime/background-update.js
 lib/runtime/boot-resume-loop.js
+lib/runtime/circuit-breaker.js
 lib/runtime/control-plane.js
 lib/runtime/correlation.js
 lib/runtime/envelope.js
@@ -644,6 +645,7 @@ lib/runtime/local-proxy.js
 lib/runtime/memory.js
 lib/runtime/priority.js
 lib/runtime/safe-send.js
+lib/runtime/worker-supervisor.js
 lib/self-update.js
 lib/share/audit.js
 lib/share/capability.js

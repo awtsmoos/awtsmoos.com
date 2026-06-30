@@ -15,6 +15,10 @@ const syntaxFiles = [
   'apps/tunnel/agent/lib/virtualOsGraph/watchers.js', 'apps/tunnel/agent/lib/virtualOsGraph/traversal.js', 'apps/tunnel/agent/lib/virtualOsGraph/diff.js', 'apps/tunnel/agent/lib/virtualOsGraph/transaction.js', 'apps/tunnel/agent/lib/virtualOsGraph/registry.js'
 ];
 const smokeTests = [
+  'code-embed-bridge-smoke.mjs',
+  'command-program-smoke.mjs',
+  'file-explorer-interaction-smoke.mjs',
+  'desktop-xp-smoke.mjs',
   esm('tests/virtual-os/graph-browser-smoke.mjs'), esm('tests/virtual-os/vfs-mount-smoke.mjs'), cjs('tests/virtual-os/server-graph-smoke.cjs'),
   esm('tests/virtual-os/tunnel-handlers-smoke.mjs'), esm('tests/virtual-os/os-style-sequence-smoke.mjs'), esm('tests/virtual-os/file-explorer-icons-smoke.mjs'),
   esm('tests/virtual-os/file-explorer-style-smoke.mjs'), esm('tests/virtual-os/publish-local-file-smoke.mjs'), esm('tests/virtual-os/diagnostics-contract-smoke.mjs')

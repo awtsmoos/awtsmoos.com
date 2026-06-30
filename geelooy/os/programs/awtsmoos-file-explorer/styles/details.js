@@ -1,13 +1,5 @@
 // B"H
 export default /*css*/`
-.details-view { display:flex; flex-direction:column; gap:6px; min-width:520px; }
-.details-view::before { content:"Name    Type    Mount"; position:sticky; top:0; z-index:4; padding:9px 14px; border:1px solid var(--awts-explorer-line); border-radius:12px; background:var(--awts-explorer-panel-strong); color:var(--awts-explorer-muted); font-size:10px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; }
-.details-view .file-item { display:grid; grid-template-columns:40px minmax(180px, 1fr) 86px minmax(150px, 220px); align-items:center; min-height:56px; padding:8px 12px; gap:12px; border-radius:14px; }
-.details-view .file-item .icon-img { width:36px; height:36px; margin:0; }
-.details-view .file-name { text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.details-view .item-meta { margin:0; }
-.details-view .mount-badge { justify-self:end; margin:0; max-width:210px; }
-.details-view .file-item:hover { transform:translateX(2px); }
-.details-view .awts-kind-folder .file-name::after { content:" /"; color:var(--awts-explorer-gold); }
+.details-view{display:flex;flex-direction:column;gap:4px;min-width:620px}.details-header,.details-view .file-item{display:grid;grid-template-columns:minmax(220px,1.8fr) 92px minmax(150px,1fr) 92px 110px;align-items:center;gap:10px}.details-header{position:sticky;top:0;z-index:4;padding:9px 12px;border:1px solid var(--awts-explorer-line);border-radius:12px;background:var(--awts-explorer-panel-strong);color:var(--awts-explorer-muted);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.details-view .file-item{min-height:46px;padding:7px 12px;border-radius:10px}.details-name{display:flex;align-items:center;gap:9px;min-width:0}.details-name .small-icon{flex:0 0 28px;width:28px;height:28px}.details-name .file-name{display:block;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.details-view .item-meta,.details-view .mount-badge,.details-permission,.details-status{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.details-view .mount-badge{justify-self:stretch;margin:0}.details-view .file-item:hover{transform:none}.details-view .awts-kind-folder .file-name::after{content:" /";color:var(--awts-explorer-gold)}@media(max-width:720px){.details-view{min-width:420px}.details-header,.details-view .file-item{grid-template-columns:minmax(180px,1fr) 80px minmax(110px,.8fr)}.details-header span:nth-child(n+4),.details-view .file-item span:nth-child(n+4){display:none}}
 `;
-/** B"H: details mode targets real file items and becomes a clean ledger. */
+/** B"H: Details view becomes a real ledger with columns that hold their borders. */
