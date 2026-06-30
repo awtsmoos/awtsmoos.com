@@ -1,9 +1,44 @@
 // B"H
-export const handleDragStart = (e, itemPath, isSelected, body) => { let pathsToMove = []; if (isSelected) body.querySelectorAll('.selected').forEach(el => { if (el.dataset.path) pathsToMove.push(el.dataset.path); }); else { body.querySelectorAll('.selected').forEach(el => el.classList.remove('selected')); e.target.classList.add('selected'); pathsToMove = [itemPath]; } e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('application/json', JSON.stringify(pathsToMove)); };
+import { joinExplorerPath } from '../api/path.js';
+
+export const handleDragStart = (e, itemPath, isSelected, body) => {
+  const selected = isSelected ? [...body.querySelectorAll('.selected')].map(el => el.dataset.path).filter(Boolean) : [itemPath];
+  if (!isSelected) body.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+  e.currentTarget?.classList?.add('selected');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('application/json', JSON.stringify(selected));
+};
+
 export const handleDragOver = e => { e.preventDefault(); e.stopPropagation(); e.dataTransfer.dropEffect = 'move'; e.currentTarget.classList.add('drag-over'); };
 export const handleDragLeave = e => { e.preventDefault(); e.stopPropagation(); e.currentTarget.classList.remove('drag-over'); };
-export const processNativeFiles = async (filesList, targetFolderPath, os, system, refreshCallback) => { const files = Array.from(filesList); let importedCount = 0; for (const file of files) { const isText = file.type.startsWith('text/') || file.type === 'application/json' || file.type === 'application/javascript' || file.type.includes('xml'); try { await os.createFile({ path:targetFolderPath, title:file.name, content:isText ? await file.text() : await file.arrayBuffer() }); importedCount++; } catch (err) { console.error('Error importing file:', file.name, err); } } if (importedCount > 0) { system.makeToast(`${importedCount} file(s) imported.`, 'success', 'local'); refreshCallback?.(); } };
-export const handleDrop = async (e, targetFolderPath, os, system, refreshCallback) => { e.preventDefault(); e.stopPropagation(); e.currentTarget.classList.remove('drag-over'); if (e.dataTransfer.files?.length) return processNativeFiles(e.dataTransfer.files, targetFolderPath, os, system, refreshCallback); const data = e.dataTransfer.getData('application/json'); if (!data) return; try { const sourcePaths = JSON.parse(data); if (!Array.isArray(sourcePaths)) return; let movedCount = 0; for (const src of sourcePaths) { const fileName = src.split('/').pop(); const dest = joinVfsPath(targetFolderPath, fileName); const currentParent = src.substring(0, src.lastIndexOf('/')) || '/'; if (src !== dest && currentParent !== targetFolderPath) { await os.vfs.move(src, dest, { principal:{ id:'drag-drop' } }); movedCount++; } } if (movedCount > 0) refreshCallback?.(); } catch (err) { console.error('Drop failed:', err); system.makeToast('Failed to move items: ' + err.message, 'error', 'local'); } };
-export const handlePaste = async (e, targetFolderPath, os, system, refreshCallback) => { if (e.clipboardData?.files?.length) { e.preventDefault(); await processNativeFiles(e.clipboardData.files, targetFolderPath, os, system, refreshCallback); } };
-function joinVfsPath(path = '/', name = '') { return String(path).startsWith('awtsmoos://') ? `${path.replace(/\/+$/, '')}/${name}` : `/${[path, name].join('/').split('/').filter(Boolean).join('/')}`; }
-/** B"H: drag/drop moves through VFS now, no hidden direct database corridor. */
+
+export async function processNativeFiles(filesList, targetFolderPath, os, system, refreshCallback) {
+  let imported = 0;
+  for (const file of Array.from(filesList)) {
+    const text = file.type.startsWith('text/') || /json|javascript|xml/.test(file.type);
+    await os.createFile({ path:targetFolderPath, title:file.name, content:text ? await file.text() : await file.arrayBuffer() });
+    imported++;
+  }
+  if (imported) { await system?.makeToast?.(`${imported} file(s) imported.`, 'success', 'local'); refreshCallback?.(); }
+}
+
+export async function handleDrop(e, targetFolderPath, os, system, refreshCallback) {
+  e.preventDefault(); e.stopPropagation(); e.currentTarget.classList.remove('drag-over');
+  if (e.dataTransfer.files?.length) return processNativeFiles(e.dataTransfer.files, targetFolderPath, os, system, refreshCallback);
+  const data = e.dataTransfer.getData('application/json');
+  if (!data) return;
+  try {
+    const sources = JSON.parse(data); let moved = 0;
+    for (const src of Array.isArray(sources) ? sources : []) {
+      const dest = joinExplorerPath(targetFolderPath, src.split('/').pop());
+      if (src !== dest) { await os.vfs.move(src, dest, { principal:{ id:'drag-drop' } }); moved++; }
+    }
+    if (moved) refreshCallback?.();
+  } catch (error) { system?.makeToast?.(`Failed to move items: ${error.message}`, 'error', 'local'); }
+}
+
+export const handlePaste = async (e, path, os, system, refresh) => {
+  if (e.clipboardData?.files?.length) { e.preventDefault(); await processNativeFiles(e.clipboardData.files, path, os, system, refresh); }
+};
+
+/** B"H: drag and paste now enter through VFS gates, carrying awtsmoos:// paths intact. */
