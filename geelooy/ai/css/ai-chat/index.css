@@ -1,0 +1,11 @@
+/* B"H — AI chat style gate: many small vessels, one living interface. */
+@import "./tokens.css";
+@import "./shell.css";
+@import "./sidebar.css";
+@import "./messages.css";
+@import "./composer.css";
+@import "./buttons.css";
+@import "./providers.css";
+@import "./states.css";
+@import "./focus-motion.css";
+@import "./mobile.css";

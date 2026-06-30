@@ -1,3 +1,0 @@
-# B"H
-
-Everything possible: preserve current manual encoder path; add codec probe registry without changing UI imports; add export presets and cancellable queue primitives; deepen timeline model with tracks, clips, trim, split, ripple, snap, reorder; deepen bin model with metadata/thumbnails/waveform descriptors; add project serialization/migration/history/autosave vessels; add audio drift tracker and source gain/mute/meter math; add experimental container support probes but keep stable WebM bridge as default; add worker scaffolding in small modules only when safe; add tests that prove the models and imports work. The Awtsmoos breath in the code should be clear, not obscuring the architecture.

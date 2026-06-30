@@ -21,13 +21,12 @@ async function main() {
   const missionId = start.missionId;
   const created = await action(config, 'missionRoomCreate', params({ missionId, roomName: 'Shared Boss Room', projectRoot: root }));
   assert.equal(created.roomStatus.counts.agents, 0);
-  await action(config, 'missionRoomJoin', params({ missionId, agentId: 'architect', role: 'splitter' }));
-  await action(config, 'missionRoomJoin', params({ missionId, agentId: 'tester', role: 'proof' }));
-  await action(config, 'missionRoomJoin', params({ missionId, agentId: 'implementer', role: 'code' }));
+  for (const [agentId, role] of [['architect','splitter'], ['tester','proof'], ['implementer','code']]) await action(config, 'missionRoomJoin', params({ missionId, agentId, role }));
   const msg = await action(config, 'missionRoomMessage', params({ missionId, agentId: 'architect', message: 'I found the file-map lane.' }));
   assert.equal(msg.roomStatus.counts.messages, 1);
   const discovery = await action(config, 'missionRoomDiscoverAgents', params({ missionId }));
-  assert.equal(discovery.discovery.suggestedAgents.length, 3);
+  assert.equal(discovery.discovery.suggestedAgents.length, 4);
+  assert(discovery.discovery.suggestedAgents.some(agent => agent.agentId === 'scheduler'));
   const proposal = await action(config, 'missionRoomProposeSplit', params({ missionId, agentId: 'architect' }));
   assert.equal(proposal.proposal.tasks.length, 3);
   for (const agentId of ['architect', 'tester', 'implementer']) await action(config, 'missionRoomAcceptSplit', params({ missionId, agentId, proposalId: proposal.proposal.id }));
@@ -38,6 +37,7 @@ async function main() {
   assert.equal(status.roomStatus.counts.agents, 3);
   assert.equal(status.roomStatus.counts.subMissions, 3);
   assert.equal(status.roomStatus.counts.activeClaims, 3);
+  assert.equal(status.roomStatus.scheduler.stopRule, 'explicit_verified_user_stop_only');
   const merge = await action(config, 'missionRoomMergeReports', params({ missionId, summary: 'Agents split work and sub-missions exist.' }));
   assert.equal(merge.mergeReport.subMissions.length, 3);
   console.log(JSON.stringify({ ok: true, missionId, root }, null, 2));

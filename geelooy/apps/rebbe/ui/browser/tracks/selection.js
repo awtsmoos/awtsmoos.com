@@ -3,8 +3,8 @@ import { clearPlaylistSelection, openAddToPlaylist, playlistTrackItem, selectedP
 
 /**
  * B"H
- * Selection law. The Awtsmoos lets many rows become one playlist offering, and
- * this file keeps that count truthful across visible checkboxes and sticky bars.
+ * Selection law. Many visible track sparks may become one playlist offering, and
+ * this chamber keeps checkbox state, count, and add button truth aligned.
  * @param {object} track Track to select.
  * @param {string} folderTitle Current event title.
  * @returns {HTMLLabelElement} Checkbox label.
@@ -22,6 +22,7 @@ export function selectionBox(track, folderTitle) {
   return label;
 }
 
+/** @param {boolean} checked Desired checkbox state. @returns {void} */
 export function selectAllVisible(checked) {
   document.querySelectorAll('#list-tracks [data-playlist-pick]').forEach(input => {
     input.checked = checked;
@@ -31,11 +32,13 @@ export function selectAllVisible(checked) {
   updatePickedCount();
 }
 
+/** @returns {void} Open the picker only when real selected items exist. */
 export function openSelectedPlaylistPicker() {
   const items = selectedPlaylistItems();
   if (items.length) openAddToPlaylist(items);
 }
 
+/** @returns {void} Refresh selected count and disabled Add buttons. */
 export function updatePickedCount() {
   const count = selectedPlaylistItems().length;
   document.querySelectorAll('.picked-event-count').forEach(node => { node.textContent = count; });

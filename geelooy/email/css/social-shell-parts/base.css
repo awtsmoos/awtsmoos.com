@@ -1,19 +1,21 @@
-/* B"H mail base vessel */
+/* B"H
+ * Mail base vessel
+ * The Awtsmoos shapes shared tokens, page breath, focus, and motion restraint here.
+ */
 :root {
-  --mail-gold: #f1b84f;
-  --mail-cyan: #66e7ff;
-  --mail-line: rgba(255,255,255,.13);
-  --mail-panel: rgba(12,18,34,.9);
-  --mail-panel-2: rgba(18,27,48,.86);
-  --mail-muted: #aeb8cc;
-  --mail-shadow: 0 1.5rem 4rem rgba(0,0,0,.38);
+  --mail-gold:#ffd36a; --mail-gold-deep:#bf7f19; --mail-cyan:#66e7ff; --mail-violet:#a987ff; --mail-danger:#ff4f88;
+  --mail-ink:#f8fbff; --mail-night:#030611; --mail-line:rgba(255,255,255,.16); --mail-line-hot:rgba(102,231,255,.44);
+  --mail-panel:rgba(10,16,32,.92); --mail-panel-2:rgba(18,27,48,.88); --mail-muted:#b6c0d4;
+  --mail-focus:0 0 0 3px rgba(102,231,255,.76),0 0 0 7px rgba(255,211,106,.18);
+  --mail-shadow:0 1.5rem 4rem rgba(0,0,0,.42); --mail-button-shadow:0 .75rem 1.5rem rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.38);
 }
-html, body { min-height: 100%; height: auto; overflow-x: hidden; overflow-y: auto; }
-body {
-  background:
-    radial-gradient(circle at 14% -8%, rgba(102,231,255,.16), transparent 26rem),
-    radial-gradient(circle at 86% 0%, rgba(241,184,79,.14), transparent 27rem),
-    linear-gradient(145deg, #040712, #07101f 58%, #02040a);
-}
-#root { min-height: 100dvh; height: auto; }
-.mail-social-shell { min-height: 100dvh; display: grid; grid-template-rows: auto minmax(0,1fr) auto; background: transparent; color: #f8fbff; isolation: isolate; }
+html, body { min-height:100%; height:auto; overflow-x:hidden; overflow-y: auto; }
+body { background:radial-gradient(circle at 14% -8%,rgba(102,231,255,.16),transparent 26rem),radial-gradient(circle at 86% 0%,rgba(255,211,106,.14),transparent 27rem),linear-gradient(145deg,#040712,#07101f 58%,#02040a); }
+#root { min-height: 100dvh; height:auto; }
+.mail-social-shell { min-height: 100dvh; display:grid; grid-template-rows:auto minmax(0,1fr) auto; background:transparent; color:var(--mail-ink); isolation:isolate; }
+.mail-social-shell::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.9; background:radial-gradient(circle at 18% 12%,rgba(102,231,255,.16),transparent 20rem),radial-gradient(circle at 86% 8%,rgba(255,211,106,.14),transparent 24rem),linear-gradient(120deg,rgba(169,135,255,.08),transparent 55%); }
+.mail-social-shell :where(a,button,input,textarea,[contenteditable="true"]):focus-visible { outline:0; box-shadow:var(--mail-focus); }
+.mail-social-shell :where(button,a) { touch-action:manipulation; }
+.mail-social-shell button { min-height:44px; border-radius:.9rem; font:inherit; }
+.mail-social-shell button:disabled,.mail-social-shell [aria-disabled="true"] { cursor:not-allowed!important; opacity:.58; filter:grayscale(.28); }
+@media (prefers-reduced-motion:reduce){.mail-social-shell *,.mail-social-shell *::before,.mail-social-shell *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important;}}

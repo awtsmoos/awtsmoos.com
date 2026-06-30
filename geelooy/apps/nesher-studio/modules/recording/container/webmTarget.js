@@ -1,5 +1,9 @@
 /* B"H
-WebM target: Malchus holds the final bytes until a Blob is born.
+WebM target: Malchus holds final bytes from either legacy or local muxers.
 */
 export async function createArrayBufferTarget(module) { return new module.ArrayBufferTarget(); }
-export function targetBuffer(target) { return target?.buffer || new ArrayBuffer(0); }
+export function targetBuffer(target) {
+  if (typeof target?.toBuffer === 'function') return target.toBuffer();
+  if (target?.buffer) return target.buffer;
+  return new ArrayBuffer(0);
+}

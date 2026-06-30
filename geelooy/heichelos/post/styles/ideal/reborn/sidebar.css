@@ -1,7 +1,8 @@
 /* B"H
- * Chapter 116 reopened: the sidebar learns not to bite the page.
- * On small screens it rises from the crown as a top sheet, not a side ghost.
- * When hidden, it leaves upward into ayin, with no cream edge over the words.
+ * @module PostReaderSidebarSheet
+ * @description Chapter 603: the sidebar owns only the shell, chrome, and sheet
+ * behavior. Panel viewport/content flow belongs to panels.css, so selector
+ * ownership stays clean while the mobile sheet no longer bites the page.
  */
 
 .post-reader-localized-context .sidebar {
@@ -35,7 +36,6 @@
 }
 
 .post-reader-localized-context .awtsmoos-sidebar-resizer { display: none !important; }
-
 .post-reader-localized-context .awtsmoos-sidebar-shell {
     display: flex !important;
     flex-direction: column !important;
@@ -46,22 +46,11 @@
     overflow: hidden !important;
 }
 
-.post-reader-localized-context .awtsmoos-sidebar-panels,
-.post-reader-localized-context .awtsmoos-slide-viewport,
-.post-reader-localized-context .awtsmoos-view-content {
-    min-width: 0 !important;
-    overflow-x: clip !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-}
-
 .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
     flex: 0 0 auto !important;
     padding: 14px !important;
     border-bottom: 1px solid rgba(191,203,226,.14) !important;
-    background:
-        radial-gradient(circle at 8% 0%, rgba(139,92,246,.16), transparent 12rem),
-        rgba(3,8,18,.98) !important;
+    background: radial-gradient(circle at 8% 0%, rgba(139,92,246,.16), transparent 12rem), rgba(3,8,18,.98) !important;
 }
 
 .post-reader-localized-context .awtsmoos-chrome-row {
@@ -115,48 +104,11 @@
     border-color: rgba(244,63,94,.28) !important;
 }
 
-.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-    margin-top: 12px !important;
-    min-width: 0 !important;
-}
-
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs { display: flex !important; flex-wrap: wrap !important; gap: 8px !important; margin-top: 12px !important; min-width: 0 !important; }
 .post-reader-localized-context .awtsmoos-sidebar-breadcrumbs.is-empty { display: none !important; }
-
-.post-reader-localized-context .awtsmoos-crumb-link {
-    border: 1px solid rgba(246,201,108,.18) !important;
-    border-radius: 999px !important;
-    background: rgba(255,255,255,.055) !important;
-    color: var(--inline-edge-gold) !important;
-    padding: .55rem .8rem !important;
-    font: 850 .88rem/1 var(--font-ui) !important;
-}
+.post-reader-localized-context .awtsmoos-crumb-link { border: 1px solid rgba(246,201,108,.18) !important; border-radius: 999px !important; background: rgba(255,255,255,.055) !important; color: var(--inline-edge-gold) !important; padding: .55rem .8rem !important; font: 850 .88rem/1 var(--font-ui) !important; }
 
 @media (min-width: 901px) {
-    .post-reader-localized-context .sidebar {
-        top: 0 !important;
-        left: auto !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: min(440px,42%) !important;
-        max-width: 42% !important;
-        height: 100dvh !important;
-        max-height: 100dvh !important;
-        border-radius: 0 !important;
-        border-top: 0 !important;
-        border-right: 0 !important;
-        border-bottom: 0 !important;
-        border-left: 1px solid rgba(246,201,108,.18) !important;
-        transform: translate3d(0,0,0) !important;
-        visibility: visible !important;
-    }
-
-    .post-reader-localized-context .sidebar.hidden-comments {
-        transform: translate3d(104%,0,0) !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        pointer-events: none !important;
-    }
+    .post-reader-localized-context .sidebar { top: 0 !important; left: auto !important; right: 0 !important; bottom: 0 !important; width: min(440px,42%) !important; max-width: 42% !important; height: 100dvh !important; max-height: 100dvh !important; border-radius: 0 !important; border: 0 !important; border-left: 1px solid rgba(246,201,108,.18) !important; transform: translate3d(0,0,0) !important; visibility: visible !important; }
+    .post-reader-localized-context .sidebar.hidden-comments { transform: translate3d(104%,0,0) !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
 }

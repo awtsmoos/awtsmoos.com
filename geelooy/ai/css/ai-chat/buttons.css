@@ -1,0 +1,12 @@
+/* B"H — no button should look dead unless it truly cannot act. */
+button, .refresh-button, .attach-button {
+  min-height: 40px; border-radius: 999px; border: 1px solid rgba(255,255,255,.16);
+  background: linear-gradient(135deg, rgba(105,232,255,.15), rgba(255,211,109,.1)); color: var(--ai-text);
+  font-weight: 700; letter-spacing: .01em; cursor: pointer;
+}
+button:hover, .refresh-button:hover, .attach-button:hover { border-color: var(--ai-border-hot); box-shadow: 0 0 0 1px rgba(255,211,109,.22) inset; }
+button:active { transform: translateY(1px); }
+button:disabled, [aria-disabled="true"] { cursor: not-allowed; opacity: .55; filter: grayscale(.25); }
+#send-button { min-width: 88px; background: linear-gradient(135deg, var(--ai-cyan), var(--ai-gold)); color: #08101a; }
+.new-chat { border-color: rgba(255,211,109,.38); }
+.mobile-bottom-dock button, .mobile-app-crown button { min-height: 44px; min-width: 44px; }

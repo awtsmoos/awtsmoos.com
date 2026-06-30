@@ -1,0 +1,6 @@
+// B"H
+export function makeHeader(win) { const h = document.createElement('div'); h.className = 'window-header'; h.hidden = win.hideTitleBar; const title = document.createElement('div'); title.className = 'header-text'; title.textContent = win.title; const ctrls = document.createElement('div'); ctrls.className = 'header-ctrls'; buttons(win).forEach(b => ctrls.appendChild(b)); h.append(title, ctrls); win.winHeader = h; return h; }
+export function makeBody(win) { const b = document.createElement('div'); b.className = 'window-content windows-body'; if (typeof win.content === 'string') b.innerHTML = win.content; else if (win.content instanceof HTMLElement) b.appendChild(win.content); else if (win.content instanceof Blob && win.content.type.includes('image')) addImage(b, win.content); win.winBody = b; return b; }
+function buttons(win) { return [['_','minimize',()=>win.minimize()],['□','maximize',()=>win.toggleFullscreen()],['X','close',()=>win.close()]].map(([txt, cls, fn]) => { const b = document.createElement('button'); b.className = `header-btn awtsBtn ${cls}`; b.textContent = txt; b.onclick = fn; return b; }); }
+function addImage(body, blob) { const img = document.createElement('img'); img.src = URL.createObjectURL(blob); body.appendChild(img); }
+/** B"H: header, buttons, and body are built by a frame craftsman. */

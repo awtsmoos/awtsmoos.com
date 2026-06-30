@@ -1,18 +1,4 @@
 //B"H
-export default id => /*css*/`
-.${id}.desktop{position:relative;width:100vw;height:calc(100vh - 40px);overflow:hidden;background:linear-gradient(180deg,#3b8ef3 0%,#1f66cf 46%,#39a13c 100%);font-family:"Trebuchet MS",Tahoma,system-ui,sans-serif;user-select:none;color:white;touch-action:manipulation}
-.${id}.desktop::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 22% 18%,rgba(255,255,255,.46),transparent 13%),linear-gradient(180deg,rgba(255,255,255,.2),transparent 35%);pointer-events:none}
-.${id} .awtsmoos-desktop-surface{position:absolute;inset:0;z-index:1;outline:none;overflow:hidden;padding-top:var(--desktop-safe-top,10px);padding-bottom:var(--desktop-safe-bottom,72px)}
-.${id} .desktop-icon{position:absolute;width:92px;min-height:82px;border:1px solid transparent;border-radius:0;background:transparent;color:white;display:grid;justify-items:center;align-content:start;gap:3px;padding:6px 4px;text-shadow:1px 1px 2px rgba(0,0,0,.8);cursor:default;touch-action:none;font:11px Tahoma,sans-serif;appearance:none;-webkit-appearance:none}
-.${id} .desktop-icon:hover{border:1px dotted rgba(255,255,255,.9);background:rgba(49,106,197,.22)}
-.${id} .desktop-icon.selected{border:1px dotted #fff;background:rgba(49,106,197,.55)}
-.${id} .desktop-icon:focus-visible{outline:1px dotted #fff;outline-offset:1px}.desktop-dragging .desktop-icon.selected{opacity:.9}
-.${id} .desktop-icon-glyph{display:grid;place-items:center;width:42px;height:42px;font-size:33px;line-height:1;filter:drop-shadow(1px 3px 2px rgba(0,0,0,.4));overflow:hidden}
-.${id} .desktop-icon-label{max-width:86px;padding:1px 2px;font-size:11px;font-weight:normal;line-height:1.17;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;overflow-wrap:anywhere}
-.${id} .desktop-icon.selected .desktop-icon-label{background:#316ac5;color:#fff}.desktop-marquee{position:absolute;z-index:3;border:1px dotted #000;background:rgba(49,106,197,.2);pointer-events:none}
-.contextMenu{position:absolute;z-index:100000;min-width:188px;padding:2px;border:1px solid #716f64;border-radius:0;background:#fff;color:#111;box-shadow:2px 2px 0 rgba(0,0,0,.28);font:11px Tahoma,system-ui,sans-serif}.contextMenu .menuItem{padding:4px 24px 4px 20px;cursor:default;border-radius:0;white-space:nowrap;max-width:280px;overflow:hidden;text-overflow:ellipsis}.contextMenu .menuItem:hover{background:#316ac5;color:white}.contextMenu .menuItem.disabled{color:#777;background:#eee;pointer-events:none}
-.${id} .desktop-mobile .desktop-icon{width:96px;min-height:104px;padding:8px 4px;border-radius:10px;background:rgba(49,144,255,.12);-webkit-tap-highlight-color:transparent}.${id} .desktop-mobile .desktop-icon.selected{background:rgba(49,106,197,.42);border:1px dotted #fff}.desktop-mobile .desktop-icon-glyph{width:50px;height:50px;font-size:38px}.desktop-mobile .desktop-icon-label{max-width:92px;font-size:13px;font-weight:600;line-height:1.12;-webkit-line-clamp:2}.desktop-mobile .desktop-marquee{display:none!important}.desktop-mobile .contextMenu{font-size:15px;min-width:220px}.desktop-mobile .contextMenu .menuItem{padding:10px 18px;min-height:42px}
-@media(max-width:720px),(pointer:coarse) and (max-width:900px){.${id}.desktop{height:calc(100svh - 40px);min-height:calc(100svh - 40px);overflow:hidden}.${id} .awtsmoos-desktop-surface{overflow:hidden;overscroll-behavior:none}.window{left:0!important;top:var(--desktop-safe-top,0)!important;width:100vw!important;height:calc(100svh - var(--desktop-safe-top,0px) - 44px)!important;max-width:100vw!important;border-radius:0!important}.window .window-header{min-height:38px;touch-action:none}.window .header-btn{min-width:38px;min-height:34px}.window .window-content{height:calc(100% - 38px)!important;overflow:auto}.taskbar,.start-bar{min-height:44px}}
-@media (prefers-reduced-motion:reduce){.${id} .desktop-icon{transition:none!important}}
-`;
-/** B"H: Desktop, phone grid, safe-area, touch menu, and mobile windows share one law. */
+import base from './base/index.js';
+export default id => base(id);
+/** B"H: the old giant OS base becomes a simple gate to split modules. */

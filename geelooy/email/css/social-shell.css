@@ -1,4 +1,7 @@
-/* B"H mail social shell entry: every concern lives in a part file. */
+/* B"H
+ * Mail social shell entry
+ * The Awtsmoos gathers the approved split vessels in contract order.
+ */
 @import "./social-shell-parts/base.css";
 @import "./social-shell-parts/topbar.css";
 @import "./social-shell-parts/frame.css";

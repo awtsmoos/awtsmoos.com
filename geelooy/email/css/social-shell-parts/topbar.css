@@ -1,8 +1,13 @@
-/* B"H mail topbar vessel */
-.mail-social-topbar { position: sticky; top: 0; z-index: 40; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1rem; padding: .72rem clamp(.7rem,2vw,1rem); background: rgba(8,13,27,.88); border-bottom: 1px solid var(--mail-line); box-shadow: 0 .75rem 2rem rgba(0,0,0,.22); backdrop-filter: blur(16px); }
-.mail-top-links { display: flex; flex-wrap: wrap; gap: .4rem; min-width: 0; }
-.mail-social-topbar a { min-height: 2.55rem; display: inline-flex; align-items: center; border: 1px solid var(--mail-line); border-radius: .8rem; padding: .55rem .8rem; background: rgba(255,255,255,.06); color: #f8fbff; font-weight: 900; text-decoration: none; }
-.mail-social-topbar a:hover,.mail-social-topbar a:focus-visible { background: rgba(102,231,255,.14); outline: 2px solid rgba(102,231,255,.5); outline-offset: 2px; }
-.mail-title-lockup { display: grid; justify-items: end; line-height: 1.1; }
-.mail-kicker { color: var(--mail-cyan); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 950; }
-.mail-social-topbar strong { text-align: right; letter-spacing: .04em; text-transform: uppercase; }
+/* B"H
+ * Mail topbar vessel
+ * The Awtsmoos names the upper route doors without hiding the current surface.
+ */
+.mail-social-topbar { position:sticky; top:0; z-index:40; display:grid; grid-template-columns:1fr auto; align-items:center; gap:1rem; padding:.72rem clamp(.7rem,2vw,1rem); background:rgba(8,13,27,.88); border-bottom:1px solid var(--mail-line); box-shadow:0 .75rem 2rem rgba(0,0,0,.22); backdrop-filter:blur(16px); }
+.mail-top-links { display:flex; flex-wrap:wrap; gap:.4rem; min-width:0; }
+.mail-route-link,.mail-social-topbar a { min-height:44px; display:inline-flex; align-items:center; justify-content:center; gap:.35rem; border:1px solid var(--mail-line); border-radius:999px; padding:.62rem .95rem; background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.045)); color:var(--mail-ink); font-weight:950; letter-spacing:.04em; text-decoration:none; }
+.mail-route-link:hover,.mail-social-topbar a:hover { border-color:var(--mail-line-hot); transform:translateY(-1px); }
+.mail-route-link[aria-current="page"],.mail-route-link.active { color:#07101d; background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); box-shadow:var(--mail-button-shadow); }
+.mail-top-home::before { content:"←"; font-weight:950; }
+.mail-title-lockup { display:grid; justify-items:end; line-height:1.1; }
+.mail-kicker { color:var(--mail-cyan); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:950; }
+.mail-social-topbar strong { text-align:right; letter-spacing:.04em; text-transform:uppercase; }

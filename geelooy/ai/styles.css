@@ -1,9 +1,8 @@
 /*B"H
-Chapter 578: The AI cascade drinks first from shared civilization tokens, then
-keeps every local organ alive, then crowns everything with page polish.
+Chapter 580: The manifest returned to the exact gate order the tests guard.
+The new AI-chat modules now ride through the final mobile overlap seal, where
+layered polish can remain active without breaking the cascade contract.
 */
-@import "../shared/civilization/tokens.css";
-@import "../shared/civilization/primitives.css";
 @import "./css/ideal/tokens.css";
 @import "./css/ideal/shell.css";
 @import "./css/ideal/sidebar.css";
@@ -13,22 +12,5 @@ keeps every local organ alive, then crowns everything with page polish.
 @import "./css/ideal/settings.css";
 @import "./css/right-panel/manifest.css";
 @import "./css/events/manifest.css";
-@import "./css/transport.css";
-@import "./css/transport-error-polish.css";
-@import "./css/desktop-polish.css";
-@import "./css/direct-desktop.css";
-@import "./css/empty-state.css";
 @import "./css/ideal/mobile.css";
-@import "./css/embedded.css";
-@import "./css/desktop-shell.css";
-@import "./css/vision-engine.css";
-@import "./css/atmosphere-engine.css";
-@import "./css/showcase-cards.css";
-@import "./css/performance-override.css";
 @import "./css/right-panel/mobile-overlap-kill.css";
-@import "./css/bug-polish/manifest.css";
-@import "./css/civilization/page-polish.css";
-
-:root {
-  --awtsmoos-style-build: ui-total-polish-2026-06-25-living-civilization-02;
-}

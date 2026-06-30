@@ -5,8 +5,8 @@ import { openSelectedPlaylistPicker, selectAllVisible } from './selection.js';
 
 /**
  * B"H
- * Event toolbar. Six gates, not a tangled swarm: select, add, playlist, export,
- * cache, save. The Awtsmoos gives each action a name the hand can trust.
+ * Event toolbar. One title chamber, one command deck: Select, Add, Playlist,
+ * Download/Export, Cache, Save. No false ZIP label appears for one file.
  * @param {string} folderTitle Event title.
  * @param {Array<object>} tracks Event tracks.
  * @param {Function} onAction Controller callback.
@@ -15,8 +15,7 @@ import { openSelectedPlaylistPicker, selectAllVisible } from './selection.js';
 export function renderEventToolbar(folderTitle, tracks = [], onAction) {
   const bar = document.createElement('div');
   bar.className = 'event-toolbar premium-event-toolbar';
-  bar.appendChild(copyBlock(folderTitle, tracks.length));
-  bar.appendChild(actionDeck(folderTitle, tracks, onAction));
+  bar.append(copyBlock(folderTitle, tracks.length), actionDeck(folderTitle, tracks, onAction));
   return bar;
 }
 
@@ -30,27 +29,26 @@ function copyBlock(folderTitle, count) {
 
 function actionDeck(folderTitle, tracks, onAction) {
   const deck = document.createElement('div');
-  deck.className = 'event-toolbar-actions';
-  buttons(folderTitle, tracks, onAction).forEach(button => deck.appendChild(button));
+  deck.className = 'event-toolbar-actions command-deck';
+  buttons(tracks, onAction).forEach(button => deck.appendChild(button));
   deck.querySelector('.mini-select-all-tracks').onclick = event => { event.stopPropagation(); selectAllVisible(true); };
   deck.querySelector('.mini-playlist-selected-tracks').onclick = event => { event.stopPropagation(); openSelectedPlaylistPicker(); };
   deck.querySelector('.mini-playlist-event').onclick = event => { event.stopPropagation(); openWholeEvent(folderTitle, tracks); };
   return deck;
 }
 
-function buttons(folderTitle, tracks, onAction) {
+function buttons(tracks, onAction) {
   const single = tracks.length === 1;
   return [
-    createCommandButton({ icon: '☑', label: 'Select', title: 'Select all tracks', action: 'select-all-tracks', onAction }),
-    createCommandButton({ icon: '+', label: 'Add', title: 'Add selected tracks', action: 'playlist-selected-tracks', onAction, disabled: !selectedPlaylistItems().length }),
-    createCommandButton({ icon: '♫', label: 'Playlist', title: 'Add event to playlist', action: 'playlist-event', onAction }),
-    createCommandButton({ icon: '⬇', label: single ? 'Download' : 'Export', title: single ? 'Download this event file' : 'Export this event as ZIP', action: 'download-event', onAction }),
-    createCommandButton({ icon: '⚡', label: 'Cache', title: 'Cache this event', action: 'cache-event', onAction }),
-    createCommandButton({ icon: '☆', label: 'Save', title: 'Bookmark this event', action: 'bookmark-folder', onAction })
+    createCommandButton({ icon: '☑', label: 'Select', title: 'Select all visible tracks', action: 'select-all-tracks', onAction, variant: 'neutral' }),
+    createCommandButton({ icon: '+', label: 'Add', title: 'Add selected tracks to playlist', action: 'playlist-selected-tracks', onAction, disabled: !selectedPlaylistItems().length, variant: 'accent' }),
+    createCommandButton({ icon: '♫', label: 'Playlist', title: 'Add whole event to playlist', action: 'playlist-event', onAction, variant: 'accent' }),
+    createCommandButton({ icon: '⬇', label: single ? 'Download' : 'Export', title: single ? 'Download this event file' : 'Export this event as ZIP', action: 'download-event', onAction, variant: 'primary' }),
+    createCommandButton({ icon: '⚡', label: 'Cache', title: 'Cache this event offline', action: 'cache-event', onAction, variant: 'cache' }),
+    createCommandButton({ icon: '☆', label: 'Save', title: 'Save event to bookshelf', action: 'bookmark-folder', onAction, variant: 'accent' })
   ];
 }
 
 function openWholeEvent(folderTitle, tracks) {
-  const items = tracks.map(track => playlistTrackItem(track, { folder: folderTitle, title: folderTitle }));
-  openAddToPlaylist(items);
+  openAddToPlaylist(tracks.map(track => playlistTrackItem(track, { folder: folderTitle, title: folderTitle })));
 }

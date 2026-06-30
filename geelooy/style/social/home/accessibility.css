@@ -1,3 +1,47 @@
-/* B"H Home accessibility: visible covenant for keyboard souls. */
-.geelooy-home-shell :focus-visible { outline: 3px solid rgba(35,58,113,.55); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .home-post-card, .home-sanctuary-card a, .home-feed-tabs button { transition: none !important; } }
+/* B"H
+ * Home accessibility covenant.
+ * Responsibilities: visible focus, skip-link travel, reduced-motion safety, and
+ * clear pressed/disabled state signals for the living Geelooy home shell.
+ * Side effects: only presentation; no route or API behavior is changed.
+ */
+.home-skip-link {
+  position: fixed;
+  inset-block-start: .75rem;
+  inset-inline-start: .75rem;
+  z-index: 1000;
+  transform: translateY(-160%);
+  padding: .72rem 1rem;
+  border-radius: 999px;
+  background: var(--g-gold, #f5ca70);
+  color: #06111d;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 .8rem 2rem rgba(0,0,0,.28);
+}
+.home-skip-link:focus-visible { transform: translateY(0); }
+.home-task-dock { margin-block-start: .85rem; }
+.geelooy-home-shell :focus-visible {
+  outline: 3px solid rgba(35,58,113,.55);
+  outline-offset: 3px;
+}
+.geelooy-home-shell [aria-current="page"],
+.geelooy-home-shell [aria-pressed="true"] {
+  text-decoration-thickness: .12em;
+  text-underline-offset: .2em;
+}
+.geelooy-home-shell a[href],
+.geelooy-home-shell button { touch-action: manipulation; }
+.geelooy-home-shell button:disabled,
+.geelooy-home-shell [aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: .6;
+}
+.home-status-rail a { color: inherit; font-weight: 900; }
+@media (prefers-reduced-motion: reduce) {
+  .home-skip-link,
+  .home-post-card,
+  .home-sanctuary-card a,
+  .home-feed-tabs button {
+    transition: none !important;
+  }
+}

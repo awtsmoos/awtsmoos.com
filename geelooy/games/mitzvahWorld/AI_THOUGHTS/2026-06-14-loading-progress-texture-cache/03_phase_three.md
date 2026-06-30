@@ -1,3 +1,0 @@
-B'H
-# Phase Three Final Plan
-Implement visible loading in one safe pass: 1) new LoadingProgressBridge owns DOM, stage bars, radial percent, heartbeat logs, texture status, no-silence timer; 2) loading markup exposes exact ids; 3) CSS restores animated rings, comet fill, stage rows, responsive mobile layout; 4) worker interceptor records every worker_progress to bridge; 5) ui handler sends percent/action/subAction to bridge and hides cleanly; 6) TextureForge stores generated PNG blobs in IndexedDB with VERSION, returns object URLs, and emits texture progress events for cache hit/generate/store/fail. Verify node --check.

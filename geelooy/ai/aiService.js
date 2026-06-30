@@ -4,6 +4,7 @@ import AwtsmoosGPTify from "./AwtsmoosGPTify.js";
 import IndexedDBHandler from "./IndexedDBHandler.js";
 import { makeOpenAICompatibleService } from "./openaiCompatible.js";
 import { simpleGeminiResponse } from "./js/services/geminiApi.js";
+import { makeAwtaiLocalService } from "./js/services/awtaiLocalService.js";
 import { makeChatGPTService } from "./js/services/chatgptService.js";
 import { makeGeminiService } from "./js/services/geminiService.js";
 
@@ -11,8 +12,9 @@ export const DEFAULT_AI_SERVICE = "minimax";
 export const ACTIVE_AI_SERVICE_STORAGE_KEY = "awtsmoosActiveAIService";
 
 /**
- * B"H — MiniMax is the default gate. ChatGPT is only summoned when selected;
- * the other OpenAI-shaped vessels inherit the local Awtsmoos tunnel bridge.
+ * B"H — remote gates, browser gates, and the native AwTai gate now live in one
+ * service table. The default remains stable, while DeepSeek and local GGUF no
+ * longer hide behind code that the UI cannot select.
  */
 class AIServiceHandler {
   geminiChatCache = null;
@@ -40,13 +42,12 @@ class AIServiceHandler {
       minimax: makeOpenAICompatibleService(this, "minimax"),
       openrouter: makeOpenAICompatibleService(this, "openrouter"),
       deepseek: makeOpenAICompatibleService(this, "deepseek"),
-      groq: makeOpenAICompatibleService(this, "groq")
+      groq: makeOpenAICompatibleService(this, "groq"),
+      "awtai-local": makeAwtaiLocalService(this)
     };
   }
 
-  resolveService(serviceId = "") {
-    return this.services?.[serviceId] ? serviceId : DEFAULT_AI_SERVICE;
-  }
+  resolveService(serviceId = "") { return this.services?.[serviceId] ? serviceId : DEFAULT_AI_SERVICE; }
 
   async newConversation() {
     this.geminiChatCache = null;
@@ -55,10 +56,7 @@ class AIServiceHandler {
     this.activeAIService = this.resolveService(this.activeAIService);
   }
 
-  setChatGPTMode(mode = "regular") {
-    this.chatgptMode = mode;
-    writeStorage("awtsmoosChatGPTMode", mode);
-  }
+  setChatGPTMode(mode = "regular") { this.chatgptMode = mode; writeStorage("awtsmoosChatGPTMode", mode); }
 
   getChatGPTModePayload() {
     if (!this.isChatGPTSelected()) return {};
@@ -67,20 +65,14 @@ class AIServiceHandler {
   }
 
   switchService(newService) {
-    if (!this.services[newService]) {
-      console.log("Service not found!");
-      return false;
-    }
+    if (!this.services[newService]) { console.log("Service not found!"); return false; }
     this.activeAIService = newService;
     writeStorage(ACTIVE_AI_SERVICE_STORAGE_KEY, newService);
     console.log(`Switched to ${this.services[newService].name}`);
     return true;
   }
 
-  isChatGPTSelected() {
-    return this.activeAIService === "chatgpt" || this.activeAIService === "chatgpt-browser";
-  }
-
+  isChatGPTSelected() { return this.activeAIService === "chatgpt" || this.activeAIService === "chatgpt-browser"; }
   async getActiveService() { return this.services[this.activeAIService]; }
 
   async getKey() {
@@ -97,21 +89,12 @@ class AIServiceHandler {
       const key = await this.getKey();
       const model = options.model || "gemini-2.0-flash";
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-      const prompt = new AwtsmoosPrompt({
-        promptName: "legacy-gemini-direct",
-        promptText: typeof options.prompt === "string" ? options.prompt : "",
-        systemInstruction: options.systemInstruction,
-        metadata: { source: "AIServiceHandler.awtsmoosAi" }
-      });
+      const prompt = new AwtsmoosPrompt({ promptName: "legacy-gemini-direct", promptText: typeof options.prompt === "string" ? options.prompt : "", systemInstruction: options.systemInstruction, metadata: { source: "AIServiceHandler.awtsmoosAi" } });
       return await simpleGeminiResponse({ endpoint, prompt: prompt.promptText, systemInstruction: prompt.systemInstruction });
     } catch (err) { console.error(err); }
   }
 }
 
-function readStorage(key) {
-  try { return typeof localStorage === "undefined" ? "" : localStorage.getItem(key); } catch { return ""; }
-}
-function writeStorage(key, value) {
-  try { if (typeof localStorage !== "undefined") localStorage.setItem(key, value); } catch {}
-}
+function readStorage(key) { try { return typeof localStorage === "undefined" ? "" : localStorage.getItem(key); } catch { return ""; } }
+function writeStorage(key, value) { try { if (typeof localStorage !== "undefined") localStorage.setItem(key, value); } catch {} }
 export default AIServiceHandler;

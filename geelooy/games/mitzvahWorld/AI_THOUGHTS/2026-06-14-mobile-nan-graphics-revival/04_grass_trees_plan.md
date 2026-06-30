@@ -1,3 +1,0 @@
-B'H
-# Grass And Trees Continuation
-User correctly noticed the first pass did not finish grass and trees. Plan: keep using existing Awtsmoos/libs and existing nature code; do not create fake placeholder trees. Upgrade VillageGrassField counts and ratios so shader meadow is visibly dense on mobile. Upgrade RegionGrassRenderer fallback/spec output for more blades. Upgrade RegionTreeRenderer from two fake instanced blobs into a complex multi-layer tree system: trunk, limb arms, lower leaf masses, upper leaf masses, and orchard fruit, all terrain-grounded through RegionInstancer and sealed decorative/non-collider. Verify all changed files with node --check.

@@ -1,0 +1,8 @@
+/* B"H — the keyboard sees the same palace as the mouse. */
+:where(button, select, textarea, input, a, [tabindex]):focus-visible { outline: none; box-shadow: var(--ai-focus); }
+@media (prefers-reduced-motion: no-preference) {
+  button, #conversation-items li, .message { transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, background-color .16s ease; }
+  .render-loading i { animation: awtsmoosAiPulse 1.4s ease-in-out infinite; }
+}
+@keyframes awtsmoosAiPulse { 0%,100% { opacity: .55; transform: scale(.88); } 50% { opacity: 1; transform: scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms; transition-duration: .001ms; scroll-behavior: auto; } }

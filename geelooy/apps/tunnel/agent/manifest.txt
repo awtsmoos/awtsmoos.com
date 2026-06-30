@@ -1,5 +1,5 @@
 B"H
-1.0.202
+1.0.206
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -646,6 +646,7 @@ lib/runtime/limits.js
 lib/runtime/local-proxy.js
 lib/runtime/memory.js
 lib/runtime/priority.js
+lib/runtime/processIdentity.js
 lib/runtime/safe-send.js
 lib/runtime/worker-supervisor.js
 lib/self-update.js
@@ -721,6 +722,7 @@ tools/command/shells.js
 tools/fs.js
 tools/fs/actionBatch.js
 tools/fs/actionBuilders.js
+tools/fs/actionFinish.js
 tools/fs/actionGroups/actionHistoryActions.js
 tools/fs/actionGroups/aiAgentActions.js
 tools/fs/actionGroups/aiAgents/childSpawner.js
@@ -785,6 +787,8 @@ tools/fs/actionLedger.js
 tools/fs/actionLedgerPolicy.js
 tools/fs/actionLedgerRedact.js
 tools/fs/actionLedgerStore.js
+tools/fs/actionOffload.js
+tools/fs/actionRuntime.js
 tools/fs/actions.js
 tools/fs/astOutline.js
 tools/fs/autoAsync.js
@@ -849,11 +853,15 @@ tools/fs/mission/bootPolicy/index.js
 tools/fs/mission/bossProtocol.js
 tools/fs/mission/collaboration.js
 tools/fs/mission/constitution.js
+tools/fs/mission/continuationCovenant.js
 tools/fs/mission/continuationQueue.js
 tools/fs/mission/continuity.js
+tools/fs/mission/continuity/policy.js
 tools/fs/mission/core.js
 tools/fs/mission/coreAnswers.js
+tools/fs/mission/coreApi.js
 tools/fs/mission/coreAutonomy.js
+tools/fs/mission/coreDeps.js
 tools/fs/mission/coreGates.js
 tools/fs/mission/coreRecords.js
 tools/fs/mission/coreReports.js
@@ -861,9 +869,15 @@ tools/fs/mission/coreState.js
 tools/fs/mission/coreSteps.js
 tools/fs/mission/coreStorage.js
 tools/fs/mission/coreUtils.js
+tools/fs/mission/coreWire.js
 tools/fs/mission/coreWork.js
+tools/fs/mission/covenant/exceptions.js
+tools/fs/mission/covenant/issues.js
+tools/fs/mission/covenant/language.js
+tools/fs/mission/covenant/response.js
 tools/fs/mission/cycleArtifacts.js
 tools/fs/mission/daemon/config.js
+tools/fs/mission/daemon/instruction.js
 tools/fs/mission/daemon/recover.js
 tools/fs/mission/daemon/status.js
 tools/fs/mission/daemon/tick.js
@@ -878,6 +892,11 @@ tools/fs/mission/eightStep/plan.js
 tools/fs/mission/eightStep/repeat.js
 tools/fs/mission/eightStep/review.js
 tools/fs/mission/eightStep/store.js
+tools/fs/mission/envelope/friendly.js
+tools/fs/mission/envelope/heartbeat.js
+tools/fs/mission/envelope/index.js
+tools/fs/mission/envelope/next.js
+tools/fs/mission/envelope/sanitize.js
 tools/fs/mission/evidenceHarvester/config.js
 tools/fs/mission/evidenceHarvester/index.js
 tools/fs/mission/evidenceHarvester/run.js
@@ -894,6 +913,12 @@ tools/fs/mission/firewall/authorize.js
 tools/fs/mission/firewall/classes.js
 tools/fs/mission/firewall/data.js
 tools/fs/mission/firewall/index.js
+tools/fs/mission/guidance/compose.js
+tools/fs/mission/guidance/facts.js
+tools/fs/mission/guidance/index.js
+tools/fs/mission/guidance/phrases.js
+tools/fs/mission/guidance/render.js
+tools/fs/mission/guidance/situations.js
 tools/fs/mission/heartbeat/index.js
 tools/fs/mission/heartbeat/store.js
 tools/fs/mission/improvement/dashboard.js
@@ -911,6 +936,7 @@ tools/fs/mission/lease.js
 tools/fs/mission/lock/config.js
 tools/fs/mission/lock/index.js
 tools/fs/mission/lock/lifecycle.js
+tools/fs/mission/lock/nested.js
 tools/fs/mission/lock/release.js
 tools/fs/mission/lock/store.js
 tools/fs/mission/loopEngine.js
@@ -962,8 +988,17 @@ tools/fs/mission/roomEngine.js
 tools/fs/mission/roomInterrupts.js
 tools/fs/mission/roomLoop.js
 tools/fs/mission/roomMessages.js
+tools/fs/mission/roomRuntime.js
+tools/fs/mission/roomRuntime/graph.js
+tools/fs/mission/roomRuntime/health.js
+tools/fs/mission/roomRuntime/identity.js
+tools/fs/mission/roomRuntime/queues.js
+tools/fs/mission/roomRuntime/work.js
 tools/fs/mission/roomSimulator.js
 tools/fs/mission/roomState.js
+tools/fs/mission/roomState/base.js
+tools/fs/mission/roomState/live.js
+tools/fs/mission/roomState/status.js
 tools/fs/mission/roomSubMissions.js
 tools/fs/mission/selfImprove/boredom.js
 tools/fs/mission/selfImprove/bounded.js

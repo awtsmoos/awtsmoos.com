@@ -1,0 +1,35 @@
+// B"H
+const assert = require('assert'), fs = require('fs'), os = require('os'), path = require('path');
+const Envelope = require('../tools/fs/mission/envelope/index.js');
+const Release = require('../tools/fs/mission/lock/release.js');
+const Nested = require('../tools/fs/mission/lock/nested.js');
+const Lock = require('../tools/fs/mission/lock/index.js');
+const Finish = require('../tools/fs/actionFinish.js');
+const StopAudit = require('../tools/fs/mission/stopAudit/index.js');
+const AutoAsync = require('../tools/fs/autoAsync.js');
+const Offload = require('../tools/fs/actionOffload.js');
+(async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'airtight-')), config = { root };
+  const lock = { missionId:'m1', releaseAllowed:false, lastMustCallNext:{ action:'missionCycle', missionId:'m1' } };
+  assert.equal(Release.canRelease({ action:'missionFinalize', finalAnswerAllowed:true, stopReason:'random' }), false);
+  assert.equal(Release.canRelease({ action:'missionFinalize', finalAnswerAllowed:true, stopReason:'safetyBlock' }), true);
+  assert.deepEqual(Nested.relation({ missionId:'p' }, { missionId:'c' }).parentMissionId, 'p');
+  const wrapped = Envelope.wrap(lock, { ok:true, action:'x', message:'Done, let me know' }, {});
+  assert.equal(wrapped.finalAnswerAllowed, false);
+  assert(wrapped.missionHeartbeat.missionId === 'm1');
+  assert(!/let me know/i.test(wrapped.message));
+  const finished = Finish.finishAction(config, {}, { ok:true, action:'plainTool', finalAnswerAllowed:true, message:'what next?' });
+  assert.equal(finished.finalAnswerAllowed, true);
+  Lock.set(config, lock);
+  const guarded = Finish.finishAction(config, {}, { ok:true, action:'plainTool', finalAnswerAllowed:true, message:'what next?' });
+  assert.equal(guarded.finalAnswerAllowed, false);
+  assert.equal(guarded.mustContinue, true);
+  const audit = StopAudit.after(config, lock, { action:'missionFinalize', stopReason:'safetyBlock', finalAnswerAllowed:true });
+  assert.equal(audit.kind, 'emergency_stop');
+  AutoAsync.shouldOffload = () => true;
+  AutoAsync.offload = async () => ({ ok:true, action:'bulk', message:'let me know' });
+  const off = await Offload.maybe(config, { action:'bulk' });
+  assert.equal(off.finalAnswerAllowed, false);
+  assert(!/let me know/i.test(off.message));
+  console.log(JSON.stringify({ ok:true, suite:'mission-airtight-envelope' }, null, 2));
+})().catch(error => { console.error(error); process.exit(1); });

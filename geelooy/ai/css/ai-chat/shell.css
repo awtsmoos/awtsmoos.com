@@ -1,0 +1,13 @@
+/* B"H — the outer page becomes a chamber for thought without new fixed rulers. */
+body { background: var(--ai-chamber-bg); color: var(--ai-text); }
+.container { background: transparent; isolation: isolate; }
+.main, .sidebar, .automation-panel {
+  border: 1px solid var(--ai-border); background: var(--ai-panel); box-shadow: var(--ai-shadow);
+  backdrop-filter: blur(12px); border-radius: var(--ai-radius);
+}
+.main { position: relative; overflow: hidden; }
+.transport-status {
+  border: 1px solid rgba(105,232,255,.18); background: rgba(6,12,22,.74); color: var(--ai-muted);
+  border-radius: 999px; padding: .45rem .8rem; margin: .6rem; min-height: 1.2rem;
+}
+.resize-bar { opacity: .55; background: linear-gradient(to bottom, transparent, rgba(105,232,255,.36), transparent); }

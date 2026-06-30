@@ -5,8 +5,8 @@ import { selectionBox } from './selection.js';
 
 /**
  * B"H
- * Track row chamber. The audio spark gets one big title door and five clean
- * action gates; no row must become a battlefield of tiny unmarked circles.
+ * Track row chamber. The title is the main doorway, and every side action is a
+ * labeled command gate: Play, Add, Download, Cache, Save.
  * @param {object} args Row construction payload.
  * @returns {HTMLDivElement} Track row node.
  */
@@ -14,9 +14,7 @@ export function renderTrackRow(args) {
   const item = document.createElement('div');
   item.className = 'item track-item premium-track-item';
   item.id = `track-${args.index}`;
-  item.appendChild(selectionBox(args.track, args.folderTitle));
-  item.appendChild(mainButton(args.track, args.index, args.onSelect));
-  item.appendChild(actionButtons(args.track, args.onAction));
+  item.append(selectionBox(args.track, args.folderTitle), mainButton(args.track, args.index, args.onSelect), actionButtons(args.track, args.onAction));
   if (args.checkStatus) args.markCacheStatus(args.track, item, args.checkStatus);
   return item;
 }
@@ -33,14 +31,18 @@ function mainButton(track, index, onSelect) {
 
 function actionButtons(track, onAction) {
   const wrap = document.createElement('div');
-  wrap.className = 'item-actions';
+  wrap.className = 'item-actions command-deck row-command-deck';
   wrap.appendChild(durationPill(fmt(track.duration)));
-  [
-    ['▶', 'Play', 'Play this file', 'play-row'],
-    ['♫', 'Add', 'Add this file to playlist', 'playlist-track'],
-    ['⬇', 'Download', 'Download this file', 'download'],
-    ['⚡', 'Cache', 'Cache this file offline', 'cache'],
-    ['☆', 'Save', 'Save this file to bookshelf', 'bookmark-track']
-  ].forEach(([icon, label, title, action]) => wrap.appendChild(createCommandButton({ icon, label, title, action, track, onAction })));
+  commandSpecs().forEach(spec => wrap.appendChild(createCommandButton({ ...spec, track, onAction })));
   return wrap;
+}
+
+function commandSpecs() {
+  return [
+    { icon: '▶', label: 'Play', title: 'Play this file', action: 'play-row', variant: 'primary' },
+    { icon: '♫', label: 'Add', title: 'Add this file to playlist', action: 'playlist-track', variant: 'accent' },
+    { icon: '⬇', label: 'Download', title: 'Download this file', action: 'download', variant: 'primary' },
+    { icon: '⚡', label: 'Cache', title: 'Cache this file offline', action: 'cache', variant: 'cache' },
+    { icon: '☆', label: 'Save', title: 'Save this file to bookshelf', action: 'bookmark-track', variant: 'accent' }
+  ];
 }

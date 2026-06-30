@@ -1,4 +1,10 @@
-/* B"H mail tabs vessel */
-.mail-social-sidebar .tabs-container { margin: 0 1rem 1rem; padding: .35rem; background: rgba(255,255,255,.055); border-color: var(--mail-line); border-radius: .9rem; }
-.mail-social-sidebar .nav-tab { min-height: 2.9rem; border-radius: .75rem; color: var(--mail-muted); }
-.mail-social-sidebar .nav-tab.active { background: linear-gradient(135deg, var(--mail-gold), var(--mail-cyan)); color: #03101b; }
+/* B"H mail tabs vessel: native tabs announce the chosen mailbox. */
+.mail-social-sidebar .tabs-container { margin:0 1rem 1rem; padding:.35rem; background:rgba(255,255,255,.055); border-color:var(--mail-line); border-radius:.9rem; }
+.mail-social-sidebar .nav-tab { min-height:2.9rem; border-radius:.75rem; color:var(--mail-muted); font-weight:950; }
+.mail-social-sidebar .nav-tab.active,.mail-social-sidebar .nav-tab[aria-selected="true"] { background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); color:#03101b; }
+.composer-tabs,.composer-window-controls,.visual-toolbar,.composer-action-row { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; }
+.mode-tab,.visual-toolbar button,.icon-btn { min-height:40px; border:1px solid var(--mail-line); border-radius:.75rem; padding:.45rem .7rem; color:var(--mail-ink); background:rgba(255,255,255,.075); font-weight:900; }
+.mode-tab[aria-pressed="true"],.mode-tab.active { color:#06111d; background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); }
+.visual-toolbar { padding:.55rem; border:1px solid var(--mail-line); border-radius:.9rem; background:rgba(255,255,255,.045); }
+.send-transmission-btn { min-width:min(100%,12rem); padding-inline:1rem; }
+@media (max-width:640px){.send-transmission-btn{width:100%;min-height:52px}}

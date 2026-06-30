@@ -1,0 +1,17 @@
+/* B"H — the colors become vessels, not noise. */
+:root {
+  --ai-chamber-bg: radial-gradient(circle at 12% 0%, rgba(59, 211, 255, .13), transparent 30%), radial-gradient(circle at 87% 8%, rgba(255, 196, 87, .12), transparent 26%), linear-gradient(135deg, #050711, #101522 58%, #090b13);
+  --ai-panel: rgba(9, 14, 27, .82);
+  --ai-panel-soft: rgba(18, 26, 45, .72);
+  --ai-border: rgba(155, 209, 255, .19);
+  --ai-border-hot: rgba(255, 210, 116, .48);
+  --ai-text: #f6edda;
+  --ai-muted: #aab6c9;
+  --ai-cyan: #69e8ff;
+  --ai-gold: #ffd36d;
+  --ai-danger: #ff7b7b;
+  --ai-success: #7dffbd;
+  --ai-radius: 18px;
+  --ai-shadow: 0 18px 50px rgba(0, 0, 0, .34);
+  --ai-focus: 0 0 0 3px rgba(105, 232, 255, .28), 0 0 0 1px rgba(255, 211, 109, .6) inset;
+}

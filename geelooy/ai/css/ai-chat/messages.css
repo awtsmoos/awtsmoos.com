@@ -1,0 +1,13 @@
+/* B"H — messages become inscriptions that still know how to breathe. */
+.chat-box { padding: 1rem; scroll-behavior: smooth; }
+.message, .user-message, .assistant-message, .system-message {
+  border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: .9rem 1rem;
+  background: rgba(255,255,255,.055); box-shadow: 0 10px 28px rgba(0,0,0,.18); color: var(--ai-text);
+}
+.user-message { margin-left: auto; background: linear-gradient(135deg, rgba(105,232,255,.16), rgba(255,255,255,.06)); border-color: rgba(105,232,255,.32); }
+.assistant-message { background: linear-gradient(145deg, rgba(255,211,109,.105), rgba(255,255,255,.052)); border-color: rgba(255,211,109,.22); }
+.system-message { color: var(--ai-muted); background: rgba(255,255,255,.035); font-size: .92rem; }
+.message pre, .assistant-message pre { overflow: auto; border-radius: 14px; border: 1px solid rgba(105,232,255,.18); padding: .85rem; background: #060913; }
+.message code { color: #d7f7ff; }
+.message table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
+.message blockquote { border-left: 3px solid var(--ai-gold); color: var(--ai-muted); margin-left: 0; padding-left: 1rem; }

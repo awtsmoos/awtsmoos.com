@@ -1,13 +1,12 @@
 // B"H
 const path = require('path');
 const { start } = require('./actionGroups/asyncTaskActions.js');
+const Identity = require('../../lib/runtime/processIdentity.js');
 
 /**
  * B"H
  * Chapter 1904: The caller spoke the old name, and the kernel secretly gave it wings.
- *
- * Public actions stay public. Heavy work is automatically moved into a child
- * process, unless the payload explicitly asks for sync/inline/blocking.
+ * Each room/agent now gets its own process identity stamp by default.
  */
 const HEAVY_ACTIONS = new Set([
   'bulk', 'bulkWrite', 'bulkWriteIfHashes', 'actionBatch', 'parallelActionBatch', 'forEachActionBatch',
@@ -28,7 +27,8 @@ function shouldOffload(action, payload = {}) {
 async function offload(config, payload = {}) {
   const action = String(payload.action || 'unknown');
   const child = path.resolve(__dirname, '../../scripts/run-fs-action-child.cjs');
-  const encoded = Buffer.from(JSON.stringify({ ...payload, sync:true, noAutoAsync:true }), 'utf8').toString('base64');
+  const identity = Identity.fromPayload(payload);
+  const encoded = Buffer.from(JSON.stringify({ ...payload, sync:true, noAutoAsync:true, processIdentity:identity }), 'utf8').toString('base64');
   const receipt = await start(config, {
     action:'asyncTaskStart',
     command:process.execPath,
@@ -36,7 +36,9 @@ async function offload(config, payload = {}) {
     cwd:config.root || process.cwd(),
     timeoutMs:payload.timeoutMs || 600000,
     maxOutput:payload.maxOutput || 400000,
-    allowCommands:true
+    allowCommands:true,
+    processIdentity:identity,
+    env:Identity.env(identity)
   });
   return {
     ...receipt,
@@ -45,7 +47,9 @@ async function offload(config, payload = {}) {
     originalAction:action,
     mode:'auto_async_subprocess',
     autoAsync:true,
-    message:`${action} is running in an isolated subprocess. Use wait/status/output payloads.`,
+    processIdentity:identity,
+    osLinks:Identity.osLinks(identity),
+    message:`${action} is running in an isolated subprocess for ${identity.processLabel}. Use wait/status/output payloads.`,
     childResultHint:'stdout contains one JSON object when the child completes.'
   };
 }

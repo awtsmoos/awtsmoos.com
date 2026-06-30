@@ -1,0 +1,16 @@
+/* B"H — each conversation row is a doorway, not a forgotten list item. */
+.sidebar { padding: .75rem; }
+.conversation-list { display: grid; gap: .75rem; }
+#conversation-items { display: grid; gap: .45rem; padding: 0; margin: 0; }
+#conversation-items li {
+  list-style: none; border: 1px solid rgba(255,255,255,.08); border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(105,232,255,.035)); color: var(--ai-text);
+}
+#conversation-items a, #conversation-items button { color: inherit; }
+#conversation-items li:hover { border-color: var(--ai-border-hot); transform: translateY(-1px); }
+#conversation-items .active, #conversation-items [aria-current="true"] { box-shadow: inset 4px 0 0 var(--ai-gold); }
+#conversation-items .is-error { color: var(--ai-danger); border-color: rgba(255,123,123,.42); }
+#conversation-items .is-empty, #conversation-items .is-loading { color: var(--ai-muted); padding: .8rem; }
+.service-selector { display: grid; gap: .35rem; color: var(--ai-muted); }
+.service-selector label { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+.service-selector select { width: 100%; }

@@ -1,16 +1,12 @@
 # B"H
-# B"H Awtsmoos tunnel generated artifacts
+# Awtsmoos tunnel generated artifacts: never commit local tunnel state.
 .awtsmoos/
-.awtsmoos/actions/
-.awtsmoos/actions/results/
-.awtsmoos/previews/
-.awtsmoos/tmp/
-.awtsmoos-tmp/
 .Awtsmoos/
-.Awtsmoos/actions/
-.Awtsmoos/actions/results/
-.Awtsmoos/previews/
-.Awtsmoos/tmp/
+[aA][wW][tT][sS][mM][oO][oO][sS]/
+**/.awtsmoos/
+**/.Awtsmoos/
+**/[aA][wW][tT][sS][mM][oO][oO][sS]/
+.awtsmoos-tmp/
 .Awtsmoos-tmp/
 *.awtsmoos.log
 .awtsmoos.local.json
@@ -18,9 +14,19 @@
 .Awtsmoos.local.json
 .Awtsmoos.config.local.json
 
-# AI planning / generated thought archives
-AI_THOUGHTS/
+# AI planning / generated thought archives: all spellings and nesting.
 ai_thoughts/
+AI_THOUGHTS/
+ai-thoughts/
+AI-THOUGHTS/
+[aA][iI]_[tT][hH][oO][uU][gG][hH][tT][sS]/
+[aA][iI]-[tT][hH][oO][uU][gG][hH][tT][sS]/
+**/ai_thoughts/
+**/AI_THOUGHTS/
+**/ai-thoughts/
+**/AI-THOUGHTS/
+**/[aA][iI]_[tT][hH][oO][uU][gG][hH][tT][sS]/
+**/[aA][iI]-[tT][hH][oO][uU][gG][hH][tT][sS]/
 
 # Runtime mutable app data
 geelooy/.data/
@@ -43,6 +49,37 @@ searchPacked/
 npm-start.log
 command-output/
 
+# Generated test/proof artifacts that should not slow git add.
+geelooy/games/mitzvahWorld/tests/headless/visual-proof/*.png
+geelooy/games/mitzvahWorld/tests/chrome/lastChromeVisualAudit.png
+geelooy/games/mitzvahWorld/tests/headless/long-run/*.json
+geelooy/games/mitzvahWorld/tests/headless/lastNodeDomLivingWorldGameplaySimulation.json
+geelooy/games/mitzvahWorld/tests/chrome/lastChromeGameplayReport.json
+
 # OS/editor noise
 .DS_Store
 Thumbs.db
+
+# Heavy generated browser/game/build proof artifacts
+**/tests/headless/visual-proof/*.png
+**/tests/chrome/*.png
+**/tests/headless/long-run/*.json
+**/lastChrome*.json
+**/lastNodeDom*.json
+**/fullGameplay*.json
+**/visual-proof/manifest.json
+**/reports/*.json
+**/dist/*.exe
+**/*.dSYM/
+**/.parcel-cache/
+**/.vite/
+**/coverage/
+**/.nyc_output/
+
+# Generated runtime/compiler caches
+**/runtime-cache/
+**/runtime-cache/**
+**/execution-plans/*.json
+**/.cache/
+**/tmp/
+**/temp/

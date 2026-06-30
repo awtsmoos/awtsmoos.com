@@ -9,49 +9,165 @@
 </head>
 <body>
 <main class="nesher-shell">
-  <section class="hero">
+  <section id="homeSection" class="hero">
     <div>
-      <p class="eyebrow">B"H / manual WebCodecs studio</p>
+      <p class="eyebrow">B"H / compact manual WebCodecs studio</p>
       <h1>Nesher Studio</h1>
-      <p>Fast manual encoding, richer sources, real crop tools, layers, livestream visualizers, and measurable browser encoding.</p>
+      <p>Choose a room, open only what you need, and keep the stage close.</p>
     </div>
-    <div class="record-controls"><button id="recordButton">Start Recording</button><button id="fmp4StreamButton">Start Generic HLS</button></div>
+    <div class="record-controls">
+      <button id="recordButton">Start Recording</button>
+      <button id="fmp4StreamButton">Start Generic HLS</button>
+    </div>
   </section>
-  <section class="control-grid">
-    <label>Manual Profile <select id="recordingProfile"></select></label><label>Resolution <select id="resolutionPreset"></select></label><label>Aspect <select id="aspectRatio"></select></label><label class="check-row"><input id="aspectLock" type="checkbox" checked /> Lock canvas aspect</label>
-    <label>Width <input id="canvasWidth" type="number" value="1280" min="320" step="16" /></label><label>Height <input id="canvasHeight" type="number" value="720" min="240" step="16" /></label><label>FPS <input id="fps" type="number" value="30" min="1" max="60" /></label><label>Browser URL <input id="iframeUrl" value="https://awtsmoos.com" /></label>
-    <label>Provider <select id="streamProvider"></select></label><button id="applySize">Apply Size</button><button id="swapSize">Swap W/H</button>
+
+  <nav id="topNav" class="nav-rail" aria-label="Studio sections">
+    <button id="navStage">Stage</button>
+    <button id="navSources">Sources</button>
+    <button id="navNle">NLE</button>
+    <button id="navBenchmark">Benchmark</button>
+  </nav>
+
+  <section id="studioPage" class="studio-page">
+  <section class="studio-home" aria-label="Studio home grid">
+    <a class="home-tile home-tile-primary" href="#stageSection">
+      <span>Stage</span><strong>Preview + scenes</strong><em>Open the live canvas and source stack.</em>
+    </a>
+    <a class="home-tile" href="#sourcesSection">
+      <span>Sources</span><strong>Camera, mic, files</strong><em>Open inputs only when needed.</em>
+    </a>
+    <a class="home-tile" href="#streamSection">
+      <span>Live</span><strong>Broadcast health</strong><em>Provider, segments, frames, errors.</em>
+    </a>
+    <a class="home-tile" href="#nleSection" data-page-target="nle">
+      <span>NLE</span><strong>Timeline editor</strong><em>Tracks, clips, markers, export.</em>
+    </a>
+    <a class="home-tile" href="#studioSettings">
+      <span>Setup</span><strong>Canvas + profile</strong><em>Resolution, FPS, aspect, URL.</em>
+    </a>
+    <a class="home-tile" href="#benchmarkCard" data-page-target="nle">
+      <span>Bench</span><strong>Encoding lab</strong><em>Measure browser performance.</em>
+    </a>
   </section>
-  <section class="source-toolbar">
-    <button id="addMonitor">Monitor + Audio</button><button id="addDisplay">Tab/Window + Audio</button><button id="addDisplayVideo">Display Video Only</button><button id="addDisplayAudio">Display Audio Only</button><button id="addWebcam">Webcam + Mic</button><button id="addWebcamVideo">Webcam Video</button><button id="addMic">Mic Audio</button><button id="addAudioVisualizer">Livestream Visualizer</button>
-    <label class="toolbar-select">Visualizer Family <select id="visualizerFamily"></select></label><button id="addVisualizerFamily">Add Family Visualizer</button><button id="addCanvas">2D Canvas</button><button id="addBrowser">Browser</button><button id="addIframe">Iframe</button><button id="addImage">Image</button><button id="addVideoFile">Video File</button><button id="addAudioFile">Audio File</button>
-    <input id="imageFile" type="file" accept="image/*" hidden /><input id="videoFile" type="file" accept="video/*" hidden /><input id="audioFile" type="file" accept="audio/*" hidden />
+
+  <section class="stream-health status-compact" aria-label="Recording status">
+    <div><span>Recording</span><strong id="recordPhase">Idle</strong></div>
+    <div><span>Elapsed</span><strong id="recordElapsed">00:00</strong></div>
+    <div><span>Frames</span><strong id="recordFrames">0</strong></div>
+    <div><span>Errors</span><strong id="recordErrors">0</strong></div>
+    <p id="recordNote">Manual WebCodecs recorder is idle.</p>
   </section>
-  <section class="stream-health" aria-label="Streaming health">
-    <div><span>Provider</span><strong id="streamProviderName">Generic HLS</strong></div><div><span>Codec path</span><strong id="streamCodec">H.264 + AAC MPEG-TS HLS</strong></div><div><span>State</span><strong id="streamState">Idle</strong></div><div><span>Session</span><strong id="streamSession">—</strong></div><div><span>Frames</span><strong id="streamFrames">0</strong></div><div><span>Segments</span><strong id="streamSegments">0</strong></div><div><span>Uploaded</span><strong id="streamUploaded">0 B</strong></div><div><span>Errors</span><strong id="streamErrors">0</strong></div>
-    <p id="providerNote">Manual recording path uses WebCodecs encoders and WebM muxing only.</p>
-  </section>
-  <section class="studio-grid">
-    <aside class="scene-panel"><h2>Scenes</h2><ol id="sceneList"></ol><button id="addScene">New Scene</button><button id="duplicateScene">Duplicate Scene</button></aside>
+
+  <details id="studioSettings" class="studio-drawer settings-drawer">
+    <summary>Studio setup <span>profile, canvas, FPS, URL, provider</span></summary>
+    <section class="control-grid">
+      <label>Manual Profile <select id="recordingProfile"></select></label>
+      <label>Resolution <select id="resolutionPreset"></select></label>
+      <label>Aspect <select id="aspectRatio"></select></label>
+      <label class="check-row"><input id="aspectLock" type="checkbox" checked /> Lock canvas aspect</label>
+      <label>Width <input id="canvasWidth" type="number" value="1280" min="320" step="16" /></label>
+      <label>Height <input id="canvasHeight" type="number" value="720" min="240" step="16" /></label>
+      <label>FPS <input id="fps" type="number" value="30" min="1" max="60" /></label>
+      <label>Browser URL <input id="iframeUrl" value="https://awtsmoos.com" /></label>
+      <label>Provider <select id="streamProvider"></select></label>
+      <button id="applySize">Apply Size</button>
+      <button id="swapSize">Swap W/H</button>
+    </section>
+  </details>
+
+  <details id="sourcesSection" class="studio-drawer source-drawer">
+    <summary>Sources + audio <span>inputs are collapsed until you call them</span></summary>
+    <section class="source-toolbar">
+      <button id="addMonitor">Monitor + Audio</button>
+      <button id="addDisplay">Tab/Window + Audio</button>
+      <button id="addDisplayVideo">Display Video Only</button>
+      <button id="addDisplayAudio">Display Audio Only</button>
+      <button id="addWebcam">Webcam + Mic</button>
+      <button id="addWebcamVideo">Webcam Video</button>
+      <button id="addMic">Mic Audio</button>
+      <button id="addAudioVisualizer">Livestream Visualizer</button>
+      <label class="toolbar-select">Visualizer Family <select id="visualizerFamily"></select></label>
+      <button id="addVisualizerFamily">Add Family Visualizer</button>
+      <button id="addCanvas">2D Canvas</button>
+      <button id="addBrowser">Browser</button>
+      <button id="addIframe">Iframe</button>
+      <button id="addImage">Image</button>
+      <button id="addVideoFile">Video File</button>
+      <button id="addAudioFile">Audio File</button>
+      <input id="imageFile" type="file" accept="image/*" hidden />
+      <input id="videoFile" type="file" accept="video/*" hidden />
+      <input id="audioFile" type="file" accept="audio/*" hidden />
+    </section>
+  </details>
+
+  <details id="streamSection" class="studio-drawer stream-drawer">
+    <summary>Streaming health <span>HLS/provider rack</span></summary>
+    <section class="stream-health" aria-label="Streaming health">
+      <div><span>Provider</span><strong id="streamProviderName">Generic HLS</strong></div>
+      <div><span>Codec path</span><strong id="streamCodec">H.264 + AAC MPEG-TS HLS</strong></div>
+      <div><span>State</span><strong id="streamState">Idle</strong></div>
+      <div><span>Session</span><strong id="streamSession">—</strong></div>
+      <div><span>Frames</span><strong id="streamFrames">0</strong></div>
+      <div><span>Segments</span><strong id="streamSegments">0</strong></div>
+      <div><span>Uploaded</span><strong id="streamUploaded">0 B</strong></div>
+      <div><span>Errors</span><strong id="streamErrors">0</strong></div>
+      <p id="providerNote">Any endpoint accepting HLS media playlists + TS segments.</p>
+    </section>
+  </details>
+
+  <section id="stageSection" class="studio-grid">
+    <aside class="scene-panel">
+      <h2>Scenes</h2><ol id="sceneList"></ol>
+      <button id="addScene">New Scene</button><button id="duplicateScene">Duplicate Scene</button>
+    </aside>
     <div class="stage-wrap"><canvas id="stage"></canvas></div>
     <aside class="right-panel">
       <h2>Sources</h2><ol id="sourceList"></ol>
-      <div class="layer-buttons"><button id="layerTop">To Top</button><button id="layerUp">Up</button><button id="layerDown">Down</button><button id="layerBottom">To Bottom</button><button id="duplicateSource">Duplicate</button><button id="removeSource">Remove</button></div>
-      <section class="inspector"><h2 id="inspectorName">No source selected</h2><p id="inspectorMeta">Click a source to edit crop and transform.</p>
-        <div id="transformControls" class="transform-panel"><h3>Canvas Tool</h3><div class="tool-pills"><button id="stageToolTransform">Transform Tool</button><button id="stageToolCrop">Crop Tool</button></div><label class="check-row"><input id="sourceLockAspect" type="checkbox" checked /> Keep source aspect while scaling</label><label>Scale % <input id="sourceScale" type="number" min="5" max="500" step="1" value="100" /></label><div class="quick-actions"><button id="fitSource">Fit Canvas</button><button id="fillSource">Fill Canvas</button><button id="centerSource">Center</button><button id="resetTransform">Reset Transform</button></div></div>
-        <div id="cropControls" class="crop-grid"><h3>Crop</h3><label>L <input id="cropLeft" type="number" min="0" max="90" value="0" /></label><label>T <input id="cropTop" type="number" min="0" max="90" value="0" /></label><label>R <input id="cropRight" type="number" min="0" max="90" value="0" /></label><label>B <input id="cropBottom" type="number" min="0" max="90" value="0" /></label><button id="cropReset">Reset Crop</button></div>
-        <div id="visualizerControls" class="visualizer-panel" hidden><h3>Audio Visualizer</h3><label>Preset <select id="visualizerPreset"></select></label><label>Input <select id="visualizerInput"></select></label><label>Sensitivity <input id="visualizerSensitivity" type="range" min="0.2" max="4" step="0.05" /></label><label>Bars <input id="visualizerBars" type="number" min="8" max="96" step="1" /></label><label>Hebrew Text <input id="visualizerText" /></label><label>Custom JS <textarea id="visualizerCustomJs" rows="6" spellcheck="false"></textarea></label><button id="visualizerReset">Reset Visualizer</button></div>
+      <div class="layer-buttons">
+        <button id="layerTop">To Top</button><button id="layerUp">Up</button>
+        <button id="layerDown">Down</button><button id="layerBottom">To Bottom</button>
+        <button id="duplicateSource">Duplicate</button><button id="removeSource">Remove</button>
+      </div>
+      <section class="inspector">
+        <h2 id="inspectorName">No source selected</h2><p id="inspectorMeta">Click a source to edit crop and transform.</p>
+        <div id="transformControls" class="transform-panel">
+          <h3>Canvas Tool</h3><div class="tool-pills"><button id="stageToolTransform">Transform Tool</button><button id="stageToolCrop">Crop Tool</button></div>
+          <label class="check-row"><input id="sourceLockAspect" type="checkbox" checked /> Keep source aspect while scaling</label>
+          <label>Scale % <input id="sourceScale" type="number" min="5" max="500" step="1" value="100" /></label>
+          <div class="quick-actions"><button id="fitSource">Fit Canvas</button><button id="fillSource">Fill Canvas</button><button id="centerSource">Center</button><button id="resetTransform">Reset Transform</button></div>
+        </div>
+        <div id="cropControls" class="crop-grid">
+          <h3>Crop</h3><label>L <input id="cropLeft" type="number" min="0" max="90" value="0" /></label><label>T <input id="cropTop" type="number" min="0" max="90" value="0" /></label>
+          <label>R <input id="cropRight" type="number" min="0" max="90" value="0" /></label><label>B <input id="cropBottom" type="number" min="0" max="90" value="0" /></label>
+          <div class="quick-actions"><button id="cropWide">16:9</button><button id="cropVertical">9:16</button><button id="cropSquare">1:1</button><button id="cropCenterSafe">Center Safe</button><button id="cropClear">Clear Crop</button><button id="cropReset">Reset Crop</button></div>
+        </div>
+        <div id="visualizerControls" class="visualizer-panel" hidden>
+          <h3>Audio Visualizer</h3><label>Preset <select id="visualizerPreset"></select></label><label>Input <select id="visualizerInput"></select></label>
+          <label>Sensitivity <input id="visualizerSensitivity" type="range" min="0.2" max="4" step="0.05" /></label><label>Bars <input id="visualizerBars" type="number" min="8" max="96" step="1" /></label>
+          <label>Hebrew Text <input id="visualizerText" /></label><label>Custom JS <textarea id="visualizerCustomJs" rows="6" spellcheck="false"></textarea></label><button id="visualizerReset">Reset Visualizer</button>
+        </div>
       </section>
       <p id="status">Ready. Click empty canvas to deselect.</p><h2>Recordings</h2><div id="downloadList" class="download-list"><p>Finished manual files stay here.</p></div>
     </aside>
   </section>
-  <section class="nle-panel" aria-label="Non-linear editor">
+
+  </section>
+
+  <section id="nleSection" class="nle-page nle-panel" aria-label="Non-linear editor" hidden>
+    <header class="page-kicker">
+      <div>
+        <p class="eyebrow">Dedicated NLE page</p>
+        <h2>Timeline Editor</h2>
+        <p>Clips, tracks, markers, export, and benchmark live here away from the studio dashboard.</p>
+      </div>
+      <button id="backToStudio">Back to Studio</button>
+    </header>
     <div><h2>Media Bin</h2><ol id="nleBin"></ol><button id="addBinAsset">Add Generated Asset</button></div>
-    <div><h2>Timeline</h2><ol id="nleTimeline"></ol><p id="nleSelectionSummary">No timeline clip selected.</p><div class="nle-actions"><button id="addTimelineClip">Add Selected</button><button id="splitClip">Split Clip</button><button id="trimClipShorter">Trim -1s</button><button id="nudgeClipLeft">Nudge -1s</button><button id="nudgeClipRight">Nudge +1s</button><button id="moveClipTrack">Move Track</button><button id="duplicateClip">Duplicate</button><button id="snapClipPrev">Snap Prev</button><button id="snapClipNext">Snap Next</button><button id="fadeClip">Fade 1s</button><button id="toggleClipMute">Mute</button><button id="toggleClipDisabled">Disable</button><button id="addMarker">Add Marker</button><button id="rippleDeleteClip">Ripple Delete</button></div></div>
+    <div><h2>Timeline</h2><ol id="nleTimeline"></ol><p id="nleSelectionSummary">No timeline clip selected.</p><div class="nle-actions"><button id="nleJumpStart">⏮ Start</button><button id="nlePlayheadBack">◀ 1s</button><button id="nlePlayheadForward">1s ▶</button><button id="nleJumpEnd">End ⏭</button><button id="nleZoomOut">Zoom −</button><button id="nleZoomIn">Zoom +</button><button id="addTimelineClip">Add Selected</button><button id="splitClip">Split Clip</button><button id="trimClipShorter">Trim -1s</button><button id="nudgeClipLeft">Nudge -1s</button><button id="nudgeClipRight">Nudge +1s</button><button id="moveClipTrack">Move Track</button><button id="duplicateClip">Duplicate</button><button id="snapClipPrev">Snap Prev</button><button id="snapClipNext">Snap Next</button><button id="fadeClip">Fade 1s</button><button id="toggleClipMute">Mute</button><button id="toggleClipDisabled">Disable</button><button id="addMarker">Add Marker</button><button id="rippleDeleteClip">Ripple Delete</button></div></div>
     <div><h2>WebCodecs Export</h2><p id="nleExport"></p><button id="prepareExport">Render MP4 Preview + Probe WebCodecs</button></div>
-    <div><h2>Encoding Benchmark</h2><p>Encode a bouncing ball with browser WebCodecs and grade its realtime value.</p><div class="benchmark-buttons"><button id="runSmokeEncodingBenchmark">Fast Smoke Benchmark</button><button id="runEncodingBenchmark">Run Full Benchmark</button></div><pre id="encodingBenchmarkOutput">No benchmark yet.</pre></div>
+    <div id="benchmarkCard"><h2>Encoding Benchmark</h2><p>Encode a bouncing ball with browser WebCodecs and grade realtime value.</p><div class="benchmark-buttons"><button id="runSmokeEncodingBenchmark">Fast Smoke Benchmark</button><button id="runEncodingBenchmark">Run Full Benchmark</button></div><pre id="encodingBenchmarkOutput">No benchmark yet.</pre></div>
   </section>
 </main>
-<script type="module" src="./main.js?v=next-nesher-editor-tools"></script>
+<script type="module" src="./main.js?v=recording-resurrection"></script>
 </body>
 </html>

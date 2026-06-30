@@ -1,0 +1,13 @@
+/* B"H — the small screen remains a complete instrument. */
+@media (max-width: 820px) {
+  body { overflow-x: hidden; }
+  .container { display: block; padding-bottom: 74px; }
+  .main, .sidebar, .automation-panel { border-radius: 0; min-height: auto; }
+  .sidebar { max-height: 45vh; overflow: auto; }
+  .chat-box { padding: .75rem; }
+  .input-area { position: sticky; bottom: 72px; z-index: 10; margin: .45rem; }
+  #message-input { max-height: 32vh; font-size: 16px; }
+  .message, .user-message, .assistant-message { max-width: 100%; }
+  .mobile-bottom-dock { backdrop-filter: blur(14px); background: rgba(5,8,16,.88); border-top: 1px solid var(--ai-border); }
+  .mobile-bottom-dock em { font-style: normal; font-size: .68rem; }
+}

@@ -1,0 +1,16 @@
+/* B"H — the composer is the command altar. */
+.input-area {
+  margin: .75rem; padding: .55rem; border: 1px solid rgba(255,211,109,.24); border-radius: 22px;
+  background: linear-gradient(135deg, rgba(6,10,20,.92), rgba(18,27,43,.88)); box-shadow: 0 -14px 40px rgba(0,0,0,.2);
+}
+#message-input {
+  min-height: 52px; max-height: min(34vh, 260px); color: var(--ai-text); caret-color: var(--ai-cyan);
+  background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: .85rem;
+}
+#message-input::placeholder { color: rgba(246,237,218,.52); }
+.attachment-tools { margin: 0 .8rem .8rem; display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.attach-button, .attachment-tray > * {
+  border: 1px solid rgba(105,232,255,.22); border-radius: 999px; padding: .45rem .7rem;
+  background: rgba(105,232,255,.08); color: var(--ai-text);
+}
+.composer-resizer { background: linear-gradient(90deg, transparent, rgba(255,211,109,.3), transparent); }

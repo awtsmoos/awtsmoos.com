@@ -1,19 +1,21 @@
 //B"H
 /**
- * Notification Center Architecture.
- * A thousand bells may ring, yet the Awtsmoos gives each bell a measured page,
- * a read state, an archive gate, and a query where "all" truly means all.
+ * @module NotificationCenter
+ * @description Chapter 650: every bell receives a unique name before it rings.
+ * Notifications keep pagination, read/archive/delete states, preferences, and
+ * mirrors, while tight creation loops can no longer overwrite same-path notes.
  */
 const { sp } = require('./_awtsmoos.constants.js');
 const { er } = require('./general.js');
 const { put } = require('./awtsmoosDb/shardStore.js');
 const { clampPagination } = require('./community/pagination.js');
 const NOTIFICATION_TYPES = ['submission_created','submission_approved','submission_rejected','comment','comment_approved','comment_rejected','mention','reply','moderator_action','admin_action','invitation','series_updated','post_edited','new_follower','alias_event','mail_event','heichel_announcement','system','answer','repost','share','approval','chat'];
+let noteSeq = 0;
 function clean(value, fallback = '') { return String(value || fallback).trim(); }
 function root(aliasId) { return `${sp}/aliases/${aliasId}/notifications`; }
-function path(aliasId, id) { return `${root(aliasId)}/${id}`; }
+function path(aliasId, noteId) { return `${root(aliasId)}/${noteId}`; }
 function prefsPath(aliasId) { return `${sp}/aliases/${aliasId}/notificationPreferences`; }
-function id(type) { return `BH_note_${type}_${Date.now()}_${Math.floor(Math.random() * 10000)}`; }
+function id(type) { noteSeq = (noteSeq + 1) % Number.MAX_SAFE_INTEGER; return `BH_note_${type}_${Date.now()}_${process.hrtime.bigint().toString(36)}_${noteSeq.toString(36)}_${Math.random().toString(36).slice(2, 8)}`; }
 function kind(type) { const value = clean(type || 'system'); return NOTIFICATION_TYPES.includes(value) ? value : 'system'; }
 function typeFilter(value) { const text = clean(value).toLowerCase(); return !text || ['all', 'any', '*'].includes(text) ? '' : kind(text); }
 function mirror(record) { try { return put({ shard: 'notify', parts: ['notifications', record.toAliasId, record.id], value: record, meta: { kind: 'notification', type: record.type, toAliasId: record.toAliasId } }); } catch (error) { return { ok: false, mirrorError: error.message }; } }

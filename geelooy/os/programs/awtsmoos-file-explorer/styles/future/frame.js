@@ -1,0 +1,5 @@
+// B"H
+export default /*css*/`
+.file-explorer{background:linear-gradient(135deg,rgba(4,12,25,.94),rgba(13,42,78,.92));color:var(--awt-text);font-family:var(--awt-font);overflow:hidden}.file-explorer::before{display:none}.file-explorer-header,.drive-shelf,.selection-action-bar,.path-bar-container,.xp-status-strip{background:var(--awt-panel);border:1px solid var(--awt-line);box-shadow:0 12px 36px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.13);backdrop-filter:blur(18px);border-radius:var(--awt-radius);color:var(--awt-text)}.file-explorer-header{margin:6px;padding:7px;gap:8px}.file-explorer-content{background:transparent;min-height:0}.file-explorer-body{background:rgba(255,255,255,.06);border:1px solid var(--awt-line);border-radius:20px;margin:0 6px 6px 0;box-shadow:inset 0 1px rgba(255,255,255,.1);color:var(--awt-text);min-height:0}
+`;
+/** B"H: the Explorer shell is a glass vessel, not a CSS battlefield. */

@@ -1,3 +1,0 @@
-B'H
-# Finish Every Promised File Plan
-Remaining promised files must be touched now: Botanical, Ecology, VillageTreeField, VillageHeroTree, collision, and player-facing update. Plan: full rewrite each with concrete cohesion. Botanical imports shared road spine/masks and writes road clearings. Ecology imports ecologyKind/roadMask and varies props by zone, fixes grounding. VillageTreeField increases landmark/atlas complexity and fruit/roots. VillageHeroTree grounds/scales and marks no raycast. Collision consumes interactionLayers registry first. update.js aligns model facing from movement vector after physics tick.

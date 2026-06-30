@@ -7,6 +7,7 @@ import { createBin } from './nle/bin.js';
 import { createTimeline, addClip } from './nle/timeline.js';
 import { createExportPlan } from './nle/exportPlan.js';
 import { createProject, addProjectAsset, addProjectSequence, commitProject } from './project/Project.js';
+import { createRecordingSessionState } from './recording/session/RecordingSessionState.js';
 
 export function createState() {
   const first = makeScene('scene-main', 'Scene 1');
@@ -22,7 +23,8 @@ export function createState() {
     quality:.62, maxCacheFrames:10, recordingProfile:'speed-vp8', scenes:project.scenes,
     currentSceneId:project.currentSceneId, selectedId:null, drag:null, recording:false,
     worker:null, frameTimer:null, startedAt:0, lastFrameTime:0, audioCapture:null,
-    activeRecorder:null, providerId:project.streaming.providerId, bin, timeline, exportPlan:null,
+    activeRecorder:null, recordingSession:createRecordingSessionState(), providerId:project.streaming.providerId,
+    bin, timeline, exportPlan:null,
     get sources() { return currentScene(this).sources; },
     get selection() { return project.selection; },
     commit(label = 'change') { return commitProjectState(this, label); }

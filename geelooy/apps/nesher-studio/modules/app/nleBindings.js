@@ -1,5 +1,6 @@
 /* B"H
- * NLE bindings: bin, edit, transport, zoom, export, and selection.
+ * NLE bindings: every control is wired when present, and partial test DOMs stay honest.
+ * A timeline can breathe even before every button has descended into the page.
  */
 import { addAsset, selectAsset, selectedAsset } from '../nle/bin.js';
 import { exportTimelinePreviewMp4 } from '../nle/browserExport.js';
@@ -8,36 +9,38 @@ import { renderNle } from '../nle/renderNle.js';
 import { addClip, selectClip } from '../nle/timeline.js';
 import { addTimelineMarker, duplicateSelectedClip, jumpPlayhead, movePlayhead, moveSelectedClipToNextTrack, nudgeSelectedClip, rippleDeleteSelectedClip, setSelectedClipFades, snapSelectedClip, splitSelectedClip, timelineCommandSummary, toggleSelectedClipDisabled, toggleSelectedClipMute, trimSelectedClipBy, zoomTimeline } from '../nle/timelineCommands.js';
 
-export function bindNleControls({ dom, state, setStatus }) {
-  dom.addBinAsset.onclick = () => addGeneratedAsset({ dom, state, setStatus }); dom.addTimelineClip.onclick = () => addSelectedClip({ dom, state, setStatus });
-  dom.prepareExport.onclick = () => runExportProbe({ dom, state, setStatus }); dom.nleBin.onclick = event => selectBinFromEvent({ dom, state, event, setStatus });
-  dom.nleTimeline.onclick = event => selectClipFromEvent({ dom, state, event, setStatus }); bindEditButtons({ dom, state, setStatus }); bindTransportButtons({ dom, state, setStatus });
+export function bindNleControls(v) {
+  const { dom } = v;
+  on(dom.addBinAsset, () => addGeneratedAsset(v)); on(dom.addTimelineClip, () => addSelectedClip(v));
+  on(dom.prepareExport, () => runExportProbe(v)); on(dom.nleBin, event => selectBinFromEvent({ ...v, event }));
+  on(dom.nleTimeline, event => selectClipFromEvent({ ...v, event })); bindEditButtons(v); bindTransportButtons(v);
 }
 function bindEditButtons(v) {
-  const b = v.dom;
-  b.splitClip.onclick = () => runEdit({ ...v, action:() => splitSelectedClip(v.state.timeline), message:'Clip split.' });
-  b.trimClipShorter.onclick = () => runEdit({ ...v, action:() => trimSelectedClipBy(v.state.timeline, -1), message:'Clip trimmed.' });
-  b.nudgeClipLeft.onclick = () => runEdit({ ...v, action:() => nudgeSelectedClip(v.state.timeline, -1), message:'Clip nudged left.' });
-  b.nudgeClipRight.onclick = () => runEdit({ ...v, action:() => nudgeSelectedClip(v.state.timeline, 1), message:'Clip nudged right.' });
-  b.moveClipTrack.onclick = () => runEdit({ ...v, action:() => moveSelectedClipToNextTrack(v.state.timeline), message:'Clip moved track.' });
-  b.rippleDeleteClip.onclick = () => runEdit({ ...v, action:() => rippleDeleteSelectedClip(v.state.timeline), message:'Clip ripple deleted.' });
-  b.duplicateClip.onclick = () => runEdit({ ...v, action:() => duplicateSelectedClip(v.state.timeline), message:'Clip duplicated.' });
-  b.snapClipPrev.onclick = () => runEdit({ ...v, action:() => snapSelectedClip(v.state.timeline, 'previous'), message:'Clip snapped previous.' });
-  b.snapClipNext.onclick = () => runEdit({ ...v, action:() => snapSelectedClip(v.state.timeline, 'next'), message:'Clip snapped next.' });
-  b.fadeClip.onclick = () => runEdit({ ...v, action:() => setSelectedClipFades(v.state.timeline, 1, 1), message:'Clip fades set.' });
-  b.toggleClipMute.onclick = () => runEdit({ ...v, action:() => toggleSelectedClipMute(v.state.timeline), message:'Clip mute toggled.' });
-  b.toggleClipDisabled.onclick = () => runEdit({ ...v, action:() => toggleSelectedClipDisabled(v.state.timeline), message:'Clip disable toggled.' });
-  b.addMarker.onclick = () => runEdit({ ...v, action:() => addTimelineMarker(v.state.timeline, { label:`Marker ${(v.state.timeline.markers?.length || 0) + 1}` }), message:'Timeline marker added.' });
+  const b = v.dom, run = (el, action, message) => on(el, () => runEdit({ ...v, action, message }));
+  run(b.splitClip, () => splitSelectedClip(v.state.timeline), 'Clip split.');
+  run(b.trimClipShorter, () => trimSelectedClipBy(v.state.timeline, -1), 'Clip trimmed.');
+  run(b.nudgeClipLeft, () => nudgeSelectedClip(v.state.timeline, -1), 'Clip nudged left.');
+  run(b.nudgeClipRight, () => nudgeSelectedClip(v.state.timeline, 1), 'Clip nudged right.');
+  run(b.moveClipTrack, () => moveSelectedClipToNextTrack(v.state.timeline), 'Clip moved track.');
+  run(b.rippleDeleteClip, () => rippleDeleteSelectedClip(v.state.timeline), 'Clip ripple deleted.');
+  run(b.duplicateClip, () => duplicateSelectedClip(v.state.timeline), 'Clip duplicated.');
+  run(b.snapClipPrev, () => snapSelectedClip(v.state.timeline, 'previous'), 'Clip snapped previous.');
+  run(b.snapClipNext, () => snapSelectedClip(v.state.timeline, 'next'), 'Clip snapped next.');
+  run(b.fadeClip, () => setSelectedClipFades(v.state.timeline, 1, 1), 'Clip fades set.');
+  run(b.toggleClipMute, () => toggleSelectedClipMute(v.state.timeline), 'Clip mute toggled.');
+  run(b.toggleClipDisabled, () => toggleSelectedClipDisabled(v.state.timeline), 'Clip disable toggled.');
+  run(b.addMarker, () => addTimelineMarker(v.state.timeline, { label:`Marker ${(v.state.timeline.markers?.length || 0) + 1}` }), 'Timeline marker added.');
 }
 function bindTransportButtons(v) {
-  const b = v.dom;
-  b.nleJumpStart.onclick = () => runTransport({ ...v, action:() => jumpPlayhead(v.state.timeline, 'start'), message:'Playhead to start.' });
-  b.nleJumpEnd.onclick = () => runTransport({ ...v, action:() => jumpPlayhead(v.state.timeline, 'end'), message:'Playhead to end.' });
-  b.nlePlayheadBack.onclick = () => runTransport({ ...v, action:() => movePlayhead(v.state.timeline, -1), message:'Playhead back 1s.' });
-  b.nlePlayheadForward.onclick = () => runTransport({ ...v, action:() => movePlayhead(v.state.timeline, 1), message:'Playhead forward 1s.' });
-  b.nleZoomOut.onclick = () => runTransport({ ...v, action:() => zoomTimeline(v.state.timeline, -.25), message:'Timeline zoomed out.' });
-  b.nleZoomIn.onclick = () => runTransport({ ...v, action:() => zoomTimeline(v.state.timeline, .25), message:'Timeline zoomed in.' });
+  const b = v.dom, run = (el, action, message) => on(el, () => runTransport({ ...v, action, message }));
+  run(b.nleJumpStart, () => jumpPlayhead(v.state.timeline, 'start'), 'Playhead to start.');
+  run(b.nleJumpEnd, () => jumpPlayhead(v.state.timeline, 'end'), 'Playhead to end.');
+  run(b.nlePlayheadBack, () => movePlayhead(v.state.timeline, -1), 'Playhead back 1s.');
+  run(b.nlePlayheadForward, () => movePlayhead(v.state.timeline, 1), 'Playhead forward 1s.');
+  run(b.nleZoomOut, () => zoomTimeline(v.state.timeline, -.25), 'Timeline zoomed out.');
+  run(b.nleZoomIn, () => zoomTimeline(v.state.timeline, .25), 'Timeline zoomed in.');
 }
+function on(el, handler) { if (el) el.onclick = handler; }
 function addGeneratedAsset({ dom, state, setStatus }) { const asset = addAsset(state.bin, { name:`Generated scene ${state.bin.assets.length + 1}`, kind:'generated', duration:6 }); renderNle(state, dom); setStatus(`${asset.name} selected in media bin.`); }
 function addSelectedClip({ dom, state, setStatus }) { const asset = selectedAsset(state.bin); if (!asset) return setStatus('No asset selected.'); const clip = addClip(state.timeline, { assetId:asset.id, name:asset.name, duration:Math.min(8, asset.duration || 4) }); renderNle(state, dom); setStatus(`${clip.name} placed at ${clip.start}s.`); }
 function selectBinFromEvent({ dom, state, event, setStatus }) { const id = event.target.closest('[data-asset-id]')?.dataset.assetId; if (!id) return; const asset = selectAsset(state.bin, id); renderNle(state, dom); setStatus(`${asset.name} selected.`); }

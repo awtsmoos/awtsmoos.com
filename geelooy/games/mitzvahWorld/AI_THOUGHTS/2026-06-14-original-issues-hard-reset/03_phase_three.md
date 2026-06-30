@@ -1,3 +1,0 @@
-B'H
-# Phase Three: Hard Fix Order
-1. Read git history exactly for movement from around three weeks ago, then rewrite current movement files toward that proven logic, not guessed vector hacks. 2. Add explicit animal target proxy meshes that are raycastable and not skipRaycast, with interactionLayer explicit-interaction and combatTarget refs. 3. Kill old tree visual emitters by replacing any simple sphere/cylinder blob tree sources with complex-only or disabling their output. 4. Make grass texture visibly applied by ensuring materials/texture paths actually use awtsmoostex grass or generated CanvasTexture, not only material colors. 5. Loading: force hide after 100/ready and stop logging endless worker silent after vessel ready. Verify with syntax and targeted greps.
