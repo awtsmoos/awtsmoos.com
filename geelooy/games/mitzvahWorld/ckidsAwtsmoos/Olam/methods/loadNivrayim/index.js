@@ -7,7 +7,7 @@ import instantiate from "./instantiateMezuzahDirect.js?v=village-polish-20260612
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 import { diagEvent, installDiagnosticsNotice } from "../../../utils/AwtsmoosDiagnostics.js?v=village-diagnostics-20260612-bh2";
-import { scheduleVillageGrounding } from "./villageGrounding.js?v=village-grounding-law-20260612-bh1";
+import { scheduleVillageGrounding } from "./villageGrounding.js?v=final-colliders-after-settle-20260609-bh571";
 import { applyEntryRuntime } from "./entryRuntime/applyEntryRuntime.js";
 import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=fps-guardian-full-gameplay-20260622-bh1";
 import { postWorkerProgress } from "../../oyved/core/protocol/WorkerProtocol.js";

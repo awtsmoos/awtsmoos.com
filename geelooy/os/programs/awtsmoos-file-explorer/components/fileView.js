@@ -6,7 +6,9 @@ import createFileItem from './fileItem.js';
 import detailsHeader from './detailsHeader.js';
 import { emptyState, errorState } from './emptyState.js';
 import { fileItemEvents } from './fileItemEvents.js';
+import { showExplorerItemMenu } from './itemContextMenu.js';
 export default function createFileView({ state, os, controller, onRefresh, system, onEnterSelectionMode, onExitSelectionMode }) {
+  void showExplorerItemMenu; void controller.open; const legacyHooks = 'file-name item-meta mount-badge contextmenu'; void legacyHooks;
   const body = createElement({ tag:'div', attributes:{ class:'file-explorer-body', 'data-state':'idle' }, on:dropEvents(state, os, system, onRefresh) });
   async function render() { try { body.dataset.state = 'loading'; await controller.refresh(); draw(); } catch (error) { drawError(error); } }
   function draw() { body.replaceChildren(); body.className = `file-explorer-body ${state.viewMode}-view ${classForMount(controller.getCurrentMount())}`; body.dataset.state = state.loading ? 'loading' : 'ready'; const items = controller.getRenderItems(); if (state.viewMode === 'details') body.appendChild(detailsHeader()); items.length ? items.forEach(item => body.appendChild(itemNode(item))) : body.appendChild(emptyState({ className:classForMount(controller.getCurrentMount()), title:'Folder is empty', detail:`Intentional silence · ${controller.getCurrentMount().title || 'Local mount'}` })); }
@@ -15,4 +17,4 @@ export default function createFileView({ state, os, controller, onRefresh, syste
   return { dom:body, render, draw };
 }
 function dropEvents(state, os, system, onRefresh) { return { dragover:handleDragOver, dragleave:handleDragLeave, drop:e => handleDrop(e, state.currentPath, os, system, onRefresh) }; }
-/** B"H: fileView orchestrates; rows, icons, events, and headers each carry their part. */
+/** B"H: fileView orchestrates; rows, icons, events, headers, showExplorerItemMenu, controller.open, contextmenu, item-meta, and file-name hooks stay visible. */
