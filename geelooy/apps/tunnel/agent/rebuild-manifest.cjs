@@ -4,30 +4,19 @@ const path = require("path");
 
 /**
  * B"H
- * Chapter 628: The manifest learned to carry only living vessels.
- * Split browser and AwtsmoosDB travel with the installed agent, while backups,
- * tests, smoke scraps, and old husks remain behind in the source wilderness.
+ * Chapter 628: The manifest learned to rebuild itself without drama.
+ * If the file list is unchanged, the version stays still. If vessels changed,
+ * the version rises automatically and no human needs to remember the ritual.
  */
 const ROOT = __dirname;
 const REPO_ROOT = path.resolve(ROOT, "../../../..");
 const OUT = path.join(ROOT, "manifest.txt");
 const SKIP_DIRS = new Set(["node_modules", ".git", ".awtsmoos", ".cache", "testing", "test", "tests", "__MACOSX"]);
-const SKIP_NAMES = new Set([
-  "manifest.txt",
-  ".DS_Store",
-  ".AppleDouble",
-  ".LSOverride",
-  ".Spotlight-V100",
-  ".TemporaryItems",
-  ".Trashes",
-  ".VolumeIcon.icns",
-  ".fseventsd"
-]);
+const SKIP_NAMES = new Set(["manifest.txt", ".DS_Store", ".AppleDouble", ".LSOverride", ".Spotlight-V100", ".TemporaryItems", ".Trashes", ".VolumeIcon.icns", ".fseventsd"]);
 const EXTERNAL_DIRS = [
   { source: path.join(REPO_ROOT, "geelooy/ai/relay/split-browser"), dest: "ai/relay/split-browser" },
   { source: path.join(REPO_ROOT, "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB"), dest: "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB" }
 ];
-
 function slash(value) { return String(value || "").replace(/\\/g, "/"); }
 function pathSegments(value) { return slash(value).split("/").filter(Boolean); }
 function isMacMetadataName(name) { return name === ".DS_Store" || name.startsWith("._"); }
@@ -39,17 +28,16 @@ function shouldSkipManifestPath(value) {
   if (!segments.length) return true;
   return segments.some(segment => SKIP_DIRS.has(segment) || SKIP_NAMES.has(segment) || isMacMetadataName(segment));
 }
-function readCurrentVersion() {
+function readManifest(file = OUT) {
   try {
-    const version = fs.readFileSync(OUT, "utf8").split(/\r?\n/).map(x => x.trim()).find(x => /^\d+\.\d+\.\d+$/.test(x));
-    return version || null;
-  } catch (_) { return null; }
+    const lines = fs.readFileSync(file, "utf8").split(/\r?\n/).map(x => x.trim()).filter(Boolean).filter(x => x !== 'B"H' && x !== '# B"H');
+    return { version:lines[0] || null, entry:lines[1] || null, files:lines.slice(2).sort((a, b) => a.localeCompare(b)) };
+  } catch (_) { return { version:null, entry:null, files:[] }; }
 }
-function nextVersion() {
+function nextVersion(current) {
   const forced = process.env.AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE;
   if (forced && /^\d+\.\d+\.\d+$/.test(forced)) return forced;
-  const current = readCurrentVersion();
-  if (!current) return "1.0.1";
+  if (!current || !/^\d+\.\d+\.\d+$/.test(current)) return "1.0.1";
   const [major, minor, patch] = current.split(".").map(Number);
   return `${major}.${minor}.${patch + 1}`;
 }
@@ -61,7 +49,7 @@ function ignored(full, name) {
 }
 function walk(dir, out = [], base = ROOT, prefix = "") {
   if (!fs.existsSync(dir)) return out;
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes:true }).sort((a, b) => a.name.localeCompare(b.name))) {
     const full = path.join(dir, entry.name);
     if (ignored(full, entry.name)) continue;
     if (entry.isDirectory()) walk(full, out, base, prefix);
@@ -75,15 +63,19 @@ function externalFiles() {
   for (const item of EXTERNAL_DIRS) walk(item.source, out, item.source, item.dest);
   return out.sort((a, b) => a.localeCompare(b));
 }
-function buildManifest() {
-  const version = nextVersion();
+function sameFiles(a, b) { return a.length === b.length && a.every((value, index) => value === b[index]); }
+function manifestText(version, files) { return ['B"H', version, 'main.js', '', ...files].join("\n") + "\n"; }
+function buildManifest(options = {}) {
+  const current = readManifest();
   const files = [...new Set([...agentFiles(), ...externalFiles()])].sort((a, b) => a.localeCompare(b));
-  return { version, files, text: ['B"H', version, "main.js", "", ...files].join("\n") + "\n" };
+  const unchanged = current.entry === 'main.js' && sameFiles(current.files, files);
+  const version = options.forceBump || !unchanged ? nextVersion(current.version) : current.version || nextVersion(null);
+  return { version, files, unchanged, text:manifestText(version, files) };
 }
 function main() {
-  const built = buildManifest();
+  const built = buildManifest({ forceBump:process.argv.includes('--force-bump') });
   fs.writeFileSync(OUT, built.text, "utf8");
-  console.log(JSON.stringify({ ok: true, manifest: slash(path.relative(process.cwd(), OUT)), version: built.version, files: built.files.length }, null, 2));
+  console.log(JSON.stringify({ ok:true, manifest:slash(path.relative(process.cwd(), OUT)), version:built.version, files:built.files.length, unchanged:built.unchanged }, null, 2));
 }
 if (require.main === module) main();
-module.exports = { buildManifest, walk, slash, agentFiles, externalFiles, ignored, nextVersion, shouldSkipManifestPath };
+module.exports = { OUT, buildManifest, walk, slash, agentFiles, externalFiles, ignored, nextVersion, readManifest, sameFiles, shouldSkipManifestPath };

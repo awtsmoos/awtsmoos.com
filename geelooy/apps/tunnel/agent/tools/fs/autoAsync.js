@@ -1,0 +1,52 @@
+// B"H
+const path = require('path');
+const { start } = require('./actionGroups/asyncTaskActions.js');
+
+/**
+ * B"H
+ * Chapter 1904: The caller spoke the old name, and the kernel secretly gave it wings.
+ *
+ * Public actions stay public. Heavy work is automatically moved into a child
+ * process, unless the payload explicitly asks for sync/inline/blocking.
+ */
+const HEAVY_ACTIONS = new Set([
+  'bulk', 'bulkWrite', 'bulkWriteIfHashes', 'actionBatch', 'parallelActionBatch', 'forEachActionBatch',
+  'previewCreate', 'previewCollection', 'previewPage', 'previewFolder', 'previewLiveCommand', 'previewActionResult',
+  'runtimeWorkflow', 'workflowRun', 'workflowValidate', 'workflowStepLinter',
+  'missionAuto', 'missionAutopilot', 'missionContinueOneHour', 'missionContinueUntilGate', 'missionDaemonTick', 'missionDaemonRecover', 'missionExecuteNext8', 'missionLoopPulse', 'missionLoopQueue', 'missionRoomLoopPulse', 'missionRoomSchedulerRun', 'missionSelfImproveRunBounded', 'missionSelfImproveSchedulerRun',
+  'chromeScreenshot', 'chromeReplay', 'browserReplay', 'chromeRunScript', 'chromeEval', 'chromeEvalSlim',
+  'isolatedHtmlTest', 'isolatedJsTest', 'isolatedNodeCheck', 'testRunner', 'testMatrixRunner', 'stressTest', 'agentSelfTest'
+]);
+function truthy(v) { return v === true || v === 1 || ['true', '1', 'yes', 'on'].includes(String(v).toLowerCase()); }
+function syncRequested(payload = {}) { return truthy(payload.sync) || truthy(payload.inline) || truthy(payload.blocking) || truthy(payload.noAutoAsync); }
+function childMode() { return process.env.AWTSMOOS_ASYNC_CHILD === '1'; }
+function shouldOffload(action, payload = {}) {
+  if (!action || childMode() || syncRequested(payload)) return false;
+  if (truthy(payload.autoAsync)) return true;
+  return HEAVY_ACTIONS.has(String(action));
+}
+async function offload(config, payload = {}) {
+  const action = String(payload.action || 'unknown');
+  const child = path.resolve(__dirname, '../../scripts/run-fs-action-child.cjs');
+  const encoded = Buffer.from(JSON.stringify({ ...payload, sync:true, noAutoAsync:true }), 'utf8').toString('base64');
+  const receipt = await start(config, {
+    action:'asyncTaskStart',
+    command:process.execPath,
+    args:[child, encoded],
+    cwd:config.root || process.cwd(),
+    timeoutMs:payload.timeoutMs || 600000,
+    maxOutput:payload.maxOutput || 400000,
+    allowCommands:true
+  });
+  return {
+    ...receipt,
+    ok:true,
+    action,
+    originalAction:action,
+    mode:'auto_async_subprocess',
+    autoAsync:true,
+    message:`${action} is running in an isolated subprocess. Use wait/status/output payloads.`,
+    childResultHint:'stdout contains one JSON object when the child completes.'
+  };
+}
+module.exports = { HEAVY_ACTIONS, shouldOffload, offload, syncRequested };

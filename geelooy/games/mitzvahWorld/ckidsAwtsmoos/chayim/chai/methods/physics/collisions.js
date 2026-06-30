@@ -6,6 +6,8 @@
  * chossid meet house, fence, tree, terrain, and sealed boundary with a readable
  * name, then slide along the tangent instead of jittering against the decree.
  */
+import { logEightStep } from "../../../../systems/debug/ViralGameplayLog.js";
+
 const WALL_STEP_HEIGHT = 0.2;
 const MAX_WALL_SOLVES = 4;
 const MIN_WALL_DEPTH = 1e-8;
@@ -79,6 +81,7 @@ function emitWallDebug(self, result, dirX, dirZ) {
     position: p ? { x: p.x, y: p.y, z: p.z } : null
   };
   self.olam.__lastCollision = payload;
+  logEightStep(self.olam, 5, "collision", "wall-contact", payload);
   self.olam.__lastInvisibleWallHit = payload;
   ringPush(self.olam, "__collisionLog", payload, LOG_LIMIT);
   ringPush(self.olam, "__wallHitHistory", payload, LOG_LIMIT);
