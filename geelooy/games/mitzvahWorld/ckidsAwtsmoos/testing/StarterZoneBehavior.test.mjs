@@ -1,15 +1,12 @@
 // B"H
 /**
  * @file StarterZoneBehavior.test.mjs
- * @brief Behavioral starter-zone contracts for quests, loot, and spirit recovery.
+ * @brief Starter-zone behavioral contracts for quests, loot, and spirit recovery.
  *
- * Chapter 459: The village stopped being a painted backdrop. The Rebbe's first
- * mission is accepted, objectives move from breath to ledger, corpses sparkle
- * with actual loot, and the spirit healer restores the fallen shliach. These
- * tests are deliberately tiny but behavioral: they assert state transitions,
- * emitted UI events, and payload shapes that a player-facing starter zone needs.
+ * Chapter 461: The test itself bows to one compact vessel. The Rebbe's quest,
+ * XP bridge, wallet bridge, loot corpse, and spirit healer are checked together
+ * so the starter zone behaves like one world rather than scattered counters.
  */
-
 import assert from 'node:assert/strict';
 import {
   acceptQuest,
@@ -22,41 +19,21 @@ import {
   turnInQuest
 } from '../systems/missions/QuestGossipRuntime.js';
 import { gossipPayload } from '../systems/npc/GossipRuntime.js';
-import {
-  makeLootableCorpse,
-  lootAll,
-  lootPayload,
-  lootSparklePayload
-} from '../systems/loot/LootRuntime.js';
-import {
-  canResurrectAtCorpse,
-  resurrectAtSpiritHealer,
-  spiritHealerPayload
-} from '../systems/death/SpiritHealerRuntime.js';
+import { makeLootableCorpse, lootAll, lootPayload, lootSparklePayload } from '../systems/loot/LootRuntime.js';
+import { canResurrectAtCorpse, resurrectAtSpiritHealer, spiritHealerPayload } from '../systems/death/SpiritHealerRuntime.js';
 import { ensureDeathState } from '../systems/death/DeathRuntime.js';
 
 function makeOlam() {
   const events = [];
   const player = {
-    hp: 0,
-    maxHp: 100,
-    perutah: 0,
-    position: { x: 0, y: 0, z: 0 },
-    mesh: {
-      position: {
-        x: 0,
-        y: 0,
-        z: 0,
-        set(x, y, z) { this.x = x; this.y = y; this.z = z; }
-      }
-    }
+    hp:0, maxHp:100, perutah:0, position:{ x:0, y:0, z:0 },
+    mesh:{ position:{ x:0, y:0, z:0, set(x, y, z) { this.x = x; this.y = y; this.z = z; } } }
   };
-  return {
-    player,
-    events,
-    aishPeula: null,
-    ayshPeula(kind, name, payload) { events.push({ kind, name, payload }); }
-  };
+  return { player, events, aishPeula:null, ayshPeula(kind, name, payload) { events.push({ kind, name, payload }); } };
+}
+
+function eventNamed(olam, name, predicate = () => true) {
+  return olam.events.find(event => event.name === name && predicate(event.payload || {}));
 }
 
 function testQuestLifecycle() {
@@ -73,7 +50,6 @@ function testQuestLifecycle() {
   const trackerAfterAccept = questTrackerPayload(olam);
   assert.equal(trackerAfterAccept.count, 1);
   assert.equal(trackerAfterAccept.active[0].complete, false);
-
   assert.equal(progressQuestObjective(olam, 'the_first_shliach', 'talk_rebbe').ok, true);
   assert.equal(isMissionComplete(olam, 'the_first_shliach'), false);
   assert.equal(progressQuestObjective(olam, 'the_first_shliach', 'discover_rebbe_house').ok, true);
@@ -81,33 +57,30 @@ function testQuestLifecycle() {
 
   const marker = questMarkersPayload(olam).markers.find(entry => entry.missionId === 'the_first_shliach');
   assert.equal(marker.marker, 'yellow-question');
-
   const turnedIn = turnInQuest(olam, 'the_first_shliach');
   assert.equal(turnedIn.ok, true);
   assert.ok(ensureMissionState(olam).turnedIn.the_first_shliach);
   assert.equal(questTrackerPayload(olam).count, 0);
-  assert.ok(olam.events.some(event => event.name === 'questAccepted'));
-  assert.ok(olam.events.some(event => event.name === 'questTurnedIn'));
+  assert.equal(olam.player.xp, 45);
+  assert.equal(olam.player.perutah, 8);
+  assert.equal(olam.player.personalPerutas, 8);
+  assert.ok(eventNamed(olam, 'questAccepted'));
+  assert.ok(eventNamed(olam, 'questTurnedIn', payload => payload.xp === 45 && payload.personalPerutas === 8));
+  assert.ok(eventNamed(olam, 'playerProgress', payload => payload.xp === 45));
+  assert.ok(eventNamed(olam, 'gameHUD', payload => payload.xpBar?.xp === 45));
+  assert.ok(eventNamed(olam, 'personalPerutas', payload => payload.personalPerutas === 8));
 }
 
 function testNpcGossipPayload() {
-  const olam = makeOlam();
-  const payload = gossipPayload(olam, 'rebbe');
+  const payload = gossipPayload(makeOlam(), 'rebbe');
   assert.equal(payload.open, true);
   assert.equal(payload.npcId, 'rebbe');
-  assert.ok(payload.choices.some(choice => (
-    choice.kind === 'questAccept' && choice.missionId === 'the_first_shliach'
-  )));
+  assert.ok(payload.choices.some(choice => choice.kind === 'questAccept' && choice.missionId === 'the_first_shliach'));
 }
 
 function testLootLifecycle() {
   const olam = makeOlam();
-  const corpse = makeLootableCorpse(olam, {
-    id: 'deer_1',
-    name: 'Gentle Deer',
-    species: 'deer',
-    level: 2
-  });
+  const corpse = makeLootableCorpse(olam, { id:'deer_1', name:'Gentle Deer', species:'deer', level:2 });
   assert.ok(corpse.corpseId);
   assert.equal(lootSparklePayload(olam).corpses.length, 1);
   assert.equal(lootPayload(olam, corpse.corpseId).open, true);
@@ -118,18 +91,11 @@ function testLootLifecycle() {
 }
 
 function testSpiritRecovery() {
-  const olam = makeOlam();
-  const death = ensureDeathState(olam);
-  death.dead = true;
-  death.ghost = true;
-  death.graveyard = 'starter_graveyard';
-  death.corpse = { x: 100, z: 100 };
+  const olam = makeOlam(), death = ensureDeathState(olam);
+  Object.assign(death, { dead:true, ghost:true, graveyard:'starter_graveyard', corpse:{ x:100, z:100 } });
   assert.equal(canResurrectAtCorpse(olam).ok, false);
-  const panel = spiritHealerPayload(olam);
-  assert.equal(panel.open, true);
-  assert.equal(panel.choices.find(choice => choice.id === 'spirit').enabled, true);
-  const rez = resurrectAtSpiritHealer(olam);
-  assert.equal(rez.ok, true);
+  assert.equal(spiritHealerPayload(olam).choices.find(choice => choice.id === 'spirit').enabled, true);
+  assert.equal(resurrectAtSpiritHealer(olam).ok, true);
   assert.equal(ensureDeathState(olam).ghost, false);
   assert.equal(olam.player.hp, 35);
 }
@@ -138,7 +104,4 @@ testQuestLifecycle();
 testNpcGossipPayload();
 testLootLifecycle();
 testSpiritRecovery();
-console.log(JSON.stringify({
-  ok: true,
-  checks: ['quest-lifecycle', 'npc-gossip', 'loot-lifecycle', 'spirit-recovery']
-}, null, 2));
+console.log(JSON.stringify({ ok:true, checks:['quest-lifecycle', 'npc-gossip', 'loot-lifecycle', 'spirit-recovery'] }, null, 2));

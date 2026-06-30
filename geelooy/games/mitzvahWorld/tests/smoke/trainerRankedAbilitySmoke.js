@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { createTrainerRuntime, trainAbilityAtTrainer, trainerOffers, rankedPassage } from '../../ckidsAwtsmoos/systems/trainers/TrainerRuntime.js';
 
 function makeOlam(){ const events=[]; return { events, player:{ level:8, perutah:100, maxKoach:100, koach:100, inventory:{ slots:[], actionSlots:[], equipment:{} } }, ayshPeula:(...args)=>events.push(args) }; }
+function sawWalletHud(olam, value){ return olam.events.some(args => args[1] === 'gameHUD' && args[2]?.personalPerutas?.personalPerutas === value); }
+function sawWalletEvent(olam, value){ return olam.events.some(args => args[1] === 'personalPerutas' && args[2]?.personalPerutas === value); }
+
 const olam=makeOlam();
 const offers=trainerOffers(olam);
 assert.ok(offers.length>=4,'trainer offers exist');
@@ -10,6 +13,9 @@ const first=offers[0];
 const trained=trainAbilityAtTrainer(olam, first.path, { slot:2, silent:true });
 assert.equal(trained.ok,true,'training succeeds');
 assert.equal(olam.player.perutah,100-first.cost,'training spends perutah');
+assert.equal(olam.player.personalPerutas,100-first.cost,'training mirrors personal wallet');
+assert.ok(sawWalletHud(olam, 100-first.cost),'training emits wallet HUD event');
+assert.ok(sawWalletEvent(olam, 100-first.cost),'training emits personal wallet event');
 assert.equal(olam.player.trainerState.abilityRanks[first.passageId],1,'rank stored');
 assert.ok(olam.player.spellbook.learned[first.passageId],'spellbook learned passage');
 assert.equal(olam.player.torahActionBar.slots[1].passageId,first.passageId,'trained passage assigned to requested slot');

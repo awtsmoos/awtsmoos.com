@@ -1,31 +1,43 @@
 // B"H
 export default /*css*/`
 :root {
-  --awts-explorer-bg: #07111f;
-  --awts-explorer-panel: rgba(12, 23, 40, .86);
-  --awts-explorer-panel-strong: rgba(8, 15, 28, .96);
-  --awts-explorer-card: rgba(15, 23, 42, .72);
-  --awts-explorer-card-hot: rgba(22, 54, 78, .82);
-  --awts-explorer-line: rgba(125, 211, 252, .25);
-  --awts-explorer-line-hot: rgba(125, 211, 252, .72);
-  --awts-explorer-text: #ecfeff;
-  --awts-explorer-muted: #a7c7d8;
-  --awts-explorer-faint: #7892a6;
-  --awts-explorer-blue: #38bdf8;
-  --awts-explorer-green: #34d399;
-  --awts-explorer-gold: #fbbf24;
-  --awts-explorer-red: #fb7185;
-  --awts-explorer-purple: #c084fc;
-  --awts-explorer-radius: 16px;
-  --awts-explorer-shadow: 0 24px 70px rgba(0, 0, 0, .36);
-  --awts-explorer-glow: 0 0 0 1px rgba(125,211,252,.24), 0 18px 42px rgba(8,47,73,.28);
-  --primary-color: var(--awts-explorer-blue);
-  --text-main: var(--awts-explorer-text);
-  --text-secondary: var(--awts-explorer-muted);
-  --text-tertiary: var(--awts-explorer-faint);
-  --border-glass: var(--awts-explorer-line);
-  --border-hover: var(--awts-explorer-line-hot);
-  --sidebar-width: 252px;
+  --awts-xp-blue:#245edb;
+  --awts-xp-blue-dark:#0b3ea8;
+  --awts-xp-blue-hot:#316ac5;
+  --awts-xp-green:#3c9d28;
+  --awts-xp-green-dark:#247d16;
+  --awts-xp-cream:#ece9d8;
+  --awts-xp-panel:#f6f4ea;
+  --awts-xp-panel-alt:#fffef7;
+  --awts-xp-line-light:#ffffff;
+  --awts-xp-line-mid:#aca899;
+  --awts-xp-line-dark:#716f64;
+  --awts-xp-text:#1f1f1f;
+  --awts-xp-muted:#4b5563;
+  --awts-xp-danger:#b91c1c;
+  --awts-xp-focus:#f9d71c;
+  --awts-xp-gold:#b45309;
+  --awts-xp-purple:#6d28d9;
+  --awts-xp-shadow:3px 3px 0 rgba(0,0,0,.22);
+  --awts-explorer-bg:var(--awts-xp-cream);
+  --awts-explorer-panel:var(--awts-xp-panel);
+  --awts-explorer-panel-strong:var(--awts-xp-panel-alt);
+  --awts-explorer-card:#ffffff;
+  --awts-explorer-card-hot:#eaf2ff;
+  --awts-explorer-line:var(--awts-xp-line-mid);
+  --awts-explorer-line-hot:var(--awts-xp-blue-hot);
+  --awts-explorer-text:var(--awts-xp-text);
+  --awts-explorer-muted:var(--awts-xp-muted);
+  --awts-explorer-faint:#6b7280;
+  --awts-explorer-blue:var(--awts-xp-blue);
+  --awts-explorer-green:var(--awts-xp-green);
+  --awts-explorer-gold:var(--awts-xp-gold);
+  --awts-explorer-red:var(--awts-xp-danger);
+  --awts-explorer-purple:var(--awts-xp-purple);
+  --awts-explorer-radius:3px;
+  --awts-explorer-shadow:var(--awts-xp-shadow);
+  --awts-explorer-glow:inset 1px 1px #fff,inset -1px -1px #808080;
+  --sidebar-width:224px;
 }
 `;
-/** B"H: tokens now choose contrast first, then wonder. */
+/** B"H: tokens now carry one XP covenant instead of scattered modern glass. */

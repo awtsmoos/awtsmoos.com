@@ -1,25 +1,87 @@
 {
   "ok": true,
-  "visiblePayloadReceived": 36,
+  "visiblePayloadReceived": 50,
   "panelName": "livingWorldVisible",
   "firstVisible": {
     "ambientFeed": {
       "events": [
         {
+          "type": "living-world-start",
+          "reason": "node-dom-sim",
+          "at": 1782831005548
+        },
+        {
+          "type": "living-world-start",
+          "reason": "visible-bridge",
+          "at": 1782831005550
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "dawn",
+          "mood": "quiet-light",
+          "reason": "visible-bridge",
+          "changed": true,
+          "at": 1782831005553
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "dawn",
+            "crowd": "low",
+            "services": {
+              "vendors": false,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005553
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:visible-bridge",
+          "at": 1782831005557
+        },
+        {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782417587309,
+          "at": 1782831005558,
           "payload": {
             "place": "bakery"
           }
         }
       ],
       "text": [
+        "living-world-start",
+        "living-world-start",
+        "phase",
+        "",
+        "repair after wind",
         "baker delivers bread"
       ]
     },
     "questTracker": {
       "active": [
+        {
+          "id": "repair_bridge_plank",
+          "title": "Betzalel points to a plank that needs hands.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "repair_after_wind",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
+        },
         {
           "id": "repair_beis_midrash_bench",
           "title": "Repair the Beis Midrash Bench",
@@ -27,7 +89,12 @@
             {
               "kind": "repair_bench",
               "needed": 1,
-              "done": 0
+              "done": 0,
+              "index": 0,
+              "count": 1,
+              "progress": 0,
+              "current": 0,
+              "complete": false
             }
           ],
           "source": "world_state"
@@ -36,6 +103,41 @@
     },
     "questMarkers": {
       "markers": [
+        {
+          "npcId": "miriam_baker",
+          "missionId": "miriam_baker",
+          "marker": "exclamation",
+          "npcName": "miriam baker",
+          "title": "village-dawn-kneading"
+        },
+        {
+          "npcId": "rebbe_akiva",
+          "missionId": "rebbe_akiva",
+          "marker": "exclamation",
+          "npcName": "rebbe akiva",
+          "title": "village-dawn-davening"
+        },
+        {
+          "npcId": "levi_guard",
+          "missionId": "levi_guard",
+          "marker": "exclamation",
+          "npcName": "levi guard",
+          "title": "village-dawn-patrol"
+        },
+        {
+          "npcId": "betzalel_crafter",
+          "missionId": "betzalel_crafter",
+          "marker": "exclamation",
+          "npcName": "betzalel crafter",
+          "title": "village-dawn-opening"
+        },
+        {
+          "npcId": "tova_child",
+          "missionId": "tova_child",
+          "marker": "exclamation",
+          "npcName": "tova child",
+          "title": "village-dawn-breakfast"
+        },
         {
           "npcId": "miriam_baker",
           "missionId": "miriam_baker",
@@ -58,6 +160,13 @@
           "title": "daven"
         },
         {
+          "npcId": "repair_bridge_plank",
+          "missionId": "repair_bridge_plank",
+          "marker": "question",
+          "npcName": "bridge",
+          "title": "quest"
+        },
+        {
           "npcId": "repair_beis_midrash_bench",
           "missionId": "repair_beis_midrash_bench",
           "marker": "question",
@@ -73,7 +182,17 @@
       "greeting": "The player delivered bread.",
       "choices": [
         {
-          "id": "rumor_1782417587311_7kh6q",
+          "id": "rumor_1782831005553_bx97i",
+          "label": "The village shifted into dawn.",
+          "kind": "phase_dawn"
+        },
+        {
+          "id": "rumor_1782831005557_o8j9q",
+          "label": "Wind loosened a plank near the bridge.",
+          "kind": "repair_after_wind"
+        },
+        {
+          "id": "rumor_1782831005560_u2gia",
           "label": "The player delivered bread.",
           "kind": "bread_delivery"
         }
@@ -88,13 +207,13 @@
       ]
     },
     "reputationSummary": {
-      "village": 8,
+      "village": 10,
       "merchants": 0,
       "poorFamilies": 0,
       "scholars": 0,
       "children": 0,
       "guards": 0,
-      "travelers": 0,
+      "travelers": 1,
       "animals": 0,
       "virtues": {
         "reliability": 3
@@ -103,27 +222,18 @@
     "scheduleDebug": {
       "miriam_baker": {
         "npcId": "miriam_baker",
-        "role": "work",
-        "place": "bakery",
-        "hour": 9,
-        "updatedAt": 1782417587350,
-        "reason": "work",
-        "movementIntent": {
-          "npcId": "miriam_baker",
-          "from": "beis_midrash",
-          "to": "bakery",
-          "reason": "work",
-          "urgency": "normal",
-          "startedAt": 32400000,
-          "estimatedArrival": 32445000
-        }
+        "phase": "morning",
+        "role": "selling",
+        "place": "market_square",
+        "hour": 10,
+        "updatedAt": 1782831005587
       },
       "rebbe_akiva": {
         "npcId": "rebbe_akiva",
         "role": "work",
         "place": "beis_midrash",
         "hour": 10,
-        "updatedAt": 1782417587357,
+        "updatedAt": 1782831005588,
         "reason": "work",
         "movementIntent": {
           "npcId": "rebbe_akiva",
@@ -140,11 +250,11 @@
         "role": "work",
         "place": "village_gate",
         "hour": 10,
-        "updatedAt": 1782417587357,
+        "updatedAt": 1782831005588,
         "reason": "work",
         "movementIntent": {
           "npcId": "levi_guard",
-          "from": "beis_midrash",
+          "from": "village_gate",
           "to": "village_gate",
           "reason": "work",
           "urgency": "normal",
@@ -157,7 +267,7 @@
         "role": "work",
         "place": "workshop",
         "hour": 10,
-        "updatedAt": 1782417587357,
+        "updatedAt": 1782831005588,
         "reason": "work",
         "movementIntent": {
           "npcId": "betzalel_crafter",
@@ -171,20 +281,11 @@
       },
       "tova_child": {
         "npcId": "tova_child",
-        "role": "work",
+        "phase": "morning",
+        "role": "learning",
         "place": "schoolyard",
-        "hour": 9,
-        "updatedAt": 1782417587345,
-        "reason": "work",
-        "movementIntent": {
-          "npcId": "tova_child",
-          "from": "baker_home",
-          "to": "schoolyard",
-          "reason": "work",
-          "urgency": "normal",
-          "startedAt": 32400000,
-          "estimatedArrival": 32445000
-        }
+        "hour": 10,
+        "updatedAt": 1782831005587
       }
     },
     "economySummary": {
@@ -200,15 +301,27 @@
       "ink": 3,
       "soup": 0,
       "charity": 6,
+      "water": 8,
+      "milk": 2,
+      "honey": 2,
+      "tea": 1,
       "demand": {
-        "bread": 5,
+        "bread": 6,
         "candle": 3,
-        "soup": 2
+        "soup": 2,
+        "water": 4,
+        "milk": 2,
+        "tea": 3,
+        "honey": 2
       },
       "prices": {
         "bread": 3,
         "candle": 6,
         "soup": 5,
+        "water": 1,
+        "milk": 3,
+        "tea": 5,
+        "honey": 4,
         "warm_bread": 3,
         "challah": 4,
         "flour": 2,
@@ -217,18 +330,32 @@
         "work_jacket": 10,
         "small_siddur": 5,
         "charity": 1,
+        "water_cup": 1,
+        "warm_tea": 5,
         "grain": 1,
         "dough": 1,
         "wood": 1,
         "plank": 1,
-        "wax": 1,
-        "lastPricedAt": 1
+        "wax": 1
       },
-      "lastPricedAt": 1782417587358,
+      "lastPricedAt": 1782831005588,
       "lastPricingReason": "step:node-dom-sim-2"
     },
     "rawUiPayloads": {
       "questTrackerRows": [
+        {
+          "id": "repair_bridge_plank",
+          "title": "Betzalel points to a plank that needs hands.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "repair_after_wind",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
+        },
         {
           "id": "repair_beis_midrash_bench",
           "title": "Repair the Beis Midrash Bench",
@@ -236,7 +363,12 @@
             {
               "kind": "repair_bench",
               "needed": 1,
-              "done": 0
+              "done": 0,
+              "index": 0,
+              "count": 1,
+              "progress": 0,
+              "current": 0,
+              "complete": false
             }
           ],
           "source": "world_state"
@@ -244,7 +376,39 @@
       ],
       "npcGossipPayload": [
         {
-          "id": "rumor_1782417587311_7kh6q",
+          "id": "rumor_1782831005553_bx97i",
+          "sourceNpc": "village",
+          "originalText": "The village shifted into dawn.",
+          "currentText": "The village shifted into dawn.",
+          "truthValue": true,
+          "distortionAmount": 0.1,
+          "spreadCount": 1,
+          "heardBy": [
+            "village",
+            "miriam_baker"
+          ],
+          "timestamp": 1782831005561,
+          "topic": "phase_dawn",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005557_o8j9q",
+          "sourceNpc": "betzalel_crafter",
+          "originalText": "Wind loosened a plank near the bridge.",
+          "currentText": "Wind loosened a plank near the bridge.",
+          "truthValue": true,
+          "distortionAmount": 0.1,
+          "spreadCount": 1,
+          "heardBy": [
+            "betzalel_crafter",
+            "miriam_baker"
+          ],
+          "timestamp": 1782831005561,
+          "topic": "repair_after_wind",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005560_u2gia",
           "sourceNpc": "miriam_baker",
           "originalText": "The player delivered bread.",
           "currentText": "The player delivered bread.",
@@ -255,7 +419,7 @@
             "miriam_baker",
             "rebbe_akiva"
           ],
-          "timestamp": 1782417587312,
+          "timestamp": 1782831005561,
           "topic": "bread_delivery",
           "emotionalTone": "warm"
         }
@@ -267,6 +431,10 @@
           "bread": 5,
           "candle": 6,
           "soup": 5,
+          "water": 1,
+          "milk": 3,
+          "tea": 5,
+          "honey": 4,
           "warm_bread": 5,
           "challah": 6,
           "flour": 3,
@@ -275,21 +443,72 @@
           "work_jacket": 15,
           "small_siddur": 14,
           "charity": 1,
+          "water_cup": 1,
+          "warm_tea": 5,
           "grain": 2,
           "dough": 1,
           "wood": 2,
           "plank": 1,
-          "wax": 1,
-          "lastPricedAt": 1
+          "wax": 1
+        },
+        "open": {
+          "vendors": false,
+          "trainers": true,
+          "inn": true
         }
       },
       "mapMarkerPayload": [
         {
           "urgency": "normal",
+          "startedAt": 1782831005552,
+          "estimatedArrival": 1782831050552,
+          "npcId": "miriam_baker",
+          "from": "baker_home",
+          "to": "bakery",
+          "reason": "village-dawn-kneading"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005553,
+          "estimatedArrival": 1782831050553,
+          "npcId": "rebbe_akiva",
+          "from": "rebbe_home",
+          "to": "beis_midrash",
+          "reason": "village-dawn-davening"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005553,
+          "estimatedArrival": 1782831050553,
+          "npcId": "levi_guard",
+          "from": "guard_house",
+          "to": "village_gate",
+          "reason": "village-dawn-patrol"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005553,
+          "estimatedArrival": 1782831050553,
+          "npcId": "betzalel_crafter",
+          "from": "crafter_home",
+          "to": "workshop",
+          "reason": "village-dawn-opening"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005553,
+          "estimatedArrival": 1782831050553,
+          "npcId": "tova_child",
+          "from": "baker_home",
+          "to": "baker_home",
+          "reason": "village-dawn-breakfast"
+        },
+        {
+          "urgency": "normal",
           "startedAt": 21600000,
           "estimatedArrival": 21645000,
           "npcId": "miriam_baker",
-          "from": "baker_home",
+          "from": "bakery",
           "to": "beis_midrash",
           "reason": "daven"
         },
@@ -298,7 +517,7 @@
           "startedAt": 21600000,
           "estimatedArrival": 21645000,
           "npcId": "rebbe_akiva",
-          "from": "rebbe_home",
+          "from": "beis_midrash",
           "to": "beis_midrash",
           "reason": "daven"
         },
@@ -307,9 +526,14 @@
           "startedAt": 21600000,
           "estimatedArrival": 21645000,
           "npcId": "levi_guard",
-          "from": "guard_house",
+          "from": "village_gate",
           "to": "beis_midrash",
           "reason": "daven"
+        },
+        {
+          "missionId": "repair_bridge_plank",
+          "place": "bridge",
+          "kind": "quest"
         },
         {
           "missionId": "repair_beis_midrash_bench",
@@ -319,22 +543,66 @@
       ],
       "ambientEventFeedPayload": [
         {
+          "type": "living-world-start",
+          "reason": "node-dom-sim",
+          "at": 1782831005548
+        },
+        {
+          "type": "living-world-start",
+          "reason": "visible-bridge",
+          "at": 1782831005550
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "dawn",
+          "mood": "quiet-light",
+          "reason": "visible-bridge",
+          "changed": true,
+          "at": 1782831005553
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "dawn",
+            "crowd": "low",
+            "services": {
+              "vendors": false,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005553
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:visible-bridge",
+          "at": 1782831005557
+        },
+        {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782417587309,
+          "at": 1782831005558,
           "payload": {
             "place": "bakery"
           }
         }
       ],
       "reputationSummaryPayload": {
-        "village": 8,
+        "village": 10,
         "merchants": 0,
         "poorFamilies": 0,
         "scholars": 0,
         "children": 0,
         "guards": 0,
-        "travelers": 0,
+        "travelers": 1,
         "animals": 0,
         "virtues": {
           "reliability": 3
@@ -343,27 +611,18 @@
       "scheduleDebugPayload": {
         "miriam_baker": {
           "npcId": "miriam_baker",
-          "role": "work",
-          "place": "bakery",
-          "hour": 9,
-          "updatedAt": 1782417587350,
-          "reason": "work",
-          "movementIntent": {
-            "npcId": "miriam_baker",
-            "from": "beis_midrash",
-            "to": "bakery",
-            "reason": "work",
-            "urgency": "normal",
-            "startedAt": 32400000,
-            "estimatedArrival": 32445000
-          }
+          "phase": "morning",
+          "role": "selling",
+          "place": "market_square",
+          "hour": 10,
+          "updatedAt": 1782831005587
         },
         "rebbe_akiva": {
           "npcId": "rebbe_akiva",
           "role": "work",
           "place": "beis_midrash",
           "hour": 10,
-          "updatedAt": 1782417587357,
+          "updatedAt": 1782831005588,
           "reason": "work",
           "movementIntent": {
             "npcId": "rebbe_akiva",
@@ -380,11 +639,11 @@
           "role": "work",
           "place": "village_gate",
           "hour": 10,
-          "updatedAt": 1782417587357,
+          "updatedAt": 1782831005588,
           "reason": "work",
           "movementIntent": {
             "npcId": "levi_guard",
-            "from": "beis_midrash",
+            "from": "village_gate",
             "to": "village_gate",
             "reason": "work",
             "urgency": "normal",
@@ -397,7 +656,7 @@
           "role": "work",
           "place": "workshop",
           "hour": 10,
-          "updatedAt": 1782417587357,
+          "updatedAt": 1782831005588,
           "reason": "work",
           "movementIntent": {
             "npcId": "betzalel_crafter",
@@ -411,20 +670,11 @@
         },
         "tova_child": {
           "npcId": "tova_child",
-          "role": "work",
+          "phase": "morning",
+          "role": "learning",
           "place": "schoolyard",
-          "hour": 9,
-          "updatedAt": 1782417587345,
-          "reason": "work",
-          "movementIntent": {
-            "npcId": "tova_child",
-            "from": "baker_home",
-            "to": "schoolyard",
-            "reason": "work",
-            "urgency": "normal",
-            "startedAt": 32400000,
-            "estimatedArrival": 32445000
-          }
+          "hour": 10,
+          "updatedAt": 1782831005587
         }
       },
       "economySummaryPayload": {
@@ -440,15 +690,27 @@
         "ink": 3,
         "soup": 0,
         "charity": 6,
+        "water": 8,
+        "milk": 2,
+        "honey": 2,
+        "tea": 1,
         "demand": {
-          "bread": 5,
+          "bread": 6,
           "candle": 3,
-          "soup": 2
+          "soup": 2,
+          "water": 4,
+          "milk": 2,
+          "tea": 3,
+          "honey": 2
         },
         "prices": {
           "bread": 3,
           "candle": 6,
           "soup": 5,
+          "water": 1,
+          "milk": 3,
+          "tea": 5,
+          "honey": 4,
           "warm_bread": 3,
           "challah": 4,
           "flour": 2,
@@ -457,19 +719,182 @@
           "work_jacket": 10,
           "small_siddur": 5,
           "charity": 1,
+          "water_cup": 1,
+          "warm_tea": 5,
           "grain": 1,
           "dough": 1,
           "wood": 1,
           "plank": 1,
-          "wax": 1,
-          "lastPricedAt": 1
+          "wax": 1
         },
-        "lastPricedAt": 1782417587358,
+        "lastPricedAt": 1782831005588,
         "lastPricingReason": "step:node-dom-sim-2"
       },
       "socialConsequencesPayload": [],
       "familyTrustPayload": {},
-      "economyTransactionsPayload": []
+      "economyTransactionsPayload": [],
+      "villageActivity": {
+        "phase": "dawn",
+        "hour": 6,
+        "mood": "quiet-light",
+        "lighting": "gold-blue",
+        "sound": "birds-soft-davening",
+        "crowd": "low",
+        "services": [
+          {
+            "id": "vendors",
+            "open": false,
+            "phase": "dawn"
+          },
+          {
+            "id": "trainers",
+            "open": true,
+            "phase": "dawn"
+          },
+          {
+            "id": "inn",
+            "open": true,
+            "phase": "dawn"
+          }
+        ],
+        "assignments": [
+          {
+            "npcId": "miriam_baker",
+            "name": "Miriam",
+            "role": "kneading",
+            "place": "bakery",
+            "line": "Warm bread begins before the market wakes."
+          },
+          {
+            "npcId": "rebbe_akiva",
+            "name": "Rebbe Akiva",
+            "role": "davening",
+            "place": "beis_midrash",
+            "line": "The beis midrash begins to hum."
+          },
+          {
+            "npcId": "levi_guard",
+            "name": "Levi",
+            "role": "patrol",
+            "place": "village_gate",
+            "line": "The gate is watched while the village stretches."
+          },
+          {
+            "npcId": "betzalel_crafter",
+            "name": "Betzalel",
+            "role": "opening",
+            "place": "workshop",
+            "line": "Tools are laid out like small promises."
+          },
+          {
+            "npcId": "tova_child",
+            "name": "Tova",
+            "role": "breakfast",
+            "place": "baker_home",
+            "line": "Children gather satchels near the doorway."
+          }
+        ],
+        "changed": true,
+        "reason": "visible-bridge",
+        "pulse": 1,
+        "at": 1782831005553,
+        "transitions": [
+          {
+            "phase": "dawn",
+            "hour": 6,
+            "mood": "quiet-light",
+            "lighting": "gold-blue",
+            "sound": "birds-soft-davening",
+            "crowd": "low",
+            "services": [
+              {
+                "id": "vendors",
+                "open": false,
+                "phase": "dawn"
+              },
+              {
+                "id": "trainers",
+                "open": true,
+                "phase": "dawn"
+              },
+              {
+                "id": "inn",
+                "open": true,
+                "phase": "dawn"
+              }
+            ],
+            "assignments": [
+              {
+                "npcId": "miriam_baker",
+                "name": "Miriam",
+                "role": "kneading",
+                "place": "bakery",
+                "line": "Warm bread begins before the market wakes."
+              },
+              {
+                "npcId": "rebbe_akiva",
+                "name": "Rebbe Akiva",
+                "role": "davening",
+                "place": "beis_midrash",
+                "line": "The beis midrash begins to hum."
+              },
+              {
+                "npcId": "levi_guard",
+                "name": "Levi",
+                "role": "patrol",
+                "place": "village_gate",
+                "line": "The gate is watched while the village stretches."
+              },
+              {
+                "npcId": "betzalel_crafter",
+                "name": "Betzalel",
+                "role": "opening",
+                "place": "workshop",
+                "line": "Tools are laid out like small promises."
+              },
+              {
+                "npcId": "tova_child",
+                "name": "Tova",
+                "role": "breakfast",
+                "place": "baker_home",
+                "line": "Children gather satchels near the doorway."
+              }
+            ],
+            "changed": true,
+            "reason": "visible-bridge",
+            "pulse": 1,
+            "at": 1782831005553
+          }
+        ]
+      },
+      "worldEventDirector": {
+        "last": {
+          "id": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "npc": "betzalel_crafter",
+          "ui": "Betzalel points to a plank that needs hands.",
+          "missionId": "repair_bridge_plank",
+          "rumorId": "rumor_1782831005557_o8j9q",
+          "reason": "step:visible-bridge",
+          "at": 1782831005557
+        },
+        "recent": [
+          {
+            "id": "repair_after_wind",
+            "phase": "dawn",
+            "place": "bridge",
+            "npc": "betzalel_crafter",
+            "ui": "Betzalel points to a plank that needs hands.",
+            "missionId": "repair_bridge_plank",
+            "rumorId": "rumor_1782831005557_o8j9q",
+            "reason": "step:visible-bridge",
+            "at": 1782831005557
+          }
+        ],
+        "pulse": 1,
+        "hasLoop": false
+      }
     }
   },
   "pulseSummary": {
@@ -477,7 +902,7 @@
     "minIntervalMs": 250,
     "lastAt": 1300,
     "lastReason": "node-dom-worker-fps-2",
-    "count": 4,
+    "count": 8,
     "skipped": 1,
     "missingRenderer": 0,
     "lastSkippedReason": "none"
@@ -506,22 +931,22 @@
     ]
   },
   "crafted": {
-    "id": "challah_1782417587337",
+    "id": "challah_1782831005574",
     "recipeId": "challah",
     "crafter": "player",
     "kind": "crafted",
-    "at": 1782417587337
+    "at": 1782831005574
   },
   "purchase": {
     "ok": true,
     "transaction": {
-      "id": "vendor_1782417587338_bread",
+      "id": "vendor_1782831005575_bread",
       "itemId": "warm_bread",
       "economyKey": "bread",
       "qty": 1,
       "price": 5,
       "vendorId": "bakery",
-      "at": 1782417587338
+      "at": 1782831005575
     },
     "economyKey": "bread",
     "remaining": 6,
@@ -529,6 +954,10 @@
       "bread": 4,
       "candle": 6,
       "soup": 5,
+      "water": 1,
+      "milk": 3,
+      "tea": 5,
+      "honey": 4,
       "warm_bread": 4,
       "challah": 5,
       "flour": 5,
@@ -537,12 +966,13 @@
       "work_jacket": 15,
       "small_siddur": 14,
       "charity": 1,
+      "water_cup": 1,
+      "warm_tea": 5,
       "grain": 2,
       "dough": 1,
       "wood": 2,
       "plank": 1,
-      "wax": 1,
-      "lastPricedAt": 1
+      "wax": 1
     },
     "price": 5,
     "perutah": 29
@@ -571,15 +1001,27 @@
       "ink": 3,
       "soup": 0,
       "charity": 6,
+      "water": 8,
+      "milk": 2,
+      "honey": 2,
+      "tea": 1,
       "demand": {
-        "bread": 5,
+        "bread": 6,
         "candle": 3,
-        "soup": 2
+        "soup": 2,
+        "water": 4,
+        "milk": 2,
+        "tea": 3,
+        "honey": 2
       },
       "prices": {
         "bread": 3,
         "candle": 6,
         "soup": 5,
+        "water": 1,
+        "milk": 3,
+        "tea": 5,
+        "honey": 4,
         "warm_bread": 3,
         "challah": 4,
         "flour": 2,
@@ -588,14 +1030,15 @@
         "work_jacket": 10,
         "small_siddur": 5,
         "charity": 1,
+        "water_cup": 1,
+        "warm_tea": 5,
         "grain": 1,
         "dough": 1,
         "wood": 1,
         "plank": 1,
-        "wax": 1,
-        "lastPricedAt": 1
+        "wax": 1
       },
-      "lastPricedAt": 1782417587358,
+      "lastPricedAt": 1782831005588,
       "lastPricingReason": "step:node-dom-sim-2"
     }
   },
@@ -639,7 +1082,7 @@
     }
   },
   "shefa": {
-    "malchus": 9,
+    "malchus": 10,
     "chesed": 3
   },
   "hashgacha": {
@@ -648,7 +1091,7 @@
     "gift": {
       "charity": 1
     },
-    "at": 1782417587344
+    "at": 1782831005579
   },
   "ambient": {
     "type": "ambient-conversation",
@@ -657,42 +1100,81 @@
       "tova_child"
     ],
     "text": "Miriam says: I heard a rumor near the market.",
-    "at": 1782417587345
+    "at": 1782831005579
   },
   "finalPayload": {
     "ambientFeed": {
       "events": [
         {
+          "type": "living-world-start",
+          "reason": "visible-bridge",
+          "at": 1782831005550
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "dawn",
+          "mood": "quiet-light",
+          "reason": "visible-bridge",
+          "changed": true,
+          "at": 1782831005553
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "dawn",
+            "crowd": "low",
+            "services": {
+              "vendors": false,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005553
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:visible-bridge",
+          "at": 1782831005557
+        },
+        {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782417587309,
+          "at": 1782831005558,
           "payload": {
             "place": "bakery"
           }
         },
         {
           "type": "vendor-purchase",
-          "id": "vendor_1782417587338_bread",
+          "id": "vendor_1782831005575_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782417587338
+          "at": 1782831005575
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bring_flour",
           "next": "bake_challah",
-          "at": 1782417587343
+          "at": 1782831005578
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bake_challah",
           "next": "feed_guest",
-          "at": 1782417587343
+          "at": 1782831005578
         },
         {
           "type": "neighbor_offers_help",
@@ -700,7 +1182,7 @@
           "gift": {
             "charity": 1
           },
-          "at": 1782417587344
+          "at": 1782831005579
         },
         {
           "type": "ambient-conversation",
@@ -709,36 +1191,117 @@
             "tova_child"
           ],
           "text": "Miriam says: I heard a rumor near the market.",
-          "at": 1782417587345
+          "at": 1782831005579
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "morning",
+          "mood": "purposeful",
+          "reason": "node-dom-sim-1",
+          "changed": true,
+          "at": 1782831005580
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "morning",
+            "crowd": "medium",
+            "services": {
+              "vendors": true,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005580
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "traveler_arrives",
+          "phase": "morning",
+          "place": "village_gate",
+          "missionId": "welcome_traveler",
+          "reason": "step:node-dom-sim-1",
+          "at": 1782831005581
         },
         {
           "type": "child_runs_across_square",
           "reason": "node-dom-sim-1",
-          "at": 1782417587351,
+          "at": 1782831005582,
           "payload": {
             "place": "market_square"
           }
         },
         {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "morning",
+          "mood": "purposeful",
+          "reason": "node-dom-sim-2",
+          "changed": false,
+          "at": 1782831005587
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "morning",
+            "crowd": "medium",
+            "services": {
+              "vendors": true,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005587
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "morning",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:node-dom-sim-2",
+          "at": 1782831005588
+        },
+        {
           "type": "guard_patrol_passes",
           "reason": "node-dom-sim-2",
-          "at": 1782417587358,
+          "at": 1782831005588,
           "payload": {
             "place": "market_square"
           }
         }
       ],
       "text": [
-        "quest-chain-advance",
-        "quest-chain-advance",
-        "neighbor offers help",
-        "ambient-conversation",
+        "traveler arrives",
         "child runs across square",
+        "phase",
+        "",
+        "repair after wind",
         "guard patrol passes"
       ]
     },
     "questTracker": {
       "active": [
+        {
+          "id": "repair_bridge_plank",
+          "title": "Betzalel points to a plank that needs hands.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "repair_after_wind",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
+        },
         {
           "id": "repair_beis_midrash_bench",
           "title": "Repair the Beis Midrash Bench",
@@ -746,49 +1309,67 @@
             {
               "kind": "repair_bench",
               "needed": 1,
-              "done": 0
+              "done": 0,
+              "index": 0,
+              "count": 1,
+              "progress": 0,
+              "current": 0,
+              "complete": false
             }
           ],
           "source": "world_state"
+        },
+        {
+          "id": "welcome_traveler",
+          "title": "A traveler waits at the gate.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "traveler_arrives",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
         }
       ]
     },
     "questMarkers": {
       "markers": [
         {
+          "npcId": "miriam_baker",
+          "missionId": "miriam_baker",
+          "marker": "exclamation",
+          "npcName": "miriam baker",
+          "title": "village-morning-selling"
+        },
+        {
           "npcId": "rebbe_akiva",
           "missionId": "rebbe_akiva",
           "marker": "exclamation",
           "npcName": "rebbe akiva",
-          "title": "daven"
+          "title": "village-morning-teaching"
         },
         {
           "npcId": "levi_guard",
           "missionId": "levi_guard",
           "marker": "exclamation",
           "npcName": "levi guard",
-          "title": "daven"
+          "title": "village-morning-watching"
         },
         {
           "npcId": "betzalel_crafter",
           "missionId": "betzalel_crafter",
           "marker": "exclamation",
           "npcName": "betzalel crafter",
-          "title": "work"
+          "title": "village-morning-crafting"
         },
         {
           "npcId": "tova_child",
           "missionId": "tova_child",
           "marker": "exclamation",
           "npcName": "tova child",
-          "title": "work"
-        },
-        {
-          "npcId": "miriam_baker",
-          "missionId": "miriam_baker",
-          "marker": "exclamation",
-          "npcName": "miriam baker",
-          "title": "work"
+          "title": "village-morning-learning"
         },
         {
           "npcId": "rebbe_akiva",
@@ -812,10 +1393,24 @@
           "title": "work"
         },
         {
+          "npcId": "repair_bridge_plank",
+          "missionId": "repair_bridge_plank",
+          "marker": "question",
+          "npcName": "bridge",
+          "title": "quest"
+        },
+        {
           "npcId": "repair_beis_midrash_bench",
           "missionId": "repair_beis_midrash_bench",
           "marker": "question",
           "npcName": "beis midrash",
+          "title": "quest"
+        },
+        {
+          "npcId": "welcome_traveler",
+          "missionId": "welcome_traveler",
+          "marker": "question",
+          "npcName": "village gate",
           "title": "quest"
         }
       ]
@@ -824,12 +1419,27 @@
       "open": false,
       "npcId": "miriam_baker",
       "npcName": "Miriam",
-      "greeting": "The player helped Miriam.",
+      "greeting": "Wind loosened a plank near the bridge.",
       "choices": [
         {
-          "id": "rumor_1782417587311_7kh6q",
+          "id": "rumor_1782831005560_u2gia",
           "label": "The player helped Miriam.",
           "kind": "bread_delivery"
+        },
+        {
+          "id": "rumor_1782831005580_mtw15",
+          "label": "The player helped Miriam.",
+          "kind": "phase_morning"
+        },
+        {
+          "id": "rumor_1782831005581_90hd5",
+          "label": "The player helped Miriam.",
+          "kind": "traveler_arrives"
+        },
+        {
+          "id": "rumor_1782831005588_zjggu",
+          "label": "Wind loosened a plank near the bridge.",
+          "kind": "repair_after_wind"
         }
       ]
     },
@@ -842,13 +1452,13 @@
       ]
     },
     "reputationSummary": {
-      "village": 8,
+      "village": 10,
       "merchants": 0,
       "poorFamilies": 0,
       "scholars": 0,
       "children": 0,
       "guards": 0,
-      "travelers": 0,
+      "travelers": 1,
       "animals": 0,
       "virtues": {
         "reliability": 3
@@ -857,27 +1467,18 @@
     "scheduleDebug": {
       "miriam_baker": {
         "npcId": "miriam_baker",
-        "role": "work",
-        "place": "bakery",
-        "hour": 9,
-        "updatedAt": 1782417587350,
-        "reason": "work",
-        "movementIntent": {
-          "npcId": "miriam_baker",
-          "from": "beis_midrash",
-          "to": "bakery",
-          "reason": "work",
-          "urgency": "normal",
-          "startedAt": 32400000,
-          "estimatedArrival": 32445000
-        }
+        "phase": "morning",
+        "role": "selling",
+        "place": "market_square",
+        "hour": 10,
+        "updatedAt": 1782831005587
       },
       "rebbe_akiva": {
         "npcId": "rebbe_akiva",
         "role": "work",
         "place": "beis_midrash",
         "hour": 10,
-        "updatedAt": 1782417587357,
+        "updatedAt": 1782831005588,
         "reason": "work",
         "movementIntent": {
           "npcId": "rebbe_akiva",
@@ -894,11 +1495,11 @@
         "role": "work",
         "place": "village_gate",
         "hour": 10,
-        "updatedAt": 1782417587357,
+        "updatedAt": 1782831005588,
         "reason": "work",
         "movementIntent": {
           "npcId": "levi_guard",
-          "from": "beis_midrash",
+          "from": "village_gate",
           "to": "village_gate",
           "reason": "work",
           "urgency": "normal",
@@ -911,7 +1512,7 @@
         "role": "work",
         "place": "workshop",
         "hour": 10,
-        "updatedAt": 1782417587357,
+        "updatedAt": 1782831005588,
         "reason": "work",
         "movementIntent": {
           "npcId": "betzalel_crafter",
@@ -925,20 +1526,11 @@
       },
       "tova_child": {
         "npcId": "tova_child",
-        "role": "work",
+        "phase": "morning",
+        "role": "learning",
         "place": "schoolyard",
-        "hour": 9,
-        "updatedAt": 1782417587345,
-        "reason": "work",
-        "movementIntent": {
-          "npcId": "tova_child",
-          "from": "baker_home",
-          "to": "schoolyard",
-          "reason": "work",
-          "urgency": "normal",
-          "startedAt": 32400000,
-          "estimatedArrival": 32445000
-        }
+        "hour": 10,
+        "updatedAt": 1782831005587
       }
     },
     "economySummary": {
@@ -954,15 +1546,27 @@
       "ink": 3,
       "soup": 0,
       "charity": 6,
+      "water": 8,
+      "milk": 2,
+      "honey": 2,
+      "tea": 1,
       "demand": {
-        "bread": 5,
+        "bread": 6,
         "candle": 3,
-        "soup": 2
+        "soup": 2,
+        "water": 4,
+        "milk": 2,
+        "tea": 3,
+        "honey": 2
       },
       "prices": {
         "bread": 3,
         "candle": 6,
         "soup": 5,
+        "water": 1,
+        "milk": 3,
+        "tea": 5,
+        "honey": 4,
         "warm_bread": 3,
         "challah": 4,
         "flour": 2,
@@ -971,18 +1575,32 @@
         "work_jacket": 10,
         "small_siddur": 5,
         "charity": 1,
+        "water_cup": 1,
+        "warm_tea": 5,
         "grain": 1,
         "dough": 1,
         "wood": 1,
         "plank": 1,
-        "wax": 1,
-        "lastPricedAt": 1
+        "wax": 1
       },
-      "lastPricedAt": 1782417587358,
+      "lastPricedAt": 1782831005588,
       "lastPricingReason": "step:node-dom-sim-2"
     },
     "rawUiPayloads": {
       "questTrackerRows": [
+        {
+          "id": "repair_bridge_plank",
+          "title": "Betzalel points to a plank that needs hands.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "repair_after_wind",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
+        },
         {
           "id": "repair_beis_midrash_bench",
           "title": "Repair the Beis Midrash Bench",
@@ -990,15 +1608,51 @@
             {
               "kind": "repair_bench",
               "needed": 1,
-              "done": 0
+              "done": 0,
+              "index": 0,
+              "count": 1,
+              "progress": 0,
+              "current": 0,
+              "complete": false
             }
           ],
           "source": "world_state"
+        },
+        {
+          "id": "welcome_traveler",
+          "title": "A traveler waits at the gate.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "traveler_arrives",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
         }
       ],
       "npcGossipPayload": [
         {
-          "id": "rumor_1782417587311_7kh6q",
+          "id": "rumor_1782831005557_o8j9q",
+          "sourceNpc": "betzalel_crafter",
+          "originalText": "Wind loosened a plank near the bridge.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.30000000000000004,
+          "spreadCount": 3,
+          "heardBy": [
+            "betzalel_crafter",
+            "miriam_baker",
+            "rebbe_akiva",
+            "levi_guard"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "repair_after_wind",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005560_u2gia",
           "sourceNpc": "miriam_baker",
           "originalText": "The player delivered bread.",
           "currentText": "The player helped Miriam.",
@@ -1011,8 +1665,58 @@
             "levi_guard",
             "betzalel_crafter"
           ],
-          "timestamp": 1782417587358,
+          "timestamp": 1782831005588,
           "topic": "bread_delivery",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005580_mtw15",
+          "sourceNpc": "village",
+          "originalText": "The village shifted into morning.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.2,
+          "spreadCount": 2,
+          "heardBy": [
+            "village",
+            "miriam_baker",
+            "rebbe_akiva"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "phase_morning",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005581_90hd5",
+          "sourceNpc": "levi_guard",
+          "originalText": "A traveler reached the village gate.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.2,
+          "spreadCount": 2,
+          "heardBy": [
+            "levi_guard",
+            "miriam_baker",
+            "rebbe_akiva"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "traveler_arrives",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005588_zjggu",
+          "sourceNpc": "betzalel_crafter",
+          "originalText": "Wind loosened a plank near the bridge.",
+          "currentText": "Wind loosened a plank near the bridge.",
+          "truthValue": true,
+          "distortionAmount": 0.1,
+          "spreadCount": 1,
+          "heardBy": [
+            "betzalel_crafter",
+            "miriam_baker"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "repair_after_wind",
           "emotionalTone": "warm"
         }
       ],
@@ -1023,6 +1727,10 @@
           "bread": 3,
           "candle": 6,
           "soup": 5,
+          "water": 1,
+          "milk": 3,
+          "tea": 5,
+          "honey": 4,
           "warm_bread": 3,
           "challah": 4,
           "flour": 2,
@@ -1031,59 +1739,65 @@
           "work_jacket": 10,
           "small_siddur": 5,
           "charity": 1,
+          "water_cup": 1,
+          "warm_tea": 5,
           "grain": 1,
           "dough": 1,
           "wood": 1,
           "plank": 1,
-          "wax": 1,
-          "lastPricedAt": 1
+          "wax": 1
+        },
+        "open": {
+          "vendors": true,
+          "trainers": true,
+          "inn": true
         }
       },
       "mapMarkerPayload": [
         {
           "urgency": "normal",
-          "startedAt": 21600000,
-          "estimatedArrival": 21645000,
-          "npcId": "rebbe_akiva",
-          "from": "rebbe_home",
-          "to": "beis_midrash",
-          "reason": "daven"
-        },
-        {
-          "urgency": "normal",
-          "startedAt": 21600000,
-          "estimatedArrival": 21645000,
-          "npcId": "levi_guard",
-          "from": "guard_house",
-          "to": "beis_midrash",
-          "reason": "daven"
-        },
-        {
-          "urgency": "normal",
-          "startedAt": 32400000,
-          "estimatedArrival": 32445000,
-          "npcId": "betzalel_crafter",
-          "from": "crafter_home",
-          "to": "workshop",
-          "reason": "work"
-        },
-        {
-          "urgency": "normal",
-          "startedAt": 32400000,
-          "estimatedArrival": 32445000,
-          "npcId": "tova_child",
-          "from": "baker_home",
-          "to": "schoolyard",
-          "reason": "work"
-        },
-        {
-          "urgency": "normal",
-          "startedAt": 32400000,
-          "estimatedArrival": 32445000,
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
           "npcId": "miriam_baker",
+          "from": "bakery",
+          "to": "market_square",
+          "reason": "village-morning-selling"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "rebbe_akiva",
           "from": "beis_midrash",
-          "to": "bakery",
-          "reason": "work"
+          "to": "beis_midrash",
+          "reason": "village-morning-teaching"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "levi_guard",
+          "from": "village_gate",
+          "to": "village_gate",
+          "reason": "village-morning-watching"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "betzalel_crafter",
+          "from": "workshop",
+          "to": "workshop",
+          "reason": "village-morning-crafting"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "tova_child",
+          "from": "schoolyard",
+          "to": "schoolyard",
+          "reason": "village-morning-learning"
         },
         {
           "urgency": "normal",
@@ -1099,7 +1813,7 @@
           "startedAt": 36000000,
           "estimatedArrival": 36045000,
           "npcId": "levi_guard",
-          "from": "beis_midrash",
+          "from": "village_gate",
           "to": "village_gate",
           "reason": "work"
         },
@@ -1113,43 +1827,92 @@
           "reason": "work"
         },
         {
+          "missionId": "repair_bridge_plank",
+          "place": "bridge",
+          "kind": "quest"
+        },
+        {
           "missionId": "repair_beis_midrash_bench",
           "place": "beis_midrash",
+          "kind": "quest"
+        },
+        {
+          "missionId": "welcome_traveler",
+          "place": "village_gate",
           "kind": "quest"
         }
       ],
       "ambientEventFeedPayload": [
         {
+          "type": "living-world-start",
+          "reason": "visible-bridge",
+          "at": 1782831005550
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "dawn",
+          "mood": "quiet-light",
+          "reason": "visible-bridge",
+          "changed": true,
+          "at": 1782831005553
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "dawn",
+            "crowd": "low",
+            "services": {
+              "vendors": false,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005553
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:visible-bridge",
+          "at": 1782831005557
+        },
+        {
           "type": "baker_delivers_bread",
           "reason": "visible-bridge",
-          "at": 1782417587309,
+          "at": 1782831005558,
           "payload": {
             "place": "bakery"
           }
         },
         {
           "type": "vendor-purchase",
-          "id": "vendor_1782417587338_bread",
+          "id": "vendor_1782831005575_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782417587338
+          "at": 1782831005575
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bring_flour",
           "next": "bake_challah",
-          "at": 1782417587343
+          "at": 1782831005578
         },
         {
           "type": "quest-chain-advance",
           "chainId": "bakery_kindness",
           "completed": "bake_challah",
           "next": "feed_guest",
-          "at": 1782417587343
+          "at": 1782831005578
         },
         {
           "type": "neighbor_offers_help",
@@ -1157,7 +1920,7 @@
           "gift": {
             "charity": 1
           },
-          "at": 1782417587344
+          "at": 1782831005579
         },
         {
           "type": "ambient-conversation",
@@ -1166,33 +1929,101 @@
             "tova_child"
           ],
           "text": "Miriam says: I heard a rumor near the market.",
-          "at": 1782417587345
+          "at": 1782831005579
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "morning",
+          "mood": "purposeful",
+          "reason": "node-dom-sim-1",
+          "changed": true,
+          "at": 1782831005580
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "morning",
+            "crowd": "medium",
+            "services": {
+              "vendors": true,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005580
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "traveler_arrives",
+          "phase": "morning",
+          "place": "village_gate",
+          "missionId": "welcome_traveler",
+          "reason": "step:node-dom-sim-1",
+          "at": 1782831005581
         },
         {
           "type": "child_runs_across_square",
           "reason": "node-dom-sim-1",
-          "at": 1782417587351,
+          "at": 1782831005582,
           "payload": {
             "place": "market_square"
           }
         },
         {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "morning",
+          "mood": "purposeful",
+          "reason": "node-dom-sim-2",
+          "changed": false,
+          "at": 1782831005587
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "morning",
+            "crowd": "medium",
+            "services": {
+              "vendors": true,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005587
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "morning",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:node-dom-sim-2",
+          "at": 1782831005588
+        },
+        {
           "type": "guard_patrol_passes",
           "reason": "node-dom-sim-2",
-          "at": 1782417587358,
+          "at": 1782831005588,
           "payload": {
             "place": "market_square"
           }
         }
       ],
       "reputationSummaryPayload": {
-        "village": 8,
+        "village": 10,
         "merchants": 0,
         "poorFamilies": 0,
         "scholars": 0,
         "children": 0,
         "guards": 0,
-        "travelers": 0,
+        "travelers": 1,
         "animals": 0,
         "virtues": {
           "reliability": 3
@@ -1201,27 +2032,18 @@
       "scheduleDebugPayload": {
         "miriam_baker": {
           "npcId": "miriam_baker",
-          "role": "work",
-          "place": "bakery",
-          "hour": 9,
-          "updatedAt": 1782417587350,
-          "reason": "work",
-          "movementIntent": {
-            "npcId": "miriam_baker",
-            "from": "beis_midrash",
-            "to": "bakery",
-            "reason": "work",
-            "urgency": "normal",
-            "startedAt": 32400000,
-            "estimatedArrival": 32445000
-          }
+          "phase": "morning",
+          "role": "selling",
+          "place": "market_square",
+          "hour": 10,
+          "updatedAt": 1782831005587
         },
         "rebbe_akiva": {
           "npcId": "rebbe_akiva",
           "role": "work",
           "place": "beis_midrash",
           "hour": 10,
-          "updatedAt": 1782417587357,
+          "updatedAt": 1782831005588,
           "reason": "work",
           "movementIntent": {
             "npcId": "rebbe_akiva",
@@ -1238,11 +2060,11 @@
           "role": "work",
           "place": "village_gate",
           "hour": 10,
-          "updatedAt": 1782417587357,
+          "updatedAt": 1782831005588,
           "reason": "work",
           "movementIntent": {
             "npcId": "levi_guard",
-            "from": "beis_midrash",
+            "from": "village_gate",
             "to": "village_gate",
             "reason": "work",
             "urgency": "normal",
@@ -1255,7 +2077,7 @@
           "role": "work",
           "place": "workshop",
           "hour": 10,
-          "updatedAt": 1782417587357,
+          "updatedAt": 1782831005588,
           "reason": "work",
           "movementIntent": {
             "npcId": "betzalel_crafter",
@@ -1269,20 +2091,11 @@
         },
         "tova_child": {
           "npcId": "tova_child",
-          "role": "work",
+          "phase": "morning",
+          "role": "learning",
           "place": "schoolyard",
-          "hour": 9,
-          "updatedAt": 1782417587345,
-          "reason": "work",
-          "movementIntent": {
-            "npcId": "tova_child",
-            "from": "baker_home",
-            "to": "schoolyard",
-            "reason": "work",
-            "urgency": "normal",
-            "startedAt": 32400000,
-            "estimatedArrival": 32445000
-          }
+          "hour": 10,
+          "updatedAt": 1782831005587
         }
       },
       "economySummaryPayload": {
@@ -1298,15 +2111,27 @@
         "ink": 3,
         "soup": 0,
         "charity": 6,
+        "water": 8,
+        "milk": 2,
+        "honey": 2,
+        "tea": 1,
         "demand": {
-          "bread": 5,
+          "bread": 6,
           "candle": 3,
-          "soup": 2
+          "soup": 2,
+          "water": 4,
+          "milk": 2,
+          "tea": 3,
+          "honey": 2
         },
         "prices": {
           "bread": 3,
           "candle": 6,
           "soup": 5,
+          "water": 1,
+          "milk": 3,
+          "tea": 5,
+          "honey": 4,
           "warm_bread": 3,
           "challah": 4,
           "flour": 2,
@@ -1315,34 +2140,351 @@
           "work_jacket": 10,
           "small_siddur": 5,
           "charity": 1,
+          "water_cup": 1,
+          "warm_tea": 5,
           "grain": 1,
           "dough": 1,
           "wood": 1,
           "plank": 1,
-          "wax": 1,
-          "lastPricedAt": 1
+          "wax": 1
         },
-        "lastPricedAt": 1782417587358,
+        "lastPricedAt": 1782831005588,
         "lastPricingReason": "step:node-dom-sim-2"
       },
       "socialConsequencesPayload": [],
       "familyTrustPayload": {},
       "economyTransactionsPayload": [
         {
-          "id": "vendor_1782417587338_bread",
+          "id": "vendor_1782831005575_bread",
           "itemId": "warm_bread",
           "economyKey": "bread",
           "qty": 1,
           "price": 5,
           "vendorId": "bakery",
-          "at": 1782417587338
+          "at": 1782831005575
         }
-      ]
+      ],
+      "villageActivity": {
+        "phase": "morning",
+        "hour": 10,
+        "mood": "purposeful",
+        "lighting": "clear-sun",
+        "sound": "market-steps-learning",
+        "crowd": "medium",
+        "services": [
+          {
+            "id": "vendors",
+            "open": true,
+            "phase": "morning"
+          },
+          {
+            "id": "trainers",
+            "open": true,
+            "phase": "morning"
+          },
+          {
+            "id": "inn",
+            "open": true,
+            "phase": "morning"
+          }
+        ],
+        "assignments": [
+          {
+            "npcId": "miriam_baker",
+            "name": "Miriam",
+            "role": "selling",
+            "place": "market_square",
+            "line": "Miriam brings bread to the square."
+          },
+          {
+            "npcId": "rebbe_akiva",
+            "name": "Rebbe Akiva",
+            "role": "teaching",
+            "place": "beis_midrash",
+            "line": "A first lesson spills into the courtyard."
+          },
+          {
+            "npcId": "levi_guard",
+            "name": "Levi",
+            "role": "watching",
+            "place": "village_gate",
+            "line": "Travelers are counted at the gate."
+          },
+          {
+            "npcId": "betzalel_crafter",
+            "name": "Betzalel",
+            "role": "crafting",
+            "place": "workshop",
+            "line": "The workshop taps with steady repairs."
+          },
+          {
+            "npcId": "tova_child",
+            "name": "Tova",
+            "role": "learning",
+            "place": "schoolyard",
+            "line": "Small voices answer the melamed together."
+          }
+        ],
+        "changed": false,
+        "reason": "node-dom-sim-2",
+        "pulse": 3,
+        "at": 1782831005587,
+        "transitions": [
+          {
+            "phase": "dawn",
+            "hour": 6,
+            "mood": "quiet-light",
+            "lighting": "gold-blue",
+            "sound": "birds-soft-davening",
+            "crowd": "low",
+            "services": [
+              {
+                "id": "vendors",
+                "open": false,
+                "phase": "dawn"
+              },
+              {
+                "id": "trainers",
+                "open": true,
+                "phase": "dawn"
+              },
+              {
+                "id": "inn",
+                "open": true,
+                "phase": "dawn"
+              }
+            ],
+            "assignments": [
+              {
+                "npcId": "miriam_baker",
+                "name": "Miriam",
+                "role": "kneading",
+                "place": "bakery",
+                "line": "Warm bread begins before the market wakes."
+              },
+              {
+                "npcId": "rebbe_akiva",
+                "name": "Rebbe Akiva",
+                "role": "davening",
+                "place": "beis_midrash",
+                "line": "The beis midrash begins to hum."
+              },
+              {
+                "npcId": "levi_guard",
+                "name": "Levi",
+                "role": "patrol",
+                "place": "village_gate",
+                "line": "The gate is watched while the village stretches."
+              },
+              {
+                "npcId": "betzalel_crafter",
+                "name": "Betzalel",
+                "role": "opening",
+                "place": "workshop",
+                "line": "Tools are laid out like small promises."
+              },
+              {
+                "npcId": "tova_child",
+                "name": "Tova",
+                "role": "breakfast",
+                "place": "baker_home",
+                "line": "Children gather satchels near the doorway."
+              }
+            ],
+            "changed": true,
+            "reason": "visible-bridge",
+            "pulse": 1,
+            "at": 1782831005553
+          },
+          {
+            "phase": "morning",
+            "hour": 9,
+            "mood": "purposeful",
+            "lighting": "clear-sun",
+            "sound": "market-steps-learning",
+            "crowd": "medium",
+            "services": [
+              {
+                "id": "vendors",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "trainers",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "inn",
+                "open": true,
+                "phase": "morning"
+              }
+            ],
+            "assignments": [
+              {
+                "npcId": "miriam_baker",
+                "name": "Miriam",
+                "role": "selling",
+                "place": "market_square",
+                "line": "Miriam brings bread to the square."
+              },
+              {
+                "npcId": "rebbe_akiva",
+                "name": "Rebbe Akiva",
+                "role": "teaching",
+                "place": "beis_midrash",
+                "line": "A first lesson spills into the courtyard."
+              },
+              {
+                "npcId": "levi_guard",
+                "name": "Levi",
+                "role": "watching",
+                "place": "village_gate",
+                "line": "Travelers are counted at the gate."
+              },
+              {
+                "npcId": "betzalel_crafter",
+                "name": "Betzalel",
+                "role": "crafting",
+                "place": "workshop",
+                "line": "The workshop taps with steady repairs."
+              },
+              {
+                "npcId": "tova_child",
+                "name": "Tova",
+                "role": "learning",
+                "place": "schoolyard",
+                "line": "Small voices answer the melamed together."
+              }
+            ],
+            "changed": true,
+            "reason": "node-dom-sim-1",
+            "pulse": 2,
+            "at": 1782831005580
+          },
+          {
+            "phase": "morning",
+            "hour": 10,
+            "mood": "purposeful",
+            "lighting": "clear-sun",
+            "sound": "market-steps-learning",
+            "crowd": "medium",
+            "services": [
+              {
+                "id": "vendors",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "trainers",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "inn",
+                "open": true,
+                "phase": "morning"
+              }
+            ],
+            "assignments": [
+              {
+                "npcId": "miriam_baker",
+                "name": "Miriam",
+                "role": "selling",
+                "place": "market_square",
+                "line": "Miriam brings bread to the square."
+              },
+              {
+                "npcId": "rebbe_akiva",
+                "name": "Rebbe Akiva",
+                "role": "teaching",
+                "place": "beis_midrash",
+                "line": "A first lesson spills into the courtyard."
+              },
+              {
+                "npcId": "levi_guard",
+                "name": "Levi",
+                "role": "watching",
+                "place": "village_gate",
+                "line": "Travelers are counted at the gate."
+              },
+              {
+                "npcId": "betzalel_crafter",
+                "name": "Betzalel",
+                "role": "crafting",
+                "place": "workshop",
+                "line": "The workshop taps with steady repairs."
+              },
+              {
+                "npcId": "tova_child",
+                "name": "Tova",
+                "role": "learning",
+                "place": "schoolyard",
+                "line": "Small voices answer the melamed together."
+              }
+            ],
+            "changed": false,
+            "reason": "node-dom-sim-2",
+            "pulse": 3,
+            "at": 1782831005587
+          }
+        ]
+      },
+      "worldEventDirector": {
+        "last": {
+          "id": "repair_after_wind",
+          "phase": "morning",
+          "place": "bridge",
+          "npc": "betzalel_crafter",
+          "ui": "Betzalel points to a plank that needs hands.",
+          "missionId": "repair_bridge_plank",
+          "rumorId": "rumor_1782831005588_zjggu",
+          "reason": "step:node-dom-sim-2",
+          "at": 1782831005588
+        },
+        "recent": [
+          {
+            "id": "repair_after_wind",
+            "phase": "dawn",
+            "place": "bridge",
+            "npc": "betzalel_crafter",
+            "ui": "Betzalel points to a plank that needs hands.",
+            "missionId": "repair_bridge_plank",
+            "rumorId": "rumor_1782831005557_o8j9q",
+            "reason": "step:visible-bridge",
+            "at": 1782831005557
+          },
+          {
+            "id": "traveler_arrives",
+            "phase": "morning",
+            "place": "village_gate",
+            "npc": "levi_guard",
+            "ui": "A traveler waits at the gate.",
+            "missionId": "welcome_traveler",
+            "rumorId": "rumor_1782831005581_90hd5",
+            "reason": "step:node-dom-sim-1",
+            "at": 1782831005581
+          },
+          {
+            "id": "repair_after_wind",
+            "phase": "morning",
+            "place": "bridge",
+            "npc": "betzalel_crafter",
+            "ui": "Betzalel points to a plank that needs hands.",
+            "missionId": "repair_bridge_plank",
+            "rumorId": "rumor_1782831005588_zjggu",
+            "reason": "step:node-dom-sim-2",
+            "at": 1782831005588
+          }
+        ],
+        "pulse": 3,
+        "hasLoop": false
+      }
     }
   },
   "worldState": {
-    "version": 1,
-    "updatedAt": 1782417587362,
+    "version": 2,
+    "updatedAt": 1782831005590,
     "currentDay": 1,
     "currentSeason": "spring",
     "clockHour": 10,
@@ -1350,103 +2492,292 @@
     "npcMemories": {
       "miriam_baker": [
         {
+          "kind": "village_activity",
+          "phase": "dawn",
+          "role": "kneading",
+          "place": "bakery",
+          "text": "Warm bread begins before the market wakes.",
+          "at": 1782831005553
+        },
+        {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for daven.",
           "role": "daven",
           "place": "beis_midrash",
-          "at": 1782417587309
+          "at": 1782831005558
         },
         {
           "kind": "delivered",
           "text": "The player delivered bread.",
           "fact": "bread_delivery",
-          "at": 1782417587311
+          "at": 1782831005560
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "selling",
+          "place": "market_square",
+          "text": "Miriam brings bread to the square.",
+          "at": 1782831005579
         },
         {
           "kind": "schedule_seen",
           "text": "Went to bakery for work.",
           "role": "work",
           "place": "bakery",
-          "at": 1782417587351
+          "at": 1782831005581
         },
         {
           "kind": "delivered",
           "text": "The player delivered bread.",
           "fact": "bread_delivery",
-          "at": 1782417587351
+          "at": 1782831005582
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "selling",
+          "place": "market_square",
+          "text": "Miriam brings bread to the square.",
+          "at": 1782831005587
         },
         {
           "kind": "delivered",
           "text": "The player delivered bread.",
           "fact": "bread_delivery",
-          "at": 1782417587358
+          "at": 1782831005588
         }
       ],
       "rebbe_akiva": [
+        {
+          "kind": "village_activity",
+          "phase": "dawn",
+          "role": "davening",
+          "place": "beis_midrash",
+          "text": "The beis midrash begins to hum.",
+          "at": 1782831005553
+        },
         {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for daven.",
           "role": "daven",
           "place": "beis_midrash",
-          "at": 1782417587309
+          "at": 1782831005558
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "teaching",
+          "place": "beis_midrash",
+          "text": "A first lesson spills into the courtyard.",
+          "at": 1782831005579
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "teaching",
+          "place": "beis_midrash",
+          "text": "A first lesson spills into the courtyard.",
+          "at": 1782831005587
         },
         {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for work.",
           "role": "work",
           "place": "beis_midrash",
-          "at": 1782417587358
+          "at": 1782831005588
         }
       ],
       "levi_guard": [
+        {
+          "kind": "village_activity",
+          "phase": "dawn",
+          "role": "patrol",
+          "place": "village_gate",
+          "text": "The gate is watched while the village stretches.",
+          "at": 1782831005553
+        },
         {
           "kind": "schedule_seen",
           "text": "Went to beis_midrash for daven.",
           "role": "daven",
           "place": "beis_midrash",
-          "at": 1782417587309
+          "at": 1782831005558
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "watching",
+          "place": "village_gate",
+          "text": "Travelers are counted at the gate.",
+          "at": 1782831005579
+        },
+        {
+          "kind": "world_event_director",
+          "eventId": "traveler_arrives",
+          "phase": "morning",
+          "place": "village_gate",
+          "text": "A traveler waits at the gate.",
+          "at": 1782831005581
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "watching",
+          "place": "village_gate",
+          "text": "Travelers are counted at the gate.",
+          "at": 1782831005587
         },
         {
           "kind": "schedule_seen",
           "text": "Went to village_gate for work.",
           "role": "work",
           "place": "village_gate",
-          "at": 1782417587358
+          "at": 1782831005588
         }
       ],
       "betzalel_crafter": [
         {
-          "kind": "schedule_seen",
-          "text": "Went to workshop for work.",
-          "role": "work",
+          "kind": "village_activity",
+          "phase": "dawn",
+          "role": "opening",
           "place": "workshop",
-          "at": 1782417587351
+          "text": "Tools are laid out like small promises.",
+          "at": 1782831005553
+        },
+        {
+          "kind": "world_event_director",
+          "eventId": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "text": "Betzalel points to a plank that needs hands.",
+          "at": 1782831005557
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "crafting",
+          "place": "workshop",
+          "text": "The workshop taps with steady repairs.",
+          "at": 1782831005579
         },
         {
           "kind": "schedule_seen",
           "text": "Went to workshop for work.",
           "role": "work",
           "place": "workshop",
-          "at": 1782417587358
+          "at": 1782831005581
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "crafting",
+          "place": "workshop",
+          "text": "The workshop taps with steady repairs.",
+          "at": 1782831005587
+        },
+        {
+          "kind": "world_event_director",
+          "eventId": "repair_after_wind",
+          "phase": "morning",
+          "place": "bridge",
+          "text": "Betzalel points to a plank that needs hands.",
+          "at": 1782831005588
+        },
+        {
+          "kind": "schedule_seen",
+          "text": "Went to workshop for work.",
+          "role": "work",
+          "place": "workshop",
+          "at": 1782831005588
         }
       ],
       "tova_child": [
+        {
+          "kind": "village_activity",
+          "phase": "dawn",
+          "role": "breakfast",
+          "place": "baker_home",
+          "text": "Children gather satchels near the doorway.",
+          "at": 1782831005553
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "learning",
+          "place": "schoolyard",
+          "text": "Small voices answer the melamed together.",
+          "at": 1782831005579
+        },
         {
           "kind": "schedule_seen",
           "text": "Went to schoolyard for work.",
           "role": "work",
           "place": "schoolyard",
-          "at": 1782417587351
+          "at": 1782831005581
+        },
+        {
+          "kind": "village_activity",
+          "phase": "morning",
+          "role": "learning",
+          "place": "schoolyard",
+          "text": "Small voices answer the melamed together.",
+          "at": 1782831005587
         }
       ]
     },
     "movementIntents": [
       {
         "urgency": "normal",
+        "startedAt": 1782831005552,
+        "estimatedArrival": 1782831050552,
+        "npcId": "miriam_baker",
+        "from": "baker_home",
+        "to": "bakery",
+        "reason": "village-dawn-kneading"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005553,
+        "estimatedArrival": 1782831050553,
+        "npcId": "rebbe_akiva",
+        "from": "rebbe_home",
+        "to": "beis_midrash",
+        "reason": "village-dawn-davening"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005553,
+        "estimatedArrival": 1782831050553,
+        "npcId": "levi_guard",
+        "from": "guard_house",
+        "to": "village_gate",
+        "reason": "village-dawn-patrol"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005553,
+        "estimatedArrival": 1782831050553,
+        "npcId": "betzalel_crafter",
+        "from": "crafter_home",
+        "to": "workshop",
+        "reason": "village-dawn-opening"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005553,
+        "estimatedArrival": 1782831050553,
+        "npcId": "tova_child",
+        "from": "baker_home",
+        "to": "baker_home",
+        "reason": "village-dawn-breakfast"
+      },
+      {
+        "urgency": "normal",
         "startedAt": 21600000,
         "estimatedArrival": 21645000,
         "npcId": "miriam_baker",
-        "from": "baker_home",
+        "from": "bakery",
         "to": "beis_midrash",
         "reason": "daven"
       },
@@ -1455,7 +2786,7 @@
         "startedAt": 21600000,
         "estimatedArrival": 21645000,
         "npcId": "rebbe_akiva",
-        "from": "rebbe_home",
+        "from": "beis_midrash",
         "to": "beis_midrash",
         "reason": "daven"
       },
@@ -1464,16 +2795,61 @@
         "startedAt": 21600000,
         "estimatedArrival": 21645000,
         "npcId": "levi_guard",
-        "from": "guard_house",
+        "from": "village_gate",
         "to": "beis_midrash",
         "reason": "daven"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005579,
+        "estimatedArrival": 1782831050579,
+        "npcId": "miriam_baker",
+        "from": "beis_midrash",
+        "to": "market_square",
+        "reason": "village-morning-selling"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005579,
+        "estimatedArrival": 1782831050579,
+        "npcId": "rebbe_akiva",
+        "from": "beis_midrash",
+        "to": "beis_midrash",
+        "reason": "village-morning-teaching"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005579,
+        "estimatedArrival": 1782831050579,
+        "npcId": "levi_guard",
+        "from": "beis_midrash",
+        "to": "village_gate",
+        "reason": "village-morning-watching"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005579,
+        "estimatedArrival": 1782831050579,
+        "npcId": "betzalel_crafter",
+        "from": "workshop",
+        "to": "workshop",
+        "reason": "village-morning-crafting"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005579,
+        "estimatedArrival": 1782831050579,
+        "npcId": "tova_child",
+        "from": "baker_home",
+        "to": "schoolyard",
+        "reason": "village-morning-learning"
       },
       {
         "urgency": "normal",
         "startedAt": 32400000,
         "estimatedArrival": 32445000,
         "npcId": "betzalel_crafter",
-        "from": "crafter_home",
+        "from": "workshop",
         "to": "workshop",
         "reason": "work"
       },
@@ -1482,7 +2858,7 @@
         "startedAt": 32400000,
         "estimatedArrival": 32445000,
         "npcId": "tova_child",
-        "from": "baker_home",
+        "from": "schoolyard",
         "to": "schoolyard",
         "reason": "work"
       },
@@ -1491,9 +2867,54 @@
         "startedAt": 32400000,
         "estimatedArrival": 32445000,
         "npcId": "miriam_baker",
-        "from": "beis_midrash",
+        "from": "market_square",
         "to": "bakery",
         "reason": "work"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005587,
+        "estimatedArrival": 1782831050587,
+        "npcId": "miriam_baker",
+        "from": "bakery",
+        "to": "market_square",
+        "reason": "village-morning-selling"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005587,
+        "estimatedArrival": 1782831050587,
+        "npcId": "rebbe_akiva",
+        "from": "beis_midrash",
+        "to": "beis_midrash",
+        "reason": "village-morning-teaching"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005587,
+        "estimatedArrival": 1782831050587,
+        "npcId": "levi_guard",
+        "from": "village_gate",
+        "to": "village_gate",
+        "reason": "village-morning-watching"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005587,
+        "estimatedArrival": 1782831050587,
+        "npcId": "betzalel_crafter",
+        "from": "workshop",
+        "to": "workshop",
+        "reason": "village-morning-crafting"
+      },
+      {
+        "urgency": "normal",
+        "startedAt": 1782831005587,
+        "estimatedArrival": 1782831050587,
+        "npcId": "tova_child",
+        "from": "schoolyard",
+        "to": "schoolyard",
+        "reason": "village-morning-learning"
       },
       {
         "urgency": "normal",
@@ -1509,7 +2930,7 @@
         "startedAt": 36000000,
         "estimatedArrival": 36045000,
         "npcId": "levi_guard",
-        "from": "beis_midrash",
+        "from": "village_gate",
         "to": "village_gate",
         "reason": "work"
       },
@@ -1525,7 +2946,43 @@
     ],
     "rumors": [
       {
-        "id": "rumor_1782417587311_7kh6q",
+        "id": "rumor_1782831005553_bx97i",
+        "sourceNpc": "village",
+        "originalText": "The village shifted into dawn.",
+        "currentText": "The player helped Miriam.",
+        "truthValue": true,
+        "distortionAmount": 0.30000000000000004,
+        "spreadCount": 3,
+        "heardBy": [
+          "village",
+          "miriam_baker",
+          "rebbe_akiva",
+          "levi_guard"
+        ],
+        "timestamp": 1782831005588,
+        "topic": "phase_dawn",
+        "emotionalTone": "warm"
+      },
+      {
+        "id": "rumor_1782831005557_o8j9q",
+        "sourceNpc": "betzalel_crafter",
+        "originalText": "Wind loosened a plank near the bridge.",
+        "currentText": "The player helped Miriam.",
+        "truthValue": true,
+        "distortionAmount": 0.30000000000000004,
+        "spreadCount": 3,
+        "heardBy": [
+          "betzalel_crafter",
+          "miriam_baker",
+          "rebbe_akiva",
+          "levi_guard"
+        ],
+        "timestamp": 1782831005588,
+        "topic": "repair_after_wind",
+        "emotionalTone": "warm"
+      },
+      {
+        "id": "rumor_1782831005560_u2gia",
         "sourceNpc": "miriam_baker",
         "originalText": "The player delivered bread.",
         "currentText": "The player helped Miriam.",
@@ -1538,12 +2995,77 @@
           "levi_guard",
           "betzalel_crafter"
         ],
-        "timestamp": 1782417587358,
+        "timestamp": 1782831005588,
         "topic": "bread_delivery",
+        "emotionalTone": "warm"
+      },
+      {
+        "id": "rumor_1782831005580_mtw15",
+        "sourceNpc": "village",
+        "originalText": "The village shifted into morning.",
+        "currentText": "The player helped Miriam.",
+        "truthValue": true,
+        "distortionAmount": 0.2,
+        "spreadCount": 2,
+        "heardBy": [
+          "village",
+          "miriam_baker",
+          "rebbe_akiva"
+        ],
+        "timestamp": 1782831005588,
+        "topic": "phase_morning",
+        "emotionalTone": "warm"
+      },
+      {
+        "id": "rumor_1782831005581_90hd5",
+        "sourceNpc": "levi_guard",
+        "originalText": "A traveler reached the village gate.",
+        "currentText": "The player helped Miriam.",
+        "truthValue": true,
+        "distortionAmount": 0.2,
+        "spreadCount": 2,
+        "heardBy": [
+          "levi_guard",
+          "miriam_baker",
+          "rebbe_akiva"
+        ],
+        "timestamp": 1782831005588,
+        "topic": "traveler_arrives",
+        "emotionalTone": "warm"
+      },
+      {
+        "id": "rumor_1782831005588_zjggu",
+        "sourceNpc": "betzalel_crafter",
+        "originalText": "Wind loosened a plank near the bridge.",
+        "currentText": "Wind loosened a plank near the bridge.",
+        "truthValue": true,
+        "distortionAmount": 0.1,
+        "spreadCount": 1,
+        "heardBy": [
+          "betzalel_crafter",
+          "miriam_baker"
+        ],
+        "timestamp": 1782831005588,
+        "topic": "repair_after_wind",
         "emotionalTone": "warm"
       }
     ],
     "activeMissions": {
+      "repair_bridge_plank": {
+        "id": "repair_bridge_plank",
+        "title": "Betzalel points to a plank that needs hands.",
+        "source": "world-event-director",
+        "place": "bridge",
+        "sourceNpc": "betzalel_crafter",
+        "objectives": [
+          {
+            "kind": "respond_to_event",
+            "target": "repair_after_wind",
+            "current": 0,
+            "needed": 1
+          }
+        ]
+      },
       "repair_beis_midrash_bench": {
         "id": "repair_beis_midrash_bench",
         "title": "Repair the Beis Midrash Bench",
@@ -1553,7 +3075,12 @@
           {
             "kind": "repair_bench",
             "needed": 1,
-            "done": 0
+            "done": 0,
+            "index": 0,
+            "count": 1,
+            "progress": 0,
+            "current": 0,
+            "complete": false
           }
         ],
         "reward": {
@@ -1562,8 +3089,23 @@
           },
           "memory": "crafted"
         },
-        "acceptedAt": 1782417587310,
+        "acceptedAt": 1782831005559,
         "source": "world_state"
+      },
+      "welcome_traveler": {
+        "id": "welcome_traveler",
+        "title": "A traveler waits at the gate.",
+        "source": "world-event-director",
+        "place": "village_gate",
+        "sourceNpc": "levi_guard",
+        "objectives": [
+          {
+            "kind": "respond_to_event",
+            "target": "traveler_arrives",
+            "current": 0,
+            "needed": 1
+          }
+        ]
       }
     },
     "completedMissions": [],
@@ -1572,23 +3114,23 @@
     "apologies": [],
     "economyTransactions": [
       {
-        "id": "vendor_1782417587338_bread",
+        "id": "vendor_1782831005575_bread",
         "itemId": "warm_bread",
         "economyKey": "bread",
         "qty": 1,
         "price": 5,
         "vendorId": "bakery",
-        "at": 1782417587338
+        "at": 1782831005575
       }
     ],
     "reputation": {
-      "village": 8,
+      "village": 10,
       "merchants": 0,
       "poorFamilies": 0,
       "scholars": 0,
       "children": 0,
       "guards": 0,
-      "travelers": 0,
+      "travelers": 1,
       "animals": 0,
       "virtues": {
         "reliability": 3
@@ -1607,15 +3149,27 @@
       "ink": 3,
       "soup": 0,
       "charity": 6,
+      "water": 8,
+      "milk": 2,
+      "honey": 2,
+      "tea": 1,
       "demand": {
-        "bread": 5,
+        "bread": 6,
         "candle": 3,
-        "soup": 2
+        "soup": 2,
+        "water": 4,
+        "milk": 2,
+        "tea": 3,
+        "honey": 2
       },
       "prices": {
         "bread": 3,
         "candle": 6,
         "soup": 5,
+        "water": 1,
+        "milk": 3,
+        "tea": 5,
+        "honey": 4,
         "warm_bread": 3,
         "challah": 4,
         "flour": 2,
@@ -1624,57 +3178,170 @@
         "work_jacket": 10,
         "small_siddur": 5,
         "charity": 1,
+        "water_cup": 1,
+        "warm_tea": 5,
         "grain": 1,
         "dough": 1,
         "wood": 1,
         "plank": 1,
-        "wax": 1,
-        "lastPricedAt": 1
+        "wax": 1
       },
-      "lastPricedAt": 1782417587358,
+      "lastPricedAt": 1782831005588,
       "lastPricingReason": "step:node-dom-sim-2"
     },
     "craftedItems": [
       {
-        "id": "challah_1782417587311",
+        "id": "challah_1782831005560",
         "recipeId": "challah",
         "crafter": "miriam_baker",
         "kind": "crafted",
-        "at": 1782417587311
+        "at": 1782831005560
       },
       {
-        "id": "challah_1782417587337",
+        "id": "challah_1782831005574",
         "recipeId": "challah",
         "crafter": "player",
         "kind": "crafted",
-        "at": 1782417587337
+        "at": 1782831005574
       },
       {
-        "id": "challah_1782417587351",
+        "id": "challah_1782831005582",
         "recipeId": "challah",
         "crafter": "miriam_baker",
         "kind": "crafted",
-        "at": 1782417587351
+        "at": 1782831005582
       },
       {
-        "id": "challah_1782417587358",
+        "id": "challah_1782831005588",
         "recipeId": "challah",
         "crafter": "miriam_baker",
         "kind": "crafted",
-        "at": 1782417587358
+        "at": 1782831005588
       }
     ],
     "servicesVisited": [],
     "ambientEvents": [
       {
+        "type": "living-world-start",
+        "reason": "node-dom-sim",
+        "at": 1782831005548
+      },
+      {
+        "type": "living-world-start",
+        "reason": "visible-bridge",
+        "at": 1782831005550
+      },
+      {
+        "domain": "villageActivity",
+        "type": "phase",
+        "phase": "dawn",
+        "mood": "quiet-light",
+        "reason": "visible-bridge",
+        "changed": true,
+        "at": 1782831005553
+      },
+      {
+        "domain": "economy",
+        "id": "village_activity",
+        "action": "phase",
+        "detail": {
+          "action": "phase",
+          "phase": "dawn",
+          "crowd": "low",
+          "services": {
+            "vendors": false,
+            "trainers": true,
+            "inn": true
+          }
+        },
+        "at": 1782831005553
+      },
+      {
+        "domain": "worldEventDirector",
+        "type": "repair_after_wind",
+        "phase": "dawn",
+        "place": "bridge",
+        "missionId": "repair_bridge_plank",
+        "reason": "step:visible-bridge",
+        "at": 1782831005557
+      },
+      {
         "type": "vendor-purchase",
-        "id": "vendor_1782417587338_bread",
+        "id": "vendor_1782831005575_bread",
         "itemId": "warm_bread",
         "economyKey": "bread",
         "qty": 1,
         "price": 5,
         "vendorId": "bakery",
-        "at": 1782417587338
+        "at": 1782831005575
+      },
+      {
+        "domain": "villageActivity",
+        "type": "phase",
+        "phase": "morning",
+        "mood": "purposeful",
+        "reason": "node-dom-sim-1",
+        "changed": true,
+        "at": 1782831005580
+      },
+      {
+        "domain": "economy",
+        "id": "village_activity",
+        "action": "phase",
+        "detail": {
+          "action": "phase",
+          "phase": "morning",
+          "crowd": "medium",
+          "services": {
+            "vendors": true,
+            "trainers": true,
+            "inn": true
+          }
+        },
+        "at": 1782831005580
+      },
+      {
+        "domain": "worldEventDirector",
+        "type": "traveler_arrives",
+        "phase": "morning",
+        "place": "village_gate",
+        "missionId": "welcome_traveler",
+        "reason": "step:node-dom-sim-1",
+        "at": 1782831005581
+      },
+      {
+        "domain": "villageActivity",
+        "type": "phase",
+        "phase": "morning",
+        "mood": "purposeful",
+        "reason": "node-dom-sim-2",
+        "changed": false,
+        "at": 1782831005587
+      },
+      {
+        "domain": "economy",
+        "id": "village_activity",
+        "action": "phase",
+        "detail": {
+          "action": "phase",
+          "phase": "morning",
+          "crowd": "medium",
+          "services": {
+            "vendors": true,
+            "trainers": true,
+            "inn": true
+          }
+        },
+        "at": 1782831005587
+      },
+      {
+        "domain": "worldEventDirector",
+        "type": "repair_after_wind",
+        "phase": "morning",
+        "place": "bridge",
+        "missionId": "repair_bridge_plank",
+        "reason": "step:node-dom-sim-2",
+        "at": 1782831005588
       }
     ],
     "villageProjects": {
@@ -1683,38 +3350,1303 @@
       "charityNetwork": 1
     },
     "tutorialProgress": {},
+    "villageActivity": {
+      "phase": "morning",
+      "hour": 10,
+      "mood": "purposeful",
+      "lighting": "clear-sun",
+      "sound": "market-steps-learning",
+      "crowd": "medium",
+      "services": [
+        {
+          "id": "vendors",
+          "open": true,
+          "phase": "morning"
+        },
+        {
+          "id": "trainers",
+          "open": true,
+          "phase": "morning"
+        },
+        {
+          "id": "inn",
+          "open": true,
+          "phase": "morning"
+        }
+      ],
+      "assignments": [
+        {
+          "npcId": "miriam_baker",
+          "name": "Miriam",
+          "role": "selling",
+          "place": "market_square",
+          "line": "Miriam brings bread to the square."
+        },
+        {
+          "npcId": "rebbe_akiva",
+          "name": "Rebbe Akiva",
+          "role": "teaching",
+          "place": "beis_midrash",
+          "line": "A first lesson spills into the courtyard."
+        },
+        {
+          "npcId": "levi_guard",
+          "name": "Levi",
+          "role": "watching",
+          "place": "village_gate",
+          "line": "Travelers are counted at the gate."
+        },
+        {
+          "npcId": "betzalel_crafter",
+          "name": "Betzalel",
+          "role": "crafting",
+          "place": "workshop",
+          "line": "The workshop taps with steady repairs."
+        },
+        {
+          "npcId": "tova_child",
+          "name": "Tova",
+          "role": "learning",
+          "place": "schoolyard",
+          "line": "Small voices answer the melamed together."
+        }
+      ],
+      "changed": false,
+      "reason": "node-dom-sim-2",
+      "pulse": 3,
+      "at": 1782831005587,
+      "transitions": [
+        {
+          "phase": "dawn",
+          "hour": 6,
+          "mood": "quiet-light",
+          "lighting": "gold-blue",
+          "sound": "birds-soft-davening",
+          "crowd": "low",
+          "services": [
+            {
+              "id": "vendors",
+              "open": false,
+              "phase": "dawn"
+            },
+            {
+              "id": "trainers",
+              "open": true,
+              "phase": "dawn"
+            },
+            {
+              "id": "inn",
+              "open": true,
+              "phase": "dawn"
+            }
+          ],
+          "assignments": [
+            {
+              "npcId": "miriam_baker",
+              "name": "Miriam",
+              "role": "kneading",
+              "place": "bakery",
+              "line": "Warm bread begins before the market wakes."
+            },
+            {
+              "npcId": "rebbe_akiva",
+              "name": "Rebbe Akiva",
+              "role": "davening",
+              "place": "beis_midrash",
+              "line": "The beis midrash begins to hum."
+            },
+            {
+              "npcId": "levi_guard",
+              "name": "Levi",
+              "role": "patrol",
+              "place": "village_gate",
+              "line": "The gate is watched while the village stretches."
+            },
+            {
+              "npcId": "betzalel_crafter",
+              "name": "Betzalel",
+              "role": "opening",
+              "place": "workshop",
+              "line": "Tools are laid out like small promises."
+            },
+            {
+              "npcId": "tova_child",
+              "name": "Tova",
+              "role": "breakfast",
+              "place": "baker_home",
+              "line": "Children gather satchels near the doorway."
+            }
+          ],
+          "changed": true,
+          "reason": "visible-bridge",
+          "pulse": 1,
+          "at": 1782831005553
+        },
+        {
+          "phase": "morning",
+          "hour": 9,
+          "mood": "purposeful",
+          "lighting": "clear-sun",
+          "sound": "market-steps-learning",
+          "crowd": "medium",
+          "services": [
+            {
+              "id": "vendors",
+              "open": true,
+              "phase": "morning"
+            },
+            {
+              "id": "trainers",
+              "open": true,
+              "phase": "morning"
+            },
+            {
+              "id": "inn",
+              "open": true,
+              "phase": "morning"
+            }
+          ],
+          "assignments": [
+            {
+              "npcId": "miriam_baker",
+              "name": "Miriam",
+              "role": "selling",
+              "place": "market_square",
+              "line": "Miriam brings bread to the square."
+            },
+            {
+              "npcId": "rebbe_akiva",
+              "name": "Rebbe Akiva",
+              "role": "teaching",
+              "place": "beis_midrash",
+              "line": "A first lesson spills into the courtyard."
+            },
+            {
+              "npcId": "levi_guard",
+              "name": "Levi",
+              "role": "watching",
+              "place": "village_gate",
+              "line": "Travelers are counted at the gate."
+            },
+            {
+              "npcId": "betzalel_crafter",
+              "name": "Betzalel",
+              "role": "crafting",
+              "place": "workshop",
+              "line": "The workshop taps with steady repairs."
+            },
+            {
+              "npcId": "tova_child",
+              "name": "Tova",
+              "role": "learning",
+              "place": "schoolyard",
+              "line": "Small voices answer the melamed together."
+            }
+          ],
+          "changed": true,
+          "reason": "node-dom-sim-1",
+          "pulse": 2,
+          "at": 1782831005580
+        },
+        {
+          "phase": "morning",
+          "hour": 10,
+          "mood": "purposeful",
+          "lighting": "clear-sun",
+          "sound": "market-steps-learning",
+          "crowd": "medium",
+          "services": [
+            {
+              "id": "vendors",
+              "open": true,
+              "phase": "morning"
+            },
+            {
+              "id": "trainers",
+              "open": true,
+              "phase": "morning"
+            },
+            {
+              "id": "inn",
+              "open": true,
+              "phase": "morning"
+            }
+          ],
+          "assignments": [
+            {
+              "npcId": "miriam_baker",
+              "name": "Miriam",
+              "role": "selling",
+              "place": "market_square",
+              "line": "Miriam brings bread to the square."
+            },
+            {
+              "npcId": "rebbe_akiva",
+              "name": "Rebbe Akiva",
+              "role": "teaching",
+              "place": "beis_midrash",
+              "line": "A first lesson spills into the courtyard."
+            },
+            {
+              "npcId": "levi_guard",
+              "name": "Levi",
+              "role": "watching",
+              "place": "village_gate",
+              "line": "Travelers are counted at the gate."
+            },
+            {
+              "npcId": "betzalel_crafter",
+              "name": "Betzalel",
+              "role": "crafting",
+              "place": "workshop",
+              "line": "The workshop taps with steady repairs."
+            },
+            {
+              "npcId": "tova_child",
+              "name": "Tova",
+              "role": "learning",
+              "place": "schoolyard",
+              "line": "Small voices answer the melamed together."
+            }
+          ],
+          "changed": false,
+          "reason": "node-dom-sim-2",
+          "pulse": 3,
+          "at": 1782831005587
+        }
+      ]
+    },
+    "servicesOpen": {
+      "vendors": true,
+      "trainers": true,
+      "inn": true
+    },
+    "worldEventDirector": {
+      "recent": [
+        "repair_after_wind",
+        "traveler_arrives",
+        "repair_after_wind"
+      ],
+      "events": [
+        {
+          "id": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "npc": "betzalel_crafter",
+          "ui": "Betzalel points to a plank that needs hands.",
+          "missionId": "repair_bridge_plank",
+          "rumorId": "rumor_1782831005557_o8j9q",
+          "reason": "step:visible-bridge",
+          "at": 1782831005557
+        },
+        {
+          "id": "traveler_arrives",
+          "phase": "morning",
+          "place": "village_gate",
+          "npc": "levi_guard",
+          "ui": "A traveler waits at the gate.",
+          "missionId": "welcome_traveler",
+          "rumorId": "rumor_1782831005581_90hd5",
+          "reason": "step:node-dom-sim-1",
+          "at": 1782831005581
+        },
+        {
+          "id": "repair_after_wind",
+          "phase": "morning",
+          "place": "bridge",
+          "npc": "betzalel_crafter",
+          "ui": "Betzalel points to a plank that needs hands.",
+          "missionId": "repair_bridge_plank",
+          "rumorId": "rumor_1782831005588_zjggu",
+          "reason": "step:node-dom-sim-2",
+          "at": 1782831005588
+        }
+      ],
+      "last": {
+        "id": "repair_after_wind",
+        "phase": "morning",
+        "place": "bridge",
+        "npc": "betzalel_crafter",
+        "ui": "Betzalel points to a plank that needs hands.",
+        "missionId": "repair_bridge_plank",
+        "rumorId": "rumor_1782831005588_zjggu",
+        "reason": "step:node-dom-sim-2",
+        "at": 1782831005588
+      },
+      "pulses": 3,
+      "hasLoop": false
+    },
+    "uiPayloads": {
+      "questTrackerRows": [
+        {
+          "id": "repair_bridge_plank",
+          "title": "Betzalel points to a plank that needs hands.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "repair_after_wind",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
+        },
+        {
+          "id": "repair_beis_midrash_bench",
+          "title": "Repair the Beis Midrash Bench",
+          "objectives": [
+            {
+              "kind": "repair_bench",
+              "needed": 1,
+              "done": 0,
+              "index": 0,
+              "count": 1,
+              "progress": 0,
+              "current": 0,
+              "complete": false
+            }
+          ],
+          "source": "world_state"
+        },
+        {
+          "id": "welcome_traveler",
+          "title": "A traveler waits at the gate.",
+          "objectives": [
+            {
+              "kind": "respond_to_event",
+              "target": "traveler_arrives",
+              "current": 0,
+              "needed": 1
+            }
+          ],
+          "source": "world-event-director"
+        }
+      ],
+      "npcGossipPayload": [
+        {
+          "id": "rumor_1782831005557_o8j9q",
+          "sourceNpc": "betzalel_crafter",
+          "originalText": "Wind loosened a plank near the bridge.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.30000000000000004,
+          "spreadCount": 3,
+          "heardBy": [
+            "betzalel_crafter",
+            "miriam_baker",
+            "rebbe_akiva",
+            "levi_guard"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "repair_after_wind",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005560_u2gia",
+          "sourceNpc": "miriam_baker",
+          "originalText": "The player delivered bread.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.30000000000000004,
+          "spreadCount": 3,
+          "heardBy": [
+            "miriam_baker",
+            "rebbe_akiva",
+            "levi_guard",
+            "betzalel_crafter"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "bread_delivery",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005580_mtw15",
+          "sourceNpc": "village",
+          "originalText": "The village shifted into morning.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.2,
+          "spreadCount": 2,
+          "heardBy": [
+            "village",
+            "miriam_baker",
+            "rebbe_akiva"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "phase_morning",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005581_90hd5",
+          "sourceNpc": "levi_guard",
+          "originalText": "A traveler reached the village gate.",
+          "currentText": "The player helped Miriam.",
+          "truthValue": true,
+          "distortionAmount": 0.2,
+          "spreadCount": 2,
+          "heardBy": [
+            "levi_guard",
+            "miriam_baker",
+            "rebbe_akiva"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "traveler_arrives",
+          "emotionalTone": "warm"
+        },
+        {
+          "id": "rumor_1782831005588_zjggu",
+          "sourceNpc": "betzalel_crafter",
+          "originalText": "Wind loosened a plank near the bridge.",
+          "currentText": "Wind loosened a plank near the bridge.",
+          "truthValue": true,
+          "distortionAmount": 0.1,
+          "spreadCount": 1,
+          "heardBy": [
+            "betzalel_crafter",
+            "miriam_baker"
+          ],
+          "timestamp": 1782831005588,
+          "topic": "repair_after_wind",
+          "emotionalTone": "warm"
+        }
+      ],
+      "serviceMenuPayload": {
+        "hearth": "inn_hearth",
+        "visited": [],
+        "economy": {
+          "bread": 3,
+          "candle": 6,
+          "soup": 5,
+          "water": 1,
+          "milk": 3,
+          "tea": 5,
+          "honey": 4,
+          "warm_bread": 3,
+          "challah": 4,
+          "flour": 2,
+          "paper": 1,
+          "ink": 1,
+          "work_jacket": 10,
+          "small_siddur": 5,
+          "charity": 1,
+          "water_cup": 1,
+          "warm_tea": 5,
+          "grain": 1,
+          "dough": 1,
+          "wood": 1,
+          "plank": 1,
+          "wax": 1
+        },
+        "open": {
+          "vendors": true,
+          "trainers": true,
+          "inn": true
+        }
+      },
+      "mapMarkerPayload": [
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "miriam_baker",
+          "from": "bakery",
+          "to": "market_square",
+          "reason": "village-morning-selling"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "rebbe_akiva",
+          "from": "beis_midrash",
+          "to": "beis_midrash",
+          "reason": "village-morning-teaching"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "levi_guard",
+          "from": "village_gate",
+          "to": "village_gate",
+          "reason": "village-morning-watching"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "betzalel_crafter",
+          "from": "workshop",
+          "to": "workshop",
+          "reason": "village-morning-crafting"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 1782831005587,
+          "estimatedArrival": 1782831050587,
+          "npcId": "tova_child",
+          "from": "schoolyard",
+          "to": "schoolyard",
+          "reason": "village-morning-learning"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000,
+          "npcId": "rebbe_akiva",
+          "from": "beis_midrash",
+          "to": "beis_midrash",
+          "reason": "work"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000,
+          "npcId": "levi_guard",
+          "from": "village_gate",
+          "to": "village_gate",
+          "reason": "work"
+        },
+        {
+          "urgency": "normal",
+          "startedAt": 36000000,
+          "estimatedArrival": 36045000,
+          "npcId": "betzalel_crafter",
+          "from": "workshop",
+          "to": "workshop",
+          "reason": "work"
+        },
+        {
+          "missionId": "repair_bridge_plank",
+          "place": "bridge",
+          "kind": "quest"
+        },
+        {
+          "missionId": "repair_beis_midrash_bench",
+          "place": "beis_midrash",
+          "kind": "quest"
+        },
+        {
+          "missionId": "welcome_traveler",
+          "place": "village_gate",
+          "kind": "quest"
+        }
+      ],
+      "ambientEventFeedPayload": [
+        {
+          "type": "living-world-start",
+          "reason": "visible-bridge",
+          "at": 1782831005550
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "dawn",
+          "mood": "quiet-light",
+          "reason": "visible-bridge",
+          "changed": true,
+          "at": 1782831005553
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "dawn",
+            "crowd": "low",
+            "services": {
+              "vendors": false,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005553
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "dawn",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:visible-bridge",
+          "at": 1782831005557
+        },
+        {
+          "type": "baker_delivers_bread",
+          "reason": "visible-bridge",
+          "at": 1782831005558,
+          "payload": {
+            "place": "bakery"
+          }
+        },
+        {
+          "type": "vendor-purchase",
+          "id": "vendor_1782831005575_bread",
+          "itemId": "warm_bread",
+          "economyKey": "bread",
+          "qty": 1,
+          "price": 5,
+          "vendorId": "bakery",
+          "at": 1782831005575
+        },
+        {
+          "type": "quest-chain-advance",
+          "chainId": "bakery_kindness",
+          "completed": "bring_flour",
+          "next": "bake_challah",
+          "at": 1782831005578
+        },
+        {
+          "type": "quest-chain-advance",
+          "chainId": "bakery_kindness",
+          "completed": "bake_challah",
+          "next": "feed_guest",
+          "at": 1782831005578
+        },
+        {
+          "type": "neighbor_offers_help",
+          "reason": "node-dom-sim",
+          "gift": {
+            "charity": 1
+          },
+          "at": 1782831005579
+        },
+        {
+          "type": "ambient-conversation",
+          "speakers": [
+            "miriam_baker",
+            "tova_child"
+          ],
+          "text": "Miriam says: I heard a rumor near the market.",
+          "at": 1782831005579
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "morning",
+          "mood": "purposeful",
+          "reason": "node-dom-sim-1",
+          "changed": true,
+          "at": 1782831005580
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "morning",
+            "crowd": "medium",
+            "services": {
+              "vendors": true,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005580
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "traveler_arrives",
+          "phase": "morning",
+          "place": "village_gate",
+          "missionId": "welcome_traveler",
+          "reason": "step:node-dom-sim-1",
+          "at": 1782831005581
+        },
+        {
+          "type": "child_runs_across_square",
+          "reason": "node-dom-sim-1",
+          "at": 1782831005582,
+          "payload": {
+            "place": "market_square"
+          }
+        },
+        {
+          "domain": "villageActivity",
+          "type": "phase",
+          "phase": "morning",
+          "mood": "purposeful",
+          "reason": "node-dom-sim-2",
+          "changed": false,
+          "at": 1782831005587
+        },
+        {
+          "domain": "economy",
+          "id": "village_activity",
+          "action": "phase",
+          "detail": {
+            "action": "phase",
+            "phase": "morning",
+            "crowd": "medium",
+            "services": {
+              "vendors": true,
+              "trainers": true,
+              "inn": true
+            }
+          },
+          "at": 1782831005587
+        },
+        {
+          "domain": "worldEventDirector",
+          "type": "repair_after_wind",
+          "phase": "morning",
+          "place": "bridge",
+          "missionId": "repair_bridge_plank",
+          "reason": "step:node-dom-sim-2",
+          "at": 1782831005588
+        },
+        {
+          "type": "guard_patrol_passes",
+          "reason": "node-dom-sim-2",
+          "at": 1782831005588,
+          "payload": {
+            "place": "market_square"
+          }
+        }
+      ],
+      "reputationSummaryPayload": {
+        "village": 10,
+        "merchants": 0,
+        "poorFamilies": 0,
+        "scholars": 0,
+        "children": 0,
+        "guards": 0,
+        "travelers": 1,
+        "animals": 0,
+        "virtues": {
+          "reliability": 3
+        }
+      },
+      "scheduleDebugPayload": {
+        "miriam_baker": {
+          "npcId": "miriam_baker",
+          "phase": "morning",
+          "role": "selling",
+          "place": "market_square",
+          "hour": 10,
+          "updatedAt": 1782831005587
+        },
+        "rebbe_akiva": {
+          "npcId": "rebbe_akiva",
+          "role": "work",
+          "place": "beis_midrash",
+          "hour": 10,
+          "updatedAt": 1782831005588,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "rebbe_akiva",
+            "from": "beis_midrash",
+            "to": "beis_midrash",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "levi_guard": {
+          "npcId": "levi_guard",
+          "role": "work",
+          "place": "village_gate",
+          "hour": 10,
+          "updatedAt": 1782831005588,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "levi_guard",
+            "from": "village_gate",
+            "to": "village_gate",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "betzalel_crafter": {
+          "npcId": "betzalel_crafter",
+          "role": "work",
+          "place": "workshop",
+          "hour": 10,
+          "updatedAt": 1782831005588,
+          "reason": "work",
+          "movementIntent": {
+            "npcId": "betzalel_crafter",
+            "from": "workshop",
+            "to": "workshop",
+            "reason": "work",
+            "urgency": "normal",
+            "startedAt": 36000000,
+            "estimatedArrival": 36045000
+          }
+        },
+        "tova_child": {
+          "npcId": "tova_child",
+          "phase": "morning",
+          "role": "learning",
+          "place": "schoolyard",
+          "hour": 10,
+          "updatedAt": 1782831005587
+        }
+      },
+      "economySummaryPayload": {
+        "grain": 4,
+        "flour": 2,
+        "dough": 1,
+        "bread": 10,
+        "wood": 4,
+        "plank": 1,
+        "wax": 4,
+        "candle": 1,
+        "paper": 4,
+        "ink": 3,
+        "soup": 0,
+        "charity": 6,
+        "water": 8,
+        "milk": 2,
+        "honey": 2,
+        "tea": 1,
+        "demand": {
+          "bread": 6,
+          "candle": 3,
+          "soup": 2,
+          "water": 4,
+          "milk": 2,
+          "tea": 3,
+          "honey": 2
+        },
+        "prices": {
+          "bread": 3,
+          "candle": 6,
+          "soup": 5,
+          "water": 1,
+          "milk": 3,
+          "tea": 5,
+          "honey": 4,
+          "warm_bread": 3,
+          "challah": 4,
+          "flour": 2,
+          "paper": 1,
+          "ink": 1,
+          "work_jacket": 10,
+          "small_siddur": 5,
+          "charity": 1,
+          "water_cup": 1,
+          "warm_tea": 5,
+          "grain": 1,
+          "dough": 1,
+          "wood": 1,
+          "plank": 1,
+          "wax": 1
+        },
+        "lastPricedAt": 1782831005588,
+        "lastPricingReason": "step:node-dom-sim-2"
+      },
+      "socialConsequencesPayload": [],
+      "familyTrustPayload": {},
+      "economyTransactionsPayload": [
+        {
+          "id": "vendor_1782831005575_bread",
+          "itemId": "warm_bread",
+          "economyKey": "bread",
+          "qty": 1,
+          "price": 5,
+          "vendorId": "bakery",
+          "at": 1782831005575
+        }
+      ],
+      "villageActivity": {
+        "phase": "morning",
+        "hour": 10,
+        "mood": "purposeful",
+        "lighting": "clear-sun",
+        "sound": "market-steps-learning",
+        "crowd": "medium",
+        "services": [
+          {
+            "id": "vendors",
+            "open": true,
+            "phase": "morning"
+          },
+          {
+            "id": "trainers",
+            "open": true,
+            "phase": "morning"
+          },
+          {
+            "id": "inn",
+            "open": true,
+            "phase": "morning"
+          }
+        ],
+        "assignments": [
+          {
+            "npcId": "miriam_baker",
+            "name": "Miriam",
+            "role": "selling",
+            "place": "market_square",
+            "line": "Miriam brings bread to the square."
+          },
+          {
+            "npcId": "rebbe_akiva",
+            "name": "Rebbe Akiva",
+            "role": "teaching",
+            "place": "beis_midrash",
+            "line": "A first lesson spills into the courtyard."
+          },
+          {
+            "npcId": "levi_guard",
+            "name": "Levi",
+            "role": "watching",
+            "place": "village_gate",
+            "line": "Travelers are counted at the gate."
+          },
+          {
+            "npcId": "betzalel_crafter",
+            "name": "Betzalel",
+            "role": "crafting",
+            "place": "workshop",
+            "line": "The workshop taps with steady repairs."
+          },
+          {
+            "npcId": "tova_child",
+            "name": "Tova",
+            "role": "learning",
+            "place": "schoolyard",
+            "line": "Small voices answer the melamed together."
+          }
+        ],
+        "changed": false,
+        "reason": "node-dom-sim-2",
+        "pulse": 3,
+        "at": 1782831005587,
+        "transitions": [
+          {
+            "phase": "dawn",
+            "hour": 6,
+            "mood": "quiet-light",
+            "lighting": "gold-blue",
+            "sound": "birds-soft-davening",
+            "crowd": "low",
+            "services": [
+              {
+                "id": "vendors",
+                "open": false,
+                "phase": "dawn"
+              },
+              {
+                "id": "trainers",
+                "open": true,
+                "phase": "dawn"
+              },
+              {
+                "id": "inn",
+                "open": true,
+                "phase": "dawn"
+              }
+            ],
+            "assignments": [
+              {
+                "npcId": "miriam_baker",
+                "name": "Miriam",
+                "role": "kneading",
+                "place": "bakery",
+                "line": "Warm bread begins before the market wakes."
+              },
+              {
+                "npcId": "rebbe_akiva",
+                "name": "Rebbe Akiva",
+                "role": "davening",
+                "place": "beis_midrash",
+                "line": "The beis midrash begins to hum."
+              },
+              {
+                "npcId": "levi_guard",
+                "name": "Levi",
+                "role": "patrol",
+                "place": "village_gate",
+                "line": "The gate is watched while the village stretches."
+              },
+              {
+                "npcId": "betzalel_crafter",
+                "name": "Betzalel",
+                "role": "opening",
+                "place": "workshop",
+                "line": "Tools are laid out like small promises."
+              },
+              {
+                "npcId": "tova_child",
+                "name": "Tova",
+                "role": "breakfast",
+                "place": "baker_home",
+                "line": "Children gather satchels near the doorway."
+              }
+            ],
+            "changed": true,
+            "reason": "visible-bridge",
+            "pulse": 1,
+            "at": 1782831005553
+          },
+          {
+            "phase": "morning",
+            "hour": 9,
+            "mood": "purposeful",
+            "lighting": "clear-sun",
+            "sound": "market-steps-learning",
+            "crowd": "medium",
+            "services": [
+              {
+                "id": "vendors",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "trainers",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "inn",
+                "open": true,
+                "phase": "morning"
+              }
+            ],
+            "assignments": [
+              {
+                "npcId": "miriam_baker",
+                "name": "Miriam",
+                "role": "selling",
+                "place": "market_square",
+                "line": "Miriam brings bread to the square."
+              },
+              {
+                "npcId": "rebbe_akiva",
+                "name": "Rebbe Akiva",
+                "role": "teaching",
+                "place": "beis_midrash",
+                "line": "A first lesson spills into the courtyard."
+              },
+              {
+                "npcId": "levi_guard",
+                "name": "Levi",
+                "role": "watching",
+                "place": "village_gate",
+                "line": "Travelers are counted at the gate."
+              },
+              {
+                "npcId": "betzalel_crafter",
+                "name": "Betzalel",
+                "role": "crafting",
+                "place": "workshop",
+                "line": "The workshop taps with steady repairs."
+              },
+              {
+                "npcId": "tova_child",
+                "name": "Tova",
+                "role": "learning",
+                "place": "schoolyard",
+                "line": "Small voices answer the melamed together."
+              }
+            ],
+            "changed": true,
+            "reason": "node-dom-sim-1",
+            "pulse": 2,
+            "at": 1782831005580
+          },
+          {
+            "phase": "morning",
+            "hour": 10,
+            "mood": "purposeful",
+            "lighting": "clear-sun",
+            "sound": "market-steps-learning",
+            "crowd": "medium",
+            "services": [
+              {
+                "id": "vendors",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "trainers",
+                "open": true,
+                "phase": "morning"
+              },
+              {
+                "id": "inn",
+                "open": true,
+                "phase": "morning"
+              }
+            ],
+            "assignments": [
+              {
+                "npcId": "miriam_baker",
+                "name": "Miriam",
+                "role": "selling",
+                "place": "market_square",
+                "line": "Miriam brings bread to the square."
+              },
+              {
+                "npcId": "rebbe_akiva",
+                "name": "Rebbe Akiva",
+                "role": "teaching",
+                "place": "beis_midrash",
+                "line": "A first lesson spills into the courtyard."
+              },
+              {
+                "npcId": "levi_guard",
+                "name": "Levi",
+                "role": "watching",
+                "place": "village_gate",
+                "line": "Travelers are counted at the gate."
+              },
+              {
+                "npcId": "betzalel_crafter",
+                "name": "Betzalel",
+                "role": "crafting",
+                "place": "workshop",
+                "line": "The workshop taps with steady repairs."
+              },
+              {
+                "npcId": "tova_child",
+                "name": "Tova",
+                "role": "learning",
+                "place": "schoolyard",
+                "line": "Small voices answer the melamed together."
+              }
+            ],
+            "changed": false,
+            "reason": "node-dom-sim-2",
+            "pulse": 3,
+            "at": 1782831005587
+          }
+        ]
+      },
+      "worldEventDirector": {
+        "last": {
+          "id": "repair_after_wind",
+          "phase": "morning",
+          "place": "bridge",
+          "npc": "betzalel_crafter",
+          "ui": "Betzalel points to a plank that needs hands.",
+          "missionId": "repair_bridge_plank",
+          "rumorId": "rumor_1782831005588_zjggu",
+          "reason": "step:node-dom-sim-2",
+          "at": 1782831005588
+        },
+        "recent": [
+          {
+            "id": "repair_after_wind",
+            "phase": "dawn",
+            "place": "bridge",
+            "npc": "betzalel_crafter",
+            "ui": "Betzalel points to a plank that needs hands.",
+            "missionId": "repair_bridge_plank",
+            "rumorId": "rumor_1782831005557_o8j9q",
+            "reason": "step:visible-bridge",
+            "at": 1782831005557
+          },
+          {
+            "id": "traveler_arrives",
+            "phase": "morning",
+            "place": "village_gate",
+            "npc": "levi_guard",
+            "ui": "A traveler waits at the gate.",
+            "missionId": "welcome_traveler",
+            "rumorId": "rumor_1782831005581_90hd5",
+            "reason": "step:node-dom-sim-1",
+            "at": 1782831005581
+          },
+          {
+            "id": "repair_after_wind",
+            "phase": "morning",
+            "place": "bridge",
+            "npc": "betzalel_crafter",
+            "ui": "Betzalel points to a plank that needs hands.",
+            "missionId": "repair_bridge_plank",
+            "rumorId": "rumor_1782831005588_zjggu",
+            "reason": "step:node-dom-sim-2",
+            "at": 1782831005588
+          }
+        ],
+        "pulse": 3,
+        "hasLoop": false
+      }
+    },
     "eventFeed": [
+      {
+        "type": "living-world-start",
+        "reason": "node-dom-sim",
+        "at": 1782831005548
+      },
+      {
+        "type": "living-world-start",
+        "reason": "visible-bridge",
+        "at": 1782831005550
+      },
+      {
+        "domain": "villageActivity",
+        "type": "phase",
+        "phase": "dawn",
+        "mood": "quiet-light",
+        "reason": "visible-bridge",
+        "changed": true,
+        "at": 1782831005553
+      },
+      {
+        "domain": "economy",
+        "id": "village_activity",
+        "action": "phase",
+        "detail": {
+          "action": "phase",
+          "phase": "dawn",
+          "crowd": "low",
+          "services": {
+            "vendors": false,
+            "trainers": true,
+            "inn": true
+          }
+        },
+        "at": 1782831005553
+      },
+      {
+        "domain": "worldEventDirector",
+        "type": "repair_after_wind",
+        "phase": "dawn",
+        "place": "bridge",
+        "missionId": "repair_bridge_plank",
+        "reason": "step:visible-bridge",
+        "at": 1782831005557
+      },
       {
         "type": "baker_delivers_bread",
         "reason": "visible-bridge",
-        "at": 1782417587309,
+        "at": 1782831005558,
         "payload": {
           "place": "bakery"
         }
       },
       {
         "type": "vendor-purchase",
-        "id": "vendor_1782417587338_bread",
+        "id": "vendor_1782831005575_bread",
         "itemId": "warm_bread",
         "economyKey": "bread",
         "qty": 1,
         "price": 5,
         "vendorId": "bakery",
-        "at": 1782417587338
+        "at": 1782831005575
       },
       {
         "type": "quest-chain-advance",
         "chainId": "bakery_kindness",
         "completed": "bring_flour",
         "next": "bake_challah",
-        "at": 1782417587343
+        "at": 1782831005578
       },
       {
         "type": "quest-chain-advance",
         "chainId": "bakery_kindness",
         "completed": "bake_challah",
         "next": "feed_guest",
-        "at": 1782417587343
+        "at": 1782831005578
       },
       {
         "type": "neighbor_offers_help",
@@ -1722,7 +4654,7 @@
         "gift": {
           "charity": 1
         },
-        "at": 1782417587344
+        "at": 1782831005579
       },
       {
         "type": "ambient-conversation",
@@ -1731,20 +4663,88 @@
           "tova_child"
         ],
         "text": "Miriam says: I heard a rumor near the market.",
-        "at": 1782417587345
+        "at": 1782831005579
+      },
+      {
+        "domain": "villageActivity",
+        "type": "phase",
+        "phase": "morning",
+        "mood": "purposeful",
+        "reason": "node-dom-sim-1",
+        "changed": true,
+        "at": 1782831005580
+      },
+      {
+        "domain": "economy",
+        "id": "village_activity",
+        "action": "phase",
+        "detail": {
+          "action": "phase",
+          "phase": "morning",
+          "crowd": "medium",
+          "services": {
+            "vendors": true,
+            "trainers": true,
+            "inn": true
+          }
+        },
+        "at": 1782831005580
+      },
+      {
+        "domain": "worldEventDirector",
+        "type": "traveler_arrives",
+        "phase": "morning",
+        "place": "village_gate",
+        "missionId": "welcome_traveler",
+        "reason": "step:node-dom-sim-1",
+        "at": 1782831005581
       },
       {
         "type": "child_runs_across_square",
         "reason": "node-dom-sim-1",
-        "at": 1782417587351,
+        "at": 1782831005582,
         "payload": {
           "place": "market_square"
         }
       },
       {
+        "domain": "villageActivity",
+        "type": "phase",
+        "phase": "morning",
+        "mood": "purposeful",
+        "reason": "node-dom-sim-2",
+        "changed": false,
+        "at": 1782831005587
+      },
+      {
+        "domain": "economy",
+        "id": "village_activity",
+        "action": "phase",
+        "detail": {
+          "action": "phase",
+          "phase": "morning",
+          "crowd": "medium",
+          "services": {
+            "vendors": true,
+            "trainers": true,
+            "inn": true
+          }
+        },
+        "at": 1782831005587
+      },
+      {
+        "domain": "worldEventDirector",
+        "type": "repair_after_wind",
+        "phase": "morning",
+        "place": "bridge",
+        "missionId": "repair_bridge_plank",
+        "reason": "step:node-dom-sim-2",
+        "at": 1782831005588
+      },
+      {
         "type": "guard_patrol_passes",
         "reason": "node-dom-sim-2",
-        "at": 1782417587358,
+        "at": 1782831005588,
         "payload": {
           "place": "market_square"
         }

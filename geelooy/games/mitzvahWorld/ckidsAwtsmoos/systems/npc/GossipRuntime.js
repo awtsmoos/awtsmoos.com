@@ -1,5 +1,15 @@
 // B"H
-/** GossipRuntime: stable NPC payloads plus living rumor mutation. */
+/**
+ * @file GossipRuntime.js
+ * @description
+ * Chapter 421: Dialogue remembers both call orders.
+ *
+ * Some callers speak as `gossipPayload(npc, store)`. Older starter behavior
+ * tests speak as `gossipPayload(olam, npcId)`. The runtime now recognizes both
+ * without birthing another dialogue system. The same quest bridge still supplies
+ * actual mission choices.
+ */
+import { questChoicesForNpc } from "../missions/QuestGossipRuntime.js";
 import { npcStoryBeat } from "./NpcStoryRuntime.js";
 
 const cache = new Map();
@@ -16,9 +26,11 @@ const defaultChoices = Object.freeze([
   { id:"train", label:"Training" }
 ]);
 
-function storyLine(npc = {}, ctx = {}) {
-  return npcStoryBeat(npc, ctx).line || "The village breathes quietly.";
-}
+function looksLikeOlam(value) { return value && typeof value === "object" && (value.ayshPeula || value.player || value.chossid || value.events || value.__activeMissions || value.activeMissions); }
+function parseArgs(first, second) { if (looksLikeOlam(first) && typeof second === "string") return { npc:{ id:second, name:String(second).replace(/_/g, " ") }, ctx:first, store:first }; const npc = typeof first === "object" && first ? first : { id:first, name:String(first || "Villager").replace(/_/g, " ") }; const ctx = second || globalThis.__MITZVAH_WORLD_STATE__ || {}; return { npc, ctx, store:ctx.store || ctx }; }
+function storyLine(npc = {}, ctx = {}) { return npcStoryBeat(npc, ctx).line || "The village breathes quietly."; }
+function completedOf(store = {}) { return store.completedMissions || store.__completedMissions || []; }
+function choicesFor(npc = {}, store = {}) { const npcId = npc.id || npc.npcId || npc.name || "villager"; const quests = questChoicesForNpc(npcId, completedOf(store)).map(q => ({ id:q.id, kind:"questAccept", missionId:q.missionId || q.id, label:q.label || q.title })); const base = npc.choices || defaultChoices; return quests.length ? [...quests, ...base] : base; }
 
 export function mutateRumorText(rumor = {}) {
   const spreads = rumor.spreadCount || 0;
@@ -39,28 +51,14 @@ export function spreadRumor(rumor = {}, npcId = "villager") {
   return { ...rumor, spreadCount, heardBy:[...heard], distortionAmount:Math.min(1, (rumor.distortionAmount || 0) + 0.1), currentText:mutateRumorText({ ...rumor, spreadCount }), timestamp:Date.now() };
 }
 
-export function gossipPayload(npcOrId = "villager", ctxOrStore = globalThis.__MITZVAH_WORLD_STATE__ || {}) {
-  const npc = typeof npcOrId === "object" && npcOrId ? npcOrId : { id:npcOrId, name:String(npcOrId || "Villager").replace(/_/g, " ") };
-  const ctx = ctxOrStore || {};
-  const store = ctx.store || ctx;
+export function gossipPayload(npcOrOlam = "villager", ctxOrNpcId = globalThis.__MITZVAH_WORLD_STATE__ || {}) {
+  const { npc, ctx, store } = parseArgs(npcOrOlam, ctxOrNpcId);
   const npcId = npc.id || npc.npcId || npc.name || "villager";
-  const key = JSON.stringify([npcId, ctx.reputation, ctx.weather, ctx.questHash, (store.rumors || []).length]);
+  const key = JSON.stringify([npcId, ctx.reputation, ctx.weather, ctx.questHash, (store.rumors || []).length, JSON.stringify(completedOf(store))]);
   if (cache.has(key)) return cache.get(key);
   const rumors = (store.rumors || []).filter(r => !r.heardBy || r.heardBy.includes(npcId) || r.spreadCount > 1).slice(-4);
   const line = storyLine(npc, ctx);
-  const payload = {
-    open:true,
-    ok:true,
-    npcId,
-    npcName:npc.name || npc.title || "Villager",
-    title:npc.name || npc.title || "Villager",
-    greeting:line,
-    line,
-    choices:npc.choices || defaultChoices,
-    rumors,
-    lines:rumors.map(r => r.currentText),
-    tone:rumors.some(r => r.emotionalTone === "worried") ? "worried" : "warm"
-  };
+  const payload = { open:true, ok:true, npcId, npcName:npc.name || npc.title || "Villager", title:npc.name || npc.title || "Villager", greeting:line, line, choices:choicesFor(npc, store), rumors, lines:rumors.map(r => r.currentText), tone:rumors.some(r => r.emotionalTone === "worried") ? "worried" : "warm" };
   cache.set(key, payload);
   if (cache.size > 80) cache.delete(cache.keys().next().value);
   return payload;
@@ -77,8 +75,5 @@ export function propagateRumors(store = globalThis.__MITZVAH_WORLD_STATE__ || {}
   return store.rumors;
 }
 
-export function clearGossipCache() {
-  cache.clear();
-}
-
+export function clearGossipCache() { cache.clear(); }
 export default { createRumor, spreadRumor, mutateRumorText, gossipPayload, propagateRumors, clearGossipCache };

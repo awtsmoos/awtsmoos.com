@@ -1,13 +1,22 @@
 // B"H
 /**
+ * @file TrainerRuntime.js
+ * @description
  * Trainers grant identity abilities, ranked Torah passages, and tutorial
- * direction. A starter path may speak in fantasy names, but the trainer anchors
- * it into a real passage in the spellbook and action bar.
+ * direction. The rank gate still owns trainer state; the wallet owns payment.
+ *
+ * A trainer is not a second economy. When a passage is learned, the cost now
+ * flows through PersonalPerutaWallet so storage, HUD, shops, repairs, quests,
+ * and training all hear the same personal perutah truth.
+ *
+ * The Awtsmoos lets the rebbe, the sword, the spellbook, and the purse become
+ * one scene: wisdom enters the action bar, and the wallet remembers why it paid.
  */
 import { trainerForPath, TRAINERS } from "./TrainerRegistry.js";
 import { AbilityIndex, abilityRankInfo } from "../../tochen/torah/AbilityIndex.js";
 import { learnPassage } from "../torah/TorahSpellbookRuntime.js";
 import { assignActionSlot } from "../torah/TorahActionBarState.js";
+import { awardMoney, bindWalletOlam, moneyOf } from "../economy/wallet/PersonalPerutaWallet.js";
 
 const COST_BASE = 6;
 const PATH_PASSAGE = Object.freeze({ learner:"shemaUnity", helper:"tehillimSong", guardian:"amidahArrow", builder:"chumashLight" });
@@ -16,14 +25,13 @@ function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function emit(olam, name, payload) { olam?.ayshPeula?.("ui event", name, payload); }
 function stateOf(target = {}) { const p = playerOf(target) || target; p.trainerState ||= { abilityRanks:{}, trainedAt:[], learnedAbilities:[] }; return p.trainerState; }
 function levelOf(olam) { return Math.max(1, Number(playerOf(olam)?.level || olam?.level || 1)); }
-function perutahOf(olam) { return Number(playerOf(olam)?.perutah ?? olam?.perutah ?? 0); }
-function setPerutah(olam, value) { const p = playerOf(olam) || olam; if (p) p.perutah = Math.max(0, Number(value || 0)); }
+function walletPlayer(olam) { return bindWalletOlam(playerOf(olam), olam); }
+function perutahOf(olam) { const player = walletPlayer(olam); return player ? moneyOf(player) : Number(olam?.perutah ?? 0); }
+function chargeTraining(olam, cost) { const player = walletPlayer(olam); if (!player) return perutahOf(olam); return awardMoney(player, -Math.max(0, Number(cost || 0)), "trainer training"); }
 function passageIdForTrainer(trainer) { return AbilityIndex[trainer?.ability] ? trainer.ability : (PATH_PASSAGE[trainer?.path] || "shemaUnity"); }
 function costForRank(rank) { return COST_BASE + Math.max(0, rank - 1) * 8; }
 
-export function ensureTrainerState(target = {}) {
-  return stateOf(target);
-}
+export function ensureTrainerState(target = {}) { return stateOf(target); }
 
 export function trainerOffers(olamOrPath = "learner") {
   const olam = typeof olamOrPath === "object" ? olamOrPath : null;
@@ -40,22 +48,21 @@ export function trainerOffers(olamOrPath = "learner") {
     const max = info.max || 1;
     const required = info.unlockLevel + Math.max(0, next - 1);
     const cost = costForRank(next);
-    return { ...trainer, selected:trainer.path === path, pathAbility:trainer.ability, passageId, ability:passageId, abilityName:ability?.name || passageId, currentRank:current, nextRank:Math.min(next, max), maxRank:max, requiredLevel:required, cost, trainable:next <= max && level >= required && coins >= cost, state:next <= max ? "trainable" : "max-rank", reason:next > max ? "max-rank" : level < required ? "level-required" : coins < cost ? "low-perutah" : "ready" };
+    const trainable = next <= max && level >= required && coins >= cost;
+    const reason = next > max ? "max-rank" : level < required ? "level-required" : coins < cost ? "low-perutah" : "ready";
+    return { ...trainer, selected:trainer.path === path, pathAbility:trainer.ability, passageId, ability:passageId, abilityName:ability?.name || passageId, currentRank:current, nextRank:Math.min(next, max), maxRank:max, requiredLevel:required, cost, trainable, state:next <= max ? "trainable" : "max-rank", reason };
   });
 }
 
-export function trainerPayload(path = "learner") {
-  const selected = trainerForPath(typeof path === "string" ? path : "learner");
-  const choices = trainerOffers(path);
+export function trainerPayload(pathOrOlam = "learner") {
+  const selected = trainerForPath(typeof pathOrOlam === "string" ? pathOrOlam : "learner");
+  const choices = trainerOffers(pathOrOlam);
   return { trainer:selected, choices, trainers:choices };
 }
 
 export function rankedPassage(olamOrTopic = "kindness", passage = null) {
   if (typeof olamOrTopic === "string") return { topic:olamOrTopic, rank:1, text:"A small steady mitzvah is stronger than a loud empty motion." };
-  const olam = olamOrTopic;
-  const move = passage || {};
-  const rank = stateOf(olam).abilityRanks[move.id] || 1;
-  const info = abilityRankInfo(move.id);
+  const olam = olamOrTopic, move = passage || {}, rank = stateOf(olam).abilityRanks[move.id] || 1, info = abilityRankInfo(move.id);
   const damage = Math.round(Number(move.damage || 0) * (1 + (rank - 1) * (info.damageStep || 0)));
   const cost = Math.max(0, Math.round(Number(move.cost || move.koachCost || 0) * (1 + (rank - 1) * (info.costStep || 0))));
   return { ...move, rank, damage, cost };
@@ -64,12 +71,11 @@ export function rankedPassage(olamOrTopic = "kindness", passage = null) {
 export function trainAbilityAtTrainer(olam, path = "learner", options = {}) {
   const player = playerOf(olam);
   if (!player) return { ok:false, error:"missing-player" };
-  const trainer = trainerForPath(path);
-  const offer = trainerOffers(olam).find(o => o.path === trainer.path);
+  const trainer = trainerForPath(path), offer = trainerOffers(olam).find(o => o.path === trainer.path);
   if (!offer) return { ok:false, error:"missing-trainer" };
   if (!offer.trainable && !options.free) return { ok:false, error:offer.reason, offer };
   const state = stateOf(olam);
-  if (!options.free) setPerutah(olam, perutahOf(olam) - offer.cost);
+  if (!options.free) chargeTraining(olam, offer.cost);
   state.abilityRanks[offer.passageId] = offer.nextRank;
   if (!state.learnedAbilities.includes(offer.passageId)) state.learnedAbilities.push(offer.passageId);
   state.trainedAt.push({ ability:offer.passageId, pathAbility:offer.pathAbility, rank:offer.nextRank, trainerId:trainer.id, at:Date.now(), cost:options.free ? 0 : offer.cost });
@@ -84,20 +90,7 @@ export function trainAbilityAtTrainer(olam, path = "learner", options = {}) {
 
 export function createTrainerRuntime(store = {}) {
   const state = stateOf(store);
-  return {
-    train(path = "learner") {
-      const trainer = trainerForPath(path);
-      const passageId = passageIdForTrainer(trainer);
-      if (!state.learnedAbilities.includes(passageId)) state.learnedAbilities.push(passageId);
-      state.abilityRanks[passageId] = Math.max(1, state.abilityRanks[passageId] || 1);
-      globalThis.dispatchEvent?.(new CustomEvent("mitzvah-world:trained", { detail:{ trainer, learned:state.learnedAbilities } }));
-      return { ...trainer, passageId };
-    },
-    trainOlam:trainAbilityAtTrainer,
-    known() { return state.learnedAbilities.slice(); },
-    offers:trainerOffers,
-    payload:trainerPayload
-  };
+  return { train(path = "learner") { const trainer = trainerForPath(path), passageId = passageIdForTrainer(trainer); if (!state.learnedAbilities.includes(passageId)) state.learnedAbilities.push(passageId); state.abilityRanks[passageId] = Math.max(1, state.abilityRanks[passageId] || 1); globalThis.dispatchEvent?.(new CustomEvent("mitzvah-world:trained", { detail:{ trainer, learned:state.learnedAbilities } })); return { ...trainer, passageId }; }, trainOlam:trainAbilityAtTrainer, known() { return state.learnedAbilities.slice(); }, offers:trainerOffers, payload:trainerPayload };
 }
 
 export default createTrainerRuntime;

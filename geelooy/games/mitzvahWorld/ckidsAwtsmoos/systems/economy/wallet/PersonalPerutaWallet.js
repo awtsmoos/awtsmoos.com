@@ -2,17 +2,18 @@
 /**
  * @file PersonalPerutaWallet.js
  * @description
- * Lord of JSDoc, Chapter Four: The One Purse Beneath Many Garments.
+ * Lord of JSDoc, Chapter Five: The Ancient Perutah Joins the One Purse.
  *
- * The world had many names for the same little golden breath: `currency`,
- * `personalPerutas`, `inventory.personalPerutas`, `inventory.perutas`, and the
- * remembered storage jar. This module is the neutral bridge that lets every
- * existing system speak to one wallet without depending on a shop, a door, or a
- * HUD panel.
+ * The shop, the mezuzah, the loot corpse, the repair bench, the quest giver,
+ * the lava fall, and the sofer all used different pocket names for one owned
+ * spendable light. This bridge refuses the civil war. It gathers `perutah`,
+ * `currency`, `personalPerutas`, inventory mirrors, and the remembered storage
+ * jar into one wallet covenant.
  *
- * Here the Awtsmoos gathers the scattered coins of state into one living pouch.
- * A merchant may deduct. A mezuzah may reward. A HUD may glow. LocalStorage may
- * remember. Yet none of them becomes a second wallet.
+ * Global score coins remain outside this vessel until proven otherwise. The
+ * Awtsmoos lets level collectibles sparkle in their own river; this file owns
+ * only the personal purse the player can spend, lose, earn, repair with, and
+ * carry from one gameplay system to another.
  */
 import { walletNumber, wholeWalletNumber } from "./WalletNumbers.js";
 import {
@@ -21,8 +22,18 @@ import {
 } from "./WalletStorage.js";
 import { emitPersonalPerutas } from "./WalletEvents.js";
 
+export function bindWalletOlam(player, olam) {
+  if (player && olam && !player.olam) player.olam = olam;
+  return player || null;
+}
+
+export function walletPlayerOf(olam) {
+  return bindWalletOlam(olam?.player || olam?.chossid || null, olam);
+}
+
 function mirroredMoneyValues(player) {
   return [
+    walletNumber(player?.perutah),
     walletNumber(player?.currency),
     walletNumber(player?.personalPerutas),
     walletNumber(player?.inventory?.personalPerutas),
@@ -37,10 +48,10 @@ export function moneyOf(player) {
 
 export function setMoney(player, value, reason = "wallet sync") {
   if (!player) return 0;
-
   const before = moneyOf(player);
   const next = Math.max(0, wholeWalletNumber(value));
 
+  player.perutah = next;
   player.personalPerutas = next;
   player.currency = next;
 
@@ -51,7 +62,6 @@ export function setMoney(player, value, reason = "wallet sync") {
 
   writeStoredPersonalPerutas(player, next);
   emitPersonalPerutas(player, next, next - before, reason);
-
   return next;
 }
 
@@ -61,6 +71,8 @@ export function awardMoney(player, delta, reason = "reward") {
 
 export default {
   awardMoney,
+  bindWalletOlam,
   moneyOf,
-  setMoney
+  setMoney,
+  walletPlayerOf
 };

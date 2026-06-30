@@ -1,31 +1,5 @@
 // B"H
 export default /*css*/`
-@media (max-width: 720px) {
-  .file-explorer-header { padding: 10px; }
-  .button-bar { flex-wrap: wrap; gap: 8px; }
-  .menu-buttons, .view-controls { flex-wrap: wrap; }
-  .menu-buttons button, .view-controls button { padding: 7px 10px; }
-  .file-explorer-content { flex-direction: column; }
-  .file-explorer-sidebar { width: 100%; max-height: 150px; border-right: 0; border-bottom: 1px solid rgba(125,211,252,.18); }
-  .sidebar-resizer { display: none; }
-  .file-explorer-body { padding: 12px; }
-  .icons-view { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
-  .file-item.icon { min-height: 128px; border-radius: 16px; }
-  .file-item.icon .icon-img { width: 52px; height: 52px; }
-  .details-view { min-width: 0; }
-  .details-view .file-item.icon { grid-template-columns: 36px minmax(0, 1fr); }
-  .details-view .item-meta, .details-view .mount-badge { grid-column: 2; justify-self: start; }
-  .drive-shelf::before { display: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .file-explorer *, .file-explorer *::before, .file-explorer *::after {
-    animation-duration: .001ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: .001ms !important;
-  }
-  .file-item.icon:hover, .tree-node-content:hover, .drive-chip:hover { transform: none; }
-}
+@media(max-width:720px){.file-explorer-header{padding:4px}.button-bar{flex-wrap:wrap;gap:4px}.toolbar-group,.menu-buttons,.view-controls{flex-wrap:wrap;max-width:100%;overflow:auto}.toolbar-search{width:100%;max-width:220px}.toolbar-status{order:99;width:100%}.file-explorer-content{flex-direction:column}.file-explorer-sidebar{width:100%;max-height:150px;border-right:0;border-bottom:1px solid var(--awts-xp-line-dark)}.sidebar-resizer{display:none}.file-explorer-body{padding:6px}.icons-view{grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:6px}.file-item.icon .icon-img{width:36px;height:36px}.details-view{min-width:0}.drive-shelf::before{display:none}}@media(prefers-reduced-motion:reduce){.file-explorer *,.file-explorer *::before,.file-explorer *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
 `;
-
-/** B"H: motion bows out when the human asks for stillness. */
+/** B"H: responsive law now packs the expanded button audit surface. */
