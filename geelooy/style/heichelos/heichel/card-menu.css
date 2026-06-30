@@ -1,14 +1,14 @@
 /* B"H fast card menu: normal drawer, no blur. */
 .card-menu-spark { position: relative; align-self: start; z-index: 10; }
 .card-menu-trigger {
-  display: grid; place-items: center; width: 2.55rem; height: 2.55rem; border: 1px solid rgba(122,82,31,.2); border-radius: .85rem;
+  display: grid; place-items: center; width: 2.55rem; height: 2.55rem; border: 1px solid var(--heichel-line); border-radius: .85rem;
   background: #e7c06f; color: #24160b; font-size: 1.18rem; font-weight: 950; line-height: 1; cursor: pointer;
 }
 .card-menu-trigger:hover,
 .card-menu-trigger:focus-visible { outline: none; background: #f0cd7b; }
 .card-menu-panel {
   position: absolute; right: 0; top: calc(100% + .45rem); min-width: 12rem; max-width: min(17rem, 82vw); display: none; padding: .45rem;
-  border: 1px solid rgba(122,82,31,.18); border-radius: .95rem; background: #fffaf0; box-shadow: 0 .8rem 1.45rem rgba(54,29,9,.16);
+  border: 1px solid var(--heichel-line); border-radius: .95rem; background: var(--g-panel-solid); box-shadow: var(--heichel-shadow-soft);
 }
 .card-menu-spark.open .card-menu-panel { display: grid; gap: .2rem; }
 .card-menu-action { width: 100%; min-height: 2.55rem; border: 0; border-radius: .75rem; padding: .55rem .7rem; background: transparent; color: #24160b; text-align: start; font-weight: 900; cursor: pointer; }

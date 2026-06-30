@@ -1,52 +1,15 @@
 // B"H
 export default /*css*/`
-.drive-shelf {
-  z-index: 4;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 10px 14px;
-  overflow-x: auto;
-  border-bottom: 1px solid rgba(125,211,252,.18);
-  background: linear-gradient(90deg, rgba(2,6,23,.82), rgba(8,47,73,.58), rgba(30,27,75,.5));
-}
-.drive-shelf::before {
-  content: "mounts";
-  color: rgba(236,254,255,.62);
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-}
-.drive-chip {
-  position: relative;
-  display: inline-flex;
-  gap: 7px;
-  align-items: center;
-  white-space: nowrap;
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 999px;
-  background: rgba(255,255,255,.07);
-  color: var(--awts-explorer-text);
-  padding: 8px 12px;
-  cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
-  transition: transform .16s ease, border-color .16s ease, background .16s ease;
-}
-.drive-chip::after {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--awts-explorer-green);
-  box-shadow: 0 0 12px currentColor;
-}
-.drive-chip small { color: var(--awts-explorer-muted); font-size: 10px; text-transform: uppercase; }
-.drive-chip:hover { transform: translateY(-2px); border-color: rgba(125,211,252,.66); background: rgba(125,211,252,.14); }
-.drive-chip.mount-tunnel::after, .drive-chip.remote::after { background: var(--awts-explorer-blue); }
-.drive-chip.mount-preview::after { background: var(--awts-explorer-purple); }
-.drive-chip.mount-denied::after { background: var(--awts-explorer-red); }
-.drive-chip.mount-local::after { background: var(--awts-explorer-green); }
+.drive-shelf { z-index:4; display:flex; gap:8px; align-items:center; min-height:44px; padding:7px 12px; overflow-x:auto; border-bottom:1px solid rgba(125,211,252,.22); background:linear-gradient(90deg, rgba(3,10,22,.92), rgba(10,36,52,.8)); }
+.drive-shelf::before { content:"mounts"; flex:0 0 auto; color:var(--awts-explorer-muted); font-size:10px; font-weight:900; letter-spacing:.16em; text-transform:uppercase; }
+.drive-chip { display:grid; grid-template-columns:auto minmax(70px, 1fr); gap:5px 7px; align-items:center; min-width:155px; max-width:250px; padding:7px 10px; border:1px solid rgba(125,211,252,.22); border-radius:999px; background:rgba(15,23,42,.78); color:var(--awts-explorer-text); cursor:pointer; }
+.drive-chip:hover { border-color:var(--awts-explorer-line-hot); background:rgba(14,55,78,.82); }
+.drive-chip-icon { grid-row:1 / span 2; display:grid; place-items:center; width:22px; height:22px; }
+.drive-chip-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13px; font-weight:850; }
+.drive-chip-meta { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--awts-explorer-muted); font-size:9px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+.drive-chip.mount-tunnel, .drive-chip[data-locality="remote"] { border-color:rgba(56,189,248,.46); }
+.drive-chip.mount-preview { border-color:rgba(192,132,252,.46); }
+.drive-chip.mount-local { border-color:rgba(52,211,153,.38); }
+.drive-chip[data-permission="read-only"] { color:#dbeafe; }
 `;
-
-/** B"H: every drive chip is a little planet with permission-weather orbiting it. */
+/** B"H: mounted worlds fit on one line and stop fighting the header. */

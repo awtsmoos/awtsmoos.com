@@ -1,0 +1,49 @@
+/* B"H — Spaces actions: every visible command is a route or real action. */
+.spaces-command-row,
+.space-actions,
+.spaces-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+}
+
+.spaces-command-row {
+  justify-content: flex-end;
+}
+
+.spaces-create,
+.spaces-secondary,
+.space-actions a,
+.spaces-empty-actions a {
+  min-height: var(--spaces-touch);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: .85rem;
+  padding: .78rem 1rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.spaces-create,
+.space-actions a:first-child,
+.spaces-empty-actions a:first-child {
+  background: linear-gradient(135deg, var(--spaces-gold), var(--spaces-cyan));
+  color: #03101b;
+}
+
+.spaces-secondary,
+.space-actions a,
+.spaces-empty-actions a {
+  border: 1px solid var(--spaces-line);
+  background: rgba(255,255,255,.075);
+  color: var(--spaces-ink-warm);
+}
+
+.space-actions {
+  padding: 0 1rem 1rem;
+}
+
+.space-actions a {
+  flex: 1 1 8rem;
+}

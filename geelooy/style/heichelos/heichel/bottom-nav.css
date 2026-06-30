@@ -2,7 +2,7 @@
 .heichel-mobile-navigation .geelooy-bottom-nav {
   position: fixed; left: 50%; bottom: max(.6rem, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 950;
   width: min(92vw, 35rem); display: grid; grid-template-columns: repeat(5, 1fr); gap: .24rem; padding: .36rem;
-  border: 1px solid rgba(255,255,255,.14); border-radius: 1.25rem; background: #252540; box-shadow: 0 .65rem 1.25rem rgba(0,0,0,.25);
+  border: 1px solid var(--heichel-line); border-radius: 1.1rem; background: rgba(8,13,27,.94); box-shadow: var(--heichel-shadow-soft);
 }
 .heichel-mobile-navigation .geelooy-bottom-nav a,
 .heichel-mobile-navigation .geelooy-bottom-nav button { display: grid; place-items: center; min-height: 2.65rem; border: 0; border-radius: .9rem; background: transparent; color: #fff7df; text-decoration: none; font: inherit; font-size: .74rem; font-weight: 900; cursor: pointer; }
@@ -10,5 +10,5 @@
 .heichel-mobile-navigation .geelooy-bottom-nav button:hover,
 .heichel-mobile-navigation .geelooy-bottom-nav a:focus-visible,
 .heichel-mobile-navigation .geelooy-bottom-nav button:focus-visible { background: rgba(255,255,255,.11); outline: none; }
-.heichel-mobile-navigation .geelooy-bottom-nav :nth-child(3) { margin-top: -.6rem; min-height: 3.05rem; border-radius: 999px; background: #e7c06f; color: #160e05; font-size: 1.02rem; box-shadow: 0 .45rem .85rem rgba(0,0,0,.22); }
+.heichel-mobile-navigation .geelooy-bottom-nav :nth-child(3) { margin-top: 0; min-height: 2.65rem; border-radius: .9rem; background: linear-gradient(135deg, var(--heichel-gold), var(--heichel-cyan)); color: #03101b; font-size: .82rem; box-shadow: none; }
 @media (max-width: 520px) { .heichel-mobile-navigation .geelooy-bottom-nav { width: min(96vw, 35rem); } .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button { font-size: .68rem; min-height: 2.5rem; } }

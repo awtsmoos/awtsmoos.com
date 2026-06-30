@@ -1,16 +1,16 @@
 /* B"H fast drawer: a normal menu that opens cleanly. */
 .geelooy-mobile-drawer {
   position: fixed; inset: var(--heichel-topbar-height, 4.15rem) auto 0 0; z-index: 900; width: min(20rem, 86vw);
-  display: grid; align-content: start; gap: .45rem; padding: 1rem; border-right: 1px solid rgba(122,82,31,.18);
-  background: #fff8ea; box-shadow: .7rem 0 1.2rem rgba(39,24,8,.13); transform: translateX(-105%); transition: transform .16s ease;
+  display: grid; align-content: start; gap: .45rem; padding: 1rem; border-right: 1px solid var(--heichel-line);
+  background: rgba(8,13,27,.96); box-shadow: .7rem 0 1.2rem rgba(0,0,0,.22); transform: translateX(-105%); transition: transform .16s ease;
 }
-.geelooy-mobile-drawer::before { content: "Navigation"; display: block; margin: .2rem .25rem .55rem; color: #8a4b00; font-size: .72rem; font-weight: 950; letter-spacing: .16em; text-transform: uppercase; }
+.geelooy-mobile-drawer::before { content: "Navigation"; display: block; margin: .2rem .25rem .55rem; color: var(--heichel-gold); font-size: .72rem; font-weight: 950; letter-spacing: .16em; text-transform: uppercase; }
 .sidebar-open .geelooy-mobile-drawer,
 .heichel-mobile-navigation.sidebar-open .geelooy-mobile-drawer { transform: translateX(0); }
 .geelooy-mobile-drawer a {
-  position: relative; display: flex; align-items: center; min-height: 3.05rem; padding: .75rem 1rem .75rem 2.1rem; border: 1px solid rgba(122,82,31,.14); border-radius: .95rem;
-  background: rgba(255,255,255,.72); color: var(--heichel-ink, #24160b); text-decoration: none; font-weight: 900; letter-spacing: .01em;
+  position: relative; display: flex; align-items: center; min-height: 3.05rem; padding: .75rem 1rem .75rem 2.1rem; border: 1px solid var(--heichel-line); border-radius: .95rem;
+  background: rgba(255,255,255,.07); color: var(--heichel-ink); text-decoration: none; font-weight: 900; letter-spacing: .01em;
 }
-.geelooy-mobile-drawer a::before { content: ""; position: absolute; left: .9rem; width: .5rem; height: .5rem; border-radius: 999px; background: var(--heichel-gold, #d6a84f); }
+.geelooy-mobile-drawer a::before { content: ""; position: absolute; left: .9rem; width: .5rem; height: .5rem; border-radius: 999px; background: var(--heichel-cyan); }
 .geelooy-mobile-drawer a:hover,
-.geelooy-mobile-drawer a:focus-visible { background: #f4e3c4; border-color: rgba(124,30,8,.26); }
+.geelooy-mobile-drawer a:focus-visible { background: rgba(102,231,255,.14); border-color: rgba(102,231,255,.32); }

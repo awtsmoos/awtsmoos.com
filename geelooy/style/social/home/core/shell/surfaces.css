@@ -1,10 +1,10 @@
-/* B"H Home surfaces: parchment, glass, and measured depth. */
+/* B"H Home surfaces: glass, contrast, and measured depth. */
 .home-sanctuary-card,
 .home-feed-phone,
 .home-discovery-card {
-  border: var(--awt-glass-border, 1px solid rgba(128,92,38,.18));
-  border-radius: clamp(1.35rem, 3vw, 2.1rem);
-  background: var(--awt-glass, linear-gradient(145deg, rgba(255,252,246,.94), rgba(246,238,222,.86)));
-  box-shadow: var(--shadow-card, 0 .8rem 2rem rgba(31,23,12,.10));
-  overflow: clip;
+  border: var(--awt-glass-border);
+  border-radius: clamp(1rem, 2vw, 1.45rem);
+  background: var(--awt-glass);
+  box-shadow: var(--awt-home-shadow);
+  overflow: hidden;
 }

@@ -1,0 +1,44 @@
+/* B"H — Submit modal: image upload portal only. */
+.modal,
+#imageUploadModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(5, 7, 18, .72);
+  backdrop-filter: blur(12px);
+}
+
+.modal[style*="flex"],
+#imageUploadModal[style*="flex"] {
+  display: grid !important;
+}
+
+.modal-content,
+.modal-content-stylized {
+  position: relative;
+  width: min(34rem, 100%);
+  display: grid;
+  gap: 1rem;
+  border-radius: 1.25rem;
+  padding: 1rem;
+  background: linear-gradient(145deg, var(--submit-card), var(--submit-soft));
+  color: var(--submit-ink);
+  box-shadow: var(--submit-shadow);
+}
+
+.close-button-stylized {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+}
+
+.drop-zone,
+.drop-zone-stylized {
+  border: 2px dashed rgba(102, 231, 255, .35);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--submit-muted);
+}

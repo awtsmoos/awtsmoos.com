@@ -1,5 +1,19 @@
 /* B"H mail base vessel */
-html, body { min-height: 100%; overflow-y: auto; }
-body { background: radial-gradient(circle at 20% 0%, #25173a, #080c1a 45%, #050712); }
+:root {
+  --mail-gold: #f1b84f;
+  --mail-cyan: #66e7ff;
+  --mail-line: rgba(255,255,255,.13);
+  --mail-panel: rgba(12,18,34,.9);
+  --mail-panel-2: rgba(18,27,48,.86);
+  --mail-muted: #aeb8cc;
+  --mail-shadow: 0 1.5rem 4rem rgba(0,0,0,.38);
+}
+html, body { min-height: 100%; height: auto; overflow-x: hidden; overflow-y: auto; }
+body {
+  background:
+    radial-gradient(circle at 14% -8%, rgba(102,231,255,.16), transparent 26rem),
+    radial-gradient(circle at 86% 0%, rgba(241,184,79,.14), transparent 27rem),
+    linear-gradient(145deg, #040712, #07101f 58%, #02040a);
+}
 #root { min-height: 100dvh; height: auto; }
-.mail-social-shell { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; background: transparent; color: #fffaf1; }
+.mail-social-shell { min-height: 100dvh; display: grid; grid-template-rows: auto minmax(0,1fr) auto; background: transparent; color: #f8fbff; isolation: isolate; }

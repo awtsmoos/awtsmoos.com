@@ -2,11 +2,11 @@
 body { background: var(--awt-paper); }
 a { color: inherit; text-decoration: none; }
 .geelooy-home-shell {
-  width: min(91rem, calc(100vw - clamp(1rem, 4vw, 3rem)));
+  width: min(88rem, calc(100vw - clamp(1rem, 4vw, 3rem)));
   min-height: calc(100dvh - 3rem);
   margin: clamp(.75rem, 2vw, 1.6rem) auto 7rem;
   display: grid;
-  grid-template-columns: minmax(15rem, 18rem) minmax(22rem, 38rem) minmax(14rem, 19rem);
+  grid-template-columns: minmax(16rem, 20rem) minmax(24rem, 1fr) minmax(16rem, 22rem);
   gap: clamp(.9rem, 2vw, 1.4rem);
   align-items: start;
   color: var(--awt-ink);

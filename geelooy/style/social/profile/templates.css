@@ -1,8 +1,8 @@
 /* B"H templates: API-selected garments shift tone, not structure. */
 .profile-template-reader-light {
-  --pp-bg: #f8efe0;
-  --pp-panel: rgba(255,250,241,.94);
-  --pp-line: rgba(67,46,24,.16);
+  --pp-bg: var(--g-bg);
+  --pp-panel: var(--g-panel);
+  --pp-line: var(--g-line);
   color: var(--pp-ink);
 }
 .profile-template-reader-light .profile-copy p,

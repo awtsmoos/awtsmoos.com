@@ -5,12 +5,12 @@ import { readFileSync } from 'node:fs';
 const root = new URL('../../', import.meta.url);
 const iconsUrl = new URL('os/programs/awtsmoos-file-explorer/utils/icons.js', root);
 const sidebar = read('os/programs/awtsmoos-file-explorer/components/sidebar.js');
-const fileView = read('os/programs/awtsmoos-file-explorer/components/fileView.js');
+const fileItem = read('os/programs/awtsmoos-file-explorer/components/fileItem.js');
 const icons = read('os/programs/awtsmoos-file-explorer/utils/icons.js');
 const mod = await import(iconsUrl.href);
 
 assert.match(sidebar, /\.\.\/utils\/icons\.js/, 'sidebar must import the served icon route');
-assert.match(fileView, /\.\.\/utils\/icons\.js/, 'file view must import the served icon route');
+assert.match(fileItem, /\.\.\/utils\/icons\.js/, 'file item must import the served icon route');
 assert.match(icons, /awts-icon/, 'icon helper must expose stable styled classes');
 assert.equal(typeof mod.getChevronIcon, 'function');
 assert.equal(typeof mod.getIconForName, 'function');

@@ -1,0 +1,45 @@
+/* B"H — Submit sections: verse cards, segment metadata, and empty section state. */
+#sectionsArea,
+.sections-container,
+.sub-sections-area {
+  display: grid;
+  gap: 1rem;
+}
+
+.sections-container:empty::before,
+#sectionsArea:empty::before {
+  content: "No sections yet. Generate from text or add a blank section.";
+  display: block;
+  padding: 1rem;
+  border: 1px dashed rgba(255, 255, 255, .28);
+  border-radius: 1rem;
+  color: rgba(255, 250, 241, .78);
+}
+
+.section,
+.sub-section {
+  display: grid;
+  gap: .7rem;
+}
+
+.sub-section {
+  margin-left: .75rem;
+}
+
+.section-title-dynamic,
+.subsection-title {
+  margin: 0;
+  color: var(--submit-warm);
+  font-weight: 950;
+}
+
+.subsection-manager {
+  margin-top: .35rem;
+  padding-top: .75rem;
+  border-top: 1px dashed rgba(67, 46, 24, .22);
+}
+
+.section-drag-handle {
+  color: var(--submit-muted);
+  font-weight: 900;
+}

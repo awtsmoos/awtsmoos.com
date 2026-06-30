@@ -1,5 +1,5 @@
-/* B"H home social entry: modular import river, now with deeper command vessels. */
-@import "/style/heichelos/class-coverage/index.css";
+/* B"H home social entry: split, non-conflicting visual vessels. */
+@import "/style/social-system/tokens.css";
 @import "./foundation.css";
 @import "./shell.css";
 @import "./sanctuary-card.css";
@@ -11,14 +11,6 @@
 @import "./civilization-dashboard.css";
 @import "./responsive.css";
 @import "./accessibility.css";
-@import "./beauty/index.css";
-@import "./legend/index.css";
-@import "./guards/index.css";
-@import "./premium/index.css";
 @import "./civilization/states.css";
-@import "./civilization/mobile-command.css";
 @import "./polish/command-dock.css";
-@import "./polish/panel-collapse.css";
 @import "./polish/focus-polish.css";
-@import "./polish/surface-depth.css";
-@import "./polish/mobile-constellation.css";

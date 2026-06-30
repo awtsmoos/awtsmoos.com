@@ -1,0 +1,115 @@
+/* B"H
+ * Overlay: the gate must be so obvious that confusion has nowhere to stand.
+ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: radial-gradient(circle at 50% 45%, rgba(71, 44, 159, 0.42), rgba(1, 2, 14, 0.94) 68%);
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-panel {
+  width: min(780px, 92vw);
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 34px;
+  background: linear-gradient(155deg, rgba(12, 8, 38, 0.95), rgba(4, 4, 20, 0.88));
+  text-align: center;
+  box-shadow: 0 0 90px rgba(120, 98, 255, 0.45), inset 0 0 70px rgba(255, 220, 92, 0.06);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+}
+
+.overlay h1 {
+  margin: 0;
+  font-size: clamp(44px, 8vw, 82px);
+  line-height: 0.92;
+  text-shadow: 0 0 34px rgba(122, 215, 255, 0.55);
+}
+
+#overlayText {
+  max-width: 620px;
+  margin: 18px auto 22px;
+  color: #eaf2ff;
+  font-size: clamp(16px, 2.4vw, 20px);
+  font-weight: 650;
+}
+
+.hero-actions,
+.settings,
+.guide {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-actions {
+  margin-bottom: 16px;
+}
+
+.primary {
+  min-width: min(360px, 82vw);
+  padding: 18px 34px;
+  background: linear-gradient(90deg, #fff6a8, var(--gold), #ff9d4d);
+  color: #190d00;
+  font-size: clamp(22px, 4vw, 34px);
+  box-shadow: 0 0 34px rgba(255, 220, 92, 0.58);
+}
+
+.ghost {
+  padding: 15px 23px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.chip {
+  display: grid;
+  gap: 2px;
+  min-width: 132px;
+  padding: 12px 17px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.chip span {
+  font-size: 11px;
+  opacity: 0.72;
+  text-transform: uppercase;
+}
+
+.chip.active {
+  background: linear-gradient(135deg, rgba(255, 220, 92, 0.95), rgba(122, 215, 255, 0.88));
+  color: #130b00;
+  box-shadow: 0 0 24px rgba(255, 220, 92, 0.35);
+}
+
+.toggles {
+  margin-top: 12px;
+}
+
+.guide {
+  margin-top: 18px;
+  color: #d8e7ff;
+  font-size: 13px;
+}
+
+.guide span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}

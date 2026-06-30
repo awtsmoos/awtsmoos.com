@@ -1,27 +1,25 @@
-// B'H
-import { createWorld } from './state.js';
+// B"H
+import { step, start, restart, nextWorld } from './game.js';
 import { bindInput } from './input.js';
 import { createRenderer } from './renderer.js';
-import { bindUI } from './ui.js';
-import { step, start, restart, nextWorld } from './game.js';
 import { createSound } from './sound.js';
+import { createWorld } from './state.js';
+import { bindUI } from './ui.js';
 
 const canvas = document.getElementById('game');
 const world = createWorld();
-world.nextWorld = () => nextWorld(world);
-
-const pollInput = bindInput(world);
 const renderer = createRenderer(canvas);
 const sound = createSound(world);
-const actions = { start: () => start(world), restart };
+const actions = createActions(world);
+const pollInput = bindInput(world, actions);
 const updateUI = bindUI(world, actions);
 let last = performance.now();
 
+world.nextWorld = actions.nextWorld;
 installDebugVessel(world, renderer, actions);
+requestAnimationFrame(frame);
 
-/** B'H
- * The frame reports its own breath; the governor cuts adornment before motion stutters.
- */
+/** The frame loop is the pulse of the whole little universe. */
 function frame(now) {
   const dt = Math.min(0.033, (now - last) / 1000);
   last = now;
@@ -35,22 +33,24 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 
-function installDebugVessel(world, renderer, actions) {
-  window.nitzotzDebug = {
-    world,
-    renderer,
-    start() { actions.start(); return this.sample(); },
-    sample() {
-      const text = document.getElementById('message')?.textContent || '';
-      return { camera: { ...world.camera }, player: { ...world.player }, performance: { ...world.performance }, mode: world.mode, perf: world.save.perf, world: world.level?.name, objects: world.level?.objects?.length || 0, message: text, canvases: document.querySelectorAll('canvas').length };
-    },
-    move(x = 0, y = -1, pulse = 0) {
-      world.input.x = x;
-      world.input.y = y;
-      world.input.pulse = pulse;
-      return this.sample();
-    }
+/** UI and keyboard share one simple navigation map. */
+function createActions(world) {
+  return {
+    primary() { if (world.mode === 'won') return nextWorld(world); if (world.mode === 'lost') return restart(); return start(world); },
+    start: () => start(world),
+    restart,
+    nextWorld: () => nextWorld(world)
   };
 }
 
-requestAnimationFrame(frame);
+/** Debug vessel for runtime inspection from the browser console. */
+function installDebugVessel(world, renderer, actions) {
+  window.nitzotzDebug = {
+    world, renderer, actions,
+    start() { actions.start(); return this.sample(); },
+    move(x = 0, y = -1, pulse = 0) { world.input.x = x; world.input.y = y; world.input.pulse = pulse; return this.sample(); },
+    sample() {
+      return { mode: world.mode, world: world.level.name, score: world.score, target: world.level.target, camera: { ...world.camera }, player: { ...world.player }, danger: { ...world.danger }, objects: world.level.objects.length, message: world.message };
+    }
+  };
+}

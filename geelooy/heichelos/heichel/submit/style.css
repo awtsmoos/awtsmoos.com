@@ -1,64 +1,14 @@
-/* B"H
- * Chapter 31: Create Post becomes the Share Light composer with segment
- * controls, verse anchors, and edit-aware IDs. The Awtsmoos keeps the old
- * editor alive while making every section ready for reader comments.
- */
-@import url("/style/heichelos/class-coverage/index.css");
-:root {
-    --submit-bg: #080c1a;
-    --submit-card: #fffaf1;
-    --submit-soft: #f6efe2;
-    --submit-ink: #171624;
-    --submit-muted: #6e6877;
-    --submit-gold: #b9853f;
-    --submit-gold-light: #f5ca70;
-    --submit-line: rgba(67,46,24,.14);
-    --submit-shadow: 0 1.2rem 3rem rgba(8,10,24,.24);
-    --font-heading: 'Syne', system-ui, sans-serif;
-    --font-ui: 'Space Grotesk', system-ui, sans-serif;
-    --font-content: 'Crimson Pro', Georgia, serif;
-}
-
-* { box-sizing: border-box; }
-body { margin: 0; padding: 1rem; background: radial-gradient(circle at 20% 0%, #25173a, var(--submit-bg) 45%, #050712); color: var(--submit-ink); font-family: var(--font-ui); }
-a { text-decoration: none; color: inherit; }
-.all.awtsmoospage { min-height: 100vh; }
-.main { width: min(58rem, calc(100vw - 1rem)); margin: 0 auto 5rem; }
-.post-creator-container { display: grid; gap: 1rem; padding: 1rem; border: 1px solid rgba(255,255,255,.65); border-radius: 2rem; background: linear-gradient(145deg, rgba(255,252,246,.97), rgba(246,241,231,.94)); box-shadow: var(--submit-shadow); overflow: hidden; }
-.page-header { min-height: 12rem; display: grid; align-content: end; padding: 1rem; margin: -1rem -1rem 0; color: #fffaf1; background: linear-gradient(135deg, rgba(7,9,24,.86), rgba(92,48,13,.32)), radial-gradient(circle at 76% 20%, rgba(245,202,112,.74), transparent 12rem); }
-.page-header h4 { margin: 0; color: var(--submit-gold-light); letter-spacing: .18em; }
-.page-title-glow { margin: .2rem 0 0; font-size: clamp(2rem, 6vw, 4rem); line-height: .92; letter-spacing: -.06em; text-transform: uppercase; }
-.highlight-text { color: var(--submit-gold-light); }
-.top-controls { display: flex; justify-content: space-between; gap: .75rem; }
-.input-group { display: grid; gap: .45rem; }
-label, .editor-label { width: fit-content; padding: .32rem .6rem; border-radius: 999px; background: #efe1ca; color: #3a240f; font-size: .78rem; font-weight: 950; letter-spacing: .08em; text-transform: uppercase; }
-input[type="text"], input[type="number"], textarea, .segment-select { width: 100%; border: 1px solid var(--submit-line); border-radius: 1rem; padding: .95rem 1rem; background: #fffdf8; color: var(--submit-ink); font: inherit; outline: none; transition: border-color .2s, box-shadow .2s; }
-input:focus, textarea:focus, .segment-select:focus { border-color: rgba(185,133,63,.55); box-shadow: 0 0 0 .25rem rgba(185,133,63,.12); }
-input[disabled] { background: #efe8da; color: var(--submit-muted); }
-textarea { min-height: 9rem; resize: vertical; }
-.editor-wrapper, .collapsible-section, .section { border: 1px solid var(--submit-line); border-radius: 1.25rem; padding: .9rem; background: rgba(255,255,255,.62); box-shadow: 0 .45rem 1.2rem rgba(25,20,11,.08); }
-.editor-controls-bar, .editor-toolbar, .section-header-row, .subsection-controls { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; margin: .55rem 0; }
-.section-header-row { justify-content: space-between; }
-.segment-meta-grid { display: grid; grid-template-columns: 1fr 1fr 1fr .6fr 1fr; gap: .55rem; margin: .6rem 0; }
-.content-editor { min-height: 14rem; padding: 1rem; border: 1px solid var(--submit-line); border-radius: 1rem; background: #fffdf8; font-family: var(--font-content); font-size: 1.22rem; line-height: 1.65; outline: none; }
-.content-editor:focus { border-color: rgba(185,133,63,.55); box-shadow: 0 0 0 .25rem rgba(185,133,63,.12); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; border: 0; border-radius: .9rem; padding: .75rem 1rem; background: #ede0cd; color: #3a240f; font-family: var(--font-ui); font-weight: 900; cursor: pointer; transition: transform .2s, box-shadow .2s; }
-.btn:hover { transform: translateY(-1px); box-shadow: 0 .45rem 1rem rgba(25,20,11,.14); }
-.btn.primary, .btn.action-btn { background: linear-gradient(135deg, #5c3414, #9b6a2f); color: #fffaf1; }
-.btn.action-btn { width: 100%; min-height: 3.3rem; font-size: 1.05rem; }
-.btn.secondary { background: #ede0cd; }
-.btn.icon-btn { padding: .55rem .7rem; }
-.btn.destructive, .remove-section-btn:hover { background: #7f1d1d; color: #fff; }
-.collapsible-header, .sections-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.sections-header { border-top: 1px solid var(--submit-line); padding-top: 1rem; }
-.sections-header h3 { margin: 0; font-size: 1.45rem; letter-spacing: -.04em; }
-#sectionsArea, .sub-sections-area { display: grid; gap: 1rem; }
-.section-title-dynamic { font-weight: 950; }
-.subsection-manager { border-top: 1px dashed rgba(67,46,24,.22); margin-top: .8rem; padding-top: .8rem; }
-.sub-section { margin-left: 1rem; background: rgba(255,255,255,.75); }
-.html-code-view { font-family: ui-monospace, monospace !important; background: #111827 !important; color: #d1fae5 !important; }
-.modal-overlay { position: fixed; inset: 0; display: grid; place-items: center; z-index: 1000; background: rgba(5,7,18,.72); backdrop-filter: blur(12px); padding: 1rem; }
-.modal-content { width: min(32rem, 100%); display: grid; gap: 1rem; border-radius: 1.5rem; padding: 1rem; background: var(--submit-card); box-shadow: var(--submit-shadow); }
-.drop-zone { border: 2px dashed rgba(185,133,63,.45); border-radius: 1rem; padding: 2rem; text-align: center; color: var(--submit-muted); }
-.modal-actions { display: flex; justify-content: flex-end; gap: .6rem; }
-@media (max-width: 768px) { body { padding: .5rem; } .main { width: 100%; } .post-creator-container { border-radius: 1.25rem; } .page-header { min-height: 9rem; } .top-controls, .sections-header, .modal-actions { display: grid; } .segment-meta-grid { grid-template-columns: 1fr; } .sub-section { margin-left: .35rem; } }
+/* B"H — Submit canonical entry: one manifest for both live composer routes. */
+@import "/style/social-system/tokens.css";
+@import "/style/heichelos/submit/tokens.css";
+@import "/style/heichelos/submit/base.css";
+@import "/style/heichelos/submit/shell.css";
+@import "/style/heichelos/submit/hero.css";
+@import "/style/heichelos/submit/forms.css";
+@import "/style/heichelos/submit/editor.css";
+@import "/style/heichelos/submit/toolbar.css";
+@import "/style/heichelos/submit/sections.css";
+@import "/style/heichelos/submit/actions.css";
+@import "/style/heichelos/submit/status.css";
+@import "/style/heichelos/submit/modal.css";
+@import "/style/heichelos/submit/mobile.css";

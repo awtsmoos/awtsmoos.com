@@ -1,0 +1,29 @@
+/* B"H — Submit shell: composer width and two-column work layout. */
+.main,
+.post-creator-container {
+  width: min(64rem, calc(100vw - 1rem));
+  margin: 0 auto 5rem;
+}
+
+.post-creator-container,
+.submit-editor-stack,
+#editorContainer {
+  display: grid;
+  gap: 1rem;
+}
+
+.submit-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 22rem);
+  gap: 1rem;
+  align-items: start;
+}
+
+.post-creator-container {
+  padding: 1rem;
+}
+
+.submit-return-link {
+  display: block;
+  min-height: .1rem;
+}

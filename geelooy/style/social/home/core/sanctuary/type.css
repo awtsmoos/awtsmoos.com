@@ -1,11 +1,12 @@
 /* B"H Home sanctuary typography. */
 .home-sanctuary-card h1 {
   margin: .9rem 0 0;
-  font-family: Georgia, serif;
-  font-size: clamp(2rem,4vw,2.55rem);
-  letter-spacing: .06em;
+  font-family: inherit;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  letter-spacing: 0;
   text-transform: uppercase;
   line-height: .95;
+  color: #fff;
 }
 .home-kicker {
   margin: .3rem 0 1rem;
@@ -14,4 +15,4 @@
   font-weight: 950;
   letter-spacing: .11em;
 }
-.home-sanctuary-card p:not(.home-kicker) { color: #f1dfba; line-height: 1.62; font-weight: 700; }
+.home-sanctuary-card p:not(.home-kicker) { color: var(--g-muted); line-height: 1.62; font-weight: 700; }

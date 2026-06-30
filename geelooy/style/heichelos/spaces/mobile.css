@@ -1,21 +1,41 @@
-/* B"H Chapter 639: the Heichelos palace folds into a hand-held map. */
+/* B"H — Spaces mobile: responsive overrides for existing components only. */
 @media (max-width: 680px) {
-  .social-spaces-shell{width:min(100%,calc(100vw - .75rem));margin-top:.5rem;padding-bottom:1rem;}
-  .spaces-route-rail{position:sticky;top:.35rem;border-radius:1rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
-  .spaces-route-rail a{min-height:2.75rem;display:grid;place-items:center;text-align:center;padding:.55rem .35rem;}
-  .spaces-hero{padding:1rem;gap:.85rem;}
-  .spaces-hero::before{min-height:6.5rem;}
-  .spaces-kicker{font-size:.7rem;letter-spacing:.1em;}
-  .spaces-state-row{display:grid;grid-auto-flow:column;grid-auto-columns:max-content;overflow:auto;padding-bottom:.25rem;scrollbar-width:none;}
-  .spaces-state-row::-webkit-scrollbar{display:none;}
-  .spaces-grid{grid-template-columns:1fr;gap:.85rem;}
-  .social-space-card,.social-empty-card{border-radius:1.15rem;}
-  .space-title-row{align-items:start;}
-  .space-actions,.spaces-empty-actions{display:grid;grid-template-columns:1fr;}
-  .space-actions a,.spaces-empty-actions a{min-height:2.8rem;display:grid;place-items:center;}
-}
-@media (max-width: 420px) {
-  .spaces-route-rail{grid-template-columns:1fr 1fr;gap:.35rem;padding:.35rem;}
-  .spaces-hero h1{font-size:2.35rem;}
-  .space-title-row{display:grid;}
+  .social-spaces-shell {
+    width: min(100%, calc(100vw - .75rem));
+    margin-top: .5rem;
+  }
+
+  .spaces-hero,
+  .spaces-command-row,
+  .space-body,
+  .space-title-row,
+  .space-actions,
+  .spaces-empty-actions {
+    display: grid;
+  }
+
+  .spaces-hero {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .spaces-command-row {
+    justify-content: stretch;
+  }
+
+  .spaces-state-row {
+    flex-wrap: nowrap;
+    overflow: auto;
+    padding-bottom: .2rem;
+    scrollbar-width: none;
+  }
+
+  .spaces-state-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .spaces-grid {
+    grid-template-columns: 1fr;
+    gap: .85rem;
+  }
 }

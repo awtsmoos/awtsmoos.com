@@ -7,7 +7,6 @@ import { renderLoginOverlay, renderComposeModal } from './modals.js';
 const routes = [
   ['/', 'Home', 'Return to Geelooy home'],
   ['/heichelos', 'Heichelos', 'Open sacred spaces'],
-  ['/#awtsmoos-object-inspector', 'Social', 'Open social sanctuary'],
   ['/email', 'Messages', 'Open mail chamber'],
   ['/profile', 'Profile', 'Open your profile']
 ];
@@ -25,8 +24,6 @@ function topLinks() {
   return [
     { tag:'a', classList:['mail-top-home'], attributes:{ href:'/' }, textContent:'← Geelooy' },
     { tag:'a', attributes:{ href:'/heichelos' }, textContent:'Heichelos' },
-    { tag:'a', classList:['mail-social-hub-tag'], attributes:{ href:'/#awtsmoos-object-inspector', title:'Open unified Social Hub' }, textContent:'Social Hub' },
-    { tag:'a', attributes:{ href:'/notifications' }, textContent:'Notifications' },
     { tag:'a', attributes:{ href:'/profile' }, textContent:'Profile' }
   ];
 }

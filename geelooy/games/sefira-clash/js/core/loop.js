@@ -1,4 +1,5 @@
 import { driveBots } from '../ai/botBrain.js';
+import { stepAdventureRun } from '../adventure/adventureRun.js';
 import { resolveAttacks } from '../combat/attackResolver.js';
 import { updateGrabs } from '../combat/grabResolver.js';
 import { maybeStartAttack } from '../combat/startAttack.js';
@@ -26,15 +27,7 @@ import { playEvents } from '../feedback/feedback.js';
 import { stepSpectacleFromEvents } from '../spectacle/spectacleEvents.js';
 import { stepSpectacleState } from '../spectacle/spectacleState.js';
 
-/**
- * B"H
- * Full battle tick with spectacle before particle consumption.
- *
- * Chapter 10: the brawl remains a brawl. Damage does not bend. Physics does not
- * beg. Yet before events vanish into sparks, the Awtsmoos lets the eye hear the
- * blow: flash, quake, ring, streak. The created world is renewed from nothing,
- * and the combat loop becomes the instant where that renewal roars.
- */
+/** B"H — Full battle tick: combat, Adventure ledger, spectacle, victory. */
 export function stepState(state, input) {
   state.frame++;
   attachBlastEvents(state.map, state.events);
@@ -50,6 +43,7 @@ export function stepState(state, input) {
   stepPowerups(state);
   syncHeldWeapons(state);
   stepStageDirector(state);
+  stepAdventureRun(state);
   stepSpectacleFromEvents(state);
   stepAftermath(state);
   stepSpectacleState(state);
@@ -59,6 +53,7 @@ export function stepState(state, input) {
 function stepHitstop(state) {
   if (!state.hitstop) return false;
   stepStageDirector(state);
+  stepAdventureRun(state);
   stepSpectacleFromEvents(state);
   stepAftermath(state);
   stepSpectacleState(state);

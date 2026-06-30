@@ -1,18 +1,20 @@
-import { DivineActionMap } from '../actions/DivineActionMap.js';
+// B"H
+import { DivineActionMap } from "../actions/DivineActionMap.js";
 
-/** B"H - Main menu: one Desert world entry only. */
+/** @file MainMenuBlueprint.js @description Direct world entry buttons. */
 export const MainMenuBlueprint = {
-  tag: 'div',
-  className: 'awtsmoos-overlay',
-  id: 'awtsmoos-main-menu',
-  children: [
-    { tag: 'div', className: 'awtsmoos-particles', id: 'awtsmoos-particle-layer' },
-    { tag: 'div', className: 'awtsmoos-title-container', children: [
-      { tag: 'h1', className: 'awtsmoos-main-title', text: 'Mitzvah' },
-      { tag: 'h2', className: 'awtsmoos-sub-title', text: 'Desert Ladder' }
+  tag:"div", className:"awtsmoos-overlay", id:"awtsmoos-main-menu",
+  children:[
+    { tag:"div", className:"awtsmoos-particles", id:"awtsmoos-particle-layer" },
+    { tag:"div", className:"awtsmoos-title-container", children:[
+      { tag:"h1", className:"awtsmoos-main-title", text:"MITZVAH WORLD" },
+      { tag:"h2", className:"awtsmoos-sub-title", text:"Living Village" }
     ] },
-    { tag: 'div', className: 'awtsmoos-button-grid', children: [
-      { tag: 'button', className: 'awtsmoos-btn', text: 'Desert World', events: { click: () => DivineActionMap.execute('GO_TO_LEVEL_SELECT') } }
+    { tag:"div", className:"awtsmoos-button-grid", children:[
+      { tag:"button", className:"awtsmoos-btn", text:"ENTER VILLAGE", events:{ click:() => DivineActionMap.execute("LOAD_WORLD", "village.json") } },
+      { tag:"button", className:"awtsmoos-btn", text:"DESERT LADDER", events:{ click:() => DivineActionMap.execute("LOAD_WORLD", "ladder-1.json") } },
+      { tag:"button", className:"awtsmoos-btn", text:"LEVEL SELECT", events:{ click:() => DivineActionMap.execute("GO_TO_LEVEL_SELECT") } },
+      { tag:"button", className:"awtsmoos-btn", text:"CONTROLS", events:{ click:() => DivineActionMap.execute("SHOW_CONTROLS") } }
     ] }
   ]
 };

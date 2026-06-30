@@ -1,13 +1,14 @@
 import { circleHit } from '../core/collision.js';
 import { anchors } from '../skeleton/anchors.js';
+import { attackTrait, isKickAttack } from './attackTraits.js';
 
 /**
  * B"H
- * Strike geometry helpers.
+ * Strike geometry helpers with real fist and foot reach.
  *
- * Chapter 10: the fist, foot, and weapon tip become little stars with exact
- * borders. The Awtsmoos draws their circles quickly so combat can be readable
- * without dragging the browser through mud.
+ * Punches are quick close stars. Kicks are long crescent moons. The circle at
+ * the limb still matters, but close-body fallback now respects move identity so
+ * Adventure combat feels like platform action instead of invisible touching.
  */
 export function strikePoint(attacker, attack) {
   const body = anchors(attacker);
@@ -29,12 +30,25 @@ function closeBodyHit(attacker, target, attack) {
   const dx = (target.x - attacker.x) * (attacker.face || 1);
   const dy = Math.abs((target.y - 88) - (attacker.y - 92));
   if (attack.id === 'grab') return Math.abs(target.x - attacker.x) < 92 && dy < 130;
-  return dx >= -46 && dx <= closeReach(attack) && dy <= 122;
+  return dx >= -backReach(attack) && dx <= closeReach(attack) && dy <= heightReach(attack);
 }
 
 function closeReach(attack) {
-  if (attack.id === 'sweep') return 126;
-  if (attack.id?.includes('Kick') || attack.id === 'roundhouse') return 150;
-  if (attack.id === 'dashPunch' || attack.id === 'chargePunch') return 146;
-  return 118;
+  const trait = attackTrait(attack.id);
+  if (attack.id === 'sweep') return 168 + trait.reach;
+  if (attack.id === 'meteorKick') return 142 + trait.reach;
+  if (isKickAttack(attack.id)) return 176 + trait.reach;
+  if (attack.id === 'dashPunch' || attack.id === 'chargePunch') return 158 + trait.reach;
+  if (attack.id === 'uppercut') return 130 + trait.reach;
+  return 118 + trait.reach;
+}
+
+function backReach(attack) {
+  return isKickAttack(attack.id) ? 34 : 42;
+}
+
+function heightReach(attack) {
+  if (attack.id === 'uppercut' || attack.id === 'aerialKick') return 168;
+  if (attack.id === 'sweep') return 92;
+  return isKickAttack(attack.id) ? 136 : 122;
 }

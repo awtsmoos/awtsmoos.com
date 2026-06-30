@@ -1,15 +1,16 @@
 /* B"H tokens: the Awtsmoos gives the clean profile its measured colors. */
 :root {
-  --pp-bg: #080c1a;
-  --pp-panel: rgba(9, 12, 30, .86);
-  --pp-card: #fffaf1;
-  --pp-ink: #171624;
-  --pp-muted: #a9a2b4;
-  --pp-soft-muted: #716a78;
-  --pp-gold: #d6a34e;
-  --pp-gold-dark: #8b5b25;
-  --pp-line: rgba(255, 255, 255, .12);
-  --pp-card-line: rgba(67, 46, 24, .16);
-  --pp-radius: 1.4rem;
-  --pp-shadow: 0 1.4rem 3.4rem rgba(0, 0, 0, .32);
+  --pp-bg: var(--g-bg, #040712);
+  --pp-panel: var(--g-panel, rgba(12, 18, 34, .9));
+  --pp-card: var(--g-panel-2, rgba(18, 27, 48, .86));
+  --pp-ink: var(--g-ink, #f8fbff);
+  --pp-muted: var(--g-muted, #aeb8cc);
+  --pp-soft-muted: var(--g-soft, #7d889d);
+  --pp-gold: var(--g-gold, #f1b84f);
+  --pp-gold-dark: #9d6b24;
+  --pp-cyan: var(--g-cyan, #66e7ff);
+  --pp-line: var(--g-line, rgba(255, 255, 255, .13));
+  --pp-card-line: var(--g-line, rgba(255, 255, 255, .13));
+  --pp-radius: var(--g-radius-2, 1.1rem);
+  --pp-shadow: var(--g-shadow, 0 1.5rem 4rem rgba(0, 0, 0, .38));
 }

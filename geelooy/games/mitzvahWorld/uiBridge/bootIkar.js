@@ -1,0 +1,10 @@
+// B"H
+/** @file bootIkar.js @description Installs bridge and imports the world engine from game root. */
+import { UI_BRIDGE_SEAL, traceBoot } from "./bridgeSeal.js";
+import { installBrowserHelpers } from "./browserHelpers.js";
+import { describeAwtsmoosError } from "./bootErrors.js";
+import { installUiBridge } from "./installUiBridge.js";
+let bootStarted = false;
+function ensureDefaultPath() { const url = new URL(location.href); if (url.searchParams.has("path")) return; url.searchParams.set("path", "village.json"); history.replaceState(history.state, "", url.href); }
+function engineUrl() { return new URL(`../ckidsAwtsmoos/ikar.js?compact=true&bh=${UI_BRIDGE_SEAL}`, import.meta.url).href; }
+export function bootIkarNow() { if (bootStarted || typeof window === "undefined" || !window.document) return; bootStarted = true; ensureDefaultPath(); window.__AWTSMOOS_BOOT_STARTED__ = { at:new Date().toISOString(), readyState:document.readyState, seal:UI_BRIDGE_SEAL }; window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:ui-bridge", total:28, action:"Preparing world controls...", subAction:"UI bridge installed" }); installUiBridge(); installBrowserHelpers(); const url = engineUrl(); window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:import:start", total:32, action:"Importing world engine...", subAction:"ckidsAwtsmoos/ikar.js" }); import(url).then(module => { window.__AWTSMOOS_BOOT_LOADED__ = { at:new Date().toISOString(), keys:Object.keys(module || {}).slice(0, 20), seal:UI_BRIDGE_SEAL }; window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:import:done", total:44, action:"World engine ready", subAction:"worker and canvas handshake next" }); if (traceBoot()) console.info('B"H - Mitzvah World engine imported', window.__AWTSMOOS_BOOT_LOADED__); }).catch(error => { window.__AWTSMOOS_LOADING_PROGRESS__?.update?.({ stage:"world-engine:import:error", total:100, action:"World engine failed", subAction:error?.message || String(error) }); describeAwtsmoosError(error, { label:"Index [Main]: Failed to load UI starter", phase:"dynamic import", moduleURL:url }); }); }

@@ -26,14 +26,26 @@
   padding: 0;
 }
 
+.home-feed-title {
+  display: grid;
+  gap: .15rem;
+  min-width: 0;
+}
+
 .home-feed-header strong {
-  text-align: center;
+  text-align: left;
   font-weight: 950;
-  letter-spacing: -.025em;
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+
+.home-feed-header span {
+  color: var(--g-muted);
+  line-height: 1.2;
 }
 
 .home-feed-header a:not(.home-menu-button) {
-  color: #503319;
+  color: var(--g-gold);
   font-weight: 950;
   padding: .72rem .85rem;
   border-radius: .9rem;

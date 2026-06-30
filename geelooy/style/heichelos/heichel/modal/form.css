@@ -13,7 +13,7 @@
   border: 1px solid rgba(67, 46, 24, .18);
   border-radius: .9rem;
   padding: .85rem .95rem;
-  background: #fffaf1;
+  background: rgba(255,255,255,.065);
   color: var(--h-ink, #24160b);
   font: inherit;
   box-sizing: border-box;

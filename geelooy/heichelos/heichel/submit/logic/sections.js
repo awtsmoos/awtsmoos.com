@@ -2,15 +2,12 @@
 /**
  * @module SubmitSections
  * @description
- * Chapter 29: The Awtsmoos splits a post into verses, segments, and nested
- * chambers. The editor becomes a living map: each section can name its verse,
- * its segment type, its order, and its sub-segments, so the API receives data
- * ready for comment anchoring and reader-side navigation.
+ * Splits a post into verses, segments, and nested chambers so the API receives
+ * anchored material ready for reader-side navigation.
  */
-
 import { toggleContextualToolbar, toggleEditorHtmlView, getEditorContent } from "./editor.js";
 import { initImageUploadModal } from "./images.js";
-
+import { parseSectionText } from "./text.js";
 let sectionsArea;
 
 export function setupSectionManager(editorInterface) {
@@ -25,22 +22,15 @@ export function setupSectionManager(editorInterface) {
 
 function bindGenerator(buttonId, textGetter, editorInterface) {
     document.getElementById(buttonId)?.addEventListener("click", () => {
-        const text = textGetter().trim();
         const delims = document.getElementById("mainSectionDelimiters")?.value || "";
-        generateItems(text, delims, sectionsArea, "sectionTemplate", false, editorInterface);
+        generateItems(textGetter().trim(), delims, sectionsArea, "sectionTemplate", false, editorInterface);
     });
 }
 
-function parseText(text, delimitersStr) {
-    if (!text) return [];
-    const delims = delimitersStr ? delimitersStr.split(',').map(d => d.trim()).filter(Boolean) : [];
-    if (!delims.length) return text.split(/\n+/).map(t => t.trim()).filter(Boolean);
-    const regex = new RegExp(delims.map(d => d.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g');
-    return text.split(regex).map(t => t.trim()).filter(Boolean);
-}
-
 function generateItems(text, delims, container, templateId, isSub, editorInterface) {
-    parseText(text, delims).forEach((txt, index) => container.appendChild(createItem(templateId, txt, isSub, editorInterface, index)));
+    parseSectionText(text, delims).forEach((txt, index) => {
+        container.appendChild(createItem(templateId, txt, isSub, editorInterface, index));
+    });
     updateTitles();
 }
 
@@ -50,16 +40,25 @@ function setControlValue(root, selector, value) {
 }
 
 function wireEditorControls(clone, contentDiv, editorInterface) {
-    contentDiv.addEventListener('focus', () => editorInterface.setActiveEditor(contentDiv));
+    contentDiv.addEventListener("focus", () => editorInterface.setActiveEditor(contentDiv));
     clone.querySelector(".toggle-toolbar-btn").onclick = () => toggleContextualToolbar(contentDiv, clone.querySelector(".editor-toolbar-container"));
     clone.querySelector(".toggle-html-view-btn").onclick = () => toggleEditorHtmlView(contentDiv);
     clone.querySelector(".upload-image-section-btn").onclick = () => initImageUploadModal(contentDiv);
-    clone.querySelector(".remove-section-btn").onclick = () => { clone.remove(); updateTitles(); };
+    clone.querySelector(".remove-section-btn").onclick = () => {
+        clone.remove();
+        updateTitles();
+    };
 }
 
 function wirePlacementControls(clone, templateId, isSub, editorInterface) {
-    clone.querySelector(".add-before-btn").onclick = () => { clone.before(createItem(templateId, "", isSub, editorInterface)); updateTitles(); };
-    clone.querySelector(".add-after-btn").onclick = () => { clone.after(createItem(templateId, "", isSub, editorInterface)); updateTitles(); };
+    clone.querySelector(".add-before-btn").onclick = () => {
+        clone.before(createItem(templateId, "", isSub, editorInterface));
+        updateTitles();
+    };
+    clone.querySelector(".add-after-btn").onclick = () => {
+        clone.after(createItem(templateId, "", isSub, editorInterface));
+        updateTitles();
+    };
 }
 
 function wireSubSections(clone, editorInterface) {
@@ -89,8 +88,7 @@ function createItem(templateId, content, isSub, editorInterface, index = 0) {
 }
 
 function updateTitles() {
-    const secs = document.querySelectorAll("#sectionsArea > .section");
-    secs.forEach((section, index) => {
+    document.querySelectorAll("#sectionsArea > .section").forEach((section, index) => {
         section.querySelector(".section-title-dynamic").textContent = `Verse ${index + 1}`;
         if (!section.querySelector(".section-order-input")?.value) setControlValue(section, ".section-order-input", String(index + 1));
         section.querySelectorAll(".sub-sections-area > .sub-section").forEach((sub, subIndex) => {
@@ -113,11 +111,10 @@ function sectionMeta(root, fallbackPrefix, index) {
 export function getAllSectionsData() {
     return Array.from(document.querySelectorAll("#sectionsArea > .section")).map((sec, index) => {
         const main = getEditorContent(sec.querySelector(".section-content"));
-        const meta = sectionMeta(sec, "verse", index);
         const segments = Array.from(sec.querySelectorAll(".sub-section")).map((sub, subIndex) => {
             const sc = getEditorContent(sub.querySelector(".section-content"));
             return { ...sectionMeta(sub, "segment", subIndex), html: sc.html, content: sc.text, images: sc.images };
         });
-        return { ...meta, html: main.html, content: main.text, images: main.images, segments };
+        return { ...sectionMeta(sec, "verse", index), html: main.html, content: main.text, images: main.images, segments };
     });
 }

@@ -1,0 +1,50 @@
+/** B"H — The gate shrinks without becoming a riddle. */
+@media (max-width: 940px) {
+  .modeGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modeCard.featured {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .modeGrid,
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .levelGrid {
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .modeCard {
+    min-height: 150px;
+  }
+
+  .modeCard.featured {
+    min-height: 188px;
+  }
+
+  .levelCard {
+    min-height: 164px;
+    padding: 14px;
+  }
+
+  .levelMeta span {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 420px) {
+  .levelGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .levelCard {
+    min-height: 132px;
+  }
+}

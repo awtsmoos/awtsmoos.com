@@ -1,4 +1,4 @@
 /* B"H Home feed tabs: quiet segmented navigation. */
-.home-feed-tabs { display: grid; grid-template-columns: repeat(3,1fr); gap: .35rem; margin: .35rem 0 1rem; padding: .28rem; border-radius: var(--radius-pill, 999px); background: rgba(67,46,24,.065); }
-.home-feed-tabs button { border: 0; border-radius: var(--radius-pill, 999px); padding: .74rem .45rem; background: transparent; color: var(--awt-ink-soft); font-weight: 950; transition: background var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft); }
-.home-feed-tabs .active { background: linear-gradient(145deg, #f4e4c8, #ead4ad); color: #35210f; box-shadow: inset 0 0 0 1px rgba(67,46,24,.08), var(--awt-elevation-1); }
+.home-feed-tabs { display: grid; grid-template-columns: repeat(3,1fr); gap: .35rem; margin: .35rem 0 1rem; padding: .28rem; border: 1px solid var(--g-line); border-radius: 999px; background: rgba(255,255,255,.055); }
+.home-feed-tabs button { border: 0; border-radius: 999px; padding: .74rem .45rem; background: transparent; color: var(--awt-ink-soft); font-weight: 950; cursor: pointer; }
+.home-feed-tabs .active { background: linear-gradient(135deg, var(--g-gold), var(--g-cyan)); color: #03101b; box-shadow: var(--awt-elevation-1); }

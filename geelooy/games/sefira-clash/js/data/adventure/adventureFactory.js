@@ -4,8 +4,9 @@ import { bounds, makeMap, platform, points } from '../maps/factory.js';
  * B"H
  * Adventure string maps become real stages, while authored metadata survives.
  *
- * Chapter 313: symbols are only the bones. The designer's kavana now travels
- * with them: idea, secrets, enemy intent, powerup intent, and progression.
+ * Symbols are bones, but now Sparks remember whether they were hidden. The gate
+ * ledger can count visible climb rewards and secret drops, making Adventure a
+ * mission instead of a disguised arena.
  */
 const TILE_W = 150;
 const TILE_H = 130;
@@ -28,7 +29,8 @@ export function adventureMap(level) {
     idea: level.idea || '', progression: level.progression || [],
     enemies: level.enemies || [], powerups: level.powerups || [],
     weapons: level.weapons || [], secrets: level.secrets || [],
-    hiddenSparks: countHiddenSparks(level), exit: level.exit || 'Defeat every Kelipah vessel.'
+    totalSparks: found.powerups.length, hiddenSparks: countHiddenSparks(level, found),
+    exit: level.exit || 'Defeat every Kelipah vessel.'
   };
   return map;
 }
@@ -55,7 +57,7 @@ function place(ch, x, y, spawns, botSpawns, weapons, powerups) {
   if (ch === 'S') spawns.push(p);
   if (ch === 'B' || ch === 'K') botSpawns.push(p);
   if (ch === 'W' || ch === 'K') weapons.push(p);
-  if (ch === 'O' || ch === '*') powerups.push(p);
+  if (ch === 'O' || ch === '*') powerups.push({ ...p, hiddenSpark: ch === '*' });
 }
 
 function normalizeSpawns(spawns) {
@@ -64,9 +66,9 @@ function normalizeSpawns(spawns) {
   return list;
 }
 
-function countHiddenSparks(level) {
-  const rowSecrets = level.rows.join('').split('').filter(ch => ch === '*').length;
-  return level.hiddenSparks ?? Math.max(rowSecrets, level.secrets?.length || 0);
+function countHiddenSparks(level, found) {
+  const hidden = found.powerups.filter(p => p.hiddenSpark).length;
+  return level.hiddenSparks ?? Math.max(hidden, level.secrets?.length || 0);
 }
 
 function isSolid(ch) { return ch === '#' || ch === '=' || ch === '^'; }

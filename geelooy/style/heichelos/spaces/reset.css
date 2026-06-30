@@ -1,0 +1,15 @@
+/* B"H — Spaces reset: local safety for the Heichelos shell only. */
+.social-spaces-shell,
+.social-spaces-shell * {
+  box-sizing: border-box;
+}
+
+.social-spaces-shell a {
+  color: inherit;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.social-spaces-shell :is(h1, h2, h3, p) {
+  margin-top: 0;
+}

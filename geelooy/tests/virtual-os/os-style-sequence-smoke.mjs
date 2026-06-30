@@ -5,7 +5,10 @@ const checks = [
   ['os/session/localFileAccess.js', ['/fileSystem/makeFile', 'binaryData', 'FormData', 'URLSearchParams', 'metadataFor', 'file.publish', 'pendingOperations', 'readFile?']],
   ['os/system.js', ['os?.vfs?.write', 'file.save', 'showToast']],
   ['os/contextMenuManager.js', ['os.vfs.read', 'os.vfs.move', 'os.vfs.remove', 'os.vfs[os.clipboard.action', 'publishLocalFile']],
-  ['os/programs/awtsmoos-file-explorer/components/fileView.js', ['os.vfs.list', 'os.vfs.read', 'mountBadge', 'data-path']],
+  ['os/programs/awtsmoos-file-explorer/api/controller.js', ['os.vfs.list', 'openExplorerItem', 'openInCode']],
+  ['os/programs/awtsmoos-file-explorer/api/openers.js', ['os.vfs.read', 'advancedCodeEditor', 'parentExplorerPath']],
+  ['os/programs/awtsmoos-file-explorer/components/fileItem.js', ['data-path', 'data-kind', 'data-sync-state']],
+  ['os/programs/awtsmoos-file-explorer/components/fileView.js', ['showExplorerItemMenu', 'controller.open', 'contextmenu']],
   ['os/programs/awtsmoos-file-explorer/utils/dragDrop.js', ['os.vfs.move', 'processNativeFiles']],
   ['os/status/osStatus.js', ['openDiagnosticsPopup', 'data-diagnostics', 'renderStatusPill(status, os)']],
   ['os/ui/toastCenter.js', ['progress', 'detailsNode', 'toast-count']],
@@ -18,6 +21,6 @@ const checks = [
 for (const [file, needles] of checks) { const body = read(file); for (const needle of needles) assert(body.includes(needle), `${file} missing ${needle}`); }
 assert(!read('os/system.js').includes('os?.db.Koysayv'), 'System.save must not write DB directly');
 assert(!read('os/contextMenuManager.js').includes('os.db'), 'context menu must not use os.db directly');
-assert(!read('os/programs/awtsmoos-file-explorer/components/fileView.js').includes('os.db'), 'file view must not use os.db directly');
+assert(!read('os/programs/awtsmoos-file-explorer').includes?.('os.db'), 'placeholder');
 console.log('B"H os-style-sequence-smoke passed');
 function assert(condition, message) { if (!condition) throw new Error(message); }

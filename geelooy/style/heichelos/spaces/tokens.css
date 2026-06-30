@@ -1,10 +1,19 @@
-/* B"H Chapter 633: color vessels for the Heichelos board. */
+/* B"H — Spaces tokens: aliases from the shared dark social system. */
 :root {
-  --spaces-bg: #080c1a;
-  --spaces-card: #fffaf1;
-  --spaces-muted: #6f6876;
-  --spaces-gold: #b9853f;
-  --spaces-gold-light: #f5ca70;
-  --spaces-line: rgba(67,46,24,.14);
-  --spaces-shadow: 0 1.2rem 3rem rgba(8,10,24,.24);
+  --spaces-bg: var(--g-bg-2, #080c1a);
+  --spaces-bg-deep: var(--g-bg, #050814);
+  --spaces-card: var(--g-panel);
+  --spaces-card-soft: var(--g-panel-2);
+  --spaces-chip: var(--g-panel-3);
+  --spaces-ink: var(--g-ink, #171624);
+  --spaces-ink-warm: var(--g-ink-2, #e8eef9);
+  --spaces-muted: var(--g-muted, #716a78);
+  --spaces-gold: var(--g-gold, #b9853f);
+  --spaces-gold-light: var(--g-gold-2, #f5ca70);
+  --spaces-cyan: var(--g-cyan, #79e6ff);
+  --spaces-line: var(--g-line);
+  --spaces-dark-line: var(--g-dark-line, rgba(255, 255, 255, .12));
+  --spaces-radius: var(--g-radius-2, 1.1rem);
+  --spaces-shadow: var(--g-shadow, 0 1.2rem 3rem rgba(0, 0, 0, .28));
+  --spaces-touch: var(--g-touch, 3rem);
 }

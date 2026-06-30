@@ -1,0 +1,28 @@
+/* B"H — Spaces focus: keyboard clarity and reduced-motion mercy. */
+.social-spaces-shell :is(a, button):focus-visible {
+  outline: 3px solid rgba(121, 230, 255, .72);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 .28rem rgba(121, 230, 255, .18);
+}
+
+.space-actions a:hover,
+.spaces-empty-actions a:hover,
+.spaces-create:hover,
+.spaces-secondary:hover {
+  filter: saturate(1.08);
+  box-shadow: 0 .8rem 1.4rem rgba(92, 52, 20, .16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-spaces-shell *,
+  .social-spaces-shell *::before,
+  .social-spaces-shell *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+
+  .social-space-card:hover {
+    transform: none;
+  }
+}

@@ -2,13 +2,14 @@
 /**
  * @module SubmitCore
  * @description
- * Chapter 580: the submit console can be reached globally or from inside a
- * Heichel, and it still knows which palace receives the spark.
+ * The submit console can be reached globally or from inside a Heichel, and it
+ * still knows which palace receives the spark without inventing the writer.
  */
 
 import { makePost, AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { getEditorContent } from "./editor.js";
 import { getAllSectionsData } from "./sections.js";
+import { setSubmitStatus } from "./status.js";
 
 export function initializeSubmitCore() {
     const aliasIdDiv = document.getElementById("aliasId");
@@ -42,20 +43,16 @@ function getValue(id) {
 }
 
 function buildPayload({ heichelId, parentSeriesId, editPostId }) {
-    const title = getValue("title");
-    const aliasId = getValue("aliasId");
-    const postId = getValue("postId") || editPostId || `BH_post_${Date.now()}`;
-    const contentType = getValue("contentType") || "post";
-    const mainContent = getEditorContent(document.getElementById("mainContentEditor"));
     const sections = getAllSectionsData();
+    const mainContent = getEditorContent(document.getElementById("mainContentEditor"));
     return {
-        aliasId,
+        aliasId: getValue("aliasId"),
         heichelId,
         parentSeriesId,
         seriesId: parentSeriesId,
-        postId,
-        title,
-        contentType,
+        postId: getValue("postId") || editPostId || `BH_post_${Date.now()}`,
+        title: getValue("title"),
+        contentType: getValue("contentType") || "post",
         content: mainContent.text,
         mainContent: { html: mainContent.html, images: mainContent.images },
         sections,
@@ -86,15 +83,18 @@ async function submitThroughContentApi(payload) {
 
 async function handleSubmit(context) {
     const payload = buildPayload(context);
-    if (!payload.title) return alert("Title is required!");
-    if (!payload.aliasId) return alert("Alias ID missing. Please log in.");
+    if (!payload.title) return setSubmitStatus("Title is required.", "error");
+    if (!payload.aliasId) return setSubmitStatus("Alias ID missing. Please choose or log in with an alias.", "error");
     try {
+        setSubmitStatus("Launching post...", "info");
         const response = await submitThroughContentApi(payload).catch(() => makePost(payload));
         if (!response.success) throw new Error(response.error || "Unknown server error");
+        setSubmitStatus("Post launched.", "success");
         await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "SUCCESS!", bodyTxt: "Your segment-aware post has been launched." });
         const backBtn = document.getElementById("backBtn");
         location.href = backBtn ? backBtn.href : `/heichelos/${context.heichelId}`;
     } catch (error) {
+        setSubmitStatus(error.message || "Submission failed.", "error");
         AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission Failed", bodyTxt: error.message });
     }
 }

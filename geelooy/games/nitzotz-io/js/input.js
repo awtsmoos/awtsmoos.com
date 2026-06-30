@@ -1,5 +1,14 @@
-// B'H
-import { clamp, len } from './math.js';
-export function bindInput(world){const keys=new Set(),touch={active:false};const stick=document.getElementById('stick'),nub=stick.querySelector('i'),pulse=document.getElementById('pulse');const setPulse=()=>{if(world.mode==='playing'){world.input.pulse=.55;world.player.glow=1;world.events.push(['pulse'])}};addEventListener('keydown',e=>{keys.add(e.key.toLowerCase());if(e.code==='Space')setPulse();if(e.key.toLowerCase()==='n'&&world.mode==='won')world.nextWorld?.()});addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));pulse.addEventListener('pointerdown',setPulse);stick.addEventListener('pointerdown',e=>{touch.active=true;stick.setPointerCapture(e.pointerId);moveStick(e,stick,nub,world)});stick.addEventListener('pointermove',e=>moveStick(e,stick,nub,world));const reset=()=>{touch.active=false;world.input.x=0;world.input.y=0;nub.style.transform=''};stick.addEventListener('pointerup',reset);stick.addEventListener('pointercancel',reset);return()=>pollKeys(keys,touch,world)}
-function moveStick(e,stick,nub,world){if(!stick.hasPointerCapture(e.pointerId))return;const b=stick.getBoundingClientRect(),x=e.clientX-b.left-b.width/2,y=e.clientY-b.top-b.height/2,d=Math.max(1,len(x,y)),m=clamp(d,0,52);world.input.x=x/d*Math.min(1,d/52);world.input.y=y/d*Math.min(1,d/52);nub.style.transform=`translate(${x/d*m}px,${y/d*m}px)`}
-function pollKeys(keys,touch,world){if(touch.active)return;const x=(keys.has('d')||keys.has('arrowright'))-(keys.has('a')||keys.has('arrowleft')),y=(keys.has('s')||keys.has('arrowdown'))-(keys.has('w')||keys.has('arrowup'));world.input.x=x;world.input.y=y}
+// B"H
+import { bindKeyboard } from './input/keyboard.js';
+import { bindPulseButton, createPulse } from './input/pulse.js';
+import { bindStick } from './input/stick.js';
+
+/** Bind every input vessel and return a per-frame polling function. */
+export function bindInput(world, actions) {
+  const pulse = createPulse(world);
+  const fullActions = { ...actions, pulse };
+  const touch = bindStick(world);
+  const pollKeyboard = bindKeyboard(world, fullActions);
+  bindPulseButton(pulse);
+  return () => { if (!touch.active) pollKeyboard(); };
+}

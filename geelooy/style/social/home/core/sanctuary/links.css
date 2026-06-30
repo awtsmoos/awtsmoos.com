@@ -1,12 +1,2 @@
-/* B"H Home sanctuary link stack. */
-.home-side-links { display: grid; gap: .7rem; margin-top: auto; padding-top: 1rem; }
-.home-side-links a {
-  min-height: 3rem;
-  display: flex;
-  align-items: center;
-  padding: .85rem 1rem;
-  border-radius: .95rem;
-  background: rgba(255,255,255,.09);
-  color: var(--awt-vellum);
-  font-weight: 900;
-}
+/* B"H Home sanctuary legacy side links are intentionally retired. */
+.home-side-links { display: none; }

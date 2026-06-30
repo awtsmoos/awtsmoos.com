@@ -1,18 +1,20 @@
 import { COMBAT_TUNING } from '../data/combatTuning.js';
 import { shouldAnnounceCombo } from './comboSystem.js';
+import { attackTrait } from './attackTraits.js';
 
 /**
  * B"H
- * Combat event forge.
+ * Combat event forge: every hit tells the eye what kind of verb happened.
  *
- * Chapter 3: the hit is no longer a mute collision. It becomes a herald with
- * direction, danger, combo thunder, launch prophecy, and cheap geometric glory
- * so renderers can paint meaning without expensive storms.
+ * A jab throws little sparks. A kick paints a slash. A charged blow rings. A
+ * meteor shakes the gate. The Awtsmoos lets the renderer read this cheap event
+ * data and turn punch/kick differences into visible thunder.
  */
 export function buildHitEvent(attacker, target, attack, payload) {
   const side = Math.sign(attack.aim?.x || target.x - attacker.x) || attacker.face || 1;
   const heavy = payload.force >= COMBAT_TUNING.effects.heavyForce;
   const kill = target.damage >= COMBAT_TUNING.launch.killDangerPercent || payload.force >= COMBAT_TUNING.effects.killForce;
+  const trait = attackTrait(attack.id);
   return {
     type: 'hit', attackerId: attacker.id, targetId: target.id,
     human: attacker.human || target.human,
@@ -24,9 +26,9 @@ export function buildHitEvent(attacker, target, attack, payload) {
     rapid: !!attack.rapid, charge: attack.charge || 0,
     fullCharge: !!attack.fullCharge,
     koDanger: kill,
-    feel: heavy ? 'heavy' : attack.rapid ? 'rapid' : 'clean',
+    feel: heavy ? 'heavy' : attack.rapid ? 'rapid' : trait.feel,
     vector: payload.vector || null,
-    effectPack: effectPack(attack, heavy, kill)
+    effectPack: effectPack(attack, trait, heavy, kill)
   };
 }
 
@@ -56,12 +58,12 @@ export function registerHitDiagnostics(state, attack, event) {
   if (event.koDanger) state.diagnostics.killDangerHits++;
 }
 
-function effectPack(attack, heavy, kill) {
+function effectPack(attack, trait, heavy, kill) {
   return {
-    sparks: attack.rapid ? 4 : heavy ? 10 : 7,
-    ring: heavy || kill,
-    slash: attack.limb === 'rightFoot' || attack.limb === 'weaponTip',
-    streak: heavy || attack.rapid,
-    shockwave: kill || attack.id === 'meteorKick'
+    sparks: attack.rapid ? 4 : trait.family === 'kick' ? 11 : heavy ? 10 : 7,
+    ring: heavy || kill || attack.fullCharge,
+    slash: trait.family === 'kick' || attack.limb === 'weaponTip',
+    streak: heavy || attack.rapid || trait.feel === 'dash',
+    shockwave: kill || attack.id === 'meteorKick' || trait.feel === 'trip'
   };
 }

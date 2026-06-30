@@ -1,0 +1,42 @@
+/* B"H — Submit editor: editable parchment surfaces and source mode. */
+.editor-wrapper,
+.collapsible-section,
+.section,
+.sub-section {
+  min-width: 0;
+  border: 1px solid var(--submit-line);
+  border-radius: 1.15rem;
+  padding: .9rem;
+  background: linear-gradient(145deg, var(--submit-card), var(--submit-soft));
+  color: var(--submit-ink);
+  box-shadow: var(--g-shadow-soft);
+}
+
+.main-content-editor-area,
+.main-wrapper {
+  display: grid;
+  gap: .7rem;
+}
+
+.content-editor {
+  min-height: 13rem;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--submit-line);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.065);
+  color: var(--submit-ink);
+  line-height: 1.65;
+  outline: 0;
+}
+
+.content-editor:empty::before {
+  content: attr(data-placeholder);
+  color: var(--submit-muted);
+}
+
+.html-code-view {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  background: #050814 !important;
+  color: #d1fae5 !important;
+}

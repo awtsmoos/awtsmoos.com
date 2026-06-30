@@ -1,7 +1,7 @@
 /* B"H mail sidebar social theme vessel */
-.mail-social-sidebar { background: linear-gradient(180deg, rgba(255,252,246,.98), rgba(246,241,231,.96)) !important; color: #171624 !important; }
+.mail-social-sidebar { background: linear-gradient(180deg, rgba(12,18,34,.96), rgba(8,13,27,.92)) !important; color: #f8fbff !important; border-right: 1px solid var(--mail-line); }
 .mail-social-sidebar .sidebar-header { padding: 1.1rem; border: 0; background: transparent; }
-.mail-social-sidebar .brand-title, .mail-social-sidebar .thread-name { color: #171624 !important; text-shadow: none !important; }
-.mail-social-sidebar .thread-snippet, .mail-social-sidebar .thread-time { color: #6e6877 !important; }
+.mail-social-sidebar .brand-title, .mail-social-sidebar .thread-name { color: #f8fbff !important; text-shadow: none !important; }
+.mail-social-sidebar .thread-snippet, .mail-social-sidebar .thread-time { color: var(--mail-muted) !important; }
 .mail-social-sidebar .mail-sidebar-profile-mount { margin-top: .8rem; }
-.mail-social-sidebar .fab-compose { margin: 1rem; min-height: 3.9rem; border: 0 !important; border-radius: 1rem !important; background: linear-gradient(135deg,#5c3414,#b9853f) !important; color: #fffaf1 !important; box-shadow: none !important; letter-spacing: .08em; }
+.mail-social-sidebar .fab-compose { margin: 1rem; min-height: 3.4rem; border: 0 !important; border-radius: .9rem !important; background: linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)) !important; color: #03101b !important; box-shadow: none !important; letter-spacing: .08em; }

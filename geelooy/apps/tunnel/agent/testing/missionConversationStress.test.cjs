@@ -20,7 +20,7 @@ async function cycle(config, index) {
   assert.equal(next.keepGoing, true);
   assert.ok(next.question.choices.length >= 5);
 
-  let answer = 'A create first task';
+  let answer = 'A';
   for (let round = 0; round < AUTO_ROUNDS; round++) {
     const out = M.answer(mission, { answer });
     assert.ok(out.parsed.key, `round ${round} parsed key`);
@@ -30,17 +30,18 @@ async function cycle(config, index) {
     if (round >= 3 && open) M.completeTask(mission, open.id);
     const hb = M.heartbeat(mission, { note: `heartbeat ${round}` });
     assert.ok(hb.at);
-    answer = out.next.autoSuggestedAnswer || 'D let tunnel choose forever';
+    answer = out.next.autoSuggestedAnswer || 'D';
   }
 
   if (!mission.evidence.length) M.evidence(mission, { claim: 'verification passed', kind: 'fallback' });
   for (const task of mission.tasks.filter(t => t.status !== 'done')) M.completeTask(mission, task.id);
-  M.ask(mission, 'E final gate');
+  M.ask(mission, 'E');
   const verified = M.verify(mission);
   assert.equal(verified.ok, true, JSON.stringify(verified));
-  const final = M.answer(mission, { answer: 'E mark done only if gates pass' });
+  const final = M.answer(mission, { answer: 'E' });
   assert.equal(mission.status, 'done');
-  assert.equal(final.next.keepGoing, false);
+  assert.equal(final.next.keepGoing, true);
+  assert.equal(final.next.finalAnswerAllowed, false);
   await M.save(config, mission);
   const loaded = await M.load(config, mission.id);
   assert.equal(loaded.status, 'done');

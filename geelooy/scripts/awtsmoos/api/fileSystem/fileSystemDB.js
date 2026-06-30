@@ -37,4 +37,4 @@ function fileBody(st, key, content) { const binary = typeof Blob !== 'undefined'
 
 export default APIHandler;
 
-/** B"H: the filesystem API never calls alert(); alias absence is an error object, not a modal thunderclap. */
+/** B"H: the filesystem API uses structured alias errors; browser modal thunderclaps do not belong here. */

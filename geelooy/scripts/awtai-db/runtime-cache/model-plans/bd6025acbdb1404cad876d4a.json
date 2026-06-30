@@ -1,0 +1,3377 @@
+{
+  "version": "awtai-static-model-plan-v1",
+  "modelPath": "/Users/awtsmoos/Documents/awtai-db-models/TinyLlama-1.1B-Chat-v1.0-Q2_K-stream.awtai-db",
+  "modelSize": 432019446,
+  "cacheKey": "bd6025acbdb1404cad876d4a",
+  "config": {
+    "arch": "llama",
+    "hidden": 2048,
+    "layers": 22,
+    "heads": 32,
+    "kvHeads": 4,
+    "headDim": 64,
+    "kvGroup": 8,
+    "ffn": 5632,
+    "vocab": 32000,
+    "ctx": 2048,
+    "eps": 0.000009999999747378752,
+    "ropeBase": 10000,
+    "ropeScale": 1,
+    "ropeIsNeox": false
+  },
+  "tensors": [
+    {
+      "id": 0,
+      "name": "output.weight",
+      "role": "lm_head",
+      "layer": null,
+      "type": 14,
+      "dims": [
+        2048,
+        32000
+      ],
+      "rows": 32000,
+      "cols": 2048,
+      "byteLength": 53760000,
+      "awtaiOffset": 0,
+      "fileOffset": 624630
+    },
+    {
+      "id": 1,
+      "name": "output_norm.weight",
+      "role": "norm",
+      "layer": null,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 53760000,
+      "fileOffset": 54384630
+    },
+    {
+      "id": 2,
+      "name": "token_embd.weight",
+      "role": "embed",
+      "layer": null,
+      "type": 10,
+      "dims": [
+        2048,
+        32000
+      ],
+      "rows": 32000,
+      "cols": 2048,
+      "byteLength": 21504000,
+      "awtaiOffset": 53768192,
+      "fileOffset": 54392822
+    },
+    {
+      "id": 3,
+      "name": "blk.0.attn_k.weight",
+      "role": "attn_k",
+      "layer": 0,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 75272192,
+      "fileOffset": 75896822
+    },
+    {
+      "id": 4,
+      "name": "blk.0.attn_norm.weight",
+      "role": "norm",
+      "layer": 0,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 75444224,
+      "fileOffset": 76068854
+    },
+    {
+      "id": 5,
+      "name": "blk.0.attn_output.weight",
+      "role": "attn_out",
+      "layer": 0,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 75452416,
+      "fileOffset": 76077046
+    },
+    {
+      "id": 6,
+      "name": "blk.0.attn_q.weight",
+      "role": "attn_q",
+      "layer": 0,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 77254656,
+      "fileOffset": 77879286
+    },
+    {
+      "id": 7,
+      "name": "blk.0.attn_v.weight",
+      "role": "attn_v",
+      "layer": 0,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 78630912,
+      "fileOffset": 79255542
+    },
+    {
+      "id": 8,
+      "name": "blk.0.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 0,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 78925824,
+      "fileOffset": 79550454
+    },
+    {
+      "id": 9,
+      "name": "blk.0.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 0,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 83881984,
+      "fileOffset": 84506614
+    },
+    {
+      "id": 10,
+      "name": "blk.0.ffn_norm.weight",
+      "role": "norm",
+      "layer": 0,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 87666688,
+      "fileOffset": 88291318
+    },
+    {
+      "id": 11,
+      "name": "blk.0.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 0,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 87674880,
+      "fileOffset": 88299510
+    },
+    {
+      "id": 12,
+      "name": "blk.1.attn_k.weight",
+      "role": "attn_k",
+      "layer": 1,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 91459584,
+      "fileOffset": 92084214
+    },
+    {
+      "id": 13,
+      "name": "blk.1.attn_norm.weight",
+      "role": "norm",
+      "layer": 1,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 91631616,
+      "fileOffset": 92256246
+    },
+    {
+      "id": 14,
+      "name": "blk.1.attn_output.weight",
+      "role": "attn_out",
+      "layer": 1,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 91639808,
+      "fileOffset": 92264438
+    },
+    {
+      "id": 15,
+      "name": "blk.1.attn_q.weight",
+      "role": "attn_q",
+      "layer": 1,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 93442048,
+      "fileOffset": 94066678
+    },
+    {
+      "id": 16,
+      "name": "blk.1.attn_v.weight",
+      "role": "attn_v",
+      "layer": 1,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 94818304,
+      "fileOffset": 95442934
+    },
+    {
+      "id": 17,
+      "name": "blk.1.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 1,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 95113216,
+      "fileOffset": 95737846
+    },
+    {
+      "id": 18,
+      "name": "blk.1.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 1,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 100069376,
+      "fileOffset": 100694006
+    },
+    {
+      "id": 19,
+      "name": "blk.1.ffn_norm.weight",
+      "role": "norm",
+      "layer": 1,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 103854080,
+      "fileOffset": 104478710
+    },
+    {
+      "id": 20,
+      "name": "blk.1.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 1,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 103862272,
+      "fileOffset": 104486902
+    },
+    {
+      "id": 21,
+      "name": "blk.2.attn_k.weight",
+      "role": "attn_k",
+      "layer": 2,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 107646976,
+      "fileOffset": 108271606
+    },
+    {
+      "id": 22,
+      "name": "blk.2.attn_norm.weight",
+      "role": "norm",
+      "layer": 2,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 107819008,
+      "fileOffset": 108443638
+    },
+    {
+      "id": 23,
+      "name": "blk.2.attn_output.weight",
+      "role": "attn_out",
+      "layer": 2,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 107827200,
+      "fileOffset": 108451830
+    },
+    {
+      "id": 24,
+      "name": "blk.2.attn_q.weight",
+      "role": "attn_q",
+      "layer": 2,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 109629440,
+      "fileOffset": 110254070
+    },
+    {
+      "id": 25,
+      "name": "blk.2.attn_v.weight",
+      "role": "attn_v",
+      "layer": 2,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 111005696,
+      "fileOffset": 111630326
+    },
+    {
+      "id": 26,
+      "name": "blk.2.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 2,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 111300608,
+      "fileOffset": 111925238
+    },
+    {
+      "id": 27,
+      "name": "blk.2.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 2,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 116256768,
+      "fileOffset": 116881398
+    },
+    {
+      "id": 28,
+      "name": "blk.2.ffn_norm.weight",
+      "role": "norm",
+      "layer": 2,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 120041472,
+      "fileOffset": 120666102
+    },
+    {
+      "id": 29,
+      "name": "blk.2.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 2,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 120049664,
+      "fileOffset": 120674294
+    },
+    {
+      "id": 30,
+      "name": "blk.3.attn_k.weight",
+      "role": "attn_k",
+      "layer": 3,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 123834368,
+      "fileOffset": 124458998
+    },
+    {
+      "id": 31,
+      "name": "blk.3.attn_norm.weight",
+      "role": "norm",
+      "layer": 3,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 124006400,
+      "fileOffset": 124631030
+    },
+    {
+      "id": 32,
+      "name": "blk.3.attn_output.weight",
+      "role": "attn_out",
+      "layer": 3,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 124014592,
+      "fileOffset": 124639222
+    },
+    {
+      "id": 33,
+      "name": "blk.3.attn_q.weight",
+      "role": "attn_q",
+      "layer": 3,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 125816832,
+      "fileOffset": 126441462
+    },
+    {
+      "id": 34,
+      "name": "blk.3.attn_v.weight",
+      "role": "attn_v",
+      "layer": 3,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 127193088,
+      "fileOffset": 127817718
+    },
+    {
+      "id": 35,
+      "name": "blk.3.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 3,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 127488000,
+      "fileOffset": 128112630
+    },
+    {
+      "id": 36,
+      "name": "blk.3.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 3,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 132444160,
+      "fileOffset": 133068790
+    },
+    {
+      "id": 37,
+      "name": "blk.3.ffn_norm.weight",
+      "role": "norm",
+      "layer": 3,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 136228864,
+      "fileOffset": 136853494
+    },
+    {
+      "id": 38,
+      "name": "blk.3.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 3,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 136237056,
+      "fileOffset": 136861686
+    },
+    {
+      "id": 39,
+      "name": "blk.4.attn_k.weight",
+      "role": "attn_k",
+      "layer": 4,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 140021760,
+      "fileOffset": 140646390
+    },
+    {
+      "id": 40,
+      "name": "blk.4.attn_norm.weight",
+      "role": "norm",
+      "layer": 4,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 140193792,
+      "fileOffset": 140818422
+    },
+    {
+      "id": 41,
+      "name": "blk.4.attn_output.weight",
+      "role": "attn_out",
+      "layer": 4,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 140201984,
+      "fileOffset": 140826614
+    },
+    {
+      "id": 42,
+      "name": "blk.4.attn_q.weight",
+      "role": "attn_q",
+      "layer": 4,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 142004224,
+      "fileOffset": 142628854
+    },
+    {
+      "id": 43,
+      "name": "blk.4.attn_v.weight",
+      "role": "attn_v",
+      "layer": 4,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 143380480,
+      "fileOffset": 144005110
+    },
+    {
+      "id": 44,
+      "name": "blk.4.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 4,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 143675392,
+      "fileOffset": 144300022
+    },
+    {
+      "id": 45,
+      "name": "blk.4.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 4,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 148631552,
+      "fileOffset": 149256182
+    },
+    {
+      "id": 46,
+      "name": "blk.4.ffn_norm.weight",
+      "role": "norm",
+      "layer": 4,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 152416256,
+      "fileOffset": 153040886
+    },
+    {
+      "id": 47,
+      "name": "blk.4.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 4,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 152424448,
+      "fileOffset": 153049078
+    },
+    {
+      "id": 48,
+      "name": "blk.5.attn_k.weight",
+      "role": "attn_k",
+      "layer": 5,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 156209152,
+      "fileOffset": 156833782
+    },
+    {
+      "id": 49,
+      "name": "blk.5.attn_norm.weight",
+      "role": "norm",
+      "layer": 5,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 156381184,
+      "fileOffset": 157005814
+    },
+    {
+      "id": 50,
+      "name": "blk.5.attn_output.weight",
+      "role": "attn_out",
+      "layer": 5,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 156389376,
+      "fileOffset": 157014006
+    },
+    {
+      "id": 51,
+      "name": "blk.5.attn_q.weight",
+      "role": "attn_q",
+      "layer": 5,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 158191616,
+      "fileOffset": 158816246
+    },
+    {
+      "id": 52,
+      "name": "blk.5.attn_v.weight",
+      "role": "attn_v",
+      "layer": 5,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 159567872,
+      "fileOffset": 160192502
+    },
+    {
+      "id": 53,
+      "name": "blk.5.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 5,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 159862784,
+      "fileOffset": 160487414
+    },
+    {
+      "id": 54,
+      "name": "blk.5.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 5,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 164818944,
+      "fileOffset": 165443574
+    },
+    {
+      "id": 55,
+      "name": "blk.5.ffn_norm.weight",
+      "role": "norm",
+      "layer": 5,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 168603648,
+      "fileOffset": 169228278
+    },
+    {
+      "id": 56,
+      "name": "blk.5.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 5,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 168611840,
+      "fileOffset": 169236470
+    },
+    {
+      "id": 57,
+      "name": "blk.6.attn_k.weight",
+      "role": "attn_k",
+      "layer": 6,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 172396544,
+      "fileOffset": 173021174
+    },
+    {
+      "id": 58,
+      "name": "blk.6.attn_norm.weight",
+      "role": "norm",
+      "layer": 6,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 172568576,
+      "fileOffset": 173193206
+    },
+    {
+      "id": 59,
+      "name": "blk.6.attn_output.weight",
+      "role": "attn_out",
+      "layer": 6,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 172576768,
+      "fileOffset": 173201398
+    },
+    {
+      "id": 60,
+      "name": "blk.6.attn_q.weight",
+      "role": "attn_q",
+      "layer": 6,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 174379008,
+      "fileOffset": 175003638
+    },
+    {
+      "id": 61,
+      "name": "blk.6.attn_v.weight",
+      "role": "attn_v",
+      "layer": 6,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 175755264,
+      "fileOffset": 176379894
+    },
+    {
+      "id": 62,
+      "name": "blk.6.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 6,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 176050176,
+      "fileOffset": 176674806
+    },
+    {
+      "id": 63,
+      "name": "blk.6.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 6,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 181006336,
+      "fileOffset": 181630966
+    },
+    {
+      "id": 64,
+      "name": "blk.6.ffn_norm.weight",
+      "role": "norm",
+      "layer": 6,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 184791040,
+      "fileOffset": 185415670
+    },
+    {
+      "id": 65,
+      "name": "blk.6.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 6,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 184799232,
+      "fileOffset": 185423862
+    },
+    {
+      "id": 66,
+      "name": "blk.7.attn_k.weight",
+      "role": "attn_k",
+      "layer": 7,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 188583936,
+      "fileOffset": 189208566
+    },
+    {
+      "id": 67,
+      "name": "blk.7.attn_norm.weight",
+      "role": "norm",
+      "layer": 7,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 188755968,
+      "fileOffset": 189380598
+    },
+    {
+      "id": 68,
+      "name": "blk.7.attn_output.weight",
+      "role": "attn_out",
+      "layer": 7,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 188764160,
+      "fileOffset": 189388790
+    },
+    {
+      "id": 69,
+      "name": "blk.7.attn_q.weight",
+      "role": "attn_q",
+      "layer": 7,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 190566400,
+      "fileOffset": 191191030
+    },
+    {
+      "id": 70,
+      "name": "blk.7.attn_v.weight",
+      "role": "attn_v",
+      "layer": 7,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 191942656,
+      "fileOffset": 192567286
+    },
+    {
+      "id": 71,
+      "name": "blk.7.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 7,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 192237568,
+      "fileOffset": 192862198
+    },
+    {
+      "id": 72,
+      "name": "blk.7.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 7,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 197193728,
+      "fileOffset": 197818358
+    },
+    {
+      "id": 73,
+      "name": "blk.7.ffn_norm.weight",
+      "role": "norm",
+      "layer": 7,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 200978432,
+      "fileOffset": 201603062
+    },
+    {
+      "id": 74,
+      "name": "blk.7.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 7,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 200986624,
+      "fileOffset": 201611254
+    },
+    {
+      "id": 75,
+      "name": "blk.8.attn_k.weight",
+      "role": "attn_k",
+      "layer": 8,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 204771328,
+      "fileOffset": 205395958
+    },
+    {
+      "id": 76,
+      "name": "blk.8.attn_norm.weight",
+      "role": "norm",
+      "layer": 8,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 204943360,
+      "fileOffset": 205567990
+    },
+    {
+      "id": 77,
+      "name": "blk.8.attn_output.weight",
+      "role": "attn_out",
+      "layer": 8,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 204951552,
+      "fileOffset": 205576182
+    },
+    {
+      "id": 78,
+      "name": "blk.8.attn_q.weight",
+      "role": "attn_q",
+      "layer": 8,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 206753792,
+      "fileOffset": 207378422
+    },
+    {
+      "id": 79,
+      "name": "blk.8.attn_v.weight",
+      "role": "attn_v",
+      "layer": 8,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 208130048,
+      "fileOffset": 208754678
+    },
+    {
+      "id": 80,
+      "name": "blk.8.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 8,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 208424960,
+      "fileOffset": 209049590
+    },
+    {
+      "id": 81,
+      "name": "blk.8.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 8,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 213381120,
+      "fileOffset": 214005750
+    },
+    {
+      "id": 82,
+      "name": "blk.8.ffn_norm.weight",
+      "role": "norm",
+      "layer": 8,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 217165824,
+      "fileOffset": 217790454
+    },
+    {
+      "id": 83,
+      "name": "blk.8.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 8,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 217174016,
+      "fileOffset": 217798646
+    },
+    {
+      "id": 84,
+      "name": "blk.9.attn_k.weight",
+      "role": "attn_k",
+      "layer": 9,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 220958720,
+      "fileOffset": 221583350
+    },
+    {
+      "id": 85,
+      "name": "blk.9.attn_norm.weight",
+      "role": "norm",
+      "layer": 9,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 221130752,
+      "fileOffset": 221755382
+    },
+    {
+      "id": 86,
+      "name": "blk.9.attn_output.weight",
+      "role": "attn_out",
+      "layer": 9,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 221138944,
+      "fileOffset": 221763574
+    },
+    {
+      "id": 87,
+      "name": "blk.9.attn_q.weight",
+      "role": "attn_q",
+      "layer": 9,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 222941184,
+      "fileOffset": 223565814
+    },
+    {
+      "id": 88,
+      "name": "blk.9.attn_v.weight",
+      "role": "attn_v",
+      "layer": 9,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 224317440,
+      "fileOffset": 224942070
+    },
+    {
+      "id": 89,
+      "name": "blk.9.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 9,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 224612352,
+      "fileOffset": 225236982
+    },
+    {
+      "id": 90,
+      "name": "blk.9.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 9,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 229568512,
+      "fileOffset": 230193142
+    },
+    {
+      "id": 91,
+      "name": "blk.9.ffn_norm.weight",
+      "role": "norm",
+      "layer": 9,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 233353216,
+      "fileOffset": 233977846
+    },
+    {
+      "id": 92,
+      "name": "blk.9.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 9,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 233361408,
+      "fileOffset": 233986038
+    },
+    {
+      "id": 93,
+      "name": "blk.10.attn_k.weight",
+      "role": "attn_k",
+      "layer": 10,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 237146112,
+      "fileOffset": 237770742
+    },
+    {
+      "id": 94,
+      "name": "blk.10.attn_norm.weight",
+      "role": "norm",
+      "layer": 10,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 237318144,
+      "fileOffset": 237942774
+    },
+    {
+      "id": 95,
+      "name": "blk.10.attn_output.weight",
+      "role": "attn_out",
+      "layer": 10,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 237326336,
+      "fileOffset": 237950966
+    },
+    {
+      "id": 96,
+      "name": "blk.10.attn_q.weight",
+      "role": "attn_q",
+      "layer": 10,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 239128576,
+      "fileOffset": 239753206
+    },
+    {
+      "id": 97,
+      "name": "blk.10.attn_v.weight",
+      "role": "attn_v",
+      "layer": 10,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 240504832,
+      "fileOffset": 241129462
+    },
+    {
+      "id": 98,
+      "name": "blk.10.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 10,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 240799744,
+      "fileOffset": 241424374
+    },
+    {
+      "id": 99,
+      "name": "blk.10.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 10,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 245755904,
+      "fileOffset": 246380534
+    },
+    {
+      "id": 100,
+      "name": "blk.10.ffn_norm.weight",
+      "role": "norm",
+      "layer": 10,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 249540608,
+      "fileOffset": 250165238
+    },
+    {
+      "id": 101,
+      "name": "blk.10.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 10,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 249548800,
+      "fileOffset": 250173430
+    },
+    {
+      "id": 102,
+      "name": "blk.11.attn_k.weight",
+      "role": "attn_k",
+      "layer": 11,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 253333504,
+      "fileOffset": 253958134
+    },
+    {
+      "id": 103,
+      "name": "blk.11.attn_norm.weight",
+      "role": "norm",
+      "layer": 11,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 253505536,
+      "fileOffset": 254130166
+    },
+    {
+      "id": 104,
+      "name": "blk.11.attn_output.weight",
+      "role": "attn_out",
+      "layer": 11,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 253513728,
+      "fileOffset": 254138358
+    },
+    {
+      "id": 105,
+      "name": "blk.11.attn_q.weight",
+      "role": "attn_q",
+      "layer": 11,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 255315968,
+      "fileOffset": 255940598
+    },
+    {
+      "id": 106,
+      "name": "blk.11.attn_v.weight",
+      "role": "attn_v",
+      "layer": 11,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 256692224,
+      "fileOffset": 257316854
+    },
+    {
+      "id": 107,
+      "name": "blk.11.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 11,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 256987136,
+      "fileOffset": 257611766
+    },
+    {
+      "id": 108,
+      "name": "blk.11.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 11,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 261943296,
+      "fileOffset": 262567926
+    },
+    {
+      "id": 109,
+      "name": "blk.11.ffn_norm.weight",
+      "role": "norm",
+      "layer": 11,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 265728000,
+      "fileOffset": 266352630
+    },
+    {
+      "id": 110,
+      "name": "blk.11.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 11,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 265736192,
+      "fileOffset": 266360822
+    },
+    {
+      "id": 111,
+      "name": "blk.12.attn_k.weight",
+      "role": "attn_k",
+      "layer": 12,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 269520896,
+      "fileOffset": 270145526
+    },
+    {
+      "id": 112,
+      "name": "blk.12.attn_norm.weight",
+      "role": "norm",
+      "layer": 12,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 269692928,
+      "fileOffset": 270317558
+    },
+    {
+      "id": 113,
+      "name": "blk.12.attn_output.weight",
+      "role": "attn_out",
+      "layer": 12,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 269701120,
+      "fileOffset": 270325750
+    },
+    {
+      "id": 114,
+      "name": "blk.12.attn_q.weight",
+      "role": "attn_q",
+      "layer": 12,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 271503360,
+      "fileOffset": 272127990
+    },
+    {
+      "id": 115,
+      "name": "blk.12.attn_v.weight",
+      "role": "attn_v",
+      "layer": 12,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 272879616,
+      "fileOffset": 273504246
+    },
+    {
+      "id": 116,
+      "name": "blk.12.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 12,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 273174528,
+      "fileOffset": 273799158
+    },
+    {
+      "id": 117,
+      "name": "blk.12.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 12,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 278130688,
+      "fileOffset": 278755318
+    },
+    {
+      "id": 118,
+      "name": "blk.12.ffn_norm.weight",
+      "role": "norm",
+      "layer": 12,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 281915392,
+      "fileOffset": 282540022
+    },
+    {
+      "id": 119,
+      "name": "blk.12.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 12,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 281923584,
+      "fileOffset": 282548214
+    },
+    {
+      "id": 120,
+      "name": "blk.13.attn_k.weight",
+      "role": "attn_k",
+      "layer": 13,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 285708288,
+      "fileOffset": 286332918
+    },
+    {
+      "id": 121,
+      "name": "blk.13.attn_norm.weight",
+      "role": "norm",
+      "layer": 13,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 285880320,
+      "fileOffset": 286504950
+    },
+    {
+      "id": 122,
+      "name": "blk.13.attn_output.weight",
+      "role": "attn_out",
+      "layer": 13,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 285888512,
+      "fileOffset": 286513142
+    },
+    {
+      "id": 123,
+      "name": "blk.13.attn_q.weight",
+      "role": "attn_q",
+      "layer": 13,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 287690752,
+      "fileOffset": 288315382
+    },
+    {
+      "id": 124,
+      "name": "blk.13.attn_v.weight",
+      "role": "attn_v",
+      "layer": 13,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 289067008,
+      "fileOffset": 289691638
+    },
+    {
+      "id": 125,
+      "name": "blk.13.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 13,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 289361920,
+      "fileOffset": 289986550
+    },
+    {
+      "id": 126,
+      "name": "blk.13.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 13,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 294318080,
+      "fileOffset": 294942710
+    },
+    {
+      "id": 127,
+      "name": "blk.13.ffn_norm.weight",
+      "role": "norm",
+      "layer": 13,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 298102784,
+      "fileOffset": 298727414
+    },
+    {
+      "id": 128,
+      "name": "blk.13.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 13,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 298110976,
+      "fileOffset": 298735606
+    },
+    {
+      "id": 129,
+      "name": "blk.14.attn_k.weight",
+      "role": "attn_k",
+      "layer": 14,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 301895680,
+      "fileOffset": 302520310
+    },
+    {
+      "id": 130,
+      "name": "blk.14.attn_norm.weight",
+      "role": "norm",
+      "layer": 14,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 302067712,
+      "fileOffset": 302692342
+    },
+    {
+      "id": 131,
+      "name": "blk.14.attn_output.weight",
+      "role": "attn_out",
+      "layer": 14,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 302075904,
+      "fileOffset": 302700534
+    },
+    {
+      "id": 132,
+      "name": "blk.14.attn_q.weight",
+      "role": "attn_q",
+      "layer": 14,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 303878144,
+      "fileOffset": 304502774
+    },
+    {
+      "id": 133,
+      "name": "blk.14.attn_v.weight",
+      "role": "attn_v",
+      "layer": 14,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 305254400,
+      "fileOffset": 305879030
+    },
+    {
+      "id": 134,
+      "name": "blk.14.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 14,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 305549312,
+      "fileOffset": 306173942
+    },
+    {
+      "id": 135,
+      "name": "blk.14.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 14,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 310505472,
+      "fileOffset": 311130102
+    },
+    {
+      "id": 136,
+      "name": "blk.14.ffn_norm.weight",
+      "role": "norm",
+      "layer": 14,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 314290176,
+      "fileOffset": 314914806
+    },
+    {
+      "id": 137,
+      "name": "blk.14.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 14,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 314298368,
+      "fileOffset": 314922998
+    },
+    {
+      "id": 138,
+      "name": "blk.15.attn_k.weight",
+      "role": "attn_k",
+      "layer": 15,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 318083072,
+      "fileOffset": 318707702
+    },
+    {
+      "id": 139,
+      "name": "blk.15.attn_norm.weight",
+      "role": "norm",
+      "layer": 15,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 318255104,
+      "fileOffset": 318879734
+    },
+    {
+      "id": 140,
+      "name": "blk.15.attn_output.weight",
+      "role": "attn_out",
+      "layer": 15,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 318263296,
+      "fileOffset": 318887926
+    },
+    {
+      "id": 141,
+      "name": "blk.15.attn_q.weight",
+      "role": "attn_q",
+      "layer": 15,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 320065536,
+      "fileOffset": 320690166
+    },
+    {
+      "id": 142,
+      "name": "blk.15.attn_v.weight",
+      "role": "attn_v",
+      "layer": 15,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 321441792,
+      "fileOffset": 322066422
+    },
+    {
+      "id": 143,
+      "name": "blk.15.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 15,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 321736704,
+      "fileOffset": 322361334
+    },
+    {
+      "id": 144,
+      "name": "blk.15.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 15,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 326692864,
+      "fileOffset": 327317494
+    },
+    {
+      "id": 145,
+      "name": "blk.15.ffn_norm.weight",
+      "role": "norm",
+      "layer": 15,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 330477568,
+      "fileOffset": 331102198
+    },
+    {
+      "id": 146,
+      "name": "blk.15.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 15,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 330485760,
+      "fileOffset": 331110390
+    },
+    {
+      "id": 147,
+      "name": "blk.16.attn_k.weight",
+      "role": "attn_k",
+      "layer": 16,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 334270464,
+      "fileOffset": 334895094
+    },
+    {
+      "id": 148,
+      "name": "blk.16.attn_norm.weight",
+      "role": "norm",
+      "layer": 16,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 334442496,
+      "fileOffset": 335067126
+    },
+    {
+      "id": 149,
+      "name": "blk.16.attn_output.weight",
+      "role": "attn_out",
+      "layer": 16,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 334450688,
+      "fileOffset": 335075318
+    },
+    {
+      "id": 150,
+      "name": "blk.16.attn_q.weight",
+      "role": "attn_q",
+      "layer": 16,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 336252928,
+      "fileOffset": 336877558
+    },
+    {
+      "id": 151,
+      "name": "blk.16.attn_v.weight",
+      "role": "attn_v",
+      "layer": 16,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 337629184,
+      "fileOffset": 338253814
+    },
+    {
+      "id": 152,
+      "name": "blk.16.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 16,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 337924096,
+      "fileOffset": 338548726
+    },
+    {
+      "id": 153,
+      "name": "blk.16.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 16,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 342880256,
+      "fileOffset": 343504886
+    },
+    {
+      "id": 154,
+      "name": "blk.16.ffn_norm.weight",
+      "role": "norm",
+      "layer": 16,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 346664960,
+      "fileOffset": 347289590
+    },
+    {
+      "id": 155,
+      "name": "blk.16.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 16,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 346673152,
+      "fileOffset": 347297782
+    },
+    {
+      "id": 156,
+      "name": "blk.17.attn_k.weight",
+      "role": "attn_k",
+      "layer": 17,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 350457856,
+      "fileOffset": 351082486
+    },
+    {
+      "id": 157,
+      "name": "blk.17.attn_norm.weight",
+      "role": "norm",
+      "layer": 17,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 350629888,
+      "fileOffset": 351254518
+    },
+    {
+      "id": 158,
+      "name": "blk.17.attn_output.weight",
+      "role": "attn_out",
+      "layer": 17,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 350638080,
+      "fileOffset": 351262710
+    },
+    {
+      "id": 159,
+      "name": "blk.17.attn_q.weight",
+      "role": "attn_q",
+      "layer": 17,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 352440320,
+      "fileOffset": 353064950
+    },
+    {
+      "id": 160,
+      "name": "blk.17.attn_v.weight",
+      "role": "attn_v",
+      "layer": 17,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 353816576,
+      "fileOffset": 354441206
+    },
+    {
+      "id": 161,
+      "name": "blk.17.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 17,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 354111488,
+      "fileOffset": 354736118
+    },
+    {
+      "id": 162,
+      "name": "blk.17.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 17,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 359067648,
+      "fileOffset": 359692278
+    },
+    {
+      "id": 163,
+      "name": "blk.17.ffn_norm.weight",
+      "role": "norm",
+      "layer": 17,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 362852352,
+      "fileOffset": 363476982
+    },
+    {
+      "id": 164,
+      "name": "blk.17.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 17,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 362860544,
+      "fileOffset": 363485174
+    },
+    {
+      "id": 165,
+      "name": "blk.18.attn_k.weight",
+      "role": "attn_k",
+      "layer": 18,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 366645248,
+      "fileOffset": 367269878
+    },
+    {
+      "id": 166,
+      "name": "blk.18.attn_norm.weight",
+      "role": "norm",
+      "layer": 18,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 366817280,
+      "fileOffset": 367441910
+    },
+    {
+      "id": 167,
+      "name": "blk.18.attn_output.weight",
+      "role": "attn_out",
+      "layer": 18,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 366825472,
+      "fileOffset": 367450102
+    },
+    {
+      "id": 168,
+      "name": "blk.18.attn_q.weight",
+      "role": "attn_q",
+      "layer": 18,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 368627712,
+      "fileOffset": 369252342
+    },
+    {
+      "id": 169,
+      "name": "blk.18.attn_v.weight",
+      "role": "attn_v",
+      "layer": 18,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 370003968,
+      "fileOffset": 370628598
+    },
+    {
+      "id": 170,
+      "name": "blk.18.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 18,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 370298880,
+      "fileOffset": 370923510
+    },
+    {
+      "id": 171,
+      "name": "blk.18.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 18,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 375255040,
+      "fileOffset": 375879670
+    },
+    {
+      "id": 172,
+      "name": "blk.18.ffn_norm.weight",
+      "role": "norm",
+      "layer": 18,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 379039744,
+      "fileOffset": 379664374
+    },
+    {
+      "id": 173,
+      "name": "blk.18.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 18,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 379047936,
+      "fileOffset": 379672566
+    },
+    {
+      "id": 174,
+      "name": "blk.19.attn_k.weight",
+      "role": "attn_k",
+      "layer": 19,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 382832640,
+      "fileOffset": 383457270
+    },
+    {
+      "id": 175,
+      "name": "blk.19.attn_norm.weight",
+      "role": "norm",
+      "layer": 19,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 383004672,
+      "fileOffset": 383629302
+    },
+    {
+      "id": 176,
+      "name": "blk.19.attn_output.weight",
+      "role": "attn_out",
+      "layer": 19,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 383012864,
+      "fileOffset": 383637494
+    },
+    {
+      "id": 177,
+      "name": "blk.19.attn_q.weight",
+      "role": "attn_q",
+      "layer": 19,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 384815104,
+      "fileOffset": 385439734
+    },
+    {
+      "id": 178,
+      "name": "blk.19.attn_v.weight",
+      "role": "attn_v",
+      "layer": 19,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 386191360,
+      "fileOffset": 386815990
+    },
+    {
+      "id": 179,
+      "name": "blk.19.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 19,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 386486272,
+      "fileOffset": 387110902
+    },
+    {
+      "id": 180,
+      "name": "blk.19.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 19,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 391442432,
+      "fileOffset": 392067062
+    },
+    {
+      "id": 181,
+      "name": "blk.19.ffn_norm.weight",
+      "role": "norm",
+      "layer": 19,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 395227136,
+      "fileOffset": 395851766
+    },
+    {
+      "id": 182,
+      "name": "blk.19.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 19,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 395235328,
+      "fileOffset": 395859958
+    },
+    {
+      "id": 183,
+      "name": "blk.20.attn_k.weight",
+      "role": "attn_k",
+      "layer": 20,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 399020032,
+      "fileOffset": 399644662
+    },
+    {
+      "id": 184,
+      "name": "blk.20.attn_norm.weight",
+      "role": "norm",
+      "layer": 20,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 399192064,
+      "fileOffset": 399816694
+    },
+    {
+      "id": 185,
+      "name": "blk.20.attn_output.weight",
+      "role": "attn_out",
+      "layer": 20,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 399200256,
+      "fileOffset": 399824886
+    },
+    {
+      "id": 186,
+      "name": "blk.20.attn_q.weight",
+      "role": "attn_q",
+      "layer": 20,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 401002496,
+      "fileOffset": 401627126
+    },
+    {
+      "id": 187,
+      "name": "blk.20.attn_v.weight",
+      "role": "attn_v",
+      "layer": 20,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 402378752,
+      "fileOffset": 403003382
+    },
+    {
+      "id": 188,
+      "name": "blk.20.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 20,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 402673664,
+      "fileOffset": 403298294
+    },
+    {
+      "id": 189,
+      "name": "blk.20.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 20,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 407629824,
+      "fileOffset": 408254454
+    },
+    {
+      "id": 190,
+      "name": "blk.20.ffn_norm.weight",
+      "role": "norm",
+      "layer": 20,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 411414528,
+      "fileOffset": 412039158
+    },
+    {
+      "id": 191,
+      "name": "blk.20.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 20,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 411422720,
+      "fileOffset": 412047350
+    },
+    {
+      "id": 192,
+      "name": "blk.21.attn_k.weight",
+      "role": "attn_k",
+      "layer": 21,
+      "type": 10,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 172032,
+      "awtaiOffset": 415207424,
+      "fileOffset": 415832054
+    },
+    {
+      "id": 193,
+      "name": "blk.21.attn_norm.weight",
+      "role": "norm",
+      "layer": 21,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 415379456,
+      "fileOffset": 416004086
+    },
+    {
+      "id": 194,
+      "name": "blk.21.attn_output.weight",
+      "role": "attn_out",
+      "layer": 21,
+      "type": 11,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1802240,
+      "awtaiOffset": 415387648,
+      "fileOffset": 416012278
+    },
+    {
+      "id": 195,
+      "name": "blk.21.attn_q.weight",
+      "role": "attn_q",
+      "layer": 21,
+      "type": 10,
+      "dims": [
+        2048,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 2048,
+      "byteLength": 1376256,
+      "awtaiOffset": 417189888,
+      "fileOffset": 417814518
+    },
+    {
+      "id": 196,
+      "name": "blk.21.attn_v.weight",
+      "role": "attn_v",
+      "layer": 21,
+      "type": 12,
+      "dims": [
+        2048,
+        256
+      ],
+      "rows": 256,
+      "cols": 2048,
+      "byteLength": 294912,
+      "awtaiOffset": 418566144,
+      "fileOffset": 419190774
+    },
+    {
+      "id": 197,
+      "name": "blk.21.ffn_down.weight",
+      "role": "ffn_down",
+      "layer": 21,
+      "type": 11,
+      "dims": [
+        5632,
+        2048
+      ],
+      "rows": 2048,
+      "cols": 5632,
+      "byteLength": 4956160,
+      "awtaiOffset": 418861056,
+      "fileOffset": 419485686
+    },
+    {
+      "id": 198,
+      "name": "blk.21.ffn_gate.weight",
+      "role": "ffn_gate",
+      "layer": 21,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 423817216,
+      "fileOffset": 424441846
+    },
+    {
+      "id": 199,
+      "name": "blk.21.ffn_norm.weight",
+      "role": "norm",
+      "layer": 21,
+      "type": 0,
+      "dims": [
+        2048
+      ],
+      "rows": 1,
+      "cols": 2048,
+      "byteLength": 8192,
+      "awtaiOffset": 427601920,
+      "fileOffset": 428226550
+    },
+    {
+      "id": 200,
+      "name": "blk.21.ffn_up.weight",
+      "role": "ffn_up",
+      "layer": 21,
+      "type": 10,
+      "dims": [
+        2048,
+        5632
+      ],
+      "rows": 5632,
+      "cols": 2048,
+      "byteLength": 3784704,
+      "awtaiOffset": 427610112,
+      "fileOffset": 428234742
+    }
+  ],
+  "roles": {
+    "lm_head": 0,
+    "norm": 1,
+    "embed": 2,
+    "attn_k:0": 3,
+    "norm:0": 10,
+    "attn_out:0": 5,
+    "attn_q:0": 6,
+    "attn_v:0": 7,
+    "ffn_down:0": 8,
+    "ffn_gate:0": 9,
+    "ffn_up:0": 11,
+    "attn_k:1": 12,
+    "norm:1": 19,
+    "attn_out:1": 14,
+    "attn_q:1": 15,
+    "attn_v:1": 16,
+    "ffn_down:1": 17,
+    "ffn_gate:1": 18,
+    "ffn_up:1": 20,
+    "attn_k:2": 21,
+    "norm:2": 28,
+    "attn_out:2": 23,
+    "attn_q:2": 24,
+    "attn_v:2": 25,
+    "ffn_down:2": 26,
+    "ffn_gate:2": 27,
+    "ffn_up:2": 29,
+    "attn_k:3": 30,
+    "norm:3": 37,
+    "attn_out:3": 32,
+    "attn_q:3": 33,
+    "attn_v:3": 34,
+    "ffn_down:3": 35,
+    "ffn_gate:3": 36,
+    "ffn_up:3": 38,
+    "attn_k:4": 39,
+    "norm:4": 46,
+    "attn_out:4": 41,
+    "attn_q:4": 42,
+    "attn_v:4": 43,
+    "ffn_down:4": 44,
+    "ffn_gate:4": 45,
+    "ffn_up:4": 47,
+    "attn_k:5": 48,
+    "norm:5": 55,
+    "attn_out:5": 50,
+    "attn_q:5": 51,
+    "attn_v:5": 52,
+    "ffn_down:5": 53,
+    "ffn_gate:5": 54,
+    "ffn_up:5": 56,
+    "attn_k:6": 57,
+    "norm:6": 64,
+    "attn_out:6": 59,
+    "attn_q:6": 60,
+    "attn_v:6": 61,
+    "ffn_down:6": 62,
+    "ffn_gate:6": 63,
+    "ffn_up:6": 65,
+    "attn_k:7": 66,
+    "norm:7": 73,
+    "attn_out:7": 68,
+    "attn_q:7": 69,
+    "attn_v:7": 70,
+    "ffn_down:7": 71,
+    "ffn_gate:7": 72,
+    "ffn_up:7": 74,
+    "attn_k:8": 75,
+    "norm:8": 82,
+    "attn_out:8": 77,
+    "attn_q:8": 78,
+    "attn_v:8": 79,
+    "ffn_down:8": 80,
+    "ffn_gate:8": 81,
+    "ffn_up:8": 83,
+    "attn_k:9": 84,
+    "norm:9": 91,
+    "attn_out:9": 86,
+    "attn_q:9": 87,
+    "attn_v:9": 88,
+    "ffn_down:9": 89,
+    "ffn_gate:9": 90,
+    "ffn_up:9": 92,
+    "attn_k:10": 93,
+    "norm:10": 100,
+    "attn_out:10": 95,
+    "attn_q:10": 96,
+    "attn_v:10": 97,
+    "ffn_down:10": 98,
+    "ffn_gate:10": 99,
+    "ffn_up:10": 101,
+    "attn_k:11": 102,
+    "norm:11": 109,
+    "attn_out:11": 104,
+    "attn_q:11": 105,
+    "attn_v:11": 106,
+    "ffn_down:11": 107,
+    "ffn_gate:11": 108,
+    "ffn_up:11": 110,
+    "attn_k:12": 111,
+    "norm:12": 118,
+    "attn_out:12": 113,
+    "attn_q:12": 114,
+    "attn_v:12": 115,
+    "ffn_down:12": 116,
+    "ffn_gate:12": 117,
+    "ffn_up:12": 119,
+    "attn_k:13": 120,
+    "norm:13": 127,
+    "attn_out:13": 122,
+    "attn_q:13": 123,
+    "attn_v:13": 124,
+    "ffn_down:13": 125,
+    "ffn_gate:13": 126,
+    "ffn_up:13": 128,
+    "attn_k:14": 129,
+    "norm:14": 136,
+    "attn_out:14": 131,
+    "attn_q:14": 132,
+    "attn_v:14": 133,
+    "ffn_down:14": 134,
+    "ffn_gate:14": 135,
+    "ffn_up:14": 137,
+    "attn_k:15": 138,
+    "norm:15": 145,
+    "attn_out:15": 140,
+    "attn_q:15": 141,
+    "attn_v:15": 142,
+    "ffn_down:15": 143,
+    "ffn_gate:15": 144,
+    "ffn_up:15": 146,
+    "attn_k:16": 147,
+    "norm:16": 154,
+    "attn_out:16": 149,
+    "attn_q:16": 150,
+    "attn_v:16": 151,
+    "ffn_down:16": 152,
+    "ffn_gate:16": 153,
+    "ffn_up:16": 155,
+    "attn_k:17": 156,
+    "norm:17": 163,
+    "attn_out:17": 158,
+    "attn_q:17": 159,
+    "attn_v:17": 160,
+    "ffn_down:17": 161,
+    "ffn_gate:17": 162,
+    "ffn_up:17": 164,
+    "attn_k:18": 165,
+    "norm:18": 172,
+    "attn_out:18": 167,
+    "attn_q:18": 168,
+    "attn_v:18": 169,
+    "ffn_down:18": 170,
+    "ffn_gate:18": 171,
+    "ffn_up:18": 173,
+    "attn_k:19": 174,
+    "norm:19": 181,
+    "attn_out:19": 176,
+    "attn_q:19": 177,
+    "attn_v:19": 178,
+    "ffn_down:19": 179,
+    "ffn_gate:19": 180,
+    "ffn_up:19": 182,
+    "attn_k:20": 183,
+    "norm:20": 190,
+    "attn_out:20": 185,
+    "attn_q:20": 186,
+    "attn_v:20": 187,
+    "ffn_down:20": 188,
+    "ffn_gate:20": 189,
+    "ffn_up:20": 191,
+    "attn_k:21": 192,
+    "norm:21": 199,
+    "attn_out:21": 194,
+    "attn_q:21": 195,
+    "attn_v:21": 196,
+    "ffn_down:21": 197,
+    "ffn_gate:21": 198,
+    "ffn_up:21": 200
+  },
+  "externalCompilerInvoked": false
+}

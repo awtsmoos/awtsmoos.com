@@ -10,13 +10,13 @@
   gap: .2rem;
   padding: .75rem;
   border-radius: 1rem;
-  border: 1px solid rgba(112, 77, 26, .18);
-  background: rgba(255,255,255,.62);
-  box-shadow: 0 .55rem 1.5rem rgba(54, 32, 8, .09);
+  border: 1px solid var(--g-line);
+  background: rgba(255,255,255,.07);
+  box-shadow: var(--g-shadow-soft);
 }
-.civilization-metric-card strong { font-size: clamp(1.1rem, 4vw, 1.8rem); line-height: 1; }
+.civilization-metric-card strong { font-size: clamp(1.1rem, 4vw, 1.8rem); line-height: 1; color: #fff; }
 .civilization-metric-card small {
-  opacity: .72;
+  color: var(--g-muted);
   font-weight: 850;
   letter-spacing: .04em;
   text-transform: uppercase;

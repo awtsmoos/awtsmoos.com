@@ -1,0 +1,18 @@
+/* B"H — Submit tokens: calm aliases for the composer workbench. */
+:root {
+  --submit-bg: var(--g-bg-2, #080c1a);
+  --submit-bg-deep: var(--g-bg, #050814);
+  --submit-card: var(--g-panel);
+  --submit-soft: var(--g-panel-2);
+  --submit-chip: var(--g-panel-3);
+  --submit-ink: var(--g-ink, #f8fbff);
+  --submit-warm: var(--g-ink-2, #e8eef9);
+  --submit-muted: var(--g-muted, #716a78);
+  --submit-gold: var(--g-gold, #b9853f);
+  --submit-gold-light: var(--g-gold-2, #f5ca70);
+  --submit-cyan: var(--g-cyan, #79e6ff);
+  --submit-line: var(--g-line);
+  --submit-dark-line: var(--g-dark-line, rgba(255, 255, 255, .12));
+  --submit-shadow: var(--g-shadow, 0 1.2rem 3rem rgba(0, 0, 0, .28));
+  --submit-touch: var(--g-touch, 3rem);
+}

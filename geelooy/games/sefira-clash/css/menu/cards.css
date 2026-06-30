@@ -1,0 +1,96 @@
+/** B"H — Cards become huge doors that the thumb cannot miss. */
+.modeCard,
+.menuCard,
+.levelCard {
+  background: linear-gradient(145deg, #14091f, #08050d);
+  border: 1px solid #e8c66a77;
+  border-radius: 24px;
+  box-shadow: 0 12px 34px #0008;
+  color: #fff0c6;
+  cursor: pointer;
+  min-height: 132px;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+  text-align: left;
+  transition: transform .16s, box-shadow .16s, background .16s;
+}
+
+.modeCard {
+  align-content: end;
+  display: grid;
+  min-height: 210px;
+}
+
+.modeCard.featured {
+  border-color: #84f7ffcc;
+  min-height: 260px;
+}
+
+.levelCard {
+  align-content: start;
+  display: grid;
+  min-height: 172px;
+}
+
+.modeCard:hover,
+.menuCard:hover,
+.levelCard:hover,
+.modeCard:active,
+.menuCard:active,
+.levelCard:active {
+  background: #1b1028;
+  box-shadow: 0 0 28px #e8c66a55;
+  transform: translateY(-1px);
+}
+
+.cardAura {
+  background: radial-gradient(circle at 75% 25%, hsl(var(--h) 90% 60%), transparent 45%);
+  inset: -35px;
+  opacity: .22;
+  position: absolute;
+}
+
+.modeCard strong,
+.modeCard small,
+.modeCard em,
+.menuCard strong,
+.menuCard small,
+.menuCard em,
+.levelCard strong,
+.levelCard small,
+.levelMeta,
+.modeBadge {
+  position: relative;
+  z-index: 1;
+}
+
+.modeCard strong {
+  color: #ffe68b;
+  display: block;
+  font-size: clamp(26px, 5vw, 38px);
+}
+
+.menuCard strong,
+.levelCard strong {
+  color: #ffe68b;
+  display: block;
+  font-size: 18px;
+}
+
+.modeCard small,
+.menuCard small,
+.levelCard small {
+  color: #cdbb8d;
+  display: block;
+  line-height: 1.38;
+  margin-top: 8px;
+}
+
+.modeBadge {
+  color: #84f7ff;
+  font-size: 11px;
+  font-weight: 1000;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}

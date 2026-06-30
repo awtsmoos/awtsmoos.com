@@ -12,18 +12,18 @@
 .heichel-mobile-navigation .viewport { display: grid; gap: 1rem; padding-bottom: clamp(6.75rem, 14vh, 9rem); scroll-margin-top: 8rem; }
 .heichel-mobile-navigation .empty-glow-msg {
   position: relative; display: grid; gap: .35rem; place-items: center; min-height: 12rem; padding: 2rem 1.25rem;
-  border: 1px dashed rgba(122,82,31,.3); border-radius: 1.4rem;
-  background: radial-gradient(circle at 50% 0%, rgba(216,170,81,.18), transparent 12rem), rgba(255,255,255,.58);
+  border: 1px dashed var(--heichel-line); border-radius: var(--heichel-radius);
+  background: radial-gradient(circle at 50% 0%, rgba(102,231,255,.12), transparent 12rem), rgba(255,255,255,.055);
   color: var(--heichel-soft-ink); text-align: center; font-weight: 850;
 }
-.empty-glow-msg .empty-orb { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 999px; background: linear-gradient(135deg, var(--heichel-night), var(--heichel-rust)); color: #fff7df; box-shadow: 0 .9rem 1.8rem rgba(68,29,12,.2); }
+.empty-glow-msg .empty-orb { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 999px; background: linear-gradient(135deg, var(--heichel-gold), var(--heichel-cyan)); color: #03101b; box-shadow: var(--heichel-shadow-soft); }
 .empty-glow-msg strong { color: var(--heichel-ink); font-size: 1.15rem; letter-spacing: -.025em; }
 .empty-glow-msg span:last-child { max-width: 36ch; line-height: 1.55; }
 .heichel-mobile-navigation .sacred-loading {
-  min-height: 9rem; border: 1px solid rgba(122,82,31,.16); border-radius: 1.35rem; overflow: hidden;
-  background: linear-gradient(90deg, rgba(255,255,255,.45), rgba(255,246,226,.9), rgba(255,255,255,.45));
+  min-height: 9rem; border: 1px solid var(--heichel-line); border-radius: var(--heichel-radius); overflow: hidden;
+  background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(102,231,255,.1), rgba(255,255,255,.04));
   background-size: 220% 100%; animation: heichelShimmer 1.8s ease-in-out infinite;
 }
-.heichel-mobile-navigation .sacred-loading::before { content: ""; display: block; width: 44%; height: 1rem; margin: 2rem auto .75rem; border-radius: 999px; background: rgba(122,82,31,.13); box-shadow: 0 2rem 0 rgba(122,82,31,.1), 0 4rem 0 rgba(122,82,31,.08); }
+.heichel-mobile-navigation .sacred-loading::before { content: ""; display: block; width: 44%; height: 1rem; margin: 2rem auto .75rem; border-radius: 999px; background: rgba(255,255,255,.1); box-shadow: 0 2rem 0 rgba(255,255,255,.08), 0 4rem 0 rgba(255,255,255,.06); }
 @keyframes heichelShimmer { 0% { background-position: 120% 0; } 100% { background-position: -120% 0; } }
 @media (min-width: 1120px) { .heichel-mobile-navigation .dynamic-grid, .heichel-mobile-navigation .heichel-grid, .heichel-mobile-navigation .series-grid { grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr)); } }

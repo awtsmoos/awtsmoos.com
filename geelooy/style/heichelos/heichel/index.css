@@ -1,4 +1,5 @@
 /* B"H Heichel mobile navigation entry: owned, root-scoped vessels only. */
+@import "/style/social-system/tokens.css";
 @import "./tokens.css";
 @import "./shell.css";
 @import "./topbar.css";

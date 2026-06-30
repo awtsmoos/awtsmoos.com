@@ -1,0 +1,48 @@
+/* B"H — Submit mobile: responsive overrides and motion safety only. */
+@media (max-width: 900px) {
+  .main,
+  .post-creator-container {
+    width: min(100%, calc(100vw - .75rem));
+  }
+
+  .submit-layout,
+  .meta-inputs,
+  .segment-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .submit-status-rail {
+    position: static;
+  }
+
+  .submit-hero,
+  .page-header,
+  .editor-wrapper,
+  .section,
+  .sub-section {
+    border-radius: 1rem;
+  }
+
+  .sub-section {
+    margin-left: .25rem;
+  }
+
+  .submit-post-btn {
+    position: sticky;
+    bottom: .7rem;
+    z-index: 12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: .01ms !important;
+  }
+
+  :is(button, .btn, .action-button, .back-button-stylized):hover {
+    transform: none;
+  }
+}

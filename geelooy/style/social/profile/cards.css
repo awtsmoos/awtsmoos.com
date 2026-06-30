@@ -21,19 +21,19 @@
   align-items: center;
   justify-content: center;
   min-height: 2.75rem;
-  border: 1px solid rgba(121,84,40,.18);
+  border: 1px solid var(--pp-line);
   border-radius: 999px;
   padding: 0 1rem;
   text-decoration: none;
-  color: #23170d;
-  background: rgba(255,255,255,.72);
+  color: var(--pp-ink);
+  background: rgba(255,255,255,.075);
   font-weight: 950;
-  box-shadow: 0 .65rem 1.35rem rgba(62,37,12,.10), inset 0 1px 0 rgba(255,255,255,.8);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
 .profile-follow-button:not(.passive) {
   border: 0;
-  background: linear-gradient(135deg, #241a36, #8c3518 70%, #d8a448);
-  color: #fff8df;
+  background: linear-gradient(135deg, var(--pp-gold), var(--pp-cyan));
+  color: #03101b;
   cursor: pointer;
 }
 .profile-follow-button.following { background: linear-gradient(135deg, #1f4b39, #67a65d); }
@@ -48,13 +48,13 @@
 .profile-heichel-card {
   position: relative;
   display: block;
-  border: 1px solid rgba(121,84,40,.16);
-  border-radius: 1.15rem;
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
   padding: 1rem;
-  background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(250,238,214,.72));
-  color: #23170d;
+  background: linear-gradient(145deg, rgba(255,255,255,.095), rgba(255,255,255,.055));
+  color: var(--pp-ink);
   text-decoration: none;
-  box-shadow: 0 .9rem 2.2rem rgba(62,37,12,.10), inset 0 1px 0 rgba(255,255,255,.78);
+  box-shadow: var(--g-shadow-soft), inset 0 1px 0 rgba(255,255,255,.08);
   cursor: pointer;
   transition: transform .18s ease, box-shadow .18s ease;
 }
@@ -64,12 +64,12 @@
 .profile-activity-item:hover,
 .profile-post-card:hover,
 .profile-comment-card:hover,
-.profile-heichel-card:hover { transform: translateY(-3px); box-shadow: 0 1.25rem 2.8rem rgba(62,37,12,.14); }
+.profile-heichel-card:hover { transform: translateY(-3px); box-shadow: var(--pp-shadow); }
 .profile-follow-card small,
 .profile-recommendation-card small,
 .profile-activity-item small,
 .profile-post-card small,
-.profile-comment-card small { color: #8b4e12; font-weight: 950; letter-spacing: .08em; text-transform: uppercase; }
+.profile-comment-card small { color: var(--pp-gold); font-weight: 950; letter-spacing: .08em; text-transform: uppercase; }
 .profile-follow-card h3,
 .profile-recommendation-card h3,
 .profile-activity-item h3 { margin: .35rem 0; font-size: 1.12rem; }

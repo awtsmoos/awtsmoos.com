@@ -1,0 +1,35 @@
+/* B"H — Submit status: inspector rail and inline composer messages. */
+.submit-status-rail {
+  position: sticky;
+  top: 1rem;
+  display: grid;
+  gap: .85rem;
+  padding: 1rem;
+  border: 1px solid var(--submit-dark-line);
+  border-radius: 1.15rem;
+  background: rgba(8, 13, 27, .82);
+  color: #fffaf1;
+  box-shadow: var(--submit-shadow);
+}
+
+.status-card {
+  border: 1px solid var(--submit-dark-line);
+  border-radius: 1rem;
+  padding: .9rem;
+  background: rgba(255, 255, 255, .06);
+}
+
+.status-card strong {
+  color: var(--submit-gold-light);
+}
+
+.status-card p {
+  margin: .3rem 0 0;
+  color: rgba(255, 250, 241, .76);
+}
+
+.submit-status-message {
+  min-height: 1.4rem;
+  color: var(--submit-gold-light);
+  font-weight: 800;
+}

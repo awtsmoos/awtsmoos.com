@@ -1,0 +1,16 @@
+/* B"H — Spaces state row: non-interactive capability chips only. */
+.spaces-state-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  color: var(--spaces-muted);
+}
+
+.spaces-state-row span {
+  border: 1px solid var(--spaces-line);
+  border-radius: 999px;
+  padding: .42rem .72rem;
+  background: rgba(255, 255, 255, .055);
+  font-size: .82rem;
+  font-weight: 850;
+}

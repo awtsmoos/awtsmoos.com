@@ -1,0 +1,59 @@
+/* B"H — Submit actions: buttons and button-like links only. */
+.btn,
+.control-btn,
+.toolbar-btn,
+.action-button,
+.back-button-stylized,
+.submit-post-btn,
+button {
+  min-height: var(--submit-touch);
+  border: 1px solid var(--submit-line);
+  border-radius: .78rem;
+  padding: .72rem 1rem;
+  background: rgba(255,255,255,.075);
+  color: var(--submit-warm);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+}
+
+.btn.primary,
+.btn.action-btn,
+.action-button,
+.spaces-create {
+  background: linear-gradient(135deg, var(--submit-gold), var(--submit-cyan));
+  color: #03101b;
+  border-color: transparent;
+}
+
+.submit-post-btn,
+.action-btn {
+  width: 100%;
+  min-height: 3.35rem;
+  background: linear-gradient(135deg, var(--submit-gold), var(--submit-cyan));
+  color: #03101b;
+  border-color: transparent;
+}
+
+.btn.icon-btn,
+.control-btn,
+.toolbar-btn {
+  min-width: 2.75rem;
+  padding-inline: .72rem;
+}
+
+.destructive,
+.remove-section-btn:hover {
+  background: #7f1d1d;
+  color: #fff;
+}
+
+:is(button, .btn, .action-button, .back-button-stylized):hover {
+  transform: translateY(-1px);
+  box-shadow: var(--g-shadow-soft);
+}
+
+:is(button, a, input, textarea, select, .content-editor):focus-visible {
+  outline: 3px solid rgba(121, 230, 255, .75);
+  outline-offset: 3px;
+}

@@ -1,0 +1,35 @@
+/* B"H — Submit toolbar: compact editing controls and generated command rows. */
+.editor-controls-bar,
+.editor-toolbar,
+.generator-buttons,
+.top-controls,
+.sections-header,
+.section-header,
+.section-header-row,
+.subsection-controls,
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+}
+
+.sections-header,
+.section-header,
+.section-header-row,
+.collapsible-header {
+  justify-content: space-between;
+}
+
+.editor-toolbar {
+  padding: .45rem;
+  border: 1px solid var(--submit-line);
+  border-radius: .9rem;
+  background: rgba(255, 255, 255, .055);
+}
+
+.separator {
+  width: 1px;
+  align-self: stretch;
+  background: var(--submit-line);
+}

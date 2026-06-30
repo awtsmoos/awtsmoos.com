@@ -1,0 +1,61 @@
+/** B"H — Mobile buttons become labels, not mystery emojis. */
+.touchButtons {
+  align-items: end;
+  display: grid;
+  gap: 9px;
+  grid-auto-rows: 54px;
+  grid-template-columns: repeat(3, 64px);
+  pointer-events: auto;
+}
+
+.touchButtons button {
+  align-items: center;
+  background: #2f1c50e8;
+  border: 1px solid #e8c66aaa;
+  border-radius: 18px;
+  box-shadow: 0 0 12px #0009;
+  color: #fff1c9;
+  display: grid;
+  font-weight: 1000;
+  justify-items: center;
+  padding: 2px;
+}
+
+.touchButtons button.primary {
+  background: #3b2365f2;
+  border-radius: 22px;
+  height: 72px;
+}
+
+.touchButtons button.utility {
+  background: #162847e8;
+}
+
+.touchButtons button.wide {
+  border-radius: 20px;
+  grid-column: span 3;
+  height: 48px;
+}
+
+.touchIcon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.touchButtons .primary .touchIcon {
+  font-size: 30px;
+}
+
+.touchLabel {
+  font-size: 10px;
+  letter-spacing: .08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.touchButtons button.held {
+  background: #ffe082;
+  box-shadow: 0 0 18px #ffe08288;
+  color: #100813;
+  transform: scale(.94);
+}

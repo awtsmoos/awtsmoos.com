@@ -1,3 +1,17 @@
 /* B"H mail frame vessel */
 .mail-social-frame { min-height: 0; margin: .75rem; overflow: hidden; border: 1px solid rgba(255,255,255,.08); border-radius: 1.4rem; box-shadow: 0 1.2rem 3rem rgba(0,0,0,.35); }
 .mail-social-chat { background: rgba(7,9,24,.9); }
+.mail-social-frame.app-container {
+  display: grid;
+  grid-template-columns: minmax(18rem, var(--sidebar-w, 22rem)) minmax(0, 1fr);
+  width: min(100%, calc(100vw - 1.5rem));
+  max-width: 120rem;
+  height: auto;
+  min-height: calc(100dvh - 9rem);
+  margin: .85rem auto;
+  overflow: hidden;
+  border: 1px solid var(--mail-line);
+  border-radius: 1.2rem;
+  background: rgba(5,9,20,.82);
+  box-shadow: var(--mail-shadow);
+}

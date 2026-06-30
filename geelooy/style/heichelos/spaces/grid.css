@@ -1,0 +1,8 @@
+/* B"H — Spaces grid: the Heichel card field only. */
+.spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+  align-items: stretch;
+  min-width: 0;
+}

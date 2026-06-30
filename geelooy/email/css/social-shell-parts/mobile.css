@@ -3,8 +3,10 @@
   .mail-social-shell{grid-template-rows:auto 1fr auto;}
   .mail-social-frame{margin:0;border-radius:0;border-inline:0;}
   .mail-social-topbar{grid-template-columns:1fr;text-align:center;}
-  .mail-social-topbar a{display:none;}
+  .mail-top-links{justify-content:center;}
+  .mail-social-topbar a:not(.mail-top-home){display:none;}
   .app-container{height:auto!important;min-height:calc(100dvh - 8rem);overflow:visible!important;}
   .mail-social-sidebar.sidebar{position:relative!important;width:100%!important;height:auto!important;min-height:calc(100dvh - 8rem);overflow:visible!important;}
   .mail-social-chat.chat-area{min-height:calc(100dvh - 8rem);}
+  .mail-bottom-nav{position:fixed;left:max(.5rem,env(safe-area-inset-left));right:max(.5rem,env(safe-area-inset-right));bottom:max(.45rem,env(safe-area-inset-bottom));border:1px solid var(--mail-line);border-radius:1rem;}
 }

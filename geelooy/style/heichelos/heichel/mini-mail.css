@@ -2,7 +2,7 @@
 .heichel-mobile-navigation .mini-mail-panel {
   position: fixed; right: clamp(.6rem, 2vw, 1rem); bottom: calc(max(.6rem, env(safe-area-inset-bottom)) + 4.5rem); z-index: 970;
   width: min(92vw, 27rem); height: min(72vh, 38rem); display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
-  border: 1px solid rgba(255,255,255,.16); border-radius: 1.2rem; overflow: hidden; background: #fff8ea; box-shadow: 0 .9rem 2rem rgba(0,0,0,.25);
+  border: 1px solid var(--heichel-line); border-radius: 1rem; overflow: hidden; background: rgba(8,13,27,.86); box-shadow: var(--heichel-shadow-soft);
 }
 .heichel-mobile-navigation .mini-mail-panel.hidden { display: none; }
 .heichel-mobile-navigation .mini-mail-panel header { display: flex; justify-content: space-between; align-items: center; padding: .7rem .85rem; background: #252540; color: #fff7df; }

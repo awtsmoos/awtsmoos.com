@@ -2,7 +2,6 @@
 // B"H
 const { runChat } = require('../decode/chat-loop.js');
 
-/** Streaming answer on stdout, evidence JSON on stderr when requested. */
 function main() {
   const model = process.argv[2];
   const prompt = process.argv.slice(3).join(' ') || 'Hello';
@@ -17,10 +16,7 @@ function main() {
   }
 }
 
-function usage() {
-  console.error('Usage: real-chat model.awtai-db "prompt"');
-  process.exit(1);
-}
+function usage() { console.error('Usage: real-chat model.awtai-db "prompt"'); process.exit(1); }
 
 function readOptions() {
   return {
@@ -35,12 +31,12 @@ function readOptions() {
     topK: numberEnv('AWTAI_TOP_K', 10),
     stream: boolEnv('AWTAI_STREAM'),
     deleteScratchOnClose: boolEnv('AWTAI_DELETE_SCRATCH'),
+    profile: !boolEnv('AWTAI_NO_PROFILE')
   };
 }
 
 function addStreaming(options) {
-  if (!options.stream) return options;
-  return { ...options, onToken: (_id, text) => process.stdout.write(text) };
+  return options.stream ? { ...options, onToken: (_id, text) => process.stdout.write(text) } : options;
 }
 
 function writeResult(result, streamed) {
@@ -60,8 +56,5 @@ function optionalNumberEnv(name) {
   return Number.isFinite(value) ? value : undefined;
 }
 
-function boolEnv(name) {
-  return /^(1|true|yes)$/.test(String(process.env[name] || '0'));
-}
-
+function boolEnv(name) { return /^(1|true|yes)$/.test(String(process.env[name] || '0')); }
 main();

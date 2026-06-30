@@ -8,10 +8,11 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <canvas id="game"></canvas>
-  <canvas id="map"></canvas>
-  <section class="hud">
-    <div><b>Nitzotz.io</b><span id="worldText"> Assiyah</span></div>
+  <canvas id="game" aria-label="Nitzotz.io WebGL world"></canvas>
+  <canvas id="map" aria-label="spark radar"></canvas>
+
+  <section class="hud" aria-live="polite">
+    <div class="brand"><b>Nitzotz.io</b><span id="worldText"> Assiyah</span></div>
     <div class="meters">
       <label>Sparks <meter id="sparkMeter" min="0" max="1" value="0"></meter></label>
       <label>Vessel <span id="sizeText">24</span></label>
@@ -20,18 +21,35 @@
       <label>Combo <span id="comboText">x1.0</span></label>
       <label>Best <span id="bestText">0</span></label>
     </div>
-    <p id="message">B'H · press Begin. Gather, grow, unlock worlds.</p>
+    <p id="message">B'H · hit BEGIN. Move, pulse, dodge giants, reveal worlds.</p>
   </section>
-  <section id="overlay" class="overlay"><div>
-    <h1>Nitzotz.io Worlds</h1>
-    <p>Raw WebGL ascent through Four Worlds. Streaming chunks, render commands, and optional PostFX pipeline.</p>
-    <div class="settings">
-      <button data-perf="low">Low</button><button data-perf="medium">Medium</button><button data-perf="high">High</button>
-      <button id="hapticBtn">Haptics</button><button id="postfxBtn">PostFX</button>
+
+  <section id="overlay" class="overlay">
+    <div class="overlay-panel">
+      <p class="eyebrow">B'H · four worlds · one spark storm</p>
+      <h1 id="overlayTitle">Nitzotz.io Worlds</h1>
+      <p id="overlayText">Move fast. Eat smaller vessels. Dodge anything too huge until you grow.</p>
+      <div class="hero-actions">
+        <button id="startBtn" class="button primary">BEGIN</button>
+        <button id="restartBtn" class="button ghost">RESTART</button>
+      </div>
+      <div class="settings" aria-label="quality">
+        <button data-perf="low" class="button chip"><b>Smooth</b><span>safe FPS</span></button>
+        <button data-perf="medium" class="button chip"><b>Balanced</b><span>clear chaos</span></button>
+        <button data-perf="high" class="button chip"><b>Extreme</b><span>hard mode</span></button>
+      </div>
+      <div class="settings toggles" aria-label="effects">
+        <button id="hapticBtn" class="button chip"><b>Haptics</b><span>rumble</span></button>
+        <button id="postfxBtn" class="button chip"><b>PostFX</b><span>glow</span></button>
+      </div>
+      <div class="guide">
+        <span>WASD / arrows: move</span><span>Space: pulse</span><span>Enter: start</span><span>N: next world</span>
+      </div>
     </div>
-    <button id="startBtn">Begin the Ascent</button><button id="restartBtn">Restart</button>
-  </div></section>
-  <div id="stick"><i></i></div><button id="pulse">Ohr</button>
-  <script type="module" src="./js/main.js?v=20260629_60fps2"></script>
+  </section>
+
+  <div id="stick"><span>DRAG</span><i></i></div>
+  <button id="pulse"><b>PULSE</b><span>OHR</span></button>
+  <script type="module" src="./js/main.js?v=20260629_extreme_split"></script>
 </body>
 </html>

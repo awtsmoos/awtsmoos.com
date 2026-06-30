@@ -33,7 +33,7 @@
   padding: clamp(1rem, 3vw, 1.35rem);
   border: 1px solid rgba(255, 255, 255, .7);
   border-radius: 1.35rem;
-  background: linear-gradient(160deg, #fffdf7, #f8f0e2);
+  background: linear-gradient(160deg, var(--g-panel), var(--g-panel-2));
   color: var(--h-ink, #24160b);
   box-shadow: 0 1.8rem 4rem rgba(0, 0, 0, .35);
 }

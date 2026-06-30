@@ -5,37 +5,45 @@ const { elements } = require('./tensor-shape.js');
 const { TensorByteCache } = require('./tensor-byte-cache.js');
 const { nativeOpenModelMap, nativeCloseModelMap } = require('../native/native-matvec.js');
 
-/**
- * Tensor access layer for the transformer runner.
- *
- * The low-RAM covenant is not to make JavaScript carry mountains of tensor
- * bytes.  When native mapping is available, this streamer opens one persistent
- * mmap vessel for the whole `.awtai-db` file so fused native blocks can read
- * tensor rows from file offsets without materializing raw tensor bodies in JS.
- */
 class TensorStreamer {
   constructor(file, stats, options = {}) {
     this.file = file;
     this.stats = stats;
     this.byteCache = new TensorByteCache(options.cacheBytes || 0);
     this.floatCache = new Map();
+    this.scope = null;
     this.nativeMap = openNativeMap(file);
+  }
+
+  beginScope() {
+    if (!this.scope) this.scope = new Map();
+  }
+
+  endScope() {
+    if (this.scope) this.scope.clear();
+    this.scope = null;
   }
 
   raw(tensor) {
     const key = tensor && tensor.name;
+    const scoped = this.scope && this.scope.get(key);
+    if (scoped) return scoped;
     const cached = this.byteCache.get(key);
     if (cached) return cached;
     const bytes = this.file.tensorBytes(tensor);
     this.noteRead(bytes.length, key);
-    return this.byteCache.set(key, bytes);
+    if (this.scope) this.scope.set(key, bytes);
+    return this.scope ? bytes : this.byteCache.set(key, bytes);
   }
 
   range(tensor, offset, length) {
-    const whole = this.byteCache.get(tensor && tensor.name);
+    const key = tensor && tensor.name;
+    const scoped = this.scope && this.scope.get(key);
+    if (scoped) return scoped.subarray(offset, offset + length);
+    const whole = this.byteCache.get(key);
     if (whole) return whole.subarray(offset, offset + length);
     const bytes = this.file.tensorRangeBytes(tensor, offset, length);
-    this.noteRead(bytes.length, tensor && tensor.name);
+    this.noteRead(bytes.length, key);
     return bytes;
   }
 
@@ -57,6 +65,7 @@ class TensorStreamer {
     return {
       byteCache: this.byteCache.summary(),
       floatCacheEntries: this.floatCache.size,
+      scopedEntries: this.scope ? this.scope.size : 0,
       nativeMap: !!this.nativeMap
     };
   }
@@ -70,6 +79,7 @@ class TensorStreamer {
   }
 
   dispose() {
+    this.endScope();
     this.floatCache.clear();
     if (this.nativeMap) nativeCloseModelMap(this.nativeMap);
     this.nativeMap = null;

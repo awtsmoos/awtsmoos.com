@@ -1,24 +1,32 @@
 // B"H
 const assert = require('assert');
-const fs = require('fs');
-const path = require('path');
-const main = fs.readFileSync(path.resolve(__dirname, '../main.js'), 'utf8');
+const { responseEnvelope } = require('../lib/runtime/envelope.js');
 
 /**
  * B"H
- * Chapter 518: The envelope became sovereign.
- * Results may bring their own id/type/controlRequestId, but they may not steal
- * the transport throne. This static guard prevents the old spread-order bug.
+ * Chapter 518: The envelope became sovereign even after it moved houses.
+ *
+ * The response envelope now lives in `lib/runtime/envelope.js`, not inline in
+ * `main.js`. This regression test follows the real module and proves that a
+ * result cannot steal the transport id, type, correlation, action contract, or
+ * queue proof from the relay response.
  */
-assert(main.includes('function responseEnvelope(data, payload, result, enqueuedAt)'), 'responseEnvelope exists');
-assert(main.includes('requestAction'), 'requestAction is present');
-assert(main.includes('actualAction'), 'actualAction is present');
-assert(main.includes('actionMismatch'), 'actionMismatch is present');
-assert(main.includes('delete safeResult.type; delete safeResult.id; delete safeResult.controlRequestId'), 'unsafe transport fields are deleted');
-assert(main.includes('return {'), 'responseEnvelope returns an object');
-assert(main.includes('...safeResult,'), 'safe result is spread before transport fields');
-assert(main.includes('type:"TUNNEL_RESPONSE"'), 'transport type overwrites result type');
-assert(main.includes('id:data.id'), 'transport id overwrites result id');
-assert(main.includes('...correlationFields'), 'correlation fields overwrite result correlation fields');
-assert(main.includes('safeSend(ws, responseEnvelope(data, payload, result, enqueuedAt));'), 'dispatcher uses responseEnvelope');
+const got = responseEnvelope(
+  { id: 'transport-id-1' },
+  { action: 'commandRun', tunnelName: 'awt', clientRequestId: 'client-1', controlRequestId: 'ctrl-1', nonce: 'nonce-1' },
+  { ok: true, action: 'commandRun', type: 'BAD', id: 'bad-id', controlRequestId: 'bad-ctrl', queueStats: { bad: true }, queuedMs: -1 },
+  Date.now() - 5,
+  () => ({ inflight: 1, queued: 0, maxInflight: 16, maxQueue: 5000 })
+);
+
+assert.equal(got.type, 'TUNNEL_RESPONSE');
+assert.equal(got.id, 'transport-id-1');
+assert.equal(got.controlRequestId, 'ctrl-1');
+assert.equal(got.clientRequestId, 'client-1');
+assert.equal(got.nonce, 'nonce-1');
+assert.equal(got.requestAction, 'commandRun');
+assert.equal(got.actualAction, 'commandRun');
+assert.equal(got.actionMismatch, false);
+assert.ok(got.queuedMs >= 0);
+assert.deepEqual(got.queueStats, { inflight: 1, queued: 0, maxInflight: 16, maxQueue: 5000 });
 console.log(JSON.stringify({ ok: true, suite: 'response-envelope-regression' }, null, 2));

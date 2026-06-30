@@ -1,0 +1,36 @@
+/** B"H — Touch controls sit low, wide, and out of the menu's way. */
+.touchControls {
+  align-items: flex-end;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  opacity: .9;
+  padding: 0 16px;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  z-index: 18;
+}
+
+.stick {
+  background: #ffffff18;
+  border: 1px solid #ffffff50;
+  border-radius: 50%;
+  box-shadow: 0 0 16px #0008;
+  height: 118px;
+  pointer-events: auto;
+  position: relative;
+  width: 118px;
+}
+
+.stick span {
+  background: #ffe6a0d8;
+  border-radius: 50%;
+  height: 40px;
+  left: calc(50% - 20px);
+  position: absolute;
+  top: calc(50% - 20px);
+  width: 40px;
+  will-change: transform;
+}

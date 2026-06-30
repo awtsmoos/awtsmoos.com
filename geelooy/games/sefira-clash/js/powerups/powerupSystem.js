@@ -1,9 +1,16 @@
+import { noteAdventurePickup } from '../adventure/adventureRun.js';
 import { circleHit } from '../core/collision.js';
 import { applyPickupEffect } from './effects/applyPickupEffect.js';
 import { tickBuffs } from './effects/buffTimers.js';
 import { applyMagneticPull } from './effects/magneticPull.js';
 
-/** B"H - Power-up system with guaranteed contested stage-born resolution. */
+/**
+ * B"H
+ * Power-up system with Adventure Spark accounting.
+ *
+ * The pickup is still immediate and readable, but in Adventure every Spark also
+ * writes into the gate ledger: visible spark, hidden spark, pulse, memory.
+ */
 export function stepPowerups(state) {
   tickBuffs(state.fighters);
   applyMagneticPull(state);
@@ -23,17 +30,32 @@ function stepOrb(state, orb) {
   if (orb.stageBorn && orb.age > 210) collect(state, nearestFighter(state, orb), orb);
 }
 
-function tickRespawn(orb) { if (orb.stageBorn) return; orb.respawn--; if (orb.respawn <= 0) orb.active = true; }
 function collect(state, f, orb) {
   if (!f) return;
   applyPickupEffect(state, f, orb);
+  noteAdventurePickup(state, f, orb);
   orb.active = false;
-  orb.respawn = orb.stageBorn ? 0 : 720;
-  if (orb.stageBorn) {
-    state.stageDirector.itemsPickedUp = (state.stageDirector.itemsPickedUp || 0) + 1;
-    state.stageDirector.lastPickupFrame = state.frame;
-    state.stageDirector.lastPickupRole = orb.role || 'unknown';
-  }
-  state.events.push({ type: 'pickup', fighterId: f.id, actorId: f.id, human: !!f.human, x: orb.x, y: orb.y, color: orb.color, letter: orb.letter, damage: 0, storyBeat: orb.stageBorn ? 'relicClaim' : undefined });
+  orb.respawn = orb.stageBorn || orb.id === 'adventureSpark' ? 0 : 720;
+  if (orb.stageBorn) markStageBornPickup(state, orb);
+  state.events.push(pickupEvent(f, orb));
 }
-function nearestFighter(state, orb) { return state.fighters.filter(f => !f.dead && !f.hidden).sort((a, b) => Math.hypot(a.x - orb.x, a.y - orb.y) - Math.hypot(b.x - orb.x, b.y - orb.y))[0]; }
+
+function markStageBornPickup(state, orb) {
+  state.stageDirector.itemsPickedUp = (state.stageDirector.itemsPickedUp || 0) + 1;
+  state.stageDirector.lastPickupFrame = state.frame;
+  state.stageDirector.lastPickupRole = orb.role || 'unknown';
+}
+
+function tickRespawn(orb) {
+  if (orb.stageBorn || orb.id === 'adventureSpark') return;
+  orb.respawn--;
+  if (orb.respawn <= 0) orb.active = true;
+}
+
+function pickupEvent(f, orb) {
+  return { type: 'pickup', fighterId: f.id, actorId: f.id, human: !!f.human, x: orb.x, y: orb.y, color: orb.color, letter: orb.letter, damage: 0, storyBeat: orb.id === 'adventureSpark' ? 'sparkClaim' : orb.stageBorn ? 'relicClaim' : undefined };
+}
+
+function nearestFighter(state, orb) {
+  return state.fighters.filter(f => !f.dead && !f.hidden).sort((a, b) => Math.hypot(a.x - orb.x, a.y - orb.y) - Math.hypot(b.x - orb.x, b.y - orb.y))[0];
+}

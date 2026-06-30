@@ -4,15 +4,20 @@ const presets = require("./commandPresetActions.js");
 
 function aid(p) { return p.actionId || p.id || p.ref || p.parentActionId; }
 function patchObj(p) { return p.patch || (p.params ? JSON.parse(p.params) : {}); }
+function wantedFilters(payload = {}) { return ["missionId", "conversationId", "conversationName", "agentSessionId", "logicalAgentId", "clientRequestId", "tunnelName"].filter(k => payload[k]); }
+function same(entry, key, value) { const input = entry.input || {}; return String(entry[key] || input[key] || "") === String(value || ""); }
+function filterHistory(history, payload = {}) { const keys = wantedFilters(payload); if (!keys.length) return history; return history.filter(entry => keys.every(k => same(entry, k, payload[k]))); }
+
+/** B"H — Chapter 1211: The room ledger stopped borrowing strangers' footprints. */
 function buildActionHistoryActions(ctx, buildActions) {
   const { config, payload, ws } = ctx;
   const run = async next => { const a = buildActions(config, next, ws); if (!a[next.action]) throw new Error("Unknown replay action: " + next.action); return a[next.action](); };
   async function getInput(id) { const got = await ledger.get(config, id); return got && got.entry.input; }
   async function replay(id, next) { return run({ ...(next || await getInput(id)), parentActionId: id }); }
   const api = {
-    async actionHistoryList() { return { ok: true, action: payload.action, history: await ledger.list(config, Number(payload.limit || 50)) }; },
+    async actionHistoryList() { const raw = await ledger.list(config, Number(payload.limit || 50)); const history = filterHistory(raw, payload); return { ok: true, action: payload.action, filters: Object.fromEntries(wantedFilters(payload).map(k => [k, payload[k]])), history }; },
     async actionHistoryGet() { const record = await ledger.get(config, aid(payload)); return { ok: !!record, action: payload.action, record }; },
-    async actionHistorySearch() { const q = String(payload.query || payload.text || "").toLowerCase(); const history = (await ledger.list(config, Number(payload.limit || 500))).filter(x => JSON.stringify(x).toLowerCase().includes(q)); return { ok: true, action: payload.action, query: q, history }; },
+    async actionHistorySearch() { const q = String(payload.query || payload.text || "").toLowerCase(); const raw = filterHistory(await ledger.list(config, Number(payload.limit || 500)), payload); const history = raw.filter(x => JSON.stringify(x).toLowerCase().includes(q)); return { ok: true, action: payload.action, query: q, history }; },
     async actionHistoryReplay() { const id = aid(payload); const input = await getInput(id); return input ? { ok: true, action: payload.action, replayOf: id, result: await replay(id, input) } : { ok: false, error: "unknown_actionId" }; },
     async actionHistoryPatch() { const id = aid(payload); const input = await getInput(id); if (!input) return { ok: false, error: "unknown_actionId" }; const next = ledger.patch(input, patchObj(payload)); return payload.dryRun ? { ok: true, payload: next } : { ok: true, result: await replay(id, next) }; },
     async actionHistoryReplace() { const id = aid(payload); const input = await getInput(id); if (!input) return { ok: false, error: "unknown_actionId" }; const next = ledger.replaceAt(input, payload.path || payload.target, payload.find, payload.replace); return payload.dryRun ? { ok: true, payload: next } : { ok: true, result: await replay(id, next) }; },
@@ -27,4 +32,4 @@ function buildActionHistoryActions(ctx, buildActions) {
   for (const [k, v] of Object.entries({ commandMemoryList:"actionHistoryList", commandMemoryGet:"actionHistoryGet", commandMemoryRun:"actionHistoryReplay", commandMemoryPatch:"actionHistoryPatch", commandMemoryFork:"templateFromAction", commandMemoryDelete:"actionHistoryGarbageCollect", commandMemorySave:"templateFromAction" })) api[k] = api[v];
   return api;
 }
-module.exports = { buildActionHistoryActions };
+module.exports = { buildActionHistoryActions, filterHistory };

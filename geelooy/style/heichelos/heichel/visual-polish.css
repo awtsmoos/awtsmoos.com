@@ -4,11 +4,11 @@
 .heichel-mobile-navigation .breadcrumb-link,
 .heichel-mobile-navigation .breadcrumb-separator { display: inline-flex; align-items: center; }
 .heichel-mobile-navigation .breadcrumb-link {
-  min-height: 2.35rem; border: 1px solid rgba(122,82,31,.16); border-radius: 999px; padding: .45rem .75rem;
-  background: rgba(255,255,255,.62); color: var(--heichel-ink); font: inherit; font-weight: 900; cursor: pointer;
+  min-height: 2.35rem; border: 1px solid var(--heichel-line); border-radius: 999px; padding: .45rem .75rem;
+  background: rgba(255,255,255,.07); color: var(--heichel-ink); font: inherit; font-weight: 900; cursor: pointer;
 }
-.heichel-mobile-navigation .breadcrumb-link:hover { background: rgba(216,170,81,.18); }
-.heichel-mobile-navigation .breadcrumb-separator { color: rgba(49,35,20,.42); padding-inline: .25rem; }
+.heichel-mobile-navigation .breadcrumb-link:hover { background: rgba(102,231,255,.14); }
+.heichel-mobile-navigation .breadcrumb-separator { color: var(--heichel-muted-ink); padding-inline: .25rem; }
 .heichel-mobile-navigation details[open] > summary .topbar-icon,
 .heichel-mobile-navigation .topbar-notification-menu[open] summary { transform: translateY(-1px); }
 .heichel-mobile-navigation .nav-card[data-type="series"] .nav-card-media span { background: rgba(216,170,81,.28); }

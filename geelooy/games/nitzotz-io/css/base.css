@@ -1,0 +1,54 @@
+/* B"H
+ * The base layer erases accidental scroll and lets the canvas become sky.
+ */
+:root {
+  color-scheme: dark;
+  --gold: #ffdc5c;
+  --blue: #7ad7ff;
+  --violet: #8f6dff;
+  --ink: #05030d;
+  --glass: rgba(7, 5, 27, 0.78);
+  --line: rgba(255, 255, 255, 0.18);
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 20%, #161047 0%, var(--ink) 58%);
+  color: white;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+button,
+meter,
+canvas {
+  -webkit-tap-highlight-color: transparent;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  touch-action: none;
+  background: #05030d;
+}
+
+.button {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.button:active {
+  transform: translateY(1px) scale(0.98);
+}

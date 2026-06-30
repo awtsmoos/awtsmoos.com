@@ -1,15 +1,100 @@
-/* B"H Chapter 636: each Heichel card keeps the light inside the vessel. */
-.social-space-card, .social-empty-card { border-radius: 1.45rem; background: linear-gradient(160deg, #fffdf7, #f8f0e2); border: 1px solid var(--spaces-line); box-shadow: 0 .45rem 1.2rem rgba(25,20,11,.08); overflow: hidden; min-width: 0; }
-.space-banner { min-height: 7rem; background: linear-gradient(135deg, rgba(14,19,43,.94), rgba(185,133,63,.48)), radial-gradient(circle at 70% 20%, rgba(245,202,112,.65), transparent 8rem); }
-.space-body { display: grid; grid-template-columns: auto minmax(0,1fr); gap: .85rem; padding: 1rem; }
-.space-seal { width: 3.5rem; height: 3.5rem; border-radius: 50%; display: grid; place-items: center; background: #151a37; color: var(--spaces-gold-light); border: .18rem solid #fffaf1; box-shadow: 0 .65rem 1.2rem rgba(0,0,0,.2); }
-.space-title-row { display: flex; align-items: center; justify-content: space-between; gap: .7rem; min-width: 0; }
-.space-title-row h2 { margin: 0; letter-spacing: -.04em; overflow-wrap: anywhere; }
-.space-title-row span { padding: .3rem .55rem; border-radius: 999px; background: #efe1ca; color: #3a240f; font-size: .75rem; font-weight: 900; white-space: nowrap; }
-.space-copy p { margin: .35rem 0 .8rem; color: var(--spaces-muted); line-height: 1.5; overflow-wrap: anywhere; }
-.space-stats, .space-actions { display: flex; flex-wrap: wrap; gap: .4rem; }
-.space-stats span { padding: .32rem .55rem; border: 1px solid var(--spaces-line); border-radius: 999px; color: #51483a; font-size: .78rem; }
-.space-actions { padding: 0 1rem 1rem; }
-.space-actions a { flex: 1 1 8rem; text-align: center; border-radius: .85rem; padding: .75rem; background: #ede0cd; color: #3a240f; font-weight: 900; }
-.space-actions a:first-child { background: linear-gradient(135deg, #5c3414, #9b6a2f); color: #fffaf1; }
-.social-empty-card { padding: 1.4rem; color: var(--spaces-muted); }
+/* B"H — Spaces card: one Heichel chamber, its seal, and metadata. */
+.social-space-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--spaces-line);
+  border-radius: var(--spaces-radius);
+  background: linear-gradient(160deg, var(--spaces-card), var(--spaces-card-soft));
+  box-shadow: var(--g-shadow-soft);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.social-space-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(102, 231, 255, .35);
+  box-shadow: var(--g-shadow);
+}
+
+.space-banner {
+  min-height: 7rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: .8rem;
+  background:
+    radial-gradient(circle at 78% 8%, rgba(102,231,255,.26), transparent 10rem),
+    linear-gradient(135deg, rgba(8,13,27,.98), rgba(32,44,76,.9));
+}
+
+.space-banner span,
+.space-title-row span {
+  border-radius: 999px;
+  background: rgba(255,255,255,.1);
+  color: var(--spaces-gold-light);
+  font-size: .75rem;
+  font-weight: 900;
+}
+
+.space-banner span {
+  padding: .35rem .6rem;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .12);
+}
+
+.space-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .85rem;
+  padding: 1rem;
+}
+
+.space-seal {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(241,184,79,.18), rgba(102,231,255,.14));
+  color: var(--spaces-gold-light);
+}
+
+.space-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .7rem;
+  min-width: 0;
+}
+
+.space-title-row h2 {
+  margin-bottom: 0;
+  overflow-wrap: anywhere;
+  color: #fff;
+}
+
+.space-title-row span {
+  padding: .3rem .55rem;
+  white-space: nowrap;
+}
+
+.space-copy p,
+.space-meta-line {
+  color: var(--spaces-muted);
+}
+
+.space-meta-line,
+.space-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.space-stats span {
+  border: 1px solid var(--spaces-line);
+  border-radius: 999px;
+  padding: .32rem .55rem;
+  background: rgba(255, 255, 255, .065);
+  color: var(--spaces-muted);
+  font-size: .78rem;
+}

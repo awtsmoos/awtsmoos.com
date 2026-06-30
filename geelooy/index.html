@@ -7,15 +7,12 @@ return $a("/nav/page.html", {
     <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-004">
     <link rel="stylesheet" href="/style/social/home/index.css?v=legend-006">
     <main class="geelooy-home-shell legend-page-enter awtsmoos-civilization-dashboard" data-civilization-dashboard data-home-dashboard data-home-reduced-motion-safe>
-      <div class="home-ambient-orb home-ambient-orb-one" aria-hidden="true"></div>
-      <div class="home-ambient-orb home-ambient-orb-two" aria-hidden="true"></div>
-
       <aside class="home-sanctuary-card civilization-command-card" aria-labelledby="home-awtsmoos-title">
         <div class="home-logo-mark beauty-seal" aria-hidden="true">⚬</div>
         <p class="home-kicker">Awtsmoos Civilization OS</p>
         <h1 id="home-awtsmoos-title">Geelooy</h1>
         <p class="home-hero-copy">A living dashboard for heichelos, aliases, posts, comments, graph edges, notifications, messages, object search, and API signals.</p>
-        <nav class="home-command-dock" aria-label="Fast Geelooy routes">
+        <nav class="home-command-dock" aria-label="Primary Geelooy routes">
           <a href="/" data-primary="true"><span>Home</span><small>Live stream</small></a>
           <a href="/email"><span>Mail</span><small>Messages</small></a>
           <a href="/heichelos"><span>Heichelos</span><small>Spaces</small></a>
@@ -30,12 +27,6 @@ return $a("/nav/page.html", {
           </div>
           <p class="home-search-hint">Try an alias, heichel id, post title, comment phrase, or graph object.</p>
         </form>
-        <nav class="home-side-links" aria-label="Primary home actions">
-          <a href="/profile"><span>Your Profile</span><small>Identity, aliases, history</small></a>
-          <a href="/heichelos"><span>Heichelos</span><small>Rooms, roles, submissions</small></a>
-          <a href="/email"><span>Messages</span><small>Mail and replies</small></a>
-          <a href="/heichelos/submit"><span>Create Post</span><small>Send a new spark</small></a>
-        </nav>
         <section class="home-hero-stats" aria-label="Platform highlights">
           <article><strong>Live</strong><span>Feed runtime</span></article>
           <article><strong>Graph</strong><span>Connected objects</span></article>
@@ -52,8 +43,6 @@ return $a("/nav/page.html", {
         <nav class="home-feed-tabs civilization-layer-tabs" aria-label="Feed tabs">
           <button type="button" class="active" data-feed-mode="forYou">For You</button>
           <button type="button" data-feed-mode="following">Following</button>
-          <button type="button" data-feed-mode="trending">Trending</button>
-          <button type="button" data-feed-mode="civilization">Civilization</button>
           <button type="button" data-feed-mode="search">Search</button>
         </nav>
         <article class="home-composer"><span aria-hidden="true"></span><a href="/heichelos/submit">What is being revealed in your world?</a></article>
@@ -79,13 +68,6 @@ return $a("/nav/page.html", {
         <div class="object-inspector-body" data-object-inspector-body>
           <section class="object-inspector-section home-inspector-empty"><h3>Awaiting selection</h3><p>Keyboard users can focus a card and press Enter to inspect it.</p></section>
         </div>
-        <nav class="home-route-constellation" aria-label="Civilization routes">
-          <a class="home-route-card" href="/heichelos">✦ Heichelos</a>
-          <a class="home-route-card" href="/profile">✦ Profiles</a>
-          <a class="home-route-card" href="/email">✦ Mail</a>
-          <a class="home-route-card" href="/notifications">✦ Alerts</a>
-          <a class="home-route-card" href="/api/social/packed/stats">✦ Packed API</a>
-        </nav>
       </aside>
     </main>
     <script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=legend-004"></script>

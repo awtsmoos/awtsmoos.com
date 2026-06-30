@@ -1,0 +1,45 @@
+/** B"H — Smaller glass still gets clear controls. */
+@media (pointer: fine) {
+  .touchControls {
+    opacity: .38;
+  }
+
+  .touchControls:hover {
+    opacity: .9;
+  }
+}
+
+@media (max-width: 760px) {
+  .touchControls {
+    opacity: .86;
+    padding: 0 10px;
+  }
+
+  .stick {
+    height: min(27vw, 108px);
+    width: min(27vw, 108px);
+  }
+
+  .touchButtons {
+    gap: 7px;
+    grid-auto-rows: 48px;
+    grid-template-columns: repeat(3, 56px);
+  }
+
+  .touchButtons button.primary {
+    height: 64px;
+  }
+
+  .touchButtons button.wide {
+    height: 42px;
+  }
+}
+
+@media (max-height: 640px) and (max-width: 760px) {
+  .touchControls {
+    left: -18px;
+    right: -18px;
+    transform: scale(.86);
+    transform-origin: bottom center;
+  }
+}

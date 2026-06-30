@@ -1,26 +1,32 @@
-/* B"H
- * Chapter 586: home receives a shared visual language, not a costume.
- */
-@import "/style/foundation/index.css";
+/* B"H home foundation: tokens scoped to the live dashboard. */
 :root {
-  --awt-home-ink: rgba(255,255,255,.92);
-  --awt-home-muted: rgba(255,255,255,.68);
-  --awt-home-gold: #f5ca70;
-  --awt-home-cyan: #7be2ff;
-  --awt-home-violet: #7f5af0;
-  --awt-home-danger: #ff6f91;
-  --awt-home-radius-xl: 2rem;
-  --awt-home-radius-md: 1.15rem;
-  --awt-home-glass: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.045));
-  --awt-home-shadow: 0 1.6rem 4.4rem rgba(0,0,0,.3);
-  --awt-home-ring: 0 0 0 .42rem rgba(123,226,255,.22);
+  --awt-home-ink: var(--g-ink);
+  --awt-home-muted: var(--g-muted);
+  --awt-home-gold: var(--g-gold);
+  --awt-home-cyan: var(--g-cyan);
+  --awt-home-violet: var(--g-purple);
+  --awt-home-danger: var(--g-rose);
+  --awt-home-radius-xl: var(--g-radius-3);
+  --awt-home-radius-md: var(--g-radius-2);
+  --awt-home-glass: linear-gradient(145deg, rgba(15,25,45,.92), rgba(8,13,27,.82));
+  --awt-home-shadow: var(--g-shadow);
+  --awt-home-ring: 0 0 0 .34rem rgba(102,231,255,.2);
 }
 .geelooy-home-shell,
 .awtsmoos-civilization-dashboard {
   color-scheme: dark;
-  --awt-panel-border: rgba(255,255,255,.14);
-  --awt-panel-soft: rgba(255,255,255,.07);
-  --awt-panel-strong: rgba(255,255,255,.14);
+  --awt-panel-border: var(--g-line);
+  --awt-panel-soft: var(--g-panel-3);
+  --awt-panel-strong: rgba(255,255,255,.12);
+  --awt-ink: var(--g-ink);
+  --awt-ink-soft: var(--g-muted);
+  --awt-vellum: var(--g-ink);
+  --awt-paper: var(--g-bg);
+  --awt-gold-light: var(--g-gold-2);
+  --awt-night: var(--g-bg-3);
+  --awt-glass: var(--awt-home-glass);
+  --awt-glass-border: 1px solid var(--g-line);
+  --awt-elevation-1: var(--g-shadow-soft);
 }
 @supports (backdrop-filter: blur(1px)) {
   .geelooy-home-shell :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card) { backdrop-filter: blur(20px) saturate(1.12); }

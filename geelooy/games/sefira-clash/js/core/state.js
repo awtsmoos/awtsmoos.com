@@ -1,5 +1,6 @@
 import { createFighter } from '../fighters/createFighter.js';
 import { applyHatStats } from '../fighters/applyHatStats.js';
+import { createAdventureRun } from '../adventure/adventureRun.js';
 import { createMapPowerups } from '../powerups/powerupFactory.js';
 import { createMapWeapons } from '../weapons/weaponFactory.js';
 import { createStageDirector } from '../stage/events/stageDirector.js';
@@ -9,11 +10,10 @@ import { applyPersonality } from '../ai/advanced/personality/applyPersonality.js
 
 /**
  * B"H
- * Creates the match state with diagnostics and AI souls.
+ * Creates the match state with diagnostics, AI souls, and Adventure run truth.
  *
- * Chapter 7: before the first punch, the Awtsmoos arranges the vessels: player,
- * bots, weapons, powerups, stage mood, and hidden ledgers that remember whether
- * the match became a story or merely noise.
+ * Before the first punch, the Awtsmoos arranges vessels: player, bots, sparks,
+ * weapons, stage mood, and now a real gate ledger for platform Adventure.
  */
 export function createGameState(map, botCount = 5, character = {}, cosmetic = {}) {
   const fighters = [createPlayer(map, character, cosmetic)];
@@ -21,7 +21,7 @@ export function createGameState(map, botCount = 5, character = {}, cosmetic = {}
   return {
     phase: 'countdown', map, fighters,
     weapons: createMapWeapons(map), powerups: createMapPowerups(map),
-    hazards: [], scars: [], objective: null,
+    hazards: [], scars: [], objective: null, adventureRun: createAdventureRun(map),
     stageMood: createStageMood(map), stageDirector: createStageDirector(),
     particles: [], events: [], frame: 0, winner: '', victoryShown: false,
     camera: { x: 0, y: 0, zoom: 1 }, debug: false,
@@ -43,7 +43,7 @@ function createPlayer(map, character, cosmetic) {
 function createBot(map, index) {
   const spawn = map.spawns[(index + 1) % map.spawns.length];
   const bot = createFighter(`ai-${map.id}-${index}`, spawn.x + index * 34, spawn.y, false);
-  bot.name = `Bot ${index + 1}`;
+  bot.name = map.rules?.adventure ? `Kelipah ${index + 1}` : `Bot ${index + 1}`;
   applyPersonality(bot, index);
   return bot;
 }

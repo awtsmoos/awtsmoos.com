@@ -1,0 +1,66 @@
+/** B"H — Victory is not an ending; it is the next button. */
+.victoryPanel {
+  align-content: center;
+  display: grid;
+  gap: 14px;
+  min-height: 100%;
+  text-align: center;
+}
+
+.victoryBurst {
+  color: #ffe68b;
+  font-size: 64px;
+}
+
+.victoryEyebrow {
+  color: #84f7ff;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.victoryPanel h2 {
+  color: #ffe68b;
+  font-size: clamp(34px, 10vw, 72px);
+  margin: 0;
+}
+
+.victoryStats,
+.victoryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.victoryStats span,
+.victoryButton {
+  background: #0008;
+  border: 1px solid #ffe08255;
+  border-radius: 18px;
+  color: #fff0c6;
+  padding: 10px 14px;
+}
+
+.victoryStats strong,
+.victoryStats em {
+  display: block;
+  font-style: normal;
+}
+
+.victoryStats em {
+  color: #ffe68b;
+}
+
+.victoryButton {
+  cursor: pointer;
+  font-weight: 1000;
+}
+
+.victoryButton.next {
+  background: #ffe082;
+  color: #110914;
+}
+
+.victoryButton:disabled {
+  opacity: .4;
+}

@@ -1,82 +1,11 @@
+// B"H
+import { AwtsmoosConstants } from "../themes/AwtsmoosConstants.js";
 
-import { AwtsmoosConstants } from '../themes/AwtsmoosConstants.js';
-
-/**
- * B"H
- * @file ExtremeMainMenuStyles.js
- * @description
- * 🏰 THE TEMPLE DOORS OF REALITY 🏰
- * 
- * We abandon the simple buttons for an extreme configuration. Massive pill buttons,
- * golden borders indicating spiritual value, deeply satisfying transitions based on 
- * CSS json logic.
- */
+/** @file ExtremeMainMenuStyles.js @description Large readable generated menu styles. */
 export const ExtremeMainMenuStyles = {
-    '.olam-menu-vessel': {
-        position: 'fixed',
-        inset: '0',
-        backgroundColor: AwtsmoosConstants.colors.tzimtzumAbyss,
-        backgroundImage: `radial-gradient(circle at center, ${AwtsmoosConstants.colors.voidMidtone} 0%, ${AwtsmoosConstants.colors.tzimtzumAbyss} 80%)`,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: AwtsmoosConstants.typology.ancientMono,
-        animation: 'awakenFromVoid 1.5s ease-out forwards',
-        zIndex: '100',
-        overflow: 'hidden'
-    },
-    '.main-divine-title': {
-        fontSize: '4.5rem',
-        fontFamily: AwtsmoosConstants.typology.epicTitles,
-        color: AwtsmoosConstants.colors.keterWhite,
-        letterSpacing: '12px',
-        margin: '0',
-        marginBottom: AwtsmoosConstants.metrics.spacingHuge,
-        animation: 'crownGleamText 4s infinite',
-        textTransform: 'uppercase'
-    },
-    '.sefirotic-btn-group': {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: AwtsmoosConstants.metrics.spacingGolden,
-        width: '100%',
-        maxWidth: '450px'
-    },
-    '.mitzvah-btn-extreme': {
-        width: '100%',
-        padding: '22px 30px',
-        backgroundColor: AwtsmoosConstants.colors.emeraldShadow,
-        border: `3px solid ${AwtsmoosConstants.colors.emeraldEinSof}`,
-        borderRadius: AwtsmoosConstants.metrics.radiusPill,
-        color: AwtsmoosConstants.colors.keterWhite,
-        fontSize: '1.2rem',
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        letterSpacing: '2px',
-        cursor: 'pointer',
-        boxShadow: `0px 10px 30px rgba(0,0,0,0.8)`,
-        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        position: 'relative',
-        overflow: 'hidden',
-        '_pseudo': {
-            ':hover': {
-                backgroundColor: AwtsmoosConstants.colors.emeraldEinSof,
-                color: AwtsmoosConstants.colors.tzimtzumAbyss,
-                transform: 'translateY(-6px) scale(1.02)',
-                boxShadow: `0px 20px 40px ${AwtsmoosConstants.colors.emeraldShadow}`
-            },
-            ':active': {
-                transform: 'translateY(2px) scale(0.98)',
-                boxShadow: 'none'
-            }
-        }
-    },
-    '.footer-sig': {
-        position: 'absolute',
-        bottom: AwtsmoosConstants.metrics.spacingGolden,
-        color: AwtsmoosConstants.colors.textDust,
-        fontSize: '0.9rem',
-        opacity: '0.6'
-    }
+  ".olam-menu-vessel":{ position:"fixed", inset:"0", backgroundColor:"#05070b", backgroundImage:`radial-gradient(circle at center, ${AwtsmoosConstants.colors.voidMidtone} 0%, #05070b 80%)`, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", fontFamily:AwtsmoosConstants.typology.ancientMono, zIndex:"100", overflow:"hidden", padding:"24px", boxSizing:"border-box" },
+  ".main-divine-title":{ fontSize:"clamp(3rem, 10vw, 6rem)", fontFamily:AwtsmoosConstants.typology.epicTitles, color:"#fff8d5", letterSpacing:"0", margin:"0 0 28px", textTransform:"uppercase", textAlign:"center" },
+  ".sefirotic-btn-group":{ display:"flex", flexDirection:"column", gap:"14px", width:"min(94vw, 540px)" },
+  ".mitzvah-btn-extreme":{ width:"100%", minHeight:"72px", padding:"18px 24px", backgroundColor:"#1d4ed8", border:"3px solid #ffe27a", borderRadius:"8px", color:"#fff8d5", fontSize:"clamp(1rem, 3vw, 1.35rem)", fontWeight:"900", textTransform:"uppercase", letterSpacing:"0", cursor:"pointer", boxShadow:"0 12px 30px rgba(0,0,0,.55)", transition:"transform .12s ease, filter .12s ease" },
+  ".footer-sig":{ position:"absolute", bottom:"18px", color:"#d9e3ff", fontSize:"1rem", opacity:".78" }
 };

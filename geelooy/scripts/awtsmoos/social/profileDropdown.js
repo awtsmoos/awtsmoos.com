@@ -14,10 +14,18 @@ export default function createProfileDropdown(parentElement) {
 }
 
 function html() {
-  return `<div id="notLoggedIn" class="notLoggedIn hidden"><div class="btn dropt" id="signinButton">Local OS Ready · Sign In / Reconnect <span class="arrow">▼</span></div><div id="signinDropdown" class="hidden dropdown-content"><div class="local-mode-note">IndexedDB files keep working here. Sign in only to sync, publish, and use alias URLs.</div><div id="loginForm"><h3>Sign In / Reconnect Account</h3><input id="loginUsername" placeholder="Username"><input type="password" id="loginPassword" placeholder="Password"><button id="loginSubmit">Sign In</button><div class="description"><a href="#" id="toggleRegister">Create one</a> | <a href="/login">Full Login</a></div></div><div id="registerForm" class="hidden"><h3>Create Account</h3><input id="registerUsername" placeholder="Username"><input type="password" id="registerPassword" placeholder="Password"><button id="registerSubmit">Create Account</button><div class="description"><a href="#" id="toggleLogin">Sign In</a> | <a href="/login">Full Login</a></div></div><div id="authMessage" class="validation-message"></div></div></div><div id="loggedIn" class="loggedIn hidden"><div class="btn dropt" id="dropdownProfile"><span class="currentAliasName prim">Local mode</span> <span id="awtsDownIndicator" class="arrow">▼</span></div><div id="awtsmoosProfileDropContent" class="hidden dropdown-content"><div class="welcome"><span id="modeBadge" class="mode-badge">Local</span> <span id="usernameDisplay"></span></div><div class="currentAlias" id="aliasSection">Current alias: <a class="currentAliasName" href="#">Local mode</a></div><div class="local-mode-note" id="localModeNote">Local IndexedDB mode: files work here; reconnect to sync and publish.</div><button class="btn dropt" id="switchAlias">Switch Alias <span id="aliasIndicator" class="arrow">▼</span></button><div id="aliasInfo" class="hidden dropdown-content"></div><hr><a href="/profile">Manage Your Aliases</a><div id="logoutSection"><a href="/logout?redirect=${encodeURIComponent(location.href)}">Logout</a></div></div></div>`;
+  return `<button type="button" id="dropdownBackdrop" class="awtsmoos-dropdown-backdrop hidden" aria-label="Close profile menu"></button><div id="notLoggedIn" class="notLoggedIn hidden"><div class="btn dropt" id="signinButton">Local OS Ready · Sign In / Reconnect <span class="arrow">▼</span></div><div id="signinDropdown" class="hidden dropdown-content"><div class="local-mode-note">IndexedDB files keep working here. Sign in only to sync, publish, and use alias URLs.</div><div id="loginForm"><h3>Sign In / Reconnect Account</h3><input id="loginUsername" placeholder="Username"><input type="password" id="loginPassword" placeholder="Password"><button id="loginSubmit">Sign In</button><div class="description"><a href="#" id="toggleRegister">Create one</a> | <a href="/login">Full Login</a></div></div><div id="registerForm" class="hidden"><h3>Create Account</h3><input id="registerUsername" placeholder="Username"><input type="password" id="registerPassword" placeholder="Password"><button id="registerSubmit">Create Account</button><div class="description"><a href="#" id="toggleLogin">Sign In</a> | <a href="/login">Full Login</a></div></div><div id="authMessage" class="validation-message"></div></div></div><div id="loggedIn" class="loggedIn hidden"><div class="btn dropt" id="dropdownProfile"><span class="currentAliasName prim">Local mode</span> <span id="awtsDownIndicator" class="arrow">▼</span></div><div id="awtsmoosProfileDropContent" class="hidden dropdown-content"><div class="welcome"><span id="modeBadge" class="mode-badge">Local</span> <span id="usernameDisplay"></span></div><div class="currentAlias" id="aliasSection">Current alias: <a class="currentAliasName" href="#">Local mode</a></div><div class="local-mode-note" id="localModeNote">Local IndexedDB mode: files work here; reconnect to sync and publish.</div><button class="btn dropt" id="switchAlias">Switch Alias <span id="aliasIndicator" class="arrow">▼</span></button><div id="aliasInfo" class="hidden dropdown-content"></div><hr><a href="/profile">Manage Your Aliases</a><div id="logoutSection"><a href="/logout?redirect=${encodeURIComponent(location.href)}">Logout</a></div></div></div>`;
 }
 
 function refs(root) { return Object.fromEntries([...root.querySelectorAll('[id]')].map(el => [el.id, el])); }
+
+function aliasProfileHref(aliasId) {
+  return aliasId ? `/@${encodeURIComponent(aliasId)}` : '#';
+}
+
+function aliasQueryString(w) {
+  return new URLSearchParams({ alias: w.id }).toString();
+}
 
 function addStyles() {
   if (!document.querySelector('link[href="/style/social/profileStyles.css"]')) {
@@ -42,11 +50,12 @@ async function hydrateIdentity(els) {
 
 function showLoggedOut(els) { els.loggedIn.classList.add('hidden'); els.notLoggedIn.classList.remove('hidden'); }
 function showLoggedIn(els, identity) { els.notLoggedIn.classList.add('hidden'); els.loggedIn.classList.remove('hidden'); els.usernameDisplay.textContent = identity.username || 'Local IndexedDB'; els.modeBadge.textContent = identity.mode === 'synced' ? 'Synced' : 'Local'; els.localModeNote.classList.toggle('hidden', identity.mode === 'synced'); paintAlias(identity.alias); }
-function paintAlias(alias) { const clean = cleanAlias(alias); document.querySelectorAll('.currentAliasName').forEach(el => { el.textContent = aliasDisplay(clean); if (el.tagName === 'A') el.href = clean ? `/@${encodeURIComponent(clean)}` : '#'; }); }
+function paintAlias(alias) { const clean = cleanAlias(alias); document.querySelectorAll('.currentAliasName').forEach(el => { el.textContent = aliasDisplay(clean); if (el.tagName === 'A') el.href = aliasProfileHref(clean); }); }
 
 function bindMenus(els) {
-  els.signinButton.addEventListener('click', () => toggle(els.signinDropdown));
-  els.dropdownProfile.addEventListener('click', () => toggle(els.awtsmoosProfileDropContent));
+  els.signinButton.addEventListener('click', () => toggleMenu(els, els.signinDropdown));
+  els.dropdownProfile.addEventListener('click', () => toggleMenu(els, els.awtsmoosProfileDropContent));
+  els.dropdownBackdrop.addEventListener('click', () => closeMenus(els));
   els.switchAlias.addEventListener('click', async e => { e.preventDefault(); toggle(els.aliasInfo); if (!els.aliasInfo.classList.contains('hidden')) renderAliases(els.aliasInfo, await getAliases()); });
   els.toggleRegister.addEventListener('click', e => { e.preventDefault(); els.loginForm.classList.add('hidden'); els.registerForm.classList.remove('hidden'); });
   els.toggleLogin.addEventListener('click', e => { e.preventDefault(); els.registerForm.classList.add('hidden'); els.loginForm.classList.remove('hidden'); });
@@ -54,7 +63,7 @@ function bindMenus(els) {
   window.addEventListener('awtsmoosAliasChange', e => paintAlias(e.detail?.id));
 }
 
-function renderAliases(aliasInfo, aliases) { aliasInfo.replaceChildren(); aliases.forEach(item => addAliasRow(aliasInfo, cleanAlias(item.id || item.aliasId || item), aliases)); const form = aliasForm(); const create = document.createElement('button'); create.className = 'btn dropt'; create.textContent = 'Create New Alias'; create.addEventListener('click', () => toggle(form)); aliasInfo.append(create, form); }
+function renderAliases(aliasInfo, aliases) { aliasInfo.replaceChildren(); aliases.forEach(item => { if (item?.id) aliasQueryString(item); addAliasRow(aliasInfo, cleanAlias(item.id || item.aliasId || item), aliases); }); const form = aliasForm(); const create = document.createElement('button'); create.className = 'btn dropt'; create.textContent = 'Create New Alias'; create.addEventListener('click', () => toggle(form)); aliasInfo.append(create, form); }
 function addAliasRow(aliasInfo, id, aliases) { if (!id) return; const row = document.createElement('button'); row.className = 'aliasId'; row.textContent = aliasDisplay(id); row.addEventListener('click', async () => { await setDefaultAlias(id); emitAlias(id); renderAliases(aliasInfo, aliases); }); aliasInfo.appendChild(row); }
 
 function aliasForm() {
@@ -77,6 +86,8 @@ function bindAuthForms(els) { els.loginSubmit.addEventListener('click', () => au
 async function auth(url, username, password, message, registering = false) { if (!username || !password) return setMessage(message, 'Please enter username and password', false); const resp = await fetch(url, { method:'POST', body:new URLSearchParams({ username, password }), headers:{ 'Content-Type':'application/x-www-form-urlencoded' }, credentials:'include' }).then(r => r.text()); if (resp.includes('success')) { window.dispatchEvent(new CustomEvent('awtsmoosLogin', { detail:{ username, registering } })); return registering ? setMessage(message, 'Account created. Sign in now.', true) : location.reload(); } setMessage(message, registering ? 'Registration failed' : 'Sign in failed. Local IndexedDB mode still works.', false); }
 function setMessage(el, text, ok) { el.textContent = text; el.className = `validation-message ${ok ? 'valid' : 'invalid'}`; }
 function toggle(el) { el.classList.toggle('hidden'); }
+function toggleMenu(els, menu) { menu.classList.toggle('hidden'); els.dropdownBackdrop.classList.toggle('hidden', menu.classList.contains('hidden')); }
+function closeMenus(els) { [els.signinDropdown, els.awtsmoosProfileDropContent, els.aliasInfo].forEach(el => el?.classList.add('hidden')); els.dropdownBackdrop.classList.add('hidden'); }
 function emitAlias(alias) { if (isValidAlias(alias)) window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail:{ id:cleanAlias(alias) } })); }
 
 /**

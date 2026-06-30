@@ -1,0 +1,68 @@
+/* B"H
+ * HUD: a small command bridge over the storm, readable at speed.
+ */
+.hud {
+  position: fixed;
+  left: 14px;
+  right: 168px;
+  top: 12px;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.brand {
+  font-size: clamp(18px, 3vw, 26px);
+  text-shadow: 0 0 18px rgba(122, 215, 255, 0.85);
+}
+
+.brand span {
+  color: var(--gold);
+  font-size: 0.72em;
+  opacity: 0.94;
+}
+
+.meters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.meters label,
+#message {
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: blur(13px);
+  box-shadow: 0 0 22px rgba(80, 89, 255, 0.14);
+}
+
+.meters span {
+  color: var(--gold);
+  font-weight: 900;
+}
+
+meter {
+  width: 118px;
+  height: 10px;
+}
+
+#message {
+  max-width: min(850px, 88vw);
+  margin: 0;
+  border-radius: 18px;
+  color: #f8fbff;
+}
+
+@media (max-width: 760px) {
+  .hud {
+    right: 12px;
+    font-size: 12px;
+  }
+
+  .meters label {
+    padding: 6px 8px;
+  }
+}

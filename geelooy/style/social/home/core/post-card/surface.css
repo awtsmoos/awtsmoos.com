@@ -1,4 +1,4 @@
 /* B"H Home post card surface: calm readable depth. */
-.home-post-card { border: 1px solid rgba(128,92,38,.16); border-radius: 1.3rem; padding: clamp(.95rem, 2vw, 1.15rem); background: linear-gradient(160deg,#fffdf7,#f7eddd); box-shadow: var(--shadow-card); transition: transform var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft); }
-.home-post-card:hover { transform: translateY(-2px); box-shadow: 0 1.1rem 2.4rem rgba(25,20,11,.13); }
-.home-post-card:focus-within { outline: 2px solid rgba(214,168,79,.42); outline-offset: 3px; }
+.home-post-card { border: 1px solid var(--g-line); border-radius: 1rem; padding: clamp(.95rem, 2vw, 1.15rem); background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.055)); box-shadow: var(--g-shadow-soft); transition: transform .18s ease, box-shadow .18s ease; }
+.home-post-card:hover { transform: translateY(-2px); box-shadow: var(--g-shadow); }
+.home-post-card:focus-within { outline: 2px solid rgba(102,231,255,.6); outline-offset: 3px; }

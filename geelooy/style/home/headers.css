@@ -13,15 +13,18 @@ header.awtsmoosificationalisticaticalism {
     position: sticky;
     top: 0;
     z-index: 2147482000;
-    min-height: 45px;
-    height: 45px;
-    padding: 0 16px;
+    min-height: 52px;
+    height: 52px;
+    padding: 0 clamp(12px, 2vw, 20px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #07111f;
-    background: linear-gradient(180deg, rgba(167, 210, 255, .98), rgba(128, 190, 255, .96));
-    box-shadow: 0 2px 12px rgba(0,0,0,.24), inset 0 -1px 0 rgba(255,255,255,.45);
+    color: #f8fbff;
+    background:
+        radial-gradient(circle at 8% 0%, rgba(102,231,255,.2), transparent 16rem),
+        linear-gradient(180deg, rgba(7, 13, 27, .96), rgba(5, 9, 20, .92));
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 12px 34px rgba(0,0,0,.28), inset 0 -1px 0 rgba(255,255,255,.08);
     backdrop-filter: blur(12px);
 }
 
@@ -62,14 +65,14 @@ header.awtsmoosificationalisticaticalism .header-buttons .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0,0,0,.45);
-    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 14px;
     color: white;
     text-decoration: none;
     user-select: none;
     cursor: pointer;
-    background: rgba(6, 14, 28, .16);
-    box-shadow: 0 6px 16px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.35);
+    background: rgba(255,255,255,.07);
+    box-shadow: 0 8px 18px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.12);
     transition: transform .18s ease, background .18s ease, color .18s ease;
 }
 
@@ -77,8 +80,8 @@ header.awtsmoosificationalisticaticalism .btn:hover,
 header.awtsmoosificationalisticaticalism .header-buttons a:hover,
 header.awtsmoosificationalisticaticalism .header-buttons button:hover {
     transform: translateY(-1px);
-    background: rgba(255,255,255,.52);
-    color: #07111f;
+    background: rgba(102,231,255,.16);
+    color: #ffffff;
 }
 
 .menuBtn {
@@ -99,12 +102,12 @@ header.awtsmoosificationalisticaticalism .header-buttons button:hover {
 
 .sidebarMitzvah {
     position: fixed;
-    top: 45px;
+    top: 52px;
     right: 0;
     left: auto;
     z-index: 2147481900;
     width: min(82vw, 310px);
-    height: calc(100dvh - 45px);
+    height: calc(100dvh - 52px);
     padding: 20px;
     display: grid;
     align-content: start;
