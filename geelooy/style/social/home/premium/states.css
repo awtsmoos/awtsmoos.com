@@ -1,39 +1,55 @@
 /* B"H
- * Chapter 518: the home dashboard learns to answer in every weather.
+ * Chapter 593: every empty place becomes a doorway, every error a lantern.
  */
-:where(.home-command-input, .home-command-action, .home-route-pill, .home-feed-refresh, .universal-object-card, .object-inspector-link):focus-visible {
-  outline: 3px solid rgba(255,255,255,.88);
+.awtsmoos-civilization-dashboard :where(.home-command-input, .home-command-action, .home-route-pill, .home-feed-refresh, .universal-object-card, .object-inspector-link, a, button, input):focus-visible {
+  outline: 3px solid rgba(255,255,255,.92);
   outline-offset: 4px;
-  box-shadow: 0 0 0 7px rgba(127,90,240,.24), 0 0 30px rgba(0,214,255,.32);
+  box-shadow: 0 0 0 7px rgba(127,90,240,.24), 0 0 34px rgba(0,214,255,.34);
 }
 .home-feed-loading,
 .home-state-card,
 .home-error-state,
 .home-empty-state {
+  position: relative;
+  overflow: hidden;
   border: 1px solid rgba(255,255,255,.16);
   border-radius: 28px;
-  background: linear-gradient(145deg, rgba(12,18,45,.82), rgba(46,24,76,.72));
-  box-shadow: 0 24px 80px rgba(0,0,0,.28);
-  color: rgba(255,255,255,.88);
+  background: linear-gradient(145deg, rgba(12,18,45,.86), rgba(46,24,76,.74));
+  box-shadow: 0 24px 80px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11);
+  color: rgba(255,255,255,.9);
+}
+.home-feed-loading::after,
+.home-state-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.11), transparent);
+  transform: translateX(-120%);
+  animation: home-premium-state-scan 3.8s ease-in-out infinite;
+  pointer-events: none;
 }
 .home-feed-list:empty::before,
 .object-inspector-body:empty::before {
   content: "Awaiting a spark from the Awtsmoos graph.";
   display: block;
   padding: 1rem;
+  border-radius: 18px;
   color: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.06);
+  border: 1px dashed rgba(255,255,255,.18);
 }
-.home-error-state { border-color: rgba(255,111,145,.46); }
-.home-empty-state { border-color: rgba(0,214,255,.34); }
-.universal-object-card { scroll-margin: 90px; }
-.universal-object-card[data-selected="true"] { transform: translateY(-2px); }
+.home-error-state { border-color: rgba(255,111,145,.48); box-shadow: 0 24px 80px rgba(255,81,127,.14); }
+.home-empty-state { border-color: rgba(0,214,255,.36); }
+.universal-object-card { scroll-margin: 96px; transform-origin: center; }
+.universal-object-card[data-selected="true"] { transform: translateY(-2px); border-color: rgba(245,202,112,.42); }
 .civilization-object-inspector { position: sticky; top: 1rem; }
+@keyframes home-premium-state-scan { 0%, 45% { transform: translateX(-120%); } 75%, 100% { transform: translateX(120%); } }
 @media (max-width: 760px) {
   .civilization-object-inspector { position: static; }
   .home-route-constellation { grid-template-columns: 1fr; }
   .home-command-action { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  .awtsmoos-civilization-dashboard *, .awtsmoos-civilization-dashboard *::before, .awtsmoos-civilization-dashboard *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; animation-iteration-count: 1 !important; }
   .universal-object-card[data-selected="true"] { transform: none; }
 }

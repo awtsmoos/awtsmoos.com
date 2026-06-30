@@ -1,0 +1,43 @@
+/* B"H
+ * Chapter 587: the home command dock becomes a small living mizbeach of actions.
+ */
+.home-command-dock {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: .62rem;
+  margin: 1rem 0 0;
+}
+.home-command-dock a {
+  position: relative;
+  display: grid;
+  gap: .22rem;
+  align-content: center;
+  min-height: 4.45rem;
+  padding: .82rem;
+  border-radius: var(--awt-home-radius-md, 1.15rem);
+  border: 1px solid var(--awt-panel-border, rgba(255,255,255,.14));
+  background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.045));
+  color: #fff8df;
+  text-decoration: none;
+  font-weight: 950;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+  overflow: hidden;
+}
+.home-command-dock a::before { content: ""; position: absolute; inset: auto .75rem .5rem; height: .18rem; border-radius: 999px; background: linear-gradient(90deg, var(--awt-home-gold,#f5ca70), var(--awt-home-cyan,#7be2ff)); opacity: .38; }
+.home-command-dock small { color: rgba(255,248,223,.7); font-weight: 760; }
+.home-command-dock a:hover,
+.home-command-dock a:focus-visible {
+  background: linear-gradient(135deg, rgba(245,202,112,.24), rgba(123,226,255,.16));
+  transform: translateY(-2px);
+  outline: 2px solid rgba(123,226,255,.56);
+  outline-offset: 2px;
+  box-shadow: 0 1rem 2.2rem rgba(0,0,0,.24), 0 0 1.8rem rgba(123,226,255,.16);
+}
+.home-command-dock a[data-primary="true"] { color: #160e05; background: linear-gradient(135deg,#f5ca70,#b9853f); }
+.home-command-dock a[data-primary="true"] small { color: rgba(22,14,5,.72); }
+@media (max-width: 980px) { .home-command-dock { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 680px) {
+  .home-command-dock { position: sticky; bottom: .5rem; z-index: 40; grid-template-columns: repeat(5,minmax(0,1fr)); padding: .45rem; border-radius: 1.25rem; background: rgba(8,11,25,.86); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(16px); }
+  .home-command-dock a { min-height: 3.25rem; padding: .45rem .2rem; text-align: center; font-size: .72rem; }
+  .home-command-dock small, .home-command-dock a::before { display: none; }
+}

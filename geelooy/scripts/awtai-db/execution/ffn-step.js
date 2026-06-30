@@ -3,13 +3,12 @@ const { rmsNormInto } = require('../kernels/rms-norm.js');
 const { projectTensor } = require('../kernels/matvec-stream.js');
 const { siluMulInto } = require('../kernels/activation.js');
 const { addInto } = require('../kernels/add.js');
-const { nativeFfn, nativeMappedFfn } = require('../native/native-matvec.js');
+const { nativeFfn, nativeMappedFfn, nativeMappedRmsNorm } = require('../native/native-matvec.js');
 
 function ffnStep(ctx, layer, x) {
   const { index, streamer, config, trace } = ctx;
-  const norm = streamer.float(index.name(`blk.${layer}.ffn_norm.weight`));
-  const h = new Float32Array(config.hidden);
-  rmsNormInto(h, x, norm, config.eps);
+  const normTensor = index.name(`blk.${layer}.ffn_norm.weight`);
+  const h = mappedNorm(ctx, normTensor, x) || jsNorm(streamer, normTensor, x, config);
   const fused = tryNativeFfn(ctx, layer, h);
   if (fused) {
     addInto(x, fused);
@@ -22,6 +21,21 @@ function ffnStep(ctx, layer, x) {
   const down = projectTensor(streamer, index.role('ffn_down', layer), gate, trace, `L${layer}-down`);
   addInto(x, down);
   return x;
+}
+
+function mappedNorm(ctx, tensor, x) {
+  const map = ctx.streamer.nativeMap;
+  if (!map || !tensor || typeof ctx.streamer.offset !== 'function') return null;
+  const out = nativeMappedRmsNorm(map, { offset: ctx.streamer.offset(tensor), type: tensor.type }, ctx.config.hidden, x, ctx.config.eps);
+  if (out && ctx.stats) ctx.stats.read(tensor.byteLength, `${tensor.name}:mapped-rms`);
+  return out;
+}
+
+function jsNorm(streamer, tensor, x, config) {
+  const norm = streamer.float(tensor);
+  const h = new Float32Array(config.hidden);
+  rmsNormInto(h, x, norm, config.eps);
+  return h;
 }
 
 function tryNativeFfn(ctx, layer, h) {

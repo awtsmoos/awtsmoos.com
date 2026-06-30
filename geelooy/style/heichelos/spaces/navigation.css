@@ -1,0 +1,12 @@
+/* B"H — Heichelos route rail: a sticky map through sacred chambers. */
+.spaces-route-rail{position:sticky;top:.5rem;z-index:20;display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;padding:.45rem;border-radius:999px;background:rgba(8,12,26,.82);border:1px solid rgba(245,202,112,.16);backdrop-filter:blur(16px);box-shadow:0 .85rem 2rem rgba(0,0,0,.22);}
+.spaces-route-rail a{color:#fff8df;padding:.64rem .95rem;border-radius:999px;background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.04));font-weight:900;border:1px solid rgba(255,255,255,.08);}
+.spaces-route-rail a:hover,.spaces-route-rail a:focus-visible{background:linear-gradient(135deg,#f5ca70,#b9853f);color:#171624;outline:2px solid rgba(123,226,255,.52);outline-offset:2px;transform:translateY(-1px);}
+.social-space-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.social-space-card:hover{transform:translateY(-3px);box-shadow:0 1rem 2rem rgba(8,10,24,.2);border-color:rgba(185,133,63,.28);}
+.spaces-empty-actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem;}
+.spaces-empty-actions a{flex:1 1 9rem;text-align:center;border-radius:.9rem;padding:.78rem;background:#ede0cd;color:#3a240f;font-weight:900;}
+.spaces-empty-actions a:first-child{background:linear-gradient(135deg,#5c3414,#9b6a2f);color:#fffaf1;}
+.social-spaces-shell :is(a,button):focus-visible{outline:3px solid rgba(123,226,255,.65);outline-offset:3px;}
+@media(max-width:680px){.spaces-route-rail{border-radius:1.2rem;justify-content:stretch}.spaces-route-rail a{flex:1 1 calc(50% - .45rem);text-align:center}.spaces-command-row{display:grid;gap:.55rem}}
+@media(prefers-reduced-motion:reduce){.social-spaces-shell *{transition:none!important;transform:none!important;}}

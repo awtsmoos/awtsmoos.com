@@ -1,4 +1,9 @@
 // B"H
+/**
+ * @module AwtsmoosMailModals
+ * @description The compose chamber no longer burns the parchment on failure:
+ * errors remain inline, the button speaks its state, and the user's draft waits.
+ */
 import { sendMessageApi } from '../network.js';
 import createProfileDropdown from '/scripts/awtsmoos/social/profileDropdown.js';
 import { FX } from './fx.js';
@@ -35,7 +40,8 @@ export function renderComposeModal(ui, root) {
             field('Recipient', 'input', 'newTo', 'alias OR email@example.com'),
             field('Subject', 'input', 'newSub', 'Topic Protocol...'),
             field('Message Payload', 'textarea', 'newBody', 'Initiate data stream...', ['compose-body-input']),
-            { tag: 'button', classList: ['btn-primary'], textContent: 'Transmit', events: { click: () => transmit(ui) } }
+            { tag: 'div', shaym: 'composeError', classList: ['mail-compose-error', 'hidden'], attrs: { role: 'alert' } },
+            { tag: 'button', shaym: 'composeTransmit', classList: ['btn-primary'], textContent: 'Transmit', events: { click: () => transmit(ui) } }
         ]
     }] });
 }
@@ -47,17 +53,45 @@ function field(label, tag, shaym, placeholder, extra = []) {
     ] };
 }
 
+function composeValues(ui) {
+    return {
+        to: ui.getHtml('newTo')?.value.trim() || '',
+        subject: ui.getHtml('newSub')?.value || '',
+        body: ui.getHtml('newBody')?.value || ''
+    };
+}
+
+function setComposeError(ui, message = '') {
+    const box = ui.getHtml('composeError');
+    if (!box) return;
+    box.textContent = message;
+    box.classList.toggle('hidden', !message);
+}
+
+function resetCompose(ui) {
+    ['newTo', 'newSub', 'newBody'].forEach(name => { const el = ui.getHtml(name); if (el) el.value = ''; });
+    setComposeError(ui, '');
+}
+
 async function transmit(ui) {
-    const to = ui.getHtml('newTo')?.value.trim();
-    const sub = ui.getHtml('newSub')?.value || '';
-    const body = ui.getHtml('newBody')?.value || '';
-    if (!to || !body) return;
-    if (FX.playSound) FX.playSound('sent');
-    await sendMessageApi(to, sub, body);
-    closeModal(ui, 'composeModal');
-    ui.getHtml('newTo').value = '';
-    ui.getHtml('newBody').value = '';
-    if (FX.explode) FX.explode(window.innerWidth / 2, window.innerHeight / 2, '#0f0');
+    const { to, subject, body } = composeValues(ui);
+    const button = ui.getHtml('composeTransmit');
+    if (!to || !body.trim()) return setComposeError(ui, 'Recipient and message body are required.');
+    if (button?.disabled) return;
+    setComposeError(ui, '');
+    if (button) { button.disabled = true; button.textContent = 'Transmitting...'; }
+    try {
+        if (FX.playSound) FX.playSound('sent');
+        await sendMessageApi(to, subject, body);
+        closeModal(ui, 'composeModal');
+        resetCompose(ui);
+        if (FX.explode) FX.explode(window.innerWidth / 2, window.innerHeight / 2, '#0f0');
+    } catch (error) {
+        setComposeError(ui, `Transmission failed: ${error.message || 'Unknown error'}`);
+        notify('error', error);
+    } finally {
+        if (button) { button.disabled = false; button.textContent = 'Transmit'; }
+    }
 }
 
 function closeModal(ui, shaym) {

@@ -1,0 +1,27 @@
+/* B"H
+ * Chapter 586: home receives a shared visual language, not a costume.
+ */
+@import "/style/foundation/index.css";
+:root {
+  --awt-home-ink: rgba(255,255,255,.92);
+  --awt-home-muted: rgba(255,255,255,.68);
+  --awt-home-gold: #f5ca70;
+  --awt-home-cyan: #7be2ff;
+  --awt-home-violet: #7f5af0;
+  --awt-home-danger: #ff6f91;
+  --awt-home-radius-xl: 2rem;
+  --awt-home-radius-md: 1.15rem;
+  --awt-home-glass: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.045));
+  --awt-home-shadow: 0 1.6rem 4.4rem rgba(0,0,0,.3);
+  --awt-home-ring: 0 0 0 .42rem rgba(123,226,255,.22);
+}
+.geelooy-home-shell,
+.awtsmoos-civilization-dashboard {
+  color-scheme: dark;
+  --awt-panel-border: rgba(255,255,255,.14);
+  --awt-panel-soft: rgba(255,255,255,.07);
+  --awt-panel-strong: rgba(255,255,255,.14);
+}
+@supports (backdrop-filter: blur(1px)) {
+  .geelooy-home-shell :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card) { backdrop-filter: blur(20px) saturate(1.12); }
+}

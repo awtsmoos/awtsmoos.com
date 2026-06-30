@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { hebrewLightningBolts, hebrewLightningParticles } from '../modules/visualizer/hebrewLightningModel.js';
+import { hebrewRiverGlyphs, riverMetadata } from '../modules/visualizer/hebrewRiverModel.js';
+import { screenSpeedStreaks } from '../modules/visualizer/screenSpeedModel.js';
+import { visualizerFamilySummary } from '../modules/visualizer/sourceFamilyRegistry.js';
+const frame = { index:7, t:1.5, level:.35, freq:new Float32Array(64).fill(.4), features:{ bass:.8, mid:.4, treble:.7, pulse:.9, beat:true } };
+const source = { w:640, h:260, x:10, y:0, rotation:0, sourceFamily:'hebrew-river', settings:{ preset:'hebrewRiver', bars:54, hebrewText:'אבגד', letters:'#fff' }, visualizerRuntime:{} };
+const river = hebrewRiverGlyphs(source, frame);
+assert.ok(river.length > 30); assert.ok(river.some(g => g.glyph === 'א' || g.glyph === 'ב'));
+assert.equal(riverMetadata(source).preset, 'hebrewRiver');
+const bolts = hebrewLightningBolts({ ...source, sourceFamily:'hebrew-lightning' }, frame);
+assert.ok(bolts.length >= 5); assert.ok(bolts[0].points.length >= 5);
+assert.ok(hebrewLightningParticles(source, frame).length > 20);
+const speed = screenSpeedStreaks({ ...source, sourceFamily:'screen-speed' }, frame);
+assert.ok(speed.streaks.length >= 8); assert.match(speed.label, /screen|canvas/);
+assert.ok(visualizerFamilySummary().some(f => f.id === 'hebrew-lightning' && f.preset === 'hebrewLightning'));
+console.log('B"H Hebrew visualizer models smoke passed');

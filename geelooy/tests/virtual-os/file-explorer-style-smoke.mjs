@@ -1,0 +1,29 @@
+// B"H
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+
+const root = new URL('../../', import.meta.url);
+const styleUrl = new URL('os/programs/awtsmoos-file-explorer/styles/index.js', root);
+const fileView = read('os/programs/awtsmoos-file-explorer/components/fileView.js');
+const styles = await import(styleUrl.href).then(mod => mod.default);
+
+for (const token of styleNeedles()) assert(styles.includes(token), `explorer styles missing ${token}`);
+for (const token of fileViewNeedles()) assert(fileView.includes(token), `file view missing ${token}`);
+for (const file of guardedSmallFiles()) assertLineBudget(file, 120);
+
+console.log('B"H file-explorer-style-smoke passed');
+
+function styleNeedles() {
+  return ['--awts-explorer-bg', '.file-explorer::before', '.drive-chip.mount-tunnel', '.awts-kind-folder', '.details-view .file-item.icon', '@media (prefers-reduced-motion: reduce)', 'semantic-empty-state'];
+}
+function fileViewNeedles() {
+  return ['data-kind', 'data-extension', 'data-locality', 'data-sync-state', 'file-name', 'item-meta', 'mountBadge'];
+}
+function guardedSmallFiles() {
+  return ['os/programs/awtsmoos-file-explorer/styles/main.js', 'os/programs/awtsmoos-file-explorer/styles/view.js', 'os/programs/awtsmoos-file-explorer/styles/sidebar.js', 'os/programs/awtsmoos-file-explorer/components/fileView.js'];
+}
+function assertLineBudget(path, max) {
+  const count = read(path).split('\n').length;
+  assert(count <= max, `${path} has ${count} lines, over ${max}`);
+}
+function read(path) { return readFileSync(new URL(path, root), 'utf8'); }

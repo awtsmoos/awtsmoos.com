@@ -1,6 +1,6 @@
-/* B"H home page entry: imports only; guards live in owned modules. */
+/* B"H home social entry: modular import river, now with deeper command vessels. */
 @import "/style/heichelos/class-coverage/index.css";
-@import "/style/foundation/index.css";
+@import "./foundation.css";
 @import "./shell.css";
 @import "./sanctuary-card.css";
 @import "./feed-shell.css";
@@ -17,3 +17,8 @@
 @import "./premium/index.css";
 @import "./civilization/states.css";
 @import "./civilization/mobile-command.css";
+@import "./polish/command-dock.css";
+@import "./polish/panel-collapse.css";
+@import "./polish/focus-polish.css";
+@import "./polish/surface-depth.css";
+@import "./polish/mobile-constellation.css";

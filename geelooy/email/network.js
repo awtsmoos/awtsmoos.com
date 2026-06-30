@@ -1,8 +1,10 @@
 // B"H
 /**
  * @module AwtsmoosMailNetwork
- * @description The mail river now uses the actual API gates, unwraps responses
- * gently, and keeps sockets alive without letting one broken fetch crack the UI.
+ * @description
+ * The Awtsmoos breathes through the mail river: every HTTP response is read
+ * truthfully, every error gets a human name, and failed transmissions now throw
+ * so the composer can preserve the draft instead of pretending the spark flew.
  */
 import { state, notify } from './store.js';
 import { FX } from './ui/fx.js';
@@ -10,62 +12,122 @@ import { FX } from './ui/fx.js';
 const API_BASE = '/api/social/mail';
 let socket;
 
-async function jsonFetch(url, options) {
-    const res = await fetch(url, options);
-    const text = await res.text();
-    let data = null;
-    try { data = text ? JSON.parse(text) : null; } catch { data = { raw: text }; }
-    if (!res.ok || data?.error) throw new Error(data?.error?.message || data?.message || `HTTP ${res.status}`);
-    return data;
-}
 function threadKey(id) { return String(id || '').replace(/@/g, '_at_'); }
 
+function firstText(...values) {
+    for (const value of values) {
+        if (typeof value === 'string' && value.trim()) return value.trim();
+    }
+    return '';
+}
+
+function errorMessage(payload, status) {
+    const error = payload?.error || payload?.success?.error || payload;
+    if (typeof error === 'string') return error;
+    return firstText(
+        error?.message, error?.details, error?.code,
+        payload?.message, payload?.details,
+        status ? `Request failed with status ${status}.` : 'Request failed.'
+    );
+}
+
+function isErrorPayload(payload) {
+    return Boolean(payload?.error || payload?.success?.error || payload?.ok === false);
+}
+
+async function parseResponse(res) {
+    const text = await res.text();
+    if (!text) return null;
+    try { return JSON.parse(text); }
+    catch { return { raw: text }; }
+}
+
+async function jsonFetch(url, options = {}) {
+    const res = await fetch(url, options);
+    const data = await parseResponse(res);
+    if (!res.ok || isErrorPayload(data)) {
+        const err = new Error(errorMessage(data, res.status));
+        err.status = res.status;
+        err.payload = data;
+        err.url = url;
+        throw err;
+    }
+    return data;
+}
+
+function listFrom(data) {
+    if (Array.isArray(data)) return data;
+    if (Array.isArray(data?.success)) return data.success;
+    if (Array.isArray(data?.messages)) return data.messages;
+    if (Array.isArray(data?.threads)) return data.threads;
+    return [];
+}
+
+function mailRoute(recipient) {
+    const clean = String(recipient || '').trim();
+    if (!clean) throw new Error('Recipient is required.');
+    if (clean.includes('@')) {
+        return { to: 'external', query: `?toEmail=${encodeURIComponent(clean.replace('_at_', '@'))}` };
+    }
+    return { to: encodeURIComponent(clean.replace(/^@/, '')), query: '' };
+}
+
 export async function refreshSnippets() {
-    if (!state.alias) return;
+    if (!state.alias) return [];
     try {
         const url = `${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}&view=threads&_t=${Date.now()}`;
-        const data = await jsonFetch(url);
-        const list = Array.isArray(data) ? data : Array.isArray(data?.success) ? data.success : [];
+        const list = listFrom(await jsonFetch(url));
         state.snippets = list.sort((a, b) => (b.timeSent || 0) - (a.timeSent || 0));
         notify('snippets', state.snippets);
-    } catch (e) { console.error('Mail thread fetch failed:', e); notify('mailError', e); }
+        return state.snippets;
+    } catch (error) {
+        console.error('Mail thread fetch failed:', error);
+        notify('mailError', error);
+        return [];
+    }
 }
 
 export async function loadThreadHistory(threadId, page = 1) {
     if (!state.alias || !threadId) return 0;
     try {
         const url = `${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}&view=messages&threadId=${encodeURIComponent(threadKey(threadId))}&page=${page}`;
-        const data = await jsonFetch(url);
-        const msgs = Array.isArray(data) ? data : Array.isArray(data?.success) ? data.success : [];
+        const msgs = listFrom(await jsonFetch(url));
         if (!state.threads[threadId]) state.threads[threadId] = [];
         const map = new Map();
         [...state.threads[threadId], ...msgs].forEach(m => map.set(m.id || m.uid || `${m.timeSent}-${m.content}`, m));
         state.threads[threadId] = Array.from(map.values()).sort((a, b) => (a.timeSent || 0) - (b.timeSent || 0));
         return msgs.length;
-    } catch (e) { console.error('Mail history failed:', e); return 0; }
+    } catch (error) {
+        console.error('Mail history failed:', error);
+        notify('mailError', error);
+        return 0;
+    }
 }
 
 export async function sendMessageApi(recipient, subject, content) {
-    if (!state.alias || !recipient) return false;
-    const target = recipient.includes('@') ? `external?toEmail=${encodeURIComponent(recipient.replace('_at_', '@'))}` : encodeURIComponent(recipient);
-    const url = `${API_BASE}/sendTo/${target}/from/${encodeURIComponent(state.alias)}`;
+    if (!state.alias) throw new Error('Choose an alias before sending.');
+    if (!String(content || '').trim()) throw new Error('Message body is empty.');
+    const route = mailRoute(recipient);
+    const url = `${API_BASE}/sendTo/${route.to}/from/${encodeURIComponent(state.alias)}${route.query}`;
     const body = new URLSearchParams({ subject: subject || '', content: content || '' });
     try {
-        await jsonFetch(url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+        const data = await jsonFetch(url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
         publishSocialMailEvent('mail.sent', { to: recipient, subject });
         await refreshSnippets();
-        return true;
-    } catch (e) { alert('Transmission Failed'); console.error(e); return false; }
+        return data || { success: true };
+    } catch (error) {
+        console.error('Transmission failed:', error);
+        notify('mailError', error);
+        throw error;
+    }
 }
 
 export async function deleteThread(threadId) {
     if (!state.alias || !threadId) return false;
-    try {
-        const url = `${API_BASE}/thread/delete/${encodeURIComponent(threadKey(threadId))}?aliasId=${encodeURIComponent(state.alias)}`;
-        await jsonFetch(url, { method: 'POST' });
-        publishSocialMailEvent('mail.deleted', { threadId });
-        return true;
-    } catch (e) { console.error('Deletion Anomaly:', e); return false; }
+    const url = `${API_BASE}/thread/delete/${encodeURIComponent(threadKey(threadId))}?aliasId=${encodeURIComponent(state.alias)}`;
+    await jsonFetch(url, { method: 'POST' });
+    publishSocialMailEvent('mail.deleted', { threadId });
+    return true;
 }
 
 export function connectSocket(alias) {
@@ -92,6 +154,7 @@ function handleSocketMessage(raw) {
         notify('socketMessage', data);
     } catch {}
 }
+
 function handleNewMail(message) {
     if (FX.playSound) FX.playSound('sent');
     if (FX.triggerSonar) FX.triggerSonar(window.innerWidth / 2, 50);
@@ -102,9 +165,11 @@ function handleNewMail(message) {
     notify('socialSocket', { type: 'MAIL_BRIDGED_TO_SOCIAL', threadId: tid, at: Date.now() });
     refreshSnippets();
 }
+
 export function broadcastTyping(content) {
     if (state.activeThread && socket?.readyState === 1) socket.send(JSON.stringify({ type: 'LIVE_PREVIEW', to: state.activeThread, content }));
 }
+
 export function publishSocialMailEvent(kind, payload = {}) {
     if (!socket || socket.readyState !== 1 || !state.alias) return false;
     socket.send(JSON.stringify({ type: 'SOCIAL_PUBLISH', aliasId: state.alias, actor: state.alias, channel: `alias:${state.alias}`, kind, payload }));

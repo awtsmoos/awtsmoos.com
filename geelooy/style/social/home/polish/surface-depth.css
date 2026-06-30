@@ -1,0 +1,9 @@
+/* B"H — dashboard surface depth, the cards remember the light above them. */
+.geelooy-home-shell{background:radial-gradient(circle at 12% 0%,rgba(123,226,255,.12),transparent 24rem),radial-gradient(circle at 92% 12%,rgba(245,202,112,.14),transparent 24rem);}
+:is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card){position:relative;border-color:rgba(245,202,112,.16);}
+:is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card)::after{content:"";position:absolute;inset:0 0 auto;height:.24rem;background:linear-gradient(90deg,transparent,rgba(245,202,112,.7),rgba(123,226,255,.55),transparent);opacity:.72;pointer-events:none;}
+.home-logo-mark{box-shadow:0 0 0 .3rem rgba(255,255,255,.05),0 1rem 2.4rem rgba(123,226,255,.18);}
+.home-hero-stats article,.civilization-metrics article{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.12);}
+.home-post-card{border:1px solid rgba(245,202,112,.12);box-shadow:0 .75rem 1.7rem rgba(0,0,0,.12);}
+.home-post-card:hover{border-color:rgba(245,202,112,.28);box-shadow:0 1rem 2.3rem rgba(0,0,0,.18);}
+.home-inspector-chips span{box-shadow:inset 0 1px 0 rgba(255,255,255,.12);}

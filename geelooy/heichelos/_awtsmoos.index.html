@@ -1,15 +1,15 @@
 <!--B"H-->
 <?<script>
     /**
-     * B"H
-     * The Awtsmoos gathers every Heichel into a navigable civilization board:
-     * owner state, empty state, metadata, and routes remain server-rendered.
+     * B"H — The Awtsmoos gathers Heichelos into a navigable civilization board:
+     * owner state, route recovery, empty guidance, and sacred cards remain
+     * server-rendered so even before JS the traveler has doors home.
      */
     var alias = $_GET["alias"] || "";
     var safeAlias = encodeURIComponent(alias || "");
     var doesOwn = false;
     if(alias) {
-        var does = await fetchAwtsmoos("/api/social/alias/" + alias + "/ownership");
+        var does = await fetchAwtsmoos("/api/social/alias/" + safeAlias + "/ownership");
         if(does && does.yes) doesOwn = true;
     }
     function clean(value) {
@@ -18,7 +18,7 @@
     function slug(value) { return encodeURIComponent((value || "").toString()); }
     async function getHeichelos() {
         if(!alias) return [];
-        var result = await fetchAwtsmoos("/api/social/heichelos/searchByAliasOwner/" + alias);
+        var result = await fetchAwtsmoos("/api/social/heichelos/searchByAliasOwner/" + safeAlias);
         return Array.isArray(result) ? result : [];
     }
     function heichelCard(w) {
@@ -37,10 +37,10 @@
             '<div class="space-actions"><a href="/heichelos/' + slug(rawId) + '/">Open</a><a href="/heichelos/submit?heichel=' + slug(rawId) + '">Submit</a>' + manage + '</div></article>';
     }
     function emptyState() {
-        var message = alias ? "No Heichelos found for @" + clean(alias) + "." : "Choose an alias to reveal its Heichelos.";
+        var message = alias ? "No Heichelos found for @" + clean(alias) + "." : "Choose an alias to reveal its Heichelos, or return home while the palace waits.";
         var href = alias ? "/heichelos/manage-alias-heichelos?alias=" + safeAlias : "/profile";
         var label = alias ? "Create Heichel" : "Choose Alias";
-        return '<article class="social-empty-card" data-heichelos-empty-state><h2>Quiet palace</h2><p>' + message + '</p><a href="' + href + '">' + label + '</a></article>';
+        return '<article class="social-empty-card" data-heichelos-empty-state><h2>Quiet palace</h2><p>' + message + '</p><div class="spaces-empty-actions"><a href="' + href + '">' + label + '</a><a href="/">Home</a><a href="/email">Mail</a></div></article>';
     }
     var heichelos = await getHeichelos();
     var cards = heichelos.length ? heichelos.map(heichelCard).join("") : emptyState();
@@ -49,8 +49,9 @@
     return $a("nav/page.html", {
         centered: false,
         tochen: '<title>' + pageTitle + '</title>' +
-            '<link rel="stylesheet" href="/style/heichelos/social-index.css?v=spaces-004">' +
+            '<link rel="stylesheet" href="/style/heichelos/social-index.css?v=spaces-006">' +
             '<main class="social-spaces-shell" data-heichelos-index data-heichelos-empty-ready>' +
+            '<nav class="spaces-route-rail" aria-label="Geelooy route shortcuts"><a href="/">Home</a><a href="/email">Mail</a><a href="/profile">Profile</a><a href="/notifications">Notifications</a></nav>' +
             '<section class="spaces-hero" aria-labelledby="spaces-title"><div><p class="spaces-kicker">Sacred Spaces Dashboard</p>' +
             '<h1 id="spaces-title">' + pageTitle + '</h1><p>Communities, libraries, editor rooms, submissions, post previews, comments, roles, and graph metadata across Geelooy.</p></div>' +
             '<div class="spaces-command-row">' + primaryAction + '<a class="spaces-secondary" href="/heichelos/submit">Submit Post</a></div></section>' +

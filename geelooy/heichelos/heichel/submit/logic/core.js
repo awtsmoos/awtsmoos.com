@@ -2,9 +2,8 @@
 /**
  * @module SubmitCore
  * @description
- * Chapter 30: The Awtsmoos lets the editor choose between fresh creation and
- * segment-aware editing. Payloads now carry verses, ordered segments, post ids,
- * and content type, so browser writing and Node API tests share one covenant.
+ * Chapter 580: the submit console can be reached globally or from inside a
+ * Heichel, and it still knows which palace receives the spark.
  */
 
 import { makePost, AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
@@ -16,20 +15,26 @@ export function initializeSubmitCore() {
     const backBtn = document.getElementById("backBtn");
     const url = new URL(location);
     const parentSeriesId = url.searchParams.get("parentSeriesId") || "root";
-    const heichelId = url.searchParams.get("heichelId") || location.pathname.split("/").filter(Boolean).at(-3) || "";
+    const heichelId = getHeichelId(url);
     const returnURL = url.searchParams.get("returnURL");
     const editPostId = url.searchParams.get("editPostId") || "";
     const baseURL = `/heichelos/${heichelId}?${new URLSearchParams({ view: "posts", series: parentSeriesId })}`;
     if (backBtn) backBtn.href = returnURL || baseURL;
-    window.curAlias = window.curAlias || "";
+    window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || localStorage.getItem("awtsmoos-alias") || "";
     if (aliasIdDiv) aliasIdDiv.value = window.curAlias;
     addEventListener("awtsmoosAliasChange", event => {
-        window.curAlias = event.detail.id;
+        window.curAlias = event?.detail?.id || "";
         if (aliasIdDiv) aliasIdDiv.value = window.curAlias;
     });
     document.getElementById("postId")?.setAttribute("value", editPostId);
     document.getElementById("submitPost")?.addEventListener("click", () => handleSubmit({ heichelId, parentSeriesId, editPostId }));
     return { heichelId, parentSeriesId, editPostId };
+}
+
+function getHeichelId(url) {
+    const parts = location.pathname.split("/").filter(Boolean);
+    const pathHeichel = parts.length >= 3 && parts.at(-1) === "submit" ? parts.at(-2) : "";
+    return url.searchParams.get("heichel") || url.searchParams.get("heichelId") || pathHeichel || "ikar";
 }
 
 function getValue(id) {

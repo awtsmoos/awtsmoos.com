@@ -1,0 +1,15 @@
+/* B"H
+ * Chapter 589: keyboard travel gets a visible river of light.
+ */
+.geelooy-home-shell :is(a, button, input, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid rgba(123,226,255,.74);
+  outline-offset: 3px;
+  box-shadow: var(--awt-home-ring, 0 0 0 .42rem rgba(123,226,255,.22));
+}
+.geelooy-home-shell :is(a, button) { -webkit-tap-highlight-color: rgba(245,202,112,.2); }
+.home-feed-phone { box-shadow: 0 1.4rem 4rem rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.12); }
+.home-composer a { text-decoration: none; }
+.home-command-input::placeholder { color: rgba(255,255,255,.52); }
+@media (prefers-reduced-motion: reduce) {
+  .geelooy-home-shell :is(.home-side-links a, .home-route-card, .home-command-dock a, .universal-object-card) { transition: none; transform: none !important; }
+}

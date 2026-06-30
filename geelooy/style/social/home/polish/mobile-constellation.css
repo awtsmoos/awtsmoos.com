@@ -1,0 +1,17 @@
+/* B"H — narrow screens keep the constellation, not the clutter. */
+@media(max-width:860px){
+  .geelooy-home-shell{padding-inline:.65rem;padding-bottom:5.8rem;}
+  .home-sanctuary-card{order:1;}
+  .home-feed-phone{order:2;}
+  .home-discovery-card{order:3;}
+  .home-side-links{grid-template-columns:1fr 1fr;}
+  .home-search-vessel{grid-template-columns:1fr;}
+  .home-search-vessel button{min-height:3rem;}
+}
+@media(max-width:520px){
+  .home-side-links{grid-template-columns:1fr;}
+  .home-route-constellation{grid-template-columns:1fr;}
+  .home-feed-header{gap:.45rem;}
+  .home-feed-title strong{font-size:1rem;}
+  .home-kicker{letter-spacing:.1em;}
+}

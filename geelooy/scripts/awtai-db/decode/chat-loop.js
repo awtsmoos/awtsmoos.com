@@ -12,19 +12,22 @@ const { ChatState } = require('../state/chat-state.js');
 const { runToken } = require('./token-runner.js');
 const { renderPrompt } = require('./prompt-template.js');
 const { makeScratchDir, removeDir } = require('../scratch/scratch-dir.js');
+const { nativeCreateAttentionSession, nativeResetAttentionSession } = require('../native/native-matvec.js');
 
 function runChat(model, prompt, options = {}) {
   const trace = new MemoryTrace();
   const stats = new RunStats();
   const scratch = options.scratchDir || makeScratchDir('awtai-run');
+  let parts = null;
   trace.mark('start');
   const file = new AwtaiFile(model);
   try {
-    const parts = openParts(file, stats, scratch, prompt, options, trace);
+    parts = openParts(file, stats, scratch, prompt, options, trace);
     runPrefill(parts.ctx, trace, parts.tokens, options);
     generate(parts.ctx, parts.state, parts.tokenizer, parts.tokens, options, trace);
     return result(parts, trace);
   } finally {
+    if (parts && parts.ctx) disposeCtx(parts.ctx);
     file.close();
     if (options.deleteScratchOnClose) removeDir(scratch);
   }
@@ -40,9 +43,24 @@ function openParts(file, stats, scratch, prompt, options, trace) {
   const renderedPrompt = renderPrompt(file.manifest.metadata, prompt, options);
   const tokens = tokenizer.encode(renderedPrompt, options.addBos !== false);
   const state = new ChatState(tokens.slice());
-  const ctx = { file, index, tokenizer, config, streamer, trace, stats, kv, diskKv, scratch, generatedSoFar: tokens.slice(), topK: options.topK ?? 10, suppressTokenIds: [] };
+  const nativeAttention = createNativeAttention(config, tokens, options);
+  const ctx = { file, index, tokenizer, config, streamer, trace, stats, kv, diskKv, scratch, nativeAttention, generatedSoFar: tokens.slice(), topK: options.topK ?? 10, suppressTokenIds: [] };
   trace.mark('after-init');
   return { scratch, tokens, state, tokenizer, config, kv, diskKv, stats, renderedPrompt, ctx };
+}
+
+function createNativeAttention(config, tokens, options) {
+  if (/^(0|false|no)$/.test(String(process.env.AWTAI_NATIVE_ATTENTION || '1'))) return null;
+  const expected = expectedTokens(tokens, options);
+  const cap = Number(options.nativeAttentionTokens || process.env.AWTAI_NATIVE_ATTENTION_TOKENS || expected);
+  if (!Number.isFinite(cap) || cap < expected) return null;
+  const kvSize = config.kvHeads * config.headDim;
+  return nativeCreateAttentionSession(config.layers, Math.ceil(cap), kvSize);
+}
+
+function expectedTokens(tokens, options) {
+  const promptLimit = Math.min(tokens.length, options.promptTokens ?? tokens.length);
+  return promptLimit + (options.maxNewTokens ?? 8) + 2;
 }
 
 function runPrefill(ctx, trace, tokens, options) {
@@ -76,9 +94,14 @@ function defaultCacheBytes() {
   return 1536 * 1024 * 1024;
 }
 
+function disposeCtx(ctx) {
+  if (ctx.nativeAttention) nativeResetAttentionSession(ctx.nativeAttention);
+  if (ctx.streamer && typeof ctx.streamer.dispose === 'function') ctx.streamer.dispose();
+}
+
 function result(parts, trace) {
   const { scratch, tokens, state, tokenizer, config, kv, diskKv, stats, renderedPrompt, ctx } = parts;
-  return { ok: true, mode: 'cached-native-awtai-chat', scratch, renderedPrompt, promptTokens: tokens, generated: state.generated, text: tokenizer.decode(state.generated), topLogits: ctx.lastTopLogits, mmapLmHeadBytes: ctx.mmapLmHeadBytes || 0, config, kv: kv.summary(), diskKv: diskKv ? diskKv.summary() : null, streamer: ctx.streamer.summary(), stats: stats.summary(), memory: trace.summary() };
+  return { ok: true, mode: 'cached-native-awtai-chat', scratch, renderedPrompt, promptTokens: tokens, generated: state.generated, text: tokenizer.decode(state.generated), topLogits: ctx.lastTopLogits, mmapLmHeadBytes: ctx.mmapLmHeadBytes || 0, config, nativeAttention: !!ctx.nativeAttention, kv: kv.summary(), diskKv: diskKv ? diskKv.summary() : null, streamer: ctx.streamer.summary(), stats: stats.summary(), memory: trace.summary() };
 }
 
 module.exports = { runChat };

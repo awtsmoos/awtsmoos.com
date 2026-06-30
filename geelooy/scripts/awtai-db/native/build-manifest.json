@@ -1,0 +1,20 @@
+{
+  "root": ".",
+  "output": "awtai_native.node",
+  "sources": [
+    "addon.c",
+    "awtai_model_map.c",
+    "awtai_native_attention.c",
+    "awtai_native_ops.c",
+    "awtai_qkv_project.c",
+    "awtai_project_threaded.c",
+    "awtai_fused_ffn.c",
+    "awtai_f32_project.c",
+    "awtai_mmap_project.c",
+    "awtai_quant_dispatch.c",
+    "awtai_quant_q2k.c",
+    "awtai_quant_q3k.c",
+    "awtai_quant_q4k.c",
+    "awtai_quant_q6k.c"
+  ]
+}
