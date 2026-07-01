@@ -11,7 +11,7 @@
  */
 import RenderTrace from "../../methods/canvas/RenderTrace.js";
 import { rememberCanvasPayload } from "./CanvasMemory.js";
-import { buildPlayerRuntimeProbe } from "./PlayerRuntimeProbe.js?v=visible-root-binding-20260610-bh710";
+import { buildPlayerRuntimeProbe } from "./PlayerRuntimeProbe.js?v=probe-collision-diag-bridge-20260701-bh1";
 import { destroyWorld } from "./WorldDisposal.js?v=visible-root-binding-20260610-bh710";
 import { resetAfterSpikeDeath, enableAfterSpikeReset } from "./SpikeResetActions.js?v=visible-root-binding-20260610-bh710";
 

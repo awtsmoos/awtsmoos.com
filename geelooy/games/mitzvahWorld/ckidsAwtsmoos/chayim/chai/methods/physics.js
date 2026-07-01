@@ -4,8 +4,9 @@
  * @description The visible body and capsule are sealed to the real terrain mesh.
  */
 import basePhysics from "./physics/index.js?v=zone-reality-20260614-bh812";
+import { clampVisibleBodyAboveFeet } from "./physics/VisualGroundClamp.js?v=visual-ground-clamp-visible-renderables-20260701-bh1";
 import { groundYAt } from "../../../Olam/methods/loadNivrayim/villageGrounding.js?v=mesh-ground-authority-20260701-bh1";
-import { ensurePlayerCollisionBubble } from "../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=mesh-collision-authority-20260701-bh1";
+import { ensurePlayerCollisionBubble } from "../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
 
 const TRACE_SEAL = "mesh-ground-authority-20260701-bh1";
 const MOVING_KEYS = ["forward", "backward", "stridingLeft", "stridingRight", "turningLeft", "turningRight", "jump"];
@@ -28,6 +29,7 @@ function sealVisualBody(entity) {
   sealModelLocalOffset(entity);
   entity.emptyCopy?.position?.copy?.(entity.mesh.position);
   entity.nonRotatingEmptyForMovement?.position?.copy?.(entity.mesh.position);
+  clampVisibleBodyAboveFeet(entity);
 }
 
 function ensureBaseLimbs(entity) { for (const [key, value] of Object.entries(basePhysics)) if (typeof value === "function" && typeof entity[key] !== "function") entity[key] = value; }

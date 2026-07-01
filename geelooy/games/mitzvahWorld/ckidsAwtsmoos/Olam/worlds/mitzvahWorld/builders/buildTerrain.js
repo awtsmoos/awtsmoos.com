@@ -5,7 +5,7 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { createGroundMixMaterial } from "./shaders/GroundMixShader.js?v=awtsmoos-ground-mix-20260614-bh2";
-import { registerGroundMesh as registerMeshGroundAuthority } from "../collision/GroundCollisionWorld.js?v=mesh-collision-authority-20260701-bh1";
+import { registerGroundMesh as registerMeshGroundAuthority } from "../collision/GroundCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
 
 const fallbackTriple = (value, fallback) => Array.isArray(value) ? value : fallback;
 const propsOf = def => def?.props || {};

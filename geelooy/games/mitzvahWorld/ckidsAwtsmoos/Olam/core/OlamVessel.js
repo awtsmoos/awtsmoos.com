@@ -12,7 +12,7 @@ import PlacementManager from "../interaction/PlacementManager.js?compact=true";
 import CombatManager from "../../systems/combat/CombatManager.js?v=combat-cache-budget-20260621-bh1";
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=starter-contracts-20260628-bh9";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
-import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=mesh-collision-authority-20260701-bh1";
+import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
 
 const SAFE_SKY = 0x5d8fa8;
 function targetSnapshot(target) { if (!target) return null; return { name:target.name || target.mesh?.name || target.userData?.displayName || null, hp:target.hp ?? target.health?.current ?? target.userData?.health?.current ?? null, max:target.maxHp ?? target.health?.max ?? target.userData?.health?.max ?? null }; }

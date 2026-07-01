@@ -1,7 +1,31 @@
 // B"H
 /**
  * @file GroundCollisionWorld.js
- * @description Mesh-direct terrain authority queried through a local bubble.
+ *
+ * Purpose:
+ * Mesh-direct terrain authority queried through the player collision bubble.
+ *
+ * Runtime owner:
+ * CollisionRuntime and PlayerCollisionBubble.
+ *
+ * Inputs:
+ * Registered terrain Object3D/Mesh roots from the terrain builder/loadNivrayim.
+ *
+ * Outputs:
+ * Ground hit records with point, normal, source mesh, triangle id, and fallback
+ * status.
+ *
+ * Performance:
+ * Never traverses scene.children. Reuses terrain registrations and returns a
+ * same-position cached mesh hit before invoking Raycaster again.
+ *
+ * Fallback:
+ * TerrainMath/fallbackFn may run only when no registered mesh exists or the
+ * local mesh ray misses, and the reason is recorded.
+ *
+ * Diagnostics:
+ * diag() reports terrain counts, cache hits, avoided full-scene traversals,
+ * fallback count, and last hit source.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import SpatialBubbleIndex from "./SpatialBubbleIndex.js";
@@ -43,13 +67,17 @@ export default class GroundCollisionWorld {
     this.meshes = new Map();
     this.lastHit = null;
     this.fallbackUsed = 0;
+    this.cacheHits = 0;
     this.fullSceneTraversalsAvoided = 0;
     this.queryRadius = Math.max(4, finite(options.queryRadius, 28));
+    this.cacheEpsilon = Math.max(0.005, finite(options.cacheEpsilon, 0.04));
   }
 
   registerTerrainMesh(mesh, options = {}) {
     if (!terrainLike(mesh)) return null;
     const id = options.id || meshId(mesh);
+    const existing = this.meshes.get(id);
+    if (existing?.mesh === mesh && !options.force) return existing;
     const bounds = worldBounds(mesh);
     if (!bounds) return null;
     const entry = this.index.register({ id:`terrain:${id}`, kind:"terrain", layer:0, bounds, ref:mesh, source:"mesh" });
@@ -80,6 +108,11 @@ export default class GroundCollisionWorld {
   groundAt(x = 0, z = 0, options = {}) {
     const fallback = finite(options.fallback, 0);
     const radius = finite(options.radius, this.queryRadius);
+    if (this._cachedHitValid(x, z)) {
+      this.cacheHits += 1;
+      this.fullSceneTraversalsAvoided += 1;
+      return this.lastHit;
+    }
     const candidates = this.queryTerrainNear(x, z, radius);
     this.fullSceneTraversalsAvoided += 1;
     if (!candidates.length) return this._fallback(x, z, fallback, options, "no-terrain-mesh-in-bubble");
@@ -107,6 +140,11 @@ export default class GroundCollisionWorld {
     };
     this.olam && (this.olam.__awtsmoosGroundCollisionReport = { ...(this.olam.__awtsmoosGroundCollisionReport || {}), last:this.lastHit, fallbackUsed:false });
     return this.lastHit;
+  }
+
+  _cachedHitValid(x, z) {
+    if (!this.lastHit || this.lastHit.fallback || this.lastHit.source !== "mesh") return false;
+    return Math.abs(finite(x) - this.lastHit.x) <= this.cacheEpsilon && Math.abs(finite(z) - this.lastHit.z) <= this.cacheEpsilon;
   }
 
   _fallback(x, z, fallback, options, reason) {
@@ -148,6 +186,7 @@ export default class GroundCollisionWorld {
         normal:this.lastHit.normal ? { x:this.lastHit.normal.x, y:this.lastHit.normal.y, z:this.lastHit.normal.z } : null
       } : null,
       fallbackUsed:this.fallbackUsed,
+      cacheHits:this.cacheHits,
       fullSceneTraversalsAvoided:this.fullSceneTraversalsAvoided,
       index:this.index.diag()
     };

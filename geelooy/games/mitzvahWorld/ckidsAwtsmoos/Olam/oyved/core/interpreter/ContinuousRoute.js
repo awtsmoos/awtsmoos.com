@@ -8,7 +8,7 @@
  * The route now imports the current ContinuousEventRouter seal so joystick,
  * camera, canvas, spike reset, and playerProbe all share the same living code.
  */
-import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=visible-root-binding-20260610-bh710';
+import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=probe-collision-diag-bridge-20260701-bh1';
 
 export class ContinuousRoute {
   /**

@@ -19,8 +19,8 @@ import { buildWaterRenderer } from "./RegionWaterRenderer.js?v=awtsmoos-water-re
 import { installRegionNpcRuntime } from "./RegionNpcRuntime.js?v=crisp-background-budget-20260621-bh1";
 import { buildRegionColliderRuntime } from "./RegionColliderRuntime.js?v=final-batch-colliders-20260615-bh1";
 import { finalizeRegionColliderBatch } from "./RegionFinalColliderBatch.js?v=collider-source-reporting-20260615-bh2";
-import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=mesh-collision-authority-20260701-bh1";
-import { installCollisionDiagnostics } from "../../collision/CollisionRuntime.js?v=mesh-collision-authority-20260701-bh1";
+import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
+import { installCollisionDiagnostics } from "../../collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
 import { updateZoneDiscovery } from "../../../../../systems/world/ZoneDiscoveryRuntime.js";
 import { emitMapReveal } from "../../../../../systems/world/MapRevealRuntime.js";
 import { startTutorial } from "../../../../../systems/tutorial/StartingExperienceRuntime.js";

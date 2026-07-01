@@ -6,8 +6,8 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import TerrainMath from "../../../dvarim/terrain/core/TerrainMath.js";
 import { diagEvent, diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js";
-import { meshGroundHit, registerGroundMesh } from "../../worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=mesh-collision-authority-20260701-bh1";
-import { installCollisionDiagnostics } from "../../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=mesh-collision-authority-20260701-bh1";
+import { meshGroundHit, registerGroundMesh } from "../../worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
+import { installCollisionDiagnostics } from "../../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
 
 const BOX = new THREE.Box3(), CHILD = new THREE.Box3();
 const TYPES = new Set(["villagePictureProp", "villageTreeField", "villageGrassField", "interactiveNpc", "interactiveDoor", "villageHouseCollider", "villageFenceCollider", "villageRoadCollider", "chossid", "mazik"]);

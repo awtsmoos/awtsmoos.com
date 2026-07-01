@@ -137,7 +137,7 @@
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
   <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=real-progress-vortex-20260629-bh1"></script>
   <script type="module" src="./systems/osGraph/bridge.js?compact=true&v=mitzvah-os-graph-20260629-bh1"></script>
-  <script type="module" src="./index.js?compact=true&v=fast-stable-boot-20260629-loader-first-bh1"></script>
+  <script type="module" src="./index.js?compact=true&v=local-route-alias-20260701-bh1"></script>
   <script type="module">
     const bootExtras = [
       "./systems/ui/OpenWorldUiMobilePatch.js?compact=true&v=fast-stable-boot-20260628-bh2",
@@ -183,54 +183,55 @@
   let finalReadySeen = false;
   function nonBlackFrameProof() {
     const canvas = document.querySelector('canvas');
-    const proof = { at:Date.now(), canvas:Boolean(canvas), sampled:false, nonBlack:false, finalReadySeen };
-    try {
-      if (canvas && canvas.width > 0 && canvas.height > 0) {
-        const ctx = canvas.getContext && canvas.getContext('webgl2') || canvas.getContext && canvas.getContext('webgl') || null;
-        if (ctx) {
-          const pixel = new Uint8Array(4);
-          ctx.readPixels(Math.floor(canvas.width / 2), Math.floor(canvas.height / 2), 1, 1, ctx.RGBA, ctx.UNSIGNED_BYTE, pixel);
-          proof.sampled = true;
-          proof.pixel = Array.from(pixel);
-          proof.nonBlack = pixel[0] + pixel[1] + pixel[2] > 18;
-        }
-      }
-    } catch (error) {
-      proof.sampleError = String(error && error.message || error);
-    }
-    if (!proof.nonBlack) {
-      const bg = getComputedStyle(document.body).backgroundColor || '';
-      proof.bodyBackground = bg;
-      proof.nonBlack = /rgb|hsl|#|gradient/i.test(bg) && !/0,\s*0,\s*0/.test(bg);
-    }
+    const proof = {
+      at:Date.now(),
+      canvas:Boolean(canvas),
+      canvasWidth:Number(canvas?.width || 0),
+      canvasHeight:Number(canvas?.height || 0),
+      sampled:false,
+      sampleSkipped:"main-thread canvas context is never touched before offscreen transfer",
+      nonBlack:finalReadySeen,
+      finalReadySeen
+    };
     lastProof = proof;
     return proof;
   }
   function hide(reason) {
     if (hidden) return;
     const proof = nonBlackFrameProof();
-    if (!proof.finalReadySeen && !proof.nonBlack) {
+    if (!proof.finalReadySeen) {
       lastReason = `blocked:${reason || 'no-proof'}`;
-      soften('Waiting for a proven non-black world frame.');
+      soften('Waiting for worker-rendered world-ready proof before revealing the canvas.');
       return;
     }
     hidden = true;
     lastReason = reason || 'ready';
     guard.dataset.reason = reason || 'ready';
     guard.classList.add('hidden');
-    setTimeout(() => guard.remove(), 1400);
+  }
+  function reopen(reason) {
+    if (!hidden) return;
+    hidden = false;
+    lastReason = reason || 'reopened';
+    guard.dataset.reason = lastReason;
+    guard.classList.remove('hidden');
+    soften('Canvas proof went dark, keeping the visible world guard.');
   }
   function soften(text) {
     const sub = guard.querySelector('.sub');
     if (sub) sub.textContent = text;
   }
   window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden };
-  window.__AWTS_NO_BLACK_DIAG__ = () => ({ visible:!hidden, hidden, reason:lastReason, finalReadySeen, proof:lastProof || nonBlackFrameProof(), guardExists:Boolean(document.getElementById('awtsmoosNoBlackGuard')) });
+  window.__AWTS_NO_BLACK_DIAG__ = () => ({ visible:!hidden, hidden, reason:lastReason, finalReadySeen, proof:nonBlackFrameProof(), guardExists:Boolean(document.getElementById('awtsmoosNoBlackGuard')) });
   window.addEventListener('awtsmoos-game-ready', event => {
     const phase = String(event?.detail?.phase || '');
-    if (/world_final_ready|boot:done|autoload:dispatch:done|rendered first time/i.test(phase)) finalReadySeen = true;
-    if (/world_final_ready|boot:done|autoload:dispatch:done|rendered first time/i.test(phase)) setTimeout(() => hide(phase), 1200);
+    if (/world_final_ready|rendered first time/i.test(phase)) finalReadySeen = true;
+    if (/world_final_ready|rendered first time/i.test(phase)) setTimeout(() => hide(phase), 1200);
   });
+  setInterval(() => {
+    const proof = nonBlackFrameProof();
+    if (!hidden && proof.finalReadySeen) hide('worker-rendered-world-proof');
+  }, 850);
   setTimeout(() => soften('Still loading real terrain meshes — no black void.'), 3800);
   setTimeout(() => { if (!hidden) soften('Still waiting for world-ready proof — keeping the visible guard.'); }, 12500);
 })();

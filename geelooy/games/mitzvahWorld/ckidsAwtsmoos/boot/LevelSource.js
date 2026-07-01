@@ -3,13 +3,39 @@
  * @file LevelSource.js
  * @description
  * Chapter 46: The boot loader points to the true ladder gate.
- * Because this file lives under `ckidsAwtsmoos/boot`, level URLs must climb two
- * directories to `mitzvahWorld/levels`. JSON and JS level vessels are both safe,
- * local, allow-listed, and validated before the world begins.
+ *
+ * Purpose:
+ * Converts a local URL `path` into an allow-listed level vessel.
+ *
+ * Runtime owner:
+ * `ckidsAwtsmoos/ikar.js` calls this during mobile and desktop autoload.
+ *
+ * Inputs:
+ * A query-string path such as `village`, `village.json`, or `ladder-1.json`.
+ *
+ * Outputs:
+ * A safe local filename under `levels/ladder/data`.
+ *
+ * Performance:
+ * Pure string normalization only. No fetches or filesystem-like probing happen
+ * before the allow-list accepts the id.
+ *
+ * Fallback rules:
+ * Missing ids skip autoload. Unsafe ids throw loudly instead of falling through
+ * to a guessed remote or arbitrary local path.
+ *
+ * Diagnostics:
+ * The caller records the raw path and normalized id in boot phases.
+ *
+ * Why it exists:
+ * Browser proofs and profiler scripts use `?path=village`; the runtime data file
+ * is `village.json`. Both names must resolve to the same local vessel without
+ * weakening the allow-list.
  */
 const LADDER_MAX = 20;
 const JSON_RE = /\.json$/i;
 const JS_RE = /\.js$/i;
+const EXT_RE = /\.(?:js|json)$/i;
 
 function allowedNames() {
   const names = new Set(["village.json", "village.js"]);
@@ -20,10 +46,18 @@ function allowedNames() {
   return names;
 }
 
+function withDefaultExtension(clean) {
+  if (!clean) return clean;
+  if (EXT_RE.test(clean)) return clean;
+  if (clean === "village" || /^ladder-\d+$/.test(clean)) return `${clean}.json`;
+  return clean;
+}
+
 export function normalizeLevelId(raw) {
   const rawText = String(raw ?? "").trim();
   if (!rawText) return null;
-  const clean = rawText.split(/[?#]/)[0].split("/").pop().toLowerCase();
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(rawText) || rawText.includes("\\")) throw new Error("Only village and ladder-N local level paths are enabled here.");
+  const clean = withDefaultExtension(rawText.split(/[?#]/)[0].split("/").pop().toLowerCase());
   if (!allowedNames().has(clean)) throw new Error("Only village and ladder-N local level paths are enabled here.");
   return clean;
 }

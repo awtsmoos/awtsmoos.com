@@ -8,7 +8,7 @@
  */
 import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=zone-reality-20260614-bh817";
 import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?compact=true&v=zone-reality-20260614-bh817";
-import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?compact=true&v=visible-root-binding-20260610-bh710";
+import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?compact=true&v=local-route-alias-20260701-bh1";
 import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?compact=true&v=visible-root-binding-20260610-bh710";
 
 const scope = window;

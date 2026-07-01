@@ -1,22 +1,78 @@
 // B"H
 /**
- * @file PlayerRuntimeProbe.js
- * @description
- * Chapter 428: The worker speaks the hidden body.
+ * PlayerRuntimeProbe
  *
- * The Chossid may live inside an OffscreenCanvas worker, beyond the direct gaze
- * of `window.olam`. This probe turns the worker's inner world into plain JSON:
- * player identity, loop membership, model-root covenant, fallback body, camera
- * target, positions, and the last movement/model traces.
+ * Purpose:
+ * Reports the worker-owned player runtime state to the main window for browser
+ * proof and mobile diagnostics.
+ *
+ * Runtime owner:
+ * ContinuousEventRouter invokes this only when a diagnostic playerProbe message
+ * is posted from the main thread.
+ *
+ * Inputs:
+ * The active Olam worker world.
+ *
+ * Outputs:
+ * Plain JSON with player identity, capsule state, model placement, visible
+ * render bounds, collision diagnostics, camera state, and recent movement
+ * traces.
+ *
+ * Performance:
+ * Debug-only. It measures only the player model tree and never traverses the
+ * scene, terrain, house colliders, or distant entities.
+ *
+ * Fallback:
+ * If the player/model is unavailable, fields are null and no fake geometry is
+ * reported.
+ *
+ * Diagnostics:
+ * visualBounds shows whether the rendered body bottom is above the capsule feet.
  */
+import * as THREE from "/games/scripts/build/three.module.js";
 
-const SEAL = "visible-root-binding-20260610-bh710";
+const SEAL = "visible-root-binding-20260610-bh711";
+const box = new THREE.Box3();
+const childBox = new THREE.Box3();
+const tmp = new THREE.Vector3();
 const vector = value => value?.toArray?.() || (value ? [Number(value.x), Number(value.y), Number(value.z)] : null);
 const names = list => Array.isArray(list) ? list.map(x => x?.name || x?.type || x?.constructor?.name || null) : [];
 
 /** @param {object} olam Active worker world. @returns {object|null} Player entity. */
 function playerOf(olam) {
   return olam?.chossid || olam?.player || olam?.nivrayim?.find?.(x => x?.type === "chossid") || null;
+}
+
+function visualBoundsOf(root, feetY) {
+  if (!root?.isObject3D) return null;
+  let renderables = 0;
+  let ignored = 0;
+  box.makeEmpty();
+  root.updateWorldMatrix?.(true, true);
+  root.traverse?.(node => {
+    if (!node || node.visible === false) return;
+    if (node.userData?.visualGroundIgnore) { ignored += 1; return; }
+    if (!node.isMesh && !node.isSkinnedMesh) return;
+    try {
+      childBox.setFromObject(node);
+      if (!childBox.isEmpty()) {
+        box.union(childBox);
+        renderables += 1;
+      }
+    } catch {}
+  });
+  if (box.isEmpty()) return { renderables, ignored, empty:true };
+  box.getSize(tmp);
+  return {
+    renderables,
+    ignored,
+    empty:false,
+    min:vector(box.min),
+    max:vector(box.max),
+    size:vector(tmp),
+    bottomDeltaFromFeet:Number.isFinite(feetY) ? box.min.y - feetY : null,
+    topDeltaFromFeet:Number.isFinite(feetY) ? box.max.y - feetY : null
+  };
 }
 
 /** @param {object} olam Active worker world. @returns {object} Plain proof object. */
@@ -27,6 +83,8 @@ export function buildPlayerRuntimeProbe(olam) {
   const fallback = root?.getObjectByName?.("BASIC_VISIBLE_CHOSSID_BODY") || null;
   const chossidim = olam?.nivrayim?.filter?.(x => x?.type === "chossid") || [];
   const camera = olam?.activeCamera || olam?.ayin?.camera || null;
+  const radius = Number(player?.collider?.radius || player?.radius || 0);
+  const feetY = player?.collider?.start ? Number(player.collider.start.y) - radius : null;
   return {
     seal: SEAL,
     at: Date.now(),
@@ -43,8 +101,16 @@ export function buildPlayerRuntimeProbe(olam) {
     fallbackPresent: Boolean(fallback),
     meshPos: vector(root?.position),
     modelLocal: vector(model?.position),
+    modelScale: vector(model?.scale),
+    visualGroundOffsetY: Number(model?.userData?.visualGroundOffsetY || 0),
+    visualClamp: player?.__lastVisualGroundClamp || null,
+    visualBounds: visualBoundsOf(model || fallback, feetY),
+    collisionDiag: globalThis.__AWTS_COLLISION_DIAG__?.() || null,
+    bubbleDiag: globalThis.__AWTS_BUBBLE_DIAG__?.() || null,
     colliderStart: vector(player?.collider?.start),
     colliderEnd: vector(player?.collider?.end),
+    colliderRadius:Number.isFinite(radius) ? radius : null,
+    feetY:Number.isFinite(feetY) ? feetY : null,
     velocity: vector(player?.velocity),
     onFloor: Boolean(player?.onFloor),
     moving: { ...(player?.moving || {}) },

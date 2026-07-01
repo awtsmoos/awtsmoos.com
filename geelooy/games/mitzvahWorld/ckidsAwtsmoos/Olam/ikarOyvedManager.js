@@ -6,7 +6,7 @@ import setupDomEvents from "./worker/domEvents.js?v=android-dom-events-20260612-
 import setupMessageHandler from "./worker/messageHandler.js?v=zone-reality-20260614-bh817";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=worker-gameplay-fps-20260621-bh1";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=probe-collision-diag-bridge-20260701-bh1";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";
@@ -18,5 +18,5 @@ export default class OlamWorkerManager {
   async _dispatchPawsawch(){if(this.runtime.pawsawchDispatched||this._pawsawchDispatched)return; this.runtime.pawsawchDispatched=true; this.runtime.opened=true; this._pawsawchDispatched=true; this.opened=true; this.processQueue(); try{if(typeof this.customTawfeekeem.pawsawch==="function")await this.customTawfeekeem.pawsawch()}catch(error){oyvedManagerLog.error("pawsawch dispatch failed",{message:error?.message||String(error),stack:String(error?.stack||"no stack").replace(/\s+/g," ")})}}
   postMessage(data,transfer=[]){let dayuh=data; try{if(dayuh&&typeof dayuh==="object")dayuh=Utils.stringifyFunctions(data); const action=()=>this.eved.postMessage(dayuh,transfer.length>0?transfer:undefined); if(!this.runtime.opened)return void this.queue.add(action); action()}catch(error){oyvedManagerLog.error("Worker postMessage failed",{message:error?.message||String(error),stack:String(error?.stack||"no stack").replace(/\s+/g," ")})}}
   processQueue(){try{this.queue.flush()}catch(error){oyvedManagerLog.error("Worker queue flush failed",{message:error?.message||String(error),stack:String(error?.stack||"no stack").replace(/\s+/g," ")})}}
-  _initStagnationWatch(){const check=()=>{const silence=this.runtime.silenceMs(); if((this.runtime.vesselIsReady||this._vesselIsReady)&&silence>25000&&!this.runtime.worldLoaded&&!this._worldLoaded)oyvedManagerLog.error("Worker silent after vessel ready",{seconds:Math.floor(silence/1000),workerPath:this.workerPath}); setTimeout(check,5000)}; setTimeout(check,10000)}
+  _initStagnationWatch(){const check=()=>{const silence=this.runtime.silenceMs(); if((this.runtime.vesselIsReady||this._vesselIsReady)&&silence>90000&&!this.runtime.worldLoaded&&!this._worldLoaded)oyvedManagerLog.error("Worker silent after vessel ready",{seconds:Math.floor(silence/1000),workerPath:this.workerPath}); setTimeout(check,5000)}; setTimeout(check,10000)}
 }

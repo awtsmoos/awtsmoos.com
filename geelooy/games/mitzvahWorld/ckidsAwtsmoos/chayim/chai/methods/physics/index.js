@@ -13,8 +13,8 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import Tzomayach from "../../../tzomayach.js";
 import TerrainMath from "../../../../dvarim/terrain/core/TerrainMath.js";
 import { solveMovingSolid } from "../../../../dvarim/movers/runtime/movingSolidSolver.js";
-import { clampVisibleBodyAboveFeet } from "./VisualGroundClamp.js?v=visual-ground-clamp-20260629-bh1";
-import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=mesh-collision-authority-20260701-bh1";
+import { clampVisibleBodyAboveFeet } from "./VisualGroundClamp.js?v=visual-ground-clamp-visible-renderables-20260701-bh1";
+import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
 
 const groundRay = new THREE.Ray();
 const MOVING_EPSILON_SQ = 0.0001;
