@@ -6,6 +6,7 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Nivra from "../../nivra.js";
+import { registerGroundMesh } from "../../../Olam/worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
 function isLivingNivra(nivra) { return ["chossid", "chai", "medabeir", "customNpc", "interactiveNpc"].includes(nivra?.type); }
 function markLivingTree(mesh) {
     if (!mesh) return; mesh.userData ||= {}; mesh.userData.isLiving = true; mesh.userData.skipOctree = true; mesh.userData.noOctree = true;
@@ -33,6 +34,14 @@ function collectMaterials(nivra) {
         mats.forEach(m => { m.visible = true; if (m.name && nivra.materials) nivra.materials[m.name] = m; });
     });
 }
+function markGroundAuthority(nivra, olam) {
+    if (!nivra?.originalOptions?.groundAuthority || !nivra.mesh) return false;
+    Object.assign(nivra.mesh.userData ||= {}, { isTerrain:true, awtsmoosGroundCollider:true, awtsmoosMeshGroundAuthority:true, skipRaycast:false, noRaycast:false, terrainColliderKind:"domem-visible-ground" });
+    olam.__awtsmoosGroundCollisionMeshes ||= [];
+    if (!olam.__awtsmoosGroundCollisionMeshes.includes(nivra.mesh)) olam.__awtsmoosGroundCollisionMeshes.push(nivra.mesh);
+    registerGroundMesh(olam, nivra.mesh, { reason:"domem-visible-ground-authority" });
+    return true;
+}
 export default {
     async heescheel(olam, info) {
         this.olam = olam; await Nivra.prototype.heescheel.call(this, olam); if (this.isTemplate) return true;
@@ -42,10 +51,12 @@ export default {
             if (this.mesh) { this.mesh.nivraAwtsmoos = this; this.animationMixer = new THREE.AnimationMixer(this.mesh); this.getChaweeyoos(); applyPerfToTree(this); collectMaterials(this); }
             if (this.position) this.mesh.position.copy(this.position.vector3()); if (this.rotation) this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z); if (this.scale) this.mesh.scale.copy(this.scale.vector3());
             this.mesh.updateMatrixWorld(true); await olam.hoyseef(this); this.mesh.visible = this.visible;
+            const isGroundAuthority = markGroundAuthority(this, olam);
             const isLiving = isLivingNivra(this);
             if (isLiving) { fitLivingTreeToHeight(this.mesh, this); markLivingTree(this.mesh); }
             else if (this.isSolid && olam.worldOctree) olam.worldOctree.addObject(this.mesh);
             if (this.interactable && !isLiving && olam.interactiveOctree) { if (this.mesh?.isMesh && this.mesh?.geometry) olam.interactiveOctree.addObject(this.mesh); else if (olam.interactiveOctree.fromGraphNode) olam.interactiveOctree.fromGraphNode(this.mesh); }
+            if (isGroundAuthority) this.mesh.userData.groundAuthorityRegisteredAt = Date.now();
             return true;
         } catch(e) { console.error(`B"H - 🚨 [${this.name}] FATAL ERROR in heescheel:`, e); throw e; }
     },

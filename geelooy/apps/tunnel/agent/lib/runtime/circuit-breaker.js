@@ -1,20 +1,12 @@
 // B"H
-
-/**
- * B"H
- * Chapter 1801: The gate no longer shut; it whispered the storm level instead.
- *
- * This breaker is advisory by design. It never blocks a request. It marks the
- * pressure, estimates retry-after, and lets the scheduler/queues carry the load.
- * P0 remains sacred; P1-P4 are admitted with degraded metadata even in panic.
- */
+const Recovery = require('./recovery-envelope.js');
 const DEFAULTS = Object.freeze({
   softLagMs: number(process.env.AWTSMOOS_LAG_SOFT_MS, 500),
   hardLagMs: number(process.env.AWTSMOOS_LAG_HARD_MS, 2000),
   panicLagMs: number(process.env.AWTSMOOS_LAG_PANIC_MS, 5000),
   p3QueueLimit: number(process.env.AWTSMOOS_P3_BREAKER_QUEUE, 64),
   p4QueueLimit: number(process.env.AWTSMOOS_P4_BREAKER_QUEUE, 16),
-  advisoryOnly: true
+  advisoryOnly: process.env.AWTSMOOS_LAG_ADVISORY_ONLY === '1'
 });
 function number(value, fallback) {
   const n = Number(value);
@@ -27,22 +19,26 @@ function levelForLag(lagMs = 0, limits = DEFAULTS) {
   if (lag >= limits.softLagMs) return 'soft';
   return 'open';
 }
-function canAccept(lane, context = {}, limits = DEFAULTS) {
+function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
   const lagMs = Number(context.eventLoopLag?.lastMs || 0);
+  const maxLagMs = Number(context.eventLoopLag?.maxMs || 0);
   const level = levelForLag(lagMs, limits);
   const queued = Number(context.lanes?.[lane]?.queued || 0);
   const wouldHaveBlockedReason = reasonFor(lane, level, queued, limits);
-  return {
+  const base = {
     ok: true,
     status: 202,
     circuitLevel: level,
     eventLoopLagMs: lagMs,
+    maxEventLoopLagMs: maxLagMs,
     degraded: level !== 'open' || Boolean(wouldHaveBlockedReason),
-    advisoryOnly: true,
+    advisoryOnly: limits.advisoryOnly === true,
     reason: wouldHaveBlockedReason ? 'admitted_despite_pressure' : 'accepted',
     wouldHaveBlockedReason,
     retryAfterMs: retryAfterMs(level, wouldHaveBlockedReason)
   };
+  if (!wouldHaveBlockedReason || limits.advisoryOnly === true) return base;
+  return { ...base, ...Recovery.lagCircuitEnvelope(request, base), reason: wouldHaveBlockedReason };
 }
 function reasonFor(lane, level, queued, limits = DEFAULTS) {
   if (lane === 'p0_control') return '';
@@ -61,6 +57,6 @@ function retryAfterMs(level, reason) {
 }
 function snapshot(context = {}, limits = DEFAULTS) {
   const lagMs = Number(context.eventLoopLag?.lastMs || 0);
-  return { limits, level: levelForLag(lagMs, limits), eventLoopLagMs: lagMs, advisoryOnly: true };
+  return { limits, level: levelForLag(lagMs, limits), eventLoopLagMs: lagMs, advisoryOnly: limits.advisoryOnly === true };
 }
 module.exports = { DEFAULTS, canAccept, levelForLag, reasonFor, snapshot };

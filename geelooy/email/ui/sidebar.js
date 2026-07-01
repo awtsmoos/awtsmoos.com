@@ -1,16 +1,17 @@
 // B"H
 /**
  * @module MailSidebar
- * @description Chapter 651: the mail sidebar becomes the public thread-list
- * gate for both the sidebar itself and chat actions that need to refresh it.
- * @contracts exports `renderSidebar` and a zero-argument `renderThreadList`
- * wrapper while preserving the lower-level sidebarThreads renderer contract.
+ * @description
+ * Chapter 707: the sidebar grows folders, counts, and search without inventing
+ * a single hidden API. The Awtsmoos lets every mailbox gate be a named button,
+ * every query a spoken filter, and every opener receive focus back in peace.
  */
-import { state, subscribe } from '../store.js';
+import { state, subscribe, setMailView, setMailSearch } from '../store.js';
 import { FX } from './fx.js';
 import { switchChat } from './chat.js';
 import { openModal } from './modalFields.js';
 import { renderThreadList as paintThreadList } from './sidebarThreads.js';
+import { MAIL_FOLDERS, folderCounts } from './mailFolders.js';
 import createProfileDropdown from '/scripts/awtsmoos/social/profileDropdown.js';
 
 let uiRef = null;
@@ -18,12 +19,13 @@ let subscribed = false;
 
 export function renderThreadList(ui = uiRef) {
   if (!ui) return;
+  renderFolders(ui);
   paintThreadList(ui, openThread);
 }
 
 export function renderSidebar(ui, parent) {
   uiRef = ui;
-  bindSnippetSubscription();
+  bindSidebarSubscription();
   ui.html({ parent, tag: 'div', classList: ['sidebar-header', 'mail-sidebar-header'], children: [
     { tag: 'div', classList: ['mail-sidebar-identity'], children: [
       { tag: 'div', classList: ['brand-title'], textContent: 'Awtsmoos Mail' },
@@ -31,15 +33,32 @@ export function renderSidebar(ui, parent) {
     ] }
   ] });
   ui.html({ parent, tag: 'button', classList: ['fab-compose'], attributes: { type: 'button', 'aria-label': 'Compose a new Awtsmoos transmission', title: 'Compose a new Awtsmoos transmission' }, textContent: '+ NEW TRANSMISSION', events: { click: () => openCompose(ui) } });
-  ui.html({ parent, tag: 'div', classList: ['tabs-container'], attributes: { role: 'tablist', 'aria-label': 'Mail views' }, children: [tab('Inbox', 'inbox', true), tab('Requests', 'requests', false)] });
+  ui.html({ parent, tag: 'section', classList: ['mail-search-panel'], attributes: { 'aria-label': 'Search mail' }, children: [
+    { tag: 'label', attributes: { for: 'mailSearchInput' }, textContent: 'Search transmissions' },
+    { tag: 'input', shaym: 'mailSearchInput', attributes: { id: 'mailSearchInput', type: 'search', placeholder: 'Search subject, alias, body…', autocomplete: 'off', value: state.searchQuery, 'aria-label': 'Search mail transmissions' }, events: { input: event => updateSearch(event.currentTarget.value) } }
+  ] });
+  ui.html({ parent, tag: 'div', shaym: 'mailFolderList', classList: ['mail-folder-list'], attributes: { role: 'tablist', 'aria-label': 'Mail folders' } });
   ui.html({ parent, tag: 'div', shaym: 'threadList', classList: ['thread-list'], attributes: { 'aria-live': 'polite' } });
   renderThreadList(ui);
 }
 
-function bindSnippetSubscription() {
+function bindSidebarSubscription() {
   if (subscribed) return;
   subscribed = true;
-  subscribe(key => { if (key === 'snippets') renderThreadList(); });
+  subscribe(key => {
+    if (['snippets', 'mailView', 'mailSearch'].includes(key)) renderThreadList();
+  });
+}
+
+function renderFolders(ui) {
+  const list = ui.getHtml('mailFolderList');
+  if (!list) return;
+  const counts = folderCounts(state.snippets || []);
+  list.replaceChildren();
+  MAIL_FOLDERS.forEach(folder => ui.html({ parent: list, tag: 'button', classList: ['mail-folder-tab', state.view === folder.id ? 'active' : null].filter(Boolean), attributes: { type: 'button', role: 'tab', 'aria-selected': String(state.view === folder.id), 'aria-label': `${folder.label}, ${counts[folder.id] || 0} threads` }, events: { click: () => updateFolder(folder.id) }, children: [
+    { tag: 'span', textContent: folder.label },
+    { tag: 'span', classList: ['mail-folder-count'], textContent: String(counts[folder.id] || 0) }
+  ] }));
 }
 
 function mountProfile(el) {
@@ -52,18 +71,13 @@ function openCompose(ui) {
   FX.playSound?.('hover');
 }
 
-function tab(label, view, active) {
-  return { tag: 'button', classList: ['nav-tab', active ? 'active' : null].filter(Boolean), dataset: { mailView: view }, attributes: { type: 'button', role: 'tab', 'aria-selected': String(active), title: `Show ${label}` }, textContent: label, events: { click: event => updateTabs(event, view) } };
+function updateFolder(view) {
+  setMailView(view);
+  FX.playSound?.('hover');
 }
 
-function updateTabs(event, view) {
-  document.querySelectorAll('.nav-tab').forEach(button => {
-    const active = button === event.currentTarget;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-selected', String(active));
-  });
-  state.view = view;
-  renderThreadList();
+function updateSearch(value) {
+  setMailSearch(value);
 }
 
 function openThread(thread, displayName) {

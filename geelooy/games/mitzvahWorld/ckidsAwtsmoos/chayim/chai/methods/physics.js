@@ -4,7 +4,8 @@
  * @description The visible body and capsule are sealed to the real terrain mesh.
  */
 import basePhysics from "./physics/index.js?v=zone-reality-20260614-bh812";
-import { clampVisibleBodyAboveFeet } from "./physics/VisualGroundClamp.js?v=visual-ground-clamp-visible-renderables-20260701-bh1";
+import { clampVisibleBodyAboveFeet } from "./physics/VisualGroundClamp.js?v=player-foot-ground-contract-20260701-bh3";
+import { FOOT_GROUND_EPSILON } from "./physics/playerGrounding/FootGroundConstants.js?v=player-foot-ground-contract-20260701-bh3";
 import { groundYAt } from "../../../Olam/methods/loadNivrayim/villageGrounding.js?v=mesh-ground-authority-20260701-bh1";
 import { ensurePlayerCollisionBubble } from "../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
 
@@ -18,6 +19,7 @@ function sealModelLocalOffset(entity) {
   const offsetY = numberOr(model.userData?.visualGroundOffsetY, 0);
   if (model.parent === root) { model.position.set(0, offsetY, 0); model.rotation.y = numberOr(entity.rotateOffset, 0); model.updateMatrixWorld(true); return; }
   model.position.copy(root.position); model.position.y += offsetY; model.rotation.y = numberOr(entity.rotation?.y, 0) + numberOr(entity.rotateOffset, 0);
+  entity.__lastWriterOfModelY = "physics.js:sealModelLocalOffset";
 }
 
 function sealVisualBody(entity) {
@@ -26,6 +28,7 @@ function sealVisualBody(entity) {
   entity.mesh.position.copy(entity.collider.start);
   entity.mesh.position.y -= radius;
   entity.mesh.rotation.y = entity.rotation?.y || 0;
+  entity.__lastWriterOfMeshY = "physics.js:sealVisualBody";
   sealModelLocalOffset(entity);
   entity.emptyCopy?.position?.copy?.(entity.mesh.position);
   entity.nonRotatingEmptyForMovement?.position?.copy?.(entity.mesh.position);
@@ -43,14 +46,14 @@ function enforceMeshGround(entity, mode = "frame") {
   if (!c?.start || !c?.end || !olam) return false;
   const bubble = ensurePlayerCollisionBubble(olam);
   bubble?.updateFromPlayer?.(entity);
-  const resolved = bubble?.groundPlayer?.(entity, { fallbackFn:(x, z, fallback) => groundYAt(olam, x, z, fallback) });
+  const resolved = bubble?.groundPlayer?.(entity, { slack:FOOT_GROUND_EPSILON, fallbackFn:(x, z, fallback) => groundYAt(olam, x, z, fallback) });
   bubble?.resolveMovement?.(entity);
   if (resolved) { trace(entity, "bubble-ground-lock", entity.__meshGroundAuthority || {}); return true; }
   const radius = numberOr(c.radius || entity.radius, .45);
   const feetY = c.start.y - radius;
   const groundY = groundYAt(olam, c.start.x, c.start.z, feetY);
   if (!Number.isFinite(groundY)) return false;
-  const targetFeet = groundY + .025;
+  const targetFeet = groundY + FOOT_GROUND_EPSILON;
   const closeGrounded = entity.onFloor && Math.abs(feetY - targetFeet) < 1.25;
   if (feetY >= targetFeet && !closeGrounded) return false;
   const lift = targetFeet - feetY;
@@ -59,6 +62,7 @@ function enforceMeshGround(entity, mode = "frame") {
   if (entity.velocity) entity.velocity.y = Math.max(0, numberOr(entity.velocity.y, 0));
   entity.onFloor = true; entity.grounded = true; entity.isOnGround = true;
   entity.__meshGroundAuthority = { at:Date.now(), mode, groundY, lift, x:c.start.x, z:c.start.z };
+  entity.__lastWriterOfCapsuleY = "physics.js:enforceMeshGround";
   trace(entity, "ground-lock", entity.__meshGroundAuthority);
   return true;
 }

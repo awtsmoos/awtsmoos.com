@@ -1,15 +1,12 @@
 // B"H
 /**
  * @file ikar.js
- * @description
- * The boot gate bows before the Awtsmoos and lets the first visible frame live.
- * Heavy cleanup is no longer allowed to hold the loader hostage. The world is
- * summoned after a paint breath, while performance probes reveal the renderer.
+ * @description Main boot gate for Mitzvah World.
  */
 import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=zone-reality-20260614-bh817";
 import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?compact=true&v=zone-reality-20260614-bh817";
 import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?compact=true&v=local-route-alias-20260701-bh1";
-import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?compact=true&v=visible-root-binding-20260610-bh710";
+import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?compact=true&v=player-foot-ground-contract-20260701-bh3";
 
 const scope = window;
 const SEAL = "frame-rescue-20260618-bh2";

@@ -10,6 +10,7 @@ const Ledger = require('./actionLedger.js');
 const Runtime = require('./actionRuntime.js');
 const Finish = require('./actionFinish.js');
 const ImplicitBoot = require('./mission/implicitBoot/index.js');
+const Recovery = require('../../lib/runtime/recovery-envelope.js');
 const AGENT_VERSION = 'split-agent-2.0.0';
 function isFirewallStepAuthorized(firewallResult) { return !!firewallResult && firewallResult.ok === true && firewallResult.authorized === true && firewallResult.kind === 'missionNeedsStepAuthorization'; }
 function buildActions(config, payload, ws) { return makeActions(config, payload, ws, AGENT_VERSION); }
@@ -28,7 +29,7 @@ async function prepareMission(config, payload) {
 }
 async function handleFsAction(rawPayload, ws) {
   const config = loadConfig(), payload = Payload.mergedPayload(rawPayload || {}), action = payload.action;
-  if (!action) return recorded(config, payload, Runtime.missingAction());
+  if (!payload.normalized || !action || action === 'unknown') return recorded(config, payload, Recovery.missingActionEnvelope(rawPayload || payload));
   const mission = await prepareMission(config, payload);
   const offloaded = await Runtime.maybeOffload(config, payload);
   if (offloaded) return recorded(config, payload, Focus.compact(ImplicitBoot.annotate(offloaded, mission.boot), payload));

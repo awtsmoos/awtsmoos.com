@@ -5,7 +5,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
 import visualMethods from "./methods/visuals.js?v=exact-visual-feet-20260603-bh388";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=visual-ground-clamp-visible-renderables-20260701-bh1";
+import physicsMethods from "./methods/physics.js?v=player-foot-ground-contract-20260701-bh3";
 import raycastingMethods from "./methods/raycasting.js";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';

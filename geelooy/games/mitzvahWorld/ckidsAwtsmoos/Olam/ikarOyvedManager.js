@@ -1,12 +1,12 @@
 // B"H
-/** @file ikarOyvedManager.js @description Chapter 431: manager imports settings-aware DOM events. */
+/** @file ikarOyvedManager.js @description Manager imports current worker diagnostics. */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
 import setupDomEvents from "./worker/domEvents.js?v=android-dom-events-20260612-bh2";
 import setupMessageHandler from "./worker/messageHandler.js?v=zone-reality-20260614-bh817";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=probe-collision-diag-bridge-20260701-bh1";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=player-probe-json-20260701-bh1";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";

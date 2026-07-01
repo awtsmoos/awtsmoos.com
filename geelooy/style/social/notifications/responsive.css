@@ -1,0 +1,2 @@
+/* B"H notification responsive. */
+@media(max-width:860px){.notifications-console{grid-template-columns:1fr}.notifications-actions button{flex:1}.notifications-page{margin-top:.5rem}.notifications-hero,.notifications-console,.notification{border-radius:1.1rem}}

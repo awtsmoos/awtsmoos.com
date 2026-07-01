@@ -1,11 +1,8 @@
 // B"H
 import { commandFail, commandOk } from '../../../../shared/virtual-os/command/CommandContract.js';
 import { commandModeData, helpText, unsupportedCommandError } from './browser-command-policy.js';
+import { delegateNativeCommand } from './browser-native-command.js';
 
-/**
- * B"H
- * Chapter 92: The Code vessel ran only the commands it could truly carry.
- */
 export class BrowserCommandAdapter {
   constructor({ fs }) { this.fs = fs; }
 
@@ -13,21 +10,37 @@ export class BrowserCommandAdapter {
     const command = String(payload.command || payload.text || '').trim();
     const cwd = payload.cwd || payload.path || '.';
     const startedAt = Date.now();
-    if (!command) return this.fail({ command, cwd, error: 'Browser command requires command text.', code: 'browser_command_required', startedAt });
+    if (!command) return this.fail({ command, cwd, error: 'Browser command requires command text.', code: 'browser_command_required', startedAt, payload });
     try {
-      const stdout = await this.dispatch(tokenize(command), cwd);
+      const native = await delegateNativeCommand(command, cwd, payload);
+      if (native) return native;
+      const stdout = await this.dispatch(tokenize(command), cwd, payload);
       return commandOk({ command, cwd, stdout, simulated: true, vessel: 'browser-tab', durationMs: Date.now() - startedAt, data: commandModeData('merkava-virtual') });
     } catch (error) {
-      return this.fail({ command, cwd, error, code: error.code || 'command_failed', mode: error.commandMode || 'merkava-virtual', startedAt });
+      return this.fail({ command, cwd, error, code: error.code || 'command_failed', mode: error.commandMode || 'merkava-virtual', startedAt, payload });
     }
   }
 
-  fail({ command, cwd, error, code, mode = 'unsupported', startedAt }) {
+  fail({ command, cwd, error, code, mode = 'unsupported', startedAt, payload = {} }) {
     const message = error?.message || String(error);
-    return commandFail({ command, cwd, error: message, simulated: true, vessel: 'browser-tab', durationMs: Date.now() - startedAt, data: { ...commandModeData(mode), error: code, message } });
+    return commandFail({
+      command, cwd, error: message, simulated: true, vessel: 'browser-tab',
+      durationMs: Date.now() - startedAt,
+      data: {
+        ...commandModeData(mode),
+        action: 'commandRun',
+        requestAction: 'commandRun',
+        actualAction: 'commandRun',
+        error: code,
+        message,
+        recovery: error?.recovery || (code === 'browser_command_not_native' ? { fallback: 'queue_for_native_tunnel' } : undefined),
+        receipt: error?.receipt || undefined,
+        targetTunnelName: payload.targetTunnelName || payload.tunnelName || ''
+      }
+    });
   }
 
-  async dispatch(tokens, cwd) {
+  async dispatch(tokens, cwd, payload) {
     const [name, ...args] = tokens;
     if (name === 'pwd') return cwd;
     if (name === 'ls') return await this.list(resolvePath(args[0], cwd));
@@ -40,7 +53,7 @@ export class BrowserCommandAdapter {
     if (name === 'echo') return args.join(' ');
     if (name === 'help') return helpText();
     if (name === 'clear') return '';
-    throw unsupportedCommandError(name);
+    throw unsupportedCommandError(name, payload);
   }
 
   async list(path) {

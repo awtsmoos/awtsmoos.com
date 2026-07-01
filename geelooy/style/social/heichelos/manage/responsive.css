@@ -1,0 +1,2 @@
+/* B"H Heichel manage responsive. */
+@media(max-width:820px){.heichel-manage-page{grid-template-columns:1fr;margin-top:.5rem}.heichel-manage-hero,.heichel-form-card{border-radius:1.1rem}.form-btns button{flex:1}}

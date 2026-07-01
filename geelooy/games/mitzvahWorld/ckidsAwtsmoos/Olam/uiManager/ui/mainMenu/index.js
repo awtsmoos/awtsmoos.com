@@ -5,7 +5,7 @@ import titleBuilder from "./titleBuilder.js?v=ray-ground-ui-20260602-bh128";
 import playButton from "./playButton.js?v=ray-ground-ui-20260602-bh128";
 import loading from "../loading.js?v=multi-progress-texture-cache-20260614-bh1";
 import errorScreen from "../errorScreen.js?v=ray-ground-ui-20260602-bh128";
-import uiGame from "../gameUI.js?v=direct-worker-actionbar-roots-parent-20260615-bh916";
+import uiGame from "../gameUI.js?v=player-probe-copy-20260701-bh1";
 import levelSelectScreen from "../screens/levelSelect.js?v=ray-ground-ui-20260602-bh128";
 const gameUiHTML = { shaym:"gameID", className:"gameUi", children:[...uiGame] };
 if (typeof window !== "undefined") window.awtsmoosGameUI = gameUiHTML;
@@ -16,7 +16,6 @@ export default [
   errorScreen,
   levelSelectScreen
 ];
-
 
 
 

@@ -1,5 +1,5 @@
 B"H
-1.0.217
+1.0.221
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -640,7 +640,9 @@ lib/runtime/circuit-breaker.js
 lib/runtime/continuation-loop.js
 lib/runtime/control-plane.js
 lib/runtime/correlation.js
+lib/runtime/envelope-compact.js
 lib/runtime/envelope.js
+lib/runtime/health-score.js
 lib/runtime/history-cleanup.js
 lib/runtime/kind.js
 lib/runtime/limits.js
@@ -648,7 +650,13 @@ lib/runtime/local-proxy.js
 lib/runtime/memory.js
 lib/runtime/priority.js
 lib/runtime/processIdentity.js
+lib/runtime/recovery-envelope.js
+lib/runtime/response-v8.js
 lib/runtime/safe-send.js
+lib/runtime/watchdog.js
+lib/runtime/worker-processes.js
+lib/runtime/worker-public.js
+lib/runtime/worker-registry.js
 lib/runtime/worker-supervisor.js
 lib/self-update.js
 lib/share/audit.js
@@ -666,6 +674,8 @@ lib/virtualOsGraph/transaction.js
 lib/virtualOsGraph/traversal.js
 lib/virtualOsGraph/types.js
 lib/virtualOsGraph/watchers.js
+lib/workers/worker-protocol.js
+lib/workers/worker-receipts.js
 lib/ws.js
 main.js
 rebuild-manifest.cjs
@@ -763,6 +773,7 @@ tools/fs/actionGroups/missionBootActions.js
 tools/fs/actionGroups/missionDaemonActions.js
 tools/fs/actionGroups/missionEightStepActions.js
 tools/fs/actionGroups/missionImprovementActions.js
+tools/fs/actionGroups/missionLedgerActions.js
 tools/fs/actionGroups/missionMetaActions.js
 tools/fs/actionGroups/missionOperatingActions.js
 tools/fs/actionGroups/missionSelfImproveActions.js
@@ -802,12 +813,17 @@ tools/fs/bulkPage.js
 tools/fs/bulkRead.js
 tools/fs/chromeRuntime.js
 tools/fs/cognitionCommandNames.js
+tools/fs/commandJob/finalize.js
 tools/fs/commandJob/gc.js
+tools/fs/commandJob/heartbeat.js
+tools/fs/commandJob/ids.js
 tools/fs/commandJob/io.js
 tools/fs/commandJob/meta.js
+tools/fs/commandJob/metaFactory.js
 tools/fs/commandJob/paths.js
 tools/fs/commandJob/policy.js
 tools/fs/commandJob/process.js
+tools/fs/commandJob/registryBridge.js
 tools/fs/commandJob/responses.js
 tools/fs/commandJobStore.js
 tools/fs/commandOutputStore.js
@@ -951,6 +967,13 @@ tools/fs/mission/innovationPolicy.js
 tools/fs/mission/instructions/capsule.js
 tools/fs/mission/instructions/commander.js
 tools/fs/mission/lease.js
+tools/fs/mission/ledger/gate.js
+tools/fs/mission/ledger/handoff.js
+tools/fs/mission/ledger/ids.js
+tools/fs/mission/ledger/model.js
+tools/fs/mission/ledger/paths.js
+tools/fs/mission/ledger/service.js
+tools/fs/mission/ledger/store.js
 tools/fs/mission/lock/config.js
 tools/fs/mission/lock/index.js
 tools/fs/mission/lock/lifecycle.js

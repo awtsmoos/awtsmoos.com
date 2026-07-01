@@ -1,24 +1,22 @@
 // B"H
 const Firewall = require('../firewall/index.js');
-
-/**
- * Chapter 113: The locked mission learned not to choke the repair command.
- * A vessel may be on mission and still need commandRun to reinstall, restart,
- * and heal the very tunnel that carries the mission's breath.
- */
 const EMERGENCY = new Set([
-  'missionGet','missionList','missionNext','missionAnswer','missionFinalize',
+  'awtsmoosMyDevice','payloadEcho','actionSchemaTrace',
+  'agentDoctor','agentSelfTest','agentVersionSkewCheck',
+  'tunnelDoctor','tunnelLivenessTimeline','runtimeSnapshot',
+  'missionGet','missionList','missionStatus','missionRecovery',
+  'missionHeartbeat','missionNext','missionAnswer','missionFinalize',
   'missionEarlyFinalAttempt','missionMetadataStatus','missionBootResume',
-  'missionDaemonStatus','missionDaemonTick','missionDaemonRecover','missionDaemonStart',
-  'missionWatchdogStatus','missionWatchdogTick','missionWatchdogRecover',
-  'missionContinueUntilGate','missionContinueOneHour','continueMustCallNext',
-  'command','commandRun','shellCommand','run_terminal_command','commandStart',
-  'commandStatus','commandWait','commandJobStatus','commandJobOutputPage',
-  'commandCancel','commandPoll','commandJobWait','commandOutputPage',
-  'payloadEcho','actionSchemaTrace','agentDoctor','tunnelDoctor',
-  'actionHistoryList','actionHistoryGet','actionHistorySearch','actionHistoryExplain',
-  'actionHistoryDiff','actionHistoryReplay','actionHistoryGarbageCollect',
-  'actionHistoryPin','actionHistoryUnpin'
+  'missionDaemonStatus','missionDaemonTick','missionDaemonRecover',
+  'missionDaemonStart','missionWatchdogStatus','missionWatchdogTick',
+  'missionWatchdogRecover','missionContinueUntilGate','missionContinueOneHour',
+  'continueMustCallNext','command','commandRun','shellCommand',
+  'run_terminal_command','commandStart','commandStatus','commandWait',
+  'commandJobStatus','commandJobOutputPage','commandCancel','commandPoll',
+  'commandJobWait','commandOutputPage','actionHistoryList','actionHistoryGet',
+  'actionHistorySearch','actionHistoryExplain','actionHistoryDiff',
+  'actionHistoryReplay','actionHistoryGarbageCollect','actionHistoryPin',
+  'actionHistoryUnpin'
 ]);
 function enabled(payload = {}) {
   if (payload.ignoreMissionLock === true || payload.ignoreMissionLock === 'true') return false;

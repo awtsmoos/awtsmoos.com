@@ -1,16 +1,17 @@
 // B"H
-
-/**
- * B"H
- * Chapter 1424: The heartbeat found its own road through the storm.
- *
- * The Awtsmoos speaks every instant; the tunnel must answer every instant. A
- * single FIFO queue made a command avalanche look like death. These lanes keep
- * the kernel breath separate from the caravans of heavy work.
- */
 const LANES = Object.freeze({ P0:'p0_control', P1:'p1_fs_light', P2:'p2_chrome_light', P3:'p3_heavy', P4:'p4_bulk' });
 const LANE_ORDER = Object.freeze([LANES.P0, LANES.P1, LANES.P2, LANES.P3, LANES.P4]);
-const CONTROL_ACTIONS = new Set(['heartbeat','tunnelHeartbeat','agentHeartbeat','ping','pong','status','tunnelStatus','agentStatus','commandStatus','commandPoll','commandJobStatus','jobStatus','commandJobOutputPage','commandOutputPage','commandCancel','commandJobCancel','commandWait','payloadEcho','configGet','tunnelDoctor','agentDoctor','runtimeSnapshot']);
+const CONTROL_ACTIONS = new Set([
+  'heartbeat','tunnelHeartbeat','agentHeartbeat','ping','pong','status',
+  'tunnelStatus','agentStatus','commandStatus','commandPoll',
+  'commandJobStatus','jobStatus','commandJobOutputPage','commandOutputPage',
+  'commandCancel','commandJobCancel','commandWait','payloadEcho','configGet',
+  'tunnelDoctor','tunnelLivenessTimeline','agentDoctor','agentSelfTest',
+  'agentVersionSkewCheck','runtimeSnapshot','actionSchemaTrace',
+  'actionHistoryGet','actionHistoryList','actionHistorySearch',
+  'missionGet','missionStatus','missionRecovery','missionHeartbeat',
+  'missionDaemonStatus','missionWatchdogStatus','missionWatchdogRecover'
+]);
 const FS_LIGHT_ACTIONS = new Set(['stat','read','read64','readBytes','readLines','readManyLines','md','list','tree','findFiles','grep','selectString','configGet','fileHashes','recentFiles','connectedFiles']);
 const CHROME_LIGHT_ACTIONS = new Set(['chromeStatus','chromeSnapshot','chromeSnapshotScoped','chromeFind','chromeLogs','browserDoctor','browserConsoleTriage','consoleErrorTriage']);
 const BULK_ACTIONS = new Set(['bulk','bulkWrite','bulkWriteIfHashes','bulkRead','actionBatch','commandBatch','parallelActionBatch','forEachActionBatch','missionAuto','missionAutopilot','missionLoopPulse','missionContinueOneHour','missionContinueUntilGate','runtimeWorkflow','simulateRuntime','testMatrixRunner','stressMatrix','previewCreate','previewFolder','previewPage','previewCollection','previewLiveCommand']);

@@ -1,5 +1,10 @@
 /* B"H home social entry: split, non-conflicting visual vessels. */
 @import "/style/social-system/tokens.css";
+@import "/style/social-system/base.css";
+@import "/style/social-system/a11y.css";
+@import "/style/social-system/buttons.css";
+@import "/style/social-system/forms.css";
+@import "/style/social-system/docks.css";
 @import "./foundation.css";
 @import "./shell.css";
 @import "./sanctuary-card.css";
@@ -9,6 +14,7 @@
 @import "./post-card.css";
 @import "./discovery-card.css";
 @import "./civilization-dashboard.css";
+@import "./inline-actions/index.css";
 @import "./responsive.css";
 @import "./accessibility.css";
 @import "./civilization/states.css";

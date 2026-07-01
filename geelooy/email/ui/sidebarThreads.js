@@ -2,21 +2,12 @@
 /**
  * @module MailSidebarThreads
  * @description
- * Every transmission row becomes a real door: a native button with a visible
- * name, active state, time, and keyboard focus.
- *
- * Responsibilities:
- * - Filter thread snippets by the selected mailbox view.
- * - Render thread buttons through the existing UI builder.
- * - Keep formatting and color helpers out of the sidebar orchestrator.
- *
- * Safety:
- * - Does not call APIs directly.
- * - Reads mail store state but does not mutate it.
- * - Emits native buttons with real labels and type="button".
+ * Chapter 706: every folder is a chamber, every search a candle, every row a
+ * native button-door. The Awtsmoos counts without demanding new APIs.
  */
 import { state } from '../store.js';
 import { formatTime } from '../helpers.js';
+import { filterThreads, folderEmpty } from './mailFolders.js';
 
 export function formatHandle(value) {
   if (!value) return 'Unknown';
@@ -37,22 +28,19 @@ export function quantumColor(name = '?') {
 }
 
 export function filteredThreads(view = state.view) {
-  const snippets = Array.isArray(state.snippets) ? state.snippets : [];
-  return snippets.filter(thread => view === 'requests'
-    ? thread.status === 'request'
-    : (!thread.status || thread.status === 'inbox'));
+  return filterThreads(Array.isArray(state.snippets) ? state.snippets : [], view, state.searchQuery);
 }
 
 function emptyState(ui, list) {
   ui.html({ parent: list, tag: 'div', classList: ['thread-empty-state'], children: [
-    { tag: 'strong', textContent: 'No transmissions here yet' },
-    { tag: 'span', textContent: 'Choose New Transmission, open Profile, or wait for the next spark.' },
-    { tag: 'a', attributes: { href: '/profile' }, textContent: 'Choose Alias' }
+    { tag: 'strong', textContent: state.searchQuery ? 'No matching transmissions.' : folderEmpty(state.view) },
+    { tag: 'span', textContent: state.searchQuery ? 'Clear search or open All Mail.' : 'Compose, switch folders, or open the full Geelooy routes.' },
+    { tag: 'a', attributes: { href: '/email' }, textContent: 'Full Mail Route' }
   ]});
 }
 
 export function renderThread(ui, thread, onOpen) {
-  const displayName = formatHandle(thread.correspondent || 'Unknown');
+  const displayName = formatHandle(thread.correspondent || thread.from || thread.to || 'Unknown');
   const active = state.activeThread === thread.correspondent;
   ui.html({ parent: ui.getHtml('threadList'), tag: 'button',
     classList: ['thread-item', active ? 'active' : null].filter(Boolean),
@@ -64,7 +52,8 @@ export function renderThread(ui, thread, onOpen) {
           { tag: 'span', classList: ['thread-name'], textContent: displayName },
           { tag: 'span', classList: ['thread-time'], textContent: formatTime(thread.timeSent) }
         ]},
-        { tag: 'div', classList: ['thread-snippet'], textContent: (thread.snippet || 'No preview yet.').substring(0, 72) }
+        { tag: 'div', classList: ['thread-subject'], textContent: thread.subject || thread.title || 'Transmission' },
+        { tag: 'div', classList: ['thread-snippet'], textContent: (thread.snippet || thread.content || 'No preview yet.').substring(0, 96) }
       ]}
     ]});
 }
@@ -74,6 +63,7 @@ export function renderThreadList(ui, onOpen) {
   if (!list) return;
   list.replaceChildren();
   const threads = filteredThreads();
+  list.setAttribute('data-mail-view', state.view || 'inbox');
   if (!threads.length) return emptyState(ui, list);
   threads.forEach(thread => renderThread(ui, thread, onOpen));
 }

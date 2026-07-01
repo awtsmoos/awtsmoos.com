@@ -1,0 +1,4 @@
+/* B"H focus is the candle of keyboard travelers. */
+:where(.geelooy-home-shell,.geelooy-profile-shell,.notifications-page,.heichel-manage-page) :is(a,button,input,textarea,select):focus-visible{outline:3px solid rgba(102,231,255,.9);outline-offset:3px;}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+@media(prefers-reduced-motion:reduce){:where(.geelooy-home-shell,.geelooy-profile-shell,.notifications-page,.heichel-manage-page) *, :where(.geelooy-home-shell,.geelooy-profile-shell,.notifications-page,.heichel-manage-page) *::before, :where(.geelooy-home-shell,.geelooy-profile-shell,.notifications-page,.heichel-manage-page) *::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important;}}

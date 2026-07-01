@@ -1,4 +1,13 @@
 // B"H
+const ALLOWED_REPAIR_ACTIONS = Object.freeze([
+  'awtsmoosMyDevice','tunnelDoctor','tunnelLivenessTimeline','agentDoctor',
+  'agentSelfTest','agentVersionSkewCheck','payloadEcho','actionSchemaTrace',
+  'actionHistoryGet','actionHistoryList','actionHistorySearch','commandStatus',
+  'commandWait','commandPoll','commandJobStatus','commandJobWait',
+  'commandJobOutputPage','commandCancel','commandJobCancel','missionGet',
+  'missionStatus','missionRecovery','missionHeartbeat','missionDaemonStatus',
+  'missionWatchdogStatus','missionWatchdogRecover'
+]);
 function saneNext(lock = {}) {
   const next = lock.lastMustCallNext || null;
   const missionId = String(lock.missionId || '');
@@ -11,7 +20,7 @@ function saneNext(lock = {}) {
   return next;
 }
 function response(action, lock = {}) {
-  const next = saneNext(lock);
+  const next = saneNext(lock), guide = guidance(action, next);
   return {
     ok: false,
     action,
@@ -24,33 +33,20 @@ function response(action, lock = {}) {
     mustCallNext: next,
     missionId: lock.missionId || '',
     releaseStatus: lock.releaseStatus || 'locked',
-    mission: {
-      locked: true,
-      missionId: lock.missionId || '',
-      status: lock.releaseStatus || 'locked',
-      next,
-      guidance: guidance(action, next)
-    },
-    agentGuidance: guidance(action, next),
+    mission: { locked: true, missionId: lock.missionId || '', status: lock.releaseStatus || 'locked', next, guidance: guide },
+    agentGuidance: 'A mission is active. Call the required mission action next, or use an allowed liveness/repair action if the tunnel is unhealthy.',
     responseFocus: {
       missionLocked: true,
       originalActionPreserved: action,
       nextRequiredToolCall: next,
       oneMainThing: 'Follow the mission next action, or retry only safe repair work with ignoreMissionLock.'
-    }
+    },
+    recovery: { allowedRepairActions: [...ALLOWED_REPAIR_ACTIONS], ignoreMissionLockForGenuineRepair: true }
   };
 }
 function guidance(action, next = {}) {
-  return {
-    purpose: 'continue_mission_safely',
-    currentObjective: 'Continue the active mission without corrupting request identity.',
-    currentBlocker: 'An active mission lock is blocking this unrelated action.',
-    originalActionPreserved: action,
-    nextAction: next,
-    reason: 'Mission guidance belongs in metadata; top-level action identity remains sacred.',
-    recovery: 'Call the next mission action, or retry a genuine repair/status command with ignoreMissionLock.'
-  };
+  return { originalActionPreserved: action, nextAction: next, recovery: 'Call the next mission action, or use an allowed liveness/repair action.' };
 }
 function fallback(missionId, reason) { return { action: 'missionDaemonTick', missionId, reason }; }
 function boot(missionId, reason) { return { action: 'missionBootResume', missionId, autoMission: true, tick: true, reason }; }
-module.exports = { response, saneNext, guidance };
+module.exports = { response, saneNext, guidance, ALLOWED_REPAIR_ACTIONS };

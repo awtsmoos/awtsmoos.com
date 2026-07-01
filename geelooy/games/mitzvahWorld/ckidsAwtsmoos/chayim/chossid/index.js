@@ -1,13 +1,10 @@
 // B"H
 /**
  * @module Chossid
- * @description
- * Chapter 627: The player body now wakes with explicit MMO progression fields.
- * The Awtsmoos has no body and no form, yet the avatar needs hp, koach, xp,
- * combatXp, torahXp, shlichusXp, and explorationXp before the first step.
+ * @description Player body with explicit MMO progression fields.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=zone-reality-20260614-bh812";
+import Chai from "../chai/index.js?v=player-foot-ground-contract-20260701-bh3";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 import controlMethods from './methods/controls.js?v=zone-reality-20260614-bh812';
 import interactionMethods from './methods/interaction.js?v=mobile-target-select-20260614-bh1';
@@ -45,14 +42,7 @@ export default class Chossid extends Chai {
   getActiveItem() { return this.inventory?.actionSlots?.[Number.isInteger(this.selectedInventorySlot) ? this.selectedInventorySlot : 0] || null; }
   getRealActiveItemInstance() { const item = this.getActiveItem(); if (item?.className === 'ElementalStaff') this.olam?.ayshPeula("toolAltAction", item); return item; }
   resetPreviewRotation() { this.placementRotation = 0; }
-  shoot() {
-    const target = this.combatTarget || this.olam?.__selectedCombatTarget || this.olam?.combatManager?.target;
-    if (!isAttackableTarget(target)) {
-      this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "Select an enemy first.", color: "#ffd95a" });
-      return false;
-    }
-    return this.olam?.combatManager?.attack?.({ source: "chossid-shoot", target });
-  }
+  shoot() { const target = this.combatTarget || this.olam?.__selectedCombatTarget || this.olam?.combatManager?.target; if (!isAttackableTarget(target)) { this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "Select an enemy first.", color: "#ffd95a" }); return false; } return this.olam?.combatManager?.attack?.({ source: "chossid-shoot", target }); }
   rememberApproach(entity) { if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity); }
   forgetApproach(entity) { const idx = this.approachedEntities.indexOf(entity); if (idx > -1) this.approachedEntities.splice(idx, 1); }
   async madeAll() { if (this.mesh) this.mesh.userData.isPlayer = true; this.updateAppearance?.(); this.setupDefaultInventory?.(); this.inventory?.updateUI?.(); this.recalculateStats(); ensurePlayerLevel(this, this.olam); }

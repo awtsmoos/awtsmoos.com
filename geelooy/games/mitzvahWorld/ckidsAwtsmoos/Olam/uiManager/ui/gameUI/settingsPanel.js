@@ -17,7 +17,13 @@ function apply(s = read()) {
   worker()?.postMessage?.({ mobileSettingsChanged: s });
   window.dispatchEvent(new Event("resize"));
 }
-function copy() { return JSON.stringify({ settings: read(), touch: window.__AWTSMOOS_TOUCH_TRACE__?.slice?.(-30) || [], diag: window.__AWTSMOOS_DIAG_COPY__?.() || null, viewport: { w: innerWidth, h: innerHeight, dpr: devicePixelRatio } }, null, 2); }
+function grounding() {
+  let direct = null;
+  try { direct = window.__MITZVAH_PLAYER_GROUNDING_DIAG__?.() || null; } catch {}
+  setTimeout(() => console.info("B\"H | MOBILE_SETTINGS_PLAYER_PROBE", JSON.stringify(window.__AWTSMOOS_LAST_PLAYER_PROBE__ || null)), 900);
+  return direct;
+}
+function copy() { return JSON.stringify({ settings: read(), touch: window.__AWTSMOOS_TOUCH_TRACE__?.slice?.(-30) || [], diag: window.__AWTSMOOS_DIAG_COPY__?.() || null, grounding: grounding(), playerProbe: window.__AWTSMOOS_LAST_PLAYER_PROBE__ || null, viewport: { w: innerWidth, h: innerHeight, dpr: devicePixelRatio } }, null, 2); }
 function stop(e) { e.preventDefault(); e.stopPropagation(); }
 function row(label, key, type = "toggle", values = []) {
   return { className: "awts-setting-row", children: [{ tag: "span", textContent: label }, { tag: type === "select" ? "select" : "button", textContent: type === "select" ? undefined : "", ready(el) { const paint = () => { const s = read(); if (type === "select") el.value = s[key]; else el.textContent = s[key] ? "ON" : "OFF"; }; if (type === "select") values.forEach(v => el.append(new Option(v, v))); el.addEventListener(type === "select" ? "change" : "pointerdown", e => { stop(e); const s = read(); s[key] = type === "select" ? el.value : !s[key]; save(s); paint(); }); paint(); } }] };
@@ -34,7 +40,7 @@ export default { id: "awtsMobileSettingsRoot", children: [
   { id: "awtsMobileSettings", children: [
     { className: "awts-setting-title", textContent: "B\"H Mobile Settings" },
     row("Joystick vertical invert", "invertY"), row("Joystick horizontal invert", "invertX"), row("Reduced motion / no blur", "reducedMotion"), row("Quality", "quality", "select", ["speed", "balanced", "beauty"]),
-    { className: "awts-setting-copy", tag: "button", textContent: "COPY DIAGNOSTICS", ready(el) { window.__AWTSMOOS_MOBILE_SETTINGS_COPY__ = copy; el.addEventListener("pointerdown", e => { stop(e); navigator.clipboard?.writeText?.(copy()); console.info("B\"H | MOBILE_SETTINGS_COPY", copy()); }); } },
+    { className: "awts-setting-copy", tag: "button", textContent: "COPY DIAGNOSTICS", ready(el) { window.__AWTSMOOS_MOBILE_SETTINGS_COPY__ = copy; el.addEventListener("pointerdown", e => { stop(e); const payload = copy(); navigator.clipboard?.writeText?.(payload)?.catch?.(() => {}); console.info("B\"H | MOBILE_SETTINGS_COPY", payload); }); } },
     { className: "awts-setting-copy", tag: "button", textContent: "RESET DEFAULTS", ready(el) { el.addEventListener("pointerdown", e => { stop(e); save({ ...DEFAULTS }); }); } }
   ] }, { tag: "style", innerHTML: css }
 ] };

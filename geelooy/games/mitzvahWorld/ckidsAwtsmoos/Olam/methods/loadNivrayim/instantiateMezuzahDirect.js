@@ -1,17 +1,11 @@
 // B"H
 /**
  * @file instantiateMezuzahDirect.js
- * @description
- * Chapter 416: The direct constructor drinks the rooted Chossid seal.
- *
- * The Awtsmoos keeps the player in the direct map so compact runtime cannot
- * summon a stale imported soul. This factory now points Chossid creation at the
- * visible-root binding seal, while every direct entity still enters through one
- * clear data map.
+ * @description Direct constructors with fresh Chossid grounding seal.
  */
 import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=village-combat-20260611-bh802';
 import Utils from '../../../utils.js';
-import ChossidDirect from '../../../chayim/chossid/index.js?v=zone-reality-20260614-bh813';
+import ChossidDirect from '../../../chayim/chossid/index.js?v=player-foot-ground-contract-20260701-bh3';
 import SolidBlockDirect from '../../../dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh620';
 import MovingPlatformDirect from '../../../dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh620';
 import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=lava-camera-axis-20260609-bh640';

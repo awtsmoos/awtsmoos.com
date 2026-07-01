@@ -1,15 +1,14 @@
 // B"H
 /**
  * @file classMap.js
- * @description
- * Chapter 1006: old procedural tree classes are not instantiable here.
+ * @description Class import map with fresh Chossid grounding seal.
  */
 export default {
-  Domem: "../../chayim/domem/index.js",
+  Domem: "../../chayim/domem/index.js?v=domem-visible-ground-authority-20260701-bh1",
   Tzomayach: "../../chayim/tzomayach.js",
-  Chai: "../../chayim/chai/index.js",
+  Chai: "../../chayim/chai/index.js?v=player-foot-ground-contract-20260701-bh3",
   Medabeir: "../../chayim/medabeir/index.js",
-  Chossid: "../../chayim/chossid/index.js?v=zone-reality-20260614-bh813",
+  Chossid: "../../chayim/chossid/index.js?v=player-foot-ground-contract-20260701-bh3",
   Tool: "../../dvarim/tool.js",
   Coin: "../../dvarim/coin.js",
   Container: "../../dvarim/container.js",
@@ -27,7 +26,7 @@ export default {
   ProceduralRiver: "../../dvarim/nature/proceduralRiver.js",
   Forest: "../../dvarim/nature/forest.js",
   ProceduralPool: "../../dvarim/nature/proceduralPool.js",
-  ProceduralTerrain: "../../dvarim/terrain/ProceduralTerrain.js?v=village-no-safety-slab-20260609-bh622",
+  ProceduralTerrain: "../../dvarim/terrain/ProceduralTerrain.js?v=visible-ground-authority-20260701-bh1",
   Shovel: "../../dvarim/tools/shovel.js",
   Pickaxe: "../../dvarim/tools/pickaxe.js",
   RoadTool: "../../dvarim/tools/roadTool.js",

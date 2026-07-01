@@ -1,27 +1,12 @@
 // B"H
+const Recovery = require('../../../lib/runtime/recovery-envelope.js');
 
-/**
- * B"H
- * Chapter 542: The payload came wearing many coats.
- * The Awtsmoos in the code reveals one nefesh behind params, JSON strings,
- * direct fields, console output, and human-written proof details. This module
- * makes mission actions remember the same truth no matter which coat arrived.
- */
 function parsedParams(params) {
-  if (!params) return {};
-  if (typeof params === 'object' && !Array.isArray(params)) return params;
-  if (typeof params !== 'string') return {};
-  try {
-    const parsed = JSON.parse(params);
-    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
-  } catch {
-    return {};
-  }
+  return Recovery.parsedParams(params);
 }
 
 function mergedPayload(payload = {}) {
-  const decoded = parsedParams(payload.params);
-  return { ...decoded, ...payload };
+  return Recovery.normalizeActionPayload(payload);
 }
 
 function firstPresent(input, keys) {
@@ -45,30 +30,11 @@ function normalizeStartPayload(input = {}) {
 
 function normalizeEvidencePayload(input = {}) {
   const proof = firstPresent(input, [
-    'proof',
-    'observedProof',
-    'details',
-    'detail',
-    'output',
-    'stdout',
-    'stderr',
-    'result',
-    'data',
-    'body'
+    'proof', 'observedProof', 'details', 'detail', 'output', 'stdout',
+    'stderr', 'result', 'data', 'body'
   ]);
   const claim = firstPresent(input, ['claim', 'message', 'text', 'query', 'title', 'summary']) || '';
-  return {
-    ...input,
-    kind: input.kind || input.type || 'note',
-    claim: String(claim),
-    proof,
-    ok: input.ok === undefined ? true : input.ok
-  };
+  return { ...input, kind: input.kind || input.type || 'note', claim: String(claim), proof, ok: input.ok === undefined ? true : input.ok };
 }
 
-module.exports = {
-  parsedParams,
-  mergedPayload,
-  normalizeStartPayload,
-  normalizeEvidencePayload
-};
+module.exports = { parsedParams, mergedPayload, normalizeStartPayload, normalizeEvidencePayload };

@@ -38,8 +38,9 @@ function buildCommandActions(ctx) {
 
 async function runSmart(config, payload = {}, action = 'command') {
   if (shouldRunSync(payload)) return await runCommand(config, payload, action);
-  const job = await startCommandJob(config, { ...payload, action: 'commandStart' });
-  return { ...job, action, mode: 'async_job', syncOptIn: 'Set sync:true only for tiny commands.' };
+  const job = await startCommandJob(config, { ...payload, action: 'commandStart', requestAction: action, actualAction: 'commandStart' });
+  const summary = `Started ${action} in isolated subprocess worker.`;
+  return { ...job, action, requestAction: action, actualAction: 'commandStart', summary, mode: 'async_job', syncOptIn: 'Set sync:true only for tiny commands.' };
 }
 
 async function runCommand(config, payload = {}, action = 'command') {

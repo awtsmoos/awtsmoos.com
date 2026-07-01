@@ -2,21 +2,26 @@
 const { loadConfig } = require('../config.js');
 const C = require('./correlation.js');
 const A = require('./aliases.js');
+const R = require('./recovery-envelope.js');
+const Compact = require('./envelope-compact.js');
+
+/**
+ * B"H
+ * The envelope is the last gate before speech.
+ * It preserves the requested action name, prevents mission hijacks, and can
+ * fold mission thunder into a compact compass when responseMode asks for it.
+ */
 function responseEnvelope(data = {}, payload = {}, result, enqueuedAt, stats) {
-  const safe = result && typeof result === 'object' ? { ...result } : { ok: true, value: result };
-  const requestAction = String(payload.action || safe.requestAction || safe.action || '');
-  const rawAction = String(safe.action || '');
-  if (missionHijack(requestAction, rawAction, safe)) {
-    safe.mission = { ...(safe.mission || {}), identityGuard: { preventedTopLevelAction: rawAction, requestAction } };
-    if (!safe.autoContinuationFinal) safe.autoContinuationFinal = { action: rawAction };
-    safe.action = requestAction;
-  }
-  const finalAction = String(safe.action || requestAction || rawAction || '');
-  const actualAction = String(safe.actualAction || finalAction || requestAction || '');
+  const safe = normalizeResult(result);
+  const identity = R.normalizeActionIdentity({ ...payload, action: payload.action || safe.requestAction || safe.action });
+  const requestAction = identity.requestAction;
+  preventMissionHijack(safe, requestAction);
+  const finalAction = String(safe.action || requestAction || identity.action || '');
+  const actualAction = String(safe.actualAction || identity.actualAction || finalAction || requestAction || '');
   const actionMismatch = Boolean(requestAction && finalAction && requestAction !== finalAction && !A.allowed(requestAction, finalAction));
-  for (const key of ['type', 'id', 'controlRequestId', 'queueStats', 'queuedMs']) delete safe[key];
+  const compact = Compact.compactMissionSurface(stripTransportFields(safe), payload);
   return {
-    ...safe,
+    ...compact,
     type: 'TUNNEL_RESPONSE',
     id: data.id,
     ...C.fields({ ...payload, tunnelName: payload.tunnelName || loadConfig().tunnelName, requestedTunnelName: payload.requestedTunnelName || payload.tunnelName || '' }),
@@ -28,10 +33,30 @@ function responseEnvelope(data = {}, payload = {}, result, enqueuedAt, stats) {
     queueStats: stats()
   };
 }
+
+function normalizeResult(result) {
+  return result && typeof result === 'object' ? { ...result } : { ok: true, value: result };
+}
+
+function stripTransportFields(safe) {
+  const copy = { ...safe };
+  for (const key of ['type', 'id', 'controlRequestId', 'queueStats', 'queuedMs']) delete copy[key];
+  return copy;
+}
+
+function preventMissionHijack(safe, requestAction) {
+  const rawAction = String(safe.action || '');
+  if (!missionHijack(requestAction, rawAction, safe)) return;
+  safe.mission = { ...(safe.mission || {}), identityGuard: { preventedTopLevelAction: rawAction, requestAction } };
+  if (!safe.autoContinuationFinal) safe.autoContinuationFinal = { action: rawAction };
+  safe.action = requestAction;
+}
+
 function missionHijack(requestAction, rawAction, result = {}) {
   if (!requestAction || !rawAction || requestAction === rawAction) return false;
   if (!rawAction.startsWith('mission') && !rawAction.startsWith('actionHistory')) return false;
   return result.requestAction === requestAction || result.originalAction === requestAction ||
     !!result.autoContinuationFinal || !!result.mission || !!result.mustCallNext || !!result.nextRequiredToolCall;
 }
+
 module.exports = { responseEnvelope, missionHijack };

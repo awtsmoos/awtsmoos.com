@@ -1,0 +1,4 @@
+/* B"H buttons: scoped command seals. */
+.g-social-button{min-height:var(--g-touch);display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--g-line-2);border-radius:999px;padding:.72rem 1rem;background:rgba(255,255,255,.07);color:var(--g-ink);font:inherit;font-weight:900;text-decoration:none;cursor:pointer;}
+.g-social-button[data-primary],.g-social-button.primary{background:linear-gradient(135deg,var(--g-gold),var(--g-gold-2));color:#130c03;border-color:rgba(255,224,154,.55);}
+.g-social-button[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(.35);}

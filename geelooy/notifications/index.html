@@ -1,1 +1,40 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notifications</title><link rel="stylesheet" href="/style/social/notifications.css"><script defer src="/notifications/app.js"></script></head><body><main class="notifications-page"><h1>Notifications</h1><form id="filters"><input name="aliasId" placeholder="Alias ID" required><input name="search" placeholder="Search"><select name="type"><option value="">All types</option><option value="submission_created">Submissions</option><option value="comment">Comments</option><option value="mention">Mentions</option><option value="system">System</option></select><button>Load</button><button type="button" id="markAll">Mark all read</button></form><section id="summary"></section><section id="list" aria-live="polite"></section><button id="more" hidden>Load more</button></main></body></html>
+<!-- B"H -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Notifications | Geelooy Signal Stream</title>
+  <meta name="description" content="Geelooy notifications: search, filter, and clear social signals for an alias.">
+  <meta name="theme-color" content="#050711">
+  <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-004">
+  <link rel="stylesheet" href="/style/social/notifications.css?v=social-os-003">
+  <script defer src="/notifications/app.js?v=social-os-002"></script>
+</head>
+<body>
+  <a class="notifications-skip" href="#list">Skip to signal list</a>
+  <main class="notifications-page" aria-labelledby="notifications-title">
+    <section class="notifications-hero" aria-describedby="notifications-summary-copy">
+      <p class="notifications-kicker">Signal stream</p>
+      <h1 id="notifications-title">Notifications</h1>
+      <p id="notifications-summary-copy">Track comments, mentions, system pulses, and Heichel movements for any alias.</p>
+      <nav class="notifications-dock" aria-label="Connected routes">
+        <a href="/">Home</a><a href="/profile">Profile</a><a href="/email">Mail</a><a href="/heichelos">Heichelos</a>
+      </nav>
+    </section>
+
+    <form id="filters" class="notifications-console" aria-label="Notification filters">
+      <label><span>Alias ID</span><input name="aliasId" autocomplete="off" placeholder="your-alias" required></label>
+      <label><span>Search</span><input name="search" type="search" autocomplete="off" placeholder="comment, mention, title..."></label>
+      <label><span>Type</span><select name="type"><option value="">All types</option><option value="submission_created">Submissions</option><option value="comment">Comments</option><option value="mention">Mentions</option><option value="system">System</option></select></label>
+      <div class="notifications-actions"><button type="submit">Load signals</button><button type="button" id="markAll">Mark all read</button></div>
+    </form>
+
+    <section id="summary" class="notifications-summary" aria-live="polite">Enter an alias ID to reveal the stream.</section>
+    <section id="list" class="notifications-list" aria-live="polite" aria-label="Notification results">
+      <article class="notification state"><h2>Awaiting alias</h2><p>The graph is quiet until an identity is chosen.</p></article>
+    </section>
+    <button id="more" class="notifications-more" hidden>Load more</button>
+  </main>
+</body>
+</html>

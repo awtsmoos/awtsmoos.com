@@ -1,0 +1,4 @@
+/* B"H state cards: quiet, loading, error, success. */
+.g-social-empty{border:1px dashed var(--g-line-2);border-radius:var(--g-radius-2);padding:1rem;color:var(--g-muted);background:rgba(255,255,255,.04);}
+.g-social-error{border-color:rgba(255,111,145,.38);color:#ffd8e1;}
+.g-social-success{border-color:rgba(103,240,189,.35);color:#d9ffef;}

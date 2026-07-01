@@ -9,7 +9,7 @@
 import hud from "./hud.js?v=mission-card-ui-20260610-bh711";
 import missionCard from "./missionCard.js?v=village-polish-20260612-bh810";
 import unitFrames from "./unitFrames.js?v=mobile-unitframes-nameplates-progress-20260615-bh904";
-import settingsPanel from "./settingsPanel.js?v=balanced-quality-default-20260621-bh2";
+import settingsPanel from "./settingsPanel.js?v=player-probe-copy-20260701-bh1";
 import effectsOverlay from "../components/effectsOverlay.js?v=ray-ground-ui-20260602-bh126";
 import joystick from "../joystick.js?v=android-mobile-separated-controls-20260612-bh1";
 import ActionBar from "./actionBar.js?v=direct-worker-actionbar-20260615-bh916";
@@ -51,7 +51,6 @@ const MobileFeatureRoots = { shaym:"mobileFeatureRoots", className:"mobile-featu
 const vessels = [hud, unitFrames, MobileFeatureRoots, missionCard, PerutahProgress, ActionBar, settingsPanel, InventoryStyle, InventoryScreen, storeScreen, npcGuideOverlay, ...dialogues, effectsOverlay, Toast, InteractionPrompt];
 if (isMobileLike) vessels.push(...joystick);
 export default vessels;
-
 
 
 

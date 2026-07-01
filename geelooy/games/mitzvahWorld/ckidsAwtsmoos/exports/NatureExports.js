@@ -1,6 +1,6 @@
 // B"H
 /** @module NatureExports @description Nature exports: procedural trees, parcel fences, gates, doors, and exact collider vessels. */
-export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=zone-reality-20260614-bh813";
+export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=visible-ground-authority-20260701-bh1";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?v=soft-country-sky-fog-20260603-bh237";
 export { default as Forest } from "../dvarim/nature/forest.js?v=exclusive-procedural-core-tree-20260614-bh3";
 export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?v=shader-ground-20260604-bh437";

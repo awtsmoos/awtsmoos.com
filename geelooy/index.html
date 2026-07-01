@@ -1,111 +1,45 @@
-<!--B"H
-  Geelooy home shell.
-  Responsibilities: orient the user, expose primary routes, preserve live feed contracts,
-  and make creation, recovery, profile, mail, and Heichelos reachable without mystery.
-  Contracts: data-home-feed, data-feed-mode, data-object-inspector, and the existing
-  liveFeed/beauty/legend modules remain mounted exactly once.
-  Failure modes: live feed may be empty or error; the static shell must still provide
-  navigation, recovery, and creation routes.
--->
+<!--B"H Geelooy home shell: command center with inline social actions and route fallbacks. -->
 <?<script>
 return $a("/nav/page.html", {
   centered: false,
   footer: true,
   tochen: /*html*/`
     <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-004">
-    <link rel="stylesheet" href="/style/social/home/index.css?v=legend-007">
+    <link rel="stylesheet" href="/style/social/home/index.css?v=social-inline-001">
     <a class="home-skip-link" href="#home-live-region">Skip to live feed</a>
     <main class="geelooy-home-shell legend-page-enter awtsmoos-civilization-dashboard" data-civilization-dashboard data-home-dashboard data-home-reduced-motion-safe aria-labelledby="home-awtsmoos-title" aria-describedby="home-page-summary">
       <aside class="home-sanctuary-card civilization-command-card" aria-labelledby="home-awtsmoos-title">
         <div class="home-logo-mark beauty-seal" aria-hidden="true">⚬</div>
         <p class="home-kicker">Awtsmoos Civilization OS</p>
         <h1 id="home-awtsmoos-title">Geelooy</h1>
-        <p id="home-page-summary" class="home-hero-copy">You are on the Geelooy home dashboard: the entry point for live posts, mail, profiles, Heichelos, notifications, creation, and recovery routes.</p>
+        <p id="home-page-summary" class="home-hero-copy">You are on the Geelooy home dashboard: live posts, mail, profiles, Heichelos, notifications, creation, and recovery routes.</p>
         <nav class="home-command-dock" aria-label="Primary Geelooy routes">
-          <a href="/" data-primary="true" aria-current="page"><span>Home</span><small>Live stream</small></a>
-          <a href="/email"><span>Mail</span><small>Messages</small></a>
-          <a href="/heichelos"><span>Heichelos</span><small>Spaces</small></a>
-          <a href="/profile"><span>Profile</span><small>Aliases</small></a>
-          <a href="/notifications"><span>Alerts</span><small>Signals</small></a>
+          <a href="/" data-primary="true" aria-current="page"><span>Home</span><small>Live stream</small></a><a href="/email"><span>Mail</span><small>Messages</small></a><a href="/heichelos"><span>Heichelos</span><small>Spaces</small></a><a href="/profile"><span>Profile</span><small>Aliases</small></a><a href="/notifications"><span>Alerts</span><small>Signals</small></a>
         </nav>
-        <nav class="home-command-dock home-task-dock" aria-label="Common next actions">
-          <a href="/heichelos/submit"><span>Create</span><small>Submit a post</small></a>
-          <a href="/heichelos/manage-alias-heichelos/"><span>Manage</span><small>Build a Heichel</small></a>
-          <a href="/profile"><span>Identity</span><small>Switch alias</small></a>
-          <a href="/heichelos"><span>Recover</span><small>Return to spaces</small></a>
-        </nav>
+        <section class="home-inline-actions" data-home-inline-actions aria-label="Inline social actions">
+          <div class="home-inline-grid">
+            <button type="button" data-inline-action="post" aria-expanded="false"><span>Create inline</span><small>Composer shell + submit fallback</small></button>
+            <button type="button" data-inline-action="notifications" aria-expanded="false"><span>Preview alerts</span><small>AJAX graph pulses</small></button>
+            <button type="button" data-inline-action="heichel" aria-expanded="false"><span>Forge Heichel</span><small>AJAX world creation</small></button>
+            <button type="button" data-inline-action="alias" aria-expanded="false"><span>Switch alias</span><small>Default alias quick save</small></button>
+          </div>
+          <nav class="home-command-dock home-task-dock" aria-label="Common next actions"><a href="/heichelos/submit"><span>Full create</span><small>Submit route</small></a><a href="/heichelos/manage-alias-heichelos/"><span>Full manage</span><small>Admin cockpit</small></a></nav>
+        </section>
         <form class="home-command-galaxy" data-home-command data-home-search role="search" action="/heichelos" method="get" aria-describedby="home-search-hint">
-          <label class="home-command-label" for="home-global-search">Reveal the living archive</label>
-          <div class="home-search-vessel">
-            <input id="home-global-search" name="q" type="search" placeholder="Search posts, heichelos, aliases, graph objects..." autocomplete="off" aria-label="Search Geelooy" />
-            <button type="submit">Reveal</button>
-          </div>
-          <p id="home-search-hint" class="home-search-hint">Try an alias, heichel id, post title, comment phrase, or graph object.</p>
+          <label class="home-command-label" for="home-global-search">Reveal the living archive</label><div class="home-search-vessel"><input id="home-global-search" name="q" type="search" placeholder="Search posts, heichelos, aliases, graph objects..." autocomplete="off" aria-label="Search Geelooy" /><button type="submit">Reveal</button></div><p id="home-search-hint" class="home-search-hint">Try an alias, heichel id, post title, comment phrase, or graph object.</p>
         </form>
-        <section class="home-route-constellation" aria-label="Fast routes">
-          <a class="home-route-card" href="/heichelos">Spaces</a>
-          <a class="home-route-card" href="/heichelos/submit">Write</a>
-          <a class="home-route-card" href="/email">Mail</a>
-          <a class="home-route-card" href="/notifications">Alerts</a>
-        </section>
-        <section class="home-hero-stats" aria-label="Platform highlights">
-          <article><strong>Live</strong><span>Feed runtime</span></article>
-          <article><strong>Graph</strong><span>Connected objects</span></article>
-          <article><strong>Safe</strong><span>Motion aware</span></article>
-        </section>
+        <section class="home-route-constellation" aria-label="Fast routes"><a class="home-route-card" href="/heichelos">Spaces</a><a class="home-route-card" href="/heichelos/submit">Write</a><a class="home-route-card" href="/email">Mail</a><a class="home-route-card" href="/notifications">Alerts</a></section>
       </aside>
-
       <section class="home-feed-phone beauty-reveal civilization-feed-orb" id="home-live-region" aria-labelledby="home-live-title" tabindex="-1">
-        <header class="home-feed-header">
-          <div class="home-menu-wrap" data-home-menu>
-            <button class="home-menu-button" type="button" aria-label="Open Heichelos menu" aria-haspopup="menu" aria-expanded="false" aria-controls="home-heichelos-menu">☰</button>
-            <nav class="home-heichelos-menu" id="home-heichelos-menu" hidden role="menu" aria-label="Heichelos quick menu">
-              <a role="menuitem" href="/heichelos"><strong>Open Heichelos</strong><small>Browse all living spaces</small></a>
-              <a role="menuitem" href="/heichelos/submit"><strong>Create post</strong><small>Launch words into a Heichel</small></a>
-              <a role="menuitem" href="/heichelos/manage-alias-heichelos/"><strong>Manage spaces</strong><small>Build and edit Heichelos</small></a>
-              <a role="menuitem" href="/profile"><strong>Switch identity</strong><small>Choose the active alias</small></a>
-            </nav>
-          </div>
-          <div class="home-feed-title"><strong id="home-live-title">Geelooy Live</strong><span>Signals from the civilization stream</span></div>
-          <a class="home-profile-pill" href="/profile">Profile</a>
-        </header>
-        <nav class="home-feed-tabs civilization-layer-tabs" aria-label="Feed tabs">
-          <button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For You</button>
-          <button type="button" data-feed-mode="following" aria-pressed="false">Following</button>
-          <button type="button" data-feed-mode="trending" aria-pressed="false">Trending</button>
-          <button type="button" data-feed-mode="search" aria-pressed="false">Search</button>
-        </nav>
-        <article class="home-composer"><span aria-hidden="true"></span><a href="/heichelos/submit">What is being revealed in your world?</a></article>
-        <section class="home-status-rail" aria-label="Runtime states and recovery">
-          <article class="home-state-card" data-home-loading-state><strong>Loading</strong><span>Live feed opens safely.</span></article>
-          <article class="home-state-card" data-home-empty-state><strong>Empty</strong><span>Clear actions appear.</span></article>
-          <article class="home-state-card" data-home-error-state><strong>Error</strong><span>Failures stay readable.</span></article>
-          <article class="home-state-card"><strong>Recover</strong><span><a href="/heichelos">Open Heichelos</a> or <a href="/profile">switch identity</a>.</span></article>
-        </section>
-        <section class="civilization-metrics" data-civilization-metrics aria-live="polite"></section>
-        <section class="home-feed-list" data-home-feed aria-live="polite">
-          <article class="home-post-card home-feed-loading" data-feed-placeholder="live">
-            <div class="post-author"><span></span><strong>Live feed</strong><small>AwtsmoosDB</small></div>
-            <p>Loading real posts from the live social runtime...</p>
-          </article>
-        </section>
+        <header class="home-feed-header"><div class="home-menu-wrap" data-home-menu><button class="home-menu-button" type="button" aria-label="Open Heichelos menu" aria-haspopup="menu" aria-expanded="false" aria-controls="home-heichelos-menu">☰</button><nav class="home-heichelos-menu" id="home-heichelos-menu" hidden role="menu" aria-label="Heichelos quick menu"><a role="menuitem" href="/heichelos"><strong>Open Heichelos</strong><small>Browse all living spaces</small></a><a role="menuitem" href="/heichelos/submit"><strong>Create post</strong><small>Full submit fallback</small></a><a role="menuitem" href="/heichelos/manage-alias-heichelos/"><strong>Manage spaces</strong><small>Build and edit Heichelos</small></a><a role="menuitem" href="/profile"><strong>Switch alias</strong><small>Choose active alias</small></a></nav></div><div class="home-feed-title"><strong id="home-live-title">Geelooy Live</strong><span>Signals from the civilization stream</span></div><a class="home-profile-pill" href="/profile">Profile</a></header>
+        <nav class="home-feed-tabs civilization-layer-tabs" aria-label="Feed tabs"><button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For You</button><button type="button" data-feed-mode="following" aria-pressed="false">Following</button><button type="button" data-feed-mode="trending" aria-pressed="false">Trending</button><button type="button" data-feed-mode="search" aria-pressed="false">Search</button></nav>
+        <article class="home-composer"><span aria-hidden="true"></span><button type="button" data-inline-action="post" aria-expanded="false">What is being revealed in your world?</button><a href="/heichelos/submit">Full submit</a></article>
+        <section class="home-status-rail" aria-label="Runtime states and recovery"><article class="home-state-card" data-home-loading-state><strong>Loading</strong><span>Live feed opens safely.</span></article><article class="home-state-card" data-home-empty-state><strong>Empty</strong><span>Clear actions appear.</span></article><article class="home-state-card" data-home-error-state><strong>Error</strong><span>Failures stay readable.</span></article><article class="home-state-card"><strong>Recover</strong><span><a href="/heichelos">Open Heichelos</a> or <a href="/profile">switch identity</a>.</span></article></section>
+        <section class="civilization-metrics" data-civilization-metrics aria-live="polite"></section><section class="home-feed-list" data-home-feed aria-live="polite"><article class="home-post-card home-feed-loading" data-feed-placeholder="live"><div class="post-author"><span></span><strong>Live feed</strong><small>AwtsmoosDB</small></div><p>Loading real posts from the live social runtime...</p></article></section>
       </section>
-
-      <aside class="home-discovery-card civilization-object-inspector" data-object-inspector id="awtsmoos-object-inspector" aria-labelledby="home-inspector-title">
-        <p class="home-kicker">Object Inspector</p>
-        <h2 id="home-inspector-title">Choose a living object</h2>
-        <p>Open any live card to reveal route, graph hints, civilization state, and raw metadata.</p>
-        <div class="home-inspector-chips" aria-label="Inspector capabilities"><span>Route</span><span>Graph</span><span>State</span><span>Raw</span></div>
-        <div class="object-inspector-body" data-object-inspector-body>
-          <section class="object-inspector-section home-inspector-empty"><h3>Awaiting selection</h3><p>Keyboard users can focus a card and press Enter to inspect it.</p></section>
-        </div>
-      </aside>
+      <aside class="home-discovery-card civilization-object-inspector" data-object-inspector id="awtsmoos-object-inspector" aria-labelledby="home-inspector-title"><p class="home-kicker">Object Inspector</p><h2 id="home-inspector-title">Choose a living object</h2><p>Open any live card to reveal route, graph hints, civilization state, and raw metadata.</p><div class="home-inspector-chips" aria-label="Inspector capabilities"><span>Route</span><span>Graph</span><span>State</span><span>Raw</span></div><div class="object-inspector-body" data-object-inspector-body><section class="object-inspector-section home-inspector-empty"><h3>Awaiting selection</h3><p>Keyboard users can focus a card and press Enter to inspect it.</p></section></div></aside>
     </main>
-    <script type="module" src="/scripts/awtsmoos/social/home/menu/index.js?v=legend-001"></script>
-    <script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=legend-004"></script>
-    <script type="module" src="/scripts/awtsmoos/social/home/beauty/index.js?v=legend-004"></script>
-    <script type="module" src="/scripts/awtsmoos/social/home/legend/index.js?v=legend-004"></script>
-    <script src="/register.js"></script>
+    <script type="module" src="/scripts/awtsmoos/social/home/menu/index.js?v=legend-001"></script><script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=legend-004"></script><script type="module" src="/scripts/awtsmoos/social/home/inline-actions/index.js?v=social-inline-001"></script><script type="module" src="/scripts/awtsmoos/social/home/beauty/index.js?v=legend-004"></script><script type="module" src="/scripts/awtsmoos/social/home/legend/index.js?v=legend-004"></script><script src="/register.js"></script>
   `
 })
 </script>?>

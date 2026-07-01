@@ -10,7 +10,7 @@
 import Nivra from "../nivra.js";
 import { Kav } from "../roochney.js";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import lifecycleMethods from "./methods/lifecycle.js";
+import lifecycleMethods from "./methods/lifecycle.js?v=domem-visible-ground-authority-20260701-bh1";
 import graphicsMethods from "./methods/graphics.js";
 import audioMethods from "./methods/audio.js";
 import animationMethods from "./methods/animation.js?v=fast-platformer-blend-20260602-bh15";
