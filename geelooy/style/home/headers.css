@@ -1,209 +1,28 @@
-/** B"H
- * Chapter 254: The roof no longer hides its own gate.
- * The Awtsmoos gives the global header a real touch target, luminous motion,
- * and a sidebar that slides like a revealed chamber instead of disappearing.
- */
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-header.awtsmoosificationalisticaticalism {
-    position: sticky;
-    top: 0;
-    z-index: 2147482000;
-    min-height: 52px;
-    height: 52px;
-    padding: 0 clamp(12px, 2vw, 20px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #f8fbff;
-    background:
-        radial-gradient(circle at 8% 0%, rgba(102,231,255,.2), transparent 16rem),
-        linear-gradient(180deg, rgba(7, 13, 27, .96), rgba(5, 9, 20, .92));
-    border-bottom: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 12px 34px rgba(0,0,0,.28), inset 0 -1px 0 rgba(255,255,255,.08);
-    backdrop-filter: blur(12px);
-}
-
-header.awtsmoosificationalisticaticalism .header-buttons {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    gap: 10px;
-}
-
-header.awtsmoosificationalisticaticalism .BH {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-header.awtsmoosificationalisticaticalism .BH .lg {
-    display: inline-block;
-    margin-left: -12px;
-    font-size: .74rem;
-    font-weight: 800;
-}
-
-header.awtsmoosificationalisticaticalism div#dropdownProfile {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-header.awtsmoosificationalisticaticalism .icon.btn,
-header.awtsmoosificationalisticaticalism .btn,
-header.awtsmoosificationalisticaticalism .header-buttons button,
-header.awtsmoosificationalisticaticalism .header-buttons a,
-header.awtsmoosificationalisticaticalism .header-buttons .button {
-    min-width: 42px;
-    min-height: 42px;
-    padding: 6px 12px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255,255,255,.16);
-    border-radius: 14px;
-    color: white;
-    text-decoration: none;
-    user-select: none;
-    cursor: pointer;
-    background: rgba(255,255,255,.07);
-    box-shadow: 0 8px 18px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.12);
-    transition: transform .18s ease, background .18s ease, color .18s ease;
-}
-
-header.awtsmoosificationalisticaticalism .btn:hover,
-header.awtsmoosificationalisticaticalism .header-buttons a:hover,
-header.awtsmoosificationalisticaticalism .header-buttons button:hover {
-    transform: translateY(-1px);
-    background: rgba(102,231,255,.16);
-    color: #ffffff;
-}
-
-.menuBtn {
-    width: 52px;
-    height: 38px !important;
-    padding: 0 !important;
-    display: grid !important;
-    place-items: center !important;
-}
-
-.menuBtn svg {
-    width: 32px;
-    height: 32px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,.38));
-}
-
+/** B"H — global roof gate: one hamburger, one language of buttons. */
+body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #060a13; }
+header.awtsmoosificationalisticaticalism { position: sticky; top: 0; z-index: 2147482000; min-height: 54px; height: 54px; padding: 0 clamp(10px, 2vw, 18px); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .65rem; color: #fffaf1; background: linear-gradient(180deg, rgba(7,13,27,.96), rgba(5,9,20,.91)); border-bottom: 1px solid rgba(255,255,255,.12); box-shadow: 0 12px 34px rgba(0,0,0,.28), inset 0 -1px 0 rgba(255,255,255,.08); backdrop-filter: blur(14px) saturate(1.2); }
+header.awtsmoosificationalisticaticalism .BH, header.awtsmoosificationalisticaticalism .header-buttons { display: flex; align-items: center; gap: .45rem; }
+header.awtsmoosificationalisticaticalism .header-buttons { justify-self: end; flex-direction: row-reverse; }
+header.awtsmoosificationalisticaticalism .header-brand { justify-self: center; color: #f8d16f; font-weight: 1000; letter-spacing: -.03em; }
+header.awtsmoosificationalisticaticalism .BH .lg { display: inline-block; font-size: .72rem; font-weight: 950; color: rgba(255,250,241,.72); }
+header.awtsmoosificationalisticaticalism div#dropdownProfile { display: inline-flex; align-items: center; justify-content: center; }
+header.awtsmoosificationalisticaticalism :is(.icon.btn,.btn,.header-buttons button,.header-buttons a,.header-buttons .button) { min-width: 42px; min-height: 42px; padding: 0 .78rem; display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.14); border-radius: 15px; color: #fffaf1; text-decoration: none; user-select: none; cursor: pointer; background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.045)); box-shadow: 0 8px 18px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.12); transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease; }
+header.awtsmoosificationalisticaticalism :is(.btn,.header-buttons a,.header-buttons button):hover { transform: translateY(-1px); border-color: rgba(117,231,244,.42); background: rgba(117,231,244,.14); color: #ffffff; }
+header.awtsmoosificationalisticaticalism :is(.btn,.header-buttons a,.header-buttons button):focus-visible, .sidebarMitzvah a:focus-visible { outline: 2px solid rgba(117,231,244,.58); outline-offset: 2px; }
+.menuBtn { width: 44px !important; height: 42px !important; padding: 0 !important; display: grid !important; place-items: center !important; font-size: 1.18rem; line-height: 1; }
+.menuBtn.is-open { color: #06101b !important; background: linear-gradient(135deg, #f8d16f, #74e8f3) !important; }
+.menuBtn svg { width: 30px; height: 30px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.38)); }
 .menuBtnRect { fill: transparent; pointer-events: all; }
-
-.sidebarMitzvah {
-    position: fixed;
-    top: 52px;
-    right: 0;
-    left: auto;
-    z-index: 2147481900;
-    width: min(82vw, 310px);
-    height: calc(100dvh - 52px);
-    padding: 20px;
-    display: grid;
-    align-content: start;
-    gap: 8px;
-    overflow-y: auto;
-    color: #f0f7ff;
-    background:
-        radial-gradient(circle at 20% 0%, rgba(34, 211, 238, .18), transparent 12rem),
-        linear-gradient(180deg, rgba(4, 10, 22, .96), rgba(2, 5, 12, .98));
-    border-left: 1px solid rgba(34,211,238,.34);
-    box-shadow: -18px 0 70px rgba(0,0,0,.45), inset 1px 0 0 rgba(255,255,255,.08);
-    backdrop-filter: blur(16px) saturate(130%);
-    transform: translateX(0);
-    transition: transform .42s cubic-bezier(.2,.9,.2,1), opacity .25s ease;
-}
-
-.sidebarMitzvah.offscreen {
-    transform: translateX(106%);
-    opacity: .85;
-    pointer-events: none;
-}
-
-.sidebarMitzvah a {
-    position: relative;
-    display: block;
-    min-height: 46px;
-    padding: 12px 14px;
-    border: 1px solid rgba(255,255,255,.10);
-    border-radius: 16px;
-    color: #d9efff;
-    text-decoration: none;
-    font-weight: 800;
-    letter-spacing: .02em;
-    background: rgba(255,255,255,.045);
-    overflow: hidden;
-    transition: transform .18s ease, color .18s ease, background .18s ease;
-}
-
-.sidebarMitzvah a::after {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-end: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, #00eaff, #f8d682);
-    transform: translateX(-100%);
-    transition: transform .3s ease;
-}
-
-.sidebarMitzvah a:hover {
-    transform: translateX(-2px);
-    color: #ffffff;
-    background: rgba(34,211,238,.12);
-}
-
-.sidebarMitzvah a:hover::after { transform: translateX(0); }
-
+.sidebarMitzvah { position: fixed; top: 62px; right: .6rem; left: auto; z-index: 2147481900; width: min(86vw, 330px); max-height: calc(100dvh - 74px); padding: .7rem; display: grid; align-content: start; gap: .45rem; overflow-y: auto; color: #fffaf1; background: linear-gradient(180deg, rgba(9,14,28,.98), rgba(4,8,18,.98)); border: 1px solid rgba(255,255,255,.13); border-radius: 1.25rem; box-shadow: -18px 18px 70px rgba(0,0,0,.45), inset 1px 0 0 rgba(255,255,255,.08); backdrop-filter: blur(18px) saturate(130%); transform: translateY(0) scale(1); transform-origin: top right; opacity: 1; transition: transform .22s ease, opacity .18s ease; }
+.sidebarMitzvah.offscreen { transform: translateY(-.4rem) scale(.98); opacity: 0; pointer-events: none; }
+.sidebarMitzvah a { position: relative; display: grid; align-items: center; min-height: 48px; padding: .8rem .9rem; border: 1px solid rgba(255,255,255,.10); border-radius: 1rem; color: #fffaf1; text-decoration: none; font-weight: 900; letter-spacing: -.01em; background: rgba(255,255,255,.055); overflow: hidden; transition: transform .18s ease, color .18s ease, background .18s ease; }
+.sidebarMitzvah a::after { content: ""; position: absolute; inset-inline: .8rem; inset-block-end: .35rem; height: 2px; border-radius: 999px; background: linear-gradient(90deg, #74e8f3, #f8d16f); transform: scaleX(0); transform-origin: left; transition: transform .22s ease; }
+.sidebarMitzvah a:hover { transform: translateY(-1px); color: #ffffff; background: rgba(117,231,244,.12); }
+.sidebarMitzvah a:hover::after { transform: scaleX(1); }
 .hidden { display: none !important; }
 .center { display: flex; align-items: center; justify-content: center; }
-
-.loading-circle {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #c6c6c6;
-    border-top-color: #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
+.loading-circle { width: 46px; height: 46px; border: 4px solid rgba(255,255,255,.18); border-top-color: #74e8f3; border-radius: 50%; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-a.home.icon {
-    font-size: 30px;
-    transition: transform .5s ease;
-    will-change: transform;
-}
-
-a.home.icon:hover {
-    cursor: pointer;
-    transform: rotate(15deg) scale(1.26);
-}
-
-@media screen and (max-width: 600px) {
-    header.awtsmoosificationalisticaticalism { padding-inline: 12px; }
-    header.awtsmoosificationalisticaticalism .currentAliasName.prim {
-        max-width: 34vw;
-        display: inline-flex;
-        overflow-x: auto;
-        align-content: center;
-    }
-    .currentAliasName.prim::-webkit-scrollbar { display: none; }
-}
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-header.awtsmoosificationalisticaticalism .menuBtn { flex: 0 0 auto; }
+a.home.icon { font-size: 1.25rem; transition: transform .2s ease; will-change: transform; }
+a.home.icon:hover { cursor: pointer; transform: translateY(-1px) scale(1.08); }
+@media screen and (max-width: 600px) { header.awtsmoosificationalisticaticalism { top: .35rem; width: calc(100% - .9rem); height: 52px; min-height: 52px; margin: 0 auto .4rem; border: 1px solid rgba(255,255,255,.12); border-radius: 1.35rem; } header.awtsmoosificationalisticaticalism .currentAliasName.prim { max-width: 34vw; display: inline-flex; overflow-x: auto; align-content: center; } .currentAliasName.prim::-webkit-scrollbar { display: none; } .sidebarMitzvah { top: 4.15rem; right: .55rem; } }

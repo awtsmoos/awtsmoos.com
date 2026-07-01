@@ -1,44 +1,8 @@
-/* B"H
- * Chapter 587: the home command dock becomes a small living mizbeach of actions.
- */
-.home-command-dock {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: .55rem;
-  margin: 1rem 0 0;
-}
-.home-command-dock a {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: .25rem .7rem;
-  align-content: center;
-  min-height: 3.25rem;
-  padding: .72rem .82rem;
-  border-radius: .9rem;
-  border: 1px solid var(--awt-panel-border, rgba(255,255,255,.14));
-  background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.045));
-  color: #fff8df;
-  text-decoration: none;
-  font-weight: 950;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
-  overflow: hidden;
-}
-.home-command-dock a::before { content: ""; position: absolute; inset: .65rem auto .65rem .5rem; width: .18rem; border-radius: 999px; background: linear-gradient(180deg, var(--awt-home-gold,#f5ca70), var(--awt-home-cyan,#7be2ff)); opacity: .55; }
-.home-command-dock small { color: var(--g-muted); font-weight: 760; text-align: right; }
-.home-command-dock a:hover,
-.home-command-dock a:focus-visible {
-  background: linear-gradient(135deg, rgba(245,202,112,.24), rgba(123,226,255,.16));
-  transform: translateY(-2px);
-  outline: 2px solid rgba(123,226,255,.56);
-  outline-offset: 2px;
-  box-shadow: 0 1rem 2.2rem rgba(0,0,0,.24), 0 0 1.8rem rgba(123,226,255,.16);
-}
-.home-command-dock a[data-primary="true"] { color: #03101b; background: linear-gradient(135deg,var(--g-gold),var(--g-cyan)); }
-.home-command-dock a[data-primary="true"] small { color: rgba(22,14,5,.72); }
-@media (max-width: 980px) { .home-command-dock { grid-template-columns: repeat(2,minmax(0,1fr)); } .home-command-dock small { text-align: left; } }
-@media (max-width: 680px) {
-  .home-command-dock { position: sticky; bottom: .5rem; z-index: 40; grid-template-columns: repeat(5,minmax(0,1fr)); padding: .45rem; border-radius: 1.25rem; background: rgba(8,11,25,.86); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(16px); }
-  .home-command-dock a { min-height: 3.25rem; padding: .45rem .2rem; text-align: center; font-size: .72rem; }
-  .home-command-dock small, .home-command-dock a::before { display: none; }
-}
+/* B"H — shared bottom dock matching the target mockup. */
+.home-command-dock { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.35rem; margin:.45rem 0 0; padding:.45rem; border:1px solid rgba(255,255,255,.14); border-radius:1.35rem; background:rgba(8,13,27,.94); backdrop-filter:blur(16px); box-shadow:0 1rem 2.6rem rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.08); }
+.home-command-dock a { min-width:0; min-height:3.25rem; display:grid; place-items:center; padding:.25rem; border-radius:1rem; color:#fffaf1; text-decoration:none; font-size:.78rem; font-weight:950; background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.045)); border:1px solid rgba(255,255,255,.08); }
+.home-command-dock a[data-primary="true"], .home-command-dock a[aria-current="page"] { color:#06101b; background:linear-gradient(135deg,var(--g-gold),var(--g-cyan)); }
+.home-command-dock a.is-create { font-size:1.25rem; color:#06101b; background:linear-gradient(135deg,#ffe28a,#75e7f4); }
+.home-command-dock small, .home-command-dock a::before { display:none!important; }
+.home-command-dock a:focus-visible { outline:2px solid rgba(123,226,255,.55); outline-offset:2px; }
+@media (max-width:680px){ .home-command-dock{position:fixed;left:.6rem;right:.6rem;bottom:max(.55rem,env(safe-area-inset-bottom));z-index:1000}.home-command-dock a{min-height:3.15rem;font-size:.73rem}.home-command-dock a.is-create{font-size:1.35rem} }

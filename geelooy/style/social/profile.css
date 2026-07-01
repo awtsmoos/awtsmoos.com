@@ -1,4 +1,4 @@
-/* B"H profile dashboard entry: split chambers, scoped selectors, fallback route preserved. */
+/* B"H profile dashboard entry: every chamber imported, no stray button vessel. */
 @import "/style/social-system/tokens.css";
 @import "./profile/tokens.css";
 @import "/style/social-system/base.css";
@@ -12,4 +12,9 @@
 @import "./profile/heichelos.css";
 @import "./profile/inline-actions.css";
 @import "./profile/responsive.css";
-.geelooy-profile-shell,.profile-hero-card,.social-alias-card,.social-heichel-card,.profile-tabs button.active { --profile-contract-anchor: 1; }
+@import "./profile/nav.css";
+.geelooy-profile-shell,
+.profile-hero-card,
+.social-alias-card,
+.social-heichel-card,
+.profile-tabs button.active { --profile-contract-anchor: 1; }

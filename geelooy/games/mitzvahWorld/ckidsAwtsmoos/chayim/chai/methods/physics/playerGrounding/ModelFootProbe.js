@@ -1,13 +1,16 @@
 // B"H
-import { FOOT_GROUND_EPSILON, numberOr } from "./FootGroundConstants.js?v=player-foot-ground-contract-20260701-bh3";
-import { ROOT_WORLD, SCALE, scanVisibleFoot } from "./FootProbeScan.js?v=player-foot-ground-contract-20260701-bh4";
+import { FOOT_GROUND_EPSILON, numberOr } from "./FootGroundConstants.js?v=player-visible-above-ground-20260701-bh5";
+import { ROOT_WORLD, SCALE, scanVisibleFoot } from "./FootProbeScan.js?v=player-visible-above-ground-20260701-bh5";
 /**
- * Purpose: keep visible player soles sealed to the capsule foot contract.
+ * Purpose: keep the rendered player body above the capsule foot every frame.
  * Owner: ApplyPlayerFootGrounding.
- * Inputs: player mesh/model roots and real ground/capsule position.
- * Outputs: model-local offset and final world-foot seal diagnostics.
+ * Inputs: player mesh/model roots and the current visual geometry bounds.
+ * Outputs: model-local offset, live sole sealing, and diagnostics.
  * Runtime authority: writes only player-owned visible model roots.
- * Failure modes: loading roots preserve existing offset until meshes appear.
+ * Update order: sync root to capsule foot, place model, then seal lowest visible Y.
+ * Callers: ApplyPlayerFootGrounding and PlayerGroundingDiagnostics.
+ * Invariants: no stale seal cache may keep the body underground.
+ * Failure modes: invisible/loading geometry preserves the prior local offset.
  */
 export function playerVisualRoots(player) {
   const roots = [];
@@ -16,10 +19,13 @@ export function playerVisualRoots(player) {
   if (fallback && !roots.includes(fallback)) roots.push(fallback);
   return roots;
 }
+function markWaiting(root, count) {
+  Object.assign(root.userData, { chossidFootBaseMeasured:false, footProbeWaitingForVisibleGeometry:true, footProbeRenderableCount:count });
+  return root.userData;
+}
 export function measureFootBase(root) {
   root.userData ||= {};
   const scan = scanVisibleFoot(root);
-  if (root.userData.chossidFootBaseMeasured && root.userData.footProbeSignature === scan.signature) return root.userData;
   if (scan.count < 1 || !Number.isFinite(scan.lowest)) return markWaiting(root, scan.count);
   root.getWorldPosition(ROOT_WORLD); root.getWorldScale(SCALE);
   const scaleY = Math.max(0.000001, Math.abs(numberOr(SCALE.y, 1)));
@@ -29,33 +35,29 @@ export function measureFootBase(root) {
     footGroundEpsilon:FOOT_GROUND_EPSILON, footBaseMeasuredAt:Date.now() });
   return root.userData;
 }
-function markWaiting(root, count) {
-  Object.assign(root.userData, { chossidFootBaseMeasured:false, footProbeWaitingForVisibleGeometry:true, footProbeRenderableCount:count });
-  return root.userData;
-}
 export function targetModelLocalY(root) {
   const data = measureFootBase(root);
   if (!data.chossidFootBaseMeasured) return numberOr(root.userData?.visualGroundOffsetY, 0);
   const scaleY = Math.max(0.000001, Math.abs(numberOr(root.scale?.y, 1)));
   const localY = FOOT_GROUND_EPSILON - numberOr(data.footBaseLocalY, 0) * scaleY;
-  root.userData.visualGroundOffsetY = localY; return localY;
+  root.userData.visualGroundOffsetY = localY;
+  return localY;
 }
 export function sealLowestVisibleToWorldY(root, targetWorldY) {
   root.userData ||= {};
-  const signature = root.userData.footProbeSignature || "";
-  if (root.userData.footWorldSealDone && root.userData.footWorldSealSignature === signature) return root.userData.footWorldSeal || null;
+  root.updateWorldMatrix?.(true, true);
   const scan = scanVisibleFoot(root);
   if (scan.count < 1 || !Number.isFinite(scan.lowest) || !Number.isFinite(targetWorldY)) return null;
   const delta = targetWorldY - scan.lowest;
   if (!Number.isFinite(delta) || Math.abs(delta) > 30) return null;
   if (Math.abs(delta) > 0.000001) { root.position.y += delta; root.updateMatrixWorld?.(true); }
-  const seal = { at:Date.now(), targetWorldY, beforeLowestWorldY:scan.lowest, delta, signature:scan.signature };
-  Object.assign(root.userData, { footWorldSealDone:true, footWorldSealSignature:signature, footWorldSeal:seal });
+  const seal = { at:Date.now(), targetWorldY, beforeLowestWorldY:scan.lowest, afterLowestWorldY:scan.lowest + delta, delta, signature:scan.signature };
+  Object.assign(root.userData, { footWorldSealDone:true, footWorldSealSignature:scan.signature, footWorldSeal:seal, visualGroundSealEveryFrame:true });
   return seal;
 }
 export function cachedLowestWorldY(root) {
   if (!root?.getWorldPosition) return null;
-  const data = measureFootBase(root);
-  root.getWorldPosition(ROOT_WORLD); root.getWorldScale(SCALE);
-  return ROOT_WORLD.y + numberOr(data.footBaseLocalY, 0) * Math.abs(numberOr(SCALE.y, 1));
+  root.updateWorldMatrix?.(true, true);
+  const scan = scanVisibleFoot(root);
+  return Number.isFinite(scan.lowest) ? scan.lowest : null;
 }

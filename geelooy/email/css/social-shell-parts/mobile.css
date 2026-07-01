@@ -1,13 +1,13 @@
-/* B"H clean mail mobile: readable, no overlap. */
+/* B"H clean mail mobile: readable list, compact composer, no overlap. */
 @media(max-width:850px){
   .mail-social-shell{display:block;min-height:100dvh;padding-bottom:max(5.8rem,env(safe-area-inset-bottom));overflow-x:hidden}
   .mail-social-topbar{position:sticky;top:0;z-index:60;display:flex!important;align-items:center;justify-content:center;gap:.5rem;padding:.65rem .75rem;text-align:center;background:rgba(8,13,27,.96)}
   .mail-social-topbar a:not(.mail-top-home){display:none!important}
   .mail-social-frame.app-container{display:block!important;width:100%!important;min-height:calc(100dvh - 7rem);margin:0!important;border-inline:0!important;border-radius:0!important;overflow:visible!important;background:transparent!important}
   .mail-social-sidebar.sidebar{position:relative!important;width:100%!important;min-height:auto!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:.85rem!important}
+  .mail-folder-grid,.mail-folder-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.45rem!important}
+  .mail-thread-list,.conversation-list{max-height:none!important;overflow:visible!important;display:grid!important;gap:.65rem!important}
+  .mail-thread-card,.conversation-card{min-height:5rem!important;border-radius:1rem!important}
   .mail-social-chat.chat-area{min-height:calc(100dvh - 7rem)!important;padding-bottom:max(7rem,env(safe-area-inset-bottom))!important;overflow:visible!important}
-  .mail-thread-list,.conversation-list{max-height:none!important;overflow:visible!important}
   .mail-compose,.composer,.compose-panel,.message-composer{position:relative!important;z-index:2;margin-bottom:max(6rem,env(safe-area-inset-bottom))!important}
-  .mail-bottom-nav{position:fixed!important;left:max(.55rem,env(safe-area-inset-left));right:max(.55rem,env(safe-area-inset-right));bottom:max(.45rem,env(safe-area-inset-bottom));z-index:1000;display:grid;grid-template-columns:repeat(5,1fr);gap:.25rem;padding:.4rem;border:1px solid var(--mail-line);border-radius:1rem;background:rgba(8,13,27,.96);backdrop-filter:blur(14px)}
-  .mail-bottom-nav a{min-height:3rem;border-radius:.85rem;font-size:.78rem}.mail-bottom-nav a[aria-current="page"],.mail-bottom-nav .active{background:linear-gradient(135deg,var(--g-gold),var(--g-cyan));color:#06101b}
 }

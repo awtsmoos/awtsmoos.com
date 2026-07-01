@@ -2,8 +2,7 @@
 /**
  * @module SubmitBoot
  * @description
- * Boots the Heichel submit composer after the DOM has manifested, checking the
- * button covenant before the editor begins to breathe.
+ * Boots the simple post sun: write first, verse when needed, advanced hidden.
  */
 
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
@@ -21,6 +20,17 @@ const REQUIRED_IDS = [
     "imageUploadModal", "submitPost"
 ];
 
+function setupKindPills() {
+    const hiddenType = document.getElementById("contentType");
+    document.querySelectorAll(".kind-pill").forEach(button => {
+        button.addEventListener("click", () => {
+            document.querySelectorAll(".kind-pill").forEach(pill => pill.classList.remove("active"));
+            button.classList.add("active");
+            if (hiddenType) hiddenType.value = button.textContent.trim().toLowerCase() || "post";
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const missing = missingSubmitNodes(REQUIRED_IDS);
     if (missing.length) {
@@ -29,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     try {
+        setupKindPills();
         const core = initializeSubmitCore();
         const editor = setupEditor();
         setupSectionManager(editor);

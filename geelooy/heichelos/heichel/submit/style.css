@@ -1,14 +1,53 @@
-/* B"H — Submit canonical entry: one manifest for both live composer routes. */
+/* B"H — Submit canonical entry: write first, advanced folded. */
 @import "/style/social-system/tokens.css";
 @import "/style/heichelos/submit/tokens.css";
 @import "/style/heichelos/submit/base.css";
-@import "/style/heichelos/submit/shell.css";
-@import "/style/heichelos/submit/hero.css";
-@import "/style/heichelos/submit/forms.css";
-@import "/style/heichelos/submit/editor.css";
-@import "/style/heichelos/submit/toolbar.css";
-@import "/style/heichelos/submit/sections.css";
-@import "/style/heichelos/submit/actions.css";
-@import "/style/heichelos/submit/status.css";
 @import "/style/heichelos/submit/modal.css";
-@import "/style/heichelos/submit/mobile.css";
+
+.submit-console { background: radial-gradient(circle at 10% 0%, rgba(117,231,244,.14), transparent 22rem), #060a13; color: #fffaf1; }
+.simple-post-sun { width: min(100% - 1rem, 46rem); margin: 0 auto; padding: .75rem .55rem max(7rem, env(safe-area-inset-bottom)); display: grid; gap: .85rem; }
+.back-button-stylized { width: max-content; padding: .65rem .85rem; border-radius: 999px; color: #fffaf1; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); text-decoration: none; font-weight: 900; }
+.submit-hero, .editor-wrapper, .simple-verse-panel, .simple-advanced-drawer { border: 1px solid rgba(255,255,255,.13); border-radius: 1.35rem; background: linear-gradient(145deg, rgba(14,20,36,.94), rgba(9,14,28,.9)); box-shadow: 0 1rem 2.8rem rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.08); }
+.submit-hero { padding: 1.1rem; display: grid; gap: .75rem; }
+.submit-kicker { margin: 0; color: #f7ce78; text-transform: uppercase; letter-spacing: .2em; font: 950 .72rem/1 system-ui; }
+.page-title-glow { margin: 0; font-size: clamp(2.35rem, 12vw, 4.4rem); line-height: .9; letter-spacing: -.065em; color: #fffaf1; }
+.simple-create-copy { margin: 0; color: rgba(239,243,255,.68); font-size: 1.05rem; line-height: 1.45; }
+.simple-kind-row { display: flex; gap: .42rem; overflow-x: auto; padding-bottom: .1rem; }
+.kind-pill { flex: 0 0 auto; min-height: 2.6rem; padding: 0 .9rem; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; color: #fffaf1; background: rgba(255,255,255,.07); font-weight: 950; }
+.kind-pill.active, .submit-post-btn, .add-global-section-btn { color: #06101b; border: 0; background: linear-gradient(135deg, #f8d16f, #74e8f3); }
+.meta-inputs { display: grid; gap: .55rem; }
+.input-group { display: grid; gap: .35rem; }
+.input-group label { color: #f7ce78; font-weight: 900; }
+.input-group input, .bulk-text-area, .content-editor { width: 100%; border: 1px solid rgba(255,255,255,.12); border-radius: 1rem; background: rgba(255,255,255,.065); color: #fffaf1; }
+.input-group input { min-height: 3.2rem; padding: 0 .9rem; font-size: 1rem; }
+.advanced-alias-field { display: none; }
+.simple-writing-stack { display: grid; gap: .85rem; }
+.simple-main-card, .simple-verse-panel, .simple-advanced-drawer { padding: .85rem; }
+.simple-card-head { display: flex; justify-content: space-between; align-items: center; gap: .65rem; margin-bottom: .65rem; }
+.editor-area-title, .simple-card-head h2 { margin: 0; color: #fffaf1; font-size: 1.08rem; }
+.editor-controls-bar, .generator-buttons { display: flex; gap: .4rem; flex-wrap: wrap; }
+.control-btn, .action-button { min-height: 2.55rem; padding: 0 .78rem; border: 1px solid rgba(255,255,255,.12); border-radius: .85rem; color: #fffaf1; background: rgba(255,255,255,.075); font-weight: 900; }
+.control-btn.quiet { opacity: .62; }
+.content-editor { min-height: 12rem; padding: .95rem; outline: 0; line-height: 1.6; font-size: 1.02rem; }
+.content-editor:empty::before { content: attr(data-placeholder); color: rgba(239,243,255,.42); }
+.editor-toolbar { display: flex; gap: .35rem; flex-wrap: wrap; padding: .5rem 0; }
+.toolbar-btn { min-height: 2.25rem; padding: 0 .62rem; border: 1px solid rgba(255,255,255,.12); border-radius: .7rem; color: #fffaf1; background: rgba(255,255,255,.075); font-weight: 950; }
+.simple-verse-panel { display: grid; gap: .5rem; }
+.simple-hint { margin: 0 0 .35rem; color: rgba(239,243,255,.62); }
+.sections-container { display: grid; gap: .75rem; }
+.simple-verse-card { padding: .75rem; }
+.section-header { display: flex; align-items: center; gap: .5rem; margin-bottom: .55rem; }
+.section-drag-handle { color: #f7ce78; font-weight: 950; }
+.section-title-dynamic { margin: 0; color: #fffaf1; }
+.subsection-manager { margin-top: .65rem; padding: .65rem; border-radius: .9rem; background: rgba(255,255,255,.045); }
+.subsection-manager summary, .simple-advanced-drawer summary { cursor: pointer; color: #f7ce78; font-weight: 950; }
+.bulk-text-area { min-height: 7rem; padding: .85rem; resize: vertical; }
+.simple-advanced-drawer > div, .simple-advanced-drawer > section { margin-top: .75rem; }
+.submit-status-rail { margin-top: .75rem; color: rgba(239,243,255,.75); }
+.submit-post-btn { position: sticky; bottom: max(5.5rem, env(safe-area-inset-bottom)); z-index: 20; min-height: 3.4rem; border-radius: 1rem; font-size: 1rem; font-weight: 1000; letter-spacing: .08em; text-transform: uppercase; box-shadow: 0 1rem 2.4rem rgba(116,232,243,.18); }
+.submit-bottom-nav { position: fixed; left: .65rem; right: .65rem; bottom: max(.55rem, env(safe-area-inset-bottom)); z-index: 40; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: .35rem; padding: .45rem; border: 1px solid rgba(255,255,255,.13); border-radius: 1.25rem; background: rgba(8,11,25,.94); backdrop-filter: blur(16px); }
+.submit-bottom-nav a { min-height: 3.05rem; display: grid; place-items: center; border-radius: 1rem; color: #fffaf1; background: rgba(255,255,255,.06); text-decoration: none; font-size: .73rem; font-weight: 950; }
+.submit-bottom-nav a[aria-current="page"], .submit-bottom-nav a.is-create { color: #06101b; background: linear-gradient(135deg, #f8d16f, #74e8f3); }
+.modal { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,.62); padding: 1rem; }
+.modal-content-stylized { width: min(100%, 28rem); margin: 10vh auto; padding: 1rem; border-radius: 1.2rem; background: #0b1020; border: 1px solid rgba(255,255,255,.14); }
+@media (min-width: 760px) { .simple-post-sun { width: min(100% - 2rem, 54rem); } .submit-hero { padding: 1.4rem; } .content-editor { min-height: 15rem; } }

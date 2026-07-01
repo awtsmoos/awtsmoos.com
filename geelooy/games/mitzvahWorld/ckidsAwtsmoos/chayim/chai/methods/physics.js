@@ -4,8 +4,8 @@
  * @description The visible body and capsule are sealed to the real terrain mesh.
  */
 import basePhysics from "./physics/index.js?v=zone-reality-20260614-bh812";
-import { clampVisibleBodyAboveFeet } from "./physics/VisualGroundClamp.js?v=player-foot-ground-contract-20260701-bh3";
-import { FOOT_GROUND_EPSILON } from "./physics/playerGrounding/FootGroundConstants.js?v=player-foot-ground-contract-20260701-bh3";
+import { clampVisibleBodyAboveFeet } from "./physics/VisualGroundClamp.js?v=player-visible-above-ground-20260701-bh5";
+import { FOOT_GROUND_EPSILON } from "./physics/playerGrounding/FootGroundConstants.js?v=player-visible-above-ground-20260701-bh5";
 import { groundYAt } from "../../../Olam/methods/loadNivrayim/villageGrounding.js?v=mesh-ground-authority-20260701-bh1";
 import { ensurePlayerCollisionBubble } from "../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
 
