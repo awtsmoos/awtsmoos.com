@@ -27,6 +27,7 @@
     "test:world-director": "node tests/gameplay/worldEventDirectorAudit.mjs",
     "test:living-zone": "npm run test:starter-zone && npm run test:village-activity && npm run test:world-director",
     "test:mobile-boot": "node tests/gameplay/mobileBootContractAudit.mjs",
+    "test:collision-authority": "node tests/collision/spatialBubbleIndexBehavior.mjs && node tests/collision/meshCollisionAuthorityAudit.mjs",
     "test:phone-critical": "npm run test:import-contracts && npm run test:three-abstraction && npm run test:architecture-abstractions && npm run test:loop-reduction && npm run test:browser-frame-trace-harness && npm run test:mobile-boot && npm run test:frame-budget && npm run simulate:headless && npm run test:living-zone && npm run test:beverage-realism",
     "test:import-contracts": "node tests/headless/importContractScannerSelfTest.mjs && node tests/headless/importContractAudit.mjs",
     "test:three-abstraction": "node tests/headless/threeAbstractionAudit.mjs",

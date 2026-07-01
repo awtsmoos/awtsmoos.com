@@ -5,6 +5,7 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { createGroundMixMaterial } from "./shaders/GroundMixShader.js?v=awtsmoos-ground-mix-20260614-bh2";
+import { registerGroundMesh as registerMeshGroundAuthority } from "../collision/GroundCollisionWorld.js?v=mesh-collision-authority-20260701-bh1";
 
 const fallbackTriple = (value, fallback) => Array.isArray(value) ? value : fallback;
 const propsOf = def => def?.props || {};
@@ -39,6 +40,7 @@ function registerGroundMesh(olam, mesh) {
   if (!olam || !mesh) return;
   olam.__awtsmoosGroundCollisionMeshes ||= [];
   if (!olam.__awtsmoosGroundCollisionMeshes.includes(mesh)) olam.__awtsmoosGroundCollisionMeshes.push(mesh);
+  registerMeshGroundAuthority(olam, mesh);
   try { olam.worldOctree?.addObject?.(mesh); } catch {}
   try { olam.worldOctree?.addMesh?.(mesh); } catch {}
 }

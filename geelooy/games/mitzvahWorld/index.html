@@ -178,9 +178,44 @@
   const guard = document.getElementById('awtsmoosNoBlackGuard');
   if (!guard) return;
   let hidden = false;
+  let lastReason = 'visible';
+  let lastProof = null;
+  let finalReadySeen = false;
+  function nonBlackFrameProof() {
+    const canvas = document.querySelector('canvas');
+    const proof = { at:Date.now(), canvas:Boolean(canvas), sampled:false, nonBlack:false, finalReadySeen };
+    try {
+      if (canvas && canvas.width > 0 && canvas.height > 0) {
+        const ctx = canvas.getContext && canvas.getContext('webgl2') || canvas.getContext && canvas.getContext('webgl') || null;
+        if (ctx) {
+          const pixel = new Uint8Array(4);
+          ctx.readPixels(Math.floor(canvas.width / 2), Math.floor(canvas.height / 2), 1, 1, ctx.RGBA, ctx.UNSIGNED_BYTE, pixel);
+          proof.sampled = true;
+          proof.pixel = Array.from(pixel);
+          proof.nonBlack = pixel[0] + pixel[1] + pixel[2] > 18;
+        }
+      }
+    } catch (error) {
+      proof.sampleError = String(error && error.message || error);
+    }
+    if (!proof.nonBlack) {
+      const bg = getComputedStyle(document.body).backgroundColor || '';
+      proof.bodyBackground = bg;
+      proof.nonBlack = /rgb|hsl|#|gradient/i.test(bg) && !/0,\s*0,\s*0/.test(bg);
+    }
+    lastProof = proof;
+    return proof;
+  }
   function hide(reason) {
     if (hidden) return;
+    const proof = nonBlackFrameProof();
+    if (!proof.finalReadySeen && !proof.nonBlack) {
+      lastReason = `blocked:${reason || 'no-proof'}`;
+      soften('Waiting for a proven non-black world frame.');
+      return;
+    }
     hidden = true;
+    lastReason = reason || 'ready';
     guard.dataset.reason = reason || 'ready';
     guard.classList.add('hidden');
     setTimeout(() => guard.remove(), 1400);
@@ -190,12 +225,14 @@
     if (sub) sub.textContent = text;
   }
   window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden };
+  window.__AWTS_NO_BLACK_DIAG__ = () => ({ visible:!hidden, hidden, reason:lastReason, finalReadySeen, proof:lastProof || nonBlackFrameProof(), guardExists:Boolean(document.getElementById('awtsmoosNoBlackGuard')) });
   window.addEventListener('awtsmoos-game-ready', event => {
     const phase = String(event?.detail?.phase || '');
+    if (/world_final_ready|boot:done|autoload:dispatch:done|rendered first time/i.test(phase)) finalReadySeen = true;
     if (/world_final_ready|boot:done|autoload:dispatch:done|rendered first time/i.test(phase)) setTimeout(() => hide(phase), 1200);
   });
   setTimeout(() => soften('Still loading real terrain meshes — no black void.'), 3800);
-  setTimeout(() => { if (!hidden) hide('guard-timeout-visible-fallback'); }, 12500);
+  setTimeout(() => { if (!hidden) soften('Still waiting for world-ready proof — keeping the visible guard.'); }, 12500);
 })();
 </script>
 </body>

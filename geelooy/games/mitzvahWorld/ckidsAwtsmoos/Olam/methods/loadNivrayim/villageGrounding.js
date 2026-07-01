@@ -6,8 +6,10 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import TerrainMath from "../../../dvarim/terrain/core/TerrainMath.js";
 import { diagEvent, diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js";
+import { meshGroundHit, registerGroundMesh } from "../../worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=mesh-collision-authority-20260701-bh1";
+import { installCollisionDiagnostics } from "../../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=mesh-collision-authority-20260701-bh1";
 
-const RAY = new THREE.Raycaster(), DOWN = new THREE.Vector3(0, -1, 0), BOX = new THREE.Box3(), CHILD = new THREE.Box3();
+const BOX = new THREE.Box3(), CHILD = new THREE.Box3();
 const TYPES = new Set(["villagePictureProp", "villageTreeField", "villageGrassField", "interactiveNpc", "interactiveDoor", "villageHouseCollider", "villageFenceCollider", "villageRoadCollider", "chossid", "mazik"]);
 const SKIP = /sky|cloud|camera|light|ocean|water|helper|ray|ui|hud/i;
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
@@ -21,22 +23,19 @@ function terrainLike(o) { const u = o?.userData || {}; return Boolean(o?.isObjec
 function addTerrain(out, seen, root) { if (!root || seen.has(root)) return; seen.add(root); out.push(root); }
 function terrainMeshes(olam) {
   const out = [], seen = new Set();
-  for (const mesh of olam?.__awtsmoosGroundCollisionMeshes || []) if (terrainLike(mesh)) addTerrain(out, seen, mesh);
-  for (const n of olam?.nivrayim || []) if ((n?.type === "proceduralTerrain" || n?.mesh?.userData?.isTerrain) && n.mesh) addTerrain(out, seen, n.mesh);
-  olam?.scene?.traverse?.(o => { if (terrainLike(o)) addTerrain(out, seen, o); });
+  for (const mesh of olam?.__awtsmoosGroundCollisionMeshes || []) if (terrainLike(mesh)) { registerGroundMesh(olam, mesh); addTerrain(out, seen, mesh); }
+  for (const n of olam?.nivrayim || []) if ((n?.type === "proceduralTerrain" || n?.mesh?.userData?.isTerrain) && n.mesh) { registerGroundMesh(olam, n.mesh); addTerrain(out, seen, n.mesh); }
   return out;
 }
 function lawYAt(olam, x, z, fallback) { const law = olam?.awtsmoosTerrainLaw; if (!law?.data) return fallback; const y = num(law.position?.y) + TerrainMath.calculateHeightAt(x - num(law.position?.x), z - num(law.position?.z), law.data); return Number.isFinite(y) ? y : fallback; }
 function meshHitAt(olam, x, z, fallback) {
-  const meshes = terrainMeshes(olam); if (!meshes.length) return null;
-  const high = Math.max(160, num(fallback) + 220);
-  RAY.set(new THREE.Vector3(x, high, z), DOWN); RAY.far = 520;
-  const hit = RAY.intersectObjects(meshes, true).find(h => h?.object && !h.object.userData?.skipRaycast && Number.isFinite(h.point?.y));
-  return hit ? { y:hit.point.y, hit, source:"mesh", mesh:hit.object?.name || hit.object?.uuid || "terrain" } : null;
+  terrainMeshes(olam);
+  const hit = meshGroundHit(olam, x, z, { fallback, fallbackFn:() => null });
+  return hit && !hit.fallback ? { y:hit.y, hit, source:"mesh", mesh:hit.mesh || "terrain" } : null;
 }
 export function groundYAt(olam, x, z, fallback = 0) {
   const mesh = meshHitAt(olam, x, z, fallback);
-  olam && (olam.__awtsmoosGroundCollisionReport = { ...(olam.__awtsmoosGroundCollisionReport || {}), last:{ x, z, fallback, source:mesh ? "mesh" : "law-fallback", mesh:mesh?.mesh || null } });
+  olam && (olam.__awtsmoosGroundCollisionReport = { ...(olam.__awtsmoosGroundCollisionReport || {}), last:{ x, z, fallback, source:mesh ? "mesh" : "law-fallback", mesh:mesh?.mesh || null }, fallbackUsed:!mesh });
   return mesh ? mesh.y : lawYAt(olam, x, z, fallback);
 }
 function contributes(child) { if (!child?.isMesh || child.visible === false || child.userData?.awtsmoosRayProxy || child.userData?.visualOnly) return false; if (/soft_shadow|warning_ring|hit_arc/i.test(child.name || "")) return false; const mats = Array.isArray(child.material) ? child.material : [child.material]; return mats.some(m => m && m.visible !== false && Number(m.opacity ?? 1) > .02); }
@@ -49,7 +48,7 @@ function syncLiving(n, report) { Object.assign(n, { onFloor:true, isOnGround:tru
 function shouldSkipSceneObject(o) { return !o?.isObject3D || o.isCamera || o.isLight || SKIP.test(o.name || "") || o.userData?.skipVillageGrounding || o.userData?.isTerrain || o.userData?.renderlessHelper; }
 function candidates(olam, made) { const seen = new Set(), out = [], add = n => { if (n && !seen.has(n) && colliderReady(n)) { seen.add(n); out.push(n); } }; for (const n of [...(made || []), ...(olam?.nivrayim || [])]) if (n && (TYPES.has(n.type) || n?.mesh?.userData?.villageDecor || n?.mesh?.userData?.isEnemy)) add(n); add(olam?.chossid); add(olam?.player); olam?.scene?.children?.forEach(o => { if (!shouldSkipSceneObject(o) && finiteObject(o) && (o.userData?.villageCombatDecor || o.userData?.villageDecor || o.userData?.isVillageWildlife)) add({ name:o.name, type:"sceneVillageObject", mesh:o }); }); return out; }
 function groundOne(olam, n) { const root = rootOf(n); if (!finiteObject(root)) return null; if (authoredY(n) && !living(n)) return { name:n.name, type:n.type, authoredY:root.position.y, moved:false }; const center = worldCenter(root), ground = groundYAt(olam, center.x, center.z, root.position.y), result = alignVisualBottomToGround(root, ground, liftOf(n)); if (!result) return null; if (living(n)) syncLiving(n, result); return { name:n.name || root.name, type:n.type, moved:Math.abs(result.delta) > .0001, ...result }; }
-function installDiag(olam) { globalThis.__AWTS_GROUNDING_DIAG__ = () => ({ last:olam.__villageGroundingSummary || null, finalBaked:Boolean(olam.__villageFinalCollidersBaked), collision:olam.__awtsmoosGroundCollisionReport || null }); }
+function installDiag(olam) { installCollisionDiagnostics(olam); globalThis.__AWTS_GROUNDING_DIAG__ = () => ({ last:olam.__villageGroundingSummary || null, finalBaked:Boolean(olam.__villageFinalCollidersBaked), collision:olam.__awtsmoosGroundCollisionReport || null, authority:olam.__awtsmoosGroundCollisionWorld?.diag?.() || null }); }
 function summarize(report) { const moved = report.filter(r => r.moved).length, underground = report.filter(r => Number(r.visualMinY) < Number(r.groundY) - .08).length; return { total:report.length, moved, underground, suspects:report.filter(r => Math.abs(num(r.delta)) > 1.25).slice(0, 12) }; }
 export function groundVillageNow(olam, made = [], final = true, source = "manual") { if (!isVillageWorld(olam, made)) return []; installDiag(olam); if (final && !olam.__villageFinalCollidersBaked) olam.__villageFinalCollidersBaked = true; const report = candidates(olam, made).map(n => groundOne(olam, n)).filter(Boolean), summary = { source, final, phase:final ? "mesh-ground-authority" : "mesh-ground-visual-settle", ...summarize(report), terrain:olam.awtsmoosTerrainLaw?.source }; olam.__villageGroundingSummary = summary; diagEvent(final ? "VILLAGE_MESH_GROUND_COLLIDERS_READY" : "VILLAGE_MESH_GROUND_VISUAL_SETTLE", summary); diagThrottle("village-grounding-summary", summary, 2200); return report; }
 function afterFrames(frames, fn) { const raf = globalThis.requestAnimationFrame || (cb => setTimeout(cb, 32)); return frames <= 0 ? fn() : raf(() => afterFrames(frames - 1, fn)); }

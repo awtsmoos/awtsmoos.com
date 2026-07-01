@@ -12,11 +12,12 @@ import PlacementManager from "../interaction/PlacementManager.js?compact=true";
 import CombatManager from "../../systems/combat/CombatManager.js?v=combat-cache-budget-20260621-bh1";
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=starter-contracts-20260628-bh9";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
+import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=mesh-collision-authority-20260701-bh1";
 
 const SAFE_SKY = 0x5d8fa8;
 function targetSnapshot(target) { if (!target) return null; return { name:target.name || target.mesh?.name || target.userData?.displayName || null, hp:target.hp ?? target.health?.current ?? target.userData?.health?.current ?? null, max:target.maxHp ?? target.health?.max ?? target.userData?.health?.max ?? null }; }
 function octreeStats(olam) { return { world:Boolean(olam?.worldOctree), interactive:Boolean(olam?.interactiveOctree), dynamicSidecar:Boolean(globalThis.__AWTS_DYNAMIC_SPATIAL__) }; }
-function exposeDebug(olam) { try { ensureWorldState(olam); globalThis.__AWTS_OLAM__ = olam; globalThis.__AWTS_WORLD_STATE__ = olam.__awtsmoosWorldState; globalThis.__AWTS_WORLD_STATE_SNAPSHOT__ = () => worldStateSnapshot(olam); globalThis.__AWTS_SPATIAL_DIAG__ = () => octreeStats(olam); globalThis.__AWTS_COMBAT_DIAG__ = () => ({ trace:olam.__combatInputTrace || [], attempt:olam.__lastCombatAttackAttempt || null, result:olam.__lastCombatAttackResult || null, failure:olam.__lastAttackFailure || null, target:targetSnapshot(olam.__selectedCombatTarget) }); } catch {} }
+function exposeDebug(olam) { try { ensureWorldState(olam); ensureCollisionRuntime(olam); globalThis.__AWTS_OLAM__ = olam; globalThis.__AWTS_WORLD_STATE__ = olam.__awtsmoosWorldState; globalThis.__AWTS_WORLD_STATE_SNAPSHOT__ = () => worldStateSnapshot(olam); globalThis.__AWTS_SPATIAL_DIAG__ = () => ({ ...octreeStats(olam), collision:globalThis.__AWTS_COLLISION_DIAG__?.() || null }); globalThis.__AWTS_COMBAT_DIAG__ = () => ({ trace:olam.__combatInputTrace || [], attempt:olam.__lastCombatAttackAttempt || null, result:olam.__lastCombatAttackResult || null, failure:olam.__lastAttackFailure || null, target:targetSnapshot(olam.__selectedCombatTarget) }); } catch {} }
 export default class Olam extends Nivra {
   constructor() {
     super();

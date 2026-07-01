@@ -1,0 +1,45 @@
+{
+  "created": "2026-07-01",
+  "sourceImportGraph": "AI_THOUGHTS/architecture_reports/latest_import_graph.json",
+  "sourceIntegrationPlan": "/Users/awtsmoos/.awtsmoos-agent-thoughts/general/mitzvah-world-mobile-black-collision-disconnected-20260630-190604/03_disconnected_files_integration_plan.md",
+  "policy": "use-everything-first; delete only after no importers, no runtime owner, no unique logic or asset value, no lazy adoption path, architecture health proof, and user approval",
+  "adoptionLanes": [
+    {
+      "lane": "terrain-collision-helpers",
+      "priority": 1,
+      "runtimeOwner": "GroundCollisionWorld",
+      "adoptionPath": "mesh and octree helpers must enter through the shared mesh-ground API, never through TerrainMath-first player motion"
+    },
+    {
+      "lane": "house-collision-helpers",
+      "priority": 1,
+      "runtimeOwner": "HouseCollisionWorld",
+      "adoptionPath": "visible cottage/house mesh roots are measured once and converted to proof-tagged local colliders"
+    },
+    {
+      "lane": "bubble-runtime-helpers",
+      "priority": 1,
+      "runtimeOwner": "SpatialBubbleIndex and PlayerCollisionBubble",
+      "adoptionPath": "near-player systems activate by layer; visual and dormant systems remain out of the movement loop"
+    },
+    {
+      "lane": "visual-content-packs",
+      "priority": 2,
+      "runtimeOwner": "lazy biome and prop registries",
+      "adoptionPath": "content may be lazy registered after first safe frame, never phone-critical boot"
+    },
+    {
+      "lane": "legacy-olam-managers",
+      "priority": 3,
+      "runtimeOwner": "compatibility adapter only",
+      "adoptionPath": "legacy managers require one smoke-proven gameplay effect before becoming reachable"
+    }
+  ],
+  "implementedThisPass": [
+    "Added GroundCollisionWorld as mesh-first terrain authority.",
+    "Added HouseCollisionWorld as measured-house collider authority.",
+    "Added SpatialBubbleIndex and PlayerCollisionBubble for local movement collision layers.",
+    "Added CollisionBudget diagnostics and no-black guard diagnostics."
+  ],
+  "deletionApproval": "none-requested; no disconnected files deleted"
+}

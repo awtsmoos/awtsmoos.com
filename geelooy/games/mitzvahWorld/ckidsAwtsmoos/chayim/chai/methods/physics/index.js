@@ -14,6 +14,7 @@ import Tzomayach from "../../../tzomayach.js";
 import TerrainMath from "../../../../dvarim/terrain/core/TerrainMath.js";
 import { solveMovingSolid } from "../../../../dvarim/movers/runtime/movingSolidSolver.js";
 import { clampVisibleBodyAboveFeet } from "./VisualGroundClamp.js?v=visual-ground-clamp-20260629-bh1";
+import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=mesh-collision-authority-20260701-bh1";
 
 const groundRay = new THREE.Ray();
 const MOVING_EPSILON_SQ = 0.0001;
@@ -33,7 +34,7 @@ function needsOctreePhysics(entity) {
   const m = entity.moving || {};
   return Boolean(m.forward || m.backward || m.stridingLeft || m.stridingRight || m.turningLeft || m.turningRight || m.jump || entity.movingAutomatically || entity.navTarget || entity.currentPath || entity._isMoving || ((entity.velocity?.lengthSq?.() || 0) > MOVING_EPSILON_SQ));
 }
-function terrainLawHit(player) {
+function terrainLawFallbackHit(player) {
   const law = player?.olam?.awtsmoosTerrainLaw;
   const start = player?.collider?.start;
   if (!law?.data || !start) return false;
@@ -45,31 +46,36 @@ function terrainLawHit(player) {
   const normal = new THREE.Vector3(-(hx1 - hx0) / (e * 2), 1, -(hz1 - hz0) / (e * 2)).normalize();
   return { distance: start.y - y, position: new THREE.Vector3(start.x, y, start.z), normal, object: { name: "awtsmoosTerrainLawFallback" }, lawFallback: true };
 }
+function terrainFallbackY(player, x, z, fallback) {
+  const law = player?.olam?.awtsmoosTerrainLaw;
+  if (!law?.data) return fallback;
+  const y = numeric(law.position?.y, 0) + TerrainMath.calculateHeightAt(x - numeric(law.position?.x, 0), z - numeric(law.position?.z, 0), law.data);
+  return finite(y) ? y : fallback;
+}
 function bestGroundHit(player) {
+  const bubble = ensurePlayerCollisionBubble(player?.olam);
+  bubble?.updateFromPlayer?.(player);
+  const radius = numeric(player?.collider?.radius, numeric(player?.radius, 0.45));
+  const feetY = player?.collider?.start ? player.collider.start.y - radius : 0;
+  const mesh = bubble?.olam?.__awtsmoosGroundCollisionWorld?.groundAt?.(player.collider.start.x, player.collider.start.z, {
+    fallback:feetY,
+    radius:bubble.nearRadius,
+    fallbackFn:(x, z, fallback) => terrainFallbackY(player, x, z, fallback)
+  });
+  if (mesh && Number.isFinite(mesh.y)) {
+    return { distance:player.collider.start.y - mesh.y, position:mesh.point, normal:mesh.normal, object:mesh.object || { name:mesh.mesh || "terrain" }, meshGroundAuthority:true, fallback:mesh.fallback };
+  }
   groundRay.origin.copy(player.collider.start);
   groundRay.direction.set(0, -1, 0);
   const oct = player.olam?.worldOctree?.rayIntersect?.(groundRay) || false;
-  const law = terrainLawHit(player);
-  if (!law) return oct;
-  if (!oct) return law;
-  if (!oct.normal || oct.normal.y <= steepSlopeY()) return law;
-  if (law.distance >= -0.5 && law.distance < oct.distance + 0.35) return law;
-  return oct;
+  if (oct) return oct;
+  return terrainLawFallbackHit(player);
 }
 function clampToTerrainFloor(player, slack = 0.015) {
-  const law = terrainLawHit(player);
-  if (!law || !player?.collider?.start || !player?.collider?.end) return false;
-  const radius = numeric(player.collider.radius, numeric(player.radius, 0.45));
-  const minStartY = law.position.y + radius + slack;
-  if (player.collider.start.y >= minStartY) return false;
-  const lift = minStartY - player.collider.start.y;
-  player.collider.start.y += lift;
-  player.collider.end.y += lift;
-  if (player.velocity) player.velocity.y = Math.max(0, numeric(player.velocity.y, 0));
-  player.onFloor = true;
-  player.groundHitResult = law;
-  clearAirTrajectory(player);
-  return true;
+  const bubble = ensurePlayerCollisionBubble(player?.olam);
+  const grounded = bubble?.groundPlayer?.(player, { slack, fallbackFn:(x, z, fallback) => terrainFallbackY(player, x, z, fallback) });
+  if (grounded) clearAirTrajectory(player);
+  return Boolean(grounded);
 }
 function setAnim(player, key, options) {
   const resolved = player.getChaweeyoos(key);
@@ -140,6 +146,8 @@ export default {
     clearAirTrajectory(this); this.isTeleporting = true;
   },
   collisions() {
+    const bubble = ensurePlayerCollisionBubble(this.olam);
+    bubble?.resolveMovement?.(this);
     const result = this.olam?.worldOctree?.capsuleIntersect?.(this.collider);
     if (!result) return;
     this.collider.translate(result.normal.multiplyScalar(result.depth));
@@ -149,10 +157,8 @@ export default {
   async calculateOffset() {
     if (!this.onFloor) return;
     await new Promise(resolve => requestAnimationFrame(resolve));
-    const raycaster = new THREE.Raycaster();
-    raycaster.set(this.collider.start, new THREE.Vector3(0, -1, 0));
-    const hits = raycaster.intersectObjects(this.olam.scene.children, true);
-    if (hits.length > 0) this.offset = hits[0].distance;
+    const hit = bestGroundHit(this);
+    if (hit && Number.isFinite(hit.distance)) this.offset = hit.distance;
   },
   getCapsule() { if (!this.collider) return null; return { radius: this.collider.radius, height: (this.collider.end.y - this.collider.start.y) + (this.collider.radius * 2) }; },
   heesHawvoos(dt) {
@@ -167,7 +173,7 @@ export default {
     clampToTerrainFloor(this);
     this._checkGround(); this._solveDynamicBodies("pre-forces"); this._applyPhysicsForces(deltaTime, isWorldBusy);
     this._calculateMovementVelocity(deltaTime); this._handleJump(); this._executeMovement(deltaTime);
-    this._resolveGroundCollision(); clampToTerrainFloor(this); this._enforceTerrainSlopeLimit(); this._solveDynamicBodies("post-motion"); this._checkAbyss(); this._updateAnimationState(deltaTime); this._syncMesh(deltaTime);
+    this._resolveGroundCollision(); clampToTerrainFloor(this); this._enforceTerrainSlopeLimit(); this._solveDynamicBodies("post-motion"); this._checkAbyss(); ensurePlayerCollisionBubble(this.olam)?.frame?.(this, { fallbackFn:(x, z, fallback) => terrainFallbackY(this, x, z, fallback) }); this._updateAnimationState(deltaTime); this._syncMesh(deltaTime);
     if (this.activeObject && typeof this.alignObject === 'function') this.alignObject();
     Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
   },
@@ -233,7 +239,7 @@ export default {
     this.velocity.projectOnPlane(hit.normal); this.velocity.y = 0; clearAirTrajectory(this);
   },
   _enforceTerrainSlopeLimit() {
-    const hit = terrainLawHit(this);
+    const hit = bestGroundHit(this);
     if (!hit || hit.normal.y >= steepSlopeY()) return false;
     const safe = this.__lastSafeFeet;
     if (!safe) return false;
@@ -243,7 +249,7 @@ export default {
     return true;
   },
   _checkAbyss() {
-    const law = terrainLawHit(this);
+    const law = bestGroundHit(this);
     if (law && this.collider.start.y < law.position.y + this.collider.radius - 2) {
       console.warn("B\"H | PLAYER_TERRAIN_LAW_RECOVERY", { fromY: this.collider.start.y, groundY: law.position.y });
       this.velocity.set(0, 0, 0); clearAirTrajectory(this); this.setPosition(new THREE.Vector3(this.collider.start.x, law.position.y, this.collider.start.z)); return;

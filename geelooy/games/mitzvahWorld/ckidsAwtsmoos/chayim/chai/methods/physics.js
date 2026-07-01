@@ -5,6 +5,7 @@
  */
 import basePhysics from "./physics/index.js?v=zone-reality-20260614-bh812";
 import { groundYAt } from "../../../Olam/methods/loadNivrayim/villageGrounding.js?v=mesh-ground-authority-20260701-bh1";
+import { ensurePlayerCollisionBubble } from "../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=mesh-collision-authority-20260701-bh1";
 
 const TRACE_SEAL = "mesh-ground-authority-20260701-bh1";
 const MOVING_KEYS = ["forward", "backward", "stridingLeft", "stridingRight", "turningLeft", "turningRight", "jump"];
@@ -38,6 +39,11 @@ function trace(entity, stage, extra = {}) { if (!moving(entity)) return; const n
 function enforceMeshGround(entity, mode = "frame") {
   const c = entity?.collider, olam = entity?.olam;
   if (!c?.start || !c?.end || !olam) return false;
+  const bubble = ensurePlayerCollisionBubble(olam);
+  bubble?.updateFromPlayer?.(entity);
+  const resolved = bubble?.groundPlayer?.(entity, { fallbackFn:(x, z, fallback) => groundYAt(olam, x, z, fallback) });
+  bubble?.resolveMovement?.(entity);
+  if (resolved) { trace(entity, "bubble-ground-lock", entity.__meshGroundAuthority || {}); return true; }
   const radius = numberOr(c.radius || entity.radius, .45);
   const feetY = c.start.y - radius;
   const groundY = groundYAt(olam, c.start.x, c.start.z, feetY);
