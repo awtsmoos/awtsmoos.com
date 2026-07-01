@@ -1,5 +1,5 @@
 B"H
-1.0.209
+1.0.210
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -929,6 +929,10 @@ tools/fs/mission/guidance/render.js
 tools/fs/mission/guidance/situations.js
 tools/fs/mission/heartbeat/index.js
 tools/fs/mission/heartbeat/store.js
+tools/fs/mission/implicitBoot/create.js
+tools/fs/mission/implicitBoot/guidance.js
+tools/fs/mission/implicitBoot/index.js
+tools/fs/mission/implicitBoot/policy.js
 tools/fs/mission/improvement/dashboard.js
 tools/fs/mission/improvement/discover.js
 tools/fs/mission/improvement/loop.js
@@ -1106,6 +1110,7 @@ tools/fs/pagedTree.js
 tools/fs/pathGuard.js
 tools/fs/pathHints.js
 tools/fs/plainPayload.js
+tools/fs/preview/deps.js
 tools/fs/preview/detect.js
 tools/fs/preview/guidance.js
 tools/fs/preview/httpProbe.js
