@@ -1,5 +1,5 @@
 B"H
-1.0.208
+1.0.209
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -1110,6 +1110,7 @@ tools/fs/preview/detect.js
 tools/fs/preview/guidance.js
 tools/fs/preview/httpProbe.js
 tools/fs/preview/payload.js
+tools/fs/preview/policy.js
 tools/fs/preview/url.js
 tools/fs/previewRegistry.js
 tools/fs/projectInfo.js
