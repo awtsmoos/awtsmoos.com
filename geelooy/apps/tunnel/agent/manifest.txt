@@ -1,5 +1,5 @@
 B"H
-1.0.211
+1.0.212
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -863,6 +863,9 @@ tools/fs/mission/bossProtocol.js
 tools/fs/mission/collaboration.js
 tools/fs/mission/constitution.js
 tools/fs/mission/continuationCovenant.js
+tools/fs/mission/continuationGate/focus.js
+tools/fs/mission/continuationGate/index.js
+tools/fs/mission/continuationGate/token.js
 tools/fs/mission/continuationQueue.js
 tools/fs/mission/continuity.js
 tools/fs/mission/continuity/policy.js
