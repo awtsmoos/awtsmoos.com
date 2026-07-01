@@ -1,5 +1,5 @@
 B"H
-1.0.207
+1.0.208
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -1106,6 +1106,11 @@ tools/fs/pagedTree.js
 tools/fs/pathGuard.js
 tools/fs/pathHints.js
 tools/fs/plainPayload.js
+tools/fs/preview/detect.js
+tools/fs/preview/guidance.js
+tools/fs/preview/httpProbe.js
+tools/fs/preview/payload.js
+tools/fs/preview/url.js
 tools/fs/previewRegistry.js
 tools/fs/projectInfo.js
 tools/fs/projectValidation.js

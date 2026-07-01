@@ -1,61 +1,34 @@
 // B"H
-
-function baseUrl(payload = {}) {
-  return String(payload.controlBaseUrl || "https://awtsmoos.com/api/tunnel/control/fs/auto").replace(/\/fs\/[^/]+$/, "");
+const Url = require('../preview/url.js');
+const Payload = require('../preview/payload.js');
+const Detect = require('../preview/detect.js');
+const Guidance = require('../preview/guidance.js');
+const Policy = require('../preview/policy.js');
+function createPayload(payload, kind, extra = {}) { return Payload.createPayload(payload, kind, extra); }
+function previewUrl(payload, preview) { return Url.previewUrl(payload, preview); }
+function simple(action, payload, kind, extra = {}) {
+  const preview = createPayload(payload, kind, extra);
+  return { ok:true, action, preview, url:previewUrl(payload, preview) };
 }
-
-function encode(value) { return Buffer.from(String(value || ""), "utf8").toString("base64"); }
-
-/**
- * B"H
- * Chapter: The native agent learned to ask the web-gate for a screen.
- *
- * These actions return canonical API URLs/payloads. The server-side Preview
- * Gateway owns policy, auth, AI permissions, and public/private visibility.
- */
-function createPayload(payload, kind, extra = {}) {
-  const target = payload.targetVessel || payload.tunnelName || "native-local";
-  return {
-    kind,
-    title: payload.title || extra.title || "Awtsmoos Preview",
-    path: payload.path || payload.p || extra.path || ".",
-    actionId: payload.actionId || extra.actionId || "",
-    tunnelName: payload.tunnelName || "auto",
-    targetVessel: target,
-    conversationId: payload.conversationId || "",
-    conversationName: payload.conversationName || payload.conversation || "",
-    visibility: payload.visibility || "private",
-    ttlSeconds: payload.ttlSeconds || 3600,
-    allowDownload: payload.allowDownload === true || payload.allowDownload === "true",
-    allowFolderBrowse: payload.allowFolderBrowse !== false && payload.allowFolderBrowse !== "false",
-    allowSearch: payload.allowSearch !== false && payload.allowSearch !== "false",
-    createdBy: payload.createdBy || "ai",
-    ai: payload.ai !== false,
-    ...extra
-  };
+async function localServer(payload) {
+  const detected = await Detect.detect(payload), chosen = choose(payload, detected);
+  const url = payload.url || chosen?.url || (payload.port ? `http://127.0.0.1:${payload.port}${payload.proxyPath || '/'}` : '');
+  const preview = Policy.apply(createPayload(payload, 'proxy', { url, port:chosen?.port || payload.port || null, path:payload.proxyPath || '/', detectedServers:detected }), payload);
+  return { ok:!!url && Policy.localServerAllowed(payload), action:'previewExposeLocalServer', preview, detectedServers:detected,
+    selectedServer:chosen || (url ? { url, port:payload.port || null, manual:true } : null), url:url ? previewUrl(payload, preview) : '',
+    proxyUrl:url ? Url.proxyUrl(payload, url) : '', agentGuidance:{ purpose:'preview-local-server', plainEnglish:Guidance.text(chosen || (url ? { url, port:payload.port, title:'' } : null), detected), canSteer:true },
+    nextSuggestedAction:Guidance.payload(chosen || (url ? { url, port:payload.port } : null)) };
 }
-
-function previewUrl(payload, preview) {
-  const b = baseUrl(payload);
-  return `${b}/preview/create?preview64=${encode(JSON.stringify(preview))}`;
-}
-
-function buildPreviewActions(ctx) {
-  const { payload } = ctx;
-  return {
-    async previewSettingsGet() { return { ok: true, action: "previewSettingsGet", url: `${baseUrl(payload)}/preview/settings` }; },
-    async previewSettingsSet() { return { ok: true, action: "previewSettingsSet", url: `${baseUrl(payload)}/preview/settings/set`, settings: payload.settings || payload.content || {} }; },
-    async previewList() { return { ok: true, action: "previewList", url: `${baseUrl(payload)}/preview/list` }; },
-    async previewRevoke() { return { ok: true, action: "previewRevoke", url: `${baseUrl(payload)}/preview/revoke?previewId=${encodeURIComponent(payload.previewId || payload.id || "")}` }; },
-    async previewCreate() { const preview = createPayload(payload, payload.kind || "file"); return { ok: true, action: "previewCreate", preview, url: previewUrl(payload, preview) }; },
-    async previewFile() { const preview = createPayload(payload, "file"); return { ok: true, action: "previewFile", preview, url: previewUrl(payload, preview) }; },
-    async previewFolder() { const preview = createPayload(payload, "folder"); return { ok: true, action: "previewFolder", preview, url: previewUrl(payload, preview) }; },
-    async previewPage() { const preview = createPayload(payload, "page", { html: payload.html || payload.content || "", css: payload.css || "", data: payload.data || null }); return { ok: true, action: "previewPage", preview, url: previewUrl(payload, preview) }; },
-    async previewCollection() { const preview = createPayload(payload, "collection", { items: payload.items || payload.files || [] }); return { ok: true, action: "previewCollection", preview, url: previewUrl(payload, preview) }; },
-    async previewLiveCommand() { const preview = createPayload(payload, "live", { commandId: payload.commandId || payload.actionId || "" }); return { ok: true, action: "previewLiveCommand", preview, url: previewUrl(payload, preview) }; },
-    async previewActionResult() { const preview = createPayload(payload, "action", { actionId: payload.actionId || payload.id || "" }); return { ok: true, action: "previewActionResult", preview, url: previewUrl(payload, preview) }; },
-    async previewExposeLocalServer() { const url = payload.url || (payload.port ? `http://127.0.0.1:${payload.port}${payload.proxyPath || "/"}` : ""); const preview = createPayload(payload, "proxy", { url, port: payload.port || null, path: payload.proxyPath || "/" }); return { ok: true, action: "previewExposeLocalServer", preview, url: previewUrl(payload, preview), proxyUrl: `${baseUrl(payload)}/preview/${encodeURIComponent(payload.tunnelName || "auto")}?url64=${encode(url)}` }; }
-  };
-}
-
-module.exports = { buildPreviewActions, createPayload, previewUrl };
+function choose(payload, detected) { if (payload.port) return detected.find(s => Number(s.port) === Number(payload.port)) || null; return detected[0] || null; }
+function buildPreviewActions(ctx) { const { payload } = ctx; return {
+  async previewSettingsGet(){return {ok:true,action:'previewSettingsGet',url:`${Url.baseUrl(payload)}/preview/settings`,defaults:{ aiLocalServerPreview:true, privateLocalServerPreview:true }};},
+  async previewSettingsSet(){return {ok:true,action:'previewSettingsSet',url:`${Url.baseUrl(payload)}/preview/settings/set`,settings:{ aiLocalServerPreview:true, privateLocalServerPreview:true, ...(payload.settings||payload.content||{}) }};},
+  async previewList(){return {ok:true,action:'previewList',url:`${Url.baseUrl(payload)}/preview/list`};},
+  async previewRevoke(){return {ok:true,action:'previewRevoke',url:`${Url.baseUrl(payload)}/preview/revoke?previewId=${encodeURIComponent(payload.previewId||payload.id||'')}`};},
+  async previewCreate(){return simple('previewCreate',payload,payload.kind||'file');}, async previewFile(){return simple('previewFile',payload,'file');}, async previewFolder(){return simple('previewFolder',payload,'folder');},
+  async previewPage(){return simple('previewPage',payload,'page',{html:payload.html||payload.content||'',css:payload.css||'',data:payload.data||null});}, async previewCollection(){return simple('previewCollection',payload,'collection',{items:payload.items||payload.files||[]});},
+  async previewLiveCommand(){return simple('previewLiveCommand',payload,'live',{commandId:payload.commandId||payload.actionId||''});}, async previewActionResult(){return simple('previewActionResult',payload,'action',{actionId:payload.actionId||payload.id||''});},
+  async previewExposeLocalServer(){return localServer(payload);}
+};}
+/** B"H — Private local dev previews now declare default-on policy. */
+module.exports = { buildPreviewActions, createPayload, previewUrl, localServer };
