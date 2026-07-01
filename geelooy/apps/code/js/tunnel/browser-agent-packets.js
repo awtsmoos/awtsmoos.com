@@ -1,66 +1,42 @@
 // B"H
 /**
- * B"H
- * Chapter 36: The registration oath became testable outside the editor storm.
- *
- * The code-tab tunnel packet must be pure enough to stress-test without loading
- * the whole /apps/code workspace graph. This module shapes the protocol-v2
- * browser-tab registration and leaves runtime state to browser-agent.js.
+ * Chapter 112: The Code tab registered as a vessel, not a frightened tab.
  */
-export const CODE_BROWSER_TUNNEL_VERSION = "browser-editor-hei-2.0.0";
+export const CODE_BROWSER_TUNNEL_VERSION = 'awtsmoos-code-vessel-1.0.0';
 
 export function codeBrowserTunnelTools({ fsActions = [], commandActions = [], previewActions = [] } = {}) {
   return {
-    fsList: true,
-    fsTree: true,
-    fsRead: true,
-    fsWrite: true,
-    fsBulk: true,
-    fsAdvanced: [...fsActions],
-    command: "simulated",
-    commandActions: [...commandActions],
-    httpProxy: false,
-    nodeScript: "browser-simulated",
-    chrome: false,
-    browser: true,
-    browserTab: true,
-    browserAnalysis: true,
+    fsList: true, fsTree: true, fsRead: true, fsWrite: true, fsBulk: true,
+    fsAdvanced: [...fsActions], command: 'merkava-virtual-or-remote',
+    commandActions: [...commandActions], httpProxy: false,
+    nodeScript: 'merkava-simulated', chrome: false, browser: true,
+    browserTab: true, browserAnalysis: true, receiptStore: true,
     previewControl: [...previewActions]
   };
 }
 
-export function codeBrowserRegistrationPacket({ tunnelName, fsActions = [], commandActions = [], previewActions = [], userAgent = "" } = {}) {
-  if (!tunnelName) throw new Error("code_browser_tunnel_name_required");
+export function codeBrowserRegistrationPacket({ tunnelName, fsActions = [], commandActions = [], previewActions = [], userAgent = '', url = '' } = {}) {
+  if (!tunnelName) throw new Error('code_browser_tunnel_name_required');
   return {
-    type: "TUNNEL_REGISTER",
-    protocolVersion: "awtsmoos-tunnel-v2",
-    name: tunnelName,
-    tunnelName,
-    vesselType: "browser-tab",
-    deviceName: "Awtsmoos Code Browser Tab",
-    root: "browser://apps/code/workspaces",
-    allowWrite: true,
-    allowSecrets: false,
-    allowCommands: false,
-    agentVersion: CODE_BROWSER_TUNNEL_VERSION,
-    browserAgent: true,
-    userAgent,
-    capabilities: {
-      browserTab: true,
-      fs: true,
-      fsRead: true,
-      fsWrite: true,
-      browserWorkspaces: true,
-      commandRun: "simulated",
-      nodeScript: "browser-simulated",
-      chrome: false,
-      httpProxy: false,
-      browserAnalysis: true,
-      fsActions: [...fsActions],
-      previewControl: [...previewActions]
-    },
+    type: 'TUNNEL_REGISTER', protocolVersion: 'awtsmoos-tunnel-v2',
+    kind: 'browser-code-vessel', name: tunnelName, tunnelName,
+    vessel: 'awtsmoos-code', vesselType: 'awtsmoos-code',
+    deviceName: 'Awtsmoos Code', root: 'awtsmoos://code',
+    allowWrite: true, allowSecrets: false, allowCommands: 'limited',
+    agentVersion: CODE_BROWSER_TUNNEL_VERSION, browserAgent: true,
+    workspaceId: 'browser-workspace', userAgent, url,
+    capabilities: capabilities(fsActions, commandActions, previewActions),
     tools: codeBrowserTunnelTools({ fsActions, commandActions, previewActions }),
-    chrome: { enabled: false },
-    command: { enabled: false, mode: "simulated" }
+    chrome: { enabled: false }, command: { enabled: false, mode: 'merkava-virtual-or-remote' },
+    safety: { preserveIdentity: true, missionSideChannel: true }
   };
+}
+
+function capabilities(fsActions, commandActions, previewActions) {
+  return { fsRead: true, fsWrite: true, workspaceTree: true, preview: true,
+    commandRun: 'merkava-virtual-or-remote', nodeScript: 'merkava-simulated',
+    missionAware: true, receiptStore: true, correlationSafe: true,
+    commandModes: ['merkava-virtual', 'native-delegated', 'unsupported'],
+    fsActions: [...fsActions], commandActions: [...commandActions], previewControl: [...previewActions],
+    chrome: false, httpProxy: false, allowSecrets: false };
 }

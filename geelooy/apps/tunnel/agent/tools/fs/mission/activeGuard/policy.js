@@ -1,13 +1,21 @@
 // B"H
 const Firewall = require('../firewall/index.js');
+
+/**
+ * Chapter 113: The locked mission learned not to choke the repair command.
+ * A vessel may be on mission and still need commandRun to reinstall, restart,
+ * and heal the very tunnel that carries the mission's breath.
+ */
 const EMERGENCY = new Set([
   'missionGet','missionList','missionNext','missionAnswer','missionFinalize',
   'missionEarlyFinalAttempt','missionMetadataStatus','missionBootResume',
   'missionDaemonStatus','missionDaemonTick','missionDaemonRecover','missionDaemonStart',
   'missionWatchdogStatus','missionWatchdogTick','missionWatchdogRecover',
   'missionContinueUntilGate','missionContinueOneHour','continueMustCallNext',
+  'command','commandRun','shellCommand','run_terminal_command','commandStart',
   'commandStatus','commandWait','commandJobStatus','commandJobOutputPage',
-  'commandCancel','payloadEcho','actionSchemaTrace',
+  'commandCancel','commandPoll','commandJobWait','commandOutputPage',
+  'payloadEcho','actionSchemaTrace','agentDoctor','tunnelDoctor',
   'actionHistoryList','actionHistoryGet','actionHistorySearch','actionHistoryExplain',
   'actionHistoryDiff','actionHistoryReplay','actionHistoryGarbageCollect',
   'actionHistoryPin','actionHistoryUnpin'
