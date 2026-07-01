@@ -29,6 +29,7 @@ async function run() {
   await testTemplateLiteralDefaultExport();
   await testLogicalExpressionDefaultExport();
   await testInlineDefaultExportAfterStatement();
+  await testAdjacentNamedExportFunctions();
   await testResidualVendorExportList();
   await testSideEffectImportAndAliases();
   await testServerCompactGuards();
@@ -114,6 +115,24 @@ async function testInlineDefaultExportAfterStatement() {
   const imported = await importSource(rootDir, compiled);
   assert.strictEqual(imported.ready, true);
   delete globalThis.__compactInline;
+}
+
+async function testAdjacentNamedExportFunctions() {
+  const rootDir = await makeTempRoot();
+  await fs.writeFile(path.join(rootDir, "domCore.js"), [
+    "export function mount(){ return 'mount'; }",
+    "export function rows(){ return 'rows'; }"
+  ].join("\n"));
+  await fs.writeFile(path.join(rootDir, "entry.js"), [
+    "import { mount, rows } from './domCore.js';",
+    "export const combined = mount() + ':' + rows();"
+  ].join("\n"));
+
+  const compiled = await compileSource(rootDir, "entry.js");
+  assert.doesNotMatch(compiled, /\n\s*xports\./);
+  assert.doesNotMatch(compiled, /function rows[\s\S]*function rows/);
+  const imported = await importSource(rootDir, compiled);
+  assert.strictEqual(imported.combined, "mount:rows");
 }
 
 async function testResidualVendorExportList() {

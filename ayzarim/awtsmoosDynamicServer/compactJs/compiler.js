@@ -493,8 +493,16 @@ function isTopLevelExportBoundary(source, offset) {
 
 function applyReplacements(source, replacements) {
   let output = source;
-  for (const [start, end, replacement] of replacements.filter(([s, e]) => Number.isFinite(s) && Number.isFinite(e)).sort((a, b) => b[0] - a[0])) {
-    output = output.slice(0, start) + replacement + output.slice(end);
+  let nextProtectedStart = source.length;
+  const ordered = replacements
+    .filter(([start, end]) => Number.isFinite(start) && Number.isFinite(end))
+    .sort((a, b) => b[0] - a[0]);
+
+  for (const [start, end, replacement] of ordered) {
+    const safeEnd = Math.min(end, nextProtectedStart);
+    if (safeEnd <= start) continue;
+    output = output.slice(0, start) + replacement + output.slice(safeEnd);
+    nextProtectedStart = start;
   }
   return output;
 }

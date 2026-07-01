@@ -1,5 +1,5 @@
 B"H
-1.0.206
+1.0.207
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -790,6 +790,7 @@ tools/fs/actionLedgerStore.js
 tools/fs/actionOffload.js
 tools/fs/actionRuntime.js
 tools/fs/actions.js
+tools/fs/agentThoughts/policy.js
 tools/fs/astOutline.js
 tools/fs/autoAsync.js
 tools/fs/awdb/collections.js
@@ -799,6 +800,13 @@ tools/fs/bulkPage.js
 tools/fs/bulkRead.js
 tools/fs/chromeRuntime.js
 tools/fs/cognitionCommandNames.js
+tools/fs/commandJob/gc.js
+tools/fs/commandJob/io.js
+tools/fs/commandJob/meta.js
+tools/fs/commandJob/paths.js
+tools/fs/commandJob/policy.js
+tools/fs/commandJob/process.js
+tools/fs/commandJob/responses.js
 tools/fs/commandJobStore.js
 tools/fs/commandOutputStore.js
 tools/fs/connectedFiles.js
