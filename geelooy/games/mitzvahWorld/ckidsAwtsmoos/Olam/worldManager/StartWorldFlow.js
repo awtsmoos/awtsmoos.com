@@ -1,7 +1,7 @@
 // B"H
-/** @file StartWorldFlow.js @description Chapter 425: starts Android settings-aware worker manager. */
-import OlamWorkerManager from "../ikarOyvedManager.js?v=probe-collision-diag-bridge-20260701-bh1";
-const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js?v=zone-reality-20260614-bh817", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
+/** @file StartWorldFlow.js @description Starts bh9 worker so stale alert/jump workers cannot survive. */
+import OlamWorkerManager from "../ikarOyvedManager.js?v=no-alert-perf-jump-20260701-bh9";
+const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js?v=no-alert-perf-jump-20260701-bh9", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
 const StartWorldFlow = {
   async startWorld(ob = {}) { const { worldDayuh, gameUiHTML, sourcePath, alreadyDestroyed = false } = ob; if (!worldDayuh || typeof worldDayuh !== "object") { console.error('B"H - startWorld refused: direct worldDayuh is required.'); return false; } if (sourcePath) this._rectifyHistory(sourcePath); const systemInfo = await this._buildSystemInfo(worldDayuh, gameUiHTML); const userInfo = { ...worldDayuh }; const canvas = this.ui.$g("canvasEssence"); if (!canvas) { console.error('B"H - Canvas "canvasEssence" NOT FOUND!'); return false; } this._prepareCanvas(canvas); if (this.socket?.eved) return await this._restartInsideExistingWorker({ userInfo, systemInfo }, alreadyDestroyed); return await this._startFreshWorker(canvas, { userInfo, systemInfo }); },
   async _buildSystemInfo(worldDayuh, gameUiHTML) { return { html: { ...(worldDayuh.html || {}), ...(gameUiHTML || {}) }, gameState: this.gameState, set: { playerSettings: await this._getPersistentSettings(), curAlias: window.curAlias || null } }; },

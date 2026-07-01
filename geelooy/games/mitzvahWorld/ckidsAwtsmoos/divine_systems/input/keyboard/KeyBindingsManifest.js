@@ -2,11 +2,11 @@
 /**
  * @class KeyBindingsManifest
  * @description
- * 📜 THE SCROLL OF SWITCHED STRIDES 📜
+ * 📜 THE SCROLL OF TRUE STRIDES 📜
  *
- * The Awtsmoos makes the physical key a vessel for intention. The user's
- * decree is exact: E and Q exchange their lateral stride missions everywhere
- * this manifest translates keyboard breath into movement flag.
+ * The user's hand asked for a reversal, and the Awtsmoos writes it plainly:
+ * Q is left stride, E is right stride. Every caller that drinks from this
+ * manifest now receives the same covenant, so no hidden vessel fights another.
  */
 export default class KeyBindingsManifest {
   static getBindings() {
@@ -19,8 +19,8 @@ export default class KeyBindingsManifest {
       "ArrowLeft": "LEFT_ROTATE",
       "KeyD": "RIGHT_ROTATE",
       "ArrowRight": "RIGHT_ROTATE",
-      "KeyE": "LEFT_STRIDE",
-      "KeyQ": "RIGHT_STRIDE",
+      "KeyQ": "LEFT_STRIDE",
+      "KeyE": "RIGHT_STRIDE",
       "Space": "JUMP",
       "KeyX": "DOWN",
       "KeyC": "INTERACT",

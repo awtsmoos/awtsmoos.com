@@ -1,8 +1,8 @@
 // B"H
-/** @module ManagerOfAllWorlds @description Chapter 426: manager imports Android settings start flow. */
+/** @module ManagerOfAllWorlds @description Worker start flow drinks from bh9 no-alert jump seal. */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-root-binding-20260610-bh710";
-import UIManager from "../uiManager/index.js?compact=true&v=android-settings-ui-20260612-bh1";
-import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=android-start-flow-20260612-bh1";
+import UIManager from "../uiManager/index.js?compact=true&v=no-alert-perf-jump-20260701-bh9";
+import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=no-alert-perf-jump-20260701-bh9";
 import SocketHandler from "./SocketHandler.js?compact=true&v=visible-root-binding-20260610-bh710";
 import ServiceWorkerInit from "./ServiceWorkerInit.js?compact=true&v=visible-root-binding-20260610-bh710";
 import SwitchDestroyLogic from "./SwitchDestroyLogic.js?compact=true&v=visible-root-binding-20260610-bh710";

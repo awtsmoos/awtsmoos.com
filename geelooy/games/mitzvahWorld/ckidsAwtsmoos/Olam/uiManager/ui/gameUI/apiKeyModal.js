@@ -1,3 +1,11 @@
+// B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
 
 /**
  * B"H
@@ -53,7 +61,7 @@ export default {
                                 const keys = raw.split(',').map(k => k.trim()).filter(Boolean);
                                 localStorage.setItem("AWTSMOOS_GEMINI_KEYS", JSON.stringify(keys));
                                 $("apiKeyModal").classList.add("hidden");
-                                alert(`B"H - ${keys.length} keys integrated.`);
+                                awtsmoosNotice(`B"H - ${keys.length} keys integrated.`);
                             }
                         }
                     ]

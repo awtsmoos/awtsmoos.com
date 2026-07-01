@@ -1,3 +1,11 @@
+// B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
 
 /**
  * B"H
@@ -22,7 +30,7 @@ export default function aliasButton() {
             var mm = $("main menu");
             var cw = $("find worlds");
             if(!mm || !cw) {
-                alert("Can't find that page");
+                awtsmoosNotice("Can't find that page");
                 return;
             }
             mm.classList.add("hidden");

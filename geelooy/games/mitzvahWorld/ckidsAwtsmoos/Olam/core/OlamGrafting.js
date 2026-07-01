@@ -1,11 +1,11 @@
 // B"H
-/** @module OlamGrafting @description Chapter 956: main graft imports offline ecology loader. */
+/** @module OlamGrafting @description Main graft imports bh9 loader and frame profiler. */
 import loading from "../methods/loadingPlain.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
-import heesHawvoos from "../methods/heesHawvoos.js?v=worker-message-pump-20260622-bh1";
+import heesHawvoos from "../methods/heesHawvoos.js?v=no-alert-perf-jump-20260701-bh9";
 import HelpersBridge from "../methods/helpers.js?v=visible-root-binding-20260610-bh710";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=fps-guardian-full-gameplay-20260622-bh1";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=no-alert-perf-jump-20260701-bh9";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";

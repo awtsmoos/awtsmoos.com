@@ -1,17 +1,6 @@
 // B"H
-import { FOOT_GROUND_EPSILON, numberOr } from "./FootGroundConstants.js?v=player-visible-above-ground-20260701-bh5";
-import { ROOT_WORLD, SCALE, scanVisibleFoot } from "./FootProbeScan.js?v=player-visible-above-ground-20260701-bh5";
-/**
- * Purpose: keep the rendered player body above the capsule foot every frame.
- * Owner: ApplyPlayerFootGrounding.
- * Inputs: player mesh/model roots and the current visual geometry bounds.
- * Outputs: model-local offset, live sole sealing, and diagnostics.
- * Runtime authority: writes only player-owned visible model roots.
- * Update order: sync root to capsule foot, place model, then seal lowest visible Y.
- * Callers: ApplyPlayerFootGrounding and PlayerGroundingDiagnostics.
- * Invariants: no stale seal cache may keep the body underground.
- * Failure modes: invisible/loading geometry preserves the prior local offset.
- */
+import { PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr } from "./FootGroundConstants.js?v=no-alert-perf-jump-20260701-bh9";
+import { ROOT_WORLD, SCALE, scanVisibleFoot } from "./FootProbeScan.js?v=no-alert-perf-jump-20260701-bh9";
 export function playerVisualRoots(player) {
   const roots = [];
   if (player?.modelMesh?.isObject3D) roots.push(player.modelMesh);
@@ -32,15 +21,16 @@ export function measureFootBase(root) {
   Object.assign(root.userData, { chossidFootBaseMeasured:true, footProbeWaitingForVisibleGeometry:false,
     footProbeRenderableCount:scan.count, footProbeSignature:scan.signature,
     footBaseLocalY:(scan.lowest - ROOT_WORLD.y) / scaleY,
-    footGroundEpsilon:FOOT_GROUND_EPSILON, footBaseMeasuredAt:Date.now() });
+    visualBodyClearanceY:PLAYER_VISIBLE_BODY_CLEARANCE_Y, footBaseMeasuredAt:Date.now() });
   return root.userData;
 }
 export function targetModelLocalY(root) {
   const data = measureFootBase(root);
-  if (!data.chossidFootBaseMeasured) return numberOr(root.userData?.visualGroundOffsetY, 0);
+  if (!data.chossidFootBaseMeasured) return numberOr(root.userData?.visualGroundOffsetY, PLAYER_VISIBLE_BODY_CLEARANCE_Y);
   const scaleY = Math.max(0.000001, Math.abs(numberOr(root.scale?.y, 1)));
-  const localY = FOOT_GROUND_EPSILON - numberOr(data.footBaseLocalY, 0) * scaleY;
+  const localY = PLAYER_VISIBLE_BODY_CLEARANCE_Y - numberOr(data.footBaseLocalY, 0) * scaleY;
   root.userData.visualGroundOffsetY = localY;
+  root.userData.visualBodyClearanceY = PLAYER_VISIBLE_BODY_CLEARANCE_Y;
   return localY;
 }
 export function sealLowestVisibleToWorldY(root, targetWorldY) {
@@ -52,7 +42,7 @@ export function sealLowestVisibleToWorldY(root, targetWorldY) {
   if (!Number.isFinite(delta) || Math.abs(delta) > 30) return null;
   if (Math.abs(delta) > 0.000001) { root.position.y += delta; root.updateMatrixWorld?.(true); }
   const seal = { at:Date.now(), targetWorldY, beforeLowestWorldY:scan.lowest, afterLowestWorldY:scan.lowest + delta, delta, signature:scan.signature };
-  Object.assign(root.userData, { footWorldSealDone:true, footWorldSealSignature:scan.signature, footWorldSeal:seal, visualGroundSealEveryFrame:true });
+  Object.assign(root.userData, { footWorldSealDone:true, footWorldSealSignature:scan.signature, footWorldSeal:seal, visualGroundSealEveryFrame:true, visualBodyClearanceY:PLAYER_VISIBLE_BODY_CLEARANCE_Y });
   return seal;
 }
 export function cachedLowestWorldY(root) {

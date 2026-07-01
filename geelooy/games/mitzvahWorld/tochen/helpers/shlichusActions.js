@@ -1,3 +1,11 @@
+// B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
 /**
  * B"H
  */
@@ -283,7 +291,7 @@ export default class ShlichusActions {
         
             if(shlichusName != sh.shaym) {
                 console.log(sh,shlichusName)
-                return alert("That's not a real shlichus to start! ")
+                return awtsmoosNotice("That's not a real shlichus to start! ")
             }
             sh.startTime = Date.now();
             var id = sh.id;

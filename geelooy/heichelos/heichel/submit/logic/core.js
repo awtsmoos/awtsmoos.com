@@ -1,100 +1,83 @@
 //B"H
-/**
- * @module SubmitCore
- * @description
- * The submit console can be reached globally or from inside a Heichel, and it
- * still knows which palace receives the spark without inventing the writer.
+/** @module SubmitCore
+ * The launch button finds the alias, resolves a home-Heichel, and lets existing
+ * community gates decide direct publish versus review.
  */
-
 import { makePost, AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { getEditorContent } from "./editor.js";
 import { getAllSectionsData } from "./sections.js";
 import { setSubmitStatus } from "./status.js";
+import { explicitHeichelFromUrl, renderTargetSummary, resolveAlias, resolveTarget } from "./target.js";
 
 export function initializeSubmitCore() {
-    const aliasIdDiv = document.getElementById("aliasId");
-    const backBtn = document.getElementById("backBtn");
-    const url = new URL(location);
-    const parentSeriesId = url.searchParams.get("parentSeriesId") || "root";
-    const heichelId = getHeichelId(url);
-    const returnURL = url.searchParams.get("returnURL");
-    const editPostId = url.searchParams.get("editPostId") || "";
-    const baseURL = `/heichelos/${heichelId}?${new URLSearchParams({ view: "posts", series: parentSeriesId })}`;
-    if (backBtn) backBtn.href = returnURL || baseURL;
-    window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || localStorage.getItem("awtsmoos-alias") || "";
-    if (aliasIdDiv) aliasIdDiv.value = window.curAlias;
-    addEventListener("awtsmoosAliasChange", event => {
-        window.curAlias = event?.detail?.id || "";
-        if (aliasIdDiv) aliasIdDiv.value = window.curAlias;
-    });
-    document.getElementById("postId")?.setAttribute("value", editPostId);
-    document.getElementById("submitPost")?.addEventListener("click", () => handleSubmit({ heichelId, parentSeriesId, editPostId }));
-    return { heichelId, parentSeriesId, editPostId };
+  const url = new URL(location.href);
+  const parentSeriesId = url.searchParams.get("parentSeriesId") || "root";
+  const editPostId = url.searchParams.get("editPostId") || "";
+  const context = { url, parentSeriesId, editPostId, heichelId: explicitHeichelFromUrl(url) };
+  hydrateAlias();
+  setupBack(context);
+  document.getElementById("postId")?.setAttribute("value", editPostId);
+  document.getElementById("submitPost")?.addEventListener("click", () => handleSubmit(context));
+  document.getElementById("targetSeriesId")?.setAttribute("placeholder", parentSeriesId || "root");
+  previewTarget(context);
+  return context;
 }
 
-function getHeichelId(url) {
-    const parts = location.pathname.split("/").filter(Boolean);
-    const pathHeichel = parts.length >= 3 && parts.at(-1) === "submit" ? parts.at(-2) : "";
-    return url.searchParams.get("heichel") || url.searchParams.get("heichelId") || pathHeichel || "ikar";
+function hydrateAlias() {
+  const input = document.getElementById("aliasId");
+  window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || localStorage.getItem("awtsmoos-alias") || "";
+  if (input) input.value = window.curAlias;
+  resolveAlias(input).then(alias => { window.curAlias = alias; });
+  addEventListener("awtsmoosAliasChange", event => {
+    window.curAlias = event?.detail?.id || "";
+    if (input) input.value = window.curAlias;
+  });
 }
 
-function getValue(id) {
-    return document.getElementById(id)?.value?.trim() || "";
+function setupBack(context) {
+  const backBtn = document.getElementById("backBtn");
+  const heichel = context.heichelId || "ikar";
+  const qs = new URLSearchParams({ view: "posts", series: context.parentSeriesId });
+  if (backBtn) backBtn.href = context.url.searchParams.get("returnURL") || `/heichelos/${heichel}?${qs}`;
 }
 
-function buildPayload({ heichelId, parentSeriesId, editPostId }) {
-    const sections = getAllSectionsData();
-    const mainContent = getEditorContent(document.getElementById("mainContentEditor"));
-    return {
-        aliasId: getValue("aliasId"),
-        heichelId,
-        parentSeriesId,
-        seriesId: parentSeriesId,
-        postId: getValue("postId") || editPostId || `BH_post_${Date.now()}`,
-        title: getValue("title"),
-        contentType: getValue("contentType") || "post",
-        content: mainContent.text,
-        mainContent: { html: mainContent.html, images: mainContent.images },
-        sections,
-        dayuh: { sections, verseMap: Object.fromEntries(sections.map(section => [section.verseSection, section.id])) }
-    };
+function getValue(id) { return document.getElementById(id)?.value?.trim() || ""; }
+function postId(editPostId) { return getValue("postId") || editPostId || `BH_post_${Date.now()}`; }
+
+function buildPayload(target, context) {
+  const sections = getAllSectionsData();
+  const main = getEditorContent(document.getElementById("mainContentEditor"));
+  return { aliasId: target.aliasId, heichelId: target.heichelId, parentSeriesId: target.seriesId || "root", seriesId: target.seriesId || "root", postId: postId(context.editPostId), title: getValue("title"), contentType: getValue("contentType") || "post", content: main.text, mainContent: { html: main.html, images: main.images }, sections, dayuh: { sections, verseMap: Object.fromEntries(sections.map(s => [s.verseSection, s.id])) } };
 }
 
 async function submitThroughContentApi(payload) {
-    const endpoint = payload.contentType === "question"
-        ? `/api/social/content/heichelos/${encodeURIComponent(payload.heichelId)}/questions`
-        : `/api/social/content/heichelos/${encodeURIComponent(payload.heichelId)}/posts`;
-    const response = await fetch(endpoint, {
-        method: "POST",
-        body: new URLSearchParams({
-            aliasId: payload.aliasId,
-            postId: payload.postId,
-            title: payload.title,
-            content: payload.content,
-            seriesId: payload.seriesId,
-            parentSeriesId: payload.parentSeriesId,
-            sections: JSON.stringify(payload.sections)
-        })
-    });
-    const data = await response.json().catch(() => null);
-    if (!response.ok || data?.error) throw new Error(data?.error?.message || data?.message || "Content API failed.");
-    return data;
+  const kind = payload.contentType === "question" ? "questions" : "posts";
+  const response = await fetch(`/api/social/content/heichelos/${encodeURIComponent(payload.heichelId)}/${kind}`, { method: "POST", body: new URLSearchParams({ aliasId: payload.aliasId, postId: payload.postId, title: payload.title, content: payload.content, seriesId: payload.seriesId, parentSeriesId: payload.parentSeriesId, sections: JSON.stringify(payload.sections) }) });
+  const data = await response.json().catch(() => null);
+  if (!response.ok || data?.error) throw new Error(data?.error?.message || data?.message || "Content API failed.");
+  return data;
+}
+
+async function previewTarget(context) {
+  try { renderTargetSummary(await resolveTarget(context, { createDefault: false })); }
+  catch (error) { setSubmitStatus(error.message, "error"); }
 }
 
 async function handleSubmit(context) {
-    const payload = buildPayload(context);
-    if (!payload.title) return setSubmitStatus("Title is required.", "error");
-    if (!payload.aliasId) return setSubmitStatus("Alias ID missing. Please choose or log in with an alias.", "error");
-    try {
-        setSubmitStatus("Launching post...", "info");
-        const response = await submitThroughContentApi(payload).catch(() => makePost(payload));
-        if (!response.success) throw new Error(response.error || "Unknown server error");
-        setSubmitStatus("Post launched.", "success");
-        await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "SUCCESS!", bodyTxt: "Your segment-aware post has been launched." });
-        const backBtn = document.getElementById("backBtn");
-        location.href = backBtn ? backBtn.href : `/heichelos/${context.heichelId}`;
-    } catch (error) {
-        setSubmitStatus(error.message || "Submission failed.", "error");
-        AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission Failed", bodyTxt: error.message });
-    }
+  if (!getValue("title")) return setSubmitStatus("Title is required.", "error");
+  try {
+    setSubmitStatus("Resolving alias and default heichel...", "info");
+    const target = await resolveTarget(context, { createDefault: true });
+    renderTargetSummary(target);
+    const payload = buildPayload(target, context);
+    setSubmitStatus("Posting through community rules...", "info");
+    const response = await submitThroughContentApi(payload).catch(() => makePost(payload));
+    if (!response.success) throw new Error(response.error?.message || response.error || "Unknown server error");
+    setSubmitStatus(target.usedDefault ? "Posted to your default heichel." : "Post launched.", "success");
+    await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Posted", bodyTxt: "Your post was sent. If approval is required, it is now pending review." });
+    location.href = document.getElementById("backBtn")?.href || `/heichelos/${target.heichelId}`;
+  } catch (error) {
+    setSubmitStatus(error.message || "Submission failed.", "error");
+    AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission Failed", bodyTxt: error.message });
+  }
 }

@@ -1,64 +1,14 @@
 // B"H
-/**
- * @file PlayerGuaranteeProbe.js
- * @description Browser globals for player body and worker grounding proof.
- */
+/** @file PlayerGuaranteeProbe.js @description Browser globals for bh7 worker grounding proof. */
 const vectorArray = v => v?.toArray?.() || (v ? [Number(v.x), Number(v.y), Number(v.z)] : null);
-
-function activeOlam(scope) {
-  return scope.olam || scope.mana?.socket?.olam || scope.mana?.socket?.runtime?.olam || scope.mana?.olam || null;
-}
-
-function activePlayer(world) {
-  return world?.chossid || world?.player || world?.nivrayim?.find?.(x => x?.type === "chossid") || null;
-}
-
-function activeWorkerManager(scope) {
-  return scope.__AWTSMOOS_ACTIVE_WORKER_MANAGER__ || scope.mana?.socket || null;
-}
-
+function activeOlam(scope) { return scope.olam || scope.mana?.socket?.olam || scope.mana?.socket?.runtime?.olam || scope.mana?.olam || null; }
+function activePlayer(world) { return world?.chossid || world?.player || world?.nivrayim?.find?.(x => x?.type === "chossid") || null; }
+function activeWorkerManager(scope) { return scope.__AWTSMOOS_ACTIVE_WORKER_MANAGER__ || scope.mana?.socket || null; }
 function mainThreadProbe(scope, seal) {
-  const world = activeOlam(scope), player = activePlayer(world);
-  const model = player?.modelMesh || null, root = player?.mesh || null;
-  const fallback = root?.getObjectByName?.("BASIC_VISIBLE_CHOSSID_BODY") || null;
-  const camera = world?.activeCamera || world?.ayin?.camera || null;
-  const chossidim = world?.nivrayim?.filter?.(x => x?.type === "chossid") || [];
-  return {
-    seal, source:"main-thread", hasWorld:Boolean(world),
-    samePlayer:Boolean(player && player === world?.player && player === world?.chossid),
-    chossidCount:chossidim.length, inLoop:Boolean(player && world?.nivrayim?.includes?.(player)),
-    ready:Boolean(player?.isReady), active:Boolean(player?.heesHawveh),
-    meshName:root?.name || null, modelName:model?.name || null,
-    modelParentIsRoot:Boolean(model && root && model.parent === root),
-    fallbackPresent:Boolean(fallback), meshPos:vectorArray(root?.position),
-    modelLocal:vectorArray(model?.position), cameraTargetIsPlayer:Boolean(world?.ayin?.target === player),
-    cameraPos:vectorArray(camera?.position), rootChildren:root?.children?.map?.(x => x.name || x.type) || [],
-    visibleState:player?.__visibleBodyState || null, visualClamp:player?.__lastVisualGroundClamp || null,
-    movementTraceTail:world?.__movementTrace?.slice?.(-80) || [],
-    modelLoadTraceTail:scope.__AWTSMOOS_MODEL_LOAD_TRACE__?.slice?.(-40) || []
-  };
+  const world = activeOlam(scope), player = activePlayer(world), model = player?.modelMesh || null, root = player?.mesh || null, fallback = root?.getObjectByName?.("BASIC_VISIBLE_CHOSSID_BODY") || null;
+  const camera = world?.activeCamera || world?.ayin?.camera || null, chossidim = world?.nivrayim?.filter?.(x => x?.type === "chossid") || [];
+  return { seal, source:"main-thread", hasWorld:Boolean(world), samePlayer:Boolean(player && player === world?.player && player === world?.chossid), chossidCount:chossidim.length, inLoop:Boolean(player && world?.nivrayim?.includes?.(player)), ready:Boolean(player?.isReady), active:Boolean(player?.heesHawveh), meshName:root?.name || null, modelName:model?.name || null, modelParentIsRoot:Boolean(model && root && model.parent === root), fallbackPresent:Boolean(fallback), meshPos:vectorArray(root?.position), modelLocal:vectorArray(model?.position), cameraTargetIsPlayer:Boolean(world?.ayin?.target === player), cameraPos:vectorArray(camera?.position), rootChildren:root?.children?.map?.(x => x.name || x.type) || [], visibleState:player?.__visibleBodyState || null, visualClamp:player?.__lastVisualGroundClamp || null, movementTraceTail:world?.__movementTrace?.slice?.(-80) || [], modelLoadTraceTail:scope.__AWTSMOOS_MODEL_LOAD_TRACE__?.slice?.(-40) || [] };
 }
-
-function requestWorkerProbe(scope, seal) {
-  const manager = activeWorkerManager(scope);
-  const id = `playerProbe-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  if (!manager?.postMessage) return { ok:false, reason:"missing-worker-manager", main:mainThreadProbe(scope, seal) };
-  manager.postMessage({ playerProbe:{ id, seal } });
-  return { ok:true, id, seal, latest:scope.__AWTSMOOS_LAST_PLAYER_PROBE__ || null };
-}
-
-function groundingDiag(scope, seal) {
-  const world = activeOlam(scope), player = activePlayer(world);
-  const direct = player?.__lastVisualGroundClamp || null;
-  const worker = scope.__AWTSMOOS_LAST_PLAYER_PROBE__?.visualClamp || null;
-  if (!worker) requestWorkerProbe(scope, seal);
-  return direct || worker || { warnings:["player grounding diagnostic not ready"], requestedWorkerProbe:true };
-}
-
-export function installPlayerGuaranteeProbe(scope, seal) {
-  scope.__AWTSMOOS_VISIBLE_ROOT_SEAL__ = seal;
-  scope.__AWTSMOOS_GET_ACTIVE_OLAM__ = () => activeOlam(scope);
-  scope.__AWTSMOOS_ASSERT_PLAYER_BODY__ = () => mainThreadProbe(scope, seal);
-  scope.__AWTSMOOS_REQUEST_PLAYER_PROBE__ = () => requestWorkerProbe(scope, seal);
-  scope.__MITZVAH_PLAYER_GROUNDING_DIAG__ = () => groundingDiag(scope, seal);
-}
+function requestWorkerProbe(scope, seal) { const manager = activeWorkerManager(scope), id = `playerProbe-${Date.now()}-${Math.random().toString(36).slice(2)}`; if (!manager?.postMessage) return { ok:false, reason:"missing-worker-manager", main:mainThreadProbe(scope, seal) }; manager.postMessage({ playerProbe:{ id, seal } }); return { ok:true, id, seal, latest:scope.__AWTSMOOS_LAST_PLAYER_PROBE__ || null }; }
+function groundingDiag(scope, seal) { const player = activePlayer(activeOlam(scope)); const direct = player?.__lastVisualGroundClamp || null, worker = scope.__AWTSMOOS_LAST_PLAYER_PROBE__?.visualClamp || null; if (!worker) requestWorkerProbe(scope, seal); return direct || worker || { warnings:["player grounding diagnostic not ready"], requestedWorkerProbe:true, latestProbe:scope.__AWTSMOOS_LAST_PLAYER_PROBE__ || null }; }
+export function installPlayerGuaranteeProbe(scope, seal) { scope.__AWTSMOOS_VISIBLE_ROOT_SEAL__ = seal; scope.__AWTSMOOS_GET_ACTIVE_OLAM__ = () => activeOlam(scope); scope.__AWTSMOOS_ASSERT_PLAYER_BODY__ = () => mainThreadProbe(scope, seal); scope.__AWTSMOOS_REQUEST_PLAYER_PROBE__ = () => requestWorkerProbe(scope, seal); scope.__MITZVAH_PLAYER_GROUNDING_DIAG__ = () => groundingDiag(scope, seal); }

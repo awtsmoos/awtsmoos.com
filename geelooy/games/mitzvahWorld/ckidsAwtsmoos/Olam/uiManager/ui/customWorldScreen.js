@@ -1,3 +1,11 @@
+// B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
 /**
  * B"H
  */
@@ -66,7 +74,7 @@ export default {
             onclick(e, $, ui) {
                 var mm = $("main menu");
                 if(!mm) {
-                    alert("Can't go back!")
+                    awtsmoosNotice("Can't go back!")
                     return;
                 }
                 mm.classList.remove("hidden");
@@ -104,7 +112,7 @@ export default {
                 var mm = $("main menu");
                 
                 if(!ikar || !mm) {
-                    alert("Can't do something, contact Coby")
+                    awtsmoosNotice("Can't do something, contact Coby")
                     return;
                 }
                 var inp = ui.html({
@@ -113,7 +121,7 @@ export default {
                     className:"hidden",
                     async onchange(e) {
                         if(!e.target.files[0]) {
-                            alert("No file selected!")
+                            awtsmoosNotice("No file selected!")
                             return;
                         }
                         var lvl = await new Promise(async (r,j) => {
@@ -157,7 +165,7 @@ export default {
                             if(!ld) return;
                             ld.classList.remove("hidden");
                         } catch(e) {
-                            alert("Couldn't load it")
+                            awtsmoosNotice("Couldn't load it")
                             // B"H: silent
 
                         }

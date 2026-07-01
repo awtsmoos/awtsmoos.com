@@ -1,6 +1,6 @@
 // B"H
-/** @module ExportsHub @description Chapter 942: hub exports visible terrain ground authority. */
-export * from './ChayimExports.js?v=domem-visible-ground-authority-20260701-bh1';
+/** @module ExportsHub @description Hub exports bh9 Chayim. */
+export * from './ChayimExports.js?v=no-alert-perf-jump-20260701-bh9';
 export * from './DvarimExports.js?v=visible-guide-motion-20260610-bh701';
 export * from './SystemExports.js';
 export * from './NatureExports.js?v=visible-ground-authority-20260701-bh1';

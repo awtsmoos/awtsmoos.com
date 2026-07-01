@@ -4,7 +4,7 @@ const DEPS = [
   ["loadingPlain", "../methods/loadingPlain.js"],
   ["entityLogic", "../methods/entityLogic.js"],
   ["hebrewLetters", "../methods/hebrewLetters.js"],
-  ["heesHawvoos", "../methods/heesHawvoos.js?v=worker-message-pump-20260622-bh1"],
+  ["heesHawvoos", "../methods/heesHawvoos.js?v=no-alert-perf-jump-20260701-bh9"],
   ["HelpersBridge", "../methods/helpers.js?v=visible-root-binding-20260610-bh710"],
   ["loadNivrayim", "../methods/loadNivrayim/index.js?v=zone-reality-20260614-bh817"],
   ["placeholderAndEntities", "../methods/placeholderAndEntities/index.js"],

@@ -250,26 +250,104 @@ class AwtsmoosDB {
 
   /**
    * @method _saveFreeListSeal
-   * @description Persists current free-list metadata as live DB bytes.
+   * @description
+   * Persists current free-list metadata as live DB bytes without needless
+   * growth. The seal first tries to reuse its prior vessel, then tries to sit
+   * inside reclaimed space, and only appends when no hollow chamber can hold it.
+   * The on-disk format remains exactly the same: superblock byte 40 stores the
+   * pointer length and bytes 41.. carry a normal BUFFER pointer to encoded
+   * ranges.
    * @returns {void}
    */
   _saveFreeListSeal() {
     if (this.options.readOnly) return;
-    const ranges = (this.allocator.freeList || [])
+
+    let ranges = (this.allocator.freeList || [])
       .filter(r => r && r.offset >= 64 && r.length > 0)
-      .map(r => ({ offset: r.offset, length: r.length }));
-    const raw = FreeListCodec.encode(ranges);
-    const previous = this.options.reuseFreedSpace;
+      .map(r => ({ offset: r.offset, length: r.length }))
+      .sort((a, b) => a.offset - b.offset);
+
+    if (ranges.length === 0) {
+      this.freeListPtrRaw = null;
+      this._flushSuperblock();
+      return;
+    }
+
+    const previousMode = this.options.reuseFreedSpace;
     this.options.reuseFreedSpace = false;
 
     try {
-      const loc = this.allocator.allocate(raw.length);
+      let raw = FreeListCodec.encode(ranges);
+      let loc = this._reusePreviousFreeListSeal(raw.length);
+
+      if (!loc) {
+        const chosen = this._chooseFreeListSealGap(ranges, raw.length);
+        if (chosen) {
+          loc = chosen.loc;
+          ranges = chosen.ranges;
+          raw = FreeListCodec.encode(ranges);
+        }
+      }
+
+      if (!loc) loc = this.allocator.allocate(raw.length);
+
+      this.allocator.freeList = ranges;
       if (raw.length) this.pager.writeExact(loc.offset, raw);
       this.freeListPtrRaw = Pointer.encode(constants.VAL_TYPE.BUFFER, loc.offset, raw.length);
       this._flushSuperblock();
     } finally {
-      this.options.reuseFreedSpace = previous;
+      this.options.reuseFreedSpace = previousMode;
     }
+  }
+
+  /**
+   * @method _reusePreviousFreeListSeal
+   * @description Reuses the prior seal bytes when the encoded list still fits.
+   * @param {number} needed - Required byte count.
+   * @returns {object|null} Existing location or null.
+   */
+  _reusePreviousFreeListSeal(needed) {
+    if (!this.freeListPtrRaw) return null;
+    try {
+      const prev = Pointer.decode(this.freeListPtrRaw);
+      if (!prev || prev.offset < 64 || prev.length < needed) return null;
+      return { offset: prev.offset, length: needed };
+    } catch (_err) {
+      return null;
+    }
+  }
+
+  /**
+   * @method _chooseFreeListSealGap
+   * @description Carves the free-list seal itself out of reclaimed space.
+   * @param {Array<object>} ranges - Current free ranges.
+   * @param {number} needed - Required byte count.
+   * @returns {object|null} Location and adjusted ranges.
+   */
+  _chooseFreeListSealGap(ranges, needed) {
+    if (!needed) return { loc: { offset: 64, length: 0 }, ranges };
+    const sorted = ranges
+      .map(r => ({ offset: r.offset, length: r.length }))
+      .sort((a, b) => (a.length - b.length) || (a.offset - b.offset));
+
+    for (const gap of sorted) {
+      if (gap.length < needed) continue;
+      const remainder = gap.length - needed;
+      const payloadSizedGap = gap.length >= 8192;
+      if (payloadSizedGap && remainder > 0 && remainder < 8192) continue;
+
+      const loc = { offset: gap.offset, length: needed };
+      const adjusted = ranges
+        .map(r => {
+          if (r.offset !== gap.offset || r.length !== gap.length) return r;
+          return { offset: r.offset + needed, length: remainder };
+        })
+        .filter(r => r.length > 0)
+        .sort((a, b) => a.offset - b.offset);
+      return { loc, ranges: adjusted };
+    }
+
+    return null;
   }
 
   /**

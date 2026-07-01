@@ -1,4 +1,12 @@
 // B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
+// B"H
 /**
  * @file playButton.js
  * @description
@@ -42,7 +50,7 @@ export default function playButton(gameUiHTML) {
         ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh, sourcePath: VILLAGE_ID, gameUiHTML } }));
       } catch (error) {
         console.error('B"H - Real village load failed:', error);
-        alert("B\"H\nThe 3D village could not load yet.");
+        awtsmoosNotice("B\"H\nThe 3D village could not load yet.");
         if (loading) loading.classList.add("hidden");
       }
     }

@@ -1,3 +1,11 @@
+// B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
 
 
 //B"H
@@ -261,7 +269,7 @@ export default {
                                     }
                                 } catch(err) {
                                     console.error(err);
-                                    alert("Error loading world file.");
+                                    awtsmoosNotice("Error loading world file.");
                                 }
                             },
                             children: [

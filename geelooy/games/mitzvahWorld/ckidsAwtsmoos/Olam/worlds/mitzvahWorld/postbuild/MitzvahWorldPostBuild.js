@@ -1,35 +1,44 @@
 // B"H
-/** Active postbuild: region, life, polish, sun, Torah loop, JSON movie universe, and Emerald memory. */
+/** @file MitzvahWorldPostBuild.js @description Player-first postbuild; no sync scenery jail. */
 import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteractionSchema.js";
 import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js";
 import { ensureNpcRoles } from "./NpcRolePostBuild.js";
-import { ensureNpc3DMarkers } from "./Npc3DMarkerPostBuild.js?v=awtsmoos-npc-3d-markers-20260619-bh1";
 import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
-import { ensureWildlifeCarcassLoot } from "./WildlifeCarcassLootPostBuild.js?v=awtsmoos-carcass-loot-20260619-bh1";
-import { ensureCinematicDirectorPostBuild } from "./CinematicDirectorPostBuild.js?v=awtsmoos-cinematic-director-20260619-bh1";
-import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js?v=awtsmoos-battle-layer-20260614-bh2";
-import { ensureVillageVisualRealityLayer } from "./VillageVisualRealityLayer.js?v=awtsmoos-visual-reality-20260614-bh3";
-import { ensureVillageBotanicalRealityLayer } from "./VillageBotanicalRealityLayer.js?v=awtsmoos-botanical-reality-20260614-bh3";
-import { ensureVillageEcologyRealityLayer } from "./VillageEcologyRealityLayer.js?v=awtsmoos-ecology-reality-20260614-bh3";
-import { ensureVillageWorldPolishPass } from "./VillageWorldPolishPass.js?v=awtsmoos-world-polish-20260614-bh2";
-import { ensureHyperRealSunLensFlareLayer } from "./HyperRealSunLensFlareLayer.js?v=awtsmoos-hyper-real-sun-20260616-bh1";
-import { ensureLivingTorahQuestLoop } from "./LivingTorahQuestLoop.js?v=full-shlichus-moves-20260622-bh1";
-import { ensureUniverseJsonPostBuild } from "./UniverseJsonPostBuild.js?v=awtsmoos-movie-universe-20260616-bh1";
-import { ensureEmeraldInfinityPostBuild } from "./EmeraldInfinityPostBuild.js?v=emerald-infinity-memory-20260623-bh1";
-import { ensureProceduralWorldRuntime } from "../procedural/ProceduralWorldRuntime.js?v=awtsmoos-json-world-runtime-20260619-bh1";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?v=ecology-data-spine-20260612-bh1";
-import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=fps-guardian-full-gameplay-20260622-bh1";
-import { getVillageShaderTextureStats } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh3";
-import { ecologyMaterialStats } from "../../../../dvarim/nature/villagePicture/EcologySpecialMaterials.js?v=awtsmoos-ecology-materials-20260614-bh3";
-import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js";
-function sourceOf(context){return context?.worldData?.shaym||context?.source||null;}
-function mark(stage,data={}){postWorkerProgress(`postbuild:${stage}`,data);}
-function err(error){return error?.message||String(error);}
-async function safeStep(name,task){const t=performance.now();mark(`${name}:start`);try{const value=await task();mark(`${name}:done`,{elapsedMs:Math.round(performance.now()-t)});return{ok:true,value};}catch(e){const message=err(e);mark(`${name}:error`,{message});console.warn('B"H | MITZVAH_POSTBUILD_STEP_FAILED',{name,message});return{ok:false,error:message};}}
-const countArray=r=>Array.isArray(r.value)?r.value.length:0;
-const one=r=>r.value?1:0;
-const skippedWarm=(kind,stats)=>({skipped:true,kind,reason:'runtime-proof-first-fast-materials',stats});
-const regionSummary=r=>r.value?.summary||null;
-const livingStats=r=>r.value?.userData?.stats||null;
-const stepLine=(r,extra={})=>({ok:r.ok,error:r.error||null,...extra});
-export async function runMitzvahWorldPostBuild(context={}){mark('start',{source:sourceOf(context),proofFirst:true});const regionStack=await safeStep('regionStack',()=>ensureMitzvahRegionDirector(context));const livingRuntime=await safeStep('livingRegionRuntime',()=>ensureLivingRegionRuntime(context,regionStack.value||{}));const woodCollectibles=await safeStep('woodCollectibles',()=>ensureWoodCollectibles(context));const roleMarkedNpcs=await safeStep('roleMarkedNpcs',()=>ensureNpcRoles(context));const npc3DMarkers=await safeStep('npc3DMarkers',()=>ensureNpc3DMarkers(context));const proceduralWorld=await safeStep('proceduralWorldJson',()=>ensureProceduralWorldRuntime(context));const battleLayer=await safeStep('battleLayer',()=>ensureGeneratedBattleLayer(context));const carcassLoot=await safeStep('wildlifeCarcassLoot',()=>ensureWildlifeCarcassLoot(context));const cinematicDirector=await safeStep('cinematicDirector',()=>ensureCinematicDirectorPostBuild(context));const shaderWarm=await safeStep('shaderTextureWarm',()=>skippedWarm('villageShaderTextures',getVillageShaderTextureStats()));const ecologyWarm=await safeStep('ecologyMaterialWarm',()=>skippedWarm('ecologyMaterials',ecologyMaterialStats()));const visualReality=await safeStep('visualReality',()=>ensureVillageVisualRealityLayer(context));const botanicalReality=await safeStep('botanicalReality',()=>ensureVillageBotanicalRealityLayer(context));const ecologyReality=await safeStep('ecologyReality',()=>ensureVillageEcologyRealityLayer(context));const worldPolish=await safeStep('worldPolish',()=>ensureVillageWorldPolishPass(context));const hyperSun=await safeStep('hyperRealSunLensFlare',()=>ensureHyperRealSunLensFlareLayer(context));const torahLoop=await safeStep('livingTorahQuestLoop',()=>ensureLivingTorahQuestLoop(context));const movieUniverse=await safeStep('movieUniverseJson',()=>ensureUniverseJsonPostBuild(context));const emeraldInfinity=await safeStep('emeraldInfinity',()=>ensureEmeraldInfinityPostBuild(context));const summary=regionSummary(regionStack)||{};const movieGeneration=cinematicDirector.value?.report?.movieGeneration||{};mark('done',{regionStack:one(regionStack),livingRuntime:one(livingRuntime),worldPolish:one(worldPolish),hyperSun:one(hyperSun),torahLoop:one(torahLoop),movieUniverse:one(movieUniverse),proceduralWorld:one(proceduralWorld),emeraldInfinity:one(emeraldInfinity),movieScenes:movieGeneration.scenes||0,movieCameraBeats:movieGeneration.camera||0,movieDialogueBeats:movieGeneration.dialogue||0,visibleInstances:summary.visibleInstances||0,npcSchedules:summary.npcSchedules||0,emeraldFacts:emeraldInfinity.value?.stats?.facts||0});return{skipped:false,reason:'postbuild-full-region-sun-torah-json-movie-universe-procedural-loot-ui-cinematic-emerald-memory',source:sourceOf(context),steps:{regionStack:stepLine(regionStack,{summary:regionSummary(regionStack)}),livingRegionRuntime:stepLine(livingRuntime,{stats:livingStats(livingRuntime)}),woodCollectibles:stepLine(woodCollectibles,{authored:WOOD_COLLECTIBLES.length,added:countArray(woodCollectibles)}),roleMarkedNpcs:stepLine(roleMarkedNpcs,{authored:Object.keys(NPC_ROLES).length,marked:countArray(roleMarkedNpcs)}),npc3DMarkers:stepLine(npc3DMarkers,{marked:countArray(npc3DMarkers)}),proceduralWorldJson:stepLine(proceduralWorld,{added:one(proceduralWorld),stats:livingStats(proceduralWorld)}),battleLayer:stepLine(battleLayer,{added:countArray(battleLayer)}),wildlifeCarcassLoot:stepLine(carcassLoot,{added:one(carcassLoot)}),cinematicDirector:stepLine(cinematicDirector,{added:one(cinematicDirector),report:cinematicDirector.value?.report||null}),shaderTextureWarm:stepLine(shaderWarm,{value:shaderWarm.value||null}),ecologyMaterialWarm:stepLine(ecologyWarm,{value:ecologyWarm.value||null}),visualReality:stepLine(visualReality,{added:one(visualReality)}),botanicalReality:stepLine(botanicalReality,{added:one(botanicalReality)}),ecologyReality:stepLine(ecologyReality,{added:one(ecologyReality),counts:livingStats(ecologyReality)}),worldPolish:stepLine(worldPolish,{added:one(worldPolish),steps:worldPolish.value?.steps||null}),hyperRealSunLensFlare:stepLine(hyperSun,{added:one(hyperSun),stats:livingStats(hyperSun)}),livingTorahQuestLoop:stepLine(torahLoop,{added:one(torahLoop),stats:livingStats(torahLoop),summary:regionSummary(torahLoop)}),movieUniverseJson:stepLine(movieUniverse,{added:one(movieUniverse),stats:livingStats(movieUniverse),summary:regionSummary(movieUniverse)}),emeraldInfinity:stepLine(emeraldInfinity,{added:one(emeraldInfinity),stats:emeraldInfinity.value?.stats||null,consequence:emeraldInfinity.value?.consequence||null})}};}
+import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=no-alert-perf-jump-20260701-bh9";
+import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js?v=no-alert-perf-jump-20260701-bh9";
+const HEAVY_DEFERRED = ["battleLayer", "visualReality", "botanicalReality", "ecologyReality", "worldPolish", "hyperRealSunLensFlare", "livingTorahQuestLoop", "movieUniverseJson", "emeraldInfinity", "wildlifeCarcassLoot", "cinematicDirector", "shaderTextureWarm", "ecologyMaterialWarm", "npc3DMarkers", "proceduralWorldJson"];
+const sourceOf = context => context?.worldData?.shaym || context?.source || null;
+const mark = (stage, data = {}) => postWorkerProgress(`postbuild:${stage}`, data);
+const one = r => r?.value ? 1 : 0;
+const err = error => error?.message || String(error);
+const summary = r => r.value?.summary || null;
+const stats = r => r.value?.userData?.stats || null;
+const stepLine = (r, extra = {}) => ({ ok:r.ok, skipped:Boolean(r.skipped), error:r.error || null, elapsedMs:r.elapsedMs || null, ...extra });
+async function safeStep(name, task) { const t = performance.now(); mark(`${name}:start`); try { const value = await task(); const elapsedMs = Math.round(performance.now() - t); mark(`${name}:done`, { elapsedMs }); return { ok:true, value, elapsedMs }; } catch (e) { const message = err(e); mark(`${name}:error`, { message }); console.warn('B"H | MITZVAH_POSTBUILD_STEP_FAILED', { name, message }); return { ok:false, error:message, value:null, elapsedMs:Math.round(performance.now() - t) }; } }
+function skipped(name, reason = "deferred-after-first-render") { const r = { ok:true, skipped:true, value:null, error:null, elapsedMs:0, reason }; mark(`${name}:deferred`, { reason }); return r; }
+function finalizeReady(context, report) { const olam = context.olam || context; if (olam) { olam.__worldPostbuildReady = { ok:true, playerFirst:true, report, deferredHeavyLayers:HEAVY_DEFERRED, at:Date.now() }; olam.__mitzvahWorldPostBuildDone = true; } mark("ready-for-first-render", { playerFirst:true, deferredHeavyLayers:HEAVY_DEFERRED }); }
+export async function runMitzvahWorldPostBuild(context = {}) {
+  const start = performance.now(); mark("start", { source:sourceOf(context), playerFirst:true, deferredHeavyLayers:HEAVY_DEFERRED });
+  const regionStack = await safeStep("regionStack", () => ensureMitzvahRegionDirector(context));
+  const livingRuntime = await safeStep("livingRegionRuntime", () => ensureLivingRegionRuntime(context, regionStack.value || {}));
+  const woodCollectibles = await safeStep("woodCollectibles", () => ensureWoodCollectibles(context));
+  const roleMarkedNpcs = await safeStep("roleMarkedNpcs", () => ensureNpcRoles(context));
+  const npc3DMarkers = skipped("npc3DMarkers");
+  const proceduralWorld = skipped("proceduralWorldJson");
+  const battleLayer = skipped("battleLayer");
+  const carcassLoot = skipped("wildlifeCarcassLoot");
+  const cinematicDirector = skipped("cinematicDirector");
+  const shaderWarm = skipped("shaderTextureWarm");
+  const ecologyWarm = skipped("ecologyMaterialWarm");
+  const visualReality = skipped("visualReality");
+  const botanicalReality = skipped("botanicalReality");
+  const ecologyReality = skipped("ecologyReality");
+  const worldPolish = skipped("worldPolish");
+  const hyperSun = skipped("hyperRealSunLensFlare");
+  const torahLoop = skipped("livingTorahQuestLoop");
+  const movieUniverse = skipped("movieUniverseJson");
+  const emeraldInfinity = skipped("emeraldInfinity");
+  const report = { skipped:false, playerFirst:true, reason:"postbuild-player-first-no-sync-scenery-jail-bh9", source:sourceOf(context), elapsedMs:Math.round(performance.now() - start), deferredHeavyLayers:HEAVY_DEFERRED, steps:{ regionStack:stepLine(regionStack, { summary:summary(regionStack) }), livingRegionRuntime:stepLine(livingRuntime, { stats:stats(livingRuntime) }), woodCollectibles:stepLine(woodCollectibles, { authored:WOOD_COLLECTIBLES.length }), roleMarkedNpcs:stepLine(roleMarkedNpcs, { authored:Object.keys(NPC_ROLES).length }), npc3DMarkers:stepLine(npc3DMarkers), proceduralWorldJson:stepLine(proceduralWorld), battleLayer:stepLine(battleLayer), wildlifeCarcassLoot:stepLine(carcassLoot), cinematicDirector:stepLine(cinematicDirector), shaderTextureWarm:stepLine(shaderWarm), ecologyMaterialWarm:stepLine(ecologyWarm), visualReality:stepLine(visualReality), botanicalReality:stepLine(botanicalReality), ecologyReality:stepLine(ecologyReality), worldPolish:stepLine(worldPolish), hyperRealSunLensFlare:stepLine(hyperSun), livingTorahQuestLoop:stepLine(torahLoop), movieUniverseJson:stepLine(movieUniverse), emeraldInfinity:stepLine(emeraldInfinity) } };
+  finalizeReady(context, report); mark("done", { elapsedMs:report.elapsedMs, playerFirst:true, deferredHeavyLayers:HEAVY_DEFERRED, livingRegionRuntimeMs:livingRuntime.elapsedMs || 0, regionStackMs:regionStack.elapsedMs || 0 }); return report;
+}

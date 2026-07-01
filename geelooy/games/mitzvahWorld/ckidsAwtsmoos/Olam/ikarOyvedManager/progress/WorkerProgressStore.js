@@ -1,68 +1,19 @@
 // B"H
-/**
- * @file WorkerProgressStore.js
- * @purpose Preserve worker progress and publish it to the single loading bridge.
- * @owner mitzvahWorld main-thread worker manager.
- * @inputs worker progress stages and payloads.
- * @outputs window diagnostics, world reports, throttled loading updates.
- * @runtimeAuthority It records truth but never declares final readiness by itself.
- * @updateOrder clone -> store -> publish report -> bridge progress.
- * @callers WorkerMessageInterceptor and worker progress watchdogs.
- * @invariants payload history is bounded; final stages flush immediately.
- * @failureModes oversized payloads are depth-trimmed for browser safety.
- */
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=real-final-ready-20260701-bh2";
+/** @file WorkerProgressStore.js @purpose Records concise real loader timings, not UI ACK spam. */
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=real-meaningful-load-20260701-bh9";
 const FINAL_STAGES = new Set(["world_final_ready", "loadedWorld", "canvas_transferred"]);
+const MEANINGFUL = [/^entrypoint/, /^boot-runner/, /^angelic/, /^vessel_ready$/, /^load-nivrayim:/, /^postbuild:/, /^living-runtime:/, /^texture:/, /^canvas_transferred$/, /^loadedWorld$/, /^world_final_ready$/];
 let pendingProgress = null, progressTimer = null;
 const trimArray = (value, max) => Array.isArray(value) ? value.slice(-max) : [];
-const copyScalar = value => value == null || ["string", "number", "boolean"].includes(typeof value) ? value : undefined;
-function cloneLight(value, depth = 0) {
-  const scalar = copyScalar(value); if (scalar !== undefined || value == null) return scalar ?? null;
-  if (depth > 2) return "[DepthTrimmed]";
-  if (Array.isArray(value)) return value.slice(0, 12).map(item => cloneLight(item, depth + 1));
-  if (typeof value !== "object") return String(value).slice(0, 180);
-  const out = {}; for (const key of Object.keys(value).slice(0, 24)) out[key] = cloneLight(value[key], depth + 1); return out;
-}
-function cloneWorldReport(report) {
-  if (!report || typeof report !== "object") return null;
-  const keep = ["at", "sceneChildren", "nivrayim", "trees", "buildings", "npcs", "npcCount", "octree", "combat", "postbuild", "movieGeneration", "starterStation", "schoolChecklist"];
-  const out = {}; for (const key of keep) if (key in report) out[key] = cloneLight(report[key], 0); return out;
-}
-function clonePayload(payload) { if (!payload || typeof payload !== "object") return null; const worldReport = payload.worldReport || payload.payload?.workerWorldReport || payload.workerWorldReport || null; const out = cloneLight(payload, 0) || {}; if (worldReport) out.worldReport = cloneWorldReport(worldReport); return out; }
-export function ensureWorkerProgressStore() {
-  if (!window.__AWTSMOOS_WORKER_PROGRESS__) window.__AWTSMOOS_WORKER_PROGRESS__ = { lastStage:"not-started", lastAt:Date.now(), history:[], payloads:[], worldReports:[] };
-  const store = window.__AWTSMOOS_WORKER_PROGRESS__;
-  if (!Array.isArray(store.history)) store.history = [];
-  if (!Array.isArray(store.payloads)) store.payloads = [];
-  if (!Array.isArray(store.worldReports)) store.worldReports = [];
-  window.__AWTSMOOS_WORKER_PROGRESS_PAYLOADS__ = store.payloads;
-  window.__AWTSMOOS_WORLD_REPORT_HISTORY__ = store.worldReports;
-  window.__AWTSMOOS_WORLD_REPORT__ = () => window.__AWTSMOOS_LAST_WORLD_REPORT__ || null;
-  window.__AWTSMOOS_WORLD_REPORTS__ = () => window.__AWTSMOOS_WORLD_REPORT_HISTORY__ || [];
-  return store;
-}
-function publishWorldReport(store, payload) {
-  const report = payload?.worldReport || payload?.payload?.workerWorldReport || payload?.workerWorldReport || null;
-  if (!report) return null;
-  const cleanReport = cloneWorldReport(report) || report, entry = { at:Date.now(), report:cleanReport };
-  store.worldReports = trimArray([...(store.worldReports || []), entry], 24);
-  window.__AWTSMOOS_LAST_WORLD_REPORT__ = cleanReport; window.__AWTSMOOS_WORKER_WORLD_REPORT__ = cleanReport;
-  window.__AWTSMOOS_WORLD_REPORT_HISTORY__ = store.worldReports;
-  window.dispatchEvent?.(new CustomEvent("awtsmoos-worker-world-report", { detail:cleanReport }));
-  return cleanReport;
-}
+const isMeaningful = stage => MEANINGFUL.some(rx => rx.test(String(stage || "")));
+function cloneLight(value, depth = 0) { if (value == null || ["string", "number", "boolean"].includes(typeof value)) return value; if (depth > 2) return "[DepthTrimmed]"; if (Array.isArray(value)) return value.slice(0, 12).map(item => cloneLight(item, depth + 1)); if (typeof value !== "object") return String(value).slice(0, 180); const out = {}; for (const key of Object.keys(value).slice(0, 24)) out[key] = cloneLight(value[key], depth + 1); return out; }
+function cloneWorldReport(report) { if (!report || typeof report !== "object") return null; const keep = ["at", "sceneChildren", "nivrayim", "trees", "buildings", "npcs", "npcCount", "octree", "combat", "postbuild", "movieGeneration", "starterStation", "schoolChecklist"]; const out = {}; for (const key of keep) if (key in report) out[key] = cloneLight(report[key], 0); return out; }
+function ensureTimingStore() { window.__AWTSMOOS_LOAD_STAGE_TIMINGS__ ||= []; window.__AWTSMOOS_LOAD_TIMING_REPORT__ ||= { startedAt:Date.now(), stages:[], slowest:[], lastStageAt:Date.now(), ignoredUiMessages:0 }; return window.__AWTSMOOS_LOAD_TIMING_REPORT__; }
+function elapsedFromPayload(payload, now, report) { const raw = Number(payload?.elapsedMs); if (Number.isFinite(raw)) return Math.round(raw); const delta = now - (report.lastMeaningfulAt || report.startedAt || now); return Number.isFinite(delta) ? Math.max(0, Math.round(delta)) : null; }
+function recordTiming(stage, payload) { const report = ensureTimingStore(), now = Date.now(); if (!isMeaningful(stage)) { report.ignoredUiMessages += String(stage).startsWith("message:uiEvented") ? 1 : 0; report.lastStageAt = now; return report; } const entry = { at:now, stage, elapsedMs:elapsedFromPayload(payload, now, report), label:payload?.label || null }; report.stages = trimArray([...(report.stages || []), entry], 120); report.lastMeaningfulAt = now; report.lastStageAt = now; report.slowest = report.stages.filter(e => e.elapsedMs != null).sort((a, b) => b.elapsedMs - a.elapsedMs).slice(0, 12); window.__AWTSMOOS_LOAD_STAGE_TIMINGS__ = report.stages; return report; }
+export function ensureWorkerProgressStore() { if (!window.__AWTSMOOS_WORKER_PROGRESS__) window.__AWTSMOOS_WORKER_PROGRESS__ = { lastStage:"not-started", lastAt:Date.now(), history:[], payloads:[], worldReports:[] }; const store = window.__AWTSMOOS_WORKER_PROGRESS__; store.history ||= []; store.payloads ||= []; store.worldReports ||= []; window.__AWTSMOOS_WORKER_PROGRESS_PAYLOADS__ = store.payloads; window.__AWTSMOOS_WORLD_REPORT_HISTORY__ = store.worldReports; window.__AWTSMOOS_WORLD_REPORT__ = () => window.__AWTSMOOS_LAST_WORLD_REPORT__ || null; window.__AWTSMOOS_WORLD_REPORTS__ = () => window.__AWTSMOOS_WORLD_REPORT_HISTORY__ || []; return store; }
+function publishWorldReport(store, payload) { const report = payload?.worldReport || payload?.payload?.workerWorldReport || payload?.workerWorldReport || null; if (!report) return null; const cleanReport = cloneWorldReport(report) || report, entry = { at:Date.now(), report:cleanReport }; store.worldReports = trimArray([...(store.worldReports || []), entry], 24); window.__AWTSMOOS_LAST_WORLD_REPORT__ = cleanReport; window.__AWTSMOOS_WORKER_WORLD_REPORT__ = cleanReport; window.__AWTSMOOS_WORLD_REPORT_HISTORY__ = store.worldReports; window.dispatchEvent?.(new CustomEvent("awtsmoos-worker-world-report", { detail:cleanReport })); return cleanReport; }
 function flushProgress() { progressTimer = null; const next = pendingProgress; pendingProgress = null; if (next) LoadingProgress.workerProgress(next); }
-function queueProgress(stage, payload) {
-  const data = { ...(payload || {}), stage, at:Date.now() };
-  if (FINAL_STAGES.has(stage) || stage.includes("ready-for-first-render")) { pendingProgress = null; if (progressTimer) clearTimeout(progressTimer); progressTimer = null; LoadingProgress.workerProgress(data); return; }
-  pendingProgress = data; if (!progressTimer) progressTimer = setTimeout(flushProgress, 16);
-}
-export function recordWorkerProgress(stage, payload = null) {
-  const store = ensureWorkerProgressStore(), at = Date.now(), cleanPayload = clonePayload(payload);
-  store.lastStage = String(stage || payload?.stage || "unknown"); store.lastAt = at; store.lastPayload = cleanPayload;
-  store.history = trimArray([...(store.history || []), `${new Date(at).toISOString()} ${store.lastStage}`], 120);
-  store.payloads = trimArray([...(store.payloads || []), { at, stage:store.lastStage, payload:cleanPayload }], 40);
-  window.__AWTSMOOS_WORKER_PROGRESS_PAYLOADS__ = store.payloads;
-  publishWorldReport(store, payload || cleanPayload); queueProgress(store.lastStage, cleanPayload || payload || {}); return store;
-}
+function queueProgress(stage, payload) { const data = { ...(payload || {}), stage, at:Date.now() }; if (FINAL_STAGES.has(stage) || stage.includes("ready-for-first-render")) { pendingProgress = null; if (progressTimer) clearTimeout(progressTimer); progressTimer = null; LoadingProgress.workerProgress(data); return; } if (!isMeaningful(stage) && !String(stage).startsWith("message:pawsawch")) return; pendingProgress = data; if (!progressTimer) progressTimer = setTimeout(flushProgress, 16); }
+export function recordWorkerProgress(stage, payload = null) { const store = ensureWorkerProgressStore(), at = Date.now(), cleanPayload = cloneLight(payload, 0); store.lastStage = String(stage || payload?.stage || "unknown"); store.lastAt = at; store.lastPayload = cleanPayload; store.history = trimArray([...(store.history || []), `${new Date(at).toISOString()} ${store.lastStage}`], 160); if (isMeaningful(store.lastStage)) store.payloads = trimArray([...(store.payloads || []), { at, stage:store.lastStage, payload:cleanPayload }], 60); window.__AWTSMOOS_WORKER_PROGRESS_PAYLOADS__ = store.payloads; store.loadTiming = recordTiming(store.lastStage, payload || cleanPayload || {}); publishWorldReport(store, payload || cleanPayload); queueProgress(store.lastStage, cleanPayload || payload || {}); return store; }
 export function getWorkerProgressAge() { const store = ensureWorkerProgressStore(); return Date.now() - store.lastAt; }

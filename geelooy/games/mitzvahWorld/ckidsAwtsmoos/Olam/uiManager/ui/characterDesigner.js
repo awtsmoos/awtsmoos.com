@@ -1,3 +1,11 @@
+// B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
 
 // B"H
 import style from "./skins/2/characterDesignerStyle.js";
@@ -153,7 +161,7 @@ export default {
                                             } 
                                         } 
                                     });
-                                    alert("Changes saved to world entity!");
+                                    awtsmoosNotice("Changes saved to world entity!");
                                 } else if (ctx.sourceType === 'inventory' || ctx.sourceType === 'action') {
                                     const updateData = { name: state.name, customData: state };
                                     ui.peula("ikar", { 
@@ -165,7 +173,7 @@ export default {
                                             } 
                                         } 
                                     });
-                                    alert("Changes saved to inventory item!");
+                                    awtsmoosNotice("Changes saved to inventory item!");
                                 } else {
                                     const itemData = {
                                         id: "custom_npc_" + Date.now(), className: "CustomNpc",
@@ -173,7 +181,7 @@ export default {
                                         icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjIwMCIgZmlsbD0iIzRmNDRmNCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTE1NiAxNTZhMTAwIDEwMCAwIDAgMSAyMDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=" 
                                     };
                                     ui.peula("ikar", { olamPeula: { addItem: itemData } });
-                                    alert("New soul created in inventory!");
+                                    awtsmoosNotice("New soul created in inventory!");
                                 }
                                 designer.classList.add("hidden");
                             }

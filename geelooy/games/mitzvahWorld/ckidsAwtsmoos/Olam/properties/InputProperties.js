@@ -1,7 +1,8 @@
 // B"H
 /**
  * @module InputProperties
- * Chapter 68: The V key is no rumor; it is named attack in clear letters.
+ * Chapter 714: Q leans left, E leans right; the fingers become faithful
+ * vessels, and the Awtsmoos reveals motion without contradiction.
  */
 import { Vector2 } from "../rendering/ThreeAdapter.js";
 export const getInputProperties = () => ({
@@ -15,8 +16,8 @@ export const getInputProperties = () => ({
   keyBindings: {
     "KeyW": "FORWARD", "ArrowUp": "FORWARD", "ArrowDown": "BACKWARD",
     "ArrowRight": "RIGHT_ROTATE", "ArrowLeft": "LEFT_ROTATE", "KeyA": "LEFT_ROTATE",
-    "KeyD": "RIGHT_ROTATE", "KeyS": "BACKWARD", "KeyE": "LEFT_STRIDE",
-    "KeyQ": "RIGHT_STRIDE", "KeyR": "PAN_UP", "KeyF": "PAN_DOWN",
+    "KeyD": "RIGHT_ROTATE", "KeyS": "BACKWARD", "KeyQ": "LEFT_STRIDE",
+    "KeyE": "RIGHT_STRIDE", "KeyR": "PAN_UP", "KeyF": "PAN_DOWN",
     "ShiftLeft": "RUNNING", "ShiftRight": "RUNNING", "Space": "JUMP",
     "KeyX": "DOWN", "KeyC": "INTERACT", "KeyV": "ATTACK"
   }

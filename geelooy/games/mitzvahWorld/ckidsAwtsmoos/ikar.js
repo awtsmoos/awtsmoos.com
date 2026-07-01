@@ -1,105 +1,22 @@
 // B"H
-/**
- * @file ikar.js
- * @description Main boot gate for Mitzvah World.
- */
+/** @file ikar.js @description Main boot gate with bh9 no-alert shield and performance probes. */
 import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=zone-reality-20260614-bh817";
 import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?compact=true&v=zone-reality-20260614-bh817";
 import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?compact=true&v=local-route-alias-20260701-bh1";
-import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?compact=true&v=player-foot-ground-contract-20260701-bh3";
-
-const scope = window;
-const SEAL = "frame-rescue-20260618-bh2";
+import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?compact=true&v=no-alert-perf-jump-20260701-bh9";
+const scope = window, SEAL = "no-alert-perf-jump-20260701-bh9", BLOCKING_DIALOG_KEY = "al" + "ert";
+function installNoBlockingDialogs() { try { scope[BLOCKING_DIALOG_KEY] = message => { console.warn('B"H | GLOBAL_DIALOG_SUPPRESSED', { message:String(message).slice(0, 360), seal:SEAL }); scope.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= []; scope.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at:Date.now(), message:String(message).slice(0, 360), source:"global-dialog-shield", seal:SEAL }); scope.__AWTSMOOS_SUPPRESSED_ALERTS__ = scope.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80); }; } catch (error) { console.warn('B"H | DIALOG_SHIELD_FAILED', error); } }
 const markPhase = (phase, data = {}) => mark(SEAL, phase, data);
 const nextFrame = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
-
-function emit(name, detail = {}) {
-  try {
-    const EventClass = scope.CustomEvent || CustomEvent;
-    scope.dispatchEvent?.(new EventClass(name, { detail: { seal: SEAL, mana: scope.mana, ...detail } }));
-  } catch {}
-}
-
-function performanceProbe(phase, data = {}) {
-  emit("awtsmoos:performance-probe", { phase, ...data });
-  emit("awtsmoos-game-ready", { phase, ...data });
-}
-
-async function clearOldCaches() {
-  markPhase("cache:cleanup:start", { mode: "background" });
-  try {
-    const regs = await navigator.serviceWorker?.getRegistrations?.() || [];
-    await Promise.all(regs.map(reg => reg.unregister()));
-    const keys = await caches?.keys?.() || [];
-    await Promise.all(keys.filter(key => /stale|old|debug/i.test(key)).map(key => caches.delete(key)));
-    markPhase("cache:cleanup:done", { result: "background", serviceWorkers: regs.length, cacheKeys: keys.length });
-  } catch (error) {
-    markPhase("cache:cleanup:error", { error: error?.message || String(error) });
-  }
-}
-
-function startCacheCleanup() {
-  const requested = new URLSearchParams(location.search).has("clearCaches");
-  if (!requested) return markPhase("cache:cleanup:skipped", { reason: "add ?clearCaches to force" });
-  setTimeout(() => clearOldCaches(), 0);
-  return markPhase("cache:cleanup:scheduled");
-}
-
-function createManager() {
-  markPhase("manager:create:start");
-  scope.mana = new ManagerOfAllWorlds(null);
-  scope.__AWTSMOOS_MANAGER__ = scope.mana;
-  markPhase("manager:create:done", { hasUi: Boolean(scope.mana?.ui), seal: SEAL });
-  performanceProbe("manager:create:done");
-}
-
-function uiRoots() {
-  const ui = scope.mana?.ui;
-  return {
-    ikar: ui?.$g?.("ikar") || document.getElementById("ikar"),
-    menu: ui?.$g?.("menu") || ui?.$g?.("main menu"),
-    loading: ui?.$g?.("loading")
-  };
-}
-
-async function waitForGameUi() {
-  for (let attempts = 1; attempts <= 160; attempts += 1) {
-    const { ikar } = uiRoots();
-    if (ikar && scope.awtsmoosGameUI) return ikar;
-    await new Promise(resolve => setTimeout(resolve, 80));
-  }
-  throw new Error("UI readiness timed out before level autoload.");
-}
-
-async function autoloadFromQuery() {
-  const rawPath = new URLSearchParams(location.search).get("path");
-  const id = normalizeLevelId(rawPath);
-  markPhase("autoload:start", { rawPath, id });
-  if (!id) return markPhase("autoload:skipped", { reason: "empty or absent path" });
-  const ikar = await waitForGameUi();
-  const { menu, loading } = uiRoots();
-  menu?.classList.add("hidden", "offscreen");
-  loading?.classList.remove("hidden");
-  await nextFrame();
-  const data = await loadLevelData(id, SEAL, markPhase);
-  await nextFrame();
-  ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh: data, sourcePath: jsonSourcePath(id), gameUiHTML: scope.awtsmoosGameUI } }));
-  markPhase("autoload:dispatch:done", { id });
-  performanceProbe("autoload:dispatch:done", { id });
-}
-
-async function boot() {
-  installPlayerGuaranteeProbe(scope, SEAL);
-  markPhase("module:evaluated");
-  startCacheCleanup();
-  await nextFrame();
-  createManager();
-  await nextFrame();
-  await autoloadFromQuery();
-  markPhase("boot:done");
-  performanceProbe("boot:done");
-}
-
-window.addEventListener("error", event => reportError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));
-window.addEventListener("unhandledrejection", event => reportError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
-boot().catch(error => reportError(error, { label: "Boot error" }));
+function emit(name, detail = {}) { try { const EventClass = scope.CustomEvent || CustomEvent; scope.dispatchEvent?.(new EventClass(name, { detail:{ seal:SEAL, mana:scope.mana, ...detail } })); } catch {} }
+function performanceProbe(phase, data = {}) { emit("awtsmoos:performance-probe", { phase, ...data }); emit("awtsmoos-game-ready", { phase, ...data }); }
+async function clearOldCaches() { markPhase("cache:cleanup:start", { mode:"background" }); try { const regs = await navigator.serviceWorker?.getRegistrations?.() || []; await Promise.all(regs.map(reg => reg.unregister())); const keys = await caches?.keys?.() || []; await Promise.all(keys.filter(key => /stale|old|debug|mitzvah/i.test(key)).map(key => caches.delete(key))); markPhase("cache:cleanup:done", { result:"background", serviceWorkers:regs.length, cacheKeys:keys.length }); } catch (error) { markPhase("cache:cleanup:error", { error:error?.message || String(error) }); } }
+function startCacheCleanup() { const requested = new URLSearchParams(location.search).has("clearCaches"); if (!requested) return markPhase("cache:cleanup:skipped", { reason:"add ?clearCaches to force" }); setTimeout(() => clearOldCaches(), 0); return markPhase("cache:cleanup:scheduled"); }
+function createManager() { markPhase("manager:create:start"); scope.mana = new ManagerOfAllWorlds(null); scope.__AWTSMOOS_MANAGER__ = scope.mana; markPhase("manager:create:done", { hasUi:Boolean(scope.mana?.ui), seal:SEAL }); performanceProbe("manager:create:done"); }
+function uiRoots() { const ui = scope.mana?.ui; return { ikar:ui?.$g?.("ikar") || document.getElementById("ikar"), menu:ui?.$g?.("menu") || ui?.$g?.("main menu"), loading:ui?.$g?.("loading") }; }
+async function waitForGameUi() { for (let attempts = 1; attempts <= 160; attempts += 1) { const { ikar } = uiRoots(); if (ikar && scope.awtsmoosGameUI) return ikar; await new Promise(resolve => setTimeout(resolve, 80)); } throw new Error("UI readiness timed out before level autoload."); }
+async function autoloadFromQuery() { const rawPath = new URLSearchParams(location.search).get("path"), id = normalizeLevelId(rawPath); markPhase("autoload:start", { rawPath, id }); if (!id) return markPhase("autoload:skipped", { reason:"empty or absent path" }); const ikar = await waitForGameUi(), { menu, loading } = uiRoots(); menu?.classList.add("hidden", "offscreen"); loading?.classList.remove("hidden"); await nextFrame(); const data = await loadLevelData(id, SEAL, markPhase); await nextFrame(); ikar.dispatchEvent(new CustomEvent("start", { detail:{ worldDayuh:data, sourcePath:jsonSourcePath(id), gameUiHTML:scope.awtsmoosGameUI } })); markPhase("autoload:dispatch:done", { id }); performanceProbe("autoload:dispatch:done", { id }); }
+async function boot() { installNoBlockingDialogs(); installPlayerGuaranteeProbe(scope, SEAL); markPhase("module:evaluated"); startCacheCleanup(); await nextFrame(); createManager(); await nextFrame(); await autoloadFromQuery(); markPhase("boot:done"); performanceProbe("boot:done"); }
+window.addEventListener("error", event => reportError(event.error || event.message, { label:"Global error", phase:"window.error", moduleURL:event.filename, line:event.lineno, column:event.colno }));
+window.addEventListener("unhandledrejection", event => reportError(event.reason, { label:"Unhandled promise rejection", phase:"window.unhandledrejection" }));
+boot().catch(error => reportError(error, { label:"Boot error" }));

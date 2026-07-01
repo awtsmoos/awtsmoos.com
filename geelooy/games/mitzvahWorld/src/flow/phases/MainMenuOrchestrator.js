@@ -1,3 +1,11 @@
+// B"H
+function awtsmoosNotice(message) {
+  const text = String(message ?? "");
+  console.warn('B"H | NOTICE_NO_BLOCKING_DIALOG', text);
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= [];
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at: Date.now(), text, source: import.meta?.url || "unknown" });
+  globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__ = globalThis.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80);
+}
 
 import BittulSoul from '../../core/BittulSoul.js';
 import GenesisOrchestrator from './GenesisOrchestrator.js';
@@ -43,11 +51,11 @@ export default class MainMenuOrchestrator extends BittulSoul {
             },
             invokeFindWorld: () => {
                 console.log('B"H - Unimplemented Path: Alias seeking requires new vessels!');
-                alert("The hidden scroll alias system is still coalescing.");
+                awtsmoosNotice("The hidden scroll alias system is still coalescing.");
             },
             invokeLoadFile: () => {
                 console.log('B"H - Unimplemented Path: Extracting reshimu from raw stone binary block.');
-                alert("Loading distinct physical universes disabled while Tzimtzum upgrades occur.");
+                awtsmoosNotice("Loading distinct physical universes disabled while Tzimtzum upgrades occur.");
             }
         };
 

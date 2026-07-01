@@ -1,19 +1,8 @@
 // B"H
-import { GROUNDING_SYSTEM, numberOr } from "./FootGroundConstants.js?v=player-visible-above-ground-20260701-bh5";
-import { playerVisualRoots, sealLowestVisibleToWorldY, targetModelLocalY } from "./ModelFootProbe.js?v=player-visible-above-ground-20260701-bh5";
-import { enforceCapsuleFootContract } from "./CapsuleFootContract.js?v=player-visible-above-ground-20260701-bh5";
-import { buildPlayerGroundingDiagnostic } from "./PlayerGroundingDiagnostics.js?v=player-visible-above-ground-20260701-bh5";
-/**
- * Purpose: bind the capsule foot, moving root, and rendered soles to one height.
- * Owner: live Chossid physics.js wrapper.
- * Inputs: player collider, ground hit, visual model root.
- * Outputs: synced root/model transforms and grounding diagnostics.
- * Runtime authority: final visible-player Y writer after physics each frame.
- * Update order: capsule contract -> root sync -> model placement -> live sole seal.
- * Callers: VisualGroundClamp from physics.js and split visual runtime.
- * Invariants: rendered lowest visible point must equal capsule foot Y.
- * Failure modes: missing geometry waits without inventing offsets.
- */
+import { GROUNDING_SYSTEM, PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr } from "./FootGroundConstants.js?v=no-alert-perf-jump-20260701-bh9";
+import { playerVisualRoots, sealLowestVisibleToWorldY, targetModelLocalY } from "./ModelFootProbe.js?v=no-alert-perf-jump-20260701-bh9";
+import { enforceCapsuleFootContract } from "./CapsuleFootContract.js?v=no-alert-perf-jump-20260701-bh9";
+import { buildPlayerGroundingDiagnostic } from "./PlayerGroundingDiagnostics.js?v=no-alert-perf-jump-20260701-bh9";
 function currentGroundY(player) {
   const hit = player?.__meshGroundAuthority || player?.groundHitResult || null;
   const y = hit?.groundY ?? hit?.position?.y ?? hit?.point?.y;
@@ -31,9 +20,11 @@ function syncModel(player, root) {
   if (root.parent === player.mesh) root.position.set(0, y, 0);
   else { root.position.copy(player.mesh.position); root.position.y += y; }
   root.updateMatrixWorld?.(true);
-  const seal = sealLowestVisibleToWorldY(root, player.mesh.position.y);
+  const visualFloor = player.mesh.position.y + PLAYER_VISIBLE_BODY_CLEARANCE_Y;
+  const seal = sealLowestVisibleToWorldY(root, visualFloor);
   root.userData.visualGroundOffsetY = root.parent === player.mesh ? root.position.y : root.position.y - player.mesh.position.y;
   root.userData.latestVisibleGroundSeal = seal;
+  root.userData.visualBodyClearanceY = PLAYER_VISIBLE_BODY_CLEARANCE_Y;
   player.__lastWriterOfModelY = GROUNDING_SYSTEM;
 }
 export function applyPlayerFootGrounding(player) {
@@ -45,5 +36,5 @@ export function applyPlayerFootGrounding(player) {
   player.emptyCopy?.position?.copy?.(player.mesh.position);
   player.nonRotatingEmptyForMovement?.position?.copy?.(player.mesh.position);
   player.__lastVisualGroundClamp = buildPlayerGroundingDiagnostic(player);
-  return { lifted:false, lift:0, targets:roots.length, diagnostic:player.__lastVisualGroundClamp };
+  return { lifted:true, lift:PLAYER_VISIBLE_BODY_CLEARANCE_Y, targets:roots.length, diagnostic:player.__lastVisualGroundClamp };
 }
