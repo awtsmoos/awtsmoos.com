@@ -54,10 +54,22 @@
     @media(max-width:680px){.loadingContent{grid-template-rows:74px minmax(62px,auto) 24px 112px 34px 28px 58px;width:min(92vw,560px);height:96vh;gap:5px}.awtsmoos-title-glow{font-size:clamp(2rem,12vw,4rem);letter-spacing:.12rem}.genesis-stage-panel{height:112px}.genesis-stage-row{grid-template-columns:62px minmax(0,1fr);gap:5px}.genesis-stage-note{grid-column:2;font-size:.68rem}.genesis-progress-log{height:58px;font-size:9px}.barLoading{height:24px}.txtLoad{letter-spacing:1px}}
     @media(max-width:760px){#mitzvahBottomCenter{bottom:calc(82px + env(safe-area-inset-bottom,0px));width:min(68vw,290px)!important;gap:4px!important;pointer-events:none!important}#mitzvahBottomCenter .mitzvahPanel{font-size:11px!important;line-height:1.15!important;padding:7px 9px!important;max-height:16vh!important}#mitzvahBottomCenter .mitzvahPanel:nth-child(n+2){display:none!important}.floating-text{max-width:min(68vw,260px)!important;white-space:normal!important;text-align:center!important;padding:8px 10px!important;font-size:15px!important;line-height:1.16!important}}
     #awtsmoosUiSinks { display:none !important; }
+  
+    /* B"H: mobile must never see the void before the world breathes. */
+    html, body, #ikar { background:linear-gradient(180deg,#8fb8ff 0%,#b9d8ff 42%,#65bd49 43%,#2c8f29 100%) !important; }
+    .loading { background:radial-gradient(circle at 50% 22%, rgba(255,255,255,.24), transparent 18%), linear-gradient(180deg,#8fb8ff 0%,#bddcff 44%,#61b84a 45%,#287f25 100%) !important; color:#102414 !important; }
+    #awtsmoosNoBlackGuard { position:fixed; inset:0; z-index:8500; pointer-events:none; display:flex; align-items:center; justify-content:center; text-align:center; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:radial-gradient(circle at 50% 28%, rgba(255,255,255,.38), transparent 16%), linear-gradient(180deg,#86afff 0%,#c5e1ff 44%,#67c34f 45%,#277f25 100%); color:#17330f; transition:opacity .55s ease; }
+    #awtsmoosNoBlackGuard.hidden { opacity:0; }
+    #awtsmoosNoBlackGuard .card { max-width:320px; padding:18px 22px; border-radius:22px; background:rgba(255,255,255,.68); border:2px solid rgba(255,224,121,.9); box-shadow:0 16px 42px rgba(0,0,0,.24); }
+    #awtsmoosNoBlackGuard .title { font-weight:900; letter-spacing:.04em; font-size:18px; }
+    #awtsmoosNoBlackGuard .sub { margin-top:7px; font-size:13px; line-height:1.35; opacity:.88; }
+
   </style>
 </head>
 <body>
-  <div class="loading" id="awtsmoosLoadingVeil">
+  
+<div id="awtsmoosNoBlackGuard"><div class="card"><div class="title">B&quot;H — עולם נטען</div><div class="sub">Building visible ground before the first frame.</div></div></div>
+<div class="loading" id="awtsmoosLoadingVeil">
     <div class="kabbalah-vortex" aria-hidden="true">
       <div class="sefirot-ring ring-1"></div><div class="sefirot-ring ring-2"></div><div class="sefirot-ring ring-3"></div>
       <div class="sefirot-ring ring-4"></div><div class="sefirot-ring ring-5"></div><div class="sefirot-ring ring-6"></div>
@@ -161,5 +173,30 @@
     }
     setTimeout(loadBootExtras, 260);
   </script>
+<script>
+(function(){
+  const guard = document.getElementById('awtsmoosNoBlackGuard');
+  if (!guard) return;
+  let hidden = false;
+  function hide(reason) {
+    if (hidden) return;
+    hidden = true;
+    guard.dataset.reason = reason || 'ready';
+    guard.classList.add('hidden');
+    setTimeout(() => guard.remove(), 1400);
+  }
+  function soften(text) {
+    const sub = guard.querySelector('.sub');
+    if (sub) sub.textContent = text;
+  }
+  window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden };
+  window.addEventListener('awtsmoos-game-ready', event => {
+    const phase = String(event?.detail?.phase || '');
+    if (/world_final_ready|boot:done|autoload:dispatch:done|rendered first time/i.test(phase)) setTimeout(() => hide(phase), 1200);
+  });
+  setTimeout(() => soften('Still loading real terrain meshes — no black void.'), 3800);
+  setTimeout(() => { if (!hidden) hide('guard-timeout-visible-fallback'); }, 12500);
+})();
+</script>
 </body>
 </html>
