@@ -1,12 +1,14 @@
 // B"H
 const Token = require('./token.js');
 const Focus = require('./focus.js');
+const Pressure = require('./pressure.js');
 function gate(lock = {}, result = {}, next = {}) {
   if (result.finalAnswerAllowed === true || result.mustContinue !== true) return result;
   const safeNext = next || result.mustCallNext || result.nextRequiredToolCall || {};
   const continuationToken = result.continuationToken || Token.token(lock, safeNext);
   return { ...result, finalAnswerAllowed:false, userVisibleAnswerBlocked:true, finalAnswerBlockedReason:'mission_must_continue',
-    nextRequiredToolCall:safeNext, continuationToken, continuationEscrow:{ held:true, reason:'final_answer_blocked_until_release', releaseRequires:'finalAnswerAllowed:true' },
+    nextRequiredToolCall:safeNext, continuationToken, continuationPressure:Pressure.pressure(safeNext, result),
+    continuationEscrow:{ held:true, reason:'final_answer_blocked_until_release', releaseRequires:'finalAnswerAllowed:true' },
     responseFocus:Focus.responseFocus(safeNext, continuationToken), multipleChoiceSelfInterrogation:Focus.selfCheck(safeNext),
     tunnelProtocol:{ ...(result.tunnelProtocol || {}), hardContinuationGate:true, mayAnswerUser:false, mustCallNext:true } };
 }

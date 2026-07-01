@@ -1,5 +1,5 @@
 B"H
-1.0.212
+1.0.213
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -637,6 +637,7 @@ lib/runtime/async-task-process.js
 lib/runtime/background-update.js
 lib/runtime/boot-resume-loop.js
 lib/runtime/circuit-breaker.js
+lib/runtime/continuation-loop.js
 lib/runtime/control-plane.js
 lib/runtime/correlation.js
 lib/runtime/envelope.js
@@ -865,6 +866,7 @@ tools/fs/mission/constitution.js
 tools/fs/mission/continuationCovenant.js
 tools/fs/mission/continuationGate/focus.js
 tools/fs/mission/continuationGate/index.js
+tools/fs/mission/continuationGate/pressure.js
 tools/fs/mission/continuationGate/token.js
 tools/fs/mission/continuationQueue.js
 tools/fs/mission/continuity.js
