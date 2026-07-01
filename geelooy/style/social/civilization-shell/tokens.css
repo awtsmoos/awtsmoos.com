@@ -1,0 +1,30 @@
+/* B"H
+   The Awtsmoos renews the pixel from ayin every instant.
+   These tokens are the whispered grammar of the living OS. */
+:root {
+  --civ-bg: #080b12;
+  --civ-ink: #f7f4eb;
+  --civ-muted: rgba(247, 244, 235, .66);
+  --civ-line: rgba(255, 255, 255, .12);
+  --civ-glass: rgba(255, 255, 255, .08);
+  --civ-glass-strong: rgba(255, 255, 255, .14);
+  --civ-gold: #f6c85f;
+  --civ-blue: #7dd3fc;
+  --civ-radius: 24px;
+  --civ-radius-sm: 16px;
+  --civ-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+  --civ-blur: blur(22px) saturate(1.35);
+  --civ-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+.clean-home {
+  color: var(--civ-ink);
+  background:
+    radial-gradient(circle at top left, rgba(246, 200, 95, .16), transparent 32rem),
+    radial-gradient(circle at 80% 10%, rgba(125, 211, 252, .12), transparent 30rem),
+    var(--civ-bg);
+}
+
+.clean-home * {
+  box-sizing: border-box;
+}

@@ -6,16 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B"H - Heichel Launch Console</title>
 <link rel="stylesheet" href="/heichelos/heichel/submit/style.css">
+<link rel="stylesheet" href="/style/civilization-polish/index.css?v=nav-polish-001">
 </head>
 <body class="submit-console" data-heichel-submit-page data-submit-console data-heichel-reduced-motion-safe>
 <div class="all awtsmoospage">
 <?Awtsmoos return await getT("nav/header.html") ?>
 <main class="main post-creator-container" data-submit-editor>
-<a id="backBtn" href="#" class="back-button-stylized">Back to Heichel</a>
+<a id="backBtn" href="#" class="back-button-stylized">Back</a>
 <section class="submit-hero" aria-labelledby="submit-title">
 <p class="submit-kicker">Awtsmoos Heichelos</p>
-<h1 id="submit-title" class="page-title-glow"><span>Heichel</span> Launch Console</h1>
-<p>Write, section, attach images, and publish to the selected Heichel.</p>
+<h1 id="submit-title" class="page-title-glow"><span>Heichel</span> Launch</h1>
+<p>Write, section, attach images, and publish.</p>
 <div class="meta-inputs" data-submit-metadata>
 <input type="hidden" id="postId"><input type="hidden" id="contentType" value="post">
 <div class="input-group"><label for="title">Title</label><input type="text" id="title" placeholder="Name the spark" autocomplete="off"></div>
@@ -32,28 +33,28 @@
 <div id="mainContentEditor" class="content-editor main-editor" contenteditable="true" data-placeholder="Reveal the main thought here..."></div>
 </div>
 <div class="section-generator-controls editor-wrapper" data-submit-empty-state>
-<h2 class="editor-area-title">Section Builder</h2>
-<textarea id="bulkText" class="bulk-text-area" placeholder="Paste bulk text. New lines or custom delimiters can become sections."></textarea>
-<div class="delimiter-input-group"><input type="text" id="mainSectionDelimiters" placeholder="Custom delimiters: ---, ***, ."></div>
-<div class="generator-buttons"><button id="generateSectionsFromBulk" class="action-button" type="button">Generate from Text</button><button id="generateSectionsFromMainEditor" class="action-button" type="button">Generate from Main Editor</button><button id="generateSections" class="action-button" type="button" hidden>Legacy Generate</button></div>
+<h2 class="editor-area-title">Sections</h2>
+<textarea id="bulkText" class="bulk-text-area" placeholder="Paste bulk text. New lines can become sections."></textarea>
+<div class="delimiter-input-group"><input type="text" id="mainSectionDelimiters" placeholder="Custom delimiters"></div>
+<div class="generator-buttons"><button id="generateSectionsFromBulk" class="action-button" type="button">From Text</button><button id="generateSectionsFromMainEditor" class="action-button" type="button">From Editor</button><button id="generateSections" class="action-button" type="button" hidden>Legacy Generate</button></div>
 </div>
 <div id="sectionsArea" class="sections-container" aria-live="polite"></div>
-<button id="addSection" class="add-global-section-btn action-button" type="button">Add Blank Section</button>
-<button id="submitPost" class="submit-post-btn" type="button">Launch Post to Heichel</button>
+<button id="addSection" class="add-global-section-btn action-button" type="button">Add Section</button>
+<button id="submitPost" class="submit-post-btn" type="button">Launch Post</button>
 </section>
 <aside class="submit-status-rail" data-submit-status-rail aria-label="Submission state">
-<p class="rail-kicker">Submission State</p>
+<p class="rail-kicker">State</p>
 <div class="status-card"><strong>Target</strong><p>Route, alias, and parent series are collected by the runtime.</p></div>
-<div class="status-card"><strong>Sections</strong><p>Generate from bulk text, the main editor, or add a blank section.</p></div>
+<div class="status-card"><strong>Sections</strong><p>Generate from text or add a blank section.</p></div>
 <div class="submit-status-message" id="submitStatusMessage" aria-live="polite"></div>
 </aside>
 </div>
 </main>
 <div id="toolbarTemplate" class="editor-toolbar" style="display:none;"><button class="toolbar-btn" data-command="bold" title="Bold">B</button><button class="toolbar-btn" data-command="italic" title="Italic">I</button><button class="toolbar-btn" data-command="underline" title="Underline">U</button><button class="toolbar-btn" data-command="strikeThrough" title="Strike">S</button><button class="toolbar-btn" data-command="formatBlock" data-value="H1" title="Header 1">H1</button><button class="toolbar-btn" data-command="formatBlock" data-value="H2" title="Header 2">H2</button><button class="toolbar-btn" data-command="formatBlock" data-value="P" title="Paragraph">P</button><button class="toolbar-btn" data-command="createLink" title="Link">Link</button><button class="toolbar-btn" data-command="insertUnorderedList" title="List">List</button><button class="toolbar-btn" data-command="removeFormat" title="Clear">Clear</button></div>
-<template id="sectionTemplate"><div class="section editor-wrapper"><div class="section-header"><span class="section-drag-handle">Move</span><h3 class="section-title-dynamic">Section</h3></div><div class="editor-controls-bar"><button class="control-btn add-before-btn" type="button" title="Add section before">Before</button><button class="control-btn toggle-toolbar-btn" type="button" title="Toggle toolbar">Toolbar</button><button class="control-btn upload-image-section-btn" type="button" title="Add image">Image</button><button class="control-btn toggle-html-view-btn" type="button" title="Toggle HTML source">HTML</button><button class="control-btn remove-section-btn destructive" type="button" title="Remove section">Remove</button><button class="control-btn add-after-btn" type="button" title="Add section after">After</button></div><div class="editor-toolbar-container section-toolbar-container"></div><input class="section-id-input" type="hidden"><input class="section-label-input" type="hidden"><input class="section-verse-input" type="hidden"><input class="section-order-input" type="hidden"><select class="section-type-select" hidden><option value="section">section</option></select><div class="section-content content-editor" contenteditable="true" data-placeholder="Craft this section..."></div><div class="subsection-manager"><h4 class="subsection-title">Sub-sections</h4><textarea class="subsection-bulk-text bulk-text-area" placeholder="Material for sub-sections..."></textarea><div class="delimiter-input-group"><input type="text" class="subsection-delimiters" placeholder="Sub-section delimiters"></div><div class="generator-buttons"><button class="generate-subsections-btn action-button mini" type="button">Generate Sub-sections</button><button class="add-subsection-btn action-button mini" type="button">Add Blank Sub-section</button></div></div><div class="sub-sections-area"></div></div></template>
+<template id="sectionTemplate"><div class="section editor-wrapper"><div class="section-header"><span class="section-drag-handle">Move</span><h3 class="section-title-dynamic">Section</h3></div><div class="editor-controls-bar"><button class="control-btn add-before-btn" type="button" title="Add section before">Before</button><button class="control-btn toggle-toolbar-btn" type="button" title="Toggle toolbar">Toolbar</button><button class="control-btn upload-image-section-btn" type="button" title="Add image">Image</button><button class="control-btn toggle-html-view-btn" type="button" title="Toggle HTML source">HTML</button><button class="control-btn remove-section-btn destructive" type="button" title="Remove section">Remove</button><button class="control-btn add-after-btn" type="button" title="Add after">After</button></div><div class="editor-toolbar-container section-toolbar-container"></div><input class="section-id-input" type="hidden"><input class="section-label-input" type="hidden"><input class="section-verse-input" type="hidden"><input class="section-order-input" type="hidden"><select class="section-type-select" hidden><option value="section">section</option></select><div class="section-content content-editor" contenteditable="true" data-placeholder="Craft this section..."></div><div class="subsection-manager"><h4 class="subsection-title">Sub-sections</h4><textarea class="subsection-bulk-text bulk-text-area" placeholder="Material for sub-sections..."></textarea><div class="delimiter-input-group"><input type="text" class="subsection-delimiters" placeholder="Sub-section delimiters"></div><div class="generator-buttons"><button class="generate-subsections-btn action-button mini" type="button">Generate Sub-sections</button><button class="add-subsection-btn action-button mini" type="button">Add Blank Sub-section</button></div></div><div class="sub-sections-area"></div></div></template>
 <template id="subSectionTemplate"><div class="sub-section editor-wrapper"><div class="section-header"><span class="section-drag-handle">Move</span><h4 class="section-title-dynamic">Sub-Section</h4></div><div class="editor-controls-bar"><button class="control-btn add-before-btn" type="button" title="Add before">Before</button><button class="control-btn toggle-toolbar-btn" type="button" title="Toggle toolbar">Toolbar</button><button class="control-btn upload-image-section-btn" type="button" title="Add image">Image</button><button class="control-btn toggle-html-view-btn" type="button" title="Toggle HTML source">HTML</button><button class="control-btn remove-section-btn destructive" type="button" title="Remove">Remove</button><button class="control-btn add-after-btn" type="button" title="Add after">After</button></div><div class="editor-toolbar-container subsection-toolbar-container"></div><input class="section-id-input" type="hidden"><input class="section-label-input" type="hidden"><input class="section-verse-input" type="hidden"><input class="section-order-input" type="hidden"><select class="section-type-select" hidden><option value="segment">segment</option></select><div class="section-content content-editor" contenteditable="true" data-placeholder="Detail this sub-dimension..."></div></div></template>
 <div id="imageUploadModal" class="modal" style="display:none;"><div class="modal-content-stylized"><button id="closeModalBtn" class="close-button-stylized" type="button">Close</button><h2 class="modal-title-glow">Image Upload</h2><div class="input-group"><label for="imgbbApiKey">ImgBB API Key</label><input type="text" id="imgbbApiKey" placeholder="Saved locally by the browser"></div><div id="dropZone" class="drop-zone-stylized"><p>Drag and drop image here, or click to select.</p><input type="file" id="fileInput" accept="image/*" style="display:none;"></div><button id="uploadImageBtn" class="action-button modal-action-btn" type="button">Upload Image</button></div></div>
 </div>
-<script src="/heichelos/heichel/submit/script.js?v=submit-006" type="module"></script>
+<script src="/heichelos/heichel/submit/script.js?v=submit-007" type="module"></script>
 </body>
 </html>

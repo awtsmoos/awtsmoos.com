@@ -1,0 +1,101 @@
+/* B"H — Hidden chambers open only when the user asks. */
+.civ-command-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--civ-line);
+  padding: 0 14px;
+  color: var(--civ-ink);
+  background: var(--civ-glass);
+  cursor: pointer;
+}
+
+.civ-command-dialog {
+  width: min(680px, calc(100vw - 24px));
+  border: 1px solid var(--civ-line);
+  border-radius: 28px;
+  color: var(--civ-ink);
+  background: rgba(8, 11, 18, .92);
+  box-shadow: 0 30px 120px rgba(0,0,0,.6);
+  backdrop-filter: var(--civ-blur);
+}
+
+.civ-command-dialog::backdrop {
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(10px);
+}
+
+.civ-command-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.civ-command-panel input {
+  width: 100%;
+  min-height: 56px;
+  border: 1px solid var(--civ-line);
+  border-radius: 18px;
+  padding: 0 16px;
+  color: var(--civ-ink);
+  background: rgba(255,255,255,.08);
+}
+
+.civ-command-results {
+  display: grid;
+  gap: 8px;
+}
+
+.civ-command-results a,
+.civ-fab-menu a {
+  color: var(--civ-ink);
+  text-decoration: none;
+}
+
+.civ-command-results a {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid var(--civ-line);
+  border-radius: 16px;
+  background: rgba(255,255,255,.06);
+}
+
+.civ-command-results small {
+  color: var(--civ-muted);
+}
+
+.civ-fab {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.civ-fab-main {
+  width: 58px;
+  border: 0;
+  color: #17120a;
+  background: linear-gradient(135deg, var(--civ-gold), #fff1b8);
+  box-shadow: var(--civ-shadow);
+  cursor: pointer;
+}
+
+.civ-fab-menu {
+  display: none;
+  gap: 8px;
+}
+
+.civ-fab[data-open="true"] .civ-fab-menu {
+  display: grid;
+}
+
+.civ-fab-menu a {
+  padding: 10px 14px;
+  border: 1px solid var(--civ-line);
+  background: rgba(8, 11, 18, .86);
+  backdrop-filter: var(--civ-blur);
+}

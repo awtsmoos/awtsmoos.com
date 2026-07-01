@@ -3,7 +3,7 @@
 import { esc, mount, rows } from "./domCore.js";
 import { markerSymbol, renderWorldQuestMarkers } from "./worldMarkers.js";
 import { safeClone } from "./safeClone.js";
-import { closeAllPanels } from "./navDock.js";
+import { closeAllPanels } from "./closePanels.js";
 const money = r => Number(r?.perutah || r?.money || r?.coins || 0);
 function rewards(r = {}) { return `${r.xp ? `<div class="mitzvahReward">XP: ${esc(r.xp)}</div>` : ""}${rows(r.items, id => `<div class="mitzvahReward">Reward: ${esc(id)}</div>`)}${money(r) ? `<div class="mitzvahReward">Perutah: ${money(r)}</div>` : ""}`; }
 export function renderQuestTracker(p = {}) { return mount("mitzvahTopRight", "uiQuestTracker", "Shlichus Tracker", rows(p.active, q => `<div class="mitzvahQuestLine ${q.complete ? "mitzvahDone" : ""}"><b>${esc(q.line || q.title)}</b>${rows(q.objectives, o => `<br><small class="${o.complete ? "mitzvahDone" : ""}">${esc(o.line || o.text)}</small>`)}${q.returnTo ? `<br><small>Return to ${esc(q.returnTo)}</small>` : ""}</div>`)); }

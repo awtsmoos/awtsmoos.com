@@ -1,0 +1,65 @@
+/* B"H — controls become small keys, not stone doors. */
+@media (max-width: 760px) {
+  .home-menu-button,
+  .civ-command-trigger {
+    min-height: 2.55rem !important;
+    min-width: 2.55rem !important;
+  }
+
+  .civ-command-trigger span,
+  .civ-command-trigger kbd {
+    display: none !important;
+  }
+
+  .civ-command-trigger::before {
+    content: "⌕";
+    font-size: 1.2rem;
+  }
+
+  .mail-folder-grid,
+  .mail-folder-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .45rem !important;
+  }
+
+  .composer-toolbar,
+  .mail-composer-toolbar,
+  .editor-controls-bar,
+  .generator-buttons {
+    display: flex !important;
+    gap: .4rem !important;
+    overflow-x: auto !important;
+    padding-bottom: .2rem !important;
+  }
+
+  .composer-toolbar :is(button, a),
+  .mail-composer-toolbar :is(button, a),
+  .editor-controls-bar button,
+  .generator-buttons button {
+    flex: 0 0 auto !important;
+    min-width: auto !important;
+    min-height: 2.55rem !important;
+    padding-inline: .85rem !important;
+  }
+
+  .profile-command-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .45rem !important;
+  }
+
+  .profile-inline-actions {
+    display: grid !important;
+    gap: .55rem !important;
+  }
+
+  .profile-inline-actions :is(button, a) {
+    min-height: 3.2rem !important;
+    text-align: left !important;
+  }
+
+  .submit-status-rail .status-card {
+    padding: .9rem !important;
+    border-radius: 18px !important;
+  }
+}

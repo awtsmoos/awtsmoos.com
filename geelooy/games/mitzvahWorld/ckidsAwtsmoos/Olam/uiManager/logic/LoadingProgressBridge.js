@@ -58,13 +58,14 @@ export function textureProgress(data = {}) { update({ stage:`texture:${data.stag
 export function showError(error, label = "worker error") { update({ stage:"worker:error", action:"Worker error", subAction:String(label).slice(0, 120), log:String(error || label).slice(0, 160) }); }
 export function isFinalReady() { return Boolean(state.finalReady); }
 export function markFinalReady(reason = "world_final_ready") {
+  if (state.finalReady) { scheduleHide(0); return true; }
   if (!finalReason(reason)) { state.heldHideReason = String(reason); record(`waiting for world_final_ready: ${reason}`); return false; }
   state.finalReady = true; state.total = state.world = state.worker = state.texture = 100;
   writeWidth(IDS.total, 100); writeWidth(IDS.world, 100); writeWidth(IDS.worker, 100); writeWidth(IDS.texture, 100);
   writeText(IDS.percent, "100%"); writeText(IDS.action, "World ready"); writeText(IDS.sub, reason);
-  setRadialLoad(); dispatchReadyEvent(reason); if (!state.hidden) scheduleHide(40); return true;
+  setRadialLoad(); dispatchReadyEvent(reason); scheduleHide(40); return true;
 }
-export function hideLoading(reason = "hide requested") { return markFinalReady(reason); }
+export function hideLoading(reason = "hide requested") { return state.finalReady ? (scheduleHide(0) || true) : markFinalReady(reason); }
 export function scheduleHide(ms = 40) { if (hideTimer || state.hidden || !state.finalReady) return false; hideTimer = setTimeout(reallyHide, ms); return true; }
 function removeAll(selector) { doc()?.querySelectorAll?.(selector)?.forEach(node => node.remove()); }
 function reallyHide() { if (state.hidden || !state.finalReady) return; state.hidden = true; pending = null; stopLoadingHeartbeat(); doc()?.querySelectorAll?.(".loading").forEach(node => node.classList.add("awtsmoos-loading-out")); setTimeout(() => removeAll(".loading,.loadingContent,.menu .rectangle"), 90); doc()?.querySelectorAll?.(".menu.hidden.offscreen").forEach(node => node.remove()); doc()?.documentElement?.classList?.add?.("awtsmoos-gameplay-dom-quiet"); }
