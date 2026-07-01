@@ -1,15 +1,21 @@
 // B"H
 /**
  * @file WorkerProgressStore.js
- * @description Chapter 438: worker truth is preserved without drowning the
- * main thread. The report remains a lamp; it is no longer a boulder cloned on
- * every heartbeat.
+ * @purpose Preserve worker progress and publish it to the single loading bridge.
+ * @owner mitzvahWorld main-thread worker manager.
+ * @inputs worker progress stages and payloads.
+ * @outputs window diagnostics, world reports, throttled loading updates.
+ * @runtimeAuthority It records truth but never declares final readiness by itself.
+ * @updateOrder clone -> store -> publish report -> bridge progress.
+ * @callers WorkerMessageInterceptor and worker progress watchdogs.
+ * @invariants payload history is bounded; final stages flush immediately.
+ * @failureModes oversized payloads are depth-trimmed for browser safety.
  */
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=visible-canvas-watchdog-20260621-bh2";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=real-final-ready-20260701-bh2";
 const FINAL_STAGES = new Set(["world_final_ready", "loadedWorld", "canvas_transferred"]);
 let pendingProgress = null, progressTimer = null;
-function trimArray(value, max) { return Array.isArray(value) ? value.slice(-max) : []; }
-function copyScalar(value) { return value == null || ["string", "number", "boolean"].includes(typeof value) ? value : undefined; }
+const trimArray = (value, max) => Array.isArray(value) ? value.slice(-max) : [];
+const copyScalar = value => value == null || ["string", "number", "boolean"].includes(typeof value) ? value : undefined;
 function cloneLight(value, depth = 0) {
   const scalar = copyScalar(value); if (scalar !== undefined || value == null) return scalar ?? null;
   if (depth > 2) return "[DepthTrimmed]";
@@ -22,13 +28,7 @@ function cloneWorldReport(report) {
   const keep = ["at", "sceneChildren", "nivrayim", "trees", "buildings", "npcs", "npcCount", "octree", "combat", "postbuild", "movieGeneration", "starterStation", "schoolChecklist"];
   const out = {}; for (const key of keep) if (key in report) out[key] = cloneLight(report[key], 0); return out;
 }
-function clonePayload(payload) {
-  if (!payload || typeof payload !== "object") return null;
-  const worldReport = payload.worldReport || payload.payload?.workerWorldReport || payload.workerWorldReport || null;
-  const out = cloneLight(payload, 0) || {};
-  if (worldReport) out.worldReport = cloneWorldReport(worldReport);
-  return out;
-}
+function clonePayload(payload) { if (!payload || typeof payload !== "object") return null; const worldReport = payload.worldReport || payload.payload?.workerWorldReport || payload.workerWorldReport || null; const out = cloneLight(payload, 0) || {}; if (worldReport) out.worldReport = cloneWorldReport(worldReport); return out; }
 export function ensureWorkerProgressStore() {
   if (!window.__AWTSMOOS_WORKER_PROGRESS__) window.__AWTSMOOS_WORKER_PROGRESS__ = { lastStage:"not-started", lastAt:Date.now(), history:[], payloads:[], worldReports:[] };
   const store = window.__AWTSMOOS_WORKER_PROGRESS__;
@@ -44,11 +44,9 @@ export function ensureWorkerProgressStore() {
 function publishWorldReport(store, payload) {
   const report = payload?.worldReport || payload?.payload?.workerWorldReport || payload?.workerWorldReport || null;
   if (!report) return null;
-  const cleanReport = cloneWorldReport(report) || report;
-  const entry = { at:Date.now(), report:cleanReport };
+  const cleanReport = cloneWorldReport(report) || report, entry = { at:Date.now(), report:cleanReport };
   store.worldReports = trimArray([...(store.worldReports || []), entry], 24);
-  window.__AWTSMOOS_LAST_WORLD_REPORT__ = cleanReport;
-  window.__AWTSMOOS_WORKER_WORLD_REPORT__ = cleanReport;
+  window.__AWTSMOOS_LAST_WORLD_REPORT__ = cleanReport; window.__AWTSMOOS_WORKER_WORLD_REPORT__ = cleanReport;
   window.__AWTSMOOS_WORLD_REPORT_HISTORY__ = store.worldReports;
   window.dispatchEvent?.(new CustomEvent("awtsmoos-worker-world-report", { detail:cleanReport }));
   return cleanReport;
@@ -65,8 +63,6 @@ export function recordWorkerProgress(stage, payload = null) {
   store.history = trimArray([...(store.history || []), `${new Date(at).toISOString()} ${store.lastStage}`], 120);
   store.payloads = trimArray([...(store.payloads || []), { at, stage:store.lastStage, payload:cleanPayload }], 40);
   window.__AWTSMOOS_WORKER_PROGRESS_PAYLOADS__ = store.payloads;
-  publishWorldReport(store, payload || cleanPayload);
-  queueProgress(store.lastStage, cleanPayload || payload || {});
-  return store;
+  publishWorldReport(store, payload || cleanPayload); queueProgress(store.lastStage, cleanPayload || payload || {}); return store;
 }
 export function getWorkerProgressAge() { const store = ensureWorkerProgressStore(); return Date.now() - store.lastAt; }
