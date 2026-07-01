@@ -13,7 +13,7 @@ return $a("/nav/page.html", {
   footer: true,
   tochen: /*html*/`
     <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-004">
-    <link rel="stylesheet" href="/style/social/home/index.css?v=legend-006">
+    <link rel="stylesheet" href="/style/social/home/index.css?v=legend-007">
     <a class="home-skip-link" href="#home-live-region">Skip to live feed</a>
     <main class="geelooy-home-shell legend-page-enter awtsmoos-civilization-dashboard" data-civilization-dashboard data-home-dashboard data-home-reduced-motion-safe aria-labelledby="home-awtsmoos-title" aria-describedby="home-page-summary">
       <aside class="home-sanctuary-card civilization-command-card" aria-labelledby="home-awtsmoos-title">
@@ -34,7 +34,7 @@ return $a("/nav/page.html", {
           <a href="/profile"><span>Identity</span><small>Switch alias</small></a>
           <a href="/heichelos"><span>Recover</span><small>Return to spaces</small></a>
         </nav>
-        <form class="home-command-galaxy" data-home-command data-home-search role="search" aria-describedby="home-search-hint">
+        <form class="home-command-galaxy" data-home-command data-home-search role="search" action="/heichelos" method="get" aria-describedby="home-search-hint">
           <label class="home-command-label" for="home-global-search">Reveal the living archive</label>
           <div class="home-search-vessel">
             <input id="home-global-search" name="q" type="search" placeholder="Search posts, heichelos, aliases, graph objects..." autocomplete="off" aria-label="Search Geelooy" />
@@ -42,6 +42,12 @@ return $a("/nav/page.html", {
           </div>
           <p id="home-search-hint" class="home-search-hint">Try an alias, heichel id, post title, comment phrase, or graph object.</p>
         </form>
+        <section class="home-route-constellation" aria-label="Fast routes">
+          <a class="home-route-card" href="/heichelos">Spaces</a>
+          <a class="home-route-card" href="/heichelos/submit">Write</a>
+          <a class="home-route-card" href="/email">Mail</a>
+          <a class="home-route-card" href="/notifications">Alerts</a>
+        </section>
         <section class="home-hero-stats" aria-label="Platform highlights">
           <article><strong>Live</strong><span>Feed runtime</span></article>
           <article><strong>Graph</strong><span>Connected objects</span></article>
@@ -51,13 +57,22 @@ return $a("/nav/page.html", {
 
       <section class="home-feed-phone beauty-reveal civilization-feed-orb" id="home-live-region" aria-labelledby="home-live-title" tabindex="-1">
         <header class="home-feed-header">
-          <a class="home-menu-button" href="/heichelos" aria-label="Open Heichelos">☰</a>
+          <div class="home-menu-wrap" data-home-menu>
+            <button class="home-menu-button" type="button" aria-label="Open Heichelos menu" aria-haspopup="menu" aria-expanded="false" aria-controls="home-heichelos-menu">☰</button>
+            <nav class="home-heichelos-menu" id="home-heichelos-menu" hidden role="menu" aria-label="Heichelos quick menu">
+              <a role="menuitem" href="/heichelos"><strong>Open Heichelos</strong><small>Browse all living spaces</small></a>
+              <a role="menuitem" href="/heichelos/submit"><strong>Create post</strong><small>Launch words into a Heichel</small></a>
+              <a role="menuitem" href="/heichelos/manage-alias-heichelos/"><strong>Manage spaces</strong><small>Build and edit Heichelos</small></a>
+              <a role="menuitem" href="/profile"><strong>Switch identity</strong><small>Choose the active alias</small></a>
+            </nav>
+          </div>
           <div class="home-feed-title"><strong id="home-live-title">Geelooy Live</strong><span>Signals from the civilization stream</span></div>
           <a class="home-profile-pill" href="/profile">Profile</a>
         </header>
         <nav class="home-feed-tabs civilization-layer-tabs" aria-label="Feed tabs">
           <button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For You</button>
           <button type="button" data-feed-mode="following" aria-pressed="false">Following</button>
+          <button type="button" data-feed-mode="trending" aria-pressed="false">Trending</button>
           <button type="button" data-feed-mode="search" aria-pressed="false">Search</button>
         </nav>
         <article class="home-composer"><span aria-hidden="true"></span><a href="/heichelos/submit">What is being revealed in your world?</a></article>
@@ -86,6 +101,7 @@ return $a("/nav/page.html", {
         </div>
       </aside>
     </main>
+    <script type="module" src="/scripts/awtsmoos/social/home/menu/index.js?v=legend-001"></script>
     <script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=legend-004"></script>
     <script type="module" src="/scripts/awtsmoos/social/home/beauty/index.js?v=legend-004"></script>
     <script type="module" src="/scripts/awtsmoos/social/home/legend/index.js?v=legend-004"></script>

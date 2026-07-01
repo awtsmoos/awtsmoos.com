@@ -1,0 +1,63 @@
+/* B"H
+ * Chapter 613: the three bars become a gate, not an exile.
+ * The menu opens in place, closes by mercy, and keeps every Heichel route near.
+ */
+.home-menu-wrap {
+  position: relative;
+  z-index: 80;
+  min-width: 2.7rem;
+}
+.home-menu-wrap .home-menu-button[aria-expanded="true"] {
+  background: linear-gradient(135deg, var(--g-gold), var(--g-cyan));
+  color: #05111d;
+  box-shadow: 0 1rem 2.3rem rgba(0,0,0,.28), 0 0 1.4rem rgba(123,226,255,.24);
+}
+.home-heichelos-menu {
+  position: absolute;
+  inset-block-start: calc(100% + .55rem);
+  inset-inline-start: 0;
+  width: min(20rem, calc(100vw - 2rem));
+  display: grid;
+  gap: .48rem;
+  padding: .68rem;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 1.15rem;
+  background: linear-gradient(160deg, rgba(8,13,27,.98), rgba(20,29,54,.96));
+  box-shadow: 0 1.4rem 3.2rem rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.1);
+  backdrop-filter: blur(20px) saturate(1.2);
+}
+.home-heichelos-menu[hidden] { display: none; }
+.home-heichelos-menu a {
+  display: grid;
+  gap: .18rem;
+  padding: .78rem .85rem;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: .9rem;
+  color: #fff8df;
+  text-decoration: none;
+  background: rgba(255,255,255,.06);
+}
+.home-heichelos-menu a:hover,
+.home-heichelos-menu a:focus-visible {
+  background: linear-gradient(135deg, rgba(245,202,112,.22), rgba(123,226,255,.16));
+  transform: translateY(-1px);
+}
+.home-heichelos-menu strong {
+  font-size: .9rem;
+  line-height: 1.1;
+}
+.home-heichelos-menu small {
+  color: rgba(255,255,255,.68);
+  font-weight: 700;
+  line-height: 1.25;
+}
+@media (max-width: 430px) {
+  .home-heichelos-menu {
+    position: fixed;
+    inset: 4.7rem .55rem auto .55rem;
+    width: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-heichelos-menu a:hover { transform: none; }
+}

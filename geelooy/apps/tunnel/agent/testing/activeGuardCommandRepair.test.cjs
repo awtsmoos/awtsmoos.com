@@ -1,0 +1,21 @@
+// B"H
+const assert = require('assert');
+const Block = require('../tools/fs/mission/activeGuard/block.js');
+const Policy = require('../tools/fs/mission/activeGuard/policy.js');
+const next = { action: 'missionNext8Plan', missionId: 'm1' };
+const out = Block.response('commandRun', { missionId: 'm1', releaseStatus: 'locked', lastMustCallNext: next });
+assert.strictEqual(out.ok, false);
+assert.strictEqual(out.action, 'commandRun');
+assert.strictEqual(out.actualAction, 'commandRun');
+assert.strictEqual(out.requestAction, 'commandRun');
+assert.strictEqual(out.error, 'mission_lock_blocks_action');
+assert.strictEqual(out.mustCallNext.action, 'missionNext8Plan');
+assert.strictEqual(out.mission.next.action, 'missionNext8Plan');
+assert.strictEqual(out.mission.guidance.originalActionPreserved, 'commandRun');
+assert.strictEqual(Policy.allowed('commandRun'), true);
+assert.strictEqual(Policy.allowed('commandStart'), true);
+assert.strictEqual(Policy.allowed('commandStatus'), true);
+assert.strictEqual(Policy.allowed('commandJobOutputPage'), true);
+assert.strictEqual(Policy.allowed('agentDoctor'), true);
+assert.strictEqual(Policy.allowed('actionHistoryGet'), true);
+console.log('active guard preserves command repair identity');

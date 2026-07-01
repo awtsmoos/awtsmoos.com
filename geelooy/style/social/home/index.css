@@ -12,5 +12,8 @@
 @import "./responsive.css";
 @import "./accessibility.css";
 @import "./civilization/states.css";
+@import "./civilization/mobile-command.css";
 @import "./polish/command-dock.css";
+@import "./polish/heichel-menu.css";
+@import "./polish/home-hardening.css";
 @import "./polish/focus-polish.css";

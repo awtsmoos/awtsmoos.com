@@ -86,9 +86,13 @@ function bindSearch() {
 }
 
 function updateTabs(mode) {
-  document.querySelectorAll('[data-feed-mode]').forEach(tab => tab.classList.toggle('active', tab.dataset.feedMode === mode));
+  document.querySelectorAll('[data-feed-mode]').forEach(tab => {
+    const selected = tab.dataset.feedMode === mode;
+    tab.classList.toggle('active', selected);
+    tab.setAttribute('aria-pressed', String(selected));
+  });
 }
 
 function feedRoot() { return document.querySelector('[data-home-feed]'); }
 
-/** B"H: controller conducts API, cards, inspector, metrics, and graph bridge. */
+/** B"H: controller conducts API, cards, inspector, metrics, tabs, and graph bridge. */
