@@ -1,12 +1,15 @@
 // B"H
 /**
  * @file helpers.js
- * @description
- * Chapter 436: The helper bridge drinks the rooted loader seal.
- *
- * The Awtsmoos lets model loading, mesh generation, transforms, state, and HTML
- * bridges pass through this helper. The GLB loader branch now shares the same
- * visible-root seal as Chossid visibility and worker probes.
+ * @purpose Bridges Olam helper calls into loaders, transforms, state, HTML, and icons.
+ * @owner Live mitzvahWorld Olam runtime and worker-visible vessel imports.
+ * @inputs Runtime instance state, AWTSMOOS item classes, URLs, meshes, and UI requests.
+ * @outputs Loader results, generated meshes, serialized state, HTML bridge calls, and SVG icons.
+ * @runtimeAuthority Canonical helper authority for OlamVessel; no static directory imports.
+ * @updateOrder Load after core utilities and before Nivra/worker systems call helper methods.
+ * @callers ckidsAwtsmoos/Olam/core/OlamVessel.js and inherited Olam runtime methods.
+ * @invariants Icon lookup uses explicit module imports so preflight never fetches directories.
+ * @failureModes Missing item/icon IDs resolve to null rather than throwing during boot.
  */
 import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?v=visible-root-binding-20260610-bh710';
 import Utils from '../../utils.js';
@@ -15,6 +18,16 @@ import LoadersModule from './helpers/loaders/index.js?v=visible-root-binding-202
 import generateThreeJsMesh from './helpers/generateMesh.js';
 import TransformsModule from './helpers/transforms.js';
 import StateModule from './helpers/state.js';
+import wheatIcon from '../../../icons/items/wheat.js';
+
+const itemIcons = { wheat: wheatIcon };
+
+function iconForType(type) {
+  if (!type || typeof type !== 'string') return null;
+  const collectableItem = AWTSMOOS[type];
+  const iconId = collectableItem?.iconId;
+  return typeof iconId === 'string' ? itemIcons[iconId] || null : null;
+}
 
 export default class HelpersBridge {
   async loadGLTF(url) { return await LoadersModule.loadGLTF.call(this, url); }
@@ -32,19 +45,12 @@ export default class HelpersBridge {
   setGameState(state) { return StateModule.setGameState.call(this, state); }
   startShlichusHandler() { this.shlichusHandler = new ShlichusHandler(this); }
   async fetchGetSize(url) { return await Utils.fetchGetSize(url); }
-  async fetchWithProgress(url, options = {}, otherOptions) { return await Utils.fetchWithProgress(url, options, otherOptions); }
+  async fetchWithProgress(url, options = {}, otherOptions) {
+    return await Utils.fetchWithProgress(url, options, otherOptions);
+  }
   go(ob, id = this.official) { return Utils.go(ob, id); }
   callMethods(baseObj, methods) { return Utils.callMethods(baseObj, methods); }
-  async getIconFromType(type) {
-    let icon;
-    if (type && typeof type === 'string') {
-      const collectableItem = AWTSMOOS[type];
-      if (collectableItem?.iconId) icon = collectableItem.iconId;
-    }
-    if (typeof icon !== 'string') return null;
-    try { return (await import('../../../icons/items/' + icon + '.js'))?.default || null; }
-    catch { return null; }
-  }
+  async getIconFromType(type) { return iconForType(type); }
   async htmlActions(ar) { return await this.ayshPeula('htmlActions', ar); }
   async htmlAction(shaym, properties, methods, selector) {
     if (typeof shaym === 'object') {

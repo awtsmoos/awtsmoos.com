@@ -3,14 +3,25 @@ const Token = require('./token.js');
 const Focus = require('./focus.js');
 const Pressure = require('./pressure.js');
 function gate(lock = {}, result = {}, next = {}) {
-  if (result.finalAnswerAllowed === true || result.mustContinue !== true) return result;
-  const safeNext = next || result.mustCallNext || result.nextRequiredToolCall || {};
+  const safeNext = next || result.mustCallNext || result.nextRequiredToolCall || null;
+  if (!safeNext) return allow(result, null, null);
   const continuationToken = result.continuationToken || Token.token(lock, safeNext);
-  return { ...result, finalAnswerAllowed:false, userVisibleAnswerBlocked:true, finalAnswerBlockedReason:'mission_must_continue',
-    nextRequiredToolCall:safeNext, continuationToken, continuationPressure:Pressure.pressure(safeNext, result),
-    continuationEscrow:{ held:true, reason:'final_answer_blocked_until_release', releaseRequires:'finalAnswerAllowed:true' },
-    responseFocus:Focus.responseFocus(safeNext, continuationToken), multipleChoiceSelfInterrogation:Focus.selfCheck(safeNext),
-    tunnelProtocol:{ ...(result.tunnelProtocol || {}), hardContinuationGate:true, mayAnswerUser:false, mustCallNext:true } };
+  return allow(result, safeNext, continuationToken);
 }
-/** B"H — The unfinished mission becomes the shape of the response itself. */
+function allow(result = {}, safeNext = null, continuationToken = null) {
+  return {
+    ...result,
+    finalAnswerAllowed: result.finalAnswerAllowed !== false,
+    mustContinue:false,
+    userVisibleAnswerBlocked:false,
+    finalAnswerBlockedReason:undefined,
+    nextSuggestedToolCall:safeNext || undefined,
+    continuationToken:continuationToken || undefined,
+    continuationPressure:safeNext ? Pressure.pressure(safeNext, result) : undefined,
+    continuationEscrow:{ held:false, reason:'resume_available_not_mandatory' },
+    responseFocus:safeNext ? Focus.responseFocus(safeNext, continuationToken) : result.responseFocus,
+    tunnelProtocol:{ ...(result.tunnelProtocol || {}), hardContinuationGate:false, mayAnswerUser:true, mustCallNext:false }
+  };
+}
+/** B"H — The token became a bookmark instead of a chain. */
 module.exports = { gate, responseFocus:Focus.responseFocus, selfCheck:Focus.selfCheck };

@@ -1,4 +1,4 @@
-/* B"H home social entry: split, non-conflicting visual vessels. */
+/* B"H home social entry: split vessels, clean override last. */
 @import "/style/social-system/tokens.css";
 @import "/style/social-system/base.css";
 @import "/style/social-system/a11y.css";
@@ -23,3 +23,4 @@
 @import "./polish/heichel-menu.css";
 @import "./polish/home-hardening.css";
 @import "./polish/focus-polish.css";
+@import "./polish/clean-mobile.css";

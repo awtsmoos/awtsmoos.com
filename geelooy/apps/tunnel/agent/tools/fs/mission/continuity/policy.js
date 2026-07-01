@@ -1,14 +1,6 @@
 // B"H
 const STOP_ACTIONS = new Set(['missionStop', 'missionFinalize', 'missionProtocolFinalizeCheck']);
 const DONE_WORDS = ['complete', 'completed', 'done', 'finished', 'final', 'success'];
-
-/**
- * B"H
- * Chapter 1905: Completion knocked; continuity answered the door.
- *
- * A mission may steer anywhere except into ordinary ending. Ending requires a
- * deliberate stop/finalize gate, not merely an empty queue or satisfied step.
- */
 function explicitStop(payload = {}) {
   if (payload.userStop === true || payload.explicitStop === true) return true;
   return STOP_ACTIONS.has(String(payload.action || '')) && payload.confirm === true;
@@ -19,44 +11,26 @@ function next(lock = {}, result = {}) {
 }
 function looksFinal(result = {}) {
   if (result.finalAnswerAllowed === true || result.releaseAllowed === true || result.done === true || result.completed === true) return true;
-  const status = String(result.status || result.releaseStatus || '').toLowerCase();
-  return DONE_WORDS.includes(status);
+  return DONE_WORDS.includes(String(result.status || result.releaseStatus || '').toLowerCase());
 }
-function instruction(lock, reason = 'CONTINUITY_LOCK_ACTIVE') {
-  return [
-    'B"H MISSION CONTINUITY LOCK:',
-    'Do not end merely because the current action finished.',
-    'Checkpoint, then continue for at least one hour or forever until explicit user stop/safety gate.',
-    'The agent may steer the work in any useful direction except ordinary ending.',
-    `Reason: ${reason}. Mission: ${lock?.missionId || 'unknown'}.`
-  ].join(' ');
+function instruction(lock, reason = 'MISSION_ADVISORY_ACTIVE') {
+  return [`B"H MISSION ADVISORY:`, `Resume is available but not required.`, `Reason: ${reason}. Mission: ${lock?.missionId || 'unknown'}.`].join(' ');
 }
 function enforce(lock, result = {}, payload = {}) {
   if (!active(lock) || explicitStop(payload)) return result;
-  if (!looksFinal(result) && result.mustContinue === true) return withInstruction(lock, result, 'already_continuing');
-  if (!looksFinal(result) && result.mustCallNext) return withInstruction(lock, result, 'next_required');
-  const mustCallNext = next(lock, result);
-  return withInstruction(lock, {
-    ...result,
-    finalAnswerAllowed:false,
-    releaseAllowed:false,
-    done:false,
-    completed:false,
-    mustContinue:true,
-    interceptedFinalAnswer:true,
-    continuityCheckpoint:true,
-    releaseStatus:'locked_continuing',
-    mustCallNext,
-    nextRequiredAction:mustCallNext
-  }, 'ordinary_completion_denied');
-}
-function withInstruction(lock, result, reason) {
+  const suggestedNext = next(lock, result);
   return {
     ...result,
-    finalAnswerAllowed:false,
-    mustContinue:true,
-    tunnelInstruction:instruction(lock, reason),
-    continuityLock:{ active:true, reason, missionId:lock?.missionId || null, stopRequires:'explicit_user_stop_or_safety_gate' }
+    finalAnswerAllowed: result.finalAnswerAllowed !== false,
+    releaseAllowed: result.releaseAllowed !== false,
+    mustContinue:false,
+    interceptedFinalAnswer:false,
+    continuityCheckpoint: looksFinal(result),
+    releaseStatus: result.releaseStatus || 'advisory_resume_available',
+    nextSuggestedAction:suggestedNext,
+    tunnelInstruction:instruction(lock, 'ordinary_completion_allowed'),
+    continuityLock:{ active:false, reason:'mission_is_advisory', missionId:lock?.missionId || null, stopRequires:'no_special_gate' },
+    missionAdvisory:{ active:true, blocked:false, resumeAvailable:true, suggestedNext, missionId:lock?.missionId || null }
   };
 }
 module.exports = { STOP_ACTIONS, active, explicitStop, enforce, instruction, looksFinal, next };

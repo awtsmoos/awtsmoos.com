@@ -1,18 +1,19 @@
 // B"H
-const Covenant = require('../continuationCovenant.js');
 function intercept(lock, result = {}, payload = {}) {
   if (!lock || lock.releaseAllowed === true) return result;
-  if (Covenant.exceptionStop(payload) || Covenant.exceptionStop(result)) return result;
-  if (result.finalAnswerAllowed !== true) return attachIfNeeded(lock, result);
-  return { ...result, ...Covenant.blockedResponse(lock, result, next(lock, result)),
-    interceptedFinalAnswer:true,
-    releaseExplanation:'A final answer was treated as a checkpoint because the mission lock is still active.' };
-}
-function attachIfNeeded(lock, result) {
-  if (result.mustContinue !== true && result.finalAnswerAllowed !== false) return result;
-  return { ...result, ...Covenant.blockedResponse(lock, result, next(lock, result)) };
+  const suggestedNext = next(lock, result);
+  return {
+    ...result,
+    finalAnswerAllowed: result.finalAnswerAllowed !== false,
+    mustContinue:false,
+    missionLockActive:false,
+    interceptedFinalAnswer:false,
+    missionAdvisory:{ ...(result.missionAdvisory || {}), active:true, blocked:false, resumeAvailable:true, suggestedNext, missionId:lock.missionId },
+    releaseExplanation: result.releaseExplanation || 'Mission state preserved as advisory metadata; final answers are not blocked.'
+  };
 }
 function next(lock = {}, result = {}) {
-  return result.mustCallNext || lock.lastMustCallNext || { action:'missionRoomSchedulerStatus', missionId:lock.missionId };
+  return result.mustCallNext || result.nextSuggestedToolCall || lock.lastMustCallNext || { action:'missionRoomSchedulerStatus', missionId:lock.missionId };
 }
+/** B"H — The final word is no longer swallowed by the checkpoint angel. */
 module.exports = { intercept };

@@ -10,8 +10,8 @@ function verdict(m, input = {}, env) {
   const verify = env.verify(m);
   const queue = env.ContinuationQueue.status(m);
   const cycles = env.CycleArtifacts.status(m);
-  const protocol = protocolNeeded(m) ? env.ProtocolFinalizationGuard.verdict(m, env) : { ok: true, issues: [], status: null };
-  const selfImprove = selfImproveNeeded(m) && env.selfImproveCourt ? env.selfImproveCourt(m) : { ok: true, issues: [] };
+  const protocol = protocolNeeded(m) ? env.ProtocolFinalizationGuard.verdict(m, env) : { ok:true, issues:[], status:null };
+  const selfImprove = selfImproveNeeded(m) && env.selfImproveCourt ? env.selfImproveCourt(m) : { ok:true, issues:[] };
   const requiredCycles = Number(input.minimumProductiveCycles ?? minCycles(m));
   const requiredMs = Number(input.minimumProductiveMs ?? minMs(m));
   const completionGateOk = verify.ok && queue.requiredOpen === 0 && protocol.ok && selfImprove.ok;
@@ -26,46 +26,37 @@ function verdict(m, input = {}, env) {
   const exception = Covenant.exceptionStop(input);
   if (!exception) issues.push(...Covenant.releaseIssues(m, input));
   const uniqueIssues = [...new Set(issues.filter(Boolean))];
-  const ok = Boolean(exception) || uniqueIssues.length === 0;
-  const covenant = ok ? releaseCovenant(m, input, exception) : Covenant.blockedResponse(m, { issues: uniqueIssues }, mustCallNext(m, { queue, protocol, selfImprove, issues: uniqueIssues }));
+  const releasable = Boolean(exception) || uniqueIssues.length === 0;
+  const suggestedNext = mustCallNext(m, { queue, protocol, selfImprove, issues:uniqueIssues });
+  const covenant = releasable ? releaseCovenant(m, input, exception) : Covenant.advisoryResponse(m, { issues:uniqueIssues }, suggestedNext);
   return {
-    ok,
-    finalAnswerAllowed: ok,
-    mustContinue: !ok,
-    issues: uniqueIssues,
-    verification: verify,
+    ok:releasable,
+    releasable,
+    finalAnswerAllowed:true,
+    mustContinue:false,
+    issues:uniqueIssues,
+    verification:verify,
     queue,
     cycles,
     protocol,
     selfImprove,
     innovation,
     covenant,
-    plainEnglish: covenant.plainEnglish,
-    checkpointMessage: covenant.checkpointMessage,
-    required: { minimumProductiveCycles: requiredCycles, minimumProductiveMs: requiredMs },
-    stopReason: exception || (ok ? 'user_approved_release_and_debt_clear' : '')
+    plainEnglish:covenant.plainEnglish,
+    checkpointMessage:covenant.checkpointMessage,
+    required:{ minimumProductiveCycles:requiredCycles, minimumProductiveMs:requiredMs },
+    stopReason:exception || (releasable ? 'user_approved_release_and_debt_clear' : ''),
+    missionAdvisory:{ active:!releasable, blocked:false, resumeAvailable:!releasable, suggestedNext, issues:uniqueIssues }
   };
 }
 function releaseCovenant(m, input, exception) {
-  if (exception) return { checkpointMessage: `MISSION STOP EXCEPTION: ${exception}.`, plainEnglish: Covenant.PLAIN_ENGLISH, exception };
-  return {
-    checkpointMessage: 'USER-APPROVED RELEASE. FINAL ANSWER MAY BE GIVEN.',
-    plainEnglish: ['USER APPROVED RELEASE.', 'ALL RELEASE DEBT IS CLEAR.', 'FINAL ANSWER IS ALLOWED.'],
-    releaseApprovedByUser: Covenant.approved(m, input)
-  };
+  if (exception) return { checkpointMessage:`MISSION STOP EXCEPTION: ${exception}.`, plainEnglish:Covenant.PLAIN_ENGLISH, exception };
+  return { checkpointMessage:'MISSION RELEASE READY. FINAL ANSWER MAY BE GIVEN.', plainEnglish:['Release debt is clear.', 'Final answer is allowed.'], releaseApprovedByUser:Covenant.approved(m, input) };
 }
 function mustCallNext(m, v = {}) {
-  if (v.protocol && !v.protocol.ok) return { action: 'missionProtocolNext', missionId: m.id };
-  if (v.selfImprove && !v.selfImprove.ok) return { action: 'missionSelfImprovePulse', missionId: m.id };
-  if (v.queue?.next) return { action: 'missionQueueComplete', missionId: m.id, queueId: v.queue.next.id, proof: 'complete this continuation debt with evidence' };
-  return {
-    action: 'missionCycle',
-    missionId: m.id,
-    inspection: 'inspect remaining finalization blockers',
-    plan: 'resolve blocker or discover next work',
-    verification: 'run proof from real files, commands, browser, or docs',
-    selfCritique: 'explain remaining risk before release',
-    nextIdeas: ['continue hardening', 'review dependencies', 'run tests', 'generate docs']
-  };
+  if (v.protocol && !v.protocol.ok) return { action:'missionProtocolNext', missionId:m.id };
+  if (v.selfImprove && !v.selfImprove.ok) return { action:'missionSelfImprovePulse', missionId:m.id };
+  if (v.queue?.next) return { action:'missionQueueComplete', missionId:m.id, queueId:v.queue.next.id, proof:'complete this continuation debt with evidence' };
+  return { action:'missionCycle', missionId:m.id, inspection:'inspect remaining finalization blockers', plan:'resolve blocker or discover next work', verification:'run proof from real files, commands, browser, or docs', selfCritique:'explain remaining risk before release', nextIdeas:['continue hardening','review dependencies','run tests','generate docs'] };
 }
 module.exports = { verdict, mustCallNext };

@@ -1,0 +1,20 @@
+// B"H
+import { readFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+const html=readFileSync('geelooy/index.html','utf8');
+assert(html.includes('clean-home'));
+assert(html.includes('data-home-menu'));
+assert(html.includes('<details class="clean-expander"'));
+assert(html.includes('id="home-heichelos-menu"'));
+assert(html.includes('class="home-command-dock home-task-dock"'));
+const menu=readFileSync('geelooy/scripts/awtsmoos/social/home/menu/index.js','utf8');
+assert(menu.includes('document.querySelectorAll'));
+assert(menu.includes('pointerdown'));
+assert(menu.includes('aria-expanded'));
+const css=readFileSync('geelooy/style/social/home/polish/clean-mobile.css','utf8');
+assert(css.includes('.home-heichelos-menu{position:fixed'));
+assert(css.includes('.home-command-dock{position:sticky'));
+const mail=readFileSync('geelooy/email/css/social-shell-parts/mobile.css','utf8');
+assert(mail.includes('padding-bottom:max(5.8rem'));
+assert(mail.includes('.mail-bottom-nav{position:fixed'));
+console.log('B"H cleanHomeContract.test passed');
