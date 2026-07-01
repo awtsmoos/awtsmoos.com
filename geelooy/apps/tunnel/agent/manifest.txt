@@ -1,5 +1,5 @@
 B"H
-1.0.210
+1.0.211
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -715,6 +715,7 @@ tools/chrome/session.js
 tools/chrome/snapshot.js
 tools/command/index.js
 tools/command/instantTests.js
+tools/command/missionWrap.js
 tools/command/projectChecks.js
 tools/command/run.js
 tools/command/scriptSandbox.js
