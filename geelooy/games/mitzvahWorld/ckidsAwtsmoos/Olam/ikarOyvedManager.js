@@ -6,12 +6,12 @@ import setupDomEvents from "./worker/domEvents.js?v=android-dom-events-20260612-
 import setupMessageHandler from "./worker/messageHandler.js?v=zone-reality-20260614-bh817";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=no-alert-perf-jump-20260701-bh9";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=no-compact-engine-20260702-bh2";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";
 import { startWorkerProgressWatchdog } from "./ikarOyvedManager/watch/WorkerProgressWatchdog.js";
-const SEAL = "no-alert-perf-jump-20260701-bh9";
+const SEAL = "no-compact-engine-20260702-bh2";
 function compactError(error) { return { message:error?.message || String(error), stack:String(error?.stack || "no stack").replace(/\s+/g, " ") }; }
 export default class OlamWorkerManager {
   constructor(workerPath, options = {}, canvasElement, ui) { this.workerPath = workerPath; this.customTawfeekeem = options; this.canvasElement = canvasElement; this.myUi = ui || new UI(); this.queue = new WorkerQueue(); this.runtime = new WorkerRuntimeState(); this._vesselIsReady = false; this._pawsawchDispatched = false; this._worldLoaded = false; this._canvasTransferred = false; window.ui = this.myUi; window.__AWTSMOOS_ACTIVE_WORKER_MANAGER__ = this; this.eved = createModuleWorker(workerPath); attachWorkerErrorEvents(this.eved, workerPath); setupMessageHandler(this); setupDomEvents(this); if (window.__AWTSMOOS_WORKER_TRACE__ === true) console.info('B"H | OYVED_MANAGER_BOUND', { seal:SEAL, workerPath }); this.eved.onmessage = event => { this.runtime.touch(); interceptWorkerMessage(this, event); this.handleMessageEvent(event); }; this._initStagnationWatch(); startWorkerProgressWatchdog(this); }

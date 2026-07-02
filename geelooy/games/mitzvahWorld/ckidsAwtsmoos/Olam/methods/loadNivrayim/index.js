@@ -1,6 +1,6 @@
 // B"H
 /** @file index.js @description Loads worlds; tiny test vessels may bypass meadow-heavy systems. */
-import instantiate from "./instantiateMezuzahDirect.js?v=no-alert-perf-jump-20260701-bh9";
+import instantiate from "./instantiateMezuzahDirect.js?v=no-compact-engine-20260702-bh2";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 import { diagEvent, installDiagnosticsNotice } from "../../../utils/AwtsmoosDiagnostics.js?v=village-diagnostics-20260612-bh2";

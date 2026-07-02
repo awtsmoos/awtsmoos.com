@@ -3,9 +3,9 @@
 export default {
   Domem: "../../chayim/domem/index.js?v=domem-visible-ground-authority-20260701-bh1",
   Tzomayach: "../../chayim/tzomayach.js",
-  Chai: "../../chayim/chai/index.js?v=no-alert-perf-jump-20260701-bh9",
+  Chai: "../../chayim/chai/index.js?v=no-compact-engine-20260702-bh2",
   Medabeir: "../../chayim/medabeir/index.js",
-  Chossid: "../../chayim/chossid/index.js?v=no-alert-perf-jump-20260701-bh9",
+  Chossid: "../../chayim/chossid/index.js?v=no-compact-engine-20260702-bh2",
   Tool: "../../dvarim/tool.js", Coin: "../../dvarim/coin.js", Container: "../../dvarim/container.js",
   Wheat: "../../dvarim/farming/wheat.js", Mill: "../../dvarim/farming/mill.js", Oven: "../../dvarim/farming/oven.js",
   Fire: "../../dvarim/fire.js", Lava: "../../dvarim/lava.js", Portal: "../../dvarim/portal.js",

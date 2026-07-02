@@ -1,7 +1,7 @@
 // B"H
 /** @module OyvedMessageInterpreter @description Routes genesis and bh9 playerProbe pulses. */
 import { GenesisRoute } from './GenesisRoute.js?';
-import { ContinuousRoute } from './ContinuousRoute.js?v=no-alert-perf-jump-20260701-bh9';
+import { ContinuousRoute } from './ContinuousRoute.js?v=no-compact-engine-20260702-bh2';
 const SHATTERED_WARN_GAP_MS = 5000, SHATTERED_SAMPLE_LIMIT = 8;
 const shattered = { total:0, lastWarnAt:0, firstAt:0, lastAt:0, lastKeys:[], samples:[] };
 function keysOf(data) { return data && typeof data === 'object' ? Object.keys(data).slice(0, 12) : []; }

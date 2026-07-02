@@ -1,8 +1,8 @@
 // B"H
 /** @file instantiateMezuzahDirect.js @description Direct constructors with bh9 Chossid. */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=no-alert-perf-jump-20260701-bh9';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=no-compact-engine-20260702-bh2';
 import Utils from '../../../utils.js';
-import ChossidDirect from '../../../chayim/chossid/index.js?v=no-alert-perf-jump-20260701-bh9';
+import ChossidDirect from '../../../chayim/chossid/index.js?v=no-compact-engine-20260702-bh2';
 import SolidBlockDirect from '../../../dvarim/architecture/SolidBlock.js?v=direct-lava-platforms-20260609-bh620';
 import MovingPlatformDirect from '../../../dvarim/hazards/MovingPlatform.js?v=direct-lava-platforms-20260609-bh620';
 import SpikeFieldDirect from '../../../dvarim/hazards/SpikeField.js?v=lava-camera-axis-20260609-bh640';

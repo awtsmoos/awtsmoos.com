@@ -1,8 +1,8 @@
 // B"H
 import * as THREE from "/games/scripts/build/three.module.js";
-import { FOOT_GROUND_EPSILON, GROUNDING_SYSTEM, PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr, vec } from "./FootGroundConstants.js?v=no-alert-perf-jump-20260701-bh9";
-import { capsuleBottomY } from "./CapsuleFootContract.js?v=no-alert-perf-jump-20260701-bh9";
-import { cachedLowestWorldY } from "./ModelFootProbe.js?v=no-alert-perf-jump-20260701-bh9";
+import { FOOT_GROUND_EPSILON, GROUNDING_SYSTEM, PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr, vec } from "./FootGroundConstants.js?v=no-compact-engine-20260702-bh2";
+import { capsuleBottomY } from "./CapsuleFootContract.js?v=no-compact-engine-20260702-bh2";
+import { cachedLowestWorldY } from "./ModelFootProbe.js?v=no-compact-engine-20260702-bh2";
 const W = new THREE.Vector3(), P = new THREE.Vector3();
 function ground(player) {
   const hit = player?.__meshGroundAuthority || player?.groundHitResult || {};

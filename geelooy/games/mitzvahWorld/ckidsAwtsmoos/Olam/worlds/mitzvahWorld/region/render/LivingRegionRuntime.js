@@ -1,7 +1,7 @@
 // B"H
 /** @file LivingRegionRuntime.js @description Player-first living region: colliders now, scenery later. */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { postWorkerProgress } from "../../../../oyved/core/protocol/WorkerProtocol.js?v=no-alert-perf-jump-20260701-bh9";
+import { postWorkerProgress } from "../../../../oyved/core/protocol/WorkerProtocol.js?v=no-compact-engine-20260702-bh2";
 import { buildRoadRenderer } from "./RegionRoadRenderer.js?v=road-cell-budget-20260622-bh1";
 import { buildCottageRenderer } from "./RegionCottageRenderer.js?v=actual-solid-house-20260702-bh4";
 import { buildRegionColliderRuntime } from "./RegionColliderRuntime.js?v=final-batch-colliders-20260615-bh1";

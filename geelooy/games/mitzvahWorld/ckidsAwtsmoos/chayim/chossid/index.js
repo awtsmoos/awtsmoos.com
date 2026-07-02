@@ -1,13 +1,13 @@
 // B"H
 /** @module Chossid @description Player body with bh9 controls, jump, and no-alert runtime. */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=no-alert-perf-jump-20260701-bh9";
+import Chai from "../chai/index.js?v=no-compact-engine-20260702-bh2";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import controlMethods from './methods/controls.js?v=no-alert-perf-jump-20260701-bh9';
+import controlMethods from './methods/controls.js?v=no-compact-engine-20260702-bh2';
 import interactionMethods from './methods/interaction.js?v=mobile-target-select-20260614-bh1';
-import lifecycleMethods from './methods/lifecycle.js?v=no-alert-perf-jump-20260701-bh9';
+import lifecycleMethods from './methods/lifecycle.js?v=no-compact-engine-20260702-bh2';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
-import updateMethods from './methods/update.js?v=no-alert-perf-jump-20260701-bh9';
+import updateMethods from './methods/update.js?v=no-compact-engine-20260702-bh2';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 import { ensurePlayerLevel } from '../../systems/progression/PlayerLevelRuntime.js';
 import { isAttackableTarget } from './methods/ClickTargetPolicy.js?v=click-target-policy-20260629-bh1';

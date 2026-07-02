@@ -3,8 +3,8 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import TerrainMath from "../../../../../dvarim/terrain/core/TerrainMath.js";
 import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
-import { clearAirTrajectory } from "./PhysicsAirRuntime.js?v=no-alert-perf-jump-20260701-bh9";
-import { finite, numeric } from "./PhysicsNumbers.js?v=no-alert-perf-jump-20260701-bh9";
+import { clearAirTrajectory } from "./PhysicsAirRuntime.js?v=no-compact-engine-20260702-bh2";
+import { finite, numeric } from "./PhysicsNumbers.js?v=no-compact-engine-20260702-bh2";
 const groundRay = new THREE.Ray();
 export function jumpRising(player) { return Number(player?.velocity?.y || 0) > 0.05 || Boolean(player?.jumped && !player?.onFloor && Number(player?.velocity?.y || 0) > -0.01); }
 export function terrainFallbackY(player, x, z, fallback) { const law = player?.olam?.awtsmoosTerrainLaw; if (!law?.data) return fallback; const y = numeric(law.position?.y, 0) + TerrainMath.calculateHeightAt(x - numeric(law.position?.x, 0), z - numeric(law.position?.z, 0), law.data); return finite(y) ? y : fallback; }

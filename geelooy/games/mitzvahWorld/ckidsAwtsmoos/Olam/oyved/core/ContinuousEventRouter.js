@@ -2,7 +2,7 @@
 /** @file ContinuousEventRouter.js @description Routes ongoing worker pulses through bh9 probes. */
 import RenderTrace from "../../methods/canvas/RenderTrace.js";
 import { rememberCanvasPayload } from "./CanvasMemory.js";
-import { buildPlayerRuntimeProbe } from "./PlayerRuntimeProbe.js?v=no-alert-perf-jump-20260701-bh9";
+import { buildPlayerRuntimeProbe } from "./PlayerRuntimeProbe.js?v=no-compact-engine-20260702-bh2";
 import { destroyWorld } from "./WorldDisposal.js?v=visible-root-binding-20260610-bh710";
 import { resetAfterSpikeDeath, enableAfterSpikeReset } from "./SpikeResetActions.js?v=visible-root-binding-20260610-bh710";
 const MOBILE_MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_STRIDE", "RIGHT_STRIDE"]);

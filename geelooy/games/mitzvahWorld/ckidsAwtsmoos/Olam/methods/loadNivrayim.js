@@ -1,7 +1,7 @@
 // B"H
 /** @file loadNivrayim.js @description Legacy loader drinks from bh9 no-alert player export hub. */
 import Utils from '../../utils.js';
-import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?v=no-alert-perf-jump-20260701-bh9';
+import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?v=no-compact-engine-20260702-bh2';
 export default class LegacyLoadNivrayim {
   async addObject(type, options = {}) {
     const Ctor = AWTSMOOS[type];

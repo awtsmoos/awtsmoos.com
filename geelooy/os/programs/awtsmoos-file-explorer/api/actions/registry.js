@@ -4,7 +4,7 @@ import { newFile } from './newFile.js';
 import { newFolder } from './newFolder.js';
 import { removeSelected } from './remove.js';
 import { copySelected } from './copy.js';
-import { cutSelected } from './cut.js';
+import { cutSelected } from './clipboardCutAction.js';
 import { pasteIntoCurrent } from './paste.js';
 import { renameSelected } from './rename.js';
 import { selectAll, clearSelection } from './select.js';
@@ -27,4 +27,4 @@ export function registerExplorerActions(controller, ctx) {
 async function named(ctx, payload, label, fn) { const full = { ...ctx, ...(payload || {}) }; try { const got = await fn(full); toast(ctx.system, `${label} complete`, 'success'); ctx.afterAction?.(); return got; } catch (e) { fail(ctx.system, label, e); throw e; } }
 async function mode(ctx, payload, value) { return await named(ctx, payload, `View ${value}`, c => setViewMode(c, value)); }
 async function sort(ctx, payload, by) { return await named(ctx, payload, `Sort ${by}`, c => sortBy(c, by)); }
-/** B"H: every toolbar button receives a named command and payloads flow honestly. */
+/** B"H: registry avoids the broken /cut.js resource while keeping Cut wired. */

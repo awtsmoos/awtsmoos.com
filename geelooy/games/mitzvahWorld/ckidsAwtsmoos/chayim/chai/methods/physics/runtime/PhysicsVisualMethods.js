@@ -12,7 +12,7 @@
  * @failureModes Missing model/camera auxiliaries are ignored.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { clampVisibleBodyAboveFeet } from "../VisualGroundClamp.js?v=no-alert-perf-jump-20260701-bh9";
+import { clampVisibleBodyAboveFeet } from "../VisualGroundClamp.js?v=no-compact-engine-20260702-bh2";
 import { clearAirTrajectory, setAnim } from "./PhysicsAirRuntime.js";
 import { normAngle, numeric } from "./PhysicsNumbers.js";
 

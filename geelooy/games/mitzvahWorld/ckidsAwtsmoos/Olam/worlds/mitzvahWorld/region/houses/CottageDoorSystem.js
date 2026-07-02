@@ -7,7 +7,7 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js";
-import { defaultDoorState } from "./door/DoorStateIndex.js?v=house-solid-loader-compact-20260702-bh3";
+import { defaultDoorState } from "./door/DoorStateIndex.js?v=no-compact-engine-20260702-bh2";
 
 const material = color => new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true });
 
