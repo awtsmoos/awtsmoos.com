@@ -2,22 +2,10 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import { finite } from "./GroundWorldMath.js";
 
-/**
- * Purpose: cache, fallback, and diagnostics records for ground hits.
- * Owner: GroundCollisionWorld.
- * Inputs: hit records, fallback functions, and olam diagnostics object.
- * Outputs: normalized lastHit records and reports.
- * Runtime authority: owns no transforms, only measurement records.
- * Performance: same-position cache avoids repeated raycasts.
- * Update order: invoked after mesh query attempt.
- * Callers: GroundCollisionWorld.groundAt and diag.
- * Calls: fallbackFn when no mesh proof exists.
- * Invariants: fallback records are explicitly marked fallback:true.
- * Failure modes: invalid fallback values collapse to fallback argument.
- * Future: add histogram of fallback reasons.
- */
+const CACHEABLE_REAL_SOURCES = new Set(["mesh", "octree", "initial-raycast-grounding"]);
+
 export function cachedHitValid(lastHit, x, z, epsilon) {
-  if (!lastHit || lastHit.fallback || lastHit.source !== "mesh") return false;
+  if (!lastHit || lastHit.fallback || !CACHEABLE_REAL_SOURCES.has(lastHit.source)) return false;
   return Math.abs(finite(x) - lastHit.x) <= epsilon && Math.abs(finite(z) - lastHit.z) <= epsilon;
 }
 

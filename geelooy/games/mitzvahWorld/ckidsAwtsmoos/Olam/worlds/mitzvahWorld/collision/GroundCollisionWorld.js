@@ -3,7 +3,7 @@ import * as THREE from "/games/scripts/build/three.module.js";
 import SpatialBubbleIndex from "./SpatialBubbleIndex.js";
 import { DOWN, NORMAL_MATRIX, RAYCASTER, finite } from "./groundWorld/GroundWorldMath.js";
 import { terrainRecord } from "./groundWorld/GroundTerrainRegistry.js";
-import { cachedHitValid, diagPayload, fallbackHit, publishReport } from "./groundWorld/GroundHitCache.js";
+import { cachedHitValid, diagPayload, fallbackHit, publishReport } from "./groundWorld/GroundHitCache.js?v=octree-ground-cache-20260702-bh1";
 import { surfaceIdentity } from "./groundWorld/GroundSurfaceIdentity.js";
 const UP = new THREE.Vector3(0, 1, 0), RAY = new THREE.Ray(), V1 = new THREE.Vector3(), V2 = new THREE.Vector3();
 const tmpBox = new THREE.Box3(), tmpSize = new THREE.Vector3(), tmpMin = new THREE.Vector3();
