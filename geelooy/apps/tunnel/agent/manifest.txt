@@ -1,5 +1,5 @@
 B"H
-1.0.226
+1.0.227
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -396,6 +396,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_manifest_stream
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_migration.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_streaming_wal.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/__awtsmoos_patch_writer_skip_indexes.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/compact_awtsdb.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/migrate_dayuh_chadash_full.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/migrate_dayuh_chadash_grouped.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/scripts/migrate_old_dosdb.js

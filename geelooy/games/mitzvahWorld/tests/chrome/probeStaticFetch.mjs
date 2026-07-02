@@ -13,8 +13,8 @@ const targets = [
   '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamInit.js?v=test',
   '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/camera/index.js?v=test',
   '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/systems/UserProgressManager.js?v=test',
-  '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/Yichud.js?compact=true',
-  '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/PlacementManager.js?compact=true',
+  '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/Yichud.js?',
+  '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/PlacementManager.js?',
   '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/systems/combat/CombatManager.js?v=test',
   '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/systems/worldState/WorldStateStore.js?v=test',
   '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/divine_systems/render/core/PixelRatioGovernor.js?v=test'

@@ -15,11 +15,11 @@ const DEPENDENCIES = [
   ["OlamInit", "./OlamInit.js?v=village-combat-20260611-bh804"],
   ["Ayin", "../camera/index.js?v=village-combat-20260611-bh804"],
   ["UserProgressManager", "../../systems/UserProgressManager.js?v=village-combat-20260611-bh804"],
-  ["Yichud", "../interaction/Yichud.js?compact=true"],
-  ["PlacementManager", "../interaction/PlacementManager.js?compact=true"],
+  ["Yichud", "../interaction/Yichud.js?"],
+  ["PlacementManager", "../interaction/PlacementManager.js?"],
   ["CombatManager", "../../systems/combat/CombatManager.js?v=combat-cache-budget-20260621-bh1"],
   ["WorldStateStore", "../../systems/worldState/WorldStateStore.js?v=starter-contracts-20260628-bh9"],
-  ["PixelRatioGovernor", "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1"]
+  ["PixelRatioGovernor", "../../divine_systems/render/core/PixelRatioGovernor.js?v=native-crisp-20260622-bh1"]
 ];
 
 function absoluteUrl(path) {

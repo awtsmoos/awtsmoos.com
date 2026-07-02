@@ -1,9 +1,9 @@
 // B"H
 /** Boots the Mitzvah World engine as a true ES module, never compact=true. */
-import { UI_BRIDGE_SEAL, traceBoot } from "./bridgeSeal.js?v=no-compact-engine-20260702-bh1";
-import { installBrowserHelpers } from "./browserHelpers.js?v=no-compact-engine-20260702-bh1";
-import { describeAwtsmoosError } from "./bootErrors.js?v=no-compact-engine-20260702-bh1";
-import { installUiBridge } from "./installUiBridge.js?v=no-compact-engine-20260702-bh1";
+import { UI_BRIDGE_SEAL, traceBoot } from "./bridgeSeal.js?v=no-compact-engine-20260702-bh2";
+import { installBrowserHelpers } from "./browserHelpers.js?v=no-compact-engine-20260702-bh2";
+import { describeAwtsmoosError } from "./bootErrors.js?v=no-compact-engine-20260702-bh2";
+import { installUiBridge } from "./installUiBridge.js?v=no-compact-engine-20260702-bh2";
 
 let bootStarted = false;
 function ensureDefaultPath() { const u = new URL(location.href); if (!u.searchParams.has("path")) { u.searchParams.set("path", "village.json"); history.replaceState(history.state, "", u.href); } }

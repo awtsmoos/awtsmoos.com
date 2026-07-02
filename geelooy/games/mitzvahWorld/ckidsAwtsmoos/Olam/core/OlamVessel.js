@@ -7,11 +7,11 @@ import OlamProperties from "../properties/index.js?v=village-combat-20260611-bh8
 import OlamInit from "./OlamInit.js?v=village-combat-20260611-bh804";
 import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";
 import UserProgressManager from "../../systems/UserProgressManager.js?v=village-combat-20260611-bh804";
-import Yichud from "../interaction/Yichud.js?compact=true";
-import PlacementManager from "../interaction/PlacementManager.js?compact=true";
+import Yichud from "../interaction/Yichud.js?";
+import PlacementManager from "../interaction/PlacementManager.js?";
 import CombatManager from "../../systems/combat/CombatManager.js?v=attack-cache-hard-grounding-20260701-bh1";
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=starter-contracts-20260628-bh9";
-import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?v=native-crisp-20260622-bh1";
 import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
 
 const SAFE_SKY = 0x5d8fa8;

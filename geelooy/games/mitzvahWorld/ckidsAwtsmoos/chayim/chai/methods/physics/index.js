@@ -1,14 +1,14 @@
 // B"H
 /** @file index.js @purpose Player physics, now with corrected mobile screen-left/right. */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
-import baseMethods from "./runtime/PhysicsBaseMethods.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
-import frameMethods from "./runtime/PhysicsFrameMethods.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
-import motionMethods from "./runtime/PhysicsMotionMethods.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
-import visualMethods from "./runtime/PhysicsVisualMethods.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
-import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
-import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
-import { normAngle, numeric } from "./runtime/PhysicsNumbers.js?v=house-solid-mobile-loader-20260702-bh3&compact=true";
+import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=house-solid-mobile-loader-20260702-bh3";
+import baseMethods from "./runtime/PhysicsBaseMethods.js?v=house-solid-mobile-loader-20260702-bh3";
+import frameMethods from "./runtime/PhysicsFrameMethods.js?v=house-solid-mobile-loader-20260702-bh3";
+import motionMethods from "./runtime/PhysicsMotionMethods.js?v=house-solid-mobile-loader-20260702-bh3";
+import visualMethods from "./runtime/PhysicsVisualMethods.js?v=house-solid-mobile-loader-20260702-bh3";
+import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?v=house-solid-mobile-loader-20260702-bh3";
+import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?v=house-solid-mobile-loader-20260702-bh3";
+import { normAngle, numeric } from "./runtime/PhysicsNumbers.js?v=house-solid-mobile-loader-20260702-bh3";
 const UP = new THREE.Vector3(0, 1, 0), TMP_F = new THREE.Vector3(), TMP_R = new THREE.Vector3();
 export function clampToTerrainFloor(player) { return clampCapsuleToTerrainFloor(player); }
 function mobileCameraDirection(player) {

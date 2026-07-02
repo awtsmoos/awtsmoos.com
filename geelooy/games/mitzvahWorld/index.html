@@ -93,22 +93,22 @@
   <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div><div shaym="personalPerutas"></div><div shaym="animalKillProof"></div></div>
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
-  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?v=no-compact-engine-20260702-bh1"></script>
-  <script type="module" src="./systems/osGraph/bridge.js?v=no-compact-engine-20260702-bh1"></script>
-  <script type="module" src="./index.js?v=no-compact-engine-20260702-bh1"></script>
+  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?v=no-compact-engine-20260702-bh2"></script>
+  <script type="module" src="./systems/osGraph/bridge.js?v=no-compact-engine-20260702-bh2"></script>
+  <script type="module" src="./index.js?v=no-compact-engine-20260702-bh2"></script>
   <script type="module">
     const bootExtras = [
-      "./systems/ui/OpenWorldUiMobilePatch.js?compact=true&v=fast-stable-boot-20260628-bh2",
-      "./systems/mobile/MobileCleanHudRuntime.js?compact=true&v=world-first-ui-20260626-bh2",
-      "./systems/performance/FpsGuardian.js?compact=true&v=fps-guardian-direct-20260629-bh1",
-      "./systems/performance/PerformanceModeBootstrap.js?compact=true&v=fast-stable-boot-20260628-bh2",
-      "./systems/performance/PostLoadFpsProbe.js?compact=true&v=quiet-worker-60fps-20260702-bh1",
-      "./systems/performance/TestModeFeaturePanel.js?compact=true&v=test-feature-panel-20260702-bh1",
-      "./systems/performance/RuntimeBudgetBootstrap.js?compact=true&v=fast-stable-boot-20260628-bh2",
-      "./systems/performance/BrowserFrameTraceHarness.js?compact=true&v=real-browser-trace-20260628-bh2",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceUiBridge.js?compact=true&v=starter-zone-ui-20260626-bh2",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceBootstrap.js?compact=true&v=starter-zone-boot-20260626-bh2",
-      "./systems/boot/DeferredBootScheduler.js?compact=true&v=fast-stable-boot-20260628-bh2"
+      "./systems/ui/OpenWorldUiMobilePatch.js?v=fast-stable-boot-20260628-bh2",
+      "./systems/mobile/MobileCleanHudRuntime.js?v=world-first-ui-20260626-bh2",
+      "./systems/performance/FpsGuardian.js?v=fps-guardian-direct-20260629-bh1",
+      "./systems/performance/PerformanceModeBootstrap.js?v=fast-stable-boot-20260628-bh2",
+      "./systems/performance/PostLoadFpsProbe.js?v=quiet-worker-60fps-20260702-bh1",
+      "./systems/performance/TestModeFeaturePanel.js?v=test-feature-panel-20260702-bh1",
+      "./systems/performance/RuntimeBudgetBootstrap.js?v=fast-stable-boot-20260628-bh2",
+      "./systems/performance/BrowserFrameTraceHarness.js?v=real-browser-trace-20260628-bh2",
+      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceUiBridge.js?v=starter-zone-ui-20260626-bh2",
+      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceBootstrap.js?v=starter-zone-boot-20260626-bh2",
+      "./systems/boot/DeferredBootScheduler.js?v=fast-stable-boot-20260628-bh2"
     ];
     const progress = window.__AWTSMOOS_LOADING_PROGRESS__;
     const pause = ms => new Promise(resolve => setTimeout(resolve, ms));

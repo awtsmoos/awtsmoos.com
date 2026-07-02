@@ -3,9 +3,9 @@
  * The first loading breath names world-engine:import:start here too, so the
  * audit and the phone both know the engine has begun its descent.
  */
-import { traceBoot } from "./uiBridge/bridgeSeal.js?v=no-compact-engine-20260702-bh1";
-import { installBootDiagnostics, installBootErrorListeners } from "./uiBridge/bootErrors.js?v=no-compact-engine-20260702-bh1";
-import { bootIkarNow } from "./uiBridge/bootIkar.js?v=no-compact-engine-20260702-bh1";
+import { traceBoot } from "./uiBridge/bridgeSeal.js?v=no-compact-engine-20260702-bh2";
+import { installBootDiagnostics, installBootErrorListeners } from "./uiBridge/bootErrors.js?v=no-compact-engine-20260702-bh2";
+import { bootIkarNow } from "./uiBridge/bootIkar.js?v=no-compact-engine-20260702-bh2";
 
 const IMPORT_START_STAGE = "world-engine:import:start";
 

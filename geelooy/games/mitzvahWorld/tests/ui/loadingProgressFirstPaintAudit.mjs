@@ -20,7 +20,7 @@ const requiredIds = [
 for (const id of requiredIds) assert(html.includes(`id="${id}"`), `first paint loader missing ${id}`);
 
 const bridgeIndex = html.indexOf("LoadingProgressBridge.js");
-const worldIndex = html.indexOf("./index.js?compact=true");
+const worldIndex = html.indexOf("./index.js?");
 const extrasIndex = html.indexOf("bootExtras");
 assert(bridgeIndex > 0, "loading progress bridge must be an explicit early module");
 assert(worldIndex > bridgeIndex, "world boot must start after the tiny progress bridge");

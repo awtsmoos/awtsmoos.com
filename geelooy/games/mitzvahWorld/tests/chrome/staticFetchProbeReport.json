@@ -52,13 +52,13 @@
       "preview": "\n// B\"H\n/**\n * UserProgressManager - The Zikaron (Memory) of the player's journey.\n * Ensures that no spark of effort is lost, bridging worker logic and physica"
     },
     {
-      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/Yichud.js?compact=true",
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/Yichud.js?",
       "status": 200,
       "type": "text/javascript; charset=utf-8",
       "preview": "// B\"H\n/**\n * @file Yichud.js\n * @description Chapter 1007: old procedural trees are not interactive targets.\n */\nimport Kav from \"./methods/Kav.js\";\nimport Ohr"
     },
     {
-      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/PlacementManager.js?compact=true",
+      "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/interaction/PlacementManager.js?",
       "status": 200,
       "type": "text/javascript; charset=utf-8",
       "preview": "// B\"H\n/**\n * @file PlacementManager.js\n * @description\n * Chapter 1009: placement no longer spawns old tree classes.\n * Build mode still places blocks/furnitur"

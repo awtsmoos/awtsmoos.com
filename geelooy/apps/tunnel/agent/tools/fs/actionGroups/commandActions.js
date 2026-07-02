@@ -13,9 +13,10 @@ const {
 
 /**
  * B"H
- * The command river now exposes every resumable stone in one visible ford.
- * Agents who receive a waitPayload must be able to call commandWait through
- * the same buildActions vessel used by tests, mission steps, and replay.
+ * The command gate must be two things at once: a truthful machine and a faithful
+ * messenger. Canonical workers may do the labor, but the name spoken back to an
+ * agent must remain the name the agent invoked, so correlation never mistakes a
+ * living receipt for a stranger wearing another action's garment.
  */
 function buildCommandActions(ctx) {
   const { config, payload } = ctx;
@@ -25,15 +26,25 @@ function buildCommandActions(ctx) {
     shellCommand: () => runSmart(config, payload, 'shellCommand'),
     commandStart: () => startCommandJob(config, payload),
     commandStatus: () => commandStatus(config, payload),
-    commandPoll: () => commandStatus(config, payload),
+    commandPoll: () => runAlias(config, payload, 'commandPoll', 'commandStatus', commandStatus),
     commandWait: () => commandWait(config, payload),
     commandCancel: () => cancelCommandJob(config, payload),
-    commandJobStatus: () => commandStatus(config, payload),
-    commandJobWait: () => commandWait(config, payload),
-    commandJobCancel: () => cancelCommandJob(config, payload),
+    commandJobStatus: () => runAlias(config, payload, 'commandJobStatus', 'commandStatus', commandStatus),
+    commandJobWait: () => runAlias(config, payload, 'commandJobWait', 'commandWait', commandWait),
+    commandJobCancel: () => runAlias(config, payload, 'commandJobCancel', 'commandCancel', cancelCommandJob),
     commandJobOutputPage: () => commandJobOutputPage(config, payload),
-    commandOutputPage: () => readCommandOutputPage(config, payload)
+    commandOutputPage: () => runAlias(config, payload, 'commandOutputPage', 'commandJobOutputPage', commandJobOutputPage),
   };
+}
+
+async function runAlias(config, payload, requestedAction, canonicalAction, fn) {
+  const result = await fn(config, { ...payload, action: canonicalAction, actualAction: canonicalAction, requestAction: requestedAction });
+  return preserveAliasIdentity(result, requestedAction, canonicalAction);
+}
+
+function preserveAliasIdentity(result, requestedAction, canonicalAction) {
+  const out = result && typeof result === 'object' ? { ...result } : { ok: false, error: 'empty_action_response' };
+  return { ...out, action: requestedAction, requestAction: requestedAction, actualAction: requestedAction, canonicalAction, servedByAction: canonicalAction };
 }
 
 async function runSmart(config, payload = {}, action = 'command') {
@@ -99,4 +110,4 @@ function boundedTimeout(value) {
 }
 function defaultShell() { return os.platform() === 'win32' ? process.env.ComSpec || 'cmd.exe' : '/bin/sh'; }
 
-module.exports = { buildCommandActions, runCommand, boundedTimeout, isAsync, shouldRunSync };
+module.exports = { buildCommandActions, runCommand, boundedTimeout, isAsync, shouldRunSync, preserveAliasIdentity };

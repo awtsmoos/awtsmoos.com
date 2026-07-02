@@ -5,7 +5,7 @@
  * by exact static filename. The Awtsmoos removes query-masks from the worker
  * fatal path so the Olam can awaken and spawn the mezuzah.
  */
-import { AngelicInvoker } from "./AngelicInvoker.js?compact=true";
+import { AngelicInvoker } from "./AngelicInvoker.js?";
 
 /** @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>} Boot result. */
 export async function invokeAngelicVessels() {
