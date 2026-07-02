@@ -1,28 +1,24 @@
 // B"H
 import * as Client from '../../../../remote/tunnelControlClient.js';
 
-/**
- * B"H
- * The Connect button now opens a real live vessel when one exists. If many
- * vessels stand before the user, it reveals the tunnel gate with every name.
- */
-export async function openTunnels({ controller }) {
-  return await controller.navigate('awtsmoos://tunnels');
+export async function openTunnels({ controller, system }) {
+  system?.makeToast?.('Loading tunnels…', 'info', 'explorer');
+  return await controller.navigate('/network');
 }
 
-export async function openMounts({ controller }) {
-  return await controller.navigate('/');
-}
+export async function openMounts({ controller }) { return await controller.navigate('/desktop.folder'); }
 
 export async function connectTunnel({ os, system, controller }) {
+  system?.makeToast?.('Connecting to tunnel…', 'info', 'explorer');
   await os?.refreshRemoteDrives?.();
-  const got = await Client.myDevice().catch(() => ({}));
+  const got = await Client.myDevice().catch(error => ({ ok:false, error:error.message }));
   const tunnelName = got?.recommended?.tunnelName || got?.tunnelName;
-  const path = tunnelName ? `awtsmoos://tunnels/${tunnelName}` : 'awtsmoos://tunnels';
-  system?.makeToast?.('Connect complete', 'success', 'explorer');
+  const path = tunnelName ? `/network/${tunnelName}` : '/network';
+  system?.makeToast?.(tunnelName ? `Connected: ${tunnelName}` : 'Tunnel list loaded', 'success', 'explorer');
   return await controller?.navigate?.(path);
 }
 
 export async function disconnectTunnel({ system }) {
   system?.makeToast?.('Use Tunnel Control to stop native agents.', 'info', 'explorer');
 }
+/** B"H: Connect speaks immediately, then opens the provider path when alive. */
