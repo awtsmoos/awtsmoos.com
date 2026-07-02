@@ -2,6 +2,7 @@
 import { COMMAND_NAMES, parseCommand } from './parser.js';
 import { basename, dirname, resolvePath } from './pathTools.js';
 import { mountTable, table, textOf } from './format.js';
+import * as TunnelClient from '../../remote/tunnelControlClient.js';
 export function createCommands({ os, state, history, render, close } = {}) {
   const api = { run, complete, help:HELP };
   async function run(input = '') {
@@ -11,6 +12,7 @@ export function createCommands({ os, state, history, render, close } = {}) {
     render?.();
   }
   async function dispatch(cmd, args) {
+    if (['sh','exec','native','!'].includes(cmd)) return native(args);
     if (cmd === 'help') return history.push(HELP);
     if (cmd === 'clear') return history.clear();
     if (cmd === 'history') return history.push(history.commands().map((x,i) => `${i + 1} ${x}`).join('\n') || '(empty)');
@@ -66,8 +68,10 @@ export function createCommands({ os, state, history, render, close } = {}) {
   function open(path, programName) { os?.addWindow?.({ title:basename(path), path:dirname(path), filePath:path, os, programName }); history.push(`opened ${path}`); }
   async function json(path) { history.push(JSON.stringify(JSON.parse(await readText(path)), null, 2)); }
   async function refresh() { const got = await os?.refreshRemoteDrives?.(); history.push(`refreshed ${(got?.devices?.devices || []).length} tunnel vessel(s)`); }
+  async function native(args) { const command = args.join(' '); if (!command) throw new Error('native command required'); const r = remoteParts(state.cwd); if (!r) throw new Error('native commands require awtsmoos://tunnels/<name>/... cwd'); const got = await TunnelClient.fsAction(r.tunnelName, { action:'command', command, cwd:r.cwd, path:r.cwd, maxChars:120000 }); history.push(textOf(got)); }
+  function remoteParts(path = '') { const m = String(path).match(/^awtsmoos:\/\/tunnels\/([^/]+)\/?(.*)$/); return m ? { tunnelName:m[1], cwd:m[2] || '.' } : null; }
   function env() { history.push(`cwd=${state.cwd}\nmounts=${(vfs().mounts?.() || []).length}\nprogram=awtsmoosCommand`); }
   return api;
 }
-const HELP = `Commands: ${COMMAND_NAMES.join(', ')}\nSafe law: every filesystem action goes through os.vfs and tunnel adapters; no native shell execution.`;
+const HELP = `Commands: ${COMMAND_NAMES.join(', ')}\nUse sh/exec/native/! only inside awtsmoos://tunnels/<name>/... to run direct tunnel OS commands at that cwd.`;
 /** B"H: The command dispatch is a guarded palace; VFS doors open, native danger does not. */

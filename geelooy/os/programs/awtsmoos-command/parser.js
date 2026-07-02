@@ -12,5 +12,5 @@ export function parseCommand(input = '') {
   if (current) tokens.push(current);
   return { cmd:(tokens.shift() || '').toLowerCase(), args:tokens };
 }
-export const COMMAND_NAMES = ['help','pwd','ls','ll','tree','cd','mkdir','touch','rm','mv','cp','cat','head','tail','grep','find','stat','open','edit','history','clear','exit','mounts','tunnels','connect','disconnect','reload','refresh','whoami','hostname','date','time','echo','env','read','write','json','preview','search'];
-/** B"H: Quotes and spaces bow into tokens; command names form a safe constellation. */
+export const COMMAND_NAMES = ['help','pwd','ls','ll','tree','cd','mkdir','touch','rm','mv','cp','cat','head','tail','grep','find','stat','open','edit','history','clear','exit','mounts','tunnels','connect','disconnect','reload','refresh','whoami','hostname','date','time','echo','env','read','write','json','preview','search','sh','exec','native','!'];
+/** B"H: Quotes and spaces bow into tokens; native commands enter by explicit names. */

@@ -6,9 +6,11 @@ export function showExplorerItemMenu({ event, item, controller }) {
 }
 function actions({ item, controller }) {
   const base = [{ label:'Open', run:() => controller.command.run('open') }];
+  if (item.kind === 'folder') base.push({ label:'Open Shell Here', run:() => openShell(controller, item.path) });
   if (item.kind !== 'folder') base.push({ label:'Edit', run:() => controller.command.run('edit') }, { label:'Preview', run:() => controller.command.run('preview') });
   base.push({ label:'Copy Path', run:() => controller.command.run('copyPath') }, { label:'Copy', run:() => controller.command.run('copy') }, { label:'Cut', run:() => controller.command.run('cut') }, { label:'Rename', run:() => controller.command.run('rename') }, { label:'Delete', run:() => controller.command.run('delete') });
   if (controller.isRemote()) base.push({ label:'Remote permissions enforced', disabled:true }); return base;
 }
+function openShell(controller, path) { controller.os?.addWindow?.({ title:`Shell · ${path}`, path, cwd:path, currentPath:path, os:controller.os, programName:'awtsmoosCommand' }); }
 function row(action, menu) { const el = document.createElement('div'); el.className = `menuItem${action.disabled ? ' disabled' : ''}`; el.textContent = action.label; el.dataset.action = action.label; el.onclick = async () => { if (action.disabled) return; menu.remove(); await action.run?.(); }; return el; }
-/** B"H: item context menus now invoke the same no-dead-button command registry. */
+/** B"H: every folder can open a shell in its own chamber. */
