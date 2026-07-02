@@ -3,7 +3,7 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
 import baseMethods from "./runtime/PhysicsBaseMethods.js?v=no-alert-perf-jump-20260701-bh9";
-import frameMethods from "./runtime/PhysicsFrameMethods.js?v=no-alert-perf-jump-20260701-bh9";
+import frameMethods from "./runtime/PhysicsFrameMethods.js?v=player-stage-timing-20260702-bh1";
 import motionMethods from "./runtime/PhysicsMotionMethods.js?v=no-alert-perf-jump-20260701-bh9";
 import visualMethods from "./runtime/PhysicsVisualMethods.js?v=no-alert-perf-jump-20260701-bh9";
 import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?v=no-alert-perf-jump-20260701-bh9";
