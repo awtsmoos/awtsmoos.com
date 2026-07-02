@@ -10,5 +10,6 @@ import path from './future/path.js';
 import menus from './future/menus.js';
 import scrollbars from './future/scrollbars.js';
 import mobile from './future/mobile.js';
-export default [tokens, frame, toolbar, drives, sidebar, viewGrid, details, path, menus, scrollbars, mobile].join('\n');
-/** B"H: futureUnified is now only the conductor; each module sings alone. */
+import interaction from './future/interaction.js';
+export default [tokens, frame, toolbar, drives, sidebar, viewGrid, details, path, menus, scrollbars, mobile, interaction].join('\n');
+/** B"H: futureUnified conducts breadcrumb and loading motion too. */

@@ -12,15 +12,18 @@ const DEFAULTS = Object.freeze({
   advisoryOnly: process.env.AWTSMOOS_LAG_ADVISORY_ONLY === '1'
 });
 
+const LAG_REASONS = new Set([
+  'kernel_panic_lag_only_p0',
+  'kernel_hard_lag_only_p0',
+  'kernel_soft_lag_blocks_bulk'
+]);
+
 /**
  * B"H
- * Chapter 1801: The breaker learned mercy.
- *
- * A single spike is not death. If fresh worker heartbeats or recent successful
- * actions testify that the vessel is still breathing, the circuit reports
- * degraded pressure but keeps routing useful work. Only a silent, saturated
- * tunnel becomes a locked gate. Thus the Awtsmoos is revealed through a gate
- * that bends before it breaks.
+ * The breaker is not a padlock on the whole palace. Lag is weather: report it,
+ * mark the road slippery, but let isolated workers and other agents pass. Only
+ * real queue saturation closes a gate. Thus one long process cannot become a
+ * Pharaoh over every other shliach in the tunnel.
  */
 function number(value, fallback) {
   const n = Number(value);
@@ -42,7 +45,7 @@ function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
   const queued = Number(context.lanes?.[lane]?.queued || 0);
   const pressureReason = reasonFor(lane, level, queued, limits);
   const liveness = livePressureEvidence(context, limits);
-  const wouldHaveBlockedReason = liveness.canRoute ? '' : pressureReason;
+  const hardBlock = blockingReason(pressureReason, liveness, limits);
   const base = {
     ok: true,
     status: 202,
@@ -52,22 +55,29 @@ function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
     degraded: level !== 'open' || Boolean(pressureReason),
     advisoryOnly: limits.advisoryOnly === true,
     pressureReason,
+    blockingReason: hardBlock,
     liveness,
     reason: pressureReason ? 'admitted_despite_pressure' : 'accepted',
-    wouldHaveBlockedReason,
+    wouldHaveBlockedReason: pressureReason,
     retryAfterMs: retryAfterMs(level, pressureReason)
   };
-  if (!wouldHaveBlockedReason || limits.advisoryOnly === true) return base;
-  return { ...base, ...Recovery.lagCircuitEnvelope(request, base), reason: wouldHaveBlockedReason };
+  if (!hardBlock || limits.advisoryOnly === true) return base;
+  return { ...base, ...Recovery.lagCircuitEnvelope(request, base), reason: hardBlock, blockingReason: hardBlock };
+}
+
+function blockingReason(reason, liveness = {}, _limits = DEFAULTS) {
+  if (!reason || LAG_REASONS.has(reason)) return '';
+  if (liveness.saturated || /backpressure/.test(reason)) return reason;
+  return '';
 }
 
 function reasonFor(lane, level, queued, limits = DEFAULTS) {
   if (lane === 'p0_control') return '';
+  if (lane === 'p4_bulk' && queued >= limits.p4QueueLimit) return 'p4_backpressure';
+  if (lane === 'p3_heavy' && queued >= limits.p3QueueLimit) return 'p3_backpressure';
   if (level === 'panic') return 'kernel_panic_lag_only_p0';
   if (level === 'hard') return 'kernel_hard_lag_only_p0';
   if (level === 'soft' && lane === 'p4_bulk') return 'kernel_soft_lag_blocks_bulk';
-  if (lane === 'p4_bulk' && queued >= limits.p4QueueLimit) return 'p4_backpressure';
-  if (lane === 'p3_heavy' && queued >= limits.p3QueueLimit) return 'p3_backpressure';
   return '';
 }
 
@@ -78,12 +88,7 @@ function livePressureEvidence(context = {}, limits = DEFAULTS) {
   const recentSuccess = freshMs(now - Number(context.lastSuccessfulActionAt || 0), limits.recentSuccessMs);
   const queued = Object.values(context.lanes || {}).reduce((sum, lane) => sum + Number(lane?.queued || 0), 0);
   const saturated = queued >= Number(context.maxQueue || Infinity);
-  return {
-    freshWorker,
-    recentSuccess,
-    saturated,
-    canRoute: !saturated && (freshWorker || recentSuccess)
-  };
+  return { freshWorker, recentSuccess, saturated, canRoute: !saturated && (freshWorker || recentSuccess) };
 }
 
 function freshTime(value, now, limit) {
@@ -105,13 +110,7 @@ function retryAfterMs(level, reason) {
 function snapshot(context = {}, limits = DEFAULTS) {
   const lagMs = Number(context.eventLoopLag?.lastMs || 0);
   const level = levelForLag(lagMs, limits);
-  return {
-    limits,
-    level,
-    eventLoopLagMs: lagMs,
-    advisoryOnly: limits.advisoryOnly === true,
-    liveness: livePressureEvidence(context, limits)
-  };
+  return { limits, level, eventLoopLagMs: lagMs, advisoryOnly: limits.advisoryOnly === true, liveness: livePressureEvidence(context, limits) };
 }
 
-module.exports = { DEFAULTS, canAccept, levelForLag, livePressureEvidence, reasonFor, snapshot };
+module.exports = { DEFAULTS, blockingReason, canAccept, levelForLag, livePressureEvidence, reasonFor, snapshot };
