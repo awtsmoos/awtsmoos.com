@@ -219,6 +219,7 @@ class TinyWebSocket extends EventEmitter {
 
     const payload = Buffer.isBuffer(data) ? data : Buffer.from(String(data), "utf8");
     const len = payload.length;
+    if (len > MAX_FRAME_BYTES) throw new Error("WebSocket outbound frame exceeded " + MAX_FRAME_BYTES + " bytes.");
     const mask = crypto.randomBytes(4);
     let header;
 

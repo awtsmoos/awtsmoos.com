@@ -28,7 +28,8 @@ const config = { root, allowCommands: true, allowWrite: true, allowSecrets: true
   assert.strictEqual(got.stderr.length, 1000);
   assert(got.nextStdoutPagePayload);
   assert(got.nextStderrPagePayload);
-  assert(fs.existsSync(path.join(root, got.outputRef)));
+  assert.strictEqual(got.outputRef.startsWith("device://"), true);
+  assert(fs.existsSync(got.outputStoragePath));
   const page = await buildActions(config, got.nextStdoutPagePayload, null).commandOutputPage();
   assert.strictEqual(page.ok, true);
   assert.strictEqual(page.stream, "stdout");
@@ -39,7 +40,6 @@ const config = { root, allowCommands: true, allowWrite: true, allowSecrets: true
   assert.strictEqual(stderr.stream, "stderr");
   assert.strictEqual(stderr.returnedChars, 300);
   assert.strictEqual(stderr.hasNextPage, false);
-  const gitignore = fs.readFileSync(path.join(root, ".gitignore"), "utf8");
-  assert(gitignore.includes(".awtsmoos/"));
+  assert.strictEqual(got.outputStoragePath.startsWith(root), false);
   console.log("BHY command output pagination tests passed");
 })().catch(error => { console.error(error); process.exit(1); });

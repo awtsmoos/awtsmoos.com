@@ -13,6 +13,7 @@ const STRICT_ORDERING = process.env.AWTSMOOS_STRICT_ORDERING === '1';
 const DEFAULT_MAX_INFLIGHT = STRICT_ORDERING ? 1 : Math.min(64, Math.max(16, CPU_COUNT * 4));
 const MAX_INFLIGHT = boundedNumber(process.env.AWTSMOOS_MAX_INFLIGHT, DEFAULT_MAX_INFLIGHT, 1, 128);
 const MAX_QUEUE = boundedNumber(process.env.AWTSMOOS_MAX_QUEUE, 5000, 0, 50000);
+const CONTROL_QUEUE_LIMIT = boundedNumber(process.env.AWTSMOOS_P0_QUEUE, 256, 1, 2048);
 const LANE_LIMITS = Object.freeze({
   p0_control: boundedNumber(process.env.AWTSMOOS_P0_INFLIGHT, 8, 1, 32),
   p1_fs_light: boundedNumber(process.env.AWTSMOOS_P1_INFLIGHT, Math.min(16, Math.max(4, CPU_COUNT * 2)), 1, 64),
@@ -36,6 +37,7 @@ module.exports = {
   STRICT_ORDERING,
   MAX_INFLIGHT,
   MAX_QUEUE,
+  CONTROL_QUEUE_LIMIT,
   LANE_LIMITS,
   LANE_TIMEOUT_MS,
   REQUEST_MAX_AGE_MS,

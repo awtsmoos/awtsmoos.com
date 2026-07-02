@@ -7,12 +7,11 @@ let got = Circuit.canAccept('p0_control', context, limits, { action: 'tunnelDoct
 assert.strictEqual(got.ok, true);
 assert.strictEqual(got.circuitLevel, 'hard');
 got = Circuit.canAccept('p3_heavy', context, limits, { action: 'commandRun' });
-assert.strictEqual(got.ok, false);
-assert.strictEqual(got.error, 'event_loop_lag_circuit_open');
-assert.strictEqual(got.action, 'commandRun');
-assert.strictEqual(got.requestAction, 'commandRun');
-assert.strictEqual(got.actualAction, 'commandRun');
-assert.strictEqual(got.retryable, true);
+assert.strictEqual(got.ok, true);
+assert.strictEqual(got.degraded, true);
+assert.strictEqual(got.pressureReason, 'kernel_hard_lag_only_p0');
+assert.strictEqual(got.blockingReason, '');
+assert.strictEqual(got.reason, 'admitted_despite_pressure');
 context = { ...context, workers: { active: { w1: { heartbeatAt: new Date().toISOString(), state: 'running' } } } };
 got = Circuit.canAccept('p3_heavy', context, limits, { action: 'commandRun' });
 assert.strictEqual(got.ok, true);

@@ -20,7 +20,7 @@ async function saveCommandOutput(config = {}, payload = {}, result = {}) {
   return { ...result, stdout:stdoutPage.content, stderr:stderrPage.content, outputId, outputRef:`device://${outputId}`, outputStoragePath:storeFile(config, outputId), stdoutChars:stdout.length, stderrChars:stderr.length, stdoutTruncated:stdoutPage.hasNextPage, stderrTruncated:stderrPage.hasNextPage, outputPaged:true, nextStdoutPagePayload:stdoutPage.hasNextPage ? pagePayload(outputId, "stdout", stdoutPage.nextOffsetChars, maxChars) : null, nextStderrPagePayload:stderrPage.hasNextPage ? pagePayload(outputId, "stderr", stderrPage.nextOffsetChars, maxChars) : null, aiInstructions:"Command output was paginated into the device-specific .Awtsmoos folder outside the git repository. Use commandOutputPage with outputId." };
 }
 async function readCommandOutputPage(config = {}, payload = {}) {
-  const outputId = cleanId(payload.outputId || payload.id || payload.resultId || "");
+  const outputId = cleanId(payload.outputId || deviceRefId(payload.outputRef) || payload.id || payload.resultId || "");
   if (!outputId) return { ok:false, action:"commandOutputPage", error:"missing_outputId" };
   const stream = String(payload.stream || payload.name || "stdout").toLowerCase() === "stderr" ? "stderr" : "stdout";
   const offset = Math.max(0, Math.floor(Number(payload.offsetChars || payload.offset || 0)));
@@ -34,4 +34,5 @@ function sliceText(text, offset, maxChars) { const content = text.slice(offset, 
 function pagePayload(outputId, stream, offsetChars, maxChars) { return { action:"commandOutputPage", outputId, stream, offsetChars, maxChars }; }
 function boundedPageChars(value) { const n = Number(value || DEFAULT_PAGE_CHARS); return Number.isFinite(n) ? Math.max(1000, Math.min(Math.floor(n), MAX_PAGE_CHARS)) : DEFAULT_PAGE_CHARS; }
 function cleanId(value) { return String(value || "").replace(/[^a-zA-Z0-9_-]/g, ""); }
+function deviceRefId(value) { const s = String(value || ""); return s.startsWith("device://") ? s.slice("device://".length) : ""; }
 module.exports = { DEFAULT_PAGE_CHARS, saveCommandOutput, readCommandOutputPage, sliceText, storeDir, storeFile };

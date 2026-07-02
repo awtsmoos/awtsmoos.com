@@ -47,4 +47,15 @@ function legacyEnqueue(queue, item) {
 }
 function queuedCount(lanes = {}) { return LANE_ORDER.reduce((n, lane) => n + (lanes[lane]?.queue.length || 0), 0); }
 function inflightCount(lanes = {}) { return LANE_ORDER.reduce((n, lane) => n + (lanes[lane]?.inflight || 0), 0); }
-module.exports = { LANES, LANE_ORDER, PRIORITY_ACTIONS, CONTROL_ACTIONS, actionOf, enqueue, inflightCount, isPriority, laneForAction, laneOf, makeLaneState, queuedCount };
+function canStartLane(lanes = {}, lane = '', limits = {}) {
+  const current = lanes[lane];
+  if (!current || !current.queue.length) return false;
+  if (current.inflight >= Number(limits.LANE_LIMITS?.[lane] || 1)) return false;
+  if (lane === LANES.P0) return true;
+  return inflightCount(lanes) < Number(limits.MAX_INFLIGHT || 1);
+}
+function canQueue(lanes = {}, lane = '', limits = {}) {
+  if (lane === LANES.P0) return (lanes[lane]?.queue.length || 0) < Number(limits.CONTROL_QUEUE_LIMIT || 256);
+  return queuedCount(lanes) < Number(limits.MAX_QUEUE || 0);
+}
+module.exports = { LANES, LANE_ORDER, PRIORITY_ACTIONS, CONTROL_ACTIONS, actionOf, canQueue, canStartLane, enqueue, inflightCount, isPriority, laneForAction, laneOf, makeLaneState, queuedCount };

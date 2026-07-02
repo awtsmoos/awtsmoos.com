@@ -33,13 +33,17 @@ function buildCommandActions(ctx) {
     commandJobWait: () => runAlias(config, payload, 'commandJobWait', 'commandWait', commandWait),
     commandJobCancel: () => runAlias(config, payload, 'commandJobCancel', 'commandCancel', cancelCommandJob),
     commandJobOutputPage: () => commandJobOutputPage(config, payload),
-    commandOutputPage: () => runAlias(config, payload, 'commandOutputPage', 'commandJobOutputPage', commandJobOutputPage),
+    commandOutputPage: () => readAnyCommandOutputPage(config, payload),
   };
 }
 
 async function runAlias(config, payload, requestedAction, canonicalAction, fn) {
   const result = await fn(config, { ...payload, action: canonicalAction, actualAction: canonicalAction, requestAction: requestedAction });
   return preserveAliasIdentity(result, requestedAction, canonicalAction);
+}
+async function readAnyCommandOutputPage(config, payload = {}) {
+  if (payload.outputId || String(payload.outputRef || '').startsWith('device://')) return await readCommandOutputPage(config, payload);
+  return await runAlias(config, payload, 'commandOutputPage', 'commandJobOutputPage', commandJobOutputPage);
 }
 
 function preserveAliasIdentity(result, requestedAction, canonicalAction) {

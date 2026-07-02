@@ -5,7 +5,7 @@ import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorl
 import baseMethods from "./runtime/PhysicsBaseMethods.js?v=house-solid-mobile-loader-20260702-bh3";
 import frameMethods from "./runtime/PhysicsFrameMethods.js?v=house-solid-mobile-loader-20260702-bh3";
 import motionMethods from "./runtime/PhysicsMotionMethods.js?v=house-solid-mobile-loader-20260702-bh3";
-import visualMethods from "./runtime/PhysicsVisualMethods.js?v=house-solid-mobile-loader-20260702-bh3";
+import visualMethods from "./runtime/PhysicsVisualMethods.js?v=solid-browser-verify-20260702-bh11";
 import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?v=house-solid-mobile-loader-20260702-bh3";
 import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?v=house-solid-mobile-loader-20260702-bh3";
 import { normAngle, numeric } from "./runtime/PhysicsNumbers.js?v=house-solid-mobile-loader-20260702-bh3";
