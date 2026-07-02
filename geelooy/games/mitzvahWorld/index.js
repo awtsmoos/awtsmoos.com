@@ -3,21 +3,21 @@
  * The first loading breath names world-engine:import:start here too, so the
  * audit and the phone both know the engine has begun its descent.
  */
-import { traceBoot } from "./uiBridge/bridgeSeal.js";
-import { installBootDiagnostics, installBootErrorListeners } from "./uiBridge/bootErrors.js";
-import { bootIkarNow } from "./uiBridge/bootIkar.js";
+import { traceBoot } from "./uiBridge/bridgeSeal.js?v=no-compact-engine-20260702-bh1";
+import { installBootDiagnostics, installBootErrorListeners } from "./uiBridge/bootErrors.js?v=no-compact-engine-20260702-bh1";
+import { bootIkarNow } from "./uiBridge/bootIkar.js?v=no-compact-engine-20260702-bh1";
 
 const IMPORT_START_STAGE = "world-engine:import:start";
 
 function announceEarlyImportStart() {
   if (typeof window === "undefined") return;
   const payload = {
-    stage:IMPORT_START_STAGE,
-    total:30,
-    world:30,
-    action:"Preparing Mitzvah World...",
-    subAction:"world engine import is being summoned",
-    log:"Starting smooth first playable frame"
+    stage: IMPORT_START_STAGE,
+    total: 30,
+    world: 30,
+    action: "Preparing Mitzvah World...",
+    subAction: "world engine import is being summoned",
+    log: "Starting smooth first playable frame"
   };
   window.__AWTSMOOS_LOADING_PROGRESS__?.update?.(payload);
   const q = window.__AWTSMOOS_EARLY_LOADING_QUEUE__;
@@ -33,12 +33,12 @@ export async function heescheel(ctx) {
 }
 
 export function ready(ctx) {
-  ctx.postMsg({ type:"game started", payload:true });
+  ctx.postMsg({ type: "game started", payload: true });
 }
 
 export function afterBriyah(ctx) {
   if (traceBoot()) console.info('B"H - Index [Worker]: afterBriyah() called', Boolean(ctx));
 }
 
-if (document.readyState === "loading") window.addEventListener("DOMContentLoaded", bootIkarNow, { once:true });
+if (document.readyState === "loading") window.addEventListener("DOMContentLoaded", bootIkarNow, { once: true });
 else bootIkarNow();
