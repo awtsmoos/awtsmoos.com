@@ -1,5 +1,8 @@
 // B"H
-/** @file index.js @purpose Compose jump-safe above-ground player physics modules. */
+/** @file index.js @purpose Compose jump-safe above-ground player physics modules.
+ * Mobile joystick vectors are camera/screen-relative: thumb up goes into the
+ * visible world, not sideways through an old player-facing mirror.
+ */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
 import baseMethods from "./runtime/PhysicsBaseMethods.js?v=no-alert-perf-jump-20260701-bh9";
@@ -9,8 +12,32 @@ import visualMethods from "./runtime/PhysicsVisualMethods.js?v=no-alert-perf-jum
 import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?v=no-alert-perf-jump-20260701-bh9";
 import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?v=no-alert-perf-jump-20260701-bh9";
 import { normAngle, numeric } from "./runtime/PhysicsNumbers.js?v=no-alert-perf-jump-20260701-bh9";
+const UP = new THREE.Vector3(0,1,0);
+const TMP_F = new THREE.Vector3();
+const TMP_R = new THREE.Vector3();
 export function clampToTerrainFloor(player) { return clampCapsuleToTerrainFloor(player); }
+function mobileCameraDirection(player) {
+  const joy = player.__mobileJoystick;
+  if (!joy?.screenRelative) return null;
+  const f = TMP_F.set(0,0,1);
+  player.olam?.ayin?.camera?.getWorldDirection?.(f);
+  f.y = 0;
+  if (f.lengthSq() < .0001) f.set(Math.sin(player.rotation?.y || 0),0,Math.cos(player.rotation?.y || 0));
+  f.normalize();
+  const r = TMP_R.copy(UP).cross(f).normalize();
+  const dir = new THREE.Vector3();
+  dir.addScaledVector(f, -numeric(joy.y,0));
+  dir.addScaledVector(r, numeric(joy.x,0));
+  if (dir.lengthSq() < .0001) return null;
+  dir.normalize();
+  player.targetRotateOffset = normAngle(Math.atan2(dir.x, dir.z) - (player.rotation?.y || 0));
+  player.__lastMobileWorldDirection = { at:Date.now(), x:dir.x, z:dir.z, joy:{ x:joy.x, y:joy.y } };
+  player.isWalking = true;
+  return dir;
+}
 export function movementDirection(player) {
+  const mobile = mobileCameraDirection(player);
+  if (mobile) return mobile;
   const direction = new THREE.Vector3(), moving = player.moving || {}, rotY = player.rotation?.y || 0;
   const forwardX = Math.sin(rotY), forwardZ = Math.cos(rotY), sideX = -Math.cos(rotY), sideZ = Math.sin(rotY);
   const forward = moving.forward || player.movingAutomatically, back = moving.backward; player.isWalking = false;

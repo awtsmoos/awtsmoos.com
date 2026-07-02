@@ -1,9 +1,10 @@
 // B"H
-export const DEFAULT_DRIVES = Object.freeze([
-  { id:"home", title:"Awtsmoos Home", root:"/", icon:"🏠", kind:"virtual", writable:true },
-  { id:"virtual-os", title:"Virtual OS", root:"desktop.folder", icon:"🖥️", kind:"virtual", writable:true },
-  { id:"tunnels", title:"Connected Tunnels", root:"awtsmoos://tunnels", icon:"🔌", kind:"remote", writable:false },
-  { id:"previews", title:"Preview Artifacts", root:"awtsmoos://previews", icon:"🔭", kind:"remote", writable:false },
-  { id:"receipts", title:"Receipts", root:"awtsmoos://receipts", icon:"🧾", kind:"remote", writable:false },
-  { id:"missions", title:"Missions", root:"awtsmoos://missions", icon:"🧭", kind:"remote", writable:false }
-]);
+import { ROOT_MOUNTS } from "../providers/mountTree.js";
+
+export const DEFAULT_DRIVES = Object.freeze(ROOT_MOUNTS.map(mount => ({
+  id:mount.id, title:mount.title, root:mount.path, icon:mount.icon,
+  kind:mount.provider, provider:mount.provider, providerId:mount.provider,
+  writable:!["root", "network", "system"].includes(mount.id), url:`awtsmoos://mount${mount.path}`
+})));
+
+/** B"H: default drives are living mount roots, not local/remote tribes. */
