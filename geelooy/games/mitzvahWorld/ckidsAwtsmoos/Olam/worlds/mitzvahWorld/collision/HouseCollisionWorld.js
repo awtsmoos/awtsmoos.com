@@ -1,5 +1,5 @@
 // B"H
-/** House collision world: descriptor solids are authoritative, live doors re-register. */
+/** House collision world: descriptors are indexed and baked into the real octree. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import SpatialBubbleIndex from "./SpatialBubbleIndex.js";
 const BOX = new THREE.Box3(), CHILD_BOX = new THREE.Box3(), TEMP = new THREE.Vector3(), MAT = new THREE.Matrix4(), YAW = new THREE.Matrix4();
@@ -27,13 +27,20 @@ function descriptorBounds(src, owner) {
   }
   BOX.expandByScalar(finite(src.skin, .08)); return BOX.isEmpty() ? null : BOX.clone();
 }
+function proxyFromBounds(bounds, id, ref, proof) {
+  const size = bounds.getSize(new THREE.Vector3()), center = bounds.getCenter(new THREE.Vector3());
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(size.x, size.y, size.z));
+  mesh.name = `octree_proxy_${id}`; mesh.position.copy(center); mesh.visible = false; mesh.frustumCulled = true;
+  mesh.userData = { houseOctreeProxy:true, isSolid:true, explicitCollision:true, addToOctree:true, skipOctree:false, noOctree:false, colliderKind:"house", colliderRole:proof?.category || "house-solid", visualReference:mesh, visualTwin:ref?.name || null };
+  mesh.updateMatrix(); mesh.updateMatrixWorld(true); return mesh;
+}
 function resolveCapsuleAabb(c, b) {
   if (!c?.start || !c?.end) return null;
   const r = Math.max(.01, finite(c.radius, .45)), y0 = Math.min(c.start.y, c.end.y) - r, y1 = Math.max(c.start.y, c.end.y) + r;
   if (y1 < b.min.y || y0 > b.max.y) return null;
   const cx = (c.start.x + c.end.x) * .5, cz = (c.start.z + c.end.z) * .5;
   const qx = Math.max(b.min.x, Math.min(b.max.x, cx)), qz = Math.max(b.min.z, Math.min(b.max.z, cz));
-  let dx = cx - qx, dz = cz - qz, d2 = dx * dx + dz * dz;
+  const dx = cx - qx, dz = cz - qz, d2 = dx * dx + dz * dz;
   if (d2 >= r * r) return null;
   if (d2 > 1e-8) { const d = Math.sqrt(d2); return { normal:new THREE.Vector3(dx / d, 0, dz / d), depth:r - d + .002 }; }
   const gaps = [Math.abs(cx - b.min.x), Math.abs(b.max.x - cx), Math.abs(cz - b.min.z), Math.abs(b.max.z - cz)];
@@ -41,9 +48,15 @@ function resolveCapsuleAabb(c, b) {
   return { normal:new THREE.Vector3(i === 0 ? -1 : i === 1 ? 1 : 0, 0, i === 2 ? -1 : i === 3 ? 1 : 0), depth:r + gaps[i] + .002 };
 }
 export default class HouseCollisionWorld {
-  constructor(olam, options = {}) { this.olam = olam || null; this.index = options.index || new SpatialBubbleIndex({ cellSize:options.cellSize || 8 }); this.houses = new Map(); this.colliders = new Map(); this.lastCollision = null; this.measuredProxyCount = 0; this.descriptorProxyCount = 0; this.queryRadius = Math.max(6, finite(options.queryRadius, 14)); }
-  forgetHouse(root) { const old = root?.uuid ? this.houses.get(root.uuid) : null; if (!old) return; for (const r of old.records || []) { this.index.remove(r.id); this.colliders.delete(r.id); } this.houses.delete(root.uuid); }
-  addRecord(id, bounds, ref, houseId, proof, records) { this.index.register({ id, kind:"house", layer:0, bounds, ref, houseId, proof }); const record = { id, bounds:bounds.clone(), mesh:ref, houseId, proof }; this.colliders.set(id, record); records.push(record); return record; }
+  constructor(olam, options = {}) { this.olam = olam || null; this.index = options.index || new SpatialBubbleIndex({ cellSize:options.cellSize || 8 }); this.houses = new Map(); this.colliders = new Map(); this.lastCollision = null; this.measuredProxyCount = 0; this.descriptorProxyCount = 0; this.octreeProxyCount = 0; this.queryRadius = Math.max(6, finite(options.queryRadius, 14)); }
+  forgetHouse(root) { const old = root?.uuid ? this.houses.get(root.uuid) : null; if (!old) return; for (const r of old.records || []) { this.index.remove(r.id); this.colliders.delete(r.id); if (r.octreeProxy) this.olam?.worldOctree?.removeMesh?.(r.octreeProxy); } this.houses.delete(root.uuid); }
+  addRecord(id, bounds, ref, houseId, proof, records) {
+    this.index.register({ id, kind:"house", layer:0, bounds, ref, houseId, proof });
+    const record = { id, bounds:bounds.clone(), mesh:ref, houseId, proof, octreeProxy:null };
+    const proxy = proxyFromBounds(bounds, id.replace(/[^a-z0-9_-]/gi, "_"), ref, proof);
+    if (this.olam?.worldOctree?.addObject?.(proxy)) { record.octreeProxy = proxy; this.octreeProxyCount++; }
+    this.colliders.set(id, record); records.push(record); return record;
+  }
   registerHouseRoot(root, options = {}) {
     if (!root?.isObject3D) return null; this.forgetHouse(root); root.updateWorldMatrix?.(true, true);
     const houseId = options.houseId || root.userData?.houseId || root.name || root.uuid, records = [];
@@ -64,7 +77,7 @@ export default class HouseCollisionWorld {
     this.lastCollision = { at:Date.now(), depth:best.depth, normal:{ x:best.normal.x, y:0, z:best.normal.z }, source:best.collider.proof?.source || "house", houseId:best.collider.houseId, colliderId:best.collider.id, proof:best.collider.proof };
     if (this.olam) this.olam.__lastHouseCollision = this.lastCollision; return best;
   }
-  diag() { return { houses:this.houses.size, houseColliders:this.colliders.size, measuredProxies:this.measuredProxyCount, descriptorProxies:this.descriptorProxyCount, lastCollision:this.lastCollision, index:this.index.diag() }; }
+  diag() { return { houses:this.houses.size, houseColliders:this.colliders.size, measuredProxies:this.measuredProxyCount, descriptorProxies:this.descriptorProxyCount, octreeProxies:this.octreeProxyCount, lastCollision:this.lastCollision, index:this.index.diag() }; }
 }
 export function ensureHouseCollisionWorld(olam) { if (!olam) return null; if (!olam.__awtsmoosHouseCollisionWorld) olam.__awtsmoosHouseCollisionWorld = new HouseCollisionWorld(olam); return olam.__awtsmoosHouseCollisionWorld; }
 export function registerHouseRoot(olam, root, options) { return ensureHouseCollisionWorld(olam)?.registerHouseRoot(root, options) || null; }

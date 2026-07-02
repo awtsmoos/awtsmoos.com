@@ -11,7 +11,7 @@ import { ensureMissionState, missionUiPayload } from "../../systems/missions/Mis
 import { openChat, closeChat } from "../../systems/chat/ChatRuntime.js";
 import { executeCommand } from "../../systems/chat/CommandRuntime.js?v=starter-contracts-20260628-bh9";
 import { ensureMacros, openMacros, runMacro, assignMacroToSlot } from "../../systems/macros/MacroRuntime.js?v=starter-contracts-20260628-bh9";
-import { toggleNearestDoor } from "../worlds/mitzvahWorld/region/houses/door/DoorInteractionRuntime.js?v=reality-door-20260629-bh1";
+import { toggleNearestDoor } from "../worlds/mitzvahWorld/region/houses/door/DoorInteractionRuntime.js?v=solid-octree-mobile-jump-20260702-bh7";
 const WEAPONS = Object.freeze({ ShiftDigit1:"cherev_hakodesh", ShiftDigit2:"keshes_haemes", ShiftDigit3:"mateh_hatorah" });
 const SLOTS = Object.freeze({ Digit1:1, Digit2:2, Digit3:3, Digit4:4, Digit5:5, Digit6:6, Digit7:7, Digit8:8, Digit9:9 });
 function trace(olam, stage, payload = {}) { const at = Date.now(), active = Array.isArray(payload.active) ? payload.active.length : 0, cadence = active ? 900 : 2200; if (olam.__lastOlamInputTraceAt && at - olam.__lastOlamInputTraceAt < cadence) return; olam.__lastOlamInputTraceAt = at; olam.__movementTrace ||= []; olam.__movementTrace.push({ at, stage, ...payload }); olam.__movementTrace = olam.__movementTrace.slice(-80); }

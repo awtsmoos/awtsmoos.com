@@ -7,7 +7,7 @@ import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
 import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js";
 import { ensureFinalGroundingPass } from "./FinalGroundingPass.js";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?v=ecology-data-spine-20260612-bh1";
-import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=no-compact-engine-20260702-bh2";
+import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=solid-octree-mobile-jump-20260702-bh7";
 import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js?v=no-compact-engine-20260702-bh2";
 const DEFERRED_VISUAL_STEPS = ["visualReality", "botanicalReality", "ecologyReality", "worldPolish", "hyperRealSunLensFlare", "livingTorahQuestLoop", "movieUniverseJson", "emeraldInfinity", "wildlifeCarcassLoot", "cinematicDirector", "shaderTextureWarm", "ecologyMaterialWarm", "npc3DMarkers", "proceduralWorldJson"];
 const sourceOf = context => context?.worldData?.shaym || context?.source || null;

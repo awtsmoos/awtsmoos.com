@@ -2,7 +2,7 @@
 /** Visible cottage renderer conductor: brick bodies own walls, door runtime owns live toggles. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { planHouses } from "../houses/HousePlanner.js?v=actual-solid-house-20260702-bh4";
-import { installDoorInteractionRuntime } from "../houses/door/DoorInteractionRuntime.js?v=solid-house-door-touch-20260702-bh6";
+import { installDoorInteractionRuntime } from "../houses/door/DoorInteractionRuntime.js?v=solid-octree-mobile-jump-20260702-bh7";
 import { makeCottage } from "./RegionCottageAssembly.js?v=solid-house-door-touch-20260702-bh6";
 import { installCottageStats } from "./RegionCottageStats.js?v=actual-solid-house-20260702-bh4";
 function addCottages(root, houses, olam) {

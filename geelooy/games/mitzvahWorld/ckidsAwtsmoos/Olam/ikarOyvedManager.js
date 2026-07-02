@@ -6,7 +6,7 @@ import setupDomEvents from "./worker/domEvents.js?v=android-dom-events-20260612-
 import setupMessageHandler from "./worker/messageHandler.js?v=zone-reality-20260614-bh817";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=no-compact-engine-20260702-bh2";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=solid-octree-mobile-jump-20260702-bh7";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";

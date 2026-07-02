@@ -1,6 +1,6 @@
 // B"H
 /** Door runtime: the hinge changes both visible wood and collision law. */
-import { registerHouseRoot } from "../../../collision/HouseCollisionWorld.js?v=solid-house-door-touch-20260702-bh6";
+import { registerHouseRoot } from "../../../collision/HouseCollisionWorld.js?v=solid-octree-mobile-jump-20260702-bh7";
 import { setDoorVisualState } from "./DoorAnimationRuntime.js";
 import { normalizeDoorState, saveDoorState } from "./DoorPersistence.js";
 import { registerDoorEntry } from "./DoorInteractionRegistry.js";

@@ -129,6 +129,7 @@ function handleFps(data) {
   }], 120);
   window.AWTSMOOS_GAMEPLAY_FPS = payload;
   window.dispatchEvent?.(new CustomEvent("awtsmoos:worker-gameplay-fps", { detail:payload }));
+  if (!LoadingProgress.isFinalReady?.()) LoadingProgress.markPlayable?.("worker_gameplay_fps");
 }
 
 function handleLiving(type, payload) {
