@@ -2,10 +2,8 @@
 /**
  * @file index.js
  * @class Domem
- * @description
- * Chapter 517: The still stone learned performance names. Every decorative
- * vessel can now carry renderGroup, cullRadius, and instancing keys from the
- * Emerald performance manifest, so batching/culling paths have real data.
+ * @description Still-body base class with performance metadata and cached
+ * animation import revision for worker gameplay speed.
  */
 import Nivra from "../nivra.js";
 import { Kav } from "../roochney.js";
@@ -13,9 +11,11 @@ import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 import lifecycleMethods from "./methods/lifecycle.js?v=domem-visible-ground-authority-20260701-bh1";
 import graphicsMethods from "./methods/graphics.js";
 import audioMethods from "./methods/audio.js";
-import animationMethods from "./methods/animation.js?v=fast-platformer-blend-20260602-bh15";
+import animationMethods from "./methods/animation.js?v=worker-player-mixer-gate-20260702-bh1";
 import serializationMethods from "./methods/serialization.js";
+
 const numberOr = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+
 export default class Domem extends Nivra {
     type = "domem"; animations = []; path = ""; position = new Kav(); rotation = new Kav(); scale = new Kav(); static = true; olam = null; heesHawveh = false; animationMixer; currentAnimationPlaying = null; golem = null; playAll = false; shaym = "BH_" + Math.floor(Math.random() * 827231) + 12312 + "_" + Date.now(); removed = false; entityData = {}; animationBlendDuration = 0.075; animationActionTimeScale = 1; _animationSpeedScale = 1.4;
     get animationSpeedScale() { return this._animationSpeedScale; }

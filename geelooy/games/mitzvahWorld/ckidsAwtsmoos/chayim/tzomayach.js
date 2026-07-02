@@ -1,14 +1,11 @@
 // B"H
 /**
  * @file tzomayach.js
- * @description
- * Chapter 63: The Growing Thing Carried The Fast Body.
- *
- * The Awtsmoos cache-busts the Domem ancestry while preserving proximity
- * interaction. Player animation fixes now reach every Chai through this branch.
+ * @description Growing entities carry fast player animation ancestry and
+ * proximity interaction.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Domem from "./domem.js?v=fast-platformer-blend-20260602-bh15";
+import Domem from "./domem.js?v=worker-player-mixer-gate-20260702-bh1";
 import Utils from "../utils.js";
 
 export default class Tzomayach extends Domem {
@@ -17,7 +14,6 @@ export default class Tzomayach extends Domem {
   proximityCollider = null;
   objectsCollidingWith = [];
 
-  /** @param {object} options Entity options. @param {object} olam World. */
   constructor(options = {}, olam) {
     super(options, olam);
     this.options = options || {};
@@ -28,16 +24,12 @@ export default class Tzomayach extends Domem {
     this.on("sealayk", () => { this.proximityCollider = null; });
   }
 
-  /** @param {object} olam Runtime world. */
   async heescheel(olam) { await super.heescheel(olam); }
 
-  /** @returns {Promise<void>} */
   async ready() { await super.ready(); }
 
-  /** @returns {Promise<void>} */
   async afterBriyah() { await super.afterBriyah(this); }
 
-  /** @param {number} deltaTime Frame delta. */
   heesHawvoos(deltaTime) {
     super.heesHawvoos(deltaTime);
     if (this.proximity <= 0 || !this.mesh) return;
@@ -52,7 +44,6 @@ export default class Tzomayach extends Domem {
     interactables.forEach(n => this.checkProximitySoul(n));
   }
 
-  /** @param {object} n Candidate entity. */
   checkProximitySoul(n) {
     if (n === this || !this.isCapsuleOwner(n)) return;
     const already = this.objectsCollidingWith.includes(n);
@@ -62,20 +53,17 @@ export default class Tzomayach extends Domem {
     if (!collides && already) this.leaveProximity(n);
   }
 
-  /** @param {object} n Candidate entity. @returns {boolean} */
   isCapsuleOwner(n) {
     try { return n?.collider?.constructor?.name === "Capsule"; }
     catch { return false; }
   }
 
-  /** @param {object} n Entity entering. */
   enterProximity(n) {
     this.objectsCollidingWith.push(n);
     this.ayshPeula("nivraNeechnas", n, this);
     if (typeof n.ayshPeula === 'function') n.ayshPeula("approached tzomayach", this);
   }
 
-  /** @param {object} n Entity leaving. */
   leaveProximity(n) {
     this.objectsCollidingWith.splice(this.objectsCollidingWith.indexOf(n), 1);
     this.ayshPeula("nivraYotsee", n, this);

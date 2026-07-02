@@ -1,7 +1,6 @@
 // B"H
 /**
  * @file domem.js
- * @description
- * Chapter 62: The Redirect Opened The Fast Animation Gate.
+ * @description Redirect to the current Domem base implementation.
  */
-export { default } from "./domem/index.js?v=fast-platformer-blend-20260602-bh15";
+export { default } from "./domem/index.js?v=worker-player-mixer-gate-20260702-bh1";

@@ -1,65 +1,107 @@
 // B"H
 /**
  * @file animation.js
- * @description
- * Chapter 60: The Body Stopped Waiting To Run.
- *
- * The Awtsmoos revealed the visible lag: movement began quickly, but the GLB
- * waited through a long crossfade. Platforming needs immediate breath. This
- * animation vessel now defaults to short blends, honors per-entity blend speed,
- * and keeps one-shot jump/fall motions crisp without restarting every frame.
+ * @description Fast animation state changes without letting worker-side GLB
+ * mixer work stall gameplay simulation.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Nivra from "../../nivra.js";
 
-/** @param {number} value Number candidate. @param {number} fallback Fallback. @returns {number} */
+const WORKER_MIXER_FLAG = "__AWTSMOOS_ENABLE_WORKER_PLAYER_MIXER__";
+const PERF_MIXER_FLAG = "__AWTSMOOS_ENABLE_PERF_MIXER__";
+const now = () => typeof performance !== "undefined" ? performance.now() : Date.now();
+
 function finite(value, fallback) {
     return Number.isFinite(Number(value)) ? Number(value) : fallback;
 }
 
-/** @param {object} entity Owner. @returns {number} Blend duration. */
 function defaultBlend(entity) {
     return Math.max(0.035, Math.min(0.18, finite(entity?.animationBlendDuration, 0.075)));
 }
 
+function isWorkerScope() {
+    return typeof document === "undefined";
+}
+
+function isPlayerLike(entity) {
+    return Boolean(entity?.type === "chossid" || entity?.olam?.chossid === entity || entity?.olam?.player === entity);
+}
+
+function perfModeActive(entity) {
+    return Boolean(globalThis.__AWTSMOOS_PERFORMANCE_MODE__ || entity?.olam?.baseInfo?.compact || entity?.olam?.baseInfo?.testWorldFlags?.compact);
+}
+
+function shouldAdvanceMixer(entity) {
+    if (!entity?.currentAnimationPlaying || !entity?.animationMixer) return false;
+    if (isWorkerScope() && isPlayerLike(entity) && globalThis[WORKER_MIXER_FLAG] !== true) return false;
+    if (perfModeActive(entity) && globalThis[PERF_MIXER_FLAG] === false) return false;
+    return true;
+}
+
+function hasListeners(entity, name) {
+    return Boolean(entity?.events?.[name]?.length);
+}
+
+function clipMap(entity) {
+    if (!entity.__awtsmoosClipActionByKey) entity.__awtsmoosClipActionByKey = new Map();
+    return entity.__awtsmoosClipActionByKey;
+}
+
+function findClip(entity, shaym) {
+    const key = String(shaym || "").toLowerCase();
+    if (!key || !entity.animations?.length) return null;
+    const cache = clipMap(entity);
+    if (cache.has(key)) return cache.get(key);
+    const clip = entity.animations.find(anim => anim.name.toLowerCase().includes(key)) || null;
+    cache.set(key, clip);
+    return clip;
+}
+
+function recordAnimationCost(entity, cost, advanced) {
+    if (!isPlayerLike(entity)) return;
+    const bag = entity.__awtsmoosPlayerAnimationStats || { frames:0, advanced:0, skipped:0, totalMs:0, maxMs:0 };
+    bag.frames += 1;
+    if (advanced) bag.advanced += 1;
+    else bag.skipped += 1;
+    bag.totalMs += cost;
+    bag.maxMs = Math.max(bag.maxMs, cost);
+    bag.lastMs = Math.round(cost * 10) / 10;
+    bag.avgMs = Math.round((bag.totalMs / Math.max(1, bag.frames)) * 10) / 10;
+    bag.workerMixerDisabled = isWorkerScope() && globalThis[WORKER_MIXER_FLAG] !== true;
+    entity.__awtsmoosPlayerAnimationStats = bag;
+    entity.olam && (entity.olam.__lastPlayerAnimationStats = bag);
+}
+
 export default {
-    /** @param {number} deltaTime Seconds since last frame. */
     heesHawvoos(deltaTime) {
         if (this.removed) return;
         Nivra.prototype.heesHawvoos.call(this, deltaTime);
-        this.ayshPeula("heesHawvoos", this);
-        if (this.currentAnimationPlaying && this.animationMixer) this.animationMixer.update(deltaTime);
+        if (hasListeners(this, "heesHawvoos")) this.ayshPeula("heesHawvoos", this);
+        const started = now();
+        const advance = shouldAdvanceMixer(this);
+        if (advance) this.animationMixer.update(deltaTime);
+        recordAnimationCost(this, now() - started, advance);
     },
 
     clipActions: {},
+    nextAction: null,
+    currentAction: null,
 
-    /** @param {string} shaym Animation name. */
     resetChaweeyoos(shaym) {
-        const clip = THREE.AnimationClip.findByName(this.animations, shaym);
+        const clip = findClip(this, shaym);
         if (!clip) return;
         const action = this.animationMixer.clipAction(clip);
         if (!this.clipActions[shaym]) this.clipActions[shaym] = action;
         action?.reset();
     },
 
-    /** @param {string} shaym Animation name. @param {object} op Options. */
     playChayoos(shaym, op) { this.playChaweeyoos(shaym, op); },
 
-    nextAction: null,
-    currentAction: null,
-
-    /**
-     * Plays or crossfades to a named animation clip.
-     *
-     * @param {string} shaym Requested animation fragment.
-     * @param {{duration?:number, loop?:boolean, done?:Function, timeScale?:number, force?:boolean}} options Options.
-     * @returns {void}
-     */
     playChaweeyoos(shaym, options = {}) {
         if (!shaym || !this.animationMixer || !this.animations || this.animations.length === 0) return;
         const duration = finite(options.duration, defaultBlend(this));
         const loop = options.loop !== false;
-        const clip = this.animations.find(anim => anim.name.toLowerCase().includes(String(shaym).toLowerCase()));
+        const clip = findClip(this, shaym);
         if (!clip) {
             if (String(shaym).toLowerCase() !== "idle") this.playChaweeyoos("idle", options);
             return;
@@ -92,7 +134,6 @@ export default {
         }
     },
 
-    /** @returns {string[]} Available animation names. */
     getChaweeyoos() {
         if (!this.animations) return [];
         this.chaweeyoos = this.animations.map(q => q.name);
