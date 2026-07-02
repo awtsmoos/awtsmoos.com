@@ -1,14 +1,14 @@
 // B"H
-/** @file controls.js @description Movement keys: A strafes, E turns, no frozen jump. */
+/** @file controls.js @description Movement keys unified: A/D turn, Q/E stride, jump remains clean. */
 const CAMERA_PAN_UP = "KeyR";
-const CAMERA_PAN_DOWN = "KeyZ";
+const CAMERA_PAN_DOWN = "KeyF";
 const CAMERA_FPS_TOGGLE = "KeyT";
 const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const DISMOUNT_KEY = "KeyX";
-const LEFT_STRIDE_KEY = "KeyA";
-const RIGHT_STRIDE_KEY = "KeyQ";
-const LEFT_TURN_KEY = "KeyE";
+const LEFT_STRIDE_KEY = "KeyQ";
+const RIGHT_STRIDE_KEY = "KeyE";
+const LEFT_TURN_KEY = "KeyA";
 const RIGHT_TURN_KEY = "KeyD";
 const on = (olam, ...codes) => codes.some(code => !!olam?.keyStates?.[code]);
 const flag = (inputs, key) => inputs?.[key] === true;

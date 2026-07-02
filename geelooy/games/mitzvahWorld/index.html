@@ -36,6 +36,7 @@
     @keyframes mitzvahPulse { 0%,100%{opacity:.65; transform:scale(1)} 50%{opacity:1; transform:scale(1.08)} }
     .loading{z-index:99999;position:fixed;inset:0;width:100vw;height:100vh;background:radial-gradient(circle at 50% 38%,#10113d 0%,#050616 48%,#000 100%);display:grid;place-items:center;overflow:hidden;pointer-events:auto;perspective:1000px;opacity:1;transition:opacity .24s ease;font-family:'Fredoka One','Fredoka',system-ui,sans-serif;color:#fff}
     .loading.awtsmoos-loading-out{opacity:0}
+    html.awtsmoos-gameplay-dom-quiet #awtsmoosLoadingVeil, html.awtsmoos-gameplay-dom-quiet #awtsmoosNoBlackGuard { display:none !important; opacity:0 !important; pointer-events:none !important; }
     .kabbalah-vortex{position:absolute;inset:-8vmin;display:grid;place-items:center;pointer-events:none;transform-style:preserve-3d;animation:vortexBreath 4s ease-in-out infinite alternate;will-change:transform}
     .sefirot-ring{position:absolute;border:4px solid rgba(0,243,255,.38);border-top-color:transparent!important;border-bottom-style:dashed;border-radius:50%;box-sizing:border-box;box-shadow:0 0 22px rgba(0,243,255,.5),inset 0 0 24px rgba(188,19,254,.38);opacity:.82;will-change:transform}
     .sefirot-ring:before{content:"";position:absolute;left:50%;top:-8px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff,0 0 28px currentColor}
@@ -176,64 +177,52 @@
 <script>
 (function(){
   const guard = document.getElementById('awtsmoosNoBlackGuard');
-  if (!guard) return;
+  const veil = () => document.getElementById('awtsmoosLoadingVeil');
   let hidden = false;
   let lastReason = 'visible';
-  let lastProof = null;
+  let playableSeen = false;
   let finalReadySeen = false;
-  function nonBlackFrameProof() {
+  let firstCanvasSeen = false;
+  function canvasProof() {
     const canvas = document.querySelector('canvas');
-    const proof = {
-      at:Date.now(),
-      canvas:Boolean(canvas),
-      canvasWidth:Number(canvas?.width || 0),
-      canvasHeight:Number(canvas?.height || 0),
-      sampled:false,
-      sampleSkipped:"main-thread canvas context is never touched before offscreen transfer",
-      nonBlack:finalReadySeen,
-      finalReadySeen
-    };
-    lastProof = proof;
-    return proof;
+    firstCanvasSeen ||= Boolean(canvas && Number(canvas.width || 0) > 0 && Number(canvas.height || 0) > 0);
+    return { at:Date.now(), canvas:Boolean(canvas), canvasWidth:Number(canvas?.width || 0), canvasHeight:Number(canvas?.height || 0), playableSeen, finalReadySeen, firstCanvasSeen, solidFirstMode:true };
+  }
+  function removeVeils(reason) {
+    document.documentElement.classList.add('awtsmoos-gameplay-dom-quiet');
+    const v = veil();
+    if (v) { v.classList.add('awtsmoos-loading-out'); v.style.pointerEvents = 'none'; setTimeout(() => v.remove(), 90); }
+    if (guard) { guard.classList.add('hidden'); guard.style.pointerEvents = 'none'; setTimeout(() => guard.remove(), 120); }
+    window.__AWTSMOOS_BOOT_LOADED__ = true;
+    window.__AWTSMOOS_LOADING_FINAL_READY__ ||= { playable:true, reason, proof:canvasProof(), at:Date.now(), solidFirstMode:true };
   }
   function hide(reason) {
     if (hidden) return;
-    const proof = nonBlackFrameProof();
-    if (!proof.finalReadySeen) {
-      lastReason = `blocked:${reason || 'no-proof'}`;
-      soften('Waiting for worker-rendered world-ready proof before revealing the canvas.');
-      return;
-    }
     hidden = true;
-    lastReason = reason || 'ready';
-    guard.dataset.reason = reason || 'ready';
-    guard.classList.add('hidden');
+    lastReason = reason || 'playable-solid-first';
+    if (guard) guard.dataset.reason = lastReason;
+    removeVeils(lastReason);
   }
-  function reopen(reason) {
-    if (!hidden) return;
-    hidden = false;
-    lastReason = reason || 'reopened';
-    guard.dataset.reason = lastReason;
-    guard.classList.remove('hidden');
-    soften('Canvas proof went dark, keeping the visible world guard.');
-  }
-  function soften(text) {
-    const sub = guard.querySelector('.sub');
-    if (sub) sub.textContent = text;
-  }
-  window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden };
-  window.__AWTS_NO_BLACK_DIAG__ = () => ({ visible:!hidden, hidden, reason:lastReason, finalReadySeen, proof:nonBlackFrameProof(), guardExists:Boolean(document.getElementById('awtsmoosNoBlackGuard')) });
+  function soften(text) { const sub = guard?.querySelector?.('.sub'); if (sub) sub.textContent = text; }
+  window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden, markPlayable:hide, seal:'solid-first-no-black-guard-20260702-bh11' };
+  window.__AWTS_NO_BLACK_DIAG__ = () => ({ visible:!hidden, hidden, reason:lastReason, playableSeen, finalReadySeen, proof:canvasProof(), guardExists:Boolean(document.getElementById('awtsmoosNoBlackGuard')), veilExists:Boolean(veil()) });
   window.addEventListener('awtsmoos-game-ready', event => {
-    const phase = String(event?.detail?.phase || '');
+    const phase = String(event?.detail?.phase || event?.detail?.reason || '');
     if (/world_final_ready|rendered first time/i.test(phase)) finalReadySeen = true;
-    if (/world_final_ready|rendered first time/i.test(phase)) setTimeout(() => hide(phase), 1200);
+    if (/playable|loadedWorld|canvas_transferred|postbuild:ready-for-first-render|load-nivrayim:done|world_final_ready|rendered first time/i.test(phase)) {
+      playableSeen = true;
+      setTimeout(() => hide(phase || 'playable'), 80);
+    }
   });
-  setInterval(() => {
-    const proof = nonBlackFrameProof();
-    if (!hidden && proof.finalReadySeen) hide('worker-rendered-world-proof');
-  }, 850);
-  setTimeout(() => soften('Still loading real terrain meshes — no black void.'), 3800);
-  setTimeout(() => { if (!hidden) soften('Still waiting for world-ready proof — keeping the visible guard.'); }, 12500);
+  window.addEventListener('awtsmoos:worker-gameplay-fps', () => { playableSeen = true; hide('worker-gameplay-fps-proof'); });
+  const timer = setInterval(() => {
+    const proof = canvasProof();
+    const loaded = window.__AWTSMOOS_BOOT_LOADED__ || window.__AWTSMOOS_LOADING_FINAL_READY__;
+    if (hidden) return clearInterval(timer);
+    if (loaded || playableSeen || finalReadySeen || proof.firstCanvasSeen) hide(loaded?.reason || 'solid-first-canvas-proof');
+  }, 300);
+  setTimeout(() => { if (!hidden) { playableSeen = true; hide('solid-first-timeout-4500ms'); } }, 4500);
+  setTimeout(() => { if (!hidden) soften('Solid-color world is playable; textures continue in background.'); }, 1800);
 })();
 </script>
 </body>
