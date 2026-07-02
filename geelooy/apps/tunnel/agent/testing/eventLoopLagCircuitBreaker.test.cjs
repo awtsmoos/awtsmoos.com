@@ -1,8 +1,8 @@
 // B"H
 const assert = require('assert');
 const Circuit = require('../lib/runtime/circuit-breaker.js');
-const limits = { ...Circuit.DEFAULTS, advisoryOnly: false, hardLagMs: 2000, panicLagMs: 5000, softLagMs: 500, p3QueueLimit: 64, p4QueueLimit: 16 };
-const context = { eventLoopLag: { lastMs: 3000, maxMs: 9000 }, lanes: { p3_heavy: { queued: 0 }, p0_control: { queued: 0 } } };
+const limits = { ...Circuit.DEFAULTS, advisoryOnly: false, hardLagMs: 2000, panicLagMs: 5000, softLagMs: 500, p3QueueLimit: 64, p4QueueLimit: 16, workerFreshMs: 45000, recentSuccessMs: 120000 };
+let context = { eventLoopLag: { lastMs: 3000, maxMs: 9000 }, lanes: { p3_heavy: { queued: 0 }, p0_control: { queued: 0 } } };
 let got = Circuit.canAccept('p0_control', context, limits, { action: 'tunnelDoctor' });
 assert.strictEqual(got.ok, true);
 assert.strictEqual(got.circuitLevel, 'hard');
@@ -13,4 +13,9 @@ assert.strictEqual(got.action, 'commandRun');
 assert.strictEqual(got.requestAction, 'commandRun');
 assert.strictEqual(got.actualAction, 'commandRun');
 assert.strictEqual(got.retryable, true);
-console.log('event loop lag circuit allows control and preserves rejected action identity');
+context = { ...context, workers: { active: { w1: { heartbeatAt: new Date().toISOString(), state: 'running' } } } };
+got = Circuit.canAccept('p3_heavy', context, limits, { action: 'commandRun' });
+assert.strictEqual(got.ok, true);
+assert.strictEqual(got.degraded, true);
+assert.strictEqual(got.liveness.freshWorker, true);
+console.log('event loop lag circuit allows control and live-worker recovery while preserving identity');

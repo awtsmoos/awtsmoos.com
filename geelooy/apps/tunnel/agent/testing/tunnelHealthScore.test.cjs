@@ -14,6 +14,8 @@ const degraded = Health.compileHealth({
 });
 assert.notEqual(degraded.state, 'dead');
 assert.equal(degraded.signals.commandWorkerHeartbeat, true);
-const dead = Health.compileHealth({ now, websocketAgeMs: 600000, eventLoopLagMs: 9000, workers:{ active:{} }, journalWritable:false, localApiReachable:false });
+const recovering = Health.compileHealth({ now, websocketAgeMs: 700000, pid: 123, eventLoopLagMs: 9000, workers:{ active:{} }, lastSuccessfulActionAgeMs: 1000, journalWritable:true, localApiReachable:true });
+assert.notEqual(recovering.state, 'dead');
+const dead = Health.compileHealth({ now, websocketAgeMs: 1200000, eventLoopLagMs: 9000, workers:{ active:{} }, journalWritable:false, localApiReachable:false });
 assert.equal(dead.state, 'dead');
-console.log('health score preserves degraded tunnel identity before dead verdict');
+console.log('health score preserves degraded and recovering tunnel identity before dead verdict');

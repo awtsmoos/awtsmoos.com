@@ -1,17 +1,32 @@
 // B"H
 const Recovery = require('./recovery-envelope.js');
+
 const DEFAULTS = Object.freeze({
   softLagMs: number(process.env.AWTSMOOS_LAG_SOFT_MS, 500),
   hardLagMs: number(process.env.AWTSMOOS_LAG_HARD_MS, 2000),
   panicLagMs: number(process.env.AWTSMOOS_LAG_PANIC_MS, 5000),
   p3QueueLimit: number(process.env.AWTSMOOS_P3_BREAKER_QUEUE, 64),
   p4QueueLimit: number(process.env.AWTSMOOS_P4_BREAKER_QUEUE, 16),
+  workerFreshMs: number(process.env.AWTSMOOS_BREAKER_WORKER_FRESH_MS, 45000),
+  recentSuccessMs: number(process.env.AWTSMOOS_BREAKER_RECENT_SUCCESS_MS, 120000),
   advisoryOnly: process.env.AWTSMOOS_LAG_ADVISORY_ONLY === '1'
 });
+
+/**
+ * B"H
+ * Chapter 1801: The breaker learned mercy.
+ *
+ * A single spike is not death. If fresh worker heartbeats or recent successful
+ * actions testify that the vessel is still breathing, the circuit reports
+ * degraded pressure but keeps routing useful work. Only a silent, saturated
+ * tunnel becomes a locked gate. Thus the Awtsmoos is revealed through a gate
+ * that bends before it breaks.
+ */
 function number(value, fallback) {
   const n = Number(value);
   return Number.isFinite(n) ? Math.max(0, Math.floor(n)) : fallback;
 }
+
 function levelForLag(lagMs = 0, limits = DEFAULTS) {
   const lag = Number(lagMs || 0);
   if (lag >= limits.panicLagMs) return 'panic';
@@ -19,27 +34,33 @@ function levelForLag(lagMs = 0, limits = DEFAULTS) {
   if (lag >= limits.softLagMs) return 'soft';
   return 'open';
 }
+
 function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
   const lagMs = Number(context.eventLoopLag?.lastMs || 0);
   const maxLagMs = Number(context.eventLoopLag?.maxMs || 0);
   const level = levelForLag(lagMs, limits);
   const queued = Number(context.lanes?.[lane]?.queued || 0);
-  const wouldHaveBlockedReason = reasonFor(lane, level, queued, limits);
+  const pressureReason = reasonFor(lane, level, queued, limits);
+  const liveness = livePressureEvidence(context, limits);
+  const wouldHaveBlockedReason = liveness.canRoute ? '' : pressureReason;
   const base = {
     ok: true,
     status: 202,
     circuitLevel: level,
     eventLoopLagMs: lagMs,
     maxEventLoopLagMs: maxLagMs,
-    degraded: level !== 'open' || Boolean(wouldHaveBlockedReason),
+    degraded: level !== 'open' || Boolean(pressureReason),
     advisoryOnly: limits.advisoryOnly === true,
-    reason: wouldHaveBlockedReason ? 'admitted_despite_pressure' : 'accepted',
+    pressureReason,
+    liveness,
+    reason: pressureReason ? 'admitted_despite_pressure' : 'accepted',
     wouldHaveBlockedReason,
-    retryAfterMs: retryAfterMs(level, wouldHaveBlockedReason)
+    retryAfterMs: retryAfterMs(level, pressureReason)
   };
   if (!wouldHaveBlockedReason || limits.advisoryOnly === true) return base;
   return { ...base, ...Recovery.lagCircuitEnvelope(request, base), reason: wouldHaveBlockedReason };
 }
+
 function reasonFor(lane, level, queued, limits = DEFAULTS) {
   if (lane === 'p0_control') return '';
   if (level === 'panic') return 'kernel_panic_lag_only_p0';
@@ -49,14 +70,48 @@ function reasonFor(lane, level, queued, limits = DEFAULTS) {
   if (lane === 'p3_heavy' && queued >= limits.p3QueueLimit) return 'p3_backpressure';
   return '';
 }
+
+function livePressureEvidence(context = {}, limits = DEFAULTS) {
+  const now = Date.now();
+  const active = context.workers?.active || {};
+  const freshWorker = Object.values(active).some(worker => freshTime(worker?.heartbeatAt || worker?.startedAt, now, limits.workerFreshMs));
+  const recentSuccess = freshMs(now - Number(context.lastSuccessfulActionAt || 0), limits.recentSuccessMs);
+  const queued = Object.values(context.lanes || {}).reduce((sum, lane) => sum + Number(lane?.queued || 0), 0);
+  const saturated = queued >= Number(context.maxQueue || Infinity);
+  return {
+    freshWorker,
+    recentSuccess,
+    saturated,
+    canRoute: !saturated && (freshWorker || recentSuccess)
+  };
+}
+
+function freshTime(value, now, limit) {
+  const time = Date.parse(value || '');
+  return Number.isFinite(time) && freshMs(now - time, limit);
+}
+
+function freshMs(age, limit) {
+  return Number.isFinite(age) && age >= 0 && age <= limit;
+}
+
 function retryAfterMs(level, reason) {
   if (!reason) return 0;
   if (level === 'panic') return 3000;
   if (level === 'hard') return 2000;
   return 1000;
 }
+
 function snapshot(context = {}, limits = DEFAULTS) {
   const lagMs = Number(context.eventLoopLag?.lastMs || 0);
-  return { limits, level: levelForLag(lagMs, limits), eventLoopLagMs: lagMs, advisoryOnly: limits.advisoryOnly === true };
+  const level = levelForLag(lagMs, limits);
+  return {
+    limits,
+    level,
+    eventLoopLagMs: lagMs,
+    advisoryOnly: limits.advisoryOnly === true,
+    liveness: livePressureEvidence(context, limits)
+  };
 }
-module.exports = { DEFAULTS, canAccept, levelForLag, reasonFor, snapshot };
+
+module.exports = { DEFAULTS, canAccept, levelForLag, livePressureEvidence, reasonFor, snapshot };

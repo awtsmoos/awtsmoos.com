@@ -1,10 +1,10 @@
 // B"H
 
 /**
- * B"H — Chapter 817 repaired: aliases are accepted only at the public doorway.
- * Once a request reaches the tunnel response contract, commandStatus must not be
- * allowed to disguise commandStart, and commandWait must not borrow the robe of
- * commandStatus. Correlation exists to catch exactly that fracture.
+ * B"H — Chapter 1803: Correlation remains strict about identity, but merciful
+ * about transport implementation details. A wait may be fulfilled by a status
+ * envelope, and an output alias may use its canonical job output route, while
+ * nonce/client/job/thread identity still guards the gate.
  */
 function verifyTunnelResponse(result = {}, payload = {}, tunnelName = "") {
   const errors = [];
@@ -36,10 +36,14 @@ function allowedActionAlias(expected, actual) {
   const aliases = {
     command: ["command", "commandRun", "commandStart"],
     commandRun: ["command", "commandRun", "commandStart"],
+    commandStart: ["command", "commandRun", "commandStart"],
     commandOutputPage: ["commandJobOutputPage", "commandOutputPage"],
-    commandPoll: ["commandStatus"],
-    commandJobStatus: ["commandStatus"],
-    commandJobWait: ["commandWait"],
+    commandJobOutputPage: ["commandJobOutputPage", "commandOutputPage"],
+    commandPoll: ["commandStatus", "commandPoll", "commandJobStatus"],
+    commandStatus: ["commandStatus", "commandPoll", "commandJobStatus"],
+    commandJobStatus: ["commandStatus", "commandPoll", "commandJobStatus"],
+    commandWait: ["commandWait", "commandStatus", "commandJobStatus"],
+    commandJobWait: ["commandWait", "commandJobWait", "commandStatus", "commandJobStatus"],
     nodeCheckFiles: ["nodeCheckFiles", "nodeCheckMany"],
     nodeCheckMany: ["nodeCheckFiles", "nodeCheckMany"]
   };
