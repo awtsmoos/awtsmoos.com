@@ -1,4 +1,4 @@
 // B"H
-/** @file bridgeSeal.js @description Shared identity stamp for refreshed UI bridge imports. */
-export const UI_BRIDGE_SEAL = "production-vessel-refresh-20260702-bh1";
+/** Shared identity stamp for compact, monotonic loader and house repair. */
+export const UI_BRIDGE_SEAL = "house-solid-loader-compact-20260702-bh3";
 export function traceBoot() { return globalThis.__AWTSMOOS_BOOT_TRACE__ === true; }
