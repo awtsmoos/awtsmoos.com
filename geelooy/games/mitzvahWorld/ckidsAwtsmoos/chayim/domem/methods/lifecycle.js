@@ -6,7 +6,7 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Nivra from "../../nivra.js";
-import { registerGroundMesh } from "../../../Olam/worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
+import { registerGroundMesh } from "../../../Olam/worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=inline-octree-no-worker-import-20260702-bh1";
 function isLivingNivra(nivra) { return ["chossid", "chai", "medabeir", "customNpc", "interactiveNpc"].includes(nivra?.type); }
 function markLivingTree(mesh) {
     if (!mesh) return; mesh.userData ||= {}; mesh.userData.isLiving = true; mesh.userData.skipOctree = true; mesh.userData.noOctree = true;

@@ -5,7 +5,7 @@
  * height authority. The owner is ProceduralTerrain; the writer is world boot.
  * Runtime cost is one registration plus cached raycasts in GroundCollisionWorld.
  */
-import { registerGroundMesh as registerMeshGroundAuthority } from "../../../Olam/worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
+import { registerGroundMesh as registerMeshGroundAuthority } from "../../../Olam/worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=inline-octree-no-worker-import-20260702-bh1";
 
 export function markVisualGroundAuthority(mesh, terrain, olam) {
   const isSolid = terrain?.isSolid !== false;

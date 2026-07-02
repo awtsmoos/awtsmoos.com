@@ -5,7 +5,7 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import TerrainMath from "../../../../../dvarim/terrain/core/TerrainMath.js";
-import { meshGroundHit } from "../../collision/GroundCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
+import { meshGroundHit } from "../../collision/GroundCollisionWorld.js?v=inline-octree-no-worker-import-20260702-bh1";
 const ray = new THREE.Ray(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
 function num(v, f = 0) { return Number.isFinite(Number(v)) ? Number(v) : f; }
 function lawOf(olam) { return olam && olam.awtsmoosTerrainLaw ? olam.awtsmoosTerrainLaw : null; }
