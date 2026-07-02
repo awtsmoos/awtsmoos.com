@@ -1,12 +1,7 @@
 // B"H
-/**
- * @file AngelicVesselImports.js
- * @description Chapter 88: vessel imports read the plain static ledger. The
- * Awtsmoos summons OlamVessel and utils by exact filenames so mobile Chrome
- * receives JavaScript, not JSON error bodies.
- */
-import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?v=starter-contracts-20260628-bh9";
-import { importLedgerModule } from "./SafeModuleImport.js";
+/** @file AngelicVesselImports.js @description Fresh worker vessel imports bypass stale mobile cache. */
+import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?v=production-vessel-refresh-20260702-bh1";
+import { importLedgerModule } from "./SafeModuleImport.js?v=production-vessel-refresh-20260702-bh1";
 
 /** @returns {Promise<{module:any,required:any,record:Object}>} Loaded Olam core module record. */
 export async function importOlamCore() {
@@ -22,5 +17,5 @@ export async function importUtilsCore() {
 export async function importAngelicVesselsInOrder() {
   const olam = await importOlamCore();
   const utils = await importUtilsCore();
-  return { olamModule: olam.module, utilsModule: utils.module, OlamClass: olam.required, UtilsClass: utils.required };
+  return { olamModule:olam.module, utilsModule:utils.module, OlamClass:olam.required, UtilsClass:utils.required };
 }
