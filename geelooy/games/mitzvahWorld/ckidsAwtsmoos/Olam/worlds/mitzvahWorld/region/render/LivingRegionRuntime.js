@@ -1,12 +1,12 @@
 // B"H
-/** @file LivingRegionRuntime.js @description Player-first living region: colliders now, scenery later. */
+/** @file LivingRegionRuntime.js @description Player-first living region: static roots register once, doors refresh on toggle. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { postWorkerProgress } from "../../../../oyved/core/protocol/WorkerProtocol.js?v=no-compact-engine-20260702-bh2";
 import { buildRoadRenderer } from "./RegionRoadRenderer.js?v=road-cell-budget-20260622-bh1";
-import { buildCottageRenderer } from "./RegionCottageRenderer.js?v=actual-solid-house-20260702-bh4";
+import { buildCottageRenderer } from "./RegionCottageRenderer.js?v=solid-house-door-touch-20260702-bh6";
 import { buildRegionColliderRuntime } from "./RegionColliderRuntime.js?v=final-batch-colliders-20260615-bh1";
 import { finalizeRegionColliderBatch } from "./RegionFinalColliderBatch.js?v=collider-source-reporting-20260615-bh2";
-import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=actual-solid-house-20260702-bh4";
+import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=solid-house-door-touch-20260702-bh6";
 import { installCollisionDiagnostics } from "../../collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
 import { updateZoneDiscovery } from "../../../../../systems/world/ZoneDiscoveryRuntime.js";
 import { emitMapReveal } from "../../../../../systems/world/MapRevealRuntime.js";
@@ -14,13 +14,13 @@ import { startTutorial } from "../../../../../systems/tutorial/StartingExperienc
 import { sealRegionVisual } from "./RegionSeal.js";
 import { attachColliderRealityAudit } from "../collision/ColliderRealityAudit.js?v=immense-collider-audit-20260615-bh1";
 const KEY = "__awtsmoosLivingRegionRuntime";
-const HEAVY = ["mountains", "grass", "wheat", "flowers", "bushes", "rocks", "trees", "water", "farms", "parcels", "landmarks", "wildlife", "battleLayer", "visualReality", "botanicalReality", "ecologyReality"];
+const HEAVY = ["mountains","grass","wheat","flowers","bushes","rocks","trees","water","farms","parcels","landmarks","wildlife","battleLayer","visualReality","botanicalReality","ecologyReality"];
 function mark(stage, data = {}) { postWorkerProgress(`living-runtime:${stage}`, data); }
 function addLayer(root, name, factory) { const t = performance.now(); mark(`${name}:start`); const layer = factory(); root.add(layer); mark(`${name}:done`, { elapsedMs:Math.round(performance.now() - t), children:layer.children?.length || 0, count:layer.count || 0, stats:layer.userData?.stats || null }); return layer; }
 function skippedLayer(name, reason = "player-first-load") { const layer = new THREE.Group(); layer.name = `deferred_${name}_until_after_first_render`; layer.userData.stats = { skipped:true, deferred:true, reason }; return layer; }
-function discoveryTicker(olam) { if (olam.__startingZoneDiscoveryTicker) return; let acc = 0; const ticker = { name:"starting_zone_discovery_map_ticker", type:"discoveryTicker", isReady:true, heesHawveh:true, heesHawvoos:dt => { acc += dt || 0; if (acc < 0.5) return; acc = 0; const found = updateZoneDiscovery(olam); if (found?.length) emitMapReveal(olam); } }; olam.__startingZoneDiscoveryTicker = ticker; if (Array.isArray(olam.nivrayim)) olam.nivrayim.push(ticker); }
+function discoveryTicker(olam) { if (olam.__startingZoneDiscoveryTicker) return; let acc = 0; const ticker = { name:"starting_zone_discovery_map_ticker", type:"discoveryTicker", isReady:true, heesHawveh:true, heesHawvoos:dt => { acc += dt || 0; if (acc < .5) return; acc = 0; const found = updateZoneDiscovery(olam); if (found?.length) emitMapReveal(olam); } }; olam.__startingZoneDiscoveryTicker = ticker; if (Array.isArray(olam.nivrayim)) olam.nivrayim.push(ticker); }
 function tutorialOnce(olam) { if (olam.__startingExperienceStarted) return; olam.__startingExperienceStarted = true; startTutorial(olam); }
-function collectStats(root, report, timings) { const stats = { playerFirst:true, bh9:true, layers:root.children.length, meshes:0, instancedMeshes:0, instances:0, pointLights:0, timings, deferredHeavyLayers:HEAVY, reportSummary:report?.summary || null, fullWowScaleJewishGameplay:false, backgroundRuntimeTickersSkipped:true }; root.traverse(object => { if (object.isMesh) stats.meshes++; if (object.isInstancedMesh) { stats.instancedMeshes++; stats.instances += object.count || 0; } if (object.isPointLight) stats.pointLights++; }); return stats; }
+function collectStats(root, report, timings) { const stats = { playerFirst:true, bh9:true, layers:root.children.length, meshes:0, instancedMeshes:0, instances:0, pointLights:0, timings, deferredHeavyLayers:HEAVY, reportSummary:report?.summary || null, fullWowScaleJewishGameplay:false, backgroundRuntimeTickersSkipped:true }; root.traverse(o => { if (o.isMesh) stats.meshes++; if (o.isInstancedMesh) { stats.instancedMeshes++; stats.instances += o.count || 0; } if (o.isPointLight) stats.pointLights++; }); return stats; }
 function announce(olam, stats) { try { olam?.ayshPeula?.("updateProgress", { livingRegionRuntimeStats:stats }); globalThis.postMessage?.({ type:"livingRegionRuntimeStats", payload:{ stats } }); } catch (_) {} }
 export async function ensureLivingRegionRuntime(context = {}, report = {}) {
   const started = performance.now(), timings = {}, olam = context.olam || context, scene = context.scene || olam?.scene;
