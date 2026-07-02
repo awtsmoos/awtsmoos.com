@@ -144,6 +144,7 @@ function applyFlags(state = flags()) {
   const report = { at:Date.now(), flags:{ ...state }, affected:{ grass, houses, textures } };
   window.__AWTSMOOS_TEST_FEATURE_REPORT__ = report;
   window.dispatchEvent(new CustomEvent("awtsmoos:test-feature-toggle", { detail:report }));
+  window.__AWTSMOOS_ACTIVE_WORKER_MANAGER__?.postMessage?.({ testFeatureFlags:{ ...state, source:"test-mode-feature-panel" } });
   return report;
 }
 
@@ -163,6 +164,10 @@ function renderPanel() {
   panel.innerHTML = `<div class="awts-test-head"><span>Test Features</span><span>visual</span></div><div class="awts-test-grid"></div><div class="awts-test-status">waiting for scene</div>`;
   const grid = panel.querySelector(".awts-test-grid");
   const status = panel.querySelector(".awts-test-status");
+  window.addEventListener("awtsmoos:test-feature-worker-report", event => {
+    const affected = event.detail?.affected || {};
+    status.textContent = `worker grass ${affected.grass || 0} house ${affected.houses || 0} tex ${affected.textures || 0}`;
+  });
   const state = flags();
   for (const [key, label] of FEATURE_ROWS) {
     const button = document.createElement("button");

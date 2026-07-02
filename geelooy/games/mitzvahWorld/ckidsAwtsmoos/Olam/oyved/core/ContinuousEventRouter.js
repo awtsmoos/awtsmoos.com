@@ -13,6 +13,27 @@ function applyMobileMove(olam, payload = {}) { olam.inputs ||= {}; MOBILE_MOVE_F
 function postPlayerProbe(olam, payload = {}) { const probe = buildPlayerRuntimeProbe(olam); self.postMessage({ type:"playerProbeResult", payload:{ id:payload.id || null, ...probe } }); routerTrace(olam, "playerProbe-result", { id:payload.id || null, visualPass:probe.visualPass, capsulePass:probe.capsulePass, oldSealDetected:probe.oldSealDetected }); }
 function olamPeula(olam, payload) { for (const p in payload) olam.ayshPeula(p, payload[p]); }
 function awtsCode(olam, payload) { try { const me = { olam }; eval(payload); } catch (e) { console.error("B\"H - AWTS_CODE error:", e); } }
-const actionMap = Object.freeze({ takeInCanvas, destroyWorld, resize, resetAfterSpikeDeath, enableAfterSpikeReset, mobileMove:applyMobileMove, playerProbe:postPlayerProbe, olamPeula, awtsCode, cameraDrag:(olam, payload) => { if (olam.ayin?.rotateAroundTarget) olam.ayin.rotateAroundTarget(payload.dx, payload.dy); }, keydown:(olam, payload) => olam.ayshPeula("keydown", payload), keyup:(olam, payload) => olam.ayshPeula("keyup", payload), mousedown:(olam, payload) => { if (olam.yichud) olam.yichud.handleEvent(payload, true); olam.ayshPeula("mousedown", payload); }, mouseup:(olam, payload) => olam.ayshPeula("mouseup", payload), mousemove:(olam, payload) => { if (olam.yichud) olam.yichud.handleEvent(payload, false); olam.ayshPeula("mousemove", payload); }, wheel:(olam, payload) => olam.ayshPeula("wheel", payload) });
+const low = value => String(value || "").toLowerCase();
+function testFeatureText(object) { const data = object?.userData || {}; return low([object?.name, object?.type, data.kind, data.type, data.recipe, data.houseId, data.surfaceKey, data.materialKey, data.biomeKey].filter(Boolean).join(" ")); }
+function setTestVisible(object, visible, key) { object.userData ||= {}; const originalKey = `awtsmoosTestOriginalVisible:${key}`; if (object.userData[originalKey] == null) object.userData[originalKey] = object.visible !== false; object.visible = visible ? object.userData[originalKey] !== false : false; }
+function setTextureEnabled(material, enabled) { if (!material) return false; material.userData ||= {}; if (material.userData.awtsmoosTestOriginalMap === undefined) material.userData.awtsmoosTestOriginalMap = material.map || null; if (material.userData.awtsmoosTestOriginalNormalMap === undefined) material.userData.awtsmoosTestOriginalNormalMap = material.normalMap || null; material.map = enabled ? material.userData.awtsmoosTestOriginalMap : null; material.normalMap = enabled ? material.userData.awtsmoosTestOriginalNormalMap : null; material.needsUpdate = true; return true; }
+function applyTestFeatureFlags(olam, payload = {}) {
+  const flags = { grassVisuals:payload.grassVisuals !== false, houseVisuals:payload.houseVisuals !== false, terrainTextures:payload.terrainTextures !== false, workerPlayerMixer:payload.workerPlayerMixer === true };
+  globalThis.__AWTSMOOS_TEST_FEATURE_FLAGS__ = flags;
+  globalThis.__AWTSMOOS_ENABLE_WORKER_PLAYER_MIXER__ = flags.workerPlayerMixer;
+  const report = { at:Date.now(), flags, affected:{ grass:0, houses:0, textures:0 }, collisionUnaffected:true };
+  olam?.scene?.traverse?.(object => {
+    const text = testFeatureText(object);
+    if (/grass|flora|flower|meadow|safegrass/.test(text)) { setTestVisible(object, flags.grassVisuals, "grass"); report.affected.grass += 1; }
+    if (/house|cottage|building|roof|doorway|bakery|rebbe|toolmaker|trainer/.test(text) && !/collider|octree|collision/.test(text)) { setTestVisible(object, flags.houseVisuals, "house"); report.affected.houses += 1; }
+    if (/terrain|ground|grass|safegrass|dirt|road|path/.test(text)) {
+      const materials = Array.isArray(object.material) ? object.material : object.material ? [object.material] : [];
+      for (const material of materials) if (setTextureEnabled(material, flags.terrainTextures)) report.affected.textures += 1;
+    }
+  });
+  if (olam) olam.__AWTSMOOS_TEST_FEATURE_REPORT__ = report;
+  self.postMessage?.({ type:"test_feature_flags_result", payload:report });
+}
+const actionMap = Object.freeze({ takeInCanvas, destroyWorld, resize, resetAfterSpikeDeath, enableAfterSpikeReset, mobileMove:applyMobileMove, playerProbe:postPlayerProbe, testFeatureFlags:applyTestFeatureFlags, olamPeula, awtsCode, cameraDrag:(olam, payload) => { if (olam.ayin?.rotateAroundTarget) olam.ayin.rotateAroundTarget(payload.dx, payload.dy); }, keydown:(olam, payload) => olam.ayshPeula("keydown", payload), keyup:(olam, payload) => olam.ayshPeula("keyup", payload), mousedown:(olam, payload) => { if (olam.yichud) olam.yichud.handleEvent(payload, true); olam.ayshPeula("mousedown", payload); }, mouseup:(olam, payload) => olam.ayshPeula("mouseup", payload), mousemove:(olam, payload) => { if (olam.yichud) olam.yichud.handleEvent(payload, false); olam.ayshPeula("mousemove", payload); }, wheel:(olam, payload) => olam.ayshPeula("wheel", payload) });
 function resolvePromiseEvent(key, payload, promiseMap) { const resolvingEvents = ["htmlCreated", "htmlActioned", "htmlDeleted", "htmlActionsed", "uiEvented", "htmlGot"]; if (!resolvingEvents.includes(key) || !payload?.id || !promiseMap.has(payload.id)) return false; promiseMap.get(payload.id)(payload); promiseMap.delete(payload.id); return true; }
 export class ContinuousEventRouter { static actionMap = actionMap; static async route(olam, key, payload, promiseMap) { if (!olam && key !== "vessel_ready") return; const action = this.actionMap[key]; if (typeof action === "function") return void await action(olam, payload); if (resolvePromiseEvent(key, payload, promiseMap)) return; if (olam?.ayshPeula) olam.ayshPeula(key, payload); } }
