@@ -53,3 +53,18 @@ function summarize(report) { const moved = report.filter(r => r.moved).length, u
 export function groundVillageNow(olam, made = [], final = true, source = "manual") { if (!isVillageWorld(olam, made)) return []; installDiag(olam); if (final && !olam.__villageFinalCollidersBaked) olam.__villageFinalCollidersBaked = true; const report = candidates(olam, made).map(n => groundOne(olam, n)).filter(Boolean), summary = { source, final, phase:final ? "mesh-ground-authority" : "mesh-ground-visual-settle", ...summarize(report), terrain:olam.awtsmoosTerrainLaw?.source }; olam.__villageGroundingSummary = summary; diagEvent(final ? "VILLAGE_MESH_GROUND_COLLIDERS_READY" : "VILLAGE_MESH_GROUND_VISUAL_SETTLE", summary); diagThrottle("village-grounding-summary", summary, 2200); return report; }
 function afterFrames(frames, fn) { const raf = globalThis.requestAnimationFrame || (cb => setTimeout(cb, 32)); return frames <= 0 ? fn() : raf(() => afterFrames(frames - 1, fn)); }
 export function scheduleVillageGrounding(olam, made = []) { if (!isVillageWorld(olam, made) || olam.__villageGroundingScheduled) return; olam.__villageGroundingScheduled = true; afterFrames(2, () => setTimeout(() => groundVillageNow(olam, made, false, "mesh-ground-visual-settle"), 160)); afterFrames(5, () => setTimeout(() => groundVillageNow(olam, made, false, "mesh-ground-visual-settle"), 650)); afterFrames(8, () => setTimeout(() => groundVillageNow(olam, made, true, "mesh-ground-authority"), 1650)); afterFrames(18, () => setTimeout(() => groundVillageNow(olam, made, true, "spawn-reground"), 3200)); }
+
+export function hardGroundEntity(olam, entity, options = {}) {
+  const root = rootOf(entity); if (!finiteObject(root)) return null;
+  const lift = num(options.groundLift ?? entity?.groundLift ?? entity?.options?.groundLift, living(entity) ? .018 : 0);
+  const y = groundYAt(olam, root.position.x, root.position.z, root.position.y - lift) + lift;
+  if (!Number.isFinite(y) || Math.abs(y - root.position.y) > 18) return null;
+  const before = root.position.y; root.position.y = y; root.updateMatrixWorld?.(true);
+  Object.assign(entity, { onFloor:true, isOnGround:true, grounded:true });
+  if (entity?.velocity && Number(entity.velocity.y) < 0) entity.velocity.y = 0;
+  root.userData ||= {}; root.userData.hardGrounded = { at:Date.now(), before, y, delta:y-before, source:options.source || "runtime-hard-ground" };
+  return root.userData.hardGrounded;
+}
+export function hardGroundPlayer(olam, player = null) {
+  return hardGroundEntity(olam, player || olam?.chossid || olam?.player, { source:"player-runtime-hard-ground", groundLift:.018 });
+}
