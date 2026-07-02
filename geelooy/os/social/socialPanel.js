@@ -1,13 +1,102 @@
 // B"H
-import { inlineMessaging } from '/scripts/awtsmoos/social/shared/inlineMessaging.js';
-import { thanksFallback } from '/scripts/awtsmoos/social/shared/thanksActions.js';
 import { ensureSocialPanelStyles } from './styles.js';
-const APPS=[['mail','My Mail','/email'],['posts','My Posts','/profile'],['notifications','My Notifications','/notifications'],['heichelos','My Heichelos','/heichelos'],['aliases','My Aliases','/profile'],['drafts','Drafts','/email?folder=drafts'],['saved','Saved','/profile'],['recent','Recent Activity','/notifications']];
-function alias(){return String(localStorage.getItem('awtsmoos_social_inbox_alias')||localStorage.getItem('awtsmoosAlias')||window.awtsmoosAlias||'').replace(/^@/,'');}
-async function json(url){const r=await fetch(url);const t=await r.text();try{return JSON.parse(t)}catch{return {raw:t}}}
-function card([id,title,href]){const a=document.createElement('a');a.className='geelooy-os-social-panel__card';a.href=href;a.innerHTML=`<strong>${title}</strong><p>Open full route</p>`;a.dataset.osSocialApp=id;return a;}
-function status(text){const p=document.createElement('p');p.className='g-social-status';p.setAttribute('aria-live','polite');p.textContent=text;return p;}
-async function loadPreview(type,box){const a=alias();if(!a){box.append(status('Choose an alias to load live previews.'));return;}const url=type==='mail'?`/api/social/communications/${encodeURIComponent(a)}/overview`:'/api/social/feed/home?limit=5';box.append(status('Loading live preview…'));try{const data=await json(url);box.lastChild.remove();box.append(status(data?.error?'Preview unavailable.':'Preview loaded.'));}catch(e){box.lastChild.remove();box.append(status(e.message));}}
-export function socialPanel({type='command'}={}){ensureSocialPanelStyles();const box=document.createElement('section');box.className='geelooy-os-social-panel';box.innerHTML=`<h2>Geelooy Social Command Center</h2><p>Email is signal. Posts are memory. Heichelos are worlds. Notifications are graph pulses.</p><div class="geelooy-os-social-panel__links"></div><form class="geelooy-os-social-panel__search"><label>Search confirmed routes<input name="q" placeholder="Search mail and posts"></label><button type="submit">Search</button></form><div class="geelooy-os-social-panel__grid"></div>`;box.querySelector('.geelooy-os-social-panel__links').replaceChildren(...APPS.map(card));const grid=box.querySelector('.geelooy-os-social-panel__grid');if(type==='message')grid.append(inlineMessaging({aliases:[alias()].filter(Boolean),defaultAlias:alias(),onClose:()=>{}}));else if(type==='thanks')grid.append(thanksFallback({href:'/heichelos'}));else loadPreview(type,grid);box.querySelector('form').addEventListener('submit',e=>{e.preventDefault();const q=e.currentTarget.q.value.trim();if(q)location.href=`/email?search=${encodeURIComponent(q)}`;});return box;}
-export async function openSocialWindow(os,type='command'){const title=APPS.find(a=>a[0]===type)?.[1]||'Geelooy Command Center';return os.addWindow({title,content:socialPanel({type}),os});}
+import {
+  card,
+  currentAlias,
+  inlineMessaging,
+  json,
+  status,
+  thanksFallback
+} from './localSocialWidgets.js';
+
+/**
+ * B"H
+ * The mobile vessel once reached outside the OS for shared social modules,
+ * but that river answered JSON instead of JavaScript. Now the OS imports
+ * only local vessels, so the Awtsmoos-light flows without MIME fracture.
+ */
+const APPS = [
+  ['mail', 'My Mail', '/email'],
+  ['posts', 'My Posts', '/profile'],
+  ['notifications', 'My Notifications', '/notifications'],
+  ['heichelos', 'My Heichelos', '/heichelos'],
+  ['aliases', 'My Aliases', '/profile'],
+  ['drafts', 'Drafts', '/email?folder=drafts'],
+  ['saved', 'Saved', '/profile'],
+  ['recent', 'Recent Activity', '/notifications']
+];
+
+function panelShell() {
+  const box = document.createElement('section');
+  box.className = 'geelooy-os-social-panel';
+  box.innerHTML = `<h2>Geelooy Social Command Center</h2>
+    <p>Email is signal. Posts are memory. Heichelos are worlds. Notifications are graph pulses.</p>
+    <div class="geelooy-os-social-panel__links"></div>
+    <form class="geelooy-os-social-panel__search">
+      <label>Search confirmed routes<input name="q" placeholder="Search mail and posts"></label>
+      <button type="submit">Search</button>
+    </form>
+    <div class="geelooy-os-social-panel__grid"></div>`;
+  return box;
+}
+
+function previewUrl(type, alias) {
+  if (type === 'mail') {
+    return `/api/social/communications/${encodeURIComponent(alias)}/overview`;
+  }
+  return '/api/social/feed/home?limit=5';
+}
+
+async function loadPreview(type, box) {
+  const alias = currentAlias();
+  if (!alias) {
+    box.append(status('Choose an alias to load live previews.'));
+    return;
+  }
+  box.append(status('Loading live preview…'));
+  try {
+    const data = await json(previewUrl(type, alias));
+    box.lastChild.remove();
+    box.append(status(data?.error ? 'Preview unavailable.' : 'Preview loaded.'));
+  } catch (error) {
+    box.lastChild.remove();
+    box.append(status(error.message));
+  }
+}
+
+function fillGrid(type, grid) {
+  if (type === 'message') {
+    const alias = currentAlias();
+    grid.append(inlineMessaging({ aliases: [alias].filter(Boolean), defaultAlias: alias }));
+    return;
+  }
+  if (type === 'thanks') {
+    grid.append(thanksFallback({ href: '/heichelos' }));
+    return;
+  }
+  loadPreview(type, grid);
+}
+
+function bindSearch(box) {
+  box.querySelector('form').addEventListener('submit', event => {
+    event.preventDefault();
+    const q = event.currentTarget.q.value.trim();
+    if (q) location.href = `/email?search=${encodeURIComponent(q)}`;
+  });
+}
+
+export function socialPanel({ type = 'command' } = {}) {
+  ensureSocialPanelStyles();
+  const box = panelShell();
+  box.querySelector('.geelooy-os-social-panel__links').replaceChildren(...APPS.map(card));
+  fillGrid(type, box.querySelector('.geelooy-os-social-panel__grid'));
+  bindSearch(box);
+  return box;
+}
+
+export async function openSocialWindow(os, type = 'command') {
+  const title = APPS.find(app => app[0] === type)?.[1] || 'Geelooy Command Center';
+  return os.addWindow({ title, content: socialPanel({ type }), os });
+}
+
 export { APPS };
