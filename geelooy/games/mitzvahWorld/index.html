@@ -79,7 +79,7 @@
         writeText(ids.log, state.log.join("\n"));
       }
       function update(input = {}) { q.push({ ...input, at:Date.now() }); paint(input); }
-      window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress:update, textureProgress:data => update({ stage:`texture:${data?.stage || "progress"}`, texture:data?.percent, textureLabel:`${data?.type || "texture"} ${Math.round(clamp(data?.percent))}%` }), hideLoading:() => update({ stage:"world_final_ready", total:100 }), markFinalReady:() => update({ stage:"world_final_ready", total:100 }), seal:"early-real-progress-dom-20260629-bh1" };
+      window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress:update, textureProgress:data => update({ stage:`texture:${data?.stage || "progress"}`, texture:data?.percent, textureLabel:`${data?.type || "texture"} ${Math.round(clamp(data?.percent))}%` }), hideLoading:reason => update({ stage:"hide-request-held", total:Math.max(state.total, 12), action:"Waiting for playable world...", subAction:String(reason || "hide requested before readiness"), real:false }), markFinalReady:reason => update({ stage:String(reason || "world_final_ready"), total:String(reason || "").includes("world_final_ready") ? 100 : Math.max(state.total, 90), action:"Confirming first playable frame...", subAction:String(reason || "final ready requested"), real:true }), seal:"early-strict-no-black-progress-dom-20260702-bh2" };
       update({ stage:"html:start", total:4, action:"Opening the world...", real:false });
       let trickle = 4;
       const timer = setInterval(() => {
@@ -162,12 +162,12 @@
     removeVeils(lastReason);
   }
   function soften(text) { const sub = guard?.querySelector?.('.sub'); if (sub) sub.textContent = text; }
-  window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden, markPlayable:hide, seal:'solid-first-no-black-guard-20260702-bh11' };
+  window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden, markPlayable:hide, seal:'strict-first-playable-no-black-guard-20260702-bh2' };
   window.__AWTS_NO_BLACK_DIAG__ = () => ({ visible:!hidden, hidden, reason:lastReason, playableSeen, finalReadySeen, proof:canvasProof(), guardExists:Boolean(document.getElementById('awtsmoosNoBlackGuard')), veilExists:Boolean(veil()) });
   window.addEventListener('awtsmoos-game-ready', event => {
     const phase = String(event?.detail?.phase || event?.detail?.reason || '');
     if (/world_final_ready|rendered first time/i.test(phase)) finalReadySeen = true;
-    if (/playable|loadedWorld|postbuild:ready-for-first-render|load-nivrayim:done|world_final_ready|rendered first time/i.test(phase)) {
+    if (/first-playable-frame|world_final_ready|rendered first time|gameplay-ready/i.test(phase)) {
       playableSeen = true;
       setTimeout(() => hide(phase || 'playable'), 80);
     }
@@ -179,7 +179,7 @@
     if (hidden) return clearInterval(timer);
     if (loaded || playableSeen || finalReadySeen || proof.firstCanvasSeen) hide(loaded?.reason || 'solid-first-canvas-proof');
   }, 300);
-  setTimeout(() => { if (!hidden) { playableSeen = true; hide('solid-first-timeout-4500ms'); } }, 4500);
+  setTimeout(() => { if (!hidden) soften('Still verifying worker, terrain, physics, gameplay, and first playable frame.'); }, 4500);
   setTimeout(() => { if (!hidden) soften('Solid-color world is playable; textures continue in background.'); }, 1800);
 })();
 </script>

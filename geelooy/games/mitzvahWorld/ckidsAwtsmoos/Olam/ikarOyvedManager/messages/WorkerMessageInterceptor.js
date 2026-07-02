@@ -1,24 +1,190 @@
 // B"H
-/** @file WorkerMessageInterceptor.js @purpose Worker bridge with quiet user-facing errors. */
+/**
+ * @file WorkerMessageInterceptor.js
+ * @purpose Worker bridge with quiet user-facing errors and strict first-playable loader gating.
+ *
+ * B"H — The Awtsmoos speaks the world into being every instant, but the loader
+ * may not pretend that a canvas is a world. `loadedWorld` is only an artifact
+ * crossing the river. `postbuild` is only a hammer falling silent. The curtain
+ * lifts only when the worker declares the playable covenant: gameplay-ready,
+ * first-playable-frame, or world_final_ready.
+ */
 import { oyvedManagerLog } from "../log/MainTextLogger.js";
 import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js";
 import { recordWorkerProgress } from "../progress/WorkerProgressStore.js";
 import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=no-black-screen-20260702-bh4";
-const SEAL = "quiet-worker-errors-20260702-bh1";
+
+const SEAL = "strict-worker-playable-gate-20260702-bh1";
+const PLAYABLE_STAGE = /^(first-playable-frame|gameplay-ready|world_final_ready)$/i;
+const PROBE_STAGE = /postbuild:ready-for-first-render|load-nivrayim:done|world_final_ready|first-playable-frame|gameplay-ready/i;
 const trim = (a, n) => Array.isArray(a) ? a.slice(-n) : [];
 const stamp = () => new Date().toISOString();
-function suppress(text, label = "worker") { window.__AWTSMOOS_SUPPRESSED_ALERTS__ = trim([...(window.__AWTSMOOS_SUPPRESSED_ALERTS__ || []), { at:Date.now(), label, text:String(text).slice(0, 900), seal:SEAL }], 50); }
-function requestProbe() { const m = window.__AWTSMOOS_ACTIVE_WORKER_MANAGER__ || window.mana?.socket; const id = `groundDiag-${Date.now()}`; m?.postMessage?.({ playerProbe:{ id, seal:SEAL } }); return id; }
-function latestGroundingDiag() { const p = window.__AWTSMOOS_LAST_PLAYER_PROBE__; return p?.visualClamp || { warnings:["player grounding diagnostic not ready"], requestedWorkerProbe:true, requestId:requestProbe(), seal:SEAL }; }
-function installGlobals() { if (window.__AWTSMOOS_WINDOW_COLLISION_DIAG_INSTALLED__ === SEAL) return; window.__AWTSMOOS_WINDOW_COLLISION_DIAG_INSTALLED__ = SEAL; window.__AWTSMOOS_REQUEST_PLAYER_PROBE_FROM_MANAGER__ = requestProbe; window.__MITZVAH_PLAYER_GROUNDING_DIAG__ = latestGroundingDiag; window.__AWTS_COLLISION_DIAG__ = () => window.__AWTSMOOS_LAST_PLAYER_PROBE__?.collisionDiag || { windowBridge:true, seal:SEAL }; window.__AWTS_BUBBLE_DIAG__ = () => window.__AWTSMOOS_LAST_PLAYER_PROBE__?.bubbleDiag || { windowBridge:true, seal:SEAL }; window.__AWTS_GROUNDING_DIAG__ = latestGroundingDiag; window.__AWTS_PER_FRAME_REPORT__ = () => ({ last:window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__, history:window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ || [], stages:window.__AWTSMOOS_LOAD_STAGE_HISTORY__ || [] }); }
-function rememberStage(stage, data) { window.__AWTSMOOS_LOAD_STAGE_HISTORY__ = trim([...(window.__AWTSMOOS_LOAD_STAGE_HISTORY__ || []), { at:Date.now(), iso:stamp(), stage, data }], 160); window.__AWTSMOOS_LAST_LOAD_STAGE__ = { stage, data, at:Date.now() }; }
-function mark(manager, stage, data) { if (stage === "vessel_ready") { if (manager.runtime) manager.runtime.vesselIsReady = true; manager._vesselIsReady = true; manager._dispatchPawsawch?.(); } if (stage === "loadedWorld") { if (manager.runtime) manager.runtime.worldLoaded = true; manager._worldLoaded = true; LoadingProgress.markPlayable?.("loadedWorld"); } if (stage === "canvas_transferred") { if (manager.runtime) manager.runtime.canvasTransferred = true; manager._canvasTransferred = true; LoadingProgress.update?.({ stage:"canvas_transferred", total:96, humanLabel:"Canvas connected; waiting for playable frame" }); } if (/postbuild:ready-for-first-render|load-nivrayim:done|world_final_ready/.test(stage)) { LoadingProgress.markPlayable?.(stage); setTimeout(requestProbe, 250); } }
-function handleProgress(manager, data) { const stage = String(data.stage || data.text || "unknown"); rememberStage(stage, data); recordWorkerProgress(stage, data); LoadingProgress.workerProgress?.(data); mark(manager, stage, data); }
-function handlePlayerProbeResult(data) { const probe = data.payload || data; window.__AWTSMOOS_PLAYER_PROBES__ = trim([...(window.__AWTSMOOS_PLAYER_PROBES__ || []), probe], 40); window.__AWTSMOOS_LAST_PLAYER_PROBE__ = probe; window.__AWTSMOOS_LAST_GROUNDING_DIAG__ = probe.visualClamp || null; window.dispatchEvent?.(new CustomEvent("awtsmoos:player-probe-result", { detail:probe })); if (window.__AWTSMOOS_VERBOSE_PROBES__ === true) console.info('B"H | PLAYER_PROBE_RESULT_JSON', { id:probe?.id, pass:probe?.visualClamp?.contract?.pass }); }
-function handleFps(data) { const payload = data.payload || data; window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__ = payload; window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ = trim([...(window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ || []), { at:Date.now(), ...payload }], 120); window.AWTSMOOS_GAMEPLAY_FPS = payload; window.dispatchEvent?.(new CustomEvent("awtsmoos:worker-gameplay-fps", { detail:payload })); }
-function handleLiving(type, payload) { window.__AWTSMOOS_LIVING_REGION_MAIN__ ||= { version:"main-proof", bootedAt:stamp(), received:[] }; const main = window.__AWTSMOOS_LIVING_REGION_MAIN__, entry = { at:stamp(), type, payload:payload || null }; main.received = trim([...(main.received || []), entry], 24); main.last = entry; if (type === "runtime") window.AWTSMOOS_LIVING_REGION_STATS = payload?.stats || payload || null; if (type === "director") window.AWTSMOOS_LIVING_REGION_REPORT = payload?.report || payload || null; recordWorkerProgress(`living-region:${type}`, { type:`living-region:${type}`, payload }); }
-function handleTestFeatureFlags(data) { const payload = data.payload || data; window.__AWTSMOOS_TEST_FEATURE_WORKER_REPORT__ = payload; window.dispatchEvent?.(new CustomEvent("awtsmoos:test-feature-worker-report", { detail:payload })); }
-function niceError(text) { const s = String(text || ""); if (/TerrainOctreeWorld is not defined/.test(s)) return "Updating terrain collision worker… reload once."; if (/import failed|dependency import failed/i.test(s)) return "Worker module update in progress…"; return "Worker is recovering…"; }
-function quietError(data, label) { const text = workerMessageToText(data); oyvedManagerLog.error(text); suppress(text, label || data?.type || "worker-error"); LoadingProgress.update?.({ stage:"worker:recovering", action:niceError(text), subAction:"details saved in console", worker:42 }); }
-function handleText(data) { if (data.type === "worker_import_error_text" || data.type === "ERROR_TEXT") quietError(data, data.type); }
-export function interceptWorkerMessage(manager, event) { installGlobals(); const data = event.data; if (data?.type === "worker_progress") return handleProgress(manager, data); if (data?.type === "worker_gameplay_fps") return handleFps(data); if (data?.type === "test_feature_flags_result") return handleTestFeatureFlags(data); if (data?.type === "livingRegionRuntimeStats") return handleLiving("runtime", data.payload || data); if (data?.type === "livingRegionDirectorReport") return handleLiving("director", data.payload || data); if (data?.type === "render_trace") return; if (data?.type === "playerProbeResult") return handlePlayerProbeResult(data); if (isWorkerTextLog(data)) return handleText(data); if (!data || typeof data !== "object") return; if (data.type === "ERROR" || data.type === "ERROR_TEXT") return quietError(data, data.type); if (["vessel_ready", "loadedWorld", "canvas_transferred", "world_final_ready"].includes(data.type)) handleProgress(manager, { ...data, type:"worker_progress", stage:data.type }); }
+
+function suppress(text, label = "worker") {
+  window.__AWTSMOOS_SUPPRESSED_ALERTS__ = trim([...(window.__AWTSMOOS_SUPPRESSED_ALERTS__ || []), {
+    at:Date.now(), label, text:String(text).slice(0, 900), seal:SEAL
+  }], 50);
+}
+
+function requestProbe() {
+  const m = window.__AWTSMOOS_ACTIVE_WORKER_MANAGER__ || window.mana?.socket;
+  const id = `groundDiag-${Date.now()}`;
+  m?.postMessage?.({ playerProbe:{ id, seal:SEAL } });
+  return id;
+}
+
+function latestGroundingDiag() {
+  const p = window.__AWTSMOOS_LAST_PLAYER_PROBE__;
+  return p?.visualClamp || {
+    warnings:["player grounding diagnostic not ready"],
+    requestedWorkerProbe:true,
+    requestId:requestProbe(),
+    seal:SEAL
+  };
+}
+
+function installGlobals() {
+  if (window.__AWTSMOOS_WINDOW_COLLISION_DIAG_INSTALLED__ === SEAL) return;
+  window.__AWTSMOOS_WINDOW_COLLISION_DIAG_INSTALLED__ = SEAL;
+  window.__AWTSMOOS_REQUEST_PLAYER_PROBE_FROM_MANAGER__ = requestProbe;
+  window.__MITZVAH_PLAYER_GROUNDING_DIAG__ = latestGroundingDiag;
+  window.__AWTS_COLLISION_DIAG__ = () => window.__AWTSMOOS_LAST_PLAYER_PROBE__?.collisionDiag || { windowBridge:true, seal:SEAL };
+  window.__AWTS_BUBBLE_DIAG__ = () => window.__AWTSMOOS_LAST_PLAYER_PROBE__?.bubbleDiag || { windowBridge:true, seal:SEAL };
+  window.__AWTS_GROUNDING_DIAG__ = latestGroundingDiag;
+  window.__AWTS_PER_FRAME_REPORT__ = () => ({
+    last:window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__,
+    history:window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ || [],
+    stages:window.__AWTSMOOS_LOAD_STAGE_HISTORY__ || []
+  });
+}
+
+function rememberStage(stage, data) {
+  window.__AWTSMOOS_LOAD_STAGE_HISTORY__ = trim([...(window.__AWTSMOOS_LOAD_STAGE_HISTORY__ || []), {
+    at:Date.now(), iso:stamp(), stage, data
+  }], 160);
+  window.__AWTSMOOS_LAST_LOAD_STAGE__ = { stage, data, at:Date.now() };
+}
+
+function holdUntilPlayable(stage) {
+  LoadingProgress.update?.({
+    stage:`held:${stage}`,
+    total:Math.min(98, Math.max(LoadingProgress.snapshot?.().total || 0, 88)),
+    humanLabel:`${stage} received; waiting for first playable frame`,
+    subAction:"loader remains visible until gameplay-ready / first-playable-frame / world_final_ready"
+  });
+}
+
+function mark(manager, stage) {
+  if (stage === "vessel_ready") {
+    if (manager.runtime) manager.runtime.vesselIsReady = true;
+    manager._vesselIsReady = true;
+    manager._dispatchPawsawch?.();
+  }
+
+  if (stage === "loadedWorld") {
+    if (manager.runtime) manager.runtime.worldLoaded = true;
+    manager._worldLoaded = true;
+    holdUntilPlayable(stage);
+  }
+
+  if (stage === "canvas_transferred") {
+    if (manager.runtime) manager.runtime.canvasTransferred = true;
+    manager._canvasTransferred = true;
+    LoadingProgress.update?.({
+      stage:"canvas_transferred",
+      total:96,
+      humanLabel:"Canvas connected; waiting for first playable frame"
+    });
+  }
+
+  if (PROBE_STAGE.test(stage)) setTimeout(requestProbe, 250);
+  if (PLAYABLE_STAGE.test(stage)) LoadingProgress.markPlayable?.(stage);
+  else if (/postbuild:ready-for-first-render|load-nivrayim:done/i.test(stage)) holdUntilPlayable(stage);
+}
+
+function handleProgress(manager, data) {
+  const stage = String(data.stage || data.text || "unknown");
+  rememberStage(stage, data);
+  recordWorkerProgress(stage, data);
+  LoadingProgress.workerProgress?.(data);
+  mark(manager, stage);
+}
+
+function handlePlayerProbeResult(data) {
+  const probe = data.payload || data;
+  window.__AWTSMOOS_PLAYER_PROBES__ = trim([...(window.__AWTSMOOS_PLAYER_PROBES__ || []), probe], 40);
+  window.__AWTSMOOS_LAST_PLAYER_PROBE__ = probe;
+  window.__AWTSMOOS_LAST_GROUNDING_DIAG__ = probe.visualClamp || null;
+  window.dispatchEvent?.(new CustomEvent("awtsmoos:player-probe-result", { detail:probe }));
+  if (window.__AWTSMOOS_VERBOSE_PROBES__ === true) {
+    console.info('B"H | PLAYER_PROBE_RESULT_JSON', { id:probe?.id, pass:probe?.visualClamp?.contract?.pass });
+  }
+}
+
+function handleFps(data) {
+  const payload = data.payload || data;
+  window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__ = payload;
+  window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ = trim([...(window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ || []), {
+    at:Date.now(), ...payload
+  }], 120);
+  window.AWTSMOOS_GAMEPLAY_FPS = payload;
+  window.dispatchEvent?.(new CustomEvent("awtsmoos:worker-gameplay-fps", { detail:payload }));
+}
+
+function handleLiving(type, payload) {
+  window.__AWTSMOOS_LIVING_REGION_MAIN__ ||= { version:"main-proof", bootedAt:stamp(), received:[] };
+  const main = window.__AWTSMOOS_LIVING_REGION_MAIN__;
+  const entry = { at:stamp(), type, payload:payload || null };
+  main.received = trim([...(main.received || []), entry], 24);
+  main.last = entry;
+  if (type === "runtime") window.AWTSMOOS_LIVING_REGION_STATS = payload?.stats || payload || null;
+  if (type === "director") window.AWTSMOOS_LIVING_REGION_REPORT = payload?.report || payload || null;
+  recordWorkerProgress(`living-region:${type}`, { type:`living-region:${type}`, payload });
+}
+
+function handleTestFeatureFlags(data) {
+  const payload = data.payload || data;
+  window.__AWTSMOOS_TEST_FEATURE_WORKER_REPORT__ = payload;
+  window.dispatchEvent?.(new CustomEvent("awtsmoos:test-feature-worker-report", { detail:payload }));
+}
+
+function niceError(text) {
+  const s = String(text || "");
+  if (/TerrainOctreeWorld is not defined/.test(s)) return "Updating terrain collision worker… reload once.";
+  if (/import failed|dependency import failed/i.test(s)) return "Worker module update in progress…";
+  return "Worker is recovering…";
+}
+
+function quietError(data, label) {
+  const text = workerMessageToText(data);
+  oyvedManagerLog.error(text);
+  suppress(text, label || data?.type || "worker-error");
+  LoadingProgress.update?.({
+    stage:"worker:recovering",
+    action:niceError(text),
+    subAction:"details saved in console",
+    worker:42
+  });
+}
+
+function handleText(data) {
+  if (data.type === "worker_import_error_text" || data.type === "ERROR_TEXT") quietError(data, data.type);
+}
+
+export function interceptWorkerMessage(manager, event) {
+  installGlobals();
+  const data = event.data;
+  if (data?.type === "worker_progress") return handleProgress(manager, data);
+  if (data?.type === "worker_gameplay_fps") return handleFps(data);
+  if (data?.type === "test_feature_flags_result") return handleTestFeatureFlags(data);
+  if (data?.type === "livingRegionRuntimeStats") return handleLiving("runtime", data.payload || data);
+  if (data?.type === "livingRegionDirectorReport") return handleLiving("director", data.payload || data);
+  if (data?.type === "render_trace") return;
+  if (data?.type === "playerProbeResult") return handlePlayerProbeResult(data);
+  if (isWorkerTextLog(data)) return handleText(data);
+  if (!data || typeof data !== "object") return;
+  if (data.type === "ERROR" || data.type === "ERROR_TEXT") return quietError(data, data.type);
+  if (["vessel_ready", "loadedWorld", "canvas_transferred", "world_final_ready", "first-playable-frame", "gameplay-ready"].includes(data.type)) {
+    handleProgress(manager, { ...data, type:"worker_progress", stage:data.type });
+  }
+}
