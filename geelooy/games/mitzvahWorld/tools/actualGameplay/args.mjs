@@ -26,6 +26,8 @@ export function profilerOptions() {
     settleMs: Number(argValue('settle', '1000')),
     gameplayQuietMs: Number(argValue('gameplayQuiet', '2500')),
     maxReadyWaitMs: Number(argValue('maxReadyWait', '45000')),
+    width: Number(argValue('width', '1366')),
+    height: Number(argValue('height', '768')),
     debugPort: Number(argValue('debugPort', String(9700 + Math.floor(Math.random() * 500))))
   };
 }

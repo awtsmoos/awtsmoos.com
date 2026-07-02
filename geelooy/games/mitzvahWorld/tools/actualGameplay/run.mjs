@@ -77,7 +77,7 @@ export async function runActualGameplayProfiler() {
     await writeReadJson(resultPath, { ok: false, status: 'started', name: 'ActualGameplayProfiler', startedAt, url: options.url });
     const browser = findBrowser();
     if (!browser.path) throw new Error(`ActualGameplayProfiler could not find Chrome. Candidates: ${browser.candidates?.join(', ') || 'none'}`);
-    chrome = await launchChrome(browser.path, options.url, options.debugPort, { headless: !options.headed, width: 1366, height: 768 });
+    chrome = await launchChrome(browser.path, options.url, options.debugPort, { headless: !options.headed, width: options.width, height: options.height });
     cdp = await connectCdp(chrome.page.webSocketDebuggerUrl, onChromeEvent(consoleEvents));
     await cdp.send('Runtime.enable');
     await cdp.send('Log.enable');
@@ -103,7 +103,7 @@ export async function runActualGameplayProfiler() {
       finishedAt: new Date().toISOString(),
       requestedUrl: options.url,
       resultPath,
-      browser: { path: browser.path, port: options.debugPort, headed: options.headed },
+      browser: { path: browser.path, port: options.debugPort, headed: options.headed, width: options.width, height: options.height },
       readiness,
       sample,
       consoleEvents: consoleEvents.slice(-40),
