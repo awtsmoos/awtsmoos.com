@@ -1,6 +1,6 @@
 // B"H
 /** @file ikar.js @description Main boot gate with no-compact ES module imports. */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=compact-engine-safe-20260702-bh1";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=compact-engine-safe-20260702-bh1";
 import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?v=compact-engine-safe-20260702-bh1";
 import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?v=compact-engine-safe-20260702-bh1";
 import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?v=compact-engine-safe-20260702-bh1";

@@ -425,7 +425,7 @@ function findDefaultDeclarationSourceEnd(source, declaration, sourceStart = decl
 
 function replaceRemainingDefaultExports(source) {
   const text = String(source || "");
-  const pattern = /(^|[;\n])\s*export\s+default\s+/g;
+  const pattern = /(^|[;\n])\s*export\s+default\b\s*/g;
   let output = "", cursor = 0, match, count = 0;
   while ((match = pattern.exec(text))) {
     if (!isTopLevelExportBoundary(text, match.index)) continue;
