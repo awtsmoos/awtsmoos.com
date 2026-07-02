@@ -4,7 +4,7 @@
  * @description Chapter 45: lightning gameplay. The player receives every breath;
  * quiet NPCs sleep on precomputed paths, stirring rarely, never stealing motion.
  */
-import UniversePulsator from '../oyved/UniversePulsator.js?v=no-alert-perf-jump-20260701-bh10';
+import UniversePulsator from '../oyved/UniversePulsator.js?v=worker-60fps-timer-20260702-bh1';
 import RenderTrace from './canvas/RenderTrace.js?v=village-polish-20260612-bh811';
 import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?v=zone-reality-20260614-bh817';
 import { getDynamicActorPartition } from '../worlds/mitzvahWorld/runtime/DynamicActorPartition.js?v=awtsmoos-dynamic-partition-20260614-bh2';
