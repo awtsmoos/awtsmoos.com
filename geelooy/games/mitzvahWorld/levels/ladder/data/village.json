@@ -9,7 +9,9 @@
   "testWorldFlags": {
     "skipMitzvahWorldPostBuild": true,
     "skipStarterStation": true,
-    "skipVillageGrounding": true
+    "skipVillageGrounding": true,
+    "flatGroundY": 0,
+    "skipHouseCollision": true
   },
   "nivrayim": {
     "VillageCameraPreset": [
