@@ -1,22 +1,4 @@
-/* B"H — mobile vessel tikkun: HUD breathes, dock rises, hotbar keeps its throne. */
-:root{--awt-safe-top:env(safe-area-inset-top,0px);--awt-safe-bottom:env(safe-area-inset-bottom,0px);--awt-mobile-control-bottom:calc(150px + var(--awt-safe-bottom));--awt-hud-scale:1;--awt-dock-scale:1;--awt-modal-width:min(620px,92vw);--awt-modal-max-height:min(80vh,720px);--awt-ui-gold:#ffd966;--awt-ui-bg:rgba(5,7,13,.84);--awt-visual-saturation:1.12}
-html.awtsmoos-visual-tuned #ikar{filter:saturate(var(--awt-visual-saturation)) contrast(1.04)}
-#mitzvahUiBridge{contain:layout style;pointer-events:none}.mitzvahPanel{max-width:min(92vw,560px);box-sizing:border-box}.mitzvahPanel,.mitzvahBtn{touch-action:manipulation}.awtsmoos-fast-ui .mitzvahPanel{backdrop-filter:none!important;box-shadow:0 8px 20px rgba(0,0,0,.34)!important}.awtsmoos-fast-ui *{animation-duration:.001ms!important;transition-duration:.001ms!important}.awtsmoos-hide-world-markers #mitzvahWorldMarkers,.awtsmoos-hide-world-markers .mitzvahMarker{display:none!important}
-@media (max-width:820px),(max-height:720px){
-  #mitzvahTopLeft{top:calc(10px + var(--awt-safe-top))!important;left:9px!important;width:min(52vw,255px)!important;gap:10px!important;transform:scale(var(--awt-hud-scale))!important;transform-origin:top left!important;z-index:9010!important}
-  #mitzvahTopLeft>.mitzvahPanel+ .mitzvahPanel{margin-top:10px!important}
-  #mitzvahTopRight{top:calc(10px + var(--awt-safe-top))!important;right:9px!important;width:auto!important;max-width:28vw!important;transform:scale(.74)!important;transform-origin:top right!important;z-index:9011!important}
-  #mitzvahCenter{top:50%!important;left:50%!important;width:var(--awt-modal-width)!important;max-height:var(--awt-modal-max-height)!important;overflow:auto!important;overscroll-behavior:contain!important;z-index:9020!important}
-  #mitzvahCenter .mitzvahPanel{font-size:clamp(12px,3.15vw,17px)!important;line-height:1.2!important;padding:12px!important;border-radius:16px!important;max-height:var(--awt-modal-max-height)!important;overflow:auto!important;background:rgba(6,8,9,.9)!important}
-  #mitzvahCenter .mitzvahPanel h1,#mitzvahCenter .mitzvahPanel h2,#mitzvahCenter .mitzvahPanel h3{font-size:clamp(22px,6.4vw,34px)!important;margin:.05em 0 .35em!important}
-  #mitzvahBottomCenter{bottom:var(--awt-mobile-control-bottom)!important;left:50%!important;width:min(94vw,520px)!important;max-width:94vw!important;transform:translateX(-50%) scale(var(--awt-dock-scale))!important;transform-origin:bottom center!important;z-index:9015!important}
-  #mitzvahActionDock{left:50%!important;right:auto!important;bottom:calc(138px + var(--awt-safe-bottom))!important;width:min(94vw,520px)!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;z-index:9490!important;transform:translateX(-50%)!important}
-  #mitzvahActionDock .mitzvahDockButton{min-width:0!important;min-height:48px!important;padding:7px 6px!important;font-size:clamp(11px,3.2vw,13px)!important;line-height:1.05!important}
-  .mitzvahPanel strong,.mitzvahTitle{letter-spacing:.005em!important}.mitzvahChoice,.mitzvahBtn{min-height:40px!important;font-size:13px!important}
-  [class*="modal"],[class*="Modal"],[class*="dialog"],[class*="Dialog"],[class*="shlichus"],[class*="Shlichus"]{max-width:94vw!important;max-height:var(--awt-modal-max-height)!important;box-sizing:border-box!important;overflow:auto!important}
-  [class*="dock"],[class*="Dock"],[class*="hotbar"],[class*="Hotbar"]{max-width:96vw!important}button,[role="button"]{touch-action:manipulation;min-width:40px;min-height:40px}
-  canvas{touch-action:none!important}
-}
-@media (max-width:520px){:root{--awt-mobile-control-bottom:calc(142px + var(--awt-safe-bottom))}#mitzvahTopLeft{width:min(62vw,255px)!important;transform:scale(.72)!important}#mitzvahBottomCenter{width:min(94vw,430px)!important;max-width:94vw!important;transform:translateX(-50%) scale(.88)!important}#mitzvahActionDock{bottom:calc(132px + var(--awt-safe-bottom))!important;width:min(94vw,430px)!important;gap:7px!important}.mitzvahPanel{font-size:12px!important}}
-@media (max-height:640px){#mitzvahActionDock{bottom:calc(112px + var(--awt-safe-bottom))!important}.mitzvahDockButton{min-height:42px!important}#mitzvahBottomCenter{bottom:calc(118px + var(--awt-safe-bottom))!important}}
-@media (min-width:821px) and (min-height:721px){#mitzvahTopLeft{width:340px!important}#mitzvahTopRight{width:340px!important}#mitzvahBottomCenter{bottom:20px!important;width:min(620px,72vw)!important}.mitzvahPanel{font-size:13px}}
+/* B"H split wrapper: mobile loading/HUD vessels enter in order. */
+@import url("./mobile-ui-core.css");
+@import url("./mobile-ui-phone.css");
+@import url("./mobile-ui-landscape.css");
