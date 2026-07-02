@@ -24,10 +24,12 @@ export function renderDesktopSurface(os) {
   applySafeArea(surface, desktop); const mobile = mobileClass(surface); const allItems = desktopIcons(os); const items = filterDesktopItems(allItems);
   const positions = mergePositions(items, loadPositions(mobile), surface); const selection = createDesktopSelection(surface);
   items.forEach(item => surface.appendChild(createDesktopIconNode({ os, item, point:positions[item.id], selection, surface })));
+  sizeSurfaceForIcons(surface, positions);
   attachDesktopSurface(desktop, surface, positions); const rerender = () => renderDesktopSurface(os);
   const context = { os, surface, items, allItems, positions, selection, rerender };
   bindDesktopDrag(context); bindDesktopContext(context); bindDesktopKeyboard({ os, surface, items, selection }); bindRelayout({ desktop, surface, items, positions }); bindSurfaceTouchMenu(context); bindDesktopAccessibility({ os, surface, items:allItems, selection });
   surface.awtsmoosDesktopDiagnostics = () => desktopDiagnostics(context); return surface;
 }
+function sizeSurfaceForIcons(surface, positions) { const bottom = Math.max(0, ...Object.values(positions).map(p => (p?.y || 0) + 156)); surface.style.minHeight = `${Math.max(surface.clientHeight || 0, bottom)}px`; }
 function bindSurfaceTouchMenu(context) { bindLongPress(context.surface, e => { if (e.target.closest?.('.desktop-icon')) return; desktopMenu({ ...context, event:e }); }); }
-/** B"H: DesktopSurface is an orchestration layer while preserving the mobile hook contract. */
+/** B"H: when icons overflow, the desktop grows and scrolls instead of crushing. */

@@ -3,12 +3,10 @@ import { extensionOf, joinExplorerPath, nameFromPath } from './path.js';
 import { mountData, mountBadge } from './mounts.js';
 import { permissionForPath } from './permissions.js';
 
-export function normalizeRenderItems(items = [], options = {}) {
-  return [...items].map(item => normalizeRenderItem(item, options)).filter(Boolean).sort(sortRenderItems);
-}
+export function normalizeRenderItems(items = [], options = {}) { return [...items].map(item => normalizeRenderItem(item, options)).filter(Boolean).sort(sortRenderItems); }
 
 export function normalizeRenderItem(raw = {}, { currentPath = '/', os } = {}) {
-  const name = raw.name || nameFromPath(raw.path || '');
+  const name = raw.name || raw.data?.name || nameFromPath(raw.path || '');
   if (!name || String(name).startsWith('.')) return null;
   const path = pathFor(raw, currentPath, name);
   const kind = itemKind(raw, name);
@@ -21,28 +19,11 @@ export function normalizeRenderItem(raw = {}, { currentPath = '/', os } = {}) {
   return { id:path, name, path, kind, extension, iconKind, mount, permissions, status:statusFor(raw, mount), classes, data:dataFor(kind, extension, iconKind, mount, permissions), raw };
 }
 
-export function sortRenderItems(a, b) {
-  return order(a.kind) - order(b.kind) || a.name.localeCompare(b.name, undefined, { numeric:true, sensitivity:'base' });
-}
-
-function pathFor(raw, currentPath, name) {
-  if (raw.path && String(raw.path).startsWith('awtsmoos://')) return raw.path;
-  return joinExplorerPath(currentPath, raw.path || name);
-}
-function itemKind(raw, name) {
-  const type = String(raw.type || raw.kind || '').toLowerCase();
-  if (raw.isDirectory || ['directory', 'folder', 'dir'].includes(type) || String(name).endsWith('.folder')) return 'folder';
-  return 'file';
-}
-function classList({ kind, extension, mount, permissions }) {
-  return ['file-item', 'icon', `awts-kind-${kind}`, `awts-ext-${extension || 'none'}`, mount.className, mount.locality === 'remote' ? 'remote-file-item' : '', permissions.permission === 'denied' ? 'mount-denied' : ''].filter(Boolean);
-}
-function statusFor(raw, mount) {
-  return { dirty:!!raw.dirty, pending:!!raw.pending, published:!!raw.published, synced:mount.syncState === 'live' || mount.syncState === 'hosted', remote:mount.locality === 'remote', localOnly:mount.locality !== 'remote' };
-}
-function dataFor(kind, extension, iconKind, mount, permissions) {
-  return { kind, extension, iconKind, locality:mount.locality || 'local', syncState:mount.syncState || 'private', permission:permissions.permission, adapter:mount.adapterId || mount.adapterType || 'virtual' };
-}
+export function sortRenderItems(a, b) { return order(a.kind) - order(b.kind) || a.name.localeCompare(b.name, undefined, { numeric:true, sensitivity:'base' }); }
+function pathFor(raw, currentPath, name) { if (raw.path && String(raw.path).startsWith('awtsmoos://')) return raw.path; return joinExplorerPath(currentPath, raw.path || name); }
+function itemKind(raw, name) { const type = String(raw.type || raw.kind || raw.data?.kind || '').toLowerCase(); if (raw.isDirectory || ['directory','folder','dir','remote','drive','preview'].includes(type) || String(name).endsWith('.folder')) return 'folder'; return 'file'; }
+function classList({ kind, extension, mount, permissions }) { return ['file-item','icon',`awts-kind-${kind}`,`awts-ext-${extension || 'none'}`,mount.className,mount.locality === 'remote' ? 'remote-file-item' : '',permissions.permission === 'denied' ? 'mount-denied' : ''].filter(Boolean); }
+function statusFor(raw, mount) { return { dirty:!!raw.dirty, pending:!!raw.pending, published:!!raw.published, synced:mount.syncState === 'live' || mount.syncState === 'hosted', remote:mount.locality === 'remote', localOnly:mount.locality !== 'remote' }; }
+function dataFor(kind, extension, iconKind, mount, permissions) { return { kind, extension, iconKind, locality:mount.locality || 'local', syncState:mount.syncState || 'private', permission:permissions.permission, adapter:mount.adapterId || mount.adapterType || 'virtual' }; }
 function order(kind) { return kind === 'folder' ? 0 : 1; }
-
-/** B"H: the render model gives every item exact path, icon class, and testable meaning. */
+/** B"H: remote drives render as folders because a drive is a gate, not a dead file. */

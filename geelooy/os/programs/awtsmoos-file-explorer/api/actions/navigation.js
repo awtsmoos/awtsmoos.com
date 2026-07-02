@@ -2,24 +2,10 @@
 import { parentExplorerPath } from '../path.js';
 import { backPath, forwardPath } from './history.js';
 
-const HOME = 'awtsmoos://tunnels';
+const HOME = '/';
 
-/** B"H: Home means the live tunnel gate, not a silent local database. */
-export async function goHome({ controller }) {
-  return await controller.navigate(HOME);
-}
-
-export async function goUp({ controller, state }) {
-  const path = state.currentPath === HOME ? HOME : parentExplorerPath(state.currentPath);
-  return await controller.navigate(path);
-}
-
-export async function goBack({ controller, state }) {
-  const path = backPath(state);
-  return path ? await controller.navigate(path, { history:false }) : null;
-}
-
-export async function goForward({ controller, state }) {
-  const path = forwardPath(state);
-  return path ? await controller.navigate(path, { history:false }) : null;
-}
+/** B"H: Home returns to the virtual filesystem root; tunnels are drives inside it. */
+export async function goHome({ controller }) { return await controller.navigate(HOME); }
+export async function goUp({ controller, state }) { return await controller.navigate(state.currentPath === HOME ? HOME : parentExplorerPath(state.currentPath)); }
+export async function goBack({ controller, state }) { const path = backPath(state); return path ? await controller.navigate(path, { history:false }) : null; }
+export async function goForward({ controller, state }) { const path = forwardPath(state); return path ? await controller.navigate(path, { history:false }) : null; }

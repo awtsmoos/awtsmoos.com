@@ -6,13 +6,12 @@ import { registerExplorerActions } from './api/actions/registry.js';
 import createShell from './components/shell.js';
 import { ensureStyles } from './styles/index.js';
 
-const START_PATH = 'awtsmoos://tunnels';
+const START_PATH = '/';
 
 /**
  * B"H
- * Explorer no longer wakes inside an empty IndexedDB room on phones. It opens
- * at the living tunnel gate, where native roots and connected vessels can be
- * entered immediately.
+ * Explorer Home is the user's virtual filesystem home. Remote tunnels appear
+ * there as living drives, but they do not steal the throne of home.
  */
 export default ({ os, path, system } = {}) => {
   ensureStyles();
@@ -25,17 +24,9 @@ export default ({ os, path, system } = {}) => {
   return { div:shell.dom, refresh, controller };
 
   async function navigateTo(nextPath, options = {}) {
-    try {
-      await controller.navigate(nextPath, options);
-      shell.updatePath?.();
-      await refresh();
-    } catch (error) {
-      bridge.makeToast?.(error.message || String(error), 'error', 'explorer');
-    }
+    try { await controller.navigate(nextPath, options); shell.updatePath?.(); await refresh(); }
+    catch (error) { bridge.makeToast?.(error.message || String(error), 'error', 'explorer'); }
   }
 
-  async function refresh() {
-    shell.update?.();
-    await shell.renderFiles?.();
-  }
+  async function refresh() { shell.update?.(); await shell.renderFiles?.(); }
 };
