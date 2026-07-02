@@ -1,93 +1,49 @@
-/**
- * B"H
- * 
- * miscellanious event listeners
- * for many different things
- */
+// B"H
+/** @file misc.js @description Miscellaneous Olam events, including monotonic loading progress. */
+export default function miscListeners() {
+  this.on("stringify olam", () => this?.getCompiledNivrayimInfo());
 
-export default function() {
-    this.on("stringify olam", () => {
-        var stringed = this?.getCompiledNivrayimInfo();
-        return stringed
-    })
+  this.on("activeObjectAction", action => {
+    const chossid = this.nivrayim.find(q => q.type === "chossid");
+    chossid?.ayshPeula("activeObjectAction", action);
+  });
 
-    this.on("activeObjectAction", a => {
-        var chossid = this.nivrayim.find(q=>q.type=="chossid");
-        if(chossid) {
-            chossid?.ayshPeula("activeObjectAction", a)
-        }
-    })
-    this.on("htmlPeula peula", ({peulaName, peulaVars}) => {
-        try {
-            this.ayshPeula(peulaName, peulaVars)
-        } catch(e) {
-            console.error("B\"H - htmlPeula peula Error:", e);
-        }
+  this.on("htmlPeula peula", ({ peulaName, peulaVars }) => {
+    try { this.ayshPeula(peulaName, peulaVars); }
+    catch (error) { console.error('B"H - htmlPeula peula Error:', error); }
+  });
+
+  this.on("ui event", async (shaym, ob) => await this.ayshPeula("send ui event", shaym, ob));
+
+  this.on("htmlPeula", async ob => {
+    if (!ob || typeof ob !== "object") return;
+    for (const key in ob) await this.ayshPeula(`htmlPeula ${key}`, ob[key]);
+  });
+
+  this.on("switch worlds", async worldDayuh => {
+    this.ayshPeula("switchWorlds", { worldDayuh, gameState:this.getGameState() });
+  });
+
+  let lastAction = null;
+  let lastTime = Date.now();
+  this.currentLoadingPercentage = Math.max(0, Number(this.currentLoadingPercentage) || 0);
+
+  this.on("increase loading percentage", async ({ amount = 0, action, info = {}, subAction } = {}) => {
+    const changedAction = lastAction !== action;
+    if (changedAction) lastTime = Date.now();
+    const previous = Math.max(0, Number(this.currentLoadingPercentage) || 0);
+    const next = Math.max(previous, Math.min(100, previous + Math.max(0, Number(amount) || 0)));
+    this.currentLoadingPercentage = next;
+    this.ayshPeula("increased percentage", {
+      amount,
+      action,
+      subAction,
+      total:next,
+      reset:false,
+      changedAction,
+      elapsedSinceActionMs:Date.now() - lastTime,
+      nivra:info?.nivra || null
     });
-
-    this.on("ui event", async (shaym, ob) => {
-        return await this.ayshPeula("send ui event", shaym, ob)
-    })
-
-    this.on("htmlPeula", async ob => {
-        if(!ob || typeof(ob) != "object") {
-            return;
-        }
-    
-        for(
-            var k in ob
-        ) {
-            await this.ayshPeula("htmlPeula "+k,ob[k]);
-        }
-    });
-
-    this.on("switch worlds", async(worldDayuh) => {
-        var gameState = this.getGameState();
-        this.ayshPeula("switchWorlds", {
-            worldDayuh,
-            gameState
-        })
-    });
-
-    
-
-    var lastAction;
-    var lastTime = Date.now();
-    this.on("increase loading percentage", async ({
-        amount, action, info, subAction
-    }) => {
-        if(!info) info = {};
-        var {
-            nivra
-        } = info;
-        var reset = false;
-        if(lastAction != action) {
-            lastTime = Date.now();
-            this.currentLoadingPercentage = 0;
-            //this.ayshPeula("reset loading percentage")
-            reset = true;
-        }
-        this.currentLoadingPercentage += amount;
-        
-
-        if(this.currentLoadingPercentage > 100) {
-            this.currentLoadingPercentage = 100;
-        }
-        else {
-            /*this.ayshPeula(
-                "finished loading", ({
-                    amount,  action,
-                    total: this.currentLoadingPercentage 
-                })
-            )*/
-        }
-        this.ayshPeula("increased percentage", ({
-            amount, action, subAction,
-            total: this.currentLoadingPercentage,
-            reset
-        }))
-        
-        lastAction = action;
-        
-    });
+    lastAction = action;
+  });
 }
