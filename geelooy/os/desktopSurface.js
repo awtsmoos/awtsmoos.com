@@ -20,16 +20,18 @@ import { desktopDiagnostics } from './desktop/diagnostics.js';
 export function renderDesktopSurface(os) {
   void isTap; void isMobileDesktop;
   const env = prepareDesktopSurface(os); if (!env) return null;
-  const { desktop, surface } = env; os.addDesktopShortcut = shortcut => { addShortcut(shortcut); os.renderDesktop?.(); };
+  const { desktop, surface } = env; purgeForeignIcons(desktop); purgeForeignIcons(surface);
+  os.addDesktopShortcut = shortcut => { addShortcut(shortcut); os.renderDesktop?.(); };
   applySafeArea(surface, desktop); const mobile = mobileClass(surface); const allItems = desktopIcons(os); const items = filterDesktopItems(allItems);
   const positions = mergePositions(items, loadPositions(mobile), surface); const selection = createDesktopSelection(surface);
   items.forEach(item => surface.appendChild(createDesktopIconNode({ os, item, point:positions[item.id], selection, surface })));
   sizeSurfaceForIcons(surface, positions);
-  attachDesktopSurface(desktop, surface, positions); const rerender = () => renderDesktopSurface(os);
+  attachDesktopSurface(desktop, surface, positions); purgeForeignIcons(desktop); const rerender = () => renderDesktopSurface(os);
   const context = { os, surface, items, allItems, positions, selection, rerender };
   bindDesktopDrag(context); bindDesktopContext(context); bindDesktopKeyboard({ os, surface, items, selection }); bindRelayout({ desktop, surface, items, positions }); bindSurfaceTouchMenu(context); bindDesktopAccessibility({ os, surface, items:allItems, selection });
   surface.awtsmoosDesktopDiagnostics = () => desktopDiagnostics(context); return surface;
 }
+function purgeForeignIcons(root) { root?.querySelectorAll?.('.civ-os-icon,.civilization-desktop-icon').forEach(node => node.remove()); }
 function sizeSurfaceForIcons(surface, positions) { const bottom = Math.max(0, ...Object.values(positions).map(p => (p?.y || 0) + 156)); surface.style.minHeight = `${Math.max(surface.clientHeight || 0, bottom)}px`; }
 function bindSurfaceTouchMenu(context) { bindLongPress(context.surface, e => { if (e.target.closest?.('.desktop-icon')) return; desktopMenu({ ...context, event:e }); }); }
-/** B"H: when icons overflow, the desktop grows and scrolls instead of crushing. */
+/** B"H: the surface now purges every foreign icon layer before and after render. */

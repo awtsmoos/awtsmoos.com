@@ -1,10 +1,10 @@
 // B"H
 /** @file ikar.js @description Main boot gate with no-compact ES module imports. */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=no-compact-engine-20260702-bh2";
-import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?v=no-compact-engine-20260702-bh2";
-import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?v=no-compact-engine-20260702-bh2";
-import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?v=no-compact-engine-20260702-bh2";
-const scope = window, SEAL = "no-compact-engine-20260702-bh2", BLOCKING_DIALOG_KEY = "al" + "ert";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=compact-engine-safe-20260702-bh1";
+import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?v=compact-engine-safe-20260702-bh1";
+import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?v=compact-engine-safe-20260702-bh1";
+import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?v=compact-engine-safe-20260702-bh1";
+const scope = window, SEAL = "compact-engine-safe-20260702-bh1", BLOCKING_DIALOG_KEY = "al" + "ert";
 function installNoBlockingDialogs() { try { scope[BLOCKING_DIALOG_KEY] = message => { console.warn('B"H | GLOBAL_DIALOG_SUPPRESSED', { message:String(message).slice(0, 360), seal:SEAL }); scope.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= []; scope.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at:Date.now(), message:String(message).slice(0, 360), source:"global-dialog-shield", seal:SEAL }); scope.__AWTSMOOS_SUPPRESSED_ALERTS__ = scope.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80); }; } catch (error) { console.warn('B"H | DIALOG_SHIELD_FAILED', error); } }
 const markPhase = (phase, data = {}) => mark(SEAL, phase, data);
 const nextFrame = () => new Promise(resolve => requestAnimationFrame(() => resolve()));

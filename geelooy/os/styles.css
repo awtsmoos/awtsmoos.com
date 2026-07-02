@@ -498,3 +498,11 @@ body {
             @keyframes fadeIn { to { opacity: 1; } }
             @keyframes popIn { to { transform: scale(1); } }
 
+
+/* B"H — One desktop icon system only. Old civilization background icons are forbidden. */
+.civ-os-icon,
+.civilization-desktop-icon {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
