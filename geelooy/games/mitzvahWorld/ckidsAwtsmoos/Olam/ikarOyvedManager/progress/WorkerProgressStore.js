@@ -1,7 +1,7 @@
 // B"H
 /** @file WorkerProgressStore.js @purpose Records concise real loader timings, not UI ACK spam. */
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=real-meaningful-load-20260701-bh9";
-const FINAL_STAGES = new Set(["world_final_ready", "loadedWorld", "canvas_transferred"]);
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=no-black-screen-20260702-bh4";
+const FINAL_STAGES = new Set(["world_final_ready", "loadedWorld"]);
 const MEANINGFUL = [/^entrypoint/, /^boot-runner/, /^angelic/, /^vessel_ready$/, /^load-nivrayim:/, /^postbuild:/, /^living-runtime:/, /^texture:/, /^canvas_transferred$/, /^loadedWorld$/, /^world_final_ready$/];
 let pendingProgress = null, progressTimer = null;
 const trimArray = (value, max) => Array.isArray(value) ? value.slice(-max) : [];

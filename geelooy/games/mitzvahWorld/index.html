@@ -55,7 +55,7 @@
     (() => {
       const q = window.__AWTSMOOS_EARLY_LOADING_QUEUE__ = window.__AWTSMOOS_EARLY_LOADING_QUEUE__ || [];
       const ids = { total:"genesisProgressBar", world:"genesisWorldBar", worker:"genesisWorkerBar", texture:"genesisTextureBar", action:"genesisActionText", sub:"genesisSubActionText", percent:"genesisPercentText", workerText:"genesisWorkerText", textureText:"genesisTextureText", log:"genesisProgressLog" };
-      const stages = [["html",3],["module",10],["entrypoint",16],["boot-runner",22],["angelic-invoker",28],["vessel_ready",34],["message:pawsawch",40],["soul-loader",50],["load-nivrayim",66],["postbuild",88],["canvas_transferred",96],["loadedWorld",98],["world_final_ready",100]];
+      const stages = [["html",3],["module",10],["entrypoint",16],["boot-runner",22],["angelic-invoker",28],["vessel_ready",34],["message:pawsawch",40],["soul-loader",50],["load-nivrayim",66],["postbuild",88],["first-render",96],["loadedWorld",98],["world_final_ready",100]];
       const state = { total:0, world:0, worker:0, texture:0, log:["B\"H  opening loading channel"], real:false };
       const clamp = v => Math.max(0, Math.min(100, Number(v) || 0));
       const byId = id => document.getElementById(id);
@@ -93,7 +93,7 @@
   <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div><div shaym="personalPerutas"></div><div shaym="animalKillProof"></div></div>
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
-  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=real-progress-vortex-20260629-bh1"></script>
+  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=no-black-screen-20260702-bh4"></script>
   <script type="module" src="./systems/osGraph/bridge.js?compact=true&v=mitzvah-os-graph-20260629-bh1"></script>
   <script type="module" src="./index.js?compact=true&v=worker-60fps-no-console-20260702-bh1"></script>
   <script type="module">
@@ -167,7 +167,7 @@
   window.addEventListener('awtsmoos-game-ready', event => {
     const phase = String(event?.detail?.phase || event?.detail?.reason || '');
     if (/world_final_ready|rendered first time/i.test(phase)) finalReadySeen = true;
-    if (/playable|loadedWorld|canvas_transferred|postbuild:ready-for-first-render|load-nivrayim:done|world_final_ready|rendered first time/i.test(phase)) {
+    if (/playable|loadedWorld|postbuild:ready-for-first-render|load-nivrayim:done|world_final_ready|rendered first time/i.test(phase)) {
       playableSeen = true;
       setTimeout(() => hide(phase || 'playable'), 80);
     }

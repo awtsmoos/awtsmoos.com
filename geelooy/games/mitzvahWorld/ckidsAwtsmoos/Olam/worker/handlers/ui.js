@@ -1,7 +1,7 @@
 // B"H
 /** @file ui.js @purpose Route worker UI events through the honest bh9 loader. */
 import VeilController from "../../uiManager/logic/VeilController.js";
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=real-meaningful-load-20260701-bh9";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=no-black-screen-20260702-bh4";
 import { DIRECT } from "./ui/domKit.js?v=npc-scroll-pass-through-20260609-bh638";
 import { directFallback } from "./ui/fallbacks.js?v=village-polish-20260612-bh810";
 import { showSpikeResetOverlay } from "./ui/effects.js?v=lava-camera-axis-20260609-bh640";

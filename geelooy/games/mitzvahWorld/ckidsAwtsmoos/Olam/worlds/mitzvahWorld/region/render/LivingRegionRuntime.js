@@ -3,10 +3,10 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import { postWorkerProgress } from "../../../../oyved/core/protocol/WorkerProtocol.js?v=no-alert-perf-jump-20260701-bh9";
 import { buildRoadRenderer } from "./RegionRoadRenderer.js?v=road-cell-budget-20260622-bh1";
-import { buildCottageRenderer } from "./RegionCottageRenderer.js?v=instanced-collider-cottage-walls-20260622-bh2";
+import { buildCottageRenderer } from "./RegionCottageRenderer.js?v=actual-solid-house-20260702-bh4";
 import { buildRegionColliderRuntime } from "./RegionColliderRuntime.js?v=final-batch-colliders-20260615-bh1";
 import { finalizeRegionColliderBatch } from "./RegionFinalColliderBatch.js?v=collider-source-reporting-20260615-bh2";
-import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=ground-cache-diag-20260701-bh1";
+import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=actual-solid-house-20260702-bh4";
 import { installCollisionDiagnostics } from "../../collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
 import { updateZoneDiscovery } from "../../../../../systems/world/ZoneDiscoveryRuntime.js";
 import { emitMapReveal } from "../../../../../systems/world/MapRevealRuntime.js";
