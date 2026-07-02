@@ -2,7 +2,7 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import SpatialBubbleIndex from "./SpatialBubbleIndex.js";
 import { DOWN, NORMAL_MATRIX, RAYCASTER, finite } from "./groundWorld/GroundWorldMath.js";
-import { terrainRecord } from "./groundWorld/GroundTerrainRegistry.js";
+import { terrainRecord } from "./groundWorld/GroundTerrainRegistry.js?v=octree-dirty-fix-20260702-bh1";
 import { cachedHitValid, diagPayload, fallbackHit, publishReport } from "./groundWorld/GroundHitCache.js?v=octree-ground-cache-20260702-bh1";
 import { surfaceIdentity } from "./groundWorld/GroundSurfaceIdentity.js";
 const UP = new THREE.Vector3(0, 1, 0), RAY = new THREE.Ray(), V1 = new THREE.Vector3(), V2 = new THREE.Vector3();
@@ -45,7 +45,7 @@ function meshHitFromOctree(x, z, hit) {
 }
 export default class GroundCollisionWorld {
   constructor(olam, options = {}) { this.olam = olam || null; this.index = options.index || new SpatialBubbleIndex({ cellSize:options.cellSize || 24 }); this.meshes = new Map(); this.octree = new InlineTerrainOctreeWorld({ maxLevel:10, trianglesPerLeaf:12 }); this.octreeDirty = true; this.lastHit = null; this.fallbackUsed = 0; this.cacheHits = 0; this.fullSceneTraversalsAvoided = 0; this.raycastAttempts = 0; this.runtimeRaycastsBlocked = 0; this.octreeHits = 0; this.queryRadius = Math.max(4, finite(options.queryRadius, 28)); this.cacheEpsilon = Math.max(0.005, finite(options.cacheEpsilon, 0.04)); }
-  registerTerrainMesh(mesh, options = {}) { const rec = terrainRecord(this.index, this.meshes, mesh, options); this.octreeDirty = true; return rec; }
+  registerTerrainMesh(mesh, options = {}) { const rec = terrainRecord(this.index, this.meshes, mesh, options); if (rec?.changed) this.octreeDirty = true; return rec; }
   registerKnownTerrainMeshes(meshes = []) { return (meshes || []).map(mesh => this.registerTerrainMesh(mesh)).filter(Boolean); }
   refreshFromOlam() { return this.registerKnownTerrainMeshes(this.olam?.__awtsmoosGroundCollisionMeshes || []); }
   ensureOctree() { this.refreshFromOlam(); if (this.octreeDirty) { this.octree.build(Array.from(this.meshes.values()).map(row => row?.mesh || row?.object || row).filter(Boolean)); this.octreeDirty = false; } return this.octree; }

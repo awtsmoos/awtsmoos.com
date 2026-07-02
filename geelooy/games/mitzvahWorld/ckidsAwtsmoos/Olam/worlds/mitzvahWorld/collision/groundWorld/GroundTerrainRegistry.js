@@ -39,11 +39,14 @@ export function terrainRecord(index, meshes, mesh, options = {}) {
   if (!terrainLike(mesh)) return null;
   const id = options.id || meshId(mesh);
   const existing = meshes.get(id);
-  if (existing?.mesh === mesh && !options.force) return existing;
+  if (existing?.mesh === mesh && !options.force) {
+    existing.changed = false;
+    return existing;
+  }
   const bounds = worldBounds(mesh);
   if (!bounds) return null;
   const entry = index.register({ id:`terrain:${id}`, kind:"terrain", layer:0, bounds, ref:mesh, source:"mesh" });
-  const record = { id, mesh, bounds, entryId:entry.id, registeredAt:Date.now() };
+  const record = { id, mesh, bounds, entryId:entry.id, registeredAt:Date.now(), changed:true };
   meshes.set(id, record);
   return record;
 }
