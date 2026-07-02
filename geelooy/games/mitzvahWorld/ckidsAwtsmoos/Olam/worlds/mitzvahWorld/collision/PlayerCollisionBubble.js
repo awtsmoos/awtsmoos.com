@@ -1,10 +1,18 @@
 // B"H
-/** @file PlayerCollisionBubble.js @description Layer-0 capsule authority; empty test worlds avoid heavy collision work. */
+/**
+ * @file PlayerCollisionBubble.js
+ * @description Layer-0 capsule authority. The bubble may lift a falling body
+ * to the ground, but it must never steal the first breath of a jump.
+ */
 import CollisionBudget from "./CollisionBudget.js";
 import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js";
 import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js";
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 const flags = olam => olam?.baseInfo?.testWorldFlags || olam?.baseInfo || {};
+function rising(player) {
+  const vy = finite(player?.velocity?.y, 0);
+  return vy > 0.05 || (player?.jumped && !player?.onFloor && vy > -0.01);
+}
 function hitPayload(hit, c) {
   return { distance:c.start.y - hit.y, position:hit.point, normal:hit.normal, object:hit.object,
     meshGroundAuthority:hit.source === "mesh" || hit.source === "flat-test-ground", fallback:hit.fallback, source:hit.source,
@@ -33,6 +41,7 @@ export default class PlayerCollisionBubble {
   }
   groundPlayer(player, options = {}) {
     const c = player?.collider; if (!c?.start || !c?.end) return false;
+    if (!options.force && rising(player)) { player.onFloor = false; player.grounded = false; player.isOnGround = false; return false; }
     const radius = finite(c.radius || player.radius, 0.45), feetY = c.start.y - radius;
     const hit = ensureGroundCollisionWorld(this.olam)?.groundAt(c.start.x, c.start.z, { fallback:feetY, radius:this.nearRadius, fallbackFn:options.fallbackFn });
     this.lastGround = hit || null; if (!hit || !Number.isFinite(hit.y) || hit.walkable === false) return false;
@@ -56,7 +65,7 @@ export default class PlayerCollisionBubble {
     this.frames += 1; this.budget.beginFrame(); this.updateFromPlayer(player);
     const houseResolved = this.budget.measure("house", () => this.resolveMovement(player));
     const grounded = this.budget.measure("ground", () => this.groundPlayer(player, options));
-    this.budget.endFrame({ houseResolved, grounded }); return { houseResolved, grounded };
+    this.budget.endFrame({ houseResolved, grounded, jumpRising:rising(player) }); return { houseResolved, grounded };
   }
   diag() {
     const ground = ensureGroundCollisionWorld(this.olam), houses = flags(this.olam).skipHouseCollision ? null : ensureHouseCollisionWorld(this.olam);
