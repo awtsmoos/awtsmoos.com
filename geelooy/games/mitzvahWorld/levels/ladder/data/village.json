@@ -10,7 +10,6 @@
     "skipMitzvahWorldPostBuild": true,
     "skipStarterStation": true,
     "skipVillageGrounding": true,
-    "flatGroundY": 0,
     "skipHouseCollision": true
   },
   "nivrayim": {
@@ -66,13 +65,13 @@
         "name": "single_green_test_plane",
         "width": 140,
         "depth": 140,
-        "segments": 1,
-        "collisionSegments": 1,
+        "segments": 36,
+        "collisionSegments": 36,
         "isSolid": true,
         "noSafetySlab": true,
         "textureType": "safegrass",
         "textureSize": 64,
-        "microNoise": 0,
+        "microNoise": 0.015,
         "mobileTone": "flat-test-green",
         "points": [
           {
@@ -96,7 +95,29 @@
             "y": 0
           }
         ],
-        "hills": [],
+        "hills": [
+          {
+            "x": -22,
+            "z": -18,
+            "radius": 22,
+            "height": 3.2,
+            "softness": 0.7
+          },
+          {
+            "x": 24,
+            "z": 18,
+            "radius": 26,
+            "height": 2.7,
+            "softness": 0.8
+          },
+          {
+            "x": -8,
+            "z": 30,
+            "radius": 18,
+            "height": 1.9,
+            "softness": 0.75
+          }
+        ],
         "plateaus": [],
         "roads": [],
         "dirtPatches": [],
