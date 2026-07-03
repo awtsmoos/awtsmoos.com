@@ -16,7 +16,8 @@ import { codeBrowserRegistrationPacket } from './browser-agent-packets.js';
 
 attachBrowserAnalysis(BrowserTunnelFS);
 
-const RECONNECT_MS = 2000;
+const RECONNECT_MIN_MS = 1000;
+const RECONNECT_MAX_MS = 30000;
 const COMMAND_ACTIONS = Object.freeze(['command', 'commandRun', 'shellCommand', 'run_terminal_command']);
 const ALL_ACTIONS = Object.freeze([...new Set([...BROWSER_TUNNEL_FS_ACTIONS, ...BROWSER_ANALYSIS_ACTIONS, ...COMMAND_ACTIONS, ...BROWSER_PREVIEW_ACTIONS.map(x => 'preview:' + x)])]);
 const FS_ACTIONS = new Set([...BROWSER_TUNNEL_FS_ACTIONS, ...BROWSER_ANALYSIS_ACTIONS]);
@@ -59,6 +60,7 @@ function registrationPacket() {
 export const BrowserTunnelAgent = {
   ws: null,
   reconnectTimer: null,
+  reconnectAttempt: 0,
   connecting: false,
   events: [],
 
@@ -114,6 +116,7 @@ export const BrowserTunnelAgent = {
 
   onOpen() {
     this.connecting = false;
+    this.reconnectAttempt = 0;
     State.browserTunnel.connectedAt = Date.now();
     State.browserTunnel.lastError = '';
     this.status('connected');
@@ -124,9 +127,10 @@ export const BrowserTunnelAgent = {
   onClose(ws) {
     if (this.ws === ws) this.ws = null;
     this.connecting = false;
-    this.status('disconnected');
+    const reconnecting = State.browserTunnel.enabled;
+    this.status(reconnecting ? 'reconnecting' : 'disconnected');
     this.log('disconnected', 'Browser tunnel socket closed.');
-    if (State.browserTunnel.enabled) this.reconnectTimer = setTimeout(() => this.start(), RECONNECT_MS);
+    if (reconnecting) this.reconnectTimer = setTimeout(() => this.start(), this.reconnectDelayMs());
   },
 
   onError(message) {
@@ -163,7 +167,12 @@ export const BrowserTunnelAgent = {
   },
 
   status(value) { State.browserTunnel.status = value; this.render(); },
-  log(type, message) { this.events.unshift({ type, message, at: new Date().toLocaleTimeString() }); this.events = this.events.slice(0, 25); this.render(); },
+  reconnectDelayMs() {
+    this.reconnectAttempt += 1;
+    const base = Math.min(RECONNECT_MAX_MS, RECONNECT_MIN_MS * Math.pow(2, this.reconnectAttempt - 1));
+    return Math.min(RECONNECT_MAX_MS, base + Math.floor(Math.random() * Math.max(1, base * 0.25)));
+  },
+  log(type, message) { this.events.unshift({ type, message:String(message || '').slice(0, 240), at: new Date().toLocaleTimeString() }); this.events = this.events.slice(0, 25); this.render(); },
 
   render() {
     let el = document.getElementById('browser-tunnel-status');
@@ -177,7 +186,7 @@ export const BrowserTunnelAgent = {
     if (!b.autoStart && b.status === 'idle') { el.style.display = 'none'; return; }
     const recent = this.events.slice(0, 4).map(e => `<div style="opacity:.85;margin-top:4px;">[${html(e.at)}] ${html(e.type)}: ${html(e.message)}</div>`).join('');
     el.style.display = 'block';
-    el.innerHTML = `<div style="display:flex;gap:6px;align-items:center;justify-content:space-between;"><strong>Editor Tunnel</strong><button id="browser-tunnel-stop" style="background:none;color:white;border:1px solid #777;border-radius:4px;cursor:pointer;">Stop</button></div><div>Status: <span style="color:#00f6ff;">${html(b.status || 'idle')}</span></div><div>Name: ${html(b.tunnelName || '')}</div><div>FS tools: ${FS_ACTIONS.size}</div><div>Command: simulated</div>${b.lastError ? `<div style="color:#ff5656;">${html(b.lastError)}</div>` : ''}<div style="max-height:110px;overflow:auto;margin-top:6px;">${recent}</div>`;
+    el.innerHTML = `<div style="display:flex;gap:6px;align-items:center;justify-content:space-between;"><strong>Editor Tunnel</strong><button id="browser-tunnel-stop" style="background:none;color:white;border:1px solid #777;border-radius:4px;cursor:pointer;">Stop</button></div><div>Status: <span style="color:#00f6ff;">${html(b.status || 'idle')}</span>${this.reconnectAttempt ? ` <span style="opacity:.7;">attempt ${this.reconnectAttempt}</span>` : ''}</div><div>Name: ${html(b.tunnelName || '')}</div><div>FS tools: ${FS_ACTIONS.size}</div><div>Command: simulated</div>${b.lastError ? `<div style="color:#ff5656;">${html(b.lastError)}</div>` : ''}<div style="max-height:110px;overflow:auto;margin-top:6px;">${recent}</div>`;
     document.getElementById('browser-tunnel-stop')?.addEventListener('click', () => this.stop());
   }
 };

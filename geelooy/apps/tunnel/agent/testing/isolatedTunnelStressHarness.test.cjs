@@ -40,6 +40,7 @@ function actions(payload) {
   const lanes = P.makeLaneState();
   lanes.p3_heavy.inflight = 1;
   P.enqueue(lanes, { data: { payload: { kind: 'command', action: 'commandStatus' } } });
+  P.enqueue(lanes, { data: { payload: { kind: 'command', action: 'commandStatus' } } });
   assert.equal(P.canStartLane(lanes, 'p0_control', {
     MAX_INFLIGHT: 1,
     CONTROL_QUEUE_LIMIT: 32,
