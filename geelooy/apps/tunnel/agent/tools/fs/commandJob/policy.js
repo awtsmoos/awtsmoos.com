@@ -6,7 +6,7 @@ const STREAM_MAX_BYTES = Number(process.env.AWTSMOOS_COMMAND_STREAM_MAX_BYTES ||
 const STORE_MAX_BYTES = Number(process.env.AWTSMOOS_COMMAND_STORE_MAX_BYTES || 50 * 1024 * 1024);
 const TTL_MS = Number(process.env.AWTSMOOS_COMMAND_JOB_TTL_MS || 30 * 60 * 1000);
 const DEFAULT_HTTP_SAFE_WAIT_MS = 25000;
-const TERMINAL = new Set(['completed','failed','timed_out','cancelled']);
+const TERMINAL = new Set(['completed','failed','timed_out','cancelled','stale_lost_worker']);
 function boundedPageChars(v) { const n = Number(v || DEFAULT_PAGE_CHARS); return Math.max(1, Math.min(Number.isFinite(n) ? Math.floor(n) : DEFAULT_PAGE_CHARS, MAX_PAGE_CHARS)); }
 function boundedTimeout(v) { const n = Number(v || 86400000); return Math.max(100, Math.min(Number.isFinite(n) ? n : 120000, 86400000)); }
 function waitCapMs() { return Math.max(100, Math.min(Number(process.env.AWTSMOOS_HTTP_SAFE_WAIT_MS || DEFAULT_HTTP_SAFE_WAIT_MS), 25000)); }
