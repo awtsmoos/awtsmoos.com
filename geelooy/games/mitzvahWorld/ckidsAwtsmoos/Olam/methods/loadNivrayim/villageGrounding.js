@@ -8,6 +8,7 @@ import TerrainMath from "../../../dvarim/terrain/core/TerrainMath.js";
 import { diagEvent, diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js";
 import { meshGroundHit, registerGroundMesh } from "../../worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=inline-octree-no-worker-import-20260702-bh1";
 import { installCollisionDiagnostics } from "../../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
+import { isRisingEntity } from "./grounding/PlayerRisingGuard.js?v=default-test-npcs-animals-20260702-bh1";
 
 const BOX = new THREE.Box3(), CHILD = new THREE.Box3();
 const TYPES = new Set(["villagePictureProp", "villageTreeField", "villageGrassField", "interactiveNpc", "interactiveDoor", "villageHouseCollider", "villageFenceCollider", "villageRoadCollider", "chossid", "mazik"]);
@@ -55,6 +56,7 @@ function afterFrames(frames, fn) { const raf = globalThis.requestAnimationFrame 
 export function scheduleVillageGrounding(olam, made = []) { if (!isVillageWorld(olam, made) || olam.__villageGroundingScheduled) return; olam.__villageGroundingScheduled = true; afterFrames(2, () => setTimeout(() => groundVillageNow(olam, made, false, "mesh-ground-visual-settle"), 160)); afterFrames(5, () => setTimeout(() => groundVillageNow(olam, made, false, "mesh-ground-visual-settle"), 650)); afterFrames(8, () => setTimeout(() => groundVillageNow(olam, made, true, "mesh-ground-authority"), 1650)); afterFrames(18, () => setTimeout(() => groundVillageNow(olam, made, true, "spawn-reground"), 3200)); }
 
 export function hardGroundEntity(olam, entity, options = {}) {
+  if (!options.force && isRisingEntity(entity)) return null;
   const root = rootOf(entity); if (!finiteObject(root)) return null;
   const lift = num(options.groundLift ?? entity?.groundLift ?? entity?.options?.groundLift, living(entity) ? .018 : 0);
   const y = groundYAt(olam, root.position.x, root.position.z, root.position.y - lift) + lift;

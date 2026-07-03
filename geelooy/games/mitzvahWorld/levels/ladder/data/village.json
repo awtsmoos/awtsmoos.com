@@ -7,10 +7,13 @@
   "nextLevel": "village-meadow.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "testWorldFlags": {
-    "skipMitzvahWorldPostBuild": true,
+    "skipMitzvahWorldPostBuild": false,
     "skipStarterStation": true,
-    "skipVillageGrounding": true,
-    "skipHouseCollision": true
+    "skipVillageGrounding": false,
+    "skipHouseCollision": false,
+    "forceHouseCollision": true,
+    "defaultSceneAnimals": true,
+    "defaultSceneFriendlyNpcs": true
   },
   "nivrayim": {
     "VillageCameraPreset": [

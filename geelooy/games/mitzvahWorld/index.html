@@ -95,7 +95,7 @@
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
   <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?v=compact-engine-safe-20260702-bh1"></script>
   <script type="module" src="./systems/osGraph/bridge.js?v=compact-engine-safe-20260702-bh1"></script>
-  <script type="module" src="./index.js?v=compact-engine-safe-20260702-bh1"></script>
+  <script type="module" src="./index.js?v=house-octree-clickable-rooms-20260702-bh11"></script>
   <script type="module">
     const bootExtras = [
       "./systems/ui/OpenWorldUiMobilePatch.js?v=fast-stable-boot-20260628-bh2",
@@ -172,12 +172,12 @@
       setTimeout(() => hide(phase || 'playable'), 80);
     }
   });
-  window.addEventListener('awtsmoos:worker-gameplay-fps', () => { playableSeen = true; hide('worker-gameplay-fps-proof'); });
+  window.addEventListener('awtsmoos:worker-gameplay-fps', () => { playableSeen = true; soften('Worker is rendering; waiting for final playable world signal.'); });
   const timer = setInterval(() => {
     const proof = canvasProof();
     const loaded = window.__AWTSMOOS_BOOT_LOADED__ || window.__AWTSMOOS_LOADING_FINAL_READY__;
     if (hidden) return clearInterval(timer);
-    if (loaded || playableSeen || finalReadySeen || proof.firstCanvasSeen) hide(loaded?.reason || 'solid-first-canvas-proof');
+    if (finalReadySeen || (loaded && loaded.playable === true)) hide(loaded?.reason || 'world-final-ready-proof');
   }, 300);
   setTimeout(() => { if (!hidden) soften('Still verifying worker, terrain, physics, gameplay, and first playable frame.'); }, 4500);
   setTimeout(() => { if (!hidden) soften('Solid-color world is playable; textures continue in background.'); }, 1800);

@@ -1,13 +1,17 @@
 // B"H
-/** @file ikar.js @description Main boot gate with no-compact ES module imports. */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=compact-engine-safe-20260702-bh1";
+/**
+ * @file ikar.js
+ * @description Main boot gate. A background Chrome tab may silence
+ * requestAnimationFrame, so every frame wait now has a timer path too.
+ */
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=house-octree-clickable-rooms-20260702-bh11";
 import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?v=compact-engine-safe-20260702-bh1";
 import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?v=compact-engine-safe-20260702-bh1";
 import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?v=compact-engine-safe-20260702-bh1";
-const scope = window, SEAL = "compact-engine-safe-20260702-bh1", BLOCKING_DIALOG_KEY = "al" + "ert";
+const scope = window, SEAL = "house-octree-clickable-rooms-20260702-bh11", BLOCKING_DIALOG_KEY = "al" + "ert";
 function installNoBlockingDialogs() { try { scope[BLOCKING_DIALOG_KEY] = message => { console.warn('B"H | GLOBAL_DIALOG_SUPPRESSED', { message:String(message).slice(0, 360), seal:SEAL }); scope.__AWTSMOOS_SUPPRESSED_ALERTS__ ||= []; scope.__AWTSMOOS_SUPPRESSED_ALERTS__.push({ at:Date.now(), message:String(message).slice(0, 360), source:"global-dialog-shield", seal:SEAL }); scope.__AWTSMOOS_SUPPRESSED_ALERTS__ = scope.__AWTSMOOS_SUPPRESSED_ALERTS__.slice(-80); }; } catch (error) { console.warn('B"H | DIALOG_SHIELD_FAILED', error); } }
 const markPhase = (phase, data = {}) => mark(SEAL, phase, data);
-const nextFrame = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
+function nextFrame() { return new Promise(resolve => { let done = false; const finish = () => { if (!done) { done = true; resolve(); } }; requestAnimationFrame(finish); setTimeout(finish, 48); }); }
 function emit(name, detail = {}) { try { const EventClass = scope.CustomEvent || CustomEvent; scope.dispatchEvent?.(new EventClass(name, { detail:{ seal:SEAL, mana:scope.mana, ...detail } })); } catch {} }
 function performanceProbe(phase, data = {}) { emit("awtsmoos:performance-probe", { phase, ...data }); emit("awtsmoos-game-ready", { phase, ...data }); }
 async function clearOldCaches() { markPhase("cache:cleanup:start", { mode:"background" }); try { const regs = await navigator.serviceWorker?.getRegistrations?.() || []; await Promise.all(regs.map(reg => reg.unregister())); const keys = await caches?.keys?.() || []; await Promise.all(keys.filter(key => /stale|old|debug|mitzvah/i.test(key)).map(key => caches.delete(key))); markPhase("cache:cleanup:done", { result:"background", serviceWorkers:regs.length, cacheKeys:keys.length }); } catch (error) { markPhase("cache:cleanup:error", { error:error?.message || String(error) }); } }

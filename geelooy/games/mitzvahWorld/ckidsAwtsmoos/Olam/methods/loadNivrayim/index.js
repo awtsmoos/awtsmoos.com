@@ -6,7 +6,7 @@ import TimeTracker from "../../../utils/TimeTracker.js";
 import { diagEvent, installDiagnosticsNotice } from "../../../utils/AwtsmoosDiagnostics.js?v=village-diagnostics-20260612-bh2";
 import { scheduleVillageGrounding } from "./villageGrounding.js?v=hard-player-grounding-20260701-bh1";
 import { applyEntryRuntime } from "./entryRuntime/applyEntryRuntime.js";
-import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=solid-first-animals-grounding-20260701-bh10";
+import { runMitzvahWorldPostBuild } from "../../worlds/mitzvahWorld/postbuild/MitzvahWorldPostBuild.js?v=house-octree-clickable-rooms-20260702-bh11";
 import { postWorkerProgress } from "../../oyved/core/protocol/WorkerProtocol.js";
 import { makeWorkerWorldReport } from "../../../../systems/visuals/WorkerWorldReport.js";
 import { ensureStarterStationZone } from "../../../../systems/starterStation/StarterStationBuilder.js";

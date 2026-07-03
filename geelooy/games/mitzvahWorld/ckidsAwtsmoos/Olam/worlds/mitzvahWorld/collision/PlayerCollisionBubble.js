@@ -1,29 +1,18 @@
 // B"H
 /**
  * @file PlayerCollisionBubble.js
- * @description Layer-0 capsule authority. The bubble may lift a falling body
- * to the ground, but it must never steal the first breath of a jump.
+ * @description Split capsule authority for the current player: house sidecar,
+ * ground authority, and diagnostics are now separate vessels.
  */
 import CollisionBudget from "./CollisionBudget.js";
 import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js";
 import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js";
+import { houseCollisionDisabled } from "./player/PlayerCollisionFlags.js?v=default-test-npcs-animals-20260702-bh1";
+import { groundPlayer, hitPayload, rising } from "./player/PlayerCollisionGround.js?v=default-test-npcs-animals-20260702-bh1";
+import { resolveHouseMovement, updateHouseFocus } from "./player/PlayerCollisionHouse.js?v=default-test-npcs-animals-20260702-bh1";
+
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
-const flags = olam => olam?.baseInfo?.testWorldFlags || olam?.baseInfo || {};
-function rising(player) {
-  const vy = finite(player?.velocity?.y, 0);
-  return vy > 0.05 || (player?.jumped && !player?.onFloor && vy > -0.01);
-}
-function hitPayload(hit, c) {
-  return { distance:c.start.y - hit.y, position:hit.point, normal:hit.normal, object:hit.object,
-    meshGroundAuthority:hit.source === "mesh" || hit.source === "flat-test-ground", fallback:hit.fallback, source:hit.source,
-    surfaceKey:hit.surfaceKey || null, materialKey:hit.materialKey || null, biomeKey:hit.biomeKey || null,
-    walkable:hit.walkable !== false, slopeDegrees:hit.slopeDegrees ?? null };
-}
-function authorityPayload(hit, lift) {
-  return { at:Date.now(), groundY:hit.y, lift, source:hit.source, fallback:hit.fallback,
-    mesh:hit.mesh || null, surfaceKey:hit.surfaceKey || null, materialKey:hit.materialKey || null,
-    biomeKey:hit.biomeKey || null, walkable:hit.walkable !== false };
-}
+
 export default class PlayerCollisionBubble {
   constructor(olam, options = {}) {
     this.olam = olam || null; this.radius = Math.max(1, finite(options.radius, 9));
@@ -36,30 +25,16 @@ export default class PlayerCollisionBubble {
   updateFromPlayer(player) {
     const pos = player?.collider?.start || player?.mesh?.position || player?.position; if (!pos) return null;
     ensureGroundCollisionWorld(this.olam)?.index?.setPlayerPosition(pos.x, pos.z);
-    if (!flags(this.olam).skipHouseCollision) ensureHouseCollisionWorld(this.olam)?.index?.setPlayerPosition(pos.x, pos.z);
-    return pos;
+    updateHouseFocus(this.olam, pos); return pos;
   }
   groundPlayer(player, options = {}) {
-    const c = player?.collider; if (!c?.start || !c?.end) return false;
-    if (!options.force && rising(player)) { player.onFloor = false; player.grounded = false; player.isOnGround = false; return false; }
-    const radius = finite(c.radius || player.radius, 0.45), feetY = c.start.y - radius;
-    const hit = ensureGroundCollisionWorld(this.olam)?.groundAt(c.start.x, c.start.z, { fallback:feetY, radius:this.nearRadius, fallbackFn:options.fallbackFn });
-    this.lastGround = hit || null; if (!hit || !Number.isFinite(hit.y) || hit.walkable === false) return false;
-    const targetFeet = hit.y + finite(options.slack, 0.01);
-    if (feetY >= targetFeet && !(player.onFloor && Math.abs(feetY - targetFeet) < 1.25)) return false;
-    const lift = targetFeet - feetY; if (!Number.isFinite(lift) || Math.abs(lift) > 30) return false;
-    c.start.y += lift; c.end.y += lift; if (player.velocity) player.velocity.y = Math.max(0, finite(player.velocity.y));
-    player.onFloor = true; player.grounded = true; player.isOnGround = true;
-    player.groundHitResult = hitPayload(hit, c); player.__meshGroundAuthority = authorityPayload(hit, lift); return true;
+    const result = groundPlayer(this.olam, player, this.nearRadius, options);
+    if (result && typeof result === "object") { this.lastGround = result.hit || null; return Boolean(result.grounded); }
+    this.lastGround = null; return Boolean(result);
   }
   resolveMovement(player) {
-    if (flags(this.olam).skipHouseCollision) return false;
-    const c = player?.collider; if (!c?.start || !c?.end) return false;
-    const world = ensureHouseCollisionWorld(this.olam); if (!world?.colliders?.size) return false;
-    const hit = world.resolveCapsule(c, { radius:this.radius }); if (!hit) return false;
-    const correction = hit.normal.clone().multiplyScalar(hit.depth); c.start.add(correction); c.end.add(correction);
-    if (player.velocity) player.velocity.addScaledVector(hit.normal, -hit.normal.dot(player.velocity));
-    this.lastHouse = world.lastCollision; return true;
+    const result = resolveHouseMovement(this.olam, player, this.radius);
+    this.lastHouse = result.last; return Boolean(result.resolved);
   }
   frame(player, options = {}) {
     this.frames += 1; this.budget.beginFrame(); this.updateFromPlayer(player);
@@ -68,12 +43,8 @@ export default class PlayerCollisionBubble {
     this.budget.endFrame({ houseResolved, grounded, jumpRising:rising(player) }); return { houseResolved, grounded };
   }
   diag() {
-    const ground = ensureGroundCollisionWorld(this.olam), houses = flags(this.olam).skipHouseCollision ? null : ensureHouseCollisionWorld(this.olam);
-    return { radius:this.radius, layers:{ player:this.radius, near:this.nearRadius, village:this.villageRadius, visual:this.visualRadius, dormant:Infinity },
-      frames:this.frames, terrainMeshes:ground?.meshes?.size || 0, houseColliders:houses?.colliders?.size || 0,
-      lastGround:this.lastGround ? hitPayload(this.lastGround, { start:{ y:this.lastGround.y } }) : null,
-      lastHouse:this.lastHouse, budget:this.budget.diag(), flatHits:ground?.flatHits || 0,
-      skipHouseCollision:Boolean(flags(this.olam).skipHouseCollision) };
+    const ground = ensureGroundCollisionWorld(this.olam), houses = houseCollisionDisabled(this.olam) ? null : ensureHouseCollisionWorld(this.olam);
+    return { radius:this.radius, layers:{ player:this.radius, near:this.nearRadius, village:this.villageRadius, visual:this.visualRadius, dormant:Infinity }, frames:this.frames, terrainMeshes:ground?.meshes?.size || 0, houseColliders:houses?.colliders?.size || 0, lastGround:this.lastGround ? hitPayload(this.lastGround, { start:{ y:this.lastGround.y } }) : null, lastHouse:this.lastHouse, budget:this.budget.diag(), flatHits:ground?.flatHits || 0, skipHouseCollision:houseCollisionDisabled(this.olam) };
   }
 }
 export function ensurePlayerCollisionBubble(olam) { if (!olam) return null; if (!olam.__awtsmoosPlayerCollisionBubble) olam.__awtsmoosPlayerCollisionBubble = new PlayerCollisionBubble(olam); return olam.__awtsmoosPlayerCollisionBubble; }
