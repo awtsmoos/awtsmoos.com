@@ -16,11 +16,18 @@ const { getGlobalRegistry } = require('../../lib/runtime/worker-supervisor.js');
 
 const JOBS = new Map();
 
-/** Start a command as an isolated, globally visible worker. */
+/**
+ * B"H
+ * Commands are no longer a breath held open in the caller's throat. They become
+ * durable vessels: spawned, receipted, heartbeating, cancellable, and paged. Yet
+ * even a vessel that lives past the websocket must answer with the caller's name,
+ * lest one agent's commandWait return wearing commandStatus and vanish into a
+ * false correlation grave.
+ */
 async function startCommandJob(config = {}, payload = {}) {
-  if (!allowed(config, payload)) return { ok: false, action: 'commandStart', error: 'commands_disabled' };
+  if (!allowed(config, payload)) return named(payload, 'commandStart', { ok: false, error: 'commands_disabled' });
   const command = String(payload.command || payload.script || payload.text || '').trim();
-  if (!command) return { ok: false, action: 'commandStart', error: 'missing_command' };
+  if (!command) return named(payload, 'commandStart', { ok: false, error: 'missing_command' });
   await GC.collect(config);
   const ids = Ids.commandIds();
   const cwd = resolveCwd(config, payload);
@@ -39,9 +46,9 @@ async function startCommandJob(config = {}, payload = {}) {
 
 async function commandStatus(config = {}, payload = {}) {
   const jobId = P.cleanId(payload.jobId || payload.id || '');
-  if (!jobId) return { ok: false, action: 'commandStatus', error: 'missing_jobId', status: 'missing_jobId' };
+  if (!jobId) return named(payload, 'commandStatus', { ok: false, error: 'missing_jobId', status: 'missing_jobId' });
   let meta = await Meta.read(config, jobId);
-  if (!meta) return { ok: false, action: 'commandStatus', error: 'job_not_found_or_expired', status: 'missing', jobId };
+  if (!meta) return named(payload, 'commandStatus', { ok: false, error: 'job_not_found_or_expired', status: 'missing', jobId });
   await refreshCounts(config, jobId, meta);
   const live = JOBS.get(jobId);
   if (live && !P.TERMINAL.has(meta.status)) meta = { ...meta, ...live.meta, stdoutChars: meta.stdoutChars, stderrChars: meta.stderrChars };
@@ -50,22 +57,22 @@ async function commandStatus(config = {}, payload = {}) {
 
 async function commandWait(config = {}, payload = {}) {
   const jobId = P.cleanId(payload.jobId || payload.id || '');
-  if (!jobId) return { ok: false, action: 'commandWait', error: 'missing_jobId', status: 'missing_jobId' };
+  if (!jobId) return named(payload, 'commandWait', { ok: false, error: 'missing_jobId', status: 'missing_jobId' });
   const startedAt = Date.now();
   const timeoutMs = Math.min(Number(payload.waitTimeoutMs || payload.timeoutMs || P.waitCapMs()), P.waitCapMs());
   const intervalMs = Math.max(25, Math.min(Number(payload.pollIntervalMs || 1000), 30000));
   let status = null;
   while (Date.now() - startedAt <= timeoutMs) {
-    status = await commandStatus(config, { ...payload, jobId });
+    status = await commandStatus(config, { ...payload, jobId, action: 'commandStatus', requestAction: 'commandStatus', actualAction: 'commandStatus' });
     if (!status.ok || status.status !== 'running') return await waitDone(config, payload, jobId, status, startedAt);
     await Meta.sleep(intervalMs);
   }
-  return waitStillRunning(jobId, status, startedAt, intervalMs);
+  return waitStillRunning(payload, jobId, status, startedAt, intervalMs);
 }
 
 async function commandJobOutputPage(config = {}, payload = {}) {
   const jobId = P.cleanId(payload.jobId || payload.id || '');
-  if (!jobId) return { ok: false, action: 'commandJobOutputPage', error: 'missing_jobId' };
+  if (!jobId) return named(payload, 'commandJobOutputPage', { ok: false, error: 'missing_jobId' });
   const stream = String(payload.stream || 'stdout').toLowerCase() === 'stderr' ? 'stderr' : 'stdout';
   await IO.waitForWrites(jobId, JOBS);
   return Res.page(config, jobId, stream, payload);
@@ -73,13 +80,13 @@ async function commandJobOutputPage(config = {}, payload = {}) {
 
 async function cancelCommandJob(config = {}, payload = {}) {
   const jobId = P.cleanId(payload.jobId || payload.id || '');
-  if (!jobId) return { ok: false, action: 'commandCancel', error: 'missing_jobId' };
+  if (!jobId) return named(payload, 'commandCancel', { ok: false, error: 'missing_jobId' });
   const live = JOBS.get(jobId);
-  if (!live) return { ok: true, action: 'commandCancel', jobId, cancelled: false, status: (await Meta.read(config, jobId))?.status || 'missing' };
+  if (!live) return named(payload, 'commandCancel', { ok: true, jobId, cancelled: false, status: (await Meta.read(config, jobId))?.status || 'missing' });
   Proc.kill(live.child);
   live.meta.status = 'cancelled';
   await finishJob(config, jobId, live.meta, { status: 'cancelled' });
-  return { ok: true, action: 'commandCancel', jobId, cancelled: true };
+  return named(payload, 'commandCancel', { ok: true, jobId, cancelled: true });
 }
 
 function createLive(config, payload, jobId, child, meta) {
@@ -118,7 +125,9 @@ async function finishJob(config, jobId, meta, patch = {}) {
 async function waitDone(config, payload, jobId, status, startedAt) {
   await IO.waitForWrites(jobId, JOBS);
   const maxChars = P.boundedPageChars(payload.maxChars || P.DEFAULT_PAGE_CHARS);
-  return { ...status, action: 'commandWait', done: true, waitedMs: Date.now() - startedAt, stdout: payload.inlineOutput === true ? await commandJobOutputPage(config, { jobId, stream: 'stdout', maxChars }) : null, stderr: payload.inlineOutput === true ? await commandJobOutputPage(config, { jobId, stream: 'stderr', maxChars }) : null };
+  const stdout = payload.inlineOutput === true ? await commandJobOutputPage(config, { jobId, stream: 'stdout', maxChars }) : null;
+  const stderr = payload.inlineOutput === true ? await commandJobOutputPage(config, { jobId, stream: 'stderr', maxChars }) : null;
+  return named(payload, 'commandWait', { ...status, done: true, waitedMs: Date.now() - startedAt, stdout, stderr });
 }
 
 async function refreshCounts(config, jobId, meta) {
@@ -128,7 +137,23 @@ async function refreshCounts(config, jobId, meta) {
   return meta;
 }
 
-function waitStillRunning(jobId, status, startedAt, intervalMs) { return { ok: true, action: 'commandWait', status: 'running', done: false, waitTimedOut: true, waitedMs: Date.now() - startedAt, lastStatus: status, statusPayload: { action: 'commandStatus', jobId }, nextWaitPayload: { action: 'commandWait', jobId, waitTimeoutMs: P.waitCapMs(), pollIntervalMs: intervalMs, inlineOutput: false } }; }
+function waitStillRunning(payload, jobId, status, startedAt, intervalMs) {
+  return named(payload, 'commandWait', {
+    ok: true,
+    status: 'running',
+    done: false,
+    waitTimedOut: true,
+    waitedMs: Date.now() - startedAt,
+    lastStatus: status,
+    statusPayload: { action: 'commandStatus', jobId },
+    nextWaitPayload: { action: 'commandWait', jobId, waitTimeoutMs: P.waitCapMs(), pollIntervalMs: intervalMs, inlineOutput: false }
+  });
+}
+
+function named(payload, fallback, body) {
+  const action = String(payload.requestAction || payload.action || fallback);
+  return { ...body, action, requestAction: action, actualAction: action };
+}
 function closeStatus(meta, code) { return meta.status === 'cancelled' ? 'cancelled' : code === 0 ? 'completed' : meta.timedOut ? 'timed_out' : 'failed'; }
 function allowed(config = {}, payload = {}) { return config.allowCommands === true || payload.allowCommands === true || String(payload.allowCommands).toLowerCase() === 'true'; }
 function resolveCwd(config, payload) { try { return safePath(config, payload.cwd || payload.path || payload.p || '.'); } catch { return config.root || process.cwd(); } }
