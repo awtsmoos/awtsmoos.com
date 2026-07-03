@@ -8,6 +8,7 @@
 import { rand } from "./RegionRandom.js";
 
 export const COUNTS = Object.freeze({ rabbit: 18, fox: 6, deer: 8, goat: 6, cow: 5, frog: 12, bird: 10 });
+export const FIRST_PLAYABLE_WILDLIFE_LIMIT = 36;
 export const FLAGS = Object.freeze({ wildlifeActor: true, realisticWildlife: true, selectableCombatTarget: true, skipRaycast: false, interactionLayer: "explicit-interaction", singleMeshAnimal: true });
 export const FAST = new Set(["hunt", "attack", "flee", "fleePlayer", "flock", "swoop", "panic", "pounce", "run", "return_home"]);
 export const SIZE = Object.freeze({ frog: [2.1, 1.35, 2.1], bird: [2.6, 2.35, 2.6], cow: [2.8, 2.2, 3.2], deer: [2.2, 2.15, 2.5], goat: [1.8, 1.75, 1.9], fox: [1.9, 1.55, 2], rabbit: [1.65, 1.35, 1.65] });
@@ -64,7 +65,7 @@ function fallbackAnimals() {
 }
 
 export function animalsFromReport(report) {
-  return (reportAnimals(report) || fallbackAnimals()).slice(0, 84);
+  return (reportAnimals(report) || fallbackAnimals()).slice(0, FIRST_PLAYABLE_WILDLIFE_LIMIT);
 }
 
 export function boxData(size = [1, 1, 1]) {

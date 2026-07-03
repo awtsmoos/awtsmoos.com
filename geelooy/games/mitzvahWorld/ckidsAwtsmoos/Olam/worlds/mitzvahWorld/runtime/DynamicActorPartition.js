@@ -13,8 +13,8 @@ function now() {
 }
 
 const ACTIVE = new Set(["chase", "windup", "strike", "recover", "attack", "flee", "fleePlayer"]);
-const CADENCE = { critical: 1, near: 1, mid: 3, far: 10, sleep: 45 };
-const DEFAULT_BUDGET = { critical: 999, near: 42, mid: 18, far: 8, sleep: 2 };
+const CADENCE = { critical: 1, near: 2, mid: 5, far: 14, sleep: 60 };
+const DEFAULT_BUDGET = { critical: 24, near: 18, mid: 8, far: 3, sleep: 1 };
 
 function phaseOf(actor) {
   if (Number.isInteger(actor.__partitionPhase)) return actor.__partitionPhase;
@@ -25,8 +25,8 @@ function phaseOf(actor) {
   return actor.__partitionPhase;
 }
 
-function meshOf(actor) { return actor && actor.mesh ? actor.mesh : null; }
-function positionOfActor(actor) { const mesh = meshOf(actor); return mesh ? mesh.position : null; }
+function meshOf(actor) { return actor?.mesh || (actor?.isObject3D ? actor : null); }
+function positionOfActor(actor) { const mesh = meshOf(actor); return mesh?.position || null; }
 function dist(position, player) { return position && player && typeof position.distanceTo === "function" ? position.distanceTo(player) : 0; }
 
 export class DynamicActorPartition {

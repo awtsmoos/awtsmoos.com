@@ -6,10 +6,10 @@
  * birds rise, and every animal return to its ground-truth path.
  */
 import { decisionFromWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js";
-import { getDynamicActorPartition } from "../../runtime/DynamicActorPartition.js?v=awtsmoos-budgeted-20260621-bh1";
+import { getDynamicActorPartition } from "../../runtime/DynamicActorPartition.js?v=perf-tight-collision-20260703-bh3";
 import { animateAnimal } from "../wildlife/render/AnimalAnimator.js?v=animal-lod-wire-20260622-bh1";
 import { groundY } from "./RegionGround.js";
-import { FAST, distance2, length2d, playerMesh } from "./RegionWildlifeData.js?v=wildlife-visible-report-20260628-bh1";
+import { FAST, distance2, length2d, playerMesh } from "./RegionWildlifeData.js?v=perf-tight-collision-20260703-bh3";
 
 function nearest(root, species, from) {
   let best = null;
@@ -66,7 +66,12 @@ function damagePlayer(olam, motion, delta) {
 
 function partitionFor(olam) {
   const budget = globalThis?.__AWTSMOOS_PERFORMANCE_MODE__?.budget || {};
-  return getDynamicActorPartition(olam).configure({ near: budget.npcDistance || 48, mid: (budget.npcDistance || 48) * 1.8, far: (budget.treeDistance || 120) * 2.2 });
+  return getDynamicActorPartition(olam).configure({
+    near: budget.npcDistance || 48,
+    mid: (budget.npcDistance || 48) * 1.8,
+    far: (budget.treeDistance || 120) * 2.2,
+    budget:{ critical:12, near:10, mid:4, far:2, sleep:1 }
+  });
 }
 
 function birdAltitude(motion, decision) {

@@ -6,12 +6,12 @@
  * actor, installs life/motion ticks, and publishes visible wildlife proof.
  */
 import { ensureRenderBackend } from "../../../../../rendering/RendererProvider.js";
-import { createWildlifeLifeRuntime } from "../wildlife/life/WildlifeLifeRuntime.js?v=single-mesh-animals-20260621-bh1";
+import { createWildlifeLifeRuntime } from "../wildlife/life/WildlifeLifeRuntime.js?v=perf-tight-collision-20260703-bh3";
 import { sealRegionVisual } from "./RegionSeal.js";
-import { animalsFromReport, countMeshes, guardianWildlifeCadence } from "./RegionWildlifeData.js?v=wildlife-visible-report-20260628-bh1";
-import { makeActor, restoreFlags } from "./RegionWildlifeActors.js?v=wildlife-visible-report-20260628-bh1";
-import { tickWildlife } from "./RegionWildlifeMotion.js?v=wildlife-visible-report-20260628-bh1";
-import { installWildlifeTicker, registerForProof } from "./RegionWildlifeProof.js?v=wildlife-visible-report-20260628-bh1";
+import { FIRST_PLAYABLE_WILDLIFE_LIMIT, animalsFromReport, countMeshes, guardianWildlifeCadence } from "./RegionWildlifeData.js?v=perf-tight-collision-20260703-bh3";
+import { makeActor, restoreFlags } from "./RegionWildlifeActors.js?v=perf-tight-collision-20260703-bh3";
+import { tickWildlife } from "./RegionWildlifeMotion.js?v=perf-tight-collision-20260703-bh3";
+import { installWildlifeTicker, registerForProof } from "./RegionWildlifeProof.js?v=perf-tight-collision-20260703-bh3";
 
 function statsFor(root, backend) {
   const counts = root.children.map(countMeshes);
@@ -28,7 +28,9 @@ function statsFor(root, backend) {
     fpsCadenceSec: guardianWildlifeCadence(),
     moreAnimals: true,
     tieredAnimalLOD: true,
-    detailedNearAnimals: 10
+    detailedNearAnimals: 10,
+    firstPlayableWildlifeLimit: FIRST_PLAYABLE_WILDLIFE_LIMIT,
+    streamedRemainderDeferred: true
   };
 }
 

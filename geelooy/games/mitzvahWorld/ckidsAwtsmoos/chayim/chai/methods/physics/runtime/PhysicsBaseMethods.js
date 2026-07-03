@@ -13,7 +13,7 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import { solveMovingSolid } from "../../../../../dvarim/movers/runtime/movingSolidSolver.js";
-import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
+import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=perf-tight-collision-20260703-bh2";
 import { clearAirTrajectory } from "./PhysicsAirRuntime.js";
 import { bestGroundHit } from "./PhysicsGroundRuntime.js";
 import { finite, numeric, steepSlopeY } from "./PhysicsNumbers.js";

@@ -9,7 +9,7 @@ import basePhysics from "./physics/index.js?v=player-stage-timing-20260702-bh1";
 import { clampVisibleBodyAboveFeet } from "./physics/VisualGroundClamp.js?v=no-compact-engine-20260702-bh2";
 import { FOOT_GROUND_EPSILON } from "./physics/playerGrounding/FootGroundConstants.js?v=no-compact-engine-20260702-bh2";
 import { groundYAt } from "../../../Olam/methods/loadNivrayim/villageGrounding.js?v=mesh-ground-authority-20260701-bh1";
-import { ensurePlayerCollisionBubble } from "../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
+import { ensurePlayerCollisionBubble } from "../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=perf-tight-collision-20260703-bh1";
 
 const TRACE_SEAL = "player-visual-ground-restored-20260702-bh1";
 const MOVING_KEYS = ["forward", "backward", "stridingLeft", "stridingRight", "turningLeft", "turningRight", "jump"];

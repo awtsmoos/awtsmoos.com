@@ -2,7 +2,7 @@
 /** @file PhysicsGroundRuntime.js @purpose Mesh/law ground fallback that does not cancel a jump. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import TerrainMath from "../../../../../dvarim/terrain/core/TerrainMath.js";
-import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
+import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=perf-tight-collision-20260703-bh2";
 import { clearAirTrajectory } from "./PhysicsAirRuntime.js?v=no-compact-engine-20260702-bh2";
 import { finite, numeric } from "./PhysicsNumbers.js?v=no-compact-engine-20260702-bh2";
 const groundRay = new THREE.Ray();

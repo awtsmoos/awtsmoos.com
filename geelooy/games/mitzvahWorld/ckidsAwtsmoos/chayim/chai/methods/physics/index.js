@@ -1,14 +1,14 @@
 // B"H
 /** @file index.js @purpose Player physics, now with corrected mobile screen-left/right. */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=house-solid-mobile-loader-20260702-bh3";
-import baseMethods from "./runtime/PhysicsBaseMethods.js?v=house-solid-mobile-loader-20260702-bh3";
-import frameMethods from "./runtime/PhysicsFrameMethods.js?v=house-solid-mobile-loader-20260702-bh3";
-import motionMethods from "./runtime/PhysicsMotionMethods.js?v=house-solid-mobile-loader-20260702-bh3";
+import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=perf-tight-collision-20260703-bh1";
+import baseMethods from "./runtime/PhysicsBaseMethods.js?v=perf-tight-collision-20260703-bh1";
+import frameMethods from "./runtime/PhysicsFrameMethods.js?v=perf-tight-collision-20260703-bh1";
+import motionMethods from "./runtime/PhysicsMotionMethods.js?v=perf-tight-collision-20260703-bh1";
 import visualMethods from "./runtime/PhysicsVisualMethods.js?v=solid-browser-verify-20260702-bh11";
-import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?v=house-solid-mobile-loader-20260702-bh3";
-import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?v=house-solid-mobile-loader-20260702-bh3";
-import { normAngle, numeric } from "./runtime/PhysicsNumbers.js?v=house-solid-mobile-loader-20260702-bh3";
+import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?v=perf-tight-collision-20260703-bh1";
+import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?v=perf-tight-collision-20260703-bh1";
+import { normAngle, numeric } from "./runtime/PhysicsNumbers.js?v=perf-tight-collision-20260703-bh1";
 const UP = new THREE.Vector3(0, 1, 0), TMP_F = new THREE.Vector3(), TMP_R = new THREE.Vector3();
 export function clampToTerrainFloor(player) { return clampCapsuleToTerrainFloor(player); }
 function mobileCameraDirection(player) {

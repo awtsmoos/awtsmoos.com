@@ -2,7 +2,7 @@
 /** @module OlamVessel @description Worker root: proven core vessel with THREE usage through adapter. */
 import { AmbientLight, Color, Fog } from "../rendering/ThreeAdapter.js";
 import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
-import OlamGrafting from "./OlamGraftingPlain.js?v=starter-contracts-20260628-bh9";
+import OlamGrafting from "./OlamGraftingPlain.js?v=perf-tight-collision-20260703-bh3";
 import OlamProperties from "../properties/index.js?v=village-combat-20260611-bh804";
 import OlamInit from "./OlamInit.js?v=village-combat-20260611-bh804";
 import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";

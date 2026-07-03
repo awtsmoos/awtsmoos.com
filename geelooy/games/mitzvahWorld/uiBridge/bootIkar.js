@@ -1,9 +1,9 @@
 // B"H
 /** Boots Mitzvah World through the compact ES-module engine bundle. */
-import { UI_BRIDGE_SEAL, traceBoot } from "./bridgeSeal.js?v=compact-engine-safe-20260702-bh1";
-import { installBrowserHelpers } from "./browserHelpers.js?v=compact-engine-safe-20260702-bh1";
-import { describeAwtsmoosError } from "./bootErrors.js?v=compact-engine-safe-20260702-bh1";
-import { installUiBridge } from "./installUiBridge.js?v=compact-engine-safe-20260702-bh1";
+import { UI_BRIDGE_SEAL, traceBoot } from "./bridgeSeal.js?v=perf-tight-collision-20260703-bh3";
+import { installBrowserHelpers } from "./browserHelpers.js?v=perf-tight-collision-20260703-bh3";
+import { describeAwtsmoosError } from "./bootErrors.js?v=perf-tight-collision-20260703-bh3";
+import { installUiBridge } from "./installUiBridge.js?v=perf-tight-collision-20260703-bh3";
 let bootStarted = false;
 function ensureDefaultPath() { const u = new URL(location.href); if (!u.searchParams.has("path")) { u.searchParams.set("path", "village.json"); history.replaceState(history.state, "", u.href); } }
 function engineUrl() { return new URL(`../ckidsAwtsmoos/ikar.js?compact=true&v=${UI_BRIDGE_SEAL}-module-fixed`, import.meta.url).href; }

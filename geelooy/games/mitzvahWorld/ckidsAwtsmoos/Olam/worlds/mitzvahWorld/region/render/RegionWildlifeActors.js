@@ -9,7 +9,7 @@
 import { ensureWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js";
 import { groundY } from "./RegionGround.js";
 import { sealRegionVisual } from "./RegionSeal.js";
-import { FLAGS, clearSpawn, countMeshes, radius, safe, speed } from "./RegionWildlifeData.js?v=wildlife-visible-report-20260628-bh1";
+import { FLAGS, clearSpawn, countMeshes, radius, safe, speed } from "./RegionWildlifeData.js?v=perf-tight-collision-20260703-bh3";
 import { buildStableAnimal } from "./RegionStableAnimalShape.js?v=stable-animals-20260628-bh1";
 
 function takeDamageFactory(root) {

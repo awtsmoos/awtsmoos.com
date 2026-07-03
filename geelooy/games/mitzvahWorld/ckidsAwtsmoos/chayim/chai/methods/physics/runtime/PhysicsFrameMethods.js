@@ -2,7 +2,7 @@
 /** @file PhysicsFrameMethods.js @purpose Fast grounded frame loop with timed player stages. */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Tzomayach from "../../../../tzomayach.js";
-import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=ground-cache-diag-20260701-bh1";
+import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?v=perf-tight-collision-20260703-bh2";
 import { clearAirTrajectory, needsOctreePhysics } from "./PhysicsAirRuntime.js";
 import { terrainFallbackY, clampToTerrainFloor } from "./PhysicsGroundRuntime.js";
 

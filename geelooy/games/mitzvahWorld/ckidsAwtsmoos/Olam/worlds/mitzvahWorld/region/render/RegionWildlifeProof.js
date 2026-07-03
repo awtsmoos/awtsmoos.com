@@ -5,8 +5,8 @@
  * Wildlife proof and tick installation. The Awtsmoos records the herd, exposes
  * it to audits, and advances it only on the guardian cadence.
  */
-import { publishWildlifeRuntimeReport } from "../wildlife/WildlifeRuntimeReport.js?v=wildlife-visible-report-20260628-bh1";
-import { guardianWildlifeCadence } from "./RegionWildlifeData.js?v=wildlife-visible-report-20260628-bh1";
+import { publishWildlifeRuntimeReport } from "../wildlife/WildlifeRuntimeReport.js?v=perf-tight-collision-20260703-bh3";
+import { guardianWildlifeCadence } from "./RegionWildlifeData.js?v=perf-tight-collision-20260703-bh3";
 
 export function registerForProof(root, olam) {
   const scope = globalThis;

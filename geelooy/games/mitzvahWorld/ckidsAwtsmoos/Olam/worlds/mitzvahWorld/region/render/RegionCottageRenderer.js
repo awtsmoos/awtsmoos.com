@@ -8,8 +8,8 @@ import * as THREE from "/games/scripts/build/three.module.js";
 import { planHouses } from "../houses/HousePlanner.js?v=actual-solid-house-20260702-bh4";
 import { installDoorInteractionRuntime } from "../houses/door/DoorInteractionRuntime.js?v=big-solid-house-rooms-20260702-bh12";
 import { makeCottage } from "./RegionCottageAssembly.js?v=big-solid-house-rooms-20260702-bh12";
-import { installCottageStats } from "./RegionCottageStats.js?v=house-octree-clickable-rooms-20260702-bh11";
-import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=house-octree-clickable-rooms-20260702-bh11";
+import { installCottageStats } from "./RegionCottageStats.js?v=perf-tight-collision-20260703-bh2";
+import { registerHouseRoot } from "../../collision/HouseCollisionWorld.js?v=perf-tight-collision-20260703-bh2";
 function addCottages(root, houses, olam) { const allBase = []; houses.forEach(house => { const cottage = makeCottage(house, root, olam); root.add(cottage); allBase.push(...(cottage.userData.baseColliderSources || [])); }); return allBase; }
 function roomProof(root) { const proof = { doors:0, doorPivots:0, internalRooms:0, interiorFloors:0, wallMeshes:0 }; root.traverse?.(o => { const d = o.userData || {}; if (d.doorPanel) proof.doors++; if (d.doorHingePivot) proof.doorPivots++; if (d.visibleRoomWall || d.interiorWall) proof.internalRooms++; if (d.cottageInteriorFloor) proof.interiorFloors++; if (d.cottageWallSection) proof.wallMeshes++; }); return proof; }
 function safeDiag(diag) { return { houses:diag?.houses || 0, houseColliders:diag?.houseColliders || 0, measuredProxies:diag?.measuredProxies || 0, descriptorProxies:diag?.descriptorProxies || 0, octreeProxies:diag?.octreeProxies || 0, indexEntries:diag?.index?.entries || 0 }; }

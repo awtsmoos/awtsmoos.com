@@ -5,7 +5,7 @@
  * receives the newest solid-house octree vessels, not yesterday's shadow.
  */
 import OlamWorkerManager from "../ikarOyvedManager.js?v=solid-browser-verify-20260702-bh8";
-const SEAL = "house-octree-clickable-rooms-20260702-bh11";
+const SEAL = "perf-tight-collision-20260703-bh3";
 const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY:`../oyved/index.js?compact=true&v=${SEAL}`, PLAYER_DATA:"desktop.folder/game data.folder/playerData.json" });
 const StartWorldFlow = {
   async startWorld(ob = {}) { const { worldDayuh, gameUiHTML, sourcePath, alreadyDestroyed = false } = ob; if (!worldDayuh || typeof worldDayuh !== "object") { console.error('B"H - startWorld refused: direct worldDayuh is required.'); return false; } if (sourcePath) this._rectifyHistory(sourcePath); const systemInfo = await this._buildSystemInfo(worldDayuh, gameUiHTML); const userInfo = { ...worldDayuh }; const canvas = this.ui.$g("canvasEssence"); if (!canvas) { console.error('B"H - Canvas "canvasEssence" NOT FOUND!'); return false; } this._prepareCanvas(canvas); if (this.socket?.eved) return await this._restartInsideExistingWorker({ userInfo, systemInfo }, alreadyDestroyed); return await this._startFreshWorker(canvas, { userInfo, systemInfo }); },
