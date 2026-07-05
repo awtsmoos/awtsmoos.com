@@ -6,7 +6,7 @@ import { describeAwtsmoosError } from "./bootErrors.js?v=perf-tight-collision-20
 import { installUiBridge } from "./installUiBridge.js?v=perf-tight-collision-20260703-bh3";
 let bootStarted = false;
 function ensureDefaultPath() { const u = new URL(location.href); if (!u.searchParams.has("path")) { u.searchParams.set("path", "village.json"); history.replaceState(history.state, "", u.href); } }
-function engineUrl() { return new URL(`../ckidsAwtsmoos/ikar.js?compact=true&v=${UI_BRIDGE_SEAL}-module-fixed`, import.meta.url).href; }
+function engineUrl() { return new URL(`../ckidsAwtsmoos/ikar.js?compact=true&v=${UI_BRIDGE_SEAL}-final-proof-bridge-20260705-bh4`, import.meta.url).href; }
 const progress = payload => window.__AWTSMOOS_LOADING_PROGRESS__?.update?.(payload);
 async function importEngine(url) {
   progress({ stage:"world-engine:import:start", total:34, world:34, action:"Importing compact world engine...", subAction:"compact ES module mode" });

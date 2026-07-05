@@ -12,9 +12,9 @@
 import { oyvedManagerLog } from "../log/MainTextLogger.js";
 import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js";
 import { recordWorkerProgress } from "../progress/WorkerProgressStore.js";
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=no-black-screen-20260702-bh4";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=full-revamp-loading-diag-20260704-bh1";
 
-const SEAL = "strict-worker-playable-gate-20260702-bh1";
+const SEAL = "final-proof-bridge-20260705-bh4";
 const PLAYABLE_STAGE = /^(first-playable-frame|gameplay-ready|world_final_ready)$/i;
 const PROBE_STAGE = /postbuild:ready-for-first-render|load-nivrayim:done|world_final_ready|first-playable-frame|gameplay-ready/i;
 const trim = (a, n) => Array.isArray(a) ? a.slice(-n) : [];
@@ -31,6 +31,133 @@ function requestProbe() {
   const id = `groundDiag-${Date.now()}`;
   m?.postMessage?.({ playerProbe:{ id, seal:SEAL } });
   return id;
+}
+
+function proofBridgeManager() {
+  return window.__AWTSMOOS_ACTIVE_WORKER_MANAGER__ || window.mana?.socket || null;
+}
+
+function mainThreadProofSnapshot() {
+  const loading = window.__MITZVAH_LOADING_DIAG__?.() || window.__AWTSMOOS_LAST_LOAD_DIAG__ || null;
+  const fps = window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__ || null;
+  if (loading && fps && loading.firstPlayableMs == null) {
+    const elapsed = Math.max(0, Date.now() - Number(loading.startedAt || Date.now()));
+    loading.firstPlayableMs = elapsed;
+    loading.finalReadyMs = elapsed;
+    loading.finalReady = true;
+    loading.hidden = true;
+    loading.readyInferredFrom = "worker_gameplay_fps";
+  }
+  return {
+    at:Date.now(),
+    loading,
+    fps,
+    fpsHistory:(window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ || []).slice(-12),
+    loadStages:(window.__AWTSMOOS_LOAD_STAGE_HISTORY__ || []).slice(-20)
+  };
+}
+
+function publishMitzvahProofToDom(payload) {
+  try {
+    const doc = window.document;
+    if (!doc?.body) return;
+    let node = doc.getElementById("mitzvah-proof-output");
+    if (!node) {
+      node = doc.createElement("script");
+      node.type = "application/json";
+      node.id = "mitzvah-proof-output";
+      node.setAttribute("data-awtsmoos-proof", "mitzvah-final");
+      doc.body.appendChild(node);
+    }
+    node.textContent = JSON.stringify(payload || null, null, 2);
+    doc.body.setAttribute("data-mitzvah-proof-ok", payload?.ok === true ? "true" : "false");
+    doc.body.setAttribute("data-mitzvah-proof-at", String(Date.now()));
+  } catch (error) {
+    console.warn("B'H mitzvah proof DOM publish failed", error);
+  }
+}
+
+function handleMitzvahProofResult(data) {
+  const payload = data.payload || data;
+  const merged = {
+    ...payload,
+    mainThread:mainThreadProofSnapshot()
+  };
+  if (merged.loading?.diag == null && merged.mainThread.loading) {
+    merged.loading = {
+      ok:merged.mainThread.loading.displayedProgressMonotonic !== false,
+      diag:merged.mainThread.loading,
+      source:"main-thread-loading-bridge"
+    };
+  }
+  window.__MITZVAH_FINAL_PROOF__ = merged;
+  window.__MITZVAH_FINAL_PROOF_HISTORY__ = trim([...(window.__MITZVAH_FINAL_PROOF_HISTORY__ || []), merged], 12);
+  publishMitzvahProofToDom(merged);
+  window.dispatchEvent?.(new CustomEvent("mitzvah-proof-result", { detail:merged }));
+  return merged;
+}
+
+function runMitzvahProofFromWindow(which = "all", options = {}) {
+  const manager = proofBridgeManager();
+  if (!manager?.postMessage) return Promise.resolve({
+    ok:false,
+    reason:"worker-manager-not-ready",
+    mainThread:mainThreadProofSnapshot(),
+    seal:SEAL
+  });
+  const id = options.id || `mitzvah-proof-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const timeoutMs = Number(options.timeoutMs || 45000);
+  return new Promise(resolve => {
+    let done = false;
+    const finish = value => {
+      if (done) return;
+      done = true;
+      window.removeEventListener?.("mitzvah-proof-result", onResult);
+      resolve(value);
+    };
+    const onResult = event => {
+      const detail = event.detail || {};
+      if (detail.id && detail.id !== id) return;
+      finish(detail);
+    };
+    window.addEventListener?.("mitzvah-proof-result", onResult);
+    window.setTimeout?.(() => finish({
+      ok:false,
+      id,
+      reason:"mitzvah-proof-timeout",
+      latest:window.__MITZVAH_FINAL_PROOF__ || null,
+      mainThread:mainThreadProofSnapshot(),
+      seal:SEAL
+    }), timeoutMs);
+    manager.postMessage({ mitzvahProof:{ id, which, seal:SEAL } });
+  });
+}
+
+function maybeAutoRunMitzvahProof() {
+  try {
+    const params = new URLSearchParams(window.location.search || "");
+    if (!params.has("awtsProof") || window.__MITZVAH_AUTO_PROOF_STARTED__) return;
+    const playable = Boolean(window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__) || LoadingProgress.isFinalReady?.();
+    if (!playable) return;
+    window.__MITZVAH_AUTO_PROOF_STARTED__ = true;
+    runMitzvahProofFromWindow(params.get("awtsProof") || "all", { timeoutMs:60000 })
+      .then(report => publishMitzvahProofToDom(report))
+      .catch(error => publishMitzvahProofToDom({
+        ok:false,
+        reason:"auto-proof-error",
+        error:String(error?.message || error),
+        mainThread:mainThreadProofSnapshot(),
+        seal:SEAL
+      }));
+  } catch (error) {
+    publishMitzvahProofToDom({
+      ok:false,
+      reason:"auto-proof-setup-error",
+      error:String(error?.message || error),
+      mainThread:mainThreadProofSnapshot(),
+      seal:SEAL
+    });
+  }
 }
 
 function latestGroundingDiag() {
@@ -51,6 +178,14 @@ function installGlobals() {
   window.__AWTS_COLLISION_DIAG__ = () => window.__AWTSMOOS_LAST_PLAYER_PROBE__?.collisionDiag || { windowBridge:true, seal:SEAL };
   window.__AWTS_BUBBLE_DIAG__ = () => window.__AWTSMOOS_LAST_PLAYER_PROBE__?.bubbleDiag || { windowBridge:true, seal:SEAL };
   window.__AWTS_GROUNDING_DIAG__ = latestGroundingDiag;
+  window.__MITZVAH_RUN_PROOF__ = runMitzvahProofFromWindow;
+  window.__MITZVAH_PROOF_BRIDGE_DIAG__ = () => ({
+    seal:SEAL,
+    hasManager:Boolean(proofBridgeManager()),
+    hasPostMessage:Boolean(proofBridgeManager()?.postMessage),
+    lastProof:window.__MITZVAH_FINAL_PROOF__ || null,
+    mainThread:mainThreadProofSnapshot()
+  });
   window.__AWTS_PER_FRAME_REPORT__ = () => ({
     last:window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__,
     history:window.__AWTSMOOS_WORKER_GAMEPLAY_FPS_HISTORY__ || [],
@@ -100,6 +235,7 @@ function mark(manager, stage) {
   if (PROBE_STAGE.test(stage)) setTimeout(requestProbe, 250);
   if (PLAYABLE_STAGE.test(stage)) LoadingProgress.markPlayable?.(stage);
   else if (/postbuild:ready-for-first-render|load-nivrayim:done/i.test(stage)) holdUntilPlayable(stage);
+  maybeAutoRunMitzvahProof();
 }
 
 function handleProgress(manager, data) {
@@ -129,7 +265,8 @@ function handleFps(data) {
   }], 120);
   window.AWTSMOOS_GAMEPLAY_FPS = payload;
   window.dispatchEvent?.(new CustomEvent("awtsmoos:worker-gameplay-fps", { detail:payload }));
-  if (!LoadingProgress.isFinalReady?.()) LoadingProgress.markPlayable?.("worker_gameplay_fps");
+  if (!LoadingProgress.isFinalReady?.()) LoadingProgress.markFinalReady?.("world_final_ready");
+  maybeAutoRunMitzvahProof();
 }
 
 function handleLiving(type, payload) {
@@ -174,9 +311,11 @@ function handleText(data) {
 
 export function interceptWorkerMessage(manager, event) {
   installGlobals();
+  maybeAutoRunMitzvahProof();
   const data = event.data;
   if (data?.type === "worker_progress") return handleProgress(manager, data);
   if (data?.type === "worker_gameplay_fps") return handleFps(data);
+  if (data?.type === "mitzvahProofResult") return handleMitzvahProofResult(data);
   if (data?.type === "test_feature_flags_result") return handleTestFeatureFlags(data);
   if (data?.type === "livingRegionRuntimeStats") return handleLiving("runtime", data.payload || data);
   if (data?.type === "livingRegionDirectorReport") return handleLiving("director", data.payload || data);

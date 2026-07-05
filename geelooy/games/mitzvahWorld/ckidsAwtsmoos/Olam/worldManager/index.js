@@ -2,7 +2,7 @@
 /** @module ManagerOfAllWorlds @description Worker start flow drinks from bh9 no-alert jump seal. */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?v=visible-root-binding-20260610-bh710";
 import UIManager from "../uiManager/index.js?v=no-compact-engine-20260702-bh2";
-import StartWorldFlow from "./StartWorldFlow.js?v=no-compact-engine-20260702-bh2";
+import StartWorldFlow from "./StartWorldFlow.js?v=final-proof-bridge-20260705-bh4";
 import SocketHandler from "./SocketHandler.js?v=visible-root-binding-20260610-bh710";
 import ServiceWorkerInit from "./ServiceWorkerInit.js?v=visible-root-binding-20260610-bh710";
 import SwitchDestroyLogic from "./SwitchDestroyLogic.js?v=visible-root-binding-20260610-bh710";

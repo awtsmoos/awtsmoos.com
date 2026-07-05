@@ -115,7 +115,8 @@ export function tickWildlife(root, olam, dt = 1 / 60) {
   root.userData.lifeRuntime?.tick(delta, partition);
   for (const child of root.children) {
     const motion = child.userData?.motion;
-    if (!motion || !partition.shouldUpdate(child, olam)) continue;
+    if (!motion) continue;
+    if (!partition.shouldUpdate(child, olam)) continue;
     if (child.userData.health?.dead) { animateAnimal(child, delta, "death"); continue; }
     const decision = choose(root, child, motion, olam);
     motion.state = decision.state;

@@ -1,11 +1,13 @@
 // B"H
 /** WildlifeProofRegistry.js — publish inspectable worker-side wildlife proof. */
 import { publishWildlifeRuntimeReport } from "../../wildlife/WildlifeRuntimeReport.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { collectAnimalLodDiagnostics } from "../wildlife/AnimalLodDiagnostics.js?v=animal-realism-split-20260705-bh1";
 
 function animalsOf(root) { return Array.from(root?.children || []).filter(child => child?.userData?.motion); }
 
 export function wildlifeDiag(root, olam) {
   const animals = animalsOf(root);
+  const lod = collectAnimalLodDiagnostics(root);
   return {
     rootName: root?.name || null,
     animals: animals.length,
@@ -15,6 +17,7 @@ export function wildlifeDiag(root, olam) {
     tickerLastTickAt: olam?.__livingRegionWildlifeTicker?.lastTickAt || null,
     stats: root?.userData?.stats || null,
     report: root?.userData?.visibleWildlifeReport || null,
+    ...lod,
     seal: "wildlife-proof-registry-bh1"
   };
 }

@@ -38,8 +38,8 @@ export function ensureDoorHighlight(entry) {
   let mesh = entry?.pivot?.getObjectByName?.(HIGHLIGHT);
   if (mesh) return mesh;
   mesh = new THREE.Mesh(
-    new THREE.BoxGeometry(2.45, 3.25, 1.22),
-    new THREE.MeshBasicMaterial({ color:0xffd95a, wireframe:true, transparent:true, opacity:0.9, depthWrite:false })
+    new THREE.BoxGeometry(2.62, 3.38, 1.3),
+    new THREE.MeshBasicMaterial({ color:0xffef9a, wireframe:true, transparent:true, opacity:0.95, depthWrite:false })
   );
   mesh.name = HIGHLIGHT;
   mesh.position.set(0, 1.25, 0);

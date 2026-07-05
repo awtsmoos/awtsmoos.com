@@ -72,7 +72,7 @@ export function addCottageInterior(group, house = {}, spec = {}, colliders = [])
   partitionAcrossWidth(group, house, { ...spec, width:w, depth:d, height:h }, colliders);
   partitionDepth(group, house, { ...spec, width:w, depth:d, height:h }, colliders);
   props(group, id);
-  colliders.push({ id:`${id}_interior_floor_collider`, category:"cottage-floor", owner:id, position:[0, .06, 0], size:[w - .42, .12, d - .42], yaw:0, solid:false, floor:true });
+  colliders.push({ id:`${id}_interior_floor_collider`, category:"cottage-floor", owner:id, position:[0, .06, 0], size:[w - .42, .12, d - .42], yaw:0, solid:false, floor:true, octreeFloorProxy:true });
 }
 
 export default addCottageInterior;

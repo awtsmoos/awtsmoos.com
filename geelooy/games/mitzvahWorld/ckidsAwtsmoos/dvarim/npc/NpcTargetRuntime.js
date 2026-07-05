@@ -1,9 +1,9 @@
 // B"H
 /**
  * @file NpcTargetRuntime.js
- * @description
- * Chapter 632: the villager is first beheld, then addressed. Targeting reveals
- * a visible gold ring in-world without sending a missing UI element event.
+ * @description Friendly NPCs use a direct target-then-talk flow. First click
+ * selects and highlights; the next explicit click, tap, or right-click opens
+ * dialogue. Diagnostics are published for browser proof.
  */
 import {
   clearFriendlyNpcTarget as clearVisualTarget,
@@ -20,6 +20,28 @@ function nameOf(npc) { return npc?.name || npc?.options?.title || npc?.construct
 function selected(olam) { return olam?.__selectedFriendlyNpc || null; }
 function isFresh(npc) { return npc && now() - Number(npc.__targetedAt || 0) <= TARGET_TTL_MS; }
 function toast(olam, text, color = EFFECT_COLOR) { olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color }); }
+function list(olam) { return (olam?.interactableNivrayim || []).filter(n => ["customNpc", "medabeir", "interactiveNpc"].includes(n?.type)); }
+
+function publishDiag(olam, patch = {}) {
+  if (!olam) return null;
+  olam.__mitzvahNpcDiag = {
+    ...(olam.__mitzvahNpcDiag || {}),
+    at: now(),
+    friendlyCount: list(olam).length,
+    targetableCount: list(olam).filter(n => n?.interactable && (n?.raycastMesh || n?.interactionMesh || n?.mesh)).length,
+    selected: nameOf(selected(olam)),
+    selectedFresh: isFresh(selected(olam)),
+    ...patch
+  };
+  globalThis.__MITZVAH_NPC_DIAG__ = () => ({
+    ...(olam.__mitzvahNpcDiag || {}),
+    selected: nameOf(selected(olam)),
+    selectedFresh: isFresh(selected(olam)),
+    friendlyCount: list(olam).length,
+    targetableCount: list(olam).filter(n => n?.interactable && (n?.raycastMesh || n?.interactionMesh || n?.mesh)).length
+  });
+  return olam.__mitzvahNpcDiag;
+}
 
 function kindOf(ctx = {}) {
   const event = eventOf(ctx);
@@ -47,7 +69,8 @@ export function npcTargetMeta(ctx = {}) {
     kind,
     button,
     right: button === 2 || ctx.contextMenu === true || event?.type === "contextmenu",
-    touch: kind === "touch"
+    touch: kind === "touch",
+    primary: button === 0 || button === -1 || !Number.isFinite(button)
   };
 }
 
@@ -63,8 +86,8 @@ export function selectNpcTarget(npc, ctx = {}) {
   npc.__targetedAt = now();
   const meta = npcTargetMeta(ctx);
   ensureNpcTargetVisual(npc, meta);
-  const suffix = meta.touch ? "Tap again when close to talk." : "Right-click when close to talk.";
-  toast(olam, `Targeted ${nameOf(npc)}. ${suffix}`);
+  toast(olam, `Targeted ${nameOf(npc)}. Click again to talk.`);
+  publishDiag(olam, { lastClickedNpc:nameOf(npc), lastAction:"target", lastMeta:meta });
   setTimeout(() => {
     if (selected(olam) === npc && !isFresh(npc)) clearFriendlyNpcTarget(olam);
   }, TARGET_TTL_MS + 80);
@@ -72,21 +95,19 @@ export function selectNpcTarget(npc, ctx = {}) {
 }
 
 export function clearFriendlyNpcTarget(olam) {
-  return clearVisualTarget(olam);
+  const cleared = clearVisualTarget(olam);
+  publishDiag(olam, { lastAction:"clear" });
+  return cleared;
 }
 
 export function npcInteractionDecision(npc, ctx = {}) {
   const meta = npcTargetMeta(ctx);
   const already = isNpcTargeted(npc?.olam, npc);
-  if (!already) return { action: "target", meta, reason: "not-selected" };
-  if (meta.touch || meta.right) {
-    return { action: "open", meta, reason: meta.touch ? "mobile-second-tap" : "desktop-right-click" };
-  }
-  return { action: "wait", meta, reason: "desktop-left-click-after-target" };
+  if (!already) return { action:"target", meta, reason:"not-selected" };
+  publishDiag(npc?.olam, { lastClickedNpc:nameOf(npc), lastAction:"talk-ready", lastMeta:meta });
+  return { action:"open", meta, reason:meta.touch ? "mobile-second-tap" : meta.right ? "desktop-right-click" : "desktop-second-click" };
 }
 
-export function explainNpcWait(npc, ctx = {}) {
-  const meta = npcTargetMeta(ctx);
-  const label = nameOf(npc);
-  return meta.touch ? `Tap ${label} again to talk.` : `Right-click ${label} to talk.`;
+export function explainNpcWait(npc) {
+  return `Click ${nameOf(npc)} again to talk.`;
 }

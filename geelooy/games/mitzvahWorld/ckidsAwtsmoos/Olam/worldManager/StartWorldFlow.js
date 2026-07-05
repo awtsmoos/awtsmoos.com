@@ -4,7 +4,7 @@
  * @description Starts the worker graph with a fresh cache key so the village
  * receives the newest solid-house octree vessels, not yesterday's shadow.
  */
-import OlamWorkerManager from "../ikarOyvedManager.js?v=solid-browser-verify-20260702-bh8";
+import OlamWorkerManager from "../ikarOyvedManager.js?v=final-proof-bridge-20260705-bh4";
 const SEAL = "perf-tight-collision-20260703-bh3";
 const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY:`../oyved/index.js?compact=true&v=${SEAL}`, PLAYER_DATA:"desktop.folder/game data.folder/playerData.json" });
 const StartWorldFlow = {

@@ -1,9 +1,8 @@
 // B"H
 /**
  * LoadingProgressBridge.js
- * Public loader API, now split into small vessels so no black screen can hide
- * inside a monolith. The Awtsmoos births each stage; this bridge only reports
- * what has truly arrived and never removes the veil before playable proof.
+ * Public loader API. It paints monotonic progress, keeps a breathing heartbeat,
+ * refuses premature hide requests, and exposes diagnostics for browser proof.
  */
 import { SEAL, FINAL } from "./loading/LoadingConstants.js";
 import { clamp, frame } from "./loading/LoadingDom.js";
@@ -17,9 +16,41 @@ import { warmGeneratedAssetCache } from "./loading/LoadingCache.js";
 
 let pending = null;
 let paintQueued = false;
+const raw = { lastTotal:0, regressions:0, updates:0, firstPlayableAt:null, finalReadyAt:null, lastStage:null, lastInput:null };
+
+function updateRaw(input = {}) {
+  const total = clamp(input.total ?? input.amount ?? raw.lastTotal);
+  raw.updates += 1;
+  raw.lastStage = String(input.stage || input.kind || raw.lastStage || "progress");
+  raw.lastInput = { ...input, at:Date.now() };
+  if (total < raw.lastTotal) raw.regressions += 1;
+  raw.lastTotal = Math.max(raw.lastTotal, total);
+}
+
+function diag() {
+  const snap = snapshot();
+  return {
+    ...snap,
+    raw: { ...raw },
+    displayedProgressMonotonic: true,
+    rawProgressRegressions: raw.regressions,
+    firstPlayableMs: raw.firstPlayableAt ? raw.firstPlayableAt - state.startedAt : null,
+    finalReadyMs: raw.finalReadyAt ? raw.finalReadyAt - state.startedAt : null,
+    hidden: state.hidden,
+    seal: SEAL
+  };
+}
+
+function publishDiag() {
+  if (typeof window === "undefined") return;
+  window.__MITZVAH_LOADING_DIAG__ = diag;
+  window.__AWTSMOOS_LAST_LOAD_DIAG__ = diag;
+}
 
 export function update(input = {}) {
   if (state.hidden) return;
+  updateRaw(input);
+  publishDiag();
   pending = { ...(pending || {}), ...input };
   if (paintQueued) return;
   paintQueued = true;
@@ -28,6 +59,7 @@ export function update(input = {}) {
     const next = pending;
     pending = null;
     paint(next || {});
+    publishDiag();
   });
 }
 
@@ -53,14 +85,30 @@ export function showError(error, label = "worker error") {
 
 export function markFinalReady(reason = "world_final_ready") {
   const text = String(reason);
-  if (FINAL.test(text)) return finish(text);
+  if (FINAL.test(text)) {
+    raw.finalReadyAt ||= Date.now();
+    raw.firstPlayableAt ||= raw.finalReadyAt;
+    publishDiag();
+    return finish(text);
+  }
   hold(text);
   record(`waiting for playable proof: ${text}`);
+  publishDiag();
   return false;
 }
 
-export function markPlayable(reason = "first-playable-frame") { return markFinalReady(reason); }
-export function hideLoading(reason = "hide requested") { hold(reason); record(`waiting for playable frame: ${reason}`); return false; }
+export function markPlayable(reason = "first-playable-frame") {
+  raw.firstPlayableAt ||= Date.now();
+  return markFinalReady(reason);
+}
+
+export function hideLoading(reason = "hide requested") {
+  hold(reason);
+  record(`waiting for playable frame: ${reason}`);
+  publishDiag();
+  return false;
+}
+
 export function scheduleHide() { return hideLoading("scheduleHide"); }
 export function isFinalReady() { return Boolean(state.finalReady); }
 
@@ -68,9 +116,10 @@ function installWindowBridge() {
   const queue = Array.isArray(window.__AWTSMOOS_EARLY_LOADING_QUEUE__) ? window.__AWTSMOOS_EARLY_LOADING_QUEUE__.slice(-24) : [];
   window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress, textureProgress, hideLoading, markFinalReady, markPlayable, scheduleHide, snapshot, isFinalReady, showError, seal:SEAL };
   window.__AWTSMOOS_LOADING_BRIDGE_READY__ = true;
+  publishDiag();
   queue.forEach(update);
   window.addEventListener("awtsmoos-texture-progress", event => textureProgress(event.detail || {}));
-  window.addEventListener("awtsmoos-first-playable-frame", event => markFinalReady(event?.detail?.reason || "first-playable-frame"));
+  window.addEventListener("awtsmoos-first-playable-frame", event => markPlayable(event?.detail?.reason || "first-playable-frame"));
   setStopHeartbeat(stopLoadingHeartbeat);
   startLoadingHeartbeat(update);
   warmGeneratedAssetCache();

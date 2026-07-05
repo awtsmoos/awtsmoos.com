@@ -2,7 +2,8 @@
 /** WildlifeRootStats.js — one small ledger for visible animal proof. */
 import { sealRegionVisual } from "../RegionSeal.js";
 import { FIRST_PLAYABLE_WILDLIFE_LIMIT, countMeshes, guardianWildlifeCadence } from "../RegionWildlifeData.js?v=mitzvah-aggressive-split-20260703-bh1";
-import { restoreFlags } from "../RegionWildlifeActors.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { restoreFlags } from "../RegionWildlifeActors.js?v=animal-visual-lod-20260705-bh1";
+import { summarizeAnimalVisualLod } from "../wildlife/AnimalVisualLod.js?v=animal-realism-split-20260705-bh1";
 
 export function statsFor(root, backend) {
   const counts = root.children.map(countMeshes);
@@ -21,6 +22,7 @@ export function statsFor(root, backend) {
     firstPlayableWildlifeLimit: FIRST_PLAYABLE_WILDLIFE_LIMIT,
     streamingRemaining: root.userData?.streamingRemaining || 0,
     streamedAnimals: root.userData?.streamedAnimals || 0,
+    visualLod: summarizeAnimalVisualLod(root),
     seal: "multi-part-wildlife-root-stats-bh1"
   };
 }

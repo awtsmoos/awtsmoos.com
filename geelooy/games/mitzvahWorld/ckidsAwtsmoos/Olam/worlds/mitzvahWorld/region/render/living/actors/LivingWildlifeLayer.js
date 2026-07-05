@@ -1,6 +1,6 @@
 // B"H
 /** LivingWildlifeLayer.js — wildlife is first-playable, not an invisible afterthought. */
-import { buildWildlifeRenderer, installWildlifeTicker } from "../../RegionWildlifeRenderer.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { buildWildlifeRenderer, installWildlifeTicker } from "../../RegionWildlifeRenderer.js?v=final-lootable-corpse-20260705-bh1";
 import { markLiving } from "../LivingRegionLayers.js?v=mitzvah-aggressive-split-20260703-bh1";
 
 export function addWildlifeLayer(root, olam, report) {

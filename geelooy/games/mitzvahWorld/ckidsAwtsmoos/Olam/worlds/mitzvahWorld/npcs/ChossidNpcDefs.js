@@ -10,6 +10,8 @@ export const CHOSSID_NPC_DEFS = Object.freeze([
   Object.freeze({
     id: "npc_reb_avraham",
     displayName: "Reb Avraham",
+    role: "field teacher",
+    questId: "reb_avraham_deer_tokens",
     position: [2.4, 0, -3.5],
     rotation: [0, 0.25, 0],
     scale: 1.05,
@@ -19,14 +21,17 @@ export const CHOSSID_NPC_DEFS = Object.freeze([
     proximity: 8,
     dialogues: [
       "B\\\"H! I am Reb Avraham.",
+      "I have a gentle field lesson: bring back 2 deer antler tokens.",
       "The first avodah is chesed. Help one person and the void begins to glow.",
       "May your next mitzvah reveal more light in this world."
     ]
   }),
 
   Object.freeze({
-    id: "npc_reb_yitzchak",
-    displayName: "Reb Yitzchak",
+    id: "npc_jill",
+    displayName: "Jill",
+    role: "kid helper",
+    questId: "jill_gifts",
     position: [-2.7, 0, -4.2],
     rotation: [0, -0.3, 0],
     scale: 1.05,
@@ -35,15 +40,17 @@ export const CHOSSID_NPC_DEFS = Object.freeze([
     isFriendly: true,
     proximity: 8,
     dialogues: [
-      "B\\\"H! I am Reb Yitzchak.",
-      "Gevurah means aim. Even in battle, strike only the concealment.",
+      "B\\\"H! I am Jill.",
+      "Oh no! I misplaced 3 little gifts. Can you bring them back?",
       "May your next mitzvah reveal more light in this world."
     ]
   }),
 
   Object.freeze({
-    id: "npc_reb_yaakov",
-    displayName: "Reb Yaakov",
+    id: "npc_miriam",
+    displayName: "Miriam",
+    role: "craft helper",
+    questId: "miriam_feathers",
     position: [4.8, 0, 2.8],
     rotation: [0, 2.1, 0],
     scale: 1.05,
@@ -52,8 +59,8 @@ export const CHOSSID_NPC_DEFS = Object.freeze([
     isFriendly: true,
     proximity: 8,
     dialogues: [
-      "B\\\"H! I am Reb Yaakov.",
-      "Tiferes joins kindness and strength. Speak softly, act strongly.",
+      "B\\\"H! I am Miriam.",
+      "Can you find 4 feathers for the craft table?",
       "May your next mitzvah reveal more light in this world."
     ]
   }),

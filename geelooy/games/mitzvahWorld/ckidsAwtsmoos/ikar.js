@@ -4,7 +4,7 @@
  * @description Main boot gate. A background Chrome tab may silence
  * requestAnimationFrame, so every frame wait now has a timer path too.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=perf-tight-collision-20260703-bh3";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?compact=true&v=final-proof-bridge-20260705-bh4";
 import { markPhase as mark, reportError } from "./boot/BootDiagnostics.js?v=perf-tight-collision-20260703-bh3";
 import { normalizeLevelId, loadLevelData, jsonSourcePath } from "./boot/LevelSource.js?v=perf-tight-collision-20260703-bh3";
 import { installPlayerGuaranteeProbe } from "./boot/PlayerGuaranteeProbe.js?v=perf-tight-collision-20260703-bh3";

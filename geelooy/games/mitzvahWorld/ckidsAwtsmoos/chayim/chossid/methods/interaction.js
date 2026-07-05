@@ -12,7 +12,7 @@
  * @failureModes Missing target clears state and returns false.
  */
 import { clearCombatTarget, highlightTarget, isInteractiveTarget, isNpcTarget, selectCombatTarget } from "./ClickTargetPolicy.js?v=click-target-policy-20260629-bh1";
-import { explainNpcWait, npcInteractionDecision, selectNpcTarget } from "../../../dvarim/npc/NpcTargetRuntime.js?v=npc-visible-target-20260628-bh1";
+import { explainNpcWait, npcInteractionDecision, selectNpcTarget } from "../../../dvarim/npc/NpcTargetRuntime.js?v=full-revamp-npc-target-talk-20260704-bh1";
 import * as THREE from "/games/scripts/build/three.module.js";
 
 function explicitInteractionPayload(player, event = {}) {

@@ -5,7 +5,7 @@
  * clear friendly targets only after a true safe miss.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { clearFriendlyNpcTarget } from "../../../dvarim/npc/NpcTargetRuntime.js?v=npc-visible-target-20260628-bh1";
+import { clearFriendlyNpcTarget } from "../../../dvarim/npc/NpcTargetRuntime.js?v=full-revamp-npc-target-talk-20260704-bh1";
 import { finitePayload, ownerFromHit, raycastTargets } from "./mouse/MouseRaycastTargets.js?v=reality-raycast-20260629-bh1";
 import { interactionPayload, stopBrowserContext } from "./mouse/MouseInteractionPayload.js?v=mouse-intent-split-20260628-bh1";
 

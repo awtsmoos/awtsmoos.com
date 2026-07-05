@@ -16,7 +16,7 @@ function maybeDetail(cottage, root, house, spec) {
 }
 function sealVisualOnly(child) { child.traverse?.(node => { if (node.userData?.colliderSources) return; Object.assign(node.userData ||= {}, { cottageVisualOnly:true, skipOctree:true, noOctree:true }); }); }
 function sealCottage(cottage, root, house, bricks) {
-  Object.assign(cottage.userData ||= { }, { cottageBuilding:true, houseId:house.id, house, baseColliderSources:bricks.colliders, colliderSources:bricks.colliders, doorState:bricks.door?.state || null, splitRoof:true, splitWindows:root.children.length < 18, splitYard:root.children.length < 14, colliderMatchedShell:true, visualOnlyUntilColliderProof:false, realBrickBody:true, realInterior:true, realRooms:true, realDoorway:true, liveDoorCollider:true, actualSolidHouseCacheBust:"20260702-bh12" });
+	  Object.assign(cottage.userData ||= { }, { cottageBuilding:true, houseId:house.id, house, baseColliderSources:bricks.colliders, colliderSources:bricks.colliders, multiRoomHousePlan:bricks.group?.userData?.multiRoomHousePlan || null, doorState:bricks.door?.state || null, splitRoof:true, splitWindows:root.children.length < 18, splitYard:root.children.length < 14, colliderMatchedShell:true, visualOnlyUntilColliderProof:false, realBrickBody:true, realInterior:true, realRooms:true, realDoorway:true, liveDoorCollider:true, actualSolidHouseCacheBust:"20260705-lod-house-octree-bh1" });
 }
 export function makeCottage(house, root, olam) {
   const cottage = new THREE.Group(), bricks = buildCottageBricks(house);

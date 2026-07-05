@@ -6,6 +6,14 @@ import { addCottageWalls } from "./CottageBrickWalls.js?v=big-solid-house-rooms-
 import { addCottageBeams, addCottageWindows } from "./CottageBrickDetails.js?v=actual-solid-house-20260702-bh5";
 import { buildCottageDoor } from "./CottageDoorSystem.js?v=big-solid-house-rooms-20260702-bh12";
 import { addCottageInterior } from "./CottageInteriorSystem.js?v=big-solid-house-rooms-20260702-bh12";
+import { multiRoomHousePlan } from "./interior/MultiRoomHousePlan.js?v=lod-house-octree-20260705-bh1";
+import { addRoomThresholds } from "./interior/MultiRoomHouseMeshes.js?v=lod-house-octree-20260705-bh1";
+import { sealMultiRoomCollision } from "./interior/MultiRoomHouseCollision.js?v=lod-house-octree-20260705-bh1";
+import { multiStoryHousePlan } from "./stories/MultiStoryHousePlan.js";
+import { addMultiStoryMeshes } from "./stories/MultiStoryHouseMeshes.js";
+import { addHouseStairCollision } from "./stairs/HouseStairCollision.js";
+import { markInteriorDoors } from "./doors/InteriorDoorRuntime.js";
+import { sealHouseOctreeProxies } from "./octree/HouseOctreeProxyBuilder.js";
 
 const min = (value, fallback) => Math.max(fallback, Number(value) || fallback);
 
@@ -25,7 +33,7 @@ function seal(group, house, colliders, door) {
     cottageBrickSystem:true,
     houseId:house.id,
     colliderSources:colliders,
-    colliderSchema:"compound-cottage-v12-big-solid-rooms",
+	    colliderSchema:"compound-cottage-v13-multi-room-octree-proxies",
     collisionStrategy:"static-compound-thick-walls-partitions-live-door",
     doorState:door.state,
     liveDoorCollider:true,
@@ -33,24 +41,31 @@ function seal(group, house, colliders, door) {
     realRooms:true,
     realDoorway:true,
     noFakeDoorWall:true,
-    actualSolidHouseCacheBust:"20260702-bh12"
-  });
-}
+	    actualSolidHouseCacheBust:"20260705-lod-house-octree-bh1"
+	  });
+	}
 
 export function buildCottageBricks(house = {}) {
   const group = new THREE.Group();
   const spec = cottageSpec(house);
-  const colliders = [];
+	  const colliders = [], plan = multiRoomHousePlan(house, spec), storyPlan = multiStoryHousePlan(house, spec);
   const door = buildCottageDoor(house, spec);
   group.name = `cottage_brick_system_${house.id}_big_solid_rooms_bh12`;
   addCottageWalls(group, house, spec, colliders);
-  addCottageInterior(group, house, spec, colliders);
+	  addCottageInterior(group, house, spec, colliders);
+	  addRoomThresholds(group, house, spec, plan);
+  addMultiStoryMeshes(group, house, spec, storyPlan);
+  addHouseStairCollision(colliders, house, spec, storyPlan);
   group.add(door.root);
   addCottageBeams(group, house, spec);
   group.userData.roofHandledByCottageRoofBuilder = true;
   addCottageWindows(group, house, spec);
-  seal(group, house, colliders, door);
-  return { group, colliders, spec, door };
-}
+	  seal(group, house, colliders, door);
+	  sealMultiRoomCollision(group, plan);
+  group.userData.multiStoryHousePlan = storyPlan;
+  if (storyPlan.enabled) markInteriorDoors(group, Math.max(1, plan.interiorDoorways || 1));
+  sealHouseOctreeProxies(group);
+	  return { group, colliders, spec, door };
+	}
 
 export default buildCottageBricks;

@@ -3,7 +3,7 @@
 import { rand } from "./RegionRandom.js";
 
 export const COUNTS = Object.freeze({ rabbit:18, fox:6, deer:8, goat:6, cow:5, frog:12, bird:10 });
-export const TOTAL_PLAYABLE_WILDLIFE_LIMIT = 84;
+export const TOTAL_PLAYABLE_WILDLIFE_LIMIT = 76;
 export const FIRST_PLAYABLE_WILDLIFE_LIMIT = 36;
 export const STREAMED_WILDLIFE_CHUNK = 8;
 export const FLAGS = Object.freeze({ wildlifeActor:true, realisticWildlife:true, selectableCombatTarget:true, skipRaycast:false, interactionLayer:"explicit-interaction", singleMeshAnimal:true });

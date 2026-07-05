@@ -1,7 +1,22 @@
 // B"H
-/** @file ChossidNpcBuilder.js @description Builds NPCs from only the canonical chossid.glb, parser-clear. */
-import { loadFreshChossidGltf } from "./ChossidNpcLoader.js?v=awtsmoos-npc-loader-20260614-bh2";
-import { cloneChossidNpcScene } from "./ChossidNpcClone.js?v=awtsmoos-npc-clone-20260614-bh2";
-import { applyChossidNpcTransform } from "./ChossidNpcTransform.js?v=awtsmoos-npc-transform-20260614-bh2";
-function getGltfScene(gltf) { const scene = gltf && gltf.scene ? gltf.scene : gltf && gltf.scenes && gltf.scenes[0] ? gltf.scenes[0] : null; if (!scene) throw new Error("chossid.glb loaded but had no scene"); return scene; }
-export async function buildChossidNpc(olam, def) { const gltf = await loadFreshChossidGltf(olam); const npc = cloneChossidNpcScene({ scene:getGltfScene(gltf) }); return applyChossidNpcTransform(npc, def, olam, gltf.animations || []); }
+/**
+ * B"H
+ *
+ * Chossid NPC building now begins with a root, not a network wait.
+ * The same chossid GLB used by the player is still the only full-detail body,
+ * but it is acquired by near LOD after the village is already playable.
+ */
+import * as THREE from "/games/scripts/build/three.module.js";
+import { applyChossidNpcTransform } from "./ChossidNpcTransform.js?v=deferred-npc-glb-20260705-bh1";
+
+export async function buildChossidNpc(olam, def) {
+  const npc = new THREE.Group();
+  npc.name = def?.id || "npc_chossid_deferred_root";
+  Object.assign(npc.userData ||= {}, {
+    deferredChossidGlbRoot:true,
+    npcGlbDeferredUntilNear:true,
+    firstPlayableBlockedByGlb:false,
+    npcUsesSameGlbAsPlayer:true
+  });
+  return applyChossidNpcTransform(npc, def, olam, []);
+}

@@ -5,7 +5,7 @@
  */
 import { traceBoot } from "./uiBridge/bridgeSeal.js?v=perf-tight-collision-20260703-bh3";
 import { installBootDiagnostics, installBootErrorListeners } from "./uiBridge/bootErrors.js?v=perf-tight-collision-20260703-bh3";
-import { bootIkarNow } from "./uiBridge/bootIkar.js?v=perf-tight-collision-20260703-bh3";
+import { bootIkarNow } from "./uiBridge/bootIkar.js?v=final-proof-bridge-20260705-bh4";
 
 const IMPORT_START_STAGE = "world-engine:import:start";
 

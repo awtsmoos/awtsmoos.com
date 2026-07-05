@@ -16,7 +16,7 @@ import { makeRayProxy } from "./interactive/InteractiveNpcGeometry.js?v=npc-spli
 import { fallbackRig } from "./interactive/InteractiveNpcVisuals.js?v=npc-split-20260628-bh1";
 import { cleanInteractiveNpcOptions } from "./interactive/InteractiveNpcOptions.js?v=npc-split-20260628-bh1";
 import { npcOverlayPayload } from "./interactive/InteractiveNpcPayload.js?v=npc-split-20260628-bh1";
-import { readyNpcVisuals, prepareNpcMesh, resolveVisualBody } from "./interactive/InteractiveNpcSetup.js?v=npc-split-20260628-bh1";
+import { readyNpcVisuals, prepareNpcMesh, resolveVisualBody } from "./interactive/InteractiveNpcSetup.js?v=full-revamp-npc-target-talk-20260704-bh1";
 import { setStandingPose, tickNpcAnimation } from "./interactive/InteractiveNpcAnimation.js?v=npc-split-20260628-bh1";
 import {
   findTalker,
@@ -24,7 +24,7 @@ import {
   handleNpcExplicitTap,
   isExplicitInteraction,
   openGuideMenu
-} from "./interactive/InteractiveNpcTalk.js?v=npc-split-20260628-bh1";
+} from "./interactive/InteractiveNpcTalk.js?v=full-revamp-npc-target-talk-20260704-bh1";
 
 export default class InteractiveNpc extends Medabeir {
   type = "interactiveNpc";

@@ -1,7 +1,7 @@
 // B"H
 /** @file EnsureChossidNpcs.js @description Ensures visible real chossid.glb NPCs exist, without optional-chain parser paths. */
 import { CHOSSID_NPC_DEFS } from "./ChossidNpcDefs.js";
-import { buildChossidNpc } from "./ChossidNpcBuilder.js?v=awtsmoos-npc-builder-20260614-bh2";
+import { buildChossidNpc } from "./ChossidNpcBuilder.js?v=deferred-npc-glb-20260705-bh1";
 import { countSpawnedNpcRoots } from "./SceneNpcScan.js?v=awtsmoos-scene-npc-scan-20260614-bh2";
 import { getVisibleNpcPositions } from "./HouseNpcPositions.js?v=awtsmoos-house-npc-positions-20260614-bh2";
 function makeVisibleDefs(scene) { const positions = getVisibleNpcPositions(scene); return CHOSSID_NPC_DEFS.map((def, index) => ({ ...def, position:positions[index % positions.length] || def.position })); }
