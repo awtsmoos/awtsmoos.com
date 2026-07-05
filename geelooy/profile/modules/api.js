@@ -2,47 +2,71 @@
 /**
  * @module ProfileApi
  * @description
- * Chapter 21: The Awtsmoos guards every fetch from fake success. This module
- * owns profile API calls, response parsing, and error normalization.
- *
- * @inputs Browser fetch API and social API endpoints.
- * @outputs Parsed JSON data or thrown Error with user-visible message.
- * @failureModes Non-JSON, HTTP failure, and `{ error }` payloads throw.
+ * Chapter 465: API calls are no longer endless rooms. The Awtsmoos gives each
+ * request a clock, honest JSON parsing, and shape normalization so the profile
+ * dashboard can fail visibly instead of spinning forever.
  */
 
+const DEFAULT_TIMEOUT_MS = 12000;
+
+function withTimeout(options = {}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), options.timeoutMs || DEFAULT_TIMEOUT_MS);
+  return { controller, timeout, options: { ...options, signal: controller.signal } };
+}
+
+function messageFrom(data, response) {
+  return data?.error?.message || data?.error || data?.message || response?.statusText || "Profile API request failed.";
+}
+
+function listFrom(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.success)) return data.success;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.items)) return data.items;
+  return [];
+}
+
+function normalizeAlias(alias) {
+  const id = alias?.id || alias?.aliasId || alias?.inputId || alias?.name || "";
+  return { ...alias, id: String(id) };
+}
+
 export async function apiJson(url, options = {}) {
-  const response = await fetch(url, options);
-  const data = await response.json().catch(() => null);
-  if (!response.ok || data?.error) {
-    const message = data?.error?.message || data?.message || response.statusText;
-    throw new Error(message || "Profile API request failed.");
+  const { timeoutMs, ...fetchOptions } = options;
+  const timed = withTimeout({ ...fetchOptions, timeoutMs });
+  try {
+    const response = await fetch(url, timed.options);
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : null;
+    if (!response.ok || data?.error) throw new Error(messageFrom(data, response));
+    return data;
+  } catch (error) {
+    if (error.name === "AbortError") throw new Error(`Profile API timed out: ${url}`);
+    if (error instanceof SyntaxError) throw new Error(`Profile API returned non-JSON: ${url}`);
+    throw error;
+  } finally {
+    clearTimeout(timed.timeout);
   }
-  return data;
 }
 
 export async function getDefaultAlias() {
   const result = await apiJson("/api/social/alias/default");
-  return result?.success || "";
+  return result?.success || result?.data || "";
 }
 
 export async function getAliasDetails() {
-  const aliases = await apiJson("/api/social/aliases/details");
-  return Array.isArray(aliases) ? aliases : aliases?.success || [];
+  return listFrom(await apiJson("/api/social/aliases/details")).map(normalizeAlias).filter(alias => alias.id);
 }
 
 export async function getHeichelosForAlias(aliasId) {
   const encoded = encodeURIComponent(aliasId);
-  const data = await apiJson(`/api/social/alias/${encoded}/heichelos/details`);
-  return Array.isArray(data) ? data : data?.success || [];
+  return listFrom(await apiJson(`/api/social/alias/${encoded}/heichelos/details`, { timeoutMs: 9000 }));
 }
 
 export async function setDefaultAlias(aliasId) {
   const body = `alias=${encodeURIComponent(aliasId)}`;
-  const result = await apiJson("/api/social/alias/default", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body
-  });
+  const result = await apiJson("/api/social/alias/default", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
   if (!result?.success) throw new Error("Default alias was not saved.");
   return aliasId;
 }

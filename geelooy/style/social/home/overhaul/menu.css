@@ -1,0 +1,6 @@
+/* B"H — the compact menu opens cleanly. */
+.home-heichelos-menu { position: absolute; z-index: 50; inset-block-start: calc(100% + .45rem); inset-inline-end: 0; width: min(18rem, 86vw); padding: .5rem; border: 1px solid var(--home-line); border-radius: 1rem; background: rgba(5,10,21,.98); box-shadow: var(--home-shadow); backdrop-filter: blur(16px); display: grid; gap: .35rem; }
+.home-heichelos-menu a { display: grid; gap: .1rem; min-height: 2.75rem; padding: .5rem .65rem; border-radius: .8rem; text-decoration: none; background: rgba(255,255,255,.06); }
+.home-heichelos-menu small { color: var(--home-soft); }
+.home-heichelos-menu a:hover { background: rgba(115,236,255,.12); }
+[data-home-menu] { position: relative; }

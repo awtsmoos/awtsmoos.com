@@ -13,6 +13,7 @@
  */
 import { clearCombatTarget, highlightTarget, isInteractiveTarget, isNpcTarget, selectCombatTarget } from "./ClickTargetPolicy.js?v=click-target-policy-20260629-bh1";
 import { explainNpcWait, npcInteractionDecision, selectNpcTarget } from "../../../dvarim/npc/NpcTargetRuntime.js?v=npc-visible-target-20260628-bh1";
+import * as THREE from "/games/scripts/build/three.module.js";
 
 function explicitInteractionPayload(player, event = {}) {
   const button = Number.isFinite(Number(event?.button)) ? Number(event.button) : 0;
@@ -26,6 +27,27 @@ function ownerFromHit(object, hit) { let cursor = hit?.nivraAwtsmoos || object?.
 function setPointerFromEvent(olam, event = {}) { if (!olam || event.clientX === undefined) return; const r = olam.boundingRect; if (!r) return; olam.pointer.x = ((event.clientX - r.left) / r.width) * 2 - 1; olam.pointer.y = -((event.clientY - r.top) / r.height) * 2 + 1; }
 function openInteractiveTarget(player, niv, event) { if (typeof niv.ayshPeula === "function") niv.ayshPeula("accepted interaction", explicitInteractionPayload(player, event)); return true; }
 function tell(olam, text, color = "#8de8ff") { return olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color }); }
+function eventPoint(event = {}) { const x = event.clientX ?? event.x, y = event.clientY ?? event.y; return Number.isFinite(Number(x)) && Number.isFinite(Number(y)) ? { x:Number(x), y:Number(y) } : null; }
+function screenPointer(olam, event = {}) { const p = eventPoint(event); if (!p) return null; const rect = olam?.boundingRect || { left:0, top:0, width:olam?.width || olam?.renderer?.domElement?.clientWidth || 1, height:olam?.height || olam?.renderer?.domElement?.clientHeight || 1 }; return new THREE.Vector2(((p.x - (rect.left || 0)) / rect.width) * 2 - 1, -((p.y - (rect.top || 0)) / rect.height) * 2 + 1); }
+function posOf(niv) { const root = niv?.raycastMesh || niv?.interactionMesh || niv?.mesh || niv?.modelMesh; const v = new THREE.Vector3(); if (root?.getWorldPosition) return root.getWorldPosition(v); return root?.position || niv?.position || null; }
+function fallbackInteractive(player, event = {}) {
+  const olam = player?.olam, camera = olam?.ayin?.camera || olam?.camera;
+  const pointer = screenPointer(olam, event);
+  if (!pointer || !camera) return null;
+  const projected = new THREE.Vector3();
+  let best = null, bestScore = Infinity;
+  for (const niv of olam?.interactableNivrayim || []) {
+    if (!niv?.interactable || niv.wasSealayked || niv.type === "chossid") continue;
+    const pos = posOf(niv);
+    if (!pos) continue;
+    projected.copy(pos).project(camera);
+    if (projected.z < -1 || projected.z > 1) continue;
+    const allowance = niv.type === "cottageDoor" ? 0.24 : isNpcTarget(niv) ? 0.32 : 0.26;
+    const score = Math.hypot(projected.x - pointer.x, projected.y - pointer.y);
+    if (score < allowance && score < bestScore) { best = niv; bestScore = score; }
+  }
+  return best;
+}
 
 export default {
   actionList: {
@@ -34,7 +56,7 @@ export default {
   },
   handleClick(event = {}) {
     event?.preventDefault?.(); setPointerFromEvent(this.olam, event); this.checkHover?.(this.olam, true);
-    const niv = this.intersected?.niv;
+    const niv = this.intersected?.niv || fallbackInteractive(this, event);
     if (!niv) { this.clearNpcTarget?.(); return false; }
     if (isNpcTarget(niv)) {
       const payload = explicitInteractionPayload(this, event);

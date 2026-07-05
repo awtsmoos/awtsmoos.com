@@ -1,0 +1,74 @@
+/* B"H
+ * @module SidebarViewportSeal
+ * @description
+ * Chapter 606: the Main Menu receives a spine with desktop crown sealed.
+ * The Awtsmoos grants the fixed sidebar a definite inner height, so desktop no
+ * longer shows a crowned black void and mobile no longer shrinks the chamber.
+ */
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) {
+    height: min(86dvh, calc(100dvh - var(--awt-header-space) - 24px)) !important;
+    max-height: min(86dvh, calc(100dvh - var(--awt-header-space) - 24px)) !important;
+    min-height: min(32rem, calc(100dvh - var(--awt-header-space) - 24px)) !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell > .awtsmoos-slide-viewport {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell > .awtsmoos-slide-viewport > .awtsmoos-slide-view.active-view {
+    min-height: 0 !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-view-content,
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-sidebar-panel.is-current-panel {
+    min-height: 0 !important;
+    overscroll-behavior: contain !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .post-root-menu-grid {
+    align-content: start !important;
+}
+
+@media (min-width: 901px) {
+    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments),
+    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar.awtsmoos-sidebar-open {
+        top: 0 !important;
+        bottom: 0 !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        min-height: 100dvh !important;
+    }
+
+    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell > .awtsmoos-slide-viewport > .awtsmoos-slide-view {
+        height: 100% !important;
+        min-height: 0 !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) {
+        top: calc(var(--awt-header-space) + 8px) !important;
+        height: min(88dvh, calc(100dvh - var(--awt-header-space) - 16px)) !important;
+        max-height: min(88dvh, calc(100dvh - var(--awt-header-space) - 16px)) !important;
+        min-height: min(28rem, calc(100dvh - var(--awt-header-space) - 16px)) !important;
+    }
+
+    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-view-content,
+    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-sidebar-panel.is-current-panel {
+        padding-bottom: calc(18px + var(--awt-safe-bottom)) !important;
+    }
+}

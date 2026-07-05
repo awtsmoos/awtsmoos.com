@@ -1,0 +1,8 @@
+/* B"H — bottom dock is only for small screens. */
+.home-command-dock { display: none; }
+@media (max-width: 760px) {
+  .home-command-dock { position: fixed; left: .55rem; right: .55rem; bottom: max(.55rem, env(safe-area-inset-bottom)); z-index: 1000; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .32rem; padding: .42rem; border: 1px solid var(--home-line); border-radius: 1.2rem; background: rgba(6,10,22,.94); box-shadow: var(--home-shadow); backdrop-filter: blur(16px); }
+  .home-command-dock a { min-height: 3rem; display: grid; place-items: center; border-radius: .9rem; color: var(--home-text); background: rgba(255,255,255,.06); text-decoration: none; font-size: .72rem; font-weight: 950; }
+  .home-command-dock a[aria-current="page"], .home-command-dock .is-create { color: #06101b; background: linear-gradient(135deg, var(--home-gold), var(--home-cyan)); }
+  .home-command-dock .is-create { font-size: 1.35rem; }
+}

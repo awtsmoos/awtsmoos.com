@@ -1,0 +1,13 @@
+/* B"H — the sidebar becomes a clean route orbit. */
+.home-left-rail { border-radius: var(--home-radius); padding: .55rem; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .5rem; align-items: center; position: relative; }
+.clean-brand { min-height: 2.65rem; display: inline-flex; align-items: center; gap: .55rem; padding: .35rem .65rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); text-decoration: none; font-size: .98rem; background: rgba(255,255,255,.055); }
+.clean-brand span { width: 1.85rem; height: 1.85rem; display: grid; place-items: center; border-radius: 999px; color: #06101b; background: linear-gradient(135deg, var(--home-gold), var(--home-cyan)); }
+.home-rail-copy { margin: 0; color: var(--home-muted); font-size: .92rem; font-weight: 800; white-space: nowrap; }
+.home-rail-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem; min-width: 0; }
+.home-rail-links a, .home-rail-actions a { min-height: 2.55rem; display: inline-flex; align-items: center; justify-content: center; gap: .25rem; padding: .45rem .72rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); text-decoration: none; background: rgba(255,255,255,.055); transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+.home-rail-links strong { font-size: .9rem; }
+.home-rail-links small { display: none; }
+.home-rail-links a:hover, .home-rail-actions a:hover { transform: translateY(-2px); border-color: var(--home-line-bright); background: rgba(115,236,255,.1); }
+.home-rail-actions { display: flex; gap: .35rem; justify-content: end; }
+.home-rail-actions a:first-child { color: #06101b; border: 0; background: linear-gradient(135deg, var(--home-gold), var(--home-cyan)); font-weight: 950; }
+.home-menu-button { display: none; }

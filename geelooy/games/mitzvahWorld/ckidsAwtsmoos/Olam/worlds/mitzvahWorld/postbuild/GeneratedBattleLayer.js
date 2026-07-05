@@ -1,18 +1,22 @@
 // B"H
-/** @file GeneratedBattleLayer.js @description Battle wildlife enters through fresh skeletal animal combat vessels. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import VillageAnimalMob from "../combat/VillageAnimalMob.js?v=perf-tight-collision-20260703-bh2";
+/** GeneratedBattleLayer.js — split, cache-bumped battle wildlife installer. */
 import VillageCombatState from "../combat/VillageCombatState.js?v=village-polish-20260612-bh810";
-import { VILLAGE_BATTLE_DECOR, VILLAGE_COMBAT_MISSION, VILLAGE_WILDLIFE } from "../combat/VillageCombatManifest.js";
-import { getVillageGroundNavigator } from "../combat/VillageGroundNavigator.js?v=perf-tight-collision-20260703-bh2";
-import { groundVillageNow } from "../../../methods/loadNivrayim/villageGrounding.js?v=village-grounding-law-20260612-bh1";
-const INSTALLED_KEY = "__awtsmoosVillageCombatInstalled";
-function baseInfo(context) { return context && context.olam && context.olam.baseInfo ? context.olam.baseInfo : {}; }
-function isVillageContext(context = {}) { const info = context.worldData || baseInfo(context); const id = String(info.id || info.shaym || context.source || ""); return !id || /village\.json|village/i.test(id); }
-function material(color) { return new THREE.MeshLambertMaterial({ color, emissive:color, emissiveIntensity:.05 }); }
-function markDecor(root) { if (!root.userData) root.userData = {}; Object.assign(root.userData, { skipOctree:true, noOctree:true, villageCombatDecor:true, villageDecor:true }); }
-function addDecor(scene, def) { const root = new THREE.Group(); root.name = def.name; root.position.set(def.position.x, def.position.y, def.position.z); markDecor(root); const pole = new THREE.Mesh(new THREE.BoxGeometry(.12, 2.4, .12), material(0x5a3a21)); pole.position.y = .55; const banner = new THREE.Mesh(new THREE.BoxGeometry(1.25, .82, .06), material(def.color)); banner.position.set(.48, 1.25, 0); const glow = new THREE.Mesh(new THREE.SphereGeometry(.25, 12, 8), material(0xffe08a)); glow.position.set(0, 1.85, 0); root.add(pole, banner, glow); root.traverse(child => { child.castShadow = false; child.receiveShadow = true; markDecor(child); }); scene.add(root); return root; }
-function ensureArray(value) { return Array.isArray(value) ? value : []; }
-function registerMob(context, mob) { context.scene.add(mob.mesh); if (context.olam) { mob.olam = context.olam; const nivrayim = ensureArray(context.olam.nivrayim); if (!nivrayim.includes(mob)) nivrayim.push(mob); context.olam.nivrayim = nivrayim; if (context.olam.combatManager && typeof context.olam.combatManager.registerEnemy === "function") context.olam.combatManager.registerEnemy(mob); } return mob; }
-function generatedWildlife(){ const species=["fox","cow","deer","goat","fox","wolf"], out=[...VILLAGE_WILDLIFE]; for(let i=0;i<30;i+=1){ const a=i*2.399, ring=34+(i%5)*18, speciesName=species[i%species.length], hp=speciesName==="cow"?115:speciesName==="deer"?82:speciesName==="goat"?76:58; out.push({ id:`wild_${speciesName}_${i}`, name:`${speciesName[0].toUpperCase()+speciesName.slice(1)} ${i+1}`, species:speciesName, position:{ x:Math.cos(a)*ring, y:.55, z:Math.sin(a)*ring }, color:speciesName==="fox"?0xc46b32:speciesName==="cow"?0x5f4a38:speciesName==="deer"?0x9a7244:0x8b7657, accent:0xffe8a3, hp, damage:speciesName==="cow"?9:7+(i%4), xp:22+(i%6)*5, perutas:2+(i%5), speed:speciesName==="cow"?2.6:3.2+(i%4)*.22, aggro:speciesName==="cow"?10:17+(i%5), patrol:7+(i%6) }); } return out; }
-export async function ensureGeneratedBattleLayer(context = {}) { if (!context.scene || !context.olam || !isVillageContext(context)) return []; if (context.olam[INSTALLED_KEY]) return context.olam[INSTALLED_KEY]; getVillageGroundNavigator(context.olam); const state = new VillageCombatState(context.olam, VILLAGE_COMBAT_MISSION); context.olam.__villageCombatState = state; const decor = VILLAGE_BATTLE_DECOR.map(def => addDecor(context.scene, def)); const mobs = generatedWildlife().map(def => registerMob(context, new VillageAnimalMob(context.olam, def, state))); context.olam[INSTALLED_KEY] = decor.concat(mobs); groundVillageNow(context.olam, mobs, false, "battle-layer-postbuild"); return context.olam[INSTALLED_KEY]; }
+import { VILLAGE_BATTLE_DECOR, VILLAGE_COMBAT_MISSION } from "../combat/VillageCombatManifest.js";
+import { getVillageGroundNavigator } from "../combat/VillageGroundNavigator.js?v=mitzvah-battle-split-20260703-bh1";
+import { groundVillageNow } from "../../../methods/loadNivrayim/villageGrounding.js?v=mitzvah-battle-split-20260703-bh1";
+import { INSTALLED_KEY, isVillageContext } from "./battle/BattleContext.js?v=mitzvah-battle-split-20260703-bh1";
+import { addDecor } from "./battle/BattleDecor.js?v=mitzvah-battle-split-20260703-bh1";
+import { buildMobs } from "./battle/BattleWildlife.js?v=mitzvah-battle-split-20260703-bh1";
+
+export async function ensureGeneratedBattleLayer(context = {}) {
+  if (!context.scene || !context.olam || !isVillageContext(context)) return [];
+  if (context.olam[INSTALLED_KEY]) return context.olam[INSTALLED_KEY];
+  context.olam.__villageGroundNavigator = getVillageGroundNavigator(context.olam);
+  const state = new VillageCombatState(context.olam, VILLAGE_COMBAT_MISSION);
+  context.olam.__villageCombatState = state;
+  const decor = VILLAGE_BATTLE_DECOR.map(def => addDecor(context.scene, def));
+  const mobs = buildMobs(context, state);
+  context.olam[INSTALLED_KEY] = decor.concat(mobs);
+  groundVillageNow(context.olam, mobs, false, "battle-layer-postbuild");
+  return context.olam[INSTALLED_KEY];
+}

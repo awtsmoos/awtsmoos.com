@@ -24,7 +24,9 @@ export function ownerFromHit(hit) {
 }
 
 export function finitePayload(payload = {}) {
-  return Number.isFinite(Number(payload.clientX)) && Number.isFinite(Number(payload.clientY));
+  const x = payload.clientX ?? payload.x;
+  const y = payload.clientY ?? payload.y;
+  return Number.isFinite(Number(x)) && Number.isFinite(Number(y));
 }
 
 export function raycastTargets(olam, mode = "interaction") {

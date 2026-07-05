@@ -12,7 +12,7 @@
  * @failureModes Missing player or food target falls back to patrol/forage safely.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { getVillageGroundNavigator } from "./VillageGroundNavigator.js?v=perf-tight-collision-20260703-bh2";
+import { getVillageGroundNavigator } from "./VillageGroundNavigator.js?v=mitzvah-battle-split-20260703-bh1";
 import { createVillageAnimal, disposeVillageAnimal } from "./VillageAnimalFactory.js?v=awtsmoos-village-animal-factory-20260614-bh2";
 import { animateAnimal } from "../region/wildlife/render/AnimalAnimator.js?v=awtsmoos-animal-gait-20260614-bh2";
 import { getDynamicActorPartition } from "../runtime/DynamicActorPartition.js?v=awtsmoos-dynamic-partition-20260614-bh2";

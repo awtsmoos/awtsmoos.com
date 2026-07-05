@@ -1,6 +1,66 @@
-/* B"H profile polish: every profile action is a clean card/button. */
-.geelooy-profile-shell{padding-bottom:max(6.4rem,env(safe-area-inset-bottom));background:radial-gradient(circle at 8% 0%,rgba(102,231,255,.12),transparent 22rem),radial-gradient(circle at 90% 8%,rgba(241,184,79,.13),transparent 24rem)}.geelooy-profile-shell :is(button,a){-webkit-tap-highlight-color:transparent}.geelooy-profile-shell button{font:inherit;cursor:pointer}.geelooy-profile-shell :is(button,a):focus-visible{outline:2px solid rgba(102,231,255,.55);outline-offset:2px}
-.profile-hero-card,.profile-command-panel{border:1px solid var(--pp-line);box-shadow:var(--pp-shadow),inset 0 1px 0 rgba(255,255,255,.08);background:linear-gradient(145deg,var(--pp-panel),rgba(18,27,48,.78));color:var(--pp-ink);border-radius:1.35rem}.profile-banner-light{background:linear-gradient(135deg,rgba(8,13,27,.96),rgba(32,44,76,.68)),radial-gradient(circle at 80% 10%,rgba(102,231,255,.18),transparent 14rem)}.profile-avatar-orb{box-shadow:0 1rem 2.4rem rgba(0,0,0,.28),0 0 0 .18rem rgba(255,255,255,.14)}
-.profile-command-rail,.profile-inline-actions{display:flex;flex-wrap:wrap;gap:.48rem;margin-top:.9rem}.profile-command-rail a,.profile-inline-actions :is(button,a),.profile-primary-action,.panel-title-row a,.alias-card-actions :is(a,button),.heichel-card-body a,.profile-tabs button{min-height:2.75rem;padding:.64rem .86rem;border:1px solid var(--pp-line);border-radius:1rem;background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.045));color:var(--pp-ink);font-weight:900;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}.profile-primary-action,.panel-title-row a,.profile-tabs button.active{background:linear-gradient(135deg,var(--pp-gold),var(--pp-cyan));color:#03101b;border:0}.profile-command-rail a:hover,.profile-inline-actions :is(button,a):hover,.panel-title-row a:hover{transform:translateY(-1px);filter:saturate(1.08)}
-:is(.social-alias-card,.social-heichel-card,.profile-about-grid article){position:relative;overflow:hidden;border-color:var(--pp-line);box-shadow:var(--g-shadow-soft);background:linear-gradient(145deg,rgba(255,255,255,.095),rgba(255,255,255,.055));color:var(--pp-ink)}:is(.social-alias-card,.social-heichel-card,.profile-about-grid article)::before{content:"";position:absolute;inset:0 0 auto;height:.2rem;background:linear-gradient(90deg,var(--pp-gold),var(--pp-cyan));opacity:.8}.profile-stat-grid article{min-height:5.15rem;background:rgba(255,255,255,.06);border-color:var(--pp-line);color:var(--pp-ink)}
-.profile-tabs{position:sticky;top:.4rem;z-index:4;display:flex;gap:.25rem;background:rgba(8,13,27,.82);backdrop-filter:blur(14px);border-radius:999px;padding:.25rem;width:max-content;max-width:100%;overflow:auto}.profile-tabs button{border-radius:999px}.profile-panel-body{border-top:1px solid var(--pp-line);margin-top:.9rem;padding-top:.6rem}@media(max-width:900px){.profile-banner-light{min-height:8.5rem}.profile-identity-row{margin-top:-2.8rem}.profile-command-rail a,.profile-inline-actions :is(button,a){flex:1 1 calc(50% - .45rem);text-align:center}.profile-tabs{width:100%;justify-content:center}}@media(max-width:560px){.profile-avatar-orb{width:5rem;height:5rem;font-size:1.8rem}.profile-identity-row{grid-template-columns:1fr;text-align:center;justify-items:center}:is(.alias-card-actions a,.alias-card-actions button){flex:1 1 100%}.profile-stat-grid{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){.geelooy-profile-shell *{transition:none!important;transform:none!important}}
+/* B"H
+ * Chapter 464: profile stops being a dark warehouse and becomes a social room.
+ * The Awtsmoos in every selector makes desktop simple and mobile generous.
+ */
+.geelooy-profile-shell {
+  width: min(74rem, calc(100vw - 1.2rem)); margin: 1rem auto 2rem; padding-bottom: 1rem;
+  color: var(--pp-ink); background: radial-gradient(circle at 8% 0%, rgba(102,231,255,.12), transparent 22rem), radial-gradient(circle at 90% 8%, rgba(241,184,79,.13), transparent 24rem);
+}
+.geelooy-profile-shell :is(button, a) { -webkit-tap-highlight-color: transparent; }
+.geelooy-profile-shell button { font: inherit; cursor: pointer; }
+.geelooy-profile-shell :is(button, a):focus-visible { outline: 2px solid rgba(102,231,255,.58); outline-offset: 2px; }
+.profile-hero-card, .profile-command-panel {
+  border: 1px solid var(--pp-line); border-radius: 1.45rem; color: var(--pp-ink);
+  background: linear-gradient(145deg, rgba(13,20,38,.94), rgba(18,27,48,.78));
+  box-shadow: var(--pp-shadow), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.profile-banner-light { background: linear-gradient(135deg, rgba(8,13,27,.96), rgba(32,44,76,.68)), radial-gradient(circle at 80% 10%, rgba(102,231,255,.18), transparent 14rem); }
+.profile-avatar-orb { box-shadow: 0 1rem 2.4rem rgba(0,0,0,.28), 0 0 0 .18rem rgba(255,255,255,.14); }
+.profile-command-rail, .profile-inline-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+.profile-command-rail a, .profile-inline-actions :is(button,a), .profile-primary-action, .panel-title-row a, .alias-card-actions :is(a,button), .heichel-card-body a, .profile-tabs button {
+  min-height: 2.75rem; padding: .64rem .86rem; border: 1px solid var(--pp-line); border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.045)); color: var(--pp-ink);
+  font-weight: 900; text-decoration: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+.profile-primary-action, .panel-title-row a, .profile-tabs button.active { background: linear-gradient(135deg, var(--pp-gold), var(--pp-cyan)); color: #03101b; border: 0; }
+.profile-command-rail a:hover, .profile-inline-actions :is(button,a):hover, .panel-title-row a:hover { transform: translateY(-1px); filter: saturate(1.08); }
+:is(.social-alias-card, .social-heichel-card, .profile-about-grid article) {
+  position: relative; overflow: hidden; border-color: var(--pp-line); box-shadow: var(--g-shadow-soft);
+  background: linear-gradient(145deg, rgba(255,255,255,.095), rgba(255,255,255,.055)); color: var(--pp-ink);
+}
+:is(.social-alias-card, .social-heichel-card, .profile-about-grid article)::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: .22rem; background: linear-gradient(90deg, var(--pp-gold), var(--pp-cyan)); opacity: .85;
+}
+.profile-stat-grid article { min-height: 5.15rem; background: rgba(255,255,255,.06); border-color: var(--pp-line); color: var(--pp-ink); }
+.profile-tabs {
+  position: sticky; top: .45rem; z-index: 4; display: flex; gap: .25rem; width: max-content; max-width: 100%; overflow: auto;
+  padding: .25rem; border: 1px solid rgba(255,255,255,.1); border-radius: 999px; background: rgba(8,13,27,.86); backdrop-filter: blur(14px);
+}
+.profile-tabs button { border-radius: 999px; white-space: nowrap; }
+.profile-panel-body { border-top: 1px solid var(--pp-line); margin-top: .9rem; padding-top: .6rem; }
+.social-card-list .center { min-height: 7rem; }
+.social-empty-card { min-height: 5.5rem; display: grid; place-items: center; padding: 1.1rem; border-style: dashed; text-align: center; }
+.profile-bottom-nav {
+  position: fixed; left: .65rem; right: .65rem; bottom: max(.6rem, env(safe-area-inset-bottom)); z-index: 1000;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .35rem; padding: .45rem;
+  border: 1px solid rgba(255,255,255,.13); border-radius: 1.25rem; background: rgba(8,11,25,.93);
+  backdrop-filter: blur(16px); box-shadow: 0 1rem 2.6rem rgba(0,0,0,.32);
+}
+.profile-bottom-nav a { min-width: 0; min-height: 3.1rem; display: grid; place-items: center; border-radius: 1rem; color: #fff8df; background: rgba(255,255,255,.06); font-size: .73rem; font-weight: 950; text-decoration: none; }
+.profile-bottom-nav a[aria-current="page"], .profile-bottom-nav a.active { color: #06101b; background: linear-gradient(135deg, var(--pp-gold), var(--pp-cyan)); }
+.profile-bottom-nav a.is-create { font-size: 1.35rem; color: #06101b; background: linear-gradient(135deg, #ffe28a, #75e7f4); }
+@media (min-width: 861px) { .profile-bottom-nav { display: none; } .geelooy-profile-shell { padding-bottom: 2rem; } }
+@media (max-width: 900px) {
+  .profile-banner-light { min-height: 8.5rem; }
+  .profile-identity-row { margin-top: -2.8rem; }
+  .profile-command-rail a, .profile-inline-actions :is(button,a) { flex: 1 1 calc(50% - .45rem); text-align: center; }
+  .profile-tabs { width: 100%; justify-content: center; }
+}
+@media (max-width: 560px) {
+  .geelooy-profile-shell { width: calc(100vw - .75rem); margin-top: .5rem; padding-bottom: max(6.4rem, env(safe-area-inset-bottom)); }
+  .profile-avatar-orb { width: 5rem; height: 5rem; font-size: 1.8rem; }
+  .profile-identity-row { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  :is(.alias-card-actions a, .alias-card-actions button) { flex: 1 1 100%; }
+  .profile-stat-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .geelooy-profile-shell * { transition: none !important; transform: none !important; } }

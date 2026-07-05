@@ -2,8 +2,10 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 
 const PROXY = "AWTSMOOS_DOOR_EXPLICIT_INTERACTION_PROXY";
+const HIGHLIGHT = "AWTSMOOS_DOOR_HOVER_HIGHLIGHT";
 
 export function sealDoorPart(part, wrapper) {
+  if (part?.userData?.visualOnly) return;
   part.nivraAwtsmoos = wrapper;
   Object.assign(part.userData ||= {}, {
     doorClickTarget:true,
@@ -24,11 +26,34 @@ export function ensureDoorProxy(entry, wrapper) {
   );
   proxy.name = PROXY;
   proxy.position.set(0, 1.25, 0);
-  proxy.visible = false;
+  proxy.visible = true;
   proxy.frustumCulled = false;
   sealDoorPart(proxy, wrapper);
   entry.pivot.add(proxy);
+  ensureDoorHighlight(entry);
   return proxy;
 }
 
-export default { ensureDoorProxy, sealDoorPart };
+export function ensureDoorHighlight(entry) {
+  let mesh = entry?.pivot?.getObjectByName?.(HIGHLIGHT);
+  if (mesh) return mesh;
+  mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(2.45, 3.25, 1.22),
+    new THREE.MeshBasicMaterial({ color:0xffd95a, wireframe:true, transparent:true, opacity:0.9, depthWrite:false })
+  );
+  mesh.name = HIGHLIGHT;
+  mesh.position.set(0, 1.25, 0);
+  mesh.visible = false;
+  mesh.frustumCulled = false;
+  Object.assign(mesh.userData ||= {}, { visualOnly:true, skipRaycast:true, skipOctree:true, noOctree:true });
+  entry.pivot.add(mesh);
+  return mesh;
+}
+
+export function setDoorHighlight(entry, active) {
+  const mesh = ensureDoorHighlight(entry);
+  mesh.visible = Boolean(active);
+  return mesh.visible;
+}
+
+export default { ensureDoorProxy, sealDoorPart, ensureDoorHighlight, setDoorHighlight };

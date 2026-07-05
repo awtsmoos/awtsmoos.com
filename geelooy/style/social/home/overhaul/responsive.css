@@ -1,0 +1,24 @@
+/* B"H — one simple layout bends instead of breaking. */
+@media (max-width: 1080px) {
+  .home-left-rail { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .home-rail-copy { display: none; }
+}
+@media (max-width: 980px) {
+  .geelooy-home-shell { width: min(100% - .9rem, 44rem); margin-top: .55rem; }
+  .home-left-rail { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .home-rail-links, .home-rail-actions { display: none; }
+  .home-menu-button { display: grid; place-items: center; width: 2.65rem; height: 2.65rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); background: rgba(255,255,255,.08); }
+  .home-quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  body { padding-bottom: max(5.6rem, env(safe-area-inset-bottom)); }
+  .geelooy-home-shell { width: min(100% - .7rem, 38rem); gap: .65rem; }
+  .home-left-rail, .clean-hero, .home-feed-phone { border-radius: 1.05rem; }
+  .home-search-vessel, .home-composer, .civilization-metrics { grid-template-columns: 1fr; }
+  .home-feed-tabs { overflow-x: auto; grid-template-columns: repeat(4, max-content); scrollbar-width: none; border-radius: 1rem; }
+  .home-feed-tabs::-webkit-scrollbar { display: none; }
+  .clean-hero h1 { font-size: clamp(2.8rem, 18vw, 4.4rem); }
+  .post-author { grid-template-columns: auto minmax(0, 1fr); }
+  .post-author small { grid-column: 2; }
+}
+@media (max-width: 430px) { .home-quick-grid { grid-template-columns: 1fr; } .home-route-card { min-height: 3.1rem; } }

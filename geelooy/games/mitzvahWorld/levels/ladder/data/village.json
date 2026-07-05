@@ -65,36 +65,36 @@
     ],
     "ProceduralTerrain": [
       {
-        "name": "single_green_test_plane",
-        "width": 140,
-        "depth": 140,
-        "segments": 36,
-        "collisionSegments": 36,
+        "name": "stable_physics_terrain_lawful_textured_ground",
+        "width": 520,
+        "depth": 420,
+        "segments": 96,
+        "collisionSegments": 28,
         "isSolid": true,
         "noSafetySlab": true,
         "textureType": "safegrass",
-        "textureSize": 64,
-        "microNoise": 0.015,
-        "mobileTone": "flat-test-green",
+        "textureSize": 384,
+        "microNoise": 0.045,
+        "mobileTone": "soft-clear-meadow-green",
         "points": [
           {
-            "x": -70,
-            "z": -70,
+            "x": -260,
+            "z": -210,
             "y": 0
           },
           {
-            "x": 70,
-            "z": -70,
+            "x": 260,
+            "z": -210,
             "y": 0
           },
           {
-            "x": 70,
-            "z": 70,
+            "x": 260,
+            "z": 210,
             "y": 0
           },
           {
-            "x": -70,
-            "z": 70,
+            "x": -260,
+            "z": 210,
             "y": 0
           }
         ],
@@ -102,21 +102,21 @@
           {
             "x": -22,
             "z": -18,
-            "radius": 22,
+            "radius": 78,
             "height": 3.2,
             "softness": 0.7
           },
           {
             "x": 24,
             "z": 18,
-            "radius": 26,
+            "radius": 86,
             "height": 2.7,
             "softness": 0.8
           },
           {
             "x": -8,
             "z": 30,
-            "radius": 18,
+            "radius": 65,
             "height": 1.9,
             "softness": 0.75
           }
@@ -135,10 +135,10 @@
       {
         "name": "Simple Test Player",
         "path": "https://models-3122d.web.app/chossid.glb?k=1",
-        "speed": 18,
-        "speedScale": 1.35,
-        "runModeScale": 1.25,
-        "walkModeScale": 0.85,
+        "speed": 10,
+        "speedScale": 1,
+        "runModeScale": 1,
+        "walkModeScale": 0.55,
         "autoGround": true,
         "groundLift": 0,
         "position": {

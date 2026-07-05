@@ -4,8 +4,8 @@
     if(request.user) { sharedData.user = request.user.info.userId; user = request.user.info.userId; }
     else { olam.replace = $a("message.html", { message: "You're not logged in!@!" }); return; }
     return $a("nav/page.html", { tochen: /*html*/`
-      <link rel="stylesheet" type="text/css" href="/style/social/profile.css?v=social-inline-001">
-      <link rel="stylesheet" type="text/css" href="/style/social/profile/polish.css?v=profile-002">
+      <link rel="stylesheet" type="text/css" href="/style/social/profile.css?v=social-inline-002">
+      <link rel="stylesheet" type="text/css" href="/style/social/profile/polish.css?v=profile-003">
       <main class="geelooy-profile-shell" data-user="${user}" data-profile>
         <section class="profile-hero-card" aria-labelledby="profile-title">
           <div class="profile-banner-light" aria-hidden="true"></div>
@@ -33,6 +33,6 @@
           <div class="profile-panel-body"><section id="profile-panel-aliases" class="profile-tab-panel" role="tabpanel" aria-labelledby="profile-tab-aliases" data-profile-panel="aliases"><div class="panel-title-row"><h2>Your Aliases</h2><a href="./alias-manage/">New Alias</a></div><div class="alias-list social-card-list" aria-live="polite"><div class="center"><div class="loading-circle" aria-label="Loading aliases"></div></div></div></section><section id="profile-panel-heichelos" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-heichelos" data-profile-panel="heichelos" hidden><div class="panel-title-row"><h2>Your Heichelos</h2><a href="/heichelos/manage-alias-heichelos/">Manage</a></div><div class="heichel-list social-card-list" aria-live="polite"></div></section><section id="profile-panel-about" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-about" data-profile-panel="about" hidden><div class="profile-about-grid"><article><h3>Aliases</h3><p>Each alias is a public identity with posts, comments, Heichelos, mail, and relationships.</p></article><article><h3>Heichelos</h3><p>Heichelos are social spaces: communities, libraries, series, editor rooms, and discussions.</p></article><article><h3>Reader Experience</h3><p>Social comments, messages, and notifications stay nearby while full pages remain available.</p></article></div></section></div>
         </section>
         <section class="profile-action-drawer" data-profile-action-drawer hidden aria-live="polite"></section>
-        <nav class="profile-bottom-nav" aria-label="Primary routes"><a href="/">Home</a><a href="/email">Mail</a><a class="is-create" href="/heichelos/submit">+</a><a href="/heichelos">Heichel</a><a href="/profile" aria-current="page">Profile</a></nav>
+        <nav class="profile-bottom-nav" aria-label="Primary routes"><a href="/">Home</a><a href="/email">Mail</a><a class="is-create" href="/heichelos/submit">+</a><a href="/heichelos">Heichelos</a><a href="/profile" aria-current="page">Profile</a></nav>
       </main><script type="module" src="./script.js?v=social-inline-001"></script>`, centered:false })
 </script>?>

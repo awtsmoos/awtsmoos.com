@@ -33,12 +33,12 @@ function ensureSelectionBubble(root, species) {
   bubble.userData = { combatTargetProxy:true, selectableCombatTarget:true, species, interactionLayer:"combat-target", skipOctree:true, noOctree:true, skipRaycast:false };
   root.add(bubble); d.selectionBubble = bubble; return bubble;
 }
-export function isLiveTarget(t) { const h = t?.health || healthOf(t?.mesh); return Boolean(t && t.mesh && t.mesh.visible !== false && !t.isDead && Number(h?.current ?? t.hp ?? 1) > 0); }
+export function isLiveTarget(t) { const h = t?.health || healthOf(t?.mesh), data = dataOf(t?.mesh); return Boolean(t && t.mesh && t.mesh.visible !== false && !t.isDead && !data.dead && !data.lootable && Number(h?.current ?? t.hp ?? 1) > 0); }
 export function makeCombatTarget(object, playerLevel = 1) {
   const root = rootOf(object); if (!root?.isObject3D || !combatAllowed(root)) return null;
   const d = dataOf(root); if (d.combatTargetWrapper) { ensureCreatureLevel(d.combatTargetWrapper, playerLevel); return d.combatTargetWrapper; }
   const h = healthOf(root), species = speciesOf(root);
-  const wrapper = { mesh:root, isReady:true, get name() { return nameOf(root); }, get hp() { return Number(h.current ?? 0); }, get maxHp() { return Number(h.max ?? 1); }, get health() { return h; }, get isDead() { return Number(h.current ?? 0) <= 0 || root.visible === false; }, def:{ species, color:species === "fox" ? 0xd46a24 : 0x8bcf68 }, takeDamage(amount = 0, source = {}) { if (typeof root.takeDamage === "function") return root.takeDamage(amount, source); h.current = Math.max(0, Number(h.current || 0) - Math.max(0, Number(amount) || 0)); dataOf(root).lastDamageAt = Date.now(); if (h.current <= 0) { root.visible = false; dataOf(root).dead = true; } return amount; } };
+  const wrapper = { mesh:root, isReady:true, get name() { return nameOf(root); }, get hp() { return Number(h.current ?? 0); }, get maxHp() { return Number(h.max ?? 1); }, get health() { return h; }, get isDead() { return Number(h.current ?? 0) <= 0 || root.visible === false || dataOf(root).dead === true; }, def:{ species, color:species === "fox" ? 0xd46a24 : 0x8bcf68 }, takeDamage(amount = 0, source = {}) { if (typeof root.takeDamage === "function") return root.takeDamage(amount, source); h.current = Math.max(0, Number(h.current || 0) - Math.max(0, Number(amount) || 0)); dataOf(root).lastDamageAt = Date.now(); if (h.current <= 0) { dataOf(root).dead = true; dataOf(root).lootable = true; root.rotation.z = Math.PI / 2; } return amount; } };
   d.combatTargetWrapper = wrapper; d.combatTargetOwner = wrapper; d.selectableCombatTarget = true;
   const bubble = ensureSelectionBubble(root, species); bubble.userData.combatTargetOwner = wrapper;
   markChildren(root, wrapper); ensureCreatureLevel(wrapper, playerLevel); return wrapper;

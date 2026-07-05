@@ -1,10 +1,11 @@
 // B"H
-/** Door runtime: the hinge changes both visible wood and collision law. */
-import { registerHouseRoot } from "../../../collision/HouseCollisionWorld.js?v=big-solid-house-rooms-20260702-bh12";
+/** Door runtime: visible hinge and tight sidecar collision change together. */
+import { registerHouseRoot } from "../../../collision/HouseCollisionWorld.js?v=perf-tight-collision-20260703-bh8";
 import { setDoorVisualState } from "./DoorAnimationRuntime.js";
 import { normalizeDoorState, saveDoorState } from "./DoorPersistence.js";
-import { registerDoorEntry } from "./DoorInteractionRegistry.js";
+import { registerDoorEntry } from "./DoorInteractionRegistry.js?v=perf-tight-collision-20260703-bh9";
 import { dist2, doorEntries, playerPosition, publishDoorState, toast, worldPos } from "./DoorInteractionHelpers.js";
+
 function applyColliderState(root, doorId, state) {
   const open = state?.open === true;
   root?.traverse?.(node => {
@@ -12,13 +13,16 @@ function applyColliderState(root, doorId, state) {
     if (data.doorId === doorId && data.doorPanel) data.closedCollider = !open;
     if (data.doorState?.id === doorId) { data.doorState.open = open; data.doorOpen = open; }
     if (!Array.isArray(data.colliderSources)) return;
-    data.colliderSources.forEach(src => { if (!src?.door || (src.id !== doorId && src.visibleTwin !== doorId)) return; src.open = open; src.solid = !open; });
+    data.colliderSources.forEach(src => {
+      if (!src?.door || (src.id !== doorId && src.visibleTwin !== doorId)) return;
+      src.open = open; src.solid = !open;
+    });
   });
 }
 function refreshCollision(olam, root, reason, state) {
   applyColliderState(root, state?.id, state); root?.updateMatrixWorld?.(true);
-  const result = registerHouseRoot(olam, root, { houseId:"living-region-cottages" });
-  olam.__lastDoorCollisionRefresh = { at:Date.now(), reason, doorId:state?.id || null, open:state?.open === true, colliders:result?.records?.length || 0 };
+  const result = registerHouseRoot(olam, root, { houseId:"living-region-cottages", forceRefresh:true, octree:false });
+  olam.__lastDoorCollisionRefresh = { at:Date.now(), reason, doorId:state?.id || null, open:state?.open === true, colliders:result?.records?.length || 0, octree:false };
   return result;
 }
 export function nearestDoor(olam, root = olam?.__livingRegionCottageRoot, maxDistance = 6.4) {

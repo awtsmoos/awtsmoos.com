@@ -1,4 +1,4 @@
-/* B"H — Heichelos listing entry: imports only, so ownership stays calm. */
+/* B"H — Heichelos listing entry: one calm graph of imports, no hidden dock. */
 @import "/style/social-system/tokens.css";
 @import "./spaces/tokens.css";
 @import "./spaces/reset.css";
@@ -9,5 +9,7 @@
 @import "./spaces/grid.css";
 @import "./spaces/card.css";
 @import "./spaces/empty.css";
+@import "./spaces/navigation.css";
+@import "./spaces/surface-polish.css";
 @import "./spaces/focus.css";
 @import "./spaces/mobile.css";

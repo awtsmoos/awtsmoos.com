@@ -9,7 +9,7 @@ import { decisionFromWildlifeCombat } from "../../../../../systems/creatures/Wil
 import { getDynamicActorPartition } from "../../runtime/DynamicActorPartition.js?v=perf-tight-collision-20260703-bh3";
 import { animateAnimal } from "../wildlife/render/AnimalAnimator.js?v=animal-lod-wire-20260622-bh1";
 import { groundY } from "./RegionGround.js";
-import { FAST, distance2, length2d, playerMesh } from "./RegionWildlifeData.js?v=perf-tight-collision-20260703-bh3";
+import { FAST, distance2, length2d, playerMesh } from "./RegionWildlifeData.js?v=perf-tight-collision-20260703-bh4";
 
 function nearest(root, species, from) {
   let best = null;
@@ -35,7 +35,19 @@ function oldChoose(root, animal, motion, olam) {
 }
 
 function choose(root, animal, motion, olam) {
-  return decisionFromWildlifeCombat(animal, olam) || animal.userData?.lifeDecision || oldChoose(root, animal, motion, olam);
+  return normalizeDecision(decisionFromWildlifeCombat(animal, olam), olam) || normalizeDecision(animal.userData?.lifeDecision, olam) || oldChoose(root, animal, motion, olam);
+}
+
+function normalizeDecision(decision, olam) {
+  if (!decision) return null;
+  if (decision.state) return decision;
+  const action = String(decision.action || "").toLowerCase();
+  if (!action || action === "idle") return null;
+  if (action === "return_home") return { ...decision, state:"return_home" };
+  if (action === "chase") return { ...decision, state:"hunt", target:playerMesh(olam)?.position || decision.target, player:true };
+  if (action === "patrol") return { ...decision, state:"wander" };
+  if (action === "attack") return { ...decision, state:"attack", target:playerMesh(olam)?.position || decision.target, player:true };
+  return { ...decision, state:action };
 }
 
 function chooseWaypoint(motion) {
@@ -61,7 +73,8 @@ function damagePlayer(olam, motion, delta) {
   if (motion.attackCooldown > 0) return;
   motion.attackCooldown = 1.35;
   const player = olam && (olam.player || olam.chossid);
-  player?.ayshPeula?.("damage", { amount: 4, source: "wildlife" });
+  if (typeof player?.takeDamage === "function") player.takeDamage(4);
+  else player?.ayshPeula?.("damage", { amount: 4, source: "wildlife" });
 }
 
 function partitionFor(olam) {

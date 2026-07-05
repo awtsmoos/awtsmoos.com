@@ -1,0 +1,21 @@
+/* B"H
+ * Chapter 468: simplicity becomes the futuristic light.
+ */
+:root {
+  --home-bg: #030711;
+  --home-bg-2: #07101f;
+  --home-panel: rgba(8, 13, 25, .72);
+  --home-panel-strong: rgba(12, 18, 33, .88);
+  --home-line: rgba(255, 255, 255, .12);
+  --home-line-bright: rgba(126, 242, 255, .38);
+  --home-text: #fff8ed;
+  --home-muted: rgba(232, 237, 255, .7);
+  --home-soft: rgba(232, 237, 255, .48);
+  --home-gold: #f4df78;
+  --home-cyan: #73ecff;
+  --home-violet: #8f8cff;
+  --home-radius: 1.35rem;
+  --home-gap: clamp(.65rem, 1.3vw, 1rem);
+  --home-shadow: 0 1.1rem 3.2rem rgba(0, 0, 0, .34);
+  --home-glow: radial-gradient(circle at 14% 0%, rgba(115,236,255,.14), transparent 26rem), radial-gradient(circle at 86% 4%, rgba(244,223,120,.13), transparent 24rem);
+}
