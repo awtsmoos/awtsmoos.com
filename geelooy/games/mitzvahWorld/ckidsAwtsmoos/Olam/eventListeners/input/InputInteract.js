@@ -1,0 +1,9 @@
+// B"H
+/** Interactions: doors and NPCs are not combat targets. */
+import { toggleNearestDoor } from "../../worlds/mitzvahWorld/region/houses/door/DoorInteractionRuntime.js?v=mobile-real-touch-20260705-bh1";
+import { clearTarget } from "./InputTargeting.js";
+import { nearPlayer, positionOf } from "./InputTrace.js";
+function interactNpc(olam, peula = {}) { const npc = olam?.__selectedFriendlyNpc; if (!npc || npc.interactable === false) return false; const actor = { ...(peula || {}), type:"contextmenu", contextMenu:true, explicit:true, isPointer:true, player:olam.player || olam.chossid }; if (!nearPlayer(olam, npc, Number(npc.talkDistance || npc.proximity || 7))) return olam.ayshPeula?.("ui event", "effectsOverlay", { text:"MOVE CLOSER TO TALK", color:"#ffd966" }), true; return npc.openGuideMenu?.(actor, true) || npc.ayshPeula?.("accepted interaction", actor) || true; }
+function interactRouteDoor(olam, peula = {}) { const player = olam.player || olam.chossid; let best = null, bestD = Infinity; for (const nivra of olam.interactableNivrayim || []) { if (nivra?.type !== "interactiveDoor" || !nivra.next) continue; const a = positionOf(player), b = positionOf(nivra), d = a && b ? a.distanceTo(b) : Infinity; if (d < bestD) { best = nivra; bestD = d; } } if (!best || bestD > Number(best.proximity || 7)) return false; best.ayshPeula?.("accepted interaction", { ...(peula || {}), player, explicit:true, source:peula.source || "interact" }); return true; }
+export function interact(olam, peula = {}) { clearTarget(olam, peula.source?.includes("door") ? "door-not-combat" : "interact-start"); if (interactNpc(olam, peula)) return true; if (toggleNearestDoor(olam)) return true; if (interactRouteDoor(olam, peula)) return true; olam.ayshPeula?.("ui event", "effectsOverlay", { text:"NOTHING TO INTERACT", color:"#ffd966" }); return false; }
+export { toggleNearestDoor };
