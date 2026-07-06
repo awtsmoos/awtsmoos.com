@@ -11,7 +11,7 @@
  * pulses with life in the background thread.
  */
 import VeilController from "../../../uiManager/logic/VeilController.js";
-import LoadingProgress from "../../../uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh2";
+import LoadingProgress from "../../../uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh3";
 
 export default function setupVeilDissolver(manager) {
     const controller = new VeilController(manager.myUi);

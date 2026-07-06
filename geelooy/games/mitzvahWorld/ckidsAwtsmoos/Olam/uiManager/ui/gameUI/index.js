@@ -2,14 +2,14 @@
 /** @file index.js @description Worker game UI roots with viewport-aware mobile controls. */
 import hud from "./hud.js?v=mission-card-ui-20260610-bh711";
 import missionCard from "./missionCard.js?v=village-polish-20260612-bh810";
-import unitFrames from "./unitFrames.js?v=mobile-unitframes-nameplates-progress-20260615-bh904";
+import unitFrames from "./unitFrames.js?v=mobile-target-safe-area-20260706-bh1";
 import settingsPanel from "./settingsPanel.js?v=player-probe-copy-20260701-bh1";
 import effectsOverlay from "../components/effectsOverlay.js?v=ray-ground-ui-20260602-bh126";
 import joystick from "../joystick.js?v=solid-browser-verify-20260702-bh8";
 import ActionBar from "./actionBar.js?v=solid-browser-verify-20260702-bh8";
 import InventoryScreen from "./inventory/index.js?v=ray-ground-ui-20260602-bh126";
-import InventoryStyle from "./inventory/style.js?v=ray-ground-ui-20260602-bh126";
-import storeScreen from "../screens/storeScreen.js?v=ray-ground-ui-20260602-bh126";
+import InventoryStyle from "./inventory/style.js?v=mobile-icon-grid-20260706-bh1";
+import storeScreen from "../screens/storeScreen.js?v=shop-stock-mobile-grid-20260706-bh1";
 import npcGuideOverlay from "./npcGuideOverlay.js?v=ui-glass-click-proof-20260603-bh366";
 import dialogues from "./dialogues.js?v=village-combat-20260611-bh805";
 import { Toast } from "./components/Toast.js?v=ray-ground-ui-20260602-bh126";

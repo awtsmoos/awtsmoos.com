@@ -1,6 +1,6 @@
 // B"H
 /** @file actionBar.js @description Compact action dock with a real bottom anchor. */
-import { installActionBarLayoutRuntime } from "./actionBarLayoutRuntime.js?v=solid-browser-verify-20260702-bh8";
+import { installActionBarLayoutRuntime } from "./actionBarLayoutRuntime.js?v=mobile-safe-actionbar-20260706-bh1";
 
 const ACTIONS = [
   { cls:"attack-slot", icon:"⚔️", name:"Strike", label:"V", kind:"combatAttack" },
