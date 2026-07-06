@@ -9,12 +9,14 @@ const CONTROL_ACTIONS = new Set([
   'runtimeSnapshot','actionSchemaTrace','actionHistoryGet','actionHistoryList','actionHistorySearch',
   'actionTimeline','actionStream','agentActionStream','missionActionStream','roomActionStream','workerActionStream','browserActionStream','fsActionStream',
   'treeStatus','treePage','treeStream','treeSummary','treeCancel','rgStatus','rgPage','rgStream','rgSummary','rgCancel',
+  'chromeTargets','chromeTargetSelector','chromeClosePage',
+  'nodeVersionDoctor','nodePackageScripts','nodeResolve',
   'missionGet','missionStatus','missionRecovery','missionHeartbeat','missionDaemonStatus',
   'missionWatchdogStatus','missionWatchdogRecover'
 ]);
 const FS_LIGHT_ACTIONS = new Set(['stat','read','read64','readBytes','readLines','readManyLines','md','list','configGet','fileHashes','recentFiles','connectedFiles']);
-const CHROME_LIGHT_ACTIONS = new Set(['chromeStatus','chromeLogs','browserDoctor','browserConsoleTriage','consoleErrorTriage']);
-const BULK_ACTIONS = new Set(['tree','treeStart','treeManifest','treeDiff','treeIndex','findFiles','grep','rgStart','rgRefine','rgRerun','selectString','bulk','bulkWrite','bulkWriteIfHashes','bulkRead','actionBatch','commandBatch','parallelActionBatch','forEachActionBatch','missionAuto','missionAutopilot','missionLoopPulse','missionContinueOneHour','missionContinueUntilGate','runtimeWorkflow','simulateRuntime','testMatrixRunner','stressMatrix','previewCreate','previewFolder','previewPage','previewCollection','previewLiveCommand','chromeSnapshot','chromeSnapshotScoped','chromeFind']);
+const CHROME_LIGHT_ACTIONS = new Set(['chromeStatus','chromeTargets','chromeTargetSelector','chromeClosePage','chromeLogs','browserDoctor','browserConsoleTriage','consoleErrorTriage']);
+const BULK_ACTIONS = new Set(['tree','treeStart','treeManifest','treeDiff','treeIndex','findFiles','grep','rgStart','rgRefine','rgRerun','selectString','bulk','bulkWrite','bulkWriteIfHashes','bulkRead','nodeDomRun','nodeDomEval','nodeDomSnapshot','nodeDomClick','nodeDomType','nodeDomSubmit','nodeDomQuery','nodeDomDiff','nodeDomConsole','nodeDomNetworkMock','nodeDomStorage','nodeDomRoute','nodeDomTest','virtualDomTest','isolatedNodeCheck','nodeRequire','actionBatch','commandBatch','parallelActionBatch','forEachActionBatch','missionAuto','missionAutopilot','missionLoopPulse','missionContinueOneHour','missionContinueUntilGate','runtimeWorkflow','simulateRuntime','testMatrixRunner','stressMatrix','previewCreate','previewFolder','previewPage','previewCollection','previewLiveCommand','chromeSnapshot','chromeSnapshotScoped','chromeFind']);
 const PRIORITY_ACTIONS = CONTROL_ACTIONS;
 
 /**

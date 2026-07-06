@@ -6,7 +6,7 @@
  */
 
 export const TORAH_ABILITIES = {
-  shema_yisrael: {[
+  shema_yisrael: {
     id: "shema_yisrael",
     name: "Shema Yisrael",
     closedForm: "projectile",
@@ -48,6 +48,6 @@ export const TORAH_ABILITIES = {
     castTimeMs: 1000,
     expCost: 30,
     damageType: "light_purification",
-    auraScript: "The shows open a path to reveal hidden truth.".
+    auraScript: "The shows open a path to reveal hidden truth."
   }
 };

@@ -13,10 +13,10 @@
  * ╚══════════════════════════════════════════════════════════════════════╝
  */
 
-import { PIRKEI_AVOS_PASSAGES } from './books/pirkeiAvos.js';
-import { REBBE_12_PESUKIM } from './books/rebbesPesakim.js';
-import { TANYA_PASSAGES } from './books/tanyaPassages.js';
-import { GEMARA_PASSAGES } from './books/gemaraPassages.js';
+import { PIRKEI_AVOS_PASSAGES } from './pirkeiAvos.js';
+import { REBBE_12_PESUKIM } from './rebbesPesakim.js';
+import { TANYA_PASSAGES } from './tanyaPassages.js';
+import { GEMARA_PASSAGES } from './gemaraPassages.js';
 
 // ─── MASTER FLAT REGISTRY ────────────────────────────────────────────────────
 export const ALL_PASSAGES = [

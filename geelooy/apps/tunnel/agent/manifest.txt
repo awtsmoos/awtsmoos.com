@@ -1,5 +1,5 @@
 B"H
-1.0.241
+1.0.242
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -633,6 +633,7 @@ lib/remoteNativeDesktop/scene/geelooyScene.js
 lib/remoteNativeDesktop/scene/painter.js
 lib/remoteNativeDesktop/sceneToFramebuffer.js
 lib/response-size.js
+lib/runtime/action-stream.js
 lib/runtime/aliases.js
 lib/runtime/async-task-process.js
 lib/runtime/background-update.js
@@ -684,6 +685,7 @@ rebuild-manifest.cjs
 scripts/auto-manifest.cjs
 scripts/cleanup-state.cjs
 scripts/run-fs-action-child.cjs
+scripts/run-scan-worker.cjs
 scripts/verify-manifest.cjs
 tools/chatgpt/actions/conversations.js
 tools/chatgpt/actions/login.js
@@ -738,6 +740,7 @@ tools/fs/actionBatch.js
 tools/fs/actionBuilders.js
 tools/fs/actionFinish.js
 tools/fs/actionGroups/actionHistoryActions.js
+tools/fs/actionGroups/actionStreamActions.js
 tools/fs/actionGroups/aiAgentActions.js
 tools/fs/actionGroups/aiAgents/childSpawner.js
 tools/fs/actionGroups/aiAgents/client.js
@@ -780,6 +783,7 @@ tools/fs/actionGroups/missionMetaActions.js
 tools/fs/actionGroups/missionOperatingActions.js
 tools/fs/actionGroups/missionSelfImproveActions.js
 tools/fs/actionGroups/missionWatchdogActions.js
+tools/fs/actionGroups/nodeDomActions.js
 tools/fs/actionGroups/previewActions.js
 tools/fs/actionGroups/previewReceiptActions.js
 tools/fs/actionGroups/processActions.js
@@ -792,6 +796,7 @@ tools/fs/actionGroups/remoteModuleCompat.js
 tools/fs/actionGroups/remoteNativeDesktopActions.js
 tools/fs/actionGroups/renderLabActions.js
 tools/fs/actionGroups/runtimeActions.js
+tools/fs/actionGroups/scanWorkerActions.js
 tools/fs/actionGroups/shareActions.js
 tools/fs/actionGroups/staticServerActions.js
 tools/fs/actionGroups/virtualChromeActions.js
