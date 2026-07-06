@@ -23,7 +23,10 @@ export function generateAnimalAnatomy(species = "fox", options = {}) {
   if (a.wings) sections.push(part("leftWing", "layered-wing", [.45 * s, .12 * s, .34 * s], [.05 * s, .82 * s, .52 * s], ["wing", "feathers"]), part("rightWing", "layered-wing", [.45 * s, .12 * s, .34 * s], [.05 * s, .82 * s, -.52 * s], ["wing", "feathers"]));
   for (const side of [-1, 1]) for (const x of [-.55, .55]) {
     sections.push(part(`leg_${x}_${side}`, a.legs || "leg", [.13 * s, .62 * s * genome.variation.legLength, .13 * s], [x * s, .25 * s, side * .38 * s], ["leg", "knee", "ankle", a.hooves ? "hoof" : a.paws ? "paw-claw" : "foot"]));
+    if (a.webbed) sections.push(part(`webbedFoot_${x}_${side}`, "webbed-foot", [.22 * s, .04 * s, .16 * s], [(x + .05) * s, .04 * s, side * .42 * s], ["webbed", "foot", "toe"]));
   }
+  if (a.eyes === "raised") sections.push(part("raisedEyeRidgeLeft", "raised-eye-ridge", [.12 * s, .08 * s, .06 * s], [1.08 * s, 1.3 * s, .22 * s], ["eye", "eyelid"]), part("raisedEyeRidgeRight", "raised-eye-ridge", [.12 * s, .08 * s, .06 * s], [1.08 * s, 1.3 * s, -.22 * s], ["eye", "eyelid"]));
+  if (a.skin) sections.push(part("mottledSkinMarks", "mottled-skin-markings", [.75 * s, .03 * s, .48 * s], [-.08 * s, 1.05 * s, 0], ["marking", "skin"]));
   if (a.beard) sections.push(part("beard", "fur-tuft", [.22 * s, .3 * s, .16 * s], [1.05 * s, .75 * s, 0], ["beard", "fur-tuft"]));
   if (a.mane) sections.push(part("mane", "hair-ridge", [.62 * s, .28 * s, .14 * s], [.25 * s, 1.35 * s, 0], ["mane"]));
   if (a.bristles) sections.push(part("bristles", "coarse-ridge", [.9 * s, .18 * s, .08 * s], [-.05 * s, 1.22 * s, 0], ["bristles"]));

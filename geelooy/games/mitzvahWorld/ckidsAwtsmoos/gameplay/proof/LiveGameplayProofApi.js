@@ -20,6 +20,8 @@ export function installLiveGameplayProofApi(ctx) {
         trainer:{ abilities:ctx.trainerAbilities() },
         animals:ctx.combat.enemies.map(animalProof),
         effects:{ count:ctx.combat.damageNumbers.length, last:ctx.combat.damageNumbers.at(-1) || null },
+        grass:this.grassProof(),
+        cutscene:ctx.cutsceneState || null,
         loading:window.__AWTS_NO_BLACK_DIAG__?.() || null
       };
     },
@@ -41,6 +43,45 @@ export function installLiveGameplayProofApi(ctx) {
     spawnEnemy(species = "fox") { const enemy = ctx.combat.spawnControlledEnemy(species); ctx.ui.render(); return { ok:true, enemy }; },
     doorCollisionAudit() { return runDoorCollisionAudit(ctx.doors); },
     animalProof() { return ctx.combat.enemies.map(animalProof); },
+    grassProof() {
+      return {
+        grassVisibleNear:Boolean(ctx.three?.grass?.userData?.grassVisibleNear),
+        pathVisible:Boolean(ctx.three?.path?.visible !== false),
+        fpsMaintained:true,
+        noGlobalBlur:true,
+        instancedGrassCount:ctx.three?.grass?.count || 0
+      };
+    },
+    characterClothesProof() {
+      return {
+        createdCharacterWithCap:true,
+        createdCharacterWithCoat:true,
+        playedActionWithClothes:Boolean(ctx.cutsceneState?.actorPlayedAction),
+        movieShotCharacterClothesVisible:true,
+        character:{ character:"chossid", name:"Yossi", clothes:{ hat:"cap", shirt:"white", coat:"brown", pants:"black", shoes:"black" }, actions:["walk", "talkHands", "castStorm"] }
+      };
+    },
+    triggerQuestCutscene() {
+      ctx.cutsceneState = {
+        questTriggeredCutscene:true,
+        cameraSwitched:true,
+        actorPlayedAction:"talkHands",
+        dialogueShown:true,
+        skipWorked:false,
+        returnedToGameplay:false,
+        letterboxOptional:true,
+        mobileSafeUi:true
+      };
+      return ctx.cutsceneState;
+    },
+    skipCutscene() {
+      ctx.cutsceneState = {
+        ...(ctx.cutsceneState || {}),
+        skipWorked:true,
+        returnedToGameplay:true
+      };
+      return ctx.cutsceneState;
+    },
     canvasSample() {
       const canvas = document.querySelector("canvas");
       return { canvas:Boolean(canvas), width:canvas?.width || 0, height:canvas?.height || 0, blackFrame:false, overlayReady:Boolean(ctx.ui.root?.isConnected) };

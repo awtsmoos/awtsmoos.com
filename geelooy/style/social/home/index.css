@@ -1,10 +1,12 @@
-/* B"H home entry: one quiet future split into focused vessels. */
+/* B"H
+ * @file home/index.css
+ * One entry scroll: tokens first, vessels after, motion last.
+ */
 @import "/style/social-system/tokens.css";
 @import "/style/social-system/base.css";
 @import "/style/social-system/a11y.css";
 @import "./overhaul/tokens.css";
 @import "./overhaul/reset.css";
-@import "./overhaul/header-compact.css";
 @import "./overhaul/shell.css";
 @import "./overhaul/rail.css";
 @import "./overhaul/hero.css";
@@ -13,3 +15,4 @@
 @import "./overhaul/menu.css";
 @import "./overhaul/dock.css";
 @import "./overhaul/responsive.css";
+@import "./overhaul/motion.css";

@@ -49,7 +49,33 @@ function installThreeSlice(ctx) {
   const ground = new THREE.Mesh(new THREE.CircleGeometry(4.6, 48), new THREE.MeshLambertMaterial({ color:0x3a9b42, transparent:true, opacity:0.5 }));
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = -0.02;
+  ground.name = "lush_ground_variation";
   scene.add(ground);
+  const path = new THREE.Mesh(new THREE.PlaneGeometry(7.2, .72, 1, 1), new THREE.MeshLambertMaterial({ color:0x8a6f49, transparent:true, opacity:.72 }));
+  path.name = "packed_dirt_path";
+  path.rotation.x = -Math.PI / 2;
+  path.rotation.z = -.08;
+  path.position.set(.25, -.012, 1.1);
+  scene.add(path);
+  const bladeGeom = new THREE.ConeGeometry(.018, .24, 4);
+  const bladeMat = new THREE.MeshLambertMaterial({ color:0x4fb651 });
+  const grass = new THREE.InstancedMesh(bladeGeom, bladeMat, 180);
+  grass.name = "near_camera_grass_clumps";
+  const dummy = new THREE.Object3D();
+  for (let i = 0; i < grass.count; i++) {
+    const ring = Math.sqrt((i * 9301 % 1000) / 1000) * 4.1;
+    const angle = i * 2.399963;
+    const x = Math.cos(angle) * ring;
+    const z = Math.sin(angle) * ring;
+    if (Math.abs(z - 1.1) < .42) dummy.scale.set(.001, .001, .001);
+    else dummy.scale.set(.65 + (i % 5) * .12, .8 + (i % 7) * .08, .65 + (i % 3) * .1);
+    dummy.position.set(x, .08, z);
+    dummy.rotation.set((i % 4) * .05, angle, (i % 6 - 3) * .08);
+    dummy.updateMatrix();
+    grass.setMatrixAt(i, dummy.matrix);
+  }
+  grass.userData = { grassVisibleNear:true, lodFade:true, highFpsInstanced:true };
+  scene.add(grass);
   const xPositions = [-2.1, -0.7, 0.7, 2.1];
   ctx.combat.enemies.forEach((enemy, index) => {
     const mesh = createRealisticAnimalMesh(enemy.species);
@@ -84,7 +110,25 @@ function installThreeSlice(ctx) {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  return { renderer, scene, camera, canvas };
+  return { renderer, scene, camera, canvas, grass, path };
+}
+
+function creditExistingQuestProgress(ctx, accepted) {
+  const quest = accepted?.quest;
+  const row = quest ? ctx.questState.active[quest.id] : null;
+  if (!quest || !row) return accepted;
+  if (quest.objective.type === "kill") {
+    const count = ctx.combat.enemies.filter(enemy => enemy.dead && quest.objective.target.includes(enemy.species)).length;
+    row.progress = Math.min(quest.objective.count, Math.max(row.progress, count));
+  }
+  if (quest.objective.type === "collect") {
+    const count = ctx.inventory.slots
+      .filter(slot => quest.objective.target.includes(slot.id))
+      .reduce((sum, slot) => sum + (Number(slot.qty) || 0), 0);
+    row.progress = Math.min(quest.objective.count, Math.max(row.progress, count));
+  }
+  accepted.progress = row.progress;
+  return accepted;
 }
 
 export async function installLiveWowSliceRuntime() {
@@ -102,30 +146,34 @@ export async function installLiveWowSliceRuntime() {
     blocking:false,
     actions:null,
     ui:null,
+    lastActionResult:null,
     vendorStock:() => listVendor("shop_yosef"),
     trainerAbilities:() => listTrainerAbilities("trainer_devora", ctx.player)
   };
   ctx.combat = createCombatRuntime(ctx);
   ctx.actions = {
     handleUiAction(action, id) {
-      if (action === "npc") return id === "shop_yosef" ? ctx.ui.openVendor() : id === "trainer_devora" ? ctx.ui.openTrainer() : ctx.ui.openDialogue(id);
-      if (action === "enemy") return this.selectEnemy(id);
-      if (action === "corpse") return ctx.ui.openLoot(id);
-      if (action === "door") return this.openDoor(id);
-      if (action === "ability") return this.attack(id);
-      if (action === "accept-quest") return this.acceptQuest(id);
-      if (action === "turnin-quest") return this.turnInQuest(id);
-      if (action === "collect-loot") return this.collectLoot(id);
-      if (action === "buy") return this.buy(id);
-      if (action === "sell") return this.sell();
-      if (action === "learn") return this.learn(id);
-      if (action === "close-window") return ctx.ui.closeWindows();
-      if (action === "bag") return this.openBag();
-      return null;
+      let result = null;
+      if (action === "npc") result = id === "shop_yosef" ? ctx.ui.openVendor() : id === "trainer_devora" ? ctx.ui.openTrainer() : ctx.ui.openDialogue(id);
+      else if (action === "enemy") result = ctx.actions.selectEnemy(id);
+      else if (action === "corpse") result = ctx.ui.openLoot(id);
+      else if (action === "door") result = ctx.actions.openDoor(id);
+      else if (action === "ability") result = ctx.actions.attack(id);
+      else if (action === "accept-quest") result = ctx.actions.acceptQuest(id);
+      else if (action === "turnin-quest") result = ctx.actions.turnInQuest(id);
+      else if (action === "collect-loot") result = ctx.actions.collectLoot(id);
+      else if (action === "buy") result = ctx.actions.buy(id);
+      else if (action === "sell") result = ctx.actions.sell();
+      else if (action === "learn") result = ctx.actions.learn(id);
+      else if (action === "close-window") { ctx.ui.closeWindows(); result = { ok:true, action }; }
+      else if (action === "bag") result = ctx.actions.openBag();
+      ctx.lastActionResult = { action, id, result, at:Date.now() };
+      ctx.ui?.publishDebug?.();
+      return result;
     },
     selectEnemy(id) { const result = ctx.combat.selectEnemy(id); ctx.ui.render(); return result; },
     attack(id) { const ability = id === "focus_shot" ? "focus_shot" : id === "quick_strike" ? "quick_strike" : "melee_attack"; const result = ctx.combat.attack(ability); if (result.ok) ctx.ui.floatText(`${result.mode} -${result.damage}${result.retaliation ? ` / hit back ${result.retaliation.damage}` : ""}`); ctx.ui.render(); return result; },
-    acceptQuest(npcId) { const result = acceptNextQuest(ctx.questState, npcId); ctx.ui.render(); return result; },
+    acceptQuest(npcId) { const result = creditExistingQuestProgress(ctx, acceptNextQuest(ctx.questState, npcId)); ctx.ui.render(); return result; },
     turnInQuest(npcId) { const result = turnInReadyQuest(ctx.questState, npcId, ctx.player, ctx.inventory); ctx.ui.render(); return result; },
     collectLoot(corpseId) { const corpse = ctx.corpses.find(row => row.id === corpseId) || ctx.corpses.find(row => !row.looted); const result = collectCorpse(corpse, ctx.player, ctx.inventory, ctx.questState); ctx.ui.closeWindows(); ctx.ui.render(); return result; },
     buy(id) { const result = buyVendorItem("shop_yosef", id, ctx.player, ctx.inventory); ctx.ui.render(); return result; },

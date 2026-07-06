@@ -1,0 +1,25 @@
+{
+  "world": "village",
+  "seed": 770,
+  "grass": "lush",
+  "houses": [["brick", "door", "shop"], ["wood", "door", "trainer"]],
+  "animals": [
+    { "sp": "fox", "n": 6, "p": 0.4, "hostile": true, "loot": "fur,coin" },
+    { "sp": "goat", "n": 4, "friendly": false, "quest": "kill" }
+  ],
+  "npcs": [
+    { "id": "jill", "role": "questVendor", "q": "kill3fox", "shop": "starter" },
+    { "id": "rebbe", "role": "trainer", "teach": ["strike", "castSpark"] }
+  ],
+  "quests": [
+    { "id": "kill3fox", "chain": 1, "obj": "kill fox 3", "xp": 40, "reward": "coin:5,item:cap" }
+  ],
+  "movie": {
+    "shots": [
+      ["wide", "village", 3],
+      ["follow", "chossid", "walk", 4],
+      ["dialog", "jill", "talkHands", 5],
+      ["action", "chossid", "castStorm", 4]
+    ]
+  }
+}

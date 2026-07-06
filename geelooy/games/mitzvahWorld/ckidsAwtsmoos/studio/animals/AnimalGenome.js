@@ -59,7 +59,7 @@ export function createAnimalGenome(species = "fox", options = {}) {
 
 export function genomeRealismScore(genome) {
   const a = genome?.archetype || {};
-  const traits = ["body", "muzzle", "ears", "legs", "coat", "tail", "horns", "antlers", "beak", "wings", "hooves", "paws", "tusks", "wool", "mane"];
+  const traits = ["body", "muzzle", "ears", "legs", "coat", "tail", "horns", "antlers", "beak", "wings", "hooves", "paws", "tusks", "wool", "mane", "eyes", "mouth", "webbed", "skin", "feathers", "comb", "bristles", "beard"];
   return traits.reduce((sum, key) => sum + (a[key] ? 1 : 0), 0);
 }
 

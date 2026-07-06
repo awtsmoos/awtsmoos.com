@@ -1,0 +1,20 @@
+/* B"H
+ * @file motion.css
+ * The Awtsmoos gives motion only as a whisper: helpful, never dizzying.
+ */
+@keyframes homeBreath { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+@keyframes homeShimmer { to { background-position: 200% center; } }
+.clean-brand span,
+.home-profile-pill,
+.home-command-dock .is-create { animation: homeBreath 5.5s ease-in-out infinite; }
+.home-route-card::after,
+.home-post-card::before,
+.universal-object-card::before { background-size: 200% 100%; animation: homeShimmer 8s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .clean-brand span,
+  .home-profile-pill,
+  .home-command-dock .is-create,
+  .home-route-card::after,
+  .home-post-card::before,
+  .universal-object-card::before { animation: none; }
+}
