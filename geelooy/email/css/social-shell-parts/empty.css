@@ -1,7 +1,34 @@
-/* B"H
- * @file mail/empty.css
- * Empty states become small invitations, never dead panels.
- */
-.thread-empty-state { margin:.75rem; padding:.9rem; border:1px dashed var(--mail-line); border-radius:.85rem; color:var(--mail-muted); text-align:center; background:rgba(255,255,255,.055); }
-.thread-empty-state strong { color:#fff; }
-.mail-social-sidebar .avatar-circle { box-shadow:0 .35rem .9rem rgba(0,0,0,.16); }
+/* B"H — useful empty states. */
+.empty-state,
+.mail-empty,
+.no-thread,
+.empty-mailbox {
+  align-self: center !important;
+  background: #fff !important;
+  border: 1px solid var(--mail-line) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--mail-shadow) !important;
+  color: var(--mail-text) !important;
+  display: grid !important;
+  gap: .55rem !important;
+  justify-self: center !important;
+  max-width: 420px !important;
+  padding: 1.25rem !important;
+  text-align: start !important;
+}
+.empty-state h2,
+.mail-empty h2,
+.no-thread h2 { color: var(--mail-text) !important; margin: 0 !important; }
+.empty-state p,
+.mail-empty p,
+.no-thread p { color: var(--mail-muted) !important; margin: 0 !important; }
+.empty-state a,
+.empty-state button,
+.mail-empty a,
+.mail-empty button {
+  background: var(--mail-text) !important;
+  border-radius: 999px !important;
+  color: #fff !important;
+  justify-self: start !important;
+  padding: .65rem .9rem !important;
+}

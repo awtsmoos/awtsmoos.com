@@ -1,18 +1,32 @@
-/* B"H
- * @file mail/thread-list.css
- * Mockup inbox: soft rows, clear sender, calm timestamps.
- */
-.mail-social-sidebar .thread-list { min-height:35vh; padding:0 .8rem 6.2rem; overflow-y:auto; scrollbar-gutter:stable; }
-.mail-social-sidebar .thread-item { appearance:none; width:100%; display:grid; grid-template-columns:auto minmax(0,1fr); gap:.62rem; align-items:center; min-height:4.35rem; margin:0 0 .55rem; padding:.7rem; text-align:left; font:inherit; color:inherit; background:rgba(255,255,255,.78); border:1px solid var(--mail-line); border-radius:1rem; cursor:pointer; box-shadow:0 10px 24px rgba(36,64,96,.09); }
-.mail-social-sidebar .thread-item:hover { background:rgba(255,255,255,.96); border-color:rgba(88,198,255,.35); transform:translateY(-1px); }
-.mail-social-sidebar .thread-item:focus-visible { outline:0; box-shadow:var(--mail-focus),0 12px 30px rgba(36,64,96,.12); }
-.mail-social-sidebar .thread-item.active,.mail-social-sidebar .thread-item[aria-pressed="true"] { background:linear-gradient(90deg,rgba(242,207,104,.28),rgba(115,231,244,.20)); border-left:4px solid var(--mail-cyan); box-shadow:0 12px 30px rgba(36,64,96,.13); }
-.thread-content { min-width:0; }
-.thread-top { display:flex; gap:.45rem; align-items:center; justify-content:space-between; }
-.thread-name { color:var(--mail-ink); font-weight:1000; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.thread-time { font-size:.72rem; color:var(--mail-muted); white-space:nowrap; }
-.thread-snippet { margin-top:.14rem; color:var(--mail-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.88rem; }
-.thread-empty-state { margin:.75rem; padding:1rem; border:1px dashed var(--mail-line); border-radius:1rem; color:var(--mail-muted); text-align:center; background:rgba(255,255,255,.75); line-height:1.38; }
-.thread-empty-state strong { display:block; color:var(--mail-ink); font-size:1rem; margin-bottom:.2rem; }
-.thread-empty-state a { display:inline-flex; min-height:2.45rem; align-items:center; margin-top:.55rem; padding:.45rem .75rem; border-radius:999px; background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); color:#06111d; font-weight:950; text-decoration:none; }
-@media (max-width:850px){.mail-social-sidebar .thread-list{min-height:28dvh;padding:0 .65rem 5.8rem}.mail-social-sidebar .thread-item{min-height:4rem;border-radius:1rem}}
+/* B"H — thread list as a readable grid. */
+.thread-list {
+  background: #fff !important;
+  display: grid !important;
+  gap: .5rem !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding: 0 1rem 7rem !important;
+}
+.thread-item {
+  background: #fff !important;
+  border: 1px solid var(--mail-line) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+  color: var(--mail-text) !important;
+  display: grid !important;
+  gap: .35rem !important;
+  margin: 0 !important;
+  min-height: 78px !important;
+  padding: .85rem !important;
+  transition: border-color .16s ease, background .16s ease, transform .16s ease !important;
+}
+.thread-item:hover { background: var(--mail-soft) !important; border-color: var(--mail-line-2) !important; transform: translateY(-1px); }
+.thread-item.active,
+.thread-item.selected { background: #eef6f5 !important; border-color: rgba(15,118,110,.28) !important; }
+.thread-title,
+.thread-name,
+.thread-subject { color: var(--mail-text) !important; font-weight: 740 !important; }
+.thread-preview,
+.thread-meta,
+.thread-time { color: var(--mail-muted) !important; }
+.thread-avatar { background: var(--mail-soft) !important; color: var(--mail-text) !important; }

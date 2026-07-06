@@ -1,16 +1,45 @@
-/* B"H
- * @file mail/chat-theme.css
- * Chat area becomes a clean reading pane with real message contrast.
- */
-.mail-social-chat .chat-header { min-height:3.4rem; background:rgba(7,9,24,.88); border-bottom-color:var(--mail-line); }
-.mail-social-chat .message-bubble { border-radius:.92rem; line-height:1.42; }
-.mail-social-chat .message-row.sent .message-bubble { background:linear-gradient(145deg,rgba(244,211,107,.18),rgba(112,234,255,.12)); border-color:rgba(112,234,255,.22); }
-.mail-social-chat .message-row.received .message-bubble { background:rgba(255,250,241,.08); border-color:rgba(255,255,255,.1); }
-.mail-social-chat .composer-input { border-radius:.85rem; font-size:16px; }
-.compose-modal-top { display:flex; align-items:center; justify-content:space-between; gap:.72rem; }
-.input-group { display:grid; gap:.28rem; margin:.65rem 0; }
-.input-label { color:var(--mail-cyan); font-size:.72rem; font-weight:950; letter-spacing:.08em; text-transform:uppercase; }
-.styled-input { min-height:2.65rem; width:100%; border:1px solid var(--mail-line); border-radius:.8rem; padding:.62rem .75rem; color:var(--mail-ink); background:rgba(2,6,18,.7); font-size:16px; }
-.compose-body-input { min-height:7rem; resize:vertical; }
-.mail-compose-error:not(.hidden),.mail-error-text { margin:.65rem 0; padding:.65rem .75rem; border:1px solid rgba(255,111,145,.55); border-radius:.75rem; color:#ffe9f0; background:rgba(255,111,145,.14); }
-.close-modal { inline-size:2.5rem; block-size:2.5rem; border-radius:50%; font-size:1.35rem; }
+/* B"H — reading pane and composer. */
+.chat-view,
+.chat-area,
+.chat-container {
+  background: #fff !important;
+  color: var(--mail-text) !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  min-height: 0 !important;
+}
+.messages,
+.message-list,
+.chat-messages {
+  background: #fff !important;
+  display: grid !important;
+  gap: .75rem !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding: 1rem 1rem 7rem !important;
+}
+.message,
+.mail-message,
+.bubble {
+  background: var(--mail-soft) !important;
+  border: 1px solid var(--mail-line) !important;
+  border-radius: 18px !important;
+  color: var(--mail-text) !important;
+  max-width: min(720px, 96%) !important;
+  padding: .9rem 1rem !important;
+}
+.message.own,
+.bubble.own { background: #eef6f5 !important; justify-self: end !important; }
+.composer,
+.composer-shell,
+.message-composer {
+  background: #fff !important;
+  border-top: 1px solid var(--mail-line) !important;
+  display: grid !important;
+  gap: .6rem !important;
+  padding: .85rem 1rem !important;
+}
+.composer textarea,
+.composer-input { min-height: 46px !important; resize: vertical !important; }
+.btn-primary,
+.send-button { background: var(--mail-text) !important; color: #fff !important; box-shadow: none !important; }

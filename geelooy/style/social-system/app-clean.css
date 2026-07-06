@@ -1,5 +1,8 @@
-/* B"H */
+/* B"H — final shared cleanup shield. */
 body, html { background: var(--g-bg-soft) !important; color: var(--g-text) !important; }
+a { color: inherit; text-decoration-thickness: .08em; text-underline-offset: .16em; }
+a[class], nav a, .home-route-card, .social-space-card a, .profile-command-rail a, .space-actions a { text-decoration: none !important; }
+button, input, textarea, select { font: inherit; }
 .profile-banner-light, .space-banner, .awtsmoos-filter-vessel { display: none !important; }
 .home-brand-mark, .profile-avatar-orb, .space-seal {
   background: var(--g-surface-2) !important;

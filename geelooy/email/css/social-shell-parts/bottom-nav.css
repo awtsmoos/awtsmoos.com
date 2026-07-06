@@ -1,11 +1,31 @@
-/* B"H
- * @file mail/bottom-nav.css
- * The dock floats exactly like Home/Profile/Spaces.
- */
-.mail-bottom-nav { position:sticky; bottom:0; z-index:45; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.3rem; padding:.4rem .4rem max(.4rem,env(safe-area-inset-bottom)); border-top:1px solid var(--mail-line); background:rgba(8,13,27,.94); backdrop-filter:blur(16px); }
-.mail-bottom-nav a { min-width:0; min-height:2.65rem; display:grid; place-items:center; border:1px solid rgba(255,255,255,.08); border-radius:.78rem; color:#fffaf1; background:rgba(255,255,255,.06); text-decoration:none; font-size:.68rem; font-weight:950; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.mail-bottom-nav a:empty { display:none; }
-.mail-bottom-nav a.active,.mail-bottom-nav a[aria-current="page"] { background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); color:#03101b; }
-.mail-bottom-nav a.is-create { font-size:1.18rem; background:linear-gradient(135deg,#ffe28a,#75e7f4); color:#06101b; }
-.mail-bottom-nav a:focus-visible { outline:2px solid rgba(123,226,255,.55); outline-offset:2px; }
-@media (max-width:850px){.mail-bottom-nav{position:fixed;left:.5rem;right:.5rem;bottom:max(.5rem,env(safe-area-inset-bottom));z-index:1000;padding:.4rem;border:1px solid var(--mail-line);border-radius:1.05rem;box-shadow:0 1rem 2.4rem rgba(0,0,0,.32)}.mail-bottom-nav a{min-height:2.65rem;font-size:.64rem}}
+/* B"H — mobile route dock. */
+.mail-bottom-nav {
+  align-items: center !important;
+  background: rgba(255,255,255,.98) !important;
+  border: 1px solid var(--mail-line) !important;
+  border-radius: 999px !important;
+  bottom: max(.8rem, env(safe-area-inset-bottom)) !important;
+  box-shadow: 0 14px 40px rgba(15,23,42,.16) !important;
+  display: flex !important;
+  gap: .25rem !important;
+  left: .75rem !important;
+  padding: .35rem !important;
+  position: sticky; bottom: 0;
+  position: fixed !important;
+  right: .75rem !important;
+  z-index: 100 !important;
+}
+.mail-bottom-nav a,
+.mail-bottom-nav button {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: var(--mail-muted) !important;
+  flex: 1 1 0 !important;
+  font-weight: 700 !important;
+  min-height: 42px !important;
+  padding: .55rem .3rem !important;
+  text-align: center !important;
+}
+.mail-bottom-nav [aria-current="page"],
+.mail-bottom-nav .active { background: var(--mail-soft) !important; color: var(--mail-text) !important; }

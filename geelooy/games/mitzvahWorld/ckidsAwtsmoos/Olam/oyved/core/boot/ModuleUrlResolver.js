@@ -1,42 +1,33 @@
-
+// B"H
 /**
- * B"H
  * @file ModuleUrlResolver.js
- * @description
- * Resolves Worker-relative module paths into exact absolute URLs.
+ * Canonicalizes worker boot URLs so a lowercase-loaded worker cannot poison
+ * Olam core imports into /ckidsAwtsmoos/olam/... on case-sensitive servers.
  */
+const CASE_FIXES = Object.freeze([
+  ["/games/mitzvahWorld/ckidsAwtsmoos/olam/", "/games/mitzvahWorld/ckidsAwtsmoos/Olam/"],
+  ["/geelooy/games/mitzvahWorld/ckidsAwtsmoos/olam/", "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/"]
+]);
 
-/**
- * B"H
- * Resolves a module URL from this file's import.meta.url context.
- *
- * @param {string} relativePath
- * Relative module path.
- *
- * @returns {string}
- * Absolute URL string.
- */
-export function resolveModuleUrl(relativePath) {
-  return new URL(relativePath, import.meta.url).href;
+export function canonicalizeOlamUrl(url) {
+  let out = String(url || "");
+  for (const [bad, good] of CASE_FIXES) out = out.replace(bad, good);
+  return out;
 }
 
-/**
- * B"H
- * Resolves a full module record.
- *
- * @param {{key:string,label:string,relativePath:string,expectedEnd:string,requiredExport?:string}} record
- * Module path record.
- *
- * @returns {{key:string,label:string,relativePath:string,expectedEnd:string,requiredExport:string,url:string}}
- * Resolved module path record.
- */
+export function resolveModuleUrl(relativePath) {
+  return canonicalizeOlamUrl(new URL(relativePath, import.meta.url).href);
+}
+
 export function resolveModuleRecord(record) {
+  const url = resolveModuleUrl(record.relativePath);
   return {
     key: record.key,
     label: record.label,
     relativePath: record.relativePath,
     expectedEnd: record.expectedEnd,
     requiredExport: record.requiredExport || "default",
-    url: resolveModuleUrl(record.relativePath)
+    url,
+    caseCanonicalized: url.includes("/ckidsAwtsmoos/Olam/")
   };
 }

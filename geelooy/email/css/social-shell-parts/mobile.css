@@ -1,21 +1,43 @@
-/* B"H
- * @file mail/mobile.css
- * Phone mail is one clean path: topbar, folders, threads, chat, dock.
- * Contract anchors: min-height: 100dvh; overflow-y: auto; .thread-list;
- * Contract anchors: padding: 0 1rem 7rem; position: sticky; bottom: 0;
- * Contract anchors: height:auto!important; .mail-folder-list; .mail-search-panel;
- */
-@media(max-width:850px){
-  .mail-social-shell{display:block;min-height:100dvh;padding-bottom:max(5.8rem,env(safe-area-inset-bottom));overflow-x:hidden;overflow-y:auto}
-  .mail-social-topbar{position:sticky;top:.3rem;z-index:60;display:flex!important;align-items:center;justify-content:space-between;gap:.35rem;padding:.38rem .45rem;text-align:center;background:rgba(8,13,27,.96)}
-  .mail-social-topbar a:not(.mail-top-home){display:none!important}
-  .mail-title-lockup{justify-items:end}.mail-social-topbar strong{font-size:.72rem}.mail-kicker{font-size:.62rem}
-  .mail-social-frame.app-container{display:block!important;width:100%!important;min-height:calc(100dvh - 6.8rem);margin:.35rem 0 0!important;border-inline:0!important;border-radius:0!important;overflow:visible!important;background:transparent!important;box-shadow:none!important}
-  .mail-social-sidebar.sidebar{position:relative!important;width:100%!important;min-height:auto!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:.65rem!important;border-right:0!important}
-  .mail-folder-grid,.mail-folder-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.34rem!important}
-  .mail-thread-list,.conversation-list{max-height:none!important;overflow:visible!important;display:grid!important;gap:.52rem!important}
-  .mail-thread-card,.conversation-card{min-height:4.2rem!important;border-radius:.85rem!important}
-  .mail-social-chat.chat-area{min-height:calc(100dvh - 7rem)!important;padding-bottom:max(6.8rem,env(safe-area-inset-bottom))!important;overflow:visible!important}
-  .mail-compose,.composer,.compose-panel,.message-composer{position:relative!important;z-index:2;margin-bottom:max(5.6rem,env(safe-area-inset-bottom))!important}
-  .mail-bottom-nav{position:fixed;left:.5rem;right:.5rem;bottom:max(.5rem,env(safe-area-inset-bottom))}
+/* B"H — mobile mail becomes stacked pages. */
+@media (max-width: 760px) {
+  html, body { overflow: auto !important; }
+  .app-container,
+  .mail-social-frame {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    height:auto!important;
+    margin: 0 !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+  .sidebar,
+  .sidebar-container,
+  .mail-main,
+  .thread-panel,
+  .chat-view,
+  .chat-area {
+    border: 0 !important;
+    min-height: 100dvh !important;
+    width: 100% !important;
+  }
+  .chat-view,
+  .chat-area { display: none !important; }
+  .mail-main.active,
+  .thread-panel.active,
+  .chat-view.active,
+  .chat-area.active { display: grid !important; }
+  .sidebar-header,
+  .mail-sidebar-header { position: sticky !important; top: 0 !important; z-index: 20 !important; }
+  .thread-list { padding: 0 1rem 7rem !important; }
+  .mail-folder-list,
+  .mail-search-panel { padding-inline: .75rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mail-page-slide,
+  .mail-social-frame,
+  .app-container { animation: none !important; }
 }

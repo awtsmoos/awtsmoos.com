@@ -1,5 +1,16 @@
-/* B"H */
-* { transition-duration: .14s; transition-property: border-color, background-color, color, box-shadow, transform; }
+/* B"H — restrained futuristic motion: opacity and transform only. */
+:root {
+  --g-ease: cubic-bezier(.2, .8, .2, 1);
+  --g-fast: 140ms;
+  --g-med: 210ms;
+}
+* { transition-duration: var(--g-fast); transition-property: border-color, background-color, color, box-shadow, transform, opacity; transition-timing-function: var(--g-ease); }
+[data-page], main, .page-shell, .geelooy-home-shell, .geelooy-profile-shell, .social-spaces-shell, .mail-social-frame { animation: gPageIn var(--g-med) var(--g-ease) both; }
+.g-slide-in, .panel-slide-in { animation: gSlideIn var(--g-med) var(--g-ease) both; }
+.g-fade-in { animation: gFadeIn var(--g-med) var(--g-ease) both; }
+@keyframes gPageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes gSlideIn { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+@keyframes gFadeIn { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
 }
