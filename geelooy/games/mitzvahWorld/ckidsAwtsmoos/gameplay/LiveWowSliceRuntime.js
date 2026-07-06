@@ -12,6 +12,8 @@ import { openDoor } from "./doors/DoorInteractionRuntime.js";
 import { createWowHudRuntime } from "./ui/WowHudRuntime.js";
 import { createRealisticAnimalMesh } from "./animals/RealisticAnimalFactory.js";
 import { installLiveGameplayProofApi } from "./proof/LiveGameplayProofApi.js";
+import { createRuntimeActionJournal } from "../platform/RuntimeActionJournal.js";
+import { normalizePlatformActionName } from "../platform/MitzvahPlatformCatalog.js";
 
 function shouldInstall() {
   const params = new URLSearchParams(location.search);
@@ -144,6 +146,7 @@ export async function installLiveWowSliceRuntime() {
     doors:createDoorRegistry(),
     selectedEnemyId:null,
     blocking:false,
+    actionJournal:createRuntimeActionJournal(),
     actions:null,
     ui:null,
     lastActionResult:null,
@@ -167,15 +170,17 @@ export async function installLiveWowSliceRuntime() {
       else if (action === "learn") result = ctx.actions.learn(id);
       else if (action === "close-window") { ctx.ui.closeWindows(); result = { ok:true, action }; }
       else if (action === "bag") result = ctx.actions.openBag();
+      ctx.actionJournal.record(actionToRuntimeAction(action, id), { id, uiAction:action, ok:result?.ok !== false });
       ctx.lastActionResult = { action, id, result, at:Date.now() };
       ctx.ui?.publishDebug?.();
       return result;
     },
-    selectEnemy(id) { const result = ctx.combat.selectEnemy(id); ctx.ui.render(); return result; },
-    attack(id) { const ability = id === "focus_shot" ? "focus_shot" : id === "quick_strike" ? "quick_strike" : "melee_attack"; const result = ctx.combat.attack(ability); if (result.ok) ctx.ui.floatText(`${result.mode} -${result.damage}${result.retaliation ? ` / hit back ${result.retaliation.damage}` : ""}`); ctx.ui.render(); return result; },
-    acceptQuest(npcId) { const result = creditExistingQuestProgress(ctx, acceptNextQuest(ctx.questState, npcId)); ctx.ui.render(); return result; },
+    selectEnemy(id) { const result = ctx.combat.selectEnemy(id); ctx.actionJournal.record("look", { targetId:id, ok:result.ok }); ctx.ui.render(); return result; },
+    attack(id) { const ability = id === "focus_shot" ? "focus_shot" : id === "quick_strike" ? "quick_strike" : id === "castStorm" ? "castStorm" : "melee_attack"; const result = ctx.combat.attack(ability); ctx.actionJournal.record(abilityToRuntimeAction(ability, result.mode), { abilityId:ability, targetId:result.targetId, ok:result.ok, damage:result.damage }); if (result.ok) ctx.ui.floatText(`${result.mode} -${result.damage}${result.retaliation ? ` / hit back ${result.retaliation.damage}` : ""}`); ctx.ui.render(); return result; },
+    acceptQuest(npcId) { const result = creditExistingQuestProgress(ctx, acceptNextQuest(ctx.questState, npcId)); ctx.actionJournal.record("acceptQuest", { targetId:npcId, ok:result.ok }); ctx.ui.render(); return result; },
     turnInQuest(npcId) {
       const result = turnInReadyQuest(ctx.questState, npcId, ctx.player, ctx.inventory);
+      ctx.actionJournal.record("giveItem", { targetId:npcId, ok:result.ok });
       ctx.ui.render();
       if (result.ok) {
         const finalQuest = result.quest?.id === "brave_the_guardian";
@@ -190,13 +195,13 @@ export async function installLiveWowSliceRuntime() {
       }
       return result;
     },
-    collectLoot(corpseId) { const corpse = ctx.corpses.find(row => row.id === corpseId) || ctx.corpses.find(row => !row.looted); const result = collectCorpse(corpse, ctx.player, ctx.inventory, ctx.questState); ctx.ui.closeWindows(); ctx.ui.render(); return result; },
-    buy(id) { const result = buyVendorItem("shop_yosef", id, ctx.player, ctx.inventory); ctx.ui.render(); return result; },
-    sell() { const result = sellVendorLoot(ctx.player, ctx.inventory); ctx.ui.render(); return result; },
-    learn(id) { const result = learnAbility("trainer_devora", id, ctx.player); ctx.ui.render(); return result; },
-    equip(id) { const result = equipItem(ctx.inventory, ctx.player, id); ctx.ui.render(); return result; },
-    openDoor(id) { const result = openDoor(ctx.doors, id); ctx.ui.floatText("Door opened"); ctx.ui.render(); return result; },
-    openBag() { ctx.ui.closeWindows(); ctx.ui.renderBag(); ctx.ui.windows.bag.classList.add("open"); return { ok:true }; }
+    collectLoot(corpseId) { const corpse = ctx.corpses.find(row => row.id === corpseId) || ctx.corpses.find(row => !row.looted); const result = collectCorpse(corpse, ctx.player, ctx.inventory, ctx.questState); ctx.actionJournal.record("loot", { targetId:corpse?.id, ok:result.ok }); ctx.ui.closeWindows(); ctx.ui.render(); return result; },
+    buy(id) { const result = buyVendorItem("shop_yosef", id, ctx.player, ctx.inventory); ctx.actionJournal.record("pickup", { id, shopId:"shop_yosef", ok:result.ok }); ctx.ui.render(); return result; },
+    sell() { const result = sellVendorLoot(ctx.player, ctx.inventory); ctx.actionJournal.record("drop", { ok:result.ok, sold:result.sold }); ctx.ui.render(); return result; },
+    learn(id) { const result = learnAbility("trainer_devora", id, ctx.player); ctx.actionJournal.record("bless", { id, trainerId:"trainer_devora", ok:result.ok }); ctx.ui.render(); return result; },
+    equip(id) { const result = equipItem(ctx.inventory, ctx.player, id); ctx.actionJournal.record("carry", { id, slot:result.slot, ok:result.ok }); ctx.ui.render(); return result; },
+    openDoor(id) { const result = openDoor(ctx.doors, id); ctx.actionJournal.record("openDoor", { targetId:id, ok:result.ok }); ctx.ui.floatText("Door opened"); ctx.ui.render(); return result; },
+    openBag() { ctx.actionJournal.record("look", { id:"bag", ok:true }); ctx.ui.closeWindows(); ctx.ui.renderBag(); ctx.ui.windows.bag.classList.add("open"); return { ok:true }; }
   };
   ctx.ui = createWowHudRuntime(ctx);
   ctx.three = installThreeSlice(ctx);
@@ -208,3 +213,21 @@ export async function installLiveWowSliceRuntime() {
 }
 
 installLiveWowSliceRuntime();
+
+function abilityToRuntimeAction(ability, mode) {
+  if (ability === "focus_shot") return "bowRelease";
+  if (ability === "castStorm" || mode === "magic") return "castStorm";
+  if (mode === "staff") return "staffStrike";
+  if (ability === "quick_strike") return "punch";
+  return "knifeSlash";
+}
+
+function actionToRuntimeAction(action, id) {
+  if (action === "door") return "openDoor";
+  if (action === "corpse" || action === "collect-loot") return "loot";
+  if (action === "enemy") return "look";
+  if (action === "ability") return abilityToRuntimeAction(id);
+  if (action === "npc") return "talk";
+  if (action === "bag") return "look";
+  return normalizePlatformActionName(action);
+}

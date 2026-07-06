@@ -3,6 +3,7 @@ import { NPCS } from "../npcs/NpcIdentity.js";
 import { animalProof } from "../animals/RealisticAnimalFactory.js";
 import { chainSummary, markerForNpc } from "../quests/QuestState.js";
 import { runDoorCollisionAudit } from "../collision/DoorCollisionAudit.js";
+import { CHOSSID_GLB_INSPECTION, platformActionNames, WEAPON_ARCHETYPES, CORE_STATS } from "../../platform/MitzvahPlatformCatalog.js";
 
 export function installLiveGameplayProofApi(ctx) {
   const api = {
@@ -19,6 +20,13 @@ export function installLiveGameplayProofApi(ctx) {
         vendor:{ stock:ctx.vendorStock() },
         trainer:{ abilities:ctx.trainerAbilities() },
         animals:ctx.combat.enemies.map(animalProof),
+        platform:{
+          actions:platformActionNames().length,
+          stats:Object.keys(CORE_STATS),
+          weapons:Object.keys(WEAPON_ARCHETYPES),
+          chossidGlb:CHOSSID_GLB_INSPECTION,
+          actionJournal:ctx.actionJournal?.snapshot?.() || null
+        },
         effects:{ count:ctx.combat.damageNumbers.length, last:ctx.combat.damageNumbers.at(-1) || null },
         grass:this.grassProof(),
         cutscene:ctx.cutsceneState || null,
@@ -58,6 +66,7 @@ export function installLiveGameplayProofApi(ctx) {
         createdCharacterWithCoat:true,
         playedActionWithClothes:Boolean(ctx.cutsceneState?.actorPlayedAction),
         movieShotCharacterClothesVisible:true,
+        glbInspection:CHOSSID_GLB_INSPECTION,
         character:{ character:"chossid", name:"Yossi", clothes:{ hat:"cap", shirt:"white", coat:"brown", pants:"black", shoes:"black" }, actions:["walk", "talkHands", "castStorm"] }
       };
     },

@@ -9,13 +9,22 @@ export function createCorpse(enemy) {
     enemyId:enemy.id,
     species:enemy.species,
     name:`${enemy.name} remains`,
-    items:lootForSpecies(enemy.species),
+    kosherSpecies:Boolean(enemy.kosherSpecies),
+    properHarvest:false,
+    items:lootForSpecies(enemy.species, { proper:false }),
     coins:enemy.elite ? 5 : 2,
     looted:false,
     clickable:true,
     spark:true,
     createdAt:Date.now()
   };
+}
+
+export function processCorpseWithDesignatedTool(corpse) {
+  if (!corpse || corpse.looted) return { ok:false, reason:"corpse-empty" };
+  corpse.properHarvest = true;
+  corpse.items = lootForSpecies(corpse.species, { tool:"shechitaKnife" });
+  return { ok:true, corpseId:corpse.id, kosherSpecies:Boolean(corpse.kosherSpecies), items:corpse.items };
 }
 
 export function collectCorpse(corpse, player, inventory, questState) {

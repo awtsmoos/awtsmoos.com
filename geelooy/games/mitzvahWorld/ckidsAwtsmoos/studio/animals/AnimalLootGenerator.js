@@ -1,4 +1,6 @@
 // B"H
+import { harvestAnimal } from "../../platform/MitzvahPlatformCatalog.js";
+
 const LOOT = Object.freeze({
   fox:["fox_fur", "sharp_tooth"],
   goat:["goat_milk", "small_horn"],
@@ -15,12 +17,19 @@ const LOOT = Object.freeze({
 });
 
 export function generateAnimalLoot(species = "fox") {
+  const normal = harvestAnimal(species, { proper:false });
+  const proper = harvestAnimal(species, { tool:"shechitaKnife" });
+  const entries = (normal.outputs.length ? normal.outputs : (LOOT[species] || ["animal_good"]))
+    .map((itemId, index) => ({ itemId, min:1, max:index ? 1 : 2, weight:index ? .35 : .75, usableForFood:false }));
   return {
     id:`${species}Loot`,
     species,
-    entries:(LOOT[species] || ["animal_good"]).map((itemId, index) => ({ itemId, min:1, max:index ? 1 : 2, weight:index ? .35 : .75 })),
+    kosherSpecies:normal.kosherSpecies,
+    entries,
+    properHarvestEntries:proper.outputs.map((itemId, index) => ({ itemId, min:1, max:index ? 1 : 2, weight:index ? .35 : .75, usableForFood:proper.usableForFood })),
     corpseClickable:true,
-    sellable:true
+    sellable:true,
+    ruleNote:proper.note
   };
 }
 

@@ -1,4 +1,6 @@
 // B"H
+import { platformActionShorthandTerms, speciesNames } from "../../platform/MitzvahPlatformCatalog.js";
+
 export const AI_WORLD_SHORT_SCHEMA_VERSION = "mitzvah-ai-world-short-v2";
 
 export const SHORTHAND_TERMS = Object.freeze({
@@ -26,36 +28,8 @@ export const SHORTHAND_TERMS = Object.freeze({
     close:{ camera:"closeup", lens:"70mm", framing:"face" },
     orbit:{ camera:"orbit", lens:"35mm", framing:"hero" }
   },
-    actions:{
-    walk:"walk",
-    run:"run",
-    talkHands:"talkHands",
-    punch:"punch",
-    cast:"cast",
-    castStorm:"castStorm",
-    meleeSlash:"meleeSlash",
-    bowShoot:"bowShoot",
-    pickup:"pickup",
-    loot:"loot",
-    openDoor:"openDoor",
-    idle:"idle",
-    wave:"wave",
-    acceptQuest:"acceptQuest",
-    giveItem:"giveItem",
-    sprint:"sprint",
-    limp:"limp",
-    pray:"pray",
-    bless:"bless",
-    knock:"knock",
-    sit:"sit",
-    eat:"eat",
-    drink:"drink",
-    hug:"hug",
-    heal:"heal",
-    block:"block",
-    dodge:"dodge"
-  },
-  species:["fox", "goat", "cow", "deer", "rabbit", "frog", "bird", "chicken", "boar", "sheep", "dog", "horse", "guardian_ram"]
+  actions:platformActionShorthandTerms(),
+  species:speciesNames()
 });
 
 export function defaultAiWorldShortInput() {

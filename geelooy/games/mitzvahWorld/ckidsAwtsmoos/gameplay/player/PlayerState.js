@@ -1,4 +1,6 @@
 // B"H
+import { CORE_STATS } from "../../platform/MitzvahPlatformCatalog.js";
+
 export function createPlayerState() {
   return {
     level:1,
@@ -9,7 +11,7 @@ export function createPlayerState() {
     stamina:100,
     maxStamina:100,
     coins:20,
-    stats:{ strength:5, focus:4, stamina:5, spirit:3 },
+    stats:{ ...CORE_STATS, focus:CORE_STATS.daas, spirit:CORE_STATS.faith },
     equipment:{ weapon:null, trinket:null },
     learnedAbilities:["quick_strike"],
     actionBar:["melee_attack", "quick_strike", "block", "bag", "interact"],
@@ -29,6 +31,10 @@ export function awardXp(player, amount) {
     player.maxHealth += 12;
     player.health = player.maxHealth;
     player.maxStamina += 5;
+    player.stats.health = player.maxHealth;
+    player.stats.stamina = player.maxStamina;
+    player.stats.strength += 1;
+    player.stats.chochmah += levelUps.length % 2 ? 1 : 0;
     levelUps.push(player.level);
   }
   return levelUps;

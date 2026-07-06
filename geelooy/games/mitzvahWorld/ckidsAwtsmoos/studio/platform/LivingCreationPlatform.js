@@ -6,6 +6,7 @@ import { runLivingEconomy } from "./LivingEconomy.js";
 import { generateStoryArcs } from "./StoryArcGenerator.js";
 import { directWorldGraph } from "./DirectorAiEngine.js";
 import { actionVocabulary, generateActionLibrary } from "./ProceduralActionGenerator.js";
+import { ANIMAL_RULES, CHOSSID_GLB_INSPECTION, CORE_STATS, WEAPON_ARCHETYPES } from "../../platform/MitzvahPlatformCatalog.js";
 
 export const LIVING_CREATION_PLATFORM_SCHEMA = "mitzvah-living-creation-platform-v1";
 
@@ -28,6 +29,12 @@ export function compileLivingCreationDocument(input = {}, options = {}) {
     story,
     director,
     actionLibrary,
+    platformCatalog:{
+      stats:Object.keys(CORE_STATS),
+      weapons:Object.keys(WEAPON_ARCHETYPES),
+      animalRules:Object.keys(ANIMAL_RULES),
+      chossidGlb:CHOSSID_GLB_INSPECTION
+    },
     proof:{
       aiJsonExpanded:Boolean(parsed.world && graph.nodes.length),
       graphBased:graph.edges.length > 0,
@@ -35,7 +42,9 @@ export function compileLivingCreationDocument(input = {}, options = {}) {
       economyPriced:economy.shops.some(shop => shop.stock?.length),
       storyBranched:story.arcs.some(arc => arc.stages.some(stage => stage.kind === "branch")),
       directorPlanned:director.shots.length > 0,
-      actionsGenerated:actionLibrary.actions.length >= 30
+      actionsGenerated:actionLibrary.actions.length >= 30,
+      animalRulesShared:Object.keys(ANIMAL_RULES).length >= 10,
+      chossidGlbInspected:CHOSSID_GLB_INSPECTION.morphTargets.mouth.includes("O")
     }
   };
 }
@@ -49,6 +58,7 @@ export function livingCreationSummary(compiled = {}) {
     questArcs:compiled.story?.arcs?.length || 0,
     shots:compiled.director?.shots?.length || 0,
     actions:compiled.actionLibrary?.actions?.length || 0,
+    catalog:compiled.platformCatalog ? { stats:compiled.platformCatalog.stats.length, weapons:compiled.platformCatalog.weapons.length, animalRules:compiled.platformCatalog.animalRules.length } : null,
     proof:compiled.proof || {}
   };
 }

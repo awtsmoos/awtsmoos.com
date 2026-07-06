@@ -1,4 +1,6 @@
 // B"H
+import { normalizePlatformActionName } from "../../platform/MitzvahPlatformCatalog.js";
+
 export const CREATION_GRAPH_SCHEMA = "mitzvah-creation-graph-v1";
 
 const clone = value => JSON.parse(JSON.stringify(value ?? null));
@@ -56,6 +58,11 @@ export function graphChildren(graph, parentId, relation = null) {
 function addCollection(graph, parentId, type, rows, relation = "contains") {
   for (const row of list(rows)) {
     const node = connectChild(graph, parentId, type, row, relation);
+    for (const action of list(row.actions)) {
+      const actionName = normalizePlatformActionName(action);
+      const actionNode = addGraphNode(graph, "action", { id:`action_${actionName}`, name:actionName, source:action }, `action_${actionName}`);
+      addGraphEdge(graph, node.id, actionNode.id, "can_perform");
+    }
     if (row.door?.id) {
       const door = connectChild(graph, node.id, "door", row.door, "has_door");
       if (row.door.opensTo) connectChild(graph, door.id, "interior", { id:row.door.opensTo }, "opens_to");
@@ -80,7 +87,14 @@ export function buildGraphFromAiWorld(parsed = {}, options = {}) {
   }
   if (parsed.movie) {
     const movie = connectChild(graph, world.id, "movie", parsed.movie, "has_movie");
-    for (const shot of list(parsed.movie.shots)) connectChild(graph, movie.id, "shot", shot, "has_shot");
+    for (const shot of list(parsed.movie.shots)) {
+      const shotNode = connectChild(graph, movie.id, "shot", shot, "has_shot");
+      if (shot.action) {
+        const actionName = normalizePlatformActionName(shot.action);
+        const actionNode = addGraphNode(graph, "action", { id:`action_${actionName}`, name:actionName, source:shot.action }, `action_${actionName}`);
+        addGraphEdge(graph, shotNode.id, actionNode.id, "plays_action");
+      }
+    }
   }
   return graph;
 }

@@ -1,5 +1,6 @@
 // B"H
 import * as THREE from "/games/scripts/build/three.module.js";
+import { animalRule } from "../../platform/MitzvahPlatformCatalog.js";
 
 const ARCHETYPES = {
   fox:{ color:0xb85a2b, accent:0xf3d3a2, dark:0x2b1a12, scale:[1.42, .56, .44], tail:"bushy", ears:"point", paws:true, claws:true, hp:42, damage:6, markings:"socks" },
@@ -96,9 +97,10 @@ function addHornsOrAntlers(group, spec, s, accent) {
 
 export function createRealisticAnimalMesh(species = "fox") {
   const spec = ARCHETYPES[species] || ARCHETYPES.fox;
+  const rules = animalRule(species);
   const group = new THREE.Group();
   group.name = `animal_${species}`;
-  group.userData = { awtsType:"wowAnimal", species, selectable:true, combatTarget:true, corpseProxy:false, lod:{ near:"hyper-real-generated", mid:"recognizable-anatomy", far:"clear-silhouette" } };
+  group.userData = { awtsType:"wowAnimal", species, kosherSpecies:Boolean(rules.kosher), animalRules:rules, selectable:true, combatTarget:true, corpseProxy:false, lod:{ near:"hyper-real-generated", mid:"recognizable-anatomy", far:"clear-silhouette" } };
   const fur = mat(spec.color);
   const accent = mat(spec.accent);
   const dark = mat(spec.dark || 0x181818);
@@ -166,6 +168,7 @@ export function createRealisticAnimalMesh(species = "fox") {
 
 export function createAnimalState(id, species, name, x, y) {
   const spec = ARCHETYPES[species] || ARCHETYPES.fox;
+  const rules = animalRule(species);
   return {
     id,
     species,
@@ -176,6 +179,9 @@ export function createAnimalState(id, species, name, x, y) {
     maxHp:spec.hp,
     damage:spec.damage,
     elite:Boolean(spec.elite),
+    kosherSpecies:Boolean(rules.kosher),
+    animalRules:rules,
+    behavior:[...(rules.behavior || [])],
     selected:false,
     dead:false,
     corpseId:null,
@@ -210,6 +216,9 @@ export function animalProof(animal) {
     hasLod:parts.includes("mid_lod_silhouette") && parts.includes("far_lod_silhouette"),
     selectionProxy:true,
     combatProxy:true,
-    corpseProxy:animal.dead === true
+    corpseProxy:animal.dead === true,
+    kosherSpecies:Boolean(animal.kosherSpecies),
+    behaviors:animal.behavior || [],
+    harvestRule:animal.animalRules?.harvest || null
   };
 }

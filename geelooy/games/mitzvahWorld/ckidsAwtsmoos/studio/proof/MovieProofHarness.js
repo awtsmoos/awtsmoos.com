@@ -16,6 +16,8 @@ export function runMovieProof() {
     proceduralMovieGenerated:Boolean(generated?.ok),
     nlePanelsAvailable:state.panels?.includes("curveEditor") && state.panels?.includes("renderQueue") && state.panels?.includes("cameraGraph"),
     directorAiPlanned:Boolean(state.director?.shots?.length),
+    runtimeActionsInTimeline:Boolean(generated?.timeline?.tracks?.some(track => track.clips.some(clip => clip.payload?.runtimeAction))),
+    canonicalActionCount:Number(generated?.proceduralDirector?.availableActions || 0),
     cutsceneExported:Boolean(state.exported?.schema),
     cutscenePlayedInGame:Boolean(played?.ok)
   };

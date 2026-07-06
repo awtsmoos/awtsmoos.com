@@ -21,7 +21,9 @@ export function runStudioProof() {
     ecosystemSimulated:Boolean(result.platform?.proof?.ecosystemSimulated),
     livingEconomyPriced:Boolean(result.platform?.proof?.economyPriced),
     storyArcsBranched:Boolean(result.platform?.proof?.storyBranched),
-    actionLibraryGenerated:Boolean(result.platform?.proof?.actionsGenerated)
+    actionLibraryGenerated:Boolean(result.platform?.proof?.actionsGenerated),
+    chossidGlbInspected:Boolean(result.platform?.proof?.chossidGlbInspected),
+    animalRulesShared:Boolean(result.platform?.proof?.animalRulesShared)
   };
 }
 

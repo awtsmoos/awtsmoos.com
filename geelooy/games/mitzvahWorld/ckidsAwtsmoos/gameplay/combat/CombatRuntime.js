@@ -2,6 +2,7 @@
 import { createAnimalState } from "../animals/RealisticAnimalFactory.js";
 import { createCorpse } from "../loot/CorpseLootRuntime.js";
 import { updateKillQuest } from "../quests/QuestState.js";
+import { itemDefinition } from "../items/ItemDefinitions.js";
 
 export function createCombatRuntime(ctx) {
   const cooldowns = new Map();
@@ -25,7 +26,20 @@ export function createCombatRuntime(ctx) {
 
   function weaponMode(abilityId) {
     if (abilityId === "focus_shot" || ctx.player.equipment.weapon === "garden_bow") return "ranged";
+    if (abilityId === "castStorm" || ctx.player.equipment.weapon === "learner_staff") return "magic";
+    if (ctx.player.equipment.weapon === "walking_staff") return "staff";
     return "melee";
+  }
+
+  function statBonus(mode) {
+    const stats = ctx.player.stats || {};
+    const weapon = itemDefinition(ctx.player.equipment.weapon || "");
+    const physical = weapon.physical || {};
+    const scaled = (physical.scalesWith || []).reduce((sum, key) => sum + (Number(stats[key]) || 0) * .35, 0);
+    if (mode === "ranged") return (Number(stats.dexterity) || 0) + (Number(stats.daas) || 0) * .3 + scaled;
+    if (mode === "magic") return (Number(stats.faith) || 0) + (Number(stats.chochmah) || 0) * .35 + (Number(stats.binah) || 0) * .25 + scaled;
+    if (mode === "staff") return (Number(stats.strength) || 0) * .65 + (Number(stats.wisdom) || 0) * .4 + scaled;
+    return (Number(stats.strength) || 0) + (Number(stats.gevurah) || 0) * .25 + scaled;
   }
 
   function attack(abilityId = "melee_attack") {
@@ -36,8 +50,8 @@ export function createCombatRuntime(ctx) {
     const readyAt = cooldowns.get(cdKey) || 0;
     if (readyAt > now) return { ok:false, reason:"cooldown", readyIn:readyAt - now };
     const mode = weaponMode(abilityId);
-    const base = mode === "ranged" ? 16 : abilityId === "quick_strike" ? 18 : 14;
-    const damage = Math.max(1, base + (ctx.player.stats.strength || 0) - (enemy.elite ? 4 : 1));
+    const base = mode === "ranged" ? 16 : mode === "magic" ? 20 : mode === "staff" ? 17 : abilityId === "quick_strike" ? 18 : 14;
+    const damage = Math.max(1, Math.round(base + statBonus(mode) - (enemy.elite ? 4 : 1)));
     enemy.hp = Math.max(0, enemy.hp - damage);
     enemy.effects += 1;
     damageNumbers.push({ targetId:enemy.id, damage, mode, at:now });
