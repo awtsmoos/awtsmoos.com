@@ -1,5 +1,9 @@
 // B"H
-/** @file KlipahCreatureCatalog.js @description Symbolic opposition for refinement, not random fantasy monsters. */
-export const KLIPAH_CREATURES = Object.freeze({ darkMist:{ form:"mist", weakness:"light", effect:"obscures-region" }, shadowBeast:{ form:"beast", weakness:"courage", effect:"scares-herds" }, brokenGolem:{ form:"stone", weakness:"repair", effect:"blocks-road" }, corruptedSpirit:{ form:"spirit", weakness:"song", effect:"silences-music" }, chaosCreature:{ form:"chaos", weakness:"order", effect:"scrambles-paths" } });
-export function klipahProfile(type) { return { type, ...(KLIPAH_CREATURES[type] || KLIPAH_CREATURES.darkMist), purpose:"refinement", defeatVerb:"purify" }; }
+/** @file KlipahCreatureCatalog.js @description Symbolic leveled opposition for refinement, not random fantasy filler. */
+import { movesForRole } from "../../progression/runtime/MoveStatCatalog.js";
+import { statGrowth, xpReward } from "../../progression/runtime/LevelCurveRuntime.js";
+const K=(form,role,weakness,effect,purifiedEffect)=>({form,role,weakness,effect,purifiedEffect});
+export const KLIPAH_CREATURES=Object.freeze({ darkMist:K("mist","mist","light","obscures-region","weather-clears"), shadowBeast:K("beast","beast","courage","scares-herds","animals-return"), brokenGolem:K("stone","stone","repair","blocks-road","roads-open"), corruptedSpirit:K("spirit","spirit","song","silences-music","music-changes"), chaosAnimal:K("chaos-animal","chaos","order","panics-wildlife","herds-calm"), emptyShell:K("shell","stone","meaning","drains-npcs","npc-dialogue-heals"), twistedRoot:K("root","stone","growth","chokes-forest","trees-regrow"), fogSerpent:K("serpent","mist","clarity","hides-rivers","water-clears"), ashWolf:K("wolf","beast","mercy","burns-grass","grass-returns"), brokenStatue:K("statue","stone","repair","freezes-square","shops-reopen"), noiseSwarm:K("swarm","chaos","silence","scrambles-sound","peaceful-audio") });
+export function klipahProfile(type="darkMist",level=1){ const base=KLIPAH_CREATURES[type]||KLIPAH_CREATURES.darkMist, stats=statGrowth(level), moves=movesForRole(base.role).map(m=>({...m,damage:Math.round(m.damage*(1+level*.11)),stamina:Math.round(m.stamina*(1+level*.04))})); return { type, level, ...base, moves, stats:{...stats,maxHealth:stats.maxHealth+level*8,attack:stats.attack+level*2}, xpValue:xpReward({victorLevel:level,targetLevel:level,base:20}), purpose:"refinement", defeatVerb:"purify" }; }
+export function klipahTypes(){ return Object.keys(KLIPAH_CREATURES); }
 export default KLIPAH_CREATURES;

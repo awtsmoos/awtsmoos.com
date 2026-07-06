@@ -1,0 +1,12 @@
+/* B"H */
+.clean-expander summary { cursor: pointer; font-weight: 650; }
+.home-status-line, .profile-kicker, .spaces-kicker, .home-kicker {
+  color: var(--g-muted);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.home-brand-row, .profile-identity-row, .spaces-command-row, .panel-title-row, .home-feed-header,
+.space-title-row, .space-meta-line, .space-actions { align-items: center; display: flex; gap: var(--g-3); }
+.home-brand-row, .panel-title-row, .home-feed-header, .space-title-row { justify-content: space-between; }

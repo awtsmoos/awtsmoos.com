@@ -1,14 +1,9 @@
 /* B"H
  * @file rail.css
- * Top command bar: short, readable, stable.
+ * The page no longer renders its own hamburger/topbar. Global nav is the only top nav.
  */
-.home-topbar { position: sticky; top: .32rem; z-index: 30; min-height: 3rem; display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: .36rem; padding: .36rem; border-radius: 1rem; }
-.clean-brand { min-width: 0; display: inline-flex; align-items: center; gap: .45rem; color: var(--home-text); text-decoration: none; font-weight: 1000; }
-.clean-brand span { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 999px; color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); }
-.clean-brand b { max-width: 7.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.home-rail-links { display: flex; justify-content: center; gap: .22rem; min-width: 0; overflow: hidden; }
-.home-rail-links a { min-height: 2.25rem; display: inline-grid; place-items: center; padding: .3rem .56rem; border-radius: 999px; color: var(--home-muted); text-decoration: none; font-weight: 900; }
-.home-rail-links a:hover { color: var(--home-text); background: rgba(255,255,255,.07); }
-.home-rail-links small { display: none; }
-.home-top-create { min-height: 2.25rem; display: grid; place-items: center; padding: 0 .75rem; border-radius: 999px; color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); text-decoration: none; font-weight: 1000; }
-.home-menu-button { display: none; width: 2.25rem; height: 2.25rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); background: var(--home-glass); }
+.home-topbar, .home-heichelos-menu, .home-menu-button, .home-rail-links, .home-top-create, .clean-brand { display: none !important; }
+.home-brand-row { display: flex; align-items: center; gap: .65rem; }
+.home-brand-row strong { display: block; color: var(--home-text); font-size: 1.05rem; line-height: 1; }
+.home-brand-row small { display: block; color: var(--home-muted); font-size: .78rem; margin-top: .1rem; }
+.home-brand-mark { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; color: #071522; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); font-weight: 900; }

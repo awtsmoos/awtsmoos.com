@@ -1,0 +1,6 @@
+// B"H
+/** @file WebAudioSfxRuntime.js @description Browser-safe Web Audio beeps, with testable descriptors when no AudioContext exists. */
+import { soundEffect } from "./SoundEffectCatalog.js";
+export class WebAudioSfxRuntime{ constructor(globalScope=globalThis){ this.globalScope=globalScope; this.history=[]; this.enabled=true; this.context=null; } ensure(){ if(this.context||!this.enabled) return this.context; const C=this.globalScope.AudioContext||this.globalScope.webkitAudioContext; this.context=C?new C():null; return this.context; } play(id="equip",options={}){ const fx={...soundEffect(id),...options,id}; this.history.push(fx); const ctx=this.ensure(); if(!ctx) return {ok:true,played:false,descriptor:fx}; const osc=ctx.createOscillator(), gain=ctx.createGain(); osc.type=fx.curve; osc.frequency.value=fx.freq; gain.gain.value=fx.gain; osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime+fx.duration); return {ok:true,played:true,descriptor:fx}; } mute(){ this.enabled=false; return {ok:true,enabled:false}; } snapshot(){ return {enabled:this.enabled,count:this.history.length,last:this.history.at(-1)||null}; } }
+export function createWebAudioSfxRuntime(scope=globalThis){ return new WebAudioSfxRuntime(scope); }
+export default createWebAudioSfxRuntime;

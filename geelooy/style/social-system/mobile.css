@@ -1,2 +1,10 @@
-/* B"H mobile compression without mystery. */
-@media(max-width:760px){.g-social-dock a,.g-social-dock button,.g-social-button{flex:1 1 auto}.g-social-surface{border-radius:1.1rem}}
+/* B"H */
+@media (max-width: 720px) {
+  .geelooy-home-shell, .geelooy-profile-shell, .social-spaces-shell, .app-container {
+    padding: var(--g-3) var(--g-3) calc(5.5rem + env(safe-area-inset-bottom));
+  }
+  .home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav { width: calc(100vw - 1rem); }
+  .home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a { flex: 1; text-align: center; }
+  .home-search-vessel { grid-template-columns: 1fr; }
+  h1 { font-size: 1.75rem; }
+}

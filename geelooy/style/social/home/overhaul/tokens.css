@@ -1,23 +1,25 @@
 /* B"H
  * @file tokens.css
- * Mockup page tokens: bright social OS, clean cards, honey/cyan actions.
+ * Fast future tokens: crisp contrast, tiny neon accents, zero blur dependency.
  */
 :root {
-  --home-bg: #eef4fb;
-  --home-bg-2: #f8fbff;
-  --home-panel: rgba(255,255,255,.84);
-  --home-panel-2: rgba(255,255,255,.96);
-  --home-glass: rgba(15,29,45,.06);
-  --home-line: rgba(16,33,52,.12);
-  --home-line-hot: rgba(88,198,255,.5);
-  --home-text: #0f1d2d;
-  --home-muted: #627184;
-  --home-soft: rgba(98,113,132,.72);
+  --home-bg: #f6f8fb;
+  --home-bg-2: #eef3f8;
+  --home-panel: #ffffff;
+  --home-panel-2: #f9fbfd;
+  --home-glass: #f1f5f9;
+  --home-line: rgba(15, 29, 45, .12);
+  --home-line-hot: rgba(0, 196, 220, .48);
+  --home-text: #081827;
+  --home-muted: #5b6b7e;
+  --home-soft: rgba(91,107,126,.72);
   --home-honey: #f2cf68;
-  --home-cyan: #73e7f4;
-  --home-radius: 1.45rem;
-  --home-radius-sm: 1rem;
-  --home-gap: .72rem;
-  --home-shadow: 0 24px 70px rgba(36,64,96,.16);
-  --home-font-tight: -.055em;
+  --home-cyan: #35d8e8;
+  --home-mint: #97e9bf;
+  --home-radius: 1rem;
+  --home-radius-sm: .72rem;
+  --home-gap: .62rem;
+  --home-shadow: 0 10px 30px rgba(8, 24, 39, .09);
+  --home-shadow-strong: 0 16px 42px rgba(8, 24, 39, .13);
+  --home-font-tight: -.045em;
 }

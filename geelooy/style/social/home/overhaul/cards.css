@@ -1,14 +1,15 @@
 /* B"H
  * @file cards.css
- * Compact cards: title, context, action. Nothing extra.
+ * Fast future cards: no old button ugliness, no huge empty gap.
  */
-.home-post-card, .universal-object-card, .home-sanctuary-card { position: relative; overflow: hidden; border: 1px solid var(--home-line); border-radius: .88rem; padding: .7rem; color: var(--home-text); background: linear-gradient(145deg, rgba(255,255,255,.078), rgba(255,255,255,.034)); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+.home-post-card, .universal-object-card, .home-sanctuary-card { position: relative; overflow: hidden; border: 1px solid var(--home-line); border-radius: .86rem; padding: .72rem; color: var(--home-text); background: #fff; box-shadow: 0 6px 16px rgba(8,24,39,.055); contain: layout paint; }
 .home-post-card::before, .universal-object-card::before, .home-sanctuary-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; background: linear-gradient(90deg, var(--home-honey), var(--home-cyan)); }
-.post-author { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .46rem; align-items: center; }
-.post-author span { width: 1.82rem; height: 1.82rem; border-radius: 999px; background: radial-gradient(circle at 35% 25%, #fff3ad, #9d742e); }
+.post-author { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .5rem; align-items: center; }
+.post-author span { width: 1.95rem; height: 1.95rem; border-radius: 999px; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); }
 .post-author strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.post-author small { color: var(--home-soft); }
-.home-post-card p, .universal-object-card p, .home-sanctuary-card p { margin: .45rem 0 0; color: var(--home-muted); line-height: 1.34; }
-.home-empty-actions { display: flex; flex-wrap: wrap; gap: .34rem; margin-top: .54rem; }
-.home-empty-actions a { display: inline-grid; place-items: center; min-height: 2.1rem; padding: .28rem .58rem; border-radius: 999px; }
+.post-author small { grid-column: 2; color: var(--home-soft); font-size: .78rem; }
+.home-post-card p, .universal-object-card p, .home-sanctuary-card p { margin: .42rem 0 0; color: var(--home-muted); line-height: 1.32; font-size: .94rem; }
+.home-empty-actions { display: flex; flex-wrap: wrap; gap: .42rem; margin-top: .62rem; }
+.home-empty-actions a { display: inline-grid; place-items: center; min-height: 2.32rem; padding: .36rem .66rem; border-radius: .68rem; color: #06101b !important; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); text-decoration: none; font-weight: 950; }
+.home-empty-actions a:first-child { background: #eef3f8; color: var(--home-text) !important; border: 1px solid var(--home-line); }
 .universal-object-card a, .home-sanctuary-card a { color: var(--home-text); }

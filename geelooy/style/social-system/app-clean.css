@@ -1,0 +1,20 @@
+/* B"H */
+body, html { background: var(--g-bg-soft) !important; color: var(--g-text) !important; }
+.profile-banner-light, .space-banner, .awtsmoos-filter-vessel { display: none !important; }
+.home-brand-mark, .profile-avatar-orb, .space-seal {
+  background: var(--g-surface-2) !important;
+  border: 1px solid var(--g-border) !important;
+  border-radius: 50% !important;
+  color: var(--g-text-2) !important;
+  display: inline-grid !important;
+  flex: 0 0 40px;
+  height: 40px;
+  place-items: center;
+  width: 40px;
+}
+.home-hero-copy, .profile-identity-copy, .space-copy { display: grid; gap: var(--g-2); }
+.home-feed-tabs, .profile-tabs, .spaces-state-row { display: flex; flex-wrap: wrap; gap: var(--g-2); }
+.home-feed-tabs button.active, .profile-tabs .active { background: var(--g-surface-2); border-color: var(--g-border-strong); }
+.sidebar, .chat-container, .mail-main, .thread-panel { background: var(--g-surface) !important; border-color: var(--g-border) !important; box-shadow: none !important; }
+.sidebar { backdrop-filter: none !important; }
+.brand-title { color: var(--g-text) !important; background: none !important; letter-spacing: -.02em !important; text-transform: none !important; }

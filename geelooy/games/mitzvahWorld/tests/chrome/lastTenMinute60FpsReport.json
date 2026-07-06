@@ -1,0 +1,5243 @@
+{
+  "ok": false,
+  "rawExit": 0,
+  "stderr": "",
+  "headed": false,
+  "durationMs": 600000,
+  "startedAt": "2026-07-06T21:54:11.427Z",
+  "url": "http://127.0.0.1:54473/geelooy/games/mitzvahWorld/index.html?path=village.json",
+  "browser": {
+    "name": "macOS Chrome",
+    "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "candidates": [
+      [
+        "CHROME_PATH",
+        ""
+      ],
+      [
+        "CHROME_BIN",
+        ""
+      ],
+      [
+        "GOOGLE_CHROME_BIN",
+        ""
+      ],
+      [
+        "macOS Chrome",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "macOS Chrome Canary",
+        "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+      ],
+      [
+        "macOS Chromium",
+        "/Applications/Chromium.app/Contents/MacOS/Chromium"
+      ],
+      [
+        "macOS Edge",
+        "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+      ],
+      [
+        "macOS user Chrome",
+        "/Users/awtsmoos/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "Linux google-chrome",
+        "/usr/bin/google-chrome"
+      ],
+      [
+        "Linux google-chrome-stable",
+        "/usr/bin/google-chrome-stable"
+      ],
+      [
+        "Linux chromium",
+        "/usr/bin/chromium"
+      ],
+      [
+        "Linux chromium-browser",
+        "/usr/bin/chromium-browser"
+      ],
+      [
+        "Linux Edge",
+        "/usr/bin/microsoft-edge"
+      ],
+      [
+        "Windows Chrome",
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Windows Chrome x86",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      ],
+      [
+        "Windows Chrome local",
+        ""
+      ],
+      [
+        "Windows Edge",
+        "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Windows Edge x86",
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      ],
+      [
+        "Windows Edge local",
+        ""
+      ]
+    ]
+  },
+  "boot": {
+    "readyState": "complete",
+    "canvases": 1,
+    "bootLoaded": true,
+    "errors": 0,
+    "lastError": null,
+    "perf": {
+      "tier": "high",
+      "mobile": false,
+      "renderScale": 1,
+      "budget": {
+        "grassDistance": 42,
+        "treeDistance": 105,
+        "npcDistance": 84,
+        "particleLimit": 44,
+        "shadowMode": "off",
+        "cssBlur": false,
+        "maxDistantActors": 22,
+        "seal": "speed-scene-budget-bh4"
+      },
+      "mainRendererFound": false,
+      "mainRendererApplied": false,
+      "rendererFound": true,
+      "rendererApplied": true,
+      "workerPixelRatioApplied": true,
+      "workerPixelRatioState": {
+        "width": 1280,
+        "height": 577,
+        "rawPixelRatio": 1,
+        "pixelRatio": 1.5,
+        "memoryGb": 8,
+        "phase": "resize",
+        "quality": "balanced",
+        "applied": false,
+        "crispMobileFloor": true,
+        "canvasBackingTarget": {
+          "width": 1920,
+          "height": 865
+        },
+        "seal": "crisp-mobile-pixel-governor-20260705-bh6"
+      },
+      "rendererState": {
+        "applied": false
+      },
+      "discovery": {
+        "found": false,
+        "path": null,
+        "visited": 10,
+        "roots": [
+          "mana",
+          "__AWTSMOOS_MANAGER__",
+          "ikar"
+        ]
+      },
+      "attempts": 9,
+      "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
+    },
+    "pixelGovernor": {
+      "width": 1280,
+      "height": 577,
+      "rawPixelRatio": 1,
+      "pixelRatio": 1.5,
+      "memoryGb": 8,
+      "phase": "resize",
+      "quality": "balanced",
+      "applied": false,
+      "crispMobileFloor": true,
+      "canvasBackingTarget": {
+        "width": 1920,
+        "height": 865
+      },
+      "seal": "crisp-mobile-pixel-governor-20260705-bh6"
+    },
+    "url": "http://127.0.0.1:54473/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "title": "Awtsmoos - Mitzvah World 3D"
+  },
+  "sample": {
+    "durationMs": 600032.7999999523,
+    "frameCount": 37572,
+    "avgFrameMs": 15.969378792717665,
+    "fps": 62.619843450392615,
+    "onePercentLowFps": 13.755158184316917,
+    "pointOnePercentLowFps": 7.507507507507518,
+    "p95FrameMs": 18.900000000023283,
+    "p99FrameMs": 72.70000000001164,
+    "p999FrameMs": 133.19999999999982,
+    "worstFrameMs": 298.79999999999563,
+    "droppedFrames": 997,
+    "longFrames": 728,
+    "worstInputGap": 2511.300000011921,
+    "actions": {
+      "keydown:KeyW": 169,
+      "mouseSweep": 169,
+      "combatClick": 337,
+      "keydown:Space": 168,
+      "keyup:Space": 168,
+      "keydown:KeyE": 168,
+      "keyup:KeyE": 169,
+      "keydown:KeyQ": 168,
+      "keyup:KeyQ": 169,
+      "keydown:Digit1": 168,
+      "keyup:Digit1": 168,
+      "keydown:Digit2": 168,
+      "keyup:Digit2": 168,
+      "keydown:KeyF": 168,
+      "keyup:KeyF": 168,
+      "keydown:Enter": 168,
+      "keyup:Enter": 168,
+      "keydown:KeyA": 168,
+      "keyup:KeyA": 169,
+      "keydown:KeyD": 168,
+      "keyup:KeyD": 169,
+      "keyup:KeyW": 169,
+      "keyup:KeyS": 1
+    },
+    "memorySamples": 119,
+    "memoryGrowthBytes": 19918099,
+    "longTaskCount": 86,
+    "longTasks": [
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 165256.60000002384,
+        "duration": 59,
+        "at": 160852.89999997616,
+        "recent": [
+          {
+            "at": 161097.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161097.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161097.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161097.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161097.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161097.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161097.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161098,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161098,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161098.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161098.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161098.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161098.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161098.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161098.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161098.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161098.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161099.09999996424,
+            "type": "mutation",
+            "count": 5,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-koach-fill",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 165751.90000003576,
+        "duration": 70,
+        "at": 161348.19999998808,
+        "recent": [
+          {
+            "at": 161443.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161444.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161444.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161444.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161445,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161445.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161445.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161445.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161445.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161446.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161446.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161446.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161446.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161448.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161448.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161449.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 161449.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 161452.79999995232,
+            "type": "mutation",
+            "count": 4,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 179320.60000002384,
+        "duration": 76,
+        "at": 174916.89999997616,
+        "recent": [
+          {
+            "at": 175131.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175131.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175131.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175131.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175131.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175131.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175133.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0.09999996423721313,
+            "target": "node"
+          },
+          {
+            "at": 175133.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175133.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175133.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175133.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175133.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175133.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175133.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175134,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175134,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175134.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:worker-gameplay-fps",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175141.79999995232,
+            "type": "mutation",
+            "count": 5,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-koach-fill",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 179642.80000001192,
+        "duration": 135,
+        "at": 175239.09999996424,
+        "recent": [
+          {
+            "at": 175387.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175387.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175387.59999996424,
+            "type": "input",
+            "input": "keyup:KeyF"
+          },
+          {
+            "at": 175387.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175387.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175388.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175388.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175388.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175388.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175388.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175388.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175388.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175388.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175388.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175388.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175389.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175389.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175389.39999997616,
+            "type": "mutation",
+            "count": 4,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 180263.30000001192,
+        "duration": 73,
+        "at": 175859.59999996424,
+        "recent": [
+          {
+            "at": 175964.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175964.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175964.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175964.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175965.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175965.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175966,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175966,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175966.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175966.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175966.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175966.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175966.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175966.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175966.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175966.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 175967,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 175967,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 190029.5,
+        "duration": 139,
+        "at": 185625.79999995232,
+        "recent": [
+          {
+            "at": 185801.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185801.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185802,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185802,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185802.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185802.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185802.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185802.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185802.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185802.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185802.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185802.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185803.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185803.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185803.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 185803.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185804.5,
+            "type": "mutation",
+            "count": 5,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-koach-fill",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 185804.5,
+            "type": "input",
+            "input": "keyup:Digit2"
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 190317.10000002384,
+        "duration": 98,
+        "at": 185913.39999997616,
+        "recent": [
+          {
+            "at": 186029.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186029.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186030.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186030.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186030.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186030.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186030.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186030.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186030.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186030.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186031.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186031.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186031.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186031.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186031.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 186031.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 186031.59999996424,
+            "type": "input",
+            "input": "keyup:KeyF"
+          },
+          {
+            "at": 186031.79999995232,
+            "type": "input",
+            "input": "keydown:Enter"
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 193761,
+        "duration": 75,
+        "at": 189357.29999995232,
+        "recent": [
+          {
+            "at": 189451.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189451.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189451.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189451.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189451.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189451.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189451.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189451.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189452.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189452.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189452.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189452.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189452.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189452.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189452.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189452.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 189452.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 189452.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 196856.30000001192,
+        "duration": 71,
+        "at": 192452.59999996424,
+        "recent": [
+          {
+            "at": 192444.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192444.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192444.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192444.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192445.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192445.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192446.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192446.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192450.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192450.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192450.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192450.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192450.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192450.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192451.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192451.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192451.69999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192451.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 197257.40000003576,
+        "duration": 99,
+        "at": 192853.69999998808,
+        "recent": [
+          {
+            "at": 192852.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192852.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192852.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192853,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192853,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192853.19999998808,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192853.19999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192853.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192853.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192853.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192853.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192952.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0.09999996423721313,
+            "target": "node"
+          },
+          {
+            "at": 192952.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192957.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192957.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192958,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 192958,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 192964.39999997616,
+            "type": "mutation",
+            "count": 4,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 239413.60000002384,
+        "duration": 56,
+        "at": 235009.89999997616,
+        "recent": [
+          {
+            "at": 235084.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235084.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235084.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235084.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235084.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235084.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235085,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235085.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235085.29999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235085.29999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235085.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235085.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235085.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235085.69999998808,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235085.79999995232,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235085.79999995232,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 235086,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 235086,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 478592.10000002384,
+        "duration": 54,
+        "at": 474188.39999997616,
+        "recent": [
+          {
+            "at": 474286.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474287.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474287.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474288.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474288.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474288.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474288.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474288.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474288.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474288.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474289,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474289.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474289.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474289.2999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474289.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474289.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474289.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474289.59999996424,
+            "type": "input",
+            "input": "keyup:Digit2"
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 478768.40000003576,
+        "duration": 127,
+        "at": 474364.6999999881,
+        "recent": [
+          {
+            "at": 474509.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474509.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474509.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474509.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474510,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474510,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474510.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474510.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474510.2999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474510.2999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474510.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474510.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474510.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474510.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474510.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474511,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474511.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0.10000002384185791,
+            "target": "node"
+          },
+          {
+            "at": 474511.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 478964.3000000119,
+        "duration": 51,
+        "at": 474560.59999996424,
+        "recent": [
+          {
+            "at": 474650.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474658.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474658.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474659.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474659.2999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474659.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474659.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474659.6999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474659.6999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474659.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474660,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474660.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474660.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474660.2999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474660.2999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474660.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 474660.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 474661.09999996424,
+            "type": "mutation",
+            "count": 4,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 482203.10000002384,
+        "duration": 58,
+        "at": 477799.39999997616,
+        "recent": [
+          {
+            "at": 477732.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477732.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477732.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477733,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477733.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477733.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477733.2999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477733.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477733.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477733.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477733.6999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477733.6999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477733.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477733.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477734.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477734.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 477734.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 477734.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 496011,
+        "duration": 65,
+        "at": 491607.2999999523,
+        "recent": [
+          {
+            "at": 491603.6999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491603.6999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491604,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491604,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491604.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491604.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491604.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491604.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491604.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491604.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491604.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491604.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491607.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491607.2999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491644.5,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 491672.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491694.1999999881,
+            "type": "mutation",
+            "count": 5,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-koach-fill",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 491706.1999999881,
+            "type": "input",
+            "input": "keyup:Digit1"
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 505848.60000002384,
+        "duration": 60,
+        "at": 501444.89999997616,
+        "recent": [
+          {
+            "at": 501545,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501545,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501545.2999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501545.2999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501545.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501545.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501545.6999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501545.6999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501545.89999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501545.89999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501585.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501585.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501586.09999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501586.09999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501586.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501586.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501586.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501586.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 506125.7000000477,
+        "duration": 114,
+        "at": 501722,
+        "recent": [
+          {
+            "at": 501721.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501721.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501721.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501721.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501721.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501721.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501722,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501722,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501836.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501836.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501837.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501837.2999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501837.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501837.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501837.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501837.6999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 501837.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 501837.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 506948.5,
+        "duration": 80,
+        "at": 502544.7999999523,
+        "recent": [
+          {
+            "at": 502628.5,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502628.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 502628.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502629,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 502629,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502635.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 502635.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502636,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 502636,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502636.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 502636.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502636.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 502636.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502636.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 502636.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502640.1999999881,
+            "type": "mutation",
+            "count": 5,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-koach-fill",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 502640.1999999881,
+            "type": "input",
+            "input": "keyup:Digit2"
+          },
+          {
+            "at": 502640.2999999523,
+            "type": "input",
+            "input": "keydown:KeyF"
+          }
+        ]
+      },
+      {
+        "name": "self",
+        "entryType": "longtask",
+        "startTime": 507357.10000002384,
+        "duration": 50,
+        "at": 502953.39999997616,
+        "recent": [
+          {
+            "at": 503024.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503024.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 503024.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503025,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 503025,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503025.1999999881,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 503025.1999999881,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503025.39999997616,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 503025.39999997616,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503025.59999996424,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 503025.59999996424,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503025.7999999523,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 503025.7999999523,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503026,
+            "type": "dispatch",
+            "name": "awtsmoos:game-ready-phase",
+            "ms": 0,
+            "target": "node"
+          },
+          {
+            "at": 503026,
+            "type": "mutation",
+            "count": 1,
+            "nodes": 2,
+            "top": [
+              {
+                "name": "SCRIPT#mitzvah-worker-progress-output",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "at": 503026,
+            "type": "input",
+            "input": "keyup:Enter"
+          },
+          {
+            "at": 503026.1999999881,
+            "type": "input",
+            "input": "keydown:KeyA"
+          },
+          {
+            "at": 503026.5,
+            "type": "mutation",
+            "count": 4,
+            "nodes": 8,
+            "top": [
+              {
+                "name": "DIV.unit-name",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-level",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-hp-text",
+                "count": 1
+              },
+              {
+                "name": "DIV.unit-portrait",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "canvases": 1,
+    "errors": 0,
+    "lastError": null,
+    "perf": {
+      "tier": "high",
+      "mobile": false,
+      "renderScale": 1,
+      "budget": {
+        "grassDistance": 42,
+        "treeDistance": 105,
+        "npcDistance": 84,
+        "particleLimit": 44,
+        "shadowMode": "off",
+        "cssBlur": false,
+        "maxDistantActors": 22,
+        "seal": "speed-scene-budget-bh4"
+      },
+      "mainRendererFound": false,
+      "mainRendererApplied": false,
+      "rendererFound": true,
+      "rendererApplied": true,
+      "workerPixelRatioApplied": true,
+      "workerPixelRatioState": {
+        "width": 1280,
+        "height": 577,
+        "rawPixelRatio": 1,
+        "pixelRatio": 1.5,
+        "memoryGb": 8,
+        "phase": "initial",
+        "quality": "balanced",
+        "applied": false,
+        "crispMobileFloor": true,
+        "canvasBackingTarget": {
+          "width": 1920,
+          "height": 865
+        },
+        "seal": "crisp-mobile-pixel-governor-20260705-bh6"
+      },
+      "rendererState": {
+        "applied": false
+      },
+      "discovery": {
+        "found": false,
+        "path": null,
+        "visited": 10,
+        "roots": [
+          "mana",
+          "__AWTSMOOS_MANAGER__",
+          "ikar"
+        ]
+      },
+      "attempts": 12,
+      "seal": "frame-rescue-worker-pixel-governor-20260618-bh3"
+    },
+    "pixelGovernor": {
+      "width": 1280,
+      "height": 577,
+      "rawPixelRatio": 1,
+      "pixelRatio": 1.5,
+      "memoryGb": 8,
+      "phase": "initial",
+      "quality": "balanced",
+      "applied": false,
+      "crispMobileFloor": true,
+      "canvasBackingTarget": {
+        "width": 1920,
+        "height": 865
+      },
+      "seal": "crisp-mobile-pixel-governor-20260705-bh6"
+    },
+    "guardian": {
+      "stage": 4,
+      "avgFps": 82.39,
+      "minFps": 50,
+      "stable60": false,
+      "history": [
+        {
+          "at": 1783374856477,
+          "stage": 2,
+          "name": "ten-minute-guarantee",
+          "reason": "boot-conservative",
+          "avgFps": 0,
+          "minFps": 0,
+          "p95FrameMs": 0
+        },
+        {
+          "at": 1783374857445,
+          "stage": 3,
+          "name": "hundreds-nearby-combat-clamp",
+          "reason": "spike",
+          "avgFps": 786.59,
+          "minFps": 4.19,
+          "p95FrameMs": 46.4
+        },
+        {
+          "at": 1783374860446,
+          "stage": 4,
+          "name": "emergency-exact-frame-pacer",
+          "reason": "spike",
+          "avgFps": 590.07,
+          "minFps": 13.99,
+          "p95FrameMs": 2.8
+        }
+      ]
+    },
+    "budget": {
+      "tier": "balanced",
+      "scale": 0.5,
+      "fpsTarget": 60,
+      "reason": {
+        "fps": 56.516333220298684,
+        "p95FrameMs": 19,
+        "p99FrameMs": 55.199999999953434,
+        "p999FrameMs": 55.199999999953434,
+        "worstFrameMs": 55.199999999953434,
+        "longFrames": 3,
+        "drawCalls": 0,
+        "triangles": 0,
+        "visibleMeshes": 0,
+        "heap": 12602861,
+        "pressure": 1
+      },
+      "rendering": {
+        "shadowScale": 0.45,
+        "maxPixelRatio": 1.1,
+        "postprocessing": false
+      },
+      "simulation": {
+        "nearHz": 16,
+        "midHz": 3,
+        "farHz": 1,
+        "horizonMode": "statistical"
+      },
+      "density": {
+        "animals": 0.5,
+        "npcs": 0.5,
+        "foliage": 0.5,
+        "missions": 4,
+        "villageProps": 0.5
+      },
+      "cheapMetrics": true,
+      "lastFrame": {
+        "fps": 56.516333220298684,
+        "p95FrameMs": 19,
+        "p99FrameMs": 55.199999999953434
+      },
+      "seal": "cheap-quality-director-20260623-bh5"
+    },
+    "mainThreadPressure": {
+      "messageTypes": {},
+      "dispatchTypes": {
+        "mitzvah-runtime-readiness": 6848,
+        "awtsmoos:game-ready-phase": 405429,
+        "keydown": 5043,
+        "awtsmoos:fps-guardian-stage": 2,
+        "mousemove": 506,
+        "pointerdown": 337,
+        "mousedown": 337,
+        "pointerup": 337,
+        "mouseup": 337,
+        "click": 337,
+        "keyup": 5040,
+        "mitzvah-world:realism-budget": 179,
+        "mitzvah-world:runtime-budget-started": 1,
+        "mitzvah-world:performance-budget": 178,
+        "mitzvah-world:starter-experience": 2,
+        "mitzvah-world:starter-bootstrap-ready": 1,
+        "mitzvah-world:deferred-boot-loaded": 3,
+        "mitzvah-world:dream": 1,
+        "playerProgress": 2530,
+        "level": 2530,
+        "xp": 2530,
+        "xpToNext": 2530,
+        "hp": 2530,
+        "maxHp": 2530,
+        "koach": 2530,
+        "maxKoach": 2530,
+        "combatXp": 2530,
+        "torahXp": 2530,
+        "shlichusXp": 2530,
+        "explorationXp": 2530,
+        "restedXp": 2530,
+        "gameHUD": 2531,
+        "updateStats": 2531,
+        "xpBar": 2530,
+        "inventoryScreen": 5,
+        "updateSlots": 5,
+        "updateEquipment": 5,
+        "updateWallet": 5,
+        "awtsInventoryUpdate": 5,
+        "action bar": 5,
+        "updateActionSlots": 5,
+        "awtsmoos-worker-world-report": 1,
+        "torahSkills": 9570,
+        "updateSkills": 17820,
+        "torahSpellbook": 5940,
+        "open": 19800,
+        "sefarim": 5940,
+        "learned": 5940,
+        "allMoves": 5940,
+        "mastery": 5940,
+        "knowledgeMenu": 5940,
+        "updateKnowledge": 5940,
+        "skillBar": 8250,
+        "torahCodex": 5940,
+        "routes": 5940,
+        "passages": 5940,
+        "affinity": 5940,
+        "fusions": 5940,
+        "soul": 5940,
+        "torahActionBar": 2310,
+        "slots": 2310,
+        "macroPanel": 1650,
+        "macros": 1650,
+        "combatUnitFrames": 2692,
+        "player": 2692,
+        "target": 2692,
+        "weapon": 2692,
+        "effectsOverlay": 833,
+        "text": 1493,
+        "color": 833,
+        "combatLog": 330,
+        "category": 330,
+        "floatingCombatText": 330,
+        "replace": 139,
+        "chatPanel": 330,
+        "activeTab": 330,
+        "input": 330,
+        "messages": 330,
+        "tabs": 330,
+        "visible": 330,
+        "awtsmoos:pixel-ratio-governed": 1,
+        "awtsmoos:player-probe-result": 24,
+        "awtsmoos-game-ready": 2,
+        "nameplates": 745,
+        "plates": 745,
+        "awtsmoos:worker-gameplay-fps": 564
+      },
+      "mutationCount": 418818,
+      "mutationNodes": 835352,
+      "mutationTargets": [
+        {
+          "name": "SCRIPT#mitzvah-worker-progress-output",
+          "count": 405429
+        },
+        {
+          "name": "DIV.unit-name",
+          "count": 2692
+        },
+        {
+          "name": "DIV.unit-level",
+          "count": 2692
+        },
+        {
+          "name": "DIV.unit-hp-text",
+          "count": 2692
+        },
+        {
+          "name": "DIV.unit-portrait",
+          "count": 2692
+        },
+        {
+          "name": "DIV",
+          "count": 1003
+        },
+        {
+          "name": "DIV.unit-koach-fill",
+          "count": 634
+        },
+        {
+          "name": "DIV.sub",
+          "count": 127
+        },
+        {
+          "name": "BODY.awtsmoos-mobile-clean-hud.awts-reduced-motion",
+          "count": 97
+        },
+        {
+          "name": "BUTTON.awts-npc-btn.awts-shop-warm",
+          "count": 92
+        },
+        {
+          "name": "HEAD",
+          "count": 91
+        },
+        {
+          "name": "DIV#genesisSubActionText.genesis-stage-note",
+          "count": 82
+        },
+        {
+          "name": "DIV#inventoryScreen.awtsmoosInventoryViewer.hidden",
+          "count": 46
+        },
+        {
+          "name": "DIV.store-container.hidden",
+          "count": 46
+        },
+        {
+          "name": "DIV#awtsmoos-npc-overlay",
+          "count": 46
+        },
+        {
+          "name": "SECTION.awts-npc-card.awts-npc-card-wow",
+          "count": 46
+        },
+        {
+          "name": "BUTTON.awts-npc-btn.awts-close",
+          "count": 46
+        },
+        {
+          "name": "BUTTON.awts-npc-btn.awts-primary",
+          "count": 46
+        },
+        {
+          "name": "H3#genesisActionText.txtLoad.info",
+          "count": 39
+        },
+        {
+          "name": "DIV#genesisProgressLog.genesis-progress-log",
+          "count": 28
+        },
+        {
+          "name": "DIV#genesisWorkerText.genesis-stage-note",
+          "count": 27
+        },
+        {
+          "name": "SCRIPT#mitzvah-readiness-proof-output",
+          "count": 23
+        },
+        {
+          "name": "DIV.menu.hidden.offscreen",
+          "count": 17
+        },
+        {
+          "name": "DIV.kabbalah-vortex.hidden",
+          "count": 14
+        },
+        {
+          "name": "DIV.empty",
+          "count": 7
+        },
+        {
+          "name": "DIV#awtsmoosLoadingVeil.loading.hidden",
+          "count": 7
+        },
+        {
+          "name": "DIV.loading.hidden",
+          "count": 7
+        },
+        {
+          "name": "DIV#genesisProgressBar.barMitzvah",
+          "count": 6
+        },
+        {
+          "name": "HTML.awtsmoos-mobile.awtsmoos-fast-ui.awtsmoos-hide-world-markers.awtsmoos-ui-compact-ready.awt",
+          "count": 6
+        },
+        {
+          "name": "DIV.mainAv",
+          "count": 6
+        }
+      ],
+      "worstDispatch": [
+        {
+          "at": 146892.69999998808,
+          "ms": 95.59999996423721,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 174917.09999996424,
+          "ms": 74.80000001192093,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 175859.69999998808,
+          "ms": 73.5,
+          "type": "keyup",
+          "target": "node"
+        },
+        {
+          "at": 474208.1999999881,
+          "ms": 33.5,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 491908.1999999881,
+          "ms": 31.5,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 393378.39999997616,
+          "ms": 30.5,
+          "type": "keydown",
+          "target": "node"
+        },
+        {
+          "at": 573370.5999999642,
+          "ms": 23.69999998807907,
+          "type": "skillBar",
+          "target": "DIV.mobile-side-panel.skillBar.empty"
+        },
+        {
+          "at": 523609.59999996424,
+          "ms": 19,
+          "type": "keydown",
+          "target": "node"
+        },
+        {
+          "at": 470818.09999996424,
+          "ms": 18.19999998807907,
+          "type": "keyup",
+          "target": "#document"
+        },
+        {
+          "at": 157629.5,
+          "ms": 17.799999952316284,
+          "type": "keyup",
+          "target": "#document"
+        },
+        {
+          "at": 584736.6999999881,
+          "ms": 17.099999964237213,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 491678.7999999523,
+          "ms": 13.100000023841858,
+          "type": "combatUnitFrames",
+          "target": "DIV.combat-unit-frames"
+        },
+        {
+          "at": 94685.39999997616,
+          "ms": 11.600000023841858,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 182163,
+          "ms": 11.199999988079071,
+          "type": "keyup",
+          "target": "node"
+        },
+        {
+          "at": 73606.19999998808,
+          "ms": 10.199999988079071,
+          "type": "torahCodex",
+          "target": "DIV.mobile-side-panel.torahCodex.empty"
+        },
+        {
+          "at": 488191,
+          "ms": 9.899999976158142,
+          "type": "keydown",
+          "target": "node"
+        },
+        {
+          "at": 5114.699999988079,
+          "ms": 9.699999988079071,
+          "type": "keydown",
+          "target": "node"
+        },
+        {
+          "at": 498965.39999997616,
+          "ms": 9.600000023841858,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 153857.59999996424,
+          "ms": 8.900000035762787,
+          "type": "awtsmoos:game-ready-phase",
+          "target": "node"
+        },
+        {
+          "at": 94301.09999996424,
+          "ms": 8.699999988079071,
+          "type": "combatUnitFrames",
+          "target": "DIV.combat-unit-frames"
+        }
+      ],
+      "worstMutations": [
+        {
+          "at": 599596.3999999762,
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599854.5999999642,
+          "count": 4,
+          "nodes": 8,
+          "top": [
+            {
+              "name": "DIV.unit-name",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-level",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-hp-text",
+              "count": 1
+            },
+            {
+              "name": "DIV.unit-portrait",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599518.8999999762,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599519.0999999642,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599519.1999999881,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599519.5,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599519.5999999642,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599519.7999999523,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599520,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599520.1999999881,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599520.3999999762,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599520.5,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599520.6999999881,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599520.8999999762,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599521,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599521.1999999881,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599521.3999999762,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599521.5999999642,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599521.7999999523,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599522,
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        }
+      ],
+      "recentMarks": [
+        {
+          "at": 599947.2999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599947.3999999762,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599947.5,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599947.5999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599947.7999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599947.7999999523,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599947.8999999762,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599948,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599948,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599948.0999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599948.2999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599948.2999999523,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599965.2999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599965.3999999762,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599965.5999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599965.5999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599965.7999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599965.7999999523,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599966,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599966,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599966.1999999881,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599966.1999999881,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599966.2999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599966.2999999523,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599966.5999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599966.5999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599966.7999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599966.7999999523,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599966.8999999762,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599966.8999999762,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599967.0999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599967.0999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599967.2999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599967.2999999523,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599967.3999999762,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599967.5,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599967.5999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599967.5999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599967.7999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599967.7999999523,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599968.0999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599968.1999999881,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599968.5,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599968.5,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599968.7999999523,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599968.8999999762,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599969.0999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599969.1999999881,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599969.5999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599969.5999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599969.8999999762,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599969.8999999762,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 599970.0999999642,
+          "type": "dispatch",
+          "name": "awtsmoos:game-ready-phase",
+          "ms": 0,
+          "target": "node"
+        },
+        {
+          "at": 599970.0999999642,
+          "type": "mutation",
+          "count": 1,
+          "nodes": 2,
+          "top": [
+            {
+              "name": "SCRIPT#mitzvah-worker-progress-output",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "at": 600002.1999999881,
+          "type": "input",
+          "input": "keyup:KeyW"
+        },
+        {
+          "at": 600002.3999999762,
+          "type": "input",
+          "input": "keyup:KeyA"
+        },
+        {
+          "at": 600002.3999999762,
+          "type": "input",
+          "input": "keyup:KeyS"
+        },
+        {
+          "at": 600002.5,
+          "type": "input",
+          "input": "keyup:KeyD"
+        },
+        {
+          "at": 600002.5,
+          "type": "input",
+          "input": "keyup:KeyQ"
+        },
+        {
+          "at": 600002.5999999642,
+          "type": "input",
+          "input": "keyup:KeyE"
+        }
+      ]
+    },
+    "emerald": false,
+    "dialogueLikeNodes": 25,
+    "url": "http://127.0.0.1:54473/geelooy/games/mitzvahWorld/index.html?path=village.json",
+    "classes": "awtsmoos-mobile awtsmoos-fast-ui awtsmoos-hide-world-markers awtsmoos-ui-compact-ready awtsmoos-modal-compact-ready awtsmoos-fps-guardian-active awtsmoos-perf-active awtsmoos-no-expensive-css awtsmoos-worker-pixel-governed awtsmoos-gameplay-dom-quiet"
+  },
+  "issueLog": {
+    "scope": "chrome-real-browser",
+    "ok": true,
+    "issues": []
+  },
+  "tenMinuteTargetMs": 600000,
+  "thresholds": {
+    "avgFps": 60,
+    "onePercentLowFps": 55,
+    "pointOnePercentLowFps": 45,
+    "p99FrameMs": 34,
+    "worstFrameMs": 120,
+    "memoryGrowthBytes": 125829120
+  },
+  "guarantee": false,
+  "failure": "1% low FPS below 55"
+}

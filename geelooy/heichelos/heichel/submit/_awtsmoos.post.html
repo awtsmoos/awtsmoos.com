@@ -1,65 +1,59 @@
-<!-- B"H -->
+<!-- B"H clean segment-aware create page. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Geelooy | Segment-Aware Post Creator</title>
-  <link rel="stylesheet" href="/heichelos/heichel/submit/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;900&family=Syne:wght@400;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Geelooy | Create Post</title>
+  <link rel="stylesheet" href="/heichelos/heichel/submit/style.css?v=clean-002">
 </head>
-<body>
+<body class="submit-shell">
   <div class="all awtsmoospage">
     <?Awtsmoos return await getT("nav/header.html") ?>
-    <div class="main">
+    <main class="main" aria-labelledby="createTitle">
       <div id="editorContainer" class="post-creator-container">
-        <header class="page-header">
-          <h4>B"H</h4>
-          <h1 class="page-title-glow">SHARE <span class="highlight-text">LIGHT</span></h1>
+        <header class="page-header submit-hero">
+          <p class="eyebrow">Create</p>
+          <h1 id="createTitle" class="page-title-glow">Write a post</h1>
+          <p>Draft, structure, attach, and publish without leaving the editor.</p>
         </header>
-        <div class="top-controls"><a id="backBtn" class="btn secondary small">← Back to Heichel</a></div>
-        <div class="input-group"><label for="aliasId">Posting As</label><input disabled type="text" id="aliasId" placeholder="Authenticating..."></div>
-        <div class="input-group"><label for="contentType">Content Type</label><select id="contentType" class="segment-select"><option value="post">Post</option><option value="question">Question</option></select></div>
-        <div class="input-group"><label for="postId">Post ID / Edit ID</label><input type="text" id="postId" placeholder="Leave blank for new post, set to edit/replace a known vessel"></div>
-        <div class="input-group"><label for="title">Post Title</label><input type="text" id="title" placeholder="Enter the title of your post"></div>
-        <div class="editor-wrapper main-wrapper">
-          <div class="editor-label">Main Content</div>
-          <div class="editor-controls-bar"><button id="toggleMainContentToolbarBtn" class="btn icon-btn" title="Toolbar">T</button><button id="toggleMainContentHtmlViewBtn" class="btn icon-btn" title="HTML Source">&lt;/&gt;</button><button id="uploadImageMainBtn" class="btn icon-btn" title="Upload Image">IMG</button></div>
+        <div class="top-controls"><a id="backBtn" class="btn secondary small">Back to Heichel</a></div>
+        <section class="composer-card" aria-label="Post basics">
+          <input type="hidden" id="postId">
+          <div class="input-group"><label for="aliasId">Posting alias</label><input disabled type="text" id="aliasId" placeholder="Authenticating..."></div>
+          <div class="input-group"><label for="contentType">Content type</label><select id="contentType" class="segment-select"><option value="post">Post</option><option value="question">Question</option></select></div>
+          <div class="input-group"><label for="title">Title</label><input type="text" id="title" placeholder="What are you sharing?"></div>
+          <div class="kind-pills" role="group" aria-label="Content type shortcuts"><button class="kind-pill active" data-kind="post" type="button">Post</button><button class="kind-pill" data-kind="question" type="button">Question</button></div>
+        </section>
+        <section class="editor-wrapper main-wrapper" aria-label="Main content editor">
+          <div class="editor-label">Body</div>
+          <div class="editor-controls-bar"><button id="toggleMainContentToolbarBtn" class="btn icon-btn" title="Toolbar" type="button">Format</button><button id="toggleMainContentHtmlViewBtn" class="btn icon-btn" title="HTML Source" type="button">HTML</button><button id="uploadImageMainBtn" class="btn icon-btn" title="Upload Image" type="button">Attach</button></div>
           <div id="mainContentToolbarContainer" class="editor-toolbar-container"></div>
-          <div id="mainContentEditor" class="content-editor" contenteditable="true"></div>
-        </div>
-        <div class="collapsible-section input-group">
-          <div class="collapsible-header"><span>Bulk Text to Verses / Segments</span></div>
+          <div id="mainContentEditor" class="content-editor" contenteditable="true" data-placeholder="Write here..."></div>
+        </section>
+        <details class="collapsible-section input-group">
+          <summary class="collapsible-header">Advanced structure</summary>
           <div class="collapsible-content" id="collapsibleContent">
-            <textarea id="bulkText" placeholder="Paste large text here. Each paragraph or delimiter becomes a verse section."></textarea>
-            <input type="text" id="mainSectionDelimiters" placeholder="Custom Delimiters (comma separated, e.g. '***, ---')">
-            <button id="generateSectionsFromBulk" class="btn secondary">Generate Verses From Text</button>
-            <button id="generateSectionsFromMainEditor" class="btn secondary">Generate Verses From Main Editor</button>
+            <label for="bulkText">Bulk text</label>
+            <textarea id="bulkText" placeholder="Paste text here. Each paragraph or delimiter can become a section."></textarea>
+            <label for="mainSectionDelimiters">Section delimiters</label>
+            <input type="text" id="mainSectionDelimiters" placeholder="Optional delimiters">
+            <label for="targetSeriesId">Series ID</label>
+            <input type="text" id="targetSeriesId" placeholder="root">
+            <div class="composer-actions"><button id="generateSectionsFromBulk" class="soft-btn" type="button">Generate from paste</button><button id="generateSectionsFromMainEditor" class="soft-btn" type="button">Generate from body</button><button id="addSection" class="soft-btn" type="button">Add section</button></div>
           </div>
-        </div>
-        <div class="sections-header"><h3>Verses & Segments</h3><button id="addSection" class="btn primary">+ Add Verse</button></div>
-        <div id="sectionsArea"></div>
-        <div class="submit-area"><button id="submitPost" class="btn action-btn">LAUNCH POST</button></div>
+        </details>
+        <section id="sectionsArea" class="sections-area" aria-label="Generated sections"></section>
+        <section class="status-card compact-card" aria-live="polite"><p id="submitStatusMessage">Ready.</p></section>
       </div>
-      <div id="toolbarTemplate" class="editor-toolbar" style="display:none;"><button data-command="bold" title="Bold"><b>B</b></button><button data-command="italic" title="Italic"><i>I</i></button><button data-command="underline" title="Underline"><u>U</u></button><span class="separator"></span><button data-command="formatBlock" data-value="h2" title="Heading 2">H2</button><button data-command="formatBlock" data-value="h3" title="Heading 3">H3</button><span class="separator"></span><button data-command="createLink" title="Link">🔗</button><button data-command="insertUnorderedList" title="List">list</button></div>
-      <template id="sectionTemplate">
-        <div class="section">
-          <div class="section-header-row"><span class="section-title-dynamic">Verse</span><div class="section-actions"><button class="btn icon-btn add-before-btn" title="Add Before">↑</button><button class="btn icon-btn add-after-btn" title="Add After">↓</button><button class="btn icon-btn destructive remove-section-btn" title="Delete">×</button></div></div>
-          <div class="segment-meta-grid"><input class="section-id-input" type="text" placeholder="section id"><input class="section-label-input" type="text" placeholder="visible label"><input class="section-verse-input" type="text" placeholder="verse anchor"><input class="section-order-input" type="number" min="1" placeholder="order"><select class="section-type-select segment-select"><option value="verse">Verse</option><option value="paragraph">Paragraph</option><option value="note">Note</option><option value="source">Source</option></select></div>
-          <div class="editor-wrapper"><div class="editor-controls-bar"><button class="toggle-toolbar-btn btn icon-btn">T</button><button class="toggle-html-view-btn btn icon-btn">&lt;/&gt;</button><button class="upload-image-section-btn btn icon-btn">IMG</button></div><div class="editor-toolbar-container"></div><div class="section-content content-editor" contenteditable="true"></div></div>
-          <div class="subsection-manager"><div class="subsection-controls"><button class="add-subsection-btn btn small">Add Segment</button><details><summary>Bulk Segment Generator</summary><textarea class="subsection-bulk-text" placeholder="Bulk text for segments"></textarea><input type="text" class="subsection-delimiters" placeholder="Delimiters"><button class="generate-subsections-btn btn small">Generate</button></details></div><div class="sub-sections-area"></div></div>
-        </div>
-      </template>
-      <template id="subSectionTemplate">
-        <div class="sub-section section">
-          <div class="section-header-row sub-header"><span class="section-title-dynamic">Segment</span><div class="section-actions"><button class="btn icon-btn add-before-btn">↑</button><button class="btn icon-btn add-after-btn">↓</button><button class="btn icon-btn destructive remove-section-btn">×</button></div></div>
-          <div class="segment-meta-grid"><input class="section-id-input" type="text" placeholder="segment id"><input class="section-label-input" type="text" placeholder="segment label"><input class="section-verse-input" type="text" placeholder="segment anchor"><input class="section-order-input" type="number" min="1" placeholder="order"><select class="section-type-select segment-select"><option value="segment">Segment</option><option value="quote">Quote</option><option value="translation">Translation</option><option value="commentary">Commentary</option></select></div>
-          <div class="editor-wrapper"><div class="editor-controls-bar"><button class="toggle-toolbar-btn btn icon-btn">T</button><button class="toggle-html-view-btn btn icon-btn">&lt;/&gt;</button><button class="upload-image-section-btn btn icon-btn">IMG</button></div><div class="editor-toolbar-container"></div><div class="section-content content-editor" contenteditable="true"></div></div>
-        </div>
-      </template>
-      <div id="imageUploadModal" style="display:none;"><div class="modal-overlay"><div class="modal-content"><h2>Upload Image</h2><div class="input-group"><label for="imgbbApiKey">ImgBB API Key:</label><input type="text" id="imgbbApiKey" placeholder="Enter your ImgBB API key"></div><small><a href="https://imgbb.com/api" target="_blank">Get your ImgBB API key</a></small><div id="dropZone" class="drop-zone"><p>Drag and drop an image here, or click to select a file</p><input type="file" id="fileInput" accept="image/*" hidden></div><div class="modal-actions"><button id="uploadImageBtn" class="btn primary">Add Picture</button><button id="closeModalBtn" class="btn secondary">Close</button></div></div></div></div>
-    </div>
+    </main>
   </div>
-  <script type="module" src="/heichelos/heichel/submit/script.js"></script>
+  <nav class="mobile-create-nav" aria-label="Create shortcuts"><a href="/">Home</a><a href="/heichelos">Spaces</a><a class="active" href="/heichelos/submit">Create</a><a href="/email">Mail</a><a href="/profile">Profile</a></nav>
+  <button id="submitPost" class="publish-button" type="button">Publish</button>
+  <div id="imageUploadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="uploadTitle"><div class="modal-card"><button id="closeModalBtn" type="button" class="modal-close">×</button><h2 id="uploadTitle">Attach file</h2><div id="dropZone" class="drop-zone">Drop file here or tap to choose</div><input id="fileInput" type="file" accept="image/*,audio/*,.pdf,.txt,.md,.doc,.docx,.zip"><button id="uploadImageBtn" type="button" class="soft-btn">Attach file</button></div></div>
+  <template id="toolbarTemplate"><div class="editor-toolbar"><button type="button" data-command="bold">Bold</button><button type="button" data-command="italic">Italic</button><button type="button" data-command="createLink">Link</button></div></template>
+  <template id="sectionTemplate"><article class="section"><h3 class="section-title-dynamic">Section</h3><input class="section-id-input text-input" placeholder="id"><input class="section-label-input text-input" placeholder="label"><input class="section-verse-input text-input" placeholder="verse"><input class="section-order-input text-input" placeholder="order"><select class="section-type-select"><option value="verse">Verse</option></select><div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button><div class="subsection-manager"><textarea class="subsection-bulk-text"></textarea><input class="subsection-delimiters text-input"><button class="generate-subsections-btn soft-btn" type="button">Generate segments</button><button class="add-subsection-btn soft-btn" type="button">Add segment</button></div><div class="sub-sections-area"></div></article></template>
+  <template id="subSectionTemplate"><article class="sub-section"><h4 class="section-title-dynamic">Segment</h4><input class="section-id-input text-input"><input class="section-label-input text-input"><input class="section-verse-input text-input"><input class="section-order-input text-input"><select class="section-type-select"><option value="segment">Segment</option></select><div class="editor-wrapper"><div class="section-content content-editor" contenteditable="true"></div><div class="editor-toolbar-container"></div></div><button class="toggle-toolbar-btn soft-btn" type="button">Format</button><button class="toggle-html-view-btn soft-btn" type="button">HTML</button><button class="upload-image-section-btn soft-btn" type="button">Attach</button><button class="add-before-btn soft-btn" type="button">Before</button><button class="add-after-btn soft-btn" type="button">After</button><button class="remove-section-btn soft-btn" type="button">Remove</button></article></template>
+  <script type="module" src="/heichelos/heichel/submit/script.js?v=clean-002"></script>
 </body>
 </html>

@@ -1,28 +1,6 @@
-/* B"H
- * @file home/index.css
- * Mockup import order: shared OS, then page-specific vessels.
- */
-@import "/style/social-system/tokens.css";
-@import "/style/social-system/base.css";
-@import "/style/social-system/a11y.css";
-@import "/style/social-system/simple-events.css";
-@import "/style/social-system/mockup-os.css";
-@import "/style/social-system/future-simple-layout.css";
-@import "./overhaul/tokens.css";
-@import "./overhaul/reset.css";
-@import "./overhaul/background.css";
-@import "./overhaul/shell.css";
-@import "./overhaul/rail.css";
-@import "./overhaul/buttons.css";
-@import "./overhaul/hero.css";
+/* B"H — home entry: small legacy feed helpers, shared product system last. */
 @import "./overhaul/feed.css";
 @import "./overhaul/composer.css";
 @import "./overhaul/metrics.css";
-@import "./overhaul/cards.css";
 @import "./overhaul/menu.css";
-@import "./overhaul/dock.css";
-@import "./overhaul/footer-shield.css";
-@import "./overhaul/simple-events.css";
-@import "./overhaul/responsive.css";
-@import "./overhaul/motion.css";
-@import "./beauty/index.css";
+@import "/style/social-system/index.css";

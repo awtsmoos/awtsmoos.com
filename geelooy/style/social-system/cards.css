@@ -1,0 +1,12 @@
+/* B"H */
+.home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel,
+.social-space-card, .social-empty-card, .home-route-card, .profile-about-grid article,
+.profile-stat-grid article, .home-post-card, .spaces-hero {
+  background: var(--g-surface);
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow-sm);
+}
+.home-command-card, .profile-hero-card, .profile-command-panel, .home-feed-phone, .spaces-hero { padding: var(--g-5); }
+.home-route-card, .social-space-card, .social-empty-card, .home-post-card, .profile-about-grid article, .profile-stat-grid article { padding: var(--g-4); }
+.social-space-card:hover, .home-route-card:hover { border-color: var(--g-border-strong); box-shadow: var(--g-shadow-md); }

@@ -1,5 +1,7 @@
 // B"H
-/** @file PurificationRuntime.js @description Battles elevate sparks and heal regions instead of only subtracting HP. */
-export function purifyRegion(runtime, regionId, source = {}) { const entity = runtime?.entities?.get?.(regionId) || { id:regionId, kind:"region" }; const purified = { ...entity, purified:true, corruption:0, music:"healed", trees:"regrowing", npcDialogue:"hopeful", source }; runtime?.registerEntity?.(purified); runtime?.markReady?.(`purification:${regionId}`, { regionId }); return purified; }
-export function purificationReward(type = "spark") { return { type, xp:10, blessing:"regional-health", unlocks:["music-change","tree-regrowth","npc-dialogue-shift"] }; }
-export default { purifyRegion, purificationReward };
+/** @file PurificationRuntime.js @description Purification heals regions and grants level-aware XP through shared progression. */
+import { xpReward } from "../../progression/runtime/LevelCurveRuntime.js";
+export function purifyRegion(runtime,regionId,source={}){ const entity=runtime?.entities?.get?.(regionId)||{id:regionId,kind:"region"}; const result=source.purifiedResult||{}; const purified={...entity,purified:true,corruption:0,music:"healed",trees:"regrowing",grass:"returned",water:"clear",animals:"returned",weather:"improving",shops:"reopened",npcDialogue:"hopeful",source,result}; runtime?.registerEntity?.(purified); runtime?.markReady?.(`purification:${regionId}`,{regionId}); return purified; }
+export function purificationReward(type="spark",levels={victorLevel:1,targetLevel:1}){ return { type, xp:xpReward({victorLevel:levels.victorLevel,targetLevel:levels.targetLevel,base:18}), blessing:"regional-health", unlocks:["music-change","tree-regrowth","npc-dialogue-shift","animals-return","shops-reopen","water-clear"] }; }
+export function purifyDefeated(runtime,{actorId="player",target={},regionId="region"}={}){ const region=purifyRegion(runtime,regionId,target), reward=purificationReward(target.type||"klipah",{victorLevel:runtime?.progression?.snapshot?.(actorId)?.level||1,targetLevel:target.level||1}); const xp=runtime?.progression?.award?.(actorId,{level:target.level||1},{baseXp:reward.xp,kind:"purification",targetId:target.id}); return {region,reward,xp}; }
+export default { purifyRegion, purificationReward, purifyDefeated };

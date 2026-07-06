@@ -1,0 +1,14 @@
+/* B"H */
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--g-focus), white 25%);
+  outline-offset: 2px;
+}
+.sr-only, .home-skip-link:not(:focus) {
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  clip: rect(0 0 0 0);
+}
+.home-skip-link:focus { position: fixed; top: 1rem; left: 1rem; z-index: 100; }

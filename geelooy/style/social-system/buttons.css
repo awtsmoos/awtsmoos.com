@@ -1,4 +1,24 @@
-/* B"H buttons: scoped command seals. */
-.g-social-button{min-height:var(--g-touch);display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--g-line-2);border-radius:999px;padding:.72rem 1rem;background:rgba(255,255,255,.07);color:var(--g-ink);font:inherit;font-weight:900;text-decoration:none;cursor:pointer;}
-.g-social-button[data-primary],.g-social-button.primary{background:linear-gradient(135deg,var(--g-gold),var(--g-gold-2));color:#130c03;border-color:rgba(255,224,154,.55);}
-.g-social-button[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(.35);}
+/* B"H */
+a, button { font: inherit; }
+button, .home-search-vessel button, .profile-primary-action, .spaces-create,
+.home-profile-pill, .space-actions a, .home-empty-actions a, .profile-command-rail a,
+.profile-inline-actions button, .profile-inline-actions a {
+  align-items: center;
+  border-radius: var(--g-radius);
+  border: 1px solid var(--g-border);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 600;
+  gap: var(--g-2);
+  justify-content: center;
+  min-height: 40px;
+  padding: .6rem .9rem;
+  text-decoration: none;
+}
+.home-search-vessel button, .profile-primary-action, .spaces-create, .is-create {
+  background: var(--g-text);
+  border-color: var(--g-text);
+  color: #fff;
+}
+button, .profile-command-rail a, .space-actions a { background: #fff; color: var(--g-text); }
+button:hover, a:hover { border-color: var(--g-accent); }

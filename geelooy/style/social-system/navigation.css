@@ -1,0 +1,26 @@
+/* B"H */
+.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav {
+  align-items: center;
+  background: rgba(255,255,255,.98);
+  border: 1px solid var(--g-border);
+  border-radius: 999px;
+  bottom: max(.75rem, env(safe-area-inset-bottom));
+  box-shadow: var(--g-shadow-md);
+  display: flex;
+  gap: var(--g-2);
+  justify-content: center;
+  left: 50%;
+  max-width: min(94vw, 520px);
+  padding: .45rem;
+  position: fixed;
+  transform: translateX(-50%);
+  width: max-content;
+  z-index: 50;
+}
+.home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a, .mobile-bottom-nav a {
+  border-radius: 999px;
+  color: var(--g-text-2);
+  padding: .55rem .75rem;
+  text-decoration: none;
+}
+[aria-current="page"] { color: var(--g-text) !important; font-weight: 700; }

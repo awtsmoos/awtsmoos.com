@@ -1,9 +1,8 @@
 /* B"H
  * @file metrics.css
- * Fixes the old 0Objects problem by giving numbers and labels separate air.
+ * Three tiny counters, not three giant monuments.
  */
 .civilization-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .42rem; }
-.civilization-metrics > * { min-width: 0; min-height: 2.6rem; border: 1px solid var(--home-line); border-radius: .82rem; padding: .5rem .56rem; background: rgba(255,255,255,.055); color: var(--home-text); }
-.civilization-metrics strong, .civilization-metrics b { display: block; font-size: 1.05rem; line-height: 1; }
-.civilization-metrics span, .civilization-metrics small { display: block; margin-top: .18rem; color: var(--home-muted); font-size: .72rem; line-height: 1.15; }
-.civilization-metrics [data-metric-label]::before { content: ""; display: block; }
+.civilization-metrics > * { min-height: 3.05rem; border: 1px solid var(--home-line); border-radius: .78rem; padding: .5rem; background: #fff; box-shadow: 0 4px 12px rgba(8,24,39,.045); }
+.civilization-metrics strong, .civilization-metrics b { display: block; color: var(--home-text); font-size: 1.05rem; line-height: 1; }
+.civilization-metrics span, .civilization-metrics small { color: var(--home-muted); font-size: .76rem; }

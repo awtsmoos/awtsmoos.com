@@ -1,0 +1,8 @@
+/* B"H */
+.home-quick-grid, .profile-stat-grid, .spaces-grid, .profile-about-grid {
+  display: grid;
+  gap: var(--g-4);
+}
+.home-quick-grid, .profile-stat-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.spaces-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.profile-about-grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }

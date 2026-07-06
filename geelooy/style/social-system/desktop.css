@@ -1,0 +1,8 @@
+/* B"H */
+@media (min-width: 900px) {
+  .geelooy-home-shell { grid-template-columns: minmax(0, 1fr) 360px; align-items: start; }
+  .home-command-card, .home-quick-grid, .home-tools-strip { grid-column: 1; }
+  .home-feed-phone { grid-column: 2; grid-row: 1 / span 4; position: sticky; top: var(--g-5); }
+  .geelooy-profile-shell { grid-template-columns: 340px minmax(0, 1fr); }
+  .profile-hero-card { position: sticky; top: var(--g-5); }
+}

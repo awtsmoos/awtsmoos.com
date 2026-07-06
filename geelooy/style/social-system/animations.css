@@ -1,0 +1,5 @@
+/* B"H */
+* { transition-duration: .14s; transition-property: border-color, background-color, color, box-shadow, transform; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+}

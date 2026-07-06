@@ -1,0 +1,19 @@
+/* B"H */
+:root {
+  --g-bg: #ffffff;
+  --g-bg-soft: #fafafa;
+  --g-surface: #ffffff;
+  --g-surface-2: #f5f7fa;
+  --g-border: #e4e8ee;
+  --g-border-strong: #dbe3ea;
+  --g-text: #0f172a;
+  --g-text-2: #334155;
+  --g-muted: #64748b;
+  --g-faint: #94a3b8;
+  --g-accent: #0ea5a4;
+  --g-accent-2: #d6a11d;
+  --g-danger: #dc2626;
+  --g-focus: #2563eb;
+  --g-shadow-sm: 0 2px 8px rgba(15, 23, 42, .06);
+  --g-shadow-md: 0 6px 20px rgba(15, 23, 42, .08);
+}

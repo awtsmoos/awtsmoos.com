@@ -1,0 +1,11 @@
+/* B"H */
+body { margin: 0; }
+main { min-height: 100dvh; }
+.geelooy-home-shell, .geelooy-profile-shell, .social-spaces-shell, .app-container {
+  width: min(100%, var(--g-max));
+  margin-inline: auto;
+  padding: var(--g-5);
+}
+.clean-home, .geelooy-profile-shell, .social-spaces-shell { display: grid; gap: var(--g-5); }
+section, article { contain: content; }
+[hidden], .hidden { display: none !important; }

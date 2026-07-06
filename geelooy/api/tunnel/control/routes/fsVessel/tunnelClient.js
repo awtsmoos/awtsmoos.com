@@ -1,15 +1,12 @@
 // B"H
-
+const { livenessSnapshot } = require("../../../../../../ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js");
 const { VESSEL_TYPES, isBrowserVesselDescriptor, normalizeVesselType } = require("./vesselTypes.js");
 const { nativeCapabilities } = require("./capabilities.js");
 const { verifyTunnelResponse } = require("./responseContract.js");
 
-/**
- * B"H
- * Chapter 11 and 810: Native iron stopped swallowing the browser flame, and
- * every native response now must show the seal of the exact request.
- */
-function publicNativeTunnel(client) {
+/** B"H — Native tunnel evidence is public enough to prevent false burial. */
+function publicNativeTunnel(client = {}) {
+  const live = livenessSnapshot(client);
   return {
     connected: true,
     tunnelName: client.tunnelName,
@@ -18,16 +15,26 @@ function publicNativeTunnel(client) {
     allowWrite: !!client.allowWrite,
     allowSecrets: !!client.allowSecrets,
     allowCommands: !!client.allowCommands,
-    isAlive: !!client.isAlive,
+    isAlive: live.isAlive,
+    rawIsAlive: live.rawIsAlive,
+    lastSeenAt: live.lastSeenAt,
+    heartbeatAt: live.heartbeatAt,
+    missedHeartbeats: live.missedHeartbeats,
+    livenessState: live.livenessState,
+    registeredAt: live.registeredAt,
+    newestEvidenceAt: live.newestEvidenceAt,
     agentVersion: client.agentVersion || null,
     tools: client.tools || null,
     chrome: client.chrome || null,
     command: client.command || null,
     capabilities: nativeCapabilities(client),
-    registeredAt: client.registeredAt || null,
     kind: VESSEL_TYPES.NATIVE,
     vesselType: VESSEL_TYPES.NATIVE
   };
+}
+
+function newestStamp(client = {}) {
+  return Math.max(Number(client.lastSeenAt || 0), Number(client.heartbeatAt || 0), Number(client.registeredAt || 0));
 }
 
 function isNativeTunnelClient(client = {}) {
@@ -43,22 +50,13 @@ function listNativeTunnelClients($i) {
   for (const client of $i.ws.clients) {
     if (!isNativeTunnelClient(client)) continue;
     const old = latest.get(client.tunnelName);
-    if (!old || (client.registeredAt || 0) >= (old.registeredAt || 0)) latest.set(client.tunnelName, client);
+    if (!old || newestStamp(client) >= newestStamp(old)) latest.set(client.tunnelName, client);
   }
   return [...latest.values()];
 }
 
-function listNativeTunnels($i) {
-  return listNativeTunnelClients($i).map(publicNativeTunnel);
-}
+function listNativeTunnels($i) { return listNativeTunnelClients($i).map(publicNativeTunnel); }
+function findNativeTunnelClient($i, tunnelName) { return listNativeTunnelClients($i).find(client => client.tunnelName === tunnelName) || null; }
+async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) { return verifyTunnelResponse(await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs), payload, tunnelName); }
 
-function findNativeTunnelClient($i, tunnelName) {
-  return listNativeTunnelClients($i).find(client => client.tunnelName === tunnelName) || null;
-}
-
-async function sendNativeTunnel($i, tunnelName, payload, timeoutMs) {
-  const result = await $i.ws.sendTunnelRequest(tunnelName, payload, timeoutMs);
-  return verifyTunnelResponse(result, payload, tunnelName);
-}
-
-module.exports = { findNativeTunnelClient, isNativeTunnelClient, listNativeTunnelClients, listNativeTunnels, publicNativeTunnel, sendNativeTunnel };
+module.exports = { findNativeTunnelClient, isNativeTunnelClient, listNativeTunnelClients, listNativeTunnels, newestStamp, publicNativeTunnel, sendNativeTunnel };

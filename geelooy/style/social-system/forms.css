@@ -1,6 +1,14 @@
-/* B"H form vessels speak plainly. */
-.g-social-field{display:grid;gap:.35rem;color:var(--g-muted);font-size:.82rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em;}
-.g-social-input{min-height:var(--g-touch);width:100%;border:1px solid var(--g-line);border-radius:.95rem;background:rgba(255,255,255,.075);color:var(--g-ink);font:inherit;padding:.75rem .85rem;}
-textarea.g-social-input{min-height:7rem;resize:vertical;}
-.g-social-status{min-height:1.4rem;color:var(--g-muted);}
-.g-social-status[data-tone="error"]{color:var(--g-rose);}.g-social-status[data-tone="success"]{color:var(--g-mint);}.g-social-status[data-tone="loading"]{color:var(--g-cyan);}
+/* B"H */
+input, textarea, select {
+  background: #fff;
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius);
+  color: var(--g-text);
+  font: inherit;
+  min-height: 42px;
+  padding: .65rem .8rem;
+  width: 100%;
+}
+input::placeholder, textarea::placeholder { color: var(--g-faint); }
+.home-search-vessel { display: grid; gap: var(--g-2); grid-template-columns: 1fr auto; }
+.home-command-label { color: var(--g-muted); display: block; font-size: .85rem; font-weight: 650; margin-bottom: var(--g-2); }

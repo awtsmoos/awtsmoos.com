@@ -1,0 +1,16 @@
+/* B"H */
+:root {
+  --g-1: .25rem;
+  --g-2: .5rem;
+  --g-3: .75rem;
+  --g-4: 1rem;
+  --g-5: 1.25rem;
+  --g-6: 1.5rem;
+  --g-8: 2rem;
+  --g-10: 2.5rem;
+  --g-radius-sm: .5rem;
+  --g-radius: .75rem;
+  --g-radius-lg: 1rem;
+  --g-max: 1120px;
+  --g-readable: 760px;
+}

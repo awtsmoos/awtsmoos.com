@@ -1,15 +1,15 @@
 /* B"H
  * @file feed.css
- * Feed appears fast: compact, readable, above the dock.
+ * Feed is an instrument panel: compact, readable, fast.
  */
-.home-feed-phone { display: grid; gap: .52rem; padding: .68rem; }
-.home-feed-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .55rem; }
-.home-feed-title { min-width: 0; display: grid; gap: .08rem; }
-.home-feed-title strong { color: var(--home-text); font-size: clamp(1.28rem, 4.4vw, 1.85rem); line-height: .98; letter-spacing: var(--home-font-tight); }
-.home-feed-title span { color: var(--home-muted); font-size: .84rem; }
-.home-profile-pill { display: grid; place-items: center; padding: 0 .8rem; }
-.home-feed-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .22rem; padding: .22rem; border: 1px solid var(--home-line); border-radius: .82rem; background: rgba(255,255,255,.045); }
-.home-feed-tabs button { min-width: 0; min-height: 2.05rem; border: 0; border-radius: .66rem; color: var(--home-muted); background: transparent; font-size: .8rem; font-weight: 950; cursor: pointer; }
+.home-feed-phone { display: grid; gap: .5rem; padding: .7rem; }
+.home-feed-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .5rem; }
+.home-feed-title { min-width: 0; display: grid; gap: .06rem; }
+.home-feed-title strong { color: var(--home-text); font-size: 1.32rem; line-height: 1; letter-spacing: -.04em; }
+.home-feed-title span { color: var(--home-muted); font-size: .82rem; }
+.home-profile-pill { min-height: 2.42rem; display: grid; place-items: center; padding: 0 .82rem; border-radius: .76rem; text-decoration: none; font-weight: 950; }
+.home-feed-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .18rem; padding: .18rem; border: 1px solid var(--home-line); border-radius: .78rem; background: var(--home-panel-2); }
+.home-feed-tabs button { min-width: 0; min-height: 2.08rem; border: 0; border-radius: .6rem; color: var(--home-muted); background: transparent; font-size: .76rem; font-weight: 950; cursor: pointer; }
 .home-feed-tabs button:is(.active,[aria-pressed="true"]) { color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); }
-.home-feed-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: .48rem; }
+.home-feed-list { display: grid; grid-template-columns: 1fr; gap: .5rem; }
 .home-feed-phone:focus { outline: none; }
