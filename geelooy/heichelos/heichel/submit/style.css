@@ -1,5 +1,9 @@
 /* B"H — Geelooy create surface: fast, quiet, editor-first. */
 @import url('/style/social-system/index.css');
+@import url('/style/heichelos/submit/actions.css');
+@import url('/style/heichelos/submit/sections.css');
+@import url('/style/heichelos/submit/forms.css');
+@import url('/style/heichelos/submit/modal.css');
 
 :root {
   --create-bg: #f5f7fa;

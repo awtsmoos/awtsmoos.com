@@ -1,15 +1,7 @@
 // B"H
-/** @file CombatAnimationResolver.js @description Equipped item plus action chooses clips, charge phases, and projectiles. */
-import T,{ hasTag } from "./EquipmentTagCatalog.js";
-import { weaponGenre } from "./WeaponGenreCatalog.js";
-const BLADE=new Set(["knife","dagger","shortSword","longSword","greatSword","spear","axe"]);
-function inferGenre(item){ return item?.genre || (hasTag(item,T.HEBREW_BOW)?"hebrewBow":hasTag(item,T.BOW)?"bow":hasTag(item,T.STAFF)?"staff":hasTag(item,T.DAGGER)?"dagger":hasTag(item,T.SWORD)?"shortSword":"hands"); }
-export function resolveCombatAnimation({ item=null, action="attack", moving=false, charged=false, phase="release" }={}){
-  const genre=inferGenre(item), g=weaponGenre(genre), combo=item?.attackCombo || [g.clip];
-  if(!item && action==="attack") return { clip:"punch", overlay:null, projectile:null, genre:"hands", combo:["jab","cross","push"], reason:"unarmed" };
-  if(genre==="hebrewBow") return { clip:g.clip, overlay:charged?"bow-release":"bow-draw-hold", projectile:phase==="cancel"?null:g.projectile, genre, combo, reason:"hebrew-bow" };
-  if(g.projectile) return { clip:g.clip, overlay:charged?"projectile-release":"projectile-ready", projectile:g.projectile, genre, combo, reason:"ranged-or-cast" };
-  if(BLADE.has(genre)) return { clip:item?.animationClip || g.clip, overlay:moving?"walk_Armature":null, projectile:null, genre, combo, reason:"melee" };
-  return { clip:item?.animationClip || g.clip, overlay:null, projectile:null, genre, combo, reason:"fallback" };
-}
+/** @file CombatAnimationResolver.js @description Equipped item and action choose custom action plans, phase timing, and projectile behavior. */
+import { actionForItem } from "./WeaponActionCatalog.js";
+import { posePlanForAction } from "./WeaponPosePlanRuntime.js";
+function inferProjectile(item,actionPlan,phase){ if(actionPlan.projectile) return actionPlan.projectile; if((item?.genre==="bow"||item?.genre==="crossbow")&&phase==="release") return item.projectileType||"arrow"; return null; }
+export function resolveCombatAnimation({item=null,action="attack",moving=false,charged=false,phase="release"}={}){ const actionPlan=actionForItem(item,action,phase), pose=posePlanForAction(actionPlan,item||{}), projectile=inferProjectile(item,actionPlan,phase); return {clip:actionPlan.clip,overlay:moving?"mw_move_upper_blend":null,projectile,genre:item?.genre||"hands",combo:item?.attackCombo||[actionPlan.id],reason:actionPlan.id,handMode:actionPlan.handMode,pose,actionPlan,charged,phase}; }
 export default resolveCombatAnimation;

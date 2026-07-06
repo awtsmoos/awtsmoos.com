@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Community Settings</title>
-  <link rel="stylesheet" href="/style/heichelos/heichel/index.css">
+  <link rel="stylesheet" href="/style/heichelos/community-settings.css?v=clean-002">
   <script defer src="/heichelos/settings/community/app.js"></script>
 </head>
 <body>
-  <main class="heichel-community-settings awt-panel">
+  <main class="heichel-community-settings awt-panel" aria-labelledby="settingsTitle">
     <header>
-      <p class="awt-eyebrow">B&quot;H · Heichel gates</p>
-      <h1>Community Settings</h1>
-      <p>Load a Heichel, tune the public publishing gates, and save as a moderator.</p>
+      <p class="awt-eyebrow">Community</p>
+      <h1 id="settingsTitle">Settings</h1>
+      <p>Load a Heichel, review publishing gates, and save changes with a moderator alias.</p>
       <p><a href="/heichelos/settings/community/moderation/">Open moderation queue</a></p>
     </header>
     <form id="settings">
@@ -22,14 +22,14 @@
         <label>Moderator alias <input name="aliasId" placeholder="Alias for saving"></label>
       </section>
       <section class="awt-settings-section">
-        <h2>Publishing gates</h2>
+        <h2>Publishing</h2>
         <label><input type="checkbox" name="allowPublicSubmissions"> Allow public submissions</label>
         <label><input type="checkbox" name="requireModeratorApproval"> Require moderator approval</label>
         <label><input type="checkbox" name="allowAnonymous"> Allow anonymous</label>
         <label><input type="checkbox" name="allowGuestViewing"> Allow guest viewing</label>
       </section>
       <section class="awt-settings-section">
-        <h2>Content types</h2>
+        <h2>Content</h2>
         <label><input type="checkbox" name="allowQuestions"> Allow questions</label>
         <label><input type="checkbox" name="allowAnswers"> Allow answers</label>
         <label><input type="checkbox" name="allowPosts"> Allow posts</label>

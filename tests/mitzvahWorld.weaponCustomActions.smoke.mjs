@@ -1,0 +1,45 @@
+// B"H
+import assert from "node:assert/strict";
+import { installEquippedWeaponFeaturePack } from "../geelooy/games/mitzvahWorld/ckidsAwtsmoos/equipment/runtime/EquippedWeaponFeaturePack.js";
+import { weaponStats } from "../geelooy/games/mitzvahWorld/ckidsAwtsmoos/equipment/runtime/WeaponStatCatalog.js";
+import { createHeldMeshDescriptor } from "../geelooy/games/mitzvahWorld/ckidsAwtsmoos/equipment/runtime/HeldMeshDescriptorFactory.js";
+import { buildThreeHeldMesh } from "../geelooy/games/mitzvahWorld/ckidsAwtsmoos/equipment/render/ThreeHeldMeshBuilder.js";
+import { actionForItem } from "../geelooy/games/mitzvahWorld/ckidsAwtsmoos/equipment/runtime/WeaponActionCatalog.js";
+const root={name:"root",children:[],traverse(fn){fn(this);for(const c of this.children) fn(c);}};
+for(const name of ["mixamorig:RightHand","mixamorig:LeftHand"]) root.children.push({name,children:[],add(child){this.children.push(child);child.parent=this;}});
+const runtime={entities:new Map(),ready:[],registerEntity(e){this.entities.set(e.id,e);return e;},markReady(k,v){this.ready.push([k,v]);}};
+const equipment=installEquippedWeaponFeaturePack(runtime);
+function equip(id){ const item=weaponStats(id); return equipment.equip("player",id,root,buildThreeHeldMesh(createHeldMeshDescriptor(item))); }
+function act(id,action="attack",options={}){ equip(id); return equipment.attack("player",action,options).animation; }
+assert.equal(actionForItem(weaponStats("simpleSword"),"attack").id,"one_hand_slash_right");
+let a=act("simpleSword","attack");
+assert.equal(a.clip,"mw_sword_1h_slash_r");
+assert.equal(a.handMode,"right");
+assert.equal(a.usesRightHand,true);
+assert.equal(a.usesLeftHand,false);
+assert.equal(a.hitPhase,"active");
+a=act("simpleSword","parry");
+assert.equal(a.clip,"mw_sword_1h_guard_assist");
+assert.equal(a.handMode,"right-left-assist");
+assert.equal(a.usesLeftHand,true);
+a=act("mitzvahGreatSword","attack");
+assert.equal(a.clip,"mw_weapon_2h_heavy_slash");
+assert.equal(a.handMode,"two");
+assert.equal(a.usesRightHand,true);
+assert.equal(a.usesLeftHand,true);
+assert.ok(a.pose.durationMs>700);
+a=act("nerMitzvahStaff","cast");
+assert.equal(a.clip,"mw_staff_cast");
+assert.equal(a.handMode,"two-cast");
+assert.equal(a.hitPhase,"release");
+assert.ok(a.pose.phases.some(p=>p.name==="cast"));
+a=act("hebrewBow","attack",{phase:"hold"});
+assert.equal(a.clip,"mw_bow_draw_hold");
+assert.equal(a.handMode,"two-ranged");
+assert.equal(a.hitPhase,"hold");
+a=act("hebrewBow","attack",{phase:"release",charged:true});
+assert.equal(a.clip,"mw_hebrew_bow_letter_release");
+assert.equal(a.projectile,"hebrew-letter");
+assert.equal(a.usesLeftHand,true);
+assert.equal(equipment.snapshot().animations.count>=6,true);
+console.log("B'H mitzvahWorld.weaponCustomActions.smoke passed", {animations:equipment.snapshot().animations.count,last:a.clip,entities:runtime.entities.size});

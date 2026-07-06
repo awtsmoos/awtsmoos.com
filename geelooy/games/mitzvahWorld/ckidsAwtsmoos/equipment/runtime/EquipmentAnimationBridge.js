@@ -1,9 +1,5 @@
 // B"H
-/** @file EquipmentAnimationBridge.js @description Bridges equipped weapons into actor animation plans. */
-export class EquipmentAnimationBridge {
-  constructor(runtime) { this.runtime = runtime; this.history = []; }
-  plan(actorId, routeResult = {}) { const clip = routeResult.resolved?.clip || "idle"; const overlay = routeResult.resolved?.overlay || null; const plan = this.runtime?.animation?.planActorAnimation?.({ speed:0, lookAt:null }, clip) || { base:clip, upper:overlay, additive:["breathing"], blendMs:140 }; const final = { actorId, clip, overlay, reason:routeResult.resolved?.reason || "none", plan, at:Date.now() }; this.history.push(final); this.history=this.history.slice(-80); return final; }
-  snapshot() { return { count:this.history.length, last:this.history.at(-1) || null }; }
-}
-export function createEquipmentAnimationBridge(runtime) { return new EquipmentAnimationBridge(runtime); }
+/** @file EquipmentAnimationBridge.js @description Bridges equipped weapon custom action pose plans into actor animation playback contracts. */
+export class EquipmentAnimationBridge{ constructor(runtime){ this.runtime=runtime; this.history=[]; } plan(actorId,routeResult={}){ const r=routeResult.resolved||{}, pose=r.pose||null, clip=r.clip||"idle"; const base=this.runtime?.animation?.planActorAnimation?.({speed:0,lookAt:null},clip)||{base:clip,upper:r.overlay,additive:["breathing"],blendMs:140}; const final={actorId,clip,overlay:r.overlay||null,reason:r.reason||"none",handMode:r.handMode||"none",pose,phaseCount:pose?.phases?.length||0,usesRightHand:Boolean(pose?.usesRightHand),usesLeftHand:Boolean(pose?.usesLeftHand),hitPhase:pose?.hitPhase||null,projectile:r.projectile||null,plan:{...base,weaponPose:pose},at:Date.now()}; this.history.push(final); this.history=this.history.slice(-80); this.runtime?.registerEntity?.({id:`weaponAnim_${actorId}_${Date.now()}`,kind:"weaponAnimationPlan",tags:["animation","weapon",final.handMode],...final}); return final; } snapshot(){ return {count:this.history.length,last:this.history.at(-1)||null,history:this.history.slice(-12)}; } }
+export function createEquipmentAnimationBridge(runtime){ return new EquipmentAnimationBridge(runtime); }
 export default createEquipmentAnimationBridge;
