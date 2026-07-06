@@ -1,29 +1,8 @@
-/* B"H — Spaces empty state: one quiet invitation, no duplicate route clutter. */
-.social-empty-card {
-  min-height: 13rem;
-  display: grid;
-  place-content: center;
-  gap: .75rem;
-  padding: 1.4rem;
-  border: 1px solid var(--spaces-line);
-  border-radius: var(--spaces-radius);
-  background: linear-gradient(150deg, var(--spaces-card), var(--spaces-card-soft));
-  color: var(--spaces-muted);
-  text-align: center;
-  box-shadow: 0 .45rem 1.2rem rgba(25, 20, 11, .08);
-}
-
-.social-empty-card h2 {
-  margin-bottom: 0;
-  color: #fff;
-  font-size: clamp(1.5rem, 4vw, 2.3rem);
-}
-
-.social-empty-card p {
-  margin-bottom: 0;
-}
-
-.spaces-empty-actions {
-  justify-content: center;
-  margin-top: .25rem;
-}
+/* B"H
+ * @file spaces/empty.css
+ * Empty state is now a small call to action, not a huge black landing pad.
+ */
+.social-empty-card { min-height: 9rem; display: grid; place-content: center; gap: .58rem; padding: 1rem; border: 1px solid var(--spaces-line); border-radius: 1rem; background: linear-gradient(150deg, var(--spaces-card), var(--spaces-card-soft)); color: var(--spaces-muted); text-align: center; box-shadow: 0 .45rem 1.2rem rgba(25,20,11,.08); }
+.social-empty-card h2 { margin-bottom: 0; color: #fff; font-size: clamp(1.3rem, 4vw, 2rem); }
+.social-empty-card p { margin-bottom: 0; }
+.spaces-empty-actions { justify-content: center; margin-top: .16rem; }

@@ -1,15 +1,15 @@
 /* B"H
- * Mail sidebar vessel
- * The Awtsmoos crowns the identity and compose chamber with obvious action.
+ * @file mail/sidebar-theme.css
+ * Sidebar is now a compact message command column.
  */
-.mail-social-sidebar { background:linear-gradient(180deg,rgba(12,18,34,.96),rgba(8,13,27,.92))!important; color:var(--mail-ink)!important; border-right:1px solid var(--mail-line); }
-.mail-social-sidebar .sidebar-header { padding:1.1rem; border:0; background:transparent; }
+.mail-social-sidebar { background:linear-gradient(180deg,var(--mail-panel-2),var(--mail-panel))!important; color:var(--mail-ink)!important; border-right:1px solid var(--mail-line); }
+.mail-social-sidebar .sidebar-header { padding:.78rem; border:0; background:transparent; }
 .mail-social-sidebar .brand-title,.mail-social-sidebar .thread-name { color:var(--mail-ink)!important; text-shadow:none!important; }
 .mail-social-sidebar .thread-snippet,.mail-social-sidebar .thread-time { color:var(--mail-muted)!important; }
-.mail-social-sidebar .mail-sidebar-profile-mount { margin-top:.8rem; }
-.mail-social-sidebar .fab-compose,.btn-primary,.send-transmission-btn { border:0!important; color:#06111d!important; background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan))!important; box-shadow:var(--mail-button-shadow)!important; font-weight:1000!important; letter-spacing:.08em; text-transform:uppercase; }
-.mail-social-sidebar .fab-compose { margin:1rem; min-height:3.4rem; border-radius:.9rem!important; }
+.mail-social-sidebar .mail-sidebar-profile-mount { margin-top:.5rem; }
+.mail-social-sidebar .fab-compose,.btn-primary,.send-transmission-btn { border:0!important; color:#06111d!important; background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan))!important; box-shadow:var(--mail-button-shadow)!important; font-weight:1000!important; letter-spacing:.05em; }
+.mail-social-sidebar .fab-compose { margin:.65rem .75rem; min-height:2.8rem; border-radius:.82rem!important; }
 .mail-social-sidebar .fab-compose:hover,.btn-primary:hover,.send-transmission-btn:hover { transform:translateY(-1px); filter:saturate(1.08); }
 .close-modal,.ctx-item,.icon-btn,.nav-tab { border:1px solid var(--mail-line); color:var(--mail-ink); background:rgba(255,255,255,.07); }
-.close-modal:hover,.ctx-item:hover,.icon-btn:hover,.nav-tab:hover { border-color:var(--mail-line-hot); background:rgba(102,231,255,.12); }
-.ctx-danger { color:#fff!important; border-color:rgba(255,79,136,.55)!important; background:rgba(255,79,136,.16)!important; }
+.close-modal:hover,.ctx-item:hover,.icon-btn:hover,.nav-tab:hover { border-color:var(--mail-line-hot); background:rgba(112,234,255,.1); }
+.ctx-danger { color:#fff!important; border-color:rgba(255,111,145,.55)!important; background:rgba(255,111,145,.16)!important; }

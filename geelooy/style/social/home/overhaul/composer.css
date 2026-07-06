@@ -1,0 +1,10 @@
+/* B"H
+ * @file composer.css
+ * The composer is visible above the dock and never gets swallowed by chrome.
+ */
+.home-composer { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .42rem; }
+.home-composer :is(a,button) { display: grid; place-items: center; padding: 0 .78rem; }
+.home-composer button { text-align: start; justify-content: start; }
+.home-composer a { white-space: nowrap; }
+.home-composer button::before { content: "✎"; margin-inline-end: .4rem; color: var(--home-honey); }
+.home-composer :is(a,button):hover { background: rgba(110,234,255,.1); }

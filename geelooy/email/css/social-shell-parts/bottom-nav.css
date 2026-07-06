@@ -1,34 +1,11 @@
-/* B"H mail bottom nav: target five doors, no blanks. */
-.mail-bottom-nav {
-  position: sticky; bottom: 0;
-  z-index: 45;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: .35rem;
-  padding: .45rem .45rem max(.45rem, env(safe-area-inset-bottom));
-  border-top: 1px solid var(--mail-line);
-  background: rgba(8, 13, 27, .94);
-  backdrop-filter: blur(16px);
-}
-.mail-bottom-nav a {
-  min-width: 0;
-  min-height: 3.05rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 1rem;
-  color: #fffaf1;
-  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.045));
-  text-decoration: none;
-  font-size: .74rem;
-  font-weight: 950;
-}
-.mail-bottom-nav a:empty { display: none; }
-.mail-bottom-nav a.active,
-.mail-bottom-nav a[aria-current="page"] { background: linear-gradient(135deg, var(--mail-gold), var(--mail-cyan)); color: #03101b; }
-.mail-bottom-nav a.is-create { font-size: 1.35rem; background: linear-gradient(135deg, #ffe28a, #75e7f4); color: #06101b; }
-.mail-bottom-nav a:focus-visible { outline: 2px solid rgba(123,226,255,.55); outline-offset: 2px; }
-@media (max-width: 850px) {
-  .mail-bottom-nav { position: fixed; left: .6rem; right: .6rem; bottom: max(.55rem, env(safe-area-inset-bottom)); z-index: 1000; padding: .42rem; border: 1px solid var(--mail-line); border-radius: 1.25rem; box-shadow: 0 1rem 2.6rem rgba(0,0,0,.32); }
-  .mail-bottom-nav a { min-height: 3.12rem; font-size: .72rem; }
-}
+/* B"H
+ * @file mail/bottom-nav.css
+ * The dock floats exactly like Home/Profile/Spaces.
+ */
+.mail-bottom-nav { position:sticky; bottom:0; z-index:45; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.3rem; padding:.4rem .4rem max(.4rem,env(safe-area-inset-bottom)); border-top:1px solid var(--mail-line); background:rgba(8,13,27,.94); backdrop-filter:blur(16px); }
+.mail-bottom-nav a { min-width:0; min-height:2.65rem; display:grid; place-items:center; border:1px solid rgba(255,255,255,.08); border-radius:.78rem; color:#fffaf1; background:rgba(255,255,255,.06); text-decoration:none; font-size:.68rem; font-weight:950; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.mail-bottom-nav a:empty { display:none; }
+.mail-bottom-nav a.active,.mail-bottom-nav a[aria-current="page"] { background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); color:#03101b; }
+.mail-bottom-nav a.is-create { font-size:1.18rem; background:linear-gradient(135deg,#ffe28a,#75e7f4); color:#06101b; }
+.mail-bottom-nav a:focus-visible { outline:2px solid rgba(123,226,255,.55); outline-offset:2px; }
+@media (max-width:850px){.mail-bottom-nav{position:fixed;left:.5rem;right:.5rem;bottom:max(.5rem,env(safe-area-inset-bottom));z-index:1000;padding:.4rem;border:1px solid var(--mail-line);border-radius:1.05rem;box-shadow:0 1rem 2.4rem rgba(0,0,0,.32)}.mail-bottom-nav a{min-height:2.65rem;font-size:.64rem}}

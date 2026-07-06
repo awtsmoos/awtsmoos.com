@@ -1,0 +1,9 @@
+/* B"H
+ * @file metrics.css
+ * Fixes the old 0Objects problem by giving numbers and labels separate air.
+ */
+.civilization-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .42rem; }
+.civilization-metrics > * { min-width: 0; min-height: 2.6rem; border: 1px solid var(--home-line); border-radius: .82rem; padding: .5rem .56rem; background: rgba(255,255,255,.055); color: var(--home-text); }
+.civilization-metrics strong, .civilization-metrics b { display: block; font-size: 1.05rem; line-height: 1; }
+.civilization-metrics span, .civilization-metrics small { display: block; margin-top: .18rem; color: var(--home-muted); font-size: .72rem; line-height: 1.15; }
+.civilization-metrics [data-metric-label]::before { content: ""; display: block; }

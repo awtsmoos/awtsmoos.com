@@ -1,3 +1,7 @@
-/* B"H mail empty states vessel */
-.thread-empty-state { margin:1rem; padding:1.15rem; border:1px dashed var(--mail-line); border-radius:1rem; color:var(--mail-muted); text-align:center; background:rgba(255,255,255,.055); }
-.mail-social-sidebar .avatar-circle { box-shadow:0 .45rem 1rem rgba(0,0,0,.16); }
+/* B"H
+ * @file mail/empty.css
+ * Empty states become small invitations, never dead panels.
+ */
+.thread-empty-state { margin:.75rem; padding:.9rem; border:1px dashed var(--mail-line); border-radius:.85rem; color:var(--mail-muted); text-align:center; background:rgba(255,255,255,.055); }
+.thread-empty-state strong { color:#fff; }
+.mail-social-sidebar .avatar-circle { box-shadow:0 .35rem .9rem rgba(0,0,0,.16); }

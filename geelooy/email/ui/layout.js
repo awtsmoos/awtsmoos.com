@@ -1,7 +1,9 @@
 // B"H
 /**
  * @module MailSocialLayout
- * @description Orchestrates the mail shell while nav data lives in navItems.js.
+ * @description
+ * The Awtsmoos gathers mail into the same short-future OS as Home/Profile:
+ * a compact command rail, a two-pane message instrument, and one floating dock.
  */
 import { renderSidebar } from './sidebar.js';
 import { renderChat } from './chat.js';
@@ -16,7 +18,7 @@ export function renderAppLayout(ui, root) {
       { tag: 'nav', classList: ['mail-top-links'], attributes: { 'aria-label': 'Mail route shortcuts' }, children: topLinks() },
       { tag: 'div', classList: ['mail-title-lockup'], children: [
         { tag: 'span', classList: ['mail-kicker'], textContent: 'Awtsmoos Mail' },
-        { tag: 'strong', textContent: 'Messages / Living Transmissions' }
+        { tag: 'strong', textContent: 'Messages' }
       ]}
     ]},
     { tag: 'div', shaym: 'appContainer', classList: ['app-container', 'mail-social-frame'], children: [

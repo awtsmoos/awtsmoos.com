@@ -2,9 +2,8 @@
 /**
  * @module ProfileApiClient
  * @description
- * Chapter 436: The profile client now drinks from the unified `/api/social`
- * river. Old responses and new structured responses both become one vessel for
- * the renderer, because a social network must not make its own browser guess.
+ * Chapter 437: The profile client keeps the aggregate profile covenant while
+ * still shaping every graph, history, and follow river into one UI vessel.
  */
 
 function unwrap(body) {
@@ -27,7 +26,7 @@ function form(data = {}) {
 }
 
 export function loadProfile(aliasId) {
-    return json(`/api/social/profiles/${encodeURIComponent(aliasId)}`);
+    return json(`/api/social/profile/${encodeURIComponent(aliasId)}`);
 }
 
 export function loadActivity(aliasId, cursor = "") {

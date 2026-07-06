@@ -1,20 +1,17 @@
 /* B"H
  * @file motion.css
- * The Awtsmoos gives motion only as a whisper: helpful, never dizzying.
+ * Futuristic animation is honey-slow: glints, scanlines, magnetic hover.
  */
-@keyframes homeBreath { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+@keyframes homeBreath { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-2px) scale(1.012)} }
 @keyframes homeShimmer { to { background-position: 200% center; } }
-.clean-brand span,
-.home-profile-pill,
-.home-command-dock .is-create { animation: homeBreath 5.5s ease-in-out infinite; }
-.home-route-card::after,
-.home-post-card::before,
-.universal-object-card::before { background-size: 200% 100%; animation: homeShimmer 8s linear infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .clean-brand span,
-  .home-profile-pill,
-  .home-command-dock .is-create,
-  .home-route-card::after,
-  .home-post-card::before,
-  .universal-object-card::before { animation: none; }
-}
+@keyframes homeFloat { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(0,-1rem,0)} }
+@keyframes homeScan { 0%{transform:translateX(-120%)} 100%{transform:translateX(120%)} }
+.home-orb-field i { animation: homeFloat 10s ease-in-out infinite; }
+.home-orb-field i:nth-child(2) { animation-delay: -3s; }
+.home-orb-field i:nth-child(3) { animation-delay: -6s; }
+.clean-brand span, .home-profile-pill, .home-command-dock .is-create { animation: homeBreath 5.5s ease-in-out infinite; }
+.home-route-card::after, .home-post-card::before, .universal-object-card::before { background-size: 200% 100%; animation: homeShimmer 7s linear infinite; }
+.home-command-card::after { animation: homeScan 8s ease-in-out infinite; }
+.home-route-card, .home-post-card, .home-feed-tabs button, .home-command-dock a { transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+.home-route-card:hover, .home-post-card:hover, .home-command-dock a:hover { transform: translateY(-2px); border-color: var(--home-line-hot); }
+@media (prefers-reduced-motion: reduce) { .home-orb-field i, .clean-brand span, .home-profile-pill, .home-command-dock .is-create, .home-command-card::after, .home-route-card::after, .home-post-card::before, .universal-object-card::before { animation: none; } }

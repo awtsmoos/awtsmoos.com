@@ -1,0 +1,22 @@
+/* B"H
+ * @file aliases.css
+ * Mockup alias/profile cards: settings-app density with beautiful soft panels.
+ */
+.profile-tabs { display: flex; gap: .32rem; overflow-x: auto; margin-bottom: .7rem; position: sticky; top: .32rem; z-index: 4; background: rgba(255,255,255,.82); backdrop-filter: blur(14px); border: 1px solid rgba(16,33,52,.1); border-radius: 999px; padding: .24rem; width: max-content; max-width: 100%; scrollbar-width: none; }
+.profile-tabs::-webkit-scrollbar { display: none; }
+.profile-tabs button { border: 0; border-radius: 999px; padding: .62rem .86rem; background: transparent; color: #627184; font-weight: 900; cursor: pointer; }
+.profile-tabs button.active, .profile-tabs button[aria-selected="true"] { background: linear-gradient(135deg, #f2cf68, #73e7f4); color: #081827; }
+.panel-title-row { display: flex; align-items: center; justify-content: space-between; gap: .7rem; margin-bottom: .7rem; }
+.panel-title-row h2 { margin: 0; color: #0f1d2d; font-size: clamp(1.25rem, 4vw, 1.55rem); letter-spacing: -.04em; }
+.panel-title-row a, .alias-card-actions a, .alias-card-actions button, .heichel-card-body a { border: 0; border-radius: .86rem; padding: .62rem .82rem; background: linear-gradient(135deg, #f2cf68, #73e7f4); color: #081827; font-weight: 900; cursor: pointer; text-align: center; text-decoration: none; }
+.social-card-list { display: grid; gap: .7rem; }
+.social-alias-card, .social-empty-card, .profile-about-grid article { border: 1px solid rgba(16,33,52,.12); border-radius: 1.1rem; background: rgba(255,255,255,.86); box-shadow: 0 12px 34px rgba(36,64,96,.12); content-visibility: auto; contain-intrinsic-size: 6.4rem; }
+.social-alias-card { display: grid; grid-template-columns: auto 1fr; gap: .7rem; padding: .82rem; }
+.social-alias-card.default { outline: 2px solid rgba(242,207,104,.45); }
+.alias-avatar { width: 2.9rem; height: 2.9rem; }
+.alias-copy h3 { margin: .06rem 0 .2rem; color: #0f1d2d; }
+.alias-copy p { margin: 0 0 .54rem; color: #627184; line-height: 1.36; }
+.alias-id { color: #9b7a1c; font-weight: 900; }
+.alias-card-actions { display: flex; flex-wrap: wrap; gap: .36rem; }
+.alias-card-actions button { background: rgba(15,29,45,.06); color: #0f1d2d; }
+.social-empty-card { padding: 1rem; color: #627184; }

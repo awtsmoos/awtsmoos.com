@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { ROOT } = require('../../lib/config.js');
+const LiveStatus = require('../../lib/runtime/liveness-status.js');
 const { buildConfigActions } = require('./actionGroups/configActions.js');
 const { buildReadActions } = require('./actionGroups/readActions.js');
 const { buildProjectActions } = require('./actionGroups/projectActions.js');
@@ -42,6 +43,7 @@ const { buildMissionMetaActions } = require('./actionGroups/missionMetaActions.j
 const { buildMissionImprovementActions } = require('./actionGroups/missionImprovementActions.js');
 const { buildContinuationActions } = require('./actionGroups/continuationActions.js');
 const { buildChromeActions } = require('./actionGroups/chromeActions.js');
+const { buildChatGptActions } = require('../chatgpt/index.js');
 const { buildRemoteDesktopActions } = require('./actionGroups/remoteDesktopActions.js');
 const { wrapActions } = require('./mission/missionAware/wrap.js');
 function payloadEcho(payload) { return { BH:'B"H', ok:true, action:'payloadEcho', payload }; }
@@ -56,7 +58,7 @@ function livenessTimeline(config) {
   const lag = latest.eventLoopLag || {};
   return {
     ok:true, action:'tunnelLivenessTimeline', requestAction:'tunnelLivenessTimeline', actualAction:'tunnelLivenessTimeline',
-    tunnelName:config.tunnelName, state:stateFrom(circuit.level), isAlive:true,
+    tunnelName:config.tunnelName, ...LiveStatus.statusFromCircuit(circuit),
     eventLoopLagMs:lag.lastMs ?? null, maxEventLoopLagMs:lag.maxMs ?? null,
     circuit, timeline:entries.slice(-20), fallbacks:['awtsmoos-virtual-os','awtsmoos-code'],
     recommendedNext:recommend(circuit.level)
@@ -89,7 +91,7 @@ function recommend(level) { return level === 'panic' || level === 'hard' ? 'cont
 function addCommandAliases(actions) { if (actions.commandRun && !actions.command) actions.command = actions.commandRun; if (actions.commandStart && !actions.commandRun) actions.commandRun = actions.commandStart; if (actions.commandStart && !actions.command) actions.command = actions.commandStart; return actions; }
 function buildActions(config, payload, ws, version) {
   const ctx = { config, payload, ws, version };
-  const actions = addCommandAliases({ ...buildConfigActions(ctx), ...buildReadActions(ctx), ...buildProjectActions(ctx), ...buildFileOpsActions(ctx), ...buildHttpActions(ctx), ...buildCommandActions(ctx), ...buildAsyncTaskActions(ctx), ...buildScanWorkerActions(ctx), ...buildStaticServerActions(ctx), ...buildIsolatedActions(ctx), ...buildWriteActions(ctx), ...buildWorkflowActions(ctx, buildActions), ...buildPreviewActions(ctx), ...buildShareActions(ctx), ...buildRemoteDriveActions(ctx), ...buildPreviewReceiptActions(ctx), ...buildFakeSshActions(ctx), ...buildRemoteNativeDesktopActions(ctx), ...buildVirtualOsGraphActions(ctx), ...buildRuntimeActions(ctx), ...buildNodeDomActions(ctx), ...buildOsSurfaceActions(ctx), ...buildCognitionActions(ctx), ...buildQualityActions(ctx, buildActions), ...buildBatchAliasActions(ctx, buildActions), ...buildActionHistoryActions(ctx, buildActions), ...buildActionStreamActions(ctx), ...buildMissionActions(ctx), ...buildMissionLedgerActions(ctx), ...buildMissionOperatingActions(ctx), ...buildMissionAwareActions(ctx), ...buildMissionEightStepActions(ctx), ...buildMissionDaemonActions(ctx, buildActions), ...buildMissionWatchdogActions(ctx, buildActions), ...buildMissionBootActions(ctx, buildActions), ...buildMissionMetaActions(ctx), ...buildMissionImprovementActions(ctx), ...buildContinuationActions(ctx, buildActions), ...buildChromeActions(ctx), ...buildRemoteDesktopActions(ctx), payloadEcho: async () => payloadEcho(payload), actionSchemaTrace: async () => actionSchemaTrace(payload), awtsmoosMyDevice: async () => awtsmoosMyDevice(config, version), agentSelfTest: async () => selfTest(version), agentVersionSkewCheck: async () => versionSkew(version), tunnelLivenessTimeline: async () => livenessTimeline(config) });
+  const actions = addCommandAliases({ ...buildConfigActions(ctx), ...buildReadActions(ctx), ...buildProjectActions(ctx), ...buildFileOpsActions(ctx), ...buildHttpActions(ctx), ...buildCommandActions(ctx), ...buildAsyncTaskActions(ctx), ...buildScanWorkerActions(ctx), ...buildStaticServerActions(ctx), ...buildIsolatedActions(ctx), ...buildWriteActions(ctx), ...buildWorkflowActions(ctx, buildActions), ...buildPreviewActions(ctx), ...buildShareActions(ctx), ...buildRemoteDriveActions(ctx), ...buildPreviewReceiptActions(ctx), ...buildFakeSshActions(ctx), ...buildRemoteNativeDesktopActions(ctx), ...buildVirtualOsGraphActions(ctx), ...buildRuntimeActions(ctx), ...buildNodeDomActions(ctx), ...buildOsSurfaceActions(ctx), ...buildCognitionActions(ctx), ...buildQualityActions(ctx, buildActions), ...buildBatchAliasActions(ctx, buildActions), ...buildActionHistoryActions(ctx, buildActions), ...buildActionStreamActions(ctx), ...buildMissionActions(ctx), ...buildMissionLedgerActions(ctx), ...buildMissionOperatingActions(ctx), ...buildMissionAwareActions(ctx), ...buildMissionEightStepActions(ctx), ...buildMissionDaemonActions(ctx, buildActions), ...buildMissionWatchdogActions(ctx, buildActions), ...buildMissionBootActions(ctx, buildActions), ...buildMissionMetaActions(ctx), ...buildMissionImprovementActions(ctx), ...buildContinuationActions(ctx, buildActions), ...buildChromeActions(ctx), ...buildChatGptActions(ctx), ...buildRemoteDesktopActions(ctx), payloadEcho: async () => payloadEcho(payload), actionSchemaTrace: async () => actionSchemaTrace(payload), awtsmoosMyDevice: async () => awtsmoosMyDevice(config, version), agentSelfTest: async () => selfTest(version), agentVersionSkewCheck: async () => versionSkew(version), tunnelLivenessTimeline: async () => livenessTimeline(config) });
   return wrapActions(actions, config, payload);
 }
 module.exports = { buildActions, livenessTimeline };

@@ -1,13 +1,20 @@
 /* B"H
- * Chapter 469: the home becomes one command surface, not three competing walls.
+ * @file shell.css
+ * One native app column. No page fights the user.
  */
-.geelooy-home-shell { width: min(100% - clamp(.8rem, 2vw, 1.5rem), 70rem); min-height: calc(100dvh - 64px); margin: .7rem auto 2rem; display: grid; grid-template-areas: "rail" "center" "feed"; gap: var(--home-gap); align-items: start; isolation: isolate; }
-.home-left-rail { grid-area: rail; }
-.home-center-stage { grid-area: center; display: grid; gap: var(--home-gap); min-width: 0; }
-.home-feed-phone { grid-area: feed; min-width: 0; }
-.home-left-rail, .clean-hero, .home-feed-phone, .clean-expander, .home-route-card { border: 1px solid var(--home-line); background: linear-gradient(145deg, var(--home-panel-strong), var(--home-panel)); box-shadow: var(--home-shadow), inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(18px) saturate(1.16); }
-.home-left-rail, .home-feed-phone { overflow: visible; }
-.clean-expander { border-radius: 999px; padding: .55rem .85rem; color: var(--home-muted); }
-.clean-expander summary { cursor: pointer; font-weight: 900; color: var(--home-text); }
-.home-inline-actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .65rem; }
-.home-inline-actions :is(a,button) { min-height: 2.35rem; padding: 0 .75rem; border: 1px solid var(--home-line); border-radius: 999px; background: rgba(255,255,255,.06); color: var(--home-text); text-decoration: none; font-weight: 850; }
+.geelooy-home-shell {
+  width: min(100% - .7rem, 62rem);
+  min-height: calc(100dvh - 4rem);
+  margin: .4rem auto 7rem;
+  display: grid;
+  gap: var(--home-gap);
+  isolation: isolate;
+}
+.home-topbar, .home-command-card, .home-feed-phone, .clean-expander, .home-route-card {
+  border: 1px solid var(--home-line);
+  background: linear-gradient(155deg, var(--home-panel-2), var(--home-panel));
+  box-shadow: var(--home-shadow), inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(18px) saturate(1.12);
+}
+.home-command-card, .home-feed-phone { border-radius: var(--home-radius); overflow: hidden; }
+.home-tools-strip, .home-feed-phone, .home-quick-grid { min-width: 0; }

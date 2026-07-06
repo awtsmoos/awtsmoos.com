@@ -1,13 +1,14 @@
-/* B"H — the sidebar becomes a clean route orbit. */
-.home-left-rail { border-radius: var(--home-radius); padding: .55rem; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .5rem; align-items: center; position: relative; }
-.clean-brand { min-height: 2.65rem; display: inline-flex; align-items: center; gap: .55rem; padding: .35rem .65rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); text-decoration: none; font-size: .98rem; background: rgba(255,255,255,.055); }
-.clean-brand span { width: 1.85rem; height: 1.85rem; display: grid; place-items: center; border-radius: 999px; color: #06101b; background: linear-gradient(135deg, var(--home-gold), var(--home-cyan)); }
-.home-rail-copy { margin: 0; color: var(--home-muted); font-size: .92rem; font-weight: 800; white-space: nowrap; }
-.home-rail-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem; min-width: 0; }
-.home-rail-links a, .home-rail-actions a { min-height: 2.55rem; display: inline-flex; align-items: center; justify-content: center; gap: .25rem; padding: .45rem .72rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); text-decoration: none; background: rgba(255,255,255,.055); transition: transform .16s ease, border-color .16s ease, background .16s ease; }
-.home-rail-links strong { font-size: .9rem; }
+/* B"H
+ * @file rail.css
+ * Top command bar: short, readable, stable.
+ */
+.home-topbar { position: sticky; top: .32rem; z-index: 30; min-height: 3rem; display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: .36rem; padding: .36rem; border-radius: 1rem; }
+.clean-brand { min-width: 0; display: inline-flex; align-items: center; gap: .45rem; color: var(--home-text); text-decoration: none; font-weight: 1000; }
+.clean-brand span { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 999px; color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); }
+.clean-brand b { max-width: 7.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.home-rail-links { display: flex; justify-content: center; gap: .22rem; min-width: 0; overflow: hidden; }
+.home-rail-links a { min-height: 2.25rem; display: inline-grid; place-items: center; padding: .3rem .56rem; border-radius: 999px; color: var(--home-muted); text-decoration: none; font-weight: 900; }
+.home-rail-links a:hover { color: var(--home-text); background: rgba(255,255,255,.07); }
 .home-rail-links small { display: none; }
-.home-rail-links a:hover, .home-rail-actions a:hover { transform: translateY(-2px); border-color: var(--home-line-bright); background: rgba(115,236,255,.1); }
-.home-rail-actions { display: flex; gap: .35rem; justify-content: end; }
-.home-rail-actions a:first-child { color: #06101b; border: 0; background: linear-gradient(135deg, var(--home-gold), var(--home-cyan)); font-weight: 950; }
-.home-menu-button { display: none; }
+.home-top-create { min-height: 2.25rem; display: grid; place-items: center; padding: 0 .75rem; border-radius: 999px; color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); text-decoration: none; font-weight: 1000; }
+.home-menu-button { display: none; width: 2.25rem; height: 2.25rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); background: var(--home-glass); }

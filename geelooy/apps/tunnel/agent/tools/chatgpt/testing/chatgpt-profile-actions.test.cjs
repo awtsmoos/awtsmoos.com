@@ -7,10 +7,11 @@ const { buildManifest } = require("../../../rebuild-manifest.cjs");
 const { idFromUrl } = require("../conversations/registry.js");
 const { browserScript: promptScript } = require("../runtime/sendPrompt.js");
 const { browserScript: responseScript } = require("../runtime/waitForResponse.js");
+const { optimizerScript } = require("../runtime/domOptimizer.js");
 const { legacyConversationBody } = require("../direct/legacyRequest.js");
 const { browserPreparedFetchScript } = require("../direct/browserInjectedRequest.js");
 
-const ROOT = path.resolve(__dirname, "../../../../..");
+const ROOT = path.resolve(__dirname, "../../../..");
 const config = {
   root: process.cwd(),
   allowWrite: true,
@@ -36,10 +37,17 @@ function testActionRegistration() {
     "chatgptOpenLogin",
     "chatgptStatus",
     "chatgptMessage",
+    "chatgptOptimizeDom",
     "chatgptContinueConversation",
     "chatgptNewConversation",
     "chatgptCurrentConversation",
-    "chatgptListConversations"
+    "chatgptListConversations",
+    "chatgptContinuationStart",
+    "chatgptContinuationStatus",
+    "chatgptContinuationStop",
+    "chatgptContinuationTick",
+    "chatgptContinuationAuto",
+    "chatgptContinuationConclusion"
   ];
   for (const name of names) assert.equal(typeof actions[name], "function", name);
   return names.length;
@@ -55,6 +63,16 @@ function testConversationId() {
 function testManualTextareaScriptsCompile() {
   assert.ok(promptScript("hello").includes("promptSelectors"));
   assert.ok(responseScript().includes("ASSISTANT") === false);
+  return true;
+}
+
+function testDomOptimizerBoundaries() {
+  const expression = optimizerScript({ mode: "sendOnly", tail: 3, maxPrune: 80 });
+  assert.doesNotThrow(() => new Function("return " + expression));
+  assert.ok(expression.includes("awtsmoos-tunnel-pruned-shell"));
+  assert.ok(expression.includes("composerFound"));
+  assert.ok(expression.includes("SCRIPT|STYLE|LINK|META|HEAD|HTML|BODY"));
+  assert.ok(expression.includes("data-awtsmoos-cgpt-preserve"));
   return true;
 }
 
@@ -117,7 +135,15 @@ function testManifestCoverage() {
     "tools/chatgpt/runtime/sendPrompt.js",
     "tools/chatgpt/auth/sessionCheck.js",
     "tools/chatgpt/direct/browserConsoleConversation.js",
-    "tools/chatgpt/direct/browserInjectedRequest.js"
+    "tools/chatgpt/direct/browserInjectedRequest.js",
+    "tools/chatgpt/actions/optimizer.js",
+    "tools/chatgpt/runtime/domOptimizer.js",
+    "tools/chatgpt/actions/continuation.js",
+    "tools/chatgpt/continuation/state.js",
+    "tools/chatgpt/runtime/idleDetector.js",
+    "tools/chatgpt/sessions/identity.js",
+    "tools/chatgpt/sessions/state.js",
+    "tools/chatgpt/actions/sessions.js"
   ];
   for (const file of needed) assert.ok(manifest.files.includes(file), "manifest missing " + file);
   return manifest.files.length;
@@ -146,6 +172,7 @@ function readProjectFile(relative) {
     registrationCount: testActionRegistration(),
     conversationId: testConversationId(),
     manualTextareaScripts: testManualTextareaScriptsCompile(),
+    domOptimizerBoundaries: testDomOptimizerBoundaries(),
     injectedExpressionLength: testInjectedRequestExpressionCompiles(),
     prepareBodyShape: testInjectedRequestSendsFinalBodyToPrepare(),
     browserCredentialBoundary: testInjectedRequestUsesBrowserCredentialsOnly(),

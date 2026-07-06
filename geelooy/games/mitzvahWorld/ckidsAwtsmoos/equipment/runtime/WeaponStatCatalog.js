@@ -1,0 +1,19 @@
+// B"H
+/** @file WeaponStatCatalog.js @description Buyable weapons with RPG stats, condition, timing, and procedural recipes. */
+import { weaponGenre } from "./WeaponGenreCatalog.js";
+const Q={common:1,uncommon:1.35,rare:2,epic:3.5,holy:5};
+const W=(id,label,genre,rarity,buy,extra={})=>{ const g=weaponGenre(genre), condition=extra.condition??1; return Object.freeze({ id,label,genre,rarity,condition,durability:extra.durability??100,buy,sell:Math.round(buy*.52),repair:Math.max(1,Math.round(buy*.18)),upgradePath:extra.upgradePath||[],damage:extra.damage??g.damage,range:extra.range??g.range,weight:extra.weight??1,staminaCost:extra.staminaCost??8,startup:extra.startup??120,chargeTime:extra.chargeTime??0,castTime:extra.castTime??0,active:extra.active??140,recovery:extra.recovery??240,cooldown:extra.cooldown??420,criticalChance:extra.criticalChance??.05,knockback:extra.knockback??.1,stagger:extra.stagger??.1,blockStrength:extra.blockStrength??0,parryTiming:extra.parryTiming??0,animationClip:extra.animationClip??g.clip,heldIdlePose:extra.heldIdlePose||"held-idle",walkingPose:extra.walkingPose||"held-walk",runningPose:extra.runningPose||"held-run",attackCombo:extra.attackCombo||[g.clip],specialAttack:extra.specialAttack||null,projectileType:g.projectile,grip:extra.grip??g.grip,rightHandAttachment:"mixamorig:RightHand",shopCategory:g.shopCategory,trainerRequirement:extra.trainerRequirement??g.trainerRequirement,meshKind:`procedural:${genre}`,proceduralRecipe:extra.proceduralRecipe||genre,valueScale:Q[rarity]||1 }); };
+export const WEAPON_STATS = Object.freeze({
+  emptyHands:W("emptyHands","Empty Hands","hands","common",0,{attackCombo:["jab","cross","push"],staminaCost:3}), smallDagger:W("smallDagger","Small Dagger","dagger","common",28), riverKnife:W("riverKnife","River Knife","knife","common",22),
+  simpleSword:W("simpleSword","Simple Sword","shortSword","common",45,{upgradePath:["longPracticeSword"]}), longPracticeSword:W("longPracticeSword","Long Practice Sword","longSword","uncommon",90), cedarGreatSword:W("cedarGreatSword","Cedar Great Sword","greatSword","rare",155,{weight:2.6,staminaCost:20,blockStrength:.45}),
+  woodenStaff:W("woodenStaff","Wooden Staff","staff","common",36,{blockStrength:.35,specialAttack:"knockback-cast"}), learningWand:W("learningWand","Learning Wand","wand","uncommon",60,{castTime:360,specialAttack:"spark-cast"}),
+  shepherdStick:W("shepherdStick","Shepherd Stick","stick","common",12), oakClub:W("oakClub","Oak Club","club","common",30,{knockback:.35,stagger:.3}), villageSpear:W("villageSpear","Village Spear","spear","uncommon",82,{range:2.9}),
+  fieldAxe:W("fieldAxe","Field Axe","axe","uncommon",74,{stagger:.28}), builderHammer:W("builderHammer","Builder Hammer","hammer","uncommon",76,{knockback:.42}), cedarBow:W("cedarBow","Cedar Bow","bow","uncommon",68,{chargeTime:900,attackCombo:["draw","hold","release"]}),
+  oakCrossbow:W("oakCrossbow","Oak Crossbow","crossbow","rare",130,{castTime:280,cooldown:1000}), hebrewBow:W("hebrewBow","Bow of Hebrew Letters","hebrewBow","rare",144,{chargeTime:1200,attackCombo:["draw","glow","letter-release","cancel"],specialAttack:"purifying-letter"}),
+  shepherdSling:W("shepherdSling","Shepherd Sling","sling","common",24), smoothStone:W("smoothStone","Smooth Throwing Stone","throwingStone","common",2,{durability:1}), harvestHoe:W("harvestHoe","Harvest Hoe","farmingTool","common",32),
+  carvingChisel:W("carvingChisel","Carving Chisel","craftingTool","common",26), paddedSword:W("paddedSword","Padded Training Sword","trainingWeapon","common",18), nerMitzvahBlade:W("nerMitzvahBlade","Ner Mitzvah Blade","holyWeapon","holy",240,{specialAttack:"light-purify"}),
+  alefStaff:W("alefStaff","Alef Letter Staff","letterWeapon","rare",125,{specialAttack:"alef-pulse"})
+});
+export function weaponStats(id) { return WEAPON_STATS[id] || null; }
+export function weaponList(){ return Object.values(WEAPON_STATS); }
+export default WEAPON_STATS;

@@ -1,14 +1,15 @@
-/* B"H — recent activity is now a broad calm river. */
-.home-feed-phone { border-radius: var(--home-radius); padding: clamp(.8rem, 2vw, 1rem); display: grid; gap: .75rem; }
-.home-feed-header { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
-.home-feed-title { display: grid; gap: .1rem; min-width: 0; }
-.home-feed-title strong { color: var(--home-text); font-size: clamp(1.35rem, 3vw, 2rem); line-height: 1; letter-spacing: -.05em; }
-.home-feed-title span { color: var(--home-muted); font-size: .92rem; line-height: 1.3; }
-.home-feed-tabs { display: grid; grid-template-columns: repeat(4, minmax(7rem, 1fr)); gap: .35rem; padding: .3rem; border: 1px solid var(--home-line); border-radius: 999px; background: rgba(255,255,255,.045); }
-.home-feed-tabs button { min-width: 0; min-height: 2.55rem; border: 0; border-radius: 999px; color: var(--home-muted); background: transparent; font-weight: 950; cursor: pointer; }
-.home-feed-tabs button:is(.active,[aria-pressed="true"]) { color: #06101b; background: linear-gradient(135deg, var(--home-gold), var(--home-cyan)); }
-.home-composer { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .45rem; }
-.home-composer :is(a,button) { min-height: 2.75rem; border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-text); background: rgba(255,255,255,.06); font-weight: 950; text-decoration: none; display: grid; place-items: center; padding: 0 .85rem; }
-.home-feed-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: .65rem; min-width: 0; }
-.civilization-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .45rem; }
-.civilization-metrics > * { min-width: 0; border: 1px solid var(--home-line); border-radius: 1rem; padding: .65rem; background: rgba(255,255,255,.055); }
+/* B"H
+ * @file feed.css
+ * Feed appears fast: compact, readable, above the dock.
+ */
+.home-feed-phone { display: grid; gap: .52rem; padding: .68rem; }
+.home-feed-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .55rem; }
+.home-feed-title { min-width: 0; display: grid; gap: .08rem; }
+.home-feed-title strong { color: var(--home-text); font-size: clamp(1.28rem, 4.4vw, 1.85rem); line-height: .98; letter-spacing: var(--home-font-tight); }
+.home-feed-title span { color: var(--home-muted); font-size: .84rem; }
+.home-profile-pill { display: grid; place-items: center; padding: 0 .8rem; }
+.home-feed-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .22rem; padding: .22rem; border: 1px solid var(--home-line); border-radius: .82rem; background: rgba(255,255,255,.045); }
+.home-feed-tabs button { min-width: 0; min-height: 2.05rem; border: 0; border-radius: .66rem; color: var(--home-muted); background: transparent; font-size: .8rem; font-weight: 950; cursor: pointer; }
+.home-feed-tabs button:is(.active,[aria-pressed="true"]) { color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); }
+.home-feed-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: .48rem; }
+.home-feed-phone:focus { outline: none; }

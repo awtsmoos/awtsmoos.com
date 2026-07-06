@@ -1,38 +1,61 @@
-<!--B"H-->
+<!-- B"H profile page: short future identity console. -->
 <?<script>
-    var user;
-    if(request.user) { sharedData.user = request.user.info.userId; user = request.user.info.userId; }
-    else { olam.replace = $a("message.html", { message: "You're not logged in!@!" }); return; }
-    return $a("nav/page.html", { tochen: /*html*/`
-      <link rel="stylesheet" type="text/css" href="/style/social/profile.css?v=social-inline-002">
-      <link rel="stylesheet" type="text/css" href="/style/social/profile/polish.css?v=profile-003">
-      <main class="geelooy-profile-shell" data-user="${user}" data-profile>
-        <section class="profile-hero-card" aria-labelledby="profile-title">
-          <div class="profile-banner-light" aria-hidden="true"></div>
-          <div class="profile-identity-row">
-            <div class="profile-avatar-orb" aria-hidden="true">א</div>
-            <div class="profile-identity-copy">
-              <p class="profile-kicker">Your Digital Presence</p><h1 id="profile-title">${user}</h1>
-              <p>Build aliases, forge Heichelos, answer messages, and tune the way your light appears across Geelooy.</p>
-              <nav class="profile-command-rail" aria-label="Profile quick routes"><a href="/">Home</a><a href="/email">Mail</a><a href="/heichelos">Heichelos</a><a href="/notifications">Notifications</a></nav>
-            </div>
-            <a class="profile-primary-action" href="./alias-manage/">Create Alias</a>
-          </div>
-          <section class="profile-inline-actions" aria-label="Inline profile actions">
-            <button type="button" data-profile-action="alias" aria-expanded="false">Alias drawer <small>Create/edit fallback</small></button>
-            <button type="button" data-profile-action="notifications" aria-expanded="false">Notification preview <small>Selected alias</small></button>
-            <button type="button" data-profile-action="heichel" aria-expanded="false">Quick Heichel <small>Default alias</small></button>
-            <a href="/email">Mail app <small>Full signal chamber</small></a>
-          </section>
-          <div class="profile-stat-grid" aria-label="Profile social stats"><article><strong data-profile-stat="aliases">—</strong><span>Aliases</span></article><article><strong data-profile-stat="heichelos">—</strong><span>Heichelos</span></article><article><strong data-profile-stat="defaultAlias">—</strong><span>Default</span></article></div>
-          <p class="profile-status" data-profile-status="loading" aria-live="polite">Loading profile dashboard…</p>
-        </section>
-        <section class="profile-command-panel" aria-labelledby="profile-sections-title">
-          <h2 id="profile-sections-title" class="sr-only">Profile sections</h2>
-          <nav class="profile-tabs" aria-label="Profile sections" role="tablist"><button id="profile-tab-aliases" class="active" type="button" role="tab" aria-selected="true" aria-controls="profile-panel-aliases" data-profile-tab="aliases">Aliases</button><button id="profile-tab-heichelos" type="button" role="tab" aria-selected="false" aria-controls="profile-panel-heichelos" data-profile-tab="heichelos" tabindex="-1">Heichelos</button><button id="profile-tab-about" type="button" role="tab" aria-selected="false" aria-controls="profile-panel-about" data-profile-tab="about" tabindex="-1">About</button></nav>
-          <div class="profile-panel-body"><section id="profile-panel-aliases" class="profile-tab-panel" role="tabpanel" aria-labelledby="profile-tab-aliases" data-profile-panel="aliases"><div class="panel-title-row"><h2>Your Aliases</h2><a href="./alias-manage/">New Alias</a></div><div class="alias-list social-card-list" aria-live="polite"><div class="center"><div class="loading-circle" aria-label="Loading aliases"></div></div></div></section><section id="profile-panel-heichelos" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-heichelos" data-profile-panel="heichelos" hidden><div class="panel-title-row"><h2>Your Heichelos</h2><a href="/heichelos/manage-alias-heichelos/">Manage</a></div><div class="heichel-list social-card-list" aria-live="polite"></div></section><section id="profile-panel-about" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-about" data-profile-panel="about" hidden><div class="profile-about-grid"><article><h3>Aliases</h3><p>Each alias is a public identity with posts, comments, Heichelos, mail, and relationships.</p></article><article><h3>Heichelos</h3><p>Heichelos are social spaces: communities, libraries, series, editor rooms, and discussions.</p></article><article><h3>Reader Experience</h3><p>Social comments, messages, and notifications stay nearby while full pages remain available.</p></article></div></section></div>
-        </section>
-        <section class="profile-action-drawer" data-profile-action-drawer hidden aria-live="polite"></section>
-        <nav class="profile-bottom-nav" aria-label="Primary routes"><a href="/">Home</a><a href="/email">Mail</a><a class="is-create" href="/heichelos/submit">+</a><a href="/heichelos">Heichelos</a><a href="/profile" aria-current="page">Profile</a></nav>
-      </main><script type="module" src="./script.js?v=social-inline-001"></script>`, centered:false })
+  var user;
+  if(request.user) { sharedData.user = request.user.info.userId; user = request.user.info.userId; }
+  else { olam.replace = $a("message.html", { message: "You're not logged in!@!" }); return; }
+  return $a("nav/page.html", { centered:false, tochen: /*html*/`
+<link rel="stylesheet" type="text/css" href="/style/social/profile.css?v=profile-final-020">
+<link rel="stylesheet" type="text/css" href="/style/social/profile/polish.css?v=profile-final-020">
+<main class="geelooy-profile-shell" data-user="${user}" data-profile>
+  <section class="profile-hero-card" aria-labelledby="profile-title">
+    <div class="profile-banner-light" aria-hidden="true"></div>
+    <div class="profile-identity-row">
+      <div class="profile-avatar-orb" aria-hidden="true">א</div>
+      <div class="profile-identity-copy">
+        <p class="profile-kicker">Identity OS</p>
+        <h1 id="profile-title">${user}</h1>
+        <p>Aliases, spaces, messages, and notifications in one compact command surface.</p>
+        <nav class="profile-command-rail" aria-label="Profile quick routes">
+          <a href="/">Home</a><a href="/email">Mail</a><a href="/heichelos">Spaces</a><a href="/notifications">Alerts</a>
+        </nav>
+      </div>
+      <a class="profile-primary-action" href="./alias-manage/">Create Alias</a>
+    </div>
+    <section class="profile-inline-actions" aria-label="Inline profile actions">
+      <button type="button" data-profile-action="alias" aria-expanded="false">Alias <small>Create / switch</small></button>
+      <button type="button" data-profile-action="notifications" aria-expanded="false">Alerts <small>Preview</small></button>
+      <button type="button" data-profile-action="heichel" aria-expanded="false">Heichel <small>Forge space</small></button>
+      <a href="/email">Mail <small>Inbox</small></a>
+    </section>
+    <div class="profile-stat-grid" aria-label="Profile stats">
+      <article><strong data-profile-stat="aliases">—</strong><span>Aliases</span></article>
+      <article><strong data-profile-stat="heichelos">—</strong><span>Spaces</span></article>
+      <article><strong data-profile-stat="defaultAlias">—</strong><span>Default</span></article>
+    </div>
+    <p class="profile-status" data-profile-status="loading" aria-live="polite">Loading profile…</p>
+  </section>
+
+  <section class="profile-command-panel" aria-labelledby="profile-sections-title">
+    <h2 id="profile-sections-title" class="sr-only">Profile sections</h2>
+    <nav class="profile-tabs" aria-label="Profile sections" role="tablist">
+      <button id="profile-tab-aliases" class="active" type="button" role="tab" aria-selected="true" aria-controls="profile-panel-aliases" data-profile-tab="aliases">Aliases</button>
+      <button id="profile-tab-heichelos" type="button" role="tab" aria-selected="false" aria-controls="profile-panel-heichelos" data-profile-tab="heichelos" tabindex="-1">Spaces</button>
+      <button id="profile-tab-about" type="button" role="tab" aria-selected="false" aria-controls="profile-panel-about" data-profile-tab="about" tabindex="-1">About</button>
+    </nav>
+    <div class="profile-panel-body">
+      <section id="profile-panel-aliases" class="profile-tab-panel" role="tabpanel" aria-labelledby="profile-tab-aliases" data-profile-panel="aliases">
+        <div class="panel-title-row"><h2>Aliases</h2><a href="./alias-manage/">Add</a></div>
+        <div class="alias-list social-card-list" aria-live="polite"><div class="center"><div class="loading-circle" aria-label="Loading aliases"></div></div></div>
+      </section>
+      <section id="profile-panel-heichelos" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-heichelos" data-profile-panel="heichelos" hidden>
+        <div class="panel-title-row"><h2>Spaces</h2><a href="/heichelos/manage-alias-heichelos/">Manage</a></div><div class="heichel-list social-card-list" aria-live="polite"></div>
+      </section>
+      <section id="profile-panel-about" class="profile-tab-panel hidden" role="tabpanel" aria-labelledby="profile-tab-about" data-profile-panel="about" hidden>
+        <div class="profile-about-grid"><article><h3>Aliases</h3><p>Public identities for posts, mail, comments, and relationships.</p></article><article><h3>Spaces</h3><p>Heichelos hold libraries, series, communities, and editor rooms.</p></article><article><h3>Mail</h3><p>Messages stay close without making Profile feel crowded.</p></article></div>
+      </section>
+    </div>
+  </section>
+  <section class="profile-action-drawer" data-profile-action-drawer hidden aria-live="polite"></section>
+  <nav class="profile-bottom-nav" aria-label="Primary routes"><a href="/">Home</a><a href="/email">Mail</a><a class="is-create" href="/heichelos/submit">+</a><a href="/heichelos">Spaces</a><a href="/profile" aria-current="page">Profile</a></nav>
+</main><script type="module" src="./script.js?v=profile-final-020"></script>` })
 </script>?>

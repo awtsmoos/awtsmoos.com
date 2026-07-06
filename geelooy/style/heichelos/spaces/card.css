@@ -1,100 +1,19 @@
-/* B"H — Spaces card: one Heichel chamber, its seal, and metadata. */
-.social-space-card {
-  position: relative;
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--spaces-line);
-  border-radius: var(--spaces-radius);
-  background: linear-gradient(160deg, var(--spaces-card), var(--spaces-card-soft));
-  box-shadow: var(--g-shadow-soft);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-}
-
-.social-space-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(102, 231, 255, .35);
-  box-shadow: var(--g-shadow);
-}
-
-.space-banner {
-  min-height: 7rem;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: .8rem;
-  background:
-    radial-gradient(circle at 78% 8%, rgba(102,231,255,.26), transparent 10rem),
-    linear-gradient(135deg, rgba(8,13,27,.98), rgba(32,44,76,.9));
-}
-
-.space-banner span,
-.space-title-row span {
-  border-radius: 999px;
-  background: rgba(255,255,255,.1);
-  color: var(--spaces-gold-light);
-  font-size: .75rem;
-  font-weight: 900;
-}
-
-.space-banner span {
-  padding: .35rem .6rem;
-  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .12);
-}
-
-.space-body {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: .85rem;
-  padding: 1rem;
-}
-
-.space-seal {
-  width: 3.5rem;
-  height: 3.5rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(241,184,79,.18), rgba(102,231,255,.14));
-  color: var(--spaces-gold-light);
-}
-
-.space-title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .7rem;
-  min-width: 0;
-}
-
-.space-title-row h2 {
-  margin-bottom: 0;
-  overflow-wrap: anywhere;
-  color: #fff;
-}
-
-.space-title-row span {
-  padding: .3rem .55rem;
-  white-space: nowrap;
-}
-
-.space-copy p,
-.space-meta-line {
-  color: var(--spaces-muted);
-}
-
-.space-meta-line,
-.space-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .4rem;
-}
-
-.space-stats span {
-  border: 1px solid var(--spaces-line);
-  border-radius: 999px;
-  padding: .32rem .55rem;
-  background: rgba(255, 255, 255, .065);
-  color: var(--spaces-muted);
-  font-size: .78rem;
-}
+/* B"H
+ * @file spaces/card.css
+ * Mockup Heichel cards: gallery-like world tiles with soft banners.
+ */
+.social-space-card { position: relative; min-width: 0; overflow: hidden; border: 1px solid rgba(16,33,52,.12); border-radius: 1.25rem; background: rgba(255,255,255,.88); box-shadow: 0 12px 34px rgba(36,64,96,.12); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.social-space-card:hover { transform: translateY(-2px); border-color: rgba(88,198,255,.36); box-shadow: 0 24px 70px rgba(36,64,96,.16); }
+.space-banner { min-height: 5.2rem; display: flex; align-items: flex-start; justify-content: flex-end; padding: .72rem; background: radial-gradient(circle at 78% 8%, rgba(115,231,244,.45), transparent 9rem), radial-gradient(circle at 12% 92%, rgba(242,207,104,.42), transparent 8rem), linear-gradient(135deg, #f8fbff, #dfeef9); }
+.space-banner span, .space-title-row span { border-radius: 999px; background: rgba(255,255,255,.7); color: #0f1d2d; font-size: .68rem; font-weight: 900; }
+.space-banner span { padding: .28rem .52rem; box-shadow: 0 8px 20px rgba(36,64,96,.12); }
+.space-body { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .68rem; padding: .82rem; }
+.space-seal { width: 2.65rem; height: 2.65rem; display: grid; place-items: center; border: 1px solid rgba(16,33,52,.12); border-radius: 50%; background: linear-gradient(135deg, #f2cf68, #73e7f4); color: #081827; }
+.space-title-row { display: flex; align-items: center; justify-content: space-between; gap: .52rem; min-width: 0; }
+.space-title-row h2 { margin-bottom: 0; overflow-wrap: anywhere; color: #0f1d2d; font-size: clamp(1.05rem, 3vw, 1.28rem); line-height: 1.04; }
+.space-title-row span { padding: .24rem .44rem; white-space: nowrap; }
+.space-copy p, .space-meta-line { color: #627184; }
+.space-copy p { margin-block: .4rem; line-height: 1.36; }
+.space-meta-line, .space-stats { display: flex; flex-wrap: wrap; gap: .3rem; }
+.space-meta-line span, .space-stats span { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.space-stats span { border: 1px solid rgba(16,33,52,.12); border-radius: 999px; padding: .24rem .44rem; background: rgba(15,29,45,.05); color: #627184; font-size: .72rem; }

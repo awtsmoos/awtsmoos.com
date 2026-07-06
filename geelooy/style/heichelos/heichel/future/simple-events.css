@@ -1,0 +1,5 @@
+/* B"H Heichel simple events: districts answer softly, the path stays clear. */
+.heichel-nav-panel, .heichel-os-world-panel { background: rgba(255,255,255,.82); }
+.breadcrumb-river a, .series-search-row input, .filter-chip { border-radius: 999px; }
+.heichel-os-district-buttons button.active, .tab.Active { box-shadow: inset 0 0 0 1px rgba(12, 67, 120, .18), 0 .7rem 1.5rem rgba(12, 67, 120, .12); }
+.dynamic-grid > * { scroll-margin-top: 6rem; }

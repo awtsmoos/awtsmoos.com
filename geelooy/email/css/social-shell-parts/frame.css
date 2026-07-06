@@ -1,17 +1,14 @@
-/* B"H mail frame vessel */
-.mail-social-frame { min-height: 0; margin: .75rem; overflow: hidden; border: 1px solid rgba(255,255,255,.08); border-radius: 1.4rem; box-shadow: 0 1.2rem 3rem rgba(0,0,0,.35); }
-.mail-social-chat { background: rgba(7,9,24,.9); }
+/* B"H
+ * @file mail/frame.css
+ * Mockup email: a white rounded OS window with inbox rail and message canvas.
+ */
+.mail-social-frame { min-height:0; margin:.55rem; overflow:hidden; border:1px solid var(--mail-line); border-radius:1.35rem; box-shadow:var(--mail-shadow); }
+.mail-social-chat { background:rgba(255,255,255,.72); }
 .mail-social-frame.app-container {
-  display: grid;
-  grid-template-columns: minmax(18rem, var(--sidebar-w, 22rem)) minmax(0, 1fr);
-  width: min(100%, calc(100vw - 1.5rem));
-  max-width: 120rem;
-  height: auto;
-  min-height: calc(100dvh - 9rem);
-  margin: .85rem auto;
-  overflow: hidden;
-  border: 1px solid var(--mail-line);
-  border-radius: 1.2rem;
-  background: rgba(5,9,20,.82);
-  box-shadow: var(--mail-shadow);
+  position:relative; display:grid; grid-template-columns:minmax(17rem,22rem) minmax(0,1fr);
+  width:min(100% - .9rem,94rem); max-width:94rem; height:auto;
+  min-height:calc(100dvh - 7.2rem); margin:.65rem auto 0; overflow:hidden;
+  border:1px solid rgba(255,255,255,.75); border-radius:1.35rem;
+  background:rgba(255,255,255,.82); box-shadow:var(--mail-shadow); backdrop-filter:blur(18px) saturate(1.14);
 }
+.mail-social-frame.app-container::before { content:""; position:absolute; inset:0 0 auto; height:4px; background:linear-gradient(90deg,var(--mail-gold),#9de8bd,var(--mail-cyan)); pointer-events:none; }

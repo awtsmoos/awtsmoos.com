@@ -1,0 +1,5 @@
+/* B"H profile simple events: one dashboard, obvious motion, no clutter. */
+.profile-hero-card, .social-alias-card, .social-heichel-card { background: rgba(255,255,255,.74); }
+.profile-tabs button { border-radius: 999px; }
+.profile-tabs button.active { box-shadow: 0 .6rem 1.4rem rgba(36, 98, 158, .14); }
+.social-alias-card a, .social-heichel-card a { text-decoration-thickness: 1px; text-underline-offset: .22em; }

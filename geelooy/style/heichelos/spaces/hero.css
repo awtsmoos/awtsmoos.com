@@ -1,39 +1,9 @@
-/* B"H — Spaces hero: the listing crown and its readable opening copy. */
-.spaces-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 1rem;
-  padding: clamp(1rem, 3vw, 1.45rem);
-  border: 1px solid var(--spaces-line);
-  border-radius: var(--spaces-radius);
-  background:
-    radial-gradient(circle at 84% 0%, rgba(241,184,79,.18), transparent 18rem),
-    linear-gradient(145deg, rgba(15,25,45,.94), rgba(8,13,27,.86));
-  box-shadow: var(--spaces-shadow);
-  overflow: hidden;
-}
-
-.spaces-kicker {
-  margin-bottom: .3rem;
-  color: var(--spaces-gold);
-  font-size: .78rem;
-  font-weight: 950;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-
-.spaces-hero h1 {
-  margin-bottom: .4rem;
-  font-size: clamp(2rem, 5vw, 3.7rem);
-  line-height: .95;
-  overflow-wrap: anywhere;
-  color: #fff;
-}
-
-.spaces-hero p:not(.spaces-kicker) {
-  max-width: 42rem;
-  margin-bottom: 0;
-  color: var(--spaces-muted);
-  line-height: 1.55;
-}
+/* B"H
+ * @file spaces/hero.css
+ * Discovery is a short command card with one clear action.
+ */
+.spaces-hero { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: .72rem; align-items: center; border: 1px solid var(--spaces-line); border-radius: 1rem; padding: .85rem; background: linear-gradient(145deg, rgba(16,25,44,.9), rgba(8,13,25,.74)); box-shadow: var(--g-shadow-soft); }
+.spaces-kicker { margin: 0 0 .18rem; color: var(--spaces-muted); font-size: .68rem; font-weight: 1000; letter-spacing: .16em; text-transform: uppercase; }
+.spaces-hero h1 { margin: 0; color: #fff; font-size: clamp(1.85rem, 7vw, 3.5rem); line-height: .92; letter-spacing: -.06em; text-wrap: balance; }
+.spaces-hero p:not(.spaces-kicker) { margin: .32rem 0 0; max-width: 40rem; color: var(--spaces-muted); line-height: 1.34; }
+.spaces-command-row { display: grid; gap: .38rem; align-items: center; }

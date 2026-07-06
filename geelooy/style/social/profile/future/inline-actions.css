@@ -1,0 +1,9 @@
+/* B"H
+ * @file inline-actions.css
+ * Four compact profile commands, then get out of the way.
+ */
+.profile-inline-actions { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .42rem; padding: 0 .85rem .85rem; }
+.profile-inline-actions :is(a,button) { min-width: 0; min-height: 2.85rem; border: 1px solid var(--g-line); border-radius: .82rem; padding: .48rem .58rem; color: #fff; background: rgba(255,255,255,.065); text-align: start; text-decoration: none; font-weight: 950; }
+.profile-inline-actions small { display: block; margin-top: .08rem; color: var(--g-muted); font-size: .68rem; font-weight: 750; }
+.profile-inline-actions :is(a,button):hover { border-color: rgba(102,231,255,.35); background: rgba(102,231,255,.08); }
+.profile-action-drawer { position: fixed; z-index: 1200; right: .7rem; bottom: .7rem; width: min(25rem, calc(100vw - 1.4rem)); border: 1px solid var(--g-line); border-radius: .95rem; padding: .78rem; background: rgba(8,13,25,.96); box-shadow: var(--g-shadow); backdrop-filter: blur(18px); }

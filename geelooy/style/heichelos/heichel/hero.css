@@ -1,4 +1,6 @@
-/* B"H hero: calmer, lighter, faster. */
+/* B"H hero: calmer, lighter, faster.
+ * Chapter: The palace stops grasping what belongs to the stats vessel.
+ */
 .geelooy-heichel-hero {
   position: relative; overflow: hidden; min-height: clamp(13rem, 24vw, 21rem); display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(8rem, 13rem); gap: clamp(.9rem, 2.4vw, 1.6rem); align-items: end;
@@ -11,6 +13,4 @@
 .hero-kicker { margin: 0 0 .45rem; color: var(--heichel-gold); font-size: .76rem; font-weight: 950; letter-spacing: .15em; text-transform: uppercase; }
 #heichel-main-title { margin: 0; max-width: 14ch; color: #fff; font-size: clamp(2.35rem, 7vw, 5.1rem); line-height: .95; letter-spacing: 0; text-wrap: balance; }
 .hero-description { max-width: 64rem; margin: .9rem 0 0; color: var(--heichel-soft-ink); font-size: clamp(.98rem, 2vw, 1.16rem); line-height: 1.62; white-space: pre-wrap; overflow-wrap: anywhere; }
-.hero-stats { position: relative; z-index: 1; display: grid; gap: .48rem; align-self: end; }
-.hero-stats span { display: inline-flex; justify-content: center; min-height: 2.45rem; padding: .58rem .78rem; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid var(--heichel-line); color: var(--heichel-muted-ink); font-weight: 950; font-size: .74rem; }
-@media (max-width: 760px) { .geelooy-heichel-hero { grid-template-columns: 1fr; min-height: 0; } .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } #heichel-main-title { max-width: 11ch; } }
+@media (max-width: 760px) { .geelooy-heichel-hero { grid-template-columns: 1fr; min-height: 0; } #heichel-main-title { max-width: 11ch; } }

@@ -1,16 +1,18 @@
-/* B"H mail thread list: every transmission row is now a real button-door. */
-.mail-social-sidebar .thread-list { min-height:42vh; padding: 0 1rem 7rem; overflow-y: auto; scrollbar-gutter:stable; }
-.mail-social-sidebar .thread-item { appearance:none; width:100%; display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:center; min-height:5rem; margin:0 0 .75rem; padding:.8rem; text-align:left; font:inherit; color:inherit; background:rgba(255,255,255,.06); border:1px solid var(--mail-line); border-radius:.9rem; cursor:pointer; box-shadow:0 .45rem 1rem rgba(0,0,0,.12); }
-.mail-social-sidebar .thread-item:hover { background:rgba(102,231,255,.1); border-color:rgba(102,231,255,.28); transform:translateY(-1px); }
-.mail-social-sidebar .thread-item:focus-visible { outline:0; box-shadow:var(--mail-focus),0 .75rem 1.4rem rgba(0,0,0,.18); }
-.mail-social-sidebar .thread-item.active,.mail-social-sidebar .thread-item[aria-pressed="true"] { background:linear-gradient(90deg,rgba(255,211,106,.18),rgba(102,231,255,.12)); border-left:4px solid var(--mail-cyan); box-shadow:0 .8rem 1.5rem rgba(0,0,0,.18); }
+/* B"H
+ * @file mail/thread-list.css
+ * Mockup inbox: soft rows, clear sender, calm timestamps.
+ */
+.mail-social-sidebar .thread-list { min-height:35vh; padding:0 .8rem 6.2rem; overflow-y:auto; scrollbar-gutter:stable; }
+.mail-social-sidebar .thread-item { appearance:none; width:100%; display:grid; grid-template-columns:auto minmax(0,1fr); gap:.62rem; align-items:center; min-height:4.35rem; margin:0 0 .55rem; padding:.7rem; text-align:left; font:inherit; color:inherit; background:rgba(255,255,255,.78); border:1px solid var(--mail-line); border-radius:1rem; cursor:pointer; box-shadow:0 10px 24px rgba(36,64,96,.09); }
+.mail-social-sidebar .thread-item:hover { background:rgba(255,255,255,.96); border-color:rgba(88,198,255,.35); transform:translateY(-1px); }
+.mail-social-sidebar .thread-item:focus-visible { outline:0; box-shadow:var(--mail-focus),0 12px 30px rgba(36,64,96,.12); }
+.mail-social-sidebar .thread-item.active,.mail-social-sidebar .thread-item[aria-pressed="true"] { background:linear-gradient(90deg,rgba(242,207,104,.28),rgba(115,231,244,.20)); border-left:4px solid var(--mail-cyan); box-shadow:0 12px 30px rgba(36,64,96,.13); }
 .thread-content { min-width:0; }
-.thread-top { display:flex; gap:.55rem; align-items:center; justify-content:space-between; }
-.thread-name { font-weight:900; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.thread-time { font-size:.74rem; color:var(--mail-muted); white-space:nowrap; }
-.thread-snippet { margin-top:.18rem; color:var(--mail-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.thread-empty-state { margin:1rem; padding:1rem; border:1px dashed var(--mail-line); border-radius:.9rem; color:var(--mail-muted); text-align:center; background:rgba(255,255,255,.055); line-height:1.45; }
-.thread-empty-state strong { display:block; color:#fff; font-size:1rem; margin-bottom:.25rem; }
-.thread-empty-state a { display:inline-flex; min-height:44px; align-items:center; margin-top:.65rem; padding:.55rem .85rem; border-radius:999px; background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); color:#06111d; font-weight:950; text-decoration:none; }
-@media (max-width:850px){.mail-social-sidebar .thread-list{min-height:35dvh;padding:0 .75rem 6rem}.mail-social-sidebar .thread-item{min-height:4.8rem;border-radius:.95rem}}
-@media (prefers-reduced-motion:reduce){.mail-social-sidebar .thread-item{transition:none!important;transform:none!important}}
+.thread-top { display:flex; gap:.45rem; align-items:center; justify-content:space-between; }
+.thread-name { color:var(--mail-ink); font-weight:1000; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.thread-time { font-size:.72rem; color:var(--mail-muted); white-space:nowrap; }
+.thread-snippet { margin-top:.14rem; color:var(--mail-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.88rem; }
+.thread-empty-state { margin:.75rem; padding:1rem; border:1px dashed var(--mail-line); border-radius:1rem; color:var(--mail-muted); text-align:center; background:rgba(255,255,255,.75); line-height:1.38; }
+.thread-empty-state strong { display:block; color:var(--mail-ink); font-size:1rem; margin-bottom:.2rem; }
+.thread-empty-state a { display:inline-flex; min-height:2.45rem; align-items:center; margin-top:.55rem; padding:.45rem .75rem; border-radius:999px; background:linear-gradient(135deg,var(--mail-gold),var(--mail-cyan)); color:#06111d; font-weight:950; text-decoration:none; }
+@media (max-width:850px){.mail-social-sidebar .thread-list{min-height:28dvh;padding:0 .65rem 5.8rem}.mail-social-sidebar .thread-item{min-height:4rem;border-radius:1rem}}

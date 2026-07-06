@@ -1,4 +1,7 @@
-/* B"H profile dashboard entry: every chamber imported, no stray button vessel. */
+/* B"H profile dashboard entry: classic contract shell plus short-future chambers.
+ * Chapter: the parent profile folder keeps its old covenant, while the new
+ * simple event organs live in /future so every test and every page can breathe.
+ */
 @import "/style/social-system/tokens.css";
 @import "./profile/tokens.css";
 @import "/style/social-system/base.css";
@@ -6,12 +9,14 @@
 @import "/style/social-system/buttons.css";
 @import "/style/social-system/forms.css";
 @import "/style/social-system/states.css";
-@import "./profile/layout.css";
-@import "./profile/identity.css";
-@import "./profile/aliases.css";
-@import "./profile/heichelos.css";
-@import "./profile/inline-actions.css";
-@import "./profile/responsive.css";
+@import "/style/social-system/simple-events.css";
+@import "./profile/future/layout.css";
+@import "./profile/future/identity.css";
+@import "./profile/future/aliases.css";
+@import "./profile/future/heichelos.css";
+@import "./profile/future/inline-actions.css";
+@import "./profile/future/simple-events.css";
+@import "./profile/future/responsive.css";
 @import "./profile/nav.css";
 .geelooy-profile-shell,
 .profile-hero-card,

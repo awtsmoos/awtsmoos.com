@@ -1,0 +1,26 @@
+/* B"H
+ * @file simple-events.css
+ * Chapter: the event becomes a clean pulse, not noise. A button breathes, a
+ * card answers, a panel says what changed. The Awtsmoos hides infinity inside
+ * one readable border, one calm shadow, one living focus ring.
+ */
+:root {
+  --simple-event-bg: rgba(255, 255, 255, .82);
+  --simple-event-ink: #142033;
+  --simple-event-muted: rgba(20, 32, 51, .66);
+  --simple-event-line: rgba(20, 32, 51, .12);
+  --simple-event-glow: rgba(94, 203, 255, .28);
+  --simple-event-radius: 18px;
+  --simple-event-shadow: 0 18px 48px rgba(8, 18, 32, .12);
+}
+[data-tone="loading"], [aria-busy="true"] { cursor: progress; }
+:is(a, button, summary, [role="button"]):focus-visible { outline: 3px solid var(--simple-event-glow); outline-offset: 3px; }
+:is(.home-post-card, .universal-object-card, .home-sanctuary-card, .profile-hero-card, .social-alias-card, .social-heichel-card, .heichel-nav-panel, .heichel-os-world-panel) { border-color: var(--simple-event-line); }
+:is(.home-post-card, .universal-object-card, .home-sanctuary-card, .profile-hero-card, .social-alias-card, .social-heichel-card, .heichel-nav-panel, .heichel-os-world-panel):hover { transform: translateY(-2px); box-shadow: var(--simple-event-shadow); }
+:is(.g-social-button, .filter-chip, .tab, .profile-tabs button, .heichel-os-district-buttons button):active { transform: translateY(1px) scale(.99); }
+:is(.g-social-status, .inline-status, .sacred-loading, .home-empty-state) { border-radius: var(--simple-event-radius); }
+:is(.g-social-status, .inline-status)[data-tone="success"] { background: rgba(76, 217, 145, .12); color: #075b37; }
+:is(.g-social-status, .inline-status)[data-tone="error"] { background: rgba(255, 91, 91, .12); color: #7b1111; }
+@media (prefers-reduced-motion: no-preference) {
+  :is(a, button, summary, [role="button"], .home-post-card, .universal-object-card, .home-sanctuary-card, .profile-hero-card, .social-alias-card, .social-heichel-card, .heichel-nav-panel, .heichel-os-world-panel) { transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease; }
+}

@@ -2,13 +2,9 @@
 /**
  * @module ContentUnveiler
  * @description
- * Chapter 286: The loader rejects stale thunder.
- *
- * Fast taps can summon multiple loads. Only the newest request may paint the
- * screen. Older fetches may finish, but they become whispers and cannot replace
- * the newest grid.
+ * Fast taps may summon many rivers. Only the newest river paints the grid, and
+ * now the Heichel OS panel receives the same living content snapshot.
  */
-
 import { appState } from '../state.js';
 import * as api from '../api.js';
 import * as ui from '../ui.js';
@@ -62,6 +58,7 @@ async function renderAll(navigator, content, seriesData) {
     await ui.renderSeriesInfo(seriesData, appState.heichelData, appState.currentSeries);
     ui.renderOwnerControls(appState.breadcrumb, navigator);
     ui.renderContentGrids(content, navigator, appState);
+    ui.renderHeichelWorldState({ heichel: appState.heichelData, content, ownsIt: appState.ownsIt, currentSeries: appState.currentSeries });
     if (appState.ownsIt) DND.initialize();
 }
 

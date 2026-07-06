@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 7.0.1-generated
-  description: B'H. Read responseFocus. Answer multipleChoiceSelfInterrogation before unrelated actions.
+  version: 7.0.2-generated
+  description: B'H. Read responseFocus. Answer multipleChoiceSelfInterrogation before unrelated actions. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -23,8 +23,8 @@ paths:
   /api/tunnel/control/fs/{tunnelName}:
     get:
       operationId: awtsmoosTunnelAction
-      summary: Run one tunnel action.
-      description: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first.
+      summary: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first.
+      description: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
@@ -50,9 +50,12 @@ paths:
               - actionHistorySearch
               - actionHistoryUnpin
               - actionSchemaTrace
+              - actionStream
+              - actionTimeline
               - affectedComponents
               - affectedRoutes
               - affectedTests
+              - agentActionStream
               - agentDoctor
               - agentSelfTest
               - agentVersionSkewCheck
@@ -68,11 +71,21 @@ paths:
               - assertAction
               - astOutline
               - astParserHealth
+              - asyncTaskCancel
+              - asyncTaskOutputPage
+              - asyncTaskStart
+              - asyncTaskStatus
+              - asyncTaskWait
               - autonomousBackgroundAgents
+              - awtsmoosCapabilities
               - awtsmoosCommandTree
+              - awtsmoosMyDevice
+              - awtsmoosOsBrowse
+              - awtsmoosRuntimeBrowse
               - batchDryRun
               - batchShapeValidator
               - blastRadiusAnalysis
+              - browserActionStream
               - browserConsoleTriage
               - browserDoctor
               - browserReplay
@@ -85,18 +98,51 @@ paths:
               - bundleTrace
               - capabilityParityAudit
               - changeImpactGraph
+              - chatgptAutoContinueWhenIdle
+              - chatgptAutoPilotSession
+              - chatgptContinuationAuto
+              - chatgptContinuationConclusion
+              - chatgptContinuationStart
+              - chatgptContinuationStatus
+              - chatgptContinuationStop
+              - chatgptContinuationTick
+              - chatgptContinueConversation
+              - chatgptCurrentConversation
+              - chatgptListConversations
+              - chatgptListSessions
+              - chatgptLogin
+              - chatgptMessage
+              - chatgptNewConversation
+              - chatgptOpenLogin
+              - chatgptOptimizeDom
+              - chatgptRegisterConversationUrl
+              - chatgptRegisterSession
+              - chatgptSaveCurrentSeason
+              - chatgptSeasonSaveAndContinue
+              - chatgptSendMessage
+              - chatgptSessionAuto
+              - chatgptSessionConclusion
+              - chatgptSessionContinue
+              - chatgptSessionDoctor
+              - chatgptSessionStatus
+              - chatgptSessionStop
+              - chatgptStatus
               - chromeClick
+              - chromeClosePage
+              - chromeCloseTabs
               - chromeEval
               - chromeEvalSlim
               - chromeFind
               - chromeLaunch
               - chromeLogs
               - chromeNavigate
+              - chromeNewPage
               - chromeRunScript
               - chromeScreenshot
               - chromeSnapshot
               - chromeSnapshotScoped
               - chromeStatus
+              - chromeTargets
               - chromeTargetSelector
               - chromeType
               - chromeWaitForSelector
@@ -108,6 +154,7 @@ paths:
               - commandJobCancel
               - commandJobOutputPage
               - commandJobStatus
+              - commandJobWait
               - commandMemoryDelete
               - commandMemoryFork
               - commandMemoryGet
@@ -176,11 +223,28 @@ paths:
               - errorCluster
               - failedActionMemory
               - failingTestTriage
+              - fakeSshAuth
+              - fakeSshClose
+              - fakeSshExec
+              - fakeSshHelp
+              - fakeSshMounts
+              - fakeSshRead
+              - fakeSshResolve
+              - fakeSshServerPlan
+              - fakeSshServerStatus
+              - fakeSshSession
+              - fakeSshSftpList
+              - fakeSshSftpMkdir
+              - fakeSshSftpRead
+              - fakeSshSftpRemove
+              - fakeSshSftpStat
+              - fakeSshSftpWrite
               - fileHashes
               - fileTreeDiff
               - findFiles
               - finishAndContinue
               - forEachActionBatch
+              - fsActionStream
               - fsPermissionEnvelope
               - functionPatchDryRun
               - generateRepairPlan
@@ -258,6 +322,7 @@ paths:
               - merkavaWorkflowRun
               - microPatchPlanner
               - minimalReproGenerator
+              - missionActionStream
               - missionAddTask
               - missionAgentAudit
               - missionAgentClaim
@@ -271,13 +336,20 @@ paths:
               - missionAttachJob
               - missionAuto
               - missionAutopilot
+              - missionAwareClassify
+              - missionAwareClear
+              - missionAwareContract
+              - missionAwareStatus
+              - missionAwareUse
               - missionBootResume
               - missionBoredomCheck
               - missionBrainstorm
               - missionCheckpoint
+              - missionCheckpointAdd
               - missionChunkPlan
               - missionCollaborationUserMessage
               - missionCompleteTask
+              - missionCompletionGate
               - missionConstitution
               - missionContinueOneHour
               - missionContinueUntilGate
@@ -292,9 +364,13 @@ paths:
               - missionDeadmanStatus
               - missionDiscover
               - missionEarlyFinalAttempt
+              - missionEmergencyEnd
+              - missionEmergencyReconcile
+              - missionEmergencyStart
               - missionEntropy
               - missionEvidence
               - missionEvidenceDebt
+              - missionEvidenceRecord
               - missionExecuteNext8
               - missionExpand
               - missionFamilies
@@ -302,11 +378,18 @@ paths:
               - missionFinalize
               - missionGet
               - missionGraph
+              - missionHandoffGenerate
               - missionHeartbeat
+              - missionImprovementDashboard
               - missionImprovementPlan
               - missionInnovationLedger
               - missionLease
+              - missionLeaseClaim
+              - missionLeaseHeartbeat
               - missionLeaseRenew
+              - missionLedgerCreate
+              - missionLedgerList
+              - missionLedgerStatus
               - missionList
               - missionLoopCheckpoint
               - missionLoopPulse
@@ -319,6 +402,18 @@ paths:
               - missionNextPlan
               - missionNoveltyScore
               - missionOathAccept
+              - missionOsAddNode
+              - missionOsConstitution
+              - missionOsCycleCheck
+              - missionOsKeepGoing
+              - missionOsNext
+              - missionOsPrompt
+              - missionOsReceipt
+              - missionOsReleaseCourt
+              - missionOsSeed
+              - missionOsStatus
+              - missionOsSteer
+              - missionOsUpdateNode
               - missionPlanDelta
               - missionPostCompletion
               - missionProjectDiscover
@@ -358,6 +453,7 @@ paths:
               - missionRoomInnovationLedger
               - missionRoomInviteAgent
               - missionRoomJoin
+              - missionRoomLiveStatus
               - missionRoomLoopCourt
               - missionRoomLoopPulse
               - missionRoomLoopStatus
@@ -372,6 +468,7 @@ paths:
               - missionRoomReplay
               - missionRoomSchedulerResume
               - missionRoomSchedulerRun
+              - missionRoomSchedulerStatus
               - missionRoomSelfImprovePulse
               - missionRoomSettings
               - missionRoomSimulate
@@ -390,6 +487,7 @@ paths:
               - missionSelfImproveStart
               - missionSelfImproveStatus
               - missionSelfMailDraft
+              - missionSimulateNext
               - missionSnapshotTake
               - missionSpawnNext
               - missionStart
@@ -403,6 +501,7 @@ paths:
               - missionTakeoverClaim
               - missionThaw
               - missionTimeline
+              - missionTransactionPlan
               - missionVerify
               - missionWatchdogRecover
               - missionWatchdogStatus
@@ -420,7 +519,24 @@ paths:
               - nodeCheckFiles
               - nodeCheckMany
               - nodeDoctor
+              - nodeDomClick
+              - nodeDomConsole
+              - nodeDomDiff
+              - nodeDomEval
+              - nodeDomNetworkMock
+              - nodeDomQuery
+              - nodeDomRoute
+              - nodeDomRun
+              - nodeDomSnapshot
+              - nodeDomStorage
+              - nodeDomSubmit
+              - nodeDomTest
+              - nodeDomType
+              - nodePackageScripts
+              - nodeRequire
+              - nodeResolve
               - nodeVersionCompatibility
+              - nodeVersionDoctor
               - npmScriptExplain
               - npmScriptMatrix
               - oauthDoctor
@@ -458,6 +574,9 @@ paths:
               - previewList
               - previewLiveCommand
               - previewPage
+              - previewReceiptAttach
+              - previewReceiptList
+              - previewReceiptVerify
               - previewRevoke
               - previewSettingsGet
               - previewSettingsSet
@@ -520,6 +639,25 @@ paths:
               - remoteDesktopUniversalGraph
               - remoteDesktopUniversalRoadmap
               - remoteDesktopUniversalVision
+              - remoteDriveBrowse
+              - remoteDriveList
+              - remoteDriveMount
+              - remoteDriveRead
+              - remoteDriveSearch
+              - remoteDriveStat
+              - remoteDriveTree
+              - remoteDriveUnmount
+              - remoteNativeDesktopAuthPlan
+              - remoteNativeDesktopKeyboard
+              - remoteNativeDesktopPlan
+              - remoteNativeDesktopPointer
+              - remoteNativeDesktopProtocols
+              - remoteNativeDesktopRenderScene
+              - remoteNativeDesktopRfbSetScene
+              - remoteNativeDesktopRfbStart
+              - remoteNativeDesktopRfbStatus
+              - remoteNativeDesktopRfbStop
+              - remoteNativeDesktopSampleScene
               - repairPatchSuggester
               - replaceFunction
               - replaceFunctionBody
@@ -532,6 +670,13 @@ paths:
               - restoreSnapshotPlan
               - retryAction
               - reviewPack
+              - rgCancel
+              - rgPage
+              - rgStart
+              - rgStatus
+              - rgStream
+              - rgSummary
+              - roomActionStream
               - rootBrowse
               - roots
               - rootSelect
@@ -571,6 +716,16 @@ paths:
               - serverRestart
               - serverStart
               - serverStop
+              - shareAudit
+              - shareCreate
+              - shareGet
+              - shareList
+              - sharePreviewCommandJob
+              - sharePreviewFile
+              - sharePreviewFolder
+              - sharePreviewServer
+              - shareRevoke
+              - shareRevokeAll
               - shellCommand
               - shellSyntaxTranslator
               - simulateFailure
@@ -612,14 +767,39 @@ paths:
               - touch
               - transportMethodProbe
               - tree
+              - treeCancel
+              - treePage
+              - treeStart
+              - treeStatus
+              - treeStream
+              - treeSummary
               - tunnelDoctor
               - tunnelLivenessTimeline
               - typecheckRunner
               - universalAppManifest
               - virtualDomDiff
+              - virtualDomTest
+              - virtualOsGraphDelete
+              - virtualOsGraphDiff
+              - virtualOsGraphGet
+              - virtualOsGraphHistory
+              - virtualOsGraphPathLookup
+              - virtualOsGraphReferences
+              - virtualOsGraphReset
+              - virtualOsGraphSample
+              - virtualOsGraphSearch
+              - virtualOsGraphStatus
+              - virtualOsGraphSubscribe
+              - virtualOsGraphTransaction
+              - virtualOsGraphTraverse
+              - virtualOsGraphUnsubscribe
+              - virtualOsGraphUpsert
+              - virtualOsGraphWatchers
+              - virtualOsGraphWatchPoll
               - waitForPort
               - waitForUrl
               - watchTestOnce
+              - workerActionStream
               - workflowGet
               - workflowList
               - workflowRun
@@ -661,6 +841,11 @@ paths:
         - { name: paths, in: query, schema: { type: string } }
         - { name: paths64, in: query, schema: { type: string } }
         - { name: url, in: query, schema: { type: string } }
+        - { name: conversationUrl, in: query, schema: { type: string } }
+        - { name: chatgptUrl, in: query, schema: { type: string } }
+        - { name: sessionId, in: query, schema: { type: string } }
+        - { name: chatgptSessionId, in: query, schema: { type: string } }
+        - { name: conversationId, in: query, schema: { type: string } }
         - { name: selector, in: query, schema: { type: string } }
         - { name: targetVessel, in: query, schema: { type: string } }
         - { name: vessel, in: query, schema: { type: string } }
@@ -691,6 +876,8 @@ paths:
         - { name: prompt64, in: query, schema: { type: string } }
         - { name: system, in: query, schema: { type: string } }
         - { name: system64, in: query, schema: { type: string } }
+        - { name: profile, in: query, schema: { type: string } }
+        - { name: reason, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
@@ -703,6 +890,11 @@ paths:
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
         - { name: pollIntervalMs, in: query, schema: { type: integer, default: 7000 } }
         - { name: leaseMs, in: query, schema: { type: integer, default: 3600000 } }
+        - { name: maxTurns, in: query, schema: { type: integer, default: 40 } }
+        - { name: batchTurns, in: query, schema: { type: integer, default: 1 } }
+        - { name: keepTurns, in: query, schema: { type: integer, default: 24 } }
+        - { name: keepTabs, in: query, schema: { type: integer, default: 1 } }
+        - { name: settleMs, in: query, schema: { type: integer, default: 2500 } }
         - { name: allowWrite, in: query, schema: { type: boolean } }
         - { name: allowCommands, in: query, schema: { type: boolean } }
         - { name: allowSecrets, in: query, schema: { type: boolean } }
@@ -715,6 +907,8 @@ paths:
         - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
         - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }
         - { name: allowContinue, in: query, schema: { type: boolean, default: false } }
+        - { name: optimizeDom, in: query, schema: { type: boolean, default: true } }
+        - { name: closeOldTabs, in: query, schema: { type: boolean, default: false } }
       responses:
         "200": { description: OK. Read responseFocus first., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:

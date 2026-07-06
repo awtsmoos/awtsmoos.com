@@ -1,12 +1,24 @@
-/* B"H — the page stops shouting and starts breathing. */
-html { background: var(--home-bg); }
-body { margin: 0; min-width: 0; overflow-x: hidden; color: var(--home-text); background: var(--home-glow), linear-gradient(145deg, #030711, #07101f 58%, #030711); }
+/* B"H
+ * @file reset.css
+ * The Awtsmoos gives a clean root: no clipped text, no sideways scroll,
+ * no mobile form zoom, no accidental browser chrome ugliness.
+ */
+html { background: var(--home-bg); color-scheme: dark; }
+body { margin: 0; min-width: 0; overflow-x: hidden; color: var(--home-text); }
 .awtsmoospage, .all, .main { min-width: 0; overflow-x: clip; }
-.home-skip-link { position: fixed; inset-block-start: .5rem; inset-inline-start: .5rem; z-index: 2147483000; padding: .55rem .8rem; border-radius: 999px; color: #06101b; background: linear-gradient(135deg, var(--home-gold), var(--home-cyan)); font-weight: 950; text-decoration: none; transform: translateY(-160%); transition: transform .18s ease; }
+.home-skip-link {
+  position: fixed; inset: .5rem auto auto .5rem; z-index: 2147483000;
+  transform: translateY(-160%); padding: .55rem .8rem; border-radius: 999px;
+  color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan));
+  font-weight: 950; text-decoration: none;
+}
 .home-skip-link:focus { transform: translateY(0); }
 .geelooy-home-shell *, .geelooy-home-shell *::before, .geelooy-home-shell *::after { box-sizing: border-box; }
-.geelooy-home-shell a { color: inherit; }
-.geelooy-home-shell :is(a, button, input, summary):focus-visible { outline: 3px solid rgba(115,236,255,.75); outline-offset: 3px; }
-.geelooy-home-shell :is(button, input) { font: inherit; }
+.geelooy-home-shell :is(a, button, input, summary) { font: inherit; -webkit-tap-highlight-color: transparent; }
+.geelooy-home-shell :is(input, button) { appearance: none; }
+.geelooy-home-shell input { font-size: 16px; }
+.geelooy-home-shell :is(a, button, input, summary):focus-visible {
+  outline: 3px solid rgba(112,234,255,.72); outline-offset: 3px;
+}
 .geelooy-home-shell [hidden] { display: none !important; }
-@media (prefers-reduced-motion: reduce) { .geelooy-home-shell *, .geelooy-home-shell *::before, .geelooy-home-shell *::after { transition: none !important; animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .geelooy-home-shell * { transition: none !important; animation: none !important; } }

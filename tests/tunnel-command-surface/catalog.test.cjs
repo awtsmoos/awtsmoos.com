@@ -8,7 +8,8 @@ const required = [
   "simulateRuntime",
   "merkavaWorkflowRun",
   "toolStressMatrix",
-  "bulk"
+  "bulk",
+  "chatgptSeasonSaveAndContinue"
 ];
 
 for (const name of required) {

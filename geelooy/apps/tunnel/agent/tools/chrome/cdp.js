@@ -3,73 +3,41 @@ const http = require("http");
 const { TinyWebSocket } = require("../../lib/ws.js");
 const { captureCdpEvent } = require("./logs.js");
 let pageWs = null, pagePort = null, nextId = 1, lastPageId = "";
-const callbacks = new Map();
-const targetLeases = new Map();
+const callbacks = new Map(), targetLeases = new Map();
 const MAX_HTTP_BYTES = Number(process.env.AWTSMOOS_CDP_HTTP_MAX_BYTES || 2 * 1024 * 1024);
 function maxTimeout() { const n = Number(process.env.AWTSMOOS_CDP_MAX_TIMEOUT_MS || 86400000); return Number.isFinite(n) ? Math.max(10000, Math.min(n, 604800000)) : 86400000; }
 function timeoutOf(value, fallback = 30000) { const n = Number(value || fallback); return Number.isFinite(n) ? Math.max(1000, Math.min(Math.floor(n), maxTimeout())) : fallback; }
-function getJson(url, timeoutMs = 30000) { return new Promise((resolve, reject) => { const req = http.get(url, res => { const chunks = []; let bytes = 0; res.on("data", c => { bytes += c.length; if (bytes > MAX_HTTP_BYTES) return req.destroy(new Error("Chrome DevTools HTTP response too large for " + url)); chunks.push(c); }); res.on("end", () => parseJson(resolve, reject, url, chunks)); }); req.setTimeout(timeoutOf(timeoutMs), () => req.destroy(new Error("HTTP timeout for " + url))); req.on("error", reject); }); }
-function parseJson(resolve, reject, url, chunks) { const text = Buffer.concat(chunks).toString("utf8"); try { resolve(JSON.parse(text)); } catch { reject(new Error("Bad JSON from " + url + ": " + text.slice(0, 200))); } }
-async function version(port) { return await getJson("http://127.0.0.1:" + port + "/json/version"); }
-async function pages(port) { return await getJson("http://127.0.0.1:" + port + "/json"); }
-async function newPage(port, url = "about:blank") { return await getJson("http://127.0.0.1:" + port + "/json/new?" + encodeURIComponent(url)); }
-async function closePage(port, targetId) { return await getJson("http://127.0.0.1:" + port + "/json/close/" + encodeURIComponent(targetId)); }
+function getJson(url, timeoutMs = 30000) { return new Promise((resolve, reject) => { const req = http.request(url, { method: /\/json\/(new|close)\//.test(url) ? "PUT" : "GET" }, res => { const chunks = []; let bytes = 0; res.on("data", c => { bytes += c.length; if (bytes > MAX_HTTP_BYTES) return req.destroy(new Error("Chrome DevTools HTTP response too large for " + url)); chunks.push(c); }); res.on("end", () => parseJson(resolve, reject, url, chunks)); }); req.setTimeout(timeoutOf(timeoutMs), () => req.destroy(new Error("HTTP timeout for " + url))); req.on("error", reject); req.end(); }); }
+function parseJson(resolve, reject, url, chunks) { const text = Buffer.concat(chunks).toString("utf8"); try { resolve(JSON.parse(text)); } catch { /^Target/.test(text) || text === "true" ? resolve({ ok:true, text }) : reject(new Error("Bad JSON from " + url + ": " + text.slice(0, 200))); } }
+async function version(port) { return await getJson(`http://127.0.0.1:${port}/json/version`); }
+async function pages(port) { return await getJson(`http://127.0.0.1:${port}/json`); }
+async function newPage(port, url = "about:blank") { return await getJson(`http://127.0.0.1:${port}/json/new?${encodeURIComponent(url)}`); }
+async function closePage(port, targetId) { return await getJson(`http://127.0.0.1:${port}/json/close/${encodeURIComponent(targetId)}`); }
 function wireSocket(ws) { ws.on("message", msg => { let data; try { data = JSON.parse(msg); } catch { return; } if (data.id && callbacks.has(data.id)) return resolveCallback(data); if (data.method) captureCdpEvent(data); }); ws.once("close", () => rejectAll("Chrome DevTools socket closed.")); ws.once("error", err => rejectAll(err?.message || "Chrome DevTools socket error.")); }
 function resolveCallback(data) { const cb = callbacks.get(data.id); callbacks.delete(data.id); cb.clear?.(); data.error ? cb.reject(new Error(JSON.stringify(data.error))) : cb.resolve(data.result); }
 function closeCurrent(message = "Chrome DevTools socket replaced.") { try { pageWs?.close?.(true); } catch {} pageWs = null; pagePort = null; rejectAll(message); }
 function rejectAll(message) { for (const cb of callbacks.values()) { cb.clear?.(); cb.reject(new Error(message)); } callbacks.clear(); }
-async function connectPageWs(port, page, timeoutMs = 30000) { const ws = new TinyWebSocket(page.webSocketDebuggerUrl); wireSocket(ws); await new Promise((resolve, reject) => { const timer = setTimeout(() => { try { ws.close(true); } catch {} reject(new Error("DevTools websocket open timeout.")); }, timeoutOf(timeoutMs)); timer.unref?.(); ws.once("open", () => { clearTimeout(timer); resolve(); }); ws.once("error", err => { clearTimeout(timer); reject(err); }); ws.connect(); }); pageWs = ws; pagePort = port; lastPageId = page.id || ""; await enableDomains(); return pageWs; }
-async function enableDomains() { for (const method of ["Runtime.enable", "Page.enable", "DOM.enable", "Log.enable", "Network.enable"]) try { await cdpCall(method, {}, 8000, { noReconnect:true }); } catch {} }
-async function ensurePage(port = 9222, options = {}) { port = Number(port || 9222); if (pageWs && pageWs.opened && pagePort === port && !options.forceReconnect && (!options.pageId || options.pageId === lastPageId) && (!options.chromeTargetId || options.chromeTargetId === lastPageId)) return pageWs; if (pageWs) closeCurrent("Chrome DevTools reconnect requested."); const list = await pageList(port); const preferred = choosePage(list, options); if (preferred) { leaseTarget(preferred.id, options); return await connectPageWs(port, preferred, options.timeoutMs); } const page = await newPage(port, options.url || "about:blank"); if (!page.webSocketDebuggerUrl) throw new Error("No page websocket found."); leaseTarget(page.id, options); return await connectPageWs(port, page, options.timeoutMs); }
+async function connectPageWs(port, page, timeoutMs = 30000) { const ws = new TinyWebSocket(page.webSocketDebuggerUrl); wireSocket(ws); await new Promise((resolve, reject) => { const t = setTimeout(() => { try { ws.close(true); } catch {} reject(new Error("DevTools websocket open timeout.")); }, timeoutOf(timeoutMs)); t.unref?.(); ws.once("open", () => { clearTimeout(t); resolve(); }); ws.once("error", e => { clearTimeout(t); reject(e); }); ws.connect(); }); pageWs = ws; pagePort = port; lastPageId = page.id || ""; await enableDomains(); return pageWs; }
+async function enableDomains() { for (const m of ["Runtime.enable", "Page.enable", "DOM.enable", "Log.enable", "Network.enable"]) try { await cdpCall(m, {}, 8000, { noReconnect:true }); } catch {} }
+async function ensurePage(port = 9222, options = {}) { port = Number(port || 9222); if (pageWs?.opened && pagePort === port && !options.forceReconnect && targetOk(options)) return pageWs; if (pageWs) closeCurrent("Chrome DevTools reconnect requested."); const list = await pageList(port); const preferred = choosePage(list, options); if (preferred) { leaseTarget(preferred.id, options); return await connectPageWs(port, preferred, options.timeoutMs); } const page = await newPage(port, options.url || "about:blank"); if (!page.webSocketDebuggerUrl) throw new Error("No page websocket found."); leaseTarget(page.id, options); return await connectPageWs(port, page, options.timeoutMs); }
+function targetOk(options) { return (!options.pageId || options.pageId === lastPageId) && (!options.chromeTargetId || options.chromeTargetId === lastPageId); }
 async function pageList(port) { try { return await pages(port); } catch (e) { throw new Error("Chrome DevTools not reachable on port " + port + ": " + e.message); } }
-function choosePage(list, options = {}) {
-  const pages = list.filter(p => p.type === "page" && p.webSocketDebuggerUrl);
-  const explicitId = options.chromeTargetId || options.pageId || options.targetId;
-  if (explicitId) return pages.find(p => p.id === explicitId && canUseTarget(p.id, options)) || null;
-  const scopeKey = targetScopeKey(options);
-  if (scopeKey) {
-    const owned = pages.find(p => targetLeases.get(p.id)?.scopeKey === scopeKey);
-    if (owned) return owned;
-  }
-  if (lastPageId) { const same = pages.find(p => p.id === lastPageId && canUseTarget(p.id, options)); if (same) return same; }
-  return sortPageCandidates(pages.filter(p => canUseTarget(p.id, options)))[0] || null;
-}
+function choosePage(list, options = {}) { const ps = list.filter(p => p.type === "page" && p.webSocketDebuggerUrl); const id = options.chromeTargetId || options.pageId || options.targetId; if (id) return ps.find(p => p.id === id && canUseTarget(p.id, options)) || null; const scopeKey = targetScopeKey(options); if (scopeKey) { const owned = ps.find(p => targetLeases.get(p.id)?.scopeKey === scopeKey); if (owned) return owned; } if (options.preferUrl) { const m = ps.find(p => String(p.url || "").startsWith(String(options.preferUrl))); if (m && canUseTarget(m.id, options)) return m; } if (lastPageId) { const same = ps.find(p => p.id === lastPageId && canUseTarget(p.id, options)); if (same) return same; } return sortPageCandidates(ps.filter(p => canUseTarget(p.id, options)))[0] || null; }
 function sortPageCandidates(list) { return [...list].sort((a, b) => pageScore(b) - pageScore(a)); }
-function pageScore(page = {}) { const url = String(page.url || ""), title = String(page.title || ""); if (/chatgpt\.com/i.test(url)) return 100; if (/chatgpt/i.test(title)) return 90; if (/^https?:\/\//i.test(url)) return 40; if (/^about:blank/i.test(url)) return 20; if (/^data:/i.test(url)) return 1; return 10; }
-async function cdpCall(method, params = {}, timeoutMs = 30000, options = {}) { if (!pageWs || !pageWs.opened) throw new Error("Page DevTools socket is not connected."); try { return await rawCdpCall(method, params, timeoutMs); } catch (e) { if (options.noReconnect || !isSocketFailure(e)) throw e; await ensurePage(pagePort || 9222, { forceReconnect:true, timeoutMs }); return await rawCdpCall(method, params, timeoutMs); } }
-function rawCdpCall(method, params = {}, timeoutMs = 30000) { const id = nextId++; pageWs.sendJson({ id, method, params }); return new Promise((resolve, reject) => { const limit = timeoutOf(timeoutMs); const timer = setTimeout(() => { if (callbacks.has(id)) { callbacks.delete(id); reject(new Error("CDP timeout for " + method + " after " + limit + "ms")); } }, limit); timer.unref?.(); callbacks.set(id, { resolve, reject, clear:() => clearTimeout(timer) }); }); }
+function pageScore(page = {}) { const u = String(page.url || ""), t = String(page.title || ""); if (/chatgpt\.com/i.test(u)) return 100; if (/chatgpt/i.test(t)) return 90; if (/^https?:\/\//i.test(u)) return 40; if (/^about:blank/i.test(u)) return 5; if (/^data:/i.test(u)) return 1; return 10; }
+async function cdpCall(method, params = {}, timeoutMs = 30000, options = {}) { if (!pageWs?.opened) throw new Error("Page DevTools socket is not connected."); try { return await rawCdpCall(method, params, timeoutMs); } catch (e) { if (options.noReconnect || !isSocketFailure(e)) throw e; await ensurePage(pagePort || 9222, { forceReconnect:true, timeoutMs }); return await rawCdpCall(method, params, timeoutMs); } }
+function rawCdpCall(method, params = {}, timeoutMs = 30000) { const id = nextId++; pageWs.sendJson({ id, method, params }); return new Promise((resolve, reject) => { const limit = timeoutOf(timeoutMs); const t = setTimeout(() => { if (callbacks.has(id)) { callbacks.delete(id); reject(new Error("CDP timeout for " + method + " after " + limit + "ms")); } }, limit); t.unref?.(); callbacks.set(id, { resolve, reject, clear:() => clearTimeout(t) }); }); }
 function isSocketFailure(e) { return /socket|websocket|closed|not connected|replaced/i.test(String(e?.message || e)); }
-async function navigateAndWait(url, timeoutMs = 30000, port = 9222, options = {}) { const limit = timeoutOf(timeoutMs); const start = Date.now(); await ensurePage(port, { ...options, forceReconnect:true, url, timeoutMs:Math.min(limit, 15000) }); const nav = await safeNavigate(url, limit, options); if (!nav.ok) return nav; return await waitReady(start, limit); }
-async function safeNavigate(url, limit, options = {}) { try { await cdpCall("Page.navigate", { url }, Math.min(limit, 30000)); return { ok:true }; } catch (e) { closeCurrent("navigate failed"); try { await ensurePage(pagePort || 9222, { ...options, forceReconnect:true, url, timeoutMs:15000 }); await cdpCall("Page.navigate", { url }, Math.min(limit, 30000)); return { ok:true, retried:true }; } catch (err) { return { ok:false, readyState:"navigate_error", error:err.message, durationMs:0 }; } } }
-async function waitReady(start, limit) { while (Date.now() - start < limit) { try { const state = await cdpCall("Runtime.evaluate", { expression:"document.readyState", returnByValue:true }, 5000); if (["complete", "interactive"].includes(state.result?.value)) return { ok:true, readyState:state.result.value, durationMs:Date.now() - start }; } catch (e) { if (!isSocketFailure(e)) return { ok:false, readyState:"eval_error", error:e.message, durationMs:Date.now() - start }; } await new Promise(r => setTimeout(r, 200)); } return { ok:false, readyState:"timeout", durationMs:Date.now() - start, timeoutMs:limit }; }
-function targetScopeKey(input = {}) {
-  return [input.browserSessionId, input.roomId, input.missionId, input.agentSessionId, input.logicalAgentId].filter(Boolean).join('::');
-}
-function leaseTarget(targetId, input = {}) {
-  if (!targetId) return null;
-  const scopeKey = targetScopeKey(input);
-  if (!scopeKey && !input.shared) return targetLeases.get(targetId) || null;
-  const lease = {
-    targetId,
-    scopeKey,
-    browserSessionId: input.browserSessionId || '',
-    roomId: input.roomId || '',
-    missionId: input.missionId || '',
-    agentSessionId: input.agentSessionId || '',
-    logicalAgentId: input.logicalAgentId || '',
-    shared: input.shared === true,
-    leasedAt: new Date().toISOString()
-  };
-  targetLeases.set(targetId, lease);
-  return lease;
-}
-function canUseTarget(targetId, input = {}) {
-  const lease = targetLeases.get(targetId);
-  if (!lease || lease.shared || input.force === true || input.inspectShared === true) return true;
-  const scopeKey = targetScopeKey(input);
-  return !!scopeKey && lease.scopeKey === scopeKey;
-}
+async function navigateAndWait(url, timeoutMs = 30000, port = 9222, options = {}) { const limit = timeoutOf(timeoutMs), start = Date.now(); await ensurePage(port, { ...options, forceReconnect:true, url, preferUrl:url, timeoutMs:Math.min(limit, 15000) }); let nav = await safeNavigate(url, limit, options); let ready = nav.ok ? await waitReady(start, limit, url) : nav; if (ready.ok && !looksNavigated(ready.href, url)) ready = await freshTargetNavigate(url, limit, port, options, start, ready); return ready; }
+async function safeNavigate(url, limit, options = {}) { try { await cdpCall("Page.navigate", { url }, Math.min(limit, 30000)); return { ok:true }; } catch (e) { return { ok:false, readyState:"navigate_error", error:e.message, durationMs:0 }; } }
+async function freshTargetNavigate(url, limit, port, options, start, previous) { closeCurrent("navigation stuck on old target"); const page = await newPage(port, url); await connectPageWs(port, page, Math.min(limit, 15000)); leaseTarget(page.id, options); await safeNavigate(url, limit, options); const ready = await waitReady(start, limit, url); return { ...ready, retriedFreshTarget:true, previous }; }
+async function waitReady(start, limit, expectedUrl = "") { while (Date.now() - start < limit) { try { const r = await cdpCall("Runtime.evaluate", { expression:"({readyState:document.readyState,href:location.href,title:document.title})", returnByValue:true }, 5000); const v = r.result?.value || {}; if (["complete", "interactive"].includes(v.readyState) && looksNavigated(v.href, expectedUrl)) return { ok:true, readyState:v.readyState, href:v.href, title:v.title || "", chromeTargetId:lastPageId, durationMs:Date.now() - start }; } catch (e) { if (!isSocketFailure(e)) return { ok:false, readyState:"eval_error", error:e.message, durationMs:Date.now() - start }; } await new Promise(r => setTimeout(r, 250)); } return { ok:false, readyState:"timeout", href:await currentHref().catch(() => ""), chromeTargetId:lastPageId, durationMs:Date.now() - start, timeoutMs:limit }; }
+function looksNavigated(href = "", expected = "") { if (!expected || expected === "about:blank") return !!href; if (/^about:blank/i.test(String(href))) return false; try { return new URL(href).origin === new URL(expected).origin || String(href).startsWith(String(expected).replace(/[#?].*$/, "")); } catch { return String(href || "") !== "about:blank"; } }
+async function currentHref() { const r = await cdpCall("Runtime.evaluate", { expression:"location.href", returnByValue:true }, 3000); return r.result?.value || ""; }
+function targetScopeKey(input = {}) { return [input.browserSessionId, input.roomId, input.missionId, input.agentSessionId, input.logicalAgentId].filter(Boolean).join("::"); }
+function leaseTarget(targetId, input = {}) { if (!targetId) return null; const scopeKey = targetScopeKey(input); if (!scopeKey && !input.shared) return targetLeases.get(targetId) || null; const lease = { targetId, scopeKey, browserSessionId:input.browserSessionId || "", roomId:input.roomId || "", missionId:input.missionId || "", agentSessionId:input.agentSessionId || "", logicalAgentId:input.logicalAgentId || "", shared:input.shared === true, leasedAt:new Date().toISOString() }; targetLeases.set(targetId, lease); return lease; }
+function canUseTarget(targetId, input = {}) { const lease = targetLeases.get(targetId); if (!lease || lease.shared || input.force === true || input.inspectShared === true) return true; const scopeKey = targetScopeKey(input); return !!scopeKey && lease.scopeKey === scopeKey; }
 function targetLease(targetId) { return targetLeases.get(targetId) || null; }
 function releaseTarget(targetId) { return targetLeases.delete(targetId); }
 function targetLeaseSnapshot() { return Object.fromEntries([...targetLeases.entries()]); }
-module.exports = { version, pages, newPage, closePage, ensurePage, cdpCall, navigateAndWait, sortPageCandidates, pageScore, timeoutOf, closeCurrent, choosePage, targetScopeKey, leaseTarget, canUseTarget, targetLease, releaseTarget, targetLeaseSnapshot };
+module.exports = { version, pages, newPage, closePage, ensurePage, cdpCall, navigateAndWait, sortPageCandidates, pageScore, timeoutOf, closeCurrent, choosePage, targetScopeKey, leaseTarget, canUseTarget, targetLease, releaseTarget, targetLeaseSnapshot, looksNavigated };

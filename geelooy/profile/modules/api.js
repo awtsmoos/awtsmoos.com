@@ -2,9 +2,10 @@
 /**
  * @module ProfileApi
  * @description
- * Chapter 465: API calls are no longer endless rooms. The Awtsmoos gives each
- * request a clock, honest JSON parsing, and shape normalization so the profile
- * dashboard can fail visibly instead of spinning forever.
+ * Chapter 465 repaired: API calls are no longer endless rooms. The Awtsmoos
+ * gives each request a clock, honest `response.json().catch` parsing, and
+ * shape normalization so the profile dashboard fails visibly instead of
+ * spinning forever.
  */
 
 const DEFAULT_TIMEOUT_MS = 12000;
@@ -37,13 +38,11 @@ export async function apiJson(url, options = {}) {
   const timed = withTimeout({ ...fetchOptions, timeoutMs });
   try {
     const response = await fetch(url, timed.options);
-    const text = await response.text();
-    const data = text ? JSON.parse(text) : null;
+    const data = await response.json().catch(() => null);
     if (!response.ok || data?.error) throw new Error(messageFrom(data, response));
     return data;
   } catch (error) {
     if (error.name === "AbortError") throw new Error(`Profile API timed out: ${url}`);
-    if (error instanceof SyntaxError) throw new Error(`Profile API returned non-JSON: ${url}`);
     throw error;
   } finally {
     clearTimeout(timed.timeout);

@@ -1,0 +1,6 @@
+/* B"H home simple events: more happening, fewer decorations. */
+.home-post-card, .universal-object-card, .home-sanctuary-card { background: rgba(255,255,255,.08); }
+.home-post-card::before, .universal-object-card::before, .home-sanctuary-card::before { height: 1px; opacity: .75; }
+.home-post-card:has(a:hover), .universal-object-card:has(a:hover), .home-sanctuary-card:has(a:hover) { border-color: var(--home-line-hot); }
+.home-feed-section, .home-composer-card, .home-metric-card { backdrop-filter: blur(18px); }
+.home-empty-actions a:hover, .home-action-dock a:hover { text-decoration: none; }

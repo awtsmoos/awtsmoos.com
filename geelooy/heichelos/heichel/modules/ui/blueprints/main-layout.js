@@ -1,11 +1,12 @@
 // B"H
 /**
  * @module MobileHeichelNavigationLayout
- * @description Chapter 605: the mobile Heichel shell receives the same creation
- * modal vessels as the desktop map. Tree, mini-mail, modal content type, and
- * recovery buttons all stay in-page with named refs for the runtime.
- * @contracts Exports `getFullLayoutBlueprint(actions)` and preserves DOM refs
- * consumed by navigation, modal, bulk actions, and mini-mail modules.
+ * @description
+ * Chapter 606: the Heichel becomes an OS district. The main layout now carries
+ * both the browse panel and the world panel so timeline, graph, people, assets,
+ * moderation, and storage can live beside the simple mobile flow.
+ * @contracts Exports `getFullLayoutBlueprint(actions)` and preserves refs used
+ * by navigation, modal, bulk actions, mini-mail, and OS district modules.
  */
 export function getFullLayoutBlueprint(actions) {
   return box('geelooy-social-shell heichel-mobile-navigation', [
@@ -16,7 +17,7 @@ export function getFullLayoutBlueprint(actions) {
 }
 
 function stage(actions) {
-  return { tag: 'main', attr: { class: 'geelooy-main-stage' }, children: [hero(), contentPanel(actions)] };
+  return { tag: 'main', attr: { class: 'geelooy-main-stage' }, children: [hero(), contentPanel(actions), heichelWorldPanel(actions)] };
 }
 function topbar(actions) {
   return { tag: 'header', attr: { class: 'heichel-mobile-topbar' }, children: [
@@ -41,22 +42,21 @@ function contentPanel(actions) {
     box('grid-realms', [grid('posts', 'postsList', 'loadingPosts'), grid('series', 'seriesList', 'loadingSeries', true)])
   ] };
 }
+function heichelWorldPanel(actions) {
+  return { tag: 'section', attr: { class: 'heichel-os-world-panel', 'aria-label': 'Heichel OS district' }, ref: 'heichelWorldPanel', children: [
+    box('heichel-os-district-buttons', ['Overview', 'Timeline', 'Knowledge', 'People', 'Assets', 'Events', 'Moderation', 'Graph', 'Storage'].map(name => button(name, null, () => actions.activateDistrict?.(name)))),
+    box('heichel-os-status-grid', [], { ref: 'heichelWorldStatusGrid' }),
+    box('heichel-os-district-viewport', [], { ref: 'heichelWorldViewport' })
+  ] };
+}
 function modal(actions) {
   return { tag: 'div', attr: { id: 'creation-modal', class: 'modal-gate-hidden', role: 'dialog', 'aria-modal': 'true', 'aria-hidden': 'true' }, ref: 'modalRoot', children: [
     { tag: 'div', attr: { class: 'gate-backdrop modal-backdrop' }, ref: 'modalBackdrop', events: { click: actions.closeModal } },
     box('modal-content', [{ tag: 'h3', attr: { id: 'modal-title' }, ref: 'modalTitle' }, form(actions)])
   ] };
 }
-function form(actions) {
-  return { tag: 'form', attr: { id: 'creation-form' }, ref: 'modalForm', events: { submit: actions.onModalSubmit }, children: [
-    contentTypeSelect(), input('modal-input-title', 'Title', 'modalTitleInput', true),
-    { tag: 'textarea', attr: { id: 'modal-input-description', placeholder: 'Description' }, ref: 'modalDescTextarea' },
-    input('modal-input-id', 'Custom ID (Optional)', 'modalIdInput'), modalActions(actions.closeModal)
-  ] };
-}
-function contentTypeSelect() {
-  return { tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [option('post', 'Regular Post'), option('question', 'Question'), option('answer', 'Answer')] };
-}
+function form(actions) { return { tag: 'form', attr: { id: 'creation-form' }, ref: 'modalForm', events: { submit: actions.onModalSubmit }, children: [contentTypeSelect(), input('modal-input-title', 'Title', 'modalTitleInput', true), { tag: 'textarea', attr: { id: 'modal-input-description', placeholder: 'Description' }, ref: 'modalDescTextarea' }, input('modal-input-id', 'Custom ID (Optional)', 'modalIdInput'), modalActions(actions.closeModal)] }; }
+function contentTypeSelect() { return { tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [option('post', 'Regular Post'), option('question', 'Question'), option('answer', 'Answer')] }; }
 function drawer() { return { tag: 'aside', attr: { class: 'geelooy-mobile-drawer' }, children: ['Home', 'Heichelos', 'Series', 'Messages', 'Profile'].map(label => link(label === 'Home' ? '/' : `/${label.toLowerCase()}`, label)) }; }
 function bottomNav(actions) { return { tag: 'nav', attr: { class: 'geelooy-bottom-nav', 'aria-label': 'Primary mobile navigation' }, children: [link('/', 'Home'), navButton('Tree', actions.openTree), link('/heichelos/submit', 'Create'), navButton('Inbox', actions.openMiniMail), link('/profile', 'Profile')] }; }
 function miniMail(actions) { return { tag: 'aside', attr: { class: 'mini-mail-panel hidden', 'aria-label': 'Mini mail' }, ref: 'miniMailPanel', children: [{ tag: 'header', children: [{ tag: 'strong', children: ['Mini Mail'] }, button('×', 'Close mini mail', actions.closeMiniMail)] }, { tag: 'iframe', attr: { title: 'Awtsmoos Mail', src: '/email?embedded=1' } }, { tag: 'a', attr: { href: '/email', target: '_blank', rel: 'noopener' }, children: ['Open full mail'] }] }; }

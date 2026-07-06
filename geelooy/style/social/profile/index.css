@@ -1,15 +1,11 @@
-/* B"H profile CSS entry — Chapter 445: one profile, many social gates. */
+/* B"H profile CSS entry — Chapter 446: the old split contract remains pure. */
 @import "./tokens.css";
 @import "./shell.css";
 @import "./nav.css";
 @import "./hero.css";
 @import "./tabs.css";
 @import "./cards.css";
-@import "./activity.css";
-@import "./history.css";
-@import "./graph.css";
 @import "./comments.css";
 @import "./tree.css";
 @import "./templates.css";
-@import "./polish.css";
 @import "./mobile.css";
