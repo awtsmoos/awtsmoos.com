@@ -15,6 +15,7 @@ import BoneSanctifier from './boyrayNivra/BoneSanctifier.js';
 import AttributeHealer from './boyrayNivra/AttributeHealer.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
 import { hasVisibleLivingRenderable, sanitizeLivingModelTree, shouldHideLivingNode } from '../worlds/mitzvahWorld/npcs/LivingModelSanitizer.js';
+import { sanitizeRenderGeometryTree } from '../worlds/mitzvahWorld/runtime/RenderGeometrySanitizer.js?v=total-overhaul-render-sanitize-20260705-bh1';
 
 const TRACE_SEAL = 'visible-root-binding-20260610-bh710';
 const livingTypes = new Set(['chossid', 'medabeir', 'customNpc', 'interactiveNpc']);
@@ -75,6 +76,7 @@ function prepareLoadedScene(scene, nivra) {
     if (child.material) { Utils.replaceMaterialWithLambert(child); materials.push(child.material); }
     if (child.userData?.garment) garments[child.userData.garment] = child;
   });
+  sanitizeRenderGeometryTree(scene, { warn:false });
   nivra.boneChildren = boneChildren;
   nivra.materials = materials;
   nivra.garments = garments;

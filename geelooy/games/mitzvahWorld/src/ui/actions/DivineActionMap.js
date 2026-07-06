@@ -16,6 +16,8 @@ export class DivineActionMap {
     GO_TO_LEVEL_SELECT:() => MenuChariot.manifestMenu("levelSelect"),
     GO_TO_MAIN_MENU:() => MenuChariot.manifestMenu("main"),
     LOAD_WORLD:worldId => { MenuChariot.clearAllMenues(); GameAwtsmoosController.initiateWorld(worldId || "village.json"); },
+    OPEN_WORLD_STUDIO:() => { window.location.href = "/games/mitzvahWorld/studio.html"; },
+    OPEN_MOVIE_MAKER:() => { window.location.href = "/games/mitzvahWorld/movie.html"; },
     SHOW_CONTROLS:() => awtsmoosNotice('B"H\nMove: WASD\nStrike: V\nTalk / Interact: F\nBag: B\nQuests / Map: L or M\nClear panels: ESC'),
     LOCKED_LEVEL:name => awtsmoosNotice(`B"H\n${name || "This level"} is locked.`),
     FIND_ALIAS:() => awtsmoosNotice('B"H\nAlias search is not active in this build.'),

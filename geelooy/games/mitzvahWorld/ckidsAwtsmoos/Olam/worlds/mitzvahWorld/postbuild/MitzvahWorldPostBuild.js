@@ -12,7 +12,7 @@ import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js?v=perf-tig
 import { ensureFinalGroundingPass } from "./FinalGroundingPass.js";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?v=ecology-data-spine-20260612-bh1";
 import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?v=perf-tight-collision-20260703-bh3";
-import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js?v=no-compact-engine-20260702-bh2";
+import { postWorkerProgress } from "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/core/protocol/WorkerProtocol.js?v=total-overhaul-path-fix-20260705-bh1";
 const DEFERRED_VISUAL_STEPS = ["woodCollectibles", "roleMarkedNpcs", "battleLayer", "finalGrounding", "npc3DMarkers", "proceduralWorldJson", "wildlifeCarcassLoot", "cinematicDirector", "shaderTextureWarm", "ecologyMaterialWarm", "visualReality", "botanicalReality", "ecologyReality", "worldPolish", "hyperRealSunLensFlare", "livingTorahQuestLoop", "movieUniverseJson", "emeraldInfinity"];
 const sourceOf = context => context?.worldData?.shaym || context?.source || null;
 const olamOf = context => context.olam || context;

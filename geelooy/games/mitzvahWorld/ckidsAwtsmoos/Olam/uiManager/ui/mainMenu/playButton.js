@@ -40,7 +40,7 @@ async function fetchLevelData(id) {
  */
 export default function playButton(gameUiHTML) {
   return mitzvahBtn({
-    text: "Enter World 🌎🌍",
+    text: "PLAY WORLD",
     async onclick(e, $, ui) {
       const ikar = $("ikar"), mainMenu = $("main menu"), loading = $("loading");
       try {
@@ -53,6 +53,24 @@ export default function playButton(gameUiHTML) {
         awtsmoosNotice("B\"H\nThe 3D village could not load yet.");
         if (loading) loading.classList.add("hidden");
       }
+    }
+  });
+}
+
+export function studioMenuButton() {
+  return mitzvahBtn({
+    text: "WORLD STUDIO",
+    onclick() {
+      window.location.href = "/games/mitzvahWorld/studio.html";
+    }
+  });
+}
+
+export function movieMakerMenuButton() {
+  return mitzvahBtn({
+    text: "MOVIE MAKER",
+    onclick() {
+      window.location.href = "/games/mitzvahWorld/movie.html";
     }
   });
 }

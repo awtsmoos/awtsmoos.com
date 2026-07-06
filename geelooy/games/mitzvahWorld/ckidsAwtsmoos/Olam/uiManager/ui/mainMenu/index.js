@@ -2,7 +2,7 @@
 /** @module mainMenuIndex @description Menu summons the fresh verified UI chain. */
 import animations from "./animations.js?v=ray-ground-ui-20260602-bh128";
 import titleBuilder from "./titleBuilder.js?v=ray-ground-ui-20260602-bh128";
-import playButton from "./playButton.js?v=ray-ground-ui-20260602-bh128";
+import playButton, { studioMenuButton, movieMakerMenuButton } from "./playButton.js?v=world-studio-movie-maker-20260706-bh1";
 import loading from "../loading.js?v=multi-progress-texture-cache-20260614-bh1";
 import errorScreen from "../errorScreen.js?v=ray-ground-ui-20260602-bh128";
 import uiGame from "../gameUI.js?v=solid-browser-verify-20260702-bh8";
@@ -13,7 +13,7 @@ if (typeof window !== "undefined") window.awtsmoosGameUI = gameUiHTML;
 
 export default [
   { tag:"link", rel:"stylesheet", href:"https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" },
-  { shaym:"main menu", className:"menu", gameUiHTML, ready:animations.ready, children:[{ className:"menu-vessel desert-only", children:[titleBuilder(), { className:"menu-actions", children:[playButton(gameUiHTML)] }] }] },
+  { shaym:"main menu", className:"menu", gameUiHTML, ready:animations.ready, children:[{ className:"menu-vessel desert-only", children:[titleBuilder(), { className:"menu-actions", children:[playButton(gameUiHTML), studioMenuButton(), movieMakerMenuButton()] }] }] },
   loading,
   errorScreen,
   levelSelectScreen
