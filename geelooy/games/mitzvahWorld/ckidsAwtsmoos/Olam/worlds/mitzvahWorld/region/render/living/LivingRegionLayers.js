@@ -5,7 +5,7 @@
  * door-click proof, and room counts without circular THREE references.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { postWorkerProgress } from "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/core/protocol/WorkerProtocol.js?v=total-overhaul-path-fix-20260705-bh1";
+import { postWorkerProgress } from "../../../../../oyved/core/protocol/WorkerProtocol.js?v=total-overhaul-path-fix-20260705-bh1";
 export const DEFERRED_LAYERS = Object.freeze(["mountains", "grass", "wheat", "flowers", "bushes", "rocks", "trees", "water", "farms", "parcels", "landmarks", "battleLayer", "visualReality", "botanicalReality", "ecologyReality"]);
 function primitiveStats(layer) { const s = layer?.userData?.stats || {}; return { skipped:Boolean(s.skipped), deferred:Boolean(s.deferred), cottages:s.cottages || 0, colliderSources:s.colliderSources || 0, clickableDoors:s.clickableDoors || 0, internalRooms:s.internalRooms || 0, interiorFloors:s.interiorFloors || 0, doorClickOpenProof:s.doorClickOpenProof || null, octreeProof:s.octreeProof || null, reason:s.reason || null }; }
 export function markLiving(stage, data = {}) { try { postWorkerProgress(`living-runtime:${stage}`, data); } catch (error) { globalThis.__AWTS_LIVING_PROGRESS_ERROR__ = error?.message || String(error); } }

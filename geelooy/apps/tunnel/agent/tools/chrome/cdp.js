@@ -4,6 +4,7 @@ const { TinyWebSocket } = require("../../lib/ws.js");
 const { captureCdpEvent } = require("./logs.js");
 let pageWs = null, pagePort = null, nextId = 1, lastPageId = "";
 const callbacks = new Map();
+const targetLeases = new Map();
 const MAX_HTTP_BYTES = Number(process.env.AWTSMOOS_CDP_HTTP_MAX_BYTES || 2 * 1024 * 1024);
 function maxTimeout() { const n = Number(process.env.AWTSMOOS_CDP_MAX_TIMEOUT_MS || 86400000); return Number.isFinite(n) ? Math.max(10000, Math.min(n, 604800000)) : 86400000; }
 function timeoutOf(value, fallback = 30000) { const n = Number(value || fallback); return Number.isFinite(n) ? Math.max(1000, Math.min(Math.floor(n), maxTimeout())) : fallback; }
@@ -12,21 +13,63 @@ function parseJson(resolve, reject, url, chunks) { const text = Buffer.concat(ch
 async function version(port) { return await getJson("http://127.0.0.1:" + port + "/json/version"); }
 async function pages(port) { return await getJson("http://127.0.0.1:" + port + "/json"); }
 async function newPage(port, url = "about:blank") { return await getJson("http://127.0.0.1:" + port + "/json/new?" + encodeURIComponent(url)); }
+async function closePage(port, targetId) { return await getJson("http://127.0.0.1:" + port + "/json/close/" + encodeURIComponent(targetId)); }
 function wireSocket(ws) { ws.on("message", msg => { let data; try { data = JSON.parse(msg); } catch { return; } if (data.id && callbacks.has(data.id)) return resolveCallback(data); if (data.method) captureCdpEvent(data); }); ws.once("close", () => rejectAll("Chrome DevTools socket closed.")); ws.once("error", err => rejectAll(err?.message || "Chrome DevTools socket error.")); }
 function resolveCallback(data) { const cb = callbacks.get(data.id); callbacks.delete(data.id); cb.clear?.(); data.error ? cb.reject(new Error(JSON.stringify(data.error))) : cb.resolve(data.result); }
 function closeCurrent(message = "Chrome DevTools socket replaced.") { try { pageWs?.close?.(true); } catch {} pageWs = null; pagePort = null; rejectAll(message); }
 function rejectAll(message) { for (const cb of callbacks.values()) { cb.clear?.(); cb.reject(new Error(message)); } callbacks.clear(); }
 async function connectPageWs(port, page, timeoutMs = 30000) { const ws = new TinyWebSocket(page.webSocketDebuggerUrl); wireSocket(ws); await new Promise((resolve, reject) => { const timer = setTimeout(() => { try { ws.close(true); } catch {} reject(new Error("DevTools websocket open timeout.")); }, timeoutOf(timeoutMs)); timer.unref?.(); ws.once("open", () => { clearTimeout(timer); resolve(); }); ws.once("error", err => { clearTimeout(timer); reject(err); }); ws.connect(); }); pageWs = ws; pagePort = port; lastPageId = page.id || ""; await enableDomains(); return pageWs; }
 async function enableDomains() { for (const method of ["Runtime.enable", "Page.enable", "DOM.enable", "Log.enable", "Network.enable"]) try { await cdpCall(method, {}, 8000, { noReconnect:true }); } catch {} }
-async function ensurePage(port = 9222, options = {}) { port = Number(port || 9222); if (pageWs && pageWs.opened && pagePort === port && !options.forceReconnect) return pageWs; if (pageWs) closeCurrent("Chrome DevTools reconnect requested."); const list = await pageList(port); const preferred = choosePage(list, options); if (preferred) return await connectPageWs(port, preferred, options.timeoutMs); const page = await newPage(port, options.url || "about:blank"); if (!page.webSocketDebuggerUrl) throw new Error("No page websocket found."); return await connectPageWs(port, page, options.timeoutMs); }
+async function ensurePage(port = 9222, options = {}) { port = Number(port || 9222); if (pageWs && pageWs.opened && pagePort === port && !options.forceReconnect && (!options.pageId || options.pageId === lastPageId) && (!options.chromeTargetId || options.chromeTargetId === lastPageId)) return pageWs; if (pageWs) closeCurrent("Chrome DevTools reconnect requested."); const list = await pageList(port); const preferred = choosePage(list, options); if (preferred) { leaseTarget(preferred.id, options); return await connectPageWs(port, preferred, options.timeoutMs); } const page = await newPage(port, options.url || "about:blank"); if (!page.webSocketDebuggerUrl) throw new Error("No page websocket found."); leaseTarget(page.id, options); return await connectPageWs(port, page, options.timeoutMs); }
 async function pageList(port) { try { return await pages(port); } catch (e) { throw new Error("Chrome DevTools not reachable on port " + port + ": " + e.message); } }
-function choosePage(list, options = {}) { const pages = list.filter(p => p.type === "page" && p.webSocketDebuggerUrl); if (options.pageId) return pages.find(p => p.id === options.pageId) || null; if (lastPageId) { const same = pages.find(p => p.id === lastPageId); if (same) return same; } return sortPageCandidates(pages)[0] || null; }
+function choosePage(list, options = {}) {
+  const pages = list.filter(p => p.type === "page" && p.webSocketDebuggerUrl);
+  const explicitId = options.chromeTargetId || options.pageId || options.targetId;
+  if (explicitId) return pages.find(p => p.id === explicitId && canUseTarget(p.id, options)) || null;
+  const scopeKey = targetScopeKey(options);
+  if (scopeKey) {
+    const owned = pages.find(p => targetLeases.get(p.id)?.scopeKey === scopeKey);
+    if (owned) return owned;
+  }
+  if (lastPageId) { const same = pages.find(p => p.id === lastPageId && canUseTarget(p.id, options)); if (same) return same; }
+  return sortPageCandidates(pages.filter(p => canUseTarget(p.id, options)))[0] || null;
+}
 function sortPageCandidates(list) { return [...list].sort((a, b) => pageScore(b) - pageScore(a)); }
 function pageScore(page = {}) { const url = String(page.url || ""), title = String(page.title || ""); if (/chatgpt\.com/i.test(url)) return 100; if (/chatgpt/i.test(title)) return 90; if (/^https?:\/\//i.test(url)) return 40; if (/^about:blank/i.test(url)) return 20; if (/^data:/i.test(url)) return 1; return 10; }
 async function cdpCall(method, params = {}, timeoutMs = 30000, options = {}) { if (!pageWs || !pageWs.opened) throw new Error("Page DevTools socket is not connected."); try { return await rawCdpCall(method, params, timeoutMs); } catch (e) { if (options.noReconnect || !isSocketFailure(e)) throw e; await ensurePage(pagePort || 9222, { forceReconnect:true, timeoutMs }); return await rawCdpCall(method, params, timeoutMs); } }
 function rawCdpCall(method, params = {}, timeoutMs = 30000) { const id = nextId++; pageWs.sendJson({ id, method, params }); return new Promise((resolve, reject) => { const limit = timeoutOf(timeoutMs); const timer = setTimeout(() => { if (callbacks.has(id)) { callbacks.delete(id); reject(new Error("CDP timeout for " + method + " after " + limit + "ms")); } }, limit); timer.unref?.(); callbacks.set(id, { resolve, reject, clear:() => clearTimeout(timer) }); }); }
 function isSocketFailure(e) { return /socket|websocket|closed|not connected|replaced/i.test(String(e?.message || e)); }
-async function navigateAndWait(url, timeoutMs = 30000, port = 9222) { const limit = timeoutOf(timeoutMs); const start = Date.now(); await ensurePage(port, { forceReconnect:true, url, timeoutMs:Math.min(limit, 15000) }); const nav = await safeNavigate(url, limit); if (!nav.ok) return nav; return await waitReady(start, limit); }
-async function safeNavigate(url, limit) { try { await cdpCall("Page.navigate", { url }, Math.min(limit, 30000)); return { ok:true }; } catch (e) { closeCurrent("navigate failed"); try { await ensurePage(pagePort || 9222, { forceReconnect:true, url, timeoutMs:15000 }); await cdpCall("Page.navigate", { url }, Math.min(limit, 30000)); return { ok:true, retried:true }; } catch (err) { return { ok:false, readyState:"navigate_error", error:err.message, durationMs:0 }; } } }
+async function navigateAndWait(url, timeoutMs = 30000, port = 9222, options = {}) { const limit = timeoutOf(timeoutMs); const start = Date.now(); await ensurePage(port, { ...options, forceReconnect:true, url, timeoutMs:Math.min(limit, 15000) }); const nav = await safeNavigate(url, limit, options); if (!nav.ok) return nav; return await waitReady(start, limit); }
+async function safeNavigate(url, limit, options = {}) { try { await cdpCall("Page.navigate", { url }, Math.min(limit, 30000)); return { ok:true }; } catch (e) { closeCurrent("navigate failed"); try { await ensurePage(pagePort || 9222, { ...options, forceReconnect:true, url, timeoutMs:15000 }); await cdpCall("Page.navigate", { url }, Math.min(limit, 30000)); return { ok:true, retried:true }; } catch (err) { return { ok:false, readyState:"navigate_error", error:err.message, durationMs:0 }; } } }
 async function waitReady(start, limit) { while (Date.now() - start < limit) { try { const state = await cdpCall("Runtime.evaluate", { expression:"document.readyState", returnByValue:true }, 5000); if (["complete", "interactive"].includes(state.result?.value)) return { ok:true, readyState:state.result.value, durationMs:Date.now() - start }; } catch (e) { if (!isSocketFailure(e)) return { ok:false, readyState:"eval_error", error:e.message, durationMs:Date.now() - start }; } await new Promise(r => setTimeout(r, 200)); } return { ok:false, readyState:"timeout", durationMs:Date.now() - start, timeoutMs:limit }; }
-module.exports = { version, pages, newPage, ensurePage, cdpCall, navigateAndWait, sortPageCandidates, pageScore, timeoutOf, closeCurrent };
+function targetScopeKey(input = {}) {
+  return [input.browserSessionId, input.roomId, input.missionId, input.agentSessionId, input.logicalAgentId].filter(Boolean).join('::');
+}
+function leaseTarget(targetId, input = {}) {
+  if (!targetId) return null;
+  const scopeKey = targetScopeKey(input);
+  if (!scopeKey && !input.shared) return targetLeases.get(targetId) || null;
+  const lease = {
+    targetId,
+    scopeKey,
+    browserSessionId: input.browserSessionId || '',
+    roomId: input.roomId || '',
+    missionId: input.missionId || '',
+    agentSessionId: input.agentSessionId || '',
+    logicalAgentId: input.logicalAgentId || '',
+    shared: input.shared === true,
+    leasedAt: new Date().toISOString()
+  };
+  targetLeases.set(targetId, lease);
+  return lease;
+}
+function canUseTarget(targetId, input = {}) {
+  const lease = targetLeases.get(targetId);
+  if (!lease || lease.shared || input.force === true || input.inspectShared === true) return true;
+  const scopeKey = targetScopeKey(input);
+  return !!scopeKey && lease.scopeKey === scopeKey;
+}
+function targetLease(targetId) { return targetLeases.get(targetId) || null; }
+function releaseTarget(targetId) { return targetLeases.delete(targetId); }
+function targetLeaseSnapshot() { return Object.fromEntries([...targetLeases.entries()]); }
+module.exports = { version, pages, newPage, closePage, ensurePage, cdpCall, navigateAndWait, sortPageCandidates, pageScore, timeoutOf, closeCurrent, choosePage, targetScopeKey, leaseTarget, canUseTarget, targetLease, releaseTarget, targetLeaseSnapshot };

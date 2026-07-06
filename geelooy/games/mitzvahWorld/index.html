@@ -96,27 +96,27 @@
   <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div><div shaym="personalPerutas"></div><div shaym="animalKillProof"></div></div>
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
-  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh2"></script>
-  <script type="module" src="./systems/osGraph/bridge.js?v=perf-tight-collision-20260703-bh3"></script>
-  <script type="module" src="./index.js?v=perf-tight-collision-20260703-bh3"></script>
+  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=loading-proof-mobile-20260706-bh4"></script>
+  <script type="module" src="./systems/osGraph/bridge.js?compact=true&v=perf-tight-collision-20260706-bh1"></script>
+  <script type="module" src="./index.js?compact=true&v=perf-tight-collision-20260706-bh1"></script>
   <script type="module">
     if (new URLSearchParams(location.search).get("awtsFix") === "wowLikeLiveGameplay") {
-      import("./ckidsAwtsmoos/gameplay/LiveWowSliceRuntime.js?v=wow-like-live-gameplay-20260706-bh1");
+      import("./ckidsAwtsmoos/gameplay/LiveWowSliceRuntime.js?compact=true&v=wow-like-live-gameplay-20260706-bh2");
     }
   </script>
   <script type="module">
     const bootExtras = [
-      "./systems/ui/OpenWorldUiMobilePatch.js?v=fast-stable-boot-20260628-bh2",
-      "./systems/mobile/MobileCleanHudRuntime.js?v=world-first-ui-20260626-bh2",
-      "./systems/performance/FpsGuardian.js?v=fps-guardian-direct-20260629-bh1",
-      "./systems/performance/PerformanceModeBootstrap.js?v=fast-stable-boot-20260628-bh2",
-      "./systems/performance/PostLoadFpsProbe.js?v=quiet-worker-60fps-20260702-bh1",
-      "./systems/performance/TestModeFeaturePanel.js?v=test-feature-panel-20260702-bh1",
-      "./systems/performance/RuntimeBudgetBootstrap.js?v=fast-stable-boot-20260628-bh2",
-      "./systems/performance/BrowserFrameTraceHarness.js?v=real-browser-trace-20260628-bh2",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceUiBridge.js?v=starter-zone-ui-20260626-bh2",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceBootstrap.js?v=starter-zone-boot-20260626-bh2",
-      "./systems/boot/DeferredBootScheduler.js?v=fast-stable-boot-20260628-bh2"
+      "./systems/ui/OpenWorldUiMobilePatch.js?compact=true&v=fast-stable-boot-20260706-bh1",
+      "./systems/mobile/MobileCleanHudRuntime.js?compact=true&v=world-first-ui-20260706-bh1",
+      "./systems/performance/FpsGuardian.js?compact=true&v=fps-guardian-direct-20260706-bh1",
+      "./systems/performance/PerformanceModeBootstrap.js?compact=true&v=fast-stable-boot-20260706-bh1",
+      "./systems/performance/PostLoadFpsProbe.js?compact=true&v=quiet-worker-60fps-20260706-bh1",
+      "./systems/performance/TestModeFeaturePanel.js?compact=true&v=test-feature-panel-20260706-bh1",
+      "./systems/performance/RuntimeBudgetBootstrap.js?compact=true&v=fast-stable-boot-20260706-bh1",
+      "./systems/performance/BrowserFrameTraceHarness.js?compact=true&v=real-browser-trace-20260706-bh1",
+      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceUiBridge.js?compact=true&v=starter-zone-ui-20260706-bh1",
+      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceBootstrap.js?compact=true&v=starter-zone-boot-20260706-bh1",
+      "./systems/boot/DeferredBootScheduler.js?compact=true&v=fast-stable-boot-20260706-bh1"
     ];
     const progress = window.__AWTSMOOS_LOADING_PROGRESS__;
     const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -153,6 +153,17 @@
     firstCanvasSeen ||= Boolean(canvas && Number(canvas.width || 0) > 0 && Number(canvas.height || 0) > 0);
     return { at:Date.now(), canvas:Boolean(canvas), canvasWidth:Number(canvas?.width || 0), canvasHeight:Number(canvas?.height || 0), playableSeen, finalReadySeen, firstCanvasSeen, solidFirstMode:true };
   }
+  function finalProofReady() {
+    const loaded = window.__AWTSMOOS_LOADING_FINAL_READY__;
+    const progress = window.__AWTSMOOS_LOADING_PROGRESS__;
+    return Boolean(
+      finalReadySeen ||
+      loaded?.finalReady === true ||
+      loaded?.playable === true ||
+      loaded?.stage === "world_final_ready" ||
+      progress?.isFinalReady?.() === true
+    );
+  }
   function removeVeils(reason) {
     document.documentElement.classList.add('awtsmoos-gameplay-dom-quiet');
     const v = veil();
@@ -168,13 +179,21 @@
     if (guard) guard.dataset.reason = lastReason;
     removeVeils(lastReason);
   }
+  function markPlayable(reason) {
+    if (!finalProofReady()) {
+      soften('Playable request received; still waiting for final world proof.');
+      return false;
+    }
+    hide(reason || 'world-final-ready-proof');
+    return true;
+  }
   function soften(text) { const sub = guard?.querySelector?.('.sub'); if (sub) sub.textContent = text; }
-  window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden, markPlayable:hide, seal:'strict-first-playable-no-black-guard-20260702-bh2' };
+  window.__AWTSMOOS_NO_BLACK_GUARD__ = { hide, soften, isVisible:() => !hidden, markPlayable, seal:'strict-first-playable-no-black-guard-20260706-bh3' };
   window.__AWTS_NO_BLACK_DIAG__ = () => ({ visible:!hidden, hidden, reason:lastReason, playableSeen, finalReadySeen, proof:canvasProof(), guardExists:Boolean(document.getElementById('awtsmoosNoBlackGuard')), veilExists:Boolean(veil()) });
   window.addEventListener('awtsmoos-game-ready', event => {
     const phase = String(event?.detail?.phase || event?.detail?.reason || '');
-    if (/world_final_ready|rendered first time/i.test(phase)) finalReadySeen = true;
-    if (/first-playable-frame|world_final_ready|rendered first time|gameplay-ready/i.test(phase)) {
+    if (/^(first-playable-frame|world_final_ready|gameplay-ready)$/i.test(phase)) finalReadySeen = true;
+    if (/^(first-playable-frame|world_final_ready|gameplay-ready)$/i.test(phase) && finalProofReady()) {
       playableSeen = true;
       setTimeout(() => hide(phase || 'playable'), 80);
     }
@@ -182,11 +201,9 @@
   window.addEventListener('awtsmoos:worker-gameplay-fps', () => { playableSeen = true; soften('Worker is rendering; waiting for final playable world signal.'); });
   const timer = setInterval(() => {
     const proof = canvasProof();
-    const loaded = window.__AWTSMOOS_BOOT_LOADED__ || window.__AWTSMOOS_LOADING_FINAL_READY__;
     if (hidden) return clearInterval(timer);
-    if (finalReadySeen || (loaded && loaded.playable === true)) hide(loaded?.reason || 'world-final-ready-proof');
-    else if (proof.firstCanvasSeen && window.__AWTSMOOS_BOOT_LOADED__) hide('first-visible-canvas-boot-loaded-fast-path');
-    else if (proof.firstCanvasSeen && Date.now() - proof.at < 1000) soften('Canvas is visible; entering immediately.');
+    if (finalProofReady()) hide(window.__AWTSMOOS_LOADING_FINAL_READY__?.reason || 'world-final-ready-proof');
+    else if (proof.firstCanvasSeen) soften('Canvas is visible; verifying worker, terrain, physics, NPCs, quests, actions, and playable frames.');
   }, 160);
   setTimeout(() => { if (!hidden) soften('Still verifying worker, terrain, physics, gameplay, and first playable frame.'); }, 4500);
   setTimeout(() => { if (!hidden) soften('Solid-color world is playable; textures continue in background.'); }, 1800);

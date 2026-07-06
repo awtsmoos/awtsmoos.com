@@ -1,5 +1,5 @@
 B"H
-1.0.240
+1.0.241
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -640,6 +640,7 @@ lib/runtime/boot-resume-loop.js
 lib/runtime/circuit-breaker.js
 lib/runtime/continuation-loop.js
 lib/runtime/control-plane.js
+lib/runtime/correlation-scope.js
 lib/runtime/correlation.js
 lib/runtime/envelope-compact.js
 lib/runtime/envelope.js

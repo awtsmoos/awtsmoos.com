@@ -40,14 +40,6 @@ function proofBridgeManager() {
 function mainThreadProofSnapshot() {
   const loading = window.__MITZVAH_LOADING_DIAG__?.() || window.__AWTSMOOS_LAST_LOAD_DIAG__ || null;
   const fps = window.__AWTSMOOS_WORKER_GAMEPLAY_FPS__ || null;
-  if (loading && fps && loading.firstPlayableMs == null) {
-    const elapsed = Math.max(0, Date.now() - Number(loading.startedAt || Date.now()));
-    loading.firstPlayableMs = elapsed;
-    loading.finalReadyMs = elapsed;
-    loading.finalReady = true;
-    loading.hidden = true;
-    loading.readyInferredFrom = "worker_gameplay_fps";
-  }
   return {
     at:Date.now(),
     loading,
@@ -74,6 +66,54 @@ function publishMitzvahProofToDom(payload) {
     doc.body.setAttribute("data-mitzvah-proof-at", String(Date.now()));
   } catch (error) {
     console.warn("B'H mitzvah proof DOM publish failed", error);
+  }
+}
+
+function publishReadinessProofToDom(readiness, stage = "unknown") {
+  try {
+    const doc = window.document;
+    if (!doc?.body || !readiness) return;
+    let node = doc.getElementById("mitzvah-readiness-proof-output");
+    if (!node) {
+      node = doc.createElement("script");
+      node.type = "application/json";
+      node.id = "mitzvah-readiness-proof-output";
+      node.setAttribute("data-awtsmoos-proof", "world-readiness");
+      doc.body.appendChild(node);
+    }
+    node.textContent = JSON.stringify({ at:Date.now(), stage, readiness }, null, 2);
+    doc.body.setAttribute("data-mitzvah-readiness-ok", readiness?.ok === true ? "true" : "false");
+    doc.body.setAttribute("data-mitzvah-readiness-stage", String(stage || "unknown"));
+  } catch (error) {
+    console.warn("B'H mitzvah readiness proof DOM publish failed", error);
+  }
+}
+
+function publishWorkerProgressToDom(stage, payload = {}) {
+  try {
+    const doc = window.document;
+    if (!doc?.body) return;
+    let node = doc.getElementById("mitzvah-worker-progress-output");
+    if (!node) {
+      node = doc.createElement("script");
+      node.type = "application/json";
+      node.id = "mitzvah-worker-progress-output";
+      node.setAttribute("data-awtsmoos-proof", "worker-progress");
+      doc.body.appendChild(node);
+    }
+    const prior = (() => { try { return JSON.parse(node.textContent || "null") || {}; } catch { return {}; } })();
+    const history = trim([...(prior.history || []), {
+      at:Date.now(),
+      stage,
+      type:payload?.type || null,
+      hide:Boolean(payload?.hide),
+      hasReadiness:Boolean(payload?.readiness),
+      keys:Object.keys(payload || {}).slice(0, 30)
+    }], 80);
+    node.textContent = JSON.stringify({ at:Date.now(), last:history[history.length - 1] || null, history }, null, 2);
+    doc.body.setAttribute("data-mitzvah-worker-stage", String(stage || "unknown"));
+  } catch (error) {
+    console.warn("B'H mitzvah worker progress DOM publish failed", error);
   }
 }
 
@@ -249,6 +289,11 @@ function handleProgress(manager, data) {
   const stage = String(data.stage || data.text || "unknown");
   rememberStage(stage, data);
   recordWorkerProgress(stage, data);
+  publishWorkerProgressToDom(stage, data);
+  if (data.readiness) {
+    window.__MITZVAH_LAST_READINESS_PROOF__ = data.readiness;
+    publishReadinessProofToDom(data.readiness, stage);
+  }
   LoadingProgress.workerProgress?.(data);
   mark(manager, stage, data);
 }
@@ -272,7 +317,12 @@ function handleFps(data) {
   }], 120);
   window.AWTSMOOS_GAMEPLAY_FPS = payload;
   window.dispatchEvent?.(new CustomEvent("awtsmoos:worker-gameplay-fps", { detail:payload }));
-  if (!LoadingProgress.isFinalReady?.()) LoadingProgress.markFinalReady?.("world_final_ready");
+  LoadingProgress.update?.({
+    stage:"gameplay-fps:observed",
+    total:Math.min(98, Math.max(LoadingProgress.snapshot?.().total || 0, 92)),
+    humanLabel:"Worker is rendering; waiting for final world proof",
+    subAction:"FPS is diagnostic, not loader release"
+  });
   maybeAutoRunMitzvahProof();
 }
 

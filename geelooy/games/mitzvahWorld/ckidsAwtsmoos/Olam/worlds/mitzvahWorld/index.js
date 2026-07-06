@@ -99,5 +99,3 @@ export function afterBriyah(ctx) {
 }
 
 export * from './runtime/MitzvahWorldRuntimeSystems.js';
-
-export * from './runtime/MitzvahWorldRuntimeSystems.js';
