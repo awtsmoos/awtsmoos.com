@@ -17,7 +17,13 @@ function registryRecord(meta = {}, pid = null) {
     startedAt: meta.startedAt,
     heartbeatAt: meta.worker?.heartbeatAt || meta.startedAt,
     receiptId: meta.receiptId,
-    missionId: meta.cost?.missionId || '',
+    missionId: meta.session?.missionId || meta.cost?.missionId || '',
+    roomId: meta.session?.roomId || '',
+    agentSessionId: meta.session?.agentSessionId || '',
+    logicalAgentId: meta.session?.logicalAgentId || '',
+    conversationId: meta.session?.conversationId || '',
+    conversationName: meta.session?.conversationName || '',
+    leaseId: meta.session?.leaseId || '',
     riskClass: 'long_running_command',
     cancelable: true
   };
@@ -30,7 +36,8 @@ function finishRegistry(registry, meta = {}) {
     exitCode: meta.exitCode,
     signal: meta.signal,
     heartbeatAt: meta.worker?.heartbeatAt,
-    finishedAt: meta.finishedAt
+    finishedAt: meta.finishedAt,
+    ...(meta.session || {})
   };
   if (meta.status === 'cancelled') return registry.cancelWorker(meta.workerId, patch);
   return registry.finishWorker(meta.workerId, patch);

@@ -1,5 +1,5 @@
 // B"H
-export const AI_WORLD_SHORT_SCHEMA_VERSION = "mitzvah-ai-world-short-v1";
+export const AI_WORLD_SHORT_SCHEMA_VERSION = "mitzvah-ai-world-short-v2";
 
 export const SHORTHAND_TERMS = Object.freeze({
   world:{ village:"starter_village", forest:"forest_edge", desert:"desert_outpost" },
@@ -26,7 +26,7 @@ export const SHORTHAND_TERMS = Object.freeze({
     close:{ camera:"closeup", lens:"70mm", framing:"face" },
     orbit:{ camera:"orbit", lens:"35mm", framing:"hero" }
   },
-  actions:{
+    actions:{
     walk:"walk",
     run:"run",
     talkHands:"talkHands",
@@ -41,7 +41,19 @@ export const SHORTHAND_TERMS = Object.freeze({
     idle:"idle",
     wave:"wave",
     acceptQuest:"acceptQuest",
-    giveItem:"giveItem"
+    giveItem:"giveItem",
+    sprint:"sprint",
+    limp:"limp",
+    pray:"pray",
+    bless:"bless",
+    knock:"knock",
+    sit:"sit",
+    eat:"eat",
+    drink:"drink",
+    hug:"hug",
+    heal:"heal",
+    block:"block",
+    dodge:"dodge"
   },
   species:["fox", "goat", "cow", "deer", "rabbit", "frog", "bird", "chicken", "boar", "sheep", "dog", "horse", "guardian_ram"]
 });
@@ -50,6 +62,9 @@ export function defaultAiWorldShortInput() {
   return {
     world:"village",
     seed:770,
+    generate:["Village", "Population 120", "Marketplace", "Synagogue", "River", "Bridge", "Forest", "Rain", "Golden sunset"],
+    population:120,
+    weather:"golden_sunset_after_rain",
     grass:"lush",
     houses:[["brick", "door", "shop"], ["wood", "door", "trainer"]],
     animals:[

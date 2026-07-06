@@ -1,5 +1,7 @@
 // B"H
 import { AI_WORLD_SHORT_SCHEMA_VERSION, SHORTHAND_TERMS } from "./AiWorldShortSchema.js";
+import { createChossidCharacterWardrobe } from "../../characters/chossid/wardrobe/ChossidWardrobe.js";
+import { buildGraphFromAiWorld, summarizeGraph } from "../platform/CreationGraph.js";
 
 function arr(value) { return Array.isArray(value) ? value : value == null ? [] : [value]; }
 function id(prefix, index) { return `${prefix}_${String(index + 1).padStart(2, "0")}`; }
@@ -21,6 +23,26 @@ function parseObjective(text = "") {
   if (parts[0] === "kill") return { type:"kill", target:parts[1], count:Number(parts[2] || 1), label:text };
   if (parts[0] === "collect") return { type:"collect", target:parts[1], count:Number(parts[2] || 1), label:text };
   return { type:"custom", label:text || "Do the mitzvah task", count:1 };
+}
+
+function compactTokens(input = {}) {
+  return arr(input.generate || input.features || input.includes).flatMap(value => String(value).split(/[,|]/)).map(value => value.trim()).filter(Boolean);
+}
+
+function expandWorldFeatures(input = {}) {
+  const tokens = new Set(compactTokens(input).map(token => token.toLowerCase()));
+  return {
+    village:tokens.has("village") || Boolean(input.population || input.pop),
+    population:Number(input.population || input.pop || 0),
+    marketplace:tokens.has("marketplace") || tokens.has("market"),
+    synagogue:tokens.has("synagogue") || tokens.has("shul"),
+    river:tokens.has("river"),
+    bridge:tokens.has("bridge"),
+    forest:tokens.has("forest"),
+    caves:tokens.has("cave") || tokens.has("caves"),
+    dungeons:tokens.has("dungeon") || tokens.has("dungeons"),
+    weather:input.weather || (tokens.has("rain") ? "rain" : tokens.has("golden sunset") ? "golden_sunset" : null)
+  };
 }
 
 function expandHouse(tokens, index) {
@@ -61,6 +83,8 @@ function expandAnimals(input = [], seed = 1) {
 
 function expandNpc(npc, index) {
   const role = npc.role || "villager";
+  const character = npc.character || "chossid";
+  const clothes = npc.clothes || {};
   return {
     id:npc.id || id("npc", index),
     type:"npc",
@@ -69,8 +93,9 @@ function expandNpc(npc, index) {
     quests:arr(npc.q || npc.quest),
     shop:npc.shop || null,
     trainer:npc.teach ? { teach:arr(npc.teach) } : null,
-    character:npc.character || "chossid",
-    clothes:npc.clothes || {},
+    character,
+    clothes,
+    wardrobe:character === "chossid" ? createChossidCharacterWardrobe({ clothes }) : null,
     actions:arr(npc.actions || ["idle", "talkHands"]),
     position:[index * 2.5, 0, -2.5]
   };
@@ -124,27 +149,38 @@ function expandMovie(movie = {}) {
 
 export function parseAiWorldShort(input = {}) {
   const seed = Number(input.seed || 1);
+  const features = expandWorldFeatures(input);
   const houses = arr(input.houses).map(expandHouse);
   const animals = expandAnimals(input.animals, seed);
   const npcs = arr(input.npcs).map(expandNpc);
   const quests = arr(input.quests).map(expandQuest);
   const movie = expandMovie(input.movie || {});
   const worldId = input.world || "village";
-  return {
+  if (features.marketplace && !houses.some(h => h.service === "shop")) houses.push(expandHouse(["wood", "door", "shop"], houses.length));
+  if (features.synagogue) houses.push({ ...expandHouse(["stone", "door"], houses.length), id:"synagogue", type:"synagogue", service:"prayer_learning" });
+  const npcShops = npcs.filter(npc => npc.shop).map(npc => ({ id:npc.shop, npcId:npc.id, stock:"starter" }));
+  const buildingShops = houses.filter(house => house.service === "shop").map(house => ({ id:`shop_${house.id}`, buildingId:house.id, stock:"starter" }));
+  const npcTrainers = npcs.filter(npc => npc.trainer).map(npc => ({ id:`trainer_${npc.id}`, npcId:npc.id, teach:npc.trainer.teach }));
+  const buildingTrainers = houses.filter(house => house.service === "trainer").map(house => ({ id:`trainer_${house.id}`, buildingId:house.id, teach:["walk", "block", "dodge"] }));
+  const parsed = {
     schema:"mitzvah-studio-world-v1",
     sourceSchema:AI_WORLD_SHORT_SCHEMA_VERSION,
-    world:{ id:termsFor("world", worldId) || worldId, shorthand:worldId, seed },
-    terrain:{ grass:termsFor("grass", input.grass || "lush"), path:{ material:"packed-dirt", visible:true } },
+    world:{ id:termsFor("world", worldId) || worldId, shorthand:worldId, seed, population:features.population || undefined },
+    features,
+    terrain:{ grass:termsFor("grass", input.grass || "lush"), path:{ material:"packed-dirt", visible:true }, river:features.river, bridge:features.bridge, forest:features.forest, weather:features.weather },
     houses,
     doors:houses.map(house => house.door).filter(Boolean),
     animals,
     npcs,
     quests,
-    shops:npcs.filter(npc => npc.shop).map(npc => ({ id:npc.shop, npcId:npc.id, stock:"starter" })),
-    trainers:npcs.filter(npc => npc.trainer).map(npc => ({ id:`trainer_${npc.id}`, npcId:npc.id, teach:npc.trainer.teach })),
+    shops:[...npcShops, ...buildingShops],
+    trainers:[...npcTrainers, ...buildingTrainers],
     movie,
     savedWorld:{ ok:true, id:`${worldId}_${seed}`, generatedAt:new Date().toISOString() }
   };
+  parsed.graph = buildGraphFromAiWorld(parsed);
+  parsed.graphSummary = summarizeGraph(parsed.graph);
+  return parsed;
 }
 
 export function summarizeParsedAiWorld(parsed) {

@@ -19,7 +19,7 @@ function markLoop(config, lock = {}, next = {}) {
       bootResumeSelfLoop: true,
       bootResumeSelfLoopCount: count,
       chosenEscape: 'missionDaemonTick',
-      plainEnglish: 'MISSIONBOOTRESUME RETURNED ITSELF REPEATEDLY. DO NOT STOP. SWITCH TO MISSIONDAEMONTICK OR PRODUCTIVE MISSION DIAGNOSTICS.'
+      plainEnglish: 'missionBootResume repeated. Resume remains available; use missionDaemonTick or productive mission diagnostics when useful.'
     };
   }
   Lock.set(config, lock);
@@ -30,8 +30,8 @@ function explainLoop(lock = {}) {
     bootResumeSelfLoop: true,
     bootResumeSelfLoopCount: loopCount(lock),
     why: 'Boot resume did not discover a fresher next action and would repeat itself.',
-    whatToDo: 'CALL MISSIONDAEMONTICK NEXT, THEN CONTINUE PRODUCTIVE MISSION-SCOPE WORK WITH FULL AUTONOMY.',
-    agentFreedom: 'ABSOLUTE MISSION FREEDOM INSIDE THE MISSION SYSTEM REMAINS ACTIVE.'
+    whatToDo: 'Resume is available through missionDaemonTick or productive mission-scope diagnostics.',
+    agentFreedom: 'Foreground answers and unrelated safe work remain allowed.'
   };
 }
 async function resume(config, payload = {}, buildActions) {
@@ -41,18 +41,22 @@ async function resume(config, payload = {}, buildActions) {
     autoStart = await Auto.create(config, payload, buildActions);
     status = Watchdog.status(config);
   }
-  if (!status.active) return { ok: true, action: 'missionBootResume', resumed: false, autoStart, reason: 'no_active_lock', finalAnswerAllowed: false, mustContinue: false };
+  if (!status.active) return advisory({ ok: true, action: 'missionBootResume', resumed: false, autoStart, reason: 'no_active_lock', resumeAvailable: false });
   const tick = payload.tick === false || payload.tick === 'false' ? null : await Watchdog.tick(config, payload, buildActions);
   let lock = Lock.active(config) || status.lock || {};
-  const rawNext = tick?.mustCallNext || status.mustCallNext || lock.lastMustCallNext || null;
+  const rawNext = tick?.nextSuggestedToolCall || tick?.mustCallNext || status.nextSuggestedToolCall || status.mustCallNext || lock.lastMustCallNext || null;
   lock = markLoop(config, lock, rawNext) || lock;
   const escaped = loopCount(lock) >= 2;
-  const mustCallNext = escaped ? daemonNext(lock) : rawNext;
-  return {
+  const nextSuggestedToolCall = escaped ? daemonNext(lock) : rawNext;
+  return advisory({
     ok: true, action: 'missionBootResume', resumed: true, autoStart, status, tick, lock,
-    finalAnswerAllowed: false, mustContinue: true, mustCallNext,
+    resumeAvailable: true, nextSuggestedToolCall,
     bootResumeSelfLoop: escaped,
-    bootResumeDiagnostics: escaped ? explainLoop(lock) : null
-  };
+    bootResumeDiagnostics: escaped ? explainLoop(lock) : null,
+    missionAdvisory:{ active:true, blocked:false, resumeAvailable:true, suggestedNext:nextSuggestedToolCall, missionId:lock.missionId || status.missionId || null }
+  });
 }
-module.exports = { resume, isBoot, sameMission, loopCount, daemonNext, markLoop, explainLoop };
+function advisory(out = {}) {
+  return { ...out, finalAnswerAllowed:true, mustContinue:false, userVisibleAnswerBlocked:false };
+}
+module.exports = { resume, isBoot, sameMission, loopCount, daemonNext, markLoop, explainLoop, advisory };

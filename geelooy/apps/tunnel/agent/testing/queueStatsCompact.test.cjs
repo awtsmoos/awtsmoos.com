@@ -1,13 +1,13 @@
 // B"H
 const assert = require('assert');
-const fs = require('fs');
-const path = require('path');
+const { stats } = require('../main.js');
 
-const main = fs.readFileSync(path.resolve(__dirname, '../main.js'), 'utf8');
-
-assert(main.includes('function compactWorkers'), 'runtime stats must compact worker snapshots');
-assert(main.includes('recent:recent.slice(0, 6).map(compactWorker)'), 'recent workers must be capped in queue stats');
-assert(main.includes('limitWorkerMap(active, 20)'), 'active workers must be capped in queue stats');
-assert(main.includes('controlQueueLimit:L.CONTROL_QUEUE_LIMIT'), 'queue stats must expose control queue reserve');
+const compact = stats({ workers: true });
+assert.strictEqual(typeof compact.controlQueueLimit, 'number', 'queue stats must expose control queue reserve');
+assert.strictEqual(typeof compact.workers.activeTotal, 'number', 'worker stats must expose active count');
+assert.strictEqual(typeof compact.workers.recentCompleted, 'number', 'worker stats must expose recent completion count');
+assert(Object.keys(compact.workers.active || {}).length <= 3, 'detailed active worker snapshots must stay capped');
+assert((compact.workers.recent || []).length <= 2, 'detailed recent worker snapshots must stay capped');
+assert(JSON.stringify(compact).length < 20000, 'queue stats must remain compact enough for status responses');
 
 console.log(JSON.stringify({ ok: true, suite: 'queue-stats-compact' }, null, 2));

@@ -16,12 +16,15 @@ function create(m, input = {}) {
     steps: N.steps(input, available)
   };
   Store.addRound(m, round);
-  return {
+  return advisory({
     round,
     next8Steps: round.steps,
     workQueue: Work.summary(m),
     missionWorkLoop: 'plan -> inspect/read -> write complete files -> live verify -> review -> shrink debt -> continue',
-    mustCallNext: { action: 'missionExecuteNext8', missionId: m.id, roundId: round.id, stepIndex: 0, reason: 'concrete_work_step_pending' }
-  };
+    nextSuggestedToolCall: { action: 'missionExecuteNext8', missionId: m.id, roundId: round.id, stepIndex: 0, reason: 'concrete_work_step_pending' }
+  });
 }
-module.exports = { create };
+function advisory(out = {}) {
+  return { ...out, finalAnswerAllowed:true, mustContinue:false, userVisibleAnswerBlocked:false };
+}
+module.exports = { create, advisory };

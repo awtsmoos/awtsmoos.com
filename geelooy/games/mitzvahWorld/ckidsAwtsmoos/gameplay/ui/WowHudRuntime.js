@@ -80,7 +80,7 @@ export function createWowHudRuntime(ctx) {
     cutscene.classList.add("open");
     publishDebug();
     clearTimeout(playCutscene.timer);
-    playCutscene.timer = setTimeout(skipCutscene, 1800);
+    playCutscene.timer = setTimeout(skipCutscene, 5000);
     return { ok:true, cutscene:ctx.cutsceneState };
   }
 

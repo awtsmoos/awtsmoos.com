@@ -21,7 +21,9 @@ export function createBlankWorldProject(options = {}) {
     trainers: [],
     quests: [],
     interiors: [],
-    cutscenes: []
+    cutscenes: [],
+    graph: options.graph || { schema:"mitzvah-creation-graph-v1", id:"studio_project_graph", nodes:[], edges:[] },
+    aiLanguage: options.aiLanguage || { compactJson:true, graphBacked:true }
   };
 }
 
@@ -145,6 +147,8 @@ export function normalizeWorldProject(raw = {}) {
   project.quests ||= [];
   project.interiors ||= [];
   project.cutscenes ||= [];
+  project.graph ||= { schema:"mitzvah-creation-graph-v1", id:`${project.id || "world"}_graph`, nodes:[], edges:[] };
+  project.aiLanguage ||= { compactJson:true, graphBacked:true };
   return project;
 }
 

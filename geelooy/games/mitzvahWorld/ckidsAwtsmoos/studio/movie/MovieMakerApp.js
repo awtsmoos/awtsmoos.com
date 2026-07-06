@@ -2,6 +2,7 @@
 import { createTimeline, addTrack, addTimelineClip, addTimelineKeyframe } from "./Timeline.js";
 import { generateProceduralMovie } from "./ProceduralMovieGenerator.js";
 import { exportCutscene, playCutscenePreview } from "./CutsceneExporter.js";
+import { directGameplayEvents } from "../platform/DirectorAiEngine.js";
 
 export function createMovieMakerState() {
   const timeline = createTimeline({ duration:30 });
@@ -10,7 +11,15 @@ export function createMovieMakerState() {
   addTrack(timeline, "dialogue", "Dialogue");
   addTrack(timeline, "subtitle", "Subtitles");
   addTrack(timeline, "audio", "Audio");
-  return { timeline, playing:false, selectedClipId:null, exported:null };
+  return {
+    timeline,
+    playing:false,
+    selectedClipId:null,
+    exported:null,
+    director:null,
+    bins:["project", "media", "scene", "character", "animal", "action", "dialogue", "quest", "shot", "audio", "effects"],
+    panels:["timeline", "inspector", "curveEditor", "preview", "renderQueue", "storyboard", "script", "directorView", "cameraGraph"]
+  };
 }
 
 export function exerciseMovieMaker(state = createMovieMakerState()) {
@@ -20,6 +29,12 @@ export function exerciseMovieMaker(state = createMovieMakerState()) {
   addTimelineClip(state.timeline, "subtitle", { label:"Subtitle", start:2, duration:3, payload:{ text:"Welcome." } });
   addTimelineKeyframe(state.timeline, camera.id, { time:0, value:{ position:[0, 3, 6] } });
   const generated = generateProceduralMovie({ theme:"quest", actors:["player", "guide"], duration:18 });
+  state.director = directGameplayEvents([
+    { kind:"discovery", target:"village" },
+    { kind:"dialogue", target:"guide", duration:4 },
+    { kind:"quest", target:"clear_path" },
+    { kind:"combat", target:"fox_pack" }
+  ], { prompt:"Make this scene more emotional." });
   state.exported = exportCutscene({ id:"studio_cutscene", timeline:state.timeline });
   const played = playCutscenePreview(state.exported, state);
   return { state, generated, played };
@@ -32,7 +47,7 @@ export function mountMovieMakerApp(root = document.body) {
   const statusEl = root.querySelector("[data-role='status']");
   const render = () => {
     timelineEl.innerHTML = state.timeline.tracks.map(track => `<div class="track"><b>${track.label}</b>${track.clips.map(clip => `<span class="clip" style="left:${clip.start * 18}px;width:${clip.duration * 18}px">${clip.label}</span>`).join("")}</div>`).join("");
-    statusEl.textContent = `${state.timeline.tracks.length} tracks, ${state.timeline.tracks.reduce((sum, track) => sum + track.clips.length, 0)} clips`;
+    statusEl.textContent = `${state.timeline.tracks.length} tracks, ${state.timeline.tracks.reduce((sum, track) => sum + track.clips.length, 0)} clips, ${state.bins.length} bins, ${state.panels.length} panels`;
   };
   root.addEventListener("click", event => {
     const action = event.target?.dataset?.action;

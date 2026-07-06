@@ -8,19 +8,19 @@ function requestFor(lock, next) { return { ...next, action:next.action, missionI
 
 /**
  * B"H — A daemon tick is a heartbeat, not a verdict.
- * It follows the latest required action, records the receipt, and returns a
- * natural reminder that the room may steer instead of stopping after a command.
+ * It may advance mission state, but its response is advisory for foreground
+ * conversations unless a true safety gate elsewhere blocks the action.
  */
 async function tick(config, payload = {}, buildActions) {
   const lock = Lock.active(config);
-  if (!lock) return { ok:true, action:'missionDaemonTick', active:false, reason:'no_active_lock' };
+  if (!lock) return advisory({ ok:true, action:'missionDaemonTick', active:false, reason:'no_active_lock' });
   const policy = Config.policy(payload);
   if (lock.blockedOn && !policy.autoAnswer) return paused(lock, policy.lease);
   const request = requestFor(lock, nextFor(lock));
   const fn = buildActions(config, request)[request.action];
   if (!fn) return blocked(request, policy.lease);
   const result = await fn();
-  if (result.mustCallNext || result.nextRequiredAction) Lock.update(config, result, request);
+  if (result.mustCallNext || result.nextRequiredAction || result.nextSuggestedToolCall) Lock.update(config, result, request);
   else Lock.after(config, request, result);
   return Lease.decorate(resultFor(config, request, result, policy.lease), policy.lease);
 }
@@ -28,10 +28,16 @@ function blocked(request, lease) { return Lease.decorate(base('unknown_next_acti
 function paused(lock, lease) { return Lease.decorate({ ...base('gate_requires_answer', lock.lastMustCallNext, lease, true), active:true, paused:true, blockedOn:lock.blockedOn }, lease); }
 function resultFor(config, request, result, lease) {
   const active = Lock.active(config);
-  return { ok:result.ok !== false, action:'missionDaemonTick', ticked:true, ranAction:request.action,
-    resultAction:result.action, mustCallNext:result.mustCallNext || active?.lastMustCallNext || request,
-    finalAnswerAllowed:false, mustContinue:true, tunnelInstruction:Guide.instruction(lease),
-    receipt:{ at:new Date().toISOString(), action:request.action } };
+  const nextSuggestedToolCall = result.nextSuggestedToolCall || result.mustCallNext || active?.lastMustCallNext || request;
+  return advisory({ ok:result.ok !== false, action:'missionDaemonTick', ticked:true, ranAction:request.action,
+    resultAction:result.action, nextSuggestedToolCall, tunnelInstruction:Guide.instruction(lease),
+    missionAdvisory:{ active:!!active, blocked:false, resumeAvailable:!!active, suggestedNext:nextSuggestedToolCall, missionId:active?.missionId || request.missionId || null },
+    receipt:{ at:new Date().toISOString(), action:request.action } });
 }
-function base(reason, next, lease, ok) { return { ok, action:'missionDaemonTick', reason, error:ok ? undefined : reason, mustCallNext:next, mustContinue:true, finalAnswerAllowed:false, tunnelInstruction:Guide.instruction(lease) }; }
-module.exports = { tick, instruction:Guide.instruction };
+function base(reason, next, lease, ok) {
+  return advisory({ ok, action:'missionDaemonTick', reason, error:ok ? undefined : reason, nextSuggestedToolCall:next, tunnelInstruction:Guide.instruction(lease) });
+}
+function advisory(out = {}) {
+  return { ...out, finalAnswerAllowed:true, mustContinue:false, userVisibleAnswerBlocked:false };
+}
+module.exports = { tick, instruction:Guide.instruction, advisory };

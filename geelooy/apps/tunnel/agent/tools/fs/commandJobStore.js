@@ -49,7 +49,16 @@ async function cancelCommandJob(config = {}, payload = {}) {
 }
 async function reconcile(config, jobId, meta) {
   await refreshCounts(config, jobId, meta); const live = JOBS.get(jobId); if (live && !P.TERMINAL.has(meta.status)) return { ...meta, ...live.meta, stdoutChars:meta.stdoutChars, stderrChars:meta.stderrChars };
-  if (!isRunningStatus(meta.status)) return meta; const pid = pidOf(meta); if (pidAlive(pid)) return markDetached(meta, pid);
+  if (!isRunningStatus(meta.status)) return meta;
+  const fresh = await Meta.read(config, jobId);
+  if (fresh && fresh !== meta) {
+    await refreshCounts(config, jobId, fresh);
+    if (!isRunningStatus(fresh.status)) return fresh;
+    const freshLive = JOBS.get(jobId);
+    if (freshLive && !P.TERMINAL.has(fresh.status)) return { ...fresh, ...freshLive.meta, stdoutChars:fresh.stdoutChars, stderrChars:fresh.stderrChars };
+    meta = fresh;
+  }
+  const pid = pidOf(meta); if (pidAlive(pid)) return markDetached(meta, pid);
   return finalizeDetached(config, jobId, meta, { status:'stale_lost_worker', staleRecovered:true, detachedPid:pid || null, error:meta.error || 'running_receipt_had_no_live_worker_or_live_pid' });
 }
 function createLive(config, payload, jobId, child, meta) { const registry = getGlobalRegistry(); registry.registerWorker(RegistryBridge.registryRecord(meta, child.pid)); const live = { child, meta, writes:[], chains:{ stdout:Promise.resolve(), stderr:Promise.resolve() }, registry, heartbeatWrites:0 }; JOBS.set(jobId, live); Heartbeat.startHeartbeat({ config, jobId, live, Meta, payload }); return live; }

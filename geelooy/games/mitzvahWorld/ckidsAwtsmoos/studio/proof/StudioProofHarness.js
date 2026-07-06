@@ -15,7 +15,13 @@ export function runStudioProof() {
     worldSaved:Boolean(result.state.lastSaved?.ok),
     worldLoaded:Boolean(result.loaded?.ok),
     testPlayWorks:Boolean(result.state.testPlayUrl),
-    spawnPreviewWorks:Boolean(result.spawnPreview?.ok)
+    spawnPreviewWorks:Boolean(result.spawnPreview?.ok),
+    graphCreated:Boolean(result.platform?.graph?.nodes?.length),
+    aiJsonCompiled:Boolean(result.platform?.proof?.aiJsonExpanded),
+    ecosystemSimulated:Boolean(result.platform?.proof?.ecosystemSimulated),
+    livingEconomyPriced:Boolean(result.platform?.proof?.economyPriced),
+    storyArcsBranched:Boolean(result.platform?.proof?.storyBranched),
+    actionLibraryGenerated:Boolean(result.platform?.proof?.actionsGenerated)
   };
 }
 

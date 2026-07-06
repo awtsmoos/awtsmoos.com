@@ -4,7 +4,7 @@ function around(missions = [], input = {}, env, registry = null) {
   const fromMissions = missions.filter(m => m.room || m.collaboration).map(m => scoreMission(m, query));
   const fromRegistry = (registry?.rooms || []).map(r => scoreRoom(r, query));
   const rooms = dedupe([...fromMissions, ...fromRegistry]).filter(x => x.score > 0 || !query).sort((a, b) => b.score - a.score || String(b.updatedAt).localeCompare(String(a.updatedAt)));
-  return { query, count: rooms.length, rooms, registryCount: fromRegistry.length, mustCallNext: rooms[0] ? { action: 'missionRoomJoin', missionId: rooms[0].missionId, agentId: input.agentId || 'agent', role: input.role || 'joining existing room' } : null };
+  return { query, count: rooms.length, rooms, registryCount: fromRegistry.length, nextSuggestedToolCall: rooms[0] ? { action: 'missionRoomJoin', missionId: rooms[0].missionId, agentId: input.agentId || 'agent', role: input.role || 'joining existing room' } : null };
 }
 function scoreMission(m, query) {
   const room = m.room || {};

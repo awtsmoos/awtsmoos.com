@@ -1,5 +1,10 @@
 // B"H
-function commandReceipt({ receiptId, jobId, workerId, action = 'commandStart', requestAction, actualAction, missionId = '', state = 'running', createdAt, safeToReplay = false } = {}) {
+function commandReceipt({
+  receiptId, jobId, workerId, action = 'commandStart', requestAction, actualAction,
+  missionId = '', roomId = '', agentSessionId = '', logicalAgentId = '',
+  conversationId = '', conversationName = '', leaseId = '', agentLeaseId = '',
+  state = 'running', createdAt, safeToReplay = false
+} = {}) {
   return clean({
     receiptId,
     jobId,
@@ -8,6 +13,12 @@ function commandReceipt({ receiptId, jobId, workerId, action = 'commandStart', r
     requestAction: requestAction || action,
     actualAction: actualAction || action,
     missionId,
+    roomId,
+    agentSessionId,
+    logicalAgentId,
+    conversationId,
+    conversationName,
+    leaseId: leaseId || agentLeaseId,
     state,
     createdAt: createdAt || new Date().toISOString(),
     safeToReplay: safeToReplay === true

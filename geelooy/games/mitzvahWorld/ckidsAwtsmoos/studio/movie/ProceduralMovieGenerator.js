@@ -1,5 +1,12 @@
 // B"H
 import { createTimeline, addTimelineClip, addTimelineKeyframe } from "./Timeline.js";
+import { createChossidCharacterWardrobe } from "../../characters/chossid/wardrobe/ChossidWardrobe.js";
+
+function chossidCharacter(input) {
+  const character = { ...input };
+  character.wardrobe = createChossidCharacterWardrobe(character);
+  return character;
+}
 
 export function createDefaultMovieScene(options = {}) {
   return {
@@ -19,21 +26,21 @@ export function createDefaultMovieScene(options = {}) {
       { id:"door_trainer", opensTo:"trainer_interior", action:"openDoor" }
     ],
     characters:[
-      {
+      chossidCharacter({
         character:"chossid",
         id:"chossid",
         name:"Yossi",
         clothes:{ hat:"cap", shirt:"white", coat:"brown", pants:"black", shoes:"black" },
         actions:["walk", "run", "talkHands", "castStorm", "openDoor"]
-      },
-      {
+      }),
+      chossidCharacter({
         character:"chossid",
         id:"jill",
         name:"Jill",
         role:"questVendor",
         clothes:{ hat:"none", shirt:"blue", coat:"tan", pants:"brown", shoes:"black" },
         actions:["idle", "talkHands", "giveItem"]
-      }
+      })
     ],
     animals:[
       { id:"fox_hero_1", species:"fox", action:"prowl", position:[2, 0, 4] },
@@ -67,7 +74,10 @@ export function generateProceduralMovie(options = {}) {
     const camera = addTimelineClip(timeline, "camera", { label:shot.label, start:shot.start, duration:shot.duration, payload:{ shot:shot.shot, actor:shot.actor || null, location:scene.location, cut:true } });
     addTimelineKeyframe(timeline, camera.id, { time:shot.start, value:{ position:shot.position, lookAt:shot.lookAt } });
     addTimelineKeyframe(timeline, camera.id, { time:shot.start + shot.duration, value:{ position:shot.position.map((v, i) => i === 1 ? v + .25 : v + .35), lookAt:shot.lookAt } });
-    if (shot.actor) addTimelineClip(timeline, "actor", { label:`${shot.actor} ${shot.action}`, start:shot.start, duration:shot.duration, payload:{ actor:shot.actor, action:shot.action, clothes:scene.characters.find(c => c.id === shot.actor)?.clothes || null } });
+    if (shot.actor) {
+      const character = scene.characters.find(c => c.id === shot.actor);
+      addTimelineClip(timeline, "actor", { label:`${shot.actor} ${shot.action}`, start:shot.start, duration:shot.duration, payload:{ actor:shot.actor, action:shot.action, clothes:character?.clothes || null, wardrobe:character?.wardrobe || null } });
+    }
   }
   for (const animal of scene.animals) addTimelineClip(timeline, "actor", { label:`${animal.species} ${animal.action}`, start:1, duration:duration - 2, payload:{ actor:animal.id, species:animal.species, action:animal.action } });
   addTimelineClip(timeline, "dialogue", { label:"Jill quest dialogue", start:12.4, duration:4.2, payload:{ speaker:"jill", text:options.dialogueStyle === "brief" ? "Can you clear the garden?" : "The garden is full of pests. Please clear three and bring back what you find." } });

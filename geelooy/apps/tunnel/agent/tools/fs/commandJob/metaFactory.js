@@ -13,6 +13,7 @@ function createMeta({ jobId, command, cwd, shell, timeoutMs, config, payload = {
   const startedAt = new Date().toISOString();
   const requestAction = String(payload.requestAction || payload.originalAction || payload.action || 'commandStart');
   const actualAction = String(payload.actualAction || 'commandStart');
+  const session = sessionScope(payload);
   return {
     BH: 'B"H',
     jobId,
@@ -32,28 +33,46 @@ function createMeta({ jobId, command, cwd, shell, timeoutMs, config, payload = {
     timeoutMs,
     workerId: ids.workerId,
     receiptId: ids.receiptId,
-    worker: workerFor(ids.workerId, jobId, null, timeoutMs, startedAt),
-    receipt: receiptFor(ids, jobId, requestAction, actualAction, payload, startedAt),
-    cost: costStart(timeoutMs, payload),
+    session,
+    worker: workerFor(ids.workerId, jobId, null, timeoutMs, startedAt, session),
+    receipt: receiptFor(ids, jobId, requestAction, actualAction, session, startedAt),
+    cost: costStart(timeoutMs, payload, session),
     storage: { backend: 'device-file', outsideProject: true, folder: Paths.jobDir(config, jobId) }
   };
 }
 
 function attachPid(meta, pid) {
-  meta.worker = workerFor(meta.workerId, meta.jobId, pid, meta.timeoutMs, meta.startedAt);
+  meta.worker = workerFor(meta.workerId, meta.jobId, pid, meta.timeoutMs, meta.startedAt, meta.session || {});
   return meta;
 }
 
-function workerFor(workerId, jobId, pid, timeoutMs, startedAt) {
-  return WorkerProtocol.commandWorker({ workerId, jobId, pid, state: 'running', timeoutMs, startedAt, heartbeatAt: startedAt });
+function workerFor(workerId, jobId, pid, timeoutMs, startedAt, session = {}) {
+  return WorkerProtocol.commandWorker({ workerId, jobId, pid, state: 'running', timeoutMs, startedAt, heartbeatAt: startedAt, ...session });
 }
 
-function receiptFor(ids, jobId, requestAction, actualAction, payload, startedAt) {
-  return WorkerReceipts.commandReceipt({ receiptId: ids.receiptId, jobId, workerId: ids.workerId, action: 'commandStart', requestAction, actualAction, missionId: payload.missionId || '', state: 'running', createdAt: startedAt });
+function receiptFor(ids, jobId, requestAction, actualAction, session, startedAt) {
+  return WorkerReceipts.commandReceipt({ receiptId: ids.receiptId, jobId, workerId: ids.workerId, action: 'commandStart', requestAction, actualAction, state: 'running', createdAt: startedAt, ...session });
 }
 
-function costStart(timeoutMs, payload = {}) {
-  return { units: 1, wallMs: 0, outputBytes: 0, riskClass: 'long_running_command', timeoutMs, agentLeaseId: payload.agentLeaseId || '', missionId: payload.missionId || '' };
+function costStart(timeoutMs, payload = {}, session = sessionScope(payload)) {
+  return { units: 1, wallMs: 0, outputBytes: 0, riskClass: 'long_running_command', timeoutMs, agentLeaseId: session.leaseId || '', missionId: session.missionId || '' };
 }
 
-module.exports = { createMeta, attachPid, costStart };
+function sessionScope(payload = {}) {
+  return clean({
+    missionId: payload.missionId || '',
+    roomId: payload.roomId || payload.missionRoomId || '',
+    agentSessionId: payload.agentSessionId || '',
+    logicalAgentId: payload.logicalAgentId || payload.agentId || payload.agentName || '',
+    conversationId: payload.conversationId || '',
+    conversationName: payload.conversationName || '',
+    leaseId: payload.leaseId || payload.agentLeaseId || ''
+  });
+}
+
+function clean(obj) {
+  for (const key of Object.keys(obj)) if (obj[key] === undefined || obj[key] === '') delete obj[key];
+  return obj;
+}
+
+module.exports = { createMeta, attachPid, costStart, sessionScope };

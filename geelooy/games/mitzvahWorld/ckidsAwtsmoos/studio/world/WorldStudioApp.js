@@ -3,9 +3,10 @@ import { createBlankWorldProject, createWorldObject, createDoor, createNpc, crea
 import { saveProjectLocal, loadProjectLocal, downloadProject } from "../core/StudioPersistence.js";
 import { createSpawnRule, saveSpawnRulesToWorld, weightedSpawnPreview } from "../generation/SpawnProbabilityTable.js";
 import { generateAnimalPreset } from "../animals/AnimalGeneratorApp.js";
+import { compileLivingCreationDocument } from "../platform/LivingCreationPlatform.js";
 
 export function createWorldStudioState(project = createBlankWorldProject()) {
-  return { project, selected:null, mode:"select", lastSaved:null, testPlayUrl:null };
+  return { project, selected:null, mode:"select", lastSaved:null, testPlayUrl:null, platform:null };
 }
 
 export function exerciseWorldStudio(state = createWorldStudioState()) {
@@ -16,11 +17,23 @@ export function exerciseWorldStudio(state = createWorldStudioState()) {
   const rule = createSpawnRule({ species:"fox", weight:.12, maxCount:8, biomes:["villageEdge", "forest"], hostility:"hostile", groupSize:[1, 2], lootTable:"foxLoot" });
   saveSpawnRulesToWorld(state.project, [rule]);
   state.project.speciesPresets.fox = generateAnimalPreset("fox", { seed:613 });
+  state.platform = compileLivingCreationDocument({
+    world:"village",
+    seed:613,
+    population:120,
+    generate:["Village", "Marketplace", "Synagogue", "River", "Bridge", "Forest"],
+    houses:[["brick", "door", "shop"], ["wood", "door", "trainer"]],
+    animals:[{ sp:"fox", n:4, hostile:true, loot:"fur,coin" }, { sp:"goat", n:5, friendly:true }],
+    npcs:[{ id:"guide", role:"questVendor", q:"clear_path" }, { id:"trainer", role:"trainer", teach:["block", "dodge"] }],
+    quests:[{ id:"clear_path", obj:"collect supplies 3", reward:"coin:8,xp:30" }],
+    movie:{ shots:[["wide", "village", 3], ["dialog", "guide", "talkHands", 4], ["action", "chossid", "dodge", 3]] }
+  });
+  state.project.graph = state.platform.graph;
   const storage = memoryStorage();
   state.lastSaved = saveProjectLocal(state.project, "mitzvahWorld.worldStudio.proof", storage);
   const loaded = loadProjectLocal("mitzvahWorld.worldStudio.proof", storage);
   state.testPlayUrl = `./index.html?worldProject=${encodeURIComponent(state.project.id)}`;
-  return { state, loaded, spawnPreview:weightedSpawnPreview(state.project.animalSpawnRules, 613, 12) };
+  return { state, loaded, spawnPreview:weightedSpawnPreview(state.project.animalSpawnRules, 613, 12), platform:state.platform };
 }
 
 function memoryStorage() {
@@ -36,7 +49,7 @@ export function mountWorldStudioApp(root = document.body) {
   const render = () => {
     const scene = activeScene(state.project);
     map.innerHTML = ["objects", "buildings", "doors", "npcs", "animals"].flatMap(collection => scene[collection].map(entity => `<button class="map-entity ${collection}" data-collection="${collection}" data-id="${entity.id}" style="left:${50 + entity.position.x * 3}%;top:${50 + entity.position.z * 3}%">${entity.species || entity.kind}</button>`)).join("");
-    details.textContent = state.selected ? `${state.selected.collection}: ${state.selected.id}` : `${scene.objects.length} objects, ${scene.animals.length} animals, ${scene.npcs.length} NPCs, ${scene.doors.length} doors`;
+    details.textContent = state.selected ? `${state.selected.collection}: ${state.selected.id}` : `${scene.objects.length} objects, ${scene.animals.length} animals, ${scene.npcs.length} NPCs, ${scene.doors.length} doors, ${state.project.graph?.nodes?.length || 0} graph nodes`;
   };
   root.addEventListener("click", event => {
     const place = event.target?.dataset?.place;

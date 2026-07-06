@@ -25,6 +25,7 @@
     "test:starter-zone": "node tests/gameplay/starterZoneSeamlessIntegrationAudit.mjs && node tests/gameplay/starterGameplaySimulationAudit.mjs && node tests/gameplay/startingZoneMmoContractAudit.mjs && node tests/gameplay/wardrobeEquipmentEndToEndAudit.mjs && node tests/gameplay/denseEnemyStressAudit.mjs",
     "test:village-activity": "node tests/gameplay/villageActivitySchedulerAudit.mjs",
     "test:world-director": "node tests/gameplay/worldEventDirectorAudit.mjs",
+    "test:living-creation-platform": "node tests/platform/livingCreationPlatformAudit.mjs",
     "test:living-zone": "npm run test:starter-zone && npm run test:village-activity && npm run test:world-director",
     "test:mobile-boot": "node tests/gameplay/mobileBootContractAudit.mjs",
     "test:collision-authority": "node tests/collision/spatialBubbleIndexBehavior.mjs && node tests/collision/meshCollisionAuthorityAudit.mjs",

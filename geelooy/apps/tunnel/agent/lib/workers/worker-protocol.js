@@ -1,5 +1,9 @@
 // B"H
-function commandWorker({ workerId, jobId, pid, state = 'running', timeoutMs, startedAt, heartbeatAt } = {}) {
+function commandWorker({
+  workerId, jobId, pid, state = 'running', timeoutMs, startedAt, heartbeatAt,
+  missionId = '', roomId = '', agentSessionId = '', logicalAgentId = '',
+  conversationId = '', conversationName = '', leaseId = '', agentLeaseId = ''
+} = {}) {
   return clean({
     workerId,
     jobId,
@@ -8,6 +12,13 @@ function commandWorker({ workerId, jobId, pid, state = 'running', timeoutMs, sta
     pid: Number.isFinite(Number(pid)) ? Number(pid) : null,
     isolation: 'stdio-stream-files',
     timeoutMs: Number.isFinite(Number(timeoutMs)) ? Number(timeoutMs) : null,
+    missionId,
+    roomId,
+    agentSessionId,
+    logicalAgentId,
+    conversationId,
+    conversationName,
+    leaseId: leaseId || agentLeaseId,
     startedAt,
     heartbeatAt
   });
@@ -27,10 +38,12 @@ function evidenceFor(worker = {}, receipt = {}) {
   if (receipt.receiptId) evidence.push('receipt_written');
   if (worker.pid) evidence.push('process_spawned');
   if (worker.kind === 'subprocess') evidence.push('subprocess_isolation');
+  if (worker.agentSessionId && receipt.agentSessionId === worker.agentSessionId) evidence.push('session_scoped');
+  if (worker.conversationId && receipt.conversationId === worker.conversationId) evidence.push('conversation_scoped');
   return evidence;
 }
 function clean(obj) {
-  for (const key of Object.keys(obj)) if (obj[key] === undefined) delete obj[key];
+  for (const key of Object.keys(obj)) if (obj[key] === undefined || obj[key] === '') delete obj[key];
   return obj;
 }
 module.exports = { commandWorker, commandFinalWorker, evidenceFor };

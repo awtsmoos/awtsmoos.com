@@ -14,6 +14,8 @@ export function runMovieProof() {
     subtitleClipAdded:Boolean(byKind("subtitle")?.clips.length),
     keyframeAdded:state.timeline.tracks.some(track => track.clips.some(clip => clip.keyframes?.length)),
     proceduralMovieGenerated:Boolean(generated?.ok),
+    nlePanelsAvailable:state.panels?.includes("curveEditor") && state.panels?.includes("renderQueue") && state.panels?.includes("cameraGraph"),
+    directorAiPlanned:Boolean(state.director?.shots?.length),
     cutsceneExported:Boolean(state.exported?.schema),
     cutscenePlayedInGame:Boolean(played?.ok)
   };
