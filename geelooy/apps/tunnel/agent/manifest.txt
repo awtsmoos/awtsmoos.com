@@ -1,5 +1,5 @@
 B"H
-1.0.242
+1.0.244
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -784,6 +784,7 @@ tools/fs/actionGroups/missionOperatingActions.js
 tools/fs/actionGroups/missionSelfImproveActions.js
 tools/fs/actionGroups/missionWatchdogActions.js
 tools/fs/actionGroups/nodeDomActions.js
+tools/fs/actionGroups/osSurfaceActions.js
 tools/fs/actionGroups/previewActions.js
 tools/fs/actionGroups/previewReceiptActions.js
 tools/fs/actionGroups/processActions.js

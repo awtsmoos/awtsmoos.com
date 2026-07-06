@@ -71,7 +71,7 @@ async function diff(payload = {}) {
 
 async function consoleOut(payload = {}) {
   const result = await simulateNodeDomRuntime(options(payload));
-  return { ok: result.ok !== false, action: 'nodeDomConsole', console: result.console || [], errors: result.errors || [], runtime: result };
+  return { ok: result.ok !== false, action: 'nodeDomConsole', console: Array.isArray(result.console) ? result.console : [], rawConsole: result.console || null, errors: result.errors || [], runtime: result };
 }
 
 async function storage(payload = {}) {

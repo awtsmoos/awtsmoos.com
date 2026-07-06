@@ -11,6 +11,7 @@ const CONTROL_ACTIONS = new Set([
   'treeStatus','treePage','treeStream','treeSummary','treeCancel','rgStatus','rgPage','rgStream','rgSummary','rgCancel',
   'chromeTargets','chromeTargetSelector','chromeClosePage',
   'nodeVersionDoctor','nodePackageScripts','nodeResolve',
+  'awtsmoosOsBrowse','awtsmoosRuntimeBrowse','awtsmoosCapabilities',
   'missionGet','missionStatus','missionRecovery','missionHeartbeat','missionDaemonStatus',
   'missionWatchdogStatus','missionWatchdogRecover'
 ]);
