@@ -6,7 +6,7 @@ import setupDomEvents from "./worker/domEvents.js?v=solid-browser-verify-2026070
 import setupMessageHandler from "./worker/messageHandler.js?v=zone-reality-20260614-bh817";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=final-proof-bridge-20260705-bh4";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=loading-proof-mobile-20260706-bh2";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";

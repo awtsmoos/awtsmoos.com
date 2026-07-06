@@ -1,6 +1,6 @@
 // B"H
 /** Combat proof: the animal must not be a sitting target; it attacks back hard. */
-import { makeCombatTarget } from "../../../../systems/combat/CombatTargeting.js?v=mmo-phase2-levels-20260615-bh1";
+import { makeCombatTarget } from "../../../../systems/combat/CombatTargeting.js?v=realistic-target-proof-20260706-bh2";
 import { applyAdventureDifficulty } from "../../../../systems/combat/CombatDifficultyScaler.js";
 import { observeCombatHit } from "../../../../systems/combat/CombatRetaliation.js";
 import { collectCombatDiagnostics } from "../../../../systems/combat/CombatDiagnostics.js";

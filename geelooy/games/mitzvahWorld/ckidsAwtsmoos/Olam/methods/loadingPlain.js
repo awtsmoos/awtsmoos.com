@@ -29,7 +29,12 @@ export default class LoadingPlainMethods {
       try { await this.loadComponent(shaym, url); }
       catch (error) { console.warn(`B"H - Vessel ${shaym} failed to manifest, continuing...`, error); }
       loadedCount += 1;
-      this.ayshPeula("increase loading percentage", { amount: (loadedCount / entries.length) * 100, reset: true, action: "Drawing Light...", subAction: `Manifesting Vessel: ${shaym}` });
+      this.ayshPeula("increase loading percentage", {
+        total:(loadedCount / entries.length) * 100,
+        reset:false,
+        action:"Drawing Light...",
+        subAction:`Manifesting Vessel: ${shaym}`
+      });
     }));
   }
 

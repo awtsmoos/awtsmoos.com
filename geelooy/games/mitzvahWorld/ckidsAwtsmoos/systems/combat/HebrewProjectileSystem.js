@@ -2,7 +2,7 @@
 /** @file HebrewProjectileSystem.js @description Hebrew letters/arrows that refine moving targets with homing correction. */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { getRandomLetter, getLetterByIndex } from './WeaponRegistry.js';
-import { isLiveTarget } from './CombatTargeting.js?v=mmo-phase2-levels-20260615-bh1';
+import { isLiveTarget } from './CombatTargeting.js?v=realistic-target-proof-20260706-bh2';
 function makeCanvas(w, h) { if (typeof document !== 'undefined') { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; } if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(w, h); return null; }
 function fallback(letter, color, size) { const mesh = new THREE.Mesh(new THREE.BoxGeometry(size * .3, size * .3, size * .3), new THREE.MeshBasicMaterial({ color:new THREE.Color(color) })); mesh.userData.letter = letter; return mesh; }
 function sprite(letter, color, size) { const canvas = makeCanvas(128, 128); if (!canvas) return fallback(letter, color, size); const ctx = canvas.getContext('2d'); if (!ctx) return fallback(letter, color, size); ctx.clearRect(0, 0, 128, 128); ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffe680'; ctx.shadowBlur = 18; ctx.font = 'bold 96px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(letter, 64, 64); const tex = new THREE.CanvasTexture(canvas), mat = new THREE.SpriteMaterial({ map:tex, color:new THREE.Color(color), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false }); const s = new THREE.Sprite(mat); s.scale.set(size, size, size); return s; }

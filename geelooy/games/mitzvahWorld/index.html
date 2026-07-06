@@ -55,17 +55,19 @@
     (() => {
       const q = window.__AWTSMOOS_EARLY_LOADING_QUEUE__ = window.__AWTSMOOS_EARLY_LOADING_QUEUE__ || [];
       const ids = { total:"genesisProgressBar", world:"genesisWorldBar", worker:"genesisWorkerBar", texture:"genesisTextureBar", action:"genesisActionText", sub:"genesisSubActionText", percent:"genesisPercentText", workerText:"genesisWorkerText", textureText:"genesisTextureText", log:"genesisProgressLog" };
-      const stages = [["html",3],["module",10],["entrypoint",16],["boot-runner",22],["angelic-invoker",28],["vessel_ready",34],["message:pawsawch",40],["soul-loader",50],["load-nivrayim",66],["postbuild",88],["first-render",96],["loadedWorld",98],["world_final_ready",100]];
-      const state = { total:0, world:0, worker:0, texture:0, log:["B\"H  opening loading channel"], real:false };
+      const stages = [["html",0],["module",10],["entrypoint",16],["boot-runner",22],["angelic-invoker",28],["vessel_ready",34],["message:pawsawch",40],["soul-loader",50],["load-nivrayim",66],["postbuild",88],["first-render",96],["loadedWorld",98],["world_final_ready",100]];
+      const state = { total:0, world:0, worker:0, texture:0, hadPositive:false, log:["B\"H  opening loading channel"], real:false };
       const clamp = v => Math.max(0, Math.min(100, Number(v) || 0));
       const byId = id => document.getElementById(id);
       const stagePercent = stage => (stages.find(([prefix]) => String(stage || "").startsWith(prefix)) || [null, state.total])[1];
+      const noMidReset = v => state.hadPositive && clamp(v) <= 0 ? state.total : clamp(v);
       function writeBar(id, value) { const el = byId(id); if (el) el.style.width = `${Math.round(clamp(value))}%`; }
       function writeText(id, value) { const el = byId(id); if (el && value != null) el.textContent = String(value); }
       function title(stage) { stage = String(stage || ""); if (stage.includes("postbuild")) return "Building the finished zone..."; if (stage.includes("load-nivrayim") || stage.includes("soul-loader")) return "Creating roads, homes, NPCs, and animals..."; if (stage.includes("texture")) return "Preparing textures..."; if (stage.includes("world_final_ready")) return "World ready"; return "Opening the world..."; }
       function paint(input = {}) {
-        const stage = String(input.stage || input.kind || "html:start"), total = clamp(input.total ?? input.amount ?? stagePercent(stage));
+        const stage = String(input.stage || input.kind || "html:start"), total = noMidReset(input.total ?? input.amount ?? stagePercent(stage));
         state.real ||= input.real !== false && stage !== "html:trickle";
+        state.hadPositive ||= total > 0;
         state.total = Math.max(state.total, total);
         if (stage.includes("load") || stage.includes("soul") || stage.includes("postbuild")) state.world = Math.max(state.world, input.world ?? total);
         if (stage.includes("worker") || stage.includes("entrypoint") || stage.includes("message") || stage.includes("vessel")) state.worker = Math.max(state.worker, input.worker ?? total);
@@ -80,20 +82,21 @@
       }
       function update(input = {}) { q.push({ ...input, at:Date.now() }); paint(input); }
       window.__AWTSMOOS_LOADING_PROGRESS__ = { update, workerProgress:update, textureProgress:data => update({ stage:`texture:${data?.stage || "progress"}`, texture:data?.percent, textureLabel:`${data?.type || "texture"} ${Math.round(clamp(data?.percent))}%` }), hideLoading:reason => update({ stage:"hide-request-held", total:Math.max(state.total, 12), action:"Waiting for playable world...", subAction:String(reason || "hide requested before readiness"), real:false }), markFinalReady:reason => update({ stage:String(reason || "world_final_ready"), total:String(reason || "").includes("world_final_ready") ? 100 : Math.max(state.total, 90), action:"Confirming first playable frame...", subAction:String(reason || "final ready requested"), real:true }), seal:"early-strict-no-black-progress-dom-20260702-bh2" };
-      update({ stage:"html:start", total:4, action:"Opening the world...", real:false });
+      paint({ stage:"html:initial", total:0, action:"Opening the world...", real:false });
+      update({ stage:"html:start", total:0, action:"Opening the world...", real:false });
       let trickle = 4;
       const timer = setInterval(() => {
         if (window.__AWTSMOOS_LOADING_BRIDGE_READY__) return clearInterval(timer);
-        trickle = Math.min(22, trickle + 1.35);
+        trickle = Math.min(34, trickle + 2.25);
         update({ stage:"html:trickle", total:trickle, action:"Importing compact modules...", subAction:"browser module graph", real:false });
-      }, 140);
+      }, 90);
     })();
   </script>
   <div id="ikar" shaym="ikar"></div>
   <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div><div shaym="personalPerutas"></div><div shaym="animalKillProof"></div></div>
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
-  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?v=full-revamp-loading-diag-20260704-bh1"></script>
+  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh2"></script>
   <script type="module" src="./systems/osGraph/bridge.js?v=perf-tight-collision-20260703-bh3"></script>
   <script type="module" src="./index.js?v=perf-tight-collision-20260703-bh3"></script>
   <script type="module">
@@ -115,7 +118,7 @@
     async function loadBootExtras() {
       window.__MITZVAH_DEFERRED_MODULES__ ||= { startedAt:Date.now(), loaded:[], failed:[] };
       progress?.update?.({ stage:"module:extras:start", total:24, action:"Starting world first...", subAction:"noncritical systems deferred" });
-      await pause(180);
+      await pause(0);
       for (const spec of bootExtras) {
         const name = spec.split("/").pop().split("?")[0];
         try {
@@ -126,11 +129,10 @@
           console.warn("B'H deferred startup module failed", name, error);
           window.__MITZVAH_DEFERRED_MODULES__.failed.push({ name, error:String(error?.message || error) });
         }
-        await pause(18);
       }
-      progress?.update?.({ stage:"module:extras:done", total:30, action:"Support systems ready", subAction:"world boot continues" });
+      progress?.update?.({ stage:"module:extras:done", total:Math.max(progress?.snapshot?.()?.total || 30, 30), action:"Support systems ready", subAction:"world boot continues" });
     }
-    setTimeout(loadBootExtras, 260);
+    setTimeout(loadBootExtras, 900);
   </script>
 <script>
 (function(){
@@ -178,7 +180,9 @@
     const loaded = window.__AWTSMOOS_BOOT_LOADED__ || window.__AWTSMOOS_LOADING_FINAL_READY__;
     if (hidden) return clearInterval(timer);
     if (finalReadySeen || (loaded && loaded.playable === true)) hide(loaded?.reason || 'world-final-ready-proof');
-  }, 300);
+    else if (proof.firstCanvasSeen && window.__AWTSMOOS_BOOT_LOADED__) hide('first-visible-canvas-boot-loaded-fast-path');
+    else if (proof.firstCanvasSeen && Date.now() - proof.at < 1000) soften('Canvas is visible; entering immediately.');
+  }, 160);
   setTimeout(() => { if (!hidden) soften('Still verifying worker, terrain, physics, gameplay, and first playable frame.'); }, 4500);
   setTimeout(() => { if (!hidden) soften('Solid-color world is playable; textures continue in background.'); }, 1800);
 })();

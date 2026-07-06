@@ -12,7 +12,7 @@
 import { oyvedManagerLog } from "../log/MainTextLogger.js";
 import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js";
 import { recordWorkerProgress } from "../progress/WorkerProgressStore.js";
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=full-revamp-loading-diag-20260704-bh1";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh2";
 
 const SEAL = "final-proof-bridge-20260705-bh4";
 const PLAYABLE_STAGE = /^(first-playable-frame|gameplay-ready|world_final_ready)$/i;
@@ -209,7 +209,14 @@ function holdUntilPlayable(stage) {
   });
 }
 
-function mark(manager, stage) {
+function dispatchGameReadyPhase(stage, data) {
+  window.dispatchEvent?.(new CustomEvent("awtsmoos:game-ready-phase", {
+    detail:{ stage, data:data || null, at:Date.now(), seal:SEAL }
+  }));
+}
+
+function mark(manager, stage, data = null) {
+  dispatchGameReadyPhase(stage, data);
   if (stage === "vessel_ready") {
     if (manager.runtime) manager.runtime.vesselIsReady = true;
     manager._vesselIsReady = true;
@@ -243,7 +250,7 @@ function handleProgress(manager, data) {
   rememberStage(stage, data);
   recordWorkerProgress(stage, data);
   LoadingProgress.workerProgress?.(data);
-  mark(manager, stage);
+  mark(manager, stage, data);
 }
 
 function handlePlayerProbeResult(data) {

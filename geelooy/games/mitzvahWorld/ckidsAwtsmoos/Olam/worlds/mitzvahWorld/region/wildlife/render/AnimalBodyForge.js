@@ -6,7 +6,7 @@
  * live in their own files while this module performs the single act of birth:
  * create one animal mesh, name it, scale it, and seal its proof.
  */
-import { createAnimalRenderable } from "../skinned/AnimalRenderableFactory.js?v=single-mesh-animals-20260621-bh1";
+import { createAnimalRenderable } from "../skinned/AnimalRenderableFactory.js?v=realistic-generated-animals-20260706-bh1";
 import { countMeshes, softAuditAnimal } from "./AnimalSoftAudit.js?v=animal-forge-split-20260628-bh1";
 import { displayNameFor, scaleFor } from "./AnimalBuildTables.js?v=animal-forge-split-20260628-bh1";
 

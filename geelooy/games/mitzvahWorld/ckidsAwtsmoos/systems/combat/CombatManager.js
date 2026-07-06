@@ -3,7 +3,7 @@
 import * as THREE from "/games/scripts/build/three.module.js";
 import HebrewProjectileSystem from "./HebrewProjectileSystem.js";
 import HealthBarSystem from "./HealthBarSystem.js";
-import CombatTargeting, { collectCombatTargets, isLiveTarget } from "./CombatTargeting.js?v=mmo-phase2-levels-20260615-bh1";
+import CombatTargeting, { collectCombatTargets, isLiveTarget } from "./CombatTargeting.js?v=realistic-target-proof-20260706-bh2";
 import { validateCombatTarget } from "./CombatTargetValidator.js";
 import { WEAPON_REGISTRY } from "./WeaponRegistry.js";
 import { ensurePlayerLevel, emitPlayerProgress } from "../progression/PlayerLevelRuntime.js";

@@ -1,5 +1,9 @@
 // B"H
-/** GeneratedBattleLayer.js — split, cache-bumped battle wildlife installer. */
+/**
+ * GeneratedBattleLayer.js — split, cache-bumped battle wildlife installer.
+ * Runtime mob construction stays in BattleWildlife: new VillageAnimalMob and
+ * combatManager.registerEnemy live there so this coordinator remains small.
+ */
 import VillageCombatState from "../combat/VillageCombatState.js?v=village-polish-20260612-bh810";
 import { VILLAGE_BATTLE_DECOR, VILLAGE_COMBAT_MISSION } from "../combat/VillageCombatManifest.js";
 import { getVillageGroundNavigator } from "../combat/VillageGroundNavigator.js?v=mitzvah-battle-split-20260703-bh1";

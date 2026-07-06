@@ -8,7 +8,7 @@
  * fallback for any browser/runtime that cannot compile the skinned vessel.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { buildAnimal as buildSkinnedAnimal } from "../wildlife/render/AnimalBodyForge.js?v=animal-forge-split-20260628-bh1";
+import { buildAnimal as buildSkinnedAnimal } from "../wildlife/render/AnimalBodyForge.js?v=realistic-target-proof-20260706-bh2";
 import { addAnimalParts } from "./animalShape/AnimalParts.js?v=mitzvah-aggressive-split-20260703-bh1";
 import { animalProfile, animalScale } from "./animalShape/AnimalProfile.js?v=mitzvah-aggressive-split-20260703-bh1";
 

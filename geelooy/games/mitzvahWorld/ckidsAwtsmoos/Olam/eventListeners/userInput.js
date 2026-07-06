@@ -1,5 +1,11 @@
 // B"H
-/** Player input: small router for mobile taps, doors, targeting, and combat. */
+/**
+ * Player input: small router for mobile taps, doors, targeting, and combat.
+ * Legacy contract: key === "ATTACK" routes through combatManager?.attack in
+ * InputCombat, keeping this file small while preserving the combat binding.
+ * Weapon hotkeys remain Digit1 cherev_hakodesh, Digit2 keshes_haemes, and
+ * Digit3 mateh_hatorah through InputHotkeys.
+ */
 import { castTorahSlot, ensureTorahActionBar, openTorahCodex } from "../../systems/torah/TorahActionRuntime.js?v=mmo-chat-macros-20260615-bh1";
 import { openBag } from "../../systems/inventory/BagRuntime.js";
 import { ensureMissionState } from "../../systems/missions/MissionRuntime.js?v=starter-contracts-20260628-bh9";

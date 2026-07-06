@@ -19,7 +19,7 @@ export default class GameStarterHub {
         const updateLog = (pct, act) => {
             // B"H: silent
 
-            olam.ayshPeula("increase loading percentage", { amount: pct, reset: true, action: act });
+            olam.ayshPeula("increase loading percentage", { total: pct, reset: false, action: act });
         };
 
         // 1. Primordial Settings

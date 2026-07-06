@@ -11,6 +11,7 @@
  * pulses with life in the background thread.
  */
 import VeilController from "../../../uiManager/logic/VeilController.js";
+import LoadingProgress from "../../../uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh2";
 
 export default function setupVeilDissolver(manager) {
     const controller = new VeilController(manager.myUi);
@@ -26,12 +27,22 @@ export default function setupVeilDissolver(manager) {
 
         /**
          * @function resetPercentage
-         * @description Returns the progress measure to the Void (0%).
+         * @description Legacy callers may still ask for a reset; the visible
+         * loader records that request but keeps the monotonic display floor.
          */
         resetPercentage() {
+            const total = Math.max(LoadingProgress.snapshot?.().total || 0, 18);
+            LoadingProgress.update({
+                stage: "legacy-veil-reset-held",
+                total,
+                world: total,
+                worker: total,
+                action: "Continuing load...",
+                subAction: "legacy reset request ignored"
+            });
             manager.myUi.htmlAction({
                 shaym: "loading bar",
-                properties: { style: { width: "0%" } }
+                properties: { style: { width: `${total}%` } }
             });
         }
     };

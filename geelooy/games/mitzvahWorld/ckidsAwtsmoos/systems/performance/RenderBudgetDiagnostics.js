@@ -36,9 +36,13 @@ function trianglesOf(node) {
 function blankBucket() {
   return { meshes:0, visibleMeshes:0, drawCalls:0, triangles:0, transparent:0, skinned:0, instanced:0, shadowCasters:0 };
 }
+function materialVisible(node) {
+  const mats = matList(node?.material);
+  return !mats.length || mats.some(mat => mat.visible !== false);
+}
 function worldVisible(node) {
   for (let cur = node; cur; cur = cur.parent) if (cur.visible === false) return false;
-  return true;
+  return materialVisible(node);
 }
 
 export function collectRenderBudgetDiagnostics(scene, renderer = null) {

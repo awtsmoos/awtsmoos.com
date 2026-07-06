@@ -1,5 +1,10 @@
 // B"H
-/** @file misc.js @description Miscellaneous Olam events, including monotonic loading progress. */
+/**
+ * @file misc.js
+ * @description Miscellaneous Olam events, including monotonic loading progress.
+ * The loading veil is a river of light. It may slow, it may pause, but it may
+ * not fall back to zero and frighten the player into thinking the world died.
+ */
 export default function miscListeners() {
   this.on("stringify olam", () => this?.getCompiledNivrayimInfo());
 
@@ -28,21 +33,41 @@ export default function miscListeners() {
   let lastTime = Date.now();
   this.currentLoadingPercentage = Math.max(0, Number(this.currentLoadingPercentage) || 0);
 
-  this.on("increase loading percentage", async ({ amount = 0, action, info = {}, subAction } = {}) => {
+  this.on("increase loading percentage", async ({ amount = 0, action, info = {}, subAction, reset = false, total = null } = {}) => {
     const changedAction = lastAction !== action;
     if (changedAction) lastTime = Date.now();
     const previous = Math.max(0, Number(this.currentLoadingPercentage) || 0);
-    const next = Math.max(previous, Math.min(100, previous + Math.max(0, Number(amount) || 0)));
+    const numericTotal = Number(total);
+    const numericAmount = Number(amount) || 0;
+    const candidate = Number.isFinite(numericTotal)
+      ? numericTotal
+      : reset
+        ? numericAmount
+        : previous + Math.max(0, numericAmount);
+    const next = Math.max(previous, Math.min(100, Math.max(0, candidate)));
     this.currentLoadingPercentage = next;
+    this.__loadingProgressMonotonicDiag = {
+      previous,
+      amount:numericAmount,
+      requestedTotal:Number.isFinite(numericTotal) ? numericTotal : null,
+      requestedReset:Boolean(reset),
+      total:next,
+      preventedRegression:next > candidate,
+      action,
+      subAction,
+      seal:"monotonic-loading-never-zero-reset-20260705-bh1"
+    };
     this.ayshPeula("increased percentage", {
-      amount,
+      amount:numericAmount,
       action,
       subAction,
       total:next,
       reset:false,
       changedAction,
       elapsedSinceActionMs:Date.now() - lastTime,
-      nivra:info?.nivra || null
+      nivra:info?.nivra || null,
+      monotonic:true,
+      preventedRegression:next > candidate
     });
     lastAction = action;
   });

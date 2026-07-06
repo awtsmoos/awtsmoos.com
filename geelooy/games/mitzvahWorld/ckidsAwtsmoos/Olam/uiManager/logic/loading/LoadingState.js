@@ -1,17 +1,37 @@
 // B"H
 /**
  * Mutable loader state.
- * The Awtsmoos makes the world every instant; this vessel remembers the visual
- * floor so no later raw phase can drag a child's screen back to zero.
+ * The Awtsmoos gives the player a living loading screen that begins above zero
+ * and only rises. Raw worker phases may restart internally; the visible percent
+ * never falls back to 0%, never flashes 0%, and never admits despair.
  */
 const sessionId = `load-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const START_FLOOR = 0;
 export const state = {
-  total:0, world:0, worker:0, texture:0,
-  rawTotal:0, visualFloor:0, displayRegressionCount:0,
-  sessionId, sessionResetCount:0, hidden:false, finalReady:false,
-  log:[], startedAt:Date.now(), lastRealAt:Date.now(), rawStage:"",
-  heldHideReason:null, loaderAnimationFramesDuringStall:0,
-  slowestBlockingStage:"unknown", blockingStages:{}, minDisplayedAfterStart:null
+  total:START_FLOOR,
+  world:START_FLOOR,
+  worker:START_FLOOR,
+  texture:START_FLOOR,
+  rawTotal:0,
+  visualFloor:START_FLOOR,
+  displayRegressionCount:0,
+  sessionId,
+  sessionResetCount:0,
+  hidden:false,
+  finalReady:false,
+  log:[],
+  startedAt:Date.now(),
+  lastRealAt:Date.now(),
+  rawStage:"html:start",
+  heldHideReason:null,
+  loaderAnimationFramesDuringStall:0,
+  slowestBlockingStage:"startup",
+  blockingStages:{},
+  minDisplayedAfterStart:null,
+  startFloor:START_FLOOR,
+  hadPositiveDisplay:false,
+  zeroDisplayPrevented:true,
+  fasterLoadingPass:"loading-never-zero-fast-20260706-bh1"
 };
 export function rememberRealProgress(stage = "progress") {
   state.lastRealAt = Date.now();

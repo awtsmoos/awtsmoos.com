@@ -7,7 +7,7 @@ export default {
   async runHeescheel(nivrayimMade) {
     await runPhase(this, "heescheel", nivrayimMade, () => [this, { nivrayimMade }]);
     const total = nivrayimMade.length;
-    nivrayimMade.forEach((nivra, i) => this.ayshPeula("increase loading percentage", { amount:loadingPercent(i, total), reset:true, nivra, action:`Elevating: ${nivra?.name || nivra?.type || i}` }));
+    nivrayimMade.forEach((nivra, i) => this.ayshPeula("increase loading percentage", { total:loadingPercent(i, total), reset:false, nivra, action:`Elevating: ${nivra?.name || nivra?.type || i}` }));
   },
   async runMadeAll(nivrayimMade) { await runPhase(this, "madeAll", nivrayimMade, () => [this]); },
   async runReady(nivrayimMade) { await runPhase(this, "ready", nivrayimMade, () => []); },
