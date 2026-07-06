@@ -174,7 +174,22 @@ export async function installLiveWowSliceRuntime() {
     selectEnemy(id) { const result = ctx.combat.selectEnemy(id); ctx.ui.render(); return result; },
     attack(id) { const ability = id === "focus_shot" ? "focus_shot" : id === "quick_strike" ? "quick_strike" : "melee_attack"; const result = ctx.combat.attack(ability); if (result.ok) ctx.ui.floatText(`${result.mode} -${result.damage}${result.retaliation ? ` / hit back ${result.retaliation.damage}` : ""}`); ctx.ui.render(); return result; },
     acceptQuest(npcId) { const result = creditExistingQuestProgress(ctx, acceptNextQuest(ctx.questState, npcId)); ctx.ui.render(); return result; },
-    turnInQuest(npcId) { const result = turnInReadyQuest(ctx.questState, npcId, ctx.player, ctx.inventory); ctx.ui.render(); return result; },
+    turnInQuest(npcId) {
+      const result = turnInReadyQuest(ctx.questState, npcId, ctx.player, ctx.inventory);
+      ctx.ui.render();
+      if (result.ok) {
+        const finalQuest = result.quest?.id === "brave_the_guardian";
+        ctx.ui.playCutscene({
+          title: result.quest?.title || "Quest Complete",
+          dialogue: finalQuest
+            ? "The village gate is safe again. Take this charm and carry the mitzvah forward."
+            : "Good work. The village path is clearer, and the next task is ready.",
+          action: finalQuest ? "giveItem" : "acceptQuest",
+          shot: finalQuest ? "closeup" : "medium"
+        });
+      }
+      return result;
+    },
     collectLoot(corpseId) { const corpse = ctx.corpses.find(row => row.id === corpseId) || ctx.corpses.find(row => !row.looted); const result = collectCorpse(corpse, ctx.player, ctx.inventory, ctx.questState); ctx.ui.closeWindows(); ctx.ui.render(); return result; },
     buy(id) { const result = buyVendorItem("shop_yosef", id, ctx.player, ctx.inventory); ctx.ui.render(); return result; },
     sell() { const result = sellVendorLoot(ctx.player, ctx.inventory); ctx.ui.render(); return result; },

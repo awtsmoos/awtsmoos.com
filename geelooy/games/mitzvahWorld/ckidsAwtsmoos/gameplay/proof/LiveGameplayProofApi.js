@@ -62,24 +62,15 @@ export function installLiveGameplayProofApi(ctx) {
       };
     },
     triggerQuestCutscene() {
-      ctx.cutsceneState = {
-        questTriggeredCutscene:true,
-        cameraSwitched:true,
-        actorPlayedAction:"talkHands",
-        dialogueShown:true,
-        skipWorked:false,
-        returnedToGameplay:false,
-        letterboxOptional:true,
-        mobileSafeUi:true
-      };
-      return ctx.cutsceneState;
+      return ctx.ui.playCutscene({
+        title:"Quest Moment",
+        dialogue:"The NPC speaks while the camera switches into a quest shot.",
+        action:"talkHands",
+        shot:"over-shoulder"
+      }).cutscene;
     },
     skipCutscene() {
-      ctx.cutsceneState = {
-        ...(ctx.cutsceneState || {}),
-        skipWorked:true,
-        returnedToGameplay:true
-      };
+      ctx.ui.skipCutscene();
       return ctx.cutsceneState;
     },
     canvasSample() {
