@@ -1,0 +1,20 @@
+.home-panel,
+.home-action-card,
+.home-post-card,
+.home-discovery-card,
+.home-command-dock,
+.home-brand-pill,
+.home-top-icon,
+.home-top-avatar {
+  border: 1px solid var(--f-line) !important;
+  box-shadow: var(--f-shadow) !important;
+  outline: 1px solid rgba(255,255,255,.035);
+  outline-offset: -2px;
+}
+.home-panel:hover,
+.home-action-card:hover,
+.home-discovery-card:hover,
+.home-post-card:hover {
+  border-color: var(--f-line-hot) !important;
+  box-shadow: var(--f-glow) !important;
+}

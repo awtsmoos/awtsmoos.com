@@ -1,0 +1,2 @@
+.home-command-dock a[aria-current="page"] { color: #fff; }
+.home-command-dock a[aria-current="page"]::after { background: var(--home-accent); border-radius: 999px; content: ""; height: 3px; width: 22px; }

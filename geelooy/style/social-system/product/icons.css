@@ -1,0 +1,2 @@
+.p-icon, .home-action-card > span, .home-brand-dot { align-items: center; background: rgba(19, 200, 181, .12); border: 1px solid rgba(19, 200, 181, .22); border-radius: 16px; color: var(--p-text); display: inline-grid; font-weight: 900; height: 42px; justify-content: center; width: 42px; }
+.home-action-primary > span { background: rgba(96,165,250,.18); border-color: rgba(96,165,250,.3); }

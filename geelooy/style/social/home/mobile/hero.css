@@ -1,0 +1,1 @@
+@media (max-width: 760px) { .home-hero-panel { border-radius: 26px; } .home-hero-panel h1 { font-size: clamp(2.65rem, 13vw, 4.2rem); max-width: 9ch; } .home-hero-text { font-size: 1.05rem; } }

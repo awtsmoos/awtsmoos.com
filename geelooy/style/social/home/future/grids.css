@@ -1,0 +1,7 @@
+.geelooy-home-shell { gap: clamp(.85rem, 1.6vw, 1.25rem) !important; }
+.home-action-grid { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+.home-action-card { grid-column: span 2; }
+.home-action-primary { grid-column: span 3; }
+.home-dashboard-grid { grid-template-columns: 1.6fr repeat(3, minmax(110px, .55fr)) !important; }
+.home-continue-card { grid-column: auto !important; }
+.home-discovery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }

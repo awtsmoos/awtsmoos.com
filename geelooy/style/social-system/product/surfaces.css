@@ -1,0 +1,5 @@
+.p-surface { background: var(--p-panel); border: 1px solid var(--p-line); border-radius: var(--p-radius); box-shadow: var(--p-shadow); color: var(--p-text); }
+.p-surface-soft { background: var(--p-panel-2); border: 1px solid var(--p-line); border-radius: 18px; color: var(--p-text); }
+.p-section { display: grid; gap: .85rem; }
+.p-section-title { margin: 0; color: var(--p-text); letter-spacing: -.035em; }
+.p-section-copy { color: var(--p-muted); line-height: 1.55; }

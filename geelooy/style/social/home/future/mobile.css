@@ -1,0 +1,8 @@
+@media (max-width: 760px) {
+  .home-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .home-action-card, .home-action-primary { grid-column: auto !important; }
+  .home-dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .home-continue-card { grid-column: 1 / -1 !important; }
+  .home-discovery-grid { grid-template-columns: 1fr !important; }
+  .home-action-card:hover, .home-discovery-card:hover, .home-post-card:hover { transform: translate3d(0,-3px,0) !important; }
+}

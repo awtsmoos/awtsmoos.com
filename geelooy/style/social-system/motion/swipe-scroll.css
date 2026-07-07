@@ -1,0 +1,3 @@
+.home-snap-row { display: flex; gap: .7rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.home-snap-row::-webkit-scrollbar { display: none; }
+.home-snap-row > * { scroll-snap-align: center; }

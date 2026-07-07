@@ -1,0 +1,1 @@
+.home-action-card[data-count]::after { align-self: start; background: var(--home-accent); border-radius: 999px; color: #03110f; content: attr(data-count); font-size: .72rem; font-weight: 900; justify-self: end; padding: .18rem .42rem; }

@@ -1,0 +1,4 @@
+.home-action-card { background: var(--home-card); border: 1px solid var(--home-line); border-radius: 22px; color: var(--home-text); display: grid; gap: .55rem; min-height: 138px; padding: 1rem; text-decoration: none; }
+.home-action-card strong { font-size: 1.08rem; letter-spacing: -.02em; }
+.home-action-card small { color: var(--home-muted); font-size: .9rem; line-height: 1.35; }
+.home-action-primary { background: linear-gradient(145deg, #10213d, #0f172a); }

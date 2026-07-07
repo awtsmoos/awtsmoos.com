@@ -1,0 +1,24 @@
+.home-panel,
+.home-action-card,
+.home-post-card,
+.home-discovery-card,
+.home-mini-card,
+.home-continue-card {
+  background-color: #10141b !important;
+  border-color: rgba(148, 163, 184, .24) !important;
+  color: #f8fafc !important;
+}
+.home-action-primary,
+.home-search-row button,
+.home-feed-create,
+.home-command-dock .is-create {
+  background: #0c1b33 !important;
+  border-color: rgba(96, 165, 250, .38) !important;
+}
+.home-hero-text,
+.home-action-card small,
+.home-discovery-card span,
+.home-post-card p,
+.home-mini-card span {
+  color: #9aa8bd !important;
+}

@@ -1,0 +1,2 @@
+.home-suggestion-row { display: flex; flex-wrap: wrap; gap: .45rem; }
+.home-suggestion-row a { align-items: center; display: inline-flex; min-height: 34px; }

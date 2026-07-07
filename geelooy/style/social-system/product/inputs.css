@@ -1,0 +1,3 @@
+.p-input, .home-command-search input { background: #0b0f16; border: 1px solid var(--p-line); border-radius: 18px; color: var(--p-text); font: inherit; min-height: 56px; padding: .9rem 1rem; width: 100%; }
+.p-input::placeholder, .home-command-search input::placeholder { color: #93a3b8; }
+.p-input:focus, .home-command-search input:focus { border-color: var(--p-accent); box-shadow: 0 0 0 4px rgba(19, 200, 181, .16); outline: none; }

@@ -1,0 +1,13 @@
+html, body, body.geelooy-home-document {
+  background: #070b12 !important;
+  color: #f8fafc !important;
+  color-scheme: dark !important;
+}
+.geelooy-home-document {
+  min-height: 100dvh;
+  overflow-x: hidden !important;
+}
+.geelooy-home-shell {
+  background: #070b12 !important;
+  color: #f8fafc !important;
+}

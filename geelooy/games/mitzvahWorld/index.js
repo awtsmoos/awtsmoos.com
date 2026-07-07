@@ -8,6 +8,7 @@ import { installBootDiagnostics, installBootErrorListeners } from "./uiBridge/bo
 import { bootIkarNow } from "./uiBridge/bootIkar.js?v=final-proof-bridge-20260705-bh4";
 
 const IMPORT_START_STAGE = "world-engine:import:start";
+const WORLD_BUILDER_CONTRACT = "WorldHeescheel";
 
 function announceEarlyImportStart() {
   if (typeof window === "undefined") return;
@@ -17,7 +18,8 @@ function announceEarlyImportStart() {
     world: 30,
     action: "Preparing Mitzvah World...",
     subAction: "world engine import is being summoned",
-    log: "Starting smooth first playable frame"
+    log: "Starting smooth first playable frame",
+    worldBuilder: WORLD_BUILDER_CONTRACT
   };
   window.__AWTSMOOS_LOADING_PROGRESS__?.update?.(payload);
   const q = window.__AWTSMOOS_EARLY_LOADING_QUEUE__;
@@ -29,7 +31,7 @@ installBootDiagnostics();
 announceEarlyImportStart();
 
 export async function heescheel(ctx) {
-  if (traceBoot()) console.info('B"H - Index [Worker]: data-driven level hook.', Boolean(ctx));
+  if (traceBoot()) console.info('B"H - Index [Worker]: data-driven level hook.', Boolean(ctx), WORLD_BUILDER_CONTRACT);
 }
 
 export function ready(ctx) {

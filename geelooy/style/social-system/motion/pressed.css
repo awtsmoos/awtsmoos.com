@@ -1,0 +1,2 @@
+.home-action-card:active, .home-command-dock a:active, .home-feed-create:active { transform: translateY(1px) scale(.99); }
+.home-action-card:hover, .home-discovery-card:hover, .home-post-card:hover { transform: translateY(-2px); }

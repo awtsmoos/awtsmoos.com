@@ -1,0 +1,1 @@
+@media (max-width: 760px) { html, body { overflow-x: hidden; } .p-safe-bottom { padding-bottom: max(8rem, env(safe-area-inset-bottom)); } }

@@ -1,0 +1,1 @@
+@media (max-width: 760px) { .home-feed-header { align-items: start; } .home-feed-metrics { grid-template-columns: repeat(3, minmax(0,1fr)); } .home-feed-metrics article { min-height: 76px; padding: .72rem; } }

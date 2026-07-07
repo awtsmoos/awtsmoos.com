@@ -1,0 +1,1 @@
+@media (max-width: 760px) { .home-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .home-action-card { min-height: 124px; padding: .9rem; } }

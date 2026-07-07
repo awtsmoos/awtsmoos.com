@@ -2,16 +2,15 @@
 /**
  * @file AnimalLodBands.js
  * @description
- * The Awtsmoos preserves crisp full animals where the player can truly touch
- * them, but refuses to spend a phone frame on far meadow herds wearing full
- * skinned anatomy. This is scene optimization, not blur: canvas DPR remains
- * high while passive animals step down earlier.
+ * Full animals stay crisp only where the player can really touch or fight
+ * them. Passive herds quickly become simplified silhouettes so the scene keeps
+ * its ecology without spending every frame on distant anatomy.
  */
-export const ANIMAL_NEAR_OUT = 24;
-export const ANIMAL_NEAR_IN = 16;
-export const ANIMAL_MID_OUT = 86;
-export const ANIMAL_MID_IN = 62;
-export const BIRD_MID_IN = 96;
+export const ANIMAL_NEAR_OUT = 12;
+export const ANIMAL_NEAR_IN = 7;
+export const ANIMAL_MID_OUT = 64;
+export const ANIMAL_MID_IN = 34;
+export const BIRD_MID_IN = 48;
 
 export default {
   ANIMAL_NEAR_OUT,

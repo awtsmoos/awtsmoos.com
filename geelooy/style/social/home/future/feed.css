@@ -1,0 +1,11 @@
+.home-feed-tabs button { position: relative; }
+.home-feed-tabs button.active::after,
+.home-feed-tabs button[aria-pressed="true"]::after {
+  background: linear-gradient(90deg, var(--f-cyan), var(--f-blue));
+  border-radius: 999px;
+  content: "";
+  height: 2px;
+  inset: auto .9rem .45rem;
+  position: absolute;
+}
+.home-feed-metrics article { background: linear-gradient(145deg, #131b27, #0c1118) !important; }

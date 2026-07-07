@@ -1,0 +1,11 @@
+@media (max-width: 760px) {
+  .geelooy-home-shell {
+    max-width: 100vw !important;
+    padding-bottom: max(9rem, env(safe-area-inset-bottom)) !important;
+  }
+  .home-command-dock {
+    left: .85rem !important;
+    right: .85rem !important;
+    max-width: calc(100vw - 1.7rem) !important;
+  }
+}

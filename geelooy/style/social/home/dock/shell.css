@@ -1,0 +1,1 @@
+.home-command-dock { align-items: center; background: rgba(12,17,24,.96); border: 1px solid var(--home-line); border-radius: 999px; bottom: max(.85rem, env(safe-area-inset-bottom)); box-shadow: 0 20px 54px rgba(0,0,0,.46); display: grid; gap: .2rem; grid-template-columns: repeat(5, minmax(0,1fr)); left: .85rem; padding: .38rem; position: fixed; right: .85rem; z-index: 9000; }

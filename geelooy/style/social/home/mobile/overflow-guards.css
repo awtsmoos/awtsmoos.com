@@ -1,0 +1,1 @@
+@media (max-width: 760px) { .home-panel, .home-action-card, .home-post-card, .home-discovery-card { max-width: 100%; min-width: 0; overflow: hidden; } .home-feed-tabs { max-width: 100%; } }

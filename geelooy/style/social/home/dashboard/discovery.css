@@ -1,0 +1,4 @@
+.home-discovery-grid { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.home-discovery-card { background: var(--home-card); border: 1px solid var(--home-line); border-radius: 20px; color: var(--home-text); display: grid; gap: .45rem; min-height: 110px; padding: 1rem; text-decoration: none; }
+.home-discovery-card strong { letter-spacing: -.025em; }
+.home-discovery-card span { color: var(--home-muted); line-height: 1.4; }

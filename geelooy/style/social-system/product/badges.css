@@ -1,0 +1,2 @@
+.p-badge { background: var(--p-accent); border-radius: 999px; color: #03110f; display: inline-grid; font-size: .72rem; font-weight: 900; min-width: 1.25rem; padding: .18rem .4rem; place-items: center; }
+.p-badge-muted { background: rgba(148,163,184,.15); color: var(--p-muted); }

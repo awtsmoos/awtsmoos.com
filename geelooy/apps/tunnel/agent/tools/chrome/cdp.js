@@ -7,7 +7,8 @@ const callbacks = new Map(), targetLeases = new Map();
 const MAX_HTTP_BYTES = Number(process.env.AWTSMOOS_CDP_HTTP_MAX_BYTES || 2 * 1024 * 1024);
 function maxTimeout() { const n = Number(process.env.AWTSMOOS_CDP_MAX_TIMEOUT_MS || 86400000); return Number.isFinite(n) ? Math.max(10000, Math.min(n, 604800000)) : 86400000; }
 function timeoutOf(value, fallback = 30000) { const n = Number(value || fallback); return Number.isFinite(n) ? Math.max(1000, Math.min(Math.floor(n), maxTimeout())) : fallback; }
-function getJson(url, timeoutMs = 30000) { return new Promise((resolve, reject) => { const req = http.request(url, { method: /\/json\/(new|close)\//.test(url) ? "PUT" : "GET" }, res => { const chunks = []; let bytes = 0; res.on("data", c => { bytes += c.length; if (bytes > MAX_HTTP_BYTES) return req.destroy(new Error("Chrome DevTools HTTP response too large for " + url)); chunks.push(c); }); res.on("end", () => parseJson(resolve, reject, url, chunks)); }); req.setTimeout(timeoutOf(timeoutMs), () => req.destroy(new Error("HTTP timeout for " + url))); req.on("error", reject); req.end(); }); }
+function methodOf(url) { return /\/json\/new(?:\?|$)/.test(url) || /\/json\/close\//.test(url) ? "PUT" : "GET"; }
+function getJson(url, timeoutMs = 30000) { return new Promise((resolve, reject) => { const req = http.request(url, { method: methodOf(url) }, res => { const chunks = []; let bytes = 0; res.on("data", c => { bytes += c.length; if (bytes > MAX_HTTP_BYTES) return req.destroy(new Error("Chrome DevTools HTTP response too large for " + url)); chunks.push(c); }); res.on("end", () => parseJson(resolve, reject, url, chunks)); }); req.setTimeout(timeoutOf(timeoutMs), () => req.destroy(new Error("HTTP timeout for " + url))); req.on("error", reject); req.end(); }); }
 function parseJson(resolve, reject, url, chunks) { const text = Buffer.concat(chunks).toString("utf8"); try { resolve(JSON.parse(text)); } catch { /^Target/.test(text) || text === "true" ? resolve({ ok:true, text }) : reject(new Error("Bad JSON from " + url + ": " + text.slice(0, 200))); } }
 async function version(port) { return await getJson(`http://127.0.0.1:${port}/json/version`); }
 async function pages(port) { return await getJson(`http://127.0.0.1:${port}/json`); }
@@ -40,4 +41,4 @@ function canUseTarget(targetId, input = {}) { const lease = targetLeases.get(tar
 function targetLease(targetId) { return targetLeases.get(targetId) || null; }
 function releaseTarget(targetId) { return targetLeases.delete(targetId); }
 function targetLeaseSnapshot() { return Object.fromEntries([...targetLeases.entries()]); }
-module.exports = { version, pages, newPage, closePage, ensurePage, cdpCall, navigateAndWait, sortPageCandidates, pageScore, timeoutOf, closeCurrent, choosePage, targetScopeKey, leaseTarget, canUseTarget, targetLease, releaseTarget, targetLeaseSnapshot, looksNavigated };
+module.exports = { version, pages, newPage, closePage, ensurePage, cdpCall, navigateAndWait, sortPageCandidates, pageScore, timeoutOf, closeCurrent, choosePage, targetScopeKey, leaseTarget, canUseTarget, targetLease, releaseTarget, targetLeaseSnapshot, looksNavigated, methodOf };

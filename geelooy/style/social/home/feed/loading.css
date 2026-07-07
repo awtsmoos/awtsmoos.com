@@ -1,0 +1,2 @@
+.home-feed-loading { position: relative; }
+.home-feed-loading::before { background: rgba(19,200,181,.28); border-radius: 999px; content: ""; height: 3px; inset: auto 1rem 1rem 1rem; position: absolute; }

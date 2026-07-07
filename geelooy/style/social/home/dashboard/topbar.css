@@ -1,0 +1,5 @@
+.home-mobile-topbar { align-items: center; display: grid; gap: .55rem; grid-template-columns: 1fr auto auto; position: sticky; top: .55rem; z-index: 500; }
+.home-brand-pill, .home-top-icon, .home-top-avatar { background: rgba(17,21,28,.94); border: 1px solid var(--home-line); border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,.28); color: var(--home-text); min-height: 44px; text-decoration: none; }
+.home-brand-pill { align-items: center; display: inline-flex; gap: .55rem; font-weight: 900; padding: .35rem .8rem .35rem .35rem; }
+.home-top-icon, .home-top-avatar { display: grid; font-weight: 900; place-items: center; width: 44px; }
+.home-brand-dot { border-radius: 50%; height: 34px; width: 34px; }

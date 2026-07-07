@@ -1,0 +1,1 @@
+.home-panel, .home-action-card, .home-post-card, .home-discovery-card, .home-command-dock a { transition: transform var(--m-med) var(--m-ease), border-color var(--m-fast) ease, box-shadow var(--m-med) var(--m-ease), background var(--m-fast) ease; }

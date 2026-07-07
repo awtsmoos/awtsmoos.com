@@ -1,0 +1,6 @@
+.home-action-section, .home-discovery-panel { display: grid; gap: .8rem; }
+.home-dashboard-grid { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.home-continue-card { grid-column: 1 / -1; padding: 1rem; }
+.home-continue-card h2 { font-size: clamp(1.35rem, 5vw, 2.2rem); margin: 0; letter-spacing: -.04em; }
+.home-continue-card p { color: var(--home-muted); margin: .35rem 0 0; }
+.home-card-actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .85rem; }

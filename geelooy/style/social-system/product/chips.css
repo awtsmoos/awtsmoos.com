@@ -1,0 +1,2 @@
+.p-chip, .home-suggestion-row a { background: rgba(148, 163, 184, .08); border: 1px solid var(--p-line); border-radius: 999px; color: var(--p-muted); font-size: .82rem; font-weight: 800; min-height: 34px; padding: .45rem .7rem; text-decoration: none; }
+.p-chip[aria-current="true"], .home-suggestion-row a:hover { color: var(--p-text); border-color: var(--p-line-strong); }

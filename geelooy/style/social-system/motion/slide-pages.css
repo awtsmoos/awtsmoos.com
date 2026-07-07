@@ -1,0 +1,2 @@
+.home-dashboard-shell { animation: homeEnter .34s var(--m-ease) both; }
+@keyframes homeEnter { from { opacity: .01; transform: translateY(10px); } to { opacity: 1; transform: none; } }

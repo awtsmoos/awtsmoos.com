@@ -3,6 +3,7 @@
 import { gossipPayload } from "./GossipRuntime.js";
 import { npcServices } from "./NpcServiceRegistry.js";
 import { createNpcMemoryRuntime } from "./NpcMemoryRuntime.js";
+import { nearestNpcBySpatialHash } from "./NpcSpatialHash.js";
 
 function allNpcs(olam) {
   return [olam?.npcs, olam?.nivrayim, olam?.interactables].flat().filter(Boolean).filter(n => n.interactable || n.options?.interactable || n.mesh?.userData?.npcId || /npc|rebbe|baker|guard|merchant|villager/i.test(String(n.name || n.id || "")));
@@ -18,12 +19,16 @@ function findNpc(npcs, id) {
   return npcs.find(n => [n.id, n.npcId, n.name, n.mesh?.name, n.mesh?.userData?.npcId].filter(Boolean).map(String).includes(wanted)) || npcs[0] || { id:wanted || "villager", name:"Villager" };
 }
 
+function nearestNpc(olam, npcs) {
+  return nearestNpcBySpatialHash(olam, 9) || npcs[0] || null;
+}
+
 export function npcInteractionIndex(npcs = null) {
   const list = Array.isArray(npcs) && npcs.length ? npcs : npcServices();
   return { npcs:list, byId:Object.fromEntries(list.map(n => [n.id || n.npcId, n])) };
 }
 
-export function createNpcInteractionRuntime(npcs = [], scope = globalThis) {
+export function createNpcInteractionRuntime(npcs = [], scope = globalThis, olam = null) {
   return {
     open(id, ctx = {}) {
       const npc = findNpc(npcs, id);
@@ -39,7 +44,7 @@ export function createNpcInteractionRuntime(npcs = [], scope = globalThis) {
       return payload;
     },
     nearest() {
-      return npcs[0] || null;
+      return nearestNpc(olam, npcs);
     }
   };
 }
@@ -47,9 +52,9 @@ export function createNpcInteractionRuntime(npcs = [], scope = globalThis) {
 export function installNpcInteractionControls(scope = globalThis, olamGetter = () => scope.__AWTSMOOS_OLAM__ || scope.olam) {
   if (scope.__MITZVAH_NPC_INTERACTION__?.open) return scope.__MITZVAH_NPC_INTERACTION__;
   const runtime = {
-    open(id, ctx = {}) { return createNpcInteractionRuntime(allNpcs(olamGetter()), scope).open(id, ctx); },
-    choose(id, choice) { return createNpcInteractionRuntime(allNpcs(olamGetter()), scope).choose(id, choice); },
-    nearest() { return createNpcInteractionRuntime(allNpcs(olamGetter()), scope).nearest(); }
+    open(id, ctx = {}) { const olam = olamGetter(); return createNpcInteractionRuntime(allNpcs(olam), scope, olam).open(id, ctx); },
+    choose(id, choice) { const olam = olamGetter(); return createNpcInteractionRuntime(allNpcs(olam), scope, olam).choose(id, choice); },
+    nearest() { const olam = olamGetter(); return createNpcInteractionRuntime(allNpcs(olam), scope, olam).nearest(); }
   };
   scope.__MITZVAH_NPC_INTERACTION__ = runtime;
   return runtime;
@@ -62,7 +67,8 @@ export function openNpcInteraction(olamOrNpcId = {}, idOrContext = "rebbe", npcs
   const context = legacyOlam ? {} : (idOrContext || {});
   const store = context.store || globalThis.__MITZVAH_WORLD_STATE__ || {};
   const memory = createNpcMemoryRuntime(store);
-  const npc = findNpc([...allNpcs(olam), ...npcs, ...npcServices()], npcId);
+  const spatial = legacyOlam ? nearestNpcBySpatialHash(olam, context.range || 9) : null;
+  const npc = findNpc([spatial, ...allNpcs(olam), ...npcs, ...npcServices()].filter(Boolean), npcId || spatial?.id);
   memory.remember(npc.id || npcId, { kind:"player_spoke", text:"The player stopped to speak.", place:context.place || npc.currentPlace });
   const effects = memory.effects(npc.id || npcId);
   const base = gossipPayload(npc, { ...context, store });

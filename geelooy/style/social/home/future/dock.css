@@ -1,0 +1,6 @@
+.home-command-dock {
+  background: linear-gradient(180deg, rgba(18,26,38,.96), rgba(8,12,18,.96)) !important;
+  border-color: rgba(40,243,215,.22) !important;
+}
+.home-command-dock a:hover { background: rgba(40,243,215,.08); color: #fff; }
+.home-command-dock .is-create { box-shadow: 0 10px 26px rgba(75,141,255,.22) !important; }

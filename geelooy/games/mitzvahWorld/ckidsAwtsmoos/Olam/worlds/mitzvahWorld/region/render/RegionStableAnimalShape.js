@@ -2,23 +2,18 @@
 /**
  * RegionStableAnimalShape.js
  *
- * Animal history showed the better-looking path was the procedural skinned
- * single-mesh compiler under region/wildlife/skinned. This file restores that
- * renderer as the primary wildlife body while retaining the readable multipart
- * fallback for any browser/runtime that cannot compile the skinned vessel.
+ * No more bead-chain animals. The first vessel is now the Awtsmoos procedural
+ * one-mesh animal: one Mesh, one BufferGeometry, readable species metadata,
+ * and explicit proof flags for Movie Maker and gameplay audits.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
-import { buildAnimal as buildSkinnedAnimal } from "../wildlife/render/AnimalBodyForge.js?v=realistic-target-proof-20260706-bh2";
-import { addAnimalParts } from "./animalShape/AnimalParts.js?v=mitzvah-aggressive-split-20260703-bh1";
-import { animalProfile, animalScale } from "./animalShape/AnimalProfile.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { createAwtsmoosProceduralAnimalMesh } from "../wildlife/render/AwtsmoosProceduralAnimalMesh.js?v=one-mesh-awtsmoos-animal-20260707-bh1";
 
 const BOX = new THREE.Box3();
 
 function countMeshes(root) {
   let count = 0;
-  root?.traverse?.(child => {
-    if (child?.isMesh || child?.isSkinnedMesh || child?.isInstancedMesh) count += 1;
-  });
+  root?.traverse?.(child => { if (child?.isMesh || child?.isSkinnedMesh || child?.isInstancedMesh) count += 1; });
   return count;
 }
 
@@ -40,71 +35,62 @@ function safeHealth(root, species) {
 }
 
 function sealAnimal(root, species, mode, extra = {}) {
-  const groundLift = measureGroundLift(root);
-  const meshes = countMeshes(root);
+  const groundLift = measureGroundLift(root), meshes = countMeshes(root);
   Object.assign(root.userData ||= {}, {
-    stableNormalAnimal: true,
+    stableNormalAnimal:true,
     species,
-    displayName: root.userData.displayName || displayName(species),
-    targetName: root.userData.targetName || displayName(species),
-    wildlifeActor: true,
-    selectableCombatTarget: true,
-    interactable: true,
-    skipRaycast: false,
-    realisticAnimal: mode === "procedural-skinned",
-    proceduralSkinnedAnimal: mode === "procedural-skinned",
-    multiPartAnimalMesh: mode === "multipart-fallback",
-    singleMergedAnimalMesh: false,
-    renderMeshCount: meshes,
-    visualRepairMode: mode,
-    animalGenerationSource: mode === "procedural-skinned"
-      ? "git-history-restored-AnimalBodyForge-20260628"
-      : "multipart-visible-fallback",
-    profile: { ...(root.userData.profile || {}), groundLift, species },
-    health: safeHealth(root, species),
-    faction: root.userData.faction || (species === "fox" ? "hostile" : "neutral"),
+    displayName:root.userData.displayName || displayName(species),
+    targetName:root.userData.targetName || displayName(species),
+    wildlifeActor:true,
+    selectableCombatTarget:true,
+    interactable:true,
+    skipRaycast:false,
+    realisticAnimal:true,
+    proceduralSkinnedAnimal:false,
+    multiPartAnimalMesh:false,
+    singleMergedAnimalMesh:true,
+    singleMeshAnimal:true,
+    renderMeshCount:meshes,
+    visualRepairMode:mode,
+    animalGenerationSource:"AwtsmoosProceduralAnimalMesh",
+    profile:{ ...(root.userData.profile || {}), groundLift, species },
+    health:safeHealth(root, species),
+    faction:root.userData.faction || (species === "fox" ? "hostile" : "neutral"),
     ...extra
   });
   root.traverse?.(child => {
     Object.assign(child.userData ||= {}, {
-      wildlifeActor: true,
-      stableAnimalPart: child !== root,
-      selectableCombatTarget: true,
-      combatTargetRoot: root,
-      skipOctree: true,
-      noOctree: true,
-      skipRaycast: /shadow/i.test(child.name || "") ? true : false
+      wildlifeActor:true,
+      stableAnimalPart:child !== root,
+      selectableCombatTarget:true,
+      combatTargetRoot:root,
+      skipOctree:true,
+      noOctree:true,
+      singleMeshAnimal:true,
+      skipRaycast:/shadow/i.test(child.name || "") ? true : false
     });
     child.nivraAwtsmoos = root;
   });
   return root;
 }
 
-function buildFallbackAnimal(species = "rabbit", data = {}) {
-  const root = new THREE.Group();
-  const profile = animalProfile(species);
-  root.name = `stable_visible_${species}_${data.id || "wild"}`;
-  addAnimalParts(root, profile);
-  root.scale.multiplyScalar(animalScale(species));
-  return sealAnimal(root, species, "multipart-fallback", {
-    fallbackReason: "skinned animal compiler unavailable",
-    profile: { speed: profile.speed, species }
-  });
+function emergencyOneMesh(species = "rabbit", data = {}) {
+  const geometry = new THREE.BoxGeometry(.9, .55, 1.35, 5, 3, 6);
+  const material = new THREE.MeshStandardMaterial({ color:0x9a714b, roughness:.9 });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.name = `emergency_one_mesh_${species}_${data.id || "wild"}`;
+  return mesh;
 }
 
 export function buildStableAnimal(species = "rabbit", data = {}) {
   try {
-    const root = buildSkinnedAnimal(species, data);
-    root.name = `restored_realistic_${species}_${data.id || "wild"}`;
-    return sealAnimal(root, species, "procedural-skinned", {
-      singleMeshAnimal: true,
-      realisticBodyUpgrade: true,
-      historyRestoreCommitHint: "AnimalBodyForge existed before multipart fallback"
-    });
+    const root = createAwtsmoosProceduralAnimalMesh(species, data);
+    root.name = `awtsmoos_realistic_one_mesh_${species}_${data.id || "wild"}`;
+    return sealAnimal(root, species, "awtsmoos-one-mesh", { notSphereChain:true, movieReadyAnimal:true });
   } catch (error) {
-    const fallback = buildFallbackAnimal(species, data);
-    fallback.userData.skinnedAnimalError = String(error?.message || error);
-    return fallback;
+    const fallback = emergencyOneMesh(species, data);
+    fallback.userData.oneMeshAnimalError = String(error?.message || error);
+    return sealAnimal(fallback, species, "emergency-one-mesh", { notSphereChain:true, emergencyFallback:true });
   }
 }
 

@@ -1,0 +1,2 @@
+.home-post-card { background: #0c1118; border: 1px solid var(--home-line); border-radius: 20px; color: var(--home-text); padding: 1rem; }
+.home-post-card p { color: var(--home-muted); font-size: 1rem; line-height: 1.55; }

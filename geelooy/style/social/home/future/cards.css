@@ -1,0 +1,22 @@
+.home-action-card,
+.home-discovery-card,
+.home-post-card,
+.home-mini-card,
+.home-continue-card {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.052), transparent 38%),
+    linear-gradient(180deg, var(--f-panel-2), var(--f-panel)) !important;
+  position: relative;
+  transform: translateZ(0);
+}
+.home-action-card::before,
+.home-discovery-card::before,
+.home-post-card::before {
+  background: linear-gradient(90deg, transparent, rgba(40,243,215,.36), transparent);
+  content: "";
+  height: 1px;
+  inset: 0 14px auto;
+  opacity: .4;
+  position: absolute;
+}
+.home-mini-card strong { background: linear-gradient(90deg, var(--f-cyan), #fff); -webkit-background-clip: text; color: transparent; }

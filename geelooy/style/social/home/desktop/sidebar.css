@@ -1,0 +1,1 @@
+@media (min-width: 1180px) { .home-discovery-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }

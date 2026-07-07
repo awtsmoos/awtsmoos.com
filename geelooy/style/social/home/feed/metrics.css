@@ -1,0 +1,2 @@
+.home-feed-metrics { display: grid; gap: .65rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.home-feed-metrics article { min-width: 0; }

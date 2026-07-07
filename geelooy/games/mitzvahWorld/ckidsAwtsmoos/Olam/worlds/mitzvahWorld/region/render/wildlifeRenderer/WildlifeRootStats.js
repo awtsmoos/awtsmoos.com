@@ -7,28 +7,30 @@ import { summarizeAnimalVisualLod } from "../wildlife/AnimalVisualLod.js?v=anima
 
 export function statsFor(root, backend) {
   const counts = root.children.map(countMeshes);
+  const maxMeshesPerAnimal = Math.max(0, ...counts);
+  const multiPartAnimals = counts.filter(count => count > 1).length;
   return {
-    wildlife: root.children.length,
-    foxes: root.children.filter(child => child.userData?.species === "fox").length,
-    singleMeshAnimals: false,
-    multiPartAnimals: counts.filter(count => count > 1).length,
-    meshCounts: counts,
-    maxMeshesPerAnimal: Math.max(0, ...counts),
-    foxAlwaysDetailed: true,
-    livingEcosystem: true,
-    renderBackend: backend.name,
-    proofRegistered: true,
-    fpsCadenceSec: guardianWildlifeCadence(),
-    firstPlayableWildlifeLimit: FIRST_PLAYABLE_WILDLIFE_LIMIT,
-    streamingRemaining: root.userData?.streamingRemaining || 0,
-    streamedAnimals: root.userData?.streamedAnimals || 0,
-    visualLod: summarizeAnimalVisualLod(root),
-    seal: "multi-part-wildlife-root-stats-bh1"
+    wildlife:root.children.length,
+    foxes:root.children.filter(child => child.userData?.species === "fox").length,
+    singleMeshAnimals:root.children.length > 0 && multiPartAnimals === 0,
+    multiPartAnimals,
+    meshCounts:counts,
+    maxMeshesPerAnimal,
+    foxAlwaysDetailed:true,
+    livingEcosystem:true,
+    renderBackend:backend.name,
+    proofRegistered:true,
+    fpsCadenceSec:guardianWildlifeCadence(),
+    firstPlayableWildlifeLimit:FIRST_PLAYABLE_WILDLIFE_LIMIT,
+    streamingRemaining:root.userData?.streamingRemaining || 0,
+    streamedAnimals:root.userData?.streamedAnimals || 0,
+    visualLod:summarizeAnimalVisualLod(root),
+    seal:"single-mesh-wildlife-root-stats-bh2"
   };
 }
 
 export function sealWildlifeRoot(root, backend) {
   root.userData.stats = statsFor(root, backend);
-  sealRegionVisual(root, { realisticWildlife:true, multiPartAnimals:true, livingEcosystem:true, skipRaycast:true });
+  sealRegionVisual(root, { realisticWildlife:true, singleMeshAnimals:root.userData.stats.singleMeshAnimals, maxMeshesPerAnimal:root.userData.stats.maxMeshesPerAnimal, multiPartAnimals:root.userData.stats.multiPartAnimals, livingEcosystem:true, skipRaycast:true });
   root.children.forEach(restoreFlags);
 }

@@ -20,6 +20,10 @@ import { collectLivingStats, announceLivingStats } from "./living/LivingRegionSt
 
 const KEY = "__awtsmoosLivingRegionRuntime";
 
+function guardianConfig() {
+  return globalThis.__AWTSMOOS_FPS_GUARDIAN__?.config || globalThis.__AWTSMOOS_GAMEPLAY_BUDGET__ || { visualTickSec:1 };
+}
+
 function discoveryTicker(olam) {
   if (olam.__startingZoneDiscoveryTicker) return;
   let acc = 0;
@@ -47,14 +51,15 @@ export async function ensureLivingRegionRuntime(context = {}, report = {}) {
   const tRoad = performance.now(); addLayer(root, "roads", () => buildRoadRenderer(olam, report.roads || {})); timings.roadsMs = Math.round(performance.now() - tRoad);
   const tCottage = performance.now(); const cottages = addLayer(root, "cottages", () => buildCottageRenderer(olam, report)); timings.cottagesMs = Math.round(performance.now() - tCottage);
   const tWild = performance.now(); const wildlifeInfo = addWildlifeLayer(root, olam, report); timings.wildlifeMs = Math.round(performance.now() - tWild);
-  sealRegionVisual(root, { livingRegionRuntime:true, playerFirst:true, reportVersion:report.version, cottages:true, wildlifeDeferred:true, friendlyNpcs:true });
+  const guard = guardianConfig(), visualTickSec = Number(guard.visualTickSec || 1);
+  sealRegionVisual(root, { livingRegionRuntime:true, playerFirst:true, reportVersion:report.version, cottages:true, wildlifeDeferred:true, friendlyNpcs:true, guardianConfig:guard, visualTickSec });
   scene.add(root); root.updateMatrixWorld(true);
   const tColliders = performance.now(); const colliderBatch = addFinalCollision(root, olam, report); const house = registerPlacedCottages(olam, cottages); timings.collidersMs = Math.round(performance.now() - tColliders);
   const tNpc = performance.now(); const npcInfo = await addFriendlyNpcs(olam, scene, report); timings.npcMs = Math.round(performance.now() - tNpc);
   discoveryTicker(olam); tutorialOnce(olam);
   const colliderRealityAudit = attachColliderRealityAudit(root);
   root.userData.stats = collectLivingStats(root, report, { ...timings, totalMs:Math.round(performance.now() - started) });
-  Object.assign(root.userData.stats, { finalColliderBatch:colliderBatch, colliderRealityAudit, houseCollisionWorld:olam.__awtsmoosHouseCollisionWorld?.diag?.() || null, collisionAuthority:globalThis.__AWTS_COLLISION_DIAG__?.() || null, npcTicker:Boolean(npcInfo.ticker), npcRuntime:npcInfo, wildlifeRuntime:wildlifeInfo, wildlifeCount:wildlifeInfo.count, friendlyNpcCount:npcInfo.count, houseColliderRecords:house?.records?.length || 0, opaqueAnimalRealism:true, realisticGaits:true, cottageBrickSystem:true, liveDoors:true });
+  Object.assign(root.userData.stats, { finalColliderBatch:colliderBatch, colliderRealityAudit, houseCollisionWorld:olam.__awtsmoosHouseCollisionWorld?.diag?.() || null, collisionAuthority:globalThis.__AWTS_COLLISION_DIAG__?.() || null, npcTicker:Boolean(npcInfo.ticker), npcRuntime:npcInfo, wildlifeRuntime:wildlifeInfo, wildlifeCount:wildlifeInfo.count, friendlyNpcCount:npcInfo.count, houseColliderRecords:house?.records?.length || 0, guardianConfig:guard, visualTickSec, opaqueAnimalRealism:true, realisticGaits:true, cottageBrickSystem:true, liveDoors:true });
   olam[KEY] = root; olam.__AWTSMOOS_LIVING_REGION_STATS__ = root.userData.stats;
   announceLivingStats(olam, root.userData.stats); markLiving("done", root.userData.stats);
   return root;

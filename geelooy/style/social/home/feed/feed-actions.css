@@ -1,0 +1,2 @@
+.home-feed-card-actions { display: flex; flex-wrap: wrap; gap: .45rem; }
+.home-feed-card-actions button { background: rgba(148,163,184,.08); border: 1px solid var(--home-line); border-radius: 999px; color: var(--home-muted); min-height: 36px; padding: .45rem .7rem; }

@@ -1,0 +1,2 @@
+@media (min-width: 760px) { .home-command-dock { left: 50%; max-width: 560px; right: auto; transform: translateX(-50%); } }
+@media (max-width: 360px) { .home-command-dock a strong { display: none; } }

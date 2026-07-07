@@ -1,0 +1,6 @@
+.geelooy-home-shell { width: min(100%, 1160px); margin: 0 auto; display: grid; gap: 1rem; padding: .85rem .85rem max(8.5rem, env(safe-area-inset-bottom)); background: var(--home-bg); color: var(--home-text); }
+.home-panel { background: var(--home-card); border: 1px solid var(--home-line); border-radius: var(--home-radius); box-shadow: var(--home-shadow); color: var(--home-text); }
+.home-kicker { color: #aebbd1; font-size: .78rem; font-weight: 900; letter-spacing: .09em; margin: 0 0 .55rem; text-transform: uppercase; }
+.home-section-heading { display: flex; align-items: end; justify-content: space-between; gap: .75rem; }
+.home-section-heading p { color: var(--home-muted); font-weight: 900; letter-spacing: .08em; margin: 0; text-transform: uppercase; }
+.home-section-heading h2 { margin: 0; font-size: 1.15rem; letter-spacing: -.03em; }
