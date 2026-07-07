@@ -1,4 +1,4 @@
-<!-- B"H Geelooy home dashboard: image-matched mobile shell. -->
+<!-- B"H Geelooy home dashboard with shared chrome restored. -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,18 +6,40 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Geelooy</title>
   <meta name="theme-color" content="#020617">
+  <link rel="stylesheet" href="/style/home/headers.css?v=shared-chrome-003">
   <link rel="stylesheet" href="/style/social/home/index.css?v=home-image-match-002">
 </head>
 <body class="geelooy-home-document" data-home-dashboard-page>
   <a class="home-skip-link" href="#home-feed">Skip to feed</a>
+
+  <header class="awtsmoosificationalisticaticalism" aria-label="Awtsmoos global navigation">
+    <a class="home icon" href="/" aria-label="Awtsmoos home">B"H</a>
+    <strong class="header-brand">Geelooy</strong>
+    <div class="header-buttons">
+      <a class="btn" href="/profile">Profile</a>
+      <a class="btn" href="/email">Mail</a>
+      <button class="menuBtn" id="shared-menu-button" type="button" aria-controls="shared-sidebar" aria-expanded="false" aria-label="Open shared menu">☰</button>
+    </div>
+  </header>
+
+  <nav id="shared-sidebar" class="sidebarMitzvah offscreen" aria-label="Shared site menu">
+    <a href="/">Home</a>
+    <a href="/email">Mail</a>
+    <a href="/heichelos">Heichelos</a>
+    <a href="/sefarim">Sefarim</a>
+    <a href="/games">Games</a>
+    <a href="/profile">Profile</a>
+    <a href="/apps">Apps</a>
+  </nav>
+
   <main class="geelooy-home-shell home-dashboard-shell" aria-labelledby="home-title">
-    <header class="home-app-header" aria-label="Geelooy navigation">
+    <header class="home-app-header" aria-label="Geelooy dashboard controls">
       <a class="home-orb-brand" href="/" aria-label="Geelooy home">
         <span class="home-orb-logo" aria-hidden="true"></span>
         <span class="home-brand-copy"><small>B"H</small><strong>Geelooy</strong><em>✓</em></span>
       </a>
-      <button class="home-bell-button" type="button" data-sidebar-toggle aria-expanded="false" aria-controls="home-sidebar" aria-label="Open menu and notifications"><span>♧</span><b>3</b></button>
-      <nav id="home-sidebar" class="home-sidebar-panel" data-home-sidebar aria-label="Main menu" hidden>
+      <button class="home-bell-button" type="button" data-sidebar-toggle aria-expanded="false" aria-controls="home-sidebar" aria-label="Open dashboard menu and notifications"><span>♧</span><b>3</b></button>
+      <nav id="home-sidebar" class="home-sidebar-panel" data-home-sidebar aria-label="Dashboard menu" hidden>
         <a href="/">Home</a><a href="/email">Mail</a><a href="/heichelos">Heichelos</a><a href="/sefarim">Sefarim</a><a href="/games">Games</a><a href="/profile">Profile</a><a href="/apps">Apps</a>
       </nav>
     </header>
@@ -71,6 +93,25 @@
       <a href="/" aria-current="page"><span>⌂</span><strong>Home</strong></a><a href="/heichelos"><span>♁</span><strong>Spaces</strong></a><a href="/heichelos/submit" class="is-create"><span>+</span><strong>Create</strong></a><a href="/email" data-count="12"><span>✉</span><strong>Mail</strong></a><a href="/profile"><span>♙</span><strong>Profile</strong></a>
     </nav>
   </main>
+
+  <script>
+    (() => {
+      const button = document.getElementById('shared-menu-button');
+      const sidebar = document.getElementById('shared-sidebar');
+      if (!button || !sidebar) return;
+      button.addEventListener('click', () => {
+        const open = sidebar.classList.toggle('offscreen') === false;
+        button.classList.toggle('is-open', open);
+        button.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        sidebar.classList.add('offscreen');
+        button.classList.remove('is-open');
+        button.setAttribute('aria-expanded', 'false');
+      });
+    })();
+  </script>
   <script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=home-image-match-002"></script>
   <script src="/register.js?v=home-image-match-002"></script>
 </body>

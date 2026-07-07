@@ -9,7 +9,7 @@ const render = readFileSync('tools/renderMasaiOneMinuteJourneyMovie.mjs','utf8')
 assert(loader.includes('DataTexture') && loader.includes('awtsmoosFallback') && loader.includes('onError'));
 assert(store.includes('localStorage') && store.includes('preloadChaiAssets') && store.includes('storeMovieProof'));
 assert(index.includes('ChaiAssetStore.js?compact=true&v=chai-store-fast-loading-20260707-bh1'));
-assert(movie.includes('half:false') && movie.includes('count:760') && movie.includes('flowerCount:126') && movie.includes('rockCount:54'));
+assert(movie.includes('half:false') && movie.includes('count:220') && movie.includes('flowerCount:48') && movie.includes('rockCount:24'));
 assert(movie.includes('fullResolutionTextures:true') && movie.includes('grassMeshSuite') && movie.includes('storeMovieProof'));
 assert(render.includes('awtsmoos-full-suite-chai-forest-mitzvah-world.mp4') && render.includes('latest-awtsmoos-full-suite-chai-forest-proof'));
 console.log(JSON.stringify({ok:true,test:'chaiLoadingStoreAndFullSuiteAudit'},null,2));

@@ -18,12 +18,14 @@ async function ev(c, e, t = 30000) { const r = await c.send('Runtime.evaluate', 
 const chromePath = findBrowser().path; if (!chromePath) throw new Error('Chrome not found');
 const profile = join(tmpdir(), 'awts-full-minute-' + Date.now());
 const server = spawn('python3', ['-m', 'http.server', String(staticPort), '--bind', '127.0.0.1'], { cwd: root, stdio: 'ignore' });
-const chrome = spawn(chromePath, [`--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--window-size=1280,720', 'about:blank'], { stdio: 'ignore', detached: true });
+const chrome = spawn(chromePath, [`--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--window-size=1280,720', url], { stdio: 'ignore', detached: true });
 try {
   for (let i = 0; i < 80; i++) { try { const r = await fetch(url); if (r.ok) break; } catch {} await sleep(200); }
   for (let i = 0; i < 100; i++) { try { await json(`http://127.0.0.1:${port}/json/version`); break; } catch { await sleep(200); } }
-  const target = await json(`http://127.0.0.1:${port}/json/new?${encodeURIComponent(url)}`, { method: 'PUT' });
-  const client = await connectCdp(target.webSocketDebuggerUrl); await client.send('Runtime.enable'); await client.send('Page.enable'); await client.send('Page.navigate', { url });
+  let target = null;
+  for (let i = 0; i < 100; i++) { const list = await json(`http://127.0.0.1:${port}/json/list`).catch(() => []); target = list.find(t => String(t.url).includes(page)); if (target) break; await sleep(250); }
+  if (!target?.webSocketDebuggerUrl) throw new Error('movie target missing');
+  const client = await connectCdp(target.webSocketDebuggerUrl); await client.send('Runtime.enable'); await client.send('Page.enable');
   let report = null; for (let i = 0; i < 180; i++) { report = await ev(client, 'window.__MASAI_ONE_MINUTE_REPORT__||null').catch(() => null); if (report?.ok) break; const err = await ev(client, 'window.__MASAI_MOVIE_ERROR__||null').catch(() => null); if (err) throw new Error(err); await sleep(500); }
   if (!report?.ok) throw new Error('movie page did not become ready');
   const samples = [];

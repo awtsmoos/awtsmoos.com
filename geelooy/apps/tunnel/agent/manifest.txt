@@ -1,5 +1,5 @@
 B"H
-1.0.265
+1.0.266
 main.js
 
 ai/relay/split-browser/authState.cjs
