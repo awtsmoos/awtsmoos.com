@@ -1,5 +1,5 @@
 B"H
-1.0.259
+1.0.260
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -708,6 +708,7 @@ tools/chatgpt/actions/sessions.js
 tools/chatgpt/actions/status.js
 tools/chatgpt/auth/sessionCheck.js
 tools/chatgpt/chrome/ensureProfileChrome.js
+tools/chatgpt/continuation/compact.js
 tools/chatgpt/continuation/defaults.js
 tools/chatgpt/continuation/state.js
 tools/chatgpt/conversations/current.js
@@ -725,6 +726,24 @@ tools/chatgpt/direct/sentinel.js
 tools/chatgpt/direct/sessionCache.js
 tools/chatgpt/direct/sse.js
 tools/chatgpt/guidance.js
+tools/chatgpt/hourLoop/actions.js
+tools/chatgpt/hourLoop/constants.js
+tools/chatgpt/hourLoop/daemon.js
+tools/chatgpt/hourLoop/emergency.js
+tools/chatgpt/hourLoop/handoff.js
+tools/chatgpt/hourLoop/idle.js
+tools/chatgpt/hourLoop/index.js
+tools/chatgpt/hourLoop/locks.js
+tools/chatgpt/hourLoop/menu.js
+tools/chatgpt/hourLoop/metrics.js
+tools/chatgpt/hourLoop/prompt.js
+tools/chatgpt/hourLoop/queue.js
+tools/chatgpt/hourLoop/receipts.js
+tools/chatgpt/hourLoop/send.js
+tools/chatgpt/hourLoop/state.js
+tools/chatgpt/hourLoop/status.js
+tools/chatgpt/hourLoop/tick.js
+tools/chatgpt/hourLoop/url.js
 tools/chatgpt/index.js
 tools/chatgpt/legalBrowserRelay/relayController.js
 tools/chatgpt/legalBrowserRelay/responseReader.js
