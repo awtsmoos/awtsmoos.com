@@ -1,0 +1,11 @@
+/* B"H — final base: black glass without glass cost. */
+.home-panel,
+.home-action-card,
+.home-post-card,
+.home-discovery-card,
+.home-mini-card,
+.home-continue-card {
+  background-color: #10141b !important;
+  border-color: rgba(148, 163, 184, .24) !important;
+  color: #f8fafc !important;
+}

@@ -1,0 +1,11 @@
+/* B"H — profile prism pulse, transform and opacity only. */
+.profile-avatar-orb,
+.profile-bottom-nav a[aria-current="page"],
+.profile-bottom-nav a.active {
+  animation: profileFuturePulse 6.5s ease-in-out infinite;
+}
+
+@keyframes profileFuturePulse {
+  0%, 100% { opacity: .93; transform: translate3d(0,0,0) scale(1); }
+  50% { opacity: 1; transform: translate3d(0,-1px,0) scale(1.018); }
+}

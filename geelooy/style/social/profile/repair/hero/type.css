@@ -1,0 +1,17 @@
+/* B"H — identity text cuts through the night. */
+.profile-hero-card h1 {
+  background: linear-gradient(90deg, #fff, #9a4dff 62%, #2ea7ff);
+  -webkit-background-clip: text;
+  color: transparent !important;
+  font-size: clamp(2.72rem, 11.6vw, 4.6rem) !important;
+  letter-spacing: -.07em !important;
+  line-height: .92 !important;
+  margin: 0 !important;
+}
+
+.profile-hero-card p {
+  color: var(--pr-muted) !important;
+  font-size: 1.05rem !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+}

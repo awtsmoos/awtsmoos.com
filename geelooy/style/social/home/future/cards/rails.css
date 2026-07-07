@@ -1,0 +1,22 @@
+/* B"H — neon rails reveal the edge without repaint storms. */
+.home-action-card::before,
+.home-discovery-card::before,
+.home-post-card::before {
+  background: linear-gradient(90deg, transparent, rgba(40,243,215,.42), rgba(154,77,255,.3), transparent);
+  content: "";
+  height: 1px;
+  inset: 0 14px auto;
+  opacity: .62;
+  position: absolute;
+}
+
+.home-action-card::after,
+.home-discovery-card::after,
+.home-post-card::after,
+.home-mini-card::after {
+  background: linear-gradient(135deg, transparent 0 62%, rgba(46,167,255,.1) 62% 64%, transparent 64%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}

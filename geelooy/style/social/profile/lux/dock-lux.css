@@ -1,5 +1,22 @@
+/* B"H — profile dock: a violet-blue navigation engine. */
 .profile-bottom-nav {
-  box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.18), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.2), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  contain: layout paint;
+  position: fixed;
+}
+
+.profile-bottom-nav::before {
+  background: linear-gradient(90deg, transparent, rgba(40,243,215,.34), rgba(154,77,255,.32), transparent);
+  content: "";
+  height: 1px;
+  inset: 0 1rem auto;
+  position: absolute;
+}
+
+.profile-bottom-nav a {
+  min-height: 52px;
+  touch-action: manipulation;
+  transition: transform 160ms ease, color 160ms ease, background 160ms ease;
 }
 
 .profile-bottom-nav a:hover {
@@ -7,12 +24,12 @@
   transform: translate3d(0,-2px,0);
 }
 
-.profile-bottom-nav a {
-  transition: transform 160ms ease, color 160ms ease, background 160ms ease;
+.profile-bottom-nav a:focus-visible {
+  outline: 2px solid rgba(40,243,215,.8);
+  outline-offset: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .profile-bottom-nav a {
-    transition-duration: 1ms;
-  }
+  .profile-bottom-nav a { transition-duration: 1ms; }
+  .profile-bottom-nav a:hover { transform: none; }
 }

@@ -1,0 +1,19 @@
+/* B"H — when motion must be silent, the lights stand still. */
+@media (prefers-reduced-motion: reduce) {
+  .home-orb-logo,
+  .home-command-dock .is-create,
+  .home-crystal span {
+    animation: none !important;
+  }
+
+  .home-action-card:hover,
+  .home-post-card:hover,
+  .home-discovery-card:hover,
+  .home-mini-card:hover,
+  .home-action-card:active,
+  .home-post-card:active,
+  .home-discovery-card:active,
+  .home-mini-card:active {
+    transform: none !important;
+  }
+}

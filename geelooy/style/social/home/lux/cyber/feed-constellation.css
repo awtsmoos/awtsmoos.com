@@ -1,0 +1,15 @@
+/* B"H — feed rhythm becomes constellation geometry. */
+.home-feed-panel,
+.home-empty-state,
+.home-activity-list li {
+  position: relative;
+}
+
+.home-activity-list li::before {
+  background: linear-gradient(180deg, rgba(40,243,215,.7), rgba(154,77,255,.35));
+  border-radius: 999px;
+  content: "";
+  inset: .9rem auto .9rem 0;
+  position: absolute;
+  width: 2px;
+}

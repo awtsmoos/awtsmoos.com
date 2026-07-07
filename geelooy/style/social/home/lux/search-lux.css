@@ -1,3 +1,27 @@
-.home-search-row input { box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 28px rgba(0,0,0,.22) !important; }
-.home-filter-button { box-shadow: 0 0 22px rgba(139,92,246,.18); }
-.home-filter-button:hover { border-color: rgba(154,77,255,.62); color: #fff; transform: translateY(-1px); }
+/* B"H — search is a crystal command rail, not a repaint storm. */
+.home-search-row {
+  contain: layout paint;
+}
+
+.home-search-row input {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 28px rgba(0,0,0,.22) !important;
+  min-height: 52px;
+}
+
+.home-filter-button {
+  box-shadow: 0 0 22px rgba(139,92,246,.18);
+  min-height: 48px;
+  touch-action: manipulation;
+}
+
+.home-filter-button:hover {
+  border-color: rgba(154,77,255,.62);
+  color: #fff;
+  transform: translate3d(0,-1px,0);
+}
+
+.home-filter-button:focus-visible,
+.home-search-row input:focus-visible {
+  outline: 2px solid rgba(40,243,215,.78);
+  outline-offset: 3px;
+}

@@ -1,0 +1,12 @@
+/* B"H — the top edge carries a fast cyan signal. */
+.profile-card::before,
+.profile-section-card::before,
+.alias-card::before,
+.social-heichel-card::before {
+  background: linear-gradient(90deg, transparent, rgba(40,243,215,.34), transparent);
+  content: "";
+  height: 1px;
+  inset: 0 1rem auto;
+  opacity: .72;
+  position: absolute;
+}

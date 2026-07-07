@@ -1,0 +1,19 @@
+/* B"H — mercy over motion. */
+@media (prefers-reduced-motion: reduce) {
+  .profile-avatar-orb,
+  .profile-bottom-nav a[aria-current="page"],
+  .profile-bottom-nav a.active {
+    animation: none !important;
+  }
+
+  .profile-card:hover,
+  .alias-card:hover,
+  .social-heichel-card:hover,
+  .profile-section-card:hover,
+  .profile-card:active,
+  .alias-card:active,
+  .social-heichel-card:active,
+  .profile-section-card:active {
+    transform: none !important;
+  }
+}

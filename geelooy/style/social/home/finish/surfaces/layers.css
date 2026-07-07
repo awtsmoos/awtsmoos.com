@@ -1,0 +1,9 @@
+/* B"H — final gradients restore the future after legacy flattening. */
+.home-panel,
+.home-feed-panel,
+.home-action-card,
+.home-post-card,
+.home-discovery-card,
+.home-mini-card {
+  background-image: linear-gradient(135deg, rgba(46,167,255,.05), transparent 34%), linear-gradient(315deg, rgba(154,77,255,.055), transparent 38%) !important;
+}

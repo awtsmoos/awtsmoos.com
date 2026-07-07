@@ -1,0 +1,5 @@
+/* B"H — loading is violet, not legacy gray. */
+.loading-circle {
+  border-color: rgba(148,163,184,.28) !important;
+  border-top-color: #8b5cf6 !important;
+}

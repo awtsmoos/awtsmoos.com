@@ -1,0 +1,13 @@
+/* B"H — the interface remembers the hidden geometry of light. */
+.geelooy-home-document::after {
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.2) 1px, transparent 1px),
+    linear-gradient(90deg, transparent 0 47%, rgba(40,243,215,.09) 49% 51%, transparent 53%);
+  background-size: 42px 42px, 100% 7rem;
+  content: "";
+  inset: 0;
+  opacity: .09;
+  pointer-events: none;
+  position: fixed;
+  z-index: -1;
+}

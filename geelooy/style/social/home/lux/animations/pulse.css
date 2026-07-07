@@ -1,0 +1,11 @@
+/* B"H — tiny orbit pulses, transform and opacity only. */
+.home-orb-logo,
+.home-command-dock .is-create,
+.home-crystal span {
+  animation: homeFuturePulse 6s ease-in-out infinite;
+}
+
+@keyframes homeFuturePulse {
+  0%, 100% { opacity: .92; transform: translate3d(0,0,0) scale(1); }
+  50% { opacity: 1; transform: translate3d(0,-1px,0) scale(1.018); }
+}

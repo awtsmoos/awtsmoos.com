@@ -1,0 +1,17 @@
+/* B"H — text glows through color, not through blur. */
+.home-mini-card strong {
+  background: linear-gradient(90deg, var(--f-cyan), #fff, #bda7ff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.home-section-heading h2 {
+  color: #e8f1ff !important;
+  letter-spacing: -.035em;
+  opacity: .98 !important;
+}
+
+.home-section-heading p,
+.home-empty-state small {
+  color: #b9c8dd !important;
+}

@@ -6,17 +6,17 @@ const { scopeAllowed, enforceApiKeyRate } = require('../core/apiKeyStore.js');
 const { recordUsage } = require('../core/usageStore.js');
 const { autoCreatePreviewResult } = require('../preview/previewAutoCreate.js');
 const { resolveFsVessel } = require('./fsVessel/resolveFsVessel.js');
-
 const SESSION_SAFE_ACTIONS = new Set(['list', 'tree', 'read', 'readLines', 'readManyLines', 'readBytes', 'read64', 'md', 'stat', 'roots', 'rootBrowse', 'configGet', 'payloadEcho', 'actionSchemaTrace', 'actionHistoryList', 'actionHistoryGet', 'actionHistorySearch', 'actionHistoryExplain', 'actionHistoryDiff', 'chromeStatus', 'missionTimeline']);
 function responseBytes(obj) { try { return Buffer.byteLength(JSON.stringify(obj), 'utf8'); } catch { return 0; } }
 function mayUseSessionForDashboard(payload) { return SESSION_SAFE_ACTIONS.has(payload.action); }
 function payloadEcho(payload) { return { BH:'B"H', ok:true, action:'payloadEcho', requestAction:'payloadEcho', actualAction:'payloadEcho', payload }; }
 function normalizeCarriers(body = {}, $i = {}) { const paramKinds = { ...($i.paramKinds || {}), POST:{ ...($i.paramKinds?.POST || {}), ...body } }; return buildFsPayload({ ...$i, paramKinds, $_POST:paramKinds.POST }); }
-
+function explicitTrue(value) { return value === true || value === 'true' || value === 1 || value === '1'; }
+function withDefaultPreviewOff(payload = {}) { return payload.autoPreview === undefined ? { ...payload, autoPreview:false } : payload; }
 async function protectedFs($i, vars) {
   const ident = currentIdentity($i);
   if (!ident.ok) return json($i, { BH:'B"H', ok:false, error:ident.error || 'not_authenticated', help:'Log in, use OAuth Bearer token, or use x-awtsmoos-api-key.' }, 401);
-  const payload = buildFsPayload($i);
+  const payload = withDefaultPreviewOff(buildFsPayload($i));
   payload.tunnelName = vars.tunnelName || payload.tunnelName || 'auto';
   if (payload.payloadError) return json($i, { BH:'B"H', ok:false, error:payload.payloadError, action:payload.action }, 400);
   if (payload.action === 'payloadEcho') return json($i, payloadEcho(payload), 200);
@@ -29,7 +29,7 @@ async function protectedFs($i, vars) {
     const vessel = resolveFsVessel({ $i, userId:ident.userId, tunnelName:payload.tunnelName, payload, timeoutMs:boundedTunnelTimeout(payload.timeoutMs || payload.timeout) });
     const result = await vessel.send();
     const rawOut = { ...result, requestAction:payload.action, actualAction:result?.action || result?.actualAction || '' };
-    const out = autoCreatePreviewResult(ident, payload, rawOut);
+    const out = explicitTrue(payload.autoPreview) ? autoCreatePreviewResult(ident, payload, rawOut) : rawOut;
     recordUsage({ userId:ident.userId, keyId:ident.keyId || null, action:payload.action, path:payload.path || payload.cwd || payload.url || null, bytes:responseBytes(out), ok:out.ok !== false });
     return json($i, out && typeof out === 'object' ? out : { BH:'B"H', ok:false, error:'empty_tunnel_response' }, out?.status || 200);
   } catch (e) {
@@ -38,6 +38,5 @@ async function protectedFs($i, vars) {
   }
 }
 function boundedTunnelTimeout(value) { const n = Number(value || 30000); return Math.max(1000, Math.min(Number.isFinite(n) ? n : 30000, 120000)); }
-module.exports = { boundedTunnelTimeout, protectedFs, normalizeCarriers };
-
-/** B"H: protected FS now routes native, browser, and hosted Virtual OS vessels through one resolver. */
+module.exports = { boundedTunnelTimeout, protectedFs, normalizeCarriers, withDefaultPreviewOff, explicitTrue };
+/** B"H: previews are now opt-in at the route boundary; tunnel responses stay small by default. */

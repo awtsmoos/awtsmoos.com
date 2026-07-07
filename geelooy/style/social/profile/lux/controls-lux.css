@@ -1,6 +1,15 @@
+/* B"H — controls answer the fingertip with light, not lag. */
 .profile-tabs,
 .profile-meta-row span {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.profile-tabs a,
+.profile-tabs button,
+.profile-card button,
+.profile-card a.button {
+  min-height: 44px;
+  touch-action: manipulation;
 }
 
 .profile-action-main:hover,
@@ -9,6 +18,14 @@
 .profile-card a.button:hover {
   box-shadow: 0 0 26px rgba(139,92,246,.28) !important;
   transform: translate3d(0,-2px,0);
+}
+
+.profile-tabs a:focus-visible,
+.profile-tabs button:focus-visible,
+.profile-card button:focus-visible,
+.profile-card a.button:focus-visible {
+  outline: 2px solid rgba(40,243,215,.78);
+  outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {

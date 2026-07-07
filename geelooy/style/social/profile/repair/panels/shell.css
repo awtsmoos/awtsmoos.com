@@ -1,0 +1,17 @@
+/* B"H — profile cards become command slabs. */
+.profile-card,
+.profile-command-panel,
+.profile-section-card,
+.alias-card,
+.social-heichel-card,
+.profile-activity-item {
+  background: linear-gradient(135deg, rgba(46,167,255,.07), transparent 34%), linear-gradient(315deg, rgba(154,77,255,.07), transparent 42%), linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)) !important;
+  border: 1px solid rgba(139,92,246,.24) !important;
+  border-radius: 24px !important;
+  box-shadow: var(--pr-shadow) !important;
+  color: var(--pr-text) !important;
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(.85rem, 2.6vw, 1rem) !important;
+  position: relative;
+}

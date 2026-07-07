@@ -1,0 +1,10 @@
+/* B"H — reduced motion keeps only the quiet circuitry. */
+@media (prefers-reduced-motion: reduce) {
+  .profile-bottom-nav::after,
+  .profile-card::after,
+  .profile-section-card::after,
+  .alias-card::after,
+  .social-heichel-card::after {
+    opacity: .35;
+  }
+}

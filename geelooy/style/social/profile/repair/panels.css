@@ -1,34 +1,4 @@
-.profile-card,
-.profile-command-panel,
-.profile-section-card,
-.alias-card,
-.social-heichel-card,
-.profile-activity-item {
-  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)) !important;
-  border: 1px solid rgba(139,92,246,.22) !important;
-  border-radius: 24px !important;
-  box-shadow: var(--pr-shadow) !important;
-  color: var(--pr-text) !important;
-  padding: clamp(.85rem, 2.6vw, 1rem) !important;
-}
-
-.profile-card h2,
-.profile-command-panel h2,
-.profile-section-card h2,
-.alias-card h3,
-.social-heichel-card h3 {
-  color: #fff !important;
-  letter-spacing: -.03em !important;
-}
-
-.profile-card p,
-.profile-section-card p,
-.alias-card p,
-.social-heichel-card p {
-  color: var(--pr-muted) !important;
-}
-
-.loading-circle {
-  border-color: rgba(148,163,184,.28) !important;
-  border-top-color: #8b5cf6 !important;
-}
+@import "./panels/shell.css";
+@import "./panels/rails.css";
+@import "./panels/type.css";
+@import "./panels/loading.css";

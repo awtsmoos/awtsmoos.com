@@ -1,0 +1,6 @@
+/* B"H — phone hero breathes inside the narrow vessel. */
+@media (max-width: 430px) {
+  .home-hero-panel h1 {
+    max-width: 9.5ch;
+  }
+}

@@ -1,34 +1,5 @@
-.home-panel,
-.home-action-card,
-.home-post-card,
-.home-discovery-card,
-.home-mini-card,
-.home-continue-card {
-  background-color: #10141b !important;
-  border-color: rgba(148, 163, 184, .24) !important;
-  color: #f8fafc !important;
-}
-
-.home-action-primary,
-.home-search-row button,
-.home-feed-create,
-.home-command-dock .is-create {
-  background: linear-gradient(135deg, #2ea7ff, #8b5cf6 52%, #9a4dff) !important;
-  border-color: rgba(96, 165, 250, .38) !important;
-  color: #fff !important;
-}
-
-.home-hero-text,
-.home-action-card small,
-.home-discovery-card span,
-.home-post-card p,
-.home-mini-card span {
-  color: #a7b0c4 !important;
-}
-
-.home-panel:focus-within,
-.home-action-card:focus-within,
-.home-command-dock a:focus-visible {
-  outline: 2px solid rgba(46,167,255,.7);
-  outline-offset: 3px;
-}
+@import "./surfaces/base.css";
+@import "./surfaces/layers.css";
+@import "./surfaces/buttons.css";
+@import "./surfaces/type.css";
+@import "./surfaces/focus.css";

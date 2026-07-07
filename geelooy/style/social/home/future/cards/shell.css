@@ -1,0 +1,11 @@
+/* B"H — every card is a purple-blue instrument panel. */
+.home-action-card,
+.home-discovery-card,
+.home-post-card,
+.home-mini-card,
+.home-continue-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.07), transparent 34%), linear-gradient(180deg, var(--f-panel-2), var(--f-panel)) !important;
+  overflow: hidden;
+  position: relative;
+  transform: translateZ(0);
+}

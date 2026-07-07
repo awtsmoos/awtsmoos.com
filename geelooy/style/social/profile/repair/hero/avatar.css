@@ -1,0 +1,5 @@
+/* B"H — the avatar is a small living prism. */
+.profile-avatar-orb {
+  background: conic-gradient(#2ea7ff, #8b5cf6, #d13cff, #28f3d7, #2ea7ff) !important;
+  box-shadow: 0 0 28px rgba(139,92,246,.45) !important;
+}

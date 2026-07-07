@@ -59,6 +59,10 @@ function cachedPromise(key, producer) {
 }
 function clearFinalReadCache() { finalReadCache().clear(); }
 
+function isSocialCommentPath(id) {
+  return /^\/?social\/heichelos\/[^/]+\/comments(?:\/|$)/.test(String(id || "").replace(/\\/g, "/").replace(/^\/+/, ""));
+}
+
 function awtsmoosSidecarPathFor(directory, id) {
   const cleanParts = String(id || "").replace(/^[A-Za-z]:/, "").replace(/\\/g, "/").split("/").filter(Boolean);
   return path.join(directory, ...cleanParts) + ".awtsmoosJSON";
@@ -66,6 +70,7 @@ function awtsmoosSidecarPathFor(directory, id) {
 
 async function readAwtsmoosArraySidecar(directory, id) {
   const sidecar = awtsmoosSidecarPathFor(directory, id);
+  if (isSocialCommentPath(id)) return { exists: false, value: null, path: sidecar, skippedSocialCommentPath: true };
   try {
     const data = await fs.readFile(sidecar);
     if (!awtsmoosBinary.isAwtsmoosObject(data)) return { exists: true, value: null, path: sidecar };
@@ -119,6 +124,7 @@ class DosDB {
 
     const routedLooksLikeBrokenCollection = async id => {
       const routedKeys = await this.__awtsmoosDbFsRouter.maybe("getObjectKeys", id);
+      if (isSocialCommentPath(id)) return { broken: false, routedKeys, legacyKeys: null, skippedSocialCommentPath: true };
       let legacyKeys = null;
       try { legacyKeys = await legacy.getObjectKeys(id); } catch (_error) { legacyKeys = null; }
       const routedList = Array.isArray(routedKeys) ? routedKeys : null;
@@ -174,10 +180,11 @@ class DosDB {
       if (sidecar.exists && Array.isArray(sidecar.value)) return sidecar.value;
       const comparison = await routedLooksLikeBrokenCollection(id);
       if (comparison.broken) return comparison.legacyKeys;
+      let directKeys = maybeResult(comparison.routedKeys) ? comparison.routedKeys : undefined;
+      if (isSocialCommentPath(id)) return directKeys || [];
       let directValue;
       try { directValue = await legacy.get(id); } catch (_error) { directValue = undefined; }
       if (Array.isArray(directValue)) return directValue;
-      let directKeys = maybeResult(comparison.routedKeys) ? comparison.routedKeys : undefined;
       if (directKeys === undefined) {
         try { directKeys = await legacy.getObjectKeys(id); }
         catch (_error) { directKeys = undefined; }
@@ -208,6 +215,10 @@ class DosDB {
 
     this.syncKeyInArray = async (id, value) => {
       clearFinalReadCache();
+      if (isSocialCommentPath(id)) {
+        const routed = await this.__awtsmoosDbFsRouter.maybe("syncKeyInArray", id, value);
+        return maybeResult(routed) ? routed : { success: { skippedSocialCommentPath: true, id, value } };
+      }
       const sidecar = await readAwtsmoosArraySidecar(this.directory, id);
       let arr = Array.isArray(sidecar.value) ? sidecar.value : [];
       if (!arr.includes(value)) {
@@ -280,6 +291,10 @@ class DosDB {
       if (candidateArray) {
         const filtered = candidateArray.filter(item => item !== key);
         if (filtered.length !== candidateArray.length) {
+          if (isSocialCommentPath(id)) {
+            const routed = await this.__awtsmoosDbFsRouter.maybe("deleteObjectKey", id, key);
+            return maybeResult(routed) ? routed : { success: { skippedSocialCommentPath: true, id, removed: key } };
+          }
           const serialized = awtsmoosBinary.serializeJSON(filtered);
           const cleanParts = String(id || "").replace(/^[A-Za-z]:/, "").replace(/\\/g, "/").split("/").filter(Boolean);
           const sidecarPath = arrayInfo?.myPath && String(arrayInfo.myPath).endsWith(".awtsmoosJSON")

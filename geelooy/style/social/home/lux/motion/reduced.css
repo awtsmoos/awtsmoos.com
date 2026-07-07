@@ -1,0 +1,20 @@
+/* B"H — reduced motion nullifies the lift. */
+@media (prefers-reduced-motion: reduce) {
+  .home-glance-grid article,
+  .home-filter-button,
+  .home-orb-brand,
+  .home-bell-button,
+  .home-action-card,
+  .home-command-dock a {
+    transition-duration: 1ms;
+  }
+
+  .home-action-card:active,
+  .home-command-dock a:active,
+  .home-filter-button:active,
+  .home-orb-brand:hover,
+  .home-bell-button:hover,
+  .home-filter-button:hover {
+    transform: none;
+  }
+}

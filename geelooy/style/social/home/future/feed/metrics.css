@@ -1,0 +1,14 @@
+/* B"H — metrics become vertical energy cells. */
+.home-feed-metrics article {
+  background: linear-gradient(145deg, rgba(46,167,255,.08), transparent 40%), linear-gradient(145deg, #131b27, #0c1118) !important;
+  position: relative;
+}
+
+.home-feed-metrics article::before {
+  background: linear-gradient(180deg, rgba(40,243,215,.7), rgba(154,77,255,.2));
+  border-radius: 999px;
+  content: "";
+  inset: .8rem auto .8rem .05rem;
+  position: absolute;
+  width: 2px;
+}

@@ -1,0 +1,16 @@
+/* B"H — panel typography stays sharp and premium. */
+.profile-card h2,
+.profile-command-panel h2,
+.profile-section-card h2,
+.alias-card h3,
+.social-heichel-card h3 {
+  color: #fff !important;
+  letter-spacing: -.035em !important;
+}
+
+.profile-card p,
+.profile-section-card p,
+.alias-card p,
+.social-heichel-card p {
+  color: var(--pr-muted) !important;
+}

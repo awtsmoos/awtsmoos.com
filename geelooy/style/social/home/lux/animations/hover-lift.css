@@ -1,0 +1,14 @@
+/* B"H — cards respond like native surfaces, not like heavy glass. */
+.home-action-card:hover,
+.home-post-card:hover,
+.home-discovery-card:hover,
+.home-mini-card:hover {
+  transform: translate3d(0,-3px,0);
+}
+
+.home-action-card:active,
+.home-post-card:active,
+.home-discovery-card:active,
+.home-mini-card:active {
+  transform: translate3d(0,1px,0) scale(.99);
+}

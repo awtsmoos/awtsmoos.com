@@ -1,0 +1,20 @@
+/* B"H — cards receive data rails and violet telemetry. */
+.home-action-card > *,
+.home-post-card > *,
+.home-discovery-card > *,
+.home-mini-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-action-card:hover::before,
+.home-post-card:hover::before,
+.home-discovery-card:hover::before {
+  opacity: .95;
+}
+
+.home-action-card strong,
+.home-mini-card strong,
+.home-glance-grid strong {
+  text-shadow: 0 0 18px rgba(46,167,255,.18);
+}

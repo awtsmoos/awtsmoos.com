@@ -1,0 +1,7 @@
+/* B"H — keyboard travelers receive a cyan gate. */
+.home-panel:focus-within,
+.home-action-card:focus-within,
+.home-command-dock a:focus-visible {
+  outline: 2px solid rgba(46,167,255,.7);
+  outline-offset: 3px;
+}

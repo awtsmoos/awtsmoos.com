@@ -1,0 +1,15 @@
+/* B"H — the dock center becomes a restrained reactor. */
+.home-command-dock .is-create::after {
+  background: radial-gradient(circle, rgba(255,255,255,.55), transparent 42%);
+  border-radius: inherit;
+  content: "";
+  inset: 20% 24%;
+  opacity: .32;
+  pointer-events: none;
+  position: absolute;
+}
+
+.home-command-dock a span {
+  position: relative;
+  z-index: 1;
+}

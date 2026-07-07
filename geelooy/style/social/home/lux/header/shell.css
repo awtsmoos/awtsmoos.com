@@ -1,0 +1,8 @@
+/* B"H — header shell respects the safe-area crown. */
+.home-app-header {
+  padding-top: max(.7rem, env(safe-area-inset-top)) !important;
+}
+
+.home-sidebar-panel {
+  margin-top: -.1rem;
+}

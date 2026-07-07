@@ -1,0 +1,6 @@
+/* B"H — hero panel as violet-blue command portal. */
+.home-hero-panel {
+  background: radial-gradient(circle at 78% 6%, rgba(40,243,215,.18), transparent 11rem), radial-gradient(circle at 4% 92%, rgba(154,77,255,.18), transparent 11rem), linear-gradient(150deg, rgba(15,23,42,.96), rgba(3,7,18,.96)) !important;
+  contain: paint;
+  overflow: hidden;
+}

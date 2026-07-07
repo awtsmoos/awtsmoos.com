@@ -1,0 +1,15 @@
+/* B"H — black-violet sky, no filters, only gradients. */
+.geelooy-home-document::before {
+  background:
+    radial-gradient(circle at 14% 5%, rgba(139,92,246,.28), transparent 12rem),
+    radial-gradient(circle at 86% 18%, rgba(46,167,255,.2), transparent 14rem),
+    radial-gradient(circle at 50% 108%, rgba(40,243,215,.16), transparent 18rem),
+    linear-gradient(135deg, rgba(154,77,255,.08) 0 1px, transparent 1px 42px),
+    #020617;
+  background-size: auto, auto, auto, 42px 42px, auto;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: -2;
+}

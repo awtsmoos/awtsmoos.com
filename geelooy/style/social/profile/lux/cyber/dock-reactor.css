@@ -1,0 +1,15 @@
+/* B"H — profile dock gets a silent reactor line. */
+.profile-bottom-nav::after {
+  background: radial-gradient(circle, rgba(46,167,255,.28), transparent 58%);
+  content: "";
+  inset: auto 18% 0;
+  opacity: .55;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+}
+
+.profile-bottom-nav a {
+  position: relative;
+  z-index: 1;
+}

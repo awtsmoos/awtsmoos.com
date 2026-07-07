@@ -1,0 +1,16 @@
+/* B"H — hero words cut open the black gradient. */
+.home-hero-panel h1 {
+  color: #f8fafc !important;
+  filter: none !important;
+  letter-spacing: -.055em;
+  max-width: 11ch;
+}
+
+.home-hero-panel h1 span {
+  text-shadow: 0 0 30px rgba(154,77,255,.28);
+}
+
+.home-kicker {
+  letter-spacing: .18em;
+  text-shadow: 0 0 18px rgba(154,77,255,.35);
+}

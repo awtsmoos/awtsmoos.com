@@ -1,0 +1,17 @@
+/* B"H — short transitions, transform-first. */
+.home-glance-grid article,
+.home-filter-button,
+.home-orb-brand,
+.home-bell-button,
+.home-action-card,
+.home-command-dock a {
+  transition: transform 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms ease, box-shadow 180ms ease, color 160ms ease;
+}
+
+.home-action-card,
+.home-post-card,
+.home-discovery-card,
+.home-mini-card,
+.home-feed-panel {
+  backface-visibility: hidden;
+}

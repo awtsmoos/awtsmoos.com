@@ -1,0 +1,15 @@
+/* B"H — tabs lock into a luminous timeline. */
+.home-feed-tabs button {
+  min-height: 44px;
+  position: relative;
+}
+
+.home-feed-tabs button.active::after,
+.home-feed-tabs button[aria-pressed="true"]::after {
+  background: linear-gradient(90deg, var(--f-cyan), var(--f-blue), #9a4dff);
+  border-radius: 999px;
+  content: "";
+  height: 2px;
+  inset: auto .9rem .45rem;
+  position: absolute;
+}

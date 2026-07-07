@@ -1,3 +1,23 @@
-.home-command-dock { background: linear-gradient(180deg, rgba(20,24,42,.92), rgba(6,10,20,.95)) !important; }
-.home-command-dock .is-create { background: radial-gradient(circle at 50% 15%, rgba(255,255,255,.32), transparent 36%), linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff) !important; }
-.home-command-dock a:hover span { transform: translateY(-1px); }
+/* B"H — the dock floats like a native tab bar, never clipped. */
+.home-command-dock {
+  background: linear-gradient(180deg, rgba(20,24,42,.92), rgba(6,10,20,.95)) !important;
+  contain: layout paint;
+}
+
+.home-command-dock a {
+  min-height: 52px;
+  touch-action: manipulation;
+}
+
+.home-command-dock .is-create {
+  background: radial-gradient(circle at 50% 15%, rgba(255,255,255,.32), transparent 36%), linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff) !important;
+}
+
+.home-command-dock a:hover span {
+  transform: translate3d(0,-1px,0);
+}
+
+.home-command-dock a:focus-visible {
+  outline: 2px solid rgba(40,243,215,.8);
+  outline-offset: 4px;
+}

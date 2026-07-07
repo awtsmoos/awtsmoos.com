@@ -1,0 +1,15 @@
+/* B"H — brand chip: purple-blue native glass without blur. */
+.home-orb-brand {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(255,255,255,.052), rgba(139,92,246,.052));
+  border: 1px solid rgba(148,163,184,.16);
+  border-radius: 26px;
+  min-height: 62px;
+  min-width: 0;
+  padding: .45rem .72rem .45rem .45rem;
+}
+
+.home-orb-brand strong,
+.home-orb-brand span {
+  overflow-wrap: anywhere;
+}

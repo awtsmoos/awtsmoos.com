@@ -1,0 +1,7 @@
+/* B"H — cyber geometry remains still for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-panel::before,
+  .home-command-dock .is-create::after {
+    opacity: .25;
+  }
+}

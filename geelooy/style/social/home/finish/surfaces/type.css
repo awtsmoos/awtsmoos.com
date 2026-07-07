@@ -1,0 +1,8 @@
+/* B"H — muted text stays readable inside the night. */
+.home-hero-text,
+.home-action-card small,
+.home-discovery-card span,
+.home-post-card p,
+.home-mini-card span {
+  color: #aeb9cd !important;
+}

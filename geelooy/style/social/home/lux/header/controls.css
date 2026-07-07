@@ -1,0 +1,7 @@
+/* B"H — notification control is large, luminous, and reachable. */
+.home-bell-button {
+  border-color: rgba(154,77,255,.32) !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.34), 0 0 20px rgba(139,92,246,.12);
+  min-height: 50px;
+  min-width: 50px;
+}

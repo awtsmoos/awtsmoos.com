@@ -1,0 +1,8 @@
+/* B"H — profile identity splits the darkness with a data beam. */
+.profile-hero-card::before {
+  box-shadow: 0 0 18px rgba(40,243,215,.22), 0 0 30px rgba(154,77,255,.16);
+}
+
+.profile-hero-card h1 {
+  text-shadow: 0 0 28px rgba(154,77,255,.2);
+}

@@ -1,39 +1,21 @@
 // B"H
-function clean(v = '') { return String(v || '').trim(); }
-function words(v = '') { return clean(v).split(/\s+/).filter(Boolean); }
-function fileHints(input = {}, m = {}) {
-  const text = [input.goal, input.prompt, input.query, input.text, m.goal, m.title, m.definitionOfDone].map(clean).join(' ');
-  const found = text.match(/[A-Za-z0-9_./-]+\.(js|mjs|cjs|ts|tsx|jsx|css|html|json|md|c|cpp|h|py|sh)/g) || [];
-  return [...new Set(found)].slice(0, 12);
-}
-function item(kind, title, payload = {}) {
-  const key = `${kind}:${title}:${payload.path || payload.command || ''}`.replace(/\s+/g, '_').slice(0, 180);
-  return { key, kind, title, status: 'pending', payload, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
-}
-function generic(m = {}, input = {}) {
-  const hints = fileHints(input, m);
-  const target = hints[0] || '.';
-  const items = [
-    item('inspect', `Inspect project reality for ${target}`, { action: 'tree', path: target === '.' ? '.' : target.split('/').slice(0, -1).join('/') || '.' }),
-    item('read', `Read relevant source ${target}`, { action: 'read', path: target }),
-    item('plan', 'Write concrete file-touch plan', {}),
-    item('write', `Rewrite complete files required by mission`, { action: 'write', path: target }),
-    item('verify', 'Run live verification through tunnel', { action: 'commandRun', command: 'npm test -- --runInBand || npm test || true' }),
-    item('review', 'Review changed files and remaining work', { action: 'gitDiffSmart' }),
-    item('debt', 'Measure remaining work debt', {}),
-    item('continue', 'Continue with next highest value file task', {})
+function fromGoal(goal = '', context = {}) {
+  const text = String(goal || '').trim();
+  const path = context.path || context.p || '';
+  const tasks = [
+    item('inspect', 'Inspect real files before changing anything', { action:'projectOverview', p:'.' }),
+    item('plan', 'Write/update the mission plan from actual evidence', { action:'missionStepPlan', goal:text }),
+    item('verify', 'Run live verification through the clean command worker', { action:'commandStart', command:'npm test -- --runInBand || npm test || true' })
   ];
-  return items;
+  if (path) tasks.unshift(item('read', `Read ${path}`, { action:'read', p:path, maxChars:20000 }));
+  return tasks;
 }
-function items(m = {}, input = {}) {
-  const hints = fileHints(input, m);
-  const base = generic(m, input);
-  const extra = hints.flatMap(path => [
-    item('read', `Read ${path}`, { action: 'read', path }),
-    item('write', `Rewrite ${path} if needed`, { action: 'write', path }),
-    item('verify', `Verify ${path}`, { action: 'commandRun', command: `node --check ${path}` })
-  ]);
-  return [...base, ...extra].slice(0, 40);
+function forFile(path = '') {
+  return [
+    item('read', `Read ${path}`, { action:'read', p:path, maxChars:20000 }),
+    item('plan', `Plan changes for ${path}`, { action:'missionStepPlan', path }),
+    item('verify', `Verify ${path}`, { action:'commandStart', command:`node --check ${path}` })
+  ];
 }
-function create(m = {}, input = {}) { return { createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), items: items(m, input), progress: {} }; }
-module.exports = { create, items, fileHints, item, words };
+function item(kind, title, request = {}) { return { id:`${kind}_${Date.now()}_${Math.random().toString(36).slice(2,7)}`, kind, title, request, status:'queued', createdAt:new Date().toISOString() }; }
+module.exports = { fromGoal, forFile, item };

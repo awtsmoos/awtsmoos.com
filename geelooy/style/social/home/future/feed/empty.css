@@ -1,0 +1,4 @@
+/* B"H — even emptiness has a portal. */
+.home-empty-state {
+  background-image: radial-gradient(circle at 50% 0, rgba(154,77,255,.18), transparent 9rem) !important;
+}

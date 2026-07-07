@@ -1,0 +1,29 @@
+// B"H
+/** Build a Likkutei Sichos RAG shard from routed extensionless comment branches only. */
+import fs from 'fs';
+import path from 'path';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const DosDB = require('../../ayzarim/DosDB/index.js');
+const AwtsmoosDB = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
+const { embedTextAuto, runnerState } = require('../../ayzarim/DosDB/aiSearch/textEmbedRunner.js');
+const ROOT = process.env.AWTS_DB_ROOT || '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash';
+const RAG = path.join(ROOT, 'ai/comment-rag');
+const ALIAS = 'likkutei_translation_en';
+const VOLUMES = process.env.VOLUMES || '2-15';
+const CONCURRENCY = Number(process.env.EMBED_CONCURRENCY || 50);
+const VERSES = Number(process.env.VERSES_PER_CHUNK || 3);
+const SHARD = process.env.LIKKUTEI_RAG_SHARD || path.join(RAG, 'likkutei-v02-v15-rag.awtsdb');
+const PROGRESS = process.env.PROGRESS_FILE || path.join(RAG, 'likkutei-v02-v15-rag-progress.json');
+function vols(spec){const a=[]; for(const p of spec.split(',')){const m=p.match(/^(\d+)-(\d+)$/); if(m) for(let i=+m[1];i<=+m[2];i++) a.push(i); else if(p.trim()) a.push(+p);} return [...new Set(a)].filter(Number.isFinite);}
+function count(obj){return Object.entries(obj||{}).reduce((n,[k,v])=>/^\d+$/.test(k)&&Array.isArray(v)?n+v.length:n,0);}
+function summaries(){return fs.existsSync(RAG)?fs.readdirSync(RAG).filter(n=>n.startsWith('likkutei_comment_migrate_')).map(n=>path.join(RAG,n,'summary.json')).filter(fs.existsSync):[];}
+function pathsFor(selected){const keep=new Set(selected.map(v=>`likkuteiSichosVolume${v}`)); const out=new Map(); for(const f of summaries()){let s; try{s=JSON.parse(fs.readFileSync(f,'utf8'))}catch{continue} if(!s.apply) continue; for(const p of s.paths||[]){const m=String(p.path||'').match(/atSeries\/([^/]+)\/atPost\/([^/]+)\/([^/]+)$/); if(!m||m[3]!==ALIAS||!keep.has(m[1])) continue; out.set(p.path.replace(/\.(awtsmoosJSON|json)$/i,''),{seriesId:m[1],postId:m[2],aliasId:m[3],volume:Number(m[1].replace(/\D+/g,''))});}} return [...out.entries()].sort().map(([commentPath,meta])=>({commentPath,...meta}));}
+function textOf(rows){return rows.map(c=>`[${c.verseSection}:${c.subSection??c.dayuh?.subSection??''}] ${c.sourceHebrew||c.dayuh?.sourceHebrew||''}\nEN: ${c.content||''}`).join('\n');}
+function chunksOf(branch){const sections=Object.keys(branch.obj).filter(k=>/^\d+$/.test(k)&&Array.isArray(branch.obj[k])&&branch.obj[k].length).sort((a,b)=>+a-+b); const out=[]; for(let i=0;i<sections.length;i+=VERSES){const keys=sections.slice(i,i+VERSES); const rows=keys.flatMap(k=>branch.obj[k]); out.push({id:`${branch.seriesId}:${branch.postId}:v${keys[0]}-v${keys.at(-1)}`,source:'likkutei_sichos',sourceType:'comment_translation',volume:branch.volume,seriesId:branch.seriesId,postId:branch.postId,aliasId:branch.aliasId,commentPath:branch.commentPath,verseStart:+keys[0],verseEnd:+keys.at(-1),commentCount:rows.length,firstCommentId:rows[0]?.id||'',lastCommentId:rows.at(-1)?.id||'',sampleContent:rows[0]?.content||'',text:textOf(rows)});} return out;}
+async function mapLimit(items,limit,fn){const out=new Array(items.length); let n=0, done=0; await Promise.all(Array.from({length:Math.min(limit,items.length)},async()=>{while(n<items.length){const i=n++; out[i]=await fn(items[i],i); done++; if(done%25===0||done===items.length) fs.writeFileSync(PROGRESS,JSON.stringify({phase:'embedding',done,total:items.length,shard:SHARD,at:new Date().toISOString()},null,2));}})); return out;}
+async function main(){fs.mkdirSync(RAG,{recursive:true}); const chosen=vols(VOLUMES); const dos=new DosDB(ROOT); await dos.init?.(); const branches=[]; const skipped=[]; for(const p of pathsFor(chosen)){const obj=await dos.get(p.commentPath).catch(e=>({__error:String(e.message||e)})); const comments=count(obj); if(comments) branches.push({...p,obj,comments}); else skipped.push({commentPath:p.commentPath,reason:obj?.__error||'empty'});}
+ const chunks=branches.flatMap(chunksOf); fs.writeFileSync(PROGRESS,JSON.stringify({phase:'embedding',volumes:chosen,branches:branches.length,skipped:skipped.length,chunks:chunks.length,concurrency:CONCURRENCY,started:new Date().toISOString()},null,2));
+ const records=await mapLimit(chunks,CONCURRENCY,async c=>({...c,...await embedTextAuto(c.text,{modelRoot:RAG}).then(e=>({vec:e.vector,embeddingProvider:e.provider,realEmbedding:e.realEmbedding}))}));
+ for(const ext of ['', '.wal']) if(fs.existsSync(SHARD+ext)) fs.rmSync(SHARD+ext,{force:true}); const db=new AwtsmoosDB(SHARD,{debug:false}); await db.open(); await db.createList(db.root,'chunks'); await db.vector.enable(db.root.chunks,{dimensions:384,metric:'cosine'}); for(const r of records) await db.root.chunks.push(r); await db.waitForIdle(); const q=await embedTextAuto('Torah mitzvos teshuvah redemption',{modelRoot:RAG}); const sample=(await db.vector.nearest(db.root.chunks,q.vector,10)).map(x=>({score:x.score,id:x.item.id,source:x.item.source,volume:x.item.volume,seriesId:x.item.seriesId,postId:x.item.postId,verses:[x.item.verseStart,x.item.verseEnd],sample:x.item.sampleContent.slice(0,120)})); await db.close(); const done={BH:'B"H',shard:SHARD,volumes:chosen,branches:branches.length,skipped:skipped.length,chunks:records.length,concurrency:CONCURRENCY,fields:['vec','text','source','sourceType','volume','seriesId','postId','aliasId','commentPath','verseStart','verseEnd','commentCount','firstCommentId','lastCommentId','sampleContent'],model:runnerState({modelRoot:RAG}),sample}; fs.writeFileSync(PROGRESS,JSON.stringify({...done,finished:new Date().toISOString()},null,2)); console.log(JSON.stringify(done,null,2));}
+main().catch(e=>{fs.writeFileSync(PROGRESS,JSON.stringify({error:String(e.stack||e),at:new Date().toISOString()},null,2)); console.error(e.stack||e); process.exit(1);});

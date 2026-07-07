@@ -1,5 +1,28 @@
-.home-action-card { isolation: isolate; }
-.home-action-card::after { background: radial-gradient(circle at 50% 18%, rgba(154,77,255,.14), transparent 58%); z-index: -1; }
-.home-action-card:nth-child(2)::after { background: radial-gradient(circle at 50% 18%, rgba(46,167,255,.14), transparent 58%); }
-.home-action-card:nth-child(4)::after { background: radial-gradient(circle at 50% 18%, rgba(40,243,215,.12), transparent 58%); }
-.home-action-card:hover { border-color: rgba(154,77,255,.48) !important; }
+/* B"H — each tile is a small throne, contained and responsive. */
+.home-action-card {
+  isolation: isolate;
+  min-height: 132px;
+  position: relative;
+}
+
+.home-action-card::after {
+  background: radial-gradient(circle at 50% 18%, rgba(154,77,255,.14), transparent 58%);
+  z-index: -1;
+}
+
+.home-action-card:nth-child(2)::after {
+  background: radial-gradient(circle at 50% 18%, rgba(46,167,255,.14), transparent 58%);
+}
+
+.home-action-card:nth-child(4)::after {
+  background: radial-gradient(circle at 50% 18%, rgba(40,243,215,.12), transparent 58%);
+}
+
+.home-action-card:hover {
+  border-color: rgba(154,77,255,.48) !important;
+}
+
+.home-action-card:focus-within {
+  outline: 2px solid rgba(46,167,255,.58);
+  outline-offset: 3px;
+}

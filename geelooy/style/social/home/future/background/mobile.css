@@ -1,0 +1,6 @@
+/* B"H — small screens receive smaller star math. */
+@media (max-width: 430px) {
+  .geelooy-home-document::before {
+    background-size: auto, auto, auto, 34px 34px, auto;
+  }
+}

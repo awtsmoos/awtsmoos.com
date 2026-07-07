@@ -1,0 +1,6 @@
+/* B"H — active press returns to the hand. */
+.home-action-card:active,
+.home-command-dock a:active,
+.home-filter-button:active {
+  transform: translate3d(0,1px,0) scale(.99);
+}

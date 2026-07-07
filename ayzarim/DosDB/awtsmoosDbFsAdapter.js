@@ -157,14 +157,24 @@ function familyOrderFor(id) {
   return [];
 }
 
+function isCommentPath(id) {
+  return /^\/social\/heichelos\/[^/]+\/comments(?:\/|$)/.test(normalizePath(id));
+}
+
+function canonicalCommentPath(id) {
+  return normalizePath(id).replace(/\/$/, "").replace(/\.(awtsmoosJSON|json)$/i, "");
+}
+
 function fileCandidates(id) {
   const clean = normalizePath(id).replace(/\/$/, "");
+  if (isCommentPath(clean)) return [canonicalCommentPath(clean)];
   const ext = path.posix.extname(clean);
   return ext ? [clean] : [clean, `${clean}.awtsmoosJSON`, `${clean}.json`];
 }
 
 function writePath(id) {
   const clean = normalizePath(id).replace(/\/$/, "");
+  if (isCommentPath(clean)) return canonicalCommentPath(clean);
   return path.posix.extname(clean) ? clean : `${clean}.awtsmoosJSON`;
 }
 

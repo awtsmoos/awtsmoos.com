@@ -1,0 +1,14 @@
+/* B"H — a ship-console dock, fixed and contained. */
+.home-command-dock {
+  background: linear-gradient(180deg, rgba(18,26,38,.97), rgba(8,12,18,.97)) !important;
+  border-color: rgba(40,243,215,.24) !important;
+  position: fixed;
+}
+
+.home-command-dock::before {
+  background: linear-gradient(90deg, transparent, rgba(40,243,215,.34), rgba(154,77,255,.32), transparent);
+  content: "";
+  height: 1px;
+  inset: 0 1.1rem auto;
+  position: absolute;
+}
