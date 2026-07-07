@@ -1,1 +1,20 @@
-@media (max-width: 760px) { .home-search-row { grid-template-columns: 1fr; } .home-search-row button { width: 100%; } }
+@media (max-width: 760px) {
+  .home-search-row {
+    gap: .55rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-search-row input {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .home-search-row button {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .home-command-search {
+    gap: .55rem;
+  }
+}

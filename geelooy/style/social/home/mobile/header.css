@@ -1,1 +1,27 @@
-@media (max-width: 760px) { .home-mobile-topbar { top: .5rem; } .home-brand-pill { min-width: 0; } .home-brand-pill span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
+@media (max-width: 760px) {
+  .home-mobile-topbar {
+    top: .5rem;
+  }
+
+  .home-app-header {
+    gap: .58rem;
+    padding-top: .58rem !important;
+  }
+
+  .home-brand-pill,
+  .home-orb-brand {
+    min-width: 0;
+  }
+
+  .home-brand-pill span:last-child,
+  .home-brand-copy strong,
+  .home-brand-copy small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .home-orb-brand {
+    border-radius: 24px;
+  }
+}

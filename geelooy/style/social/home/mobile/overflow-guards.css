@@ -1,1 +1,21 @@
-@media (max-width: 760px) { .home-panel, .home-action-card, .home-post-card, .home-discovery-card { max-width: 100%; min-width: 0; overflow: hidden; } .home-feed-tabs { max-width: 100%; } }
+@media (max-width: 760px) {
+  .home-panel,
+  .home-action-card,
+  .home-post-card,
+  .home-discovery-card,
+  .home-mini-card,
+  .home-continue-card {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .home-feed-tabs,
+  .home-search-row,
+  .home-empty-actions,
+  .home-glance-grid {
+    max-width: 100%;
+    min-width: 0;
+  }
+}

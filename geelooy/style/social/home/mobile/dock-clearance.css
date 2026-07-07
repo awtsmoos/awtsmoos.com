@@ -1,1 +1,14 @@
-@media (max-width: 760px) { .geelooy-home-shell { padding-bottom: max(9rem, env(safe-area-inset-bottom)); } .home-discovery-panel { margin-bottom: 1rem; } }
+@media (max-width: 760px) {
+  .geelooy-home-shell {
+    padding-bottom: calc(max(9.25rem, env(safe-area-inset-bottom)) + .5rem);
+  }
+
+  .home-discovery-panel,
+  .home-activity-panel {
+    margin-bottom: 1rem;
+  }
+
+  .home-command-dock {
+    transform: translate3d(0,0,0);
+  }
+}

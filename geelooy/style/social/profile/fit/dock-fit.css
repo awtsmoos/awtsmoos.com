@@ -1,2 +1,34 @@
-.profile-bottom-nav { max-width: calc(100vw - 1.1rem) !important; overflow: visible !important; }
-@media (max-width: 430px) { .profile-bottom-nav { left: .55rem !important; right: .55rem !important; padding: .45rem !important; } .profile-bottom-nav a { min-width: 0 !important; font-size: .74rem !important; } }
+.profile-bottom-nav {
+  box-sizing: border-box;
+  max-width: calc(100vw - 1.1rem) !important;
+  overflow: visible !important;
+}
+
+.profile-bottom-nav a {
+  min-width: 0 !important;
+}
+
+@media (max-width: 430px) {
+  .profile-bottom-nav {
+    bottom: max(.56rem, env(safe-area-inset-bottom)) !important;
+    left: max(.55rem, env(safe-area-inset-left)) !important;
+    padding: .45rem !important;
+    right: max(.55rem, env(safe-area-inset-right)) !important;
+  }
+
+  .profile-bottom-nav a {
+    font-size: .74rem !important;
+    min-height: 50px !important;
+    padding-inline: .12rem !important;
+  }
+
+  .profile-bottom-nav a.is-create {
+    transform: translate3d(0,-9px,0) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile-bottom-nav a {
+    font-size: .68rem !important;
+  }
+}

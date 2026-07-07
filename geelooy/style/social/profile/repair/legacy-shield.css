@@ -6,6 +6,13 @@ body:has(.geelooy-profile-shell) > .aliasSelector,
 body:has(.geelooy-profile-shell) > .alias-selector,
 body:has(.geelooy-profile-shell) > .currentAlias,
 body:has(.geelooy-profile-shell) > .curAlias,
-body:has(.geelooy-profile-shell) .sidebarMitzvah:not(.profile-bottom-nav) {
+body:has(.geelooy-profile-shell) > .left-sidebar,
+body:has(.geelooy-profile-shell) > .right-sidebar,
+body:has(.geelooy-profile-shell) > .legacy-header,
+body:has(.geelooy-profile-shell) > .site-header,
+body:has(.geelooy-profile-shell) .sidebarMitzvah:not(.profile-bottom-nav),
+body:has(.geelooy-profile-shell) .menuBtn:not(.profile-tabs button) {
   display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }

@@ -1,4 +1,44 @@
-html, body, .geelooy-home-document { min-width: 0 !important; overflow-x: hidden !important; }
-.geelooy-home-shell { max-width: min(680px, 100vw) !important; overflow-x: clip !important; }
-@media (max-width: 430px) { .geelooy-home-shell { padding-inline: .78rem !important; gap: .82rem !important; } }
-@media (max-width: 370px) { .geelooy-home-shell { padding-inline: .58rem !important; } }
+html,
+body,
+.geelooy-home-document {
+  max-width: 100%;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.geelooy-home-document {
+  touch-action: manipulation;
+}
+
+.geelooy-home-shell {
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin-inline: auto;
+  max-width: min(680px, 100vw) !important;
+  min-width: 0 !important;
+  overflow-x: clip !important;
+}
+
+.home-panel,
+.home-app-header,
+.home-search-row,
+.home-dashboard-grid,
+.home-action-grid,
+.home-discovery-grid {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0 !important;
+}
+
+@media (max-width: 430px) {
+  .geelooy-home-shell {
+    gap: .78rem !important;
+    padding-inline: clamp(.58rem, 2.8vw, .82rem) !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .geelooy-home-shell {
+    padding-inline: .56rem !important;
+  }
+}

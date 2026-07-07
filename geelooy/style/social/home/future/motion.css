@@ -6,10 +6,30 @@
   transition: transform 180ms cubic-bezier(.2,.8,.2,1), opacity 160ms ease, border-color 160ms ease, box-shadow 180ms ease, background 160ms ease !important;
   will-change: transform;
 }
+
 .home-action-card:hover,
 .home-discovery-card:hover,
-.home-post-card:hover { transform: translate3d(0,-5px,0) scale(1.015) !important; }
+.home-post-card:hover {
+  transform: translate3d(0,-4px,0) scale(1.01) !important;
+}
+
 .home-action-card:active,
 .home-discovery-card:active,
-.home-post-card:active { transform: translate3d(0,-1px,0) scale(.992) !important; }
-.home-command-dock a:hover { transform: translate3d(0,-3px,0) !important; }
+.home-post-card:active,
+.home-command-dock a:active {
+  transform: translate3d(0,-1px,0) scale(.992) !important;
+}
+
+.home-command-dock a:hover {
+  transform: translate3d(0,-2px,0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-action-card,
+  .home-discovery-card,
+  .home-post-card,
+  .home-command-dock a,
+  .home-feed-tabs button {
+    transition-duration: 1ms !important;
+  }
+}

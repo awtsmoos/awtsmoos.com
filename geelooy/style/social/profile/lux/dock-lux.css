@@ -1,2 +1,18 @@
-.profile-bottom-nav { box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.18), inset 0 1px 0 rgba(255,255,255,.06) !important; }
-.profile-bottom-nav a:hover { color: #fff !important; }
+.profile-bottom-nav {
+  box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.18), inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+.profile-bottom-nav a:hover {
+  color: #fff !important;
+  transform: translate3d(0,-2px,0);
+}
+
+.profile-bottom-nav a {
+  transition: transform 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-bottom-nav a {
+    transition-duration: 1ms;
+  }
+}

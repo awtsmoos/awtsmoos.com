@@ -1,1 +1,21 @@
-@media (max-width: 760px) { .home-hero-panel { border-radius: 26px; } .home-hero-panel h1 { font-size: clamp(2.65rem, 13vw, 4.2rem); max-width: 9ch; } .home-hero-text { font-size: 1.05rem; } }
+@media (max-width: 760px) {
+  .home-hero-panel {
+    border-radius: 26px;
+    isolation: isolate;
+  }
+
+  .home-hero-panel h1 {
+    font-size: clamp(2.52rem, 12.2vw, 4.2rem);
+    line-height: .9;
+    max-width: 8.8ch;
+  }
+
+  .home-hero-text {
+    font-size: clamp(.96rem, 3.5vw, 1.05rem);
+    max-width: 29rem;
+  }
+
+  .home-kicker {
+    letter-spacing: .16em;
+  }
+}

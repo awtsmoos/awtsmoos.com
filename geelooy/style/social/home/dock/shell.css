@@ -1,1 +1,18 @@
-.home-command-dock { align-items: center; background: linear-gradient(180deg, rgba(20,24,38,.9), rgba(9,13,24,.94)); border: 1px solid rgba(148,163,184,.14); border-radius: 32px; bottom: max(.72rem, env(safe-area-inset-bottom)); box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.18); display: grid; gap: .2rem; grid-template-columns: repeat(5, minmax(0,1fr)); left: max(.65rem, env(safe-area-inset-left)); padding: .55rem; position: fixed; right: max(.65rem, env(safe-area-inset-right)); z-index: 9000; }
+.home-command-dock {
+  align-items: center;
+  background: linear-gradient(180deg, rgba(20,24,38,.9), rgba(9,13,24,.94));
+  border: 1px solid rgba(148,163,184,.14);
+  border-radius: 32px;
+  bottom: max(.72rem, env(safe-area-inset-bottom));
+  box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.18);
+  box-sizing: border-box;
+  display: grid;
+  gap: .2rem;
+  grid-template-columns: repeat(5, minmax(0,1fr));
+  left: max(.65rem, env(safe-area-inset-left));
+  max-width: calc(100vw - 1.3rem);
+  padding: .55rem;
+  position: fixed;
+  right: max(.65rem, env(safe-area-inset-right));
+  z-index: 9000;
+}

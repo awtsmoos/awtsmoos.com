@@ -1,3 +1,32 @@
-.profile-action-main, .profile-primary-action, .profile-card button, .profile-card a.button, .panel-title-row a, .alias-card-actions a, .alias-card-actions button { background: linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff) !important; border: 0 !important; border-radius: 16px !important; color: #fff !important; font-weight: 900 !important; min-height: 48px !important; padding: .8rem 1rem !important; text-decoration: none !important; }
-.profile-identity-row, .profile-meta-row, .profile-actions, .panel-title-row, .alias-card-actions { gap: .65rem !important; }
-.profile-meta-row span, .profile-tabs button { background: rgba(255,255,255,.055) !important; border: 1px solid rgba(148,163,184,.16) !important; color: var(--pr-muted) !important; }
+.profile-action-main,
+.profile-primary-action,
+.profile-card button,
+.profile-card a.button,
+.panel-title-row a,
+.alias-card-actions a,
+.alias-card-actions button {
+  background: linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff) !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  min-height: 48px !important;
+  min-width: 0 !important;
+  padding: .8rem 1rem !important;
+  text-decoration: none !important;
+}
+
+.profile-identity-row,
+.profile-meta-row,
+.profile-actions,
+.panel-title-row,
+.alias-card-actions {
+  gap: .65rem !important;
+}
+
+.profile-meta-row span,
+.profile-tabs button {
+  background: rgba(255,255,255,.055) !important;
+  border: 1px solid rgba(148,163,184,.16) !important;
+  color: var(--pr-muted) !important;
+}

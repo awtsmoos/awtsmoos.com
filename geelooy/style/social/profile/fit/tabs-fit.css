@@ -1,3 +1,21 @@
-.profile-tabs { min-width: 0 !important; overflow: hidden !important; }
-.profile-tabs button, .profile-tabs a { min-width: 0 !important; overflow: hidden !important; text-overflow: ellipsis !important; }
-@media (max-width: 370px) { .profile-tabs button, .profile-tabs a { font-size: .86rem !important; } }
+.profile-tabs {
+  box-sizing: border-box;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.profile-tabs button,
+.profile-tabs a {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap;
+}
+
+@media (max-width: 370px) {
+  .profile-tabs button,
+  .profile-tabs a {
+    font-size: .86rem !important;
+    padding-inline: .2rem !important;
+  }
+}

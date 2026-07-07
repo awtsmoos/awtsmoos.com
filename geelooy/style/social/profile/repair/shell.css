@@ -1,4 +1,31 @@
-html, body { background: #020617 !important; color: var(--pr-text) !important; overflow-x: hidden; }
-.geelooy-profile-shell, .profile-page { background: radial-gradient(circle at 20% 0, rgba(139,92,246,.16), transparent 16rem), radial-gradient(circle at 85% 12%, rgba(46,167,255,.14), transparent 15rem), #020617 !important; color: var(--pr-text) !important; max-width: min(680px, 100vw) !important; margin: 0 auto !important; padding: .85rem .95rem max(9rem, env(safe-area-inset-bottom)) !important; }
-.profile-shell, .profile-main-grid, .profile-grid { max-width: 100% !important; min-width: 0 !important; }
-.profile-main-grid, .profile-grid { display: grid !important; grid-template-columns: 1fr !important; gap: 1rem !important; }
+html,
+body {
+  background: #020617 !important;
+  color: var(--pr-text) !important;
+  overflow-x: hidden;
+}
+
+.geelooy-profile-shell,
+.profile-page {
+  background: radial-gradient(circle at 20% 0, rgba(139,92,246,.16), transparent 16rem), radial-gradient(circle at 85% 12%, rgba(46,167,255,.14), transparent 15rem), #020617 !important;
+  box-sizing: border-box;
+  color: var(--pr-text) !important;
+  margin: 0 auto !important;
+  max-width: min(680px, 100vw) !important;
+  min-width: 0 !important;
+  padding: .85rem .95rem max(9.25rem, env(safe-area-inset-bottom)) !important;
+}
+
+.profile-shell,
+.profile-main-grid,
+.profile-grid {
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+.profile-main-grid,
+.profile-grid {
+  display: grid !important;
+  gap: 1rem !important;
+  grid-template-columns: 1fr !important;
+}

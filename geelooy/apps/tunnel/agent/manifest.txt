@@ -1,5 +1,5 @@
 B"H
-1.0.262
+1.0.263
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -656,6 +656,7 @@ lib/runtime/memory.js
 lib/runtime/priority.js
 lib/runtime/processIdentity.js
 lib/runtime/recovery-envelope.js
+lib/runtime/response-surface.js
 lib/runtime/response-v8.js
 lib/runtime/safe-send.js
 lib/runtime/watchdog.js

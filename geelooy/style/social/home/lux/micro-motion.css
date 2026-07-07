@@ -1,7 +1,28 @@
 .home-glance-grid article,
 .home-filter-button,
 .home-orb-brand,
-.home-bell-button { transition: transform 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms ease, box-shadow 180ms ease; }
+.home-bell-button {
+  transition: transform 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms ease, box-shadow 180ms ease;
+}
+
 .home-orb-brand:hover,
-.home-bell-button:hover { transform: translate3d(0,-2px,0); }
-.home-action-card, .home-post-card, .home-discovery-card { backface-visibility: hidden; }
+.home-bell-button:hover,
+.home-filter-button:hover {
+  transform: translate3d(0,-2px,0);
+}
+
+.home-action-card,
+.home-post-card,
+.home-discovery-card,
+.home-mini-card {
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-glance-grid article,
+  .home-filter-button,
+  .home-orb-brand,
+  .home-bell-button {
+    transition-duration: 1ms;
+  }
+}

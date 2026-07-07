@@ -1,5 +1,51 @@
-.home-feed-panel, .home-glance-panel, .home-activity-panel { contain: layout paint; min-width: 0 !important; }
-.home-empty-state { min-width: 0 !important; }
-.home-empty-actions { align-items: stretch !important; }
-.home-empty-actions a { white-space: nowrap !important; }
-@media (max-width: 430px) { .home-feed-panel, .home-glance-panel, .home-activity-panel { padding: .82rem !important; border-radius: 22px !important; } .home-empty-actions { grid-template-columns: 1fr !important; } .home-glance-grid { gap: .5rem !important; } .home-glance-grid article { padding: .65rem .25rem !important; } .home-glance-grid strong { font-size: .98rem !important; } }
+.home-feed-panel,
+.home-glance-panel,
+.home-activity-panel {
+  box-sizing: border-box;
+  contain: layout paint;
+  min-width: 0 !important;
+  overflow: hidden;
+}
+
+.home-empty-state,
+.home-feed-tabs,
+.home-glance-grid,
+.home-activity-list,
+.home-activity-list li {
+  min-width: 0 !important;
+}
+
+.home-empty-actions {
+  align-items: stretch !important;
+}
+
+.home-empty-actions a {
+  min-width: 0 !important;
+  text-align: center;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 430px) {
+  .home-feed-panel,
+  .home-glance-panel,
+  .home-activity-panel {
+    border-radius: 22px !important;
+    padding: clamp(.72rem, 2.8vw, .86rem) !important;
+  }
+
+  .home-empty-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-glance-grid {
+    gap: .5rem !important;
+  }
+
+  .home-glance-grid article {
+    padding: .65rem .25rem !important;
+  }
+
+  .home-glance-grid strong {
+    font-size: .98rem !important;
+  }
+}

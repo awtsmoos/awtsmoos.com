@@ -1,3 +1,33 @@
-.profile-card, .profile-command-panel, .profile-section-card, .alias-card, .social-heichel-card { contain: layout paint; min-width: 0 !important; overflow: hidden !important; }
-.alias-card-actions, .panel-title-row, .profile-actions { flex-wrap: wrap !important; }
-.loading-circle { width: 44px !important; height: 44px !important; }
+.profile-card,
+.profile-command-panel,
+.profile-section-card,
+.alias-card,
+.social-heichel-card {
+  box-sizing: border-box;
+  contain: layout paint;
+  max-width: 100%;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.profile-card *,
+.profile-command-panel *,
+.profile-section-card *,
+.alias-card *,
+.social-heichel-card * {
+  max-width: 100%;
+}
+
+.alias-card-actions,
+.panel-title-row,
+.profile-actions,
+.profile-meta-row,
+.profile-identity-row {
+  flex-wrap: wrap !important;
+  min-width: 0 !important;
+}
+
+.loading-circle {
+  height: 44px !important;
+  width: 44px !important;
+}
