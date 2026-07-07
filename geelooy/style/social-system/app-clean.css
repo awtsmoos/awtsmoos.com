@@ -19,5 +19,4 @@ button, input, textarea, select { font: inherit; }
 .home-feed-tabs, .profile-tabs, .spaces-state-row { display: flex; flex-wrap: wrap; gap: var(--g-2); }
 .home-feed-tabs button.active, .profile-tabs .active { background: var(--g-surface-2); border-color: var(--g-border-strong); }
 .sidebar, .chat-container, .mail-main, .thread-panel { background: var(--g-surface) !important; border-color: var(--g-border) !important; box-shadow: none !important; }
-.sidebar { backdrop-filter: none !important; }
 .brand-title { color: var(--g-text) !important; background: none !important; letter-spacing: -.02em !important; text-transform: none !important; }

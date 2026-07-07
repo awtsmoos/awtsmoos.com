@@ -1,11 +1,2 @@
-/* B"H
- * @file buttons.css
- * Button vessels: consistent, high contrast, thumb-safe, computer-clean.
- */
-.home-search-vessel button, .home-profile-pill, .home-composer a, .home-composer button, .home-inline-actions :is(a,button), .home-empty-actions a { min-height: 2.62rem; border-radius: .86rem; font-weight: 950; text-decoration: none; }
-.home-search-vessel button, .home-profile-pill { border: 0; color: #06101b; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); }
-.home-composer :is(a,button), .home-inline-actions :is(a,button), .home-empty-actions a { border: 1px solid var(--home-line); color: var(--home-text); background: rgba(255,255,255,.065); }
-.home-search-vessel button:hover, .home-profile-pill:hover, .home-top-create:hover { filter: brightness(1.04); }
-.home-inline-actions button { cursor: pointer; }
-.home-empty-actions a:first-child { background: rgba(110,234,255,.12); }
-.home-empty-actions a:last-child { background: rgba(245,214,111,.13); }
+.home-search-vessel button, .home-profile-pill { border: 1px solid #0f172a; color: #fff; background: #0f172a; }
+.home-empty-actions a { background: #fff; border: 1px solid #dfe6ee; color: #0f172a; }

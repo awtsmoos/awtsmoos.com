@@ -1,4 +1,2 @@
-/* B"H Home post card surface: calm readable depth. */
-.home-post-card { border: 1px solid var(--g-line); border-radius: 1rem; padding: clamp(.95rem, 2vw, 1.15rem); background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.055)); box-shadow: var(--g-shadow-soft); transition: transform .18s ease, box-shadow .18s ease; }
-.home-post-card:hover { transform: translateY(-2px); box-shadow: var(--g-shadow); }
-.home-post-card:focus-within { outline: 2px solid rgba(102,231,255,.6); outline-offset: 3px; }
+.home-post-card { border: 1px solid #dfe6ee; border-radius: 1rem; padding: clamp(.95rem, 2vw, 1.15rem); background: #fff; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
+.home-post-card:hover { border-color: #cbd6e2; box-shadow: 0 4px 16px rgba(15,23,42,.08); }

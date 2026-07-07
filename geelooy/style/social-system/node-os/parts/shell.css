@@ -1,5 +1,8 @@
-/* B"H
- * Chapter 195: Node OS shell. The page is a dark palace with a calm scroll,
- * wide enough for desktop, gentle enough for one thumb on mobile.
- */
-.node-os-page{min-height:100dvh;padding:.85rem .85rem max(5.5rem,env(safe-area-inset-bottom));background:radial-gradient(circle at 12% -8%,#3b215b 0,#111832 30%,#050814 72%);color:#fffaf1;overflow-x:hidden}.node-os-shell{width:min(100%,var(--g-max));margin:0 auto;display:grid;gap:1rem}.node-os-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(18rem,.7fr);gap:1rem;align-items:start}.node-os-stack{display:grid;gap:1rem}.node-os-muted{color:rgba(255,250,241,.7)}.node-os-kicker{margin:0 0 .3rem;color:var(--g-gold-2);font-weight:950;letter-spacing:.12em;text-transform:uppercase;font-size:.76rem}.node-os-empty{padding:1rem;border:1px dashed var(--g-dark-line-2);border-radius:var(--g-radius-2);background:var(--g-glass-2);color:rgba(255,250,241,.78)}
+.node-os-page { min-height: 100dvh; padding: .85rem .85rem max(5.5rem, env(safe-area-inset-bottom)); background: #f6f8fb; color: #1f2937; overflow-x: hidden; }
+.node-os-shell { width: min(100%, var(--g-max, 72rem)); margin: 0 auto; display: grid; gap: 1rem; }
+.node-os-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .7fr); gap: 1rem; align-items: start; }
+.node-os-stack { display: grid; gap: 1rem; }
+.node-os-muted { color: #64748b; }
+.node-os-kicker { margin: 0 0 .3rem; color: #64748b; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; font-size: .76rem; }
+.node-os-empty { padding: 1rem; border: 1px dashed #cbd6e2; border-radius: 1rem; background: #fff; color: #64748b; }
+@media (max-width: 820px) { .node-os-layout { grid-template-columns: 1fr; } }

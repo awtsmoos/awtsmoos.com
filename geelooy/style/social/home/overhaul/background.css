@@ -1,11 +1,3 @@
-/* B"H
- * @file background.css
- * Lightning background: static gradients only, no filters, no fixed paint storms.
- */
-body {
-  background:
-    linear-gradient(135deg, rgba(53,216,232,.14), transparent 36%),
-    linear-gradient(315deg, rgba(242,207,104,.16), transparent 34%),
-    var(--home-bg);
-}
-.home-orb-field, .home-orb-field i { display: none !important; }
+.geelooy-home-shell { background: #f6f8fb; color: #0f172a; }
+.geelooy-home-shell::before,
+.geelooy-home-shell::after { display: none; }

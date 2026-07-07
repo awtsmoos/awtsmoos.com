@@ -36,8 +36,3 @@
   .mail-folder-list,
   .mail-search-panel { padding-inline: .75rem !important; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .mail-page-slide,
-  .mail-social-frame,
-  .app-container { animation: none !important; }
-}

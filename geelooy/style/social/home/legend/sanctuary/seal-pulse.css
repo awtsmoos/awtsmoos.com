@@ -1,3 +1,1 @@
-/* B"H home legend sanctuary/seal-pulse.css. */
-@keyframes legendSealPulse { 50% { box-shadow:0 0 2.8rem rgba(245,202,112,.40); } }
-.home-logo-mark { animation:legendSealPulse 5.5s ease-in-out infinite; }
+.home-logo-mark { background: #f1f5f9; border: 1px solid #dfe6ee; color: #0f172a; }

@@ -1,5 +1,5 @@
 B"H
-1.0.258
+1.0.259
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -645,6 +645,7 @@ lib/runtime/correlation-scope.js
 lib/runtime/correlation.js
 lib/runtime/envelope-compact.js
 lib/runtime/envelope.js
+lib/runtime/event-loop-lag.js
 lib/runtime/health-score.js
 lib/runtime/history-cleanup.js
 lib/runtime/kind.js

@@ -1,3 +1,1 @@
-/* B"H home legend feed-river/rail.css. */
-.home-feed-list { position: relative; }
-.home-feed-list::before { content:""; position:absolute; inset:.3rem auto .3rem 1.45rem; width:2px; background:linear-gradient(180deg, transparent, rgba(185,133,63,.48), transparent); }
+.home-feed-list::before { display: none; }

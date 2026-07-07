@@ -93,7 +93,7 @@ export async function switchChat(ui, threadId, displayName) {
     if(container) {
         container.style.transition = 'transform 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19)';
         container.style.transform = 'scale(0) rotate(720deg)';
-        container.style.filter = 'hue-rotate(180deg) blur(10px)';
+        container.style.opacity = '0.6';
     }
 
     if(FX.dissolveScreen) FX.dissolveScreen(container);
@@ -103,7 +103,7 @@ export async function switchChat(ui, threadId, displayName) {
     if(container) {
         container.style.transition = 'none';
         container.style.transform = 'scale(1) rotate(0deg)';
-        container.style.filter = 'none';
+        container.style.opacity = '';
     }
 
     state.activeThread = threadId;

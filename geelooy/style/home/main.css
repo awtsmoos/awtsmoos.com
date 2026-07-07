@@ -1,204 +1,30 @@
-/** B"H
- * Chapter 431: The common Geelooy page stops glowing like an old paper wall.
- *
- * The Awtsmoos keeps the old selectors alive so templates still know their
- * names, while the vessel becomes dark, calm, rounded, touch-safe, and free
- * from sideways overflow. Nothing here invents a route; it only cleans the
- * shared surface reached by the existing nav template.
- */
-
+/* B"H — legacy home base restyled without visual noise. */
 :root {
-    --awt-page-bg: #060a13;
-    --awt-page-ink: #fffaf1;
-    --awt-page-muted: rgba(255, 250, 241, 0.72);
-    --awt-page-gold: #f8d16f;
-    --awt-page-cyan: #75e7f4;
-    --awt-page-card: rgba(255, 255, 255, 0.075);
-    --awt-page-card-strong: rgba(255, 255, 255, 0.105);
-    --awt-page-border: rgba(255, 255, 255, 0.13);
-    --awt-page-radius: 20px;
-    --awt-page-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
+  --awt-page-bg: #f6f8fb;
+  --awt-page-card: #ffffff;
+  --awt-page-card-strong: #ffffff;
+  --awt-page-line: #dfe6ee;
+  --awt-page-text: #0f172a;
+  --awt-page-muted: #64748b;
 }
-
-html,
-body {
-    margin: 0;
-    min-height: 100%;
-    height: auto;
-    max-width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    color: var(--awt-page-ink);
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    scroll-behavior: auto;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    background:
-        radial-gradient(circle at 12% 0%, rgba(117, 231, 244, 0.16), transparent 32rem),
-        radial-gradient(circle at 88% 12%, rgba(248, 209, 111, 0.14), transparent 28rem),
-        linear-gradient(180deg, #07101f 0%, var(--awt-page-bg) 56%, #040711 100%);
-}
-
-body,
-body * {
-    box-sizing: border-box;
-}
-
-.logo {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 50% auto;
-    z-index: -1;
-    width: min(78vw, 820px);
-    height: min(44vh, 360px);
-    margin: 0;
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 999px;
-    opacity: 0.18;
-    pointer-events: none;
-    transform: translateX(-50%);
-    background: radial-gradient(circle at 50% 20%, rgba(117, 231, 244, 0.36), rgba(248, 209, 111, 0.1) 38%, transparent 70%);
-    filter: blur(0.2px);
-    font-size: clamp(1.8rem, 7vw, 4rem);
-    font-weight: 950;
-    letter-spacing: -0.05em;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-.logo img {
-    max-width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.about {
-    padding: clamp(0.8rem, 2vw, 1.25rem);
-    border: 1px solid var(--awt-page-border);
-    border-radius: var(--awt-page-radius);
-    color: var(--awt-page-muted);
-    background: linear-gradient(180deg, var(--awt-page-card-strong), var(--awt-page-card));
-    box-shadow: var(--awt-page-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(14px) saturate(1.12);
-}
-
-.all.awtsmoospage {
-    position: relative;
-    isolation: isolate;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-}
-
-.all.awtsmoospage > .main {
-    min-height: 0;
-    width: 100%;
-    max-width: 100%;
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    overflow-y: visible;
-}
-
-.all.awtsmoospage > .main.centered {
-    width: min(100%, 1180px);
-    margin-inline: auto;
-    padding: clamp(1rem, 4vw, 28px);
-    align-items: center;
-}
-
-.all.awtsmoospage > .main.centered.y {
-    justify-content: center;
-}
-
-.awtsmoospage > footer {
-    min-height: 58px;
-    margin-top: auto;
-    padding: 0.8rem clamp(1rem, 4vw, 1.5rem);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0.9rem;
-    align-items: center;
-    justify-content: center;
-    color: var(--awt-page-muted);
-    background: rgba(4, 8, 18, 0.78);
-    border-top: 1px solid var(--awt-page-border);
-    backdrop-filter: blur(12px) saturate(1.1);
-}
-
-.awtsmoospage > footer a,
-.awtsmoospage > .about a {
-    color: var(--awt-page-cyan);
-    text-decoration: none;
-    text-underline-offset: 0.2em;
-}
-
-.awtsmoospage > footer a:hover,
-.awtsmoospage > .about a:hover {
-    color: var(--awt-page-gold);
-    text-decoration: underline;
-}
-
-.awtsmoospage > #menu-button {
-    min-height: 44px;
-}
-
-.awtsmoospage > .about.list {
-    display: flex;
-    flex-flow: column;
-    gap: 0.9rem;
-}
-
-.awtsmoospage > .about {
-    margin-top: clamp(0.9rem, 3vw, 1.4rem);
-    font-size: 1rem;
-    line-height: 1.6;
-    text-align: center;
-}
-
-.awtsmoospage p {
-    max-width: 72ch;
-    white-space: pre-wrap;
-    color: var(--awt-page-muted);
-    font-size: clamp(1rem, 1.6vw, 1.125rem);
-    line-height: 1.7;
-}
-
-.awtsmoospage p:first-child {
-    margin-top: 0;
-}
-
-.awtsmoospage p:last-child {
-    margin-bottom: 0;
-}
-
-@media screen and (max-width: 600px) {
-    #menu-button {
-        display: block;
-    }
-
-    .all.awtsmoospage > .main.centered {
-        padding: 1rem;
-    }
-
-    .awtsmoospage > footer {
-        padding-bottom: max(0.9rem, env(safe-area-inset-bottom));
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.001ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.001ms !important;
-    }
-}
+body { background: var(--awt-page-bg); color: var(--awt-page-text); }
+.main-page,
+.home-page,
+.awtsmoos-home { background: var(--awt-page-bg); color: var(--awt-page-text); min-height: 100dvh; }
+.home-card,
+.page-card,
+.awtsmoos-card { background: #fff; border: 1px solid var(--awt-page-line); border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); color: var(--awt-page-text); }
+.home-card strong,
+.page-card strong { color: var(--awt-page-text); }
+.home-card p,
+.page-card p { color: var(--awt-page-muted); }
+.home-orb,
+.page-orb { display: none; }
+.home-panel,
+.page-panel { background: #fff; border: 1px solid var(--awt-page-line); border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
+.home-input,
+.home-panel input,
+.home-panel textarea,
+.home-panel select { background: #fff; border: 1px solid var(--awt-page-line); border-radius: .85rem; color: var(--awt-page-text); padding: .75rem .85rem; }
+.home-button,
+.home-panel button { background: #0f172a; border: 1px solid #0f172a; border-radius: .85rem; color: #fff; font-weight: 750; min-height: 40px; padding: .55rem .9rem; }

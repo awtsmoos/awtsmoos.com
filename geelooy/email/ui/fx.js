@@ -55,15 +55,15 @@ export const FX = {
     // --- CSS/DOM Effects (Kept in Engine) ---
     setTheme(name) {
         document.body.dataset.theme = name;
-        if(name === 'zen') document.body.style.setProperty('--neon-cyan', '#a8ffb0');
+        if(name === 'zen') document.body.style.setProperty('--mail-accent', '#0f766e');
     },
 
     dissolveScreen(el) {
-        el.style.transition = 'filter 0.5s, opacity 0.5s';
-        el.style.filter = 'blur(20px) contrast(200%)';
+        el.style.transition = 'opacity 0.12s ease';
+        el.style.opacity = '0.35';
         el.style.opacity = '0';
         setTimeout(() => {
-            el.style.filter = 'none';
+            el.style.opacity = '';
             el.style.opacity = '1';
         }, 500);
     },

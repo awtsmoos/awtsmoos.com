@@ -1,9 +1,3 @@
-/* B"H
- * @file rail.css
- * The page no longer renders its own hamburger/topbar. Global nav is the only top nav.
- */
-.home-topbar, .home-heichelos-menu, .home-menu-button, .home-rail-links, .home-top-create, .clean-brand { display: none !important; }
+.home-brand-mark { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; color: #0f172a; background: #f1f5f9; border: 1px solid #dfe6ee; font-weight: 750; }
 .home-brand-row { display: flex; align-items: center; gap: .65rem; }
-.home-brand-row strong { display: block; color: var(--home-text); font-size: 1.05rem; line-height: 1; }
-.home-brand-row small { display: block; color: var(--home-muted); font-size: .78rem; margin-top: .1rem; }
-.home-brand-mark { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; color: #071522; background: linear-gradient(135deg, var(--home-honey), var(--home-cyan)); font-weight: 900; }
+.home-brand-row small { color: #64748b; }

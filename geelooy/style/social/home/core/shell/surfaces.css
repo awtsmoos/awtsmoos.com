@@ -1,10 +1,2 @@
-/* B"H Home surfaces: glass, contrast, and measured depth. */
-.home-sanctuary-card,
-.home-feed-phone,
-.home-discovery-card {
-  border: var(--awt-glass-border);
-  border-radius: clamp(1rem, 2vw, 1.45rem);
-  background: var(--awt-glass);
-  box-shadow: var(--awt-home-shadow);
-  overflow: hidden;
-}
+/* B"H Home surfaces: clean panels and measured depth. */
+.home-surface, .home-sanctuary-card, .home-feed-phone, .home-discovery-card { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); color: #0f172a; }

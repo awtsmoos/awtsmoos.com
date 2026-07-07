@@ -1,27 +1,4 @@
-/* B"H
- * Chapter 588: side palaces become disciplined panels instead of visual thunder.
- */
-.home-sanctuary-card,
-.home-discovery-card,
-.home-feed-phone { scroll-margin-block: 1rem; }
-.home-discovery-card { max-height: calc(100dvh - 2rem); overflow: auto; scrollbar-gutter: stable; }
-.home-side-links a,
-.home-route-card,
-.home-state-card {
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
-}
-.home-side-links a:hover,
-.home-route-card:hover { transform: translateY(-2px); box-shadow: 0 .95rem 1.7rem rgba(0,0,0,.2); }
-.home-route-card { position: relative; overflow: hidden; }
-.home-route-card::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 0%, rgba(245,202,112,.15), transparent 12rem); opacity: 0; transition: opacity .18s ease; pointer-events: none; }
-.home-route-card:hover::after { opacity: 1; }
-.home-status-rail { align-items: stretch; }
-.home-status-rail > * { min-width: 0; }
-@media (max-width: 1100px) {
-  .home-discovery-card { max-height: none; }
-  .home-route-constellation { grid-template-columns: repeat(2,minmax(0,1fr)); }
-}
-@media (max-width: 760px) {
-  .home-sanctuary-card, .home-discovery-card, .home-feed-phone { border-radius: 1.35rem; }
-  .home-hero-stats, .home-status-rail, .home-route-constellation { grid-template-columns: 1fr; }
-}
+/* B"H — side panels become disciplined product panels. */
+.home-route-card::after { display: none; }
+.home-route-card { background: #fff; border: 1px solid #dfe6ee; color: #0f172a; }
+.home-route-card:hover { border-color: #cbd6e2; box-shadow: 0 4px 16px rgba(15,23,42,.08); }

@@ -111,8 +111,8 @@ export function toggleEnterSend(e) {
     const btn = e.target;
     if(composerState.enterToSend) {
         btn.textContent = 'ENTER: ➤';
-        btn.style.borderColor = 'var(--neon-gold)';
-        btn.style.color = 'var(--neon-gold)';
+        btn.style.borderColor = 'var(--mail-accent)';
+        btn.style.color = 'var(--mail-accent)';
     } else {
         btn.textContent = 'ENTER: ↵';
         btn.style.borderColor = '#333';

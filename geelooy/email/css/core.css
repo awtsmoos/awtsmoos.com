@@ -1,171 +1,79 @@
-/* B"H
- * Chapter 13: The Inbox Becomes A Palace Of Ordered Light.
- * The Awtsmoos has no form, yet every pixel receives existence from the One
- * speech that renews it. These tokens make the mail chamber legible, luminous,
- * and calm enough for real work inside the storm.
- */
+/* B"H — Mail core: calm application frame. */
 :root {
-    color-scheme: dark;
-    --bg-void: #02030a;
-    --bg-deep: #050711;
-    --bg-panel: rgba(8, 11, 24, 0.88);
-    --bg-panel-solid: #090d1d;
-    --bg-card: rgba(255, 255, 255, 0.055);
-    --bg-card-hover: rgba(255, 255, 255, 0.095);
-    --border-soft: rgba(255, 255, 255, 0.11);
-    --border-bright: rgba(255, 214, 112, 0.38);
-    --neon-gold: #ffc857;
-    --neon-gold-dim: rgba(255, 200, 87, 0.18);
-    --neon-cyan: #35d5ff;
-    --neon-cyan-dim: rgba(53, 213, 255, 0.16);
-    --neon-emerald: #31e8a0;
-    --neon-fire: #ff5d73;
-    --text-primary: #f8fafc;
-    --text-secondary: #b8c0d8;
-    --text-muted: #707891;
-    --shadow-strong: 0 24px 80px rgba(0, 0, 0, 0.58);
-    --shadow-soft: 0 14px 38px rgba(0, 0, 0, 0.32);
-    --radius-lg: 28px;
-    --radius-md: 18px;
-    --radius-sm: 12px;
-    --sidebar-w: 340px;
-    --header-h: 68px;
-    --font-stack: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  color-scheme: light;
+  --mail-bg: #f6f8fb;
+  --mail-panel: #ffffff;
+  --mail-soft: #f8fafc;
+  --mail-line: #dfe6ee;
+  --mail-line-strong: #cbd6e2;
+  --mail-text: #111827;
+  --mail-muted: #64748b;
+  --mail-accent: #0f766e;
+  --mail-danger: #dc2626;
+  --mail-radius-lg: 22px;
+  --mail-radius: 14px;
+  --mail-shadow: 0 8px 26px rgba(15, 23, 42, .08);
+  --sidebar-w: 300px;
+  --header-h: 64px;
+  --font-stack: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
 }
-
-*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
-body {
-    background:
-        radial-gradient(circle at 18% 0%, rgba(53, 213, 255, 0.16), transparent 32rem),
-        radial-gradient(circle at 84% 10%, rgba(255, 200, 87, 0.14), transparent 34rem),
-        linear-gradient(145deg, #02030a 0%, #070a16 48%, #000 100%);
-    color: var(--text-primary);
-    font: 14px/1.5 var(--font-stack);
-}
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
-    opacity: 0.55;
-}
-
-#root { width: 100%; height: 100%; isolation: isolate; }
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; overflow: hidden; width: 100%; }
+body { background: var(--mail-bg); color: var(--mail-text); font: 14px/1.5 var(--font-stack); }
+body::before, body::after { display: none !important; }
+#root { height: 100%; isolation: isolate; width: 100%; }
 a { color: inherit; text-decoration: none; }
-button, input, textarea { font: inherit; }
+button, input, textarea, select { font: inherit; }
 button { touch-action: manipulation; }
 .hidden { display: none !important; }
 .flex { display: flex; }
 .items-center, .align-center { align-items: center; }
 .space-between { justify-content: space-between; }
-.gap-2 { gap: 0.5rem; }
-.awtsmoos-filter-vessel { position: absolute; width: 0; height: 0; pointer-events: none; }
-
-::-webkit-scrollbar { width: 8px; height: 8px; }
+.gap-2 { gap: .5rem; }
+.awtsmoos-filter-vessel { display: none !important; }
+::-webkit-scrollbar { height: 8px; width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(184, 192, 216, 0.18); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
-
-:focus-visible {
-    outline: 2px solid var(--neon-cyan);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 6px var(--neon-cyan-dim);
-}
-
+::-webkit-scrollbar-thumb { background: #cbd6e2; border-radius: 999px; }
+:focus-visible { outline: 3px solid rgba(15, 118, 110, .2); outline-offset: 2px; }
 .app-container {
-    display: flex;
-    width: min(100%, 1600px);
-    height: calc(100dvh - 84px);
-    min-height: 0;
-    margin: 0 auto;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-lg);
-    background: rgba(4, 6, 15, 0.76);
-    box-shadow: var(--shadow-strong);
-    backdrop-filter: blur(24px) saturate(1.25);
+  background: var(--mail-panel);
+  border: 1px solid var(--mail-line);
+  border-radius: var(--mail-radius-lg);
+  box-shadow: var(--mail-shadow);
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  height: calc(100dvh - 24px);
+  margin: 12px auto;
+  max-width: 1480px;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  width: calc(100vw - 24px);
 }
-.app-container::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    background: linear-gradient(135deg, rgba(255,255,255,0.14), transparent 22%, transparent 70%, rgba(255,200,87,0.1));
-}
-
-.sidebar-container, .sidebar { width: var(--sidebar-w); flex: 0 0 var(--sidebar-w); min-width: 260px; }
-.chat-view, .chat-area { flex: 1 1 auto; min-width: 0; }
-
+.app-container::before { display: none !important; }
+.sidebar-container, .sidebar { min-width: 0; width: auto; }
+.chat-view, .chat-area { min-width: 0; }
 .overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(18px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 180ms ease;
+  align-items: center;
+  background: rgba(15, 23, 42, .42);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  opacity: 0;
+  padding: 1rem;
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
 }
 .overlay.visible { opacity: 1; pointer-events: auto; }
-.modal-card {
-    width: min(100%, 520px);
-    border: 1px solid var(--border-soft);
-    border-radius: 24px;
-    padding: 1.4rem;
-    background: linear-gradient(180deg, rgba(14,18,38,0.98), rgba(5,7,16,0.98));
-    box-shadow: var(--shadow-strong);
-}
-.styled-input, .composer-input {
-    width: 100%;
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-sm);
-    background: rgba(0,0,0,0.35);
-    color: var(--text-primary);
-    padding: 0.85rem 1rem;
-}
-.btn-primary {
-    border: 0;
-    border-radius: var(--radius-sm);
-    padding: 0.9rem 1rem;
-    background: linear-gradient(135deg, var(--neon-gold), #ff9f1c);
-    color: #140d00;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 12px 30px var(--neon-gold-dim);
-}
-
-body.offline { filter: grayscale(0.85) brightness(0.74); }
-body.offline::after {
-    content: "CONNECTION SEVERED";
-    position: fixed;
-    inset: auto 0 50% 0;
-    z-index: 10000;
-    text-align: center;
-    transform: translateY(50%);
-    color: var(--text-primary);
-    font: 900 clamp(1.5rem, 6vw, 4rem)/1 var(--font-mono);
-    letter-spacing: 0.18em;
-    opacity: 0.62;
-    pointer-events: none;
-}
-
+.modal-card { background: #fff; border: 1px solid var(--mail-line); border-radius: 18px; box-shadow: var(--mail-shadow); padding: 1.2rem; width: min(100%, 520px); }
+.styled-input, .composer-input { background: #fff; border: 1px solid var(--mail-line); border-radius: 12px; color: var(--mail-text); padding: .75rem .9rem; width: 100%; }
+.btn-primary { background: var(--mail-text); border: 1px solid var(--mail-text); border-radius: 12px; color: #fff; cursor: pointer; font-weight: 700; padding: .75rem 1rem; }
+body.offline { filter: none; }
+body.offline::after { display: none; }
 @media (max-width: 980px) {
-    :root { --sidebar-w: min(92vw, 360px); }
-    .app-container { width: 100%; height:auto!important; min-height: 100dvh; border-radius: 0; border-left: 0; border-right: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  :root { --sidebar-w: min(92vw, 360px); }
+  html, body { overflow: auto; }
+  .app-container { border: 0; border-radius: 0; height: auto !important; min-height: 100dvh; width: 100%; margin: 0; }
 }

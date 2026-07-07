@@ -1,8 +1,5 @@
-/* B"H — no page choreography. Only tiny state transitions for usability. */
-:root {
-  --g-ease: ease;
-  --g-fast: 120ms;
-}
+/* B"H — minimal state feedback only. */
+:root { --g-ease: ease; --g-fast: 120ms; }
 button,
 a[class],
 input,
@@ -16,7 +13,6 @@ summary,
   transition-duration: var(--g-fast);
   transition-timing-function: var(--g-ease);
 }
-* { animation: none !important; }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }

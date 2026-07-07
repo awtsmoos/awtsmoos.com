@@ -1,12 +1,2 @@
-/* B"H Home sanctuary shell vessel. */
-.home-sanctuary-card {
-  position: sticky;
-  top: 1rem;
-  min-height: min(42rem, calc(100dvh - 2rem));
-  padding: clamp(1rem,2vw,1.35rem);
-  display: flex;
-  flex-direction: column;
-  color: var(--awt-vellum);
-  background: linear-gradient(180deg, rgba(9,13,31,.98), rgba(11,10,25,.98));
-}
-.home-sanctuary-card > * { position: relative; z-index: 1; }
+.home-sanctuary-card { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); color: #0f172a; padding: 1rem; }
+.home-sanctuary-card p { color: #64748b; }

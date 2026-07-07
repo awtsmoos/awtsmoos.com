@@ -1,15 +1,2 @@
-/* B"H
- * @file performance-fix.css
- * Final fast-future override: one top nav, no blur/filter, contained cards.
- */
-.home-orb-field, .home-orb-field *, .home-topbar, .home-heichelos-menu, .home-menu-button, .home-menu-contract { display: none !important; }
-.geelooy-home-shell * { backdrop-filter: none !important; filter: none !important; }
-.geelooy-home-shell { background: transparent !important; }
-.home-command-card, .home-feed-phone, .home-route-card, .home-post-card, .clean-expander { background: #fff !important; }
-.home-command-card::after, .profile-hero-card::after, .spaces-hero::after, .submit-hero::after { animation: none !important; content: none !important; }
-.home-feed-loading { min-height: auto !important; }
-.home-feed-loading p { font-size: .94rem !important; }
-.clean-expander { padding: .72rem !important; border-radius: .86rem !important; }
-.clean-expander summary { font-size: 1rem !important; }
-.home-command-card, .home-route-card, .home-feed-phone, .home-post-card, .clean-expander { content-visibility: auto; contain-intrinsic-size: 12rem; }
-@media (max-width: 760px) { .geelooy-home-shell { width: min(100% - .65rem, 42rem) !important; margin-top: .36rem !important; padding-bottom: 6rem !important; } .home-hero-copy h1 { font-size: clamp(2.02rem, 10.4vw, 3.05rem) !important; } .home-command-card { gap: .58rem !important; } }
+.geelooy-home-shell * { filter: none !important; }
+.home-command-card::after, .profile-hero-card::after, .spaces-hero::after, .submit-hero::after { content: none !important; }

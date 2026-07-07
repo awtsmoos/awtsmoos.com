@@ -1,118 +1,14 @@
-/*B"H*/
-
-  .forge-logo {
-    position: relative;
-    width: 100%;  /* change this to resize the entire logo */
-    transform: scale(.7);
-   
-    
-    /* overflow: hidden; */
-    border-radius: 50%;
-    height: 100%;
-   /* pointer-events: none;*/
-    
-    
-  }
-
-.forge-logo:hover {
-   cursor:pointer;
-}
-
-
-  .forge-logo:hover .symbol.lightning {
-   
-    transform: translate(-50%, -50%) scale(3) rotate(-45deg)
-  }
-
-  .forge-logo:hover .symbol.hammer {
-    transform: translate(-50%, -50%) scale(3) rotate(45deg)
-  }
-  /* 🌀 Background swirl */
-  .forge-logo .swirl {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-   /* 
-    */
-    opacity: 0.35;
-    font-size: calc(60px * 1.0);
-    transform: scale(120);
-    animation: swirlSpin 600s linear infinite;
-    z-index: 0;
-    transition: transform 1s ease, animation 1s ease;
-    will-change:auto;
-   /* pointer-events: none;*/
-  }
-
-.forge-logo:hover .swirl {
-   
-  
-  animation: swirlSpin 1s linear infinite;
-}
-
-  @keyframes swirlSpin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-
-
-
-  .forge-logo .symbol {
-    position: absolute;
-    /* top: 50%; */
-    /* left: 0px; */
-    transform: translate(-50%, -50%);
-    filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
-    user-select: none;
-    transition:transform 1s ease;
-    white-space: nowrap;
-  }
-
-  /* Fire - bigger and flickers */
-  .forge-logo .fire {
-    transform: scale(2);
-    opacity: 0.7;
-    animation: flickerFire 3s infinite alternate ease-in-out;
-    z-index: 3;
-  }
-
-  @keyframes flickerFire {
-    0% { opacity: 0.6; filter: drop-shadow(0 0 8px orange); }
-    50% { opacity: 0.9; filter: drop-shadow(0 0 20px orange); }
-    100% { opacity: 0.6; filter: drop-shadow(0 0 8px orange); }
-  }
-  .forge-logo .symbol.hammer {
-    z-index:3;
-    text-shadow: -1px 0px 1px black, 1px 0px black;
-  }
-  /* Hammer and lightning take ~80% of logo */
-  .forge-logo .hammer, 
-  .forge-logo .lightning {
-    /* font-size: calc(20px * 0.8); */ /* 80% of logo width */
-    transform: translate(-50%, -50%) scale(3);
-    left: 50%;
-    top: 50%;
-    z-index: 2;
-  }
-
-
-  .symbol.lightning {
-    opacity: 0.8;
-  }
-
-
-  .forge-logo .spark {
-    position: absolute;
-    font-size: calc(300px * 0.06);
-    opacity: 0.85;
-    animation: flicker 2s infinite ease-in-out alternate;
-    z-index: 2;
-  }
-
-  @keyframes flicker {
-    from { opacity: 0.6; transform: scale(1); }
-    to { opacity: 1; transform: scale(1.2); }
-  }
-
-
-  .forge-logo .s4 { bottom: 10%; right: 10%; }
+/* B"H — legacy forge visuals quieted. */
+.forge-shell,
+.forge-card,
+.fire-card { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); color: #0f172a; }
+.forge-shell { display: grid; gap: 1rem; padding: 1rem; }
+.forge-card,
+.fire-card { padding: 1rem; }
+.forge-title { color: #0f172a; letter-spacing: -.025em; }
+.forge-muted { color: #64748b; }
+.forge-swirl,
+.forge-flame,
+.fire-flicker { display: none !important; }
+.forge-button { background: #0f172a; border: 1px solid #0f172a; border-radius: .85rem; color: #fff; font-weight: 750; min-height: 40px; padding: .55rem .9rem; }
+.forge-secondary { background: #f8fafc; border: 1px solid #dfe6ee; color: #0f172a; }

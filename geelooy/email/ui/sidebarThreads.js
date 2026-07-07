@@ -20,11 +20,11 @@ export function formatHandle(value) {
   return handle;
 }
 
-export function quantumColor(name = '?') {
+export function avatarTone(name = '?') {
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
   const hex = (`00000${(hash & 0x00ffffff).toString(16).toUpperCase()}`).slice(-6);
-  return `linear-gradient(135deg, #${hex}44, #${hex}aa)`;
+  return `#${hex}22`;
 }
 
 export function filteredThreads(view = state.view) {
@@ -46,7 +46,7 @@ export function renderThread(ui, thread, onOpen) {
     classList: ['thread-item', active ? 'active' : null].filter(Boolean),
     attributes: { type: 'button', 'aria-pressed': String(active), 'aria-label': `Open thread with ${displayName}` },
     events: { click: () => onOpen(thread, displayName) }, children: [
-      { tag: 'div', classList: ['avatar-circle'], style: `background: ${quantumColor(displayName)}`, textContent: displayName[0].toUpperCase() },
+      { tag: 'div', classList: ['avatar-circle'], style: `background: ${avatarTone(displayName)}`, textContent: displayName[0].toUpperCase() },
       { tag: 'div', classList: ['thread-content'], children: [
         { tag: 'div', classList: ['thread-top'], children: [
           { tag: 'span', classList: ['thread-name'], textContent: displayName },

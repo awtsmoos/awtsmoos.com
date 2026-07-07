@@ -73,7 +73,7 @@ export default class ManagerOfAllWorlds {
 
   constructor(serviceWorkerPath) {
     DomHelpers.setupGlobalFunctions();
-    this.uiManager = { started:false, fastDirect:true };
+    this.uiManager = { started:false, fastDirect:true, makeGameMenu() {}, gameMenuItem() {} };
     this.ui = createFastUi(ob => this.startWorld(ob));
     if (!hasDirectWorldPath()) this._loadFullUi();
     if (serviceWorkerPath && typeof serviceWorkerPath === "string") this.registerServiceWorker(serviceWorkerPath);

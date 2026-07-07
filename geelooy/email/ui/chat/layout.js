@@ -158,13 +158,13 @@ function showDeleteConfirmation(ui, parent) {
         tag: 'div',
         dataset: { id: confirmId },
         classList: ['overlay', 'visible'],
-        style: 'z-index: 10000; animation: fadeIn 0.2s forwards;',
+        style: 'z-index: 10000;',
         children: [{
             tag: 'div',
             classList: ['modal-card', 'holo-border'],
-            style: 'border-color: var(--neon-fire); text-align:center; max-width: 400px; background: rgba(10,0,0,0.9);',
+            style: 'border-color: var(--mail-danger); text-align:center; max-width: 400px; background: #fff;',
             children: [
-                { tag: 'h3', style: 'color: var(--neon-fire); margin-top:0; font-size: 1.2rem; letter-spacing: 2px;', textContent: '⚠️ CRITICAL WARNING' },
+                { tag: 'h3', style: 'color: var(--mail-danger); margin-top:0; font-size: 1.1rem;', textContent: '⚠️ CRITICAL WARNING' },
                 { tag: 'p', style: 'color: #ccc; margin: 20px 0;', textContent: 'Permanently purge this timeline from local reality? This action cannot be undone.' },
                 { 
                     tag: 'div', classList: ['flex'], style: 'gap: 12px; justify-content: center;',
@@ -182,7 +182,7 @@ function showDeleteConfirmation(ui, parent) {
                         { 
                             tag: 'button', 
                             classList: ['btn-primary'], 
-                            style: 'background: var(--neon-fire); color: #fff; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); flex:1;', 
+                            style: 'background: var(--mail-danger); color: #fff; flex:1;', 
                             textContent: 'PURGE',
                             events: { click: async () => {
                                 const el = document.querySelector(`[data-id="${confirmId}"]`);

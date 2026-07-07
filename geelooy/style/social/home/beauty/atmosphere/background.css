@@ -1,2 +1,1 @@
-/* B"H Home atmosphere background. */
-.geelooy-home-shell::before { content: ""; position: fixed; inset: 0; z-index: -2; background: var(--awt-ambient-wash), linear-gradient(180deg, #fff9ef, #f2e4cf); }
+.geelooy-home-shell::before { display: none; }

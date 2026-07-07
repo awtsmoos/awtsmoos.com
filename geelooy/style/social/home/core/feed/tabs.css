@@ -1,4 +1,3 @@
-/* B"H Home feed tabs: quiet segmented navigation. */
-.home-feed-tabs { display: grid; grid-template-columns: repeat(3,1fr); gap: .35rem; margin: .35rem 0 1rem; padding: .28rem; border: 1px solid var(--g-line); border-radius: 999px; background: rgba(255,255,255,.055); }
-.home-feed-tabs button { border: 0; border-radius: 999px; padding: .74rem .45rem; background: transparent; color: var(--awt-ink-soft); font-weight: 950; cursor: pointer; }
-.home-feed-tabs .active { background: linear-gradient(135deg, var(--g-gold), var(--g-cyan)); color: #03101b; box-shadow: var(--awt-elevation-1); }
+.home-feed-tabs { display: flex; flex-wrap: wrap; gap: .45rem; }
+.home-feed-tabs button { background: #fff; border: 1px solid #dfe6ee; border-radius: .85rem; color: #64748b; min-height: 40px; padding: .55rem .8rem; font-weight: 700; }
+.home-feed-tabs .active { background: #f1f5f9; color: #0f172a; box-shadow: none; }

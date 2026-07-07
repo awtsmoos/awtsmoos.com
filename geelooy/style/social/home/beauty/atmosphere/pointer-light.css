@@ -1,2 +1,1 @@
-/* B"H Home pointer light follows without demanding attention. */
-.geelooy-home-shell::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(circle at var(--home-pointer-x, 50%) var(--home-pointer-y, 18%), rgba(214,168,79,.18), transparent 18rem); }
+.geelooy-home-shell::after { display: none; }

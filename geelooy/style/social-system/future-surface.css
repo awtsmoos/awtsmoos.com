@@ -51,7 +51,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--finish-accent) !
 .home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a, .mobile-bottom-nav a, .mail-bottom-nav a { color: var(--finish-muted) !important; }
 [aria-current="page"], .active, [aria-selected="true"] { color: var(--finish-ink) !important; }
 .is-create, .publish-button, .home-search-vessel button, .profile-primary-action, .spaces-create, button.primary, .btn.primary, .btn-primary { background: var(--finish-ink) !important; border-color: var(--finish-ink) !important; color: #fff !important; }
-.skeleton, .loading-card, [aria-busy="true"] { background: #eef2f7 !important; animation: none !important; }
+.skeleton, .loading-card, [aria-busy="true"] { background: #eef2f7 !important; }
 @media (max-width: 760px) {
   .home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel, .spaces-hero, .social-space-card, .composer-card, .submit-hero { border-radius: 18px !important; }
   main { scroll-padding-bottom: 7rem; }

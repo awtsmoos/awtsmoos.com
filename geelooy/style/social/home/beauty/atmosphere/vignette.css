@@ -1,2 +1,1 @@
-/* B"H Home vignette: the edges whisper inward. */
-body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(circle at center, transparent 45%, rgba(75,47,13,.08)); }
+body::before { display: none; }

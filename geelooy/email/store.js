@@ -1,10 +1,7 @@
 // B"H
 /**
  * @module AwtsmoosMailStore
- * @description
- * Chapter 705: identity, folder intent, and search are held in one quiet heart.
- * The Awtsmoos does not let the interface guess who is speaking or which gate
- * the user opened; every listener is told when the vessel turns.
+ * @description Holds mail identity, current folder, search intent, and listeners.
  */
 import { connectSocket, refreshSnippets } from './network.js';
 import { switchChat } from './ui/chat.js';
@@ -54,8 +51,8 @@ function updateStatus(ui, alias) {
     const statusText = ui.getHtml('userStatusText');
     if (!statusText) return;
     statusText.textContent = `@${alias}`;
-    statusText.style.color = 'var(--neon-emerald)';
-    statusText.style.textShadow = '0 0 10px var(--neon-emerald)';
+    statusText.style.color = 'var(--mail-accent)';
+    statusText.style.textShadow = 'none';
   } catch {}
 }
 

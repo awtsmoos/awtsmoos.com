@@ -1,2 +1,24 @@
-/* B"H Editor actions vessel. */
-.editor-actions{position:sticky;bottom:.75rem;z-index:10;display:grid;grid-template-columns:1fr 1fr;gap:.6rem;padding:.45rem;border:1px solid rgba(255,255,255,.14);border-radius:1.1rem;background:rgba(8,13,27,.88);backdrop-filter:blur(14px);box-shadow:var(--g-shadow)}.gold-btn,.soft-btn{border:0;border-radius:.85rem;padding:.9rem 1rem;font-weight:950}.gold-btn{background:linear-gradient(135deg,var(--g-gold),var(--g-cyan));color:#03101b}.soft-btn{background:rgba(255,255,255,.08);color:var(--g-ink);border:1px solid var(--g-line)}.danger-btn{border:0;border-radius:.85rem;padding:.9rem 1rem;background:#5c1725;color:#fff7df;font-weight:950}.editor-actions button{min-height:var(--g-touch)}
+.editor-actions {
+  position: sticky;
+  bottom: .75rem;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+  padding: .45rem;
+  border: 1px solid #dfe6ee;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 8px 26px rgba(15, 23, 42, .08);
+}
+.gold-btn,
+.soft-btn,
+.danger-btn {
+  border-radius: .85rem;
+  padding: .85rem 1rem;
+  font-weight: 750;
+}
+.gold-btn { background: #0f172a; border: 1px solid #0f172a; color: #fff; }
+.soft-btn { background: #f8fafc; color: #0f172a; border: 1px solid #dfe6ee; }
+.danger-btn { border: 1px solid #dc2626; background: #fff; color: #dc2626; }
+.editor-actions button { min-height: var(--g-touch, 44px); }

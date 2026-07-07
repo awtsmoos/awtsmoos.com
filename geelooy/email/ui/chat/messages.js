@@ -14,7 +14,7 @@ function decryptText(element, finalString) {
     const plainText = element.innerText; 
     
     // Ensure we start with the class
-    element.classList.add('decrypting');
+    element.classList.add('loading-text');
 
     const interval = setInterval(() => {
         element.innerText = plainText
@@ -28,7 +28,7 @@ function decryptText(element, finalString) {
         if(iterations >= plainText.length) { 
             clearInterval(interval);
             element.innerHTML = originalHTML;
-            element.classList.remove('decrypting'); 
+            element.classList.remove('loading-text'); 
         }
         iterations += 1; 
     }, 20);
@@ -36,7 +36,7 @@ function decryptText(element, finalString) {
     setTimeout(() => { 
         clearInterval(interval); 
         element.innerHTML = originalHTML; 
-        element.classList.remove('decrypting'); 
+        element.classList.remove('loading-text'); 
     }, 2000);
 }
 
@@ -74,11 +74,11 @@ export function renderMessages(threadId, msgs) {
         const row = ui.html({
             parent: container,
             tag: 'div',
-            classList: ['msg-row', isMe ? 'me' : 'them', isNew ? 'glitch-entry' : null].filter(Boolean),
+            classList: ['msg-row', isMe ? 'me' : 'them', isNew ? 'message-entry' : null].filter(Boolean),
             dataset: { id: m.id },
             ready: (el) => {
                 attachSwipePhysics(el, m);
-                if(isNew) setTimeout(() => el.classList.remove('glitch-entry'), 500);
+                if(isNew) setTimeout(() => el.classList.remove('message-entry'), 500);
             },
             events: {
                 contextmenu: (e) => handleRightClick(e, m, row),
@@ -91,12 +91,12 @@ export function renderMessages(threadId, msgs) {
                         { tag: 'div', classList: ['swipe-icon'], textContent: 'REPLY' },
                         {
                             tag: 'div',
-                            classList: ['msg-bubble', 'magnetic', sentiment].filter(Boolean), 
+                            classList: ['msg-bubble', 'message-card', sentiment].filter(Boolean), 
                             children: [
                                 m.subject ? { tag: 'div', classList: ['msg-subject'], textContent: m.subject } : null,
                                 { 
                                     tag: 'div', 
-                                    classList: ['msg-content', shouldDecrypt ? 'decrypting' : ''].filter(Boolean), 
+                                    classList: ['msg-content', shouldDecrypt ? 'loading-text' : ''].filter(Boolean), 
                                     innerHTML: parsedContent 
                                 },
                                 { 
@@ -207,7 +207,7 @@ function updateTimeline(msgs) {
         const dot = document.createElement('div');
         dot.className = 'time-dot';
         dot.style.top = `${perc}%`;
-        dot.style.background = m.direction === 'outgoing' ? 'var(--neon-gold)' : 'var(--neon-cyan)';
+        dot.style.background = m.direction === 'outgoing' ? 'var(--mail-accent)' : 'var(--mail-line-strong)';
         scrubber.appendChild(dot);
     });
 }

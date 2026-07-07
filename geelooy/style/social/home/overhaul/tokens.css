@@ -1,25 +1,12 @@
-/* B"H
- * @file tokens.css
- * Fast future tokens: crisp contrast, tiny neon accents, zero blur dependency.
- */
+/* B"H — home tokens: neutral product colors. */
 :root {
   --home-bg: #f6f8fb;
-  --home-bg-2: #eef3f8;
   --home-panel: #ffffff;
-  --home-panel-2: #f9fbfd;
-  --home-glass: #f1f5f9;
-  --home-line: rgba(15, 29, 45, .12);
-  --home-line-hot: rgba(0, 196, 220, .48);
-  --home-text: #081827;
-  --home-muted: #5b6b7e;
-  --home-soft: rgba(91,107,126,.72);
-  --home-honey: #f2cf68;
-  --home-cyan: #35d8e8;
-  --home-mint: #97e9bf;
-  --home-radius: 1rem;
-  --home-radius-sm: .72rem;
-  --home-gap: .62rem;
-  --home-shadow: 0 10px 30px rgba(8, 24, 39, .09);
-  --home-shadow-strong: 0 16px 42px rgba(8, 24, 39, .13);
-  --home-font-tight: -.045em;
+  --home-line: #dfe6ee;
+  --home-text: #0f172a;
+  --home-muted: #64748b;
+  --home-honey: #0f172a;
+  --home-cyan: #0f172a;
+  --home-mint: #0f766e;
+  --home-glass: #f8fafc;
 }
