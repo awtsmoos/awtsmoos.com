@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "base": "http://127.0.0.1:61987",
+  "base": "http://127.0.0.1:55867",
   "repoRoot": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com",
   "results": [
     {
@@ -25,7 +25,7 @@
       "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamGraftingPlain.js?v=test",
       "status": 200,
       "type": "text/javascript; charset=utf-8",
-      "preview": "// B\"H\n/** @module OlamGraftingPlain @description Chapter 963: worker graft imports cache-fresh listener vessels so old NPC runtime poison cannot box the world."
+      "preview": "// B\"H\n/**\n * @module OlamGraftingPlain\n * @description Worker graft imports the current loader and runtime methods.\n */\nimport loading from \"../methods/loading"
     },
     {
       "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/properties/index.js?v=test",
@@ -79,7 +79,7 @@
       "urlPath": "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/divine_systems/render/core/PixelRatioGovernor.js?v=test",
       "status": 200,
       "type": "text/javascript; charset=utf-8",
-      "preview": "// B\"H\n/**\n * @file PixelRatioGovernor.js\n * The worker owns the real canvas. Gameplay stays crisp-first at native DPR,\n * while still capping excessive retina "
+      "preview": "// B\"H\n/**\n * @file PixelRatioGovernor.js\n * @description\n * The Awtsmoos breathes a crisp mobile vessel into the worker canvas.\n * This governor refuses the ol"
     }
   ]
 }

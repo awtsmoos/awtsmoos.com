@@ -2,7 +2,7 @@
 /** @module OlamVessel @description Worker root: proven core vessel with THREE usage through adapter. */
 import { AmbientLight, Color, Fog } from "../rendering/ThreeAdapter.js";
 import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
-import OlamGrafting from "./OlamGraftingPlain.js?v=perf-tight-collision-20260703-bh3";
+import OlamGrafting from "./OlamGraftingPlain.js?v=vehicles-u-mount-20260706-bh1";
 import OlamProperties from "../properties/index.js?v=village-combat-20260611-bh804";
 import OlamInit from "./OlamInit.js?v=village-combat-20260611-bh804";
 import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";
@@ -15,19 +15,62 @@ import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGo
 import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
 
 const SAFE_SKY = 0x5d8fa8;
-function targetSnapshot(target) { if (!target) return null; return { name:target.name || target.mesh?.name || target.userData?.displayName || null, hp:target.hp ?? target.health?.current ?? target.userData?.health?.current ?? null, max:target.maxHp ?? target.health?.max ?? target.userData?.health?.max ?? null }; }
-function octreeStats(olam) { return { world:Boolean(olam?.worldOctree), interactive:Boolean(olam?.interactiveOctree), dynamicSidecar:Boolean(globalThis.__AWTS_DYNAMIC_SPATIAL__) }; }
-function exposeDebug(olam) { try { ensureWorldState(olam); ensureCollisionRuntime(olam); globalThis.__AWTS_OLAM__ = olam; globalThis.__AWTS_WORLD_STATE__ = olam.__awtsmoosWorldState; globalThis.__AWTS_WORLD_STATE_SNAPSHOT__ = () => worldStateSnapshot(olam); globalThis.__AWTS_SPATIAL_DIAG__ = () => ({ ...octreeStats(olam), collision:globalThis.__AWTS_COLLISION_DIAG__?.() || null }); globalThis.__AWTS_COMBAT_DIAG__ = () => ({ trace:olam.__combatInputTrace || [], attempt:olam.__lastCombatAttackAttempt || null, result:olam.__lastCombatAttackResult || null, failure:olam.__lastAttackFailure || null, target:targetSnapshot(olam.__selectedCombatTarget) }); } catch {} }
+
+function targetSnapshot(target) {
+  if (!target) return null;
+  return {
+    name: target.name || target.mesh?.name || target.userData?.displayName || null,
+    hp: target.hp ?? target.health?.current ?? target.userData?.health?.current ?? null,
+    max: target.maxHp ?? target.health?.max ?? target.userData?.health?.max ?? null
+  };
+}
+
+function octreeStats(olam) {
+  return {
+    world: Boolean(olam?.worldOctree),
+    interactive: Boolean(olam?.interactiveOctree),
+    dynamicSidecar: Boolean(globalThis.__AWTS_DYNAMIC_SPATIAL__)
+  };
+}
+
+function exposeDebug(olam) {
+  try {
+    ensureWorldState(olam);
+    ensureCollisionRuntime(olam);
+    globalThis.__AWTS_OLAM__ = olam;
+    globalThis.__AWTS_WORLD_STATE__ = olam.__awtsmoosWorldState;
+    globalThis.__AWTS_WORLD_STATE_SNAPSHOT__ = () => worldStateSnapshot(olam);
+    globalThis.__AWTS_SPATIAL_DIAG__ = () => ({
+      ...octreeStats(olam),
+      collision: globalThis.__AWTS_COLLISION_DIAG__?.() || null
+    });
+    globalThis.__AWTS_COMBAT_DIAG__ = () => ({
+      trace: olam.__combatInputTrace || [],
+      attempt: olam.__lastCombatAttackAttempt || null,
+      result: olam.__lastCombatAttackResult || null,
+      failure: olam.__lastAttackFailure || null,
+      target: targetSnapshot(olam.__selectedCombatTarget)
+    });
+  } catch {}
+}
+
 export default class Olam extends Nivra {
   constructor() {
     super();
-    this.ASPECT_X = 1920; this.ASPECT_Y = 1080; this.official = "official"; this.styled = false; this._activeCamera = null;
+    this.ASPECT_X = 1920;
+    this.ASPECT_Y = 1080;
+    this.official = "official";
+    this.styled = false;
+    this._activeCamera = null;
     OlamProperties.apply(this);
     ensureWorldState(this);
     exposeDebug(this);
     this._facultiesGrafted = OlamGrafting.graft(this);
-    this._facultiesGrafted.then(() => this.finishConstructorSetup()).catch(error => console.error(`B"H | Olam faculty grafting failed | message=${error?.message || String(error)} | stack=${String(error?.stack || "no stack").replace(/\s+/g, " ")}`));
+    this._facultiesGrafted
+      .then(() => this.finishConstructorSetup())
+      .catch(error => console.error(`B"H | Olam faculty grafting failed | message=${error?.message || String(error)} | stack=${String(error?.stack || "no stack").replace(/\s+/g, " ")}`));
   }
+
   finishConstructorSetup() {
     try {
       exposeDebug(this);
@@ -46,8 +89,11 @@ export default class Olam extends Nivra {
       this.startShlichusHandler(this);
       this.octreeDebugHelper.visible = false;
       exposeDebug(this);
-    } catch (error) { console.error(`B"H | Olam constructor setup failed | message=${error?.message || String(error)} | stack=${String(error?.stack || "no stack").replace(/\s+/g, " ")}`); }
+    } catch (error) {
+      console.error(`B"H | Olam constructor setup failed | message=${error?.message || String(error)} | stack=${String(error?.stack || "no stack").replace(/\s+/g, " ")}`);
+    }
   }
+
   installBaseVisibility() {
     if (!this.scene) return;
     this.scene.background = new Color(SAFE_SKY);
@@ -58,9 +104,25 @@ export default class Olam extends Nivra {
     ambient.name = "Awtsmoos_Base_Tiny_Ambient";
     this.scene.add(ambient);
   }
+
   get activeCamera() { return this._activeCamera; }
   set activeCamera(value) { this._activeCamera = value; this.refreshCameraAspect(); }
   get camera() { return this.activeCamera || this.ayin.camera; }
-  set pixelRatio(pixelRatio) { if (!this.renderer) return; this.renderer.setPixelRatio(resolvePixelRatio({ raw:pixelRatio, width:this.width || 1024, height:this.height || 768, phase:"resize" })); }
-  async init() { await this._facultiesGrafted; await OlamInit.execute(this); this.installBaseVisibility(); exposeDebug(this); }
+
+  set pixelRatio(pixelRatio) {
+    if (!this.renderer) return;
+    this.renderer.setPixelRatio(resolvePixelRatio({
+      raw: pixelRatio,
+      width: this.width || 1024,
+      height: this.height || 768,
+      phase: "resize"
+    }));
+  }
+
+  async init() {
+    await this._facultiesGrafted;
+    await OlamInit.execute(this);
+    this.installBaseVisibility();
+    exposeDebug(this);
+  }
 }

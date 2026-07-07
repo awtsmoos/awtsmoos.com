@@ -105,39 +105,46 @@
     }
   </script>
   <script type="module">
+    /** B"H - Load optional systems only after the playable world is proven. */
     const bootExtras = [
-      "./systems/ui/OpenWorldUiMobilePatch.js?compact=true&v=fast-stable-boot-20260706-bh1",
-      "./systems/mobile/MobileCleanHudRuntime.js?compact=true&v=world-first-ui-20260706-bh1",
-      "./systems/performance/FpsGuardian.js?compact=true&v=fps-guardian-direct-20260706-bh1",
-      "./systems/performance/PerformanceModeBootstrap.js?compact=true&v=fast-stable-boot-20260706-bh1",
-      "./systems/performance/PostLoadFpsProbe.js?compact=true&v=quiet-worker-60fps-20260706-bh1",
-      "./systems/performance/TestModeFeaturePanel.js?compact=true&v=test-feature-panel-20260706-bh1",
-      "./systems/performance/RuntimeBudgetBootstrap.js?compact=true&v=fast-stable-boot-20260706-bh1",
-      "./systems/performance/BrowserFrameTraceHarness.js?compact=true&v=real-browser-trace-20260706-bh1",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceUiBridge.js?compact=true&v=starter-zone-ui-20260706-bh1",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceBootstrap.js?compact=true&v=starter-zone-boot-20260706-bh1",
-      "./systems/boot/DeferredBootScheduler.js?compact=true&v=fast-stable-boot-20260706-bh1"
+      "./systems/ui/OpenWorldUiMobilePatch.js?compact=true&v=fast-post-ready-20260706-bh2",
+      "./systems/mobile/MobileCleanHudRuntime.js?compact=true&v=world-first-ui-20260706-bh2",
+      "./systems/performance/FpsGuardian.js?compact=true&v=fps-guardian-direct-20260706-bh2",
+      "./systems/performance/PerformanceModeBootstrap.js?compact=true&v=fast-post-ready-20260706-bh2",
+      "./systems/performance/PostLoadFpsProbe.js?compact=true&v=quiet-worker-60fps-20260706-bh2",
+      "./systems/performance/TestModeFeaturePanel.js?compact=true&v=test-feature-panel-20260706-bh2",
+      "./systems/performance/RuntimeBudgetBootstrap.js?compact=true&v=fast-post-ready-20260706-bh2",
+      "./systems/performance/BrowserFrameTraceHarness.js?compact=true&v=real-browser-trace-20260706-bh2",
+      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceUiBridge.js?compact=true&v=starter-zone-ui-20260706-bh2",
+      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceBootstrap.js?compact=true&v=starter-zone-boot-20260706-bh2",
+      "./systems/boot/DeferredBootScheduler.js?compact=true&v=fast-post-ready-20260706-bh2"
     ];
-    const progress = window.__AWTSMOOS_LOADING_PROGRESS__;
+    const idle = (fn, timeout = 1800) => window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout }) : setTimeout(fn, Math.min(timeout, 700));
     const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
-    async function loadBootExtras() {
-      window.__MITZVAH_DEFERRED_MODULES__ ||= { startedAt:Date.now(), loaded:[], failed:[] };
-      progress?.update?.({ stage:"module:extras:start", total:24, action:"Starting world first...", subAction:"noncritical systems deferred" });
-      await pause(0);
+    let started = false;
+    async function loadBootExtras(reason = "post-ready") {
+      if (started) return;
+      started = true;
+      window.__MITZVAH_DEFERRED_MODULES__ ||= { startedAt:Date.now(), reason, loaded:[], failed:[] };
+      await new Promise(resolve => idle(resolve, 1600));
       for (const spec of bootExtras) {
         const name = spec.split("/").pop().split("?")[0];
         try {
-          progress?.update?.({ stage:`module:${name}:start`, action:"Loading support systems...", subAction:name });
           await import(spec);
           window.__MITZVAH_DEFERRED_MODULES__.loaded.push(name);
         } catch (error) {
-          console.warn("B'H deferred startup module failed", name, error);
+          console.warn("B'H post-ready module failed", name, error);
           window.__MITZVAH_DEFERRED_MODULES__.failed.push({ name, error:String(error?.message || error) });
         }
+        await pause(35);
       }
-      progress?.update?.({ stage:"module:extras:done", total:Math.max(progress?.snapshot?.()?.total || 30, 30), action:"Support systems ready", subAction:"world boot continues" });
+      window.dispatchEvent?.(new CustomEvent("mitzvah-world:post-ready-extras-loaded", { detail:window.__MITZVAH_DEFERRED_MODULES__ }));
     }
-    setTimeout(loadBootExtras, 900);
+    window.addEventListener("awtsmoos-game-ready", event => loadBootExtras(event?.detail?.phase || "game-ready"), { once:true });
+    setTimeout(() => {
+      if (window.__AWTSMOOS_BOOT_LOADED__ || window.__AWTSMOOS_LOADING_FINAL_READY__?.playable) loadBootExtras("boot-loaded");
+    }, 1200);
+    setTimeout(() => loadBootExtras("idle-fallback-after-core-load"), 18000);
   </script>
 <script>
 (function(){

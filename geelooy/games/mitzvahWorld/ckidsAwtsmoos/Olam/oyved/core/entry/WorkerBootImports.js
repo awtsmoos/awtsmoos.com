@@ -1,37 +1,66 @@
 // B"H
 /**
  * @file WorkerBootImports.js
- * Worker dynamic imports that stay uppercase-safe inside compact bundles.
- * The phone failure showed a lowercase /ckidsAwtsmoos/olam/ import path; every
- * dependency URL is now canonicalized before import and cache-busted with this
- * fresh seal.
+ * @description Absolute worker boot imports that cannot inherit lowercase Olam.
  */
 import { postPlainWorkerText } from "./PlainWorkerPost.js";
 import { plainWorkerErrorText } from "./PlainWorkerErrorText.js";
 
-export const WORKER_BOOT_IMPORT_SEAL = "case-correct-olam-import-20260706-bh2";
+export const WORKER_BOOT_IMPORT_SEAL = "case-correct-olam-import-20260706-bh3";
+
 const ROOT = "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/core";
+const CASE_FIXES = Object.freeze([
+  ["/games/mitzvahWorld/ckidsAwtsmoos/olam/", "/games/mitzvahWorld/ckidsAwtsmoos/Olam/"],
+  ["/geelooy/games/mitzvahWorld/ckidsAwtsmoos/olam/", "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/"]
+]);
+
 const PATHS = Object.freeze({
   boot: `${ROOT}/boot/OlamDynamicBoot.js?compact=true&v=${WORKER_BOOT_IMPORT_SEAL}`,
   interpreter: `${ROOT}/interpreter/OyvedMessageInterpreter.js?compact=true&v=${WORKER_BOOT_IMPORT_SEAL}`
 });
 
+/**
+ * B"H
+ * Repairs Olam casing without importing any boot dependency first.
+ *
+ * @param {string} url Absolute or path-like module URL.
+ * @returns {string} Canonical uppercase Olam URL.
+ */
 export function canonicalizeWorkerDependencyUrl(url) {
-  return String(url || "")
-    .replace("/games/mitzvahWorld/ckidsAwtsmoos/olam/", "/games/mitzvahWorld/ckidsAwtsmoos/Olam/")
-    .replace("/geelooy/games/mitzvahWorld/ckidsAwtsmoos/olam/", "/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/");
+  let out = String(url || "");
+  for (const [bad, good] of CASE_FIXES) out = out.replace(bad, good);
+  return out;
 }
 
-function report(kind, text) { postPlainWorkerText(kind, text); }
-function withCacheBust(url) {
+/**
+ * B"H
+ * Adds the worker cache seal after canonicalization for stable import keys.
+ *
+ * @param {string} url Module URL before cache sealing.
+ * @returns {string} Canonical import URL.
+ */
+export function createWorkerDependencyImportUrl(url) {
   const canonical = canonicalizeWorkerDependencyUrl(url);
   const sep = canonical.includes("?") ? "&" : "?";
   return `${canonical}${sep}awts=${WORKER_BOOT_IMPORT_SEAL}`;
 }
 
+function report(kind, text) {
+  postPlainWorkerText(kind, text);
+}
+
+/**
+ * B"H
+ * Imports one dependency and reports exact repair guidance if it fails.
+ *
+ * @param {string} path Canonical path or URL.
+ * @param {string} label Human diagnostic label.
+ * @returns {Promise<object>} Imported module namespace.
+ */
 export async function importWorkerDependency(path, label) {
-  const url = withCacheBust(path);
+  const url = createWorkerDependencyImportUrl(path);
   report("worker_text_log", `Worker importing dependency || label=${label} || path=${url}`);
+
   try {
     const module = await import(url);
     report("worker_text_log", `Worker imported dependency || label=${label} || path=${url}`);
@@ -42,6 +71,7 @@ export async function importWorkerDependency(path, label) {
       `label=${label}`,
       `path=${url}`,
       plainWorkerErrorText(error),
+      "friendlyRepair=The worker must load ckidsAwtsmoos/Olam with uppercase Olam. Clear the cached worker and retry; do not create a lowercase olam alias.",
       "repoOnlyFix=absolute compact worker core URL must return application/javascript and preserve uppercase Olam"
     ].join(" || ");
     console.error(`B\"H | ${text}`);
@@ -50,5 +80,12 @@ export async function importWorkerDependency(path, label) {
   }
 }
 
-export function importBootModule() { return importWorkerDependency(PATHS.boot, "OlamDynamicBoot"); }
-export function importInterpreterModule() { return importWorkerDependency(PATHS.interpreter, "OyvedMessageInterpreter"); }
+/** @returns {Promise<object>} B"H dynamic Olam boot module. */
+export function importBootModule() {
+  return importWorkerDependency(PATHS.boot, "OlamDynamicBoot");
+}
+
+/** @returns {Promise<object>} B"H worker message interpreter module. */
+export function importInterpreterModule() {
+  return importWorkerDependency(PATHS.interpreter, "OyvedMessageInterpreter");
+}

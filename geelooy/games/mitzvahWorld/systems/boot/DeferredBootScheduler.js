@@ -1,29 +1,93 @@
 // B"H
 /**
- * DeferredBootScheduler: stage one loads only FPS-critical proof spines.
- * Heavy realism waits; cheap memory may sing, but rendering never pays early.
+ * @file DeferredBootScheduler.js
+ * @description Loads noncritical systems only after the playable world is proven.
  */
-const scope=globalThis;
-const state=scope.__MITZVAH_DEFERRED_BOOT__||={seal:'fps-core-guardian-20260623-bh3',startedAt:Date.now(),loaded:[],failed:[]};
-const coreQueue=Object.freeze([
-  ['fps-guardian','../performance/FpsGuardian.js?v=fps-guardian-default-core-20260623-bh4',120],
-  ['unified-dream-spine','../dream/UnifiedMitzvahWorldDreamBootstrap.js?v=one-world-dream-20260623-bh3',260],
-  ['animal-proof','../dream/AnimalProofBootstrap.js?v=wildlife-proof-scanner-20260623-bh2',950]
+
+const scope = globalThis;
+const state = scope.__MITZVAH_DEFERRED_BOOT__ ||= {
+  seal: "post-ready-fast-loader-20260706-bh1",
+  startedAt: Date.now(),
+  loaded: [],
+  failed: []
+};
+
+export const coreQueue = Object.freeze([
+  ["fps-guardian", "../performance/FpsGuardian.js?v=fps-guardian-default-core-20260706-bh2", 150],
+  ["unified-dream-spine", "../dream/UnifiedMitzvahWorldDreamBootstrap.js?v=one-world-dream-20260706-bh2", 450],
+  ["animal-proof", "../dream/AnimalProofBootstrap.js?v=wildlife-proof-scanner-20260706-bh2", 1200]
 ]);
-const extrasQueue=Object.freeze([
-  ['ancient-scroll-ui','../ui/AncientScrollUiPolish.js?v=step-by-step-20260621-bh2',3500],
-  ['realism-fast-fps','../realism/RealismFastFpsBootstrap.js?v=master-realism-fast-fps-20260622-bh2',9000],
-  ['world-memory','../worldMemory/WorldMemoryBootstrap.js?v=full-hyperrealism-step-1-20260622-bh2',16000],
-  ['story','../story/StoryBootstrap.js?v=texture-pingpong-story-20260622-bh2',24000],
-  ['living-world','../realism/LivingWorldBootstrap.js?v=living-world-hyperrealism-20260622-bh2',42000]
+
+export const extrasQueue = Object.freeze([
+  ["ancient-scroll-ui", "../ui/AncientScrollUiPolish.js?v=step-by-step-20260706-bh2", 3000],
+  ["realism-fast-fps", "../realism/RealismFastFpsBootstrap.js?v=master-realism-fast-fps-20260706-bh2", 8000],
+  ["world-memory", "../worldMemory/WorldMemoryBootstrap.js?v=full-hyperrealism-step-20260706-bh2", 15000],
+  ["story", "../story/StoryBootstrap.js?v=texture-pingpong-story-20260706-bh2", 23000],
+  ["living-world", "../realism/LivingWorldBootstrap.js?v=living-world-hyperrealism-20260706-bh2", 40000]
 ]);
-function extrasEnabled(){try{return new URLSearchParams(scope.location?.search||'').get('dreamExtras')==='true';}catch{return false;}}
-function emit(name,detail){try{scope.dispatchEvent?.(new CustomEvent(name,{detail}));}catch{}}
-function mark(kind,name,extra={}){const row={name,at:Date.now(),...extra};state[kind].push(row);emit(`mitzvah-world:deferred-boot-${kind}`,row);}
-function idle(fn,timeout=1800){return scope.requestIdleCallback?scope.requestIdleCallback(fn,{timeout}):scope.setTimeout(fn,Math.min(timeout,700));}
-async function loadOne([name,spec]){try{await import(spec);mark('loaded',name,{spec});}catch(error){console.warn("B'H deferred boot failed",name,error);mark('failed',name,{spec,error:String(error?.message||error)});}}
-function schedule(task){scope.setTimeout(()=>idle(()=>loadOne(task),2200),task[2]||0);}
-function start(){if(state.scheduled)return state;state.scheduled=true;state.fpsFirst=true;state.guardianDefault=true;state.extrasEnabled=extrasEnabled();const queue=state.extrasEnabled?[...coreQueue,...extrasQueue]:[...coreQueue];state.queue=queue.map(([name])=>name);queue.forEach(schedule);return state;}
-if(scope.document?.readyState==='loading')scope.addEventListener?.('DOMContentLoaded',start,{once:true});else start();
-export{coreQueue,extrasQueue,start};
+
+function extrasEnabled() {
+  try {
+    return new URLSearchParams(scope.location?.search || "").get("dreamExtras") === "true";
+  } catch {
+    return false;
+  }
+}
+
+function emit(name, detail) {
+  try {
+    scope.dispatchEvent?.(new CustomEvent(name, { detail }));
+  } catch {}
+}
+
+function mark(kind, name, extra = {}) {
+  const row = { name, at: Date.now(), ...extra };
+  state[kind].push(row);
+  emit(`mitzvah-world:deferred-boot-${kind}`, row);
+}
+
+function idle(fn, timeout = 1800) {
+  return scope.requestIdleCallback
+    ? scope.requestIdleCallback(fn, { timeout })
+    : scope.setTimeout(fn, Math.min(timeout, 700));
+}
+
+async function loadOne([name, spec]) {
+  try {
+    await import(spec);
+    mark("loaded", name, { spec });
+  } catch (error) {
+    console.warn("B'H deferred boot failed", name, error);
+    mark("failed", name, { spec, error: String(error?.message || error) });
+  }
+}
+
+function schedule(task) {
+  scope.setTimeout(() => idle(() => loadOne(task), 2600), task[2] || 0);
+}
+
+/**
+ * B"H
+ * Starts post-ready boot work. This must not compete with first playable load.
+ *
+ * @returns {object} Deferred boot state.
+ */
+export function start() {
+  if (state.scheduled) return state;
+  state.scheduled = true;
+  state.extrasEnabled = extrasEnabled();
+  const queue = state.extrasEnabled ? [...coreQueue, ...extrasQueue] : [...coreQueue];
+  state.queue = queue.map(([name]) => name);
+  queue.forEach(schedule);
+  return state;
+}
+
+function startWhenReady() {
+  if (scope.__AWTSMOOS_BOOT_LOADED__ || scope.__AWTSMOOS_LOADING_FINAL_READY__?.playable) start();
+}
+
+scope.addEventListener?.("awtsmoos-game-ready", start, { once: true });
+scope.setTimeout(startWhenReady, 1200);
+scope.setTimeout(start, 22000);
+
 export default state;

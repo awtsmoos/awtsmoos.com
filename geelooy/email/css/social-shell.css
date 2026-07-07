@@ -1,4 +1,4 @@
-/* B"H — Mail shell: shared base first, precise mail grid parts after. */
+/* B"H — Mail shell: shared base first, precise mail grid parts after, final armor last. */
 @import "/style/social-system/index.css";
 @import "./social-shell-parts/base.css";
 @import "./social-shell-parts/topbar.css";
@@ -10,3 +10,4 @@
 @import "./social-shell-parts/bottom-nav.css";
 @import "./social-shell-parts/empty.css";
 @import "./social-shell-parts/mobile.css";
+@import "./hypermail.css";

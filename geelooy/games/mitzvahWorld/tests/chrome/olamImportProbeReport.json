@@ -1,45 +1,93 @@
 {
   "ok": false,
   "browser": {
-    "name": "Chrome",
-    "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "name": "macOS Chrome",
+    "path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "candidates": [
       [
         "CHROME_PATH",
         ""
       ],
       [
-        "Chrome",
+        "CHROME_BIN",
+        ""
+      ],
+      [
+        "GOOGLE_CHROME_BIN",
+        ""
+      ],
+      [
+        "macOS Chrome",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "macOS Chrome Canary",
+        "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+      ],
+      [
+        "macOS Chromium",
+        "/Applications/Chromium.app/Contents/MacOS/Chromium"
+      ],
+      [
+        "macOS Edge",
+        "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+      ],
+      [
+        "macOS user Chrome",
+        "/Users/awtsmoos/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      ],
+      [
+        "Linux google-chrome",
+        "/usr/bin/google-chrome"
+      ],
+      [
+        "Linux google-chrome-stable",
+        "/usr/bin/google-chrome-stable"
+      ],
+      [
+        "Linux chromium",
+        "/usr/bin/chromium"
+      ],
+      [
+        "Linux chromium-browser",
+        "/usr/bin/chromium-browser"
+      ],
+      [
+        "Linux Edge",
+        "/usr/bin/microsoft-edge"
+      ],
+      [
+        "Windows Chrome",
         "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
       ],
       [
-        "Chrome x86",
+        "Windows Chrome x86",
         "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
       ],
       [
-        "Chrome local",
-        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe"
+        "Windows Chrome local",
+        ""
       ],
       [
-        "Edge",
+        "Windows Edge",
         "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
       ],
       [
-        "Edge x86",
+        "Windows Edge x86",
         "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
       ],
       [
-        "Edge local",
-        "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Microsoft\\Edge\\Application\\msedge.exe"
+        "Windows Edge local",
+        ""
       ]
     ]
   },
-  "base": "http://127.0.0.1:58163",
+  "base": "http://127.0.0.1:55412",
   "result": {
     "ok": false,
-    "message": "Failed to resolve module specifier '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=probe-1781890288569'",
+    "message": "Failed to resolve module specifier '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=probe-1783382058183'",
     "name": "TypeError",
-    "stack": "TypeError: Failed to resolve module specifier '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=probe-1781890288569'\n    at <anonymous>:1:1"
+    "stack": "TypeError: Failed to resolve module specifier '/geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js?v=probe-1783382058183'\n    at <anonymous>:1:1"
   },
   "events": []
 }

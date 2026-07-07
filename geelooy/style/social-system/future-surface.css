@@ -1,0 +1,58 @@
+/* B"H — strict finish layer: complete, calm, professional. */
+:root {
+  --finish-bg: #f6f8fb;
+  --finish-panel: #ffffff;
+  --finish-soft: #f8fafc;
+  --finish-line: #dfe6ee;
+  --finish-line-strong: #cbd6e2;
+  --finish-ink: #0f172a;
+  --finish-text: #1f2937;
+  --finish-muted: #64748b;
+  --finish-accent: #0f766e;
+  --finish-ring: rgba(15, 118, 110, .2);
+  --finish-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+}
+html, body { background: var(--finish-bg) !important; color: var(--finish-text) !important; color-scheme: light !important; }
+body, input, textarea, select, button { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important; }
+h1, h2, h3, h4 { color: var(--finish-ink) !important; letter-spacing: -.025em !important; }
+p, li, small, span { text-wrap: pretty; }
+a { color: var(--finish-accent); }
+a[class], nav a, .card a, .home-route-card, .social-space-card, .profile-command-rail a, .space-actions a { color: inherit; text-decoration: none !important; }
+button, a[class], input, textarea, select, summary { -webkit-tap-highlight-color: transparent; }
+button, .btn, .soft-btn, .home-profile-pill, .spaces-create, .profile-primary-action, .publish-button, .home-search-vessel button, .space-actions a, .profile-command-rail a, .home-empty-actions a {
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.01em !important;
+  min-height: 40px !important;
+}
+input, textarea, select {
+  background: #fff !important;
+  border: 1px solid var(--finish-line) !important;
+  border-radius: 12px !important;
+  color: var(--finish-ink) !important;
+  box-shadow: none !important;
+}
+input:hover, textarea:hover, select:hover { border-color: var(--finish-line-strong) !important; }
+input:focus, textarea:focus, select:focus { border-color: var(--finish-accent) !important; box-shadow: 0 0 0 3px var(--finish-ring) !important; outline: none !important; }
+.card, .panel, .dashboard-panel, .home-command-card, .home-feed-phone, .home-route-card, .home-post-card, .profile-hero-card, .profile-command-panel, .social-space-card, .social-empty-card, .spaces-hero, .awt-settings-section, .awt-review-card, .composer-card, .submit-hero, .status-card, .simple-advanced-drawer {
+  background: var(--finish-panel) !important;
+  border: 1px solid var(--finish-line) !important;
+  box-shadow: var(--finish-shadow) !important;
+  color: var(--finish-text) !important;
+}
+.home-route-card:hover, .social-space-card:hover, .home-post-card:hover { border-color: var(--finish-line-strong) !important; box-shadow: 0 4px 16px rgba(15, 23, 42, .08) !important; }
+.home-route-card::after, .social-space-card::after, .home-post-card::after { display: none !important; }
+.empty-state, .social-empty-card, [data-heichelos-empty-state], .home-feed-loading { align-items: start; display: grid !important; gap: .7rem !important; }
+.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .mail-bottom-nav {
+  background: rgba(255, 255, 255, .98) !important;
+  border: 1px solid var(--finish-line-strong) !important;
+  box-shadow: 0 8px 26px rgba(15, 23, 42, .12) !important;
+}
+.home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a, .mobile-bottom-nav a, .mail-bottom-nav a { color: var(--finish-muted) !important; }
+[aria-current="page"], .active, [aria-selected="true"] { color: var(--finish-ink) !important; }
+.is-create, .publish-button, .home-search-vessel button, .profile-primary-action, .spaces-create, button.primary, .btn.primary, .btn-primary { background: var(--finish-ink) !important; border-color: var(--finish-ink) !important; color: #fff !important; }
+.skeleton, .loading-card, [aria-busy="true"] { background: #eef2f7 !important; animation: none !important; }
+@media (max-width: 760px) {
+  .home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel, .spaces-hero, .social-space-card, .composer-card, .submit-hero { border-radius: 18px !important; }
+  main { scroll-padding-bottom: 7rem; }
+}
