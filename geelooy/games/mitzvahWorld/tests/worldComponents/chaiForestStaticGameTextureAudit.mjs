@@ -1,0 +1,24 @@
+// B"H
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+const docs = '/Users/awtsmoos/Documents/awtsmoos/docs/base/public/awtsmoos-nature';
+const oldA = ['ez','tree'].join('-');
+const asset = readFileSync('geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js','utf8');
+const terrain = readFileSync('builders/buildTerrain.js','utf8');
+const terrainMat = readFileSync('builders/terrain/TerrainMaterial.js','utf8');
+const grass = readFileSync('builders/buildGrassPatch.js','utf8');
+const lambert = readFileSync('../../libs/awtsmoos3d/lambert.js','utf8');
+const ground = readFileSync('../../libs/awtsmoos3d/terrain/groundTexture.js','utf8');
+const movie = readFileSync('tools/awtsmoosFullOneMinuteMitzvahWorldMovie.html','utf8');
+const renderer = readFileSync('tools/renderMasaiOneMinuteJourneyMovie.mjs','utf8');
+assert(existsSync(`${docs}/chai-forest/manifest.json`));
+assert(existsSync(`${docs}/chai-forest-half/manifest.json`));
+assert(!existsSync(`${docs}/${oldA}`));
+assert(!existsSync(`${docs}/${oldA}-half`));
+for (const name of ['grass 1','dirt grass 2','tree bark 1','leaf 1','horse fur 1','cow fur 1','deer fur 1','fox fur 1']) assert(asset.includes(name));
+for (const text of [terrain, terrainMat, grass, lambert, ground]) assert(text.includes('half-resolution') || text.includes('ChaiForestStaticAssets'));
+assert(asset.includes('chai-forest') && !asset.includes(`/${oldA}`));
+assert(movie.includes('Awtsmoos Full One Minute'));
+assert(movie.includes('FUR_GANG_TEXTURES') && movie.includes('usesChaiGroundBlend') && movie.includes('groundSampleY'));
+assert(renderer.includes('fps = 30') && renderer.includes('setpts=N/(30*TB)') && renderer.includes('awtsmoos-full-one-minute-mitzvah-world.mp4'));
+console.log(JSON.stringify({ok:true,test:'chaiForestStaticGameTextureAudit'},null,2));

@@ -3,3 +3,28 @@
 @import "./profile-styles-parts/hero.css";
 @import "./profile-styles-parts/cards.css";
 @import "./profile-styles-parts/mobile.css";
+
+/* B"H — profile dropdown contract surface, scoped and real. */
+.awtsmoos-dropdown-backdrop {
+  background: rgba(2, 6, 23, .48);
+  inset: 0;
+  position: fixed;
+  z-index: 2147481800;
+}
+
+.awtsmoos-dropdown-backdrop.hidden {
+  display: none !important;
+}
+
+.awtsmoos-profile-dropdown,
+#awtsmoosDrop {
+  max-width: min(92vw, 24rem);
+  z-index: 2147481900;
+}
+
+@media (max-width: 600px) {
+  .awtsmoos-profile-dropdown,
+  #awtsmoosDrop {
+    max-width: calc(100vw - 1rem);
+  }
+}

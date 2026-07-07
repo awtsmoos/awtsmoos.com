@@ -1,0 +1,44 @@
+/* B"H — heichel card menus stay anchored to their cards. */
+.card-menu-spark {
+  position: relative;
+  z-index: 12;
+}
+
+.card-menu-trigger {
+  align-items: center;
+  border-radius: 999px;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
+}
+
+.card-menu-panel {
+  display: none;
+  inset-block-start: calc(100% + .35rem);
+  inset-inline-end: 0;
+  min-width: min(14rem, 82vw);
+  position: absolute;
+  z-index: 20;
+}
+
+.card-menu-spark.open {
+  position: relative;
+  z-index: 95;
+}
+
+.card-menu-spark.open .card-menu-panel,
+.card-menu-spark:focus-within .card-menu-panel {
+  display: grid;
+}
+
+@media (max-width: 640px) {
+  .card-menu-spark.open {
+    position: relative;
+  }
+
+  .card-menu-panel {
+    inset-inline-end: -.25rem;
+    min-width: min(15rem, calc(100vw - 2rem));
+  }
+}

@@ -1,1 +1,4 @@
-.geelooy-home-document > .menuBtn, .geelooy-home-document .menuBtn:not(.home-top-icon) { display: none !important; }
+/* B"H — shared menu button remains active across pages. */
+.menuBtn {
+  display: inline-flex;
+}

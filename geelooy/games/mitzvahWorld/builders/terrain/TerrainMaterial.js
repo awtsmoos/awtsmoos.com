@@ -1,7 +1,7 @@
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
-import { groundTextures } from '../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js';
-import { progressiveMaterialMap } from '../geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js';
+import { groundTextures } from '../../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js';
+import { progressiveMaterialMap } from '../../geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js';
 export default class TerrainMaterial {
   static weave(color = 0x7ec850, opts = {}) {
     const maps = groundTextures(true);

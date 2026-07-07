@@ -1,12 +1,14 @@
-/* B"H — Mail composer. */
+/* B"H — Mail composer and identity modal controls. */
 .composer-area, .composer, .composer-shell, .message-composer { background: #fff; border-top: 1px solid var(--mail-line); display: grid; flex: 0 0 auto; gap: .6rem; padding: .85rem 1rem; position: relative; z-index: 60; }
 .composer-row { align-items: end; display: grid; gap: .55rem; grid-template-columns: minmax(0, 1fr) auto; }
-.composer-input, .composer textarea, .message-composer textarea { background: #fff; border: 1px solid var(--mail-line); border-radius: 14px; color: var(--mail-text); min-height: 46px; padding: .7rem .85rem; resize: vertical; width: 100%; }
-.composer-input:focus, .composer textarea:focus { border-color: var(--mail-accent); box-shadow: 0 0 0 3px rgba(15, 118, 110, .2); outline: none; }
+.composer-input, .composer textarea, .message-composer textarea, .compose-body-input { background: #fff; border: 1px solid var(--mail-line); border-radius: 14px; color: var(--mail-text); min-height: 46px; padding: .7rem .85rem; resize: vertical; width: 100%; }
+.composer-input:focus, .composer textarea:focus, .compose-body-input:focus { border-color: var(--mail-accent); box-shadow: 0 0 0 3px rgba(15, 118, 110, .2); outline: none; }
 .composer-actions { align-items: center; display: flex; flex-wrap: wrap; gap: .45rem; }
 .composer-actions button, .composer button, .send-button { background: var(--mail-soft); border: 1px solid var(--mail-line); border-radius: 999px; color: var(--mail-text); cursor: pointer; font-weight: 700; min-height: 40px; padding: .55rem .8rem; }
 .send-button, .composer .primary, .composer-actions .primary { background: var(--mail-text); border-color: var(--mail-text); color: #fff; }
 .attachment-list { display: grid; gap: .4rem; }
 .attachment-chip { align-items: center; background: var(--mail-soft); border: 1px solid var(--mail-line); border-radius: 999px; color: var(--mail-text); display: inline-flex; gap: .4rem; padding: .35rem .6rem; width: fit-content; }
 .typing-indicator { color: var(--mail-muted); font-size: .85rem; }
-@media (max-width: 760px) { .composer-row { grid-template-columns: 1fr; } .send-button { width: 100%; } }
+.identity-modal-card { background: #fff; border: 1px solid var(--mail-line); border-radius: 20px; box-shadow: var(--mail-shadow); color: var(--mail-text); display: grid; gap: .75rem; max-width: min(92vw, 32rem); padding: 1rem; }
+.identity-modal-card button { min-height: 40px; }
+@media (max-width: 760px) { .composer-row { grid-template-columns: 1fr; } .send-button { width: 100%; } .identity-modal-card { border-radius: 18px; } }

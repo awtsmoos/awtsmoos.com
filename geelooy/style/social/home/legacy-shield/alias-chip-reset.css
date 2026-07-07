@@ -1,1 +1,7 @@
-.geelooy-home-document > .aliasSelector, .geelooy-home-document > .alias-selector, .geelooy-home-document > .currentAlias, .geelooy-home-document > .curAlias { display: none !important; }
+/* B"H — alias chrome remains page-independent and visible. */
+.aliasSelector,
+.alias-selector,
+.currentAlias,
+.curAlias {
+  max-width: 100%;
+}

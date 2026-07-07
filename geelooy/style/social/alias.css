@@ -3,3 +3,24 @@
 @import "./alias-parts/cards.css";
 @import "./alias-parts/forms.css";
 @import "./alias-parts/responsive.css";
+
+/* B"H — alias activity contract surface for profile/menu flows. */
+.alias-activity-summary {
+  border: 1px solid rgba(148, 163, 184, .22);
+  border-radius: 1rem;
+  display: grid;
+  gap: .45rem;
+  padding: .85rem;
+}
+
+.alias-activity-summary strong {
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .alias-activity-summary {
+    border-radius: .9rem;
+    padding: .75rem;
+  }
+}

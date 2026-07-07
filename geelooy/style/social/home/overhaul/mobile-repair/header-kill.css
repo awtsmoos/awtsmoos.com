@@ -1,19 +1,12 @@
-/* B"H — legacy kill switch is scoped; no other page is swallowed. */
+/* B"H — mobile repair no longer kills the shared header/sidebar. */
 @media (max-width: 760px) {
-  body.geelooy-home-document > header.awtsmoosificationalisticaticalism,
-  body.geelooy-home-document > .awtsmoosificationalisticaticalism,
-  body.geelooy-home-document > .sidebarMitzvah,
-  body.geelooy-home-document > .menuBtn,
-  body.geelooy-home-document > .aliasSelector,
-  body.geelooy-home-document > .alias-selector,
-  body.geelooy-home-document > .currentAlias,
-  body.geelooy-home-document > .curAlias,
-  body.geelooy-home-document > .alias-dropdown,
-  body.geelooy-home-document > .topbar,
-  body.geelooy-home-document > nav.sidebarMitzvah,
-  body.geelooy-home-document .sidebarMitzvah:not(.home-command-dock),
-  body.geelooy-home-document .menuBtn:not(.home-menu-button),
-  body.geelooy-home-document .awtsmoosificationalisticaticalism {
-    display: none !important;
+  .awtsmoosificationalisticaticalism,
+  .sidebarMitzvah,
+  .menuBtn,
+  .aliasSelector,
+  .alias-selector,
+  .currentAlias,
+  .curAlias {
+    visibility: visible;
   }
 }

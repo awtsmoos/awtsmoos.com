@@ -1,1 +1,8 @@
-.geelooy-home-document > .sidebarMitzvah, .geelooy-home-document > nav.sidebarMitzvah, .geelooy-home-document .sidebarMitzvah:not(.home-command-dock) { display: none !important; }
+/* B"H — shared sidebar is no longer hidden by home shield. */
+.sidebarMitzvah {
+  display: block;
+}
+
+.sidebarMitzvah[hidden] {
+  display: none !important;
+}
