@@ -20,5 +20,5 @@ for (const text of [terrain, terrainMat, grass, lambert, ground]) assert(text.in
 assert(asset.includes('chai-forest') && !asset.includes(`/${oldA}`));
 assert(movie.includes('Awtsmoos Full One Minute'));
 assert(movie.includes('FUR_GANG_TEXTURES') && movie.includes('usesChaiGroundBlend') && movie.includes('groundSampleY'));
-assert(renderer.includes('fps = 30') && renderer.includes('setpts=N/(30*TB)') && renderer.includes('awtsmoos-full-one-minute-mitzvah-world.mp4'));
+assert(renderer.includes('fps = 30') && renderer.includes('setpts=N/(30*TB)') && renderer.includes('awtsmoos-full-suite-chai-forest-mitzvah-world.mp4'));
 console.log(JSON.stringify({ok:true,test:'chaiForestStaticGameTextureAudit'},null,2));
