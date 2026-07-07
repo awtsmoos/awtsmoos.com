@@ -1,0 +1,15 @@
+.home-panel,
+.home-action-card,
+.home-command-dock,
+.home-sidebar-panel {
+  box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 24px 68px rgba(0,0,0,.46), 0 0 34px rgba(139,92,246,.08) !important;
+}
+.home-panel::after,
+.home-action-card::after {
+  border-radius: inherit;
+  content: "";
+  inset: 1px;
+  pointer-events: none;
+  position: absolute;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}

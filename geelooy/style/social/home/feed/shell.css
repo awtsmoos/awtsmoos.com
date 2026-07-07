@@ -1,2 +1,3 @@
 .home-feed-panel { display: grid; gap: 1rem; padding: 1rem; }
 .home-feed-list { display: grid; gap: .8rem; }
+.home-feed-panel { border-color: rgba(139,92,246,.34) !important; }

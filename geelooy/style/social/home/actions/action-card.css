@@ -1,4 +1,4 @@
-.home-action-card { background: var(--home-card); border: 1px solid var(--home-line); border-radius: 22px; color: var(--home-text); display: grid; gap: .55rem; min-height: 138px; padding: 1rem; text-decoration: none; }
-.home-action-card strong { font-size: 1.08rem; letter-spacing: -.02em; }
-.home-action-card small { color: var(--home-muted); font-size: .9rem; line-height: 1.35; }
-.home-action-primary { background: linear-gradient(145deg, #10213d, #0f172a); }
+.home-action-card { align-items: center; background: linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.02)) !important; border: 1px solid rgba(139,92,246,.22) !important; border-radius: 16px; color: #f8fafc; display: grid; gap: .5rem; justify-items: center; min-height: 94px; padding: .75rem .45rem; position: relative; text-align: center; text-decoration: none; }
+.home-action-card strong { font-size: .82rem; letter-spacing: -.01em; }
+.home-action-card small { display: none; }
+.home-action-primary { border-color: rgba(139,92,246,.46) !important; }

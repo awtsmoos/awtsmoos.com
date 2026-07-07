@@ -210,7 +210,7 @@ function latestGroundingDiag() {
   };
 }
 
-function installGlobals() {
+function installWindowCollisionDiagnostics() {
   if (window.__AWTSMOOS_WINDOW_COLLISION_DIAG_INSTALLED__ === SEAL) return;
   window.__AWTSMOOS_WINDOW_COLLISION_DIAG_INSTALLED__ = SEAL;
   window.__AWTSMOOS_REQUEST_PLAYER_PROBE_FROM_MANAGER__ = requestProbe;
@@ -323,6 +323,9 @@ function handleFps(data) {
     humanLabel:"Worker is rendering; waiting for final world proof",
     subAction:"FPS is diagnostic, not loader release"
   });
+  if (payload?.renderInfo?.calls > 0 && payload?.renderBudget?.total?.visibleMeshes > 0) {
+    LoadingProgress.markPlayable?.("gameplay-ready");
+  }
   maybeAutoRunMitzvahProof();
 }
 
@@ -367,7 +370,7 @@ function handleText(data) {
 }
 
 export function interceptWorkerMessage(manager, event) {
-  installGlobals();
+  installWindowCollisionDiagnostics();
   maybeAutoRunMitzvahProof();
   const data = event.data;
   if (data?.type === "worker_progress") return handleProgress(manager, data);

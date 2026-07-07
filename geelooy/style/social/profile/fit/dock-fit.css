@@ -1,0 +1,2 @@
+.profile-bottom-nav { max-width: calc(100vw - 1.1rem) !important; overflow: visible !important; }
+@media (max-width: 430px) { .profile-bottom-nav { left: .55rem !important; right: .55rem !important; padding: .45rem !important; } .profile-bottom-nav a { min-width: 0 !important; font-size: .74rem !important; } }

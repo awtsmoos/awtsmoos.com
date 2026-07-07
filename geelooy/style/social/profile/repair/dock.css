@@ -1,0 +1,4 @@
+.profile-bottom-nav { background: linear-gradient(180deg, rgba(20,24,38,.9), rgba(9,13,24,.94)) !important; border: 1px solid rgba(148,163,184,.14) !important; border-radius: 32px !important; bottom: max(.72rem, env(safe-area-inset-bottom)) !important; box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.18) !important; left: max(.65rem, env(safe-area-inset-left)) !important; max-width: none !important; right: max(.65rem, env(safe-area-inset-right)) !important; }
+.profile-bottom-nav a { color: #8f98ad !important; }
+.profile-bottom-nav a[aria-current="page"], .profile-bottom-nav a.active { background: rgba(139,92,246,.18) !important; color: #fff !important; }
+.profile-bottom-nav a.is-create { background: linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff) !important; color: #fff !important; transform: translateY(-10px); }

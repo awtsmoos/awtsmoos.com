@@ -1,3 +1,6 @@
-.home-empty-state div { align-items: baseline; display: flex; flex-wrap: wrap; gap: .4rem; }
-.home-empty-state small { color: var(--home-muted); }
-.home-empty-actions { display: flex; flex-wrap: wrap; gap: .55rem; }
+.home-empty-state { align-items: center; background: rgba(7,11,22,.66) !important; border: 1px solid rgba(139,92,246,.22) !important; display: grid; gap: .85rem; justify-items: center; padding: 1.35rem .85rem 1rem !important; text-align: center; }
+.home-empty-state strong { color: #fff; font-size: 1.15rem; }
+.home-empty-state p { color: #b6bed0; line-height: 1.42; margin: 0; max-width: 18rem; }
+.home-empty-actions { display: grid; gap: .65rem; grid-template-columns: 1fr 1fr; width: 100%; }
+.home-empty-actions a { border-radius: 14px; min-height: 48px; }
+.home-empty-actions a:last-child { background: linear-gradient(90deg, #2ea7ff, #d13cff) !important; border-color: transparent !important; color: #fff !important; }

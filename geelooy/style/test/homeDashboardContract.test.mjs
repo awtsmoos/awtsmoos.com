@@ -5,14 +5,15 @@ const read = path => readFileSync(join(root, path), 'utf8');
 const index = read('geelooy/index.html');
 const css = read('geelooy/style/social/home/index.css');
 const required = [
-  'home-dashboard-shell', 'home-mobile-topbar', 'home-hero-panel', 'home-command-search',
-  'home-action-grid', 'home-dashboard-grid', 'home-feed-panel', 'home-discovery-grid',
-  'home-command-dock', 'scripts/awtsmoos/social/home/dashboard/index.js'
+  'home-dashboard-shell', 'home-app-header', 'home-orb-logo', 'home-bell-button',
+  'Create. Share.', 'Elevate.', 'home-action-grid', 'home-feed-panel', 'home-crystal',
+  'home-glance-panel', 'home-activity-panel', 'home-command-dock',
+  'scripts/awtsmoos/social/home/dashboard/index.js'
 ];
 for (const token of required) {
-  if (!index.includes(token)) throw new Error(`missing home dashboard token: ${token}`);
+  if (!index.includes(token)) throw new Error(`missing image-matched home token: ${token}`);
 }
-for (const folder of ['dashboard','search','actions','feed','states','dock','mobile','desktop','legacy-shield']) {
+for (const folder of ['dashboard','top-shell','search','actions','feed','states','dock','mobile','desktop','legacy-shield','future','finish']) {
   if (!css.includes(`./${folder}/index.css`)) throw new Error(`home CSS does not import ${folder}`);
 }
 if (!existsSync(join(root, 'geelooy/scripts/awtsmoos/social/home/dashboard/boot.js'))) {

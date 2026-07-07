@@ -1,0 +1,10 @@
+.home-app-header { align-items: center; display: grid; grid-template-columns: 1fr auto; gap: .75rem; padding: .95rem .2rem .2rem; position: relative; z-index: 6000; }
+.home-orb-brand { align-items: center; color: var(--f-text); display: inline-flex; gap: .7rem; min-width: 0; text-decoration: none; }
+.home-orb-logo { background: conic-gradient(from 20deg, #2ea7ff, #8b5cf6, #d13cff, #28f3d7, #2ea7ff); border-radius: 50%; box-shadow: 0 0 28px rgba(139,92,246,.5); display: block; height: 52px; position: relative; width: 52px; }
+.home-orb-logo::after { background: #07101d; border-radius: 50%; content: ""; inset: 8px; position: absolute; }
+.home-brand-copy { display: grid; gap: .05rem; grid-template-columns: auto auto; line-height: 1; }
+.home-brand-copy small { color: #d8dce8; font-size: .95rem; grid-column: 1 / -1; }
+.home-brand-copy strong { color: #fff; font-size: 1.12rem; letter-spacing: -.02em; }
+.home-brand-copy em { align-self: center; background: #2ea7ff; border-radius: 50%; color: #fff; display: grid; font-size: .6rem; font-style: normal; height: 16px; place-items: center; width: 16px; }
+.home-bell-button { background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); border: 1px solid rgba(148,163,184,.18); border-radius: 18px; color: #fff; display: grid; height: 52px; place-items: center; position: relative; width: 52px; }
+.home-bell-button b { background: linear-gradient(135deg, #f6c85f, #ff8a3d); border-radius: 999px; color: white; font-size: .65rem; line-height: 1; padding: .2rem .34rem; position: absolute; right: .32rem; top: .25rem; }

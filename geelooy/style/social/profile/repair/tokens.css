@@ -1,0 +1,14 @@
+:root {
+  --pr-bg: #020617;
+  --pr-panel: #080d18;
+  --pr-panel-2: #101622;
+  --pr-line: rgba(139, 92, 246, .24);
+  --pr-line-blue: rgba(46, 167, 255, .28);
+  --pr-text: #f8fafc;
+  --pr-muted: #a7b0c4;
+  --pr-purple: #8b5cf6;
+  --pr-purple-hot: #9a4dff;
+  --pr-blue: #2ea7ff;
+  --pr-cyan: #28f3d7;
+  --pr-shadow: 0 24px 60px rgba(0,0,0,.42);
+}

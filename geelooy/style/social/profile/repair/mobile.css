@@ -1,0 +1,1 @@
+@media (max-width: 760px) { .geelooy-profile-shell, .profile-page { width: 100% !important; } .profile-hero-card, .profile-card, .profile-command-panel, .profile-section-card { overflow: hidden !important; } .profile-hero-card { text-align: left !important; } .profile-hero-card h1 { font-size: clamp(2.6rem, 12vw, 4rem) !important; } }

@@ -1,0 +1,2 @@
+.profile-card, .profile-command-panel, .profile-section-card, .alias-card, .social-heichel-card, .profile-hero-card { box-shadow: 0 1px 0 rgba(255,255,255,.07) inset, 0 24px 68px rgba(0,0,0,.44), 0 0 34px rgba(139,92,246,.08) !important; }
+.profile-card:hover, .alias-card:hover, .social-heichel-card:hover { border-color: rgba(154,77,255,.42) !important; transform: translateY(-2px); }

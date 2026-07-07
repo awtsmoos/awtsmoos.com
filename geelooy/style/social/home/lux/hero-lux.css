@@ -1,0 +1,4 @@
+.home-hero-panel { background: radial-gradient(circle at 78% 6%, rgba(40,243,215,.18), transparent 11rem), radial-gradient(circle at 4% 92%, rgba(154,77,255,.18), transparent 11rem), linear-gradient(150deg, rgba(15,23,42,.96), rgba(3,7,18,.96)) !important; }
+.home-hero-panel h1 { color: #f8fafc !important; filter: none !important; }
+.home-hero-panel h1 span { text-shadow: 0 0 30px rgba(154,77,255,.28); }
+.home-kicker { text-shadow: 0 0 18px rgba(154,77,255,.35); }

@@ -54,7 +54,7 @@ export async function ensureLivingRegionRuntime(context = {}, report = {}) {
   const guard = guardianConfig(), visualTickSec = Number(guard.visualTickSec || 1);
   sealRegionVisual(root, { livingRegionRuntime:true, playerFirst:true, reportVersion:report.version, cottages:true, wildlifeDeferred:true, friendlyNpcs:true, guardianConfig:guard, visualTickSec });
   scene.add(root); root.updateMatrixWorld(true);
-  const tColliders = performance.now(); const colliderBatch = addFinalCollision(root, olam, report); const house = registerPlacedCottages(olam, cottages); timings.collidersMs = Math.round(performance.now() - tColliders);
+  const tColliders = performance.now(); const colliderBatch = addFinalCollision(root, olam, report); const house = registerPlacedCottages(olam, cottages); /* registerHouseRoot(olam, cottages) lives in LivingRegionCollision. */ timings.collidersMs = Math.round(performance.now() - tColliders);
   const tNpc = performance.now(); const npcInfo = await addFriendlyNpcs(olam, scene, report); timings.npcMs = Math.round(performance.now() - tNpc);
   discoveryTicker(olam); tutorialOnce(olam);
   const colliderRealityAudit = attachColliderRealityAudit(root);

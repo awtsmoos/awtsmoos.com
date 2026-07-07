@@ -1,1 +1,1 @@
-.home-action-card[data-count]::after { align-self: start; background: var(--home-accent); border-radius: 999px; color: #03110f; content: attr(data-count); font-size: .72rem; font-weight: 900; justify-self: end; padding: .18rem .42rem; }
+.home-action-card[data-count]::after { background: linear-gradient(135deg, #8b5cf6, #d13cff); border-radius: 999px; color: #fff; content: attr(data-count); font-size: .72rem; font-weight: 900; padding: .18rem .42rem; position: absolute; right: .45rem; top: .45rem; }

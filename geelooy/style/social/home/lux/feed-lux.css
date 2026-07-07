@@ -1,0 +1,4 @@
+.home-crystal span { box-shadow: 0 0 24px rgba(154,77,255,.48), 0 0 38px rgba(46,167,255,.2); }
+.home-feed-panel { background: linear-gradient(180deg, rgba(9,13,28,.82), rgba(4,7,16,.82)) !important; }
+.home-glance-grid article:hover { border-color: rgba(46,167,255,.34); transform: translateY(-2px); }
+.home-activity-list li { min-width: 0; }

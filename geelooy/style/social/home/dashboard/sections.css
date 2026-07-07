@@ -1,6 +1,8 @@
-.home-action-section, .home-discovery-panel { display: grid; gap: .8rem; }
-.home-dashboard-grid { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.home-continue-card { grid-column: 1 / -1; padding: 1rem; }
-.home-continue-card h2 { font-size: clamp(1.35rem, 5vw, 2.2rem); margin: 0; letter-spacing: -.04em; }
-.home-continue-card p { color: var(--home-muted); margin: .35rem 0 0; }
-.home-card-actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .85rem; }
+.home-action-section, .home-discovery-panel { display: none !important; }
+.home-activity-panel { display: grid; gap: .8rem; padding: 1rem; }
+.home-activity-list { display: grid; gap: .65rem; list-style: none; margin: 0; padding: 0; }
+.home-activity-list li { align-items: center; display: grid; gap: .65rem; grid-template-columns: 34px minmax(0,1fr) auto; }
+.home-activity-list li > span { background: linear-gradient(135deg, #8b5cf6, #d13cff); border-radius: 14px; height: 34px; width: 34px; }
+.home-activity-list p { color: #e9edf6; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.home-activity-list a { color: #9bbdff; text-decoration: none; }
+.home-activity-list time { color: #8b93a7; font-size: .8rem; }

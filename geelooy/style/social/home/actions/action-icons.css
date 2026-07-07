@@ -1,2 +1,3 @@
-.home-action-card > span { font-size: 1.05rem; }
-.home-action-card:hover > span { border-color: rgba(19,200,181,.45); }
+.home-action-card > span { background: transparent; border: 0; color: #ad80ff; font-size: 1.55rem; height: auto; width: auto; }
+.home-action-card:nth-child(2) > span { color: #2ea7ff; }
+.home-action-card:nth-child(4) > span { color: #42a1ae; }

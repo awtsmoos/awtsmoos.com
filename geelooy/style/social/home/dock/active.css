@@ -1,2 +1,3 @@
-.home-command-dock a[aria-current="page"] { color: #fff; }
-.home-command-dock a[aria-current="page"]::after { background: var(--home-accent); border-radius: 999px; content: ""; height: 3px; width: 22px; }
+.home-command-dock a[aria-current="page"] { color: #b56cff; }
+.home-command-dock a[aria-current="page"] span { color: #9a4dff; text-shadow: 0 0 18px rgba(154,77,255,.7); }
+.home-command-dock a[aria-current="page"]::after { display: none; }

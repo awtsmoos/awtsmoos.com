@@ -1,0 +1,4 @@
+html, body, .geelooy-home-document { min-width: 0 !important; overflow-x: hidden !important; }
+.geelooy-home-shell { max-width: min(680px, 100vw) !important; overflow-x: clip !important; }
+@media (max-width: 430px) { .geelooy-home-shell { padding-inline: .78rem !important; gap: .82rem !important; } }
+@media (max-width: 370px) { .geelooy-home-shell { padding-inline: .58rem !important; } }

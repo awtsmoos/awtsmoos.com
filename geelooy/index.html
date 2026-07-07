@@ -1,108 +1,77 @@
-<!-- B"H Geelooy home dashboard: standalone app shell. -->
+<!-- B"H Geelooy home dashboard: image-matched mobile shell. -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Geelooy</title>
-  <meta name="theme-color" content="#070b12">
-  <link rel="stylesheet" href="/style/social/home/index.css?v=home-dashboard-003">
+  <meta name="theme-color" content="#020617">
+  <link rel="stylesheet" href="/style/social/home/index.css?v=home-image-match-002">
 </head>
 <body class="geelooy-home-document" data-home-dashboard-page>
   <a class="home-skip-link" href="#home-feed">Skip to feed</a>
   <main class="geelooy-home-shell home-dashboard-shell" aria-labelledby="home-title">
-    <header class="home-mobile-topbar" aria-label="Home controls">
-      <a class="home-brand-pill" href="/" aria-label="Geelooy home"><span class="home-brand-dot">G</span><span>Geelooy</span></a>
-      <button class="home-top-icon" type="button" data-home-open-search aria-label="Focus search">⌘</button>
-      <a class="home-top-avatar" href="/profile" aria-label="Profile">@</a>
+    <header class="home-app-header" aria-label="Geelooy navigation">
+      <a class="home-orb-brand" href="/" aria-label="Geelooy home">
+        <span class="home-orb-logo" aria-hidden="true"></span>
+        <span class="home-brand-copy"><small>B"H</small><strong>Geelooy</strong><em>✓</em></span>
+      </a>
+      <button class="home-bell-button" type="button" data-sidebar-toggle aria-expanded="false" aria-controls="home-sidebar" aria-label="Open menu and notifications"><span>♧</span><b>3</b></button>
+      <nav id="home-sidebar" class="home-sidebar-panel" data-home-sidebar aria-label="Main menu" hidden>
+        <a href="/">Home</a><a href="/email">Mail</a><a href="/heichelos">Heichelos</a><a href="/sefarim">Sefarim</a><a href="/games">Games</a><a href="/profile">Profile</a><a href="/apps">Apps</a>
+      </nav>
     </header>
 
     <section class="home-hero-panel home-panel" aria-labelledby="home-title">
-      <p class="home-kicker">Home</p>
-      <h1 id="home-title">Search. Create. Read.</h1>
-      <p class="home-hero-text">A command center for spaces, posts, mail, learning, and recent activity.</p>
+      <p class="home-kicker">Welcome back</p>
+      <h1 id="home-title">Create. Share. <span>Elevate.</span></h1>
+      <p class="home-hero-text">Your universe. Your voice. Your legacy.</p>
       <form class="home-command-search" role="search" action="/heichelos" method="get" data-home-search>
-        <label for="home-global-search">Universal search</label>
         <div class="home-search-row">
-          <input id="home-global-search" name="q" type="search" placeholder="Search spaces, posts, aliases" autocomplete="off">
-          <button type="submit">Search</button>
+          <label class="home-search-label" for="home-global-search">⌕</label>
+          <input id="home-global-search" name="q" type="search" placeholder="Search spaces, posts, people..." autocomplete="off">
+          <button class="home-filter-button" type="button" data-home-open-search aria-label="Search filters">☷</button>
         </div>
       </form>
-      <div class="home-suggestion-row" aria-label="Search suggestions">
-        <a href="/heichelos">Spaces</a>
-        <a href="/heichelos/submit">Drafts</a>
-        <a href="/email">Unread</a>
-        <a href="/profile">Aliases</a>
-      </div>
-    </section>
-
-    <section class="home-action-section" aria-labelledby="home-actions-title">
-      <div class="home-section-heading"><p>Quick actions</p><h2 id="home-actions-title">Start here</h2></div>
-      <div class="home-action-grid">
-        <a class="home-action-card home-action-primary" href="/heichelos/submit"><span>✍</span><strong>Write</strong><small>Start a post</small></a>
-        <a class="home-action-card" href="/heichelos"><span>🏛</span><strong>Spaces</strong><small>Browse Heichelos</small></a>
-        <a class="home-action-card" href="/email"><span>✉</span><strong>Mail</strong><small>Open inbox</small></a>
-        <a class="home-action-card" href="/profile"><span>◎</span><strong>Profile</strong><small>Aliases and settings</small></a>
-        <a class="home-action-card" href="/sefarim"><span>📖</span><strong>Sefarim</strong><small>Continue learning</small></a>
-        <a class="home-action-card" href="/games"><span>⚡</span><strong>Games</strong><small>Play and explore</small></a>
-      </div>
-    </section>
-
-    <section class="home-dashboard-grid" aria-label="Dashboard">
-      <article class="home-continue-card home-panel">
-        <p class="home-kicker">Continue</p>
-        <h2>Pick up where you left off</h2>
-        <p>Recent spaces, drafts, and reading will appear here when available.</p>
-        <div class="home-card-actions"><a href="/heichelos">Browse spaces</a><a href="/heichelos/submit">Create post</a></div>
-      </article>
-      <article class="home-mini-card home-panel"><strong data-home-stat="objects">0</strong><span>Objects</span></article>
-      <article class="home-mini-card home-panel"><strong data-home-stat="events">0</strong><span>Events</span></article>
-      <article class="home-mini-card home-panel"><strong data-home-stat="graph">0</strong><span>Graph</span></article>
+      <nav class="home-action-grid" aria-label="Quick actions">
+        <a class="home-action-card home-action-primary" href="/heichelos/submit"><span>✎</span><strong>Write</strong></a>
+        <a class="home-action-card" href="/heichelos"><span>♁</span><strong>Spaces</strong></a>
+        <a class="home-action-card" href="/email" data-count="12"><span>✉</span><strong>Mail</strong></a>
+        <a class="home-action-card" href="/heichelos"><span>⌂</span><strong>Heichelos</strong></a>
+        <a class="home-action-card" href="/apps"><span>▦</span><strong>More</strong></a>
+      </nav>
     </section>
 
     <section id="home-feed" class="home-feed-panel home-panel" tabindex="-1" aria-labelledby="home-feed-title">
-      <header class="home-feed-header">
-        <div><p class="home-kicker">Feed</p><h2 id="home-feed-title">Recent activity</h2></div>
-        <a class="home-feed-create" href="/heichelos/submit">Create</a>
-      </header>
-      <nav class="home-feed-tabs" aria-label="Feed views">
-        <button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For you</button>
-        <button type="button" data-feed-mode="following" aria-pressed="false">Following</button>
-        <button type="button" data-feed-mode="trending" aria-pressed="false">Trending</button>
-      </nav>
-      <section class="civilization-metrics home-feed-metrics" data-civilization-metrics aria-live="polite">
-        <article><strong>0</strong><span>Objects</span></article>
-        <article><strong>0</strong><span>Events</span></article>
-        <article><strong>0</strong><span>Graph</span></article>
-      </section>
+      <header class="home-feed-header"><div><h2 id="home-feed-title"><span>⌁</span> Feed</h2></div><a class="home-feed-create" href="/profile">Customize ☷</a></header>
+      <nav class="home-feed-tabs" aria-label="Feed views"><button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For You</button><button type="button" data-feed-mode="following" aria-pressed="false">Following</button><button type="button" data-feed-mode="trending" aria-pressed="false">Trending</button></nav>
       <section class="home-feed-list" data-home-feed data-object-inspector aria-live="polite">
         <article class="home-empty-state home-post-card" data-feed-placeholder="live">
-          <div><strong>No visible objects yet</strong><small>AwtsmoosDB</small></div>
-          <p>The stream is ready. Browse spaces or create the first visible card.</p>
-          <div class="home-empty-actions"><a href="/heichelos">Search archive</a><a href="/heichelos/submit">Create post</a></div>
+          <div class="home-crystal" aria-hidden="true"><span></span></div>
+          <strong>Your feed is ready</strong>
+          <p>Follow spaces and people to see content you’ll love.</p>
+          <div class="home-empty-actions"><a href="/heichelos">◎ Explore Spaces</a><a href="/heichelos/submit">✍ Create Post</a></div>
         </article>
       </section>
     </section>
 
-    <section class="home-discovery-panel" aria-labelledby="home-discovery-title">
-      <div class="home-section-heading"><p>Discover</p><h2 id="home-discovery-title">Explore next</h2></div>
-      <div class="home-discovery-grid">
-        <a class="home-discovery-card" href="/heichelos"><strong>Trending spaces</strong><span>Find active Heichelos</span></a>
-        <a class="home-discovery-card" href="/email"><strong>Unread mail</strong><span>Return to conversations</span></a>
-        <a class="home-discovery-card" href="/profile"><strong>Identity</strong><span>Manage aliases</span></a>
+    <section class="home-glance-panel home-panel" aria-labelledby="home-glance-title">
+      <header class="home-panel-heading"><h2 id="home-glance-title">At a Glance</h2><span>LIVE</span></header>
+      <div class="home-glance-grid" data-civilization-metrics aria-live="polite">
+        <article><i>⬡</i><strong>1,248</strong><span>Objects</span></article><article><i>▣</i><strong>32</strong><span>Events</span></article><article><i>⌘</i><strong>18</strong><span>Graphs</span></article><article><i>♨</i><strong>7</strong><span>Hot</span></article>
       </div>
     </section>
 
+    <section class="home-activity-panel home-panel" aria-labelledby="home-activity-title">
+      <header class="home-panel-heading"><h2 id="home-activity-title">⚡ Recent Activity</h2><a href="/heichelos">View all</a></header>
+      <ol class="home-activity-list"><li><span></span><p>New object in <a href="/heichelos">@Tech & AI</a></p><time>2m</time></li><li><span></span><p>Unread mail is waiting</p><time>now</time></li></ol>
+    </section>
+
     <nav class="home-command-dock" aria-label="Primary routes">
-      <a href="/" aria-current="page"><span>⌂</span><strong>Home</strong></a>
-      <a href="/heichelos"><span>◇</span><strong>Spaces</strong></a>
-      <a href="/heichelos/submit" class="is-create"><span>+</span><strong>Create</strong></a>
-      <a href="/email"><span>✉</span><strong>Mail</strong></a>
-      <a href="/profile"><span>◎</span><strong>Profile</strong></a>
+      <a href="/" aria-current="page"><span>⌂</span><strong>Home</strong></a><a href="/heichelos"><span>♁</span><strong>Spaces</strong></a><a href="/heichelos/submit" class="is-create"><span>+</span><strong>Create</strong></a><a href="/email" data-count="12"><span>✉</span><strong>Mail</strong></a><a href="/profile"><span>♙</span><strong>Profile</strong></a>
     </nav>
   </main>
-  <script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=home-dashboard-003"></script>
-  <script type="module" src="/scripts/awtsmoos/social/home/liveFeed.js?v=home-dashboard-003"></script>
-  <script src="/register.js?v=home-dashboard-003"></script>
+  <script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=home-image-match-002"></script>
+  <script src="/register.js?v=home-image-match-002"></script>
 </body>
 </html>

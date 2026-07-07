@@ -1,3 +1,4 @@
 .home-command-search { display: grid; gap: .5rem; }
-.home-command-search label { color: #b9c4d6; font-size: .78rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
-.home-search-row { display: grid; gap: .6rem; grid-template-columns: minmax(0, 1fr) auto; }
+.home-search-row { display: grid; gap: .65rem; grid-template-columns: auto minmax(0, 1fr) 54px; align-items: center; }
+.home-search-label { color: #8d98af; font-size: 1.35rem; padding-left: .75rem; z-index: 2; }
+.home-filter-button { background: rgba(139,92,246,.12); border: 1px solid rgba(139,92,246,.34); border-radius: 16px; color: #d8c7ff; font: inherit; font-weight: 900; height: 54px; }

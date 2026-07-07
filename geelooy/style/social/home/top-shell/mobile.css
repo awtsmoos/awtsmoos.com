@@ -1,0 +1,2 @@
+@media (max-width: 760px) { .home-global-header { padding-inline: .72rem; } .home-header-brandline { font-size: 1rem; } .home-sidebar-panel { margin-top: .15rem; } .home-mobile-topbar { display: none !important; } }
+@media (min-width: 761px) { .home-global-header { grid-template-columns: auto 1fr; align-items: start; } .home-header-row { justify-content: end; } .home-sidebar-panel { grid-column: 1 / -1; } }
