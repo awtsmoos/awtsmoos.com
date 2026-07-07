@@ -1,0 +1,5 @@
+.awt-view-stage { overflow: hidden; border: 1px solid var(--vf-line); border-radius: 1.15rem; background: var(--vf-panel); box-shadow: var(--vf-shadow); }
+.awt-view-strip { display: flex; align-items: stretch; transform: translateX(var(--vf-offset, 0)); transition: transform .34s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+.awt-view-strip:focus-within { transition-duration: .18s; }
+.awt-snap-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.awt-snap-track::-webkit-scrollbar { display: none; }

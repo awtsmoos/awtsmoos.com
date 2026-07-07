@@ -1,0 +1,4 @@
+.profile-header, .profile-hero, .profile-banner { background: #fff; border: 1px solid var(--legacy-profile-line); border-radius: 1.25rem; box-shadow: var(--legacy-profile-shadow); color: var(--legacy-profile-text); padding: 1rem; }
+.profile-header h1, .profile-hero h1 { margin: 0; color: var(--legacy-profile-text); font-size: clamp(2rem, 8vw, 4rem); line-height: 1; letter-spacing: -.05em; }
+.profile-header p, .profile-hero p { color: var(--legacy-profile-muted); line-height: 1.55; }
+.profile-avatar { background: #f1f5f9; border: 1px solid var(--legacy-profile-line); border-radius: 50%; color: var(--legacy-profile-text); }

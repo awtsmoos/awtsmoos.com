@@ -1,8 +1,9 @@
 // B"H
 /**
  * @module UniversePulsator
- * @description The worker heartbeat is no longer a runaway MessageChannel fire.
- * Mobile receives one measured breath per frame, not thousands of hidden pulses.
+ * @description The worker heartbeat schedules immediately after each measured
+ * frame. The engine still uses real delta time and real render timings; the
+ * scheduler no longer inserts extra sleep when the frame already has room.
  */
 export default class UniversePulsator {
   constructor(olam) {
@@ -11,20 +12,19 @@ export default class UniversePulsator {
     this.isRunning = false;
     this._reqId = null;
     this._usesTimer = false;
-    this._targetFrameMs = 1000 / 60;
+    this._targetFrameMs = 1000 / 120;
+    this._minDelayMs = 0;
   }
-
   ignite() {
     if (this.isRunning) return;
     const scope = typeof self !== 'undefined' ? self : globalThis;
     const isWorker = typeof document === 'undefined';
     this._usesTimer = isWorker || !scope.requestAnimationFrame || globalThis.__AWTSMOOS_USE_WORKER_TIMER__ === true;
-    globalThis.__AWTSMOOS_PULSATOR_MODE__ = this._usesTimer ? 'worker-60fps-timer' : 'requestAnimationFrame';
+    globalThis.__AWTSMOOS_PULSATOR_MODE__ = this._usesTimer ? 'worker-immediate-timer-for-sustained-60' : 'requestAnimationFrame';
     this.isRunning = true;
     this.lastTime = performance.now();
     this._schedule(0);
   }
-
   stop() {
     this.isRunning = false;
     const scope = typeof self !== 'undefined' ? self : globalThis;
@@ -34,15 +34,14 @@ export default class UniversePulsator {
     }
     this._reqId = null;
   }
-
   _schedule(delayMs) {
     if (!this.isRunning) return;
     const scope = typeof self !== 'undefined' ? self : globalThis;
+    const delay = this._usesTimer ? Math.max(this._minDelayMs, Math.floor(delayMs)) : delayMs;
     this._reqId = this._usesTimer || !scope.requestAnimationFrame
-      ? setTimeout(() => this._tick(performance.now()), Math.max(0, Math.round(delayMs)))
+      ? setTimeout(() => this._tick(performance.now()), delay)
       : scope.requestAnimationFrame(time => this._tick(time));
   }
-
   _tick(currentTime) {
     if (!this.isRunning) return;
     const startedAt = performance.now();

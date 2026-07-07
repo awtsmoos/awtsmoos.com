@@ -1,0 +1,4 @@
+@media (max-width: 760px) {
+  .mail-mobile-shell :is(.mail-frame,.mail-main), .email-app-shell :is(.mail-frame,.mail-main) { display: grid !important; grid-template-columns: 1fr !important; overflow: visible !important; gap: 0 !important; width: 100% !important; max-width: 100% !important; }
+  .mail-mobile-shell :is(.mail-frame,.mail-main) > *, .email-app-shell :is(.mail-frame,.mail-main) > * { min-width: 0 !important; max-width: 100% !important; }
+}

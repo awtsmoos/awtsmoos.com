@@ -1,23 +1,5 @@
-/* B"H
- * Chapter 6: The page folds without breaking its wings.
- * Phones receive one river; desktops keep three luminous chambers.
- */
-@media (max-width: 1080px) {
-  .geelooy-home-shell { grid-template-columns: minmax(17rem, 1fr) minmax(23rem, 1.55fr); }
-  .home-discovery-card { grid-column: 1 / -1; position: relative; top: auto; }
-}
-
 @media (max-width: 760px) {
-  .geelooy-home-shell { width: min(100% - 1rem, 42rem); grid-template-columns: 1fr; margin-block-start: .5rem; }
-  .home-sanctuary-card { position: relative; top: auto; min-height: auto; }
-  .home-feed-tabs { overflow-x: auto; justify-content: start; }
-  .home-feed-tabs::-webkit-scrollbar { display: none; }
-  .home-hero-stats { grid-template-columns: 1fr; }
-  .home-feed-title { justify-items: start; }
-}
-
-@media (max-width: 480px) {
-  .home-search-vessel { grid-template-columns: 1fr; }
-  .home-feed-header { grid-template-columns: 2.8rem 1fr; }
-  .home-profile-pill { grid-column: 1 / -1; text-align: center; }
+  .premium-home, .geelooy-home-shell.premium-home { padding: .7rem .55rem max(6.3rem, env(safe-area-inset-bottom)); }
+  .home-feed-phone, .home-sanctuary-card, .object-inspector { border-radius: 1rem; }
+  .home-feed-tabs { overflow-x: auto; }
 }

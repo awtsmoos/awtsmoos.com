@@ -1,0 +1,7 @@
+.awt-desktop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: .85rem; align-items: stretch; }
+.awt-desktop-grid[data-density="wide"] { grid-template-columns: minmax(0, 1.2fr) minmax(18rem, .8fr); }
+@container (min-width: 760px) {
+  .awt-view-stage[data-desktop="grid"] { overflow: visible; border: 0; background: transparent; box-shadow: none; }
+  .awt-view-stage[data-desktop="grid"] .awt-view-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: .85rem; transform: none; }
+  .awt-view-stage[data-desktop="grid"] .awt-view-panel { min-width: 0; padding: 0; }
+}

@@ -1,0 +1,13 @@
+@media (max-width: 760px) {
+  .home-command-dock,
+  .mobile-bottom-nav,
+  .profile-bottom-nav,
+  .spaces-bottom-nav {
+    bottom: max(.9rem, env(safe-area-inset-bottom)) !important;
+    box-sizing: border-box !important;
+    left: .7rem !important;
+    max-width: calc(100vw - 1.4rem) !important;
+    right: .7rem !important;
+    z-index: 9999 !important;
+  }
+}

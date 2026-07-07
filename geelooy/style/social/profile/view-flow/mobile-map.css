@@ -1,0 +1,5 @@
+@media (max-width: 760px) {
+  .profile-main-grid, .profile-grid { display: grid !important; grid-template-columns: 1fr !important; overflow: visible !important; width: 100% !important; max-width: 100% !important; }
+  .profile-stack { min-width: 0; }
+  .profile-bottom-nav { max-width: calc(100vw - 1rem); }
+}

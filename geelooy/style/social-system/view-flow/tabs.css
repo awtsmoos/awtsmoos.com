@@ -1,0 +1,4 @@
+.awt-view-tabs { display: flex; gap: .35rem; overflow-x: auto; padding: .24rem; border: 1px solid var(--vf-line); border-radius: 999px; background: var(--vf-panel); box-shadow: var(--vf-shadow); scrollbar-width: none; }
+.awt-view-tabs::-webkit-scrollbar { display: none; }
+.awt-view-tabs :is(a, button) { flex: 0 0 auto; min-height: 40px; border: 0; border-radius: 999px; background: transparent; color: var(--vf-muted); padding: .55rem .85rem; font: inherit; font-weight: 750; text-decoration: none; }
+.awt-view-tabs :is(a, button)[aria-selected="true"], .awt-view-tabs .active { background: var(--vf-text); color: #fff; }

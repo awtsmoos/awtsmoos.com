@@ -1,13 +1,5 @@
-/* B"H
- * @file nav.css
- * Profile dock shares the same futuristic app language as home and spaces.
- */
-.profile-topbar { position: sticky; top: .45rem; z-index: 40; max-width: 34rem; margin: 0 auto .75rem; padding: .5rem; display: grid; grid-template-columns: auto 1fr auto; gap: .5rem; align-items: center; border: 1px solid var(--g-line); border-radius: 1.15rem; background: rgba(6,9,22,.86); backdrop-filter: blur(16px); }
-.profile-icon-btn { width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.1); border-radius: .9rem; background: rgba(255,255,255,.07); color: var(--g-gold); font-weight: 900; }
-.profile-brand { text-align: center; line-height: 1; }
-.profile-brand strong { display: block; color: var(--g-gold); letter-spacing: .08em; }
-.profile-brand small { color: var(--g-muted); font-size: .68rem; }
-.profile-bottom-nav { position: fixed; left: .5rem; right: .5rem; bottom: max(.5rem, env(safe-area-inset-bottom)); z-index: 1000; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: .3rem; padding: .4rem; border: 1px solid var(--g-line); border-radius: 1.08rem; background: rgba(8,11,25,.93); backdrop-filter: blur(16px); box-shadow: 0 1rem 2.4rem rgba(0,0,0,.32); }
-.profile-bottom-nav a { min-width: 0; min-height: 2.75rem; display: grid; place-items: center; border-radius: .8rem; color: #fff8df; background: rgba(255,255,255,.06); font-size: .68rem; font-weight: 950; text-decoration: none; }
-.profile-bottom-nav a[aria-current="page"], .profile-bottom-nav a.active, .profile-bottom-nav a.is-create { color: #06101b; background: linear-gradient(135deg, var(--g-gold), var(--g-cyan)); }
-.profile-bottom-nav a.is-create { font-size: 1.25rem; }
+.profile-topbar { position: sticky; top: .45rem; z-index: 40; max-width: 72rem; margin: 0 auto .75rem; padding: .5rem; display: grid; grid-template-columns: auto 1fr auto; gap: .5rem; align-items: center; border: 1px solid var(--pp-line); border-radius: 1rem; background: #fff; box-shadow: var(--pp-shadow); }
+.profile-topbar a, .profile-topbar button { color: var(--pp-text); text-decoration: none; }
+.profile-bottom-nav { position: fixed; left: .5rem; right: .5rem; bottom: max(.5rem, env(safe-area-inset-bottom)); z-index: 1000; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: .3rem; padding: .4rem; border: 1px solid var(--pp-line); border-radius: 1rem; background: rgba(255,255,255,.98); box-shadow: 0 8px 26px rgba(15,23,42,.12); }
+.profile-bottom-nav a { display: grid; place-items: center; min-height: 2.8rem; border-radius: .85rem; color: var(--pp-muted); text-decoration: none; font-weight: 750; }
+.profile-bottom-nav a[aria-current="page"], .profile-bottom-nav a.active, .profile-bottom-nav a.is-create { color: #fff; background: var(--pp-text); }

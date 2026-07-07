@@ -1,2 +1,15 @@
-/* B"H Heichel manage form. */
-.heichel-form-card{padding:1rem}.heichel-form-card form{display:grid;gap:.75rem}.heichel-form-card label{font-weight:900;color:var(--g-ink-2)}.heichel-form-card input,.heichel-form-card textarea{width:100%;border:1px solid var(--g-line);border-radius:1rem;background:rgba(255,255,255,.07);color:var(--g-ink);font:inherit;padding:.85rem;resize:vertical}.optional-id{display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:end}.optional-id label{grid-column:1/-1}.tooltip{width:var(--g-touch);height:var(--g-touch);border-radius:50%;border:1px solid var(--g-line-2);background:rgba(102,231,255,.11);color:var(--g-cyan);font-weight:950;cursor:help}.tooltiptext{grid-column:1/-1;display:none;border:1px solid var(--g-line);border-radius:.9rem;padding:.7rem;color:var(--g-muted);background:rgba(0,0,0,.32)}.optional-id:focus-within .tooltiptext,.optional-id:hover .tooltiptext{display:block}.id-validation{min-height:1.5rem;color:var(--g-muted)}.form-btns{display:flex;gap:.65rem;flex-wrap:wrap}.form-btns button{min-height:var(--g-touch);border:1px solid rgba(255,224,154,.5);border-radius:999px;padding:.75rem 1rem;background:linear-gradient(135deg,var(--g-gold),var(--g-gold-2));color:#130c03;font-weight:950;cursor:pointer}.form-btns .delete{background:rgba(255,111,145,.13);color:#ffd5df;border-color:rgba(255,111,145,.35)}.heichel-manage-page .hidden{display:none!important}
+.heichel-form-card { padding: 1rem; }
+.heichel-form-card form { display: grid; gap: .75rem; }
+.heichel-form-card label { display: grid; gap: .35rem; font-weight: 750; color: #0f172a; }
+.heichel-form-card input, .heichel-form-card textarea { width: 100%; border: 1px solid #dfe6ee; border-radius: 1rem; background: #fff; color: #0f172a; font: inherit; padding: .85rem; resize: vertical; }
+.heichel-form-card input:focus, .heichel-form-card textarea:focus { border-color: #0f766e; box-shadow: 0 0 0 .22rem rgba(15,118,110,.18); outline: none; }
+.optional-id { display: grid; grid-template-columns: 1fr auto; gap: .5rem; align-items: end; }
+.optional-id label, .tooltiptext { grid-column: 1 / -1; }
+.tooltip { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #dfe6ee; background: #f8fafc; color: #0f172a; font-weight: 800; cursor: help; }
+.tooltiptext { display: none; border: 1px solid #dfe6ee; border-radius: .9rem; padding: .7rem; color: #64748b; background: #f8fafc; }
+.optional-id:focus-within .tooltiptext, .optional-id:hover .tooltiptext { display: block; }
+.id-validation { min-height: 1.5rem; color: #64748b; }
+.form-btns { display: flex; gap: .65rem; flex-wrap: wrap; }
+.form-btns button { min-height: 44px; border: 1px solid #0f172a; border-radius: 999px; padding: .75rem 1rem; background: #0f172a; color: #fff; font-weight: 750; cursor: pointer; }
+.form-btns .delete { background: #fff; color: #dc2626; border-color: #fecaca; }
+.heichel-manage-page .hidden { display: none !important; }

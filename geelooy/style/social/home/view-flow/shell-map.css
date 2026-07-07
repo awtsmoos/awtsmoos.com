@@ -1,0 +1,5 @@
+.geelooy-home-shell { container-type: inline-size; overflow-x: clip; }
+.awt-home-view-flow { display: grid; gap: 1rem; }
+.awt-home-view-flow .awt-view-stage { width: 100%; }
+.awt-home-view-flow .awt-desktop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: .85rem; }
+.home-surface-main, .awtsmoos-civilization-dashboard { max-width: 100%; min-width: 0; }

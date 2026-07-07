@@ -1,0 +1,6 @@
+.alias-page, .alias-navigator, .alias-shell { min-height: 100dvh; background: var(--alias-bg); color: var(--alias-text); padding: 1rem; }
+.alias-shell { width: min(100%, 70rem); margin: 0 auto; display: grid; gap: 1rem; }
+.alias-header, .alias-hero { background: var(--alias-panel); border: 1px solid var(--alias-line); border-radius: 1.25rem; box-shadow: var(--alias-shadow); padding: 1rem; }
+.alias-header h1, .alias-hero h1 { margin: 0; color: var(--alias-text); font-size: clamp(2rem, 8vw, 4rem); line-height: 1; letter-spacing: -.05em; }
+.alias-header p, .alias-hero p { color: var(--alias-muted); line-height: 1.55; }
+.alias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }

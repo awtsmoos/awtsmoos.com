@@ -1,60 +1,67 @@
-/* B"H */
-/**
- * Chapter 479: The uploader is a small gate in the social palace. It welcomes
- * image, voice, audio, and future media sparks without disturbing old forms.
- */
+/* B"H — media uploader: quiet asset controls for social forms. */
 .bh-social-media-actions,
 .bh-social-asset-preview,
 .bh-social-drop-zone {
-  border: 1px solid rgba(120, 145, 190, 0.35);
-  border-radius: 14px;
-  padding: 12px;
+  background: #fff;
+  border: 1px solid #dfe6ee;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+  color: #0f172a;
   margin: 10px 0;
-  background: rgba(30, 42, 72, 0.08);
+  padding: 12px;
 }
 .bh-social-media-actions {
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  align-items: center;
 }
 .bh-social-media-actions button,
-.bh-social-drop-zone {
-  cursor: pointer;
+.bh-social-drop-zone { cursor: pointer; }
+.bh-social-media-actions button {
+  background: #0f172a;
+  border: 1px solid #0f172a;
+  border-radius: .85rem;
+  color: #fff;
+  font: inherit;
+  font-weight: 750;
+  min-height: 40px;
+  padding: .55rem .85rem;
 }
 .bh-social-drop-zone.is-dragging {
-  outline: 3px dashed rgba(90, 155, 255, 0.7);
-  background: rgba(90, 155, 255, 0.12);
+  background: #f8fafc;
+  outline: 3px dashed rgba(15, 118, 110, .45);
 }
 .bh-social-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   margin: 10px 0;
 }
 .bh-social-asset {
+  background: #fff;
+  border: 1px solid #dfe6ee;
+  border-radius: 1rem;
+  color: #0f172a;
   display: grid;
   gap: 6px;
   padding: 8px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.08);
-  color: inherit;
   text-decoration: none;
 }
 .bh-social-asset img,
 .bh-social-asset audio {
-  width: 100%;
   max-height: 280px;
   object-fit: contain;
+  width: 100%;
 }
 .bh-social-asset figcaption,
 .bh-social-asset small {
+  color: #64748b;
   display: block;
-  opacity: 0.82;
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .bh-social-voice-note {
-  border-left: 3px solid rgba(90,155,255,0.8);
-  padding-left: 10px;
+  border-left: 3px solid #0f766e;
   margin: 10px 0;
+  padding-left: 10px;
 }

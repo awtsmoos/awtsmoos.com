@@ -2,6 +2,12 @@
 /**
  * @file RenderGeometrySanitizer.js
  * @description Removes render-only geometry hazards before Three.js compiles a program.
+ *
+ * Chapter: the blue veil was torn.
+ * Three.js speaks a lawful default with drawRange.count === Infinity. The old
+ * guard heard Infinity and mistook it for chaos, exiling every mesh until the
+ * world was only sky. This vessel now distinguishes the infinite default from
+ * broken arithmetic: Infinity means "draw the geometry", not "delete creation".
  */
 
 const MAX_DRAW_COUNT = 100000000;
@@ -40,16 +46,24 @@ function attrValid(attribute) {
   return true;
 }
 
+function drawCountState(rawCount) {
+  if (rawCount === Infinity) return { ok: true, infinite: true, value: Infinity };
+  const count = Number(rawCount);
+  if (!Number.isFinite(count)) return { ok: false, reason: "invalid-draw-range-count" };
+  if (count < 0 || count > MAX_DRAW_COUNT) return { ok: false, reason: "invalid-draw-range-count" };
+  return { ok: true, infinite: false, value: count };
+}
+
 function geometryReason(geometry) {
   if (!geometry || !geometry.attributes) return "missing-buffer-geometry";
   if (!attrValid(geometry.attributes.position)) return "missing-or-invalid-position";
   const posCount = Number(geometry.attributes.position.count);
   const draw = geometry.drawRange || {};
   const start = Number(draw.start || 0);
-  const count = Number(draw.count);
+  const countState = drawCountState(draw.count);
   if (!Number.isFinite(start) || start < 0) return "invalid-draw-range-start";
-  if (!Number.isFinite(count) || count < 0 || count > MAX_DRAW_COUNT) return "invalid-draw-range-count";
-  if (count !== Infinity && count > posCount && !geometry.index) return "draw-range-exceeds-position-count";
+  if (!countState.ok) return countState.reason;
+  if (!countState.infinite && countState.value > posCount && !geometry.index) return "draw-range-exceeds-position-count";
   return "";
 }
 

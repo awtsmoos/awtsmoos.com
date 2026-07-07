@@ -5,14 +5,14 @@ const { chatgptMessage } = require("./actions/message.js");
 const { chatgptOptimizeDom } = require("./actions/optimizer.js");
 const Sessions = require("./actions/sessions.js");
 const C = require("./actions/continuation.js");
+const HourLoop = require("./hourLoop/index.js");
 const { chatgptNewConversation, chatgptCurrentConversation, chatgptListConversations } = require("./actions/conversations.js");
 
 /**
  * B"H
- * The public ChatGPT council. Most users should only need to paste a URL into
- * chatgptSaveCurrentSeason or chatgptSeasonSaveAndContinue; the session engine
- * handles Chrome, URL verification, idle waiting, DOM pruning, receipts,
- * journals, stops, and conclusions.
+ * The public ChatGPT council. URL sessions, short continuation ticks, and the
+ * hour-loop all return compact resumable packets instead of holding one giant
+ * gateway breath.
  */
 function buildChatGptActions(ctx = {}) {
   const payload = ctx.payload || {};
@@ -45,7 +45,8 @@ function buildChatGptActions(ctx = {}) {
     async chatgptContinuationStop() { return await C.chatgptContinuationStop(payload); },
     async chatgptContinuationTick() { return await C.chatgptContinuationTick(payload); },
     async chatgptContinuationAuto() { return await C.chatgptContinuationAuto(payload); },
-    async chatgptContinuationConclusion() { return await C.chatgptContinuationConclusion(payload); }
+    async chatgptContinuationConclusion() { return await C.chatgptContinuationConclusion(payload); },
+    ...HourLoop.buildHourLoopActions(payload)
   };
 }
 module.exports = { buildChatGptActions };

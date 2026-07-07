@@ -1,0 +1,4 @@
+.profile-card, .profile-panel, .profile-section { background: #fff; border: 1px solid var(--legacy-profile-line); border-radius: 1rem; box-shadow: var(--legacy-profile-shadow); color: var(--legacy-profile-text); padding: 1rem; }
+.profile-card h2, .profile-panel h2 { margin: .1rem 0 .45rem; color: var(--legacy-profile-text); letter-spacing: -.03em; }
+.profile-card p, .profile-panel p { color: var(--legacy-profile-muted); line-height: 1.6; }
+.profile-card button, .profile-card a.button, .profile-action { background: var(--legacy-profile-text); border: 1px solid var(--legacy-profile-text); border-radius: .85rem; color: #fff; min-height: 40px; padding: .55rem .85rem; font-weight: 750; text-decoration: none; }

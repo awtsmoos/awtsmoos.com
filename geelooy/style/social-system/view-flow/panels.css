@@ -1,0 +1,5 @@
+.awt-view-panel, .awt-snap-page { flex: 0 0 100%; min-width: 100%; scroll-snap-align: start; padding: clamp(.75rem, 2vw, 1rem); }
+.awt-view-card { background: #fff; border: 1px solid var(--vf-line); border-radius: 1rem; box-shadow: var(--vf-shadow); color: var(--vf-text); padding: 1rem; }
+.awt-view-card h2, .awt-view-card h3 { margin: 0 0 .45rem; letter-spacing: -.03em; color: var(--vf-text); }
+.awt-view-card p { color: var(--vf-muted); line-height: 1.6; }
+.awt-view-card :is(button, .button, a.button) { min-height: 40px; border-radius: .85rem; }

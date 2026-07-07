@@ -1,0 +1,5 @@
+@media (max-width: 760px) {
+  .home-surface-main { padding: .7rem; }
+  .home-surface-grid { grid-template-columns: 1fr; }
+  .home-command-card, .home-feed-phone, .home-discovery-card, .home-post-card { border-radius: 1rem; }
+}

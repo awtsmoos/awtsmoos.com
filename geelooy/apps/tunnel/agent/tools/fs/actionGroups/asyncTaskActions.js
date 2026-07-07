@@ -3,12 +3,18 @@ const crypto = require('crypto');
 const { spawnAsyncTask } = require('../../../lib/runtime/async-task-process.js');
 const Identity = require('../../../lib/runtime/processIdentity.js');
 
+const TASKS = new Map();
+const DEFAULT_SAFE_WAIT_MS = 750;
+const MAX_SAFE_WAIT_MS = 1500;
+
 /**
  * B"H
  * Chapter 1903: The task became a bird with its own wings.
- * Now the bird also carries its room-name and agent-name on its feathers.
+ *
+ * No agent shall chain another agent to a gateway timeout. Waiting is now a
+ * short glance; durable status, output pages, and cancel payloads carry the
+ * journey across days without asking HTTP to hold its breath.
  */
-const TASKS = new Map();
 function buildAsyncTaskActions(ctx) {
   const { config, payload } = ctx;
   return {
@@ -57,16 +63,23 @@ function cancel(payload = {}) {
 async function wait(payload = {}) {
   const taskId = id(payload), runner = TASKS.get(taskId);
   if (!runner) return { ok:false, action:'asyncTaskWait', error:'task_not_found', taskId };
-  const until = Date.now() + Math.min(Number(payload.waitTimeoutMs || 25000), 60000);
-  while (Date.now() < until && runner.task.status === 'running') await new Promise(r => setTimeout(r, Math.max(50, Number(payload.pollIntervalMs || 250))));
-  return { ...receipt(taskId, runner.task, runner.task.status), stdout:output({ taskId, stream:'stdout', maxChars:payload.maxChars || 12000 }), stderr:output({ taskId, stream:'stderr', maxChars:payload.maxChars || 12000 }) };
+  const started = Date.now();
+  const until = started + safeWaitMs(payload);
+  while (Date.now() < until && runner.task.status === 'running') await sleep(Math.max(25, Math.min(Number(payload.pollIntervalMs || 100), 250)));
+  const base = receipt(taskId, runner.task, runner.task.status);
+  return { ...base, waitedMs:Date.now() - started, done:runner.task.status !== 'running', stdout:runner.task.status === 'running' ? null : output({ taskId, stream:'stdout', maxChars:payload.maxChars || 12000 }), stderr:runner.task.status === 'running' ? null : output({ taskId, stream:'stderr', maxChars:payload.maxChars || 12000 }) };
 }
 function receipt(taskId, task, status) {
   const processIdentity = task.processIdentity || null;
-  return { ok:true, action:'asyncTaskStatus', taskId, status, pid:task.pid, processIdentity, osLinks:processIdentity ? Identity.osLinks(processIdentity) : null, startedAt:task.startedAt, finishedAt:task.finishedAt || null, exitCode:task.exitCode, signal:task.signal, statusPayload:{ action:'asyncTaskStatus', taskId }, waitPayload:{ action:'asyncTaskWait', taskId, waitTimeoutMs:25000, pollIntervalMs:500 }, stdoutPagePayload:{ action:'asyncTaskOutputPage', taskId, stream:'stdout', offsetChars:0, maxChars:12000 }, stderrPagePayload:{ action:'asyncTaskOutputPage', taskId, stream:'stderr', offsetChars:0, maxChars:12000 }, cancelPayload:{ action:'asyncTaskCancel', taskId } };
+  return { ok:true, action:'asyncTaskStatus', taskId, status, pid:task.pid, processIdentity, osLinks:processIdentity ? Identity.osLinks(processIdentity) : null, startedAt:task.startedAt, finishedAt:task.finishedAt || null, exitCode:task.exitCode, signal:task.signal, statusPayload:{ action:'asyncTaskStatus', taskId }, waitPayload:{ action:'asyncTaskWait', taskId, waitTimeoutMs:DEFAULT_SAFE_WAIT_MS, pollIntervalMs:100 }, stdoutPagePayload:{ action:'asyncTaskOutputPage', taskId, stream:'stdout', offsetChars:0, maxChars:12000 }, stderrPagePayload:{ action:'asyncTaskOutputPage', taskId, stream:'stderr', offsetChars:0, maxChars:12000 }, cancelPayload:{ action:'asyncTaskCancel', taskId } };
+}
+function safeWaitMs(payload = {}) {
+  const n = Number(payload.waitTimeoutMs || payload.timeoutMs || DEFAULT_SAFE_WAIT_MS);
+  return Math.max(25, Math.min(Number.isFinite(n) ? Math.floor(n) : DEFAULT_SAFE_WAIT_MS, MAX_SAFE_WAIT_MS));
 }
 function argsFromPayload(payload = {}) { return payload.script ? ['-e', String(payload.script)] : []; }
 function id(payload = {}) { return String(payload.taskId || payload.id || ''); }
 function truthy(v) { return v === true || v === 1 || ['true','1','yes'].includes(String(v).toLowerCase()); }
 function allowed(config = {}, payload = {}) { return config.allowCommands === true || truthy(payload.allowCommands); }
-module.exports = { TASKS, buildAsyncTaskActions, start, status, output, cancel, wait };
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+module.exports = { TASKS, buildAsyncTaskActions, start, status, output, cancel, wait, safeWaitMs };

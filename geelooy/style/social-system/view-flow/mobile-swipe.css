@@ -1,0 +1,9 @@
+.awt-mobile-swipe { touch-action: pan-y; }
+.awt-mobile-swipe .awt-view-panel { min-height: 18rem; }
+@media (max-width: 760px) {
+  .awt-view-flow { gap: .6rem; }
+  .awt-view-stage { border-radius: 1rem; }
+  .awt-view-panel, .awt-snap-page { padding: .7rem; }
+  .awt-desktop-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: .7rem; padding-bottom: .2rem; scrollbar-width: none; }
+  .awt-desktop-grid > * { flex: 0 0 min(88vw, 24rem); scroll-snap-align: center; }
+}

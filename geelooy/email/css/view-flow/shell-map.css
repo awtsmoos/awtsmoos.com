@@ -1,0 +1,4 @@
+.mail-mobile-shell, .email-app-shell, .mail-shell { container-type: inline-size; overflow-x: clip; }
+.mail-mobile-shell :is(.mail-frame,.mail-main,.mail-content), .email-app-shell :is(.mail-frame,.mail-main,.mail-content) { min-width: 0; max-width: 100%; }
+.mail-mobile-shell :is(.mail-panel,.thread-list,.mail-thread,.mail-composer), .email-app-shell :is(.mail-panel,.thread-list,.mail-thread,.mail-composer) { transition: transform .18s ease, box-shadow .18s ease; }
+.mail-mobile-shell :is(.mail-panel,.thread-list,.mail-thread,.mail-composer):focus-within { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,23,42,.14); }

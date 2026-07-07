@@ -1,0 +1,5 @@
+.alias-card, .alias-column, .alias-panel { background: var(--alias-panel); border: 1px solid var(--alias-line); border-radius: 1rem; box-shadow: var(--alias-shadow); color: var(--alias-text); padding: 1rem; }
+.alias-card h2, .alias-card h3 { margin: .1rem 0 .45rem; color: var(--alias-text); letter-spacing: -.03em; }
+.alias-card p, .alias-panel p { color: var(--alias-muted); line-height: 1.6; }
+.alias-meta { display: flex; flex-wrap: wrap; gap: .35rem; color: var(--alias-muted); font-size: .84rem; }
+.alias-pill { border: 1px solid var(--alias-line); border-radius: 999px; background: var(--alias-soft); color: #475569; padding: .3rem .6rem; font-weight: 700; }

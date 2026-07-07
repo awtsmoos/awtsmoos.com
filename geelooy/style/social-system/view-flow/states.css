@@ -1,0 +1,5 @@
+.awt-view-empty, .awt-view-loading, .awt-view-error { border: 1px dashed #cbd6e2; border-radius: 1rem; background: #f8fafc; color: var(--vf-muted); padding: 1rem; }
+.awt-view-error { border-color: #fecaca; color: #991b1b; background: #fff; }
+.awt-view-loading { position: relative; overflow: hidden; }
+.awt-view-loading::after { content: ""; display: block; height: .28rem; margin-top: .8rem; border-radius: 999px; background: #dfe6ee; transform: translateX(0); transition: transform .6s ease; }
+.awt-view-loading:hover::after { transform: translateX(35%); }

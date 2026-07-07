@@ -1,0 +1,4 @@
+.home-post-card, .home-surface-card, .home-command-card, .home-route-card { min-width: 0; max-width: 100%; transition: transform .18s ease, box-shadow .18s ease; }
+.home-post-card:focus-within, .home-surface-card:focus-within, .home-command-card:focus-within, .home-route-card:focus-within { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,23,42,.14); }
+.home-post-card :is(button,a), .home-command-card :is(button,a), .home-surface-card :is(button,a), .home-route-card :is(button,a) { min-height: 40px; }
+.home-search-vessel { display: grid; grid-template-columns: minmax(0, 1fr); gap: .55rem; }

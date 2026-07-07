@@ -1,0 +1,12 @@
+:root {
+  --vf-bg: #f6f8fb;
+  --vf-panel: #ffffff;
+  --vf-soft: #f8fafc;
+  --vf-line: #dfe6ee;
+  --vf-text: #0f172a;
+  --vf-muted: #64748b;
+  --vf-accent: #0f766e;
+  --vf-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+  --vf-shadow-lift: 0 14px 34px rgba(15, 23, 42, .12);
+  --vf-step: 100%;
+}

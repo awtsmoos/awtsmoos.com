@@ -1,0 +1,3 @@
+.home-search-vessel input, .home-surface-card input, .home-surface-card textarea { background: #fff; border: 1px solid var(--home-surface-line); border-radius: .85rem; color: var(--home-surface-text); font: inherit; padding: .75rem .85rem; }
+.home-search-vessel button, .home-profile-pill, .home-surface-action { background: var(--home-surface-text); border: 1px solid var(--home-surface-text); border-radius: .85rem; color: #fff; min-height: 40px; padding: .55rem .85rem; font-weight: 750; text-decoration: none; }
+.home-surface-secondary { background: #fff; color: var(--home-surface-text); border-color: var(--home-surface-line); }

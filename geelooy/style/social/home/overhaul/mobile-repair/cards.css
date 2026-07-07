@@ -1,0 +1,45 @@
+@media (max-width: 760px) {
+  .home-command-card,
+  .home-feed-phone,
+  .home-route-card,
+  .home-post-card,
+  .home-surface-card {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  .home-command-card { padding: 1rem !important; }
+  .home-hero-copy h1,
+  .home-command-card h1 {
+    font-size: clamp(2.15rem, 10vw, 3.4rem) !important;
+    line-height: .98 !important;
+  }
+  .home-route-grid,
+  .home-command-grid,
+  .home-dashboard-grid,
+  .home-surface-grid {
+    display: grid !important;
+    gap: .7rem !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+  .home-route-card {
+    aspect-ratio: auto !important;
+    min-height: 8.6rem !important;
+    padding: .95rem !important;
+  }
+  .home-route-card h2,
+  .home-route-card strong {
+    font-size: 1.05rem !important;
+    line-height: 1.15 !important;
+  }
+  .home-route-card p,
+  .home-route-card span {
+    font-size: .9rem !important;
+    line-height: 1.35 !important;
+    overflow-wrap: anywhere !important;
+  }
+}

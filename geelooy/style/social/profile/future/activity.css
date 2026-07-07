@@ -1,23 +1,4 @@
-/* B"H — Chapter 448: The feed flows, but it does not devour the person. */
-.profile-activity-feed,
-.profile-recommendations,
-.profile-continue-reading,
-.profile-graph-preview {
-  display: grid;
-  gap: .72rem;
-  align-content: start;
-}
-.profile-activity-feed > h2,
-.profile-recommendations > h2,
-.profile-continue-reading > h2,
-.profile-graph-preview h2 { margin: 0; font-size: 1.15rem; letter-spacing: -.03em; }
-.profile-activity-item::before {
-  content: "";
-  position: absolute;
-  inset: .75rem auto .75rem .75rem;
-  width: .24rem;
-  border-radius: 999px;
-  background: linear-gradient(#d6a84f, #8c3518);
-}
-.profile-activity-item { padding-left: 1.35rem; }
-.profile-activity-item p { color: rgba(35,23,13,.7); line-height: 1.45; }
+.profile-activity-list { display: grid; gap: .65rem; }
+.profile-activity-item { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; padding: .85rem; color: #0f172a; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
+.profile-activity-item small { color: #64748b; }
+.profile-activity-line { width: 2px; background: #dfe6ee; }

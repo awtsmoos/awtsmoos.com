@@ -1,0 +1,20 @@
+@media (max-width: 760px) {
+  body > header.awtsmoosificationalisticaticalism,
+  body > .awtsmoosificationalisticaticalism,
+  body > .sidebarMitzvah,
+  body > .menuBtn,
+  body > .aliasSelector,
+  body > .alias-selector,
+  body > .currentAlias,
+  body > .curAlias,
+  body > .alias-dropdown,
+  body > .topbar,
+  body > nav.sidebarMitzvah {
+    display: none !important;
+  }
+  .sidebarMitzvah:not(.home-command-dock),
+  .menuBtn:not(.home-menu-button),
+  .awtsmoosificationalisticaticalism {
+    display: none !important;
+  }
+}

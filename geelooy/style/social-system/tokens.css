@@ -1,16 +1,9 @@
-/* B"H social system tokens: variables only, no route-breaking globals. */
 :root {
-  color-scheme: dark;
-  --g-bg:#040712; --g-bg-2:#07101f; --g-bg-3:#10182c;
-  --g-panel:rgba(12,18,34,.9); --g-panel-2:rgba(18,27,48,.86);
-  --g-panel-3:rgba(255,255,255,.075); --g-panel-solid:#0d1628;
-  --g-ink:#f8fbff; --g-ink-2:#e8eef9; --g-muted:#aeb8cc; --g-soft:#7d889d;
-  --g-gold:#f1b84f; --g-gold-2:#ffe09a; --g-gold-3:#fff1c7;
-  --g-cyan:#66e7ff; --g-mint:#67f0bd; --g-rose:#ff6f91; --g-purple:#7a5cff;
-  --g-blue:#162748; --g-line:rgba(255,255,255,.13); --g-line-2:rgba(255,255,255,.22);
-  --g-dark-line:rgba(255,255,255,.13); --g-dark-line-2:rgba(255,255,255,.24);
-  --g-glass:rgba(8,13,27,.78); --g-glass-2:rgba(255,255,255,.065);
-  --g-radius:.85rem; --g-radius-2:1.1rem; --g-radius-3:1.45rem;
-  --g-shadow:0 1.5rem 4rem rgba(0,0,0,.38); --g-shadow-soft:0 .8rem 1.8rem rgba(0,0,0,.24);
-  --g-max:76rem; --g-touch:2.8rem;
+  --g-bg: #f6f8fb; --g-bg-soft: #f6f8fb; --g-surface: #ffffff; --g-surface-2: #f8fafc;
+  --g-border: #dfe6ee; --g-border-strong: #cbd6e2; --g-line: #dfe6ee; --g-line-2: #cbd6e2;
+  --g-text: #0f172a; --g-text-2: #334155; --g-muted: #64748b; --g-ink: #0f172a;
+  --g-accent: #0f766e; --g-ring: rgba(15,118,110,.2); --g-panel: #ffffff; --g-panel-2: #f8fafc;
+  --g-radius-1: .75rem; --g-radius-2: 1rem; --g-radius-3: 1.25rem; --g-touch: 44px;
+  --g-shadow-soft: 0 2px 10px rgba(15,23,42,.06); --g-shadow: 0 8px 26px rgba(15,23,42,.10);
+  --g-gold: #0f172a; --g-cyan: #0f172a; --g-dark-line: #dfe6ee;
 }

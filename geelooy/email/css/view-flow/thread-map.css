@@ -1,0 +1,4 @@
+.thread-list, .mail-thread-list { scroll-snap-type: y proximity; }
+.thread-list > *, .mail-thread-list > * { scroll-snap-align: start; }
+.mail-tabs, .mail-bottom-nav { scroll-snap-type: x proximity; }
+.mail-tabs :is(a,button), .mail-bottom-nav :is(a,button) { scroll-snap-align: center; }

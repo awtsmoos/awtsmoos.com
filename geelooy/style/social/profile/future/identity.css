@@ -1,15 +1,7 @@
-/* B"H
- * @file identity.css
- * Mockup profile: a compact white identity card with soft avatar and clear actions.
- */
-.profile-banner-light { min-height: 5.2rem; background: radial-gradient(circle at 22% 12%, rgba(115,231,244,.38), transparent 13rem), linear-gradient(135deg, rgba(255,255,255,.94), rgba(238,244,251,.72)); }
-.profile-identity-row { position: relative; display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: end; gap: .82rem; margin-top: -2rem; padding: 0 1rem 1rem; }
-.profile-avatar-orb { width: 4.25rem; height: 4.25rem; display: grid; place-items: center; border: .32rem solid rgba(255,255,255,.9); border-radius: 50%; color: #081827; background: linear-gradient(135deg, #f2cf68, #73e7f4); font-size: 1.65rem; font-weight: 1000; box-shadow: 0 12px 34px rgba(36,64,96,.16); }
-.profile-identity-copy { min-width: 0; display: grid; gap: .2rem; }
-.profile-kicker { margin: 0; color: #627184; font-size: .7rem; font-weight: 1000; letter-spacing: .16em; text-transform: uppercase; }
-.profile-identity-copy h1 { margin: 0; overflow-wrap: anywhere; color: #0f1d2d; font-size: clamp(1.9rem, 7vw, 3.2rem); line-height: .92; letter-spacing: -.055em; }
-.profile-identity-copy p:not(.profile-kicker) { margin: 0; max-width: 36rem; color: #627184; line-height: 1.36; }
-.profile-command-rail { display: flex; flex-wrap: wrap; gap: .42rem; margin-top: .46rem; }
-.profile-command-rail a, .profile-primary-action { min-height: 2.6rem; display: grid; place-items: center; border-radius: .92rem; padding: 0 .8rem; font-weight: 950; text-decoration: none; }
-.profile-command-rail a { border: 1px solid rgba(16,33,52,.12); color: #0f1d2d; background: rgba(15,29,45,.06); }
-.profile-primary-action { align-self: center; color: #081827; background: linear-gradient(135deg, #f2cf68, #73e7f4); }
+.profile-identity { display: flex; align-items: center; gap: .85rem; flex-wrap: wrap; padding: 1rem; }
+.profile-identity-copy { display: grid; gap: .25rem; min-width: 0; }
+.profile-identity-copy h1 { margin: 0; color: #0f172a; font-size: clamp(1.8rem, 8vw, 3.4rem); line-height: 1; letter-spacing: -.045em; }
+.profile-identity-copy p { margin: 0; color: #64748b; }
+.profile-avatar-orb { width: 4rem; height: 4rem; display: grid; place-items: center; border-radius: 50%; background: #f1f5f9; border: 1px solid #dfe6ee; color: #0f172a; font-weight: 850; }
+.profile-meta-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+.profile-meta-row span { border: 1px solid #dfe6ee; border-radius: 999px; background: #f8fafc; color: #475569; padding: .3rem .6rem; font-weight: 700; font-size: .82rem; }

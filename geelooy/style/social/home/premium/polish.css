@@ -1,13 +1,7 @@
-/* B"H premium polish import gate: five smaller vessels, one home crown. */
 @import "./atmosphere.css";
 @import "./sanctuary.css";
 @import "./feed.css";
 @import "./inspector.css";
 @import "./responsive.css";
-.awtsmoos-civilization-dashboard { isolation: isolate; text-rendering: optimizeLegibility; }
-.awtsmoos-civilization-dashboard::selection { background: rgba(245,202,112,.34); color: #fffdf5; }
-.awtsmoos-civilization-dashboard :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card) { backdrop-filter: blur(22px) saturate(1.12); }
-.awtsmoos-civilization-dashboard :is(.home-route-card,.home-state-card,.universal-object-card) { transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
-.awtsmoos-civilization-dashboard :is(.home-route-card,.universal-object-card):hover { box-shadow: 0 28px 70px rgba(0,0,0,.26), 0 0 32px rgba(0,214,255,.13); }
-.awtsmoos-civilization-dashboard :is(.home-command-input,.home-route-pill) { backdrop-filter: blur(14px); }
-@media (prefers-reduced-motion: reduce) { .awtsmoos-civilization-dashboard :is(.home-route-card,.home-state-card,.universal-object-card) { transition: none; } }
+.awtsmoos-civilization-dashboard :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card) { background: #fff; border-color: #dfe6ee; }
+.awtsmoos-civilization-dashboard :is(.home-command-input,.home-route-pill) { background: #fff; border: 1px solid #dfe6ee; color: #0f172a; }

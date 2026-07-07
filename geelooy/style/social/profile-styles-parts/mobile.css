@@ -1,0 +1,5 @@
+@media (max-width: 760px) {
+  .profile-container, .profile-page, .legacy-profile { padding: .7rem; }
+  .profile-header, .profile-hero, .profile-card { border-radius: 1rem; }
+  .profile-grid { grid-template-columns: 1fr; }
+}

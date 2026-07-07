@@ -1,0 +1,4 @@
+.profile-tabs { scroll-snap-type: x proximity; }
+.profile-tabs :is(button,a) { scroll-snap-align: center; }
+.profile-bottom-nav a { transition: transform .2s ease, background .2s ease; }
+.profile-bottom-nav a:focus-visible { transform: translateY(-2px); }

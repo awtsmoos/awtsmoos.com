@@ -1,0 +1,6 @@
+.alias-form, .alias-actions { display: grid; gap: .75rem; }
+.alias-form input, .alias-form textarea, .alias-form select { width: 100%; background: #fff; border: 1px solid var(--alias-line); border-radius: .85rem; color: var(--alias-text); font: inherit; padding: .75rem .85rem; }
+.alias-form input:focus, .alias-form textarea:focus, .alias-form select:focus { border-color: var(--alias-accent); box-shadow: 0 0 0 .22rem rgba(15,118,110,.18); outline: none; }
+.alias-actions, .alias-button-row { display: flex; flex-wrap: wrap; gap: .55rem; }
+.alias-actions button, .alias-actions a, .alias-button, .primary-action { background: var(--alias-text); border: 1px solid var(--alias-text); border-radius: .85rem; color: #fff; min-height: 40px; padding: .55rem .85rem; font-weight: 750; text-decoration: none; }
+.alias-secondary { background: #fff !important; color: var(--alias-text) !important; border-color: var(--alias-line) !important; }

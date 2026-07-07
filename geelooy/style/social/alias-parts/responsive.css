@@ -1,0 +1,5 @@
+@media (max-width: 760px) {
+  .alias-page, .alias-navigator, .alias-shell { padding: .7rem; }
+  .alias-grid { grid-template-columns: 1fr; }
+  .alias-header, .alias-hero, .alias-card { border-radius: 1rem; }
+}

@@ -1,0 +1,42 @@
+@media (max-width: 760px) {
+  .home-feed-phone { padding: 1rem !important; }
+  .home-feed-header {
+    align-items: start !important;
+    display: grid !important;
+    gap: .75rem !important;
+    grid-template-columns: 1fr auto !important;
+  }
+  .home-feed-tabs {
+    display: flex !important;
+    gap: .45rem !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    padding-bottom: .2rem !important;
+  }
+  .home-feed-tabs button {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+  }
+  .home-feed-stats,
+  .home-metrics-row,
+  .civilization-metrics {
+    display: grid !important;
+    gap: .6rem !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .home-feed-stats > *,
+  .home-metrics-row > *,
+  .civilization-metrics > * {
+    min-width: 0 !important;
+    padding: .75rem !important;
+  }
+  .home-empty-card,
+  .home-feed-empty,
+  .home-state-card { padding: 1rem !important; }
+  .home-empty-actions,
+  .home-inline-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: .55rem !important;
+  }
+}

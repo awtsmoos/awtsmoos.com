@@ -1,33 +1,12 @@
-/* B"H home foundation: tokens scoped to the live dashboard. */
 :root {
-  --awt-home-ink: var(--g-ink);
-  --awt-home-muted: var(--g-muted);
-  --awt-home-gold: var(--g-gold);
-  --awt-home-cyan: var(--g-cyan);
-  --awt-home-violet: var(--g-purple);
-  --awt-home-danger: var(--g-rose);
-  --awt-home-radius-xl: var(--g-radius-3);
-  --awt-home-radius-md: var(--g-radius-2);
-  --awt-home-glass: linear-gradient(145deg, rgba(15,25,45,.92), rgba(8,13,27,.82));
-  --awt-home-shadow: var(--g-shadow);
-  --awt-home-ring: 0 0 0 .34rem rgba(102,231,255,.2);
+  --awt-home-bg: #f6f8fb;
+  --awt-home-panel: #ffffff;
+  --awt-home-line: #dfe6ee;
+  --awt-home-text: #0f172a;
+  --awt-home-muted: #64748b;
+  --awt-home-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+  --awt-home-panel-soft: #ffffff;
+  --awt-home-panel-border: 1px solid #dfe6ee;
 }
-.geelooy-home-shell,
-.awtsmoos-civilization-dashboard {
-  color-scheme: dark;
-  --awt-panel-border: var(--g-line);
-  --awt-panel-soft: var(--g-panel-3);
-  --awt-panel-strong: rgba(255,255,255,.12);
-  --awt-ink: var(--g-ink);
-  --awt-ink-soft: var(--g-muted);
-  --awt-vellum: var(--g-ink);
-  --awt-paper: var(--g-bg);
-  --awt-gold-light: var(--g-gold-2);
-  --awt-night: var(--g-bg-3);
-  --awt-glass: var(--awt-home-glass);
-  --awt-glass-border: 1px solid var(--g-line);
-  --awt-elevation-1: var(--g-shadow-soft);
-}
-@supports (backdrop-filter: blur(1px)) {
-  .geelooy-home-shell :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card) { backdrop-filter: blur(20px) saturate(1.12); }
-}
+.geelooy-home-shell { background: var(--awt-home-bg); color: var(--awt-home-text); }
+.geelooy-home-shell :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card) { background: #fff; border: 1px solid var(--awt-home-line); box-shadow: var(--awt-home-shadow); }

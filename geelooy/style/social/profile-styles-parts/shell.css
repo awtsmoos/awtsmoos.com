@@ -1,0 +1,4 @@
+.profile-container, .profile-page, .legacy-profile { background: var(--legacy-profile-bg); color: var(--legacy-profile-text); min-height: 100dvh; padding: 1rem; }
+.profile-content, .profile-wrapper { width: min(100%, 72rem); margin: 0 auto; display: grid; gap: 1rem; }
+.profile-row { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }

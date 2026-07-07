@@ -1,0 +1,5 @@
+.geelooy-profile-shell, .profile-page { container-type: inline-size; overflow-x: clip; }
+.profile-main-grid, .profile-grid { gap: .85rem; max-width: 100%; min-width: 0; }
+.profile-stack { display: grid; gap: .85rem; min-width: 0; }
+.profile-hero-card, .profile-command-panel, .profile-section-card, .profile-card { min-width: 0; max-width: 100%; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.profile-hero-card:focus-within, .profile-command-panel:focus-within, .profile-section-card:focus-within, .profile-card:focus-within { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,23,42,.14); border-color: #cbd6e2; }

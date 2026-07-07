@@ -1,30 +1,6 @@
-/* B"H
- * Chapter 4: The center feed receives a crown of glass and gold.
- * The stream stays real; only the vessel becomes more luminous.
- */
-.home-feed-phone { background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(249,244,232,.84)); }
-.home-feed-header { padding: .4rem .35rem 1rem; grid-template-columns: 3rem 1fr auto; }
-.home-feed-title { display: grid; justify-items: center; gap: .12rem; }
-.home-feed-title strong { font-size: 1.45rem; }
-.home-feed-title span { color: #7b6548; font-size: .8rem; font-weight: 800; }
-.home-profile-pill { border: 1px solid rgba(122,86,36,.18); background: rgba(255,255,255,.64); box-shadow: 0 .7rem 1.4rem rgba(64,42,17,.08); }
-.home-menu-button,
-.home-feed-header .home-menu-button { background: linear-gradient(135deg, #101a34, #2b1750); color: #fff4c5; }
-
-.home-feed-tabs {
-  position: sticky;
-  top: .5rem;
-  z-index: 5;
-  padding: .35rem;
-  border: 1px solid rgba(97,69,31,.12);
-  border-radius: 1.2rem;
-  background: rgba(255,255,255,.74);
-  box-shadow: 0 .8rem 1.8rem rgba(73,46,18,.08);
-  backdrop-filter: blur(12px);
-}
-
-.home-feed-tabs button { border-radius: .9rem; font-weight: 950; }
-.home-feed-tabs button.active { color: #07101d; background: linear-gradient(135deg, #ffe9a6, #8cf1ff); box-shadow: 0 .5rem 1.2rem rgba(0,167,186,.22); }
-.home-composer { border: 1px solid rgba(97,69,31,.12); background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,248,225,.82)); box-shadow: 0 .9rem 1.8rem rgba(73,46,18,.08); }
-.home-composer span { background: conic-gradient(from 120deg, #ffe9a6, #78e9ff, #cfb2ff, #ffe9a6); }
-.home-post-card { border: 1px solid rgba(97,69,31,.12); background: rgba(255,255,255,.82); box-shadow: 0 1rem 2rem rgba(73,46,18,.10); }
+/* B"H — premium feed becomes a precise readable column. */
+.home-feed-phone { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
+.home-feed-header .home-menu-button { background: #fff; border: 1px solid #dfe6ee; color: #0f172a; }
+.home-feed-tabs { background: #f8fafc; border: 1px solid #dfe6ee; border-radius: 1rem; padding: .25rem; }
+.home-feed-tabs button.active { color: #0f172a; background: #fff; box-shadow: none; }
+.home-composer { border: 1px solid #dfe6ee; background: #fff; border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); }

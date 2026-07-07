@@ -1,2 +1,10 @@
-/* B"H notification filters. */
-.notifications-console{display:grid;grid-template-columns:1fr 1fr minmax(9rem,.65fr) auto;gap:.8rem;padding:1rem;align-items:end}.notifications-console label{display:grid;gap:.35rem;color:var(--g-muted);font-size:.82rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em}.notifications-console input,.notifications-console select{min-height:var(--g-touch);width:100%;border:1px solid var(--g-line);border-radius:.9rem;background:rgba(255,255,255,.07);color:var(--g-ink);padding:.7rem .8rem;font:inherit}.notifications-actions{display:flex;gap:.5rem;flex-wrap:wrap}.notifications-actions button,.notifications-more{min-height:var(--g-touch);border:1px solid var(--g-line-2);border-radius:999px;padding:.7rem 1rem;background:rgba(255,255,255,.06);color:var(--g-ink);font-weight:850;cursor:pointer}.notifications-actions button:first-child,.notifications-more{background:linear-gradient(135deg,var(--g-gold),var(--g-gold-2));color:#130c03}.notifications-summary{padding:.85rem 1rem;color:var(--g-muted)}.notifications-summary[data-mode="loading"]{color:var(--g-cyan)}.notifications-summary[data-mode="error"]{color:var(--g-rose)}
+.notifications-console { display: grid; grid-template-columns: 1fr 1fr minmax(9rem,.65fr) auto; gap: .8rem; padding: 1rem; align-items: end; }
+.notifications-console label { display: grid; gap: .35rem; color: #64748b; font-size: .82rem; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+.notifications-console input, .notifications-console select { min-height: 44px; width: 100%; border: 1px solid #dfe6ee; border-radius: .9rem; background: #fff; color: #0f172a; padding: .7rem .8rem; font: inherit; }
+.notifications-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.notifications-actions button, .notifications-more { min-height: 44px; border: 1px solid #dfe6ee; border-radius: 999px; padding: .7rem 1rem; background: #fff; color: #0f172a; font-weight: 750; cursor: pointer; }
+.notifications-actions button:first-child, .notifications-more { background: #0f172a; border-color: #0f172a; color: #fff; }
+.notifications-summary { padding: .85rem 1rem; color: #64748b; }
+.notifications-summary[data-mode="loading"] { color: #0f766e; }
+.notifications-summary[data-mode="error"] { color: #dc2626; }
+@media (max-width: 760px) { .notifications-console { grid-template-columns: 1fr; } }

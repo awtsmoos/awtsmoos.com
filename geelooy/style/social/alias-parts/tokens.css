@@ -1,0 +1,10 @@
+:root {
+  --alias-bg: #f6f8fb;
+  --alias-panel: #ffffff;
+  --alias-soft: #f8fafc;
+  --alias-line: #dfe6ee;
+  --alias-text: #0f172a;
+  --alias-muted: #64748b;
+  --alias-accent: #0f766e;
+  --alias-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+}

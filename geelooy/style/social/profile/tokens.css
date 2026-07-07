@@ -1,16 +1,12 @@
-/* B"H tokens: the Awtsmoos gives the clean profile its measured colors. */
 :root {
-  --pp-bg: var(--g-bg, #040712);
-  --pp-panel: var(--g-panel, rgba(12, 18, 34, .9));
-  --pp-card: var(--g-panel-2, rgba(18, 27, 48, .86));
-  --pp-ink: var(--g-ink, #f8fbff);
-  --pp-muted: var(--g-muted, #aeb8cc);
-  --pp-soft-muted: var(--g-soft, #7d889d);
-  --pp-gold: var(--g-gold, #f1b84f);
-  --pp-gold-dark: #9d6b24;
-  --pp-cyan: var(--g-cyan, #66e7ff);
-  --pp-line: var(--g-line, rgba(255, 255, 255, .13));
-  --pp-card-line: var(--g-line, rgba(255, 255, 255, .13));
-  --pp-radius: var(--g-radius-2, 1.1rem);
-  --pp-shadow: var(--g-shadow, 0 1.5rem 4rem rgba(0, 0, 0, .38));
+  --pp-bg: #f6f8fb;
+  --pp-panel: #ffffff;
+  --pp-soft: #f8fafc;
+  --pp-line: #dfe6ee;
+  --pp-line-strong: #cbd6e2;
+  --pp-text: #0f172a;
+  --pp-muted: #64748b;
+  --pp-accent: #0f766e;
+  --pp-ring: rgba(15, 118, 110, .2);
+  --pp-shadow: 0 2px 10px rgba(15, 23, 42, .06);
 }

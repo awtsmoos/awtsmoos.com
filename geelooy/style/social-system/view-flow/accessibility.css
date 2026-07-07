@@ -1,0 +1,5 @@
+.awt-view-flow :focus-visible { outline: 3px solid rgba(15, 118, 110, .26); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .awt-view-strip, .awt-view-loading::after { transition: none; }
+  .awt-snap-track, .awt-desktop-grid { scroll-behavior: auto; }
+}

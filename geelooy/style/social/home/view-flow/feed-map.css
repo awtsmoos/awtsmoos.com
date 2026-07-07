@@ -1,0 +1,6 @@
+.home-feed-tabs { max-width: 100%; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+.home-feed-tabs::-webkit-scrollbar { display: none; }
+.home-feed-tabs :is(button,a) { scroll-snap-align: center; }
+.home-feed-list, .home-post-list { display: grid; gap: .85rem; min-width: 0; }
+.home-feed-phone { overflow: visible; min-width: 0; }
+.home-feed-body { overflow-x: clip; min-width: 0; }

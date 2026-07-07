@@ -1,5 +1,8 @@
 // B"H
-/** Chrome launcher: headless by default, headed when the human asks to see it. */
+/** Chrome launcher: headless by default, headed when the human asks to see it.
+ * The cleanup waits for Chrome to release its profile; otherwise a successful
+ * browser proof can be buried under an ENOTEMPTY tombstone.
+ */
 import { spawn } from "node:child_process";
 import { mkdtemp, rm } from "node:fs/promises";
 import http from "node:http";
@@ -28,15 +31,26 @@ async function waitForPage(debugPort) {
   throw new Error("Chrome DevTools page target did not appear.");
 }
 
+function waitForExit(proc, timeoutMs = 2500) {
+  return new Promise(resolve => {
+    if (proc.exitCode !== null || proc.signalCode) return resolve();
+    const timer = setTimeout(resolve, timeoutMs);
+    proc.once("exit", () => { clearTimeout(timer); resolve(); });
+  });
+}
+
 async function removeProfile(dir) {
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    try { await rm(dir, { recursive: true, force: true }); return; }
+  let lastError = null;
+  for (let attempt = 0; attempt < 18; attempt += 1) {
+    try { await rm(dir, { recursive: true, force: true, maxRetries: 3, retryDelay: 120 }); return; }
     catch (error) {
-      if (error?.code !== "EBUSY" && error?.code !== "EPERM") throw error;
-      await new Promise(resolve => setTimeout(resolve, 180 + attempt * 90));
+      lastError = error;
+      if (!['EBUSY', 'EPERM', 'ENOTEMPTY'].includes(error?.code)) throw error;
+      await new Promise(resolve => setTimeout(resolve, 220 + attempt * 140));
     }
   }
-  await rm(dir, { recursive: true, force: true });
+  try { await rm(dir, { recursive: true, force: true, maxRetries: 8, retryDelay: 250 }); }
+  catch (error) { console.warn('B"H | CHROME_PROFILE_CLEANUP_DEFERRED', { dir, message:String((error || lastError)?.message || error || lastError) }); }
 }
 
 export async function launchChrome(browserPath, targetUrl, debugPort = 9223, options = {}) {
@@ -56,5 +70,16 @@ export async function launchChrome(browserPath, targetUrl, debugPort = 9223, opt
   if (options.headless !== false) args.unshift("--headless=new");
   const proc = spawn(browserPath, args, { stdio: "ignore" });
   const page = await waitForPage(debugPort);
-  return { page, debugPort, userDataDir, close: async () => { proc.kill(); await removeProfile(userDataDir); } };
+  return {
+    page,
+    debugPort,
+    userDataDir,
+    close: async () => {
+      if (proc.exitCode === null && !proc.signalCode) proc.kill();
+      await waitForExit(proc);
+      if (proc.exitCode === null && !proc.signalCode) proc.kill("SIGKILL");
+      await waitForExit(proc, 1200);
+      await removeProfile(userDataDir);
+    }
+  };
 }
