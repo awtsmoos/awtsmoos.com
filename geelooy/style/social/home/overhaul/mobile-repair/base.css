@@ -1,9 +1,12 @@
+/* B"H — mobile repair base is scoped to home only. */
 @media (max-width: 760px) {
-  html, body {
+  html:has(body.geelooy-home-document),
+  body.geelooy-home-document {
     background: #0f1115 !important;
     overflow-x: hidden !important;
     width: 100% !important;
   }
+
   .geelooy-home-shell {
     box-sizing: border-box !important;
     display: grid !important;

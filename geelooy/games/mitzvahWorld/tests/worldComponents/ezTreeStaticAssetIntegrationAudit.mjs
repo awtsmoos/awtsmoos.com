@@ -1,0 +1,23 @@
+// B"H
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const movie = readFileSync('tools/masaiOneMinuteJourneyMovie.html','utf8');
+const asset = readFileSync('geelooy/libs/awtsmoosCinematicWorld/assets/EzTreeStaticAssets.js','utf8');
+const ground = readFileSync('geelooy/libs/awtsmoosCinematicWorld/ground/GrassDirtBlendMaterial.js','utf8');
+const hero = readFileSync('../../libs/awtsmoos3d/tree/heroTree.js','utf8');
+const full = JSON.parse(readFileSync('/Users/awtsmoos/Documents/awtsmoos/docs/base/public/awtsmoos-nature/ez-tree/manifest.json','utf8'));
+const half = JSON.parse(readFileSync('/Users/awtsmoos/Documents/awtsmoos/docs/base/public/awtsmoos-nature/ez-tree-half/manifest.json','utf8'));
+for (const token of ['EZ_TREE_BASE_URL','EZ_TREE_HALF_BASE_URL','barkTextureSet','leafTexture','groundTextures','EZ_TREE_MODELS']) assert(asset.includes(token), `asset module missing ${token}`);
+for (const token of ['createGrassDirtBlendMaterial','createEzTreeGrassModelField','barkMapUrl','leafMapUrl','EZ_TREE_BASE_URL','EZ_TREE_HALF_BASE_URL']) assert(movie.includes(token), `movie missing ${token}`);
+for (const id of ['Bark001','Bark003','Bark006','Bark008','Bark012','Bark015']) assert(movie.includes(id), `movie missing bark ${id}`);
+for (const id of ['ash','aspen','oak','pine']) assert(movie.includes(id), `movie missing leaf ${id}`);
+assert(ground.includes('map: grass'), 'ground material must set map so vMapUv exists');
+assert(ground.includes('uEzGrassMap') && ground.includes('uEzDirtMap'), 'ground shader must blend hosted maps');
+assert(hero.includes('barkMapUrl') && hero.includes('leafMapUrl') && hero.includes('staticTextureUrls'), 'hero tree must accept static texture URLs');
+assert.equal(full.counts.barkColorMaps, 11);
+assert.equal(full.counts.leafMaps, 4);
+assert.equal(full.counts.models, 7);
+assert.equal(full.counts.presets, 16);
+assert.equal(half.counts.resizedImages, 72);
+assert.equal(half.counts.failed, 0);
+console.log(JSON.stringify({ok:true,test:'ezTreeStaticAssetIntegrationAudit',full:full.counts,half:half.counts},null,2));

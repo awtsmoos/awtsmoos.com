@@ -15,12 +15,11 @@
       "expectedBytes": 36685152,
       "expectedEtag": "f6794d77f686167b29b57cfc533c2b8f43d40b097d91eedb561577211e4179e4",
       "embeddingDimensions": 384,
-      "runnerPreference": [
-        "llama-embedding",
-        "llama-cli --embedding",
-        "llama-cpp-python"
-      ],
-      "notes": "English retrieval/sentence-similarity GGUF sidecar model for AwtsmoosDB AI comment search. Downloadable, but embeddings require a local GGUF runner."
+      "pooling": "cls",
+      "maxTokens": 128,
+      "runnerPreference": ["llama-embedding", "awtsmoosdb-direct-node-gguf-token-pooling", "awtsmoosdb-js-fallback"],
+      "defaultRuntime": "llama-embedding",
+      "notes": "Default runtime uses llama.cpp llama-embedding with raw output. Fallback exists only when noFallback is not requested."
     }
   }
 }

@@ -1,6 +1,7 @@
+/* B"H — phone viewport rules belong only to the home document. */
 @media (max-width: 760px) {
-  html,
-  body {
+  html:has(body.geelooy-home-document),
+  body.geelooy-home-document {
     max-width: 100%;
     overflow-x: hidden;
   }

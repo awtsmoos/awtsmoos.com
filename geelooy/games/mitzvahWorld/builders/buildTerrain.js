@@ -1,78 +1,21 @@
-/**
- * @fileoverview
- * ════════════════════════════════════════════════════════════════════════
- * B"H
- *
- *   THE GROUND OF ALL GROUNDS — buildTerrain.js
- *   ─────────────────────────────────────────────
- *   "In the beginning G-d created the heavens and THE EARTH."
- *   Without the ground, where would the Chassid stand?
- *
- *   TIKKUN: Changed `from 'three'` to the absolute path used by all
- *   other worker-context files. Bare specifiers ('three') are resolved
- *   by Vite's transform pipeline — but not inside blob: URL or Worker
- *   contexts that fall outside that pipeline.
- *
- * ════════════════════════════════════════════════════════════════════════
- *
- * @module buildTerrain
- */
-
+// B"H
 import * as THREE from '/games/scripts/build/three.module.js';
-
-/**
- * @function buildTerrain
- * @description
- *   Conjures the great flat earth from void and color.
- *   A PlaneGeometry rotated flat, a static physics box so nobody falls through.
- *
- * @param   {THREE.Scene}   scene   - The living scene
- * @param   {Object|null}   physics - Physics world
- * @param   {import('../nivrayimDefs.js').NefeshDef} def - Soul blueprint
- * @returns {Promise<THREE.Mesh[]>}
- */
+import TerrainMaterial from './terrain/TerrainMaterial.js';
+import { groundTextures } from '../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js';
 export async function buildTerrain(scene, physics, def) {
-  const { width = 200, depth = 200, color = 0x7ec850, receiveShadow = true } = def.props || {};
+  const { width = 200, depth = 200, color = 0x7ec850, receiveShadow = true, textureName = 'dirt', textureUrl = null } = def.props || {};
   const [px, py, pz] = def.position || [0, 0, 0];
-
-  const geo = new THREE.PlaneGeometry(width, depth, 1, 1);
-  geo.rotateX(-Math.PI / 2);
-
-  const mat  = new THREE.MeshLambertMaterial({ color });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(px, py, pz);
-  mesh.receiveShadow = receiveShadow;
-  mesh.name = def.id;
-
-  if (physics && def.props?.physics) {
-    const [hx, hy, hz] = def.props.physics.halfExtents || [width / 2, 0.5, depth / 2];
-    _addStaticBox(physics, px, py - hy, pz, hx, hy, hz);
-  }
-
+  const geo = new THREE.PlaneGeometry(width, depth, 1, 1); geo.rotateX(-Math.PI / 2);
+  const maps = groundTextures(true);
+  const mat = TerrainMaterial.weave(color, { textureUrl: textureUrl || maps[textureName] || maps.dirt, repeatX: Math.max(6, width / 18), repeatY: Math.max(6, depth / 18) });
+  const mesh = new THREE.Mesh(geo, mat); mesh.position.set(px, py, pz); mesh.receiveShadow = receiveShadow; mesh.name = def.id;
+  mesh.userData.groundAware = true; mesh.userData.actualTexture = mat.userData.awtsmoosActualNamedTexture;
+  if (physics && def.props?.physics) { const [hx, hy, hz] = def.props.physics.halfExtents || [width / 2, 0.5, depth / 2]; addStaticBox(physics, px, py - hy, pz, hx, hy, hz); }
   return [mesh];
 }
-
-/**
- * @function _addStaticBox
- * @description Duck-typed static box registration for Rapier or custom APIs.
- * @param {Object} physics
- * @param {number} x @param {number} y @param {number} z
- * @param {number} hx @param {number} hy @param {number} hz
- * @returns {void}
- */
-function _addStaticBox(physics, x, y, z, hx, hy, hz) {
+function addStaticBox(physics, x, y, z, hx, hy, hz) {
   try {
-    if (typeof physics.addStaticBox === 'function') {
-      physics.addStaticBox({ x, y, z }, { hx, hy, hz });
-    } else if (physics.world && typeof physics.world.createRigidBody === 'function') {
-      const RAPIER    = physics.RAPIER;
-      const bodyDesc  = RAPIER.RigidBodyDesc.fixed().setTranslation(x, y, z);
-      const body      = physics.world.createRigidBody(bodyDesc);
-      physics.world.createCollider(RAPIER.ColliderDesc.cuboid(hx, hy, hz), body);
-    } else {
-      console.warn(`B"H - buildTerrain: physics API not recognized, skipping collider.`);
-    }
-  } catch (e) {
-    console.error(`B"H - buildTerrain: physics error →`, e);
-  }
+    if (typeof physics.addStaticBox === 'function') return physics.addStaticBox({ x, y, z }, { hx, hy, hz });
+    if (physics.world?.createRigidBody) { const R = physics.RAPIER; const body = physics.world.createRigidBody(R.RigidBodyDesc.fixed().setTranslation(x, y, z)); physics.world.createCollider(R.ColliderDesc.cuboid(hx, hy, hz), body); }
+  } catch (e) { console.error('B"H terrain collider error', e); }
 }

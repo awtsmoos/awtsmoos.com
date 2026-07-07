@@ -1,6 +1,7 @@
-html,
-body,
-body.geelooy-home-document {
+/* B"H — final document authority applies only to the home body. */
+html:has(body.geelooy-home-document),
+body.geelooy-home-document,
+body.geelooy-home-document.geelooy-home-document {
   background: #070b12 !important;
   color: #f8fafc !important;
   color-scheme: dark !important;

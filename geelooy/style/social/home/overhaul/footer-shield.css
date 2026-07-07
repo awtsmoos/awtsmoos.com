@@ -1,12 +1,21 @@
-/* B"H
- * @file footer-shield.css
- * Footer is demoted on mobile so the application stays primary.
- */
+/* B"H — footer shield is scoped to the home document. */
 @media (max-width: 760px) {
-  body { padding-bottom: max(6.2rem, env(safe-area-inset-bottom)); }
-  footer, .footer { margin-bottom: 5.6rem !important; opacity: .82; }
-  footer a, .footer a { font-size: .9rem; }
+  body.geelooy-home-document {
+    padding-bottom: max(6.2rem, env(safe-area-inset-bottom));
+  }
+
+  body.geelooy-home-document :is(footer, .footer) {
+    margin-bottom: 5.6rem !important;
+    opacity: .82;
+  }
+
+  body.geelooy-home-document :is(footer a, .footer a) {
+    font-size: .9rem;
+  }
 }
+
 @media (max-width: 430px) {
-  footer, .footer { margin-bottom: 5.9rem !important; }
+  body.geelooy-home-document :is(footer, .footer) {
+    margin-bottom: 5.9rem !important;
+  }
 }

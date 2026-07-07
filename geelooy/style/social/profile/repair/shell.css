@@ -1,5 +1,6 @@
-html,
-body {
+/* B"H — profile repair shell is scoped to profile vessels only. */
+html:has(.geelooy-profile-shell),
+body:has(.geelooy-profile-shell) {
   background: #020617 !important;
   color: var(--pr-text) !important;
   overflow-x: hidden;

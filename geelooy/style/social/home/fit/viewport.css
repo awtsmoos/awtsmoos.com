@@ -1,5 +1,6 @@
-html,
-body,
+/* B"H — viewport fit is sealed to the home document. */
+html:has(body.geelooy-home-document),
+body.geelooy-home-document,
 .geelooy-home-document {
   max-width: 100%;
   min-width: 0 !important;

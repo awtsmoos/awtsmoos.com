@@ -1,1 +1,8 @@
-header.awtsmoosificationalisticaticalism { height: 52px; min-height: 52px; background: #fff; border-bottom: 1px solid #dfe6ee; color: #0f172a; }
+/* B"H — old header compacting only applies while rendering the home page. */
+body.geelooy-home-document > header.awtsmoosificationalisticaticalism {
+  height: 52px;
+  min-height: 52px;
+  background: #fff;
+  border-bottom: 1px solid #dfe6ee;
+  color: #0f172a;
+}

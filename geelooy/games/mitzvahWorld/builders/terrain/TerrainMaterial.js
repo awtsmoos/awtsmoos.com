@@ -1,28 +1,14 @@
-
-/**
- * @file TerrainMaterial.js
- * @description
- * 🌿 CHAPTER 1: THE WEAVING OF THE FIELD 🌿
- */
-
-import MaterialManager from '../../../../chayim/math/MaterialManager.js';
-import { ARCHITECTURAL_SHADERS } from '../../../../utils/3d/procedural/Shaders/SederHishtalshelusShaders.js';
-
+// B"H
+import * as THREE from '/games/scripts/build/three.module.js';
+import { groundTextures } from '../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js';
+import { progressiveMaterialMap } from '../geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js';
 export default class TerrainMaterial {
-    static weave(color) {
-        console.log("B\"H - 🌿 [TerrainMaterial] Extracting Grass Logic...");
-        const grass = ARCHITECTURAL_SHADERS.AwtsmoosGrassMaterial;
-        
-        return MaterialManager.create('Standard', {
-            color: color,
-            roughness: 1.0,
-            metalness: 0.0
-        }, {
-            vertex: { head: '', main: '' },
-            fragment: {
-                head: grass.header,
-                color: grass.fragment.replace(/vWorldPosition/g, 'vAwtsWorldPos')
-            }
-        });
-    }
+  static weave(color = 0x7ec850, opts = {}) {
+    const maps = groundTextures(true);
+    const mat = new THREE.MeshLambertMaterial({ color });
+    progressiveMaterialMap(THREE, mat, opts.textureUrl || maps.dirt, { repeat: { x: opts.repeatX || 18, y: opts.repeatY || 18 } });
+    mat.userData.awtsmoosActualNamedTexture = opts.textureUrl || maps.dirt;
+    mat.userData.loadsFastThenUpgrades = true;
+    return mat;
+  }
 }

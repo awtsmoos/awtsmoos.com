@@ -1,0 +1,51 @@
+<!doctype html><meta charset="utf-8"><title>B"H Storyboard Chossid GLB Movie</title>
+<style>html,body{margin:0;overflow:hidden;background:#8ec9f5}#hud{position:fixed;left:12px;top:12px;color:white;background:#07131dcc;border:1px solid #ffdb6e;padding:10px;border-radius:10px;font:13px/1.35 monospace;white-space:pre;z-index:2}</style><div id="hud">B"H loading real chossid.glb twice...</div>
+<script type="module">
+import * as THREE from "/games/scripts/build/three.module.js";
+import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js";
+const hud=document.getElementById('hud');
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x90cef4);scene.fog=new THREE.Fog(0x90cef4,20,70);
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(1280,720);renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.appendChild(renderer.domElement);
+const camera=new THREE.PerspectiveCamera(42,1280/720,.1,120);camera.position.set(0,2.1,8);
+scene.add(new THREE.HemisphereLight(0xffffff,0x315b32,2.7));const sun=new THREE.DirectionalLight(0xffffff,2.4);sun.position.set(6,9,5);scene.add(sun);
+const groundMat=new THREE.MeshStandardMaterial({color:0x36b765,roughness:.88});const ground=new THREE.Mesh(new THREE.PlaneGeometry(120,80,80,50),groundMat);ground.rotation.x=-Math.PI/2;scene.add(ground);
+const path=new THREE.Mesh(new THREE.PlaneGeometry(5,55),new THREE.MeshStandardMaterial({color:0xbf8752,roughness:.8}));path.rotation.x=-Math.PI/2;path.position.z=-6;scene.add(path);
+function makeHouse(x,z,c){const g=new THREE.Group();const body=new THREE.Mesh(new THREE.BoxGeometry(3,2.1,2.6),new THREE.MeshStandardMaterial({color:c,roughness:.7}));body.position.y=1.05;const roof=new THREE.Mesh(new THREE.ConeGeometry(2.4,1.2,4),new THREE.MeshStandardMaterial({color:0x73311d,roughness:.7}));roof.rotation.y=Math.PI/4;roof.position.y=2.7;g.add(body,roof);g.position.set(x,0,z);scene.add(g)}
+makeHouse(-6,-4,0xb96538);makeHouse(6,-8,0xc7773d);makeHouse(-8,-15,0xa85c35);makeHouse(8,-20,0xc46a32);
+for(let i=0;i<42;i++){const h=.75+Math.random()*.9;const tree=new THREE.Mesh(new THREE.ConeGeometry(.32,h,6),new THREE.MeshStandardMaterial({color:i%3?0x0d7a3a:0x16924a,roughness:.8}));tree.position.set(-16+Math.random()*32,h/2,-10-Math.random()*36);scene.add(tree)}
+function block(w,h,d,c){return new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color:c,roughness:.45,metalness:.05}))}
+function sign(text,x,z){const group=new THREE.Group();const post=block(.12,1.2,.12,0x7a522f);post.position.y=.6;const face=block(1.8,.55,.12,0xffd568);face.position.y=1.3;group.add(post,face);group.position.set(x,0,z);group.userData.label=text;scene.add(group);return group}
+const signA=sign('MITZVAH',-2.6,-9);const signB=sign('RUN',2.6,-24);const crystal=new THREE.Mesh(new THREE.IcosahedronGeometry(.55,1),new THREE.MeshStandardMaterial({color:0x8affff,roughness:.25,metalness:.2}));crystal.position.set(0,2.2,-18);scene.add(crystal);
+const loader=new GLTFLoader();const clock=new THREE.Clock();const chars=[];const report={ready:false,states:[],clips:[],errors:[],poses:[]};
+function normalize(root){const b=new THREE.Box3().setFromObject(root),s=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());root.position.sub(c);root.position.y+=s.y/2;root.scale.multiplyScalar(1.95/Math.max(.001,s.y));root.updateMatrixWorld(true)}
+function bones(root){const out=[];root.traverse(n=>{if(n.isBone)out.push(n)});return out}
+function findBone(root,re){return bones(root).find(b=>re.test(b.name))}
+function q(x,y,z){const r=new THREE.Quaternion().setFromEuler(new THREE.Euler(x,y,z));return [r.x,r.y,r.z,r.w]}
+function genTalk(root){const l=findBone(root,/LeftArm$/),r=findBone(root,/RightArm$/),h=findBone(root,/Head$/);const tracks=[],t=[0,.35,.7,1.05,1.4];if(l)tracks.push(new THREE.QuaternionKeyframeTrack(`${l.name}.quaternion`,t,[...q(.2,0,.25),...q(-.35,0,.72),...q(.12,0,.25),...q(-.28,0,.62),...q(.2,0,.25)]));if(r)tracks.push(new THREE.QuaternionKeyframeTrack(`${r.name}.quaternion`,t,[...q(.2,0,-.25),...q(-.35,0,-.72),...q(.12,0,-.25),...q(-.28,0,-.62),...q(.2,0,-.25)]));if(h)tracks.push(new THREE.QuaternionKeyframeTrack(`${h.name}.quaternion`,t,[...q(0,.18,0),...q(.08,-.12,0),...q(0,.16,0),...q(.08,-.1,0),...q(0,.18,0)]));return tracks.length?new THREE.AnimationClip('generated_gentle_talk_real_bones',1.4,tracks):null}
+function makeCharacter(gltf,name,pos,rot){const root=gltf.scene;normalize(root);root.position.copy(pos);root.rotation.y=rot;scene.add(root);const mixer=new THREE.AnimationMixer(root);const clips=[...gltf.animations];const talk=genTalk(root);if(talk)clips.push(talk);const ch={name,root,mixer,clips,active:null,state:null,lastState:null,targetPos:pos.clone(),speed:0,look:null};chars.push(ch);report.clips=[...new Set([...report.clips,...clips.map(c=>c.name)])];return ch}
+function clip(ch,words){for(const w of words){const lw=w.toLowerCase();const exact=ch.clips.find(c=>c.name.toLowerCase()===lw);if(exact)return exact;const part=ch.clips.find(c=>c.name.toLowerCase().includes(lw));if(part)return part}return ch.clips[0]}
+function play(ch,state,words){if(ch.state===state&&ch.active)return;const c=clip(ch,words);if(!c)return;if(ch.active)ch.active.fadeOut(.28);const a=ch.mixer.clipAction(c);a.reset().setLoop(THREE.LoopRepeat).fadeIn(.28).play();ch.active=a;ch.lastState=ch.state;ch.state=state;report.states.push({at:performance.now(),who:ch.name,state,clip:c.name})}
+function lookAtFlat(ch,target){const p=target.clone();p.y=ch.root.position.y;const dx=p.x-ch.root.position.x,dz=p.z-ch.root.position.z;if(Math.abs(dx)+Math.abs(dz)>.001){const desired=Math.atan2(dx,dz);let diff=((desired-ch.root.rotation.y+Math.PI)%(Math.PI*2))-Math.PI;ch.root.rotation.y+=diff*.08}}
+function moveToward(ch,target,speed,dt){const v=target.clone().sub(ch.root.position);v.y=0;const d=v.length();if(d>.05){v.normalize();ch.root.position.addScaledVector(v,Math.min(d,speed*dt));lookAtFlat(ch,target)}}
+function shot(t){if(t<4)return {name:'establishing walk',pos:new THREE.Vector3(-4.2,1.8,3.5-t*.7),look:new THREE.Vector3(-1,.9,-5-t*.6),fov:44};
+if(t<8)return {name:'side tracking walk',pos:new THREE.Vector3(-5,1.45,-2-(t-4)*1.1),look:new THREE.Vector3(-.8,1,-5-(t-4)*1.1),fov:38};
+if(t<12)return {name:'over shoulder to friend',pos:new THREE.Vector3(-2.6,1.55,-7.8),look:new THREE.Vector3(1.7,1,-9.8),fov:34};
+if(t<17)return {name:'conversation two shot',pos:new THREE.Vector3(0,1.55,-6.8),look:new THREE.Vector3(0,1.05,-10.2),fov:35};
+if(t<21)return {name:'close friend reply',pos:new THREE.Vector3(2.7,1.55,-8.8),look:new THREE.Vector3(-.8,1.1,-9.2),fov:30};
+if(t<25)return {name:'turn away rear walk',pos:new THREE.Vector3(0,1.75,-5.2),look:new THREE.Vector3(0,1,-14),fov:39};
+if(t<30)return {name:'front walk backaway',pos:new THREE.Vector3(.3,1.5,-17.5),look:new THREE.Vector3(.2,1,-13),fov:35};
+if(t<36)return {name:'side run tracking',pos:new THREE.Vector3(-5.5,1.45,-21-(t-30)*1.7),look:new THREE.Vector3(0,1,-22-(t-30)*1.7),fov:38};
+return {name:'hero ending',pos:new THREE.Vector3(0,3.6,-34),look:new THREE.Vector3(0,1,-30),fov:46}}
+function lerpCamera(s,dt){camera.position.lerp(s.pos,Math.min(1,dt*2.2));const q=new THREE.Quaternion();const m=new THREE.Matrix4().lookAt(camera.position,s.look,new THREE.Vector3(0,1,0));q.setFromRotationMatrix(m);camera.quaternion.slerp(q,Math.min(1,dt*2.5));camera.fov+=((s.fov||42)-camera.fov)*Math.min(1,dt*2);camera.updateProjectionMatrix()}
+function assignStory(t,dt){const a=chars[0],b=chars[1];if(!a||!b)return;const meetA=new THREE.Vector3(-.9,0,-9.7),meetB=new THREE.Vector3(1.2,0,-10.1);b.root.position.lerp(meetB,.04);lookAtFlat(b,a.root.position);if(t<8){play(a,'walkA',['walk_Armature','walk']);moveToward(a,meetA,1.05,dt);play(b,'idle',['stand_Armature','neutral_Armature','stand'])}
+else if(t<12){play(a,'slowWalk',['walk_Armature','walk']);moveToward(a,meetA,.45,dt);play(b,'idle',['stand_Armature','neutral_Armature','stand']);lookAtFlat(a,b.root.position)}
+else if(t<21){play(a,'gentleTalk',['generated_gentle_talk_real_bones','hands-out']);play(b,'gentleListen',['hands-out','neutral_Armature','stand_Armature']);lookAtFlat(a,b.root.position);lookAtFlat(b,a.root.position)}
+else if(t<25){play(a,'turnWalk',['walk_Armature','walk']);moveToward(a,new THREE.Vector3(.2,0,-15),.8,dt);play(b,'goodbye',['hands-out','neutral_Armature'])}
+else if(t<30){play(a,'walkAway',['walk_Armature','walk']);moveToward(a,new THREE.Vector3(.1,0,-22),1.05,dt);play(b,'idle',['stand_Armature','neutral_Armature'])}
+else if(t<37){play(a,'run',['run_Armature','run']);moveToward(a,new THREE.Vector3(.5,0,-34),2.25,dt);play(b,'idle',['stand_Armature','neutral_Armature'])}
+else{play(a,'finishIdle',['stand_Armature','neutral_Armature']);lookAtFlat(a,crystal.position);play(b,'idle',['stand_Armature','neutral_Armature'])}}
+async function loadOne(){return await new Promise((res,rej)=>loader.load('https://models-3122d.web.app/chossid.glb',res,undefined,rej))}
+Promise.all([loadOne(),loadOne()]).then(([g1,g2])=>{makeCharacter(g1,'walker',new THREE.Vector3(-4,0,1),Math.PI);makeCharacter(g2,'friend',new THREE.Vector3(1.2,0,-10.1),0);report.ready=true;window.__STORYBOARD_CHOSSID_REPORT__=report}).catch(e=>{report.errors.push(String(e?.message||e));window.__STORYBOARD_CHOSSID_ERROR__=report.errors.at(-1)});
+function animate(){requestAnimationFrame(animate);const dt=Math.min(.05,clock.getDelta()),t=performance.now()/1000;if(report.ready){assignStory(t,dt);for(const ch of chars){ch.mixer.update(dt);ch.root.updateMatrixWorld(true)}const s=shot(t);lerpCamera(s,dt);crystal.rotation.y+=dt*.7;crystal.position.y=2.2+Math.sin(t*1.4)*.25;signA.rotation.y=Math.sin(t*.6)*.1;signB.rotation.y=Math.cos(t*.7)*.1;hud.textContent=`B"H storyboard real chossid.glb\nshot: ${s.name}\nwalker: ${chars[0]?.state} ${chars[0]?.active?._clip?.name||''}\nfriend: ${chars[1]?.state} ${chars[1]?.active?._clip?.name||''}\nno overlay, no orbit, crossfaded state machine`;window.__STORYBOARD_CHOSSID_REPORT__={...report,time:t,shot:s.name,walker:chars[0]?.state,friend:chars[1]?.state,walkerClip:chars[0]?.active?._clip?.name,friendClip:chars[1]?.active?._clip?.name,camera:camera.position.toArray()}}
+renderer.render(scene,camera)}animate();
+</script>

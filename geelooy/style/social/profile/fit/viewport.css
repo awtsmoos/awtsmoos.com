@@ -1,5 +1,6 @@
-html,
-body {
+/* B"H — profile viewport fit never touches unrelated pages. */
+html:has(.geelooy-profile-shell),
+body:has(.geelooy-profile-shell) {
   max-width: 100%;
   overflow-x: hidden !important;
 }
