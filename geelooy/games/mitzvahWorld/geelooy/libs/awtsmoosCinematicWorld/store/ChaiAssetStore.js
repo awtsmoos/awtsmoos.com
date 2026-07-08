@@ -15,4 +15,16 @@ export async function preloadChaiAssets({ full = true, limit = 10, progress = tr
   await Promise.allSettled(urls.map(async (url, i) => { const res = await fetch(url, { cache: "force-cache" }); if (!res.ok) throw new Error(`${res.status} ${url}`); ok++; if (progress) update({ stage: "chai-preload", percent: (ok / urls.length) * 100, type: "Chai store" }); return url; }));
   return assetStoreSnapshot({ preloaded: ok, requested: urls.length, full });
 }
-if (typeof window !== "undefined") { window.__AWTSMOOS_CHAI_ASSET_STORE__ = { assetStoreSnapshot, latestAssetStore, storeMovieProof, latestMovieProof, preloadChaiAssets }; preloadChaiAssets({ full: true, limit: 12 }).catch(() => assetStoreSnapshot({ preloaded: 0, failedSoft: true })); }
+function deferChaiPreload() {
+  const run = () => preloadChaiAssets({ full: false, limit: 6, progress: false }).catch(() => assetStoreSnapshot({ preloaded: 0, failedSoft: true, deferred: true }));
+  const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1200));
+  window.addEventListener("awtsmoos-game-ready", () => idle(run, { timeout: 5000 }), { once: true });
+  setTimeout(() => {
+    if (window.__AWTSMOOS_BOOT_LOADED__ || window.__AWTSMOOS_LOADING_FINAL_READY__?.playable) idle(run, { timeout: 5000 });
+  }, 5200);
+}
+if (typeof window !== "undefined") {
+  window.__AWTSMOOS_CHAI_ASSET_STORE__ = { assetStoreSnapshot, latestAssetStore, storeMovieProof, latestMovieProof, preloadChaiAssets, autoPreloadDeferred:true };
+  assetStoreSnapshot({ preloaded: 0, deferred: true, reason: "play-first-then-upgrade-textures" });
+  deferChaiPreload();
+}
