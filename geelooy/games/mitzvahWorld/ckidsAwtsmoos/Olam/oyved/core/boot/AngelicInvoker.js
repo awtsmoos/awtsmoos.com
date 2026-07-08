@@ -4,7 +4,7 @@
  * @description Loads core worker vessels, validates them, and announces readiness.
  */
 import { ErrorHandler } from "./ErrorHandler.js";
-import { importAngelicVesselsInOrder } from "./AngelicVesselImports.js?v=case-correct-olam-import-20260706-bh3";
+import { importAngelicVesselsInOrder } from "./AngelicVesselImports.js?v=repair-ground-material-20260708-bh2";
 import { makeSystemCore } from "./SystemCoreValidator.js";
 import { postWorkerProtocol, postWorkerProgress } from "../protocol/WorkerProtocol.js";
 

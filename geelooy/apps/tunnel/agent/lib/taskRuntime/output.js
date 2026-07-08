@@ -1,0 +1,6 @@
+// B"H
+const Store = require('./store.js');
+const C = require('./constants.js');
+function append(base, id, stream, text) { if (!['stdout','stderr'].includes(stream)) throw new Error('invalid_stream'); let task; Store.patch(base, state => { task = state.tasks[id]; if (!task) throw new Error(`missing_task:${id}`); task.output ||= { stdout:'', stderr:'', pages:{} }; task.output[stream] = `${task.output[stream] || ''}${String(text || '')}`; task.updatedAt = new Date().toISOString(); return state; }); return task; }
+function page(base, id, stream = 'stdout', offset = 0, max = C.OUTPUT_PAGE_CHARS) { const task = Store.read(base).tasks[id]; if (!task) return { ok:false, error:'missing_task', taskId:id }; const text = String(task.output?.[stream] || ''); const start = Math.max(0, Number(offset || 0)); const size = Math.max(1, Math.min(Number(max || C.OUTPUT_PAGE_CHARS), C.OUTPUT_PAGE_CHARS)); const content = text.slice(start, start + size); return { ok:true, action:'taskOutputPage', taskId:id, stream, offsetChars:start, returnedChars:content.length, totalChars:text.length, hasNextPage:start + content.length < text.length, nextOffsetChars:start + content.length, content }; }
+module.exports = { append, page };

@@ -1,17 +1,17 @@
 // B"H
-/** @module NatureExports @description Nature exports: terrain, sky, grass, LOD forest, procedural trees, fences, gates, doors, and collider vessels. */
+/** Nature exports: terrain, sky, Chai trees, Chai grass, houses, doors, gates, and colliders. */
 export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?v=visible-ground-authority-20260701-bh1";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?v=soft-country-sky-fog-20260603-bh237";
-export { default as Forest } from "../dvarim/nature/forest.js?v=exclusive-procedural-core-tree-20260614-bh3";
-export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?v=shader-ground-20260604-bh437";
+export { default as Forest } from "../dvarim/nature/forest.js?v=chai-forest-tree-field-20260707-bh1";
+export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?v=chai-ground-material-20260707-bh1";
 export { default as VillageSkyLayers } from "../dvarim/nature/VillageSkyLayers.js?v=shader-sky-20260604-bh437";
 export { default as VillageLightingRig } from "../dvarim/nature/VillageLightingRig.js?v=golden-lambert-rig-20260604-bh432";
 export { default as VillageBackdrop } from "../dvarim/nature/VillageBackdrop.js?v=worker-safe-backdrop-20260604-bh436";
 export { default as VillageCottage } from "../dvarim/nature/VillageCottage.js?v=shader-cottage-20260604-bh437";
-export { default as VillageHeroTree } from "../dvarim/nature/VillageHeroTree.js?v=exclusive-procedural-core-tree-20260614-bh3";
-export { default as VillageForestField } from "../dvarim/nature/VillageForestField.js?v=village-lod-forest-20260706-bh1";
+export { default as VillageHeroTree } from "../dvarim/nature/VillageHeroTree.js?v=chai-forest-bark-leaf-tree-20260707-bh1";
+export { default as VillageForestField } from "../dvarim/nature/VillageForestField.js?v=chai-instanced-forest-20260707-bh1";
 export { default as VillageStonePath } from "../dvarim/nature/VillageStonePath.js?v=shader-stone-path-20260604-bh437";
-export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?v=village-polish-20260612-bh810";
+export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?v=chai-instanced-grass-20260707-bh1";
 export { default as VillageRealismProp } from "../dvarim/nature/VillageRealismProp.js?v=realism-prop-index-loop-safe-20260603-bh312";
 export { default as VillagePictureProp } from "../dvarim/nature/VillagePictureProp.js?v=ram-shader-picture-prop-20260612-bh1";
 export { default as VillageHouseDoor } from "../dvarim/nature/VillageHouseDoor.js?v=parcel-lockable-door-20260615-bh1";

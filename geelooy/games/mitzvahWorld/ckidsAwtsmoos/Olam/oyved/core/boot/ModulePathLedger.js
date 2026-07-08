@@ -4,13 +4,13 @@
  * @description Declares the worker boot modules before URL resolution.
  */
 
-export const MODULE_BOOT_VERSION = "case-correct-olam-import-20260706-bh3";
+export const MODULE_BOOT_VERSION = "repair-ground-material-20260708-bh2";
 
 export const MODULE_PATH_LEDGER = Object.freeze({
   olamCore: Object.freeze({
     key: "olamCore",
     label: "Olam core direct vessel",
-    relativePath: `../../../core/OlamVessel.js?compact=true&v=${MODULE_BOOT_VERSION}`,
+    relativePath: `../../../core/OlamVessel.js?v=${MODULE_BOOT_VERSION}`,
     expectedEnd: "/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js",
     requiredExport: "default"
   }),

@@ -6,7 +6,7 @@
 import {
   importBootModule,
   importInterpreterModule
-} from "./WorkerBootImports.js?v=case-correct-olam-import-20260706-bh3";
+} from "./WorkerBootImports.js?v=repair-ground-material-20260708-bh2";
 
 function requireNamedExport(module, exportName, label) {
   if (module && module[exportName]) return module[exportName];

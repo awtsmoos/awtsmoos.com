@@ -4,7 +4,7 @@
  * @description Worker shell that imports the current case-safe entrypoint.
  */
 const BH = `B"H`;
-const ENTRY_SEAL = "case-correct-olam-import-20260706-bh3";
+const ENTRY_SEAL = "repair-ground-material-20260708-bh2";
 
 function shellPost(type, text) {
   try {

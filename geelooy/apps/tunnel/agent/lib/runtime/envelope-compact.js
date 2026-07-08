@@ -6,19 +6,27 @@ const BLOAT_KEYS = new Set([
   'continuationPressure','continuationEscrow','responseFocus','multipleChoiceSelfInterrogation',
   'tunnelProtocol','missionHeartbeat','autoContinuationFinal','autoContinuationTrace','autoContinuationSteps','workQueue'
 ]);
+const FS_RESULT_KEYS = new Set(['content','items','entries','files','dirs','absolutePath','returnedChars','totalChars','hasNextPage','nextOffsetChars','nextPagePayload','statusPayload','waitPayload','stdoutPagePayload','stderrPagePayload','count','results','result','errors','diagnostics']);
+const MISSION_ACTION = /^(mission|actionHistory)/;
 function shouldCompact(payload = {}, result = {}) {
   const mode = String(payload.responseMode || result.responseMode || '').toLowerCase();
   return !FULL_MODES.has(mode);
 }
+function hasFsPayload(result = {}) {
+  return Object.keys(result || {}).some(k => FS_RESULT_KEYS.has(k));
+}
 function compactMissionSurface(result = {}, payload = {}) {
   if (!shouldCompact(payload, result)) return result;
   const out = { ...result };
-  const mission = compactMission(out);
+  const action = String(out.action || payload.action || '');
+  const shouldAttachMission = MISSION_ACTION.test(action) || !!out.missionAdvisory || !!out.nextRequiredToolCall || !!out.mustCallNext || out.userVisibleAnswerBlocked === true;
+  const mission = shouldAttachMission && !hasFsPayload(out) ? compactMission(out) : undefined;
   const debugRef = detailsRef(out);
   for (const key of BLOAT_KEYS) delete out[key];
-  out.mission = mission;
+  if (mission) out.mission = mission;
+  else delete out.mission;
   if (debugRef) out.detailsRef = debugRef;
-  out.responseShape = 'compact-envelope-v1';
+  out.responseShape = 'compact-envelope-v2';
   return out;
 }
 function compactMission(source = {}) {
@@ -39,4 +47,4 @@ function compactMission(source = {}) {
 }
 function detailsRef(source = {}) { return source.outputRef || source.actionId || source.detailsRef || undefined; }
 function clean(obj) { for (const k of Object.keys(obj)) if (obj[k] === undefined || obj[k] === '') delete obj[k]; return obj; }
-module.exports = { compactMissionSurface, shouldCompact, compactMission, FULL_MODES };
+module.exports = { compactMissionSurface, shouldCompact, compactMission, hasFsPayload, FULL_MODES };

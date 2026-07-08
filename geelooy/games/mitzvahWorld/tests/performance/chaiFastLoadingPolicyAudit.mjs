@@ -1,0 +1,22 @@
+// B"H
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+const read = path => readFileSync(path, "utf8");
+const store = read("geelooy/libs/awtsmoosCinematicWorld/store/ChaiAssetStore.js");
+const index = read("index.html");
+const loader = read("geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js");
+const forest = read("../../libs/awtsmoos3d/foliage/forestField.js");
+const hero = read("../../libs/awtsmoos3d/tree/heroTree.js");
+const grass = read("../../libs/awtsmoos3d/foliage/grassField.js");
+const ground = read("../../libs/awtsmoos3d/terrain/groundTexture.js");
+assert(store.includes("autoPreloadDeferred:true"), "Chai preload must be deferred");
+assert(store.includes("play-first-then-upgrade-textures"), "Chai preload must be play-first");
+assert(index.includes("ChaiAssetStore.js"), "index must install Chai store metadata");
+for (const source of [loader, forest, hero, grass, ground]) assert(!source.includes("loadAsync"), "gameplay visuals must not block on loadAsync");
+for (const forbidden of ["TextureLoader", "ImageLoader", "document.createElement", "createElementNS"]) assert(!loader.includes(forbidden), `loader still blocks worker safety: ${forbidden}`);
+assert(loader.includes("createImageBitmap") && loader.includes("OffscreenCanvas"), "texture loading must use custom bitmap/offscreen path");
+assert(forest.includes("maxProceduralTrees") && forest.includes("drawCallsEstimate:count * 2"), "procedural forest must cap density and publish drawcall estimate");
+assert(hero.includes("createProceduralCoreTree") && hero.includes("progressiveMaterialMap"), "hero tree must use cached procedural-core geometry and progressive maps");
+assert(grass.includes("InstancedMesh"), "grass must stay instanced for FPS");
+assert(ground.includes("noFlatGreenFallback"), "ground must reject flat fallback contract");
+console.log(JSON.stringify({ ok:true, test:"chaiFastLoadingPolicyAudit", bitmapLoader:true, proceduralCoreTreeCap:true, grassInstancing:true }, null, 2));

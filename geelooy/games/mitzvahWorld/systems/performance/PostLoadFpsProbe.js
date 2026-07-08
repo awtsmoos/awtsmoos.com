@@ -46,6 +46,17 @@ function makeReport(win, frameMs) {
     counters:win.__AWTSMOOS_FRAME_COUNTERS__?.report?.() || null
   };
   win.__AWTSMOOS_POST_LOAD_FPS_REPORT__ = result;
+  try {
+    const doc = win.document;
+    let node = doc?.querySelector?.('script[data-awtsmoos-fps-report="post-load"]');
+    if (!node && doc?.createElement) {
+      node = doc.createElement("script");
+      node.type = "application/json";
+      node.dataset.awtsmoosFpsReport = "post-load";
+      doc.body?.appendChild(node);
+    }
+    if (node) node.textContent = JSON.stringify({ ...result, at:Date.now(), source:"PostLoadFpsProbe" }, null, 2);
+  } catch {}
   return result;
 }
 

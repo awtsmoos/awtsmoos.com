@@ -6,7 +6,7 @@
 import { postPlainWorkerText } from "./PlainWorkerPost.js";
 import { plainWorkerErrorText } from "./PlainWorkerErrorText.js";
 
-export const WORKER_BOOT_IMPORT_SEAL = "case-correct-olam-import-20260706-bh3";
+export const WORKER_BOOT_IMPORT_SEAL = "repair-ground-material-20260708-bh2";
 
 const ROOT = "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/core";
 const CASE_FIXES = Object.freeze([

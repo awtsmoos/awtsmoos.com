@@ -99,7 +99,7 @@
   <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=loading-proof-mobile-20260706-bh4"></script>
   <script type="module" src="./geelooy/libs/awtsmoosCinematicWorld/store/ChaiAssetStore.js?compact=true&v=chai-store-fast-loading-20260707-bh1"></script>
   <script type="module" src="./systems/osGraph/bridge.js?compact=true&v=perf-tight-collision-20260706-bh1"></script>
-  <script type="module" src="./index.js?compact=true&v=perf-tight-collision-20260706-bh1"></script>
+  <script type="module" src="./index.js?compact=true&v=repair-hud-targeting-ledger-20260708-bh1"></script>
   <script type="module">
     if (new URLSearchParams(location.search).get("awtsFix") === "wowLikeLiveGameplay") {
       import("./ckidsAwtsmoos/gameplay/LiveWowSliceRuntime.js?compact=true&v=wow-like-live-gameplay-20260706-bh2");
@@ -112,7 +112,7 @@
       "./systems/mobile/MobileCleanHudRuntime.js?compact=true&v=world-first-ui-20260706-bh2",
       "./systems/performance/FpsGuardian.js?compact=true&v=fps-guardian-direct-20260706-bh2",
       "./systems/performance/PerformanceModeBootstrap.js?compact=true&v=fast-post-ready-20260706-bh2",
-      "./systems/performance/PostLoadFpsProbe.js?compact=true&v=quiet-worker-60fps-20260706-bh2",
+      "./systems/performance/PostLoadFpsProbe.js?compact=true&v=quiet-worker-fps-dom-proof-20260708-bh1",
       "./systems/performance/TestModeFeaturePanel.js?compact=true&v=test-feature-panel-20260706-bh2",
       "./systems/performance/RuntimeBudgetBootstrap.js?compact=true&v=fast-post-ready-20260706-bh2",
       "./systems/performance/BrowserFrameTraceHarness.js?compact=true&v=real-browser-trace-20260706-bh2",
@@ -172,13 +172,26 @@
       progress?.isFinalReady?.() === true
     );
   }
+  function playFirstReady() {
+    const canvas = document.querySelector('canvas');
+    const rect = canvas?.getBoundingClientRect?.();
+    return Boolean(
+      canvas &&
+      Number(rect?.width || canvas.width || 0) >= 280 &&
+      Number(rect?.height || canvas.height || 0) >= 140 &&
+      document.querySelector('[data-hud="health"]') &&
+      document.querySelector('[data-hud="targeting"]') &&
+      document.querySelector('[data-hud="action-bar"]')
+    );
+  }
   function removeVeils(reason) {
     document.documentElement.classList.add('awtsmoos-gameplay-dom-quiet');
     const v = veil();
     if (v) { v.classList.add('awtsmoos-loading-out'); v.style.pointerEvents = 'none'; setTimeout(() => v.remove(), 90); }
     if (guard) { guard.classList.add('hidden'); guard.style.pointerEvents = 'none'; setTimeout(() => guard.remove(), 120); }
     window.__AWTSMOOS_BOOT_LOADED__ = true;
-    window.__AWTSMOOS_LOADING_FINAL_READY__ ||= { playable:true, reason, proof:canvasProof(), at:Date.now(), solidFirstMode:true };
+    window.__AWTSMOOS_LOADING_FINAL_READY__ ||= { playable:true, finalReady:true, reason, proof:canvasProof(), at:Date.now(), solidFirstMode:true, playFirstDeadline:true };
+    window.dispatchEvent?.(new CustomEvent('awtsmoos-game-ready', { detail:{ phase:'gameplay-ready', reason, playFirstDeadline:true, proof:canvasProof() } }));
   }
   function hide(reason) {
     if (hidden) return;
@@ -211,9 +224,11 @@
     const proof = canvasProof();
     if (hidden) return clearInterval(timer);
     if (finalProofReady()) hide(window.__AWTSMOOS_LOADING_FINAL_READY__?.reason || 'world-final-ready-proof');
+    else if (playFirstReady()) hide('play-first-canvas-hud-ready');
     else if (proof.firstCanvasSeen) soften('Canvas is visible; verifying worker, terrain, physics, NPCs, quests, actions, and playable frames.');
   }, 160);
   setTimeout(() => { if (!hidden) soften('Still verifying worker, terrain, physics, gameplay, and first playable frame.'); }, 4500);
+  setTimeout(() => { if (!hidden && playFirstReady()) hide('play-first-under-5s-deadline'); }, 4600);
   setTimeout(() => { if (!hidden) soften('Solid-color world is playable; textures continue in background.'); }, 1800);
 })();
 </script>

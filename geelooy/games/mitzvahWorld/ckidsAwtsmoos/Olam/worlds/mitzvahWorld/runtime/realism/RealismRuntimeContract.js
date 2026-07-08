@@ -16,4 +16,3 @@ export const REALISM_RUNTIME_CONTRACT = Object.freeze({
 export function realismSnapshot() { return JSON.parse(JSON.stringify(REALISM_RUNTIME_CONTRACT)); }
 export function installRealismRuntimeContract(target = globalThis) { target.__MITZVAH_REALISM_RUNTIME_CONTRACT__ = realismSnapshot(); return target.__MITZVAH_REALISM_RUNTIME_CONTRACT__; }
 if (typeof window !== "undefined") installRealismRuntimeContract(window);
-export default REALISM_RUNTIME_CONTRACT;

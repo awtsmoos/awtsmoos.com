@@ -5,7 +5,7 @@
  */
 import { workerImportLog, postTextToMain } from "../log/WorkerTextLogger.js";
 import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
-import { resolveModuleRecord } from "./ModuleUrlResolver.js?v=case-correct-olam-import-20260706-bh3";
+import { resolveModuleRecord } from "./ModuleUrlResolver.js?v=repair-ground-material-20260708-bh2";
 import { makeModuleFailureText, makeModuleStartText, makeModuleSuccessText } from "./ModuleLoadText.js";
 import { requireModuleExport } from "./ModuleExportValidator.js";
 

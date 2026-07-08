@@ -1,0 +1,37 @@
+/* B"H — home content bows to the shared chrome palette. */
+.geelooy-home-document .awtsmoosificationalisticaticalism {
+  margin-bottom: .55rem;
+}
+
+.geelooy-home-document .geelooy-home-shell {
+  color: #f8fafc;
+}
+
+.geelooy-home-document .home-panel,
+.geelooy-home-document .home-action-card,
+.geelooy-home-document .home-post-card {
+  border-color: rgba(117,231,244,.18) !important;
+}
+
+.geelooy-home-document .home-hero-panel,
+.geelooy-home-document .home-feed-panel {
+  background-color: #070d1b !important;
+}
+
+.geelooy-home-document .home-kicker,
+.geelooy-home-document .home-panel-heading span,
+.geelooy-home-document .home-feed-tabs .active {
+  color: #74e8f3 !important;
+}
+
+.geelooy-home-document .home-action-primary,
+.geelooy-home-document .home-feed-create,
+.geelooy-home-document .home-command-dock .is-create {
+  background: linear-gradient(135deg, #f8d16f, #2ea7ff 48%, #8b5cf6) !important;
+  color: #06101b !important;
+}
+
+.geelooy-home-document :is(.home-action-card, .home-feed-tabs button, .home-command-dock a):focus-visible {
+  outline: 2px solid rgba(117,231,244,.72);
+  outline-offset: 3px;
+}

@@ -1,0 +1,34 @@
+/* B"H — profile palette agrees with the shared chrome. */
+.geelooy-profile-shell {
+  color: #f8fafc !important;
+}
+
+.geelooy-profile-shell .profile-hero-card,
+.geelooy-profile-shell .profile-command-panel,
+.geelooy-profile-shell .profile-card,
+.geelooy-profile-shell .profile-section-card,
+.geelooy-profile-shell .alias-card,
+.geelooy-profile-shell .social-heichel-card {
+  border-color: rgba(117,231,244,.2) !important;
+}
+
+.geelooy-profile-shell .profile-kicker,
+.geelooy-profile-shell .profile-tabs .active,
+.geelooy-profile-shell .panel-title-row a {
+  color: #74e8f3 !important;
+}
+
+.geelooy-profile-shell .profile-primary-action,
+.geelooy-profile-shell .profile-bottom-nav .is-create {
+  background: linear-gradient(135deg, #f8d16f, #2ea7ff 48%, #8b5cf6) !important;
+  color: #06101b !important;
+}
+
+.geelooy-profile-shell :is(.profile-tabs button, .profile-inline-actions button, .profile-command-rail a, .profile-bottom-nav a):focus-visible {
+  outline: 2px solid rgba(117,231,244,.72);
+  outline-offset: 3px;
+}
+
+.geelooy-profile-shell .profile-status {
+  color: rgba(248,250,252,.8) !important;
+}

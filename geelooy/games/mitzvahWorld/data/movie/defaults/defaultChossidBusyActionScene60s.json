@@ -326,8 +326,8 @@
     ]
   },
   "render": {
-    "width": 1280,
-    "height": 720,
+    "width": 640,
+    "height": 360,
     "fps": 30,
     "codec": "h264",
     "audio": true

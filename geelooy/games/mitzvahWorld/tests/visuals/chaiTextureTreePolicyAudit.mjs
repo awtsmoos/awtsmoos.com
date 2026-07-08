@@ -1,0 +1,21 @@
+// B"H
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+const read = path => readFileSync(path, "utf8");
+const assets = read("geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js");
+const loader = read("geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js");
+const hero = read("../../libs/awtsmoos3d/tree/heroTree.js");
+const field = read("../../libs/awtsmoos3d/foliage/forestField.js");
+const grass = read("../../libs/awtsmoos3d/foliage/grassField.js");
+const ground = read("../../libs/awtsmoos3d/terrain/groundTexture.js");
+const villageHero = read("ckidsAwtsmoos/dvarim/nature/VillageHeroTree.js");
+for (const token of ["/awtsmoos-nature/chai-forest", "/awtsmoos-nature/chai-forest-half", "HALF_TEXTURE_BASE_URL", "FULL_TEXTURE_BASE_URL"]) assert(assets.includes(token), `missing Chai public path ${token}`);
+for (const token of ["grass:\"grass 1\"", "dirtGrass2:\"dirt grass 2\"", "bark:\"tree bark 1\"", "leaf:\"leaf 1\"", "stone:\"stone 1\"", "horseFur:\"horse fur 1\"", "cowFur:\"cow fur 1\"", "deerFur:\"deer fur 1\"", "foxFur:\"fox fur 1\""]) assert(assets.includes(token), `missing texture name ${token}`);
+for (const forbidden of ["new THREE.TextureLoader", "TextureLoader(", "ImageLoader", "document.createElement", "createElementNS", "new Image("]) assert(!loader.includes(forbidden), `worker loader still has DOM texture path ${forbidden}`);
+for (const token of ["createImageBitmap", "fetch", "new THREE.Texture", "workerSafeBitmapLoader", "noDocumentTextureLoad"]) assert(loader.includes(token), `loader missing bitmap-safe token ${token}`);
+for (const token of ["createProceduralCoreTree", "awtsmoos-procedural-core", "ACTUAL_TEXTURES.bark", "ACTUAL_TEXTURES.leaf", "progressiveMaterialMap", "noConeTree", "noSphereTree"]) assert(hero.includes(token) || field.includes(token) || villageHero.includes(token), `tree runtime missing ${token}`);
+assert(field.includes("createHeroTree") && field.includes("procedural-core"), "forest field must route to procedural-core hero trees, not cones");
+assert(grass.includes("InstancedMesh") && grass.includes("ACTUAL_TEXTURES.grass"), "grass must remain instanced and Chai textured");
+for (const token of ["ACTUAL_TEXTURES.grass", "ACTUAL_TEXTURES.dirtGrass2", "noFlatGreenFallback"]) assert(ground.includes(token), `ground missing ${token}`);
+assert(!`${hero}\n${field}\n${villageHero}\n${loader}`.includes("ez-tree"), "runtime must not expose ez-tree path");
+console.log(JSON.stringify({ ok:true, test:"chaiTextureTreePolicyAudit", workerSafeBitmapLoader:true, proceduralCoreTrees:true, textures:["grass 1","dirt grass 2","tree bark 1","leaf 1"] }, null, 2));

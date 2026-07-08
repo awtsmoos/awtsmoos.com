@@ -1,4 +1,4 @@
 // B"H
-/** @file VillageRealismTree.js @description Legacy class name preserved; implementation is procedural-core tree wrapper only. */
-import VillageHeroTree from "./VillageHeroTree.js?v=exclusive-procedural-core-tree-20260614-bh3";
+/** Legacy class name preserved; the body is now a Chai Forest bark/leaf tree. */
+import VillageHeroTree from "./VillageHeroTree.js?v=chai-forest-bark-leaf-tree-20260707-bh1";
 export default VillageHeroTree;

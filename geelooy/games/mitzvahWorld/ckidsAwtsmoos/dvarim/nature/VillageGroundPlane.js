@@ -4,7 +4,7 @@ import Domem from "../../chayim/domem/index.js";
 import * as THREE from "/games/scripts/build/three.module.js";
 import { finite } from "../../../../../libs/awtsmoos3d/math.js";
 import { markDecorative } from "../../../../../libs/awtsmoos3d/decor.js";
-import { villageGroundMaterial } from "../../../../../libs/awtsmoos3d/terrain/groundTexture.js?v=wide-ground-texture-20260614-bh1";
+import { villageGroundMaterial } from "../../../../../libs/awtsmoos3d/terrain/groundTexture.js?v=wide-ground-texture-village-material-20260708-bh1";
 export default class VillageGroundPlane extends Domem{
   type="villageGroundPlane";
   constructor(op={},olam){super({...op,isSolid:false,interactable:false},olam);this.options=op;this.useAuthoredY=true;}
