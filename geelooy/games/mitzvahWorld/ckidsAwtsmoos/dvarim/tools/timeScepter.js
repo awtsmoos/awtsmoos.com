@@ -2,7 +2,7 @@
 /**
  * Time Scepter - A holy staff that controls the passage of time in the Olam.
  */
-import Tool from "../tool.js";
+import Tool from "../tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class TimeScepter extends Tool {
     static itemName = "Time Scepter";

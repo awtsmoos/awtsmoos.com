@@ -8,8 +8,8 @@
  * loading-progress hint; it must never throw through creation or summon a fatal
  * worker alert when fetch/DRACO/network refuses the request.
  */
-import Utils from '../../../utils.js';
-import Nivra from "../../nivra.js";
+import Utils from '../../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Nivra from "../../nivra.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {
   getPath() {

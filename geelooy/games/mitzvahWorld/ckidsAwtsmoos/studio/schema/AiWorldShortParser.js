@@ -1,7 +1,7 @@
 // B"H
-import { AI_WORLD_SHORT_SCHEMA_VERSION, SHORTHAND_TERMS } from "./AiWorldShortSchema.js";
-import { createChossidCharacterWardrobe } from "../../characters/chossid/wardrobe/ChossidWardrobe.js";
-import { buildGraphFromAiWorld, summarizeGraph } from "../platform/CreationGraph.js";
+import { AI_WORLD_SHORT_SCHEMA_VERSION, SHORTHAND_TERMS } from "./AiWorldShortSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createChossidCharacterWardrobe } from "../../characters/chossid/wardrobe/ChossidWardrobe.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildGraphFromAiWorld, summarizeGraph } from "../platform/CreationGraph.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function arr(value) { return Array.isArray(value) ? value : value == null ? [] : [value]; }
 function id(prefix, index) { return `${prefix}_${String(index + 1).padStart(2, "0")}`; }

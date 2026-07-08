@@ -1,5 +1,5 @@
 
-import Utils from "../../utils.js";
+import Utils from "../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @file QuestItemSpawner.js

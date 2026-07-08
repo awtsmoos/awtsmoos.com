@@ -3,12 +3,12 @@
  * @file villageGrounding.js
  * @description The ground is the actual terrain mesh first; math law is fallback only.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import TerrainMath from "../../../dvarim/terrain/core/TerrainMath.js";
-import { diagEvent, diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js";
-import { meshGroundHit, registerGroundMesh } from "../../worlds/mitzvahWorld/collision/GroundCollisionWorld.js?v=inline-octree-no-worker-import-20260702-bh1";
-import { installCollisionDiagnostics } from "../../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
-import { isRisingEntity } from "./grounding/PlayerRisingGuard.js?v=default-test-npcs-animals-20260702-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import TerrainMath from "../../../dvarim/terrain/core/TerrainMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { diagEvent, diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { meshGroundHit, registerGroundMesh } from "../../worlds/mitzvahWorld/collision/GroundCollisionWorld.js?compact=true&v=inline-octree-no-worker-import-20260702-bh1";
+import { installCollisionDiagnostics } from "../../worlds/mitzvahWorld/collision/CollisionRuntime.js?compact=true&v=ground-cache-diag-20260701-bh1";
+import { isRisingEntity } from "./grounding/PlayerRisingGuard.js?compact=true&v=default-test-npcs-animals-20260702-bh1";
 
 const BOX = new THREE.Box3(), CHILD = new THREE.Box3();
 const TYPES = new Set(["villagePictureProp", "villageTreeField", "villageGrassField", "interactiveNpc", "interactiveDoor", "villageHouseCollider", "villageFenceCollider", "villageRoadCollider", "chossid", "mazik"]);

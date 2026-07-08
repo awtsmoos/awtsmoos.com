@@ -10,7 +10,7 @@
  * transparent BoxGeometry at that exact center/size. Terrain may opt out because
  * ground height needs the actual terrain collider, not a giant box.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const MAT = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0, depthWrite: false });
 const MIN = 0.05;
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;

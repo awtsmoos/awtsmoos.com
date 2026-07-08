@@ -4,7 +4,7 @@
  * @description Chapter 353: NPC compilation preserves intent fields: missions,
  * debates, shops, level guide, stats, and area notes.
  */
-import { enrichNpc } from '../EmeraldVisualEnrichment.js';
+import { enrichNpc } from '../EmeraldVisualEnrichment.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function makeNpcDefinition(npc, index = 0) {
   const n = enrichNpc(npc, index);
   return { id: n.id, name: n.name, x: n.localPos?.x || 0, y: 0.1, z: n.localPos?.z || 0, dialogues: n.dialogueTree ? n.dialogueTree.map(d => d.message) : ['Shalom!'], hasShop: Boolean(n.hasShop), shopInventory: n.shopInventory || [], areaName: n.areaName, areaStats: n.areaStats, areaNote: n.areaNote, hasLevelSelect: Boolean(n.hasLevelSelect), markerType: n.markerType || 'dialogue' };

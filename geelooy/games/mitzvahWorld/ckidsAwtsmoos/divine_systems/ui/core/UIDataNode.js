@@ -1,6 +1,6 @@
 
 // B"H
-import EntityIdGenerator from "../../entities/core/EntityIdGenerator.js";
+import EntityIdGenerator from "../../entities/core/EntityIdGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @class UIDataNode

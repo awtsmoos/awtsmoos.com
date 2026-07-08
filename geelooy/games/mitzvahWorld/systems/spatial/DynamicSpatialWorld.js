@@ -6,9 +6,9 @@
  * not by exhausting the whole olam with a scan. Its refresh is bucketed so one
  * frame does not rebuild the map for every flying letter.
  */
-import { SpatialHash2D } from "./hash/SpatialHash2D.js";
-import { SpatialHandle } from "./hash/SpatialHandle.js";
-import { ensureSpatialMetrics } from "./SpatialMetrics.js";
+import { SpatialHash2D } from "./hash/SpatialHash2D.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { SpatialHandle } from "./hash/SpatialHandle.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { ensureSpatialMetrics } from "./SpatialMetrics.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const DEFAULT_CELL_SIZE = 10;
 const DEFAULT_RADIUS = 1.5;

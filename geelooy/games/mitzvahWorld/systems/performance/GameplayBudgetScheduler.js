@@ -5,7 +5,7 @@
  * selective realism governor, and gives the living world one tiny turn only
  * when there is budget to breathe.
  */
-import { interestRing } from './InterestRings.js';
+import { interestRing } from './InterestRings.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 function activeBudget() {
   const realism = globalThis.__MITZVAH_WORLD_REALISM_BUDGET__ || {};
   return {

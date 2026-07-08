@@ -4,9 +4,9 @@
  * @description Chapter 459: the Awtsmoos reveals sectors by distance,
  * prediction, and hysteresis, without dragging the whole universe into RAM.
  */
-import { sectorFromPoint, sectorDistanceSq, visitSectorRadius } from "../sector/SectorKey.js";
-import { bandForSectorDistance, DEFAULT_RESIDENCY_BANDS, maxLoadRadius } from "../bands/ResidencyBands.js";
-import { applyResidencyDiff, diffResidency } from "./ResidencyDiff.js";
+import { sectorFromPoint, sectorDistanceSq, visitSectorRadius } from "../sector/SectorKey.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { bandForSectorDistance, DEFAULT_RESIDENCY_BANDS, maxLoadRadius } from "../bands/ResidencyBands.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { applyResidencyDiff, diffResidency } from "./ResidencyDiff.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 export class SectorResidencyManager {
   constructor({ sectorSize = 64, bands = DEFAULT_RESIDENCY_BANDS } = {}) {
     this.sectorSize = sectorSize;

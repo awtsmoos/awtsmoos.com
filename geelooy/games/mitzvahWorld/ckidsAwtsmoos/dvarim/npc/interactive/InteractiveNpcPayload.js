@@ -5,7 +5,7 @@
  * Dialogue payload construction. The Awtsmoos turns a villager into a panel:
  * name, portrait, stats, shop, travel, missions, skills, and level gates.
  */
-import { enrichedShop, enrichedSlots } from "./InteractiveNpcInventory.js";
+import { enrichedShop, enrichedSlots } from "./InteractiveNpcInventory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function initials(name = "NPC") {
   return String(name)

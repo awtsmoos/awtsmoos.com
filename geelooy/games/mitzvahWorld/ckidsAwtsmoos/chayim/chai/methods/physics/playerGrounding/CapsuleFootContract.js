@@ -1,4 +1,4 @@
 // B"H
-import { FOOT_GROUND_EPSILON, GROUNDING_SYSTEM, numberOr } from "./FootGroundConstants.js?v=no-compact-engine-20260702-bh2";
+import { FOOT_GROUND_EPSILON, GROUNDING_SYSTEM, numberOr } from "./FootGroundConstants.js?compact=true&v=compact-engine-20260702-bh2";
 export function capsuleBottomY(player) { const c = player?.collider, radius = numberOr(c?.radius ?? player?.radius, 0.45); return c?.start ? numberOr(c.start.y, 0) - radius : null; }
 export function enforceCapsuleFootContract(player, groundY = null) { const c = player?.collider; if (!c?.start || !c?.end) return false; const radius = numberOr(c.radius ?? player.radius, 0.45), current = c.start.y - radius; const base = Number.isFinite(Number(groundY)) ? Number(groundY) : current - FOOT_GROUND_EPSILON; const bottom = base + FOOT_GROUND_EPSILON, delta = bottom - current; if (!Number.isFinite(delta) || Math.abs(delta) > 30) return false; c.start.y += delta; c.end.y += delta; player.__lastWriterOfCapsuleY = GROUNDING_SYSTEM; player.__lastGroundingSystem = GROUNDING_SYSTEM; return true; }

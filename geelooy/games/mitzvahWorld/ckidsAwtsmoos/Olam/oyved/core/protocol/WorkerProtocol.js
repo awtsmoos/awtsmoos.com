@@ -1,6 +1,6 @@
 // B"H
 /** Tiny worker transport: loading messages are sanctified before postMessage. */
-import { protocolMessage, WORKER_PROTOCOL_SEAL } from "./WorkerProtocolSanitizer.js";
+import { protocolMessage, WORKER_PROTOCOL_SEAL } from "./WorkerProtocolSanitizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const target = () => (typeof self !== "undefined" ? self : globalThis);
 export function deliverWorkerProtocol(message) { target().postMessage?.(message); }
 export function postWorkerProtocol(type, payload = {}) {

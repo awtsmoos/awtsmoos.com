@@ -11,4 +11,4 @@ export {
   addMasonryBox as cube,
   buildBrickSpan,
   buildBrickStructure
-} from "../masonry/brickStructure.js";
+} from "../masonry/brickStructure.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

@@ -3,7 +3,7 @@
  * @file BattleCharacterRenderer.js
  * @description Draws stylized Chossid and Kelipa characters on the battle canvas
  */
-import { PARDES_COLORS } from '../../../../systems/PassageLevel.js';
+import { PARDES_COLORS } from '../../../../systems/PassageLevel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export class BattleCharacterRenderer {
     constructor() {

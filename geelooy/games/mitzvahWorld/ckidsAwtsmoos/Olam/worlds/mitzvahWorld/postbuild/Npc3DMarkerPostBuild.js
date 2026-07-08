@@ -7,8 +7,8 @@
  * before action. These are not DOM labels; they are small mesh signs above
  * real NPC vessels, visible to desktop and mobile cameras alike.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { NPC_INTERACTION_SCHEMA } from "../data/manifests/NpcInteractionSchema.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { NPC_INTERACTION_SCHEMA } from "../data/manifests/NpcInteractionSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const KEY = "__awtsmoosNpc3DMarker";
 

@@ -6,11 +6,11 @@
  * rich decisions. Passive distant herds keep memory and LOD state but only a
  * small rotating slice performs full brain work per ecology tick.
  */
-import { dataOf } from "./LifeMath.js";
-import { thinkWildlife, brainSummary } from "./WildlifeBrain.js";
-import { buildHerds, herdSummary } from "./HerdManager.js";
-import { buildFlocks, flockSummary } from "./BirdFlockManager.js";
-import { seedWaterPoints } from "./WaterLifeSystem.js";
+import { dataOf } from "./LifeMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { thinkWildlife, brainSummary } from "./WildlifeBrain.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildHerds, herdSummary } from "./HerdManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildFlocks, flockSummary } from "./BirdFlockManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { seedWaterPoints } from "./WaterLifeSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const LIFE_TICK_SECONDS = 0.34;
 const ACTIVE_BRAIN_CAP = 6;

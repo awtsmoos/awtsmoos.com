@@ -1,5 +1,5 @@
 // B"H
-import Tool from "../tool.js";
+import Tool from "../tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class Sefer extends Tool {
     type = "Sefer";
     static isTool = true;
@@ -21,7 +21,7 @@ export default class Sefer extends Tool {
         if (!this.olam || !this.olam.chossid) return;
         
         const pasukId = this.pasukId || "torah_tziva";
-        const pasuk = (await import('../../tochen/torah/pesukim.js')).PESUKIM_DATA[pasukId];
+        const pasuk = (await import('../../tochen/torah/pesukim.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1')).PESUKIM_DATA[pasukId];
         
         if (pasuk) {
             this.olam.ayshPeula("ui event", "torahStudyOverlay", {

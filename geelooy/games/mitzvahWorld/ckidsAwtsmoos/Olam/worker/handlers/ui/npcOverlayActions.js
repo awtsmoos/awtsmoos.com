@@ -1,8 +1,8 @@
 // B"H
 /** @file npcOverlayActions.js @description NPC overlay actions never block the game with dialogs. */
-import { bindPress, closePanels } from './domKit.js';
-import { launchLevel } from './levelLauncher.js';
-import { openShopOverlay } from './shopOverlay.js';
+import { bindPress, closePanels } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { launchLevel } from './levelLauncher.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { openShopOverlay } from './shopOverlay.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function sendOlam(manager, peula) { manager?.eved?.postMessage?.({ olamPeula:peula }); }
 function notice(manager, text, error) { console.error('B"H | NPC_ACTION_FAILED', { text, message:error?.message || String(error || '') }); manager?.eved?.postMessage?.({ olamPeula:{ uiNotice:{ text, color:'#ffd95a' } } }); }
 async function safeLaunch(manager, level) { try { closePanels(); await launchLevel(manager, level); } catch (error) { notice(manager, 'Could not load that path yet.', error); } }

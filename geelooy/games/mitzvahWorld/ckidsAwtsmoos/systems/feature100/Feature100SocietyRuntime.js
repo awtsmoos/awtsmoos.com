@@ -1,6 +1,6 @@
 // B"H
 /** Feature100SocietyRuntime: budget-safe society feature contracts. */
-import { mutateFeature100State, appendFeature100Event } from './Feature100State.js';
+import { mutateFeature100State, appendFeature100Event } from './Feature100State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function remember(bucket, key, value) { return mutateFeature100State(s => { s[bucket] ||= {}; s[bucket][key] = { ...(s[bucket][key] || {}), ...value, at: Date.now() }; return s; }); }
 export function ambition(id = 'ambition', detail = {}) { appendFeature100Event({ domain:'society', action:'ambition', id, detail }); return remember('society', id, { action:'ambition', detail }); }
 export function friendship(id = 'friendship', detail = {}) { appendFeature100Event({ domain:'society', action:'friendship', id, detail }); return remember('society', id, { action:'friendship', detail }); }

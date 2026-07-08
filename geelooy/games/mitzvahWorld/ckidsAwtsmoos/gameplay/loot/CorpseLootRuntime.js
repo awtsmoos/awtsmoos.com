@@ -1,7 +1,7 @@
 // B"H
-import { addItem } from "../inventory/InventoryState.js";
-import { updateCollectQuest } from "../quests/QuestState.js";
-import { lootForSpecies } from "./LootTables.js";
+import { addItem } from "../inventory/InventoryState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { updateCollectQuest } from "../quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { lootForSpecies } from "./LootTables.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createCorpse(enemy) {
   return {

@@ -15,12 +15,12 @@
  * only the personal purse the player can spend, lose, earn, repair with, and
  * carry from one gameplay system to another.
  */
-import { walletNumber, wholeWalletNumber } from "./WalletNumbers.js";
+import { walletNumber, wholeWalletNumber } from "./WalletNumbers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import {
   readStoredPersonalPerutas,
   writeStoredPersonalPerutas
-} from "./WalletStorage.js";
-import { emitPersonalPerutas } from "./WalletEvents.js";
+} from "./WalletStorage.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { emitPersonalPerutas } from "./WalletEvents.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function bindWalletOlam(player, olam) {
   if (player && olam && !player.olam) player.olam = olam;

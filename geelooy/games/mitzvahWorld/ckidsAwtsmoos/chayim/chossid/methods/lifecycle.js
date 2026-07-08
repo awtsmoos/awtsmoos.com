@@ -1,10 +1,10 @@
 // B"H
 /** Registers Chossid and loads fresh model animation prep. */
-import * as THREE from '/games/scripts/build/three.module.js';
-import Chai from "../../chai/index.js?v=grass-chossid-stepwise-20260707-bh1";
-import { applyCameraStart } from './lifecycle/cameraStart.js?v=lava-camera-axis-20260609-bh640';
-import { ensureFallbackBody } from './lifecycle/fallbackBody.js?v=no-compact-engine-20260702-bh2';
-import { prepareChossidModel } from './lifecycle/model.js?v=grass-chossid-stepwise-20260707-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Chai from "../../chai/index.js?compact=true&v=grass-chossid-stepwise-20260707-bh1";
+import { applyCameraStart } from './lifecycle/cameraStart.js?compact=true&v=lava-camera-axis-20260609-bh640';
+import { ensureFallbackBody } from './lifecycle/fallbackBody.js?compact=true&v=compact-engine-20260702-bh2';
+import { prepareChossidModel } from './lifecycle/model.js?compact=true&v=grass-chossid-stepwise-20260707-bh1';
 function traceVisibility(chossid, stage, extra = {}) { const payload = { seal:'grass-chossid-stepwise-20260707-bh1', stage, name:chossid?.name, hasMesh:Boolean(chossid?.mesh), hasModel:Boolean(chossid?.modelMesh), meshName:chossid?.mesh?.name || null, modelName:chossid?.modelMesh?.name || null, modelParentIsRoot:chossid?.modelMesh?.parent === chossid?.mesh, visibleBody:chossid?.__visibleBodyState || null, at:Date.now(), ...extra }; chossid.olam.__movementTrace ||= []; chossid.olam.__movementTrace.push({ kind:'MODEL_VISIBILITY_TRACE', ...payload }); chossid.olam.__movementTrace = chossid.olam.__movementTrace.slice(-260); if (globalThis.__AWTSMOOS_MODEL_VISIBILITY_LOGS__ === true) console.info('B"H | MODEL_VISIBILITY_TRACE', payload); }
 function ensureVisibleChossidBody(chossid) { const realModelPrepared = prepareChossidModel(chossid), fallbackVisible = ensureFallbackBody(chossid); chossid.__visibleBodyState = { realModelPrepared, fallbackVisible, modelParentIsRoot:chossid?.modelMesh?.parent === chossid?.mesh, animation:chossid.__chossidGlbAnimationRuntime || null, at:Date.now() }; traceVisibility(chossid, 'ensure-visible-body', { realModelPrepared, fallbackVisible }); return realModelPrepared || fallbackVisible; }
 function registerPlayer(chossid) { if (!chossid?.olam) return; chossid.olam.chossid = chossid; chossid.olam.player = chossid; if (!chossid.olam.ayin) return; chossid.olam.ayin.target = chossid; applyCameraStart(chossid); }

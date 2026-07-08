@@ -9,8 +9,8 @@
  * This worker vessel keeps genesis compact, binds HTML signals, loads nivrayim,
  * and emits both `levelGoal` and `levelMission` before the world breathes.
  */
-import HTMLMessenger from "./HTMLMessenger.js";
-import TimeTracker from "../../../../utils/TimeTracker.js";
+import HTMLMessenger from "./HTMLMessenger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import TimeTracker from "../../../../utils/TimeTracker.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function elapsed(start) { return (performance.now() - start).toFixed(0); }
 function worldDataFrom(options = {}) { return options.worldDayuh || options.userInfo || options; }

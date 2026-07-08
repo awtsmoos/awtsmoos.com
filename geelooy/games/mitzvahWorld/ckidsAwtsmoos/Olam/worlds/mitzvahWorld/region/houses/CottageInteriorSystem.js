@@ -1,6 +1,6 @@
 // B"H
 /** @file CottageInteriorSystem.js @description Visible rooms, floor, partitions, and walkable openings. */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const mat = color => new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true });
 const PARTITION_THICK = 0.16;

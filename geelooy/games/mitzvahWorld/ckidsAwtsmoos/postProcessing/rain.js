@@ -2,12 +2,12 @@
  * B"H
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import { tslFn, texture, uv, uint, positionWorld, modelWorldMatrix, cameraViewMatrix, timerLocal, timerDelta, cameraProjectionMatrix, vec2, instanceIndex, positionGeometry, storage, MeshBasicNodeMaterial, If }
-			 from  '/games/scripts/jsm/nodes/Nodes.js';
+			 from  '/games/scripts/jsm/nodes/Nodes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
-import StorageInstancedBufferAttribute from '/games/scripts/jsm/renderers/common/StorageInstancedBufferAttribute.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import StorageInstancedBufferAttribute from '/games/scripts/jsm/renderers/common/StorageInstancedBufferAttribute.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export default class RainEffect {
     timeElapsed = 0; /*in seconds, float precision*/
     startTime = Date.now()

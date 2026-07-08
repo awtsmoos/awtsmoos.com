@@ -1,6 +1,6 @@
 // B"H
 /** @file RendererProvider.js @description Singleton backend provider; Three is current but not the covenant. */
-import { createThreeRenderBackend } from "./backends/three/ThreeRenderBackend.js";
+import { createThreeRenderBackend } from "./backends/three/ThreeRenderBackend.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 let backend = null;
 export function setRenderBackend(next) { backend = next; return backend; }
 export function getRenderBackend() { if (!backend) backend = createThreeRenderBackend(); return backend; }

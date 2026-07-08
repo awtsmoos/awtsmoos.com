@@ -5,7 +5,7 @@
  * level guide keeps choose/buy/sell; village ferrymen can show one clear button
  * that loads another village without opening the challenge grid.
  */
-import { esc } from './domKit.js';
+import { esc } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function linesHtml(lines) { return (Array.isArray(lines) ? lines : [lines]).slice(0, 4).map(line => `<p>${esc(line)}</p>`).join(''); }
 export function actionButtonsHtml(data = {}) {
   if (data.chatOnly || data.chooserOpen) return '';

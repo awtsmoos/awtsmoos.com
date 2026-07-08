@@ -3,24 +3,24 @@
  * EmeraldInfinityPostBuild pours the new civilization memory into the actual world boot.
  * It creates no meshes, no materials, no listeners, no raycasts: only consequence data.
  */
-import EmeraldInfinityRuntime from "../EmeraldInfinityRuntime.js";
-import VillageMemory from "../village/VillageMemory.js";
-import VillageEconomy from "../village/VillageEconomy.js";
-import TradeNetwork from "../village/TradeNetwork.js";
-import VillageGrowthSimulator from "../village/VillageGrowthSimulator.js";
-import ShabbosPreparationRuntime from "../community/ShabbosPreparationRuntime.js";
-import HolidayRuntime from "../community/HolidayRuntime.js";
-import LearningNetwork from "../community/LearningNetwork.js";
-import ScholarTravelSystem from "../community/ScholarTravelSystem.js";
-import VillageSoundscape from "../audio/VillageSoundscape.js";
-import ForestSoundscape from "../audio/ForestSoundscape.js";
-import WeatherSoundscape from "../audio/WeatherSoundscape.js";
-import AnimalFamilies from "../region/wildlife/AnimalFamilies.js";
-import AnimalMigration from "../region/wildlife/AnimalMigration.js";
-import AnimalTerritoryMemory from "../region/wildlife/AnimalTerritoryMemory.js";
-import AnimalPredatorNetwork from "../region/wildlife/AnimalPredatorNetwork.js";
-import HerdHierarchy from "../region/wildlife/HerdHierarchy.js";
-import BirdMigrationRuntime from "../region/wildlife/BirdMigrationRuntime.js";
+import EmeraldInfinityRuntime from "../EmeraldInfinityRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import VillageMemory from "../village/VillageMemory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import VillageEconomy from "../village/VillageEconomy.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import TradeNetwork from "../village/TradeNetwork.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import VillageGrowthSimulator from "../village/VillageGrowthSimulator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ShabbosPreparationRuntime from "../community/ShabbosPreparationRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import HolidayRuntime from "../community/HolidayRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import LearningNetwork from "../community/LearningNetwork.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ScholarTravelSystem from "../community/ScholarTravelSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import VillageSoundscape from "../audio/VillageSoundscape.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ForestSoundscape from "../audio/ForestSoundscape.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import WeatherSoundscape from "../audio/WeatherSoundscape.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import AnimalFamilies from "../region/wildlife/AnimalFamilies.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import AnimalMigration from "../region/wildlife/AnimalMigration.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import AnimalTerritoryMemory from "../region/wildlife/AnimalTerritoryMemory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import AnimalPredatorNetwork from "../region/wildlife/AnimalPredatorNetwork.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import HerdHierarchy from "../region/wildlife/HerdHierarchy.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import BirdMigrationRuntime from "../region/wildlife/BirdMigrationRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const getScene=c=>c?.scene||c?.olam?.scene||null;
 const getOlam=c=>c?.olam||c||{};
 function seedVillages(rt){rt.event('new_teacher_arrived',{subject:'teacher_1',place:'kfar_1'});rt.event('storm_destroyed_fence',{subject:'north_fence',place:'kfar_1'});rt.relationships.relate('teacher_1','student_1','teacher',.85);rt.relationships.relate('baker_1','shepherd_1','neighbor',.35);rt.rumors.seed('north_fence','storm_destroyed_fence','watchman',['repair']);rt.reputation.adjust('player','helpfulness',2,'known for village errands');rt.step('player',12,20);rt.step('goat_1',13,21);rt.forest.season('cedar_valley',{rain:.7,storm:.15,grazing:.05});rt.farWorld.tick('far_kfar_beis',12);rt.tick(1,['teacher_1','student_1','baker_1','shepherd_1','player']);}

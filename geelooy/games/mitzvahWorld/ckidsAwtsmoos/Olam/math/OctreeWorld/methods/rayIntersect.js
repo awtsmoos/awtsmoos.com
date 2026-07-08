@@ -11,7 +11,7 @@ import {
   leafNodesInsideBubble,
   pendingOctreesInsideBubble,
   rayBubbleBox
-} from "./query/CollisionBubbleQuery.js";
+} from "./query/CollisionBubbleQuery.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function chooseClosest(current, next) {
   if (!next) return current;

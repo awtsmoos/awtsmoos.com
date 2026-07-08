@@ -1,18 +1,19 @@
-/* B"H — the header becomes a native crystal bar, compact and alive. */
+/* B"H — the dashboard roof becomes brand-only when the global roof owns menus. */
 .home-app-header {
   align-items: center;
   display: grid;
-  grid-template-columns: minmax(0,1fr) auto;
+  grid-template-columns: minmax(0,1fr);
   gap: .72rem;
-  padding: max(.7rem, env(safe-area-inset-top)) .24rem .18rem;
+  padding: .72rem .24rem .18rem;
   position: relative;
-  z-index: 6000;
+  z-index: 120;
 }
 .home-orb-brand {
   align-items: center;
   color: var(--f-text);
   display: inline-flex;
   gap: .68rem;
+  max-width: min(100%, 31rem);
   min-width: 0;
   text-decoration: none;
 }
@@ -33,17 +34,10 @@
 .home-brand-copy strong { color: #fff; font-size: 1.18rem; letter-spacing: -.03em; overflow: hidden; text-overflow: ellipsis; }
 .home-brand-copy em { align-self: center; background: linear-gradient(135deg,#28f3d7,#8b5cf6); border-radius: 50%; color: #04111f; display: grid; font-size: .62rem; font-style: normal; font-weight: 1000; height: 17px; place-items: center; width: 17px; }
 .home-bell-button {
-  background: linear-gradient(145deg, rgba(46,167,255,.18), rgba(154,77,255,.12));
-  border: 1px solid rgba(40,243,215,.34);
-  border-radius: 18px;
-  color: #fff;
-  display: grid;
-  height: 52px;
-  place-items: center;
-  position: relative;
-  width: 52px;
+  display: none !important;
 }
-.home-bell-button span { font-size: 0; }
-.home-bell-button span::before { content: "☰"; font-size: 1.65rem; line-height: 1; }
-.home-bell-button b { background: linear-gradient(135deg, #f6d365, #2ea7ff); border-radius: 999px; color: #06111f; font-size: .64rem; line-height: 1; padding: .22rem .34rem; position: absolute; right: .26rem; top: .22rem; }
+.home-sidebar-panel {
+  display: none !important;
+}
 .home-bell-button:focus-visible { outline: 3px solid rgba(40,243,215,.55); outline-offset: 3px; }
+@media (max-width: 600px) { .home-app-header { padding-top: .65rem; } }

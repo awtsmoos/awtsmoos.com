@@ -1,6 +1,6 @@
 // B"H
 /** Real 3D movie actions: AnimationMixer clips on chossid.glb, never 2D. */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const A={idle:["stand_Armature","stand 2_Armature","neutral_Armature"],walk:["walk_Armature","walk"],run:["run_Armature","run"],jump:["jump_Armature","jump"],talk:["hands-out","neutral_Armature"],punch:["punch"],stab:["stab"],dance:["dance silly_Armature","dance hip hop_Armature"]};
 const FLAG="__AWTSMOOS_ENABLE_WORKER_PLAYER_MIXER__";
 function playerOf(o){return o?.chossid||o?.player||o?.nivrayim?.find?.(x=>x?.type==="chossid")||null}

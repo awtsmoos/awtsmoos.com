@@ -12,7 +12,7 @@
  */
 
 // B"H: The 5 levels of ascent
-import { BARK_SNIPPETS } from '../../../../../shaders/BarkShader.js';
+import { BARK_SNIPPETS } from '../../../../../shaders/BarkShader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default async function createBark(olam) {
     console.log("B\"H - 🪵 [Bark Factory] Initiated. Extracting bark essence...");

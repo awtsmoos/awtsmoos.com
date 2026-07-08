@@ -2,8 +2,10 @@
 /**
  * @module ContentUnveiler
  * @description
- * Fast taps may summon many rivers. Only the newest river paints the grid, and
- * now the Heichel OS panel receives the same living content snapshot.
+ * Chapter 741: The explicit request is a crown. If the seeker says
+ * `view=posts`, the tree may exist beside it, but it may not seize the throne.
+ * Empty posts now remain an honest post-shelf instead of disguising itself as
+ * a barren chamber of series.
  */
 import { appState } from '../state.js';
 import * as api from '../api.js';
@@ -62,7 +64,14 @@ async function renderAll(navigator, content, seriesData) {
     if (appState.ownsIt) DND.initialize();
 }
 
+function explicitView() {
+    const view = new URLSearchParams(window.location.search).get('view');
+    return view === 'posts' || view === 'series' ? view : null;
+}
+
 function autoSwitchView(navigator, content) {
+    const requested = explicitView();
+    if (requested) return navigator.switchView(requested, true);
     if (content.posts.length === 0 && content.subSeries.length > 0) navigator.switchView('series', true);
     else if (content.subSeries.length === 0 && content.posts.length > 0) navigator.switchView('posts', true);
     else navigator.switchView(navigator.currentView, true);

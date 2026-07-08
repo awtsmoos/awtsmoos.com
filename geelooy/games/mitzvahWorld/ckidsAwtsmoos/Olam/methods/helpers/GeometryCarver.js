@@ -7,8 +7,8 @@
  * 
  * Materializes a Three.js geometry from the JSON blueprint instantly and quietly.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import GeometryManager from '../../math/GeometryManager.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import GeometryManager from '../../math/GeometryManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class GeometryCarver {
     static carve(typeName, rawArgs) {

@@ -13,17 +13,17 @@ const state = scope.__MITZVAH_DEFERRED_BOOT__ ||= {
 };
 
 export const coreQueue = Object.freeze([
-  ["fps-guardian", "../performance/FpsGuardian.js?v=fps-guardian-default-core-20260706-bh2", 150],
-  ["unified-dream-spine", "../dream/UnifiedMitzvahWorldDreamBootstrap.js?v=one-world-dream-20260706-bh2", 450],
-  ["animal-proof", "../dream/AnimalProofBootstrap.js?v=wildlife-proof-scanner-20260706-bh2", 1200]
+  ["fps-guardian", "../performance/FpsGuardian.js?compact=true&v=fps-guardian-default-core-20260706-bh2", 150],
+  ["unified-dream-spine", "../dream/UnifiedMitzvahWorldDreamBootstrap.js?compact=true&v=one-world-dream-20260706-bh2", 450],
+  ["animal-proof", "../dream/AnimalProofBootstrap.js?compact=true&v=wildlife-proof-scanner-20260706-bh2", 1200]
 ]);
 
 export const extrasQueue = Object.freeze([
-  ["ancient-scroll-ui", "../ui/AncientScrollUiPolish.js?v=step-by-step-20260706-bh2", 3000],
-  ["realism-fast-fps", "../realism/RealismFastFpsBootstrap.js?v=master-realism-fast-fps-20260706-bh2", 8000],
-  ["world-memory", "../worldMemory/WorldMemoryBootstrap.js?v=full-hyperrealism-step-20260706-bh2", 15000],
-  ["story", "../story/StoryBootstrap.js?v=texture-pingpong-story-20260706-bh2", 23000],
-  ["living-world", "../realism/LivingWorldBootstrap.js?v=living-world-hyperrealism-20260706-bh2", 40000]
+  ["ancient-scroll-ui", "../ui/AncientScrollUiPolish.js?compact=true&v=step-by-step-20260706-bh2", 3000],
+  ["realism-fast-fps", "../realism/RealismFastFpsBootstrap.js?compact=true&v=master-realism-fast-fps-20260706-bh2", 8000],
+  ["world-memory", "../worldMemory/WorldMemoryBootstrap.js?compact=true&v=full-hyperrealism-step-20260706-bh2", 15000],
+  ["story", "../story/StoryBootstrap.js?compact=true&v=texture-pingpong-story-20260706-bh2", 23000],
+  ["living-world", "../realism/LivingWorldBootstrap.js?compact=true&v=living-world-hyperrealism-20260706-bh2", 40000]
 ]);
 
 function extrasEnabled() {

@@ -5,7 +5,7 @@
  * It has no loop of its own. When a player meaningfully leaves the spawn breath,
  * it emits one starter movement signal and becomes silent.
  */
-import { emitStarterSignal } from './StarterSignalBridge.js';
+import { emitStarterSignal } from './StarterSignalBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const dist2 = (a = {}, b = {}) => {
   const dx = Number(a.x || 0) - Number(b.x || 0), dy = Number(a.y || 0) - Number(b.y || 0), dz = Number(a.z || 0) - Number(b.z || 0);
   return dx * dx + dy * dy + dz * dz;

@@ -1,8 +1,8 @@
 // B"H
 /** @file StoryBootstrap.js @description Boots cheap living story memory and event-driven thread runtime. */
-import { createStoryMemoryRuntime } from './StoryMemoryRuntime.js';
-import { createStoryThreadRuntime } from './StoryThreadRuntime.js';
-import { livingStoryPolicy } from './LivingStoryPolicy.js';
+import { createStoryMemoryRuntime } from './StoryMemoryRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createStoryThreadRuntime } from './StoryThreadRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { livingStoryPolicy } from './LivingStoryPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 const scope = globalThis;
 if (!scope.__MITZVAH_STORY_RUNTIME__) {

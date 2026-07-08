@@ -3,7 +3,7 @@
  * method to remove nivra from olam. Chapter 453: when a being leaves the
  * visible world, the Awtsmoos also lifts its footprint from the moving map.
  */
-import { untrackDynamicNivra } from "../../../systems/spatial/DynamicSpatialWorld.js?v=dynamic-spatial-world-20260617-bh1";
+import { untrackDynamicNivra } from "../../../systems/spatial/DynamicSpatialWorld.js?compact=true&v=dynamic-spatial-world-20260617-bh1";
 
 export default class {
     /**

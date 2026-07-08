@@ -3,7 +3,7 @@
  * The Awtsmoos breathes a twenty-second proof clip into the movie maker:
  * one chossid.glb body, many living motions, no cardboard labels.
  */
-import { DEFAULT_CUSTOM_MOVIE_ACTIONS } from "./MovieActionCatalog.js";
+import { DEFAULT_CUSTOM_MOVIE_ACTIONS } from "./MovieActionCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const CHOSSID_ACTION_SAMPLE_ACTIONS = Object.freeze([
   { id:"studentHarmony", label:"Student Harmony", target:"singNiggun", school:"singing" },

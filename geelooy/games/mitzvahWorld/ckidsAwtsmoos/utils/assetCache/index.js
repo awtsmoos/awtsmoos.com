@@ -1,8 +1,8 @@
 
-import DBConnection from './DBConnection.js';
-import DBReader from './DBReader.js';
-import DBWriter from './DBWriter.js';
-import DBDeleter from './DBDeleter.js';
+import DBConnection from './DBConnection.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import DBReader from './DBReader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import DBWriter from './DBWriter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import DBDeleter from './DBDeleter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * B"H

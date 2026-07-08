@@ -14,11 +14,11 @@
  * refuses to let one instant pay XP, another pay perutas, and a third pretend no
  * reward happened. One target, one `__xpRewarded` seal, one living outcome.
  */
-import { grantPlayerXp, ensurePlayerLevel } from "./PlayerLevelRuntime.js";
-import { ensureCreatureLevel } from "./CreatureLevelRuntime.js";
-import { makeLootableCorpse, lootSparklePayload } from "../loot/LootRuntime.js";
-import { awardMoney } from "../economy/wallet/PersonalPerutaWallet.js";
-import { logViralGameplay } from "../debug/ViralGameplayLog.js";
+import { grantPlayerXp, ensurePlayerLevel } from "./PlayerLevelRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureCreatureLevel } from "./CreatureLevelRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeLootableCorpse, lootSparklePayload } from "../loot/LootRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney } from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { logViralGameplay } from "../debug/ViralGameplayLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function n(value, fallback = 0) { return Number.isFinite(Number(value)) ? Number(value) : fallback; }

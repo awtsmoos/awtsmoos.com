@@ -1,84 +1,19 @@
 // B"H
 /**
- * B"H
- *
- * The near GLB runtime guards a simple covenant: every NPC uses the same
- * chossid GLB as the player, but no NPC may make first playable wait for it.
- * The full body is requested only when nearness calls, then cached and cloned
- * for every later chossid.
+ * @file NpcGlbNearRuntime.js
+ * @description Near GLB loading is only for placeholder NPC roots. A root that
+ * already came from cloneChossidNpcScene is sealed against a second body append.
  */
-import { loadFreshChossidGltf } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcLoader.js?v=deferred-npc-glb-20260705-bh1";
-import { cloneChossidNpcScene } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcClone.js?v=awtsmoos-npc-clone-20260614-bh2";
-import { applyChossidNpcStyle } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcStyle.js?v=awtsmoos-npc-style-20260614-bh2";
-import { attachChossidNpcAnimator } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcAnimator.js?v=awtsmoos-npc-animator-lightning-20260701-bh1";
-
-const DIAG = {
-  glbRequestedCount:0,
-  glbLoadedCount:0,
-  glbFailedCount:0,
-  glbDeferredUntilNear:true,
-  firstPlayableBlockedByGlb:false,
-  lastError:null
-};
-
-function sceneOf(gltf) {
-  return gltf?.scene || gltf?.scenes?.[0] || null;
-}
-
-function markGlbVisual(root) {
-  root.traverse?.(child => {
-    Object.assign(child.userData ||= {}, { npcFullGlbVisual:true, skipOctree:true, noOctree:true });
-    if (child.isMesh || child.isSkinnedMesh) {
-      child.frustumCulled = true;
-      child.castShadow = false;
-    }
-  });
-}
-
-function addLoadedVisual(root, bridge, gltf) {
-  const scene = sceneOf(gltf);
-  if (!scene) throw new Error("deferred chossid.glb loaded without a scene");
-  const visual = cloneChossidNpcScene({ scene });
-  visual.name = `${root.name || "npc"}_near_chossid_glb_visual`;
-  visual.position.set(0, 0, 0);
-  visual.rotation.set(0, 0, 0);
-  visual.scale.set(1, 1, 1);
-  markGlbVisual(visual);
-  applyChossidNpcStyle(visual, bridge?.definition || {});
-  root.add(visual);
-  root.__npcVisualLod ||= {};
-  root.__npcVisualLod.fullChildren = [visual];
-  root.userData.npcGlbLoaded = true;
-  root.userData.npcGlbLoading = false;
-  root.userData.npcUsesSameGlbAsPlayer = true;
-  bridge.__npcGlbVisual = visual;
-  attachChossidNpcAnimator(visual, gltf.animations || [], bridge);
-  return visual;
-}
-
-export function npcGlbNearDiagnostics() {
-  return { ...DIAG };
-}
-
-export function requestNpcNearGlb(root, bridge, olam) {
-  if (!root || !bridge || root.userData?.npcGlbLoaded || root.userData?.npcGlbLoading) return root?.__npcGlbPromise || null;
-  DIAG.glbRequestedCount += 1;
-  root.userData.npcGlbLoading = true;
-  root.userData.npcGlbDeferredUntilNear = true;
-  root.__npcGlbPromise = loadFreshChossidGltf(olam)
-    .then(gltf => {
-      const visual = addLoadedVisual(root, bridge, gltf);
-      DIAG.glbLoadedCount += 1;
-      return visual;
-    })
-    .catch(error => {
-      DIAG.glbFailedCount += 1;
-      DIAG.lastError = String(error?.message || error);
-      root.userData.npcGlbLoading = false;
-      root.userData.npcGlbError = DIAG.lastError;
-      return null;
-    });
-  return root.__npcGlbPromise;
-}
-
+import { loadFreshChossidGltf } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcLoader.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+import { cloneChossidNpcScene } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcClone.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+import { applyChossidNpcStyle } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcStyle.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+import { attachChossidNpcAnimator } from "../../../Olam/worlds/mitzvahWorld/npcs/ChossidNpcAnimator.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+const DIAG = { glbRequestedCount:0, glbLoadedCount:0, glbFailedCount:0, glbSkippedAlreadyRealCount:0, lastError:null };
+function ownsReal(root) { const d = root?.userData || {}; return !!(d.realChossidGlbNpc || d.npcRealChossidGlb || d.npcAlreadyHasCanonicalGlbVisual || d.chossidGlbVisibleImmediately || d.cloneChossidNpcSceneProducedSingleBody); }
+function visualChildren(root) { return root?.children?.filter?.(child => child.userData?.npcFullGlbVisual || child.userData?.npcRealChossidGlb || child.userData?.npcCanonicalVisualBranch || child.userData?.npcSourceKeptFullBody) || []; }
+function markGlbVisual(root) { Object.assign(root.userData ||= {}, { npcFullGlbVisual:true, npcRealChossidGlb:true, npcCanonicalVisualBranch:true, skipOctree:true, noOctree:true }); root.traverse?.(child => { Object.assign(child.userData ||= {}, { npcFullGlbVisual:true, npcRealChossidGlb:true, npcCanonicalVisualBranch:true, skipOctree:true, noOctree:true }); if (child.isMesh || child.isSkinnedMesh) { child.frustumCulled = false; child.castShadow = false; child.receiveShadow = true; child.visible = true; } }); }
+function skipAlreadyReal(root) { DIAG.glbSkippedAlreadyRealCount++; Object.assign(root.userData ||= {}, { npcGlbLoaded:true, npcGlbLoading:false, npcNearVisualPending:false, npcRealChossidGlbReady:true, duplicateNpcBodyPreventedAtSource:true }); console.info('B"H | NPC_NEAR_GLB_REQUEST_SKIPPED_ALREADY_REAL', { rootName:root.name || root.type, existingFullVisuals:visualChildren(root).length, visibleFullBodyBranches:root.userData.npcVisibleFullBodyBranches || 1, seal:"request-near-glb-does-not-append-second-body-20260708-bh1" }); return Promise.resolve(root); }
+function addLoadedVisual(root, bridge, gltf) { if (ownsReal(root) || visualChildren(root).length) return skipAlreadyReal(root); const visual = cloneChossidNpcScene(gltf); visual.name = `${root.name || "npc"}_real_chossid_glb_visual`; visual.position.set(0,0,0); visual.rotation.set(0,0,0); visual.scale.set(1,1,1); markGlbVisual(visual); applyChossidNpcStyle(visual, bridge?.definition || {}); root.add(visual); root.__npcVisualLod ||= {}; root.__npcVisualLod.fullChildren = [visual]; Object.assign(root.userData ||= {}, { npcGlbLoaded:true, npcGlbLoading:false, npcRealChossidGlbReady:true, npcNearVisualPending:false }); bridge.__npcGlbVisual = visual; bridge.modelMesh = visual; attachChossidNpcAnimator(visual, gltf.animations || [], bridge); return visual; }
+export function npcGlbNearDiagnostics() { return { ...DIAG }; }
+export function requestNpcNearGlb(root, bridge, olam) { if (!root || !bridge) return null; if (ownsReal(root) || visualChildren(root).length) return skipAlreadyReal(root); if (root.userData?.npcGlbLoaded || root.userData?.npcGlbLoading) return root.__npcGlbPromise || null; DIAG.glbRequestedCount++; Object.assign(root.userData ||= {}, { npcGlbLoading:true, npcGlbDeferredUntilNear:false, firstPlayableBlockedByGlb:false }); root.__npcGlbPromise = loadFreshChossidGltf(olam).then(gltf => { const visual = addLoadedVisual(root, bridge, gltf); DIAG.glbLoadedCount++; return visual; }).catch(error => { DIAG.glbFailedCount++; DIAG.lastError = String(error?.message || error); root.userData.npcGlbLoading = false; root.userData.npcGlbError = DIAG.lastError; throw error; }); return root.__npcGlbPromise; }
 export default requestNpcNearGlb;

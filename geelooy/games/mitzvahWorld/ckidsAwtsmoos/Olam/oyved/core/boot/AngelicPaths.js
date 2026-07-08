@@ -48,8 +48,8 @@
  * @type {AngelicPathLedger}
  */
 export const ANGELIC_PATHS = Object.freeze({
-  OLAM_CORE: "../../../index.js",
-  UNIVERSAL_UTILS: "../../../../utils.js"
+  OLAM_CORE: "../../../index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
+  UNIVERSAL_UTILS: "../../../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"
 });
 
 /**

@@ -3,13 +3,13 @@
  * @file apparel.js
  * @description MASTER APPAREL AGGREGATOR
  */
-import { YAMULKAS } from './apparel/head/yamulkas.js';
-import { HATS }     from './apparel/head/hats.js';
-import { JACKETS }  from './apparel/torso/jackets.js';
-import { SHIRTS }   from './apparel/torso/shirts.js';
-import { PANTS }    from './apparel/legs/pants.js';
-import { SHOES }    from './apparel/feet/shoes.js';
-import { GARTELS }  from './apparel/accessories/gartels.js';
+import { YAMULKAS } from './apparel/head/yamulkas.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { HATS }     from './apparel/head/hats.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { JACKETS }  from './apparel/torso/jackets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { SHIRTS }   from './apparel/torso/shirts.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { PANTS }    from './apparel/legs/pants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { SHOES }    from './apparel/feet/shoes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { GARTELS }  from './apparel/accessories/gartels.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const APPAREL_REGISTRY = {
     ...YAMULKAS,

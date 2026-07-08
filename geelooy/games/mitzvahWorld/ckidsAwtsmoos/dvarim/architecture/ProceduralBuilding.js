@@ -7,9 +7,9 @@
  * The Awtsmoos burns the stale import so the next refresh receives brick visual
  * walls, gable roofs, and hidden carved collision shells.
  */
-import Domem from "../../chayim/domem/index.js";
-import BuildingManifestor from "./methods/BuildingManifestor.js?v=clean-collider-brick-house-20260603-bh339";
-import { HousePresets } from "../../utils/3d/procedural/house/data/HousePresets.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import BuildingManifestor from "./methods/BuildingManifestor.js?compact=true&v=clean-collider-brick-house-20260603-bh339";
+import { HousePresets } from "../../utils/3d/procedural/house/data/HousePresets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ProceduralBuilding extends Domem {
   type = "proceduralBuilding";

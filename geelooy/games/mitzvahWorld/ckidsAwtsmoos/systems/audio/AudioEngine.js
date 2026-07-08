@@ -10,8 +10,8 @@
  * physical sound (AudioContext) when it resides in the spiritual realm (Worker).
  * It detects its environment and routes the holy frequency accordingly.
  */
-import Synthesizer from "./Synthesizer.js";
-import SOUND_DATA from "./SoundData.js";
+import Synthesizer from "./Synthesizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import SOUND_DATA from "./SoundData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class AudioEngine {
     static _context = null;

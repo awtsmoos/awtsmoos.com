@@ -7,12 +7,12 @@
  * Now fortified with absolute prototype bonding to ensure every method
  * is reachable by the soul in the heat of commerce or battle.
  */
-import DataStore from "./storage/DataStore.js";
-import ItemEnricher from "./logic/ItemEnricher.js";
-import Equipper from "./logic/Equipper.js";
-import itemsMethods from "./methods/items.js"; // B"H: Explicitly importing all methods
-import uiMethods from "./methods/ui.js";
-import movementMethods from "./methods/movement.js";
+import DataStore from "./storage/DataStore.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ItemEnricher from "./logic/ItemEnricher.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Equipper from "./logic/Equipper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import itemsMethods from "./methods/items.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"; // B"H: Explicitly importing all methods
+import uiMethods from "./methods/ui.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import movementMethods from "./methods/movement.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class InventoryManager {
     constructor(owner) {
@@ -52,7 +52,7 @@ export default class InventoryManager {
     }
 }
 
-import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H: THE BINDING

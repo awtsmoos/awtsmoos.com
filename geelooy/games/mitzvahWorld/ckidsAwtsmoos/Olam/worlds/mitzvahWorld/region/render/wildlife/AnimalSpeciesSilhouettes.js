@@ -3,7 +3,7 @@
  * @file AnimalSpeciesSilhouettes.js
  * @description Cheap LOD silhouettes derived from the shared anatomy catalog.
  */
-import { ANIMAL_ANATOMY, animalAnatomy } from "./anatomy/AnimalAnatomyCatalog.js?v=animal-realism-split-20260705-bh1";
+import { ANIMAL_ANATOMY, animalAnatomy } from "./anatomy/AnimalAnatomyCatalog.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 function silhouetteFrom(anatomy) {
   return {

@@ -5,13 +5,13 @@
  * sacred RPG conversation panel. Stats, choices, shop, and level cards remain
  * intact, but the speaker now has a visible face in the corner.
  */
-import { closePanels, esc, sealIsland } from './domKit.js?v=npc-scroll-pass-through-20260609-bh638';
-import { installNpcCss } from './npcCss.js?v=npc-portrait-20260628-bh1';
-import { actionButtonsHtml, linesHtml } from './npcDialogueMarkup.js?v=village-polish-20260612-bh810';
-import { portraitHtml } from './npcPortraitMarkup.js?v=npc-portrait-20260628-bh1';
-import { levelCardsHtml } from './npcLevelMarkup.js';
-import { bindNpcOverlayActions } from './npcOverlayActions.js?v=village-polish-20260612-bh810';
-import { statsHtml } from './npcStatsMarkup.js';
+import { closePanels, esc, sealIsland } from './domKit.js?compact=true&v=npc-scroll-pass-through-20260609-bh638';
+import { installNpcCss } from './npcCss.js?compact=true&v=npc-portrait-20260628-bh1';
+import { actionButtonsHtml, linesHtml } from './npcDialogueMarkup.js?compact=true&v=village-polish-20260612-bh810';
+import { portraitHtml } from './npcPortraitMarkup.js?compact=true&v=npc-portrait-20260628-bh1';
+import { levelCardsHtml } from './npcLevelMarkup.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { bindNpcOverlayActions } from './npcOverlayActions.js?compact=true&v=village-polish-20260612-bh810';
+import { statsHtml } from './npcStatsMarkup.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function subtitle(data = {}) { return data.areaName || data.role || data.npcRole || 'Friendly NPC'; }
 export function openLevelSelect(manager, data = {}) {
   openNpcChallengeOverlay(manager, { ...data, title: data.title || 'Choose Levels', lines: data.lines || ['Pick any challenge.'], chooserOpen: true });

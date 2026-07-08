@@ -1,5 +1,5 @@
 // B"H
-import { harvestAnimal } from "../../platform/MitzvahPlatformCatalog.js";
+import { harvestAnimal } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const LOOT_TABLES = {
   fox:[{ id:"hide", qty:1 }, { id:"fox_tail", qty:1 }],

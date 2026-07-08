@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionFinalColliderBatch.js @description Node-safe final-position collider batcher with source-record category reporting. */
-import { colliderCategoryStats } from "../collision/ColliderCategoryRegistry.js?v=collider-category-registry-20260615-bh2";
+import { colliderCategoryStats } from "../collision/ColliderCategoryRegistry.js?compact=true&v=collider-category-registry-20260615-bh2";
 function pendingMeshes(root) { const out = []; root?.traverse?.(o => { if (o?.userData?.pendingFinalOctreeBatch && o.isMesh) out.push(o); }); return out; }
 function sourceRecords(root) { const out = []; root?.traverse?.(o => { const list = o?.userData?.colliderSources; if (Array.isArray(list)) list.forEach(record => out.push(record)); }); return out; }
 function addOne(olam, mesh, registry) { if (!olam?.worldOctree || !mesh?.isMesh || !mesh.geometry) return false; mesh.updateMatrixWorld(true); Object.assign(mesh.userData ||= {}, { finalPositionConfirmed:true, finalOctreeBatchAdded:true, skipOctree:false, noOctree:false, addToOctree:true, isSolid:true, explicitCollision:true }); const accepted = Boolean(olam.worldOctree.addObject(mesh)); if (accepted) registry.push(mesh); return accepted; }

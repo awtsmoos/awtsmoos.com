@@ -5,9 +5,9 @@
  * Loot proof makes sure combat still leaves a usable vessel behind: an animal
  * can fall, become a corpse, open a payload, and transfer its reward.
  */
-import { lootAll, lootPayload } from "../../../../systems/loot/LootRuntime.js?v=final-lootable-corpse-20260705-bh1";
-import { collectLootDiagnostics } from "../../../../systems/loot/LootDiagnostics.js";
-import { animals, sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { lootAll, lootPayload } from "../../../../systems/loot/LootRuntime.js?compact=true&v=final-lootable-corpse-20260705-bh1";
+import { collectLootDiagnostics } from "../../../../systems/loot/LootDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { animals, sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 export async function proveLoot(olam) {
   const live = animals(olam).filter(a => !a.userData?.health?.dead);

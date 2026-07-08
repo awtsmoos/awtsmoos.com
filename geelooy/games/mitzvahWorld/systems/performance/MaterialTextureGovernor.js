@@ -4,7 +4,7 @@
  * Texture realism is not giant files. It is tiny detailed maps, mirrored repeat,
  * mipmaps, anisotropy, correct filters, and no pixelated nearest betrayal.
  */
-import { pingPongTexturePolicy } from './PingPongTexturePolicy.js';
+import { pingPongTexturePolicy } from './PingPongTexturePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 function findScene(scope = globalThis) {
   return scope.__AWTSMOOS_OLAM__?.scene || scope.olam?.scene || scope.mana?.activeOlam?.scene || scope.scene || null;

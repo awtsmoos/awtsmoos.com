@@ -1,5 +1,5 @@
 // B"H
-import { buildActionSpec, createChossidActionClip } from "./ActionClipFactory.js";
+import { buildActionSpec, createChossidActionClip } from "./ActionClipFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export const RunActionSpec = buildActionSpec("run", .72, [
   { bone:"spine", keys:[{ t:0, r:[.12, 0, 0] }, { t:.36, r:[.18, 0, 0] }, { t:.72, r:[.12, 0, 0] }] },
   { bone:"leftUpLeg", keys:[{ t:0, r:[.82, 0, 0] }, { t:.36, r:[-.72, 0, 0] }, { t:.72, r:[.82, 0, 0] }] },

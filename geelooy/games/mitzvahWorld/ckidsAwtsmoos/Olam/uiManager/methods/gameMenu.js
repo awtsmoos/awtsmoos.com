@@ -3,8 +3,8 @@
  * B"H
  * UI Manager - Game Menu Logic
  */
-import gameMenu from "../gameMenu.js";
-import btnBubble from "../ui/resources/btnBubble.js";
+import gameMenu from "../gameMenu.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import btnBubble from "../ui/resources/btnBubble.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {
     makeGameMenu() {

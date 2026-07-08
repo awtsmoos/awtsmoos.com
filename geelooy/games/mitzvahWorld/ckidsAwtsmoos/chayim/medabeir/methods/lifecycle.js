@@ -6,7 +6,7 @@
  * hidden culprit: `ready()` auto-opened dialogue for every NPC with dialogue
  * data, so village load itself spawned a shop/dialogue UI with no player actor.
  */
-import Chai from "../../chai/index.js";
+import Chai from "../../chai/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {
   async heescheel(olam) {

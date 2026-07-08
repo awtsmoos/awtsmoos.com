@@ -1,9 +1,9 @@
 // B"H
-import { createBlankWorldProject, createWorldObject, createDoor, createNpc, createAnimal, addEntity, duplicateEntity, deleteEntity, activeScene } from "../core/StudioState.js";
-import { saveProjectLocal, loadProjectLocal, downloadProject } from "../core/StudioPersistence.js";
-import { createSpawnRule, saveSpawnRulesToWorld, weightedSpawnPreview } from "../generation/SpawnProbabilityTable.js";
-import { generateAnimalPreset } from "../animals/AnimalGeneratorApp.js";
-import { compileLivingCreationDocument } from "../platform/LivingCreationPlatform.js";
+import { createBlankWorldProject, createWorldObject, createDoor, createNpc, createAnimal, addEntity, duplicateEntity, deleteEntity, activeScene } from "../core/StudioState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { saveProjectLocal, loadProjectLocal, downloadProject } from "../core/StudioPersistence.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createSpawnRule, saveSpawnRulesToWorld, weightedSpawnPreview } from "../generation/SpawnProbabilityTable.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateAnimalPreset } from "../animals/AnimalGeneratorApp.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { compileLivingCreationDocument } from "../platform/LivingCreationPlatform.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createWorldStudioState(project = createBlankWorldProject()) {
   return { project, selected:null, mode:"select", lastSaved:null, testPlayUrl:null, platform:null };

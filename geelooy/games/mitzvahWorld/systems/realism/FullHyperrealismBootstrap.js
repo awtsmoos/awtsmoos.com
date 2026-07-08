@@ -1,6 +1,6 @@
 // B"H
 /** @file FullHyperrealismBootstrap.js @description Boots every hyperrealism foundation after world memory exists. */
-import { createFullHyperrealismRuntime } from './FullHyperrealismRuntime.js';
+import { createFullHyperrealismRuntime } from './FullHyperrealismRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 const scope = globalThis;
 if (!scope.__MITZVAH_FULL_HYPERREALISM__) {

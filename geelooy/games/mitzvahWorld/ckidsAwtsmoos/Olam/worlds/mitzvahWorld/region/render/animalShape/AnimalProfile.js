@@ -1,6 +1,6 @@
 // B"H
 /** AnimalProfile.js — species proportions, colors, hostility, and ground lift. */
-import { SIZE, TINT } from "../RegionWildlifeData.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { SIZE, TINT } from "../RegionWildlifeData.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
 
 const ACCENT = Object.freeze({
   rabbit: 0xf3e6d2,

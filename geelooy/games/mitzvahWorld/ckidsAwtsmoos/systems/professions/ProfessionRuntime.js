@@ -1,7 +1,7 @@
 // B"H
 /** Professions: trained recipes, legacy crafting hooks, and UI-compatible XP. */
-import { craft } from "./RecipeRuntime.js";
-import { recipeKnown } from "./ProfessionTrainingRuntime.js";
+import { craft } from "./RecipeRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { recipeKnown } from "./ProfessionTrainingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const RECIPES = Object.freeze({
   challah:{ uses:{ flour:1 }, produces:{ bread:2 }, kind:"crafted" },

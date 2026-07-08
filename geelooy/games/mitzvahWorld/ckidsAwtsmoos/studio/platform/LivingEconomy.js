@@ -1,5 +1,5 @@
 // B"H
-import { calculateItemPrice, economyKeyForItem, pricedVendorStock } from "../../systems/economy/EconomyPricingRuntime.js";
+import { calculateItemPrice, economyKeyForItem, pricedVendorStock } from "../../systems/economy/EconomyPricingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const list = value => Array.isArray(value) ? value : value == null ? [] : [value];
 

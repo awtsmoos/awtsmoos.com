@@ -4,8 +4,8 @@
  * @description Chapter 1003: every villager path is carved at load time; during play
  * the NPC merely remembers the next simple point, like a quiet spark orbiting home.
  */
-import { npcRouteNetwork } from "./NpcRouteNetwork.js";
-import { NPC_PROFESSION_BEHAVIORS, NPC_ROLE_ORDER } from "./NpcProfessionBehaviors.js";
+import { npcRouteNetwork } from "./NpcRouteNetwork.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { NPC_PROFESSION_BEHAVIORS, NPC_ROLE_ORDER } from "./NpcProfessionBehaviors.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const NAMES = Object.freeze(["Reb Mendel", "Reb Levi", "Shmerel", "Reb Yitzchak", "Chaya", "Bentzion", "Mushkie"]);
 const PHASES = Object.freeze(["morning", "noon", "evening", "night"]);
 function point(id, x, z) { return { id, x:Number(x)||0, z:Number(z)||0 }; }

@@ -1,8 +1,8 @@
 // B"H
 /** @file LockStateRuntime.js @description Runtime that unlocks gates and doors by key, mission, or owner permission. */
-import { hasKey } from "./KeyRegistry.js";
-import { lockContract, isOpenState } from "./LockableInteractionContract.js";
-import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
+import { hasKey } from "./KeyRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { lockContract, isOpenState } from "./LockableInteractionContract.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function emit(olam, text, color = "#ffd966") { olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color }); }
 function objectiveType(lock) { return String(lock?.lockId || "").includes("gate") ? "openGate" : "unlockDoor"; }

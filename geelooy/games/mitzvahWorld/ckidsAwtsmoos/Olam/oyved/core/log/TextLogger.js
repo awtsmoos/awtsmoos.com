@@ -11,7 +11,7 @@
  * - normal info/debug stay silent
  */
 
-import { makeTextLogLine } from "./TextLogLine.js";
+import { makeTextLogLine } from "./TextLogLine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

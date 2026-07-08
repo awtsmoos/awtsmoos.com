@@ -7,7 +7,7 @@
  * dialogue-vessel actions are swallowed as harmless ghosts instead of console
  * wounds, while real DOM commands still pass through.
  */
-import Utils from "../../../utils.js";
+import Utils from "../../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const QUIET_MISSING_SHAYM = new Set(["dialogue-vessel", "openNpcChallengeOverlay", "levelSelectScreen"]);
 

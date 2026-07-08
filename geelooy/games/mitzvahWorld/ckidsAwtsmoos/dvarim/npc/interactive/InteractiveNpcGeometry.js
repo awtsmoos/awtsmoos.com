@@ -5,7 +5,7 @@
  * Geometry helpers for NPC interaction. The Awtsmoos hides the invisible
  * carrier and reveals only the intentional ray vessel.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function positionOf(entity) {
   return entity?.mesh?.position

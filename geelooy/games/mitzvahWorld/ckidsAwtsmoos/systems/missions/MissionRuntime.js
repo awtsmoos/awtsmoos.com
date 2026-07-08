@@ -1,6 +1,6 @@
 // B"H
 /** MissionRuntime: accepts, progresses, finishes, and feeds older UI/chat imports. */
-import { STARTER_MISSIONS, getMission, missionsForState } from "./MissionRegistry.js";
+import { STARTER_MISSIONS, getMission, missionsForState } from "./MissionRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function ownerOf(store = {}) {
   return store.player || store.chossid || store;

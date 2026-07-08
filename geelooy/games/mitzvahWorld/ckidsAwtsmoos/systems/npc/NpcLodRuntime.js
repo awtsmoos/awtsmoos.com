@@ -1,7 +1,7 @@
 // B"H
 /** @file NpcLodRuntime.js @description Throttled NPC visual LOD ticker. */
-import { applyNpcVisualLod } from "./NpcVisualLod.js?v=deferred-npc-glb-20260705-bh1";
-import { collectNpcLodDiagnostics } from "./NpcLodDiagnostics.js?v=deferred-npc-glb-20260705-bh1";
+import { applyNpcVisualLod } from "./NpcVisualLod.js?compact=true&v=deferred-npc-glb-20260705-bh1";
+import { collectNpcLodDiagnostics } from "./NpcLodDiagnostics.js?compact=true&v=deferred-npc-glb-20260705-bh1";
 
 function list(olam) {
   return (olam?.interactableNivrayim || []).filter(n => ["customNpc", "medabeir", "interactiveNpc"].includes(n?.type));

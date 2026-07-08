@@ -4,7 +4,7 @@
  * @description Chapter 301: A shallow brook line suggests animated water later,
  * but already gives the village a flowing edge.
  */
-import { box, p } from './shapeKit.js';
+import { box, p } from './shapeKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function addBrookFeature(n, config) {
   config.brook.points.slice(0, -1).forEach((pt, i) => {
     const next = config.brook.points[i + 1];

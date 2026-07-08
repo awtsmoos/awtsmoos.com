@@ -10,8 +10,8 @@
  * and bestows upon it an identity. It bridges the gap between a generic 
  * brick and a holy vessel.
  */
-import { ITEM_REGISTRY } from "../data/registry.js";
-import { CurrencySystem } from "../../../dvarim/currencySystem.js";
+import { ITEM_REGISTRY } from "../data/registry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CurrencySystem } from "../../../dvarim/currencySystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ItemEnricher {
     /**

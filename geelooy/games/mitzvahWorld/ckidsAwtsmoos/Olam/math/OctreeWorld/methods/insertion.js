@@ -15,7 +15,7 @@
  * inherits the absolute world matrix, ensuring the physics grid is a perfect, 
  * unbroken reflection of the visual world.
  */
-import { NODE_STATE } from '../constants.js';
+import { NODE_STATE } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     /**

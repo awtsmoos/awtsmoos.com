@@ -11,8 +11,8 @@
  * @invariants Never creates #mitzvahActionDock or duplicate action buttons.
  * @failureModes Missing DOM roots are ignored so boot never fails during cleanup.
  */
-import { clearCenter, closePanel } from "./domCore.js";
-import { olamOf } from "./worldMarkers.js";
+import { clearCenter, closePanel } from "./domCore.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { olamOf } from "./worldMarkers.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 function toast(text) {
   olamOf(globalThis)?.ayshPeula?.("ui event", "effectsOverlay", {

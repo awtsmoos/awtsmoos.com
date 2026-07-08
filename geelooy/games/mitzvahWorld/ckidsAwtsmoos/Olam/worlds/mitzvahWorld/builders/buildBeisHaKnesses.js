@@ -8,10 +8,10 @@
  * @module buildBeisHaKnesses
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
-import { buildHall } from './beisHaKnesses/buildHall.js';
-import { buildSanctuary } from './beisHaKnesses/buildSanctuary.js';
-import { getMaterial } from '../materials/MaterialFactory.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { buildHall } from './beisHaKnesses/buildHall.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { buildSanctuary } from './beisHaKnesses/buildSanctuary.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { getMaterial } from '../materials/MaterialFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * @function buildBeisHaKnesses

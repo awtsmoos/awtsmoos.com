@@ -6,8 +6,8 @@
  * actors per frame to collapse passive herds out of full skinned geometry
  * quickly, while still spreading work so streaming does not spike.
  */
-import { applyAnimalVisualLod } from "./AnimalVisualLod.js?v=mobile-crisp-passive-herd-lod-20260705-bh2";
-import { collectAnimalLodDiagnostics } from "./AnimalLodDiagnostics.js?v=animal-realism-split-20260705-bh1";
+import { applyAnimalVisualLod } from "./AnimalVisualLod.js?compact=true&v=mobile-crisp-passive-herd-lod-20260705-bh2";
+import { collectAnimalLodDiagnostics } from "./AnimalLodDiagnostics.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 function actorList(root) {
   return (root.children || []).filter(child => child?.userData?.motion || child?.userData?.wildlifeActor || child?.userData?.species);

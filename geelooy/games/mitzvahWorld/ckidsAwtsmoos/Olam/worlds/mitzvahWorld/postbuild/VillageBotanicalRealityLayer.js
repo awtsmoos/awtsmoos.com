@@ -1,8 +1,8 @@
 // B"H
 /** @file VillageBotanicalRealityLayer.js @description Grounded road flowers, lamps, shrubs, and rocks, parser-clear. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh2";
-import { ROAD_SPINE, yAt, roadMask, sealDecor } from "./VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?compact=true&v=awtsmoos-realistic-village-materials-20260614-bh2";
+import { ROAD_SPINE, yAt, roadMask, sealDecor } from "./VillagePolishGround.js?compact=true&v=awtsmoos-polish-ground-20260614-bh2";
 const KEY = "__awtsmoosVillageBotanicalRealityLayer";
 function r(x, z, s = 1) { const v = Math.sin(x * 12.9898 + z * 78.233 + s * 37.719) * 43758.5453; return v - Math.floor(v); }
 function add(g, kind, mat, x, y, z, s, rot = 0, op = {}) { const m = rvMesh(kind, mat, [x, y + s[1] * .5, z], s, [0, rot, 0], op); g.add(m); return m; }

@@ -1,11 +1,11 @@
 // B"H
 /** @file TorahSpellbookRuntime.js @description Spellbook runtime with strict read/learn mission hooks, including already-known passages. */
-import { AbilityIndex, quoteMove, allQuoteMoves } from "../../tochen/torah/AbilityIndex.js";
-import { SeferIndex } from "../../tochen/torah/SeferIndex.js";
-import { ensureBag, addBagItem, hasBagItem } from "../inventory/BagRuntime.js";
-import { ensureCodex, emitCodex } from "./TorahCodexRuntime.js";
-import { ensureTorahSkills } from "./TorahSkillRuntime.js";
-import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
+import { AbilityIndex, quoteMove, allQuoteMoves } from "../../tochen/torah/AbilityIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { SeferIndex } from "../../tochen/torah/SeferIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureBag, addBagItem, hasBagItem } from "../inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureCodex, emitCodex } from "./TorahCodexRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureTorahSkills } from "./TorahSkillRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function emit(olam, name, payload) { olam?.ayshPeula?.("ui event", name, payload); }
 function emptyBook() { return { learned:{}, readSefarim:{}, mastery:{} }; }

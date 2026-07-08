@@ -1,25 +1,25 @@
 // B"H
 /** @file CommandRuntime.js @description Slash commands for chat, Torah, farming, strict collect/talk, kosher craft, services, and missions. */
-import { addChatMessage, openChat } from "./ChatRuntime.js";
-import { openBag } from "../inventory/BagRuntime.js";
-import { buyItem, equipItem } from "../equipment/EquipmentRuntime.js";
-import { openTorahCodex, castTorahSlot } from "../torah/TorahActionRuntime.js";
-import { readSefer, learnPassage } from "../torah/TorahSpellbookRuntime.js";
-import { missionUiPayload } from "../missions/MissionRuntime.js?v=starter-contracts-20260628-bh9";
-import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
-import { performDelivery } from "../missions/DeliveryRuntime.js?v=starter-contracts-20260628-bh9";
-import { performTalk } from "../npc/NpcInteractionRuntime.js?v=starter-contracts-20260628-bh9";
-import { farmAction } from "../farming/FarmInteractionRuntime.js";
-import { beginSeparation, doSeparationStep } from "../halacha/TerumahMaaserRuntime.js";
-import { collectFromNearbySource } from "../loot/CollectSourceRuntime.js";
-import { openCarcassUi } from "../kosher/CarcassRuntime.js";
-import { processNearestCarcass } from "../kosher/KosherProcessingRuntime.js";
-import { craftTefillin, sellTefillin } from "../kosher/TefillinCraftingRuntime.js";
-import { openVendor } from "../social/VendorRuntime.js?v=starter-contracts-20260628-bh9";
-import { restAtInn } from "../social/InnRuntime.js?v=starter-contracts-20260628-bh9";
-import { openMailbox } from "../social/MailboxRuntime.js?v=starter-contracts-20260628-bh9";
-import { openBank } from "../social/BankRuntime.js?v=starter-contracts-20260628-bh9";
-import { repairThing } from "../social/RepairRuntime.js?v=starter-contracts-20260628-bh9";
+import { addChatMessage, openChat } from "./ChatRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { openBag } from "../inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buyItem, equipItem } from "../equipment/EquipmentRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { openTorahCodex, castTorahSlot } from "../torah/TorahActionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { readSefer, learnPassage } from "../torah/TorahSpellbookRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { missionUiPayload } from "../missions/MissionRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { performDelivery } from "../missions/DeliveryRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { performTalk } from "../npc/NpcInteractionRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { farmAction } from "../farming/FarmInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { beginSeparation, doSeparationStep } from "../halacha/TerumahMaaserRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { collectFromNearbySource } from "../loot/CollectSourceRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { openCarcassUi } from "../kosher/CarcassRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { processNearestCarcass } from "../kosher/KosherProcessingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { craftTefillin, sellTefillin } from "../kosher/TefillinCraftingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { openVendor } from "../social/VendorRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { restAtInn } from "../social/InnRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { openMailbox } from "../social/MailboxRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { openBank } from "../social/BankRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { repairThing } from "../social/RepairRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function say(olam, tab, text, options = {}) { return addChatMessage(olam, tab, text, options); }
 function coords(olam) { const p = playerOf(olam)?.mesh?.position || {}; return `${Math.round(p.x || 0)}, ${Math.round(p.y || 0)}, ${Math.round(p.z || 0)}`; }

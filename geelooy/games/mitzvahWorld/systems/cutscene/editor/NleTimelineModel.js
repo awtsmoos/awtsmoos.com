@@ -1,5 +1,5 @@
 // B"H
-import { normalizeCutsceneTimeline, validateCutsceneTimeline } from "../CutsceneTimelineSchema.js";
+import { normalizeCutsceneTimeline, validateCutsceneTimeline } from "../CutsceneTimelineSchema.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const clone = value => JSON.parse(JSON.stringify(value ?? {}));
 const list = value => Array.isArray(value) ? value : [];

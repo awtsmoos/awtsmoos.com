@@ -1,18 +1,10 @@
-/* B"H
- * Chapter 736: Final browse-only polish, where tiny states become tactile.
- */
-.heichel-mobile-navigation .breadcrumb-link,
-.heichel-mobile-navigation .breadcrumb-separator { display: inline-flex; align-items: center; }
-.heichel-mobile-navigation .breadcrumb-link {
-  min-height: 2.35rem; border: 1px solid var(--heichel-line); border-radius: 999px; padding: .45rem .75rem;
-  background: rgba(255,255,255,.07); color: var(--heichel-ink); font: inherit; font-weight: 900; cursor: pointer;
-}
-.heichel-mobile-navigation .breadcrumb-link:hover { background: rgba(102,231,255,.14); }
-.heichel-mobile-navigation .breadcrumb-separator { color: var(--heichel-muted-ink); padding-inline: .25rem; }
-.heichel-mobile-navigation details[open] > summary .topbar-icon,
-.heichel-mobile-navigation .topbar-notification-menu[open] summary { transform: translateY(-1px); }
-.heichel-mobile-navigation .nav-card[data-type="series"] .nav-card-media span { background: rgba(216,170,81,.28); }
-.heichel-mobile-navigation .nav-card[data-type="post"] .nav-card-media span { background: rgba(255,255,255,.2); }
-.heichel-mobile-navigation .viewport:not(.hidden) { animation: heichelViewportIn .22s ease-out; }
-@keyframes heichelViewportIn { from { opacity: .25; transform: translateY(5px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .heichel-mobile-navigation .viewport:not(.hidden) { animation: none; } }
+/* B"H — tactile chips, clean breadcrumbs, cheap motion. */
+.heichel-mobile-navigation .breadcrumb-river { align-items:center; display:flex; flex-wrap:wrap; gap:.38rem; }
+.heichel-mobile-navigation .breadcrumb-link,.heichel-mobile-navigation .breadcrumb-separator { display:inline-flex; align-items:center; }
+.heichel-mobile-navigation .breadcrumb-link { background:#0c1424; border:1px solid rgba(255,255,255,.1); border-radius:999px; color:#f8fafc; cursor:pointer; font:inherit; font-weight:900; min-height:2.4rem; padding:.48rem .78rem; transition:transform 150ms ease,border-color 150ms ease,background 150ms ease; }
+.heichel-mobile-navigation .breadcrumb-link:hover,.heichel-mobile-navigation .breadcrumb-link:focus-visible { background:rgba(102,231,255,.14); border-color:rgba(91,216,232,.36); outline:none; transform:translate3d(0,-1px,0); }
+.heichel-mobile-navigation .breadcrumb-separator { color:#9fd9e6; padding-inline:.08rem; }
+.heichel-mobile-navigation details[open] > summary .topbar-icon,.heichel-mobile-navigation .topbar-notification-menu[open] summary { transform:translateY(-1px); }
+.heichel-mobile-navigation .viewport:not(.hidden) { animation:heichelViewportIn .22s ease-out; }
+@keyframes heichelViewportIn { from{opacity:.25;transform:translateY(5px)} to{opacity:1;transform:none} }
+@media (prefers-reduced-motion:reduce){.heichel-mobile-navigation .viewport:not(.hidden){animation:none}.heichel-mobile-navigation *{transition-duration:1ms!important}}

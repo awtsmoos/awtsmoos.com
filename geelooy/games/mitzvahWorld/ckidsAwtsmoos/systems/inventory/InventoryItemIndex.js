@@ -1,8 +1,8 @@
 ﻿// B"H
 /** @file InventoryItemIndex.js @description MMO item index for sefarim, keys, kosher craft, farm produce, rewards, food, tools, and quest items. */
-import { SeferIds, seferItem } from "../../tochen/torah/SeferIndex.js";
-import { KeyRegistry, keyItem } from "../locks/KeyRegistry.js";
-import { decorateItemIcon } from "./ItemIconResolver.js";
+import { SeferIds, seferItem } from "../../tochen/torah/SeferIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { KeyRegistry, keyItem } from "../locks/KeyRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { decorateItemIcon } from "./ItemIconResolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export const BAG_CATEGORIES = Object.freeze(["Sefarim", "Quest Items", "Materials", "Food", "Equipment", "Torah Artifacts"]);
 const keyItems = Object.fromEntries(Object.keys(KeyRegistry).map(id => [id, decorateItemIcon(keyItem(id))]));
 const baseItems = {

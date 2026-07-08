@@ -6,7 +6,7 @@
  * chossid meet house, fence, tree, terrain, and sealed boundary with a readable
  * name, then slide along the tangent instead of jittering against the decree.
  */
-import { logEightStep } from "../../../../systems/debug/ViralGameplayLog.js";
+import { logEightStep } from "../../../../systems/debug/ViralGameplayLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const WALL_STEP_HEIGHT = 0.2;
 const MAX_WALL_SOLVES = 4;

@@ -1,5 +1,5 @@
 // B"H
-import { harvestAnimal } from "../../platform/MitzvahPlatformCatalog.js";
+import { harvestAnimal } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const LOOT = Object.freeze({
   fox:["fox_fur", "sharp_tooth"],

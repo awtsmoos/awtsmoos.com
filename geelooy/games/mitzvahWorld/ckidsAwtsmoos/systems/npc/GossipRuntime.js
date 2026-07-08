@@ -9,8 +9,8 @@
  * without birthing another dialogue system. The same quest bridge still supplies
  * actual mission choices.
  */
-import { questChoicesForNpc } from "../missions/QuestGossipRuntime.js";
-import { npcStoryBeat } from "./NpcStoryRuntime.js";
+import { questChoicesForNpc } from "../missions/QuestGossipRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { npcStoryBeat } from "./NpcStoryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const cache = new Map();
 const MUTATIONS = [

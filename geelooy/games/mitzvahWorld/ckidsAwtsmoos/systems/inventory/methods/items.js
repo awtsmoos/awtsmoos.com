@@ -3,9 +3,9 @@
  * B"H
  * @module ItemMethods
  */
-import { CurrencySystem } from "../../../dvarim/currencySystem.js";
-import { ITEM_REGISTRY } from "../data/registry.js";
-import ItemEnricher from "../logic/ItemEnricher.js";
+import { CurrencySystem } from "../../../dvarim/currencySystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ITEM_REGISTRY } from "../data/registry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ItemEnricher from "../logic/ItemEnricher.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {
     /**

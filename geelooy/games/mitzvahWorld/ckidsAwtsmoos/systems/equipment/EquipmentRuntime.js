@@ -4,11 +4,11 @@
  * @description
  * Chapter 415: Vendor purchases now drink from the same wallet river as shops.
  */
-import { hasBagItem, addBagItem, emitBag } from "../inventory/BagRuntime.js";
-import { itemById } from "../inventory/InventoryItemIndex.js";
-import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js";
-import { ensureDurability } from "./DurabilityRuntime.js";
-import { equipmentStatPayload } from "./EquipmentStatRuntime.js";
+import { hasBagItem, addBagItem, emitBag } from "../inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { itemById } from "../inventory/InventoryItemIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureDurability } from "./DurabilityRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { equipmentStatPayload } from "./EquipmentStatRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function playerOf(olam) { return walletPlayerOf(olam); }
 export function ensureEquipment(olam) { const p = playerOf(olam); if (!p) return null; p.inventory ||= { slots:[], actionSlots:[], equipment:{} }; p.inventory.equipment ||= {}; ensureDurability(olam); return p.inventory.equipment; }

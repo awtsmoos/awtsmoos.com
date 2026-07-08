@@ -1,8 +1,8 @@
 // B"H
-import { createTimeline, addTimelineClip, addTimelineKeyframe } from "./Timeline.js";
-import { createChossidCharacterWardrobe } from "../../characters/chossid/wardrobe/ChossidWardrobe.js";
-import { speciesNames } from "../../platform/MitzvahPlatformCatalog.js";
-import { DEFAULT_CUSTOM_MOVIE_ACTIONS, actionPickerModel, movieActionNames, normalizeMovieActionName } from "./MovieActionCatalog.js";
+import { createTimeline, addTimelineClip, addTimelineKeyframe } from "./Timeline.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createChossidCharacterWardrobe } from "../../characters/chossid/wardrobe/ChossidWardrobe.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { speciesNames } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { DEFAULT_CUSTOM_MOVIE_ACTIONS, actionPickerModel, movieActionNames, normalizeMovieActionName } from "./MovieActionCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function chossidCharacter(input) {
   return { ...input, model:"chossid.glb", wardrobe:createChossidCharacterWardrobe(input), customActionReady:true };

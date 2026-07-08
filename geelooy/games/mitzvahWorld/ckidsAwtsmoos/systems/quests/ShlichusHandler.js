@@ -4,7 +4,7 @@
  * The overseer of all spiritual missions within the Olam.
  * Bridges the Divine Will (Blueprint) with the active service of the souls.
  */
-import Shlichus, { QUEST_STATE } from "./Shlichus.js";
+import Shlichus, { QUEST_STATE } from "./Shlichus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ShlichusHandler {
     constructor(olam) {

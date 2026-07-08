@@ -5,7 +5,7 @@
  * speech closes, the meadow returns. The Awtsmoos makes conversation a bridge,
  * not a curtain over the world.
  */
-import { DialogueUI } from "./DialogueUI.js";
+import { DialogueUI } from "./DialogueUI.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function setDialogueOpen(open) { globalThis.document?.body?.classList?.toggle("awtsmoos-dialogue-open", Boolean(open)); }
 export default class SiachManager {
   constructor(nivra, olam) { this.nivra = nivra; this.olam = olam; this.activeConversation = null; }

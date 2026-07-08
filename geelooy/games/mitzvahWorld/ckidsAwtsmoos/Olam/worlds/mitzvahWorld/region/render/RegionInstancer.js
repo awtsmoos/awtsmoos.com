@@ -3,11 +3,11 @@
  * @file RegionInstancer.js
  * @description One grounded instancing gate: every tuft, leaf, rock, and road receives the same earth law.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { regionGeometry } from "./RegionGeometry.js?v=awtsmoos-geometry-20260614-bh2";
-import { regionMaterial } from "./RegionMaterials.js?v=awtsmoos-materials-20260614-bh2";
-import { groundedMatrix } from "./RegionGround.js";
-import { sealRegionVisual } from "./RegionSeal.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { regionGeometry } from "./RegionGeometry.js?compact=true&v=awtsmoos-geometry-20260614-bh2";
+import { regionMaterial } from "./RegionMaterials.js?compact=true&v=awtsmoos-materials-20260614-bh2";
+import { groundedMatrix } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const DOUBLE = new Set(["blade", "leafCard", "leaflet", "grassTuft"]);
 function sideFor(geometry) { return DOUBLE.has(geometry) ? THREE.DoubleSide : THREE.FrontSide; }
 function applyInstance(olam, mesh, color, spec, i) {

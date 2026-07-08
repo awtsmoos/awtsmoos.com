@@ -9,7 +9,7 @@
  * was accepted or skipped. The Awtsmoos reveals the unseen collider by forcing
  * it to confess its box.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const MAX_LOGS = 12;
 const state = { accepted: 0, skipped: 0 };
 const enabled = () => globalThis.__AWTSMOOS_COLLISION_AUDIT__ === true;

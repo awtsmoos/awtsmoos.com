@@ -1,11 +1,11 @@
 // B"H
 /** Combat proof: the animal must not be a sitting target; it attacks back hard. */
-import { makeCombatTarget } from "../../../../systems/combat/CombatTargeting.js?v=realistic-target-proof-20260706-bh2";
-import { applyAdventureDifficulty } from "../../../../systems/combat/CombatDifficultyScaler.js";
-import { observeCombatHit } from "../../../../systems/combat/CombatRetaliation.js";
-import { collectCombatDiagnostics } from "../../../../systems/combat/CombatDiagnostics.js";
-import { playerHp, setPlayerHp } from "../../../../systems/combat/CombatStats.js";
-import { animals, n, player, restorePlayer, setPlayerNear, sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { makeCombatTarget } from "../../../../systems/combat/CombatTargeting.js?compact=true&v=realistic-target-proof-20260706-bh2";
+import { applyAdventureDifficulty } from "../../../../systems/combat/CombatDifficultyScaler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { observeCombatHit } from "../../../../systems/combat/CombatRetaliation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { collectCombatDiagnostics } from "../../../../systems/combat/CombatDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { playerHp, setPlayerHp } from "../../../../systems/combat/CombatStats.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { animals, n, player, restorePlayer, setPlayerNear, sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 function resetRetaliation(mesh) { mesh.__combatCooldowns ||= {}; mesh.__combatCooldowns.retaliation = 0; }
 export async function proveCombat(olam) {
   const fox = animals(olam).find(a => a.userData?.motion?.species === "fox" && !a.userData?.health?.dead);

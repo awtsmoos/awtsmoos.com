@@ -1,5 +1,5 @@
 // B"H
-import { shaderDataFor } from "./MaterialFactory.js";
+import { shaderDataFor } from "./MaterialFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Purpose: install deterministic shader decorations for special materials.

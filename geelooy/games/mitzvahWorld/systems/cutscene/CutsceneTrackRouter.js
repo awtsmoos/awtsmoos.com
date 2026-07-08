@@ -1,11 +1,11 @@
 // B"H
-import { routeCameraBeat } from "./CutsceneCameraRouter.js";
-import { routeDialogueBeat } from "./CutsceneDialogueRouter.js";
-import { routeAnimationBeat } from "./CutsceneAnimationRouter.js";
-import { routeAudioBeat } from "./CutsceneAudioRouter.js";
-import { routeLightingBeat } from "./CutsceneLightingRouter.js";
-import { routeControlBeat } from "./CutsceneControlRouter.js";
-import { routeConsequenceBeat } from "./CutsceneConsequenceRouter.js";
+import { routeCameraBeat } from "./CutsceneCameraRouter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { routeDialogueBeat } from "./CutsceneDialogueRouter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { routeAnimationBeat } from "./CutsceneAnimationRouter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { routeAudioBeat } from "./CutsceneAudioRouter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { routeLightingBeat } from "./CutsceneLightingRouter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { routeControlBeat } from "./CutsceneControlRouter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { routeConsequenceBeat } from "./CutsceneConsequenceRouter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 export function routeCutsceneBeat(beat = {}) {
   const key = beat.track || beat.kind;

@@ -7,8 +7,8 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
-import { makeWall, makePillar } from '../wallUtils.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { makeWall, makePillar } from '../wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export async function buildChair(scene, physics, def, olam = null) {
   const { color = 0x4e342e, scale = 1 } = def.props || {};

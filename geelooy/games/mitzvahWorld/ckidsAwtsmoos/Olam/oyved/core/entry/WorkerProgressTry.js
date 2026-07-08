@@ -6,8 +6,8 @@
  * Progress-aware try/catch wrappers.
  */
 
-import { postWorkerProgress, postWorkerError } from "../protocol/WorkerProtocol.js";
-import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
+import { postWorkerProgress, postWorkerError } from "../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

@@ -1,8 +1,8 @@
 // B"H
-import { STARTER_ACTION_BAR } from "./StarterActionBarData.js";
-import { STARTER_ENEMY_ARCHETYPES } from "./StarterEnemyArchetypes.js";
-import { STARTER_SUBZONES } from "./StarterSubzoneData.js";
-import { clone, deterministicOffset, vec } from "./StarterMath.js";
+import { STARTER_ACTION_BAR } from "./StarterActionBarData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { STARTER_ENEMY_ARCHETYPES } from "./StarterEnemyArchetypes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { STARTER_SUBZONES } from "./StarterSubzoneData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { clone, deterministicOffset, vec } from "./StarterMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function meshLike(entity, extra = {}) {
   return {

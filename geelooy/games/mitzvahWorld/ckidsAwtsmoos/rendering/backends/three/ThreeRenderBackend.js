@@ -1,13 +1,13 @@
 // B"H
 /** @file ThreeRenderBackend.js @description Current concrete backend; the only animal path that touches Three. */
-import RenderBackend from "../../RenderBackend.js";
-import { createThreeGeometry } from "./ThreeGeometryAdapter.js";
-import { createThreeSkeleton } from "./ThreeSkeletonAdapter.js";
-import { createThreeMaterial } from "./ThreeMaterialAdapter.js";
-import { createThreeTexture } from "./ThreeTextureAdapter.js";
-import { createThreeSkinnedMesh } from "./ThreeSkinnedMeshAdapter.js";
-import { createThreeClip, createThreeMixer } from "./ThreeAnimationAdapter.js";
-import { createThreeGroup, createThreeMesh, markThree } from "./ThreeSceneNodeAdapter.js";
+import RenderBackend from "../../RenderBackend.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createThreeGeometry } from "./ThreeGeometryAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createThreeSkeleton } from "./ThreeSkeletonAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createThreeMaterial } from "./ThreeMaterialAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createThreeTexture } from "./ThreeTextureAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createThreeSkinnedMesh } from "./ThreeSkinnedMeshAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createThreeClip, createThreeMixer } from "./ThreeAnimationAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createThreeGroup, createThreeMesh, markThree } from "./ThreeSceneNodeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export class ThreeRenderBackend extends RenderBackend {
   constructor() { super("three"); }
   group(name) { return createThreeGroup(name); }

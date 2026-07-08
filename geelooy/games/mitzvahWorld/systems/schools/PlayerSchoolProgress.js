@@ -1,5 +1,5 @@
 // B"H
-import PLAYER_SCHOOL_CHECKLIST from "./PlayerSchoolChecklist.js";
+import PLAYER_SCHOOL_CHECKLIST from "./PlayerSchoolChecklist.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 const KEY = "awtsmoosPlayerSchoolProgress";
 function readRaw(win = globalThis.window) { try { return JSON.parse(win?.localStorage?.getItem?.(KEY) || "{}"); } catch { return {}; } }
 export function getSchoolProgress(win = globalThis.window) { const raw = readRaw(win); return PLAYER_SCHOOL_CHECKLIST.map(item => ({ ...item, done:Boolean(raw[item.id]), completedAt:raw[item.id] || null })); }

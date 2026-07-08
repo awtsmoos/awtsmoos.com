@@ -5,7 +5,7 @@
  * HUD events, not missing UI nodes. The console quiets, and the proof still
  * enters the world as CustomEvents for any listener that wants it.
  */
-import { changeBag, readBag, updatePerutahHud, writeBag } from './hudState.js';
+import { changeBag, readBag, updatePerutahHud, writeBag } from './hudState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function numeric(value) { const n = Number(value); return Number.isFinite(n) ? n : null; }
 function emit(name, detail = {}) { try { window.dispatchEvent(new CustomEvent(name, { detail })); } catch {} }
 function personalPayload(ob = {}) {

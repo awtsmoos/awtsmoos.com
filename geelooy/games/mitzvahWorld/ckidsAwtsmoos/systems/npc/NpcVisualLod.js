@@ -1,103 +1,22 @@
 // B"H
 /**
- * B"H
- *
- * NPC visual LOD is the village's etiquette of nearness.
- * A stable invisible proxy keeps speech and targeting alive from the first
- * playable instant, while the full player-matching chossid GLB waits in cache
- * until the player is close enough for faces, garments, and bones to matter.
+ * @file NpcVisualLod.js
+ * @description LOD may add proxies and diagnostics, never a second chossid GLB
+ * under a root already born from the canonical NPC clone.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { createNpcFarBlob, createNpcMidSimple } from "./lod/NpcSimpleFigureFactory.js?v=deferred-npc-glb-20260705-bh1";
-import { desiredNpcLodTier } from "./lod/NpcLodBands.js?v=deferred-npc-glb-20260705-bh1";
-import { requestNpcNearGlb } from "./lod/NpcGlbNearRuntime.js?v=deferred-npc-glb-20260705-bh1";
-import { collectNpcLodDiagnostics } from "./NpcLodDiagnostics.js?v=deferred-npc-glb-20260705-bh1";
-
-const PROXY_MAT = new THREE.MeshBasicMaterial({ transparent:true, opacity:0, depthWrite:false });
-
-function playerPos(olam) { return (olam?.player || olam?.chossid)?.mesh?.position || null; }
-function distanceXZ(a, b) { if (!a || !b) return Infinity; return Math.hypot(a.x - b.x, a.z - b.z); }
-
-function ensureProxy(root, bridge) {
-  let proxy = root.getObjectByName?.("AWTSMOOS_NPC_STABLE_INTERACTION_PROXY");
-  if (proxy) return proxy;
-  proxy = new THREE.Mesh(new THREE.CapsuleGeometry(.55, 1.75, 4, 8), PROXY_MAT.clone());
-  proxy.name = "AWTSMOOS_NPC_STABLE_INTERACTION_PROXY";
-  proxy.position.set(0, 1.18, 0);
-  proxy.visible = true;
-  proxy.frustumCulled = false;
-  proxy.nivraAwtsmoos = bridge;
-  Object.assign(proxy.userData ||= {}, {
-    npcInteractionProxy:true,
-    interactable:true,
-    selectableTarget:true,
-    dialogueTarget:true,
-    friendlyNpc:true,
-    skipRaycast:false,
-    skipOctree:true,
-    noOctree:true
-  });
-  root.add(proxy);
-  return proxy;
-}
-
-function ensureState(root, bridge) {
-  if (root.__npcVisualLod) return root.__npcVisualLod;
-  const state = {
-    tier:"far",
-    fullChildren:root.children.filter(child => child.userData?.npcFullGlbVisual),
-    mid:createNpcMidSimple(root.name),
-    far:createNpcFarBlob(root.name),
-    switches:0
-  };
-  state.mid.visible = false;
-  state.far.visible = false;
-  root.add(state.mid, state.far);
-  const proxy = ensureProxy(root, bridge);
-  bridge.raycastMesh = proxy;
-  bridge.interactionMesh = proxy;
-  bridge.mesh = root;
-  root.userData.npcStableInteractionProxy = true;
-  root.userData.npcGlbDeferredUntilNear = true;
-  root.userData.firstPlayableBlockedByGlb = false;
-  root.__npcVisualLod = state;
-  return state;
-}
-
-function setFullVisible(state, visible) {
-  state.fullChildren.forEach(child => {
-    if (child === state.mid || child === state.far) return;
-    child.visible = visible;
-  });
-}
-
-export function applyNpcVisualLod(bridge, olam, force = false) {
-  const root = bridge?.mesh;
-  if (!root?.isObject3D) return "unknown";
-  const state = ensureState(root, bridge);
-  const next = desiredNpcLodTier(state.tier, distanceXZ(root.position, playerPos(olam)));
-  const glbChanged = next === "near" && root.userData?.npcGlbLoaded && root.userData?.npcNearVisualPending;
-  if (!force && next === state.tier && !glbChanged) return state.tier;
-  if (next !== state.tier) {
-    state.tier = next;
-    state.switches++;
-  }
-  if (next === "near") requestNpcNearGlb(root, bridge, olam);
-  const hasGlb = Boolean(root.userData?.npcGlbLoaded && state.fullChildren.length);
-  setFullVisible(state, next === "near" && hasGlb);
-  state.mid.visible = next === "mid" || (next === "near" && !hasGlb);
-  state.far.visible = next === "far";
-  Object.assign(root.userData ||= {}, {
-    npcVisualLodTier:next,
-    npcLodSwitches:state.switches,
-    npcLodReducedGlbCost:next !== "near" || !hasGlb,
-    npcNearVisualPending:next === "near" && !hasGlb,
-    npcUsesSameGlbAsPlayer:true
-  });
-  bridge.userData ||= {};
-  bridge.userData.npcVisualLodTier = next;
-  collectNpcLodDiagnostics(olam);
-  return next;
-}
-
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+import { requestNpcNearGlb } from "./lod/NpcGlbNearRuntime.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+import { collectNpcLodDiagnostics } from "./NpcLodDiagnostics.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+const PROXY_MAT = new THREE.MeshBasicMaterial({ transparent:true, opacity:0, depthWrite:false, colorWrite:false });
+function isProxy(child) { return !!(child?.userData?.npcInteractionProxy || child?.userData?.invisibleRayProxy || child?.userData?.awtsmoosRayProxy); }
+function ownsReal(root) { const d = root?.userData || {}; return !!(d.realChossidGlbNpc || d.npcRealChossidGlb || d.npcAlreadyHasCanonicalGlbVisual || d.chossidGlbVisibleImmediately || d.cloneChossidNpcSceneProducedSingleBody); }
+function visualBranch(child) { const d = child?.userData || {}; return !!(d.npcFullGlbVisual || d.npcRealChossidGlb || d.npcCanonicalVisualBranch || d.npcSourceKeptFullBody); }
+function ensureProxy(root, bridge) { let proxy = root.getObjectByName?.("AWTSMOOS_NPC_STABLE_INTERACTION_PROXY"); if (proxy) return proxy; proxy = new THREE.Mesh(new THREE.CapsuleGeometry(.62, 1.85, 4, 8), PROXY_MAT.clone()); proxy.name = "AWTSMOOS_NPC_STABLE_INTERACTION_PROXY"; proxy.position.set(0, 1.18, 0); proxy.visible = true; proxy.frustumCulled = false; proxy.nivraAwtsmoos = bridge; Object.assign(proxy.userData ||= {}, { npcInteractionProxy:true, interactable:true, selectableTarget:true, dialogueTarget:true, friendlyNpc:true, skipRaycast:false, skipOctree:true, noOctree:true }); root.add(proxy); return proxy; }
+function counts(root) { let meshCount=0, skinnedMeshCount=0, boneRootCount=0; root.traverse?.(child => { if (child.isSkinnedMesh) skinnedMeshCount++; else if (child.isMesh && !isProxy(child)) meshCount++; if (child.isBone) boneRootCount++; }); return { meshCount, skinnedMeshCount, boneRootCount }; }
+function fullChildren(root) { return (root?.children || []).filter(child => visualBranch(child) && !isProxy(child)); }
+function visibleBranches(root) { return ownsReal(root) ? Math.max(1, Number(root.userData?.npcVisibleFullBodyBranches || 1)) : fullChildren(root).filter(child => child.visible !== false).length; }
+function summarize(root) { const c = counts(root); return { rootName:root.name || root.type, directChildren:(root.children || []).map(child => ({ name:child.name || child.type, type:child.type, visible:child.visible, visualBranch:visualBranch(child), proxy:isProxy(child) })), skinnedMeshCount:c.skinnedMeshCount, meshCount:c.meshCount, boneRootCount:c.boneRootCount, visibleFullBodyBranches:visibleBranches(root), alreadyLoadedRoot:ownsReal(root) }; }
+function shouldRequestNearGlb(root) { if (ownsReal(root)) return false; if (root.userData?.npcGlbLoaded || root.userData?.npcGlbLoading) return false; return fullChildren(root).length === 0; }
+export function npcVisualTreeProof(root, stage = "lod") { const summary = summarize(root); Object.assign(root.userData ||= {}, { npcVisibleFullBodyBranches:summary.visibleFullBodyBranches, npcVisualTreeProofStage:stage, npcVisualTreeProofAt:Date.now() }); console.info('B"H | NPC_SINGLE_VISUAL_BRANCH_PROOF', { stage, ...summary, seal:"no-second-npc-body-append-20260708-bh1" }); return summary; }
+export function applyNpcVisualLod(bridge, olam, force = false) { const root = bridge?.mesh; if (!root?.isObject3D) return "unknown"; const proxy = ensureProxy(root, bridge); bridge.raycastMesh ||= proxy; bridge.interactionMesh ||= proxy; bridge.mesh = root; root.__npcVisualLod ||= { tier:"near", switches:0, generatedBodyDisabled:true }; if (shouldRequestNearGlb(root)) requestNpcNearGlb(root, bridge, olam); Object.assign(root.userData ||= {}, { npcVisualLodTier:"near", npcLodSwitches:root.__npcVisualLod.switches, npcLodReducedGlbCost:false, npcNearVisualPending:shouldRequestNearGlb(root), generatedNpcBodyDisabled:true, duplicateNpcBodyPreventedAtSource:true }); bridge.userData ||= {}; Object.assign(bridge.userData, { npcVisualLodTier:"near", generatedNpcBodyDisabled:true, duplicateNpcBodyPreventedAtSource:true }); npcVisualTreeProof(root, force ? "applyNpcVisualLod-forced" : "applyNpcVisualLod"); collectNpcLodDiagnostics(olam); return "near"; }
 export default applyNpcVisualLod;

@@ -1,6 +1,6 @@
 // B"H
 /** Text and width writes are centralized to prevent layout storms. */
-import { byId, clamp } from "./LoadingDom.js";
+import { byId, clamp } from "./LoadingDom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function text(id, value) {
   const node = byId(id), next = value == null ? "" : String(value);
   if (node && node.textContent !== next) node.textContent = next;

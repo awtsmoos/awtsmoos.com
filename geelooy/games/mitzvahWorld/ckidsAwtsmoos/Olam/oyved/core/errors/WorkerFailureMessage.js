@@ -6,7 +6,7 @@
  * Builds text-only Worker failure messages.
  */
 
-import { errorToText, isImportFailure } from "./ErrorTextSerializer.js";
+import { errorToText, isImportFailure } from "./ErrorTextSerializer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

@@ -6,8 +6,8 @@
  * A gateway between realms. The arch represents the bending of the strict line of judgment (Gevurah)
  * into a bridge of mercy (Chesed). It stands upon two solid pillars, holding up the curve of the heavens.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Arch {
     /**

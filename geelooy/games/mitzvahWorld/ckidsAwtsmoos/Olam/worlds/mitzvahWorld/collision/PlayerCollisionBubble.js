@@ -4,12 +4,12 @@
  * The old 9m player radius made the Chossid strike invisible walls. Now the
  * body is near the capsule, while terrain still samples a forgiving nearby ray.
  */
-import CollisionBudget from "./CollisionBudget.js";
-import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js";
-import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js";
-import { houseCollisionDisabled } from "./player/PlayerCollisionFlags.js?v=perf-tight-collision-20260703-bh2";
-import { groundPlayer, hitPayload, rising } from "./player/PlayerCollisionGround.js?v=perf-tight-collision-20260703-bh2";
-import { resolveHouseMovement, updateHouseFocus } from "./player/PlayerCollisionHouse.js?v=perf-tight-collision-20260703-bh2";
+import CollisionBudget from "./CollisionBudget.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { houseCollisionDisabled } from "./player/PlayerCollisionFlags.js?compact=true&v=perf-tight-collision-20260703-bh2";
+import { groundPlayer, hitPayload, rising } from "./player/PlayerCollisionGround.js?compact=true&v=perf-tight-collision-20260703-bh2";
+import { resolveHouseMovement, updateHouseFocus } from "./player/PlayerCollisionHouse.js?compact=true&v=perf-tight-collision-20260703-bh2";
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 function bodyRadius(player, fallback) {
   return Math.max(0.32, Math.min(0.82, finite(player?.collider?.radius, finite(player?.radius, fallback))));

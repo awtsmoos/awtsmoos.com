@@ -1,5 +1,5 @@
 // B"H
-import { platformActionShorthandTerms, speciesNames } from "../../platform/MitzvahPlatformCatalog.js";
+import { platformActionShorthandTerms, speciesNames } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const AI_WORLD_SHORT_SCHEMA_VERSION = "mitzvah-ai-world-short-v2";
 

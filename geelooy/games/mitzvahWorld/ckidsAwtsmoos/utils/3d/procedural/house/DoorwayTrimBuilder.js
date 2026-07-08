@@ -13,7 +13,7 @@
  * ║  each entrance. Emits pure JSON instructions.               ║
  * ╚═══════════════════════════════════════════════════════════╝
  */
-import ENTRANCE_POSITIONS from './data/EntrancePositionMap.js';
+import ENTRANCE_POSITIONS from './data/EntrancePositionMap.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class DoorwayTrimBuilder {
     static build(blueprint) {

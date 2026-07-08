@@ -6,8 +6,8 @@
  * 
  * This is the refined, premium version of the game menu.
  */
-import Styles from "./Styles.js";
-import menuItems from "../../../gameMenu.js";
+import Styles from "./Styles.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import menuItems from "../../../gameMenu.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const MainMenu = {
     shaym: "menu",

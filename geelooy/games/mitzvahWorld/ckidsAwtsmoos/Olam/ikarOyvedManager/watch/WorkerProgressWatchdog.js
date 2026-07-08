@@ -9,7 +9,7 @@
 import {
   ensureWorkerProgressStore,
   getWorkerProgressAge
-} from "../progress/WorkerProgressStore.js";
+} from "../progress/WorkerProgressStore.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

@@ -5,7 +5,7 @@
  * Chapter 161: Coins, goals, and sparks are counted without vanity. The
  * Awtsmoos lets the HUD appear only where a level truly needs perutah progress.
  */
-import { n, q } from "./domKit.js";
+import { n, q } from "./domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const BAG_KEY = "awtsmoosMitzvahPersonalPerutas";
 export const readBag = () => { try { return n(localStorage.getItem(BAG_KEY), 0); } catch { return 0; } };
 export const writeBag = value => { try { localStorage.setItem(BAG_KEY, String(Math.max(0, Math.floor(n(value))))); } catch {} };

@@ -8,7 +8,7 @@
  * Logs only errors.
  */
 
-import { makeMainTextLine } from "./MainTextLogLine.js";
+import { makeMainTextLine } from "./MainTextLogLine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

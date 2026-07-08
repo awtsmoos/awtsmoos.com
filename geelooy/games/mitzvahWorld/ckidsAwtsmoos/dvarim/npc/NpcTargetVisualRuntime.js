@@ -6,7 +6,7 @@
  * beneath the NPC and a small camera-facing hint above him without entering
  * raycasts, octrees, or combat target law.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const VISUAL_NAME = "awtsmoos_friendly_npc_target_visual";
 const GOLD = 0xffdc65;

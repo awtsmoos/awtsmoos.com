@@ -4,7 +4,7 @@
  * The single Olam-side bridge to THREE. Files that need the namespace may import
  * `{ THREE }`; files that need constructors may import only those names.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export { THREE };
 export const AmbientLight = THREE.AmbientLight;
 export const Box3 = THREE.Box3;

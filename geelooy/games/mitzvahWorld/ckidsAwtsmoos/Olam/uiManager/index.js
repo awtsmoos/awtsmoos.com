@@ -1,8 +1,8 @@
 ﻿// B"H
 /** @class UIManager @description UI root with no blocking alerts. */
-import UI from "/scripts/awtsmoos/ui/index.js";
-import style from "./ui/style.js?v=ray-ground-ui-20260602-bh129";
-import mainMenu from "./ui/mainMenu/index.js?v=direct-worker-actionbar-roots-main-20260615-bh916";
+import UI from "/scripts/awtsmoos/ui/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import style from "./ui/style.js?compact=true&v=ray-ground-ui-20260602-bh129";
+import mainMenu from "./ui/mainMenu/index.js?compact=true&v=direct-worker-actionbar-roots-main-20260615-bh916";
 function warnNoDialog(label, detail) { console.error('B"H | UI_MANAGER_NOTICE_NO_DIALOG', { label, detail }); }
 export default class UIManager {
   constructor() {}

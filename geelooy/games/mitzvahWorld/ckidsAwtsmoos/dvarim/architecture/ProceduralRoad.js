@@ -12,8 +12,8 @@
  * to the `RoadAssembler`, ensuring files remain microscopically focused.
  */
 
-import Tzomayach from "../../chayim/tzomayach.js";
-import RoadAssembler from "../../../utils/3d/procedural/infrastructure/RoadAssembler.js";
+import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import RoadAssembler from "../../../utils/3d/procedural/infrastructure/RoadAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ProceduralRoad extends Tzomayach {
     type = "ProceduralRoad";

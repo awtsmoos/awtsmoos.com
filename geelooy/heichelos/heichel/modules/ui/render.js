@@ -1,15 +1,14 @@
 // B"H
 /**
  * @module SovereignUIArchitect
- * @description
- * Fast browsing shell with tree, mini-mail, and the Heichel OS world panel.
- * The Awtsmoos lets each district speak without stealing the simple timeline.
+ * @description One shared roof, one Heichel name, small path context beneath.
  */
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
 import { DOMElements, clearRegistry } from '../dom.js';
 import { safeDisplayText } from './textSanitizer.js';
 import { renderHeichelWorldState as paintHeichelWorldState, activateDistrict } from './heichel-os/world-panel.js';
+import { updateTopbarSeries } from './render/header.js';
 
 export { notify } from './render/toast.js';
 export { updateHeichelHeader, renderBreadcrumb } from './render/header.js';
@@ -41,12 +40,10 @@ function openTree(navigator) {
 }
 
 function toggleSidebarDoor() {
-    if (!DOMElements.pageContainer) return;
-    const isOpen = DOMElements.pageContainer.classList.toggle('sidebar-open');
-    DOMElements.pageContainer.classList.remove('sidebar-collapsed');
+    DOMElements.pageContainer?.classList.remove('sidebar-open', 'sidebar-collapsed');
     if (DOMElements.sidebarToggleBtn) {
-        DOMElements.sidebarToggleBtn.textContent = isOpen ? '×' : '☰';
-        DOMElements.sidebarToggleBtn.setAttribute('aria-expanded', String(isOpen));
+        DOMElements.sidebarToggleBtn.textContent = '🏡';
+        DOMElements.sidebarToggleBtn.setAttribute('aria-expanded', 'false');
     }
 }
 
@@ -58,36 +55,22 @@ function applyCurrentFilter(navigator) {
 }
 
 export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesId) {
-    const heichelName = safeDisplayText(heichelGlobal?.name, 'Heichel');
     if (currentSeriesId !== 'root' && seriesData && DOMElements.seriesInfoArea) {
         const prateem = seriesData.prateem || seriesData;
         const seriesName = safeDisplayText(prateem.name, 'A Bound Sequence');
         DOMElements.seriesTitle.textContent = seriesName;
         DOMElements.seriesDesc.textContent = safeDisplayText(prateem.description, '');
-        DOMElements.topbarHeichelContext && (DOMElements.topbarHeichelContext.textContent = `Series: ${seriesName}`);
+        updateTopbarSeries(seriesName);
         DOMElements.seriesInfoArea.classList.remove('hidden');
         return;
     }
-    DOMElements.topbarHeichelContext && (DOMElements.topbarHeichelContext.textContent = `Root of ${heichelName}`);
+    updateTopbarSeries('root');
     DOMElements.seriesInfoArea?.classList.add('hidden');
 }
 
-export function renderHeichelWorldState(state) {
-    paintHeichelWorldState(state);
-}
-
-export function showLoading() {
-    DOMElements.loadingPosts?.classList.remove('hidden');
-    DOMElements.loadingSeries?.classList.remove('hidden');
-    DOMElements.postsList?.replaceChildren();
-    DOMElements.seriesList?.replaceChildren();
-}
-
-export function hideLoading() {
-    DOMElements.loadingPosts?.classList.add('hidden');
-    DOMElements.loadingSeries?.classList.add('hidden');
-}
-
+export function renderHeichelWorldState(state) { paintHeichelWorldState(state); }
+export function showLoading() { DOMElements.loadingPosts?.classList.remove('hidden'); DOMElements.loadingSeries?.classList.remove('hidden'); DOMElements.postsList?.replaceChildren(); DOMElements.seriesList?.replaceChildren(); }
+export function hideLoading() { DOMElements.loadingPosts?.classList.add('hidden'); DOMElements.loadingSeries?.classList.add('hidden'); }
 export function updateActiveTab(view) {
     const isPosts = view === 'posts';
     DOMElements.postsTab?.classList.toggle('Active', isPosts);

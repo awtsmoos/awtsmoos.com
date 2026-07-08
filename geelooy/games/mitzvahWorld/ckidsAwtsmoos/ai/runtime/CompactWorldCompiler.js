@@ -1,6 +1,6 @@
 // B"H
 /** @file CompactWorldCompiler.js @description AI JSON becomes runtime-safe intents; animal biology is created by the animal factory. */
-import { normalizeWorldIntent } from "./CompactWorldIntentSchema.js";
+import { normalizeWorldIntent } from "./CompactWorldIntentSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function slug(value) { return String(value || "thing").replace(/\s+/g, "_"); }
 function addEntity(list, kind, name, data = {}) { if (!name) return; list.push({ id:`${kind}_${slug(name)}`, kind, name, tags:[kind,"ai-generated"], data }); }
 export function compileCompactWorldIntent(intent = {}) {

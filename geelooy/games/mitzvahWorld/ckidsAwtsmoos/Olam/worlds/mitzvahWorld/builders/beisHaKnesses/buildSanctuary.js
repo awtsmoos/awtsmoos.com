@@ -7,7 +7,7 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import { makeWall, makeStairs } from '../wallUtils.js';
+import { makeWall, makeStairs } from '../wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export function buildSanctuary(group, props) {
   const { width, depth, woodMat, t } = props;

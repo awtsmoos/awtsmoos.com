@@ -1,7 +1,7 @@
 // B"H
 /** Mobile frame pacing proof: p95 and long frames matter more than green averages. */
-import { summarizePerformanceProof } from "./MitzvahProofDiagnostics.js?v=movement-snap-detector-20260705-bh1";
-import { n, sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { summarizePerformanceProof } from "./MitzvahProofDiagnostics.js?compact=true&v=movement-snap-detector-20260705-bh1";
+import { n, sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 function frameStats(fps, summary) {
   const avg = n(summary.totalMs || fps?.frameMsAvg || 16.2), p95 = n(fps?.frameMsP95 || Math.min(24, avg + 4)), p99 = n(fps?.frameMsP99 || Math.min(30, p95 + 3));
   return { frameMsAvg:avg, frameMsP95:p95, frameMsP99:p99, worstFrameMs:n(fps?.worstFrameMs || p99), longFramesOver32ms:n(fps?.longFramesOver32ms || 0) };

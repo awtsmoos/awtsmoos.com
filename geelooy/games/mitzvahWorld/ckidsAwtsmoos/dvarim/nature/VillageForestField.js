@@ -3,10 +3,10 @@
  * @file VillageForestField.js
  * @description Many village trees through one instanced LOD forest vessel.
  */
-import Domem from "../../chayim/domem/index.js";
-import TerrainMath from "../terrain/core/TerrainMath.js";
-import { finite } from "../../../../../libs/awtsmoos3d/math.js";
-import { createForestField } from "../../../../../libs/awtsmoos3d/foliage/forestField.js?v=village-lod-forest-20260706-bh1";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import TerrainMath from "../terrain/core/TerrainMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { finite } from "../../../../../libs/awtsmoos3d/math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createForestField } from "../../../../../libs/awtsmoos3d/foliage/forestField.js?compact=true&v=village-lod-forest-20260706-bh1";
 
 function terrainHeight(olam, worldX, worldZ, fallback = 0) {
   const law = olam?.awtsmoosTerrainLaw;

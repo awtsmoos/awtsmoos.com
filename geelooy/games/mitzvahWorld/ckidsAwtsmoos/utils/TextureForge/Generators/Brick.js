@@ -6,7 +6,7 @@
  * Forges the pattern of Bricks (Levainim) required to build a dwelling place in the lower realms.
  * Highly detailed canvas drawing simulating mortar and baked clay.
  */
-import CanvasHelper from "../CanvasHelper.js";
+import CanvasHelper from "../CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class BrickGenerator {
     static generate(width = 512, height = 512) {

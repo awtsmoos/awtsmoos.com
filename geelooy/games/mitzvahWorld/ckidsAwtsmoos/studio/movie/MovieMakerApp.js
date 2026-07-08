@@ -1,11 +1,11 @@
 // B"H
-import { createTimeline, addTrack, addTimelineClip, addTimelineKeyframe } from "./Timeline.js";
-import { generateProceduralMovie } from "./ProceduralMovieGenerator.js";
-import { exportCutscene, playCutscenePreview } from "./CutsceneExporter.js";
-import { directGameplayEvents } from "../platform/DirectorAiEngine.js";
-import { createEncodingJob, exportAiVideoCutscene } from "./AiVideoJsonBridge.js";
-import { DEFAULT_CUSTOM_MOVIE_ACTIONS, actionPickerModel, movieActionNames } from "./MovieActionCatalog.js";
-import { CHOSSID_ACTION_SAMPLE_ACTIONS, CHOSSID_ACTION_SAMPLE_PROJECT } from "./ChossidActionSampleClip.js";
+import { createTimeline, addTrack, addTimelineClip, addTimelineKeyframe } from "./Timeline.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateProceduralMovie } from "./ProceduralMovieGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { exportCutscene, playCutscenePreview } from "./CutsceneExporter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { directGameplayEvents } from "../platform/DirectorAiEngine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createEncodingJob, exportAiVideoCutscene } from "./AiVideoJsonBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { DEFAULT_CUSTOM_MOVIE_ACTIONS, actionPickerModel, movieActionNames } from "./MovieActionCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CHOSSID_ACTION_SAMPLE_ACTIONS, CHOSSID_ACTION_SAMPLE_PROJECT } from "./ChossidActionSampleClip.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const SAMPLE_AI_VIDEO = CHOSSID_ACTION_SAMPLE_PROJECT;
 

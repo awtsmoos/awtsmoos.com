@@ -9,8 +9,8 @@
  * PointLights eradicated. The magma now glows with intense emissive energy,
  * saving the rendering pipeline from infinite compilation loops.
  */
-import Domem from "../chayim/domem/index.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import Domem from "../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Lava extends Domem {
     type = "lava";

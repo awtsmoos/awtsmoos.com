@@ -7,7 +7,7 @@
  * should, and whether the anatomy catalog is actually represented in the live
  * herd without rebuilding meshes every frame.
  */
-import { estimateAnimalAnatomyScore } from "../anatomy/AnimalAnatomyCatalog.js?v=animal-realism-split-20260705-bh1";
+import { estimateAnimalAnatomyScore } from "../anatomy/AnimalAnatomyCatalog.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 export function collectAnimalLodDiagnostics(root) {
   const out = {

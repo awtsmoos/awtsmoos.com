@@ -4,7 +4,7 @@
  * A lightweight spatial-interest registry: not a physics octree, but a cheap
  * awareness vessel so missions, NPCs, and animals can avoid global scans.
  */
-import { classifyInterestTier } from './InterestTierScheduler.js';
+import { classifyInterestTier } from './InterestTierScheduler.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 function posOf(v = {}) { return v.position || v.mesh?.position || v.object3D?.position || v; }
 function cellKey(p = {}, size) { return `${Math.floor((p.x || 0) / size)}:${Math.floor((p.z || 0) / size)}`; }
 export function createSpatialInterestRegistry(options = {}) {

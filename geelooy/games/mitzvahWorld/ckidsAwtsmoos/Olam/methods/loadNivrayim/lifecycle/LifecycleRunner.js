@@ -1,8 +1,8 @@
 // B"H
 /** LifecycleRunner.js — bounded batch runner for heescheel/ready/afterBriyah. */
-import { describeNivra } from "./LifecycleDescribe.js?v=mitzvah-lifecycle-split-20260703-bh1";
-import { labelOf, mark } from "./LifecycleProgress.js?v=mitzvah-lifecycle-split-20260703-bh1";
-import { LifecycleTimeoutError, withTimeout } from "./LifecycleTimeout.js?v=mitzvah-lifecycle-split-20260703-bh1";
+import { describeNivra } from "./LifecycleDescribe.js?compact=true&v=mitzvah-lifecycle-split-20260703-bh1";
+import { labelOf, mark } from "./LifecycleProgress.js?compact=true&v=mitzvah-lifecycle-split-20260703-bh1";
+import { LifecycleTimeoutError, withTimeout } from "./LifecycleTimeout.js?compact=true&v=mitzvah-lifecycle-split-20260703-bh1";
 
 const PHASE_TIMEOUTS = { heescheel:25000, ready:7000, afterBriyah:5000, madeAll:5000 };
 async function runOne(ctx, nivra, phase, args, label) {

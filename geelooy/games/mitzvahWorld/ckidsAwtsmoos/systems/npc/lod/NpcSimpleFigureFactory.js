@@ -7,7 +7,7 @@
  * village can speak immediately, then clothe the speaker in the full vessel
  * when nearness asks for it.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const mats = {
   coat:new THREE.MeshLambertMaterial({ color:0x171717 }),

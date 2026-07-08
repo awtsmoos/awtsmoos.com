@@ -1,8 +1,8 @@
 ﻿// B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
-import GeometryGenerator from '../procedural/geometryGenerator.js';
-import MaterialGenerator from '../procedural/materialGenerator.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import GeometryGenerator from '../procedural/geometryGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import MaterialGenerator from '../procedural/materialGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function isGrass(type) { return String(type || '').toLowerCase().includes('grass'); }
 function forceGrassMaterial(material) {
     const make = m => {

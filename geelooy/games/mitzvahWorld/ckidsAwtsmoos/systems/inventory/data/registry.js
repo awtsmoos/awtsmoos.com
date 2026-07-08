@@ -1,5 +1,5 @@
 // B"H
-import { CurrencySystem } from "../../../dvarim/currencySystem.js";
+import { CurrencySystem } from "../../../dvarim/currencySystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export const ITEM_REGISTRY = {
   "Brick": { isBuildable: true, stackSize: 1024, icon: "/games/mitzvahWorld/icons/items/brick.svg", name: "Brick", description: "A sturdy building block.", equipSlot: 'rightHand' },
   "Stairs": { isBuildable: true, stackSize: 64, icon: "/games/mitzvahWorld/icons/items/brick.svg", name: "Stairs", description: "For reaching higher levels.", equipSlot: 'rightHand' },

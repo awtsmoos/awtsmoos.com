@@ -9,12 +9,12 @@
  * solid visuals become simplified world-box bodies before the octree consumes
  * them. No silent wall. No ghost fence. No mystery floor. Terrain can opt out through `terrainColliderOnly`. Terrain can opt out through `terrainColliderOnly`.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { Octree as AwtsmoosOctree } from '../../AwtsmoosOctree/index.js';
-import { auditAccepted, auditSkipped } from '../../collisionAudit/CollisionAudit.js?v=collider-audit-20260609-bh627';
-import { colliderForOctree, shouldUseOriginalCollider } from '../../colliders/SimplifiedColliderFactory.js?v=simplified-solid-colliders-20260609-bh633';
-import LODNode from '../LODNode.js';
-import { CONFIG } from '../constants.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { Octree as AwtsmoosOctree } from '../../AwtsmoosOctree/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { auditAccepted, auditSkipped } from '../../collisionAudit/CollisionAudit.js?compact=true&v=collider-audit-20260609-bh627';
+import { colliderForOctree, shouldUseOriginalCollider } from '../../colliders/SimplifiedColliderFactory.js?compact=true&v=simplified-solid-colliders-20260609-bh633';
+import LODNode from '../LODNode.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { CONFIG } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function triangleCountOf(geometry) {
   if (!geometry?.attributes?.position) return 0;

@@ -11,8 +11,8 @@
  * constructs the garments that allow the eye to perceive the manifested vessels.
  * It carefully handles color interpretation and texture mapping.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import SafeMaterialApplier from './SafeMaterialApplier.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import SafeMaterialApplier from './SafeMaterialApplier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class MaterialManifestor {
     /**

@@ -4,11 +4,11 @@
  * @description
  * Chapter 159: The worker imports the direct mobile movement handler.
  */
-import coreHandlers from "./handlers/core.js?v=zone-reality-20260614-bh817";
-import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
-import uiHandlers from "./handlers/ui.js?v=village-polish-20260612-bh810";
-import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
-import inputHandlers from "./handlers/input.js?v=direct-mobile-move-20260610-bh704";
+import coreHandlers from "./handlers/core.js?compact=true&v=zone-reality-20260614-bh817";
+import htmlHandlers from "./handlers/html.js?compact=true&v=village-fix-20260531-bh108";
+import uiHandlers from "./handlers/ui.js?compact=true&v=village-polish-20260612-bh810";
+import worldHandlers from "./handlers/world.js?compact=true&v=village-fix-20260531-bh108";
+import inputHandlers from "./handlers/input.js?compact=true&v=direct-mobile-move-20260610-bh704";
 
 export default function setupMessageHandler(manager) {
   const promiseMap = new Map();

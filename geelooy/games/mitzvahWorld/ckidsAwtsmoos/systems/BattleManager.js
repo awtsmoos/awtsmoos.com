@@ -5,10 +5,10 @@
  * Integrates BattleCanvas, PaRDeS progression, and type effectiveness.
  */
 
-import BattleCanvas from '../Olam/uiManager/ui/BattleCanvas.js';
-import { buildBattleMove, getPassageStats } from './PassageLevel.js';
-import { TYPE_CHART } from '../tochen/torah/books/index.js';
-import { STARTER_PASSAGES } from '../tochen/torah/books/index.js';
+import BattleCanvas from '../Olam/uiManager/ui/BattleCanvas.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { buildBattleMove, getPassageStats } from './PassageLevel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TYPE_CHART } from '../tochen/torah/books/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { STARTER_PASSAGES } from '../tochen/torah/books/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class BattleManager {
     constructor(olam) {

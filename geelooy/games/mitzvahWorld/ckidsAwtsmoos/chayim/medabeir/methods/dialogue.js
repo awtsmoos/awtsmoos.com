@@ -7,8 +7,8 @@
  * Chossid, then ShopManager read `currency` from undefined. This gate now
  * refuses empty actors and lets special NPC subclasses handle their own menus.
  */
-import SiachManager from "./Siach/SiachManager.js";
-import ShopManager from "./Siach/ShopManager.js";
+import SiachManager from "./Siach/SiachManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ShopManager from "./Siach/ShopManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function validActor(chossid) {
   return Boolean(chossid && (chossid.type === "chossid" || chossid.inventory || chossid.mesh));

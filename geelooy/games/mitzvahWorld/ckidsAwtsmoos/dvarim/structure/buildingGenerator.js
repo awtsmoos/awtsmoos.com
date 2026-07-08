@@ -1,7 +1,7 @@
 
 //B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import ProceduralGenerators from '../../Olam/math/ProceduralGenerators.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import ProceduralGenerators from '../../Olam/math/ProceduralGenerators.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class BuildingGenerator {
     static generate(type, options = {}) {

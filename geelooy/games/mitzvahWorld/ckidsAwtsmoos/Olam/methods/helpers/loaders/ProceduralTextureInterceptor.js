@@ -10,7 +10,7 @@ export default class ProceduralTextureInterceptor {
     if (typeof url !== "string" || !url.toLowerCase().startsWith("awtsmoostex://")) return url;
     try {
       report("intercepted", url);
-      const TextureForge = (await import("../../../../utils/TextureForge/index.js?v=texture-idb-20260614-bh1")).default;
+      const TextureForge = (await import("../../../../utils/TextureForge/index.js?compact=true&v=texture-idb-20260614-bh1")).default;
       const finalUrl = await TextureForge.generate(url.substring(14));
       report("intercept-complete", url);
       return finalUrl;

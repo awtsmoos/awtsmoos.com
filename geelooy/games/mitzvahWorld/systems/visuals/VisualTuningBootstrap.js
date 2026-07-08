@@ -1,16 +1,16 @@
 // B"H
 /** @file VisualTuningBootstrap.js @description Boot-time hyperreal visual tuning and truthful reporting. */
-import ATMOSPHERE_TUNING from './AtmosphereTuning.js';
-import { rtxFeelingWithoutRtx } from './RtxFeelingWithoutRtx.js';
-import { treeScaleTuning, applyTreeScale } from './TreeScaleTuning.js';
-import { tuneSeamlessTextures } from './SeamlessTextureTuning.js';
-import { tuneAnimalAndHouseBeauty } from './AnimalBeautyTuning.js?v=step-by-step-20260621-bh1';
-import { enforceTextureQuality } from './TextureQualityEnforcer.js';
-import { auditUvDensity } from './UvDensityAudit.js?v=step-by-step-20260621-bh1';
-import { detectDeviceTier } from '../performance/DeviceTierDetector.js';
-import { visualTuningReport } from './VisualTuningReport.js';
-import { findLiveScene, liveSceneStatus } from './LiveSceneFinder.js';
-import { lightingBouncePalette } from './LightingBouncePalette.js';
+import ATMOSPHERE_TUNING from './AtmosphereTuning.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { rtxFeelingWithoutRtx } from './RtxFeelingWithoutRtx.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { treeScaleTuning, applyTreeScale } from './TreeScaleTuning.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { tuneSeamlessTextures } from './SeamlessTextureTuning.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { tuneAnimalAndHouseBeauty } from './AnimalBeautyTuning.js?compact=true&v=step-by-step-20260621-bh1';
+import { enforceTextureQuality } from './TextureQualityEnforcer.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { auditUvDensity } from './UvDensityAudit.js?compact=true&v=step-by-step-20260621-bh1';
+import { detectDeviceTier } from '../performance/DeviceTierDetector.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { visualTuningReport } from './VisualTuningReport.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { findLiveScene, liveSceneStatus } from './LiveSceneFinder.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { lightingBouncePalette } from './LightingBouncePalette.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 const RETRY_KEY='__AWTSMOOS_VISUAL_TUNING_RETRY__',ATTEMPT_KEY='__AWTSMOOS_VISUAL_TUNING_ATTEMPTS__',SEAL='actual-gameplay-hyperreal-60fps-20260622-bh1';
 function skipped(kind,reason,extra={}){return{kind,scanned:0,touched:0,skipped:true,reason,seal:SEAL,at:Date.now(),...extra}}
 function publish(win,sceneStatus,textureQuality,seamlessTextures,uvDensity,beauty){if(!win)return;win.__AWTSMOOS_TEXTURE_PINGPONG_REPORT__=seamlessTextures;win.__AWTSMOOS_TEXTURE_QUALITY_REPORT__=textureQuality;win.__AWTSMOOS_UV_DENSITY_REPORT__=uvDensity;win.__AWTSMOOS_BEAUTY_TUNING__=beauty;win.__AWTSMOOS_SCENE_STATUS__=sceneStatus}

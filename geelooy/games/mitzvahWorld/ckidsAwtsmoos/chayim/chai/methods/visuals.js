@@ -8,7 +8,7 @@
  * visible vertex, stores that exact offset, and lets physics place the model at
  * collider-feet plus that measurement. No authored bias is applied here.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const ROOT_POS = new THREE.Vector3();
 const MAX_REASONABLE_OFFSET = 2.4;

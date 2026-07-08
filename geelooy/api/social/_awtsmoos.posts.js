@@ -1,9 +1,11 @@
 // B"H
 /**
  * @module SocialPostsCompatibilityRoutes
- * @description Old ikar post gates and new series gates stand together. The
- * base module keeps refactored routes; this wrapper restores legacy roots and
- * gives unsupported methods one consistent vessel.
+ * @description
+ * Chapter 613: The old post gate remains open, yet it no longer forgets the
+ * chamber named in the query string. Root is still root for ancient callers;
+ * seriesId, parentSeriesId, or series now guide the request into its true
+ * vessel, where the Awtsmoos speaks every post from its actual shelf.
  */
 const createBaseRoutes = require('./_awtsmoos.posts.base.js');
 const { getPostsInSeries, addPostToSeries, getSubmittedPosts, approveSubmittedPost, denySubmittedPost } = require('./helper/index.js');
@@ -16,8 +18,10 @@ function post($i) { return $i.$_POST || {}; }
 function body($i) { return post($i) || $i.$_DELETE || {}; }
 function props($i) { return parseMap(get($i).properties || get($i).propertyMap); }
 function wantsDetails($i, forced = false) { return forced || get($i).details === 'true'; }
-function rootPosts($i, heichelId, details = false) { return getPostsInSeries({ $i, heichelId, seriesId: 'root', withDetails: wantsDetails($i, details), properties: props($i) }); }
-function rootWrite($i, heichelId) { if (!$i.$_POST) $i.$_POST = {}; $i.$_POST.seriesId = $i.$_POST.seriesId || 'root'; return addPostToSeries({ $i, heichelId, seriesId: $i.$_POST.seriesId }); }
+function cleanSeriesId(value) { const id = String(value || '').trim(); return !id || id === 'undefined' || id === 'null' ? 'root' : id; }
+function requestedSeriesId($i) { const q = get($i); return cleanSeriesId(q.seriesId || q.parentSeriesId || q.series); }
+function postsInRequestedSeries($i, heichelId, details = false) { return getPostsInSeries({ $i, heichelId, seriesId: requestedSeriesId($i), withDetails: wantsDetails($i, details), properties: props($i) }); }
+function rootWrite($i, heichelId) { if (!$i.$_POST) $i.$_POST = {}; $i.$_POST.seriesId = cleanSeriesId($i.$_POST.seriesId || $i.$_POST.parentSeriesId); return addPostToSeries({ $i, heichelId, seriesId: $i.$_POST.seriesId }); }
 function bad($i, allowed) { return methodNotAllowed($i?.request?.method, allowed); }
 
 module.exports = ({ $i, userid } = {}) => {
@@ -26,13 +30,13 @@ module.exports = ({ $i, userid } = {}) => {
   return {
     ...base,
     '/heichelos/:heichel/posts': async v => {
-      if ($i.request.method === 'GET') return rootPosts($i, v.heichel);
+      if ($i.request.method === 'GET') return postsInRequestedSeries($i, v.heichel);
       if ($i.request.method === 'POST') return rootWrite($i, v.heichel);
       return bad($i, ['GET', 'POST']);
     },
     '/heichelos/:heichel/posts/details': async v => {
       if ($i.request.method !== 'GET') return bad($i, ['GET']);
-      return rootPosts($i, v.heichel, true);
+      return postsInRequestedSeries($i, v.heichel, true);
     },
     '/heichelos/:heichel/submittedPosts': async v => {
       if ($i.request.method !== 'GET') return bad($i, ['GET']);

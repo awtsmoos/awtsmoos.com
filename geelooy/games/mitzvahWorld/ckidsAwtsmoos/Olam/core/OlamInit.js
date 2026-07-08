@@ -7,7 +7,7 @@
  * This imports the no-remote-DRACO initializer with a fresh cache key so mobile
  * reloads stop executing the old preload fatality.
  */
-import initLogic from "../init.js?v=no-remote-draco-fetch-fatality-20260603-bh323";
+import initLogic from "../init.js?compact=true&v=no-remote-draco-fetch-fatality-20260603-bh323";
 
 export default class OlamInit {
   /** Runs the loader initialization. */

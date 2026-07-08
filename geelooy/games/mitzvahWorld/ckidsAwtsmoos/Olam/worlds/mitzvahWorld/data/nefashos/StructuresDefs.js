@@ -7,9 +7,9 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import { HOLY_QUARTER } from './HolyQuarter.js';
-import { RESIDENTIAL_DISTRICT } from './ResidentialDistrict.js';
-import { EMERALD_VOID_STRUCTURES } from './EmeraldVoidStreet.js';
+import { HOLY_QUARTER } from './HolyQuarter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { RESIDENTIAL_DISTRICT } from './ResidentialDistrict.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { EMERALD_VOID_STRUCTURES } from './EmeraldVoidStreet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const GENERATED_TREE_GROVE = [
   { id: 'etz_chayim_west_1', type: 'tree', position: [-16, 0, 12], props: { height: 7.5, foliageRadius: 2.4, branchCount: 8 } },

@@ -22,7 +22,7 @@
  *
  * @extends Domem
  */
-import Domem from '../../chayim/domem/index.js';
+import Domem from '../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class ProceduralFlora extends Domem {
     type = 'proceduralFlora';
@@ -62,7 +62,7 @@ export default class ProceduralFlora extends Domem {
         if (!olam.natureSystem) {
             if (!olam._natureSystemLoading) {
                 olam._natureSystemLoading = (async () => {
-                    const { default: NatureSystem } = await import('./natureSystem.js');
+                    const { default: NatureSystem } = await import('./natureSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1');
                     olam.natureSystem = new NatureSystem(olam);
                 })();
             }

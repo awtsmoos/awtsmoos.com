@@ -3,7 +3,7 @@
  * @file BattleHUD.js
  * @description The Heads-Up Display for the Arena of Clarification
  */
-import { PARDES_COLORS, PARDES_ICONS, PARDES_LEVELS } from '../../../../systems/PassageLevel.js';
+import { PARDES_COLORS, PARDES_ICONS, PARDES_LEVELS } from '../../../../systems/PassageLevel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export class BattleHUD {
     draw(ctx, W, H, state) {

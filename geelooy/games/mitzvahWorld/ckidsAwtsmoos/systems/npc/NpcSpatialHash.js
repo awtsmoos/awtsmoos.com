@@ -6,8 +6,8 @@
  * coarse grid, and the shliach asks only nearby cells who is close enough to
  * speak.
  */
-import { getWorldInterestGrid } from "../../Olam/worlds/mitzvahWorld/runtime/WorldInterestGrid.js?v=world-interest-20260621-bh1";
-import { npcById } from "./NpcServiceRegistry.js";
+import { getWorldInterestGrid } from "../../Olam/worlds/mitzvahWorld/runtime/WorldInterestGrid.js?compact=true&v=world-interest-20260621-bh1";
+import { npcById } from "./NpcServiceRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const TTL = 360;
 const pos = e => e?.mesh?.position || e?.position || null;

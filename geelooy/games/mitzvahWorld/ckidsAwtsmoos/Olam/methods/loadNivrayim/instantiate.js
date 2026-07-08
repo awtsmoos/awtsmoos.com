@@ -6,9 +6,9 @@
  * so this loader now carries the doorway class directly and logs every gate
  * birth with position, constructor, and registration intent.
  */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js';
-import Utils from '../../../utils.js';
-import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Utils from '../../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function resolveSoulType(type) {
   if (type === 'InteractiveDoor') return InteractiveDoorDirect;

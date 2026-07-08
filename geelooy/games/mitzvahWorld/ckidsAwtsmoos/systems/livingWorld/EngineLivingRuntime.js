@@ -4,7 +4,7 @@
  * File-by-file implementation of engine living-world behavior. Each action
  * records state deltas and can be stepped by the budgeted LivingWorldRuntime.
  */
-import { rememberLivingWorld, recordLivingWorldEvent, livingWorldBucket } from './LivingWorldState.js';
+import { rememberLivingWorld, recordLivingWorldEvent, livingWorldBucket } from './LivingWorldState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function write(id, action, detail = {}) {
   recordLivingWorldEvent({ domain:'engine', id, action, detail });
   return rememberLivingWorld('engine', id, { action, detail });

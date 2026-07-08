@@ -6,7 +6,7 @@
  * real Three module, while Node tests and future engines can keep geometry
  * contracts alive through neutral fallbacks.
  */
-import { AwtsmoosVector3 } from './Vector3.js';
+import { AwtsmoosVector3 } from './Vector3.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 let cachedThree = null;
 
@@ -18,7 +18,7 @@ function canLoadBrowserModules() {
 export async function loadThree() {
   if (cachedThree) return cachedThree;
   if (!canLoadBrowserModules()) return null;
-  cachedThree = await import('/games/scripts/build/three.module.js');
+  cachedThree = await import('/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1');
   return cachedThree;
 }
 

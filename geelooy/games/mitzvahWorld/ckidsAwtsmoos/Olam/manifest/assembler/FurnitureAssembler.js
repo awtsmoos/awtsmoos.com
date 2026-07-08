@@ -59,14 +59,14 @@ export default class FurnitureAssembler {
                     } 
                 } 
             };
-            const ChasveiAwtsmoos = (await import('../../../utils/ChasveiAwtsmoos.js')).default;
+            const ChasveiAwtsmoos = (await import('../../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1')).default;
             await ChasveiAwtsmoos.emanate(manifest.Stairs, manifest);
             
             const newEntities = manifest.Stairs;
             const keys = Object.keys(newEntities);
             if (keys.length > 0) {
                 const ent = newEntities[keys[0]];
-                const { NivrahFactory } = await import('../../worlds/mitzvahWorld/NivrahFactory.js');
+                const { NivrahFactory } = await import('../../worlds/mitzvahWorld/NivrahFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1');
                 const factory = new NivrahFactory(olam.scene, olam.worldOctree, olam);
                 await factory.buildAll([{ ...ent, id: keys[0] }]);
             }
@@ -103,7 +103,7 @@ export default class FurnitureAssembler {
         }
 
         // B"H: Dynamically add to Olam
-        const ChasveiAwtsmoos = (await import('../../../utils/ChasveiAwtsmoos.js')).default;
+        const ChasveiAwtsmoos = (await import('../../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1')).default;
         
         // Construct a mini-manifest to pass to the engine
         const manifest = { Domem: { [fId]: nivraData } };
@@ -113,7 +113,7 @@ export default class FurnitureAssembler {
         const keys = Object.keys(newEntities);
         if (keys.length > 0) {
             const ent = newEntities[keys[0]];
-            const { NivrahFactory } = await import('../../worlds/mitzvahWorld/NivrahFactory.js');
+            const { NivrahFactory } = await import('../../worlds/mitzvahWorld/NivrahFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1');
             const factory = new NivrahFactory(olam.scene, olam.worldOctree, olam);
             await factory.buildAll([{ ...ent, id: keys[0] }]);
         }

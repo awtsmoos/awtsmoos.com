@@ -1,6 +1,6 @@
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import { PHYSICS_CONSTANTS } from './physicsConstants.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { PHYSICS_CONSTANTS } from './physicsConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     _updateAnimationState(deltaTime) {

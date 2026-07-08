@@ -11,12 +11,12 @@
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
 
-import grass from '../methods/grass.js';
-import rock from '../methods/rock.js';
-import bark from '../methods/bark.js';
-import leaf from '../methods/leaf.js';
-import dirt from '../methods/dirt.js';
-import { leaf_palm, leaf_pine, leaf_willow } from '../methods/leaf_variants.js';
+import grass from '../methods/grass.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import rock from '../methods/rock.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import bark from '../methods/bark.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import leaf from '../methods/leaf.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import dirt from '../methods/dirt.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { leaf_palm, leaf_pine, leaf_willow } from '../methods/leaf_variants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * @constant REGISTRY

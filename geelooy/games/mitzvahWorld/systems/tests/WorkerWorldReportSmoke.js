@@ -1,5 +1,5 @@
 // B"H
-import { makeWorkerWorldReport } from "../visuals/WorkerWorldReport.js";
+import { makeWorkerWorldReport } from "../visuals/WorkerWorldReport.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 const scene = { children:[{ name:"tall_tree_1" }, { name:"yeshiva_building" }, { name:"grass_patch" }] };
 const olam = { scene, player:{}, worldOctree:{}, combatManager:{} };
 const nivrayim = [{ type:"chossid" }, { name:"village_merchant_npc" }, { name:"goat_animal" }];

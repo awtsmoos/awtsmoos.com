@@ -4,8 +4,8 @@
  * @description Chapter 345: One lamp has a post and warm glass, a tiny sun on
  * a stick.
  */
-import { box, p } from './shapeKit.js';
-import { P } from './palette.js';
+import { box, p } from './shapeKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { P } from './palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function addLampGeometry(n, lamp) {
   const h = lamp.height || 3.1;
   box(n, `${lamp.id}_post`, `${lamp.id} Post`, p(lamp.x, h / 2, lamp.z), [0.22, h, 0.22], P.darkWood, true);

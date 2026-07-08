@@ -1,6 +1,6 @@
 // B"H
 /** Chariots: swifter vessels where wonder leans forward. */
-import { box, finalizeVehicle, vehicleKit, wheel } from "./VehicleFactory.js";
+import { box, finalizeVehicle, vehicleKit, wheel } from "./VehicleFactory.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 export const CHARIOT_VARIANTS = {
   village: { name: "Village Chariot", speed: 15, color: "wood" },

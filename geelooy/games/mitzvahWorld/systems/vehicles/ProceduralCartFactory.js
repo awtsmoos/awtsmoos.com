@@ -1,6 +1,6 @@
 // B"H
 /** Carts from simple forms: wood remembers it can become a journey. */
-import { box, finalizeVehicle, vehicleKit, wheel } from "./VehicleFactory.js";
+import { box, finalizeVehicle, vehicleKit, wheel } from "./VehicleFactory.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 export const CART_VARIANTS = {
   small: { name: "Small Cart", speed: 10, body: [2.4, 0.5, 1.5], seats: 1 },

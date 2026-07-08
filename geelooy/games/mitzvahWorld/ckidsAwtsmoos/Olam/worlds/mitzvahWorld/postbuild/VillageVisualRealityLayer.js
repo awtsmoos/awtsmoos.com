@@ -3,9 +3,9 @@
  * @file VillageVisualRealityLayer.js
  * @description Grounded village clutter uses the same polish ground law and parser-clear material vessels.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { yAt } from "./VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
-import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { yAt } from "./VillagePolishGround.js?compact=true&v=awtsmoos-polish-ground-20260614-bh2";
+import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?compact=true&v=awtsmoos-realistic-village-materials-20260614-bh2";
 const KEY = "__awtsmoosVillageVisualRealityLayer";
 function sceneOf(context, olam) { return context && context.scene ? context.scene : olam && olam.scene ? olam.scene : null; }
 function add(g, kind, mat, x, z, s, rot = 0, y = 0) { const m = rvMesh(kind, mat, [x, y + s[1] * .5, z], s, [0, rot, 0], { repeat:2 }); g.add(m); return m; }

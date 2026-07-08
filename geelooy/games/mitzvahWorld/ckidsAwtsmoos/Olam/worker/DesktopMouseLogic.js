@@ -10,7 +10,7 @@
  * identical to the flow established for the Mobile Angel.
  */
 
-import Utils from "../../utils.js";
+import Utils from "../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default function setupDesktopMouseLogic(eved, isUIElementFunc) {
     let isLeftMouseDown = false;

@@ -6,8 +6,8 @@
  * This is not merely more meshes. The generated PNG now bakes layered blades,
  * stalk fibers, tan seed heads, clover specks, shadow clumps, and micro-noise.
  */
-import Noise from "../Noise.js";
-import CanvasHelper from "../CanvasHelper.js";
+import Noise from "../Noise.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import CanvasHelper from "../CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const TAU = Math.PI * 2;
 const clamp = v => Math.max(0, Math.min(255, v | 0));
 const mix = (a, b, t) => a + (b - a) * t;

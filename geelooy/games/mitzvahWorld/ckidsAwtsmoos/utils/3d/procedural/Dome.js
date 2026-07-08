@@ -7,7 +7,7 @@
  * The dome is the ultimate expression of Encompassing Light (Ohr Makif), 
  * shielding the inner space while reflecting the infinite curve of the sky above.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Dome {
     /**

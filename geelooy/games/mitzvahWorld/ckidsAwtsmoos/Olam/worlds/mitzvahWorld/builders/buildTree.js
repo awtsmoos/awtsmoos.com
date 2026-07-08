@@ -1,8 +1,8 @@
 // B"H
 /** Lightweight Chai Forest tree builder for the gameplay path. */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { ACTUAL_TEXTURES, namedTexture } from '../../../../../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js';
-import { progressiveMaterialMap } from '../../../../../geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { ACTUAL_TEXTURES, namedTexture } from '../../../../../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { progressiveMaterialMap } from '../../../../../geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function material(color, textureName, repeat) {
   const mat = new THREE.MeshLambertMaterial({ color, transparent: false });

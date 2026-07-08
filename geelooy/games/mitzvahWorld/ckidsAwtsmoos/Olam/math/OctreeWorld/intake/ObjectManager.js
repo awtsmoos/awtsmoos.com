@@ -10,9 +10,9 @@
  * We add extreme logging to expose the magnitude of new world objects, proving 
  * that the floor is indeed as massive as the speech intended.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import LODNode from "../LODNode.js";
-import { Octree as AwtsmoosOctree } from "../../AwtsmoosOctree/index.js";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import LODNode from "../LODNode.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { Octree as AwtsmoosOctree } from "../../AwtsmoosOctree/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {
     /**

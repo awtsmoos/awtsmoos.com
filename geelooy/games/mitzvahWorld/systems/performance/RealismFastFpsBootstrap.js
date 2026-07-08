@@ -9,7 +9,7 @@
  * that the fast-FPS alias is alive, and leaves the Awtsmoos with one measured
  * spine instead of two hidden schedulers fighting in the frame.
  */
-import infiniteRuntime from '../realism/InfiniteRealismBootstrap.js';
+import infiniteRuntime from '../realism/InfiniteRealismBootstrap.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 const scope = globalThis;
 scope.__MITZVAH_REALISM_FAST_FPS_BOOTSTRAP__ = {

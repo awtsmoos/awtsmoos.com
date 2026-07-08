@@ -4,8 +4,8 @@
  * @description Chapter 480: Produce count scales with density while preserving
  * color and readable abundance.
  */
-import { box, p } from './shapeKit.js';
-import { scaledCount } from './visualDensityConfig.js';
+import { box, p } from './shapeKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { scaledCount } from './visualDensityConfig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const PRODUCE = ['#b83b27', '#d8a938', '#4d9a3f', '#8a45a8', '#e86b2d'];
 export function addMarketProduce(n, stall, density = {}) {
   const count = scaledCount(8, density.marketScale ?? 1, 3);

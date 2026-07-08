@@ -1,6 +1,6 @@
 // B"H
 /** @file MultiStoryHouseMeshes.js @description Adds visible second floors and stairs. */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const floorMat = new THREE.MeshLambertMaterial({ color:0x9b7244 });
 const stairMat = new THREE.MeshLambertMaterial({ color:0x7b532c });

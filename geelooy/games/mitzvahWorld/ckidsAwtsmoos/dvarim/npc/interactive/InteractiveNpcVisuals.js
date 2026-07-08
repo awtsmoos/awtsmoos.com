@@ -5,7 +5,7 @@
  * Visual sanctification for the guide. The Awtsmoos separates carrier, robe,
  * palette, and living mesh detection so the NPC class remains a conductor.
  */
-import { isDrawableMaterial, shouldHideLivingNode } from "../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js";
+import { isDrawableMaterial, shouldHideLivingNode } from "../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function fallbackRig(options = {}) {
   return options.visualRig || {

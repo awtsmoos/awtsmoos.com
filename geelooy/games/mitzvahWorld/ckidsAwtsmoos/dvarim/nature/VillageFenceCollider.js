@@ -8,9 +8,9 @@
  * and puts rails at local midpoint. The collider now uses that same origin,
  * count, scale, and rotation. No guessed world-center. No copied final prop.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const hiddenMat = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
 function makeBody(owner, name, size, pos) {

@@ -1,13 +1,13 @@
 // B"H
 /** Domem base class with cache-busted live GLB animation import. */
-import Nivra from "../nivra.js";
-import { Kav } from "../roochney.js";
-import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import lifecycleMethods from "./methods/lifecycle.js?v=domem-visible-ground-authority-20260701-bh1";
-import graphicsMethods from "./methods/graphics.js";
-import audioMethods from "./methods/audio.js";
-import animationMethods from "./methods/animation.js?v=grass-chossid-stepwise-20260707-bh1";
-import serializationMethods from "./methods/serialization.js";
+import Nivra from "../nivra.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { Kav } from "../roochney.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import lifecycleMethods from "./methods/lifecycle.js?compact=true&v=domem-visible-ground-authority-20260701-bh1";
+import graphicsMethods from "./methods/graphics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import audioMethods from "./methods/audio.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import animationMethods from "./methods/animation.js?compact=true&v=history-animation-compact-top-20260708-bh10";
+import serializationMethods from "./methods/serialization.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const numberOr = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 export default class Domem extends Nivra {
   type = "domem"; animations = []; path = ""; position = new Kav(); rotation = new Kav(); scale = new Kav(); static = true; olam = null; heesHawveh = false; animationMixer; currentAnimationPlaying = null; golem = null; playAll = false; shaym = "BH_" + Math.floor(Math.random() * 827231) + 12312 + "_" + Date.now(); removed = false; entityData = {}; animationBlendDuration = 0.075; animationActionTimeScale = 1; _animationSpeedScale = 1.4;

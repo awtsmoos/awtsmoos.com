@@ -5,11 +5,11 @@
  * Selection bubbles and mesh leaves are gathered per target, deduped, and then
  * offered to the pointer so the right creature rises into the target UI.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { ensureCreatureLevel } from "../progression/CreatureLevelRuntime.js";
-import { logEightStep } from "../debug/ViralGameplayLog.js";
-import { collectSafeRaycastLeaves } from "../../Olam/methods/helpers/mouse/RaycastSafety.js?v=reality-raycast-20260629-bh1";
-import { combatTargetAllowed } from "./CombatTargetPolicy.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureCreatureLevel } from "../progression/CreatureLevelRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { logEightStep } from "../debug/ViralGameplayLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { collectSafeRaycastLeaves } from "../../Olam/methods/helpers/mouse/RaycastSafety.js?compact=true&v=reality-raycast-20260629-bh1";
+import { combatTargetAllowed } from "./CombatTargetPolicy.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const DEFAULT_HP = Object.freeze({ fox:180, rabbit:95, deer:260, goat:240, frog:120, bird:150, target:100 });
 const SELECT_RADIUS = Object.freeze({ frog:2.2, rabbit:2.15, bird:2.35, fox:2.55, deer:3.05, goat:2.75, ram:2.85, stag:3.05, wolf:2.75, target:2.35 });
 function dataOf(o) { if (o && !o.userData) o.userData = {}; return o?.userData || {}; }

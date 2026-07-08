@@ -8,7 +8,7 @@
  * directly. The log trail names every gate: browser touch, worker message,
  * Olam input, Chossid controls, and physics motion.
  */
-import { resolveSpikeResetFeet } from '../../shared/SpikeResetPosition.js';
+import { resolveSpikeResetFeet } from '../../shared/SpikeResetPosition.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const MOVE_FLAGS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_ROTATE", "RIGHT_ROTATE", "LEFT_STRIDE", "RIGHT_STRIDE", "JUMP", "DOWN", "UP"]);
 const MOBILE_MOVE_KEYS = Object.freeze(["FORWARD", "BACKWARD", "LEFT_STRIDE", "RIGHT_STRIDE"]);

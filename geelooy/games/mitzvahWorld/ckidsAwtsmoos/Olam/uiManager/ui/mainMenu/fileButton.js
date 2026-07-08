@@ -16,7 +16,7 @@ function awtsmoosNotice(message) {
  * and with this button, we breathe life back into it. Techiyat HaMeitim for digital data.
  */
 
-import mitzvahBtn from "../resources/mitzvahBtn.js";
+import mitzvahBtn from "../resources/mitzvahBtn.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @function fileButton

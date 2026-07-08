@@ -1,20 +1,20 @@
 ﻿// B"H
 /** @file index.js @description Worker game UI roots with viewport-aware mobile controls. */
-import hud from "./hud.js?v=mission-card-ui-20260610-bh711";
-import missionCard from "./missionCard.js?v=village-polish-20260612-bh810";
-import unitFrames from "./unitFrames.js?v=mobile-target-safe-area-20260706-bh1";
-import settingsPanel from "./settingsPanel.js?v=player-probe-copy-20260701-bh1";
-import effectsOverlay from "../components/effectsOverlay.js?v=ray-ground-ui-20260602-bh126";
-import joystick from "../joystick.js?v=solid-browser-verify-20260702-bh8";
-import ActionBar from "./actionBar.js?v=solid-browser-verify-20260702-bh8";
-import InventoryScreen from "./inventory/index.js?v=ray-ground-ui-20260602-bh126";
-import InventoryStyle from "./inventory/style.js?v=mobile-icon-grid-20260706-bh1";
-import storeScreen from "../screens/storeScreen.js?v=shop-stock-mobile-grid-20260706-bh1";
-import npcGuideOverlay from "./npcGuideOverlay.js?v=ui-glass-click-proof-20260603-bh366";
-import dialogues from "./dialogues.js?v=village-combat-20260611-bh805";
-import { Toast } from "./components/Toast.js?v=ray-ground-ui-20260602-bh126";
-import { InteractionPrompt } from "./components/InteractionPrompt.js?v=ray-ground-ui-20260602-bh126";
-import { PerutahProgress } from "./perutahProgress.js?v=village-hud-born-hidden-20260603-bh366";
+import hud from "./hud.js?compact=true&v=mission-card-ui-20260610-bh711";
+import missionCard from "./missionCard.js?compact=true&v=village-polish-20260612-bh810";
+import unitFrames from "./unitFrames.js?compact=true&v=mobile-target-safe-area-20260706-bh1";
+import settingsPanel from "./settingsPanel.js?compact=true&v=player-probe-copy-20260701-bh1";
+import effectsOverlay from "../components/effectsOverlay.js?compact=true&v=ray-ground-ui-20260602-bh126";
+import joystick from "../joystick.js?compact=true&v=solid-browser-verify-20260702-bh8";
+import ActionBar from "./actionBar.js?compact=true&v=solid-browser-verify-20260702-bh8";
+import InventoryScreen from "./inventory/index.js?compact=true&v=ray-ground-ui-20260602-bh126";
+import InventoryStyle from "./inventory/style.js?compact=true&v=mobile-icon-grid-20260706-bh1";
+import storeScreen from "../screens/storeScreen.js?compact=true&v=shop-stock-mobile-grid-20260706-bh1";
+import npcGuideOverlay from "./npcGuideOverlay.js?compact=true&v=ui-glass-click-proof-20260603-bh366";
+import dialogues from "./dialogues.js?compact=true&v=village-combat-20260611-bh805";
+import { Toast } from "./components/Toast.js?compact=true&v=ray-ground-ui-20260602-bh126";
+import { InteractionPrompt } from "./components/InteractionPrompt.js?compact=true&v=ray-ground-ui-20260602-bh126";
+import { PerutahProgress } from "./perutahProgress.js?compact=true&v=village-hud-born-hidden-20260603-bh366";
 
 const sideRoots = ["torahSkills","torahSpellbook","knowledgeMenu","skillBar","torahCodex","objectiveProgress","torahActionBar","macroPanel","farmPanel","combatLog","questTracker","chatPanel","mapReveal","minimap","carcassPanel","lootSparkle","loot","bagState"];
 const isMobileLike = () => {

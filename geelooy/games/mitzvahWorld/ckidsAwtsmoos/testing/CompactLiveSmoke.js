@@ -1,6 +1,6 @@
 // B"H
 /** @file CompactLiveSmoke.js @description Tiny browser-side smoke hooks, player-facing starter HUD probe, and WoW-starting-zone brainstorm without console floods. */
-import { installStarterZoneHudBridge } from "../ui/StarterZoneHudRuntime.js";
+import { installStarterZoneHudBridge } from "../ui/StarterZoneHudRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const WOW_GAPS = Object.freeze([
   "class trainer loop with rank upgrades",
   "vendor buyback and repair durability",

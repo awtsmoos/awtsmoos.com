@@ -3,9 +3,9 @@
  * @file index.js — MASTER ITEM REGISTRY
  * All items unified — searchable, filterable, price-normalized.
  */
-import { APPAREL_REGISTRY, APPAREL_LIST }       from './apparel.js';
-import { CONSUMABLES_REGISTRY, CONSUMABLES_LIST } from './consumables.js';
-import { WEAPONS_REGISTRY, WEAPONS_LIST }         from './weapons.js';
+import { APPAREL_REGISTRY, APPAREL_LIST }       from './apparel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { CONSUMABLES_REGISTRY, CONSUMABLES_LIST } from './consumables.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { WEAPONS_REGISTRY, WEAPONS_LIST }         from './weapons.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export { APPAREL_REGISTRY, CONSUMABLES_REGISTRY, WEAPONS_REGISTRY };
 

@@ -1,9 +1,9 @@
 // B"H
 /** NPC interactions keep click menus open and feed memory, gossip, quests, and services. */
-import { gossipPayload } from "./GossipRuntime.js";
-import { npcServices } from "./NpcServiceRegistry.js";
-import { createNpcMemoryRuntime } from "./NpcMemoryRuntime.js";
-import { nearestNpcBySpatialHash } from "./NpcSpatialHash.js";
+import { gossipPayload } from "./GossipRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { npcServices } from "./NpcServiceRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createNpcMemoryRuntime } from "./NpcMemoryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { nearestNpcBySpatialHash } from "./NpcSpatialHash.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function allNpcs(olam) {
   return [olam?.npcs, olam?.nivrayim, olam?.interactables].flat().filter(Boolean).filter(n => n.interactable || n.options?.interactable || n.mesh?.userData?.npcId || /npc|rebbe|baker|guard|merchant|villager/i.test(String(n.name || n.id || "")));

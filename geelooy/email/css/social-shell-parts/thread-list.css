@@ -1,32 +1,20 @@
-/* B"H — thread list as a readable grid. */
-.thread-list {
-  background: #fff !important;
-  display: grid !important;
-  gap: .5rem !important;
-  min-height: 0 !important;
-  overflow-y: auto !important;
-  padding: 0 1rem 7rem !important;
-}
-.thread-item {
-  background: #fff !important;
-  border: 1px solid var(--mail-line) !important;
-  border-radius: 16px !important;
-  box-shadow: none !important;
-  color: var(--mail-text) !important;
-  display: grid !important;
-  gap: .35rem !important;
-  margin: 0 !important;
-  min-height: 78px !important;
-  padding: .85rem !important;
-  transition: border-color .16s ease, background .16s ease, transform .16s ease !important;
-}
-.thread-item:hover { background: var(--mail-soft) !important; border-color: var(--mail-line-2) !important; transform: translateY(-1px); }
+/* B"H — sender groups as animated glass cards. */
+.thread-list { background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(246,248,251,.88)) !important; display: grid !important; gap: .82rem !important; min-height: 0 !important; overflow-y: auto !important; padding: 0 1rem 7rem !important; }
+.sender-group-card { animation: mailSenderRise .26s cubic-bezier(.2,.8,.2,1) both; background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(244,249,255,.9)) !important; border: 1px solid rgba(207,216,227,.82) !important; border-radius: 20px !important; box-shadow: 0 12px 32px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.9); display: grid; gap: .45rem; overflow: hidden; }
+.sender-group-head { align-items: center; background: linear-gradient(90deg, rgba(15,118,110,.1), rgba(46,167,255,.08), transparent) !important; display: grid; gap: .58rem; grid-template-columns: auto minmax(0,1fr) auto; min-height: 58px; padding: .7rem .8rem; }
+.sender-group-name { color: var(--mail-text); font-weight: 900; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sender-group-count { background: #fff; border: 1px solid rgba(207,216,227,.9); border-radius: 999px; color: var(--mail-muted); min-width: 2rem; padding: .18rem .52rem; text-align: center; }
+.sender-group-items { display: grid; gap: .45rem; padding: 0 .58rem .58rem; }
+.thread-item { background: rgba(255,255,255,.9) !important; border: 1px solid rgba(223,230,238,.88) !important; border-radius: 16px !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.9) !important; color: var(--mail-text) !important; display: grid !important; gap: .35rem !important; margin: 0 !important; min-height: 74px !important; padding: .76rem !important; text-align: left; transition: border-color .16s ease, background .16s ease, transform .16s ease, box-shadow .16s ease !important; width: 100%; }
+.thread-item:hover { background: #fff !important; border-color: rgba(46,167,255,.28) !important; box-shadow: 0 10px 24px rgba(15,23,42,.08) !important; transform: translate3d(0,-2px,0); }
 .thread-item.active,
-.thread-item.selected { background: #eef6f5 !important; border-color: rgba(15,118,110,.28) !important; }
+.thread-item.selected { background: linear-gradient(145deg, #eef6f5, #eef7ff) !important; border-color: rgba(15,118,110,.3) !important; }
 .thread-title,
 .thread-name,
-.thread-subject { color: var(--mail-text) !important; font-weight: 740 !important; }
+.thread-subject { color: var(--mail-text) !important; font-weight: 820 !important; }
 .thread-preview,
 .thread-meta,
 .thread-time { color: var(--mail-muted) !important; }
-.thread-avatar { background: var(--mail-soft) !important; color: var(--mail-text) !important; }
+.avatar-circle { background: linear-gradient(135deg, #fff, #ecfdf8) !important; border: 1px solid rgba(207,216,227,.86); border-radius: 15px; color: var(--mail-text) !important; display: grid; font-weight: 900; height: 42px; place-items: center; width: 42px; }
+@keyframes mailSenderRise { from { opacity: 0; transform: translate3d(0,10px,0) scale(.985); } to { opacity: 1; transform: translate3d(0,0,0) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .sender-group-card,.thread-item { animation: none !important; transition-duration: 1ms !important; } }

@@ -6,9 +6,9 @@
  * Registers "StairGeometry" with the GeometryManager upon file load.
  */
 
-import Tzomayach from "../chayim/tzomayach.js";
-import * as THREE from '/games/scripts/build/three.module.js';
-import GeometryManager from "../Olam/math/GeometryManager.js";
+import Tzomayach from "../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import GeometryManager from "../Olam/math/GeometryManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 // --- 1. Define the Geometry Generator Function ---
 function generateStairGeometry(width = 1, height = 1, depth = 1) {

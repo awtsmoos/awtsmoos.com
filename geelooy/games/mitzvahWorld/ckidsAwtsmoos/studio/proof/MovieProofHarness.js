@@ -1,5 +1,5 @@
 // B"H
-import { createMovieMakerState, exerciseMovieMaker } from "../movie/MovieMakerApp.js";
+import { createMovieMakerState, exerciseMovieMaker } from "../movie/MovieMakerApp.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function runMovieProof() {
   const { state, generated, played } = exerciseMovieMaker(createMovieMakerState());

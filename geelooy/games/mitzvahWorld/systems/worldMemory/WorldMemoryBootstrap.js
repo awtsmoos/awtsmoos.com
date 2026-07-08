@@ -1,6 +1,6 @@
 // B"H
 /** @file WorldMemoryBootstrap.js @description Boots the shared memory substrate before story, missions, and realism layers. */
-import { createWorldMemoryRuntime } from './WorldMemoryRuntime.js';
+import { createWorldMemoryRuntime } from './WorldMemoryRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 const scope = globalThis;
 if (!scope.__MITZVAH_WORLD_MEMORY__) {

@@ -7,7 +7,7 @@
  * Refined the ray and capsule probing to ensure it traverses all 
  * branches of the LOD tree simultaneously, picking the highest-truth contact point.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class OctreeQuery {
     constructor(world) {

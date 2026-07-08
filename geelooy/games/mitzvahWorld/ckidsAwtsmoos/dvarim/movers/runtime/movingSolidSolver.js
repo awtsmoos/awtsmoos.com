@@ -7,8 +7,8 @@
  * feet to the top, and declare grounded. It may not damp walking, erase input,
  * cancel jump, or multiply sliding memory.
  */
-import { boxFromCenter, boxesOverlap, pointInPathBox, sweptBox } from "./aabb.js";
-import { currentFeetY, playerAabb, playerPosition, snapFeetToTop, syncPlayerVisuals, translatePlayer } from "./playerCapsuleBox.js";
+import { boxFromCenter, boxesOverlap, pointInPathBox, sweptBox } from "./aabb.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { currentFeetY, playerAabb, playerPosition, snapFeetToTop, syncPlayerVisuals, translatePlayer } from "./playerCapsuleBox.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const EPS = 0.0005;
 const TOP_TOLERANCE = 0.72;

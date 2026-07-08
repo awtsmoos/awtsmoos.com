@@ -9,8 +9,8 @@
  * This module handles the physical garments (clothes) and structural body (mesh) of 
  * speakers. It delegates to the NpcRandomizer for generating unique visual identities.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import NpcRandomizer from './visuals/NpcRandomizer.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import NpcRandomizer from './visuals/NpcRandomizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     setupGoof() {

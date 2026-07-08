@@ -6,8 +6,8 @@
  * Passive herds step into simple crisp silhouettes sooner so mobile keeps the
  * high DPR vessel without letting skinned wildlife eat the frame.
  */
-import { createAnimalFarImpostor, createAnimalMidSimple } from "./AnimalImpostorFactory.js?v=animal-realism-split-20260705-bh1";
-import { ANIMAL_MID_IN, ANIMAL_MID_OUT, ANIMAL_NEAR_IN, ANIMAL_NEAR_OUT, BIRD_MID_IN } from "./lod/AnimalLodBands.js?v=animal-realism-split-20260705-bh2";
+import { createAnimalFarImpostor, createAnimalMidSimple } from "./AnimalImpostorFactory.js?compact=true&v=animal-realism-split-20260705-bh1";
+import { ANIMAL_MID_IN, ANIMAL_MID_OUT, ANIMAL_NEAR_IN, ANIMAL_NEAR_OUT, BIRD_MID_IN } from "./lod/AnimalLodBands.js?compact=true&v=animal-realism-split-20260705-bh2";
 
 function playerPosition(olam) {
   return (olam?.player || olam?.chossid)?.mesh?.position || null;

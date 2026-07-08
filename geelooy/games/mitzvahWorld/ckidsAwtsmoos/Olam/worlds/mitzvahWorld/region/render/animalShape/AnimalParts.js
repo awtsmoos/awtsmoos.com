@@ -1,7 +1,7 @@
 // B"H
 /** AnimalParts.js — multi-part readable low-poly animals, never merged flat soup. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { animalEyeMaterial, animalLambert, softShadowMaterial } from "./AnimalMaterials.js?v=mitzvah-aggressive-split-20260703-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { animalEyeMaterial, animalLambert, softShadowMaterial } from "./AnimalMaterials.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
 
 const GEOM = {
   body: new THREE.DodecahedronGeometry(0.82, 0),

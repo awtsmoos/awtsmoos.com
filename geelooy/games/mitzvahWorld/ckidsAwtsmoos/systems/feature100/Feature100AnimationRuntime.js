@@ -1,6 +1,6 @@
 // B"H
 /** Feature100AnimationRuntime: budget-safe animation feature contracts. */
-import { mutateFeature100State, appendFeature100Event } from './Feature100State.js';
+import { mutateFeature100State, appendFeature100Event } from './Feature100State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function remember(bucket, key, value) { return mutateFeature100State(s => { s[bucket] ||= {}; s[bucket][key] = { ...(s[bucket][key] || {}), ...value, at: Date.now() }; return s; }); }
 export function expression(id = 'expression', detail = {}) { appendFeature100Event({ domain:'animation', action:'expression', id, detail }); return remember('animation', id, { action:'expression', detail }); }
 export function eyeContact(id = 'eyeContact', detail = {}) { appendFeature100Event({ domain:'animation', action:'eyeContact', id, detail }); return remember('animation', id, { action:'eyeContact', detail }); }

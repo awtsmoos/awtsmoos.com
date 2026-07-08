@@ -6,7 +6,7 @@
  * compatibility path, but schedulers use `applyEconomySignalToStore` to mutate
  * the active store only.
  */
-import { rememberLivingWorld, recordLivingWorldEvent, livingWorldBucket, addEventFeed } from './LivingWorldState.js';
+import { rememberLivingWorld, recordLivingWorldEvent, livingWorldBucket, addEventFeed } from './LivingWorldState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function cap(list = [], n = 40) { return (list || []).slice(-n); }
 function write(id, action, detail = {}) {
   recordLivingWorldEvent({ domain:'economy', id, action, detail });

@@ -8,7 +8,7 @@
  * surrounding try/catch has already returned, especially on mobile. Standard GLB
  * loading is enough for this world, so boot owns only the plain GLTF loader.
  */
-import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Prepares the GLTF loader without remote decoder boot fatalities.

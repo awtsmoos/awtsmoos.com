@@ -3,7 +3,7 @@
  * B"H
  * Simplex Noise Utility for Shaders
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export function simplex2d(v) {
     const C = new THREE.Vector4(

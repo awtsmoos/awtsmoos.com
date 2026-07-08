@@ -10,15 +10,15 @@
  * mirrored by that wallet, so legacy callers see the same value without owning a
  * second purse.
  */
-import { addBagItem } from "../inventory/BagRuntime.js?v=final-lootable-corpse-20260705-bh1";
+import { addBagItem } from "../inventory/BagRuntime.js?compact=true&v=final-lootable-corpse-20260705-bh1";
 import {
   awardMoney,
   moneyOf,
   walletPlayerOf
-} from "../economy/wallet/PersonalPerutaWallet.js";
-import { lootForRare } from "./RareLootRuntime.js";
-import { dropsForAnimal } from "./AnimalDropTable.js";
-import { awardLootItemsToQuests } from "./LootAwardRuntime.js";
+} from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { lootForRare } from "./RareLootRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { dropsForAnimal } from "./AnimalDropTable.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardLootItemsToQuests } from "./LootAwardRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const EMPTY_LOOT_STATE = Object.freeze({ corpses: {} });
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;

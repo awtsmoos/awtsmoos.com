@@ -4,12 +4,12 @@
  * Story sparks now pass through Reality and Presentation seams. The director is
  * still explicit-pulse only: no loop, no frame tax, no hidden rendering tie.
  */
-import { WORLD_EVENT_DIRECTOR_EVENTS, eventAllowed, eventMatchesPhase } from './WorldEventDirectorRegistry.js';
-import { addEventFeed, addMemory, addRumor, commitUiPayloads, saveLivingWorldState } from '../livingWorld/LivingWorldState.js';
-import { persistLivingWorldToWorldState } from '../livingWorld/LivingWorldPersistenceBridge.js';
-import { createRumor } from '../npc/GossipRuntime.js';
-import { capList, now } from '../core/WorldRealityAdapter.js';
-import { publish, publishLivingWorld, publishUiPayload } from '../ui/WorldPresentationBus.js';
+import { WORLD_EVENT_DIRECTOR_EVENTS, eventAllowed, eventMatchesPhase } from './WorldEventDirectorRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addEventFeed, addMemory, addRumor, commitUiPayloads, saveLivingWorldState } from '../livingWorld/LivingWorldState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { persistLivingWorldToWorldState } from '../livingWorld/LivingWorldPersistenceBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createRumor } from '../npc/GossipRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { capList, now } from '../core/WorldRealityAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { publish, publishLivingWorld, publishUiPayload } from '../ui/WorldPresentationBus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function phaseOf(state = {}) { return state.villageActivity?.phase || state.uiPayloads?.villageActivity?.phase || 'morning'; }
 function seenRecently(state, id) { return (state.worldEventDirector?.recent || []).includes(id); }

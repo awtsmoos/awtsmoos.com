@@ -1,6 +1,6 @@
 // B"H
 /** MobileCleanHudRuntime: world-first HUD with loop policy and stronger clutter collapse. */
-import { defer } from '../performance/RuntimeLoopPolicy.js';
+import { defer } from '../performance/RuntimeLoopPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 const STYLE_ID = 'awtsmoosMobileCleanHudStyle';
 function css() { return `
 @media (max-width:820px),(pointer:coarse){

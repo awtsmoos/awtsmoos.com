@@ -3,7 +3,7 @@
  * @file VehicleInteractionSystem.js
  * @description Mobile-safe prompt for nearby vehicles and mounted state.
  */
-import { nearestVehicle } from "./VehicleMounting.js";
+import { nearestVehicle } from "./VehicleMounting.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 function ensurePrompt() {
   if (typeof document === "undefined") return null;

@@ -2,10 +2,10 @@
  * B"H
  * Aggregated Utilities
  */
-import SerializationUtils from "./serialization.js";
-import MathUtils from "./math.js";
-import EventUtils from "./events.js";
-import DomUtils from "./dom.js";
+import SerializationUtils from "./serialization.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import MathUtils from "./math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import EventUtils from "./events.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import DomUtils from "./dom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class Utils {
     static copyObj(obj) { return SerializationUtils.copyObj(obj); }

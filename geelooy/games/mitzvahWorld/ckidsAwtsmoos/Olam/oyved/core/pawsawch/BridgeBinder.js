@@ -7,9 +7,9 @@
  * Delegates the heavy lifting of UI, HTML, and Inventory bridging
  * to the extremely modular Bridge subsystems.
  */
-import { UiSignals } from '../bridge/UiSignals.js';
-import { HtmlSignals } from '../bridge/HtmlSignals.js';
-import { InventoryBridge } from '../InventoryBridge.js'; // From the parent core folder
+import { UiSignals } from '../bridge/UiSignals.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { HtmlSignals } from '../bridge/HtmlSignals.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { InventoryBridge } from '../InventoryBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1'; // From the parent core folder
 
 export class BridgeBinder {
     static bind(olam, promiseMap, UtilsClass) {

@@ -3,8 +3,8 @@
  * WorldQualityDirector: publishes cheap global budgets without scene traversal.
  * It watches frame breath and lets systems cheapen representation, not reality.
  */
-import { collectWorldRuntimeMetrics } from './WorldRuntimeMetrics.js';
-import { classifyPerformanceBudget, mergeRuntimeBudget } from './WorldPerformanceBudget.js';
+import { collectWorldRuntimeMetrics } from './WorldRuntimeMetrics.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { classifyPerformanceBudget, mergeRuntimeBudget } from './WorldPerformanceBudget.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 const avg=xs=>xs.reduce((a,b)=>a+b,0)/Math.max(1,xs.length);
 const pct=(xs,p)=>{const s=[...xs].sort((a,b)=>a-b);return s[Math.min(s.length-1,Math.floor(s.length*p))]||0;};
 export function createWorldQualityDirector(scope=globalThis,options={}){

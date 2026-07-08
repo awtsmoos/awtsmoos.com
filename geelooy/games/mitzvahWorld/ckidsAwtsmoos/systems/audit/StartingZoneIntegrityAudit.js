@@ -1,17 +1,17 @@
 // B"H
 /** @file StartingZoneIntegrityAudit.js @description Parcel, collider, grounded-slab, grass-texture, mission, strict-interaction, kosher-craft, MMO, solo-WoW, and player-facing starter audit. */
-import { buildHousePlan } from "../../Olam/worlds/mitzvahWorld/region/houses/HousePlanner.js";
-import { buildNpcSchedulePlan } from "../../Olam/worlds/mitzvahWorld/region/npc/NpcScheduleDirector.js";
-import { auditManifest } from "../../Olam/worlds/mitzvahWorld/region/parcels/ParcelCollisionManifest.js";
-import { auditHousePlanColliders } from "../../Olam/worlds/mitzvahWorld/region/render/RegionHouseColliderPlan.js";
-import { auditGrassExclusions } from "../../Olam/worlds/mitzvahWorld/region/render/RegionGrassExclusion.js";
-import { runGroundedColliderGrassAudit } from "../../Olam/worlds/mitzvahWorld/region/render/RegionColliderGroundAudit.js";
-import { splitSegmentForGap } from "../../dvarim/nature/FenceGapMath.js";
-import MissionRegistry from "../missions/MissionRegistry.js";
-import { InventoryItemIndex } from "../inventory/InventoryItemIndex.js";
-import { runKosherCraftAudit } from "../kosher/KosherCraftAudit.js";
-import { soloWowPlanSummary } from "./SoloWowFeatureMasterPlan.js";
-import { runPlayerFacingStarterZoneAudit } from "./PlayerFacingStarterZoneAudit.js";
+import { buildHousePlan } from "../../Olam/worlds/mitzvahWorld/region/houses/HousePlanner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildNpcSchedulePlan } from "../../Olam/worlds/mitzvahWorld/region/npc/NpcScheduleDirector.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { auditManifest } from "../../Olam/worlds/mitzvahWorld/region/parcels/ParcelCollisionManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { auditHousePlanColliders } from "../../Olam/worlds/mitzvahWorld/region/render/RegionHouseColliderPlan.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { auditGrassExclusions } from "../../Olam/worlds/mitzvahWorld/region/render/RegionGrassExclusion.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runGroundedColliderGrassAudit } from "../../Olam/worlds/mitzvahWorld/region/render/RegionColliderGroundAudit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { splitSegmentForGap } from "../../dvarim/nature/FenceGapMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import MissionRegistry from "../missions/MissionRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { InventoryItemIndex } from "../inventory/InventoryItemIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runKosherCraftAudit } from "../kosher/KosherCraftAudit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { soloWowPlanSummary } from "./SoloWowFeatureMasterPlan.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runPlayerFacingStarterZoneAudit } from "./PlayerFacingStarterZoneAudit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const REQUIRED_OBJECTIVE_TYPES = Object.freeze(["talk", "discover", "collect", "calm", "target", "attack", "learn", "cast", "readSefer", "harvest", "openGate", "plant", "water", "repairFence", "mail", "deliver", "enterTerritory", "surviveEvent", "separate"]);
 const MMO_FEATURE_KEYS = Object.freeze(["combat", "threat", "aggro", "leash", "elites", "rares", "discovery", "XP", "levels", "quests", "vendors", "mailbox", "bank", "inn", "mapReveal", "tutorial", "landmarks", "dungeonEntrance", "dungeonBoss", "factionIdentity", "kosherCraft", "groundedColliders", "grassTextures", "soloWowMasterPlan", "playerFacingStarterZone"]);
 function objectiveTypes() { return [...new Set(MissionRegistry.flatMap(m => (m.objectives || []).map(o => o.type)))].sort(); }

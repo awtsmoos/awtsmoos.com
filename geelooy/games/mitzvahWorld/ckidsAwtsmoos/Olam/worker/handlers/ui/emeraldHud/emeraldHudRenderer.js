@@ -1,12 +1,12 @@
 // B"H
 /** @file emeraldHudRenderer.js @description Chapter 421: Renders the screenshot-style Emerald HUD shell. */
-import { areaStatsPanel } from './areaStatsPanel.js';
-import { bottomIconBar } from './bottomIconBar.js';
-import { currentNpcPanel } from './currentNpcPanel.js';
-import { installEmeraldHudCss } from './emeraldHudCss.js';
-import { playerVitalsPanel } from './playerVitalsPanel.js';
-import { questPanel } from './questPanel.js';
-import { titlePanel } from './titlePanel.js';
+import { areaStatsPanel } from './areaStatsPanel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { bottomIconBar } from './bottomIconBar.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { currentNpcPanel } from './currentNpcPanel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { installEmeraldHudCss } from './emeraldHudCss.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { playerVitalsPanel } from './playerVitalsPanel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { questPanel } from './questPanel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { titlePanel } from './titlePanel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function renderEmeraldEntryHud(entryScene = {}) {
   installEmeraldHudCss();
   document.getElementById('emerald-entry-hud')?.remove();

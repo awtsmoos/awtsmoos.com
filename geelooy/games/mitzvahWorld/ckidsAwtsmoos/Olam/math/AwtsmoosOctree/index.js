@@ -6,10 +6,10 @@ import {
 	Sphere,
 	Triangle,
 	Vector3
-} from '/games/scripts/build/three.module.js';
-import { Capsule } from '../Capsule.js';
-import build from "./methods/build.js";
-import intersection from "./methods/intersection.js";
+} from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { Capsule } from '../Capsule.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import build from "./methods/build.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import intersection from "./methods/intersection.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 // --- Reusable private variables ---
 const _v1 = new Vector3();

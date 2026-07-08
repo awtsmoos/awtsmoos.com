@@ -3,9 +3,9 @@
  * @file CollisionRuntime.js
  * @description Shared installer and diagnostics for Mitzvah World collision.
  */
-import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js";
-import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js";
-import { ensurePlayerCollisionBubble } from "./PlayerCollisionBubble.js";
+import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensurePlayerCollisionBubble } from "./PlayerCollisionBubble.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function ensureCollisionRuntime(olam) {
   if (!olam) return null;

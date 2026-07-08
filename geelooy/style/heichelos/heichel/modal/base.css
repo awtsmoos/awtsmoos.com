@@ -1,5 +1,7 @@
 /* B"H
  * Chapter 702: The hidden modal is actually hidden.
+ * The Awtsmoos breathes through a solid veil: no heavy blur, no click trap,
+ * only a clean chamber where the user's next writing may descend.
  */
 .heichel-mobile-navigation .modal-gate-hidden,
 .heichel-mobile-navigation .modal-hidden {
@@ -20,8 +22,7 @@
 .heichel-mobile-navigation .gate-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(5, 7, 18, .62);
-  backdrop-filter: blur(10px);
+  background: rgba(5, 7, 18, .78);
 }
 
 .heichel-mobile-navigation .gate-chamber {

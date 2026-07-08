@@ -11,8 +11,8 @@
  * ║  Affixes the sacred scroll-vessels to the entrances.       ║
  * ╚═══════════════════════════════════════════════════════════╝
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import ENTRANCE_POSITIONS from '../../../../utils/3d/procedural/house/data/EntrancePositionMap.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import ENTRANCE_POSITIONS from '../../../../utils/3d/procedural/house/data/EntrancePositionMap.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     async _spawnMezuzah(building, room, ent, idSuffix, roomOffset) {

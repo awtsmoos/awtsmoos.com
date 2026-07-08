@@ -1,5 +1,5 @@
 // B"H
-import { createWorldStudioState, exerciseWorldStudio } from "../world/WorldStudioApp.js";
+import { createWorldStudioState, exerciseWorldStudio } from "../world/WorldStudioApp.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function runStudioProof() {
   const result = exerciseWorldStudio(createWorldStudioState());

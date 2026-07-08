@@ -1,5 +1,5 @@
 // B"H
-import { containsBox, intersects, readBox, tmpBox } from './SpatialMath.js';
+import { containsBox, intersects, readBox, tmpBox } from './SpatialMath.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 function childBox(b, i) {
   const mx = (b.minX + b.maxX) / 2, my = (b.minY + b.maxY) / 2, mz = (b.minZ + b.maxZ) / 2;

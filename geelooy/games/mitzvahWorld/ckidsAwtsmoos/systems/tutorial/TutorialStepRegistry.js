@@ -5,7 +5,7 @@
  * memory, training, profession, reputation, and performance-safe wonder.
  */
 
-import { STARTER_ZONE_ARC } from './StarterZoneArcRegistry.js';
+import { STARTER_ZONE_ARC } from './StarterZoneArcRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export const TUTORIAL_STEPS = Object.freeze(STARTER_ZONE_ARC.map((step,index)=>({ ...step, index, hint:
   index===0?'Use movement to reach the glowing courtyard.':
   index===1?'Talk, accept, deliver, return.':

@@ -4,10 +4,10 @@
  * The runtime bridge that turns realism policy into cheap enforcement: renderer
  * budget, texture law, spatial interest, and tiny evidence reports.
  */
-import { applyRenderBudget } from '../performance/RenderBudgetApplier.js';
-import { governMaterialTextures } from '../performance/MaterialTextureGovernor.js';
-import { updateFastRealismRuntimeOverlay } from '../performance/FastRealismRuntimeOverlay.js';
-import { createSpatialInterestRegistry } from './SpatialInterestRegistry.js';
+import { applyRenderBudget } from '../performance/RenderBudgetApplier.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { governMaterialTextures } from '../performance/MaterialTextureGovernor.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { updateFastRealismRuntimeOverlay } from '../performance/FastRealismRuntimeOverlay.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createSpatialInterestRegistry } from './SpatialInterestRegistry.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 function worldOf(scope) { return scope.__AWTSMOOS_OLAM__ || scope.olam || scope.ikar?.olam || scope.mana?.activeOlam || null; }
 function playerOf(world) { return world?.player || world?.awduhm || world?.activePlayer || world?.nivrayim?.find?.(x => x?.isPlayer); }

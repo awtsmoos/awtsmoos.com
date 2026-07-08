@@ -6,7 +6,7 @@
  * Fibers, streaks, spots, muzzle softness, and feather bands are baked into a
  * canvas texture that TextureForge can store in IndexedDB by species version.
  */
-import CanvasHelper from "../CanvasHelper.js";
+import CanvasHelper from "../CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const TAU = Math.PI * 2;
 const PALE = [238, 226, 199];
 const PROFILES = Object.freeze({

@@ -14,7 +14,7 @@ function awtsmoosNotice(message) {
  * painted village overlay. The Awtsmoos sends the player into an actual Olam,
  * where a real NPC stands under sky and opens challenges by interaction.
  */
-import mitzvahBtn from "../resources/mitzvahBtn.js";
+import mitzvahBtn from "../resources/mitzvahBtn.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const VILLAGE_ID = "village.json";
 const LEVEL_BASE = "../../../../../levels/ladder/data/";

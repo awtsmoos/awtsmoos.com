@@ -1,8 +1,8 @@
 // B"H
 /** @file buildings.js @description Chapter 356: Houses receive blueprints and interior NPCs. */
-import { HousePresets } from '../../../../utils/3d/procedural/house/data/HousePresets.js';
-import { NPC_MANIFEST } from '../npcManifest.js';
-import { makeNpcDefinition } from './npcDefinitions.js';
+import { HousePresets } from '../../../../utils/3d/procedural/house/data/HousePresets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NPC_MANIFEST } from '../npcManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { makeNpcDefinition } from './npcDefinitions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function clonePreset(preset) { return JSON.parse(JSON.stringify(preset || HousePresets.SingleRoom)); }
 export function addBuildings(n, properties) {
   properties.forEach((prop, index) => {

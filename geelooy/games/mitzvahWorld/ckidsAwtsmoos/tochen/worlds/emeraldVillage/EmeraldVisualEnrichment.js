@@ -5,11 +5,11 @@
  * The same Awtsmoos-village can appear lavish on strong vessels and lighter on
  * fragile ones without pretending all devices are equal.
  */
-import { addArchitecture, addBenches, addCrowdMarkers, addDepthTrees, addEntryTree, addHouseMicro, addLevelGuideMarker, addLightingProps, addMarket, addObjectiveMarkers, addPlaza, addRoadEdges, addSigns, addSparkles, addVista, addWaterFeatures, enrichNpc } from './visualPasses/visualIndex.js';
-import { addDistrictAccents } from './visualPasses/districtAccents.js';
-import { addScreenshotDetails } from './visualPasses/screenshotDetailPass.js';
-import { validateEmeraldVisualBudget } from './visualPasses/visualBudgetValidator.js';
-import { visualDensity } from './visualPasses/visualDensityConfig.js';
+import { addArchitecture, addBenches, addCrowdMarkers, addDepthTrees, addEntryTree, addHouseMicro, addLevelGuideMarker, addLightingProps, addMarket, addObjectiveMarkers, addPlaza, addRoadEdges, addSigns, addSparkles, addVista, addWaterFeatures, enrichNpc } from './visualPasses/visualIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addDistrictAccents } from './visualPasses/districtAccents.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addScreenshotDetails } from './visualPasses/screenshotDetailPass.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { validateEmeraldVisualBudget } from './visualPasses/visualBudgetValidator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { visualDensity } from './visualPasses/visualDensityConfig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export { enrichNpc };
 export function applyVisualEnrichment(n, properties, roads = [], profile = {}) {
   const density = visualDensity(profile);

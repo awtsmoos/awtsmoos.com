@@ -11,7 +11,7 @@
  * @invariants never posts final twice; never posts loadedWorld from final stage.
  * @failureModes missing postMessage becomes a safe no-op false boundary.
  */
-import { ensureCollisionRuntime } from "../collision/CollisionRuntime.js?v=final-ready-proof-20260706-bh1";
+import { ensureCollisionRuntime } from "../collision/CollisionRuntime.js?compact=true&v=final-ready-proof-20260706-bh1";
 
 const REQUIRED_FRAMES = 2;
 const finite = value => Number.isFinite(Number(value));

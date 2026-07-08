@@ -5,8 +5,8 @@
  * Chapter 80: The stone path passes the renderer to the shader snapshot forge.
  * Cobble and dirt textures are baked once, then reused by instanced Lambert.
  */
-import Domem from "../../chayim/domem/index.js";
-import { createCobblePath } from "../../../../../libs/awtsmoos3d/path/cobblePath.js?v=shader-path-20260604-bh437";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createCobblePath } from "../../../../../libs/awtsmoos3d/path/cobblePath.js?compact=true&v=shader-path-20260604-bh437";
 
 export default class VillageStonePath extends Domem {
   type = "villageStonePath";

@@ -7,8 +7,8 @@
  * a loot table, and inventory truth. The Awtsmoos lets even a fallen creature
  * become a lawful source of materials without graphic spectacle.
  */
-import { scanDeadAnimalCarcasses, nearestCarcass, openCarcassUi } from "../../../../systems/kosher/CarcassRuntime.js";
-import { makeLootableCorpse, lootAll } from "../../../../systems/loot/LootRuntime.js";
+import { scanDeadAnimalCarcasses, nearestCarcass, openCarcassUi } from "../../../../systems/kosher/CarcassRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeLootableCorpse, lootAll } from "../../../../systems/loot/LootRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const KEY = "__awtsmoosWildlifeCarcassLootTicker";
 

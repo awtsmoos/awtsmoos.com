@@ -4,14 +4,14 @@
  * @description Target-first speech. First click selects, second click/tap or
  * right-click opens the existing NPC overlay and records browser diagnostics.
  */
-import { positionOf } from "./InteractiveNpcGeometry.js?v=npc-split-20260628-bh1";
-import { npcOverlayPayload } from "./InteractiveNpcPayload.js?v=npc-split-20260628-bh1";
-import { holdUi, releaseUi, stopPointer } from "./InteractiveNpcUiHold.js?v=npc-split-20260628-bh1";
+import { positionOf } from "./InteractiveNpcGeometry.js?compact=true&v=npc-split-20260628-bh1";
+import { npcOverlayPayload } from "./InteractiveNpcPayload.js?compact=true&v=npc-split-20260628-bh1";
+import { holdUi, releaseUi, stopPointer } from "./InteractiveNpcUiHold.js?compact=true&v=npc-split-20260628-bh1";
 import {
   explainNpcWait,
   npcInteractionDecision,
   selectNpcTarget
-} from "../NpcTargetRuntime.js?v=full-revamp-npc-target-talk-20260704-bh1";
+} from "../NpcTargetRuntime.js?compact=true&v=full-revamp-npc-target-talk-20260704-bh1";
 
 const EXPLICIT_TYPES = new Set(["pointerdown", "pointerup", "click", "touchend", "mousedown", "mouseup", "contextmenu"]);
 

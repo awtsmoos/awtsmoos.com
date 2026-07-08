@@ -3,12 +3,12 @@
  * @file GeometryEngine.js
  * @description Manifest geometry engine with parser-clear variable resolution and no legacy tree generator.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { getMaterial } from "./materials/MaterialFactory.js?v=awtsmoos-material-factory-20260614-bh2";
-import { GeometryModifiers } from "./GeometryModifiers.js?v=awtsmoos-geometry-modifiers-20260614-bh2";
-import { ProceduralGeometryFactory } from "./ProceduralGeometryFactory.js?v=awtsmoos-procedural-geometry-20260614-bh2";
-import { shapeGeometry } from "./procedural/ShapeGeometryFactory.js?v=awtsmoos-json-shapes-20260619-bh1";
-import { geometryFromAwtsmoosMeshData } from "./procedural/AwtsmoosProceduralMeshBridge.js?v=awtsmoos-core-mesh-bridge-20260619-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { getMaterial } from "./materials/MaterialFactory.js?compact=true&v=awtsmoos-material-factory-20260614-bh2";
+import { GeometryModifiers } from "./GeometryModifiers.js?compact=true&v=awtsmoos-geometry-modifiers-20260614-bh2";
+import { ProceduralGeometryFactory } from "./ProceduralGeometryFactory.js?compact=true&v=awtsmoos-procedural-geometry-20260614-bh2";
+import { shapeGeometry } from "./procedural/ShapeGeometryFactory.js?compact=true&v=awtsmoos-json-shapes-20260619-bh1";
+import { geometryFromAwtsmoosMeshData } from "./procedural/AwtsmoosProceduralMeshBridge.js?compact=true&v=awtsmoos-core-mesh-bridge-20260619-bh1";
 function varsOf(blueprint, context) { return Object.assign({}, blueprint.variables || {}, context.vars || {}); }
 function resolveWith(vars, value) { if (typeof value !== "string" || !value.includes("$")) return value; let expression = value; for (const key of Object.keys(vars).sort((a,b)=>b.length-a.length)) expression = expression.split("$" + key).join(vars[key]); try { return new Function(`return (${expression.replace(/\$/g, "")})`)(); } catch (_) { return expression; } }
 function list(value) { return Array.isArray(value) ? value : []; }

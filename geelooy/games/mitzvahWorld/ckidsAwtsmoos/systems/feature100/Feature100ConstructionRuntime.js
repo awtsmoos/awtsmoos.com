@@ -1,6 +1,6 @@
 // B"H
 /** Feature100ConstructionRuntime: budget-safe construction feature contracts. */
-import { mutateFeature100State, appendFeature100Event } from './Feature100State.js';
+import { mutateFeature100State, appendFeature100Event } from './Feature100State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function remember(bucket, key, value) { return mutateFeature100State(s => { s[bucket] ||= {}; s[bucket][key] = { ...(s[bucket][key] || {}), ...value, at: Date.now() }; return s; }); }
 export function road(id = 'road', detail = {}) { appendFeature100Event({ domain:'construction', action:'road', id, detail }); return remember('construction', id, { action:'road', detail }); }
 export function path(id = 'path', detail = {}) { appendFeature100Event({ domain:'construction', action:'path', id, detail }); return remember('construction', id, { action:'path', detail }); }

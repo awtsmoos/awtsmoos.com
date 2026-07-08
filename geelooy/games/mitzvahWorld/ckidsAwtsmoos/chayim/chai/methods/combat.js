@@ -4,9 +4,9 @@
  * @description THE TEFILLAH OF WAR. The same old sword now remembers XP,
  * levels, rewards, and HUD proof instead of scattering sparks into silence.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { TORAH_PASSAGES } from '../../../tochen/skills/TorahPassages.js';
-import SpiritualWeaponManifestor from '../../../tochen/combat/SpiritualWeaponManifestor.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TORAH_PASSAGES } from '../../../tochen/skills/TorahPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import SpiritualWeaponManifestor from '../../../tochen/combat/SpiritualWeaponManifestor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const PROGRESS_KEY = "awtsmoosMitzvahPlayerProgress";
 const num = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 function scopeOf(self) { return self?.olam?.aysh?.window || globalThis; }

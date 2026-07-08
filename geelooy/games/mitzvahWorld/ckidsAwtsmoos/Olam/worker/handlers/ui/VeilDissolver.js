@@ -10,8 +10,8 @@
  * Without this bridge, the UI would remain frozen, even as the world 
  * pulses with life in the background thread.
  */
-import VeilController from "../../../uiManager/logic/VeilController.js";
-import LoadingProgress from "../../../uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh3";
+import VeilController from "../../../uiManager/logic/VeilController.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import LoadingProgress from "../../../uiManager/logic/LoadingProgressBridge.js?compact=true&v=loading-proof-mobile-20260706-bh3";
 
 export default function setupVeilDissolver(manager) {
     const controller = new VeilController(manager.myUi);

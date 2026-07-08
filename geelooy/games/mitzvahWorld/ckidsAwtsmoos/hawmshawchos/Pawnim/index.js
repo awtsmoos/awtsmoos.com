@@ -4,7 +4,7 @@
 
     
 */
-import Peh from "./peh/index.js";
+import Peh from "./peh/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class Pawnim {
     constructor(nivra) {
         this.nivra = nivra;

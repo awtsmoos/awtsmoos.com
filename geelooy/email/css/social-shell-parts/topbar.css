@@ -1,41 +1,27 @@
-/* B"H — compact mail top bars. */
+/* B"H — glass-like mail top bars and account chrome. */
+.mail-social-topbar,
 .mail-topbar,
 .chat-header,
 .sidebar-header,
-.mail-sidebar-header {
-  align-items: center !important;
-  background: #fff !important;
-  border-bottom: 1px solid var(--mail-line) !important;
-  color: var(--mail-text) !important;
-  display: flex !important;
-  gap: .75rem !important;
-  min-height: 64px !important;
-  padding: .85rem 1rem !important;
-}
-.brand-title {
-  color: var(--mail-text) !important;
-  font-size: 1rem !important;
-  font-weight: 780 !important;
-  letter-spacing: -.02em !important;
-  text-shadow: none !important;
-  text-transform: none !important;
-}
-.brand-title::before { content: "Mail"; color: var(--mail-muted); font-weight: 650; }
-.mail-sidebar-identity { display: grid; gap: .5rem; width: 100%; }
+.mail-sidebar-header { align-items: center !important; background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(248,251,255,.9)) !important; border-bottom: 1px solid rgba(207,216,227,.78) !important; color: var(--mail-text) !important; display: flex !important; gap: .75rem !important; justify-content: space-between; min-height: 66px !important; padding: .85rem 1rem !important; }
+.mail-title-lockup { display: grid; gap: .05rem; min-width: 0; }
+.mail-title-lockup strong { color: var(--mail-text); letter-spacing: -.035em; }
+.mail-title-lockup small,
+.mail-kicker { color: var(--mail-muted); font-size: .76rem; font-weight: 850; }
+.mail-top-links { display: flex; gap: .38rem; overflow-x: auto; padding-bottom: .14rem; }
+.mail-top-links .mail-route-link { background: rgba(255,255,255,.82); border: 1px solid rgba(207,216,227,.78); border-radius: 999px; box-shadow: inset 0 1px 0 rgba(255,255,255,.9); color: var(--mail-text); font-weight: 850; min-height: 40px; padding: .48rem .76rem; white-space: nowrap; }
+.brand-title { color: var(--mail-text) !important; font-size: 1rem !important; font-weight: 850 !important; letter-spacing: -.02em !important; text-shadow: none !important; text-transform: none !important; }
+.brand-title::before { content: "👤"; color: var(--mail-muted); margin-inline-end: .35rem; }
+.mail-sidebar-identity { display: grid; gap: .62rem; width: 100%; }
+.mail-profile-card { align-items: center; background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(238,252,248,.9)); border: 1px solid rgba(207,216,227,.82); border-radius: 20px; box-shadow: inset 0 1px 0 rgba(255,255,255,.92), 0 10px 24px rgba(15,23,42,.06); display: grid; gap: .68rem; grid-template-columns: auto minmax(0,1fr); padding: .65rem; position: relative; }
+.mail-profile-card-icon { align-items: center; background: #fff; border: 1px solid rgba(207,216,227,.86); border-radius: 15px; display: grid; font-size: 1.12rem; height: 43px; justify-content: center; width: 43px; }
+.mail-profile-copy { display: grid; gap: .25rem; min-width: 0; }
+.mail-profile-copy small { color: var(--mail-muted); font-size: .72rem; font-weight: 900; }
+.mail-sidebar-profile-mount { min-width: 0; position: relative; z-index: 200; }
 .mail-sidebar-profile-mount .awtsmoosDrop .btn.dropt,
 .mail-action,
-.icon-button {
-  background: var(--mail-soft) !important;
-  border: 1px solid var(--mail-line) !important;
-  border-radius: 999px !important;
-  color: var(--mail-text) !important;
-  min-height: 38px !important;
-  padding: .45rem .75rem !important;
-}
-.mail-sidebar-profile-mount .awtsmoosDrop .dropdown-content {
-  background: #fff !important;
-  border: 1px solid var(--mail-line) !important;
-  border-radius: 16px !important;
-  box-shadow: var(--mail-shadow) !important;
-}
+.icon-button { background: #fff !important; border: 1px solid rgba(207,216,227,.86) !important; border-radius: 999px !important; color: var(--mail-text) !important; min-height: 40px !important; overflow: hidden; padding: .45rem .75rem !important; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+.mail-sidebar-profile-mount .awtsmoosDrop .dropdown-content { background: #fff !important; border: 1px solid rgba(207,216,227,.9) !important; border-radius: 18px !important; box-shadow: 0 18px 46px rgba(15,23,42,.18) !important; min-width: min(18rem, 90vw); opacity: 1 !important; }
 .mail-sidebar-profile-mount .dropdown-content a { color: var(--mail-text) !important; }
+.mail-sidebar-profile-mount .dropdown-content a:hover { background: var(--mail-soft) !important; }
+@media (max-width: 620px) { .mail-social-topbar { align-items: stretch !important; display: grid !important; } .mail-top-links { order: 2; } }

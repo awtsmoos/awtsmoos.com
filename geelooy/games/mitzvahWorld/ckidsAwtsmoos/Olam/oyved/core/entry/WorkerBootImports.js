@@ -3,8 +3,8 @@
  * @file WorkerBootImports.js
  * @description Absolute worker boot imports that cannot inherit lowercase Olam.
  */
-import { postPlainWorkerText } from "./PlainWorkerPost.js";
-import { plainWorkerErrorText } from "./PlainWorkerErrorText.js";
+import { postPlainWorkerText } from "./PlainWorkerPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { plainWorkerErrorText } from "./PlainWorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const WORKER_BOOT_IMPORT_SEAL = "repair-ground-material-20260708-bh2";
 

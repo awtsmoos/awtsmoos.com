@@ -1,148 +1,31 @@
 // B"H
-/** @file ProceduralCoreTreeFactory.js @description Optimized procedural-core trees with fuller branch/leaf profiles. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { TreeGenerator } from "/libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js";
-import { createAwtsmoosThreeBufferGeometry } from "/libs/awtsmoos-procedural-core/src/adapters/three/bufferGeometry.js";
-import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?v=awtsmoos-texture-kit-20260614-bh2";
-
-const GEOMETRIES = new Map();
-const MATERIALS = new Map();
-
-function config(kind, seed) {
-  const pine = kind === "pine";
-  const apple = kind === "apple";
-  const willow = kind === "willow";
-  return {
-    seed,
-    type:pine ? "evergreen" : "deciduous",
-    branch:{
-      levels:pine ? 4 : 3,
-      children:{ 0:pine ? 11 : willow ? 8 : 7, 1:pine ? 8 : 6, 2:pine ? 7 : 6, 3:pine ? 5 : 0 },
-      force:{ direction:{ x:0, y:pine ? .24 : willow ? .18 : .44, z:0 }, strength:pine ? .052 : .04 },
-      gnarliness:{ 0:pine ? .05 : .10, 1:pine ? .18 : .25, 2:pine ? .34 : .44, 3:.28 },
-      length:{ 0:apple ? 6.4 : pine ? 9.2 : 8.6, 1:pine ? 4.4 : 4.7, 2:pine ? 2.6 : 2.25, 3:pine ? 1.25 : .8 },
-      radius:{ 0:apple ? .74 : pine ? .88 : .84, 1:pine ? .32 : .30, 2:pine ? .12 : .10, 3:pine ? .045 : .035 },
-      sections:{ 0:pine ? 12 : 10, 1:pine ? 8 : 7, 2:pine ? 5 : 4, 3:3 },
-      segments:{ 0:pine ? 13 : 11, 1:pine ? 9 : 7, 2:pine ? 6 : 5, 3:4 },
-      start:{ 0:.11, 1:.08, 2:.055, 3:.04 },
-      taper:{ 0:pine ? .50 : .55, 1:pine ? .70 : .76, 2:pine ? .86 : .92, 3:.96 },
-      angle:{ 0:pine ? 74 : willow ? 48 : 39, 1:pine ? 66 : 52, 2:pine ? 58 : 70, 3:pine ? 48 : 64 }
-    },
-    leaves:{
-      count:pine ? 28 : apple ? 18 : willow ? 22 : 16,
-      size:pine ? .34 : apple ? .60 : willow ? .42 : .52,
-      tint:pine ? [.07,.40,.15,1] : apple ? [.36,.68,.16,1] : willow ? [.20,.62,.20,1] : [.20,.60,.15,1]
-    }
-  };
-}
-
-function leafTexture() {
-  if (MATERIALS.has("leafTexture")) return MATERIALS.get("leafTexture");
-  const size = 128;
-  const data = new Uint8Array(size * size * 4);
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      const u = x / (size - 1) * 2 - 1;
-      const v = y / (size - 1) * 2 - 1;
-      const edge = Math.abs(u) / Math.max(.08, Math.sin((v + 1) * Math.PI * .5));
-      const serration = Math.sin((v + 1) * 38) * .045;
-      const inside = edge < .88 + serration && Math.abs(v) < .96;
-      const vein = Math.max(0, 1 - Math.abs(u) * 26) * .34;
-      const grain = ((x * 17 + y * 31) % 23) / 23;
-      const i = (y * size + x) * 4;
-      data[i] = 45 + grain * 35 + vein * 70;
-      data[i + 1] = 112 + grain * 70 + vein * 52;
-      data[i + 2] = 28 + grain * 22;
-      data[i + 3] = inside ? 255 : 0;
-    }
-  }
-  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-  texture.magFilter = THREE.LinearFilter;
-  texture.minFilter = THREE.LinearMipmapLinearFilter;
-  texture.generateMipmaps = true;
-  texture.anisotropy = 16;
-  texture.needsUpdate = true;
-  texture.userData ||= {};
-  texture.userData.pingPongRepeat = true;
-  MATERIALS.set("leafTexture", texture);
-  return texture;
-}
-
-function geometries(kind, variant) {
-  const key = `${kind}:${variant}`;
-  if (GEOMETRIES.has(key)) return GEOMETRIES.get(key);
-  const output = new TreeGenerator(config(kind, 711 + variant * 97 + kind.length * 13)).generate();
-  const branches = createAwtsmoosThreeBufferGeometry(THREE, {
-    positions:output.branches.verts,
-    normals:output.branches.normals,
-    uvs:output.branches.uvs,
-    indices:output.branches.indices
-  });
-  const leaves = createAwtsmoosThreeBufferGeometry(THREE, {
-    positions:output.leaves.verts,
-    normals:output.leaves.normals,
-    uvs:output.leaves.uvs,
-    colors:output.leaves.colors,
-    indices:output.leaves.indices
-  });
-  const pair = { branches, leaves };
-  GEOMETRIES.set(key, pair);
-  return pair;
-}
-
-function materials(kind) {
-  if (MATERIALS.has(kind)) return MATERIALS.get(kind);
-  const bark = materialWithTexture("wood", { size:256 });
-  const leaves = new THREE.MeshLambertMaterial({ map:leafTexture(), color:0xffffff, vertexColors:true, alphaTest:.34, side:THREE.DoubleSide });
-  const wind = { value:0 };
-  leaves.onBeforeCompile = shader => {
-    shader.uniforms.awtsWind = wind;
-    shader.vertexShader = `uniform float awtsWind;\nvarying float vLeafNoise;\n${shader.vertexShader}`
-      .replace("#include <begin_vertex>", `vec3 transformed=vec3(position); float crown=smoothstep(1.3,9.0,position.y); vLeafNoise=fract(sin(dot(position.xz,vec2(12.9898,78.233))+position.y*4.13)*43758.5453); transformed.x+=sin(awtsWind*1.25+position.y*.9+position.z*.4)*.09*crown; transformed.z+=cos(awtsWind*.9+position.x*.5)*.035*crown;`)
-      .replace("#include <color_vertex>", `#include <color_vertex>\n#ifdef USE_COLOR\nvColor.rgb *= mix(vec3(.74,.90,.70),vec3(1.20,1.12,.78),vLeafNoise);\n#endif`);
-    shader.fragmentShader = `varying float vLeafNoise;\n${shader.fragmentShader}`
-      .replace("#include <dithering_fragment>", `gl_FragColor.rgb *= 0.88 + vLeafNoise * 0.20;\n#include <dithering_fragment>`);
-  };
-  leaves.userData.windUniform = wind;
-  const pair = { bark, leaves };
-  MATERIALS.set(kind, pair);
-  return pair;
-}
-
-export function createProceduralCoreTree(kind = "oak", variant = 0) {
-  const group = new THREE.Group();
-  const geometry = geometries(kind, variant % 4);
-  const material = materials(kind);
-  const branches = new THREE.Mesh(geometry.branches, material.bark);
-  const leaves = new THREE.Mesh(geometry.leaves, material.leaves);
-  branches.name = "procedural_core_tree_branches";
-  leaves.name = "procedural_core_cutout_leaf_canopy";
-  leaves.receiveShadow = false;
-  branches.receiveShadow = false;
-  branches.castShadow = false;
-  leaves.castShadow = false;
-  group.add(branches, leaves);
-  Object.assign(group.userData, {
-    proceduralCoreTree:true,
-    treeKind:kind,
-    windUniform:material.leaves.userData.windUniform,
-    fullerProceduralCoreTree:true,
-    generatorPath:"/libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js"
-  });
-  return group;
-}
-
-export function advanceProceduralTreeWind(root, dt) {
-  const uniforms = new Set();
-  if (root && typeof root.traverse === "function") {
-    root.traverse(node => {
-      const data = node.userData || {};
-      if (data.windUniform) uniforms.add(data.windUniform);
-    });
-  }
-  uniforms.forEach(uniform => {
-    uniform.value += Math.min(.05, Math.max(.001, Number(dt) || 1 / 60));
-  });
-}
+/**
+ * @file ProceduralCoreTreeFactory.js
+ * @description Remote-textured procedural-core trees. The leaf texture is fetched,
+ * decoded, pixel-cleaned, cached once per URL, and only then placed into a plain
+ * THREE.Texture. No loader helpers, no canvas-backed texture wrapper, no per-tree image surgery.
+ */
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=fps-door-target-idle-20260708-bh1";
+import { TreeGenerator } from "/libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js?compact=true&v=fps-door-target-idle-20260708-bh1";
+import { createAwtsmoosThreeBufferGeometry } from "/libs/awtsmoos-procedural-core/src/adapters/three/bufferGeometry.js?compact=true&v=fps-door-target-idle-20260708-bh1";
+export const TREE_TEXTURE_URLS=Object.freeze({bark:"https://awtsmoos-docs-base.web.app/full-resolution/tree%20bark%201.png",fall:"https://awtsmoos-docs-base.web.app/full-resolution/oak%20leaf%20fall.png",spring:"https://awtsmoos-docs-base.web.app/full-resolution/oak%20spring.png"});
+const outCache=new Map(),geoCache=new Map(),matCache=new Map(),textureCache=new Map(),bitmapPromiseCache=new Map();
+const finite=(v,f=0)=>Number.isFinite(Number(v))?Number(v):f;
+function tune(tex,repeat={x:1,y:1},srgb=true,leaf=false){if(srgb&&THREE.SRGBColorSpace)tex.colorSpace=THREE.SRGBColorSpace;tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(repeat.x||1,repeat.y||1);tex.magFilter=THREE.LinearFilter;tex.minFilter=leaf?THREE.LinearFilter:THREE.LinearMipmapLinearFilter;tex.generateMipmaps=!leaf;tex.anisotropy=leaf?4:16;tex.needsUpdate=true;return tex;}
+function canvasOf(w,h){if(typeof OffscreenCanvas!=="undefined")return new OffscreenCanvas(w,h);const c=document.createElement("canvas");c.width=w;c.height=h;return c;}
+function isLeafGreen(r,g,b){return g>42&&g>=r*.78&&g>=b*.72&&(g-Math.max(r,b)>-14||g>96);}
+function alphaForPixel(r,g,b,a){if(a<8)return 0;const hi=Math.max(r,g,b),lo=Math.min(r,g,b),sat=(hi-lo)/Math.max(1,hi),bright=(r+g+b)/3,nearWhite=hi>150&&lo>110,lowSatBright=bright>118&&sat<.48,lightGray=hi>132&&Math.abs(r-g)<38&&Math.abs(g-b)<38,weakLeaf=!isLeafGreen(r,g,b);if((nearWhite||lowSatBright||lightGray)&&weakLeaf)return 0;if(hi>118&&sat<.58&&weakLeaf)return Math.min(a,28);if(hi>170&&weakLeaf)return 0;return a;}
+function cleanLeafBitmap(bitmap,{flipY=false,url=""}={}){const w=bitmap.width||2,h=bitmap.height||2,c=canvasOf(w,h),ctx=c.getContext("2d",{willReadFrequently:true});if(flipY){ctx.translate(0,h);ctx.scale(1,-1);}ctx.drawImage(bitmap,0,0,w,h);const img=ctx.getImageData(0,0,w,h),d=img.data;let transparent=0,semi=0,opaque=0,whiteLeft=0;for(let i=0;i<d.length;i+=4){const next=alphaForPixel(d[i],d[i+1],d[i+2],d[i+3]);d[i+3]=next;if(next===0)transparent++;else if(next<180)semi++;else opaque++;if(next>8&&d[i]>185&&d[i+1]>185&&d[i+2]>185)whiteLeft++;}ctx.putImageData(img,0,0);try{bitmap.close?.();}catch{}const proof={url,width:w,height:h,transparent,semi,opaque,whiteLeft,seal:"leaf-clean-before-three-texture-20260708-bh2"};globalThis.__AWTSMOOS_TREE_LEAF_ALPHA_PROOF__ ||= [];globalThis.__AWTSMOOS_TREE_LEAF_ALPHA_PROOF__.push(proof);console.info('B"H | TREE_LEAF_ALPHA_PROOF',proof);return createImageBitmap(c,{premultiplyAlpha:"default",colorSpaceConversion:"default"});}
+async function decodeBitmap(url,process={}){if(typeof fetch!=="function"||typeof createImageBitmap!=="function")throw new Error("terrain-style createImageBitmap unavailable");const key=url+"|"+JSON.stringify(process);if(bitmapPromiseCache.has(key))return bitmapPromiseCache.get(key);const promise=(async()=>{const res=await fetch(url,{mode:"cors",cache:"force-cache"});if(!res.ok)throw new Error(url+" "+res.status);const raw=await createImageBitmap(await res.blob(),{imageOrientation:"none",premultiplyAlpha:"default",colorSpaceConversion:"default"});return process.whiteAlpha?cleanLeafBitmap(raw,{...process,url}):raw;})();bitmapPromiseCache.set(key,promise);return promise;}
+function remoteTexture(url,repeat={x:1,y:1},leaf=false,process={}){const key=url+JSON.stringify(repeat)+"|leaf="+leaf+"|process="+JSON.stringify(process);if(textureCache.has(key))return textureCache.get(key);const tex=new THREE.Texture();tex.userData={terrainStyleRemoteBitmap:true,pendingRemoteBitmap:true,textureUrl:url,fullResolution:true,noDownscale:true,method:"fetch/blob/createImageBitmap/processPixels/THREE.Texture",process,oneDecodePerUrl:true};textureCache.set(key,tex);decodeBitmap(url,process).then(bitmap=>{tex.image=bitmap;tune(tex,repeat,true,leaf);tex.userData.pendingRemoteBitmap=false;tex.userData.loadedRemoteBitmap=true;tex.userData.bitmapSize=[bitmap.width,bitmap.height];tex.userData.whiteBackgroundRemoved=Boolean(process.whiteAlpha);tex.userData.cacheSize=bitmapPromiseCache.size;}).catch(error=>{tex.userData.pendingRemoteBitmap=false;tex.userData.remoteBitmapError=String(error?.message||error);console.warn('B"H | TREE_REMOTE_TEXTURE_FAILED',{url,message:tex.userData.remoteBitmapError});});return tex;}
+function config(kind,seed){const pine=kind==="pine",apple=kind==="apple",willow=kind==="willow";return{seed,type:pine?"evergreen":"deciduous",branch:{levels:4,children:{0:pine?10:willow?9:8,1:pine?7:6,2:pine?5:5,3:pine?3:4},force:{direction:{x:0,y:pine?.18:willow?.12:.28,z:0},strength:pine?.03:.025},gnarliness:{0:pine?.05:.1,1:pine?.16:.22,2:.32,3:.24},length:{0:apple?5.2:pine?6.6:6.1,1:pine?3.1:3.15,2:pine?1.65:1.85,3:.92},radius:{0:apple?.42:pine?.5:.48,1:.22,2:.095,3:.045},sections:{0:10,1:7,2:5,3:4},segments:{0:10,1:7,2:5,3:4},start:{0:.08,1:.07,2:.045,3:.025},taper:{0:.56,1:.76,2:.88,3:.95},angle:{0:pine?68:willow?48:43,1:pine?58:54,2:pine?52:66,3:49}},leaves:{count:pine?3:5,size:pine?.34:.46,sizeVariance:.22,tint:[1,1,1,1]}};}
+function generated(kind,variant){const key=kind+":"+variant;if(outCache.has(key))return outCache.get(key);const out=new TreeGenerator(config(kind,914+variant*131+kind.length*17)).generate();outCache.set(key,out);return out;}
+function cylindricalUvs(g){const p=g.getAttribute("position");if(!p)return g;g.computeBoundingBox?.();const box=g.boundingBox,range=Math.max(.001,box.max.y-box.min.y),uv=[];for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i),z=p.getZ(i),u=(Math.atan2(z,x)/(Math.PI*2)+1)%1,v=(y-box.min.y)/range;uv.push(u,v*4.8);}g.setAttribute("uv",new THREE.Float32BufferAttribute(uv,2));g.userData={...(g.userData||{}),generatedCylindricalBarkUv:true};return g;}
+function trunkGeometry(kind,variant){const key="trunk:"+kind+":"+variant;if(geoCache.has(key))return geoCache.get(key);const out=generated(kind,variant);const g=createAwtsmoosThreeBufferGeometry(THREE,{positions:out.branches.verts,normals:out.branches.normals,uvs:out.branches.uvs,indices:out.branches.indices});cylindricalUvs(g);g.computeBoundingBox?.();g.computeBoundingSphere?.();geoCache.set(key,g);return g;}
+function leafGeometry(kind,variant){const key="coreLeaves:"+kind+":"+variant;if(geoCache.has(key))return geoCache.get(key);const leaves=generated(kind,variant).leaves;const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(leaves.verts||[],3));g.setAttribute("normal",new THREE.Float32BufferAttribute(leaves.normals||[],3));g.setAttribute("uv",new THREE.Float32BufferAttribute(leaves.uvs||[],2));g.setIndex(leaves.indices||[]);g.computeBoundingBox();g.computeBoundingSphere();g.userData={coreGeneratorTwigLeafPlacement:true,leafVertexCount:(leaves.verts||[]).length/3,mergedLeavesOneMesh:true};geoCache.set(key,g);return g;}
+function barkMaterial(){if(matCache.has("bark"))return matCache.get("bark");const m=new THREE.MeshLambertMaterial({color:0xffffff,map:remoteTexture(TREE_TEXTURE_URLS.bark,{x:1,y:1},false)});Object.assign(m.userData||={},{remoteBarkTexture:TREE_TEXTURE_URLS.bark,terrainStyleRemoteBitmap:true,generatedCylindricalBarkUv:true,sharedTreeMaterial:true,noGeneratedTexture:true});matCache.set("bark",m);return m;}
+function leafMaterial(kind){const key="leaf:"+kind;if(matCache.has(key))return matCache.get(key);const url=kind==="apple"?TREE_TEXTURE_URLS.fall:TREE_TEXTURE_URLS.spring;const m=new THREE.MeshLambertMaterial({color:0xffffff,map:remoteTexture(url,{x:1,y:1},true,{whiteAlpha:true,flipY:true}),side:THREE.DoubleSide,transparent:true,alphaTest:.18,depthWrite:false,depthTest:true});Object.assign(m.userData||={},{remoteLeafTexture:url,terrainStyleRemoteBitmap:true,coreGeneratorTwigLeafPlacement:true,sharedTreeMaterial:true,noGeneratedTexture:true,fullResolution:true,whiteBackgroundRemovedBeforeTexture:true,strongWhiteAlphaKey:true,flippedLeafY:true,oneDecodePerUrl:true});matCache.set(key,m);return m;}
+function part(g,m,name){const o=new THREE.Mesh(g,m);o.name=name;o.castShadow=false;o.receiveShadow=true;o.frustumCulled=true;Object.assign(o.userData||={},{neverHideVillageProp:true,neverCullVillageProp:true,villageTreePart:true,fastMergedTree:true,remoteTexturePipeline:true,terrainStyleRemoteBitmap:true});return o;}
+export function createProceduralCoreTree(kind="oak",variant=0){const k=String(kind||"oak"),v=Math.abs(Math.floor(finite(variant)))%4,group=new THREE.Group();group.name="terrain_way_remote_core_twig_leaf_tree_"+k+"_"+v;group.add(part(trunkGeometry(k,v),barkMaterial(),"merged_tree_trunk_one_mesh"));group.add(part(leafGeometry(k,v),leafMaterial(k),"core_generator_twig_leaves_one_mesh"));Object.assign(group.userData||={},{proceduralCoreTree:true,fastMergedTree:true,twoDrawTree:true,treeKind:k,remoteTexturePipeline:true,terrainStyleRemoteBitmap:true,coreGeneratorTwigLeafPlacement:true,generatedCylindricalBarkUv:true,noGeneratedTexture:true,oneDecodePerUrl:true,fullResolutionBark:TREE_TEXTURE_URLS.bark,fullResolutionLeaves:[TREE_TEXTURE_URLS.fall,TREE_TEXTURE_URLS.spring],generatorPath:"/libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js"});return group;}
+export function advanceProceduralTreeWind(root,dt){const t=Math.min(.04,Math.max(.001,finite(dt,1/60)));root?.traverse?.(o=>{if(o.name==="core_generator_twig_leaves_one_mesh")o.rotation.z=Math.sin(Date.now()*.001+root.position.x)*.004*t*60;});}
+export function getProceduralTreeTextureProof(){return{textures:textureCache.size,bitmaps:bitmapPromiseCache.size,materials:matCache.size,geometries:geoCache.size,alphaProof:globalThis.__AWTSMOOS_TREE_LEAF_ALPHA_PROOF__||[]};}

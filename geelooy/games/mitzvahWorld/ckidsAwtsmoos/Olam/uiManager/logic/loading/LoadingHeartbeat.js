@@ -1,8 +1,8 @@
 // B"H
 /** Heartbeat: stalled generation still gets living animation frames. */
-import { doc } from "./LoadingDom.js";
-import { state } from "./LoadingState.js";
-import { record } from "./LoadingLog.js";
+import { doc } from "./LoadingDom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { state } from "./LoadingState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { record } from "./LoadingLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 let heartbeat = null;
 export function startLoadingHeartbeat(update) {
   if (heartbeat || !doc() || state.hidden) return;

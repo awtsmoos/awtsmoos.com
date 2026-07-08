@@ -4,7 +4,7 @@
  * @description THE FACULTIES OF THE MISSION
  * Handles quest acceptance, progress tracking, and reward distribution.
  */
-import { SHLICHUS_MANIFEST } from '../../../tochen/shlichus/shlichusManifest.js';
+import { SHLICHUS_MANIFEST } from '../../../tochen/shlichus/shlichusManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     activeMissions: [],

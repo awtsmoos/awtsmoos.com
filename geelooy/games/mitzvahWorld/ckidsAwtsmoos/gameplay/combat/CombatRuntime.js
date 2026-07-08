@@ -1,8 +1,8 @@
 // B"H
-import { createAnimalState } from "../animals/RealisticAnimalFactory.js";
-import { createCorpse } from "../loot/CorpseLootRuntime.js";
-import { updateKillQuest } from "../quests/QuestState.js";
-import { itemDefinition } from "../items/ItemDefinitions.js";
+import { createAnimalState } from "../animals/RealisticAnimalFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createCorpse } from "../loot/CorpseLootRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { updateKillQuest } from "../quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { itemDefinition } from "../items/ItemDefinitions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createCombatRuntime(ctx) {
   const cooldowns = new Map();

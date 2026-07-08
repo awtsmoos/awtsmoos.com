@@ -8,8 +8,8 @@
  * @module nivrayimDefs
  */
 
-import { TIFERES_CHOSSID } from './data/nefashos/TiferesChossid.js';
-import { LEVEL_ONE_VILLAGE_NIVRAYIM } from './data/levelOne/LevelOneVillage.js?v=budgeted-village-20260707-bh1';
+import { TIFERES_CHOSSID } from './data/nefashos/TiferesChossid.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { LEVEL_ONE_VILLAGE_NIVRAYIM } from './data/levelOne/LevelOneVillage.js?compact=true&v=budgeted-village-20260707-bh1';
 
 /**
  * @typedef {Object} NefeshDef

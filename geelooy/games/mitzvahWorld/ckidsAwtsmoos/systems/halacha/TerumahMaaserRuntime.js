@@ -1,10 +1,10 @@
 ﻿// B"H
 /** @file TerumahMaaserRuntime.js @description Educational tevel-to-separated produce flow with halacha profession XP and mission progress. */
-import { ensureMaaserYear } from "./MaaserYearCycleRuntime.js";
-import { nextSeparationStep, separationComplete } from "./SeparationOrderRuntime.js";
-import { isTevel, markSeparated } from "./ProduceStatusRuntime.js";
-import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
-import { grantProfessionXp } from "../professions/ProfessionRuntime.js";
+import { ensureMaaserYear } from "./MaaserYearCycleRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { nextSeparationStep, separationComplete } from "./SeparationOrderRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { isTevel, markSeparated } from "./ProduceStatusRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { grantProfessionXp } from "../professions/ProfessionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 export function ensureSeparationState(player) { player.separationState ||= { activeItemId:null, steps:[] }; return player.separationState; }
 export function beginSeparation(olam, itemId = null) { const p = playerOf(olam); if (!p) return false; const item = (p.inventory?.slots || []).find(i => i && (!itemId || i.id === itemId) && isTevel(i)); if (!item) return false; const state = ensureSeparationState(p); state.activeItemId = item.id; state.steps = item.produceStatus.steps || []; emit(olam, state, item); return { state, item }; }

@@ -5,7 +5,7 @@
  * Door proof watches the house breathe: hover, open, pass, close, block. It is
  * the regression guard for the threshold between outside and inside.
  */
-import { sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 function doorWrappers(olam) {
   return (olam?.interactableNivrayim || []).filter(nivra => nivra?.type === "cottageDoor" && nivra?.doorState);

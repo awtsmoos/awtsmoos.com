@@ -11,7 +11,7 @@ function awtsmoosNotice(message) {
 //B"H
 
 const FEATURED_ALIASES = ["awtsmoos"]; // You can add more hardcoded ones here
-import findWorldsStyle from "./skins/2/findWorldsStyle.js";
+import findWorldsStyle from "./skins/2/findWorldsStyle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default {
     shaym: "find worlds",
     className: "findWorlds hidden menu",

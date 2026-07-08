@@ -8,14 +8,14 @@
  * clean mercy: slab walls with carved doors, floors, and steps only. Every import
  * carries the new cache seal so stale builders cannot return.
  */
-import BlueprintCompiler from "./BlueprintCompiler.js";
-import WallBuilder from "./WallBuilder.js?v=brick-wall-and-clean-collider-20260603-bh342";
-import RoofBuilder from "./RoofBuilder.js?v=clean-gable-roof-20260603-bh342";
-import FloorBuilder from "./FloorBuilder.js";
-import StepsBuilder from "./StepsBuilder.js";
-import MezuzahBuilder from "./MezuzahBuilder.js";
-import DoorwayTrimBuilder from "./DoorwayTrimBuilder.js";
-import JSONEvaluator from "../../../data/JSONEvaluator.js";
+import BlueprintCompiler from "./BlueprintCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import WallBuilder from "./WallBuilder.js?compact=true&v=brick-wall-and-clean-collider-20260603-bh342";
+import RoofBuilder from "./RoofBuilder.js?compact=true&v=clean-gable-roof-20260603-bh342";
+import FloorBuilder from "./FloorBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import StepsBuilder from "./StepsBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import MezuzahBuilder from "./MezuzahBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import DoorwayTrimBuilder from "./DoorwayTrimBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import JSONEvaluator from "../../../data/JSONEvaluator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function evaluated(rawBlueprint) {
   return JSONEvaluator.evaluate(rawBlueprint, { defaultWidth: 12, defaultHeight: 12, defaultThickness: 1 });

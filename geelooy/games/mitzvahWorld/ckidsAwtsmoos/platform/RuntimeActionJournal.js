@@ -1,5 +1,5 @@
 // B"H
-import { normalizePlatformActionName, CANONICAL_ACTIONS } from "./MitzvahPlatformCatalog.js";
+import { normalizePlatformActionName, CANONICAL_ACTIONS } from "./MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createRuntimeActionJournal(options = {}) {
   const events = [];

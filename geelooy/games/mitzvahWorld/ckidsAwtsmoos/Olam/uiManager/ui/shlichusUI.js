@@ -3,15 +3,15 @@
  * Shlichus UI components
  * part of Game UI
  */
-import mitzvahBtn from "./resources/mitzvahBtn.js";
+import mitzvahBtn from "./resources/mitzvahBtn.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
-import objective from "./resources/objective.js";
-import rightRibbon from "./resources/congratsScreen/purpleRibbon/right.js";
+import objective from "./resources/objective.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import rightRibbon from "./resources/congratsScreen/purpleRibbon/right.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
-import midRibbon from "./resources/congratsScreen/purpleRibbon/mid.js";
-import leftRibbon from "./resources/congratsScreen/purpleRibbon/left.js";
-import coinsCongratsScreen from "./resources/coinsCongratsScreen.js";
-import lightrays from "./resources/lightrays.js"
+import midRibbon from "./resources/congratsScreen/purpleRibbon/mid.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import leftRibbon from "./resources/congratsScreen/purpleRibbon/left.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import coinsCongratsScreen from "./resources/coinsCongratsScreen.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import lightrays from "./resources/lightrays.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"
 export default [
     {
 		shaym: "all inclusive gameUI",

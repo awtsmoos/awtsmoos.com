@@ -1,5 +1,5 @@
 // B"H
-import { blocks, boundsIntersect, circleIntersectsBody, circleQueryBounds, collisionBody } from "./CollisionBody2D.js";
+import { blocks, boundsIntersect, circleIntersectsBody, circleQueryBounds, collisionBody } from "./CollisionBody2D.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const floor = Math.floor;
 const CONTACT_EPSILON = 1e-6;

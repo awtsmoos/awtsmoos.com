@@ -8,8 +8,8 @@
  * chossid.glb stays the visible garment riding above it. This module delegates
  * garment visibility to a small helper and leaves the collider untouched.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { applyPlayerGarments } from './visuals/garments.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyPlayerGarments } from './visuals/garments.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     minimapPos: false,

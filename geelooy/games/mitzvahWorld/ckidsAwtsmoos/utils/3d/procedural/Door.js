@@ -11,7 +11,7 @@
  * edge of the doorway opening by the EntrancePositionMap, extending negatively 
  * covers the gap perfectly and swings exactly as intended!
  */
-import BlueprintCompiler from "./house/BlueprintCompiler.js";
+import BlueprintCompiler from "./house/BlueprintCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class DoorGeometry {
     /**

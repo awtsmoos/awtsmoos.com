@@ -7,7 +7,7 @@
  * only quests and rumors, but whether the town is waking, working, gathering,
  * or sleeping.
  */
-import { loadWorldState, mutateWorldState } from '../worldState/WorldStateStore.js';
+import { loadWorldState, mutateWorldState } from '../worldState/WorldStateStore.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const livingWorldPersistenceKeys = Object.freeze([
   'currentDay', 'currentSeason', 'clockHour', 'hearthLocation', 'npcMemories',

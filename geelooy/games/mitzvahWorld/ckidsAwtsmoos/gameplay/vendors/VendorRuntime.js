@@ -1,7 +1,7 @@
 // B"H
-import { addItem, sellFirstSellable } from "../inventory/InventoryState.js";
-import { itemDefinition } from "../items/ItemDefinitions.js";
-import { VENDOR_DEFINITIONS } from "./VendorDefinitions.js";
+import { addItem, sellFirstSellable } from "../inventory/InventoryState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { itemDefinition } from "../items/ItemDefinitions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { VENDOR_DEFINITIONS } from "./VendorDefinitions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function listVendor(vendorId) {
   const vendor = VENDOR_DEFINITIONS[vendorId];

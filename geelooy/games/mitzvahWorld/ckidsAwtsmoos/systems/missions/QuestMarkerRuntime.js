@@ -1,6 +1,6 @@
 // B"H
 /** Quest markers as pure data so UI can render only on changed hashes. */
-import { STARTER_MISSIONS } from "./MissionRegistry.js";
+import { STARTER_MISSIONS } from "./MissionRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function markerForNpc(npcId, missions = []) {
   return missions.some(m => m.giver === npcId) ? "!" : missions.some(m => m.turnIn === npcId) ? "?" : "";

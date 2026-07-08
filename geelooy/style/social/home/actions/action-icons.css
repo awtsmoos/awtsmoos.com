@@ -1,3 +1,7 @@
-.home-action-card > span { background: transparent; border: 0; color: #ad80ff; font-size: 1.55rem; height: auto; width: auto; }
-.home-action-card:nth-child(2) > span { color: #2ea7ff; }
-.home-action-card:nth-child(4) > span { color: #42a1ae; }
+.home-action-card > span { align-items: center; background: linear-gradient(135deg, rgba(40,243,215,.16), rgba(139,92,246,.18)); border: 1px solid rgba(91,216,232,.18); border-radius: 16px; display: inline-flex; font-size: 1.28rem; height: 2.35rem; justify-content: center; width: 2.35rem; }
+.home-action-card:nth-child(1) > span::before { content: "✍️"; }
+.home-action-card:nth-child(2) > span::before { content: "🪐"; }
+.home-action-card:nth-child(3) > span::before { content: "✉️"; }
+.home-action-card:nth-child(4) > span::before { content: "🏛️"; }
+.home-action-card:nth-child(5) > span::before { content: "🧩"; }
+.home-action-card > span { color: transparent; }

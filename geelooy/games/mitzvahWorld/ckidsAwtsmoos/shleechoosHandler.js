@@ -1,7 +1,7 @@
 
-import Shlichus, { QUEST_STATE } from "./systems/quests/Shlichus.js";
-import ProgressTracker from "./systems/quests/ProgressTracker.js";
-import ShlichusActions from "./systems/quests/ShlichusActions.js";
+import Shlichus, { QUEST_STATE } from "./systems/quests/Shlichus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ProgressTracker from "./systems/quests/ProgressTracker.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ShlichusActions from "./systems/quests/ShlichusActions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @file shleechoosHandler.js

@@ -1,7 +1,7 @@
 // B"H
 /** @file questRenderer.js @description Chapter 436: Renders the standalone current quest card. */
-import { QUEST_CSS } from './questCss.js';
-import { entryQuestState } from './questState.js';
+import { QUEST_CSS } from './questCss.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { entryQuestState } from './questState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function renderEntryQuest(entryScene = {}) {
   document.getElementById('emerald-quest-style')?.remove();
   const style = document.createElement('style'); style.id = 'emerald-quest-style'; style.textContent = QUEST_CSS; document.head.appendChild(style);

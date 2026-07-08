@@ -3,7 +3,7 @@
  * @file VehiclePhysics.js
  * @description Pure vehicle acceleration, steering, braking, drift, and smoothing.
  */
-import { vehiclePhysicsSpec } from "./VehicleTypes.js";
+import { vehiclePhysicsSpec } from "./VehicleTypes.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value) || 0));
 const approachZero = (value, amount) => {

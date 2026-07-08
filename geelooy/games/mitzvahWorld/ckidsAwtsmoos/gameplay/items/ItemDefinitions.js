@@ -1,5 +1,5 @@
 // B"H
-import { WEAPON_ARCHETYPES } from "../../platform/MitzvahPlatformCatalog.js";
+import { WEAPON_ARCHETYPES } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const ITEM_DEFINITIONS = {
   trainee_blade:{ id:"trainee_blade", name:"Training Knife", type:"weapon", slot:"weapon", weaponMode:"melee", weaponArchetype:"knife", rarity:"common", price:8, sellPrice:3, stats:{ power:2, dexterity:1 }, physical:WEAPON_ARCHETYPES.knife, icon:"TK" },

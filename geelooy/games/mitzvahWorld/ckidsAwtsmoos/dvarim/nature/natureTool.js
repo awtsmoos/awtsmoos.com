@@ -3,7 +3,7 @@
  * B"H
  * Nature Tool - Plants grass or rocks
  */
-import Tool from "../tool.js";
+import Tool from "../tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class NatureTool extends Tool {
     static itemName = "Nature Bag";

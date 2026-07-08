@@ -4,8 +4,8 @@
  * @description Chapter 512: The guide body consumes visualRig clothing metadata
  * and turns it into visible robe, vest, belt, and hands.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { guideMat } from './GuideVisualMaterials.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { guideMat } from './GuideVisualMaterials.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function color(rig, key, fallback) { return rig?.clothing?.find(c => c.meshName?.includes(key))?.color || fallback; }
 export function buildGuideBody(rig = {}) {
   const g = new THREE.Group();

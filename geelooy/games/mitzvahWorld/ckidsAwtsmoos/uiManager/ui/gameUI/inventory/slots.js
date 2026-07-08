@@ -3,7 +3,7 @@
  * @file slots.js
  * @description Renders the inventory grid. Enhanced for Worker compatibility and closure stability.
  */
-import { resolveItemIcon } from "../../../../systems/inventory/ItemIconResolver.js";
+import { resolveItemIcon } from "../../../../systems/inventory/ItemIconResolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default function updateSlots(e, $, ui) {
     const data = e.detail || e;

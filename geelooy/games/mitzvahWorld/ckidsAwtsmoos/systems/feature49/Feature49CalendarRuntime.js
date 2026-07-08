@@ -4,7 +4,7 @@
  * Shabbos, holidays, festivals, children growing, and time-of-day changes are
  * calculated as cheap state snapshots. No perpetual DOM animation, no waste.
  */
-import { mutateFeature49State } from './Feature49State.js';
+import { mutateFeature49State } from './Feature49State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function shabbosPrepState(minutesToSunset = 120) {
   return { phase: minutesToSunset < 20 ? 'candles-soon' : minutesToSunset < 90 ? 'final-prep' : 'ordinary-prep', shopMode: minutesToSunset < 45 ? 'closing' : 'open', at: Date.now() };
 }

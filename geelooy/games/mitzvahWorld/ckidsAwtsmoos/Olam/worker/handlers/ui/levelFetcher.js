@@ -3,8 +3,8 @@
  * @file levelFetcher.js
  * @description Chapter 367: Fetching ladder JSON is one small verified act.
  */
-import { LEVEL_BASE } from './domKit.js';
-import { normalizeLevelId } from './levelIdNormalizer.js';
+import { LEVEL_BASE } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { normalizeLevelId } from './levelIdNormalizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export async function fetchLevel(id) {
   const clean = normalizeLevelId(id);
   const res = await fetch(LEVEL_BASE + encodeURIComponent(clean), { cache: 'no-store' });

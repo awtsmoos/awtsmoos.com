@@ -1,14 +1,14 @@
 // B"H
 /** Chai root with fresh Tzomayach/Domem animation chain. */
-import Tzomayach from "../tzomayach.js?v=grass-chossid-stepwise-20260707-bh1";
-import * as THREE from '/games/scripts/build/three.module.js';
-import { Capsule } from '../../Olam/math/Capsule.js';
-import visualMethods from "./methods/visuals.js?v=exact-visual-feet-20260603-bh388";
-import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js?v=no-compact-engine-20260702-bh2";
-import raycastingMethods from "./methods/raycasting.js";
-import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
-import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
+import Tzomayach from "../tzomayach.js?compact=true&v=history-animation-compact-top-20260708-bh10";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { Capsule } from '../../Olam/math/Capsule.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import visualMethods from "./methods/visuals.js?compact=true&v=exact-visual-feet-20260603-bh388";
+import movementMethods from "./methods/movement.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import physicsMethods from "./methods/physics.js?compact=true&v=compact-engine-20260702-bh2";
+import raycastingMethods from "./methods/raycasting.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const numberOr=(value,fallback)=>Number.isFinite(Number(value))?Number(value):fallback;
 function bindModelToMovingRoot(root,model,yawOffset=Math.PI){if(!root?.isObject3D||!model?.isObject3D||model===root)return;model.updateMatrixWorld(true);const worldPosition=new THREE.Vector3(),worldQuaternion=new THREE.Quaternion(),worldScale=new THREE.Vector3();model.matrixWorld.decompose(worldPosition,worldQuaternion,worldScale);if(model.parent!==root)root.add(model);model.position.set(0,Number(model.userData?.visualGroundOffsetY||0.72),0);model.quaternion.copy(root.quaternion).invert().multiply(worldQuaternion);model.rotateY(numberOr(model.userData?.visualForwardYawOffset,yawOffset));model.userData.visualForwardYawCorrected=true;if(Number.isFinite(worldScale.x)&&Number.isFinite(worldScale.y)&&Number.isFinite(worldScale.z))model.scale.copy(worldScale);model.updateMatrixWorld(true);}
 function makeRenderlessMotionHelper(source,name){const helper=new THREE.Group();helper.name=name;if(source?.position)helper.position.copy(source.position);if(source?.quaternion)helper.quaternion.copy(source.quaternion);Object.assign(helper.userData||={}, {isMotionHelper:true,renderlessHelper:true,skipOctree:true,noOctree:true,addToOctree:false});return helper;}

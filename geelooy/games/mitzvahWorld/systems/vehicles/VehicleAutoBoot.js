@@ -4,7 +4,7 @@
  * @description Optional page-side vehicle bootstrap for page-owned Olam scenes.
  */
 import * as THREE from "three";
-import { installVehicleRuntime } from "./VehicleRuntime.js";
+import { installVehicleRuntime } from "./VehicleRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 let scheduled = false;
 

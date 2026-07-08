@@ -5,7 +5,7 @@
  * B"H ? A floor that opens like a verdict. The visual platform tilts away,
  * removes solidity, and leaves the authored spike pit below to explain itself.
  */
-import SolidBlock from "../architecture/SolidBlock.js";
+import SolidBlock from "../architecture/SolidBlock.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class TrapdoorPlatform extends SolidBlock {
     type = "trapdoorPlatform";

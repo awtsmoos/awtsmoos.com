@@ -28,7 +28,7 @@
  * @module mitzvahWorld/index
  */
 
-import { WorldHeescheel } from './WorldHeescheel.js';
+import { WorldHeescheel } from './WorldHeescheel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * @typedef {Object} OlamCtx
@@ -98,4 +98,4 @@ export function afterBriyah(ctx) {
 
 }
 
-export * from './runtime/MitzvahWorldRuntimeSystems.js';
+export * from './runtime/MitzvahWorldRuntimeSystems.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';

@@ -8,14 +8,14 @@
  * console. Real living GLBs are cloned, sanctified, and traced in memory only;
  * fallbacks are last-resort bodies, never a second body layered over a real one.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js';
-import Utils from '../../utils.js';
-import BoneSanctifier from './boyrayNivra/BoneSanctifier.js';
-import AttributeHealer from './boyrayNivra/AttributeHealer.js';
-import generateThreeJsMesh from './helpers/generateMesh.js';
-import { hasVisibleLivingRenderable, sanitizeLivingModelTree, shouldHideLivingNode } from '../worlds/mitzvahWorld/npcs/LivingModelSanitizer.js';
-import { sanitizeRenderGeometryTree } from '../worlds/mitzvahWorld/runtime/RenderGeometrySanitizer.js?v=total-overhaul-render-sanitize-20260705-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Utils from '../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import BoneSanctifier from './boyrayNivra/BoneSanctifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import AttributeHealer from './boyrayNivra/AttributeHealer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import generateThreeJsMesh from './helpers/generateMesh.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { hasVisibleLivingRenderable, sanitizeLivingModelTree, shouldHideLivingNode } from '../worlds/mitzvahWorld/npcs/LivingModelSanitizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { sanitizeRenderGeometryTree } from '../worlds/mitzvahWorld/runtime/RenderGeometrySanitizer.js?compact=true&v=total-overhaul-render-sanitize-20260705-bh1';
 
 const TRACE_SEAL = 'visible-root-binding-20260610-bh710';
 const livingTypes = new Set(['chossid', 'medabeir', 'customNpc', 'interactiveNpc']);

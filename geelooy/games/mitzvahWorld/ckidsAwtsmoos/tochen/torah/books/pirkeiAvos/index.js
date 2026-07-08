@@ -3,12 +3,12 @@
  * @file index.js — Pirkei Avos Master Aggregator
  * All 6 chapters unified into a single holy collection.
  */
-import { AVOS_CH1 } from './ch1.js';
-import { AVOS_CH2 } from './ch2.js';
-import { AVOS_CH3 } from './ch3.js';
-import { AVOS_CH4 } from './ch4.js';
-import { AVOS_CH5 } from './ch5.js';
-import { AVOS_CH6 } from './ch6.js';
+import { AVOS_CH1 } from './ch1.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { AVOS_CH2 } from './ch2.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { AVOS_CH3 } from './ch3.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { AVOS_CH4 } from './ch4.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { AVOS_CH5 } from './ch5.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { AVOS_CH6 } from './ch6.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const PIRKEI_AVOS_ALL = [
     ...AVOS_CH1,

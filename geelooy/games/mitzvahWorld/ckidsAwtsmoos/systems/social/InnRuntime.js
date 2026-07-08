@@ -1,6 +1,6 @@
 // B"H
 /** Inn runtime: rest, rumors, hearth binding, and a social hub. */
-import { bindHearth } from "./HearthRuntime.js";
+import { bindHearth } from "./HearthRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function restAtInn(playerOrOlam = {}, place = { id:"village_inn" }) {
   const legacyOlam = playerOrOlam.ayshPeula || playerOrOlam.player || playerOrOlam.chossid;

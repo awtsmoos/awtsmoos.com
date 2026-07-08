@@ -6,10 +6,10 @@
  * shader keeps player bending and wind, but normalizes blade height and uses a
  * green ramp with no near-black colors.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { groundY } from "./RegionGround.js";
-import { roadMask } from "../../postbuild/VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
-import { pointInGrassExclusion } from "./RegionGrassExclusion.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { roadMask } from "../../postbuild/VillagePolishGround.js?compact=true&v=awtsmoos-polish-ground-20260614-bh2";
+import { pointInGrassExclusion } from "./RegionGrassExclusion.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function rand(seed, salt = 0) {
   return Math.abs(Math.sin((seed + 1) * 12.9898 + salt * 78.233) * 43758.5453) % 1;

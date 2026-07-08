@@ -11,7 +11,7 @@
  * ║  Aligns sub-entities with the building's rotation/position.║
  * ╚═══════════════════════════════════════════════════════════╝
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     _applyBuildingRotation(pos, building) {

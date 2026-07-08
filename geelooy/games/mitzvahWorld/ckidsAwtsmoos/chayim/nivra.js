@@ -5,7 +5,7 @@
  */
 import {
     Kav, Heeoolee
-} from "./roochney.js"
+} from "./roochney.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"
 var nivrayimMade = 0;
 export default class Nivra extends Heeoolee{
     /**

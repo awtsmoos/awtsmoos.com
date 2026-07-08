@@ -6,7 +6,7 @@
  * collision, interaction rays, and door checks into small boxes before the
  * octree is asked anything, so distant villages never tax the current step.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const DEFAULT_RAY_RADIUS = 96;
 const MIN_RAY_RADIUS = 12;

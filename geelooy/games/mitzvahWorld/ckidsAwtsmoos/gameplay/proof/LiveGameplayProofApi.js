@@ -1,9 +1,9 @@
 // B"H
-import { NPCS } from "../npcs/NpcIdentity.js";
-import { animalProof } from "../animals/RealisticAnimalFactory.js";
-import { chainSummary, markerForNpc } from "../quests/QuestState.js";
-import { runDoorCollisionAudit } from "../collision/DoorCollisionAudit.js";
-import { CHOSSID_GLB_INSPECTION, platformActionNames, WEAPON_ARCHETYPES, CORE_STATS } from "../../platform/MitzvahPlatformCatalog.js";
+import { NPCS } from "../npcs/NpcIdentity.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { animalProof } from "../animals/RealisticAnimalFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { chainSummary, markerForNpc } from "../quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runDoorCollisionAudit } from "../collision/DoorCollisionAudit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CHOSSID_GLB_INSPECTION, platformActionNames, WEAPON_ARCHETYPES, CORE_STATS } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function installLiveGameplayProofApi(ctx) {
   const api = {

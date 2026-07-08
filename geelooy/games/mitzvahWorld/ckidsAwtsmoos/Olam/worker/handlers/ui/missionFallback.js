@@ -8,7 +8,7 @@
  * vessel has not caught it yet, this fallback creates a small readable card and
  * dispatches the same event on the browser window.
  */
-import { q } from './domKit.js';
+import { q } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const safe = value => String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 const objectives = list => (Array.isArray(list) ? list : []).sort((a, b) => Number(a.uiOrder || 0) - Number(b.uiOrder || 0));

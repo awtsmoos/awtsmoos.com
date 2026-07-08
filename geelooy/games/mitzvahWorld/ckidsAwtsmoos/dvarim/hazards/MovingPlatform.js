@@ -9,9 +9,9 @@
  * secretly be the only true moving floor. The body registry only receives real
  * platforms; fake ones are visual-only with identical proportions.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { registerDynamicBody, updateDynamicBody } from "../movers/runtime/dynamicBodyRegistry.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { registerDynamicBody, updateDynamicBody } from "../movers/runtime/dynamicBodyRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const nowSeconds = () => (globalThis.performance?.now?.() || Date.now()) / 1000;
 const axisKey = axis => (axis === "y" ? "y" : axis === "z" ? "z" : "x");

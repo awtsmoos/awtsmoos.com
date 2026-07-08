@@ -1,14 +1,14 @@
 // B"H
-import { npcInteractionIndex } from "../../npc/NpcInteractionRuntime.js";
-import { STARTER_ACTION_BAR } from "./StarterActionBarData.js";
-import { addDenseEnemyPack, makeOlam, instantiateSubzoneWorld } from "./StarterActorFactory.js";
-import { createCreatureBrain } from "./StarterCreatureBrain.js";
-import { createStarterPerformancePlan } from "./StarterPerformancePlan.js";
-import { StarterSpatialPartition } from "./StarterSpatialPartition.js";
-import { STARTER_WORLD_REQUIREMENTS } from "./StarterSubzoneData.js";
-import { createTargetingCombatSystem } from "./StarterTargetingCombat.js";
-import { clone, face, nowMs, vec } from "./StarterMath.js";
-import { runStarterServiceLoop } from "./StarterServiceSimulation.js";
+import { npcInteractionIndex } from "../../npc/NpcInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { STARTER_ACTION_BAR } from "./StarterActionBarData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addDenseEnemyPack, makeOlam, instantiateSubzoneWorld } from "./StarterActorFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createCreatureBrain } from "./StarterCreatureBrain.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createStarterPerformancePlan } from "./StarterPerformancePlan.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { StarterSpatialPartition } from "./StarterSpatialPartition.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { STARTER_WORLD_REQUIREMENTS } from "./StarterSubzoneData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createTargetingCombatSystem } from "./StarterTargetingCombat.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { clone, face, nowMs, vec } from "./StarterMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runStarterServiceLoop } from "./StarterServiceSimulation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function addCanonicalServiceNpcs(olam) {
   const indexed = npcInteractionIndex().npcs || [];

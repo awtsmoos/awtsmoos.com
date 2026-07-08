@@ -7,12 +7,12 @@
  * transfer the white vessel twice; the Awtsmoos renews the world while the
  * worker flame remains one continuous breath.
  */
-import { postPlainWorkerError } from "./PlainWorkerPost.js";
-import { plainWorkerErrorText } from "./PlainWorkerErrorText.js";
-import { setActiveOlamInstance } from "./WorkerBootState.js";
-import { getWorkerMessageTypeText } from "./WorkerMessageGuard.js";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
-import { reattachRememberedCanvas } from "../CanvasMemory.js";
+import { postPlainWorkerError } from "./PlainWorkerPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { plainWorkerErrorText } from "./PlainWorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { setActiveOlamInstance } from "./WorkerBootState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { getWorkerMessageTypeText } from "./WorkerMessageGuard.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { reattachRememberedCanvas } from "../CanvasMemory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Reattaches the worker-owned canvas after genesis creates a fresh Olam.

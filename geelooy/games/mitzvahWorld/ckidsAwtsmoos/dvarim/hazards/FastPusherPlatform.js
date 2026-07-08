@@ -4,7 +4,7 @@
  * A striped orange launch plate. Touch it and the player is shoved brutally in
  * an authored direction, usually toward a spike field unless they jump early.
  */
-import SolidBlock from "../architecture/SolidBlock.js";
+import SolidBlock from "../architecture/SolidBlock.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class FastPusherPlatform extends SolidBlock {
     type = "fastPusherPlatform";

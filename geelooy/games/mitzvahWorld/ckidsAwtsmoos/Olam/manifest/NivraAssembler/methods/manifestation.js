@@ -11,7 +11,7 @@
  * ║  becomes a tangible Nivrah in the World.                                 ║
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
-import { createVector3 } from '../../../graphics/ThreeBridge.js';
+import { createVector3 } from '../../../graphics/ThreeBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const RESERVED_ENTITY_KEYS = new Set([
     "type",

@@ -1,55 +1,21 @@
-﻿// B"H
-/** @file AdvancedTreeOnly.js @description Procedural-core tree gateway with visual-only leaves and real cylinder trunk colliders. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { createProceduralCoreTree } from "../trees/ProceduralCoreTreeFactory.js?v=ping-pong-leaf-textures-20260622-bh1";
-import { groundY } from "./RegionGround.js";
-const TREE_FLAG = Object.freeze({ advancedGeelooyLibsTree:true, onlyApprovedTreeSource:true, treeSource:"/libs/awtsmoos-procedural-core/src/core", villageDecor:true, skipOctree:true, noOctree:true, skipRaycast:true });
-const COLLIDER_FLAG = Object.freeze({ isTreeTrunkCollider:true, addToOctree:true, skipOctree:false, noOctree:false, skipRaycast:true, visibleCollider:false });
-function number(value, fallback = 0) { return Number.isFinite(Number(value)) ? Number(value) : fallback; }
-function visit(root, callback) { if (root && typeof root.traverse === "function") root.traverse(callback); else if (root) callback(root); }
-function optionPosition(options) { return options && options.position ? options.position : {}; }
-function optionX(options) { const p = optionPosition(options); return number(options.x !== undefined ? options.x : p.x); }
-function optionZ(options) { const p = optionPosition(options); return number(options.z !== undefined ? options.z : p.z); }
-function fallbackY(options, olam, x, z) { const p = optionPosition(options); const y = options.y !== undefined ? options.y : p.y; return number(y, groundY(olam, x, z, number(options.groundY))); }
-function bbox(root) { root.updateMatrixWorld(true); return new THREE.Box3().setFromObject(root); }
-function sealTreeVisual(root) { visit(root, child => { child.userData ||= {}; if (!child.userData.isTreeTrunkCollider) Object.assign(child.userData, TREE_FLAG); }); return root; }
-function pinBottomToGround(root, olam, x, z, lift) { const before = bbox(root), ground = groundY(olam, x, z, root.position.y), delta = ground + lift - before.min.y; root.position.y += delta; const after = bbox(root); root.userData.treeGroundingProof = { groundY:ground, minBefore:before.min.y, deltaY:delta, minAfter:after.min.y, floatingError:after.min.y - (ground + lift) }; return root; }
-function trunkSpec(kind, scale, options = {}) { const ancient = options.age === "ancient"; const baseRadius = kind === "pine" ? .38 : kind === "apple" ? .42 : .48; const baseHeight = kind === "pine" ? 5.3 : kind === "apple" ? 3.6 : 4.4; return { radius:number(options.trunkColliderRadius, baseRadius * scale), height:number(options.trunkColliderHeight, baseHeight * scale * (ancient ? 1.12 : 1)) }; }
-export function createTreeTrunkCollider(kind, scale, options = {}) {
-  const spec = trunkSpec(kind, scale, options);
-  const geometry = new THREE.CylinderGeometry(spec.radius, spec.radius * 1.08, spec.height, 14, 1, false);
-  const material = new THREE.MeshBasicMaterial({ color:0x00ff00, transparent:true, opacity:0, depthWrite:false });
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.name = `${options.name || "tree"}_TRUNK_COLLIDER`;
-  mesh.visible = false;
-  mesh.position.y = spec.height / 2;
-  mesh.userData = { ...COLLIDER_FLAG, radius:spec.radius, height:spec.height, treeName:options.name || "tree", kind };
-  return mesh;
-}
-export function buildAdvancedTree(olam, options = {}, index = 0) {
-  const kind = options.kind || options.species || "oak", x = optionX(options), z = optionZ(options), lift = number(options.groundLift, .01);
-  const wrap = new THREE.Group(), tree = createProceduralCoreTree(kind, index), scale = number(options.scale, options.age === "ancient" ? 1.12 : .9);
-  wrap.name = options.name || `procedural_core_tree_${kind}_${index}`;
-  wrap.position.set(x, fallbackY(options, olam, x, z), z);
-  wrap.rotation.y = number(options.rotationY, 0);
-  wrap.scale.setScalar(scale);
-  wrap.add(tree);
-  wrap.add(createTreeTrunkCollider(kind, 1, { ...options, name:wrap.name }));
-  wrap.userData ||= {};
-  Object.assign(wrap.userData, TREE_FLAG, { kind, index, proceduralCoreTree:true, bboxGroundedTree:true, hasTrunkCollider:true });
-  pinBottomToGround(wrap, olam, x, z, lift);
-  return sealTreeVisual(wrap);
-}
-export function registerTreeTrunkColliders(root, olam) {
-  const added = [];
-  if (!root || !olam?.worldOctree) return added;
-  root.updateMatrixWorld(true);
-  visit(root, child => {
-    if (!child?.userData?.isTreeTrunkCollider || child.userData.octreeRegistered) return;
-    try { olam.worldOctree.addObject(child); child.userData.octreeRegistered = true; added.push(child.name); } catch (e) { child.userData.octreeError = e?.message || String(e); }
-  });
-  return added;
-}
-export function markApprovedTree(root) { return sealTreeVisual(root); }
-export function approvedTreeStats(root) { let total = 0, approved = 0, floating = 0, colliders = 0, registered = 0; visit(root, node => { const data = node.userData || {}; const treeLike = data.proceduralCoreTree || String(node.name || "").includes("tree"); if (treeLike) { total++; if (data.onlyApprovedTreeSource) approved++; const proof = data.treeGroundingProof; if (proof && Math.abs(proof.floatingError || 0) > .08) floating++; } if (data.isTreeTrunkCollider) { colliders++; if (data.octreeRegistered) registered++; } }); return { treeLikeObjects:total, approvedTreeObjects:approved, unapprovedTreeObjects:total - approved, floatingTreeObjects:floating, trunkColliders:colliders, registeredTrunkColliders:registered }; }
-export default { buildAdvancedTree, markApprovedTree, approvedTreeStats, createTreeTrunkCollider, registerTreeTrunkColliders };
+// B"H
+/** @file AdvancedTreeOnly.js @description Remote-textured tree wrapper: bigger visual scale, trunk-base grounding, slim trunk collider. */
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=fps-door-target-idle-20260708-bh1";
+import { createProceduralCoreTree } from "../trees/ProceduralCoreTreeFactory.js?compact=true&v=fps-door-target-idle-20260708-bh1";
+import { groundY } from "./RegionGround.js?compact=true&v=fps-door-target-idle-20260708-bh1";
+const TREE_FLAG=Object.freeze({advancedGeelooyLibsTree:true,onlyApprovedTreeSource:true,treeSource:"/libs/awtsmoos-procedural-core/src/core",villageDecor:true,skipOctree:true,noOctree:true,skipRaycast:true,neverHideVillageProp:true,neverCullVillageProp:true,fastMergedTree:true,remoteTexturePipeline:true});
+const COLLIDER_FLAG=Object.freeze({isTreeTrunkCollider:true,addToOctree:true,skipOctree:false,noOctree:false,skipRaycast:true,visibleCollider:false});
+const num=(v,f=0)=>Number.isFinite(Number(v))?Number(v):f;
+function visit(root,fn){root?.traverse?root.traverse(fn):root&&fn(root);}
+function pos(o={}){return o.position||{};}function ox(o){return num(o.x!==undefined?o.x:pos(o).x);}function oz(o){return num(o.z!==undefined?o.z:pos(o).z);}
+function oy(o,olam,x,z){const p=pos(o),y=o.y!==undefined?o.y:p.y;return num(y,groundY(olam,x,z,num(o.groundY)));}
+function sealTree(root){visit(root,n=>{n.frustumCulled=false;n.userData||={};if(!n.userData.isTreeTrunkCollider)Object.assign(n.userData,TREE_FLAG);});return root;}
+function trunkBox(root){const box=new THREE.Box3(),tmp=new THREE.Box3();root.updateMatrixWorld(true);visit(root,n=>{if(n.name!=="merged_tree_trunk_one_mesh")return;tmp.setFromObject(n);if(!tmp.isEmpty())box.union(tmp);});return box.isEmpty()?new THREE.Box3().setFromObject(root):box;}
+function pinTrunkBottom(root,olam,x,z,lift){const before=trunkBox(root),ground=groundY(olam,x,z,root.position.y),delta=ground+lift-before.min.y;root.position.y+=delta;root.updateMatrixWorld(true);const after=trunkBox(root);root.userData.treeGroundingProof={mode:"trunk-bottom-grounded",groundY:ground,lift,minBefore:before.min.y,deltaY:delta,minAfter:after.min.y,floatingError:after.min.y-(ground+lift)};console.info('B"H | TREE_TRUNK_GROUND_PROOF',root.userData.treeGroundingProof);return root;}
+function trunkSpec(kind,scale,o={}){const baseRadius=kind==="pine"?.24:kind==="apple"?.22:.24,baseHeight=kind==="pine"?4.8:kind==="apple"?3.7:4.25;return{radius:num(o.trunkColliderRadius,baseRadius*scale*.62),height:num(o.trunkColliderHeight,baseHeight*scale*.72)};}
+export function createTreeTrunkCollider(kind,scale,o={}){const s=trunkSpec(kind,scale,o),geo=new THREE.CylinderGeometry(s.radius,s.radius*1.08,s.height,10,1,false),mat=new THREE.MeshBasicMaterial({color:0x00ff00,transparent:true,opacity:0,depthWrite:false});const m=new THREE.Mesh(geo,mat);m.name=(o.name||"tree")+"_TRUNK_COLLIDER";m.visible=false;m.position.y=s.height/2;m.userData={...COLLIDER_FLAG,radius:s.radius,height:s.height,treeName:o.name||"tree",kind};return m;}
+export function buildAdvancedTree(olam,o={},index=0){const kind=o.kind||o.species||"oak",x=ox(o),z=oz(o),lift=num(o.groundLift,.015),authored=Math.max(.25,num(o.scale,.9)),visualMultiplier=num(o.visualScaleMultiplier,1.55),scale=authored*visualMultiplier;const wrap=new THREE.Group(),tree=createProceduralCoreTree(kind,index);wrap.name=o.name||"procedural_core_tree_"+kind+"_"+index;wrap.position.set(x,oy(o,olam,x,z),z);wrap.rotation.y=num(o.rotationY,0);wrap.scale.setScalar(scale);wrap.add(tree);pinTrunkBottom(wrap,olam,x,z,lift);wrap.add(createTreeTrunkCollider(kind,scale,{...o,name:wrap.name}));Object.assign(wrap.userData||={},TREE_FLAG,{kind,index,proceduralCoreTree:true,trunkBottomGrounded:true,hasTrunkCollider:true,authoredScale:authored,visualScaleMultiplier:visualMultiplier,finalTreeScale:scale});return sealTree(wrap);}
+export function registerTreeTrunkColliders(root,olam){const added=[];if(!root||!olam?.worldOctree)return added;root.updateMatrixWorld(true);visit(root,n=>{if(!n?.userData?.isTreeTrunkCollider||n.userData.octreeRegistered)return;try{olam.worldOctree.addObject(n);n.userData.octreeRegistered=true;added.push(n.name);}catch(e){n.userData.octreeError=e?.message||String(e);}});return added;}
+export function markApprovedTree(root){return sealTree(root);}
+export function approvedTreeStats(root){let total=0,approved=0,floating=0,colliders=0,registered=0;visit(root,n=>{const d=n.userData||{},treeLike=d.proceduralCoreTree||String(n.name||"").includes("tree");if(treeLike){total++;if(d.onlyApprovedTreeSource)approved++;if(d.treeGroundingProof&&Math.abs(d.treeGroundingProof.floatingError||0)>.08)floating++;}if(d.isTreeTrunkCollider){colliders++;if(d.octreeRegistered)registered++;}});return{treeLikeObjects:total,approvedTreeObjects:approved,unapprovedTreeObjects:total-approved,floatingTreeObjects:floating,trunkColliders:colliders,registeredTrunkColliders:registered};}
+export default{buildAdvancedTree,markApprovedTree,approvedTreeStats,createTreeTrunkCollider,registerTreeTrunkColliders};

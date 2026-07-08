@@ -1,5 +1,5 @@
 // B"H
-import { normalizeInputTuning } from "./InputTuning.js";
+import { normalizeInputTuning } from "./InputTuning.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 const KEY = "awtsmoosJoystickSettings";
 export function readInputTuning(win = globalThis.window) { try { return normalizeInputTuning(JSON.parse(win?.localStorage?.getItem?.(KEY) || "{}")); } catch { return normalizeInputTuning(); } }
 export function writeInputTuning(value = {}, win = globalThis.window) { const next = normalizeInputTuning(value); try { win?.localStorage?.setItem?.(KEY, JSON.stringify(next)); } catch {} return next; }

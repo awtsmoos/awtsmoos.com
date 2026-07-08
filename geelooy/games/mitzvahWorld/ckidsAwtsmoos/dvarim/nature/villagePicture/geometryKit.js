@@ -1,7 +1,7 @@
 // B"H
 /** @file geometryKit.js @description Parser-clear geometry, texture, light, and decorative marking helpers, with quiet procedural generation. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { generateProceduralGeometry } from "../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateProceduralGeometry } from "../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const cache = new Map();
 export const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 const smooth = t => t * t * (3 - 2 * t), mix = (a, b, t) => a + (b - a) * t, clamp = v => Math.max(0, Math.min(255, Math.round(v)));

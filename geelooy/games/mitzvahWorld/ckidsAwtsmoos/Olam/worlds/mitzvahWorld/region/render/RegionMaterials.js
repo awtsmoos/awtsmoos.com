@@ -1,7 +1,7 @@
 ﻿// B"H
 /** @file RegionMaterials.js @description Cached grainy procedural materials for every named ecology vessel. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?v=ping-pong-crisp-textures-20260622-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?compact=true&v=ping-pong-crisp-textures-20260622-bh1";
 const cache = new Map();
 const ALIASES = Object.freeze({
   grass:"grass", cabbageLeaf:"leaf", leaf:"leaf", mossPatch:"grass", frogSkin:"leaf", onionSkin:"leaf",

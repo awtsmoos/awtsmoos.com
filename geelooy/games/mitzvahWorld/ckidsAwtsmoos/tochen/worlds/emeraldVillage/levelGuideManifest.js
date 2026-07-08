@@ -1,5 +1,5 @@
 // B"H
-import { createGuideHumanPayload } from '../../../dvarim/npc/guide/GuideHumanFactory.js';
+import { createGuideHumanPayload } from '../../../dvarim/npc/guide/GuideHumanFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 /**
  * @file levelGuideManifest.js
  * @description Chapter 251: The entrance receives a named shaliach whose whole

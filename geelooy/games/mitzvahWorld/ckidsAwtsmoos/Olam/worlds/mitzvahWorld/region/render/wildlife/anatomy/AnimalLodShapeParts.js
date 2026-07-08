@@ -6,8 +6,8 @@
  * primitive and cached, but each part carries species meaning so distance does
  * not erase the creature's identity.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { animalMaterial } from "./AnimalMaterialPalette.js?v=animal-realism-split-20260705-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { animalMaterial } from "./AnimalMaterialPalette.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 function mark(mesh) {
   Object.assign(mesh.userData ||= {}, { animalLodVisual:true, wildlifeActor:true, skipRaycast:true, skipOctree:true, noOctree:true });

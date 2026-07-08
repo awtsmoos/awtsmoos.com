@@ -4,7 +4,7 @@
  * @description Chapter 263: each ladder gate bears a human title while its
  * transport filename remains hidden beneath the threshold.
  */
-import { esc, LEVELS } from './domKit.js';
+import { esc, LEVELS } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /** @returns {string} Complete level-selection card markup. */
 export function levelCardsHtml() {

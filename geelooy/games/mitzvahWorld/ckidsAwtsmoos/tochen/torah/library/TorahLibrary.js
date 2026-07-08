@@ -11,9 +11,9 @@
  * providing a unified interface for the Chossid's soul-study.
  */
 
-import { PESUKIM_REBBE_REGISTRY } from './pesukim_rebbe/registry.js';
-import { TANYA_REGISTRY } from './tanya/registry.js';
-import { PIRKEI_AVOS_REGISTRY } from './pirkei_avos/registry.js';
+import { PESUKIM_REBBE_REGISTRY } from './pesukim_rebbe/registry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TANYA_REGISTRY } from './tanya/registry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { PIRKEI_AVOS_REGISTRY } from './pirkei_avos/registry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const TORAH_LIBRARY = {
     ...PESUKIM_REBBE_REGISTRY,

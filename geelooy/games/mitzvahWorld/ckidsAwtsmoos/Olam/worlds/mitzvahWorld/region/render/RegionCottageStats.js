@@ -3,7 +3,7 @@
  * @file RegionCottageStats.js
  * @description Cottage stats preserve colliders and avoid circular reports.
  */
-import { updateDoorAnimations } from "../houses/door/DoorAnimationRuntime.js?v=door-animation-runtime-20260615-bh2";
+import { updateDoorAnimations } from "../houses/door/DoorAnimationRuntime.js?compact=true&v=door-animation-runtime-20260615-bh2";
 function movingDoor(root) { let moving = false; root?.traverse?.(child => { const state = child.userData?.doorState; const gap = Math.abs(Number(state?.targetAngle || 0) - Number(state?.angle || 0)); if (state && gap > 0.006) moving = true; }); return moving; }
 function countRooms(root) { let rooms = 0, floors = 0, doors = 0; root?.traverse?.(child => { const d = child.userData || {}; if (d.visibleRoomWall || d.interiorWall) rooms++; if (d.cottageInteriorFloor) floors++; if (d.doorHingePivot || d.doorPanel) doors++; }); return { rooms, floors, doors }; }
 export function tickCottageDoors(root, delta) { const dt = Number(delta) || 1 / 60; if (!movingDoor(root)) return; updateDoorAnimations(root, dt); root.userData.stats.doorAnimationTicks = (root.userData.stats.doorAnimationTicks || 0) + 1; }

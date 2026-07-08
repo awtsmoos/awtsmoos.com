@@ -7,13 +7,13 @@
  * The Awtsmoos gives procedural houses a real door vessel, with fresh lifecycle
  * logic so an opened door is not reinserted as collision.
  */
-import Tzomayach from "../../chayim/tzomayach.js";
-import { DOOR_DEFAULTS, DOOR_MATERIALS } from './constants.js';
-import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
-import interactionMethods from './methods/interaction.js';
-import lifecycleMethods from './methods/lifecycle.js?v=passable-open-door-20260603-bh343';
-import graphicsMethods from './methods/graphics.js';
-import uiMethods from './methods/ui.js';
+import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { DOOR_DEFAULTS, DOOR_MATERIALS } from './constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import interactionMethods from './methods/interaction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import lifecycleMethods from './methods/lifecycle.js?compact=true&v=passable-open-door-20260603-bh343';
+import graphicsMethods from './methods/graphics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import uiMethods from './methods/ui.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class InteractiveDoor extends Tzomayach {
   type = "interactiveDoor";

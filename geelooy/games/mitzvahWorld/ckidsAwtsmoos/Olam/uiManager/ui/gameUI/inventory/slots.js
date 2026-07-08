@@ -3,7 +3,7 @@
  * @file slots.js
  * @description Chapter 29: Touch-first wardrobe slot renderer.
  */
-import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js";
+import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const categoryFor = item => item?.equipSlot || (item?.className === "Container" ? "all" : "all");
 const isVisibleFor = (item, filter) => !filter || filter === "all" || categoryFor(item) === filter || (filter === "acc" && ["rightHand", "leftHand"].includes(item?.equipSlot));

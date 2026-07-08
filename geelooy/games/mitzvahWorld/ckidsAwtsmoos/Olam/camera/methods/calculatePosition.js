@@ -1,6 +1,6 @@
 
 // B"H
-import { THREE } from '../../rendering/ThreeAdapter.js';
+import { THREE } from '../../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     calculateDesiredPosition(targetMesh, rotation, targetHeight, desiredDistance, isFPS) {

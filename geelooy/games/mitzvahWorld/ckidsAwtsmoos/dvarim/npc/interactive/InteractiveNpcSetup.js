@@ -4,16 +4,16 @@
  * @description Birth and visual readiness helpers for friendly NPCs. Every NPC
  * receives explicit raycast, targeting, and dialogue metadata at setup time.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { buildGuideVisualFromRig } from "../guide/runtime/GuideVisualFactory.js";
-import { applyNpcPalette } from "./InteractiveNpcPalette.js?v=npc-split-20260628-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildGuideVisualFromRig } from "../guide/runtime/GuideVisualFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { applyNpcPalette } from "./InteractiveNpcPalette.js?compact=true&v=npc-split-20260628-bh1";
 import {
   disposeVisual,
   hasVisibleRealMesh,
   hideCarrierMesh,
   sealNpcVisual
-} from "./InteractiveNpcVisuals.js?v=npc-split-20260628-bh1";
-import { setStandingPose } from "./InteractiveNpcAnimation.js?v=npc-split-20260628-bh1";
+} from "./InteractiveNpcVisuals.js?compact=true&v=npc-split-20260628-bh1";
+import { setStandingPose } from "./InteractiveNpcAnimation.js?compact=true&v=npc-split-20260628-bh1";
 
 function friendlyFlags(npc) {
   return {

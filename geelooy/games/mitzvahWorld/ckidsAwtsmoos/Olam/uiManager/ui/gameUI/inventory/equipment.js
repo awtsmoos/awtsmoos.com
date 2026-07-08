@@ -3,7 +3,7 @@
  * @file equipment.js
  * @description Chapter 29: Equipment slots become thumb-readable vessels.
  */
-import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js";
+import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const labels = { head: "Hat", eyes: "Eyes", shirt: "Shirt", jacket: "Coat", legs: "Pants", feet: "Shoes", rightHand: "Tool", leftHand: "Hand" };
 const order = ["head", "eyes", "shirt", "jacket", "legs", "feet", "rightHand", "leftHand"];

@@ -1,11 +1,11 @@
 // B"H
 /** @file MitzvahWorldFeatureManifest.js @description Aggressive feature manifest joining Studio, Movie, AI, animals, Klipah, and gameplay. */
-import { getMitzvahRuntimeFacade } from "../Olam/runtime/facade/MitzvahRuntimeFacade.js";
-import { installWorldStudioFeaturePack } from "../studio/runtime/WorldStudioFeaturePack.js";
-import { installMovieMakerFeaturePack } from "../movie/runtime/MovieMakerFeaturePack.js";
-import { installWorldGenerationFeaturePack } from "../ai/runtime/WorldGenerationFeaturePack.js";
-import { installMitzvahActions } from "../actions/runtime/MitzvahActionCatalog.js";
-import { listKosherSpecies } from "../animals/runtime/KosherAnimalSpecies.js";
+import { getMitzvahRuntimeFacade } from "../Olam/runtime/facade/MitzvahRuntimeFacade.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { installWorldStudioFeaturePack } from "../studio/runtime/WorldStudioFeaturePack.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { installMovieMakerFeaturePack } from "../movie/runtime/MovieMakerFeaturePack.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { installWorldGenerationFeaturePack } from "../ai/runtime/WorldGenerationFeaturePack.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { installMitzvahActions } from "../actions/runtime/MitzvahActionCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { listKosherSpecies } from "../animals/runtime/KosherAnimalSpecies.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function installMitzvahWorldFeatureManifest(seed = {}) {
   const runtime = getMitzvahRuntimeFacade(seed);
   const studio = installWorldStudioFeaturePack(runtime);

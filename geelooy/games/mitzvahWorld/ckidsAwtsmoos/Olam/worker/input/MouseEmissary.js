@@ -3,7 +3,7 @@
  * MouseEmissary: the gaze crosses the worker boundary only as fast as frames can breathe.
  * Clicks remain immediate; motion is coalesced so realism never becomes input stampede.
  */
-import SefiraOfInput from './SefiraOfInput.js?v=npc-scroll-pass-through-20260609-bh638';
+import SefiraOfInput from './SefiraOfInput.js?compact=true&v=npc-scroll-pass-through-20260609-bh638';
 const now=()=>performance?.now?.()||Date.now();
 function post(worker,payload){try{worker?.postMessage?.(payload);}catch(error){console.warn('B"H | MouseEmissary post failed',error);}}
 function makeMotionFlush(worker){let scheduled=false,lastMove=null,drag={dx:0,dy:0,active:false};function flush(){scheduled=false;if(drag.active){post(worker,{cameraDrag:{dx:drag.dx,dy:drag.dy}});drag={dx:0,dy:0,active:false};}if(lastMove){post(worker,{mousemove:lastMove});lastMove=null;}}return function queue(e,isDragging){lastMove=SefiraOfInput.cleanseEvent(e);if(isDragging){drag.dx+=e.movementX||0;drag.dy+=e.movementY||0;drag.active=true;}if(!scheduled){scheduled=true;requestAnimationFrame(flush);}};}

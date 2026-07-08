@@ -7,7 +7,7 @@
  * not stealing the player's whole life, only revealing that the world can
  * breathe, frame, glide, and return control with a soft hand.
  */
-import { ensureMovieGenerationRuntime } from "../movie/MovieGenerationRuntime.js?v=awtsmoos-movie-generation-runtime-20260619-bh1";
+import { ensureMovieGenerationRuntime } from "../movie/MovieGenerationRuntime.js?compact=true&v=awtsmoos-movie-generation-runtime-20260619-bh1";
 
 const KEY = "__awtsmoosCinematicDirector";
 

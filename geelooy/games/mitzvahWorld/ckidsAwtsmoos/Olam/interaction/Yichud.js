@@ -3,9 +3,9 @@
  * @file Yichud.js
  * @description Chapter 1007: old procedural trees are not interactive targets.
  */
-import Kav from "./methods/Kav.js";
-import Ohr from "./methods/Ohr.js";
-import Peula from "./methods/Peula.js";
+import Kav from "./methods/Kav.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Ohr from "./methods/Ohr.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Peula from "./methods/Peula.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const UI_BLOCKERS = ["[data-awts-ui-seal]", "#awtsmoos-npc-overlay", "#awtsmoos-npc-shop", "#inventoryScreen", "#storeScreen", ".store-container", ".awts-shop-card", ".awts-npc-card", ".awtsmoosAction", "#actionBar", "#joystick-container", "#game-controller", "button", "input", "select", "textarea", "a"];
 function isUiEvent(event) { const target = event?.target; return Boolean(target?.closest && UI_BLOCKERS.some(selector => target.closest(selector))); }
 function blockWorld(event) { event?.stopPropagation?.(); }

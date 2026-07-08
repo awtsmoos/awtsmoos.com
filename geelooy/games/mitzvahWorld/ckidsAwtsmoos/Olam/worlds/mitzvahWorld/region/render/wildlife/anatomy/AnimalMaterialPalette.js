@@ -6,7 +6,7 @@
  * can ask for fox-red, cow-hide, frog-green, or bird-blue without rebuilding
  * materials every frame.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const CACHE = new Map();
 

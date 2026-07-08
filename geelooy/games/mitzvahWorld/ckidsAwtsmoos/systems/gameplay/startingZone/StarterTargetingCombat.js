@@ -1,7 +1,7 @@
 // B"H
-import { makeLootableCorpse, lootAll, lootPayload } from "../../loot/LootRuntime.js";
-import { openNpcInteraction } from "../../npc/NpcInteractionRuntime.js";
-import { dist, face, facingDot, nowMs } from "./StarterMath.js";
+import { makeLootableCorpse, lootAll, lootPayload } from "../../loot/LootRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { openNpcInteraction } from "../../npc/NpcInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { dist, face, facingDot, nowMs } from "./StarterMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function targetPayload(target) {
   if (!target) return { open:false };

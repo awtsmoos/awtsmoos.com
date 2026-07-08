@@ -1,6 +1,6 @@
 // B"H
 /** @file WorldFactStore.js @description Typed helpers over the world fact database. */
-import { createWorldFactDatabase } from './WorldFactDatabase.js';
+import { createWorldFactDatabase } from './WorldFactDatabase.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 export function createWorldFactStore(database = createWorldFactDatabase()) {
   function remember(kind, target, data = {}) {

@@ -5,8 +5,8 @@
  * Movement proof keeps the player's body honest: Q and E strafe in opposite
  * directions, jump rises cleanly, and snap-down does not steal the ascent.
  */
-import { summarizeMovementProof } from "./MitzvahProofDiagnostics.js?v=movement-snap-detector-20260705-bh1";
-import { cloneVec, n, player, sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { summarizeMovementProof } from "./MitzvahProofDiagnostics.js?compact=true&v=movement-snap-detector-20260705-bh1";
+import { cloneVec, n, player, sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 export async function proveMovement(olam) {
   const p = player(olam);

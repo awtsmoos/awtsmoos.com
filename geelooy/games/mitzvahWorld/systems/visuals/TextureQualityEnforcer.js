@@ -1,8 +1,8 @@
 // B"H
 /** @file TextureQualityEnforcer.js @description Boot-pass guard against pixelated live textures. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { applyTexturePolicy, applyMaterialPolicy } from "./HyperrealTexturePolicy.js";
-import { stampDetailIntent } from "./MaterialDetailLayers.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { applyTexturePolicy, applyMaterialPolicy } from "./HyperrealTexturePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { stampDetailIntent } from "./MaterialDetailLayers.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const MAPS = Object.freeze(["map", "normalMap", "roughnessMap", "metalnessMap", "bumpMap", "alphaMap", "aoMap", "emissiveMap", "specularMap", "displacementMap"]);
 

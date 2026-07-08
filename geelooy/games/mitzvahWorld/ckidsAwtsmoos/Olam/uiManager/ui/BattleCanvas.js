@@ -14,11 +14,11 @@
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
 
-import { PARDES_COLORS } from '../systems/PassageLevel.js';
-import { BattleParticles } from './battle/BattleParticles.js';
-import { BattleCharacterRenderer } from './battle/BattleCharacterRenderer.js';
-import { BattleHUD } from './battle/BattleHUD.js';
-import { BattleTextRenderer } from './battle/BattleTextRenderer.js';
+import { PARDES_COLORS } from '../systems/PassageLevel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { BattleParticles } from './battle/BattleParticles.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { BattleCharacterRenderer } from './battle/BattleCharacterRenderer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { BattleHUD } from './battle/BattleHUD.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { BattleTextRenderer } from './battle/BattleTextRenderer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class BattleCanvas {
     /** @param {HTMLElement} container - The game container to append the canvas to */

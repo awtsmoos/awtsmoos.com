@@ -1,7 +1,7 @@
 // B"H
 /** Tight cottage collision sidecar. LOD-hidden solid meshes still count. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import SpatialBubbleIndex from "./SpatialBubbleIndex.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import SpatialBubbleIndex from "./SpatialBubbleIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const CHILD_BOX = new THREE.Box3();
 const LOCAL_BOX = new THREE.Box3();

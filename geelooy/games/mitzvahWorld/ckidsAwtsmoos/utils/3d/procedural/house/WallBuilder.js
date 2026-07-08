@@ -8,8 +8,8 @@
  * hidden slabs carved with the same doorway intervals. The Awtsmoos refuses the
  * old confusion where every pretty protruding brick became a stair for the body.
  */
-import WALL_FACES from './data/WallPositionMap.js';
-import WallSegmentCarver from './WallSegmentCarver.js';
+import WALL_FACES from './data/WallPositionMap.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import WallSegmentCarver from './WallSegmentCarver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function emit(blueprint, mode) {
   const entrances = blueprint.entrances || [];

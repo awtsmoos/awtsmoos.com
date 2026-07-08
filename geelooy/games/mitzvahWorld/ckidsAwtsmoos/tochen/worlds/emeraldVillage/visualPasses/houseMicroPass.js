@@ -4,14 +4,14 @@
  * @description Chapter 477: House micro-detail scales by device density while
  * preserving enough lived-in signs near the entry.
  */
-import { addHouseAwning } from './houseAwning.js';
-import { addHouseDoorAccent } from './houseDoorAccent.js';
-import { houseFront } from './houseFrontMath.js';
-import { addHouseJars } from './houseJars.js';
-import { addHouseLaundry } from './houseLaundry.js';
-import { addHouseShutters } from './houseShutters.js';
-import { addHouseSmoke } from './houseSmoke.js';
-import { scaledCount } from './visualDensityConfig.js';
+import { addHouseAwning } from './houseAwning.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addHouseDoorAccent } from './houseDoorAccent.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { houseFront } from './houseFrontMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addHouseJars } from './houseJars.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addHouseLaundry } from './houseLaundry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addHouseShutters } from './houseShutters.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addHouseSmoke } from './houseSmoke.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { scaledCount } from './visualDensityConfig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function addHouseMicro(n, properties, density = {}) {
   const limit = scaledCount(Math.min(properties.length, 36), density.houseScale ?? 1, 8);
   properties.slice(0, limit).forEach((prop, index) => {

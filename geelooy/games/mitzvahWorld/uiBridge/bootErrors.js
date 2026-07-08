@@ -1,7 +1,7 @@
 // B"H
 /** @file bootErrors.js @description Boot diagnostics and copyable black-screen state. */
-import { safeClone } from "./safeClone.js";
-import { olamOf } from "./worldMarkers.js";
+import { safeClone } from "./safeClone.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { olamOf } from "./worldMarkers.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 export function renderErrorPanel(details) { let panel = document.getElementById("awtsmoosBootErrorPanel"); if (!panel) { panel = document.createElement("pre"); panel.id = "awtsmoosBootErrorPanel"; panel.style.cssText = "position:fixed;inset:12px;z-index:999999;padding:16px;overflow:auto;white-space:pre-wrap;background:#190000;color:#ffd7a0;border:2px solid #ff6b2a;font:13px/1.4 monospace;"; document.body.appendChild(panel); } panel.textContent = `B"H - Mitzvah World boot error\n\n${JSON.stringify(details, null, 2)}`; }
 export function describeAwtsmoosError(error, context = {}) { const details = { context:safeClone(context), thrown:safeClone(error), at:new Date().toISOString(), page:location?.href || null }; globalThis.__AWTSMOOS_LAST_ERROR__ = details; globalThis.__AWTSMOOS_LAST_ERROR_JSON__ = JSON.stringify(details, null, 2); globalThis.__AWTSMOOS_ERROR_COUNT__ = Number(globalThis.__AWTSMOOS_ERROR_COUNT__ || 0) + 1; renderErrorPanel(details); return details; }
 export function installBootErrorListeners() { window.addEventListener("error", e => describeAwtsmoosError(e.error || e.message, { label:"Global error", phase:"window.error", moduleURL:e.filename, line:e.lineno, column:e.colno })); window.addEventListener("unhandledrejection", e => describeAwtsmoosError(e.reason, { label:"Unhandled promise rejection", phase:"window.unhandledrejection" })); }

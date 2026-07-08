@@ -1,7 +1,7 @@
 // B"H
 /** @file LootAwardRuntime.js @description Bridges awarded loot into quest progress. */
-import { noteQuestItemCollected } from "../quests/QuestState.js";
-import { isQuestItem } from "./QuestItemRegistry.js";
+import { noteQuestItemCollected } from "../quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { isQuestItem } from "./QuestItemRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function awardLootItemsToQuests(olam, items = []) {
   const awarded = [];

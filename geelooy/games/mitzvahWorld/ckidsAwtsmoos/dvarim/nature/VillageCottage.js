@@ -5,8 +5,8 @@
  * Chapter 81: The cottage wrapper passes the renderer into shader-baked walls.
  * Plaster, roof, and door textures are snapshots from custom shaders.
  */
-import Domem from "../../chayim/domem/index.js";
-import { createCottage } from "../../../../../libs/awtsmoos3d/buildings/cottage.js?v=shader-cottage-20260604-bh437";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createCottage } from "../../../../../libs/awtsmoos3d/buildings/cottage.js?compact=true&v=shader-cottage-20260604-bh437";
 
 export default class VillageCottage extends Domem {
   type = "villageCottage";

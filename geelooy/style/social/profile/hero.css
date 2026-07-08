@@ -1,7 +1,18 @@
-.profile-hero-card { position: relative; overflow: hidden; background: #fff; border: 1px solid var(--pp-line); border-radius: 1.25rem; box-shadow: var(--pp-shadow); padding: 1rem; }
-.profile-hero-card::before, .profile-hero-card::after { display: none; }
+/* B"H profile hero: native card, not plain paper. */
+.profile-hero-card {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 18% 0%, rgba(46,167,255,.18), transparent 13rem), linear-gradient(145deg, #ffffff, #f6f3ff 58%, #eef9ff);
+  border: 1px solid rgba(139,92,246,.18);
+  border-radius: 1.35rem;
+  box-shadow: var(--pp-shadow), inset 0 1px 0 rgba(255,255,255,.9);
+  padding: clamp(1rem, 3vw, 1.35rem);
+}
+.profile-hero-card::before { content: "✨"; position: absolute; right: 1rem; top: .85rem; opacity: .22; font-size: 3.5rem; line-height: 1; pointer-events: none; }
+.profile-hero-card::after { display: none; }
 .profile-identity-row { display: flex; align-items: center; gap: .85rem; flex-wrap: wrap; }
-.profile-avatar-orb { width: 4rem; height: 4rem; display: grid; place-items: center; border-radius: 50%; background: var(--pp-soft); border: 1px solid var(--pp-line); color: var(--pp-text); font-weight: 850; }
-.profile-hero-card h1 { margin: .1rem 0; color: var(--pp-text); font-size: clamp(1.8rem, 7vw, 3.6rem); line-height: 1; letter-spacing: -.045em; }
-.profile-hero-card p { color: var(--pp-muted); margin: .2rem 0; }
-.profile-action-main { grid-column: 1 / -1; text-align: center; padding: .8rem; border-radius: .85rem; background: var(--pp-text); color: #fff; font-weight: 800; text-decoration: none; }
+.profile-avatar-orb { width: 4.2rem; height: 4.2rem; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #2ea7ff); border: 1px solid rgba(255,255,255,.8); color: #fff; font-weight: 950; box-shadow: 0 12px 28px rgba(46,167,255,.2); }
+.profile-hero-card h1 { margin: .1rem 0; color: var(--pp-text); font-size: clamp(1.85rem, 7vw, 3.6rem); line-height: 1; letter-spacing: -.045em; overflow-wrap: anywhere; }
+.profile-hero-card p { color: var(--pp-muted); margin: .2rem 0; line-height: 1.55; }
+.profile-action-main { grid-column: 1 / -1; text-align: center; padding: .82rem 1rem; border-radius: 1rem; background: linear-gradient(135deg, #8b5cf6, #2ea7ff); color: #fff; font-weight: 900; text-decoration: none; box-shadow: 0 14px 28px rgba(139,92,246,.22); }
+.profile-action-main:focus-visible { outline: 3px solid rgba(46,167,255,.35); outline-offset: 3px; }

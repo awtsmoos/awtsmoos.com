@@ -9,10 +9,10 @@
  * lifts only when the worker declares the playable covenant: gameplay-ready,
  * first-playable-frame, or world_final_ready.
  */
-import { oyvedManagerLog } from "../log/MainTextLogger.js";
-import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js";
-import { recordWorkerProgress } from "../progress/WorkerProgressStore.js";
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh3";
+import { oyvedManagerLog } from "../log/MainTextLogger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { recordWorkerProgress } from "../progress/WorkerProgressStore.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?compact=true&v=loading-proof-mobile-20260706-bh3";
 
 const SEAL = "final-proof-bridge-20260705-bh4";
 const PLAYABLE_STAGE = /^(first-playable-frame|gameplay-ready|world_final_ready)$/i;

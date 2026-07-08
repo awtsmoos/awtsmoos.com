@@ -6,8 +6,8 @@
  * Text-only worker boot error handler.
  */
 
-import { workerErrorLog, postTextToMain } from "../log/WorkerTextLogger.js";
-import { makeWorkerFailureMessage } from "../errors/WorkerFailureMessage.js";
+import { workerErrorLog, postTextToMain } from "../log/WorkerTextLogger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeWorkerFailureMessage } from "../errors/WorkerFailureMessage.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

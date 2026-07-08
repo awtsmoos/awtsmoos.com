@@ -10,7 +10,7 @@
  * with rendering paint.
  */
 
-import { assertEntityRecord, requireEntityId } from './EntityValidation.js';
+import { assertEntityRecord, requireEntityId } from './EntityValidation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * Creates a normalized entity runtime record.

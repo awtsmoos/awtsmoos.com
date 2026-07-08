@@ -4,7 +4,7 @@
  * @description Chapter 448: the world stops asking every creature where every
  * other creature is. The Awtsmoos makes proximity local, humble, and fast.
  */
-import { visitAabbCells, visitCircleCells } from "./cellKey.js";
+import { visitAabbCells, visitCircleCells } from "./cellKey.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 export class SpatialHash2D {
   constructor({ cellSize = 10 } = {}) {
     this.cellSize = Math.max(0.001, cellSize);

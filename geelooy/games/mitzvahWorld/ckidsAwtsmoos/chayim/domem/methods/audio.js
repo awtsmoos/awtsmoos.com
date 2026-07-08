@@ -4,7 +4,7 @@
  * @file audio.js
  * Playback of holy sounds. Now utilizes the purely mathematical AudioEngine.
  */
-import AudioEngine from "../../../systems/audio/AudioEngine.js";
+import AudioEngine from "../../../systems/audio/AudioEngine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {
     playSound(path, {

@@ -4,10 +4,10 @@
  * @description Generates the village as parcels: house, yard, gate, fence,
  * garden, owner. The Awtsmoos hides order inside the road, not randomness.
  */
-import { ownerRecord, OWNER_ROLES } from "./ParcelOwnership.js";
-import { gateForParcel } from "./ParcelGatePlanner.js";
-import { fenceForParcel } from "./ParcelFencePlanner.js";
-import { gardenForParcel } from "./ParcelGardenPlanner.js";
+import { ownerRecord, OWNER_ROLES } from "./ParcelOwnership.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { gateForParcel } from "./ParcelGatePlanner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { fenceForParcel } from "./ParcelFencePlanner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { gardenForParcel } from "./ParcelGardenPlanner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const BASE_ROLES = ["farmer", "baker", "kohenTeacher", "leviTeacher", "poorFamily", "melamed", "scribe", "shepherd", "toolmaker", "innkeeper", "orchardKeeper", "beekeeper", "sofer", "grocer", "farmer", "poorFamily"];
 function n(v, f = 0) { return Number.isFinite(Number(v)) ? Number(v) : f; }
 function roleAt(i) { return BASE_ROLES[i % BASE_ROLES.length] || OWNER_ROLES[i % OWNER_ROLES.length]; }

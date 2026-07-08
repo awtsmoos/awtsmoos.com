@@ -5,8 +5,8 @@
  * camera sees solid world layers; interaction sees only explicit proxies and
  * safe owner-bearing targets.
  */
-import { diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js?v=village-diagnostics-20260612-bh1";
-import { safeIntersectObject } from "../../methods/helpers/mouse/RaycastSafety.js?v=reality-raycast-20260629-bh1";
+import { diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js?compact=true&v=village-diagnostics-20260612-bh1";
+import { safeIntersectObject } from "../../methods/helpers/mouse/RaycastSafety.js?compact=true&v=reality-raycast-20260629-bh1";
 
 function isNpcLike(nivra) { return ["interactiveNpc", "customNpc", "medabeir"].includes(nivra?.type); }
 function targetForNivra(nivra) {

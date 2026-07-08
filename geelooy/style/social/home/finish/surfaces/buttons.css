@@ -1,15 +1,5 @@
-/* B"H — buttons carry the blue-violet flame. */
-.home-action-primary,
-.home-search-row button,
-.home-feed-create,
-.home-command-dock .is-create {
-  background: linear-gradient(135deg, #2ea7ff, #8b5cf6 52%, #9a4dff) !important;
-  border-color: rgba(96, 165, 250, .38) !important;
-  color: #fff !important;
-}
-
-.home-action-primary:active,
-.home-feed-create:active,
-.home-search-row button:active {
-  transform: translate3d(0,1px,0) scale(.99);
-}
+/* B"H — bright buttons, not loud buttons. */
+.home-action-primary,.home-search-row button,.home-feed-create,.home-command-dock .is-create,.object-action-row button { background: linear-gradient(135deg,#2ea7ff,#8b5cf6 52%,#9a4dff) !important; border-color: rgba(96,165,250,.42) !important; color: #fff !important; }
+.home-feed-create { align-items: center; border-radius: 16px; box-shadow: 0 10px 24px rgba(46,167,255,.16); display: inline-flex; gap: .45rem; padding-inline: .8rem !important; }
+.home-feed-create::before { content: "✨"; font-size: .9rem; }
+.home-action-primary:active,.home-feed-create:active,.home-search-row button:active,.object-action-row :is(a,button):active { transform: translate3d(0,1px,0) scale(.99); }

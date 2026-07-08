@@ -6,8 +6,8 @@
  * Installs Worker message listener.
  */
 
-import { postPlainWorkerText } from "./PlainWorkerPost.js";
-import { handleWorkerMessageFlow } from "./WorkerMessageFlow.js";
+import { postPlainWorkerText } from "./PlainWorkerPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { handleWorkerMessageFlow } from "./WorkerMessageFlow.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

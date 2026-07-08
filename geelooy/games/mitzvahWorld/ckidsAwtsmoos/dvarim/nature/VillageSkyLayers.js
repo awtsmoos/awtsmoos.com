@@ -5,8 +5,8 @@
  * Chapter 78: The sky wrapper hands the renderer to the cloud shader snapshot.
  * Clouds bake once; the runtime carries only a frozen texture on a plane.
  */
-import Domem from "../../chayim/domem/index.js";
-import { createGoldenSkyLayers } from "../../../../../libs/awtsmoos3d/sky/goldenSky.js?v=shader-sky-20260604-bh437";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createGoldenSkyLayers } from "../../../../../libs/awtsmoos3d/sky/goldenSky.js?compact=true&v=shader-sky-20260604-bh437";
 
 export default class VillageSkyLayers extends Domem {
   type = "villageSkyLayers";

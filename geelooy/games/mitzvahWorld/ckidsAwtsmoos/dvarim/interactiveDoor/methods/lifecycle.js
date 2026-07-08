@@ -5,13 +5,13 @@
  * Door lifecycle for collision truth: initialize the visual door, remove the
  * collider while the door opens, and re-add it only when fully closed.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { DOOR_DEFAULTS } from '../constants.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { DOOR_DEFAULTS } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import {
   markDoorPassable,
   markDoorSolid,
   syncDoorColliderUserData
-} from './DoorColliderState.js?v=door-collider-state-20260629-bh1';
+} from './DoorColliderState.js?compact=true&v=door-collider-state-20260629-bh1';
 
 function removeDoorCollider(door) {
   markDoorPassable(door);

@@ -3,12 +3,12 @@
  * @module ManagerOfAllWorlds
  * @description Starts direct world loads without importing the full menu graph.
  */
-import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?v=visible-root-binding-20260610-bh710";
-import StartWorldFlow from "./StartWorldFlow.js?v=final-proof-bridge-20260705-bh4";
-import SocketHandler from "./SocketHandler.js?v=visible-root-binding-20260610-bh710";
-import ServiceWorkerInit from "./ServiceWorkerInit.js?v=visible-root-binding-20260610-bh710";
-import SwitchDestroyLogic from "./SwitchDestroyLogic.js?v=visible-root-binding-20260610-bh710";
-import DomHelpers from "./DomHelpers.js?v=visible-root-binding-20260610-bh710";
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-root-binding-20260610-bh710";
+import StartWorldFlow from "./StartWorldFlow.js?compact=true&v=final-proof-bridge-20260705-bh4";
+import SocketHandler from "./SocketHandler.js?compact=true&v=visible-root-binding-20260610-bh710";
+import ServiceWorkerInit from "./ServiceWorkerInit.js?compact=true&v=visible-root-binding-20260610-bh710";
+import SwitchDestroyLogic from "./SwitchDestroyLogic.js?compact=true&v=visible-root-binding-20260610-bh710";
+import DomHelpers from "./DomHelpers.js?compact=true&v=visible-root-binding-20260610-bh710";
 
 function hasDirectWorldPath() {
   try {
@@ -81,7 +81,7 @@ export default class ManagerOfAllWorlds {
 
   async _loadFullUi() {
     try {
-      const { default:UIManager } = await import("../uiManager/index.js?v=lazy-menu-fast-boot-20260706-bh1");
+      const { default:UIManager } = await import("../uiManager/index.js?compact=true&v=lazy-menu-fast-boot-20260706-bh1");
       if (this.socket?.eved || this.started) return;
       const uiManager = new UIManager();
       this.uiManager = uiManager;

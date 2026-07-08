@@ -1,7 +1,7 @@
 
 // B"H
-import { Octree as AwtsmoosOctree } from "../../AwtsmoosOctree/index.js";
-import { NODE_STATE, CONFIG } from '../constants.js';
+import { Octree as AwtsmoosOctree } from "../../AwtsmoosOctree/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { NODE_STATE, CONFIG } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     _buildNodePhysics(node) {

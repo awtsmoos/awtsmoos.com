@@ -5,10 +5,10 @@
  * saved starter payload, not a persist plus a UI persist. The first village can
  * teach without stealing the frame budget.
  */
-import { getStarterClassPath, listStarterClassPaths } from './StarterClassPathRegistry.js';
-import { TUTORIAL_STEPS, tutorialProgress, getTutorialStep } from './TutorialStepRegistry.js';
-import { loadLivingWorldState, saveLivingWorldState, commitUiPayloads } from '../livingWorld/LivingWorldState.js';
-import { persistLivingWorldToWorldState } from '../livingWorld/LivingWorldPersistenceBridge.js';
+import { getStarterClassPath, listStarterClassPaths } from './StarterClassPathRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TUTORIAL_STEPS, tutorialProgress, getTutorialStep } from './TutorialStepRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { loadLivingWorldState, saveLivingWorldState, commitUiPayloads } from '../livingWorld/LivingWorldState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { persistLivingWorldToWorldState } from '../livingWorld/LivingWorldPersistenceBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const EVENT = 'mitzvah-world:starter-experience';
 const cap = (xs = [], n = 40) => xs.slice(-n);

@@ -1,8 +1,8 @@
 // B"H
 /** @file QuestState.js @description Minimal stable quest state and inventory adapter. */
-import { questById } from "./KidQuestCatalog.js";
-import { objectiveProgress } from "./QuestObjectives.js";
-import { grantQuestReward } from "./QuestRewards.js";
+import { questById } from "./KidQuestCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { objectiveProgress } from "./QuestObjectives.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { grantQuestReward } from "./QuestRewards.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function ensureQuestState(olam) {
   olam.__kidQuestState ||= { accepted:{}, completed:{}, turnedIn:{}, items:{}, events:[] };

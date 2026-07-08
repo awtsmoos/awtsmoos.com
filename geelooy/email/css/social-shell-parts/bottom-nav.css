@@ -1,31 +1,14 @@
-/* B"H — mobile route dock. */
-.mail-bottom-nav {
-  align-items: center !important;
-  background: rgba(255,255,255,.98) !important;
-  border: 1px solid var(--mail-line) !important;
-  border-radius: 999px !important;
-  bottom: max(.8rem, env(safe-area-inset-bottom)) !important;
-  box-shadow: 0 14px 40px rgba(15,23,42,.16) !important;
-  display: flex !important;
-  gap: .25rem !important;
-  left: .75rem !important;
-  padding: .35rem !important;
-  position: sticky; bottom: 0;
-  position: fixed !important;
-  right: .75rem !important;
-  z-index: 100 !important;
-}
+/* B"H — floating glass-like mobile route dock. */
+.mail-bottom-nav { align-items: center !important; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(244,249,255,.94)) !important; border: 1px solid rgba(207,216,227,.86) !important; border-radius: 999px !important; bottom: max(.8rem, env(safe-area-inset-bottom)) !important; box-shadow: 0 18px 48px rgba(15,23,42,.18), inset 0 1px 0 rgba(255,255,255,.9) !important; display: flex !important; gap: .25rem !important; left: .75rem !important; padding: .36rem !important; position: sticky; bottom: 0; position: fixed !important; right: .75rem !important; z-index: 100 !important; }
 .mail-bottom-nav a,
-.mail-bottom-nav button {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  color: var(--mail-muted) !important;
-  flex: 1 1 0 !important;
-  font-weight: 700 !important;
-  min-height: 42px !important;
-  padding: .55rem .3rem !important;
-  text-align: center !important;
-}
+.mail-bottom-nav button { align-items: center; background: transparent !important; border: 1px solid transparent !important; border-radius: 999px !important; color: var(--mail-muted) !important; display: inline-flex; flex: 1 1 0 !important; font-weight: 850 !important; justify-content: center; min-height: 44px !important; min-width: 0; overflow: hidden; padding: .55rem .3rem !important; text-align: center !important; text-overflow: ellipsis; transition: transform .14s ease, background .14s ease, border-color .14s ease, box-shadow .14s ease; white-space: nowrap; }
+.mail-bottom-nav a:hover,
+.mail-bottom-nav button:hover,
+.mail-bottom-nav a:focus-visible,
+.mail-bottom-nav button:focus-visible { background: #fff !important; border-color: rgba(207,216,227,.9) !important; box-shadow: 0 8px 18px rgba(15,23,42,.08); outline: none; transform: translate3d(0,-2px,0); }
 .mail-bottom-nav [aria-current="page"],
-.mail-bottom-nav .active { background: var(--mail-soft) !important; color: var(--mail-text) !important; }
+.mail-bottom-nav .active { background: linear-gradient(145deg, #ecfdf8, #eef7ff) !important; color: var(--mail-text) !important; }
+.mail-bottom-nav .is-create { background: linear-gradient(135deg, #0f766e, #2ea7ff) !important; color: #fff !important; box-shadow: 0 12px 28px rgba(15,118,110,.2); }
+.mail-bottom-nav .is-profile { border-color: rgba(46,167,255,.22) !important; color: #1e3a5f !important; }
+.mail-bottom-nav .is-profile:hover { background: #eef7ff !important; }
+@media (max-width: 430px) { .mail-bottom-nav a,.mail-bottom-nav button { font-size: .7rem; padding-inline: .14rem !important; } }

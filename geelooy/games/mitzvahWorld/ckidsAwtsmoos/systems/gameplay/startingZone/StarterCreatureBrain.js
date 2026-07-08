@@ -1,6 +1,6 @@
 // B"H
-import { STARTER_ENEMY_ARCHETYPES } from "./StarterEnemyArchetypes.js";
-import { TAU, dist, face, nowMs, vec } from "./StarterMath.js";
+import { STARTER_ENEMY_ARCHETYPES } from "./StarterEnemyArchetypes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { TAU, dist, face, nowMs, vec } from "./StarterMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function patrolPoint(enemy, archetype, t) {
   const path = archetype.path || [[0, 0]];

@@ -1,5 +1,5 @@
 // B"H
-import { blocks } from "../CollisionBody2D.js";
+import { blocks } from "../CollisionBody2D.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function center(bounds) {
   return { x:(bounds.minX + bounds.maxX) / 2, z:(bounds.minZ + bounds.maxZ) / 2 };

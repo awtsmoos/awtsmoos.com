@@ -1,6 +1,6 @@
 ﻿// B"H
 /** @file BagRuntime.js @description Inventory bags with categories, quantities, rarity, equipment hints, and UI payloads. */
-import { BAG_CATEGORIES, itemById, InventoryItemIndex } from "./InventoryItemIndex.js";
+import { BAG_CATEGORIES, itemById, InventoryItemIndex } from "./InventoryItemIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function emit(olam, name, payload) { olam?.ayshPeula?.("ui event", name, payload); }
 function cloneItem(itemOrId) { const item = typeof itemOrId === "string" ? itemById(itemOrId) : itemOrId; if (!item) return null; return { qty:1, rarity:item.rarity || "common", ...item, id:item.id || `${item.baseId || "item"}_${Date.now()}` }; }

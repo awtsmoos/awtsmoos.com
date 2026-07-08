@@ -1,6 +1,6 @@
 // B"H
 /** @file grounding.js @description Parser-clear terrain-like grounding for decorative and living village objects. */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const DOWN = new THREE.Vector3(0,-1,0), RAY = new THREE.Raycaster(), ORIGIN = new THREE.Vector3();
 const DEFAULT_GROUND_Y = -0.05, DEFAULT_LIFT = 0, LIVING_GROUND_KEY = "visualGroundOffsetY";
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;

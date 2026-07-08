@@ -3,17 +3,17 @@
  * @file VehicleRuntime.js
  * @description Shared page-side vehicle runtime for mounted procedural driving.
  */
-import { spawnStartingVehicles } from "./VehicleSpawnSystem.js";
-import { installVehicleInteraction, updateVehicleInteraction } from "./VehicleInteractionSystem.js";
-import { updateVehicleCamera } from "./VehicleCamera.js";
-import { updateVehicleSound } from "./VehicleSoundSystem.js";
-import { buildRoads } from "./VehicleRoadSystem.js";
-import { updateVehicleDiscovery } from "./VehicleDiscoverySystem.js";
-import { VehicleOwnershipSystem } from "./VehicleOwnershipSystem.js";
-import { createHorseAnchor, updateHorseAnchors } from "./HorseAnchorSystem.js";
-import { installVehicleInput, vehicleInputFromKeys } from "./VehicleInput.js";
-import { driveVehicle } from "./VehiclePhysics.js";
-import { installVehicleDiagnostics } from "./VehicleDiagnostics.js";
+import { spawnStartingVehicles } from "./VehicleSpawnSystem.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { installVehicleInteraction, updateVehicleInteraction } from "./VehicleInteractionSystem.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { updateVehicleCamera } from "./VehicleCamera.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { updateVehicleSound } from "./VehicleSoundSystem.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { buildRoads } from "./VehicleRoadSystem.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { updateVehicleDiscovery } from "./VehicleDiscoverySystem.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { VehicleOwnershipSystem } from "./VehicleOwnershipSystem.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { createHorseAnchor, updateHorseAnchors } from "./HorseAnchorSystem.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { installVehicleInput, vehicleInputFromKeys } from "./VehicleInput.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { driveVehicle } from "./VehiclePhysics.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { installVehicleDiagnostics } from "./VehicleDiagnostics.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const MAX_SCENE_RETRIES = 8;
 

@@ -1,7 +1,7 @@
 // B"H
 /** @file CollectRuntime.js @description Strict item collection into bag plus mission objective progress. */
-import { addBagItem } from "../inventory/BagRuntime.js";
-import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
+import { addBagItem } from "../inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function collectItem(olam, itemOrId, options = {}) {
   const item = addBagItem(olam, itemOrId, options); if (!item) return false;
   progressActiveObjectives(olam, "collect", Number(options.amount || item.quantity || 1));

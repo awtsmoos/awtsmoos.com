@@ -1,14 +1,14 @@
 // B"H
 /**
  * @module AwtsmoosMailStore
- * @description Holds mail identity, current folder, search intent, and listeners.
+ * @description Holds mail identity, current folder, sender category, search intent, and listeners.
  */
 import { connectSocket, refreshSnippets } from './network.js';
 import { switchChat } from './ui/chat.js';
 import { ensureDefaultAlias, isValidAlias, cleanAlias } from '/scripts/awtsmoos/social/aliasIdentity.js';
 
 export const state = {
-  alias: null, threads: {}, snippets: [], activeThread: null, view: 'inbox', searchQuery: '', pagination: {},
+  alias: null, threads: {}, snippets: [], activeThread: null, view: 'inbox', searchQuery: '', senderCategory: 'all', pagination: {},
   settings: { gatekeeperMode: false, approved: {}, rules: [] }, replyingTo: null,
   isLoadingHistory: false, listeners: new Set()
 };
@@ -17,6 +17,7 @@ export function subscribe(fn) { state.listeners.add(fn); return () => state.list
 export function notify(key, value) { state.listeners.forEach(fn => fn(key, value)); }
 export function setMailView(view) { state.view = view || 'inbox'; notify('mailView', state.view); }
 export function setMailSearch(query) { state.searchQuery = String(query || ''); notify('mailSearch', state.searchQuery); }
+export function setMailSenderCategory(category) { state.senderCategory = category || 'all'; notify('mailSenderCategory', state.senderCategory); }
 
 export async function initAuth(ui) {
   const params = new URLSearchParams(window.location.search);

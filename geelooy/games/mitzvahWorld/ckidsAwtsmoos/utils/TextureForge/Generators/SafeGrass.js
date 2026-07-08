@@ -6,7 +6,7 @@
  * Direct pixels still keep mobile quick, but the texture now includes blade
  * streaks, grain, straw specks, and deep clump shadows.
  */
-import CanvasHelper from "../CanvasHelper.js";
+import CanvasHelper from "../CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const TAU = Math.PI * 2;
 const clamp = v => Math.max(0, Math.min(255, v | 0));
 const mix = (a, b, t) => a + (b - a) * t;

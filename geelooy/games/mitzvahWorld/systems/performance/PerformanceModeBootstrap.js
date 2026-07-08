@@ -1,10 +1,10 @@
 // B"H
 /** Main-thread performance proof, now honest about OffscreenCanvas workers. */
-import { detectDeviceTier } from "./DeviceTierDetector.js";
-import { adaptiveRenderScale, applyRenderScale } from "./AdaptiveRenderScale.js";
-import { fastSceneBudget } from "./FastSceneBudget.js";
-import { performanceReport } from "./PerformanceReport.js";
-import { discoverRenderer } from "./RendererDiscovery.js";
+import { detectDeviceTier } from "./DeviceTierDetector.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { adaptiveRenderScale, applyRenderScale } from "./AdaptiveRenderScale.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { fastSceneBudget } from "./FastSceneBudget.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { performanceReport } from "./PerformanceReport.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { discoverRenderer } from "./RendererDiscovery.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const REPORT_KEY = "__AWTSMOOS_PERFORMANCE_MODE__";
 const ATTEMPT_KEY = "__AWTSMOOS_PERFORMANCE_ATTEMPTS__";

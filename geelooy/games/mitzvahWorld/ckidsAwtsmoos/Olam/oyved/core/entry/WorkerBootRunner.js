@@ -6,11 +6,11 @@
  * Runs Worker vessel boot with visible progress.
  */
 
-import { postPlainWorkerError } from "./PlainWorkerPost.js";
-import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
-import { setWorkerSystemCore } from "./WorkerBootState.js";
-import { runWorkerStage } from "./WorkerProgressTry.js";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
+import { postPlainWorkerError } from "./PlainWorkerPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { setWorkerSystemCore } from "./WorkerBootState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runWorkerStage } from "./WorkerProgressTry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

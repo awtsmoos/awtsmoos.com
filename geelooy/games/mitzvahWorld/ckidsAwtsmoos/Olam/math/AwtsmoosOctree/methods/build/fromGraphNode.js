@@ -10,7 +10,7 @@
  * inner kav first: explicit collision bodies enter even when their owner is a
  * village Nivra. Decorative visuals remain excluded.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const MAX_TRIANGLES_PER_MESH = 10000;
 const SOLID_TYPES = new Set(["SolidBlock", "MovingPlatform"]);

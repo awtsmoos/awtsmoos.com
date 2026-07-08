@@ -1,7 +1,7 @@
 /*
 B"H
 */
-import mouthShapes from "./mouthShapes.js";
+import mouthShapes from "./mouthShapes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class MouthShape {
     mouthShapes = mouthShapes
 

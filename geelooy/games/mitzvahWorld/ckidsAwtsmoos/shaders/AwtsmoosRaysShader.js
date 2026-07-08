@@ -2,7 +2,7 @@
 import {
 	Color,
 	Vector3
-} from '/games/scripts/build/three.module.js';
+} from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * Awtsmoos-rays (crepuscular rays)

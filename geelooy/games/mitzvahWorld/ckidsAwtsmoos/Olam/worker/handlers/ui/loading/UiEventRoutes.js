@@ -1,6 +1,6 @@
 // B"H
 /** UiEventRoutes.js — direct/fallback UI dispatch split from loading logic. */
-import { FALLBACK_ONLY } from "./LoadingUiMath.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { FALLBACK_ONLY } from "./LoadingUiMath.js?compact=true&v=door-roof-target-20260708-bh1";
 
 export function acknowledge(manager, id) {
   if (id && manager.eved) manager.eved.postMessage({ type:"uiEvented", id });

@@ -1,7 +1,7 @@
 
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import Utils from '../../../utils.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Utils from '../../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     getForwardVector() {

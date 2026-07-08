@@ -10,11 +10,11 @@
  * It integrates Ghost generation, Placement, and Collection 
  * into a unified interface for the soul to interact with the world.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import Ghost from "./Ghost.js";
-import Placement from "./Placement.js";
-import Collection from "./Collection.js";
-import * as AWTSMOOS from '../../../../awtsmoosCkidsGames.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Ghost from "./Ghost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Placement from "./Placement.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Collection from "./Collection.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as AWTSMOOS from '../../../../awtsmoosCkidsGames.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     ...Ghost,
@@ -42,7 +42,7 @@ export default {
         const item = this.getActiveItem();
         
         if (item && item.isPainter && !this.olam.natureSystem) {
-             import('../../../../dvarim/nature/natureSystem.js').then(m => {
+             import('../../../../dvarim/nature/natureSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1').then(m => {
                  this.olam.natureSystem = new m.default(this.olam);
              }).catch(e => console.error("B\"H: Failed to load NatureSystem", e));
         }

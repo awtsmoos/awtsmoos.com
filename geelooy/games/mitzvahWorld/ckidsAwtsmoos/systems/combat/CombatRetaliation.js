@@ -1,10 +1,10 @@
 // B"H
 /** @file CombatRetaliation.js @description Species-specific attack-back after player hits wildlife. */
-import { cooldownReady } from "./CombatCooldowns.js";
-import { resolveRetaliationHit } from "./CombatHitResolution.js";
-import { speciesCombatRule } from "./CombatRules.js";
-import { damagePlayer } from "./CombatStats.js";
-import { flashTarget, emitCombatFeedback } from "./CombatFeedback.js";
+import { cooldownReady } from "./CombatCooldowns.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { resolveRetaliationHit } from "./CombatHitResolution.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { speciesCombatRule } from "./CombatRules.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { damagePlayer } from "./CombatStats.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { flashTarget, emitCombatFeedback } from "./CombatFeedback.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function posOf(entity) { return entity?.mesh?.position || entity?.position || null; }
 function distance(a, b) { return a && b ? Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z) : Infinity; }

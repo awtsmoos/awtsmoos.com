@@ -1,6 +1,6 @@
 // B"H
 /** Feature100AudioRuntime: budget-safe audio feature contracts. */
-import { mutateFeature100State, appendFeature100Event } from './Feature100State.js';
+import { mutateFeature100State, appendFeature100Event } from './Feature100State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function remember(bucket, key, value) { return mutateFeature100State(s => { s[bucket] ||= {}; s[bucket][key] = { ...(s[bucket][key] || {}), ...value, at: Date.now() }; return s; }); }
 export function positionalTalk(id = 'positionalTalk', detail = {}) { appendFeature100Event({ domain:'audio', action:'positionalTalk', id, detail }); return remember('audio', id, { action:'positionalTalk', detail }); }
 export function echo(id = 'echo', detail = {}) { appendFeature100Event({ domain:'audio', action:'echo', id, detail }); return remember('audio', id, { action:'echo', detail }); }

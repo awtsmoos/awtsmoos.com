@@ -14,9 +14,9 @@
  * into existence in one breath. This file keeps those mirrors aligned instead
  * of letting old local helpers become rival worlds.
  */
-import { awardMoney } from "../../../../systems/economy/wallet/PersonalPerutaWallet.js";
-import { rewardCreatureDefeat, rewardMissionXp } from "../../../../systems/progression/XpRewardRuntime.js";
-import { logViralGameplay } from "../../../../systems/debug/ViralGameplayLog.js";
+import { awardMoney } from "../../../../systems/economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rewardCreatureDefeat, rewardMissionXp } from "../../../../systems/progression/XpRewardRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { logViralGameplay } from "../../../../systems/debug/ViralGameplayLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function n(value, fallback = 0) { return Number.isFinite(Number(value)) ? Number(value) : fallback; }
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }

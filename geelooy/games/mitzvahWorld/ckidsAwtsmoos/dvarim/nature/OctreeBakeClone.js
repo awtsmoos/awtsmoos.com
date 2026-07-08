@@ -10,7 +10,7 @@
  * no. This helper bakes each child into a temporary world-space clone with no
  * parent, so only the honest collision body is judged.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const ACTIVE_FLAGS = Object.freeze({
   isSolid: true,

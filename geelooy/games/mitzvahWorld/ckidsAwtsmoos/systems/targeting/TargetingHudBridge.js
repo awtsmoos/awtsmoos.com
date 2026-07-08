@@ -1,5 +1,5 @@
 // B"H
-import { classifyTarget } from "./TargetClassifier.js";
+import { classifyTarget } from "./TargetClassifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function targetHudPayload(entity, context = {}) {
   if (!entity) return { selected:false, cleared:true };

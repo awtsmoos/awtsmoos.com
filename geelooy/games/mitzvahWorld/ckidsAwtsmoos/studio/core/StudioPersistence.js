@@ -1,5 +1,5 @@
 // B"H
-import { normalizeWorldProject, serializeWorldProject } from "./StudioState.js";
+import { normalizeWorldProject, serializeWorldProject } from "./StudioState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const DEFAULT_STORAGE_KEY = "mitzvahWorld.worldStudio.project";
 

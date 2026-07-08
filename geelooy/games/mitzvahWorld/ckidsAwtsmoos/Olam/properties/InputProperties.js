@@ -4,7 +4,7 @@
  * Chapter 714: Q leans left, E leans right; the fingers become faithful
  * vessels, and the Awtsmoos reveals motion without contradiction.
  */
-import { Vector2 } from "../rendering/ThreeAdapter.js";
+import { Vector2 } from "../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export const getInputProperties = () => ({
   achbar: new Vector2(),
   keyStates: {},

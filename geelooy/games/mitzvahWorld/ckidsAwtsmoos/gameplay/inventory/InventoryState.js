@@ -1,5 +1,5 @@
 // B"H
-import { createItemStack, itemDefinition } from "../items/ItemDefinitions.js";
+import { createItemStack, itemDefinition } from "../items/ItemDefinitions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createInventoryState() {
   return {

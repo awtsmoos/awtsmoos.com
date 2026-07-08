@@ -1,6 +1,6 @@
 // B"H
 /** @file EquipmentVisualRuntime.js @description Creates visible held objects and records render descriptors. */
-import { buildThreeHeldMesh } from "./ThreeHeldMeshBuilder.js";
+import { buildThreeHeldMesh } from "./ThreeHeldMeshBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export class EquipmentVisualRuntime {
   constructor(runtime) { this.runtime = runtime; this.visuals = new Map(); }
   create(descriptor, THREE = globalThis.THREE) { const object = buildThreeHeldMesh(descriptor, THREE); const record = { id:descriptor.id, itemId:descriptor.itemId, object, descriptor, createdAt:Date.now() }; this.visuals.set(descriptor.id, record); this.runtime?.registerEntity?.({ id:descriptor.id, kind:"equipmentVisual", tags:["equipmentVisual", descriptor.itemId], descriptor }); return record; }

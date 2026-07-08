@@ -4,9 +4,9 @@
  * REFACTORED: Fragmented into sub-modules for extreme modularity.
  */
 
-import { getShlichusData, getNextShlichusData } from './shlichus_logic/methods/data.js';
-import { isShlichusAvailable, isShlichusStarted, isShlichusCompleted } from './shlichus_logic/methods/state.js';
-import { acceptShlichus, completeShlichus, removeShlichus } from './shlichus_logic/methods/actions.js';
+import { getShlichusData, getNextShlichusData } from './shlichus_logic/methods/data.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { isShlichusAvailable, isShlichusStarted, isShlichusCompleted } from './shlichus_logic/methods/state.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { acceptShlichus, completeShlichus, removeShlichus } from './shlichus_logic/methods/actions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default function() {
     // B"H: Data Retrieval

@@ -1,6 +1,6 @@
 // B"H
 /** Tiny optional paste panel for universe JSON. */
-import { installUniverseJsonWindowBridge } from "../../universe/UniverseJsonWindowBridge.js";
+import { installUniverseJsonWindowBridge } from "../../universe/UniverseJsonWindowBridge.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 function el(tag, props = {}) { const node = document.createElement(tag); Object.assign(node, props); return node; }
 export function installUniversePastePanel(win = window, doc = document) {
   installUniverseJsonWindowBridge(win);

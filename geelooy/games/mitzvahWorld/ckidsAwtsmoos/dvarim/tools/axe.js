@@ -1,7 +1,7 @@
 // B"H
 /** @file axe.js @description Axe recognizes only procedural-core tree vessels. */
-import Tool from "../tool.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import Tool from "../tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function isCurrentTreeObject(obj) { let n = obj; while (n) { const data = n.userData || {}; if (data.proceduralCoreTree && data.onlyApprovedTreeSource) return n; if (n.type === 'villageHeroTree' && data.onlyApprovedTreeSource) return n; n = n.parent; } return null; }
 export default class Axe extends Tool {
   constructor(op, olam) { super(op, olam); this.olam = olam; if (!op.golem) this.golem = { guf: { BoxGeometry: [0.1, 1.5, 0.1] }, toyr: { MeshStandardMaterial: { color: "#4e342e" } }, parts: [{ golem: { BoxGeometry: [0.6, 0.4, 0.1] }, toyr: { MeshStandardMaterial: { color: "#9e9e9e", metalness: 0.8, roughness: 0.2 } }, offset: { x: 0.2, y: 0.6, z: 0 } }] }; }

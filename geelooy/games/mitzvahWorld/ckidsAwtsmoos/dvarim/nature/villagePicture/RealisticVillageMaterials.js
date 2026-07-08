@@ -1,7 +1,7 @@
 // B"H
 /** @file RealisticVillageMaterials.js @description Grounded village material API, parser-clear, RAM procedural textures. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { shaderVillageMaterial, warmVillageShaderTextures, getVillageShaderTextureStats } from "./ProceduralShaderTextureLibrary.js?v=awtsmoos-shader-textures-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { shaderVillageMaterial, warmVillageShaderTextures, getVillageShaderTextureStats } from "./ProceduralShaderTextureLibrary.js?compact=true&v=awtsmoos-shader-textures-20260614-bh2";
 const geos = new Map();
 const FLAGS = Object.freeze({ villageDecor:true, skipOctree:true, noOctree:true, skipRaycast:true, realisticVillage:true, ramShaderTexture:true, botanicalShader:true });
 export { warmVillageShaderTextures, getVillageShaderTextureStats };

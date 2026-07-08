@@ -1,5 +1,5 @@
 // B"H
-import { groundStatus } from "./GroundProbe2D.js";
+import { groundStatus } from "./GroundProbe2D.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function findGroundViolations(entities = [], context = {}) {
   const violations = [];

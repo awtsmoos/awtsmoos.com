@@ -3,9 +3,9 @@
  * @file GroundTruth.js
  * @description One terrain law: every road, fence, house, animal, NPC, tree, and collider bows to the same earth.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import TerrainMath from "../../../../../dvarim/terrain/core/TerrainMath.js";
-import { meshGroundHit } from "../../collision/GroundCollisionWorld.js?v=inline-octree-no-worker-import-20260702-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import TerrainMath from "../../../../../dvarim/terrain/core/TerrainMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { meshGroundHit } from "../../collision/GroundCollisionWorld.js?compact=true&v=inline-octree-no-worker-import-20260702-bh1";
 const ray = new THREE.Ray(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
 function num(v, f = 0) { return Number.isFinite(Number(v)) ? Number(v) : f; }
 function lawOf(olam) { return olam && olam.awtsmoosTerrainLaw ? olam.awtsmoosTerrainLaw : null; }

@@ -10,7 +10,7 @@
  * process in an immortal timeout. Thus the loop starts only where a document or
  * window exists, while tests may still create and inspect the runtime directly.
  */
-import { createInfiniteRealismRuntime } from './InfiniteRealismRuntime.js';
+import { createInfiniteRealismRuntime } from './InfiniteRealismRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 const scope = globalThis;
 const hasBrowserVessel = Boolean(scope.window?.document || scope.document);

@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const V1 = new THREE.Vector3(), V2 = new THREE.Vector3(), V3 = new THREE.Vector3();
 const P1 = new THREE.Vector3(), P2 = new THREE.Vector3(), T1 = new THREE.Vector3(), T2 = new THREE.Vector3(), T3 = new THREE.Vector3();
 const PLANE = new THREE.Plane(), LINE1 = new THREE.Line3(), LINE2 = new THREE.Line3(), BOX = new THREE.Box3(), RAY = new THREE.Ray();

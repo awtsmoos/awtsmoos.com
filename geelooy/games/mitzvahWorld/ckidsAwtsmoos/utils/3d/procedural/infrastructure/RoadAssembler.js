@@ -17,9 +17,9 @@
  * ╚══════════════════════════════════════════════════════════════════════════════════╝
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
-import TerrainMath from '../../../../dvarim/terrain/core/TerrainMath.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import TerrainMath from '../../../../dvarim/terrain/core/TerrainMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class RoadAssembler {
     /**

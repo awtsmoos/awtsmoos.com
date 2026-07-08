@@ -7,7 +7,7 @@
  * samples the rail, publishes dialogue/action packets, and only moves the
  * camera when a caller asks with intention.
  */
-import { compileMovieProject, compileMovieScene } from "./MovieTimelineCompiler.js";
+import { compileMovieProject, compileMovieScene } from "./MovieTimelineCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Converts array vector into object vector.

@@ -5,6 +5,6 @@
  * memory, training, profession, reputation, and performance-safe wonder.
  */
 
-import { STARTER_MISSIONS } from './MissionRegistry.js';
+import { STARTER_MISSIONS } from './MissionRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function auditQuestChains(){ const ids=new Set(); const duplicates=[]; for(const m of STARTER_MISSIONS){ if(ids.has(m.id))duplicates.push(m.id); ids.add(m.id); } return { ok:!duplicates.length && STARTER_MISSIONS.every(m=>m.chain&&m.objectives?.length), count:STARTER_MISSIONS.length, duplicates }; }
 export default auditQuestChains;

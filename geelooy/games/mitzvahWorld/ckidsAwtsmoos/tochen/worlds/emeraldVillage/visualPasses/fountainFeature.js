@@ -4,8 +4,8 @@
  * @description Chapter 300: The fountain gives the plaza a second focal sound,
  * even before audio exists.
  */
-import { box, p } from './shapeKit.js';
-import { P } from './palette.js';
+import { box, p } from './shapeKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { P } from './palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function addFountainFeature(n, config) {
   const { x, z } = config.fountain;
   box(n, 'entry_fountain_basin', 'Low fountain basin', p(x, 0.35, z), [5.2, 0.7, 5.2], P.stone, true);

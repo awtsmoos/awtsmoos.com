@@ -1,6 +1,6 @@
 // B"H
 /** @file TreeAuthorityRuntimePolicy.js @description One authoritative tree law: no duplicate blob forests, no hidden old generator resurrection. */
-import { masterRealismPolicy } from '../realism/MasterRealismPolicy.js';
+import { masterRealismPolicy } from '../realism/MasterRealismPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 export const AUTHORITATIVE_TREE_SOURCE = '/libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js';
 export function treeAuthorityRuntimePolicy(budget = globalThis.__MITZVAH_WORLD_PERFORMANCE_BUDGET__) {
   const p = masterRealismPolicy(budget);

@@ -5,18 +5,18 @@
  * wear, terrain, families, NPCs, villages, community, animals, weather, audio,
  * and buildings. Low-level renderers can consume this without guessing.
  */
-import { createWorldStateRuntime } from '../worldState/WorldStateRuntime.js';
-import { createHyperrealSimulationRuntime } from '../simulation/HyperrealSimulationRuntime.js';
-import { createEnvironmentWearRuntime } from '../environment/EnvironmentWearRuntime.js';
-import { createFamilyRuntime } from '../families/FamilyRuntime.js';
-import { createNpcLivingRuntime } from '../npc/NpcLivingRuntime.js';
-import { createVillageLifeRuntime } from '../villages/VillageLifeRuntime.js';
-import { createCommunityRuntime } from '../community/CommunityRuntime.js';
-import { createAnimalEcosystemRuntime } from '../animals/AnimalEcosystemRuntime.js';
-import { createWeatherConsequenceRuntime } from '../weather/WeatherConsequenceRuntime.js';
-import { createAudioEcologyRuntime } from '../audio/AudioEcologyRuntime.js';
-import { createBuildingLifecycleRuntime } from '../buildings/BuildingLifecycleRuntime.js';
-import { createTerrainMemoryRuntime } from '../terrain/TerrainMemoryRuntime.js';
+import { createWorldStateRuntime } from '../worldState/WorldStateRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createHyperrealSimulationRuntime } from '../simulation/HyperrealSimulationRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createEnvironmentWearRuntime } from '../environment/EnvironmentWearRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createFamilyRuntime } from '../families/FamilyRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createNpcLivingRuntime } from '../npc/NpcLivingRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createVillageLifeRuntime } from '../villages/VillageLifeRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createCommunityRuntime } from '../community/CommunityRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createAnimalEcosystemRuntime } from '../animals/AnimalEcosystemRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createWeatherConsequenceRuntime } from '../weather/WeatherConsequenceRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createAudioEcologyRuntime } from '../audio/AudioEcologyRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createBuildingLifecycleRuntime } from '../buildings/BuildingLifecycleRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createTerrainMemoryRuntime } from '../terrain/TerrainMemoryRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 export function createFullHyperrealismRuntime(scope = globalThis) {
   const memory = scope.__MITZVAH_WORLD_MEMORY__;

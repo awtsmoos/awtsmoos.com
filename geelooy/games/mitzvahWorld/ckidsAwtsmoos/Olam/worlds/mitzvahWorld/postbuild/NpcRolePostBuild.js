@@ -1,6 +1,6 @@
 // B"H
 /** @file NpcRolePostBuild.js @description Seals NPC shlichus roles and markers without optional syntax. */
-import { EMERALD_NPC_ROLES, NPC_INTERACTION_SCHEMA } from "../data/manifests/NpcInteractionSchema.js";
+import { EMERALD_NPC_ROLES, NPC_INTERACTION_SCHEMA } from "../data/manifests/NpcInteractionSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function dataOf(child) { if (!child.userData) child.userData = {}; return child.userData; }
 function nivraOf(child) { return child && child.nivraAwtsmoos ? child.nivraAwtsmoos : {}; }
 function roleId(child) { const data = dataOf(child), nivra = nivraOf(child); return data.npcId || data.nefeshId || nivra.id || child.name || null; }

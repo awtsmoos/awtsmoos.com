@@ -4,7 +4,7 @@
  * @description Chapter 262: The NPC stats panel becomes its own parchment,
  * where each middah receives a measured bar.
  */
-import { esc } from './domKit.js';
+import { esc } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const DEFAULT_STATS = Object.freeze({ wisdom: 12, kindness: 14, courage: 10, trade: 7, growth: 16 });
 export function statsHtml(data = {}) {
   const stats = data.npcStats || data.areaStats || DEFAULT_STATS;

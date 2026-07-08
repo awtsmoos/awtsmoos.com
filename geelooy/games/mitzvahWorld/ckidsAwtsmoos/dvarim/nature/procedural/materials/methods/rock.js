@@ -10,7 +10,7 @@
  */
 
 // B"H: The 5 levels of ascent
-import { ROCK_SNIPPETS, getRockUniforms } from '../../../../../shaders/RockShader.js';
+import { ROCK_SNIPPETS, getRockUniforms } from '../../../../../shaders/RockShader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default async function createRock(olam, type = 'granite') {
     console.log("B\"H - 🪨 [Rock Factory] Initiated. Drawing down stone essence...");

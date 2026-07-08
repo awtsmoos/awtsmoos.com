@@ -1,6 +1,6 @@
 // B"H
 /** BrowserFrameTraceHarness: real-browser RAF/long-task proof harness using RuntimeLoopPolicy. */
-import { defer, rafLoop } from './RuntimeLoopPolicy.js';
+import { defer, rafLoop } from './RuntimeLoopPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 const scope = globalThis;
 const KEY = '__MITZVAH_BROWSER_FRAME_TRACE__';
 function safeNow() { return scope.performance?.now?.() ?? Date.now(); }

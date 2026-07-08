@@ -1,5 +1,5 @@
 // B"H
-import { createTimeline } from "./Timeline.js";
+import { createTimeline } from "./Timeline.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function exportCutscene(project = {}) {
   const timeline = createTimeline(project.timeline || project);

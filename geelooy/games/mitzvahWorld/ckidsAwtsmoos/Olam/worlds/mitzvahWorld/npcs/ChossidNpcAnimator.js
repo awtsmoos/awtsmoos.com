@@ -1,37 +1,23 @@
 // B"H
 /**
  * @file ChossidNpcAnimator.js
- * @description Chapter 44: the NPC stops burning frames to pretend at life. Its
- * route is pre-known, its animation breathes rarely, and the player receives the speed.
+ * @description The Awtsmoos gives the chossid one living motion. Real GLB clips
+ * are trusted first; fallback arm bones are used only when no mixer clip exists,
+ * so the NPC cannot be forced into the strange hands-behind-back pose.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-const BAD = /dance|jump|fall|attack/i, MIXER_STEP = .33, FAR_STEP = 1.25, NEAR_SQ = 18 * 18;
-function clipName(item) { return item?.name || ""; }
-function allowed(item) { return !BAD.test(clipName(item)); }
-function clipFor(animations, role) {
-  const rules = role === "walk" ? [/walk/i, /run/i, /move/i] : [/idle/i, /stand/i, /breath/i, /rest/i];
-  for (const rule of rules) { const clip = animations.find(item => rule.test(clipName(item)) && allowed(item)); if (clip) return clip; }
-  return animations.find(allowed) || animations[0] || null;
-}
-function ensureData(bridge) { bridge.userData ||= {}; return bridge.userData; }
-function roleOf(bridge) { return bridge.motionRole || bridge.userData?.motionRole || (bridge.__isWalking ? "walk" : "idle"); }
-function playerNear(bridge) {
-  const a = bridge.mesh?.position, b = (bridge.olam?.chossid || bridge.olam?.player)?.mesh?.position;
-  if (!a || !b) return false; const dx = a.x - b.x, dz = a.z - b.z; return dx * dx + dz * dz < NEAR_SQ;
-}
-function saveRole(bridge, nextRole) { bridge.motionRole = nextRole; ensureData(bridge).motionRole = nextRole; }
-function updateMixer(mixer, dt) { if (mixer?.update) mixer.update(Math.min(.05, Math.max(.001, Number(dt) || 1 / 60))); }
-function installRoute(bridge) {
-  const p = bridge.mesh?.position || { x:0, z:0 }, x = Number(p.x)||0, z = Number(p.z)||0;
-  bridge.precomputedRoute ||= [{ x, z }, { x:x + .001, z }];
-  bridge.routeCursor ||= 0; bridge.__npcLowCost = true; bridge.__awtsmoosSimplePrecomputedNpc = true;
-}
-export function attachChossidNpcAnimator(npc, animations = [], bridge = {}) {
-  const clips = Array.isArray(animations) ? animations : [], mixer = clips.length ? new THREE.AnimationMixer(npc) : null;
-  let role = null, action = null, acc = 0;
-  bridge.mesh = bridge.mesh || npc; bridge.animations = clips; bridge.animationMixer = mixer; installRoute(bridge);
-  bridge.playNpcMotion = nextRole => { if (!mixer || role === nextRole) return; const clip = clipFor(clips, nextRole); if (!clip) return; const next = mixer.clipAction(clip); next.reset().setLoop(THREE.LoopRepeat).fadeIn(.08).play(); next.timeScale = nextRole === "walk" ? .75 : .45; action?.crossFadeTo?.(next, .08, true); action = next; role = nextRole; saveRole(bridge, nextRole); };
-  bridge.heesHawvoos = dt => { acc += Math.min(.1, Number(dt) || 1 / 60); const step = playerNear(bridge) ? MIXER_STEP : FAR_STEP; if (acc < step && !bridge.__forceNpcAnimationTick) return; const delta = acc; acc = 0; bridge.playNpcMotion(roleOf(bridge)); updateMixer(mixer, delta); };
-  bridge.playNpcMotion("idle"); npc.userData ||= {}; npc.userData.npcAnimationClips = clips.map(clipName); npc.userData.npcAnimationMixer = Boolean(mixer); npc.userData.lowCostNpc = true; return bridge;
-}
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=npc-pose-tap-inventory-20260708-bh1";
+const IDLE_RULES=[/idle/i,/stand/i,/neutral/i,/breath/i,/rest/i];
+const WALK_RULES=[/walk/i,/run/i,/move/i];
+const BAD=/dance|jump|fall|attack|death|tpose|bind/i;
+function nameOf(clip){return String(clip?.name||"");}
+function ok(clip){return clip&&!BAD.test(nameOf(clip));}
+function choose(clips,role="idle"){const rules=role==="walk"?WALK_RULES:IDLE_RULES;for(const rule of rules){const clip=clips.find(c=>rule.test(nameOf(c))&&ok(c));if(clip)return clip;}return clips.find(ok)||clips[0]||null;}
+function seconds(dt){const n=Number(dt);if(!Number.isFinite(n)||n<=0)return 1/60;return n>1?Math.min(.08,n/1000):Math.min(.08,n);}
+function side(name){const s=String(name||"").toLowerCase();if(/right|_r\b|\.r\b|\br_/.test(s))return"right";if(/left|_l\b|\.l\b|\bl_/.test(s))return"left";return"";}
+function boneKind(name){const n=String(name||"").toLowerCase(),s=side(n);if(/upper.*arm|arm/.test(n)&&!/fore|lower|hand|finger/.test(n))return s==="right"?"rightArm":"leftArm";if(/fore.*arm|lower.*arm|hand/.test(n))return s==="right"?"rightFore":"leftFore";if(/spine|chest|torso/.test(n))return"spine";return null;}
+function collect(root){const bones=[];root.traverse?.(o=>{if(o.isBone){const kind=boneKind(o.name);if(kind)bones.push({bone:o,kind,base:o.rotation.clone()});}});return bones;}
+function fallbackPose(bones,t){for(const item of bones){const b=item.bone,base=item.base,sway=Math.sin(t*2.1)*.025;if(item.kind==="leftArm"){b.rotation.x=base.x+.18+sway;b.rotation.y=base.y-.04;b.rotation.z=base.z-.34;}else if(item.kind==="rightArm"){b.rotation.x=base.x+.18-sway;b.rotation.y=base.y+.04;b.rotation.z=base.z+.34;}else if(item.kind==="leftFore"){b.rotation.x=base.x-.12;b.rotation.z=base.z-.08;}else if(item.kind==="rightFore"){b.rotation.x=base.x-.12;b.rotation.z=base.z+.08;}else if(item.kind==="spine"){b.rotation.x=base.x+Math.sin(t*1.4)*.01;}}}
+function saveRole(bridge,role){bridge.motionRole=role;bridge.userData||={};bridge.userData.motionRole=role;}
+function installTicker(bridge,npc){if(bridge.__npcAutoTickerInstalled||typeof requestAnimationFrame!=="function")return;bridge.__npcAutoTickerInstalled=true;let last=performance.now();const tick=()=>{if(npc.parent&&bridge.heesHawvoos){const now=performance.now();bridge.heesHawvoos((now-last)/1000);last=now;requestAnimationFrame(tick);}else bridge.__npcAutoTickerInstalled=false;};requestAnimationFrame(tick);}
+export function attachChossidNpcAnimator(npc,animations=[],bridge={}){const clips=Array.isArray(animations)?animations.filter(Boolean):[],mixer=clips.length?new THREE.AnimationMixer(npc):null,bones=collect(npc);let current=null,currentRole=null,time=0;bridge.mesh=bridge.mesh||npc;bridge.animations=clips;bridge.animationMixer=mixer;bridge.__forceNpcAnimationTick=true;bridge.__fallbackNpcBones=bones.length;bridge.playNpcMotion=role=>{const wanted=role==="walk"?"walk":"idle";saveRole(bridge,wanted);if(!mixer)return false;const clip=choose(clips,wanted);if(!clip)return false;if(currentRole===wanted&&current)return true;const next=mixer.clipAction(clip);next.reset();next.setLoop(THREE.LoopRepeat,Infinity);next.enabled=true;next.clampWhenFinished=false;next.setEffectiveWeight(1);next.timeScale=wanted==="walk"?.78:.62;if(current)current.crossFadeTo(next,.12,true);else next.fadeIn(.03);next.play();current=next;currentRole=wanted;bridge.currentAction=next;return true;};bridge.heesHawvoos=dt=>{const d=seconds(dt);time+=d;const hasClip=bridge.playNpcMotion(bridge.__isWalking?"walk":"idle");if(mixer)mixer.update(d);if(!hasClip)fallbackPose(bones,time);if(npc.position)npc.position.y+=(Math.sin(time*2)-Math.sin((time-d)*2))*.002;bridge.__npcAnimationStats={at:Date.now(),clip:current?._clip?.name||null,mixerTime:mixer?.time||0,actionTime:current?.time||0,fallbackBones:bones.length,fallbackPoseApplied:!hasClip,autoTicker:!!bridge.__npcAutoTickerInstalled,seal:"npc-real-clip-no-forced-arms-behind-back-20260708-bh1"};globalThis.__MITZVAH_NPC_ANIMATION_PROOF__=()=>bridge.__npcAnimationStats;};bridge.playNpcMotion("idle");installTicker(bridge,npc);Object.assign(npc.userData||={}, {npcAnimationClips:clips.map(nameOf),npcAnimationMixer:Boolean(mixer),npcIdleAnimationStarted:Boolean(current),npcFallbackBones:bones.length,npcFallbackPoseOnlyWithoutClip:true,npcAnimationSeal:"npc-real-clip-no-forced-arms-behind-back-20260708-bh1"});console.info('B"H | NPC_IDLE_ANIMATION_PROOF',{clips:clips.map(nameOf),started:Boolean(current),fallbackBones:bones.length,fallbackOnlyWithoutClip:true,autoTicker:true});return bridge;}
 export default attachChossidNpcAnimator;

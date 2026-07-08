@@ -1,0 +1,94 @@
+/* B"H — final click covenant: only real controls catch the finger. */
+body:has(.geelooy-profile-shell) {
+  background: #06111f;
+}
+body:has(.geelooy-profile-shell) :is([hidden], .hidden) {
+  display: none !important;
+  pointer-events: none !important;
+}
+body:has(.geelooy-profile-shell) .awtsmoos-dropdown-backdrop {
+  display: none !important;
+  pointer-events: none !important;
+}
+.geelooy-profile-shell {
+  isolation: isolate;
+  margin-top: .85rem !important;
+  padding-top: clamp(4.6rem, 11vw, 5.7rem);
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+}
+.geelooy-profile-shell::before,
+.geelooy-profile-shell::after,
+.profile-hero-card::before,
+.profile-hero-card::after,
+.profile-command-panel::before,
+.profile-command-panel::after,
+.profile-bottom-nav::before,
+.profile-bottom-nav::after {
+  pointer-events: none !important;
+}
+.geelooy-profile-shell :is(a, button, input, select, textarea, summary, [role="button"], [tabindex]) {
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+.profile-hero-card,
+.profile-command-panel {
+  background: #101d21 !important;
+  overflow: visible !important;
+  position: relative;
+}
+.profile-stat-grid article,
+.profile-inline-actions :is(button,a),
+.profile-command-rail a,
+.profile-tabs button,
+.panel-title-row a {
+  background: #17282d !important;
+  color: #f8fafc !important;
+}
+.profile-action-drawer[hidden] {
+  display: none !important;
+  pointer-events: none !important;
+}
+.profile-action-drawer {
+  background: #07111d !important;
+  border-color: rgba(117,231,244,.34) !important;
+  color: #f8fafc !important;
+  z-index: 2600 !important;
+}
+.profile-bottom-nav {
+  background: #07111d !important;
+  border-color: rgba(117,231,244,.28) !important;
+  bottom: max(.6rem, env(safe-area-inset-bottom)) !important;
+  left: max(.7rem, env(safe-area-inset-left)) !important;
+  right: max(.7rem, env(safe-area-inset-right)) !important;
+  z-index: 1800 !important;
+}
+.profile-bottom-nav a {
+  border-radius: 999px !important;
+  min-height: 48px !important;
+}
+body:has(.geelooy-profile-shell) .awtsmoosificationalisticaticalism {
+  left: 50%;
+  position: fixed !important;
+  top: max(.25rem, env(safe-area-inset-top));
+  transform: translateX(-50%);
+  z-index: 3200 !important;
+}
+body:has(.geelooy-profile-shell) .awtsmoosDrop .dropdown-content {
+  background: #050915 !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 3300 !important;
+}
+body:has(.geelooy-profile-shell) .sidebarMitzvah:not(.offscreen) {
+  background: #050915 !important;
+  opacity: 1 !important;
+  z-index: 3150 !important;
+}
+@media (max-width: 430px) {
+  .geelooy-profile-shell { padding-top: 5.25rem; }
+  .profile-inline-actions { gap: .5rem; }
+  .profile-inline-actions :is(button,a) { min-height: 48px; width: 100%; }
+  .profile-stat-grid { grid-template-columns: 1fr; }
+}

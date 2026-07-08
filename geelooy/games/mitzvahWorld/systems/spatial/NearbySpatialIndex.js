@@ -1,7 +1,7 @@
 // B"H
-import { boxFromCenter, tmpBox } from './SpatialMath.js';
-import LocalizedSpatialHash from './LocalizedSpatialHash.js';
-import StaticOctree from './StaticOctree.js';
+import { boxFromCenter, tmpBox } from './SpatialMath.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import LocalizedSpatialHash from './LocalizedSpatialHash.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import StaticOctree from './StaticOctree.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 /** One gate for nearby static solids and moving life. */
 export class NearbySpatialIndex {

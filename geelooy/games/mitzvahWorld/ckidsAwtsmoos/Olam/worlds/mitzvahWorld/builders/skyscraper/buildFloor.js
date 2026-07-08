@@ -7,7 +7,7 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import { makeWall, makeWindow } from '../wallUtils.js';
+import { makeWall, makeWindow } from '../wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * @function buildFloor

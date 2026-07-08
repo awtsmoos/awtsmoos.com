@@ -6,11 +6,11 @@
  * Layered Lambert/basic hills and haze planes create the screenshot's depth:
  * warm horizon, far mountains, and soft sky glow, all WebGL-safe.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { finite as n } from "../../../../../libs/awtsmoos3d/math.js";
-import { markDecorative } from "../../../../../libs/awtsmoos3d/decor.js";
-import { basicGlow } from "../../../../../libs/awtsmoos3d/lambert.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { finite as n } from "../../../../../libs/awtsmoos3d/math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { markDecorative } from "../../../../../libs/awtsmoos3d/decor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { basicGlow } from "../../../../../libs/awtsmoos3d/lambert.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function hillShape(width, height, color) {
   const shape = new THREE.Shape();

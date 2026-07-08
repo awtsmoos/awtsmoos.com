@@ -6,7 +6,7 @@
  * A single "Letter" of the field. A blade of grass is formed from a simple plane, 
  * but carved with a mathematical curve to catch the light of the sun.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class GrassBladeGeometry {
     /**

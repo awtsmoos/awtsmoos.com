@@ -13,10 +13,10 @@ function awtsmoosNotice(message) {
  * Chapter 175: The level board has two gates now. JSON ladders open challenge
  * chambers; the Emerald card routes to the living district module itself.
  */
-import { LevelDataMap } from "./levelSelect/LevelDataMap.js?v=emerald-card-living-district-20260607-bh174";
-import { LevelCardGenerator } from "./levelSelect/LevelCardGenerator.js?v=sealed-cards-20260604-bh397";
+import { LevelDataMap } from "./levelSelect/LevelDataMap.js?compact=true&v=emerald-card-living-district-20260607-bh174";
+import { LevelCardGenerator } from "./levelSelect/LevelCardGenerator.js?compact=true&v=sealed-cards-20260604-bh397";
 const LEVEL_BASE = "../../../../../levels/ladder/data/";
-const EMERALD_ROUTE = "/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/emerald.js";
+const EMERALD_ROUTE = "/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/emerald.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const FALLBACK_LEVEL = "ladder-1.json";
 const allowedLevelIds = new Set(LevelDataMap.map(level => level.id));
 function seal(event) { event?.preventDefault?.(); event?.stopPropagation?.(); event?.stopImmediatePropagation?.(); }

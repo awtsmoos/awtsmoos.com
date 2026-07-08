@@ -2,7 +2,7 @@
  * B"H
  * instructions to give
  */
-import btnBubble from "./resources/btnBubble.js";
+import btnBubble from "./resources/btnBubble.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default {
     shaym: "instructions",
     awtsmoosClick: true,

@@ -3,10 +3,10 @@
  * @file AngelicInvoker.js
  * @description Loads core worker vessels, validates them, and announces readiness.
  */
-import { ErrorHandler } from "./ErrorHandler.js";
-import { importAngelicVesselsInOrder } from "./AngelicVesselImports.js?v=repair-ground-material-20260708-bh2";
-import { makeSystemCore } from "./SystemCoreValidator.js";
-import { postWorkerProtocol, postWorkerProgress } from "../protocol/WorkerProtocol.js";
+import { ErrorHandler } from "./ErrorHandler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { importAngelicVesselsInOrder } from "./AngelicVesselImports.js?compact=true&v=repair-ground-material-20260708-bh2";
+import { makeSystemCore } from "./SystemCoreValidator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { postWorkerProtocol, postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /** B"H boot invoker for the worker's core Olam and utility vessels. */
 export class AngelicInvoker {

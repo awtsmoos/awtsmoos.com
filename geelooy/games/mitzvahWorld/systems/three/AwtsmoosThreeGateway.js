@@ -1,7 +1,7 @@
 // B"H
 /** Single THREE import gateway for new systems; old code migrates here gradually. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { createProceduralThreeMesh } from "../../../libs/awtsmoos-procedural-core/src/adapters/three/index.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { createProceduralThreeMesh } from "../../../libs/awtsmoos-procedural-core/src/adapters/three/index.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 export { THREE };
 export function awtsmoosThree() { return THREE; }
 export function createAwtsmoosMesh(config) { return createProceduralThreeMesh(THREE, config); }

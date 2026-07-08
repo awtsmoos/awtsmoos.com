@@ -5,7 +5,7 @@
  * extruded button template
  */
 
-import btnBubble from "./btnBubble.js";
+import btnBubble from "./btnBubble.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default (opts={})=>{
     var ob = {
         ...(

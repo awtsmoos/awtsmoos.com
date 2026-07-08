@@ -1,6 +1,6 @@
 // B"H
 /** Feature49HousingRuntime: personality interiors and visible renovations. */
-import { mutateFeature49State } from './Feature49State.js';
+import { mutateFeature49State } from './Feature49State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function interiorForOwner(owner = { id:'owner', traits:['kind'] }) {
   const traits = owner.traits || [];
   return { ownerId: owner.id, books: traits.includes('learner') ? 12 : 3, tools: traits.includes('builder') ? 8 : 1, candles: traits.includes('warm') ? 6 : 2, color: traits.includes('humble') ? 'soft-earth' : 'village-blue' };

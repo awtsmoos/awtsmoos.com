@@ -5,8 +5,8 @@
  * Constructor option purification. The Awtsmoos separates raw user intention
  * from the clean values required to birth an interactive villager.
  */
-import { GUIDE_MODEL, numberOr } from "./InteractiveNpcConstants.js?v=npc-split-20260628-bh1";
-import { guideCarrierGolem } from "./InteractiveNpcGeometry.js?v=npc-split-20260628-bh1";
+import { GUIDE_MODEL, numberOr } from "./InteractiveNpcConstants.js?compact=true&v=npc-split-20260628-bh1";
+import { guideCarrierGolem } from "./InteractiveNpcGeometry.js?compact=true&v=npc-split-20260628-bh1";
 
 export function cleanInteractiveNpcOptions(options = {}) {
   const realModelRequested = options.useRealNpcModel === true;

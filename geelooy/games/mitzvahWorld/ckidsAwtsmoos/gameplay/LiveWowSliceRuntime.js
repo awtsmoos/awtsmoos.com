@@ -1,19 +1,19 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js";
-import { createPlayerState } from "./player/PlayerState.js";
-import { createInventoryState, equipItem } from "./inventory/InventoryState.js";
-import { createQuestState, acceptNextQuest, turnInReadyQuest } from "./quests/QuestState.js";
-import { createCombatRuntime } from "./combat/CombatRuntime.js";
-import { collectCorpse } from "./loot/CorpseLootRuntime.js";
-import { buyVendorItem, listVendor, sellVendorLoot } from "./vendors/VendorRuntime.js";
-import { listTrainerAbilities, learnAbility } from "./trainers/TrainerRuntime.js";
-import { createDoorRegistry } from "./doors/DoorRegistry.js";
-import { openDoor } from "./doors/DoorInteractionRuntime.js";
-import { createWowHudRuntime } from "./ui/WowHudRuntime.js";
-import { createRealisticAnimalMesh } from "./animals/RealisticAnimalFactory.js";
-import { installLiveGameplayProofApi } from "./proof/LiveGameplayProofApi.js";
-import { createRuntimeActionJournal } from "../platform/RuntimeActionJournal.js";
-import { normalizePlatformActionName } from "../platform/MitzvahPlatformCatalog.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createPlayerState } from "./player/PlayerState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createInventoryState, equipItem } from "./inventory/InventoryState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createQuestState, acceptNextQuest, turnInReadyQuest } from "./quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createCombatRuntime } from "./combat/CombatRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { collectCorpse } from "./loot/CorpseLootRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buyVendorItem, listVendor, sellVendorLoot } from "./vendors/VendorRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { listTrainerAbilities, learnAbility } from "./trainers/TrainerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createDoorRegistry } from "./doors/DoorRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { openDoor } from "./doors/DoorInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createWowHudRuntime } from "./ui/WowHudRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createRealisticAnimalMesh } from "./animals/RealisticAnimalFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { installLiveGameplayProofApi } from "./proof/LiveGameplayProofApi.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createRuntimeActionJournal } from "../platform/RuntimeActionJournal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { normalizePlatformActionName } from "../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function shouldInstall() {
   const params = new URLSearchParams(location.search);

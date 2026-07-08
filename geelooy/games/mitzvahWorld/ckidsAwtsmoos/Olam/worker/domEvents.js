@@ -1,9 +1,9 @@
 // B"H
 /** @module DomEventsUnified @description Keyboard, mouse, and real multi-touch input binding. */
-import KeyboardEmissary from "./input/KeyboardEmissary.js?v=npc-scroll-pass-through-20260609-bh638";
-import MouseEmissary from "./input/MouseEmissary.js?v=npc-scroll-pass-through-20260609-bh638";
-import TouchOrchestrator from "./input/TouchOrchestrator.js?v=pinch-camera-zoom-20260706-bh1";
-import { measureRenderViewport } from "../../divine_systems/render/core/PixelRatioGovernor.js?v=native-crisp-20260622-bh1";
+import KeyboardEmissary from "./input/KeyboardEmissary.js?compact=true&v=npc-scroll-pass-through-20260609-bh638";
+import MouseEmissary from "./input/MouseEmissary.js?compact=true&v=npc-scroll-pass-through-20260609-bh638";
+import TouchOrchestrator from "./input/TouchOrchestrator.js?compact=true&v=pinch-camera-zoom-20260706-bh1";
+import { measureRenderViewport } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
 const SEAL = "dom-events-multitouch-20260702-bh8";
 
 export default function setupDomEvents(manager) {

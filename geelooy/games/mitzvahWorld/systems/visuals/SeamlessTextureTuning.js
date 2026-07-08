@@ -1,7 +1,7 @@
 // B"H
 /** @file SeamlessTextureTuning.js @description Hyperreal ping-pong texture fitting for live scene materials. */
-import { applyTexturePolicy, applyMaterialPolicy } from './HyperrealTexturePolicy.js';
-import { stampDetailIntent } from './MaterialDetailLayers.js';
+import { applyTexturePolicy, applyMaterialPolicy } from './HyperrealTexturePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { stampDetailIntent } from './MaterialDetailLayers.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 const MAP_KEYS=Object.freeze(['map','normalMap','roughnessMap','metalnessMap','bumpMap','alphaMap','aoMap','emissiveMap','specularMap','displacementMap']);
 function eachMaterial(object,visit){const mats=Array.isArray(object?.material)?object.material:[object?.material];for(const material of mats)if(material)visit(material,object)}
 function label(object,material,texture){return[object?.name,object?.type,object?.userData?.kind,object?.userData?.species,material?.name,texture?.name,texture?.userData?.kind,texture?.source?.data?.src].filter(Boolean).join(' ')}

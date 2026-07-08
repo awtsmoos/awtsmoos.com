@@ -10,9 +10,9 @@
  * ║  A modular, extensible engine for evaluating JSON-based logic.           ║
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
-import mathOps from './math.js';
-import logicOps from './logic.js';
-import coreOps from './core.js';
+import mathOps from './math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import logicOps from './logic.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import coreOps from './core.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class ExpressionParser {
     static operations = {

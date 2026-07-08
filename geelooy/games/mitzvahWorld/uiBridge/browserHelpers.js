@@ -10,9 +10,9 @@
  * Awtsmoos lets each lantern be found by an absolute path so Chrome receives
  * JavaScript, not a route-error scroll wearing the wrong MIME cloak.
  */
-import { UI_BRIDGE_SEAL } from "./bridgeSeal.js";
-import { safeClone } from "./safeClone.js";
-import { olamOf } from "./worldMarkers.js";
+import { UI_BRIDGE_SEAL } from "./bridgeSeal.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { safeClone } from "./safeClone.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { olamOf } from "./worldMarkers.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const GAME_ROOT = "/games/mitzvahWorld/";
 

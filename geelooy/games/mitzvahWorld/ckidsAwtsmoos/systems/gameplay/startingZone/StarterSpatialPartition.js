@@ -1,5 +1,5 @@
 // B"H
-import { dist } from "./StarterMath.js";
+import { dist } from "./StarterMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Tiny spatial hash standing in front of heavier octree/raycast systems.

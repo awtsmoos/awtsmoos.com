@@ -1,6 +1,6 @@
 // B"H
 /** @file LivingRegionStats.js @description Tiny proof ledger for the living runtime. */
-import { DEFERRED_LAYERS } from "./LivingRegionLayers.js?v=perf-tight-collision-20260703-bh2";
+import { DEFERRED_LAYERS } from "./LivingRegionLayers.js?compact=true&v=perf-tight-collision-20260703-bh2";
 
 export function collectLivingStats(root, report, timings) {
   const stats = {

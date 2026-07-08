@@ -3,8 +3,8 @@
  * B"H
  * Placeholder and Entity Logic Main Entry
  */
-import placeholders from "./placeholders.js";
-import entities from "./entities.js";
+import placeholders from "./placeholders.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import entities from "./entities.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class PlaceholderAndEntities {
     async doPlaceholderAndEntityLogic(nivra) {

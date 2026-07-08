@@ -1,7 +1,7 @@
 // B"H
 /** @file npcPortraitRenderer.js @description Chapter 440: Renders the right-side guide portrait panel. */
-import { GUIDE_PORTRAIT } from './npcPortraitData.js';
-import { PORTRAIT_CSS } from './npcPortraitCss.js';
+import { GUIDE_PORTRAIT } from './npcPortraitData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { PORTRAIT_CSS } from './npcPortraitCss.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function renderNpcPortrait(data = GUIDE_PORTRAIT) {
   document.getElementById('emerald-npc-portrait-style')?.remove();
   const style = document.createElement('style'); style.id = 'emerald-npc-portrait-style'; style.textContent = PORTRAIT_CSS; document.head.appendChild(style);

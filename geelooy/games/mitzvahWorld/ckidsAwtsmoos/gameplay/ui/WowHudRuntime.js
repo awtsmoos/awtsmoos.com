@@ -1,9 +1,9 @@
 // B"H
-import { NPCS } from "../npcs/NpcIdentity.js";
-import { markerForNpc, questTrackerRows } from "../quests/QuestState.js";
-import { listVendor } from "../vendors/VendorRuntime.js";
-import { listTrainerAbilities } from "../trainers/TrainerRuntime.js";
-import { doorState } from "../doors/DoorInteractionRuntime.js";
+import { NPCS } from "../npcs/NpcIdentity.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { markerForNpc, questTrackerRows } from "../quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { listVendor } from "../vendors/VendorRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { listTrainerAbilities } from "../trainers/TrainerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { doorState } from "../doors/DoorInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createWowHudRuntime(ctx) {
   const root = document.createElement("div");

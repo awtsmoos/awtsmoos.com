@@ -4,8 +4,8 @@
  * @description Chapter 454: the flying letters no longer interrogate the whole
  * world. The Awtsmoos bends their search into a nearby circle of sparks.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { queryDynamicCircle } from '../../../../systems/spatial/DynamicSpatialWorld.js?v=dynamic-spatial-world-20260617-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { queryDynamicCircle } from '../../../../systems/spatial/DynamicSpatialWorld.js?compact=true&v=dynamic-spatial-world-20260617-bh1';
 
 const SPHERE_RADIUS = 0.2;
 const sphereGeometry = new THREE.IcosahedronGeometry(SPHERE_RADIUS, 5);

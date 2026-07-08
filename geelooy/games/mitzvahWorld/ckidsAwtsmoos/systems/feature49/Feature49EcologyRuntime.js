@@ -1,6 +1,6 @@
 // B"H
 /** EcologyRuntime: farming seasons, wildlife, birds, animals, trees. */
-import { mutateFeature49State } from './Feature49State.js';
+import { mutateFeature49State } from './Feature49State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function plantSeasonalCrop(plot='starter_plot', crop='wheat', season='spring'){ return mutateFeature49State(s=>{ s.crops ||= {}; s.crops[plot]={crop,season,plantedAt:Date.now(),growth:0}; return s; }); }
 export function advanceTreeGrowth(id='oak_1', months=1){ return mutateFeature49State(s=>{ s.trees ||= {}; s.trees[id]=(s.trees[id]||0)+months; return s; }); }
 export function migrateWildlife(species='deer', zone='orchard'){ return mutateFeature49State(s=>{ s.wildlife ||= {}; s.wildlife[species]={zone,movedAt:Date.now()}; return s; }); }

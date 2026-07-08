@@ -1,7 +1,7 @@
 // B"H
 /** @file QuestRewards.js @description Quest reward delivery. */
-import { addBagItem } from "../inventory/BagRuntime.js";
-import { awardMoney, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js";
+import { addBagItem } from "../inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function grantQuestReward(olam, quest) {
   const reward = quest?.reward || {};

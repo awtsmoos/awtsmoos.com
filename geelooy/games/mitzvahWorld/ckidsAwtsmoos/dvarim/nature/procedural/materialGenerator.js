@@ -10,8 +10,8 @@
  * ╚══════════════════════════════════════════════════════════════════════════════════╝
  */
 
-import { getFactory } from './materials/registry/index.js';
-import getWindInjection from './materials/methods/wind.js';
+import { getFactory } from './materials/registry/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import getWindInjection from './materials/methods/wind.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     /** @type {Object} Cached materials for singleton reuse */

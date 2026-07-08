@@ -1,7 +1,7 @@
 // B"H
 /** @file SpiritHealerRuntime.js @description Solo corpse-run recovery: spirit healer panel, corpse range check, graveyard resurrection, and clear HUD choices. */
-import { ensureDeathState, resurrectAtCorpse } from "./DeathRuntime.js";
-import { graveyardById } from "./GraveyardRegistry.js";
+import { ensureDeathState, resurrectAtCorpse } from "./DeathRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { graveyardById } from "./GraveyardRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || olam || {}; }
 function posOf(x) { return x?.mesh?.position || x?.position || x || {}; }
 function dist(a, b) { return Math.hypot((posOf(a).x || 0) - (posOf(b).x || 0), (posOf(a).z || 0) - (posOf(b).z || 0)); }

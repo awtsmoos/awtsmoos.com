@@ -5,15 +5,15 @@
  * NPC, delivery, trainer, profession, combat signal, and hearth. It uses the
  * same event bridge as gameplay, so the test proves the integration surface.
  */
-import { resetLivingWorldState, loadLivingWorldState } from '../livingWorld/LivingWorldState.js';
-import { ensureStarterExperience } from './StartingExperienceRuntime.js';
-import { installStarterSignalBridge } from './StarterSignalBridge.js';
-import { openNpcInteraction } from '../npc/NpcInteractionRuntime.js';
-import { performDelivery } from '../missions/DeliveryRuntime.js';
-import { createTrainerRuntime } from '../trainers/TrainerRuntime.js';
-import { trainProfession } from '../professions/ProfessionTrainingRuntime.js';
-import { craftItem } from '../professions/ProfessionRuntime.js';
-import { bindHearth } from '../social/HearthRuntime.js';
+import { resetLivingWorldState, loadLivingWorldState } from '../livingWorld/LivingWorldState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { ensureStarterExperience } from './StartingExperienceRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { installStarterSignalBridge } from './StarterSignalBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { openNpcInteraction } from '../npc/NpcInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { performDelivery } from '../missions/DeliveryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createTrainerRuntime } from '../trainers/TrainerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { trainProfession } from '../professions/ProfessionTrainingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { craftItem } from '../professions/ProfessionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { bindHearth } from '../social/HearthRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function baseScope() {
   return typeof globalThis !== 'undefined' ? globalThis : {};

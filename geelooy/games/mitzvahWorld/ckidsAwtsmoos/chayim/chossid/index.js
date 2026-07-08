@@ -1,16 +1,16 @@
 // B"H
-/** @module Chossid @description Player body with fresh grass/chossid animation runtime chain. */
-import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=grass-chossid-stepwise-20260707-bh1";
-import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import controlMethods from './methods/controls.js?v=no-compact-engine-20260702-bh2';
-import interactionMethods from './methods/interaction.js?v=perf-tight-collision-20260703-bh6';
-import lifecycleMethods from './methods/lifecycle.js?v=grass-chossid-stepwise-20260707-bh1';
-import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
-import updateMethods from './methods/update.js?v=no-compact-engine-20260702-bh2';
-import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
-import { ensurePlayerLevel } from '../../systems/progression/PlayerLevelRuntime.js';
-import { isAttackableTarget } from './methods/ClickTargetPolicy.js?v=click-target-policy-20260629-bh1';
+/** @module Chossid @description Player body with explicit GLB mixer advancement and real visible chossid runtime chain. */
+import InventoryManager from '../../systems/InventoryManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Chai from "../chai/index.js?compact=true&v=history-animation-compact-top-20260708-bh10";
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import controlMethods from './methods/controls.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import interactionMethods from './methods/interaction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import lifecycleMethods from './methods/lifecycle.js?compact=true&v=grass-chossid-stepwise-20260707-bh1';
+import visualMethods from './methods/visuals.js?compact=true&v=lean-l1-20260528-bh36';
+import updateMethods from './methods/update.js?compact=true&v=history-animation-compact-top-20260708-bh10';
+import inventorySetupMethods from './methods/inventory-setup.js?compact=true&v=lean-l1-20260528-bh36';
+import { ensurePlayerLevel } from '../../systems/progression/PlayerLevelRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { isAttackableTarget } from './methods/ClickTargetPolicy.js?compact=true&v=click-target-policy-20260629-bh1';
 function leanGolem() { return { guf: { BoxGeometry: [0.9, 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: 0x1f6fff } } }; }
 function makeInventory(chossid) { const inventory = new InventoryManager(chossid); inventory.equipment ||= {}; inventory.slots ||= []; inventory.actionSlots ||= []; return inventory; }
 function numberOr(value, fallback) { return Number.isFinite(Number(value)) ? Number(value) : fallback; }

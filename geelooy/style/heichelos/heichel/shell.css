@@ -1,21 +1,45 @@
-/* B"H fast shell: parchment without jank. */
-.heichel-os-document { margin: 0; background: var(--g-bg); }
-.heichel-os-page { min-height: 100dvh; background: var(--heichel-bg); }
+/* B"H fast shell: one scroll river, no ghost panels. */
+.heichel-os-document {
+  background: var(--g-bg);
+  margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.heichel-os-page {
+  background: var(--heichel-bg);
+  min-height: 100dvh;
+  overflow-x: clip;
+  overflow-y: auto;
+}
 .heichel-mobile-navigation {
   --heichel-topbar-height: 4.15rem;
-  min-height: 100dvh; color: var(--heichel-ink); position: relative; overflow-x: clip;
-  padding-bottom: max(var(--floating-clearance), calc(env(safe-area-inset-bottom) + var(--floating-clearance)));
   background: var(--heichel-bg);
+  color: var(--heichel-ink);
   font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
+  min-height: 100dvh;
+  overflow-x: clip;
+  overflow-y: auto;
+  padding-bottom: max(var(--floating-clearance), calc(env(safe-area-inset-bottom) + var(--floating-clearance)));
+  position: relative;
 }
 .heichel-mobile-navigation .geelooy-main-stage {
-  width: min(100%, 82rem); margin-inline: auto; display: grid; gap: clamp(.85rem, 2vw, 1.25rem);
+  display: grid;
+  gap: clamp(.85rem, 2vw, 1.25rem);
+  margin-inline: auto;
   padding: calc(var(--heichel-topbar-height) + clamp(.8rem, 2vw, 1.25rem)) clamp(.75rem, 2.4vw, 1.45rem) clamp(7rem, 14vh, 9rem);
+  width: min(100%, 82rem);
 }
 .heichel-mobile-navigation .heichel-nav-panel {
-  position: relative; display: grid; gap: clamp(.8rem, 1.8vw, 1.1rem); padding: clamp(.75rem, 1.8vw, 1.15rem);
-  border: 1px solid var(--heichel-line); border-radius: var(--heichel-radius-large); background: rgba(12,18,34,.78);
-  box-shadow: var(--heichel-shadow-soft); contain: layout paint style;
+  background: #0b1222;
+  border: 1px solid var(--heichel-line);
+  border-radius: var(--heichel-radius-large);
+  box-shadow: var(--heichel-shadow-soft);
+  contain: layout paint style;
+  display: grid;
+  gap: clamp(.8rem, 1.8vw, 1.1rem);
+  padding: clamp(.75rem, 1.8vw, 1.15rem);
+  position: relative;
 }
 .heichel-mobile-navigation .hidden,
 .heichel-mobile-navigation .hidden-void { display: none !important; }

@@ -1,6 +1,6 @@
 // B"H
 /** @file CarcassRuntime.js @description Non-graphic carcass interaction state and UI payloads. */
-import { animalKosherData } from "./KosherAnimalIndex.js";
+import { animalKosherData } from "./KosherAnimalIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function posOf(x) { return x?.mesh?.position || x?.position || { x:0, z:0 }; }
 function dist(a, b) { return Math.hypot((a.x || 0) - (b.x || 0), (a.z || 0) - (b.z || 0)); }

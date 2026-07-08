@@ -1,6 +1,6 @@
 // B"H
 /** @file ProceduralAnimalSurface.js @description One-piece procedural animal surface, not a SphereGeometry bead. */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const CACHE = new Map();
 function torsoOf(profile) { const body = profile?.body || {}; return body.torso || [.75,.38,1.15]; }
 function push(v,x,y,z){v.push(x,y,z);} function idx(i,a,b,c){i.push(a,b,c);}

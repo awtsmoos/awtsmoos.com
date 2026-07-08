@@ -12,7 +12,7 @@
  * the resulting soul-bonuses to the character's attributes.
  */
 
-import { TORAH_LIBRARY } from '../tochen/torah/library/TorahLibrary.js';
+import { TORAH_LIBRARY } from '../tochen/torah/library/TorahLibrary.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class StudyManager {
     constructor(chossid) {

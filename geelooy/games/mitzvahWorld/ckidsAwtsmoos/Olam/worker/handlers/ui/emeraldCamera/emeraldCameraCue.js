@@ -4,7 +4,7 @@
  * @description Chapter 508: A camera cue is rendered as a short cinematic label
  * and stored for any active camera controller to consume.
  */
-import { rememberEmeraldCameraCue } from './emeraldCameraState.js';
+import { rememberEmeraldCameraCue } from './emeraldCameraState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function showEmeraldCameraCue(payload = {}) {
   const cue = rememberEmeraldCameraCue(payload.camera || {});
   document.getElementById('emerald-camera-cue')?.remove();

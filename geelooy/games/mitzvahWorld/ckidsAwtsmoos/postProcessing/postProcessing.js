@@ -3,11 +3,11 @@
  */
 
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
-//import DepthOfField from '../shaders/TestBasic.js';
-import DepthOfField from '../shaders/TestDepth.js';
-//import DepthOfField from '../shaders/DepthOfField.js';
+//import DepthOfField from '../shaders/TestBasic.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import DepthOfField from '../shaders/TestDepth.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+//import DepthOfField from '../shaders/DepthOfField.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class PostProcessingManager {
     width;

@@ -1,6 +1,6 @@
 // B"H
-import { ACTION_ALIASES, ANIMAL_RULES, CANONICAL_ACTIONS, CHOSSID_GLB_INSPECTION, platformActionNames } from "../../platform/MitzvahPlatformCatalog.js";
-import { WEAPON_ACTIONS } from "../../equipment/runtime/WeaponActionCatalog.js";
+import { ACTION_ALIASES, ANIMAL_RULES, CANONICAL_ACTIONS, CHOSSID_GLB_INSPECTION, platformActionNames } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { WEAPON_ACTIONS } from "../../equipment/runtime/WeaponActionCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const DEFAULT_CUSTOM_MOVIE_ACTIONS = Object.freeze([
   { id:"walkAndTalk", label:"Walk And Talk", source:"custom", target:"talkHands", clip:"walk_Armature", speech:true, rootMotion:true },

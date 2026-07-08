@@ -7,8 +7,8 @@
  * These hazards stay visually molten, but the palette is now dark crust with
  * amber veins and Lambert lighting. Collision remains exact squared-sphere math.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const now = () => (globalThis.performance?.now?.() || Date.now()) / 1000;
 const playerPos = player => player?.mesh?.position || player?.modelMesh?.position || null;

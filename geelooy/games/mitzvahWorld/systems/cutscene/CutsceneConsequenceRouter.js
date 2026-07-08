@@ -1,5 +1,5 @@
 // B"H
-import { cinematicPacket } from "./packets/CinematicPacket.js";
+import { cinematicPacket } from "./packets/CinematicPacket.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 export function routeConsequenceBeat(beat = {}) {
   const p = beat.payload || beat;

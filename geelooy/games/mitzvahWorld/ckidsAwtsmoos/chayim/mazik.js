@@ -9,8 +9,8 @@
  * But every swing of the Hebrew blade,
  * Refines the sparks in the darkness arrayed!
  */
-import Medabeir from "./medabeir/index.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import Medabeir from "./medabeir/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Mazik extends Medabeir {
     type = "mazik";

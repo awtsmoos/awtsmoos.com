@@ -1,6 +1,6 @@
 // B"H
-import { createTimelineTrack, addClip } from "./TimelineTrack.js";
-import { addKeyframe } from "./TimelineKeyframes.js";
+import { createTimelineTrack, addClip } from "./TimelineTrack.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addKeyframe } from "./TimelineKeyframes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createTimeline(input = {}) {
   return {

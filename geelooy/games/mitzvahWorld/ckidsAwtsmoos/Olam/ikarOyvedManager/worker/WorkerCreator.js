@@ -6,7 +6,7 @@
  * Worker creation as a tiny module.
  */
 
-import { oyvedManagerLog } from "../log/MainTextLogger.js";
+import { oyvedManagerLog } from "../log/MainTextLogger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

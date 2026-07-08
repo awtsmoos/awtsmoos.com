@@ -6,10 +6,10 @@
  * A villager must be targetable and able to speak even while the full GLB is
  * still being requested for near range.
  */
-import { collectNpcLodDiagnostics } from "../../../../systems/npc/NpcLodDiagnostics.js?v=deferred-npc-glb-20260705-bh1";
-import { attachQuestMarker, collectQuestMarkerCounts } from "../../../../systems/quests/QuestMarkers.js";
-import { acceptQuest, noteQuestItemCollected } from "../../../../systems/quests/QuestState.js";
-import { player, restorePlayer, setPlayerNear, sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { collectNpcLodDiagnostics } from "../../../../systems/npc/NpcLodDiagnostics.js?compact=true&v=deferred-npc-glb-20260705-bh1";
+import { attachQuestMarker, collectQuestMarkerCounts } from "../../../../systems/quests/QuestMarkers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { acceptQuest, noteQuestItemCollected } from "../../../../systems/quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { player, restorePlayer, setPlayerNear, sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 function npcList(olam) {
   return (olam?.interactableNivrayim || []).filter(n => ["customNpc", "medabeir", "interactiveNpc"].includes(n?.type));

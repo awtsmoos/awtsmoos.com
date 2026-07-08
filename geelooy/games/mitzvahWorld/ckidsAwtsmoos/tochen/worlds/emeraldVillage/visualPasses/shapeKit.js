@@ -1,6 +1,6 @@
 // B"H
 /** @file shapeKit.js @description Chapter 1031: visual helper writes approved tree bucket only. */
-import { performanceTagFor } from './performanceTagger.js';
+import { performanceTagFor } from './performanceTagger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function p(x, y, z) { return { x, y, z }; }
 export function box(n, id, name, position, size, color, solid = false) { n.Domem[id] = { name, position, golem: { guf: { BoxGeometry: size }, toyr: { MeshStandardMaterial: { color } } }, isSolid: solid, ...performanceTagFor(id) }; }
 export function tree(n, id, x, z, scale, kind = 'oak') { n.VillageHeroTree ||= {}; n.VillageHeroTree[id] = { name: id, kind, position: p(x, 0, z), scale, isSolid: false, useAuthoredY: true, treeSource: '/libs/awtsmoos3d/tree/heroTree.js', ...performanceTagFor(id) }; }

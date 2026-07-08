@@ -1,6 +1,6 @@
 // B"H
 /** WildlifeTicker.js — one meadow heartbeat, throttled but alive. */
-import { guardianWildlifeCadence } from "../RegionWildlifeData.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { guardianWildlifeCadence } from "../RegionWildlifeData.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
 
 export function installWildlifeTicker(olam, root) {
   if (!olam || !root?.userData?.tick) return null;

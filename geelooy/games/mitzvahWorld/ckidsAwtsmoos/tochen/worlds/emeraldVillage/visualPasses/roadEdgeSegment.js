@@ -4,8 +4,8 @@
  * @description Chapter 316: A road segment receives left and right cobbles,
  * the visible grammar of a path.
  */
-import { addRoadEdgeStone } from './roadEdgeStone.js';
-import { segmentFrame } from './roadSegmentMath.js';
+import { addRoadEdgeStone } from './roadEdgeStone.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { segmentFrame } from './roadSegmentMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function decorateRoadSegment(n, road, ri, pi, pt, next, config) {
   const frame = segmentFrame(pt, next, config);
   for (let s = 0; s < frame.steps; s += 1) {

@@ -2,7 +2,7 @@
  * B"H
  */
 
-import borderShadow from "../../resources/borderShadow.js";
+import borderShadow from "../../resources/borderShadow.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 var progressItemSize = 36;
 var progressBarWidth = 300;
 var ribbonWidth = 147;

@@ -1,7 +1,7 @@
 // B"H
-import { createTimeline, addTrack, addTimelineClip, addTimelineKeyframe } from "./Timeline.js";
-import { exportCutscene } from "./CutsceneExporter.js";
-import { DEFAULT_CUSTOM_MOVIE_ACTIONS, actionPickerModel, normalizeMovieActionName } from "./MovieActionCatalog.js";
+import { createTimeline, addTrack, addTimelineClip, addTimelineKeyframe } from "./Timeline.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { exportCutscene } from "./CutsceneExporter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { DEFAULT_CUSTOM_MOVIE_ACTIONS, actionPickerModel, normalizeMovieActionName } from "./MovieActionCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const KINDS = ["camera", "actor", "dialogue", "subtitle", "audio", "effect", "caption", "bubble", "shader"];
 const list = value => Array.isArray(value) ? value : value == null ? [] : [value];

@@ -1,6 +1,6 @@
 // B"H
 /** @file MultiRoomHouseCollision.js @description Collision metadata helpers for real room parts. */
-import { collectMultiRoomHouseDiagnostics } from "./MultiRoomHouseDiagnostics.js?v=lod-house-octree-20260705-bh1";
+import { collectMultiRoomHouseDiagnostics } from "./MultiRoomHouseDiagnostics.js?compact=true&v=lod-house-octree-20260705-bh1";
 
 export function sealMultiRoomCollision(root, plan) {
   Object.assign(root.userData ||= {}, {

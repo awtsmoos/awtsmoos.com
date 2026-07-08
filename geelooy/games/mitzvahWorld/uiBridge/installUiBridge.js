@@ -11,11 +11,11 @@
  * @invariants Never imports or calls installNavDock; no duplicate action bar owner.
  * @failureModes Unknown event names are stored and ignored without throwing.
  */
-import { closePanel, togglePanel, uiState } from "./domCore.js";
-import { safeClone } from "./safeClone.js";
-import { openLoot, lootAll, lootNearestCarcass } from "./lootActions.js";
-import { closeAllPanels } from "./closePanels.js";
-import { rendererMap } from "./renderers.js";
+import { closePanel, togglePanel, uiState } from "./domCore.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { safeClone } from "./safeClone.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { openLoot, lootAll, lootNearestCarcass } from "./lootActions.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { closeAllPanels } from "./closePanels.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { rendererMap } from "./renderers.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 export function installUiBridge() {
   const renderers = rendererMap();

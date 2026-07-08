@@ -3,8 +3,8 @@
  * @file VehicleInput.js
  * @description Keyboard state and normalized vehicle driving intent.
  */
-import { VEHICLE_INPUT_KEYS } from "./VehicleTypes.js";
-import { toggleVehicleMount } from "./VehicleMounting.js";
+import { VEHICLE_INPUT_KEYS } from "./VehicleTypes.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { toggleVehicleMount } from "./VehicleMounting.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 function anyPressed(keys, codes) {
   return codes.some(code => keys[code]);

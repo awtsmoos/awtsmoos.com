@@ -1,9 +1,9 @@
 // B"H
 /** @file renderers.js @description Worker UI event renderers preserving public event names. */
-import { esc, mount, rows } from "./domCore.js";
-import { markerSymbol, renderWorldQuestMarkers } from "./worldMarkers.js";
-import { safeClone } from "./safeClone.js";
-import { closeAllPanels } from "./closePanels.js";
+import { esc, mount, rows } from "./domCore.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { markerSymbol, renderWorldQuestMarkers } from "./worldMarkers.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { safeClone } from "./safeClone.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { closeAllPanels } from "./closePanels.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 const money = r => Number(r?.perutah || r?.money || r?.coins || 0);
 function rewards(r = {}) { return `${r.xp ? `<div class="mitzvahReward">XP: ${esc(r.xp)}</div>` : ""}${rows(r.items, id => `<div class="mitzvahReward">Reward: ${esc(id)}</div>`)}${money(r) ? `<div class="mitzvahReward">Perutah: ${money(r)}</div>` : ""}`; }
 export function renderQuestTracker(p = {}) { return mount("mitzvahTopRight", "uiQuestTracker", "Shlichus Tracker", rows(p.active, q => `<div class="mitzvahQuestLine ${q.complete ? "mitzvahDone" : ""}"><b>${esc(q.line || q.title)}</b>${rows(q.objectives, o => `<br><small class="${o.complete ? "mitzvahDone" : ""}">${esc(o.line || o.text)}</small>`)}${q.returnTo ? `<br><small>Return to ${esc(q.returnTo)}</small>` : ""}</div>`)); }

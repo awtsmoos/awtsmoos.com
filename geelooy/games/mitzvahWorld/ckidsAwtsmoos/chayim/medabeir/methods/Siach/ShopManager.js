@@ -14,12 +14,12 @@
  * creating a parallel economy. The Awtsmoos lets the merchant count, but the
  * one purse remains beneath every garment of state.
  */
-import AwtsmoosHTMLGenerator from "../../../../utils/ui/AwtsmoosHTMLGenerator.js";
+import AwtsmoosHTMLGenerator from "../../../../utils/ui/AwtsmoosHTMLGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import {
   awardMoney,
   moneyOf,
   setMoney
-} from "../../../../systems/economy/wallet/PersonalPerutaWallet.js";
+} from "../../../../systems/economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const itemClass = item => item.className || (item.equipSlot ? "Clothing" : "Item");
 

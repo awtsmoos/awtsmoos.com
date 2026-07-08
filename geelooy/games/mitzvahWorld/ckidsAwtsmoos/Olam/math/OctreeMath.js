@@ -4,7 +4,7 @@
  * @file OctreeMath.js
  * Collision mathematics for OctreeWorld.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();

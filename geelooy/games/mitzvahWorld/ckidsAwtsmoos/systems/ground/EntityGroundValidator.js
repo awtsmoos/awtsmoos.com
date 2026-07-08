@@ -1,5 +1,5 @@
 // B"H
-import { findGroundViolations, summarizeGround } from "./GroundViolationDetector.js";
+import { findGroundViolations, summarizeGround } from "./GroundViolationDetector.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function validatePlayerGround(player, context = {}) {
   const violations = findGroundViolations([player], context);

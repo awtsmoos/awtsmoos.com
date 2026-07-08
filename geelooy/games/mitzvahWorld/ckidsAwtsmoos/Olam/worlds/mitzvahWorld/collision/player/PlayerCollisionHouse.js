@@ -1,7 +1,7 @@
 // B"H
 /** Tight house sidecar lookup: query only near the actual body. */
-import { ensureHouseCollisionWorld } from "../HouseCollisionWorld.js";
-import { houseCollisionDisabled } from "./PlayerCollisionFlags.js?v=perf-tight-collision-20260703-bh2";
+import { ensureHouseCollisionWorld } from "../HouseCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { houseCollisionDisabled } from "./PlayerCollisionFlags.js?compact=true&v=perf-tight-collision-20260703-bh2";
 const num = (v, d = 0) => Number.isFinite(Number(v)) ? Number(v) : d;
 export function updateHouseFocus(olam, pos) {
   if (!houseCollisionDisabled(olam)) ensureHouseCollisionWorld(olam)?.index?.setPlayerPosition(pos.x, pos.z);

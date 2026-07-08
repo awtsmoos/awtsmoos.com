@@ -9,11 +9,11 @@
  * through PersonalPerutaWallet so storage, HUD, shops, and legacy `perutah`
  * agree after the fall.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { SpikeParticleFactory, animateSpikeParticles } from "./spikeField/SpikeParticles.js";
-import { normalizeResetFeet } from "../../Olam/shared/SpikeResetPosition.js";
-import { awardMoney, moneyOf, walletPlayerOf } from "../../systems/economy/wallet/PersonalPerutaWallet.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { SpikeParticleFactory, animateSpikeParticles } from "./spikeField/SpikeParticles.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { normalizeResetFeet } from "../../Olam/shared/SpikeResetPosition.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, moneyOf, walletPlayerOf } from "../../systems/economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const PAD = 0.15, FEET_PAD = 0.2, RESET_DELAY_MS = 3000, EXPLOSION_DELAY_MS = 240;
 const now = () => (globalThis.performance?.now?.() || Date.now()) / 1000;

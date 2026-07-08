@@ -1,7 +1,7 @@
 // B"H
 /** @file domPanels.js @description Chapter 383: Closing panels is one shared act. */
-import { hardSeal } from './domEvents.js';
-import { panelSelector, q, worker } from './domSelectors.js';
+import { hardSeal } from './domEvents.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { panelSelector, q, worker } from './domSelectors.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function closePanels(event) {
   if (event) hardSeal(event);
   document.querySelectorAll(panelSelector()).forEach(el => {

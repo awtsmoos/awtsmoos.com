@@ -1,6 +1,6 @@
 // B"H
 /** Forest spawner: every tree request becomes a Chai Forest bark/leaf tree. */
-import Domem from "../../chayim/domem/index.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 function hash(i) { const x = Math.sin(i * 12.9898) * 43758.5453; return x - Math.floor(x); }
 export default class Forest extends Domem {

@@ -1,5 +1,5 @@
 // B"H
-import { CHOSSID_GLB_INSPECTION } from "./MitzvahPlatformCatalog.js";
+import { CHOSSID_GLB_INSPECTION } from "./MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const mouthNames = new Set(CHOSSID_GLB_INSPECTION.morphTargets.mouth);
 

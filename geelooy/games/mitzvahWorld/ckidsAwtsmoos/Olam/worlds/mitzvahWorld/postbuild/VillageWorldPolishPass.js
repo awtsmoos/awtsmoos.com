@@ -1,13 +1,13 @@
 // B"H
 /** @file VillageWorldPolishPass.js @description Final polish audits trees, textures, grounding, and then signals readiness. */
-import { ensureVillageLandmarkLayer } from "./VillageLandmarkLayer.js?v=village-landmarks-20260614-bh1";
-import { ensureVillageAtmosphereLayer } from "./VillageAtmosphereLayer.js?v=village-atmosphere-20260614-bh1";
-import { ensureVillageNpcLifeLayer } from "./VillageNpcLifeLayer.js?v=village-npc-life-20260614-bh1";
-import { ensureVillageInteractionLayers } from "./VillageInteractionLayers.js?v=village-interaction-layers-20260614-bh1";
-import { ensureTreeRuntimeAudit } from "./TreeRuntimeAudit.js?v=tree-runtime-audit-20260614-bh1";
-import { ensureFinalGroundingPass } from "./FinalGroundingPass.js?v=final-grounding-20260614-bh1";
-import { ensureRuntimeVisualAudit } from "./RuntimeVisualAudit.js?v=runtime-visual-audit-20260614-bh2";
-import { signalWorldFinalReady } from "../runtime/WorldFinalReadySignal.js?v=awtsmoos-final-ready-20260614-bh2";
+import { ensureVillageLandmarkLayer } from "./VillageLandmarkLayer.js?compact=true&v=village-landmarks-20260614-bh1";
+import { ensureVillageAtmosphereLayer } from "./VillageAtmosphereLayer.js?compact=true&v=village-atmosphere-20260614-bh1";
+import { ensureVillageNpcLifeLayer } from "./VillageNpcLifeLayer.js?compact=true&v=village-npc-life-20260614-bh1";
+import { ensureVillageInteractionLayers } from "./VillageInteractionLayers.js?compact=true&v=village-interaction-layers-20260614-bh1";
+import { ensureTreeRuntimeAudit } from "./TreeRuntimeAudit.js?compact=true&v=tree-runtime-audit-20260614-bh1";
+import { ensureFinalGroundingPass } from "./FinalGroundingPass.js?compact=true&v=final-grounding-20260614-bh1";
+import { ensureRuntimeVisualAudit } from "./RuntimeVisualAudit.js?compact=true&v=runtime-visual-audit-20260614-bh2";
+import { signalWorldFinalReady } from "../runtime/WorldFinalReadySignal.js?compact=true&v=awtsmoos-final-ready-20260614-bh2";
 const KEY = "__awtsmoosVillageWorldPolishPass";
 function progress(stage, data = {}) { if (typeof globalThis !== "undefined" && typeof globalThis.postMessage === "function") globalThis.postMessage({ type:"worker_progress", stage:`postbuild:${stage}`, ...data }); }
 function message(error) { return error && error.message ? error.message : String(error); }

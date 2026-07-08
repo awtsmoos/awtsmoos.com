@@ -3,7 +3,7 @@
  * @file npcPortraitMarkup.js
  * @description A World-of-Wonders portrait vessel for NPC speech.
  */
-import { esc } from './domKit.js';
+import { esc } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function initials(name = 'NPC') { return String(name).split(/\s+/).filter(Boolean).slice(0, 2).map(p => p[0]?.toUpperCase() || '').join('') || 'NPC'; }
 function portraitData(data = {}) {
   const p = data.portrait || {};

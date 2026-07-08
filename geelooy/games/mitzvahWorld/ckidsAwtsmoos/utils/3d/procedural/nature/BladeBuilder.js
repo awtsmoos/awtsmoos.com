@@ -5,7 +5,7 @@
  * @description
  * Sculpts the primordial curve of a single blade of grass.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class BladeBuilder {
     static build(width = 0.1, height = 0.6) {

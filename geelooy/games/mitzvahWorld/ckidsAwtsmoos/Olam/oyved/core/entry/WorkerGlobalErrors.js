@@ -6,8 +6,8 @@
  * Global Worker error wiring with text-only reports.
  */
 
-import { postPlainWorkerText, postPlainWorkerError } from "./PlainWorkerPost.js";
-import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
+import { postPlainWorkerText, postPlainWorkerError } from "./PlainWorkerPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

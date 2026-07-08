@@ -1,6 +1,6 @@
 // B"H
 /** @file actionBarLayoutRuntime.js @description Keeps the action bar bottom-anchored without per-frame work. */
-import { installMobileVisualViewportInsets } from "../mobileVisualViewportInsets.js?v=solid-browser-verify-20260702-bh9";
+import { installMobileVisualViewportInsets } from "../mobileVisualViewportInsets.js?compact=true&v=solid-browser-verify-20260702-bh9";
 const STYLE_ID = "awts-action-bar-layout-runtime";
 const OBSERVER_KEY = "__awtsActionBarLayoutObserver";
 

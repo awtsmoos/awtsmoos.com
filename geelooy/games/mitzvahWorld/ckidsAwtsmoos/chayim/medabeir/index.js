@@ -5,14 +5,14 @@
  * Chapter 9: Medabeir imports sealed faculties. The Awtsmoos prevents stale
  * auto-dialogue lifecycle code from opening shops during village creation.
  */
-import Chai from "../chai.js";
-import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import dialogueMethods from "./methods/dialogue.js?v=no-empty-actor-20260602-bh6";
-import stateMethods from "./methods/state.js";
-import visualMethods from "./methods/visuals.js";
-import lifecycleMethods from "./methods/lifecycle.js?v=no-auto-dialogue-20260602-bh7";
-import FloatingIcon from "../../Olam/uiManager/ui/FloatingIcon.js";
-import wanderingAI from "../../systems/WanderingAI.js";
+import Chai from "../chai.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import dialogueMethods from "./methods/dialogue.js?compact=true&v=no-empty-actor-20260602-bh6";
+import stateMethods from "./methods/state.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import visualMethods from "./methods/visuals.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import lifecycleMethods from "./methods/lifecycle.js?compact=true&v=no-auto-dialogue-20260602-bh7";
+import FloatingIcon from "../../Olam/uiManager/ui/FloatingIcon.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import wanderingAI from "../../systems/WanderingAI.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class Medabeir extends Chai {
   type = "medabeir";

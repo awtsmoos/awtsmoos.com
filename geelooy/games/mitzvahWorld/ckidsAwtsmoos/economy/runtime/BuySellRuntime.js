@@ -1,8 +1,8 @@
 // B"H
 /** @file BuySellRuntime.js @description Peruta transactions with trainer gates, repair, upgrade, and receipts. */
-import { merchantProfile, merchantItems } from "./MerchantInventoryRuntime.js";
-import { buyPrice, sellPrice, repairPrice } from "./PerutaPricingRuntime.js";
-import { weaponStats } from "../../equipment/runtime/WeaponStatCatalog.js";
+import { merchantProfile, merchantItems } from "./MerchantInventoryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buyPrice, sellPrice, repairPrice } from "./PerutaPricingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { weaponStats } from "../../equipment/runtime/WeaponStatCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export class BuySellRuntime {
   constructor(runtime,wallet){ this.runtime=runtime; this.wallet=wallet; this.history=[]; this.inventory=new Map([["player",[]]]); this.conditions=new Map(); }
   inv(actorId="player"){ if(!this.inventory.has(actorId)) this.inventory.set(actorId,[]); return this.inventory.get(actorId); }

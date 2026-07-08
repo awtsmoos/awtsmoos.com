@@ -1,8 +1,8 @@
 // B"H
-/** Growing entities carry proximity and the fresh Domem animation runtime. */
-import * as THREE from '/games/scripts/build/three.module.js';
-import Domem from "./domem.js?v=grass-chossid-stepwise-20260707-bh1";
-import Utils from "../utils.js";
+/** Growing entities carry proximity and the procedural Domem animation runtime. */
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Domem from "./domem.js?compact=true&v=history-animation-compact-top-20260708-bh10";
+import Utils from "../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class Tzomayach extends Domem {
   type = "tzomayach"; proximity = 0; proximityCollider = null; objectsCollidingWith = [];
   constructor(options = {}, olam) {

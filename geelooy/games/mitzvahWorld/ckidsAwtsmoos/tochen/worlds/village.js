@@ -1,6 +1,6 @@
 // B"H
 /** @file village.js @description Emerald Village manifest using approved tree bucket only. */
-import { compileVillage } from './emeraldVillage/villageCompiler.js';
+import { compileVillage } from './emeraldVillage/villageCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const compiledNivrayim = compileVillage();
 export default {
   shaym: "The Emerald Village of Living Letters",

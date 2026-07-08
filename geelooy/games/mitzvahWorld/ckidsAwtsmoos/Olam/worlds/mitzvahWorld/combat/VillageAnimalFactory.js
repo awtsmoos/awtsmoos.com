@@ -4,9 +4,9 @@
  * @description Wildlife roots carry owner metadata, finite target proxies, and
  * non-raycast soft shadows so visible animals are selectable without tree spam.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { buildAnimal } from "../region/wildlife/render/AnimalBodyForge.js?v=realistic-target-proof-20260706-bh2";
-import { sanitizeRenderGeometryTree } from "../runtime/RenderGeometrySanitizer.js?v=total-overhaul-render-sanitize-20260705-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildAnimal } from "../region/wildlife/render/AnimalBodyForge.js?compact=true&v=realistic-target-proof-20260706-bh2";
+import { sanitizeRenderGeometryTree } from "../runtime/RenderGeometrySanitizer.js?compact=true&v=total-overhaul-render-sanitize-20260705-bh1";
 const RADIUS = { fox:1.65, wolf:1.65, deer:2.1, goat:1.85, cow:2.15, bird:1.35, frog:1.25, rabbit:1.25 };
 function normalizeSpecies(species = "fox") { const s = String(species || "fox").toLowerCase(); if (s === "wolf") return "fox"; if (s === "ram") return "goat"; if (s === "stag") return "deer"; return s; }
 function data(node) { node.userData ||= {}; return node.userData; }

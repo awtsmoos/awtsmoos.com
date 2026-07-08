@@ -10,8 +10,8 @@
  * taking a list of coordinates (the sidewalk's path) and placing the vessel 
  * sequentially, creating roads and linear structures.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class ArrayModifier {
     static gematriaMap = {'א':1,'ב':2,'ג':3,'ד':4,'ה':5,'ו':6,'ז':7,'ח':8,'ט':9,'י':10,'כ':20,'ל':30,'מ':40,'נ':50,'ס':60,'ע':70,'פ':80,'צ':90,'ק':100,'ר':200,'ש':300,'ת':400,'ך':20,'ם':40,'ן':50,'ף':80,'ץ':90};

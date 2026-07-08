@@ -1,6 +1,6 @@
 // B"H
 /** Shared primitive factory: the Awtsmoos lets one geometry become many journeys. */
-import { VehicleEntity } from "./VehicleEntity.js";
+import { VehicleEntity } from "./VehicleEntity.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const cache = new WeakMap();
 

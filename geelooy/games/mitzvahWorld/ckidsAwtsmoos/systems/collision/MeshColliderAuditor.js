@@ -1,6 +1,6 @@
 // B"H
 /** @file MeshColliderAuditor.js @description Finds visual-solid lies and missing parcel collision vows. */
-import { isVisualSolidViolation } from "./CollisionTruthContract.js";
+import { isVisualSolidViolation } from "./CollisionTruthContract.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function auditSceneColliders(root, manifest = []) {
   const visualSolidViolations = [], colliders = [];
   root?.traverse?.(o => { if (isVisualSolidViolation(o)) visualSolidViolations.push(o.name || o.uuid); if (o?.userData?.isSolid || o?.userData?.explicitCollision) colliders.push(o.name || o.uuid); });

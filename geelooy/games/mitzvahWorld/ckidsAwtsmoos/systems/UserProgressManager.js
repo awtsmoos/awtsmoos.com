@@ -4,7 +4,7 @@
  * UserProgressManager - The Zikaron (Memory) of the player's journey.
  * Ensures that no spark of effort is lost, bridging worker logic and physical storage.
  */
-import Utils from "../utils.js";
+import Utils from "../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class UserProgressManager {
     constructor(olam) {

@@ -13,7 +13,7 @@
  * 3. Enforces solidity in the direction of the player's intent.
  * 4. Merges or subdivides space based on proximity.
  */
-import { CONFIG } from '../constants.js';
+import { CONFIG } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     /**

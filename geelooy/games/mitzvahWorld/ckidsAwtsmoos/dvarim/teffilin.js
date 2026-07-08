@@ -4,8 +4,8 @@
  * The Crown of Splendor. Connects the heart and mind to the Infinite.
  * Reverted to stable tool logic, removing modular AI/Bone features for legacy compatibility.
  */
-import Tool from "./tool.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import Tool from "./tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Teffilin extends Tool {
     static itemName = "Teffilin";

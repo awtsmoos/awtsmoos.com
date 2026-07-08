@@ -1,5 +1,5 @@
 // B"H
-import { CANONICAL_ACTIONS, normalizePlatformActionName, platformActionNames } from "../../platform/MitzvahPlatformCatalog.js";
+import { CANONICAL_ACTIONS, normalizePlatformActionName, platformActionNames } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const SHARED_CHOSSID_RIG = Object.freeze({
   id:"chossid_mixamorig_shared_rig",

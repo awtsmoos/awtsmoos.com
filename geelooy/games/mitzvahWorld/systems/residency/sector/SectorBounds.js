@@ -4,7 +4,7 @@
  * @description Chapter 456: every sector receives edges, so the revealed world
  * can breathe in bounded vessels instead of infinite searching.
  */
-import { DEFAULT_SECTOR_SIZE, parseSectorKey } from "./SectorKey.js";
+import { DEFAULT_SECTOR_SIZE, parseSectorKey } from "./SectorKey.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 export function boundsForSector(key, size = DEFAULT_SECTOR_SIZE) {
   const { ix, iz } = typeof key === "string" ? parseSectorKey(key) : key;
   return { key:`${ix}:${iz}`, ix, iz, minX:ix * size, minZ:iz * size, maxX:(ix + 1) * size, maxZ:(iz + 1) * size, size };

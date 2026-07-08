@@ -1,5 +1,5 @@
 // B"H
-import { normalizePlatformActionName } from "../../platform/MitzvahPlatformCatalog.js";
+import { normalizePlatformActionName } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const CREATION_GRAPH_SCHEMA = "mitzvah-creation-graph-v1";
 

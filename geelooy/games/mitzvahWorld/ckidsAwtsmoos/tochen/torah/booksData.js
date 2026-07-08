@@ -17,13 +17,13 @@ export {
     PASSAGES_BY_TIER,
     STARTER_PASSAGES,
     TYPE_CHART
-} from './books/index.js';
+} from './books/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 // ─── LEGACY TORAH_BOOKS format (for backward compat) ─────────────────────────
-import { PIRKEI_AVOS_PASSAGES } from './books/pirkeiAvos.js';
-import { REBBE_12_PESUKIM }     from './books/rebbesPesakim.js';
-import { TANYA_PASSAGES }       from './books/tanyaPassages.js';
-import { GEMARA_PASSAGES }      from './books/gemaraPassages.js';
+import { PIRKEI_AVOS_PASSAGES } from './books/pirkeiAvos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { REBBE_12_PESUKIM }     from './books/rebbesPesakim.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TANYA_PASSAGES }       from './books/tanyaPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { GEMARA_PASSAGES }      from './books/gemaraPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const TORAH_BOOKS = {
     CHUMASH: {

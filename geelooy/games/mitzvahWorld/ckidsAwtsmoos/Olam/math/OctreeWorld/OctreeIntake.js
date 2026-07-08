@@ -7,11 +7,11 @@
  * Manages the background ingestion of new world geometry. 
  * Corrected queue processing to prevent infinite building loops.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import QueueProcessor from "./intake/QueueProcessor.js";
-import LODManager from "./intake/LODManager.js";
-import ObjectManager from "./intake/ObjectManager.js";
-import Traversal from "./intake/Traversal.js";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import QueueProcessor from "./intake/QueueProcessor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import LODManager from "./intake/LODManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ObjectManager from "./intake/ObjectManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Traversal from "./intake/Traversal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class OctreeIntake {
     constructor(world) {
@@ -61,7 +61,7 @@ export default class OctreeIntake {
     }
 }
 
-import ChasveiAwtsmoos from "../../../utils/ChasveiAwtsmoos.js";
+import ChasveiAwtsmoos from "../../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 // B"H - Grafting the modular limbs onto the trunk with Divine Emanation
 ChasveiAwtsmoos.emanate(OctreeIntake.prototype, [

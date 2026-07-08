@@ -4,8 +4,8 @@
  * @description Chapter 277: Lanterns hang like mitzvah sparks from the boughs,
  * making the tree visible even before the UI speaks.
  */
-import { box, p } from './shapeKit.js';
-import { P } from './palette.js';
+import { box, p } from './shapeKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { P } from './palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function addEtzChayimLanterns(n, config) {
   for (let i = 0; i < config.lanternCount; i += 1) {
     const a = i / config.lanternCount * Math.PI * 2;

@@ -1,16 +1,9 @@
-/* B"H hero: calmer, lighter, faster.
- * Chapter: The palace stops grasping what belongs to the stats vessel.
- */
-.geelooy-heichel-hero {
-  position: relative; overflow: hidden; min-height: clamp(13rem, 24vw, 21rem); display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(8rem, 13rem); gap: clamp(.9rem, 2.4vw, 1.6rem); align-items: end;
-  padding: clamp(1rem, 3vw, 2.2rem); border-radius: var(--heichel-radius-large); border: 1px solid var(--heichel-line);
-  background: radial-gradient(circle at 84% 0%, rgba(102,231,255,.18), transparent 18rem), var(--heichel-panel-strong); box-shadow: var(--heichel-shadow-soft);
-}
-.heichel-hero-glow { position: absolute; width: 15rem; height: 15rem; right: -6rem; top: -6rem; border-radius: 50%; background: rgba(102,231,255,.14); }
-.heichel-hero-copy { position: relative; z-index: 1; min-width: 0; align-self: center; }
-.heichel-seal { display: grid; place-items: center; width: clamp(3rem, 6vw, 4.2rem); height: clamp(3rem, 6vw, 4.2rem); margin-bottom: .85rem; border-radius: 1rem; background: linear-gradient(135deg, rgba(241,184,79,.18), rgba(102,231,255,.14)); color: var(--heichel-gold); border: 1px solid var(--heichel-line); font-size: clamp(1.2rem, 2.5vw, 1.7rem); }
-.hero-kicker { margin: 0 0 .45rem; color: var(--heichel-gold); font-size: .76rem; font-weight: 950; letter-spacing: .15em; text-transform: uppercase; }
-#heichel-main-title { margin: 0; max-width: 14ch; color: #fff; font-size: clamp(2.35rem, 7vw, 5.1rem); line-height: .95; letter-spacing: 0; text-wrap: balance; }
-.hero-description { max-width: 64rem; margin: .9rem 0 0; color: var(--heichel-soft-ink); font-size: clamp(.98rem, 2vw, 1.16rem); line-height: 1.62; white-space: pre-wrap; overflow-wrap: anywhere; }
-@media (max-width: 760px) { .geelooy-heichel-hero { grid-template-columns: 1fr; min-height: 0; } #heichel-main-title { max-width: 11ch; } }
+/* B"H — hero: strong name, calmer glass, no pale wash. */
+.geelooy-heichel-hero { align-items:end; background: radial-gradient(circle at 86% 0%,rgba(102,231,255,.2),transparent 16rem),linear-gradient(180deg,#0b1626,#081020); border:1px solid rgba(91,216,232,.22); border-radius:var(--heichel-radius-large); box-shadow:0 22px 56px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.06); display:grid; gap:clamp(.9rem,2.4vw,1.6rem); grid-template-columns:minmax(0,1fr) minmax(8rem,13rem); min-height:clamp(220px,24vw,21rem); overflow:hidden; padding:clamp(1rem,3vw,2.2rem); position:relative; }
+.heichel-hero-glow { background: rgba(102,231,255,.16); border-radius:50%; height:15rem; position:absolute; right:-6rem; top:-6rem; width:15rem; }
+.heichel-hero-copy { align-self:center; min-width:0; position:relative; z-index:1; }
+.heichel-seal { background:linear-gradient(135deg,rgba(241,184,79,.18),rgba(102,231,255,.14)); border:1px solid rgba(91,216,232,.25); border-radius:1rem; color:var(--heichel-gold); display:grid; font-size:clamp(1.2rem,2.5vw,1.7rem); height:clamp(3rem,6vw,4.2rem); margin-bottom:.85rem; place-items:center; width:clamp(3rem,6vw,4.2rem); }
+.hero-kicker { background:rgba(246,201,108,.12); border:1px solid rgba(246,201,108,.18); border-radius:999px; color:var(--heichel-gold); display:inline-flex; font-size:.72rem; font-weight:950; letter-spacing:.13em; margin:0 0 .55rem; padding:.28rem .64rem; text-transform:uppercase; }
+#heichel-main-title { color:#fff; font-size:clamp(2.35rem,7vw,5.1rem); letter-spacing:-.06em; line-height:.95; margin:0; max-width:14ch; text-wrap:balance; }
+.hero-description { color:#b9c6dc; font-size:clamp(.98rem,2vw,1.16rem); line-height:1.62; margin:.9rem 0 0; max-width:64rem; overflow-wrap:anywhere; white-space:pre-wrap; }
+@media (max-width:760px){.geelooy-heichel-hero{grid-template-columns:1fr;min-height:220px}#heichel-main-title{max-width:11ch}}

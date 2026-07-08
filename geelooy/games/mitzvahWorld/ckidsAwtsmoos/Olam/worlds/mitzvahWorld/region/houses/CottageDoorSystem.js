@@ -5,9 +5,9 @@
  * The panel swings around its hinge; the closed collision box lives in that
  * same hinge-root coordinate system. When open, the descriptor becomes air.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js";
-import { defaultDoorState } from "./door/DoorStateIndex.js?v=no-compact-engine-20260702-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { defaultDoorState } from "./door/DoorStateIndex.js?compact=true&v=compact-engine-20260702-bh2";
 
 const material = color => new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true });
 

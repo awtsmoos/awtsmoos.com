@@ -1,6 +1,6 @@
 // B"H
 /** LoadingUiRoutes.js — worker loading events routed without progress backslide. */
-import { action, monotonicFloor, percent } from "./LoadingUiMath.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { action, monotonicFloor, percent } from "./LoadingUiMath.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
 
 function setBar(width) {
   const bar = document.getElementById("genesisProgressBar");

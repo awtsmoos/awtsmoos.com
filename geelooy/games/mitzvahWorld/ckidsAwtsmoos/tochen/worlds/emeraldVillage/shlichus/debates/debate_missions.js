@@ -3,7 +3,7 @@
  * @file debate_missions.js — 25 DEBATE-FOCUSED SHLICHUS MISSIONS
  * Debates with scholars, not battles with enemies.
  */
-import { AVOS_BY_ID } from '../torah/books/pirkeiAvos/index.js';
+import { AVOS_BY_ID } from '../torah/books/pirkeiAvos/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const DEBATE_MISSIONS = [
 

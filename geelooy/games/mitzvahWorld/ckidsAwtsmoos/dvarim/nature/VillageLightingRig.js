@@ -6,9 +6,9 @@
  * A warm directional key, a soft hemisphere fill, and optional fog tuning make
  * the village read like golden hour without WebGPU or heavy postprocessing.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { finite as n } from "../../../../../libs/awtsmoos3d/math.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { finite as n } from "../../../../../libs/awtsmoos3d/math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class VillageLightingRig extends Domem {
   type = "villageLightingRig";

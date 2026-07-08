@@ -5,7 +5,7 @@
  * B"H ? A memory platform. It gives a learnable warning, then vanishes.
  * Good players memorize its timing; greedy players meet the spikes below.
  */
-import SolidBlock from "../architecture/SolidBlock.js";
+import SolidBlock from "../architecture/SolidBlock.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class DisappearingPlatform extends SolidBlock {
     type = "disappearingPlatform";

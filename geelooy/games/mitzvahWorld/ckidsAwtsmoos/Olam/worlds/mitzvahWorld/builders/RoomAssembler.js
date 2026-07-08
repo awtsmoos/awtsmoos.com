@@ -3,10 +3,10 @@
  * @file RoomAssembler.js
  * @description Assembles rooms from parser-clear walls, windows, floors, and manifest furniture.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { makeWall, makeFloor, makeWindow } from "./wallUtils.js";
-import { GeometryEngine } from "../GeometryEngine.js?v=awtsmoos-geometry-engine-20260614-bh2";
-import { FURNITURE_BLUEPRINTS } from "../data/manifests/FurnitureManifest.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeWall, makeFloor, makeWindow } from "./wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { GeometryEngine } from "../GeometryEngine.js?compact=true&v=awtsmoos-geometry-engine-20260614-bh2";
+import { FURNITURE_BLUEPRINTS } from "../data/manifests/FurnitureManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function roomWalls(roomDef) { return roomDef && roomDef.walls ? roomDef.walls : {}; }
 function wallData(walls, key) { return walls && walls[key] ? walls[key] : {}; }
 function hidden(walls, key) { return wallData(walls, key).hidden === true; }

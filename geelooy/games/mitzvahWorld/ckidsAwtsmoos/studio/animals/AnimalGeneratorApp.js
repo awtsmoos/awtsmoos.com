@@ -1,9 +1,9 @@
 // B"H
-import { createAnimalGenome } from "./AnimalGenome.js";
-import { generateAnimalAnatomy } from "./AnimalAnatomyGenerator.js";
-import { generateAnimalMaterials } from "./AnimalMaterialGenerator.js";
-import { generateAnimalBehavior } from "./AnimalBehaviorGenerator.js";
-import { generateAnimalLoot } from "./AnimalLootGenerator.js";
+import { createAnimalGenome } from "./AnimalGenome.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateAnimalAnatomy } from "./AnimalAnatomyGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateAnimalMaterials } from "./AnimalMaterialGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateAnimalBehavior } from "./AnimalBehaviorGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateAnimalLoot } from "./AnimalLootGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const SUPPORTED_SPECIES = ["fox", "goat", "cow", "deer", "rabbit", "frog", "bird", "chicken", "boar", "sheep", "dog", "horse"];
 

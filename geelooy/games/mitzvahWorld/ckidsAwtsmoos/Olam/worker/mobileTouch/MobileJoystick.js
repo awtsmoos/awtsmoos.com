@@ -1,6 +1,6 @@
 // B"H
 /** The joystick releases all directions, then breathes one clear direction. */
-import { JOYSTICK_KEYS } from "./MobileTouchConstants.js";
+import { JOYSTICK_KEYS } from "./MobileTouchConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function steer(dx, dy, callback) {
   let angle = Math.atan2(dy, dx) * 180 / Math.PI;
   if (angle < 0) angle += 360;

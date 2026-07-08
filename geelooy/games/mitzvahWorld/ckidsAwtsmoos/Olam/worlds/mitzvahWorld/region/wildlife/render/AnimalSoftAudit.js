@@ -4,7 +4,7 @@
  * @description Animal render audits record failures without per-animal warning
  * spam. Wildlife remains visible; diagnostics are aggregated for inspection.
  */
-import { assertAnimalRenderable } from "../skinned/AnimalRenderableAudit.js?v=single-mesh-animals-20260621-bh1";
+import { assertAnimalRenderable } from "../skinned/AnimalRenderableAudit.js?compact=true&v=single-mesh-animals-20260621-bh1";
 const KEY = "__MITZVAH_ANIMAL_RENDERABLE_AUDIT__";
 function store() { const root = globalThis; root[KEY] ||= { softened:0, byMessage:{}, samples:[], lastWarnAt:0 }; return root[KEY]; }
 export function countMeshes(root) { let count = 0; root?.traverse?.(child => { if (child?.isMesh || child?.isSkinnedMesh) count += 1; }); return count; }

@@ -12,9 +12,9 @@
  * ║  into a vessel that can be seen and touched.               ║
  * ╚═══════════════════════════════════════════════════════════╝
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import GeometryManager from "../../../Olam/math/GeometryManager.js";
-import { DOOR_DEFAULTS } from '../constants.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import GeometryManager from "../../../Olam/math/GeometryManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { DOOR_DEFAULTS } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     /**

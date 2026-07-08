@@ -4,8 +4,8 @@
  * @description
  * Chapter 416: Repairs now charge the one personal purse and mirror legacy UI.
  */
-import { itemById } from "../inventory/InventoryItemIndex.js";
-import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js";
+import { itemById } from "../inventory/InventoryItemIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function playerOf(olam) { return walletPlayerOf(olam); }
 function equipmentOf(olam) { const p = playerOf(olam); if (!p) return {}; p.inventory ||= { slots:[], actionSlots:[], equipment:{} }; p.inventory.equipment ||= {}; return p.inventory.equipment; }

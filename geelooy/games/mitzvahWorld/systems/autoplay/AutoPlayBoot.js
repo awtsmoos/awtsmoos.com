@@ -1,6 +1,6 @@
 ﻿// B"H
-import { scenarioFromQuery } from './AutoPlayScenarios.js';
-import { runAutoPlayScenario } from './AutoPlayRunner.js';
+import { scenarioFromQuery } from './AutoPlayScenarios.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { runAutoPlayScenario } from './AutoPlayRunner.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 function makeJobId(params, scenario) {
   return params.get('awtsmoosAutoJob') || `${scenario.name}-${Date.now().toString(36)}`;

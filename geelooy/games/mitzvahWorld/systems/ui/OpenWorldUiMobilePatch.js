@@ -1,12 +1,12 @@
 // B"H
-import { fastUiMode } from "./performance/FastUiMode.js";
-import { viewportMode } from "./responsive/ViewportModeDetector.js";
-import { ensureMobileOverlapCss } from "./responsive/MobileOverlapFixCss.js";
-import { compactHud } from "./mobile/MobileHudCompaction.js";
-import { compactDock } from "./mobile/MobileDockCompaction.js";
-import { compactModals } from "./mobile/MobileModalCompaction.js";
-import { mobileLayoutTuning } from "./mobile/MobileLayoutTuning.js";
-import { mobileSafeAreaTuning } from "./mobile/MobileSafeAreaTuning.js";
+import { fastUiMode } from "./performance/FastUiMode.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { viewportMode } from "./responsive/ViewportModeDetector.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { ensureMobileOverlapCss } from "./responsive/MobileOverlapFixCss.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { compactHud } from "./mobile/MobileHudCompaction.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { compactDock } from "./mobile/MobileDockCompaction.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { compactModals } from "./mobile/MobileModalCompaction.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { mobileLayoutTuning } from "./mobile/MobileLayoutTuning.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { mobileSafeAreaTuning } from "./mobile/MobileSafeAreaTuning.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 function apply(win = globalThis.window, doc = globalThis.document) {
   if (!doc) return null;
   const mode = viewportMode(win), fast = fastUiMode(win), layout = mobileLayoutTuning(mode);

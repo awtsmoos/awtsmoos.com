@@ -13,9 +13,9 @@
  * ║  absolute coordinates so the terrain does not collapse into the void.  ║
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import LODNode from "../LODNode.js";
-import { NODE_STATE, MAX_DEPTH } from "../constants.js";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import LODNode from "../LODNode.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { NODE_STATE, MAX_DEPTH } from "../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();

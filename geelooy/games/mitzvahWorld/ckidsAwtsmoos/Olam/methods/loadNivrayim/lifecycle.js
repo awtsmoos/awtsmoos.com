@@ -1,7 +1,7 @@
 // B"H
 /** lifecycle.js — split bounded awakening phases; no ready hook may freeze loading. */
-import { loadingPercent } from "./lifecycle/LifecycleProgress.js?v=mitzvah-lifecycle-split-20260703-bh1";
-import { runPhase } from "./lifecycle/LifecycleRunner.js?v=mitzvah-lifecycle-split-20260703-bh1";
+import { loadingPercent } from "./lifecycle/LifecycleProgress.js?compact=true&v=mitzvah-lifecycle-split-20260703-bh1";
+import { runPhase } from "./lifecycle/LifecycleRunner.js?compact=true&v=mitzvah-lifecycle-split-20260703-bh1";
 
 export default {
   async runHeescheel(nivrayimMade) {

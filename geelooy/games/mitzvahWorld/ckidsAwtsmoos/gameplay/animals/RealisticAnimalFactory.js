@@ -1,6 +1,6 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js";
-import { animalRule } from "../../platform/MitzvahPlatformCatalog.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { animalRule } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const ARCHETYPES = {
   fox:{ color:0xb85a2b, accent:0xf3d3a2, dark:0x2b1a12, scale:[1.42, .56, .44], tail:"bushy", ears:"point", paws:true, claws:true, hp:42, damage:6, markings:"socks" },

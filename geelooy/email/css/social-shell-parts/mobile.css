@@ -1,29 +1,14 @@
-/* B"H — mobile mail becomes stacked pages. */
+/* B"H — mobile mail becomes stacked animated glass pages. */
 @media (max-width: 760px) {
   html, body { overflow: auto !important; }
   .app-container,
-  .mail-social-frame {
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    height:auto!important;
-    margin: 0 !important;
-    min-height: 100dvh !important;
-    overflow: visible !important;
-    width: 100% !important;
-  }
+  .mail-social-frame { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; display: grid !important; grid-template-columns: 1fr !important; height:auto!important; margin: 0 !important; min-height: 100dvh !important; overflow: visible !important; width: 100% !important; }
   .sidebar,
   .sidebar-container,
   .mail-main,
   .thread-panel,
   .chat-view,
-  .chat-area {
-    border: 0 !important;
-    min-height: 100dvh !important;
-    width: 100% !important;
-  }
+  .chat-area { border: 0 !important; min-height: 100dvh !important; width: 100% !important; }
   .chat-view,
   .chat-area { display: none !important; }
   .mail-main.active,
@@ -32,7 +17,12 @@
   .chat-area.active { display: grid !important; }
   .sidebar-header,
   .mail-sidebar-header { position: sticky !important; top: 0 !important; z-index: 20 !important; }
-  .thread-list { padding: 0 1rem 7rem !important; }
+  .mail-profile-card { border-radius: 16px; }
+  .mail-sidebar-profile-mount .awtsmoosDrop .dropdown-content { left: 0 !important; max-width: calc(100vw - 2rem); }
+  .thread-list { gap: .75rem !important; padding: .15rem .85rem 7rem !important; }
   .mail-folder-list,
-  .mail-search-panel { padding-inline: .75rem !important; }
+  .mail-search-panel,
+  .mail-sender-category-grid { padding-inline: .75rem !important; }
+  .sender-group-card { animation-duration: .3s; }
 }
+@media (prefers-reduced-motion: reduce) { .sender-group-card,.thread-item,.mail-route-link { animation: none !important; transition-duration: 1ms !important; } }

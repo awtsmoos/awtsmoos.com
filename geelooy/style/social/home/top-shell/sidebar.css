@@ -1,17 +1,10 @@
-/* B"H — the opened menu is a chamber of routes, not a duplicate header. */
+/* B"H — one menu only: the global sidebar is the active route gate. */
 .geelooy-home-shell .home-sidebar-panel {
-  background: linear-gradient(180deg, rgba(9,15,31,.98), rgba(6,9,20,.99));
-  border: 1px solid rgba(46,167,255,.25);
-  border-radius: 24px;
-  box-shadow: 0 18px 44px rgba(0,0,0,.44), 0 0 24px rgba(139,92,246,.15);
-  contain: layout paint;
-  display: grid;
-  gap: .28rem;
-  grid-column: 1 / -1;
-  margin-top: .15rem;
-  padding: .72rem;
+  display: none !important;
 }
-.geelooy-home-shell .home-sidebar-panel[hidden] { display: none !important; }
+.geelooy-home-shell .home-sidebar-panel[hidden] {
+  display: none !important;
+}
 .geelooy-home-shell .home-sidebar-panel a {
   align-items: center;
   border: 1px solid rgba(255,255,255,.07);
@@ -41,7 +34,7 @@
 .geelooy-home-shell .home-sidebar-panel a[href="/email"]::before { content: "✉"; }
 .geelooy-home-shell .home-sidebar-panel a[href="/profile"]::before { content: "◎"; }
 .geelooy-home-shell .home-sidebar-panel a[href="/heichelos"]::before { content: "♁"; }
-.geelooy-home-shell .home-sidebar-panel a[href="/sefarim"]::before { content: "✍"; }
+.geelooy-home-shell .home-sidebar-panel a[href="/heichelos/ikar?view=series"]::before { content: "✍"; }
 .geelooy-home-shell .home-sidebar-panel a:hover,
 .geelooy-home-shell .home-sidebar-panel a:focus-visible { background: rgba(46,167,255,.12); outline: none; transform: translateY(-1px); }
 body.geelooy-home-document[data-sidebar-open="true"] .home-bell-button { border-color: rgba(139,92,246,.55); box-shadow: 0 0 0 4px rgba(139,92,246,.1); }

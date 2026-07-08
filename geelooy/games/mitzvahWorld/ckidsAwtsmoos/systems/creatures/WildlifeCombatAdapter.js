@@ -1,13 +1,13 @@
 ﻿// B"H
 /** @file WildlifeCombatAdapter.js @description Bridges wildlife renderer to threat, aggro, leash, packs, guards, and mission state. */
-import { territoryForPosition } from "./TerritoryRuntime.js";
-import { ensureCreatureState, setCreatureState, creatureStatePayload } from "./CreatureStateMachine.js";
-import { addThreat, decayThreat, threatPayload } from "./ThreatRuntime.js";
-import { updateLeash, leashPayload } from "./LeashRuntime.js";
-import { updateAggro } from "./AggroRuntime.js";
-import { alertPack } from "./PackBehaviorRuntime.js";
-import { guardWarn } from "./GuardRuntime.js";
-import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
+import { territoryForPosition } from "./TerritoryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureCreatureState, setCreatureState, creatureStatePayload } from "./CreatureStateMachine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addThreat, decayThreat, threatPayload } from "./ThreatRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { updateLeash, leashPayload } from "./LeashRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { updateAggro } from "./AggroRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { alertPack } from "./PackBehaviorRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { guardWarn } from "./GuardRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function ppos(entity) { return entity?.mesh?.position || entity?.position || null; }
 function dist(a, b) { return a && b ? Math.hypot((a.x || 0) - (b.x || 0), (a.z || 0) - (b.z || 0)) : Infinity; }

@@ -1,12 +1,12 @@
 // B"H
 /** @file RegionNpcRuntime.js @description Scheduler-driven NPC slices: less work per frame, same living village. */
-import { groundY } from "./RegionGround.js";
-import { rand } from "./RegionRandom.js";
-import { getWorldInterestScheduler } from "../../runtime/WorldInterestScheduler.js?v=world-interest-20260621-bh1";
-import { rebuildNpcSpatialHash } from "../../../../../systems/npc/NpcSpatialHash.js?v=world-interest-20260621-bh1";
-import { applyNpcVisualLod } from "../../../../../systems/npc/NpcVisualLod.js?v=deferred-npc-glb-20260705-bh1";
-import { collectNpcLodDiagnostics } from "../../../../../systems/npc/NpcLodDiagnostics.js?v=deferred-npc-glb-20260705-bh1";
-import { installNpcLodRuntime } from "../../../../../systems/npc/NpcLodRuntime.js?v=deferred-npc-glb-20260705-bh1";
+import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rand } from "./RegionRandom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { getWorldInterestScheduler } from "../../runtime/WorldInterestScheduler.js?compact=true&v=world-interest-20260621-bh1";
+import { rebuildNpcSpatialHash } from "../../../../../systems/npc/NpcSpatialHash.js?compact=true&v=world-interest-20260621-bh1";
+import { applyNpcVisualLod } from "../../../../../systems/npc/NpcVisualLod.js?compact=true&v=deferred-npc-glb-20260705-bh1";
+import { collectNpcLodDiagnostics } from "../../../../../systems/npc/NpcLodDiagnostics.js?compact=true&v=deferred-npc-glb-20260705-bh1";
+import { installNpcLodRuntime } from "../../../../../systems/npc/NpcLodRuntime.js?compact=true&v=deferred-npc-glb-20260705-bh1";
 
 const NPC_TYPES = new Set(["interactiveNpc", "customNpc", "medabeir"]);
 const isNpc = e => e && NPC_TYPES.has(e.type);

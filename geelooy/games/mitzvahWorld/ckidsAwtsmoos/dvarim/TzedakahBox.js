@@ -9,8 +9,8 @@
  * visual box color, while the money law remains unchanged: collect all perutos,
  * give tzedakah, then the mezuzah opens and pays double.
  */
-import Domem from "../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
+import Domem from "../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const COLORS = Object.freeze({ waiting: 0xffffff, ready: 0x3cff86, given: 0xffd54a });
 const clamp = n => Math.max(0, Math.min(255, Math.round(n)));

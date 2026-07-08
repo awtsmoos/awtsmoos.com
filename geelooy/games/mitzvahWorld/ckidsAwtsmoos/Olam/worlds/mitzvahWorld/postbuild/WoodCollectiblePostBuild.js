@@ -1,7 +1,7 @@
 // B"H
 /** @file WoodCollectiblePostBuild.js @description Touch-responsive wood collectibles, parser-clear and interaction-layer ready. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { EMERALD_WOOD_NODES, WOOD_COLLECTIBLE_CONTRACT } from "../data/collectibles/WoodCollectibles.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { EMERALD_WOOD_NODES, WOOD_COLLECTIBLE_CONTRACT } from "../data/collectibles/WoodCollectibles.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function material(color, roughness) {
   return new THREE.MeshStandardMaterial({ color, roughness });

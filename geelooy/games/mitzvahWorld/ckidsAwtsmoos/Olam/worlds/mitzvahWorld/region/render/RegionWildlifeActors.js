@@ -6,14 +6,14 @@
  * may wear cheaper clothing. The Awtsmoos removes mobile shadow waste from
  * animals so crisp DPR is paid for visible edges, not hidden shadow casters.
  */
-import { ensureWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js";
-import { makeLootableCorpse, lootPayload } from "../../../../../systems/loot/LootRuntime.js?v=final-lootable-corpse-20260705-bh1";
-import { groundY } from "./RegionGround.js";
-import { sealRegionVisual } from "./RegionSeal.js";
-import { FLAGS, clearSpawn, countMeshes, radius, safe, speed } from "./RegionWildlifeData.js?v=lod-house-octree-20260705-bh1";
-import { buildStableAnimal } from "./RegionStableAnimalShape.js?v=full-revamp-realistic-animals-20260704-bh1";
-import { applyAnimalVisualLod } from "./wildlife/AnimalVisualLod.js?v=mobile-crisp-passive-herd-lod-20260705-bh2";
-import { ensureAnimalInteractionProxy } from "./wildlife/AnimalInteractionProxy.js?v=lod-house-octree-20260705-bh1";
+import { ensureWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeLootableCorpse, lootPayload } from "../../../../../systems/loot/LootRuntime.js?compact=true&v=final-lootable-corpse-20260705-bh1";
+import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { FLAGS, clearSpawn, countMeshes, radius, safe, speed } from "./RegionWildlifeData.js?compact=true&v=lod-house-octree-20260705-bh1";
+import { buildStableAnimal } from "./RegionStableAnimalShape.js?compact=true&v=full-revamp-realistic-animals-20260704-bh1";
+import { applyAnimalVisualLod } from "./wildlife/AnimalVisualLod.js?compact=true&v=mobile-crisp-passive-herd-lod-20260705-bh2";
+import { ensureAnimalInteractionProxy } from "./wildlife/AnimalInteractionProxy.js?compact=true&v=lod-house-octree-20260705-bh1";
 
 function initialDestination(point, index, species, radiusValue) {
   const angle = (index * 2.399963 + species.length * 0.41) % (Math.PI * 2);

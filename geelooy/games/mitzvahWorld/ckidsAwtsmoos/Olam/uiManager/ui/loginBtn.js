@@ -1,7 +1,7 @@
 
 //B"H
-import awtsOpen from "/scripts/awtsmoos/ui/open.js"
-import createProfile from "/scripts/awtsmoos/social/profileDropdown.js";
+import awtsOpen from "/scripts/awtsmoos/ui/open.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"
+import createProfile from "/scripts/awtsmoos/social/profileDropdown.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 // B"H: Expose functions to global scope so they persist through serialization/eval
 // Shielded by typeof window check to prevent shattering in ethereal environments.

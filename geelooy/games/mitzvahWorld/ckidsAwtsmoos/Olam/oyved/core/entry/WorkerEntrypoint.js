@@ -3,15 +3,15 @@
  * @file WorkerEntrypoint.js
  * @description Installs worker boot state, imports core modules, and starts Olam.
  */
-import { postPlainWorkerError } from "./PlainWorkerPost.js";
-import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
-import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js";
-import { createWorkerBootState } from "./WorkerBootState.js";
-import { startWorkerBoot } from "./WorkerBootRunner.js?v=repair-ground-material-20260708-bh2";
-import { loadWorkerCoreModules } from "./WorkerCoreModules.js?v=repair-ground-material-20260708-bh2";
-import { installWorkerMessageListener } from "./WorkerListenerInstaller.js";
-import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
+import { postPlainWorkerError } from "./PlainWorkerPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createWorkerBootState } from "./WorkerBootState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { startWorkerBoot } from "./WorkerBootRunner.js?compact=true&v=repair-ground-material-20260708-bh2";
+import { loadWorkerCoreModules } from "./WorkerCoreModules.js?compact=true&v=repair-ground-material-20260708-bh2";
+import { installWorkerMessageListener } from "./WorkerListenerInstaller.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /** B"H starts the worker entrypoint once its shell has loaded. */
 export async function startOyvedEntrypoint() {

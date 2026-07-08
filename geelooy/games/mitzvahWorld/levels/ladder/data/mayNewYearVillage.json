@@ -1,0 +1,180 @@
+{
+  "format": "awtsmoos-level-json-v1",
+  "id": "mayNewYearVillage.json",
+  "shaym": "May_New_Year_Village_Test",
+  "title": "May New Year Village Test",
+  "requiredPerutos": 0,
+  "nextLevel": "village.json",
+  "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
+  "testWorldFlags": {
+    "skipMitzvahWorldPostBuild": true,
+    "skipStarterStation": true,
+    "skipVillageGrounding": false,
+    "skipHouseCollision": false,
+    "forceHouseCollision": true,
+    "defaultSceneAnimals": false,
+    "defaultSceneFriendlyNpcs": false
+  },
+  "animals": [
+    {
+      "id": "may_new_year_cow_01",
+      "name": "May Village Cow",
+      "type": "animal",
+      "species": "cow",
+      "behavior": "graze",
+      "peaceful": true,
+      "friendly": true,
+      "singleMeshAnimal": true,
+      "proceduralAnimal": true,
+      "position": { "x": -13, "y": 0, "z": -5 },
+      "rotation": { "y": 0.55 },
+      "scale": 1
+    }
+  ],
+  "nivrayim": {
+    "VillageCameraPreset": [
+      { "name": "may_new_year_test_camera", "fov": 62, "height": 1.62, "distance": 4.4, "shoulderX": 0, "lookAhead": 4.5, "pitch": -0.1 }
+    ],
+    "ProceduralSky": [
+      {
+        "name": "may_new_year_soft_clear_sky",
+        "timeOfDay": 14.4,
+        "timeMultiplier": 0,
+        "sunIntensity": 0.58,
+        "hemiIntensity": 0.72,
+        "ambientIntensity": 0.46,
+        "fogNear": 210,
+        "fogFar": 780,
+        "topColor": 9418972,
+        "bottomColor": 14208935,
+        "horizonGlow": 15913611,
+        "position": { "x": 0, "y": 0, "z": 0 }
+      }
+    ],
+    "VillageLightingRig": [
+      {
+        "name": "may_new_year_light_rig",
+        "skyColor": 13229279,
+        "groundColor": 6322767,
+        "hemiIntensity": 0.7,
+        "sunColor": 16766363,
+        "sunIntensity": 0.68,
+        "sunX": -18,
+        "sunY": 24,
+        "sunZ": 16,
+        "fogColor": 14275253,
+        "fogNear": 210,
+        "fogFar": 780
+      }
+    ],
+    "ProceduralTerrain": [
+      {
+        "name": "may_new_year_walkable_ground_with_remote_grass_dirt_mix",
+        "width": 260,
+        "depth": 220,
+        "segments": 64,
+        "collisionSegments": 28,
+        "isSolid": true,
+        "noSafetySlab": true,
+        "textureType": "remoteFirebaseGrassDirtMix",
+        "textureRepeat": 18,
+        "textureUrls": {
+          "grassA": "https://awtsmoos-docs-base.web.app/full-resolution/grass%201.png",
+          "grassB": "https://awtsmoos-docs-base.web.app/full-resolution/grass1.png",
+          "dirt": "https://awtsmoos-docs-base.web.app/full-resolution/dirt%201.png",
+          "dirtGrass": "https://awtsmoos-docs-base.web.app/full-resolution/dirt%20grass%202.png"
+        },
+        "microNoise": 0.035,
+        "shaderScale": 0.055,
+        "mobileTone": "soft-clear-meadow-green",
+        "points": [
+          { "x": -130, "z": -110, "y": 0 },
+          { "x": 130, "z": -110, "y": 0 },
+          { "x": 130, "z": 110, "y": 0 },
+          { "x": -130, "z": 110, "y": 0 }
+        ],
+        "hills": [
+          { "x": -42, "z": -38, "radius": 52, "height": 2.1, "softness": 0.82 },
+          { "x": 44, "z": 34, "radius": 58, "height": 2.4, "softness": 0.86 },
+          { "x": 3, "z": 68, "radius": 44, "height": 1.4, "softness": 0.9 }
+        ],
+        "plateaus": [ { "x": 0, "z": 0, "rx": 38, "rz": 32, "y": 0 } ],
+        "roads": [],
+        "dirtPatches": [],
+        "position": { "x": 0, "y": 0, "z": 0 }
+      }
+    ],
+    "Chossid": [
+      {
+        "name": "May New Year Test Player",
+        "path": "https://awtsmoos-docs-base.web.app/models/chossid.glb",
+        "speed": 10,
+        "speedScale": 1,
+        "runModeScale": 0.82,
+        "walkModeScale": 0.45,
+        "autoGround": true,
+        "groundLift": 0,
+        "position": { "x": 0, "y": 0, "z": 15 },
+        "rotation": { "y": 3.14159 },
+        "cameraPreset": "may_new_year_test_camera"
+      }
+    ],
+    "npcChossid": [
+      {
+        "id": "may_new_year_real_chossid_npc",
+        "name": "May New Year Village Chossid",
+        "displayName": "May New Year Village Chossid",
+        "role": "friendly_village_chossid",
+        "proximity": 9,
+        "scale": 1,
+        "position": [ -4, 0, 7 ],
+        "rotation": [ 0, 2.75, 0 ],
+        "dialogues": [
+          "Shalom! Welcome to the May New Year village test.",
+          "The hills are gentle, the house is simple, and the path is clear.",
+          "May every new beginning reveal more light."
+        ]
+      }
+    ],
+    "VillagePictureProp": [
+      { "name": "may_new_year_simple_house", "kind": "gableHouse", "position": { "x": 15, "y": 0, "z": -12 }, "terrainLawGrounded": true, "groundLift": 0, "scale": 1.55, "rotation": { "y": -0.25 } },
+      { "name": "may_new_year_door_steps", "kind": "steps", "position": { "x": 12.2, "z": -7.4 }, "terrainLawGrounded": true, "groundLift": 0.02, "scale": 0.82, "rotation": { "y": -0.25 } },
+      { "name": "may_new_year_complex_tree_01", "kind": "pictureAnchorTree", "position": { "x": -24, "z": 4 }, "terrainLawGrounded": true, "groundLift": 0, "scale": 0.98, "rotation": { "y": -0.2 } },
+      { "name": "may_new_year_complex_tree_02", "kind": "pictureAnchorTree", "position": { "x": -33, "z": -22 }, "terrainLawGrounded": true, "groundLift": 0, "scale": 0.84, "rotation": { "y": 0.45 } },
+      { "name": "may_new_year_complex_tree_03", "kind": "pictureAnchorTree", "position": { "x": 32, "z": 17 }, "terrainLawGrounded": true, "groundLift": 0, "scale": 0.92, "rotation": { "y": -0.75 } },
+      { "name": "may_new_year_complex_tree_04", "kind": "pictureAnchorTree", "position": { "x": 42, "z": -28 }, "terrainLawGrounded": true, "groundLift": 0, "scale": 0.72, "rotation": { "y": 0.9 } },
+      { "name": "may_new_year_complex_tree_05", "kind": "pictureAnchorTree", "position": { "x": -5, "z": -42 }, "terrainLawGrounded": true, "groundLift": 0, "scale": 0.78, "rotation": { "y": -1.1 } }
+    ],
+    "VillageHouseCollider": [
+      {
+        "name": "may_new_year_simple_house_collider",
+        "targetName": "may_new_year_simple_house",
+        "width": 15,
+        "depth": 10.5,
+        "height": 6.6,
+        "floorTop": 0,
+        "thickness": 0.8,
+        "position": { "x": 15, "y": 0, "z": -12 },
+        "rotation": { "y": -0.25 },
+        "useAuthoredY": true,
+        "thresholdCollider": false,
+        "contractDriven": false,
+        "useVisualHouseY": false,
+        "doorWidth": 2.8,
+        "doorClearHeight": 2.8
+      }
+    ],
+    "VillageSkyLayers": [],
+    "VillageBackdrop": [],
+    "VillageGroundPlane": [],
+    "VillageStonePath": [],
+    "VillageRoadCollider": [],
+    "VillageCottage": [],
+    "VillageHeroTree": [],
+    "VillageTreeField": [],
+    "VillageGrassField": [],
+    "InteractiveNpc": [],
+    "VillageFenceCollider": [],
+    "VillageForestField": []
+  }
+}

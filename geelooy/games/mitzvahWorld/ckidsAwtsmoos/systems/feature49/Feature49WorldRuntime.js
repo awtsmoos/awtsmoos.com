@@ -1,6 +1,6 @@
 // B"H
 /** WorldRuntime: hidden stories, projects, emergencies, cleanliness, archive. */
-import { mutateFeature49State, appendFeature49Log } from './Feature49State.js';
+import { mutateFeature49State, appendFeature49Log } from './Feature49State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function advanceCommunityProject(id='study_house_renovation', amount=1){ return mutateFeature49State(s=>{ s.projects ||= {}; s.projects[id]=(s.projects[id]||0)+amount; appendFeature49Log({type:'project',id,amount}); return s; }); }
 export function revealObservationStory(id='quiet_kindness', text='You noticed kindness nobody announced.'){ return mutateFeature49State(s=>{ s.observationStories ||= {}; s.observationStories[id]={text,seenAt:Date.now()}; return s; }); }
 export function setCleanliness(zone='village_square', value=50){ return mutateFeature49State(s=>{ s.cleanliness ||= {}; s.cleanliness[zone]=Math.max(0,Math.min(100,value)); return s; }); }

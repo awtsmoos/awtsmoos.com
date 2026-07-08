@@ -2,7 +2,7 @@
  * B"H
  */
 
-import MinimapPostprocessing from '../../postProcessing/minimap.js';
+import MinimapPostprocessing from '../../postProcessing/minimap.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export default function() {
     this.on("minimap fullscreen toggle", async () => {
         await this.htmlAction({

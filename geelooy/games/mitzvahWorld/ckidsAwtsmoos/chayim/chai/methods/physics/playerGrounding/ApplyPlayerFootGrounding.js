@@ -1,9 +1,9 @@
 // B"H
 /** @file ApplyPlayerFootGrounding.js @description Visual grounding that does not cancel real jumps. */
-import { GROUNDING_SYSTEM, PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr } from "./FootGroundConstants.js?v=no-compact-engine-20260702-bh2";
-import { playerVisualRoots, sealLowestVisibleToWorldY, targetModelLocalY } from "./ModelFootProbe.js?v=no-compact-engine-20260702-bh2";
-import { enforceCapsuleFootContract } from "./CapsuleFootContract.js?v=no-compact-engine-20260702-bh2";
-import { buildPlayerGroundingDiagnostic } from "./PlayerGroundingDiagnostics.js?v=no-compact-engine-20260702-bh2";
+import { GROUNDING_SYSTEM, PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr } from "./FootGroundConstants.js?compact=true&v=compact-engine-20260702-bh2";
+import { playerVisualRoots, sealLowestVisibleToWorldY, targetModelLocalY } from "./ModelFootProbe.js?compact=true&v=compact-engine-20260702-bh2";
+import { enforceCapsuleFootContract } from "./CapsuleFootContract.js?compact=true&v=compact-engine-20260702-bh2";
+import { buildPlayerGroundingDiagnostic } from "./PlayerGroundingDiagnostics.js?compact=true&v=compact-engine-20260702-bh2";
 
 function currentGroundY(player) {
   const hit = player?.__meshGroundAuthority || player?.groundHitResult || null;

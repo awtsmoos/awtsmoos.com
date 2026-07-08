@@ -14,4 +14,4 @@
  * @safety The shim avoids duplicate logic; the actual collision, texture, and
  * dynamic-body behavior remain in ../movers/MovingPushBlock.js.
  */
-export { default } from "../movers/MovingPushBlock.js?v=authored-y-lava-pusher-20260602-bh172";
+export { default } from "../movers/MovingPushBlock.js?compact=true&v=authored-y-lava-pusher-20260602-bh172";

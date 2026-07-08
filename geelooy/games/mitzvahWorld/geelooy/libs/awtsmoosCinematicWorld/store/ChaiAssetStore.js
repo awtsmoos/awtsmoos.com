@@ -1,5 +1,5 @@
 // B"H
-import { CHAI_FOREST_BASE_URL, CHAI_FOREST_HALF_BASE_URL, FUR_GANG_TEXTURES, groundTextures } from "../assets/ChaiForestStaticAssets.js";
+import { CHAI_FOREST_BASE_URL, CHAI_FOREST_HALF_BASE_URL, FUR_GANG_TEXTURES, groundTextures } from "../assets/ChaiForestStaticAssets.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 const KEY = "awtsmoos.chaiForest.assetStore.v1";
 const MOVIE_KEY = "awtsmoos.chaiForest.latestMovie.v1";
 const read = key => { try { return JSON.parse(localStorage.getItem(key) || "null"); } catch { return null; } };

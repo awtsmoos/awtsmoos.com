@@ -5,24 +5,24 @@
  * and Presentation bus. Budgeted frames remain tiny; full steps remain rich;
  * direct actions flush durable state.
  */
-import * as State from './LivingWorldState.js';
-import { hydrateLivingWorldFromWorldState, persistLivingWorldToWorldState, livingWorldPersistenceSummary } from './LivingWorldPersistenceBridge.js';
-import { applyEconomyPricing } from '../economy/EconomyPricingRuntime.js';
-import { applyVendorPurchase } from '../economy/EconomyTransactionRuntime.js';
-import { createNpcScheduleRuntime } from '../npc/NpcScheduleRuntime.js';
-import { createNpcMemoryRuntime } from '../npc/NpcMemoryRuntime.js';
-import { openNpcInteraction, npcInteractionIndex } from '../npc/NpcInteractionRuntime.js';
-import { createRumor, propagateRumors } from '../npc/GossipRuntime.js';
-import { createMissionRuntime } from '../missions/MissionRuntime.js';
-import { progressActiveObjectives } from '../missions/MissionObjectiveRuntime.js';
-import { createReputationRuntime } from '../reputation/ReputationRuntime.js';
-import { createWorldEventRuntime } from '../world/WorldEventRuntime.js';
-import { createWorldEventDirectorRuntime } from '../world/WorldEventDirectorRuntime.js';
-import { createProfessionRuntime } from '../professions/ProfessionRuntime.js';
-import { createVillageActivityScheduler } from '../village/VillageActivitySchedulerRuntime.js';
-import { pulsePolicy, framePolicy } from '../core/SimulationPulsePolicy.js';
-import { publishLivingWorld } from '../ui/WorldPresentationBus.js';
-import { advanceVillageForPolicy, budgetedLivingWorldFrame } from './LivingWorldFrameStep.js';
+import * as State from './LivingWorldState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { hydrateLivingWorldFromWorldState, persistLivingWorldToWorldState, livingWorldPersistenceSummary } from './LivingWorldPersistenceBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyEconomyPricing } from '../economy/EconomyPricingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyVendorPurchase } from '../economy/EconomyTransactionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createNpcScheduleRuntime } from '../npc/NpcScheduleRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createNpcMemoryRuntime } from '../npc/NpcMemoryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { openNpcInteraction, npcInteractionIndex } from '../npc/NpcInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createRumor, propagateRumors } from '../npc/GossipRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createMissionRuntime } from '../missions/MissionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { progressActiveObjectives } from '../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createReputationRuntime } from '../reputation/ReputationRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createWorldEventRuntime } from '../world/WorldEventRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createWorldEventDirectorRuntime } from '../world/WorldEventDirectorRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createProfessionRuntime } from '../professions/ProfessionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createVillageActivityScheduler } from '../village/VillageActivitySchedulerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { pulsePolicy, framePolicy } from '../core/SimulationPulsePolicy.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { publishLivingWorld } from '../ui/WorldPresentationBus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { advanceVillageForPolicy, budgetedLivingWorldFrame } from './LivingWorldFrameStep.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const SAVE_INTERVAL_MS = 1500;
 function cap(scope) { const b = scope.__MITZVAH_WORLD_REALISM_BUDGET__ || {}; return Math.max(1, Math.min(5, Number(b.scheduler?.maxTasksPerTick || b.maxTasksPerTick || 3))); }

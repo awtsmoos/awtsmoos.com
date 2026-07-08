@@ -9,8 +9,8 @@
  * * TIKKUN: Integrated with ShaderLimiter to ensure the loop is 
  * compile-time stable and satisfies the DirectX/OpenGL unrolling decrees.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { SHADER_LIMITS, generateUnrollableLoop } from './boyrayNivra/ShaderLimiter.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { SHADER_LIMITS, generateUnrollableLoop } from './boyrayNivra/ShaderLimiter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class HoleManager {
     static holes = [];

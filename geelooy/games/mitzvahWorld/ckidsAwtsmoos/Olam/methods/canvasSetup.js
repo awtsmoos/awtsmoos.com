@@ -3,12 +3,12 @@
  * @module MasterCanvasSetup
  * @description Chapter 12: Quiet bh17 canvas setup.
  */
-import WebGLGuard from "./canvas/WebGLGuard.js";
-import RendererFactory from "./canvas/RendererFactory.js?v=high-performance-context-20260621-bh1";
-import ViewportSizer from "./canvas/ViewportSizer.js";
-import ContextMonitor from "./canvas/ContextMonitor.js";
-import UIRectifier from "./ui/UIRectifier.js";
-import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js";
+import WebGLGuard from "./canvas/WebGLGuard.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import RendererFactory from "./canvas/RendererFactory.js?compact=true&v=high-performance-context-20260621-bh1";
+import ViewportSizer from "./canvas/ViewportSizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ContextMonitor from "./canvas/ContextMonitor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import UIRectifier from "./ui/UIRectifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class MasterCanvasSetup {
   /** Accepts the transferred canvas and creates the renderer. */

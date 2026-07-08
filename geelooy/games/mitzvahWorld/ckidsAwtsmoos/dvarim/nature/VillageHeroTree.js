@@ -1,9 +1,9 @@
 // B"H
 /** Village hero tree: real procedural-core generator, Chai Forest bitmap textures. */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { createHeroTree } from "/libs/awtsmoos3d/tree/heroTree.js?v=procedural-core-chai-worker-safe-20260707-bh2";
-import { ACTUAL_TEXTURES, namedTexture } from "../../../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createHeroTree } from "/libs/awtsmoos3d/tree/heroTree.js?compact=true&v=procedural-core-chai-worker-safe-20260707-bh2";
+import { ACTUAL_TEXTURES, namedTexture } from "../../../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const kindFor = v => /pine|cedar/i.test(v) ? "pine" : /apple/i.test(v) ? "apple" : /willow/i.test(v) ? "willow" : "oak";
 export default class VillageHeroTree extends Domem {

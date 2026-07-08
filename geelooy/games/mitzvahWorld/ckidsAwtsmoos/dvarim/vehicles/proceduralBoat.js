@@ -1,5 +1,5 @@
 //B"H
-import Chai from "../../chayim/chai/index.js";
+import Chai from "../../chayim/chai/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class ProceduralBoat extends Chai {
     heesHawvoos(dt) {
         const waterY = this.olam.waterLevel || 0;

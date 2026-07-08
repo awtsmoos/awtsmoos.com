@@ -1,17 +1,11 @@
 /* B"H
- * Chapter 300: The reader returns to a natural river.
- *
- * The fixed-shell repair proved too harsh: it made the document and the reader
- * argue about who owns the wheel. This file restores the reader to normal page
- * flow while keeping the wrapper and content open, so the browser scrollbar,
- * wheel, touch, keyboard, inline comments, and virtualization all share one
- * simple vertical world.
+ * Chapter 300 refined: natural page scroll, unique selector ownership.
+ * The repaired class scopes this covenant so main.css may import it without
+ * fighting shell/mobile modules. The browser remains the primary river.
  */
 
 html.awtsmoos-reader-scroll-repaired,
-body.awtsmoos-reader-scroll-repaired,
-html,
-body {
+body.awtsmoos-reader-scroll-repaired {
     width: 100% !important;
     min-height: 100% !important;
     height: auto !important;
@@ -21,8 +15,7 @@ body {
     touch-action: pan-y !important;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision,
-.post-reader-localized-context.awtsmoos-reader-vision {
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision {
     position: relative !important;
     inset: auto !important;
     width: 100% !important;
@@ -36,8 +29,7 @@ html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-rea
     touch-action: pan-y !important;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision > .main,
-.post-reader-localized-context.awtsmoos-reader-vision > .main {
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision > .main {
     position: static !important;
     display: block !important;
     width: 100% !important;
@@ -49,8 +41,7 @@ html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-rea
     touch-action: pan-y !important;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
-.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
     position: relative !important;
     width: 100% !important;
     min-height: calc(100dvh - var(--awt-header-space, 0px)) !important;
@@ -65,9 +56,7 @@ html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-rea
 }
 
 html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision #realPost.content,
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container,
-.post-reader-localized-context.awtsmoos-reader-vision #realPost.content,
-.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container {
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container {
     min-height: 0 !important;
     height: auto !important;
     max-height: none !important;
@@ -75,7 +64,6 @@ html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-rea
     touch-action: pan-y !important;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .sidebar,
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar {
+html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.fullscreen-mode) {
     max-height: calc(100dvh - 1rem) !important;
 }

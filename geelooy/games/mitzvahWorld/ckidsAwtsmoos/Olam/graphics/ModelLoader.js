@@ -8,7 +8,7 @@
  * logic to Three.js forever.
  */
 
-import { loadNeutralGltf } from './procedural/NeutralGltfLoader.js';
+import { loadNeutralGltf } from './procedural/NeutralGltfLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 let cachedGltfLoader = null;
 const modelPromiseCache = new Map();
@@ -21,7 +21,7 @@ function canLoadBrowserModules() {
 async function loadBrowserGltfLoader() {
   if (cachedGltfLoader) return cachedGltfLoader;
   if (!canLoadBrowserModules()) return null;
-  const mod = await import('/games/scripts/jsm/loaders/GLTFLoader.js');
+  const mod = await import('/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1');
   cachedGltfLoader = new mod.GLTFLoader();
   return cachedGltfLoader;
 }

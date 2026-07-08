@@ -1,6 +1,6 @@
 // B"H
 /** @file CollectSourceRuntime.js @description Strict collection source validation for nearby sparks, pages, herbs, and rare drops. */
-import { collectItem } from "./CollectRuntime.js";
+import { collectItem } from "./CollectRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function posOf(x) { return x?.mesh?.position || x?.position || { x:0, z:0 }; }
 function dist(a, b) { return Math.hypot((a.x || 0) - (b.x || 0), (a.z || 0) - (b.z || 0)); }

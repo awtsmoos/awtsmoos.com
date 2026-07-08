@@ -1,6 +1,6 @@
 // B"H
 /** @file ProceduralHeldMeshCatalog.js @description Procedural weapon recipes now carry real part transforms for renderable geometry. */
-import { weaponStats } from "./WeaponStatCatalog.js";
+import { weaponStats } from "./WeaponStatCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const V=(x=0,y=0,z=0)=>({x,y,z});
 const C=(kind,dims,material,pos=V(),rot=V(),scale=V(1,1,1))=>({kind,dims,material,pos,rot,scale});
 const blade=(h=.72,w=.055,mat="silver-blade")=>[C("box",{x:w,y:h,z:.022},mat,V(0,h/2+.1,0)),C("cone",{r:w*.8,h:.12},mat,V(0,h+.22,0),V(0,0,Math.PI)),C("box",{x:.24,y:.035,z:.055},"gold-guard",V(0,.08,0)),C("cylinder",{r:.032,h:.22},"leather-grip",V(0,-.055,0),V(Math.PI/2,0,0)),C("sphere",{r:.045},"pommel",V(0,-.19,0))];

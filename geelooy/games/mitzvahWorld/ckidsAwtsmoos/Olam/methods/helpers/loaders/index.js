@@ -7,8 +7,8 @@
  * The Awtsmoos sends GLB garments through this small gate. Its seal now matches
  * the Chossid root guarantee and worker player probe.
  */
-import GLTFLoaderVessel from './GLTFLoaderVessel.js?v=visible-root-binding-20260610-bh710';
-import TextureLoaderVessel from './TextureLoaderVessel.js';
+import GLTFLoaderVessel from './GLTFLoaderVessel.js?compact=true&v=visible-root-binding-20260610-bh710';
+import TextureLoaderVessel from './TextureLoaderVessel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
   /** @param {string} url GLTF/GLB URL. @returns {Promise<object|null>} Loaded GLTF. */

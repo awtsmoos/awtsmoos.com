@@ -1,6 +1,6 @@
 // B"H
 /** @file WorkerProgressStore.js @purpose Records concise real loader timings, not UI ACK spam. */
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?v=loading-proof-mobile-20260706-bh3";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?compact=true&v=loading-proof-mobile-20260706-bh3";
 const FINAL_STAGES = new Set(["world_final_ready", "loadedWorld"]);
 const MEANINGFUL = [/^entrypoint/, /^boot-runner/, /^angelic/, /^vessel_ready$/, /^load-nivrayim:/, /^postbuild:/, /^living-runtime:/, /^texture:/, /^canvas_transferred$/, /^loadedWorld$/, /^world_final_ready$/];
 let pendingProgress = null, progressTimer = null;

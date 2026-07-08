@@ -6,9 +6,9 @@
  * The surgeon of the shader strings. Carefully slices into the standard 
  * Three.js material definitions to insert our custom procedural logic.
  */
-import GlslNoise from "./GlslNoise.js";
-import GlslVertex from "./GlslVertex.js";
-import GlslFragment from "./GlslFragment.js";
+import GlslNoise from "./GlslNoise.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import GlslVertex from "./GlslVertex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import GlslFragment from "./GlslFragment.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ShaderInjector {
     /**

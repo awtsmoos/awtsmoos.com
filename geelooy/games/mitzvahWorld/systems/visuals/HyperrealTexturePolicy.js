@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 const CLASSES={terrain:{repeat:[34,34],roughness:.96},grass:{repeat:[42,42],roughness:.9},bark:{repeat:[10,16],roughness:.94},roof:{repeat:[9,7],roughness:.88},wall:{repeat:[7,7],roughness:.86},animal:{repeat:[5,3],roughness:.82},head:{repeat:[3.5,2.5],roughness:.78},ui:{repeat:[1,1],roughness:.7},default:{repeat:[2,2],roughness:.85}};
 const RX={terrain:/terrain|ground|soil|path|road|hill|floor/i,grass:/grass|meadow|field/i,bark:/bark|trunk|branch|wood/i,roof:/roof|thatch|tile/i,wall:/wall|stone|plaster|brick|house/i,animal:/fur|animal|fox|rabbit|deer|goat|cow|frog|bird|body|tail|leg|paw/i,head:/head|face|snout|muzzle|ear|eye|nose|mouth|beard|hair/i,ui:/ui|hud|button|icon|glyph|marker|sprite|font|text/i};
 export function classifyTextureTarget(label=""){for(const [k,r]of Object.entries(RX))if(r.test(label))return k;return"default"}

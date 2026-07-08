@@ -12,7 +12,7 @@
  * ║  in the terrain of the Emerald Void.                        ║
  * ╚═══════════════════════════════════════════════════════════╝
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const _ray      = new THREE.Ray();
 const _rayDown  = new THREE.Vector3(0, -1, 0);

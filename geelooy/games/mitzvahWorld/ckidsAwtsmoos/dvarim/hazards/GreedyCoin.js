@@ -1,5 +1,5 @@
 // B"H
-import Coin from '../coin.js';
+import Coin from '../coin.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * Greedy bait coin that flees toward danger.

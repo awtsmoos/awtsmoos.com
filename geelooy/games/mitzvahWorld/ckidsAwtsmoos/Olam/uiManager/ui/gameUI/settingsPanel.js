@@ -1,6 +1,6 @@
 // B"H
 /** @file settingsPanel.js @description Cache-aware control room for generated world vessels. */
-import { estimateGeneratedAssetCache, clearGeneratedAssetCache, deleteGeneratedAssetKind, installGeneratedCacheGlobals } from "../../../../systems/cache/GeneratedAssetCache.js?v=generated-cache-spine-20260701-bh1";
+import { estimateGeneratedAssetCache, clearGeneratedAssetCache, deleteGeneratedAssetKind, installGeneratedCacheGlobals } from "../../../../systems/cache/GeneratedAssetCache.js?compact=true&v=generated-cache-spine-20260701-bh1";
 installGeneratedCacheGlobals();
 const KEY = "awtsmoosMobileSettings";
 const DEFAULTS = { invertY:true, invertX:true, uiScale:1, actionLift:128, quality:"balanced", reducedMotion:true };

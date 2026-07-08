@@ -8,9 +8,9 @@
  * the octree without inheriting any skipped parent. Thus the ground can guide
  * motion cleanly while the Awtsmoos keeps collision simple, finite, and clear.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const hidden = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0, depthWrite: false });

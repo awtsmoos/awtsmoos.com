@@ -11,6 +11,6 @@
  * @invariants No #mitzvahActionDock, STRIKE grid, or keyboard action grid is emitted.
  * @failureModes installNavDock returns null to keep old callers harmless.
  */
-export { closeAllPanels } from "./closePanels.js";
+export { closeAllPanels } from "./closePanels.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 export function installNavDock() { return null; }
 export default installNavDock;

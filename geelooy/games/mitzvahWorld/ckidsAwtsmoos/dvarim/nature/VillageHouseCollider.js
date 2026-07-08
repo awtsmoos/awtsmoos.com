@@ -5,10 +5,10 @@
  * floods the browser/tunnel console every time its detached collider shell is
  * registered. Collider counts are stored on userData for audits instead.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js";
-import { rebuildMeasuredHouseShell } from "./houseCollider/VillageHouseAutoShell.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rebuildMeasuredHouseShell } from "./houseCollider/VillageHouseAutoShell.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const mat = () => new THREE.MeshBasicMaterial({ color:0x00ff00, transparent:true, opacity:0, depthWrite:false, depthTest:false });
 function mark(mesh, owner) { mesh.visible = true; mesh.nivraAwtsmoos = owner; Object.assign(mesh.userData ||= {}, { isVillageHouseCollider:true, colliderRole:mesh.name, useAuthoredY:true, isSolid:true, explicitCollision:true, addToOctree:true, collisionBody:true, keepOriginalCollider:true, useExactGeometryCollider:true, colliderKind:"house-wall", colliderOwner:owner?.name || "village-house" }); delete mesh.userData.skipRaycast; }

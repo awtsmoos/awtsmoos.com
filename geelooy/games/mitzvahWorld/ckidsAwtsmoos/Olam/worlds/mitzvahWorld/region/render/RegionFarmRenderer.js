@@ -3,11 +3,11 @@
  * @file RegionFarmRenderer.js
  * @description Farms now prefer parcel gardens; fallback rows remain for older reports.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20260614-bh2";
-import { sealRegionVisual } from "./RegionSeal.js";
-import { qualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
-import { registerFarmPlots } from "../../../../../systems/farming/FarmPlotRegistry.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeInstancedLayer } from "./RegionInstancer.js?compact=true&v=awtsmoos-instancer-20260614-bh2";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { qualityCount } from "./RegionQuality.js?compact=true&v=awtsmoos-quality-20260614-bh2";
+import { registerFarmPlots } from "../../../../../systems/farming/FarmPlotRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const FARM = Object.freeze({ x:-150, z:-42, rowX:36, rowGapX:1.4, rowGapZ:2.1 });
 function houses(report) { return Array.isArray(report?.houses) ? report.houses : []; }
 function parcels(report) { const h = houses(report); return Array.isArray(h.parcels) ? h.parcels : h.map(x => x.parcel).filter(Boolean); }

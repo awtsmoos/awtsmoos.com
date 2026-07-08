@@ -1,5 +1,7 @@
 /* B"H
  * Chapter 410: The stage becomes a sanctuary of measured air.
+ * No expensive mist is needed; the Awtsmoos reveals depth through borders,
+ * gradients, rhythm, and the quiet refusal to block the user's touch.
  */
 .heichel-mobile-navigation,
 .geelooy-social-shell {
@@ -21,9 +23,8 @@
   padding: clamp(.8rem, 2vw, 1.3rem);
   border: 1px solid var(--heichel-line);
   border-radius: var(--heichel-radius-large);
-  background: rgba(12,18,34,.78);
+  background: linear-gradient(150deg, rgba(12,18,34,.96), rgba(7,13,27,.91));
   box-shadow: var(--heichel-shadow-soft), inset 0 1px 0 rgba(255,255,255,.08);
-  backdrop-filter: blur(14px) saturate(125%);
 }
 
 .heichel-nav-panel::before {

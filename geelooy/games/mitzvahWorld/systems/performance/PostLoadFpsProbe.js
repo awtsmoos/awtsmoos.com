@@ -1,9 +1,9 @@
 // B"H
 /** @file PostLoadFpsProbe.js @description Quiet actual post-load FPS probe. */
-import "./FrameSubsystemCounters.js?v=step-by-step-20260621-bh1";
-import { assertPostLoadFps } from "./NoJankAssertions.js?v=animal-realism-proof-20260705-bh1";
-import { installLongTaskReporter } from "./LongTaskReporter.js";
-import { gameplayReadyState } from "../streaming/GameplayReadyGate.js";
+import "./FrameSubsystemCounters.js?compact=true&v=step-by-step-20260621-bh1";
+import { assertPostLoadFps } from "./NoJankAssertions.js?compact=true&v=animal-realism-proof-20260705-bh1";
+import { installLongTaskReporter } from "./LongTaskReporter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { gameplayReadyState } from "../streaming/GameplayReadyGate.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const SAMPLE_MS = 9000, QUIET_MS = 1800, LOG_EVERY_MS = 3000, TARGET_FPS = 60;
 const now = () => performance.now();

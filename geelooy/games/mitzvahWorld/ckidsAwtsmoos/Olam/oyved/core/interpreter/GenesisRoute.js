@@ -8,7 +8,7 @@
  * authored Y coordinates, so lava gameplay objects remain exactly where JSON
  * placed them.
  */
-import { PawsawchProcessor } from '../pawsawch/PawsawchProcessor.js?v=respect-authored-y-20260602-bh7';
+import { PawsawchProcessor } from '../pawsawch/PawsawchProcessor.js?compact=true&v=respect-authored-y-20260602-bh7';
 
 export class GenesisRoute {
   /**

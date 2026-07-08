@@ -6,24 +6,24 @@
  * profiles, properties, roads, buildings, NPCs, trees, mazikim, terrain,
  * objectives, visuals, and summary.
  */
-import { applyPropertyFeatures } from './PropertyFeatureCompiler.js';
-import { applyVisualEnrichment } from './EmeraldVisualEnrichment.js';
-import { addBuildings } from './compiler/buildings.js';
-import { createBuckets } from './compiler/buckets.js';
-import { addExtraProperties } from './compiler/extraProperties.js';
-import { baseProperties } from './compiler/propertyList.js';
-import { makeRandom } from './compiler/random.js';
-import { resolveProfile, PROFILES } from './compiler/profiles.js';
-import { addRoads } from './compiler/roads.js';
-import { addSkyVehiclesObjectives } from './compiler/skyVehiclesObjectives.js';
-import { summarize } from './compiler/summary.js';
-import { addMazikim } from './compiler/mazikim.js';
-import { addTerrain } from './compiler/terrain.js';
-import { addWanderers } from './compiler/wanderers.js';
-import { addWildTrees } from './compiler/wildTrees.js';
-import { applyEntryScene } from './entryScene/entrySceneCompiler.js';
-import { applyLifeLayer } from './life/lifeCompiler.js';
-import { applyPerformanceManifest } from './performance/performanceCompiler.js';
+import { applyPropertyFeatures } from './PropertyFeatureCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyVisualEnrichment } from './EmeraldVisualEnrichment.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addBuildings } from './compiler/buildings.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createBuckets } from './compiler/buckets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addExtraProperties } from './compiler/extraProperties.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { baseProperties } from './compiler/propertyList.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { makeRandom } from './compiler/random.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { resolveProfile, PROFILES } from './compiler/profiles.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addRoads } from './compiler/roads.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addSkyVehiclesObjectives } from './compiler/skyVehiclesObjectives.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { summarize } from './compiler/summary.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addMazikim } from './compiler/mazikim.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addTerrain } from './compiler/terrain.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addWanderers } from './compiler/wanderers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addWildTrees } from './compiler/wildTrees.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyEntryScene } from './entryScene/entrySceneCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyLifeLayer } from './life/lifeCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyPerformanceManifest } from './performance/performanceCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 class VillageCompiler {
   static compile(options = {}) {
     const profile = resolveProfile(options), rand = makeRandom(profile.seed), n = createBuckets(), properties = baseProperties();

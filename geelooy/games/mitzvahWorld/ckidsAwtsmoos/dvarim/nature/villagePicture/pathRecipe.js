@@ -1,7 +1,7 @@
 // B"H
 /** @file pathRecipe.js @description Decorative rich dirt path, parser-clear with collider hint. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { add } from "./geometryKit.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { add } from "./geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const DIRT = 0x9f7042, DARK = 0x6d4a2d, LIGHT = 0xbc8750;
 const STONE = [0xb8aa8a, 0xd1c39f, 0x9f9477, 0xc8bd9d], EDGE = [0x4d8c3c, 0x6aa84a, 0x3c7f32];
 const pulse = seed => { const x = Math.sin(seed * 91.17 + 13.31) * 43758.5453; return x - Math.floor(x); };

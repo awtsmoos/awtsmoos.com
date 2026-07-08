@@ -3,8 +3,8 @@
  * Mobile touch covenant: joystick, camera drag, pinch zoom, and real tap
  * interaction each own their finger state explicitly.
  */
-import SefiraOfInput from "./SefiraOfInput.js?v=npc-scroll-pass-through-20260609-bh638";
-import { pinchPacket, touchDistance } from "./TouchPinchZoom.js?v=pinch-camera-zoom-20260706-bh1";
+import SefiraOfInput from "./SefiraOfInput.js?compact=true&v=npc-scroll-pass-through-20260609-bh638";
+import { pinchPacket, touchDistance } from "./TouchPinchZoom.js?compact=true&v=pinch-camera-zoom-20260706-bh1";
 
 const SEAL = "multi-touch-joystick-camera-tap-20260707-bh1";
 const WALK = ["KeyW", "KeyS", "KeyQ", "KeyE"];

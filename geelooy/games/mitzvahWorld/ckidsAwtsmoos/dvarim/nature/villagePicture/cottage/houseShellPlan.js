@@ -9,8 +9,8 @@
  * Awtsmoos now speaks in separated front spans: left jamb, right jamb, and high
  * lintel. The doorway itself is not geometry at all.
  */
-import { PICTURE_COLORS as C } from "../palette.js";
-import { COTTAGE, facadeZ } from "./cottageContract.js?v=split-front-no-mortar-door-20260603-bh354";
+import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { COTTAGE, facadeZ } from "./cottageContract.js?compact=true&v=split-front-no-mortar-door-20260603-bh354";
 
 export const HOUSE_SCALE = COTTAGE.scale;
 export const DOORWAY_LOCAL = COTTAGE.door;

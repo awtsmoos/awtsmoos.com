@@ -1,6 +1,6 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js";
-import { finite } from "./GroundWorldMath.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { finite } from "./GroundWorldMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const CACHEABLE_REAL_SOURCES = new Set(["mesh", "octree", "initial-raycast-grounding"]);
 

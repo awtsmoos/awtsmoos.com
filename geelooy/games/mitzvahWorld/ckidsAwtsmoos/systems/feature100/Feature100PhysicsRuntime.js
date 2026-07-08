@@ -1,6 +1,6 @@
 // B"H
 /** Feature100PhysicsRuntime: budget-safe physics feature contracts. */
-import { mutateFeature100State, appendFeature100Event } from './Feature100State.js';
+import { mutateFeature100State, appendFeature100Event } from './Feature100State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function remember(bucket, key, value) { return mutateFeature100State(s => { s[bucket] ||= {}; s[bucket][key] = { ...(s[bucket][key] || {}), ...value, at: Date.now() }; return s; }); }
 export function cloth(id = 'cloth', detail = {}) { appendFeature100Event({ domain:'physics', action:'cloth', id, detail }); return remember('physics', id, { action:'cloth', detail }); }
 export function rope(id = 'rope', detail = {}) { appendFeature100Event({ domain:'physics', action:'rope', id, detail }); return remember('physics', id, { action:'rope', detail }); }

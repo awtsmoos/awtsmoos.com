@@ -1,6 +1,6 @@
 // B"H
 /** @file PlayerRuntimeProbe.js @description Clone-safe real player/model/animation proof. */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const SEAL = "player-probe-real-3d-actions-20260707-bh1";
 const box = new THREE.Box3(), childBox = new THREE.Box3(), tmp = new THREE.Vector3();
 const vector = value => value?.toArray?.() || (value ? [Number(value.x), Number(value.y), Number(value.z)] : null);

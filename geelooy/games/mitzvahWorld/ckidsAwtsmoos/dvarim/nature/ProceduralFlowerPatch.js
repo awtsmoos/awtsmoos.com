@@ -4,9 +4,9 @@
  * @module ProceduralFlowerPatch
  */
 
-import Tzomayach from "../../chayim/tzomayach.js";
-import { FLOWER_VERTEX_SHADER, FLOWER_FRAGMENT_SHADER, getFlowerUniforms } from '../../shaders/FlowerShader.js';
-import AwtsmoosThreeManifestor from "../../utils/3d/procedural/AwtsmoosThreeManifestor.js";
+import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { FLOWER_VERTEX_SHADER, FLOWER_FRAGMENT_SHADER, getFlowerUniforms } from '../../shaders/FlowerShader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import AwtsmoosThreeManifestor from "../../utils/3d/procedural/AwtsmoosThreeManifestor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ProceduralFlowerPatch extends Tzomayach {
     type = "ProceduralFlowerPatch";

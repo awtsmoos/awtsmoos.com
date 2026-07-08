@@ -1,6 +1,6 @@
 // B"H
 /** @file CombatDifficultyScaler.js @description Keeps wildlife fights from ending instantly. */
-import { speciesCombatRule } from "./CombatRules.js";
+import { speciesCombatRule } from "./CombatRules.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function applyAdventureDifficulty(target) {
   const mesh = target?.mesh || target;

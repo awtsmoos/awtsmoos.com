@@ -5,13 +5,13 @@
  * @description
  * ⚙️ THE HIDDEN GEARS OF THE COSMOS ⚙️
  */
-import buildNodePhysics from './buildNodePhysics.js';
-import distributeTriangleToNodes from './distributeTriangleToNodes.js';
-import enforceCriticalPath from './enforceCriticalPath.js';
-import helpers from './helpers.js';
-import queues from './queues.js';
-import synchronouslyRebuildNode from './synchronouslyRebuildNode.js';
-import treeMutations from './treeMutations.js';
+import buildNodePhysics from './buildNodePhysics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import distributeTriangleToNodes from './distributeTriangleToNodes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import enforceCriticalPath from './enforceCriticalPath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import helpers from './helpers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import queues from './queues.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import synchronouslyRebuildNode from './synchronouslyRebuildNode.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import treeMutations from './treeMutations.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     ...buildNodePhysics,

@@ -1,5 +1,5 @@
 // B"H
-import { objectTypeForUiEvent, safeClone, summarizePayload } from "./summary.js";
+import { objectTypeForUiEvent, safeClone, summarizePayload } from "./summary.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const APP_ID = "application:mitzvah-world";
 

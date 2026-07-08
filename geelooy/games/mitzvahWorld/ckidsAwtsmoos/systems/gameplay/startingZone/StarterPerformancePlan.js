@@ -1,9 +1,9 @@
 // B"H
-import { animalLodPolicy } from "../../../../systems/animals/AnimalLodPolicy.js";
-import { forestDepthLayers } from "../../../../systems/vegetation/ForestDepthLayers.js";
-import { villagePropInstances } from "../../../../systems/buildings/VillagePropInstancer.js";
-import { STARTER_WORLD_REQUIREMENTS } from "./StarterSubzoneData.js";
-import { dist } from "./StarterMath.js";
+import { animalLodPolicy } from "../../../../systems/animals/AnimalLodPolicy.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { forestDepthLayers } from "../../../../systems/vegetation/ForestDepthLayers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { villagePropInstances } from "../../../../systems/buildings/VillagePropInstancer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { STARTER_WORLD_REQUIREMENTS } from "./StarterSubzoneData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { dist } from "./StarterMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Produces a data report for the 60fps contract.

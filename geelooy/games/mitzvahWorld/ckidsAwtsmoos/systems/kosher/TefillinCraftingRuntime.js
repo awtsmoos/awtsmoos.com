@@ -4,9 +4,9 @@
  * @description
  * Chapter 418: The sofer sale now pays the same personal wallet as every mitzvah market.
  */
-import { addBagItem, removeBagItem } from "../inventory/BagRuntime.js";
-import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js";
-import { grantProfessionXp } from "../professions/ProfessionRuntime.js";
+import { addBagItem, removeBagItem } from "../inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { grantProfessionXp } from "../professions/ProfessionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function playerOf(olam) { return walletPlayerOf(olam); }
 function slots(olam) { return playerOf(olam)?.inventory?.slots || []; }

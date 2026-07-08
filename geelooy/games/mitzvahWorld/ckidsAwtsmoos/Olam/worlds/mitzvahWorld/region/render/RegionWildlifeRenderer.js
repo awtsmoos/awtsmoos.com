@@ -1,14 +1,14 @@
 // B"H
 /** RegionWildlifeRenderer.js — first herd now exists immediately; remainder streams. */
-import { ensureRenderBackend } from "../../../../../rendering/RendererProvider.js";
-import { createWildlifeLifeRuntime } from "../wildlife/life/WildlifeLifeRuntime.js?v=perf-tight-collision-20260703-bh3";
-import { allAnimalsFromReport, animalsFromReport, guardianWildlifeCadence } from "./RegionWildlifeData.js?v=lod-house-octree-20260705-bh1";
-import { makeActor } from "./RegionWildlifeActors.js?v=mobile-crisp-passive-herd-lod-20260705-bh2";
-import { tickWildlife } from "./RegionWildlifeMotion.js?v=animal-visual-lod-20260705-bh1";
-import { installWildlifeTicker, registerForProof } from "./RegionWildlifeProof.js?v=mitzvah-aggressive-split-20260703-bh1";
-import { sealWildlifeRoot } from "./wildlifeRenderer/WildlifeRootStats.js?v=animal-visual-lod-20260705-bh1";
-import { scheduleRemainder } from "./wildlifeRenderer/WildlifeStream.js?v=mitzvah-aggressive-split-20260703-bh1";
-import { updateAnimalLodRuntime } from "./wildlife/AnimalLodRuntime.js?v=mobile-crisp-passive-herd-lod-20260705-bh2";
+import { ensureRenderBackend } from "../../../../../rendering/RendererProvider.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createWildlifeLifeRuntime } from "../wildlife/life/WildlifeLifeRuntime.js?compact=true&v=perf-tight-collision-20260703-bh3";
+import { allAnimalsFromReport, animalsFromReport, guardianWildlifeCadence } from "./RegionWildlifeData.js?compact=true&v=lod-house-octree-20260705-bh1";
+import { makeActor } from "./RegionWildlifeActors.js?compact=true&v=mobile-crisp-passive-herd-lod-20260705-bh2";
+import { tickWildlife } from "./RegionWildlifeMotion.js?compact=true&v=animal-visual-lod-20260705-bh1";
+import { installWildlifeTicker, registerForProof } from "./RegionWildlifeProof.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
+import { sealWildlifeRoot } from "./wildlifeRenderer/WildlifeRootStats.js?compact=true&v=animal-visual-lod-20260705-bh1";
+import { scheduleRemainder } from "./wildlifeRenderer/WildlifeStream.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
+import { updateAnimalLodRuntime } from "./wildlife/AnimalLodRuntime.js?compact=true&v=mobile-crisp-passive-herd-lod-20260705-bh2";
 
 function addActor(root, olam, backend, animal, index) {
   const actor = makeActor(animal, index, olam, backend);

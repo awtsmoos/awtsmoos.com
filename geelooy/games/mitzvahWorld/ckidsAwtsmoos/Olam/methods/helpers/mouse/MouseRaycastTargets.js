@@ -4,7 +4,7 @@
  * @description Explicit interaction target registry. It resolves owners through
  * parent chains and returns only finite proxy leaves, never decorative visuals.
  */
-import { collectSafeRaycastLeaves } from "./RaycastSafety.js?v=reality-raycast-20260629-bh1";
+import { collectSafeRaycastLeaves } from "./RaycastSafety.js?compact=true&v=reality-raycast-20260629-bh1";
 
 export function targetFor(nivra) {
   return nivra?.raycastMesh || nivra?.interactionMesh || nivra?.mesh || nivra?.modelMesh || null;

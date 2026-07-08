@@ -4,9 +4,9 @@
  * The first road must begin where the neshama wakes up; no child should hunt
  * the whole olam before tasting the wagon, chariot, and car.
  */
-import { createCart } from "./ProceduralCartFactory.js";
-import { createChariot } from "./ProceduralChariotFactory.js";
-import { createAutomobile } from "./ProceduralVehicleFactory.js";
+import { createCart } from "./ProceduralCartFactory.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { createChariot } from "./ProceduralChariotFactory.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { createAutomobile } from "./ProceduralVehicleFactory.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 export const VEHICLE_SPAWNS = [
   ["small", "cart", [-8, 0, -6], "Village Square"],

@@ -11,7 +11,7 @@
  * @invariants Air lock preserves X/Z while falling, and clears on real ground.
  * @failureModes Missing velocity or animation methods become no-op safeguards.
  */
-import { MOVING_EPSILON_SQ, numeric } from "./PhysicsNumbers.js";
+import { MOVING_EPSILON_SQ, numeric } from "./PhysicsNumbers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function needsOctreePhysics(entity) {
   if (!entity) return false;

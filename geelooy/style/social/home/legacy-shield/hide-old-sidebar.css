@@ -1,8 +1,8 @@
-/* B"H — shared sidebar is no longer hidden by home shield. */
-.sidebarMitzvah {
+/* B"H — shared sidebar appears only when its own button opens it. */
+body.geelooy-home-document > .sidebarMitzvah {
   display: block;
 }
-
-.sidebarMitzvah[hidden] {
+body.geelooy-home-document > .sidebarMitzvah.offscreen,
+body.geelooy-home-document > .sidebarMitzvah[hidden] {
   display: none !important;
 }

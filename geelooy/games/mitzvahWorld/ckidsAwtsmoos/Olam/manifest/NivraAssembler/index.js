@@ -14,12 +14,12 @@
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
 
-import ChasveiAwtsmoos from '../../../utils/ChasveiAwtsmoos.js';
-import ExpressionParser from './evaluators/ExpressionParser/index.js';
+import ChasveiAwtsmoos from '../../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import ExpressionParser from './evaluators/ExpressionParser/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
-import evaluationMethods from './methods/evaluation.js';
-import manifestationMethods from './methods/manifestation.js';
-import transformationMethods from './methods/transformation.js';
+import evaluationMethods from './methods/evaluation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import manifestationMethods from './methods/manifestation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import transformationMethods from './methods/transformation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * @class NivraAssembler

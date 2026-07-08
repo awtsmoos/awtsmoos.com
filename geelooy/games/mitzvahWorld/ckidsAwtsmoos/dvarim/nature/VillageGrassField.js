@@ -3,10 +3,10 @@
  * @file VillageGrassField.js
  * @description Dense instanced LOD grass, grounded to terrain, with no custom shader errors.
  */
-import Domem from "../../chayim/domem/index.js";
-import TerrainMath from "../terrain/core/TerrainMath.js";
-import { finite } from "../../../../../libs/awtsmoos3d/math.js";
-import { createGrassField } from "../../../../../libs/awtsmoos3d/foliage/grassField.js?v=instanced-lod-grass-no-webgl-warning-20260706-bh1";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import TerrainMath from "../terrain/core/TerrainMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { finite } from "../../../../../libs/awtsmoos3d/math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createGrassField } from "../../../../../libs/awtsmoos3d/foliage/grassField.js?compact=true&v=instanced-lod-grass-no-webgl-warning-20260706-bh1";
 
 function terrainHeight(olam, worldX, worldZ, fallback = 0) {
   const law = olam?.awtsmoosTerrainLaw;

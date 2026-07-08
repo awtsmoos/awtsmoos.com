@@ -7,7 +7,7 @@
  * This class represents items that can be worn.
  */
 
-import Tzomayach from "../chayim/tzomayach.js";
+import Tzomayach from "../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class Apparel extends Tzomayach {
     type = "apparel";

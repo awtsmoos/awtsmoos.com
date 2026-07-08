@@ -3,8 +3,8 @@
  * @file FinalGroundingPass.js
  * @description Final feet-to-earth covenant using parser-clear bounds and the shared GroundTruth village law.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { yAt } from "./VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { yAt } from "./VillagePolishGround.js?compact=true&v=awtsmoos-polish-ground-20260614-bh2";
 const BOX = new THREE.Box3();
 const CHILD_BOX = new THREE.Box3();
 function entityRoot(entity) { if (!entity) return null; return entity.mesh || entity.modelMesh || entity.guf || null; }

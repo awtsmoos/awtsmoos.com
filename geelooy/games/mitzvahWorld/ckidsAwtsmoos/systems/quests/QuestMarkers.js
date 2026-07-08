@@ -1,7 +1,7 @@
 // B"H
 /** @file QuestMarkers.js @description Lightweight ! and ? markers over NPCs. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { questMarkerType } from "./QuestState.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { questMarkerType } from "./QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function color(type) { return type === "progress" ? 0xc9ced8 : 0xffcc33; }
 function makeBang(mat) {

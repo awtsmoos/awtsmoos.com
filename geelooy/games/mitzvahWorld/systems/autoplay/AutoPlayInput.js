@@ -1,5 +1,5 @@
 // B"H
-import { sleep } from './AutoPlayWaiters.js';
+import { sleep } from './AutoPlayWaiters.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 function keyEvent(type, code) {
   const key = code.replace('Key', '').replace('Arrow', '');

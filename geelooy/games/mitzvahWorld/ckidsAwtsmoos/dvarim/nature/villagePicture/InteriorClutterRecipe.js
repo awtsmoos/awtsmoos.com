@@ -1,7 +1,7 @@
 // B"H
 /** @file InteriorClutterRecipe.js @description Lived-in interiors with fresh RAM shader material import. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { rvGroup, rvMesh, rvSeal } from "./RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh3";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rvGroup, rvMesh, rvSeal } from "./RealisticVillageMaterials.js?compact=true&v=awtsmoos-realistic-village-materials-20260614-bh3";
 function add(g, kind, mat, p, s, r = [0,0,0], op = {}) { const m = rvMesh(kind, mat, p, s, r, op); g.add(m); return m; }
 function table(g, x, z) { add(g,"box","wood",[x,.38,z],[.92,.12,.58]); for (const dx of [-.36,.36]) for (const dz of [-.22,.22]) add(g,"box","darkWood",[x+dx,.18,z+dz],[.07,.36,.07]); }
 function bench(g, x, z, rot = 0) { add(g,"box","wood",[x,.22,z],[.72,.09,.18],[0,rot,0]); add(g,"box","darkWood",[x-.24,.11,z],[.06,.22,.06],[0,rot,0]); add(g,"box","darkWood",[x+.24,.11,z],[.06,.22,.06],[0,rot,0]); }

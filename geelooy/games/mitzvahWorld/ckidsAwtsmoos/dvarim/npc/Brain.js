@@ -6,9 +6,9 @@
  * shlichus, Torah teaching, old quest compatibility, and shop access from one
  * clean dialogue tree, without breaking the previous handler.
  */
-import { QUEST_STATE } from "../../systems/quests/Shlichus.js";
-import { npcStoryResponses } from "../../systems/npc/NpcStoryRuntime.js";
-import { npcMissionResponses, npcTorahTeachingResponses, emitNpcMissionPayload } from "../../systems/npc/NpcMissionRuntime.js";
+import { QUEST_STATE } from "../../systems/quests/Shlichus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { npcStoryResponses } from "../../systems/npc/NpcStoryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { npcMissionResponses, npcTorahTeachingResponses, emitNpcMissionPayload } from "../../systems/npc/NpcMissionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function cloneTree(tree) { return JSON.parse(JSON.stringify(tree || [])); }
 function olamOf(npc) { return npc?.olam || null; }
 function baseTree(customData = {}) { const tree = customData.dialogueTree; return Array.isArray(tree) && tree.length ? cloneTree(tree) : [{ message: "B\"H\nShalom! How can I help you?", responses: [] }]; }

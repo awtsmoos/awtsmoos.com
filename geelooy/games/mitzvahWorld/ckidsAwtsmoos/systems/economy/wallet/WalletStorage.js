@@ -13,7 +13,7 @@
  * last known purse without pretending to own gameplay. It is storage, not a
  * second economy.
  */
-import { wholeWalletNumber } from "./WalletNumbers.js";
+import { wholeWalletNumber } from "./WalletNumbers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const PERSONAL_PERUTAS_STORAGE_KEY = "awtsmoosMitzvahPersonalPerutas";
 

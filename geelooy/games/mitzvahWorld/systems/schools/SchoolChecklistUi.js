@@ -4,9 +4,9 @@
  * @description Chapter 443: the scroll becomes a chip, the chip becomes a
  * doorway, and the player gets the world back before the Awtsmoos.
  */
-import { getSchoolProgress, setSchoolDone, schoolSummary } from "./PlayerSchoolProgress.js";
-import { injectMobileUiTikkunStyle } from "../mobile/MobileUiTikkunStyle.js?v=compact-school-chip-20260621-bh2";
-import { ensureMobilePerformanceOverlay } from "../performance/MobilePerformanceOverlay.js?v=fps-guardian-chip-20260622-bh1";
+import { getSchoolProgress, setSchoolDone, schoolSummary } from "./PlayerSchoolProgress.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { injectMobileUiTikkunStyle } from "../mobile/MobileUiTikkunStyle.js?compact=true&v=compact-school-chip-20260621-bh2";
+import { ensureMobilePerformanceOverlay } from "../performance/MobilePerformanceOverlay.js?compact=true&v=fps-guardian-chip-20260622-bh1";
 const ID = "awtsmoosSchoolChecklist";
 function isMobile(win = globalThis.window) { return Boolean(win?.matchMedia?.("(max-width: 760px), (pointer: coarse)")?.matches); }
 function row(item) { return `<label><input type="checkbox" data-school="${item.id}" ${item.done ? "checked" : ""}/><span><b>${item.title}</b><small>${item.goal}</small></span></label>`; }

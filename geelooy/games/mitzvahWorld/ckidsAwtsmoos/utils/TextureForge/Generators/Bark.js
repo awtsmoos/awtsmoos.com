@@ -9,8 +9,8 @@
  * 
  * @class BarkGenerator
  */
-import Noise from "../Noise.js";
-import CanvasHelper from "../CanvasHelper.js";
+import Noise from "../Noise.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import CanvasHelper from "../CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class BarkGenerator {
     static generate(width = 512, height = 512) {

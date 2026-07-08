@@ -1,7 +1,7 @@
 // B"H
 /** @file VillageNpcLifeLayer.js @description Visible grounded NPC stations and schedule hints without optional syntax. */
-import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh2";
-import { groundedGroup, sealDecor } from "./VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
+import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?compact=true&v=awtsmoos-realistic-village-materials-20260614-bh2";
+import { groundedGroup, sealDecor } from "./VillagePolishGround.js?compact=true&v=awtsmoos-polish-ground-20260614-bh2";
 const KEY = "__awtsmoosVillageNpcLifeLayer";
 const STATIONS = Object.freeze([[-34,35,"study"],[-14,18,"well"],[0,14,"square"],[86,54,"orchard"],[-126,-30,"gate"],[42,-18,"workshop"],[108,58,"market"]]);
 function add(g, kind, mat, x, y, z, s, r = 0) { const m = rvMesh(kind, mat, [x, y + s[1] * .5, z], s, [0, r, 0], { repeat:1, simple:false }); g.add(m); return m; }

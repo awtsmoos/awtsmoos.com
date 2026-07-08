@@ -3,13 +3,13 @@
  * @file VehiclePostBuildLayer.js
  * @description Adds procedural vehicles to the actual Olam scene during postbuild.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import {
   spawnStartingVehicles
-} from "../../../../../systems/vehicles/VehicleSpawnSystem.js?v=vehicles-u-mount-20260706-bh1";
+} from "../../../../../systems/vehicles/VehicleSpawnSystem.js?compact=true&v=vehicles-u-mount-20260706-bh1";
 import {
   buildRoads
-} from "../../../../../systems/vehicles/VehicleRoadSystem.js?v=vehicles-u-mount-20260706-bh1";
+} from "../../../../../systems/vehicles/VehicleRoadSystem.js?compact=true&v=vehicles-u-mount-20260706-bh1";
 
 const KEY = "__awtsmoosVehiclePostBuildLayer";
 

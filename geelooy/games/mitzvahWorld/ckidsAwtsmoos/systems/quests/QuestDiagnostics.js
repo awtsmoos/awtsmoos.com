@@ -1,6 +1,6 @@
 // B"H
 /** @file QuestDiagnostics.js @description Quest proof aggregation. */
-import { collectQuestMarkerCounts } from "./QuestMarkers.js";
+import { collectQuestMarkerCounts } from "./QuestMarkers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function collectQuestDiagnostics(olam) {
   const state = olam?.__kidQuestState || {};

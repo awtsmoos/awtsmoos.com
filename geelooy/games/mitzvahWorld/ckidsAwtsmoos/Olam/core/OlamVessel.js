@@ -1,18 +1,18 @@
 // B"H
 /** @module OlamVessel @description Worker root: proven core vessel with THREE usage through adapter. */
-import { AmbientLight, Color, Fog } from "../rendering/ThreeAdapter.js";
-import Nivra from "../../chayim/nivra.js?v=village-combat-20260611-bh804";
-import OlamGrafting from "./OlamGraftingPlain.js?v=vehicles-u-mount-20260706-bh1";
-import OlamProperties from "../properties/index.js?v=village-combat-20260611-bh804";
-import OlamInit from "./OlamInit.js?v=village-combat-20260611-bh804";
-import Ayin from "../camera/index.js?v=village-combat-20260611-bh804";
-import UserProgressManager from "../../systems/UserProgressManager.js?v=village-combat-20260611-bh804";
-import Yichud from "../interaction/Yichud.js?";
-import PlacementManager from "../interaction/PlacementManager.js?";
-import CombatManager from "../../systems/combat/CombatManager.js?v=attack-cache-hard-grounding-20260701-bh1";
-import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?v=starter-contracts-20260628-bh9";
-import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?v=native-crisp-20260622-bh1";
-import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?v=ground-cache-diag-20260701-bh1";
+import { AmbientLight, Color, Fog } from "../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Nivra from "../../chayim/nivra.js?compact=true&v=village-combat-20260611-bh804";
+import OlamGrafting from "./OlamGraftingPlain.js?compact=true&v=vehicles-u-mount-20260706-bh1";
+import OlamProperties from "../properties/index.js?compact=true&v=village-combat-20260611-bh804";
+import OlamInit from "./OlamInit.js?compact=true&v=village-combat-20260611-bh804";
+import Ayin from "../camera/index.js?compact=true&v=village-combat-20260611-bh804";
+import UserProgressManager from "../../systems/UserProgressManager.js?compact=true&v=village-combat-20260611-bh804";
+import Yichud from "../interaction/Yichud.js?compact=true&";
+import PlacementManager from "../interaction/PlacementManager.js?compact=true&";
+import CombatManager from "../../systems/combat/CombatManager.js?compact=true&v=attack-cache-hard-grounding-20260701-bh1";
+import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?compact=true&v=starter-contracts-20260628-bh9";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
+import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?compact=true&v=ground-cache-diag-20260701-bh1";
 
 const SAFE_SKY = 0x5d8fa8;
 

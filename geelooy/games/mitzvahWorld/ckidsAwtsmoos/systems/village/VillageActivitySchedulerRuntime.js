@@ -4,12 +4,12 @@
  * Event-driven village life. Reality mutation and presentation now travel
  * through abstraction seams instead of ad-hoc helpers scattered through the day.
  */
-import { phaseForHour, activityForNpc } from './VillageActivityScheduleRegistry.js';
-import { addEventFeed, addMemory, addMovementIntent, addRumor, commitUiPayloads, saveLivingWorldState } from '../livingWorld/LivingWorldState.js';
-import { createRumor } from '../npc/GossipRuntime.js';
-import { applyEconomySignalToStore } from '../livingWorld/EconomyLivingRuntime.js';
-import { capList, now } from '../core/WorldRealityAdapter.js';
-import { publish, publishLivingWorld, publishUiPayload } from '../ui/WorldPresentationBus.js';
+import { phaseForHour, activityForNpc } from './VillageActivityScheduleRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addEventFeed, addMemory, addMovementIntent, addRumor, commitUiPayloads, saveLivingWorldState } from '../livingWorld/LivingWorldState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createRumor } from '../npc/GossipRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { applyEconomySignalToStore } from '../livingWorld/EconomyLivingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { capList, now } from '../core/WorldRealityAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { publish, publishLivingWorld, publishUiPayload } from '../ui/WorldPresentationBus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function serviceRows(phase) { return Object.entries(phase.services || {}).map(([id, open]) => ({ id, open:Boolean(open), phase:phase.id })); }
 function applyNpc(store, npc, phase, reason) {

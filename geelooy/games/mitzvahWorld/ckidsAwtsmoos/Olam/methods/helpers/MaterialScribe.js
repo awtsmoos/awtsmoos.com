@@ -9,8 +9,8 @@
  * our 3D vessels require Materials to be seen. This scribe takes the 
  * abstract will of color and texture and engraves it into the GPU.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import SafeMaterialApplier from './SafeMaterialApplier.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import SafeMaterialApplier from './SafeMaterialApplier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class MaterialScribe {
     static async scribe(toyrName, rawParams, olam) {

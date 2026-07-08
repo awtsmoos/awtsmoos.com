@@ -7,9 +7,9 @@
  * Sefiros packets, starting-zone installers, or future universe compilers.
  * They all receive one stable entrance into procedural mesh manifestation.
  */
-import { createProceduralMeshPacket } from "../procedural/api/ProceduralMeshApi.js";
-import { compileBufferGeometry } from "../procedural/buffer/BufferGeometryCompiler.js";
-import { compileMaterialIntent } from "../procedural/materials/MaterialIntentCompiler.js";
+import { createProceduralMeshPacket } from "../procedural/api/ProceduralMeshApi.js?compact=true&v=compact-final-npc-props-20260708-bh12";
+import { compileBufferGeometry } from "../procedural/buffer/BufferGeometryCompiler.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { compileMaterialIntent } from "../procedural/materials/MaterialIntentCompiler.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 function commandId(command = {}, fallback = "procedural_object") {
   return command.id || command.targetId || command.name || fallback;

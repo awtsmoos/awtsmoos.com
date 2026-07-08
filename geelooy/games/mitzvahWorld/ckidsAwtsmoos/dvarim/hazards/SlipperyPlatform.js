@@ -4,7 +4,7 @@
  * A slick blue memory platform. When the player touches it, it keeps feeding
  * their current direction for a short time, so over-correction becomes danger.
  */
-import SolidBlock from "../architecture/SolidBlock.js";
+import SolidBlock from "../architecture/SolidBlock.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class SlipperyPlatform extends SolidBlock {
     type = "slipperyPlatform";

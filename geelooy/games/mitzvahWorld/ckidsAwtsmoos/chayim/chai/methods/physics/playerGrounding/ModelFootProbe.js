@@ -1,6 +1,6 @@
 // B"H
-import { PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr } from "./FootGroundConstants.js?v=no-compact-engine-20260702-bh2";
-import { ROOT_WORLD, SCALE, scanVisibleFoot } from "./FootProbeScan.js?v=no-compact-engine-20260702-bh2";
+import { PLAYER_VISIBLE_BODY_CLEARANCE_Y, numberOr } from "./FootGroundConstants.js?compact=true&v=compact-engine-20260702-bh2";
+import { ROOT_WORLD, SCALE, scanVisibleFoot } from "./FootProbeScan.js?compact=true&v=compact-engine-20260702-bh2";
 export function playerVisualRoots(player) {
   const roots = [];
   if (player?.modelMesh?.isObject3D) roots.push(player.modelMesh);

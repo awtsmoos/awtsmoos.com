@@ -6,7 +6,7 @@
  * simple figures, how many have earned the full GLB, and whether first playable
  * was kept free from a needless model debt.
  */
-import { npcGlbNearDiagnostics } from "./lod/NpcGlbNearRuntime.js?v=deferred-npc-glb-20260705-bh1";
+import { npcGlbNearDiagnostics } from "./lod/NpcGlbNearRuntime.js?compact=true&v=deferred-npc-glb-20260705-bh1";
 
 function tri(node) {
   const g = node?.geometry;

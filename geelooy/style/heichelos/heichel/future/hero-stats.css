@@ -1,10 +1,6 @@
-/* B"H
- * Chapter 735: Four crumbs become engraved stones with shared rhythm.
- */
-.hero-stats,
-.heichel-hero-stats { position: relative; z-index: 1; display: flex; gap: .55rem; flex-wrap: wrap; margin-top: 1rem; }
-.hero-stats > *,
-.heichel-hero-stats > * {
-  border: 1px solid var(--heichel-line); border-radius: 999px; padding: .68rem .9rem;
-  background: rgba(255,255,255,.07); color: var(--heichel-muted-ink); font-weight: 950; box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
-}
+.hero-stats,.heichel-hero-stats { position:relative; z-index:1; display:flex; gap:.55rem; flex-wrap:wrap; margin-top:1rem; }
+.hero-stats > *,.heichel-hero-stats > * { background:#0b1322; border:1px solid rgba(255,255,255,.12); border-radius:999px; color:#f8fafc; font-weight:950; padding:.68rem .9rem; box-shadow:inset 0 1px 0 rgba(255,255,255,.08); }
+.hero-stats > *:nth-child(1)::before { content:"ℹ️ "; }
+.hero-stats > *:nth-child(2)::before { content:"🪐 "; }
+.hero-stats > *:nth-child(3)::before { content:"📚 "; }
+.hero-stats > *:nth-child(4)::before { content:"📝 "; }

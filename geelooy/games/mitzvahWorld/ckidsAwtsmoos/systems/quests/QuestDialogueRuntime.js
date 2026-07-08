@@ -1,8 +1,8 @@
 // B"H
 /** @file QuestDialogueRuntime.js @description NPC quest dialogue payloads. */
-import { questById } from "./KidQuestCatalog.js";
-import { acceptQuest, questMarkerType, turnInQuest } from "./QuestState.js";
-import { objectiveProgress } from "./QuestObjectives.js";
+import { questById } from "./KidQuestCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { acceptQuest, questMarkerType, turnInQuest } from "./QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { objectiveProgress } from "./QuestObjectives.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function questDialoguePayload(olam, npc) {
   const quest = questById(npc?.questId);

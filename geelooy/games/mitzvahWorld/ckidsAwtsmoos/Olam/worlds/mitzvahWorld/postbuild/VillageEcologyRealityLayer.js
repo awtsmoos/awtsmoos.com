@@ -1,9 +1,9 @@
 // B"H
 /** @file VillageEcologyRealityLayer.js @description Grounded ecology props with no cone/blob tree fallback geometry. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { ecologyAt, ecologyRand, ecologyStats } from "../../../../dvarim/nature/villagePicture/VillageEcologyAtlas.js?v=village-ecology-atlas-20260612-bh1";
-import { ecologyMaterial, ecologyMaterialStats } from "../../../../dvarim/nature/villagePicture/EcologySpecialMaterials.js?v=zone-reality-20260614-bh812";
-import { yAt, ecologyKind, roadMask, sealDecor } from "./VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ecologyAt, ecologyRand, ecologyStats } from "../../../../dvarim/nature/villagePicture/VillageEcologyAtlas.js?compact=true&v=village-ecology-atlas-20260612-bh1";
+import { ecologyMaterial, ecologyMaterialStats } from "../../../../dvarim/nature/villagePicture/EcologySpecialMaterials.js?compact=true&v=zone-reality-20260614-bh812";
+import { yAt, ecologyKind, roadMask, sealDecor } from "./VillagePolishGround.js?compact=true&v=awtsmoos-polish-ground-20260614-bh2";
 const KEY = "__awtsmoosVillageEcologyRealityLayer", geos = new Map();
 function geo(kind) { if (geos.has(kind)) return geos.get(kind); let g; if (kind === "cylinder") g = new THREE.CylinderGeometry(.5,.5,1,10); else if (kind === "sphere") g = new THREE.SphereGeometry(.5,10,8); else g = new THREE.BoxGeometry(1,1,1); geos.set(kind,g); return g; }
 function seal(root) { if (!root) return root; const mark = c => { if (!c.userData) c.userData = {}; Object.assign(c.userData, { villageDecor:true, ecologyDecor:true, skipOctree:true, noOctree:true, skipRaycast:true }); }; if (typeof root.traverse === "function") root.traverse(mark); else mark(root); return root; }

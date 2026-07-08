@@ -9,7 +9,7 @@
  * schedule vessel, so existing callers do not break and no hidden second clock
  * is born.
  */
-import { dailyRole as scheduleDailyRole, ensureNpcSchedule } from './NpcScheduleRuntime.js';
+import { dailyRole as scheduleDailyRole, ensureNpcSchedule } from './NpcScheduleRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const VILLAGE_DAILY_LIFE_OWNER = Object.freeze({
   owner:'NpcScheduleRuntime/VillageActivitySchedulerRuntime',

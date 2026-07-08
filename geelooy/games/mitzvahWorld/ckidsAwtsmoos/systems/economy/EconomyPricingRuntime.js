@@ -1,6 +1,6 @@
 // B"H
 /** EconomyPricingRuntime: pricing policy over the EconomyQueryAdapter vocabulary. */
-import { economyKeyForItem, basePriceForItem, demandFor, allEconomyKeys } from './EconomyQueryAdapter.js';
+import { economyKeyForItem, basePriceForItem, demandFor, allEconomyKeys } from './EconomyQueryAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const clamp = (n,min,max)=>Math.max(min,Math.min(max,Number(n)||0));
 export { economyKeyForItem };
 export function calculateItemPrice(economy={}, item='bread', options={}){

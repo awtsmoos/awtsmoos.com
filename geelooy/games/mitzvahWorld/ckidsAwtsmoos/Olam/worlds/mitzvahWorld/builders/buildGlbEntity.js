@@ -3,10 +3,10 @@
  * @file buildGlbEntity.js
  * @description Loads GLB entities with fallback, animation, shadows, and physics through parser-clear vessels.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { loadGlb } from "./glb/GlbLoader.js?v=awtsmoos-glb-loader-20260614-bh2";
-import { makeFallbackCapsule } from "./glb/GlbFallback.js";
-import { addDynamicCapsule } from "./glb/GlbPhysics.js?v=awtsmoos-glb-physics-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { loadGlb } from "./glb/GlbLoader.js?compact=true&v=awtsmoos-glb-loader-20260614-bh2";
+import { makeFallbackCapsule } from "./glb/GlbFallback.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addDynamicCapsule } from "./glb/GlbPhysics.js?compact=true&v=awtsmoos-glb-physics-20260614-bh2";
 function propsOf(def) { return def && def.props ? def.props : {}; }
 function triple(value, fallback) { return Array.isArray(value) ? value : fallback; }
 function registerAnimation(olam, mixer) { if (olam && olam.tzimtzum && typeof olam.tzimtzum.onUpdate === "function") olam.tzimtzum.onUpdate((t, delta) => mixer.update(delta)); }

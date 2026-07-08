@@ -9,11 +9,11 @@
  * compact progress marks are not noisy logs; they are a trail of sparks for the
  * main-thread proof vessel.
  */
-import { OlamInstantiator } from './OlamInstantiator.js';
-import { BridgeBinder } from './BridgeBinder.js';
-import { SoulLoader } from './SoulLoader.js?v=genesis-trace-20260612-bh1';
-import { StatusNotifier } from './StatusNotifier.js?v=lean-l1-20260528-bh37';
-import { postWorkerProgress } from '../protocol/WorkerProtocol.js';
+import { OlamInstantiator } from './OlamInstantiator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { BridgeBinder } from './BridgeBinder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { SoulLoader } from './SoulLoader.js?compact=true&v=genesis-trace-20260612-bh1';
+import { StatusNotifier } from './StatusNotifier.js?compact=true&v=lean-l1-20260528-bh37';
+import { postWorkerProgress } from '../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function payloadKind(payload) {
   const worldData = payload?.userInfo || payload || {};

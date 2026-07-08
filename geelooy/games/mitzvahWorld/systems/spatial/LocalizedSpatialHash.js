@@ -1,5 +1,5 @@
 // B"H
-import { boxFromCenter, hashCell, readBox, intersects, tmpBox } from './SpatialMath.js';
+import { boxFromCenter, hashCell, readBox, intersects, tmpBox } from './SpatialMath.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 /** Moving things enter nearby buckets only; memory stays local and reusable. */
 export class LocalizedSpatialHash {

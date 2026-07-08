@@ -4,18 +4,18 @@
  * @description
  * Chapter 447: FurGenerator becomes the official texture vessel.
  */
-import BarkGenerator from "./Generators/Bark.js";
-import LeafGenerator from "./Generators/Leaf.js";
-import SandGenerator from "./Generators/Sand.js";
-import GrassGenerator from "./Generators/Grass.js";
-import StoneGenerator from "./Generators/Stone.js";
-import BasicPlane from "./Generators/BasicPlane.js";
-import SafeGrass from "./Generators/SafeGrass.js";
-import Emerald from "./Generators/Emerald.js";
-import BrickGenerator from "./Generators/Brick.js";
-import WoodGenerator from "./Generators/Wood.js";
-import FurGenerator from "./Generators/Fur.js?v=fur-generator-20260614-bh1";
-import CanvasHelper from "./CanvasHelper.js";
+import BarkGenerator from "./Generators/Bark.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import LeafGenerator from "./Generators/Leaf.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import SandGenerator from "./Generators/Sand.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import GrassGenerator from "./Generators/Grass.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import StoneGenerator from "./Generators/Stone.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import BasicPlane from "./Generators/BasicPlane.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import SafeGrass from "./Generators/SafeGrass.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Emerald from "./Generators/Emerald.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import BrickGenerator from "./Generators/Brick.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import WoodGenerator from "./Generators/Wood.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import FurGenerator from "./Generators/Fur.js?compact=true&v=fur-generator-20260614-bh1";
+import CanvasHelper from "./CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const VERSION = "texture-forge-20260614-realistic-fur-bh3";
 const DB_NAME = "awtsmoos-mitzvah-world-textures";
 const STORE = "generatedTextures";

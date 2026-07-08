@@ -5,7 +5,7 @@
  * A brick for building, can have any dimension and can be owned in inventory.
  */
 
-import Tzomayach from "../chayim/tzomayach.js";
+import Tzomayach from "../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class Brick extends Tzomayach {
 	dimensions = {
 		x: 1,

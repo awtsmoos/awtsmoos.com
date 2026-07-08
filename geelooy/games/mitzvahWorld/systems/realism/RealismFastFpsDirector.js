@@ -4,15 +4,15 @@
  * One living director gathers every domain covenant so realism and speed are not
  * enemies but two hands of the same Awtsmoos revelation.
  */
-import { masterRealismPolicy } from './MasterRealismPolicy.js';
-import { makeInterestTierScheduler } from './InterestTierScheduler.js';
-import { animalHyperrealRuntimePolicy } from '../animals/AnimalHyperrealRuntimePolicy.js';
-import { terrainRealismRuntimePolicy } from '../terrain/TerrainRealismRuntimePolicy.js';
-import { npcInterestRuntimePolicy } from '../npc/NpcInterestRuntimePolicy.js';
-import { treeAuthorityRuntimePolicy } from '../foliage/TreeAuthorityRuntimePolicy.js';
-import { villageRealismRuntimePolicy } from '../buildings/VillageRealismRuntimePolicy.js';
-import { livingMissionRuntimePolicy } from '../missions/LivingMissionRuntimePolicy.js';
-import { ancientJewishUiRuntimePolicy } from '../ui/AncientJewishUiRuntimePolicy.js';
+import { masterRealismPolicy } from './MasterRealismPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { makeInterestTierScheduler } from './InterestTierScheduler.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { animalHyperrealRuntimePolicy } from '../animals/AnimalHyperrealRuntimePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { terrainRealismRuntimePolicy } from '../terrain/TerrainRealismRuntimePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { npcInterestRuntimePolicy } from '../npc/NpcInterestRuntimePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { treeAuthorityRuntimePolicy } from '../foliage/TreeAuthorityRuntimePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { villageRealismRuntimePolicy } from '../buildings/VillageRealismRuntimePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { livingMissionRuntimePolicy } from '../missions/LivingMissionRuntimePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { ancientJewishUiRuntimePolicy } from '../ui/AncientJewishUiRuntimePolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 export function createRealismFastFpsDirector(scope = globalThis) {
   const state = { at:0, policy:null, scheduler:null, reports:[] };

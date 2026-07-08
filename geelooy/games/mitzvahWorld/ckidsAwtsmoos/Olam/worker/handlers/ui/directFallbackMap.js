@@ -8,12 +8,12 @@
  * makes sure the browser can paint it even if the declarative vessel has not yet
  * awakened.
  */
-import { setLevelGoal, updatePerutahHud } from './hudState.js';
-import { navigateLevel } from './levelNavigator.js';
-import { openLevelSelect, openNpcChallengeOverlay } from './npcOverlay.js?v=village-polish-20260612-bh810';
-import { tzedakahLetters } from './effects.js';
-import { dispatchInventory } from './inventoryFallback.js';
-import { showMission } from './missionFallback.js?v=mission-card-ui-20260610-bh711';
+import { setLevelGoal, updatePerutahHud } from './hudState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { navigateLevel } from './levelNavigator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { openLevelSelect, openNpcChallengeOverlay } from './npcOverlay.js?compact=true&v=village-polish-20260612-bh810';
+import { tzedakahLetters } from './effects.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { dispatchInventory } from './inventoryFallback.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { showMission } from './missionFallback.js?compact=true&v=mission-card-ui-20260610-bh711';
 
 export function directFallbackMap(manager, ob = {}) {
   return {

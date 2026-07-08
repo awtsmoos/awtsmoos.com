@@ -1,100 +1,49 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 918: The bag stops reincarnating itself. Chrome proved
- * wardrobe-tabs and slots were rebuilding into long-task-adjacent mutation
- * bursts. This module now renders only when visible and only when content keys
- * change; selection and equip marks mutate in place.
+ * @description Chapter 920: A beautiful inventory opens from the bag icon with
+ * stacked slots, icons, context actions, and equip/unequip/drop commands.
  */
-import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js";
-
-const PERSONAL_KEY = "awtsmoosMitzvahPersonalPerutas";
-const FALLBACK_ITEMS = [
-  { id:"top_hat", name:"Black Hat", icon:"🎩", equipSlot:"head", isEquipped:true },
-  { id:"shirt", name:"White Shirt", icon:"👕", equipSlot:"shirt", isEquipped:true },
-  { id:"pants", name:"Black Pants", icon:"👖", equipSlot:"legs", isEquipped:true },
-  { id:"shoes", name:"Black Shoes", icon:"👞", equipSlot:"feet", isEquipped:true }
-];
-const TABS = [["all","▦","All"],["head","🎩","Hats"],["shirt","👕","Shirts"],["jacket","🧥","Coats"],["legs","👖","Pants"],["feet","👞","Shoes"]];
-const state = { slots:FALLBACK_ITEMS, filter:"all", selected:null, slotKey:"", tabKey:"", label:"", open:false };
-const number = v => Number.isFinite(Number(v)) ? Number(v) : 0;
-const perutas = () => { try { return number(localStorage.getItem(PERSONAL_KEY)); } catch { return 0; } };
-const root = () => document.getElementById("inventoryScreen");
-const worker = () => window.mana?.socket?.eved || window.mana?.eved || null;
-function stop(event) { event?.preventDefault?.(); event?.stopPropagation?.(); }
-function setText(host, selector, text) { const el = host?.querySelector(selector); if (el && el.textContent !== text) el.textContent = text; }
-function category(item) { return item?.category || item?.equipSlot || (item?.className === "Apparel" ? "jacket" : "all"); }
-function perutaItem() { const qty = perutas(); return { id:"personal_perutas", name:`Perutas x${qty}`, icon:"🪙", stackable:true, quantity:qty, locked:true, category:"currency" }; }
-function allItems() { return [perutaItem(), ...state.slots]; }
-function shownItems() { return allItems().map((item, index) => ({ item, index })).filter(row => row.item && (state.filter === "all" || category(row.item) === state.filter)); }
-function itemKey(item, index) { return [index,item?.id,item?.name,resolveItemIcon(item),item?.equipSlot,item?.category,item?.quantity,item?.locked,item?.isEquipped].join(":"); }
-function slotsKey() { return `${state.filter}|${shownItems().map(({ item, index }) => itemKey(item, index)).join("|")}`; }
-function tabsKey() { return `${state.filter}|${TABS.map(t => t[0]).join("|")}`; }
-function send(inner) { const detail = { olamPeula:inner }; document.querySelector('[shaym="ikar"]')?.dispatchEvent(new CustomEvent("olamPeula", { bubbles:true, detail })); worker()?.postMessage?.(detail); }
-function addClass(el, name) { if (el && !el.classList.contains(name)) el.classList.add(name); }
-function removeClass(el, name) { if (el?.classList.contains(name)) el.classList.remove(name); }
-function closeLoosePanels() { document.getElementById("awtsmoos-npc-overlay")?.remove(); addClass(document.querySelector(".store-container"), "hidden"); document.querySelectorAll(".awtsmoosContextMenu,.bz-panel,.construction-screen").forEach(el => addClass(el, "hidden")); }
-function closeInventory(host = root()) { addClass(host, "hidden"); removeClass(document.getElementById("actionBar"), "inventory-open"); state.open = false; }
-function cardIndex(card) { return Number(card.dataset.index); }
-function realSlotIndex(displayIndex) { return displayIndex - 1; }
-function updateSelection(host) {
-  host?.querySelectorAll?.(".inv-card").forEach(card => card.classList.toggle("selected", cardIndex(card) === state.selected?.index));
-  const next = state.selected?.item?.name ? `${state.selected.item.name} selected` : `Bag Perutas: ${perutas()}`;
-  if (state.label !== next) { state.label = next; setText(host, ".selected-label", next); }
-}
-function updateEquippedMarks(host) {
-  host?.querySelectorAll?.(".inv-card").forEach(card => {
-    const idx = realSlotIndex(cardIndex(card)); const item = idx >= 0 ? state.slots[idx] : perutaItem();
-    card.classList.toggle("equipped", Boolean(item?.isEquipped));
-    let mark = card.querySelector(".equippedMark");
-    if (item?.isEquipped && !mark) { mark = document.createElement("span"); mark.className = "equippedMark"; mark.textContent = "✓"; card.appendChild(mark); }
-    else if (!item?.isEquipped && mark) mark.remove();
-  });
-}
-function renderTabs(host) {
-  const wrap = host?.querySelector(".wardrobe-tabs"), key = tabsKey(); if (!wrap || state.tabKey === key) return;
-  state.tabKey = key; const frag = document.createDocumentFragment();
-  for (const [keyName, icon, label] of TABS) {
-    const button = document.createElement("button"); button.type = "button"; button.className = `wardrobe-tab ${state.filter === keyName ? "active" : ""}`;
-    button.innerHTML = `<span class="ico">${icon}</span><span>${label}</span>`;
-    button.addEventListener("pointerdown", event => { stop(event); if (state.filter === keyName) return; state.filter = keyName; state.selected = null; state.slotKey = ""; state.tabKey = ""; render(host, true); }, { passive:false });
-    frag.appendChild(button);
-  }
-  wrap.replaceChildren(frag);
-}
-function renderGrid(host, force = false) {
-  const wrap = host?.querySelector(".slots"), key = slotsKey(); if (!wrap || (!force && state.slotKey === key)) return;
-  state.slotKey = key; const rows = shownItems();
-  if (!rows.length) { if (wrap.__empty) return; wrap.__empty = true; wrap.innerHTML = `<div class="empty-inventory-note">No items in this section.</div>`; return; }
-  wrap.__empty = false; const frag = document.createDocumentFragment();
-  for (const { item, index } of rows) {
-    const card = document.createElement("button"); card.type = "button"; card.dataset.index = String(index);
-    card.className = `inv-card ${item.locked ? "locked" : ""} ${item.isEquipped ? "equipped" : ""} ${state.selected?.index === index ? "selected" : ""}`;
-    card.innerHTML = `<span class="slotBtn">${resolveItemIcon(item) || "✦"}</span><span class="slotName">${item.name || "Item"}</span>${item.isEquipped ? '<span class="equippedMark">✓</span>' : ""}`;
-    card.addEventListener("pointerdown", event => { stop(event); state.selected = { item, index }; updateSelection(host); }, { passive:false });
-    frag.appendChild(card);
-  }
-  wrap.replaceChildren(frag);
-}
-function render(host = root(), force = false) { if (!host || host.classList.contains("hidden")) return; renderTabs(host); renderGrid(host, force); updateSelection(host); }
-function receive(detail = {}) {
-  const update = detail.updateSlots || detail;
-  if (Array.isArray(update.slots) && update.slots.some(Boolean)) {
-    const next = update.slots.filter(Boolean); const key = JSON.stringify(next.map((x, i) => itemKey(x, i)));
-    if (state.__sourceKey !== key) { state.__sourceKey = key; state.slots = next; state.slotKey = ""; }
-  }
-  render(root());
-}
-function equip(host) {
-  if (!state.selected?.item) return setText(host, ".selected-label", "Select clothing first");
-  if (state.selected.item.locked) return setText(host, ".selected-label", "Perutas stay in your bag");
-  const index = realSlotIndex(state.selected.index), item = state.slots[index], target = item?.equipSlot || "jacket";
-  state.slots.forEach(slot => { if (slot?.equipSlot === target) slot.isEquipped = false; }); item.isEquipped = true;
-  state.slotKey = ""; send({ equipItem:{ sourceType:"inventory", index, target } }); updateEquippedMarks(host); updateSelection(host); setText(host, ".selected-label", `${item.name || "Item"} equipped`);
-}
-function openInventory(host) { closeLoosePanels(); removeClass(host, "hidden"); addClass(document.getElementById("actionBar"), "inventory-open"); if (!state.open) { state.open = true; state.selected = null; } render(host); }
-const InventoryScreen = { shaym:"inventoryScreen", id:"inventoryScreen", awtsmoosClick:true, className:"awtsmoosInventoryViewer hidden", dataset:{ awtsUi:"true" }, style:{ pointerEvents:"auto", touchAction:"none" }, ready(host) { host.__awtsRenderSlots = () => render(host); host.addEventListener("awtsInventoryOpen", () => openInventory(host)); window.addEventListener("awtsInventoryUpdate", event => receive(event.detail || {})); window.addEventListener("awtsmoosPersonalPerutas", () => { state.slotKey = ""; render(host); }); }, children:[
-  { className:"header", children:[{ className:"text", textContent:"BAG / WARDROBE" }, { tag:"button", className:"close", textContent:"×", ready(el) { el.addEventListener("pointerdown", event => { stop(event); closeInventory(); }, { passive:false }); } }] },
-  { className:"inventory-body", children:[{ className:"wardrobe-tabs" }, { className:"main-slots-holder", children:[{ className:"slots" }] }, { className:"wardrobe-footer", children:[{ className:"selected-label", textContent:"Bag Perutas: 0" }, { tag:"button", className:"equip-main-btn", textContent:"👕 EQUIP", ready(el) { el.addEventListener("pointerdown", event => { stop(event); equip(root()); }, { passive:false }); } }] }] }
-], on:{ updateSlots(e) { receive(e.detail || e); } } };
+import { resolveItemIcon } from "../../../../../systems/inventory/ItemIconResolver.js?compact=true&v=npc-pose-tap-inventory-20260708-bh1";
+const PERSONAL_KEY="awtsmoosMitzvahPersonalPerutas";
+const FALLBACK=[{id:"top_hat",name:"Black Hat",icon:"🎩",equipSlot:"head",isEquipped:true,category:"Clothes"},{id:"shirt",name:"White Shirt",icon:"👕",equipSlot:"shirt",isEquipped:true,category:"Clothes"},{id:"pants",name:"Black Pants",icon:"👖",equipSlot:"legs",isEquipped:true,category:"Clothes"},{id:"shoes",name:"Black Shoes",icon:"👞",equipSlot:"feet",isEquipped:true,category:"Clothes"}];
+const TABS=[["all","▦","All"],["Clothes","👕","Wear"],["Equipment","⚔️","Gear"],["Food","🍞","Food"],["Materials","🧰","Mats"],["Quest Items","❗","Quest"]];
+const state={slots:FALLBACK,equipment:{},filter:"all",selected:null,slotKey:"",tabKey:"",label:"",open:false,menu:null};
+const n=v=>Number.isFinite(Number(v))?Number(v):0;
+const root=()=>document.getElementById("inventoryScreen");
+const worker=()=>window.mana?.socket?.eved||window.mana?.eved||null;
+const perutas=()=>{try{return n(localStorage.getItem(PERSONAL_KEY));}catch{return 0;}};
+function stop(e){e?.preventDefault?.();e?.stopPropagation?.();}
+function send(inner){const detail={olamPeula:inner};document.querySelector('[shaym="ikar"]')?.dispatchEvent(new CustomEvent("olamPeula",{bubbles:true,detail}));worker()?.postMessage?.(detail);}
+function addClass(el,name){if(el&&!el.classList.contains(name))el.classList.add(name);}
+function removeClass(el,name){if(el?.classList.contains(name))el.classList.remove(name);}
+function setText(host,sel,text){const el=host?.querySelector(sel);if(el&&el.textContent!==text)el.textContent=text;}
+function closeLoose(){document.getElementById("awtsmoos-npc-overlay")?.remove();addClass(document.querySelector(".store-container"),"hidden");document.querySelectorAll(".awtsmoosContextMenu,.bz-panel,.construction-screen").forEach(el=>addClass(el,"hidden"));}
+function cat(item){return item?.category||item?.equipSlot||item?.type||"Materials";}
+function qty(item){return Math.max(1,n(item?.qty??item?.quantity??item?.amount??1));}
+function perutaItem(){const q=perutas();return{id:"personal_perutas",name:`Perutas`,icon:"🪙",qty:q,locked:true,category:"Currency",rarity:"rare"};}
+function allItems(){return[perutaItem(),...state.slots.filter(Boolean)];}
+function rows(){return allItems().map((item,index)=>({item,index})).filter(r=>state.filter==="all"||cat(r.item)===state.filter);}
+function equipped(item){return Boolean(item?.isEquipped||state.equipment?.[item?.equipSlot]===item?.id||state.equipment?.[cat(item)]===item?.id);}
+function keyItem(item,index){return[index,item?.id,item?.baseId,item?.name,resolveItemIcon(item),cat(item),qty(item),item?.locked,equipped(item),item?.rarity].join(":");}
+function gridKey(){return`${state.filter}|${rows().map(({item,index})=>keyItem(item,index)).join("|")}`;}
+function tabsKey(){return`${state.filter}|${TABS.map(t=>t[0]).join("|")}`;}
+function realIndex(displayIndex){return displayIndex-1;}
+function closeMenu(host=root()){document.querySelectorAll(".inv-context").forEach(el=>el.remove());state.menu=null;}
+function select(host,item,index){state.selected={item,index};closeMenu(host);updateSelection(host);updateMarks(host);}
+function contextActions(item){if(item?.locked)return["Inspect"];const canWear=Boolean(item?.equipSlot||/cloth|hat|shirt|pant|shoe|coat|jacket|equipment|weapon/i.test(`${cat(item)} ${item.name||""}`));return[canWear?(equipped(item)?"Take Off":"Wear"):"Use","Inspect","Drop"];}
+function action(host,verb){const row=state.selected;if(!row?.item)return;const item=row.item;if(verb==="Inspect")return setText(host,".selected-label",`${item.name||"Item"} · ${cat(item)} · x${qty(item)}`);if(verb==="Drop"){send({dropBagItem:{id:item.id,baseId:item.baseId,source:"inventory-context"}});state.slots=state.slots.filter(x=>x!==item);state.slotKey="";state.selected=null;render(host,true);return;}const index=realIndex(row.index),target=item.equipSlot||cat(item);if(verb==="Wear"||verb==="Use"){state.slots.forEach(slot=>{if((slot?.equipSlot||cat(slot))===target)slot.isEquipped=false;});item.isEquipped=true;state.equipment[target]=item.id;send({equipItem:{sourceType:"inventory",index,target,itemId:item.id}});setText(host,".selected-label",`${item.name||"Item"} equipped`);}if(verb==="Take Off"){item.isEquipped=false;if(state.equipment[target]===item.id)delete state.equipment[target];send({unequipItem:{sourceType:"inventory",index,target,itemId:item.id}});setText(host,".selected-label",`${item.name||"Item"} removed`);}state.slotKey="";closeMenu(host);render(host,true);}
+function openMenu(host,card,item,index,x=0,y=0){select(host,item,index);closeMenu(host);const menu=document.createElement("div");menu.className="inv-context";menu.style.left=`${Math.min(Math.max(10,x||card.getBoundingClientRect().left),innerWidth-170)}px`;menu.style.top=`${Math.min(Math.max(70,y||card.getBoundingClientRect().top),innerHeight-180)}px`;for(const verb of contextActions(item)){const btn=document.createElement("button");btn.type="button";btn.textContent=verb;btn.addEventListener("pointerdown",e=>{stop(e);action(host,verb);},{passive:false});menu.appendChild(btn);}document.body.appendChild(menu);state.menu=menu;}
+function updateSelection(host){host?.querySelectorAll?.(".inv-card").forEach(card=>card.classList.toggle("selected",Number(card.dataset.index)===state.selected?.index));const item=state.selected?.item;const label=item?`${item.name||"Item"} · ${cat(item)} · x${qty(item)}`:`Perutas: ${perutas()}`;if(state.label!==label){state.label=label;setText(host,".selected-label",label);}const detail=host?.querySelector(".inv-detail");if(detail)detail.innerHTML=item?`<b>${resolveItemIcon(item)} ${item.name||"Item"}</b><span>${cat(item)} · x${qty(item)}${equipped(item)?" · Equipped":""}</span>`:`<b>🎒 Inventory</b><span>Select an item for actions.</span>`;}
+function updateMarks(host){host?.querySelectorAll?.(".inv-card").forEach(card=>{const item=allItems()[Number(card.dataset.index)];card.classList.toggle("equipped",equipped(item));let mark=card.querySelector(".equippedMark");if(equipped(item)&&!mark){mark=document.createElement("span");mark.className="equippedMark";mark.textContent="✓";card.appendChild(mark);}else if(!equipped(item)&&mark)mark.remove();});}
+function renderTabs(host){const wrap=host?.querySelector(".wardrobe-tabs"),key=tabsKey();if(!wrap||state.tabKey===key)return;state.tabKey=key;const frag=document.createDocumentFragment();for(const[t,icon,label]of TABS){const b=document.createElement("button");b.type="button";b.className=`wardrobe-tab ${state.filter===t?"active":""}`;b.innerHTML=`<span class="ico">${icon}</span><span>${label}</span>`;b.addEventListener("pointerdown",e=>{stop(e);state.filter=t;state.selected=null;state.slotKey="";state.tabKey="";render(host,true);},{passive:false});frag.appendChild(b);}wrap.replaceChildren(frag);}
+function renderGrid(host,force=false){const wrap=host?.querySelector(".slots"),key=gridKey();if(!wrap||(!force&&state.slotKey===key))return;state.slotKey=key;const r=rows();if(!r.length){wrap.innerHTML='<div class="empty-inventory-note">No items in this section.</div>';return;}const frag=document.createDocumentFragment();for(const{item,index}of r){const card=document.createElement("button");card.type="button";card.dataset.index=String(index);card.className=`inv-card rarity-${item.rarity||"common"} ${item.locked?"locked":""} ${equipped(item)?"equipped":""} ${state.selected?.index===index?"selected":""}`;card.innerHTML=`<span class="slotBtn">${resolveItemIcon(item)||"✦"}</span><span class="slotQty">${qty(item)>1?`x${qty(item)}`:""}</span><span class="slotName">${item.name||"Item"}</span>${equipped(item)?'<span class="equippedMark">✓</span>':""}`;card.addEventListener("pointerdown",e=>{stop(e);select(host,item,index);},{passive:false});card.addEventListener("contextmenu",e=>{stop(e);openMenu(host,card,item,index,e.clientX,e.clientY);});card.addEventListener("dblclick",e=>{stop(e);select(host,item,index);action(host,equipped(item)?"Take Off":"Wear");});card.addEventListener("pointerup",e=>{if(e.pointerType==="touch"&&state.selected?.index===index)openMenu(host,card,item,index,e.clientX,e.clientY);},{passive:false});frag.appendChild(card);}wrap.replaceChildren(frag);}
+function render(host=root(),force=false){if(!host||host.classList.contains("hidden"))return;renderTabs(host);renderGrid(host,force);updateSelection(host);updateMarks(host);}
+function receive(detail={}){const data=detail.detail||detail;if(Array.isArray(data.slots))state.slots=data.slots.filter(Boolean);if(data.equipment)state.equipment=data.equipment;if(data.open)openInventory(root());else render(root(),true);}
+function closeInventory(host=root()){addClass(host,"hidden");removeClass(document.getElementById("actionBar"),"inventory-open");closeMenu(host);state.open=false;}
+function openInventory(host){if(!host)return;closeLoose();removeClass(host,"hidden");addClass(document.getElementById("actionBar"),"inventory-open");state.open=true;render(host,true);}
+const InventoryScreen={shaym:"inventoryScreen",id:"inventoryScreen",awtsmoosClick:true,className:"awtsmoosInventoryViewer hidden",dataset:{awtsUi:"true"},style:{pointerEvents:"auto",touchAction:"none"},ready(host){host.__awtsRenderSlots=()=>render(host,true);host.addEventListener("awtsInventoryOpen",()=>openInventory(host));window.addEventListener("awtsInventoryUpdate",e=>receive(e.detail||{}));window.addEventListener("bagState",e=>receive(e.detail||{}));window.addEventListener("awtsmoosPersonalPerutas",()=>{state.slotKey="";render(host,true);});document.addEventListener("pointerdown",e=>{if(!host.contains(e.target)&&!e.target.closest?.(".inv-context"))closeMenu(host);},{passive:true});},children:[
+  {className:"header",children:[{className:"text",textContent:"🎒 INVENTORY"},{className:"inv-detail",innerHTML:"<b>🎒 Inventory</b><span>Select an item for actions.</span>"},{tag:"button",className:"close",textContent:"×",ready(el){el.addEventListener("pointerdown",e=>{stop(e);closeInventory();},{passive:false});}}]},
+  {className:"inventory-body",children:[{className:"wardrobe-tabs"},{className:"main-slots-holder",children:[{className:"slots"}]},{className:"wardrobe-footer",children:[{className:"selected-label",textContent:"Perutas: 0"},{tag:"button",className:"equip-main-btn",textContent:"USE / WEAR",ready(el){el.addEventListener("pointerdown",e=>{stop(e);action(root(),equipped(state.selected?.item)?"Take Off":"Wear");},{passive:false});}}]}]}
+],on:{updateSlots(e){receive(e.detail||e);},bagState(e){receive(e.detail||e);}}};
 export default InventoryScreen;

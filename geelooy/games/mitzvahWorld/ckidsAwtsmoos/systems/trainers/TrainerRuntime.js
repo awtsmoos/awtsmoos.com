@@ -12,11 +12,11 @@
  * The Awtsmoos lets the rebbe, the sword, the spellbook, and the purse become
  * one scene: wisdom enters the action bar, and the wallet remembers why it paid.
  */
-import { trainerForPath, TRAINERS } from "./TrainerRegistry.js";
-import { AbilityIndex, abilityRankInfo } from "../../tochen/torah/AbilityIndex.js";
-import { learnPassage } from "../torah/TorahSpellbookRuntime.js";
-import { assignActionSlot } from "../torah/TorahActionBarState.js";
-import { awardMoney, bindWalletOlam, moneyOf } from "../economy/wallet/PersonalPerutaWallet.js";
+import { trainerForPath, TRAINERS } from "./TrainerRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { AbilityIndex, abilityRankInfo } from "../../tochen/torah/AbilityIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { learnPassage } from "../torah/TorahSpellbookRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { assignActionSlot } from "../torah/TorahActionBarState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, bindWalletOlam, moneyOf } from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const COST_BASE = 6;
 const PATH_PASSAGE = Object.freeze({ learner:"shemaUnity", helper:"tehillimSong", guardian:"amidahArrow", builder:"chumashLight" });

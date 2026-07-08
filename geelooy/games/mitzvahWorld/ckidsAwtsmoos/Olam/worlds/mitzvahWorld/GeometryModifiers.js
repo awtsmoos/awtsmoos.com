@@ -3,8 +3,8 @@
  * @file GeometryModifiers.js
  * @description Parser-clear geometry transformations: scale, array, mirror, extrude, translate, rotate, center, deterministic noise.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import * as BufferGeometryUtils from "/games/scripts/jsm/utils/BufferGeometryUtils.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as BufferGeometryUtils from "/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function list(value) { return Array.isArray(value) ? value : []; }
 function vector(value, resolve, fallback = [0,0,0]) { return list(value || fallback).map(resolve); }
 function hash(index, salt) { const v = Math.sin(index * 12.9898 + salt * 78.233) * 43758.5453; return v - Math.floor(v); }

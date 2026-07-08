@@ -3,9 +3,9 @@
  * @file NpcMeshCloner.js
  * @description Makes NPCs visually reuse player-style meshes without optional chaining.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { getNpcClothingPreset } from "./NpcClothingData.js";
-import { makeNpcMaterial, applyMaterialByName } from "./NpcMaterialTools.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { getNpcClothingPreset } from "./NpcClothingData.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeNpcMaterial, applyMaterialByName } from "./NpcMaterialTools.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function dataPath(root, a, b) { const first = root && root[a] ? root[a] : null; return first && first[b] ? first[b] : null; }
 export function findPlayerMeshForNpc(olam) {
   const candidates = [dataPath(olam, "player", "mesh"), dataPath(olam, "nivraNeevchar", "mesh"), olam && olam.derech && olam.derech.player ? olam.derech.player.mesh : null];

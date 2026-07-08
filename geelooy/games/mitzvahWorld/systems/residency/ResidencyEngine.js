@@ -4,11 +4,11 @@
  * @description Chapter 466: one doorway gathers sector bands, persistence,
  * collider payloads, mesh garments, dirty vows, and diagnostics.
  */
-import SectorResidencyManager from "./core/SectorResidencyManager.js";
-import MemorySectorStore from "./store/MemorySectorStore.js";
-import SectorDirtyJournal from "./store/SectorDirtyJournal.js";
-import ColliderPayloadRegistry from "./collider/ColliderPayloadRegistry.js";
-import RenderLodRegistry from "./lod/RenderLodRegistry.js";
+import SectorResidencyManager from "./core/SectorResidencyManager.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import MemorySectorStore from "./store/MemorySectorStore.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import SectorDirtyJournal from "./store/SectorDirtyJournal.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import ColliderPayloadRegistry from "./collider/ColliderPayloadRegistry.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import RenderLodRegistry from "./lod/RenderLodRegistry.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 export class ResidencyEngine {
   constructor({ store = new MemorySectorStore(), sectorSize = 64 } = {}) {
     this.store = store;

@@ -1,5 +1,5 @@
 // B"H
-import SpikeHazard from './SpikeHazard.js';
+import SpikeHazard from './SpikeHazard.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * A coin-shaped spike. It can flee like treasure, then punish like judgment.

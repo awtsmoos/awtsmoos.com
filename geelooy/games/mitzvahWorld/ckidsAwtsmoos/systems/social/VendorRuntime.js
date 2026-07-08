@@ -1,7 +1,7 @@
 // B"H
 /** VendorRuntime: stock, living prices, buy/sell/buyback, and legacy UI payloads. */
-import { calculateItemPrice, pricedVendorStock } from "../economy/EconomyPricingRuntime.js";
-import { applyVendorPurchase } from "../economy/EconomyTransactionRuntime.js";
+import { calculateItemPrice, pricedVendorStock } from "../economy/EconomyPricingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { applyVendorPurchase } from "../economy/EconomyTransactionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const DEFAULT_STOCK = Object.freeze([
   { id:"healing_herb", name:"Healing Herb", icon:"HERB", price:4 },

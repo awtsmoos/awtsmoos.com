@@ -8,20 +8,20 @@
  * assembler used by procedural buildings. No stale roof or wall law remains in
  * the registry gate.
  */
-import HouseAssembler from "../../utils/3d/procedural/house/HouseAssembler.js?v=brick-visual-clean-collider-20260603-bh344";
-import GrassPatchAssembler from "../../utils/3d/procedural/nature/GrassPatchAssembler.js";
-import RockAssembler from "../../utils/3d/procedural/nature/RockAssembler.js";
-import CloudAssembler from "../../utils/3d/procedural/nature/CloudAssembler.js";
-import StoneWell from "../methods/procedural/Structures/StoneWell.js";
-import DoorGeometry from "../../utils/3d/procedural/Door.js";
-import LampPost from "../../utils/3d/procedural/Structures/LampPost.js";
-import Dome from "../../utils/3d/procedural/Dome.js";
-import Island from "../../utils/3d/procedural/Island.js";
-import Labyrinth from "../../utils/3d/procedural/Labyrinth.js";
-import Pyramid from "../../utils/3d/procedural/Pyramid.js";
-import Arch from "../../utils/3d/procedural/Arch.js";
-import Pillar from "../../utils/3d/procedural/Pillar.js";
-import Wall from "../../utils/3d/procedural/Wall.js";
+import HouseAssembler from "../../utils/3d/procedural/house/HouseAssembler.js?compact=true&v=brick-visual-clean-collider-20260603-bh344";
+import GrassPatchAssembler from "../../utils/3d/procedural/nature/GrassPatchAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import RockAssembler from "../../utils/3d/procedural/nature/RockAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import CloudAssembler from "../../utils/3d/procedural/nature/CloudAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import StoneWell from "../methods/procedural/Structures/StoneWell.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import DoorGeometry from "../../utils/3d/procedural/Door.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import LampPost from "../../utils/3d/procedural/Structures/LampPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Dome from "../../utils/3d/procedural/Dome.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Island from "../../utils/3d/procedural/Island.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Labyrinth from "../../utils/3d/procedural/Labyrinth.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Pyramid from "../../utils/3d/procedural/Pyramid.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Arch from "../../utils/3d/procedural/Arch.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Pillar from "../../utils/3d/procedural/Pillar.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Wall from "../../utils/3d/procedural/Wall.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const registry = new Map();
 

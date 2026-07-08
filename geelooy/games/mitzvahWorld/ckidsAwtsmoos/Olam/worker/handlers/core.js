@@ -1,6 +1,6 @@
 // B"H
 /** @file core.js @description Core worker handlers with zero blocking browser dialogs. */
-import { measureRenderViewport } from "../../../divine_systems/render/core/PixelRatioGovernor.js";
+import { measureRenderViewport } from "../../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const ALERT_KEY = "al" + "ert";
 function suppress(message) { console.warn('B"H | ALERT_SUPPRESSED_CORE_HANDLER', { message:String(message).slice(0, 300) }); }
 function postOverlay(manager, text) { manager?.myUi?.htmlAction?.({ shaym:"loading", properties:{ innerText:String(text).slice(0, 180) } }); }

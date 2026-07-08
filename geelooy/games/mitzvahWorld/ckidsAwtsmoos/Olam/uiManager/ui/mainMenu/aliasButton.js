@@ -16,7 +16,7 @@ function awtsmoosNotice(message) {
  * the unique creative manifestations of fellow souls.
  */
 
-import mitzvahBtn from "../resources/mitzvahBtn.js";
+import mitzvahBtn from "../resources/mitzvahBtn.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @function aliasButton

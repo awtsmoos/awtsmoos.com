@@ -9,10 +9,10 @@
  * its modular sub-faculties.
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
-import UniformScribe from './MaterialManager/UniformScribe.js';
-import ShaderInscriber from './MaterialManager/ShaderInscriber.js';
-import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import UniformScribe from './MaterialManager/UniformScribe.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import ShaderInscriber from './MaterialManager/ShaderInscriber.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class MaterialManager {
     static create(baseType = 'Standard', options = {}, snippets = null) {

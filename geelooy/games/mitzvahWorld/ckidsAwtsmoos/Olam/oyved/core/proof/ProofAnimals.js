@@ -6,11 +6,11 @@
  * moves near one live animal to prove full-detail LOD, then checks motion,
  * grounding, aggression, species counts, and anatomy score.
  */
-import { applyAnimalVisualLod } from "../../../worlds/mitzvahWorld/region/render/wildlife/AnimalVisualLod.js?v=animal-realism-split-20260705-bh1";
-import { collectAnimalLodDiagnostics } from "../../../worlds/mitzvahWorld/region/render/wildlife/AnimalLodDiagnostics.js?v=animal-realism-split-20260705-bh1";
-import { collectAnimalBehaviorDiagnostics } from "../../../worlds/mitzvahWorld/region/render/wildlife/behavior/AnimalBehaviorDiagnostics.js";
-import { summarizeAnimalIntents } from "./MitzvahProofDiagnostics.js?v=movement-snap-detector-20260705-bh1";
-import { animals, cloneVec, distance, n, restorePlayer, setPlayerNear, sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { applyAnimalVisualLod } from "../../../worlds/mitzvahWorld/region/render/wildlife/AnimalVisualLod.js?compact=true&v=animal-realism-split-20260705-bh1";
+import { collectAnimalLodDiagnostics } from "../../../worlds/mitzvahWorld/region/render/wildlife/AnimalLodDiagnostics.js?compact=true&v=animal-realism-split-20260705-bh1";
+import { collectAnimalBehaviorDiagnostics } from "../../../worlds/mitzvahWorld/region/render/wildlife/behavior/AnimalBehaviorDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { summarizeAnimalIntents } from "./MitzvahProofDiagnostics.js?compact=true&v=movement-snap-detector-20260705-bh1";
+import { animals, cloneVec, distance, n, restorePlayer, setPlayerNear, sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 async function waitForAnimalFloor(olam, floor = 76, timeoutMs = 8000) {
   const started = Date.now();

@@ -1,6 +1,6 @@
 // B"H
 /** TorahRuntime: library, scroll copying, beis midrash, sermons, mentors. */
-import { mutateFeature49State } from './Feature49State.js';
+import { mutateFeature49State } from './Feature49State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function unlockTorahDialogue(topic='chesed'){ return mutateFeature49State(s=>{ s.torahTopics ||= []; if(!s.torahTopics.includes(topic)) s.torahTopics.push(topic); return s; }); }
 export function libraryBook(id='village_chronicle'){ return { id, title:id.replaceAll('_',' '), pages:['A village remembers actions better than noise.'] }; }
 export function copyScroll(scribe='player', text='Alef'){ return { scribe, text, handwritingSeed:(scribe+text).length%97, copiedAt:Date.now() }; }

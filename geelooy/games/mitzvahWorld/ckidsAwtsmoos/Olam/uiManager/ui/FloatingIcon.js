@@ -11,7 +11,7 @@
  * It uses a Sprite in Three.js to ensure the icon always faces the player.
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class FloatingIcon {
     constructor(parentEntity) {

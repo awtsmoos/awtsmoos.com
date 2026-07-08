@@ -1,12 +1,12 @@
 // B"H
-import { parseAiWorldShort } from "../schema/AiWorldShortParser.js";
-import { buildGraphFromAiWorld, summarizeGraph } from "./CreationGraph.js";
-import { simulateEcosystem } from "./ProceduralEcosystem.js";
-import { runLivingEconomy } from "./LivingEconomy.js";
-import { generateStoryArcs } from "./StoryArcGenerator.js";
-import { directWorldGraph } from "./DirectorAiEngine.js";
-import { actionVocabulary, generateActionLibrary } from "./ProceduralActionGenerator.js";
-import { ANIMAL_RULES, CHOSSID_GLB_INSPECTION, CORE_STATS, WEAPON_ARCHETYPES } from "../../platform/MitzvahPlatformCatalog.js";
+import { parseAiWorldShort } from "../schema/AiWorldShortParser.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildGraphFromAiWorld, summarizeGraph } from "./CreationGraph.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { simulateEcosystem } from "./ProceduralEcosystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { runLivingEconomy } from "./LivingEconomy.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateStoryArcs } from "./StoryArcGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { directWorldGraph } from "./DirectorAiEngine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { actionVocabulary, generateActionLibrary } from "./ProceduralActionGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ANIMAL_RULES, CHOSSID_GLB_INSPECTION, CORE_STATS, WEAPON_ARCHETYPES } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const LIVING_CREATION_PLATFORM_SCHEMA = "mitzvah-living-creation-platform-v1";
 

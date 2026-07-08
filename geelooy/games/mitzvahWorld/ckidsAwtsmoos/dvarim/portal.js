@@ -4,7 +4,7 @@
  */
 
 
-import * as AWTSMOOS from "../awtsmoosCkidsGames.js";
+import * as AWTSMOOS from "../awtsmoosCkidsGames.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class Portal extends AWTSMOOS.Tzomayach {
     constructor(opts) {
         super(opts);

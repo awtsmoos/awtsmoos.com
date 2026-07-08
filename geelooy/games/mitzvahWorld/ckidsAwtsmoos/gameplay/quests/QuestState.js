@@ -1,7 +1,7 @@
 // B"H
-import { QUEST_CHAIN, questById } from "./QuestDefinitions.js";
-import { addItem } from "../inventory/InventoryState.js";
-import { awardXp } from "../player/PlayerState.js";
+import { QUEST_CHAIN, questById } from "./QuestDefinitions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addItem } from "../inventory/InventoryState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardXp } from "../player/PlayerState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createQuestState() {
   return {

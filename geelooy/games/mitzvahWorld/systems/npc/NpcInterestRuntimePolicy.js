@@ -1,6 +1,6 @@
 // B"H
 /** @file NpcInterestRuntimePolicy.js @description NPC mind/schedule/perception budgets for a living village at 60 FPS. */
-import { masterRealismPolicy } from '../realism/MasterRealismPolicy.js';
+import { masterRealismPolicy } from '../realism/MasterRealismPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 export function npcInterestRuntimePolicy(budget = globalThis.__MITZVAH_WORLD_PERFORMANCE_BUDGET__) {
   const p = masterRealismPolicy(budget).npcs;
   return {

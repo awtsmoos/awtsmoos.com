@@ -1,10 +1,10 @@
 ﻿// B"H
 /** @file KosherProcessingRuntime.js @description Educational kosher processing with knife, facing, meat, leather, and profession XP. */
-import { addBagItem } from "../inventory/BagRuntime.js";
-import { hasEquipped } from "../equipment/EquipmentRuntime.js";
-import { animalKosherData } from "./KosherAnimalIndex.js";
-import { nearestCarcass, openCarcassUi } from "./CarcassRuntime.js";
-import { grantProfessionXp } from "../professions/ProfessionRuntime.js";
+import { addBagItem } from "../inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { hasEquipped } from "../equipment/EquipmentRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { animalKosherData } from "./KosherAnimalIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { nearestCarcass, openCarcassUi } from "./CarcassRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { grantProfessionXp } from "../professions/ProfessionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function posOf(x) { return x?.mesh?.position || x?.position || { x:0, z:0 }; }
 function yawOf(player) { return Number.isFinite(player?.__awtsmoosUnifiedFacingYaw) ? player.__awtsmoosUnifiedFacingYaw : Number(player?.mesh?.rotation?.y || 0); }

@@ -1,6 +1,6 @@
 // B"H
 /** @file joystick.js @description Mobile walking and jump controls with a real held jump. */
-import { installMobileVisualViewportInsets } from "./mobileVisualViewportInsets.js?v=solid-browser-verify-20260702-bh9";
+import { installMobileVisualViewportInsets } from "./mobileVisualViewportInsets.js?compact=true&v=solid-browser-verify-20260702-bh9";
 const STYLE_ID = "awts-mobile-joystick-runtime";
 const MIN_JUMP_HOLD_MS = 170;
 

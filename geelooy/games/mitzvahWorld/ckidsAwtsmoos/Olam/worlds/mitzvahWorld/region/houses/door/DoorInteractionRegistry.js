@@ -1,98 +1,13 @@
 // B"H
-/**
- * Registry: every cottage door becomes one stable, hoverable, clickable target.
- * Rows are upserted by id and diagnostics record hover/click/state proof.
- */
-import { serialDoor } from "./DoorPersistence.js";
-import { ensureDoorProxy, sealDoorPart, setDoorHighlight } from "./DoorProxyRuntime.js?v=perf-tight-collision-20260703-bh6";
-import { actionName, ensureGenericRegistry, ensureInteractionArray, worldPos } from "./DoorInteractionHelpers.js";
-
-const DOOR_RADIUS = 6.4;
-
-function upsert(list, item, same) {
-  const index = list.findIndex(same);
-  if (index >= 0) list[index] = item;
-  else list.push(item);
-  return item;
-}
-
-function promptFor(state) {
-  return state.locked ? "Door locked" : state.open ? "Close cottage door" : "Open cottage door";
-}
-
-function record(entry, proxy) {
-  const p = worldPos(entry);
-  const s = entry.state;
-  return {
-    id:s.id,
-    kind:"door",
-    ownerId:s.houseId,
-    prompt:promptFor(s),
-    radius:DOOR_RADIUS,
-    bounds:{ type:"sphere", center:[p.x, p.y, p.z], radius:1.65 },
-    action:"toggleDoor",
-    workerOwned:true,
-    networkReady:true,
-    animation:"hinge",
-    proxy:proxy?.name,
-    state:serialDoor(s)
-  };
-}
-
-function publishDoorDiag(olam, patch = {}) {
-  if (!olam) return;
-  olam.__mitzvahDoorDiag = { ...(olam.__mitzvahDoorDiag || {}), at:Date.now(), ...patch };
-}
-
-function refreshRows(olam, entry, proxy) {
-  const row = record(entry, proxy);
-  upsert(ensureGenericRegistry(olam), row, x => x?.id === row.id);
-  olam.__doorInteractionRegistry ||= [];
-  upsert(olam.__doorInteractionRegistry, row, x => x?.id === row.id);
-  return row;
-}
-
-function handleDoorAction(olam, cottageRoot, entry, toggleDoor, wrapper, proxy, peula) {
-  const action = actionName(peula);
-  if (/mouseEnter|hover-enter/.test(action)) {
-    const highlighted = setDoorHighlight(entry, true);
-    publishDoorDiag(olam, { hoveredDoor:entry.state.id, lastAction:"hover", highlighted });
-    return highlighted;
-  }
-  if (/mouseLeave|hover-leave/.test(action)) {
-    setDoorHighlight(entry, false);
-    publishDoorDiag(olam, { hoveredDoor:null, lastAction:"leave" });
-    return true;
-  }
-  if (/accepted interaction|click|pointerdown|interact/.test(action)) {
-    publishDoorDiag(olam, { lastClick:entry.state.id, lastAction:"click-before-toggle", beforeOpen:Boolean(entry.state.open) });
-    const result = toggleDoor(olam, entry, cottageRoot);
-    wrapper.interactionPrompt = promptFor(entry.state);
-    refreshRows(olam, entry, proxy);
-    publishDoorDiag(olam, { lastClick:entry.state.id, lastAction:"click-toggle", afterOpen:Boolean(entry.state.open), result:Boolean(result) });
-    return result;
-  }
-  return false;
-}
-
-export function registerDoorEntry(olam, cottageRoot, entry, toggleDoor) {
-  if (!olam || !entry?.state || !entry?.pivot) return null;
-  const wrapper = {
-    type:"cottageDoor",
-    name:entry.state.id,
-    interactable:true,
-    doorState:entry.state,
-    interactionKind:"door",
-    interactionRadius:DOOR_RADIUS,
-    interactionPrompt:promptFor(entry.state)
-  };
-  const proxy = ensureDoorProxy(entry, wrapper);
-  wrapper.raycastMesh = proxy;
-  wrapper.interactionMesh = proxy;
-  wrapper.ayshPeula = peula => handleDoorAction(olam, cottageRoot, entry, toggleDoor, wrapper, proxy, peula);
-  entry.pivot.traverse?.(part => sealDoorPart(part, wrapper));
-  upsert(ensureInteractionArray(olam), wrapper, x => x?.name === wrapper.name || x?.doorState?.id === entry.state.id);
-  refreshRows(olam, entry, proxy);
-  publishDoorDiag(olam, { registered:true, lastRegisteredDoor:entry.state.id });
-  return wrapper;
-}
+/** Door registry: every cottage door gets one wrapper and one explicit proxy. */
+import { serialDoor } from "./DoorPersistence.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureDoorProxy, sealDoorPart, setDoorHighlight } from "./DoorProxyRuntime.js?compact=true&v=perf-tight-collision-20260703-bh6";
+import { actionName, ensureGenericRegistry, ensureInteractionArray, worldPos } from "./DoorInteractionHelpers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+const DOOR_RADIUS = 10.5;
+function upsert(list, item, same) { const i = list.findIndex(same); if (i >= 0) list[i] = item; else list.push(item); return item; }
+function promptFor(state) { return state.locked ? "Door locked" : state.open ? "Close cottage door" : "Open cottage door"; }
+function record(entry, proxy) { const p = worldPos(entry), s = entry.state; return { id:s.id, kind:"door", ownerId:s.houseId, prompt:promptFor(s), radius:DOOR_RADIUS, bounds:{ type:"sphere", center:[p.x,p.y,p.z], radius:2.4 }, action:"toggleDoor", workerOwned:true, networkReady:true, animation:"hinge", proxy:proxy?.name, state:serialDoor(s) }; }
+function publishDoorDiag(olam, patch = {}) { if (!olam) return; olam.__mitzvahDoorDiag = { ...(olam.__mitzvahDoorDiag || {}), at:Date.now(), ...patch }; }
+function refreshRows(olam, entry, proxy) { const row = record(entry, proxy); upsert(ensureGenericRegistry(olam), row, x => x?.id === row.id); olam.__doorInteractionRegistry ||= []; upsert(olam.__doorInteractionRegistry, row, x => x?.id === row.id); return row; }
+function handleDoorAction(olam, cottageRoot, entry, toggleDoor, wrapper, proxy, peula) { const action = actionName(peula); if (/mouseEnter|hover-enter/.test(action)) { const highlighted = setDoorHighlight(entry, true); publishDoorDiag(olam, { hoveredDoor:entry.state.id, lastAction:"hover", highlighted }); return highlighted; } if (/mouseLeave|hover-leave/.test(action)) { setDoorHighlight(entry, false); publishDoorDiag(olam, { hoveredDoor:null, lastAction:"leave" }); return true; } if (/accepted interaction|click|pointerdown|interact|mobile-door-tap/.test(action)) { publishDoorDiag(olam, { lastClick:entry.state.id, lastAction:"click-before-toggle", beforeOpen:Boolean(entry.state.open) }); const result = toggleDoor(olam, entry, cottageRoot); wrapper.interactionPrompt = promptFor(entry.state); refreshRows(olam, entry, proxy); publishDoorDiag(olam, { lastClick:entry.state.id, lastAction:"click-toggle", afterOpen:Boolean(entry.state.open), result:Boolean(result), source:"door-registry-source-bh4" }); return result; } return false; }
+export function registerDoorEntry(olam, cottageRoot, entry, toggleDoor) { if (!olam || !entry?.state || !entry?.pivot) return null; const wrapper = { type:"cottageDoor", name:entry.state.id, interactable:true, doorState:entry.state, interactionKind:"door", interactionRadius:DOOR_RADIUS, proximity:DOOR_RADIUS, interactionPrompt:promptFor(entry.state) }; const proxy = ensureDoorProxy(entry, wrapper); wrapper.raycastMesh = proxy; wrapper.interactionMesh = proxy; wrapper.ayshPeula = peula => handleDoorAction(olam, cottageRoot, entry, toggleDoor, wrapper, proxy, peula); entry.pivot.traverse?.(part => sealDoorPart(part, wrapper)); upsert(ensureInteractionArray(olam), wrapper, x => x?.name === wrapper.name || x?.doorState?.id === entry.state.id); refreshRows(olam, entry, proxy); publishDoorDiag(olam, { registered:true, lastRegisteredDoor:entry.state.id, source:"door-registry-source-bh4" }); return wrapper; }

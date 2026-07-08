@@ -1,8 +1,8 @@
 // B"H
 /** @file HeldMeshDescriptorFactory.js @description Creates material-resolved held/projectile mesh descriptors for renderers and tests. */
-import { heldMeshRecipe } from "./ProceduralHeldMeshCatalog.js";
-import { gripOffset } from "./GripOffsetCatalog.js";
-import { resolveRecipeMaterials } from "./WeaponMaterialResolver.js";
+import { heldMeshRecipe } from "./ProceduralHeldMeshCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { gripOffset } from "./GripOffsetCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { resolveRecipeMaterials } from "./WeaponMaterialResolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function descriptorFor({id="item", genre=null, grip="default"}={}, context={}) {
   const recipe = resolveRecipeMaterials(heldMeshRecipe(id || genre || "shortSword"));
   return { id:`held_${id}`, itemId:id, genre, grip, offset:gripOffset(grip), recipe, context, renderable:true, materialGroups:recipe.materialGroups };

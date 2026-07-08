@@ -10,8 +10,8 @@
  * radius, gain, and place without tearing the parser open.
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
-import { MAX_GRASS_PATCHES, normalizeGrassPatches } from './GrassPatchMask.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { MAX_GRASS_PATCHES, normalizeGrassPatches } from './GrassPatchMask.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * Creates the mixed dirt/grass material for the ground mesh.

@@ -1,6 +1,6 @@
 // B"H
 /** @file emerald.js @description Active Emerald world with approved tree bucket only. */
-import { compileVillage } from './emeraldVillage/villageCompiler.js';
+import { compileVillage } from './emeraldVillage/villageCompiler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const compiledNivrayim = compileVillage({ profile: 'mobile', seed: 7701 });
 export default {
   shaym: 'Emerald Void — Living District',

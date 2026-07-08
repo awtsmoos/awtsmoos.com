@@ -6,8 +6,8 @@
  * Worker error event wiring.
  */
 
-import { oyvedManagerLog } from "../log/MainTextLogger.js";
-import { makeWorkerScriptErrorText, makeWorkerMessageErrorText } from "./WorkerErrorText.js";
+import { oyvedManagerLog } from "../log/MainTextLogger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeWorkerScriptErrorText, makeWorkerMessageErrorText } from "./WorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * B"H

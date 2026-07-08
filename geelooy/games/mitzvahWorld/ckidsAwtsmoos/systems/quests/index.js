@@ -9,8 +9,8 @@
  * command (Handler) directs the specific actions (Spawner/Tracker).
  */
 
-export { default as Shlichus } from "./Shlichus.js";
-export { default as ShlichusHandler } from "./ShlichusHandler.js";
-export { default as QuestItemSpawner } from "./QuestItemSpawner.js";
-export { default as ProgressTracker } from "./ProgressTracker.js";
-export { default as ShlichusActions } from "./ShlichusActions.js";
+export { default as Shlichus } from "./Shlichus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+export { default as ShlichusHandler } from "./ShlichusHandler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+export { default as QuestItemSpawner } from "./QuestItemSpawner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+export { default as ProgressTracker } from "./ProgressTracker.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+export { default as ShlichusActions } from "./ShlichusActions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

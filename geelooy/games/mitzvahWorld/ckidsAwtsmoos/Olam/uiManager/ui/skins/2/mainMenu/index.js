@@ -1,7 +1,7 @@
 
-import TitleStyle from "./TitleStyle.js";
-import ButtonStyle from "./ButtonStyle.js";
-import MatrixStyle from "./MatrixStyle.js";
+import TitleStyle from "./TitleStyle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ButtonStyle from "./ButtonStyle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import MatrixStyle from "./MatrixStyle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @file index.js (Main Menu Styles)

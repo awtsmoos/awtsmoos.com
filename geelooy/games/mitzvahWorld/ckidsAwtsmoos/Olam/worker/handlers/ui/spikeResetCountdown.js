@@ -4,8 +4,8 @@
  * @description Chapter 639: The countdown returns the player to the active
  * lava course's own safe feet, not an old fossil coordinate.
  */
-import { worker } from './domKit.js';
-import { resetFeetFromPayload } from '../../../shared/SpikeResetPosition.js';
+import { worker } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { resetFeetFromPayload } from '../../../shared/SpikeResetPosition.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export function beginSpikeResetCountdown(overlay, manager, payload = {}) {
   let left = 3;

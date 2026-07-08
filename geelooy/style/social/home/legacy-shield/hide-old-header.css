@@ -1,7 +1,11 @@
-/* B"H — shared chrome must remain visible on home and every page. */
-.awtsmoosificationalisticaticalism,
-.awtsmoos-header,
-.header,
-.site-header {
+/* B"H — shared chrome stays visible; dashboard chrome remains the inner app shell. */
+body.geelooy-home-document > .awtsmoosificationalisticaticalism,
+body.geelooy-home-document > .awtsmoos-header,
+body.geelooy-home-document > .header,
+body.geelooy-home-document > .site-header {
   display: flex;
+}
+body.geelooy-home-document > .awtsmoosificationalisticaticalism {
+  margin: .65rem auto .35rem;
+  max-width: min(94vw, 44rem);
 }

@@ -8,7 +8,7 @@ function awtsmoosNotice(message) {
 }
 
 // B"H
-import style from "./skins/2/characterDesignerStyle.js";
+import style from "./skins/2/characterDesignerStyle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {
     shaym: "character designer",

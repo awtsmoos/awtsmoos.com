@@ -1,11 +1,11 @@
 // B"H
 /** @file RegionFlowerRenderer.js @description More flower heads through layered instancing and seasonal memory. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { makeInstancedLayer } from "./RegionInstancer.js?v=awtsmoos-instancer-20260614-bh2";
-import { samplePolyline, offsetPoint } from "./RegionPolyline.js?v=awtsmoos-polyline-20260614-bh2";
-import { rand } from "./RegionRandom.js";
-import { sealRegionVisual } from "./RegionSeal.js";
-import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeInstancedLayer } from "./RegionInstancer.js?compact=true&v=awtsmoos-instancer-20260614-bh2";
+import { samplePolyline, offsetPoint } from "./RegionPolyline.js?compact=true&v=awtsmoos-polyline-20260614-bh2";
+import { rand } from "./RegionRandom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { budgetedQualityCount } from "./RegionQuality.js?compact=true&v=awtsmoos-quality-20260614-bh2";
 const P=Object.freeze([0xffee88,0xd6a7ff,0xffffff,0xff9bd2,0x9be27a,0x7dd3fc,0xfbbf24,0xff7a7a,0xc084fc,0xfef08a]);
 function reps(r){return r?.instances&&Array.isArray(r.instances.flowers)?r.instances.flowers:[];} function pts(roads){return Array.isArray(roads?.main?.points)?roads.main.points:[];} function road(roads){const path=samplePolyline(pts(roads),3.2),out=[];path.forEach((p,i)=>{out.push(offsetPoint(p,2+rand(i,1)*7));out.push(offsetPoint(p,-2-rand(i,2)*7));});return out;}
 function meadow(i,ring=1){const a=i*2.399963,r=16+Math.sqrt(rand(i,11))*235*ring;return{x:Math.cos(a)*r+(rand(i,5)-.5)*22,z:Math.sin(a)*r*.68+(rand(i,6)-.5)*18};}

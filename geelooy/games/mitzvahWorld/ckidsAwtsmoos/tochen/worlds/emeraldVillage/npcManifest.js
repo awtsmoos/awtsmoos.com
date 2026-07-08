@@ -5,7 +5,7 @@
  * Master Exporter for all modular NPCs — both interior and outdoor.
  */
 
-import { NPC_REGISTRY, WANDERER_REGISTRY } from './npcs/registry.js';
+import { NPC_REGISTRY, WANDERER_REGISTRY } from './npcs/registry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * B"H: Interior NPCs bound to properties.

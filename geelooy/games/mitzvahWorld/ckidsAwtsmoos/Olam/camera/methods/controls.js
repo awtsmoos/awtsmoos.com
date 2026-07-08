@@ -1,7 +1,7 @@
 
 // B"H
-import ZoomOrchestrator from "./ZoomOrchestrator.js";
-import MouseDragOrchestrator from "./MouseDragOrchestrator.js";
+import ZoomOrchestrator from "./ZoomOrchestrator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import MouseDragOrchestrator from "./MouseDragOrchestrator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @module CameraControls

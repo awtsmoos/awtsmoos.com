@@ -11,4 +11,4 @@
  *
  * @module ProceduralSkyLegacyGate
  */
-export { default } from "../nature/ProceduralSky.js?v=lean-l1-20260529-bh67";
+export { default } from "../nature/ProceduralSky.js?compact=true&v=lean-l1-20260529-bh67";

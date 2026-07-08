@@ -4,16 +4,16 @@
  * @description Chapter 45: lightning gameplay. The player receives every breath;
  * quiet NPCs sleep on precomputed paths, stirring rarely, never stealing motion.
  */
-import UniversePulsator from '../oyved/UniversePulsator.js?v=worker-60fps-timer-20260702-bh1';
-import RenderTrace from './canvas/RenderTrace.js?v=village-polish-20260612-bh811';
-import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?v=zone-reality-20260614-bh817';
-import { getDynamicActorPartition } from '../worlds/mitzvahWorld/runtime/DynamicActorPartition.js?v=awtsmoos-dynamic-partition-20260614-bh2';
-import { hardGroundPlayer } from './loadNivrayim/villageGrounding.js?v=hard-player-grounding-20260701-bh1';
-import { DYNAMIC, FOCUS_EPS, NIVRA_CACHE_MS, NON_PLAYER_ENTITY_BUDGET, READY_SIGNAL_MS, SIMPLE_NPC_NEAR_SQ, STATIC, VANITY, WARN_LIMIT } from './heesHawvoos/HeesFrameConfig.js?v=mitzvah-aggressive-split-20260703-bh1';
-import { applyAdaptiveRenderResolution } from '../../systems/performance/AdaptiveRenderResolution.js?v=real-60fps-adaptive-resolution-20260706-bh1';
-import { applyGameplayRuntimeLod } from '../../systems/performance/GameplayRuntimeLod.js?v=movement-sustained-lod-20260706-bh1';
-import { maybeRefreshRenderBudgetDiagnostics } from '../../systems/performance/RenderBudgetDiagnostics.js?v=material-visible-budget-20260706-bh1';
-import { sanitizeRenderGeometryTree } from '../worlds/mitzvahWorld/runtime/RenderGeometrySanitizer.js?v=total-overhaul-render-sanitize-20260705-bh1';
+import UniversePulsator from '../oyved/UniversePulsator.js?compact=true&v=worker-60fps-timer-20260702-bh1';
+import RenderTrace from './canvas/RenderTrace.js?compact=true&v=village-polish-20260612-bh811';
+import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?compact=true&v=zone-reality-20260614-bh817';
+import { getDynamicActorPartition } from '../worlds/mitzvahWorld/runtime/DynamicActorPartition.js?compact=true&v=awtsmoos-dynamic-partition-20260614-bh2';
+import { hardGroundPlayer } from './loadNivrayim/villageGrounding.js?compact=true&v=hard-player-grounding-20260701-bh1';
+import { DYNAMIC, FOCUS_EPS, NIVRA_CACHE_MS, NON_PLAYER_ENTITY_BUDGET, READY_SIGNAL_MS, SIMPLE_NPC_NEAR_SQ, STATIC, VANITY, WARN_LIMIT } from './heesHawvoos/HeesFrameConfig.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1';
+import { applyAdaptiveRenderResolution } from '../../systems/performance/AdaptiveRenderResolution.js?compact=true&v=real-60fps-adaptive-resolution-20260706-bh1';
+import { applyGameplayRuntimeLod } from '../../systems/performance/GameplayRuntimeLod.js?compact=true&v=full-resolution-terrain-house-tree-npc-20260708-bh1';
+import { maybeRefreshRenderBudgetDiagnostics } from '../../systems/performance/RenderBudgetDiagnostics.js?compact=true&v=material-visible-budget-20260706-bh1';
+import { sanitizeRenderGeometryTree } from '../worlds/mitzvahWorld/runtime/RenderGeometrySanitizer.js?compact=true&v=total-overhaul-render-sanitize-20260705-bh1';
 const now=()=>performance.now(),typeKey=n=>String(n?.type||n?.constructor?.name||'').toLowerCase(),okNum=v=>Number.isFinite(Number(v));
 const okVec=v=>!v||(okNum(v.x)&&okNum(v.y)&&okNum(v.z)),okMat=m=>!m?.elements||m.elements.every(okNum),vcopy=v=>v?{x:Number(v.x),y:Number(v.y),z:Number(v.z)}:null;
 function ensureWorkerWindowVessel(){if(typeof globalThis.window!=='undefined')return globalThis.window;try{Object.defineProperty(globalThis,'window',{value:globalThis,configurable:true});}catch{globalThis.window=globalThis;}globalThis.window.wowd||=false;return globalThis.window;}

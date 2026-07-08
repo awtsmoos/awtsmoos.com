@@ -1,6 +1,6 @@
 // B"H
 /** Combat input must make the animal answer, not sit like a painted prop. */
-import { trace } from "./InputTrace.js";
+import { trace } from "./InputTrace.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function attackPayload(peula = {}, source = "ui") { return { ...(peula || {}), source:peula?.source || source }; }
 export function runCombatAttack(olam, peula = {}, source = "ui") { try { return olam.combatManager?.attack?.(attackPayload(peula, source)); } catch (error) { console.error('B"H - combatAttack diagnostic wrapper caught', error); return null; } }
 export function bindInput(olam, code, value, source, keepRunning = true) {

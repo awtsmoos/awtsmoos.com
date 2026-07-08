@@ -1,7 +1,7 @@
 // B"H
 /** Targeting proof clears stuck states across animal, door, NPC, corpse, and empty tap. */
-import { makeCombatTarget } from "../../../../systems/combat/CombatTargeting.js?v=realistic-target-proof-20260706-bh2";
-import { animals } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { makeCombatTarget } from "../../../../systems/combat/CombatTargeting.js?compact=true&v=realistic-target-proof-20260706-bh2";
+import { animals } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 function set(cm, target) { cm?.targeting?.set?.(target); return cm?.targeting?.selected || null; }
 export async function proveTargeting(olam) {
   const cm = olam?.combatManager, list = animals(olam).filter(a => !a.userData?.health?.dead);

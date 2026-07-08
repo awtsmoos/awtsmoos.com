@@ -6,10 +6,10 @@
  * bare-object contract, but when an `olam` is present it lets XP, wallet, and
  * inventory flow through the same rivers heard by HUD, persistence, and tests.
  */
-import { gainExp } from "../player/PlayerProgression.js";
-import { rewardMissionXp } from "../../systems/progression/XpRewardRuntime.js";
-import { awardMoney, bindWalletOlam } from "../../systems/economy/wallet/PersonalPerutaWallet.js";
-import { addBagItem } from "../../systems/inventory/BagRuntime.js";
+import { gainExp } from "../player/PlayerProgression.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rewardMissionXp } from "../../systems/progression/XpRewardRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, bindWalletOlam } from "../../systems/economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addBagItem } from "../../systems/inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const number = value => Number.isFinite(Number(value)) ? Number(value) : 0;
 const whole = value => Math.max(0, Math.floor(number(value)));

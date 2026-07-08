@@ -3,10 +3,10 @@
  * @file LoadingBars.js
  * @description Monotonic visual progress writes for the therapeutic loader.
  */
-import { IDS } from "./LoadingConstants.js";
-import { clamp } from "./LoadingDom.js";
-import { state } from "./LoadingState.js";
-import { width } from "./LoadingText.js";
+import { IDS } from "./LoadingConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { clamp } from "./LoadingDom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { state } from "./LoadingState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { width } from "./LoadingText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const START_FLOOR = 0;
 

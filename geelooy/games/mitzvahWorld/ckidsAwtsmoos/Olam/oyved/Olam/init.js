@@ -3,11 +3,11 @@
  * B"H
  * Olam Initialization module (Angel Thread)
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 // B"H: ABSOLUTE TIKKUN - The path descends into jsm to find its true manifestation.
-import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from '/games/scripts/jsm/loaders/DRACOLoader.js';
+import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { DRACOLoader } from '/games/scripts/jsm/loaders/DRACOLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     /**

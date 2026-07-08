@@ -82,11 +82,11 @@ export default {
 
 function bridgeAudio(data) {
   if (data.playProceduralSound) {
-    import("../../../../systems/audio/AudioEngine.js")
+    import("../../../../systems/audio/AudioEngine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1")
       .then(m => m.default.play(data.playProceduralSound.key, data.playProceduralSound.options))
       .catch(() => {});
   }
   if (data.triggerDynamicStep) {
-    import("../../../../systems/audio/DynamicAudio.js").then(m => m.default.triggerStep()).catch(() => {});
+    import("../../../../systems/audio/DynamicAudio.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1").then(m => m.default.triggerStep()).catch(() => {});
   }
 }

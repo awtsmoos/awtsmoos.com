@@ -3,10 +3,10 @@
  * @file EnsureHouseDoors.js
  * @description Ensures visible parser-clear doors are actually present on houses.
  */
-import { scanHouses } from "./HouseScan.js?v=awtsmoos-house-scan-20260614-bh2";
-import { createDoorMesh } from "./DoorMeshFactory.js";
-import { getDoorPlacementForHouse } from "./DoorPlacement.js";
-import { hasDoorForHouse } from "./DoorExistence.js?v=awtsmoos-door-existence-20260614-bh2";
+import { scanHouses } from "./HouseScan.js?compact=true&v=awtsmoos-house-scan-20260614-bh2";
+import { createDoorMesh } from "./DoorMeshFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { getDoorPlacementForHouse } from "./DoorPlacement.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { hasDoorForHouse } from "./DoorExistence.js?compact=true&v=awtsmoos-door-existence-20260614-bh2";
 function sceneOf(context) { const olam = context && context.olam ? context.olam : null; return context && context.scene ? context.scene : olam && olam.scene ? olam.scene : null; }
 function houseName(house, index) { return house && house.name ? house.name : `house_${index}`; }
 function keyHouse(name) { return { name }; }

@@ -1,3 +1,3 @@
 // B"H
-/** Redirect to the current Domem base implementation with live GLB animation repair. */
-export { default } from "./domem/index.js?v=grass-chossid-stepwise-20260707-bh1";
+/** Domem compatibility export; cache-busted to restored historical GLB clip mixer. */
+export { default } from "./domem/index.js?compact=true&v=history-animation-compact-top-20260708-bh10";

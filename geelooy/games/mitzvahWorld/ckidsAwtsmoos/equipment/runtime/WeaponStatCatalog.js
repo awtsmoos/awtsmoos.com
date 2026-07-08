@@ -1,6 +1,6 @@
 // B"H
 /** @file WeaponStatCatalog.js @description Better single-hand, two-hand, bow, and staff stats with mesh recipes and chossid grips. */
-import { weaponGenre } from "./WeaponGenreCatalog.js";
+import { weaponGenre } from "./WeaponGenreCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const Q={common:1,uncommon:1.35,rare:2,epic:3.5,holy:5};
 const I={shortSword:"🗡️",longSword:"🗡️",greatSword:"🗡️",staff:"杖",wand:"✺",bow:"🏹",crossbow:"🏹",hebrewBow:"אב",spear:"⌁",axe:"⚒",hammer:"🔨",dagger:"†",knife:"⌞"};
 const two=new Set(["greatSword","staff","bow","crossbow","hebrewBow","spear"]);

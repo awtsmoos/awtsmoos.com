@@ -1,8 +1,8 @@
 // B"H
 /** @file shopBindings.js @description Chapter 394: Shop buttons receive sealed press behavior. */
-import { bindPress, closePanels } from './domKit.js?v=npc-scroll-pass-through-20260609-bh638';
-import { openNpcChallengeOverlay } from './npcOverlay.js?v=npc-scroll-pass-through-20260609-bh638';
-import { shopAction } from './shopActions.js';
+import { bindPress, closePanels } from './domKit.js?compact=true&v=npc-scroll-pass-through-20260609-bh638';
+import { openNpcChallengeOverlay } from './npcOverlay.js?compact=true&v=npc-scroll-pass-through-20260609-bh638';
+import { shopAction } from './shopActions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function bindShop(host, manager, render) {
   const data = host.__awtsData || {};
   bindPress(host.querySelector('[data-shop-close]'), closePanels);

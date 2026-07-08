@@ -1,10 +1,10 @@
 
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js";
-import { JOB_STEP, NODE_STATE, CONFIG } from './OctreeWorld/constants.js';
-import LODNode from './OctreeWorld/LODNode.js';
-import JobProcessor from './OctreeWorld/JobProcessor.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { JOB_STEP, NODE_STATE, CONFIG } from './OctreeWorld/constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import LODNode from './OctreeWorld/LODNode.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import JobProcessor from './OctreeWorld/JobProcessor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const _v1 = new THREE.Vector3();
 const _tempBox = new THREE.Box3();

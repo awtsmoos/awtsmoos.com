@@ -1,6 +1,6 @@
-import NpcAssembler from '../../../Olam/manifest/assembler/NpcAssembler.js';
-import EntranceAssembler from '../../../Olam/manifest/assembler/EntranceAssembler.js';
-import FurnitureAssembler from '../../../Olam/manifest/assembler/FurnitureAssembler.js';
+import NpcAssembler from '../../../Olam/manifest/assembler/NpcAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import EntranceAssembler from '../../../Olam/manifest/assembler/EntranceAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import FurnitureAssembler from '../../../Olam/manifest/assembler/FurnitureAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class SubEntitySpawner {
     /**

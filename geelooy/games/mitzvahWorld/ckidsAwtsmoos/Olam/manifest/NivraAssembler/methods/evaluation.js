@@ -10,7 +10,7 @@
  * ║  Bridges the gap between static JSON and dynamic world coordinates.      ║
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
-import ExpressionParser from '../evaluators/ExpressionParser/index.js';
+import ExpressionParser from '../evaluators/ExpressionParser/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     /**

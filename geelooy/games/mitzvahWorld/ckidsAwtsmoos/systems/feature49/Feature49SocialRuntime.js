@@ -1,6 +1,6 @@
 // B"H
 /** SocialRuntime: reputation, family, rumors, pilgrims, genealogy, virtue. */
-import { appendFeature49Log, mutateFeature49State } from './Feature49State.js';
+import { appendFeature49Log, mutateFeature49State } from './Feature49State.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const VIRTUES = ['honesty','generosity','wisdom','diligence','humility'];
 export function changeVirtue(npcId='village', virtue='generosity', amount=1){ return mutateFeature49State(s=>{ s.virtues ||= {}; s.virtues[npcId] ||= Object.fromEntries(VIRTUES.map(v=>[v,0])); s.virtues[npcId][virtue]=(s.virtues[npcId][virtue]||0)+amount; appendFeature49Log({type:'virtue',npcId,virtue,amount}); return s; }); }
 export function rememberNpc(npcId, event){ return mutateFeature49State(s=>{ s.npcMemory ||= {}; (s.npcMemory[npcId] ||= []).push({...event,at:Date.now()}); s.npcMemory[npcId]=s.npcMemory[npcId].slice(-24); return s; }); }

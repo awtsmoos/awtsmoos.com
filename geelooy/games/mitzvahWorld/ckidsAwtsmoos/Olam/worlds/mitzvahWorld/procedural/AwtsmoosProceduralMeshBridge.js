@@ -8,7 +8,7 @@
  * generated form can cross from pure data into visible mesh without losing its
  * source language.
  */
-import { createAwtsmoosThreeBufferGeometry } from "/libs/awtsmoos-procedural-core/src/adapters/three/bufferGeometry.js";
+import { createAwtsmoosThreeBufferGeometry } from "/libs/awtsmoos-procedural-core/src/adapters/three/bufferGeometry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Builds a Three geometry from mesh data compatible with awtsmoos-procedural-core.

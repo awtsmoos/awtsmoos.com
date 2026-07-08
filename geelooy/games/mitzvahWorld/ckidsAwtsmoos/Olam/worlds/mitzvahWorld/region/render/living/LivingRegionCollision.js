@@ -1,8 +1,8 @@
 // B"H
 /** House collision is sidecar-authoritative; broad merged slabs never enter the player octree. */
-import { buildRegionColliderRuntime } from "../RegionColliderRuntime.js?v=perf-tight-collision-20260703-bh2";
-import { registerHouseRoot } from "../../../collision/HouseCollisionWorld.js?v=perf-tight-collision-20260703-bh9";
-import { addLayer } from "./LivingRegionLayers.js?v=perf-tight-collision-20260703-bh2";
+import { buildRegionColliderRuntime } from "../RegionColliderRuntime.js?compact=true&v=perf-tight-collision-20260703-bh2";
+import { registerHouseRoot } from "../../../collision/HouseCollisionWorld.js?compact=true&v=perf-tight-collision-20260703-bh9";
+import { addLayer } from "./LivingRegionLayers.js?compact=true&v=perf-tight-collision-20260703-bh2";
 
 export function addFinalCollision(root, olam, report) {
   addLayer(root, "colliders-authoring", () => buildRegionColliderRuntime(olam, report));

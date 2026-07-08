@@ -20,7 +20,7 @@
  */
 
 /**
- * @constant {import('../../nivrayimDefs.js').NefeshDef[]} GEVURAH_WALLS_LIST
+ * @constant {import('../../nivrayimDefs.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1').NefeshDef[]} GEVURAH_WALLS_LIST
  * @description
  *   The boundaries of the world.
  *   Each wall is a manifestation of Gevurah, providing safety 

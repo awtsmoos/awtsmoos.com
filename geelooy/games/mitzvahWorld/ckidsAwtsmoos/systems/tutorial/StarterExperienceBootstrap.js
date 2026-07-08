@@ -6,12 +6,12 @@
  * starting-zone events. It still adds no frame loop; it simply exposes the
  * already-existing catalog through the bootstrap ready signal.
  */
-import { ensureStarterExperience } from './StartingExperienceRuntime.js';
-import { installStarterSignalBridge } from './StarterSignalBridge.js';
-import { createStarterMovementMilestone } from './StarterMovementMilestoneRuntime.js';
-import { starterIdentityCatalog } from '../world/StarterIdentityRuntime.js';
-import { starterZoneEventsCatalog } from '../world/StartingZoneEventRegistry.js';
-import { landmarkCatalog } from '../world/LandmarkRegistry.js';
+import { ensureStarterExperience } from './StartingExperienceRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { installStarterSignalBridge } from './StarterSignalBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { createStarterMovementMilestone } from './StarterMovementMilestoneRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { starterIdentityCatalog } from '../world/StarterIdentityRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { starterZoneEventsCatalog } from '../world/StartingZoneEventRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { landmarkCatalog } from '../world/LandmarkRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const scope = globalThis;
 const hasBrowser = Boolean(scope.document || scope.window?.document);

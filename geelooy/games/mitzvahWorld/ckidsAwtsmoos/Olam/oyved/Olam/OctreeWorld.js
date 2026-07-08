@@ -1,6 +1,6 @@
 
 // B"H
-import { Octree } from '/games/scripts/jsm/math/Octree.js';
+import { Octree } from '/games/scripts/jsm/math/Octree.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * @module OctreeWorld

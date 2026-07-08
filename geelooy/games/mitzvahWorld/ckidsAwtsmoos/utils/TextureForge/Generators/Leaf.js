@@ -10,8 +10,8 @@
  * 
  * @class LeafGenerator
  */
-import Noise from "../Noise.js";
-import CanvasHelper from "../CanvasHelper.js";
+import Noise from "../Noise.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import CanvasHelper from "../CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class LeafGenerator {
     static generate(width = 128, height = 128) {

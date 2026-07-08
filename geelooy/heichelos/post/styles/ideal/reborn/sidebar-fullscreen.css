@@ -1,29 +1,28 @@
 /* B"H
- * Chapter 202: Fullscreen truly means the whole chamber.
- * The sidebar crown, slide viewport, and content all fill the visible universe.
- * Resizer limits, mobile drawer heights, and desktop widths bow before this mode.
+ * Chapter 202 renewed: fullscreen is a sealed reader palace.
+ * The button already exists in the shell; this file makes it useful on mobile:
+ * full viewport, safe areas, internal scrolling, no reader text leaking below.
  */
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode:not(.awtsmoos-fullscreen-unowned) {
     position: fixed !important;
     inset: 0 !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
     z-index: 2147483000 !important;
     width: 100vw !important;
     max-width: 100vw !important;
+    min-width: 100vw !important;
     height: 100dvh !important;
     max-height: 100dvh !important;
-    min-width: 100vw !important;
     min-height: 100dvh !important;
-    transform: translate3d(0,0,0) !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
+    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+    background: #040813 !important;
     border: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+    transform: translate3d(0,0,0) !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode > .awtsmoos-sidebar-resizer {
@@ -31,27 +30,44 @@
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-sidebar-shell {
-    width: 100vw !important;
-    height: 100dvh !important;
+    border: 1px solid rgba(246,201,108,.22) !important;
+    border-radius: 22px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    width: 100% !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-slide-viewport {
     flex: 1 1 auto !important;
-    min-height: 0 !important;
     height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
 }
 
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-slide-view.active-view,
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-view-content,
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-sidebar-panel.is-current-panel {
-    padding: clamp(16px, 3vw, 34px) !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-view-content {
+    padding: clamp(14px, 3vw, 32px) !important;
+    padding-bottom: calc(34px + env(safe-area-inset-bottom)) !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-current-view-title {
-    font-size: clamp(1.45rem, 3.2vw, 3rem) !important;
+    font-size: clamp(1.35rem, 5vw, 2.4rem) !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-sidebar-header-chrome {
-    padding: clamp(14px, 2vw, 26px) !important;
+    flex: 0 0 auto !important;
+    padding: clamp(12px, 2vw, 22px) !important;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision:has(.sidebar.fullscreen-mode) .awtsmoos-floating-controls,
@@ -59,9 +75,3 @@
     opacity: 0 !important;
     pointer-events: none !important;
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-.post-reader-localized-context.fullscreen-mode .awtsmoos-slide-viewport { min-height: 0; }

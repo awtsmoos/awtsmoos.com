@@ -4,10 +4,10 @@
  * @purpose Forces, jump, movement, collision, and slope recovery. The jump is
  * an upward letter of the Awtsmoos; ground checks may witness it, not erase it.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { captureAirTrajectory, clearAirTrajectory } from "./PhysicsAirRuntime.js";
-import { bestGroundHit } from "./PhysicsGroundRuntime.js";
-import { steepSlopeY, numeric } from "./PhysicsNumbers.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { captureAirTrajectory, clearAirTrajectory } from "./PhysicsAirRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { bestGroundHit } from "./PhysicsGroundRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { steepSlopeY, numeric } from "./PhysicsNumbers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function nearJumpGround(player) {
   const hit = bestGroundHit(player), r = numeric(player?.collider?.radius, numeric(player?.radius, .45));
   return Boolean(hit && hit.normal?.y > steepSlopeY() && hit.distance <= r + .95);

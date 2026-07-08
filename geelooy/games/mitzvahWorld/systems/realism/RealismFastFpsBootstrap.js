@@ -1,6 +1,6 @@
 // B"H
 /** @file RealismFastFpsBootstrap.js @description Boots the all-at-once realism/FPS director and refreshes it whenever budgets change. */
-import { createRealismFastFpsDirector } from './RealismFastFpsDirector.js';
+import { createRealismFastFpsDirector } from './RealismFastFpsDirector.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 const scope = globalThis;
 if (!scope.__MITZVAH_REALISM_FAST_FPS_DIRECTOR__) {

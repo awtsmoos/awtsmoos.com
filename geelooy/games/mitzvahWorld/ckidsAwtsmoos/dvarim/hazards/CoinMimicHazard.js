@@ -8,7 +8,7 @@
  * exactly like a true glowing perutah, but collision routes through SpikeHazard.
  * Level authors can hide judgment among reward without creating a new system.
  */
-import SpikeHazard from "./SpikeHazard.js";
+import SpikeHazard from "./SpikeHazard.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class CoinMimicHazard extends SpikeHazard {
   type = "coinMimicHazard";

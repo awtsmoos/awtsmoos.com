@@ -4,19 +4,19 @@
  * @description Split living region runtime: cottages collide, wildlife breathes,
  * friendly NPCs stand in the default scene, and every subsystem has its vessel.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { buildRoadRenderer } from "./RegionRoadRenderer.js?v=road-cell-budget-20260622-bh1";
-import { buildCottageRenderer } from "./RegionCottageRenderer.js?v=perf-tight-collision-20260703-bh2";
-import { installCollisionDiagnostics } from "../../collision/CollisionRuntime.js?v=perf-tight-collision-20260703-bh2";
-import { updateZoneDiscovery } from "../../../../../systems/world/ZoneDiscoveryRuntime.js";
-import { emitMapReveal } from "../../../../../systems/world/MapRevealRuntime.js";
-import { startTutorial } from "../../../../../systems/tutorial/StartingExperienceRuntime.js";
-import { sealRegionVisual } from "./RegionSeal.js";
-import { attachColliderRealityAudit } from "../collision/ColliderRealityAudit.js?v=immense-collider-audit-20260615-bh1";
-import { addLayer, skippedLayer, DEFERRED_LAYERS, markLiving } from "./living/LivingRegionLayers.js?v=total-overhaul-path-fix-20260705-bh1";
-import { addFriendlyNpcs, addWildlifeLayer } from "./living/LivingRegionActors.js?v=deferred-npc-animal-realism-20260705-bh1";
-import { addFinalCollision, registerPlacedCottages } from "./living/LivingRegionCollision.js?v=perf-tight-collision-20260703-bh2";
-import { collectLivingStats, announceLivingStats } from "./living/LivingRegionStats.js?v=perf-tight-collision-20260703-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildRoadRenderer } from "./RegionRoadRenderer.js?compact=true&v=road-cell-budget-20260622-bh1";
+import { buildCottageRenderer } from "./RegionCottageRenderer.js?compact=true&v=perf-tight-collision-20260703-bh2";
+import { installCollisionDiagnostics } from "../../collision/CollisionRuntime.js?compact=true&v=perf-tight-collision-20260703-bh2";
+import { updateZoneDiscovery } from "../../../../../systems/world/ZoneDiscoveryRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { emitMapReveal } from "../../../../../systems/world/MapRevealRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { startTutorial } from "../../../../../systems/tutorial/StartingExperienceRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { attachColliderRealityAudit } from "../collision/ColliderRealityAudit.js?compact=true&v=immense-collider-audit-20260615-bh1";
+import { addLayer, skippedLayer, DEFERRED_LAYERS, markLiving } from "./living/LivingRegionLayers.js?compact=true&v=total-overhaul-path-fix-20260705-bh1";
+import { addFriendlyNpcs, addWildlifeLayer } from "./living/LivingRegionActors.js?compact=true&v=deferred-npc-animal-realism-20260705-bh1";
+import { addFinalCollision, registerPlacedCottages } from "./living/LivingRegionCollision.js?compact=true&v=perf-tight-collision-20260703-bh2";
+import { collectLivingStats, announceLivingStats } from "./living/LivingRegionStats.js?compact=true&v=perf-tight-collision-20260703-bh2";
 
 const KEY = "__awtsmoosLivingRegionRuntime";
 

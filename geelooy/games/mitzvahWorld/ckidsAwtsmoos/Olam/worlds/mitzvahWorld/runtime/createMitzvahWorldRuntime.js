@@ -3,19 +3,19 @@
  * Chapter 52: The Runtime Opened Its Eyes.
  */
 
-import { RuntimeActionBus } from './RuntimeActionBus.js';
-import { RuntimeStateStore } from './RuntimeStateStore.js';
-import { DoorTransitionRuntime } from '../doors/DoorTransitionRuntime.js';
-import { InteriorStreamingRuntime } from '../interiors/InteriorStreamingRuntime.js';
-import { RuntimeDiagnosticsOverlay } from '../diagnostics/RuntimeDiagnosticsOverlay.js';
-import { TorahEnergyOverlayRuntime } from '../effects/TorahEnergyOverlayRuntime.js';
-import { RuntimeInventoryAdapter } from './RuntimeInventoryAdapter.js';
-import { RuntimeQuestAdapter } from './RuntimeQuestAdapter.js';
-import { NpcInteractionRuntime } from '../npcs/NpcInteractionRuntime.js';
-import { ChumashReaderController } from '../debate/ChumashReaderController.js';
-import { TorahDebateController } from '../debate/TorahDebateController.js';
-import { RuntimeActionBar } from './RuntimeActionBar.js';
-import { STARTING_CHUMASH_ITEM } from '../data/manifests/ChumashPassages.js';
+import { RuntimeActionBus } from './RuntimeActionBus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { RuntimeStateStore } from './RuntimeStateStore.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { DoorTransitionRuntime } from '../doors/DoorTransitionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { InteriorStreamingRuntime } from '../interiors/InteriorStreamingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { RuntimeDiagnosticsOverlay } from '../diagnostics/RuntimeDiagnosticsOverlay.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TorahEnergyOverlayRuntime } from '../effects/TorahEnergyOverlayRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { RuntimeInventoryAdapter } from './RuntimeInventoryAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { RuntimeQuestAdapter } from './RuntimeQuestAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NpcInteractionRuntime } from '../npcs/NpcInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { ChumashReaderController } from '../debate/ChumashReaderController.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TorahDebateController } from '../debate/TorahDebateController.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { RuntimeActionBar } from './RuntimeActionBar.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { STARTING_CHUMASH_ITEM } from '../data/manifests/ChumashPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export function createMitzvahWorldRuntime(config = {}) {
   const bus = new RuntimeActionBus();

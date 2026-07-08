@@ -1,12 +1,12 @@
 // B"H
 /** @file ContinuousEventRouter.js @description Routes worker pulses and real 3D movie actions. */
-import RenderTrace from "../../methods/canvas/RenderTrace.js";
-import { rememberCanvasPayload } from "./CanvasMemory.js";
-import { buildPlayerRuntimeProbe } from "./PlayerRuntimeProbe.js?v=real-3d-actions-20260707-bh1";
-import { destroyWorld } from "./WorldDisposal.js?v=visible-root-binding-20260610-bh710";
-import { resetAfterSpikeDeath, enableAfterSpikeReset } from "./SpikeResetActions.js?v=visible-root-binding-20260610-bh710";
-import { runMitzvahProof } from "./MitzvahProofRuntime.js?v=combat-quest-story-20260705-bh1";
-import { playMovie3DAction } from "./Movie3DActionRuntime.js?v=real-3d-actions-20260707-bh1";
+import RenderTrace from "../../methods/canvas/RenderTrace.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rememberCanvasPayload } from "./CanvasMemory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildPlayerRuntimeProbe } from "./PlayerRuntimeProbe.js?compact=true&v=real-3d-actions-20260707-bh1";
+import { destroyWorld } from "./WorldDisposal.js?compact=true&v=visible-root-binding-20260610-bh710";
+import { resetAfterSpikeDeath, enableAfterSpikeReset } from "./SpikeResetActions.js?compact=true&v=visible-root-binding-20260610-bh710";
+import { runMitzvahProof } from "./MitzvahProofRuntime.js?compact=true&v=combat-quest-story-20260705-bh1";
+import { playMovie3DAction } from "./Movie3DActionRuntime.js?compact=true&v=real-3d-actions-20260707-bh1";
 const MOBILE_MOVE_FLAGS = Object.freeze(["FORWARD","BACKWARD","LEFT_STRIDE","RIGHT_STRIDE"]);
 function routerTrace(olam,stage,payload={}){const at=Date.now(),active=Array.isArray(payload.active)?payload.active.length:0,cadence=active>0?900:2200;if(olam.__lastContinuousRouterTraceAt&&at-olam.__lastContinuousRouterTraceAt<cadence)return;olam.__lastContinuousRouterTraceAt=at;olam.__movementTrace||=[];olam.__movementTrace.push({at,stage,...payload});olam.__movementTrace=olam.__movementTrace.slice(-80);}
 async function takeInCanvas(olam,payload){rememberCanvasPayload(payload);RenderTrace.speak("worker_route:takeInCanvas_received",{width:payload?.width,height:payload?.height,hasOlam:Boolean(olam),hasAyin:Boolean(olam?.ayin),hasCamera:Boolean(olam?.activeCamera||olam?.ayin?.camera)});olam.takeInCanvas(payload.canvas,payload.devicePixelRatio);if(typeof olam.setSize==="function")await olam.setSize(payload.width,payload.height);if(typeof olam.heesHawvoos==="function")olam.heesHawvoos();self.postMessage({type:"canvas_transferred",payload:{width:payload.width,height:payload.height,devicePixelRatio:payload.devicePixelRatio,rendererReady:Boolean(olam.renderer),hasCamera:Boolean(olam.activeCamera||olam.ayin?.camera),sceneChildren:olam.scene?.children?.length||0}});}

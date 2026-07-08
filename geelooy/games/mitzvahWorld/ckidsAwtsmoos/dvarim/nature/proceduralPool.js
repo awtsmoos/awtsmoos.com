@@ -1,7 +1,7 @@
 
 //B"H
-import Domem from "../../chayim/domem.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import Domem from "../../chayim/domem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class ProceduralPool extends Domem {
     constructor(op, olam) { super(op, olam); this.width = op.width || 5; this.depth = op.depth || 5; this.heesHawveh = true; }

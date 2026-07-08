@@ -8,10 +8,10 @@
  * readable. Each perutah now carries copper rings, a small warm point light, and
  * a halo shell while collection stays exact and tight.
  */
-import Tzomayach from "../chayim/tzomayach.js";
-import Utils from "../utils.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { CurrencySystem } from "./currencySystem.js";
+import Tzomayach from "../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Utils from "../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CurrencySystem } from "./currencySystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export { CurrencySystem };
 const safeNumber = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;

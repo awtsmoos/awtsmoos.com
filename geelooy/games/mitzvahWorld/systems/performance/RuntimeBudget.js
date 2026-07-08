@@ -3,8 +3,8 @@
  * @file RuntimeBudget.js
  * @description Runtime bridge: the reported speed budget becomes living law.
  */
-import { detectDeviceTier } from "./DeviceTierDetector.js";
-import { fastSceneBudget } from "./FastSceneBudget.js";
+import { detectDeviceTier } from "./DeviceTierDetector.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { fastSceneBudget } from "./FastSceneBudget.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const DEFAULT_BUDGET = Object.freeze(fastSceneBudget({ tier: "high", mobile: false }));
 

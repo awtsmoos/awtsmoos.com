@@ -9,8 +9,8 @@
  * for the soul to enter, and caps it with a protective pitched roof. 
  * Formed from absolute nothingness into a physical mesh.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class House {
     /**

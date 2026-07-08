@@ -1,14 +1,14 @@
 // B"H
 /** NivrahFactory: builds village objects with fresh grass/chossid runtime imports. */
-import { GeometryEngine } from "./GeometryEngine.js?v=awtsmoos-geometry-engine-20260614-bh2";
-import { ARCHITECT_MANIFEST } from "./data/manifests/ArchitectManifest.js";
-import { NIVRA_SCHEMA } from "./data/manifests/NivraSchema.js";
-import { buildTerrain } from "./builders/buildTerrain.js?v=awtsmoos-terrain-builder-20260614-bh2";
-import { buildGrassPatch } from "./builders/buildGrassPatch.js?v=grass-chossid-stepwise-20260707-bh1";
-import { buildInteractiveElevator } from "./builders/interactive/buildInteractiveElevator.js?v=awtsmoos-interactive-elevator-20260614-bh2";
-import { buildGlbEntity } from "./builders/buildGlbEntity.js?v=awtsmoos-glb-entity-builder-20260614-bh2";
-import { buildNpcChossid } from "./builders/npc/buildNpcChossid.js?v=awtsmoos-npc-builder-entry-20260614-bh2";
-import { buildTree } from "./builders/buildTree.js";
+import { GeometryEngine } from "./GeometryEngine.js?compact=true&v=awtsmoos-geometry-engine-20260614-bh2";
+import { ARCHITECT_MANIFEST } from "./data/manifests/ArchitectManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { NIVRA_SCHEMA } from "./data/manifests/NivraSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildTerrain } from "./builders/buildTerrain.js?compact=true&v=awtsmoos-terrain-builder-20260614-bh2";
+import { buildGrassPatch } from "./builders/buildGrassPatch.js?compact=true&v=grass-chossid-stepwise-20260707-bh1";
+import { buildInteractiveElevator } from "./builders/interactive/buildInteractiveElevator.js?compact=true&v=awtsmoos-interactive-elevator-20260614-bh2";
+import { buildGlbEntity } from "./builders/buildGlbEntity.js?compact=true&v=awtsmoos-glb-entity-builder-20260614-bh2";
+import { buildNpcChossid } from "./builders/npc/buildNpcChossid.js?compact=true&v=npc-target-final-20260708-bh6";
+import { buildTree } from "./builders/buildTree.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function ensureTzimtzum(olam) { if (!olam || olam.tzimtzum) return; olam.tzimtzum = { _callbacks:[], onUpdate(fn) { if (typeof fn === "function") this._callbacks.push(fn); }, dispatch(dt) { for (const fn of this._callbacks) fn(0, dt); } }; }
 function specialBuilders() { return { terrain:buildTerrain, grassPatch:buildGrassPatch, interactive_elevator:buildInteractiveElevator, glbEntity:buildGlbEntity, tree:buildTree, npcChossid:buildNpcChossid, chossidNpc:buildNpcChossid }; }
 function defId(def) { return def?.id || "unknown"; }

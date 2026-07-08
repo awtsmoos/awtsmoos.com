@@ -8,9 +8,9 @@
  * the eye, and a hidden clean collider body for feet. Doorways are carved in the
  * collider, so an opened door becomes a real passage.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import HouseAssembler from '../../../../utils/3d/procedural/house/HouseAssembler.js?v=brick-visual-clean-collider-20260603-bh341';
-import SubEntitySpawner from '../SubEntitySpawner.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import HouseAssembler from '../../../../utils/3d/procedural/house/HouseAssembler.js?compact=true&v=brick-visual-clean-collider-20260603-bh341';
+import SubEntitySpawner from '../SubEntitySpawner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const hiddenColliderMat = new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0 });
 

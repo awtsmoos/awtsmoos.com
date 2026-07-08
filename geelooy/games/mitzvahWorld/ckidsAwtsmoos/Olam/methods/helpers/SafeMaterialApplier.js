@@ -1,7 +1,7 @@
 // B"H
-import { createMaterial, emergencyMaterial } from "./materialSafety/MaterialFactory.js";
-import { sanitizeMaterialOptions } from "./materialSafety/MaterialInputSanitizer.js";
-import { strengthenMaterial } from "./materialSafety/ShaderStrengthener.js";
+import { createMaterial, emergencyMaterial } from "./materialSafety/MaterialFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { sanitizeMaterialOptions } from "./materialSafety/MaterialInputSanitizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { strengthenMaterial } from "./materialSafety/ShaderStrengthener.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Purpose: one public gate for safe material construction.

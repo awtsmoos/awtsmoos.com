@@ -13,12 +13,12 @@
  *   - Dialogue trees (before, during, after debate)
  */
 
-import { AVOS_CH1, AVOS_CH2 } from '../torah/books/pirkeiAvos/index.js';
-import { AVOS_CH3, AVOS_CH4, AVOS_CH5, AVOS_CH6 } from '../torah/books/pirkeiAvos/index.js';
-import { TANYA_PASSAGES }     from '../torah/books/tanyaPassages.js';
-import { GEMARA_PASSAGES }    from '../torah/books/gemaraPassages.js';
-import { ZOHAR_PASSAGES }     from '../torah/books/zoharPassages.js';
-import { REBBE_12_PESUKIM }   from '../torah/books/rebbesPesakim.js';
+import { AVOS_CH1, AVOS_CH2 } from '../torah/books/pirkeiAvos/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { AVOS_CH3, AVOS_CH4, AVOS_CH5, AVOS_CH6 } from '../torah/books/pirkeiAvos/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TANYA_PASSAGES }     from '../torah/books/tanyaPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { GEMARA_PASSAGES }    from '../torah/books/gemaraPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { ZOHAR_PASSAGES }     from '../torah/books/zoharPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { REBBE_12_PESUKIM }   from '../torah/books/rebbesPesakim.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /** @function makeScholar — Factory for a scholar NPC entry */
 const makeScholar = (id, name, title, specialty, madreiga, passages, rewards, position, dialogues) => ({

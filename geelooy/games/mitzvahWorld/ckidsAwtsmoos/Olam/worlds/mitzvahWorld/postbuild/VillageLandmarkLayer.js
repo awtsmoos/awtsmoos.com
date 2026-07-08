@@ -1,8 +1,8 @@
 // B"H
 /** @file VillageLandmarkLayer.js @description Named grounded landmarks for village memory, parser-clear. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?v=awtsmoos-realistic-village-materials-20260614-bh2";
-import { LANDMARKS, groundedGroup, sealDecor } from "./VillagePolishGround.js?v=awtsmoos-polish-ground-20260614-bh2";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rvGroup, rvMesh, rvSeal } from "../../../../dvarim/nature/villagePicture/RealisticVillageMaterials.js?compact=true&v=awtsmoos-realistic-village-materials-20260614-bh2";
+import { LANDMARKS, groundedGroup, sealDecor } from "./VillagePolishGround.js?compact=true&v=awtsmoos-polish-ground-20260614-bh2";
 const KEY = "__awtsmoosVillageLandmarkLayer";
 function add(g, kind, mat, x, y, z, s, r = 0) { const m = rvMesh(kind, mat, [x, y + s[1] * .5, z], s, [0, r, 0], { repeat:2, simple:false }); g.add(m); return m; }
 function ring(root, mat, radius, count, y = .015) { for (let i = 0; i < count; i++) { const a = i / count * Math.PI * 2; add(root, "box", mat, Math.cos(a) * radius, y, Math.sin(a) * radius, [1.5, .06, .42], a); } }

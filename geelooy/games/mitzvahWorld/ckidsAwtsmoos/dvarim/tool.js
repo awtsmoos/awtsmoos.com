@@ -4,8 +4,8 @@
  * Represents a tool or weapon (like a Hammer) in the game.
  */
 
-import Tzomayach from "../chayim/tzomayach.js";
-import hammerSVG from "../../icons/items/hammer.js";
+import Tzomayach from "../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import hammerSVG from "../../icons/items/hammer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class Tool extends Tzomayach {
     type = "tool";

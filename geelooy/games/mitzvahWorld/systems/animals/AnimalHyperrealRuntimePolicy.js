@@ -1,6 +1,6 @@
 // B"H
 /** @file AnimalHyperrealRuntimePolicy.js @description One-mesh animal realism policy bound to the live FPS budget. */
-import { masterRealismPolicy } from '../realism/MasterRealismPolicy.js';
+import { masterRealismPolicy } from '../realism/MasterRealismPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 export function animalHyperrealRuntimePolicy(budget = globalThis.__MITZVAH_WORLD_PERFORMANCE_BUDGET__) {
   const p = masterRealismPolicy(budget).animals;
   return {

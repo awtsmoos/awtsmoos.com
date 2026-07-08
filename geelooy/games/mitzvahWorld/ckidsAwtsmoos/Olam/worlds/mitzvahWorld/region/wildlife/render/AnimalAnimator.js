@@ -1,6 +1,6 @@
 // B"H
 /** @file AnimalAnimator.js @description Animation compatibility facade with distance LOD. */
-import { shouldAnimateAnimal } from "./AnimalAnimationLod.js?v=single-mesh-animals-20260621-bh1";
+import { shouldAnimateAnimal } from "./AnimalAnimationLod.js?compact=true&v=single-mesh-animals-20260621-bh1";
 
 function health(root) {
   const h = root.userData?.health;

@@ -1,5 +1,5 @@
 // B"H
-import { createAnimalGenome, genomeRealismScore } from "./AnimalGenome.js";
+import { createAnimalGenome, genomeRealismScore } from "./AnimalGenome.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const part = (name, shape, scale, offset = [0, 0, 0], tags = []) => ({ name, shape, scale, offset, tags });
 

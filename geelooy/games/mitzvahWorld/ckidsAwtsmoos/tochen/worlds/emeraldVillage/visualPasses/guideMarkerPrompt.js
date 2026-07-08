@@ -4,8 +4,8 @@
  * @description Chapter 259: The visual prompt speaks before the NPC speaks:
  * press E, talk, choose the levels, enter the first lava gate.
  */
-import { box, p } from './shapeKit.js';
-import { P } from './palette.js';
+import { box, p } from './shapeKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { P } from './palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function addGuidePrompt(n, config) {
   const c = config.center;
   box(n, config.arrow.id, config.arrow.name, p(c.x, 0.42, c.z + 2.4), config.arrow.size, '#5434ff', false);

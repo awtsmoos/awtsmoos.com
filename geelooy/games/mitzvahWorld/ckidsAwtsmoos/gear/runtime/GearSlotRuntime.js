@@ -1,6 +1,6 @@
 // B"H
 /** @file GearSlotRuntime.js @description Equips clothing into slots and keeps one truth for player appearance stats. */
-import { clothingStats } from "./ClothingStatCatalog.js";
+import { clothingStats } from "./ClothingStatCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export class GearSlotRuntime {
   constructor(runtime) { this.runtime=runtime; this.byActor=new Map(); }
   slots(actorId) { if(!this.byActor.has(actorId)) this.byActor.set(actorId,{}); return this.byActor.get(actorId); }

@@ -1,6 +1,6 @@
 // B"H
 /** BattleDecor.js — banners and warning lights for battle layer proof. */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function material(color) { return new THREE.MeshLambertMaterial({ color, emissive:color, emissiveIntensity:.05 }); }
 function markDecor(root) { Object.assign(root.userData ||= {}, { skipOctree:true, noOctree:true, villageCombatDecor:true, villageDecor:true }); }
 export function addDecor(scene, def) {

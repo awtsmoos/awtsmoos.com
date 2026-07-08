@@ -1,5 +1,5 @@
 // B"H
-import STARTER_STATION_ZONE_SPEC from "./StarterStationZoneSpec.js";
+import STARTER_STATION_ZONE_SPEC from "./StarterStationZoneSpec.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 function hasObjectApi(olam) { return Boolean(olam && typeof olam.addObject === "function"); }
 function makeStationNivra(station) { return { type:"starterStationMarker", name:`starter_station_${station.id}`, id:`starter_station_${station.id}`, position:station.position, label:station.label, task:station.task, userData:{ starterStation:true, stationId:station.id } }; }
 export async function ensureStarterStationZone({ olam = null, scene = null, source = null } = {}) {

@@ -4,9 +4,9 @@
  * methods related to making hebrew letters
  */
 
-import {TextGeometry} from "/games/scripts/jsm/utils/TextGeometry.js";
-import {FontLoader} from "/games/scripts/jsm/loaders/FontLoader.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import {TextGeometry} from "/games/scripts/jsm/utils/TextGeometry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import {FontLoader} from "/games/scripts/jsm/loaders/FontLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export default class {
 
       

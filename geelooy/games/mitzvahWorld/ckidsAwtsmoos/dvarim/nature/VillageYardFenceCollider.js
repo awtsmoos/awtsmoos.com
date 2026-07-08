@@ -1,8 +1,8 @@
 // B"H
 /** @file VillageYardFenceCollider.js @description Collider-only parcel fence body vessel. */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { fenceColliderManifest } from "./YardFenceColliderBuilder.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { fenceColliderManifest } from "./YardFenceColliderBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class VillageYardFenceCollider extends Domem {
   type = "villageYardFenceCollider";
   constructor(op = {}, olam) { super({ ...op, golem: null, isSolid: false, interactable: false }, olam); this.segments = op.segments || []; this.colliders = []; }

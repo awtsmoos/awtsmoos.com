@@ -6,12 +6,12 @@
  * Torah teaching. The Awtsmoos moves them between waypoints without making them
  * collide with the shliach like a wall.
  */
-import Medabeir from "../chayim/medabeir/index.js";
-import Utils from "../utils.js";
-import NpcBrain from "./npc/Brain.js";
-import NpcVisuals from "./npc/Visuals.js";
-import IntenseNpcMesh from "./npc/IntenseNpcMesh.js";
-import { ensureNpcSchedule, updateNpcSchedule } from "../systems/npc/NpcScheduleRuntime.js";
+import Medabeir from "../chayim/medabeir/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Utils from "../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import NpcBrain from "./npc/Brain.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import NpcVisuals from "./npc/Visuals.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import IntenseNpcMesh from "./npc/IntenseNpcMesh.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureNpcSchedule, updateNpcSchedule } from "../systems/npc/NpcScheduleRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class CustomNpc extends Medabeir {
   type = "customNpc"; static itemName = "Custom NPC"; static description = "A custom designed character."; static isBuildable = true;
   constructor(op = {}, olam) {

@@ -1,7 +1,7 @@
 // B"H
 /** @file TorahActionBarState.js @description Owned 1-9 action slots for Torah passages and macros. */
-import { quoteMove } from "../../tochen/torah/AbilityIndex.js";
-import { ensureSpellbook, learnPassage } from "./TorahSpellbookRuntime.js";
+import { quoteMove } from "../../tochen/torah/AbilityIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureSpellbook, learnPassage } from "./TorahSpellbookRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const STARTER = ["shemaUnity", "amidahArrow", "tehillimSong", null, null, null, null, null, null];
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 export function ensureActionBarState(olam) {

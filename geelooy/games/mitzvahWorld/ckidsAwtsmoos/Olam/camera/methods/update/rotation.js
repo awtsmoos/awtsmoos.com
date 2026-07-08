@@ -10,7 +10,7 @@
  * update loop. It is modified asynchronously by the user's intent (`cameraDrag`). 
  * This file merely applies smooth following logic if the user releases control.
  */
-import { THREE } from '../../../rendering/ThreeAdapter.js';
+import { THREE } from '../../../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export function handleRotation() {
     if (!this.target || !this.target.mesh) return;

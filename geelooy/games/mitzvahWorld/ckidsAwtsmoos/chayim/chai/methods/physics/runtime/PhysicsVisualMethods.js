@@ -11,10 +11,10 @@
  * @invariants Visual Y follows capsule feet plus authored visual offset only.
  * @failureModes Missing model/camera auxiliaries are ignored.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { clampVisibleBodyAboveFeet } from "../VisualGroundClamp.js?v=solid-browser-verify-20260702-bh11";
-import { clearAirTrajectory, setAnim } from "./PhysicsAirRuntime.js";
-import { normAngle, numeric } from "./PhysicsNumbers.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { clampVisibleBodyAboveFeet } from "../VisualGroundClamp.js?compact=true&v=solid-browser-verify-20260702-bh11";
+import { clearAirTrajectory, setAnim } from "./PhysicsAirRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { normAngle, numeric } from "./PhysicsNumbers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function syncVisual(player, dt) {
   const visualFeetY = player.collider.start.y - player.collider.radius;

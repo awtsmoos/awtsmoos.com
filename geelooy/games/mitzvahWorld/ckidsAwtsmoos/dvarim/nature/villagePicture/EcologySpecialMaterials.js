@@ -1,7 +1,7 @@
 // B"H
 /** @file EcologySpecialMaterials.js @description Structural ecology materials with parser-clear warm progress. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { add, byte, branchVeins, capsule, cellInfo, clamp01, cmix, crackNetwork, crystalMask, fbm, line, petalSdf, potatoEyes, rgb, ringLayer, smooth, stripe, threadWeave } from "./MaterialSynthesisPrimitives.js?v=sharp-primitives-20260612-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { add, byte, branchVeins, capsule, cellInfo, clamp01, cmix, crackNetwork, crystalMask, fbm, line, petalSdf, potatoEyes, rgb, ringLayer, smooth, stripe, threadWeave } from "./MaterialSynthesisPrimitives.js?compact=true&v=sharp-primitives-20260612-bh1";
 export const ECOLOGY_MATERIAL_KINDS = ["barkOak","barkPine","marbleWhite","goldHammered","cottonFiber","linenFabric","cabbageLeaf","carrotSkin","potatoSkin","onionSkin","graniteRock","slateStone","mossPatch","mushroomCap","daisyPetal","lavenderFlower"];
 const CHANNELS = ["albedo","normal","roughness","height","ao"], textureCache = new Map(), materialCache = new Map();
 function barkStructure(u, v, pine = false) { const plate = crystalMask(u + fbm(u * 2, v * 9, 5) * .08, v, pine ? 9 : 7, pine ? 11 : 7); const vertical = stripe((u + fbm(u * 5, v * 18, 8) * .16) * (pine ? 12 : 8), .035); const split = crackNetwork(u, v, pine ? 31 : 29, pine ? 13 : 10); const scar = capsule(u, v, .28, .28, .72, .46, .055) * (fbm(u * 6, v * 6, 40) > .58 ? 1 : 0); return { plate, vertical, split, scar }; }

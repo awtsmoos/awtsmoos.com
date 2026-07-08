@@ -3,18 +3,18 @@
  * @file MitzvahRegionDirector.js
  * @description The region report is born once, cached, compacted, and handed to the living runtime.
  */
-import { REGION_PHASES, phaseReport } from "./RegionPhases.js";
-import { buildMacroTerrainRecipe } from "./terrain/MacroTerrainRecipe.js?v=awtsmoos-macro-terrain-20260614-bh2";
-import { buildBiomePlan } from "./biomes/BiomeDirector.js?v=awtsmoos-biome-plan-20260614-bh2";
-import { buildRoadNetwork } from "./roads/RoadNetwork.js?v=awtsmoos-road-network-20260614-bh2";
-import { buildEcologyGrid } from "./ecology/EcologyGrid.js?v=awtsmoos-ecology-grid-20260614-bh2";
-import { buildInstancePlan } from "./instances/InstancePool.js?v=awtsmoos-instance-plan-20260614-bh2";
-import { buildWildlifePlan } from "./wildlife/WildlifeDirector.js?v=awtsmoos-wildlife-director-20260614-bh2";
-import { buildNpcSchedulePlan } from "./npc/NpcScheduleDirector.js?v=awtsmoos-npc-schedule-20260614-bh2";
-import { buildHousePlan } from "./houses/HousePlanner.js?v=awtsmoos-house-plan-20260614-bh2";
-import { classifyRegionColliders } from "./collision/ColliderClassifier.js?v=awtsmoos-collider-classifier-20260614-bh2";
-import { buildKingdomGardenKernel } from "./kingdom/KingdomGardenKernel.js?v=awtsmoos-kingdom-kernel-20260614-bh2";
-import { buildRegionReport } from "./debug/RegionBuildReport.js?v=awtsmoos-region-report-20260614-bh2";
+import { REGION_PHASES, phaseReport } from "./RegionPhases.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildMacroTerrainRecipe } from "./terrain/MacroTerrainRecipe.js?compact=true&v=awtsmoos-macro-terrain-20260614-bh2";
+import { buildBiomePlan } from "./biomes/BiomeDirector.js?compact=true&v=awtsmoos-biome-plan-20260614-bh2";
+import { buildRoadNetwork } from "./roads/RoadNetwork.js?compact=true&v=awtsmoos-road-network-20260614-bh2";
+import { buildEcologyGrid } from "./ecology/EcologyGrid.js?compact=true&v=awtsmoos-ecology-grid-20260614-bh2";
+import { buildInstancePlan } from "./instances/InstancePool.js?compact=true&v=awtsmoos-instance-plan-20260614-bh2";
+import { buildWildlifePlan } from "./wildlife/WildlifeDirector.js?compact=true&v=awtsmoos-wildlife-director-20260614-bh2";
+import { buildNpcSchedulePlan } from "./npc/NpcScheduleDirector.js?compact=true&v=awtsmoos-npc-schedule-20260614-bh2";
+import { buildHousePlan } from "./houses/HousePlanner.js?compact=true&v=awtsmoos-house-plan-20260614-bh2";
+import { classifyRegionColliders } from "./collision/ColliderClassifier.js?compact=true&v=awtsmoos-collider-classifier-20260614-bh2";
+import { buildKingdomGardenKernel } from "./kingdom/KingdomGardenKernel.js?compact=true&v=awtsmoos-kingdom-kernel-20260614-bh2";
+import { buildRegionReport } from "./debug/RegionBuildReport.js?compact=true&v=awtsmoos-region-report-20260614-bh2";
 const KEY = "__awtsmoosMitzvahRegionDirectorReport";
 const BOUNDS = Object.freeze({ minX:-330, maxX:330, minZ:-200, maxZ:200 });
 function safe(value, fallback = {}) { return value || fallback; }

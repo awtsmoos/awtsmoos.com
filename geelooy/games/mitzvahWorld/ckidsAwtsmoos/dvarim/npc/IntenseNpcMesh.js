@@ -7,7 +7,7 @@
  * mesh with material groups instead of orbiting fragments and invisible proxy
  * children. The shliach sees a clearer Yid; the renderer sees one mesh.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const MAT = Object.freeze({ coat:0, shirt:1, skin:2, hair:3, hat:4, tzitzis:5, glow:6 });
 const COLORS = [0x111111, 0xf7f3e8, 0xd3a277, 0x3a2518, 0x080808, 0xf8f8e8, 0x62f5ff];

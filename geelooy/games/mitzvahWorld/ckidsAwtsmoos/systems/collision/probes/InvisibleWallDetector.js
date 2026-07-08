@@ -1,5 +1,5 @@
 // B"H
-import { hasCanonicalOwner, ownerMetadata } from "./CollisionOwnerMetadata.js";
+import { hasCanonicalOwner, ownerMetadata } from "./CollisionOwnerMetadata.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function unownedBlockers(world, hitIds = []) {
   const violations = [];

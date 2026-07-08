@@ -6,9 +6,9 @@
  * this public bootstrap imports the real vessel explicitly instead of a missing
  * root `/systems/livingWorld` mirage.
  */
-import { createWorldQualityDirector } from './WorldQualityDirector.js';
-import { createRealismPerformanceGovernor } from './RealismPerformanceGovernor.js';
-import { createLivingWorldRuntime } from '../../ckidsAwtsmoos/systems/livingWorld/LivingWorldRuntime.js';
+import { createWorldQualityDirector } from './WorldQualityDirector.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createRealismPerformanceGovernor } from './RealismPerformanceGovernor.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { createLivingWorldRuntime } from '../../ckidsAwtsmoos/systems/livingWorld/LivingWorldRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 const scope = globalThis;
 function startQualityDirector() {
   if (scope.__MITZVAH_WORLD_QUALITY_DIRECTOR__) return scope.__MITZVAH_WORLD_QUALITY_DIRECTOR__;

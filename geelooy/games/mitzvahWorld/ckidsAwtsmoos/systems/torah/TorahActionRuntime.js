@@ -1,11 +1,11 @@
 ﻿// B"H
 /** @file TorahActionRuntime.js @description Action bar casts passages/macros with trainer ranks, weapon fitting, facing, range, moving-target projectiles, and refunds. */
-import { ensureActionBarState, emitActionBar, resolveActionSlot, assignActionSlot } from "./TorahActionBarState.js";
-import { ensureSpellbook, learnPassage, openSpellbook, notePassageUse } from "./TorahSpellbookRuntime.js";
-import { recordPassageUse, emitCodex } from "./TorahCodexRuntime.js";
-import { grantPassageUseSkills } from "./TorahSkillRuntime.js";
-import { rankedPassage } from "../trainers/TrainerRuntime.js";
-import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js";
+import { ensureActionBarState, emitActionBar, resolveActionSlot, assignActionSlot } from "./TorahActionBarState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureSpellbook, learnPassage, openSpellbook, notePassageUse } from "./TorahSpellbookRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { recordPassageUse, emitCodex } from "./TorahCodexRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { grantPassageUseSkills } from "./TorahSkillRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rankedPassage } from "../trainers/TrainerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { progressActiveObjectives } from "../missions/MissionObjectiveRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 function toast(olam, text, color = "#ffe680") { olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color }); }
 function koach(player) { return Number(player?.koach ?? player?.maxKoach ?? 100); }

@@ -1,10 +1,10 @@
 // B"H
 /** @file VillageGroundPlane.js @description Large textured ground, no abrupt tiny grass edge. */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { finite } from "../../../../../libs/awtsmoos3d/math.js";
-import { markDecorative } from "../../../../../libs/awtsmoos3d/decor.js";
-import { villageGroundMaterial } from "../../../../../libs/awtsmoos3d/terrain/groundTexture.js?v=wide-ground-texture-village-material-20260708-bh1";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { finite } from "../../../../../libs/awtsmoos3d/math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { markDecorative } from "../../../../../libs/awtsmoos3d/decor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { villageGroundMaterial } from "../../../../../libs/awtsmoos3d/terrain/groundTexture.js?compact=true&v=wide-ground-texture-village-material-20260708-bh1";
 export default class VillageGroundPlane extends Domem{
   type="villageGroundPlane";
   constructor(op={},olam){super({...op,isSolid:false,interactable:false},olam);this.options=op;this.useAuthoredY=true;}

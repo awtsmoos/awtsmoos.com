@@ -4,8 +4,8 @@
  * @module ProceduralFurniture
  * @description THE VESSELS OF REST — Abstracted and Purified.
  */
-import Tzomayach from "../../chayim/tzomayach.js";
-import { BARK_SNIPPETS } from "../../shaders/BarkShader.js";
+import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { BARK_SNIPPETS } from "../../shaders/BarkShader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ProceduralFurniture extends Tzomayach {
     type = "proceduralFurniture";

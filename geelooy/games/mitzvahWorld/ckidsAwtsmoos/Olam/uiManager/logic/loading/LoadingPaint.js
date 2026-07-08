@@ -1,13 +1,13 @@
 // B"H
 /** Paint loop: master/category bars are monotonic and separately meaningful. */
-import { IDS, FINAL, HELD } from "./LoadingConstants.js";
-import { state, rememberRealProgress, hold } from "./LoadingState.js";
-import { stagePercent } from "./LoadingStages.js";
-import { label } from "./LoadingLabels.js";
-import { bar } from "./LoadingBars.js";
-import { text } from "./LoadingText.js";
-import { record } from "./LoadingLog.js";
-import { finish } from "./LoadingFinish.js";
+import { IDS, FINAL, HELD } from "./LoadingConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { state, rememberRealProgress, hold } from "./LoadingState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { stagePercent } from "./LoadingStages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { label } from "./LoadingLabels.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { bar } from "./LoadingBars.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { text } from "./LoadingText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { record } from "./LoadingLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { finish } from "./LoadingFinish.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function categoryValues(stage, input, percent) {
   const lower = String(stage || "").toLowerCase();

@@ -1,6 +1,6 @@
 // B"H
-import skin from "./skins/2/index.js";
-import dialogueStyle from "./gameUI/components/DialogueVesselStyle.js";
+import skin from "./skins/2/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import dialogueStyle from "./gameUI/components/DialogueVesselStyle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @file style.js

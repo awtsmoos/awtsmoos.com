@@ -1,6 +1,6 @@
 // B"H
 /** Automobiles: a surreal future layer, still born from boxes and wheels. */
-import { box, finalizeVehicle, vehicleKit, wheel } from "./VehicleFactory.js";
+import { box, finalizeVehicle, vehicleKit, wheel } from "./VehicleFactory.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 export const AUTO_VARIANTS = {
   utility: { name: "Utility Car", speed: 24, body: [2.8, .65, 1.55], seats: 2, cargo: 4 },

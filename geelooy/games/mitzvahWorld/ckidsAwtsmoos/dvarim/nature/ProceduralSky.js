@@ -8,8 +8,8 @@
  * warm sun light, gentle fog, and only a few quiet RGBA cloud sprites. No lens
  * flare excess, no lava brightness changes.
  */
-import Tzomayach from "../../chayim/tzomayach.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 function rgbaCloudTexture(size = 64) {
   const data = new Uint8Array(size * size * 4);

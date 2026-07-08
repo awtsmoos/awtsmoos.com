@@ -6,8 +6,8 @@
  * animal into one vertex-colored mesh. That preserves selectable animals and
  * readable ecology while avoiding one draw call per ear, leg, wing, or mark.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { silhouetteFor } from "./AnimalSpeciesSilhouettes.js?v=animal-realism-split-20260705-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { silhouetteFor } from "./AnimalSpeciesSilhouettes.js?compact=true&v=animal-realism-split-20260705-bh1";
 
 const MATERIAL_CACHE = new Map();
 

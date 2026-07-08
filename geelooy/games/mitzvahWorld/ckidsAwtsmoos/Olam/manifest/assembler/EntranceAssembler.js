@@ -12,9 +12,9 @@
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
 
-import NivraAssembler from '../NivraAssembler/index.js';
-import { ENTRANCE_MANIFEST } from '../blueprints/architecture/EntranceManifest.js';
-import { ENTRANCE_POSITION_LOGIC } from '../blueprints/architecture/EntrancePositions.js';
+import NivraAssembler from '../NivraAssembler/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { ENTRANCE_MANIFEST } from '../blueprints/architecture/EntranceManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { ENTRANCE_POSITION_LOGIC } from '../blueprints/architecture/EntrancePositions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class EntranceAssembler {
     /**

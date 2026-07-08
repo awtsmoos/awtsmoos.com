@@ -6,11 +6,11 @@
  * Dynamic procedural audio orchestrator. Routes physical events to their specific 
  * generative modules, synthesizing existence without reliance on pre-recorded files.
  */
-import Synthesizer from "./Synthesizer.js";
-import AudioEngine from "./AudioEngine.js";
-import JumpSound from "./AudioGenerators/JumpSound.js";
-import ImpactSound from "./AudioGenerators/ImpactSound.js";
-import StepSound from "./AudioGenerators/StepSound.js";
+import Synthesizer from "./Synthesizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import AudioEngine from "./AudioEngine.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import JumpSound from "./AudioGenerators/JumpSound.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ImpactSound from "./AudioGenerators/ImpactSound.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import StepSound from "./AudioGenerators/StepSound.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class DynamicAudio {
     /**

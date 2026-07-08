@@ -1,15 +1,15 @@
 // B"H
 /** @file KingdomGardenKernel.js @description Finite vessel for an infinite-feeling green kingdom, parser-clear. */
-import { createKingdomPerformanceBudget, measureBudgetPressure, budgetSummary } from "./KingdomPerformanceBudget.js?v=awtsmoos-budget-20260614-bh2";
-import { createKingdomWorldClock } from "./KingdomWorldClock.js?v=awtsmoos-clock-20260614-bh2";
-import { buildKingdomChunkMap } from "./KingdomChunkMap.js";
-import { buildKingdomSpatialIndex } from "./KingdomSpatialIndex.js";
-import { createKingdomEventBus, kingdomEmit, eventBusSummary } from "./KingdomEventBus.js?v=awtsmoos-event-bus-20260614-bh2";
-import { createKingdomProofLedger, recordKingdomProof, proofLedgerSummary } from "./KingdomProofLedger.js";
-import { createKingdomSaveSnapshot, snapshotSummary } from "./KingdomSaveSnapshot.js?v=awtsmoos-save-snapshot-20260614-bh2";
-import { createInterestBubble } from "../simulation/InterestBubble.js";
-import { assignChunkTiers } from "../simulation/SimulationTierModel.js?v=awtsmoos-tier-model-20260614-bh2";
-import { createSimulationScheduler, scheduleTask, schedulerSummary } from "../simulation/SimulationScheduler.js?v=awtsmoos-scheduler-20260614-bh2";
+import { createKingdomPerformanceBudget, measureBudgetPressure, budgetSummary } from "./KingdomPerformanceBudget.js?compact=true&v=awtsmoos-budget-20260614-bh2";
+import { createKingdomWorldClock } from "./KingdomWorldClock.js?compact=true&v=awtsmoos-clock-20260614-bh2";
+import { buildKingdomChunkMap } from "./KingdomChunkMap.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildKingdomSpatialIndex } from "./KingdomSpatialIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createKingdomEventBus, kingdomEmit, eventBusSummary } from "./KingdomEventBus.js?compact=true&v=awtsmoos-event-bus-20260614-bh2";
+import { createKingdomProofLedger, recordKingdomProof, proofLedgerSummary } from "./KingdomProofLedger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createKingdomSaveSnapshot, snapshotSummary } from "./KingdomSaveSnapshot.js?compact=true&v=awtsmoos-save-snapshot-20260614-bh2";
+import { createInterestBubble } from "../simulation/InterestBubble.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { assignChunkTiers } from "../simulation/SimulationTierModel.js?compact=true&v=awtsmoos-tier-model-20260614-bh2";
+import { createSimulationScheduler, scheduleTask, schedulerSummary } from "../simulation/SimulationScheduler.js?compact=true&v=awtsmoos-scheduler-20260614-bh2";
 function instancesTotal(data) { return data && data.instances && data.instances.summary ? data.instances.summary.total || 0 : 0; }
 function npcCount(data) { return data && data.npcSchedules && Array.isArray(data.npcSchedules.schedules) ? data.npcSchedules.schedules.length : 0; }
 function animalCount(data) { return data && data.wildlife && Array.isArray(data.wildlife.animals) ? data.wildlife.animals.length : 0; }

@@ -4,8 +4,8 @@
  * @description Chapter 505: Starts Emerald ambience as real browser audio
  * nodes, guarded so multiple world-loads do not stack layers.
  */
-import { createEmeraldAudioLayer } from './emeraldAudioLayer.js';
-import { emeraldAudioState, ensureAudioContext, stopEmeraldAudio } from './emeraldAudioState.js';
+import { createEmeraldAudioLayer } from './emeraldAudioLayer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { emeraldAudioState, ensureAudioContext, stopEmeraldAudio } from './emeraldAudioState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function startEmeraldAmbience(audio = {}) {
   stopEmeraldAudio();
   const ctx = ensureAudioContext();

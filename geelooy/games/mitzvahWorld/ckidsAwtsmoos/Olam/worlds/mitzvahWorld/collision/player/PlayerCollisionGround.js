@@ -1,6 +1,6 @@
 // B"H
 /** @file PlayerCollisionGround.js @description Grounding that respects the upward jump breath. */
-import { ensureGroundCollisionWorld } from "../GroundCollisionWorld.js";
+import { ensureGroundCollisionWorld } from "../GroundCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 export function rising(player) { const vy = finite(player?.velocity?.y, 0); return vy > 0.05 || (player?.jumped && !player?.onFloor && vy > -0.01); }
 export function hitPayload(hit, c) { return { distance:c.start.y - hit.y, position:hit.point, normal:hit.normal, object:hit.object, meshGroundAuthority:hit.source === "mesh" || hit.source === "flat-test-ground", fallback:hit.fallback, source:hit.source, surfaceKey:hit.surfaceKey || null, materialKey:hit.materialKey || null, biomeKey:hit.biomeKey || null, walkable:hit.walkable !== false, slopeDegrees:hit.slopeDegrees ?? null }; }

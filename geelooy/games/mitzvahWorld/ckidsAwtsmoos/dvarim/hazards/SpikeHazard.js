@@ -10,7 +10,7 @@
  * after one Set lookup. This is separate from the static world octree and tuned
  * for dynamic hazard life.
  */
-import Tzomayach from "../../chayim/tzomayach.js";
+import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const LOG = 'B"H | SPIKE_DEATH_TRACE';
 const FEET_PAD = 0.18;
 const HORIZONTAL_RADIUS = 0.86;

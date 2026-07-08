@@ -1,9 +1,9 @@
 // B"H
 /** @file RegionWaterRenderer.js @description Grounded translucent stream cells with a living shimmer ticker. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { groundY } from "./RegionGround.js";
-import { solveWaterFlow } from "../terrain/WaterFlowSolver.js?v=awtsmoos-water-flow-20260614-bh2";
-import { sealRegionVisual } from "./RegionSeal.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { solveWaterFlow } from "../terrain/WaterFlowSolver.js?compact=true&v=awtsmoos-water-flow-20260614-bh2";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function streamPoints(stream) {
   const out = [];
   for (let i=0; i<=stream.length-4; i+=2) {

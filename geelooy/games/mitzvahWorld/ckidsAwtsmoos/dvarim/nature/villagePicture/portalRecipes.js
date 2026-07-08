@@ -6,9 +6,9 @@
  * lantern a brighter flame, a glowing glass box, and a wider halo so the
  * village can be read in dusk without swallowing the screen.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { add, light } from "./geometryKit.js";
-import { PICTURE_COLORS as C } from "./palette.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { add, light } from "./geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { PICTURE_COLORS as C } from "./palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function lantern() {
   const group = new THREE.Group();

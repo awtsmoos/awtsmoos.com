@@ -14,7 +14,7 @@
  * @module NetzachGrass
  */
 
-/** @type {import('../../nivrayimDefs.js').NefeshDef[]} */
+/** @type {import('../../nivrayimDefs.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1').NefeshDef[]} */
 export const NETZACH_GRASS_LIST = [
   // ── Dense central meadow ──
   {

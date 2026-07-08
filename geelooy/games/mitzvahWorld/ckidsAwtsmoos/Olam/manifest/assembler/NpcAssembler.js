@@ -11,8 +11,8 @@
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
 
-import NivraAssembler from '../NivraAssembler/index.js';
-import { HOUSE_NPC_MANIFEST } from '../blueprints/npcs/HouseNpcManifest.js';
+import NivraAssembler from '../NivraAssembler/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { HOUSE_NPC_MANIFEST } from '../blueprints/npcs/HouseNpcManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class NpcAssembler {
     /**

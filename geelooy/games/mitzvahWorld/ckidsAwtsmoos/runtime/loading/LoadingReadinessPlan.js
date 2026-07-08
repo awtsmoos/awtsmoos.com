@@ -1,6 +1,6 @@
 // B"H
 /** @file LoadingReadinessPlan.js @description Real progress from named subsystems, not blue-screen hope. */
-import { loadStepRecords } from "./LoadStepCatalog.js";
+import { loadStepRecords } from "./LoadStepCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function installLoadingReadinessPlan(runtime) {
   const steps = loadStepRecords();
   for (const step of steps) runtime?.readiness?.register?.(step.id, { progress:step.id === "runtime:playable" ? 1 : 0, status:"pending", weight:step.weight, data:{ label:step.label } });

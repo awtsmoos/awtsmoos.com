@@ -6,8 +6,8 @@
  * remains a feature, but its hair, beard, hat, and face are anchored to a simple
  * readable silhouette for mobile. A real GLB still wins when truly visible.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import { hasVisibleLivingRenderable } from '../../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { hasVisibleLivingRenderable } from '../../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 const FALLBACK_NAME = 'BASIC_VISIBLE_CHOSSID_BODY';
 export function ensureFallbackBody(chossid) { const host = fallbackHost(chossid); if (!host?.isObject3D) return false; const existing = host.getObjectByName?.(FALLBACK_NAME); const hasReal = hasVisibleRenderable(chossid?.modelMesh); if (hasReal) { existing?.removeFromParent?.(); return false; } const body = existing || buildFallbackBody(chossid); if (!existing) host.add(body); body.visible = true; body.position.set(0,body.userData.groundLiftY || measureFallbackGroundLift(body),0); body.rotation.set(0,0,0); body.scale.set(1,1,1); return true; }
 function fallbackHost(chossid) { return chossid?.mesh?.isObject3D ? chossid.mesh : chossid?.modelMesh || null; }

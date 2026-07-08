@@ -1,6 +1,6 @@
 // B"H
 /** @file AnimalFeedingRuntime.js @description Animals find food, lower heads, chew, swallow, and change nutrition/body. */
-import { bestFoodFor, foodProfile } from "./AnimalFoodCatalog.js";
+import { bestFoodFor, foodProfile } from "./AnimalFoodCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function clamp(v,min=0,max=1){ return Math.max(min,Math.min(max,v)); }
 function chooseFood(animal={},world={}){ const species=animal.profile?.species||animal.species, foods=(world.foods||animal.availableFoods||[]).map(f=>typeof f==="string"?foodProfile(f):f), needs=animal.needs||{}; if(!foods.length) return bestFoodFor(species); const edible=foods.filter(f=>bestFoodFor(species,[f]).id===f.id); const hunger=needs.hunger??.5, thirst=needs.thirst??.4; return edible.sort((a,b)=>((b.nutrition*hunger)+(b.water*thirst*.7))-((a.nutrition*hunger)+(a.water*thirst*.7)))[0]||bestFoodFor(species,foods); }
 export function animalEatingAnimation(food){ return ["seek-food","walk-to-food","lower-head","open-mouth",`chew-${food.kind||"food"}`,"swallow","raise-head"]; }

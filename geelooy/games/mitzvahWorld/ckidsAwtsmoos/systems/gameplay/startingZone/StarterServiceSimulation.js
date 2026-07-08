@@ -1,9 +1,9 @@
 // B"H
-import { acceptQuest, progressQuestObjective, questOfferPayload, turnInQuest } from "../../missions/QuestGossipRuntime.js";
-import { questMarkersPayload } from "../../missions/QuestMarkerRuntime.js";
-import { questTrackerPayload } from "../../missions/QuestTrackerRuntime.js";
-import { openVendor } from "../../social/VendorRuntime.js";
-import { trainerPayload, trainAbilityAtTrainer } from "../../trainers/TrainerRuntime.js";
+import { acceptQuest, progressQuestObjective, questOfferPayload, turnInQuest } from "../../missions/QuestGossipRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { questMarkersPayload } from "../../missions/QuestMarkerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { questTrackerPayload } from "../../missions/QuestTrackerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { openVendor } from "../../social/VendorRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { trainerPayload, trainAbilityAtTrainer } from "../../trainers/TrainerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function runStarterServiceLoop(olam, combat) {
   const rebbe = olam.npcs.find(n => n.role === "rebbe") || olam.npcs[0];

@@ -7,9 +7,9 @@
  * reveals whether it paused before loadNivrayim, after loadNivrayim, or while
  * scheduling village grounding.
  */
-import { autoGroundNivrayim } from "./AutoGrounder.js?v=ground-zero-non-village-20260602-bh126";
-import { scheduleVillageGrounding } from "../../../methods/loadNivrayim/villageGrounding.js?v=final-colliders-after-settle-20260609-bh571";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
+import { autoGroundNivrayim } from "./AutoGrounder.js?compact=true&v=ground-zero-non-village-20260602-bh126";
+import { scheduleVillageGrounding } from "../../../methods/loadNivrayim/villageGrounding.js?compact=true&v=final-colliders-after-settle-20260609-bh571";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function countAuthoredNivrayim(nivrayimData) {
   if (!nivrayimData || typeof nivrayimData !== "object") return 0;

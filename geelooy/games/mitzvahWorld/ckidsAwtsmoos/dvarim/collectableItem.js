@@ -3,7 +3,7 @@
  * B"H
  */
 
-import Tzomayach from "../chayim/tzomayach.js";
+import Tzomayach from "../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class CollectableItem extends Tzomayach {
     constructor(op) {

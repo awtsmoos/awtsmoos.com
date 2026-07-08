@@ -1,5 +1,5 @@
 // B"H
-import { CORE_STATS } from "../../platform/MitzvahPlatformCatalog.js";
+import { CORE_STATS } from "../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createPlayerState() {
   return {

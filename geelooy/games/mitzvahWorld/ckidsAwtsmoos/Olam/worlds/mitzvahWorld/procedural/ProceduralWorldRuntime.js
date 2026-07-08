@@ -7,8 +7,8 @@
  * line up, and its star/arc cutscene marks wait in the scene. The old world is
  * not replaced; this layer is a sidecar, gentle and fast.
  */
-import { GeometryEngine } from "../GeometryEngine.js?v=awtsmoos-geometry-engine-20260614-bh2";
-import { normalizeProceduralWorld } from "./ProceduralWorldSchema.js";
+import { GeometryEngine } from "../GeometryEngine.js?compact=true&v=awtsmoos-geometry-engine-20260614-bh2";
+import { normalizeProceduralWorld } from "./ProceduralWorldSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const KEY = "__awtsmoosProceduralWorldRuntime";
 

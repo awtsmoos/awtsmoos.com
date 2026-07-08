@@ -1,6 +1,6 @@
 // B"H
 /** @file CombatDiagnostics.js @description Aggregates adventure combat proof. */
-import { speciesIntentSummary } from "./CombatIntentRuntime.js";
+import { speciesIntentSummary } from "./CombatIntentRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function collectCombatDiagnostics(olam) {
   const diag = olam?.__combatAdventureDiag || {};

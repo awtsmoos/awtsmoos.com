@@ -1,5 +1,5 @@
 // B"H
-import { classifyTarget, distance2D } from "../targeting/TargetClassifier.js";
+import { classifyTarget, distance2D } from "../targeting/TargetClassifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function validateCombatTarget(target, attacker = {}, options = {}) {
   if (!target) return fail("no-target");

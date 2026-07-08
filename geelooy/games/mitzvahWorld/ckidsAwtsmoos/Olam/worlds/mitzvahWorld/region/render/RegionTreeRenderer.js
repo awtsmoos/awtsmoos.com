@@ -4,12 +4,12 @@
  * @description Region trees route through the Awtsmoos procedural-core
  * generator, with wind ticks and trunk collider registration.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { rand } from "./RegionRandom.js";
-import { budgetedQualityCount } from "./RegionQuality.js?v=awtsmoos-quality-20260614-bh2";
-import { sealRegionVisual } from "./RegionSeal.js";
-import { buildAdvancedTree, approvedTreeStats, registerTreeTrunkColliders } from "./AdvancedTreeOnly.js?v=exclusive-procedural-core-tree-20260614-bh4";
-import { advanceProceduralTreeWind } from "../trees/ProceduralCoreTreeFactory.js?v=fuller-procedural-core-trees-20260707-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rand } from "./RegionRandom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { budgetedQualityCount } from "./RegionQuality.js?compact=true&v=awtsmoos-quality-20260614-bh2";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildAdvancedTree, approvedTreeStats, registerTreeTrunkColliders } from "./AdvancedTreeOnly.js?compact=true&v=exclusive-procedural-core-tree-20260614-bh4";
+import { advanceProceduralTreeWind } from "../trees/ProceduralCoreTreeFactory.js?compact=true&v=fuller-procedural-core-trees-20260707-bh1";
 
 const ANCHORS = Object.freeze([
   [18, 28, "olive", "mature"],

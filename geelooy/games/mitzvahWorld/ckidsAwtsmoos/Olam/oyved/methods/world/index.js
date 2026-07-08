@@ -7,8 +7,8 @@
  * 
  * Fragments the massive worker world operations into concise files.
  */
-import WorldHeescheel from "./WorldHeescheel.js";
-import EntityUpdater from "./EntityUpdater.js";
+import WorldHeescheel from "./WorldHeescheel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import EntityUpdater from "./EntityUpdater.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default function(me, OlamClass) {
     return {

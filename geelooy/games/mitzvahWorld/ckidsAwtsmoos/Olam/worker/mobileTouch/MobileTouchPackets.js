@@ -1,6 +1,6 @@
 // B"H
 /** Touch packets carry real finger coordinates through the worker veil. */
-import { UI_SELECTOR } from "./MobileTouchConstants.js";
+import { UI_SELECTOR } from "./MobileTouchConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function point(touch) { return { clientX:touch.clientX, clientY:touch.clientY, pageX:touch.pageX, pageY:touch.pageY, x:touch.clientX, y:touch.clientY }; }
 export function distance(a, b) { return Math.hypot((b.pageX || 0) - (a.pageX || 0), (b.pageY || 0) - (a.pageY || 0)); }
 export function uiBlocked(touch) { return Boolean(touch?.target?.closest?.(UI_SELECTOR)); }

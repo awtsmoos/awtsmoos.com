@@ -3,9 +3,9 @@
  * EconomyTransactionRuntime: stock mutation and vendor charges through the one
  * PersonalPerutaWallet bridge, while economy inventory remains separate.
  */
-import { applyEconomyPricing } from './EconomyPricingRuntime.js';
-import { economyKeyForItem, hasStock, changeStock } from './EconomyQueryAdapter.js';
-import { awardMoney, bindWalletOlam, moneyOf } from './wallet/PersonalPerutaWallet.js';
+import { applyEconomyPricing } from './EconomyPricingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { economyKeyForItem, hasStock, changeStock } from './EconomyQueryAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { awardMoney, bindWalletOlam, moneyOf } from './wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const LIMIT = 50;
 const cap = (xs, n = LIMIT) => (xs || []).slice(-n);

@@ -13,12 +13,12 @@
  * debug witness, and persistence mirrors should hear one eventful breath instead
  * of several private mutations pretending to be progress.
  */
-import { STARTER_MISSIONS, getMission } from "./MissionRegistry.js";
-import { createMissionRuntime } from "./MissionRuntime.js";
-import { questTrackerPayload as baseTrackerPayload } from "./QuestTrackerRuntime.js";
-import { questMarkersPayload as baseMarkersPayload } from "./QuestMarkerRuntime.js";
-import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js";
-import { rewardMissionXp } from "../progression/XpRewardRuntime.js";
+import { STARTER_MISSIONS, getMission } from "./MissionRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createMissionRuntime } from "./MissionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { questTrackerPayload as baseTrackerPayload } from "./QuestTrackerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { questMarkersPayload as baseMarkersPayload } from "./QuestMarkerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, moneyOf, walletPlayerOf } from "../economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rewardMissionXp } from "../progression/XpRewardRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const FIRST_SHLIACH = Object.freeze({
   id:"the_first_shliach", chain:"starter", giver:"rebbe", title:"The First Shliach",

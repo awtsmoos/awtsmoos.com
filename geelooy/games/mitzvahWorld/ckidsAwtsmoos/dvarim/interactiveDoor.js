@@ -21,10 +21,10 @@
  * ╚═══════════════════════════════════════════════════════════╝
  */
 
-import Tzomayach from "../chayim/tzomayach.js";
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
-import GeometryManager from "../Olam/math/GeometryManager.js";
+import Tzomayach from "../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import GeometryManager from "../Olam/math/GeometryManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @constant DOOR_DEFAULTS

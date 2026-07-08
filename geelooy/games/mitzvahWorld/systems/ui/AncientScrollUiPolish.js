@@ -5,9 +5,9 @@
  * Ancient scroll UI, now split through dirty hashes, toast queue, and shlichus
  * book state. The Awtsmoos keeps the parchment beautiful and the DOM quiet.
  */
-import { shouldRenderUi } from "./UiDirtyHashGuard.js?v=step-by-step-20260621-bh1";
-import { scrollToast } from "./ScrollToastQueue.js?v=step-by-step-20260621-bh1";
-import { setShlichusBookOpen, toggleShlichusBook, shlichusBookState } from "./ShlichusBookState.js?v=step-by-step-20260621-bh1";
+import { shouldRenderUi } from "./UiDirtyHashGuard.js?compact=true&v=step-by-step-20260621-bh1";
+import { scrollToast } from "./ScrollToastQueue.js?compact=true&v=step-by-step-20260621-bh1";
+import { setShlichusBookOpen, toggleShlichusBook, shlichusBookState } from "./ShlichusBookState.js?compact=true&v=step-by-step-20260621-bh1";
 
 const QUEST_IDS = new Set(["uiQuestTracker", "uiQuestMarkers", "uiQuestProgress"]);
 const CENTER_IDS = new Set(["uiQuestPanel", "uiGossip", "uiLootWindow", "uiSpiritHealer"]);

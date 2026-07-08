@@ -5,7 +5,7 @@
  * House planning conductor. The Awtsmoos keeps starter placement and house
  * normalization in smaller vessels so this file can simply choose and expose.
  */
-import { baseHouse, fromHouseReport } from "./HouseRecordFactory.js?v=starter-visible-houses-20260628-bh1";
+import { baseHouse, fromHouseReport } from "./HouseRecordFactory.js?compact=true&v=starter-visible-houses-20260628-bh1";
 
 export function planHouses(report = {}) {
   const count = Number.isFinite(Number(report.count)) ? Number(report.count) : 10;

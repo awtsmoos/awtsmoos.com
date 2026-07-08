@@ -1,9 +1,9 @@
 // B"H
 /** @file ProofQuests.js @description Exercises kid quest accept/progress/turn-in and markers. */
-import { addBagItem } from "../../../../systems/inventory/BagRuntime.js";
-import { acceptQuest, noteQuestItemCollected, turnInQuest } from "../../../../systems/quests/QuestState.js";
-import { attachQuestMarker } from "../../../../systems/quests/QuestMarkers.js";
-import { collectQuestDiagnostics } from "../../../../systems/quests/QuestDiagnostics.js";
+import { addBagItem } from "../../../../systems/inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { acceptQuest, noteQuestItemCollected, turnInQuest } from "../../../../systems/quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { attachQuestMarker } from "../../../../systems/quests/QuestMarkers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { collectQuestDiagnostics } from "../../../../systems/quests/QuestDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function questNpc(olam, name) {
   return (olam?.interactableNivrayim || []).find(n => n?.name === name || n?.questId);

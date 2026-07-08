@@ -1,7 +1,7 @@
 // B"H
-import { resolveCutscenesForEvent, markResolvedCutscenesSeen } from "../../../systems/cutscene/CutsceneTriggerResolver.js";
-import { targetHudPayload } from "../targeting/TargetingHudBridge.js";
-import { nearestTarget } from "../targeting/TargetClassifier.js";
+import { resolveCutscenesForEvent, markResolvedCutscenesSeen } from "../../../systems/cutscene/CutsceneTriggerResolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { targetHudPayload } from "../targeting/TargetingHudBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { nearestTarget } from "../targeting/TargetClassifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);

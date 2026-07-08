@@ -1,35 +1,5 @@
-.home-action-card,
-.home-discovery-card,
-.home-post-card,
-.home-command-dock a,
-.home-feed-tabs button {
-  transition: transform 180ms cubic-bezier(.2,.8,.2,1), opacity 160ms ease, border-color 160ms ease, box-shadow 180ms ease, background 160ms ease !important;
-  will-change: transform;
-}
-
-.home-action-card:hover,
-.home-discovery-card:hover,
-.home-post-card:hover {
-  transform: translate3d(0,-4px,0) scale(1.01) !important;
-}
-
-.home-action-card:active,
-.home-discovery-card:active,
-.home-post-card:active,
-.home-command-dock a:active {
-  transform: translate3d(0,-1px,0) scale(.992) !important;
-}
-
-.home-command-dock a:hover {
-  transform: translate3d(0,-2px,0) !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-action-card,
-  .home-discovery-card,
-  .home-post-card,
-  .home-command-dock a,
-  .home-feed-tabs button {
-    transition-duration: 1ms !important;
-  }
-}
+.home-action-card,.home-discovery-card,.home-post-card,.home-command-dock a,.home-feed-tabs button,.object-action-row :is(a,button) { transition: transform 170ms cubic-bezier(.2,.8,.2,1), opacity 150ms ease, border-color 150ms ease, box-shadow 170ms ease, background 150ms ease !important; will-change: transform; }
+.home-action-card:hover,.home-discovery-card:hover,.home-post-card:hover { transform: translate3d(0,-3px,0) !important; }
+.home-action-card:active,.home-discovery-card:active,.home-post-card:active,.home-command-dock a:active { transform: translate3d(0,-1px,0) scale(.992) !important; }
+.home-command-dock a:hover { transform: translate3d(0,-2px,0) !important; }
+@media (prefers-reduced-motion:reduce){.home-action-card,.home-discovery-card,.home-post-card,.home-command-dock a,.home-feed-tabs button,.object-action-row :is(a,button){transition-duration:1ms!important;will-change:auto}.home-action-card:hover,.home-discovery-card:hover,.home-post-card:hover,.home-command-dock a:hover{transform:none!important}}

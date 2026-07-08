@@ -7,8 +7,8 @@
  * This module aggregates the holy passages of the Rebbe.
  */
 
-import { torah_tziva } from './torah_tziva.js';
-import { shema_yisrael } from './shema_yisrael.js';
+import { torah_tziva } from './torah_tziva.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { shema_yisrael } from './shema_yisrael.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export const PESUKIM_REBBE_REGISTRY = {
     torah_tziva,

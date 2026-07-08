@@ -6,7 +6,7 @@
  * scene keeps nearby animals; the wider ecology hydrates one actor at a time so
  * the first 30+ seconds of real movement are not interrupted by mesh creation.
  */
-import { FIRST_PLAYABLE_WILDLIFE_LIMIT } from "../RegionWildlifeData.js?v=mitzvah-aggressive-split-20260703-bh1";
+import { FIRST_PLAYABLE_WILDLIFE_LIMIT } from "../RegionWildlifeData.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
 
 const FIRST_STREAM_DELAY_MS = 75000;
 const STREAM_INTERVAL_MS = 6000;

@@ -6,14 +6,14 @@
  * An insanely robust, modular, data-driven JSON geometry engine.
  * Orchestrates Primitives, Specialized Architecture, Modifiers, and Topology edits.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
-import PrimitiveFactory from './JSONMesh/PrimitiveFactory.js';
-import SpecializedFactory from './JSONMesh/SpecializedFactory.js';
-import ModifierFactory from './JSONMesh/ModifierFactory.js';
-import TopologyFactory from './JSONMesh/TopologyFactory.js';
-import RawMeshFactory from './JSONMesh/RawMeshFactory.js';
+import PrimitiveFactory from './JSONMesh/PrimitiveFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import SpecializedFactory from './JSONMesh/SpecializedFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import ModifierFactory from './JSONMesh/ModifierFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import TopologyFactory from './JSONMesh/TopologyFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import RawMeshFactory from './JSONMesh/RawMeshFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class JSONMeshBuilder {
     static generate(instructions) {

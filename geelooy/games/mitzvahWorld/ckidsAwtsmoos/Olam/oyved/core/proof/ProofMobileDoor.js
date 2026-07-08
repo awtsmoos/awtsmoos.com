@@ -1,6 +1,6 @@
 // B"H
 /** Real mobile door proof: touchstart previews, touchend toggles open/closed. */
-import { sleep } from "./ProofCommon.js?v=animal-realism-split-20260705-bh1";
+import { sleep } from "./ProofCommon.js?compact=true&v=animal-realism-split-20260705-bh1";
 function wrappers(olam) { return (olam?.interactableNivrayim || []).filter(n => n?.type === "cottageDoor" && n?.doorState); }
 function action(w, source) { return w?.ayshPeula?.("accepted interaction", { action:"accepted interaction", source, isTouch:true, pointerType:"touch", clientX:180, clientY:320 }); }
 export async function proveMobileDoor(olam) {

@@ -1,7 +1,7 @@
 // B"H
 import fs from "node:fs";
-import { CutsceneRuntime } from "../../cutscene/CutsceneRuntime.js";
-import { sefirosCutsceneBridge } from "../../cutscene/sefiros/SefirosCutsceneBridge.js";
+import { CutsceneRuntime } from "../../cutscene/CutsceneRuntime.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { sefirosCutsceneBridge } from "../../cutscene/sefiros/SefirosCutsceneBridge.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 const scene = JSON.parse(fs.readFileSync("data/universe/examples/firstForestValleyIntroScene.json", "utf8"));
 const rt = new CutsceneRuntime([scene]); rt.play(scene.id); rt.step(7);
 const bridge = sefirosCutsceneBridge(scene, rt.queue.snapshot().packets);

@@ -1,8 +1,8 @@
 // B"H
-import { createAutoPlayLogger } from './AutoPlayLogger.js';
-import { runAction } from './AutoPlayInput.js';
-import { buildReport, saveReport, trySendReport } from './AutoPlayReporter.js';
-import { collectVitals, waitForBootEvidence, waitForCanvas, waitForDomReady, waitForPlayableWorld } from './AutoPlayWaiters.js';
+import { createAutoPlayLogger } from './AutoPlayLogger.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { runAction } from './AutoPlayInput.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { buildReport, saveReport, trySendReport } from './AutoPlayReporter.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
+import { collectVitals, waitForBootEvidence, waitForCanvas, waitForDomReady, waitForPlayableWorld } from './AutoPlayWaiters.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 function assertScenario(names, vitals, playable) {
   return (names || []).map(name => {

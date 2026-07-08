@@ -1,12 +1,12 @@
 /* B"H
- * Chapter 605: The reader graph stays inside its owned ideal sanctuary.
- * The CSS watchman asked that sacred reader domains remain owned by ideal.
- * Cache tokens and civilization garnish step aside so the river is verifiable.
- * The sidebar viewport seal now crowns the import river so menus cannot vanish.
+ * Chapter 605: the reader graph stays in its owned ideal sanctuary.
+ * The scroll-root, viewport seal, and fullscreen gate now all flow through this
+ * import river so mobile context menus scroll and expand without trapping text.
  */
 
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/shell.css");
+@import url("./ideal/reborn/scroll-root.css");
 @import url("./ideal/reborn/reader.css");
 @import url("./ideal/reborn/settings.css");
 @import url("./ideal/reborn/sidebar.css");
@@ -24,6 +24,7 @@
 @import url("./ideal/reborn/mobile-sidebar-reset.css");
 @import url("./ideal/reborn/live-mobile-corrections.css");
 @import url("./ideal/reborn/sidebar-viewport-seal.css");
+@import url("./ideal/reborn/sidebar-fullscreen.css");
 @import url("./ideal/reborn/inline-comments/compact-audit.css");
 @import url("./reader-controls/live-template.css");
 @import url("./reader-beauty/index.css");

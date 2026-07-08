@@ -1,6 +1,6 @@
 // B"H
 /** @file WheatFieldLayer.js @description Wheat plans now derive from parcel gardens and farm plots. */
-import { planParcels } from "../parcels/ParcelPlanner.js";
+import { planParcels } from "../parcels/ParcelPlanner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function wheatFieldLayer(options = {}) {
   const parcels = options.parcels || planParcels({ count: options.count || 16 });
   const wheatGardens = parcels.map(p => p.garden).filter(g => g?.crop === "wheat");

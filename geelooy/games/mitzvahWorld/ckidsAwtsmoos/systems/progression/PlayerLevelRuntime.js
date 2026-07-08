@@ -3,7 +3,7 @@
  * @file PlayerLevelRuntime.js
  * @description XP, levels, HP, koach, category streams, and rested XP bonus for one-player MitzvahWorld progression.
  */
-import { consumeRestedBonus } from "./RestedXpRuntime.js";
+import { consumeRestedBonus } from "./RestedXpRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const XP_KEYS = ["combatXp", "torahXp", "shlichusXp", "explorationXp"];
 const DEFAULTS = Object.freeze({ level:1, xp:0, xpToNext:120 });
 export const xpToNextLevel = level => Math.floor(90 + Math.max(1, level) ** 1.72 * 48);

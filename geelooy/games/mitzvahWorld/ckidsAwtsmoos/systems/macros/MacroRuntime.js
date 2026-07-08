@@ -6,9 +6,9 @@
  * ladder: target, cast, attack. The Awtsmoos creates every line now, and the
  * runtime keeps it bounded, visible, and safe.
  */
-import { executeCommand } from "../chat/CommandRuntime.js?v=starter-contracts-20260628-bh9";
-import { assignActionSlot } from "../torah/TorahActionRuntime.js";
-import { addChatMessage } from "../chat/ChatRuntime.js";
+import { executeCommand } from "../chat/CommandRuntime.js?compact=true&v=starter-contracts-20260628-bh9";
+import { assignActionSlot } from "../torah/TorahActionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addChatMessage } from "../chat/ChatRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function playerOf(olam) { return olam?.player || olam?.chossid || null; }
 const DEFAULT_MACRO = "/target nearest\n/cast 1\n/attack";
 export function ensureMacros(olam) {

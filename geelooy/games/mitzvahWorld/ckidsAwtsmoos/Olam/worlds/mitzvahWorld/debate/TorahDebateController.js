@@ -4,8 +4,8 @@
  * @description Existing Torah debate decks now expose the runtime API used by
  * NPCs/tests: open, selectPassage, playPirush, close, and reward completion.
  */
-import { TORAH_DEBATE_DECKS } from "../data/debate/TorahDebateDecks.js";
-import { TORAH_DEBATE_TYPES } from "../data/debate/TorahDebateRules.js";
+import { TORAH_DEBATE_DECKS } from "../data/debate/TorahDebateDecks.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { TORAH_DEBATE_TYPES } from "../data/debate/TorahDebateRules.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function playerOf(olam) {
   return olam && (olam.player || olam.chossid) ? (olam.player || olam.chossid) : null;

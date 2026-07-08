@@ -1,10 +1,10 @@
 // B"H
 /** @file landscapeRecipes.js @description Parser-clear decorative village landscape recipes. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { add } from "./geometryKit.js";
-import { PICTURE_COLORS as C } from "./palette.js";
-import { instancedFlowerField } from "./vegetation/flowerField.js";
-import { instancedRockField } from "./vegetation/rockField.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { add } from "./geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { PICTURE_COLORS as C } from "./palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { instancedFlowerField } from "./vegetation/flowerField.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { instancedRockField } from "./vegetation/rockField.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const cube = (g, c, p, s, r = [0,0,0], mode = "wood") => add(g, "cube", c, p, s, r, { textureMode:mode });
 function dataOf(object) { if (!object.userData) object.userData = {}; return object.userData; }
 export function cobbleRoad() { const group = new THREE.Group(); for (let i=0;i<34;i++) { const t=i/33, z=-15+t*29, curve=Math.sin(t*Math.PI*1.15)*2.4; cube(group, i%2?0xb8a783:0xd0c19d, [curve+Math.sin(i*2.1)*.24,-.07,z], [.7+(i%3)*.14,.045,.52], [0,curve*.04+i*.17,0], "stone"); } return group; }

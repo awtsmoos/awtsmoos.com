@@ -4,7 +4,7 @@
  * Event-driven story threads: a village request can become rumor, memory,
  * consequence, and reward without per-frame scanning.
  */
-import { livingStoryPolicy } from './LivingStoryPolicy.js';
+import { livingStoryPolicy } from './LivingStoryPolicy.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11';
 
 export function createStoryThreadRuntime(memory, budget = globalThis.__MITZVAH_WORLD_PERFORMANCE_BUDGET__) {
   const policy = livingStoryPolicy(budget);

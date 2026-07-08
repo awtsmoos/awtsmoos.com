@@ -7,10 +7,10 @@
  * The Awtsmoos gives the camera a calmer mobile vessel and imports the update
  * loop that smooths target Y, camera distance, and jump collision correction.
  */
-import { THREE } from '../rendering/ThreeAdapter.js';
-import update from "./methods/update/index.js?v=lava-camera-collision-bypass-20260609-bh643";
-import controls from "./methods/controls.js?v=lean-l1-20260528-bh19";
-import collision from "./methods/collision.js?v=lean-l1-20260528-bh19";
+import { THREE } from '../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import update from "./methods/update/index.js?compact=true&v=lava-camera-collision-bypass-20260609-bh643";
+import controls from "./methods/controls.js?compact=true&v=lean-l1-20260528-bh19";
+import collision from "./methods/collision.js?compact=true&v=lean-l1-20260528-bh19";
 
 export default class Ayin {
   constructor(olam) {

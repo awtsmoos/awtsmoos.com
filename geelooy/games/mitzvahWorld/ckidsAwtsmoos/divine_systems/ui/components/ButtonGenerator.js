@@ -1,6 +1,6 @@
 
 // B"H
-import UIDataNode from "../core/UIDataNode.js";
+import UIDataNode from "../core/UIDataNode.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @class ButtonGenerator

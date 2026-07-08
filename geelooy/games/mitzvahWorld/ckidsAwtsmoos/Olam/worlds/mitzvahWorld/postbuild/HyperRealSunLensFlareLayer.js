@@ -4,7 +4,7 @@
  * @description The noon sun becomes a crown of glare: white core, blue aura,
  * diagonal phone-camera streak, spectral ghosts, haze, and camera-facing breath.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const KEY = "__awtsmoosHyperRealSunLensFlareLayer";
 const DATA_KEY = "hyperRealSunLensFlare";

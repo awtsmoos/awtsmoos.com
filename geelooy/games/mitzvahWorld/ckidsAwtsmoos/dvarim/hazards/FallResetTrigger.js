@@ -8,9 +8,9 @@
  * purse the merchant and loot corpse touch. The Awtsmoos lets the UI witness the
  * loss after the wallet is real, never before.
  */
-import Tzomayach from "../../chayim/tzomayach.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { awardMoney, moneyOf, walletPlayerOf } from "../../systems/economy/wallet/PersonalPerutaWallet.js";
+import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { awardMoney, moneyOf, walletPlayerOf } from "../../systems/economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const RESET_DELAY_MS = 3000;
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;

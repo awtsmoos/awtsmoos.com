@@ -14,10 +14,10 @@
  * is absent in Node, each factory returns serializable descriptors instead of
  * dead browser objects, so audits can keep walking through the night.
  */
-import { createVector3, loadThree } from './ThreeBridge.js';
-import { loadModel } from './ModelLoader.js';
-import { boxDescriptor, geometryDescriptor, materialDescriptor, renderableDescriptor, sphereDescriptor } from './procedural/GeometryDescriptors.js';
-import { NeutralQuaternion, NeutralVector3 } from './procedural/NeutralMath.js';
+import { createVector3, loadThree } from './ThreeBridge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { loadModel } from './ModelLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { boxDescriptor, geometryDescriptor, materialDescriptor, renderableDescriptor, sphereDescriptor } from './procedural/GeometryDescriptors.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NeutralQuaternion, NeutralVector3 } from './procedural/NeutralMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 let cachedDracoLoaderCtor = null;
 let cachedGltfLoaderCtor = null;
@@ -50,12 +50,12 @@ function createThreeOrDescriptor(three, ctorName, kind, args, payload = {}) {
  */
 export async function loadRendererConstructors() {
   cachedGltfLoaderCtor = await loadBrowserConstructor(
-    '/games/scripts/jsm/loaders/GLTFLoader.js',
+    '/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1',
     'GLTFLoader',
     () => cachedGltfLoaderCtor
   );
   cachedDracoLoaderCtor = await loadBrowserConstructor(
-    '/games/scripts/jsm/loaders/DRACOLoader.js',
+    '/games/scripts/jsm/loaders/DRACOLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1',
     'DRACOLoader',
     () => cachedDracoLoaderCtor
   );

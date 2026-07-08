@@ -16,12 +16,12 @@ export function renderObjectCard(object, onInspect) {
 
 export function statusCard(title, message, tone = '') {
   const card = element('article', `home-post-card ${tone}`.trim());
-  card.append(authorRow({ title, author:'AwtsmoosDB', type:'status' }), textNode(message));
+  card.append(authorRow({ title, author:'Geelooy', type:'status' }), textNode(message));
   return card;
 }
 
 export function emptyCard(mode, onOpenSearch) {
-  const card = statusCard('No visible objects yet', `The ${mode} stream answered, but no cards were returned.`);
+  const card = statusCard('No posts yet', `The ${mode} stream is quiet. Search the archive or create something new.`);
   const row = element('footer', 'object-action-row');
   row.append(button('Search archive', onOpenSearch), link('Create post', '/heichelos/submit'));
   card.append(row);
@@ -36,19 +36,19 @@ export function metricCard(label, value) {
 
 function authorRow(object) {
   const row = element('div', 'post-author');
-  row.append(element('span'), element('strong', '', object.title || 'Object'), element('small', '', object.author || 'Geelooy'));
+  row.append(element('span'), element('strong', '', object.title || 'Post'), element('small', '', object.author || 'Geelooy'));
   return row;
 }
 
 function typeRow(object) {
   const row = element('div', 'object-type-row');
-  row.append(pill(object.type), pill(object.mode || 'live'), pill(object.id));
+  row.append(pill(object.type || 'post'), pill(object.mode || 'live'), pill(object.id));
   return row;
 }
 
 function actionRow(object, onInspect) {
   const row = element('footer', 'object-action-row');
-  row.append(link('Open route', object.href), button('Inspect graph', () => onInspect(object)));
+  row.append(link('Open', object.href), button('Inspect', () => onInspect(object)));
   return row;
 }
 
@@ -58,4 +58,4 @@ function compact(value) {
   return value ?? 0;
 }
 
-/** B"H: every card is a clickable object, not a decorative shadow. */
+/** B"H: each card is now a friendly door, not a debug relic. */

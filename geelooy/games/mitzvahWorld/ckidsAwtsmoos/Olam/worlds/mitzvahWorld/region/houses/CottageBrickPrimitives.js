@@ -1,7 +1,7 @@
 // B"H
 /** Brick primitives: the cubit where cottage truth becomes mesh and collider. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?v=intense-dirt-grain-20260615-bh904";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?compact=true&v=intense-dirt-grain-20260615-bh904";
 const WALLS = new Map();
 export const pos = (x, y, z) => [x, y, z];
 export const material = color => color?.isMaterial ? color : new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true });

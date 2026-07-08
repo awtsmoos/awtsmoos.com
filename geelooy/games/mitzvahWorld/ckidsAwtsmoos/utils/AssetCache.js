@@ -1,8 +1,8 @@
 // B"H
-import ConnectionSeer from './assetCache/ConnectionSeer.js';
-import MemoryExtractor from './assetCache/MemoryExtractor.js';
-import MemoryInscriber from './assetCache/MemoryInscriber.js';
-import MemoryPurge from './assetCache/MemoryPurge.js';
+import ConnectionSeer from './assetCache/ConnectionSeer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import MemoryExtractor from './assetCache/MemoryExtractor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import MemoryInscriber from './assetCache/MemoryInscriber.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import MemoryPurge from './assetCache/MemoryPurge.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 /**
  * @class AssetCache

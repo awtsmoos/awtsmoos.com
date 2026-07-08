@@ -9,9 +9,9 @@
  * painted; it asks what covenant it carries.
  */
 
-import { createEntityRuntimeRecord, createEntityRecordFromMesh } from './EntityRuntimeRecord.js';
-import { assertUniqueEntity } from './EntityValidation.js';
-import { addIndexValue, removeIndexValue, readIndexed } from './EntityLookup.js';
+import { createEntityRuntimeRecord, createEntityRecordFromMesh } from './EntityRuntimeRecord.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { assertUniqueEntity } from './EntityValidation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { addIndexValue, removeIndexValue, readIndexed } from './EntityLookup.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export class EntityRegistry {
   constructor() {

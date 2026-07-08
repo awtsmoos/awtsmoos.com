@@ -1,21 +1,21 @@
 // B"H
-import { IdleActionSpec, createIdleAction } from "./IdleAction.js";
-import { WalkActionSpec, createWalkAction } from "./WalkAction.js";
-import { RunActionSpec, createRunAction } from "./RunAction.js";
-import { TalkHandsActionSpec, createTalkHandsAction } from "./TalkHandsAction.js";
-import { PunchActionSpec, createPunchAction } from "./PunchAction.js";
-import { CastActionSpec, createCastAction } from "./CastAction.js";
-import { CastStormActionSpec, createCastStormAction } from "./CastStormAction.js";
-import { MeleeSlashActionSpec, createMeleeSlashAction } from "./MeleeSlashAction.js";
-import { BowShootActionSpec, createBowShootAction } from "./BowShootAction.js";
-import { PickupActionSpec, createPickupAction } from "./PickupAction.js";
-import { LootActionSpec, createLootAction } from "./LootAction.js";
-import { OpenDoorActionSpec, createOpenDoorAction } from "./OpenDoorAction.js";
-import { WaveActionSpec, createWaveAction } from "./WaveAction.js";
-import { AcceptQuestActionSpec, createAcceptQuestAction } from "./AcceptQuestAction.js";
-import { GiveItemActionSpec, createGiveItemAction } from "./GiveItemAction.js";
-import { buildActionSpec, createChossidActionClip } from "./ActionClipFactory.js";
-import { CANONICAL_ACTIONS, normalizePlatformActionName, platformActionNames } from "../../../platform/MitzvahPlatformCatalog.js";
+import { IdleActionSpec, createIdleAction } from "./IdleAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { WalkActionSpec, createWalkAction } from "./WalkAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { RunActionSpec, createRunAction } from "./RunAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { TalkHandsActionSpec, createTalkHandsAction } from "./TalkHandsAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { PunchActionSpec, createPunchAction } from "./PunchAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CastActionSpec, createCastAction } from "./CastAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CastStormActionSpec, createCastStormAction } from "./CastStormAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { MeleeSlashActionSpec, createMeleeSlashAction } from "./MeleeSlashAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { BowShootActionSpec, createBowShootAction } from "./BowShootAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { PickupActionSpec, createPickupAction } from "./PickupAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { LootActionSpec, createLootAction } from "./LootAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { OpenDoorActionSpec, createOpenDoorAction } from "./OpenDoorAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { WaveActionSpec, createWaveAction } from "./WaveAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { AcceptQuestActionSpec, createAcceptQuestAction } from "./AcceptQuestAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { GiveItemActionSpec, createGiveItemAction } from "./GiveItemAction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildActionSpec, createChossidActionClip } from "./ActionClipFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CANONICAL_ACTIONS, normalizePlatformActionName, platformActionNames } from "../../../platform/MitzvahPlatformCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export const CHOSSID_ACTION_SPECS = Object.freeze({
   idle:IdleActionSpec,

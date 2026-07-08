@@ -1,27 +1,27 @@
 // B"H
 /** @file CombatManager.js @description Live combat integration: target truth, mobile strike, durability, death/corpse, threat/nameplates/castbars. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import HebrewProjectileSystem from "./HebrewProjectileSystem.js";
-import HealthBarSystem from "./HealthBarSystem.js";
-import CombatTargeting, { collectCombatTargets, isLiveTarget } from "./CombatTargeting.js?v=realistic-target-proof-20260706-bh2";
-import { validateCombatTarget } from "./CombatTargetValidator.js";
-import { WEAPON_REGISTRY } from "./WeaponRegistry.js";
-import { ensurePlayerLevel, emitPlayerProgress } from "../progression/PlayerLevelRuntime.js";
-import { ensureCreatureLevel, creaturePayload } from "../progression/CreatureLevelRuntime.js";
-import { rewardCreatureDefeat } from "../progression/XpRewardRuntime.js";
-import { combatNumber, warningText } from "../progression/FloatingCombatTextRuntime.js";
-import { torahAffinityMultiplier, resistanceMultiplier, affinityLabel } from "./TorahAffinityMatrix.js";
-import { wearEquipped } from "../equipment/DurabilityRuntime.js";
-import { markPlayerDead } from "../death/DeathRuntime.js";
-import { emitCorpse } from "../death/CorpseRuntime.js";
-import { addThreat, threatPayload } from "../creatures/ThreatRuntime.js";
-import { forceAggro } from "../creatures/AggroRuntime.js";
-import { callForHelp } from "../creatures/SocialAggroRuntime.js";
-import { emitNameplates } from "../../ui/NameplateRuntime.js";
-import { emitCastBar } from "../../ui/CastBarRuntime.js";
-import { logEightStep } from "../debug/ViralGameplayLog.js";
-import { applyAdventureDifficulty } from "./CombatDifficultyScaler.js";
-import { observeCombatHit } from "./CombatRetaliation.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import HebrewProjectileSystem from "./HebrewProjectileSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import HealthBarSystem from "./HealthBarSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import CombatTargeting, { collectCombatTargets, isLiveTarget } from "./CombatTargeting.js?compact=true&v=realistic-target-proof-20260706-bh2";
+import { validateCombatTarget } from "./CombatTargetValidator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { WEAPON_REGISTRY } from "./WeaponRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensurePlayerLevel, emitPlayerProgress } from "../progression/PlayerLevelRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureCreatureLevel, creaturePayload } from "../progression/CreatureLevelRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rewardCreatureDefeat } from "../progression/XpRewardRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { combatNumber, warningText } from "../progression/FloatingCombatTextRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { torahAffinityMultiplier, resistanceMultiplier, affinityLabel } from "./TorahAffinityMatrix.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { wearEquipped } from "../equipment/DurabilityRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { markPlayerDead } from "../death/DeathRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { emitCorpse } from "../death/CorpseRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addThreat, threatPayload } from "../creatures/ThreatRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { forceAggro } from "../creatures/AggroRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { callForHelp } from "../creatures/SocialAggroRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { emitNameplates } from "../../ui/NameplateRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { emitCastBar } from "../../ui/CastBarRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { logEightStep } from "../debug/ViralGameplayLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { applyAdventureDifficulty } from "./CombatDifficultyScaler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { observeCombatHit } from "./CombatRetaliation.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function toast(olam, text, color = "#ffe680") { olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color }); }
 function logCombat(olam, text, category = "Combat") { olam?.ayshPeula?.("ui event", "combatLog", { text, category }); }
 function nameOf(t) { return t?.name || t?.mesh?.userData?.displayName || t?.mesh?.name || "Target"; }

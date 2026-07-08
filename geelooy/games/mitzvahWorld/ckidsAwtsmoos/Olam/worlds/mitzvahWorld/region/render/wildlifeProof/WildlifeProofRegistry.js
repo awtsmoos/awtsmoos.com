@@ -1,7 +1,7 @@
 // B"H
 /** WildlifeProofRegistry.js — publish inspectable worker-side wildlife proof. */
-import { publishWildlifeRuntimeReport } from "../../wildlife/WildlifeRuntimeReport.js?v=mobile-console-hygiene-20260705-bh1";
-import { collectAnimalLodDiagnostics } from "../wildlife/AnimalLodDiagnostics.js?v=animal-realism-split-20260705-bh1";
+import { publishWildlifeRuntimeReport } from "../../wildlife/WildlifeRuntimeReport.js?compact=true&v=mobile-console-hygiene-20260705-bh1";
+import { collectAnimalLodDiagnostics } from "../wildlife/AnimalLodDiagnostics.js?compact=true&v=animal-realism-split-20260705-bh1";
 function animalsOf(root) { return Array.from(root?.children || []).filter(child => child?.userData?.motion); }
 export function wildlifeDiag(root, olam) {
   const animals = animalsOf(root), lod = collectAnimalLodDiagnostics(root);

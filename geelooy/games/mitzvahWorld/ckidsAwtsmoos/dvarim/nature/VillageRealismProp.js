@@ -8,9 +8,9 @@
  * The Awtsmoos removes its `Math.max(...indices)` trap so no procedural prop can
  * collapse the world while measuring a large index buffer.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { generateProceduralGeometry } from "../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { generateProceduralGeometry } from "../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const C = Object.freeze({ stone: 0xc9b88f, roof: 0x9a2d18, wood: 0x6b3f1f, dark: 0x2e1b12, gold: 0xffb44a, glow: 0x55ffbb, rock: 0x8d8a80, flowerA: 0xffd84d, flowerB: 0xd86cff });
 const cube = { size: 1 };

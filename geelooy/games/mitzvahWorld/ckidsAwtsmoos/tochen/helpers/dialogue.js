@@ -12,7 +12,7 @@
  * pushing pure HTML/CSS representations of thought into the physical world. It ensures that 
  * when the soul turns away (Yotsee), the conversation seamlessly dissolves back into the ether.
  */
-import Interaction from "./tzomayachInteraction.js";
+import Interaction from "./tzomayachInteraction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 function processText(txt) {
     if(!txt) return "";

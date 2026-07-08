@@ -1,10 +1,10 @@
 // B"H
 /** @file VillageYardGate.js @description Lockable yard gate with honest closed/open collider state. */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { toggleLockable, registerLock } from "../../systems/locks/LockStateRuntime.js";
-import { emitLockUi } from "../../systems/locks/LockUiRuntime.js";
-import { buildGateCollider, setGateColliderOpen } from "./GateColliderRuntime.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { toggleLockable, registerLock } from "../../systems/locks/LockStateRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { emitLockUi } from "../../systems/locks/LockUiRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildGateCollider, setGateColliderOpen } from "./GateColliderRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 function wood() { return new THREE.MeshStandardMaterial({ color: 0x7a4a23, roughness: 0.85 }); }
 export default class VillageYardGate extends Domem {

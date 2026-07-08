@@ -3,7 +3,7 @@
  * @file StartWorldFlow.js
  * @description Starts the worker graph with the current case-safe Olam boot seal.
  */
-import OlamWorkerManager from "../ikarOyvedManager.js?v=final-proof-bridge-20260705-bh4";
+import OlamWorkerManager from "../ikarOyvedManager.js?compact=true&v=final-proof-bridge-20260705-bh4";
 
 const SEAL = "case-correct-olam-import-20260706-bh3";
 const WORLD_FLOW_PATHS = Object.freeze({

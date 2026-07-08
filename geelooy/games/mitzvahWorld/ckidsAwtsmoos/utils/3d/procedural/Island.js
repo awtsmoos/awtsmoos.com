@@ -7,7 +7,7 @@
  * Generates floating islands of rock and earth that hover in the digital void.
  * The top is a flat plane for walking, while the bottom tapers into jagged, noisy peaks.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Island {
     /**

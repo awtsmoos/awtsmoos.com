@@ -1,79 +1,67 @@
 /* B"H
- * Chapter 23: The Mobile Dream Stops Stealing Crowns
- *
- * The Awtsmoos keeps the mobile bottom palace beautiful without letting it own
- * sidebar chrome or slide headers. Those sacred selectors belong to their own
- * ideal files. This scroll owns only mobile menu mood, portal depth, and touch
- * feedback, so the CSS-quality guardian sees one ruler per chamber.
+ * Chapter 23 refined: mobile context menu is readable, scrollable, and calm.
+ * No backdrop-filter; motion stays transform-only; the gold/cyan palette is kept
+ * distinct from browser chrome and bottom vehicle navigation.
  */
 
 @media (max-width: 900px) {
     .post-reader-localized-context {
-        --mobile-menu-blue: #7ab8ff;
-        --mobile-menu-glass: rgba(12, 22, 38, .78);
-        --mobile-menu-line: rgba(148, 163, 184, .20);
-        --mobile-menu-glow: 0 18px 44px rgba(0, 0, 0, .30);
+        --mobile-menu-blue: #8bdcff;
+        --mobile-menu-gold: #f6c96c;
+        --mobile-menu-glass: #101725;
+        --mobile-menu-card: #182133;
+        --mobile-menu-line: rgba(139, 220, 255, .22);
+        --mobile-menu-glow: 0 18px 44px rgba(0, 0, 0, .34);
     }
 
     .post-reader-localized-context .sidebar.awtsmoos-sidebar-open {
-        background:
-            radial-gradient(circle at 20% 0%, rgba(122, 184, 255, .13), transparent 18rem),
-            linear-gradient(180deg, rgba(9, 16, 30, .96), rgba(5, 10, 19, .98)) !important;
-        border: 1px solid rgba(148, 163, 184, .18) !important;
+        background: linear-gradient(180deg, #070d18, #050914 72%) !important;
+        border: 1px solid var(--mobile-menu-line) !important;
         border-bottom: 0 !important;
         box-shadow: 0 -28px 80px rgba(0, 0, 0, .58) !important;
     }
 
     .post-reader-localized-context .post-root-menu-grid {
         gap: 12px !important;
-        padding: 0 0 10px !important;
+        padding: 0 0 14px !important;
     }
 
     .post-reader-localized-context .awtsmoos-massive-menu-btn {
-        min-height: 76px !important;
-        border-radius: 18px !important;
+        background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)), var(--mobile-menu-card) !important;
         border: 1px solid var(--mobile-menu-line) !important;
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .025)),
-            var(--mobile-menu-glass) !important;
-        box-shadow: var(--mobile-menu-glow), inset 0 1px 0 rgba(255, 255, 255, .10) !important;
-        padding: 11px 16px 11px 12px !important;
+        border-radius: 18px !important;
+        box-shadow: var(--mobile-menu-glow), inset 0 1px 0 rgba(255,255,255,.09) !important;
         gap: 14px !important;
-        backdrop-filter: blur(16px) saturate(1.15) !important;
-        transform: translateZ(0) !important;
+        min-height: 76px !important;
+        padding: 11px 16px 11px 12px !important;
+        transform: translate3d(0,0,0) !important;
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease !important;
     }
 
     .post-reader-localized-context .awtsmoos-massive-menu-btn:active {
-        transform: scale(.985) translateY(1px) !important;
-        box-shadow: 0 10px 26px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+        transform: scale(.985) translate3d(0,1px,0) !important;
     }
 
-    .post-reader-localized-context .awtsmoos-massive-menu-btn:hover {
-        background: linear-gradient(180deg, rgba(122, 184, 255, .12), rgba(255, 255, 255, .035)) !important;
-        border-color: rgba(122, 184, 255, .32) !important;
-        box-shadow: 0 18px 42px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255, 255, 255, .13) !important;
-        transform: translateY(-1px) !important;
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:hover,
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:focus-visible {
+        background: linear-gradient(180deg, rgba(139,220,255,.12), rgba(255,255,255,.035)), var(--mobile-menu-card) !important;
+        border-color: rgba(139,220,255,.36) !important;
+        outline: none !important;
+        transform: translate3d(0,-1px,0) !important;
     }
 
     .post-reader-localized-context .menu-icon-vessel {
-        width: 54px !important;
-        height: 54px !important;
+        align-items: center !important;
+        background: linear-gradient(135deg, rgba(139,220,255,.18), rgba(139,92,246,.24)) !important;
+        border: 1px solid rgba(139,220,255,.38) !important;
         border-radius: 999px !important;
         display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
         flex: 0 0 54px !important;
         font-size: 1.38rem !important;
-        background: rgba(3, 8, 18, .74) !important;
-        border: 1px solid rgba(122, 184, 255, .54) !important;
-        box-shadow: inset 0 0 18px rgba(122, 184, 255, .10), 0 0 22px rgba(122, 184, 255, .12) !important;
-        filter: none !important;
+        height: 54px !important;
+        justify-content: center !important;
+        width: 54px !important;
     }
-
-    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(2) .menu-icon-vessel { border-color: rgba(244, 197, 107, .62) !important; }
-    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(3) .menu-icon-vessel { border-color: rgba(168, 85, 247, .62) !important; }
-    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(4) .menu-icon-vessel { border-color: rgba(74, 222, 128, .62) !important; }
-    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(5) .menu-icon-vessel { border-color: rgba(248, 113, 113, .62) !important; }
 
     .post-reader-localized-context .menu-portal-title {
         color: #f8fafc !important;
@@ -82,14 +70,14 @@
     }
 
     .post-reader-localized-context .menu-portal-desc {
-        color: #b8c2d4 !important;
+        color: #c4ccdc !important;
         font: 650 .88rem/1.25 var(--font-ui, system-ui) !important;
     }
 
     .post-reader-localized-context .menu-arrow {
-        color: #f8fafc !important;
-        font-size: 1.58rem !important;
-        opacity: .92 !important;
+        color: var(--mobile-menu-gold) !important;
+        font-size: 1.48rem !important;
+        opacity: .95 !important;
         text-shadow: none !important;
     }
 }

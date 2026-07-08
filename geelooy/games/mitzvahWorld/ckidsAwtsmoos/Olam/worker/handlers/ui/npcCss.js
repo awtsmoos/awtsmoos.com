@@ -5,13 +5,13 @@
  * the new portrait frame into one installed style sheet. The Awtsmoos makes the
  * dialogue vessel feel inhabited before any word is spoken.
  */
-import { NPC_UI_BUTTONS } from './npcCssButtons.js';
-import { NPC_UI_CARDS } from './npcCssCards.js';
-import { NPC_UI_LAYOUT } from './npcCssLayout.js?v=npc-scroll-pass-through-20260609-bh638';
-import { NPC_UI_PORTRAIT } from './npcCssPortrait.js';
-import { NPC_UI_RESPONSIVE } from './npcCssResponsive.js';
-import { NPC_UI_SHOP } from './npcCssShop.js';
-import { NPC_UI_TOKENS } from './npcCssTokens.js';
+import { NPC_UI_BUTTONS } from './npcCssButtons.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NPC_UI_CARDS } from './npcCssCards.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NPC_UI_LAYOUT } from './npcCssLayout.js?compact=true&v=npc-scroll-pass-through-20260609-bh638';
+import { NPC_UI_PORTRAIT } from './npcCssPortrait.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NPC_UI_RESPONSIVE } from './npcCssResponsive.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NPC_UI_SHOP } from './npcCssShop.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { NPC_UI_TOKENS } from './npcCssTokens.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function installNpcCss() {
   document.getElementById('awts-npc-ui-style')?.remove();
   const style = document.createElement('style');

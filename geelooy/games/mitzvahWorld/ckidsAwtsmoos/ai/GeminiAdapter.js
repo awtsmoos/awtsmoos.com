@@ -1,6 +1,6 @@
 // B"H
 /** @file GeminiAdapter.js @description AI dialogue and world refinement constrained to procedural-core tree vessels. */
-import ApiKeyManager from "./ApiKeyManager.js";
+import ApiKeyManager from "./ApiKeyManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const TREE_SOURCE = "/libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js";
 export default class GeminiAdapter {
   static async generateDialogue(entityId, systemInstruction, history, userMessage, levState) { const mood = levState ? (`[MOOD: Joy:${levState.simcha}, Anger:${levState.kaas}]`) : ""; const finalInstruction = systemInstruction + "\n" + mood + "\nYou are a soul in Mitzvah World. Keep responses short and conversational."; try { return await this.tryRequest({ contents: [...history, { role: "user", parts: [{ text: userMessage }] }], systemInstruction: { parts: [{ text: finalInstruction }] } }, { model: "gemini-2.5-flash-lite", temperature: 1, maxOutputTokens: 500 }); } catch (error) { console.error("B\"H\n - Dialogue generation failed:", error); return "..."; } }

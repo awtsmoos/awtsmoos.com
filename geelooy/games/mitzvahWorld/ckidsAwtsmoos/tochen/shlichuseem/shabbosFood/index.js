@@ -3,8 +3,8 @@
  * B"H
  * Shabbos Food Quest
  */
-import dialogue from "./dialogue.js";
-import tasks from "./tasks.js";
+import dialogue from "./dialogue.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import tasks from "./tasks.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 var id = 4;
 var totalItems = 7;

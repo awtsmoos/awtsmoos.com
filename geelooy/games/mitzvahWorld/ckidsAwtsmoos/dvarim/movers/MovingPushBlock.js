@@ -5,10 +5,10 @@
  * Awtsmoos breathes previousPosition, position, velocity, and halfExtents into
  * it, and the player is shoved by law instead of swallowed by accident.
  */
-import Domem from "../../chayim/domem/index.js";
-import * as THREE from "/games/scripts/build/three.module.js";
-import { registerDynamicBody, updateDynamicBody } from "./runtime/dynamicBodyRegistry.js";
-import { solveMovingSolid } from "./runtime/movingSolidSolver.js";
+import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { registerDynamicBody, updateDynamicBody } from "./runtime/dynamicBodyRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { solveMovingSolid } from "./runtime/movingSolidSolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const nowSeconds = () => (globalThis.performance?.now?.() || Date.now()) / 1000;
 

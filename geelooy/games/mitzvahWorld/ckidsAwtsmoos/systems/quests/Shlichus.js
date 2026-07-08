@@ -1,6 +1,6 @@
 ﻿// B"H
 /** @file Shlichus.js @description Legacy quest object bridged toward modern MissionRuntime without browser-only utility imports. */
-import ProgressTracker from "./ProgressTracker.js";
+import ProgressTracker from "./ProgressTracker.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export const QUEST_STATE = { LOCKED:"locked", AVAILABLE:"available", ACTIVE:"active", COMPLETE:"complete", TURNED_IN:"turned_in" };
 function makeId() { return `shlichus_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`; }
 export default class Shlichus {

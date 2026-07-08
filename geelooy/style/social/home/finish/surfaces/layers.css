@@ -1,9 +1,4 @@
-/* B"H — final gradients restore the future after legacy flattening. */
-.home-panel,
-.home-feed-panel,
-.home-action-card,
-.home-post-card,
-.home-discovery-card,
-.home-mini-card {
-  background-image: linear-gradient(135deg, rgba(46,167,255,.05), transparent 34%), linear-gradient(315deg, rgba(154,77,255,.055), transparent 38%) !important;
-}
+/* B"H — one gradient direction, one visual family. */
+.home-panel,.home-feed-panel,.home-action-card,.home-post-card,.home-discovery-card,.home-mini-card { background-image: linear-gradient(135deg, rgba(46,167,255,.065), transparent 34%), linear-gradient(315deg, rgba(139,92,246,.06), transparent 42%) !important; }
+.home-panel,.home-feed-panel,.home-post-card { border-color: rgba(91,216,232,.2) !important; }
+.home-panel::before,.home-action-card::before,.home-post-card::before { pointer-events: none; }

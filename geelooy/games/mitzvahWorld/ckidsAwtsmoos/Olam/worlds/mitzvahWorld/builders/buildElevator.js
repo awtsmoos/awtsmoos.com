@@ -3,8 +3,8 @@
  * @file buildElevator.js
  * @description Moving light platform with parser-clear tzimtzum binding.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { makeWall } from "./wallUtils.js";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { makeWall } from "./wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 function propsOf(def) { return def && def.props ? def.props : {}; }
 function triple(value, fallback) { return Array.isArray(value) ? value : fallback; }
 function bindElevator(olam, group, py, startHeight, endHeight, speed, holdTime) {

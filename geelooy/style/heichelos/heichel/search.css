@@ -1,26 +1,9 @@
-/* B"H
- * Chapter 724: Search becomes a quiet command line in a library of light.
- */
-.heichel-mobile-navigation .series-search-row,
-.heichel-mobile-navigation .heichel-search {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .7rem; align-items: center; margin: .2rem 0 .6rem;
-}
-.heichel-mobile-navigation .series-search-row input,
-.heichel-mobile-navigation .heichel-search input,
-.heichel-mobile-navigation .heichel-search-field {
-  width: 100%; min-height: 3.25rem; border: 1px solid var(--heichel-line); border-radius: 999px;
-  padding: .9rem 1.1rem; background: rgba(255,255,255,.065); color: var(--heichel-ink);
-  font: inherit; font-weight: 850; box-shadow: inset 0 1px 0 rgba(255,255,255,.08), var(--heichel-shadow-soft);
-  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
-}
-.heichel-mobile-navigation .series-search-row input::placeholder { color: var(--heichel-muted-ink); }
-.heichel-mobile-navigation .series-search-row input:focus { outline: 3px solid rgba(102,231,255,.34); border-color: rgba(102,231,255,.5); background: rgba(255,255,255,.09); }
-.heichel-mobile-navigation .filter-chip {
-  min-height: 3.25rem; border: 0; border-radius: 999px; padding: .72rem 1.08rem;
-  background: linear-gradient(135deg, var(--heichel-gold), var(--heichel-cyan)); color: #03101b;
-  box-shadow: 0 .85rem 1.7rem rgba(68,29,12,.2); font-weight: 950; letter-spacing: .02em; cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.heichel-mobile-navigation .filter-chip:hover { transform: translateY(-1px); box-shadow: 0 1rem 2rem rgba(68,29,12,.23); }
-.heichel-mobile-navigation .filter-chip[aria-pressed="true"] { background: linear-gradient(135deg, var(--heichel-cyan), var(--heichel-gold)); color: #03101b; }
-@media (max-width: 520px) { .heichel-mobile-navigation .series-search-row { grid-template-columns: 1fr; } .heichel-mobile-navigation .filter-chip { justify-self: stretch; } }
+.heichel-mobile-navigation .series-search-row,.heichel-mobile-navigation .heichel-search { align-items:center; display:grid; gap:.7rem; grid-template-columns:minmax(0,1fr) auto; margin:.2rem 0 .65rem; }
+.heichel-mobile-navigation .series-search-row input,.heichel-mobile-navigation .heichel-search input,.heichel-mobile-navigation .heichel-search-field { background:#07101d; border:1px solid rgba(255,255,255,.12); border-radius:999px; box-shadow:inset 0 1px 0 rgba(255,255,255,.07); color:var(--heichel-ink); font:inherit; font-weight:850; min-height:3.15rem; padding:.86rem 1.1rem; transition:border-color .16s ease,background .16s ease; width:100%; }
+.heichel-mobile-navigation .series-search-row input::placeholder { color:#8fa0ba; }
+.heichel-mobile-navigation .series-search-row input:focus { background:#0b1728; border-color:rgba(102,231,255,.5); outline:3px solid rgba(102,231,255,.28); }
+.heichel-mobile-navigation .filter-chip { background:linear-gradient(135deg,var(--heichel-gold),var(--heichel-cyan)); border:0; border-radius:999px; color:#03101b; cursor:pointer; font-weight:950; letter-spacing:.02em; min-height:3.15rem; padding:.72rem 1.08rem; transition:transform .16s ease; }
+.heichel-mobile-navigation .filter-chip::before { content:"🔎 "; }
+.heichel-mobile-navigation .filter-chip:hover { transform:translateY(-1px); }
+.heichel-mobile-navigation .filter-chip[aria-pressed="true"] { background:linear-gradient(135deg,var(--heichel-cyan),var(--heichel-gold)); }
+@media (max-width:520px){.heichel-mobile-navigation .series-search-row{grid-template-columns:1fr}.heichel-mobile-navigation .filter-chip{justify-self:stretch}}

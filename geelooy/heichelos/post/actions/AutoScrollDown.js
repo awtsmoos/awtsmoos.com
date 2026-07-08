@@ -37,7 +37,8 @@ const root = () => document.scrollingElement || docEl() || body();
 const viewportHeight = () => window.innerHeight || docEl()?.clientHeight || root()?.clientHeight || 0;
 const top = () => Math.max(Number(window.scrollY || 0), Number(root()?.scrollTop || 0), Number(docEl()?.scrollTop || 0), Number(body()?.scrollTop || 0));
 const scrollHeight = () => Math.max(Number(body()?.scrollHeight || 0), Number(docEl()?.scrollHeight || 0), Number(root()?.scrollHeight || 0));
-const max = () => Math.max(0, scrollHeight() - viewportHeight());
+const documentMax = () => Math.max(0, scrollHeight() - viewportHeight());
+const max = documentMax;
 const bounded = value => { const n = Number.parseFloat(value); return Number.isFinite(n) ? Math.min(MAX_SPEED, Math.max(MIN_SPEED, n)) : DEFAULT_SPEED; };
 const point = event => { const t = event?.touches?.[0] || event?.changedTouches?.[0]; return { x: Number(t?.clientX ?? event?.clientX ?? 0), y: Number(t?.clientY ?? event?.clientY ?? 0) }; };
 
@@ -77,6 +78,10 @@ function feedRoad(now, direction = 1, force = false) {
     askOldRoad(direction, force || max() - top() < viewportHeight() * 8);
 }
 
+function writeTop(root, target) {
+    if (root) root.scrollTop = target;
+}
+
 function writeDelta(delta) {
     const before = top();
     const target = Math.max(0, Math.min(max(), before + delta));
@@ -86,7 +91,7 @@ function writeDelta(delta) {
     const afterScrollBy = top();
     if (Math.abs(afterScrollBy - before) < Math.abs(amount) * 0.35) {
         window.scrollTo?.(0, target);
-        if (root()) root().scrollTop = target;
+        writeTop(root(), target);
         if (docEl()) docEl().scrollTop = target;
         if (body()) body().scrollTop = target;
     }

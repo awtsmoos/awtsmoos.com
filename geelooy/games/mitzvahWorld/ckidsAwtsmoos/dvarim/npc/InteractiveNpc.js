@@ -6,25 +6,25 @@
  * moved into a named vessel, leaving this file readable, spacious, and ready to
  * receive the player: target first, then right-click or second tap when close.
  */
-import Medabeir from "../../chayim/medabeir/index.js?v=no-auto-dialogue-20260602-bh9";
+import Medabeir from "../../chayim/medabeir/index.js?compact=true&v=no-auto-dialogue-20260602-bh9";
 import {
   DEFAULT_DIALOGUES,
   DEFAULT_SHOP,
   DEFAULT_STATS
-} from "./interactive/InteractiveNpcConstants.js?v=npc-split-20260628-bh1";
-import { makeRayProxy } from "./interactive/InteractiveNpcGeometry.js?v=npc-split-20260628-bh1";
-import { fallbackRig } from "./interactive/InteractiveNpcVisuals.js?v=npc-split-20260628-bh1";
-import { cleanInteractiveNpcOptions } from "./interactive/InteractiveNpcOptions.js?v=npc-split-20260628-bh1";
-import { npcOverlayPayload } from "./interactive/InteractiveNpcPayload.js?v=npc-split-20260628-bh1";
-import { readyNpcVisuals, prepareNpcMesh, resolveVisualBody } from "./interactive/InteractiveNpcSetup.js?v=full-revamp-npc-target-talk-20260704-bh1";
-import { setStandingPose, tickNpcAnimation } from "./interactive/InteractiveNpcAnimation.js?v=npc-split-20260628-bh1";
+} from "./interactive/InteractiveNpcConstants.js?compact=true&v=npc-split-20260628-bh1";
+import { makeRayProxy } from "./interactive/InteractiveNpcGeometry.js?compact=true&v=npc-split-20260628-bh1";
+import { fallbackRig } from "./interactive/InteractiveNpcVisuals.js?compact=true&v=npc-split-20260628-bh1";
+import { cleanInteractiveNpcOptions } from "./interactive/InteractiveNpcOptions.js?compact=true&v=npc-split-20260628-bh1";
+import { npcOverlayPayload } from "./interactive/InteractiveNpcPayload.js?compact=true&v=npc-split-20260628-bh1";
+import { readyNpcVisuals, prepareNpcMesh, resolveVisualBody } from "./interactive/InteractiveNpcSetup.js?compact=true&v=full-revamp-npc-target-talk-20260704-bh1";
+import { setStandingPose, tickNpcAnimation } from "./interactive/InteractiveNpcAnimation.js?compact=true&v=npc-split-20260628-bh1";
 import {
   findTalker,
   faceTalker,
   handleNpcExplicitTap,
   isExplicitInteraction,
   openGuideMenu
-} from "./interactive/InteractiveNpcTalk.js?v=full-revamp-npc-target-talk-20260704-bh1";
+} from "./interactive/InteractiveNpcTalk.js?compact=true&v=full-revamp-npc-target-talk-20260704-bh1";
 
 export default class InteractiveNpc extends Medabeir {
   type = "interactiveNpc";

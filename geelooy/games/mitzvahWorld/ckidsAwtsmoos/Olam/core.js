@@ -9,7 +9,7 @@
  * ratio, so the world remains crisp enough for the eye and quick enough for
  * the hand.
  */
-import { measureRenderViewport } from "../divine_systems/render/core/PixelRatioGovernor.js";
+import { measureRenderViewport } from "../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * Captures the canvas and packages it for worker rendering.

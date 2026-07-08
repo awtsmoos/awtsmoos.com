@@ -1,15 +1,15 @@
 // B"H
 /** AnimalRenderableFactory.js — skinned bodies plus near colored anatomical details. */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { ensureRenderBackend } from "../../../../../../rendering/RendererProvider.js";
-import { normalizeAnimalSpecies, speciesProfile } from "../render/AnimalSpeciesProfiles.js?v=realistic-generated-animals-20260706-bh1";
-import { createAnimalRigBlueprint } from "./AnimalRigBlueprints.js?v=single-mesh-animals-20260621-bh1";
-import { createAnimalSurfaceBlueprint } from "./AnimalSurfaceBlueprint.js?v=realistic-generated-animals-20260706-bh1";
-import { solveAnimalSkinWeights } from "./AnimalSkinWeightSolver.js?v=single-mesh-animals-20260621-bh1";
-import { animalMaterialIntent, animalCombatStats } from "./AnimalMaterialIntent.js?v=realistic-generated-animals-20260706-bh1";
-import { animalAnimationBlueprints } from "./AnimalAnimationBlueprints.js?v=single-mesh-animals-20260621-bh1";
-import { attachAnimalAnimationController } from "./AnimalAnimationController.js?v=single-mesh-animals-20260621-bh1";
-import { addCrispAnimalDetailMeshes } from "./AnimalCrispDetailMeshes.js?v=crisp-mesh-anatomy-20260706-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureRenderBackend } from "../../../../../../rendering/RendererProvider.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { normalizeAnimalSpecies, speciesProfile } from "../render/AnimalSpeciesProfiles.js?compact=true&v=realistic-generated-animals-20260706-bh1";
+import { createAnimalRigBlueprint } from "./AnimalRigBlueprints.js?compact=true&v=single-mesh-animals-20260621-bh1";
+import { createAnimalSurfaceBlueprint } from "./AnimalSurfaceBlueprint.js?compact=true&v=realistic-generated-animals-20260706-bh1";
+import { solveAnimalSkinWeights } from "./AnimalSkinWeightSolver.js?compact=true&v=single-mesh-animals-20260621-bh1";
+import { animalMaterialIntent, animalCombatStats } from "./AnimalMaterialIntent.js?compact=true&v=realistic-generated-animals-20260706-bh1";
+import { animalAnimationBlueprints } from "./AnimalAnimationBlueprints.js?compact=true&v=single-mesh-animals-20260621-bh1";
+import { attachAnimalAnimationController } from "./AnimalAnimationController.js?compact=true&v=single-mesh-animals-20260621-bh1";
+import { addCrispAnimalDetailMeshes } from "./AnimalCrispDetailMeshes.js?compact=true&v=crisp-mesh-anatomy-20260706-bh1";
 const DISPLAY={fox:"Fox",rabbit:"Rabbit",deer:"Deer",goat:"Goat",cow:"Cow",frog:"Frog",bird:"Bird",boar:"Boar",chicken:"Chicken"};
 const KOSHER=new Set(["cow","goat","deer"]), matCache=new Map();
 function mat(k,c,rough=.8){const id=`${k}:${c}`; if(!matCache.has(id)) matCache.set(id,new THREE.MeshStandardMaterial({color:c,roughness:rough,metalness:0,flatShading:false})); return matCache.get(id);}

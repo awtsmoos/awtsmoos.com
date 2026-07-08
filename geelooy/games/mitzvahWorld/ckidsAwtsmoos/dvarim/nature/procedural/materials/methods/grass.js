@@ -10,7 +10,7 @@
  * `assets/textures/village/grass-atlas.png`, repeats it gently, clips alpha for
  * blade silhouettes, and keeps the console silent unless explicit debug is on.
  */
-import { GRASS_SNIPPETS } from '../../../../../shaders/GrassShader.js';
+import { GRASS_SNIPPETS } from '../../../../../shaders/GrassShader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const GRASS_ATLAS = '/games/mitzvahWorld/assets/textures/village/grass-atlas.png';
 

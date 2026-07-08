@@ -1,9 +1,9 @@
 // B"H
 /** Touch handlers: preview on touchstart, action on touchend, no hover myth. */
-import { GAZE_SCALE, PINCH_SCALE, TAP_PX } from "./MobileTouchConstants.js";
-import { distance, packet, point, transmit, uiBlocked } from "./MobileTouchPackets.js";
-import { beginTap, isTap } from "./MobileTouchState.js";
-import { releaseJoystick, resetJoystick, steer } from "./MobileJoystick.js";
+import { GAZE_SCALE, PINCH_SCALE, TAP_PX } from "./MobileTouchConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { distance, packet, point, transmit, uiBlocked } from "./MobileTouchPackets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { beginTap, isTap } from "./MobileTouchState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { releaseJoystick, resetJoystick, steer } from "./MobileJoystick.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export function attachMobileTouchHandlers(eved, state) {
   const send = (type, payload = {}) => transmit(eved, type, payload);
   window.addEventListener("touchstart", e => start(e, state, send), { passive:false });

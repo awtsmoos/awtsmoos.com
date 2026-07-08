@@ -1,34 +1,28 @@
-/* B"H — useful empty states. */
+/* B"H — useful empty states with profile-aware next actions. */
 .empty-state,
 .mail-empty,
 .no-thread,
-.empty-mailbox {
-  align-self: center !important;
-  background: #fff !important;
-  border: 1px solid var(--mail-line) !important;
-  border-radius: 20px !important;
-  box-shadow: var(--mail-shadow) !important;
-  color: var(--mail-text) !important;
-  display: grid !important;
-  gap: .55rem !important;
-  justify-self: center !important;
-  max-width: 420px !important;
-  padding: 1.25rem !important;
-  text-align: start !important;
-}
+.empty-mailbox,
+.thread-empty-state { align-self: center !important; background: linear-gradient(180deg, #fff, #f8fbff) !important; border: 1px solid var(--mail-line) !important; border-radius: 20px !important; box-shadow: var(--mail-shadow) !important; color: var(--mail-text) !important; display: grid !important; gap: .62rem !important; justify-self: center !important; max-width: 430px !important; padding: 1.25rem !important; text-align: start !important; }
+.empty-state::before,
+.mail-empty::before,
+.no-thread::before,
+.empty-mailbox::before,
+.thread-empty-state::before { content: "👤✉️"; font-size: 1.6rem; line-height: 1; }
 .empty-state h2,
 .mail-empty h2,
 .no-thread h2 { color: var(--mail-text) !important; margin: 0 !important; }
 .empty-state p,
 .mail-empty p,
-.no-thread p { color: var(--mail-muted) !important; margin: 0 !important; }
+.no-thread p,
+.thread-empty-state span { color: var(--mail-muted) !important; margin: 0 !important; }
 .empty-state a,
 .empty-state button,
 .mail-empty a,
-.mail-empty button {
-  background: var(--mail-text) !important;
-  border-radius: 999px !important;
-  color: #fff !important;
-  justify-self: start !important;
-  padding: .65rem .9rem !important;
-}
+.mail-empty button,
+.thread-empty-state a { background: linear-gradient(135deg, var(--mail-text), #26324a) !important; border-radius: 999px !important; color: #fff !important; justify-self: start !important; min-height: 42px; padding: .65rem .9rem !important; }
+.empty-state a:focus-visible,
+.empty-state button:focus-visible,
+.mail-empty a:focus-visible,
+.mail-empty button:focus-visible,
+.thread-empty-state a:focus-visible { outline: 3px solid rgba(46,167,255,.28); outline-offset: 3px; }

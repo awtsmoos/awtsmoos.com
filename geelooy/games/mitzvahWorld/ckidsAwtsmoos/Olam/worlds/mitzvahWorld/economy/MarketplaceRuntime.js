@@ -6,8 +6,8 @@
  * trade with bounded `coins`; any real `olam` buyer pays through the personal
  * perutah wallet and receives the item through the canonical bag event path.
  */
-import { awardMoney, bindWalletOlam, moneyOf } from "../../../../systems/economy/wallet/PersonalPerutaWallet.js";
-import { addBagItem } from "../../../../systems/inventory/BagRuntime.js";
+import { awardMoney, bindWalletOlam, moneyOf } from "../../../../systems/economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { addBagItem } from "../../../../systems/inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const number = value => Number.isFinite(Number(value)) ? Number(value) : 0;
 const count = value => Math.max(1, Math.floor(number(value) || 1));

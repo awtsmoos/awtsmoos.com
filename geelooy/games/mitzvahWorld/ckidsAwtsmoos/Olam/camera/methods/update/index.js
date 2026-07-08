@@ -7,8 +7,8 @@
  * when NPC/UI capture is active. The Awtsmoos makes the camera quiet during a
  * panel, records compact frame spikes, and keeps the smooth follow river.
  */
-import { THREE } from '../../../rendering/ThreeAdapter.js';
-import { diagThrottle, markFrameSpike } from '../../../../utils/AwtsmoosDiagnostics.js';
+import { THREE } from '../../../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { diagThrottle, markFrameSpike } from '../../../../utils/AwtsmoosDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 function lerpFallback(a, b, t) { return a + (b - a) * t; }

@@ -5,7 +5,7 @@
  * B"H ? A malicious platform that suddenly lunges toward a spike lane. It is
  * a moving SolidBlock with a delayed burst, designed for panic-memory levels.
  */
-import SolidBlock from "../architecture/SolidBlock.js";
+import SolidBlock from "../architecture/SolidBlock.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class PusherPlatform extends SolidBlock {
     type = "pusherPlatform";

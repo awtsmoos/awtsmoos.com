@@ -9,7 +9,7 @@
  * a simple .mesh, a complex .scene, or a .modelMesh, this integrator will find 
  * it and weld it to the World's physical group.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Integrator {
     /**

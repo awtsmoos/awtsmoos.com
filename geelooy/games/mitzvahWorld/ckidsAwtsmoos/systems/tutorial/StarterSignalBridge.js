@@ -8,7 +8,7 @@
  * the bridge listens to gameplay events and advances the first-village arc only
  * when something real happens.
  */
-import { ensureStarterExperience } from './StartingExperienceRuntime.js';
+import { ensureStarterExperience } from './StartingExperienceRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const SIGNAL_EVENT = 'mitzvah-world:starter-signal';
 const installed = new WeakMap();

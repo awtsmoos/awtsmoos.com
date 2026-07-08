@@ -1,6 +1,6 @@
 // B"H
-import { normalizeCutsceneTimeline } from "./CutsceneTimelineSchema.js";
-import { isCutsceneSeen, markCutsceneSeen } from "./CutsceneSeenState.js";
+import { normalizeCutsceneTimeline } from "./CutsceneTimelineSchema.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
+import { isCutsceneSeen, markCutsceneSeen } from "./CutsceneSeenState.js?compact=true&v=compact-all-visible-npc-never-cull-20260708-bh11";
 
 const list = value => Array.isArray(value) ? value : [];
 

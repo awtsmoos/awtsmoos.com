@@ -1,5 +1,5 @@
 // B"H
-import { collisionBody, circleIntersectsBody } from "../collision/CollisionBody2D.js";
+import { collisionBody, circleIntersectsBody } from "../collision/CollisionBody2D.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 

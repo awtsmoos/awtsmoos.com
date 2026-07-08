@@ -5,7 +5,7 @@
  * Canonical single-player RPG progression state.
  */
 
-import { getLevelFromExp, getExpForLevel } from "./LevelCurve.js";
+import { getLevelFromExp, getExpForLevel } from "./LevelCurve.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function createPlayerProgression() {
   return {

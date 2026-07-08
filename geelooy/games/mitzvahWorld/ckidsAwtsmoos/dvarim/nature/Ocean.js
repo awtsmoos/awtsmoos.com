@@ -6,8 +6,8 @@
  * CHAPTER 19: THE SEA OF RADIANCE
  * A vast, shimmering plane of water that surrounds the islands of the Emerald Village.
  */
-import Domem from "../../chayim/domem.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import Domem from "../../chayim/domem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class Ocean extends Domem {
     type = "Ocean";

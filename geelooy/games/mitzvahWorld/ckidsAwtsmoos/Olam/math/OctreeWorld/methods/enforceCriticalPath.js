@@ -1,6 +1,6 @@
 
 // B"H
-import { NODE_STATE } from '../constants.js';
+import { NODE_STATE } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {
     _enforceCriticalPath(foci) {

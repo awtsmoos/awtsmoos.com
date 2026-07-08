@@ -1,5 +1,5 @@
 // B"H
-import { buildActionSpec, createChossidActionClip } from "./ActionClipFactory.js";
+import { buildActionSpec, createChossidActionClip } from "./ActionClipFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export const TalkHandsActionSpec = buildActionSpec("talkHands", 2.4, [
   { bone:"head", keys:[{ t:0, r:[0, 0, 0] }, { t:.8, r:[-.04, .08, 0] }, { t:1.6, r:[.03, -.06, 0] }, { t:2.4, r:[0, 0, 0] }] },
   { bone:"leftArm", keys:[{ t:0, r:[.25, 0, .42] }, { t:.8, r:[.75, -.18, .65] }, { t:1.6, r:[.35, .1, .35] }, { t:2.4, r:[.25, 0, .42] }] },

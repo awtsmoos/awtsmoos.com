@@ -6,7 +6,7 @@
  * A fundamental grid of green and dark green lines, providing immediate spatial awareness
  * for the soul descending into the void, generated at near-zero computation cost.
  */
-import CanvasHelper from "../CanvasHelper.js";
+import CanvasHelper from "../CanvasHelper.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class BasicPlane {
     static generate(width = 256, height = 256) {

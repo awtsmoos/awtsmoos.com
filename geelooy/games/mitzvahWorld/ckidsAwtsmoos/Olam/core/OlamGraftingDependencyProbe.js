@@ -1,17 +1,17 @@
 // B"H
 /** Probe the static dependencies of OlamGraftingPlain without booting Olam. */
 const DEPS = [
-  ["loadingPlain", "../methods/loadingPlain.js"],
-  ["entityLogic", "../methods/entityLogic.js"],
-  ["hebrewLetters", "../methods/hebrewLetters.js"],
-  ["heesHawvoos", "../methods/heesHawvoos.js?v=no-compact-engine-20260702-bh2"],
-  ["HelpersBridge", "../methods/helpers.js?v=visible-root-binding-20260610-bh710"],
-  ["loadNivrayim", "../methods/loadNivrayim/index.js?v=zone-reality-20260614-bh817"],
-  ["placeholderAndEntities", "../methods/placeholderAndEntities/index.js"],
-  ["hoyseef", "../methods/hoyseef.js"],
-  ["sealayk", "../methods/sealayk.js"],
-  ["bindAllListeners", "../eventListeners/index.js?v=starter-contracts-20260628-bh9"],
-  ["npcRuntime", "../npc/NpcInteractionRuntime.js?v=npc-runtime-exports-20260616-bh1"]
+  ["loadingPlain", "../methods/loadingPlain.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["entityLogic", "../methods/entityLogic.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["hebrewLetters", "../methods/hebrewLetters.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["heesHawvoos", "../methods/heesHawvoos.js?compact=true&v=compact-engine-20260702-bh2"],
+  ["HelpersBridge", "../methods/helpers.js?compact=true&v=visible-root-binding-20260610-bh710"],
+  ["loadNivrayim", "../methods/loadNivrayim/index.js?compact=true&v=zone-reality-20260614-bh817"],
+  ["placeholderAndEntities", "../methods/placeholderAndEntities/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["hoyseef", "../methods/hoyseef.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["sealayk", "../methods/sealayk.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["bindAllListeners", "../eventListeners/index.js?compact=true&v=starter-contracts-20260628-bh9"],
+  ["npcRuntime", "../npc/NpcInteractionRuntime.js?compact=true&v=npc-runtime-exports-20260616-bh1"]
 ];
 
 function urlOf(path) { return new URL(path, import.meta.url).href; }

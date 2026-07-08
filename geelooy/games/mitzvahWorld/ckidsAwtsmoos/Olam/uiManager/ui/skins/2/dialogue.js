@@ -2,7 +2,7 @@
  * CSS for dialogue boxes - EXTREME EDITION
  */
 
-import borderShadow from "../../resources/borderShadow.js";
+import borderShadow from "../../resources/borderShadow.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 var DIALOGUE_BORDER = 2;
 

@@ -1,8 +1,8 @@
 
 //B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import Heeooleey from '../chayim/heeooleey.js';
-import MinimapIcons from './minimap/MinimapIcons.js';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Heeooleey from '../chayim/heeooleey.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import MinimapIcons from './minimap/MinimapIcons.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const arrayToObject = ([x, y, z]) => ({ x, y, z });
 

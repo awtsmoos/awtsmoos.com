@@ -1,6 +1,6 @@
 
 // B"H
-import { GravityConstants } from "./GravityConstants.js";
+import { GravityConstants } from "./GravityConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /**
  * @class GravityApplier

@@ -4,9 +4,9 @@
  * @description Chapter 389: Lava death receives a sealed overlay and a clear
  * return countdown.
  */
-import { bindPress, hardSeal } from './domKit.js';
-import { beginSpikeResetCountdown } from './spikeResetCountdown.js?v=lava-camera-axis-20260609-bh640';
-import { spikeResetMarkup } from './spikeResetMarkup.js';
+import { bindPress, hardSeal } from './domKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { beginSpikeResetCountdown } from './spikeResetCountdown.js?compact=true&v=lava-camera-axis-20260609-bh640';
+import { spikeResetMarkup } from './spikeResetMarkup.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function showSpikeResetOverlay(manager, payload = {}) {
   if (document.getElementById('awtsmoos-spike-reset-overlay')) return;
   const overlay = document.createElement('div');

@@ -1,5 +1,5 @@
 // B"H
-import { TRAINER_DEFINITIONS } from "./TrainerDefinitions.js";
+import { TRAINER_DEFINITIONS } from "./TrainerDefinitions.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export function listTrainerAbilities(trainerId, player) {
   const trainer = TRAINER_DEFINITIONS[trainerId];
