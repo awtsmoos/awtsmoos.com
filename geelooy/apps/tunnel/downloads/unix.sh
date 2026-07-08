@@ -53,7 +53,9 @@ ROOT="${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}"; ENTRY="${AWTSMOOS_ENTRY
 mkdir -p "$ROOT"; echo $$ > "$SUP_PID_FILE"; rm -f "$STOP_FILE"
 log(){ printf '[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$*" >> "$LOG_FILE"; }
 is_alive(){ [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
-find_agent_pid(){ pgrep -f "^node $ROOT/$ENTRY( |$)" | grep -v "^$$$" | head -1 || true; }
+process_table(){ LC_ALL=C LANG=C ps axww -o pid= -o command= 2>/dev/null || true; }
+find_agent_pids(){ process_table | awk -v self="$$" -v needle="$ROOT/$ENTRY" '{ pid=$1; line=$0; sub(/^[[:space:]]*[0-9]+[[:space:]]+/, "", line); if (pid == self) next; if (index(line, "node " needle) > 0 || index(line, "/node " needle) > 0) print pid; }' || true; }
+find_agent_pid(){ find_agent_pids | head -1 || true; }
 adopted="${AWTSMOOS_ADOPT_PID:-}"; if ! is_alive "$adopted"; then adopted="$(find_agent_pid)"; fi; if is_alive "$adopted"; then echo "$adopted" > "$PID_FILE"; log "adopted existing agent pid $adopted"; fi
 sleep_for="$MIN_SLEEP"
 while [ ! -f "$STOP_FILE" ]; do pid=""; [ -f "$PID_FILE" ] && pid="$(cat "$PID_FILE" 2>/dev/null || true)"; if is_alive "$pid"; then sleep 2; continue; fi; extant="$(find_agent_pid)"; if is_alive "$extant"; then echo "$extant" > "$PID_FILE"; log "adopted discovered agent pid $extant"; sleep 2; continue; fi; log "starting agent"; nohup node "$ROOT/$ENTRY" >> "$ROOT/agent.log" 2>&1 & pid=$!; echo "$pid" > "$PID_FILE"; log "agent pid $pid started"; sleep "$sleep_for"; if is_alive "$pid"; then sleep_for="$MIN_SLEEP"; else sleep_for=$((sleep_for*2)); [ "$sleep_for" -gt "$MAX_SLEEP" ] && sleep_for="$MAX_SLEEP"; fi; done
@@ -61,10 +63,11 @@ log "stop file present; supervisor exiting"
 SUP
 chmod +x "$SUPERVISOR"; }
 is_alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
-find_agent_pid() { pgrep -f "^node $ROOT/$ENTRY( |$)" | head -1 || true; }
-find_agent_pids() { pgrep -f "^node $ROOT/$ENTRY( |$)" || true; }
-find_supervisor_pid() { pgrep -f "$SUPERVISOR" | head -1 || true; }
-find_supervisor_pids() { pgrep -f "$SUPERVISOR" || true; }
+process_table() { LC_ALL=C LANG=C ps axww -o pid= -o command= 2>/dev/null || true; }
+find_agent_pids() { process_table | awk -v self="$$" -v needle="$ROOT/$ENTRY" '{ pid=$1; line=$0; sub(/^[[:space:]]*[0-9]+[[:space:]]+/, "", line); if (pid == self) next; if (index(line, "node " needle) > 0 || index(line, "/node " needle) > 0) print pid; }' || true; }
+find_agent_pid() { find_agent_pids | head -1 || true; }
+find_supervisor_pids() { process_table | awk -v self="$$" -v sup="$SUPERVISOR" '{ pid=$1; line=$0; sub(/^[[:space:]]*[0-9]+[[:space:]]+/, "", line); if (pid == self) next; if (line == sup || index(line, "bash " sup) > 0 || index(line, "/bash " sup) > 0 || index(line, "env bash " sup) > 0) print pid; }' || true; }
+find_supervisor_pid() { find_supervisor_pids | head -1 || true; }
 wait_for_pids_to_exit() { label="$1"; shift || true; pids="$*"; [ -z "$pids" ] && return 0; for _ in 1 2 3 4 5; do alive=""; for pid in $pids; do is_alive "$pid" && alive="$alive $pid"; done; [ -z "$alive" ] && return 0; sleep 0.1; done; for pid in $pids; do is_alive "$pid" && { echo "Force killing stale Awtsmoos $label PID: $pid"; kill -9 "$pid" 2>/dev/null || true; }; done; }
 stop_existing_runtime() { write_supervisor; agent_pids="$(find_agent_pids | tr '\n' ' ')"; supervisor_pids="$(find_supervisor_pids | tr '\n' ' ')"; [ -n "$supervisor_pids" ] && { echo "Stopping Awtsmoos supervisor PID(s): $supervisor_pids"; touch "$STOP_FILE"; for pid in $supervisor_pids; do kill "$pid" 2>/dev/null || true; done; wait_for_pids_to_exit supervisor $supervisor_pids; }; [ -n "$agent_pids" ] && { echo "Stopping Awtsmoos agent PID(s): $agent_pids"; for pid in $agent_pids; do kill "$pid" 2>/dev/null || true; done; wait_for_pids_to_exit agent $agent_pids; }; rm -f "$STOP_FILE" "$PID_FILE" "$SUP_PID_FILE"; }
 start_supervisor() { write_supervisor; rm -f "$STOP_FILE"; supervisor_pid="$(find_supervisor_pid)"; if is_alive "$supervisor_pid"; then echo "$supervisor_pid" > "$SUP_PID_FILE"; echo "Awtsmoos supervisor already running: $supervisor_pid"; else nohup "$SUPERVISOR" > "$ROOT/supervisor-stdout.log" 2>&1 & supervisor_pid=$!; echo "$supervisor_pid" > "$SUP_PID_FILE"; echo "Awtsmoos supervisor started: $supervisor_pid"; fi; }
