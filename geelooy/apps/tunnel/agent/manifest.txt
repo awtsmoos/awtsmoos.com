@@ -1,5 +1,5 @@
 B"H
-1.0.266
+1.0.267
 main.js
 
 ai/relay/split-browser/authState.cjs
@@ -612,6 +612,8 @@ docs/helper-skeletons/desktop/main.ts
 docs/helper-skeletons/desktop/README.md
 docs/REMOTE_DESKTOP_TUNNEL.md
 lib/config.js
+lib/envelopeCompiler/compiler.js
+lib/envelopeCompiler/index.js
 lib/fakeSsh/auth.js
 lib/fakeSsh/commands.js
 lib/fakeSsh/serverPlan.js
@@ -633,6 +635,8 @@ lib/remoteNativeDesktop/scene/geelooyScene.js
 lib/remoteNativeDesktop/scene/painter.js
 lib/remoteNativeDesktop/sceneToFramebuffer.js
 lib/response-size.js
+lib/responseContracts/index.js
+lib/responseContracts/registry.js
 lib/runtime/action-stream.js
 lib/runtime/aliases.js
 lib/runtime/async-task-process.js
@@ -671,6 +675,16 @@ lib/share/policy.js
 lib/share/redact.js
 lib/share/registry.js
 lib/split-browser-require.js
+lib/taskRuntime/commandAdapter.js
+lib/taskRuntime/constants.js
+lib/taskRuntime/fsAdapter.js
+lib/taskRuntime/id.js
+lib/taskRuntime/index.js
+lib/taskRuntime/output.js
+lib/taskRuntime/receipt.js
+lib/taskRuntime/state.js
+lib/taskRuntime/store.js
+lib/taskRuntime/task.js
 lib/tool-schema-catalog.js
 lib/tool-schema/agent.js
 lib/tool-schema/batch.js
@@ -849,6 +863,7 @@ tools/fs/actionGroups/runtimeActions.js
 tools/fs/actionGroups/scanWorkerActions.js
 tools/fs/actionGroups/shareActions.js
 tools/fs/actionGroups/staticServerActions.js
+tools/fs/actionGroups/taskRuntimeActions.js
 tools/fs/actionGroups/virtualChromeActions.js
 tools/fs/actionGroups/virtualOsGraphActions.js
 tools/fs/actionGroups/workflowActions.js

@@ -18,7 +18,12 @@ const CONTRACTS = Object.freeze({
   taskStatus: ['taskId','state','status','running','done','progress','result','error','resume','outputPage','evidence'],
   taskOutputPage: ['taskId','stream','content','returnedChars','totalChars','hasNextPage','nextOffsetChars'],
   missionStart: ['missionId','status','running','done','resume','nextAction','plan','queue','evidence'],
-  missionStatus: ['missionId','status','running','done','resume','nextAction','plan','queue','evidence']
+  missionStatus: ['missionId','status','running','done','resume','nextAction','plan','queue','evidence'],
+  previewExposeLocalServer: ['preview','url','proxyUrl','detectedServers','selectedServer','agentGuidance','nextSuggestedAction'],
+  previewCreate: ['preview','url','viewUrl','rawUrl','wsUrl'],
+  previewFile: ['preview','url','viewUrl','rawUrl','wsUrl'],
+  previewFolder: ['preview','url','viewUrl','rawUrl','wsUrl'],
+  previewPage: ['preview','url','viewUrl','rawUrl','wsUrl']
 });
 function keysFor(action = '') { return [...new Set([...TRANSPORT, ...COMMON, ...(CONTRACTS[action] || [])])]; }
 function pick(action, result = {}) { const keys = keysFor(action || result.action || result.actualAction || result.requestAction); const out = {}; for (const k of keys) if (result[k] !== undefined) out[k] = result[k]; return out; }
