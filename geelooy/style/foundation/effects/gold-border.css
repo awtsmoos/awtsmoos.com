@@ -1,2 +1,14 @@
-/* B"H gold border utility. */
-.awt-gold-border { border: 1px solid rgba(214,168,79,.34); box-shadow: var(--awt-gold-glow); }
+/* B"H
+ * Chapter: A thin golden boundary, like dawn on the rim of a vessel.
+ * The glow is shared, modest, and alive on hover/focus without becoming noise.
+ */
+.awt-gold-border,
+:where(.premium-border, .home-action-primary, .is-create) {
+  border: 1px solid rgba(214,168,79,.38);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.36) inset, 0 14px 35px rgba(214,168,79,.16);
+}
+
+:where(.awt-gold-border, .premium-border, .home-action-primary, .is-create):is(:hover, :focus-visible) {
+  border-color: rgba(245,202,112,.72);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.5) inset, 0 20px 48px rgba(214,168,79,.24);
+}

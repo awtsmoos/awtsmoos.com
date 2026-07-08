@@ -5,7 +5,7 @@ import { installBootDiagnostics, installBootErrorListeners } from "./uiBridge/bo
 import { bootIkarNow } from "./uiBridge/bootIkar.js?compact=true&v=history-animation-compact-top-20260708-bh10";
 import { ensurePlayerHealthState } from "./ckidsAwtsmoos/Olam/worlds/mitzvahWorld/runtime/PlayerHealthState.js?compact=true&v=health-ui-20260707-bh2";
 import { registerTargets } from "./ckidsAwtsmoos/Olam/worlds/mitzvahWorld/runtime/TargetingState.js?compact=true&v=live-target-scan-20260708-bh1";
-import { installPlayerFacingHudGuarantee } from "./ckidsAwtsmoos/Olam/worlds/mitzvahWorld/ui/PlayerFacingHudGuarantee.js?compact=true&v=grouped-profiler-spaced-ui-20260708-bh8";
+import { installPlayerFacingHudGuarantee } from "./ckidsAwtsmoos/Olam/worlds/mitzvahWorld/ui/PlayerFacingHudGuarantee.js?compact=true&v=boot-json-mime-recovery-20260708-bh1";
 import { installRealismRuntimeContract } from "./ckidsAwtsmoos/Olam/worlds/mitzvahWorld/runtime/realism/RealismRuntimeContract.js?compact=true&v=realism-runtime-20260707-bh1";
 const IMPORT_START_STAGE = "world-engine:import:start";
 const WORLD_BUILDER_CONTRACT = "WorldHeescheel";

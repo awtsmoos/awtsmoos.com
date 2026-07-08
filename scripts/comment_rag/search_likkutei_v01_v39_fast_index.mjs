@@ -2,10 +2,10 @@
 /**
  * B"H
  *
- * The searcher ranks by a reference-only Float32 index, then returns to the
- * source before speaking. Live DosDB is preferred. Archived v16-v39 sidecars are
- * binary awtsmoosJSON, so the searcher decodes them with the legacy reader.
- * The index metadata itself contains no baked comments, no Hebrew, and no EN.
+ * Live-only Likkutei Sichos semantic search.
+ * The Float32 index ranks references only. Result text is materialized from the
+ * official live packed comments DB after ranking. There is no baked text and no
+ * archive fallback in this search path.
  */
 import fs from 'fs';
 import path from 'path';
@@ -13,7 +13,7 @@ import { createRequire } from 'module';
 import { performance } from 'perf_hooks';
 
 const require = createRequire(import.meta.url);
-const DosDB = require('../../ayzarim/DosDB/index.js');
+const AwtsmoosDB = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
 const legacyBinary = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
 const { embedTextAuto, runnerState } = require('../../ayzarim/DosDB/aiSearch/textEmbedRunner.js');
 
@@ -22,6 +22,7 @@ const RAG = path.join(DB_ROOT, 'ai/comment-rag');
 const INDEX_DIR = path.join(RAG, 'likkutei-v01-v39-fast-index');
 const VECTORS = path.join(INDEX_DIR, 'vectors.f32');
 const META = path.join(INDEX_DIR, 'meta.jsonl');
+const COMMENTS_DB = path.join(DB_ROOT, 'socialPacked/social.heichel.ikar.comments.fs.awtsdb');
 const DIMENSIONS = 384;
 const TOP_K = 8;
 const DEFAULT_QUERIES = [
@@ -38,6 +39,56 @@ function normalize(vector) {
   return vector.map(value => value / magnitude);
 }
 
+function loadIndex() {
+  const start = performance.now();
+  const vectorBuffer = fs.readFileSync(VECTORS);
+  const matrix = new Float32Array(vectorBuffer.buffer, vectorBuffer.byteOffset, vectorBuffer.byteLength / 4);
+  const rawMeta = fs.readFileSync(META, 'utf8');
+  const meta = rawMeta.trim().split(/\n/).map(line => JSON.parse(line));
+  if (matrix.length !== meta.length * DIMENSIONS) throw new Error(`Index mismatch vectors=${matrix.length} meta=${meta.length}`);
+  if (/"text"\s*:|"sample"\s*:|"sampleContent"\s*:|EN:/.test(rawMeta)) throw new Error('Index metadata contains baked text/snippets. Rebuild live-only reference index first.');
+  return { matrix, meta, loadMs: Math.round(performance.now() - start) };
+}
+
+function openCommentsDb() {
+  const db = new AwtsmoosDB(COMMENTS_DB, { debug: false, readOnly: true, processLockMode: 'shared', lockMode: 'shared' });
+  db.open();
+  return db;
+}
+
+function closeCommentsDb(db) {
+  try { db.pager?.close?.(); db.processLock?.release?.(); } catch {}
+}
+
+function rows(obj) {
+  return Object.keys(obj || {})
+    .filter(key => /^\d+$/.test(key))
+    .sort((a, b) => Number(a) - Number(b))
+    .flatMap(key => Array.isArray(obj[key]) ? obj[key] : []);
+}
+
+function readLiveBranch(db, commentPath) {
+  const stat = db.fs.stat(commentPath);
+  if (!stat?.exists) return null;
+  const buffer = db.fs.cat(commentPath);
+  if (!Buffer.isBuffer(buffer)) return null;
+  try { return legacyBinary.deserializeBinary(buffer); }
+  catch { return null; }
+}
+
+function inVerseRange(row, item) {
+  const section = Number(row?.verseSection ?? row?.dayuh?.verseSection);
+  return Number.isFinite(section) && section >= Number(item.verseStart) && section <= Number(item.verseEnd);
+}
+
+function englishSnippet(hitRows) {
+  return hitRows
+    .map(row => String(row?.content || '').replace(/\s+/g, ' ').trim())
+    .filter(Boolean)
+    .join(' ')
+    .slice(0, 500);
+}
+
 function topK(queryVector, matrix, meta, k) {
   const best = [];
   for (let row = 0; row < meta.length; row += 1) {
@@ -48,11 +99,7 @@ function topK(queryVector, matrix, meta, k) {
       const hit = { score, item: meta[row] };
       let inserted = false;
       for (let i = 0; i < best.length; i += 1) {
-        if (score > best[i].score) {
-          best.splice(i, 0, hit);
-          inserted = true;
-          break;
-        }
+        if (score > best[i].score) { best.splice(i, 0, hit); inserted = true; break; }
       }
       if (!inserted) best.push(hit);
       if (best.length > k) best.pop();
@@ -61,75 +108,19 @@ function topK(queryVector, matrix, meta, k) {
   return best;
 }
 
-function loadIndex() {
-  const loadStart = performance.now();
-  const vectorBuffer = fs.readFileSync(VECTORS);
-  const matrix = new Float32Array(vectorBuffer.buffer, vectorBuffer.byteOffset, vectorBuffer.byteLength / 4);
-  const rawMeta = fs.readFileSync(META, 'utf8');
-  const meta = rawMeta.trim().split(/\n/).map(line => JSON.parse(line));
-  const loadMs = Math.round(performance.now() - loadStart);
-  if (matrix.length !== meta.length * DIMENSIONS) throw new Error(`Index mismatch vectors=${matrix.length} meta=${meta.length}`);
-  if (/"text"\s*:|"sample"\s*:|"sampleContent"\s*:|EN:/.test(rawMeta)) throw new Error('Index metadata contains baked text/snippets. Rebuild reference-only index first.');
-  return { matrix, meta, loadMs };
-}
-
-function allRows(obj) {
-  return Object.keys(obj || {})
-    .filter(key => /^\d+$/.test(key) && Array.isArray(obj[key]))
-    .sort((a, b) => Number(a) - Number(b))
-    .flatMap(key => obj[key]);
-}
-
-function inVerseRange(row, item) {
-  const section = Number(row?.verseSection ?? row?.dayuh?.verseSection);
-  return Number.isFinite(section) && section >= Number(item.verseStart) && section <= Number(item.verseEnd);
-}
-
-function englishSnippet(rows) {
-  return rows
-    .map(row => String(row?.content || '').replace(/\s+/g, ' ').trim())
-    .filter(Boolean)
-    .join(' ')
-    .slice(0, 500);
-}
-
-async function loadLiveRows(db, item) {
-  const obj = await db.get(item.commentPath).catch(() => null);
-  if (!obj || typeof obj !== 'object') return null;
-  const rows = allRows(obj).filter(row => inVerseRange(row, item));
-  return rows.length ? { rows, source: 'live-db' } : null;
-}
-
-function readArchiveObject(file) {
-  const buffer = fs.readFileSync(file);
-  try { return JSON.parse(buffer.toString('utf8')); }
-  catch {}
-  return legacyBinary.deserializeBinary(buffer);
-}
-
-function loadArchiveRows(item) {
-  if (!item.archiveFile || !fs.existsSync(item.archiveFile)) return null;
-  let obj;
-  try { obj = readArchiveObject(item.archiveFile); }
-  catch { return null; }
-  const rows = allRows(obj).filter(row => inVerseRange(row, item));
-  return rows.length ? { rows, source: 'archive-sidecar' } : null;
-}
-
-async function materializeHit(db, hit) {
+function materializeHit(db, hit) {
   const item = hit.item;
-  const live = await loadLiveRows(db, item);
-  const material = live || loadArchiveRows(item);
-  const rows = material?.rows || [];
+  const branch = readLiveBranch(db, item.commentPath);
+  const hitRows = rows(branch).filter(row => inVerseRange(row, item) && String(row?.content || '').trim());
   return {
     score: Number(hit.score.toFixed(6)),
     volume: item.volume,
     id: item.id,
     verses: [item.verseStart, item.verseEnd],
     commentPath: item.commentPath,
-    snippetSource: material?.source || 'missing',
-    commentsReturned: rows.length,
-    text: englishSnippet(rows)
+    snippetSource: hitRows.length ? 'live-db' : 'missing-live-db',
+    commentsReturned: hitRows.length,
+    text: englishSnippet(hitRows)
   };
 }
 
@@ -140,8 +131,7 @@ async function searchOne(db, index, query) {
   const queryVector = normalize(embedded.vector);
   const ranked = topK(queryVector, index.matrix, index.meta, TOP_K);
   const afterSearch = performance.now();
-  const results = [];
-  for (const hit of ranked) results.push(await materializeHit(db, hit));
+  const results = ranked.map(hit => materializeHit(db, hit));
   const afterMaterialize = performance.now();
   return {
     query,
@@ -159,24 +149,24 @@ async function searchOne(db, index, query) {
 async function main() {
   const queries = process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT_QUERIES;
   const index = loadIndex();
-  const db = new DosDB(DB_ROOT);
-  await db.init?.();
-  const searches = [];
-  for (const query of queries) searches.push(await searchOne(db, index, query));
-  console.log(JSON.stringify({
-    BH: 'B"H',
-    indexDir: INDEX_DIR,
-    records: index.meta.length,
-    dimensions: DIMENSIONS,
-    loadMs: index.loadMs,
-    metadataPolicy: 'reference-only; snippets fetched after ranking',
-    runner: runnerState({ modelRoot: RAG }),
-    searchedAt: new Date().toISOString(),
-    searches
-  }, null, 2));
+  const db = openCommentsDb();
+  try {
+    const searches = [];
+    for (const query of queries) searches.push(await searchOne(db, index, query));
+    console.log(JSON.stringify({
+      BH: 'B"H',
+      indexDir: INDEX_DIR,
+      records: index.meta.length,
+      dimensions: DIMENSIONS,
+      loadMs: index.loadMs,
+      metadataPolicy: 'reference-only; live-db-only materialization; no archive fallback',
+      runner: runnerState({ modelRoot: RAG }),
+      searchedAt: new Date().toISOString(),
+      searches
+    }, null, 2));
+  } finally {
+    closeCommentsDb(db);
+  }
 }
 
-main().catch(error => {
-  console.error(error.stack || error);
-  process.exit(1);
-});
+main().catch(error => { console.error(error.stack || error); process.exit(1); });

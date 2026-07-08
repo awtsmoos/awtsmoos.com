@@ -1,2 +1,30 @@
-/* B"H visible focus for keyboard souls. */
-:where(a, button, input, select, textarea):focus-visible { outline: 3px solid rgba(245,202,112,.7); outline-offset: 2px; }
+/* B"H
+ * Chapter: Every clickable spark receives a crown.
+ * The keyboard traveler sees the gate, the finger finds a forty-four pixel
+ * landing place, and disabled controls become quiet without vanishing.
+ */
+:where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="menuitem"], [role="tab"]):focus-visible {
+  outline: 3px solid rgba(245, 202, 112, .78);
+  outline-offset: 3px;
+}
+
+:where(button, .btn, [role="button"], input[type="button"], input[type="submit"], input[type="reset"]) {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(245, 202, 112, .22);
+}
+
+:where(a[href], button, .btn, [role="button"], [role="menuitem"], [role="tab"], summary) {
+  touch-action: manipulation;
+}
+
+:where(button, .btn, [role="button"]):where(:disabled, [aria-disabled="true"], .is-disabled) {
+  cursor: not-allowed;
+  opacity: .58;
+}
+
+:where([hidden], .hidden, [aria-hidden="true"]) :where(a, button, input, select, textarea, [tabindex]) {
+  pointer-events: none;
+}

@@ -1,1 +1,9 @@
-@media (max-width: 760px) { .home-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .home-action-card { min-height: 124px; padding: .9rem; } }
+@media (max-width: 760px) {
+  .home-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .home-action-grid .home-action-primary { grid-column: 1 / -1; }
+  .home-action-card { min-height: 104px; padding: .82rem .58rem; }
+}
+@media (max-width: 390px) {
+  .home-action-card { min-height: 98px; }
+  .home-action-card > span { height: 2.45rem; width: 2.45rem; }
+}

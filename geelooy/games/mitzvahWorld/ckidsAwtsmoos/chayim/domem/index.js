@@ -6,7 +6,7 @@ import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visib
 import lifecycleMethods from "./methods/lifecycle.js?compact=true&v=domem-visible-ground-authority-20260701-bh1";
 import graphicsMethods from "./methods/graphics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import audioMethods from "./methods/audio.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import animationMethods from "./methods/animation.js?compact=true&v=history-animation-compact-top-20260708-bh10";
+import animationMethods from "./methods/animation.js?compact=true&v=stable-collision-animation-20260708-bh3";
 import serializationMethods from "./methods/serialization.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const numberOr = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 export default class Domem extends Nivra {

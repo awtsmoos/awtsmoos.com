@@ -2,12 +2,12 @@
 /** @file index.js @purpose Player physics, now with corrected mobile screen-left/right. */
 import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?compact=true&v=perf-tight-collision-20260703-bh1";
-import baseMethods from "./runtime/PhysicsBaseMethods.js?compact=true&v=perf-tight-collision-20260703-bh1";
+import baseMethods from "./runtime/PhysicsBaseMethods.js?compact=true&v=stable-collision-animation-20260708-bh3";
 import frameMethods from "./runtime/PhysicsFrameMethods.js?compact=true&v=perf-tight-collision-20260703-bh1";
-import motionMethods from "./runtime/PhysicsMotionMethods.js?compact=true&v=perf-tight-collision-20260703-bh1";
-import visualMethods from "./runtime/PhysicsVisualMethods.js?compact=true&v=solid-browser-verify-20260702-bh11";
-import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?compact=true&v=perf-tight-collision-20260703-bh1";
-import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?compact=true&v=perf-tight-collision-20260703-bh1";
+import motionMethods from "./runtime/PhysicsMotionMethods.js?compact=true&v=stable-collision-animation-20260708-bh3";
+import visualMethods from "./runtime/PhysicsVisualMethods.js?compact=true&v=stable-collision-animation-20260708-bh3";
+import { applyLockedAirTrajectory } from "./runtime/PhysicsAirRuntime.js?compact=true&v=stable-collision-animation-20260708-bh3";
+import { clampToTerrainFloor as clampCapsuleToTerrainFloor } from "./runtime/PhysicsGroundRuntime.js?compact=true&v=stable-collision-animation-20260708-bh3";
 import { normAngle, numeric } from "./runtime/PhysicsNumbers.js?compact=true&v=perf-tight-collision-20260703-bh1";
 const UP = new THREE.Vector3(0, 1, 0), TMP_F = new THREE.Vector3(), TMP_R = new THREE.Vector3();
 export function clampToTerrainFloor(player) { return clampCapsuleToTerrainFloor(player); }

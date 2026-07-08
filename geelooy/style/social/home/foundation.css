@@ -1,12 +1,37 @@
+/* B"H
+ * Step 6: Home inherits the living architecture.
+ * This is not a page patch; it maps the home surface onto shared material,
+ * depth, typography, and motion tokens while preserving its local identity.
+ */
 :root {
   --awt-home-bg: #f6f8fb;
-  --awt-home-panel: #ffffff;
-  --awt-home-line: #dfe6ee;
+  --awt-home-panel: rgba(255,255,255,.9);
+  --awt-home-line: rgba(15,23,42,.12);
   --awt-home-text: #0f172a;
   --awt-home-muted: #64748b;
-  --awt-home-shadow: 0 2px 10px rgba(15, 23, 42, .06);
-  --awt-home-panel-soft: #ffffff;
-  --awt-home-panel-border: 1px solid #dfe6ee;
+  --awt-home-shadow: var(--shadow-card, 0 10px 30px rgba(15,23,42,.08));
+  --awt-home-panel-soft: rgba(255,255,255,.72);
+  --awt-home-panel-border: 1px solid rgba(255,255,255,.5);
 }
-.geelooy-home-shell { background: var(--awt-home-bg); color: var(--awt-home-text); }
-.geelooy-home-shell :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card) { background: #fff; border: 1px solid var(--awt-home-line); box-shadow: var(--awt-home-shadow); }
+
+.geelooy-home-shell {
+  background: var(--awt-home-bg);
+  background-image: radial-gradient(circle at 14% 0%, rgba(245,202,112,.2), transparent 34rem), radial-gradient(circle at 86% 8%, rgba(96,165,250,.16), transparent 30rem);
+  color: var(--awt-home-text);
+}
+
+.geelooy-home-shell :is(.home-sanctuary-card, .home-feed-phone, .home-discovery-card, .home-panel, .home-post-card) {
+  background: linear-gradient(145deg, var(--awt-home-panel), var(--awt-home-panel-soft));
+  border: var(--awt-home-panel-border);
+  border-radius: var(--radius-xl, 2rem);
+  box-shadow: var(--awt-home-shadow);
+  overflow: clip;
+  transform: translateZ(0);
+  transition: transform var(--motion-med) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft);
+}
+
+.geelooy-home-shell :is(.home-sanctuary-card, .home-feed-phone, .home-discovery-card, .home-panel, .home-post-card):is(:hover, :focus-within) {
+  border-color: rgba(245,202,112,.34);
+  box-shadow: var(--shadow-card-hover, 0 22px 60px rgba(15,23,42,.16));
+  transform: translateY(var(--motion-hover-lift));
+}

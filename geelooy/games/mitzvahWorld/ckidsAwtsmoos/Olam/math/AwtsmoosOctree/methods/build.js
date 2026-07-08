@@ -1,198 +1,21 @@
-
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-
-const _v1 = new THREE.Vector3();
-const _v2 = new THREE.Vector3();
-const _temp_triangle = new THREE.Triangle();
-const MAX_DEPTH = 8;
-const MAX_TRIANGLES_TO_BUILD = 12000;
-
+/** @file build.js @description Three-style octree build: triangles are real objects, not fragile flat indices. */
+import { Box3, Triangle, Vector3 } from '/games/scripts/build/three.module.js?compact=true&v=stable-three-octree-20260708-bh3';
+const _half = new Vector3(), _corner = new Vector3();
+const MAX_TRIANGLES = 65000;
+function sourceAlive(tri) { const s = tri?.sourceMesh; return !s || s.parent || s.userData?.inMainWorld || s.userData?.finalOctreeOnly; }
+function copyMeta(to, from) { to.sourceMesh = from.sourceMesh; to.object = from.object || from.sourceMesh || null; return to; }
+function triFromAttr(attr, i, matrix, source) { const t = new Triangle(new Vector3().fromBufferAttribute(attr, i), new Vector3().fromBufferAttribute(attr, i + 1), new Vector3().fromBufferAttribute(attr, i + 2)); t.a.applyMatrix4(matrix); t.b.applyMatrix4(matrix); t.c.applyMatrix4(matrix); t.sourceMesh = source; t.object = source; return t; }
 export default {
-    addDynamicTriangle(triangle) {
-        if (!this.box.intersectsTriangle(triangle)) return;
-        if (this.subTrees.length > 0) {
-            for (const subTree of this.subTrees) subTree.addDynamicTriangle(triangle);
-        } else {
-            const clone = triangle.clone();
-            clone.sourceMesh = triangle.sourceMesh;
-            this.dynamicTriangles.push(clone);
-        }
-    },
-
-    addTriangle(triangle) {
-        if (this.allTriangles.length >= MAX_TRIANGLES_TO_BUILD) return;
-        const newTriangles = [...this.allTriangles, triangle];
-        this.allTriangles = newTriangles;
-
-        this.worldTrianglesData = new Float32Array(newTriangles.length * 9);
-        for (let i = 0; i < newTriangles.length; i++) {
-            const tri = newTriangles[i];
-            const baseIndex = i * 9;
-            this.worldTrianglesData[baseIndex] = tri.a.x;
-            this.worldTrianglesData[baseIndex + 1] = tri.a.y;
-            this.worldTrianglesData[baseIndex + 2] = tri.a.z;
-            this.worldTrianglesData[baseIndex + 3] = tri.b.x;
-            this.worldTrianglesData[baseIndex + 4] = tri.b.y;
-            this.worldTrianglesData[baseIndex + 5] = tri.b.z;
-            this.worldTrianglesData[baseIndex + 6] = tri.c.x;
-            this.worldTrianglesData[baseIndex + 7] = tri.c.y;
-            this.worldTrianglesData[baseIndex + 8] = tri.c.z;
-        }
-
-        this._insertTriangleRecursive(this, newTriangles.length - 1, triangle);
-    },
-
-    fromGraphNode(group) {
-        if (!group) return this;
-
-        if (!group.userData?.isPreTransformed) group.updateWorldMatrix(true, true);
-
-        group.traverse(obj => {
-            if (this.allTriangles.length >= MAX_TRIANGLES_TO_BUILD) return;
-            if (obj.isMesh !== true || !obj.geometry) return;
-
-            if (this.allTriangles.some(tri => tri.sourceMesh === obj)) this.removeMesh(obj);
-
-            let geometry;
-            let isTemp = false;
-            if (obj.geometry.index !== null) {
-                isTemp = true;
-                geometry = obj.geometry.toNonIndexed();
-            } else {
-                geometry = obj.geometry;
-            }
-
-            const positionAttribute = geometry.getAttribute('position');
-            if (positionAttribute) {
-                const maxVerts = Math.min(
-                    positionAttribute.count,
-                    (MAX_TRIANGLES_TO_BUILD - this.allTriangles.length) * 3
-                );
-
-                for (let i = 0; i + 2 < maxVerts; i += 3) {
-                    const v1 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(obj.matrixWorld);
-                    const v2 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(obj.matrixWorld);
-                    const v3 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(obj.matrixWorld);
-                    const tri = new THREE.Triangle(v1, v2, v3);
-                    tri.sourceMesh = obj;
-                    this.allTriangles.push(tri);
-                }
-            }
-
-            if (isTemp) geometry.dispose();
-        });
-
-        this.isBuilt = false;
-        return this;
-    },
-
-    removeMesh(mesh) {
-        const originalCount = this.allTriangles.length;
-        this.allTriangles = this.allTriangles.filter(tri => tri.sourceMesh !== mesh);
-        this.dynamicTriangles = this.dynamicTriangles.filter(tri => tri.sourceMesh !== mesh);
-
-        if (this.allTriangles.length < originalCount) {
-            this.isBuilt = false;
-            this.worldTrianglesData = null;
-            this.build();
-        }
-        return this;
-    },
-
-    pruneDeadTriangles() {
-        const startSize = this.allTriangles.length;
-        this.allTriangles = this.allTriangles.filter(tri => tri.sourceMesh && tri.sourceMesh.parent);
-        this.dynamicTriangles = this.dynamicTriangles.filter(tri => tri.sourceMesh && tri.sourceMesh.parent);
-
-        if (this.allTriangles.length < startSize) {
-            this.isBuilt = false;
-            this.worldTrianglesData = null;
-            this.build();
-            console.log(`B"H - Pruned ${startSize - this.allTriangles.length} dead triangles from physics.`);
-        }
-    },
-
-    build() {
-        if (!this._isManaged) {
-            this.subTrees = [];
-            this.box.makeEmpty();
-        } else {
-            this.subTrees = [];
-        }
-
-        if (this.allTriangles.length > MAX_TRIANGLES_TO_BUILD) {
-            console.warn(`B"H | AWTSMOOS_OCTREE_TRIANGLE_CAP | had=${this.allTriangles.length} | kept=${MAX_TRIANGLES_TO_BUILD}`);
-            this.allTriangles.length = MAX_TRIANGLES_TO_BUILD;
-        }
-
-        this.worldTrianglesData = new Float32Array(this.allTriangles.length * 9);
-        for (let i = 0; i < this.allTriangles.length; i++) {
-            const tri = this.allTriangles[i];
-            const baseIndex = i * 9;
-            this.worldTrianglesData[baseIndex] = tri.a.x;
-            this.worldTrianglesData[baseIndex + 1] = tri.a.y;
-            this.worldTrianglesData[baseIndex + 2] = tri.a.z;
-            this.worldTrianglesData[baseIndex + 3] = tri.b.x;
-            this.worldTrianglesData[baseIndex + 4] = tri.b.y;
-            this.worldTrianglesData[baseIndex + 5] = tri.b.z;
-            this.worldTrianglesData[baseIndex + 6] = tri.c.x;
-            this.worldTrianglesData[baseIndex + 7] = tri.c.y;
-            this.worldTrianglesData[baseIndex + 8] = tri.c.z;
-
-            if (!this._isManaged) {
-                this.box.expandByPoint(tri.a).expandByPoint(tri.b).expandByPoint(tri.c);
-            }
-        }
-
-        if (this.allTriangles.length > 0) {
-            this.box.min.x -= 0.01;
-            this.box.min.y -= 0.01;
-            this.box.min.z -= 0.01;
-        }
-
-        this.triangles = Array.from(Array(this.allTriangles.length).keys());
-        this.split(0);
-        this.isBuilt = true;
-        return this;
-    },
-
-    split(level) {
-        if (this.triangles.length === 0) return;
-        if (level >= MAX_DEPTH || this.triangles.length <= 24) return;
-
-        const halfsize = _v2.copy(this.box.max).sub(this.box.min).multiplyScalar(0.5);
-        if (!Number.isFinite(halfsize.x) || !Number.isFinite(halfsize.y) || !Number.isFinite(halfsize.z)) return;
-        if (halfsize.lengthSq() < 0.0001) return;
-
-        const newSubTrees = [];
-        for (let x = 0; x < 2; x++) {
-            for (let y = 0; y < 2; y++) {
-                for (let z = 0; z < 2; z++) {
-                    const box = new THREE.Box3();
-                    _v1.set(x, y, z);
-                    box.min.copy(this.box.min).add(_v1.multiply(halfsize));
-                    box.max.copy(box.min).add(halfsize);
-                    const subTree = new this.constructor(box);
-                    subTree.worldTrianglesData = this.worldTrianglesData;
-                    newSubTrees.push(subTree);
-                }
-            }
-        }
-
-        for (const index of this.triangles) {
-            const tri = this._getTriangle(index, _temp_triangle);
-            for (const subTree of newSubTrees) {
-                if (subTree.box.intersectsTriangle(tri)) subTree.triangles.push(index);
-            }
-        }
-
-        for (const subTree of newSubTrees) {
-            const len = subTree.triangles.length;
-            if (len > 24 && level < MAX_DEPTH) subTree.split(level + 1);
-            if (len !== 0) this.subTrees.push(subTree);
-        }
-
-        if (this.subTrees.length > 0) this.triangles.length = 0;
-    }
+  addTriangle(triangle) { if (!triangle || this.allTriangles.length >= MAX_TRIANGLES) return this; this.bounds.min.min(triangle.a).min(triangle.b).min(triangle.c); this.bounds.max.max(triangle.a).max(triangle.b).max(triangle.c); this.triangles.push(triangle); this.allTriangles.push(triangle); this.isBuilt = false; return this; },
+  addDynamicTriangle(triangle) { if (!triangle || (this.box && !this.box.isEmpty() && !this.box.intersectsTriangle(triangle))) return this; const clone = copyMeta(triangle.clone(), triangle); this.dynamicTriangles.push(clone); return this; },
+  calcBox() { if (this._isManaged && this.box && !this.box.isEmpty()) return this; this.box = this.bounds.clone(); this.box.min.addScalar(-.01); this.box.max.addScalar(.01); return this; },
+  split(level = 0) { if (!this.box || this.triangles.length <= this.trianglesPerLeaf || level >= this.maxLevel) return this; const subTrees = [], half = _half.copy(this.box.max).sub(this.box.min).multiplyScalar(.5); if (half.lengthSq() < 1e-8) return this; for (let x=0;x<2;x++) for (let y=0;y<2;y++) for (let z=0;z<2;z++) { const box = new Box3(); _corner.set(x,y,z); box.min.copy(this.box.min).add(_corner.multiply(half)); box.max.copy(box.min).add(half); const child = new this.constructor(box); child.layers.mask = this.layers.mask; child.trianglesPerLeaf = this.trianglesPerLeaf; child.maxLevel = this.maxLevel; child.allTriangles = this.allTriangles; child.bounds.copy(this.bounds); child._isManaged = this._isManaged; subTrees.push(child); }
+    let tri; while ((tri = this.triangles.pop())) for (const child of subTrees) if (child.box.intersectsTriangle(tri)) child.triangles.push(tri);
+    for (const child of subTrees) { const len = child.triangles.length; if (len > child.trianglesPerLeaf && level < child.maxLevel) child.split(level + 1); if (len) this.subTrees.push(child); }
+    return this; },
+  build() { this.subTrees.length = 0; this.triangles = this.allTriangles.filter(sourceAlive); this.allTriangles = this.triangles.slice(); this.bounds.makeEmpty(); for (const tri of this.allTriangles) { this.bounds.min.min(tri.a).min(tri.b).min(tri.c); this.bounds.max.max(tri.a).max(tri.b).max(tri.c); } this.calcBox(); this.split(0); this.isBuilt = true; return this; },
+  fromGraphNode(group) { if (!group) return this; group.updateWorldMatrix?.(true, true); group.traverse?.(obj => { if (obj.isMesh !== true || !obj.geometry || !this.layers.test(obj.layers)) return; this.removeMesh(obj, false); let geometry = obj.geometry, temp = false; if (geometry.index) { geometry = geometry.toNonIndexed(); temp = true; } const attr = geometry.getAttribute('position'); for (let i = 0; attr && i + 2 < attr.count && this.allTriangles.length < MAX_TRIANGLES; i += 3) this.addTriangle(triFromAttr(attr, i, obj.matrixWorld, obj)); if (temp) geometry.dispose(); }); return this.build(); },
+  removeMesh(mesh, rebuild = true) { const before = this.allTriangles.length; this.allTriangles = this.allTriangles.filter(t => t.sourceMesh !== mesh && t.object !== mesh); this.dynamicTriangles = this.dynamicTriangles.filter(t => t.sourceMesh !== mesh && t.object !== mesh); if (rebuild && before !== this.allTriangles.length) this.build(); return this; },
+  pruneDeadTriangles() { const before = this.allTriangles.length; this.allTriangles = this.allTriangles.filter(sourceAlive); this.dynamicTriangles = this.dynamicTriangles.filter(sourceAlive); if (before !== this.allTriangles.length) this.build(); return this; }
 };

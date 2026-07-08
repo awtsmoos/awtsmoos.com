@@ -1,26 +1,61 @@
-/* B"H */
+/* B"H
+ * Chapter: Navigation becomes a floating instrument.
+ * The dock is glass, safe-area aware, magnetic on hover, and bounded by named
+ * depth tokens so menus and modals no longer fight by random z-index.
+ */
 .home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav {
   align-items: center;
-  background: rgba(255,255,255,.98);
-  border: 1px solid var(--g-border);
-  border-radius: 999px;
+  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: var(--radius-dock);
   bottom: max(.75rem, env(safe-area-inset-bottom));
-  box-shadow: var(--g-shadow-md);
+  box-shadow: var(--shadow-dock);
   display: flex;
-  gap: var(--g-2);
+  gap: var(--g-2, .5rem);
   justify-content: center;
   left: 50%;
-  max-width: min(94vw, 520px);
+  max-width: min(94dvw, 560px);
+  min-height: 58px;
   padding: .45rem;
   position: fixed;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
+  transition: transform var(--motion-med) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), background var(--motion-med) var(--ease-soft);
   width: max-content;
-  z-index: 50;
+  z-index: var(--z-dock);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
 }
+
+.home-command-dock:is(:hover, :focus-within), .profile-bottom-nav:is(:hover, :focus-within),
+.spaces-bottom-nav:is(:hover, :focus-within), .mobile-bottom-nav:is(:hover, :focus-within) {
+  box-shadow: var(--shadow-menu);
+  transform: translateX(-50%) translateY(-2px);
+}
+
 .home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a, .mobile-bottom-nav a {
-  border-radius: 999px;
-  color: var(--g-text-2);
-  padding: .55rem .75rem;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  color: var(--g-text-2, #64748b);
+  display: inline-flex;
+  gap: .35rem;
+  min-height: 44px;
+  min-width: 44px;
+  padding: .58rem .78rem;
+  position: relative;
   text-decoration: none;
+  transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft);
 }
-[aria-current="page"] { color: var(--g-text) !important; font-weight: 700; }
+
+.home-command-dock a:is(:hover, :focus-visible), .profile-bottom-nav a:is(:hover, :focus-visible),
+.spaces-bottom-nav a:is(:hover, :focus-visible), .mobile-bottom-nav a:is(:hover, :focus-visible) {
+  background: rgba(255,255,255,.72);
+  color: var(--g-text, #0f172a);
+  transform: translateY(var(--motion-hover-lift)) scale(1.03);
+}
+
+[aria-current="page"] {
+  background: rgba(255,255,255,.86) !important;
+  color: var(--g-text, #0f172a) !important;
+  font-weight: 800;
+  box-shadow: 0 8px 22px rgba(15,23,42,.10);
+}

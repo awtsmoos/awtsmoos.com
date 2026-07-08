@@ -23,9 +23,24 @@
     #awtsmoosNoBlackGuard{position:fixed;inset:0;z-index:8500;pointer-events:none;display:flex;align-items:center;justify-content:center;text-align:center;font-family:system-ui,sans-serif;background:linear-gradient(180deg,#8eb9ff 0%,#cfe7ff 48%,#62bd4b 49%,#238823 100%);color:#17330f;transition:opacity .3s ease}.hidden,#awtsmoosNoBlackGuard.hidden{opacity:0;pointer-events:none}#awtsmoosNoBlackGuard .card{max-width:300px;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.68);box-shadow:0 12px 30px rgba(0,0,0,.18)}#awtsmoosNoBlackGuard .title{font-weight:900}#awtsmoosNoBlackGuard .sub{margin-top:6px;font-size:13px;opacity:.85}html.awtsmoos-gameplay-dom-quiet #awtsmoosLoadingVeil,html.awtsmoos-gameplay-dom-quiet #awtsmoosNoBlackGuard,#awtsmoosUiSinks{display:none!important;opacity:0!important;pointer-events:none!important}
     @media(max-width:680px){.loadingContent{width:94vw;gap:8px;padding:9px 12px;transform:translateY(-1vh)}.awtsmoos-title-glow{font-size:clamp(2.25rem,15vw,4.35rem);line-height:.9;letter-spacing:.02em}.genesis-stage-panel{gap:7px;padding:10px}.genesis-stage-row{grid-template-columns:70px minmax(0,1fr);font-size:.78rem}.barLoading{height:23px}.genesis-progress-log{max-height:42px;font-size:9px}.genesis-profiler-log{max-height:58px;font-size:9px}.kabbalah-vortex{top:24vh;width:138vw;height:138vw}.txtLoad{font-size:clamp(.95rem,5vw,1.35rem)}}@media(max-width:760px){#mitzvahBottomCenter{bottom:calc(82px + env(safe-area-inset-bottom,0px));width:min(68vw,290px)!important;gap:4px!important;pointer-events:none!important}#mitzvahBottomCenter .mitzvahPanel{font-size:11px!important;line-height:1.15!important;padding:7px 9px!important;max-height:16vh!important}#mitzvahBottomCenter .mitzvahPanel:nth-child(n+2){display:none!important}.floating-text{max-width:min(68vw,260px)!important;white-space:normal!important;text-align:center!important;padding:8px 10px!important;font-size:15px!important;line-height:1.16!important}}
   </style>
+
+  <style id="awts-fancy-loading-v4">
+    html,body{background:#071324!important}
+    .loading{background:linear-gradient(180deg,#071425 0%,#0d3159 46%,#123a29 100%)!important;isolation:isolate;perspective:none!important;}
+    .loading:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 22%,rgba(0,255,237,.22),transparent 28%),radial-gradient(circle at 20% 10%,rgba(255,231,122,.14),transparent 24%);opacity:.72;animation:none!important;filter:none!important;transform:none!important;}
+    .loading:after{content:"";position:absolute;left:-8%;right:-8%;bottom:-18%;height:48%;background:linear-gradient(180deg,rgba(17,99,64,0),rgba(17,99,64,.78));clip-path:polygon(0 34%,100% 27%,100% 100%,0 100%);filter:none!important;animation:none!important;z-index:0}
+    .loadingContent{background:linear-gradient(180deg,rgba(5,15,32,.48),rgba(6,24,30,.28));border:1px solid rgba(255,255,255,.12);border-radius:24px;box-shadow:0 18px 48px rgba(0,0,0,.28),inset 0 0 28px rgba(0,243,255,.05);backdrop-filter:blur(5px);transform:none!important;transform-style:flat!important;}
+    .awts-orbital-loader{top:4vh!important;filter:drop-shadow(0 0 16px rgba(0,243,255,.35))!important;animation:none!important;transform:translateX(-50%)!important;opacity:.62!important}.awts-orbital-loader span{border-width:1px!important;box-shadow:0 0 10px rgba(0,243,255,.18),inset 0 0 8px rgba(0,243,255,.08)!important;animation-duration:18s!important}.awts-orbital-loader span:nth-child(2){animation-duration:22s!important}.awts-orbital-loader span:nth-child(3){animation-duration:26s!important}.awts-orbital-loader span:nth-child(4),.awts-orbital-loader span:nth-child(5){display:none!important}.awts-orbital-loader:before{box-shadow:0 0 14px rgba(0,243,255,.48),inset 0 0 10px rgba(255,255,255,.5)!important;animation:awtsPulse 6s ease-in-out infinite!important}.awts-orbital-loader:after{opacity:.12!important;filter:none!important;animation:awtsSpin 28s linear infinite!important}
+    .kabbalah-vortex{top:18vh!important;opacity:.28!important;animation:none!important;transform:translateX(-50%) perspective(900px) rotateX(72deg)!important}.sefirot-ring{animation:none!important;border-width:2px!important;box-shadow:none!important}.loading-stars{opacity:.42!important}.loading-star{animation:none!important;box-shadow:0 0 4px #fff!important}
+    .loading-radial-core{background:conic-gradient(#00ffed var(--load),rgba(255,255,255,.12) 0),radial-gradient(circle at 40% 35%,#ffffff 0%,#0ff 10%,#17314f 54%,#071324 58%)!important;box-shadow:0 0 14px rgba(0,255,237,.48)!important;transform:none!important}.loading-radial-core:after{animation:spinFlat 18s linear infinite!important;opacity:.55!important}.awtsmoos-title-glow{text-shadow:0 2px 0 rgba(0,255,237,.35),0 0 16px rgba(255,255,255,.55)!important;transform:none!important}.pulse-text{animation:pulseText 4s ease-in-out infinite alternate!important}.barLoading{height:26px!important;background:rgba(3,10,23,.78)!important;border-color:rgba(0,255,237,.55)!important;box-shadow:0 0 10px rgba(0,255,237,.25),inset 0 0 14px rgba(0,0,0,.55)!important}.barMitzvah{background:linear-gradient(90deg,#1cf7ff,#ffe77a,#5bffa8)!important;box-shadow:0 0 10px rgba(0,255,237,.35)!important}.light-spark-comet{display:none!important}
+    .genesis-stage-panel{background:linear-gradient(135deg,rgba(2,12,30,.82),rgba(5,48,55,.62))!important;border:1px solid rgba(0,255,237,.36)!important;box-shadow:0 12px 28px rgba(0,0,0,.28),inset 0 0 20px rgba(0,255,237,.05)!important;transform:none!important}.genesis-stage-label{color:#fff7aa;text-shadow:none!important}.genesis-stage-note{color:#fff2a8!important;font-size:.82rem!important}.genesis-stage-track{background:rgba(255,255,255,.09)!important;height:12px!important;box-shadow:inset 0 0 8px rgba(0,0,0,.35)}.genesis-stage-fill{background:linear-gradient(90deg,#ffe77a,#00ffed,#5bffa8)!important;box-shadow:none!important;transition:width .45s linear!important}
+    .txtLoad{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;text-wrap:balance}.genesis-progress-log,.genesis-profiler-log{background:rgba(0,7,20,.72)!important;border-color:rgba(255,231,122,.22)!important;max-height:70px!important;box-shadow:inset 0 0 12px rgba(0,243,255,.04)}
+    @media(max-width:680px){.loadingContent{width:92vw!important;max-height:calc(100dvh - 42px)!important;gap:8px!important;padding:11px!important;border-radius:22px!important}.awts-orbital-loader{top:5vh!important;width:88vw!important;height:88vw!important}.kabbalah-vortex{top:20vh!important}.genesis-progress-log,.genesis-profiler-log{max-height:54px!important}.genesis-stage-note{font-size:.72rem!important}.barLoading{height:24px!important}}
+  </style>
+
 </head>
 <body>
-  
+
 <div id="awtsmoosNoBlackGuard"><div class="card"><div class="title">B&quot;H — עולם נטען</div><div class="sub">Building visible ground before the first frame.</div></div></div>
 <div class="loading" id="awtsmoosLoadingVeil">
     <div class="kabbalah-vortex" aria-hidden="true">
@@ -49,7 +64,7 @@
       <h2 class="txtLoad pulse-text" id="genesisMainLoadingText">Opening the future sphere engine...</h2>
       <h3 class="txtLoad info" id="genesisActionText">Opening the world...</h3>
       <div class="genesis-progress-log" id="genesisProgressLog">B"H  opening loading channel</div>
-      <div class="genesis-profiler-log" id="genesisProfilerLog">Profiler armed</div>
+      <div class="genesis-profiler-log" id="genesisProfilerLog">Profiler quiet until stage changes</div>
     </div>
   </div>
   <script>
@@ -104,18 +119,34 @@
       let trickle = 4;
       const timer = setInterval(() => {
         if (window.__AWTSMOOS_LOADING_BRIDGE_READY__) return clearInterval(timer);
-        trickle = Math.min(34, trickle + 2.25);
+        trickle = Math.min(24, trickle + 0.75);
         update({ stage:"html:trickle", total:trickle, action:"Importing compact modules...", subAction:"browser module graph", real:false });
-      }, 90);
+      }, 1200);
     })();
   </script>
+
+  <script id="awts-loading-detail-upgrade-v4">
+    (() => {
+      const details = {
+        html:"HTML shell mounted; painting the first non-black frame.", module:"Browser is importing the game module graph.", entrypoint:"Entrypoint loaded; preparing worker handshake.", "boot-runner":"Boot runner is wiring Olam, renderer, and controls.", "angelic-invoker":"Worker invocation is alive; waiting for world vessel.", vessel_ready:"Worker vessel is ready and accepting world messages.", "message:pawsawch":"World creation message delivered to worker.", "soul-loader":"Loading player, homes, NPCs, animals, and terrain contracts.", "load-nivrayim":"Instantiating visible objects and collision triangles.", postbuild:"Pairing doors, NPC targets, UI guarantees, and starter stations.", "first-render":"Renderer produced the first playable frame.", loadedWorld:"World data loaded; final readiness proof pending.", world_final_ready:"Playable world confirmed; hiding the veil."
+      };
+      const old = window.__AWTSMOOS_LOADING_PROGRESS__;
+      if (!old || old.__fancyDescriptions) return;
+      function explain(stage){ stage=String(stage||""); return Object.entries(details).find(([k])=>stage.startsWith(k))?.[1] || `Working on ${stage.replace(/[-:]/g,' ')}.`; }
+      const wrap = fn => input => { input ||= {}; input.subAction ||= explain(input.stage || input.kind || input.type); input.log ||= `${input.subAction}`; return fn(input); };
+      old.update = wrap(old.update.bind(old)); old.workerProgress = wrap(old.workerProgress.bind(old));
+      const mark = old.markFinalReady?.bind(old); old.markFinalReady = reason => { const out = mark?.(reason); setTimeout(()=>{ const report = window.__AWTSMOOS_LOAD_PROFILER_REPORT__; if(report?.rows){ console.groupCollapsed?.('B"H Mitzvah World load timing report'); console.table?.(report.rows); console.log('totalMs', report.totalMs, 'reason', report.reason); console.groupEnd?.(); } }, 0); return out; };
+      old.__fancyDescriptions = true;
+    })();
+  </script>
+
   <div id="ikar" shaym="ikar"></div>
   <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div><div shaym="personalPerutas"></div><div shaym="animalKillProof"></div></div>
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
-  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=history-animation-compact-top-20260708-bh10"></script>
+  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=loader-calm-error-visible-20260708-bh1"></script>
   <script type="module" src="./systems/osGraph/bridge.js?compact=true&v=perf-tight-collision-20260706-bh1"></script>
-  <script type="module" src="./index.js?compact=true&v=history-animation-compact-top-20260708-bh10"></script>
+  <script type="module" src="./index.js?compact=true&v=loader-calm-error-visible-20260708-bh1"></script>
   <script type="module">
     if (new URLSearchParams(location.search).get("awtsFix") === "wowLikeLiveGameplay") {
       import("./ckidsAwtsmoos/gameplay/LiveWowSliceRuntime.js?compact=true&v=wow-like-live-gameplay-20260706-bh2");

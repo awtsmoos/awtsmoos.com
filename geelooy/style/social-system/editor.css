@@ -1,7 +1,35 @@
-/* B"H Editor entry vessel. */
+/* B"H
+ * Second pass Step 3: Editor entry vessel with shared polish above parts.
+ * This file remains an import gateway, but it also provides non-post editor
+ * architecture for composer shells, toolbar rows, editable regions, and actions.
+ */
 @import "./tokens.css";
 @import "./editor/parts/shell.css";
 @import "./editor/parts/forms.css";
 @import "./editor/parts/cards.css";
 @import "./editor/parts/actions.css";
 @import "./editor/parts/mobile.css";
+
+:where(.social-editor, .editor-shell, .composer-shell, [data-editor-shell]) {
+  background: linear-gradient(145deg, rgba(255,255,255,.9), rgba(248,250,252,.72));
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: var(--radius-xl, 2rem);
+  box-shadow: var(--shadow-card, 0 10px 30px rgba(15,23,42,.08));
+  max-width: 100%;
+  min-width: 0;
+  overflow: clip;
+}
+
+:where(.editor-toolbar, .composer-toolbar, [data-editor-toolbar]) {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: .75rem;
+}
+
+:where(.editor-body, .composer-body, [contenteditable="true"]) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}

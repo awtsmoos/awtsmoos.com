@@ -1,4 +1,25 @@
-/* B"H effects index. */
+/* B"H effects index: one shared shimmer, no scattered enchantments. */
 @import "./glass.css";
 @import "./gold-border.css";
 @import "./ambient-bg.css";
+
+.awt-hover-lift,
+:where(.premium-hover, .home-action-card, .home-post-card, .social-space-card, .home-route-card, .profile-hero-card) {
+  transform: translateZ(0);
+  transition: transform var(--motion-med) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), background var(--motion-med) var(--ease-soft);
+  will-change: transform;
+}
+
+.awt-hover-lift:is(:hover, :focus-within),
+:where(.premium-hover, .home-action-card, .home-post-card, .social-space-card, .home-route-card, .profile-hero-card):is(:hover, :focus-within) {
+  box-shadow: var(--motion-shadow-lift);
+  transform: translateY(var(--motion-hover-lift)) rotateX(var(--motion-tilt-x)) rotateY(var(--motion-tilt-y));
+}
+
+.awt-pressable:active,
+:where(button, .btn, [role="button"], .home-action-card, .home-route-card):active {
+  transform: translateY(var(--motion-press-depth)) scale(.99);
+}
+
+.awt-slide-in { animation: awt-slide-in var(--motion-slow) var(--ease-snap) both; }
+@keyframes awt-slide-in { from { opacity: 0; transform: translateY(var(--motion-slide-distance)); } to { opacity: 1; transform: translateY(0); } }

@@ -4,24 +4,22 @@
 @import "./profile-styles-parts/cards.css";
 @import "./profile-styles-parts/mobile.css";
 
-/* B"H — the alias drawer is warm, compact, and never a click-trap. */
+/* B"H — universal alias menu: viewport-safe, opaque, and never a click trap. */
 .awtsmoosDrop .hidden,
 .awtsmoos-dropdown-backdrop.hidden,
-.awtsmoosDrop .dropdown-content[aria-hidden="true"] {
-  display: none !important;
-  pointer-events: none !important;
-}
-.awtsmoos-dropdown-backdrop { background: rgba(2,6,23,.5); inset: 0; position: fixed; z-index: 2800; }
-.awtsmoos-profile-dropdown,#awtsmoosDrop { isolation: isolate; max-width: min(92vw,24rem); position: relative; z-index: 3100; }
-.awtsmoosDrop .dropdown-content { background: #060b15 !important; border: 1px solid rgba(91,216,232,.26) !important; border-radius: 20px !important; box-shadow: 0 22px 54px rgba(0,0,0,.58) !important; color: #fffaf1 !important; overflow: hidden; pointer-events: auto; }
+.awtsmoosDrop .dropdown-content[aria-hidden="true"] { display: none !important; pointer-events: none !important; }
+.awtsmoos-dropdown-backdrop { background: rgba(2,6,23,.32); inset: 0; position: fixed; z-index: 2147481890; }
+.awtsmoos-profile-dropdown,#awtsmoosDrop { isolation: isolate; max-width: min(92vw,24rem); min-width: 0; position: relative; z-index: 3100; }
+.awtsmoosDrop .dropdown-content { background: #060b15 !important; border: 1px solid rgba(91,216,232,.26) !important; border-radius: 20px !important; box-shadow: 0 22px 54px rgba(0,0,0,.58) !important; color: #fffaf1 !important; max-height: min(72dvh,34rem); overflow: auto; pointer-events: auto; }
+.awtsmoosDrop .alias-switcher { position: static !important; width: 100% !important; }
 .awtsmoosDrop .local-mode-note { background: rgba(46,167,255,.1) !important; border-color: rgba(91,216,232,.22) !important; color: #dff8ff !important; }
 .awtsmoosDrop input,.awtsmoosDrop textarea { background: #f8fafc !important; border: 0 !important; border-radius: 14px !important; color: #0f172a !important; min-height: 44px !important; }
 .awtsmoosDrop .btn.dropt,.awtsmoosDrop a,.awtsmoosDrop button { white-space: nowrap; }
+.awtsmoosDrop .prim,.awtsmoosDrop .currentAliasName { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .awtsmoosDrop button,.awtsmoosDrop a { transition: transform 150ms ease, border-color 150ms ease, background 150ms ease; }
 .awtsmoosDrop button:hover,.awtsmoosDrop a:hover { transform: translate3d(0,-1px,0); }
-
 @media (max-width: 600px) {
-  .awtsmoos-profile-dropdown,#awtsmoosDrop { max-width: calc(100vw - 1rem); }
-  .awtsmoosDrop .prim { max-width: 4.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .awtsmoosDrop .dropdown-content { left: auto !important; right: 0 !important; width: min(92vw,23rem) !important; }
+  .awtsmoos-profile-dropdown,#awtsmoosDrop { max-width: calc(100vw - .75rem); }
+  .awtsmoosDrop .prim { max-width: 5.6rem; }
+  .awtsmoosDrop .dropdown-content:not(.alias-switcher) { left: max(.55rem, env(safe-area-inset-left)) !important; right: max(.55rem, env(safe-area-inset-right)) !important; top: max(4.35rem, calc(env(safe-area-inset-top) + 4.35rem)) !important; width: auto !important; min-width: 0 !important; max-height: calc(100dvh - 5.2rem) !important; position: fixed !important; }
 }

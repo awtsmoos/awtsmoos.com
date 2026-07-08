@@ -4,7 +4,7 @@
  * @description Declares the worker boot modules before URL resolution.
  */
 
-export const MODULE_BOOT_VERSION = "repair-ground-material-20260708-bh2";
+export const MODULE_BOOT_VERSION = "mobile-parser-safe-loader-calm-20260708-bh1";
 
 export const MODULE_PATH_LEDGER = Object.freeze({
   olamCore: Object.freeze({

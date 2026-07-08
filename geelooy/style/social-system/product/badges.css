@@ -1,2 +1,37 @@
-.p-badge { background: var(--p-accent); border-radius: 999px; color: #03110f; display: inline-grid; font-size: .72rem; font-weight: 900; min-width: 1.25rem; padding: .18rem .4rem; place-items: center; }
-.p-badge-muted { background: rgba(148,163,184,.15); color: var(--p-muted); }
+/* B"H
+ * Second pass Step 1b: badges become legible status sparks.
+ * Counts, live markers, unread dots, and status pills share geometry and never
+ * distort layout or vanish against glass.
+ */
+.p-badge,
+:where(.badge, .status-badge, [data-badge]) {
+  align-items: center;
+  background: linear-gradient(135deg, var(--p-accent, #f5ca70), #ffe8a3);
+  border: 1px solid rgba(255,255,255,.52);
+  border-radius: var(--radius-pill, 999px);
+  box-shadow: 0 8px 18px rgba(214,168,79,.22), inset 0 1px 0 rgba(255,255,255,.65);
+  color: #03110f;
+  display: inline-flex;
+  font-size: .72rem;
+  font-weight: 950;
+  justify-content: center;
+  line-height: 1;
+  min-height: 1.35rem;
+  min-width: 1.35rem;
+  padding: .2rem .46rem;
+  white-space: nowrap;
+}
+
+.p-badge-muted,
+:where(.badge-muted, .status-badge-muted) {
+  background: rgba(148,163,184,.16);
+  border-color: rgba(148,163,184,.24);
+  box-shadow: none;
+  color: var(--p-muted, #64748b);
+}
+
+.p-badge-live,
+:where(.badge-live, [data-live-badge]) {
+  background: linear-gradient(135deg, #67f0bd, #c8ffe9);
+  box-shadow: 0 0 0 3px rgba(103,240,189,.16), 0 10px 24px rgba(34,197,94,.18);
+}

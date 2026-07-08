@@ -1,24 +1,48 @@
-/* B"H */
+/* B"H
+ * Chapter: Buttons become instruments, not boxes.
+ * Every shared action receives touch size, glass-aware depth, hover lift,
+ * pressed feedback, focus clarity, and calm reduced-motion obedience.
+ */
 a, button { font: inherit; }
-button, .home-search-vessel button, .profile-primary-action, .spaces-create,
+
+button, .btn, .home-search-vessel button, .profile-primary-action, .spaces-create,
 .home-profile-pill, .space-actions a, .home-empty-actions a, .profile-command-rail a,
 .profile-inline-actions button, .profile-inline-actions a {
   align-items: center;
-  border-radius: var(--g-radius);
-  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius, 16px);
+  border: 1px solid var(--g-border, rgba(15,23,42,.12));
   cursor: pointer;
   display: inline-flex;
-  font-weight: 600;
-  gap: var(--g-2);
+  font-weight: 700;
+  gap: var(--g-2, .5rem);
   justify-content: center;
-  min-height: 40px;
-  padding: .6rem .9rem;
+  min-height: 44px;
+  min-width: 44px;
+  padding: .68rem 1rem;
+  position: relative;
   text-decoration: none;
+  transform: translateZ(0);
+  transition: transform var(--motion-fast) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), background var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft);
+  user-select: none;
 }
+
 .home-search-vessel button, .profile-primary-action, .spaces-create, .is-create {
-  background: var(--g-text);
-  border-color: var(--g-text);
+  background: linear-gradient(135deg, var(--g-text, #0f172a), #26344f);
+  border-color: rgba(255,255,255,.2);
   color: #fff;
+  box-shadow: 0 14px 34px rgba(15,23,42,.18);
 }
-button, .profile-command-rail a, .space-actions a { background: #fff; color: var(--g-text); }
-button:hover, a:hover { border-color: var(--g-accent); }
+
+button, .profile-command-rail a, .space-actions a {
+  background: rgba(255,255,255,.88);
+  color: var(--g-text, #0f172a);
+}
+
+button:is(:hover, :focus-visible), a:is(:hover, :focus-visible), .btn:is(:hover, :focus-visible) {
+  border-color: var(--g-accent, rgba(214,168,79,.72));
+  box-shadow: 0 16px 38px rgba(15,23,42,.14);
+  transform: translateY(var(--motion-hover-lift));
+}
+
+button:active, .btn:active, a:active { transform: translateY(var(--motion-press-depth)) scale(.99); }
+button:disabled, .btn[aria-disabled="true"] { cursor: not-allowed; opacity: .58; transform: none; }

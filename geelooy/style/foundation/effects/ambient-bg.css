@@ -1,2 +1,18 @@
-/* B"H ambient page background utility. */
-.awt-ambient-bg { background: var(--awt-paper); background-image: var(--awt-ambient-wash), var(--awt-spotlight); }
+/* B"H
+ * Chapter: The background becomes a quiet sky.
+ * A page may opt into the wash, while app shells receive a subtle premium depth
+ * without stealing contrast from words or controls.
+ */
+.awt-ambient-bg,
+:where(.geelooy-home-document, .social-hub-root, .awtsmoospage) {
+  background: var(--awt-paper, #f8fafc);
+  background-image:
+    radial-gradient(circle at 12% 0%, rgba(245,202,112,.22), transparent 34rem),
+    radial-gradient(circle at 88% 8%, rgba(96,165,250,.18), transparent 30rem),
+    linear-gradient(180deg, rgba(255,255,255,.82), rgba(248,250,252,.92));
+}
+
+.awt-depth-field {
+  perspective: var(--motion-perspective);
+  transform-style: preserve-3d;
+}

@@ -1,5 +1,8 @@
 // B"H
-/** @module OlamVessel @description Worker root: proven core vessel with THREE usage through adapter. */
+/**
+ * @module OlamVessel
+ * @description Worker root vessel, written in conservative browser syntax so mobile parsers never choke.
+ */
 import { AmbientLight, Color, Fog } from "../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import Nivra from "../../chayim/nivra.js?compact=true&v=village-combat-20260611-bh804";
 import OlamGrafting from "./OlamGraftingPlain.js?compact=true&v=vehicles-u-mount-20260706-bh1";
@@ -7,30 +10,47 @@ import OlamProperties from "../properties/index.js?compact=true&v=village-combat
 import OlamInit from "./OlamInit.js?compact=true&v=village-combat-20260611-bh804";
 import Ayin from "../camera/index.js?compact=true&v=village-combat-20260611-bh804";
 import UserProgressManager from "../../systems/UserProgressManager.js?compact=true&v=village-combat-20260611-bh804";
-import Yichud from "../interaction/Yichud.js?compact=true&";
-import PlacementManager from "../interaction/PlacementManager.js?compact=true&";
+import Yichud from "../interaction/Yichud.js?compact=true&v=mobile-parser-safe-20260708-bh1";
+import PlacementManager from "../interaction/PlacementManager.js?compact=true&v=mobile-parser-safe-20260708-bh1";
 import CombatManager from "../../systems/combat/CombatManager.js?compact=true&v=attack-cache-hard-grounding-20260701-bh1";
 import { ensureWorldState, worldStateSnapshot } from "../../systems/worldState/WorldStateStore.js?compact=true&v=starter-contracts-20260628-bh9";
 import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=native-crisp-20260622-bh1";
 import { ensureCollisionRuntime } from "../worlds/mitzvahWorld/collision/CollisionRuntime.js?compact=true&v=ground-cache-diag-20260701-bh1";
 
-const SAFE_SKY = 0x5d8fa8;
+var SAFE_SKY = 0x5d8fa8;
+
+function cleanStack(error) {
+  var raw = error && error.stack ? String(error.stack) : "no stack";
+  return raw.replace(/\s+/g, " ");
+}
+
+function errorMessage(error) {
+  return error && error.message ? String(error.message) : String(error || "unknown error");
+}
 
 function targetSnapshot(target) {
+  var mesh = target && target.mesh;
+  var userData = target && target.userData;
+  var health = target && target.health;
+  var userHealth = userData && userData.health;
   if (!target) return null;
   return {
-    name: target.name || target.mesh?.name || target.userData?.displayName || null,
-    hp: target.hp ?? target.health?.current ?? target.userData?.health?.current ?? null,
-    max: target.maxHp ?? target.health?.max ?? target.userData?.health?.max ?? null
+    name: target.name || (mesh && mesh.name) || (userData && userData.displayName) || null,
+    hp: target.hp != null ? target.hp : health && health.current != null ? health.current : userHealth && userHealth.current != null ? userHealth.current : null,
+    max: target.maxHp != null ? target.maxHp : health && health.max != null ? health.max : userHealth && userHealth.max != null ? userHealth.max : null
   };
 }
 
 function octreeStats(olam) {
   return {
-    world: Boolean(olam?.worldOctree),
-    interactive: Boolean(olam?.interactiveOctree),
+    world: Boolean(olam && olam.worldOctree),
+    interactive: Boolean(olam && olam.interactiveOctree),
     dynamicSidecar: Boolean(globalThis.__AWTS_DYNAMIC_SPATIAL__)
   };
+}
+
+function collisionDiag() {
+  return typeof globalThis.__AWTS_COLLISION_DIAG__ === "function" ? globalThis.__AWTS_COLLISION_DIAG__() : null;
 }
 
 function exposeDebug(olam) {
@@ -39,19 +59,18 @@ function exposeDebug(olam) {
     ensureCollisionRuntime(olam);
     globalThis.__AWTS_OLAM__ = olam;
     globalThis.__AWTS_WORLD_STATE__ = olam.__awtsmoosWorldState;
-    globalThis.__AWTS_WORLD_STATE_SNAPSHOT__ = () => worldStateSnapshot(olam);
-    globalThis.__AWTS_SPATIAL_DIAG__ = () => ({
-      ...octreeStats(olam),
-      collision: globalThis.__AWTS_COLLISION_DIAG__?.() || null
-    });
-    globalThis.__AWTS_COMBAT_DIAG__ = () => ({
-      trace: olam.__combatInputTrace || [],
-      attempt: olam.__lastCombatAttackAttempt || null,
-      result: olam.__lastCombatAttackResult || null,
-      failure: olam.__lastAttackFailure || null,
-      target: targetSnapshot(olam.__selectedCombatTarget)
-    });
-  } catch {}
+    globalThis.__AWTS_WORLD_STATE_SNAPSHOT__ = function () { return worldStateSnapshot(olam); };
+    globalThis.__AWTS_SPATIAL_DIAG__ = function () { return Object.assign({}, octreeStats(olam), { collision: collisionDiag() }); };
+    globalThis.__AWTS_COMBAT_DIAG__ = function () {
+      return {
+        trace: olam.__combatInputTrace || [],
+        attempt: olam.__lastCombatAttackAttempt || null,
+        result: olam.__lastCombatAttackResult || null,
+        failure: olam.__lastAttackFailure || null,
+        target: targetSnapshot(olam.__selectedCombatTarget)
+      };
+    };
+  } catch (error) {}
 }
 
 export default class Olam extends Nivra {
@@ -66,9 +85,9 @@ export default class Olam extends Nivra {
     ensureWorldState(this);
     exposeDebug(this);
     this._facultiesGrafted = OlamGrafting.graft(this);
-    this._facultiesGrafted
-      .then(() => this.finishConstructorSetup())
-      .catch(error => console.error(`B"H | Olam faculty grafting failed | message=${error?.message || String(error)} | stack=${String(error?.stack || "no stack").replace(/\s+/g, " ")}`));
+    this._facultiesGrafted.then(() => this.finishConstructorSetup()).catch(error => {
+      console.error("B\"H | Olam faculty grafting failed | message=" + errorMessage(error) + " | stack=" + cleanStack(error));
+    });
   }
 
   finishConstructorSetup() {
@@ -90,7 +109,7 @@ export default class Olam extends Nivra {
       this.octreeDebugHelper.visible = false;
       exposeDebug(this);
     } catch (error) {
-      console.error(`B"H | Olam constructor setup failed | message=${error?.message || String(error)} | stack=${String(error?.stack || "no stack").replace(/\s+/g, " ")}`);
+      console.error("B\"H | Olam constructor setup failed | message=" + errorMessage(error) + " | stack=" + cleanStack(error));
     }
   }
 
@@ -100,7 +119,7 @@ export default class Olam extends Nivra {
     this.scene.fog = new Fog(SAFE_SKY, 520, 4200);
     if (this.__baseVisibilityInstalled) return;
     this.__baseVisibilityInstalled = true;
-    const ambient = new AmbientLight(0xffffff, 0.045);
+    var ambient = new AmbientLight(0xffffff, 0.045);
     ambient.name = "Awtsmoos_Base_Tiny_Ambient";
     this.scene.add(ambient);
   }
@@ -111,12 +130,7 @@ export default class Olam extends Nivra {
 
   set pixelRatio(pixelRatio) {
     if (!this.renderer) return;
-    this.renderer.setPixelRatio(resolvePixelRatio({
-      raw: pixelRatio,
-      width: this.width || 1024,
-      height: this.height || 768,
-      phase: "resize"
-    }));
+    this.renderer.setPixelRatio(resolvePixelRatio({ raw: pixelRatio, width: this.width || 1024, height: this.height || 768, phase: "resize" }));
   }
 
   async init() {

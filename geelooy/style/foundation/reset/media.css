@@ -1,3 +1,43 @@
-/* B"H media never breaks the vessel. */
-img, video, canvas, svg { max-width: 100%; }
-img, video { height: auto; }
+/* B"H
+ * Chapter: Images, editors, and tables enter the ark two by two.
+ * Nothing may burst the vessel; even long code-lines receive a private river
+ * instead of forcing the whole world to scroll sideways.
+ */
+:where(img, video, canvas, svg, iframe, embed, object) {
+  max-width: 100%;
+}
+
+:where(img, video, canvas, svg) {
+  height: auto;
+}
+
+:where(input, select, textarea, button) {
+  max-width: 100%;
+  font: inherit;
+}
+
+:where(input, select, textarea) {
+  min-width: 0;
+  font-size: max(16px, 1em);
+}
+
+:where(textarea, [contenteditable="true"], .editor, .CodeMirror, .cm-editor, pre, code) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+:where(pre, .code-block, .hljs, .cm-scroller, .table-scroll, .table-wrap) {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+:where(table) {
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+:where(dialog, [role="dialog"], .modal, .modal-root-open, .modal-content) {
+  max-inline-size: min(100% - 24px, var(--awts-modal-max, 720px));
+  max-block-size: calc(100dvh - var(--awts-safe-top) - var(--awts-safe-bottom) - 24px);
+}

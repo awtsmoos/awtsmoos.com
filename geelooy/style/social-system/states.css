@@ -1,4 +1,46 @@
-/* B"H state cards: quiet, loading, error, success. */
-.g-social-empty{border:1px dashed var(--g-line-2);border-radius:var(--g-radius-2);padding:1rem;color:var(--g-muted);background:rgba(255,255,255,.04);}
-.g-social-error{border-color:rgba(255,111,145,.38);color:#ffd8e1;}
-.g-social-success{border-color:rgba(103,240,189,.35);color:#d9ffef;}
+/* B"H
+ * Second pass Step 2: states become calm rooms, not afterthoughts.
+ * Empty, loading, error, and success states now share material, spacing, icons,
+ * and readable hierarchy across social surfaces.
+ */
+.g-social-empty,
+.g-social-loading,
+.g-social-error,
+.g-social-success,
+:where(.empty-state, .loading-state, .error-state, .success-state) {
+  align-items: center;
+  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(248,250,252,.68));
+  border: 1px dashed var(--g-line-2, rgba(15,23,42,.16));
+  border-radius: var(--radius-xl, 2rem);
+  box-shadow: var(--shadow-paper, 0 8px 24px rgba(15,23,42,.06));
+  color: var(--g-muted, #64748b);
+  display: grid;
+  gap: .75rem;
+  justify-items: center;
+  max-width: 100%;
+  min-width: 0;
+  padding: clamp(1rem, 4vw, 2rem);
+  text-align: center;
+}
+
+:where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state) > :where(h2, h3, strong) {
+  color: var(--g-text, #0f172a);
+  max-width: 52ch;
+}
+
+.g-social-error,
+.error-state {
+  border-color: rgba(255,111,145,.42);
+  box-shadow: var(--shadow-alert, 0 22px 70px rgba(157,47,22,.22));
+  color: #9d2f16;
+}
+
+.g-social-success,
+.success-state {
+  border-color: rgba(103,240,189,.42);
+  color: var(--awt-success, #2f7d48);
+}
+
+.g-social-loading,
+.loading-state { animation: awt-state-breathe 1.8s var(--ease-soft) infinite alternate; }
+@keyframes awt-state-breathe { from { opacity: .74; transform: translateY(1px); } to { opacity: 1; transform: translateY(-1px); } }

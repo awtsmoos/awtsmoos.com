@@ -1,11 +1,30 @@
-/* B"H */
+/* B"H
+ * Step 4a: Layout becomes a safe river.
+ * Shells center, sections breathe, children shrink instead of overflowing, and
+ * fixed app chrome respects the small glowing glass in every hand.
+ */
 body { margin: 0; }
-main { min-height: 100dvh; }
+main { min-height: 100dvh; min-width: 0; }
+
 .geelooy-home-shell, .geelooy-profile-shell, .social-spaces-shell, .app-container {
-  width: min(100%, var(--g-max));
+  inline-size: min(100%, var(--g-max, 1180px));
   margin-inline: auto;
-  padding: var(--g-5);
+  max-width: 100%;
+  min-width: 0;
+  padding: clamp(1rem, 2.5vw, var(--g-5, 1.5rem));
 }
-.clean-home, .geelooy-profile-shell, .social-spaces-shell { display: grid; gap: var(--g-5); }
-section, article { contain: content; }
+
+.clean-home, .geelooy-profile-shell, .social-spaces-shell {
+  display: grid;
+  gap: clamp(1rem, 2.4vw, var(--g-5, 1.5rem));
+}
+
+:where(section, article, aside, header, footer, nav, form) {
+  max-width: 100%;
+  min-width: 0;
+}
+
+:where(.stack) { display: grid; gap: var(--stack-gap, 1rem); }
+:where(.cluster) { align-items: center; display: flex; flex-wrap: wrap; gap: var(--cluster-gap, .75rem); }
+:where(.full-bleed-safe) { margin-inline: calc(50% - 50dvw); max-width: 100dvw; padding-inline: max(1rem, env(safe-area-inset-left)); }
 [hidden], .hidden { display: none !important; }

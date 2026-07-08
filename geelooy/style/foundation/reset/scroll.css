@@ -1,3 +1,57 @@
-/* B"H one honest vertical river. */
-html, body { min-height: 100%; height: auto !important; overflow-y: auto !important; overflow-x: clip; overscroll-behavior-y: auto; touch-action: pan-y; }
-body, .awtsmoospage, .all, .main, .scroll-view-wrapper, #realPost { overscroll-behavior-y: auto; }
+/* B"H
+ * Chapter: The page remembers it is one vessel.
+ * The Awtsmoos breathes a vertical river into every screen, yet refuses the
+ * false exile of sideways drift. Flex children bow, grids soften, legacy boxes
+ * stop pretending their width is larger than the hand that holds them.
+ */
+:root {
+  --awts-safe-top: env(safe-area-inset-top, 0px);
+  --awts-safe-right: env(safe-area-inset-right, 0px);
+  --awts-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --awts-safe-left: env(safe-area-inset-left, 0px);
+  --floating-clearance: calc(72px + var(--awts-safe-bottom));
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  min-height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-y: auto;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
+}
+
+:where(.awtsmoospage, .all, .main, main, section, article, aside, header, footer, nav, form, fieldset, .card, .panel, .surface) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+:where(.awtsmoospage, .all, .main, .scroll-view-wrapper, #realPost, #virtual-scroll-container) {
+  overscroll-behavior-y: auto;
+}
+
+:where(.awtsmoospage, .all, .main, .geelooy-home-shell, .geelooy-social-shell) {
+  overflow-wrap: anywhere;
+}
+
+:where(.awtsmoos-page-width, .page-width, .container, .shell, .wrap) {
+  inline-size: min(100%, var(--awts-container-max, 1200px));
+  margin-inline: auto;
+}
+
+:where([style*="width: 100vw"], [style*="width:100vw"]) {
+  max-width: 100%;
+}

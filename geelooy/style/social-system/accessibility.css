@@ -1,14 +1,47 @@
-/* B"H */
-:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--g-focus), white 25%);
-  outline-offset: 2px;
+/* B"H
+ * Step 2: Accessibility is the visible crown of the interface.
+ * Focus is not a patch; it is a covenant for keyboards, screen readers,
+ * reduced-motion souls, hidden regions, skip links, and touch targets.
+ */
+:where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="menuitem"], [role="tab"]):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--g-focus, #f5ca70), white 18%);
+  outline-offset: 3px;
 }
-.sr-only, .home-skip-link:not(:focus) {
+
+.sr-only,
+.home-skip-link:not(:focus):not(:focus-visible) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   height: 1px;
   margin: -1px;
   overflow: hidden;
   position: absolute;
+  white-space: nowrap;
   width: 1px;
-  clip: rect(0 0 0 0);
 }
-.home-skip-link:focus { position: fixed; top: 1rem; left: 1rem; z-index: 100; }
+
+.home-skip-link:focus,
+.home-skip-link:focus-visible {
+  background: rgba(255,255,255,.94);
+  border: 1px solid rgba(245,202,112,.55);
+  border-radius: var(--radius-pill, 999px);
+  box-shadow: var(--shadow-menu, 0 20px 50px rgba(15,23,42,.22));
+  color: var(--g-text, #0f172a);
+  left: max(1rem, env(safe-area-inset-left));
+  padding: .75rem 1rem;
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  z-index: var(--z-command, 360);
+}
+
+:where([hidden], .hidden, [aria-hidden="true"]) { pointer-events: none; }
+:where(button, a, [role="button"], [role="menuitem"], [role="tab"]) { min-height: 44px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}

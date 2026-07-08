@@ -1,2 +1,16 @@
-/* B"H radius tokens: curved vessels for gentle light. */
-:root { --radius-xs: .45rem; --radius-s: .75rem; --radius-m: 1rem; --radius-l: 1.35rem; --radius-xl: 2rem; --radius-pill: 999px; }
+/* B"H
+ * Chapter: Curves become a scale of vessels.
+ * Tiny chips, soft cards, liquid docks, and full glass modals now bend with one
+ * shared geometry instead of scattered border-radius guesses.
+ */
+:root {
+  --radius-xs: .45rem;
+  --radius-s: .75rem;
+  --radius-m: 1rem;
+  --radius-l: 1.35rem;
+  --radius-xl: 2rem;
+  --radius-2xl: 2.6rem;
+  --radius-glass: 1.6rem;
+  --radius-dock: 999px;
+  --radius-pill: 999px;
+}

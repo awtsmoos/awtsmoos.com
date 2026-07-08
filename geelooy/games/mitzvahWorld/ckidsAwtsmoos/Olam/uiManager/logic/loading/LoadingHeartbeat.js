@@ -1,26 +1,28 @@
 // B"H
-/** Heartbeat: stalled generation still gets living animation frames. */
+/** @file LoadingHeartbeat.js @description Passive status only; never resets CSS animation state. */
 import { doc } from "./LoadingDom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { state } from "./LoadingState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { record } from "./LoadingLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+
 let heartbeat = null;
-export function startLoadingHeartbeat(update) {
+let lastLogAt = 0;
+
+export function startLoadingHeartbeat() {
   if (heartbeat || !doc() || state.hidden) return;
-  heartbeat = setInterval(() => tick(update), 250);
+  heartbeat = setInterval(tick, 5000);
 }
+
 export function stopLoadingHeartbeat() {
   if (heartbeat) clearInterval(heartbeat);
   heartbeat = null;
+  lastLogAt = 0;
 }
-function tick(update) {
+
+function tick() {
   if (state.hidden) return;
+  state.loaderAnimationFramesDuringStall += 1;
   const age = Date.now() - state.lastRealAt;
-  if (age > 700) state.loaderAnimationFramesDuringStall += 1;
-  doc()?.documentElement?.classList?.toggle?.("awtsmoos-loader-stalled", age > 2500);
-  if (age > 16000 && state.total >= 94) record("Still waiting for playable proof; loader remains visible.");
-  if (state.total > 0 && state.total < 98) update({
-    stage:age > 2500 ? "heartbeat:still-loading" : "heartbeat:breathing",
-    total:Math.min(98, state.total + (age > 2500 ? .22 : .05)),
-    synthetic:true, subAction:"Still drawing the playable world."
-  });
+  if (age < 12000 || Date.now() - lastLogAt < 12000) return;
+  lastLogAt = Date.now();
+  record(document.hidden ? "Still loading in the background; no retry needed." : "Still loading; waiting for the worker's next proof.");
 }

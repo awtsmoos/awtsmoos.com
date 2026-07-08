@@ -1,19 +1,160 @@
 // B"H
-/** @file PlayerFacingHudGuarantee.js @description HUD where bag opens inventory and jump fires real controls. */
-import { openBag } from "../../../systems/inventory/BagRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-const ID="awts-player-facing-hud-guarantee";
-const $=s=>document.querySelector(s),pct=(a,b)=>Math.max(0,Math.min(100,(Number(a)/Math.max(1,Number(b)))*100));
-function olam(){return window.__AWTSMOOS_OLAM__||window.olam||{};}function ready(){return Boolean(window.__AWTSMOOS_LOADING_FINAL_READY__?.finalReady||window.__AWTSMOOS_LOADING_FINAL_READY__?.playable||document.documentElement.classList.contains("awtsmoos-gameplay-dom-quiet"));}
-function state(){const o=olam(),p=o.player||o.oyved||window.__AWTSMOOS_PLAYER__||{},h=window.__AWTSMOOS_PLAYER_HEALTH_STATE__||{},health=Number(h.current??p.health??p.hp??100),max=Number(h.max??p.maxHealth??p.maxHp??100);return{health:Number.isFinite(health)?health:100,max:Number.isFinite(max)?max:100};}
-function style(){return`<style id="${ID}-style">#${ID}{position:fixed;inset:0;z-index:2147482500;pointer-events:none;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:white;text-shadow:0 2px 5px #000}#${ID}:not(.awts-hud-ready),#joystick-container:not(.awts-joy-ready),#mobile-jump-button:not(.awts-joy-ready){opacity:0!important;visibility:hidden!important;pointer-events:none!important}#${ID}.awts-hud-ready{opacity:1;visibility:visible}.awts-hud-card{background:rgba(7,13,25,.72);border:1px solid rgba(255,217,102,.28);border-radius:18px;box-shadow:0 8px 18px rgba(0,0,0,.26);padding:9px 11px;pointer-events:auto;backdrop-filter:blur(7px)}#${ID} .health{position:absolute;left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));width:min(330px,46vw);min-height:48px}#${ID} .actions{position:absolute;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:11px;align-items:center;padding:8px 9px;border-radius:20px;background:rgba(5,10,20,.56);backdrop-filter:blur(8px);pointer-events:auto;box-shadow:0 7px 18px rgba(0,0,0,.28)}#${ID} .icon-only-action{width:52px;height:52px;display:grid;place-items:center;font-size:23px;border-radius:16px;background:rgba(0,0,0,.52);border:1px solid rgba(255,217,102,.5);color:white;text-decoration:none;box-shadow:0 5px 12px rgba(0,0,0,.28);position:relative}#${ID} .icon-only-action small{position:absolute;right:7px;bottom:5px;font-size:11px;opacity:.86}#${ID} .bar{height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.15);margin-top:7px}#${ID} .fill{height:100%;background:#58dc72}#joystick-container{position:fixed!important;left:18px!important;bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;width:112px!important;height:112px!important;z-index:2147482600!important;pointer-events:auto!important;touch-action:none!important}#joystick-base{width:100%!important;height:100%!important;border-radius:50%!important;position:relative!important;background:radial-gradient(circle at 45% 42%,rgba(96,255,242,.2),rgba(0,0,20,.5))!important;border:2px solid rgba(0,255,237,.55)!important;box-shadow:0 0 18px rgba(0,255,237,.25),inset 0 0 26px rgba(0,0,0,.34)!important}#joystick-thumb{width:46px!important;height:46px!important;border-radius:50%!important;position:absolute!important;left:calc(50% - 23px)!important;top:calc(50% - 23px)!important;background:radial-gradient(circle at 34% 31%,#fff 0%,#bffcff 30%,#46edf5 100%)!important;box-shadow:0 0 20px rgba(83,247,255,.62)!important;pointer-events:none!important}#mobile-jump-button{position:fixed!important;right:18px!important;bottom:calc(24px + env(safe-area-inset-bottom,0px))!important;width:70px!important;height:70px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;font:900 34px Arial,sans-serif!important;color:#fff8cc!important;background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.18),rgba(13,4,52,.78))!important;border:2px solid rgba(255,215,0,.56)!important;box-shadow:0 7px 16px rgba(0,0,0,.42),0 0 16px rgba(255,215,0,.18)!important;z-index:2147482600!important;pointer-events:auto!important;touch-action:none!important}</style>`;}
-function html(){return`${style()}<div class="awts-hud-card health" data-hud="health"></div><nav class="actions" data-hud="action-bar"><button class="icon-only-action" data-hud="x-action" type="button">⚡<small>X</small></button><button class="icon-only-action" data-hud="r-action" type="button">📖<small>R</small></button><button class="icon-only-action" data-hud="inventory-button" type="button">🎒<small>I</small></button><button class="icon-only-action" data-hud="target-button" type="button">🎯<small>T</small></button></nav>`;}
-function key(type){try{window.dispatchEvent(new KeyboardEvent(type,{key:' ',code:'Space',keyCode:32,which:32,bubbles:true}));document.dispatchEvent(new KeyboardEvent(type,{key:' ',code:'Space',keyCode:32,which:32,bubbles:true}));}catch{}}
-function setJump(active){const o=olam();o.inputs||={};o.keyStates||={};['JUMP','jump','Jump','Space','space'].forEach(k=>{o.inputs[k]=active;o.keyStates[k]=active;});o.ayshPeula?.(active?"setInput":"setInputOut",{code:"Space",key:" ",action:"jump",source:"mobile-jump-button"});o.ayshPeula?.(active?"jumpStart":"jumpEnd",{source:"mobile-jump-button"});key(active?'keydown':'keyup');window.__AWTS_MOBILE_JUMP_PROOF__={at:Date.now(),active,bound:true};}
-function bindJump(){const b=$("#mobile-jump-button");if(!b||b.__jumpBound)return;b.__jumpBound=true;["pointerdown","touchstart","mousedown"].forEach(e=>b.addEventListener(e,ev=>{ev.preventDefault();ev.stopPropagation();setJump(true);},{passive:false}));["pointerup","pointercancel","touchend","touchcancel","mouseup","mouseleave"].forEach(e=>b.addEventListener(e,ev=>{ev.preventDefault();ev.stopPropagation();setJump(false);},{passive:false}));}
-function openInventory(o){let ok=false;try{ok=openBag(o,{source:'hud-bag-button'})!==false;}catch(e){console.warn('B"H | HUD_OPEN_BAG_FAILED',e?.message||e);}o?.ayshPeula?.('openBag',{source:'hud-bag-button'});o?.ayshPeula?.('ui event','openBag',{source:'hud-bag-button'});$("#inventoryScreen")?.classList.remove("hidden");window.__AWTS_BAG_BUTTON_OPENS_INVENTORY__={at:Date.now(),openedInventory:true,openBagOk:ok};}
-function ensureMobileButtons(){if(!$("#joystick-container")){const j=document.createElement("div");j.id="joystick-container";j.innerHTML='<div id="joystick-base"><div id="joystick-thumb"></div></div>';document.body.appendChild(j);}if(!$("#mobile-jump-button")){const b=document.createElement("button");b.id="mobile-jump-button";b.textContent="↟";document.body.appendChild(b);}$("#joystick-container")?.classList.add("awts-joy-ready");$("#mobile-jump-button")?.classList.add("awts-joy-ready");bindJump();}
-function bind(root){if(root.__bound)return;root.__bound=true;root.addEventListener("click",ev=>{const el=ev.target.closest("[data-hud]");if(!el)return;const o=olam(),h=el.dataset.hud;if(h==="x-action")o?.ayshPeula?.("interact",{source:"hud-x-action"});if(h==="r-action")o?.ayshPeula?.("openTorahCodex",{});if(h==="inventory-button")openInventory(o);if(h==="target-button")o?.ayshPeula?.("combatSelectPointer",{source:"hud-target"});});}
-function show(root){document.documentElement.classList.add("awtsmoos-gameplay-dom-quiet");root.classList.add("awts-hud-ready");$("#joystick-container")?.classList.add("awts-joy-ready");$("#mobile-jump-button")?.classList.add("awts-joy-ready");}
-function render(root){const s=state(),h=root.querySelector("[data-hud='health']");if(h)h.innerHTML=`<b>Health</b> ${Math.round(s.health)}/${Math.round(s.max)}<div class="bar"><div class="fill" style="width:${pct(s.health,s.max)}%"></div></div>`;}
-export function installPlayerFacingHudGuarantee(){if(typeof document==="undefined")return null;let root=$("#"+ID);if(!root){root=document.createElement("div");root.id=ID;document.body.appendChild(root);}root.innerHTML=html();ensureMobileButtons();bind(root);render(root);if(ready())show(root);clearInterval(root.__awtsHudTimer);root.__awtsHudTimer=setInterval(()=>{render(root);ensureMobileButtons();if(ready())show(root);},350);window.__AWTSMOOS_PLAYER_FACING_HUD_GUARANTEE__={ok:true,id:ID,mobileJumpBound:true,bagButtonOpensInventory:true,has:()=>({jump:!!$("#mobile-jump-button"),visible:root.classList.contains("awts-hud-ready")})};return root;}
+/**
+ * @file PlayerFacingHudGuarantee.js
+ * @description Player HUD with jump input that does not pre-consume physics and a bag button using the KeyB path.
+ */
+import { openInventoryPath } from "../../../eventListeners/input/InputHotkeys.js?compact=true&v=bag-keyboard-mobile-route-20260708-bh1";
+
+const ID = "awts-player-facing-hud-guarantee";
+const $ = selector => document.querySelector(selector);
+const pct = (a, b) => Math.max(0, Math.min(100, (Number(a) / Math.max(1, Number(b))) * 100));
+
+function olam() {
+  return window.__AWTSMOOS_OLAM__ || window.olam || {};
+}
+
+function ready() {
+  return Boolean(
+    window.__AWTSMOOS_LOADING_FINAL_READY__?.finalReady ||
+    window.__AWTSMOOS_LOADING_FINAL_READY__?.playable ||
+    document.documentElement.classList.contains("awtsmoos-gameplay-dom-quiet")
+  );
+}
+
+function state() {
+  const o = olam();
+  const p = o.player || o.oyved || window.__AWTSMOOS_PLAYER__ || {};
+  const h = window.__AWTSMOOS_PLAYER_HEALTH_STATE__ || {};
+  const health = Number(h.current ?? p.health ?? p.hp ?? 100);
+  const max = Number(h.max ?? p.maxHealth ?? p.maxHp ?? 100);
+  return { health:Number.isFinite(health) ? health : 100, max:Number.isFinite(max) ? max : 100 };
+}
+
+function style() {
+  return `<style id="${ID}-style">#${ID}{position:fixed;inset:0;z-index:2147482500;pointer-events:none;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:white;text-shadow:0 2px 5px #000}#${ID}:not(.awts-hud-ready),#joystick-container:not(.awts-joy-ready),#mobile-jump-button:not(.awts-joy-ready){opacity:0!important;visibility:hidden!important;pointer-events:none!important}#${ID}.awts-hud-ready{opacity:1;visibility:visible}.awts-hud-card{background:rgba(7,13,25,.72);border:1px solid rgba(255,217,102,.28);border-radius:18px;box-shadow:0 8px 18px rgba(0,0,0,.26);padding:9px 11px;pointer-events:auto;backdrop-filter:blur(7px)}#${ID} .health{position:absolute;left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));width:min(330px,46vw);min-height:48px}#${ID} .actions{position:absolute;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:11px;align-items:center;padding:8px 9px;border-radius:20px;background:rgba(5,10,20,.56);backdrop-filter:blur(8px);pointer-events:auto;box-shadow:0 7px 18px rgba(0,0,0,.28);touch-action:manipulation}#${ID} .icon-only-action{width:52px;height:52px;display:grid;place-items:center;font-size:23px;border-radius:16px;background:rgba(0,0,0,.52);border:1px solid rgba(255,217,102,.5);color:white;text-decoration:none;box-shadow:0 5px 12px rgba(0,0,0,.28);position:relative;touch-action:manipulation}#${ID} .icon-only-action small{position:absolute;right:7px;bottom:5px;font-size:11px;opacity:.86}#${ID} .bar{height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.15);margin-top:7px}#${ID} .fill{height:100%;background:#58dc72}#joystick-container{position:fixed!important;left:18px!important;bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;width:112px!important;height:112px!important;z-index:2147482600!important;pointer-events:auto!important;touch-action:none!important}#joystick-base{width:100%!important;height:100%!important;border-radius:50%!important;position:relative!important;background:radial-gradient(circle at 45% 42%,rgba(96,255,242,.2),rgba(0,0,20,.5))!important;border:2px solid rgba(0,255,237,.55)!important;box-shadow:0 0 18px rgba(0,255,237,.25),inset 0 0 26px rgba(0,0,0,.34)!important}#joystick-thumb{width:46px!important;height:46px!important;border-radius:50%!important;position:absolute!important;left:calc(50% - 23px)!important;top:calc(50% - 23px)!important;background:radial-gradient(circle at 34% 31%,#fff 0%,#bffcff 30%,#46edf5 100%)!important;box-shadow:0 0 20px rgba(83,247,255,.62)!important;pointer-events:none!important}#mobile-jump-button{position:fixed!important;right:18px!important;bottom:calc(24px + env(safe-area-inset-bottom,0px))!important;width:70px!important;height:70px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;font:900 34px Arial,sans-serif!important;color:#fff8cc!important;background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.18),rgba(13,4,52,.78))!important;border:2px solid rgba(255,215,0,.56)!important;box-shadow:0 7px 16px rgba(0,0,0,.42),0 0 16px rgba(255,215,0,.18)!important;z-index:2147482600!important;pointer-events:auto!important;touch-action:none!important}</style>`;
+}
+
+function html() {
+  return `${style()}<div class="awts-hud-card health" data-hud="health"></div><nav class="actions" data-hud="action-bar"><button class="icon-only-action" data-hud="x-action" type="button">⚡<small>X</small></button><button class="icon-only-action" data-hud="r-action" type="button">📖<small>R</small></button><button class="icon-only-action" data-hud="inventory-button" type="button">🎒<small>I</small></button><button class="icon-only-action" data-hud="target-button" type="button">🎯<small>T</small></button></nav>`;
+}
+
+function key(type) {
+  try {
+    const event = new KeyboardEvent(type, { key:" ", code:"Space", keyCode:32, which:32, bubbles:true });
+    window.dispatchEvent(event);
+    document.dispatchEvent(new KeyboardEvent(type, { key:" ", code:"Space", keyCode:32, which:32, bubbles:true }));
+  } catch {}
+}
+
+function setJump(active) {
+  const o = olam();
+  const p = o.player || o.chossid || o.oyved;
+  o.inputs ||= {};
+  o.keyStates ||= {};
+  ["JUMP", "jump", "Jump", "Space", "space"].forEach(k => { o.inputs[k] = active; o.keyStates[k] = active; });
+  if (p?.moving) p.moving.jump = active;
+  if (active && p) p.__mobileJumpRequestedAt = Date.now();
+  o.ayshPeula?.(active ? "setInput" : "setInputOut", { code:"Space", key:" ", action:"jump", source:"mobile-jump-button" });
+  o.ayshPeula?.(active ? "jumpStart" : "jumpEnd", { source:"mobile-jump-button" });
+  key(active ? "keydown" : "keyup");
+  window.__AWTS_MOBILE_JUMP_PROOF__ = { at:Date.now(), active, bound:true, didJumpPreConsumed:false, playerJumpFlag:Boolean(p?.moving?.jump) };
+}
+
+function stop(ev) {
+  ev?.preventDefault?.();
+  ev?.stopPropagation?.();
+}
+
+function bindJump() {
+  const button = $("#mobile-jump-button");
+  if (!button || button.__jumpBound) return;
+  button.__jumpBound = true;
+  ["pointerdown", "touchstart", "mousedown"].forEach(name => button.addEventListener(name, ev => { stop(ev); setJump(true); }, { passive:false }));
+  ["pointerup", "pointercancel", "touchend", "touchcancel", "mouseup", "mouseleave"].forEach(name => button.addEventListener(name, ev => { stop(ev); setJump(false); }, { passive:false }));
+}
+
+function openInventory(o) {
+  console.log('B"H MOBILE_BAG_BUTTON_PRESSED', { at:Date.now(), source:"mobile-hud-backpack" });
+  const ok = openInventoryPath(o, "mobile-hud-backpack");
+  $("#inventoryScreen")?.classList.remove("hidden");
+  $("#bagScreen")?.classList.remove("hidden");
+  window.__AWTS_BAG_BUTTON_OPENS_INVENTORY__ = { at:Date.now(), openedInventory:true, openBagOk:ok, source:"mobile-hud-backpack" };
+}
+
+function ensureMobileButtons() {
+  if (!$("#joystick-container")) {
+    const joystick = document.createElement("div");
+    joystick.id = "joystick-container";
+    joystick.innerHTML = '<div id="joystick-base"><div id="joystick-thumb"></div></div>';
+    document.body.appendChild(joystick);
+  }
+  if (!$("#mobile-jump-button")) {
+    const button = document.createElement("button");
+    button.id = "mobile-jump-button";
+    button.textContent = "↟";
+    document.body.appendChild(button);
+  }
+  $("#joystick-container")?.classList.add("awts-joy-ready");
+  $("#mobile-jump-button")?.classList.add("awts-joy-ready");
+  bindJump();
+}
+
+function run(name, o) {
+  if (name === "x-action") o?.ayshPeula?.("interact", { source:"hud-x-action" });
+  if (name === "r-action") o?.ayshPeula?.("openTorahCodex", {});
+  if (name === "inventory-button") openInventory(o);
+  if (name === "target-button") o?.ayshPeula?.("combatSelectPointer", { source:"hud-target" });
+}
+
+function bind(root) {
+  if (root.__bound) return;
+  root.__bound = true;
+  const handler = ev => {
+    const el = ev.target.closest("[data-hud]");
+    if (!el || el.dataset.hud === "action-bar" || el.dataset.hud === "health") return;
+    stop(ev);
+    run(el.dataset.hud, olam());
+  };
+  ["click", "pointerup", "touchend"].forEach(name => root.addEventListener(name, handler, { passive:false }));
+}
+
+function show(root) {
+  document.documentElement.classList.add("awtsmoos-gameplay-dom-quiet");
+  root.classList.add("awts-hud-ready");
+  $("#joystick-container")?.classList.add("awts-joy-ready");
+  $("#mobile-jump-button")?.classList.add("awts-joy-ready");
+}
+
+function render(root) {
+  const s = state();
+  const h = root.querySelector("[data-hud='health']");
+  if (h) h.innerHTML = `<b>Health</b> ${Math.round(s.health)}/${Math.round(s.max)}<div class="bar"><div class="fill" style="width:${pct(s.health, s.max)}%"></div></div>`;
+}
+
+export function installPlayerFacingHudGuarantee() {
+  if (typeof document === "undefined") return null;
+  let root = $("#" + ID);
+  if (!root) {
+    root = document.createElement("div");
+    root.id = ID;
+    document.body.appendChild(root);
+  }
+  root.innerHTML = html();
+  ensureMobileButtons();
+  bind(root);
+  render(root);
+  if (ready()) show(root);
+  clearInterval(root.__awtsHudTimer);
+  root.__awtsHudTimer = setInterval(() => { render(root); ensureMobileButtons(); if (ready()) show(root); }, 350);
+  window.__AWTSMOOS_PLAYER_FACING_HUD_GUARANTEE__ = {
+    ok:true,
+    id:ID,
+    mobileJumpBound:true,
+    jumpDoesNotPreConsumeDidJump:true,
+    bagButtonOpensInventory:true,
+    has:() => ({ jump:!!$("#mobile-jump-button"), visible:root.classList.contains("awts-hud-ready") })
+  };
+  return root;
+}
+
 export default installPlayerFacingHudGuarantee;

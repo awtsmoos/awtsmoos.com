@@ -1,7 +1,51 @@
-/* B"H surfaces: shared clean product panels. */
-.g-social-surface {
+/* B"H
+ * Chapter: Surfaces become materials.
+ * Instead of component-by-component decoration, shared material classes now let
+ * social, home, profile, mail, and non-post Heichel surfaces speak one language.
+ */
+.g-social-surface,
+.awt-material-paper {
   background: var(--g-surface, #fff);
   border: 1px solid var(--g-border, #dfe6ee);
-  border-radius: var(--g-radius-3, 1.25rem);
-  box-shadow: var(--g-shadow-soft, 0 2px 10px rgba(15, 23, 42, .06));
+  border-radius: var(--g-radius-3, var(--radius-l));
+  box-shadow: var(--shadow-paper);
+}
+
+.awt-material-raised,
+.g-social-raised {
+  background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(248,250,252,.84));
+  border: 1px solid rgba(15,23,42,.10);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  transform: translateZ(0);
+}
+
+.awt-material-glass,
+.g-social-glass {
+  background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(255,255,255,.58));
+  border: 1px solid rgba(255,255,255,.46);
+  border-radius: var(--radius-glass);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(18px) saturate(1.22);
+  -webkit-backdrop-filter: blur(18px) saturate(1.22);
+}
+
+.awt-material-crystal,
+.g-social-crystal {
+  background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(245,202,112,.14), rgba(96,165,250,.12));
+  border: 1px solid rgba(245,202,112,.34);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+:where(.g-social-surface, .awt-material-paper, .awt-material-raised, .awt-material-glass, .awt-material-crystal) {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  transition: transform var(--motion-med) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), background var(--motion-med) var(--ease-soft);
+}
+
+:where(.awt-material-raised, .awt-material-glass, .awt-material-crystal):is(:hover, :focus-within) {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(var(--motion-hover-lift));
 }

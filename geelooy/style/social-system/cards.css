@@ -1,12 +1,37 @@
-/* B"H */
+/* B"H
+ * Chapter: Cards learn depth, hover, glass, and restraint.
+ * The same premium physical language now flows through home, profile, spaces,
+ * posts, and empty states without duplicated local spellwork.
+ */
 .home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel,
 .social-space-card, .social-empty-card, .home-route-card, .profile-about-grid article,
 .profile-stat-grid article, .home-post-card, .spaces-hero {
-  background: var(--g-surface);
-  border: 1px solid var(--g-border);
-  border-radius: var(--g-radius-lg);
-  box-shadow: var(--g-shadow-sm);
+  background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+  border: 1px solid var(--g-border, rgba(15,23,42,.12));
+  border-radius: var(--g-radius-lg, 24px);
+  box-shadow: var(--g-shadow-sm, 0 10px 30px rgba(15,23,42,.08));
+  overflow: clip;
+  position: relative;
+  transform: translateZ(0);
+  transition: transform var(--motion-med) var(--ease-snap), box-shadow var(--motion-med) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), background var(--motion-med) var(--ease-soft);
 }
-.home-command-card, .profile-hero-card, .profile-command-panel, .home-feed-phone, .spaces-hero { padding: var(--g-5); }
-.home-route-card, .social-space-card, .social-empty-card, .home-post-card, .profile-about-grid article, .profile-stat-grid article { padding: var(--g-4); }
-.social-space-card:hover, .home-route-card:hover { border-color: var(--g-border-strong); box-shadow: var(--g-shadow-md); }
+
+.home-command-card, .profile-hero-card, .profile-command-panel, .home-feed-phone, .spaces-hero { padding: var(--g-5, 1.25rem); }
+.home-route-card, .social-space-card, .social-empty-card, .home-post-card, .profile-about-grid article, .profile-stat-grid article { padding: var(--g-4, 1rem); }
+
+.home-command-card::before, .home-feed-phone::before, .profile-hero-card::before,
+.social-space-card::before, .home-route-card::before, .home-post-card::before, .spaces-hero::before {
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  background: linear-gradient(120deg, rgba(255,255,255,.45), transparent 42%, rgba(245,202,112,.12));
+  opacity: .72;
+}
+
+.social-space-card:hover, .home-route-card:hover, .home-post-card:hover, .home-command-card:hover,
+.profile-hero-card:hover, .spaces-hero:hover {
+  border-color: var(--g-border-strong, rgba(214,168,79,.44));
+  box-shadow: var(--motion-shadow-lift);
+  transform: translateY(var(--motion-hover-lift)) rotateX(var(--motion-tilt-x)) rotateY(var(--motion-tilt-y));
+}

@@ -1,16 +1,23 @@
-/* B"H — shared responsive grid grammar. */
+/* B"H
+ * Step 4b: Grids stop breaking the vessel.
+ * Every column is minmax(0, 1fr), every auto grid respects 100%, and sidebars
+ * collapse before they create sideways exile.
+ */
 .app-grid,
-.g-grid { display: grid; gap: var(--g-4); }
-.g-grid-2 { display: grid; gap: var(--g-4); grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.g-grid-3 { display: grid; gap: var(--g-4); grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.g-grid-auto { display: grid; gap: var(--g-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
-.g-dashboard-grid { display: grid; gap: var(--g-5); grid-template-columns: minmax(0, 1fr); }
-.g-sidebar-grid { display: grid; gap: var(--g-5); grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); }
-.g-three-panel-grid { display: grid; gap: 0; grid-template-columns: minmax(240px, 320px) minmax(300px, 420px) minmax(0, 1fr); }
-.home-quick-grid, .profile-stat-grid, .spaces-grid, .profile-about-grid { display: grid; gap: var(--g-4); }
-.home-quick-grid, .profile-stat-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.g-grid { display: grid; gap: var(--g-4, 1rem); min-width: 0; }
+
+.g-grid-2 { display: grid; gap: var(--g-4, 1rem); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g-grid-3 { display: grid; gap: var(--g-4, 1rem); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-grid-auto { display: grid; gap: var(--g-4, 1rem); grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.g-dashboard-grid { display: grid; gap: var(--g-5, 1.5rem); grid-template-columns: minmax(0, 1fr); }
+.g-sidebar-grid { display: grid; gap: var(--g-5, 1.5rem); grid-template-columns: minmax(0, min(300px, 32%)) minmax(0, 1fr); }
+.g-three-panel-grid { display: grid; gap: var(--g-3, .75rem); grid-template-columns: minmax(0, 300px) minmax(0, 380px) minmax(0, 1fr); }
+.home-quick-grid, .profile-stat-grid, .spaces-grid, .profile-about-grid { display: grid; gap: var(--g-4, 1rem); min-width: 0; }
+.home-quick-grid, .profile-stat-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
 .spaces-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
-.profile-about-grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
-@media (max-width: 760px) {
-  .g-grid-2, .g-grid-3, .g-sidebar-grid, .g-three-panel-grid { grid-template-columns: 1fr; }
+.profile-about-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+:where(.app-grid, .g-grid, .g-grid-2, .g-grid-3, .g-grid-auto, .g-dashboard-grid, .g-sidebar-grid, .g-three-panel-grid) > * { min-width: 0; }
+
+@media (max-width: 860px) {
+  .g-grid-2, .g-grid-3, .g-sidebar-grid, .g-three-panel-grid { grid-template-columns: minmax(0, 1fr); }
 }

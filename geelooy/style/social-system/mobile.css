@@ -1,10 +1,27 @@
-/* B"H */
+/* B"H
+ * Second pass Step 6: Mobile becomes first-class glass.
+ * Compact layouts preserve finger space, safe areas, bottom dock clearance, and
+ * readable type without using 100vw traps.
+ */
 @media (max-width: 720px) {
   .geelooy-home-shell, .geelooy-profile-shell, .social-spaces-shell, .app-container {
-    padding: var(--g-3) var(--g-3) calc(5.5rem + env(safe-area-inset-bottom));
+    padding: max(var(--g-3, .75rem), env(safe-area-inset-top)) var(--g-3, .75rem) calc(6.25rem + env(safe-area-inset-bottom));
   }
-  .home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav { width: calc(100vw - 1rem); }
-  .home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a { flex: 1; text-align: center; }
-  .home-search-vessel { grid-template-columns: 1fr; }
-  h1 { font-size: 1.75rem; }
+
+  .home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav {
+    inline-size: calc(100dvw - 1rem - env(safe-area-inset-left) - env(safe-area-inset-right));
+    max-width: calc(100dvw - 1rem);
+  }
+
+  .home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a, .mobile-bottom-nav a {
+    flex: 1 1 0;
+    justify-content: center;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .home-search-vessel { grid-template-columns: minmax(0, 1fr); }
+  h1 { font-size: clamp(1.75rem, 9vw, 2.55rem); }
+  :where(.mobile-stack) { display: grid; gap: .85rem; }
+  :where(.hide-on-mobile) { display: none !important; }
 }
