@@ -2,14 +2,14 @@
  * B"H
  * ════════════════════════════════════════════════════════════════════════
  *   THE BOOK OF BLUEPRINTS — nivrayimDefs.js
- *   Level One now starts like a living starting zone: ground, buildings,
- *   landmarks, NPCs, objectives, then the player vessel last.
+ *   Budgeted Level One still reveals village life, but no stale module cache
+ *   may keep the world trapped in yesterday's unmeasured density.
  * ════════════════════════════════════════════════════════════════════════
  * @module nivrayimDefs
  */
 
 import { TIFERES_CHOSSID } from './data/nefashos/TiferesChossid.js';
-import { LEVEL_ONE_VILLAGE_NIVRAYIM } from './data/levelOne/LevelOneVillage.js';
+import { LEVEL_ONE_VILLAGE_NIVRAYIM } from './data/levelOne/LevelOneVillage.js?v=budgeted-village-20260707-bh1';
 
 /**
  * @typedef {Object} NefeshDef

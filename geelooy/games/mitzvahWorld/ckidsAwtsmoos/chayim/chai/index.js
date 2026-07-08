@@ -1,6 +1,6 @@
 // B"H
-/** @file index.js @description Chai root with fresh bh9 jump-safe physics. */
-import Tzomayach from "../tzomayach.js";
+/** Chai root with fresh Tzomayach/Domem animation chain. */
+import Tzomayach from "../tzomayach.js?v=grass-chossid-stepwise-20260707-bh1";
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Capsule } from '../../Olam/math/Capsule.js';
 import visualMethods from "./methods/visuals.js?v=exact-visual-feet-20260603-bh388";

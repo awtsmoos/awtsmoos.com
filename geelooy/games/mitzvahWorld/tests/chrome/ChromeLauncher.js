@@ -1,8 +1,5 @@
 // B"H
-/** Chrome launcher: headless by default, headed when the human asks to see it.
- * The cleanup waits for Chrome to release its profile; otherwise a successful
- * browser proof can be buried under an ENOTEMPTY tombstone.
- */
+/** Chrome launcher: wait for the requested page, not a false about:blank vessel. */
 import { spawn } from "node:child_process";
 import { mkdtemp, rm } from "node:fs/promises";
 import http from "node:http";
@@ -19,15 +16,28 @@ function getJson(url) {
   });
 }
 
-async function waitForPage(debugPort) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+function targetMatches(page, targetUrl) {
+  if (!page?.webSocketDebuggerUrl || page.type !== "page") return false;
+  const url = String(page.url || "");
+  if (!targetUrl) return url && url !== "about:blank";
+  const expected = String(targetUrl).split("#")[0];
+  const withoutAudit = expected.replace(/([?&])awtsAudit=[^&]+&?/, "$1").replace(/[?&]$/, "");
+  return url === expected || url.startsWith(expected) || url.startsWith(withoutAudit) || (url.includes("mitzvahWorld") && url.includes("path=village.json"));
+}
+
+async function waitForPage(debugPort, targetUrl) {
+  let fallback = null;
+  for (let attempt = 0; attempt < 120; attempt += 1) {
     try {
       const targets = await getJson(`http://127.0.0.1:${debugPort}/json`);
-      const page = targets.find(target => target.type === "page" && target.webSocketDebuggerUrl);
-      if (page) return page;
+      const pages = targets.filter(target => target.type === "page" && target.webSocketDebuggerUrl);
+      const match = pages.find(page => targetMatches(page, targetUrl));
+      if (match) return match;
+      fallback ||= pages.find(page => String(page.url || "") !== "about:blank") || pages[0] || null;
     } catch {}
     await new Promise(resolve => setTimeout(resolve, 250));
   }
+  if (fallback) return fallback;
   throw new Error("Chrome DevTools page target did not appear.");
 }
 
@@ -45,7 +55,7 @@ async function removeProfile(dir) {
     try { await rm(dir, { recursive: true, force: true, maxRetries: 3, retryDelay: 120 }); return; }
     catch (error) {
       lastError = error;
-      if (!['EBUSY', 'EPERM', 'ENOTEMPTY'].includes(error?.code)) throw error;
+      if (!["EBUSY", "EPERM", "ENOTEMPTY"].includes(error?.code)) throw error;
       await new Promise(resolve => setTimeout(resolve, 220 + attempt * 140));
     }
   }
@@ -69,7 +79,7 @@ export async function launchChrome(browserPath, targetUrl, debugPort = 9223, opt
   ];
   if (options.headless !== false) args.unshift("--headless=new");
   const proc = spawn(browserPath, args, { stdio: "ignore" });
-  const page = await waitForPage(debugPort);
+  const page = await waitForPage(debugPort, targetUrl);
   return {
     page,
     debugPort,

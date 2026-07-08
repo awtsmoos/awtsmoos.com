@@ -1,0 +1,28 @@
+/* B"H — profile actions receive small custom glyph-vessels. */
+.profile-command-rail a,
+.profile-inline-actions :is(button,a),
+.profile-bottom-nav a { position: relative; }
+.profile-command-rail a::before,
+.profile-inline-actions :is(button,a)::before {
+  background: linear-gradient(135deg,#28f3d7,#8b5cf6);
+  border-radius: 12px;
+  color: #06111f;
+  content: "✦";
+  display: inline-grid;
+  font-size: .86rem;
+  font-weight: 1000;
+  height: 28px;
+  margin-inline-end: .42rem;
+  place-items: center;
+  vertical-align: middle;
+  width: 28px;
+}
+.profile-command-rail a[href="/"]::before { content: "⌂"; }
+.profile-command-rail a[href="/email"]::before { content: "✉"; }
+.profile-command-rail a[href="/heichelos"]::before { content: "♁"; }
+.profile-command-rail a[href="/notifications"]::before { content: "◔"; }
+.profile-inline-actions [data-profile-action="alias"]::before { content: "◎"; }
+.profile-inline-actions [data-profile-action="notifications"]::before { content: "◔"; }
+.profile-inline-actions [data-profile-action="heichel"]::before { content: "✧"; }
+.profile-avatar-orb { box-shadow: 0 0 0 1px rgba(40,243,215,.28), 0 0 28px rgba(46,167,255,.26); }
+@media (max-width: 430px) { .profile-command-rail a::before { height: 24px; width: 24px; } }

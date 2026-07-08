@@ -1,0 +1,20 @@
+// B"H
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+const read = p => readFileSync(p, "utf8");
+const grass = read("ckidsAwtsmoos/Olam/worlds/mitzvahWorld/builders/buildGrassPatch.js");
+const anim = read("ckidsAwtsmoos/chayim/domem/methods/animation.js");
+const model = read("ckidsAwtsmoos/chayim/chossid/methods/lifecycle/model.js");
+const factory = read("ckidsAwtsmoos/Olam/worlds/mitzvahWorld/NivrahFactory.js");
+const chossid = read("ckidsAwtsmoos/chayim/chossid/index.js");
+const chai = read("ckidsAwtsmoos/chayim/chai/index.js");
+const domemIndex = read("ckidsAwtsmoos/chayim/domem/index.js");
+assert(!grass.includes("createGrassFieldMesh"), "grassPatch must not use heavy procedural-core tuft mesh");
+assert(!grass.includes("createGrassMaterial"), "grassPatch must not use old flat shader material");
+assert(grass.includes("progressiveMaterialMap") && grass.includes("ACTUAL_TEXTURES.grass"), "grassPatch must use hosted Chai grass texture");
+assert(grass.includes("MAX_PATCH_BLADES = 180") && grass.includes("verticesPerBlade:5"), "grassPatch must be capped lightweight blade instances");
+assert(anim.includes("chossid-glb-animation-live") && anim.includes("ensureStartup"), "animation runtime must self-start Chossid GLB clips");
+assert(anim.includes("ALIASES") && anim.includes("stand") && anim.includes("neutral"), "animation runtime must resolve actual chossid.glb clip names");
+assert(model.includes("ensureChossidAnimationRuntime") && model.includes("new THREE.AnimationMixer(model)"), "model prep must guarantee Chossid GLB mixer binding");
+for (const [name, source] of Object.entries({ factory, chossid, chai, domemIndex })) assert(source.includes("grass-chossid-stepwise-20260707-bh1"), `${name} must cache-bust into repaired modules`);
+console.log(JSON.stringify({ ok:true, test:"grassChossidStepwiseAudit", grass:"textured capped blades", chossid:"mixer self-start", cacheBust:true }, null, 2));

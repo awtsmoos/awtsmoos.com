@@ -1,9 +1,6 @@
 // B"H
-/**
- * @file WorldHeescheel.js
- * @description Builds Mitzvah World and runs the current postbuild runtime.
- */
-import { NIVRAYIM_DEFS } from "./NivrayimDefs.js";
+/** @file WorldHeescheel.js @description Builds Mitzvah World and runs the current postbuild runtime. */
+import { NIVRAYIM_DEFS } from "./NivrayimDefs.js?v=budgeted-village-20260707-bh1";
 import { DESERT_TEST_WORLD_SETTINGS } from "./data/nefashos/DesertTestWorld.js";
 import { NivrahFactory } from "./NivrahFactory.js";
 import { runMitzvahWorldPostBuild } from "./postbuild/MitzvahWorldPostBuild.js?v=vehicles-u-mount-20260706-bh1";

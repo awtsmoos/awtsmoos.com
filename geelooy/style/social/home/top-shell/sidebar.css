@@ -1,36 +1,47 @@
-/* B"H — home sidebar agrees with the home header and never escapes. */
+/* B"H — the opened menu is a chamber of routes, not a duplicate header. */
 .geelooy-home-shell .home-sidebar-panel {
-  background: linear-gradient(180deg, rgba(8,12,24,.98), rgba(4,7,14,.98));
-  border: 1px solid rgba(139,92,246,.28);
+  background: linear-gradient(180deg, rgba(9,15,31,.98), rgba(6,9,20,.99));
+  border: 1px solid rgba(46,167,255,.25);
   border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 28px rgba(139,92,246,.16);
+  box-shadow: 0 18px 44px rgba(0,0,0,.44), 0 0 24px rgba(139,92,246,.15);
+  contain: layout paint;
   display: grid;
-  gap: .2rem;
+  gap: .28rem;
   grid-column: 1 / -1;
-  padding: .75rem;
+  margin-top: .15rem;
+  padding: .72rem;
 }
-
-.geelooy-home-shell .home-sidebar-panel[hidden] {
-  display: none !important;
-}
-
+.geelooy-home-shell .home-sidebar-panel[hidden] { display: none !important; }
 .geelooy-home-shell .home-sidebar-panel a {
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.07);
   border-radius: 16px;
   color: #f8fafc;
-  font-size: 1.05rem;
-  font-weight: 800;
+  display: flex;
+  font-size: 1.04rem;
+  font-weight: 900;
+  gap: .72rem;
   min-height: 48px;
-  padding: .8rem .9rem;
+  padding: .76rem .88rem;
   text-decoration: none;
 }
-
+.geelooy-home-shell .home-sidebar-panel a::before {
+  background: linear-gradient(135deg,#28f3d7,#8b5cf6);
+  border-radius: 13px;
+  color: #06111f;
+  content: "✦";
+  display: grid;
+  flex: 0 0 30px;
+  font-size: .92rem;
+  font-weight: 1000;
+  height: 30px;
+  place-items: center;
+  width: 30px;
+}
+.geelooy-home-shell .home-sidebar-panel a[href="/email"]::before { content: "✉"; }
+.geelooy-home-shell .home-sidebar-panel a[href="/profile"]::before { content: "◎"; }
+.geelooy-home-shell .home-sidebar-panel a[href="/heichelos"]::before { content: "♁"; }
+.geelooy-home-shell .home-sidebar-panel a[href="/sefarim"]::before { content: "✍"; }
 .geelooy-home-shell .home-sidebar-panel a:hover,
-.geelooy-home-shell .home-sidebar-panel a:focus-visible {
-  background: rgba(139,92,246,.14);
-  outline: none;
-}
-
-body.geelooy-home-document[data-sidebar-open="true"] .home-bell-button {
-  border-color: rgba(139,92,246,.5);
-  box-shadow: var(--f-glow-purple);
-}
+.geelooy-home-shell .home-sidebar-panel a:focus-visible { background: rgba(46,167,255,.12); outline: none; transform: translateY(-1px); }
+body.geelooy-home-document[data-sidebar-open="true"] .home-bell-button { border-color: rgba(139,92,246,.55); box-shadow: 0 0 0 4px rgba(139,92,246,.1); }

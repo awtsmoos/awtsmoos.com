@@ -1,11 +1,11 @@
 // B"H
-/** @module Chossid @description Player body with corrected Q/E stride, stronger jump, and no-alert runtime. */
+/** @module Chossid @description Player body with fresh grass/chossid animation runtime chain. */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=no-compact-engine-20260702-bh2";
+import Chai from "../chai/index.js?v=grass-chossid-stepwise-20260707-bh1";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 import controlMethods from './methods/controls.js?v=no-compact-engine-20260702-bh2';
 import interactionMethods from './methods/interaction.js?v=perf-tight-collision-20260703-bh6';
-import lifecycleMethods from './methods/lifecycle.js?v=no-compact-engine-20260702-bh2';
+import lifecycleMethods from './methods/lifecycle.js?v=grass-chossid-stepwise-20260707-bh1';
 import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
 import updateMethods from './methods/update.js?v=no-compact-engine-20260702-bh2';
 import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
